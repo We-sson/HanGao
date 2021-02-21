@@ -126,7 +126,7 @@
         </Grid>
 
         <ScrollViewer Grid.Column="1"
-                      Width="100" Height="600"
+                      Width="10" Height="600"
                       HorizontalAlignment="Right"
                       VerticalScrollBarVisibility="Visible"
                       HorizontalScrollBarVisibility="Visible" />
