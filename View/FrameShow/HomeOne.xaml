@@ -68,8 +68,7 @@
                      Background="White"
                      ItemsSource="{Binding SinkModels}"
                      DataContext="{Binding Source={StaticResource Locator}, Path=List_Show}"
-                     ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                     ScrollViewer.VerticalScrollBarVisibility="Auto">
+                     ScrollViewer.HorizontalScrollBarVisibility="Auto">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <VirtualizingStackPanel Margin="0,20,0,0" Orientation="Vertical" />
