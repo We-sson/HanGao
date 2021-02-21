@@ -1,0 +1,26 @@
+<Application x:Class="悍高软件.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:悍高软件"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d1p1:Ignorable="d"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="View\Effect_Resources\Global_Effect.xaml" />
+                <ResourceDictionary Source="View\RadioButton_Style.xaml" />
+                <ResourceDictionary Source="view\text.xaml" />
+                <ResourceDictionary Source="View\Title_button.xaml" />
+                <ResourceDictionary Source="View\Search_Style.xaml" />
+                <ResourceDictionary Source="View\T1.xaml" />
+
+
+
+
+            </ResourceDictionary.MergedDictionaries>
+            <vm:ViewModelLocator xmlns:vm="clr-namespace:悍高软件.ViewModelLocator" x:Key="Locator" d:IsDataSource="True" />
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

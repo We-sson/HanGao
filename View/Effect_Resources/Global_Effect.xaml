@@ -1,0 +1,94 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+
+
+
+
+
+    <!--#region 全局素材-->
+
+    <!--  全局字体阴影  -->
+    <DropShadowEffect x:Key="全局_字体_阴影样式" ShadowDepth="1"
+                      BlurRadius="5" Direction="270"
+                      Opacity="0.6" Color="Black" />
+
+
+
+
+    <!--  全局图标路径  -->
+    <Style x:Key="首页_左上角_公司图标_路径" TargetType="Image">
+        <Setter Property="Source" Value="/Resources/黑色logo.png" />
+    </Style>
+
+
+    <Style x:Key="首页_上方_标题图标_鼠标事件" TargetType="Image">
+
+
+
+
+
+        <Style.Triggers>
+
+
+
+            <!--<Trigger Property="IsMouseOver" Value="True" >
+                <Setter Property="RenderTransform" >
+                    <Setter.Value>
+                        <ScaleTransform ScaleX="1.2" ScaleY="1.2" CenterX="5" CenterY="5"/>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="False">
+                <Setter Property="RenderTransform" >
+                    <Setter.Value>
+                        <ScaleTransform ScaleX="1" ScaleY="1" CenterX="5" CenterY="5"/>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>-->
+
+        </Style.Triggers>
+
+
+        <!--<Style.Setters>
+            <Setter Property="RenderTransform" >
+                <Setter.Value>
+                    <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>-->
+    </Style>
+
+
+
+
+    <!--  全局样式定义  -->
+    <Style x:Key="首页_左上角_公司图标_样式" TargetType="Image" BasedOn="{StaticResource 首页_左上角_公司图标_路径}">
+        <Setter Property="Effect" Value="{StaticResource 全局_字体_阴影样式}" />
+
+
+    </Style>
+
+
+    <Style x:Key="首页_上方_标题图标_路径" TargetType="Image" BasedOn="{StaticResource 首页_上方_标题图标_鼠标事件}">
+        <Setter Property="Source" Value="/Resources/控制台.png" />
+    </Style>
+
+
+
+    <!--#endregion-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</ResourceDictionary>
