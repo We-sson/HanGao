@@ -89,7 +89,7 @@
                             <Trigger.ExitActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation SpeedRatio="5"
+                                        <DoubleAnimation SpeedRatio="8"
                                                          Storyboard.TargetName="bb3"
                                                          Storyboard.TargetProperty="Width" To="0"
                                                          Duration="0:0:0:1" />

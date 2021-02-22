@@ -7,7 +7,10 @@
       Title="Home" d:DesignHeight="700"
       d:DesignWidth="1080" mc:Ignorable="d">
 
-    <Grid ShowGridLines="True" Background="Transparent">
+
+
+
+    <Grid ShowGridLines="False" Background="Transparent">
 
         <Grid.ColumnDefinitions>
 
@@ -63,12 +66,13 @@
 
 
 
-            <ListBox x:Name="LB1" Grid.Row="1"
+            <ListBox Style="{DynamicResource ListBoxStyle1}" x:Name="LB1" Grid.Row="1"
                      HorizontalContentAlignment="Center"
-                     Background="White"
+                     Background="Transparent"
                      ItemsSource="{Binding SinkModels}"
                      DataContext="{Binding Source={StaticResource Locator}, Path=List_Show}"
-                     ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                     ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <VirtualizingStackPanel Margin="0,20,0,0" Orientation="Vertical" />
@@ -125,11 +129,7 @@
 
         </Grid>
 
-        <ScrollViewer Grid.Column="1"
-                      Width="10" Height="600"
-                      HorizontalAlignment="Right"
-                      VerticalScrollBarVisibility="Visible"
-                      HorizontalScrollBarVisibility="Visible" />
+
 
         <TextBlock Grid.Column="1"
                    Text="控制台" Width="120" Height="51"

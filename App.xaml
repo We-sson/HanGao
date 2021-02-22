@@ -8,6 +8,7 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
+
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="View\Effect_Resources\Global_Effect.xaml" />
                 <ResourceDictionary Source="View\RadioButton_Style.xaml" />
@@ -15,12 +16,20 @@
                 <ResourceDictionary Source="View\Title_button.xaml" />
                 <ResourceDictionary Source="View\Search_Style.xaml" />
                 <ResourceDictionary Source="View\T1.xaml" />
+                <ResourceDictionary Source="View\ListBox.xaml" />
+                <ResourceDictionary Source="View\ScrollViewer.xaml" />
+                <ResourceDictionary Source="View\Ver_ScrollBar.xaml" />
+                <ResourceDictionary Source="View\Hor_ScrollBar.xaml" />
+
 
 
 
 
             </ResourceDictionary.MergedDictionaries>
             <vm:ViewModelLocator xmlns:vm="clr-namespace:悍高软件.ViewModelLocator" x:Key="Locator" d:IsDataSource="True" />
+
+
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>
