@@ -10,6 +10,7 @@
 
 
 
+
     <Grid ShowGridLines="False" Background="Transparent">
 
         <Grid.ColumnDefinitions>
@@ -20,7 +21,7 @@
         </Grid.ColumnDefinitions>
 
 
-        <Grid ShowGridLines="False">
+        <Grid Margin="0,10,0,0" ShowGridLines="False">
             <Grid.RowDefinitions>
                 <RowDefinition Height="80" />
                 <RowDefinition />
@@ -48,9 +49,19 @@
 
                 <Grid>
 
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.2*" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="Tt2" Grid.Column="0"
+                               Text="&#xe6e5;"
+                               Margin="0,0,0,0"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Foreground="Black" FontSize="25"
+                               FontFamily="/Resources/#iconfont" />
 
-
-                    <TextBox Style="{StaticResource TextBoxStyle1}" x:Name="Tt1" Grid.Row="0"
+                    <TextBox Style="{StaticResource TextBoxStyle1}" x:Name="Tt1" Grid.Column="1"
                              MaxLength="10"
                              VerticalContentAlignment="Center"
                              FontSize="25" Background="Transparent"
@@ -72,61 +83,15 @@
                      ItemsSource="{Binding SinkModels}"
                      DataContext="{Binding Source={StaticResource Locator}, Path=List_Show}"
                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                     ScrollViewer.VerticalScrollBarVisibility="Auto">
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     ItemContainerStyle="{DynamicResource ListBoxItemStyle1}"
+                     ItemTemplate="{DynamicResource DataTemplate1}">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <VirtualizingStackPanel Margin="0,20,0,0" Orientation="Vertical" />
                     </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Border Margin="0,10,0,10"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Center"
-                                Background="#065684" BorderThickness="5"
-                                BorderBrush="Black" CornerRadius="20">
-                            <Border.Effect>
-                                <DropShadowEffect BlurRadius="30" ShadowDepth="0"
-                                                  Opacity="10" Color="Gray" />
-                            </Border.Effect>
-                            <Grid Margin="0" VerticalAlignment="Center">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1*" />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="1*" />
-                                </Grid.ColumnDefinitions>
-
-
-                                <TextBlock Grid.Column="0"
-                                           Text="&#xe60a;" Margin="13"
-                                           HorizontalAlignment="Stretch"
-                                           VerticalAlignment="Center"
-                                           FontFamily="/Resources/#iconfont"
-                                           FontSize="80" />
-                                <Border Grid.Column="1"
-                                        Width="5" VerticalAlignment="Stretch"
-                                        Background="Black" />
-                                <TextBlock Grid.Column="2"
-                                           Text="{Binding Model_Number}"
-                                           Margin="10"
-                                           HorizontalAlignment="Stretch"
-                                           VerticalAlignment="Center" FontSize="35"
-                                           Foreground="#E3E3E3" />
-                            </Grid>
-                        </Border>
-
-
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-
-
-
             </ListBox>
-
-
-
-
-
         </Grid>
 
 

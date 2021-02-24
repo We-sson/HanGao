@@ -18,17 +18,12 @@
                 <ControlTemplate TargetType="{x:Type TextBox}">
 
                     <Grid x:Name="Gd1" ShowGridLines="False">
-                        <Grid.ColumnDefinitions>
+                        <!--<Grid.ColumnDefinitions>
                             <ColumnDefinition Width=" 0.2*" />
                             <ColumnDefinition />
 
-                        </Grid.ColumnDefinitions>
-                        <TextBlock x:Name="Tt2" Grid.Column="0"
-                                   Text="&#xe6e5;"
-                                   Margin="0,0,0,0"
-                                   VerticalAlignment="Center"
-                                   Foreground="Black" FontSize="25"
-                                   FontFamily="/Resources/#iconfont" />
+                        </Grid.ColumnDefinitions>-->
+                        
 
                         <Border x:Name="border" Grid.Column="1"
                                 BorderBrush="{TemplateBinding BorderBrush}"
@@ -71,7 +66,7 @@
                             <Setter TargetName="border" Property="Opacity" Value="0.56" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="Tt2" Property="Foreground" Value="#07689F" />
+                            
                             <Setter TargetName="bb3" Property="Background" Value="#07689F" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="true">

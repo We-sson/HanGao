@@ -18,7 +18,7 @@
                                     CanHorizontallyScroll="False"
                                     CanVerticallyScroll="False"
                                     ContentTemplate="{TemplateBinding ContentTemplate}" />
-            <ScrollBar  Style="{DynamicResource ScrollBarStyle1}" x:Name="PART_VerticalScrollBar" Grid.Row="0" Grid.Column="1"
+            <ScrollBar Style="{DynamicResource ScrollBarStyle1}" x:Name="PART_VerticalScrollBar" Grid.Row="0" Grid.Column="1"
                        AutomationProperties.AutomationId="VerticalScrollBar"
                        Cursor="Arrow"
                        Maximum="{TemplateBinding ScrollableHeight}"
@@ -26,7 +26,7 @@
                        Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
                        ViewportSize="{TemplateBinding ViewportHeight}"
                        Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
-            <ScrollBar  Style="{DynamicResource ScrollBarStyle1}" x:Name="PART_HorizontalScrollBar" Grid.Row="1" Grid.Column="0"
+            <ScrollBar Style="{DynamicResource ScrollBarStyle1}" x:Name="PART_HorizontalScrollBar" Grid.Row="1" Grid.Column="0"
                        AutomationProperties.AutomationId="HorizontalScrollBar"
                        Cursor="Arrow"
                        Maximum="{TemplateBinding ScrollableWidth}"

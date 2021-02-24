@@ -179,7 +179,14 @@
 
 
         <!--  分割装饰栏  -->
-        <Border Grid.Row="1" Background="#07689F" />
+        <Border Grid.Row="1" >
+            <Border.Background>
+                <RadialGradientBrush>
+                    <GradientStop Color="#FF065684" Offset="0.9"/>
+                    <GradientStop Color="#FFE3E3E3" Offset="1"/>
+                </RadialGradientBrush>
+            </Border.Background>
+        </Border>
 
 
 

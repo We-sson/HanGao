@@ -103,6 +103,10 @@
                                Height="{TemplateBinding Height}"
                                Margin="0,0,0,0" RadiusX="8" RadiusY="8"
                                SnapsToDevicePixels="True">
+                        <Rectangle.Effect>
+                            <DropShadowEffect BlurRadius="8" ShadowDepth="0"
+                                              Opacity="0" Color="Transparent" />
+                        </Rectangle.Effect>
                         <Rectangle.Fill>
                             <SolidColorBrush Color="#999999" />
                         </Rectangle.Fill>
@@ -117,6 +121,14 @@
                                                         Storyboard.TargetName="rectangle"
                                                         Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"
                                                         To="#A1A1A1" Duration="0:0:0:1" />
+                                        <ColorAnimation SpeedRatio="8"
+                                                        Storyboard.TargetName="rectangle"
+                                                        Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.Color)"
+                                                        To="Black" Duration="0:0:0:1" />
+                                        <DoubleAnimation SpeedRatio="8"
+                                                         Storyboard.TargetName="rectangle"
+                                                         Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.Opacity)"
+                                                         To="5" Duration="0:0:0:1" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.EnterActions>
@@ -127,6 +139,14 @@
                                                         Storyboard.TargetName="rectangle"
                                                         Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"
                                                         To="#999999" Duration="0:0:0:1" />
+                                        <ColorAnimation SpeedRatio="8"
+                                                        Storyboard.TargetName="rectangle"
+                                                        Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.Color)"
+                                                        To="Transparent" Duration="0:0:0:1" />
+                                        <DoubleAnimation SpeedRatio="8"
+                                                         Storyboard.TargetName="rectangle"
+                                                         Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.Opacity)"
+                                                         To="0" Duration="0:0:0:1" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.ExitActions>
@@ -184,7 +204,7 @@
 
 
                         <Track x:Name="PART_Track" Grid.Row="1"
-                               Width="6" HorizontalAlignment="Stretch"
+                               Width="10" HorizontalAlignment="Stretch"
                                IsDirectionReversed="true"
                                IsEnabled="{TemplateBinding IsMouseOver}">
                             <Track.DecreaseRepeatButton>
