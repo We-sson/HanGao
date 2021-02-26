@@ -4,8 +4,10 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:悍高软件.View.FrameShow"
+      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
       Title="Home" d:DesignHeight="700"
       d:DesignWidth="1080" mc:Ignorable="d">
+
 
 
 
@@ -64,9 +66,18 @@
                     <TextBox Style="{StaticResource TextBoxStyle1}" x:Name="Tt1" Grid.Column="1"
                              MaxLength="10"
                              VerticalContentAlignment="Center"
+                             DataContext="{Binding Source={StaticResource Locator}, Path=List_Show}"
                              FontSize="25" Background="Transparent"
                              BorderThickness="0"
-                             TextAlignment="Center" />
+                             TextAlignment="Center">
+                        <TextBox.Triggers />
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="TextChanged" SourceName="Tt1">
+                                <i:InvokeCommandAction Command="{Binding Find_List_event}" CommandParameter="{Binding ElementName=Tt1, Path=Text}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+
+                    </TextBox>
 
 
                 </Grid>
@@ -85,7 +96,16 @@
                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"
                      ItemContainerStyle="{DynamicResource ListBoxItemStyle1}"
-                     ItemTemplate="{DynamicResource DataTemplate1}">
+                     ItemTemplate="{DynamicResource DataTemplate1}"
+                     RenderTransformOrigin="0.5,0.5">
+                <ListBox.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform />
+                        <SkewTransform />
+                        <RotateTransform />
+                        <TranslateTransform />
+                    </TransformGroup>
+                </ListBox.RenderTransform>
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <VirtualizingStackPanel Margin="0,20,0,0" Orientation="Vertical" />

@@ -130,7 +130,16 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 Background="#065684" BorderThickness="5"
-                BorderBrush="Black" CornerRadius="20">
+                BorderBrush="Black" CornerRadius="20"
+                RenderTransformOrigin="0.5,0.5"
+                Visibility="{Binding List_Show}">
+            <Border.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="1" ScaleY="1" />
+                </TransformGroup>
+            </Border.RenderTransform>
+
+
             <Border.Effect>
                 <DropShadowEffect BlurRadius="10" ShadowDepth="0"
                                   Opacity="5" Color="Black" />
@@ -170,6 +179,25 @@
                                              Storyboard.TargetName="Gb1"
                                              Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.BlurRadius)"
                                              To="30" Duration="0:0:0:1" />
+                            <DoubleAnimation SpeedRatio="8"
+                                             Storyboard.TargetName="Gb1"
+                                             Storyboard.TargetProperty="   (UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
+                                             To="1.05" Duration="0:0:0:1">
+                                <DoubleAnimation.EasingFunction>
+                                    <BackEase Amplitude="2" EasingMode="EaseInOut" />
+
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+
+                            <DoubleAnimation SpeedRatio="8"
+                                             Storyboard.TargetName="Gb1"
+                                             Storyboard.TargetProperty="   (UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                                             To="1.05" Duration="0:0:0:1">
+                                <DoubleAnimation.EasingFunction>
+                                    <BackEase Amplitude="2" EasingMode="EaseInOut" />
+
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
                         </Storyboard>
                     </BeginStoryboard>
                 </Trigger.EnterActions>
@@ -180,6 +208,14 @@
                                              Storyboard.TargetName="Gb1"
                                              Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.BlurRadius)"
                                              To="10" Duration="0:0:0:1" />
+                            <DoubleAnimation SpeedRatio="8"
+                                             Storyboard.TargetName="Gb1"
+                                             Storyboard.TargetProperty="   (UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
+                                             To="1" Duration="0:0:0:1" />
+                            <DoubleAnimation SpeedRatio="8"
+                                             Storyboard.TargetName="Gb1"
+                                             Storyboard.TargetProperty="   (UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                                             To="1" Duration="0:0:0:1" />
                         </Storyboard>
                     </BeginStoryboard>
                 </Trigger.ExitActions>

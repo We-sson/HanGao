@@ -23,7 +23,7 @@
                             <ColumnDefinition />
 
                         </Grid.ColumnDefinitions>-->
-                        
+
 
                         <Border x:Name="border" Grid.Column="1"
                                 BorderBrush="{TemplateBinding BorderBrush}"
@@ -66,7 +66,7 @@
                             <Setter TargetName="border" Property="Opacity" Value="0.56" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            
+
                             <Setter TargetName="bb3" Property="Background" Value="#07689F" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="true">

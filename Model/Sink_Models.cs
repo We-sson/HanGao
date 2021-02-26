@@ -17,8 +17,23 @@ namespace 悍高软件.Model
 
         private int  _Model_Number;
         private string _Photo_Uri;
+        private string _LIst_Show;
+        /// <summary>
+        ///Visible 显示元素。
+        ///  
+        ///Hidden 不显示元素，但是在布局中为元素保留空间。
+        /// 
+        ///Collapsed 不显示元素，并且不在布局中为它保留空间。
+        ///
+        /// </summary>
+        public string  List_Show
+        {
+            get
+            {return _LIst_Show; }
 
-
+            set
+            { _LIst_Show = value;}
+        }
 
         public int Model_Number
         {
