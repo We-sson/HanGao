@@ -1,28 +1,31 @@
 ﻿<UserControl x:Class="悍高软件.View.FrameShow.HomeOne"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="clr-namespace:悍高软件.View.FrameShow"
-      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-       d:DesignHeight="700"
-      d:DesignWidth="1080" mc:Ignorable="d">
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:悍高软件.View.FrameShow"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             d:DesignHeight="992"
+             d:DesignWidth="1920" mc:Ignorable="d">
 
 
 
 
 
 
-    <Grid ShowGridLines="False" Background="Transparent">
+
+
+
+    <Grid ShowGridLines="True" Background="Transparent">
 
         <Grid.ColumnDefinitions>
 
             <ColumnDefinition Width="380" />
             <ColumnDefinition />
+            <ColumnDefinition Width="50" />
 
         </Grid.ColumnDefinitions>
-
-
+        <!--  左侧型号栏  -->
         <Grid Margin="0,10,0,0" ShowGridLines="False">
             <Grid.RowDefinitions>
                 <RowDefinition Height="80" />
@@ -35,19 +38,10 @@
                     CornerRadius="10,10,10,10"
                     BorderThickness="0" BorderBrush="Black">
 
-
                 <Border.Effect>
                     <DropShadowEffect BlurRadius="6" ShadowDepth="0"
                                       Opacity="50" Color="Gray" />
                 </Border.Effect>
-
-
-
-
-
-
-
-
 
                 <Grid>
 
@@ -79,14 +73,9 @@
 
                     </TextBox>
 
-
                 </Grid>
 
-
-
             </Border>
-
-
 
             <ListBox Style="{DynamicResource ListBoxStyle1}" x:Name="LB1" Grid.Row="1"
                      HorizontalContentAlignment="Center"
@@ -116,10 +105,152 @@
 
 
 
-        <TextBlock Grid.Column="1"
-                   Text="控制台" Width="120" Height="51"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center" FontSize="40"
-                   Foreground="White" />
+        <!--  右侧功能显示区  -->
+        <Grid Grid.Column="1" Margin="30">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+
+            <!--  工位2区域  -->
+            <Grid Style="{DynamicResource Gd_Effect}" Grid.Row="0" Grid.Column="0"
+                  Margin="25">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.2*" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+
+                <Border x:Name="border"
+                        Grid.RowSpan="2" Padding="0"
+                        Panel.ZIndex="0" Background="#A0A0A0"
+                        CornerRadius="35" />
+                <Border Grid.Row="1"
+                        Margin="0,0,0,0" Background="#F6F6F6"
+                        CornerRadius="35" />
+
+
+
+                <TextBlock Grid.Row="0"
+                           Text="952154" Margin="0"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center" FontSize="40"
+                           FontStretch="Condensed"
+                           FontFamily="DengXian" />
+            </Grid>
+
+            <!--  加工路径区域  -->
+            <Grid Style="{DynamicResource Gd_Effect}" Grid.Row="0" Grid.Column="1"
+                  Margin="25">
+
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.2*" />
+                    <RowDefinition Height="0.02*" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Border Grid.RowSpan="3" Background="#E3E3E3" CornerRadius="35" />
+
+                <TextBlock Text="加 工 路 径" Margin="8"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom" FontSize="35"
+                           FontFamily="YouYuan" />
+
+                <Border Grid.Row="1"
+                        Margin="35,0,35,0" Opacity="0.5"
+                        Background="#A0A0A0" CornerRadius="2" />
+
+
+                <Grid Grid.Row="2" Margin="0,10,0,0">
+                    <Border Width="5" Opacity="0.5" CornerRadius="10">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                <GradientStop Offset="0.75" Color="Black" />
+                                <GradientStop Offset="1" Color="#FFE3E3E3" />
+                                <GradientStop Color="#FFE3E3E3" />
+                                <GradientStop Offset="0.25" Color="Black" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+                    <Border Height="5" Opacity=" 0.5" CornerRadius="10">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Offset="0.75" Color="Black" />
+                                <GradientStop Offset="1" Color="#FFE3E3E3" />
+                                <GradientStop Color="#FFE3E3E3" />
+                                <GradientStop Offset="0.25" Color="Black" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+
+                    <Ellipse Grid.Row="2"
+                             Width="20" Height="20"
+                             HorizontalAlignment="Stretch"
+                             VerticalAlignment="Stretch"
+                             Fill="#FFAE181F" Stroke="Black"
+                             StrokeThickness="1" />
+                </Grid>
+            </Grid>
+
+
+            <!--  设备状态显示区域  -->
+            <Grid Style="{DynamicResource Gd_Effect}" Grid.Row="1" Grid.Column="0"
+                  Margin="25">
+
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.2*" />
+                    <RowDefinition Height="0.02*" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Border Grid.RowSpan="3" Background="#E3E3E3" CornerRadius="35" />
+
+                <TextBlock Text="设 备 状 态" Margin="8"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom" FontSize="35"
+                           FontFamily="YouYuan" />
+
+                <Border Grid.Row="1"
+                        Margin="35,0,35,0" Opacity="0.5"
+                        Background="#A0A0A0" CornerRadius="2" />
+
+
+                <TextBlock Grid.Row="2"
+                           Text=" 机器人启动中...." TextWrapping="Wrap"
+                           Margin="20" FontSize="35"
+                           FontStretch="Condensed" />
+            </Grid>
+
+            <!--  工位1区域  -->
+            <Grid Style="{DynamicResource Gd_Effect}" Grid.Row="1" Grid.Column="1"
+                  Margin="25">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.2*" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+
+                <Border Grid.RowSpan="2" Background="#22AB38" CornerRadius="35" />
+                <Border Grid.Row="1"
+                        Margin="0,0,0,0" Background="#F6F6F6"
+                        CornerRadius="35" />
+
+
+
+                <TextBlock Grid.Row="0"
+                           Text="952154" Margin="0"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center" FontSize="40"
+                           FontStretch="Condensed"
+                           FontFamily="DengXian" />
+            </Grid>
+
+
+        </Grid>
     </Grid>
 </UserControl>

@@ -127,7 +127,7 @@
         <Grid x:Name="Gd3" Opacity="1">
 
 
-            <Border x:Name="Gb1"
+            <Border x:Name="Gb1" AllowDrop="True"
                     Margin="0,10,10,10"
                     VerticalAlignment="Center"
                     Background="#065684" BorderThickness="5"
@@ -167,7 +167,8 @@
                                Text="{Binding Model_Number}"
                                Margin="10"
                                HorizontalAlignment="Stretch"
-                               VerticalAlignment="Center" FontSize="35"
+                               VerticalAlignment="Center"
+                               FontFamily="DengXian" FontSize="40"
                                Foreground="#E3E3E3" />
                 </Grid>
             </Border>
@@ -181,14 +182,17 @@
                             <DoubleAnimation SpeedRatio="8"
                                              Storyboard.TargetName="Gb1"
                                              Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.BlurRadius)"
-                                             To="30" Duration="0:0:0:1" />
+                                             To="30" Duration="0:0:0:1">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuinticEase EasingMode="EaseInOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
                             <DoubleAnimation SpeedRatio="8"
                                              Storyboard.TargetName="Gb1"
                                              Storyboard.TargetProperty="   (UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
                                              To="1.05" Duration="0:0:0:1">
                                 <DoubleAnimation.EasingFunction>
-                                    <BackEase Amplitude="2" EasingMode="EaseInOut" />
-
+                                    <QuinticEase EasingMode="EaseInOut" />
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
 
@@ -197,8 +201,7 @@
                                              Storyboard.TargetProperty="   (UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
                                              To="1.05" Duration="0:0:0:1">
                                 <DoubleAnimation.EasingFunction>
-                                    <BackEase Amplitude="2" EasingMode="EaseInOut" />
-
+                                    <QuinticEase EasingMode="EaseInOut" />
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
                         </Storyboard>
@@ -227,10 +230,14 @@
                 <Trigger.EnterActions>
                     <BeginStoryboard>
                         <Storyboard>
-                            <DoubleAnimation SpeedRatio="5"
+                            <DoubleAnimation SpeedRatio="2"
                                              Storyboard.TargetName="Gd3"
                                              Storyboard.TargetProperty="Opacity"
-                                             From="0" To="1" Duration="0:0:0:1" />
+                                             From="0" To="1" Duration="0:0:0:1">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuinticEase EasingMode="EaseInOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
 
 
                         </Storyboard>

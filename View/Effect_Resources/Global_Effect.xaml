@@ -74,6 +74,47 @@
     </Style>
 
 
+    <!--  全局Grid背景模糊样式  -->
+    <Style x:Key="Gd_Effect" TargetType="{x:Type Grid}">
+
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect BlurRadius="35" ShadowDepth="0"
+                                  Opacity="0.5" Color="Gray" />
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation SpeedRatio="5"
+                                             Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.Opacity)"
+                                             To=".9" Duration="0:0:0:1">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuinticEase EasingMode="EaseInOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation SpeedRatio="5"
+                                             Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.Opacity)"
+                                             To=".5" Duration="0:0:0:1" />
+
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+
+
 
     <!--#endregion-->
 
