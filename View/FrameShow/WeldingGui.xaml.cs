@@ -19,7 +19,7 @@ namespace 悍高软件.View.FrameShow
     /// 振镜界面.xaml 的交互逻辑
     /// </summary>
    
-    public partial class WeldingGui : Page
+    public partial class WeldingGui : UserControl 
     {
         public WeldingGui()
         {

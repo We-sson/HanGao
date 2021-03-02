@@ -7,63 +7,86 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using 悍高软件.Model;
-
-
+using 悍高软件.View.FrameShow;
 
 namespace 悍高软件.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
     public  class FrameShow :ViewModelBase
     {
-
+        /// <summary>
+        /// 页面初始化内容
+        /// </summary>
         public FrameShow()
         {
-            //软件启动初始化
-            Uri_Show = new Frame_Uri_Models() { Frame_Source = new Uri("/View/FrameShow/HomeOne.xaml", UriKind.Relative) };
-            //MessageBox.Show(Uri_Show.ToString());
-            
-
+         
+            //启动首页
+            User_Show = HomeOne;
         }
-             
+        /// <summary>
+        /// 软件启动把页面写入内存
+        /// </summary>
+        private readonly UserControl HomeOne = new HomeOne();
+        private readonly UserControl ProgRamEdit = new ProgramEdit();
+        private readonly UserControl ReadData = new RealData();
+        private readonly UserControl WeldingGui = new WeldingGui();
 
 
 
-
-
-        //显示主页面地址属性，用于Frame.Source属性绑定
-        private Frame_Uri_Models _Uri_Show ;
-        public   Frame_Uri_Models Uri_Show
+        /// <summary>
+        /// 用于前段绑定显示页面内容
+        /// </summary>
+        private UserControl _User_Show ;
+        public UserControl User_Show
         {
             
-            get { return _Uri_Show; }
+            get { return _User_Show; }
             set {
-                if (_Uri_Show==value)
+                if (_User_Show == value)
                 {
                     return;
                 }
-                _Uri_Show = value; }
+                _User_Show = value; }
         }
 
 
 
 
-        //选项事件触发属性
-        public ICommand Set_Uri_Show
+        /// <summary>
+        /// 标题栏选择事件触发
+        /// </summary>
+        public ICommand Set_User_Show
         {
-            get => new DelegateCommand<String>(Set_Uri);
-            set
+            get => new DelegateCommand<Control>(Set_User);
+        }
+
+   
+
+       /// <summary>
+       /// 使用Uid识别码来显示内容
+       /// </summary>
+       /// <param name="_name"></param>
+        private void Set_User(Control _name)
+        {
+            
+            switch (_name.Uid)
             {
-                return;
+                case "1":
+                    User_Show = HomeOne;
+                    break;
+                case "2":
+                    User_Show = ProgRamEdit;
+                    break;
+                case "3":
+                    User_Show = ReadData;
+                    break;
+                case "4":
+                    User_Show = WeldingGui;
+                    break;
             }
-
-        }
-        //选项事件触发方法
-        private void Set_Uri(string _Uri)
-        {
-            string[] frame_str = _Uri.Split(new char[] { '_' });
-            Uri_Show.Frame_Source = new Uri("/View/FrameShow/" + frame_str[0] + ".xaml", UriKind.Relative);
         }
 
 

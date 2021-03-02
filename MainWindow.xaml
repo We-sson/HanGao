@@ -31,7 +31,7 @@
         </Grid.RowDefinitions>
 
         <!--  主页标题栏  -->
-        <Grid Grid.Row="0" ShowGridLines="True">
+        <Grid Grid.Row="0" ShowGridLines="True" DataContext="{Binding Source={StaticResource Locator}, Path=FrameShow}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.3*" />
                 <ColumnDefinition />
@@ -45,18 +45,17 @@
             <StackPanel Grid.Column="1"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Orientation="Horizontal"
-                        DataContext="{Binding Source={StaticResource Locator}, Path=FrameShow}">
+                        Orientation="Horizontal">
 
                 <RadioButton Style="{StaticResource 标题_选项_样式}" x:Name="HomeOne_Radio"
-                             IsChecked="True" Width="250"
+                             Uid="1" IsChecked="True" Width="250"
                              Margin="0,0,0,0"
                              VerticalAlignment="Center"
                              GroupName="Rt">
 
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding Set_Uri_Show}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}, Path=Name}" />
+                            <i:InvokeCommandAction Command="{Binding Set_User_Show}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type RadioButton}, AncestorLevel=1, Mode=FindAncestor}}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
 
@@ -83,12 +82,12 @@
 
 
                 <RadioButton Style="{StaticResource 标题_选项_样式}" x:Name="ProgramEdit_Radio"
-                             Width="250" Margin="0,0,0,0"
+                             Uid="2" Width="250" Margin="0,0,0,0"
                              HorizontalAlignment="Stretch"
                              GroupName="Rt">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding Set_Uri_Show}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}, Path=Name}" />
+                            <i:InvokeCommandAction Command="{Binding Set_User_Show}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type RadioButton}, AncestorLevel=1, Mode=FindAncestor}}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
 
@@ -109,12 +108,12 @@
                 </RadioButton>
 
                 <RadioButton Style="{StaticResource 标题_选项_样式}" x:Name="RealData_Radio"
-                             Width="250" Margin="0,0,0,0"
+                             x:Uid="3" Width="250" Margin="0,0,0,0"
                              HorizontalAlignment="Stretch"
                              GroupName="Rt">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding Set_Uri_Show}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}, Path=Name}" />
+                            <i:InvokeCommandAction Command="{Binding Set_User_Show}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type RadioButton}, AncestorLevel=1, Mode=FindAncestor}}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
 
@@ -137,12 +136,12 @@
                 </RadioButton>
 
                 <RadioButton Style="{StaticResource 标题_选项_样式}" x:Name="WeldingGui_Radio"
-                             Width="250" Margin="0,0,0,0"
+                             x:Uid="4" Width="250" Margin="0,0,0,0"
                              GroupName="Rt">
 
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding Set_Uri_Show}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}, Path=Name}" />
+                            <i:InvokeCommandAction Command="{Binding Set_User_Show}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type RadioButton}, AncestorLevel=1, Mode=FindAncestor}}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
 
@@ -179,11 +178,11 @@
 
 
         <!--  分割装饰栏  -->
-        <Border Grid.Row="1" >
+        <Border Grid.Row="1">
             <Border.Background>
                 <RadialGradientBrush>
-                    <GradientStop Color="#FF065684" Offset="0.9"/>
-                    <GradientStop Color="#FFE3E3E3" Offset="1"/>
+                    <GradientStop Offset="0.9" Color="#FF065684" />
+                    <GradientStop Offset="1" Color="#FFE3E3E3" />
                 </RadialGradientBrush>
             </Border.Background>
         </Border>
@@ -193,14 +192,14 @@
 
 
         <!--  标题栏对应显示的内容  -->
-        <Frame Grid.Row="2"
-               IsEnabled="True"
+        <!--<Frame Grid.Row="2"
+               IsEnabled="True" Visibility="Collapsed"
                Source="{Binding Uri_Show.Frame_Source}"
                NavigationUIVisibility="Hidden"
                Background="Transparent" Opacity="1"
-               DataContext="{Binding Source={StaticResource Locator}, Path=FrameShow}" />
+               DataContext="{Binding Source={StaticResource Locator}, Path=FrameShow}" />-->
 
-
+        <ContentControl Grid.Row="2" Content="{Binding User_Show}" DataContext="{Binding Source={StaticResource Locator}, Path=FrameShow}" />
 
 
     </Grid>
