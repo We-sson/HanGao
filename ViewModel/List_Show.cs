@@ -3,7 +3,6 @@ using Prism.Commands;
 using PropertyChanged;
 using System;
 using System.Collections.ObjectModel;
-using System.Windows;
 using System.Windows.Input;
 using 悍高软件.Model;
 
@@ -16,15 +15,15 @@ namespace 悍高软件.ViewModel
         {
             SinkModels = new ObservableCollection<Sink_Models>
             {
-                new Sink_Models() { Model_Number = 951212, Photo_Uri = "wwww", List_Show="Visible "},
-                new Sink_Models() { Model_Number = 952212, Photo_Uri = "qqqqq" ,List_Show="Visible "},
-                new Sink_Models() { Model_Number = 953212, Photo_Uri = "eeeeee" ,List_Show="Visible "},
-                new Sink_Models() { Model_Number = 953212, Photo_Uri = "wwww" ,List_Show="Visible "},
-                new Sink_Models() { Model_Number = 954212, Photo_Uri = "qqqqq" ,List_Show="Visible "},
-                new Sink_Models() { Model_Number = 955212, Photo_Uri = "eeeeee" ,List_Show="Visible "},
-                new Sink_Models() { Model_Number = 955212, Photo_Uri = "wwww" ,List_Show="Visible "},
-                new Sink_Models() { Model_Number = 956212, Photo_Uri = "qqqqq" ,List_Show="Visible "},
-                new Sink_Models() { Model_Number = 956212, Photo_Uri = "eeeeee" ,List_Show="Visible "}
+                new Sink_Models() { Model_Number = 951212,  Photo_ico= "&#xe610;", List_Show="Visible "},
+                new Sink_Models() { Model_Number = 952212, Photo_ico = "&#xe60a;" ,List_Show="Visible "},
+                new Sink_Models() { Model_Number = 953212, Photo_ico = "&#xe60b;" ,List_Show="Visible "},
+                new Sink_Models() { Model_Number = 953212, Photo_ico = "&#xe610;" ,List_Show="Visible "},
+                new Sink_Models() { Model_Number = 954212, Photo_ico = "&#xe60a;" ,List_Show="Visible "},
+                new Sink_Models() { Model_Number = 955212, Photo_ico = "&#xe610;" ,List_Show="Visible "},
+                new Sink_Models() { Model_Number = 955212, Photo_ico = "&#xe60b;" ,List_Show="Visible "},
+                new Sink_Models() { Model_Number = 956212, Photo_ico = "&#xe610;" ,List_Show="Visible "},
+                new Sink_Models() { Model_Number = 956212, Photo_ico = "&#xe60a;" ,List_Show="Visible "}
             };
 
 
@@ -51,9 +50,6 @@ namespace 悍高软件.ViewModel
         //筛选显示List内容方法
         private void Find_List(String ob)
         {
-
-
-
             for (int i = 0; i < SinkModels.Count; i++)
             {
 
@@ -61,30 +57,28 @@ namespace 悍高软件.ViewModel
                 //MessageBox.Show(SinkModels[i].Model_Number.ToString());
 
                 if (Num.IndexOf(ob) == -1)
-
                 {
-
                     SinkModels[i].List_Show = "Collapsed";
                 }
                 else if (Num.IndexOf(ob) == 0)
                 {
                     SinkModels[i].List_Show = "Visible";
                 }
-
-
-
             }
 
 
 
-
-
-
-
-
-
         }
+        
+           
 
+
+        public   enum List_ico
+        {
+            双盆图标,
+            左右盆图标,
+            单盆图标
+        }
 
     }
 }

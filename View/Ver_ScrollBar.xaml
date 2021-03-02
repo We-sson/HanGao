@@ -20,54 +20,6 @@
 
 
 
-    <!--    -->
-    <!--<Style x:Key="ScrollBarButton" TargetType="{x:Type RepeatButton}">
-        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Padding" Value="1" />
-        <Setter Property="Focusable" Value="false" />
-        <Setter Property="IsTabStop" Value="false" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Border x:Name="border"
-                            BorderBrush="{StaticResource ScrollBar.Static.Border}"
-                            BorderThickness="0"
-                            Background="{StaticResource ScrollBar.Static.Background}"
-                            SnapsToDevicePixels="true">
-                        <ContentPresenter x:Name="contentPresenter"
-                                          Margin="{TemplateBinding Padding}"
-                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          Focusable="False"
-                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                    </Border>
-
-
-
-
-
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="border" Property="Background" Value="{StaticResource ScrollBar.MouseOver.Background}" />
-                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource ScrollBar.MouseOver.Border}" />
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="true">
-                            <Setter TargetName="border" Property="Background" Value="{StaticResource ScrollBar.Pressed.Background}" />
-                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource ScrollBar.Pressed.Border}" />
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="contentPresenter" Property="Opacity" Value="0.56" />
-                            <Setter TargetName="border" Property="Background" Value="{StaticResource ScrollBar.Disabled.Background}" />
-                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource ScrollBar.Disabled.Border}" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>-->
 
 
 
