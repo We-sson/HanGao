@@ -8,7 +8,7 @@
     <!--#region 全局素材-->
 
     <!--  全局字体阴影  -->
-    <DropShadowEffect x:Key="全局_字体_阴影样式" ShadowDepth="1"
+    <DropShadowEffect x:Key="全局_字体_阴影样式" ShadowDepth="0"
                       BlurRadius="5" Direction="270"
                       Opacity="0.6" Color="Black" />
 
@@ -79,8 +79,8 @@
 
         <Setter Property="Effect">
             <Setter.Value>
-                <DropShadowEffect BlurRadius="35" ShadowDepth="0"
-                                  Opacity="0.5" Color="Gray" />
+                <DropShadowEffect BlurRadius="10" ShadowDepth="0"
+                                  Opacity="0.4" Color="#A0A0A0" />
             </Setter.Value>
         </Setter>
         <Style.Triggers>
@@ -88,9 +88,9 @@
                 <Trigger.EnterActions>
                     <BeginStoryboard>
                         <Storyboard>
-                            <DoubleAnimation SpeedRatio="5"
+                            <DoubleAnimation SpeedRatio="10"
                                              Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.Opacity)"
-                                             To=".9" Duration="0:0:0:1">
+                                             To="1" Duration="0:0:0:1">
                                 <DoubleAnimation.EasingFunction>
                                     <QuinticEase EasingMode="EaseInOut" />
                                 </DoubleAnimation.EasingFunction>
@@ -104,7 +104,7 @@
                         <Storyboard>
                             <DoubleAnimation SpeedRatio="5"
                                              Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.Opacity)"
-                                             To=".5" Duration="0:0:0:1" />
+                                             To=".3" Duration="0:0:0:1" />
 
                         </Storyboard>
                     </BeginStoryboard>

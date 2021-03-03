@@ -1,0 +1,190 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:悍高软件.View.Style">
+    <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD" />
+    <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070" />
+    <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD" />
+    <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1" />
+    <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6" />
+    <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B" />
+    <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4" />
+    <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5" />
+    <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383" />
+    <SolidColorBrush x:Key="Green" Color="Green" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <Style x:Key="Button_List_Style" TargetType="{x:Type CheckBox}">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
+        <Setter Property="Background" Value="{StaticResource Button.Static.Background}" />
+        <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+        <Setter Property="BorderThickness" Value="3" />
+        <Setter Property="BorderBrush" Value="Gray" />
+        <Setter Property="FontSize" Value="30" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Padding" Value="0" />
+
+
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <Grid Style="{DynamicResource Gd_Effect}"
+                          Name="Gd1" Height="60" MinWidth="250"
+                          Margin="{TemplateBinding Margin}">
+
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="86" />
+                        </Grid.ColumnDefinitions>
+
+
+
+
+                        <Border x:Name="border"
+                                Grid.ColumnSpan="2" CornerRadius="15"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}"
+                                SnapsToDevicePixels="true" />
+
+
+                        <ContentPresenter x:Name="contentPresenter" Grid.Column="0"
+                                          Margin="20,0,-10,0"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          Focusable="False"
+                                          RecognizesAccessKey="True"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+
+
+                        <Ellipse Grid.Column="1"
+                                 Name="Ep1" Width="38" Height="38"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 StrokeThickness="5" Fill="Transparent"
+                                 Stroke="Gray" />
+
+
+                        <TextBlock x:Name="Tb1" Grid.Column="1"
+                                   Text="&#xe612;"
+                                   Margin="0,-30,-20,0"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Panel.ZIndex="0" Opacity="0"
+                                   FontFamily="/Resources/#iconfont"
+                                   Foreground="Green" FontSize="45" />
+
+                    </Grid>
+
+
+
+                    <ControlTemplate.Triggers>
+
+
+
+
+                        <!--  鼠标停留元素上方事件  -->
+
+                        <!--<Trigger Property="IsMouseOver" Value="true" />-->
+
+
+
+
+                        <!--  鼠标点击事件  -->
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="Background" Value="#B1B1B1" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource Button.Disabled.Background}" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.Disabled.Border}" />
+                            <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{StaticResource Button.Disabled.Foreground}" />
+                        </Trigger>
+
+
+                        <!--  元素选中事件  -->
+
+                        <Trigger Property="IsChecked" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation SpeedRatio="5"
+                                                         Storyboard.TargetName="Tb1"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="1" Duration="0:0:0:1">
+                                            <DoubleAnimation.EasingFunction>
+                                                <QuinticEase EasingMode="EaseInOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <ColorAnimation SpeedRatio="3"
+                                                        Storyboard.TargetName="border"
+                                                        Storyboard.TargetProperty="(BorderBrush).(SolidColorBrush.Color)"
+                                                        To="Green" Duration="0:0:0:1">
+                                            <ColorAnimation.EasingFunction>
+                                                <QuinticEase EasingMode="EaseInOut" />
+                                            </ColorAnimation.EasingFunction>
+                                        </ColorAnimation>
+                                        <ColorAnimation SpeedRatio="3"
+                                                        Storyboard.TargetName="Ep1"
+                                                        Storyboard.TargetProperty=" (Shape.Stroke).(SolidColorBrush.Color)"
+                                                        To="Black" Duration="0:0:0:1">
+                                            <ColorAnimation.EasingFunction>
+                                                <QuinticEase EasingMode="EaseInOut" />
+                                            </ColorAnimation.EasingFunction>
+                                        </ColorAnimation>
+
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard FillBehavior="Stop">
+                                        <DoubleAnimation SpeedRatio="5"
+                                                         Storyboard.TargetName="Tb1"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="0" Duration="0:0:0:1" />
+                                        <ColorAnimation SpeedRatio="5"
+                                                        Storyboard.TargetName="border"
+                                                        Storyboard.TargetProperty="(BorderBrush).(SolidColorBrush.Color)"
+                                                        To="Gray" Duration="0:0:0:1" />
+                                        <ColorAnimation SpeedRatio="5"
+                                                        Storyboard.TargetName="Ep1"
+                                                        Storyboard.TargetProperty=" (Shape.Stroke).(SolidColorBrush.Color)"
+                                                        To="Gray" Duration="0:0:0:1" />
+
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+
+
+
+
+
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+
+
+</ResourceDictionary>

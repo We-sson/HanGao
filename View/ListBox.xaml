@@ -178,7 +178,7 @@
 
                 <Trigger.EnterActions>
                     <BeginStoryboard>
-                        <Storyboard>
+                        <Storyboard Timeline.DesiredFrameRate="30">
                             <DoubleAnimation SpeedRatio="8"
                                              Storyboard.TargetName="Gb1"
                                              Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.BlurRadius)"

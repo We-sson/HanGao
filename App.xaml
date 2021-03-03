@@ -20,6 +20,8 @@
                 <ResourceDictionary Source="View\ScrollViewer.xaml" />
                 <ResourceDictionary Source="View\Ver_ScrollBar.xaml" />
                 <ResourceDictionary Source="View\Hor_ScrollBar.xaml" />
+                <ResourceDictionary Source="View\Style\Button_List.xaml" />
+                
 
 
 
