@@ -142,7 +142,7 @@
 
 
                 <Border.Effect>
-                    <DropShadowEffect BlurRadius="10" ShadowDepth="0"
+                    <DropShadowEffect BlurRadius="5" ShadowDepth="0"
                                       Opacity="5" Color="Black" />
                 </Border.Effect>
                 <Grid Name="Gd2" Margin="0"
@@ -182,7 +182,7 @@
                             <DoubleAnimation SpeedRatio="8"
                                              Storyboard.TargetName="Gb1"
                                              Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.BlurRadius)"
-                                             To="30" Duration="0:0:0:1">
+                                             To="15" Duration="0:0:0:1">
                                 <DoubleAnimation.EasingFunction>
                                     <QuinticEase EasingMode="EaseInOut" />
                                 </DoubleAnimation.EasingFunction>

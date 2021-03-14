@@ -46,7 +46,7 @@
                 <ControlTemplate TargetType="{x:Type CheckBox}">
                     <Grid Style="{DynamicResource Gd_Effect}"
                           Name="Gd1" Height="45" MinWidth="100"
-                          Margin="{TemplateBinding Margin}">
+                          Margin="{TemplateBinding Padding}">
 
 
                         <Grid.ColumnDefinitions>

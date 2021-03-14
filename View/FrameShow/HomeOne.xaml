@@ -121,197 +121,61 @@
 
             <!--  工位2区域  -->
             <Grid Style="{DynamicResource Gd_Effect}" Grid.Row="0" Grid.Column="0"
-                  Margin="25">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="0.2*" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
+                  Margin="15">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="0.1*" />
+                </Grid.ColumnDefinitions>
 
 
-                <Border x:Name="border"
-                        Grid.RowSpan="2" Padding="0"
-                        Panel.ZIndex="0" Background="#A0A0A0"
-                        CornerRadius="35" />
-                <Border Grid.Row="1"
-                        Margin="0,0,0,0" Background="#F6F6F6"
+                <Border Grid.Column="0"
+                        Grid.ColumnSpan="2" Background="#22AB38"
                         CornerRadius="35">
 
-                    <!--<Button Style="{DynamicResource Button_List_Style}" Content="启动" FontSize="30" />-->
-
-
-                    <WrapPanel Margin="30" Orientation="Horizontal">
-
-                        <CheckBox Style="{DynamicResource Button_List_Style}"
-                                  Content="计数功能"
-                                  HorizontalAlignment="Center"
-                                  VerticalAlignment="Center" />
-                        <CheckBox Style="{DynamicResource Button_List_Style}"
-                                  Content="启动"
-                                  HorizontalAlignment="Center"
-                                  VerticalAlignment="Center" />
-
-                        <CheckBox Style="{DynamicResource Button_List_Style}"
-                                  Content="特殊程序"
-                                  HorizontalAlignment="Center"
-                                  VerticalAlignment="Center" />
-                        <CheckBox Style="{DynamicResource Button_List_Style}"
-                                  Content="特殊程序"
-                                  HorizontalAlignment="Center"
-                                  VerticalAlignment="Center" />
-                        <CheckBox Style="{DynamicResource Button_List_Style}" Content="特殊程序" />
-                        <CheckBox Style="{DynamicResource Button_List_Style}"
-                                  Content="特殊程序" Margin="3"
-                                  HorizontalAlignment="Center"
-                                  VerticalAlignment="Center" />
-
-                    </WrapPanel>
-
-
-
-
-
-                </Border>
-
-
-
-
-                <TextBlock Grid.Row="0"
-                           Text="952154" Margin="0"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center" FontSize="50"
-                           FontStretch="Condensed"
-                           FontFamily="DengXian" />
-            </Grid>
-
-            <!--  加工路径区域  -->
-            <Grid Style="{DynamicResource Gd_Effect}" Grid.Row="0" Grid.Column="1"
-                  Margin="25">
-
-
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="0.2*" />
-                    <RowDefinition Height="0.02*" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Border Grid.RowSpan="3" Background="#E3E3E3" CornerRadius="35" />
-
-                <TextBlock Text="加 工 路 径" Margin="8"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Bottom" FontSize="40" />
-
-                <Border Grid.Row="1"
-                        Margin="35,0,35,0" Opacity="0.5"
-                        Background="#A0A0A0" CornerRadius="2" />
-
-
-                <Grid Grid.Row="2" Margin="0,10,0,0">
-                    <Border Width="5" Opacity="0.5" CornerRadius="10">
-                        <Border.Background>
-                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                <GradientStop Offset="0.75" Color="Black" />
-                                <GradientStop Offset="1" Color="#FFE3E3E3" />
-                                <GradientStop Color="#FFE3E3E3" />
-                                <GradientStop Offset="0.25" Color="Black" />
-                            </LinearGradientBrush>
-                        </Border.Background>
-                    </Border>
-                    <Border Height="5" Opacity=" 0.5" CornerRadius="10">
-                        <Border.Background>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                <GradientStop Offset="0.75" Color="Black" />
-                                <GradientStop Offset="1" Color="#FFE3E3E3" />
-                                <GradientStop Color="#FFE3E3E3" />
-                                <GradientStop Offset="0.25" Color="Black" />
-                            </LinearGradientBrush>
-                        </Border.Background>
-                    </Border>
-
-                    <Ellipse Grid.Row="2"
-                             Width="20" Height="20"
-                             HorizontalAlignment="Stretch"
-                             VerticalAlignment="Stretch"
-                             Fill="#FFAE181F" Stroke="Black"
-                             StrokeThickness="1" />
-                </Grid>
-            </Grid>
-
-
-            <!--  设备状态显示区域  -->
-            <Grid Style="{DynamicResource Gd_Effect}" Grid.Row="1" Grid.Column="0"
-                  Margin="25">
-
-
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="0.2*" />
-                    <RowDefinition Height="0.02*" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Border Grid.RowSpan="3" Background="#E3E3E3" CornerRadius="35" />
-
-                <TextBlock Text="设 备 状 态" Margin="8"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Bottom" FontSize="40" />
-
-                <Border Grid.Row="1"
-                        Margin="35,0,35,0" Opacity="0.5"
-                        Background="#A0A0A0" CornerRadius="2" />
-
-
-                <TextBlock Grid.Row="2"
-                           Text=" 机器人启动中...." TextWrapping="Wrap"
-                           Margin="20" FontSize="35"
-                           FontStretch="Condensed" />
-            </Grid>
-
-            <!--  工位1区域  -->
-            <Grid Style="{DynamicResource Gd_Effect}" Grid.Row="1" Grid.Column="1"
-                  Margin="25">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="0.2*" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-
-
-                <Border Grid.RowSpan="2" Background="#22AB38" CornerRadius="35">
-
                     <TextBlock Grid.Column="1"
-                               Grid.ColumnSpan="2" Text="952154"
-                               Margin="0,10,0,0"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Top" FontSize="50"
+                               Grid.ColumnSpan="2"
+                               Text="9&#x0a;5&#x0a;2&#x0a;1&#x0a;5&#x0a;4"
+                               Margin="0,0,23,0"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Center" FontSize="50"
                                FontStretch="Condensed"
-                               FontFamily="DengXian" />
+                               FontFamily="DengXian"
+                               RenderTransformOrigin="0.5,0.5" />
 
                 </Border>
+
+
                 <Border Grid.Row="1"
-                        Margin="-1" Background="#F6F6F6"
-                        CornerRadius="35" BorderThickness="4"
-                        BorderBrush="#22AB38">
+                        Margin="5" Background="#F6F6F6"
+                        CornerRadius="30">
 
 
                     <Grid Style="{DynamicResource GridStyle1}" Margin="10">
 
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="419*" />
-                            <ColumnDefinition Width="206*" />
+                            <ColumnDefinition />
+
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="45" />
-                            <RowDefinition Height="119*" />
+                            <RowDefinition Height="0.01*" />
+                            <RowDefinition />
 
                         </Grid.RowDefinitions>
-                        <Border Grid.Row="0" Grid.Column="0"
-                                Grid.RowSpan="2" Grid.ColumnSpan="2"
-                                Margin="-7" Visibility="Collapsed"
-                                BorderThickness="2" BorderBrush="Gray"
-                                CornerRadius="25" />
+
+                        <Border Grid.Row="1"
+                                Margin="25,0,25,0" Opacity="0.5"
+                                Background="#A0A0A0" CornerRadius="2" />
+
+
                         <TextBlock Grid.ColumnSpan="2" Text="基本功能"
                                    Height="35.56" Margin="0,0,0,0"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center" FontSize="28" />
 
-                        <UniformGrid Grid.Row="1" Grid.Column="0"
-                                     Grid.ColumnSpan="2" Columns="5" Rows="4">
+                        <UniformGrid Grid.Row="2" Grid.Column="0"
+                                     Margin="0,10,0,0" Columns="5" Rows="5">
 
                             <CheckBox Style="{DynamicResource Button_List_Style}"
                                       Content="启动" Margin="3"
@@ -327,11 +191,11 @@
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center" />
                             <CheckBox Style="{DynamicResource Button_List_Style}"
-                                      Content="备用" Margin="3"
+                                      Content="暂停" Margin="3"
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center" />
                             <CheckBox Style="{DynamicResource Button_List_Style}"
-                                      Content="备用" Margin="3"
+                                      Content="跳过" Margin="3"
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center" />
                             <CheckBox Style="{DynamicResource Button_List_Style}"
@@ -343,6 +207,274 @@
                         </UniformGrid>
 
                     </Grid>
+
+                </Border>
+
+            </Grid>
+
+            <!--  加工路径区域  -->
+            <Grid Style="{DynamicResource Gd_Effect}" Grid.Row="0" Grid.Column="1"
+                  Margin="15">
+
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.2*" />
+                    <RowDefinition Height="0.01*" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Border Grid.RowSpan="3" BorderThickness="5"
+                        Background="#E3E3E3" CornerRadius="35"
+                        BorderBrush="#FFAE181F" />
+
+                <TextBlock Text="加 工 路 径" Margin="8"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom" FontSize="40" />
+
+                <Border Grid.Row="1"
+                        Margin="35,0,35,0" Opacity="0.5"
+                        Background="#A0A0A0" CornerRadius="2" />
+
+
+                <Grid Grid.Row="2" Margin="0,10,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="0.15*" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row=" 0" Grid.RowSpan="2">
+
+
+                        <Border Width="5" Margin="0,0,0,8" Opacity="0.5"
+                                CornerRadius="10">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                    <GradientStop Offset="0.75" Color="Black" />
+                                    <GradientStop Offset="0.9" Color="#FFE3E3E3" />
+                                    <GradientStop Color="#FFE3E3E3" />
+                                    <GradientStop Offset="0.25" Color="Black" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                        </Border>
+                        <Border Height="5" Opacity=" 0.5" CornerRadius="10">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Offset="0.75" Color="Black" />
+                                    <GradientStop Offset="1" Color="#FFE3E3E3" />
+                                    <GradientStop Color="#FFE3E3E3" />
+                                    <GradientStop Offset="0.25" Color="Black" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                        </Border>
+
+                        <Ellipse Grid.Row="2"
+                                 Width="20" Height="20"
+                                 HorizontalAlignment="Stretch"
+                                 VerticalAlignment="Stretch"
+                                 Fill="#FFAE181F" Stroke="Black"
+                                 StrokeThickness="1" />
+                    </Grid>
+
+                    <Grid Grid.Row="1" Margin="50,0,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width=" 0.2*" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+
+
+                        <TextBlock Grid.Column="0"
+                                   Text="当前位置：" VerticalAlignment="Center"
+                                   FontSize=" 20" Foreground="Gray" />
+                        <TextBlock Grid.Column="1"
+                                   Text="X:500.12 Y:300.32 Z:600.12 A:30.31 B:45.33 C:62.35"
+                                   VerticalAlignment="Center"
+                                   FontSize=" 20" Foreground="Gray" />
+                    </Grid>
+
+                </Grid>
+            </Grid>
+
+
+            <!--  设备状态显示区域  -->
+            <Grid Style="{DynamicResource Gd_Effect}" Grid.Row="1" Grid.Column="0"
+                  Margin="15">
+
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.2*" />
+                    <RowDefinition Height="0.01*" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Border Grid.RowSpan="3" Background="#E3E3E3" CornerRadius="35" />
+
+                <TextBlock Text="设 备 状 态" Margin="8"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom" FontSize="40" />
+
+                <Border Grid.Row="1"
+                        Margin="35,0,35,0" Opacity="0.5"
+                        Background="#A0A0A0" CornerRadius="5" />
+
+
+                <TextBlock Grid.Row="2"
+                           Text=" 机器人启动中...." TextWrapping="Wrap"
+                           Margin="20" FontSize="35"
+                           FontStretch="Condensed" />
+            </Grid>
+
+            <!--  工位1区域  -->
+            <Grid Style="{DynamicResource Gd_Effect}" Grid.Row="1" Grid.Column="1"
+                  Margin="15" ShowGridLines="True">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.17*" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+
+                <Border Grid.RowSpan="2" Background="#22AB38" CornerRadius="35">
+
+                    <TextBlock Grid.Column="1"
+                               Grid.ColumnSpan="2" Text="952154"
+                               Margin="0,10,0,0"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Top" FontSize="50"
+                               FontStretch="Condensed"
+                               FontFamily="DengXian" />
+
+                </Border>
+
+
+                <Border Grid.Row="1"
+                        Margin="5" Background="#F6F6F6"
+                        CornerRadius="30">
+
+
+                    <Grid Style="{DynamicResource GridStyle1}" Margin="10" ShowGridLines="False">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="45" />
+                            <RowDefinition Height="4" />
+                            <RowDefinition Height="80" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0" Grid.Column="0"
+                                Grid.RowSpan="2" Grid.ColumnSpan="2"
+                                Margin="-7" Visibility="Collapsed"
+                                BorderThickness="2" BorderBrush="Gray"
+                                CornerRadius="25" />
+                        <TextBlock Grid.ColumnSpan="2" Text="基本功能"
+                                   Height="35.56" Margin="0,0,0,0"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center" FontSize="28" />
+
+                        <Border Grid.Row="1"
+                                Margin="25,0,25,0" Opacity="0.5"
+                                Background="#A0A0A0" CornerRadius="2" />
+
+
+                        <UniformGrid Grid.Row="2"
+                                     Margin="0,10,0,0" Columns="5" Rows="1">
+
+                            <CheckBox Style="{DynamicResource Button_List_Style}"
+                                      Content="启动" Margin="3"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center" />
+
+                            <CheckBox Style="{DynamicResource Button_List_Style}"
+                                      Content="计数" Margin="3"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center" />
+                            <CheckBox Style="{DynamicResource Button_List_Style}"
+                                      Content="空运" Margin="3"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center" />
+                            <CheckBox Style="{DynamicResource Button_List_Style}"
+                                      Content="暂停" Margin="3"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center" />
+                            <CheckBox Style="{DynamicResource Button_List_Style}"
+                                      Content="跳过" Margin="3"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center" />
+
+
+
+                        </UniformGrid>
+
+
+                        <Grid Grid.Row="3" ShowGridLines="False">
+
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50" />
+                                <RowDefinition Height=" 4" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0"
+                                       Text="机器人运行数据" Margin="0"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" FontSize="25" />
+
+                            <Border Grid.Row="1"
+                                    Margin="25,0,25,0" Background="#A0A0A0"
+                                    CornerRadius="5" Opacity="0.5" />
+
+
+                            <Grid Grid.Row="2" Margin="10,0,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="130" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                        <TextBlock Text="机器速度："
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center" FontSize="25"
+                                                   Foreground="#FF464646" />
+                                        <TextBlock Text="焊接功率："
+                                                   HorizontalAlignment="Center"
+                                                   FontSize=" 25" Foreground="#FF464646" />
+
+                                        <TextBlock Text="当前状态："
+                                                   HorizontalAlignment="Center"
+                                                   FontSize=" 25" Foreground="#FF464646" />
+
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                        <TextBlock Text="0.1m/分钟"
+                                                   HorizontalAlignment="Left" FontSize="25"
+                                                   Foreground="Gray" />
+                                        <TextBlock Text="80%" HorizontalAlignment="Left"
+                                                   FontSize=" 25" Foreground="Gray" />
+
+                                        <TextBlock Text="待机中... "
+                                                   HorizontalAlignment="Left"
+                                                   FontSize=" 25" Foreground="Gray" />
+                                    </StackPanel>
+                                </Grid>
+
+                            </Grid>
+
+
+                        </Grid>
+
+
+
+
+                    </Grid>
+
+
 
                 </Border>
 

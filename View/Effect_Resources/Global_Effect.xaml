@@ -9,7 +9,7 @@
 
     <!--  全局字体阴影  -->
     <DropShadowEffect x:Key="全局_字体_阴影样式" ShadowDepth="0"
-                      BlurRadius="5" Direction="270"
+                      BlurRadius="3" Direction="270"
                       Opacity="0.6" Color="Black" />
 
 
