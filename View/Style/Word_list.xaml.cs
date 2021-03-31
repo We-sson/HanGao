@@ -13,20 +13,23 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace 悍高软件.View.FrameShow
+namespace 悍高软件.View.Style
 {
     /// <summary>
-    /// 控制台.xaml 的交互逻辑
+    /// Word_list.xaml 的交互逻辑
     /// </summary>
-     public  partial class HomeOne : UserControl
+    public partial class Word_list : UserControl
     {
-        public HomeOne()
+        public Word_list()
         {
             InitializeComponent();
 
 
-            
+           
+
+
         }
+
 
 
     }
