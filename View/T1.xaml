@@ -31,13 +31,12 @@
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                     </Grid>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="HasContent" Value="true" />
+                        <!--<Trigger Property="HasContent" Value="true" />
                         <Trigger Property="IsMouseOver" Value="true" />
                         <Trigger Property="IsEnabled" Value="false" />
                         <Trigger Property="IsPressed" Value="true" />
-
                         <Trigger Property="IsChecked" Value="true" />
-                        <Trigger Property="IsChecked" Value="{x:Null}" />
+                        <Trigger Property="IsChecked" Value="{x:Null}" />-->
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

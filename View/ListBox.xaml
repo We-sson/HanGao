@@ -146,163 +146,195 @@
 
 
 
-        <CheckBox Style="{DynamicResource CheckBoxStyle1}" Name="cb1">
-            <CheckBox.Resources>
-                <Style TargetType="{x:Type CheckBox}">
-                    <Style.Triggers>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Height" Value="125" />
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </CheckBox.Resources>
 
-            <Grid>
 
+
+        <Grid Style="{DynamicResource Gd_Effect}" x:Name="Gd5">
+
+            <Grid.RowDefinitions>
+                <RowDefinition x:Name="Grd" Height="auto" />
+                <RowDefinition x:Name="Grd1" />
+            </Grid.RowDefinitions>
+
+            <Border x:Name="Gb1" Grid.Row="0"
+                    Grid.RowSpan="1" Height="123.187"
+                    Padding="10,0,10,0"
+                    VerticalAlignment="Center" Opacity="1"
+                    AllowDrop="True" Background="#065684"
+                    BorderThickness="5" BorderBrush="Black"
+                    CornerRadius="20"
+                    RenderTransformOrigin="0.5,0.5"
+                    Visibility="{Binding List_Show}">
+                <Border.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                    </TransformGroup>
+                </Border.RenderTransform>
+
+
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="5" ShadowDepth="0"
+                                      Opacity="5" Color="Black" />
+                </Border.Effect>
+                <Grid Name="Gd2" Margin="0"
+                      VerticalAlignment="Center" Opacity="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="165" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+
+
+                    <TextBlock Grid.Column="0"
+                               Text="{Binding Photo_ico}"
+                               Margin="13" HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontFamily="/Resources/#iconfont"
+                               FontSize="80" />
+                    <Border Grid.Column="1"
+                            Width="5" VerticalAlignment="Stretch"
+                            Background="Black" />
+                    <TextBlock Grid.Column="2"
+                               Text="{Binding Model_Number}"
+                               Margin="8" HorizontalAlignment="Stretch"
+                               VerticalAlignment="Center"
+                               FontFamily="DengXian" FontSize="40"
+                               Foreground="#E3E3E3" />
+                </Grid>
+            </Border>
+
+            <Grid x:Name="Gd3" Grid.Row="1"
+                  Width="300" Height="0" Panel.ZIndex="-1"
+                  RenderTransformOrigin="0.5,0.5">
+                <Grid.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform />
+                        <SkewTransform />
+                        <RotateTransform />
+                        <TranslateTransform Y="-10" />
+                    </TransformGroup>
+                </Grid.RenderTransform>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition x:Name="Grd" Height="auto" />
-                    <RowDefinition x:Name="Grd1" />
+                    <RowDefinition Height=" 1.6*" />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <Border x:Name="Gb1" Grid.Row="0"
-                        Grid.RowSpan="1" Height="123.187"
-                        Padding="10,0,10,0"
-                        VerticalAlignment="Center" Opacity="1"
-                        AllowDrop="True" Background="#065684"
-                        BorderThickness="5" BorderBrush="Black"
-                        CornerRadius="20"
-                        RenderTransformOrigin="0.5,0.5"
-                        Visibility="{Binding List_Show}">
-                    <Border.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform ScaleX="1" ScaleY="1" />
-                        </TransformGroup>
-                    </Border.RenderTransform>
 
 
-                    <Border.Effect>
-                        <DropShadowEffect BlurRadius="5" ShadowDepth="0"
-                                          Opacity="5" Color="Black" />
-                    </Border.Effect>
-                    <Grid Name="Gd2" Margin="0"
-                          VerticalAlignment="Center" Opacity="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="165" />
-                            <ColumnDefinition />
-                            <ColumnDefinition Width="1*" />
-                        </Grid.ColumnDefinitions>
 
 
-                        <TextBlock Grid.Column="0"
-                                   Text="{Binding Photo_ico}"
-                                   Margin="13" HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   FontFamily="/Resources/#iconfont"
-                                   FontSize="80" />
-                        <Border Grid.Column="1"
-                                Width="5" VerticalAlignment="Stretch"
-                                Background="Black" />
-                        <TextBlock Grid.Column="2"
-                                   Text="{Binding Model_Number}"
-                                   Margin="8" HorizontalAlignment="Stretch"
-                                   VerticalAlignment="Center"
-                                   FontFamily="DengXian" FontSize="40"
-                                   Foreground="#E3E3E3" />
-                    </Grid>
+                <Border x:Name="border" Grid.Row="0" Grid.Column="0"
+                        Grid.ColumnSpan="2" Background="#e2e2e2">
+
+                    <TextBlock Text="需要放置加工区域"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center" FontSize="20" />
                 </Border>
 
-                <Grid x:Name="Gd3" Grid.Row="1"
-                      Height="0" Panel.ZIndex="-1"
-                      RenderTransformOrigin="0.5,0.5">
-                    <Grid.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform />
-                            <SkewTransform />
-                            <RotateTransform />
-                            <TranslateTransform Y="0" />
-                        </TransformGroup>
-                    </Grid.RenderTransform>
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height=" 1.6*" />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-
+                <Button Grid.Row="1" Grid.Column="0"
+                        Content="1号工位" Padding="0" FontSize="20"
+                        BorderThickness="0" Background="#a0a0a0">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="0 0 0 20" />
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Grid.Row="1" Grid.Column="1"
+                        Content="2号工位" Padding="0"
+                        BorderThickness="0" FontSize="20"
+                        Background="Green">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="0 0 20 0" />
+                        </Style>
+                    </Button.Resources>
+                </Button>
 
 
-
-
-                    <Border x:Name="border" Grid.Row="0" Grid.Column="0"
-                            Grid.ColumnSpan="2" Background="#e2e2e2">
-
-                        <TextBlock Text="需要放置加工区域"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center" FontSize="20" />
-                    </Border>
-
-                    <Button Style="{DynamicResource ButtonStyle1}" Grid.Row="1" Grid.Column="0"
-                            Content="1号工位" FontSize="20"
-                            Background="#a0a0a0">
-                        <Button.Resources>
-                            <Style TargetType="{x:Type Border}">
-                                <Setter Property="CornerRadius" Value="0 0 0 20" />
-                            </Style>
-                        </Button.Resources>
-                    </Button>
-                    <Button Style="{DynamicResource ButtonStyle1}" Grid.Row="1" Grid.Column="1"
-                            Content="2号工位" FontSize="20"
-                            Background="Green">
-                        <Button.Resources>
-                            <Style TargetType="{x:Type Border}">
-                                <Setter Property="CornerRadius" Value="0 0 20 0" />
-                            </Style>
-                        </Button.Resources>
-                    </Button>
-
-
-
-
-                </Grid>
 
 
             </Grid>
 
 
+        </Grid>
 
 
-        </CheckBox>
+
+
+
         <DataTemplate.Triggers>
-            <Trigger SourceName="cb1" Property="IsPressed" Value="True">
-                <Trigger.EnterActions>
+
+
+
+
+
+            <MultiTrigger>
+
+
+                <MultiTrigger.Conditions>
+                    <!--<Condition SourceName="Gb1" Property="IsKeyboardFocused" Value="True" />-->
+                    <Condition SourceName="Gd5" Property="IsMouseOver" Value="True" />
+
+
+
+
+
+                </MultiTrigger.Conditions>
+                <MultiTrigger.EnterActions>
                     <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation SpeedRatio="1"
+                        <Storyboard Timeline.DesiredFrameRate="60">
+                            <DoubleAnimation SpeedRatio="2"
                                              Storyboard.TargetProperty="Height"
                                              Storyboard.TargetName="Gd3" To="120"
-                                             Duration="0:0:0:1" />
+                                             Duration="0:0:0:1">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuarticEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
                         </Storyboard>
                     </BeginStoryboard>
-
-                </Trigger.EnterActions>
-                <Trigger.ExitActions>
+                </MultiTrigger.EnterActions>
+                <MultiTrigger.ExitActions>
                     <BeginStoryboard>
                         <Storyboard>
-                            <DoubleAnimation SpeedRatio="1"
+                            <DoubleAnimation SpeedRatio="3"
                                              Storyboard.TargetProperty="Height"
                                              Storyboard.TargetName="Gd3" To="0"
-                                             Duration="0:0:0:1" />
+                                             Duration="0:0:0:1">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuinticEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
                         </Storyboard>
                     </BeginStoryboard>
-                </Trigger.ExitActions>
-            </Trigger>
+                </MultiTrigger.ExitActions>
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </MultiTrigger>
 
         </DataTemplate.Triggers>
 
