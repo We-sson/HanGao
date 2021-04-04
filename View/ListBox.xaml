@@ -80,6 +80,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                     <Border x:Name="Bd"
+                            Margin="0,5,0,5"
                             Padding="{TemplateBinding Padding}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
@@ -130,19 +131,7 @@
 
     <!--  列表数据模板  -->
     <DataTemplate x:Key="DataTemplate1" DataType="{x:Type CheckBox}">
-        <DataTemplate.Resources>
-            <Storyboard x:Key="Storyboard1">
-                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="Gd1">
-                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
-                    <DiscreteObjectKeyFrame KeyTime="0:0:0.5" Value="{x:Static Visibility.Collapsed}" />
-                </ObjectAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="Gd1">
-                    <EasingDoubleKeyFrame KeyTime="0" Value="1" />
-                    <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0" />
-                </DoubleAnimationUsingKeyFrames>
-            </Storyboard>
-            <Storyboard x:Key="Storyboard2" />
-        </DataTemplate.Resources>
+
 
 
 
@@ -157,8 +146,7 @@
             </Grid.RowDefinitions>
 
             <Border x:Name="Gb1" Grid.Row="0"
-                    Grid.RowSpan="1" Height="123.187"
-                    Padding="10,0,10,0"
+                    Grid.RowSpan="1" Padding="10,0,10,0"
                     VerticalAlignment="Center" Opacity="1"
                     AllowDrop="True" Background="#065684"
                     BorderThickness="5" BorderBrush="Black"
@@ -194,17 +182,64 @@
                     <Border Grid.Column="1"
                             Width="5" VerticalAlignment="Stretch"
                             Background="Black" />
-                    <TextBlock Grid.Column="2"
-                               Text="{Binding Model_Number}"
-                               Margin="8" HorizontalAlignment="Stretch"
-                               VerticalAlignment="Center"
-                               FontFamily="DengXian" FontSize="40"
-                               Foreground="#E3E3E3" />
+
+                    <Grid Grid.Column="2" Margin="5,0,0,0" ShowGridLines="False">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Column="0"
+                                   Grid.ColumnSpan="2"
+                                   Text="{Binding Model_Number}"
+                                   Margin="5,15,0,0"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="DengXian" FontSize="43"
+                                   Foreground="#E3E3E3" />
+
+
+                        <StackPanel Grid.Row="1" Grid.Column="0"
+                                    HorizontalAlignment="Center"
+                                    Orientation="Horizontal">
+                            <Ellipse Name="EP1" Width="25" Height="25"
+                                     Margin="5,0,5,0"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Stretch"
+                                     Stroke="Black" StrokeThickness="2">
+                                <Ellipse.Fill>
+                                    <SolidColorBrush Color="#C8C8C8" />
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <TextBlock Text="1号" VerticalAlignment="Center" FontSize="20" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" Grid.Column="1"
+                                    HorizontalAlignment="Center"
+                                    Orientation="Horizontal">
+                            <Ellipse Name="EP2" Width="25" Height="25"
+                                     Margin="5,0,8,0"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Stretch"
+                                     Stroke="Black" StrokeThickness="2">
+                                <Ellipse.Fill>
+                                    <SolidColorBrush Color="#C8C8C8" />
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <TextBlock Text="2号" VerticalAlignment="Center" FontSize="20" />
+                        </StackPanel>
+
+
+                    </Grid>
                 </Grid>
             </Border>
 
             <Grid x:Name="Gd3" Grid.Row="1"
-                  Width="300" Height="0" Panel.ZIndex="-1"
+                  Width="300" Height="200"
+                  Panel.ZIndex="-1"
                   RenderTransformOrigin="0.5,0.5">
                 <Grid.RenderTransform>
                     <TransformGroup>
@@ -229,32 +264,55 @@
 
 
                 <Border x:Name="border" Grid.Row="0" Grid.Column="0"
-                        Grid.ColumnSpan="2" Background="#e2e2e2">
+                        Grid.ColumnSpan="2" Background="#E3E3E3">
 
                     <TextBlock Text="需要放置加工区域"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center" FontSize="20" />
                 </Border>
 
-                <Button Grid.Row="1" Grid.Column="0"
-                        Content="1号工位" Padding="0" FontSize="20"
-                        BorderThickness="0" Background="#a0a0a0">
-                    <Button.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="0 0 0 20" />
-                        </Style>
-                    </Button.Resources>
-                </Button>
-                <Button Grid.Row="1" Grid.Column="1"
-                        Content="2号工位" Padding="0"
-                        BorderThickness="0" FontSize="20"
-                        Background="Green">
-                    <Button.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="0 0 20 0" />
-                        </Style>
-                    </Button.Resources>
-                </Button>
+
+                <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+
+
+                    <Grid Style="{DynamicResource Gd_Effect}" Grid.Column="0">
+
+
+                        <CheckBox Style="{DynamicResource CheckBoxStyle1}"
+                                  Name="CB1" Content="1号工位"
+                                  Padding="0,0,0,0" FontSize="20"
+                                  BorderThickness="0" Background="#C8C8C8">
+                            <CheckBox.Resources>
+                                <Style TargetType="{x:Type Border}">
+                                    <Setter Property="CornerRadius" Value="0 0 0 20" />
+                                </Style>
+                            </CheckBox.Resources>
+                        </CheckBox>
+                    </Grid>
+
+
+
+
+                    <Grid Style="{DynamicResource Gd_Effect}" Grid.Column="1">
+
+                        <CheckBox Style="{DynamicResource CheckBoxStyle1}"
+                                  Name="CB2" Content="2号工位" Padding="0"
+                                  BorderThickness="0" FontSize="20"
+                                  Background="#C8C8C8">
+                            <CheckBox.Resources>
+                                <Style TargetType="{x:Type Border}">
+                                    <Setter Property="CornerRadius" Value="0 0 20 0" />
+                                </Style>
+                            </CheckBox.Resources>
+                        </CheckBox>
+                    </Grid>
+                </Grid>
 
 
 
@@ -273,8 +331,20 @@
 
 
 
+            <DataTrigger Binding="{Binding ElementName=CB2, Path=IsChecked}" Value="True">
+                <Setter TargetName="EP2" Property="Fill" Value="#22AB38" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ElementName=CB1, Path=IsChecked}" Value="True">
+                <Setter TargetName="EP1" Property="Fill" Value="#22AB38" />
+            </DataTrigger>
+
 
             <MultiTrigger>
+
+
+
+
+
 
 
                 <MultiTrigger.Conditions>
@@ -291,7 +361,7 @@
                         <Storyboard Timeline.DesiredFrameRate="60">
                             <DoubleAnimation SpeedRatio="2"
                                              Storyboard.TargetProperty="Height"
-                                             Storyboard.TargetName="Gd3" To="120"
+                                             Storyboard.TargetName="Gd3" To="130"
                                              Duration="0:0:0:1">
                                 <DoubleAnimation.EasingFunction>
                                     <QuarticEase EasingMode="EaseOut" />
