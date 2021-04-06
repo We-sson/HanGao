@@ -183,9 +183,9 @@ namespace 悍高软件.Model
 
         public enum Robot_status_enum
         {
-            空闲中...,
-            待机中...,
-            焊接中...,
+            空闲中,
+            待机中,
+            焊接中,
         }
 
 
