@@ -40,7 +40,7 @@ namespace 悍高软件.ViewModelLocator
             SimpleIoc.Default.Register<MainWindow>();
             SimpleIoc.Default.Register<User>();
             SimpleIoc.Default.Register<FrameShow>();
-
+            SimpleIoc.Default.Register<User_Control_Working_VM>();
             SimpleIoc.Default.Register<List_Show>();
 
             
@@ -50,6 +50,7 @@ namespace 悍高软件.ViewModelLocator
         public User User => CommonServiceLocator.ServiceLocator.Current.GetInstance<User>();
         public FrameShow FrameShow => CommonServiceLocator.ServiceLocator.Current.GetInstance<FrameShow>();
         public List_Show List_Show => CommonServiceLocator.ServiceLocator.Current.GetInstance<List_Show>();
+        public User_Control_Working_VM User_Control_Working_VM => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Control_Working_VM>();
 
         public static void Cleanup()
         {

@@ -52,13 +52,8 @@ namespace 悍高软件.Model
             set
             {
                 //将字符串转Unicode码在前段显示
-                
 
                 _Photo_ico = HttpUtility.HtmlDecode(value);
-                
-
-
-
 
             }
 

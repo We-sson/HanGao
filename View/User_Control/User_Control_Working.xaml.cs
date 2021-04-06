@@ -12,32 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using 悍高软件.View.UserMessage;
 
-namespace 悍高软件.View.FrameShow
+namespace 悍高软件.View.User_Control
 {
     /// <summary>
-    /// 控制台.xaml 的交互逻辑
+    /// User_Control_Working.xaml 的交互逻辑
     /// </summary>
-     public  partial class HomeOne : UserControl
+    public partial class User_Control_Working : UserControl
     {
-        public HomeOne()
+        public User_Control_Working()
         {
             InitializeComponent();
-
-
-            
-        }
-
-        private void CheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-
-
-            User_Message user = new User_Message();
-            user.ShowDialog();
-   
-
-
         }
     }
 }

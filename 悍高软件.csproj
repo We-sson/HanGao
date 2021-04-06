@@ -100,10 +100,12 @@
     </ApplicationDefinition>
     <Compile Include="Model\Frame_Uri_Models.cs" />
     <Compile Include="Model\Sink_Models.cs" />
+    <Compile Include="Model\Wroking_Models.cs" />
     <Compile Include="ViewModel\FrameShow.cs" />
     <Compile Include="ViewModel\List_Show.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\User.cs" />
+    <Compile Include="ViewModel\User_Control_Working_VM.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="ViewModel\Page_event.cs" />
     <Compile Include="View\Style\Word_list.xaml.cs">
@@ -124,6 +126,15 @@
     <Compile Include="View\FrameShow\ProgramEdit.xaml.cs">
       <DependentUpon>ProgramEdit.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\UserMessage\User_Message.xaml.cs">
+      <DependentUpon>User_Message.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\User_Control\User_Control_Working.xaml.cs">
+      <DependentUpon>User_Control_Working.xaml</DependentUpon>
+    </Compile>
+    <Page Include="View\Style\Button_message.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Style\CheckBox_List_Style.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -208,6 +219,12 @@
     </Page>
     <Page Include="View\FrameShow\ProgramEdit.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserMessage\User_Message.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\User_Control\User_Control_Working.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Ver_ScrollBar.xaml">

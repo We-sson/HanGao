@@ -3,6 +3,7 @@ using Prism.Commands;
 using PropertyChanged;
 using System;
 using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Input;
 using 悍高软件.Model;
 
@@ -38,16 +39,19 @@ namespace 悍高软件.ViewModel
             set { _SinkModels = value; }
         }
 
-
-        //文本输入事件触发属性
+        /// <summary>
+        /// 文本输入事件触发属性
+        /// </summary>
         public ICommand Find_List_event
         {
             get => new DelegateCommand<String>(Find_List);
         }
 
 
-
-        //筛选显示List内容方法
+        /// <summary>
+        /// 筛选显示List内容方法
+        /// </summary>
+        /// <param name="ob"></param>
         private void Find_List(String ob)
         {
             for (int i = 0; i < SinkModels.Count; i++)
@@ -70,8 +74,6 @@ namespace 悍高软件.ViewModel
 
         }
         
-           
-
 
         public   enum List_ico
         {
@@ -79,6 +81,27 @@ namespace 悍高软件.ViewModel
             左右盆图标,
             单盆图标
         }
+
+
+
+
+        public ICommand Set_Working_Comm
+        {
+            get => new DelegateCommand<RoutedEventArgs>(Set_Working_NO1);
+        }
+
+
+        private void Set_Working_NO1(RoutedEventArgs Sm)
+        {
+            
+            FrameworkElement e = Sm.Source as FrameworkElement;
+            
+            Sink_Models S = (Sink_Models)e.DataContext;
+            MessageBox.Show(S.Model_Number.ToString()+e.Uid.ToString());
+            
+        }
+
+
 
     }
 }
