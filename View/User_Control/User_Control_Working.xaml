@@ -4,8 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:悍高软件.View.User_Control"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:cmd="http://www.galasoft.ch/mvvmlight"
              d:DesignHeight="435" d:DesignWidth="675"
-             DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_VM}"
+             DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_VM_2}"
              mc:Ignorable="d">
     <Grid Style="{DynamicResource Gd_Effect}" Grid.Row="0" Grid.Column="0"
           Margin="15" ShowGridLines="False">
@@ -15,14 +17,33 @@
         </Grid.RowDefinitions>
 
 
-        <Border Grid.RowSpan="2" Background="#22AB38" CornerRadius="35">
+        <Border x:Name="Bd1"
+                Grid.RowSpan="2" CornerRadius="35"
+                Background="{Binding WM.Work_back, Mode=TwoWay}">
+
+
+
+
+            <!--<Border.Style>
+                <Style TargetType="Border">
+
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsChecked, ElementName=Work_Run_Check}" Value="True">
+                            <Setter Property="Background" Value="#22AB38" />
+                        </DataTrigger>
+
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>-->
+
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Horizontal">
-                <TextBlock Text="{Binding WM.Number_Work}"
+                <TextBlock x:Name="TB2"
+                           Text="{Binding WM.Number_Work}"
                            Margin="0,10,30,0"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            FontFamily="DengXian" FontSize="50" />
-                <TextBlock Grid.Column="1"
+                <TextBlock x:Name="TB1" Grid.Column="1"
                            Grid.ColumnSpan="2"
                            Text="{Binding WM.Work_Type}"
                            Margin="0,10,0,0"
@@ -70,32 +91,78 @@
                 <UniformGrid Grid.Row="2"
                              Margin="0,10,0,0" Columns="5" Rows="1">
 
-                    <CheckBox Style="{DynamicResource Button_List_Style}"
+                    <CheckBox Style="{DynamicResource Button_List_Style}" x:Name="Work_Run_Check"
                               Content="启动"
-                              IsChecked="{Binding WM.Work_Run}"
+                              IsChecked="{Binding WM.Work_Run, Mode=TwoWay}"
                               Margin="3" HorizontalAlignment="Center"
-                              VerticalAlignment="Center" />
+                              VerticalAlignment="Center"
+                              IsEnabled="{Binding WM.Work_IsEnabled}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <!--<cmd:EventToCommand Command="{Binding Path=DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />-->
+                                <i:InvokeCommandAction Command="{Binding Path=DataContext.Work_Run_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:User_Control_Working}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+
+
+
+                    </CheckBox>
 
                     <CheckBox Style="{DynamicResource Button_List_Style}"
                               Content="计数"
-                              IsChecked="{Binding WM.Work_Connt}"
+                              IsChecked="{Binding WM.Work_Connt, Mode=TwoWay}"
                               Margin="3" HorizontalAlignment="Center"
-                              VerticalAlignment="Center" />
+                              VerticalAlignment="Center"
+                              IsEnabled="{Binding WM.Work_IsEnabled}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <!--<cmd:EventToCommand Command="{Binding Path=DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />-->
+                                <i:InvokeCommandAction Command="{Binding Path=DataContext.Work_Connt_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:User_Control_Working}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </CheckBox>
+
+
+
                     <CheckBox Style="{DynamicResource Button_List_Style}"
                               Content="空运"
-                              IsChecked="{Binding WM.Work_NullRun}"
+                              IsChecked="{Binding WM.Work_NullRun, Mode=TwoWay}"
                               Margin="3" HorizontalAlignment="Center"
-                              VerticalAlignment="Center" />
+                              VerticalAlignment="Center"
+                              IsEnabled="{Binding WM.Work_IsEnabled}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <!--<cmd:EventToCommand Command="{Binding Path=DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />-->
+                                <i:InvokeCommandAction Command="{Binding Path=DataContext.Work_NullRun_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:User_Control_Working}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </CheckBox>
                     <CheckBox Style="{DynamicResource Button_List_Style}"
                               Content="暂停"
-                              IsChecked="{Binding WM.Work_Pause}"
+                              IsChecked="{Binding WM.Work_Pause, Mode=TwoWay}"
                               Margin="3" HorizontalAlignment="Center"
-                              VerticalAlignment="Center" />
+                              VerticalAlignment="Center"
+                              IsEnabled="{Binding WM.Work_IsEnabled}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <!--<cmd:EventToCommand Command="{Binding Path=DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />-->
+                                <i:InvokeCommandAction Command="{Binding Path=DataContext.Work_Pause_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:User_Control_Working}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </CheckBox>
                     <CheckBox Style="{DynamicResource Button_List_Style}"
                               Content="跳过"
-                              IsChecked="{Binding WM.Work_JumpOver}"
+                              IsChecked="{Binding WM.Work_JumpOver, Mode=TwoWay}"
                               Margin="3" HorizontalAlignment="Center"
-                              VerticalAlignment="Center" />
+                              VerticalAlignment="Center"
+                              IsEnabled="{Binding WM.Work_IsEnabled}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <!--<cmd:EventToCommand Command="{Binding Path=DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />-->
+                                <i:InvokeCommandAction Command="{Binding Path=DataContext.Work_JumpOver_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:User_Control_Working}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </CheckBox>
 
 
 
@@ -156,7 +223,7 @@
                                            HorizontalAlignment="Left"
                                            FontSize=" 25" Foreground="Gray" />
 
-                                <TextBlock Text="待机中... "
+                                <TextBlock Text="{Binding WM.Robot_status}"
                                            HorizontalAlignment="Left"
                                            FontSize=" 25" Foreground="Gray" />
                             </StackPanel>
@@ -180,5 +247,7 @@
 
 
     </Grid>
+
+
 
 </UserControl>

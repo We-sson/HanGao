@@ -25,9 +25,6 @@ namespace 悍高软件.View.UserMessage
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-           
-        }
+  
     }
 }

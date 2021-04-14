@@ -40,17 +40,22 @@ namespace 悍高软件.ViewModelLocator
             SimpleIoc.Default.Register<MainWindow>();
             SimpleIoc.Default.Register<User>();
             SimpleIoc.Default.Register<FrameShow>();
-            SimpleIoc.Default.Register<User_Control_Working_VM>();
+            SimpleIoc.Default.Register<User_Control_Working_VM_1>();
+            SimpleIoc.Default.Register<User_Control_Working_VM_2>();
             SimpleIoc.Default.Register<List_Show>();
+            SimpleIoc.Default.Register<User_Message_ViewModel>();
 
             
+
         }
 
         public MainWindow  Main => CommonServiceLocator.ServiceLocator.Current.GetInstance<MainWindow>();
         public User User => CommonServiceLocator.ServiceLocator.Current.GetInstance<User>();
         public FrameShow FrameShow => CommonServiceLocator.ServiceLocator.Current.GetInstance<FrameShow>();
         public List_Show List_Show => CommonServiceLocator.ServiceLocator.Current.GetInstance<List_Show>();
-        public User_Control_Working_VM User_Control_Working_VM => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Control_Working_VM>();
+        public User_Control_Working_VM_1 User_Control_Working_VM_1 => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Control_Working_VM_1>();
+        public User_Control_Working_VM_2 User_Control_Working_VM_2 => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Control_Working_VM_2>();
+        public User_Message_ViewModel User_Message_ViewModel => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Message_ViewModel>();
 
         public static void Cleanup()
         {

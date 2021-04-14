@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:悍高软件.View.FrameShow"
              xmlns:n="clr-namespace:Nicenis.Windows;assembly=Nicenis"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:UC_Working="clr-namespace:悍高软件.View.User_Control"
              d:DesignHeight="992"
@@ -124,7 +124,16 @@
 
 
             <!--  工位2区域  -->
-            <UC_Working:User_Control_Working Grid.Row="0" Grid.Column="0" />
+            <UC_Working:User_Control_Working Grid.Row="0" Grid.Column="0"
+                                             Uid="2"
+                                             DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_VM_2}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Loaded">
+                        <!--<cmd:EventToCommand Command="{Binding Path=DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />-->
+                        <i:InvokeCommandAction Command="{Binding Path=DataContext.User_Loaded_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UC_Working:User_Control_Working}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </UC_Working:User_Control_Working>
 
 
 
@@ -239,7 +248,10 @@
             </Grid>
 
             <!--  工位1区域  -->
-            <UC_Working:User_Control_Working Grid.Row="1" Grid.Column="1" />
+            <UC_Working:User_Control_Working Grid.Row="1" Grid.Column="1"
+                                             Uid="1"
+                                             DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_VM_1}"/>
+
 
 
         </Grid>

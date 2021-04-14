@@ -286,10 +286,11 @@
 
                         <CheckBox Style="{DynamicResource CheckBoxStyle1}"
                                   Name="CB1" Uid="1" Content="1号工位"
+                                  IsChecked="{Binding List_IsChecked_1}"
                                   Padding="0,0,0,0" FontSize="20"
                                   BorderThickness="0" Background="#C8C8C8">
                             <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Checked">
+                                <i:EventTrigger EventName="Click">
                                     <cmd:EventToCommand Command="{Binding Path=DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
 
                                 </i:EventTrigger>
@@ -310,10 +311,11 @@
 
                         <CheckBox Style="{DynamicResource CheckBoxStyle1}"
                                   Name="CB2" Uid="2" Content="2号工位"
+                                  IsChecked="{Binding List_IsChecked_2}"
                                   Padding="0" BorderThickness="0"
                                   FontSize="20" Background="#C8C8C8">
                             <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Checked">
+                                <i:EventTrigger EventName="Click">
                                     <cmd:EventToCommand Command="{Binding Path=DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
                                     <!--<i:InvokeCommandAction Command="{Binding Path=DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Command}" />-->
                                 </i:EventTrigger>
