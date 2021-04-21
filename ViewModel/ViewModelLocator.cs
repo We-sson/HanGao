@@ -44,13 +44,17 @@ namespace 悍高软件.ViewModelLocator
             SimpleIoc.Default.Register<User_Control_Working_VM_2>();
             SimpleIoc.Default.Register<List_Show>();
             SimpleIoc.Default.Register<User_Message_ViewModel>();
+            SimpleIoc.Default.Register<User_Control_Log_ViewModel>();
 
             
 
+
+
         }
 
-        public MainWindow  Main => CommonServiceLocator.ServiceLocator.Current.GetInstance<MainWindow>();
+        public MainWindow  MainWindow => CommonServiceLocator.ServiceLocator.Current.GetInstance<MainWindow>();
         public User User => CommonServiceLocator.ServiceLocator.Current.GetInstance<User>();
+        public User_Control_Log_ViewModel User_Log => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Control_Log_ViewModel>();
         public FrameShow FrameShow => CommonServiceLocator.ServiceLocator.Current.GetInstance<FrameShow>();
         public List_Show List_Show => CommonServiceLocator.ServiceLocator.Current.GetInstance<List_Show>();
         public User_Control_Working_VM_1 User_Control_Working_VM_1 => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Control_Working_VM_1>();

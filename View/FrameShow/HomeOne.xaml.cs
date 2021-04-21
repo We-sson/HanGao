@@ -29,15 +29,6 @@ namespace 悍高软件.View.FrameShow
             
         }
 
-        private void CheckBox_Checked(object sender, RoutedEventArgs e)
-        {
 
-
-            User_Message user = new User_Message();
-            user.ShowDialog();
-   
-
-
-        }
     }
 }

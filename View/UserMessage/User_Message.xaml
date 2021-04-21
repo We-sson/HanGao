@@ -1,18 +1,15 @@
-﻿<Window x:Name="W1"
-        x:Class="悍高软件.View.UserMessage.User_Message"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:local="clr-namespace:悍高软件.View.UserMessage"
-        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-        d:DesignHeight="380" d:DesignWidth="450"
-        WindowStartupLocation="CenterScreen"
-        AllowsTransparency="True"
-        WindowStyle="None"
-        DataContext="{Binding Source={StaticResource Locator}, Path=User_Message_ViewModel}"
-        Background="{x:Null}"
-        mc:Ignorable="d">
+﻿<UserControl x:Name="W1"
+             x:Class="悍高软件.View.UserMessage.User_Message"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:悍高软件.View.UserMessage"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             d:DesignHeight="380" d:DesignWidth="450"
+             DataContext="{Binding Source={StaticResource Locator}, Path=User_Message_ViewModel}"
+             Background="{x:Null}"
+             mc:Ignorable="d">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <!--<cmd:EventToCommand Command="{Binding Path=DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />-->
@@ -20,139 +17,145 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <Grid Style="{DynamicResource Gd_Effect}" x:Name="grid"
-          MaxWidth="450" MaxHeight="380">
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
+
+    <Grid>
+        <Border Background="Gray" Opacity=" 0.5" />
 
 
-        <Border Grid.RowSpan="3" Background="#f6f6f6" CornerRadius="20" />
+        <Grid Style="{DynamicResource Gd_Effect}" x:Name="grid"
+              MaxWidth="450" MaxHeight="380">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Margin="0,-50,0,0">
 
-            <TextBlock x:Name="textBlock"
-                       Text="&#xea76;"
-                       Margin="0,10,0,0"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Stretch"
-                       Panel.ZIndex="10" Foreground="White"
-                       FontFamily="/Resources/#iconfont"
-                       FontSize="70" />
+            <Border Grid.RowSpan="3" Background="#f6f6f6" CornerRadius="20" />
 
-            <Ellipse Width="100" Height="100"
-                     VerticalAlignment="Top" Fill="#f05454"
-                     StrokeThickness="5" Stroke="#f6f6f6f6" />
+            <Grid Grid.Row="0" Margin="0,-50,0,0">
 
-        </Grid>
-        <Grid Grid.Row="0">
-            <TextBlock x:Name="Tb2"
-                       Text="Are You Sour?" Margin="0,0,0,0"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Bottom"
-                       Foreground="#f05454" FontSize="40" />
-        </Grid>
+                <TextBlock x:Name="textBlock"
+                           Text="&#xea76;"
+                           Margin="0,10,0,0"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Stretch"
+                           Panel.ZIndex="10" Foreground="White"
+                           FontFamily="/Resources/#iconfont"
+                           FontSize="70" />
 
-        <Grid Grid.Row="1">
+                <Ellipse Width="100" Height="100"
+                         VerticalAlignment="Top" Fill="#f05454"
+                         StrokeThickness="5" Stroke="#f6f6f6f6" />
 
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
-                <TextBlock Text="已经存在加工型号："
-                           VerticalAlignment="Center"
-                           Foreground="Gray" FontSize="30" />
-                <TextBlock x:Name="TB"
-                           Text="{Binding User_Wrok_Trye, Mode=TwoWay}"
+            </Grid>
+            <Grid Grid.Row="0">
+                <TextBlock x:Name="Tb2"
+                           Text="Are You Sour?" Margin="0,0,0,0"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom"
                            Foreground="#f05454" FontSize="40" />
-            </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="1">
+
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                    <TextBlock Text="已经存在加工型号："
+                               VerticalAlignment="Center"
+                               Foreground="Gray" FontSize="30" />
+                    <TextBlock x:Name="TB"
+                               Text="{Binding User_Wrok_Trye, Mode=TwoWay}"
+                               Foreground="#f05454" FontSize="40" />
+                </StackPanel>
+
+
+            </Grid>
+
+            <Grid Grid.Row="2">
+                <TextBlock Text="是否确定替换该型号"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Top" FontSize="35"
+                           Foreground="Black" />
+
+                <Button Style="{DynamicResource Button_message}" x:Name="BT1"
+                        Uid="Yes" Width="225" Height="60"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        Background="#47aa57" FontSize="25">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding Path=DataContext.Yes_No_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+
+
+
+                    <TextBlock Text="YES" Background="{x:Null}">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Foreground" Value="White" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=BT1, Path=IsPressed}" Value="True">
+                                        <Setter Property="Foreground" Value="Black" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="0 0 0 18" />
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
+
+
+
+
+
+                <Button Style="{DynamicResource Button_message}" x:Name="BT2"
+                        Uid="No" Width="225" Height="60"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Foreground="White" Background="#f05454"
+                        FontSize="25">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding Path=DataContext.Yes_No_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+
+
+
+                    <TextBlock Text="NO" Background="{x:Null}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="White" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=BT2, Path=IsPressed}" Value="True">
+                                        <Setter Property="Foreground" Value="Black" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="0 0 18 0" />
+                        </Style>
+                    </Button.Resources>
+
+                </Button>
+
+
+            </Grid>
+
+
+
 
 
         </Grid>
-
-        <Grid Grid.Row="2">
-            <TextBlock Text="是否确定替换该型号"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Top" FontSize="35"
-                       Foreground="Black" />
-
-            <Button Style="{DynamicResource Button_message}" x:Name="BT1"
-                    Uid="Yes" Width="225" Height="60"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Bottom"
-                    Background="#47aa57" FontSize="25">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <i:InvokeCommandAction Command="{Binding Path=DataContext.Yes_No_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-
-
-
-                <TextBlock Text="YES" Background="{x:Null}">
-                    <TextBlock.Style>
-                        <Style TargetType="{x:Type TextBlock}">
-                            <Setter Property="Foreground" Value="White" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=BT1, Path=IsPressed}" Value="True">
-                                    <Setter Property="Foreground" Value="Black" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
-                <Button.Resources>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="CornerRadius" Value="0 0 0 18" />
-                    </Style>
-                </Button.Resources>
-            </Button>
-
-
-
-
-
-
-            <Button Style="{DynamicResource Button_message}" x:Name="BT2"
-                    Uid="No" Width="225" Height="60"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Bottom"
-                    Foreground="White" Background="#f05454"
-                    FontSize="25">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <i:InvokeCommandAction Command="{Binding Path=DataContext.Yes_No_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-
-
-
-                <TextBlock Text="NO" Background="{x:Null}">
-                    <TextBlock.Style>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="Foreground" Value="White" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=BT2, Path=IsPressed}" Value="True">
-                                    <Setter Property="Foreground" Value="Black" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
-                <Button.Resources>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="CornerRadius" Value="0 0 18 0" />
-                    </Style>
-                </Button.Resources>
-
-            </Button>
-
-
-        </Grid>
-
-
-
-
-
     </Grid>
 
-</Window>
+</UserControl>

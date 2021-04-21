@@ -13,18 +13,18 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace 悍高软件.View.UserMessage
+namespace 悍高软件.View.User_Control
 {
     /// <summary>
-    /// User_Message.xaml 的交互逻辑
+    /// User_Control_Log.xaml 的交互逻辑
     /// </summary>
-    public partial class User_Message : UserControl
+    public partial class User_Control_Log : UserControl
     {
-        public User_Message()
+        public User_Control_Log()
         {
             InitializeComponent();
         }
 
-  
+
     }
 }

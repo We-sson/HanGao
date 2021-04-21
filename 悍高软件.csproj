@@ -130,11 +130,14 @@
     <Compile Include="Model\Frame_Uri_Models.cs" />
     <Compile Include="Model\Sink_Models.cs" />
     <Compile Include="Model\User_Features.cs" />
+    <Compile Include="Model\User_Log_Models.cs" />
     <Compile Include="Model\Wroking_Models.cs" />
     <Compile Include="ViewModel\FrameShow.cs" />
     <Compile Include="ViewModel\List_Show.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\User.cs" />
+    <Compile Include="ViewModel\User_Control_Common.cs" />
+    <Compile Include="ViewModel\User_Control_Log_ViewModel.cs" />
     <Compile Include="ViewModel\User_Control_Working_VM_2.cs" />
     <Compile Include="ViewModel\User_Control_Working_VM_1.cs" />
     <Compile Include="ViewModel\User_Message_ViewModel.cs" />
@@ -160,6 +163,9 @@
     </Compile>
     <Compile Include="View\UserMessage\User_Message.xaml.cs">
       <DependentUpon>User_Message.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\User_Control\User_Control_Log.xaml.cs">
+      <DependentUpon>User_Control_Log.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\User_Control\User_Control_Working.xaml.cs">
       <DependentUpon>User_Control_Working.xaml</DependentUpon>
@@ -218,6 +224,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Style\Window_Button.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Style\Word_list.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -254,6 +263,9 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\UserMessage\User_Message.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\User_Control\User_Control_Log.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\User_Control\User_Control_Working.xaml">

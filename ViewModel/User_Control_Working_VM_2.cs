@@ -16,7 +16,7 @@ using static 悍高软件.Model.Wroking_Models;
 namespace 悍高软件.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class User_Control_Working_VM_2 : ViewModelBase
+    public class User_Control_Working_VM_2 : User_Control_Common
     {
 
         public static Wroking_Models WM { get; set; }
@@ -40,26 +40,7 @@ namespace 悍高软件.ViewModel
         }
 
 
-        /// <summary>
-        /// 把功能状态写入自己泛型中
-        /// </summary>
-        private void User_Check_Write_List()
-        {
-            foreach (Sink_Models it in List_Show.SinkModels)
-            {
-                if (it.Model_Number.ToString() == WM.Work_Type)
-                {
-                    it.Wroking_Models_ListBox.Work_Pause = WM.Work_Pause;
-                    it.Wroking_Models_ListBox.Work_Connt = WM.Work_Connt;
-                    it.Wroking_Models_ListBox.Work_NullRun = WM.Work_NullRun;
-                    it.Wroking_Models_ListBox.Work_JumpOver = WM.Work_JumpOver;
 
-                    return;
-                }
-
-                
-            }
-        }
 
 
         public ICommand Work_Run_Comm
@@ -77,21 +58,13 @@ namespace 悍高软件.ViewModel
 
 
             //写入列表中泛型
-            User_Check_Write_List();
+           User_Check_Write_List(2);
+            //功能开关信息日记输出显示
+            User_Features_OnOff_Log(e.IsChecked, 2, e.Content.ToString());
 
 
 
 
-            if (e.IsChecked == true)
-            {
-                MessageBox.Show("true");
-
-            }
-            else
-            {
-                MessageBox.Show("False");
-
-            }
 
 
 
@@ -114,19 +87,10 @@ namespace 悍高软件.ViewModel
             UserControl e = Sm.Source as UserControl;
             User_Control_Working_VM_2 S = (User_Control_Working_VM_2)e.DataContext;
             //写入列表中泛型
-            User_Check_Write_List();
+            User_Check_Write_List(2);
 
-            //MessageBox.Show(e.Name);
 
-            //if (e.Uid=="1")
-            //{
-            //    WM.Number_Work = "1";
-            //}
-            //else if (e.Uid=="2")
-            //{
-            //    WM.Number_Work = "2";
 
-            //}
 
         }
 
@@ -143,8 +107,9 @@ namespace 悍高软件.ViewModel
             CheckBox e = Sm.Source as CheckBox;
             User_Control_Working_VM_2 S = (User_Control_Working_VM_2)e.DataContext;
             //写入列表中泛型
-            User_Check_Write_List();
-            //MessageBox.Show(e.Content.ToString());
+            User_Check_Write_List(2);
+            //功能开关信息日记输出显示
+            User_Features_OnOff_Log(e.IsChecked, 2, e.Content.ToString());
 
         }
 
@@ -164,8 +129,10 @@ namespace 悍高软件.ViewModel
             CheckBox e = Sm.Source as CheckBox;
             User_Control_Working_VM_2 S = (User_Control_Working_VM_2)e.DataContext;
             //写入列表中泛型
-            User_Check_Write_List();
-            MessageBox.Show(e.Content.ToString());
+            User_Check_Write_List(2);
+            //功能开关信息日记输出显示
+            User_Features_OnOff_Log(e.IsChecked, 2, e.Content.ToString());
+
 
         }
 
@@ -187,8 +154,10 @@ namespace 悍高软件.ViewModel
             CheckBox e = Sm.Source as CheckBox;
             User_Control_Working_VM_2 S = (User_Control_Working_VM_2)e.DataContext;
             //写入列表中泛型
-            User_Check_Write_List();
-            MessageBox.Show(e.Content.ToString());
+            User_Check_Write_List(2);
+            //功能开关信息日记输出显示
+            User_Features_OnOff_Log(e.IsChecked, 2, e.Content.ToString());
+
 
         }
 
@@ -211,8 +180,10 @@ namespace 悍高软件.ViewModel
             CheckBox e = Sm.Source as CheckBox;
             User_Control_Working_VM_2 S = (User_Control_Working_VM_2)e.DataContext;
             //写入列表中泛型
-            User_Check_Write_List();
-            MessageBox.Show(e.Content.ToString());
+           User_Check_Write_List(2);
+            //功能开关信息日记输出显示
+            User_Features_OnOff_Log(e.IsChecked, 2, e.Content.ToString());
+
         }
     }
 

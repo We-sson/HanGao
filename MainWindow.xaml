@@ -1,4 +1,4 @@
-﻿<Window x:Name="window"
+﻿<Window x:Name="WD1"
         x:Class="悍高软件.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,12 +6,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:悍高软件"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:Custom="http://www.galasoft.ch/mvvmlight"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:usermessage="clr-namespace:悍高软件.View.UserMessage"
         Title="MainWindow" Width="1920"
-        Height="1080" mc:Ignorable="d">
-    <Window.Resources />
-    <Window.Triggers />
+        Height="1080" Padding="0"
+        Background="Gray"
+        AllowsTransparency="True"
+        WindowStyle="None" mc:Ignorable="d">
+
+
+    <!--  拖动标题栏顶部范围  -->
+    <WindowChrome.WindowChrome>
+        <WindowChrome UseAeroCaptionButtons="True"
+                      CaptionHeight="15"
+                      GlassFrameThickness="0"
+                      CornerRadius="45" />
+    </WindowChrome.WindowChrome>
+
+
 
 
 
@@ -24,18 +36,32 @@
 
 
     <Grid x:Name="grid" Background="#E3E3E3">
+
+
+
+
         <Grid.RowDefinitions>
-            <RowDefinition Height="60" />
+            <RowDefinition Height="70" />
             <RowDefinition Height="5" />
             <RowDefinition />
         </Grid.RowDefinitions>
 
+
+
+
         <!--  主页标题栏  -->
-        <Grid Grid.Row="0" ShowGridLines="True" DataContext="{Binding Source={StaticResource Locator}, Path=FrameShow}">
+        <Grid Grid.Row="0"
+              Margin="0,15,0,0" ShowGridLines="False"
+              DataContext="{Binding Source={StaticResource Locator}, Path=FrameShow}">
+
+
+
+
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.3*" />
                 <ColumnDefinition />
-                <ColumnDefinition Width=" 0.2*" />
+                <ColumnDefinition Width=" 0.15*" />
             </Grid.ColumnDefinitions>
 
             <!--  首页_左上角_公司图标  -->
@@ -173,8 +199,48 @@
 
 
             <Grid Grid.Row="1" ShowGridLines="True" />
+            <StackPanel Grid.Column="2"
+                        Margin="0,-18,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+
+
+                <Button Style="{DynamicResource ButtonStyle1}"
+                        x:Uid="1" Width="35" Height="35"
+                        Margin="12,0,12,0" Background="#2AD043"
+                        BorderThickness="2" BorderBrush="Gray">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding Path=DataContext.Min_Window, RelativeSource={RelativeSource AncestorType={x:Type Grid}, Mode=FindAncestor}}" CommandParameter="{Binding ElementName=WD1}" PassEventArgsToCommand="True" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+                <Button Style="{DynamicResource ButtonStyle1}"
+                        x:Uid="2" Width="35" Height="35"
+                        Margin="12,0,12,0" Background="#FFBC2F"
+                        BorderThickness="2" BorderBrush="Gray">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding Path=DataContext.Max_Window, RelativeSource={RelativeSource AncestorType={x:Type Grid}, Mode=FindAncestor}}" CommandParameter="{Binding ElementName=WD1}" PassEventArgsToCommand="True" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+                <Button Style="{DynamicResource ButtonStyle1}"
+                        x:Uid="3" Width="35" Height="35"
+                        Margin="12,0,12,0" Background="#FF5E57"
+                        BorderThickness="2" BorderBrush="Gray">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding Path=DataContext.Close_Window, RelativeSource={RelativeSource AncestorType={x:Type Grid}, Mode=FindAncestor}}" CommandParameter="{Binding ElementName=WD1}" PassEventArgsToCommand="True" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+
+            </StackPanel>
 
         </Grid>
+
 
 
         <!--  分割装饰栏  -->
@@ -202,5 +268,11 @@
         <ContentControl Grid.Row="2" Content="{Binding User_Show}" DataContext="{Binding Source={StaticResource Locator}, Path=FrameShow}" />
 
 
+        <usermessage:User_Message Grid.Row="0" Grid.RowSpan="3" Visibility="Visible" />
     </Grid>
+
+
+
+
+
 </Window>

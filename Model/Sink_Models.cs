@@ -1,6 +1,7 @@
 ﻿using Nancy.Helpers;
 using PropertyChanged;
 using System.Windows;
+using 悍高软件.ViewModel;
 
 namespace 悍高软件.Model
 {
@@ -13,7 +14,14 @@ namespace 悍高软件.Model
 
 
 
+
+
         }
+
+
+
+
+
 
 
 
@@ -35,27 +43,7 @@ namespace 悍高软件.Model
             { _LIst_Show = value; }
         }
 
-        private bool _List_IsChecked_1 = false;
-        /// <summary>
-        /// 选定加工区域按钮
-        /// </summary>
-        public bool List_IsChecked_1
-        {
-            get { return _List_IsChecked_1; }
-            set { _List_IsChecked_1 = value; }
-        }
 
-
-
-        private bool _List_IsChecked_2 = false;
-        /// <summary>
-        /// 选定加工区域按钮
-        /// </summary>
-        public bool List_IsChecked_2
-        {
-            get { return _List_IsChecked_2; }
-            set { _List_IsChecked_2 = value; }
-        }
 
         private int _Model_Number;
         /// <summary>
@@ -63,7 +51,12 @@ namespace 悍高软件.Model
         /// </summary>
         public int Model_Number
         {
-            get { return _Model_Number; }
+            get {
+               
+                return _Model_Number;
+                
+}
+           
             set { _Model_Number = value; }
         }
 
@@ -110,11 +103,11 @@ namespace 悍高软件.Model
 
 
 
-        private  Wroking_Models _Wroking_Models_ListBox = new Wroking_Models() {  };
+        private Wroking_Models _Wroking_Models_ListBox = new Wroking_Models() { };
         /// <summary>
         /// 列表中水槽的保存参数
         /// </summary>
-        public  Wroking_Models Wroking_Models_ListBox
+        public Wroking_Models Wroking_Models_ListBox
         {
             get
             {
@@ -127,22 +120,26 @@ namespace 悍高软件.Model
         }
 
 
-
-
-        private   User_Features _User_Features_Listbox = new User_Features() {  };
+        private bool _List_IsChecked_1 = false;
         /// <summary>
-        /// 列表中水槽的功能
+        /// 选定加工区域1按钮
         /// </summary>
-        public   User_Features User_Features_Listbox
+        public bool List_IsChecked_1
         {
-            get
-            {
-                return _User_Features_Listbox;
-            }
-            set
-            {
-                _User_Features_Listbox = value;
-            }
+            get { return _List_IsChecked_1; }
+            set { _List_IsChecked_1 = value; }
+        }
+
+
+
+        private bool _List_IsChecked_2 = false;
+        /// <summary>
+        /// 选定加工区域2按钮
+        /// </summary>
+        public bool List_IsChecked_2
+        {
+            get { return _List_IsChecked_2; }
+            set { _List_IsChecked_2 = value; }
         }
 
 
@@ -151,9 +148,42 @@ namespace 悍高软件.Model
 
 
 
+
+        private User_Features _User_Check_1 = new User_Features() { };
+        /// <summary>
+        /// 列表中区域1水槽的功能
+        /// </summary>
+        public User_Features User_Check_1
+        {
+            get
+            {
+                return _User_Check_1;
+            }
+            set
+            {
+                _User_Check_1 = value;
+            }
+        }
+
+
+        private User_Features _User_Check_2 = new User_Features() { };
+        /// <summary>
+        /// 列表中区域2水槽的功能
+        /// </summary>
+        public User_Features User_Check_2
+        {
+            get
+            {
+                return _User_Check_2;
+            }
+            set
+            {
+                _User_Check_2 = value;
+            }
+        }
+
+
     }
-
-
 
 
 }

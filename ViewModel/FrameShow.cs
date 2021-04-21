@@ -90,5 +90,53 @@ namespace 悍高软件.ViewModel
         }
 
 
+
+        public ICommand Min_Window
+        {
+            get => new DelegateCommand<Window>(Min_Window_Comm);
+        }
+        /// <summary>
+        /// 主窗口最小化
+        /// </summary>
+        private void Min_Window_Comm(Window  Sm)
+        {
+
+          
+            //窗口最小化
+            Sm.WindowState = WindowState.Minimized;
+
+        }
+
+        public ICommand Max_Window
+        {
+            get => new DelegateCommand<Window>(Max_Window_Comm);
+        }
+        /// <summary>
+        /// 主窗口最大化
+        /// </summary>
+        private void Max_Window_Comm(Window Sm)
+        {
+
+
+            //窗口最大化
+            Sm.WindowState = WindowState.Maximized;
+
+        }
+        public ICommand Close_Window
+        {
+            get => new DelegateCommand<Window>(Close_Window_Comm);
+        }
+        /// <summary>
+        /// 主窗口关闭
+        /// </summary>
+        private void Close_Window_Comm(Window Sm)
+        {
+
+            //窗口关闭
+            Sm.Close();
+            
+
+        }
+
     }
 }

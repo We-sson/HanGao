@@ -15,6 +15,9 @@ namespace 悍高软件.Model
     {
 
 
+
+
+
         private string _Number_Work = "";
         /// <summary>
         /// 显示加工区域号

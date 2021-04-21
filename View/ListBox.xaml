@@ -317,9 +317,9 @@
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
                                     <cmd:EventToCommand Command="{Binding Path=DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
-                                    <!--<i:InvokeCommandAction Command="{Binding Path=DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Command}" />-->
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
+
                             <CheckBox.Resources>
                                 <Style TargetType="{x:Type Border}">
                                     <Setter Property="CornerRadius" Value="0 0 20 0" />

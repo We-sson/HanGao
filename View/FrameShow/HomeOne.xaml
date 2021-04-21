@@ -21,7 +21,7 @@
 
 
 
-    <Grid ShowGridLines="True" Background="Transparent">
+    <Grid ShowGridLines="False" Background="Transparent">
 
         <Grid.ColumnDefinitions>
 
@@ -221,36 +221,15 @@
 
 
             <!--  设备状态显示区域  -->
-            <Grid Style="{DynamicResource Gd_Effect}" Grid.Row="1" Grid.Column="0"
-                  Margin="15">
+            <UC_Working:User_Control_Log Grid.Row="1" Grid.Column="0" />
 
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="0.2*" />
-                    <RowDefinition Height="0.01*" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Border Grid.RowSpan="3" Background="#E3E3E3" CornerRadius="35" />
 
-                <TextBlock Text="设 备 状 态" Margin="8"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Bottom" FontSize="40" />
-
-                <Border Grid.Row="1"
-                        Margin="35,0,35,0" Opacity="0.5"
-                        Background="#A0A0A0" CornerRadius="5" />
-
-
-                <TextBlock Grid.Row="2"
-                           Text=" 机器人启动中...." TextWrapping="Wrap"
-                           Margin="20" FontSize="35"
-                           FontStretch="Condensed" />
-            </Grid>
 
             <!--  工位1区域  -->
             <UC_Working:User_Control_Working Grid.Row="1" Grid.Column="1"
                                              Uid="1"
-                                             DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_VM_1}"/>
+                                             DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_VM_1}" />
 
 
 

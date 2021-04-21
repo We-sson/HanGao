@@ -1,0 +1,102 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using GalaSoft.MvvmLight;
+using Prism.Commands;
+using PropertyChanged;
+using System.Windows;
+using System.Collections.ObjectModel;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
+using 悍高软件.Model;
+using 悍高软件.View.User_Control;
+using Nancy.Helpers;
+
+namespace 悍高软件.ViewModel
+{
+    [AddINotifyPropertyChangedInterface]
+    public    class User_Control_Log_ViewModel:ViewModelBase
+    {
+        ///// <summary>
+        ///// 初始化输出信息
+        ///// </summary>
+        //public   User_Control_Log_ViewModel()
+        //{
+            
+        //    User_UI_Log.Add(new User_Log_Models() {  User_Log= "软件启动" });
+
+        //}
+
+        private static User_Log_Models _User_UI_Log =new User_Log_Models() ;
+        /// <summary>
+        /// 显示状态信息输出
+        /// </summary>
+        public static User_Log_Models User_UI_Log
+        {
+            get
+            {
+                return _User_UI_Log;
+            }
+            set
+            {
+                _User_UI_Log = value;
+            }
+        }
+        /// <summary>
+        /// 全局使用输出方法
+        /// </summary>
+        public static void User_Log_Add(string Log)
+        {
+
+
+            //显示前增加时间戳 
+            User_UI_Log.User_Log += DateTime.Now.ToShortTimeString().ToString() + "——" + Log + HttpUtility.HtmlDecode("&#x000A;"); ;
+            
+            
+
+       
+
+
+        }
+
+
+
+        /// <summary>
+        /// 记录添加日志前高度值
+        /// </summary>
+        private double ScrollViewer_Contrn { get; set; } = 0;
+
+
+        /// <summary>
+        /// 添加消息时触发事件
+        /// </summary>
+        public ICommand Update_Log_Comm
+        {
+            get => new DelegateCommand<ScrollViewer>(Update_Log);
+        }
+        /// <summary>
+        /// 添加消息时触发事件方法
+        /// </summary>
+        private void Update_Log(ScrollViewer Sm)
+        {
+ 
+            
+            //如果原来的高度就不翻页
+            if (Sm.ExtentHeight != ScrollViewer_Contrn)
+            {
+                ScrollViewer_Contrn = Sm.ExtentHeight;
+                Sm.PageDown();
+                return;
+               
+
+            }
+          
+        }
+
+
+
+    }
+}
