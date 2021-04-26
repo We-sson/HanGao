@@ -8,8 +8,10 @@
         xmlns:local="clr-namespace:悍高软件"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:usermessage="clr-namespace:悍高软件.View.UserMessage"
+        xmlns:viewmodel="clr-namespace:悍高软件.ViewModel"
         Title="MainWindow" Width="1920"
         Height="1080" Padding="0"
+        d:DataContext="{d:DesignInstance Type=viewmodel:User_Message_ViewModel}"
         Background="Gray"
         AllowsTransparency="True"
         WindowStyle="None" mc:Ignorable="d">
@@ -264,11 +266,16 @@
                NavigationUIVisibility="Hidden"
                Background="Transparent" Opacity="1"
                DataContext="{Binding Source={StaticResource Locator}, Path=FrameShow}" />-->
-
         <ContentControl Grid.Row="2" Content="{Binding User_Show}" DataContext="{Binding Source={StaticResource Locator}, Path=FrameShow}" />
 
+        <ContentControl Grid.Row="0"
+                        Grid.RowSpan="3"
+                        Content="{Binding User_Message_UserControl_Show}"
+                        Visibility="{Binding User_Visibility}"
+                        DataContext="{Binding Source={StaticResource Locator}, Path=User_Message_Control_Show}" />
 
-        <usermessage:User_Message Grid.Row="0" Grid.RowSpan="3" Visibility="Visible" />
+
+
     </Grid>
 
 

@@ -45,8 +45,11 @@ namespace 悍高软件.ViewModelLocator
             SimpleIoc.Default.Register<List_Show>();
             SimpleIoc.Default.Register<User_Message_ViewModel>();
             SimpleIoc.Default.Register<User_Control_Log_ViewModel>();
+            SimpleIoc.Default.Register<User_Message_ViewModel>();
+            SimpleIoc.Default.Register<User_Message_Control_Show>();
 
             
+
 
 
 
@@ -60,6 +63,7 @@ namespace 悍高软件.ViewModelLocator
         public User_Control_Working_VM_1 User_Control_Working_VM_1 => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Control_Working_VM_1>();
         public User_Control_Working_VM_2 User_Control_Working_VM_2 => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Control_Working_VM_2>();
         public User_Message_ViewModel User_Message_ViewModel => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Message_ViewModel>();
+        public User_Message_Control_Show User_Message_Control_Show => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Message_Control_Show>();
 
         public static void Cleanup()
         {

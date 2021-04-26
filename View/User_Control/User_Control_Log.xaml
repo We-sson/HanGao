@@ -29,7 +29,7 @@
                 Background="#A0A0A0" CornerRadius="5" />
 
         <ScrollViewer x:Name="SV1" Grid.Row="2"
-                      Margin="30 10 30 10"
+                      Margin="30,10,30,10"
                       ScrollViewer.VerticalScrollBarVisibility="Auto"
                       ScrollViewer.HorizontalScrollBarVisibility="Auto"
                       CanContentScroll="False"

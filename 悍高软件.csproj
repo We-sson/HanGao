@@ -131,6 +131,7 @@
     <Compile Include="Model\Sink_Models.cs" />
     <Compile Include="Model\User_Features.cs" />
     <Compile Include="Model\User_Log_Models.cs" />
+    <Compile Include="Model\User_Message_Models.cs" />
     <Compile Include="Model\Wroking_Models.cs" />
     <Compile Include="ViewModel\FrameShow.cs" />
     <Compile Include="ViewModel\List_Show.cs" />
@@ -140,6 +141,7 @@
     <Compile Include="ViewModel\User_Control_Log_ViewModel.cs" />
     <Compile Include="ViewModel\User_Control_Working_VM_2.cs" />
     <Compile Include="ViewModel\User_Control_Working_VM_1.cs" />
+    <Compile Include="ViewModel\User_Message_Control_Show.cs" />
     <Compile Include="ViewModel\User_Message_ViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="ViewModel\Page_event.cs" />

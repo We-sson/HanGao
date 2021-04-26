@@ -12,13 +12,12 @@
              mc:Ignorable="d">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
-            <!--<cmd:EventToCommand Command="{Binding Path=DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />-->
             <i:InvokeCommandAction Command="{Binding User_Window_Comm}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
 
-    <Grid>
+    <Grid x:Name="GD1">
         <Border Background="Gray" Opacity=" 0.5" />
 
 
@@ -60,19 +59,18 @@
             <Grid Grid.Row="1">
 
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock Text="已经存在加工型号："
-                               VerticalAlignment="Center"
+                    <TextBlock Text="" VerticalAlignment="Center"
                                Foreground="Gray" FontSize="30" />
                     <TextBlock x:Name="TB"
-                               Text="{Binding User_Wrok_Trye, Mode=TwoWay}"
+                               Text="{Binding User_Message_View.User_Wrok_Trye, Mode=TwoWay}"
                                Foreground="#f05454" FontSize="40" />
                 </StackPanel>
 
 
             </Grid>
 
-            <Grid Grid.Row="2">
-                <TextBlock Text="是否确定替换该型号"
+            <Grid Grid.Row="2" ShowGridLines="False">
+                <TextBlock Text="是否确定替换该型号" Margin="0,-20,0,0"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Top" FontSize="35"
                            Foreground="Black" />
@@ -84,7 +82,7 @@
                         Background="#47aa57" FontSize="25">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding Path=DataContext.Yes_No_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
+                            <i:InvokeCommandAction Command="{Binding Path=DataContext.Yes_No_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
 
@@ -122,7 +120,7 @@
                         FontSize="25">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding Path=DataContext.Yes_No_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
+                            <i:InvokeCommandAction Command="{Binding Path=DataContext.Yes_No_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
 

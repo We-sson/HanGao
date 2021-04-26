@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Messaging;
 using Prism.Commands;
 using PropertyChanged;
 using System;
@@ -20,6 +21,9 @@ namespace 悍高软件.ViewModel
     {
         public List_Show()
         {
+            //注册接收消息
+
+
 
             SinkModels = new ObservableCollection<Sink_Models>
             {
@@ -130,70 +134,54 @@ namespace 悍高软件.ViewModel
 
             S.Wroking_Models_ListBox.Work_Type = S.Model_Number.ToString();
 
+
+
+
+
+
+
+
             if (e.IsChecked == true)
             {
-
 
                 //判断是都有多个添加到加工区域
                 if (List_Show.SinkModels.Count(o => o.List_IsChecked_1 == true) > 1 || List_Show.SinkModels.Count(o => o.List_IsChecked_2 == true) > 1)
                 {
-
+                    //消息通知创建一个消息内容
+                    Messenger.Default.Send<string>("Use_Message", "User_Contorl_Message_Show");
 
                     //初始化用户弹窗确定,显示加工区域型号传入弹窗
-                    if (e.Uid == "1")
-                    {
-                        User_Message_ViewModel.User_Wrok_Trye = User_Control_Working_VM_1.WM.Work_Type;
-                    }
-                    else if (e.Uid == "2")
-                    {
-                        User_Message_ViewModel.User_Wrok_Trye = User_Control_Working_VM_2.WM.Work_Type;
-
-                    }
-
-                    User_Message User_Mess = new User_Message() { };
-                    //用户确定取消返回处理
-                    //if (User_Mess.ShowDialog() == false)
-                    //{
-                    //    e.IsChecked = false;
-                    //    return;
-
-                    //}
-
-                    //清除列表中选定的状态
-                    foreach (var i in SinkModels)
-                    {
-                        if (S.Model_Number.ToString() == i.Model_Number.ToString())
-                        {
-                            if (e.Uid == "1")
-                            {
-                                i.List_IsChecked_1 = true;
-
-                            }
-                            else if (e.Uid == "2")
-                            {
-                                i.List_IsChecked_2 = true;
-                            }
-                        }
-                        else
-                        {
-                            if (e.Uid == "1")
-                            {
-                                i.List_IsChecked_1 = false;
-                            }
-                            else if (e.Uid == "2")
-                            {
-                                i.List_IsChecked_2 = false;
-                            }
-                        }
+                    Messenger.Default.Send<string>(S.Model_Number.ToString(), "User_Message_Work_Type");
 
 
-                    }
+                    //消息传输点击控件
+                    User_Message_ViewModel.List_Check_Control = e;
+                    Messenger.Default.Send<CheckBox>(e, "LIst_Control_CheckBox");
+
+                    //消息通知弹窗显示
+                    Messenger.Default.Send<bool?>(true, "User_Message_Show");
+
+
+                    return;
+
+            
+
+               
+
+
+
+
+
+
 
                 }
 
+
+
+
+
+                
                 //加工区域功能显示
-
-
                 if (e.Uid == "1")
                 {
 
@@ -202,7 +190,7 @@ namespace 悍高软件.ViewModel
                     User_Control_Working_VM_1.WM.Work_Pause = S.User_Check_1.Work_Pause;
                     User_Control_Working_VM_1.WM.Work_NullRun = S.User_Check_1.Work_NullRun;
                     User_Control_Working_VM_1.WM.Work_JumpOver = S.User_Check_1.Work_JumpOver;
-                    User_Control_Log_ViewModel. User_Log_Add("加载" + S.Model_Number.ToString()+"型号到1号");
+                    User_Control_Log_ViewModel.User_Log_Add("加载" + S.Model_Number.ToString() + "型号到1号");
                 }
                 else if (e.Uid == "2")
                 {
@@ -214,12 +202,18 @@ namespace 悍高软件.ViewModel
                     User_Control_Log_ViewModel.User_Log_Add("加载" + S.Model_Number.ToString() + "型号到2号");
                 }
 
+
+
+
+
+
             }
             else
             {
                 if (e.Uid == "1")
                 {
                     //清空加工区功能状态显示
+                    User_Control_Working_VM_1.WM.Work_Run = false;
                     User_Control_Working_VM_1.WM.Work_Type = "";
                     User_Control_Working_VM_1.WM.Work_Pause = false;
                     User_Control_Working_VM_1.WM.Work_NullRun = false;
@@ -230,6 +224,7 @@ namespace 悍高软件.ViewModel
                 else if (e.Uid == "2")
                 {
                     //清空加工区功能状态显示
+                    User_Control_Working_VM_2.WM.Work_Run = false;
                     User_Control_Working_VM_2.WM.Work_Type = "";
                     User_Control_Working_VM_2.WM.Work_Pause = false;
                     User_Control_Working_VM_2.WM.Work_NullRun = false;
@@ -251,6 +246,13 @@ namespace 悍高软件.ViewModel
 
 
         }
+
+
+
+
+
+
+
 
 
     }
