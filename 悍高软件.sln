@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "悍高软件", "悍高软件.csproj", "{1B2622B5-B29B-4EB1-981E-EF015A0AABE4}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup_App", "Setup_App\Setup_App.vdproj", "{81BB3B2E-821B-4EC7-8C68-890CF71DDFD9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Socket_KUKA", "Soceket_KUKA\Socket_KUKA.csproj", "{1923D985-93B5-4E2F-A34E-398D02D45D0E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,12 @@ Global
 		{1B2622B5-B29B-4EB1-981E-EF015A0AABE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B2622B5-B29B-4EB1-981E-EF015A0AABE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B2622B5-B29B-4EB1-981E-EF015A0AABE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81BB3B2E-821B-4EC7-8C68-890CF71DDFD9}.Debug|Any CPU.ActiveCfg = Debug
+		{81BB3B2E-821B-4EC7-8C68-890CF71DDFD9}.Release|Any CPU.ActiveCfg = Release
+		{1923D985-93B5-4E2F-A34E-398D02D45D0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1923D985-93B5-4E2F-A34E-398D02D45D0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1923D985-93B5-4E2F-A34E-398D02D45D0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1923D985-93B5-4E2F-A34E-398D02D45D0E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

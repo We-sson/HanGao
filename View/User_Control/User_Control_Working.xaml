@@ -99,7 +99,6 @@
                               IsEnabled="{Binding WM.Work_IsEnabled}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <!--<cmd:EventToCommand Command="{Binding Path=DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />-->
                                 <i:InvokeCommandAction Command="{Binding Path=DataContext.Work_Run_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:User_Control_Working}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
@@ -116,7 +115,6 @@
                               IsEnabled="{Binding WM.Work_IsEnabled}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <!--<cmd:EventToCommand Command="{Binding Path=DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />-->
                                 <i:InvokeCommandAction Command="{Binding Path=DataContext.Work_Connt_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:User_Control_Working}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>

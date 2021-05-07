@@ -47,8 +47,11 @@ namespace 悍高软件.ViewModelLocator
             SimpleIoc.Default.Register<User_Control_Log_ViewModel>();
             SimpleIoc.Default.Register<User_Message_ViewModel>();
             SimpleIoc.Default.Register<User_Message_Control_Show>();
+            SimpleIoc.Default.Register<UserControl_Right_Function_Connect_ViewModel>();
+            SimpleIoc.Default.Register<Home_ViewModel>();
+            SimpleIoc.Default.Register<UserControl_Right_Socket_Connection_ViewModel
+>();
 
-            
 
 
 
@@ -63,7 +66,12 @@ namespace 悍高软件.ViewModelLocator
         public User_Control_Working_VM_1 User_Control_Working_VM_1 => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Control_Working_VM_1>();
         public User_Control_Working_VM_2 User_Control_Working_VM_2 => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Control_Working_VM_2>();
         public User_Message_ViewModel User_Message_ViewModel => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Message_ViewModel>();
-        public User_Message_Control_Show User_Message_Control_Show => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Message_Control_Show>();
+        public User_Message_Control_Show User_Message_Control_Show => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Message_Control_Show>(); 
+        public UserControl_Right_Function_Connect_ViewModel UserControl_Right_Function_Connect_ViewModel => CommonServiceLocator.ServiceLocator.Current.GetInstance<UserControl_Right_Function_Connect_ViewModel>();
+        public Home_ViewModel Home_ViewModel => CommonServiceLocator.ServiceLocator.Current.GetInstance<Home_ViewModel>();
+        public UserControl_Right_Socket_Connection_ViewModel UserControl_Right_Socket_Connection_ViewModel => CommonServiceLocator.ServiceLocator.Current.GetInstance<UserControl_Right_Socket_Connection_ViewModel>();
+
+        
 
         public static void Cleanup()
         {

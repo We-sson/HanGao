@@ -19,7 +19,7 @@
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>C:\Users\H\Desktop\HanGao\</PublishUrl>
+    <PublishUrl>C:\Users\H\Desktop\悍高\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -29,11 +29,11 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationRevision>3</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <BootstrapperEnabled>false</BootstrapperEnabled>
     <BootstrapperComponentsLocation>Relative</BootstrapperComponentsLocation>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -56,6 +56,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
@@ -134,9 +136,12 @@
     <Compile Include="Model\User_Message_Models.cs" />
     <Compile Include="Model\Wroking_Models.cs" />
     <Compile Include="ViewModel\FrameShow.cs" />
+    <Compile Include="ViewModel\Home_ViewModel.cs" />
     <Compile Include="ViewModel\List_Show.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\User.cs" />
+    <Compile Include="ViewModel\UserControl_Right_Function_Connect_ViewModel.cs" />
+    <Compile Include="ViewModel\UserControl_Right_Socket_Connection_ViewModel.cs" />
     <Compile Include="ViewModel\User_Control_Common.cs" />
     <Compile Include="ViewModel\User_Control_Log_ViewModel.cs" />
     <Compile Include="ViewModel\User_Control_Working_VM_2.cs" />
@@ -165,6 +170,12 @@
     </Compile>
     <Compile Include="View\UserMessage\User_Message.xaml.cs">
       <DependentUpon>User_Message.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\User_Control\UserControl_Right_Function_Connect.xaml.cs">
+      <DependentUpon>UserControl_Right_Function_Connect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\User_Control\UserControl_Right_Socket_Connection.xaml.cs">
+      <DependentUpon>UserControl_Right_Socket_Connection.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\User_Control\User_Control_Log.xaml.cs">
       <DependentUpon>User_Control_Log.xaml</DependentUpon>
@@ -222,6 +233,9 @@
     <Page Include="View\Style\Grid_function_Style.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Style\Right_Function_Button.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Style\ScrollViewer_List.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -265,6 +279,12 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\UserMessage\User_Message.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\User_Control\UserControl_Right_Function_Connect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\User_Control\UserControl_Right_Socket_Connection.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\User_Control\User_Control_Log.xaml">
@@ -327,6 +347,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\控制台.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Soceket_KUKA\Socket_KUKA.csproj">
+      <Project>{1923D985-93B5-4E2F-A34E-398D02D45D0E}</Project>
+      <Name>Socket_KUKA</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

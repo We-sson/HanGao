@@ -1,0 +1,219 @@
+﻿<UserControl x:Class="悍高软件.View.User_Control.UserControl_Right_Function_Connect"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:local="clr-namespace:悍高软件.View.User_Control"
+             xmlns:Controls="clr-namespace:Nicenis.Windows.Controls;assembly=Nicenis"
+             d:DesignHeight="992"
+             d:DesignWidth="1920"
+             DataContext="{Binding Source={StaticResource Locator}, Path=UserControl_Right_Function_Connect_ViewModel}"
+             mc:Ignorable="d">
+    <UserControl.Resources />
+
+
+
+
+    <Grid>
+
+
+
+
+
+        <Grid x:Name="GD1"
+              Margin="0,5,-500,0"
+              HorizontalAlignment="Right"
+              ClipToBounds="True"
+              SnapsToDevicePixels="True"
+              UseLayoutRounding="True">
+            <Grid.Style>
+                <Style TargetType="Grid" BasedOn="{StaticResource Gd_Effect}">
+
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Open}" Value=" True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ThicknessAnimation SpeedRatio="6"
+                                                            Storyboard.TargetProperty="(FrameworkElement.Margin)"
+                                                            To="0,0,0,0" Duration="0:0:0:1">
+                                            <ThicknessAnimation.EasingFunction>
+                                                <QuinticEase EasingMode="EaseOut" />
+                                            </ThicknessAnimation.EasingFunction>
+                                        </ThicknessAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ThicknessAnimation SpeedRatio="8"
+                                                            Storyboard.TargetProperty="(FrameworkElement.Margin)"
+                                                            To="0,0,-500,0" Duration="0:0:0:1">
+                                            <ThicknessAnimation.EasingFunction>
+                                                <QuinticEase EasingMode="EaseIn" />
+                                            </ThicknessAnimation.EasingFunction>
+                                        </ThicknessAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="55" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" Width=" 50" HorizontalAlignment="Right">
+
+
+
+                <Grid Uid="Open"
+                      Margin="{Binding Subtitle_Position}"
+                      VerticalAlignment="Top" Panel.ZIndex="0">
+
+
+
+
+                    <Border x:Name="BD1" CornerRadius="15 0 0 15">
+
+
+
+                        <Border.Background>
+                            <SolidColorBrush Opacity=" 0.9" Color="White" />
+                        </Border.Background>
+
+
+
+
+
+
+                        <StackPanel Margin="0,20,0,0">
+                            <Ellipse Uid="Open" Width="25" Height="25"
+                                     Margin="0,10,0,10"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Center"
+                                     Visibility="Visible" Fill="#47aa57"
+                                     Stroke="Gray" />
+
+                            <TextBlock Uid="Open"
+                                       Text="{Binding Sidebar_Subtitle}"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" FontSize="24" />
+
+                        </StackPanel>
+                    </Border>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                            <i:InvokeCommandAction Command="{Binding Path=DataContext.Click_OPen_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Right_Function_Connect}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+
+                </Grid>
+
+
+
+            </Grid>
+
+            <Grid x:Name="GD2" Grid.Column="1" Width="500">
+                <Border Width="500" CornerRadius="30 0 0 30">
+
+
+
+                    <Border.Background>
+                        <SolidColorBrush Opacity="{Binding Background.Opacity, ElementName=BD1}" Color="{Binding Background.Color, ElementName=BD1}" />
+
+                    </Border.Background>
+
+                </Border>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="100" />
+                        <RowDefinition />
+                        <RowDefinition Height=" 80" />
+
+                    </Grid.RowDefinitions>
+
+
+
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <Button Style="{DynamicResource ButtonStyle2}" Grid.Column="0"
+                                Uid="Close" Margin="30,0,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center">
+                            <TextBlock Text="&#xe606;"
+                                       Visibility="Visible"
+                                       FontFamily="/Resources/#iconfont"
+                                       FontSize="38" Foreground="#FF5E57" />
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.Click_OPen_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Right_Function_Connect}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0"
+                                   Grid.ColumnSpan="2"
+                                   Text="{Binding Sidebar_MainTitle}"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center" FontSize="40" />
+
+                    </Grid>
+
+                    <ContentControl x:Name="CC1" Grid.Row="1" Content="{Binding Sidebar_Control}" />
+
+
+                </Grid>
+            </Grid>
+
+
+
+        </Grid>
+
+
+
+    </Grid>
+
+    <UserControl.Triggers>
+
+
+
+
+        <!--<DataTrigger Binding="{Binding Open}" Value="True">
+            <DataTrigger.EnterActions>
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation SpeedRatio="5"
+                                         Storyboard.TargetProperty="(FrameworkElement.Width)"
+                                         Storyboard.TargetName="grid" To="500"
+                                         Duration="0:0:0:1" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </DataTrigger.EnterActions>
+            <DataTrigger.ExitActions>
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation SpeedRatio="1"
+                                         Storyboard.TargetProperty="(FrameworkElement.Width)"
+                                         Storyboard.TargetName="grid" To="0"
+                                         Duration="0:0:0:1" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </DataTrigger.ExitActions>
+        </DataTrigger>-->
+
+
+
+
+    </UserControl.Triggers>
+
+
+</UserControl>
