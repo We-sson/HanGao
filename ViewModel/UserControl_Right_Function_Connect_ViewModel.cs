@@ -22,6 +22,10 @@ namespace 悍高软件.ViewModel
         
         public UserControl_Right_Function_Connect_ViewModel()
         {
+            //注册消息接收
+            Messenger.Default.Register<bool?>(this, "Sidebar_Subtitle_Signal_Method_bool", Sidebar_Subtitle_Signal_Method);
+
+
 
 
             if (IsInDesignMode)
@@ -81,6 +85,36 @@ namespace 悍高软件.ViewModel
                
             }
         }
+
+
+        private bool _Sidebar_Subtitle_Signal = false;
+        /// <summary>
+        /// 副标题连接状态指示灯闪烁
+        /// </summary>
+        public bool Sidebar_Subtitle_Signal
+        {
+            get
+            {
+                return _Sidebar_Subtitle_Signal;
+            }
+            set
+            {
+                _Sidebar_Subtitle_Signal = value;
+            }
+        }
+
+
+        /// <summary>
+        /// 副标题连接状态指示灯闪方法
+        /// </summary>
+        public void Sidebar_Subtitle_Signal_Method(bool? B)
+        {
+            Sidebar_Subtitle_Signal = (bool)B;
+        }
+
+
+
+
 
         private string _Sidebar_Subtitle ;
         /// <summary>
@@ -158,6 +192,8 @@ namespace 悍高软件.ViewModel
             //把参数类型转换控件
             UIElement e = Sm.Source as UIElement;
 
+
+
             if (e.Uid=="Open")
             {
                 Open = true;
@@ -181,6 +217,7 @@ namespace 悍高软件.ViewModel
 
         
 
+        
 
 
 

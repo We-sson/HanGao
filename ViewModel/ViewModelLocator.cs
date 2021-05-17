@@ -14,6 +14,7 @@
 
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
+using 悍高软件.Errorinfo;
 using 悍高软件.ViewModel;
 
 namespace 悍高软件.ViewModelLocator
@@ -49,9 +50,11 @@ namespace 悍高软件.ViewModelLocator
             SimpleIoc.Default.Register<User_Message_Control_Show>();
             SimpleIoc.Default.Register<UserControl_Right_Function_Connect_ViewModel>();
             SimpleIoc.Default.Register<Home_ViewModel>();
-            SimpleIoc.Default.Register<UserControl_Right_Socket_Connection_ViewModel
->();
+            SimpleIoc.Default.Register<UserControl_Right_Socket_Connection_ViewModel>();
+            SimpleIoc.Default.Register<IP_Text_Error>();
 
+
+            
 
 
 
@@ -70,8 +73,9 @@ namespace 悍高软件.ViewModelLocator
         public UserControl_Right_Function_Connect_ViewModel UserControl_Right_Function_Connect_ViewModel => CommonServiceLocator.ServiceLocator.Current.GetInstance<UserControl_Right_Function_Connect_ViewModel>();
         public Home_ViewModel Home_ViewModel => CommonServiceLocator.ServiceLocator.Current.GetInstance<Home_ViewModel>();
         public UserControl_Right_Socket_Connection_ViewModel UserControl_Right_Socket_Connection_ViewModel => CommonServiceLocator.ServiceLocator.Current.GetInstance<UserControl_Right_Socket_Connection_ViewModel>();
+        public IP_Text_Error IP_Text_Error => CommonServiceLocator.ServiceLocator.Current.GetInstance<IP_Text_Error>();
 
-        
+
 
         public static void Cleanup()
         {

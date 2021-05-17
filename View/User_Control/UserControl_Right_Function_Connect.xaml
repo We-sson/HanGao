@@ -92,12 +92,61 @@
 
 
                         <StackPanel Margin="0,20,0,0">
-                            <Ellipse Uid="Open" Width="25" Height="25"
+                            <!--  连接状态呼吸灯  -->
+                            <Ellipse x:Name="ellipse"
+                                     Uid="Open" Width="25" Height="25"
                                      Margin="0,10,0,10"
                                      HorizontalAlignment="Center"
                                      VerticalAlignment="Center"
-                                     Visibility="Visible" Fill="#47aa57"
-                                     Stroke="Gray" />
+                                     Visibility="Visible" Stroke="Black">
+
+                                <Ellipse.Style>
+                                    <Style TargetType="Ellipse">
+                                        <Setter Property="Fill">
+                                            <Setter.Value>
+                                                <SolidColorBrush Opacity="0.5" Color="Transparent" />
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Sidebar_Subtitle_Signal}" Value="true">
+                                                <DataTrigger.EnterActions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard RepeatBehavior="1" AutoReverse="True">
+                                                            <ColorAnimation SpeedRatio="3"
+                                                                            Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"
+                                                                            To="Green" Duration="0:0:0:1">
+
+                                                                <ColorAnimation.EasingFunction>
+                                                                    <QuinticEase EasingMode="EaseIn" />
+                                                                </ColorAnimation.EasingFunction>
+                                                            </ColorAnimation>
+                                                            <DoubleAnimation SpeedRatio="5"
+                                                                             Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Opacity)"
+                                                                             To="1" Duration="0:0:0:1" />
+                                                            <ColorAnimation SpeedRatio="1"
+                                                                            Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"
+                                                                            To="Green" Duration="0:0:0:1" />
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </DataTrigger.EnterActions>
+                                                <DataTrigger.ExitActions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <ColorAnimation SpeedRatio="2"
+                                                                            Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"
+                                                                            To="Transparent" Duration="0:0:0:1">
+                                                                <ColorAnimation.EasingFunction>
+                                                                    <QuinticEase EasingMode="EaseIn" />
+                                                                </ColorAnimation.EasingFunction>
+                                                            </ColorAnimation>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </DataTrigger.ExitActions>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Ellipse.Style>
+                            </Ellipse>
 
                             <TextBlock Uid="Open"
                                        Text="{Binding Sidebar_Subtitle}"
@@ -209,6 +258,18 @@
                 </BeginStoryboard>
             </DataTrigger.ExitActions>
         </DataTrigger>-->
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

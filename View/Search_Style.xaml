@@ -40,7 +40,7 @@
 
                         </Border>
                         <Border x:Name="bb3" Grid.Column="1"
-                                Width="0" Height="3" Margin="-15,0,0,0"
+                                Width="0" Height="3" Margin="-25,0,0,0"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Bottom"
                                 Background="Black" />

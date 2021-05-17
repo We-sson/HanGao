@@ -51,6 +51,7 @@
     <Compile Include="Models\Socket_Models.cs" />
     <Compile Include="Soceket_Connect.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Socket_Receive.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

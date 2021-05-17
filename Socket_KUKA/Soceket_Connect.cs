@@ -1,4 +1,6 @@
-﻿using PropertyChanged;
+﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Messaging;
+using PropertyChanged;
 using Soceket_KUKA;
 using Soceket_KUKA.Models;
 using System;
@@ -12,8 +14,8 @@ using System.Windows;
 
 namespace Soceket_Connect
 {
-    //[AddINotifyPropertyChangedInterface]
-    public class Socket_Connect
+    [AddINotifyPropertyChangedInterface]
+    public class Socket_Connect : ViewModelBase
     {
 
 
@@ -23,6 +25,8 @@ namespace Soceket_Connect
 
            
         }
+        public static byte[] byte_Receive = new byte[1024 * 1024 * 2];
+
 
         private static bool _Socket_OK;
         /// <summary>
@@ -59,6 +63,8 @@ namespace Soceket_Connect
             }
         }
 
+
+
         private static Socket _Global_Socket;
         /// <summary>
         /// Socket唯一连接标识
@@ -85,20 +91,53 @@ namespace Soceket_Connect
         /// <summary>
         /// Socket连接方法
         /// </summary>
-        public bool Socket_Client_KUKA(string _Ip ,int _Port)
+        public void Socket_Client_KUKA(string _Ip ,int _Port)
         {
+            try
+            {
 
         IPEndPoint ip = new IPEndPoint(IPAddress.Parse(_Ip), _Port);
+
+
+            try
+                {
+
+                    
          Global_Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            
+                //异步连接
+                Global_Socket.BeginConnect(ip, new AsyncCallback(Client_Inf), Global_Socket);
+                    //S.Connect(IP);
+                    Messenger.Default.Send<bool>(false , "Connect_Button_IsEnabled_Method");
 
 
-           
+                }
+                catch (Exception e)
+            {
+                Messenger.Default.Send<bool>(true , "Connect_Button_IsEnabled_Method");
+
+                MessageBox.Show(e.Message);
+
+            }
 
 
-            Thread _Start_Client = new Thread(() => Start_Client(ip)) {  IsBackground=true };
-            _Start_Client.Start();
 
-            return true;
+
+            }
+            catch (Exception e)
+            {
+
+                MessageBox.Show(e.Message);
+                return;
+            }
+
+
+
+
+            /////使用多线程连接
+            //Thread _Start_Client = new Thread(() => Start_Client(ip)) {  IsBackground=true };
+            //_Start_Client.Start();
+
 
 
         }
@@ -121,6 +160,8 @@ namespace Soceket_Connect
             }
             catch (Exception e)
             {
+                Messenger.Default.Send<bool>(true, "Connect_Button_IsEnabled_Method");
+
                 MessageBox.Show(e.Message);
                 
             }
@@ -132,7 +173,6 @@ namespace Soceket_Connect
 
         
 
-           public  static byte[] byte_Receive = new byte[1024 * 1024 * 2];
 
         /// <summary>
         /// 异步连接回调命令
@@ -155,11 +195,17 @@ namespace Soceket_Connect
             }
             catch (Exception e)
             {
+                Messenger.Default.Send<bool>(false, "Connect_Button_IsEnabled_Method");
                 MessageBox.Show(e.Message);
+                Messenger.Default.Send<bool>(true , "Connect_Button_IsEnabled_Method");
 
+                return;
             }
 
+            
 
+            //连接成功后，指示灯闪烁
+            Messenger.Default.Send<bool>(true, "Sidebar_Subtitle_Signal_Method_bool");
             //连接成功后，前台禁止连接
             Socket_OK = true;
 
@@ -176,7 +222,20 @@ namespace Soceket_Connect
 
   
 
+        public static  void Socket_Close()
+        {
+            if ( Global_Socket!=null)
+            {
+                Global_Socket.Close(100);
+                Global_Socket = null;
+                Messenger.Default.Send<bool>(true , "Connect_Button_IsEnabled_Method");
 
+
+            }
+            
+
+
+        }
 
 
 
