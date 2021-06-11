@@ -30,6 +30,9 @@ namespace 悍高软件.ViewModel
 
             //创建线程读取集合内变量值
             Thread Receive_Name_Thread = new Thread(Show_Point_XY_Async) { IsBackground = true };
+
+
+
             Receive_Name_Thread.Start(_List);
             //var _Task= Runing_Async();
 
