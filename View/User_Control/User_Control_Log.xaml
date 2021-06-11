@@ -18,7 +18,10 @@
             <RowDefinition Height="0.01*" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Border Grid.RowSpan="3" Background="#E3E3E3" CornerRadius="35" />
+        <Border 
+                Grid.RowSpan="3" BorderThickness="5"
+                BorderBrush="Transparent"
+                Background="#E3E3E3" CornerRadius="35" />
 
         <TextBlock Text="设 备 状 态" Margin="8"
                    HorizontalAlignment="Center"

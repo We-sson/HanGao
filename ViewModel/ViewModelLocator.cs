@@ -52,9 +52,11 @@ namespace 悍高软件.ViewModelLocator
             SimpleIoc.Default.Register<Home_ViewModel>();
             SimpleIoc.Default.Register<UserControl_Right_Socket_Connection_ViewModel>();
             SimpleIoc.Default.Register<IP_Text_Error>();
-
+            SimpleIoc.Default.Register<User_Control_Working_Path_VM>();
 
             
+
+
 
 
 
@@ -74,8 +76,9 @@ namespace 悍高软件.ViewModelLocator
         public Home_ViewModel Home_ViewModel => CommonServiceLocator.ServiceLocator.Current.GetInstance<Home_ViewModel>();
         public UserControl_Right_Socket_Connection_ViewModel UserControl_Right_Socket_Connection_ViewModel => CommonServiceLocator.ServiceLocator.Current.GetInstance<UserControl_Right_Socket_Connection_ViewModel>();
         public IP_Text_Error IP_Text_Error => CommonServiceLocator.ServiceLocator.Current.GetInstance<IP_Text_Error>();
+        public User_Control_Working_Path_VM User_Control_Working_Path_VM => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Control_Working_Path_VM>();
 
-
+        
 
         public static void Cleanup()
         {

@@ -23,7 +23,7 @@ namespace 悍高软件.ViewModel
         public UserControl_Right_Function_Connect_ViewModel()
         {
             //注册消息接收
-            Messenger.Default.Register<bool?>(this, "Sidebar_Subtitle_Signal_Method_bool", Sidebar_Subtitle_Signal_Method);
+            Messenger.Default.Register<bool?>(this, "Sidebar_Subtitle_Signal_Method_bool", Sidebar_Subtitle_Signal_Method_bool);
 
 
 
@@ -107,7 +107,7 @@ namespace 悍高软件.ViewModel
         /// <summary>
         /// 副标题连接状态指示灯闪方法
         /// </summary>
-        public void Sidebar_Subtitle_Signal_Method(bool? B)
+        public void Sidebar_Subtitle_Signal_Method_bool(bool? B)
         {
             Sidebar_Subtitle_Signal = (bool)B;
         }

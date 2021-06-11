@@ -23,9 +23,8 @@
 
                 <Border x:Name="BD1"
                         Height="65" Margin="5" Padding="0"
-                        BorderThickness="3"
-                        IsEnabled="{Binding Connect_Button_IsEnabled}"
-                        Background="#c5c5c5" CornerRadius="10">
+                        BorderThickness="3" Background="#c5c5c5"
+                        CornerRadius="10">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.4*" />
@@ -63,7 +62,6 @@
                 <Border Height="65"
                         Margin="{Binding ElementName=BD1, Path=Margin}"
                         BorderThickness="{Binding ElementName=BD1, Path=BorderThickness}"
-                        IsEnabled="{Binding Connect_Button_IsEnabled}"
                         Background="{Binding ElementName=BD1, Path=Background}"
                         CornerRadius="10">
                     <Grid>
@@ -76,13 +74,16 @@
                                    VerticalAlignment="Center" FontSize="30" />
                         <TextBox Style="{StaticResource TextBoxStyle1}" Grid.Column="1"
                                  Name="TB2"
-                                 Text="{Binding User_Port, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                 Text="{Binding User_Port, ValidatesOnDataErrors=True}"
                                  Margin="0,0,30,0"
                                  VerticalAlignment="Center"
+                                 DataContext="{Binding Source={StaticResource Locator}, Path=IP_Text_Error}"
                                  Validation.ErrorTemplate="{x:Null}"
                                  ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"
-                                 DataContext="{Binding Source={StaticResource Locator}, Path=IP_Text_Error}"
                                  FontSize="25" Tag="默认端口7000" />
+
+
+
 
                     </Grid>
                     <!--  用户输入验证提示  -->
@@ -101,6 +102,7 @@
                 </Border>
 
 
+
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1.8*" />
@@ -109,11 +111,27 @@
 
 
 
-                    <Button Style="{StaticResource ButtonStyle3}" x:Name="BU1" Grid.Column="0"
-                            Content="连接服务器" Height="50" Margin="5"
-                            Tag="Connect"
+                    <Button x:Name="BU1" Grid.Column="0"
+                            Height="50" Margin="5" Tag="Connect"
                             IsEnabled="{Binding Connect_Button_IsEnabled}"
-                            Background="#F4D160" FontSize="25">
+                            FontSize="25">
+
+                        <Button.Style>
+                            <Style BasedOn="{StaticResource ButtonStyle3}" TargetType="Button">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Connect_Socketing}" Value="true">
+                                        <Setter Property="Background" Value="#47aa57" />
+                                        <Setter Property="Content" Value="连接成功" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Connect_Socketing}" Value="False">
+                                        <Setter Property="Background" Value="#F4D160" />
+                                        <Setter Property="Content" Value="连接服务器" />
+                                    </DataTrigger>
+
+
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
 
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
@@ -151,13 +169,69 @@
         <Grid Grid.Row="1" Margin="15">
             <Grid.RowDefinitions>
                 <RowDefinition />
-                <RowDefinition />
+                <RowDefinition Height="0.2*" />
             </Grid.RowDefinitions>
 
-            <TextBlock x:Name="Socket_Show" Grid.Row="1"
-                       Text="{Binding Socket_Message}"
-                       Margin="15" Background="Wheat" />
-            <TextBox Name="Socket_Send" Margin="15" Background="White" />
+
+            <ListView Style="{DynamicResource ListViewStyle1}" Grid.Row="0"
+                      DataContext="{Binding Source={StaticResource Locator}, Path=UserControl_Right_Socket_Connection_ViewModel}"
+                      ItemsSource="{Binding Socket_Read_List}">
+                <ListView.View>
+                    <GridView AllowsColumnReorder="True">
+
+
+                        <GridViewColumn Width="auto" Header="启用">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding Val_OnOff}" VerticalAlignment="Center" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+
+                        <GridViewColumn Width="auto" Header="ID" DisplayMemberBinding="{Binding Val_ID, Mode=TwoWay}" />
+                        <GridViewColumn Width="auto" Header="变量名" DisplayMemberBinding="{Binding Val_Name, Mode=TwoWay}" />
+                        <GridViewColumn Width="auto" Header="读取值" DisplayMemberBinding="{Binding Val_Var, Mode=TwoWay}" />
+                        <GridViewColumn Width="auto" Header="更新时间">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Val_Update_Time, Mode=TwoWay}" VerticalAlignment="Center" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                    </GridView>
+                </ListView.View>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <CheckBox Content="开启" IsChecked="{Binding Val_OnOff}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+
+            </ListView>
+
+
+            <ListBox Style="{DynamicResource ListBoxStyle1}" x:Name="Socket_Show_List" Grid.Row="0"
+                     Margin="10" Visibility="Collapsed"
+                     ItemsSource="{Binding Socket_Read_List}" />
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <TextBox Grid.Column="0"
+                         Name="Send_Name" Text="$out[1]"
+                         Background="White" />
+                <TextBox Grid.Column="1"
+                         Name="Send_Val" Text="$out[1]"
+                         Background="White" />
+
+            </Grid>
 
         </Grid>
 

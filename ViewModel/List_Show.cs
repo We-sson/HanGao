@@ -51,6 +51,7 @@ namespace 悍高软件.ViewModel
             set { _SinkModels = value; }
         }
 
+
         /// <summary>
         /// 文本输入事件触发属性
         /// </summary>

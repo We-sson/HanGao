@@ -74,6 +74,7 @@
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Background" Value="Gray"/>
         <Setter Property="Padding" Value="0" />
         <Setter Property="Template">
             <Setter.Value>
@@ -112,13 +113,12 @@
                             <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.Pressed.Border}" />-->
 
                         </Trigger>
-                        <Trigger SourceName="contentPresenter" Property="Content" Value="连接中...">
-                            <Setter TargetName="border" Property="Background" Value="#47aa57" />
-                        </Trigger>
+
+
 
 
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="border" Property="Background" Value="Gray" />
+                            <!--<Setter TargetName="border" Property="Background" Value="Gray" />-->
                             <!--<Setter Property="Foreground" Value="Black" />
                             -->
                             <!--<Setter Property="BorderThickness" Value="3" />-->

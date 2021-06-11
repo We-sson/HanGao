@@ -24,54 +24,81 @@ using 悍高软件.View.User_Control;
 
 namespace 悍高软件.Errorinfo
 {
-    [AddINotifyPropertyChangedInterface]
+    [SuppressPropertyChangedWarnings]
     public class IP_Text_Error :   ViewModelBase, IDataErrorInfo
     {
         //用户输入验证
         public string this[string columnName]
         {
             get
-            {
+           {
                 string Error = string.Empty;
+               
                 Regex IP_Regex = new Regex(@"^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$");
                 Regex Port_Regex = new Regex(@"^[1-9]$|(^[1-9][0-9]$)|(^[1-9][0-9][0-9]$)|(^[1-9][0-9][0-9][0-9]$)|(^[1-6][0-5][0-5][0-3][0-5]$)");
-                if (columnName == "User_IP" )
+
+
+
+                switch (columnName)
                 {
+                    case  "User_IP":
+                        User_IP_Bool = false;
+                        if (string.IsNullOrWhiteSpace(User_IP))
+                        {
+                            Error = "不能为空,输入IP地址";
+                            
+                            
+                        }
+                        else if (IP_Regex.IsMatch(User_IP) == false)
+                        {
+                            Error = "输入IP地址有误，请正确输入IP地址";
+                        }
+
+                        if (string.IsNullOrWhiteSpace(Error))
+                        {
+                            User_IP_Bool = true;
+
+                        }
+                        break;
+
+                    case "User_Port":
+                        if (string.IsNullOrWhiteSpace(User_Port))
+                        {
+                            Error = "不能为空,输入端口";
+                        }
+                        else if (Port_Regex.IsMatch(User_Port) == false)
+                        {
+                            Error = "输入端口有误，请正确输入端口";
+                        }
+                        User_Port_Bool = false ;
+                        if (string.IsNullOrWhiteSpace(Error))
+                        {
+                            User_Port_Bool = true;
+
+                        }
+                        break;
 
 
-
-
-                    if (string.IsNullOrWhiteSpace(User_IP))
-                    {
-                        Error = "不能为空,输入IP地址";
-                    }
-                    else if ( IP_Regex.IsMatch(User_IP)==false)
-                    {
-                        Error = "输入IP地址有误，请正确输入IP地址";
-                    }
 
 
                 }
 
 
-
-                if (columnName == "User_Port")
+                //输入正确后才可连接
+                if (User_IP_Bool && User_Port_Bool)
                 {
-                    if (string.IsNullOrWhiteSpace(User_Port))
-                    {
-                        Error = "不能为空,输入端口";
-                    }
-                    else if (Port_Regex.IsMatch(User_Port) == false)
-                    {
-                        Error = "输入端口有误，请正确输入端口";
-                    }
 
-
+                Messenger.Default.Send<bool>(true, "Connect_Button_IsEnabled_Method");
+                }
+                else
+                {
+                    Messenger.Default.Send<bool>(false , "Connect_Button_IsEnabled_Method");
 
                 }
 
-          
-                    return Error;
+
+                return Error;
+
             }
             set
             {
@@ -90,7 +117,24 @@ namespace 悍高软件.Errorinfo
 
 
 
-        private string _User_IP;
+
+
+        /// <summary>
+        /// 用户输入IP验证确定属性
+        /// </summary>
+        public bool User_IP_Bool { get; set; } = false;
+
+
+
+        /// <summary>
+        /// 用户输入IP验证确定属性
+        /// </summary>
+        public bool User_Port_Bool { set; get; } = false;
+
+
+
+
+        private string _User_IP="127.0.0.1";
         /// <summary>
         /// 用户输入IP
         /// </summary>
@@ -107,7 +151,7 @@ namespace 悍高软件.Errorinfo
             }
         }
 
-        private string _User_Port;
+        private string _User_Port="7000";
         /// <summary>
         /// 用户输入IP
         /// </summary>

@@ -152,85 +152,8 @@
 
 
                 <!--  加工路径区域  -->
-                <Grid Style="{DynamicResource Gd_Effect}" Grid.Row="0" Grid.Column="1"
-                      Margin="15">
+                <UC_Working:User_Control_Working_Path Grid.Row="0" Grid.Column="1" DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_Path_VM}" />
 
-
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="0.2*" />
-                        <RowDefinition Height="0.01*" />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <Border Grid.RowSpan="3" BorderThickness="5"
-                            Background="#E3E3E3" CornerRadius="35"
-                            BorderBrush="#FFAE181F" />
-
-                    <TextBlock Text="加 工 路 径" Margin="8"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Bottom" FontSize="40" />
-
-                    <Border Grid.Row="1"
-                            Margin="35,0,35,0" Opacity="0.5"
-                            Background="#A0A0A0" CornerRadius="2" />
-
-
-                    <Grid Grid.Row="2" Margin="0,10,0,0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition Height="0.15*" />
-                        </Grid.RowDefinitions>
-                        <Grid Grid.Row=" 0" Grid.RowSpan="2">
-
-
-                            <Border Width="5" Margin="0,0,0,8" Opacity="0.5"
-                                    CornerRadius="10">
-                                <Border.Background>
-                                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                        <GradientStop Offset="0.75" Color="Black" />
-                                        <GradientStop Offset="0.9" Color="#FFE3E3E3" />
-                                        <GradientStop Color="#FFE3E3E3" />
-                                        <GradientStop Offset="0.25" Color="Black" />
-                                    </LinearGradientBrush>
-                                </Border.Background>
-                            </Border>
-                            <Border Height="5" Opacity=" 0.5" CornerRadius="10">
-                                <Border.Background>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                        <GradientStop Offset="0.75" Color="Black" />
-                                        <GradientStop Offset="1" Color="#FFE3E3E3" />
-                                        <GradientStop Color="#FFE3E3E3" />
-                                        <GradientStop Offset="0.25" Color="Black" />
-                                    </LinearGradientBrush>
-                                </Border.Background>
-                            </Border>
-
-                            <Ellipse Grid.Row="2"
-                                     Width="20" Height="20"
-                                     HorizontalAlignment="Stretch"
-                                     VerticalAlignment="Stretch"
-                                     Fill="#FFAE181F" Stroke="Black"
-                                     StrokeThickness="1" />
-                        </Grid>
-
-                        <Grid Grid.Row="1" Margin="50,0,0,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width=" 0.2*" />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-
-
-
-                            <TextBlock Grid.Column="0"
-                                       Text="当前位置：" VerticalAlignment="Center"
-                                       FontSize=" 20" Foreground="Gray" />
-                            <TextBlock Grid.Column="1"
-                                       Text="X:500.12 Y:300.32 Z:600.12 A:30.31 B:45.33 C:62.35"
-                                       VerticalAlignment="Center"
-                                       FontSize=" 20" Foreground="Gray" />
-                        </Grid>
-
-                    </Grid>
-                </Grid>
 
 
                 <!--  设备状态显示区域  -->

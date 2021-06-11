@@ -118,6 +118,46 @@
     </Style>
 
 
+    <!--  工作框鼠标上方边框显示  -->
+    <Style x:Key="Border_BorderBrush" TargetType="{x:Type Border}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type Grid}}}" Value="true">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation SpeedRatio="10"
+                                            Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
+                                            To="#FFAE181F" Duration="0:0:0:1">
+                                <ColorAnimation.EasingFunction>
+                                    <QuinticEase EasingMode="EaseInOut" />
+                                </ColorAnimation.EasingFunction>
+
+
+                            </ColorAnimation>
+
+
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.EnterActions>
+                <DataTrigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation SpeedRatio="3"
+                                            Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
+                                            To="Transparent" Duration="0:0:0:1">
+                                <ColorAnimation.EasingFunction>
+                                    <QuinticEase EasingMode="EaseInOut" />
+                                </ColorAnimation.EasingFunction>
+                            </ColorAnimation>
+
+
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.ExitActions>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
 
 
     <!--#endregion-->

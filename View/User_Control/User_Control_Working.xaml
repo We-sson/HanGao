@@ -9,7 +9,7 @@
              d:DesignHeight="435" d:DesignWidth="675"
              DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_VM_2}"
              mc:Ignorable="d">
-    <Grid Style="{DynamicResource Gd_Effect}" Grid.Row="0" Grid.Column="0"
+    <Grid Style="{DynamicResource Gd_Effect}" x:Name="GD1" Grid.Row="0" Grid.Column="0"
           Margin="15" ShowGridLines="False">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.17*" />
@@ -17,24 +17,16 @@
         </Grid.RowDefinitions>
 
 
-        <Border x:Name="Bd1"
+        <Border  x:Name="Bd1"
                 Grid.RowSpan="2" CornerRadius="35"
+                BorderThickness="5"
+                BorderBrush="Transparent"
                 Background="{Binding WM.Work_back, Mode=TwoWay}">
 
 
 
 
-            <!--<Border.Style>
-                <Style TargetType="Border">
 
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsChecked, ElementName=Work_Run_Check}" Value="True">
-                            <Setter Property="Background" Value="#22AB38" />
-                        </DataTrigger>
-
-                    </Style.Triggers>
-                </Style>
-            </Border.Style>-->
 
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Horizontal">
                 <TextBlock x:Name="TB2"
