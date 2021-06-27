@@ -150,6 +150,7 @@
     <Compile Include="Socket_KUKA\Socket_Receive.cs" />
     <Compile Include="ViewModel\FrameShow.cs" />
     <Compile Include="ViewModel\Home_ViewModel.cs" />
+    <Compile Include="ViewModel\LIst_Reveice.cs" />
     <Compile Include="ViewModel\List_Show.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\User.cs" />

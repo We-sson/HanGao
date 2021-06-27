@@ -27,26 +27,28 @@ using static Soceket_KUKA.Models.Socket_Models_Receive;
 namespace 悍高软件.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class UserControl_Right_Socket_Connection_ViewModel: ViewModelBase  
+    public class UserControl_Right_Socket_Connection_ViewModel : ViewModelBase
     {
 
 
 
         public UserControl_Right_Socket_Connection_ViewModel()
         {
-        
-            //Socket_Read_List.Add(new Socket_Models_List() { Val_ID= Socket_Models_Connect.Number_ID, Val_Name = "$POS_ACT"});
-    
+
+
+            //Socket_Read_List.Add(new Socket_Models_List() { Val_Name = "$VEL_ACT", Val_ID = Socket_Models_Connect.Number_ID });
 
 
 
             //注册消息接收
 
+
             Messenger.Default.Register<string>(this, "Socket_Message_Show", Socket_Message_Show);
 
             Messenger.Default.Register<bool>(this, "Connect_Button_IsEnabled_Method", Connect_Button_IsEnabled_Method);
-            Messenger.Default.Register<bool>(this, "Connect_Socketing_Method", Connect_Socketing_Method);
+            Messenger.Default.Register<int>(this, "Connect_Socketing_Method", Connect_Socketing_Method);
 
+            Messenger.Default.Register<ObservableCollection<Socket_Models_List>>(this, "List_Connect", List_Connect);
 
 
 
@@ -75,8 +77,12 @@ namespace 悍高软件.ViewModel
         /// <summary>
         /// 设备连接中状态...
         /// </summary>
-        public  bool Connect_Socketing { set; get; }
+        public bool Connect_Socket_Connection { set; get; } = false;
 
+        /// <summary>
+        /// 设备成功状态...
+        /// </summary>
+        public bool Connect_Socket_OK{ set; get; } = false;
 
 
         private   string  _Socket_Message="准备接收...." ;
@@ -113,18 +119,47 @@ namespace 悍高软件.ViewModel
             }
         }
 
-        public static ObservableCollection<Socket_Models_List> _Socket_Read_List=new ObservableCollection<Socket_Models_List>() ;
+        public static ObservableCollection<Socket_Models_List> _Socket_Read_List { set; get; } = new ObservableCollection<Socket_Models_List>() { };
         /// <summary>
         /// 读取库卡变量列表集合
         /// </summary>
         public static ObservableCollection<Socket_Models_List> Socket_Read_List
         {
-            get { return _Socket_Read_List; }
+            get {
+                return _Socket_Read_List;
+            }
             set {
                 
                 _Socket_Read_List = value;
+
+                //Socket_Read_List_Refresh(value.ToArray());
                
             }
+        }
+
+
+
+
+        /// <summary>
+        /// 发送内容集合接收写入
+        /// </summary>
+        /// <param name="_List">接收数组参数</param>
+        public   void List_Connect(ObservableCollection<Socket_Models_List> _List)
+        {
+
+            //写入集合中
+            foreach (var item in _List)
+            {
+
+                if (!UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List.Any<Socket_Models_List>(l=>l.Val_Name== item.Val_Name))
+                {
+
+                UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List.Add(item);
+                }
+
+            }
+
+
         }
 
 
@@ -138,13 +173,32 @@ namespace 悍高软件.ViewModel
 
             Connect_Button_IsEnabled = Bool_Try;
 
+
+
+
         }
 
 
-        //网络连接中状态方法
-        public void Connect_Socketing_Method(bool bool_Try)
+        //网络连接成功状态方法
+        public void Connect_Socketing_Method(int bool_Try)
         {
-            Connect_Socketing = bool_Try;
+            switch (bool_Try)
+            {
+                case -1:
+                    Connect_Socket_Connection = false ;
+                    Connect_Socket_OK = false;
+                    break;
+                case 0:
+                    Connect_Socket_Connection = true;
+                    break;
+                case 1:
+                    Connect_Socket_OK = true;
+                    break;
+                default:
+                    User_Control_Log_ViewModel.User_Log_Add($"-1网络状态显示，传入错误值");
+                    break;
+            }
+
         }
 
 
@@ -178,16 +232,13 @@ namespace 悍高软件.ViewModel
             //把参数类型转换控件
             //UIElement e = Sm.Source as UIElement;
 
-           //把输入框的消息发送过去
-            //Messenger.Default.Send<string>(Sm.Socket_Send.Text, "Socket_Send_Message_Method");
 
 
 
 
-            //Soceket_Send.Socket_Send_Message_Method(Sm.Socket_Send.Text);
 
 
-            //Socket_Send.Send_Read_Var(Sm.Socket_Send.Text);
+      
 
       
 
@@ -217,7 +268,7 @@ namespace 悍高软件.ViewModel
         /// <summary>
         /// Socket连接事件命令
         /// </summary>
-        private void Socket_Connection(UserControl_Right_Socket_Connection Sm)
+        private async void Socket_Connection(UserControl_Right_Socket_Connection Sm)
         {
             //把参数类型转换控件
             //UIElement e = Sm.Source as UIElement;
@@ -229,7 +280,7 @@ namespace 悍高软件.ViewModel
 
  
             //创建连接
-            Soceket_KUKA_Client.Socket_Client_KUKA(Sm.TB1.Text, int.Parse(Sm.TB2.Text));
+            await  Soceket_KUKA_Client.Socket_Client_KUKA(Sm.TB1.Text, int.Parse(Sm.TB2.Text));
 
 
             
@@ -259,10 +310,7 @@ namespace 悍高软件.ViewModel
             //把参数类型转换控件
             //UIElement e = Sm.Source as UIElement;
 
-            //把输入框的消息发送过去
-            //Messenger.Default.Send<string>(Sm.Socket_Send.Text, "Socket_Send_Message_Method");
 
-            //Soceket_Send.Socket_Send_Message_Method(Sm.Socket_Send.Text);
 
 
             await Socket_Connect.Socket_Close();

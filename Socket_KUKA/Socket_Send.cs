@@ -12,6 +12,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Windows;
+using 悍高软件.ViewModel;
 
 namespace 悍高软件.Socket_KUKA
 {
@@ -92,7 +93,7 @@ namespace 悍高软件.Socket_KUKA
 
                 Messenger.Default.Send<bool>(true, "Connect_Button_IsEnabled_Method");
 
-                MessageBox.Show(e.Message);
+                User_Control_Log_ViewModel.User_Log_Add("Error:-6 "+e.Message);
 
             }
 

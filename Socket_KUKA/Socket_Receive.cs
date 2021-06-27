@@ -10,8 +10,10 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using 悍高软件.ViewModel;
+using static Soceket_KUKA.Models.Socket_Models_Receive;
 
 namespace Soceket_KUKA
 {
@@ -67,8 +69,14 @@ namespace Soceket_KUKA
         /// <param name="ar">Socket属性</param>
         public void Socke_Receive_Message(IAsyncResult ar)
         {
+
+
             //互斥线程锁，保证每次只有一个线程接收消息
             Receive_Lock.WaitOne();
+            User_Control_Log_ViewModel.User_Log_Add("-2.1，等待接收线程");
+            Monitor.Enter(Socket_Connect.The_Lock);
+            User_Control_Log_ViewModel.User_Log_Add("-2.2，进入接收线程");
+
 
 
             //连接属性断开后为空后退出接收
@@ -154,6 +162,7 @@ namespace Soceket_KUKA
 
 
 
+
                 //接收到的消息写入到集合里面
                 for (int i = 0; i < UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List.Count; i++)
                 {
@@ -162,14 +171,22 @@ namespace Soceket_KUKA
 
                     if (UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Val_ID == _ID)
                     {
+
                         UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Val_Update_Time = DateTime.Now;
                         UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Val_Var = Message_Show;
-
+                        //MessageBox.Show(Message_Show);
+                        Task.Run(() =>{ User_Control_Log_ViewModel.User_Log_Add($"接收变量值："+ Message_Show); });
                     }
-                  
 
                 }
+                //等待发送线程
+                
 
+
+
+                //使用委托，将需要接受集合的区域发送消息
+
+                //Messenger.Default.Send<Socket_Models_List[]>(UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List.ToArray(), "Show_Point_XY_Async");
 
 
 
@@ -203,15 +220,20 @@ namespace Soceket_KUKA
             catch (Exception)
             {
                 Socket_Receive_Error();
-
+                User_Control_Log_ViewModel.User_Log_Add("-2.3，退出接收线程");
+                Monitor.Exit(Socket_Connect.The_Lock);
                 //MessageBox.Show(er.Message);
             }
 
 
+
+            User_Control_Log_ViewModel.User_Log_Add("-2.3，释放发送线程");
+            Monitor.PulseAll (Socket_Connect.The_Lock);
+            User_Control_Log_ViewModel.User_Log_Add("-2.4，已释放发送线程锁");
+            Monitor.Exit(Socket_Connect.The_Lock);
+
             //接收信息互斥线程锁，保证每次只有一个线程接收消息
             Receive_Lock.ReleaseMutex();
-
-
         }
 
 
@@ -279,6 +301,8 @@ namespace Soceket_KUKA
             return string.Empty;
 
         }
+
+
 
 
 

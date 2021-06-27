@@ -134,7 +134,7 @@ namespace 悍高软件.Errorinfo
 
 
 
-        private string _User_IP="127.0.0.1";
+        private string _User_IP="192.168.159.128";
         /// <summary>
         /// 用户输入IP
         /// </summary>

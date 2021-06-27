@@ -3,6 +3,7 @@ using PropertyChanged;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -338,7 +339,6 @@ namespace Soceket_KUKA.Models
                     _Val_Update_Time = value;
                 }
             }
-
 
         }
 

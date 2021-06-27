@@ -11,22 +11,29 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using 悍高软件.Model;
+using static Soceket_KUKA.Models.Socket_Models_Receive;
 
 namespace 悍高软件.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
     public   class User_Control_Working_VM_1 : User_Control_Common
     {
+
+
+
+
         public static Wroking_Models WM  { get;set; } 
-        public static User_Features UF { get; set; }
+        public  static  User_Features UF { get; set; }
 
         /// <summary>
         /// 1号加工区域
         /// </summary>
         public User_Control_Working_VM_1()
         {
-            
-        WM = new Wroking_Models
+
+  
+
+            WM = new Wroking_Models
             {
                 Number_Work = "1",
         
@@ -40,6 +47,18 @@ namespace 悍高软件.ViewModel
 
 
         }
+
+        public void Show_Robot_inf(object _Obj)
+        {
+            Socket_Models_List[] Name_Val = _Obj as Socket_Models_List[];
+
+
+
+
+
+
+        }
+
 
 
 

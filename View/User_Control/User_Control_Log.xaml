@@ -18,8 +18,7 @@
             <RowDefinition Height="0.01*" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Border 
-                Grid.RowSpan="3" BorderThickness="5"
+        <Border Grid.RowSpan="3" BorderThickness="5"
                 BorderBrush="Transparent"
                 Background="#E3E3E3" CornerRadius="35" />
 
@@ -44,11 +43,11 @@
                     <i:InvokeCommandAction Command="{Binding Path=DataContext.Update_Log_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="{Binding ElementName=SV1}" PassEventArgsToCommand="True" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-            <TextBlock Text="{Binding User_UI_Log.User_Log}"
-                       TextWrapping="Wrap"
+            <TextBlock Text="{Binding User_UI_Log.User_Log}" Width="600"
+                       TextWrapping="WrapWithOverflow"
                        DataContext="{Binding Source={StaticResource Locator}, Path=User_Log}"
                        Visibility="Visible" Foreground="Black"
-                       FontSize="25" Opacity="0.8" />
+                       FontSize="20" Opacity="0.8" />
         </ScrollViewer>
     </Grid>
 </UserControl>

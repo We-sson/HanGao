@@ -27,6 +27,11 @@ namespace 悍高软件.ViewModel
         /// </summary>
         public User_Control_Working_VM_2()
         {
+
+
+
+
+
             WM = new Wroking_Models
             {
                 Number_Work = "2",

@@ -25,8 +25,6 @@ namespace 悍高软件.View.FrameShow
         {
             InitializeComponent();
 
-
-            
         }
 
 

@@ -75,7 +75,8 @@
                         <TextBox Style="{StaticResource TextBoxStyle1}" Grid.Column="1"
                                  Name="TB2"
                                  Text="{Binding User_Port, ValidatesOnDataErrors=True}"
-                                 Margin="0,0,30,0"
+                                 Width="244.286" Margin="0,13.625"
+                                 HorizontalAlignment="Left"
                                  VerticalAlignment="Center"
                                  DataContext="{Binding Source={StaticResource Locator}, Path=IP_Text_Error}"
                                  Validation.ErrorTemplate="{x:Null}"
@@ -118,15 +119,32 @@
 
                         <Button.Style>
                             <Style BasedOn="{StaticResource ButtonStyle3}" TargetType="Button">
+                                <Style.Setters>
+                                    <Setter Property="Background" Value="#AAAAAA" />
+                                    <Setter Property="Content" Value="连接控制柜" />
+                                </Style.Setters>
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Connect_Socketing}" Value="true">
-                                        <Setter Property="Background" Value="#47aa57" />
-                                        <Setter Property="Content" Value="连接成功" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding Connect_Socketing}" Value="False">
-                                        <Setter Property="Background" Value="#F4D160" />
-                                        <Setter Property="Content" Value="连接服务器" />
-                                    </DataTrigger>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding Connect_Socket_OK}" Value="false" />
+                                            <Condition Binding="{Binding Connect_Socket_Connection}" Value="true" />
+                                        </MultiDataTrigger.Conditions>
+                                        <MultiDataTrigger.Setters>
+                                            <Setter Property="Background" Value="#F4D160" />
+                                            <Setter Property="Content" Value="连接中..." />
+                                        </MultiDataTrigger.Setters>
+                                    </MultiDataTrigger>
+
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding Connect_Socket_OK}" Value="true" />
+                                            <Condition Binding="{Binding Connect_Socket_Connection}" Value="true" />
+                                        </MultiDataTrigger.Conditions>
+                                        <MultiDataTrigger.Setters>
+                                            <Setter Property="Background" Value="#47aa57" />
+                                            <Setter Property="Content" Value="连接成功" />
+                                        </MultiDataTrigger.Setters>
+                                    </MultiDataTrigger>
 
 
                                 </Style.Triggers>

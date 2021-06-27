@@ -40,7 +40,7 @@ namespace 悍高软件.Model
         /// <summary>
         /// 坐标数据变化红色显示
         /// </summary>
-        public bool UI_Point_Color { set; get; }
+        public bool UI_Point_Color { set; get; } = false;
 
 
 

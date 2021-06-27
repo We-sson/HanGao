@@ -109,7 +109,10 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
 
-                    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                    <WrapPanel Margin="126.5,0,123.5,0"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Stretch"
+                               Visibility="Collapsed">
                         <TextBlock Style="{DynamicResource 标题_图标_选择动画样式}"
                                    Text="&#xE67E;" Margin="5"
                                    HorizontalAlignment="Center"
@@ -136,7 +139,7 @@
                     </i:Interaction.Triggers>
 
 
-                    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Stretch" Visibility="Collapsed">
                         <TextBlock Style="{StaticResource 标题_图标_选择动画样式}"
                                    Text="&#xE6A5;" Margin="5"
                                    HorizontalAlignment="Stretch"
@@ -163,7 +166,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
 
-                    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Stretch" Visibility="Collapsed">
                         <TextBlock Style="{StaticResource 标题_图标_选择动画样式}"
                                    Text="&#xE635;" Margin="5"
                                    HorizontalAlignment="Stretch"
