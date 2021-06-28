@@ -4,12 +4,6 @@ using Nancy.Helpers;
 using Prism.Commands;
 using PropertyChanged;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -17,9 +11,9 @@ using System.Windows.Input;
 namespace 悍高软件.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public  class UserControl_Right_Function_Connect_ViewModel: ViewModelBase
+    public class UserControl_Right_Function_Connect_ViewModel : ViewModelBase
     {
-        
+
         public UserControl_Right_Function_Connect_ViewModel()
         {
             //注册消息接收
@@ -44,7 +38,7 @@ namespace 悍高软件.ViewModel
 
         }
 
-        private  bool _Open = false;
+        private bool _Open = false;
         /// <summary>
         /// 侧边栏打开关闭控制
         /// </summary>
@@ -60,11 +54,11 @@ namespace 悍高软件.ViewModel
             }
         }
 
-        private string _Sidebar_MainTitle = null ;
+        private string _Sidebar_MainTitle = null;
         /// <summary>
         /// 侧边栏主标题
         /// </summary>
-        public string  Sidebar_MainTitle
+        public string Sidebar_MainTitle
         {
             get
             {
@@ -81,8 +75,8 @@ namespace 悍高软件.ViewModel
                     _Sidebar_MainTitle += st[i] + HttpUtility.HtmlDecode("&#0032;");
                 }
 
-                  
-               
+
+
             }
         }
 
@@ -116,7 +110,7 @@ namespace 悍高软件.ViewModel
 
 
 
-        private string _Sidebar_Subtitle ;
+        private string _Sidebar_Subtitle;
         /// <summary>
         /// 侧边栏副标题
         /// </summary>
@@ -135,12 +129,12 @@ namespace 悍高软件.ViewModel
                 for (int i = 0; i < st.Length; i++)
                 {
                     _Sidebar_Subtitle += st[i] + HttpUtility.HtmlDecode("&#10;");
-                    
+
                 }
             }
         }
 
-        private UserControl _Sidebar_Control ;
+        private UserControl _Sidebar_Control;
         /// <summary>
         /// 侧边栏内容
         /// </summary>
@@ -160,7 +154,7 @@ namespace 悍高软件.ViewModel
 
 
 
-         private Thickness _Subtitle_Position;
+        private Thickness _Subtitle_Position;
         /// <summary>
         /// 侧边栏副标题高度
         /// </summary>
@@ -194,17 +188,17 @@ namespace 悍高软件.ViewModel
 
 
 
-            if (e.Uid=="Open")
+            if (e.Uid == "Open")
             {
                 Open = true;
                 //侧边栏打开主页面模糊
-                Messenger.Default.Send<Double>(10,"Open_Effect");
+                Messenger.Default.Send<Double>(10, "Open_Effect");
                 //侧边栏打开后主页黑化禁止用户操作
-                Messenger.Default.Send<Visibility >(Visibility.Visible, "Home_Visibility_Show");
+                Messenger.Default.Send<Visibility>(Visibility.Visible, "Home_Visibility_Show");
 
-                
+
             }
-            else if (e.Uid=="Close")
+            else if (e.Uid == "Close")
             {
                 Open = false;
                 Messenger.Default.Send<Double>(0, "Open_Effect");
@@ -215,9 +209,9 @@ namespace 悍高软件.ViewModel
         }
 
 
-        
 
-        
+
+
 
 
 

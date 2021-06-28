@@ -12,7 +12,6 @@
   See http://www.galasoft.ch/mvvm
 */
 
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using 悍高软件.Errorinfo;
 using 悍高软件.ViewModel;
@@ -54,7 +53,7 @@ namespace 悍高软件.ViewModelLocator
             SimpleIoc.Default.Register<IP_Text_Error>();
             SimpleIoc.Default.Register<User_Control_Working_Path_VM>();
 
-            
+
 
 
 
@@ -63,7 +62,7 @@ namespace 悍高软件.ViewModelLocator
 
         }
 
-        public MainWindow  MainWindow => CommonServiceLocator.ServiceLocator.Current.GetInstance<MainWindow>();
+        public MainWindow MainWindow => CommonServiceLocator.ServiceLocator.Current.GetInstance<MainWindow>();
         public User User => CommonServiceLocator.ServiceLocator.Current.GetInstance<User>();
         public User_Control_Log_ViewModel User_Log => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Control_Log_ViewModel>();
         public FrameShow FrameShow => CommonServiceLocator.ServiceLocator.Current.GetInstance<FrameShow>();
@@ -71,14 +70,14 @@ namespace 悍高软件.ViewModelLocator
         public User_Control_Working_VM_1 User_Control_Working_VM_1 => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Control_Working_VM_1>();
         public User_Control_Working_VM_2 User_Control_Working_VM_2 => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Control_Working_VM_2>();
         public User_Message_ViewModel User_Message_ViewModel => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Message_ViewModel>();
-        public User_Message_Control_Show User_Message_Control_Show => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Message_Control_Show>(); 
+        public User_Message_Control_Show User_Message_Control_Show => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Message_Control_Show>();
         public UserControl_Right_Function_Connect_ViewModel UserControl_Right_Function_Connect_ViewModel => CommonServiceLocator.ServiceLocator.Current.GetInstance<UserControl_Right_Function_Connect_ViewModel>();
         public Home_ViewModel Home_ViewModel => CommonServiceLocator.ServiceLocator.Current.GetInstance<Home_ViewModel>();
         public UserControl_Right_Socket_Connection_ViewModel UserControl_Right_Socket_Connection_ViewModel => CommonServiceLocator.ServiceLocator.Current.GetInstance<UserControl_Right_Socket_Connection_ViewModel>();
         public IP_Text_Error IP_Text_Error => CommonServiceLocator.ServiceLocator.Current.GetInstance<IP_Text_Error>();
         public User_Control_Working_Path_VM User_Control_Working_Path_VM => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Control_Working_Path_VM>();
 
-        
+
 
         public static void Cleanup()
         {

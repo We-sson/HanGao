@@ -1,17 +1,9 @@
-﻿using GalaSoft.MvvmLight;
-using Prism.Commands;
+﻿using Prism.Commands;
 using PropertyChanged;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using 悍高软件.Model;
-using static 悍高软件.Model.Wroking_Models;
 
 namespace 悍高软件.ViewModel
 {
@@ -63,7 +55,7 @@ namespace 悍高软件.ViewModel
 
 
             //写入列表中泛型
-           User_Check_Write_List(2);
+            User_Check_Write_List(2);
             //功能开关信息日记输出显示
             User_Features_OnOff_Log(e.IsChecked, 2, e.Content.ToString());
 
@@ -185,7 +177,7 @@ namespace 悍高软件.ViewModel
             CheckBox e = Sm.Source as CheckBox;
             User_Control_Working_VM_2 S = (User_Control_Working_VM_2)e.DataContext;
             //写入列表中泛型
-           User_Check_Write_List(2);
+            User_Check_Write_List(2);
             //功能开关信息日记输出显示
             User_Features_OnOff_Log(e.IsChecked, 2, e.Content.ToString());
 

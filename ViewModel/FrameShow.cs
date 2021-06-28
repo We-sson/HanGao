@@ -1,28 +1,22 @@
 ﻿using GalaSoft.MvvmLight;
 using Prism.Commands;
 using PropertyChanged;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using 悍高软件.Model;
 using 悍高软件.View.FrameShow;
 
 namespace 悍高软件.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public  class FrameShow :ViewModelBase
+    public class FrameShow : ViewModelBase
     {
         /// <summary>
         /// 页面初始化内容
         /// </summary>
         public FrameShow()
         {
-         
+
             //启动首页
             User_Show = HomeOne;
         }
@@ -39,17 +33,19 @@ namespace 悍高软件.ViewModel
         /// <summary>
         /// 用于前段绑定显示页面内容
         /// </summary>
-        private UserControl _User_Show ;
+        private UserControl _User_Show;
         public UserControl User_Show
         {
-            
+
             get { return _User_Show; }
-            set {
+            set
+            {
                 if (_User_Show == value)
                 {
                     return;
                 }
-                _User_Show = value; }
+                _User_Show = value;
+            }
         }
 
 
@@ -63,15 +59,15 @@ namespace 悍高软件.ViewModel
             get => new DelegateCommand<Control>(Set_User);
         }
 
-   
 
-       /// <summary>
-       /// 使用Uid识别码来显示内容
-       /// </summary>
-       /// <param name="_name"></param>
+
+        /// <summary>
+        /// 使用Uid识别码来显示内容
+        /// </summary>
+        /// <param name="_name"></param>
         private void Set_User(Control _name)
         {
-            
+
             switch (_name.Uid)
             {
                 case "1":
@@ -98,10 +94,10 @@ namespace 悍高软件.ViewModel
         /// <summary>
         /// 主窗口最小化
         /// </summary>
-        private void Min_Window_Comm(Window  Sm)
+        private void Min_Window_Comm(Window Sm)
         {
 
-          
+
             //窗口最小化
             Sm.WindowState = WindowState.Minimized;
 
@@ -134,7 +130,7 @@ namespace 悍高软件.ViewModel
 
             //窗口关闭
             Sm.Close();
-            
+
 
         }
 

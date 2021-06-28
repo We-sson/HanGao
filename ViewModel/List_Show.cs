@@ -3,15 +3,12 @@ using GalaSoft.MvvmLight.Messaging;
 using Prism.Commands;
 using PropertyChanged;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using 悍高软件.Model;
-using 悍高软件.View.UserMessage;
-using 悍高软件.ViewModel;
 using static 悍高软件.Model.Sink_Models;
 
 namespace 悍高软件.ViewModel
@@ -165,9 +162,9 @@ namespace 悍高软件.ViewModel
 
                     return;
 
-            
 
-               
+
+
 
 
 
@@ -181,7 +178,7 @@ namespace 悍高软件.ViewModel
 
 
 
-                
+
                 //加工区域功能显示
                 if (e.Uid == "1")
                 {

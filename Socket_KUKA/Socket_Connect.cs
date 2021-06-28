@@ -4,14 +4,10 @@ using PropertyChanged;
 using Soceket_KUKA;
 using Soceket_KUKA.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 using 悍高软件.Socket_KUKA;
 using 悍高软件.ViewModel;
 
@@ -128,7 +124,7 @@ namespace Soceket_Connect
                     //异步连接
                     Global_Socket_Write.BeginConnect(ip, new AsyncCallback(Client_Inf), Global_Socket_Write);
                     Global_Socket_Read.BeginConnect(ip, new AsyncCallback(Client_Inf), Global_Socket_Read);
-                    await Task.Delay(10);
+                    await Task.Delay(0);
 
 
 
@@ -260,7 +256,7 @@ namespace Soceket_Connect
                 //Global_Socket_Read.Shutdown(SocketShutdown.Both);
 
                 //Shutdown掉Socket后主线程停止10ms，保证Socket的Shutdown完成
-                await Task.Delay(10);
+                await Task.Delay(0);
 
                 //停止读取集合内容
                 Read_List = false;
@@ -300,43 +296,52 @@ namespace Soceket_Connect
         public void Receive_Read_Theam()
         {
 
-            //Socket_Receive.Receive_Lock.WaitOne();
-            //Thread.Sleep(5000);
-
-            User_Control_Log_ViewModel.User_Log_Add("-1.1，准备发送线程");
-            Monitor.Enter(The_Lock);
-            User_Control_Log_ViewModel.User_Log_Add("-1.2，进入发送线程");
-
-
-            try
+            while (Read_List)
             {
 
 
-                //Socket_Receive.Receive_Lock.WaitOne(100);
-                //Connect_Lock.WaitOne(100);
+                //Socket_Receive.Receive_Lock.WaitOne();
+                //Thread.Sleep(5000);
 
-                var bool_A = UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List.Count > 0;
-                //var bool_B = Global_Socket_Read.Poll(-1, SelectMode.SelectRead);
+                User_Control_Log_ViewModel.User_Log_Add("-1.1，准备发送线程");
+                Monitor.Enter(The_Lock);
+                User_Control_Log_ViewModel.User_Log_Add("-1.2，进入发送线程");
 
 
-                if (bool_A && Read_List)
+                try
                 {
 
-                    for (int i = 0; i < UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List.Count; i++)
+
+                    //Socket_Receive.Receive_Lock.WaitOne(100);
+                    //Connect_Lock.WaitOne(100);
+
+                    var bool_A = UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List.Count > 0;
+                    //var bool_B = Global_Socket_Read.Poll(-1, SelectMode.SelectRead);
+
+
+                    if (bool_A && Read_List)
                     {
-                        if (UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Val_OnOff == true)
+
+                        for (int i = 0; i < UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List.Count; i++)
                         {
+                            if (UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Val_OnOff == true)
+                            {
 
 
-                            UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Val_ID = i;
-                            Socket_Send.Send_Read_Var(UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Val_Name, i);
-                            Task.Delay(500);
-                            //Thread.SpinWait(200);
-                            //等待线程接收
-                            Thread.Sleep(500);
-                            User_Control_Log_ViewModel.User_Log_Add("-1.3，处于等待线程");
-                            Monitor.Wait(The_Lock);
-                            User_Control_Log_ViewModel.User_Log_Add("-1.4，解除等待线程");
+                                UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Val_ID = i;
+                                Socket_Send.Send_Read_Var(UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Val_Name, i);
+                                //Task.Delay(500);
+                                //Thread.SpinWait(200);
+                                //等待线程接收
+                                //Thread.Sleep(50);
+                                User_Control_Log_ViewModel.User_Log_Add("-1.3，处于等待线程");
+                                Monitor.Wait(The_Lock);
+                                User_Control_Log_ViewModel.User_Log_Add("-1.4，解除等待线程");
+                            }
+
+
+
+
                         }
 
 
@@ -346,31 +351,24 @@ namespace Soceket_Connect
 
 
 
+                    //Task.Delay(1000);
+                    //Thread.Sleep(300);
+
+                    //Receive_Read_Theam();
 
                 }
+                catch (Exception e)
+                {
 
-     
+                    User_Control_Log_ViewModel.User_Log_Add($"Error:-8 " + e.Message);
+                    User_Control_Log_ViewModel.User_Log_Add("-1.5，退出发送线程");
+                    Monitor.Exit(The_Lock);
+                    Clear_List();
+                    return;
+                }
 
-                //Task.Delay(1000);
-                //Thread.Sleep(300);
-
-                Receive_Read_Theam();
-
-            }
-            catch (Exception e)
-            {
-
-                User_Control_Log_ViewModel.User_Log_Add($"Error:-8 " + e.Message);
-                User_Control_Log_ViewModel.User_Log_Add("-1.5，退出发送线程");
-                Monitor.Exit(The_Lock);
-            }
-            finally
-            {
-                //异常退出时清空读取集合变量值
-                Clear_List();
 
             }
-
 
 
             //Socket_Receive.Receive_Lock.ReleaseMutex();

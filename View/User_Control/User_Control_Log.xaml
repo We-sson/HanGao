@@ -43,7 +43,8 @@
                     <i:InvokeCommandAction Command="{Binding Path=DataContext.Update_Log_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="{Binding ElementName=SV1}" PassEventArgsToCommand="True" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-            <TextBlock Text="{Binding User_UI_Log.User_Log}" Width="600"
+            <TextBlock Text="{Binding User_UI_Log.User_Log}"
+                       Width="600"
                        TextWrapping="WrapWithOverflow"
                        DataContext="{Binding Source={StaticResource Locator}, Path=User_Log}"
                        Visibility="Visible" Foreground="Black"

@@ -2,16 +2,12 @@
 using GalaSoft.MvvmLight.Messaging;
 using PropertyChanged;
 using Soceket_Connect;
-using Soceket_KUKA;
 using Soceket_KUKA.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading;
-using System.Windows;
+using System.Threading.Tasks;
 using 悍高软件.ViewModel;
 
 namespace 悍高软件.Socket_KUKA
@@ -29,7 +25,7 @@ namespace 悍高软件.Socket_KUKA
 
         }
 
-  
+
 
 
         private static Socket_Models_Connect _Socket_Client = new Socket_Models_Connect() { };
@@ -48,7 +44,7 @@ namespace 悍高软件.Socket_KUKA
             }
         }
 
-      
+
         /// <summary>
         /// 消息通道传输属性
         /// </summary>
@@ -66,10 +62,10 @@ namespace 悍高软件.Socket_KUKA
         public static void Socket_Send_Message_Method(Socket_Models_Send _S)
         {
 
-            dynamic Message= _S.Send_Byte ;
+            Byte[] Message = _S.Send_Byte;
             int _i = _S.Send_int;
             //byte_Send = Encoding.UTF8.GetBytes((string ) Message);
-            
+
 
 
 
@@ -77,12 +73,12 @@ namespace 悍高软件.Socket_KUKA
             try
             {
                 //发送消息到服务器
-                if (_i==1)
+                if (_i == 1)
                 {
 
-                Socket_Connect.Global_Socket_Write.BeginSend(Message, 0, Message.Length, SocketFlags.None, new AsyncCallback(Socket_Send_Message), Socket_Connect.Global_Socket_Write);
+                    Socket_Connect.Global_Socket_Write.BeginSend(Message, 0, Message.Length, SocketFlags.None, new AsyncCallback(Socket_Send_Message), Socket_Connect.Global_Socket_Write);
                 }
-                else if (_i==0)
+                else if (_i == 0)
                 {
                     Socket_Connect.Global_Socket_Read.BeginSend(Message, 0, Message.Length, SocketFlags.None, new AsyncCallback(Socket_Send_Message), Socket_Connect.Global_Socket_Read);
 
@@ -93,7 +89,7 @@ namespace 悍高软件.Socket_KUKA
 
                 Messenger.Default.Send<bool>(true, "Connect_Button_IsEnabled_Method");
 
-                User_Control_Log_ViewModel.User_Log_Add("Error:-6 "+e.Message);
+                User_Control_Log_ViewModel.User_Log_Add("Error:-6 " + e.Message);
 
             }
 
@@ -124,7 +120,7 @@ namespace 悍高软件.Socket_KUKA
         /// 处理读取变量字节流
         /// </summary>
         /// <param name="_var">读取变量值</param>
-        public static int Send_Read_Var(string _var,int _ID)
+        public static int Send_Read_Var(string _var, int _ID)
         {
 
 
@@ -134,7 +130,7 @@ namespace 悍高软件.Socket_KUKA
             //变量转换byte
             byte[] _v = Encoding.Default.GetBytes(_var);
 
-          
+
 
 
             //传输数据排列，固定顺序不可修改
@@ -152,8 +148,17 @@ namespace 悍高软件.Socket_KUKA
             //结束位号
             _data.AddRange(new byte[1] { 0x00 });
 
-            //发送排序好的字节流发送
-            Socket_Send_Message_Method(new Socket_Models_Send() {  Send_Byte= _data.ToArray(), Send_int=0 });
+
+
+            Task.Run(() =>
+           {
+
+
+
+               //发送排序好的字节流发送
+               Socket_Send_Message_Method(new Socket_Models_Send() { Send_Byte = _data.ToArray(), Send_int = 0 });
+
+           });
 
 
 
@@ -167,7 +172,7 @@ namespace 悍高软件.Socket_KUKA
         /// </summary>
         /// <param name="_name">写入变量名</param>
         /// <param name="_var">写入变量值</param>
-        public static void Send_Write_Var(string _name,string _var)
+        public static void Send_Write_Var(string _name, string _var)
         {
 
 
@@ -186,7 +191,7 @@ namespace 悍高软件.Socket_KUKA
             //传输数据唯一标识
             _data.AddRange(Socket_Client.Send_number_ID(Socket_Models_Connect.Number_ID));
             //传输数据总长度值
-            _data.AddRange(Socket_Client.Send_number_ID(_n.Length +_v.Length+ 5));
+            _data.AddRange(Socket_Client.Send_number_ID(_n.Length + _v.Length + 5));
             //写入标识 0x01
             _data.AddRange(new byte[1] { 0x01 });
             //传输变量长度值
@@ -200,8 +205,9 @@ namespace 悍高软件.Socket_KUKA
             //结束位号
             _data.AddRange(new byte[1] { 0x00 });
 
+
             //发送排序好的字节流发送
-            Socket_Send_Message_Method( new Socket_Models_Send() {  Send_Byte= _data.ToArray() , Send_int=1});
+            Socket_Send_Message_Method(new Socket_Models_Send() { Send_Byte = _data.ToArray(), Send_int = 1 });
 
 
 

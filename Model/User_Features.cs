@@ -1,17 +1,12 @@
 ﻿using PropertyChanged;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace 悍高软件.Model
 {
     [AddINotifyPropertyChangedInterface]
-    public  class User_Features
+    public class User_Features
     {
 
-        
+
 
 
 
@@ -81,7 +76,7 @@ namespace 悍高软件.Model
             }
         }
 
-        
+
 
     }
 }

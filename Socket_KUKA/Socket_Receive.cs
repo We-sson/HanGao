@@ -4,16 +4,13 @@ using PropertyChanged;
 using Soceket_Connect;
 using Soceket_KUKA.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using 悍高软件.ViewModel;
-using static Soceket_KUKA.Models.Socket_Models_Receive;
 
 namespace Soceket_KUKA
 {
@@ -175,12 +172,12 @@ namespace Soceket_KUKA
                         UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Val_Update_Time = DateTime.Now;
                         UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Val_Var = Message_Show;
                         //MessageBox.Show(Message_Show);
-                        Task.Run(() =>{ User_Control_Log_ViewModel.User_Log_Add($"接收变量值："+ Message_Show); });
+                        Task.Run(() => { User_Control_Log_ViewModel.User_Log_Add($"接收变量值：" + Message_Show); });
                     }
 
                 }
                 //等待发送线程
-                
+
 
 
 
@@ -228,7 +225,7 @@ namespace Soceket_KUKA
 
 
             User_Control_Log_ViewModel.User_Log_Add("-2.3，释放发送线程");
-            Monitor.PulseAll (Socket_Connect.The_Lock);
+            Monitor.PulseAll(Socket_Connect.The_Lock);
             User_Control_Log_ViewModel.User_Log_Add("-2.4，已释放发送线程锁");
             Monitor.Exit(Socket_Connect.The_Lock);
 
@@ -260,7 +257,7 @@ namespace Soceket_KUKA
         /// <returns></returns>
         public string Receive_Return_String(object _Obj)
         {
-            string Name_Val = _Obj as string;
+            //string Name_Val = _Obj as string;
 
             Receive_ReturnString_Lock.WaitOne();
             try
@@ -269,24 +266,9 @@ namespace Soceket_KUKA
                 {
                     //UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List
 
-
-
-
-
-
-
                 }
 
-
-
-
             }
-
-
-
-
-
-
 
             catch (Exception)
             {
@@ -294,19 +276,11 @@ namespace Soceket_KUKA
 
             }
 
-
-
             Receive_ReturnString_Lock.ReleaseMutex();
 
             return string.Empty;
 
         }
-
-
-
-
-
-
 
     }
 }

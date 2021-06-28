@@ -1,13 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 using PropertyChanged;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using 悍高软件.View.User_Control;
@@ -15,10 +8,10 @@ using 悍高软件.View.User_Control;
 namespace 悍高软件.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public  class Home_ViewModel: ViewModelBase
+    public class Home_ViewModel : ViewModelBase
     {
 
-        
+
         public Home_ViewModel()
         {
 
@@ -27,7 +20,7 @@ namespace 悍高软件.ViewModel
             Messenger.Default.Register<double>(this, "Open_Effect", Open_Effect);
             Messenger.Default.Register<Visibility>(this, "Home_Visibility_Show", Home_Visibility_Show);
 
-            Sidebar_Control = new UserControl_Right_Function_Connect() {Uid="1", DataContext =new UserControl_Right_Function_Connect_ViewModel() { Sidebar_MainTitle="连接状态" ,  Subtitle_Position=new Thickness() {  Top=100} ,Sidebar_Control=new UserControl_Right_Socket_Connection() {  } } };
+            Sidebar_Control = new UserControl_Right_Function_Connect() { Uid = "1", DataContext = new UserControl_Right_Function_Connect_ViewModel() { Sidebar_MainTitle = "连接状态", Subtitle_Position = new Thickness() { Top = 100 }, Sidebar_Control = new UserControl_Right_Socket_Connection() { } } };
 
 
         }
@@ -36,7 +29,7 @@ namespace 悍高软件.ViewModel
         /// <summary>
         /// 侧边栏打开主页模糊方法
         /// </summary>
-        public  void Open_Effect(double E)
+        public void Open_Effect(double E)
         {
             Gird_Effect_Radius = E;
         }
@@ -59,7 +52,7 @@ namespace 悍高软件.ViewModel
         /// </summary>
         public double Gird_Effect_Radius
         {
-            get 
+            get
             {
                 return _Gird_Effect_Radius;
             }

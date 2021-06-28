@@ -1,7 +1,5 @@
 ﻿using Nancy.Helpers;
 using PropertyChanged;
-using System.Windows;
-using 悍高软件.ViewModel;
 
 namespace 悍高软件.Model
 {
@@ -51,12 +49,13 @@ namespace 悍高软件.Model
         /// </summary>
         public int Model_Number
         {
-            get {
-               
+            get
+            {
+
                 return _Model_Number;
-                
-}
-           
+
+            }
+
             set { _Model_Number = value; }
         }
 

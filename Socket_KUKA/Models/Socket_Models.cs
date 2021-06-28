@@ -1,14 +1,7 @@
-﻿using Nancy.Helpers;
-using PropertyChanged;
+﻿using PropertyChanged;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Soceket_KUKA.Models
 {
@@ -50,7 +43,7 @@ namespace Soceket_KUKA.Models
             }
         }
 
-        private static bool _Socket_OK;
+
         /// <summary>
         /// 连接成功状态
         /// </summary>
@@ -101,7 +94,7 @@ namespace Soceket_KUKA.Models
             }
             get
             {
-                if (_Number_ID>65500)
+                if (_Number_ID > 65500)
                 {
                     _Number_ID = 0;
                 }
@@ -132,7 +125,7 @@ namespace Soceket_KUKA.Models
         /// <summary>
         /// 输入ID号返回对应byte组
         /// </summary>
-        public byte[] Send_number_ID (int _ID)
+        public byte[] Send_number_ID(int _ID)
         {
 
             var arr = new byte[_ID.ToString("x4").Length / 2];
@@ -149,10 +142,6 @@ namespace Soceket_KUKA.Models
 
 
 
-
-
-
-
     }
 
 
@@ -162,11 +151,11 @@ namespace Soceket_KUKA.Models
     {
 
 
-        private dynamic _Send_Byte;
+        private Byte[]  _Send_Byte;
         /// <summary>
         /// 发送字节组属性
         /// </summary>
-        public dynamic Send_Byte
+        public Byte[] Send_Byte
         {
             get
             {
@@ -261,7 +250,7 @@ namespace Soceket_KUKA.Models
         public class Socket_Models_List
         {
 
-            private string  _Val_Name;
+            private string _Val_Name;
             /// <summary>
             /// 变量名称
             /// </summary>
@@ -285,7 +274,7 @@ namespace Soceket_KUKA.Models
             {
                 get
                 {
-                    return _Val_Var ;
+                    return _Val_Var;
                 }
                 set
                 {
@@ -297,7 +286,7 @@ namespace Soceket_KUKA.Models
             /// <summary>
             /// 变量名称值
             /// </summary>
-            public int  Val_ID
+            public int Val_ID
             {
                 get
                 {
@@ -308,7 +297,7 @@ namespace Soceket_KUKA.Models
                     _Val_ID = value;
                 }
             }
-            private bool _Val_OnOff=true;
+            private bool _Val_OnOff = true;
             /// <summary>
             /// 读取开启关闭
             /// </summary>
@@ -324,7 +313,7 @@ namespace Soceket_KUKA.Models
                 }
             }
 
-            private DateTime _Val_Update_Time=DateTime.Now;
+            private DateTime _Val_Update_Time = DateTime.Now;
             /// <summary>
             /// 读取时间
             /// </summary>

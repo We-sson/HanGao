@@ -2,12 +2,6 @@
 using GalaSoft.MvvmLight.Messaging;
 using Prism.Commands;
 using PropertyChanged;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -28,7 +22,7 @@ namespace 悍高软件.ViewModel
             Messenger.Default.Register<string>(this, "User_Message_Work_Type", User_Wrok_Type);
 
 
-            
+
 
 
         }
@@ -100,7 +94,7 @@ namespace 悍高软件.ViewModel
             Button e = Sm.Source as Button;
             User_Message_ViewModel S = (User_Message_ViewModel)e.DataContext;
 
-                //Messenger.Default.Send<User_Message_ViewModel>(S, "User_DataContexr");
+            //Messenger.Default.Send<User_Message_ViewModel>(S, "User_DataContexr");
 
 
 
@@ -115,7 +109,7 @@ namespace 悍高软件.ViewModel
                 Clear_List_Check(true);
 
                 //关闭弹窗
-                Messenger.Default.Send<bool?>(false , "User_Message_Show");
+                Messenger.Default.Send<bool?>(false, "User_Message_Show");
             }
             else if (e.Uid.ToString() == "No")
             {
@@ -138,28 +132,28 @@ namespace 悍高软件.ViewModel
         {
             foreach (var i in List_Show.SinkModels)
             {
-                if ((User_Message_View.User_Wrok_Trye == i.Model_Number.ToString())&&OnOff==false  )
+                if ((User_Message_View.User_Wrok_Trye == i.Model_Number.ToString()) && OnOff == false)
                 {
                     if (List_Check_Control.Uid == "1")
                     {
-                        i.List_IsChecked_1 = false   ;
+                        i.List_IsChecked_1 = false;
 
                     }
                     else if (List_Check_Control.Uid == "2")
                     {
-                        i.List_IsChecked_2 = false   ;
+                        i.List_IsChecked_2 = false;
                     }
                 }
-                else if (User_Message_View.User_Wrok_Trye != i.Model_Number.ToString()&&(i.List_IsChecked_1==true||i.List_IsChecked_2==true )&&OnOff==true  )
+                else if (User_Message_View.User_Wrok_Trye != i.Model_Number.ToString() && (i.List_IsChecked_1 == true || i.List_IsChecked_2 == true) && OnOff == true)
                 {
                     if (List_Check_Control.Uid == "1")
                     {
-                        i.List_IsChecked_1 = false  ;
+                        i.List_IsChecked_1 = false;
 
                     }
                     else if (List_Check_Control.Uid == "2")
                     {
-                        i.List_IsChecked_2 = false  ;
+                        i.List_IsChecked_2 = false;
                     }
                 }
 
@@ -175,20 +169,20 @@ namespace 悍高软件.ViewModel
         /// </summary>
         public void User_Wrok_Type(string Type)
         {
-            
+
             User_Message_View.User_Wrok_Trye = Type;
-            
+
         }
 
 
 
-       
+
 
 
         /// <summary>
         /// 把水槽列表选择的控件通过消息通知到弹窗修改
         /// </summary>
-        public  void Set_Work_Show()
+        public void Set_Work_Show()
         {
             Sink_Models S = (Sink_Models)List_Check_Control.DataContext;
 
@@ -230,7 +224,7 @@ namespace 悍高软件.ViewModel
         /// <summary>
         /// 弹窗显示加工区域已存在型号
         /// </summary>
-        public   User_Message_Models User_Message_View
+        public User_Message_Models User_Message_View
         {
             get
             {
@@ -247,12 +241,12 @@ namespace 悍高软件.ViewModel
         /// <summary>
         /// 接收列表传来的控件
         /// </summary>
-        public static  CheckBox List_Check_Control
+        public static CheckBox List_Check_Control
         {
             get
             {
                 return _List_Check_Control;
-        }
+            }
             set
             {
                 _List_Check_Control = value;

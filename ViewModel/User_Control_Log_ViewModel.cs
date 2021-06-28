@@ -1,36 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
 using Prism.Commands;
 using PropertyChanged;
-using System.Windows;
-using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
+using 悍高软件.Errorinfo;
 using 悍高软件.Model;
-using 悍高软件.View.User_Control;
-using Nancy.Helpers;
 
 namespace 悍高软件.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public    class User_Control_Log_ViewModel:ViewModelBase
+    public class User_Control_Log_ViewModel : ViewModelBase
     {
         ///// <summary>
         ///// 初始化输出信息
         ///// </summary>
         //public   User_Control_Log_ViewModel()
         //{
-            
+
         //    User_UI_Log.Add(new User_Log_Models() {  User_Log= "软件启动" });
 
         //}
 
-        private static User_Log_Models _User_UI_Log =new User_Log_Models() ;
+        private static User_Log_Models _User_UI_Log = new User_Log_Models();
         /// <summary>
         /// 显示状态信息输出
         /// </summary>
@@ -51,13 +43,15 @@ namespace 悍高软件.ViewModel
         public static void User_Log_Add(string Log)
         {
 
+      
 
+                //User_UI_Log.User_Log += DateTime.Now.ToShortTimeString().ToString() + "——" + Log + HttpUtility.HtmlDecode("&#x000A;");
+                //LogManager.WriteProgramLog(Log);
+         
             //显示前增加时间戳 
-            User_UI_Log.User_Log += DateTime.Now.ToShortTimeString().ToString() + "——" + Log + HttpUtility.HtmlDecode("&#x000A;"); ;
-            
-            
 
-       
+
+
 
 
         }
@@ -82,18 +76,18 @@ namespace 悍高软件.ViewModel
         /// </summary>
         private void Update_Log(ScrollViewer Sm)
         {
- 
-            
+
+
             //如果原来的高度就不翻页
             if (Sm.ExtentHeight != ScrollViewer_Contrn)
             {
                 ScrollViewer_Contrn = Sm.ExtentHeight;
                 Sm.PageDown();
                 return;
-               
+
 
             }
-          
+
         }
 
 

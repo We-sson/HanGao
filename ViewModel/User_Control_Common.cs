@@ -2,13 +2,7 @@
 using GalaSoft.MvvmLight.Messaging;
 using PropertyChanged;
 using Soceket_KUKA.Models;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using 悍高软件.Model;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
 
@@ -26,7 +20,7 @@ namespace 悍高软件.ViewModel
 
 
 
-           Messenger.Default.Send<ObservableCollection<Socket_Models_List>>(_List, "List_Connect");
+            Messenger.Default.Send<ObservableCollection<Socket_Models_List>>(_List, "List_Connect");
 
 
 
@@ -43,7 +37,7 @@ namespace 悍高软件.ViewModel
         /// </summary>
         public void Program_Initialization()
         {
-               
+
 
 
         }
@@ -54,7 +48,7 @@ namespace 悍高软件.ViewModel
         /// <summary>
         /// 临时变量属性集合
         /// </summary>
-        public  ObservableCollection<Socket_Models_List> _List { set; get; } = new ObservableCollection<Socket_Models_List>()
+        public ObservableCollection<Socket_Models_List> _List { set; get; } = new ObservableCollection<Socket_Models_List>()
         {
             new Socket_Models_List() { Val_Name = "$VEL_ACT", Val_ID = Socket_Models_Connect.Number_ID },
             new Socket_Models_List() { Val_Name = "$PRO_STATE", Val_ID = Socket_Models_Connect.Number_ID },

@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Nancy.Helpers;
-using PropertyChanged;
+﻿using PropertyChanged;
 using System.Windows;
-using 悍高软件.ViewModel;
 
 namespace 悍高软件.Model
 {
@@ -17,7 +10,7 @@ namespace 悍高软件.Model
         public User_Message_Models()
         {
 
-           
+
 
 
         }
@@ -33,7 +26,7 @@ namespace 悍高软件.Model
         ///Collapsed 不显示元素，并且不在布局中为它保留空间。
         ///
         /// </summary>
-        public string User_Message_Visibility 
+        public string User_Message_Visibility
         {
             get
             {
@@ -48,11 +41,11 @@ namespace 悍高软件.Model
 
 
 
-        private   string _User_Wrok_Trye = "000000";
+        private string _User_Wrok_Trye = "000000";
         /// <summary>
         /// 弹窗显示加工区域已存在型号
         /// </summary>
-        public    string User_Wrok_Trye
+        public string User_Wrok_Trye
         {
             get
             {

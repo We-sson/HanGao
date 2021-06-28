@@ -139,7 +139,12 @@
 
 
 
-        <Grid Style="{DynamicResource Gd_Effect}" x:Name="Gd5">
+        <Grid x:Name="Gd5">
+
+
+
+
+
 
             <Grid.RowDefinitions>
                 <RowDefinition x:Name="Grd" Height="auto" />
@@ -419,15 +424,18 @@
 
 
                 </MultiTrigger.Conditions>
+                <!--<MultiTrigger.Setters>
+                    <Setter TargetName="Gd3" Property="Height" Value="130" />
+                </MultiTrigger.Setters>-->
                 <MultiTrigger.EnterActions>
                     <BeginStoryboard>
                         <Storyboard Timeline.DesiredFrameRate="60">
-                            <DoubleAnimation SpeedRatio="2"
+                            <DoubleAnimation SpeedRatio="5"
                                              Storyboard.TargetProperty="Height"
                                              Storyboard.TargetName="Gd3" To="130"
                                              Duration="0:0:0:1">
                                 <DoubleAnimation.EasingFunction>
-                                    <QuarticEase EasingMode="EaseOut" />
+                                    <QuinticEase EasingMode="EaseIn" />
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
                         </Storyboard>
@@ -435,13 +443,13 @@
                 </MultiTrigger.EnterActions>
                 <MultiTrigger.ExitActions>
                     <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation SpeedRatio="3"
+                        <Storyboard Timeline.DesiredFrameRate="60">
+                            <DoubleAnimation SpeedRatio="5"
                                              Storyboard.TargetProperty="Height"
                                              Storyboard.TargetName="Gd3" To="0"
                                              Duration="0:0:0:1">
                                 <DoubleAnimation.EasingFunction>
-                                    <QuinticEase EasingMode="EaseOut" />
+                                    <QuinticEase EasingMode="EaseIn" />
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
                         </Storyboard>

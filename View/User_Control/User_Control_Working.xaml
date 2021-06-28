@@ -17,7 +17,7 @@
         </Grid.RowDefinitions>
 
 
-        <Border  x:Name="Bd1"
+        <Border x:Name="Bd1"
                 Grid.RowSpan="2" CornerRadius="35"
                 BorderThickness="5"
                 BorderBrush="Transparent"

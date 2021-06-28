@@ -1,29 +1,22 @@
-﻿using GalaSoft.MvvmLight;
-using Prism.Commands;
+﻿using Prism.Commands;
 using PropertyChanged;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using 悍高软件.Model;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
 
 namespace 悍高软件.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public   class User_Control_Working_VM_1 : User_Control_Common
+    public class User_Control_Working_VM_1 : User_Control_Common
     {
 
 
 
 
-        public static Wroking_Models WM  { get;set; } 
-        public  static  User_Features UF { get; set; }
+        public static Wroking_Models WM { get; set; }
+        public static User_Features UF { get; set; }
 
         /// <summary>
         /// 1号加工区域
@@ -31,15 +24,15 @@ namespace 悍高软件.ViewModel
         public User_Control_Working_VM_1()
         {
 
-  
+
 
             WM = new Wroking_Models
             {
                 Number_Work = "1",
-        
+
 
             };
-    UF = new User_Features
+            UF = new User_Features
             {
 
 
@@ -83,7 +76,7 @@ namespace 悍高软件.ViewModel
 
 
 
-   
+
 
 
 
@@ -127,8 +120,8 @@ namespace 悍高软件.ViewModel
             //写入列表中泛型
             User_Check_Write_List(1);
             //功能开关信息日记输出显示
-            User_Features_OnOff_Log(e.IsChecked, 1,e.Content.ToString());
-     
+            User_Features_OnOff_Log(e.IsChecked, 1, e.Content.ToString());
+
 
         }
 

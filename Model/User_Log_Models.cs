@@ -1,25 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GalaSoft.MvvmLight;
-using Prism.Commands;
-using PropertyChanged;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-using Nancy.Helpers;
+﻿using PropertyChanged;
 
 namespace 悍高软件.Model
 {
     [AddINotifyPropertyChangedInterface]
-   public  class User_Log_Models
+    public class User_Log_Models
     {
         public User_Log_Models()
         {
-     
+
 
 
         }
@@ -34,7 +22,7 @@ namespace 悍高软件.Model
             {
 
                 return _User_Log;
-        
+
             }
             set
             {
@@ -43,7 +31,7 @@ namespace 悍高软件.Model
             }
         }
 
-        private  string _User_Log_Cont=null;
+        private string _User_Log_Cont = null;
         /// <summary>
         /// 显示状态信息输出
         /// </summary>
@@ -51,7 +39,7 @@ namespace 悍高软件.Model
         {
             get
             {
-                return _User_Log_Cont;         
+                return _User_Log_Cont;
             }
             set
             {

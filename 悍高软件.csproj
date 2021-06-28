@@ -137,6 +137,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Errorinfo\IP_Text_Error.cs" />
+    <Compile Include="Errorinfo\LogManager.cs" />
     <Compile Include="Model\Frame_Uri_Models.cs" />
     <Compile Include="Model\Sink_Models.cs" />
     <Compile Include="Model\User_Features.cs" />
@@ -374,6 +375,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DataStore\DataStore\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Log.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Fody.6.5.1\build\Fody.targets" Condition="Exists('packages\Fody.6.5.1\build\Fody.targets')" />

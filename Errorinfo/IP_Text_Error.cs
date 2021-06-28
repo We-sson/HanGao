@@ -1,39 +1,23 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
-using Nancy.Helpers;
-using Prism.Commands;
 using PropertyChanged;
-using Soceket_Connect;
-using Soceket_KUKA;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using 悍高软件.Socket_KUKA;
-using 悍高软件.View.User_Control;
 
 
 
 namespace 悍高软件.Errorinfo
 {
     [SuppressPropertyChangedWarnings]
-    public class IP_Text_Error :   ViewModelBase, IDataErrorInfo
+    public class IP_Text_Error : ViewModelBase, IDataErrorInfo
     {
         //用户输入验证
         public string this[string columnName]
         {
             get
-           {
+            {
                 string Error = string.Empty;
-               
+
                 Regex IP_Regex = new Regex(@"^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$");
                 Regex Port_Regex = new Regex(@"^[1-9]$|(^[1-9][0-9]$)|(^[1-9][0-9][0-9]$)|(^[1-9][0-9][0-9][0-9]$)|(^[1-6][0-5][0-5][0-3][0-5]$)");
 
@@ -41,13 +25,13 @@ namespace 悍高软件.Errorinfo
 
                 switch (columnName)
                 {
-                    case  "User_IP":
+                    case "User_IP":
                         User_IP_Bool = false;
                         if (string.IsNullOrWhiteSpace(User_IP))
                         {
                             Error = "不能为空,输入IP地址";
-                            
-                            
+
+
                         }
                         else if (IP_Regex.IsMatch(User_IP) == false)
                         {
@@ -70,7 +54,7 @@ namespace 悍高软件.Errorinfo
                         {
                             Error = "输入端口有误，请正确输入端口";
                         }
-                        User_Port_Bool = false ;
+                        User_Port_Bool = false;
                         if (string.IsNullOrWhiteSpace(Error))
                         {
                             User_Port_Bool = true;
@@ -88,11 +72,11 @@ namespace 悍高软件.Errorinfo
                 if (User_IP_Bool && User_Port_Bool)
                 {
 
-                Messenger.Default.Send<bool>(true, "Connect_Button_IsEnabled_Method");
+                    Messenger.Default.Send<bool>(true, "Connect_Button_IsEnabled_Method");
                 }
                 else
                 {
-                    Messenger.Default.Send<bool>(false , "Connect_Button_IsEnabled_Method");
+                    Messenger.Default.Send<bool>(false, "Connect_Button_IsEnabled_Method");
 
                 }
 
@@ -134,7 +118,7 @@ namespace 悍高软件.Errorinfo
 
 
 
-        private string _User_IP="192.168.159.128";
+        private string _User_IP = "192.168.159.128";
         /// <summary>
         /// 用户输入IP
         /// </summary>
@@ -151,7 +135,7 @@ namespace 悍高软件.Errorinfo
             }
         }
 
-        private string _User_Port="7000";
+        private string _User_Port = "7000";
         /// <summary>
         /// 用户输入IP
         /// </summary>

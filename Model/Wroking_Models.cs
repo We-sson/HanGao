@@ -1,12 +1,4 @@
 ﻿using PropertyChanged;
-using System;
-using System.Collections.Generic;
-
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media;
 
 namespace 悍高软件.Model
 {
@@ -48,11 +40,11 @@ namespace 悍高软件.Model
             set
             {
                 _Work_Type = value;
-                if (Work_Type=="")
+                if (Work_Type == "")
                 {
-                    Work_back="#E3E3E3";
+                    Work_back = "#E3E3E3";
                 }
-                else if (Work_Type!="")
+                else if (Work_Type != "")
                 {
                     Work_back = "#F4D160";
 
@@ -172,7 +164,7 @@ namespace 悍高软件.Model
                 {
                     Work_back = "#F4D160";
                 }
-         
+
             }
         }
 

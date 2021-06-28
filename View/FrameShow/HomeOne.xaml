@@ -61,7 +61,7 @@
                                           Opacity="50" Color="Gray" />
                     </Border.Effect>
 
-                    <Grid>
+                    <Grid >
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.2*" />
