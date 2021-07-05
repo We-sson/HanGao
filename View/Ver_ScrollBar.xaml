@@ -148,7 +148,7 @@
 
 
                         <Border x:Name="bod1"
-                                CornerRadius="8" Opacity="0"
+                                CornerRadius="0" Opacity="0"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Background="#C7C7C7" />
@@ -156,7 +156,7 @@
 
 
                         <Track x:Name="PART_Track" Grid.Row="1"
-                               Width="10" HorizontalAlignment="Stretch"
+                               Width="6" HorizontalAlignment="Right"
                                IsDirectionReversed="true"
                                IsEnabled="{TemplateBinding IsMouseOver}">
                             <Track.DecreaseRepeatButton>
@@ -190,11 +190,11 @@
                                         <DoubleAnimation SpeedRatio="5"
                                                          Storyboard.TargetName="bod1"
                                                          Storyboard.TargetProperty="Opacity"
-                                                         To="1" Duration="0:0:0:1" />
+                                                         To="0" Duration="0:0:0:1" />
                                         <DoubleAnimation SpeedRatio="10"
                                                          Storyboard.TargetName="PART_Track"
                                                          Storyboard.TargetProperty="Width"
-                                                         To="17" Duration="0:0:0:1" />
+                                                         To="10" Duration="0:0:0:1" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.EnterActions>
@@ -208,7 +208,7 @@
                                         <DoubleAnimation SpeedRatio="10"
                                                          Storyboard.TargetName="PART_Track"
                                                          Storyboard.TargetProperty="Width"
-                                                         To="10" Duration="0:0:0:1" />
+                                                         To="6" Duration="0:0:0:1" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.ExitActions>

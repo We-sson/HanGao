@@ -2,6 +2,8 @@
 using GalaSoft.MvvmLight.Messaging;
 using PropertyChanged;
 using Soceket_KUKA.Models;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
@@ -30,26 +32,18 @@ namespace 悍高软件.ViewModel
 
             //消息注册
 
-
-            Messenger.Default.Register<Socket_Models_List[]>(this, "Show_Point_XY_Async", Show_Point_XY_Async);
+            Messenger.Default.Register<Socket_Models_List>(this, Work_String_Name, Show_Reveice_Control);
 
 
 
         }
 
         /// <summary>
-        /// 添加所需的变量
+        /// 传递参数区域名称：重要！
         /// </summary>
-        public void Program_nitialization()
-        {
-            //添加需要读取变量
+        public static string Work_String_Name {  set; get; } = "Show_Reveice_Control";
 
 
-            //发送集合中
-            MessageBox.Show(_List.Count.ToString());
-
-
-        }
 
 
 
@@ -64,16 +58,16 @@ namespace 悍高软件.ViewModel
 
 
 
-
         /// <summary>
         /// 临时变量属性集合
         /// </summary>
         public ObservableCollection<Socket_Models_List> _List { set; get; } = new ObservableCollection<Socket_Models_List>()
         {
-            new Socket_Models_List() { Val_Name = "$POS_ACT", Val_ID = Socket_Models_Connect.Number_ID },
-            new Socket_Models_List() { Val_Name = "$ACT_TOOL", Val_ID = Socket_Models_Connect.Number_ID },
-            new Socket_Models_List() { Val_Name = "$ACT_BASE", Val_ID = Socket_Models_Connect.Number_ID }
+            new Socket_Models_List() { Val_Name = "$POS_ACT", Val_ID = Socket_Models_Connect.Number_ID, Send_Area=Work_String_Name},
+            new Socket_Models_List() { Val_Name = "$ACT_TOOL", Val_ID = Socket_Models_Connect.Number_ID,Send_Area=Work_String_Name },
+            new Socket_Models_List() { Val_Name = "$ACT_BASE", Val_ID = Socket_Models_Connect.Number_ID,Send_Area=Work_String_Name }
         };
+
 
 
 
@@ -90,42 +84,26 @@ namespace 悍高软件.ViewModel
         /// 循环读取集合内的值方法
         /// </summary>
         /// <param name="_Obj"></param>
-        public void Show_Point_XY_Async(object _Obj)
+        public void Show_Reveice_Control(Socket_Models_List Name_Val)
         {
 
 
-
-
-            Socket_Models_List[] Name_Val = _Obj as Socket_Models_List[];
-
-            //string _Name_Val = null;
-
-
-
-            //Working_Path.KUKA_Now_Point_Show = (string)LIst_Reveice.List_Conint(Name_Val, (string)Name_Val[1].Val_Name);
-
-
-            if (Name_Val.Length > 0)
+            switch (Name_Val.Val_Name)
             {
+                case "$POS_ACT":
+                    Working_Path.KUKA_Now_Point_Show = Name_Val.Val_Var;
+                    break;
+                case "$ACT_TOOL":
+                    Working_Path.KUKA_TOOL_Number = Name_Val.Val_Var;
+                    break;
+                case "$ACT_BASE":
+                    Working_Path.KUKA_Base_Number = Name_Val.Val_Var;
+                    break;
 
-                for (int i = 0; i < Name_Val.Length; i++)
-                {
-
-                    if (Name_Val[i].Val_Name == _List[i].Val_Name)
-                    {
-
-
-                        Working_Path.KUKA_Now_Point_Show = Name_Val[i].Val_Var;
-
-                        //更改数值后显示红色
-
-
-                    };
+            }
 
 
-                }
 
-            };
 
 
         }

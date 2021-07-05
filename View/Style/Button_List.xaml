@@ -58,7 +58,7 @@
 
 
                         <Border x:Name="border"
-                                Grid.ColumnSpan="2" CornerRadius="10"
+                                Grid.ColumnSpan="3" CornerRadius="5"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Background="{TemplateBinding Background}"
@@ -79,7 +79,7 @@
                                  Name="Ep1" Width="25" Height="25"
                                  HorizontalAlignment="Stretch"
                                  VerticalAlignment="Center"
-                                 StrokeThickness="4" Fill="Transparent"
+                                 StrokeThickness="3" Fill="Transparent"
                                  Stroke="Gray" />
 
 

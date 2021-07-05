@@ -47,17 +47,17 @@ namespace Soceket_KUKA.Models
         /// <summary>
         /// 连接成功状态
         /// </summary>
-        public static bool Socket_OK
-        {
-            get
-            {
-                return _Socket_OK = false;
-            }
-            set
-            {
-                _Socket_OK = value;
-            }
-        }
+        //public static bool Socket_OK
+        //{
+        //    get
+        //    {
+        //        return _Socket_OK = false;
+        //    }
+        //    set
+        //    {
+        //        _Socket_OK = value;
+        //    }
+        //}
 
 
         private Socket _Client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -328,6 +328,10 @@ namespace Soceket_KUKA.Models
                     _Val_Update_Time = value;
                 }
             }
+            /// <summary>
+            /// 变量名称归属地方
+            /// </summary>
+            public string Send_Area { set; get; } = string.Empty;
 
         }
 

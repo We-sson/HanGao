@@ -152,11 +152,12 @@
             </Grid.RowDefinitions>
 
             <Border x:Name="Gb1" Grid.Row="0"
-                    Grid.RowSpan="1" Padding="10,0,10,0"
+                    Grid.RowSpan="1" Height="120"
+                    Padding="10,0,10,0"
                     VerticalAlignment="Center" Opacity="1"
                     AllowDrop="True" Background="#065684"
-                    BorderThickness="5" BorderBrush="Black"
-                    CornerRadius="20"
+                    BorderThickness="0" BorderBrush="Black"
+                    CornerRadius="10"
                     RenderTransformOrigin="0.5,0.5"
                     Visibility="{Binding List_Show}">
                 <Border.RenderTransform>
@@ -181,12 +182,14 @@
 
                     <TextBlock Grid.Column="0"
                                Text="{Binding Photo_ico}"
-                               Margin="13" HorizontalAlignment="Center"
+                               Margin="15" HorizontalAlignment="Center"
                                VerticalAlignment="Center"
+                               Foreground="#FFE0F4FF"
                                FontFamily="/Resources/#iconfont"
                                FontSize="80" />
                     <Border Grid.Column="1"
                             Width="5" VerticalAlignment="Stretch"
+                            Visibility="Collapsed"
                             Background="Black" />
 
                     <Grid Grid.Column="2" Margin="5,0,0,0" ShowGridLines="False">

@@ -338,23 +338,16 @@ namespace Soceket_Connect
                                 Monitor.Wait(The_Lock);
                                 User_Control_Log_ViewModel.User_Log_Add("-1.4，解除等待线程");
                             }
-
-
-
-
                         }
-
-
-
-
                     }
 
 
+                    Thread.Sleep(50);
 
-                    //Task.Delay(1000);
-                    //Thread.Sleep(300);
 
-                    //Receive_Read_Theam();
+
+
+
 
                 }
                 catch (Exception e)

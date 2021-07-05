@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using 悍高软件.ViewModel;
+using static Soceket_KUKA.Models.Socket_Models_Receive;
 
 namespace Soceket_KUKA
 {
@@ -169,21 +170,23 @@ namespace Soceket_KUKA
                     if (UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Val_ID == _ID)
                     {
 
-                        UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Val_Update_Time = DateTime.Now;
+                        UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Val_Update_Time = DateTime.Now.ToLocalTime();
                         UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Val_Var = Message_Show;
-                        //MessageBox.Show(Message_Show);
-                        Task.Run(() => { User_Control_Log_ViewModel.User_Log_Add($"接收变量值：" + Message_Show); });
+
+
+                        //把属于自己的区域回传
+                        Messenger.Default.Send<Socket_Models_List>(UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i], UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Send_Area);
+
                     }
 
+
                 }
-                //等待发送线程
+           
 
 
 
 
-                //使用委托，将需要接受集合的区域发送消息
 
-                //Messenger.Default.Send<Socket_Models_List[]>(UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List.ToArray(), "Show_Point_XY_Async");
 
 
 

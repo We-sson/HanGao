@@ -44,7 +44,7 @@
 
             </Grid.ColumnDefinitions>
             <!--  左侧型号栏  -->
-            <Grid Margin="0,10,0,0" ShowGridLines="False">
+            <Grid Margin="10,10,0,0" ShowGridLines="False">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="80" />
                     <RowDefinition />
@@ -61,7 +61,7 @@
                                           Opacity="50" Color="Gray" />
                     </Border.Effect>
 
-                    <Grid >
+                    <Grid>
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.2*" />
@@ -126,7 +126,7 @@
 
 
             <!--  中间功能显示区  -->
-            <Grid Grid.Column="1" Margin="30">
+            <Grid Grid.Column="1" Margin="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
@@ -152,18 +152,18 @@
 
 
                 <!--  加工路径区域  -->
-                <UC_Working:User_Control_Working_Path Grid.Row="0" Grid.Column="1" DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_Path_VM}" />
+                <UC_Working:User_Control_Working_Path Margin="0 20 0 0" Grid.Row="1" Grid.Column="1" DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_Path_VM}" />
 
 
 
                 <!--  设备状态显示区域  -->
-                <UC_Working:User_Control_Log Grid.Row="1" Grid.Column="0" />
+                <UC_Working:User_Control_Log Margin="0 20 0 0" Grid.Row="1" Grid.Column="0" />
 
 
 
 
                 <!--  工位1区域  -->
-                <UC_Working:User_Control_Working Grid.Row="1" Grid.Column="1"
+                <UC_Working:User_Control_Working Grid.Row="0" Grid.Column="1"
                                                  Uid="1"
                                                  DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_VM_1}" />
 

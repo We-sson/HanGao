@@ -9,12 +9,12 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:usermessage="clr-namespace:悍高软件.View.UserMessage"
         xmlns:viewmodel="clr-namespace:悍高软件.ViewModel"
-        Title="MainWindow" Width="1920"
-        Height="1080" Padding="0"
+        Title="MainWindow" MaxWidth="1920"
+        MaxHeight="1080" Padding="0"
         d:DataContext="{d:DesignInstance Type=viewmodel:User_Message_ViewModel}"
         Background="Gray"
         AllowsTransparency="True"
-        WindowStyle="None" mc:Ignorable="d">
+        WindowStyle="None" mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080">
 
 
     <!--  拖动标题栏顶部范围  -->
@@ -22,7 +22,7 @@
         <WindowChrome UseAeroCaptionButtons="True"
                       CaptionHeight="15"
                       GlassFrameThickness="0"
-                      CornerRadius="45" />
+                      CornerRadius="25" />
     </WindowChrome.WindowChrome>
 
 

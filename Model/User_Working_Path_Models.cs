@@ -32,6 +32,15 @@ namespace 悍高软件.Model
         /// </summary>
         public bool UI_Point_Color { set; get; } = false;
 
+        /// <summary>
+        /// 机器人当前工具号
+        /// </summary>
+        public string KUKA_TOOL_Number { set; get; } = "-1";
+
+        /// <summary>
+        /// 机器人当前坐标号
+        /// </summary>
+        public string KUKA_Base_Number { set; get; } = "-1";
 
 
         private string _KUKA_Now_Point_Show;

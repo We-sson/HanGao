@@ -20,6 +20,8 @@ namespace 悍高软件.ViewModel
 
 
 
+
+
             Messenger.Default.Send<ObservableCollection<Socket_Models_List>>(_List, "List_Connect");
 
 
@@ -37,6 +39,8 @@ namespace 悍高软件.ViewModel
         /// </summary>
         public void Program_Initialization()
         {
+
+
 
 
 

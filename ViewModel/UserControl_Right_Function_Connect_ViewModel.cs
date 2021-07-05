@@ -28,7 +28,7 @@ namespace 悍高软件.ViewModel
                 Sidebar_MainTitle = "连接状态";
 
 
-                Subtitle_Position = new Thickness() { Top = 100 };
+                Subtitle_Position = new Thickness() { Top = 40 };
             }
             else
             {
