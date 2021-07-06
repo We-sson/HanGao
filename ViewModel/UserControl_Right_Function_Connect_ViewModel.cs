@@ -25,10 +25,10 @@ namespace 悍高软件.ViewModel
             if (IsInDesignMode)
             {
                 // Code runs in Blend --> create design time data.
-                Sidebar_MainTitle = "连接状态";
+                //Sidebar_MainTitle = "连接状态";
 
 
-                Subtitle_Position = new Thickness() { Top = 40 };
+                //Subtitle_Position = new Thickness() { Top = 40 };
             }
             else
             {

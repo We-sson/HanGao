@@ -296,6 +296,11 @@ namespace Soceket_Connect
         public void Receive_Read_Theam()
         {
 
+                User_Control_Log_ViewModel.User_Log_Add("-1.1，准备发送线程");
+                Monitor.Enter(The_Lock);
+                User_Control_Log_ViewModel.User_Log_Add("-1.2，进入发送线程");
+            
+            
             while (Read_List)
             {
 
@@ -303,14 +308,13 @@ namespace Soceket_Connect
                 //Socket_Receive.Receive_Lock.WaitOne();
                 //Thread.Sleep(5000);
 
-                User_Control_Log_ViewModel.User_Log_Add("-1.1，准备发送线程");
-                Monitor.Enter(The_Lock);
-                User_Control_Log_ViewModel.User_Log_Add("-1.2，进入发送线程");
 
 
                 try
                 {
-
+                    //User_Control_Log_ViewModel.User_Log_Add("-1.3，等待周期发送");
+                    //Monitor.Wait(The_Lock);
+                    //User_Control_Log_ViewModel.User_Log_Add("-1.4，开始周期发送");
 
                     //Socket_Receive.Receive_Lock.WaitOne(100);
                     //Connect_Lock.WaitOne(100);
@@ -334,15 +338,15 @@ namespace Soceket_Connect
                                 //Thread.SpinWait(200);
                                 //等待线程接收
                                 //Thread.Sleep(50);
-                                User_Control_Log_ViewModel.User_Log_Add("-1.3，处于等待线程");
+                                User_Control_Log_ViewModel.User_Log_Add("-1.3，等待下一个变量发送");
                                 Monitor.Wait(The_Lock);
-                                User_Control_Log_ViewModel.User_Log_Add("-1.4，解除等待线程");
+                                User_Control_Log_ViewModel.User_Log_Add("-1.4，解除接收等待");
                             }
                         }
                     }
 
 
-                    Thread.Sleep(50);
+                    Thread.Sleep(100);
 
 
 

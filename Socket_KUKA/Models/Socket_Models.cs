@@ -44,20 +44,6 @@ namespace Soceket_KUKA.Models
         }
 
 
-        /// <summary>
-        /// 连接成功状态
-        /// </summary>
-        //public static bool Socket_OK
-        //{
-        //    get
-        //    {
-        //        return _Socket_OK = false;
-        //    }
-        //    set
-        //    {
-        //        _Socket_OK = value;
-        //    }
-        //}
 
 
         private Socket _Client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -214,11 +200,12 @@ namespace Soceket_KUKA.Models
 
         public int Byte_Leng { set; get; } = 0;
 
-        private dynamic _Reveive_Byte;
+
+        private byte[] _Reveive_Byte;
         /// <summary>
         /// 接收字节组属性
         /// </summary>
-        public dynamic Reveive_Byte
+        public byte[] Reveive_Byte
         {
             get
             {

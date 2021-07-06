@@ -23,7 +23,7 @@ namespace 悍高软件.ViewModel
         /// <summary>
         /// 软件启动把页面写入内存
         /// </summary>
-        private readonly UserControl HomeOne = new HomeOne();
+        private readonly  UserControl HomeOne = new HomeOne();
         private readonly UserControl ProgRamEdit = new ProgramEdit();
         private readonly UserControl ReadData = new RealData();
         private readonly UserControl WeldingGui = new WeldingGui();

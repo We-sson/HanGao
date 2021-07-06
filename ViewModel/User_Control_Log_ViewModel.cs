@@ -1,6 +1,8 @@
 ﻿using GalaSoft.MvvmLight;
+using Nancy.Helpers;
 using Prism.Commands;
 using PropertyChanged;
+using System;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -43,11 +45,11 @@ namespace 悍高软件.ViewModel
         public static void User_Log_Add(string Log)
         {
 
-      
 
-                //User_UI_Log.User_Log += DateTime.Now.ToShortTimeString().ToString() + "——" + Log + HttpUtility.HtmlDecode("&#x000A;");
-                //LogManager.WriteProgramLog(Log);
-         
+
+            User_UI_Log.User_Log += DateTime.Now.ToShortTimeString().ToString() + "——" + Log + HttpUtility.HtmlDecode("&#x000A;");
+            LogManager.WriteProgramLog(Log);
+
             //显示前增加时间戳 
 
 

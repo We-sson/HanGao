@@ -71,9 +71,20 @@ namespace Soceket_KUKA
 
             //互斥线程锁，保证每次只有一个线程接收消息
             Receive_Lock.WaitOne();
+
+
+                //传入参数转换
+                Socket_Models_Receive _Receive = ar.AsyncState as Socket_Models_Receive;
+
+
+
+            if (_Receive.Read_int==1)
+            {
+
             User_Control_Log_ViewModel.User_Log_Add("-2.1，等待接收线程");
             Monitor.Enter(Socket_Connect.The_Lock);
             User_Control_Log_ViewModel.User_Log_Add("-2.2，进入接收线程");
+            }
 
 
 
@@ -86,21 +97,8 @@ namespace Soceket_KUKA
 
 
 
-                //传入参数转换
-                Socket_Models_Receive _Receive = ar.AsyncState as Socket_Models_Receive;
-
-
 
                 byte[] _data = new byte[0];
-
-
-
-
-
-
-
-
-
 
 
                 if (_Receive.Read_int == 0)
@@ -118,13 +116,6 @@ namespace Soceket_KUKA
 
                     _data = _Receive.byte_Write_Receive;
                 }
-
-
-
-                //缩减字节大小
-
-
-
 
 
                 //提出前俩位的id号
@@ -160,7 +151,10 @@ namespace Soceket_KUKA
 
 
 
+                if (_Receive.Read_int == 1)
+                {
 
+                
                 //接收到的消息写入到集合里面
                 for (int i = 0; i < UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List.Count; i++)
                 {
@@ -173,7 +167,6 @@ namespace Soceket_KUKA
                         UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Val_Update_Time = DateTime.Now.ToLocalTime();
                         UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Val_Var = Message_Show;
 
-
                         //把属于自己的区域回传
                         Messenger.Default.Send<Socket_Models_List>(UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i], UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Send_Area);
 
@@ -181,58 +174,46 @@ namespace Soceket_KUKA
 
 
                 }
-           
+                User_Control_Log_ViewModel.User_Log_Add("-2.3，接收到的消息：" + Message_Show);
 
 
+                User_Control_Log_ViewModel.User_Log_Add("-2.4，释放发送线程");
+                Monitor.Pulse(Socket_Connect.The_Lock);
 
-
-
-
-
-
-
-
-
-                if (_Receive.Read_int == 1)
-                {
-                    //Socket_Connect.Global_Socket_Write.EndReceive(ar);
-
-                    //递归调用写入接收
-                    Socket_Connect.Global_Socket_Write.BeginReceive(Socket_Models_Connect.byte_Write_Receive, 0, Socket_Models_Connect.byte_Write_Receive.Length, SocketFlags.None, new AsyncCallback(Socke_Receive_Message), new Socket_Models_Receive() { byte_Write_Receive = Socket_Models_Connect.byte_Write_Receive, Read_int = 1 });
-                }
-                else if (_Receive.Read_int == 0)
-                {
-                    //Socket_Connect.Global_Socket_Read.EndReceive(ar);
-
-                    //递归调用读取接收
-                    Socket_Connect.Global_Socket_Read.BeginReceive(Socket_Models_Connect.byte_Read_Receive, 0, Socket_Models_Connect.byte_Read_Receive.Length, SocketFlags.None, new AsyncCallback(Socke_Receive_Message), new Socket_Models_Receive() { byte_Read_Receive = Socket_Models_Connect.byte_Read_Receive, Read_int = 0 });
+                User_Control_Log_ViewModel.User_Log_Add("-2.5，已释放发送线程锁");
+                Monitor.Exit(Socket_Connect.The_Lock);
 
                 }
-
-
-
-
-
-
-
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 Socket_Receive_Error();
-                User_Control_Log_ViewModel.User_Log_Add("-2.3，退出接收线程");
-                Monitor.Exit(Socket_Connect.The_Lock);
-                //MessageBox.Show(er.Message);
+                User_Control_Log_ViewModel.User_Log_Add("Error: -10" + e.Message);
             }
+           
+
+        
 
 
 
-            User_Control_Log_ViewModel.User_Log_Add("-2.3，释放发送线程");
-            Monitor.PulseAll(Socket_Connect.The_Lock);
-            User_Control_Log_ViewModel.User_Log_Add("-2.4，已释放发送线程锁");
-            Monitor.Exit(Socket_Connect.The_Lock);
 
             //接收信息互斥线程锁，保证每次只有一个线程接收消息
+            if (_Receive.Read_int == 1)
+            {
+                //Socket_Connect.Global_Socket_Write.EndReceive(ar);
+
+                //递归调用写入接收
+                Socket_Connect.Global_Socket_Write.BeginReceive(Socket_Models_Connect.byte_Write_Receive, 0, Socket_Models_Connect.byte_Write_Receive.Length, SocketFlags.None, new AsyncCallback(Socke_Receive_Message), new Socket_Models_Receive() { byte_Write_Receive = Socket_Models_Connect.byte_Write_Receive, Read_int = 1 });
+            }
+            else if (_Receive.Read_int == 0)
+            {
+                //Socket_Connect.Global_Socket_Read.EndReceive(ar);
+
+                //递归调用读取接收
+                Socket_Connect.Global_Socket_Read.BeginReceive(Socket_Models_Connect.byte_Read_Receive, 0, Socket_Models_Connect.byte_Read_Receive.Length, SocketFlags.None, new AsyncCallback(Socke_Receive_Message), new Socket_Models_Receive() { byte_Read_Receive = Socket_Models_Connect.byte_Read_Receive, Read_int = 0 });
+
+            }
             Receive_Lock.ReleaseMutex();
         }
 
