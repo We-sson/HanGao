@@ -3,6 +3,7 @@ using Nancy.Helpers;
 using Prism.Commands;
 using PropertyChanged;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -39,6 +40,12 @@ namespace 悍高软件.ViewModel
                 _User_UI_Log = value;
             }
         }
+
+        /// <summary>
+        /// 资源互锁
+        /// </summary>
+        public static Mutex Receive_Lock = new Mutex();
+
         /// <summary>
         /// 全局使用输出方法
         /// </summary>
@@ -47,8 +54,17 @@ namespace 悍高软件.ViewModel
 
 
 
-            User_UI_Log.User_Log += DateTime.Now.ToShortTimeString().ToString() + "——" + Log + HttpUtility.HtmlDecode("&#x000A;");
-            LogManager.WriteProgramLog(Log);
+          
+            Receive_Lock.WaitOne();
+
+            //User_UI_Log.User_Log +=User_UI_Log.User_Log_Number+ DateTime.Now.ToShortTimeString().ToString() + "——" + Log + HttpUtility.HtmlDecode("&#x000A;");
+
+
+            Receive_Lock.ReleaseMutex();
+
+
+
+            //LogManager.WriteProgramLog(Log);
 
             //显示前增加时间戳 
 

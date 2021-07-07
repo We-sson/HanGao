@@ -12,6 +12,21 @@ namespace 悍高软件.Model
 
         }
 
+        private int _User_Log_Number = 0;
+        public int User_Log_Number
+        {
+            set
+            {
+                _User_Log_Number = value;
+            }
+            get
+            {
+                return _User_Log_Number++;
+            }
+        }
+
+
+
         private string _User_Log;
         /// <summary>
         /// 显示状态信息添加时间戳
@@ -20,7 +35,11 @@ namespace 悍高软件.Model
         {
             get
             {
-
+                if (_User_Log_Number > 50)
+                {
+                    _User_Log = string.Empty;
+                    User_Log_Number = 0;
+                }
                 return _User_Log;
 
             }
@@ -28,6 +47,7 @@ namespace 悍高软件.Model
             {
 
                 _User_Log = value;
+
             }
         }
 
@@ -39,6 +59,7 @@ namespace 悍高软件.Model
         {
             get
             {
+              
                 return _User_Log_Cont;
             }
             set

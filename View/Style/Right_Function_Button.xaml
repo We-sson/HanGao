@@ -74,7 +74,7 @@
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Background" Value="Gray"/>
+        <Setter Property="Background" Value="Gray" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="Template">
             <Setter.Value>

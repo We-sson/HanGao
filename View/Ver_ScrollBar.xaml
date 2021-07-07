@@ -207,8 +207,8 @@
                                                          To="0" Duration="0:0:0:1" />
                                         <DoubleAnimation SpeedRatio="10"
                                                          Storyboard.TargetName="PART_Track"
-                                                         Storyboard.TargetProperty="Width"
-                                                         To="6" Duration="0:0:0:1" />
+                                                         Storyboard.TargetProperty="Width" To="6"
+                                                         Duration="0:0:0:1" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.ExitActions>

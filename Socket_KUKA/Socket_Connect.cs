@@ -191,7 +191,7 @@ namespace Soceket_Connect
                     Global_Socket_Write.EndConnect(ar);
                     //异步监听接收写入消息
                     Global_Socket_Write.BeginReceive(Socket_Models_Connect.byte_Write_Receive, 0, Socket_Models_Connect.byte_Write_Receive.Length, SocketFlags.None, new AsyncCallback(_Socket_Receive.Socke_Receive_Message), new Socket_Models_Receive() { byte_Write_Receive = Socket_Models_Connect.byte_Write_Receive, Read_int = 1 });
-
+                    User_Control_Log_ViewModel.User_Log_Add("写入连接IP："+Global_Socket_Write.LocalEndPoint.ToString());
                 }
                 else if (Global_Socket_Read == ar.AsyncState)
                 {
@@ -199,7 +199,7 @@ namespace Soceket_Connect
                     Global_Socket_Read.EndConnect(ar);
                     //异步监听接收读取消息
                     Global_Socket_Read.BeginReceive(Socket_Models_Connect.byte_Read_Receive, 0, Socket_Models_Connect.byte_Read_Receive.Length, SocketFlags.None, new AsyncCallback(_Socket_Receive.Socke_Receive_Message), new Socket_Models_Receive() { byte_Read_Receive = Socket_Models_Connect.byte_Read_Receive, Read_int = 0 });
-
+                    User_Control_Log_ViewModel.User_Log_Add("读取连接IP：" + Global_Socket_Read.LocalEndPoint.ToString());
 
                     //开启多线程监听集合内循环发送
                     Messenger.Default.Send<int>(1, "Connect_Socketing_Method");
@@ -346,7 +346,7 @@ namespace Soceket_Connect
                     }
 
 
-                    Thread.Sleep(100);
+                    Thread.Sleep(50);
 
 
 
