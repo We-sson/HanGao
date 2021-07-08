@@ -38,27 +38,29 @@
 
             <Grid.ColumnDefinitions>
 
-                <ColumnDefinition Width="400" />
-                <ColumnDefinition />
                 <ColumnDefinition Width="50" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="350" />
 
             </Grid.ColumnDefinitions>
             <!--  左侧型号栏  -->
-            <Grid Margin="10,10,0,0" ShowGridLines="False">
+            <Grid Grid.Column="2" Margin="10,15,0,0" ShowGridLines="False">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="80" />
                     <RowDefinition />
+                    <RowDefinition Height=" 80" />
                 </Grid.RowDefinitions>
 
-                <Border x:Name="bd2" Grid.Column="0"
-                        Margin="25,18,25,18"
+                <Border x:Name="bd2" Grid.Row="1"
+                      
+                        Height=" 50" Margin="15,0,25,15"
+                        VerticalAlignment="Bottom"
                         Background="#F6F6F6"
                         CornerRadius="10,10,10,10"
                         BorderThickness="0" BorderBrush="Black">
 
                     <Border.Effect>
-                        <DropShadowEffect BlurRadius="6" ShadowDepth="0"
-                                          Opacity="50" Color="Gray" />
+                        <DropShadowEffect BlurRadius="20" ShadowDepth="0"
+                                          Opacity="0.195" Color="Gray" />
                     </Border.Effect>
 
                     <Grid>
@@ -96,7 +98,7 @@
 
                 </Border>
 
-                <ListBox Style="{DynamicResource ListBoxStyle1}" x:Name="LB1" Grid.Row="1"
+                <ListBox Style="{DynamicResource ListBoxStyle1}" x:Name="LB1" Grid.Row="0"
                          HorizontalContentAlignment="Center"
                          Background="Transparent"
                          DataContext="{Binding Source={StaticResource Locator}, Path=List_Show}"
@@ -117,7 +119,7 @@
                     </ListBox.RenderTransform>
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <VirtualizingStackPanel Margin="0,10,10,0" HorizontalAlignment="Center" Orientation="Vertical" />
+                            <VirtualizingStackPanel Margin="0,0,10,0" HorizontalAlignment="Center" Orientation="Vertical" />
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
                 </ListBox>
@@ -152,12 +154,14 @@
 
 
                 <!--  加工路径区域  -->
-                <UC_Working:User_Control_Working_Path Margin="0 20 0 0" Grid.Row="1" Grid.Column="1" DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_Path_VM}" />
+                <UC_Working:User_Control_Working_Path Grid.Row="1" Grid.Column="1"
+                                                      Margin="0,20,0,0"
+                                                      DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_Path_VM}" />
 
 
 
                 <!--  设备状态显示区域  -->
-                <UC_Working:User_Control_Log Margin="0 20 0 0" Grid.Row="1" Grid.Column="0" />
+                <UC_Working:User_Control_Log Grid.Row="1" Grid.Column="0" Margin="0,20,0,0" />
 
 
 
@@ -172,7 +176,7 @@
             </Grid>
 
             <!--  右侧功能弹出栏  -->
-            <Grid Grid.Column="2" />
+            <Grid Grid.Column="0" />
 
 
         </Grid>
@@ -185,11 +189,11 @@
         <Border Grid.Column="0"
                 Grid.ColumnSpan="2"
                 DataContext="{Binding Source={StaticResource Locator}, Path=Home_ViewModel}"
-                Visibility="{Binding Visibility}"
+                Visibility="{Binding Visibility}" 
                 Background="Gray" Opacity="0.2" />
 
 
-        <ContentControl Content="{Binding Sidebar_Control}" Panel.ZIndex="1" />
+        <ContentControl Content="{Binding Sidebar_Control}" Panel.ZIndex="1" d:IsHidden="True" />
 
 
     </Grid>

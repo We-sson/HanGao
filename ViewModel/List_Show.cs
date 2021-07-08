@@ -32,7 +32,12 @@ namespace 悍高软件.ViewModel
                 new Sink_Models() { Model_Number = 952128, Photo_ico = ((int)Photo_enum.普通双盆).ToString(), } ,
                 new Sink_Models() { Model_Number = 952119, Photo_ico = ((int)Photo_enum.左右单盆).ToString(), } ,
                 new Sink_Models() { Model_Number = 901253, Photo_ico = ((int)Photo_enum.普通双盆).ToString(), } ,
-
+                new Sink_Models() { Model_Number = 953212, Photo_ico =((int)Photo_enum.普通双盆).ToString(), } ,
+                new Sink_Models() { Model_Number = 952172, Photo_ico = ((int)Photo_enum.左右单盆).ToString()} ,
+                new Sink_Models() { Model_Number = 952127, Photo_ico = ((int)Photo_enum.普通双盆).ToString(), } ,
+                new Sink_Models() { Model_Number = 952128, Photo_ico = ((int)Photo_enum.普通双盆).ToString(), } ,
+                new Sink_Models() { Model_Number = 952119, Photo_ico = ((int)Photo_enum.左右单盆).ToString(), } ,
+                new Sink_Models() { Model_Number = 901253, Photo_ico = ((int)Photo_enum.普通双盆).ToString(), } ,
             };
 
 
