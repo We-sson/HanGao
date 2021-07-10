@@ -28,16 +28,16 @@
               SnapsToDevicePixels="True"
               UseLayoutRounding="True">
             <Grid.Style>
-                <Style TargetType="Grid" BasedOn="{StaticResource Gd_Effect}">
+                <Style TargetType="Grid">
 
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Open}" Value=" True">
                             <DataTrigger.EnterActions>
                                 <BeginStoryboard>
-                                    <Storyboard>
-                                        <ThicknessAnimation SpeedRatio="6"
+                                    <Storyboard Timeline.DesiredFrameRate="120">
+                                        <ThicknessAnimation SpeedRatio="10"
                                                             Storyboard.TargetProperty="(FrameworkElement.Margin)"
-                                                            To="0,0,0,0" Duration="0:0:0:1">
+                                                            To="0,0,0,0" Duration="0:0:0:10">
                                             <ThicknessAnimation.EasingFunction>
                                                 <QuinticEase EasingMode="EaseOut" />
                                             </ThicknessAnimation.EasingFunction>
@@ -47,10 +47,10 @@
                             </DataTrigger.EnterActions>
                             <DataTrigger.ExitActions>
                                 <BeginStoryboard>
-                                    <Storyboard>
-                                        <ThicknessAnimation SpeedRatio="8"
+                                    <Storyboard Timeline.DesiredFrameRate="60">
+                                        <ThicknessAnimation SpeedRatio="15"
                                                             Storyboard.TargetProperty="(FrameworkElement.Margin)"
-                                                            To="-500,0,0,0" Duration="0:0:0:1">
+                                                            To="-500,0,0,0" Duration="0:0:0:10">
                                             <ThicknessAnimation.EasingFunction>
                                                 <QuinticEase EasingMode="EaseIn" />
                                             </ThicknessAnimation.EasingFunction>
@@ -79,14 +79,14 @@
 
 
                     <Border x:Name="BD1"
+                            Margin="0,0,3,0"
                             CornerRadius="0 10 10 0"
-                            SnapsToDevicePixels="True"
-                            ClipToBounds="True">
+                            SnapsToDevicePixels="False">
 
 
 
                         <Border.Background>
-                            <SolidColorBrush Opacity=" 0.9" Color="White" />
+                            <SolidColorBrush Opacity=" 1" Color="White" />
                         </Border.Background>
 
 
@@ -171,7 +171,7 @@
             </Grid>
 
             <Grid x:Name="GD2" Grid.Column="0" Width="500">
-                <Border Width="500" CornerRadius="20 0 0 20">
+                <Border Width="500" CornerRadius="0 20 20 0">
 
 
 
@@ -183,7 +183,7 @@
                 </Border>
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="100" />
+                        <RowDefinition Height="70" />
                         <RowDefinition />
                         <RowDefinition Height=" 80" />
 
@@ -194,17 +194,26 @@
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
-                            <ColumnDefinition />
+                            <ColumnDefinition Width=" 0.2*" />
                         </Grid.ColumnDefinitions>
 
-                        <Button Style="{DynamicResource ButtonStyle2}" Grid.Column="0"
-                                Uid="Close" Margin="30,0,0,0"
-                                HorizontalAlignment="Left"
+                        <Button Style="{DynamicResource ButtonStyle2}" Grid.Column="1"
+                                Uid="Close" Margin="10"
                                 VerticalAlignment="Center">
                             <TextBlock Text="&#xe606;"
                                        Visibility="Visible"
                                        FontFamily="/Resources/#iconfont"
-                                       FontSize="38" Foreground="#FF5E57" />
+                                       FontSize="38" Foreground="#FF5E57"
+                                       RenderTransformOrigin="0.5,0.5">
+                                <TextBlock.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform />
+                                        <SkewTransform />
+                                        <RotateTransform Angle="180" />
+                                        <TranslateTransform />
+                                    </TransformGroup>
+                                </TextBlock.RenderTransform>
+                            </TextBlock>
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
                                     <i:InvokeCommandAction Command="{Binding Path=DataContext.Click_OPen_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Right_Function_Connect}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
@@ -213,10 +222,9 @@
                         </Button>
 
                         <TextBlock Grid.Row="0" Grid.Column="0"
-                                   Grid.ColumnSpan="2"
                                    Text="{Binding Sidebar_MainTitle}"
                                    HorizontalAlignment="Center"
-                                   VerticalAlignment="Center" FontSize="40" />
+                                   VerticalAlignment="Center" FontSize="35" />
 
                     </Grid>
 
