@@ -27,38 +27,38 @@
 
 
     <Style x:Key="Button_List_Style" TargetType="{x:Type CheckBox}">
-        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
-        <Setter Property="Background" Value="{StaticResource Button.Static.Background}" />
-        <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
-        <Setter Property="BorderThickness" Value="3" />
-        <Setter Property="BorderBrush" Value="Gray" />
-        <Setter Property="FontSize" Value="20" />
 
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Foreground" Value="Black" />
+
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Padding" Value="0" />
 
 
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
-                    <Grid Style="{DynamicResource Gd_Effect}"
-                          Name="Gd1" Height="45" MinWidth="100"
-                          Margin="{TemplateBinding Padding}">
+                    <Grid Name="Gd1" Margin="{TemplateBinding Padding}">
+                        <Grid.Effect>
+                            <DropShadowEffect BlurRadius="20" Opacity="0.2"
+                                              ShadowDepth="0" Direction="0"
+                                              Color="#B2B1B9" />
+                        </Grid.Effect>
 
 
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="50" />
-                            <ColumnDefinition />
+                            <ColumnDefinition Width=" auto" />
+                            <ColumnDefinition Width=" auto" />
                         </Grid.ColumnDefinitions>
 
 
 
 
                         <Border x:Name="border"
-                                Grid.ColumnSpan="3" CornerRadius="5"
+                                Grid.ColumnSpan="3" CornerRadius="8"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Background="{TemplateBinding Background}"
@@ -66,7 +66,7 @@
 
 
                         <ContentPresenter x:Name="contentPresenter" Grid.Column="1"
-                                          Margin="0,0,15,0"
+                                          Margin="5,0,20,0"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                           Focusable="False"
@@ -76,11 +76,16 @@
 
 
                         <Ellipse Grid.Column="0"
-                                 Name="Ep1" Width="25" Height="25"
-                                 HorizontalAlignment="Stretch"
+                                 Name="Ep1" Width="28" Height="28"
+                                 Margin="5" HorizontalAlignment="Stretch"
                                  VerticalAlignment="Center"
-                                 StrokeThickness="3" Fill="Transparent"
-                                 Stroke="Gray" />
+                                 Fill="#ECD662" />
+
+                        <Ellipse Grid.Column="0"
+                                 Name="Ep2" Width="16" Height="16"
+                                 Margin="5" HorizontalAlignment="Stretch"
+                                 VerticalAlignment="Center"
+                                 Visibility="Collapsed" Fill="Green" />
 
 
                         <TextBlock x:Name="Tb1" Grid.Column="0"
@@ -88,7 +93,8 @@
                                    Margin="0,-13,-9,0"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   Panel.ZIndex="0" Opacity="0"
+                                   Panel.ZIndex="0" Visibility="Collapsed"
+                                   Opacity="0"
                                    FontFamily="/Resources/#iconfont"
                                    Foreground="Green" FontSize="24" />
 
@@ -108,21 +114,30 @@
 
 
 
-                        <!--  鼠标点击事件  -->
-                        <Trigger Property="IsPressed" Value="true">
-                            <Setter Property="Background" Value="#B1B1B1" />
+
+
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Opacity" Value="0.8" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="border" Property="Background" Value="{StaticResource Button.Disabled.Background}" />
-                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.Disabled.Border}" />
-                            <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{StaticResource Button.Disabled.Foreground}" />
+                            <Setter TargetName="Gd1" Property="Opacity" Value="0.7"/>
+                            <!--<Setter TargetName="border" Property="Background" Value="{StaticResource Button.Disabled.Background}" />-->
+                            <!--<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.Disabled.Border}" />-->
+                            <!--<Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{StaticResource Button.Disabled.Foreground}" />-->
                         </Trigger>
+
 
 
                         <!--  元素选中事件  -->
 
                         <Trigger Property="IsChecked" Value="True">
-                            <Trigger.EnterActions>
+
+                            <Setter TargetName="Ep2" Property="Visibility" Value="Visible" />
+
+                        </Trigger>
+
+
+                        <!--<Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <DoubleAnimation SpeedRatio="5"
@@ -171,8 +186,7 @@
 
                                     </Storyboard>
                                 </BeginStoryboard>
-                            </Trigger.ExitActions>
-                        </Trigger>
+                            </Trigger.ExitActions>-->
 
 
 
@@ -183,6 +197,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+
     </Style>
 
 

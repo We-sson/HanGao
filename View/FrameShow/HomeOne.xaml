@@ -40,7 +40,7 @@
 
                 <ColumnDefinition Width="50" />
                 <ColumnDefinition />
-                <ColumnDefinition Width="350" />
+                <ColumnDefinition Width="320" />
 
             </Grid.ColumnDefinitions>
             <!--  左侧型号栏  -->
@@ -51,8 +51,7 @@
                 </Grid.RowDefinitions>
 
                 <Border x:Name="bd2" Grid.Row="1"
-                      
-                        Height=" 50" Margin="15,0,25,15"
+                        Height=" 50" Margin="0,0,15,15"
                         VerticalAlignment="Bottom"
                         Background="#F6F6F6"
                         CornerRadius="10,10,10,10"
@@ -119,7 +118,7 @@
                     </ListBox.RenderTransform>
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <VirtualizingStackPanel Margin="0,0,10,0" HorizontalAlignment="Center" Orientation="Vertical" />
+                            <VirtualizingStackPanel Margin="0,0,14,0" HorizontalAlignment="Center" Orientation="Vertical" />
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
                 </ListBox>
@@ -189,8 +188,8 @@
         <Border Grid.Column="0"
                 Grid.ColumnSpan="2"
                 DataContext="{Binding Source={StaticResource Locator}, Path=Home_ViewModel}"
-                Visibility="{Binding Visibility}" 
-                Background="Gray" Opacity="0.2" />
+                Visibility="{Binding Visibility}"
+                Background="Gray" Opacity="0.5" />
 
 
         <ContentControl Content="{Binding Sidebar_Control}" Panel.ZIndex="1" d:IsHidden="True" />

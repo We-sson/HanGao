@@ -16,6 +16,9 @@
 
 
     <Grid>
+        <Grid.Effect>
+            <DropShadowEffect ShadowDepth="0" Direction="20" Opacity="0.2" BlurRadius="20"/>
+        </Grid.Effect>
 
 
 
@@ -34,7 +37,7 @@
                         <DataTrigger Binding="{Binding Open}" Value=" True">
                             <DataTrigger.EnterActions>
                                 <BeginStoryboard>
-                                    <Storyboard Timeline.DesiredFrameRate="120">
+                                    <Storyboard Timeline.DesiredFrameRate="60">
                                         <ThicknessAnimation SpeedRatio="10"
                                                             Storyboard.TargetProperty="(FrameworkElement.Margin)"
                                                             To="0,0,0,0" Duration="0:0:0:10">
@@ -48,7 +51,7 @@
                             <DataTrigger.ExitActions>
                                 <BeginStoryboard>
                                     <Storyboard Timeline.DesiredFrameRate="60">
-                                        <ThicknessAnimation SpeedRatio="15"
+                                        <ThicknessAnimation SpeedRatio="20"
                                                             Storyboard.TargetProperty="(FrameworkElement.Margin)"
                                                             To="-500,0,0,0" Duration="0:0:0:10">
                                             <ThicknessAnimation.EasingFunction>
@@ -67,8 +70,44 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="1" Width=" 50" HorizontalAlignment="Right">
-
+            <Grid x:Name="GD3" Grid.Column="1"
+                  Width="50" Margin="0,0,0,0"
+                  HorizontalAlignment="Right">
+      
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Open}" Value="FALSE">
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard Timeline.DesiredFrameRate="120">
+                                            <ThicknessAnimation SpeedRatio="10"
+                                                                Storyboard.TargetProperty="(FrameworkElement.Margin)"
+                                                                To="0,0,0,0" Duration="0:0:0:10">
+                                                <ThicknessAnimation.EasingFunction>
+                                                    <QuinticEase EasingMode="EaseOut" />
+                                                </ThicknessAnimation.EasingFunction>
+                                            </ThicknessAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard Timeline.DesiredFrameRate="60">
+                                            <ThicknessAnimation SpeedRatio="20"
+                                                                Storyboard.TargetProperty="(FrameworkElement.Margin)"
+                                                                To="-50,0,0,0" Duration="0:0:0:10">
+                                                <ThicknessAnimation.EasingFunction>
+                                                    <QuinticEase EasingMode="EaseIn" />
+                                                </ThicknessAnimation.EasingFunction>
+                                            </ThicknessAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.ExitActions>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
 
 
                 <Grid Uid="Open"
@@ -242,50 +281,7 @@
 
     </Grid>
 
-    <UserControl.Triggers>
-
-
-
-
-        <!--<DataTrigger Binding="{Binding Open}" Value="True">
-            <DataTrigger.EnterActions>
-                <BeginStoryboard>
-                    <Storyboard>
-                        <DoubleAnimation SpeedRatio="5"
-                                         Storyboard.TargetProperty="(FrameworkElement.Width)"
-                                         Storyboard.TargetName="grid" To="500"
-                                         Duration="0:0:0:1" />
-                    </Storyboard>
-                </BeginStoryboard>
-            </DataTrigger.EnterActions>
-            <DataTrigger.ExitActions>
-                <BeginStoryboard>
-                    <Storyboard>
-                        <DoubleAnimation SpeedRatio="1"
-                                         Storyboard.TargetProperty="(FrameworkElement.Width)"
-                                         Storyboard.TargetName="grid" To="0"
-                                         Duration="0:0:0:1" />
-                    </Storyboard>
-                </BeginStoryboard>
-            </DataTrigger.ExitActions>
-        </DataTrigger>-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    </UserControl.Triggers>
+    <UserControl.Triggers />
 
 
 </UserControl>

@@ -13,8 +13,11 @@
 
     <UserControl.Triggers />
 
-    <Grid Style="{StaticResource Gd_Effect}" x:Name="GD1" Grid.Row="0" Grid.Column="1"
+    <Grid  x:Name="GD1" Grid.Row="0" Grid.Column="1"
           Margin="0">
+        <Grid.Effect>
+            <DropShadowEffect ShadowDepth="0" Direction="20" Opacity="0.2" BlurRadius="20"/>
+        </Grid.Effect>
 
 
 

@@ -15,7 +15,7 @@
                 <ResourceDictionary Source="view\text.xaml" />
                 <ResourceDictionary Source="View\Title_button.xaml" />
                 <ResourceDictionary Source="View\Search_Style.xaml" />
-                <ResourceDictionary Source="View\T1.xaml" />
+                <ResourceDictionary Source="View\Style\CheckBox_List_Style.xaml" />
                 <ResourceDictionary Source="View\ListBox.xaml" />
                 <ResourceDictionary Source="View\ScrollViewer.xaml" />
                 <ResourceDictionary Source="View\Ver_ScrollBar.xaml" />

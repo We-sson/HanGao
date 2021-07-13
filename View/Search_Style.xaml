@@ -72,13 +72,18 @@
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="true">
                             <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource TextBox.Focus.Border}" />
-                            <Trigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
+                            <Setter TargetName="bb3" Property="Width" Value="240" />
+                            <!--<Trigger.EnterActions>
+                                <BeginStoryboard >
+                                    <Storyboard >
                                         <DoubleAnimation SpeedRatio="8"
                                                          Storyboard.TargetName="bb3"
                                                          Storyboard.TargetProperty="Width"
-                                                         To="260" Duration="0:0:0:1" />
+                                                         To="260" Duration="0:0:0:10">
+                                            <DoubleAnimation.EasingFunction>
+                                                <QuinticEase EasingMode="EaseIn" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.EnterActions>
@@ -88,10 +93,14 @@
                                         <DoubleAnimation SpeedRatio="8"
                                                          Storyboard.TargetName="bb3"
                                                          Storyboard.TargetProperty="Width" To="0"
-                                                         Duration="0:0:0:1" />
+                                                         Duration="0:0:0:10">
+                                            <DoubleAnimation.EasingFunction>
+                                                <QuinticEase EasingMode="EaseIn" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
                                     </Storyboard>
                                 </BeginStoryboard>
-                            </Trigger.ExitActions>
+                            </Trigger.ExitActions>-->
                         </Trigger>
                         <Trigger Property="Text" Value="{x:Null}">
                             <Setter TargetName="TextB1" Property="Visibility" Value="Visible" />

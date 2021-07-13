@@ -192,7 +192,7 @@ namespace 悍高软件.ViewModel
             {
                 Open = true;
                 //侧边栏打开主页面模糊
-                Messenger.Default.Send<Double>(10, "Open_Effect");
+                Messenger.Default.Send<Double>(0, "Open_Effect");
                 //侧边栏打开后主页黑化禁止用户操作
                 Messenger.Default.Send<Visibility>(Visibility.Visible, "Home_Visibility_Show");
 
