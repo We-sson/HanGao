@@ -243,11 +243,11 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBox Grid.Column="0"
-                         Name="Send_Name" Text="$out[1]"
-                         Background="White" />
+                         Name="Send_Name" Text="$out[1]" FontSize="25"
+                         Background="White" VerticalAlignment="Center" TextAlignment="Center" />
                 <TextBox Grid.Column="1"
-                         Name="Send_Val" Text="$out[1]"
-                         Background="White" />
+                         Name="Send_Val" Text="$out[1]" FontSize="25"
+                         Background="White" TextAlignment="Center" VerticalAlignment="Center" />
 
             </Grid>
 

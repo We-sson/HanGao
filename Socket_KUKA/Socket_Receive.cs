@@ -139,12 +139,13 @@ namespace Soceket_KUKA
 
                 if (_Return_Tpye == 1 && _Write_Type == 1)
                 {
-                    MessageBox.Show("Read Val OK!");
+                    //MessageBox.Show($"Read Val:"+ Message_Show + " 写入成功！");
 
                 }
                 else if (_Return_Tpye == 1 && _Write_Type == 0)
                 {
-                    MessageBox.Show("Read Val NO!");
+                    MessageBox.Show($"Read Val:"+ Message_Show + " 写入失败！");
+                 
 
                 }
 
@@ -247,37 +248,6 @@ namespace Soceket_KUKA
 
 
 
-        /// <summary>
-        /// 循环读取所需变量值
-        /// </summary>
-        /// <param name="_Ob"></param>
-        /// <returns></returns>
-        //public string Receive_Return_String(object _Obj)
-        //{
-        //    //string Name_Val = _Obj as string;
-
-        //    Receive_ReturnString_Lock.WaitOne();
-        //    try
-        //    {
-        //        while (Socket_Connect.Global_Socket_Read.Connected)
-        //        {
-        //            //UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List
-
-        //        }
-
-        //    }
-
-        //    catch (Exception)
-        //    {
-
-
-        //    }
-
-        //    Receive_ReturnString_Lock.ReleaseMutex();
-
-        //    return string.Empty;
-
-        //}
 
     }
 }

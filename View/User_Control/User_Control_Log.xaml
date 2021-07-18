@@ -9,10 +9,10 @@
              DataContext="{Binding Source={StaticResource Locator}, Path=User_Log}"
              mc:Ignorable="d">
     <!--  设备状态显示区域  -->
-    <Grid  Grid.Row="1" Grid.Column="0"
-          Margin="0">
+    <Grid Grid.Row="1" Grid.Column="0" Margin="0">
         <Grid.Effect>
-            <DropShadowEffect ShadowDepth="0" Direction="20" Opacity="0.2" BlurRadius="20"/>
+            <DropShadowEffect ShadowDepth="0" Direction="20"
+                              Opacity="0.2" BlurRadius="20" />
         </Grid.Effect>
 
 
