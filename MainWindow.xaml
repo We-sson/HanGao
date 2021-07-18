@@ -9,8 +9,8 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:usermessage="clr-namespace:悍高软件.View.UserMessage"
         xmlns:viewmodel="clr-namespace:悍高软件.ViewModel"
-        Title="MainWindow" MaxWidth="1920"
-        MaxHeight="1080" Padding="0"
+        Title="MainWindow" MinWidth="1920"
+        MinHeight="1080" Padding="0"
         d:DataContext="{d:DesignInstance Type=viewmodel:User_Message_ViewModel}"
         Background="Gray"
         AllowsTransparency="True"
@@ -34,7 +34,7 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="70" />
-            <RowDefinition Height="5" />
+            <RowDefinition Height="3" />
             <RowDefinition />
         </Grid.RowDefinitions>
 
@@ -61,9 +61,8 @@
                    Width="300" Margin="25,0,35,0"
                    HorizontalAlignment="Center" />
             <StackPanel Grid.Column="1"
-                        HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Orientation="Horizontal">
+                        Orientation="Horizontal" HorizontalAlignment="Center">
 
                 <RadioButton Style="{StaticResource 标题_选项_样式}" x:Name="HomeOne_Radio"
                              Uid="1" IsChecked="True" Width="250"
@@ -85,13 +84,13 @@
                                    Text="&#xE609;" Margin="5"
                                    HorizontalAlignment="Center"
                                    FontFamily="./Resources/#iconfont"
-                                   FontSize="35" />
-                        <TextBlock Style="{StaticResource 标题_字体_选择动画样式}"
+                                   FontSize="32" />
+                        <TextBlock 
                                    Text="控制台" Margin="10,5,10,0"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    FontSize="{StaticResource 标题_字体_正常字号}"
-                                   TextOptions.TextHintingMode="Fixed" />
+                                   FontFamily="Microsoft JhengHei UI" />
                     </WrapPanel>
 
 
@@ -109,16 +108,16 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
 
-                    <WrapPanel Margin="126.5,0,123.5,0"
+                    <WrapPanel 
                                HorizontalAlignment="Center"
                                VerticalAlignment="Stretch"
-                               Visibility="Collapsed">
-                        <TextBlock Style="{DynamicResource 标题_图标_选择动画样式}"
+                               >
+                        <TextBlock
                                    Text="&#xE67E;" Margin="5"
                                    HorizontalAlignment="Center"
                                    FontFamily="./Resources/#iconfont"
-                                   FontSize="35" />
-                        <TextBlock Style="{StaticResource 标题_字体_选择动画样式}"
+                                   FontSize="30" />
+                        <TextBlock 
                                    Text="实时数据" Margin="10,5,10,0"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
@@ -139,14 +138,14 @@
                     </i:Interaction.Triggers>
 
 
-                    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Stretch" Visibility="Collapsed">
-                        <TextBlock Style="{StaticResource 标题_图标_选择动画样式}"
+                    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                        <TextBlock 
                                    Text="&#xE6A5;" Margin="5"
                                    HorizontalAlignment="Stretch"
                                    VerticalAlignment="Stretch"
                                    FontFamily="./Resources/#iconfont"
-                                   FontSize="35" />
-                        <TextBlock Style="{StaticResource 标题_字体_选择动画样式}"
+                                   FontSize="32" />
+                        <TextBlock 
                                    Text="程序编辑" Margin="10,0,10,0"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
@@ -166,18 +165,19 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
 
-                    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Stretch" Visibility="Collapsed">
-                        <TextBlock Style="{StaticResource 标题_图标_选择动画样式}"
+                    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                        <TextBlock 
                                    Text="&#xE635;" Margin="5"
                                    HorizontalAlignment="Stretch"
                                    VerticalAlignment="Stretch"
                                    FontFamily="./Resources/#iconfont"
-                                   FontSize="35" />
-                        <TextBlock Style="{StaticResource 标题_字体_选择动画样式}"
+                                   FontSize="32" />
+                        <TextBlock
                                    Text="振镜界面" Margin="10,0,10,0"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   FontSize="{StaticResource 标题_字体_正常字号}" />
+                                   FontSize="{StaticResource 标题_字体_正常字号}" 
+                            FontFamily="Microsoft JhengHei UI"/>
                     </WrapPanel>
                 </RadioButton>
 
@@ -195,14 +195,14 @@
 
             <Grid Grid.Row="1" ShowGridLines="True" />
             <StackPanel Grid.Column="2"
-                        Margin="0,-18,0,0"
+                        Margin="0,0,0,0"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Orientation="Horizontal">
 
 
                 <Button Style="{DynamicResource ButtonStyle1}"
-                        x:Uid="1" Width="35" Height="35"
+                        x:Uid="1" Width="30" Height="30"
                         Margin="12,0,12,0" Background="#2AD043"
                         BorderThickness="2" BorderBrush="Gray">
                     <i:Interaction.Triggers>
@@ -212,7 +212,7 @@
                     </i:Interaction.Triggers>
                 </Button>
                 <Button Style="{DynamicResource ButtonStyle1}"
-                        x:Uid="2" Width="35" Height="35"
+                        x:Uid="2" Width="30" Height="30"
                         Margin="12,0,12,0" Background="#FFBC2F"
                         BorderThickness="2" BorderBrush="Gray">
                     <i:Interaction.Triggers>
@@ -222,7 +222,7 @@
                     </i:Interaction.Triggers>
                 </Button>
                 <Button Style="{DynamicResource ButtonStyle1}"
-                        x:Uid="3" Width="35" Height="35"
+                        x:Uid="3" Width="30" Height="30"
                         Margin="12,0,12,0" Background="#FF5E57"
                         BorderThickness="2" BorderBrush="Gray">
                     <i:Interaction.Triggers>
@@ -239,13 +239,8 @@
 
 
         <!--  分割装饰栏  -->
-        <Border Grid.Row="1">
-            <Border.Background>
-                <RadialGradientBrush>
-                    <GradientStop Offset="0.9" Color="#FF065684" />
-                    <GradientStop Offset="1" Color="#FFE3E3E3" />
-                </RadialGradientBrush>
-            </Border.Background>
+        <Border Grid.Row="1" Background="Gray" Panel.ZIndex="-1" >
+
         </Border>
 
 

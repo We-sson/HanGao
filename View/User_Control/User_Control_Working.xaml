@@ -77,7 +77,7 @@
 
 
                 <TextBlock Grid.ColumnSpan="2" Text="基本功能"
-                           Margin="25,0,0,0"
+                           Margin="25,0,0,6"
                            HorizontalAlignment="Left"
                            VerticalAlignment="Bottom" FontSize="25" />
 
@@ -95,7 +95,7 @@
                     <CheckBox Style="{DynamicResource Button_List_Style}" x:Name="Work_Run_Check"
                               Content="启动"
                               IsChecked="{Binding WM.Work_Run, Mode=TwoWay}"
-                              Margin="5" HorizontalAlignment="Center"
+                              Margin="0" HorizontalAlignment="Center"
                               VerticalAlignment="Center"
                               IsEnabled="{Binding WM.Work_IsEnabled}">
                         <i:Interaction.Triggers>
@@ -111,7 +111,7 @@
                     <CheckBox Style="{DynamicResource Button_List_Style}"
                               Content="计数"
                               IsChecked="{Binding WM.Work_Connt, Mode=TwoWay}"
-                              Margin="5" HorizontalAlignment="Center"
+                              Margin="0" HorizontalAlignment="Center"
                               VerticalAlignment="Center"
                               IsEnabled="{Binding WM.Work_IsEnabled}">
                         <i:Interaction.Triggers>
@@ -126,7 +126,7 @@
                     <CheckBox Style="{DynamicResource Button_List_Style}"
                               Content="空运"
                               IsChecked="{Binding WM.Work_NullRun, Mode=TwoWay}"
-                              Margin="5" HorizontalAlignment="Center"
+                              Margin="0" HorizontalAlignment="Center"
                               VerticalAlignment="Center"
                               IsEnabled="{Binding WM.Work_IsEnabled}">
                         <i:Interaction.Triggers>
@@ -139,7 +139,7 @@
                     <CheckBox Style="{DynamicResource Button_List_Style}"
                               Content="暂停"
                               IsChecked="{Binding WM.Work_Pause, Mode=TwoWay}"
-                              Margin="5" HorizontalAlignment="Center"
+                              Margin="0" HorizontalAlignment="Center"
                               VerticalAlignment="Center"
                               IsEnabled="{Binding WM.Work_IsEnabled}">
                         <i:Interaction.Triggers>
@@ -152,7 +152,7 @@
                     <CheckBox Style="{DynamicResource Button_List_Style}"
                               Content="跳过"
                               IsChecked="{Binding WM.Work_JumpOver, Mode=TwoWay}"
-                              Margin="5" HorizontalAlignment="Center"
+                              Margin="0" HorizontalAlignment="Center"
                               VerticalAlignment="Center"
                               IsEnabled="{Binding WM.Work_IsEnabled}">
                         <i:Interaction.Triggers>
@@ -178,8 +178,8 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Row="0"
-                               Text="机器人运行数据" Margin="0"
-                               HorizontalAlignment="Left"
+                               Text="机器人运行数据" 
+                               HorizontalAlignment="Left" Margin=" 0 0 0 6"
                                VerticalAlignment="Bottom" FontSize="25" />
 
                     <Border Grid.Row="1" Background="#A0A0A0" Opacity="0.5" />
@@ -198,29 +198,28 @@
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock Text="机器速度："
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center" FontSize="22"
-                                           Foreground="#FF464646" />
-                                <TextBlock Text="焊接功率："
+                                <TextBlock Text="机器速度：" Margin=" 4"
+                                           HorizontalAlignment="Center" FontSize="22"
+                                           Foreground="#FF464646" VerticalAlignment="Center" />
+                                <TextBlock Text="焊接功率：" Margin="4"
                                            HorizontalAlignment="Center"
                                            FontSize=" 22" Foreground="#FF464646" />
 
-                                <TextBlock Text="当前状态："
+                                <TextBlock Text="当前状态：" Margin="4"
                                            HorizontalAlignment="Center"
                                            FontSize=" 22" Foreground="#FF464646" />
 
                             </StackPanel>
 
                             <StackPanel Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock Text="{Binding WM.Robot_Speed}"
+                                <TextBlock Text="{Binding WM.Robot_Speed}" Margin=" 4"
                                            HorizontalAlignment="Left" FontSize="22"
                                            Foreground="Gray" />
-                                <TextBlock Text="{Binding WM.Welding_Power}"
+                                <TextBlock Text="{Binding WM.Welding_Power}" Margin="4"
                                            HorizontalAlignment="Left"
                                            FontSize=" 22" Foreground="Gray" />
 
-                                <TextBlock Text="{Binding WM.Robot_status}"
+                                <TextBlock Text="{Binding WM.Robot_status}" Margin="4"
                                            HorizontalAlignment="Left"
                                            FontSize=" 22" Foreground="Gray" />
                             </StackPanel>

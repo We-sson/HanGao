@@ -4,7 +4,7 @@
     <Sys:Double x:Key="标题_字体_播放倍速">6</Sys:Double>
     <Sys:Double x:Key="标题_图标_播放倍速">6</Sys:Double>
 
-    <Sys:Double x:Key="标题_字体_正常字号">22</Sys:Double>
+    <Sys:Double x:Key="标题_字体_正常字号">28</Sys:Double>
     <Sys:Double x:Key="标题_图标_正常字号">40</Sys:Double>
 
     <Sys:Double x:Key="标题_字体_放大字号">35</Sys:Double>

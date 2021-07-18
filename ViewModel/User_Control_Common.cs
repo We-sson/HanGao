@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Messaging;
 using Prism.Commands;
 using PropertyChanged;
+using Soceket_Connect;
 using Soceket_KUKA.Models;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -146,6 +147,9 @@ namespace 悍高软件.ViewModel
             User_Check_Write_List(e.DataContext.Work_NO);
             //功能开关信息日记输出显示
             User_Features_OnOff_Log(e.IsChecked, e.DataContext.Work_NO, e.Content.ToString());
+
+
+
       
 
             if (e.DataContext.Work_NO == 1)
@@ -182,6 +186,7 @@ namespace 悍高软件.ViewModel
                 dynamic _data = Log_Work_data(e);
                  ;
 
+                if (Socket_Connect.Global_Socket_Write==null) { return; }
 
 
                 if ((bool)e.IsChecked)
