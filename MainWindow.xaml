@@ -12,17 +12,17 @@
         Title="MainWindow" MinWidth="1920"
         MinHeight="1080" Padding="0"
         d:DataContext="{d:DesignInstance Type=viewmodel:User_Message_ViewModel}"
-        Background="Gray"
+        d:DesignWidth="1920"
+        d:DesignHeight="1080" Background="Gray"
         AllowsTransparency="True"
-        WindowStyle="None" mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080">
+        WindowStyle="None" mc:Ignorable="d">
 
 
     <!--  拖动标题栏顶部范围  -->
     <WindowChrome.WindowChrome>
         <WindowChrome UseAeroCaptionButtons="True"
                       CaptionHeight="15"
-                      GlassFrameThickness="0"
-                      CornerRadius="25" />
+                      GlassFrameThickness="0" CornerRadius="0" />
     </WindowChrome.WindowChrome>
 
 
@@ -61,8 +61,9 @@
                    Width="300" Margin="25,0,35,0"
                    HorizontalAlignment="Center" />
             <StackPanel Grid.Column="1"
+                        HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Orientation="Horizontal" HorizontalAlignment="Center">
+                        Orientation="Horizontal">
 
                 <RadioButton Style="{StaticResource 标题_选项_样式}" x:Name="HomeOne_Radio"
                              Uid="1" IsChecked="True" Width="250"
@@ -85,8 +86,7 @@
                                    HorizontalAlignment="Center"
                                    FontFamily="./Resources/#iconfont"
                                    FontSize="32" />
-                        <TextBlock 
-                                   Text="控制台" Margin="10,5,10,0"
+                        <TextBlock Text="控制台" Margin="10,5,10,0"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    FontSize="{StaticResource 标题_字体_正常字号}"
@@ -108,17 +108,12 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
 
-                    <WrapPanel 
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Stretch"
-                               >
-                        <TextBlock
-                                   Text="&#xE67E;" Margin="5"
+                    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                        <TextBlock Text="&#xE67E;" Margin="5"
                                    HorizontalAlignment="Center"
                                    FontFamily="./Resources/#iconfont"
                                    FontSize="30" />
-                        <TextBlock 
-                                   Text="实时数据" Margin="10,5,10,0"
+                        <TextBlock Text="实时数据" Margin="10,5,10,0"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    FontSize="{StaticResource 标题_字体_正常字号}"
@@ -139,14 +134,12 @@
 
 
                     <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Stretch">
-                        <TextBlock 
-                                   Text="&#xE6A5;" Margin="5"
+                        <TextBlock Text="&#xE6A5;" Margin="5"
                                    HorizontalAlignment="Stretch"
                                    VerticalAlignment="Stretch"
                                    FontFamily="./Resources/#iconfont"
                                    FontSize="32" />
-                        <TextBlock 
-                                   Text="程序编辑" Margin="10,0,10,0"
+                        <TextBlock Text="程序编辑" Margin="10,0,10,0"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    FontSize="{StaticResource 标题_字体_正常字号}"
@@ -166,18 +159,16 @@
                     </i:Interaction.Triggers>
 
                     <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Stretch">
-                        <TextBlock 
-                                   Text="&#xE635;" Margin="5"
+                        <TextBlock Text="&#xE635;" Margin="5"
                                    HorizontalAlignment="Stretch"
                                    VerticalAlignment="Stretch"
                                    FontFamily="./Resources/#iconfont"
                                    FontSize="32" />
-                        <TextBlock
-                                   Text="振镜界面" Margin="10,0,10,0"
+                        <TextBlock Text="振镜界面" Margin="10,0,10,0"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   FontSize="{StaticResource 标题_字体_正常字号}" 
-                            FontFamily="Microsoft JhengHei UI"/>
+                                   FontSize="{StaticResource 标题_字体_正常字号}"
+                                   FontFamily="Microsoft JhengHei UI" />
                     </WrapPanel>
                 </RadioButton>
 
@@ -239,9 +230,7 @@
 
 
         <!--  分割装饰栏  -->
-        <Border Grid.Row="1" Background="Gray" Panel.ZIndex="-1" >
-
-        </Border>
+        <Border Grid.Row="1" Panel.ZIndex="-1" Background="Gray" />
 
 
 

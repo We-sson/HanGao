@@ -289,6 +289,7 @@ namespace Soceket_Connect
 
 
 
+
         /// <summary>
         /// 读取集合循环发送
         /// </summary>
@@ -299,8 +300,9 @@ namespace Soceket_Connect
                 User_Control_Log_ViewModel.User_Log_Add("-1.1，准备发送线程");
                 Monitor.Enter(The_Lock);
                 User_Control_Log_ViewModel.User_Log_Add("-1.2，进入发送线程");
-            
-            
+
+            TimeSpan Delay_time;
+
             while (Read_List)
             {
 
@@ -308,7 +310,8 @@ namespace Soceket_Connect
                 //Socket_Receive.Receive_Lock.WaitOne();
                 //Thread.Sleep(5000);
 
-
+                //当前时间
+                Delay_time = new TimeSpan(DateTime.Now.Ticks);
 
                 try
                 {
@@ -346,7 +349,12 @@ namespace Soceket_Connect
                     }
 
 
-                    Thread.Sleep(50);
+                    //发送延时毫秒
+                    Messenger.Default.Send<string >(((int)( new TimeSpan(DateTime.Now.Ticks ) - Delay_time).TotalMilliseconds).ToString(), "Connter_Time_Delay_Method");
+
+                    
+
+                    //Thread.Sleep(50);
 
 
 

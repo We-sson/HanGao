@@ -239,7 +239,7 @@ namespace Soceket_KUKA
         /// </summary>
         public static void Socket_Receive_Error()
         {
-            Monitor.Exit(Socket_Connect.The_Lock);
+            //Monitor.Exit(Socket_Connect.The_Lock);
             Messenger.Default.Send<bool?>(true, "Connect_Button_IsEnabled_Method");
             Messenger.Default.Send<bool?>(false, "Sidebar_Subtitle_Signal_Method_bool");
 

@@ -36,12 +36,14 @@ namespace 悍高软件.ViewModel
 
             Messenger.Default.Register<ObservableCollection<Socket_Models_List>>(this, "List_Connect", List_Connect);
 
+            Messenger.Default.Register<string>(this, "Connter_Time_Delay_Method",(s)=> { Connter_Time_Delay = s; });
 
 
 
 
         }
 
+        public string Connter_Time_Delay { set; get; } = "null";
 
 
         private bool _Connect_Button_IsEnabled = true;

@@ -17,7 +17,8 @@
 
     <Grid>
         <Grid.Effect>
-            <DropShadowEffect ShadowDepth="0" Direction="20" Opacity="0.2" BlurRadius="20"/>
+            <DropShadowEffect ShadowDepth="0" Direction="20"
+                              Opacity="0.2" BlurRadius="20" />
         </Grid.Effect>
 
 
@@ -73,7 +74,7 @@
             <Grid x:Name="GD3" Grid.Column="1"
                   Width="50" Margin="0,0,0,0"
                   HorizontalAlignment="Right">
-      
+
                 <Grid.Style>
                     <Style TargetType="Grid">
                         <Style.Triggers>
@@ -233,13 +234,16 @@
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
-                            <ColumnDefinition Width=" 0.2*" />
+
                         </Grid.ColumnDefinitions>
 
                         <Button Style="{DynamicResource ButtonStyle2}" Grid.Column="1"
                                 Uid="Close" Margin="10"
+                                HorizontalAlignment="Right"
                                 VerticalAlignment="Center">
-                            <TextBlock Text="&#xe606;"
+                            <TextBlock Text="&#xe606;" Width="40"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
                                        Visibility="Visible"
                                        FontFamily="/Resources/#iconfont"
                                        FontSize="38" Foreground="#FF5E57"
@@ -264,6 +268,7 @@
                                    Text="{Binding Sidebar_MainTitle}"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center" FontSize="35" />
+
 
                     </Grid>
 
