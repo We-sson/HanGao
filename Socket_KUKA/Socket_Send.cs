@@ -78,7 +78,7 @@ namespace 悍高软件.Socket_KUKA
 
                     Socket_Connect.Global_Socket_Write.BeginSend(Message, 0, Message.Length, SocketFlags.None, new AsyncCallback(Socket_Send_Message), Socket_Connect.Global_Socket_Write);
                 }
-                else if (_i == 0)
+                else 
                 {
                     Socket_Connect.Global_Socket_Read.BeginSend(Message, 0, Message.Length, SocketFlags.None, new AsyncCallback(Socket_Send_Message), Socket_Connect.Global_Socket_Read);
 
@@ -150,15 +150,15 @@ namespace 悍高软件.Socket_KUKA
 
 
 
-            Task.Run(() =>
-           {
+           // Task.Run(() =>
+           //{
 
 
 
                //发送排序好的字节流发送
                Socket_Send_Message_Method(new Socket_Models_Send() { Send_Byte = _data.ToArray(), Send_int = 0 });
 
-           });
+           //});
 
 
 

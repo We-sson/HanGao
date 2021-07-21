@@ -2,7 +2,7 @@
 
     <SolidColorBrush x:Key="ListBorder" Color="#828790" />
     <Style x:Key="ListViewStyle1" TargetType="{x:Type ListView}">
-        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
+        <Setter Property="Background" Value="{StaticResource {x:Static SystemColors.WindowBrushKey}}" />
         <Setter Property="BorderBrush" Value="{StaticResource ListBorder}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Foreground" Value="#FF042271" />
@@ -23,7 +23,7 @@
                                           RenderMouseOver="{TemplateBinding IsMouseOver}"
                                           RenderFocused="{TemplateBinding IsKeyboardFocusWithin}"
                                           SnapsToDevicePixels="true">
-                        <ScrollViewer Style="{DynamicResource {x:Static GridView.GridViewScrollViewerStyleKey}}" Padding="{TemplateBinding Padding}">
+                        <ScrollViewer Style="{StaticResource {x:Static GridView.GridViewScrollViewerStyleKey}}" Padding="{TemplateBinding Padding}">
                             <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                         </ScrollViewer>
                     </Themes:ListBoxChrome>
@@ -32,7 +32,7 @@
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
+                            <Setter TargetName="Bd" Property="Background" Value="{StaticResource {x:Static SystemColors.ControlBrushKey}}" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>

@@ -39,7 +39,7 @@
                       ScrollViewer.HorizontalScrollBarVisibility="Auto"
                       CanContentScroll="False"
                       IsDeferredScrollingEnabled="True"
-                      Template="{DynamicResource ScrollViewerControlTemplate1}">
+                      Template="{DynamicResource  ScrollViewerControlTemplate1}">
 
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ScrollChanged">

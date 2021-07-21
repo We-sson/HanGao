@@ -197,7 +197,7 @@
             </Grid.RowDefinitions>
 
 
-            <ListView Style="{DynamicResource ListViewStyle1}" Grid.Row="0"
+            <ListView Style="{StaticResource ListViewStyle1}" Grid.Row="0"
                       DataContext="{Binding Source={StaticResource Locator}, Path=UserControl_Right_Socket_Connection_ViewModel}"
                       ItemsSource="{Binding Socket_Read_List}">
                 <ListView.View>
@@ -238,7 +238,7 @@
             </ListView>
 
 
-            <ListBox Style="{DynamicResource ListBoxStyle1}" x:Name="Socket_Show_List" Grid.Row="0"
+            <ListBox Style="{StaticResource ListBoxStyle1}" x:Name="Socket_Show_List" Grid.Row="0"
                      Margin="10" Visibility="Collapsed"
                      ItemsSource="{Binding Socket_Read_List}" />
 

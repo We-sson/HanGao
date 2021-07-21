@@ -21,7 +21,7 @@
         <Border Background="Gray" Opacity=" 0.5" />
 
 
-        <Grid Style="{DynamicResource Gd_Effect}" x:Name="grid"
+        <Grid Style="{StaticResource Gd_Effect}" x:Name="grid"
               MaxWidth="450" MaxHeight="380">
             <Grid.RowDefinitions>
                 <RowDefinition />
@@ -75,7 +75,7 @@
                            VerticalAlignment="Top" FontSize="35"
                            Foreground="Black" />
 
-                <Button Style="{DynamicResource Button_message}" x:Name="BT1"
+                <Button Style="{StaticResource Button_message}" x:Name="BT1"
                         Uid="Yes" Width="225" Height="60"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Bottom"
@@ -112,7 +112,7 @@
 
 
 
-                <Button Style="{DynamicResource Button_message}" x:Name="BT2"
+                <Button Style="{StaticResource Button_message}" x:Name="BT2"
                         Uid="No" Width="225" Height="60"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Bottom"

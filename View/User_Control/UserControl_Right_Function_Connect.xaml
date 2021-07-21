@@ -237,7 +237,7 @@
 
                         </Grid.ColumnDefinitions>
 
-                        <Button Style="{DynamicResource ButtonStyle2}" Grid.Column="1"
+                        <Button Style="{StaticResource ButtonStyle2}" Grid.Column="1"
                                 Uid="Close" Margin="10"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Center">

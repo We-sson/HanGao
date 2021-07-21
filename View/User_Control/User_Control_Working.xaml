@@ -57,7 +57,7 @@
                 CornerRadius="5">
 
 
-            <Grid Style="{DynamicResource GridStyle1}" Margin="0" ShowGridLines="False">
+            <Grid Style="{StaticResource GridStyle1}" Margin="0" ShowGridLines="False">
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -92,7 +92,7 @@
                             VerticalAlignment="Center"
                             Orientation="Horizontal">
 
-                    <CheckBox Style="{DynamicResource Button_List_Style}" x:Name="Work_Run_Check"
+                    <CheckBox Style="{StaticResource Button_List_Style}" x:Name="Work_Run_Check"
                               Content="启动"
                               IsChecked="{Binding WM.Work_Run, Mode=TwoWay}"
                               Margin="0" HorizontalAlignment="Center"
@@ -108,7 +108,7 @@
 
                     </CheckBox>
 
-                    <CheckBox Style="{DynamicResource Button_List_Style}"
+                    <CheckBox Style="{StaticResource Button_List_Style}"
                               Content="计数"
                               IsChecked="{Binding WM.Work_Connt, Mode=TwoWay}"
                               Margin="0" HorizontalAlignment="Center"
@@ -123,7 +123,7 @@
 
 
 
-                    <CheckBox Style="{DynamicResource Button_List_Style}"
+                    <CheckBox Style="{StaticResource Button_List_Style}"
                               Content="空运"
                               IsChecked="{Binding WM.Work_NullRun, Mode=TwoWay}"
                               Margin="0" HorizontalAlignment="Center"
@@ -136,7 +136,7 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </CheckBox>
-                    <CheckBox Style="{DynamicResource Button_List_Style}"
+                    <CheckBox Style="{StaticResource Button_List_Style}"
                               Content="暂停"
                               IsChecked="{Binding WM.Work_Pause, Mode=TwoWay}"
                               Margin="0" HorizontalAlignment="Center"
@@ -149,7 +149,7 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </CheckBox>
-                    <CheckBox Style="{DynamicResource Button_List_Style}"
+                    <CheckBox Style="{StaticResource Button_List_Style}"
                               Content="跳过"
                               IsChecked="{Binding WM.Work_JumpOver, Mode=TwoWay}"
                               Margin="0" HorizontalAlignment="Center"

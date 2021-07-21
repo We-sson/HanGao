@@ -12,7 +12,7 @@
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <!--<Rectangle x:Name="Corner" Grid.Row="1" Grid.Column="1"
-                       Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />-->
+                       Fill="{StaticResource {x:Static SystemColors.ControlBrushKey}}" />-->
             <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" Grid.Row="0" Grid.Column="0"
                                     Content="{TemplateBinding Content}"
                                     Margin="{TemplateBinding Padding}"
@@ -20,7 +20,7 @@
                                     CanHorizontallyScroll="False"
                                     CanVerticallyScroll="False"
                                     ContentTemplate="{TemplateBinding ContentTemplate}" />
-            <ScrollBar Style="{DynamicResource ScrollBarStyle1}" x:Name="PART_VerticalScrollBar" Grid.Row="0" Grid.Column="1"
+            <ScrollBar Style="{StaticResource ScrollBarStyle1}" x:Name="PART_VerticalScrollBar" Grid.Row="0" Grid.Column="1"
                        HorizontalAlignment="Right"
                        AutomationProperties.AutomationId="VerticalScrollBar"
                        Cursor="Arrow"
@@ -29,7 +29,7 @@
                        Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
                        ViewportSize="{TemplateBinding ViewportHeight}"
                        Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
-            <ScrollBar Style="{DynamicResource ScrollBarStyle1}" x:Name="PART_HorizontalScrollBar" Grid.Row="1" Grid.Column="0"
+            <ScrollBar Style="{StaticResource ScrollBarStyle1}" x:Name="PART_HorizontalScrollBar" Grid.Row="1" Grid.Column="0"
                        AutomationProperties.AutomationId="HorizontalScrollBar"
                        Cursor="Arrow"
                        Maximum="{TemplateBinding ScrollableWidth}"
@@ -58,7 +58,7 @@
                 <RowDefinition Height="60" />
             </Grid.RowDefinitions>
             <!--<Rectangle x:Name="Corner" Grid.Row="1" Grid.Column="1" Visibility="Collapsed"
-                       Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />-->
+                       Fill="{StaticResource {x:Static SystemColors.ControlBrushKey}}" />-->
             <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" Grid.Row="0" Grid.Column="0"
                                     Content="{TemplateBinding Content}"
                                     Margin="{TemplateBinding Padding}"
@@ -66,7 +66,7 @@
                                     CanHorizontallyScroll="False"
                                     CanVerticallyScroll="False"
                                     ContentTemplate="{TemplateBinding ContentTemplate}" />
-            <ScrollBar Style="{DynamicResource ScrollBarStyle2}" x:Name="PART_VerticalScrollBar" Grid.Row="0" Grid.Column="1"
+            <ScrollBar Style="{StaticResource ScrollBarStyle2}" x:Name="PART_VerticalScrollBar" Grid.Row="0" Grid.Column="1"
                        Width="auto"
                        AutomationProperties.AutomationId="VerticalScrollBar"
                        Cursor="Arrow"
@@ -75,7 +75,7 @@
                        Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
                        ViewportSize="{TemplateBinding ViewportHeight}"
                        Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
-            <ScrollBar Style="{DynamicResource ScrollBarStyle2}" x:Name="PART_HorizontalScrollBar" Grid.Row="1" Grid.Column="0"
+            <ScrollBar Style="{StaticResource ScrollBarStyle2}" x:Name="PART_HorizontalScrollBar" Grid.Row="1" Grid.Column="0"
                        Height="Auto"
                        AutomationProperties.AutomationId="HorizontalScrollBar"
                        Cursor="Arrow"

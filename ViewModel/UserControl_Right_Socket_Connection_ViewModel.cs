@@ -31,10 +31,13 @@ namespace 悍高软件.ViewModel
 
             Messenger.Default.Register<string>(this, "Socket_Message_Show", Socket_Message_Show);
 
+
             Messenger.Default.Register<bool>(this, "Connect_Button_IsEnabled_Method", Connect_Button_IsEnabled_Method);
             Messenger.Default.Register<int>(this, "Connect_Socketing_Method", Connect_Socketing_Method);
 
+
             Messenger.Default.Register<ObservableCollection<Socket_Models_List>>(this, "List_Connect", List_Connect);
+
 
             Messenger.Default.Register<string>(this, "Connter_Time_Delay_Method",(s)=> { Connter_Time_Delay = s; });
 

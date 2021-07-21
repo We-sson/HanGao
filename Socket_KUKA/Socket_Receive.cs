@@ -98,7 +98,7 @@ namespace Soceket_KUKA
 
 
 
-                 byte[] _data = new byte[0];
+                byte[] _data=Array.Empty<byte>() ;
 
 
                 if (_Receive.Read_int == 0)

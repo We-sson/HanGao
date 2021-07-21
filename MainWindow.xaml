@@ -192,7 +192,7 @@
                         Orientation="Horizontal">
 
 
-                <Button Style="{DynamicResource ButtonStyle1}"
+                <Button Style="{StaticResource ButtonStyle1}"
                         x:Uid="1" Width="30" Height="30"
                         Margin="12,0,12,0" Background="#2AD043"
                         BorderThickness="2" BorderBrush="Gray">
@@ -202,7 +202,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-                <Button Style="{DynamicResource ButtonStyle1}"
+                <Button Style="{StaticResource ButtonStyle1}"
                         x:Uid="2" Width="30" Height="30"
                         Margin="12,0,12,0" Background="#FFBC2F"
                         BorderThickness="2" BorderBrush="Gray">
@@ -212,7 +212,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-                <Button Style="{DynamicResource ButtonStyle1}"
+                <Button Style="{StaticResource ButtonStyle1}"
                         x:Uid="3" Width="30" Height="30"
                         Margin="12,0,12,0" Background="#FF5E57"
                         BorderThickness="2" BorderBrush="Gray">

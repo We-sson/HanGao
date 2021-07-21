@@ -97,15 +97,15 @@
 
                 </Border>
 
-                <ListBox Style="{DynamicResource ListBoxStyle1}" x:Name="LB1" Grid.Row="0"
+                <ListBox Style="{StaticResource  ListBoxStyle1}" x:Name="LB1" Grid.Row="0"
                          HorizontalContentAlignment="Center"
                          Background="Transparent"
                          DataContext="{Binding Source={StaticResource Locator}, Path=List_Show}"
                          ItemsSource="{Binding SinkModels}"
                          ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                          ScrollViewer.VerticalScrollBarVisibility="Auto"
-                         ItemContainerStyle="{DynamicResource ListBoxItemStyle1}"
-                         ItemTemplate="{DynamicResource DataTemplate1}"
+                         ItemContainerStyle="{StaticResource ListBoxItemStyle1}"
+                         ItemTemplate="{StaticResource DataTemplate1}"
                          RenderTransformOrigin="0.5,0.5">
 
                     <ListBox.RenderTransform>

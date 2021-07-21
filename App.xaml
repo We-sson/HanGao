@@ -26,9 +26,10 @@
                 <ResourceDictionary Source="View\Style\Button_List.xaml" />
                 <ResourceDictionary Source="View\Style\ScrollViewer_List.xaml" />
                 <ResourceDictionary Source="View\Style\Socket_ListView_Style.xaml" />
+                <ResourceDictionary Source="View\ScrollViewer.xaml" />
 
 
-
+                
 
 
 

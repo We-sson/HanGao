@@ -301,7 +301,7 @@ namespace Soceket_Connect
                 Monitor.Enter(The_Lock);
                 User_Control_Log_ViewModel.User_Log_Add("-1.2，进入发送线程");
 
-            TimeSpan Delay_time;
+            dynamic  Delay_time;
 
             while (Read_List)
             {
@@ -311,7 +311,7 @@ namespace Soceket_Connect
                 //Thread.Sleep(5000);
 
                 //当前时间
-                Delay_time = new TimeSpan(DateTime.Now.Ticks);
+                Delay_time = DateTime.Now.Ticks;
 
                 try
                 {
@@ -348,9 +348,10 @@ namespace Soceket_Connect
                         }
                     }
 
-
+                
                     //发送延时毫秒
-                    Messenger.Default.Send<string >(((int)( new TimeSpan(DateTime.Now.Ticks ) - Delay_time).TotalMilliseconds).ToString(), "Connter_Time_Delay_Method");
+                    Messenger.Default.Send<string >(((int)( DateTime.Now.Ticks - Delay_time).TotalMilliseconds).ToString(), "Connter_Time_Delay_Method");
+        
 
                     
 

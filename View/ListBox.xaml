@@ -18,7 +18,7 @@
         <Setter Property="Background" Value="{StaticResource ListBox.Static.Background}" />
         <Setter Property="BorderBrush" Value="{StaticResource ListBox.Static.Border}" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+        <Setter Property="Foreground" Value="{StaticResource {x:Static SystemColors.ControlTextBrushKey}}" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
@@ -117,7 +117,7 @@
 
                         </MultiTrigger>-->
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Bd" Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                            <Setter TargetName="Bd" Property="TextElement.Foreground" Value="{StaticResource {x:Static SystemColors.GrayTextBrushKey}}" />
                         </Trigger>
                         <!--<Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="Bd" Property="Background" Value="Transparent" />
@@ -301,10 +301,10 @@
 
 
 
-                    <Grid Style="{DynamicResource Gd_Effect}" Grid.Column="0">
+                    <Grid Style="{StaticResource Gd_Effect}" Grid.Column="0">
 
 
-                        <CheckBox Style="{DynamicResource CheckBoxStyle1}" x:Name="CB1"
+                        <CheckBox Style="{StaticResource CheckBoxStyle1}" x:Name="CB1"
                                   Uid="1" Content="1号工位"
                                   IsChecked="{Binding List_IsChecked_1}"
                                   Padding="0,0,0,0" FontSize="20"
@@ -327,9 +327,9 @@
 
 
 
-                    <Grid Style="{DynamicResource Gd_Effect}" Grid.Column="1">
+                    <Grid Style="{StaticResource Gd_Effect}" Grid.Column="1">
 
-                        <CheckBox Style="{DynamicResource CheckBoxStyle1}" x:Name="CB2"
+                        <CheckBox Style="{StaticResource CheckBoxStyle1}" x:Name="CB2"
                                   Uid="2" Content="2号工位"
                                   IsChecked="{Binding List_IsChecked_2}"
                                   Padding="0" BorderThickness="0"
