@@ -1,9 +1,11 @@
 ﻿using Prism.Commands;
 using PropertyChanged;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using 悍高软件.Model;
+using 悍高软件.Socket_KUKA;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
 
 namespace 悍高软件.ViewModel
@@ -12,6 +14,7 @@ namespace 悍高软件.ViewModel
     public class User_Control_Working_VM_1 : User_Control_Common
     {
 
+ 
 
 
 
@@ -39,6 +42,30 @@ namespace 悍高软件.ViewModel
 
 
             };
+
+            WM.PropertyChanged += WM_PropertyChanged;
+
+
+        }
+
+        private void WM_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+
+            Wroking_Models WM = sender as Wroking_Models;
+
+            if (WM.Work_Type!=string.Empty)
+            {
+
+
+
+            }
+            else
+            {
+
+            }
+
+
+
 
 
         }

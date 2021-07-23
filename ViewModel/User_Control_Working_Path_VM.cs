@@ -41,7 +41,7 @@ namespace 悍高软件.ViewModel
         /// <summary>
         /// 传递参数区域名称：重要！
         /// </summary>
-        public static string Work_String_Name {  set; get; } = "Show_Reveice_Control";
+        public static string Work_String_Name {  get; } = "Show_Reveice_Control";
 
 
 
@@ -65,7 +65,7 @@ namespace 悍高软件.ViewModel
         {
             new Socket_Models_List() { Val_Name = "$POS_ACT", Val_ID = Socket_Models_Connect.Number_ID, Send_Area=Work_String_Name},
             new Socket_Models_List() { Val_Name = "$ACT_TOOL", Val_ID = Socket_Models_Connect.Number_ID,Send_Area=Work_String_Name },
-            new Socket_Models_List() { Val_Name = "$ACT_BASE", Val_ID = Socket_Models_Connect.Number_ID,Send_Area=Work_String_Name }
+            new Socket_Models_List() { Val_Name = "$ACT_BASE", Val_ID = Socket_Models_Connect.Number_ID,Send_Area=Work_String_Name },
         };
 
 

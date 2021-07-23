@@ -1,12 +1,15 @@
 ﻿using PropertyChanged;
+using System.ComponentModel;
+using 悍高软件.Socket_KUKA;
 
 namespace 悍高软件.Model
 {
     [AddINotifyPropertyChangedInterface]
-    public class Wroking_Models : User_Features
+    public class Wroking_Models : User_Features, INotifyPropertyChanged
     {
 
 
+        public event PropertyChangedEventHandler PropertyChanged;
 
 
 
@@ -40,14 +43,25 @@ namespace 悍高软件.Model
             set
             {
                 _Work_Type = value;
+
+
+                //加工区号非空时
+                if (_Number_Work!="")
+                {
+                 //将显示的水槽型号发送到kuka端，同时修改显示颜色
                 if (Work_Type == "")
                 {
+                    Socket_Send.Send_Write_Var("$my_work_"+ _Number_Work, "#ERROR");
+
                     Work_back = "#E3E3E3";
                 }
                 else if (Work_Type != "")
                 {
+                    Socket_Send.Send_Write_Var("$my_work_"+ _Number_Work, "#P" + value );
+
                     Work_back = "#F4D160";
 
+                }
                 }
             }
         }
@@ -172,6 +186,8 @@ namespace 悍高软件.Model
 
 
         private bool _Work_IsEnabled = true;
+
+
         /// <summary>
         /// 显示是否加工功能
         /// </summary>

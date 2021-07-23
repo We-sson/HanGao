@@ -47,7 +47,7 @@
                                Text="加工路径显示:" Margin="15,0,10,0"
                                HorizontalAlignment="Stretch"
                                VerticalAlignment="Center" FontSize="25" />
-                    <TextBlock Grid.Column="1"
+                    <TextBlock Grid.Column="1" Visibility="Visible"
                                Text="{Binding Working_Path.KUKA_Now_Point_Show}"
                                Margin="0,0,0,5"
                                HorizontalAlignment="Stretch"

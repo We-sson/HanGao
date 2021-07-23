@@ -35,13 +35,40 @@ namespace 悍高软件.Model
         /// <summary>
         /// 机器人当前工具号
         /// </summary>
-        public string KUKA_TOOL_Number { set; get; } = "-1";
+        private  string _KUKA_TOOL_Number  = "-1";
+        public string KUKA_TOOL_Number
+        {
+            get 
+            {
+                return _KUKA_TOOL_Number;
+            }
+            set
+            {
+                if (_KUKA_TOOL_Number== value) { return; }
+                _KUKA_TOOL_Number = value;
+            }
+        }
+
 
         /// <summary>
         /// 机器人当前坐标号
         /// </summary>
-        public string KUKA_Base_Number { set; get; } = "-1";
+        private  string _KUKA_Base_Number= "-1";
+        public string KUKA_Base_Number
+        {
+            get
+            {
+                return _KUKA_Base_Number;
+            }
+            set
+            {
+                if (_KUKA_Base_Number == value) { return; }
+                _KUKA_Base_Number = value;
 
+
+
+            }
+        }
 
         private string _KUKA_Now_Point_Show;
         /// <summary>

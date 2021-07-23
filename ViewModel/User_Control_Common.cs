@@ -5,6 +5,7 @@ using PropertyChanged;
 using Soceket_Connect;
 using Soceket_KUKA.Models;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -18,6 +19,7 @@ namespace 悍高软件.ViewModel
     public class User_Control_Common : ViewModelBase
     {
 
+            
 
         public User_Control_Common()
         {
@@ -27,8 +29,7 @@ namespace 悍高软件.ViewModel
 
 
 
-
-            Messenger.Default.Send<ObservableCollection<Socket_Models_List>>(_List, "List_Connect");
+        Messenger.Default.Send<ObservableCollection<Socket_Models_List>>(_List, "List_Connect");
 
 
 
@@ -64,7 +65,11 @@ namespace 悍高软件.ViewModel
             new Socket_Models_List() { Val_Name = "$PRO_STATE", Val_ID = Socket_Models_Connect.Number_ID },
             new Socket_Models_List() { Val_Name = "$MODE_OP", Val_ID = Socket_Models_Connect.Number_ID },
             new Socket_Models_List() { Val_Name = "$Run_Work_1", Val_ID = Socket_Models_Connect.Number_ID },
-            new Socket_Models_List() { Val_Name = "$Run_Work_2", Val_ID = Socket_Models_Connect.Number_ID }
+            new Socket_Models_List() { Val_Name = "$Run_Work_2", Val_ID = Socket_Models_Connect.Number_ID },
+            new Socket_Models_List() { Val_Name = "$my_work_1", Val_ID = Socket_Models_Connect.Number_ID },
+            new Socket_Models_List() { Val_Name = "$my_work_2", Val_ID = Socket_Models_Connect.Number_ID },
+            new Socket_Models_List() { Val_Name = "$my_work_number", Val_ID = Socket_Models_Connect.Number_ID },
+
         };
 
 
@@ -181,22 +186,27 @@ namespace 悍高软件.ViewModel
             get => new DelegateCommand<RoutedEventArgs>((Sm) =>
             {
                 //把参数类型转换控件
-                dynamic e = Sm.Source as CheckBox;
+                dynamic  e = Sm.Source as CheckBox;
                 //
-                dynamic _data = Log_Work_data(e);
+                dynamic  _data = Log_Work_data(e);
                  ;
+                
+
 
                 if (Socket_Connect.Global_Socket_Write==null) { return; }
 
 
                 if ((bool)e.IsChecked)
                 {
-                Socket_Send.Send_Write_Var("$Run_Work_1", "TRUE");
+
+                    
+
+                Socket_Send.Send_Write_Var("$Run_Work_"+_data.Work_NO.ToString(), "TRUE");
 
                 }
                 else if (!(bool)e.IsChecked)
                 {
-                    Socket_Send.Send_Write_Var("$Run_Work_1", "FALSE");
+                    Socket_Send.Send_Write_Var("$Run_Work_" + _data.Work_NO.ToString(), "FALSE");
 
                 }
 

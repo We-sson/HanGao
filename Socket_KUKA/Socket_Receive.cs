@@ -70,11 +70,12 @@ namespace Soceket_KUKA
 
 
             //互斥线程锁，保证每次只有一个线程接收消息
-            //Receive_Lock.WaitOne();
+            Receive_Lock.WaitOne();
 
 
             //传入参数转换
             Socket_Models_Receive _Receive = ar.AsyncState as Socket_Models_Receive;
+
 
             //连接属性断开后为空后退出接收
             if (Socket_Connect.Global_Socket_Write == null || Socket_Connect.Global_Socket_Read == null) { Socket_Receive_Error(); return; }
@@ -161,11 +162,14 @@ namespace Soceket_KUKA
                     {
 
 
-
+                        //根据ID号对应写入接收到的内容
                         if (UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Val_ID == _ID)
                         {
 
-                            UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Val_Update_Time = DateTime.Now.ToLocalTime();
+                            //更新内容时间
+                            //UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Val_Update_Time = DateTime.Now.ToLocalTime();
+
+                            //更新参数值
                             UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Val_Var = Message_Show;
 
                             //把属于自己的区域回传
@@ -228,7 +232,7 @@ namespace Soceket_KUKA
 
 
             //接收信息互斥线程锁，保证每次只有一个线程接收消息
-            //Receive_Lock.ReleaseMutex();
+            Receive_Lock.ReleaseMutex();
         }
 
 

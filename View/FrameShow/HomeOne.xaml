@@ -100,6 +100,7 @@
                 <ListBox Style="{StaticResource  ListBoxStyle1}" x:Name="LB1" Grid.Row="0"
                          HorizontalContentAlignment="Center"
                          Background="Transparent"
+                         
                          DataContext="{Binding Source={StaticResource Locator}, Path=List_Show}"
                          ItemsSource="{Binding SinkModels}"
                          ScrollViewer.HorizontalScrollBarVisibility="Hidden"
@@ -189,7 +190,7 @@
                 Grid.ColumnSpan="2"
                 DataContext="{Binding Source={StaticResource Locator}, Path=Home_ViewModel}"
                 Visibility="{Binding Visibility}"
-                Background="Gray" Opacity="0.5" />
+                Background="Transparent" />
 
 
         <ContentControl Content="{Binding Sidebar_Control}" Panel.ZIndex="1" d:IsHidden="True" />

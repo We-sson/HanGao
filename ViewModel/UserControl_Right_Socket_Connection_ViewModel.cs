@@ -46,7 +46,7 @@ namespace 悍高软件.ViewModel
 
         }
 
-        public string Connter_Time_Delay { set; get; } = "null";
+        public string Connter_Time_Delay { set; get; } = "-1";
 
 
         private bool _Connect_Button_IsEnabled = true;

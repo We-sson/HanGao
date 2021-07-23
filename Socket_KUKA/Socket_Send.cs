@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using 悍高软件.ViewModel;
 
@@ -26,7 +27,10 @@ namespace 悍高软件.Socket_KUKA
         }
 
 
-
+        /// <summary>
+        /// 资源互锁
+        /// </summary>
+        public static Mutex Wrist_Lock = new Mutex();
 
         private static Socket_Models_Connect _Socket_Client = new Socket_Models_Connect() { };
         /// <summary>
@@ -62,6 +66,10 @@ namespace 悍高软件.Socket_KUKA
         public static void Socket_Send_Message_Method(Socket_Models_Send _S)
         {
 
+
+            //互斥线程锁，保证每次只有一个线程接收消息
+            Wrist_Lock.WaitOne();
+
             Byte[] Message = _S.Send_Byte;
             int _i = _S.Send_int;
             //byte_Send = Encoding.UTF8.GetBytes((string ) Message);
@@ -93,6 +101,8 @@ namespace 悍高软件.Socket_KUKA
 
             }
 
+            //接收信息互斥线程锁，保证每次只有一个线程接收消息
+            Wrist_Lock.ReleaseMutex();
 
         }
 

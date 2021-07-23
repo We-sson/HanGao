@@ -6,7 +6,7 @@ using System.Net.Sockets;
 namespace Soceket_KUKA.Models
 {
     [AddINotifyPropertyChangedInterface]
-    public class Socket_Models_Connect
+    public class Socket_Models_Connect 
     {
 
         public Socket_Models_Connect()
@@ -124,10 +124,10 @@ namespace Soceket_KUKA.Models
             return arr;
         }
 
-
-
-
-
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
     }
 
 
@@ -265,6 +265,7 @@ namespace Soceket_KUKA.Models
                 }
                 set
                 {
+                    if (_Val_Var== value) { return; }
                     _Val_Var = value;
                 }
             }
@@ -300,7 +301,7 @@ namespace Soceket_KUKA.Models
                 }
             }
 
-            private DateTime _Val_Update_Time = DateTime.Now;
+            private DateTime _Val_Update_Time;
             /// <summary>
             /// 读取时间
             /// </summary>
@@ -308,12 +309,13 @@ namespace Soceket_KUKA.Models
             {
                 get
                 {
-                    return _Val_Update_Time;
+                    return DateTime.Now;
                 }
-                set
+                set 
                 {
                     _Val_Update_Time = value;
                 }
+        
             }
             /// <summary>
             /// 变量名称归属地方

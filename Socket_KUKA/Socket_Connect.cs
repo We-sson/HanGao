@@ -301,7 +301,7 @@ namespace Soceket_Connect
                 Monitor.Enter(The_Lock);
                 User_Control_Log_ViewModel.User_Log_Add("-1.2，进入发送线程");
 
-            dynamic  Delay_time;
+             DateTime  Delay_time;
 
             while (Read_List)
             {
@@ -311,7 +311,7 @@ namespace Soceket_Connect
                 //Thread.Sleep(5000);
 
                 //当前时间
-                Delay_time = DateTime.Now.Ticks;
+                Delay_time = DateTime.Now;
 
                 try
                 {
@@ -340,7 +340,7 @@ namespace Soceket_Connect
                                 //Task.Delay(500);
                                 //Thread.SpinWait(200);
                                 //等待线程接收
-                                //Thread.Sleep(50);
+                                //Thread.Sleep(30);
                                 User_Control_Log_ViewModel.User_Log_Add("-1.3，等待下一个变量发送");
                                 Monitor.Wait(The_Lock);
                                 User_Control_Log_ViewModel.User_Log_Add("-1.4，解除接收等待");
@@ -348,12 +348,11 @@ namespace Soceket_Connect
                         }
                     }
 
-                
-                    //发送延时毫秒
-                    Messenger.Default.Send<string >(((int)( DateTime.Now.Ticks - Delay_time).TotalMilliseconds).ToString(), "Connter_Time_Delay_Method");
-        
 
-                    
+
+
+
+
 
                     //Thread.Sleep(50);
 
@@ -374,6 +373,9 @@ namespace Soceket_Connect
                 }
 
 
+
+                //发送延时毫秒
+                Messenger.Default.Send<string>((DateTime.Now - Delay_time).TotalMilliseconds.ToString().Split('.')[0], "Connter_Time_Delay_Method");
             }
 
 
