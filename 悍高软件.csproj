@@ -275,6 +275,7 @@
     </ApplicationDefinition>
     <Compile Include="Errorinfo\IP_Text_Error.cs" />
     <Compile Include="Errorinfo\LogManager.cs" />
+    <Compile Include="Extension Method\Enum_Method.cs" />
     <Compile Include="Model\Frame_Uri_Models.cs" />
     <Compile Include="Model\Sink_Models.cs" />
     <Compile Include="Model\User_Features.cs" />

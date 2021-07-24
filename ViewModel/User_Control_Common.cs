@@ -28,8 +28,17 @@ namespace 悍高软件.ViewModel
 
 
 
+         //发送添加读取必须变量名
+        Messenger.Default.Send<ObservableCollection<Socket_Models_List>>(new ObservableCollection<Socket_Models_List>()
+        {
+            new Socket_Models_List() { Val_Name = "$VEL_ACT", Val_ID = Socket_Models_Connect.Number_ID },
+            new Socket_Models_List() { Val_Name = "$PRO_STATE", Val_ID = Socket_Models_Connect.Number_ID },
+            new Socket_Models_List() { Val_Name = "$MODE_OP", Val_ID = Socket_Models_Connect.Number_ID },
+            new Socket_Models_List() { Val_Name = "$Run_Work_1", Val_ID = Socket_Models_Connect.Number_ID, Send_Area=User_Control_Working_VM_1.Work_String_Name},
+            new Socket_Models_List() { Val_Name = "$My_Work_1", Val_ID = Socket_Models_Connect.Number_ID, Send_Area=User_Control_Working_VM_1.Work_String_Name},
+            new Socket_Models_List() { Val_Name = "$my_work_number", Val_ID = Socket_Models_Connect.Number_ID },
 
-        Messenger.Default.Send<ObservableCollection<Socket_Models_List>>(_List, "List_Connect");
+        }, "List_Connect");
 
 
 
@@ -59,18 +68,16 @@ namespace 悍高软件.ViewModel
         /// <summary>
         /// 临时变量属性集合
         /// </summary>
-        public ObservableCollection<Socket_Models_List> _List { set; get; } = new ObservableCollection<Socket_Models_List>()
-        {
-            new Socket_Models_List() { Val_Name = "$VEL_ACT", Val_ID = Socket_Models_Connect.Number_ID },
-            new Socket_Models_List() { Val_Name = "$PRO_STATE", Val_ID = Socket_Models_Connect.Number_ID },
-            new Socket_Models_List() { Val_Name = "$MODE_OP", Val_ID = Socket_Models_Connect.Number_ID },
-            new Socket_Models_List() { Val_Name = "$Run_Work_1", Val_ID = Socket_Models_Connect.Number_ID },
-            new Socket_Models_List() { Val_Name = "$Run_Work_2", Val_ID = Socket_Models_Connect.Number_ID },
-            new Socket_Models_List() { Val_Name = "$my_work_1", Val_ID = Socket_Models_Connect.Number_ID },
-            new Socket_Models_List() { Val_Name = "$my_work_2", Val_ID = Socket_Models_Connect.Number_ID },
-            new Socket_Models_List() { Val_Name = "$my_work_number", Val_ID = Socket_Models_Connect.Number_ID },
+        //public ObservableCollection<Socket_Models_List> _List { set; get; } = new ObservableCollection<Socket_Models_List>()
+        //{
+        //    new Socket_Models_List() { Val_Name = "$VEL_ACT", Val_ID = Socket_Models_Connect.Number_ID },
+        //    new Socket_Models_List() { Val_Name = "$PRO_STATE", Val_ID = Socket_Models_Connect.Number_ID },
+        //    new Socket_Models_List() { Val_Name = "$MODE_OP", Val_ID = Socket_Models_Connect.Number_ID },
+        //    new Socket_Models_List() { Val_Name = "$Run_Work_1", Val_ID = Socket_Models_Connect.Number_ID, Send_Area=User_Control_Working_VM_1.Work_String_Name},
 
-        };
+        //    new Socket_Models_List() { Val_Name = "$my_work_number", Val_ID = Socket_Models_Connect.Number_ID },
+
+        //};
 
 
 
@@ -196,19 +203,19 @@ namespace 悍高软件.ViewModel
                 if (Socket_Connect.Global_Socket_Write==null) { return; }
 
 
-                if ((bool)e.IsChecked)
-                {
+                //if ((bool)e.IsChecked)
+                //{
 
                     
 
-                Socket_Send.Send_Write_Var("$Run_Work_"+_data.Work_NO.ToString(), "TRUE");
+                //Socket_Send.Send_Write_Var("$Run_Work_"+_data.Work_NO.ToString(), "TRUE");
 
-                }
-                else if (!(bool)e.IsChecked)
-                {
-                    Socket_Send.Send_Write_Var("$Run_Work_" + _data.Work_NO.ToString(), "FALSE");
+                //}
+                //else if (!(bool)e.IsChecked)
+                //{
+                //    Socket_Send.Send_Write_Var("$Run_Work_" + _data.Work_NO.ToString(), "FALSE");
 
-                }
+                //}
 
 
 

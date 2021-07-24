@@ -178,8 +178,8 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Row="0"
-                               Text="机器人运行数据" 
-                               HorizontalAlignment="Left" Margin=" 0 0 0 6"
+                               Text="机器人运行数据" Margin="0,0,0,6"
+                               HorizontalAlignment="Left"
                                VerticalAlignment="Bottom" FontSize="25" />
 
                     <Border Grid.Row="1" Background="#A0A0A0" Opacity="0.5" />
@@ -198,31 +198,38 @@
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock Text="机器速度：" Margin=" 4"
-                                           HorizontalAlignment="Center" FontSize="22"
-                                           Foreground="#FF464646" VerticalAlignment="Center" />
-                                <TextBlock Text="焊接功率：" Margin="4"
-                                           HorizontalAlignment="Center"
-                                           FontSize=" 22" Foreground="#FF464646" />
+                                <TextBlock Margin="4" HorizontalAlignment="Center"
+                                           VerticalAlignment="Center" FontSize="22"
+                                           Foreground="#FF464646">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="焊接速度： {0}">
+                                            <Binding Path="WM.Robot_Speed" />
+                                        </MultiBinding>
 
-                                <TextBlock Text="当前状态：" Margin="4"
-                                           HorizontalAlignment="Center"
-                                           FontSize=" 22" Foreground="#FF464646" />
+                                    </TextBlock.Text>
+                                </TextBlock>
+                                <TextBlock Margin="4" HorizontalAlignment="Left"
+                                           FontSize=" 22" Foreground="#FF464646">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="焊接功率： {0}">
+                                            <Binding Path="WM.Welding_Power" />
+                                        </MultiBinding>
+
+                                    </TextBlock.Text>
+                                </TextBlock>
+
+                                <TextBlock Margin="4" HorizontalAlignment="Left"
+                                           FontSize=" 22" Foreground="#FF464646">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="当前状态： {0}">
+                                            <Binding Path="WM.Robot_status" />
+                                        </MultiBinding>
+
+                                    </TextBlock.Text>
+                                </TextBlock>
 
                             </StackPanel>
 
-                            <StackPanel Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock Text="{Binding WM.Robot_Speed}" Margin=" 4"
-                                           HorizontalAlignment="Left" FontSize="22"
-                                           Foreground="Gray" />
-                                <TextBlock Text="{Binding WM.Welding_Power}" Margin="4"
-                                           HorizontalAlignment="Left"
-                                           FontSize=" 22" Foreground="Gray" />
-
-                                <TextBlock Text="{Binding WM.Robot_status}" Margin="4"
-                                           HorizontalAlignment="Left"
-                                           FontSize=" 22" Foreground="Gray" />
-                            </StackPanel>
                         </Grid>
 
                     </Grid>

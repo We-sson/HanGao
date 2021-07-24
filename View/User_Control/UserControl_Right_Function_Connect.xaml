@@ -136,8 +136,8 @@
 
                         <StackPanel Margin="0,20,0,0">
                             <!--  连接状态呼吸灯  -->
-                            <TextBlock Grid.Row="0" Grid.Column="0"
-                                       Text="{Binding Connter_Time_Delay ,StringFormat={}{0}ms}" 
+                            <TextBlock  Grid.Row="0" Grid.Column="0"
+                                       Text ="{Binding Connter_Time_Delay ,StringFormat={}{0}ms}" 
                                        Margin="5" HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        DataContext="{Binding UserControl_Right_Socket_Connection_ViewModel, Source={StaticResource Locator}}"

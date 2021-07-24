@@ -237,6 +237,8 @@ namespace Soceket_KUKA.Models
         public class Socket_Models_List
         {
 
+            
+
             private string _Val_Name;
             /// <summary>
             /// 变量名称

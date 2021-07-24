@@ -169,8 +169,17 @@ namespace 悍高软件.Model
             }
             set
             {
+                //值相同返回，减少UI更新占用资源
+                if (_Work_Run == value) { return; }
+
+                //属性发送更改发送机器端
+                Socket_Send.Send_Write_Var("$Run_Work_" + _Number_Work,value.ToString());
+
+
                 _Work_Run = value;
-                if (_Work_Type != "" && Work_Run == true)
+
+
+                if (_Work_Type != "" && Work_Run)
                 {
                     Work_back = "#22AB38";
                 }

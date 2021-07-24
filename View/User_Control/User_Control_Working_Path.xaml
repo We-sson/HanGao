@@ -47,13 +47,14 @@
                                Text="加工路径显示:" Margin="15,0,10,0"
                                HorizontalAlignment="Stretch"
                                VerticalAlignment="Center" FontSize="25" />
-                    <TextBlock Grid.Column="1" Visibility="Visible"
-                               Text="{Binding Working_Path.KUKA_Now_Point_Show}"
-                               Margin="0,0,0,5"
-                               HorizontalAlignment="Stretch"
-                               VerticalAlignment="Center" FontSize="19">
-                        <TextBlock.Style>
-                            <Style TargetType="TextBlock">
+                    <Label Grid.Column="1"
+                           Content="{Binding Working_Path.KUKA_Now_Point_Show}"
+                           Margin="0,0,0,5"
+                           HorizontalAlignment="Stretch"
+                           VerticalAlignment="Center"
+                           Visibility="Visible" FontSize="19">
+                        <Label.Style>
+                            <Style TargetType="Label">
                                 <Setter Property="Foreground" Value="#FFAE181F" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Working_Path.UI_Point_Color}" Value="true">
@@ -61,8 +62,8 @@
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
+                        </Label.Style>
+                    </Label>
 
                 </StackPanel>
 
@@ -80,24 +81,25 @@
                                    Text="当前工具号:" Margin="0"
                                    HorizontalAlignment="Stretch"
                                    VerticalAlignment="Center" FontSize="18" />
-                        <TextBlock Grid.Column="0"
-                                   Text="{Binding Working_Path.KUKA_TOOL_Number}"
-                                   Margin="5,0,0,0"
-                                   HorizontalAlignment="Stretch"
-                                   VerticalAlignment="Center"
-                                   Foreground="#FFAE181F" FontSize="20" />
+                        <Label Grid.Column="0"
+                               Content="{Binding Working_Path.KUKA_TOOL_Number}"
+                               Margin="5,0,0,0"
+                               HorizontalAlignment="Stretch"
+                               VerticalAlignment="Center"
+                               Foreground="#FFAE181F" FontSize="20" />
+
                     </StackPanel>
                     <StackPanel Margin="5" Orientation="Horizontal">
                         <TextBlock Grid.Column="0"
                                    Text="当前坐标号:" Margin="0"
                                    HorizontalAlignment="Stretch"
                                    VerticalAlignment="Center" FontSize="18" />
-                        <TextBlock Grid.Column="0"
-                                   Text="{Binding Working_Path.KUKA_Base_Number}"
-                                   Margin="5,0,0,0"
-                                   HorizontalAlignment="Stretch"
-                                   VerticalAlignment="Center"
-                                   Foreground="#FFAE181F" FontSize="20" />
+                        <Label Grid.Column="0"
+                               Content="{Binding Working_Path.KUKA_Base_Number}"
+                               Margin="5,0,0,0"
+                               HorizontalAlignment="Stretch"
+                               VerticalAlignment="Center"
+                               Foreground="#FFAE181F" FontSize="20" />
                     </StackPanel>
                 </StackPanel>
 

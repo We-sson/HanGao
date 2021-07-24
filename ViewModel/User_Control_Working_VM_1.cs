@@ -1,11 +1,13 @@
-﻿using Prism.Commands;
+﻿using GalaSoft.MvvmLight.Messaging;
+using Prism.Commands;
 using PropertyChanged;
+using Soceket_KUKA.Models;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using 悍高软件.Model;
-using 悍高软件.Socket_KUKA;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
 
 namespace 悍高软件.ViewModel
@@ -14,46 +16,94 @@ namespace 悍高软件.ViewModel
     public class User_Control_Working_VM_1 : User_Control_Common
     {
 
- 
 
+        //------------------属性、字段声明------------------------
 
-
+        //Ui显示类
         public static Wroking_Models WM { get; set; }
+        //功能开关类
         public static User_Features UF { get; set; }
 
-        public   int Work_NO { get; } = 1;
+
+        public int Work_NO { get; } = 1;
+
+
 
         /// <summary>
-        /// 1号加工区域
+        /// 传递参数区域名称：重要！
+        /// </summary>
+        public static string Work_String_Name { get; } = "Show_Reveice_method_Bool_1";
+
+        //------------------属性、字段声明------------------------
+
+
+        /// <summary>
+        /// 1号加工区域初始化
         /// </summary>
         public User_Control_Working_VM_1()
         {
 
+            //发送需要读取的变量名
+            Messenger.Default.Send<ObservableCollection<Socket_Models_List>>(new ObservableCollection<Socket_Models_List>()
+        {
+            //new Socket_Models_List() { Val_Name = "$my_work_1", Val_ID = Socket_Models_Connect.Number_ID},
+
+        }, "List_Connect");
 
 
+
+            //接收机器人端变量值
+            Messenger.Default.Register<Socket_Models_List>(this, Work_String_Name, (_B) =>
+             {
+
+                 
+
+                 if (WM.Work_Type != string.Empty)
+                 {
+                     WM.Work_Run = bool.Parse(_B.Val_Var);
+
+                 }
+
+             });
+
+
+            //控件启动初始化设置
             WM = new Wroking_Models
             {
                 Number_Work = "1",
-
+                Work_Type = string.Empty
 
             };
             UF = new User_Features
             {
-
+                 
 
             };
 
+            //属性更改事件声明
             WM.PropertyChanged += WM_PropertyChanged;
 
 
         }
 
+
+
+
+        //------------------方法体------------------------
+
+
+
+        /// <summary>
+        /// 属性更改事件方法
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void WM_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
 
             Wroking_Models WM = sender as Wroking_Models;
 
-            if (WM.Work_Type!=string.Empty)
+            if (WM.Work_Type != string.Empty)
             {
 
 
@@ -73,11 +123,6 @@ namespace 悍高软件.ViewModel
         public void Show_Robot_inf(object _Obj)
         {
             Socket_Models_List[] Name_Val = _Obj as Socket_Models_List[];
-
-
-
-
-
 
         }
 
@@ -205,6 +250,8 @@ namespace 悍高软件.ViewModel
             User_Features_OnOff_Log(e.IsChecked, 1, e.Content.ToString());
 
         }
+
+        //------------------方法体------------------------
 
     }
 }

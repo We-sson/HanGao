@@ -3,8 +3,10 @@ using GalaSoft.MvvmLight.Messaging;
 using PropertyChanged;
 using Soceket_KUKA.Models;
 using System;
+using 悍高软件.Extension_Method;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
 using 悍高软件.Model;
@@ -20,23 +22,58 @@ namespace 悍高软件.ViewModel
 
 
             //发送需要读取的变量名
-            Messenger.Default.Send<ObservableCollection<Socket_Models_List>>(_List, "List_Connect");
+            Messenger.Default.Send<ObservableCollection<Socket_Models_List>>(new ObservableCollection<Socket_Models_List>()
+        {
+  
+
+            new Socket_Models_List() { Val_Name = "$POS_ACT", Val_ID = Socket_Models_Connect.Number_ID, Send_Area=Work_String_Name},
+            new Socket_Models_List() { Val_Name = "$ACT_TOOL", Val_ID = Socket_Models_Connect.Number_ID,Send_Area=Work_String_Name },
+            new Socket_Models_List() { Val_Name = "$ACT_BASE", Val_ID = Socket_Models_Connect.Number_ID,Send_Area=Work_String_Name },
+        }, "List_Connect");
 
 
 
 
 
+            //接收读取集合内的值方法
+            Messenger.Default.Register<Socket_Models_List>(this, Work_String_Name, (Name_Val) =>
+            {
 
+                Work_Path_Value_Name.POS_ACT.GetStringValue();
 
+                switch (Name_Val.Val_Name)
+                {
+                    case "$POS_ACT":
+                        Working_Path.KUKA_Now_Point_Show = Name_Val.Val_Var;
+                        break;
+                    case "$ACT_TOOL":
+                        Working_Path.KUKA_TOOL_Number = Name_Val.Val_Var;
+                        break;
+                    case "$ACT_BASE":
+                        Working_Path.KUKA_Base_Number = Name_Val.Val_Var;
+                        break;
+                }
+            }
+            );
 
-
-            //消息注册
-
-            Messenger.Default.Register<Socket_Models_List>(this, Work_String_Name, Show_Reveice_Control);
-
-
+            
 
         }
+
+        /// <summary>
+        /// 变量名称枚举存放地方
+        /// </summary>
+        
+        public  enum Work_Path_Value_Name
+        {
+            [StringValue("星期天")]
+            POS_ACT ,
+
+            ACT_TOOL,
+            ACT_BASE
+        }
+
+
 
         /// <summary>
         /// 传递参数区域名称：重要！
@@ -63,9 +100,9 @@ namespace 悍高软件.ViewModel
         /// </summary>
         public ObservableCollection<Socket_Models_List> _List { set; get; } = new ObservableCollection<Socket_Models_List>()
         {
-            new Socket_Models_List() { Val_Name = "$POS_ACT", Val_ID = Socket_Models_Connect.Number_ID, Send_Area=Work_String_Name},
-            new Socket_Models_List() { Val_Name = "$ACT_TOOL", Val_ID = Socket_Models_Connect.Number_ID,Send_Area=Work_String_Name },
-            new Socket_Models_List() { Val_Name = "$ACT_BASE", Val_ID = Socket_Models_Connect.Number_ID,Send_Area=Work_String_Name },
+            //new Socket_Models_List() { Val_Name = "$POS_ACT", Val_ID = Socket_Models_Connect.Number_ID, Send_Area=Work_String_Name},
+            //new Socket_Models_List() { Val_Name = "$ACT_TOOL", Val_ID = Socket_Models_Connect.Number_ID,Send_Area=Work_String_Name },
+            //new Socket_Models_List() { Val_Name = "$ACT_BASE", Val_ID = Socket_Models_Connect.Number_ID,Send_Area=Work_String_Name },
         };
 
 
@@ -80,27 +117,8 @@ namespace 悍高软件.ViewModel
 
 
 
-        /// <summary>
-        /// 循环读取集合内的值方法
-        /// </summary>
-        /// <param name="_Obj"></param>
-        public void Show_Reveice_Control(Socket_Models_List Name_Val)
-        {
 
 
-            switch (Name_Val.Val_Name)
-            {
-                case "$POS_ACT":
-                    Working_Path.KUKA_Now_Point_Show = Name_Val.Val_Var;
-                    break;
-                case "$ACT_TOOL":
-                    Working_Path.KUKA_TOOL_Number = Name_Val.Val_Var;
-                    break;
-                case "$ACT_BASE":
-                    Working_Path.KUKA_Base_Number = Name_Val.Val_Var;
-                    break;
-
-            }
 
 
 
@@ -110,17 +128,17 @@ namespace 悍高软件.ViewModel
 
 
 
-        /// <summary>
-        /// 数据更新字体显示红色
-        /// </summary>
-        /// <param name="mm">输入显示多少秒</param>
-        public void UI_Show_Rad(int mm)
-        {
-            Working_Path.UI_Point_Color = true;
-            Task.Delay(mm);
-            Working_Path.UI_Point_Color = false;
+    /// <summary>
+    /// 数据更新字体显示红色
+    /// </summary>
+    /// <param name="mm">输入显示多少秒</param>
+    //public void UI_Show_Rad(int mm)
+    //{
+    //    Working_Path.UI_Point_Color = true;
+    //    Task.Delay(mm);
+    //    Working_Path.UI_Point_Color = false;
 
-        }
+    //}
 
-    }
+
 }

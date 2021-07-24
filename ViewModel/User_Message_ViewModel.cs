@@ -18,8 +18,8 @@ namespace 悍高软件.ViewModel
         {
 
 
-            //注册消息接收
-            Messenger.Default.Register<string>(this, "User_Message_Work_Type", User_Wrok_Type);
+            // 显示弹窗信息型号
+            Messenger.Default.Register<string>(this, "User_Message_Work_Type", (Type) => { User_Message_View.User_Wrok_Trye = Type; });
 
 
 
@@ -164,15 +164,7 @@ namespace 悍高软件.ViewModel
 
 
 
-        /// <summary>
-        /// 显示弹窗信息型号
-        /// </summary>
-        public void User_Wrok_Type(string Type)
-        {
 
-            User_Message_View.User_Wrok_Trye = Type;
-
-        }
 
 
 
@@ -190,7 +182,7 @@ namespace 悍高软件.ViewModel
             //加工区域功能显示
             if (List_Check_Control.Uid == "1")
             {
-
+                User_Control_Working_VM_1.WM.Work_Run = false;
                 User_Control_Working_VM_1.WM.Work_Type = S.Model_Number.ToString();
                 User_Control_Working_VM_1.WM.Work_Connt = S.User_Check_1.Work_Connt;
                 User_Control_Working_VM_1.WM.Work_Pause = S.User_Check_1.Work_Pause;
@@ -200,6 +192,7 @@ namespace 悍高软件.ViewModel
             }
             else if (List_Check_Control.Uid == "2")
             {
+                User_Control_Working_VM_2.WM.Work_Run = false;
                 User_Control_Working_VM_2.WM.Work_Type = S.Model_Number.ToString();
                 User_Control_Working_VM_2.WM.Work_Connt = S.User_Check_2.Work_Connt;
                 User_Control_Working_VM_2.WM.Work_Pause = S.User_Check_2.Work_Pause;

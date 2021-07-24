@@ -14,6 +14,7 @@ namespace 悍高软件.ViewModel
         public static Wroking_Models WM { get; set; }
         public static User_Features UF { get; set; }
         public int Work_NO { get; } = 2;
+        public static string Work_String_Name { get; } = "Show_Reveice_method_Bool_2";
 
 
         /// <summary>
