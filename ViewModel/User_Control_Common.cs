@@ -4,11 +4,13 @@ using Prism.Commands;
 using PropertyChanged;
 using Soceket_Connect;
 using Soceket_KUKA.Models;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using 悍高软件.Extension_Method;
 using 悍高软件.Model;
 using 悍高软件.Socket_KUKA;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
@@ -19,7 +21,35 @@ namespace 悍高软件.ViewModel
     public class User_Control_Common : ViewModelBase
     {
 
-            
+
+
+        
+        /// <summary>
+        /// 变量名称枚举存放地方
+        /// </summary>
+        [Flags]
+        public enum Value_Name_enum
+        {
+            [StringValue("$VEL_ACT")]
+            VEL_ACT,
+            [StringValue("$PRO_STATE")]
+            PRO_STATE,
+            [StringValue("$MODE_OP")]
+            MODE_OP,
+            [StringValue("$Run_Work_1"), UserArea(User_Control_Working_VM_1.Work_String_Name)]
+            Run_Work_1,
+            [StringValue("$Run_Work_2"), UserArea(User_Control_Working_VM_2.Work_String_Name)]
+            Run_Work_2,
+            [StringValue("$My_Work_1") , UserArea(User_Control_Working_VM_1.Work_String_Name)]
+            My_Work_1,
+            [StringValue("$My_Work_2"), UserArea(User_Control_Working_VM_2.Work_String_Name)]
+            My_Work_2,
+            [StringValue("$my_work_number")]
+            my_work_number,
+
+        }
+
+
 
         public User_Control_Common()
         {
@@ -27,161 +57,125 @@ namespace 悍高软件.ViewModel
             //初始化
 
 
-
-         //发送添加读取必须变量名
-        Messenger.Default.Send<ObservableCollection<Socket_Models_List>>(new ObservableCollection<Socket_Models_List>()
-        {
-            new Socket_Models_List() { Val_Name = "$VEL_ACT", Val_ID = Socket_Models_Connect.Number_ID },
-            new Socket_Models_List() { Val_Name = "$PRO_STATE", Val_ID = Socket_Models_Connect.Number_ID },
-            new Socket_Models_List() { Val_Name = "$MODE_OP", Val_ID = Socket_Models_Connect.Number_ID },
-            new Socket_Models_List() { Val_Name = "$Run_Work_1", Val_ID = Socket_Models_Connect.Number_ID, Send_Area=User_Control_Working_VM_1.Work_String_Name},
-            new Socket_Models_List() { Val_Name = "$My_Work_1", Val_ID = Socket_Models_Connect.Number_ID, Send_Area=User_Control_Working_VM_1.Work_String_Name},
-            new Socket_Models_List() { Val_Name = "$my_work_number", Val_ID = Socket_Models_Connect.Number_ID },
-
-        }, "List_Connect");
-
-
-
-
-
-
-
-
-        }
-
-
-        /// <summary>
-        /// 程序初始化
-        /// </summary>
-        public void Program_Initialization()
-        {
-
-
-
-
-
-        }
-
-
-
-
-        /// <summary>
-        /// 临时变量属性集合
-        /// </summary>
-        //public ObservableCollection<Socket_Models_List> _List { set; get; } = new ObservableCollection<Socket_Models_List>()
-        //{
-        //    new Socket_Models_List() { Val_Name = "$VEL_ACT", Val_ID = Socket_Models_Connect.Number_ID },
-        //    new Socket_Models_List() { Val_Name = "$PRO_STATE", Val_ID = Socket_Models_Connect.Number_ID },
-        //    new Socket_Models_List() { Val_Name = "$MODE_OP", Val_ID = Socket_Models_Connect.Number_ID },
-        //    new Socket_Models_List() { Val_Name = "$Run_Work_1", Val_ID = Socket_Models_Connect.Number_ID, Send_Area=User_Control_Working_VM_1.Work_String_Name},
-
-        //    new Socket_Models_List() { Val_Name = "$my_work_number", Val_ID = Socket_Models_Connect.Number_ID },
-
-        //};
-
-
-
-        /// <summary>
-        /// 把功能状态写入自己泛型中
-        /// </summary>
-        public static void User_Check_Write_List(int W)
-        {
-
-            foreach (Sink_Models it in List_Show.SinkModels)
+            //发送需要读取的变量名枚举值
+            foreach (Enum item in Enum.GetValues(typeof(Value_Name_enum)))
             {
-                if (W == 1)
+                Messenger.Default.Send<ObservableCollection<Socket_Models_List>>(new ObservableCollection<Socket_Models_List>() { new Socket_Models_List() { Val_Name = item.GetStringValue(), Val_ID = Socket_Models_Connect.Number_ID, Send_Area = item.GetAreaValue(), Value_Enum= item } }, "List_Connect");
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+            /// <summary>
+            /// 把功能状态写入自己泛型中
+            /// </summary>
+            public static void User_Check_Write_List(int W)
+            {
+
+                foreach (Sink_Models it in List_Show.SinkModels)
                 {
-
-
-                    if (it.Model_Number.ToString() == User_Control_Working_VM_1.WM.Work_Type)
+                    if (W == 1)
                     {
 
-                        it.User_Check_1.Work_Pause = User_Control_Working_VM_1.WM.Work_Pause;
-                        it.User_Check_1.Work_Connt = User_Control_Working_VM_1.WM.Work_Connt;
-                        it.User_Check_1.Work_NullRun = User_Control_Working_VM_1.WM.Work_NullRun;
-                        it.User_Check_1.Work_JumpOver = User_Control_Working_VM_1.WM.Work_JumpOver;
 
-                        return;
+                        if (it.Model_Number.ToString() == User_Control_Working_VM_1.WM.Work_Type)
+                        {
+
+                            it.User_Check_1.Work_Pause = User_Control_Working_VM_1.WM.Work_Pause;
+                            it.User_Check_1.Work_Connt = User_Control_Working_VM_1.WM.Work_Connt;
+                            it.User_Check_1.Work_NullRun = User_Control_Working_VM_1.WM.Work_NullRun;
+                            it.User_Check_1.Work_JumpOver = User_Control_Working_VM_1.WM.Work_JumpOver;
+
+                            return;
+                        }
                     }
+                    else if (W == 2)
+                    {
+
+                        if (it.Model_Number.ToString() == User_Control_Working_VM_2.WM.Work_Type)
+                        {
+
+                            it.User_Check_2.Work_Pause = User_Control_Working_VM_2.WM.Work_Pause;
+                            it.User_Check_2.Work_Connt = User_Control_Working_VM_2.WM.Work_Connt;
+                            it.User_Check_2.Work_NullRun = User_Control_Working_VM_2.WM.Work_NullRun;
+                            it.User_Check_2.Work_JumpOver = User_Control_Working_VM_2.WM.Work_JumpOver;
+
+                            return;
+                        }
+
+
+
+                    }
+
                 }
-                else if (W == 2)
+            }
+
+            /// <summary>
+            /// 功能开关日志输出
+            /// </summary>
+            /// <param name="IsCheck"></param>
+            /// <param name="User"></param>
+            /// <param name="Fea"></param>
+            public void User_Features_OnOff_Log(bool? IsCheck, int User, string Fea)
+            {
+                if (IsCheck == true)
                 {
-
-                    if (it.Model_Number.ToString() == User_Control_Working_VM_2.WM.Work_Type)
-                    {
-
-                        it.User_Check_2.Work_Pause = User_Control_Working_VM_2.WM.Work_Pause;
-                        it.User_Check_2.Work_Connt = User_Control_Working_VM_2.WM.Work_Connt;
-                        it.User_Check_2.Work_NullRun = User_Control_Working_VM_2.WM.Work_NullRun;
-                        it.User_Check_2.Work_JumpOver = User_Control_Working_VM_2.WM.Work_JumpOver;
-
-                        return;
-                    }
-
-
+                    User_Control_Log_ViewModel.User_Log_Add("NO." + User.ToString() + Fea + "功能开启");
+                }
+                else if (IsCheck == false)
+                {
+                    User_Control_Log_ViewModel.User_Log_Add("NO." + User.ToString() + Fea + "功能关闭");
 
                 }
 
-            }
-        }
-
-        /// <summary>
-        /// 功能开关日志输出
-        /// </summary>
-        /// <param name="IsCheck"></param>
-        /// <param name="User"></param>
-        /// <param name="Fea"></param>
-        public void User_Features_OnOff_Log(bool? IsCheck, int User, string Fea)
-        {
-            if (IsCheck == true)
-            {
-                User_Control_Log_ViewModel.User_Log_Add("NO." + User.ToString() + Fea + "功能开启");
-            }
-            else if (IsCheck == false)
-            {
-                User_Control_Log_ViewModel.User_Log_Add("NO." + User.ToString() + Fea + "功能关闭");
 
             }
 
 
-        }
-
-
-        /// <summary>
-        /// 把用户的选择写入记录和打印的方法
-        /// </summary>
-        /// <param name="e">传入控件参数</param>
-        public dynamic Log_Work_data(dynamic e)
-        {
-            
-
-            //写入列表中泛型
-            User_Check_Write_List(e.DataContext.Work_NO);
-            //功能开关信息日记输出显示
-            User_Features_OnOff_Log(e.IsChecked, e.DataContext.Work_NO, e.Content.ToString());
-
-
-
-      
-
-            if (e.DataContext.Work_NO == 1)
+            /// <summary>
+            /// 把用户的选择写入记录和打印的方法
+            /// </summary>
+            /// <param name="e">传入控件参数</param>
+            public dynamic Log_Work_data(dynamic e)
             {
 
-              return   (User_Control_Working_VM_1)e.DataContext;
 
-                
+                //写入列表中泛型
+                User_Check_Write_List(e.DataContext.Work_NO);
+                //功能开关信息日记输出显示
+                User_Features_OnOff_Log(e.IsChecked, e.DataContext.Work_NO, e.Content.ToString());
+
+
+
+
+
+                if (e.DataContext.Work_NO == 1)
+                {
+
+                    return (User_Control_Working_VM_1)e.DataContext;
+
+
+                }
+                else if (e.DataContext.Work_NO == 2)
+                {
+                    return (User_Control_Working_VM_2)e.DataContext;
+
+                }
+
+                return null;
+
+
+
             }
-            else if (e.DataContext.Work_NO == 2)
-            {
-              return  (User_Control_Working_VM_2)e.DataContext;
-
-            }
-
-            return null ;
-
-
-
-        }
 
 
 
@@ -193,29 +187,17 @@ namespace 悍高软件.ViewModel
             get => new DelegateCommand<RoutedEventArgs>((Sm) =>
             {
                 //把参数类型转换控件
-                dynamic  e = Sm.Source as CheckBox;
+                dynamic e = Sm.Source as CheckBox;
                 //
-                dynamic  _data = Log_Work_data(e);
-                 ;
-                
+                dynamic _data = Log_Work_data(e);
+                ;
 
 
-                if (Socket_Connect.Global_Socket_Write==null) { return; }
+
+                if (Socket_Connect.Global_Socket_Write == null) { return; }
 
 
-                //if ((bool)e.IsChecked)
-                //{
 
-                    
-
-                //Socket_Send.Send_Write_Var("$Run_Work_"+_data.Work_NO.ToString(), "TRUE");
-
-                //}
-                //else if (!(bool)e.IsChecked)
-                //{
-                //    Socket_Send.Send_Write_Var("$Run_Work_" + _data.Work_NO.ToString(), "FALSE");
-
-                //}
 
 
 

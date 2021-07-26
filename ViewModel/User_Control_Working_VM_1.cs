@@ -32,7 +32,7 @@ namespace 悍高软件.ViewModel
         /// <summary>
         /// 传递参数区域名称：重要！
         /// </summary>
-        public static string Work_String_Name { get; } = "Show_Reveice_method_Bool_1";
+        public  const string Work_String_Name  = "Show_Reveice_method_Bool_1";
 
         //------------------属性、字段声明------------------------
 
@@ -43,42 +43,63 @@ namespace 悍高软件.ViewModel
         public User_Control_Working_VM_1()
         {
 
-            //发送需要读取的变量名
-            Messenger.Default.Send<ObservableCollection<Socket_Models_List>>(new ObservableCollection<Socket_Models_List>()
-        {
-            //new Socket_Models_List() { Val_Name = "$my_work_1", Val_ID = Socket_Models_Connect.Number_ID},
+            //    //发送需要读取的变量名
+            //    Messenger.Default.Send<ObservableCollection<Socket_Models_List>>(new ObservableCollection<Socket_Models_List>()
+            //{
+            //    //new Socket_Models_List() { Val_Name = "$my_work_1", Val_ID = Socket_Models_Connect.Number_ID},
 
-        }, "List_Connect");
+            //}, "List_Connect");
 
 
 
+            //接收读取集合内的值方法
+            Messenger.Default.Register<Socket_Models_List>(this, Work_String_Name, (Name_Val) =>
+            {
+                switch (Name_Val.Value_Enum)
+                {
+                    case Value_Name_enum.My_Work_1:
+
+                        break;
+                    case Value_Name_enum.Run_Work_1:
+
+
+                       
+                        //if (WM.Work_Run != bool.Parse(Name_Val.Val_Var))
+                        //{
+                        //    User_Control_Working_VM_1.WM.Work_Run = false;
+                        //    MessageBox.Show(WM.Work_Run.ToString());
+                        //}
+
+
+            
+
+
+                        break;
+
+
+                }
+
+            });
+
+
+
+
+            
             //接收机器人端变量值
-            Messenger.Default.Register<Socket_Models_List>(this, Work_String_Name, (_B) =>
-             {
 
-                 
-
-                 if (WM.Work_Type != string.Empty)
-                 {
-                     WM.Work_Run = bool.Parse(_B.Val_Var);
-
-                 }
-
-             });
 
 
             //控件启动初始化设置
-            WM = new Wroking_Models
+            WM = new Wroking_Models()
             {
                 Number_Work = "1",
-                Work_Type = string.Empty
-
-            };
-            UF = new User_Features
-            {
+                Work_Type = string.Empty,
+                 
                  
 
             };
+            UF = new User_Features() { };
+
 
             //属性更改事件声明
             WM.PropertyChanged += WM_PropertyChanged;
@@ -90,6 +111,9 @@ namespace 悍高软件.ViewModel
 
 
         //------------------方法体------------------------
+
+
+
 
 
 

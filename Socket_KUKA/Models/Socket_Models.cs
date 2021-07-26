@@ -237,7 +237,10 @@ namespace Soceket_KUKA.Models
         public class Socket_Models_List
         {
 
-            
+            /// <summary>
+            /// 存储变量值的枚举名
+            /// </summary>
+            public Enum Value_Enum { set; get; }
 
             private string _Val_Name;
             /// <summary>

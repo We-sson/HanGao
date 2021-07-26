@@ -8,6 +8,11 @@ using System.Threading.Tasks;
 namespace 悍高软件.Extension_Method
 {
 
+
+
+
+
+
     /// <summary>
     /// 继承特征声明新的方法
     /// </summary>
@@ -16,15 +21,35 @@ namespace 悍高软件.Extension_Method
         internal StringValueAttribute( string value)
         {
             this.StringValue = value;
+            
+
+
         }
 
         public string StringValue { set; get; }
+       
 
-   
+
+
 
     }
 
-    public static class EnumExtensions
+    /// <summary>
+    /// 
+    /// </summary>
+    public class UserAreaAttribute : Attribute
+    {
+        public string  UserArea { set; get; }
+
+        internal UserAreaAttribute(string  value)
+        {
+            this.UserArea = value;
+        }
+
+
+    }
+
+        public static class EnumExtensions
     {
         /// <summary>
         /// 获取特性 (DisplayAttribute) 的名称；如果未使用该特性，则返回枚举的名称。
@@ -34,11 +59,26 @@ namespace 悍高软件.Extension_Method
         public static string GetStringValue(this Enum enumValue)
         {
             FieldInfo fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
-            StringValueAttribute[] attrs =
-                fieldInfo.GetCustomAttributes(typeof(StringValueAttribute), false) as StringValueAttribute[];
+            StringValueAttribute[] attrs =fieldInfo.GetCustomAttributes(typeof(StringValueAttribute), false) as StringValueAttribute[];
 
             return attrs.Length > 0 ? attrs[0].StringValue : enumValue.ToString();
         }
+
+        /// <summary>
+        /// 获取特性 (DisplayAttribute) 的区域名称；如果未使用，则返回空。
+        /// </summary>
+        /// <param name="enumValue"></param>
+        /// <returns></returns>
+        public static string   GetAreaValue(this Enum enumValue)
+        {
+            FieldInfo fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
+            UserAreaAttribute[] attrs =
+                fieldInfo.GetCustomAttributes(typeof(UserAreaAttribute), false) as UserAreaAttribute[];
+
+            return attrs.Length > 0 ? attrs[0].UserArea : string.Empty;
+        }
+
+
     }
 
 }
