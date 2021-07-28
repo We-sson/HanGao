@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Messaging;
 using Prism.Commands;
 using PropertyChanged;
+using Soceket_Connect;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -129,8 +130,10 @@ namespace 悍高软件.ViewModel
                 CheckBox e = Sm.Source as CheckBox;
                 Sink_Models S = (Sink_Models)e.DataContext;
 
-                S.Wroking_Models_ListBox.Work_Type = S.Model_Number.ToString();
+                //添加弹窗提示用户连接下位机通讯
+                if (Socket_Connect.Global_Socket_Read==null && Socket_Connect.Global_Socket_Write==null ) { e.IsChecked = false; return;  }
 
+                S.Wroking_Models_ListBox.Work_Type = S.Model_Number.ToString();
 
 
 

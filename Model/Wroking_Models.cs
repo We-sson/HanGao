@@ -215,15 +215,8 @@ namespace 悍高软件.Model
         {
             get
             {
-                if (Work_Type == "")
-                {
-                    return _Work_IsEnabled = false;
+                if (_Work_Type == "#ERROR" || _Work_Type == "") { return _Work_IsEnabled = false; } else { return _Work_IsEnabled = true; }
 
-                }
-                else
-                {
-                    return _Work_IsEnabled = true;
-                }
 
             }
             set
