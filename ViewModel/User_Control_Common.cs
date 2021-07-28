@@ -13,6 +13,7 @@ using System.Windows.Input;
 using 悍高软件.Extension_Method;
 using 悍高软件.Model;
 using 悍高软件.Socket_KUKA;
+using static Soceket_KUKA.Models.KUKA_Value_Type;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
 
 namespace 悍高软件.ViewModel
@@ -36,13 +37,13 @@ namespace 悍高软件.ViewModel
             PRO_STATE,
             [StringValue("$MODE_OP")]
             MODE_OP,
-            [StringValue("$Run_Work_1"), UserArea(User_Control_Working_VM_1.Work_String_Name)]
+            [StringValue("$Run_Work_1"), UserArea(User_Control_Working_VM_1.Work_String_Name),BingdingValue("Work_Run",Value_Type.Bool)]
             Run_Work_1,
-            [StringValue("$Run_Work_2"), UserArea(User_Control_Working_VM_2.Work_String_Name)]
+            [StringValue("$Run_Work_2"), UserArea(User_Control_Working_VM_2.Work_String_Name),BingdingValue("Work_Run", Value_Type.Bool)]
             Run_Work_2,
-            [StringValue("$My_Work_1") , UserArea(User_Control_Working_VM_1.Work_String_Name)]
+            [StringValue("$My_Work_1") , UserArea(User_Control_Working_VM_1.Work_String_Name),BingdingValue("Work_Type", Value_Type.String)]
             My_Work_1,
-            [StringValue("$My_Work_2"), UserArea(User_Control_Working_VM_2.Work_String_Name)]
+            [StringValue("$My_Work_2"), UserArea(User_Control_Working_VM_2.Work_String_Name), BingdingValue("Work_Type", Value_Type.String)]
             My_Work_2,
             [StringValue("$my_work_number")]
             my_work_number,
@@ -51,16 +52,18 @@ namespace 悍高软件.ViewModel
 
 
 
+
         public User_Control_Common()
         {
 
             //初始化
 
-
+            
             //发送需要读取的变量名枚举值
             foreach (Enum item in Enum.GetValues(typeof(Value_Name_enum)))
             {
-                Messenger.Default.Send<ObservableCollection<Socket_Models_List>>(new ObservableCollection<Socket_Models_List>() { new Socket_Models_List() { Val_Name = item.GetStringValue(), Val_ID = Socket_Models_Connect.Number_ID, Send_Area = item.GetAreaValue(), Value_Enum= item } }, "List_Connect");
+               
+                Messenger.Default.Send<ObservableCollection<Socket_Models_List>>(new ObservableCollection<Socket_Models_List>() { new Socket_Models_List() { Val_Name = item.GetStringValue(), Val_ID = Socket_Models_Connect.Number_ID, Send_Area = item.GetAreaValue(), Value_Enum= item, Bingding_Value = item.GetBingdingValue().BingdingValue , KUKA_Value_Enum=item.GetBingdingValue().SetValueType } }, "List_Connect");
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using PropertyChanged;
+using System.ComponentModel;
 
 namespace 悍高软件.Model
 {
@@ -61,6 +62,8 @@ namespace 悍高软件.Model
         }
 
         private bool _Work_JumpOver = false;
+
+
         /// <summary>
         /// 显示是否跳过加工
         /// </summary>

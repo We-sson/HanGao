@@ -7,13 +7,18 @@ namespace 悍高软件.Model
     [AddINotifyPropertyChangedInterface]
     public class Wroking_Models : User_Features, INotifyPropertyChanged
     {
+        public Wroking_Models()
+        {
 
+
+
+
+    }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
 
-
-        private string _Number_Work = "";
+    private string _Number_Work = "";
         /// <summary>
         /// 显示加工区域号
         /// </summary>
@@ -38,7 +43,11 @@ namespace 悍高软件.Model
         {
             get
             {
-                return _Work_Type;
+
+                if (_Work_Type != "") { return "#P"+_Work_Type ; }
+                return "#ERROR";
+
+
             }
             set
             {
@@ -49,15 +58,15 @@ namespace 悍高软件.Model
                 if (_Number_Work!="")
                 {
                  //将显示的水槽型号发送到kuka端，同时修改显示颜色
-                if (Work_Type == "")
+                if (Work_Type == "#ERROR")
                 {
                     Socket_Send.Send_Write_Var("$my_work_"+ _Number_Work, "#ERROR");
 
                     Work_back = "#E3E3E3";
                 }
-                else if (Work_Type != "")
+                else if (Work_Type != "#ERROR")
                 {
-                    Socket_Send.Send_Write_Var("$my_work_"+ _Number_Work, "#P" + value );
+                    Socket_Send.Send_Write_Var("$my_work_"+ _Number_Work, Work_Type);
 
                     Work_back = "#F4D160";
 
@@ -156,7 +165,7 @@ namespace 悍高软件.Model
             }
         }
 
-        private bool _Work_Run = false;
+        private bool _Work_Run ;
         /// <summary>
         /// 显示是否启动加工区域
         /// </summary>

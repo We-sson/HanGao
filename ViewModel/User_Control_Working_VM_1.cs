@@ -2,12 +2,19 @@
 using Prism.Commands;
 using PropertyChanged;
 using Soceket_KUKA.Models;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
+using System.Reflection;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using 悍高软件.Extension_Method;
 using 悍高软件.Model;
+using 悍高软件.Socket_KUKA;
+using static Soceket_KUKA.Models.KUKA_Value_Type;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
 
 namespace 悍高软件.ViewModel
@@ -19,6 +26,8 @@ namespace 悍高软件.ViewModel
 
         //------------------属性、字段声明------------------------
 
+
+
         //Ui显示类
         public static Wroking_Models WM { get; set; }
         //功能开关类
@@ -27,12 +36,16 @@ namespace 悍高软件.ViewModel
 
         public int Work_NO { get; } = 1;
 
+        /// <summary>
+        /// 资源互锁
+        /// </summary>
+        public static Mutex Receive_Lock = new Mutex();
 
 
         /// <summary>
         /// 传递参数区域名称：重要！
         /// </summary>
-        public  const string Work_String_Name  = "Show_Reveice_method_Bool_1";
+        public const string Work_String_Name = "Show_Reveice_method_Bool_1";
 
         //------------------属性、字段声明------------------------
 
@@ -43,48 +56,51 @@ namespace 悍高软件.ViewModel
         public User_Control_Working_VM_1()
         {
 
-            //    //发送需要读取的变量名
-            //    Messenger.Default.Send<ObservableCollection<Socket_Models_List>>(new ObservableCollection<Socket_Models_List>()
-            //{
-            //    //new Socket_Models_List() { Val_Name = "$my_work_1", Val_ID = Socket_Models_Connect.Number_ID},
-
-            //}, "List_Connect");
 
 
 
             //接收读取集合内的值方法
             Messenger.Default.Register<Socket_Models_List>(this, Work_String_Name, (Name_Val) =>
             {
-                switch (Name_Val.Value_Enum)
+                //互斥线程锁，保证每次只有一个线程接收消息
+                Receive_Lock.WaitOne();
+
+
+
+                //发送需要读取的变量名枚举值
+                foreach (Enum item in Enum.GetValues(typeof(Value_Name_enum)))
                 {
-                    case Value_Name_enum.My_Work_1:
+                    if (Name_Val.Val_Name== item.GetStringValue())
+                    {
+                  
+                            if (Name_Val.Val_Var != WM.GetType().GetProperty(item.GetBingdingValue().BingdingValue).GetValue(WM).ToString())
+                        {
+                            var a = WM.GetType().GetProperty(item.GetBingdingValue().BingdingValue).GetValue(WM).ToString();
+                            //属性不相同时，以软件端为首发送更改发送机器端
+                            Socket_Send.Send_Write_Var(item.GetStringValue(), a);
+                        }
 
-                        break;
-                    case Value_Name_enum.Run_Work_1:
-
-
-                       
-                        //if (WM.Work_Run != bool.Parse(Name_Val.Val_Var))
-                        //{
-                        //    User_Control_Working_VM_1.WM.Work_Run = false;
-                        //    MessageBox.Show(WM.Work_Run.ToString());
-                        //}
-
-
-            
+              
 
 
-                        break;
+                    }
+
+
 
 
                 }
+
+
+
+                //接收信息互斥线程锁，保证每次只有一个线程接收消息
+                Receive_Lock.ReleaseMutex();
 
             });
 
 
 
 
-            
+
             //接收机器人端变量值
 
 
@@ -94,8 +110,8 @@ namespace 悍高软件.ViewModel
             {
                 Number_Work = "1",
                 Work_Type = string.Empty,
-                 
-                 
+
+
 
             };
             UF = new User_Features() { };

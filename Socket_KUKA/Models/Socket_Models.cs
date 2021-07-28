@@ -1,7 +1,9 @@
 ﻿using PropertyChanged;
 using System;
+using System.Globalization;
 using System.Net;
 using System.Net.Sockets;
+using static Soceket_KUKA.Models.KUKA_Value_Type;
 
 namespace Soceket_KUKA.Models
 {
@@ -242,6 +244,17 @@ namespace Soceket_KUKA.Models
             /// </summary>
             public Enum Value_Enum { set; get; }
 
+            /// <summary>
+            /// 库卡端的属性类型
+            /// </summary>
+            public Value_Type KUKA_Value_Enum { set; get; } = Value_Type.Null;
+
+
+            /// <summary>
+            /// 储存绑定双方变量名
+            /// </summary>
+           public string Bingding_Value { set; get; }
+
             private string _Val_Name;
             /// <summary>
             /// 变量名称
@@ -258,7 +271,7 @@ namespace Soceket_KUKA.Models
                 }
             }
 
-            private string _Val_Var;
+            private string _Val_Var="";
             /// <summary>
             /// 变量名称值
             /// </summary>
@@ -266,11 +279,16 @@ namespace Soceket_KUKA.Models
             {
                 get
                 {
+                    if (KUKA_Value_Enum == Value_Type.Bool && _Val_Var!="")
+                    {
+                        return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(_Val_Var.ToLower());
+                    }
                     return _Val_Var;
                 }
                 set
                 {
                     if (_Val_Var== value) { return; }
+     
                     _Val_Var = value;
                 }
             }
@@ -329,6 +347,21 @@ namespace Soceket_KUKA.Models
 
         }
 
-
     }
+        [AddINotifyPropertyChangedInterface]
+        public class KUKA_Value_Type
+        {
+            /// <summary>
+            /// 机器人端变量属性
+            /// </summary>
+            public enum Value_Type
+            {
+                String,
+                Int,
+                Char,
+                Bool,
+                Null
+            }
+
+        }
 }
