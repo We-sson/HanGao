@@ -202,7 +202,8 @@
                                            VerticalAlignment="Center" FontSize="22"
                                            Foreground="#FF464646">
                                     <TextBlock.Text>
-                                        <MultiBinding StringFormat="焊接速度： {0}">
+
+                                        <MultiBinding StringFormat="{}焊接速度： {0}m/分钟">
                                             <Binding Path="WM.Robot_Speed" />
                                         </MultiBinding>
 
@@ -221,7 +222,7 @@
                                 <TextBlock Margin="4" HorizontalAlignment="Left"
                                            FontSize=" 22" Foreground="#FF464646">
                                     <TextBlock.Text>
-                                        <MultiBinding StringFormat="当前状态： {0}">
+                                        <MultiBinding StringFormat="当前状态： {0}模式">
                                             <Binding Path="WM.Robot_status" />
                                         </MultiBinding>
 

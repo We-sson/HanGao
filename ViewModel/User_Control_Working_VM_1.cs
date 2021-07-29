@@ -70,19 +70,32 @@ namespace 悍高软件.ViewModel
                 //发送需要读取的变量名枚举值
                 foreach (Enum item in Enum.GetValues(typeof(Value_Name_enum)))
                 {
-                    if (Name_Val.Val_Name== item.GetStringValue())
+                    var q = item.GetStringValue();
+                    var x = item.GetBingdingValue().BingdingValue;
+                    if (Name_Val.Val_Name == item.GetStringValue())
                     {
-                  
-                            if (Name_Val.Val_Var != WM.GetType().GetProperty(item.GetBingdingValue().BingdingValue).GetValue(WM).ToString())
+
+                        if (item.GetBingdingValue().Binding_Start)
                         {
+
                             var a = WM.GetType().GetProperty(item.GetBingdingValue().BingdingValue).GetValue(WM).ToString();
-                            //属性不相同时，以软件端为首发送更改发送机器端
-                            Socket_Send.Send_Write_Var(item.GetStringValue(), a);
+                            if (Name_Val.Val_Var != WM.GetType().GetProperty(item.GetBingdingValue().BingdingValue).GetValue(WM).ToString())
+                            {
+                                //属性不相同时，以软件端为首发送更改发送机器端
+                                Socket_Send.Send_Write_Var(item.GetStringValue(), a);
+                               
+                            }
+
                         }
+                        else
+                        {
+                            if (item.GetBingdingValue().BingdingValue !="")
+                            {
 
-              
-
-
+                            WM.GetType().GetProperty(item.GetBingdingValue().BingdingValue).SetValue(WM, Name_Val.Val_Var);
+                            }
+                           
+                        }
                     }
 
 

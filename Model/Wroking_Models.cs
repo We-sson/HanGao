@@ -1,4 +1,5 @@
 ﻿using PropertyChanged;
+using System;
 using System.ComponentModel;
 using 悍高软件.Socket_KUKA;
 
@@ -88,10 +89,13 @@ namespace 悍高软件.Model
         {
             get
             {
-                return _Robot_Speed + "m/分钟";
+               return  Convert.ToDouble(_Robot_Speed).ToString("F3");
+         
             }
             set
             {
+                //值相同返回，减少UI更新占用资源
+                if (_Robot_Speed == value) { return; }
                 _Robot_Speed = value;
             }
         }
@@ -116,19 +120,29 @@ namespace 悍高软件.Model
 
 
 
-        private Robot_status_enum _Robot_status = (Robot_status_enum)0;
+        private string  _Robot_status="#T1" ;
         /// <summary>
         /// 显示机器人当前状态
         /// </summary>
-        public Robot_status_enum Robot_status
+        public string Robot_status
         {
             get
             {
-                return _Robot_status;
+                return _Robot_status.IndexOf('#')!=-1 ? _Robot_status.Replace("#","") : _Robot_status;
             }
             set
             {
-                _Robot_status = value;
+                if (value.IndexOf('#') == -1)
+                {
+                    _Robot_status = value.Replace("#", "");
+                }
+                else
+                {
+                    _Robot_status = value;
+                }
+
+
+          
             }
         }
         /// <summary>
@@ -137,7 +151,7 @@ namespace 悍高软件.Model
         public enum Robot_status_enum
         {
             空闲中,
-            待机中,
+            运行中,
             焊接中,
         }
 
@@ -156,7 +170,7 @@ namespace 悍高软件.Model
             }
 
 
-            //return new SolidColorBrush((Color)ColorConverter.ConvertFromString(_Work_back));
+          
 
             set
             {
@@ -165,7 +179,7 @@ namespace 悍高软件.Model
             }
         }
 
-        private bool _Work_Run ;
+        private bool _Work_Run=false ;
         /// <summary>
         /// 显示是否启动加工区域
         /// </summary>
@@ -174,31 +188,29 @@ namespace 悍高软件.Model
             get
             {
 
+
                 return _Work_Run;
             }
             set
             {
 
-                _Work_Run = value;
 
-                //值相同返回，减少UI更新占用资源
-                if (_Work_Run == value) { return; }
-
-                //属性发送更改发送机器端
-                Socket_Send.Send_Write_Var("$Run_Work_" + _Number_Work,value.ToString());
-
-
-
-
-                if (_Work_Type != "" && Work_Run)
+                if (value==true && _Work_Type !="#ERROR")
                 {
                     Work_back = "#22AB38";
                 }
-                else if (_Work_Type != "" && Work_Run == false)
+                else
                 {
                     Work_back = "#F4D160";
                 }
 
+
+                //值相同返回，减少UI更新占用资源
+                if (_Work_Run == value) { return; }
+
+                _Work_Run = value;
+                //属性发送更改发送机器端
+                Socket_Send.Send_Write_Var("$Run_Work_" + _Number_Work,value.ToString());
             }
         }
 

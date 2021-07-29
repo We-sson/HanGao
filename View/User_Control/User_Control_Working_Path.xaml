@@ -47,14 +47,14 @@
                                Text="加工路径显示:" Margin="15,0,10,0"
                                HorizontalAlignment="Stretch"
                                VerticalAlignment="Center" FontSize="25" />
-                    <Label Grid.Column="1"
-                           Content="{Binding Working_Path.KUKA_Now_Point_Show}"
-                           Margin="0,0,0,5"
-                           HorizontalAlignment="Stretch"
-                           VerticalAlignment="Center"
-                           Visibility="Visible" FontSize="19">
-                        <Label.Style>
-                            <Style TargetType="Label">
+                    <TextBlock Grid.Column="1"
+                               Text="{Binding Working_Path.KUKA_Now_Point_Show}"
+                               Margin="0,0,0,5"
+                               HorizontalAlignment="Stretch"
+                               VerticalAlignment="Center"
+                               Visibility="Collapsed" FontSize="19">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
                                 <Setter Property="Foreground" Value="#FFAE181F" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Working_Path.UI_Point_Color}" Value="true">
@@ -62,8 +62,8 @@
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </Label.Style>
-                    </Label>
+                        </TextBlock.Style>
+                    </TextBlock>
 
                 </StackPanel>
 

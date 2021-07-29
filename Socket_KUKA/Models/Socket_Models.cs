@@ -279,9 +279,12 @@ namespace Soceket_KUKA.Models
             {
                 get
                 {
-                    if (KUKA_Value_Enum == Value_Type.Bool && _Val_Var!="")
+                    if (KUKA_Value_Enum == Value_Type.Bool &&  _Val_Var!="")
                     {
-                        return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(_Val_Var.ToLower());
+                        return _Val_Var.ToUpper();
+
+                        //var a = _Val_Var.ToUpper();
+                        //return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(a);
                     }
                     return _Val_Var;
                 }
@@ -324,7 +327,7 @@ namespace Soceket_KUKA.Models
                 }
             }
 
-            private DateTime _Val_Update_Time;
+            private DateTime _Val_Update_Time=DateTime.Now.ToLocalTime();
             /// <summary>
             /// 读取时间
             /// </summary>

@@ -39,7 +39,7 @@ namespace 悍高软件.Extension_Method
     {
         public string BingdingValue { set; get; } = "";
         public Value_Type SetValueType { set; get; } = Value_Type.Null;
-
+        public bool Binding_Start { set; get; } = false;
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ namespace 悍高软件.Extension_Method
         /// </summary>
         /// <param name="value">绑定属性名称</param>
         /// <param name="_enum">属性类型</param>
-        internal BingdingValueAttribute(string value, Value_Type _enum)
+        internal BingdingValueAttribute(string value, Value_Type _enum,bool _Start)
         {
             KUKA_Value.BingdingValue = value;
             KUKA_Value.SetValueType = _enum;
-
+            KUKA_Value.Binding_Start = _Start;
 
 
         }

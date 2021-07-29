@@ -55,9 +55,9 @@ namespace 悍高软件.ViewModel
 
                 switch (Name_Val.Value_Enum)
                 {
-                    case Value_Name_enum.POS_ACT:
-                        Working_Path.KUKA_Now_Point_Show = Name_Val.Val_Var;
-                        break;
+                    //case Value_Name_enum.POS_ACT:
+                    //    Working_Path.KUKA_Now_Point_Show = Name_Val.Val_Var;
+                    //    break;
                     case Value_Name_enum.ACT_TOOL:
                         Working_Path.KUKA_TOOL_Number = Name_Val.Val_Var;
 

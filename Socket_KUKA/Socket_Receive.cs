@@ -99,7 +99,7 @@ namespace Soceket_KUKA
 
 
 
-                byte[] _data=Array.Empty<byte>() ;
+                byte[] _data = Array.Empty<byte>();
 
 
                 if (_Receive.Read_int == 0)
@@ -145,8 +145,8 @@ namespace Soceket_KUKA
                 }
                 else if (_Return_Tpye == 1 && _Write_Type == 0)
                 {
-                    MessageBox.Show($"Read Val:"+ Message_Show + " 写入失败！");
-                 
+                    MessageBox.Show($"Read Val:" + Message_Show + " 写入失败！");
+
 
                 }
 
@@ -167,13 +167,20 @@ namespace Soceket_KUKA
                         {
 
                             //更新内容时间
-                            UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Val_Update_Time = DateTime.Now.ToLocalTime();
+
 
                             //更新参数值
-                            UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Val_Var = Message_Show;
+                            if (UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Val_Var != Message_Show)
+                            {
 
-                            //把属于自己的区域回传
-                            Messenger.Default.Send<Socket_Models_List>(UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i], UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Send_Area);
+
+                                    UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Val_Update_Time = DateTime.Now.ToLocalTime();
+                                    UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Val_Var = Message_Show;
+
+                                    //把属于自己的区域回传
+                                    Messenger.Default.Send<Socket_Models_List>(UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i], UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Send_Area);
+                                
+                            }
 
                         }
 
@@ -203,24 +210,24 @@ namespace Soceket_KUKA
             try
             {
 
-       
 
 
-            if (_Receive.Read_int == 1)
-            {
-                //Socket_Connect.Global_Socket_Write.EndReceive(ar);
 
-                //递归调用写入接收
-                Socket_Connect.Global_Socket_Write.BeginReceive(Socket_Models_Connect.byte_Write_Receive, 0, Socket_Models_Connect.byte_Write_Receive.Length, SocketFlags.None, new AsyncCallback(Socke_Receive_Message), new Socket_Models_Receive() { byte_Write_Receive = Socket_Models_Connect.byte_Write_Receive, Read_int = 1 });
-            }
-            else if (_Receive.Read_int == 0)
-            {
-                //Socket_Connect.Global_Socket_Read.EndReceive(ar);
+                if (_Receive.Read_int == 1)
+                {
+                    //Socket_Connect.Global_Socket_Write.EndReceive(ar);
 
-                //递归调用读取接收
-                Socket_Connect.Global_Socket_Read.BeginReceive(Socket_Models_Connect.byte_Read_Receive, 0, Socket_Models_Connect.byte_Read_Receive.Length, SocketFlags.None, new AsyncCallback(Socke_Receive_Message), new Socket_Models_Receive() { byte_Read_Receive = Socket_Models_Connect.byte_Read_Receive, Read_int = 0 });
+                    //递归调用写入接收
+                    Socket_Connect.Global_Socket_Write.BeginReceive(Socket_Models_Connect.byte_Write_Receive, 0, Socket_Models_Connect.byte_Write_Receive.Length, SocketFlags.None, new AsyncCallback(Socke_Receive_Message), new Socket_Models_Receive() { byte_Write_Receive = Socket_Models_Connect.byte_Write_Receive, Read_int = 1 });
+                }
+                else if (_Receive.Read_int == 0)
+                {
+                    //Socket_Connect.Global_Socket_Read.EndReceive(ar);
 
-            }
+                    //递归调用读取接收
+                    Socket_Connect.Global_Socket_Read.BeginReceive(Socket_Models_Connect.byte_Read_Receive, 0, Socket_Models_Connect.byte_Read_Receive.Length, SocketFlags.None, new AsyncCallback(Socke_Receive_Message), new Socket_Models_Receive() { byte_Read_Receive = Socket_Models_Connect.byte_Read_Receive, Read_int = 0 });
+
+                }
             }
             catch (Exception e)
             {
