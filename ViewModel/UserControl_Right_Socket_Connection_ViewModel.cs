@@ -6,6 +6,7 @@ using Soceket_Connect;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+
 using 悍高软件.Socket_KUKA;
 using 悍高软件.View.User_Control;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
@@ -31,9 +32,34 @@ namespace 悍高软件.ViewModel
 
             Messenger.Default.Register<string>(this, "Socket_Message_Show", Socket_Message_Show);
 
+            //连接按钮屏蔽方法
+            Messenger.Default.Register<bool>(this, "Connect_Button_IsEnabled_Method", (_Bool)=> 
+            {
+                Connect_Button_IsEnabled = _Bool;
+            });
 
-            Messenger.Default.Register<bool>(this, "Connect_Button_IsEnabled_Method", Connect_Button_IsEnabled_Method);
-            Messenger.Default.Register<int>(this, "Connect_Socketing_Method", Connect_Socketing_Method);
+
+
+            //网络连接状态显示方法
+            Messenger.Default.Register<int>(this, "Connect_Socketing_Method", (_int)=> 
+            {
+                switch (_int)
+                {
+                    case -1:
+                        Connect_Socket_Connection = false;
+                        Connect_Socket_OK = false;
+                        break;
+                    case 0:
+                        Connect_Socket_Connection = true;
+                        break;
+                    case 1:
+                        Connect_Socket_OK = true;
+                        break;
+                    default:
+                        User_Control_Log_ViewModel.User_Log_Add($"-1网络状态显示，传入错误值");
+                        break;
+                }
+            });
 
 
             Messenger.Default.Register<ObservableCollection<Socket_Models_List>>(this, "List_Connect", List_Connect);
@@ -160,39 +186,9 @@ namespace 悍高软件.ViewModel
 
 
 
-        //连接按钮屏蔽方法
-        public void Connect_Button_IsEnabled_Method(bool Bool_Try)
-        {
-
-            Connect_Button_IsEnabled = Bool_Try;
 
 
 
-
-        }
-
-
-        //网络连接成功状态方法
-        public void Connect_Socketing_Method(int bool_Try)
-        {
-            switch (bool_Try)
-            {
-                case -1:
-                    Connect_Socket_Connection = false;
-                    Connect_Socket_OK = false;
-                    break;
-                case 0:
-                    Connect_Socket_Connection = true;
-                    break;
-                case 1:
-                    Connect_Socket_OK = true;
-                    break;
-                default:
-                    User_Control_Log_ViewModel.User_Log_Add($"-1网络状态显示，传入错误值");
-                    break;
-            }
-
-        }
 
 
         //接收到信息显示到前端界面方法
@@ -253,40 +249,28 @@ namespace 悍高软件.ViewModel
 
 
 
-
-        public ICommand Socket_Connection_Comm
-        {
-            get => new DelegateCommand<UserControl_Right_Socket_Connection>(Socket_Connection);
-        }
         /// <summary>
         /// Socket连接事件命令
         /// </summary>
-        private async void Socket_Connection(UserControl_Right_Socket_Connection Sm)
+        public ICommand Socket_Connection_Comm
         {
-            //把参数类型转换控件
-            //UIElement e = Sm.Source as UIElement;
+            get => new DelegateCommand<UserControl_Right_Socket_Connection>( (Sm) => 
+            {
 
-            Socket_Connect Soceket_KUKA_Client = new Socket_Connect();
+                //把参数类型转换控件
+                //UIElement e = Sm.Source as UIElement;
 
-
-            //Socket_Receive.
-
-
-            //创建连接
-            await Soceket_KUKA_Client.Socket_Client_KUKA(Sm.TB1.Text, int.Parse(Sm.TB2.Text));
+                Socket_Connect Soceket_KUKA_Client = new Socket_Connect();
 
 
+                //创建连接
+                 Soceket_KUKA_Client.Socket_Client_KUKA(Sm.TB1.Text, int.Parse(Sm.TB2.Text));
 
 
 
-
-
-
-
-
-
-
+            });
         }
+
 
 
 
@@ -297,7 +281,7 @@ namespace 悍高软件.ViewModel
         /// <summary>
         /// Socket关闭事件命令
         /// </summary>
-        private async void Socket_Clos(UserControl_Right_Socket_Connection Sm)
+        private  void Socket_Clos(UserControl_Right_Socket_Connection Sm)
         {
 
             //把参数类型转换控件
@@ -306,7 +290,7 @@ namespace 悍高软件.ViewModel
 
 
 
-            await Socket_Connect.Socket_Close();
+             Socket_Connect.Socket_Close();
 
 
 

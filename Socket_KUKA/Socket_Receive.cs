@@ -11,7 +11,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using 悍高软件.ViewModel;
+using static Soceket_Connect.Socket_Connect;
+using static Soceket_KUKA.Models.Socket_Models_Connect;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
+using static 悍高软件.ViewModel.User_Control_Log_ViewModel;
+using static 悍高软件.ViewModel.UserControl_Right_Socket_Connection_ViewModel;
+
+
+
 
 namespace Soceket_KUKA
 {
@@ -57,7 +64,7 @@ namespace Soceket_KUKA
         public static Mutex Receive_Lock = new Mutex();
         public static Mutex Receive_ReturnString_Lock = new Mutex();
 
-
+        public int Receive_Int { set; get; } = 0;
 
 
 
@@ -69,32 +76,70 @@ namespace Soceket_KUKA
         {
 
 
-            //互斥线程锁，保证每次只有一个线程接收消息
-            Receive_Lock.WaitOne();
 
 
             //传入参数转换
             Socket_Models_Receive _Receive = ar.AsyncState as Socket_Models_Receive;
 
-
-            //连接属性断开后为空后退出接收
-            if (Socket_Connect.Global_Socket_Write == null || Socket_Connect.Global_Socket_Read == null) { Socket_Receive_Error(); return; }
+            try
+            {
 
 
 
             if (_Receive.Read_int == 0)
             {
 
-                User_Control_Log_ViewModel.User_Log_Add("-2.1，等待接收线程");
-                Monitor.Enter(Socket_Connect.The_Lock);
-                User_Control_Log_ViewModel.User_Log_Add("-2.2，进入接收线程");
+                Receive_Int = Global_Socket_Read.EndReceive(ar);
+                if (Receive_Int == 0)
+                {
+
+                    Socket_Receive_Error("Error:-19 " + GetType().Name);
+                    
+                }
+
+                
+            }
+            else if (_Receive.Read_int == 1)
+            {
+                Receive_Int = Global_Socket_Write.EndReceive(ar);
+                if (Receive_Int == 0)
+                {
+                    Socket_Receive_Error("Error:-20 " + GetType().Name);
+                    
+                }
+    
+            }
+
+            }
+            catch (Exception e)
+            {
+                Socket_Receive_Error("Error:-14 " + e.Message);
+                //User_Log_Add("Error: -14 " + e.Message);
+                return;
+            }
+
+
+            //互斥线程锁，保证每次只有一个线程接收消息
+            Receive_Lock.WaitOne();
+
+            //连接属性断开后为空后退出接收
+            if (Global_Socket_Write == null || Global_Socket_Read == null) { Socket_Receive_Error("Error:-22 " + GetType().Name); return; }
+
+
+
+            if (_Receive.Read_int == 0)
+            {
+
+                //User_Log_Add("-2.1，等待接收线程");
+                Monitor.Enter(The_Lock);
+                //User_Log_Add("-2.2，进入接收线程");
             }
 
 
             //连接状态不正常时退出,并运行错误操作
             try
             {
-                if ((Socket_Connect.Global_Socket_Write.Poll(50, SelectMode.SelectWrite) == false && Socket_Connect.Global_Socket_Read.Poll(50, SelectMode.SelectWrite) == false)) { Socket_Receive_Error(); return; }
+                if ((Global_Socket_Write.Poll(50, SelectMode.SelectWrite) == false && Global_Socket_Read.Poll(50, SelectMode.SelectWrite) == false)) { Socket_Receive_Error("Error:-23 " + GetType().Name); return; }
 
 
 
@@ -104,16 +149,16 @@ namespace Soceket_KUKA
 
                 if (_Receive.Read_int == 0)
                 {
+                   
 
+                    Array.Resize(ref _data, Receive_Int);
 
-                    Array.Resize(ref _data, Socket_Connect.Global_Socket_Read.EndReceive(ar));
-
-                    _data = Socket_Models_Connect.byte_Read_Receive;
+                    _data = byte_Read_Receive;
                 }
                 else if (_Receive.Read_int == 1)
                 {
-
-                    Array.Resize(ref _data, Socket_Connect.Global_Socket_Write.EndReceive(ar));
+              
+                    Array.Resize(ref _data, Receive_Int);
 
                     _data = _Receive.byte_Write_Receive;
                 }
@@ -158,50 +203,50 @@ namespace Soceket_KUKA
 
 
                     //接收到的消息写入到集合里面
-                    for (int i = 0; i < UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List.Count; i++)
+                    for (int i = 0; i < Socket_Read_List.Count; i++)
                     {
 
 
                         //根据ID号对应写入接收到的内容
-                        if (UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Val_ID == _ID)
+                        if (Socket_Read_List[i].Val_ID == _ID)
                         {
 
                             //更新内容时间
 
 
                             //更新参数值
-                            if (UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Val_Var != Message_Show)
+                            if (Socket_Read_List[i].Val_Var != Message_Show)
                             {
 
 
-                                    UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Val_Update_Time = DateTime.Now.ToLocalTime();
-                                    UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Val_Var = Message_Show;
+                                Socket_Read_List[i].Val_Update_Time = DateTime.Now.ToLocalTime();
+                                Socket_Read_List[i].Val_Var = Message_Show;
 
-                                    //把属于自己的区域回传
-                                    Messenger.Default.Send<Socket_Models_List>(UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i], UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Send_Area);
-                                
+                                //把属于自己的区域回传
+                                Messenger.Default.Send<Socket_Models_List>(Socket_Read_List[i], Socket_Read_List[i].Send_Area);
+
                             }
 
                         }
 
 
                     }
-                    User_Control_Log_ViewModel.User_Log_Add("-2.3，接收到的消息：" + Message_Show);
+                    //User_Log_Add("-2.3，接收到的消息：" + Message_Show);
 
 
-                    User_Control_Log_ViewModel.User_Log_Add("-2.4，释放发送线程");
-                    Monitor.Pulse(Socket_Connect.The_Lock);
+                    //User_Log_Add("-2.4，释放发送线程");
+                    Monitor.Pulse(The_Lock);
 
-                    User_Control_Log_ViewModel.User_Log_Add("-2.5，已释放发送线程锁");
-                    Monitor.Exit(Socket_Connect.The_Lock);
+                    //User_Log_Add("-2.5，已释放发送线程锁");
+                    Monitor.Exit(The_Lock);
 
                 }
 
             }
             catch (Exception e)
             {
-                Socket_Receive_Error();
-                User_Control_Log_ViewModel.User_Log_Add("Error: -10 " + e.Message);
+                Socket_Receive_Error("Error:-24 " + e.Message);
+                //User_Log_Add("Error: -24 " + e.Message);
             }
 
 
@@ -218,21 +263,21 @@ namespace Soceket_KUKA
                     //Socket_Connect.Global_Socket_Write.EndReceive(ar);
 
                     //递归调用写入接收
-                    Socket_Connect.Global_Socket_Write.BeginReceive(Socket_Models_Connect.byte_Write_Receive, 0, Socket_Models_Connect.byte_Write_Receive.Length, SocketFlags.None, new AsyncCallback(Socke_Receive_Message), new Socket_Models_Receive() { byte_Write_Receive = Socket_Models_Connect.byte_Write_Receive, Read_int = 1 });
+                    Global_Socket_Write.BeginReceive(byte_Write_Receive, 0, byte_Write_Receive.Length, SocketFlags.None, new AsyncCallback(Socke_Receive_Message), new Socket_Models_Receive() { byte_Write_Receive = byte_Write_Receive, Read_int = 1 });
                 }
                 else if (_Receive.Read_int == 0)
                 {
                     //Socket_Connect.Global_Socket_Read.EndReceive(ar);
 
                     //递归调用读取接收
-                    Socket_Connect.Global_Socket_Read.BeginReceive(Socket_Models_Connect.byte_Read_Receive, 0, Socket_Models_Connect.byte_Read_Receive.Length, SocketFlags.None, new AsyncCallback(Socke_Receive_Message), new Socket_Models_Receive() { byte_Read_Receive = Socket_Models_Connect.byte_Read_Receive, Read_int = 0 });
+                    Global_Socket_Read.BeginReceive(byte_Read_Receive, 0, byte_Read_Receive.Length, SocketFlags.None, new AsyncCallback(Socke_Receive_Message), new Socket_Models_Receive() { byte_Read_Receive = byte_Read_Receive, Read_int = 0 });
 
                 }
             }
             catch (Exception e)
             {
-                Socket_Receive_Error();
-                User_Control_Log_ViewModel.User_Log_Add("Error: -11 " + e.Message);
+                Socket_Receive_Error("Error:-25 " + e.Message);
+                //User_Log_Add("Error: -25 " + e.Message);
             }
 
 
@@ -246,14 +291,18 @@ namespace Soceket_KUKA
 
 
         /// <summary>
-        /// 连接异常处理程序
+        /// 接收异常处理程序
         /// </summary>
-        public static void Socket_Receive_Error()
+        public static void Socket_Receive_Error(string _Error)
         {
-            //Monitor.Exit(Socket_Connect.The_Lock);
-            Messenger.Default.Send<bool?>(true, "Connect_Button_IsEnabled_Method");
-            Messenger.Default.Send<bool?>(false, "Sidebar_Subtitle_Signal_Method_bool");
 
+            //Messenger.Default.Send<bool?>(false, "Sidebar_Subtitle_Signal_Method_bool");
+
+            ////连接失败后允许用户再次点击连接按钮
+            //Messenger.Default.Send<bool>(true, "Connect_Button_IsEnabled_Method");
+            //Messenger.Default.Send<int>(-1, "Connect_Socketing_Method");
+            Socket_Close();
+            User_Log_Add(_Error);
 
         }
 

@@ -10,12 +10,19 @@ using System.Threading;
 using System.Threading.Tasks;
 using 悍高软件.Socket_KUKA;
 using 悍高软件.ViewModel;
+using static Soceket_KUKA.Models.Socket_Models_Connect;
+using static 悍高软件.ViewModel.User_Control_Log_ViewModel;
+using static 悍高软件.ViewModel.UserControl_Right_Socket_Connection_ViewModel;
+
+
+
 
 namespace Soceket_Connect
 {
     [AddINotifyPropertyChangedInterface]
     public class Socket_Connect : ViewModelBase
     {
+
 
 
         public Socket_Connect()
@@ -53,6 +60,8 @@ namespace Soceket_Connect
                 _Socket_Client = value;
             }
         }
+
+
 
         /// <summary>
         /// 异步接受属性
@@ -93,6 +102,8 @@ namespace Soceket_Connect
         }
 
 
+        //循环读取线程设置
+        public  Thread Socket_Read_Thread { set; get; } = new Thread(Receive_Read_Theam) { Name = "Read", IsBackground = true };
 
 
 
@@ -100,8 +111,11 @@ namespace Soceket_Connect
         /// <summary>
         /// Socket连接方法
         /// </summary>
-        public async Task Socket_Client_KUKA(string _Ip, int _Port)
+        public void Socket_Client_KUKA(string _Ip, int _Port)
         {
+            //异步运行
+            //Task.Run(() =>
+            //{
             //显示连接中状态
             Messenger.Default.Send<int>(0, "Connect_Socketing_Method");
             try
@@ -111,8 +125,10 @@ namespace Soceket_Connect
                 Global_Socket_Write = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 Global_Socket_Read = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-                Global_Socket_Write.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
-                Global_Socket_Read.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
+
+
+                //Global_Socket_Write.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
+                //Global_Socket_Read.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
                 try
                 {
 
@@ -124,7 +140,7 @@ namespace Soceket_Connect
                     //异步连接
                     Global_Socket_Write.BeginConnect(ip, new AsyncCallback(Client_Inf), Global_Socket_Write);
                     Global_Socket_Read.BeginConnect(ip, new AsyncCallback(Client_Inf), Global_Socket_Read);
-                    await Task.Delay(0);
+                    
 
 
 
@@ -136,10 +152,10 @@ namespace Soceket_Connect
                 }
                 catch (Exception e)
                 {
-                    //开饭连接按钮
+                    //允许用户操作连接按钮
                     Messenger.Default.Send<bool>(true, "Connect_Button_IsEnabled_Method");
 
-                    User_Control_Log_ViewModel.User_Log_Add("-2" + e.Message);
+                    User_Log_Add("ERROT:-2 " + e.Message);
 
                 }
 
@@ -150,9 +166,11 @@ namespace Soceket_Connect
             catch (Exception e)
             {
 
-                User_Control_Log_ViewModel.User_Log_Add("-5" + e.Message);
-                return;
+                User_Log_Add("Error:-5 " + e.Message);
+                
             }
+
+            //});
 
 
 
@@ -182,53 +200,91 @@ namespace Soceket_Connect
 
 
 
-            //挂起异步连接
+            //通讯连接判断
             try
             {
-                if (Global_Socket_Write == ar.AsyncState)
+                if (Global_Socket_Write == ar.AsyncState && Global_Socket_Write.Connected)
                 {
                     //挂起写入异步连接
                     Global_Socket_Write.EndConnect(ar);
                     //异步监听接收写入消息
-                    Global_Socket_Write.BeginReceive(Socket_Models_Connect.byte_Write_Receive, 0, Socket_Models_Connect.byte_Write_Receive.Length, SocketFlags.None, new AsyncCallback(_Socket_Receive.Socke_Receive_Message), new Socket_Models_Receive() { byte_Write_Receive = Socket_Models_Connect.byte_Write_Receive, Read_int = 1 });
-                    User_Control_Log_ViewModel.User_Log_Add("写入连接IP："+Global_Socket_Write.LocalEndPoint.ToString());
+                    Global_Socket_Write.BeginReceive(byte_Write_Receive, 0, byte_Write_Receive.Length, SocketFlags.None, new AsyncCallback(_Socket_Receive.Socke_Receive_Message), new Socket_Models_Receive() { byte_Write_Receive = byte_Write_Receive, Read_int = 1 });
+
+                    //发送终端连接信息
+                    User_Log_Add("写入连接IP："+Global_Socket_Write.LocalEndPoint.ToString());
                 }
-                else if (Global_Socket_Read == ar.AsyncState)
+                else if (Global_Socket_Read == ar.AsyncState && Global_Socket_Read.Connected)
                 {
                     //挂起读取异步连接
                     Global_Socket_Read.EndConnect(ar);
                     //异步监听接收读取消息
-                    Global_Socket_Read.BeginReceive(Socket_Models_Connect.byte_Read_Receive, 0, Socket_Models_Connect.byte_Read_Receive.Length, SocketFlags.None, new AsyncCallback(_Socket_Receive.Socke_Receive_Message), new Socket_Models_Receive() { byte_Read_Receive = Socket_Models_Connect.byte_Read_Receive, Read_int = 0 });
-                    User_Control_Log_ViewModel.User_Log_Add("读取连接IP：" + Global_Socket_Read.LocalEndPoint.ToString());
+                    Global_Socket_Read.BeginReceive(byte_Read_Receive, 0, byte_Read_Receive.Length, SocketFlags.None, new AsyncCallback(_Socket_Receive.Socke_Receive_Message), new Socket_Models_Receive() { byte_Read_Receive = byte_Read_Receive, Read_int = 0 });
+
+                    //发送终端连接信息
+                    User_Log_Add("读取连接IP：" + Global_Socket_Read.LocalEndPoint.ToString());
 
                     //开启多线程监听集合内循环发送
-                    Messenger.Default.Send<int>(1, "Connect_Socketing_Method");
-                    //允许读取集合内容
-                    Read_List = true;
-                    Thread Socket_Read_Thread = new Thread(Receive_Read_Theam) { Name = "Read", IsBackground = true };
-                    Socket_Read_Thread.Start();
 
+
+                //允许读取集合内容
+                Read_List = true;
+
+                    if (!Socket_Read_Thread.IsAlive )
+                    {
+                        Socket_Read_Thread.Start();
+                    }
+                    else
+                    {
+                        Socket_Read_Thread.Abort();
+                        Socket_Read_Thread.Start();
+
+                    }
+
+                }
+
+                //连接状态显示
+                if (Global_Socket_Read.Connected || Global_Socket_Write.Connected)
+                {
+
+                Messenger.Default.Send<int>(1, "Connect_Socketing_Method");
+
+                }
+                else
+                {
+                    //连接失败后允许用户再次点击连接按钮
+                    Messenger.Default.Send<int>(-1, "Connect_Socketing_Method");
+                    Messenger.Default.Send<bool>(true, "Connect_Button_IsEnabled_Method");
+                User_Log_Add("Error:-16 " + Client.RemoteEndPoint.ToString()+ "连接超时!" );
 
 
                 }
+
+
+
+
 
             }
             catch (Exception e)
             {
 
                 //Messenger.Default.Send<bool>(false, "Connect_Button_IsEnabled_Method");
-                User_Control_Log_ViewModel.User_Log_Add("-3" + "连接失败:" + e.Message);
+                User_Log_Add("Error:-3 " + "连接失败:" + e.Message);
                 //出现报错后运行再次连接
+
+                //连接失败后允许用户再次点击连接按钮
                 Messenger.Default.Send<bool>(true, "Connect_Button_IsEnabled_Method");
+
+                //连接状态显示
                 Messenger.Default.Send<int>(-1, "Connect_Socketing_Method");
 
+                //出现异常退出连接
                 return;
             }
 
 
 
             //连接成功后，指示灯闪烁
-            Messenger.Default.Send<bool?>(true, "Sidebar_Subtitle_Signal_Method_bool");
+            //Messenger.Default.Send<bool?>(true, "Sidebar_Subtitle_Signal_Method_bool");
 
 
 
@@ -246,18 +302,15 @@ namespace Soceket_Connect
         /// <summary>
         /// 断开所有连接
         /// </summary>
-        public static async Task Socket_Close()
+        public static  void  Socket_Close()
         {
             if (Global_Socket_Write != null && Global_Socket_Read != null)
             {
 
-                //关闭Socket之前，首选需要把双方的Socket Shutdown掉
-                //Global_Socket_Write.Shutdown(SocketShutdown.Both);
-                //Global_Socket_Read.Shutdown(SocketShutdown.Both);
 
-                //Shutdown掉Socket后主线程停止10ms，保证Socket的Shutdown完成
-                await Task.Delay(0);
+                
 
+            
                 //停止读取集合内容
                 Read_List = false;
 
@@ -271,21 +324,22 @@ namespace Soceket_Connect
                 //Global_Socket_Write = null;
                 //Global_Socket_Read = null;
 
+
+                //连接失败后允许用户再次点击连接按钮
                 Messenger.Default.Send<bool>(true, "Connect_Button_IsEnabled_Method");
                 Messenger.Default.Send<int>(-1, "Connect_Socketing_Method");
-                //断开连接后，关闭指示灯闪烁
-                Messenger.Default.Send<bool?>(false, "Sidebar_Subtitle_Signal_Method_bool");
+
 
             }
 
-            return;
+           
 
 
         }
 
 
 
-        public static readonly object The_Lock = new object();
+        public static  object  The_Lock ;
 
 
 
@@ -294,56 +348,49 @@ namespace Soceket_Connect
         /// 读取集合循环发送
         /// </summary>
         /// <param name="_Obj"></param>
-        public void Receive_Read_Theam()
+        public static  void Receive_Read_Theam()
         {
 
-                User_Control_Log_ViewModel.User_Log_Add("-1.1，准备发送线程");
-                Monitor.Enter(The_Lock);
-                User_Control_Log_ViewModel.User_Log_Add("-1.2，进入发送线程");
-
+            The_Lock = new object();
              DateTime  Delay_time;
 
             while (Read_List)
             {
+                //User_Log_Add("-1.1，准备发送线程");
+                Monitor.Enter(The_Lock);
+                //User_Log_Add("-1.2，进入发送线程");
 
 
-                //Socket_Receive.Receive_Lock.WaitOne();
-                //Thread.Sleep(5000);
+
 
                 //当前时间
                 Delay_time = DateTime.Now;
 
                 try
                 {
-                    //User_Control_Log_ViewModel.User_Log_Add("-1.3，等待周期发送");
-                    //Monitor.Wait(The_Lock);
-                    //User_Control_Log_ViewModel.User_Log_Add("-1.4，开始周期发送");
 
-                    //Socket_Receive.Receive_Lock.WaitOne(100);
-                    //Connect_Lock.WaitOne(100);
 
-                    var bool_A = UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List.Count > 0;
+                    var bool_A = Socket_Read_List.Count > 0;
                     //var bool_B = Global_Socket_Read.Poll(-1, SelectMode.SelectRead);
 
 
                     if (bool_A && Read_List)
                     {
 
-                        for (int i = 0; i < UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List.Count; i++)
+                        for (int i = 0; i < Socket_Read_List.Count; i++)
                         {
-                            if (UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Val_OnOff == true)
+                            if (Socket_Read_List[i].Val_OnOff == true)
                             {
 
 
-                                UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Val_ID = i;
-                                Socket_Send.Send_Read_Var(UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List[i].Val_Name, i);
-                                //Task.Delay(500);
-                                //Thread.SpinWait(200);
-                                //等待线程接收
-                                //Thread.Sleep(30);
-                                User_Control_Log_ViewModel.User_Log_Add("-1.3，等待下一个变量发送");
+                                Socket_Read_List[i].Val_ID = i;
+                                Socket_Send.Send_Read_Var(Socket_Read_List[i].Val_Name, i);
+                 
+
+
+                                //User_Log_Add("-1.3，等待下一个变量发送");
                                 Monitor.Wait(The_Lock);
-                                User_Control_Log_ViewModel.User_Log_Add("-1.4，解除接收等待");
+                                //User_Log_Add("-1.4，解除接收等待");
                             }
                         }
                     }
@@ -364,9 +411,9 @@ namespace Soceket_Connect
                 }
                 catch (Exception e)
                 {
-
-                    User_Control_Log_ViewModel.User_Log_Add($"Error:-8 " + e.Message);
-                    User_Control_Log_ViewModel.User_Log_Add("-1.5，退出发送线程");
+                    //异常处理
+                    User_Log_Add($"Error:-8 " + e.Message);
+                    User_Log_Add("-1.5，退出发送线程");
                     Monitor.Exit(The_Lock);
                     Clear_List();
                     return;
@@ -378,8 +425,7 @@ namespace Soceket_Connect
                 Messenger.Default.Send<string>((DateTime.Now - Delay_time).TotalMilliseconds.ToString().Split('.')[0], "Connter_Time_Delay_Method");
             }
 
-
-            //Socket_Receive.Receive_Lock.ReleaseMutex();
+ 
 
         }
 
@@ -389,7 +435,7 @@ namespace Soceket_Connect
         /// </summary>
         public static void Clear_List()
         {
-            foreach (var List in UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List)
+            foreach (var List in Socket_Read_List)
             {
                 List.Val_Var = string.Empty;
             }

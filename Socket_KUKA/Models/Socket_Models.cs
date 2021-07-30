@@ -351,6 +351,8 @@ namespace Soceket_KUKA.Models
         }
 
     }
+
+
         [AddINotifyPropertyChangedInterface]
         public class KUKA_Value_Type
         {

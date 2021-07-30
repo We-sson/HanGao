@@ -203,7 +203,7 @@
                       DataContext="{Binding Source={StaticResource Locator}, Path=UserControl_Right_Socket_Connection_ViewModel}"
                       ItemsSource="{Binding Socket_Read_List}">
                 <ListView.View>
-                    <GridView AllowsColumnReorder="True">
+                    <GridView AllowsColumnReorder="False" >
 
 
                         <GridViewColumn Width="auto" Header="启用">

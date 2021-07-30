@@ -47,11 +47,10 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
             <TextBlock Text="{Binding User_UI_Log.User_Log}"
-                       Width="600"
                        TextWrapping="WrapWithOverflow"
                        DataContext="{Binding Source={StaticResource Locator}, Path=User_Log}"
                        Visibility="Visible" Foreground="Black"
-                       FontSize="15" Opacity="0.8" />
+                       FontSize="18" Opacity="0.8" />
         </ScrollViewer>
     </Grid>
 </UserControl>

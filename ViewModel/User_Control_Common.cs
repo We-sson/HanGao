@@ -56,7 +56,7 @@ namespace 悍高软件.ViewModel
             //机器人运动下一个点位置信息
             [StringValue("$POS_BACK")]
             POS_BACK,
-            //机器人在轨迹中途停下位置信息
+            //机器人在轨迹中途停下笛卡尔位置信息
             [StringValue("$POS_RET")]
             POS_RET,
             //机器人是否激活运行
@@ -71,7 +71,18 @@ namespace 悍高软件.ViewModel
             //机器人当前运行程序名
             [StringValue("$PRO_NAME[]")]
             PRO_NAME,
-
+            //机器人中断位置轴位置数据信息
+            [StringValue("$AXIS_INT")]
+            AXIS_INT,
+           //机器人移动下一个点位置距离信息
+            [StringValue("$DIST_NEXT")]
+            DIST_NEXT,
+            //机器人各轴扭矩数据信息
+            [StringValue("$TORQUE_AXIS_ACT[]")]
+            TORQUE_AXIS_ACT,
+            //机器人驱动是否运行
+            [StringValue("$PERI_RDY")]
+            PERI_RDY
         }
 
 

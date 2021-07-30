@@ -26,16 +26,23 @@
 
 
         <Grid x:Name="GD1"
-              Margin="-500,0,0,0"
               HorizontalAlignment="Left"
               ClipToBounds="True"
               SnapsToDevicePixels="True"
               UseLayoutRounding="True">
             <Grid.Style>
                 <Style TargetType="Grid">
-
+                    <Setter Property="Grid.Margin" Value="-500 0 0 0" />
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Open}" Value=" True">
+                            <Setter Property="Grid.Margin" Value="0 0 0 0" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Open}" Value="False">
+                            <Setter Property="Grid.Margin" Value="-500 0 0 0" />
+                        </DataTrigger>
+
+
+                        <!--<DataTrigger Binding="{Binding Open}" Value=" True">
                             <DataTrigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard Timeline.DesiredFrameRate="60">
@@ -62,7 +69,9 @@
                                     </Storyboard>
                                 </BeginStoryboard>
                             </DataTrigger.ExitActions>
-                        </DataTrigger>
+                        </DataTrigger>-->
+
+
                     </Style.Triggers>
                 </Style>
             </Grid.Style>
@@ -72,7 +81,7 @@
             </Grid.ColumnDefinitions>
 
             <Grid x:Name="GD3" Grid.Column="1"
-                  Width="50" Margin="0,0,0,0"
+                  Width="60" Margin="0,0,0,0"
                   HorizontalAlignment="Right">
 
                 <Grid.Style>
@@ -97,7 +106,7 @@
                                         <Storyboard Timeline.DesiredFrameRate="60">
                                             <ThicknessAnimation SpeedRatio="20"
                                                                 Storyboard.TargetProperty="(FrameworkElement.Margin)"
-                                                                To="-50,0,0,0" Duration="0:0:0:10">
+                                                                To="-60,0,0,0" Duration="0:0:0:10">
                                                 <ThicknessAnimation.EasingFunction>
                                                     <QuinticEase EasingMode="EaseIn" />
                                                 </ThicknessAnimation.EasingFunction>
@@ -119,15 +128,17 @@
 
 
                     <Border x:Name="BD1"
-                            Margin="0,0,3,0"
-                            CornerRadius="0 10 10 0"
+                            Margin="0,0,6,0" CornerRadius="0 8 8 0"
                             SnapsToDevicePixels="False">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Background" Value="White" />
+
+                            </Style>
+                        </Border.Style>
 
 
 
-                        <Border.Background>
-                            <SolidColorBrush Opacity=" 1" Color="White" />
-                        </Border.Background>
 
 
 
@@ -136,8 +147,8 @@
 
                         <StackPanel Margin="0,20,0,0">
                             <!--  连接状态呼吸灯  -->
-                            <TextBlock  Grid.Row="0" Grid.Column="0"
-                                       Text ="{Binding Connter_Time_Delay ,StringFormat={}{0}ms}" 
+                            <TextBlock Grid.Row="0" Grid.Column="0"
+                                       Text="{Binding Connter_Time_Delay, StringFormat={}{0}ms}"
                                        Margin="5" HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        DataContext="{Binding UserControl_Right_Socket_Connection_ViewModel, Source={StaticResource Locator}}"
@@ -200,8 +211,9 @@
                                 </Ellipse.Style>
                             </Ellipse>-->
 
-                            <TextBlock Uid="Open" Margin="0 5 0 0"
+                            <TextBlock Uid="Open"
                                        Text="{Binding Sidebar_Subtitle}"
+                                       Margin="0,5,0,0"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center" FontSize="20" />
 

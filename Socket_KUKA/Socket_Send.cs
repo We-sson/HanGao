@@ -10,6 +10,13 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using 悍高软件.ViewModel;
+using static Soceket_KUKA.Models.Socket_Models_Receive;
+using static Soceket_KUKA.Models.Socket_Models_Connect;
+using static Soceket_Connect.Socket_Connect;
+using static Soceket_KUKA.Socket_Receive;
+using static 悍高软件.ViewModel.User_Control_Log_ViewModel;
+using static 悍高软件.ViewModel.UserControl_Right_Socket_Connection_ViewModel;
+using System.Windows;
 
 namespace 悍高软件.Socket_KUKA
 {
@@ -84,11 +91,11 @@ namespace 悍高软件.Socket_KUKA
                 if (_i == 1)
                 {
 
-                    Socket_Connect.Global_Socket_Write.BeginSend(Message, 0, Message.Length, SocketFlags.None, new AsyncCallback(Socket_Send_Message), Socket_Connect.Global_Socket_Write);
+                    Global_Socket_Write.BeginSend(Message, 0, Message.Length, SocketFlags.None, new AsyncCallback(Socket_Send_Message), Global_Socket_Write);
                 }
                 else 
                 {
-                    Socket_Connect.Global_Socket_Read.BeginSend(Message, 0, Message.Length, SocketFlags.None, new AsyncCallback(Socket_Send_Message), Socket_Connect.Global_Socket_Read);
+                    Global_Socket_Read.BeginSend(Message, 0, Message.Length, SocketFlags.None, new AsyncCallback(Socket_Send_Message), Global_Socket_Read);
 
                 }
             }
@@ -97,8 +104,9 @@ namespace 悍高软件.Socket_KUKA
 
                 Messenger.Default.Send<bool>(true, "Connect_Button_IsEnabled_Method");
 
-                User_Control_Log_ViewModel.User_Log_Add("Error:-6 " + e.Message);
+                User_Log_Add("Error:-6 " + e.Message);
 
+                Socket_Receive_Error(e.Message);
             }
 
             //接收信息互斥线程锁，保证每次只有一个线程接收消息
@@ -113,7 +121,30 @@ namespace 悍高软件.Socket_KUKA
         /// <param name="Socket">异步参数</param>
         public static void Socket_Send_Message(IAsyncResult Socket)
         {
+            try
+            {
 
+   
+
+            if (Global_Socket_Write.Poll(100, SelectMode.SelectError))
+            {
+
+                MessageBox.Show(Global_Socket_Write.Connected.ToString());
+
+            }
+            if (Global_Socket_Read.Poll(100, SelectMode.SelectError))
+            {
+                MessageBox.Show(Global_Socket_Read.Connected.ToString());
+
+            }
+
+            }
+            catch (Exception e)
+            {
+
+                Socket_Receive_Error(e.Message);
+
+            }
             //MessageBox.Show("发送完成！");
 
         }
@@ -172,7 +203,7 @@ namespace 悍高软件.Socket_KUKA
 
 
 
-            return Socket_Models_Connect.Number_ID;
+            return Number_ID;
 
         }
 
@@ -199,7 +230,7 @@ namespace 悍高软件.Socket_KUKA
             //传输数据排列，固定顺序不可修改
 
             //传输数据唯一标识
-            _data.AddRange(Socket_Client.Send_number_ID(Socket_Models_Connect.Number_ID));
+            _data.AddRange(Socket_Client.Send_number_ID(Number_ID));
             //传输数据总长度值
             _data.AddRange(Socket_Client.Send_number_ID(_n.Length + _v.Length + 5));
             //写入标识 0x01
