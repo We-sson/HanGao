@@ -11,6 +11,11 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using 悍高软件.Model;
 using static 悍高软件.Model.Sink_Models;
+using static Soceket_Connect.Socket_Connect;
+using static Soceket_KUKA.Models.Socket_Models_Connect;
+using static Soceket_KUKA.Models.Socket_Models_Receive;
+using static 悍高软件.ViewModel.User_Control_Log_ViewModel;
+using static 悍高软件.ViewModel.UserControl_Right_Socket_Connection_ViewModel;
 
 namespace 悍高软件.ViewModel
 {
@@ -128,10 +133,11 @@ namespace 悍高软件.ViewModel
             {
                 //把参数类型转换控件
                 CheckBox e = Sm.Source as CheckBox;
+
                 Sink_Models S = (Sink_Models)e.DataContext;
 
                 //添加弹窗提示用户连接下位机通讯
-                if (Socket_Connect.Global_Socket_Read==null && Socket_Connect.Global_Socket_Write==null ) { e.IsChecked = false; return;  }
+                if (!Global_Socket_Read.Connected && !Global_Socket_Write.Connected) { e.IsChecked = false; return;  }
 
                 S.Wroking_Models_ListBox.Work_Type = S.Model_Number.ToString();
 
@@ -145,7 +151,7 @@ namespace 悍高软件.ViewModel
                 {
 
                     //判断是都有多个添加到加工区域
-                    if (List_Show.SinkModels.Count(o => o.List_IsChecked_1 == true) > 1 || List_Show.SinkModels.Count(o => o.List_IsChecked_2 == true) > 1)
+                    if (SinkModels.Count(o => o.List_IsChecked_1 == true) > 1 || SinkModels.Count(o => o.List_IsChecked_2 == true) > 1)
                     {
                         //消息通知创建一个消息内容
                         Messenger.Default.Send<string>("Use_Message", "User_Contorl_Message_Show");
@@ -176,7 +182,7 @@ namespace 悍高软件.ViewModel
                         User_Control_Working_VM_1.WM.Work_Pause = S.User_Check_1.Work_Pause;
                         User_Control_Working_VM_1.WM.Work_NullRun = S.User_Check_1.Work_NullRun;
                         User_Control_Working_VM_1.WM.Work_JumpOver = S.User_Check_1.Work_JumpOver;
-                        User_Control_Log_ViewModel.User_Log_Add("加载" + S.Model_Number.ToString() + "型号到1号");
+                        User_Log_Add("加载" + S.Model_Number.ToString() + "型号到1号");
                     }
                     else if (e.Uid == "2")
                     {
@@ -185,7 +191,7 @@ namespace 悍高软件.ViewModel
                         User_Control_Working_VM_2.WM.Work_Pause = S.User_Check_2.Work_Pause;
                         User_Control_Working_VM_2.WM.Work_NullRun = S.User_Check_2.Work_NullRun;
                         User_Control_Working_VM_2.WM.Work_JumpOver = S.User_Check_2.Work_JumpOver;
-                        User_Control_Log_ViewModel.User_Log_Add("加载" + S.Model_Number.ToString() + "型号到2号");
+                        User_Log_Add("加载" + S.Model_Number.ToString() + "型号到2号");
                     }
 
                 }
@@ -199,7 +205,7 @@ namespace 悍高软件.ViewModel
                         User_Control_Working_VM_1.WM.Work_Pause = false;
                         User_Control_Working_VM_1.WM.Work_NullRun = false;
                         User_Control_Working_VM_1.WM.Work_JumpOver = false;
-                        User_Control_Log_ViewModel.User_Log_Add("卸载1号的" + S.Model_Number.ToString() + "型号");
+                        User_Log_Add("卸载1号的" + S.Model_Number.ToString() + "型号");
 
                     }
                     else if (e.Uid == "2")
@@ -210,7 +216,7 @@ namespace 悍高软件.ViewModel
                         User_Control_Working_VM_2.WM.Work_Pause = false;
                         User_Control_Working_VM_2.WM.Work_NullRun = false;
                         User_Control_Working_VM_2.WM.Work_JumpOver = false;
-                        User_Control_Log_ViewModel.User_Log_Add("卸载2号的" + S.Model_Number.ToString() + "型号");
+                        User_Log_Add("卸载2号的" + S.Model_Number.ToString() + "型号");
 
 
                     }

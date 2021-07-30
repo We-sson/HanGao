@@ -102,11 +102,11 @@ namespace 悍高软件.Socket_KUKA
             catch (Exception e)
             {
 
-                Messenger.Default.Send<bool>(true, "Connect_Button_IsEnabled_Method");
+                //Messenger.Default.Send<bool>(true, "Connect_Button_IsEnabled_Method");
 
-                User_Log_Add("Error:-6 " + e.Message);
+                //User_Log_Add("Error:-6 " + e.Message);
 
-                Socket_Receive_Error(e.Message);
+                Socket_Receive_Error("Error:-6 " +e.Message);
             }
 
             //接收信息互斥线程锁，保证每次只有一个线程接收消息
@@ -126,13 +126,13 @@ namespace 悍高软件.Socket_KUKA
 
    
 
-            if (Global_Socket_Write.Poll(100, SelectMode.SelectError))
+            if (Global_Socket_Write.Poll(10, SelectMode.SelectError))
             {
 
                 MessageBox.Show(Global_Socket_Write.Connected.ToString());
 
             }
-            if (Global_Socket_Read.Poll(100, SelectMode.SelectError))
+            if (Global_Socket_Read.Poll(10, SelectMode.SelectError))
             {
                 MessageBox.Show(Global_Socket_Read.Connected.ToString());
 
@@ -142,7 +142,7 @@ namespace 悍高软件.Socket_KUKA
             catch (Exception e)
             {
 
-                Socket_Receive_Error(e.Message);
+                Socket_Receive_Error("Error:-30 "+e.Message);
 
             }
             //MessageBox.Show("发送完成！");

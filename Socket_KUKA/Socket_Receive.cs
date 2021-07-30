@@ -11,9 +11,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using 悍高软件.ViewModel;
-using static Soceket_Connect.Socket_Connect;
-using static Soceket_KUKA.Models.Socket_Models_Connect;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
+using static Soceket_KUKA.Models.Socket_Models_Connect;
+using static Soceket_Connect.Socket_Connect;
+using static Soceket_KUKA.Socket_Receive;
 using static 悍高软件.ViewModel.User_Control_Log_ViewModel;
 using static 悍高软件.ViewModel.UserControl_Right_Socket_Connection_ViewModel;
 
@@ -93,7 +94,7 @@ namespace Soceket_KUKA
                 if (Receive_Int == 0)
                 {
 
-                    Socket_Receive_Error("Error:-19 " + GetType().Name);
+                    Socket_Receive_Error("Error:-19 " + GetType().Name+ " 接收消息线程异常！");
                     
                 }
 
@@ -104,7 +105,7 @@ namespace Soceket_KUKA
                 Receive_Int = Global_Socket_Write.EndReceive(ar);
                 if (Receive_Int == 0)
                 {
-                    Socket_Receive_Error("Error:-20 " + GetType().Name);
+                    Socket_Receive_Error("Error:-20 " + GetType().Name+" 接收消息线程异常！");
                     
                 }
     
@@ -113,17 +114,18 @@ namespace Soceket_KUKA
             }
             catch (Exception e)
             {
-                Socket_Receive_Error("Error:-14 " + e.Message);
+                Socket_Receive_Error("Error:-14 " + "接收消息线程异常断开！");
                 //User_Log_Add("Error: -14 " + e.Message);
                 return;
             }
 
+            if ((Global_Socket_Write.Poll(10, SelectMode.SelectWrite) == false && Global_Socket_Read.Poll(10, SelectMode.SelectWrite) == false)) { Socket_Receive_Error("Error:-23 " + GetType().Name + " 接收消息线程异常！"); return; }
 
             //互斥线程锁，保证每次只有一个线程接收消息
             Receive_Lock.WaitOne();
 
             //连接属性断开后为空后退出接收
-            if (Global_Socket_Write == null || Global_Socket_Read == null) { Socket_Receive_Error("Error:-22 " + GetType().Name); return; }
+            //if (Global_Socket_Write == null || Global_Socket_Read == null) { Socket_Receive_Error("Error:-22 " + GetType().Name + " 接收消息线程异常！"); return; }
 
 
 
@@ -139,7 +141,7 @@ namespace Soceket_KUKA
             //连接状态不正常时退出,并运行错误操作
             try
             {
-                if ((Global_Socket_Write.Poll(50, SelectMode.SelectWrite) == false && Global_Socket_Read.Poll(50, SelectMode.SelectWrite) == false)) { Socket_Receive_Error("Error:-23 " + GetType().Name); return; }
+                //if ((Global_Socket_Write.Poll(10, SelectMode.SelectWrite) == false && Global_Socket_Read.Poll(10, SelectMode.SelectWrite) == false)) { Socket_Receive_Error("Error:-23 " + GetType().Name+ " 接收消息线程异常！"); return; }
 
 
 

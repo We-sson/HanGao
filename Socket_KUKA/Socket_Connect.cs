@@ -10,7 +10,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using 悍高软件.Socket_KUKA;
 using 悍高软件.ViewModel;
+using static Soceket_KUKA.Models.Socket_Models_Receive;
 using static Soceket_KUKA.Models.Socket_Models_Connect;
+using static Soceket_Connect.Socket_Connect;
+using static Soceket_KUKA.Socket_Receive;
 using static 悍高软件.ViewModel.User_Control_Log_ViewModel;
 using static 悍高软件.ViewModel.UserControl_Right_Socket_Connection_ViewModel;
 
@@ -61,7 +64,10 @@ namespace Soceket_Connect
             }
         }
 
-
+        /// <summary>
+        /// 线程锁声明
+        /// </summary>
+        public static object The_Lock;
 
         /// <summary>
         /// 异步接受属性
@@ -69,7 +75,7 @@ namespace Soceket_Connect
         public Socket_Receive _Socket_Receive { set; get; } = new Socket_Receive() { };
 
 
-        private static Socket _Global_Socket_Write;
+        private static Socket _Global_Socket_Write = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         /// <summary>
         /// Socket唯一写入连接标识
         /// </summary>
@@ -85,7 +91,7 @@ namespace Soceket_Connect
             }
         }
 
-        private static Socket _Global_Socket_Read;
+        private static Socket _Global_Socket_Read = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         /// <summary>
         /// Socket唯一读取连接标识
         /// </summary>
@@ -116,14 +122,16 @@ namespace Soceket_Connect
             //异步运行
             //Task.Run(() =>
             //{
-            //显示连接中状态
-            Messenger.Default.Send<int>(0, "Connect_Socketing_Method");
             try
             {
+            //显示连接中状态
+            Messenger.Default.Send<int>(0, "Connect_Socketing_Method");
 
                 IPEndPoint ip = new IPEndPoint(IPAddress.Parse(_Ip), _Port);
-                Global_Socket_Write = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                Global_Socket_Read = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+
+                //Global_Socket_Write = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                //Global_Socket_Read = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
 
 
@@ -153,9 +161,10 @@ namespace Soceket_Connect
                 catch (Exception e)
                 {
                     //允许用户操作连接按钮
-                    Messenger.Default.Send<bool>(true, "Connect_Button_IsEnabled_Method");
+                    //Messenger.Default.Send<bool>(true, "Connect_Button_IsEnabled_Method");
 
-                    User_Log_Add("ERROT:-2 " + e.Message);
+                    
+                    Socket_Receive_Error("Error:-2 " + e.Message);
 
                 }
 
@@ -268,14 +277,15 @@ namespace Soceket_Connect
             {
 
                 //Messenger.Default.Send<bool>(false, "Connect_Button_IsEnabled_Method");
-                User_Log_Add("Error:-3 " + "连接失败:" + e.Message);
+                //User_Log_Add("Error:-3 " + "连接失败:" + e.Message);
+                Socket_Receive_Error("Error:-3 " + e.Message);
                 //出现报错后运行再次连接
 
-                //连接失败后允许用户再次点击连接按钮
-                Messenger.Default.Send<bool>(true, "Connect_Button_IsEnabled_Method");
+                ////连接失败后允许用户再次点击连接按钮
+                //Messenger.Default.Send<bool>(true, "Connect_Button_IsEnabled_Method");
 
-                //连接状态显示
-                Messenger.Default.Send<int>(-1, "Connect_Socketing_Method");
+                ////连接状态显示
+                //Messenger.Default.Send<int>(-1, "Connect_Socketing_Method");
 
                 //出现异常退出连接
                 return;
@@ -323,7 +333,8 @@ namespace Soceket_Connect
 
                 //Global_Socket_Write = null;
                 //Global_Socket_Read = null;
-
+                Global_Socket_Write = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                Global_Socket_Read = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
                 //连接失败后允许用户再次点击连接按钮
                 Messenger.Default.Send<bool>(true, "Connect_Button_IsEnabled_Method");
@@ -338,8 +349,7 @@ namespace Soceket_Connect
         }
 
 
-
-        public static  object  The_Lock ;
+ 
 
 
 
