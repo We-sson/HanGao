@@ -177,6 +177,7 @@ namespace 悍高软件.ViewModel
                     if (e.Uid == "1")
                     {
 
+
                         User_Control_Working_VM_1.WM.Work_Type = S.Model_Number.ToString();
                         User_Control_Working_VM_1.WM.Work_Connt = S.User_Check_1.Work_Connt;
                         User_Control_Working_VM_1.WM.Work_Pause = S.User_Check_1.Work_Pause;
@@ -199,13 +200,15 @@ namespace 悍高软件.ViewModel
                 {
                     if (e.Uid == "1")
                     {
+
+
                         //清空加工区功能状态显示
-                        User_Control_Working_VM_1.WM.Work_Run = false;
-                        User_Control_Working_VM_1.WM.Work_Type = "";
-                        User_Control_Working_VM_1.WM.Work_Pause = false;
-                        User_Control_Working_VM_1.WM.Work_NullRun = false;
-                        User_Control_Working_VM_1.WM.Work_JumpOver = false;
-                        User_Log_Add("卸载1号的" + S.Model_Number.ToString() + "型号");
+                        var a = User_Control_Common.UserControl_Function_Reset + e.Uid;
+                        Messenger.Default.Send<bool>(false , a);
+
+
+                 
+                        User_Log_Add("卸载"+ e.Uid + "号的" + S.Model_Number.ToString() + "型号");
 
                     }
                     else if (e.Uid == "2")

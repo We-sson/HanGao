@@ -57,7 +57,7 @@
                                SnapsToDevicePixels="True">
                         <Rectangle.Effect>
                             <DropShadowEffect BlurRadius="8" ShadowDepth="0"
-                                              Opacity="0" Color="Transparent" />
+                                              Opacity="0.2" Color="Transparent" />
                         </Rectangle.Effect>
                         <Rectangle.Fill>
                             <SolidColorBrush Color="#999999" />
@@ -66,7 +66,9 @@
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Trigger.EnterActions>
+                            <Setter TargetName="rectangle" Property="SolidColorBrush.Color" Value="#A1A1A1" />
+
+                            <!--<Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <ColorAnimation SpeedRatio="8"
@@ -101,7 +103,7 @@
                                                          To="0" Duration="0:0:0:1" />
                                     </Storyboard>
                                 </BeginStoryboard>
-                            </Trigger.ExitActions>
+                            </Trigger.ExitActions>-->
 
 
 
@@ -156,7 +158,7 @@
 
 
                         <Track x:Name="PART_Track" Grid.Row="1"
-                               Width="6" HorizontalAlignment="Right"
+                               Width="10" HorizontalAlignment="Right"
                                IsDirectionReversed="true"
                                IsEnabled="{TemplateBinding IsMouseOver}">
                             <Track.DecreaseRepeatButton>
@@ -183,8 +185,11 @@
                     <ControlTemplate.Triggers>
 
                         <Trigger SourceName="Bg" Property="IsMouseOver" Value="true">
+                            <!--<Setter TargetName="PART_Track" Property="Width" Value="10" />-->
+                            <!--<Setter TargetName="bod1" Property="Opacity" Value="0" />-->
 
-                            <Trigger.EnterActions>
+
+                            <!--<Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <DoubleAnimation SpeedRatio="5"
@@ -211,7 +216,9 @@
                                                          Duration="0:0:0:1" />
                                     </Storyboard>
                                 </BeginStoryboard>
-                            </Trigger.ExitActions>
+                            </Trigger.ExitActions>-->
+
+
                         </Trigger>
 
 
@@ -324,8 +331,9 @@
 
                             <ControlTemplate.Triggers>
                                 <Trigger SourceName="Bg" Property="IsMouseOver" Value="true">
+                                    <Setter TargetName="PART_Track" Property="Height" Value="10" />
 
-                                    <Trigger.EnterActions>
+                                    <!--<Trigger.EnterActions>
                                         <BeginStoryboard>
                                             <Storyboard>
                                                 <DoubleAnimation SpeedRatio="5"
@@ -352,7 +360,8 @@
                                                                  To="10" Duration="0:0:0:1" />
                                             </Storyboard>
                                         </BeginStoryboard>
-                                    </Trigger.ExitActions>
+                                    </Trigger.ExitActions>-->
+
                                 </Trigger>
 
 

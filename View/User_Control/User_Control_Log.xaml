@@ -37,9 +37,10 @@
                       Margin="20,10,20,10"
                       ScrollViewer.VerticalScrollBarVisibility="Auto"
                       ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                      CanContentScroll="False"
-                      IsDeferredScrollingEnabled="True"
-                      Template="{DynamicResource ScrollViewerControlTemplate1}">
+                      Template="{StaticResource ScrollViewerControlTemplate1}"
+                      CanContentScroll="True"
+                      VirtualizingPanel.IsVirtualizing="True" 
+                      VirtualizingPanel.VirtualizationMode="Recycling">
 
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ScrollChanged">

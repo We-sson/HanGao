@@ -20,6 +20,7 @@ namespace 悍高软件.ViewModel
     public class User_Control_Common : ViewModelBase
     {
 
+        public static  string UserControl_Function_Reset = "UserControl_Function_Reset" ;
 
 
 

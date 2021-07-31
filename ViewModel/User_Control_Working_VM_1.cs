@@ -29,12 +29,12 @@ namespace 悍高软件.ViewModel
 
 
         //Ui显示类
-        public static Wroking_Models WM { get; set; }
+        public static  Wroking_Models WM { get; set; }
         //功能开关类
-        public static User_Features UF { get; set; }
+        public   User_Features UF { get; set; }
 
 
-        public int Work_NO { get; } = 1;
+        public const int Work_NO= 1;
 
         /// <summary>
         /// 资源互锁
@@ -49,12 +49,26 @@ namespace 悍高软件.ViewModel
 
         //------------------属性、字段声明------------------------
 
+        public  string UserControl_Function_Reset_1 = UserControl_Function_Reset + Work_NO.ToString();
+
 
         /// <summary>
         /// 1号加工区域初始化
         /// </summary>
         public User_Control_Working_VM_1()
         {
+
+            //功能属性初始化
+            Messenger.Default.Register<bool>(this, UserControl_Function_Reset_1 , (_Bool)=>
+                {
+                   WM.Work_Run = _Bool;
+                    WM.Work_Type = "";
+                    WM.Work_Pause = _Bool;
+                    WM.Work_NullRun = _Bool;
+                    WM.Work_JumpOver = _Bool;
+
+                });
+
 
 
 

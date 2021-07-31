@@ -263,7 +263,7 @@ namespace Soceket_Connect
                     //连接失败后允许用户再次点击连接按钮
                     Messenger.Default.Send<int>(-1, "Connect_Socketing_Method");
                     Messenger.Default.Send<bool>(true, "Connect_Button_IsEnabled_Method");
-                User_Log_Add("Error:-16 " + Client.RemoteEndPoint.ToString()+ "连接超时!" );
+                    User_Log_Add("Error:-16 " + Client.RemoteEndPoint.ToString()+ "连接超时!" );
 
 
                 }
@@ -288,7 +288,7 @@ namespace Soceket_Connect
                 //Messenger.Default.Send<int>(-1, "Connect_Socketing_Method");
 
                 //出现异常退出连接
-                return;
+                //return;
             }
 
 

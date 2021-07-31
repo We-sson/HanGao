@@ -114,7 +114,7 @@ namespace Soceket_KUKA
             }
             catch (Exception e)
             {
-                Socket_Receive_Error("Error:-14 " + "接收消息线程异常断开！");
+                Socket_Receive_Error("Error:-14 " + GetType().Name + "接收消息线程异常断开！");
                 //User_Log_Add("Error: -14 " + e.Message);
                 return;
             }
