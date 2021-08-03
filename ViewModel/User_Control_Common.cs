@@ -21,7 +21,7 @@ namespace 悍高软件.ViewModel
     {
 
         public static  string UserControl_Function_Reset = "UserControl_Function_Reset" ;
-
+        public static  string UserControl_Function_Set = "UserControl_Function_Set";
 
 
         /// <summary>
@@ -122,41 +122,44 @@ namespace 悍高软件.ViewModel
 
             foreach (Sink_Models it in List_Show.SinkModels)
             {
-                if (W == 1)
-                {
+                //if (W == 1)
+                //{
 
 
-                    if (it.Model_Number.ToString() == User_Control_Working_VM_1.WM.Work_Type)
-                    {
+                //    if (it.Model_Number.ToString() == User_Control_Working_VM_1.WM.Work_Type)
+                //    {
 
-                        it.User_Check_1.Work_Pause = User_Control_Working_VM_1.WM.Work_Pause;
-                        it.User_Check_1.Work_Connt = User_Control_Working_VM_1.WM.Work_Connt;
-                        it.User_Check_1.Work_NullRun = User_Control_Working_VM_1.WM.Work_NullRun;
-                        it.User_Check_1.Work_JumpOver = User_Control_Working_VM_1.WM.Work_JumpOver;
+                //        it.User_Check_1.Work_Pause = User_Control_Working_VM_1.WM.Work_Pause;
+                //        it.User_Check_1.Work_Connt = User_Control_Working_VM_1.WM.Work_Connt;
+                //        it.User_Check_1.Work_NullRun = User_Control_Working_VM_1.WM.Work_NullRun;
+                //        it.User_Check_1.Work_JumpOver = User_Control_Working_VM_1.WM.Work_JumpOver;
 
-                        return;
-                    }
-                }
-                else if (W == 2)
-                {
+                //        return;
+                //    }
+                //}
+                //else if (W == 2)
+                //{
 
-                    if (it.Model_Number.ToString() == User_Control_Working_VM_2.WM.Work_Type)
-                    {
+                //    if (it.Model_Number.ToString() == User_Control_Working_VM_2.WM.Work_Type)
+                //    {
 
-                        it.User_Check_2.Work_Pause = User_Control_Working_VM_2.WM.Work_Pause;
-                        it.User_Check_2.Work_Connt = User_Control_Working_VM_2.WM.Work_Connt;
-                        it.User_Check_2.Work_NullRun = User_Control_Working_VM_2.WM.Work_NullRun;
-                        it.User_Check_2.Work_JumpOver = User_Control_Working_VM_2.WM.Work_JumpOver;
+                //        it.User_Check_2.Work_Pause = User_Control_Working_VM_2.WM.Work_Pause;
+                //        it.User_Check_2.Work_Connt = User_Control_Working_VM_2.WM.Work_Connt;
+                //        it.User_Check_2.Work_NullRun = User_Control_Working_VM_2.WM.Work_NullRun;
+                //        it.User_Check_2.Work_JumpOver = User_Control_Working_VM_2.WM.Work_JumpOver;
 
-                        return;
-                    }
+                //        return;
+                //    }
 
 
 
-                }
+                //}
 
             }
         }
+
+
+
 
         /// <summary>
         /// 功能开关日志输出
@@ -181,34 +184,29 @@ namespace 悍高软件.ViewModel
 
 
         /// <summary>
-        /// 把用户的选择写入记录和打印的方法
+        /// 传入触发控件，返回对应触发的DataContext，否则空
         /// </summary>
-        /// <param name="e">传入控件参数</param>
-        public dynamic Log_Work_data(dynamic e)
+        /// <param name="e">传入控件</param>
+        public object  Log_Work_data( RoutedEventArgs _e)
         {
 
 
-            //写入列表中泛型
-            User_Check_Write_List(e.DataContext.Work_NO);
-            //功能开关信息日记输出显示
-            User_Features_OnOff_Log(e.IsChecked, e.DataContext.Work_NO, e.Content.ToString());
+            dynamic  Data = (_e.Source as CheckBox).DataContext;
 
 
 
-
-
-            if (e.DataContext.Work_NO == 1)
+            if (Data.WM.Work_NO == 1)
             {
 
-                return (User_Control_Working_VM_1)e.DataContext;
+                return (User_Control_Working_VM_1)Data;
 
 
             }
-            else if (e.DataContext.Work_NO == 2)
+            else if (Data.WM.Work_NO == 2)
             {
-                return (User_Control_Working_VM_2)e.DataContext;
+                return (User_Control_Working_VM_2)Data;
 
-            }
+            };
 
             return null;
 
@@ -226,14 +224,17 @@ namespace 悍高软件.ViewModel
             get => new DelegateCommand<RoutedEventArgs>((Sm) =>
             {
                 //把参数类型转换控件
-                dynamic e = Sm.Source as CheckBox;
+                CheckBox e = Sm.Source as CheckBox;
                 //
-                dynamic _data = Log_Work_data(e);
-                ;
+
+
+                dynamic Data = Log_Work_data( Sm);
 
 
 
-                if (Socket_Connect.Global_Socket_Write == null) { return; }
+                //e.IsChecked = true;
+
+
 
 
 

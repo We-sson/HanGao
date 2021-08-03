@@ -7,7 +7,7 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:cmd="http://www.galasoft.ch/mvvmlight"
              d:DesignHeight="435" d:DesignWidth="675"
-             DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_VM_2}"
+             DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_VM_1}"
              mc:Ignorable="d">
     <Grid x:Name="GD1" Grid.Row="0" Grid.Column="0"
           Margin="0" ShowGridLines="False">
@@ -110,7 +110,7 @@
 
                     <CheckBox Style="{StaticResource Button_List_Style}"
                               Content="计数"
-                              IsChecked="{Binding WM.Work_Connt, Mode=TwoWay}"
+                              IsChecked="{Binding UF.Work_Connt}"
                               Margin="0" HorizontalAlignment="Center"
                               VerticalAlignment="Center"
                               IsEnabled="{Binding WM.Work_IsEnabled}">
@@ -125,7 +125,7 @@
 
                     <CheckBox Style="{StaticResource Button_List_Style}"
                               Content="空运"
-                              IsChecked="{Binding WM.Work_NullRun, Mode=TwoWay}"
+                              IsChecked="{Binding UF.Work_NullRun}"
                               Margin="0" HorizontalAlignment="Center"
                               VerticalAlignment="Center"
                               IsEnabled="{Binding WM.Work_IsEnabled}">
@@ -138,7 +138,7 @@
                     </CheckBox>
                     <CheckBox Style="{StaticResource Button_List_Style}"
                               Content="暂停"
-                              IsChecked="{Binding WM.Work_Pause, Mode=TwoWay}"
+                              IsChecked="{Binding UF.Work_Pause, Mode=TwoWay}"
                               Margin="0" HorizontalAlignment="Center"
                               VerticalAlignment="Center"
                               IsEnabled="{Binding WM.Work_IsEnabled}">
@@ -151,7 +151,7 @@
                     </CheckBox>
                     <CheckBox Style="{StaticResource Button_List_Style}"
                               Content="跳过"
-                              IsChecked="{Binding WM.Work_JumpOver, Mode=TwoWay}"
+                              IsChecked="{Binding UF.Work_JumpOver, Mode=TwoWay}"
                               Margin="0" HorizontalAlignment="Center"
                               VerticalAlignment="Center"
                               IsEnabled="{Binding WM.Work_IsEnabled}">

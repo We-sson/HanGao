@@ -118,6 +118,40 @@ namespace 悍高软件.Model
             }
         }
 
+        private User_Features _User_Check_1 = new User_Features() { };
+        /// <summary>
+        /// 列表中区域1水槽的功能保存
+        /// </summary>
+        public User_Features User_Check_1
+        {
+            get
+            {
+                return _User_Check_1;
+            }
+            set
+            {
+                _User_Check_1 = value;
+            }
+        }
+
+
+        private User_Features _User_Check_2 = new User_Features() { };
+        /// <summary>
+        /// 列表中区域2水槽的功能保存
+        /// </summary>
+        public User_Features User_Check_2
+        {
+            get
+            {
+                return _User_Check_2;
+            }
+            set
+            {
+                _User_Check_2 = value;
+            }
+        }
+
+
 
         private bool _List_IsChecked_1 = false;
         /// <summary>
@@ -148,38 +182,6 @@ namespace 悍高软件.Model
 
 
 
-        private User_Features _User_Check_1 = new User_Features() { };
-        /// <summary>
-        /// 列表中区域1水槽的功能
-        /// </summary>
-        public User_Features User_Check_1
-        {
-            get
-            {
-                return _User_Check_1;
-            }
-            set
-            {
-                _User_Check_1 = value;
-            }
-        }
-
-
-        private User_Features _User_Check_2 = new User_Features() { };
-        /// <summary>
-        /// 列表中区域2水槽的功能
-        /// </summary>
-        public User_Features User_Check_2
-        {
-            get
-            {
-                return _User_Check_2;
-            }
-            set
-            {
-                _User_Check_2 = value;
-            }
-        }
 
 
     }

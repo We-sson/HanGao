@@ -170,7 +170,11 @@
                 <UC_Working:User_Control_Working Grid.Row="0" Grid.Column="1"
                                                  Uid="1"
                                                  DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_VM_1}" />
-
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Loaded">
+                        <i:InvokeCommandAction Command="{Binding Path=DataContext.User_Loaded_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UC_Working:User_Control_Working}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
 
 
             </Grid>

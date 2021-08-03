@@ -18,27 +18,29 @@ namespace 悍高软件.ViewModel
 
 
 
-            //注册消息接收
-            Messenger.Default.Register<bool?>(this, "User_Message_Show", User_UI);
-            Messenger.Default.Register<string>(this, "User_Contorl_Message_Show", User_Control);
-
-        }
 
 
 
-        /// <summary>
-        /// 接收到消息创建对应字符的消息框
-        /// </summary>
-        public void User_Control(string User)
-        {
-
-            if (User == "Use_Message")
+            // 接收到消息创建对应字符的消息框
+            Messenger.Default.Register<bool>(this, "User_Contorl_Message_Show", (_bool)=> 
             {
-                User_Message_UserControl_Show = new User_Message() { };
-
-            }
+                if (_bool)
+                {
+                    User_Message_UserControl_Show = new User_Message() {};
+                    User_Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    User_Visibility = Visibility.Collapsed;
+                    User_Message_UserControl_Show = null;
+                }
+            });
 
         }
+
+
+
+
 
 
 

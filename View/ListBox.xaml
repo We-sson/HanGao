@@ -37,9 +37,8 @@
                             Background="{TemplateBinding Background}"
                             SnapsToDevicePixels="true">
                         <ScrollViewer Padding="{TemplateBinding Padding}"
-                                      Template="{DynamicResource  ScrollViewerControlTemplate1}"
+                                      Template="{DynamicResource ScrollViewerControlTemplate1}"
                                       CanContentScroll="True"
-                                      
                                       Focusable="false">
                             <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                         </ScrollViewer>

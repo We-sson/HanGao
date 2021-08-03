@@ -278,6 +278,7 @@
     <Compile Include="Errorinfo\LogManager.cs" />
     <Compile Include="Extension Method\Enum_Method.cs" />
     <Compile Include="Model\Frame_Uri_Models.cs" />
+    <Compile Include="Model\List_Show_Models.cs" />
     <Compile Include="Model\Sink_Models.cs" />
     <Compile Include="Model\User_Features.cs" />
     <Compile Include="Model\User_Log_Models.cs" />

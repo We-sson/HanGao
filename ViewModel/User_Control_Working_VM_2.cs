@@ -11,8 +11,8 @@ namespace 悍高软件.ViewModel
     public class User_Control_Working_VM_2 : User_Control_Common
     {
 
-        public static Wroking_Models WM { get; set; }
-        public static User_Features UF { get; set; }
+        public  Wroking_Models WM { get; set; }
+        public  User_Features UF { get; set; }
         public int Work_NO { get; } = 2;
         public const string Work_String_Name= "Show_Reveice_method_Bool_2";
 
@@ -29,7 +29,7 @@ namespace 悍高软件.ViewModel
 
             WM = new Wroking_Models
             {
-                Number_Work = "2",
+                Work_NO=2,
 
             };
 
@@ -43,33 +43,7 @@ namespace 悍高软件.ViewModel
 
 
 
-        //public ICommand Work_Run_Comm
-        //{
-        //    get => new DelegateCommand<RoutedEventArgs>(Set_Work_Run);
-        //}
-        ///// <summary>
-        ///// 选择加工工位触发事件命令
-        ///// </summary>
-        //private void Set_Work_Run(RoutedEventArgs Sm)
-        //{
-        //    //把参数类型转换控件
-        //    CheckBox e = Sm.Source as CheckBox;
-        //    User_Control_Working_VM_2 S = (User_Control_Working_VM_2)e.DataContext;
-
-
-        //    //写入列表中泛型
-        //    User_Check_Write_List(2);
-        //    //功能开关信息日记输出显示
-        //    User_Features_OnOff_Log(e.IsChecked, 2, e.Content.ToString());
-
-
-
-
-
-
-
-
-        //}
+     
 
 
 

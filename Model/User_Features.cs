@@ -8,10 +8,6 @@ namespace 悍高软件.Model
     {
 
 
-
-
-
-
         private bool _Work_Connt = true;
         /// <summary>
         /// 显示是否启动加工区域计数
@@ -81,5 +77,8 @@ namespace 悍高软件.Model
 
 
 
+
+
     }
+     
 }

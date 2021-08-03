@@ -15,7 +15,9 @@ using 悍高软件.Extension_Method;
 using 悍高软件.Model;
 using 悍高软件.Socket_KUKA;
 using static Soceket_KUKA.Models.KUKA_Value_Type;
+using static Soceket_KUKA.Models.Socket_Models_Connect;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
+using static Soceket_KUKA.Socket_Receive;
 
 namespace 悍高软件.ViewModel
 {
@@ -28,13 +30,22 @@ namespace 悍高软件.ViewModel
 
 
 
+
         //Ui显示类
-        public static  Wroking_Models WM { get; set; }
+        public Wroking_Models WM { get; set; } = new Wroking_Models()
+        {
+            Work_NO = 1,
+            Work_Type = string.Empty,
+
+        };
+
+
         //功能开关类
-        public   User_Features UF { get; set; }
+        public User_Features UF { get; set; } = new User_Features();
 
 
-        public const int Work_NO= 1;
+
+
 
         /// <summary>
         /// 资源互锁
@@ -49,7 +60,17 @@ namespace 悍高软件.ViewModel
 
         //------------------属性、字段声明------------------------
 
-        public  string UserControl_Function_Reset_1 = UserControl_Function_Reset + Work_NO.ToString();
+        /// <summary>
+        /// 功能初始化，消息通道字典名称
+        /// </summary>
+        public string UserControl_Function_Reset_1 { set; get; } = UserControl_Function_Reset + Work_NO.ToString();
+
+        public static int Work_NO { set; get; } = 1;
+
+        /// <summary>
+        /// 功能设置，消息通道字典名称
+        /// </summary>
+        public string UserControl_Function_Set_1 { set; get; } = UserControl_Function_Set + Work_NO.ToString();
 
 
         /// <summary>
@@ -58,16 +79,37 @@ namespace 悍高软件.ViewModel
         public User_Control_Working_VM_1()
         {
 
-            //功能属性初始化
-            Messenger.Default.Register<bool>(this, UserControl_Function_Reset_1 , (_Bool)=>
-                {
-                   WM.Work_Run = _Bool;
-                    WM.Work_Type = "";
-                    WM.Work_Pause = _Bool;
-                    WM.Work_NullRun = _Bool;
-                    WM.Work_JumpOver = _Bool;
 
-                });
+
+
+
+            //功能属性设置
+            Messenger.Default.Register<Sink_Models>(this, UserControl_Function_Set_1, (S) =>
+            {
+
+                WM.Work_Type = S.Model_Number.ToString();
+                UF.Work_Connt = S.User_Check_1.Work_Connt;
+                UF.Work_Pause = S.User_Check_1.Work_Pause;
+                UF.Work_NullRun = S.User_Check_1.Work_NullRun;
+                UF.Work_JumpOver = S.User_Check_1.Work_JumpOver;
+
+
+            });
+
+
+
+            //功能属性初始化
+            Messenger.Default.Register<bool>(this, UserControl_Function_Reset_1, (_Bool) =>
+               {
+                   WM.Work_Run = false;
+                   WM.Work_Type = "";
+                   UF.Work_Pause = false;
+                   UF.Work_Connt = true;
+                   UF.Work_NullRun = false;
+                   UF.Work_JumpOver = false;
+
+               });
+
 
 
 
@@ -79,42 +121,70 @@ namespace 悍高软件.ViewModel
                 //互斥线程锁，保证每次只有一个线程接收消息
                 Receive_Lock.WaitOne();
 
-
-
-                //发送需要读取的变量名枚举值
-                foreach (Enum item in Enum.GetValues(typeof(Value_Name_enum)))
+                try
                 {
-                    var q = item.GetStringValue();
-                    var x = item.GetBingdingValue().BingdingValue;
-                    if (Name_Val.Val_Name == item.GetStringValue())
+
+
+
+                    //发送需要读取的变量名枚举值
+                    foreach (Enum item in Enum.GetValues(typeof(Value_Name_enum)))
                     {
+                        var q = item.GetStringValue();
+                        var x = item.GetBingdingValue().BingdingValue;
 
-                        if (item.GetBingdingValue().Binding_Start)
+                        //判断读取标记名称相同时
+                        if (Name_Val.Val_Name == item.GetStringValue())
                         {
 
-                            var a = WM.GetType().GetProperty(item.GetBingdingValue().BingdingValue).GetValue(WM).ToString();
-                            if (Name_Val.Val_Var != WM.GetType().GetProperty(item.GetBingdingValue().BingdingValue).GetValue(WM).ToString())
-                            {
-                                //属性不相同时，以软件端为首发送更改发送机器端
-                                Socket_Send.Send_Write_Var(item.GetStringValue(), a);
-                               
-                            }
-
-                        }
-                        else
-                        {
-                            if (item.GetBingdingValue().BingdingValue !="")
+                            //判断是否设置时候双向绑定
+                            if (item.GetBingdingValue().Binding_Start)
                             {
 
-                            WM.GetType().GetProperty(item.GetBingdingValue().BingdingValue).SetValue(WM, Name_Val.Val_Var);
+                                var  a = WM.GetType().GetProperty(item.GetBingdingValue().BingdingValue).GetValue(WM).ToString();
+                                //判断读取变量时候bool类型,更改类型
+                                if (item.GetBingdingValue().SetValueType == Value_Type.Bool)
+                                {
+                                    //将小写转换大写
+                                    a = a.ToUpper();
+                        
+                                }
+                                    //判断双方属性是否相同
+                                    if (Name_Val.Val_Var != a)
+                                    {
+
+                                        //属性不相同时，以软件端为首发送更改发送机器端
+                                        Socket_Send.Send_Write_Var(item.GetStringValue(), a);
+                                    }
+                              
+
+                          
+
+                             
+
                             }
-                           
+                            else
+                            {
+
+
+                                if (item.GetBingdingValue().BingdingValue != "")
+                                {
+
+                                    WM.GetType().GetProperty(item.GetBingdingValue().BingdingValue).SetValue(WM, Name_Val.Val_Var);
+                                }
+
+                            }
                         }
+
+
+
+
                     }
 
+                }
+                catch (Exception e)
+                {
 
-
-
+                    Socket_Receive_Error("Error:-30 " + e.Message);
                 }
 
 
@@ -128,20 +198,7 @@ namespace 悍高软件.ViewModel
 
 
 
-            //接收机器人端变量值
 
-
-
-            //控件启动初始化设置
-            WM = new Wroking_Models()
-            {
-                Number_Work = "1",
-                Work_Type = string.Empty,
-
-
-
-            };
-            UF = new User_Features() { };
 
 
             //属性更改事件声明
@@ -168,18 +225,9 @@ namespace 悍高软件.ViewModel
         private void WM_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
 
-            Wroking_Models WM = sender as Wroking_Models;
-
-            if (WM.Work_Type != string.Empty)
-            {
+            Wroking_Models _WM = sender as Wroking_Models;
 
 
-
-            }
-            else
-            {
-
-            }
 
 
 
@@ -215,6 +263,7 @@ namespace 悍高软件.ViewModel
             UserControl e = Sm.Source as UserControl;
             User_Control_Working_VM_1 S = (User_Control_Working_VM_1)e.DataContext;
             //写入列表中泛型
+
             User_Check_Write_List(1);
 
 

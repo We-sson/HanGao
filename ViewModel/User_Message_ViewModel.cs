@@ -25,25 +25,15 @@ namespace 悍高软件.ViewModel
 
 
 
+
+
+
+
+
         }
 
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public void User_Message_Show()
-        {
-
-
-
-
-
-            MessageBox.Show("");
-
-
-
-        }
 
 
 
@@ -101,26 +91,29 @@ namespace 悍高软件.ViewModel
             if (e.Uid.ToString() == "Yes")
             {
 
+                Messenger.Default.Send<List_Show_Models>(new List_Show_Models() { List_Show_Bool=true, List_Show_Name= User_Message_View.User_Wrok_Trye }, "List_IsCheck_Show");
+
 
                 //用户选择弹窗确定执行任务
-                Set_Work_Show();
+                //Set_Work_Show();
 
                 //清除列表中选定的状态
-                Clear_List_Check(true);
+                //Clear_List_Check(true);
 
-                //关闭弹窗
-                Messenger.Default.Send<bool?>(false, "User_Message_Show");
+
             }
             else if (e.Uid.ToString() == "No")
             {
                 //清除列表中选定的状态
-                Clear_List_Check(false);
+                //Clear_List_Check(false);
+                Messenger.Default.Send<List_Show_Models>(new List_Show_Models() { List_Show_Bool = false , List_Show_Name = User_Message_View.User_Wrok_Trye }, "List_IsCheck_Show");
 
-                //关闭弹窗
-                Messenger.Default.Send<bool?>(false, "User_Message_Show");
+
 
 
             }
+            //关闭弹窗
+            Messenger.Default.Send<bool>(false, "User_Contorl_Message_Show");
 
         }
 
@@ -176,30 +169,30 @@ namespace 悍高软件.ViewModel
         /// </summary>
         public void Set_Work_Show()
         {
-            Sink_Models S = (Sink_Models)List_Check_Control.DataContext;
+            //Sink_Models S = (Sink_Models)List_Check_Control.DataContext;
 
 
             //加工区域功能显示
-            if (List_Check_Control.Uid == "1")
-            {
-                User_Control_Working_VM_1.WM.Work_Run = false;
-                User_Control_Working_VM_1.WM.Work_Type = S.Model_Number.ToString();
-                User_Control_Working_VM_1.WM.Work_Connt = S.User_Check_1.Work_Connt;
-                User_Control_Working_VM_1.WM.Work_Pause = S.User_Check_1.Work_Pause;
-                User_Control_Working_VM_1.WM.Work_NullRun = S.User_Check_1.Work_NullRun;
-                User_Control_Working_VM_1.WM.Work_JumpOver = S.User_Check_1.Work_JumpOver;
-                User_Control_Log_ViewModel.User_Log_Add("加载" + S.Model_Number.ToString() + "型号到1号");
-            }
-            else if (List_Check_Control.Uid == "2")
-            {
-                User_Control_Working_VM_2.WM.Work_Run = false;
-                User_Control_Working_VM_2.WM.Work_Type = S.Model_Number.ToString();
-                User_Control_Working_VM_2.WM.Work_Connt = S.User_Check_2.Work_Connt;
-                User_Control_Working_VM_2.WM.Work_Pause = S.User_Check_2.Work_Pause;
-                User_Control_Working_VM_2.WM.Work_NullRun = S.User_Check_2.Work_NullRun;
-                User_Control_Working_VM_2.WM.Work_JumpOver = S.User_Check_2.Work_JumpOver;
-                User_Control_Log_ViewModel.User_Log_Add("加载" + S.Model_Number.ToString() + "型号到2号");
-            }
+            //if (List_Check_Control.Uid == "1")
+            //{
+            //    User_Control_Working_VM_1.WM.Work_Run = false;
+            //    User_Control_Working_VM_1.WM.Work_Type = S.Model_Number.ToString();
+            //    User_Control_Working_VM_1.WM.Work_Connt = S.User_Check_1.Work_Connt;
+            //    User_Control_Working_VM_1.WM.Work_Pause = S.User_Check_1.Work_Pause;
+            //    User_Control_Working_VM_1.WM.Work_NullRun = S.User_Check_1.Work_NullRun;
+            //    User_Control_Working_VM_1.WM.Work_JumpOver = S.User_Check_1.Work_JumpOver;
+            //    User_Control_Log_ViewModel.User_Log_Add("加载" + S.Model_Number.ToString() + "型号到1号");
+            //}
+            //else if (List_Check_Control.Uid == "2")
+            //{
+            //    User_Control_Working_VM_2.WM.Work_Run = false;
+            //    User_Control_Working_VM_2.WM.Work_Type = S.Model_Number.ToString();
+            //    User_Control_Working_VM_2.WM.Work_Connt = S.User_Check_2.Work_Connt;
+            //    User_Control_Working_VM_2.WM.Work_Pause = S.User_Check_2.Work_Pause;
+            //    User_Control_Working_VM_2.WM.Work_NullRun = S.User_Check_2.Work_NullRun;
+            //    User_Control_Working_VM_2.WM.Work_JumpOver = S.User_Check_2.Work_JumpOver;
+            //    User_Control_Log_ViewModel.User_Log_Add("加载" + S.Model_Number.ToString() + "型号到2号");
+            //}
 
 
 

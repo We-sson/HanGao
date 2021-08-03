@@ -121,30 +121,30 @@ namespace 悍高软件.Socket_KUKA
         /// <param name="Socket">异步参数</param>
         public static void Socket_Send_Message(IAsyncResult Socket)
         {
-            try
-            {
+            //try
+            //{
 
    
 
-            if (Global_Socket_Write.Poll(10, SelectMode.SelectError))
-            {
+            //if (Global_Socket_Write.Poll(10, SelectMode.SelectError))
+            //{
 
-                MessageBox.Show(Global_Socket_Write.Connected.ToString());
+            //    MessageBox.Show(Global_Socket_Write.Connected.ToString());
 
-            }
-            if (Global_Socket_Read.Poll(10, SelectMode.SelectError))
-            {
-                MessageBox.Show(Global_Socket_Read.Connected.ToString());
+            //}
+            //if (Global_Socket_Read.Poll(10, SelectMode.SelectError))
+            //{
+            //    MessageBox.Show(Global_Socket_Read.Connected.ToString());
 
-            }
+            //}
 
-            }
-            catch (Exception e)
-            {
+            //}
+            //catch (Exception e)
+            //{
 
-                Socket_Receive_Error("Error:-30 "+e.Message);
+            //    Socket_Receive_Error("Error:-30 "+e.Message);
 
-            }
+            //}
             //MessageBox.Show("发送完成！");
 
         }
