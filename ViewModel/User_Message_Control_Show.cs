@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Messaging;
 using PropertyChanged;
 using System.Windows;
 using System.Windows.Controls;
+using 悍高软件.Model;
 using 悍高软件.View.UserMessage;
 
 namespace 悍高软件.ViewModel
@@ -22,18 +23,19 @@ namespace 悍高软件.ViewModel
 
 
             // 接收到消息创建对应字符的消息框
-            Messenger.Default.Register<bool>(this, "User_Contorl_Message_Show", (_bool)=> 
+            Messenger.Default.Register<List_Show_Models>(this, "User_Contorl_Message_Show", (_List)=> 
             {
-                if (_bool)
+                if (_List.List_Show_Bool==Visibility.Visible)
                 {
-                    User_Message_UserControl_Show = new User_Message() {};
-                    User_Visibility = Visibility.Visible;
+                    User_Message_UserControl_Show = new User_Message() {  DataContext= new User_Message_ViewModel() { User_Wrok_Trye= _List.List_Show_Name, List_Show_Models=_List } };
+                    User_Visibility = _List.List_Show_Bool;
+
                 }
                 else
                 {
-                    User_Visibility = Visibility.Collapsed;
                     User_Message_UserControl_Show = null;
                 }
+         
             });
 
         }
@@ -49,17 +51,17 @@ namespace 悍高软件.ViewModel
         /// <summary>
         /// 通知弹窗显示
         /// </summary>
-        public void User_UI(bool? m)
-        {
-            if (m == true)
-            {
-                User_Visibility = Visibility.Visible;
-            }
-            else if (m == false)
-            {
-                User_Visibility = Visibility.Collapsed;
-            }
-        }
+        //public void User_UI(bool? m)
+        //{
+        //    if (m == true)
+        //    {
+        //        User_Visibility = Visibility.Visible;
+        //    }
+        //    else if (m == false)
+        //    {
+        //        User_Visibility = Visibility.Collapsed;
+        //    }
+        //}
 
 
 

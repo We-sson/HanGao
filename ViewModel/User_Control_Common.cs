@@ -6,6 +6,7 @@ using Soceket_Connect;
 using Soceket_KUKA.Models;
 using System;
 using System.Collections.ObjectModel;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -13,6 +14,8 @@ using 悍高软件.Extension_Method;
 using 悍高软件.Model;
 using static Soceket_KUKA.Models.KUKA_Value_Type;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
+using static 悍高软件.ViewModel.User_Control_Log_ViewModel;
+
 
 namespace 悍高软件.ViewModel
 {
@@ -20,8 +23,17 @@ namespace 悍高软件.ViewModel
     public class User_Control_Common : ViewModelBase
     {
 
-        public static  string UserControl_Function_Reset = "UserControl_Function_Reset" ;
-        public static  string UserControl_Function_Set = "UserControl_Function_Set";
+
+        #region -----属性、字段声明-----
+
+
+        public const   string UserControl_Function_Reset = "UserControl_Function_Reset" ;
+        public const   string UserControl_Function_Set = "UserControl_Function_Set";
+       
+        /// <summary>
+        /// 传递参数区域全局名称：重要！
+        /// </summary>
+        public const    string Work_String_Name_Global = "Show_Reveice_method_Bool";
 
 
         /// <summary>
@@ -75,7 +87,7 @@ namespace 悍高软件.ViewModel
             //机器人中断位置轴位置数据信息
             [StringValue("$AXIS_INT")]
             AXIS_INT,
-           //机器人移动下一个点位置距离信息
+            //机器人移动下一个点位置距离信息
             [StringValue("$DIST_NEXT")]
             DIST_NEXT,
             //机器人各轴扭矩数据信息
@@ -86,13 +98,51 @@ namespace 悍高软件.ViewModel
             PERI_RDY
         }
 
+        #endregion
 
 
+
+        #region  -----消息通知名称声明-----
+
+
+
+
+        /// <summary>
+        /// 工作区1：功能初始化，消息通道字典名称
+        /// </summary>
+        public const string UserControl_Function_Reset_1 = UserControl_Function_Reset + User_Control_Working_VM_1.Work_NO;
+
+
+        /// <summary>
+        /// 工作区1：功能设置，消息通道字典名称
+        /// </summary>
+        public const string UserControl_Function_Set_1 = UserControl_Function_Set + User_Control_Working_VM_1.Work_NO;
+
+
+        /// <summary>
+        /// 工作区2：功能初始化，消息通道字典名称
+        /// </summary>
+        public const string UserControl_Function_Reset_2 = UserControl_Function_Reset + User_Control_Working_VM_2. Work_NO;
+
+        /// <summary>
+        /// 工作区2：功能设置，消息通道字典名称
+        /// </summary>
+        public const string UserControl_Function_Set_2 = UserControl_Function_Set + User_Control_Working_VM_2.Work_NO;
+
+
+        #endregion
+
+
+
+
+
+        #region ----初始化、消息通知接收处-----
 
         public User_Control_Common()
         {
 
             //初始化
+
 
 
             //发送需要读取的变量名枚举值
@@ -103,70 +153,19 @@ namespace 悍高软件.ViewModel
             }
         }
 
+        #endregion
 
 
 
-
-
-
-
-
-
-
-
-        /// <summary>
-        /// 把功能状态写入自己泛型中
-        /// </summary>
-        public static void User_Check_Write_List(int W)
-        {
-
-            foreach (Sink_Models it in List_Show.SinkModels)
-            {
-                //if (W == 1)
-                //{
-
-
-                //    if (it.Model_Number.ToString() == User_Control_Working_VM_1.WM.Work_Type)
-                //    {
-
-                //        it.User_Check_1.Work_Pause = User_Control_Working_VM_1.WM.Work_Pause;
-                //        it.User_Check_1.Work_Connt = User_Control_Working_VM_1.WM.Work_Connt;
-                //        it.User_Check_1.Work_NullRun = User_Control_Working_VM_1.WM.Work_NullRun;
-                //        it.User_Check_1.Work_JumpOver = User_Control_Working_VM_1.WM.Work_JumpOver;
-
-                //        return;
-                //    }
-                //}
-                //else if (W == 2)
-                //{
-
-                //    if (it.Model_Number.ToString() == User_Control_Working_VM_2.WM.Work_Type)
-                //    {
-
-                //        it.User_Check_2.Work_Pause = User_Control_Working_VM_2.WM.Work_Pause;
-                //        it.User_Check_2.Work_Connt = User_Control_Working_VM_2.WM.Work_Connt;
-                //        it.User_Check_2.Work_NullRun = User_Control_Working_VM_2.WM.Work_NullRun;
-                //        it.User_Check_2.Work_JumpOver = User_Control_Working_VM_2.WM.Work_JumpOver;
-
-                //        return;
-                //    }
-
-
-
-                //}
-
-            }
-        }
-
-
+        #region -----方法体-----
 
 
         /// <summary>
         /// 功能开关日志输出
         /// </summary>
-        /// <param name="IsCheck"></param>
-        /// <param name="User"></param>
-        /// <param name="Fea"></param>
+        /// <param name="IsCheck">开关</param>
+        /// <param name="User">工作区号码</param>
+        /// <param name="Fea">功能名称</param>
         public void User_Features_OnOff_Log(bool? IsCheck, int User, string Fea)
         {
             if (IsCheck == true)
@@ -226,25 +225,10 @@ namespace 悍高软件.ViewModel
                 //把参数类型转换控件
                 CheckBox e = Sm.Source as CheckBox;
                 //
+                dynamic  S = e.DataContext;
 
-
-                dynamic Data = Log_Work_data( Sm);
-
-
-
-                //e.IsChecked = true;
-
-
-
-
-
-
-
-
-
-
-
-
+                
+                var a = this.GetType().GetProperty("WM").GetValue(this );
 
 
 
@@ -253,7 +237,112 @@ namespace 悍高软件.ViewModel
             });
         }
 
+        /// <summary>
+        /// 加工区域加载事件命令
+        /// </summary>
+        public ICommand User_Loaded_Comm
+        {
+            get => new DelegateCommand<RoutedEventArgs>((Sm)=> 
+            {
+            
+            //把参数类型转换控件
+            UserControl e = Sm.Source as UserControl;
 
+                dynamic S = e.DataContext;
+
+
+                var a = this.GetType().GetProperty("WM").GetValue(this);
+            });
+        }
+
+
+        /// <summary>
+        /// 加工区域计数事件命令
+        /// </summary>
+        public ICommand Work_Connt_Comm
+        {
+            get => new DelegateCommand<RoutedEventArgs>((Sm)=> 
+            {
+                //把参数类型转换控件
+                CheckBox e = Sm.Source as CheckBox;
+                dynamic S = e.DataContext;
+
+
+                var a = this.GetType().GetProperty("WM").GetValue(this);
+            });
+        }
+
+
+
+
+
+
+        /// <summary>
+        /// 加工区域空运事件命令
+        /// </summary>
+        public ICommand Work_NullRun_Comm
+        {
+            get => new DelegateCommand<RoutedEventArgs>((Sm)=> 
+            {
+                //把参数类型转换控件
+                CheckBox e = Sm.Source as CheckBox;
+                dynamic S = e.DataContext;
+
+
+                var a = this.GetType().GetProperty("WM").GetValue(this);
+            });
+        }
+
+
+
+
+
+
+
+        /// <summary>
+        /// 加工区域暂停事件命令
+        /// </summary>
+        public ICommand Work_Pause_Comm
+        {
+            get => new DelegateCommand<RoutedEventArgs>((Sm)=> 
+            {
+                //把参数类型转换控件
+                CheckBox e = Sm.Source as CheckBox;
+                dynamic S = e.DataContext;
+
+
+                var a = this.GetType().GetProperty("WM").GetValue(this);
+
+            });
+        }
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// 加工区域跳过事件命令
+        /// </summary>
+        public ICommand Work_JumpOver_Comm
+        {
+            get => new DelegateCommand<RoutedEventArgs>((Sm)=> 
+            {
+                //把参数类型转换控件
+                CheckBox e = Sm.Source as CheckBox;
+                dynamic S = e.DataContext;
+
+
+                var a = this.GetType().GetProperty("WM").GetValue(this);
+
+            });
+        }
+
+
+
+        #endregion
 
     }
 }

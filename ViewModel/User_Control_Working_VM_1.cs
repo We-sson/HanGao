@@ -18,6 +18,8 @@ using static Soceket_KUKA.Models.KUKA_Value_Type;
 using static Soceket_KUKA.Models.Socket_Models_Connect;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
 using static Soceket_KUKA.Socket_Receive;
+using static 悍高软件.ViewModel.User_Control_Log_ViewModel;
+
 
 namespace 悍高软件.ViewModel
 {
@@ -34,7 +36,7 @@ namespace 悍高软件.ViewModel
         //Ui显示类
         public Wroking_Models WM { get; set; } = new Wroking_Models()
         {
-            Work_NO = 1,
+            Work_NO = int.Parse( Work_NO),
             Work_Type = string.Empty,
 
         };
@@ -43,34 +45,22 @@ namespace 悍高软件.ViewModel
         //功能开关类
         public User_Features UF { get; set; } = new User_Features();
 
-
-
-
+        /// <summary>
+        /// 工作区号
+        /// </summary>
+        public const   string   Work_NO= "1";
 
         /// <summary>
         /// 资源互锁
         /// </summary>
         public static Mutex Receive_Lock = new Mutex();
 
-
         /// <summary>
-        /// 传递参数区域名称：重要！
+        /// 工作区1：传递参数区域名称：重要！
         /// </summary>
-        public const string Work_String_Name = "Show_Reveice_method_Bool_1";
+        public const string Work_String_Name = Work_String_Name_Global + Work_NO;
 
-        //------------------属性、字段声明------------------------
 
-        /// <summary>
-        /// 功能初始化，消息通道字典名称
-        /// </summary>
-        public string UserControl_Function_Reset_1 { set; get; } = UserControl_Function_Reset + Work_NO.ToString();
-
-        public static int Work_NO { set; get; } = 1;
-
-        /// <summary>
-        /// 功能设置，消息通道字典名称
-        /// </summary>
-        public string UserControl_Function_Set_1 { set; get; } = UserControl_Function_Set + Work_NO.ToString();
 
 
         /// <summary>
@@ -78,7 +68,7 @@ namespace 悍高软件.ViewModel
         /// </summary>
         public User_Control_Working_VM_1()
         {
-
+          
 
 
 
@@ -87,11 +77,15 @@ namespace 悍高软件.ViewModel
             Messenger.Default.Register<Sink_Models>(this, UserControl_Function_Set_1, (S) =>
             {
 
+
+                WM.Work_Run = false;
                 WM.Work_Type = S.Model_Number.ToString();
                 UF.Work_Connt = S.User_Check_1.Work_Connt;
                 UF.Work_Pause = S.User_Check_1.Work_Pause;
                 UF.Work_NullRun = S.User_Check_1.Work_NullRun;
                 UF.Work_JumpOver = S.User_Check_1.Work_JumpOver;
+                User_Log_Add("加载" + S.Wroking_Models_ListBox.Work_Type + "型号到" +WM.Number_Work + "号");
+
 
 
             });
@@ -107,6 +101,8 @@ namespace 悍高软件.ViewModel
                    UF.Work_Connt = true;
                    UF.Work_NullRun = false;
                    UF.Work_JumpOver = false;
+
+                   User_Log_Add("卸载" + WM.Number_Work+ "号的加工型号" );
 
                });
 
@@ -235,11 +231,6 @@ namespace 悍高软件.ViewModel
 
         }
 
-        public void Show_Robot_inf(object _Obj)
-        {
-            Socket_Models_List[] Name_Val = _Obj as Socket_Models_List[];
-
-        }
 
 
 
@@ -250,122 +241,7 @@ namespace 悍高软件.ViewModel
 
 
 
-        public ICommand User_Loaded_Comm
-        {
-            get => new DelegateCommand<RoutedEventArgs>(User_Loaded);
-        }
-        /// <summary>
-        /// 加工区域加载事件命令
-        /// </summary>
-        private void User_Loaded(RoutedEventArgs Sm)
-        {
-            //把参数类型转换控件
-            UserControl e = Sm.Source as UserControl;
-            User_Control_Working_VM_1 S = (User_Control_Working_VM_1)e.DataContext;
-            //写入列表中泛型
-
-            User_Check_Write_List(1);
-
-
-
-        }
-
-        public ICommand Work_Connt_Comm
-        {
-            get => new DelegateCommand<RoutedEventArgs>(User_Work_Conn);
-        }
-        /// <summary>
-        /// 加工区域计数事件命令
-        /// </summary>
-        private void User_Work_Conn(RoutedEventArgs Sm)
-        {
-            //把参数类型转换控件
-            CheckBox e = Sm.Source as CheckBox;
-            User_Control_Working_VM_1 S = (User_Control_Working_VM_1)e.DataContext;
-            //写入列表中泛型
-            User_Check_Write_List(1);
-            //功能开关信息日记输出显示
-            User_Features_OnOff_Log(e.IsChecked, 1, e.Content.ToString());
-
-
-        }
-
-
-
-
-        public ICommand Work_NullRun_Comm
-        {
-            get => new DelegateCommand<RoutedEventArgs>(User_Work_NullRun);
-        }
-        /// <summary>
-        /// 加工区域空运事件命令
-        /// </summary>
-        private void User_Work_NullRun(RoutedEventArgs Sm)
-        {
-            //把参数类型转换控件
-            CheckBox e = Sm.Source as CheckBox;
-            User_Control_Working_VM_1 S = (User_Control_Working_VM_1)e.DataContext;
-            //写入列表中泛型
-            User_Check_Write_List(1);
-            //功能开关信息日记输出显示
-            User_Features_OnOff_Log(e.IsChecked, 1, e.Content.ToString());
-
-
-
-
-        }
-
-
-
-
-
-
-        public ICommand Work_Pause_Comm
-        {
-            get => new DelegateCommand<RoutedEventArgs>(User_Work_Pause);
-        }
-        /// <summary>
-        /// 加工区域暂停事件命令
-        /// </summary>
-        private void User_Work_Pause(RoutedEventArgs Sm)
-        {
-            //把参数类型转换控件
-            CheckBox e = Sm.Source as CheckBox;
-            User_Control_Working_VM_1 S = (User_Control_Working_VM_1)e.DataContext;
-            //写入列表中泛型
-            User_Check_Write_List(1);
-            //功能开关信息日记输出显示
-            User_Features_OnOff_Log(e.IsChecked, 1, e.Content.ToString());
-
-
-
-
-        }
-
-
-
-
-
-
-
-        public ICommand Work_JumpOver_Comm
-        {
-            get => new DelegateCommand<RoutedEventArgs>(User_Work_JumpOver);
-        }
-        /// <summary>
-        /// 加工区域跳过事件命令
-        /// </summary>
-        private void User_Work_JumpOver(RoutedEventArgs Sm)
-        {
-            //把参数类型转换控件
-            CheckBox e = Sm.Source as CheckBox;
-            User_Control_Working_VM_1 S = (User_Control_Working_VM_1)e.DataContext;
-            //写入列表中泛型
-            User_Check_Write_List(1);
-            //功能开关信息日记输出显示
-            User_Features_OnOff_Log(e.IsChecked, 1, e.Content.ToString());
-
-        }
+       
 
         //------------------方法体------------------------
 

@@ -9,16 +9,15 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using 悍高软件.Model ;
-using static 悍高软件.Model.Sink_Models;
+using 悍高软件.Model;
+using 悍高软件.View.UserMessage;
 using static Soceket_Connect.Socket_Connect;
 using static Soceket_KUKA.Models.Socket_Models_Connect;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
+using static 悍高软件.Model.Sink_Models;
+using static 悍高软件.ViewModel.User_Control_Common;
 using static 悍高软件.ViewModel.User_Control_Log_ViewModel;
 using static 悍高软件.ViewModel.UserControl_Right_Socket_Connection_ViewModel;
-using static 悍高软件.ViewModel.User_Control_Common;
-
-
 
 namespace 悍高软件.ViewModel
 {
@@ -29,7 +28,7 @@ namespace 悍高软件.ViewModel
         {
             //注册接收消息
 
-            
+
 
             SinkModels = new ObservableCollection<Sink_Models>
             {
@@ -37,33 +36,57 @@ namespace 悍高软件.ViewModel
 
                 new Sink_Models() { Model_Number = 953212, Photo_ico =((int)Photo_enum.普通双盆).ToString(), } ,
                 new Sink_Models() { Model_Number = 952172, Photo_ico = ((int)Photo_enum.左右单盆).ToString()} ,
+                 new Sink_Models() { Model_Number = 952173, Photo_ico = ((int)Photo_enum.左右单盆).ToString()} ,
                 new Sink_Models() { Model_Number = 952127, Photo_ico = ((int)Photo_enum.普通双盆).ToString(), } ,
                 new Sink_Models() { Model_Number = 952128, Photo_ico = ((int)Photo_enum.普通双盆).ToString(), } ,
-                new Sink_Models() { Model_Number = 952119, Photo_ico = ((int)Photo_enum.左右单盆).ToString(), } ,
+                new Sink_Models() { Model_Number = 952333, Photo_ico = ((int)Photo_enum.普通单盆).ToString(), } ,
                 new Sink_Models() { Model_Number = 901253, Photo_ico = ((int)Photo_enum.普通双盆).ToString(), } ,
-                new Sink_Models() { Model_Number = 953212, Photo_ico =((int)Photo_enum.普通双盆).ToString(), } ,
-                new Sink_Models() { Model_Number = 952172, Photo_ico = ((int)Photo_enum.左右单盆).ToString()} ,
-                new Sink_Models() { Model_Number = 952127, Photo_ico = ((int)Photo_enum.普通双盆).ToString(), } ,
-                new Sink_Models() { Model_Number = 952128, Photo_ico = ((int)Photo_enum.普通双盆).ToString(), } ,
                 new Sink_Models() { Model_Number = 952119, Photo_ico = ((int)Photo_enum.左右单盆).ToString(), } ,
-                new Sink_Models() { Model_Number = 901253, Photo_ico = ((int)Photo_enum.普通双盆).ToString(), } ,
             };
 
 
-            Messenger.Default.Register<List_Show_Models>(this, "List_IsCheck_Show", (_List) => 
+            //根据用户选择做出相应的动作
+            Messenger.Default.Register<List_Show_Models>(this, "List_IsCheck_Show", (_List) =>
             {
 
                 foreach (var item in SinkModels)
                 {
-                    if (item.Model_Number.ToString()== _List.List_Show_Name)
+                    if (item.Model_Number.ToString() == _List.List_Show_Name)
                     {
+                        if (_List.User_Check == "Yes")
+                        {
 
-                        item.List_IsChecked_1 = _List.List_Show_Bool;
-                        
+                            //传输确定更换型号的参数到控件显示
+                            var aa = UserControl_Function_Set + _List.List_Chick_NO;
+                            Messenger.Default.Send<Sink_Models>(_List.Model, aa);
+
+                            //清楚非选择控件
+                            foreach (var SinkModel in SinkModels)
+                            {
+                                if (SinkModel.Model_Number.ToString() != _List.List_Show_Name)
+                                {
+                                    SinkModel.GetType().GetProperty("List_IsChecked_" + _List.List_Chick_NO).SetValue(SinkModel, false);
+
+                                }
+                            }
+
+
+                        }
+                        else if (_List.User_Check == "No")
+                        {
+
+                            // 清除控件选定
+                            item.GetType().GetProperty("List_IsChecked_" + _List.List_Chick_NO).SetValue(item, false);
+
+                        }
+
+                        //清楚弹窗
+                        Messenger.Default.Send<List_Show_Models>(new List_Show_Models() { List_Show_Bool = Visibility.Collapsed }, "User_Contorl_Message_Show");
+
                     }
 
                 }
-            
+
             });
 
 
@@ -88,8 +111,8 @@ namespace 悍高软件.ViewModel
         /// </summary>
         public ICommand Find_List_event
         {
-           
-            get => new DelegateCommand<String>((ob)=> 
+
+            get => new DelegateCommand<String>((ob) =>
             {
                 for (int i = 0; i < SinkModels.Count; i++)
                 {
@@ -114,27 +137,27 @@ namespace 悍高软件.ViewModel
         /// 筛选显示List内容方法
         /// </summary>
         /// <param name="ob"></param>
-        //private void Find_List(String ob)
-        //{
-        //    for (int i = 0; i < SinkModels.Count; i++)
-        //    {
+        private void Find_List(String ob)
+        {
+            for (int i = 0; i < SinkModels.Count; i++)
+            {
 
-        //        String Num = SinkModels[i].Model_Number.ToString();
-        //        //MessageBox.Show(SinkModels[i].Model_Number.ToString());
+                String Num = SinkModels[i].Model_Number.ToString();
+                //MessageBox.Show(SinkModels[i].Model_Number.ToString());
 
-        //        if (Num.IndexOf(ob) == -1)
-        //        {
-        //            SinkModels[i].List_Show = "Collapsed";
-        //        }
-        //        else if (Num.IndexOf(ob) == 0)
-        //        {
-        //            SinkModels[i].List_Show = "Visible";
-        //        }
-        //    }
+                if (Num.IndexOf(ob) == -1)
+                {
+                    SinkModels[i].List_Show = "Collapsed";
+                }
+                else if (Num.IndexOf(ob) == 0)
+                {
+                    SinkModels[i].List_Show = "Visible";
+                }
+            }
 
 
 
-        //}
+        }
 
 
         /// <summary>
@@ -170,15 +193,20 @@ namespace 悍高软件.ViewModel
         /// </summary>
         public ICommand Set_Working_Comm
         {
-            get => new DelegateCommand<RoutedEventArgs>((Sm)=> 
+            get => new DelegateCommand<RoutedEventArgs>((Sm) =>
             {
                 //把参数类型转换控件
                 CheckBox e = Sm.Source as CheckBox;
 
                 Sink_Models S = (Sink_Models)e.DataContext;
 
+                var g = this.GetType();
+
+                //写入工位触发工号
+                S.Trigger_Work_NO = e.Uid;
+
                 //添加弹窗提示用户连接下位机通讯
-                if (!Global_Socket_Read.Connected && !Global_Socket_Write.Connected) { e.IsChecked = false; return;  }
+                if (!Global_Socket_Read.Connected && !Global_Socket_Write.Connected) { e.IsChecked = false; return; }
 
                 S.Wroking_Models_ListBox.Work_Type = S.Model_Number.ToString();
 
@@ -190,55 +218,47 @@ namespace 悍高软件.ViewModel
 
                 if (e.IsChecked == true)
                 {
-                    
+
 
                     //判断是都有多个添加到加工区域
                     if (SinkModels.Count(o => o.List_IsChecked_1 == true) > 1 || SinkModels.Count(o => o.List_IsChecked_2 == true) > 1)
                     {
+
+
+
                         //消息通知初始化一个消息内容显示
-                        Messenger.Default.Send<bool>(true , "User_Contorl_Message_Show");
-
-
-                        //初始化用户弹窗确定,显示加工区域型号传入弹窗
-                        Messenger.Default.Send<string>(S.Model_Number.ToString(), "User_Message_Work_Type");
-
-
-
+                        Messenger.Default.Send<List_Show_Models>(new List_Show_Models() { Model = S, List_Show_Bool = Visibility.Visible, List_Show_Name = S.Model_Number.ToString(), List_Chick_NO = e.Uid, Message_Control = new User_Message() }, "User_Contorl_Message_Show");
 
 
                         return;
-
 
                     }
 
 
 
+                    //发送用户选择加工型号到加工区显示
                     var aa = UserControl_Function_Set + e.Uid;
-                        Messenger.Default.Send<Sink_Models>(S, aa);
-                    User_Log_Add("加载" + S.Model_Number.ToString() + "型号到"+ e.Uid + "号");
-
-
+                    Messenger.Default.Send<Sink_Models>(S, UserControl_Function_Set + e.Uid);
 
                 }
                 else
                 {
-     
 
 
-                        //清空加工区功能状态显示
-                        var a = UserControl_Function_Reset + e.Uid;
-                        Messenger.Default.Send<bool>(false , a);
+
+                    //清空加工区功能状态显示
+                    var a = UserControl_Function_Reset + e.Uid;
+                    Messenger.Default.Send<bool>(false, UserControl_Function_Reset + e.Uid);
 
 
-                 
-                        User_Log_Add("卸载"+ e.Uid + "号的" + S.Model_Number.ToString() + "型号");
 
-            
+
+
 
 
                 }
 
-            
+
 
 
 

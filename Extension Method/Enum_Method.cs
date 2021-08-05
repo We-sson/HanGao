@@ -29,7 +29,7 @@ namespace 悍高软件.Extension_Method
     public class UserAreaAttribute : Attribute
     {
         public string  UserArea { set; get; }
-        internal UserAreaAttribute(string  value)
+        internal UserAreaAttribute(  string  value)
         {
             UserArea = value;
         }

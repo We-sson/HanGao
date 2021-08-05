@@ -54,18 +54,18 @@ namespace 悍高软件.Model
 
 
                 //加工区号非空时
-                if (_Number_Work != "")
+                if (Work_NO != 0)
                 {
                     //将显示的水槽型号发送到kuka端，同时修改显示颜色
                     if (Work_Type == "#ERROR")
                     {
-                        Socket_Send.Send_Write_Var("$my_work_" + _Number_Work, "#ERROR");
+                        Socket_Send.Send_Write_Var("$my_work_" + Work_NO, "#ERROR");
 
                         Work_back = "#E3E3E3";
                     }
                     else if (Work_Type != "#ERROR")
                     {
-                        Socket_Send.Send_Write_Var("$my_work_" + _Number_Work, Work_Type);
+                        Socket_Send.Send_Write_Var("$my_work_" + Work_NO, Work_Type);
 
                         Work_back = "#F4D160";
 

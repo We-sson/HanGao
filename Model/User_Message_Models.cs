@@ -16,7 +16,7 @@ namespace 悍高软件.Model
         }
 
 
-        private string _User_Message_Visibility = "Collapsed";
+
         /// <summary>
         /// 弹窗是否显示出来
         ///Visible 显示元素。
@@ -26,17 +26,8 @@ namespace 悍高软件.Model
         ///Collapsed 不显示元素，并且不在布局中为它保留空间。
         ///
         /// </summary>
-        public string User_Message_Visibility
-        {
-            get
-            {
-                return _User_Message_Visibility;
-            }
-            set
-            {
-                _User_Message_Visibility = value;
-            }
-        }
+        public Visibility User_Message_Visibility { set; get; } = Visibility.Collapsed;
+
 
 
 
@@ -60,21 +51,7 @@ namespace 悍高软件.Model
 
 
 
-        private Window _User_Window;
-        /// <summary>
-        /// 弹窗加载存放属性
-        /// </summary>
-        public Window User_Window
-        {
-            get
-            {
-                return _User_Window;
-            }
-            set
-            {
-                _User_Window = value;
-            }
-        }
+
 
 
 

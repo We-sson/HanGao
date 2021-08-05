@@ -34,8 +34,7 @@
 
             <Grid Grid.Row="0" Margin="0,-50,0,0">
 
-                <TextBlock x:Name="textBlock"
-                           Text="&#xea76;"
+                <TextBlock Text="&#xea76;"
                            Margin="0,10,0,0"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Stretch"
@@ -49,8 +48,7 @@
 
             </Grid>
             <Grid Grid.Row="0">
-                <TextBlock x:Name="Tb2"
-                           Text="提示信息" Margin="0,0,0,0"
+                <TextBlock Text="提示信息" Margin="0,0,0,0"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Bottom"
                            Foreground="#f05454" FontSize="46" />
@@ -61,9 +59,7 @@
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
                     <TextBlock Text="" VerticalAlignment="Center"
                                Foreground="Gray" FontSize="30" />
-                    <TextBlock x:Name="TB"
-                               Text="{Binding User_Message_View.User_Wrok_Trye, Mode=TwoWay}"
-                               Foreground="#f05454" FontSize="40" />
+                    <TextBlock Text="{Binding User_Wrok_Trye, Mode=TwoWay, FallbackValue=00000}" Foreground="#f05454" FontSize="40" />
                 </StackPanel>
 
 

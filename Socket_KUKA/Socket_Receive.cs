@@ -217,7 +217,8 @@ namespace Soceket_KUKA
 
 
                             //更新参数值
-                            if (Socket_Read_List[i].Val_Var != Message_Show)
+                            var a = Socket_Read_List[i].Val_Var;
+                            if (a != Message_Show)
                             {
 
 

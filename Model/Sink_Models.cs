@@ -102,21 +102,11 @@ namespace 悍高软件.Model
 
 
 
-        private Wroking_Models _Wroking_Models_ListBox = new Wroking_Models() { };
         /// <summary>
         /// 列表中水槽的保存参数
         /// </summary>
-        public Wroking_Models Wroking_Models_ListBox
-        {
-            get
-            {
-                return _Wroking_Models_ListBox;
-            }
-            set
-            {
-                _Wroking_Models_ListBox = value;
-            }
-        }
+        public  Wroking_Models Wroking_Models_ListBox = new Wroking_Models() { };
+ 
 
         private User_Features _User_Check_1 = new User_Features() { };
         /// <summary>
@@ -179,7 +169,7 @@ namespace 悍高软件.Model
 
 
 
-
+        public string Trigger_Work_NO { set; get; } = "0";
 
 
 

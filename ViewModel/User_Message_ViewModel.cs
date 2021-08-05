@@ -14,12 +14,26 @@ namespace 悍高软件.ViewModel
     public class User_Message_ViewModel : ViewModelBase
     {
 
+        /// <summary>
+        /// 弹窗显示加工区域已存在型号
+        /// </summary>
+        public string User_Wrok_Trye { set; get; }
+
+
+
+        /// <summary>
+        /// 接收列表传来的控件
+        /// </summary>
+        public static CheckBox List_Check_Control { set; get; }
+
+
+
         public User_Message_ViewModel()
         {
 
 
             // 显示弹窗信息型号
-            Messenger.Default.Register<string>(this, "User_Message_Work_Type", (Type) => { User_Message_View.User_Wrok_Trye = Type; });
+            //Messenger.Default.Register<string>(this, "User_Message_Work_Type", (Type) => { User_Message_View.User_Wrok_Trye = Type; });
 
 
 
@@ -38,8 +52,8 @@ namespace 悍高软件.ViewModel
 
 
 
-
-
+        //参数传递记录
+        public List_Show_Models List_Show_Models { set; get; } = new List_Show_Models();
 
 
 
@@ -84,36 +98,16 @@ namespace 悍高软件.ViewModel
             Button e = Sm.Source as Button;
             User_Message_ViewModel S = (User_Message_ViewModel)e.DataContext;
 
-            //Messenger.Default.Send<User_Message_ViewModel>(S, "User_DataContexr");
 
 
 
-            if (e.Uid.ToString() == "Yes")
-            {
+            //记录用户选择的是或否
+            List_Show_Models.User_Check = e.Uid.ToString();
 
-                Messenger.Default.Send<List_Show_Models>(new List_Show_Models() { List_Show_Bool=true, List_Show_Name= User_Message_View.User_Wrok_Trye }, "List_IsCheck_Show");
-
-
-                //用户选择弹窗确定执行任务
-                //Set_Work_Show();
-
-                //清除列表中选定的状态
-                //Clear_List_Check(true);
-
-
-            }
-            else if (e.Uid.ToString() == "No")
-            {
-                //清除列表中选定的状态
-                //Clear_List_Check(false);
-                Messenger.Default.Send<List_Show_Models>(new List_Show_Models() { List_Show_Bool = false , List_Show_Name = User_Message_View.User_Wrok_Trye }, "List_IsCheck_Show");
+            Messenger.Default.Send<List_Show_Models>(List_Show_Models, "List_IsCheck_Show");
 
 
 
-
-            }
-            //关闭弹窗
-            Messenger.Default.Send<bool>(false, "User_Contorl_Message_Show");
 
         }
 
@@ -123,35 +117,7 @@ namespace 悍高软件.ViewModel
         /// </summary>
         public void Clear_List_Check(bool OnOff)
         {
-            foreach (var i in List_Show.SinkModels)
-            {
-                if ((User_Message_View.User_Wrok_Trye == i.Model_Number.ToString()) && OnOff == false)
-                {
-                    if (List_Check_Control.Uid == "1")
-                    {
-                        i.List_IsChecked_1 = false;
 
-                    }
-                    else if (List_Check_Control.Uid == "2")
-                    {
-                        i.List_IsChecked_2 = false;
-                    }
-                }
-                else if (User_Message_View.User_Wrok_Trye != i.Model_Number.ToString() && (i.List_IsChecked_1 == true || i.List_IsChecked_2 == true) && OnOff == true)
-                {
-                    if (List_Check_Control.Uid == "1")
-                    {
-                        i.List_IsChecked_1 = false;
-
-                    }
-                    else if (List_Check_Control.Uid == "2")
-                    {
-                        i.List_IsChecked_2 = false;
-                    }
-                }
-
-
-            }
         }
 
 
@@ -169,31 +135,6 @@ namespace 悍高软件.ViewModel
         /// </summary>
         public void Set_Work_Show()
         {
-            //Sink_Models S = (Sink_Models)List_Check_Control.DataContext;
-
-
-            //加工区域功能显示
-            //if (List_Check_Control.Uid == "1")
-            //{
-            //    User_Control_Working_VM_1.WM.Work_Run = false;
-            //    User_Control_Working_VM_1.WM.Work_Type = S.Model_Number.ToString();
-            //    User_Control_Working_VM_1.WM.Work_Connt = S.User_Check_1.Work_Connt;
-            //    User_Control_Working_VM_1.WM.Work_Pause = S.User_Check_1.Work_Pause;
-            //    User_Control_Working_VM_1.WM.Work_NullRun = S.User_Check_1.Work_NullRun;
-            //    User_Control_Working_VM_1.WM.Work_JumpOver = S.User_Check_1.Work_JumpOver;
-            //    User_Control_Log_ViewModel.User_Log_Add("加载" + S.Model_Number.ToString() + "型号到1号");
-            //}
-            //else if (List_Check_Control.Uid == "2")
-            //{
-            //    User_Control_Working_VM_2.WM.Work_Run = false;
-            //    User_Control_Working_VM_2.WM.Work_Type = S.Model_Number.ToString();
-            //    User_Control_Working_VM_2.WM.Work_Connt = S.User_Check_2.Work_Connt;
-            //    User_Control_Working_VM_2.WM.Work_Pause = S.User_Check_2.Work_Pause;
-            //    User_Control_Working_VM_2.WM.Work_NullRun = S.User_Check_2.Work_NullRun;
-            //    User_Control_Working_VM_2.WM.Work_JumpOver = S.User_Check_2.Work_JumpOver;
-            //    User_Control_Log_ViewModel.User_Log_Add("加载" + S.Model_Number.ToString() + "型号到2号");
-            //}
-
 
 
 
@@ -206,38 +147,6 @@ namespace 悍高软件.ViewModel
 
 
 
-        private User_Message_Models _User_Message_View = new User_Message_Models();
-        /// <summary>
-        /// 弹窗显示加工区域已存在型号
-        /// </summary>
-        public User_Message_Models User_Message_View
-        {
-            get
-            {
-                return _User_Message_View;
-            }
-            set
-            {
-                _User_Message_View = value;
-            }
-        }
-
-
-        private static CheckBox _List_Check_Control;
-        /// <summary>
-        /// 接收列表传来的控件
-        /// </summary>
-        public static CheckBox List_Check_Control
-        {
-            get
-            {
-                return _List_Check_Control;
-            }
-            set
-            {
-                _List_Check_Control = value;
-            }
-        }
 
 
 

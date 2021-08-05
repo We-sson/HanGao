@@ -1,9 +1,24 @@
-﻿using Prism.Commands;
+﻿using GalaSoft.MvvmLight.Messaging;
+using Prism.Commands;
 using PropertyChanged;
+using Soceket_KUKA.Models;
+using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Globalization;
+using System.Reflection;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using 悍高软件.Extension_Method;
 using 悍高软件.Model;
+using 悍高软件.Socket_KUKA;
+using static Soceket_KUKA.Models.KUKA_Value_Type;
+using static Soceket_KUKA.Models.Socket_Models_Connect;
+using static Soceket_KUKA.Models.Socket_Models_Receive;
+using static Soceket_KUKA.Socket_Receive;
+using static 悍高软件.ViewModel.User_Control_Log_ViewModel;
 
 namespace 悍高软件.ViewModel
 {
@@ -11,10 +26,34 @@ namespace 悍高软件.ViewModel
     public class User_Control_Working_VM_2 : User_Control_Common
     {
 
-        public  Wroking_Models WM { get; set; }
-        public  User_Features UF { get; set; }
-        public int Work_NO { get; } = 2;
-        public const string Work_String_Name= "Show_Reveice_method_Bool_2";
+        public Wroking_Models WM { get; set; } = new Wroking_Models() { Work_NO =int.Parse(Work_NO) };
+
+
+        //功能开关类
+        public User_Features UF { get; set; } = new User_Features();
+
+
+        /// <summary>
+        /// 资源互锁
+        /// </summary>
+        public static Mutex Receive_Lock = new Mutex();
+
+
+        /// <summary>
+        /// 传递参数区域名称：重要！
+        /// </summary>
+        public const    string Work_String_Name = Work_String_Name_Global + Work_NO;
+
+
+        //------------------属性、字段声明------------------------
+
+
+        /// <summary>
+        /// 工作区号
+        /// </summary>
+        public const  string  Work_NO = "2";
+
+
 
 
         /// <summary>
@@ -24,19 +63,48 @@ namespace 悍高软件.ViewModel
         {
 
 
-
-
-
-            WM = new Wroking_Models
-            {
-                Work_NO=2,
-
-            };
-
-            UF = new User_Features
+            //功能属性设置
+            Messenger.Default.Register<Sink_Models>(this, UserControl_Function_Set_2, (S) =>
             {
 
-            };
+
+                WM.Work_Run = false;
+                WM.Work_Type = S.Model_Number.ToString();
+                UF.Work_Connt = S.User_Check_2.Work_Connt;
+                UF.Work_Pause = S.User_Check_2.Work_Pause;
+                UF.Work_NullRun = S.User_Check_2.Work_NullRun;
+                UF.Work_JumpOver = S.User_Check_2.Work_JumpOver;
+                User_Log_Add("加载" + S.Wroking_Models_ListBox.Work_Type + "型号到" + WM.Number_Work + "号");
+
+
+
+            });
+
+
+
+            //功能属性初始化
+            Messenger.Default.Register<bool>(this, UserControl_Function_Reset_2, (_Bool) =>
+            {
+                WM.Work_Run = false;
+                WM.Work_Type = "";
+                UF.Work_Pause = false;
+                UF.Work_Connt = true;
+                UF.Work_NullRun = false;
+                UF.Work_JumpOver = false;
+
+                User_Log_Add("卸载" + WM.Number_Work + "号的加工型号");
+
+            });
+
+
+
+
+            //接收读取集合内的值方法
+            Messenger.Default.Register<Socket_Models_List>(this, Work_String_Name, (Name_Val) =>
+            {
+
+
+            });
         }
 
 
@@ -48,117 +116,7 @@ namespace 悍高软件.ViewModel
 
 
 
-        public ICommand User_Loaded_Comm
-        {
-            get => new DelegateCommand<RoutedEventArgs>(User_Loaded);
-        }
-        /// <summary>
-        /// 加工区域加载事件命令
-        /// </summary>
-        private void User_Loaded(RoutedEventArgs Sm)
-        {
-            //把参数类型转换控件
-            UserControl e = Sm.Source as UserControl;
-            User_Control_Working_VM_2 S = (User_Control_Working_VM_2)e.DataContext;
-            //写入列表中泛型
-            User_Check_Write_List(2);
-
-
-
-
-        }
-
-        public ICommand Work_Connt_Comm
-        {
-            get => new DelegateCommand<RoutedEventArgs>(User_Work_Conn);
-        }
-        /// <summary>
-        /// 加工区域计数事件命令
-        /// </summary>
-        private void User_Work_Conn(RoutedEventArgs Sm)
-        {
-            //把参数类型转换控件
-            CheckBox e = Sm.Source as CheckBox;
-            User_Control_Working_VM_2 S = (User_Control_Working_VM_2)e.DataContext;
-            //写入列表中泛型
-            User_Check_Write_List(2);
-            //功能开关信息日记输出显示
-            User_Features_OnOff_Log(e.IsChecked, 2, e.Content.ToString());
-
-        }
-
-
-
-
-        public ICommand Work_NullRun_Comm
-        {
-            get => new DelegateCommand<RoutedEventArgs>(User_Work_NullRun);
-        }
-        /// <summary>
-        /// 加工区域空运事件命令
-        /// </summary>
-        private void User_Work_NullRun(RoutedEventArgs Sm)
-        {
-            //把参数类型转换控件
-            CheckBox e = Sm.Source as CheckBox;
-            User_Control_Working_VM_2 S = (User_Control_Working_VM_2)e.DataContext;
-            //写入列表中泛型
-            User_Check_Write_List(2);
-            //功能开关信息日记输出显示
-            User_Features_OnOff_Log(e.IsChecked, 2, e.Content.ToString());
-
-
-        }
-
-
-
-
-
-
-        public ICommand Work_Pause_Comm
-        {
-            get => new DelegateCommand<RoutedEventArgs>(User_Work_Pause);
-        }
-        /// <summary>
-        /// 加工区域暂停事件命令
-        /// </summary>
-        private void User_Work_Pause(RoutedEventArgs Sm)
-        {
-            //把参数类型转换控件
-            CheckBox e = Sm.Source as CheckBox;
-            User_Control_Working_VM_2 S = (User_Control_Working_VM_2)e.DataContext;
-            //写入列表中泛型
-            User_Check_Write_List(2);
-            //功能开关信息日记输出显示
-            User_Features_OnOff_Log(e.IsChecked, 2, e.Content.ToString());
-
-
-        }
-
-
-
-
-
-
-
-        public ICommand Work_JumpOver_Comm
-        {
-            get => new DelegateCommand<RoutedEventArgs>(User_Work_JumpOver);
-        }
-        /// <summary>
-        /// 加工区域跳过事件命令
-        /// </summary>
-        private void User_Work_JumpOver(RoutedEventArgs Sm)
-        {
-            //把参数类型转换控件
-            CheckBox e = Sm.Source as CheckBox;
-            User_Control_Working_VM_2 S = (User_Control_Working_VM_2)e.DataContext;
-            //写入列表中泛型
-            User_Check_Write_List(2);
-            //功能开关信息日记输出显示
-            User_Features_OnOff_Log(e.IsChecked, 2, e.Content.ToString());
-
-        }
+      
     }
 
 
