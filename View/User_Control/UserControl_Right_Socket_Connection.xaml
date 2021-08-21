@@ -13,37 +13,47 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="0.6*" />
             <RowDefinition />
-            <RowDefinition Height="0.3*" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
+        <TextBlock Grid.Row="0" Grid.Column="0"
+                   Text="{Binding Connter_Time_Delay, StringFormat={}{0}ms}"
+                   Margin="5" HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Visibility="Visible" Foreground="Green"
+                   FontSize="15" />
+        <Grid Grid.Row="0" Margin="15">
 
-            <TextBlock Grid.Row="0" Grid.Column="0"
-                       Text="{Binding Connter_Time_Delay, StringFormat={}{0}ms}"
-                       Margin="5" HorizontalAlignment="Left"
-                       VerticalAlignment="Top"
-                       Visibility="Visible" Foreground="Green"
-                       FontSize="15" />
-            <StackPanel Margin="50,30,50,0">
+            <StackPanel>
 
 
 
                 <Border x:Name="BD1"
                         Height="65" Margin="5" Padding="0"
                         BorderThickness="3" Background="#c5c5c5"
-                        CornerRadius="10">
+                        CornerRadius="10" ClipToBounds="True">
+
+
+
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.4*" />
-                            <ColumnDefinition />
+                            <ColumnDefinition Width="130*" />
+                            <ColumnDefinition Width="187*" />
+                            <ColumnDefinition Width="137*" />
                         </Grid.ColumnDefinitions>
+
+
+
+
+
                         <TextBlock Grid.Column="0"
-                                   Text="地址:" HorizontalAlignment="Center"
+                                   Text="地址:" Margin="31.245,10.45"
+                                   HorizontalAlignment="Center"
                                    VerticalAlignment="Center" FontSize="30" />
                         <TextBox Style="{StaticResource TextBoxStyle1}" Grid.Column="1"
-                                 Name="TB1"
+                                 Name="TB1" Grid.ColumnSpan="2"
                                  Text="{Binding User_IP, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                 Margin="0,0,30,0"
+                                 Margin="0,13.625,30,13.625"
                                  VerticalAlignment="Center"
                                  ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"
                                  DataContext="{Binding Source={StaticResource Locator}, Path=IP_Text_Error}"
@@ -192,11 +202,17 @@
 
 
         <Grid Grid.Row="1" Margin="15">
+
             <Grid.RowDefinitions>
                 <RowDefinition />
-                <RowDefinition Height="0.2*" />
+                <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
 
+            <TextBlock Text="读取变量显示区域" Margin="0,-20,0,0"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Top" Opacity="0.4"
+                       FontSize="15" Foreground="Gray"
+                       FontFamily="Calibri" />
 
             <ListView Style="{StaticResource ListViewStyle1}" Grid.Row="0"
                       Visibility="Visible"
@@ -262,37 +278,71 @@
                      Margin="10" Visibility="Collapsed"
                      ItemsSource="{Binding Socket_Read_List}" />
 
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
 
-                <TextBox Grid.Column="0"
-                         Name="Send_Name" Text="$out[1]"
-                         VerticalAlignment="Center" FontSize="25"
-                         Background="White"
-                         TextAlignment="Center" />
-                <TextBox Grid.Column="1"
-                         Name="Send_Val" Text="$out[1]"
-                         VerticalAlignment="Center" FontSize="25"
-                         Background="White"
-                         TextAlignment="Center" />
-
-            </Grid>
 
         </Grid>
 
 
 
 
-        <Grid Grid.Row="2">
-            <Button x:Name="BT2"
-                    Content="发送" Height="50" Margin="5"
-                    FontSize="30" Background="#47aa57">
+        <Grid Grid.Row="2" Margin="15">
+
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="写入修改变量功能"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Top" Opacity="0.4"
+                       FontSize="15" Foreground="Gray"
+                       FontFamily="Calibri" />
+
+
+            <Grid Grid.Row="0" Margin="0,10,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+
+
+                <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                    <TextBlock Text=" 变量名" HorizontalAlignment="Center"
+                               VerticalAlignment="Center" FontSize="20"
+                               FontFamily="Calibri" />
+                    <TextBox Grid.Column="0"
+                             Name="Send_Name" Text="$out[1]"
+                             VerticalAlignment="Center" FontSize="25"
+                             Background="White"
+                             TextAlignment="Center"
+                             FontFamily="Calibri" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                    <TextBlock Text="数值" HorizontalAlignment="Center"
+                               VerticalAlignment="Center" FontSize="20"
+                               FontFamily="Calibri" />
+
+                    <TextBox Grid.Column="1"
+                             Name="Send_Val" Text="$out[1]"
+                             VerticalAlignment="Center" FontSize="25"
+                             Background="White"
+                             TextAlignment="Center"
+                             FontFamily="Calibri" />
+                </StackPanel>
+
+
+            </Grid>
+
+
+
+            <Button x:Name="BT2" Grid.Row="1"
+                    Content="发送" Height="50" FontSize="30"
+                    Background="#47aa57">
                 <Button.Style>
                     <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle3}">
-                        <Setter  Property="IsEnabled" Value="False" />
+                        <Setter Property="IsEnabled" Value="False" />
                         <Style.Triggers>
 
                             <MultiDataTrigger>
@@ -301,7 +351,7 @@
                                     <Condition Binding="{Binding Connect_Socket_Connection}" Value="true" />
                                 </MultiDataTrigger.Conditions>
                                 <MultiDataTrigger.Setters>
-                                    <Setter Property="IsEnabled" Value="True"  />
+                                    <Setter Property="IsEnabled" Value="True" />
                                 </MultiDataTrigger.Setters>
                             </MultiDataTrigger>
                         </Style.Triggers>

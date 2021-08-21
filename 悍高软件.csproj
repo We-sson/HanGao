@@ -336,6 +336,9 @@
     <Compile Include="View\User_Control\User_Control_Log.xaml.cs">
       <DependentUpon>User_Control_Log.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\User_Control\User_Control_Right_Show_Value.xaml.cs">
+      <DependentUpon>User_Control_Right_Show_Value.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\User_Control\User_Control_Working.xaml.cs">
       <DependentUpon>User_Control_Working.xaml</DependentUpon>
     </Compile>
@@ -450,6 +453,9 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\User_Control\User_Control_Log.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\User_Control\User_Control_Right_Show_Value.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\User_Control\User_Control_Working.xaml">

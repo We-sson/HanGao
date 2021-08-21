@@ -31,7 +31,9 @@
         <Border x:Name="BD1"
                 Grid.RowSpan="3" BorderThickness="5"
                 Background="#E3E3E3" CornerRadius="10"
-                BorderBrush="Transparent" />
+                BorderBrush="Transparent" >
+  
+        </Border>
 
 
         <Grid ShowGridLines="False">
