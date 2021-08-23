@@ -7,48 +7,45 @@
              d:DesignHeight="800" d:DesignWidth="500"
              mc:Ignorable="d">
     <UserControl.Resources />
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-
-        <Grid Background="#FFEC6262">
-
-
-            <Grid x:Name="TemplateRoot" Margin="100">
+    <Grid Background="#FFEC6262">
 
 
 
 
-                <Border x:Name="MaskBorder"
-                        Margin="0" Padding="10"
-                        Background="#FFEC6262" CornerRadius="10" />
 
-                <Grid x:Name="MainGrid">
-                    <Grid.OpacityMask>
-                        <VisualBrush Visual="{Binding ElementName=MaskBorder}" />
-                    </Grid.OpacityMask>
+        <Grid  Margin="100">
 
-                    <Border Margin="0" BorderThickness="3"
-                            BorderBrush="Black"
-                            Background="#FFEC6262" CornerRadius="10"
-                            ClipToBounds="True">
-                        <Border.Effect>
-                            <BlurEffect Radius="17" />
-                        </Border.Effect>
-                    </Border>
+
+
+
+            <Border x:Name="MaskBorder"
+                    Margin="0" Padding="10"
+                    Background="#FFEC6262" CornerRadius="10"  />
+
+            <Border >
+                <Border.OpacityMask>
+                    <VisualBrush Visual="{Binding ElementName=MaskBorder}" />
+                </Border.OpacityMask>
+
+                <Border Margin="0" BorderThickness="3"
+                        BorderBrush="Black"
+                        Background="#FFEC6262" CornerRadius="10"
+                        ClipToBounds="True">
+                    <Border.Effect>
+                        <BlurEffect Radius="17" />
+                    </Border.Effect>
+                </Border>
 
 
 
 
 
 
-                </Grid>
+            </Border>
 
 
 
-            </Grid>
+
 
 
 

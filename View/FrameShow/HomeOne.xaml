@@ -183,6 +183,9 @@
             <Grid Grid.Column="0" />
 
 
+
+
+
         </Grid>
 
 
@@ -195,9 +198,14 @@
                 DataContext="{Binding Source={StaticResource Locator}, Path=Home_ViewModel}"
                 Visibility="{Binding Visibility}"
                 Background="Transparent" />
+        
+        
+        
+        <ListBox x:Name="Left_Sidebar" ItemsSource="{Binding Sidebar_Control}" Width="65" HorizontalAlignment="Left" Margin=" 0 15 0 15" Background="Transparent" >
+            
+        </ListBox>
 
-
-        <ContentControl Content="{Binding Sidebar_Control}" Panel.ZIndex="1" d:IsHidden="True" />
+        <ContentControl Content="{Binding Sidebar_Control}" Panel.ZIndex="1" />
 
 
     </Grid>
