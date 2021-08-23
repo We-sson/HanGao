@@ -39,7 +39,7 @@
                       ScrollViewer.HorizontalScrollBarVisibility="Auto"
                       Template="{StaticResource ScrollViewerControlTemplate1}"
                       CanContentScroll="True"
-                      VirtualizingPanel.IsVirtualizing="True" 
+                      VirtualizingPanel.IsVirtualizing="True"
                       VirtualizingPanel.VirtualizationMode="Recycling">
 
             <i:Interaction.Triggers>
