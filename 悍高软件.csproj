@@ -493,6 +493,10 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Ps_UI\单盆图标.ai" />
+    <None Include="Ps_UI\双盆图标.ai" />
+    <None Include="Ps_UI\左右盆图标.ai" />
+    <None Include="Ps_UI\界面参考素材.ai" />
     <None Include="Ps_UI\界面效果图.psd" />
     <None Include="Settings.XamlStyler" />
     <None Include="悍高软件_TemporaryKey.pfx" />
