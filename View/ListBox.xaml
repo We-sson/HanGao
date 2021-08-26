@@ -208,7 +208,7 @@
                                     Margin="5" HorizontalAlignment="Stretch"
                                     Orientation="Horizontal">
 
-                            
+
 
                             <CheckBox Style="{StaticResource CheckBoxStyle2}"
                                       Uid="1"

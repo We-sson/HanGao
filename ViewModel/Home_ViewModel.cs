@@ -1,8 +1,11 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
+using Prism.Commands;
 using PropertyChanged;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using 悍高软件.Model;
 using 悍高软件.View.User_Control;
 
 namespace 悍高软件.ViewModel
@@ -17,82 +20,42 @@ namespace 悍高软件.ViewModel
 
 
             //注册消息接收
-            Messenger.Default.Register<double>(this, "Open_Effect", Open_Effect);
-            Messenger.Default.Register<Visibility>(this, "Home_Visibility_Show", Home_Visibility_Show);
+            //Messenger.Default.Register<double>("Open_Effect", Home_Var.Open_Effect);
+            Messenger.Default.Register<Visibility>("Home_Visibility_Show", Home_Var.Home_Visibility_Show);
 
-            Sidebar_Control = new UserControl_Right_Function_Connect() { Uid = "1", DataContext = new UserControl_Right_Function_Connect_ViewModel() { Sidebar_MainTitle = "连接状态", Subtitle_Position = new Thickness() { Top = 100 }, Sidebar_Control = new UserControl_Right_Socket_Connection() { } } };
+            //Home_Var.Sidebar_Control = new UserControl_Right_Function_Connect() {  };
 
 
         }
 
 
-        /// <summary>
-        /// 侧边栏打开主页模糊方法
-        /// </summary>
-        public void Open_Effect(double E)
-        {
-            Gird_Effect_Radius = E;
-        }
+        public Home_Models Home_Var { get; set; } = new Home_Models();
+
+     
+
+
 
 
         /// <summary>
-        /// 侧边栏打开主页模糊方法
+        /// 启动触发事件命令
         /// </summary>
-        public void Home_Visibility_Show(Visibility V)
+        public ICommand Sideber_Show
         {
-            Visibility = V;
-        }
-
-
-
-
-        private double _Gird_Effect_Radius = 0;
-        /// <summary>
-        /// 侧面弹出主页模糊
-        /// </summary>
-        public double Gird_Effect_Radius
-        {
-            get
+            get => new DelegateCommand<RoutedEventArgs>((Sm) =>
             {
-                return _Gird_Effect_Radius;
-            }
-            set
-            {
-                _Gird_Effect_Radius = value;
-            }
-        }
-
-        private Visibility _Visibility = Visibility.Collapsed;
-        /// <summary>
-        /// 屏蔽主页面操作操作显示
-        /// </summary>
-        public Visibility Visibility
-        {
-            get
-            {
-                return _Visibility;
-            }
-            set
-            {
-                _Visibility = value;
-            }
-        }
+                //把参数类型转换控件
+                Button e = Sm.Source as Button;
+                //
+                dynamic S = e.DataContext;
 
 
-        private UserControl _Sidebar_Control;
-        /// <summary>
-        /// 侧边栏显示
-        /// </summary>
-        public UserControl Sidebar_Control
-        {
-            get
-            {
-                return _Sidebar_Control;
-            }
-            set
-            {
-                _Sidebar_Control = value;
-            }
+                //var a = this.GetType().GetProperty("WM").GetValue(this);
+
+
+
+
+
+            });
         }
 
 

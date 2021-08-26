@@ -14,12 +14,12 @@ using static Soceket_KUKA.Models.Socket_Models_Receive;
 namespace 悍高软件.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class UserControl_Right_Socket_Connection_ViewModel : ViewModelBase
+    public class UserControl_Socket_Setup_ViewModel : ViewModelBase
     {
 
 
 
-        public UserControl_Right_Socket_Connection_ViewModel()
+        public UserControl_Socket_Setup_ViewModel()
         {
 
 
@@ -170,10 +170,10 @@ namespace 悍高软件.ViewModel
             foreach (var item in _List)
             {
 
-                if (!UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List.Any<Socket_Models_List>(l => l.Val_Name == item.Val_Name))
+                if (!UserControl_Socket_Setup_ViewModel.Socket_Read_List.Any<Socket_Models_List>(l => l.Val_Name == item.Val_Name))
                 {
 
-                    UserControl_Right_Socket_Connection_ViewModel.Socket_Read_List.Add(item);
+                    UserControl_Socket_Setup_ViewModel.Socket_Read_List.Add(item);
                 }
 
             }
@@ -210,12 +210,12 @@ namespace 悍高软件.ViewModel
 
         public ICommand Socket_Send_Comm
         {
-            get => new DelegateCommand<UserControl_Right_Socket_Connection>(Socket_SendToKuka);
+            get => new DelegateCommand<User_Control_Socket_Setup>(Socket_SendToKuka);
         }
         /// <summary>
         /// Socket发送事件命令
         /// </summary>
-        private void Socket_SendToKuka(UserControl_Right_Socket_Connection Sm)
+        private void Socket_SendToKuka(User_Control_Socket_Setup Sm)
         {
 
             //把参数类型转换控件
@@ -230,8 +230,8 @@ namespace 悍高软件.ViewModel
 
 
 
-
-            Socket_Send.Send_Write_Var(Sm.Send_Name.Text, Sm.Send_Val.Text);
+            //发输入框内的数值
+            //Socket_Send.Send_Write_Var(Sm.Send_Name.Text, Sm.Send_Val.Text);
 
 
 
@@ -254,7 +254,7 @@ namespace 悍高软件.ViewModel
         /// </summary>
         public ICommand Socket_Connection_Comm
         {
-            get => new DelegateCommand<UserControl_Right_Socket_Connection>( (Sm) => 
+            get => new DelegateCommand<User_Control_Socket_Setup>( (Sm) => 
             {
 
                 //把参数类型转换控件
@@ -264,7 +264,7 @@ namespace 悍高软件.ViewModel
 
 
                 //创建连接
-                 Soceket_KUKA_Client.Socket_Client_KUKA(Sm.TB1.Text, int.Parse(Sm.TB2.Text));
+                 //Soceket_KUKA_Client.Socket_Client_KUKA(Sm.TB1.Text, int.Parse(Sm.TB2.Text));
 
 
 
@@ -276,12 +276,12 @@ namespace 悍高软件.ViewModel
 
         public ICommand Socket_Close_Comm
         {
-            get => new DelegateCommand<UserControl_Right_Socket_Connection>(Socket_Clos);
+            get => new DelegateCommand<User_Control_Socket_Setup>(Socket_Clos);
         }
         /// <summary>
         /// Socket关闭事件命令
         /// </summary>
-        private  void Socket_Clos(UserControl_Right_Socket_Connection Sm)
+        private  void Socket_Clos(User_Control_Socket_Setup Sm)
         {
 
             //把参数类型转换控件

@@ -1,58 +1,29 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Messaging;
-using Nancy.Helpers;
-using Prism.Commands;
+﻿using Nancy.Helpers;
 using PropertyChanged;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
-namespace 悍高软件.ViewModel
+namespace 悍高软件.Model
 {
-    [AddINotifyPropertyChangedInterface]
-    public class UserControl_Right_Function_Connect_ViewModel : ViewModelBase
+        [AddINotifyPropertyChangedInterface]
+   public  class Sideber_Models
     {
-
-        public UserControl_Right_Function_Connect_ViewModel()
+        public Sideber_Models()
         {
-            //注册消息接收
-            //Messenger.Default.Register<bool?>(this, "Sidebar_Subtitle_Signal_Method_bool", Sidebar_Subtitle_Signal_Method_bool);
-
-
-
-
-            //if (IsInDesignMode)
-            //{
-            //    // Code runs in Blend --> create design time data.
-            //    Sidebar_MainTitle = "连接状态";
-
-
-            //    Subtitle_Position = new Thickness() { Top = 40 };
-            //}
-            //else
-            //{
-            //    // Code runs "for real"
-            //}
-
-
+            //初始化
         }
 
-        private bool _Open = false;
+ 
         /// <summary>
         /// 侧边栏打开关闭控制
         /// </summary>
-        public bool Open
-        {
-            get
-            {
-                return _Open;
-            }
-            set
-            {
-                _Open = value;
-            }
-        }
+        public bool Sideber_Open { set; get; }
+ 
 
         private string _Sidebar_MainTitle = null;
         /// <summary>
@@ -169,50 +140,6 @@ namespace 悍高软件.ViewModel
                 _Subtitle_Position = value;
             }
         }
-
-
-
-
-
-        public ICommand Click_OPen_Comm
-        {
-            get => new DelegateCommand<RoutedEventArgs>(Click_OPen);
-        }
-        /// <summary>
-        /// 侧边栏打开关闭事件命令
-        /// </summary>
-        private void Click_OPen(RoutedEventArgs Sm)
-        {
-            //把参数类型转换控件
-            UIElement e = Sm.Source as UIElement;
-
-
-
-            if (e.Uid == "Open")
-            {
-                Open = true;
-                //侧边栏打开主页面模糊
-                Messenger.Default.Send<Double>(0, "Open_Effect");
-                //侧边栏打开后主页黑化禁止用户操作
-                Messenger.Default.Send<Visibility>(Visibility.Visible, "Home_Visibility_Show");
-
-
-            }
-            else if (e.Uid == "Close")
-            {
-                Open = false;
-                Messenger.Default.Send<Double>(0, "Open_Effect");
-                Messenger.Default.Send<Visibility>(Visibility.Collapsed, "Home_Visibility_Show");
-
-            }
-
-        }
-
-
-
-
-
-
 
 
 

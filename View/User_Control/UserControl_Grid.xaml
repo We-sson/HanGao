@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="悍高软件.View.User_Control.UserControl_Grid"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:悍高软件.View.User_Control"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <Grid Margin="100" Panel.ZIndex="1">
+
+        <Border x:Name="MaskBorder"
+                    Margin="0" Padding="10"
+                    Background="Black"  CornerRadius="12" />
+
+
+
+        <Border>
+            <Border.OpacityMask>
+                <VisualBrush Visual="{Binding ElementName=MaskBorder}" />
+            </Border.OpacityMask>
+
+            <Border Margin="0" BorderThickness="3"
+                        Background="#FFEC6262" CornerRadius="10"
+                        ClipToBounds="True" BorderBrush="Black">
+
+                <Border.Effect>
+                    <BlurEffect Radius="17" />
+                </Border.Effect>
+            </Border>
+
+
+        </Border>
+        <GroupBox Header="GroupBox" HorizontalAlignment="Left" Height="145.219" Margin="139.343,-182.47,0,0" VerticalAlignment="Top" Width="258.167" Style="{DynamicResource GroupBox_Grid_Effect}"/>
+
+
+    </Grid>
+</UserControl>

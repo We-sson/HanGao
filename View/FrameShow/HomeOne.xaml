@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:悍高软件.View.FrameShow"
              xmlns:n="clr-namespace:Nicenis.Windows;assembly=Nicenis"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:cmd="http://www.galasoft.ch/mvvmlight"
              xmlns:UC_Working="clr-namespace:悍高软件.View.User_Control"
              d:DesignHeight="992"
              d:DesignWidth="1920"
@@ -20,16 +21,15 @@
 
     <Grid>
 
+        
+        
 
 
 
-        <Grid x:Name="Home_GD1"
-              ShowGridLines="False"
-              Background="Transparent"
-              DataContext="{Binding Source={StaticResource Locator}, Path=Home_ViewModel}">
+        <Grid x:Name="Home_GD1" ShowGridLines="False" Background="Transparent">
 
             <Grid.Effect>
-                <BlurEffect Radius="{Binding Gird_Effect_Radius}" />
+                <BlurEffect Radius="0" />
             </Grid.Effect>
 
 
@@ -97,10 +97,9 @@
 
                 </Border>
 
-                <ListBox Style="{StaticResource  ListBoxStyle1}" x:Name="LB1" Grid.Row="0"
+                <ListBox Style="{StaticResource ListBoxStyle1}" x:Name="LB1" Grid.Row="0"
                          HorizontalContentAlignment="Center"
                          Background="Transparent"
-                         
                          DataContext="{Binding Source={StaticResource Locator}, Path=List_Show}"
                          ItemsSource="{Binding SinkModels}"
                          ScrollViewer.HorizontalScrollBarVisibility="Hidden"
@@ -170,19 +169,90 @@
                 <UC_Working:User_Control_Working Grid.Row="0" Grid.Column="1"
                                                  Uid="1"
                                                  DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_VM_1}" />
-                <i:Interaction.Triggers>
+                <!--<i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
                         <i:InvokeCommandAction Command="{Binding Path=DataContext.User_Loaded_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UC_Working:User_Control_Working}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
                     </i:EventTrigger>
-                </i:Interaction.Triggers>
+                </i:Interaction.Triggers>-->
 
 
             </Grid>
 
-            <!--  右侧功能弹出栏  -->
-            <Grid Grid.Column="0" />
 
 
+            <!--  左侧功能弹出栏  -->
+            <Grid Grid.Column="0" Margin="0,15,0,15">
+                <StackPanel>
+
+                    <Button Style="{StaticResource Sidebar_Button}"
+                            Uid="1" VerticalAlignment="Top"
+                            FontSize="22" Background="#F9F9F9"
+                            Foreground="Black">
+                        <Button.Content>
+                            <StackPanel HorizontalAlignment="Center">
+                                <TextBlock Text="&#xe615;" Margin="8"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center" FontSize="26"
+                                           Foreground="#0C4271"
+                                           FontFamily="/Resources/#iconfont" />
+                                <TextBlock Text="连&#10;接&#10;设&#10;置" HorizontalAlignment="Center" />
+                            </StackPanel>
+                        </Button.Content>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding Path=Sideber_Show}" CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Self}}" PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+
+
+                    </Button>
+
+                    <Button Style="{StaticResource Sidebar_Button}"
+                            Uid="2" VerticalAlignment="Top"
+                            FontSize="22" Background="#F9F9F9"
+                            Foreground="Black">
+                        <Button.Content>
+                            <StackPanel HorizontalAlignment="Center">
+                                <TextBlock Text="&#xe618;" Margin="8"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Foreground="#0C4271" FontSize="26"
+                                           FontFamily="/Resources/#iconfont" />
+                                <TextBlock Text="读&#10;取&#10;显&#10;示" HorizontalAlignment="Center" />
+                            </StackPanel>
+                        </Button.Content>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding Path=Sideber_Show}" CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Self}}" PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+
+                    <Button Style="{StaticResource Sidebar_Button}"
+                            Uid="3" VerticalAlignment="Top"
+                            FontSize="22" Background="#F9F9F9"
+                            Foreground="Black">
+                        <Button.Content>
+                            <StackPanel HorizontalAlignment="Center">
+                                <TextBlock Text="&#xe619;" Margin="8"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Foreground="#0C4271" FontSize="26"
+                                           FontFamily="/Resources/#iconfont" />
+                                <TextBlock Text="变&#10;量&#10;功&#10;能" HorizontalAlignment="Center" />
+                            </StackPanel>
+                        </Button.Content>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding Path=Sideber_Show}" CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Self}}" PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+
+                    </Button>
+
+
+                </StackPanel>
+            </Grid>
 
 
 
@@ -193,19 +263,18 @@
 
 
         <!--  侧边栏打开屏蔽主页面操作  -->
-        <Border Grid.Column="0"
+        <!--<Border Grid.Column="0"
                 Grid.ColumnSpan="2"
                 DataContext="{Binding Source={StaticResource Locator}, Path=Home_ViewModel}"
                 Visibility="{Binding Visibility}"
-                Background="Transparent" />
-        
-        
-        
-        <ListBox x:Name="Left_Sidebar" ItemsSource="{Binding Sidebar_Control}" Width="65" HorizontalAlignment="Left" Margin=" 0 15 0 15" Background="Transparent" >
-            
-        </ListBox>
+                Background="Transparent" />-->
 
-        <ContentControl Content="{Binding Sidebar_Control}" Panel.ZIndex="1" />
+
+
+
+
+
+        <ContentControl Content="{Binding Home_Var.Sidebar_Control}" Panel.ZIndex="1" />
 
 
     </Grid>

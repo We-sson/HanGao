@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace 悍高软件.View.User_Control
 {
     /// <summary>
-    /// User_Control_Right_Show_Value.xaml 的交互逻辑
+    /// UserControl_Grid.xaml 的交互逻辑
     /// </summary>
-    public partial class User_Control_Right_Show_Value : UserControl
+    public partial class UserControl_Grid : UserControl
     {
-        public User_Control_Right_Show_Value()
+        public UserControl_Grid()
         {
             InitializeComponent();
         }

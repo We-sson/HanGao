@@ -278,7 +278,9 @@
     <Compile Include="Errorinfo\LogManager.cs" />
     <Compile Include="Extension Method\Enum_Method.cs" />
     <Compile Include="Model\Frame_Uri_Models.cs" />
+    <Compile Include="Model\Home_Models.cs" />
     <Compile Include="Model\List_Show_Models.cs" />
+    <Compile Include="Model\Sideber_Models.cs" />
     <Compile Include="Model\Sink_Models.cs" />
     <Compile Include="Model\User_Features.cs" />
     <Compile Include="Model\User_Log_Models.cs" />
@@ -295,8 +297,10 @@
     <Compile Include="ViewModel\List_Show.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\User.cs" />
-    <Compile Include="ViewModel\UserControl_Right_Function_Connect_ViewModel.cs" />
-    <Compile Include="ViewModel\UserControl_Right_Socket_Connection_ViewModel.cs" />
+    <Compile Include="ViewModel\UserControl_Sideber_Show_ViewModel.cs" />
+    <Compile Include="ViewModel\UserControl_Socket_Setup_ViewModel.cs" />
+    <Compile Include="ViewModel\UserControl_Socket_Var_Show_ViewModel.cs" />
+    <Compile Include="ViewModel\UserControl_Socket_Write_ViewModel.cs" />
     <Compile Include="ViewModel\User_Control_Common.cs" />
     <Compile Include="ViewModel\User_Control_Log_ViewModel.cs" />
     <Compile Include="ViewModel\User_Control_Working_Path_VM.cs" />
@@ -327,17 +331,23 @@
     <Compile Include="View\UserMessage\User_Message.xaml.cs">
       <DependentUpon>User_Message.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\User_Control\UserControl_Right_Function_Connect.xaml.cs">
-      <DependentUpon>UserControl_Right_Function_Connect.xaml</DependentUpon>
+    <Compile Include="View\User_Control\UserControl_Grid.xaml.cs">
+      <DependentUpon>UserControl_Grid.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\User_Control\UserControl_Right_Socket_Connection.xaml.cs">
-      <DependentUpon>UserControl_Right_Socket_Connection.xaml</DependentUpon>
+    <Compile Include="View\User_Control\UserControl_Sideber_Show.xaml.cs">
+      <DependentUpon>UserControl_Sideber_Show.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\User_Control\UserControl_Socket_Write.xaml.cs">
+      <DependentUpon>UserControl_Socket_Write.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\User_Control\UserControl_Value_Show.xaml.cs">
+      <DependentUpon>UserControl_Value_Show.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\User_Control\User_Control_Log.xaml.cs">
       <DependentUpon>User_Control_Log.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\User_Control\User_Control_Right_Show_Value.xaml.cs">
-      <DependentUpon>User_Control_Right_Show_Value.xaml</DependentUpon>
+    <Compile Include="View\User_Control\User_Control_Socket_Setup.xaml.cs">
+      <DependentUpon>User_Control_Socket_Setup.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\User_Control\User_Control_Working.xaml.cs">
       <DependentUpon>User_Control_Working.xaml</DependentUpon>
@@ -402,6 +412,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Style\Sidebar_Button_Style.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Style\Socket_ListView_Style.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -446,16 +459,22 @@
     <Page Include="View\UserMessage\User_Message.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\User_Control\UserControl_Right_Function_Connect.xaml">
+    <Page Include="View\User_Control\UserControl_Grid.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\User_Control\UserControl_Right_Socket_Connection.xaml">
+    <Page Include="View\User_Control\UserControl_Sideber_Show.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\User_Control\UserControl_Socket_Write.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\User_Control\UserControl_Value_Show.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\User_Control\User_Control_Log.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\User_Control\User_Control_Right_Show_Value.xaml">
+    <Page Include="View\User_Control\User_Control_Socket_Setup.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\User_Control\User_Control_Working.xaml">
@@ -531,6 +550,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="FodyWeavers.xml" />
+    <Resource Include="Resources\link.png" />
     <Content Include="Resources\Log.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

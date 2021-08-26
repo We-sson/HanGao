@@ -19,6 +19,8 @@
                 <ResourceDictionary Source="View\ListBox.xaml" />
                 <ResourceDictionary Source="View\ScrollViewer.xaml" />
                 <ResourceDictionary Source="View\Ver_ScrollBar.xaml" />
+                <ResourceDictionary Source="View\ScrollViewer.xaml" />
+
                 <ResourceDictionary Source="View\Style\Grid_function_Style.xaml" />
                 <ResourceDictionary Source="View\Style\Button_message.xaml" />
                 <ResourceDictionary Source="View\Style\Window_Button.xaml" />
@@ -26,7 +28,8 @@
                 <ResourceDictionary Source="View\Style\Button_List.xaml" />
                 <ResourceDictionary Source="View\Style\ScrollViewer_List.xaml" />
                 <ResourceDictionary Source="View\Style\Socket_ListView_Style.xaml" />
-                <ResourceDictionary Source="View\ScrollViewer.xaml" />
+                <ResourceDictionary Source="/View\Style\Sidebar_Button_Style.xaml" />
+
 
 
 

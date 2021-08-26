@@ -15,7 +15,7 @@ using static Soceket_KUKA.Models.Socket_Models_Connect;
 using static Soceket_Connect.Socket_Connect;
 using static Soceket_KUKA.Socket_Receive;
 using static 悍高软件.ViewModel.User_Control_Log_ViewModel;
-using static 悍高软件.ViewModel.UserControl_Right_Socket_Connection_ViewModel;
+using static 悍高软件.ViewModel.UserControl_Socket_Setup_ViewModel;
 
 
 
