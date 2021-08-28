@@ -19,13 +19,14 @@ namespace 悍高软件.Model
         }
 
  
+
         /// <summary>
         /// 侧边栏打开关闭控制
         /// </summary>
         public bool Sideber_Open { set; get; }
  
 
-        private string _Sidebar_MainTitle = null;
+        public  string _Sidebar_MainTitle = null;
         /// <summary>
         /// 侧边栏主标题
         /// </summary>
@@ -40,6 +41,7 @@ namespace 悍高软件.Model
             {
                 //每个标题字符之间添加空格
                 Sidebar_Subtitle = value;
+
                 char[] st = value.ToCharArray();
                 for (int i = 0; i < st.Length; i++)
                 {

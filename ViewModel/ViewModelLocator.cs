@@ -47,13 +47,13 @@ namespace 悍高软件.ViewModelLocator
             SimpleIoc.Default.Register<User_Control_Log_ViewModel>();
             SimpleIoc.Default.Register<User_Message_ViewModel>();
             SimpleIoc.Default.Register<User_Message_Control_Show>();
-            SimpleIoc.Default.Register<UserControl_Sideber_Show_ViewModel>();
             SimpleIoc.Default.Register<Home_ViewModel>();
-            SimpleIoc.Default.Register<UserControl_Socket_Setup_ViewModel>();
             SimpleIoc.Default.Register<IP_Text_Error>();
             SimpleIoc.Default.Register<User_Control_Working_Path_VM>();
+            SimpleIoc.Default.Register<UserControl_Socket_Setup_ViewModel>();
+            SimpleIoc.Default.Register<UserControl_Sideber_Show_ViewModel>();
             SimpleIoc.Default.Register<UserControl_Socket_Write_ViewModel>();
-
+            SimpleIoc.Default.Register<UserControl_Socket_Var_Show_ViewModel>();
 
 
 
@@ -71,17 +71,18 @@ namespace 悍高软件.ViewModelLocator
         public User_Control_Working_VM_2 User_Control_Working_VM_2 => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Control_Working_VM_2>();
         public User_Message_ViewModel User_Message_ViewModel => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Message_ViewModel>();
         public User_Message_Control_Show User_Message_Control_Show => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Message_Control_Show>();
-        public UserControl_Sideber_Show_ViewModel Sideber_Show => CommonServiceLocator.ServiceLocator.Current.GetInstance<UserControl_Sideber_Show_ViewModel>();
-
         public Home_ViewModel Home_ViewModel => CommonServiceLocator.ServiceLocator.Current.GetInstance<Home_ViewModel>();
-
-        public UserControl_Socket_Setup_ViewModel Socket_Setup => CommonServiceLocator.ServiceLocator.Current.GetInstance<UserControl_Socket_Setup_ViewModel>();
         public IP_Text_Error IP_Text_Error => CommonServiceLocator.ServiceLocator.Current.GetInstance<IP_Text_Error>();
         public User_Control_Working_Path_VM User_Control_Working_Path_VM => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Control_Working_Path_VM>();
+
+        public UserControl_Sideber_Show_ViewModel Sideber_Show => CommonServiceLocator.ServiceLocator.Current.GetInstance<UserControl_Sideber_Show_ViewModel>();
+        public UserControl_Socket_Setup_ViewModel Socket_Setup => CommonServiceLocator.ServiceLocator.Current.GetInstance<UserControl_Socket_Setup_ViewModel>();
         public UserControl_Socket_Write_ViewModel Socket_Write => CommonServiceLocator.ServiceLocator.Current.GetInstance<UserControl_Socket_Write_ViewModel>();
+        public UserControl_Socket_Var_Show_ViewModel Socket_Var_Show=> CommonServiceLocator.ServiceLocator.Current.GetInstance<UserControl_Socket_Var_Show_ViewModel>();
+
+       
 
 
-        
 
 
 

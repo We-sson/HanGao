@@ -13,12 +13,17 @@
 
         <TextBlock Grid.Row="0" Grid.Column="0"
                    Text="{Binding Connter_Time_Delay, StringFormat={}{0}ms}"
-                   Margin="5" HorizontalAlignment="Left"
+                   Margin="30,-10,0,0"
+                   HorizontalAlignment="Left"
                    VerticalAlignment="Top" Panel.ZIndex="1"
                    Visibility="Visible" Foreground="Green"
                    FontSize="15" />
 
-        <Grid Grid.Row="0" Margin="15">
+
+
+
+
+        <GroupBox Style="{StaticResource GroupBox_Grid_Effect}" VerticalAlignment="Top" Background="White">
 
             <StackPanel>
 
@@ -119,14 +124,14 @@
 
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1.8*" />
+                        <ColumnDefinition Width="1*" />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
 
 
 
                     <Button x:Name="BU1" Grid.Column="0"
-                            Height="50" Margin="5" Tag="Connect"
+                            Height="50" Margin="10" Tag="Connect"
                             IsEnabled="{Binding Connect_Button_IsEnabled}"
                             FontSize="25">
 
@@ -173,7 +178,7 @@
 
 
                     <Button Style="{StaticResource ButtonStyle3}" x:Name="BU2" Grid.Column="1"
-                            Content="断开连接" Height="50" Margin="5"
+                            Content="断开连接" Height="50" Margin="10"
                             Tag="Disconnect" Foreground="Black"
                             Background="#FF5E57" FontSize="25">
 
@@ -194,7 +199,11 @@
 
 
             </StackPanel>
-        </Grid>
+
+        </GroupBox>
+
+
+
 
 
 

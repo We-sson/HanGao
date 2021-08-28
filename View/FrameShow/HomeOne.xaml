@@ -21,8 +21,8 @@
 
     <Grid>
 
-        
-        
+
+
 
 
 
@@ -195,7 +195,7 @@
                                            VerticalAlignment="Center" FontSize="26"
                                            Foreground="#0C4271"
                                            FontFamily="/Resources/#iconfont" />
-                                <TextBlock Text="连&#10;接&#10;设&#10;置" HorizontalAlignment="Center" />
+                                <TextBlock x:Name="S_B_1" Text="{Binding Sideber_List[0].Sidebar_Subtitle}" HorizontalAlignment="Center" />
                             </StackPanel>
                         </Button.Content>
                         <i:Interaction.Triggers>
@@ -218,7 +218,7 @@
                                            VerticalAlignment="Center"
                                            Foreground="#0C4271" FontSize="26"
                                            FontFamily="/Resources/#iconfont" />
-                                <TextBlock Text="读&#10;取&#10;显&#10;示" HorizontalAlignment="Center" />
+                                <TextBlock x:Name="S_B_2" Text="{Binding Sideber_List[1].Sidebar_Subtitle}" HorizontalAlignment="Center" />
                             </StackPanel>
                         </Button.Content>
                         <i:Interaction.Triggers>
@@ -239,7 +239,7 @@
                                            VerticalAlignment="Center"
                                            Foreground="#0C4271" FontSize="26"
                                            FontFamily="/Resources/#iconfont" />
-                                <TextBlock Text="变&#10;量&#10;功&#10;能" HorizontalAlignment="Center" />
+                                <TextBlock x:Name="S_B_3" Text="{Binding Sideber_List[2].Sidebar_Subtitle}" HorizontalAlignment="Center" />
                             </StackPanel>
                         </Button.Content>
                         <i:Interaction.Triggers>
@@ -274,7 +274,8 @@
 
 
 
-        <ContentControl Content="{Binding Home_Var.Sidebar_Control}" Panel.ZIndex="1" />
+        <!--  侧边栏弹出  -->
+        <UC_Working:UserControl_Sideber_Show Margin="0,15,15,15" Panel.ZIndex="1" DataContext="{Binding Source={StaticResource Locator}, Path=Sideber_Show}" />
 
 
     </Grid>

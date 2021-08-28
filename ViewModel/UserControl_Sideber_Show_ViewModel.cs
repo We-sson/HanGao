@@ -36,51 +36,56 @@ namespace 悍高软件.ViewModel
             //    // Code runs "for real"
             //}
 
+            Messenger.Default.Register<Sideber_Models>(this, "Sideber_Show", (Sm)=> { Sideber_Var = Sm; });
 
         }
 
 
-        public Sideber_Models Sideber_Var { set; get; }
-
-       
-
-       
+        public Sideber_Models Sideber_Var { set; get; } = new Sideber_Models() { Sideber_Open=false };
 
 
 
-        public ICommand Click_OPen_Comm
-        {
-            get => new DelegateCommand<RoutedEventArgs>(Click_OPen);
-        }
+
+
+
         /// <summary>
         /// 侧边栏打开关闭事件命令
         /// </summary>
-        private void Click_OPen(RoutedEventArgs Sm)
+        public ICommand Click_OPen_Comm
         {
+            get => new DelegateCommand<RoutedEventArgs>((Sm)=> 
+            { 
+            
             //把参数类型转换控件
             UIElement e = Sm.Source as UIElement;
 
 
-
-            if (e.Uid == "Open")
-            {
-                Sideber_Var.Sideber_Open = true;
-                //侧边栏打开主页面模糊
-                //Messenger.Default.Send<Double>(0, "Open_Effect");
-                //侧边栏打开后主页黑化禁止用户操作
-                Messenger.Default.Send<Visibility>(Visibility.Visible, "Home_Visibility_Show");
-
-
-            }
-            else if (e.Uid == "Close")
-            {
                 Sideber_Var.Sideber_Open = false;
-                Messenger.Default.Send<Double>(0, "Open_Effect");
-                Messenger.Default.Send<Visibility>(Visibility.Collapsed, "Home_Visibility_Show");
+                
 
-            }
 
+            //    if (e.Uid == "Open")
+            //{
+            //    Sideber_Var.Sideber_Open = true;
+            //        //侧边栏打开主页面模糊
+            //        //Messenger.Default.Send<Double>(0, "Open_Effect");
+            //        ////侧边栏打开后主页黑化禁止用户操作
+            //        //Messenger.Default.Send<Visibility>(Visibility.Visible, "Home_Visibility_Show");
+
+
+            //}
+            //else if (e.Uid == "Close")
+            //{
+            //    Sideber_Var.Sideber_Open = false;
+            //     Sideber_Var.Sidebar_Control = null;
+            //    //Messenger.Default.Send<Double>(0, "Open_Effect");
+            //    //Messenger.Default.Send<Visibility>(Visibility.Collapsed, "Home_Visibility_Show");
+
+            //    }
+            });
         }
+
+
 
 
 

@@ -175,15 +175,60 @@
             </DataTrigger>
         </Style.Triggers>
     </Style>
-    
-    
+
+
     <Style x:Key="GroupBox_Grid_Effect" TargetType="{x:Type GroupBox}">
-        <Setter Property="BorderBrush" Value="#D5DFE5"/>
-        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="Black" />
+        <Setter Property="BorderThickness" Value="1.5" />
+        <Setter Property="Background" Value="#FFFFFF"  />
+        <Setter Property="Padding" Value=" 15"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type GroupBox}">
-                    <Grid SnapsToDevicePixels="true">
+                    <Grid>
+
+
+                        <Border x:Name="MaskBorder"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="12.5" />
+
+
+                        <Grid>
+                            <Grid.OpacityMask>
+                                <VisualBrush Visual="{Binding ElementName=MaskBorder}" Stretch="None" />
+                            </Grid.OpacityMask>
+
+                            <Border x:Name="Bd"
+                                    Margin="0"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    Background="{TemplateBinding Background}"
+                                    CornerRadius="12" ClipToBounds="True"
+                                    BorderBrush="{TemplateBinding BorderBrush}">
+
+                                <Border.Effect>
+                                    <BlurEffect Radius="15" />
+                                </Border.Effect>
+                            </Border>
+
+                            <ContentPresenter Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+
+
+                        </Grid>
+
+
+
+                    </Grid>
+
+
+
+
+
+
+
+
+                    <!--<Grid SnapsToDevicePixels="true">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="6"/>
                             <ColumnDefinition Width="Auto"/>
@@ -196,9 +241,9 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="6"/>
                         </Grid.RowDefinitions>
-                        
-                        
-                        
+
+
+
                         <Border BorderBrush="Transparent" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.ColumnSpan="4" Grid.Column="0" CornerRadius="4" Grid.Row="1" Grid.RowSpan="3"/>
                         <Border BorderBrush="White" BorderThickness="{TemplateBinding BorderThickness}" Grid.ColumnSpan="4" CornerRadius="4" Grid.Row="1" Grid.RowSpan="3">
                             <Border.OpacityMask>
@@ -216,7 +261,7 @@
                             <ContentPresenter ContentSource="Header" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         </Border>
                         <ContentPresenter Grid.ColumnSpan="2" Grid.Column="1" Margin="{TemplateBinding Padding}" Grid.Row="2" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                    </Grid>
+                    </Grid>-->
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

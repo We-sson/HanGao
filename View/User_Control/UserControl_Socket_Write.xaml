@@ -22,113 +22,128 @@
 
 
 
+        <GroupBox Style="{StaticResource GroupBox_Grid_Effect}" VerticalAlignment="Top">
 
-        <Grid Margin="15">
+            <Grid Margin="10" VerticalAlignment="Top">
 
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-
-            <TextBlock Text="写入修改变量功能"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Top"
-                       d:IsHidden="True" Opacity="0.4"
-                       FontSize="15" Foreground="Gray"
-                       FontFamily="Calibri" />
-
-
-            <Grid Grid.Row="0" Margin="0,10,0,10">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" />
+                    <RowDefinition />
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
+                <TextBlock Text="写入修改变量功能"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Top"
+                           d:IsHidden="True" Opacity="0.4"
+                           FontSize="15" Foreground="Gray"
+                           FontFamily="Calibri" />
 
-                <Grid Grid.Row="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
 
-                    <StackPanel Grid.Column="0" Margin="0,0,0,0" VerticalAlignment="Top">
-                        <TextBlock Text=" 变量名" HorizontalAlignment="Center"
-                                   VerticalAlignment="Center" FontSize="20"
-                                   FontFamily="Calibri" />
-                        <TextBox Grid.Column="0"
-                                 Name="Send_Name" Text="$out[1]"
-                                 VerticalAlignment="Center" FontSize="25"
-                                 Background="White"
-                                 TextAlignment="Center"
-                                 FontFamily="Calibri" />
+                <Grid Grid.Row="0" Margin="0,10,0,10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="0" Height="60" Margin="0,0,0,0">
+                            <Border Margin="5" CornerRadius="10" Background="#FFEEEEEE">
+                                <StackPanel Orientation="Horizontal">
+
+                                    <TextBlock Text=" 变量名:" HorizontalAlignment="Left"
+                                               VerticalAlignment="Center" FontSize="24"
+                                               FontFamily="Calibri" />
+                                    <TextBox Style="{StaticResource TextBoxStyle1}" Grid.Column="0"
+                                             Name="Send_Name" Text="$out[1]"
+                                             HorizontalAlignment="Center"
+                                             VerticalAlignment="Center" FontSize="25"
+                                             Background="Transparent"
+                                             TextAlignment="Center"
+                                             FontFamily="Calibri" />
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+
+                        <Grid Grid.Column="1">
+
+                            <Border Margin="5" CornerRadius=" 10" Background=" #eeeeee">
+                                <StackPanel Margin="5" Orientation="Horizontal">
+
+                                    <TextBlock Text="数值:" HorizontalAlignment="Center"
+                                               VerticalAlignment="Center" FontSize="24"
+                                               FontFamily="Calibri" />
+
+                                    <TextBox Style="{StaticResource TextBoxStyle1}" Grid.Column="1"
+                                             Name="Send_Val" Text="$out[1]"
+                                             VerticalAlignment="Center" FontSize="25"
+                                             Background="Transparent"
+                                             TextAlignment="Center"
+                                             FontFamily="Calibri" />
+                                </StackPanel>
+                            </Border>
+
+                        </Grid>
+
+                    </Grid>
+
+                    <StackPanel Grid.Row="1"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top"
+                                Orientation="Horizontal">
+
+                        <Button x:Name="BT2"
+                                Content="发送" Width="200" Height="35"
+                                Margin="10" FontSize="25"
+                                Background="#47aa57" FontFamily="SimHei">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle3}">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                    <Style.Triggers>
+
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding Connect_Socket_OK}" Value="true" />
+                                                <Condition Binding="{Binding Connect_Socket_Connection}" Value="true" />
+                                            </MultiDataTrigger.Conditions>
+                                            <MultiDataTrigger.Setters>
+                                                <Setter Property="IsEnabled" Value="True" />
+                                            </MultiDataTrigger.Setters>
+                                        </MultiDataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+
+
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.Socket_Send_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Socket_Write}}}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Socket_Write}}}" PassEventArgsToCommand="True" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+
+
+                        <Button Style="{StaticResource ButtonStyle3}"
+                                Content="清除" Width="200" Height="35"
+                                Margin="10" FontSize="25"
+                                Background="#F4D160" FontFamily="SimHei" />
+
                     </StackPanel>
-
-                    <StackPanel Grid.Column="1" Margin="0,0,0,0">
-                        <TextBlock Text="数值" HorizontalAlignment="Center"
-                                   VerticalAlignment="Center" FontSize="20"
-                                   FontFamily="Calibri" />
-
-                        <TextBox Grid.Column="1"
-                                 Name="Send_Val" Text="$out[1]"
-                                 VerticalAlignment="Center" FontSize="25"
-                                 Background="White"
-                                 TextAlignment="Center"
-                                 FontFamily="Calibri" />
-                    </StackPanel>
-
-
                 </Grid>
 
-                <StackPanel Grid.Row="1"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Top"
-                            Orientation="Horizontal">
-
-                    <Button x:Name="BT2"
-                            Content="发送" Width="200" Height="35"
-                            Margin="10" FontSize="25"
-                            Background="#47aa57" FontFamily="SimHei">
-                        <Button.Style>
-                            <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle3}">
-                                <Setter Property="IsEnabled" Value="False" />
-                                <Style.Triggers>
-
-                                    <MultiDataTrigger>
-                                        <MultiDataTrigger.Conditions>
-                                            <Condition Binding="{Binding Connect_Socket_OK}" Value="true" />
-                                            <Condition Binding="{Binding Connect_Socket_Connection}" Value="true" />
-                                        </MultiDataTrigger.Conditions>
-                                        <MultiDataTrigger.Setters>
-                                            <Setter Property="IsEnabled" Value="True" />
-                                        </MultiDataTrigger.Setters>
-                                    </MultiDataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
 
 
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction Command="{Binding Path=DataContext.Socket_Send_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Socket_Write}}}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Socket_Write}}}" PassEventArgsToCommand="True" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </Button>
 
 
-                    <Button Style="{StaticResource ButtonStyle3}"
-                            Content="清除" Width="200" Height="35"
-                            Margin="10" FontSize="25"
-                            Background="#F4D160" FontFamily="SimHei" />
-
-                </StackPanel>
             </Grid>
 
-
-
-
-
-        </Grid>
-
+        </GroupBox>
 
     </Grid>
 </UserControl>
