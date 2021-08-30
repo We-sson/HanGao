@@ -72,11 +72,11 @@ namespace 悍高软件.Errorinfo
                 if (User_IP_Bool && User_Port_Bool)
                 {
 
-                    Messenger.Default.Send<bool>(true, "Connect_Button_IsEnabled_Method");
+                    Messenger.Default.Send<bool>(true, "Connect_Client_Button_IsEnabled");
                 }
                 else
                 {
-                    Messenger.Default.Send<bool>(false, "Connect_Button_IsEnabled_Method");
+                    Messenger.Default.Send<bool>(false, "Connect_Client_Button_IsEnabled");
 
                 }
 
@@ -118,7 +118,7 @@ namespace 悍高软件.Errorinfo
 
 
 
-        private string _User_IP = "192.168.159.147";
+        private string _User_IP;
         /// <summary>
         /// 用户输入IP
         /// </summary>
@@ -135,7 +135,7 @@ namespace 悍高软件.Errorinfo
             }
         }
 
-        private string _User_Port = "7000";
+        private string _User_Port ;
         /// <summary>
         /// 用户输入IP
         /// </summary>

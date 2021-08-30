@@ -16,9 +16,7 @@ using static Soceket_Connect.Socket_Connect;
 using static Soceket_KUKA.Socket_Receive;
 using static 悍高软件.ViewModel.User_Control_Log_ViewModel;
 using static 悍高软件.ViewModel.UserControl_Socket_Setup_ViewModel;
-
-
-
+using System.Collections;
 
 namespace Soceket_Connect
 {
@@ -114,10 +112,11 @@ namespace Soceket_Connect
 
 
 
+
         /// <summary>
         /// Socket连接方法
         /// </summary>
-        public void Socket_Client_KUKA(string _Ip, int _Port)
+        public void Socket_Client_KUKA(string _Ip, int _Port) 
         {
             //异步运行
             //Task.Run(() =>
@@ -125,7 +124,7 @@ namespace Soceket_Connect
             try
             {
             //显示连接中状态
-            Messenger.Default.Send<int>(0, "Connect_Socketing_Method");
+            Messenger.Default.Send<int>(0, "Connect_Client_Socketing_Button_Show");
 
                 IPEndPoint ip = new IPEndPoint(IPAddress.Parse(_Ip), _Port);
 
@@ -153,7 +152,7 @@ namespace Soceket_Connect
 
 
                     //禁止控件用户二次连接
-                    Messenger.Default.Send<bool>(false, "Connect_Button_IsEnabled_Method");
+                    Messenger.Default.Send<bool>(false, "Connect_Client_Button_IsEnabled");
 
 
 
@@ -161,7 +160,7 @@ namespace Soceket_Connect
                 catch (Exception e)
                 {
                     //允许用户操作连接按钮
-                    //Messenger.Default.Send<bool>(true, "Connect_Button_IsEnabled_Method");
+                    //Messenger.Default.Send<bool>(true, "Connect_Client_Button_IsEnabled");
 
                     
                     Socket_Receive_Error("Error:-2 " + e.Message);
@@ -255,14 +254,14 @@ namespace Soceket_Connect
                 if (Global_Socket_Read.Connected || Global_Socket_Write.Connected)
                 {
 
-                Messenger.Default.Send<int>(1, "Connect_Socketing_Method");
+                Messenger.Default.Send<int>(1, "Connect_Client_Socketing_Button_Show");
 
                 }
                 else
                 {
                     //连接失败后允许用户再次点击连接按钮
-                    Messenger.Default.Send<int>(-1, "Connect_Socketing_Method");
-                    Messenger.Default.Send<bool>(true, "Connect_Button_IsEnabled_Method");
+                    Messenger.Default.Send<int>(-1, "Connect_Client_Socketing_Button_Show");
+                    Messenger.Default.Send<bool>(true, "Connect_Client_Button_IsEnabled");
                     User_Log_Add("Error:-16 " + Client.RemoteEndPoint.ToString()+ "连接超时!" );
 
 
@@ -276,16 +275,16 @@ namespace Soceket_Connect
             catch (Exception e)
             {
 
-                //Messenger.Default.Send<bool>(false, "Connect_Button_IsEnabled_Method");
+                //Messenger.Default.Send<bool>(false, "Connect_Client_Button_IsEnabled");
                 //User_Log_Add("Error:-3 " + "连接失败:" + e.Message);
                 Socket_Receive_Error("Error:-3 " + e.Message);
                 //出现报错后运行再次连接
 
                 ////连接失败后允许用户再次点击连接按钮
-                //Messenger.Default.Send<bool>(true, "Connect_Button_IsEnabled_Method");
+                //Messenger.Default.Send<bool>(true, "Connect_Client_Button_IsEnabled");
 
                 ////连接状态显示
-                //Messenger.Default.Send<int>(-1, "Connect_Socketing_Method");
+                //Messenger.Default.Send<int>(-1, "Connect_Client_Socketing_Button_Show");
 
                 //出现异常退出连接
                 //return;
@@ -337,8 +336,8 @@ namespace Soceket_Connect
                 Global_Socket_Read = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
                 //连接失败后允许用户再次点击连接按钮
-                Messenger.Default.Send<bool>(true, "Connect_Button_IsEnabled_Method");
-                Messenger.Default.Send<int>(-1, "Connect_Socketing_Method");
+                Messenger.Default.Send<bool>(true, "Connect_Client_Button_IsEnabled");
+                Messenger.Default.Send<int>(-1, "Connect_Client_Socketing_Button_Show");
 
 
             }

@@ -6,7 +6,8 @@ using Soceket_Connect;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-
+using 悍高软件.Errorinfo;
+using 悍高软件.Model;
 using 悍高软件.Socket_KUKA;
 using 悍高软件.View.User_Control;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
@@ -30,111 +31,67 @@ namespace 悍高软件.ViewModel
             //注册消息接收
 
 
-            Messenger.Default.Register<string>(this, "Socket_Message_Show", Socket_Message_Show);
+            //Messenger.Default.Register<string>(this, "Socket_Message_Show", Socket_Message_Show);
 
             //连接按钮屏蔽方法
-            Messenger.Default.Register<bool>(this, "Connect_Button_IsEnabled_Method", (_Bool)=> 
+            Messenger.Default.Register<bool>(this, "Connect_Client_Button_IsEnabled", (_Bool)=> 
             {
-                Connect_Button_IsEnabled = _Bool;
+                Socket_Client_Setup.Connect_Button_IsEnabled = _Bool;
             });
 
 
 
-            //网络连接状态显示方法
-            Messenger.Default.Register<int>(this, "Connect_Socketing_Method", (_int)=> 
+            //连接控制柜，网络连接状态显示方法
+            Messenger.Default.Register<int>(this, "Connect_Client_Socketing_Button_Show", (_int)=> 
             {
-                switch (_int)
-                {
-                    case -1:
-                        Connect_Socket_Connection = false;
-                        Connect_Socket_OK = false;
-                        break;
-                    case 0:
-                        Connect_Socket_Connection = true;
-                        break;
-                    case 1:
-                        Connect_Socket_OK = true;
-                        break;
-                    default:
-                        User_Control_Log_ViewModel.User_Log_Add($"-1网络状态显示，传入错误值");
-                        break;
-                }
+                Socket_Client_Setup.Client_Button_Show(_int);
             });
 
-
+            //读取变量集合发送
             Messenger.Default.Register<ObservableCollection<Socket_Models_List>>(this, "List_Connect", List_Connect);
 
 
+            //通讯延时绑定
             Messenger.Default.Register<string>(this, "Connter_Time_Delay_Method",(s)=> { Connter_Time_Delay = s; });
 
 
 
 
+
+
+
         }
 
-        public string Connter_Time_Delay { set; get; } = "-1";
+
+        public Socket_Setup_Models Socket_Client_Setup { set; get; } = new Socket_Setup_Models() { Control_Name_String="连接控制柜" ,Text_Error = new IP_Text_Error() { User_IP = "192.168.159.147", User_Port = "7000" } };
+        public Socket_Setup_Models Socket_Server_Setup { set; get; } = new Socket_Setup_Models() { Control_Name_String = "监听控制柜", Text_Error = new IP_Text_Error() { User_IP = "192.168.159.1", User_Port = "5000" } };
 
 
-        private bool _Connect_Button_IsEnabled = true;
+
+
+
+        //private string _Socket_Message = "准备接收....";
+        ///// <summary>
+        ///// 接收消息属性
+        ///// </summary>
+        //public string Socket_Message
+        //{
+        //    get
+        //    {
+        //        return _Socket_Message;
+        //        //return _Socket_Message;
+        //    }
+        //    set
+        //    {
+        //        _Socket_Message = value;
+        //    }
+        //}
+
         /// <summary>
-        /// 连接按钮连接后禁止重复连接
+        /// 通讯延时显示
         /// </summary>
-        public bool Connect_Button_IsEnabled
-        {
-            get
-            {
-                return _Connect_Button_IsEnabled;
-            }
-            set
-            {
-                _Connect_Button_IsEnabled = value;
-            }
-        }
+        public string Connter_Time_Delay { set; get; } = "0";
 
-        /// <summary>
-        /// 设备连接中状态...
-        /// </summary>
-        public bool Connect_Socket_Connection { set; get; } = false;
-
-        /// <summary>
-        /// 设备成功状态...
-        /// </summary>
-        public bool Connect_Socket_OK { set; get; } = false;
-
-
-        private string _Socket_Message = "准备接收....";
-        /// <summary>
-        /// 接收消息属性
-        /// </summary>
-        public string Socket_Message
-        {
-            get
-            {
-                return _Socket_Message;
-                //return _Socket_Message;
-            }
-            set
-            {
-                _Socket_Message = value;
-            }
-        }
-
-        private string _User_IP;
-        /// <summary>
-        /// 用户输入IP
-        /// </summary>
-        public string User_IP
-        {
-            get
-            {
-                return _User_IP;
-                //return _Socket_Message;
-            }
-            set
-            {
-                _User_IP = value;
-            }
-        }
 
         public static ObservableCollection<Socket_Models_List> _Socket_Read_List { set; get; } = new ObservableCollection<Socket_Models_List>() { };
         /// <summary>
@@ -170,10 +127,10 @@ namespace 悍高软件.ViewModel
             foreach (var item in _List)
             {
 
-                if (!UserControl_Socket_Setup_ViewModel.Socket_Read_List.Any<Socket_Models_List>(l => l.Val_Name == item.Val_Name))
+                if (!Socket_Read_List.Any<Socket_Models_List>(l => l.Val_Name == item.Val_Name))
                 {
 
-                    UserControl_Socket_Setup_ViewModel.Socket_Read_List.Add(item);
+                    Socket_Read_List.Add(item);
                 }
 
             }
@@ -191,13 +148,13 @@ namespace 悍高软件.ViewModel
 
 
 
-        //接收到信息显示到前端界面方法
-        public void Socket_Message_Show(string Message)
-        {
+        ////接收到信息显示到前端界面方法
+        //public void Socket_Message_Show(string Message)
+        //{
 
-            Socket_Message = Message;
+        //    Socket_Message = Message;
 
-        }
+        //}
 
 
 
@@ -249,27 +206,6 @@ namespace 悍高软件.ViewModel
 
 
 
-        /// <summary>
-        /// Socket连接事件命令
-        /// </summary>
-        public ICommand Socket_Connection_Comm
-        {
-            get => new DelegateCommand<User_Control_Socket_Setup>( (Sm) => 
-            {
-
-                //把参数类型转换控件
-                //UIElement e = Sm.Source as UIElement;
-
-                Socket_Connect Soceket_KUKA_Client = new Socket_Connect();
-
-
-                //创建连接
-                 //Soceket_KUKA_Client.Socket_Client_KUKA(Sm.TB1.Text, int.Parse(Sm.TB2.Text));
-
-
-
-            });
-        }
 
 
 

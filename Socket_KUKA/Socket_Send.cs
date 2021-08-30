@@ -102,7 +102,7 @@ namespace 悍高软件.Socket_KUKA
             catch (Exception e)
             {
 
-                //Messenger.Default.Send<bool>(true, "Connect_Button_IsEnabled_Method");
+                //Messenger.Default.Send<bool>(true, "Connect_Client_Button_IsEnabled");
 
                 //User_Log_Add("Error:-6 " + e.Message);
 

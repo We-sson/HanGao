@@ -302,8 +302,8 @@ namespace Soceket_KUKA
             //Messenger.Default.Send<bool?>(false, "Sidebar_Subtitle_Signal_Method_bool");
 
             ////连接失败后允许用户再次点击连接按钮
-            //Messenger.Default.Send<bool>(true, "Connect_Button_IsEnabled_Method");
-            //Messenger.Default.Send<int>(-1, "Connect_Socketing_Method");
+            //Messenger.Default.Send<bool>(true, "Connect_Client_Button_IsEnabled");
+            //Messenger.Default.Send<int>(-1, "Connect_Client_Socketing_Button_Show");
             Socket_Close();
             User_Log_Add(_Error);
 

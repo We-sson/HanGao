@@ -282,6 +282,7 @@
     <Compile Include="Model\List_Show_Models.cs" />
     <Compile Include="Model\Sideber_Models.cs" />
     <Compile Include="Model\Sink_Models.cs" />
+    <Compile Include="Model\Socket_Setup_Models.cs" />
     <Compile Include="Model\User_Features.cs" />
     <Compile Include="Model\User_Log_Models.cs" />
     <Compile Include="Model\User_Message_Models.cs" />
@@ -337,6 +338,9 @@
     <Compile Include="View\User_Control\UserControl_Sideber_Show.xaml.cs">
       <DependentUpon>UserControl_Sideber_Show.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\User_Control\UserControl_Socket_Conntec_UI.xaml.cs">
+      <DependentUpon>UserControl_Socket_Conntec_UI.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\User_Control\UserControl_Socket_Write.xaml.cs">
       <DependentUpon>UserControl_Socket_Write.xaml</DependentUpon>
     </Compile>
@@ -349,6 +353,8 @@
     <Compile Include="View\User_Control\User_Control_Socket_Setup.xaml.cs">
       <DependentUpon>User_Control_Socket_Setup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\User_Control\User_Control_ViewModel\Socket_Client_Setup.cs" />
+    <Compile Include="View\User_Control\User_Control_ViewModel\Socket_Server_Setup.cs" />
     <Compile Include="View\User_Control\User_Control_Working.xaml.cs">
       <DependentUpon>User_Control_Working.xaml</DependentUpon>
     </Compile>
@@ -463,6 +469,9 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\User_Control\UserControl_Sideber_Show.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\User_Control\UserControl_Socket_Conntec_UI.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\User_Control\UserControl_Socket_Write.xaml">

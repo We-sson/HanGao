@@ -36,11 +36,14 @@ namespace 悍高软件.ViewModel
             //    // Code runs "for real"
             //}
 
+
+
             Messenger.Default.Register<Sideber_Models>(this, "Sideber_Show", (Sm)=> { Sideber_Var = Sm; });
 
         }
 
 
+        //侧边栏内容
         public Sideber_Models Sideber_Var { set; get; } = new Sideber_Models() { Sideber_Open=false };
 
 

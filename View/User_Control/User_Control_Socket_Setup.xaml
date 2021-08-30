@@ -4,6 +4,7 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:UC_Working="clr-namespace:悍高软件.View.User_Control"
              xmlns:local="clr-namespace:悍高软件.View.User_Control"
              d:DesignHeight="800" d:DesignWidth="500"
              DataContext="{Binding Source={StaticResource Locator}, Path=Socket_Setup}"
@@ -12,8 +13,8 @@
     <Grid>
 
         <TextBlock Grid.Row="0" Grid.Column="0"
-                   Text="{Binding Connter_Time_Delay, StringFormat={}{0}ms}"
-                   Margin="30,-10,0,0"
+                   Text="{Binding Connter_Time_Delay, StringFormat={}通讯延时:{0}ms}"
+                   Margin="10,-20,0,0"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Top" Panel.ZIndex="1"
                    Visibility="Visible" Foreground="Green"
@@ -22,185 +23,13 @@
 
 
 
-
-        <GroupBox Style="{StaticResource GroupBox_Grid_Effect}" VerticalAlignment="Top" Background="White">
-
-            <StackPanel>
-
-
-
-                <Border x:Name="BD1"
-                        Height="65" Margin="5" Padding="0"
-                        BorderThickness="3" Background="#c5c5c5"
-                        CornerRadius="10" ClipToBounds="True">
-
-
-
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="130*" />
-                            <ColumnDefinition Width="187*" />
-                            <ColumnDefinition Width="137*" />
-                        </Grid.ColumnDefinitions>
+        <StackPanel>
+            <UC_Working:UserControl_Socket_Conntec_UI DataContext="{Binding Source={StaticResource Locator}, Path=Socket_Setup.Socket_Client_Setup}" />
 
 
 
 
-
-                        <TextBlock Grid.Column="0"
-                                   Text="地址:" Margin="31.245,10.45"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center" FontSize="30" />
-                        <TextBox Style="{StaticResource TextBoxStyle1}" Grid.Column="1"
-                                 Name="TB1" Grid.ColumnSpan="2"
-                                 Text="{Binding User_IP, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                 Margin="0,13.625,30,13.625"
-                                 VerticalAlignment="Center"
-                                 ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"
-                                 DataContext="{Binding Source={StaticResource Locator}, Path=IP_Text_Error}"
-                                 Validation.ErrorTemplate="{x:Null}"
-                                 Tag="输入控制柜IP地址" FontSize="25"
-                                 Background="Transparent" />
-
-                    </Grid>
-                    <!--  用户输入验证提示  -->
-                    <Border.Style>
-                        <Style TargetType="Border">
-
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=TB1, Path=(Validation.HasError)}" Value="true">
-
-                                    <Setter Property="BorderBrush" Value="Red" />
-                                </DataTrigger>
-
-                            </Style.Triggers>
-                        </Style>
-                    </Border.Style>
-                </Border>
-                <Border Height="65"
-                        Margin="{Binding ElementName=BD1, Path=Margin}"
-                        BorderThickness="{Binding ElementName=BD1, Path=BorderThickness}"
-                        Background="{Binding ElementName=BD1, Path=Background}"
-                        CornerRadius="10">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.4*" />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0"
-                                   Text="端口:" HorizontalAlignment="Center"
-                                   VerticalAlignment="Center" FontSize="30" />
-                        <TextBox Style="{StaticResource TextBoxStyle1}" Grid.Column="1"
-                                 Name="TB2"
-                                 Text="{Binding User_Port, ValidatesOnDataErrors=True}"
-                                 Width="244.286" Margin="0,13.625"
-                                 HorizontalAlignment="Left"
-                                 VerticalAlignment="Center"
-                                 DataContext="{Binding Source={StaticResource Locator}, Path=IP_Text_Error}"
-                                 Validation.ErrorTemplate="{x:Null}"
-                                 ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"
-                                 FontSize="25" Tag="默认端口7000" />
-
-
-
-
-                    </Grid>
-                    <!--  用户输入验证提示  -->
-                    <Border.Style>
-                        <Style TargetType="Border">
-
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=TB2, Path=(Validation.HasError)}" Value="true">
-
-                                    <Setter Property="BorderBrush" Value="Red" />
-                                </DataTrigger>
-
-                            </Style.Triggers>
-                        </Style>
-                    </Border.Style>
-                </Border>
-
-
-
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-
-
-
-                    <Button x:Name="BU1" Grid.Column="0"
-                            Height="50" Margin="10" Tag="Connect"
-                            IsEnabled="{Binding Connect_Button_IsEnabled}"
-                            FontSize="25">
-
-                        <Button.Style>
-                            <Style BasedOn="{StaticResource ButtonStyle3}" TargetType="Button">
-                                <Style.Setters>
-                                    <Setter Property="Background" Value="#AAAAAA" />
-                                    <Setter Property="Content" Value="连接控制柜" />
-                                </Style.Setters>
-                                <Style.Triggers>
-                                    <MultiDataTrigger>
-                                        <MultiDataTrigger.Conditions>
-                                            <Condition Binding="{Binding Connect_Socket_OK}" Value="false" />
-                                            <Condition Binding="{Binding Connect_Socket_Connection}" Value="true" />
-                                        </MultiDataTrigger.Conditions>
-                                        <MultiDataTrigger.Setters>
-                                            <Setter Property="Background" Value="#F4D160" />
-                                            <Setter Property="Content" Value="连接中..." />
-                                        </MultiDataTrigger.Setters>
-                                    </MultiDataTrigger>
-
-                                    <MultiDataTrigger>
-                                        <MultiDataTrigger.Conditions>
-                                            <Condition Binding="{Binding Connect_Socket_OK}" Value="true" />
-                                            <Condition Binding="{Binding Connect_Socket_Connection}" Value="true" />
-                                        </MultiDataTrigger.Conditions>
-                                        <MultiDataTrigger.Setters>
-                                            <Setter Property="Background" Value="#47aa57" />
-                                            <Setter Property="Content" Value="连接成功" />
-                                        </MultiDataTrigger.Setters>
-                                    </MultiDataTrigger>
-
-
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction Command="{Binding Path=DataContext.Socket_Connection_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Socket_Write}}}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Socket_Write}}}" PassEventArgsToCommand="True" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </Button>
-
-
-                    <Button Style="{StaticResource ButtonStyle3}" x:Name="BU2" Grid.Column="1"
-                            Content="断开连接" Height="50" Margin="10"
-                            Tag="Disconnect" Foreground="Black"
-                            Background="#FF5E57" FontSize="25">
-
-
-
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction Command="{Binding Path=DataContext.Socket_Close_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Socket_Write}}}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Socket_Write}}}" PassEventArgsToCommand="True" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </Button>
-
-
-
-
-
-                </Grid>
-
-
-            </StackPanel>
-
-        </GroupBox>
+            <UC_Working:UserControl_Socket_Conntec_UI Margin=" 0 20 0 0" DataContext="{Binding Source={StaticResource Locator}, Path=Socket_Setup.Socket_Server_Setup}" />
 
 
 
@@ -209,6 +38,7 @@
 
 
 
+        </StackPanel>
 
 
 
