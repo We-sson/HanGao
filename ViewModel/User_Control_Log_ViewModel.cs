@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using Nancy.Helpers;
-using Prism.Commands;
+ 
 using PropertyChanged;
 using System;
 using System.Threading;
@@ -87,7 +88,7 @@ namespace 悍高软件.ViewModel
         /// </summary>
         public ICommand Update_Log_Comm
         {
-            get => new DelegateCommand<ScrollViewer>(Update_Log);
+            get => new RelayCommand<ScrollViewer>(Update_Log);
         }
         /// <summary>
         /// 添加消息时触发事件方法

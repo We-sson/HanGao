@@ -6,8 +6,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:悍高软件.View.User_Control"
-             d:DesignHeight="800" d:DesignWidth="500"
-             DataContext="{Binding Source={StaticResource Locator}, Path=Socket_Write}"
+             xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight"
+             d:DesignHeight="800" d:DesignWidth="700"
+             DataContext="{Binding Source={StaticResource Locator}, Path=Socket_Var_Show}"
              mc:Ignorable="d">
     <Grid>
 
@@ -20,24 +21,29 @@
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
 
-                <TextBlock Text="读取变量显示区域" Margin="0,-20,0,0"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Top" Opacity="0.4"
-                           FontSize="15" Foreground="Gray"
-                           FontFamily="Calibri" />
 
-                <ListView Style="{StaticResource ListViewStyle1}" Grid.Row="0"
-                          Visibility="Visible"
-                          DataContext="{Binding Source={StaticResource Locator}, Path=UserControl_Right_Socket_Connection_ViewModel}"
-                          ItemsSource="{Binding Socket_Read_List}">
+
+                <ListView Grid.Row="0" ItemsSource="{Binding Socket_Read_List}">
                     <ListView.View>
                         <GridView AllowsColumnReorder="False">
 
 
-                            <GridViewColumn Width="auto" Header="启用">
+                            <GridViewColumn Width="auto">
+                                <GridViewColumn.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <CheckBox />
+                                        <TextBlock Text=" 启动" />
+                                    </StackPanel>
+                                </GridViewColumn.Header>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <CheckBox IsChecked="{Binding Val_OnOff}" VerticalAlignment="Center" />
+                                        <CheckBox IsChecked="{Binding Val_OnOff}"
+                                                  HorizontalAlignment="Stretch"
+                                                  VerticalAlignment="Stretch"
+                                                  HorizontalContentAlignment="Center"
+                                                  VerticalContentAlignment="Center"
+                                                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                                  ScrollViewer.HorizontalScrollBarVisibility="Auto" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -57,7 +63,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Width="150" Header="读取值" DisplayMemberBinding="{Binding Val_Var}">
+                            <GridViewColumn Width="300" Header="读取值" DisplayMemberBinding="{Binding Val_Var}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Val_Var}" HorizontalAlignment="Center" />
@@ -85,10 +91,17 @@
 
                 </ListView>
 
+                <Button Grid.Row="1" Content="更新">
 
-                <ListBox Style="{StaticResource ListBoxStyle1}" x:Name="Socket_Show_List" Grid.Row="0"
-                         Margin="10" Visibility="Collapsed"
-                         ItemsSource="{Binding Socket_Read_List}" />
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+
+                            <i:InvokeCommandAction Command="{Binding Click_Comm}" CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+
 
 
 

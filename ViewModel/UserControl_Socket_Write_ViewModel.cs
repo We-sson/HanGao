@@ -1,14 +1,17 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
-using Prism.Commands;
+ 
 using PropertyChanged;
 using Soceket_Connect;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-
+using static 悍高软件.Socket_KUKA.Socket_Send;
 using 悍高软件.Socket_KUKA;
 using 悍高软件.View.User_Control;
+using System.Threading.Tasks;
+using System.Windows;
+using GalaSoft.MvvmLight.Command;
 
 namespace 悍高软件.ViewModel
 {
@@ -19,6 +22,66 @@ namespace 悍高软件.ViewModel
         public UserControl_Socket_Write_ViewModel()
         {
 
+        }
+
+
+        /// <summary>
+        /// Socket发送事件命令
+        /// </summary>
+        public ICommand Socket_Send_Comm
+        {
+            get => new RelayCommand<UserControl_Socket_Write>(async (Sm)=> 
+            {
+
+                //把参数类型转换控件
+                //UIElement e = Sm.Source as UIElement;
+
+                await  Task.Run(() => 
+                {
+
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        //发输入框内的数值
+                        Send_Write_Var(Sm.Send_Name.Text, Sm.Send_Val.Text);
+
+                    });
+                });
+
+
+
+            
+            });
+        }
+
+        /// <summary>
+        /// 清除控件内容事件
+        /// </summary>
+        public ICommand Content_Removal_Comm
+        {
+            get => new RelayCommand<UserControl_Socket_Write>(async (Sm) =>
+            {
+
+                //把参数类型转换控件
+                //UIElement e = Sm.Source as UIElement;
+
+
+                await Task.Run(() =>
+                {
+                    Application.Current.Dispatcher.Invoke(() => 
+                    {
+                    //清除输入框内的数值
+                        Sm.Send_Val.Text= Sm.Send_Name.Text= null;
+                    });
+
+              
+
+
+                });
+
+
+
+
+            });
         }
 
 

@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
-using Prism.Commands;
+
 using PropertyChanged;
 using Soceket_Connect;
 using System;
@@ -112,7 +113,7 @@ namespace 悍高软件.ViewModel
         public ICommand Find_List_event
         {
 
-            get => new DelegateCommand<String>((ob) =>
+            get => new RelayCommand<string>((ob) =>
             {
                 for (int i = 0; i < SinkModels.Count; i++)
                 {
@@ -165,7 +166,7 @@ namespace 悍高软件.ViewModel
         /// </summary>
         public ICommand Work_Connt_Comm
         {
-            get => new DelegateCommand<RoutedEventArgs>(Set_Work_Connt);
+            get => new RelayCommand<RoutedEventArgs>(Set_Work_Connt);
         }
         /// <summary>
         /// 显示计数功能
@@ -193,7 +194,7 @@ namespace 悍高软件.ViewModel
         /// </summary>
         public ICommand Set_Working_Comm
         {
-            get => new DelegateCommand<RoutedEventArgs>((Sm) =>
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
                 //把参数类型转换控件
                 CheckBox e = Sm.Source as CheckBox;

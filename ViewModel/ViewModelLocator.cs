@@ -12,6 +12,7 @@
   See http://www.galasoft.ch/mvvm
 */
 
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using 悍高软件.Errorinfo;
 using 悍高软件.ViewModel;

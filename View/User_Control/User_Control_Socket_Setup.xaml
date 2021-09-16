@@ -26,10 +26,15 @@
         <StackPanel>
             <UC_Working:UserControl_Socket_Conntec_UI DataContext="{Binding Source={StaticResource Locator}, Path=Socket_Setup.Socket_Client_Setup}" />
 
+            <TextBlock Grid.Row="0" Grid.Column="0"
+                       Text="{Binding ClientCount, StringFormat={}库卡连接数量:{0}}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Top" Panel.ZIndex="1"
+                       Visibility="{Binding Socket_Countion_Show}"
+                       Foreground="Green" FontSize="15" />
 
 
-
-            <UC_Working:UserControl_Socket_Conntec_UI Margin=" 0 20 0 0" DataContext="{Binding Source={StaticResource Locator}, Path=Socket_Setup.Socket_Server_Setup}" />
+            <UC_Working:UserControl_Socket_Conntec_UI Margin="0,0,0,0" DataContext="{Binding Source={StaticResource Locator}, Path=Socket_Setup.Socket_Server_Setup}" />
 
 
 

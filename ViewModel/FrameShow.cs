@@ -1,5 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
-using Prism.Commands;
+using GalaSoft.MvvmLight.Command;
 using PropertyChanged;
 using System.Windows;
 using System.Windows.Controls;
@@ -56,7 +56,7 @@ namespace 悍高软件.ViewModel
         /// </summary>
         public ICommand Set_User_Show
         {
-            get => new DelegateCommand<Control>(Set_User);
+            get => new RelayCommand<Control>(Set_User);
         }
 
 
@@ -89,7 +89,7 @@ namespace 悍高软件.ViewModel
 
         public ICommand Min_Window
         {
-            get => new DelegateCommand<Window>(Min_Window_Comm);
+            get => new RelayCommand<Window>(Min_Window_Comm);
         }
         /// <summary>
         /// 主窗口最小化
@@ -105,7 +105,7 @@ namespace 悍高软件.ViewModel
 
         public ICommand Max_Window
         {
-            get => new DelegateCommand<Window>(Max_Window_Comm);
+            get => new RelayCommand<Window>(Max_Window_Comm);
         }
         /// <summary>
         /// 主窗口最大化
@@ -120,7 +120,7 @@ namespace 悍高软件.ViewModel
         }
         public ICommand Close_Window
         {
-            get => new DelegateCommand<Window>(Close_Window_Comm);
+            get => new RelayCommand<Window>(Close_Window_Comm);
         }
         /// <summary>
         /// 主窗口关闭

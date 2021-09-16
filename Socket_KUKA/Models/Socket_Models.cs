@@ -4,25 +4,13 @@ using System.Globalization;
 using System.Net;
 using System.Net.Sockets;
 using static Soceket_KUKA.Models.KUKA_Value_Type;
+using static Soceket_KUKA.Models.Socket_Models_Receive;
 
 namespace Soceket_KUKA.Models
 {
     [AddINotifyPropertyChangedInterface]
-    public class Socket_Models_Connect 
+    public class Socket_Models_Connect
     {
-
-        public Socket_Models_Connect()
-        {
-
-
-
-        }
-
-
-
-        public static byte[] byte_Write_Receive { set; get; } = new byte[1024 * 2];
-        public static byte[] byte_Read_Receive { set; get; } = new byte[1024 * 2];
-
 
         private object _IP = null;
         /// <summary>
@@ -48,25 +36,10 @@ namespace Soceket_KUKA.Models
 
 
 
-        private Socket _Client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         /// <summary>
         /// Socket连接默认设置模式TCP
         /// </summary>
-        public Socket Client
-        {
-            get
-            {
-                return _Client;
-            }
-            set
-            {
-                _Client = value;
-            }
-        }
-
-
-
-
+        public Socket Client { set; get; } = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
 
 
@@ -126,10 +99,7 @@ namespace Soceket_KUKA.Models
             return arr;
         }
 
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
+
     }
 
 
@@ -139,36 +109,19 @@ namespace Soceket_KUKA.Models
     {
 
 
-        private Byte[]  _Send_Byte;
+
         /// <summary>
         /// 发送字节组属性
         /// </summary>
-        public Byte[] Send_Byte
-        {
-            get
-            {
-                return _Send_Byte;
-            }
-            set
-            {
-                _Send_Byte = value;
-            }
-        }
-        private int _Send_int;
+        public byte[] Send_Byte { set; get; }= Array.Empty<byte>();
+
+
+
         /// <summary>
         /// 读取写入属性
         /// </summary>
-        public int Send_int
-        {
-            get
-            {
-                return _Send_int;
-            }
-            set
-            {
-                _Send_int = value;
-            }
-        }
+        public Read_Write_Enum Read_Write_Type { set; get; } = Read_Write_Enum.Null;
+
 
 
     }
@@ -176,66 +129,39 @@ namespace Soceket_KUKA.Models
     [AddINotifyPropertyChangedInterface]
     public class Socket_Models_Receive
     {
-        private string _Receive_Message = "准备接收";
-        /// <summary>
-        /// 接受消息属性
-        /// </summary>
-        public string Receive_Message
-        {
-            get
-            {
-                return _Receive_Message;
-            }
-            set
-            {
 
-                _Receive_Message = value;
-            }
-        }
 
         /// <summary>
         /// 接收空字节流属性
         /// </summary>
-        public byte[] byte_Write_Receive { set; get; } = new byte[1024 * 2];
-        public byte[] byte_Read_Receive { set; get; } = new byte[1024 * 2];
+        public byte[] Byte_Write_Receive { set; get; } = new byte[1024 * 2];
+        public byte[] Byte_Read_Receive { set; get; } = new byte[1024 * 2];
 
-
+        /// <summary>
+        /// 接收字节长度
+        /// </summary>
         public int Byte_Leng { set; get; } = 0;
 
 
-        private byte[] _Reveive_Byte;
+
         /// <summary>
         /// 接收字节组属性
         /// </summary>
-        public byte[] Reveive_Byte
-        {
-            get
-            {
-                return _Reveive_Byte;
-            }
-            set
-            {
-                _Reveive_Byte = value;
-            }
-        }
-        private int _Read_int;
+        public byte[] Reveive_Byte { set; get; }= Array.Empty<byte>();
+
+
         /// <summary>
         /// 写入属性
         /// </summary>
-        public int Read_int
-        {
-            get
-            {
-                return _Read_int;
-            }
-            set
-            {
-                _Read_int = value;
-            }
-        }
+        public Read_Write_Enum Read_Write_Type { set; get; } = Read_Write_Enum.Null;
 
 
-        [AddINotifyPropertyChangedInterface]
+
+        public enum Read_Write_Enum  {Null =-1,Read,Write}
+
+
+
+    
         public class Socket_Models_List
         {
 
@@ -253,7 +179,7 @@ namespace Soceket_KUKA.Models
             /// <summary>
             /// 储存绑定双方变量名
             /// </summary>
-           public string Bingding_Value { set; get; }
+            public string Bingding_Value { set; get; }
 
             private string _Val_Name;
             /// <summary>
@@ -271,7 +197,7 @@ namespace Soceket_KUKA.Models
                 }
             }
 
-            private string _Val_Var="";
+            private string _Val_Var = "";
             /// <summary>
             /// 变量名称值
             /// </summary>
@@ -279,7 +205,7 @@ namespace Soceket_KUKA.Models
             {
                 get
                 {
-                    if (KUKA_Value_Enum == Value_Type.Bool &&  _Val_Var!="")
+                    if (KUKA_Value_Enum == Value_Type.Bool && _Val_Var != "")
                     {
                         return _Val_Var.ToUpper();
 
@@ -290,8 +216,8 @@ namespace Soceket_KUKA.Models
                 }
                 set
                 {
-                    if (_Val_Var== value) { return; }
-     
+                    if (_Val_Var == value) { return; }
+
                     _Val_Var = value;
                 }
             }
@@ -327,7 +253,7 @@ namespace Soceket_KUKA.Models
                 }
             }
 
-            private DateTime _Val_Update_Time=DateTime.Now.ToLocalTime();
+            private DateTime _Val_Update_Time = DateTime.Now.ToLocalTime();
             /// <summary>
             /// 读取时间
             /// </summary>
@@ -337,11 +263,11 @@ namespace Soceket_KUKA.Models
                 {
                     return DateTime.Now;
                 }
-                set 
+                set
                 {
                     _Val_Update_Time = value;
                 }
-        
+
             }
             /// <summary>
             /// 变量名称归属地方
@@ -353,20 +279,105 @@ namespace Soceket_KUKA.Models
     }
 
 
-        [AddINotifyPropertyChangedInterface]
-        public class KUKA_Value_Type
+    [AddINotifyPropertyChangedInterface]
+    public class KUKA_Value_Type
+    {
+        /// <summary>
+        /// 机器人端变量属性
+        /// </summary>
+        public enum Value_Type
         {
-            /// <summary>
-            /// 机器人端变量属性
-            /// </summary>
-            public enum Value_Type
+            String,
+            Int,
+            Char,
+            Bool,
+            Null
+        }
+
+    }
+
+
+    [AddINotifyPropertyChangedInterface]
+    public class Socket_Models_Server
+    {
+        public Socket_Models_Server()
+        {
+
+
+
+
+        }
+
+
+        #region 属性
+
+        /// <summary>
+        /// 服务器接收字节缓存
+        /// </summary>
+        public byte[] Server_Recv_Byte { set; get; } 
+
+        /// <summary>
+        /// 服务器发送数据
+        /// </summary>
+        public string Server_Send_Data { set; get; } = string.Empty;
+
+        /// <summary>
+        /// 库卡连接对象
+        /// </summary>
+        public Socket Server_Kuka_Client { set; get; }
+
+
+
+
+        #endregion
+
+
+        #region 方法
+
+        /// <summary>
+        /// 初始化接收字节
+        /// </summary>
+        public void Ini_Byte()
+        {
+            if (Server_Kuka_Client !=null)
             {
-                String,
-                Int,
-                Char,
-                Bool,
-                Null
+                Server_Recv_Byte = new byte[Server_Kuka_Client.ReceiveBufferSize];
+            }
+        }
+
+        /// <summary>
+        /// 关闭当前连接Socket对象
+        /// </summary>
+        public void Server_Closer()
+        {
+            if (Server_Kuka_Client!=null )
+            {
+                Server_Kuka_Client.Shutdown(SocketShutdown.Both);
+                Server_Kuka_Client.Close();
+
             }
 
         }
+
+
+        #endregion
+
+    }
+
+    /// <summary>
+    /// 接收字节分解属性
+    /// </summary>
+    [AddINotifyPropertyChangedInterface]
+    public class Socket_Modesl_Byte
+    {
+        public int _ID { set; get; } = -1;
+        public int _Val_Total_Length { set; get; } = -1;
+        public int _Return_Tpye { set; get; } = -1;
+        public int _Val_Length { set; get; } = -1;
+        public string  Message_Show { set; get; } = string.Empty;
+        public int _Write_Type { set; get; } = -1;
+        public byte[] _data { set; get; } = Array.Empty<byte>();
+
+
+    }
 }

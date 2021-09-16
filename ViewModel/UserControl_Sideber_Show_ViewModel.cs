@@ -1,13 +1,15 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using Nancy.Helpers;
-using Prism.Commands;
+ 
 using PropertyChanged;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using 悍高软件.Model;
+using static 悍高软件.ViewModel.Home_ViewModel;
 
 namespace 悍高软件.ViewModel
 {
@@ -38,13 +40,13 @@ namespace 悍高软件.ViewModel
 
 
 
-            Messenger.Default.Register<Sideber_Models>(this, "Sideber_Show", (Sm)=> { Sideber_Var = Sm; });
+            Messenger.Default.Register<Sideber_Models>(this, "Sideber_Show", (Sm) => { Sideber_Var = Sm; });
 
         }
 
 
         //侧边栏内容
-        public Sideber_Models Sideber_Var { set; get; } = new Sideber_Models() { Sideber_Open=false };
+        public Sideber_Models Sideber_Var { set; get; } = Sideber_List[0];
 
 
 
@@ -56,7 +58,7 @@ namespace 悍高软件.ViewModel
         /// </summary>
         public ICommand Click_OPen_Comm
         {
-            get => new DelegateCommand<RoutedEventArgs>((Sm)=> 
+            get => new RelayCommand<RoutedEventArgs>((Sm)=> 
             { 
             
             //把参数类型转换控件
@@ -67,24 +69,7 @@ namespace 悍高软件.ViewModel
                 
 
 
-            //    if (e.Uid == "Open")
-            //{
-            //    Sideber_Var.Sideber_Open = true;
-            //        //侧边栏打开主页面模糊
-            //        //Messenger.Default.Send<Double>(0, "Open_Effect");
-            //        ////侧边栏打开后主页黑化禁止用户操作
-            //        //Messenger.Default.Send<Visibility>(Visibility.Visible, "Home_Visibility_Show");
 
-
-            //}
-            //else if (e.Uid == "Close")
-            //{
-            //    Sideber_Var.Sideber_Open = false;
-            //     Sideber_Var.Sidebar_Control = null;
-            //    //Messenger.Default.Send<Double>(0, "Open_Effect");
-            //    //Messenger.Default.Send<Visibility>(Visibility.Collapsed, "Home_Visibility_Show");
-
-            //    }
             });
         }
 

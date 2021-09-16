@@ -153,14 +153,14 @@
 
 
                 <!--  加工路径区域  -->
-                <UC_Working:User_Control_Working_Path Grid.Row="1" Grid.Column="1"
+                <UC_Working:User_Control_Working_Path Grid.Row="1" Grid.Column="0"
                                                       Margin="0,20,0,0"
                                                       DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_Path_VM}" />
 
 
 
                 <!--  设备状态显示区域  -->
-                <UC_Working:User_Control_Log Grid.Row="1" Grid.Column="0" Margin="0,20,0,0" />
+                <UC_Working:User_Control_Log Grid.Row="1" Grid.Column="1" Margin="0,20,0,0" />
 
 
 

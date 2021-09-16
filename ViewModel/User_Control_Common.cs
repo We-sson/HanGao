@@ -1,6 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
-using Prism.Commands;
+using GalaSoft.MvvmLight.Command;
 using PropertyChanged;
 using Soceket_Connect;
 using Soceket_KUKA.Models;
@@ -220,7 +220,7 @@ namespace 悍高软件.ViewModel
         /// </summary>
         public ICommand Work_Run_Comm
         {
-            get => new DelegateCommand<RoutedEventArgs>((Sm) =>
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
                 //把参数类型转换控件
                 CheckBox e = Sm.Source as CheckBox;
@@ -242,7 +242,7 @@ namespace 悍高软件.ViewModel
         /// </summary>
         public ICommand User_Loaded_Comm
         {
-            get => new DelegateCommand<RoutedEventArgs>((Sm)=> 
+            get => new RelayCommand<RoutedEventArgs>((Sm)=> 
             {
             
             //把参数类型转换控件
@@ -261,7 +261,7 @@ namespace 悍高软件.ViewModel
         /// </summary>
         public ICommand Work_Connt_Comm
         {
-            get => new DelegateCommand<RoutedEventArgs>((Sm)=> 
+            get => new RelayCommand<RoutedEventArgs>((Sm)=> 
             {
                 //把参数类型转换控件
                 CheckBox e = Sm.Source as CheckBox;
@@ -282,7 +282,7 @@ namespace 悍高软件.ViewModel
         /// </summary>
         public ICommand Work_NullRun_Comm
         {
-            get => new DelegateCommand<RoutedEventArgs>((Sm)=> 
+            get => new RelayCommand<RoutedEventArgs>((Sm)=> 
             {
                 //把参数类型转换控件
                 CheckBox e = Sm.Source as CheckBox;
@@ -304,7 +304,7 @@ namespace 悍高软件.ViewModel
         /// </summary>
         public ICommand Work_Pause_Comm
         {
-            get => new DelegateCommand<RoutedEventArgs>((Sm)=> 
+            get => new RelayCommand<RoutedEventArgs>((Sm)=> 
             {
                 //把参数类型转换控件
                 CheckBox e = Sm.Source as CheckBox;
@@ -328,7 +328,7 @@ namespace 悍高软件.ViewModel
         /// </summary>
         public ICommand Work_JumpOver_Comm
         {
-            get => new DelegateCommand<RoutedEventArgs>((Sm)=> 
+            get => new RelayCommand<RoutedEventArgs>((Sm)=> 
             {
                 //把参数类型转换控件
                 CheckBox e = Sm.Source as CheckBox;

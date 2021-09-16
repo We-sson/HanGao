@@ -9,14 +9,14 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using 悍高软件.ViewModel;
-using static Soceket_KUKA.Models.Socket_Models_Receive;
-using static Soceket_KUKA.Models.Socket_Models_Connect;
 using static Soceket_Connect.Socket_Connect;
+using static Soceket_KUKA.Models.Socket_Models_Connect;
+using static Soceket_KUKA.Models.Socket_Models_Receive;
 using static Soceket_KUKA.Socket_Receive;
 using static 悍高软件.ViewModel.User_Control_Log_ViewModel;
 using static 悍高软件.ViewModel.UserControl_Socket_Setup_ViewModel;
-using System.Windows;
 
 namespace 悍高软件.Socket_KUKA
 {
@@ -77,38 +77,48 @@ namespace 悍高软件.Socket_KUKA
             //互斥线程锁，保证每次只有一个线程接收消息
             Wrist_Lock.WaitOne();
 
-            Byte[] Message = _S.Send_Byte;
-            int _i = _S.Send_int;
-            //byte_Send = Encoding.UTF8.GetBytes((string ) Message);
 
 
 
 
+                Byte[] Message = _S.Send_Byte;
+                Read_Write_Enum _i = _S.Read_Write_Type;
+                //byte_Send = Encoding.UTF8.GetBytes((string ) Message);
 
-            try
-            {
-                //发送消息到服务器
-                if (_i == 1)
-                {
-
-                    Global_Socket_Write.BeginSend(Message, 0, Message.Length, SocketFlags.None, new AsyncCallback(Socket_Send_Message), Global_Socket_Write);
-                }
-                else 
-                {
-                    Global_Socket_Read.BeginSend(Message, 0, Message.Length, SocketFlags.None, new AsyncCallback(Socket_Send_Message), Global_Socket_Read);
-
-                }
-            }
-            catch (Exception e)
+            lock (Message)
             {
 
-                //Messenger.Default.Send<bool>(true, "Connect_Client_Button_IsEnabled");
 
-                //User_Log_Add("Error:-6 " + e.Message);
 
-                Socket_Receive_Error("Error:-6 " +e.Message);
+
+                try
+                {
+                    //发送消息到服务器
+                    if (_i == Read_Write_Enum.Write)
+                    {
+
+                        Global_Socket_Write.BeginSend(Message, 0, Message.Length, SocketFlags.None, new AsyncCallback(Socket_Send_Message), Global_Socket_Write);
+                    }
+                    else if (_i == Read_Write_Enum.Read)
+                    {
+
+                        Global_Socket_Read.BeginSend(Message, 0, Message.Length, SocketFlags.None, new AsyncCallback(Socket_Send_Message), Global_Socket_Read);
+                    }
+
+
+
+                }
+                catch (Exception e)
+                {
+
+                    //Messenger.Default.Send<bool>(true, "Connect_Client_Button_IsEnabled");
+
+                    //User_Log_Add("Error:-6 " + e.Message);
+
+                    Socket_Receive_Error("Error:-6 " + e.Message);
+                }
+
             }
-
             //接收信息互斥线程锁，保证每次只有一个线程接收消息
             Wrist_Lock.ReleaseMutex();
 
@@ -119,33 +129,32 @@ namespace 悍高软件.Socket_KUKA
         /// 发送信息异步回调
         /// </summary>
         /// <param name="Socket">异步参数</param>
-        public static void Socket_Send_Message(IAsyncResult Socket)
+        public static void Socket_Send_Message(IAsyncResult ar)
         {
-            //try
-            //{
 
-   
 
-            //if (Global_Socket_Write.Poll(10, SelectMode.SelectError))
-            //{
 
-            //    MessageBox.Show(Global_Socket_Write.Connected.ToString());
+            if (Global_Socket_Write == (Socket)ar.AsyncState)
+            {
 
-            //}
-            //if (Global_Socket_Read.Poll(10, SelectMode.SelectError))
-            //{
-            //    MessageBox.Show(Global_Socket_Read.Connected.ToString());
+                lock (Global_Socket_Write)
+                {
 
-            //}
+                    Global_Socket_Write.EndSend(ar);
 
-            //}
-            //catch (Exception e)
-            //{
 
-            //    Socket_Receive_Error("Error:-30 "+e.Message);
+                }
+            }
+            else if (Global_Socket_Read == (Socket)ar.AsyncState)
+            {
+                lock (Global_Socket_Read)
+                {
 
-            //}
-            //MessageBox.Show("发送完成！");
+                    Global_Socket_Read.EndSend(ar);
+                }
+            }
+
+
 
         }
 
@@ -191,15 +200,14 @@ namespace 悍高软件.Socket_KUKA
 
 
 
-           // Task.Run(() =>
-           //{
+      
 
 
 
-               //发送排序好的字节流发送
-               Socket_Send_Message_Method(new Socket_Models_Send() { Send_Byte = _data.ToArray(), Send_int = 0 });
+            //发送排序好的字节流发送
+            Socket_Send_Message_Method(new Socket_Models_Send() { Send_Byte = _data.ToArray(), Read_Write_Type = Read_Write_Enum.Read });
 
-           //});
+
 
 
 
@@ -248,7 +256,7 @@ namespace 悍高软件.Socket_KUKA
 
 
             //发送排序好的字节流发送
-            Socket_Send_Message_Method(new Socket_Models_Send() { Send_Byte = _data.ToArray(), Send_int = 1 });
+            Socket_Send_Message_Method(new Socket_Models_Send() { Send_Byte = _data.ToArray(), Read_Write_Type = Read_Write_Enum.Write });
 
 
 

@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
-using Prism.Commands;
+
 using PropertyChanged;
 using Soceket_Connect;
 using Soceket_KUKA;
@@ -22,7 +23,10 @@ using 悍高软件.ViewModel;
 using static Soceket_Connect.Socket_Connect;
 using static Soceket_KUKA.Models.Socket_Models_Connect;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
+
 using static Soceket_KUKA.Socket_Receive;
+using static 悍高软件.Socket_KUKA.Socket_Sever;
+
 using static 悍高软件.ViewModel.User_Control_Log_ViewModel;
 using static 悍高软件.ViewModel.UserControl_Socket_Setup_ViewModel;
 
@@ -38,11 +42,27 @@ namespace 悍高软件.Model
 
         }
 
+        #region 属性
+
+        /// <summary>
+        /// IP输入识别内容属性
+        /// </summary>
         public IP_Text_Error Text_Error { set; get; } = new IP_Text_Error() { };
 
-        public string Control_Name_String { set; get; }
+        /// <summary>
+        /// 连接按钮名称属性
+        /// </summary>
+        public string Control_Name_String { set; get; } = null!;
 
+        /// <summary>
+        /// 连接类型枚举属性
+        /// </summary>
+        public Socket_Type Connect_Socket_Type { set; get; } = Socket_Type.Null;
 
+        /// <summary>
+        /// 连接类型枚举定义
+        /// </summary>
+        public enum Socket_Type { Null = -1, Client, Server }
 
 
 
@@ -61,6 +81,14 @@ namespace 悍高软件.Model
         /// </summary>
         public bool Connect_Socket_OK { set; get; } = false;
 
+        #endregion
+
+        #region 方法
+
+        /// <summary>
+        /// 客户端连接按钮显示状态
+        /// </summary>
+        /// <param name="_int"></param>
         public void Client_Button_Show(int _int)
         {
             switch (_int)
@@ -83,29 +111,92 @@ namespace 悍高软件.Model
 
 
 
+        #endregion
+
+
+        #region 命令
 
         /// <summary>
         /// Socket连接事件命令
         /// </summary>
-        public ICommand Socket_Connection_Comm
+        public ICommand Socket_Client_Connection_Comm
         {
-            get => new DelegateCommand<RoutedEventArgs>((Sm) =>
-            {
-
-                //把参数类型转换控件
-                UserControl_Socket_Conntec_UI e = Sm.Source as UserControl_Socket_Conntec_UI;
-
-
-                Socket_Connect _Client = new Socket_Connect() ;
+            get => new RelayCommand<UserControl_Socket_Conntec_UI>(async (Sm) =>
+          {
+              await Task.Run(() =>
+              {
 
 
-                //创建连接
-                _Client.Socket_Client_KUKA(e.TB1.Text, int.Parse(e.TB2.Text));
+                  Application.Current.Dispatcher.Invoke(() =>
+                  {
+                      //把参数类型转换控件
+
+               
+                      Socket_Connect _Client = new Socket_Connect();
+                      Socket_Sever _Server = new Socket_Sever();
 
 
+                      switch (Connect_Socket_Type)
+                      {
+                          case Socket_Type.Client:
+                              _Client.Socket_Client_KUKA(Sm.TB1.Text, int.Parse(Sm.TB2.Text));
+                              break;
+                          case Socket_Type.Server:
+                              _Server.Socket_Server_KUKA(Sm.TB1.Text, int.Parse(Sm.TB2.Text));
+                              break;
 
-            });
+                      }
+                        //创建连接
+
+                    });
+              });
+
+          });
         }
+
+
+        /// <summary>
+        /// Socket关闭事件命令
+        /// </summary>
+        public ICommand Socket_Close_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>(async (Sm) =>
+           {
+               await Task.Run(() =>
+              {
+                  //把参数类型转换控件
+                  //UIElement e = Sm.Source as UIElement;
+
+
+                  Application.Current.Dispatcher.Invoke(() =>
+                  {
+                      //把参数类型转换控件
+
+
+              
+
+
+                      switch (Connect_Socket_Type)
+                      {
+                          case Socket_Type.Client:
+                   Socket_Close();
+
+                              break;
+                          case Socket_Type.Server:
+                  Socket_Server_Stop();
+                              break;
+
+                      }
+                      //创建连接
+
+                  });
+              });
+           });
+        }
+
+
+
+        #endregion
 
     }
 }

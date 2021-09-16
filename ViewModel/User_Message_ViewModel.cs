@@ -1,6 +1,8 @@
 ﻿using GalaSoft.MvvmLight;
+
+using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
-using Prism.Commands;
+ 
 using PropertyChanged;
 using System.Windows;
 using System.Windows.Controls;
@@ -65,7 +67,7 @@ namespace 悍高软件.ViewModel
         /// </summary>
         public ICommand User_Window_Comm
         {
-            get => new DelegateCommand<RoutedEventArgs>(User_Window_Co);
+            get => new RelayCommand<RoutedEventArgs>(User_Window_Co);
         }
         private void User_Window_Co(RoutedEventArgs S)
         {
@@ -87,7 +89,7 @@ namespace 悍高软件.ViewModel
         /// </summary>
         public ICommand Yes_No_Comm
         {
-            get => new DelegateCommand<RoutedEventArgs>(User_Yes_No);
+            get => new RelayCommand<RoutedEventArgs>(User_Yes_No);
         }
         /// <summary>
         /// 弹出用户确定取消选择

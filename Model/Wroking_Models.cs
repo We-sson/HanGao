@@ -20,7 +20,7 @@ namespace 悍高软件.Model
         /// </summary>
         public int Work_NO { set; get; }
 
-        private string _Number_Work = "";
+       
         /// <summary>
         /// 显示加工区域号
         /// </summary>

@@ -16,15 +16,15 @@
 
 
                 <Border x:Name="BD1"
-                        Height="65" Margin="5" Padding="0"
-                        BorderThickness="3" Background="#c5c5c5"
+                        Height="65" Margin="3" Padding="5"
+                        BorderThickness="2" Background="#c5c5c5"
                         CornerRadius="10" ClipToBounds="True">
 
 
 
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.4*" />
+                            <ColumnDefinition Width="0.3*" />
                             <ColumnDefinition />
 
                         </Grid.ColumnDefinitions>
@@ -34,13 +34,12 @@
 
 
                         <TextBlock Grid.Column="0"
-                                   Text="地址:" Margin="0"
-                                   HorizontalAlignment="Center"
+                                   Text="地址:" HorizontalAlignment="Center"
                                    VerticalAlignment="Center" FontSize="30" />
                         <TextBox Style="{StaticResource TextBoxStyle1}" Grid.Column="1"
                                  Name="TB1" Grid.ColumnSpan="2"
                                  Text="{Binding Text_Error.User_IP, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                 Margin="0" HorizontalAlignment="Center"
+                                 Margin="0" HorizontalAlignment="Stretch"
                                  VerticalAlignment="Center"
                                  ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"
                                  Validation.ErrorTemplate="{x:Null}"
@@ -63,14 +62,15 @@
                     </Border.Style>
                 </Border>
 
-                <Border Height="65"
+                <Border Height="{Binding ElementName=BD1, Path=Height}"
                         Margin="{Binding ElementName=BD1, Path=Margin}"
+                        Padding="{Binding ElementName=BD1, Path=Padding}"
                         BorderThickness="{Binding ElementName=BD1, Path=BorderThickness}"
                         Background="{Binding ElementName=BD1, Path=Background}"
-                        CornerRadius="10">
+                        CornerRadius="{Binding ElementName=BD1, Path=CornerRadius}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.4*" />
+                            <ColumnDefinition Width="0.3*" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0"
@@ -79,7 +79,7 @@
                         <TextBox Style="{StaticResource TextBoxStyle1}" Grid.Column="1"
                                  Name="TB2"
                                  Text="{Binding Text_Error.User_Port, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                 Margin="0" HorizontalAlignment="Center"
+                                 Margin="0" HorizontalAlignment="Stretch"
                                  VerticalAlignment="Center"
                                  Validation.ErrorTemplate="{x:Null}"
                                  ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"
@@ -106,16 +106,17 @@
 
 
 
-                <Grid>
+                <Grid Margin="5">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
 
 
 
                     <Button x:Name="BU1" Grid.Column="0"
-                            Height="50" Margin="10" Tag="Connect"
+                            Height="50" Margin="0,0,5,0"
+                            Tag="Connect" Foreground="White"
                             IsEnabled="{Binding Connect_Button_IsEnabled}"
                             FontSize="25">
 
@@ -154,15 +155,18 @@
                         </Button.Style>
 
                         <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Loaded">
+                                <i:InvokeCommandAction  Command="{Binding Socket_Client_Connection_Comm}" CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Socket_Conntec_UI}}}" PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction Command="{Binding Socket_Connection_Comm}" CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Self}}" PassEventArgsToCommand="True" />
+                                <i:InvokeCommandAction Command="{Binding Socket_Client_Connection_Comm}" CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Socket_Conntec_UI}}}" PassEventArgsToCommand="True" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
 
 
                     <Button Style="{StaticResource ButtonStyle3}" x:Name="BU2" Grid.Column="1"
-                            Content="断开连接" Height="50" Margin="10"
+                            Content="断开连接" Margin="5,0,0,0"
                             Tag="Disconnect" Foreground="Black"
                             Background="#FF5E57" FontSize="25">
 

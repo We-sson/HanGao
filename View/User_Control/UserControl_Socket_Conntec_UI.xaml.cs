@@ -24,5 +24,7 @@ namespace 悍高软件.View.User_Control
         {
             InitializeComponent();
         }
+
+
     }
 }

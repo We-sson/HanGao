@@ -180,8 +180,8 @@
     <Style x:Key="GroupBox_Grid_Effect" TargetType="{x:Type GroupBox}">
         <Setter Property="BorderBrush" Value="Black" />
         <Setter Property="BorderThickness" Value="1.5" />
-        <Setter Property="Background" Value="#FFFFFF"  />
-        <Setter Property="Padding" Value=" 15"/>
+        <Setter Property="Background" Value="#FFFFFF" />
+        <Setter Property="Padding" Value="15" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type GroupBox}">

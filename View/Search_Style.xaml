@@ -40,8 +40,8 @@
 
                         </Border>
                         <Border x:Name="bb3" Grid.Column="1"
-                                Width="0" Height="3" Margin="-25,0,0,0"
-                                HorizontalAlignment="Stretch"
+                                Width="0" Height="2" Margin="0,0,0,-2"
+                                HorizontalAlignment="Center"
                                 VerticalAlignment="Bottom"
                                 Background="Black" />
 
@@ -72,7 +72,7 @@
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="true">
                             <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource TextBox.Focus.Border}" />
-                            <Setter TargetName="bb3" Property="Width" Value="240" />
+                            <Setter TargetName="bb3" Property="Width" Value="{Binding ElementName=Gd1, Path=ActualWidth}" />
                             <!--<Trigger.EnterActions>
                                 <BeginStoryboard >
                                     <Storyboard >
