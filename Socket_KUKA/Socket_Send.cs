@@ -28,7 +28,7 @@ namespace 悍高软件.Socket_KUKA
         {
 
             //注册消息接收
-            Messenger.Default.Register<Socket_Models_Send>(this, "Socket_Send_Message_Method", Socket_Send_Message_Method);
+            //Messenger.Default.Register<Socket_Models_Send>(this, "Socket_Send_Message_Method", Socket_Send_Message_Method);
 
 
         }

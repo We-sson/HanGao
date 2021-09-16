@@ -23,7 +23,7 @@
 
 
 
-                <ListView Grid.Row="0" ItemsSource="{Binding Socket_Read_List}">
+                <ListView Grid.Row="0" ItemsSource="{Binding Socket_Read_List}" DataContext="{Binding Source={StaticResource Locator}, Path=Socket_Var_Show}">
                     <ListView.View>
                         <GridView AllowsColumnReorder="False">
 

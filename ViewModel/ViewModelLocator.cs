@@ -59,8 +59,6 @@ namespace 悍高软件.ViewModelLocator
 
 
 
-
-
         }
 
         public MainWindow MainWindow => CommonServiceLocator.ServiceLocator.Current.GetInstance<MainWindow>();

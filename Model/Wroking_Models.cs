@@ -1,4 +1,5 @@
-﻿using PropertyChanged;
+﻿using GalaSoft.MvvmLight;
+using PropertyChanged;
 using System;
 using System.ComponentModel;
 using 悍高软件.Socket_KUKA;
@@ -6,14 +7,14 @@ using 悍高软件.Socket_KUKA;
 namespace 悍高软件.Model
 {
     [AddINotifyPropertyChangedInterface]
-    public class Wroking_Models : INotifyPropertyChanged
+    public class Wroking_Models : ViewModelBase
     {
         public Wroking_Models()
         {
 
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        
 
         /// <summary>
         /// 工作区设置编号

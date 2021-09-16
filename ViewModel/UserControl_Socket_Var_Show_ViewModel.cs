@@ -17,12 +17,12 @@ using System.Windows.Input;
 using 悍高软件.Socket_KUKA;
 using 悍高软件.ViewModel;
 using static Soceket_Connect.Socket_Connect;
-using static Soceket_KUKA.Models.Socket_Models_Connect;
+
 using static Soceket_KUKA.Models.Socket_Models_Receive;
-using static Soceket_KUKA.Socket_Receive;
+
 using static 悍高软件.ViewModel.User_Control_Log_ViewModel;
-using static 悍高软件.ViewModel.UserControl_Socket_Setup_ViewModel;
-using static 悍高软件.ViewModel.UserControl_Socket_Var_Show_ViewModel;
+
+
 
 namespace 悍高软件.ViewModel
 {
@@ -31,7 +31,7 @@ namespace 悍高软件.ViewModel
     {
         public UserControl_Socket_Var_Show_ViewModel()
         {
-            MessageBox.Show($"线程ID：" + Thread.CurrentThread.ManagedThreadId.ToString());
+            //MessageBox.Show($"线程ID：" + Thread.CurrentThread.ManagedThreadId.ToString());
 
             //读取变量集合发送
             Messenger.Default.Register<bool>(this, "Clear_List", (_Bool) =>
@@ -65,7 +65,7 @@ namespace 悍高软件.ViewModel
 
 
             //接收消息更新列表变量值
-            Messenger.Default.Register<Socket_Modesl_Byte>(this, "Socket_Read_List", (List_Var_Show) );
+            Messenger.Default.Register<Socket_Modesl_Byte>(this, "Socket_Read_List", List_Var_Show );
      
 
             //开始读取集合发送线程
@@ -94,11 +94,11 @@ namespace 悍高软件.ViewModel
 
 
 
-        public ObservableCollection<Socket_Models_List> _Socket_Read_List=new ObservableCollection<Socket_Models_List> ();
+        public static  ObservableCollection<Socket_Models_List> _Socket_Read_List=new ObservableCollection<Socket_Models_List> ();
         /// <summary>
         /// 读取库卡变量列表集合
         /// </summary>
-        public    ObservableCollection<Socket_Models_List> Socket_Read_List
+        public  static    ObservableCollection<Socket_Models_List> Socket_Read_List
         {
             get
             {
