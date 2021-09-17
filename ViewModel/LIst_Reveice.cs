@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using PropertyChanged;
+using Soceket_KUKA.Models;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
 
 namespace 悍高软件.ViewModel

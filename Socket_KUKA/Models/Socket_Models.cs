@@ -1,4 +1,5 @@
-﻿using PropertyChanged;
+﻿using GalaSoft.MvvmLight;
+using PropertyChanged;
 using System;
 using System.Globalization;
 using System.Net;
@@ -9,7 +10,7 @@ using static Soceket_KUKA.Models.Socket_Models_Receive;
 namespace Soceket_KUKA.Models
 {
     [AddINotifyPropertyChangedInterface]
-    public class Socket_Models_Connect
+    public class Socket_Models_Connect : ViewModelBase
     {
 
         private object _IP = null;
@@ -105,7 +106,7 @@ namespace Soceket_KUKA.Models
 
 
     [AddINotifyPropertyChangedInterface]
-    public class Socket_Models_Send
+    public class Socket_Models_Send : ViewModelBase
     {
 
 
@@ -127,7 +128,7 @@ namespace Soceket_KUKA.Models
     }
 
     [AddINotifyPropertyChangedInterface]
-    public class Socket_Models_Receive
+    public class Socket_Models_Receive : ViewModelBase
     {
 
 
@@ -161,9 +162,11 @@ namespace Soceket_KUKA.Models
 
 
 
-    
-        public class Socket_Models_List
-        {
+    }
+
+    [AddINotifyPropertyChangedInterface]
+    public class Socket_Models_List : ViewModelBase
+    {
 
             /// <summary>
             /// 存储变量值的枚举名
@@ -276,8 +279,6 @@ namespace Soceket_KUKA.Models
 
         }
 
-    }
-
 
     [AddINotifyPropertyChangedInterface]
     public class KUKA_Value_Type
@@ -298,15 +299,8 @@ namespace Soceket_KUKA.Models
 
 
     [AddINotifyPropertyChangedInterface]
-    public class Socket_Models_Server
+    public class Socket_Models_Server : ViewModelBase
     {
-        public Socket_Models_Server()
-        {
-
-
-
-
-        }
 
 
         #region 属性
@@ -368,7 +362,7 @@ namespace Soceket_KUKA.Models
     /// 接收字节分解属性
     /// </summary>
     [AddINotifyPropertyChangedInterface]
-    public class Socket_Modesl_Byte
+    public class Socket_Modesl_Byte : ViewModelBase
     {
         public int _ID { set; get; } = -1;
         public int _Val_Total_Length { set; get; } = -1;

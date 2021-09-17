@@ -44,7 +44,7 @@ namespace Soceket_Connect
         /// <summary>
         /// 资源互锁
         /// </summary>
-        public static Mutex Receive_Lock = new Mutex();
+        public static Mutex Receive_Lock { set; get; } = new Mutex();
         public static Mutex Receive_ReturnString_Lock = new Mutex();
 
 
@@ -185,8 +185,26 @@ namespace Soceket_Connect
         }
 
 
+        /// <summary>
+        /// TCP长时间连接设置
+        /// </summary>
+        /// <param name="_On">启动</param>
+        /// <param name="KeepAliveTime">数据空闲时间开始</param>
+        /// <param name="KeepAliveInterval">相隔发送时间</param>
+        /// <returns></returns>
+        public void KeepAlive( Socket _Socket, bool _On,int KeepAliveTime,int KeepAliveInterval)
+        {
+            if (_Socket!=null)
+            {
 
+            byte[] buffer = new byte[12];
+            BitConverter.GetBytes(Convert.ToInt32(_On)).CopyTo(buffer, 0);
+            BitConverter.GetBytes(KeepAliveTime).CopyTo(buffer, 4);
+            BitConverter.GetBytes(KeepAliveInterval).CopyTo(buffer, 8);
+            _Socket.IOControl(IOControlCode.KeepAliveValues, buffer, null);
+            }
 
+        }
 
 
 
@@ -208,7 +226,7 @@ namespace Soceket_Connect
                 try
                 {
 
-                    lock (Socket_KUKA_Receive)
+                    lock (this)
                     {
 
 
@@ -216,19 +234,13 @@ namespace Soceket_Connect
                         {
                             //挂起写入异步连接
 
-                            lock (Global_Socket_Write)
-                            {
+                         
                                 Global_Socket_Write.EndConnect(ar);
                                 Socket_KUKA_Receive = new Socket_Models_Receive() { Read_Write_Type = Read_Write_Enum.Write };
 
-
                                 //Keep-Alive保持连接设置
-                                uint dummy = 0;
-                                byte[] inOptionValues = new byte[Marshal.SizeOf(dummy) * 3];
-                                BitConverter.GetBytes((uint)1).CopyTo(inOptionValues, 0);//启用Keep-Alive
-                                BitConverter.GetBytes((uint)5000).CopyTo(inOptionValues, Marshal.SizeOf(dummy));//在这个时间间隔内没有数据交互，则发探测包 毫秒
-                                BitConverter.GetBytes((uint)1000).CopyTo(inOptionValues, Marshal.SizeOf(dummy) * 2);//发探测包时间间隔 毫秒
-                                Global_Socket_Write.IOControl(IOControlCode.KeepAliveValues, inOptionValues, null);
+                                KeepAlive(Global_Socket_Write, true, 2000, 1000);
+                
 
 
 
@@ -242,7 +254,7 @@ namespace Soceket_Connect
                                 //发送终端连接信息
                                 User_Log_Add("写入连接IP：" + Global_Socket_Write.LocalEndPoint.ToString());
 
-                            }
+                            
                         }
 
                         else if (Global_Socket_Read == _Connect)
@@ -254,16 +266,12 @@ namespace Soceket_Connect
                                 Global_Socket_Read.EndConnect(ar);
                                 Socket_KUKA_Receive = new Socket_Models_Receive() { Read_Write_Type = Read_Write_Enum.Read };
 
-                                //Keep-Alive保持连接设置
-                                uint dummy = 0;
-                                byte[] inOptionValues = new byte[Marshal.SizeOf(dummy) * 3];
-                                BitConverter.GetBytes((uint)1).CopyTo(inOptionValues, 0);//启用Keep-Alive
-                                BitConverter.GetBytes((uint)5000).CopyTo(inOptionValues, Marshal.SizeOf(dummy));//在这个时间间隔内没有数据交互，则发探测包 毫秒
-                                BitConverter.GetBytes((uint)1000).CopyTo(inOptionValues, Marshal.SizeOf(dummy) * 2);//发探测包时间间隔 毫秒
-                                Global_Socket_Read.IOControl(IOControlCode.KeepAliveValues, inOptionValues, null);
+  
 
                                 //异步监听接收读取消息
                                 Global_Socket_Read.BeginReceive(Socket_KUKA_Receive.Byte_Read_Receive, 0, Socket_KUKA_Receive.Byte_Read_Receive.Length, SocketFlags.None, new AsyncCallback(Socke_Receive_Message), Socket_KUKA_Receive);
+
+                                KeepAlive(Global_Socket_Read, true, 2000, 1000);
 
                                 //发送终端连接信息
                                 User_Log_Add("读取连接IP：" + Global_Socket_Read.LocalEndPoint.ToString());
@@ -346,7 +354,7 @@ namespace Soceket_Connect
                 //try
                 //{
 
-                lock (Socket_KUKA_Receive)
+                lock (this)
                 {
 
                     //Receive_Lock.WaitOne();
@@ -359,7 +367,7 @@ namespace Soceket_Connect
                         {
 
                             Socket_Receive_Error("Error:-19 " + GetType().Name + " 接收线程，库卡服务器断开！");
-                            return;
+                            //return;
                         }
 
 
@@ -370,7 +378,7 @@ namespace Soceket_Connect
                         if (Socket_KUKA_Receive.Byte_Leng == 0)
                         {
                             Socket_Receive_Error("Error:-20 " + GetType().Name + " 写入线程，库卡服务器断开！");
-                            return;
+                            //return;
                         }
 
                     }
@@ -392,6 +400,8 @@ namespace Soceket_Connect
 
 
 
+                    if (Socket_KUKA_Receive.Byte_Leng>0)
+                    {
 
 
 
@@ -502,6 +512,7 @@ namespace Soceket_Connect
 
                     }
 
+                    }
 
                     //}
                     //catch (Exception e)

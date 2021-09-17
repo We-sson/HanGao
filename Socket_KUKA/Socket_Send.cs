@@ -116,6 +116,7 @@ namespace 悍高软件.Socket_KUKA
                     //User_Log_Add("Error:-6 " + e.Message);
 
                     Socket_Receive_Error("Error:-6 " + e.Message);
+
                 }
 
             }

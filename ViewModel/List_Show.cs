@@ -138,7 +138,7 @@ namespace 悍高软件.ViewModel
         /// 筛选显示List内容方法
         /// </summary>
         /// <param name="ob"></param>
-        private void Find_List(String ob)
+        public  void Find_List(String ob)
         {
             for (int i = 0; i < SinkModels.Count; i++)
             {

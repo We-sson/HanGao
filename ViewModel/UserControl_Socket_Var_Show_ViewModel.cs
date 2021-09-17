@@ -65,8 +65,8 @@ namespace 悍高软件.ViewModel
 
 
             //接收消息更新列表变量值
-            Messenger.Default.Register<Socket_Modesl_Byte>(this, "Socket_Read_List", List_Var_Show );
-     
+            Messenger.Default.Register<Socket_Modesl_Byte>(this, "Socket_Read_List", List_Var_Show);
+
 
             //开始读取集合发送线程
             Messenger.Default.Register<bool>(this, "Socket_Read_Thread", (_Bool) =>
@@ -94,21 +94,12 @@ namespace 悍高软件.ViewModel
 
 
 
-        public static  ObservableCollection<Socket_Models_List> _Socket_Read_List=new ObservableCollection<Socket_Models_List> ();
+
         /// <summary>
         /// 读取库卡变量列表集合
         /// </summary>
-        public  static    ObservableCollection<Socket_Models_List> Socket_Read_List
-        {
-            get
-            {
-                return _Socket_Read_List;
-            }
-            set
-            {
-                _Socket_Read_List = value;
-            }
-        }
+        public  ObservableCollection<Socket_Models_List> Socket_Read_List { set; get; } = new ObservableCollection<Socket_Models_List>() { };
+
 
 
 
@@ -129,23 +120,23 @@ namespace 悍高软件.ViewModel
             //MessageBox.Show($"线程ID：" + Thread.CurrentThread.ManagedThreadId.ToString());
 
 
-            lock (Socket_Read_List)
+            lock (this.Socket_Read_List)
             {
 
-                if (Socket_Read_List.Count > 0)
+                if (this.Socket_Read_List.Count > 0)
                 {
 
 
-                    for (int i = 0; i < Socket_Read_List.Count; i++)
+                    for (int i = 0; i < this.Socket_Read_List.Count; i++)
                     {
 
-                        if (Socket_Read_List[i].Val_ID == _Byte._ID && Socket_Read_List[i].Val_Var != _Byte.Message_Show)
+                        if (this.Socket_Read_List[i].Val_ID == _Byte._ID && this.Socket_Read_List[i].Val_Var != _Byte.Message_Show)
                         {
-                            Socket_Read_List[i].Val_Update_Time = DateTime.Now.ToLocalTime();
-                            Socket_Read_List[i].Val_Var = _Byte.Message_Show;
+                            this.Socket_Read_List[i].Val_Update_Time = DateTime.Now.ToLocalTime();
+                            this.Socket_Read_List[i].Val_Var = _Byte.Message_Show;
                             //MessageBox.Show(Socket_Read_List[i].Val_Var);
                             //把属于自己的区域回传
-                            Messenger.Default.Send<Socket_Models_List>(Socket_Read_List[i], Socket_Read_List[i].Send_Area);
+                            Messenger.Default.Send<Socket_Models_List>(this.Socket_Read_List[i], this.Socket_Read_List[i].Send_Area);
                             return;
                         }
 
@@ -276,7 +267,7 @@ namespace 悍高软件.ViewModel
                             //Monitor.Wait(The_Lock);
                             Send_Waite.Wait();
                             //User_Log_Add("-1.4，解除接收等待");
-                            Task.Delay(5);
+                            Thread.Sleep(20);
                             if (!Is_Read_Client) { return; }
 
                         }
