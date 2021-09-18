@@ -139,7 +139,7 @@ namespace 悍高软件.Model
                       switch (Connect_Socket_Type)
                       {
                           case Socket_Type.Client:
-                              _Client.Socket_Client_KUKA(Sm.TB1.Text, int.Parse(Sm.TB2.Text));
+                              _Client.Socket_Client_KUKA( Read_Write_Enum.Read , Sm.TB1.Text, int.Parse(Sm.TB2.Text));
                               break;
                           case Socket_Type.Server:
                               _Server.Socket_Server_KUKA(Sm.TB1.Text, int.Parse(Sm.TB2.Text));

@@ -21,7 +21,7 @@ using static 悍高软件.ViewModel.UserControl_Socket_Setup_ViewModel;
 namespace 悍高软件.Socket_KUKA
 {
     [AddINotifyPropertyChangedInterface]
-    public class Socket_Send : ViewModelBase
+    public class Socket_Send : Socket_Connect
     {
 
         public Socket_Send()
@@ -39,21 +39,21 @@ namespace 悍高软件.Socket_KUKA
         /// </summary>
         public static Mutex Wrist_Lock = new Mutex();
 
-        private static Socket_Models_Connect _Socket_Client = new Socket_Models_Connect() { };
-        /// <summary>
-        /// Socket连接ip和端口属性
-        /// </summary>
-        public static Socket_Models_Connect Socket_Client
-        {
-            get
-            {
-                return _Socket_Client;
-            }
-            set
-            {
-                _Socket_Client = value;
-            }
-        }
+        //private static Socket_Models_Connect _Socket_Client = new Socket_Models_Connect() { };
+        ///// <summary>
+        ///// Socket连接ip和端口属性
+        ///// </summary>
+        //public static Socket_Models_Connect Socket_Client
+        //{
+        //    get
+        //    {
+        //        return _Socket_Client;
+        //    }
+        //    set
+        //    {
+        //        _Socket_Client = value;
+        //    }
+        //}
 
 
         /// <summary>
@@ -74,15 +74,23 @@ namespace 悍高软件.Socket_KUKA
         {
 
 
+
+
+
+
+
+
             //互斥线程锁，保证每次只有一个线程接收消息
             Wrist_Lock.WaitOne();
 
+            Socket_Client_KUKA(Read_Write_Enum.Write, IP.Address.ToString(), IP.Port);
 
 
 
 
-                Byte[] Message = _S.Send_Byte;
-                Read_Write_Enum _i = _S.Read_Write_Type;
+
+            Byte[] Message = _S.Send_Byte;
+                //Read_Write_Enum _i = _S.Read_Write_Type;
                 //byte_Send = Encoding.UTF8.GetBytes((string ) Message);
 
             lock (Message)
@@ -94,12 +102,15 @@ namespace 悍高软件.Socket_KUKA
                 try
                 {
                     //发送消息到服务器
-                    if (_i == Read_Write_Enum.Write)
+                    if (_S.Read_Write_Type == Read_Write_Enum.Write)
                     {
+
+
+
 
                         Global_Socket_Write.BeginSend(Message, 0, Message.Length, SocketFlags.None, new AsyncCallback(Socket_Send_Message), Global_Socket_Write);
                     }
-                    else if (_i == Read_Write_Enum.Read)
+                    else if (_S.Read_Write_Type == Read_Write_Enum.Read)
                     {
 
                         Global_Socket_Read.BeginSend(Message, 0, Message.Length, SocketFlags.None, new AsyncCallback(Socket_Send_Message), Global_Socket_Read);
@@ -171,7 +182,7 @@ namespace 悍高软件.Socket_KUKA
         /// 处理读取变量字节流
         /// </summary>
         /// <param name="_var">读取变量值</param>
-        public static int Send_Read_Var(string _var, int _ID)
+        public static  int Send_Read_Var(string _var, int _ID)
         {
 
 
@@ -224,6 +235,12 @@ namespace 悍高软件.Socket_KUKA
         /// <param name="_var">写入变量值</param>
         public static void Send_Write_Var(string _name, string _var)
         {
+
+
+
+
+
+
 
 
 

@@ -267,7 +267,7 @@ namespace 悍高软件.ViewModel
                             //Monitor.Wait(The_Lock);
                             Send_Waite.Wait();
                             //User_Log_Add("-1.4，解除接收等待");
-                            Thread.Sleep(20);
+                            Thread.Sleep(1);
                             if (!Is_Read_Client) { return; }
 
                         }

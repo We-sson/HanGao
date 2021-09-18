@@ -240,7 +240,7 @@ namespace Soceket_KUKA.Models
                     _Val_ID = value;
                 }
             }
-            private bool _Val_OnOff = true;
+            private bool _Val_OnOff = false ;
             /// <summary>
             /// 读取开启关闭
             /// </summary>
