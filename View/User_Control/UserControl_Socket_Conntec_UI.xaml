@@ -155,9 +155,9 @@
                         </Button.Style>
 
                         <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Loaded">
+                            <!--<i:EventTrigger EventName="Loaded">
                                 <i:InvokeCommandAction  Command="{Binding Socket_Client_Connection_Comm}" CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Socket_Conntec_UI}}}" PassEventArgsToCommand="True" />
-                            </i:EventTrigger>
+                            </i:EventTrigger>-->
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction Command="{Binding Socket_Client_Connection_Comm}" CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Socket_Conntec_UI}}}" PassEventArgsToCommand="True" />
                             </i:EventTrigger>

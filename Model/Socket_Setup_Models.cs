@@ -21,6 +21,7 @@ using 悍高软件.Socket_KUKA;
 using 悍高软件.View.User_Control;
 using 悍高软件.ViewModel;
 using static Soceket_Connect.Socket_Connect;
+using static Soceket_KUKA.Models.Socket_Eunm;
 using static Soceket_KUKA.Models.Socket_Models_Connect;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
 
@@ -64,6 +65,20 @@ namespace 悍高软件.Model
         /// </summary>
         public enum Socket_Type { Null = -1, Client, Server }
 
+        /// <summary>
+        /// 写入TCP对象
+        /// </summary>
+        public Socket_Connect Write { set; get; } 
+
+        /// <summary>
+        /// 读取TCP对象
+        /// </summary>
+        public Socket_Connect Read { set; get; } 
+
+        /// <summary>
+        /// 服务器属性
+        /// </summary>
+        public Socket_Sever Sever { set; get; } 
 
 
         /// <summary>
@@ -76,6 +91,7 @@ namespace 悍高软件.Model
         /// </summary>
         public bool Connect_Socket_Connection { set; get; } = false;
 
+
         /// <summary>
         /// 设备成功状态...
         /// </summary>
@@ -84,6 +100,9 @@ namespace 悍高软件.Model
         #endregion
 
         #region 方法
+
+
+
 
         /// <summary>
         /// 客户端连接按钮显示状态
@@ -132,17 +151,17 @@ namespace 悍高软件.Model
                       //把参数类型转换控件
 
                
-                      Socket_Connect _Client = new Socket_Connect();
-                      Socket_Sever _Server = new Socket_Sever();
+                      //Socket_Connect _Client = new Socket_Connect();
+                      //Socket_Sever _Server = new Socket_Sever();
 
 
                       switch (Connect_Socket_Type)
                       {
                           case Socket_Type.Client:
-                              _Client.Socket_Client_KUKA( Read_Write_Enum.Read , Sm.TB1.Text, int.Parse(Sm.TB2.Text));
+                              Socket_Client_Setup.Read.Socket_Client_KUKA(Read_Write_Enum.Read);
                               break;
                           case Socket_Type.Server:
-                              _Server.Socket_Server_KUKA(Sm.TB1.Text, int.Parse(Sm.TB2.Text));
+                              Socket_Server_Setup.Sever.Socket_Server_KUKA();
                               break;
 
                       }
@@ -179,11 +198,11 @@ namespace 悍高软件.Model
                       switch (Connect_Socket_Type)
                       {
                           case Socket_Type.Client:
-                   Socket_Close();
+                              Socket_Client_Setup.Read.Socket_Close();
 
                               break;
                           case Socket_Type.Server:
-                  Socket_Server_Stop();
+                              Socket_Server_Setup.Sever.Socket_Server_Stop();
                               break;
 
                       }

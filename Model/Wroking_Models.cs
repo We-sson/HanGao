@@ -3,6 +3,8 @@ using PropertyChanged;
 using System;
 using System.ComponentModel;
 using 悍高软件.Socket_KUKA;
+using static 悍高软件.ViewModel.UserControl_Socket_Setup_ViewModel;
+
 
 namespace 悍高软件.Model
 {
@@ -60,13 +62,13 @@ namespace 悍高软件.Model
                     //将显示的水槽型号发送到kuka端，同时修改显示颜色
                     if (Work_Type == "#ERROR")
                     {
-                        Socket_Send.Send_Write_Var("$my_work_" + Work_NO, "#ERROR");
+                        Socket_Client_Setup.Write.Send_Write_Var("$my_work_" + Work_NO, "#ERROR");
 
                         Work_back = "#E3E3E3";
                     }
                     else if (Work_Type != "#ERROR")
                     {
-                        Socket_Send.Send_Write_Var("$my_work_" + Work_NO, Work_Type);
+                        Socket_Client_Setup.Write.Send_Write_Var("$my_work_" + Work_NO, Work_Type);
 
                         Work_back = "#F4D160";
 
@@ -217,7 +219,7 @@ namespace 悍高软件.Model
 
                 _Work_Run = value;
                 //属性发送更改发送机器端
-                Socket_Send.Send_Write_Var("$Run_Work_" + Work_NO.ToString(), value.ToString());
+                Socket_Client_Setup.Write.Send_Write_Var("$Run_Work_" + Work_NO.ToString(), value.ToString());
             }
         }
 

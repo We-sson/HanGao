@@ -19,6 +19,8 @@ using static Soceket_KUKA.Models.Socket_Models_Connect;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
 using static Soceket_KUKA.Socket_Receive;
 using static 悍高软件.ViewModel.User_Control_Log_ViewModel;
+using static 悍高软件.ViewModel.UserControl_Socket_Setup_ViewModel;
+
 
 
 namespace 悍高软件.ViewModel
@@ -148,8 +150,8 @@ namespace 悍高软件.ViewModel
                                     if (Name_Val.Val_Var != a)
                                     {
 
-                                        //属性不相同时，以软件端为首发送更改发送机器端
-                                        Socket_Send.Send_Write_Var(item.GetStringValue(), a);
+                                    //属性不相同时，以软件端为首发送更改发送机器端
+                                    Socket_Client_Setup.Write.Send_Write_Var(item.GetStringValue(), a);
                                     }
                               
 
@@ -180,7 +182,7 @@ namespace 悍高软件.ViewModel
                 catch (Exception e)
                 {
 
-                    Socket_Receive_Error("Error:-30 " + e.Message);
+                    Socket_Client_Setup.Write. Socket_Receive_Error("Error:-30 " + e.Message);
                 }
 
 

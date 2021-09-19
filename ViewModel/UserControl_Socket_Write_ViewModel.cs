@@ -6,12 +6,14 @@ using Soceket_Connect;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using static 悍高软件.Socket_KUKA.Socket_Send;
+
 using 悍高软件.Socket_KUKA;
 using 悍高软件.View.User_Control;
 using System.Threading.Tasks;
 using System.Windows;
 using GalaSoft.MvvmLight.Command;
+using static 悍高软件.ViewModel.UserControl_Socket_Setup_ViewModel;
+
 
 namespace 悍高软件.ViewModel
 {
@@ -21,7 +23,7 @@ namespace 悍高软件.ViewModel
 
         public UserControl_Socket_Write_ViewModel()
         {
-
+            
         }
 
 
@@ -42,7 +44,7 @@ namespace 悍高软件.ViewModel
                     Application.Current.Dispatcher.Invoke(() =>
                     {
                         //发输入框内的数值
-                        Send_Write_Var(Sm.Send_Name.Text, Sm.Send_Val.Text);
+                        Socket_Client_Setup.Write.Send_Write_Var(Sm.Send_Name.Text, Sm.Send_Val.Text);
 
                     });
                 });

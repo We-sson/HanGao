@@ -11,6 +11,8 @@ using System.Windows;
 using 悍高软件.Extension_Method;
 using 悍高软件.Model;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
+using static 悍高软件.ViewModel.UserControl_Socket_Var_Show_ViewModel;
+
 
 namespace 悍高软件.ViewModel
 {
@@ -38,8 +40,8 @@ namespace 悍高软件.ViewModel
             //发送需要读取的变量名枚举值
             foreach (Enum item in Enum.GetValues(typeof(Value_Name_enum)))
             {
-                Messenger.Default.Send<ObservableCollection<Socket_Models_List>>(new ObservableCollection<Socket_Models_List>() { new Socket_Models_List() { Val_Name = item.GetStringValue(), Val_ID = Socket_Models_Connect.Number_ID, Send_Area=Work_String_Name, Value_Enum=item},  }, "List_Connect");
-
+                //Messenger.Default.Send<ObservableCollection<Socket_Models_List>>(new ObservableCollection<Socket_Models_List>() { new Socket_Models_List() { Val_Name = item.GetStringValue(), Val_ID = Read_Number_ID, Send_Area=Work_String_Name, Value_Enum=item},  }, "List_Connect");
+                Messenger.Default.Send<ObservableCollection<Socket_Models_List>>(new ObservableCollection<Socket_Models_List>() { new Socket_Models_List() { Val_Name = item.GetStringValue(), Val_ID = Read_Number_ID, Send_Area = item.GetAreaValue(), Value_Enum = item, Bingding_Value = item.GetBingdingValue().BingdingValue, KUKA_Value_Enum = item.GetBingdingValue().SetValueType } }, "List_Connect");
             }
 
 

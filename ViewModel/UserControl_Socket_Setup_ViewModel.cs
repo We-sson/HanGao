@@ -12,6 +12,7 @@ using 悍高软件.Errorinfo;
 using 悍高软件.Model;
 using 悍高软件.Socket_KUKA;
 using 悍高软件.View.User_Control;
+using static Soceket_KUKA.Models.Socket_Eunm;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
 using static 悍高软件.Model.Socket_Setup_Models;
 
@@ -23,15 +24,31 @@ namespace 悍高软件.ViewModel
 
 
 
-        public UserControl_Socket_Setup_ViewModel()
+        public UserControl_Socket_Setup_ViewModel( )
         {
-         
-    
+
+
+            //设置初始ip和端口
+            IP_Client = "192.168.153.130";
+            Port_Client = "7000";
+            IP_Sever = "192.168.153.1";
+            Port_Sever = "5000";
+
+
+
+            Socket_Client_Setup = new Socket_Setup_Models() { 
+                Read=new Socket_Connect(IP_Client, Port_Client, Connect_Type.Long, Read_Write_Enum.Read ),
+                Write=new Socket_Connect (IP_Client, Port_Client, Connect_Type.Short, Read_Write_Enum.Write), 
+                Connect_Socket_Type = Socket_Type.Client, Control_Name_String = "连接控制柜", 
+                Text_Error = new IP_Text_Error() { User_IP = IP_Client, User_Port = Port_Client } };
 
 
 
 
-
+            Socket_Server_Setup = new Socket_Setup_Models() { Connect_Socket_Type = Socket_Type.Server,
+                Sever=new Socket_Sever (IP_Sever, Port_Sever), 
+                Control_Name_String = "监听控制柜", 
+                Text_Error = new IP_Text_Error() { User_IP = IP_Sever, User_Port = Port_Sever } };
 
 
             //注册消息接收
@@ -71,32 +88,38 @@ namespace 悍高软件.ViewModel
 
         }
 
+        /// <summary>
+        /// 客户端IP
+        /// </summary>
+        public string IP_Client { set; get; }
 
-        public Socket_Setup_Models Socket_Client_Setup { set; get; } = new Socket_Setup_Models() { Connect_Socket_Type = Socket_Type.Client, Control_Name_String = "连接控制柜", Text_Error = new IP_Text_Error() { User_IP = "192.168.153.130", User_Port = "7000" } };
+        /// <summary>
+        /// 客户端端口
+        /// </summary>
+        public string Port_Client { set; get; }
+
+        /// <summary>
+        /// 服务器IP
+        /// </summary>
+        public string IP_Sever { set; get; }
+
+        /// <summary>
+        /// 服务器端口
+        /// </summary>
+        public string Port_Sever { set; get; }
 
 
-        public Socket_Setup_Models Socket_Server_Setup { set; get; } = new Socket_Setup_Models() { Connect_Socket_Type = Socket_Type.Server, Control_Name_String = "监听控制柜", Text_Error = new IP_Text_Error() { User_IP = "192.168.153.1", User_Port = "5000" } };
+
+        public static  Socket_Setup_Models Socket_Client_Setup { set; get; } 
+
+
+        public static  Socket_Setup_Models Socket_Server_Setup { set; get; } 
 
 
 
 
 
-        //private string _Socket_Message = "准备接收....";
-        ///// <summary>
-        ///// 接收消息属性
-        ///// </summary>
-        //public string Socket_Message
-        //{
-        //    get
-        //    {
-        //        return _Socket_Message;
-        //        //return _Socket_Message;
-        //    }
-        //    set
-        //    {
-        //        _Socket_Message = value;
-        //    }
-        //}
+
 
         /// <summary>
         /// 通讯延时显示
@@ -104,8 +127,15 @@ namespace 悍高软件.ViewModel
         public string Connter_Time_Delay { set; get; } = "0";
 
 
+        /// <summary>
+        /// 客户端连接数量
+        /// </summary>
         public int ClientCount { set; get; } = 0;
 
+
+        /// <summary>
+        /// 连接按钮显示
+        /// </summary>
         public Visibility Socket_Countion_Show { set; get; } = Visibility.Hidden;
    
 
@@ -116,13 +146,7 @@ namespace 悍高软件.ViewModel
 
 
 
-        ////接收到信息显示到前端界面方法
-        //public void Socket_Message_Show(string Message)
-        //{
 
-        //    Socket_Message = Message;
-
-        //}
 
 
 

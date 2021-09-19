@@ -5,7 +5,11 @@ using System.Globalization;
 using System.Net;
 using System.Net.Sockets;
 using static Soceket_KUKA.Models.KUKA_Value_Type;
+using static Soceket_KUKA.Models.Socket_Eunm;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
+using static 悍高软件.ViewModel.UserControl_Socket_Var_Show_ViewModel;
+
+
 
 namespace Soceket_KUKA.Models
 {
@@ -13,92 +17,69 @@ namespace Soceket_KUKA.Models
     public class Socket_Models_Connect : ViewModelBase
     {
 
-        private object _IP = null;
-        /// <summary>
-        /// Socket连接所需IP
-        /// </summary>
-        public object IP
-        {
-            get
-            {
+        //private object _IP = null;
+        ///// <summary>
+        ///// Socket连接所需IP
+        ///// </summary>
+        //public object IP
+        //{
+        //    get
+        //    {
 
-                return _IP;
-            }
-            set
-            {
+        //        return _IP;
+        //    }
+        //    set
+        //    {
 
-                string[] S = ((string)value).Split(new char[] { ':' });
-                _IP = new IPEndPoint(IPAddress.Parse(S[0]), int.Parse(S[1]));
-
-
-            }
-        }
+        //        string[] S = ((string)value).Split(new char[] { ':' });
+        //        _IP = new IPEndPoint(IPAddress.Parse(S[0]), int.Parse(S[1]));
 
 
-
-
-        /// <summary>
-        /// Socket连接默认设置模式TCP
-        /// </summary>
-        public Socket Client { set; get; } = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        //    }
+        //}
 
 
 
-        private static int _Number_ID;
-        /// <summary>
-        /// 传输变量唯一标识ID号
-        /// </summary>
-        public static int Number_ID
-        {
-            set
-            {
-                _Number_ID = value;
-            }
-            get
-            {
-                if (_Number_ID > 65500)
-                {
-                    _Number_ID = 0;
-                }
-                return _Number_ID++;
-            }
-        }
 
+        ///// <summary>
+        ///// Socket读取属性
+        ///// </summary>
+        //public Socket Read_Client { set; get; }
 
-        private object _Send_Read_Var;
-        /// <summary>
-        /// 传入读取的变量名，返回对应发送的字节流，以序号接收对应回传
-        /// </summary>
-        public object Send_Read_Var
-        {
-            get
-            {
-                return _Send_Read_Var;
-            }
-            set
-            {
-
-                _Send_Read_Var = value;
-
-
-            }
-        }
+        ///// <summary>
+        ///// Socket写入属性
+        ///// </summary>
+        //public Socket Write_Client { set; get; }
 
         /// <summary>
-        /// 输入ID号返回对应byte组
+        /// 读写枚举属性
         /// </summary>
-        public byte[] Send_number_ID(int _ID)
-        {
-
-            var arr = new byte[_ID.ToString("x4").Length / 2];
+        //public Read_Write_Enum R_W_Enum { set; get; }
 
 
-            for (var i = 0; i < arr.Length; i++)
-                arr[i] = (byte)Convert.ToInt32((_ID.ToString("x4")).Substring(i * 2, 2), 16);
 
 
-            return arr;
-        }
+
+        //private object _Send_Read_Var;
+        ///// <summary>
+        ///// 传入读取的变量名，返回对应发送的字节流，以序号接收对应回传
+        ///// </summary>
+        //public object Send_Read_Var
+        //{
+        //    get
+        //    {
+        //        return _Send_Read_Var;
+        //    }
+        //    set
+        //    {
+
+        //        _Send_Read_Var = value;
+
+
+        //    }
+        //}
+
+
 
 
     }
@@ -158,8 +139,11 @@ namespace Soceket_KUKA.Models
 
 
 
-        public enum Read_Write_Enum  {Null =-1,Read,Write}
 
+        /// <summary>
+        /// 长短连接枚举属性
+        /// </summary>
+        public enum Connect_Type {Null=-1 ,Long,Short };
 
 
     }
@@ -296,7 +280,15 @@ namespace Soceket_KUKA.Models
         }
 
     }
+    [AddINotifyPropertyChangedInterface]
+    public class Socket_Eunm
+    {
+        /// <summary>
+        /// 写入读取枚举属性
+        /// </summary>
+        public enum Read_Write_Enum { Null = -1, Read, Write }
 
+    }
 
     [AddINotifyPropertyChangedInterface]
     public class Socket_Models_Server : ViewModelBase

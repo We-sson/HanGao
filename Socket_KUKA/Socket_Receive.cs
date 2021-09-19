@@ -27,21 +27,7 @@ namespace Soceket_KUKA
     {
 
 
-        /// <summary>
-        /// 接收异常处理程序
-        /// </summary>
-        public static void Socket_Receive_Error(string _Error)
-        {
 
-
-
-            ////连接失败后允许用户再次点击连接按钮
-            //Messenger.Default.Send<bool>(true, "Connect_Client_Button_IsEnabled");
-            //Messenger.Default.Send<int>(-1, "Connect_Client_Socketing_Button_Show");
-            Socket_Close();
-            User_Log_Add(_Error);
-
-        }
 
 
 

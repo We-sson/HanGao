@@ -18,8 +18,9 @@ using 悍高软件.Socket_KUKA;
 using 悍高软件.ViewModel;
 using static Soceket_Connect.Socket_Connect;
 
-using static Soceket_KUKA.Models.Socket_Models_Receive;
 
+using static Soceket_KUKA.Models.Socket_Models_Receive;
+using static 悍高软件.ViewModel.UserControl_Socket_Setup_ViewModel;
 using static 悍高软件.ViewModel.User_Control_Log_ViewModel;
 
 
@@ -98,13 +99,66 @@ namespace 悍高软件.ViewModel
         /// <summary>
         /// 读取库卡变量列表集合
         /// </summary>
-        public  ObservableCollection<Socket_Models_List> Socket_Read_List { set; get; } = new ObservableCollection<Socket_Models_List>() { };
+        public static ObservableCollection<Socket_Models_List> Socket_Read_List { set; get; } = new ObservableCollection<Socket_Models_List>() { };
 
 
 
 
         //public  ManualResetEventSlim Send_Waite { set; get; } = new ManualResetEventSlim(false);
 
+        private static int _Write_Number_ID=0;
+        /// <summary>
+        /// 写入变量唯一标识ID号
+        /// </summary>
+        public static int Write_Number_ID
+        {
+            set
+            {
+                _Write_Number_ID = value;
+            }
+            get
+            {
+                if (_Write_Number_ID > 65500)
+                {
+                    _Write_Number_ID = 0;
+                }
+                bool a = false;
+                do
+                {
+                 a = Socket_Read_List.Any<Socket_Models_List>(_ => _.Val_ID == _Write_Number_ID);
+                    _Write_Number_ID++;
+                }
+                while (a);
+
+
+
+
+                return _Write_Number_ID;
+            }
+        }
+
+        private static int _Read_Number_ID;
+        /// <summary>
+        /// 读取变量唯一标识ID号
+        /// </summary>
+        public static int Read_Number_ID
+        {
+            set
+            {
+                _Read_Number_ID = value;
+            }
+            get
+            {
+                if (_Read_Number_ID > 65500)
+                {
+                    _Read_Number_ID = 0;
+                }
+
+                _Read_Number_ID++;
+
+                return _Read_Number_ID;
+            }
+        }
 
 
         public DateTime Delay_time { set; get; }
@@ -118,46 +172,31 @@ namespace 悍高软件.ViewModel
         public void List_Var_Show(Socket_Modesl_Byte _Byte)
         {
             //MessageBox.Show($"线程ID：" + Thread.CurrentThread.ManagedThreadId.ToString());
+           
 
-
-            lock (this.Socket_Read_List)
+            lock (Socket_Read_List)
             {
 
-                if (this.Socket_Read_List.Count > 0)
+                if (Socket_Read_List.Count > 0)
                 {
 
 
-                    for (int i = 0; i < this.Socket_Read_List.Count; i++)
+                    for (int i = 0; i <Socket_Read_List.Count; i++)
                     {
 
-                        if (this.Socket_Read_List[i].Val_ID == _Byte._ID && this.Socket_Read_List[i].Val_Var != _Byte.Message_Show)
+                        if (Socket_Read_List[i].Val_ID == _Byte._ID && Socket_Read_List[i].Val_Var != _Byte.Message_Show)
                         {
-                            this.Socket_Read_List[i].Val_Update_Time = DateTime.Now.ToLocalTime();
-                            this.Socket_Read_List[i].Val_Var = _Byte.Message_Show;
+                            Socket_Read_List[i].Val_Update_Time = DateTime.Now.ToLocalTime();
+                            Socket_Read_List[i].Val_Var = _Byte.Message_Show;
                             //MessageBox.Show(Socket_Read_List[i].Val_Var);
                             //把属于自己的区域回传
-                            Messenger.Default.Send<Socket_Models_List>(this.Socket_Read_List[i], this.Socket_Read_List[i].Send_Area);
+                            Messenger.Default.Send<Socket_Models_List>(Socket_Read_List[i], Socket_Read_List[i].Send_Area);
                             return;
                         }
 
                     }
 
-                    //查找对呀变量ID号
-                    //Socket_Read_List.Where(_ => _.Val_ID == _Byte._ID).FirstOrDefault(_List =>
-                    // {
-                    //     if (_List.Val_Var != _Byte.Message_Show)
-                    //     {
-                    //         _List.Val_Update_Time = DateTime.Now.ToLocalTime();
-                    //         _List.Val_Var = _Byte.Message_Show;
-
-
-                    //         //把属于自己的区域回传
-                    //         Messenger.Default.Send<Socket_Models_List>(_List, _List.Send_Area);
-                    //     }
-
-
-                    //     return true;
-                    // });
+      
 
 
 
@@ -222,7 +261,7 @@ namespace 悍高软件.ViewModel
 
 
 
-            while (Is_Read_Client)
+            while (Socket_Client_Setup.Read.Is_Read_Client)
             {
                 //User_Log_Add("-1.1，准备发送线程");
                 //Monitor.Enter(The_Lock);
@@ -261,14 +300,14 @@ namespace 悍高软件.ViewModel
                         {
 
                             int _ID = item.Val_ID;
-                            Socket_Send.Send_Read_Var(item.Val_Name, _ID);
+                            Socket_Client_Setup.Read.Send_Read_Var(item.Val_Name, _ID);
 
                             //User_Log_Add("-1.3，等待下一个变量发送");
                             //Monitor.Wait(The_Lock);
                             Send_Waite.Wait();
                             //User_Log_Add("-1.4，解除接收等待");
                             Thread.Sleep(1);
-                            if (!Is_Read_Client) { return; }
+                            if (!Socket_Client_Setup.Read.Is_Read_Client) { return; }
 
                         }
 

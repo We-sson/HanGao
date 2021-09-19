@@ -207,7 +207,7 @@ namespace 悍高软件.ViewModel
                 S.Trigger_Work_NO = e.Uid;
 
                 //添加弹窗提示用户连接下位机通讯
-                if (!Global_Socket_Read.Connected && !Global_Socket_Write.Connected) { e.IsChecked = false; return; }
+                //if (!Global_Socket_Read.Connected && !Global_Socket_Write.Connected) { e.IsChecked = false; return; }
 
                 S.Wroking_Models_ListBox.Work_Type = S.Model_Number.ToString();
 

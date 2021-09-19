@@ -121,7 +121,6 @@
     <Compile Include="Model\Wroking_Models.cs" />
     <Compile Include="Socket_KUKA\Models\Socket_Models.cs" />
     <Compile Include="Socket_KUKA\Socket_Connect.cs" />
-    <Compile Include="Socket_KUKA\Socket_Send.cs" />
     <Compile Include="Socket_KUKA\Socket_Receive.cs" />
     <Compile Include="Socket_KUKA\Socket_Sever.cs" />
     <Compile Include="ViewModel\FrameShow.cs" />
@@ -185,8 +184,6 @@
     <Compile Include="View\User_Control\User_Control_Socket_Setup.xaml.cs">
       <DependentUpon>User_Control_Socket_Setup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\User_Control\User_Control_ViewModel\Socket_Client_Setup.cs" />
-    <Compile Include="View\User_Control\User_Control_ViewModel\Socket_Server_Setup.cs" />
     <Compile Include="View\User_Control\User_Control_Working.xaml.cs">
       <DependentUpon>User_Control_Working.xaml</DependentUpon>
     </Compile>
@@ -390,6 +387,7 @@
   <ItemGroup>
     <Folder Include="DataStore\DataStore\" />
     <Folder Include="Value_Name_enum\" />
+    <Folder Include="View\User_Control\User_Control_ViewModel\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\link.png" />

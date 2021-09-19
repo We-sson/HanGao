@@ -26,10 +26,11 @@ namespace 悍高软件.Socket_KUKA
     [AddINotifyPropertyChangedInterface]
     public class Socket_Sever : ViewModelBase
     {
-        public Socket_Sever()
+        public Socket_Sever(string _IP,string _Port)
         {
 
-
+            //初始化
+            Address = new IPEndPoint(IPAddress.Parse(_IP), int.Parse(_Port));
 
         }
 
@@ -115,12 +116,12 @@ namespace 悍高软件.Socket_KUKA
         /// </summary>
         /// <param name="_Ip"></param>
         /// <param name="_Port"></param>
-        public void Socket_Server_KUKA(string _Ip, int _Port)
+        public void Socket_Server_KUKA()
         {
             if (!IsRuning)
             {
                 IsRuning = true;
-                Address = new IPEndPoint(IPAddress.Parse(_Ip), _Port);
+                //Address = new IPEndPoint(IPAddress.Parse(_Ip), _Port);
                 Socket_Server = new Socket(Address.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
                 Socket_Server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
                 Socket_Server.Bind(Address);
@@ -260,7 +261,7 @@ namespace 悍高软件.Socket_KUKA
         /// 关闭其中选定客户端连接
         /// </summary>
         /// <param name="_Server"></param>
-        public static  void KUKA_Client_Close(Socket_Models_Server _Server)
+        public   void KUKA_Client_Close(Socket_Models_Server _Server)
         {
             if (_Server != null)
             {
@@ -281,7 +282,7 @@ namespace 悍高软件.Socket_KUKA
         /// <summary>
         /// 服务器连接停止
         /// </summary>
-        public static void Socket_Server_Stop()
+        public  void Socket_Server_Stop()
         {
 
 
