@@ -33,10 +33,7 @@ namespace 悍高软件.ViewModel
         public User_Features UF { get; set; } = new User_Features();
 
 
-        /// <summary>
-        /// 资源互锁
-        /// </summary>
-        public static Mutex Receive_Lock = new Mutex();
+
 
 
         /// <summary>

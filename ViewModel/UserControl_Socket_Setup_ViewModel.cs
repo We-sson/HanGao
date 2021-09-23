@@ -40,6 +40,7 @@ namespace 悍高软件.ViewModel
             {
                 Read = new Socket_Connect(IP_Client, Port_Client, Connect_Type.Long, Read_Write_Enum.Read),
                 Write = new Socket_Connect(IP_Client, Port_Client, Connect_Type.Short, Read_Write_Enum.Write),
+                
                 Connect_Socket_Type = Socket_Type.Client,
                 Control_Name_String = "连接控制柜",
                 Text_Error = new IP_Text_Error() { User_IP = IP_Client, User_Port = Port_Client }
@@ -97,22 +98,22 @@ namespace 悍高软件.ViewModel
         /// <summary>
         /// 客户端IP
         /// </summary>
-        public string IP_Client { set; get; }
+        public static  string IP_Client { set; get; }
 
         /// <summary>
         /// 客户端端口
         /// </summary>
-        public string Port_Client { set; get; }
+        public static string Port_Client { set; get; }
 
         /// <summary>
         /// 服务器IP
         /// </summary>
-        public string IP_Sever { set; get; }
+        public static string IP_Sever { set; get; }
 
         /// <summary>
         /// 服务器端口
         /// </summary>
-        public string Port_Sever { set; get; }
+        public static string Port_Sever { set; get; }
 
 
 

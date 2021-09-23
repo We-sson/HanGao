@@ -158,7 +158,8 @@ namespace 悍高软件.Model
                       switch (Connect_Socket_Type)
                       {
                           case Socket_Type.Client:
-                              Socket_Client_Setup.Read.Socket_Client_KUKA(Read_Write_Enum.Read);
+               
+                              Socket_Client_Setup.Read.Socket_Client_Thread(Read_Write_Enum.Read,Text_Error.User_IP,Text_Error.User_Port);
                               break;
                           case Socket_Type.Server:
                               Socket_Server_Setup.Sever.Socket_Server_KUKA();

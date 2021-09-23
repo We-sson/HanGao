@@ -254,8 +254,6 @@ namespace 悍高软件.ViewModel
         public void Receive_Read_Theam()
         {
 
-            //Receive_Waite.Wait();
-            //The_Lock = new object();
 
 
 
@@ -291,9 +289,16 @@ namespace 悍高软件.ViewModel
                                 Socket_Client_Setup.Read.Send_Read_Var(Socket_Read_List[i].Val_Name, _ID);
 
                                 //等待发送完成
-                                Send_Waite.Wait();
 
-                                if (!Socket_Client_Setup.Read.Is_Read_Client) { return; }
+
+                             
+                                if (!Socket_Client_Setup.Read.Is_Read_Client || !Send_Waite.WaitOne(3000, true))
+                                {
+                                    Socket_Client_Setup.Read.Socket_Receive_Error("发送超时无应答，退出发送！");
+                                    Close_Waite.Set();
+                                    return;
+                                }
+                                
                             }
 
 
@@ -324,14 +329,9 @@ namespace 悍高软件.ViewModel
                     //异常处理
                     User_Log_Add($"Error:-8 " + e.Message);
                     User_Log_Add("-1.5，退出发送线程");
-                    //Monitor.Exit(The_Lock);
-                    Clear_List();
+                    //Clear_List();
                     return;
                 }
-
-
-
-                //发送延时毫秒
             }
 
 

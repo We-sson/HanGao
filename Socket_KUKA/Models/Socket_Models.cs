@@ -132,10 +132,26 @@ namespace Soceket_KUKA.Models
         public byte[] Reveive_Byte { set; get; }= Array.Empty<byte>();
 
 
+
+        private readonly static object _lock = new object();
+        private Read_Write_Enum read_Write_Type = Read_Write_Enum.Null;
         /// <summary>
         /// 写入属性
         /// </summary>
-        public Read_Write_Enum Read_Write_Type { set; get; } = Read_Write_Enum.Null;
+        public  Read_Write_Enum Read_Write_Type
+        {
+            set
+            {
+                 read_Write_Type=value ;
+            }
+            get
+            {
+                lock (_lock)
+                {
+                    return read_Write_Type;
+                }
+            }
+        }
 
 
 

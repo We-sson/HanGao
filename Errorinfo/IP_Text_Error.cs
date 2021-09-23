@@ -118,7 +118,7 @@ namespace 悍高软件.Errorinfo
 
 
 
-        private string _User_IP;
+        private string _User_IP=string.Empty;
         /// <summary>
         /// 用户输入IP
         /// </summary>
@@ -135,7 +135,7 @@ namespace 悍高软件.Errorinfo
             }
         }
 
-        private string _User_Port ;
+        private string _User_Port= string.Empty;
         /// <summary>
         /// 用户输入IP
         /// </summary>

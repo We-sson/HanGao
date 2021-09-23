@@ -223,7 +223,7 @@ namespace 悍高软件.ViewModel
         private void WM_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
 
-            Wroking_Models _WM = sender as Wroking_Models;
+            //Wroking_Models _WM = sender as Wroking_Models;
 
 
 
