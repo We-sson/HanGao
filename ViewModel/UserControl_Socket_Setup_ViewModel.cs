@@ -1,6 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
- 
+
 using PropertyChanged;
 using Soceket_Connect;
 using System.Collections.ObjectModel;
@@ -24,7 +24,7 @@ namespace 悍高软件.ViewModel
 
 
 
-        public UserControl_Socket_Setup_ViewModel( )
+        public UserControl_Socket_Setup_ViewModel()
         {
 
 
@@ -36,19 +36,25 @@ namespace 悍高软件.ViewModel
 
 
 
-            Socket_Client_Setup = new Socket_Setup_Models() { 
-                Read=new Socket_Connect(IP_Client, Port_Client, Connect_Type.Long, Read_Write_Enum.Read ),
-                Write=new Socket_Connect (IP_Client, Port_Client, Connect_Type.Short, Read_Write_Enum.Write), 
-                Connect_Socket_Type = Socket_Type.Client, Control_Name_String = "连接控制柜", 
-                Text_Error = new IP_Text_Error() { User_IP = IP_Client, User_Port = Port_Client } };
+            Socket_Client_Setup = new Socket_Setup_Models()
+            {
+                Read = new Socket_Connect(IP_Client, Port_Client, Connect_Type.Long, Read_Write_Enum.Read),
+                Write = new Socket_Connect(IP_Client, Port_Client, Connect_Type.Short, Read_Write_Enum.Write),
+                Connect_Socket_Type = Socket_Type.Client,
+                Control_Name_String = "连接控制柜",
+                Text_Error = new IP_Text_Error() { User_IP = IP_Client, User_Port = Port_Client }
+            };
 
 
 
 
-            Socket_Server_Setup = new Socket_Setup_Models() { Connect_Socket_Type = Socket_Type.Server,
-                Sever=new Socket_Sever (IP_Sever, Port_Sever), 
-                Control_Name_String = "监听控制柜", 
-                Text_Error = new IP_Text_Error() { User_IP = IP_Sever, User_Port = Port_Sever } };
+            Socket_Server_Setup = new Socket_Setup_Models()
+            {
+                Connect_Socket_Type = Socket_Type.Server,
+                Sever = new Socket_Sever(IP_Sever, Port_Sever),
+                Control_Name_String = "监听控制柜",
+                Text_Error = new IP_Text_Error() { User_IP = IP_Sever, User_Port = Port_Sever }
+            };
 
 
             //注册消息接收
@@ -56,7 +62,7 @@ namespace 悍高软件.ViewModel
 
 
             //连接按钮屏蔽方法
-            Messenger.Default.Register<bool>(this, "Connect_Client_Button_IsEnabled", (_Bool)=> 
+            Messenger.Default.Register<bool>(this, "Connect_Client_Button_IsEnabled", (_Bool) =>
             {
                 Socket_Client_Setup.Connect_Button_IsEnabled = _Bool;
             });
@@ -64,27 +70,27 @@ namespace 悍高软件.ViewModel
 
 
             //连接控制柜，网络连接状态显示方法
-            Messenger.Default.Register<int>(this, "Connect_Client_Socketing_Button_Show", (_int)=> 
+            Messenger.Default.Register<int>(this, "Connect_Client_Socketing_Button_Show", (_int) =>
             {
                 Socket_Client_Setup.Client_Button_Show(_int);
             });
 
-  
+
 
 
             //通讯延时绑定
-            Messenger.Default.Register<string>(this, "Connter_Time_Delay_Method",(_String)=> { Connter_Time_Delay = _String; });
+            Messenger.Default.Register<string>(this, "Connter_Time_Delay_Method", (_String) => { Connter_Time_Delay = _String; });
 
 
 
             //客户端连接数量
-            Messenger.Default.Register<int>(this, "ClientCount", (_int => { ClientCount = _int;  }));
+            Messenger.Default.Register<int>(this, "ClientCount", (_int => { ClientCount = _int; }));
 
 
             //显示
-            Messenger.Default.Register<Visibility>(this, "Socket_Countion_Show", (_Vis => { Socket_Countion_Show = _Vis;  }));
+            Messenger.Default.Register<Visibility>(this, "Socket_Countion_Show", (_Vis => { Socket_Countion_Show = _Vis; }));
 
-         
+
 
         }
 
@@ -110,10 +116,10 @@ namespace 悍高软件.ViewModel
 
 
 
-        public static  Socket_Setup_Models Socket_Client_Setup { set; get; } 
+        public static Socket_Setup_Models Socket_Client_Setup { set; get; }
 
 
-        public static  Socket_Setup_Models Socket_Server_Setup { set; get; } 
+        public static Socket_Setup_Models Socket_Server_Setup { set; get; }
 
 
 
@@ -137,7 +143,7 @@ namespace 悍高软件.ViewModel
         /// 连接按钮显示
         /// </summary>
         public Visibility Socket_Countion_Show { set; get; } = Visibility.Hidden;
-   
+
 
 
 

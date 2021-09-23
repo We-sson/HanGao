@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using GalaSoft.MvvmLight.Command;
 using static 悍高软件.ViewModel.UserControl_Socket_Setup_ViewModel;
-
+using System.Threading;
 
 namespace 悍高软件.ViewModel
 {
@@ -43,8 +43,14 @@ namespace 悍高软件.ViewModel
 
                     Application.Current.Dispatcher.Invoke(() =>
                     {
+                        while (true)
+                        {
+
                         //发输入框内的数值
                         Socket_Client_Setup.Write.Send_Write_Var(Sm.Send_Name.Text, Sm.Send_Val.Text);
+
+                            Task.Delay(50);
+                        }
 
                     });
                 });
