@@ -17,6 +17,7 @@ using System.Windows.Input;
 using 悍高软件.Socket_KUKA;
 using 悍高软件.ViewModel;
 using static Soceket_Connect.Socket_Connect;
+using static Soceket_KUKA.Models.Socket_Eunm;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
 using static 悍高软件.ViewModel.User_Control_Log_ViewModel;
 using static 悍高软件.ViewModel.UserControl_Socket_Setup_ViewModel;
@@ -292,9 +293,9 @@ namespace 悍高软件.ViewModel
 
 
                              
-                                if (!Socket_Client_Setup.Read.Is_Read_Client || !Send_Waite.WaitOne(3000, true))
+                                if (!Socket_Client_Setup.Read.Is_Read_Client || !Send_Waite.WaitOne(3000, false ))
                                 {
-                                    Socket_Client_Setup.Read.Socket_Receive_Error("发送超时无应答，退出发送！");
+                                    Socket_Client_Setup.Read.Socket_Receive_Error(Read_Write_Enum.Read,"发送超时无应答，退出发送！");
                                     Close_Waite.Set();
                                     return;
                                 }

@@ -302,7 +302,7 @@ namespace Soceket_KUKA.Models
         /// <summary>
         /// 写入读取枚举属性
         /// </summary>
-        public enum Read_Write_Enum { Null = -1, Read, Write }
+        public enum Read_Write_Enum { Null = -1, Read, Write,All }
 
     }
 

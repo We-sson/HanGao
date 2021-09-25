@@ -15,6 +15,7 @@ using 悍高软件.Extension_Method;
 using 悍高软件.Model;
 using 悍高软件.Socket_KUKA;
 using static Soceket_KUKA.Models.KUKA_Value_Type;
+using static Soceket_KUKA.Models.Socket_Eunm;
 using static Soceket_KUKA.Models.Socket_Models_Connect;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
 using static Soceket_KUKA.Socket_Receive;
@@ -182,7 +183,7 @@ namespace 悍高软件.ViewModel
                 catch (Exception e)
                 {
 
-                    Socket_Client_Setup.Write. Socket_Receive_Error("Error:-30 " + e.Message);
+                    Socket_Client_Setup.Write. Socket_Receive_Error(Read_Write_Enum.Write,"Error:-30 " + e.Message);
                 }
 
 

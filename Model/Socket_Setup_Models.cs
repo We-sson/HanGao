@@ -199,7 +199,7 @@ namespace 悍高软件.Model
                       switch (Connect_Socket_Type)
                       {
                           case Socket_Type.Client:
-                              Socket_Client_Setup.Read.Socket_Close();
+                              Socket_Client_Setup.Read.Socket_Close(Read_Write_Enum.Read);
 
                               break;
                           case Socket_Type.Server:
