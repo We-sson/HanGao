@@ -72,6 +72,7 @@ namespace Soceket_Connect
         public static ManualResetEvent Send_Write { set; get; } = new ManualResetEvent(false);
         public static ManualResetEvent Rece_Write { set; get; } = new ManualResetEvent(false);
         public static ManualResetEvent Connect_IA = new ManualResetEvent(false);
+        public static ManualResetEvent Send_IA = new ManualResetEvent(false);
 
 
 
@@ -212,6 +213,7 @@ namespace Soceket_Connect
             }
             if (_Enum == Read_Write_Enum.Write)
             {
+                //写入同步线程连接
                 Socket_Client_KUKA(_Enum, _IP, _Port);
             }
 
@@ -656,7 +658,7 @@ namespace Soceket_Connect
                 //线程锁
                 Rece_IA_Lock.WaitOne();
 
-
+                Send_IA.WaitOne();
                 //发送回调等待标识
                 //Connect_IA.Reset();
                 //Connect_IA.WaitOne();
@@ -711,7 +713,7 @@ namespace Soceket_Connect
 
                 User_Log_Add("剩余读取线程：" + Send_Lock.WaitingWriteCount.ToString());
 
-
+                //同步线程启动
                 Socket_Client_Thread(Read_Write_Enum.Write, Socket_Client_Setup.Text_Error.User_IP, Socket_Client_Setup.Text_Error.User_Port);
 
 
@@ -722,7 +724,6 @@ namespace Soceket_Connect
                 if (!Connnect_Write.WaitOne(500, false))
                 {
                     Socket_Receive_Error(_S.Read_Write_Type, "Error：-54  原因：写入连接超时！检查网络与IP设置是否正确。");
-                    //User_Log_Add("写入连接失败检查IP与网络！");
 
                     //退出写入独占锁
                     Send_Lock.ExitWriteLock();
@@ -730,6 +731,11 @@ namespace Soceket_Connect
                 }
                 //重置发送等待状态
                 Send_Write.Reset();
+
+
+                //重置发送回调等待
+                Send_IA.Reset();
+
 
                 //重置接收等待状态
                 Rece_Write.Reset();
@@ -739,17 +745,18 @@ namespace Soceket_Connect
                 //等待发送完成标识
                 Send_Write.WaitOne();
 
+                Task.Delay(50);
                 //等待接收完成关闭标识
                 Rece_Write.WaitOne();
 
 
 
 
-                //接收信息互斥线程锁，保证每次只有一个线程接收消息
-                //Send_Lock.Set();
+           
 
 
                 //User_Log_Add("退出线程号：" + Thread.CurrentThread.ManagedThreadId);
+                //接收信息互斥线程锁，保证每次只有一个线程接收消息
                 Send_Lock.ExitWriteLock();
 
 
@@ -790,6 +797,9 @@ namespace Soceket_Connect
                 //释放发送等待状态
                 Send_Write.Set();
 
+
+                //发送回调完成后再关闭通讯口
+                Send_IA.Set();
 
 
             }
