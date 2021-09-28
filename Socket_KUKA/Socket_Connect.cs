@@ -250,12 +250,12 @@ namespace Soceket_Connect
 
 
             //显示连接中状态
-            Messenger.Default.Send<int>(0, "Connect_Client_Socketing_Button_Show");
 
 
             //读取连接设置
             if (R_W_Enum == Read_Write_Enum.Read && !Is_Read_Client)
             {
+            Messenger.Default.Send<int>(0, "Connect_Client_Socketing_Button_Show");
                 //重置连接阻塞标识
                 Socket_Read.Reset();
 
@@ -276,6 +276,7 @@ namespace Soceket_Connect
                     Socket_Receive_Error(R_W_Enum, "Error: -53 原因:读取连接超时！检查网络与IP设置是否正确。");
                     return;
                 }
+            Messenger.Default.Send<bool>(false, "Connect_Client_Button_IsEnabled");
             }
 
             if (R_W_Enum == Read_Write_Enum.Write && !Is_Write_Client)
@@ -306,7 +307,6 @@ namespace Soceket_Connect
 
 
             //禁止控件用户二次连接
-            Messenger.Default.Send<bool>(false, "Connect_Client_Button_IsEnabled");
 
 
 
@@ -733,7 +733,7 @@ namespace Soceket_Connect
                 //等待连接完成
 
 
-                if (!Connnect_Write.WaitOne(500, false))
+                if (!Connnect_Write.WaitOne(300, false))
                 {
                     Socket_Receive_Error(_S.Read_Write_Type, "Error: -54 原因:写入连接超时！检查网络与IP设置是否正确。");
 
