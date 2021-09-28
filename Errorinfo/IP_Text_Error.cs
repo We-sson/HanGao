@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 namespace 悍高软件.Errorinfo
 {
     [SuppressPropertyChangedWarnings]
+    [AddINotifyPropertyChangedInterface]
     public class IP_Text_Error : ViewModelBase, IDataErrorInfo
     {
         //用户输入验证

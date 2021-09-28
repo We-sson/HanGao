@@ -183,7 +183,7 @@ namespace 悍高软件.ViewModel
                 catch (Exception e)
                 {
 
-                    Socket_Client_Setup.Write. Socket_Receive_Error(Read_Write_Enum.Write,"Error:-30 " + e.Message);
+                    Socket_Client_Setup.Write. Socket_Receive_Error(Read_Write_Enum.Write,"Error: -30 原因:" + e.Message);
                 }
 
 

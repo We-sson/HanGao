@@ -44,7 +44,7 @@ namespace 悍高软件.ViewModel
                     Application.Current.Dispatcher.Invoke(() =>
                     {
 
-                        for (int i = 0; i < 200000; i++)
+                        for (int i = 0; i < 100; i++)
                         {
 
 

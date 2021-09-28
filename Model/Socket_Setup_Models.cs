@@ -48,7 +48,7 @@ namespace 悍高软件.Model
         /// <summary>
         /// IP输入识别内容属性
         /// </summary>
-        public IP_Text_Error Text_Error { set; get; } = new IP_Text_Error() { };
+        public IP_Text_Error Text_Error { set; get; } 
 
         /// <summary>
         /// 连接按钮名称属性
@@ -199,8 +199,8 @@ namespace 悍高软件.Model
                       switch (Connect_Socket_Type)
                       {
                           case Socket_Type.Client:
-                              Socket_Client_Setup.Read.Socket_Close(Read_Write_Enum.Read);
-
+                              Socket_Client_Setup.Read.Is_Read_Client = false;
+                              //User_Log_Add("用户退出读取连接！");
                               break;
                           case Socket_Type.Server:
                               Socket_Server_Setup.Sever.Socket_Server_Stop();

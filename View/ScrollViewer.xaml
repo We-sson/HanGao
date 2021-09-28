@@ -16,7 +16,7 @@
             <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" Grid.Row="0" Grid.Column="0"
                                     Content="{TemplateBinding Content}"
                                     Margin="{TemplateBinding Padding}"
-                                    CanContentScroll="{TemplateBinding CanContentScroll}"
+                                    CanContentScroll="True"
                                     CanHorizontallyScroll="False"
                                     CanVerticallyScroll="False"
                                     ContentTemplate="{TemplateBinding ContentTemplate}" />

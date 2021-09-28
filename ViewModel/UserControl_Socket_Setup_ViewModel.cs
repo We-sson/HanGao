@@ -3,7 +3,9 @@ using GalaSoft.MvvmLight.Messaging;
 
 using PropertyChanged;
 using Soceket_Connect;
+using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Windows;
@@ -19,7 +21,7 @@ using static 悍高软件.Model.Socket_Setup_Models;
 namespace 悍高软件.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class UserControl_Socket_Setup_ViewModel : ViewModelBase
+    public class UserControl_Socket_Setup_ViewModel : ViewModelBase, INotifyPropertyChanged
     {
 
 
@@ -36,26 +38,15 @@ namespace 悍高软件.ViewModel
 
 
 
-            Socket_Client_Setup = new Socket_Setup_Models()
+            Messenger.Default.Register<Socket_Setup_Models>(this, "Client_Initialization", (_S) =>
             {
-                Read = new Socket_Connect(IP_Client, Port_Client, Connect_Type.Long, Read_Write_Enum.Read),
-                Write = new Socket_Connect(IP_Client, Port_Client, Connect_Type.Short, Read_Write_Enum.Write),
-                
-                Connect_Socket_Type = Socket_Type.Client,
-                Control_Name_String = "连接控制柜",
-                Text_Error = new IP_Text_Error() { User_IP = IP_Client, User_Port = Port_Client }
-            };
+                Socket_Client_Setup = _S;
+            });
 
-
-
-
-            Socket_Server_Setup = new Socket_Setup_Models()
+            Messenger.Default.Register<Socket_Setup_Models>(this, "Sever_Initialization", (_S) =>
             {
-                Connect_Socket_Type = Socket_Type.Server,
-                Sever = new Socket_Sever(IP_Sever, Port_Sever),
-                Control_Name_String = "监听控制柜",
-                Text_Error = new IP_Text_Error() { User_IP = IP_Sever, User_Port = Port_Sever }
-            };
+                Socket_Server_Setup = _S;
+            });
 
 
             //注册消息接收
@@ -98,7 +89,7 @@ namespace 悍高软件.ViewModel
         /// <summary>
         /// 客户端IP
         /// </summary>
-        public static  string IP_Client { set; get; }
+        public static string IP_Client { set; get; }
 
         /// <summary>
         /// 客户端端口
@@ -117,14 +108,43 @@ namespace 悍高软件.ViewModel
 
 
 
-        public static Socket_Setup_Models Socket_Client_Setup { set; get; }
+        private static Socket_Setup_Models _Socket_Client_Setup = new Socket_Setup_Models();
+        /// <summary>
+        /// 客户端静态属性
+        /// </summary>
+        public static Socket_Setup_Models Socket_Client_Setup
+        {
+            get => _Socket_Client_Setup;
+            set
+            {
+
+                _Socket_Client_Setup = value;
+                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Socket_Client_Setup)));
+
+            }
+        }
 
 
-        public static Socket_Setup_Models Socket_Server_Setup { set; get; }
+        private static Socket_Setup_Models _Socket_Server_Setup = new Socket_Setup_Models();
+        /// <summary>
+        /// 服务器静态属性
+        /// </summary>
+        public static Socket_Setup_Models Socket_Server_Setup
+        {
+            get => _Socket_Server_Setup;
+            set
+            {
 
+                _Socket_Server_Setup = value;
+                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Socket_Server_Setup)));
 
+            }
+        }
 
-
+        /// <summary>
+        /// 静态属性更新通知事件
+        /// </summary>
+         public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
 
 
 

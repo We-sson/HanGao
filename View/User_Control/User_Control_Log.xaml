@@ -40,6 +40,8 @@
                       Template="{StaticResource ScrollViewerControlTemplate1}"
                       CanContentScroll="True"
                       VirtualizingPanel.IsVirtualizing="True"
+                      VirtualizingPanel.ScrollUnit="Item"
+                    
                       VirtualizingPanel.VirtualizationMode="Recycling">
 
             <i:Interaction.Triggers>

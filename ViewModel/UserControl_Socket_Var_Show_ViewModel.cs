@@ -35,6 +35,19 @@ namespace 悍高软件.ViewModel
         public UserControl_Socket_Var_Show_ViewModel()
         {
 
+            //开始读取集合发送线程
+            Messenger.Default.Register<bool>(this, "Socket_Read_Thread", (_Bool) =>
+            {
+                if (_Bool)
+                {
+                    Socket_Read_Thread = new Thread(Receive_Read_Theam) { Name = "Read", IsBackground = true };
+                    Socket_Read_Thread.Start();
+                    User_Log_Add("启动变量发送线程");
+
+                }
+
+
+            });
             //读取变量集合发送
             Messenger.Default.Register<bool>(this, "Clear_List", (_Bool) =>
             {
@@ -70,29 +83,8 @@ namespace 悍高软件.ViewModel
             Messenger.Default.Register<Socket_Modesl_Byte>(this, "Socket_Read_List", List_Var_Show);
 
 
-            //开始读取集合发送线程
-            Messenger.Default.Register<bool>(this, "Socket_Read_Thread", (_Bool) =>
-            {
-                if (_Bool)
-                {
-                    Socket_Read_Thread = new Thread(Receive_Read_Theam) { Name = "Read", IsBackground = true };
-                    Socket_Read_Thread.Start();
-
-
-                }
-                else
-                {
-                    if (!Socket_Read_Thread.IsAlive)
-                    {
-
-                        Socket_Read_Thread.Abort();
-                    }
-
-                }
-
-            });
             //释放发送线程
-            Thread_Read.Set();
+
         }
 
 
@@ -260,7 +252,7 @@ namespace 悍高软件.ViewModel
 
 
 
-            while (Socket_Client_Setup.Read.Is_Read_Client)
+            while (true)
             {
 
                 try
@@ -277,6 +269,10 @@ namespace 悍高软件.ViewModel
 
                         for (int i = 0; i < Socket_Read_List.Count; i++)
                         {
+
+
+
+
                             Send_Waite.Reset();
                             //当前时间
                             Delay_time = DateTime.Now;
@@ -292,14 +288,13 @@ namespace 悍高软件.ViewModel
                                 //等待发送完成
 
 
-                             
-                                if (!Socket_Client_Setup.Read.Is_Read_Client || !Send_Waite.WaitOne(3000, false ))
+                                if (!Send_Waite.WaitOne(3000, false) || !Socket_Client_Setup.Read.Is_Read_Client)
                                 {
-                                    Socket_Client_Setup.Read.Socket_Receive_Error(Read_Write_Enum.Read,"发送超时无应答，退出发送！");
-                                    Close_Waite.Set();
+                                    Socket_Client_Setup.Read.Socket_Receive_Error(Read_Write_Enum.Read, "发送超时无应答，退出线程发送！");
                                     return;
                                 }
-                                
+
+     
                             }
 
 
@@ -328,8 +323,8 @@ namespace 悍高软件.ViewModel
                 catch (Exception e)
                 {
                     //异常处理
-                    User_Log_Add($"Error:-8 " + e.Message);
-                    User_Log_Add("-1.5，退出发送线程");
+                    User_Log_Add($"Error: -08 原因:" + e.Message);
+                    //User_Log_Add("-1.5，退出发送线程");
                     //Clear_List();
                     return;
                 }

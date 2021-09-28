@@ -4,12 +4,20 @@ using GalaSoft.MvvmLight.Messaging;
 using Nancy.Helpers;
  
 using PropertyChanged;
+using Soceket_Connect;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using 悍高软件.Errorinfo;
 using 悍高软件.Model;
+using 悍高软件.Socket_KUKA;
+using static Soceket_KUKA.Models.Socket_Eunm;
+using static Soceket_KUKA.Models.Socket_Models_Receive;
+using static 悍高软件.Model.Socket_Setup_Models;
 using static 悍高软件.ViewModel.Home_ViewModel;
+using static 悍高软件.ViewModel.UserControl_Socket_Setup_ViewModel;
+
 
 namespace 悍高软件.ViewModel
 {
@@ -73,7 +81,47 @@ namespace 悍高软件.ViewModel
             });
         }
 
+        /// <summary>
+        /// 侧边栏打开关闭事件命令
+        /// </summary>
+        public ICommand Loaded_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
 
+                //把参数类型转换控件
+                UIElement e = Sm.Source as UIElement;
+
+
+                Messenger.Default.Send<Socket_Setup_Models>(new Socket_Setup_Models()
+                {
+                    Read = new Socket_Connect(IP_Client, Port_Client, Connect_Type.Long, Read_Write_Enum.Read),
+                    Write = new Socket_Connect(IP_Client, Port_Client, Connect_Type.Short, Read_Write_Enum.Write),
+
+                    Connect_Socket_Type = Socket_Type.Client,
+                    Control_Name_String = "连接控制柜",
+                    Text_Error = new IP_Text_Error() { User_IP = IP_Client, User_Port = Port_Client }
+                }, "Client_Initialization");
+
+
+                Messenger.Default.Send<Socket_Setup_Models>(new Socket_Setup_Models()
+                {
+                    Connect_Socket_Type = Socket_Type.Server,
+                    Sever = new Socket_Sever(IP_Sever, Port_Sever),
+                    Control_Name_String = "监听控制柜",
+                    Text_Error = new IP_Text_Error() { User_IP = IP_Sever, User_Port = Port_Sever }
+                }, "Sever_Initialization");
+
+
+
+
+
+
+
+
+
+            });
+        }
 
 
 
