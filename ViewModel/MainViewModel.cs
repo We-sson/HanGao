@@ -1,7 +1,7 @@
 using GalaSoft.MvvmLight;
 using PropertyChanged;
 
-namespace 悍高软件.ViewModel
+namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
     public class MainViewModel : ViewModelBase

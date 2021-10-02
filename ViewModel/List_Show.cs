@@ -10,17 +10,17 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using 悍高软件.Model;
-using 悍高软件.View.UserMessage;
+using HanGao.Model;
+using HanGao.View.UserMessage;
 using static Soceket_Connect.Socket_Connect;
 using static Soceket_KUKA.Models.Socket_Models_Connect;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
-using static 悍高软件.Model.Sink_Models;
-using static 悍高软件.ViewModel.User_Control_Common;
-using static 悍高软件.ViewModel.User_Control_Log_ViewModel;
-using static 悍高软件.ViewModel.UserControl_Socket_Setup_ViewModel;
+using static HanGao.Model.Sink_Models;
+using static HanGao.ViewModel.User_Control_Common;
+using static HanGao.ViewModel.User_Control_Log_ViewModel;
+using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
 
-namespace 悍高软件.ViewModel
+namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
     public class List_Show : ViewModelBase

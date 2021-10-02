@@ -8,10 +8,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
-using 悍高软件.Errorinfo;
-using 悍高软件.Model;
+using HanGao.Errorinfo;
+using HanGao.Model;
 
-namespace 悍高软件.ViewModel
+namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
     public class User_Control_Log_ViewModel : ViewModelBase

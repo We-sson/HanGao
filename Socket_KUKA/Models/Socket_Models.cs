@@ -7,7 +7,7 @@ using System.Net.Sockets;
 using static Soceket_KUKA.Models.KUKA_Value_Type;
 using static Soceket_KUKA.Models.Socket_Eunm;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
-using static 悍高软件.ViewModel.UserControl_Socket_Var_Show_ViewModel;
+using static HanGao.ViewModel.UserControl_Socket_Var_Show_ViewModel;
 
 
 

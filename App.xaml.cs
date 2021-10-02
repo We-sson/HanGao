@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace 悍高软件
+namespace HanGao
 {
     /// <summary>
     /// App.xaml 的交互逻辑

@@ -8,13 +8,13 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
-using 悍高软件.Extension_Method;
-using 悍高软件.Model;
+using HanGao.Extension_Method;
+using HanGao.Model;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
-using static 悍高软件.ViewModel.UserControl_Socket_Var_Show_ViewModel;
+using static HanGao.ViewModel.UserControl_Socket_Var_Show_ViewModel;
 
 
-namespace 悍高软件.ViewModel
+namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
     public class User_Control_Working_Path_VM : ViewModelBase

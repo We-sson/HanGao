@@ -2,7 +2,7 @@
 using PropertyChanged;
 using System;
 
-namespace 悍高软件.Model
+namespace HanGao.Model
 {
     [AddINotifyPropertyChangedInterface]
     public class User_Working_Path_Models

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace 悍高软件.View.User_Control
+namespace HanGao.View.User_Control
 {
     /// <summary>
     /// User_Control_Working_Path.xaml 的交互逻辑

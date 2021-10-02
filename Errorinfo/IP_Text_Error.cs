@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 
 
-namespace 悍高软件.Errorinfo
+namespace HanGao.Errorinfo
 {
     [SuppressPropertyChangedWarnings]
     [AddINotifyPropertyChangedInterface]

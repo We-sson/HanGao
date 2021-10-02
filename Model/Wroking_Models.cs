@@ -2,11 +2,11 @@
 using PropertyChanged;
 using System;
 using System.ComponentModel;
-using 悍高软件.Socket_KUKA;
-using static 悍高软件.ViewModel.UserControl_Socket_Setup_ViewModel;
+using HanGao.Socket_KUKA;
+using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
 
 
-namespace 悍高软件.Model
+namespace HanGao.Model
 {
     [AddINotifyPropertyChangedInterface]
     public class Wroking_Models : ViewModelBase

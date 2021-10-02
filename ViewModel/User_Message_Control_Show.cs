@@ -3,10 +3,10 @@ using GalaSoft.MvvmLight.Messaging;
 using PropertyChanged;
 using System.Windows;
 using System.Windows.Controls;
-using 悍高软件.Model;
-using 悍高软件.View.UserMessage;
+using HanGao.Model;
+using HanGao.View.UserMessage;
 
-namespace 悍高软件.ViewModel
+namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
     public class User_Message_Control_Show : ViewModelBase

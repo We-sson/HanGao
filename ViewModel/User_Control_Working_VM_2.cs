@@ -11,16 +11,16 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using 悍高软件.Extension_Method;
-using 悍高软件.Model;
-using 悍高软件.Socket_KUKA;
+using HanGao.Extension_Method;
+using HanGao.Model;
+using HanGao.Socket_KUKA;
 using static Soceket_KUKA.Models.KUKA_Value_Type;
 using static Soceket_KUKA.Models.Socket_Models_Connect;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
 using static Soceket_KUKA.Socket_Receive;
-using static 悍高软件.ViewModel.User_Control_Log_ViewModel;
+using static HanGao.ViewModel.User_Control_Log_ViewModel;
 
-namespace 悍高软件.ViewModel
+namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
     public class User_Control_Working_VM_2 : User_Control_Common

@@ -9,17 +9,17 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using 悍高软件.Errorinfo;
-using 悍高软件.Model;
-using 悍高软件.Socket_KUKA;
+using HanGao.Errorinfo;
+using HanGao.Model;
+using HanGao.Socket_KUKA;
 using static Soceket_KUKA.Models.Socket_Eunm;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
-using static 悍高软件.Model.Socket_Setup_Models;
-using static 悍高软件.ViewModel.Home_ViewModel;
-using static 悍高软件.ViewModel.UserControl_Socket_Setup_ViewModel;
+using static HanGao.Model.Socket_Setup_Models;
+using static HanGao.ViewModel.Home_ViewModel;
+using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
 
 
-namespace 悍高软件.ViewModel
+namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
     public class UserControl_Sideber_Show_ViewModel : ViewModelBase

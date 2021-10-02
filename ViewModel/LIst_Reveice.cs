@@ -3,7 +3,7 @@ using PropertyChanged;
 using Soceket_KUKA.Models;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
 
-namespace 悍高软件.ViewModel
+namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
     public class LIst_Reveice : ViewModelBase

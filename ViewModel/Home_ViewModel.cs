@@ -12,13 +12,13 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
-using 悍高软件.Model;
-using 悍高软件.View.FrameShow;
-using 悍高软件.View.User_Control;
+using HanGao.Model;
+using HanGao.View.FrameShow;
+using HanGao.View.User_Control;
 
 
 
-namespace 悍高软件.ViewModel
+namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
     public class Home_ViewModel : ViewModelBase

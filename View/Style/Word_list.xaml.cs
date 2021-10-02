@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace 悍高软件.View.Style
+namespace HanGao.View.Style
 {
     /// <summary>
     /// Word_list.xaml 的交互逻辑

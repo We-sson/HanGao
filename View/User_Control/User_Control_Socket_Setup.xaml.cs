@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace 悍高软件.View.User_Control
+namespace HanGao.View.User_Control
 {
     /// <summary>
     /// User_Control_Right_Show_Value.xaml 的交互逻辑

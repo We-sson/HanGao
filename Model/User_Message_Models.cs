@@ -1,7 +1,7 @@
 ﻿using PropertyChanged;
 using System.Windows;
 
-namespace 悍高软件.Model
+namespace HanGao.Model
 {
     [AddINotifyPropertyChangedInterface]
     public class User_Message_Models

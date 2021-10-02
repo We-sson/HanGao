@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace 悍高软件.Errorinfo
+namespace HanGao.Errorinfo
 {
     public class LogManager
     {

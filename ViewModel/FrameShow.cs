@@ -4,9 +4,9 @@ using PropertyChanged;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using 悍高软件.View.FrameShow;
+using HanGao.View.FrameShow;
 
-namespace 悍高软件.ViewModel
+namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
     public class FrameShow : ViewModelBase

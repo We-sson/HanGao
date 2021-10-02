@@ -1,7 +1,7 @@
 ﻿using Nancy.Helpers;
 using PropertyChanged;
 
-namespace 悍高软件.Model
+namespace HanGao.Model
 {
     [AddINotifyPropertyChangedInterface]
     public class Sink_Models

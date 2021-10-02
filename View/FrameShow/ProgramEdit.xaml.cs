@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace 悍高软件.View.FrameShow
+namespace HanGao.View.FrameShow
 {
     /// <summary>
     /// 程序编辑.xaml 的交互逻辑

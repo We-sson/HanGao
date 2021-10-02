@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace 悍高软件.Model
+namespace HanGao.Model
 {
     [AddINotifyPropertyChangedInterface]
     public class Home_Models

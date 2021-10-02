@@ -4,10 +4,10 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using 悍高软件.Extension_Method;
+using HanGao.Extension_Method;
 using static Soceket_KUKA.Models.KUKA_Value_Type;
 
-namespace 悍高软件.Extension_Method
+namespace HanGao.Extension_Method
 {
 
 

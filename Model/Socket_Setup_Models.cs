@@ -16,22 +16,22 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using 悍高软件.Errorinfo;
-using 悍高软件.Socket_KUKA;
-using 悍高软件.View.User_Control;
-using 悍高软件.ViewModel;
+using HanGao.Errorinfo;
+using HanGao.Socket_KUKA;
+using HanGao.View.User_Control;
+using HanGao.ViewModel;
 using static Soceket_Connect.Socket_Connect;
 using static Soceket_KUKA.Models.Socket_Eunm;
 using static Soceket_KUKA.Models.Socket_Models_Connect;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
 
 using static Soceket_KUKA.Socket_Receive;
-using static 悍高软件.Socket_KUKA.Socket_Sever;
+using static HanGao.Socket_KUKA.Socket_Sever;
 
-using static 悍高软件.ViewModel.User_Control_Log_ViewModel;
-using static 悍高软件.ViewModel.UserControl_Socket_Setup_ViewModel;
+using static HanGao.ViewModel.User_Control_Log_ViewModel;
+using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
 
-namespace 悍高软件.Model
+namespace HanGao.Model
 
 {
     [AddINotifyPropertyChangedInterface]

@@ -1,7 +1,7 @@
 /*
   In App.xaml:
   <Application.Resources>
-      <vm:ViewModelLocator xmlns:vm="clr-namespace:悍高软件"
+      <vm:ViewModelLocator xmlns:vm="clr-namespace:HanGao"
                            x:Key="Locator" />
   </Application.Resources>
   
@@ -14,10 +14,11 @@
 
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
-using 悍高软件.Errorinfo;
-using 悍高软件.ViewModel;
+using HanGao;
+using HanGao.Errorinfo;
+using HanGao.ViewModel;
 
-namespace 悍高软件.ViewModelLocator
+namespace HanGao.ViewModelLocator
 {
 
     public class ViewModelLocator

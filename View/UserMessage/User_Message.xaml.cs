@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace 悍高软件.View.UserMessage
+namespace HanGao.View.UserMessage
 {
     /// <summary>
     /// User_Message.xaml 的交互逻辑

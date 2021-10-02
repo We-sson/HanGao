@@ -4,7 +4,7 @@ using PropertyChanged;
 using System;
 using System.Threading.Tasks;
 
-namespace 悍高软件.ViewModel
+namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
     public class User : ViewModelBase

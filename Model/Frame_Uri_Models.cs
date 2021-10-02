@@ -1,7 +1,7 @@
 ﻿using PropertyChanged;
 using System;
 
-namespace 悍高软件.Model
+namespace HanGao.Model
 {
     [AddINotifyPropertyChangedInterface]
     public class Frame_Uri_Models

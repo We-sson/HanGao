@@ -1,6 +1,6 @@
 ﻿using PropertyChanged;
 
-namespace 悍高软件.Model
+namespace HanGao.Model
 {
     [AddINotifyPropertyChangedInterface]
     public class User_Log_Models
