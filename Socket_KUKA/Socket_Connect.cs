@@ -375,7 +375,7 @@ namespace Soceket_Connect
 
 
             //连接成功再继续
-            if (Global_Socket_Write.Connected && _Enum == Read_Write_Enum.Write)
+            if (Global_Socket_Write.Connected && _Enum == Read_Write_Enum.Write && !Is_Write_Client)
             {
 
 

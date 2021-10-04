@@ -31,7 +31,7 @@ namespace HanGao.Socket_KUKA
 
             //初始化
             Address = new IPEndPoint(IPAddress.Parse(_IP), int.Parse(_Port));
-            Socket_Server_KUKA();
+            //Socket_Server_KUKA();
 
         }
 
