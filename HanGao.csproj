@@ -420,6 +420,9 @@
     <Content Include="inter\HanGao-x86_Debug-SetupFiles\x86_Debug.exe" />
     <Content Include="inter\x64_ReleaseSetupFiles\HanGao.exe" />
     <Content Include="inter\x64_Release_1SetupFiles\HanGao.exe" />
+    <Content Include="Ps_UI\单盆图标.svg" />
+    <Content Include="Ps_UI\双盆图标.svg" />
+    <Content Include="Ps_UI\左右盆图标.svg" />
     <Content Include="Resources\Log.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

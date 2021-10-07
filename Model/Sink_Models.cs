@@ -73,13 +73,13 @@ namespace HanGao.Model
                 switch (int.Parse(value))
                 {
                     case (int)Photo_enum.普通单盆:
-                        _Photo_ico = HttpUtility.HtmlDecode("&#xe60b;");
+                        _Photo_ico = HttpUtility.HtmlDecode("&#xe61b;");
                         break;
                     case (int)Photo_enum.普通双盆:
-                        _Photo_ico = HttpUtility.HtmlDecode("&#xe610;");
+                        _Photo_ico = HttpUtility.HtmlDecode("&#xe61d;");
                         break;
                     case (int)Photo_enum.左右单盆:
-                        _Photo_ico = HttpUtility.HtmlDecode("&#xe60a;");
+                        _Photo_ico = HttpUtility.HtmlDecode("&#xe61a;");
                         break;
 
                 }
