@@ -33,6 +33,7 @@ namespace HanGao.ViewModel
 
             SinkModels = new ObservableCollection<Sink_Models>
             {
+               new Sink_Models (){ Photo_ico =((int)Photo_enum.普通双盆).ToString()},
                 new Sink_Models() { Model_Number = 952154,  Photo_ico=((int)Photo_enum.普通单盆).ToString() ,   } ,
 
                 new Sink_Models() { Model_Number = 953212, Photo_ico =((int)Photo_enum.普通双盆).ToString(), } ,
@@ -44,6 +45,8 @@ namespace HanGao.ViewModel
                 new Sink_Models() { Model_Number = 901253, Photo_ico = ((int)Photo_enum.普通双盆).ToString(), } ,
                 new Sink_Models() { Model_Number = 952119, Photo_ico = ((int)Photo_enum.左右单盆).ToString(), } ,
             };
+
+
 
 
             //根据用户选择做出相应的动作

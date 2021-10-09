@@ -15,10 +15,10 @@
     <!--  列表总模板  -->
 
     <Style x:Key="ListBoxStyle1" TargetType="{x:Type ListBox}">
-        <Setter Property="Background" Value="{StaticResource ListBox.Static.Background}" />
-        <Setter Property="BorderBrush" Value="{StaticResource ListBox.Static.Border}" />
+        <Setter Property="Background" Value="{DynamicResource ListBox.Static.Background}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Foreground" Value="{StaticResource {x:Static SystemColors.ControlTextBrushKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
@@ -37,6 +37,7 @@
                             Background="{TemplateBinding Background}"
                             SnapsToDevicePixels="true">
                         <ScrollViewer Padding="{TemplateBinding Padding}"
+                                      HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                       Template="{DynamicResource ScrollViewerControlTemplate1}"
                                       CanContentScroll="True"
                                       Focusable="false">
@@ -135,150 +136,70 @@
     <DataTemplate x:Key="DataTemplate1" DataType="{x:Type CheckBox}">
 
 
-        <Grid x:Name="Gd5" d:DesignWidth="300" ShowGridLines="False">
+        <Grid x:Name="Gd5"
+              Width="380" VerticalAlignment="Top"
+              d:DesignWidth="300"
+              Visibility="{Binding List_Show}"
+              ShowGridLines="False">
 
-            <Grid.RowDefinitions>
-                <RowDefinition x:Name="Grd" Height="auto" />
-                <RowDefinition x:Name="Grd1" />
-            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition  />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
 
-            <Border x:Name="Gb1" Grid.Row="0"
-                    Padding="0" VerticalAlignment="Center"
-                    Opacity="1" Background="#334257"
-                    BorderThickness="0" BorderBrush="Black"
-                    CornerRadius="10"
-                    RenderTransformOrigin="0.5,0.5"
-                    Visibility="{Binding List_Show}">
-                <Border.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform ScaleX="1" ScaleY="1" />
-                    </TransformGroup>
-                </Border.RenderTransform>
-
+            <Border x:Name="Gb1" Grid.Column="0"
+                    Grid.ColumnSpan="2" 
+                    VerticalAlignment="Stretch"
+                    Background="#334257" CornerRadius="8">
 
                 <Border.Effect>
                     <DropShadowEffect BlurRadius="20" ShadowDepth="0"
                                       Opacity="0.2" Color="#125D98" />
                 </Border.Effect>
+            </Border>
+
+            <Border Grid.Column="1"
+                    Grid.ColumnSpan="2" CornerRadius="8"
+                    Background="#ececec" />
 
 
+            <Grid x:Name="Gd2"
+                  Margin="10" HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch"
+                  ShowGridLines="False" Opacity="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition  />
 
-                <Grid x:Name="Gd2"
-                      Margin="5" VerticalAlignment="Center"
-                      ShowGridLines="True" Opacity="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="110" />
-                        <ColumnDefinition Width="0" />
-                        <ColumnDefinition Width="auto" />
-                    </Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
 
 
+                <StackPanel Grid.Column="0"
+                            Margin="0" HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center">
 
-                    <TextBlock Grid.Column="0"
-                               Text="{Binding Photo_ico}"
-                               Margin="0" HorizontalAlignment="Center"
+                    <TextBlock Text="{Binding Photo_ico}"
+                               HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                Foreground="#EEEEEE"
                                FontFamily="/Resources/#iconfont"
-                               FontSize="60" />
-                    <Border Grid.Column="1"
-                            Width="5" VerticalAlignment="Stretch"
-                            Visibility="Collapsed"
-                            Background="Black" />
+                               FontSize="70" />
+                    <TextBlock Text="{Binding Sink_Size}"
+                               Margin="0,10,0,0"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontFamily="DengXian Light"
+                               FontSize="40" Foreground="#EEEEEE" />
 
-                    <Grid Grid.Column="2" Margin="0" ShowGridLines="False">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <TextBlock Grid.Column="0"
-                                   Grid.ColumnSpan="2"
-                                   Text="{Binding Model_Number}"
-                                   Margin="5" HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   FontFamily="DengXian Light"
-                                   FontSize="45" Foreground="#ECD662" />
+                </StackPanel>
 
 
-                        <StackPanel Grid.Row="1" Grid.Column="0"
-                                    Margin="5" HorizontalAlignment="Stretch"
-                                    Orientation="Horizontal">
+            </Grid>
 
+            <Grid Grid.Column="1" Margin="10" ShowGridLines="False" HorizontalAlignment="Center" VerticalAlignment="Center">
 
-
-                            <CheckBox Style="{StaticResource CheckBoxStyle2}"
-                                      Uid="1"
-                                      IsChecked="{Binding List_IsChecked_1}"
-                                      Width=" 28" Height="28" Margin="0,0,5,0"
-                                      HorizontalAlignment="Center"
-                                      VerticalAlignment="Stretch">
-
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="Click">
-                                        <cmd:EventToCommand Command="{Binding DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}" PassEventArgsToCommand="True" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-
-                            </CheckBox>
-
-
-                            <TextBlock Text="NO.1" VerticalAlignment="Center"
-                                       FontSize="18" Foreground="#EEEEEE" />
-                        </StackPanel>
-
-                        <StackPanel Grid.Row="1" Grid.Column="1"
-                                    Margin="5" HorizontalAlignment="Stretch"
-                                    Orientation="Horizontal">
-
-                            <CheckBox Style="{StaticResource CheckBoxStyle2}"
-                                      Uid="2"
-                                      IsChecked="{Binding List_IsChecked_2}"
-                                      Width=" 28" Height="28" Margin="0,0,5,0"
-                                      HorizontalAlignment="Center"
-                                      VerticalAlignment="Stretch">
-
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="Click">
-                                        <cmd:EventToCommand Command="{Binding DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}" PassEventArgsToCommand="True" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-
-                            </CheckBox>
-
-
-                            <TextBlock Text="NO.2" VerticalAlignment="Center"
-                                       FontSize="18" Foreground="#EEEEEE" />
-                        </StackPanel>
-
-
-                    </Grid>
-                </Grid>
-            </Border>
-
-            <!--  以下部件取消  -->
-            <Grid x:Name="Gd3" Grid.Row="1"
-                  Width="300" Height="0" Panel.ZIndex="-1"
-                  Visibility="Collapsed"
-                  RenderTransformOrigin="0.5,0.5">
-                <Grid.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform />
-                        <SkewTransform />
-                        <RotateTransform />
-                        <TranslateTransform Y="-10" />
-                    </TransformGroup>
-                </Grid.RenderTransform>
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height=" 1.6*" />
+                    <RowDefinition />
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
@@ -286,77 +207,98 @@
 
 
 
-                <Border x:Name="border" Grid.Row="0" Grid.Column="0"
-                        Grid.ColumnSpan="2" Background="#E3E3E3">
+                <TextBlock Grid.Row="0"
+                           Text="{Binding Model_Number}"
+                           Margin="0" HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch"
+                           FontFamily="DengXian Light"
+                           FontSize="54" Foreground="#333333" />
 
-                    <TextBlock Text="需要放置加工区域"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center" FontSize="20" />
-                </Border>
+                <StackPanel Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center">
 
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
 
-                <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-
-
-
-                    <Grid Style="{StaticResource Gd_Effect}" Grid.Column="0">
+                        <StackPanel HorizontalAlignment="Left" Orientation="Vertical">
+                            <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
 
 
-                        <CheckBox Style="{StaticResource CheckBoxStyle1}" x:Name="CB1"
-                                  Uid="1" Content="1号工位"
-                                  IsChecked="{Binding List_IsChecked_1}"
-                                  Padding="0,0,0,0" FontSize="20"
-                                  BorderThickness="0" Background="#C8C8C8">
-                            <CheckBox.Resources>
-                                <Style TargetType="{x:Type Border}">
-                                    <Setter Property="CornerRadius" Value="0 0 0 20" />
-                                </Style>
-                            </CheckBox.Resources>
 
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <cmd:EventToCommand Command="{Binding DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}" PassEventArgsToCommand="True" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
+                                <CheckBox Style="{StaticResource CheckBoxStyle2}"
+                                          Uid="1"
+                                          IsChecked="{Binding List_IsChecked_1}"
+                                          Width=" 30" Height="30" Margin="0,0,5,0"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Stretch"
+                                          BorderThickness="1.5"
+                                          BorderBrush="#FFC947">
 
-                        </CheckBox>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <cmd:EventToCommand Command="{Binding DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}" PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
+                                </CheckBox>
+
+
+                                <TextBlock Text="NO.1" VerticalAlignment="Center"
+                                           FontFamily="DengXian" FontSize="20"
+                                           Foreground="Gray" />
+                            </StackPanel>
+                            <StackPanel Margin="0" HorizontalAlignment="Stretch" Orientation="Horizontal">
+
+                                <CheckBox Style="{StaticResource CheckBoxStyle2}"
+                                          Uid="2"
+                                          IsChecked="{Binding List_IsChecked_2}"
+                                          Width=" 30" Height="30" Margin="0,0,5,0"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Stretch"
+                                          BorderThickness="1.5"
+                                          BorderBrush="#FFC947">
+
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <cmd:EventToCommand Command="{Binding DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}" PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
+                                </CheckBox>
+
+
+                                <TextBlock Text="NO.2" VerticalAlignment="Center"
+                                           FontFamily="DengXian" FontSize="20"
+                                           Foreground="Gray" />
+                            </StackPanel>
+                        </StackPanel>
+
+
+
+                        <Button Style="{StaticResource Set_Button_Style}" Grid.Column="1"
+                                Margin="10,0,0,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch">
+                            <Button.Content>
+                                <TextBlock Text="&#xe708;"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="/Resources/#iconfont"
+                                           FontSize="30" />
+                            </Button.Content>
+
+                        </Button>
+
                     </Grid>
 
 
-
-
-                    <Grid Style="{StaticResource Gd_Effect}" Grid.Column="1">
-
-                        <CheckBox Style="{StaticResource CheckBoxStyle1}" x:Name="CB2"
-                                  Uid="2" Content="2号工位"
-                                  IsChecked="{Binding List_IsChecked_2}"
-                                  Padding="0" BorderThickness="0"
-                                  FontSize="20" Background="#C8C8C8">
-
-                            <CheckBox.Resources>
-                                <Style TargetType="{x:Type Border}">
-                                    <Setter Property="CornerRadius" Value="0 0 20 0" />
-                                </Style>
-                            </CheckBox.Resources>
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <cmd:EventToCommand Command="{Binding DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}" PassEventArgsToCommand="True" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-
-                        </CheckBox>
-                    </Grid>
-                </Grid>
-
-
+                </StackPanel>
 
 
             </Grid>
+
 
 
         </Grid>
@@ -447,7 +389,7 @@
                     <Setter TargetName="Gd3" Property="Height" Value="130" />
                 </MultiTrigger.Setters>-->
                 <MultiTrigger.EnterActions>
-                    <BeginStoryboard>
+                    <!--<BeginStoryboard>
                         <Storyboard Timeline.DesiredFrameRate="60">
                             <DoubleAnimation SpeedRatio="5"
                                              Storyboard.TargetProperty="Height"
@@ -458,10 +400,10 @@
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
                         </Storyboard>
-                    </BeginStoryboard>
+                    </BeginStoryboard>-->
                 </MultiTrigger.EnterActions>
                 <MultiTrigger.ExitActions>
-                    <BeginStoryboard>
+                    <!--<BeginStoryboard>
                         <Storyboard Timeline.DesiredFrameRate="60">
                             <DoubleAnimation SpeedRatio="5"
                                              Storyboard.TargetProperty="Height"
@@ -472,7 +414,7 @@
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
                         </Storyboard>
-                    </BeginStoryboard>
+                    </BeginStoryboard>-->
                 </MultiTrigger.ExitActions>
 
 

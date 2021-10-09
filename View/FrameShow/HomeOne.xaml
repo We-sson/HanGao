@@ -40,11 +40,11 @@
 
                 <ColumnDefinition Width="50" />
                 <ColumnDefinition />
-                <ColumnDefinition Width="320" />
+                <ColumnDefinition Width="400" />
 
             </Grid.ColumnDefinitions>
             <!--  左侧型号栏  -->
-            <Grid Grid.Column="2" Margin="10,15,0,0" ShowGridLines="False">
+            <Grid Grid.Column="2" Margin="0,15,0,0" ShowGridLines="False">
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition Height=" 80" />
@@ -275,7 +275,9 @@
 
 
         <!--  侧边栏弹出  -->
-        <UC_Working:UserControl_Sideber_Show Margin="0,15,15,15" Panel.ZIndex="1" DataContext="{Binding Source={StaticResource Locator}, Path=Sideber_Show}" />
+        <UC_Working:UserControl_Sideber_Show Margin="0,15,15,15" Panel.ZIndex="1"
+                                             d:IsHidden="True"
+                                             DataContext="{Binding Source={StaticResource Locator}, Path=Sideber_Show}" />
 
 
     </Grid>

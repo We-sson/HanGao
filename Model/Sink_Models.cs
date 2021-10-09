@@ -16,7 +16,10 @@ namespace HanGao.Model
 
         }
 
-
+        /// <summary>
+        /// 水槽工艺参数
+        /// </summary>
+        public Sink_Process_Models Sink_Process { set; get; } = new Sink_Process_Models();
 
 
 
@@ -43,24 +46,30 @@ namespace HanGao.Model
 
 
 
-        private int _Model_Number;
+
         /// <summary>
         /// 水槽型号
         /// </summary>
-        public int Model_Number
+        public int Model_Number { set; get; } = 952154;
+
+
+
+
+        /// <summary>
+        /// 水槽尺寸信息
+        /// </summary>
+        public string Sink_Size
         {
             get
-            {
-
-                return _Model_Number;
-
-            }
-
-            set { _Model_Number = value; }
+            { return Sink_Process.Sink_Long.ToString() + "X" + Sink_Process.Sink_Width.ToString(); }
         }
 
+
+
+
+
         //&#xe610;   &#xe60a;   &#xe60b;
-        private string _Photo_ico;
+        private string _Photo_ico = HttpUtility.HtmlDecode("&#xe61b;");
         /// <summary>
         /// 列表显示对应水槽类型图片
         /// </summary>
@@ -88,6 +97,7 @@ namespace HanGao.Model
 
 
 
+
         /// <summary>
         /// 列表显示水槽枚举
         /// </summary>
@@ -105,8 +115,8 @@ namespace HanGao.Model
         /// <summary>
         /// 列表中水槽的保存参数
         /// </summary>
-        public  Wroking_Models Wroking_Models_ListBox = new Wroking_Models() { };
- 
+        public Wroking_Models Wroking_Models_ListBox = new Wroking_Models() { };
+
 
         private User_Features _User_Check_1 = new User_Features() { };
         /// <summary>
@@ -176,5 +186,24 @@ namespace HanGao.Model
 
     }
 
+    [AddINotifyPropertyChangedInterface]
+    public class Sink_Process_Models
+    {
 
+        /// <summary>
+        /// 水槽尺寸宽
+        /// </summary>
+        public int Sink_Width { set; get; } = 345;
+
+        /// <summary>
+        /// 水槽尺寸长
+        /// </summary>
+        public int Sink_Long { set; get; } = 650;
+
+
+
+
+
+
+    }
 }
