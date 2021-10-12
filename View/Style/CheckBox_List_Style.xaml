@@ -111,9 +111,9 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasContent" Value="true" />
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Background">
+                            <Setter TargetName="templateRoot" Property="BorderBrush">
                                 <Setter.Value>
-                                    <SolidColorBrush Opacity="0.8" Color="White" />
+                                    <SolidColorBrush Opacity="0.8" Color="#22AB38"  />
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
@@ -121,6 +121,7 @@
                         <Trigger Property="IsPressed" Value="true" />
                         <Trigger Property="IsChecked" Value="true">
                             <Setter Property="Background" Value="#22AB38" />
+                            <Setter TargetName="templateRoot" Property="BorderBrush" Value=" #22AB38"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="{x:Null}" />
                     </ControlTemplate.Triggers>
@@ -145,11 +146,12 @@
 
 
     <Style x:Key="Set_Button_Style" TargetType="{x:Type Button}">
-        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual3}" />
+       
         <Setter Property="Background" Value="#ECD662" />
-        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Black"  />
+        <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Foreground" Value="Black" />
-        <Setter Property="BorderThickness" Value="0" />
+
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Padding" Value="0" />
@@ -180,13 +182,15 @@
                             <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.MouseOver.Border}" />-->
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
+                            <!--<Setter  TargetName="border" Property="Opacity" Value="0.5"/>-->
+                            <Setter TargetName="border" Property="BorderThickness" Value="3"/>
                             <!--<Setter TargetName="border" Property="Background" Value="{StaticResource Button.Pressed.Background}" />
                             <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.Pressed.Border}" />-->
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <!--<Setter TargetName="border" Property="Background" Value="{StaticResource Button.Disabled.Background}" />
                             <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.Disabled.Border}" />-->
-                            <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{StaticResource Button.Disabled.Foreground}" />
+                            <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="Gray" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

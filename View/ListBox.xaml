@@ -277,8 +277,8 @@
 
 
 
-                        <Button Style="{StaticResource Set_Button_Style}" Grid.Column="1"
-                                Margin="10,0,0,0"
+                        <Button Style="{DynamicResource  ButtonStyle3}" Grid.Column="1"
+                                Margin="10,0,0,0"  Background="#ECD662"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch">
                             <Button.Content>
