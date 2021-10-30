@@ -165,7 +165,7 @@
     <Compile Include="View\Style\Word_list.xaml.cs">
       <DependentUpon>Word_list.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\User.xaml.cs">
+    <Compile Include="View\Style\User.xaml.cs">
       <DependentUpon>User.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\FrameShow\RealData.xaml.cs">
@@ -237,19 +237,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ListBox.xaml">
+    <Page Include="View\Style\ListBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ScrollViewer.xaml">
+    <Page Include="View\Style\ScrollViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Search_Style.xaml">
+    <Page Include="View\Style\Search_Style.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\RadioButton_Style.xaml">
+    <Page Include="View\Style\RadioButton_Style.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -279,19 +279,19 @@
     <Page Include="View\Style\Word_list.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\T1.xaml">
+    <Page Include="View\Style\T1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Text.xaml">
+    <Page Include="View\Style\Text.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Title_button.xaml">
+    <Page Include="View\Style\Title_button.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\User.xaml">
+    <Page Include="View\Style\User.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -341,7 +341,7 @@
     <Page Include="View\User_Control\User_Control_Working_Path.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Ver_ScrollBar.xaml">
+    <Page Include="View\Style\Ver_ScrollBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
