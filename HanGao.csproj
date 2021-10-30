@@ -148,7 +148,6 @@
     <Compile Include="ViewModel\LIst_Reveice.cs" />
     <Compile Include="ViewModel\List_Show.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
-    <Compile Include="ViewModel\User.cs" />
     <Compile Include="ViewModel\UserControl_Sideber_Show_ViewModel.cs" />
     <Compile Include="ViewModel\UserControl_Socket_Setup_ViewModel.cs" />
     <Compile Include="ViewModel\UserControl_Socket_Var_Show_ViewModel.cs" />
@@ -161,12 +160,8 @@
     <Compile Include="ViewModel\User_Message_Control_Show.cs" />
     <Compile Include="ViewModel\User_Message_ViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
-    <Compile Include="ViewModel\Page_event.cs" />
     <Compile Include="View\Style\Word_list.xaml.cs">
       <DependentUpon>Word_list.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Style\User.xaml.cs">
-      <DependentUpon>User.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\FrameShow\RealData.xaml.cs">
       <DependentUpon>RealData.xaml</DependentUpon>
@@ -279,19 +274,11 @@
     <Page Include="View\Style\Word_list.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Style\T1.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Style\Text.xaml">
+    <Page Include="View\Style\Title_Font_Size.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Style\Title_button.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Style\User.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -409,7 +396,6 @@
   <ItemGroup>
     <Folder Include="DataStore\DataStore\" />
     <Folder Include="Value_Name_enum\" />
-    <Folder Include="View\User_Control\User_Control_ViewModel\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\link.png" />

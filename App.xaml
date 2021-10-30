@@ -12,7 +12,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="View\Effect_Resources\Global_Effect.xaml" />
                 <ResourceDictionary Source="View\Style\RadioButton_Style.xaml" />
-                <ResourceDictionary Source="view\Style\text.xaml" />
+                <ResourceDictionary Source="view\Style\Title_Font_Size.xaml" />
                 <ResourceDictionary Source="View\Style\Title_button.xaml" />
                 <ResourceDictionary Source="View\Style\Search_Style.xaml" />
                 <ResourceDictionary Source="View\Style\CheckBox_List_Style.xaml" />

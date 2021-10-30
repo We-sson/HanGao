@@ -40,7 +40,7 @@ namespace HanGao.ViewModelLocator
             ////}
 
             SimpleIoc.Default.Register<MainWindow>();
-            SimpleIoc.Default.Register<User>();
+         
             SimpleIoc.Default.Register<FrameShow>();
             SimpleIoc.Default.Register<User_Control_Working_VM_1>();
             SimpleIoc.Default.Register<User_Control_Working_VM_2>();
@@ -68,7 +68,7 @@ namespace HanGao.ViewModelLocator
         public UserControl_Sideber_Show_ViewModel Sideber_Show => CommonServiceLocator.ServiceLocator.Current.GetInstance<UserControl_Sideber_Show_ViewModel>();
         public UserControl_Socket_Write_ViewModel Socket_Write => CommonServiceLocator.ServiceLocator.Current.GetInstance<UserControl_Socket_Write_ViewModel>();
         public UserControl_Socket_Var_Show_ViewModel Socket_Var_Show=> CommonServiceLocator.ServiceLocator.Current.GetInstance<UserControl_Socket_Var_Show_ViewModel>();
-        public User User => CommonServiceLocator.ServiceLocator.Current.GetInstance<User>();
+ 
         public User_Control_Log_ViewModel User_Log => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Control_Log_ViewModel>();
         public FrameShow FrameShow => CommonServiceLocator.ServiceLocator.Current.GetInstance<FrameShow>();
         public List_Show List_Show => CommonServiceLocator.ServiceLocator.Current.GetInstance<List_Show>();
