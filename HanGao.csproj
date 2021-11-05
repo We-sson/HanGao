@@ -148,6 +148,7 @@
     <Compile Include="ViewModel\LIst_Reveice.cs" />
     <Compile Include="ViewModel\List_Show.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\UC_Pop_Ups_VM.cs" />
     <Compile Include="ViewModel\UserControl_Sideber_Show_ViewModel.cs" />
     <Compile Include="ViewModel\UserControl_Socket_Setup_ViewModel.cs" />
     <Compile Include="ViewModel\UserControl_Socket_Var_Show_ViewModel.cs" />
@@ -180,6 +181,9 @@
     </Compile>
     <Compile Include="View\User_Control\UserControl_Grid.xaml.cs">
       <DependentUpon>UserControl_Grid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\User_Control\Pop_Ups\UserControl_Pop_Ups.xaml.cs">
+      <DependentUpon>UserControl_Pop_Ups.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\User_Control\UserControl_Sideber_Show.xaml.cs">
       <DependentUpon>UserControl_Sideber_Show.xaml</DependentUpon>
@@ -301,7 +305,14 @@
     <Page Include="View\UserMessage\User_Message.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\User_Control\Pop_Ups\Pop_Ups_Style.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\User_Control\UserControl_Grid.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\User_Control\Pop_Ups\UserControl_Pop_Ups.xaml">
+      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\User_Control\UserControl_Sideber_Show.xaml">

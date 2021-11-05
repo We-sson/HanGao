@@ -12,9 +12,7 @@
   See http://www.galasoft.ch/mvvm
 */
 
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
-using HanGao;
 using HanGao.Errorinfo;
 using HanGao.ViewModel;
 
@@ -26,6 +24,8 @@ namespace HanGao.ViewModelLocator
 
         public ViewModelLocator()
         {
+
+
             CommonServiceLocator.ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
             ////if (ViewModelBase.IsInDesignModeStatic)
@@ -40,7 +40,7 @@ namespace HanGao.ViewModelLocator
             ////}
 
             SimpleIoc.Default.Register<MainWindow>();
-         
+
             SimpleIoc.Default.Register<FrameShow>();
             SimpleIoc.Default.Register<User_Control_Working_VM_1>();
             SimpleIoc.Default.Register<User_Control_Working_VM_2>();
@@ -48,7 +48,7 @@ namespace HanGao.ViewModelLocator
             SimpleIoc.Default.Register<User_Message_ViewModel>();
             SimpleIoc.Default.Register<User_Control_Log_ViewModel>();
             SimpleIoc.Default.Register<User_Message_ViewModel>();
-            SimpleIoc.Default.Register<User_Message_Control_Show>();
+            SimpleIoc.Default.Register<User_Control_Show>();
             SimpleIoc.Default.Register<Home_ViewModel>();
             SimpleIoc.Default.Register<IP_Text_Error>();
             SimpleIoc.Default.Register<User_Control_Working_Path_VM>();
@@ -56,10 +56,8 @@ namespace HanGao.ViewModelLocator
             SimpleIoc.Default.Register<UserControl_Sideber_Show_ViewModel>();
             SimpleIoc.Default.Register<UserControl_Socket_Write_ViewModel>();
             SimpleIoc.Default.Register<UserControl_Socket_Var_Show_ViewModel>();
-
-
-
-
+            SimpleIoc.Default.Register<UC_Pop_Ups_VM>();
+            
         }
 
         public MainWindow MainWindow => CommonServiceLocator.ServiceLocator.Current.GetInstance<MainWindow>();
@@ -67,19 +65,21 @@ namespace HanGao.ViewModelLocator
 
         public UserControl_Sideber_Show_ViewModel Sideber_Show => CommonServiceLocator.ServiceLocator.Current.GetInstance<UserControl_Sideber_Show_ViewModel>();
         public UserControl_Socket_Write_ViewModel Socket_Write => CommonServiceLocator.ServiceLocator.Current.GetInstance<UserControl_Socket_Write_ViewModel>();
-        public UserControl_Socket_Var_Show_ViewModel Socket_Var_Show=> CommonServiceLocator.ServiceLocator.Current.GetInstance<UserControl_Socket_Var_Show_ViewModel>();
- 
+        public UserControl_Socket_Var_Show_ViewModel Socket_Var_Show => CommonServiceLocator.ServiceLocator.Current.GetInstance<UserControl_Socket_Var_Show_ViewModel>();
+
         public User_Control_Log_ViewModel User_Log => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Control_Log_ViewModel>();
         public FrameShow FrameShow => CommonServiceLocator.ServiceLocator.Current.GetInstance<FrameShow>();
         public List_Show List_Show => CommonServiceLocator.ServiceLocator.Current.GetInstance<List_Show>();
         public User_Control_Working_VM_1 User_Control_Working_VM_1 => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Control_Working_VM_1>();
         public User_Control_Working_VM_2 User_Control_Working_VM_2 => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Control_Working_VM_2>();
         public User_Message_ViewModel User_Message_ViewModel => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Message_ViewModel>();
-        public User_Message_Control_Show User_Message_Control_Show => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Message_Control_Show>();
+        public User_Control_Show User_Control_Show => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Control_Show>();
         public Home_ViewModel Home_ViewModel => CommonServiceLocator.ServiceLocator.Current.GetInstance<Home_ViewModel>();
         public IP_Text_Error IP_Text_Error => CommonServiceLocator.ServiceLocator.Current.GetInstance<IP_Text_Error>();
+        public UC_Pop_Ups_VM UC_Pop_Ups_VM => CommonServiceLocator.ServiceLocator.Current.GetInstance<UC_Pop_Ups_VM>();
 
-       
+        
+
         public UserControl_Socket_Setup_ViewModel Socket_Setup => CommonServiceLocator.ServiceLocator.Current.GetInstance<UserControl_Socket_Setup_ViewModel>();
 
 

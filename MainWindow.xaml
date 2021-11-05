@@ -247,9 +247,8 @@
 
         <ContentControl Grid.Row="0"
                         Grid.RowSpan="3"
-                        Content="{Binding User_Message_UserControl_Show}"
-                        Visibility="{Binding User_Visibility}"
-                        DataContext="{Binding Source={StaticResource Locator}, Path=User_Message_Control_Show}" />
+                        Content="{Binding User_UserControl}"
+                        DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Show}" />
 
 
 

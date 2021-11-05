@@ -20,7 +20,6 @@
                 <ResourceDictionary Source="View\Style\ScrollViewer.xaml" />
                 <ResourceDictionary Source="View\Style\Ver_ScrollBar.xaml" />
                 <ResourceDictionary Source="View\Style\ScrollViewer.xaml" />
-
                 <ResourceDictionary Source="View\Style\Grid_function_Style.xaml" />
                 <ResourceDictionary Source="View\Style\Button_message.xaml" />
                 <ResourceDictionary Source="View\Style\Window_Button.xaml" />
@@ -29,6 +28,7 @@
                 <ResourceDictionary Source="View\Style\ScrollViewer_List.xaml" />
                 <ResourceDictionary Source="View\Style\Socket_ListView_Style.xaml" />
                 <ResourceDictionary Source="/View\Style\Sidebar_Button_Style.xaml" />
+                <ResourceDictionary Source="/View\User_Control\Pop_Ups\Pop_Ups_Style.xaml" />
 
 
 
@@ -37,6 +37,8 @@
 
 
             </ResourceDictionary.MergedDictionaries>
+
+
             <vm:ViewModelLocator xmlns:vm="clr-namespace:HanGao.ViewModelLocator" x:Key="Locator" d:IsDataSource="True" />
 
 

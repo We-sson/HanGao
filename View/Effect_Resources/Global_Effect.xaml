@@ -14,6 +14,11 @@
 
 
 
+    <Style x:Key="全局_弹窗_背景侧挡样式" TargetType="Border">
+        <Setter Property="Background" Value="Gray" />
+        <Setter Property="Opacity" Value=" 0.4" />
+    </Style>
+
 
     <!--  全局图标路径  -->
     <Style x:Key="首页_左上角_公司图标_路径" TargetType="Image">

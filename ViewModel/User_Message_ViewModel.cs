@@ -30,6 +30,7 @@ namespace HanGao.ViewModel
 
 
 
+
         public User_Message_ViewModel()
         {
 
@@ -114,13 +115,6 @@ namespace HanGao.ViewModel
         }
 
 
-        /// <summary>
-        /// 清除列表中选定的状态
-        /// </summary>
-        public void Clear_List_Check(bool OnOff)
-        {
-
-        }
 
 
 
@@ -132,15 +126,7 @@ namespace HanGao.ViewModel
 
 
 
-        /// <summary>
-        /// 把水槽列表选择的控件通过消息通知到弹窗修改
-        /// </summary>
-        public void Set_Work_Show()
-        {
 
-
-
-        }
 
 
 

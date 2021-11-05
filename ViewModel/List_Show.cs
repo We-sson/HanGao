@@ -19,6 +19,7 @@ using static HanGao.Model.Sink_Models;
 using static HanGao.ViewModel.User_Control_Common;
 using static HanGao.ViewModel.User_Control_Log_ViewModel;
 using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
+using HanGao.View.User_Control;
 
 namespace HanGao.ViewModel
 {
@@ -84,8 +85,8 @@ namespace HanGao.ViewModel
 
                         }
 
-                        //清楚弹窗
-                        Messenger.Default.Send<List_Show_Models>(new List_Show_Models() { List_Show_Bool = Visibility.Collapsed }, "User_Contorl_Message_Show");
+                        //关闭弹窗
+                        Messenger.Default.Send<UserControl>(null, "User_Contorl_Message_Show");
 
                     }
 
@@ -185,7 +186,18 @@ namespace HanGao.ViewModel
 
 
 
+        /// <summary>
+        /// 显示水槽参数设置
+        /// </summary>
+        public  ICommand Show_Pop_Ups_Page
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+              {
+                  Messenger.Default.Send<UserControl>(new UserControl_Pop_Ups() { }, "User_Contorl_Message_Show");
+                  
 
+              });
+        }
 
 
 
@@ -231,9 +243,20 @@ namespace HanGao.ViewModel
 
 
                         //消息通知初始化一个消息内容显示
-                        Messenger.Default.Send<List_Show_Models>(new List_Show_Models() { Model = S, List_Show_Bool = Visibility.Visible, List_Show_Name = S.Model_Number.ToString(), List_Chick_NO = e.Uid, Message_Control = new User_Message() }, "User_Contorl_Message_Show");
+                        Messenger.Default.Send<UserControl>(new User_Message()
+                        {
+                            DataContext = new User_Message_ViewModel()
+                            {
+                                List_Show_Models = new List_Show_Models()
+                                { 
+                                    Model = S, List_Show_Name = S.Model_Number.ToString(), List_Chick_NO = e.Uid },
+                                User_Wrok_Trye = S.Model_Number.ToString()
+                            }
+                            
+                        },
+                        "User_Contorl_Message_Show"); 
 
-
+                       
                         return;
 
                     }

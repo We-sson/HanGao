@@ -7,7 +7,7 @@
 
 
     <Style x:Key="Sidebar_Button" TargetType="{x:Type Button}">
-        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual2 }" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual2}" />
         <Setter Property="Background" Value="#334257" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="Height" Value="200" />
