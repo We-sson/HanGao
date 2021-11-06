@@ -21,6 +21,7 @@ using static HanGao.ViewModel.User_Control_Log_ViewModel;
 using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
 using HanGao.View.User_Control;
 
+
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
@@ -179,8 +180,8 @@ namespace HanGao.ViewModel
         private void Set_Work_Connt(RoutedEventArgs Sm)
         {
             //把参数类型转换控件
-            FrameworkElement e = Sm.Source as FrameworkElement;
-            Sink_Models S = (Sink_Models)e.DataContext;
+            //FrameworkElement e = Sm.Source as FrameworkElement;
+            //Sink_Models S = (Sink_Models)e.DataContext;
         }
 
 

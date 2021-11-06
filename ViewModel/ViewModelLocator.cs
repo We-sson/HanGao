@@ -57,7 +57,10 @@ namespace HanGao.ViewModelLocator
             SimpleIoc.Default.Register<UserControl_Socket_Write_ViewModel>();
             SimpleIoc.Default.Register<UserControl_Socket_Var_Show_ViewModel>();
             SimpleIoc.Default.Register<UC_Pop_Ups_VM>();
+            SimpleIoc.Default.Register<UC_Sink_Type_VM>();
+
             
+
         }
 
         public MainWindow MainWindow => CommonServiceLocator.ServiceLocator.Current.GetInstance<MainWindow>();
@@ -77,8 +80,9 @@ namespace HanGao.ViewModelLocator
         public Home_ViewModel Home_ViewModel => CommonServiceLocator.ServiceLocator.Current.GetInstance<Home_ViewModel>();
         public IP_Text_Error IP_Text_Error => CommonServiceLocator.ServiceLocator.Current.GetInstance<IP_Text_Error>();
         public UC_Pop_Ups_VM UC_Pop_Ups_VM => CommonServiceLocator.ServiceLocator.Current.GetInstance<UC_Pop_Ups_VM>();
+        public UC_Sink_Type_VM UC_Sink_Type_VM => CommonServiceLocator.ServiceLocator.Current.GetInstance<UC_Sink_Type_VM>();
 
-        
+
 
         public UserControl_Socket_Setup_ViewModel Socket_Setup => CommonServiceLocator.ServiceLocator.Current.GetInstance<UserControl_Socket_Setup_ViewModel>();
 
