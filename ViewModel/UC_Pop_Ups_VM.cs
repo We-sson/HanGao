@@ -1,10 +1,12 @@
 ﻿using GalaSoft.MvvmLight;
+using HanGao.View.User_Control.Pop_Ups;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace HanGao.ViewModel
 {
@@ -22,6 +24,8 @@ namespace HanGao.ViewModel
         public int Number_Pages { set; get; } = 5;
 
         public int Page { set; get; } = 1;
+
+        public UserControl Pop_UserControl { set; get; } = new Sink_Type() {  };
 
     }
 }

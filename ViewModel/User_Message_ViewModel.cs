@@ -33,7 +33,7 @@ namespace HanGao.ViewModel
 
         public User_Message_ViewModel()
         {
-
+            
 
             // 显示弹窗信息型号
             //Messenger.Default.Register<string>(this, "User_Message_Work_Type", (Type) => { User_Message_View.User_Wrok_Trye = Type; });

@@ -4,33 +4,59 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HanGao.View.User_Control.Pop_Ups"
-             Width="250" Height=" 280"
-             DataContext="{Binding UC_Sink_Type_VM, Source={StaticResource Locator}}"
-             mc:Ignorable="d">
+             d:DesignHeight="530"
+             d:DesignWidth="1020" mc:Ignorable="d">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="auto" />
-        </Grid.RowDefinitions>
-        <Border Grid.Row="0"
-                CornerRadius=" 5"
-                Background="{Binding Background, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Border}}}"
-                BorderThickness="5" BorderBrush="Gray">
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 
+            <RadioButton Style="{DynamicResource RadioButton_Sink_Type_Style}" Grid.Column="4"
+                         IsChecked="True" Margin="20"
+                         Background="#EBEBEBEB"
+                         GroupName="Sink_Type" ToolTip="水槽工艺参数">
+                <StackPanel>
+                    <TextBlock Text="&#xe61b;"
+                               Margin="0,0,0,0"
+                               HorizontalAlignment="Center"
+                               FontSize="110" Foreground="#FF4B6587"
+                               FontFamily="/Resources/#iconfont" />
+                    <TextBlock Text=" 左右单盆类型" Margin="0,50,0,0"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Bottom" FontSize="25"
+                               FontFamily="Cambria" />
+                </StackPanel>
+            </RadioButton>
+            <RadioButton Style="{DynamicResource RadioButton_Sink_Type_Style}" Grid.Column="4"
+                         Margin="10" GroupName="Sink_Type"
+                         Background="#EBEBEBEB" ToolTip="水槽工艺参数">
+                <StackPanel Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="&#xe61a;"
+                               Margin="0,0,0,0"
+                               HorizontalAlignment="Center"
+                               FontSize="110" Foreground="#FF4B6587"
+                               FontFamily="/Resources/#iconfont" />
+                    <TextBlock Text=" 上下单盆类型" Margin="0,50,0,0"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Bottom" FontSize="25"
+                               FontFamily="Cambria" />
+                </StackPanel>
+            </RadioButton>
+            <RadioButton Style="{DynamicResource RadioButton_Sink_Type_Style}" Grid.Column="4"
+                         Margin="10" GroupName="Sink_Type"
+                         Background="#EBEBEBEB" ToolTip="水槽工艺参数">
+                <StackPanel Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="&#xe61d;"
+                               Margin="0,0,0,0"
+                               HorizontalAlignment="Center"
+                               FontSize="110" Foreground="#FF4B6587"
+                               FontFamily="/Resources/#iconfont" />
+                    <TextBlock Text=" 双盆类型" Margin="0,50,0,0"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Bottom" FontSize="25"
+                               FontFamily="Cambria" />
+                </StackPanel>
+            </RadioButton>
 
-
-            <TextBlock Text="{Binding Sink_Ico}"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       FontFamily="{Binding Font_Family}" />
-
-        </Border>
-
-
-        <TextBlock Grid.Row="1"
-                   Text="{Binding Check_State}"
-                   Margin="5" HorizontalAlignment="Center"
-                   FontSize="20" />
+        </StackPanel>
 
 
     </Grid>

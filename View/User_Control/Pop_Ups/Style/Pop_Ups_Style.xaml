@@ -90,10 +90,12 @@
 
     <Style x:Key="RadioButton_Sink_Type_Style" TargetType="{x:Type RadioButton}">
 
-        <Setter Property="Background" Value="#FFCCCCCC" />
+        <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="{StaticResource RadioButton.Static.Border}" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
         <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Width" Value="250" />
+        <Setter Property="Height" Value="280" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
 
@@ -112,11 +114,11 @@
 
 
                         <Border x:Name="optionMark" Grid.Row="0"
-                                Grid.RowSpan="2" BorderThickness="2"
-                                CornerRadius="5" Visibility="Visible"
-                                Background="Transparent"
+                                Grid.RowSpan="2" BorderThickness="0"
+                                CornerRadius="10" Visibility="Visible"
+                                Background="{TemplateBinding Background}"
                                 RenderTransformOrigin="0.5,0.5"
-                                BorderBrush="Gray" />
+                                BorderBrush="{TemplateBinding BorderBrush}" />
 
 
 
@@ -124,7 +126,7 @@
                                           Margin="{TemplateBinding Padding}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          Opacity=" 0.3" Focusable="False"
+                                          Focusable="False" Opacity=" 0.3"
                                           RecognizesAccessKey="True"
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                     </Grid>
@@ -155,7 +157,16 @@
                         </Trigger>
                         <Trigger Property="IsChecked" Value="true">
 
+                            <Setter TargetName="optionMark" Property="BorderThickness" Value="0" />
 
+                            <Setter TargetName="optionMark" Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect BlurRadius="40" Direction="-90"
+                                                      ShadowDepth="5" Opacity="0.2" />
+
+                                </Setter.Value>
+                            </Setter>
+                            <Setter TargetName="contentPresenter" Property="Opacity" Value="1" />
                             <!--<Setter TargetName="optionMark" Property="Visibility" Value="Visible" />
                             <Setter TargetName="contentPresenter" Property="Opacity" Value="1" />
                             <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="#4b6587" />-->
