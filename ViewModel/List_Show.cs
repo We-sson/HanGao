@@ -194,7 +194,7 @@ namespace HanGao.ViewModel
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
               {
-                  Messenger.Default.Send<UserControl>(new UserControl_Pop_Ups() { }, "User_Contorl_Message_Show");
+                  Messenger.Default.Send<UserControl>(new UC_Pop_Ups() { }, "User_Contorl_Message_Show");
                   
 
               });

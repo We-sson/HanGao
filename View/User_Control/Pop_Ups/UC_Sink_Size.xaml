@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HanGao.View.User_Control.Pop_Ups"
-             d:DesignHeight="530"
              d:DesignWidth="1020"
              DataContext="{Binding UC_Sink_Size_VM, Mode=OneWay, Source={StaticResource Locator}}"
              mc:Ignorable="d">
@@ -16,78 +15,75 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
 
-            <TextBlock Name="Sink_ico"
-                       Text="&#xE61B;"
-                       HorizontalAlignment="Center"
-                       d:IsLocked="True" FontSize="250"
-                       Foreground="#FF4B6587"
-                       FontFamily="/Resources/#iconfont" />
+
+        <UniformGrid Grid.Column="0"
+                     Height="{Binding ActualHeight, ElementName=Sink_ico}"
+                     HorizontalAlignment="Center" Rows="2">
 
 
 
-            <Path d:IsHidden="True" Stroke="Red"
-                  StrokeThickness="3" StrokeDashArray="0"
-                  StrokeDashCap="Round"
-                  Data="M 20,0 A 50,50 0 1 0 100,0" />
+            <TextBox Style="{DynamicResource TextBox_Style}"
+                     Text="640" HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     HorizontalContentAlignment="Center"
+                     VerticalContentAlignment="Center"
+                     FontFamily="Calibri" Tag="水槽长度=" />
+            <TextBox Style="{DynamicResource TextBox_Style}"
+                     Text="345" HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     FontFamily="Calibri" Tag="水槽宽度=" />
+
+        </UniformGrid>
+        <Button Style="{StaticResource ButtonStyle3}" Grid.Column="0"
+                Content="工艺参数" Width="140" Height=" 40"
+                Margin="0,0,0,-100"
+                VerticalAlignment="Bottom"
+                Background="#ff5e58" FontSize="22" />
 
 
 
-            <Path Width="6" Height="6"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Top"
-                  d:IsHidden="True"
-                  Data="{Binding Sink_Size_Upper_Left_Pate}"
-                  Stretch="Uniform" Stroke="Red"
-                  StrokeThickness="0.1"
-                  SnapsToDevicePixels="True" />
-            <Path Width="6.156" Height="6.077"
-                  Margin="12.958,41.031,0,0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Top"
-                  d:IsHidden="True"
-                  Data="{Binding Sink_Size_Lower_Left_Pate}"
-                  Stretch="Uniform" Stroke="Red"
-                  StrokeThickness="0.1"
-                  SnapsToDevicePixels="True" />
+        <TextBlock Grid.Column="1"
+                   Name="Sink_ico"
+                   Text="&#xE61B;"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Effect="{StaticResource 全局背景阴影}"
+                   FontSize="250" Foreground="#FF4B6587"
+                   FontFamily="/Resources/#iconfont" />
 
 
 
-
-            <Path Width="177" Height="530"
-                  Margin="0,0,0,0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Top"
-                  d:IsHidden="True" Stretch="Fill"
-                  Stroke="Red" StrokeThickness="0.1"
-                  SnapsToDevicePixels="True" />
+        <UniformGrid Grid.Column="2"
+                     Height="{Binding ActualHeight, ElementName=Sink_ico}"
+                     HorizontalAlignment="Center" Rows="2">
 
 
 
-            <Path Width="6" Height="6" Margin="13,41,0,0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Top"
-                 
-                  Stroke="Red" StrokeThickness="0.1">
-                <Path.Data>
-                    <PathGeometry Figures=" M 0,6   C  0,2   4,0   6,0">
-                        
-                        
-                        
-                    </PathGeometry>
-                    
-                    
-                </Path.Data>
-                
-                
-                
-            </Path>
+            <TextBox Style="{DynamicResource TextBox_Style}"
+                     Text="23" HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     FontFamily="Calibri" Tag="小边长度=" />
+            <TextBox Style="{DynamicResource TextBox_Style}"
+                     Text="20" HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     FontFamily="Calibri" Tag="圆角直径=" />
+
+        </UniformGrid>
+        <Button Style="{StaticResource ButtonStyle3}" Grid.Column="2"
+                Content="确定" Width="140" Height=" 40"
+                Margin="0,0,0,-100"
+                VerticalAlignment="Bottom"
+                Background="#6baa75" FontSize="22" />
 
 
 
 
-        </Grid>
+
+
+
+
+
         <!--  起点 起点x,起点y 画椭圆 长轴,短轴 旋转角度 是否是优弧 正角方向绘制 终点x,终点y  -->
 
 

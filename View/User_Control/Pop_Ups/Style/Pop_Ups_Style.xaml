@@ -183,6 +183,86 @@
 
 
 
+    <Style x:Key="TextBox_Style" TargetType="{x:Type TextBox}">
+        <Setter Property="Background" Value="#dddddd" />
+        <Setter Property="BorderBrush" Value="Gray"   />
+        <Setter Property="Foreground" Value="#4B6587" />
+        <Setter Property="BorderThickness" Value="3" />
+        <Setter Property="MaxLength" Value="3" />
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="AllowDrop" Value="true" />
+
+
+
+        <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst" />
+        <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
+
+
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+
+
+                    <Border x:Name="border"
+                            
+                            CornerRadius="6"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}"
+                            SnapsToDevicePixels="True">
+                        <StackPanel Orientation="Horizontal" Margin="5">
+
+                            <TextBlock Text="{TemplateBinding Tag}"
+                                       Margin="3"
+                                       FontFamily="{TemplateBinding FontFamily}"
+                                       Foreground="Black"
+                                       FontSize="{TemplateBinding FontSize}" />
+                            <ScrollViewer x:Name="PART_ContentHost"
+                                          Margin="3" Focusable="false"
+                                          HorizontalScrollBarVisibility="Hidden"
+                                          VerticalScrollBarVisibility="Hidden" />
+                            <TextBlock Text="mm" Margin="3" Foreground="Gray"
+                                       FontFamily="{TemplateBinding FontFamily}"
+                                       FontSize="{TemplateBinding FontSize}" />
+                        </StackPanel>
+                    </Border>
+
+
+
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="border" Property="Opacity" Value="0.56" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="border" Property="BorderBrush" Value="#4B6587" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="true">
+                            <!--<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource TextBox.Focus.Border}" />-->
+                            <Setter TargetName="border" Property="Effect" Value="{StaticResource 全局背景阴影}"/>
+                            <Setter Property="Foreground" Value="Red" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsInactiveSelectionHighlightEnabled" Value="true" />
+                    <Condition Property="IsSelectionActive" Value="false" />
+                </MultiTrigger.Conditions>
+                <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" />
+            </MultiTrigger>
+        </Style.Triggers>
+    </Style>
+
+
+
 
 
 

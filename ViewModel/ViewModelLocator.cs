@@ -59,8 +59,9 @@ namespace HanGao.ViewModelLocator
             SimpleIoc.Default.Register<UC_Pop_Ups_VM>();
             SimpleIoc.Default.Register<UC_Sink_Type_VM>();
             SimpleIoc.Default.Register<UC_Sink_Size_VM>();
-            
+            SimpleIoc.Default.Register<UC_Sink_Craft_VM>();
 
+            
 
 
         }
@@ -84,8 +85,9 @@ namespace HanGao.ViewModelLocator
         public UC_Pop_Ups_VM UC_Pop_Ups_VM => CommonServiceLocator.ServiceLocator.Current.GetInstance<UC_Pop_Ups_VM>();
         public UC_Sink_Type_VM UC_Sink_Type_VM => CommonServiceLocator.ServiceLocator.Current.GetInstance<UC_Sink_Type_VM>();
         public UC_Sink_Size_VM UC_Sink_Size_VM => CommonServiceLocator.ServiceLocator.Current.GetInstance<UC_Sink_Size_VM>();
-
+        public UC_Sink_Craft_VM UC_Sink_Craft_VM => CommonServiceLocator.ServiceLocator.Current.GetInstance<UC_Sink_Craft_VM>();
         
+
 
         public UserControl_Socket_Setup_ViewModel Socket_Setup => CommonServiceLocator.ServiceLocator.Current.GetInstance<UserControl_Socket_Setup_ViewModel>();
 

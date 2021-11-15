@@ -22,7 +22,7 @@
                     <TextBlock Text=" 左右单盆类型" Margin="0,50,0,0"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Bottom" FontSize="25"
-                               FontFamily="Cambria" />
+                               FontFamily="Calibri" />
                 </StackPanel>
             </RadioButton>
             <RadioButton Style="{DynamicResource RadioButton_Sink_Type_Style}" Grid.Column="4"

@@ -143,6 +143,7 @@
     <Compile Include="Socket_KUKA\Socket_Connect.cs" />
     <Compile Include="Socket_KUKA\Socket_Receive.cs" />
     <Compile Include="Socket_KUKA\Socket_Sever.cs" />
+    <Compile Include="ViewModel\UC_Sink_Craft_VM.cs" />
     <Compile Include="ViewModel\FrameShow.cs" />
     <Compile Include="ViewModel\Home_ViewModel.cs" />
     <Compile Include="ViewModel\LIst_Reveice.cs" />
@@ -184,14 +185,17 @@
     <Compile Include="View\User_Control\Pop_Ups\Sink_Type.xaml.cs">
       <DependentUpon>Sink_Type.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\User_Control\Pop_Ups\UC_Sink_Craft.xaml.cs">
+      <DependentUpon>UC_Sink_Craft.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\User_Control\Pop_Ups\UC_Sink_Size.xaml.cs">
       <DependentUpon>UC_Sink_Size.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\User_Control\UserControl_Grid.xaml.cs">
       <DependentUpon>UserControl_Grid.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\User_Control\Pop_Ups\UserControl_Pop_Ups.xaml.cs">
-      <DependentUpon>UserControl_Pop_Ups.xaml</DependentUpon>
+    <Compile Include="View\User_Control\Pop_Ups\UC_Pop_Ups.xaml.cs">
+      <DependentUpon>UC_Pop_Ups.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\User_Control\UserControl_Sideber_Show.xaml.cs">
       <DependentUpon>UserControl_Sideber_Show.xaml</DependentUpon>
@@ -319,13 +323,16 @@
     <Page Include="View\User_Control\Pop_Ups\Sink_Type.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\User_Control\Pop_Ups\UC_Sink_Craft.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\User_Control\Pop_Ups\UC_Sink_Size.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\User_Control\UserControl_Grid.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\User_Control\Pop_Ups\UserControl_Pop_Ups.xaml">
+    <Page Include="View\User_Control\Pop_Ups\UC_Pop_Ups.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
