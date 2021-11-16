@@ -12,7 +12,7 @@ namespace HanGao.ViewModel
     [AddINotifyPropertyChangedInterface]
     public  class UC_Sink_Craft_VM : ViewModelBase
     {
-
+        //围边焊接工艺
 
     }
 }

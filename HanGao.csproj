@@ -150,6 +150,7 @@
     <Compile Include="ViewModel\List_Show.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\UC_Pop_Ups_VM.cs" />
+    <Compile Include="ViewModel\UC_Sink_Short_Side_VM.cs" />
     <Compile Include="ViewModel\UC_Sink_Size_VM.cs" />
     <Compile Include="ViewModel\UC_Sink_Type_VM.cs" />
     <Compile Include="ViewModel\UserControl_Sideber_Show_ViewModel.cs" />
@@ -187,6 +188,9 @@
     </Compile>
     <Compile Include="View\User_Control\Pop_Ups\UC_Sink_Craft.xaml.cs">
       <DependentUpon>UC_Sink_Craft.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\User_Control\Pop_Ups\UC_Sink_Short_Side.xaml.cs">
+      <DependentUpon>UC_Sink_Short_Side.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\User_Control\Pop_Ups\UC_Sink_Size.xaml.cs">
       <DependentUpon>UC_Sink_Size.xaml</DependentUpon>
@@ -324,6 +328,9 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\User_Control\Pop_Ups\UC_Sink_Craft.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\User_Control\Pop_Ups\UC_Sink_Short_Side.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\User_Control\Pop_Ups\UC_Sink_Size.xaml">
