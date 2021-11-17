@@ -34,20 +34,39 @@
                            FontFamily="/Resources/#iconfont" />
 
 
+                <Canvas Grid.Column="0" Width="{Binding ActualWidth, ElementName=Sink_ico}" Height="{Binding ActualHeight, ElementName=Sink_ico}">
+                    <Path Canvas.Top="23" Data="M0,0 L5,0"
+                          Fill="Red" Stroke="Red"
+                          StrokeThickness="1"
+                          StrokeStartLineCap="Round"
+                          StrokeEndLineCap="Round" Stretch="Fill" />
+                    <Path Canvas.Top="23" Canvas.Right="0"
+                          Data="M0,0 L5,0" Fill="Red" Stroke="Red"
+                          StrokeThickness="1"
+                          StrokeStartLineCap="Round"
+                          StrokeEndLineCap="Round" Stretch="Fill" />
 
-                <Border Grid.Column="0"
-                        Width=" 170" Height=" 94"
-                        Margin="0,13,0,0"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        CornerRadius="3" BorderBrush="#99FD0000"
-                        BorderThickness="2" />
+                    <Path Canvas.Right="0" Canvas.Bottom="10"
+                          Data="M0,0 L5,0" Fill="Red" Stroke="Red"
+                          StrokeThickness="1"
+                          StrokeStartLineCap="Round"
+                          StrokeEndLineCap="Round" Stretch="Fill" />
+                    <Path Canvas.Left="0" Canvas.Bottom="10"
+                          Data="M0,0 L5,0" Fill="Red" Stroke="Red"
+                          StrokeThickness="1"
+                          StrokeStartLineCap="Round"
+                          StrokeEndLineCap="Round" Stretch="Fill" />
+
+
+                </Canvas>
+
+
 
                 <StackPanel Grid.Column="1" Margin="30" VerticalAlignment="Center">
 
-                    <TextBlock Text="水槽围边焊接工艺" Margin="5"
+                    <TextBlock Text="水槽短边焊接工艺" Margin="5"
                                Foreground=" #4B6587" FontSize="30" />
-                    <TextBlock Text="焊接工艺由多个位置姿态,连续激光焊接完成!" Margin="5"
+                    <TextBlock Text="焊接工艺由4段小直线路径,焊接各部件连接!" Margin="5"
                                FontSize="14" Foreground="#FF999999"
                                LineHeight="9"
                                TextDecorations="{x:Null}" />

@@ -61,8 +61,9 @@ namespace HanGao.ViewModelLocator
             SimpleIoc.Default.Register<UC_Sink_Size_VM>();
             SimpleIoc.Default.Register<UC_Sink_Craft_VM>();
             SimpleIoc.Default.Register<UC_Sink_Short_Side_VM>();
-            
+            SimpleIoc.Default.Register<UC_Sink_Craft_List_VM>();
 
+            
 
 
 
@@ -89,6 +90,7 @@ namespace HanGao.ViewModelLocator
         public UC_Sink_Size_VM UC_Sink_Size_VM => CommonServiceLocator.ServiceLocator.Current.GetInstance<UC_Sink_Size_VM>();
         public UC_Sink_Craft_VM UC_Sink_Craft_VM => CommonServiceLocator.ServiceLocator.Current.GetInstance<UC_Sink_Craft_VM>();
         public UC_Sink_Short_Side_VM UC_Sink_Short_Side_VM => CommonServiceLocator.ServiceLocator.Current.GetInstance<UC_Sink_Short_Side_VM>();
+        public UC_Sink_Craft_List_VM UC_Sink_Craft_List_VM => CommonServiceLocator.ServiceLocator.Current.GetInstance<UC_Sink_Craft_List_VM>();
 
         
 

@@ -26,7 +26,7 @@ namespace HanGao.ViewModel
         public int Page { set; get; } = 1;
 
         //public UserControl Pop_UserControl { set; get; } = new UC_Sink_Size() { };
-        public UserControl Pop_UserControl { set; get; } = new UC_Sink_Size() { };
+        public UserControl Pop_UserControl { set; get; } = new UC_Sink_Craft_List() { };
 
     }
 }

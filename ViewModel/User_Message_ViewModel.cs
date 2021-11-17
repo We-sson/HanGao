@@ -72,7 +72,7 @@ namespace HanGao.ViewModel
         }
         private void User_Window_Co(RoutedEventArgs S)
         {
-            User_Message e = S.Source as User_Message;
+            //User_Message e = S.Source as User_Message;
             //User_Window = e;
             //MessageBox.Show(User_Window.DialogResult.ToString());
             //User_Message_View.User_Wrok_Trye = "1";
@@ -99,7 +99,7 @@ namespace HanGao.ViewModel
         {
             //把参数类型转换控件
             Button e = Sm.Source as Button;
-            User_Message_ViewModel S = (User_Message_ViewModel)e.DataContext;
+            //User_Message_ViewModel S = (User_Message_ViewModel)e.DataContext;
 
 
 

@@ -143,6 +143,7 @@
     <Compile Include="Socket_KUKA\Socket_Connect.cs" />
     <Compile Include="Socket_KUKA\Socket_Receive.cs" />
     <Compile Include="Socket_KUKA\Socket_Sever.cs" />
+    <Compile Include="ViewModel\UC_Sink_Craft_List_VM.cs" />
     <Compile Include="ViewModel\UC_Sink_Craft_VM.cs" />
     <Compile Include="ViewModel\FrameShow.cs" />
     <Compile Include="ViewModel\Home_ViewModel.cs" />
@@ -194,6 +195,9 @@
     </Compile>
     <Compile Include="View\User_Control\Pop_Ups\UC_Sink_Size.xaml.cs">
       <DependentUpon>UC_Sink_Size.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\User_Control\Pop_Ups\UC_Sink_Craft_List.xaml.cs">
+      <DependentUpon>UC_Sink_Craft_List.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\User_Control\UserControl_Grid.xaml.cs">
       <DependentUpon>UserControl_Grid.xaml</DependentUpon>
@@ -334,6 +338,9 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\User_Control\Pop_Ups\UC_Sink_Size.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\User_Control\Pop_Ups\UC_Sink_Craft_List.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\User_Control\UserControl_Grid.xaml">
