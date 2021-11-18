@@ -11,7 +11,9 @@
         <ListBox Style="{StaticResource ListBoxStyle1}"
                  DataContext="{Binding Source={StaticResource Locator}, Path=UC_Sink_Craft_List_VM}"
                  ItemsSource="{Binding Sink_Craft}"
-                 Background="Transparent" />
+                 Background="Transparent"
+                 ItemTemplate="{DynamicResource Sink_Data_Template}"
+                 ItemContainerStyle="{DynamicResource Sink_ListBoxItemStyle}" />
 
 
     </Grid>
