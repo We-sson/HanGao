@@ -188,12 +188,6 @@
     <Compile Include="View\User_Control\Pop_Ups\Sink_Type.xaml.cs">
       <DependentUpon>Sink_Type.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\User_Control\Pop_Ups\UC_Sink_Craft.xaml.cs">
-      <DependentUpon>UC_Sink_Craft.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\User_Control\Pop_Ups\UC_Sink_Short_Side.xaml.cs">
-      <DependentUpon>UC_Sink_Short_Side.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\User_Control\Pop_Ups\UC_Sink_Size.xaml.cs">
       <DependentUpon>UC_Sink_Size.xaml</DependentUpon>
     </Compile>
@@ -330,12 +324,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\User_Control\Pop_Ups\Sink_Type.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\User_Control\Pop_Ups\UC_Sink_Craft.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\User_Control\Pop_Ups\UC_Sink_Short_Side.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\User_Control\Pop_Ups\UC_Sink_Size.xaml">

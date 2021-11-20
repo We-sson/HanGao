@@ -14,8 +14,7 @@
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
-
-
+   
         <Setter Property="Margin" Value="10" />
         <Setter Property="Template">
             <Setter.Value>
@@ -39,7 +38,7 @@
                                           Margin="{TemplateBinding Padding}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          Opacity=" 0.3" Focusable="False"
+                                           Focusable="False"  Opacity=" 0.5"
                                           RecognizesAccessKey="True"
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                     </Grid>
@@ -262,15 +261,16 @@
 
 
     <!--  列表数据模板  -->
-    <DataTemplate x:Key="Sink_Data_Template" DataType="{x:Type Button}">
+    <DataTemplate x:Key="Sink_Data_Template">
 
         <Grid x:Name="Gb1" HorizontalAlignment="Stretch" d:IsHidden="True">
             <Border x:Name="border"
                     Width=" 800"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
-                    d:IsHidden="True" CornerRadius=" 20"
-                    Background="#ECECEC">
+                    d:IsHidden="True"
+                    Effect="{Binding Source={StaticResource 全局背景阴影}}"
+                    CornerRadius=" 20" Background="#ECECEC">
 
                 <Grid d:IsHidden="True">
 
@@ -330,10 +330,23 @@
         </Grid>
         <DataTemplate.Triggers>
             <Trigger SourceName="border" Property="IsMouseOver" Value="True">
-                <Setter Property="Effect" Value="{Binding Source={StaticResource 全局背景阴影}}" />
 
+                <Setter Property="Opacity" Value="1" />
             </Trigger>
-            <Trigger Property="RecognizesAccessKey" Value="False" />
+            <Trigger SourceName="border" Property="IsMouseOver" Value="False">
+                <Setter Property="Opacity" Value="0.5" />
+            </Trigger>
+
+            <!--<EventTrigger RoutedEvent="MouseDown" SourceName="border">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation SpeedRatio="10"
+                                         Storyboard.TargetProperty="Opacity"
+                                         To="1" Duration="0:0:0:1" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>-->
+
         </DataTemplate.Triggers>
 
 
@@ -381,10 +394,7 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Background="{TemplateBinding Background}"
                             SnapsToDevicePixels="true">
-                        <ContentPresenter x:Name="Content"
-                                          HorizontalAlignment="Center"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                     </Border>
 
 
