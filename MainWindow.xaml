@@ -192,30 +192,27 @@
                         Orientation="Horizontal">
 
 
-                <Button Style="{StaticResource ButtonStyle1}"
-                        x:Uid="1" Width="30" Height="30"
-                        Margin="12,0,12,0" Background="#2AD043"
-                        BorderThickness="2" BorderBrush="Gray">
+                <Button Style="{DynamicResource Windows_Button_Style}"
+                        x:Uid="1" Margin="12,0,12,0"
+                        Background="#2AD043" BorderBrush="Gray">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding Path=DataContext.Min_Window, RelativeSource={RelativeSource AncestorType={x:Type Grid}, Mode=FindAncestor}}" CommandParameter="{Binding ElementName=WD1}" PassEventArgsToCommand="True" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-                <Button Style="{StaticResource ButtonStyle1}"
-                        x:Uid="2" Width="30" Height="30"
-                        Margin="12,0,12,0" Background="#FFBC2F"
-                        BorderThickness="2" BorderBrush="Gray">
+                <Button Style="{DynamicResource Windows_Button_Style}"
+                        x:Uid="2" Margin="12,0,12,0"
+                        Background="#FFBC2F" BorderBrush="Gray">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding Path=DataContext.Max_Window, RelativeSource={RelativeSource AncestorType={x:Type Grid}, Mode=FindAncestor}}" CommandParameter="{Binding ElementName=WD1}" PassEventArgsToCommand="True" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-                <Button Style="{StaticResource ButtonStyle1}"
-                        x:Uid="3" Width="30" Height="30"
-                        Margin="12,0,12,0" Background="#FF5E57"
-                        BorderThickness="2" BorderBrush="Gray">
+                <Button Style="{DynamicResource Windows_Button_Style}"
+                        x:Uid="3" Margin="12,0,12,0"
+                        Background="#FF5E57" BorderBrush="Gray">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding Path=DataContext.Close_Window, RelativeSource={RelativeSource AncestorType={x:Type Grid}, Mode=FindAncestor}}" CommandParameter="{Binding ElementName=WD1}" PassEventArgsToCommand="True" />
