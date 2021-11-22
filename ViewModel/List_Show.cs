@@ -35,17 +35,18 @@ namespace HanGao.ViewModel
 
             SinkModels = new ObservableCollection<Sink_Models>
             {
-               new Sink_Models (){ Photo_ico =((int)Photo_enum.普通双盆).ToString()},
-                new Sink_Models() { Model_Number = 952154,  Photo_ico=((int)Photo_enum.普通单盆).ToString() ,   } ,
+               new Sink_Models (Photo_Sink_enum.左右单盆){   },
 
-                new Sink_Models() { Model_Number = 953212, Photo_ico =((int)Photo_enum.普通双盆).ToString(), } ,
-                new Sink_Models() { Model_Number = 952172, Photo_ico = ((int)Photo_enum.左右单盆).ToString()} ,
-                 new Sink_Models() { Model_Number = 952173, Photo_ico = ((int)Photo_enum.左右单盆).ToString()} ,
-                new Sink_Models() { Model_Number = 952127, Photo_ico = ((int)Photo_enum.普通双盆).ToString(), } ,
-                new Sink_Models() { Model_Number = 952128, Photo_ico = ((int)Photo_enum.普通双盆).ToString(), } ,
-                new Sink_Models() { Model_Number = 952333, Photo_ico = ((int)Photo_enum.普通单盆).ToString(), } ,
-                new Sink_Models() { Model_Number = 901253, Photo_ico = ((int)Photo_enum.普通双盆).ToString(), } ,
-                new Sink_Models() { Model_Number = 952119, Photo_ico = ((int)Photo_enum.左右单盆).ToString(), } ,
+                new Sink_Models(Photo_Sink_enum.左右单盆) { Model_Number = 952154,     } ,
+
+                new Sink_Models(Photo_Sink_enum.上下单盆) { Model_Number = 953212,} ,
+                new Sink_Models(Photo_Sink_enum.左右单盆) { Model_Number = 952172, } ,
+                 new Sink_Models(Photo_Sink_enum.左右单盆) { Model_Number = 952173, } ,
+                new Sink_Models(Photo_Sink_enum.普通双盆) { Model_Number = 952127,  } ,
+                new Sink_Models(Photo_Sink_enum.左右单盆) { Model_Number = 952128,  } ,
+                new Sink_Models(Photo_Sink_enum.左右单盆) { Model_Number = 952333, } ,
+                new Sink_Models(Photo_Sink_enum.普通双盆) { Model_Number = 901253,  } ,
+                new Sink_Models(Photo_Sink_enum.上下单盆) { Model_Number = 952119,  } ,
             };
 
 
@@ -188,13 +189,16 @@ namespace HanGao.ViewModel
 
 
         /// <summary>
-        /// 显示水槽参数设置
+        /// 显示水槽参数设置弹窗
         /// </summary>
         public  ICommand Show_Pop_Ups_Page
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
               {
-                  Messenger.Default.Send<UserControl>(new UC_Pop_Ups() { }, "User_Contorl_Message_Show");
+
+                  FrameworkElement e = Sm.Source as FrameworkElement;
+
+                  Messenger.Default.Send<UserControl>(new UC_Pop_Ups() {DataContext =new UC_Pop_Ups_VM() { SM= (Sink_Models)e.DataContext }  }, "User_Contorl_Message_Show");
                   
 
               });

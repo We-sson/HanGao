@@ -28,16 +28,7 @@ namespace HanGao.ViewModel
 
                 User_UserControl = _List;
 
-                //if (_List.List_Show_Bool==Visibility.Visible)
-                //{
-                //    User_Message_UserControl_Show = new User_Message() {  DataContext= new User_Message_ViewModel() { User_Wrok_Trye= _List.List_Show_Name, List_Show_Models=_List } };
-                //    User_Visibility = _List.List_Show_Bool;
 
-                //}
-                //else
-                //{
-                //    User_Message_UserControl_Show = null;
-                //}
          
             });
 
@@ -51,27 +42,12 @@ namespace HanGao.ViewModel
 
 
 
-        /// <summary>
-        /// 通知弹窗显示
-        /// </summary>
-        //public void User_UI(bool? m)
-        //{
-        //    if (m == true)
-        //    {
-        //        User_Visibility = Visibility.Visible;
-        //    }
-        //    else if (m == false)
-        //    {
-        //        User_Visibility = Visibility.Collapsed;
-        //    }
-        //}
-
 
 
 
         private UserControl _User_UserControl=null;
         /// <summary>
-        /// 弹窗显示加工区域已存在型号=
+        /// 弹窗显示容器
         /// </summary>
         public UserControl User_UserControl
         {

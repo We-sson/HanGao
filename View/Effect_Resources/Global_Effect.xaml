@@ -12,6 +12,10 @@
                       BlurRadius="3" Direction="270"
                       Opacity="0.6" Color="Black" />
 
+    <!--  全局图标路径  -->
+    <FontFamily x:Key="全局_图标库">
+        /Resources/#iconfont
+    </FontFamily>
 
 
     <Style x:Key="全局_弹窗_背景侧挡样式" TargetType="Border">

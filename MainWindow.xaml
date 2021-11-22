@@ -245,7 +245,7 @@
         <ContentControl Grid.Row="0"
                         Grid.RowSpan="3"
                         Content="{Binding User_UserControl}"
-                        DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Show}" />
+                        DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Show}" d:IsHidden="True" />
 
 
 

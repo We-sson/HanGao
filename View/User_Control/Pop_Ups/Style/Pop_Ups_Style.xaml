@@ -14,7 +14,7 @@
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
-   
+
         <Setter Property="Margin" Value="10" />
         <Setter Property="Template">
             <Setter.Value>
@@ -38,7 +38,7 @@
                                           Margin="{TemplateBinding Padding}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                           Focusable="False"  Opacity=" 0.5"
+                                          Focusable="False" Opacity=" 0.5"
                                           RecognizesAccessKey="True"
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                     </Grid>
