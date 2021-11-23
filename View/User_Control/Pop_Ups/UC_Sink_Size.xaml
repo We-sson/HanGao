@@ -4,8 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HanGao.View.User_Control.Pop_Ups"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              d:DesignWidth="1020"
-             DataContext="{Binding UC_Sink_Size_VM, Mode=OneWay, Source={StaticResource Locator}}"
+             DataContext="{Binding UC_Sink_Size_VM, Source={StaticResource Locator}}"
              mc:Ignorable="d">
     <Grid>
 
@@ -14,32 +15,46 @@
             <ColumnDefinition Width=" auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Loaded">
+                <i:InvokeCommandAction Command="{Binding Sink_Size_Loaded_Comm}"
+                                       CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+                                       PassEventArgsToCommand="True" />
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
 
 
         <UniformGrid Grid.Column="0"
                      Height="{Binding ActualHeight, ElementName=Sink_ico}"
-                     HorizontalAlignment="Center" Rows="2">
+                     HorizontalAlignment="Center"
+                     Rows="2">
 
 
 
             <TextBox Style="{DynamicResource TextBox_Style}"
-                     Text="640" HorizontalAlignment="Center"
+                     Text="{Binding Sink_Size_Value.Sink_Size_Long}"
+                     HorizontalAlignment="Stretch"
                      VerticalAlignment="Center"
                      HorizontalContentAlignment="Center"
                      VerticalContentAlignment="Center"
-                     FontFamily="Calibri" Tag="水槽长度=" />
+                     FontFamily="Calibri"
+                     Tag="水槽长度=" />
             <TextBox Style="{DynamicResource TextBox_Style}"
-                     Text="345" HorizontalAlignment="Center"
+                     Text="{Binding Sink_Size_Value.Sink_Size_Width}"
+                     HorizontalAlignment="Center"
                      VerticalAlignment="Center"
-                     FontFamily="Calibri" Tag="水槽宽度=" />
+                     FontFamily="Calibri"
+                     Tag="水槽宽度=" />
 
         </UniformGrid>
         <Button Style="{StaticResource ButtonStyle3}" Grid.Column="0"
-                Content="工艺参数" Width="140" Height=" 40"
+                Content="工艺参数"
+                Width="140"
+                Height=" 40"
                 Margin="0,0,0,-100"
                 VerticalAlignment="Bottom"
-                Background="#ff5e58" FontSize="22" />
+                Background="#ff5e58"
+                FontSize="22" />
 
 
 
@@ -49,32 +64,55 @@
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Effect="{StaticResource 全局背景阴影}"
-                   FontSize="250" Foreground="#FF4B6587"
+                   FontSize="250"
+                   Foreground="#FF4B6587"
                    FontFamily="/Resources/#iconfont" />
 
 
 
         <UniformGrid Grid.Column="2"
                      Height="{Binding ActualHeight, ElementName=Sink_ico}"
-                     HorizontalAlignment="Center" Rows="2">
+                     HorizontalAlignment="Center"
+                     Rows="3">
 
 
 
             <TextBox Style="{DynamicResource TextBox_Style}"
-                     Text="23" HorizontalAlignment="Center"
+                     Text="{Binding Sink_Size_Value.Sink_Size_Short_Side}"
+                     HorizontalAlignment="Center"
                      VerticalAlignment="Center"
-                     FontFamily="Calibri" Tag="小边长度=" />
+                     FontFamily="Calibri"
+                     Tag="小边长度=" />
             <TextBox Style="{DynamicResource TextBox_Style}"
-                     Text="20" HorizontalAlignment="Center"
+                     Text="{Binding Sink_Size_Value.Sink_Size_Thickness}"
+                     HorizontalAlignment="Center"
                      VerticalAlignment="Center"
-                     FontFamily="Calibri" Tag="圆角直径=" />
+                     FontFamily="Calibri"
+                     Tag="盆胆厚度=" />
+            <TextBox Style="{DynamicResource TextBox_Style}"
+                     Text="{Binding Sink_Size_Value.Sink_Size_R}"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     FontFamily="Calibri"
+                     Tag="圆角直径=" />
 
         </UniformGrid>
         <Button Style="{StaticResource ButtonStyle3}" Grid.Column="2"
-                Content="确定" Width="140" Height=" 40"
+                Content="确定"
+                Width="140"
+                Height=" 40"
                 Margin="0,0,0,-100"
                 VerticalAlignment="Bottom"
-                Background="#6baa75" FontSize="22" />
+                Background="#6baa75"
+                FontSize="22">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <i:InvokeCommandAction Command="{Binding Sink_Value_OK_Comm}"
+                                           CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+                                           PassEventArgsToCommand="True" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
 
 
 

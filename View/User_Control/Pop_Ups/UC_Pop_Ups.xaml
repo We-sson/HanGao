@@ -4,7 +4,7 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:HanGao.View.User_Control" 
+             xmlns:local="clr-namespace:HanGao.View.User_Control"
              xmlns:pop_ups="clr-namespace:HanGao.View.User_Control.Pop_Ups"
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_Pop_Ups_VM}"
              mc:Ignorable="d">
@@ -12,10 +12,11 @@
     <Grid>
         <!--  背景遮挡  -->
         <Border Style="{StaticResource 全局_弹窗_背景侧挡样式}" />
-        <Border Width="1100" Height="700"
-                CornerRadius="25" Background="#EBEBEB">
+        <Border Width="1100"
+                Height="700"
+                CornerRadius="25"
+                Background="#EBEBEB">
             <Grid Margin="40,0,40,40">
-
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
@@ -23,9 +24,24 @@
 
                 </Grid.RowDefinitions>
 
+                <Button Style="{StaticResource Windows_Button_Style}"
+                        Margin="0,20,-20,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Background="Red">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding Pop_Close_Comm}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                   PassEventArgsToCommand="True" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
 
 
-                <Grid Grid.Row="0" Margin="100,0,100,0" VerticalAlignment="Center">
+                <Grid Grid.Row="0"
+                      Margin="100,0,100,0"
+                      VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
                         <ColumnDefinition Width="1*" />
@@ -36,67 +52,94 @@
                     </Grid.ColumnDefinitions>
 
                     <RadioButton Style="{DynamicResource RadioButton_Pop_Style}" Grid.Column="0"
-                                 IsChecked="True" Tag="0"
-                                 ToolTip="水槽类型选择" GroupName="Pop_UI">
-                        <Border CornerRadius="5" Background="{Binding Background, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Border}}}">
+                                 IsChecked="{Binding Sink_Type_Checked}"
+                                 Tag="0"
+                                 ToolTip="水槽类型选择"
+                                 GroupName="Pop_UI">
+                        <Border CornerRadius="5"
+                                Background="{Binding Background, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Border}}}">
 
 
-                            <StackPanel Margin="5" Orientation="Vertical">
-                                <TextBlock Text="&#xe6c0;" Margin="15"
+                            <StackPanel Margin="5"
+                                        Orientation="Vertical">
+                                <TextBlock Text="&#xe6c0;"
+                                           Margin="15"
                                            HorizontalAlignment="Center"
                                            FontSize="50"
                                            FontFamily="/Resources/#iconfont"
                                            Foreground="#FF4B6587" />
-                                <TextBlock Text="水槽类型选择" HorizontalAlignment="Center" FontSize="15" />
+                                <TextBlock Text="水槽类型选择"
+                                           HorizontalAlignment="Center"
+                                           FontSize="15" />
                             </StackPanel>
                         </Border>
 
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Checked">
-                                <i:InvokeCommandAction Command="{Binding RB_Check_Comm}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
+                                <i:InvokeCommandAction Command="{Binding RB_Check_Comm}"
+                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                       PassEventArgsToCommand="True" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </RadioButton>
 
                     <Border Grid.Column="1"
-                            Height="4" Background="#FFCFCFCF"
+                            Height="4"
+                            Background="#FFCFCFCF"
                             CornerRadius="2" />
 
                     <RadioButton Style="{DynamicResource RadioButton_Pop_Style}" Grid.Column="2"
-                                 Tag="1" GroupName="Pop_UI"
+                                 IsChecked="{Binding Sink_Size_Checked}"
+                                 Tag="1"
+                                 GroupName="Pop_UI"
                                  ToolTip="水槽尺寸修改">
                         <StackPanel>
-                            <TextBlock Text="&#xe64f;" Margin="15"
+                            <TextBlock Text="&#xe64f;"
+                                       Margin="15"
                                        HorizontalAlignment="Center"
-                                       FontSize="50" Foreground="#FF4B6587"
+                                       FontSize="50"
+                                       Foreground="#FF4B6587"
                                        FontFamily="/Resources/#iconfont" />
-                            <TextBlock Text="水槽尺寸调节" HorizontalAlignment="Center" FontSize="15" />
+                            <TextBlock Text="水槽尺寸调节"
+                                       HorizontalAlignment="Center"
+                                       FontSize="15" />
                         </StackPanel>
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Checked">
-                                <i:InvokeCommandAction Command="{Binding RB_Check_Comm}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
+                                <i:InvokeCommandAction Command="{Binding RB_Check_Comm}"
+                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                       PassEventArgsToCommand="True" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </RadioButton>
 
                     <Border Grid.Column="3"
-                            Height="4" Background="#FFCFCFCF"
+                            Height="4"
+                            Background="#FFCFCFCF"
                             CornerRadius="2" />
 
 
                     <RadioButton Style="{DynamicResource RadioButton_Pop_Style}" Grid.Column="4"
-                                 Tag="2" GroupName="Pop_UI"
+                                 IsChecked="{Binding Sink_Craft_Checked}"
+                                 Tag="2"
+                                 GroupName="Pop_UI"
                                  ToolTip="水槽工艺参数">
                         <StackPanel>
-                            <TextBlock Text="&#xe649;" Margin="15"
+                            <TextBlock Text="&#xe649;"
+                                       Margin="15"
                                        HorizontalAlignment="Center"
-                                       FontSize="50" Foreground="#FF4B6587"
+                                       FontSize="50"
+                                       Foreground="#FF4B6587"
                                        FontFamily="/Resources/#iconfont" />
-                            <TextBlock Text="工艺参数调节" HorizontalAlignment="Center" FontSize="15" />
+                            <TextBlock Text="工艺参数调节"
+                                       HorizontalAlignment="Center"
+                                       FontSize="15" />
                         </StackPanel>
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Checked">
-                                <i:InvokeCommandAction Command="{Binding RB_Check_Comm}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
+                                <i:InvokeCommandAction Command="{Binding RB_Check_Comm}"
+                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                       PassEventArgsToCommand="True" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </RadioButton>
@@ -106,8 +149,10 @@
                 </Grid>
 
 
-                <GroupBox Style="{StaticResource GroupBox_Grid_Effect}" Grid.Row="1" Background="#EBEBEB">
-                    <ContentControl Content="{Binding Pop_UserControl}" VerticalAlignment="Center" />
+                <GroupBox Style="{StaticResource GroupBox_Grid_Effect}" Grid.Row="1"
+                          Background="#EBEBEB">
+                    <ContentControl Content="{Binding Pop_UserControl}"
+                                    VerticalAlignment="Center" />
 
 
 

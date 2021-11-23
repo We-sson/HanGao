@@ -9,7 +9,7 @@ namespace HanGao.Model
     public class Sink_Models
     {
 
-        public Sink_Models(Photo_Sink_enum _Photo_Sink_Type)
+        public Sink_Models(Photo_Sink_Enum _Photo_Sink_Type)
         {
 
             Photo_Sink_Type = _Photo_Sink_Type;
@@ -21,7 +21,7 @@ namespace HanGao.Model
         /// <summary>
         /// 水槽工艺参数
         /// </summary>
-        public Sink_Size_Models Sink_Process { set; get; } = new Sink_Size_Models( _Width:650, _Long:345);
+        public Sink_Size_Models Sink_Process { set; get; } = new Sink_Size_Models() { Sink_Size_Long=640, Sink_Size_Width=345 };
 
 
 
@@ -63,7 +63,7 @@ namespace HanGao.Model
         public string Sink_Size
         {
             get
-            { return Sink_Process.Sink_Long.ToString() + "X" + Sink_Process.Sink_Width.ToString(); }
+            { return Sink_Process.Sink_Size_Long.ToString() + "X" + Sink_Process.Sink_Size_Width.ToString(); }
         }
 
 
@@ -78,17 +78,25 @@ namespace HanGao.Model
         public string Photo_ico
         {
             get { return HttpUtility.HtmlDecode(_Photo_ico); }
+            set  { _Photo_ico = value; }
+      
         }
 
+
+        private  Photo_Sink_Enum _Photo_Sink_Type;
         /// <summary>
         /// 根据水槽类型显示对于图标
         /// </summary>
-        [SuppressPropertyChangedWarnings]
-        public Photo_Sink_enum Photo_Sink_Type
+        public Photo_Sink_Enum Photo_Sink_Type
         {
             set
             {
-                _Photo_ico = value.GetStringValue();
+                Photo_ico = value.GetStringValue();
+                _Photo_Sink_Type = value;
+            }
+            get
+            {
+                return _Photo_Sink_Type;
             }
 
         }
@@ -98,14 +106,14 @@ namespace HanGao.Model
         /// 列表显示水槽枚举
         /// </summary>
      
-        public enum Photo_Sink_enum
+        public enum Photo_Sink_Enum
         {
             [StringValue("&#xe61b;") ]
             左右单盆,
+            [StringValue("&#xe61a;")]
+            上下单盆,
             [StringValue("&#xe61d;")]
             普通双盆,
-            [StringValue("&#xe61a;")]
-            上下单盆
         }
 
 
@@ -166,22 +174,35 @@ namespace HanGao.Model
     [AddINotifyPropertyChangedInterface]
     public class Sink_Size_Models
     {
-       public Sink_Size_Models(double _Width ,double _Long)
+       public Sink_Size_Models()
         {
-            Sink_Width = _Width;
-            Sink_Long = _Long;
+   
         }
 
 
         /// <summary>
-        /// 水槽尺寸宽
+        /// 水槽_宽
         /// </summary>
-        public double Sink_Width { set; get; } = 345;
+        public double Sink_Size_Width { set; get; } = 345;
 
         /// <summary>
-        /// 水槽尺寸长
+        /// 水槽_长
         /// </summary>
-        public double Sink_Long { set; get; } = 650;
+        public double Sink_Size_Long { set; get; } = 630;
+        /// <summary>
+        /// 水槽_R角半径
+        /// </summary>
+        public double Sink_Size_R { set; get; } = 10;
+
+        /// <summary>
+        /// 水槽短边长度
+        /// </summary>
+        public double Sink_Size_Short_Side { set; get; } = 23;
+
+        /// <summary>
+        /// 水槽盆胆厚度
+        /// </summary>
+        public double Sink_Size_Thickness { set; get; } = 0.75;
 
 
 

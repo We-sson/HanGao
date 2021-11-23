@@ -1,9 +1,9 @@
 {
     // ==========[属性格式化]==========
-    "AttributesTolerance": 3, // 单行最大属性数，2[默认]，如果元素属性数不大于此数就不会换行
+    "AttributesTolerance": 1, // 单行最大属性数，2[默认]，如果元素属性数不大于此数就不会换行
     "KeepFirstAttributeOnSameLine": true, // 第一个属性是否与开始标记在同一行，false[默认]
-    "MaxAttributeCharactersPerLine": 40, // 多个属性大于多少个字符就该换行，0[默认]
-    "MaxAttributesPerLine": 3, // 大于几个属性就该换行，1[默认]
+    "MaxAttributeCharactersPerLine": 10, // 多个属性大于多少个字符就该换行，0[默认]
+    "MaxAttributesPerLine": 2, // 大于几个属性就该换行，1[默认]
     // 无需换行的元素（比较短的），"RadialGradientBrush, GradientStop, LinearGradientBrush, ScaleTransform, SkewTransform, RotateTransform, TranslateTransform, Trigger, Condition, Setter"[默认]
     "NewlineExemptionElements": "RadialGradientBrush, GradientStop, LinearGradientBrush, ScaleTransform, SkewTransform, RotateTransform, TranslateTransform, Trigger, Condition, Setter,ResourceDictionary",
     "AttributeIndentation": 0, // 属性缩进空格字符数（-1不缩进；0[默认]缩进4个空格；其它个数则指定）
@@ -27,8 +27,8 @@
         "Storyboard.*, From, To, Duration"
     */
     "AttributeOrderingRuleGroups": [
-        "Style",
         "x:Class",
+        "Style",
         "xmlns, xmlns:x",
         "xmlns:*",
         "x:Key, Key, x:Name, Name, x:Uid, Uid, Title",

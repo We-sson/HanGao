@@ -13,6 +13,7 @@ namespace HanGao.ViewModel
     [AddINotifyPropertyChangedInterface]
     public  class UC_Sink_Short_Side_VM : ViewModelBase
     {
+       
 
 
 

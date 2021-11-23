@@ -218,14 +218,14 @@
                                        Margin="3"
                                        FontFamily="{TemplateBinding FontFamily}"
                                        Foreground="Black"
-                                       FontSize="{TemplateBinding FontSize}" />
+                                       FontSize="{TemplateBinding FontSize}" HorizontalAlignment="Left" />
                             <ScrollViewer x:Name="PART_ContentHost"
-                                          Margin="3" Focusable="false"
+                                          Margin="3" Focusable="false" MinWidth=" 35"
                                           HorizontalScrollBarVisibility="Hidden"
-                                          VerticalScrollBarVisibility="Hidden" />
+                                          VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Center" />
                             <TextBlock Text="mm" Margin="3" Foreground="Gray"
                                        FontFamily="{TemplateBinding FontFamily}"
-                                       FontSize="{TemplateBinding FontSize}" />
+                                       FontSize="{TemplateBinding FontSize}" HorizontalAlignment="Right" />
                         </StackPanel>
                     </Border>
 

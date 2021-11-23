@@ -1,13 +1,9 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using HanGao.Model;
 using HanGao.View.User_Control.Pop_Ups;
 using PropertyChanged;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -16,11 +12,60 @@ using static HanGao.Model.Sink_Models;
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public   class UC_Pop_Ups_VM:ViewModelBase
+    public class UC_Pop_Ups_VM : ViewModelBase
     {
+
         public UC_Pop_Ups_VM()
         {
 
+
+            //接收用户触发的水槽项参数
+            Messenger.Default.Register<Sink_Models>(this, "UI_Sink_Set", (S) =>
+             {
+                 Sink_Type_Checked=true;    
+                 SM = S;
+                 _UC_Sink_Type = new UC_Sink_Type() { DataContext = new UC_Sink_Type_VM() { Sink_Type_Enum = SM.Photo_Sink_Type } };
+                 _UC_Sink_Size = new UC_Sink_Size() { DataContext = new UC_Sink_Size_VM() { Sink_Size_Value = SM.Sink_Process } };
+
+
+
+                 //起始页
+                 Pop_UserControl = _UC_Sink_Type;
+             });
+
+
+
+            //接收用户输入号的水槽尺寸属性
+            Messenger.Default.Register<Sink_Size_Models>(this, "Sink_Size_Value_OK", (_S) =>
+             {
+
+
+                 //修改号的水槽尺寸
+                 User_SM.Sink_Process = _S;
+
+
+                 //发送用户最终编辑好的水槽参数
+                 Messenger.Default.Send<Sink_Models>(User_SM, "Sink_Value_All_OK");
+
+                 //关闭弹窗
+                 Messenger.Default.Send<UserControl>(null, "User_Contorl_Message_Show");
+             });
+
+            //接收用户选择号的水槽类型暂存
+            Messenger.Default.Register<Photo_Sink_Enum>(this, "Sink_Type_Value_OK", (_E) =>
+                {
+                    User_SM = SM;
+                    User_SM.Photo_Sink_Type = _E;
+
+                });
+
+            //切换水槽弹窗流程画面
+            Messenger.Default.Register<RadioButton_Name>(this, "Pop_Sink_Size_Show", (_E) =>
+            {
+                Pop_Show(_E);
+
+            });
+            
 
 
 
@@ -28,23 +73,34 @@ namespace HanGao.ViewModel
         }
 
 
-        
+
 
         //public UserControl Pop_UserControl { set; get; } = new UC_Sink_Size() { };
-        public UserControl Pop_UserControl { set; get; } 
+        public UserControl Pop_UserControl { set; get; }
 
 
 
         /// <summary>
-        /// 获取用户选择的水槽列
+        /// 获取用户选择的水槽属性
         /// </summary>
         public Sink_Models SM { set; get; }
 
+        /// <summary>
+        /// 用户修改后的水槽属性
+        /// </summary>
+        public Sink_Models User_SM { set; get; }
 
 
 
 
+        public UserControl _UC_Sink_Type;
+        public UserControl _UC_Sink_Size;
+        public UserControl _UC_Sink_Craft;
 
+
+        public bool Sink_Type_Checked { set; get; } = true;
+        public bool Sink_Size_Checked { set; get; } = false;
+        public bool Sink_Craft_Checked { set; get; } = false;
 
 
 
@@ -59,9 +115,39 @@ namespace HanGao.ViewModel
         }
 
 
+        /// <summary>
+        /// 切换弹窗页面
+        /// </summary>
+        /// <param name="_E">弹窗名称枚举值</param>
+        public void Pop_Show(RadioButton_Name _E)
+        {
+            switch (_E)
+            {
+                case RadioButton_Name.水槽类型选择:
+                    Pop_UserControl = _UC_Sink_Type;
+                    Sink_Type_Checked = true;
+                    //Pop_UserControl= new Sink_Type() { };
+                    break;
+                case RadioButton_Name.水槽尺寸调节:
+                    Pop_UserControl = _UC_Sink_Size;
+                    Sink_Size_Checked = true;
+                    break;
+                case RadioButton_Name.工艺参数调节:
+                    Sink_Size_Checked = true;
+                    //Pop_UserControl = new UC_Sink_Craft_List() { };
+
+                    break;
+                default:
+                    break;
+            }
+
+        }
+
+
+
 
         /// <summary>
-        /// 侧边栏打开关闭事件命令
+        /// 弹窗选择流程时间
         /// </summary>
         public ICommand RB_Check_Comm
         {
@@ -69,90 +155,41 @@ namespace HanGao.ViewModel
             {
 
                 //把参数类型转换控件
-                RadioButton e = Sm.Source as RadioButton;
-
-                switch (int.Parse((string)e.Tag))
-                {
-                    case (int)RadioButton_Name.水槽类型选择:
-                        Pop_UserControl= new Sink_Type() { };
-                        break;
-                    case (int)RadioButton_Name.水槽尺寸调节:
-                        Pop_UserControl = new UC_Sink_Size() { };
-                        break;
-                    case (int)RadioButton_Name.工艺参数调节:
-                        Pop_UserControl = new UC_Sink_Craft_List() { };
-
-                        break;
-                    default:
-                        break;
-                }
-
-
-
-
-            });
-        }
-
-
-        /// <summary>
-        /// 水槽类型选择事件
-        /// </summary>
-        public ICommand Sink_Loaded_Comm
-        {
-            get => new RelayCommand<RoutedEventArgs>((Sm) =>
-            {
-
-                //把参数类型转换控件
                 FrameworkElement e = Sm.Source as FrameworkElement;
 
+                Pop_Show((RadioButton_Name)int.Parse((string)e.Tag));
+
+
+
 
 
 
             });
         }
-
-
-
-
-
-
-
 
 
 
         /// <summary>
-        /// 水槽类型选择事件
+        /// 弹窗关闭事件命令
         /// </summary>
-        public ICommand Sink_Type_Comm
+        public ICommand Pop_Close_Comm
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
 
-                //把参数类型转换控件
-                FrameworkElement e = Sm.Source as FrameworkElement;
-
-               
-
-
-                switch (int.Parse((String)e.Tag))
-                {
-                    case (int)Photo_Sink_enum.左右单盆:
-
-                        break;
-                    case (int)Photo_Sink_enum.上下单盆:
-
-                        break;
-                    case (int)Photo_Sink_enum.普通双盆:
-
-                        break;
-                    default:
-                        break;
-                }
+                Messenger.Default.Send<UserControl>(null, "User_Contorl_Message_Show");
 
 
 
 
             });
         }
+
+
+
+
+
+
+
     }
 }

@@ -18,11 +18,13 @@ namespace HanGao.View.User_Control.Pop_Ups
     /// <summary>
     /// Sink_Type.xaml 的交互逻辑
     /// </summary>
-    public partial class Sink_Type : UserControl
+    public partial class UC_Sink_Type : UserControl
     {
-        public Sink_Type()
+        public UC_Sink_Type()
         {
             InitializeComponent();
         }
+
+
     }
 }

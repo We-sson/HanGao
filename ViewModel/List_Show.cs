@@ -1,26 +1,19 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
-
+using HanGao.Model;
+using HanGao.View.User_Control;
+using HanGao.View.UserMessage;
 using PropertyChanged;
-using Soceket_Connect;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using HanGao.Model;
-using HanGao.View.UserMessage;
-using static Soceket_Connect.Socket_Connect;
-using static Soceket_KUKA.Models.Socket_Models_Connect;
-using static Soceket_KUKA.Models.Socket_Models_Receive;
 using static HanGao.Model.Sink_Models;
 using static HanGao.ViewModel.User_Control_Common;
-using static HanGao.ViewModel.User_Control_Log_ViewModel;
-using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
-using HanGao.View.User_Control;
-
 
 namespace HanGao.ViewModel
 {
@@ -33,23 +26,28 @@ namespace HanGao.ViewModel
 
 
 
-            SinkModels = new ObservableCollection<Sink_Models>
+           
+
+            //接收修改参数属性
+            Messenger.Default.Register<Sink_Models>(this, "Sink_Value_All_OK", (S) =>
             {
-               new Sink_Models (Photo_Sink_enum.左右单盆){   },
-
-                new Sink_Models(Photo_Sink_enum.左右单盆) { Model_Number = 952154,     } ,
-
-                new Sink_Models(Photo_Sink_enum.上下单盆) { Model_Number = 953212,} ,
-                new Sink_Models(Photo_Sink_enum.左右单盆) { Model_Number = 952172, } ,
-                 new Sink_Models(Photo_Sink_enum.左右单盆) { Model_Number = 952173, } ,
-                new Sink_Models(Photo_Sink_enum.普通双盆) { Model_Number = 952127,  } ,
-                new Sink_Models(Photo_Sink_enum.左右单盆) { Model_Number = 952128,  } ,
-                new Sink_Models(Photo_Sink_enum.左右单盆) { Model_Number = 952333, } ,
-                new Sink_Models(Photo_Sink_enum.普通双盆) { Model_Number = 901253,  } ,
-                new Sink_Models(Photo_Sink_enum.上下单盆) { Model_Number = 952119,  } ,
-            };
 
 
+                foreach (var item in SinkModels)
+                {
+
+                    if (item.Model_Number==S.Model_Number)
+                    {
+                        item.Photo_Sink_Type = S.Photo_Sink_Type;
+                        item.Sink_Process = S.Sink_Process;
+                        break;
+                    }
+          
+
+                }
+
+
+            });
 
 
             //根据用户选择做出相应的动作
@@ -102,16 +100,38 @@ namespace HanGao.ViewModel
 
         }
 
-        public static ObservableCollection<Sink_Models> _SinkModels;
+        public static ObservableCollection<Sink_Models> _SinkModels = new ObservableCollection<Sink_Models>
+            {
+               
+
+                new Sink_Models(Photo_Sink_Enum.左右单盆) { Model_Number = 952154,} ,
+                new Sink_Models(Photo_Sink_Enum.上下单盆) { Model_Number = 953212,} ,
+                new Sink_Models(Photo_Sink_Enum.左右单盆) { Model_Number = 952172, } ,
+                 new Sink_Models(Photo_Sink_Enum.左右单盆) { Model_Number = 952173, } ,
+                new Sink_Models(Photo_Sink_Enum.普通双盆) { Model_Number = 952127,  } ,
+                new Sink_Models(Photo_Sink_Enum.左右单盆) { Model_Number = 952128,  } ,
+                new Sink_Models(Photo_Sink_Enum.左右单盆) { Model_Number = 952333, } ,
+                new Sink_Models(Photo_Sink_Enum.普通双盆) { Model_Number = 901253,  } ,
+                new Sink_Models(Photo_Sink_Enum.上下单盆) { Model_Number = 952119,  } ,
+            };
         /// <summary>
         /// 水槽列表集合
         /// </summary>
         public static ObservableCollection<Sink_Models> SinkModels
         {
+
             get { return _SinkModels; }
-            set { _SinkModels = value; }
+            set
+            {
+                _SinkModels = value;
+                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(SinkModels)));
+            }
         }
 
+        /// <summary>
+        /// 静态属性更新通知事件
+        /// </summary>
+        public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
 
         /// <summary>
         /// 文本输入事件触发属性
@@ -144,7 +164,7 @@ namespace HanGao.ViewModel
         /// 筛选显示List内容方法
         /// </summary>
         /// <param name="ob"></param>
-        public  void Find_List(String ob)
+        public void Find_List(String ob)
         {
             for (int i = 0; i < SinkModels.Count; i++)
             {
@@ -191,16 +211,21 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 显示水槽参数设置弹窗
         /// </summary>
-        public  ICommand Show_Pop_Ups_Page
+        public ICommand Show_Pop_Ups_Page
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
               {
 
                   FrameworkElement e = Sm.Source as FrameworkElement;
 
-                  Messenger.Default.Send<UserControl>(new UC_Pop_Ups() {DataContext =new UC_Pop_Ups_VM() { SM= (Sink_Models)e.DataContext }  }, "User_Contorl_Message_Show");
-                  
 
+                  //启动弹窗容器
+                  Messenger.Default.Send<UserControl>(new UC_Pop_Ups() {  }, "User_Contorl_Message_Show");
+
+
+                  //启动弹窗容器
+                  Messenger.Default.Send<Sink_Models>((Sink_Models)e.DataContext, "UI_Sink_Set");
+                
               });
         }
 
@@ -253,15 +278,18 @@ namespace HanGao.ViewModel
                             DataContext = new User_Message_ViewModel()
                             {
                                 List_Show_Models = new List_Show_Models()
-                                { 
-                                    Model = S, List_Show_Name = S.Model_Number.ToString(), List_Chick_NO = e.Uid },
+                                {
+                                    Model = S,
+                                    List_Show_Name = S.Model_Number.ToString(),
+                                    List_Chick_NO = e.Uid
+                                },
                                 User_Wrok_Trye = S.Model_Number.ToString()
                             }
-                            
-                        },
-                        "User_Contorl_Message_Show"); 
 
-                       
+                        },
+                        "User_Contorl_Message_Show");
+
+
                         return;
 
                     }

@@ -1,11 +1,16 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
+using HanGao.Model;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace HanGao.ViewModel
 {
@@ -13,13 +18,62 @@ namespace HanGao.ViewModel
     public   class UC_Sink_Size_VM : ViewModelBase
     {
 
+        public UC_Sink_Size_VM()
+        {
+
+        }
+
+
+        /// <summary>
+        /// 水槽各参数
+        /// </summary>
+        public Sink_Size_Models Sink_Size_Value { set; get; }
 
 
 
-        public string Sink_Size_Upper_Left_Pate { set; get; } = "M43.8,123.0 C41.9,123.0 38.0,125.6 38.0,128.8";
-        public string Sink_Size_Lower_Left_Pate { set; get; } = "M12.7,230.1 C12.7,232.3 14.9,236.2 19.1,236.4";
-        public string Sink_Size_Lower_Right_Pate { set; get; } = "M29.6,77.8 C27.3,77.8 23.9,80 23.9,83.4";
-        public string Sink_Size_Upper_Right_Pate { set; get; } = "M29.6,77.8 C27.3,77.8 23.9,80 23.9,83.4";
+
+        /// <summary>
+        /// 传送用户设置好的参数
+        /// </summary>
+        public ICommand Sink_Value_OK_Comm
+        {
+            get => new RelayCommand<UserControl>((Sm) =>
+            {
+
+
+
+                Messenger.Default.Send<Sink_Size_Models>(Sink_Size_Value, "Sink_Size_Value_OK");
+
+
+
+
+            });
+        }
+
+
+
+        /// <summary>
+        /// 现在原属性水槽类型
+        /// </summary>
+        public ICommand Sink_Size_Loaded_Comm
+        {
+            get => new RelayCommand<UserControl>((Sm) =>
+            {
+                //把参数类型转换控件
+                //FrameworkElement e = Sm.Source as FrameworkElement;
+
+         
+
+
+
+
+
+            });
+        }
+
 
     }
+
+
+
 }
