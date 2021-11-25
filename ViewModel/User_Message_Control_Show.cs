@@ -5,6 +5,8 @@ using System.Windows;
 using System.Windows.Controls;
 using HanGao.Model;
 using HanGao.View.UserMessage;
+using System;
+using System.ComponentModel;
 
 namespace HanGao.ViewModel
 {
@@ -45,11 +47,11 @@ namespace HanGao.ViewModel
 
 
 
-        private UserControl _User_UserControl=null;
+        private static  UserControl _User_UserControl=null;
         /// <summary>
         /// 弹窗显示容器
         /// </summary>
-        public UserControl User_UserControl
+        public static  UserControl User_UserControl
         {
             get
             {
@@ -58,10 +60,14 @@ namespace HanGao.ViewModel
             set
             {
                 _User_UserControl = value;
+                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(User_UserControl)));
             }
         }
 
-
+        /// <summary>
+        /// 静态属性更新通知事件
+        /// </summary>
+        public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
 
 
 

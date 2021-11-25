@@ -21,6 +21,15 @@ namespace HanGao.ViewModel
         public UC_Sink_Size_VM()
         {
 
+
+
+            Messenger.Default.Register<Sink_Size_Models>(this, "Sink_Size_Value_Load", (_E) =>
+            {
+
+                Sink_Size_Value = _E;
+            });
+
+
         }
 
 
@@ -40,7 +49,7 @@ namespace HanGao.ViewModel
             get => new RelayCommand<UserControl>((Sm) =>
             {
 
-
+               
 
                 Messenger.Default.Send<Sink_Size_Models>(Sink_Size_Value, "Sink_Size_Value_OK");
 

@@ -8,9 +8,12 @@
     <!--#region 全局素材-->
 
     <!--  全局字体阴影  -->
-    <DropShadowEffect x:Key="全局_字体_阴影样式" ShadowDepth="0"
-                      BlurRadius="3" Direction="270"
-                      Opacity="0.6" Color="Black" />
+    <DropShadowEffect x:Key="全局_字体_阴影样式"
+                      ShadowDepth="0"
+                      BlurRadius="3"
+                      Direction="270"
+                      Opacity="0.6"
+                      Color="Black" />
 
     <!--  全局图标路径  -->
     <FontFamily x:Key="全局_图标库">
@@ -18,19 +21,27 @@
     </FontFamily>
 
 
-    <Style x:Key="全局_弹窗_背景侧挡样式" TargetType="Border">
+    <Style x:Key="全局_弹窗_背景侧挡样式"
+           TargetType="Border">
         <Setter Property="Background" Value="Gray" />
-        <Setter Property="Opacity" Value=" 0.4" />
+        <Setter Property="Opacity" Value=" 0.8" />
+        <Setter Property="Effect">
+            <Setter.Value>
+                <BlurEffect Radius="10" />
+            </Setter.Value>
+        </Setter>
     </Style>
 
 
     <!--  全局图标路径  -->
-    <Style x:Key="首页_左上角_公司图标_路径" TargetType="Image">
+    <Style x:Key="首页_左上角_公司图标_路径"
+           TargetType="Image">
         <Setter Property="Source" Value="/Resources/黑色logo.png" />
     </Style>
 
 
-    <Style x:Key="首页_上方_标题图标_鼠标事件" TargetType="Image">
+    <Style x:Key="首页_上方_标题图标_鼠标事件"
+           TargetType="Image">
 
 
 
@@ -71,28 +82,37 @@
 
 
     <!--  全局样式定义  -->
-    <Style x:Key="首页_左上角_公司图标_样式" TargetType="Image" BasedOn="{StaticResource 首页_左上角_公司图标_路径}">
+    <Style x:Key="首页_左上角_公司图标_样式"
+           TargetType="Image"
+           BasedOn="{StaticResource 首页_左上角_公司图标_路径}">
         <Setter Property="Effect" Value="{StaticResource 全局_字体_阴影样式}" />
 
 
     </Style>
 
 
-    <Style x:Key="首页_上方_标题图标_路径" TargetType="Image" BasedOn="{StaticResource 首页_上方_标题图标_鼠标事件}">
+    <Style x:Key="首页_上方_标题图标_路径"
+           TargetType="Image"
+           BasedOn="{StaticResource 首页_上方_标题图标_鼠标事件}">
         <Setter Property="Source" Value="/Resources/控制台.png" />
     </Style>
 
 
-    <DropShadowEffect x:Key="全局背景阴影" BlurRadius="40"
-                      Direction="-90" ShadowDepth="5"
+    <DropShadowEffect x:Key="全局背景阴影"
+                      BlurRadius="40"
+                      Direction="-90"
+                      ShadowDepth="5"
                       Opacity="0.2" />
 
     <!--  全局Grid背景模糊样式  -->
-    <Style x:Key="Gd_Effect" TargetType="{x:Type Grid}">
+    <Style x:Key="Gd_Effect"
+           TargetType="{x:Type Grid}">
         <Setter Property="Effect">
             <Setter.Value>
-                <DropShadowEffect ShadowDepth="0" Direction="20"
-                                  Opacity="0.2" BlurRadius="20"
+                <DropShadowEffect ShadowDepth="0"
+                                  Direction="20"
+                                  Opacity="0.2"
+                                  BlurRadius="20"
                                   Color="Gray" />
             </Setter.Value>
         </Setter>
@@ -148,15 +168,18 @@
 
 
     <!--  工作框鼠标上方边框显示  -->
-    <Style x:Key="Border_BorderBrush" TargetType="{x:Type Border}">
+    <Style x:Key="Border_BorderBrush"
+           TargetType="{x:Type Border}">
         <Style.Triggers>
-            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type Grid}}}" Value="true">
+            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type Grid}}}"
+                         Value="true">
                 <DataTrigger.EnterActions>
                     <BeginStoryboard>
                         <Storyboard>
                             <ColorAnimation SpeedRatio="10"
                                             Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
-                                            To="#FFAE181F" Duration="0:0:0:1">
+                                            To="#FFAE181F"
+                                            Duration="0:0:0:1">
                                 <ColorAnimation.EasingFunction>
                                     <QuinticEase EasingMode="EaseInOut" />
                                 </ColorAnimation.EasingFunction>
@@ -173,7 +196,8 @@
                         <Storyboard>
                             <ColorAnimation SpeedRatio="3"
                                             Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
-                                            To="Transparent" Duration="0:0:0:1">
+                                            To="Transparent"
+                                            Duration="0:0:0:1">
                                 <ColorAnimation.EasingFunction>
                                     <QuinticEase EasingMode="EaseInOut" />
                                 </ColorAnimation.EasingFunction>
@@ -188,7 +212,8 @@
     </Style>
 
 
-    <Style x:Key="GroupBox_Grid_Effect" TargetType="{x:Type GroupBox}">
+    <Style x:Key="GroupBox_Grid_Effect"
+           TargetType="{x:Type GroupBox}">
         <Setter Property="BorderBrush" Value="Black" />
         <Setter Property="BorderThickness" Value="1.5" />
         <Setter Property="Background" Value="#FFFFFF" />
@@ -207,14 +232,16 @@
 
                         <Grid>
                             <Grid.OpacityMask>
-                                <VisualBrush Visual="{Binding ElementName=MaskBorder}" Stretch="None" />
+                                <VisualBrush Visual="{Binding ElementName=MaskBorder}"
+                                             Stretch="None" />
                             </Grid.OpacityMask>
 
                             <Border x:Name="Bd"
                                     Margin="0"
                                     BorderThickness="{TemplateBinding BorderThickness}"
                                     Background="{TemplateBinding Background}"
-                                    CornerRadius="12" ClipToBounds="True"
+                                    CornerRadius="12"
+                                    ClipToBounds="True"
                                     BorderBrush="{TemplateBinding BorderBrush}">
 
                                 <Border.Effect>
@@ -222,7 +249,8 @@
                                 </Border.Effect>
                             </Border>
 
-                            <ContentPresenter Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 
 
 

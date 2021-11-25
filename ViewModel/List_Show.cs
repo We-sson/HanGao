@@ -3,12 +3,14 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using HanGao.Model;
 using HanGao.View.User_Control;
+using HanGao.View.User_Control.Pop_Ups;
 using HanGao.View.UserMessage;
 using PropertyChanged;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -206,6 +208,7 @@ namespace HanGao.ViewModel
         }
 
 
+        
 
 
         /// <summary>
@@ -218,14 +221,24 @@ namespace HanGao.ViewModel
 
                   FrameworkElement e = Sm.Source as FrameworkElement;
 
+                  
+                  Sink_Models M= e.DataContext as Sink_Models;
+                  //初始弹窗容器
+                  User_Control_Show.User_UserControl = new UC_Pop_Ups() { DataContext = new UC_Pop_Ups_VM() { Sink_Type_Checked = true }};
 
-                  //启动弹窗容器
-                  Messenger.Default.Send<UserControl>(new UC_Pop_Ups() {  }, "User_Contorl_Message_Show");
 
 
-                  //启动弹窗容器
-                  Messenger.Default.Send<Sink_Models>((Sink_Models)e.DataContext, "UI_Sink_Set");
-                
+
+
+
+
+
+                  //传递参数
+                  Messenger.Default.Send<Sink_Models>(M, "UI_Sink_Set");
+
+
+
+
               });
         }
 

@@ -4,8 +4,7 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:HanGao.View.User_Control"
-             xmlns:pop_ups="clr-namespace:HanGao.View.User_Control.Pop_Ups"
+             xmlns:Pop="clr-namespace:HanGao.View.User_Control.Pop_Ups"
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_Pop_Ups_VM}"
              mc:Ignorable="d">
 
@@ -16,6 +15,7 @@
                 Height="700"
                 CornerRadius="25"
                 Background="#EBEBEB">
+
             <Grid Margin="40,0,40,40">
 
                 <Grid.RowDefinitions>
@@ -51,7 +51,7 @@
 
                     </Grid.ColumnDefinitions>
 
-                    <RadioButton Style="{DynamicResource RadioButton_Pop_Style}" Grid.Column="0"
+                    <RadioButton Style="{DynamicResource RadioButton_Pop_Style}" x:Name="R1" Grid.Column="0"
                                  IsChecked="{Binding Sink_Type_Checked}"
                                  Tag="0"
                                  ToolTip="水槽类型选择"
@@ -74,13 +74,7 @@
                             </StackPanel>
                         </Border>
 
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Checked">
-                                <i:InvokeCommandAction Command="{Binding RB_Check_Comm}"
-                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                       PassEventArgsToCommand="True" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
+
                     </RadioButton>
 
                     <Border Grid.Column="1"
@@ -88,7 +82,7 @@
                             Background="#FFCFCFCF"
                             CornerRadius="2" />
 
-                    <RadioButton Style="{DynamicResource RadioButton_Pop_Style}" Grid.Column="2"
+                    <RadioButton Style="{DynamicResource RadioButton_Pop_Style}" x:Name="R2" Grid.Column="2"
                                  IsChecked="{Binding Sink_Size_Checked}"
                                  Tag="1"
                                  GroupName="Pop_UI"
@@ -104,13 +98,7 @@
                                        HorizontalAlignment="Center"
                                        FontSize="15" />
                         </StackPanel>
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Checked">
-                                <i:InvokeCommandAction Command="{Binding RB_Check_Comm}"
-                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                       PassEventArgsToCommand="True" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
+
                     </RadioButton>
 
                     <Border Grid.Column="3"
@@ -119,7 +107,7 @@
                             CornerRadius="2" />
 
 
-                    <RadioButton Style="{DynamicResource RadioButton_Pop_Style}" Grid.Column="4"
+                    <RadioButton Style="{DynamicResource RadioButton_Pop_Style}" x:Name="R3" Grid.Column="4"
                                  IsChecked="{Binding Sink_Craft_Checked}"
                                  Tag="2"
                                  GroupName="Pop_UI"
@@ -135,13 +123,7 @@
                                        HorizontalAlignment="Center"
                                        FontSize="15" />
                         </StackPanel>
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Checked">
-                                <i:InvokeCommandAction Command="{Binding RB_Check_Comm}"
-                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                       PassEventArgsToCommand="True" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
+
                     </RadioButton>
 
 
@@ -151,8 +133,40 @@
 
                 <GroupBox Style="{StaticResource GroupBox_Grid_Effect}" Grid.Row="1"
                           Background="#EBEBEB">
-                    <ContentControl Content="{Binding Pop_UserControl}"
-                                    VerticalAlignment="Center" />
+                    <ContentControl VerticalAlignment="Center">
+                        <ContentControl.Style>
+                            <Style TargetType="ContentControl">
+                                <Setter Property="Content" Value="{x:Null}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=R1, Path=IsChecked}"
+                                                 Value="TRUE">
+                                        <Setter Property="Content">
+                                            <Setter.Value>
+
+                                                <Pop:UC_Sink_Type DataContext="{Binding Source={StaticResource Locator}, Path=UC_Sink_Type_VM}" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ElementName=R2, Path=IsChecked}"
+                                                 Value="TRUE">
+                                        <Setter Property="Content">
+                                            <Setter.Value>
+                                                <Pop:UC_Sink_Size DataContext="{Binding Source={StaticResource Locator}, Path=UC_Sink_Size_VM}" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ElementName=R3, Path=IsChecked}"
+                                                 Value="TRUE">
+                                        <Setter Property="Content">
+                                            <Setter.Value>
+                                                <Pop:UC_Sink_Craft_List DataContext="{Binding Source={StaticResource Locator}, Path=UC_Sink_Craft_List_VM}" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentControl.Style>
+                    </ContentControl>
 
 
 

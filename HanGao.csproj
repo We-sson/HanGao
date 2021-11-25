@@ -386,6 +386,7 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include=".editorconfig" />
     <None Include="FodyWeavers.xsd">
       <SubType>Designer</SubType>
     </None>

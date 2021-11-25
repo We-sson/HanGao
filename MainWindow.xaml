@@ -13,6 +13,7 @@
         MinHeight="1080" Padding="0"
         d:DataContext="{d:DesignData Type=viewmodel:User_Message_ViewModel}"
         d:DesignWidth="1920"
+        
         d:DesignHeight="1080" Background="Gray"
         AllowsTransparency="True"
         WindowStyle="None" mc:Ignorable="d">

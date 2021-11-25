@@ -4,6 +4,8 @@ using GalaSoft.MvvmLight.Messaging;
 using HanGao.Model;
 using HanGao.View.User_Control.Pop_Ups;
 using PropertyChanged;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -19,20 +21,31 @@ namespace HanGao.ViewModel
         {
 
 
+
+            //Sink_Type_Checked = true;
+
             //接收用户触发的水槽项参数
             Messenger.Default.Register<Sink_Models>(this, "UI_Sink_Set", (S) =>
              {
-                 Sink_Type_Checked=true;    
-                 SM = S;
-                 _UC_Sink_Type = new UC_Sink_Type() { DataContext = new UC_Sink_Type_VM() { Sink_Type_Enum = SM.Photo_Sink_Type } };
-                 _UC_Sink_Size = new UC_Sink_Size() { DataContext = new UC_Sink_Size_VM() { Sink_Size_Value = SM.Sink_Process } };
 
-
+                 //SM = S;
+                 //User_SM = S;
+                 //_UC_Sink_Type = new UC_Sink_Type() { DataContext = new UC_Sink_Type_VM() { Sink_Type_Enum = S.Photo_Sink_Type } };
+                 //_UC_Sink_Size = new UC_Sink_Size() { DataContext = new UC_Sink_Size_VM() { Sink_Size_Value = S.Sink_Process } };
 
                  //起始页
-                 Pop_UserControl = _UC_Sink_Type;
+
+                 //Pop_UserControl = _UC_Sink_Type;
+
+                 Messenger.Default.Send<Photo_Sink_Enum>(S.Photo_Sink_Type, "Sink_Type_Value_Load");
+                 Messenger.Default.Send<Sink_Size_Models>(S.Sink_Process, "Sink_Size_Value_Load");
+
+                 
+
+
              });
 
+          
 
 
             //接收用户输入号的水槽尺寸属性
@@ -41,32 +54,35 @@ namespace HanGao.ViewModel
 
 
                  //修改号的水槽尺寸
-                 User_SM.Sink_Process = _S;
+                 SM.Sink_Process = _S;
 
 
                  //发送用户最终编辑好的水槽参数
                  Messenger.Default.Send<Sink_Models>(User_SM, "Sink_Value_All_OK");
 
                  //关闭弹窗
-                 Messenger.Default.Send<UserControl>(null, "User_Contorl_Message_Show");
+                 User_Control_Show.User_UserControl = null;
              });
 
-            //接收用户选择号的水槽类型暂存
-            Messenger.Default.Register<Photo_Sink_Enum>(this, "Sink_Type_Value_OK", (_E) =>
-                {
-                    User_SM = SM;
-                    User_SM.Photo_Sink_Type = _E;
+            ////接收用户选择号的水槽类型暂存
+            //Messenger.Default.Register<Photo_Sink_Enum>(this, "Sink_Type_Value_OK", (_E) =>
+            //    {
+            //        //User_SM = SM;
+            //        User_SM.Photo_Sink_Type = _E;
 
-                });
+            //    });
 
             //切换水槽弹窗流程画面
             Messenger.Default.Register<RadioButton_Name>(this, "Pop_Sink_Size_Show", (_E) =>
             {
-                Pop_Show(_E);
+                //Pop_Show(_E);
 
             });
             
 
+           
+
+            //MessageBox.Show( GetType().Name.ToString() + Thread.CurrentThread.ManagedThreadId.ToString());
 
 
 
@@ -93,14 +109,53 @@ namespace HanGao.ViewModel
 
 
 
-        public UserControl _UC_Sink_Type;
-        public UserControl _UC_Sink_Size;
-        public UserControl _UC_Sink_Craft;
+        //public UserControl _UC_Sink_Type { set; get; } = new UC_Sink_Type() { DataContext = new UC_Sink_Type_VM() { } };
+        //public UserControl _UC_Sink_Size { set; get; } = new UC_Sink_Size() { DataContext=new UC_Sink_Size_VM() { } };
+        //public UserControl _UC_Sink_Craft;
 
 
-        public bool Sink_Type_Checked { set; get; } = true;
-        public bool Sink_Size_Checked { set; get; } = false;
-        public bool Sink_Craft_Checked { set; get; } = false;
+        private bool _Sink_Type_Checked =true;
+        public bool Sink_Type_Checked {
+            set 
+            { 
+                _Sink_Type_Checked = value;
+                //Pop_UserControl = _UC_Sink_Type;
+            }
+            get 
+            {
+                return _Sink_Type_Checked;
+            }
+        }
+
+
+
+        private bool _Sink_Size_Checked;
+        public bool Sink_Size_Checked
+        {
+            set
+            {
+                _Sink_Size_Checked = value;
+                //Pop_UserControl = _UC_Sink_Size;
+            }
+            get
+            {
+                return _Sink_Size_Checked;
+            }
+        }
+
+
+        private bool _Sink_Craft_Checked;
+        public bool Sink_Craft_Checked
+        {
+            set
+            {
+                _Sink_Craft_Checked = value;
+            }
+            get
+            {
+                return _Sink_Craft_Checked;
+            }
+        }
 
 
 
@@ -124,16 +179,16 @@ namespace HanGao.ViewModel
             switch (_E)
             {
                 case RadioButton_Name.水槽类型选择:
-                    Pop_UserControl = _UC_Sink_Type;
+                    //Pop_UserControl = _UC_Sink_Type;
                     Sink_Type_Checked = true;
                     //Pop_UserControl= new Sink_Type() { };
                     break;
                 case RadioButton_Name.水槽尺寸调节:
-                    Pop_UserControl = _UC_Sink_Size;
+                    //Pop_UserControl = _UC_Sink_Size;
                     Sink_Size_Checked = true;
                     break;
                 case RadioButton_Name.工艺参数调节:
-                    Sink_Size_Checked = true;
+                    Sink_Craft_Checked = true;
                     //Pop_UserControl = new UC_Sink_Craft_List() { };
 
                     break;
@@ -146,26 +201,7 @@ namespace HanGao.ViewModel
 
 
 
-        /// <summary>
-        /// 弹窗选择流程时间
-        /// </summary>
-        public ICommand RB_Check_Comm
-        {
-            get => new RelayCommand<RoutedEventArgs>((Sm) =>
-            {
 
-                //把参数类型转换控件
-                FrameworkElement e = Sm.Source as FrameworkElement;
-
-                Pop_Show((RadioButton_Name)int.Parse((string)e.Tag));
-
-
-
-
-
-
-            });
-        }
 
 
 

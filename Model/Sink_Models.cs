@@ -108,6 +108,8 @@ namespace HanGao.Model
      
         public enum Photo_Sink_Enum
         {
+            [StringValue(" ")]
+            空,
             [StringValue("&#xe61b;") ]
             左右单盆,
             [StringValue("&#xe61a;")]
