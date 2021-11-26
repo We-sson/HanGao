@@ -22,25 +22,13 @@ namespace HanGao.ViewModel
 
 
 
-            //Sink_Type_Checked = true;
+
 
             //接收用户触发的水槽项参数
             Messenger.Default.Register<Sink_Models>(this, "UI_Sink_Set", (S) =>
              {
 
-                 //SM = S;
-                 //User_SM = S;
-                 //_UC_Sink_Type = new UC_Sink_Type() { DataContext = new UC_Sink_Type_VM() { Sink_Type_Enum = S.Photo_Sink_Type } };
-                 //_UC_Sink_Size = new UC_Sink_Size() { DataContext = new UC_Sink_Size_VM() { Sink_Size_Value = S.Sink_Process } };
-
-                 //起始页
-
-                 //Pop_UserControl = _UC_Sink_Type;
-
-                 Messenger.Default.Send<Photo_Sink_Enum>(S.Photo_Sink_Type, "Sink_Type_Value_Load");
-                 Messenger.Default.Send<Sink_Size_Models>(S.Sink_Process, "Sink_Size_Value_Load");
-
-                 
+                 Messenger.Default.Send<Sink_Models>(S, "Sink_Type_Value_Load");
 
 
              });
@@ -53,7 +41,7 @@ namespace HanGao.ViewModel
              {
 
 
-                 //修改号的水槽尺寸
+                 //修改好的水槽尺寸
                  SM.Sink_Process = _S;
 
 
@@ -64,13 +52,7 @@ namespace HanGao.ViewModel
                  User_Control_Show.User_UserControl = null;
              });
 
-            ////接收用户选择号的水槽类型暂存
-            //Messenger.Default.Register<Photo_Sink_Enum>(this, "Sink_Type_Value_OK", (_E) =>
-            //    {
-            //        //User_SM = SM;
-            //        User_SM.Photo_Sink_Type = _E;
 
-            //    });
 
             //切换水槽弹窗流程画面
             Messenger.Default.Register<RadioButton_Name>(this, "Pop_Sink_Size_Show", (_E) =>
@@ -82,7 +64,7 @@ namespace HanGao.ViewModel
 
            
 
-            //MessageBox.Show( GetType().Name.ToString() + Thread.CurrentThread.ManagedThreadId.ToString());
+   
 
 
 

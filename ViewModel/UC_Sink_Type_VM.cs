@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
+using HanGao.Model;
 using HanGao.View.User_Control.Pop_Ups;
 using PropertyChanged;
 using System;
@@ -18,10 +19,10 @@ namespace HanGao.ViewModel
         {
 
 
-            Messenger.Default.Register<Photo_Sink_Enum>(this, "Sink_Type_Value_Load", (_E) =>
+            Messenger.Default.Register<Sink_Models>(this, "Sink_Type_Value_Load", (_E) =>
             {
 
-                Sink_Type_Enum = _E;
+                Sink_Type_Load = _E;
             });
 
 
@@ -30,7 +31,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 用户选择的水槽类型
         /// </summary>
-        public Photo_Sink_Enum Sink_Type_Enum { set; get; } = Photo_Sink_Enum.空;
+        public Sink_Models Sink_Type_Load { set; get; } 
 
 
 
@@ -48,7 +49,7 @@ namespace HanGao.ViewModel
                 //把参数类型转换控件
                 UC_Sink_Type e = Sm.Source as UC_Sink_Type;
 
-                switch (Sink_Type_Enum )
+                switch (Sink_Type_Load.Photo_Sink_Type)
                 {
                     case Photo_Sink_Enum.左右单盆:
                         e.R1.IsChecked = true;
@@ -91,15 +92,16 @@ namespace HanGao.ViewModel
                 //把参数类型转换控件
                 FrameworkElement e = Sm.Source as FrameworkElement;
 
+                //用户设置水槽属性
+                Sink_Type_Load.Photo_Sink_Type = (Photo_Sink_Enum)int.Parse((String)e.Tag);
 
-                Sink_Type_Enum = (Photo_Sink_Enum)int.Parse((String)e.Tag);
+                //传递下一步水槽尺寸
+                Messenger.Default.Send<Sink_Models>(Sink_Type_Load, "Sink_Size_Value_Load");
 
-
-                //Messenger.Default.Send<Photo_Sink_Enum>(Sink_Type_Enum, "Sink_Type_Value_OK");
 
                 //Messenger.Default.Send<RadioButton_Name>(RadioButton_Name.水槽尺寸调节, "Pop_Sink_Size_Show");
 
-                
+
 
             });
         }
