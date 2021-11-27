@@ -131,10 +131,12 @@
                 </Grid>
 
 
+
                 <GroupBox Style="{StaticResource GroupBox_Grid_Effect}" Grid.Row="1"
                           Background="#EBEBEB">
-                    <ContentControl VerticalAlignment="Center">
-                        <ContentControl.Style>
+                    <ContentControl Content="{Binding Pop_UserControl}"
+                                    VerticalAlignment="Center">
+                        <!--<ContentControl.Style>
                             <Style TargetType="ContentControl">
                                 <Setter Property="Content" Value="{x:Null}" />
                                 <Style.Triggers>
@@ -165,7 +167,7 @@
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </ContentControl.Style>
+                        </ContentControl.Style>-->
                     </ContentControl>
 
 

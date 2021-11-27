@@ -9,9 +9,11 @@
              d:DesignWidth="1020"
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_Sink_Type_VM}"
              mc:Ignorable="d">
+
+
     <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding Sink_Type_Loaded_Comm}"
+        <i:EventTrigger EventName="Unloaded">
+            <i:InvokeCommandAction Command="{Binding Sink_Type_Unloaded_Comm}"
                                    CommandParameter="{Binding EventArgsConverterParameter, RelativeSource={RelativeSource Self}}"
                                    PassEventArgsToCommand="True" />
         </i:EventTrigger>
@@ -20,8 +22,9 @@
     <Grid>
         <StackPanel HorizontalAlignment="Center"
                     Orientation="Horizontal">
-            <RadioButton Style="{DynamicResource RadioButton_Sink_Type_Style}" Grid.Column="4"
-                         Name="R1"
+
+            <RadioButton Style="{DynamicResource RadioButton_Sink_Type_Style}" x:Name="R1" Grid.Column="4"
+                         IsChecked="{Binding Sink_LR_Checked}"
                          Margin="20"
                          Tag="1"
                          Background="#EBEBEBEB"
@@ -41,16 +44,11 @@
                                FontSize="25"
                                FontFamily="Calibri" />
                 </StackPanel>
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Checked">
-                        <i:InvokeCommandAction Command="{Binding Sink_Type_Comm}"
-                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                               PassEventArgsToCommand="True" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
+
             </RadioButton>
             <RadioButton Style="{DynamicResource RadioButton_Sink_Type_Style}" Grid.Column="4"
                          Name="R2"
+                         IsChecked="{Binding Sink_UpDown_Checked}"
                          Margin="10"
                          GroupName="Sink_Type"
                          Tag="2"
@@ -72,15 +70,10 @@
                                FontSize="25"
                                FontFamily="Cambria" />
                 </StackPanel>
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Checked">
-                        <i:InvokeCommandAction Command="{Binding Sink_Type_Comm}"
-                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                               PassEventArgsToCommand="True" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
+
             </RadioButton>
             <RadioButton Style="{DynamicResource RadioButton_Sink_Type_Style}" x:Name="R3" Grid.Column="4"
+                         IsChecked="{Binding Sink_Twin_Checked}"
                          Margin="10"
                          GroupName="Sink_Type"
                          Tag="3"
@@ -102,13 +95,7 @@
                                FontSize="25"
                                FontFamily="Cambria" />
                 </StackPanel>
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Checked">
-                        <i:InvokeCommandAction Command="{Binding Sink_Type_Comm}"
-                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                               PassEventArgsToCommand="True" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
+
             </RadioButton>
 
         </StackPanel>

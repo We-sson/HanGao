@@ -223,18 +223,28 @@ namespace HanGao.ViewModel
 
                   
                   Sink_Models M= e.DataContext as Sink_Models;
+
+                  UC_Sink_Type_VM _Sink_Type = new UC_Sink_Type_VM() { Sink_Type_Load= M.Photo_Sink_Type };
+                  UC_Sink_Size_VM _Sink_Size = new UC_Sink_Size_VM() { Sink_Size_Value=M };
+                
+                  
                   //初始弹窗容器
+                  UC_Pop_Ups_VM _Pop_Ups = new UC_Pop_Ups_VM() { Sink_Type_Checked = true,  };
+
+
                   User_Control_Show.User_UserControl = new UC_Pop_Ups() { DataContext = new UC_Pop_Ups_VM() { Sink_Type_Checked = true }};
 
 
 
+                  //UC_Sink_Type_VM.Sink_Type_Load = M.Photo_Sink_Type;
 
+                  //UC_Sink_Size_VM.Sink_Size_Value = M;
 
 
 
 
                   //传递参数
-                  Messenger.Default.Send<Sink_Models>(M, "UI_Sink_Set");
+                  //Messenger.Default.Send<Sink_Models>(M, "UI_Sink_Set");
 
 
 

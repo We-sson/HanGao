@@ -1,14 +1,11 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
-using HanGao.Model;
 using HanGao.View.User_Control.Pop_Ups;
 using PropertyChanged;
-using System;
 using System.Windows;
 using System.Windows.Input;
 using static HanGao.Model.Sink_Models;
-using static HanGao.ViewModel.UC_Pop_Ups_VM;
 
 namespace HanGao.ViewModel
 {
@@ -19,29 +16,113 @@ namespace HanGao.ViewModel
         {
 
 
-            Messenger.Default.Register<Sink_Models>(this, "Sink_Type_Value_Load", (_E) =>
+            Messenger.Default.Register<Photo_Sink_Enum>(this, "Sink_Type_Value_Load", (_E) =>
             {
 
-                Sink_Type_Load = _E;
+
+                switch (_E)
+                {
+                    case Photo_Sink_Enum.左右单盆:
+                        Sink_LR_Checked = true;
+                        break;
+                    case Photo_Sink_Enum.上下单盆:
+                        Sink_UpDown_Checked = true;
+                        break;
+                    case Photo_Sink_Enum.普通双盆:
+                        Sink_Twin_Checked = true;
+                        break;
+                    default:
+                        break;
+                }
             });
+
+
 
 
         }
 
+
+        private  Photo_Sink_Enum _Sink_Type_Load;
         /// <summary>
         /// 用户选择的水槽类型
         /// </summary>
-        public Sink_Models Sink_Type_Load { set; get; } 
+        public     Photo_Sink_Enum Sink_Type_Load
+        {
+            set
+            { 
+                _Sink_Type_Load = value;
+                switch (value)
+                {
+                    case Photo_Sink_Enum.左右单盆:
+
+                        break;
+                    case Photo_Sink_Enum.上下单盆:
+                        break;
+                    case Photo_Sink_Enum.普通双盆:
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+
+            get { return _Sink_Type_Load; } 
+        }
 
 
 
+
+
+        private bool _Sink_LR_Checked;
+        public bool Sink_LR_Checked
+        {
+            get { return _Sink_LR_Checked; }
+            set
+            {
+                _Sink_LR_Checked = value;
+                if (value == true)
+                {
+
+                    Sink_Type_Load = Photo_Sink_Enum.左右单盆;
+                }
+            }
+        }
+        private bool _Sink_UpDown_Checked;
+        public bool Sink_UpDown_Checked
+        {
+            get { return _Sink_UpDown_Checked; }
+            set
+            {
+                _Sink_UpDown_Checked = value;
+                if (value == true)
+                {
+                    Sink_Type_Load = Photo_Sink_Enum.上下单盆;
+
+                }
+
+            }
+        }
+        private bool _Sink_Twin_Checked;
+        public bool Sink_Twin_Checked
+        {
+            get { return _Sink_Twin_Checked; }
+            set
+            {
+                _Sink_Twin_Checked = value;
+                if (value == true)
+                {
+                    Sink_Type_Load = Photo_Sink_Enum.普通双盆;
+                }
+            }
+        }
+        //public bool Sink_LeftRight_Checked = {set;get;}
 
 
 
         /// <summary>
         /// 现在原属性水槽类型
         /// </summary>
-        public ICommand Sink_Type_Loaded_Comm
+        public ICommand Sink_Type_Unloaded_Comm
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
@@ -49,21 +130,9 @@ namespace HanGao.ViewModel
                 //把参数类型转换控件
                 UC_Sink_Type e = Sm.Source as UC_Sink_Type;
 
-                switch (Sink_Type_Load.Photo_Sink_Type)
-                {
-                    case Photo_Sink_Enum.左右单盆:
-                        e.R1.IsChecked = true;
-                        break;
-                    case Photo_Sink_Enum.上下单盆:
-                        e.R2.IsChecked = true;
-                        break;
-                    case Photo_Sink_Enum.普通双盆:
-                        e.R3.IsChecked = true;
-                        break;
-                    default:
-                        break;
-                }
 
+                //UC_Sink_Size_VM.Sink_Size_Value.Photo_Sink_Type = Sink_Type_Load;
+                //Messenger.Default.Send<Photo_Sink_Enum>(Sink_Type_Load, "Sink_Type_Value_OK");
 
 
 
@@ -93,13 +162,12 @@ namespace HanGao.ViewModel
                 FrameworkElement e = Sm.Source as FrameworkElement;
 
                 //用户设置水槽属性
-                Sink_Type_Load.Photo_Sink_Type = (Photo_Sink_Enum)int.Parse((String)e.Tag);
-
-                //传递下一步水槽尺寸
-                Messenger.Default.Send<Sink_Models>(Sink_Type_Load, "Sink_Size_Value_Load");
+                //Sink_Type_Load.Photo_Sink_Type = (Photo_Sink_Enum)int.Parse((String)e.Tag);
 
 
-                //Messenger.Default.Send<RadioButton_Name>(RadioButton_Name.水槽尺寸调节, "Pop_Sink_Size_Show");
+
+
+
 
 
 
