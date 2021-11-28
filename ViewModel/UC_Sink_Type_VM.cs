@@ -19,8 +19,36 @@ namespace HanGao.ViewModel
             Messenger.Default.Register<Photo_Sink_Enum>(this, "Sink_Type_Value_Load", (_E) =>
             {
 
+                Sink_Type_Load = _E;
 
-                switch (_E)
+            });
+
+
+
+
+        }
+
+
+        private Photo_Sink_Enum _Sink_Type_Load;
+        /// <summary>
+        /// 用户选择的水槽类型
+        /// </summary>
+        public Photo_Sink_Enum Sink_Type_Load
+        {
+            set
+            {
+                if (Sink_Type_Load != Photo_Sink_Enum.空)
+                {
+
+                if (value != Sink_Type_Load )
+                {
+              
+                Messenger.Default.Send<Photo_Sink_Enum>(value, "Sink_Type_Value_OK");
+
+                }
+                }
+                _Sink_Type_Load = value;
+                switch (value)
                 {
                     case Photo_Sink_Enum.左右单盆:
                         Sink_LR_Checked = true;
@@ -33,40 +61,14 @@ namespace HanGao.ViewModel
                         break;
                     default:
                         break;
-                }
-            });
 
 
 
-
-        }
-
-
-        private  Photo_Sink_Enum _Sink_Type_Load;
-        /// <summary>
-        /// 用户选择的水槽类型
-        /// </summary>
-        public     Photo_Sink_Enum Sink_Type_Load
-        {
-            set
-            { 
-                _Sink_Type_Load = value;
-                switch (value)
-                {
-                    case Photo_Sink_Enum.左右单盆:
-
-                        break;
-                    case Photo_Sink_Enum.上下单盆:
-                        break;
-                    case Photo_Sink_Enum.普通双盆:
-                        break;
-                    default:
-                        break;
                 }
             }
 
 
-            get { return _Sink_Type_Load; } 
+            get { return _Sink_Type_Load; }
         }
 
 
@@ -80,10 +82,10 @@ namespace HanGao.ViewModel
             set
             {
                 _Sink_LR_Checked = value;
-                if (value == true)
+                if (value == true || Sink_LR_Checked != _Sink_LR_Checked)
                 {
-
                     Sink_Type_Load = Photo_Sink_Enum.左右单盆;
+
                 }
             }
         }
@@ -94,7 +96,7 @@ namespace HanGao.ViewModel
             set
             {
                 _Sink_UpDown_Checked = value;
-                if (value == true)
+                if (value == true || Sink_UpDown_Checked != _Sink_UpDown_Checked)
                 {
                     Sink_Type_Load = Photo_Sink_Enum.上下单盆;
 
@@ -109,9 +111,10 @@ namespace HanGao.ViewModel
             set
             {
                 _Sink_Twin_Checked = value;
-                if (value == true)
+                if (value == true || Sink_Twin_Checked != _Sink_Twin_Checked)
                 {
                     Sink_Type_Load = Photo_Sink_Enum.普通双盆;
+
                 }
             }
         }
@@ -132,7 +135,6 @@ namespace HanGao.ViewModel
 
 
                 //UC_Sink_Size_VM.Sink_Size_Value.Photo_Sink_Type = Sink_Type_Load;
-                //Messenger.Default.Send<Photo_Sink_Enum>(Sink_Type_Load, "Sink_Type_Value_OK");
 
 
 

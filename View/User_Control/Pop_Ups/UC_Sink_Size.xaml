@@ -58,7 +58,7 @@
 
         <TextBlock Grid.Column="1"
                    Name="Sink_ico"
-                   Text="&#xE61B;"
+                   Text="{Binding Sink_Size_Value.Photo_ico}"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Effect="{StaticResource 全局背景阴影}"

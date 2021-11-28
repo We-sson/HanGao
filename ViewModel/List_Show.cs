@@ -10,7 +10,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -28,7 +27,7 @@ namespace HanGao.ViewModel
 
 
 
-           
+
 
             //接收修改参数属性
             Messenger.Default.Register<Sink_Models>(this, "Sink_Value_All_OK", (S) =>
@@ -38,13 +37,13 @@ namespace HanGao.ViewModel
                 foreach (var item in SinkModels)
                 {
 
-                    if (item.Model_Number==S.Model_Number)
+                    if (item.Model_Number == S.Model_Number)
                     {
                         item.Photo_Sink_Type = S.Photo_Sink_Type;
                         item.Sink_Process = S.Sink_Process;
                         break;
                     }
-          
+
 
                 }
 
@@ -104,7 +103,7 @@ namespace HanGao.ViewModel
 
         public static ObservableCollection<Sink_Models> _SinkModels = new ObservableCollection<Sink_Models>
             {
-               
+
 
                 new Sink_Models(Photo_Sink_Enum.左右单盆) { Model_Number = 952154,} ,
                 new Sink_Models(Photo_Sink_Enum.上下单盆) { Model_Number = 953212,} ,
@@ -208,7 +207,7 @@ namespace HanGao.ViewModel
         }
 
 
-        
+
 
 
         /// <summary>
@@ -221,30 +220,32 @@ namespace HanGao.ViewModel
 
                   FrameworkElement e = Sm.Source as FrameworkElement;
 
-                  
-                  Sink_Models M= e.DataContext as Sink_Models;
 
-                  UC_Sink_Type_VM _Sink_Type = new UC_Sink_Type_VM() { Sink_Type_Load= M.Photo_Sink_Type };
-                  UC_Sink_Size_VM _Sink_Size = new UC_Sink_Size_VM() { Sink_Size_Value=M };
-                
-                  
+                  Sink_Models M = e.DataContext as Sink_Models;
+
+
+
+       
+
+
                   //初始弹窗容器
-                  UC_Pop_Ups_VM _Pop_Ups = new UC_Pop_Ups_VM() { Sink_Type_Checked = true,  };
+                  UC_Pop_Ups_VM _Pop_Ups = new UC_Pop_Ups_VM()
+                  {
+                      _UC_Sink_Size = new UC_Sink_Size() { },
+                      _UC_Sink_Type = new UC_Sink_Type() { },
+                      Sink_Type_Checked = true
 
 
-                  User_Control_Show.User_UserControl = new UC_Pop_Ups() { DataContext = new UC_Pop_Ups_VM() { Sink_Type_Checked = true }};
-
-
-
-                  //UC_Sink_Type_VM.Sink_Type_Load = M.Photo_Sink_Type;
-
-                  //UC_Sink_Size_VM.Sink_Size_Value = M;
-
+                  };
 
 
 
-                  //传递参数
-                  //Messenger.Default.Send<Sink_Models>(M, "UI_Sink_Set");
+                  User_Control_Show.User_UserControl = new UC_Pop_Ups() { DataContext = _Pop_Ups };
+
+
+                  Messenger.Default.Send<Sink_Models>(M, "Sink_Size_Value_Load");
+
+                  Messenger.Default.Send<Photo_Sink_Enum>(M.Photo_Sink_Type, "Sink_Type_Value_Load");
 
 
 
