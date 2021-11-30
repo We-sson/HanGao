@@ -4,10 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HanGao.View.User_Control.Pop_Ups"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:VM="clr-namespace:HanGao.ViewModel"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" d:DataContext="{d:DesignInstance Type=VM:UC_Sink_Type_VM}"
              d:DesignWidth="1020"
-             DataContext="{Binding UC_Sink_Size_VM, Source={StaticResource Locator}}"
+            
              mc:Ignorable="d">
+
+
+
     <Grid>
 
         <Grid.ColumnDefinitions>

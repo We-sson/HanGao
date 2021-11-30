@@ -75,7 +75,7 @@ namespace HanGao.ViewModel
 
 
 
-        private  UserControl _Pop_UserControl;
+        private  UserControl _Pop_UserControl=new UC_Sink_Type() { };
         //public UserControl Pop_UserControl { set; get; } = new UC_Sink_Size() { };
         public  UserControl Pop_UserControl
         {

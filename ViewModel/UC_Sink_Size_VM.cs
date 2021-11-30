@@ -44,7 +44,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 水槽各参数
         /// </summary>
-        public   Sink_Models Sink_Size_Value
+        public     Sink_Models Sink_Size_Value
         {
             set
             {

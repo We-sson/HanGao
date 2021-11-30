@@ -5,10 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HanGao.View.User_Control.Pop_Ups"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:VM="clr-namespace:HanGao.ViewModel"
              d:DesignHeight="530"
              d:DesignWidth="1020"
-             DataContext="{Binding Source={StaticResource Locator}, Path=UC_Sink_Type_VM}"
+             DataContext="{Binding UC_Sink_Type_VM, Mode=OneWay, Source={StaticResource Locator}}"
              mc:Ignorable="d">
+
+
+
 
 
     <i:Interaction.Triggers>

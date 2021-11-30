@@ -7,11 +7,11 @@
              xmlns:Pop="clr-namespace:HanGao.View.User_Control.Pop_Ups"
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_Pop_Ups_VM}"
              mc:Ignorable="d">
-
+                                       
     <Grid>
         <!--  背景遮挡  -->
         <Border Style="{StaticResource 全局_弹窗_背景侧挡样式}" />
-        <Border Width="1100"
+        <Border Width="1100" 
                 Height="700"
                 CornerRadius="25"
                 Background="#EBEBEB">

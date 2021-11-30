@@ -1,4 +1,6 @@
-﻿using HanGao.Extension_Method;
+﻿
+using HanGao.Extension_Method;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Nancy.Helpers;
 using PropertyChanged;
 using System;
@@ -6,7 +8,7 @@ using System;
 namespace HanGao.Model
 {
     [AddINotifyPropertyChangedInterface]
-    public class Sink_Models
+    public class Sink_Models 
     {
 
         public Sink_Models(Photo_Sink_Enum _Photo_Sink_Type)
@@ -92,6 +94,8 @@ namespace HanGao.Model
             set
             {
                 Photo_ico = value.GetStringValue();
+
+               
                 _Photo_Sink_Type = value;
             }
             get

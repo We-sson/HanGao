@@ -225,7 +225,10 @@ namespace HanGao.ViewModel
 
 
 
-       
+                  //UC_Sink_Type _Sink_Type =new UC_Sink_Type() { DataContext = new UC_Sink_Type_VM() { Sink_Type_Load = M.Photo_Sink_Type } };
+
+                  //UC_Sink_Size _Sink_Size = new UC_Sink_Size() { DataContext = new UC_Sink_Size_VM() { Sink_Size_Value = M } };
+
 
 
                   //初始弹窗容器
@@ -234,10 +237,7 @@ namespace HanGao.ViewModel
                       _UC_Sink_Size = new UC_Sink_Size() { },
                       _UC_Sink_Type = new UC_Sink_Type() { },
                       Sink_Type_Checked = true
-
-
                   };
-
 
 
                   User_Control_Show.User_UserControl = new UC_Pop_Ups() { DataContext = _Pop_Ups };
