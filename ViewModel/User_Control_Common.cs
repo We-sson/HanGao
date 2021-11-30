@@ -1,6 +1,4 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Messaging;
-using GalaSoft.MvvmLight.Command;
+﻿using Microsoft.Toolkit.Mvvm.Messaging;
 using PropertyChanged;
 using Soceket_Connect;
 using Soceket_KUKA.Models;
@@ -16,13 +14,13 @@ using static Soceket_KUKA.Models.KUKA_Value_Type;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
 using static HanGao.ViewModel.User_Control_Log_ViewModel;
 using static HanGao.ViewModel.UserControl_Socket_Var_Show_ViewModel;
-
-
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class User_Control_Common : ViewModelBase
+    public class User_Control_Common : ObservableObject
     {
 
 

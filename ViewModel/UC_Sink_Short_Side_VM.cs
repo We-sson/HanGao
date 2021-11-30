@@ -1,5 +1,6 @@
-﻿using GalaSoft.MvvmLight;
+﻿
 using HanGao.View.User_Control.Pop_Ups;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Windows.Controls;
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public  class UC_Sink_Short_Side_VM : ViewModelBase
+    public  class UC_Sink_Short_Side_VM : ObservableObject
     {
        
 

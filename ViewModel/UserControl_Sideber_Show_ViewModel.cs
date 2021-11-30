@@ -1,6 +1,4 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Messaging;
+﻿using Microsoft.Toolkit.Mvvm.Messaging;
 using Nancy.Helpers;
  
 using PropertyChanged;
@@ -17,12 +15,13 @@ using static Soceket_KUKA.Models.Socket_Models_Receive;
 using static HanGao.Model.Socket_Setup_Models;
 using static HanGao.ViewModel.Home_ViewModel;
 using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
-
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class UserControl_Sideber_Show_ViewModel : ViewModelBase
+    public class UserControl_Sideber_Show_ViewModel : ObservableObject
     {
 
         public UserControl_Sideber_Show_ViewModel()

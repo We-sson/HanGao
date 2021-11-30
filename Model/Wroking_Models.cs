@@ -1,15 +1,15 @@
-﻿using GalaSoft.MvvmLight;
+﻿
 using PropertyChanged;
 using System;
 using System.ComponentModel;
 using HanGao.Socket_KUKA;
 using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
-
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace HanGao.Model
 {
     [AddINotifyPropertyChangedInterface]
-    public class Wroking_Models : ViewModelBase
+    public class Wroking_Models : ObservableObject
     {
         public Wroking_Models()
         {

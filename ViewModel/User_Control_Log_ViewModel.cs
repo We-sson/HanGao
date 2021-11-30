@@ -1,5 +1,4 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+﻿using Microsoft.Toolkit.Mvvm.Messaging;
 using Nancy.Helpers;
  
 using PropertyChanged;
@@ -10,11 +9,13 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using HanGao.Errorinfo;
 using HanGao.Model;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class User_Control_Log_ViewModel : ViewModelBase
+    public class User_Control_Log_ViewModel : ObservableObject
     {
         ///// <summary>
         ///// 初始化输出信息

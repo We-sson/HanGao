@@ -1,19 +1,18 @@
-﻿using GalaSoft.MvvmLight;
+﻿using Microsoft.Toolkit.Mvvm.Messaging;
 
-using GalaSoft.MvvmLight.CommandWpf;
-using GalaSoft.MvvmLight.Messaging;
- 
 using PropertyChanged;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using HanGao.Model;
 using HanGao.View.UserMessage;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class User_Message_ViewModel : ViewModelBase
+    public class User_Message_ViewModel : ObservableObject
     {
 
         /// <summary>

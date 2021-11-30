@@ -1,4 +1,4 @@
-﻿using GalaSoft.MvvmLight;
+﻿using Microsoft.Toolkit.Mvvm.Messaging;
 using HanGao.Model;
 using HanGao.View.User_Control.Pop_Ups;
 using Nancy.Helpers;
@@ -11,11 +11,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public   class UC_Sink_Craft_List_VM : ViewModelBase
+    public   class UC_Sink_Craft_List_VM : ObservableObject
     {
 
         public UC_Sink_Craft_List_VM()

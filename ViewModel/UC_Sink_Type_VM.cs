@@ -1,22 +1,30 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Messaging;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using HanGao.View.User_Control.Pop_Ups;
+using Microsoft.Toolkit.Mvvm.Input;
 using PropertyChanged;
 using System.Windows;
 using System.Windows.Input;
 using static HanGao.Model.Sink_Models;
+using System.Threading.Tasks;
 
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class UC_Sink_Type_VM : ViewModelBase
+    public class UC_Sink_Type_VM : ObservableObject
     {
         public UC_Sink_Type_VM()
         {
 
 
-            Messenger.Default.Register<Photo_Sink_Enum>(this, "Sink_Type_Value_Load", (_E) =>
+            WeakReferenceMessenger.Default.Register<Photo_Sink_Enum>(this, (_obj, _E) =>
+            {
+
+              
+            });
+
+
+            WeakReferenceMessenger .Default.Register<Photo_Sink_Enum>(this, "Sink_Type_Value_Load", (_E) =>
             {
 
                 Sink_Type_Load = _E;
@@ -28,6 +36,7 @@ namespace HanGao.ViewModel
 
         }
 
+      
 
         private Photo_Sink_Enum _Sink_Type_Load;
         /// <summary>
@@ -82,6 +91,8 @@ namespace HanGao.ViewModel
             set
             {
                 _Sink_LR_Checked = value;
+
+                SetProperty<bool>(ref _Sink_LR_Checked, value); 
                 if (value == true || Sink_LR_Checked != _Sink_LR_Checked)
                 {
                     Sink_Type_Load = Photo_Sink_Enum.左右单盆;
@@ -127,13 +138,17 @@ namespace HanGao.ViewModel
         /// </summary>
         public ICommand Sink_Type_Unloaded_Comm
         {
-            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            get => new AsyncRelayCommand<RoutedEventArgs>((Sm) =>
             {
 
                 //把参数类型转换控件
                 UC_Sink_Type e = Sm.Source as UC_Sink_Type;
 
-
+                return Task.Run(() => 
+                {
+                
+                
+                });
                 //UC_Sink_Size_VM.Sink_Size_Value.Photo_Sink_Type = Sink_Type_Load;
 
 

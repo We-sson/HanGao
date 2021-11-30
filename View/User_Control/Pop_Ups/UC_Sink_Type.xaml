@@ -8,9 +8,11 @@
              xmlns:VM="clr-namespace:HanGao.ViewModel"
              d:DesignHeight="530"
              d:DesignWidth="1020"
-             DataContext="{Binding UC_Sink_Type_VM, Mode=OneWay, Source={StaticResource Locator}}"
+             
              mc:Ignorable="d">
-
+    <UserControl.DataContext>
+        <VM:UC_Sink_Type_VM/>
+    </UserControl.DataContext>
 
 
 

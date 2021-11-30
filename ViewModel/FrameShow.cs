@@ -1,15 +1,16 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+﻿
 using PropertyChanged;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using HanGao.View.FrameShow;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class FrameShow : ViewModelBase
+    public class FrameShow : ObservableObject
     {
         /// <summary>
         /// 页面初始化内容

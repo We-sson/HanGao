@@ -1,10 +1,11 @@
-using GalaSoft.MvvmLight;
+
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using PropertyChanged;
 
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : ObservableObject
     {
 
 
@@ -16,15 +17,7 @@ namespace HanGao.ViewModel
 
         public MainViewModel()
         {
-            if (IsInDesignMode)
-            {
-                // Code runs in Blend --> create design time data.
 
-            }
-            else
-            {
-                // Code runs "for real"
-            }
 
         }
 

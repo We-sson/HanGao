@@ -1,5 +1,4 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Messaging;
+﻿using Microsoft.Toolkit.Mvvm.Messaging;
 using PropertyChanged;
 using System.Windows;
 using System.Windows.Controls;
@@ -7,11 +6,12 @@ using HanGao.Model;
 using HanGao.View.UserMessage;
 using System;
 using System.ComponentModel;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class User_Control_Show : ViewModelBase
+    public class User_Control_Show : ObservableObject
     {
 
 

@@ -1,5 +1,4 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Messaging;
+﻿using Microsoft.Toolkit.Mvvm.Messaging;
 
 using PropertyChanged;
 using Soceket_Connect;
@@ -17,11 +16,12 @@ using HanGao.View.User_Control;
 using static Soceket_KUKA.Models.Socket_Eunm;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
 using static HanGao.Model.Socket_Setup_Models;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class UserControl_Socket_Setup_ViewModel : ViewModelBase, INotifyPropertyChanged
+    public class UserControl_Socket_Setup_ViewModel : ObservableObject, INotifyPropertyChanged
     {
 
 

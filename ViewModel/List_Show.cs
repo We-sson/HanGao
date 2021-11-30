@@ -1,10 +1,9 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Messaging;
+﻿using Microsoft.Toolkit.Mvvm.Messaging;
 using HanGao.Model;
 using HanGao.View.User_Control;
 using HanGao.View.User_Control.Pop_Ups;
 using HanGao.View.UserMessage;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using PropertyChanged;
 using System;
 using System.Collections.ObjectModel;
@@ -15,11 +14,12 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using static HanGao.Model.Sink_Models;
 using static HanGao.ViewModel.User_Control_Common;
+using Microsoft.Toolkit.Mvvm.Input;
 
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class List_Show : ViewModelBase
+    public class List_Show : ObservableObject
     {
         public List_Show()
         {

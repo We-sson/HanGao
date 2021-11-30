@@ -1,16 +1,17 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Messaging;
+﻿using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Mvvm;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using PropertyChanged;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
-
+using Microsoft.Toolkit.Mvvm.Messaging;
 
 
 namespace HanGao.Errorinfo
 {
     [SuppressPropertyChangedWarnings]
     [AddINotifyPropertyChangedInterface]
-    public class IP_Text_Error : ViewModelBase, IDataErrorInfo
+    public class IP_Text_Error : ObservableObject, IDataErrorInfo
     {
         //用户输入验证
         public string this[string columnName]

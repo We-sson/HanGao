@@ -1,8 +1,7 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Messaging;
+﻿using Microsoft.Toolkit.Mvvm.Messaging;
 using HanGao.Model;
 using HanGao.View.User_Control.Pop_Ups;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Nancy.Helpers;
 using PropertyChanged;
 using System;
@@ -10,11 +9,12 @@ using System.ComponentModel;
 using System.Threading;
 using System.Windows.Input;
 using static HanGao.Model.Sink_Models;
+using Microsoft.Toolkit.Mvvm.Input;
 
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class UC_Sink_Size_VM : ViewModelBase
+    public class UC_Sink_Size_VM : ObservableObject
     {
 
         public UC_Sink_Size_VM()

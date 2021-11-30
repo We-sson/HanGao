@@ -1,5 +1,4 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Messaging;
+﻿
 using PropertyChanged;
 using Soceket_Connect;
 using Soceket_KUKA.Models;

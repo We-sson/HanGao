@@ -1,4 +1,4 @@
-﻿using GalaSoft.MvvmLight;
+﻿
 using PropertyChanged;
 using System;
 using System.Globalization;
@@ -8,13 +8,12 @@ using static Soceket_KUKA.Models.KUKA_Value_Type;
 using static Soceket_KUKA.Models.Socket_Eunm;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
 using static HanGao.ViewModel.UserControl_Socket_Var_Show_ViewModel;
-
-
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace Soceket_KUKA.Models
 {
     [AddINotifyPropertyChangedInterface]
-    public class Socket_Models_Connect : ViewModelBase
+    public class Socket_Models_Connect : ObservableObject
     {
 
         //private object _IP = null;
@@ -87,7 +86,7 @@ namespace Soceket_KUKA.Models
 
 
     [AddINotifyPropertyChangedInterface]
-    public class Socket_Models_Send : ViewModelBase
+    public class Socket_Models_Send : ObservableObject
     {
 
 
@@ -109,7 +108,7 @@ namespace Soceket_KUKA.Models
     }
 
     [AddINotifyPropertyChangedInterface]
-    public class Socket_Models_Receive : ViewModelBase
+    public class Socket_Models_Receive : ObservableObject
     {
 
 
@@ -165,7 +164,7 @@ namespace Soceket_KUKA.Models
     }
 
     [AddINotifyPropertyChangedInterface]
-    public class Socket_Models_List : ViewModelBase
+    public class Socket_Models_List : ObservableObject
     {
 
             /// <summary>
@@ -307,7 +306,7 @@ namespace Soceket_KUKA.Models
     }
 
     [AddINotifyPropertyChangedInterface]
-    public class Socket_Models_Server : ViewModelBase
+    public class Socket_Models_Server : ObservableObject
     {
 
 
@@ -370,7 +369,7 @@ namespace Soceket_KUKA.Models
     /// 接收字节分解属性
     /// </summary>
     [AddINotifyPropertyChangedInterface]
-    public class Socket_Modesl_Byte : ViewModelBase
+    public class Socket_Modesl_Byte : ObservableObject
     {
         public int _ID { set; get; } = -1;
         public int _Val_Total_Length { set; get; } = -1;

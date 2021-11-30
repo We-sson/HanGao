@@ -1,5 +1,5 @@
-﻿using GalaSoft.MvvmLight.Messaging;
- 
+﻿using Microsoft.Toolkit.Mvvm.Messaging;
+
 using PropertyChanged;
 using Soceket_KUKA.Models;
 using System;
