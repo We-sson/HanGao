@@ -30,7 +30,7 @@ namespace HanGao.ViewModel
 
 
             //接收修改参数属性
-            Messenger.Default.Register<Sink_Models>(this, "Sink_Value_All_OK", (S) =>
+            WeakReferenceMessenger.Default.Register<Sink_Models>(this, "Sink_Value_All_OK", (S) =>
             {
 
 
@@ -52,7 +52,7 @@ namespace HanGao.ViewModel
 
 
             //根据用户选择做出相应的动作
-            Messenger.Default.Register<List_Show_Models>(this, "List_IsCheck_Show", (_List) =>
+            WeakReferenceMessenger.Default.Register<List_Show_Models>(this, "List_IsCheck_Show", (_List) =>
             {
 
                 foreach (var item in SinkModels)
@@ -64,7 +64,7 @@ namespace HanGao.ViewModel
 
                             //传输确定更换型号的参数到控件显示
                             var aa = UserControl_Function_Set + _List.List_Chick_NO;
-                            Messenger.Default.Send<Sink_Models>(_List.Model, aa);
+                            WeakReferenceMessenger.Default.Send<Sink_Models>(_List.Model, aa);
 
                             //清楚非选择控件
                             foreach (var SinkModel in SinkModels)
@@ -87,7 +87,7 @@ namespace HanGao.ViewModel
                         }
 
                         //关闭弹窗
-                        Messenger.Default.Send<UserControl>(null, "User_Contorl_Message_Show");
+                        WeakReferenceMessenger.Default.Send<UserControl>(null, "User_Contorl_Message_Show");
 
                     }
 
@@ -243,9 +243,9 @@ namespace HanGao.ViewModel
                   User_Control_Show.User_UserControl = new UC_Pop_Ups() { DataContext = _Pop_Ups };
 
 
-                  Messenger.Default.Send<Sink_Models>(M, "Sink_Size_Value_Load");
+                  WeakReferenceMessenger.Default.Send<Sink_Models>(M, "Sink_Size_Value_Load");
 
-                  Messenger.Default.Send<Photo_Sink_Enum>(M.Photo_Sink_Type, "Sink_Type_Value_Load");
+                  WeakReferenceMessenger.Default.Send<Photo_Sink_Enum>(M.Photo_Sink_Type, "Sink_Type_Value_Load");
 
 
 
@@ -297,7 +297,7 @@ namespace HanGao.ViewModel
 
 
                         //消息通知初始化一个消息内容显示
-                        Messenger.Default.Send<UserControl>(new User_Message()
+                        WeakReferenceMessenger.Default.Send<UserControl>(new User_Message()
                         {
                             DataContext = new User_Message_ViewModel()
                             {
@@ -322,7 +322,7 @@ namespace HanGao.ViewModel
 
                     //发送用户选择加工型号到加工区显示
                     var aa = UserControl_Function_Set + e.Uid;
-                    Messenger.Default.Send<Sink_Models>(S, UserControl_Function_Set + e.Uid);
+                    WeakReferenceMessenger.Default.Send<Sink_Models>(S, UserControl_Function_Set + e.Uid);
 
                 }
                 else
@@ -332,7 +332,7 @@ namespace HanGao.ViewModel
 
                     //清空加工区功能状态显示
                     var a = UserControl_Function_Reset + e.Uid;
-                    Messenger.Default.Send<bool>(false, UserControl_Function_Reset + e.Uid);
+                    WeakReferenceMessenger.Default.Send<bool>(false, UserControl_Function_Reset + e.Uid);
 
 
 

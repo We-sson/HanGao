@@ -254,7 +254,7 @@ namespace Soceket_Connect
             //读取连接设置
             if (R_W_Enum == Read_Write_Enum.Read && !Is_Read_Client)
             {
-            Messenger.Default.Send<int>(0, "Connect_Client_Socketing_Button_Show");
+            WeakReferenceMessenger.Default.Send<int>(0, "Connect_Client_Socketing_Button_Show");
                 //重置连接阻塞标识
                 Socket_Read.Reset();
 
@@ -275,7 +275,7 @@ namespace Soceket_Connect
                     Socket_Receive_Error(R_W_Enum, "Error: -53 原因:读取连接超时！检查网络与IP设置是否正确。");
                     return;
                 }
-            Messenger.Default.Send<bool>(false, "Connect_Client_Button_IsEnabled");
+            WeakReferenceMessenger.Default.Send<bool>(false, "Connect_Client_Button_IsEnabled");
             }
 
             if (R_W_Enum == Read_Write_Enum.Write && !Is_Write_Client)
@@ -465,11 +465,11 @@ namespace Soceket_Connect
                 //Thread.Sleep(1000);
 
                 //开启多线程监听集合内循环发送
-                Messenger.Default.Send<bool>(true, "Socket_Read_Thread");
+                WeakReferenceMessenger.Default.Send<bool>(true, "Socket_Read_Thread");
 
 
                 //前端显示连接成功
-                Messenger.Default.Send<int>(1, "Connect_Client_Socketing_Button_Show");
+                WeakReferenceMessenger.Default.Send<int>(1, "Connect_Client_Socketing_Button_Show");
 
 
 
@@ -489,13 +489,13 @@ namespace Soceket_Connect
             //if (Global_Socket_Read.Connected )
             //{
 
-            //    Messenger.Default.Send<int>(1, "Connect_Client_Socketing_Button_Show");
+            //    WeakReferenceMessenger.Default.Send<int>(1, "Connect_Client_Socketing_Button_Show");
 
             //}
             //else
             //{
             //    //连接失败后允许用户再次点击连接按钮
-            //    Messenger.Default.Send<int>(-1, "Connect_Client_Socketing_Button_Show");
+            //    WeakReferenceMessenger.Default.Send<int>(-1, "Connect_Client_Socketing_Button_Show");
             //    Messenger.Default.Send<bool>(true, "Connect_Client_Button_IsEnabled");
 
 

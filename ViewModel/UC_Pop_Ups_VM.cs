@@ -24,12 +24,12 @@ namespace HanGao.ViewModel
 
 
             //接收用户触发的水槽项参数
-            Messenger.Default.Register<Sink_Models>(this, "UI_Sink_Set", (S) =>
+            WeakReferenceMessenger.Default.Register<Sink_Models>(this, "UI_Sink_Set", (S) =>
              {
                  //UC_Sink_Type_VM.Sink_Type_Load = S.Photo_Sink_Type;
 
 
-                 //Messenger.Default.Send<Photo_Sink_Enum>(S.Photo_Sink_Type, "Sink_Type_Value_Load");
+                 //WeakReferenceMessenger.Default.Send<Photo_Sink_Enum>(S.Photo_Sink_Type, "Sink_Type_Value_Load");
 
 
              });
@@ -38,7 +38,7 @@ namespace HanGao.ViewModel
 
 
             //接收用户输入号的水槽尺寸属性
-            Messenger.Default.Register<Sink_Models>(this, "Sink_Size_Value_OK", (_S) =>
+            WeakReferenceMessenger.Default.Register<Sink_Models>(this, "Sink_Size_Value_OK", (_S) =>
              {
 
 
@@ -47,7 +47,7 @@ namespace HanGao.ViewModel
 
 
                  //发送用户最终编辑好的水槽参数
-                 Messenger.Default.Send<Sink_Models>(SM, "Sink_Value_All_OK");
+                 WeakReferenceMessenger.Default.Send<Sink_Models>(SM, "Sink_Value_All_OK");
 
                  //关闭弹窗
                  User_Control_Show.User_UserControl = null;
@@ -56,7 +56,7 @@ namespace HanGao.ViewModel
 
 
             //切换水槽弹窗流程画面
-            Messenger.Default.Register<RadioButton_Name>(this, "Pop_Sink_Size_Show", (_E) =>
+            WeakReferenceMessenger.Default.Register<RadioButton_Name>(this, "Pop_Sink_Size_Show", (_E) =>
             {
                 Pop_Show(_E);
 
@@ -214,7 +214,7 @@ namespace HanGao.ViewModel
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
 
-                Messenger.Default.Send<UserControl>(null, "User_Contorl_Message_Show");
+                WeakReferenceMessenger.Default.Send<UserControl>(null, "User_Contorl_Message_Show");
 
 
 

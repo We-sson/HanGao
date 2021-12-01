@@ -27,7 +27,7 @@ namespace HanGao.ViewModel
         public UserControl_Sideber_Show_ViewModel()
         {
             //注册消息接收
-            //Messenger.Default.Register<bool?>(this, "Sidebar_Subtitle_Signal_Method_bool", Sidebar_Subtitle_Signal_Method_bool);
+            //WeakReferenceMessenger.Default.Register<bool?>(this, "Sidebar_Subtitle_Signal_Method_bool", Sidebar_Subtitle_Signal_Method_bool);
 
 
 
@@ -47,7 +47,7 @@ namespace HanGao.ViewModel
 
 
 
-            Messenger.Default.Register<Sideber_Models>(this, "Sideber_Show", (Sm) => { Sideber_Var = Sm; });
+            WeakReferenceMessenger.Default.Register<Sideber_Models>(this, "Sideber_Show", (Sm) => { Sideber_Var = Sm; });
 
         }
 
@@ -92,7 +92,7 @@ namespace HanGao.ViewModel
                 UIElement e = Sm.Source as UIElement;
 
 
-                Messenger.Default.Send<Socket_Setup_Models>(new Socket_Setup_Models()
+                WeakReferenceMessenger.Default.Send<Socket_Setup_Models>(new Socket_Setup_Models()
                 {
                     Read = new Socket_Connect(IP_Client, Port_Client, Connect_Type.Long, Read_Write_Enum.Read),
                     Write = new Socket_Connect(IP_Client, Port_Client, Connect_Type.Short, Read_Write_Enum.Write),
@@ -103,7 +103,7 @@ namespace HanGao.ViewModel
                 }, "Client_Initialization");
 
 
-                Messenger.Default.Send<Socket_Setup_Models>(new Socket_Setup_Models()
+                WeakReferenceMessenger.Default.Send<Socket_Setup_Models>(new Socket_Setup_Models()
                 {
                     Connect_Socket_Type = Socket_Type.Server,
                     Sever = new Socket_Sever(IP_Sever, Port_Sever),

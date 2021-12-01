@@ -5,7 +5,8 @@ using PropertyChanged;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
 using Microsoft.Toolkit.Mvvm.Messaging;
-
+using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
+using System;
 
 namespace HanGao.Errorinfo
 {
@@ -74,11 +75,11 @@ namespace HanGao.Errorinfo
                 if (User_IP_Bool && User_Port_Bool)
                 {
 
-                    Messenger.Default.Send<bool>(true, "Connect_Client_Button_IsEnabled");
+                    WeakReferenceMessenger.Default.Send(true, Meg_Value_Eunm.Connect_Client_Button_IsEnabled.ToString());
                 }
                 else
                 {
-                    Messenger.Default.Send<bool>(false, "Connect_Client_Button_IsEnabled");
+                    WeakReferenceMessenger.Default.Send<bool,string>(false, "Connect_Client_Button_IsEnabled");
 
                 }
 

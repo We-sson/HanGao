@@ -38,12 +38,12 @@ namespace HanGao.ViewModel
 
 
 
-            Messenger.Default.Register<Socket_Setup_Models>(this, "Client_Initialization", (_S) =>
+            WeakReferenceMessenger.Default.Register<Socket_Setup_Models>(this, "Client_Initialization", (_S) =>
             {
                 Socket_Client_Setup = _S;
             });
 
-            Messenger.Default.Register<Socket_Setup_Models>(this, "Sever_Initialization", (_S) =>
+            WeakReferenceMessenger.Default.Register<Socket_Setup_Models>(this, "Sever_Initialization", (_S) =>
             {
                 Socket_Server_Setup = _S;
             });
@@ -54,7 +54,7 @@ namespace HanGao.ViewModel
 
 
             //连接按钮屏蔽方法
-            Messenger.Default.Register<bool>(this, "Connect_Client_Button_IsEnabled", (_Bool) =>
+            WeakReferenceMessenger.Default.Register<bool>(this, "Connect_Client_Button_IsEnabled", (_Bool) =>
             {
                 Socket_Client_Setup.Connect_Button_IsEnabled = _Bool;
             });
@@ -62,7 +62,7 @@ namespace HanGao.ViewModel
 
 
             //连接控制柜，网络连接状态显示方法
-            Messenger.Default.Register<int>(this, "Connect_Client_Socketing_Button_Show", (_int) =>
+            WeakReferenceMessenger.Default.Register<int>(this, "Connect_Client_Socketing_Button_Show", (_int) =>
             {
                 Socket_Client_Setup.Client_Button_Show(_int);
             });
@@ -71,16 +71,16 @@ namespace HanGao.ViewModel
 
 
             //通讯延时绑定
-            Messenger.Default.Register<string>(this, "Connter_Time_Delay_Method", (_String) => { Connter_Time_Delay = _String; });
+            WeakReferenceMessenger.Default.Register<string>(this, "Connter_Time_Delay_Method", (_String) => { Connter_Time_Delay = _String; });
 
 
 
             //客户端连接数量
-            Messenger.Default.Register<int>(this, "ClientCount", (_int => { ClientCount = _int; }));
+            WeakReferenceMessenger.Default.Register<int>(this, "ClientCount", (_int => { ClientCount = _int; }));
 
 
             //显示
-            Messenger.Default.Register<Visibility>(this, "Socket_Countion_Show", (_Vis => { Socket_Countion_Show = _Vis; }));
+            WeakReferenceMessenger.Default.Register<Visibility>(this, "Socket_Countion_Show", (_Vis => { Socket_Countion_Show = _Vis; }));
 
 
 

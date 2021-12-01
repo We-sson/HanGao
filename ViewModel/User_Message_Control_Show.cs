@@ -25,7 +25,7 @@ namespace HanGao.ViewModel
 
 
             // 接收到消息创建对应字符的消息框
-            Messenger.Default.Register<UserControl>(this, "User_Contorl_Message_Show", (_List)=> 
+            WeakReferenceMessenger.Default.Register<UserControl>(this, "User_Contorl_Message_Show", (_List)=> 
             {
 
                 User_UserControl = _List;

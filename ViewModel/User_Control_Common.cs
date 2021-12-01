@@ -149,7 +149,7 @@ namespace HanGao.ViewModel
             foreach (Enum item in Enum.GetValues(typeof(Value_Name_enum)))
             {
 
-                Messenger.Default.Send<ObservableCollection<Socket_Models_List>>(new ObservableCollection<Socket_Models_List>() { new Socket_Models_List() { Val_Name = item.GetStringValue(), Val_ID = Read_Number_ID, Send_Area = item.GetAreaValue(), Value_Enum = item, Bingding_Value = item.GetBingdingValue().BingdingValue, KUKA_Value_Enum = item.GetBingdingValue().SetValueType } }, "List_Connect");
+                WeakReferenceMessenger.Default.Send<ObservableCollection<Socket_Models_List>>(new ObservableCollection<Socket_Models_List>() { new Socket_Models_List() { Val_Name = item.GetStringValue(), Val_ID = Read_Number_ID, Send_Area = item.GetAreaValue(), Value_Enum = item, Bingding_Value = item.GetBingdingValue().BingdingValue, KUKA_Value_Enum = item.GetBingdingValue().SetValueType } }, "List_Connect");
             }
         }
 

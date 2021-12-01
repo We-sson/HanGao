@@ -7,29 +7,43 @@ using System.Windows;
 using System.Windows.Input;
 using static HanGao.Model.Sink_Models;
 using System.Threading.Tasks;
+using System.Runtime.Remoting.Messaging;
+using System;
+using HanGao.Model;
+using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
+using Microsoft.Toolkit.Mvvm.Messaging.Messages;
 
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
     public class UC_Sink_Type_VM : ObservableObject
     {
+
+    
+
         public UC_Sink_Type_VM()
         {
 
 
-            WeakReferenceMessenger.Default.Register<Photo_Sink_Enum>(this, (_obj, _E) =>
+            Messenger.Default.Register<Object,string >(this, (_obj, _E) =>
             {
 
-              
+               
             });
 
-
-            WeakReferenceMessenger .Default.Register<Photo_Sink_Enum>(this, "Sink_Type_Value_Load", (_E) =>
+            Messenger.Send(new UC_Sink_Type_VM(), nameof(Meg_Value_Eunm.Sink_Type_Value_Save));
+            Messenger.Default.Register<UC_Sink_Type_VM, string >(this, Meg_Value_Eunm.Sink_Type_Value_Save.ToString(), (_obj,_E) =>
             {
 
-                Sink_Type_Load = _E;
+
+
+                //<Photo_Sink_Enum>
+                //Sink_Type_Load = _E.Photo_Sink_Type;
 
             });
+
+            Messenger.Send(this, Meg_Value_Eunm.Sink_Type_Value_Save.ToString());
+        
 
 
 
@@ -52,7 +66,7 @@ namespace HanGao.ViewModel
                 if (value != Sink_Type_Load )
                 {
               
-                Messenger.Default.Send<Photo_Sink_Enum>(value, "Sink_Type_Value_OK");
+                //Messenger.Default.Send<Photo_Sink_Enum>(value, "Sink_Type_Value_OK");
 
                 }
                 }
@@ -191,23 +205,9 @@ namespace HanGao.ViewModel
             });
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        public void Receive(Sink_Models message)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

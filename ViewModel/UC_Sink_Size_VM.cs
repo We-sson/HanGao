@@ -23,14 +23,14 @@ namespace HanGao.ViewModel
 
 
             //接收数据发送到尺寸窗口数据
-            Messenger.Default.Register<Sink_Models>(this, "Sink_Size_Value_Load", (_Size) =>
+            WeakReferenceMessenger.Default.Register<Sink_Models>(this, "Sink_Size_Value_Load", (_Size) =>
             {
 
                 Sink_Size_Value = _Size;
             });
 
 
-            Messenger.Default.Register<Photo_Sink_Enum>(this, "Sink_Type_Value_OK", (_T) =>
+            WeakReferenceMessenger.Default.Register<Photo_Sink_Enum>(this, "Sink_Type_Value_OK", (_T) =>
             {
                 var a = Thread.CurrentThread.ManagedThreadId.ToString();
                 Sink_Size_Value.Photo_Sink_Type = _T;
@@ -99,7 +99,7 @@ namespace HanGao.ViewModel
                 //Sink_Size_Value.Photo_Sink_Type = UC_Sink_Type_VM.Sink_Type_Load;
 
 
-                Messenger.Default.Send<Sink_Models>(Sink_Size_Value, "Sink_Size_Value_OK");
+                WeakReferenceMessenger.Default.Send<Sink_Models>(Sink_Size_Value, "Sink_Size_Value_OK");
 
 
 

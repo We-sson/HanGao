@@ -77,7 +77,7 @@ namespace HanGao.ViewModel
 
 
             //功能属性设置
-            Messenger.Default.Register<Sink_Models>(this, UserControl_Function_Set_1, (S) =>
+            WeakReferenceMessenger.Default.Register<Sink_Models>(this, UserControl_Function_Set_1, (S) =>
             {
 
 
@@ -96,7 +96,7 @@ namespace HanGao.ViewModel
 
 
             //功能属性初始化
-            Messenger.Default.Register<bool>(this, UserControl_Function_Reset_1, (_Bool) =>
+            WeakReferenceMessenger.Default.Register<bool>(this, UserControl_Function_Reset_1, (_Bool) =>
                {
                    WM.Work_Run = false;
                    WM.Work_Type = "";
@@ -115,7 +115,7 @@ namespace HanGao.ViewModel
 
 
             //接收读取集合内的值方法
-            Messenger.Default.Register<Socket_Models_List>(this, Work_String_Name, (Name_Val) =>
+            WeakReferenceMessenger.Default.Register<Socket_Models_List>(this, Work_String_Name, (Name_Val) =>
             {
                 //互斥线程锁，保证每次只有一个线程接收消息
                 Receive_Lock.WaitOne();

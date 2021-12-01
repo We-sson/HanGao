@@ -35,7 +35,7 @@ namespace HanGao.ViewModel
             
 
             // 显示弹窗信息型号
-            //Messenger.Default.Register<string>(this, "User_Message_Work_Type", (Type) => { User_Message_View.User_Wrok_Trye = Type; });
+            //WeakReferenceMessenger.Default.Register<string>(this, "User_Message_Work_Type", (Type) => { User_Message_View.User_Wrok_Trye = Type; });
 
 
 
@@ -106,7 +106,7 @@ namespace HanGao.ViewModel
             //记录用户选择的是或否
             List_Show_Models.User_Check = e.Uid.ToString();
 
-            Messenger.Default.Send<List_Show_Models>(List_Show_Models, "List_IsCheck_Show");
+            WeakReferenceMessenger.Default.Send<List_Show_Models>(List_Show_Models, "List_IsCheck_Show");
 
 
 

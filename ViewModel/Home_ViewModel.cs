@@ -28,8 +28,8 @@ namespace HanGao.ViewModel
 
 
             //注册消息接收
-            //Messenger.Default.Register<double>("Open_Effect", Home_Var.Open_Effect);
-            Messenger.Default.Register<Visibility>("Home_Visibility_Show", Home_Var.Home_Visibility_Show);
+            //WeakReferenceMessenger.Default.Register<double>("Open_Effect", Home_Var.Open_Effect);
+            WeakReferenceMessenger.Default.Register<Visibility>("Home_Visibility_Show", Home_Var.Home_Visibility_Show);
 
             //Home_Var.Sidebar_Control = new UserControl_Right_Function_Connect() {  };
 
@@ -98,7 +98,7 @@ namespace HanGao.ViewModel
 
                         }
 
-                        Messenger.Default.Send<Sideber_Models>(_Sidber, "Sideber_Show");
+                        WeakReferenceMessenger.Default.Send<Sideber_Models>(_Sidber, "Sideber_Show");
 
 
 
