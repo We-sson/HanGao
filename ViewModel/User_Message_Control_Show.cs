@@ -7,11 +7,12 @@ using HanGao.View.UserMessage;
 using System;
 using System.ComponentModel;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class User_Control_Show : ObservableObject
+    public class User_Control_Show : ObservableRecipient
     {
 
 
@@ -25,7 +26,7 @@ namespace HanGao.ViewModel
 
 
             // 接收到消息创建对应字符的消息框
-            WeakReferenceMessenger.Default.Register<UserControl>(this, "User_Contorl_Message_Show", (_List)=> 
+            Messenger.Register<UserControl,string >(this, nameof(Meg_Value_Eunm.User_Contorl_Message_Show), (O,_List)=> 
             {
 
                 User_UserControl = _List;

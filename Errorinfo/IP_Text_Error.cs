@@ -12,7 +12,7 @@ namespace HanGao.Errorinfo
 {
     [SuppressPropertyChangedWarnings]
     [AddINotifyPropertyChangedInterface]
-    public class IP_Text_Error : ObservableObject, IDataErrorInfo
+    public class IP_Text_Error : ObservableRecipient, IDataErrorInfo 
     {
         //用户输入验证
         public string this[string columnName]
@@ -75,11 +75,11 @@ namespace HanGao.Errorinfo
                 if (User_IP_Bool && User_Port_Bool)
                 {
 
-                    WeakReferenceMessenger.Default.Send(true, Meg_Value_Eunm.Connect_Client_Button_IsEnabled.ToString());
+                    Messenger.Send<dynamic ,string >(true, nameof( Meg_Value_Eunm.Connect_Client_Button_IsEnabled));
                 }
                 else
                 {
-                    WeakReferenceMessenger.Default.Send<bool,string>(false, "Connect_Client_Button_IsEnabled");
+                    Messenger.Send<dynamic ,string>(false, nameof(Meg_Value_Eunm.Connect_Client_Button_IsEnabled));
 
                 }
 

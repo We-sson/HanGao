@@ -178,7 +178,7 @@ namespace HanGao.Model
 
 
     [AddINotifyPropertyChangedInterface]
-    public class Sink_Size_Models
+    public class Sink_Size_Models 
     {
        public Sink_Size_Models()
         {

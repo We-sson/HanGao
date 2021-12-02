@@ -15,11 +15,13 @@ using System.Windows.Input;
 using static HanGao.Model.Sink_Models;
 using static HanGao.ViewModel.User_Control_Common;
 using Microsoft.Toolkit.Mvvm.Input;
+using HanGao.ViewModel.Messenger_Eunm;
+using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class List_Show : ObservableObject
+    public class List_Show : ObservableRecipient, IRecipient<Sink_Models>
     {
         public List_Show()
         {
@@ -30,9 +32,9 @@ namespace HanGao.ViewModel
 
 
             //接收修改参数属性
-            WeakReferenceMessenger.Default.Register<Sink_Models>(this, "Sink_Value_All_OK", (S) =>
+            Messenger.Register<Sink_Models, string >(this, nameof(Meg_Value_Eunm.Sink_Value_All_OK), (O,S) =>
             {
-
+                
 
                 foreach (var item in SinkModels)
                 {
@@ -40,10 +42,9 @@ namespace HanGao.ViewModel
                     if (item.Model_Number == S.Model_Number)
                     {
                         item.Photo_Sink_Type = S.Photo_Sink_Type;
-                        item.Sink_Process = S.Sink_Process;
+                        item.Sink_Process =S.Sink_Process;
                         break;
                     }
-
 
                 }
 
@@ -52,7 +53,7 @@ namespace HanGao.ViewModel
 
 
             //根据用户选择做出相应的动作
-            WeakReferenceMessenger.Default.Register<List_Show_Models>(this, "List_IsCheck_Show", (_List) =>
+            Messenger.Register<List_Show_Models,string >(this, nameof(Meg_Value_Eunm.List_IsCheck_Show), (O,_List) =>
             {
 
                 foreach (var item in SinkModels)
@@ -64,7 +65,7 @@ namespace HanGao.ViewModel
 
                             //传输确定更换型号的参数到控件显示
                             var aa = UserControl_Function_Set + _List.List_Chick_NO;
-                            WeakReferenceMessenger.Default.Send<Sink_Models>(_List.Model, aa);
+                            Messenger.Send<Sink_Models,string>(_List.Model, aa);
 
                             //清楚非选择控件
                             foreach (var SinkModel in SinkModels)
@@ -87,7 +88,7 @@ namespace HanGao.ViewModel
                         }
 
                         //关闭弹窗
-                        WeakReferenceMessenger.Default.Send<UserControl>(null, "User_Contorl_Message_Show");
+                        Messenger.Send<UserControl,string >(null, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
 
                     }
 
@@ -206,6 +207,13 @@ namespace HanGao.ViewModel
             //Sink_Models S = (Sink_Models)e.DataContext;
         }
 
+        public void Receive(Sink_Models message)
+        {
+            
+
+
+        }
+
 
 
 
@@ -243,9 +251,9 @@ namespace HanGao.ViewModel
                   User_Control_Show.User_UserControl = new UC_Pop_Ups() { DataContext = _Pop_Ups };
 
 
-                  WeakReferenceMessenger.Default.Send<Sink_Models>(M, "Sink_Size_Value_Load");
+                  Messenger.Send(M, nameof(Meg_Value_Eunm.Sink_Size_Value_Load));
 
-                  WeakReferenceMessenger.Default.Send<Photo_Sink_Enum>(M.Photo_Sink_Type, "Sink_Type_Value_Load");
+                  Messenger.Send<Sink_Models, string >(M, nameof(Meg_Value_Eunm.Sink_Type_Value_Load));
 
 
 
@@ -297,7 +305,7 @@ namespace HanGao.ViewModel
 
 
                         //消息通知初始化一个消息内容显示
-                        WeakReferenceMessenger.Default.Send<UserControl>(new User_Message()
+                        Messenger.Send<UserControl,string >(new User_Message()
                         {
                             DataContext = new User_Message_ViewModel()
                             {
@@ -311,7 +319,7 @@ namespace HanGao.ViewModel
                             }
 
                         },
-                        "User_Contorl_Message_Show");
+                        nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
 
 
                         return;
@@ -322,7 +330,7 @@ namespace HanGao.ViewModel
 
                     //发送用户选择加工型号到加工区显示
                     var aa = UserControl_Function_Set + e.Uid;
-                    WeakReferenceMessenger.Default.Send<Sink_Models>(S, UserControl_Function_Set + e.Uid);
+                    Messenger.Send<Sink_Models,string >(S, UserControl_Function_Set + e.Uid);
 
                 }
                 else
@@ -332,7 +340,9 @@ namespace HanGao.ViewModel
 
                     //清空加工区功能状态显示
                     var a = UserControl_Function_Reset + e.Uid;
-                    WeakReferenceMessenger.Default.Send<bool>(false, UserControl_Function_Reset + e.Uid);
+
+
+                    Messenger.Send<dynamic, string>(false, UserControl_Function_Reset + e.Uid);
 
 
 

@@ -10,11 +10,12 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using static HanGao.Model.Sink_Models;
 using Microsoft.Toolkit.Mvvm.Input;
+using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public  class UC_Pop_Ups_VM : ObservableObject
+    public  class UC_Pop_Ups_VM : ObservableRecipient
     {
 
         public   UC_Pop_Ups_VM()
@@ -24,7 +25,7 @@ namespace HanGao.ViewModel
 
 
             //接收用户触发的水槽项参数
-            WeakReferenceMessenger.Default.Register<Sink_Models>(this, "UI_Sink_Set", (S) =>
+            Messenger.Register<Sink_Models,string >(this, nameof(Meg_Value_Eunm.Clear_List), (O,S) =>
              {
                  //UC_Sink_Type_VM.Sink_Type_Load = S.Photo_Sink_Type;
 
@@ -38,7 +39,7 @@ namespace HanGao.ViewModel
 
 
             //接收用户输入号的水槽尺寸属性
-            WeakReferenceMessenger.Default.Register<Sink_Models>(this, "Sink_Size_Value_OK", (_S) =>
+            Messenger.Register<Sink_Models,string >(this, nameof(Meg_Value_Eunm.Sink_Size_Value_OK), (O,_S) =>
              {
 
 
@@ -47,7 +48,7 @@ namespace HanGao.ViewModel
 
 
                  //发送用户最终编辑好的水槽参数
-                 WeakReferenceMessenger.Default.Send<Sink_Models>(SM, "Sink_Value_All_OK");
+                 Messenger.Send<Sink_Models,string >(SM, nameof(Meg_Value_Eunm.Sink_Value_All_OK));
 
                  //关闭弹窗
                  User_Control_Show.User_UserControl = null;
@@ -56,9 +57,11 @@ namespace HanGao.ViewModel
 
 
             //切换水槽弹窗流程画面
-            WeakReferenceMessenger.Default.Register<RadioButton_Name>(this, "Pop_Sink_Size_Show", (_E) =>
+            Messenger.Register<dynamic, string >(this, nameof(Meg_Value_Eunm.Pop_Sink_Size_Show), (O,_E) =>
             {
-                Pop_Show(_E);
+               
+
+                Pop_Show((RadioButton_Name)_E);
 
             });
 
@@ -214,7 +217,7 @@ namespace HanGao.ViewModel
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
 
-                WeakReferenceMessenger.Default.Send<UserControl>(null, "User_Contorl_Message_Show");
+                Messenger.Send<UserControl,string >(null, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
 
 
 

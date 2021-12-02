@@ -10,30 +10,36 @@ using System.Threading;
 using System.Windows.Input;
 using static HanGao.Model.Sink_Models;
 using Microsoft.Toolkit.Mvvm.Input;
+using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
+using Microsoft.Toolkit.Mvvm.Messaging.Messages;
 
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class UC_Sink_Size_VM : ObservableObject
+    public class UC_Sink_Size_VM : ObservableRecipient, IRecipient<Sink_Models>
     {
 
-        public UC_Sink_Size_VM()
+        public UC_Sink_Size_VM() 
         {
             var a = Thread.CurrentThread.ManagedThreadId.ToString();
 
-
+            IsActive = true;    
             //接收数据发送到尺寸窗口数据
-            WeakReferenceMessenger.Default.Register<Sink_Models>(this, "Sink_Size_Value_Load", (_Size) =>
+            Messenger.Register<Sink_Size_Models, string >(this, nameof(Meg_Value_Eunm.Sink_Type_Value_Load),  (_O, _Size) =>
             {
-
-                Sink_Size_Value = _Size;
+                
+                Sink_Size_Value.Sink_Process = _Size;
             });
 
 
-            WeakReferenceMessenger.Default.Register<Photo_Sink_Enum>(this, "Sink_Type_Value_OK", (_T) =>
+
+
+
+            Messenger.Register<Sink_Models> (Meg_Value_Eunm.Sink_Type_Value_OK,(_ob,_T) =>
             {
-                var a = Thread.CurrentThread.ManagedThreadId.ToString();
-                Sink_Size_Value.Photo_Sink_Type = _T;
+
+                //var a = Thread.CurrentThread.ManagedThreadId.ToString();
+                //Sink_Size_Value.Photo_Sink_Type = _T.Sink_Size_Value.Photo_Sink_Type;
             });
 
         }
@@ -44,7 +50,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 水槽各参数
         /// </summary>
-        public     Sink_Models Sink_Size_Value
+        public     Sink_Models Sink_Size_Value 
         {
             set
             {
@@ -99,7 +105,7 @@ namespace HanGao.ViewModel
                 //Sink_Size_Value.Photo_Sink_Type = UC_Sink_Type_VM.Sink_Type_Load;
 
 
-                WeakReferenceMessenger.Default.Send<Sink_Models>(Sink_Size_Value, "Sink_Size_Value_OK");
+                WeakReferenceMessenger.Default.Send<Sink_Models,string >(Sink_Size_Value, "Sink_Size_Value_OK");
 
 
 
@@ -138,6 +144,14 @@ namespace HanGao.ViewModel
         }
 
 
+
+
+        public void Receive(Sink_Models message)
+        {
+
+
+
+        }
     }
 
 

@@ -26,7 +26,7 @@ using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class UserControl_Socket_Var_Show_ViewModel : ObservableObject
+    public class UserControl_Socket_Var_Show_ViewModel : ObservableRecipient
     {
 
 
@@ -35,7 +35,7 @@ namespace HanGao.ViewModel
         {
 
             //开始读取集合发送线程
-            WeakReferenceMessenger.Default.Register<bool>(this, Meg_Value_Eunm.Socket_Read_Thread.ToString(), (_Bool) =>
+            Messenger.Register<dynamic ,string >(this,nameof( Meg_Value_Eunm.Socket_Read_Thread), (O,_Bool) =>
             {
                 if (_Bool)
                 {
@@ -48,7 +48,7 @@ namespace HanGao.ViewModel
 
             });
             //读取变量集合发送
-            WeakReferenceMessenger.Default.Register<bool>(this, "Clear_List", (_Bool) =>
+            Messenger.Register<dynamic ,string >(this, nameof(Meg_Value_Eunm.Clear_List), (O,_Bool) =>
             {
                 if (_Bool)
                 {
@@ -62,7 +62,7 @@ namespace HanGao.ViewModel
 
 
             // 发送内容集合接收写入
-            WeakReferenceMessenger.Default.Register<ObservableCollection<Socket_Models_List>>(this, "List_Connect", (_List) =>
+           Messenger.Register<ObservableCollection<Socket_Models_List>,string >(this, nameof(Meg_Value_Eunm.List_Connect), (O,_List) =>
             {
                 //写入集合中
                 foreach (var item in _List)
@@ -79,7 +79,44 @@ namespace HanGao.ViewModel
 
 
             //接收消息更新列表变量值
-            WeakReferenceMessenger.Default.Register<Socket_Modesl_Byte>(this, "Socket_Read_List", List_Var_Show);
+            Messenger.Register<Socket_Modesl_Byte,string >(this, nameof(Meg_Value_Eunm.Socket_Read_List), (O, _Byte) =>
+            {
+                lock (Socket_Read_List)
+                {
+
+                    if (Socket_Read_List.Count > 0)
+                    {
+
+
+                        for (int i = 0; i < Socket_Read_List.Count; i++)
+                        {
+
+                            if (Socket_Read_List[i].Val_ID == _Byte._ID && Socket_Read_List[i].Val_Var != _Byte.Message_Show)
+                            {
+                                Socket_Read_List[i].Val_Update_Time = DateTime.Now.ToLocalTime();
+                                Socket_Read_List[i].Val_Var = _Byte.Message_Show;
+                                //MessageBox.Show(Socket_Read_List[i].Val_Var);
+                                //把属于自己的区域回传
+                                Messenger.Send<Socket_Models_List,string  >(Socket_Read_List[i], Socket_Read_List[i].Send_Area);
+                                return;
+                            }
+
+                        }
+
+
+
+
+
+
+
+
+                    }
+
+
+                }
+
+
+            });
 
 
             //释放发送线程
@@ -182,7 +219,7 @@ namespace HanGao.ViewModel
                             Socket_Read_List[i].Val_Var = _Byte.Message_Show;
                             //MessageBox.Show(Socket_Read_List[i].Val_Var);
                             //把属于自己的区域回传
-                            WeakReferenceMessenger.Default.Send<Socket_Models_List>(Socket_Read_List[i], Socket_Read_List[i].Send_Area);
+                            Messenger.Send<Socket_Models_List,string >(Socket_Read_List[i], Socket_Read_List[i].Send_Area);
                             return;
                         }
 
@@ -300,7 +337,7 @@ namespace HanGao.ViewModel
                         }
 
                         //发送通讯延迟
-                        WeakReferenceMessenger.Default.Send<string>((DateTime.Now - Delay_time).TotalMilliseconds.ToString().Split('.')[0], "Connter_Time_Delay_Method");
+                       Messenger.Send<string,string >((DateTime.Now - Delay_time).TotalMilliseconds.ToString().Split('.')[0], nameof(Meg_Value_Eunm.Connter_Time_Delay_Method));
 
                     }
                     //for (int i = 0; i < Socket_Read_List.Count; i++)

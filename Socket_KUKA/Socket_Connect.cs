@@ -26,11 +26,12 @@ using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
 using static HanGao.ViewModel.UserControl_Socket_Var_Show_ViewModel;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Messaging;
+using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 
 namespace Soceket_Connect
 {
     [AddINotifyPropertyChangedInterface]
-    public class Socket_Connect : ObservableObject
+    public class Socket_Connect : ObservableRecipient
     {
 
 
@@ -254,7 +255,7 @@ namespace Soceket_Connect
             //读取连接设置
             if (R_W_Enum == Read_Write_Enum.Read && !Is_Read_Client)
             {
-            WeakReferenceMessenger.Default.Send<int>(0, "Connect_Client_Socketing_Button_Show");
+            Messenger.Send<dynamic, string >(   0  ,nameof( Meg_Value_Eunm.Connect_Client_Socketing_Button_Show));
                 //重置连接阻塞标识
                 Socket_Read.Reset();
 
@@ -275,7 +276,7 @@ namespace Soceket_Connect
                     Socket_Receive_Error(R_W_Enum, "Error: -53 原因:读取连接超时！检查网络与IP设置是否正确。");
                     return;
                 }
-            WeakReferenceMessenger.Default.Send<bool>(false, "Connect_Client_Button_IsEnabled");
+            Messenger.Send<dynamic,string >(false, nameof(Meg_Value_Eunm.Connect_Client_Button_IsEnabled));
             }
 
             if (R_W_Enum == Read_Write_Enum.Write && !Is_Write_Client)
@@ -465,11 +466,11 @@ namespace Soceket_Connect
                 //Thread.Sleep(1000);
 
                 //开启多线程监听集合内循环发送
-                WeakReferenceMessenger.Default.Send<bool>(true, "Socket_Read_Thread");
+                Messenger.Send<dynamic, string >(true,nameof( Meg_Value_Eunm.Socket_Read_Thread));
 
 
                 //前端显示连接成功
-                WeakReferenceMessenger.Default.Send<int>(1, "Connect_Client_Socketing_Button_Show");
+                Messenger.Send<dynamic, string >(1,nameof(Meg_Value_Eunm.Connect_Client_Socketing_Button_Show));
 
 
 
@@ -652,7 +653,7 @@ namespace Soceket_Connect
                 if (Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.Read)
                 {
 
-                    Messenger.Default.Send(_Byte, "Socket_Read_List");
+                    Messenger.Send(_Byte, "Socket_Read_List");
 
                 }
 
@@ -984,7 +985,7 @@ namespace Soceket_Connect
 
 
                 //清除集合内容
-                Messenger.Default.Send(true, "Clear_List");
+                Messenger.Send<dynamic,string >(true, nameof(Meg_Value_Eunm.Clear_List));
                 //User_Log_Add("断开读取连接");
             }
 
@@ -1013,8 +1014,8 @@ namespace Soceket_Connect
 
 
             //连接失败后允许用户再次点击连接按钮
-            Messenger.Default.Send<bool>(true, "Connect_Client_Button_IsEnabled");
-            Messenger.Default.Send<int>(-1, "Connect_Client_Socketing_Button_Show");
+            Messenger.Send<dynamic, string >(true, nameof(Meg_Value_Eunm.Connect_Client_Button_IsEnabled));
+            Messenger.Send<dynamic, string >(-1, nameof(Meg_Value_Eunm.Connect_Client_Socketing_Button_Show));
 
 
 

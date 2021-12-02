@@ -8,11 +8,12 @@ using HanGao.Model;
 using HanGao.View.UserMessage;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class User_Message_ViewModel : ObservableObject
+    public class User_Message_ViewModel : ObservableRecipient
     {
 
         /// <summary>
@@ -106,7 +107,7 @@ namespace HanGao.ViewModel
             //记录用户选择的是或否
             List_Show_Models.User_Check = e.Uid.ToString();
 
-            WeakReferenceMessenger.Default.Send<List_Show_Models>(List_Show_Models, "List_IsCheck_Show");
+            Messenger.Send<List_Show_Models,string >(List_Show_Models, nameof(Meg_Value_Eunm.List_IsCheck_Show) );
 
 
 

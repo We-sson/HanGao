@@ -16,7 +16,7 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class User_Control_Working_Path_VM : ObservableObject
+    public class User_Control_Working_Path_VM : ObservableRecipient
     {
         /// <summary>
         /// 变量名称枚举存放地方
@@ -40,7 +40,7 @@ namespace HanGao.ViewModel
             foreach (Enum item in Enum.GetValues(typeof(Value_Name_enum)))
             {
                 //WeakReferenceMessenger.Default.Send<ObservableCollection<Socket_Models_List>>(new ObservableCollection<Socket_Models_List>() { new Socket_Models_List() { Val_Name = item.GetStringValue(), Val_ID = Read_Number_ID, Send_Area=Work_String_Name, Value_Enum=item},  }, "List_Connect");
-                WeakReferenceMessenger.Default.Send<ObservableCollection<Socket_Models_List>>(new ObservableCollection<Socket_Models_List>() { new Socket_Models_List() { Val_Name = item.GetStringValue(), Val_ID = Read_Number_ID, Send_Area = item.GetAreaValue(), Value_Enum = item, Bingding_Value = item.GetBingdingValue().BingdingValue, KUKA_Value_Enum = item.GetBingdingValue().SetValueType } }, "List_Connect");
+                Messenger.Send<ObservableCollection<Socket_Models_List>,string >(new ObservableCollection<Socket_Models_List>() { new Socket_Models_List() { Val_Name = item.GetStringValue(), Val_ID = Read_Number_ID, Send_Area = item.GetAreaValue(), Value_Enum = item, Bingding_Value = item.GetBingdingValue().BingdingValue, KUKA_Value_Enum = item.GetBingdingValue().SetValueType } }, "List_Connect");
             }
 
 

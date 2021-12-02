@@ -20,11 +20,12 @@ using static HanGao.ViewModel.User_Control_Log_ViewModel;
 using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
 using static HanGao.ViewModel.UserControl_Socket_Var_Show_ViewModel;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 
 namespace HanGao.Socket_KUKA
 {
     [AddINotifyPropertyChangedInterface]
-    public class Socket_Sever : ObservableObject
+    public class Socket_Sever : ObservableRecipient
     {
         public Socket_Sever(string _IP,string _Port)
         {
@@ -55,13 +56,13 @@ namespace HanGao.Socket_KUKA
                 _IsRuning = value;
                 if (value)
                 {
-                    Messenger.Default.Send<Visibility>(Visibility.Visible, "Socket_Countion_Show");
-
+                    WeakReferenceMessenger.Default.Send<dynamic ,string >(Visibility.Visible, nameof(Meg_Value_Eunm.Socket_Countion_Show));
+                    
                 }
                 else
                 {
 
-                    Messenger.Default.Send<Visibility>(Visibility.Hidden, "Socket_Countion_Show");
+                    WeakReferenceMessenger.Default.Send<dynamic ,string >(Visibility.Hidden, nameof(Meg_Value_Eunm.Socket_Countion_Show));
                 }
 
 
@@ -79,7 +80,7 @@ namespace HanGao.Socket_KUKA
             set
             {
                 _ClientCount = value;
-                Messenger.Default.Send<int>(value, "ClientCount");
+                WeakReferenceMessenger.Default.Send<dynamic ,string >(value, nameof(Meg_Value_Eunm.ClientCount));
             }
             get
             {
@@ -193,7 +194,7 @@ namespace HanGao.Socket_KUKA
                 if (Recv_Byte == 0)
                 {
                     ClientCount--;
-                    Messenger.Default.Send<int>(ClientCount, "ClientCount");
+                    Messenger.Send<dynamic ,string >(ClientCount, nameof(Meg_Value_Eunm.ClientCount));
                     //接收数据0的时候处理
                     KUKA_Client_Close(State);
                     return;
@@ -294,7 +295,7 @@ namespace HanGao.Socket_KUKA
             {
                 IsRuning = false;
                 ClientCount = 0;
-                Messenger.Default.Send<int>(ClientCount, "ClientCount");
+                Messenger.Send<dynamic ,string >(ClientCount, nameof(Meg_Value_Eunm.ClientCount));
 
 
                 foreach (var item in KUKA_Client_List.ToArray())

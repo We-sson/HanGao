@@ -16,7 +16,7 @@ using Microsoft.Toolkit.Mvvm.Messaging.Messages;
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class UC_Sink_Type_VM : ObservableObject
+    public class UC_Sink_Type_VM : ObservableRecipient
     {
 
     
@@ -25,14 +25,14 @@ namespace HanGao.ViewModel
         {
 
 
-            Messenger.Default.Register<Object,string >(this, (_obj, _E) =>
+            Messenger.Register<Object,string >(this, (_obj, _E) =>
             {
 
                
             });
 
-            Messenger.Send(new UC_Sink_Type_VM(), nameof(Meg_Value_Eunm.Sink_Type_Value_Save));
-            Messenger.Default.Register<UC_Sink_Type_VM, string >(this, Meg_Value_Eunm.Sink_Type_Value_Save.ToString(), (_obj,_E) =>
+            //Messenger.Send(new UC_Sink_Type_VM(), nameof(Meg_Value_Eunm.Sink_Type_Value_Save));
+            Messenger.Register<UC_Sink_Type_VM, string >(this, nameof( Meg_Value_Eunm.Sink_Type_Value_Save),   (_obj,_E) =>
             {
 
 
@@ -42,7 +42,7 @@ namespace HanGao.ViewModel
 
             });
 
-            Messenger.Send(this, Meg_Value_Eunm.Sink_Type_Value_Save.ToString());
+            //Messenger.Send(this, Meg_Value_Eunm.Sink_Type_Value_Save.ToString());
         
 
 

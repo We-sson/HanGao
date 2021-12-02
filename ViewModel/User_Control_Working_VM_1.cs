@@ -77,7 +77,7 @@ namespace HanGao.ViewModel
 
 
             //功能属性设置
-            WeakReferenceMessenger.Default.Register<Sink_Models>(this, UserControl_Function_Set_1, (S) =>
+            Messenger.Register<Sink_Models,string >(this, UserControl_Function_Set_1, (O,S) =>
             {
 
 
@@ -96,7 +96,7 @@ namespace HanGao.ViewModel
 
 
             //功能属性初始化
-            WeakReferenceMessenger.Default.Register<bool>(this, UserControl_Function_Reset_1, (_Bool) =>
+            Messenger.Register<dynamic , string >(this, UserControl_Function_Reset_1, (O,_Bool) =>
                {
                    WM.Work_Run = false;
                    WM.Work_Type = "";
