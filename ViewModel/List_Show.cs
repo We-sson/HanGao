@@ -17,11 +17,12 @@ using static HanGao.ViewModel.User_Control_Common;
 using Microsoft.Toolkit.Mvvm.Input;
 using HanGao.ViewModel.Messenger_Eunm;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
+using Microsoft.Toolkit.Mvvm.Messaging.Messages;
 
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class List_Show : ObservableRecipient, IRecipient<Sink_Models>
+    public class List_Show : ObservableRecipient
     {
         public List_Show()
         {
@@ -94,6 +95,13 @@ namespace HanGao.ViewModel
 
                 }
 
+            });
+
+
+            WeakReferenceMessenger.Default.Register<dynamic ,string>(this, nameof(Meg_Value_Eunm.Sink_Size_Value_Load),(O, _S)=>
+                {
+
+                    _S.Re
             });
 
 
@@ -207,12 +215,7 @@ namespace HanGao.ViewModel
             //Sink_Models S = (Sink_Models)e.DataContext;
         }
 
-        public void Receive(Sink_Models message)
-        {
-            
 
-
-        }
 
 
 

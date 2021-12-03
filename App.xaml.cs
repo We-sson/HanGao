@@ -1,4 +1,7 @@
-﻿using System;
+﻿using HanGao.Errorinfo;
+using HanGao.ViewModel;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Windows;
 
 namespace HanGao
@@ -8,6 +11,13 @@ namespace HanGao
     /// </summary>
     public sealed partial class App : Application
     {
+
+        public App()
+        {
+        
+
+
+        }
 
 
 

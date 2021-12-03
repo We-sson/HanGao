@@ -5,9 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HanGao.View.User_Control.Pop_Ups"
              xmlns:VM="clr-namespace:HanGao.ViewModel"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" d:DataContext="{d:DesignInstance Type=VM:UC_Sink_Type_VM}"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              d:DesignWidth="1020"
-            
+             DataContext="{Binding Source={StaticResource Locator}, Path=UC_Sink_Size_VM}"
              mc:Ignorable="d">
 
 

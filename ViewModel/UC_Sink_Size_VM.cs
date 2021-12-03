@@ -16,7 +16,7 @@ using Microsoft.Toolkit.Mvvm.Messaging.Messages;
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class UC_Sink_Size_VM : ObservableRecipient, IRecipient<Sink_Models>
+    public class UC_Sink_Size_VM : ObservableRecipient
     {
 
         public UC_Sink_Size_VM() 
@@ -146,12 +146,7 @@ namespace HanGao.ViewModel
 
 
 
-        public void Receive(Sink_Models message)
-        {
 
-
-
-        }
     }
 
 

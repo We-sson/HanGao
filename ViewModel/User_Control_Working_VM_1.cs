@@ -115,7 +115,7 @@ namespace HanGao.ViewModel
 
 
             //接收读取集合内的值方法
-            WeakReferenceMessenger.Default.Register<Socket_Models_List>(this, Work_String_Name, (Name_Val) =>
+            WeakReferenceMessenger.Default.Register<Socket_Models_List,string >(this, Work_String_Name, (O,Name_Val) =>
             {
                 //互斥线程锁，保证每次只有一个线程接收消息
                 Receive_Lock.WaitOne();

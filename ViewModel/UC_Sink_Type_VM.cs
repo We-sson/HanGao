@@ -38,7 +38,7 @@ namespace HanGao.ViewModel
 
 
                 //<Photo_Sink_Enum>
-                //Sink_Type_Load = _E.Photo_Sink_Type;
+                Sink_Type_Load = _E.Sink_Type_Load;
 
             });
 

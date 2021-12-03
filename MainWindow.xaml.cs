@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using HanGao.ViewModel;
+using System.Windows;
 
 
 namespace HanGao
@@ -15,7 +16,7 @@ namespace HanGao
 
 
 
-
+            //DataContext =App.Current.Services.GetService(typeof(MainViewModel));
 
 
         }
