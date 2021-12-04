@@ -5,20 +5,27 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HanGao.View.User_Control"
-             d:DesignHeight="250" d:DesignWidth="500"
+             d:DesignHeight="250"
+             d:DesignWidth="500"
              DataContext="{Binding Source={StaticResource Locator}, Path=Socket_Setup.Socket_Client_Setup}"
              mc:Ignorable="d">
     <Grid>
-        <GroupBox Style="{StaticResource GroupBox_Grid_Effect}" VerticalAlignment="Top" Background="White">
+        <GroupBox Style="{StaticResource GroupBox_Grid_Effect}"
+                  VerticalAlignment="Top"
+                  Background="White">
 
             <StackPanel>
 
 
 
                 <Border x:Name="BD1"
-                        Height="65" Margin="3" Padding="5"
-                        BorderThickness="2" Background="#c5c5c5"
-                        CornerRadius="10" ClipToBounds="True">
+                        Height="65"
+                        Margin="3"
+                        Padding="5"
+                        BorderThickness="2"
+                        Background="#c5c5c5"
+                        CornerRadius="10"
+                        ClipToBounds="True">
 
 
 
@@ -34,16 +41,21 @@
 
 
                         <TextBlock Grid.Column="0"
-                                   Text="地址:" HorizontalAlignment="Center"
-                                   VerticalAlignment="Center" FontSize="30" />
+                                   Text="地址:"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="30" />
                         <TextBox Style="{StaticResource TextBoxStyle1}" Grid.Column="1"
-                                 Name="TB1" Grid.ColumnSpan="2"
+                                 Name="TB1"
+                                 Grid.ColumnSpan="2"
                                  Text="{Binding Text_Error.User_IP, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                 Margin="0" HorizontalAlignment="Stretch"
+                                 Margin="0"
+                                 HorizontalAlignment="Stretch"
                                  VerticalAlignment="Center"
                                  ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"
                                  Validation.ErrorTemplate="{x:Null}"
-                                 Tag="输入控制柜IP地址" FontSize="25"
+                                 Tag="输入控制柜IP地址"
+                                 FontSize="25"
                                  Background="Transparent" />
 
                     </Grid>
@@ -52,7 +64,8 @@
                         <Style TargetType="Border">
 
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=TB1, Path=(Validation.HasError)}" Value="true">
+                                <DataTrigger Binding="{Binding ElementName=TB1, Path=(Validation.HasError)}"
+                                             Value="true">
 
                                     <Setter Property="BorderBrush" Value="#FF5E57" />
                                 </DataTrigger>
@@ -74,16 +87,20 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0"
-                                   Text="端口:" HorizontalAlignment="Center"
-                                   VerticalAlignment="Center" FontSize="30" />
+                                   Text="端口:"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="30" />
                         <TextBox Style="{StaticResource TextBoxStyle1}" Grid.Column="1"
                                  Name="TB2"
                                  Text="{Binding Text_Error.User_Port, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                 Margin="0" HorizontalAlignment="Stretch"
+                                 Margin="0"
+                                 HorizontalAlignment="Stretch"
                                  VerticalAlignment="Center"
                                  Validation.ErrorTemplate="{x:Null}"
                                  ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"
-                                 FontSize="25" Tag="默认端口7000" />
+                                 FontSize="25"
+                                 Tag="默认端口7000" />
 
 
 
@@ -94,7 +111,8 @@
                         <Style TargetType="Border">
 
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=TB2, Path=(Validation.HasError)}" Value="true">
+                                <DataTrigger Binding="{Binding ElementName=TB2, Path=(Validation.HasError)}"
+                                             Value="true">
 
                                     <Setter Property="BorderBrush" Value="Red" />
                                 </DataTrigger>
@@ -115,13 +133,16 @@
 
 
                     <Button x:Name="BU1" Grid.Column="0"
-                            Height="50" Margin="0,0,5,0"
-                            Tag="Connect" Foreground="White"
+                            Height="50"
+                            Margin="0,0,5,0"
+                            Tag="Connect"
+                            Foreground="White"
                             IsEnabled="{Binding Connect_Button_IsEnabled}"
                             FontSize="25">
 
                         <Button.Style>
-                            <Style BasedOn="{StaticResource ButtonStyle3}" TargetType="Button">
+                            <Style BasedOn="{StaticResource ButtonStyle3}"
+                                   TargetType="Button">
                                 <Style.Setters>
                                     <Setter Property="Background" Value="#AAAAAA" />
                                     <Setter Property="Content" Value="{Binding Control_Name_String}" />
@@ -159,22 +180,29 @@
                                 <i:InvokeCommandAction  Command="{Binding Socket_Client_Connection_Comm}" CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Socket_Conntec_UI}}}" PassEventArgsToCommand="True" />
                             </i:EventTrigger>-->
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction Command="{Binding Socket_Client_Connection_Comm}" CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Socket_Conntec_UI}}}" PassEventArgsToCommand="True" />
+                                <i:InvokeCommandAction Command="{Binding Socket_Client_Connection_Comm}"
+                                                       CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Socket_Conntec_UI}}}"
+                                                       PassEventArgsToCommand="True" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
 
 
                     <Button Style="{StaticResource ButtonStyle3}" x:Name="BU2" Grid.Column="1"
-                            Content="断开连接" Margin="5,0,0,0"
-                            Tag="Disconnect" Foreground="Black"
-                            Background="#FF5E57" FontSize="25">
+                            Content="断开连接"
+                            Margin="5,0,0,0"
+                            Tag="Disconnect"
+                            Foreground="Black"
+                            Background="#FF5E57"
+                            FontSize="25">
 
 
 
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction Command="{Binding Socket_Close_Comm}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Socket_Write}}}" PassEventArgsToCommand="True" />
+                                <i:InvokeCommandAction Command="{Binding Socket_Close_Comm}"
+                                                       CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Socket_Write}}}"
+                                                       PassEventArgsToCommand="True" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>

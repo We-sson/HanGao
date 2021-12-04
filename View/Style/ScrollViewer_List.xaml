@@ -2,7 +2,8 @@
 
 
     <!--  按钮样式  -->
-    <Style x:Key="ScrollBarButton" TargetType="{x:Type RepeatButton}">
+    <Style x:Key="ScrollBarButton"
+           TargetType="{x:Type RepeatButton}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -13,7 +14,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Border x:Name="border" BorderThickness="0" SnapsToDevicePixels="true">
+                    <Border x:Name="border"
+                            BorderThickness="0"
+                            SnapsToDevicePixels="true">
                         <ContentPresenter x:Name="contentPresenter"
                                           Margin="{TemplateBinding Padding}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -50,7 +53,8 @@
 
 
     <!--  竖滚动条中间样式  -->
-    <Style x:Key="ScrollBarThumbVertical" TargetType="{x:Type Thumb}">
+    <Style x:Key="ScrollBarThumbVertical"
+           TargetType="{x:Type Thumb}">
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="IsTabStop" Value="false" />
         <Setter Property="Template">
@@ -79,7 +83,8 @@
 
     <!--  横滚动条中间样式  -->
 
-    <Style x:Key="ScrollBarThumbHorizontal" TargetType="{x:Type Thumb}">
+    <Style x:Key="ScrollBarThumbHorizontal"
+           TargetType="{x:Type Thumb}">
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="IsTabStop" Value="false" />
         <Setter Property="Template">
@@ -106,7 +111,8 @@
 
 
 
-    <Style x:Key="ScrollBarStyle2" TargetType="{x:Type ScrollBar}">
+    <Style x:Key="ScrollBarStyle2"
+           TargetType="{x:Type ScrollBar}">
         <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false" />
         <Setter Property="Stylus.IsFlicksEnabled" Value="false" />
         <Setter Property="Background" Value="{StaticResource ScrollBar.Static.Background}" />
@@ -118,7 +124,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ScrollBar}">
-                    <Grid x:Name="Bg" SnapsToDevicePixels="true">
+                    <Grid x:Name="Bg"
+                          SnapsToDevicePixels="true">
                         <Grid.RowDefinitions>
                             <RowDefinition MaxHeight="{StaticResource {x:Static SystemParameters.VerticalScrollBarButtonHeightKey}}" />
                             <RowDefinition Height="0.00001*" />
@@ -141,10 +148,12 @@
                                IsDirectionReversed="true"
                                IsEnabled="{TemplateBinding IsMouseOver}">
                             <Track.DecreaseRepeatButton>
-                                <RepeatButton Style="{StaticResource RepeatButtonTransparent}" Command="{x:Static ScrollBar.PageUpCommand}" />
+                                <RepeatButton Style="{StaticResource RepeatButtonTransparent}"
+                                              Command="{x:Static ScrollBar.PageUpCommand}" />
                             </Track.DecreaseRepeatButton>
                             <Track.IncreaseRepeatButton>
-                                <RepeatButton Style="{StaticResource RepeatButtonTransparent}" Command="{x:Static ScrollBar.PageDownCommand}" />
+                                <RepeatButton Style="{StaticResource RepeatButtonTransparent}"
+                                              Command="{x:Static ScrollBar.PageDownCommand}" />
                             </Track.IncreaseRepeatButton>
                             <Track.Thumb>
                                 <Thumb Style="{StaticResource ScrollBarThumbVertical}" />
@@ -218,7 +227,8 @@
 
                         <!--  整个滚动条整体控件  -->
                         <ControlTemplate TargetType="{x:Type ScrollBar}">
-                            <Grid x:Name="Bg" SnapsToDevicePixels="true">
+                            <Grid x:Name="Bg"
+                                  SnapsToDevicePixels="true">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
@@ -238,7 +248,8 @@
                                     <Path x:Name="ArrowLeft"
                                           Margin="0"
                                           Data="M163.1,0C73.1,0,0,73.1,0,163c0,89.9,73.2,163,163.1,163s163-73.1,163-163C326.1,73.1,253,0,163.1,0z M191.2,82.8  c-3.4-3.4-3.5-8.9-0.1-12.3c1.7-1.7,3.9-2.6,6.2-2.6c2.2,0,4.4,0.8,6.1,2.5l82.3,81.2h0c3.3,3.6,3.2,9.1-0.2,12.6l-80.9,80.9  c-3.3,3.3-8.7,3.7-12.1,0.6c-3.8-3.4-3.9-9.2-0.4-12.7l67.6-67.6c0,0,0-0.1,0-0.1l-219.9,0c-4.1,0-7.8-3.2-7.9-7.3  c-0.1-4.3,3.3-7.7,7.5-7.7h220.1c0,0,0,0,0-0.1L191.2,82.8z"
-                                          Stretch="Uniform" Fill="Black" />
+                                          Stretch="Uniform"
+                                          Fill="Black" />
                                 </RepeatButton>
 
                                 <!--  中间滑条  -->
@@ -262,7 +273,8 @@
                                     <Path x:Name="ArrowRight"
                                           Margin="0"
                                           Data="M290.32,242.63c-89.91,0-163.05,73.15-163.05,163.05c0,89.91,73.15,163.05,163.05,163.05s163.05-73.15,163.05-163.05  C453.38,315.77,380.23,242.63,290.32,242.63z M263.07,470.42c2.95,2.91,2.98,7.66,0.07,10.61c-1.47,1.49-3.4,2.23-5.34,2.23  c-1.9,0-3.81-0.72-5.27-2.16l-70.95-70.02l-5.13-5.51l75.27-75.27c2.93-2.93,7.68-2.93,10.61,0c2.93,2.93,2.93,7.68,0,10.61  l-58.35,58.35h189.95c3.59,0,6.5,2.91,6.5,6.5s-2.91,6.5-6.5,6.5H204.13L263.07,470.42z"
-                                          Fill="Black" Stretch="Uniform" />
+                                          Fill="Black"
+                                          Stretch="Uniform" />
                                 </RepeatButton>
                             </Grid>
 

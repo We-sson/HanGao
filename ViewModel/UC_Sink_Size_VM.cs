@@ -23,24 +23,20 @@ namespace HanGao.ViewModel
         {
             var a = Thread.CurrentThread.ManagedThreadId.ToString();
 
-            IsActive = true;    
-            //接收数据发送到尺寸窗口数据
-            Messenger.Register<Sink_Size_Models, string >(this, nameof(Meg_Value_Eunm.Sink_Type_Value_Load),  (_O, _Size) =>
-            {
-                
-                Sink_Size_Value.Sink_Process = _Size;
-            });
+            IsActive = true;
+     
+
+
+            
 
 
 
+            //Messenger.Register<dynamic ,string > (Meg_Value_Eunm.Sink_Type_Value_OK,(_ob,_T) =>
+            //{
 
-
-            Messenger.Register<Sink_Models> (Meg_Value_Eunm.Sink_Type_Value_OK,(_ob,_T) =>
-            {
-
-                //var a = Thread.CurrentThread.ManagedThreadId.ToString();
-                //Sink_Size_Value.Photo_Sink_Type = _T.Sink_Size_Value.Photo_Sink_Type;
-            });
+            //    //var a = Thread.CurrentThread.ManagedThreadId.ToString();
+            //    //Sink_Size_Value.Photo_Sink_Type = _T.Sink_Size_Value.Photo_Sink_Type;
+            //});
 
         }
 

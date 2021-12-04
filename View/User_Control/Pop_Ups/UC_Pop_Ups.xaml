@@ -5,13 +5,22 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:Pop="clr-namespace:HanGao.View.User_Control.Pop_Ups"
-             DataContext="{Binding Source={StaticResource Locator}, Path=UC_Pop_Ups_VM}"
+             xmlns:Converters="clr-namespace:Nicenis.Windows.Data.Converters;assembly=Nicenis"
              mc:Ignorable="d">
-                                       
+    <UserControl.Resources>
+        <Converters:TruthyToVisibleConverter x:Key="TruthyToVisibleConverter" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+
+    <UserControl.DataContext>
+        <Binding Path="UC_Pop_Ups_VM"
+                 Source="{StaticResource Locator}" />
+    </UserControl.DataContext>
+
     <Grid>
         <!--  背景遮挡  -->
         <Border Style="{StaticResource 全局_弹窗_背景侧挡样式}" />
-        <Border Width="1100" 
+        <Border Width="1100"
                 Height="700"
                 CornerRadius="25"
                 Background="#EBEBEB">
@@ -32,7 +41,7 @@
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding Pop_Close_Comm}"
-                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                   CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}"
                                                    PassEventArgsToCommand="True" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
@@ -62,7 +71,7 @@
 
                             <StackPanel Margin="5"
                                         Orientation="Vertical">
-                                <TextBlock Text="&#xe6c0;"
+                                <TextBlock Text="&#xE6C0;"
                                            Margin="15"
                                            HorizontalAlignment="Center"
                                            FontSize="50"
@@ -88,7 +97,7 @@
                                  GroupName="Pop_UI"
                                  ToolTip="水槽尺寸修改">
                         <StackPanel>
-                            <TextBlock Text="&#xe64f;"
+                            <TextBlock Text="&#xE64F;"
                                        Margin="15"
                                        HorizontalAlignment="Center"
                                        FontSize="50"
@@ -113,7 +122,7 @@
                                  GroupName="Pop_UI"
                                  ToolTip="水槽工艺参数">
                         <StackPanel>
-                            <TextBlock Text="&#xe649;"
+                            <TextBlock Text="&#xE649;"
                                        Margin="15"
                                        HorizontalAlignment="Center"
                                        FontSize="50"
@@ -133,9 +142,22 @@
 
 
                 <GroupBox Style="{StaticResource GroupBox_Grid_Effect}" Grid.Row="1"
+                          HorizontalContentAlignment="Center"
+                          VerticalContentAlignment="Center"
                           Background="#EBEBEB">
-                    <ContentControl Content="{Binding Pop_UserControl}"
-                                    VerticalAlignment="Center">
+                    <Grid Margin="5"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch">
+
+                        <Pop:UC_Sink_Type Visibility="{Binding IsChecked, Converter={StaticResource TruthyToVisibleConverter}, ElementName=R1}" />
+                        <Pop:UC_Sink_Size Visibility="{Binding IsChecked, Converter={StaticResource TruthyToVisibleConverter}, ElementName=R2}" />
+                        <Pop:UC_Sink_Craft_List Visibility="{Binding IsChecked, Converter={StaticResource TruthyToVisibleConverter}, ElementName=R3}" />
+
+
+                        <!--<ContentControl Content="{Binding Pop_UserControl}"
+                                        VerticalAlignment="Center">
+
+                        -->
                         <!--<ContentControl.Style>
                             <Style TargetType="ContentControl">
                                 <Setter Property="Content" Value="{x:Null}" />
@@ -168,9 +190,10 @@
                                 </Style.Triggers>
                             </Style>
                         </ContentControl.Style>-->
-                    </ContentControl>
+                        <!--
+                        </ContentControl>-->
 
-
+                    </Grid>
 
 
                 </GroupBox>

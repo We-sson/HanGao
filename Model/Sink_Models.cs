@@ -1,6 +1,7 @@
 ﻿
 using HanGao.Extension_Method;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Messaging.Messages;
 using Nancy.Helpers;
 using PropertyChanged;
 using System;
@@ -8,7 +9,7 @@ using System;
 namespace HanGao.Model
 {
     [AddINotifyPropertyChangedInterface]
-    public class Sink_Models 
+    public class Sink_Models: RequestMessage<Sink_Models>
     {
 
         public Sink_Models(Photo_Sink_Enum _Photo_Sink_Type)

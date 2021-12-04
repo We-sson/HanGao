@@ -12,9 +12,11 @@ namespace HanGao.ViewModel.Messenger_Eunm
     public  class Messenger_Name
     {
 
-      
 
-        //订阅广播名称枚举
+
+        /// <summary>
+        /// 订阅广播名称枚举
+        /// </summary>
         public enum Meg_Value_Eunm
         {
             Sink_Type_Value_Load,
@@ -47,7 +49,10 @@ namespace HanGao.ViewModel.Messenger_Eunm
             Clear_List,
             Connect_Client_Button_IsEnabled,
 
-            Pop_Sink_Size_Show,
+            /// <summary>
+            /// 弹窗工艺界面显示
+            /// </summary>
+            Pop_Sink_Show,
 
             ClientCount,
 
@@ -75,6 +80,21 @@ namespace HanGao.ViewModel.Messenger_Eunm
             /// 服务器加载设置
             /// </summary>
             Sever_Initialization,
+        }
+
+
+
+
+
+
+        /// <summary>
+        /// 弹窗标题工艺枚举
+        /// </summary>
+        public enum RadioButton_Name
+        {
+            水槽类型选择,
+            水槽尺寸调节,
+            工艺参数调节
         }
     }
 }

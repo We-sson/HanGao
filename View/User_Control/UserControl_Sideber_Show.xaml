@@ -14,7 +14,9 @@
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding Loaded_Comm}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
+            <i:InvokeCommandAction Command="{Binding Loaded_Comm}"
+                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                   PassEventArgsToCommand="True" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <UserControl.Resources />
@@ -25,20 +27,24 @@
     <Grid>
 
 
-        <Grid x:Name="GD1" HorizontalAlignment="Left">
+        <Grid x:Name="GD1"
+              HorizontalAlignment="Left">
 
 
-            <Grid x:Name="GD2" Grid.Column="0" Width="500">
+            <Grid x:Name="GD2" Grid.Column="0"
+                  Width="500">
                 <Grid.Style>
                     <Style TargetType="{x:Type Grid}">
                         <Setter Property="Grid.Margin" Value="-500 0 0 0" />
 
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Sideber_Var.Sideber_Open}" Value=" True">
+                            <DataTrigger Binding="{Binding Sideber_Var.Sideber_Open}"
+                                         Value=" True">
 
                                 <Setter Property="Grid.Margin" Value="0 0 0 0" />
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding Sideber_Var.Sideber_Open}" Value="False">
+                            <DataTrigger Binding="{Binding Sideber_Var.Sideber_Open}"
+                                         Value="False">
                                 <Setter Property="Grid.Margin" Value="-500 0 0 0" />
                             </DataTrigger>
 
@@ -47,7 +53,8 @@
                         </Style.Triggers>
                     </Style>
                 </Grid.Style>
-                <Border CornerRadius="0 20 20 0" Background="White" />
+                <Border CornerRadius="0 20 20 0"
+                        Background="White" />
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="70" />
@@ -62,15 +69,18 @@
 
 
                         <Button Style="{StaticResource ButtonStyle2}" Grid.Column="1"
-                                Uid="Close" Margin="10"
+                                Uid="Close"
+                                Margin="10"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Center">
-                            <TextBlock Text="&#xe606;" Width="40"
+                            <TextBlock Text="&#xe606;"
+                                       Width="40"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Visibility="Visible"
                                        FontFamily="/Resources/#iconfont"
-                                       FontSize="38" Foreground="Red"
+                                       FontSize="38"
+                                       Foreground="Red"
                                        RenderTransformOrigin="0.5,0.5">
                                 <TextBlock.RenderTransform>
                                     <TransformGroup>
@@ -83,7 +93,9 @@
                             </TextBlock>
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding Click_OPen_Comm}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
+                                    <i:InvokeCommandAction Command="{Binding Click_OPen_Comm}"
+                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                           PassEventArgsToCommand="True" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </Button>
@@ -91,7 +103,8 @@
                         <TextBlock Grid.Row="0" Grid.Column="0"
                                    Text="{Binding Sideber_Var.Sidebar_MainTitle}"
                                    HorizontalAlignment="Center"
-                                   VerticalAlignment="Center" FontSize="35" />
+                                   VerticalAlignment="Center"
+                                   FontSize="35" />
 
 
                     </Grid>

@@ -6,17 +6,20 @@
              xmlns:local="clr-namespace:HanGao.View.User_Control.Pop_Ups"
              xmlns:VM="clr-namespace:HanGao.ViewModel"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             d:DesignWidth="1020"
+             Width="1020"
+             HorizontalAlignment="Center"
+             VerticalAlignment="Center"
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_Sink_Size_VM}"
              mc:Ignorable="d">
 
 
 
-    <Grid>
+    <Grid HorizontalAlignment="Center" Background="Gray"
+          VerticalAlignment="Center">
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
-            <ColumnDefinition Width=" auto" />
+            <ColumnDefinition Width=" 380" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <i:Interaction.Triggers>
@@ -28,8 +31,15 @@
         </i:Interaction.Triggers>
 
 
-        <UniformGrid Grid.Column="0"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="100" />
+        </Grid.RowDefinitions>
+
+
+        <UniformGrid Grid.Row="0" Grid.Column="0"
                      Height="{Binding ActualHeight, ElementName=Sink_ico}"
+                     Margin="20"
                      HorizontalAlignment="Center"
                      Rows="2">
 
@@ -49,11 +59,12 @@
                      Tag="水槽宽度=" />
 
         </UniformGrid>
-        <Button Style="{StaticResource ButtonStyle3}" Grid.Column="0"
+        <Button Style="{StaticResource ButtonStyle3}" Grid.Row="1"
                 Content="工艺参数"
                 Width="140"
                 Height=" 40"
-                Margin="0,0,0,-100"
+                Margin="8"
+                HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
                 Background="#ff5e58"
                 FontSize="22" />
@@ -62,7 +73,7 @@
 
         <TextBlock Grid.Column="1"
                    Name="Sink_ico"
-                   Text="{Binding Sink_Size_Value.Photo_ico}"
+                   Text="&#xe61b;"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Effect="{StaticResource 全局背景阴影}"
@@ -74,6 +85,7 @@
 
         <UniformGrid Grid.Column="2"
                      Height="{Binding ActualHeight, ElementName=Sink_ico}"
+                     Margin="20"
                      HorizontalAlignment="Center"
                      Rows="3">
 
@@ -96,11 +108,13 @@
                      Tag="圆角直径=" />
 
         </UniformGrid>
-        <Button Style="{StaticResource ButtonStyle3}" Grid.Column="2"
+
+
+        <Button Style="{StaticResource ButtonStyle3}" Grid.Row="1" Grid.Column="2"
                 Content="确定"
                 Width="140"
                 Height=" 40"
-                Margin="0,0,0,-100"
+                Margin="8"
                 VerticalAlignment="Bottom"
                 Background="#6baa75"
                 FontSize="22">

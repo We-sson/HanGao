@@ -35,7 +35,7 @@ namespace HanGao.ViewModel
 
 
 
-        public static   ObservableCollection<Sink_Craft_Models> _Sink_Craft = new ObservableCollection<Sink_Craft_Models>  { 
+        public    ObservableCollection<Sink_Craft_Models> _Sink_Craft = new ObservableCollection<Sink_Craft_Models>  { 
             new Sink_Craft_Models (){ Sink_Ico="&#xE61B;", Sink_Title="水槽围边焊接工艺" , Sink_Subtitle="焊接工艺由多个位置姿态,连续激光焊接完成!", },
             new Sink_Craft_Models (){ Sink_Ico="&#xE61B;", Sink_Title="水槽围边焊接工艺" , Sink_Subtitle="焊接工艺由多个位置姿态,连续激光焊接完成!", },
             new Sink_Craft_Models (){ Sink_Ico="&#xE61B;", Sink_Title="水槽围边焊接工艺" , Sink_Subtitle="焊接工艺由多个位置姿态,连续激光焊接完成!", },
@@ -47,7 +47,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 水槽列表集合
         /// </summary>
-        public static   ObservableCollection<Sink_Craft_Models> Sink_Craft
+        public    ObservableCollection<Sink_Craft_Models> Sink_Craft
         {
             get { return _Sink_Craft; }
             set { 

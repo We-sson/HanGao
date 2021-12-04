@@ -30,7 +30,6 @@ namespace HanGao.ViewModel
                  //UC_Sink_Type_VM.Sink_Type_Load = S.Photo_Sink_Type;
 
 
-                 //WeakReferenceMessenger.Default.Send<Photo_Sink_Enum>(S.Photo_Sink_Type, "Sink_Type_Value_Load");
 
 
              });
@@ -57,9 +56,9 @@ namespace HanGao.ViewModel
 
 
             //切换水槽弹窗流程画面
-            Messenger.Register<dynamic, string >(this, nameof(Meg_Value_Eunm.Pop_Sink_Size_Show), (O,_E) =>
+            Messenger.Register<dynamic, string >(this, nameof(Meg_Value_Eunm.Pop_Sink_Show), (O,_E) =>
             {
-               
+
 
                 Pop_Show((RadioButton_Name)_E);
 
@@ -78,17 +77,6 @@ namespace HanGao.ViewModel
 
 
 
-        private  UserControl _Pop_UserControl=new UC_Sink_Type() { };
-        //public UserControl Pop_UserControl { set; get; } = new UC_Sink_Size() { };
-        public  UserControl Pop_UserControl
-        {
-            get { return _Pop_UserControl; }
-            set
-            {
-                _Pop_UserControl = value;
-            }
-        }
-
 
 
         /// <summary>
@@ -104,23 +92,17 @@ namespace HanGao.ViewModel
 
 
 
-        public UserControl _UC_Sink_Type { set; get; } 
-        public UserControl _UC_Sink_Size { set; get; } 
-        //public UserControl _UC_Sink_Craft;
 
 
 
-        private bool _Sink_Type_Checked ;
+
+        private bool _Sink_Type_Checked=true ;
         public bool Sink_Type_Checked
         {
             set
             {
                 _Sink_Type_Checked = value;
-                if (value)
-                {
-                    Pop_UserControl = _UC_Sink_Type;
-
-                }
+      
             }
             get
             {
@@ -136,11 +118,7 @@ namespace HanGao.ViewModel
             set
             {
                 _Sink_Size_Checked = value;
-                if (value )
-                {
-                    Pop_UserControl = _UC_Sink_Size;
 
-                }
             }
             get
             {
@@ -155,10 +133,7 @@ namespace HanGao.ViewModel
             set
             {
                 _Sink_Craft_Checked = value;
-                if (value )
-                {
-                    Pop_UserControl = new UC_Sink_Craft_List() {  };
-                }
+
             }
             get
             {
@@ -168,15 +143,10 @@ namespace HanGao.ViewModel
 
 
 
-        /// <summary>
-        /// 标题枚举
-        /// </summary>
-        public enum RadioButton_Name
-        {
-            水槽类型选择,
-            水槽尺寸调节,
-            工艺参数调节
-        }
+
+
+
+
 
 
         /// <summary>

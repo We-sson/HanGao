@@ -155,7 +155,6 @@
     <Compile Include="ViewModel\List_Show.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\UC_Pop_Ups_VM.cs" />
-    <Compile Include="ViewModel\UC_Sink_Short_Side_VM.cs" />
     <Compile Include="ViewModel\UC_Sink_Size_VM.cs" />
     <Compile Include="ViewModel\UC_Sink_Type_VM.cs" />
     <Compile Include="ViewModel\UserControl_Sideber_Show_ViewModel.cs" />

@@ -90,7 +90,6 @@ namespace HanGao.ViewModelLocator
                     .AddScoped<UC_Pop_Ups_VM>()
                     .AddScoped<UC_Sink_Size_VM>()
                     .AddScoped<UC_Sink_Craft_VM>()
-                    .AddScoped<UC_Sink_Short_Side_VM>()
                     .AddScoped<UC_Sink_Type_VM>()
 
 
@@ -118,7 +117,6 @@ namespace HanGao.ViewModelLocator
         public UC_Sink_Type_VM UC_Sink_Type_VM => Ioc.Default.GetService<UC_Sink_Type_VM>();
         public UC_Sink_Size_VM UC_Sink_Size_VM => Ioc.Default.GetService<UC_Sink_Size_VM>();
         public UC_Sink_Craft_VM UC_Sink_Craft_VM => Ioc.Default.GetService<UC_Sink_Craft_VM>();
-        public UC_Sink_Short_Side_VM UC_Sink_Short_Side_VM => Ioc.Default.GetService<UC_Sink_Short_Side_VM>();
         public UC_Sink_Craft_List_VM UC_Sink_Craft_List_VM => Ioc.Default.GetService<UC_Sink_Craft_List_VM>();
         public UserControl_Socket_Setup_ViewModel Socket_Setup => Ioc.Default.GetService<UserControl_Socket_Setup_ViewModel>();
 

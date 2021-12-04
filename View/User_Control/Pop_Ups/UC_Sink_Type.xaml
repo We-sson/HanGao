@@ -6,13 +6,14 @@
              xmlns:local="clr-namespace:HanGao.View.User_Control.Pop_Ups"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:VM="clr-namespace:HanGao.ViewModel"
-             d:DesignHeight="530"
-             d:DesignWidth="1020"
-             
+             Width="1020"
+             HorizontalAlignment="Center"
+             VerticalAlignment="Center"
+             HorizontalContentAlignment="Center"
+             VerticalContentAlignment="Center"
+             DataContext="{Binding Source={StaticResource Locator}, Path=UC_Sink_Type_VM}"
              mc:Ignorable="d">
-    <UserControl.DataContext>
-        <VM:UC_Sink_Type_VM/>
-    </UserControl.DataContext>
+
 
 
 
@@ -25,9 +26,9 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <Grid>
-        <StackPanel HorizontalAlignment="Center"
-                    Orientation="Horizontal">
+    <Grid Margin="5">
+        <UniformGrid HorizontalAlignment="Center"
+                     Columns="3">
 
             <RadioButton Style="{DynamicResource RadioButton_Sink_Type_Style}" x:Name="R1" Grid.Column="4"
                          IsChecked="{Binding Sink_LR_Checked}"
@@ -104,7 +105,7 @@
 
             </RadioButton>
 
-        </StackPanel>
+        </UniformGrid>
 
 
     </Grid>

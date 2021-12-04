@@ -6,7 +6,8 @@
 
 
 
-    <Style x:Key="RadioButton_Pop_Style" TargetType="{x:Type RadioButton}">
+    <Style x:Key="RadioButton_Pop_Style"
+           TargetType="{x:Type RadioButton}">
 
         <Setter Property="Background" Value="#FFCCCCCC" />
         <Setter Property="BorderBrush" Value="{StaticResource RadioButton.Static.Border}" />
@@ -19,7 +20,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RadioButton}">
-                    <Grid x:Name="templateRoot" SnapsToDevicePixels="True">
+                    <Grid x:Name="templateRoot"
+                          SnapsToDevicePixels="True">
 
                         <Grid.RowDefinitions>
                             <RowDefinition />
@@ -29,7 +31,8 @@
 
 
                         <Border x:Name="optionMark" Grid.Row="1"
-                                CornerRadius="2" Visibility="Hidden"
+                                CornerRadius="2"
+                                Visibility="Hidden"
                                 Background="#ecac5d"
                                 RenderTransformOrigin="0.5,0.5" />
 
@@ -38,7 +41,8 @@
                                           Margin="{TemplateBinding Padding}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          Focusable="False" Opacity=" 0.5"
+                                          Focusable="False"
+                                          Opacity=" 0.5"
                                           RecognizesAccessKey="True"
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                     </Grid>
@@ -87,7 +91,8 @@
 
 
 
-    <Style x:Key="RadioButton_Sink_Type_Style" TargetType="{x:Type RadioButton}">
+    <Style x:Key="RadioButton_Sink_Type_Style"
+           TargetType="{x:Type RadioButton}">
 
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="{StaticResource RadioButton.Static.Border}" />
@@ -103,7 +108,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RadioButton}">
-                    <Grid x:Name="templateRoot" SnapsToDevicePixels="True">
+                    <Grid x:Name="templateRoot"
+                          SnapsToDevicePixels="True">
 
                         <Grid.RowDefinitions>
                             <RowDefinition />
@@ -113,8 +119,10 @@
 
 
                         <Border x:Name="optionMark" Grid.Row="0"
-                                Grid.RowSpan="2" BorderThickness="0"
-                                CornerRadius="10" Visibility="Visible"
+                                Grid.RowSpan="2"
+                                BorderThickness="0"
+                                CornerRadius="10"
+                                Visibility="Visible"
                                 Background="{TemplateBinding Background}"
                                 RenderTransformOrigin="0.5,0.5"
                                 BorderBrush="{TemplateBinding BorderBrush}" />
@@ -125,7 +133,8 @@
                                           Margin="{TemplateBinding Padding}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          Focusable="False" Opacity=" 0.3"
+                                          Focusable="False"
+                                          Opacity=" 0.3"
                                           RecognizesAccessKey="True"
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                     </Grid>
@@ -160,8 +169,10 @@
 
                             <Setter TargetName="optionMark" Property="Effect">
                                 <Setter.Value>
-                                    <DropShadowEffect BlurRadius="40" Direction="-90"
-                                                      ShadowDepth="5" Opacity="0.2" />
+                                    <DropShadowEffect BlurRadius="40"
+                                                      Direction="-90"
+                                                      ShadowDepth="5"
+                                                      Opacity="0.2" />
 
                                 </Setter.Value>
                             </Setter>
@@ -182,12 +193,13 @@
 
 
 
-    <Style x:Key="TextBox_Style" TargetType="{x:Type TextBox}">
+    <Style x:Key="TextBox_Style"
+           TargetType="{x:Type TextBox}">
         <Setter Property="Background" Value="#dddddd" />
         <Setter Property="BorderBrush" Value="Gray" />
         <Setter Property="Foreground" Value="#4B6587" />
         <Setter Property="BorderThickness" Value="3" />
-        <Setter Property="MaxLength" Value="3" />
+        <Setter Property="MaxLength" Value="5" />
         <Setter Property="FontSize" Value="24" />
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -212,20 +224,28 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Background="{TemplateBinding Background}"
                             SnapsToDevicePixels="True">
-                        <StackPanel Margin="5" Orientation="Horizontal">
+                        <StackPanel Margin="5"
+                                    Orientation="Horizontal">
 
                             <TextBlock Text="{TemplateBinding Tag}"
                                        Margin="3"
+                                       HorizontalAlignment="Left"
                                        FontFamily="{TemplateBinding FontFamily}"
                                        Foreground="Black"
-                                       FontSize="{TemplateBinding FontSize}" HorizontalAlignment="Left" />
+                                       FontSize="{TemplateBinding FontSize}" />
                             <ScrollViewer x:Name="PART_ContentHost"
-                                          Margin="3" Focusable="false" MinWidth=" 35"
+                                          MinWidth=" 45"
+                                          Margin="3"
+                                          HorizontalAlignment="Center"
+                                          Focusable="false"
                                           HorizontalScrollBarVisibility="Hidden"
-                                          VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Center" />
-                            <TextBlock Text="mm" Margin="3" Foreground="Gray"
+                                          VerticalScrollBarVisibility="Hidden" />
+                            <TextBlock Text="mm"
+                                       Margin="3"
+                                       HorizontalAlignment="Right"
+                                       Foreground="Gray"
                                        FontFamily="{TemplateBinding FontFamily}"
-                                       FontSize="{TemplateBinding FontSize}" HorizontalAlignment="Right" />
+                                       FontSize="{TemplateBinding FontSize}" />
                         </StackPanel>
                     </Border>
 
@@ -263,14 +283,17 @@
     <!--  列表数据模板  -->
     <DataTemplate x:Key="Sink_Data_Template">
 
-        <Grid x:Name="Gb1" HorizontalAlignment="Stretch" d:IsHidden="True">
+        <Grid x:Name="Gb1"
+              HorizontalAlignment="Stretch"
+              d:IsHidden="True">
             <Border x:Name="border"
                     Width=" 800"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     d:IsHidden="True"
                     Effect="{Binding Source={StaticResource 全局背景阴影}}"
-                    CornerRadius=" 20" Background="#ECECEC">
+                    CornerRadius=" 20"
+                    Background="#ECECEC">
 
                 <Grid d:IsHidden="True">
 
@@ -283,9 +306,11 @@
 
                     <TextBlock x:Name="Sink_ico" Grid.Column="0"
                                Text="{Binding Sink_Ico}"
-                               Margin="25" HorizontalAlignment="Center"
+                               Margin="25"
+                               HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               d:IsHidden="True" FontSize="120"
+                               d:IsHidden="True"
+                               FontSize="120"
                                Foreground="#FF4B6587"
                                FontFamily="/Resources/#iconfont" />
 
@@ -301,22 +326,28 @@
                                 d:IsHidden="True">
 
                         <TextBlock Text="{Binding Sink_Title}"
-                                   Margin="5" d:IsHidden="True"
-                                   Foreground=" #4B6587" FontSize="35" />
+                                   Margin="5"
+                                   d:IsHidden="True"
+                                   Foreground=" #4B6587"
+                                   FontSize="35" />
                         <TextBlock Text="{Binding Sink_Subtitle}"
-                                   Margin="8" d:IsHidden="True"
-                                   FontSize="14" Foreground="#FF999999"
+                                   Margin="8"
+                                   d:IsHidden="True"
+                                   FontSize="14"
+                                   Foreground="#FF999999"
                                    LineHeight="9"
                                    TextDecorations="{x:Null}" />
                     </StackPanel>
 
                     <TextBlock Grid.Column="2"
-                               Text="&#xe606;" Margin="10"
+                               Text="&#xe606;"
+                               Margin="10"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                d:IsHidden="True"
                                Effect="{StaticResource 全局背景阴影}"
-                               FontSize="30" Foreground="#FF4B6587"
+                               FontSize="30"
+                               Foreground="#FF4B6587"
                                FontFamily="/Resources/#iconfont"
                                TextDecorations="{x:Null}" />
 
@@ -360,7 +391,8 @@
         <Setter Property="Control.Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Rectangle Margin="2" SnapsToDevicePixels="true"
+                    <Rectangle Margin="2"
+                               SnapsToDevicePixels="true"
                                Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
                                StrokeThickness="1"
                                StrokeDashArray="1 2" />
@@ -370,7 +402,8 @@
     </Style>
 
 
-    <Style x:Key="Sink_ListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
+    <Style x:Key="Sink_ListBoxItemStyle"
+           TargetType="{x:Type ListBoxItem}">
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Padding" Value="10" />
 
@@ -394,7 +427,9 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Background="{TemplateBinding Background}"
                             SnapsToDevicePixels="true">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                     </Border>
 
 

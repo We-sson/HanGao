@@ -6,14 +6,18 @@
              xmlns:local="clr-namespace:HanGao.View.User_Control"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:cmd="http://www.galasoft.ch/mvvmlight"
-             d:DesignHeight="466" d:DesignWidth="765"
+             d:DesignHeight="466"
+             d:DesignWidth="765"
              DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_VM_1}"
              mc:Ignorable="d">
     <Grid x:Name="GD1" Grid.Row="0" Grid.Column="0"
-          Margin="0" ShowGridLines="False">
+          Margin="0"
+          ShowGridLines="False">
         <Grid.Effect>
-            <DropShadowEffect ShadowDepth="0" Direction="20"
-                              Opacity="0.2" BlurRadius="20" />
+            <DropShadowEffect ShadowDepth="0"
+                              Direction="20"
+                              Opacity="0.2"
+                              BlurRadius="20" />
         </Grid.Effect>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.15*" />
@@ -22,7 +26,8 @@
 
 
         <Border x:Name="Bd1"
-                Grid.RowSpan="2" CornerRadius="10"
+                Grid.RowSpan="2"
+                CornerRadius="10"
                 BorderThickness="5"
                 BorderBrush="Transparent"
                 Background="{Binding WM.Work_back, Mode=TwoWay}">
@@ -32,19 +37,23 @@
 
 
 
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Horizontal">
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Orientation="Horizontal">
                 <TextBlock x:Name="TB2"
                            Text="{Binding WM.Number_Work}"
                            Margin="0,10,30,0"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
-                           FontFamily="DengXian" FontSize="50" />
+                           FontFamily="DengXian"
+                           FontSize="50" />
                 <TextBlock x:Name="TB1" Grid.Column="1"
                            Grid.ColumnSpan="2"
                            Text="{Binding WM.Work_Type}"
                            Margin="0,10,0,0"
                            HorizontalAlignment="Center"
-                           VerticalAlignment="Center" FontSize="50"
+                           VerticalAlignment="Center"
+                           FontSize="50"
                            FontStretch="Condensed"
                            FontFamily="DengXian" />
             </StackPanel>
@@ -53,11 +62,14 @@
 
 
         <Border Grid.Row="1"
-                Margin="5" Background="#F6F6F6"
+                Margin="5"
+                Background="#F6F6F6"
                 CornerRadius="5">
 
 
-            <Grid Style="{StaticResource GridStyle1}" Margin="0" ShowGridLines="False">
+            <Grid Style="{StaticResource GridStyle1}"
+                  Margin="0"
+                  ShowGridLines="False">
 
 
                 <Grid.RowDefinitions>
@@ -90,7 +102,8 @@
 
 
 
-                    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <WrapPanel HorizontalAlignment="Center"
+                               VerticalAlignment="Center">
 
                         <CheckBox Style="{StaticResource Button_List_Style}" x:Name="Work_Run_Check"
                                   Content="启动"
@@ -100,7 +113,9 @@
                                   IsEnabled="{Binding WM.Work_IsEnabled}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.Work_Run_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:User_Control_Working}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
+                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.Work_Run_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:User_Control_Working}}}"
+                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                           PassEventArgsToCommand="True" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
 
@@ -116,7 +131,9 @@
                                   IsEnabled="{Binding WM.Work_IsEnabled}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.Work_Connt_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:User_Control_Working}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
+                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.Work_Connt_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:User_Control_Working}}}"
+                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                           PassEventArgsToCommand="True" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </CheckBox>
@@ -132,7 +149,9 @@
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
                                     <!--<cmd:EventToCommand Command="{Binding Path=DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />-->
-                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.Work_NullRun_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:User_Control_Working}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
+                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.Work_NullRun_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:User_Control_Working}}}"
+                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                           PassEventArgsToCommand="True" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </CheckBox>
@@ -145,7 +164,9 @@
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
                                     <!--<cmd:EventToCommand Command="{Binding Path=DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />-->
-                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.Work_Pause_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:User_Control_Working}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
+                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.Work_Pause_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:User_Control_Working}}}"
+                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                           PassEventArgsToCommand="True" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </CheckBox>
@@ -158,7 +179,9 @@
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
                                     <!--<cmd:EventToCommand Command="{Binding Path=DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />-->
-                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.Work_JumpOver_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:User_Control_Working}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
+                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.Work_JumpOver_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:User_Control_Working}}}"
+                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                           PassEventArgsToCommand="True" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </CheckBox>
@@ -170,7 +193,9 @@
 
 
 
-                <Grid Grid.Row="3" Margin="20,10,20,20" ShowGridLines="False">
+                <Grid Grid.Row="3"
+                      Margin="20,10,20,20"
+                      ShowGridLines="False">
 
 
 
@@ -186,7 +211,8 @@
 
 
                     <GroupBox Style="{DynamicResource GroupBox_Grid_Effect}" Grid.Row="0"
-                              Grid.RowSpan="2" Background="#FFF9F9F9">
+                              Grid.RowSpan="2"
+                              Background="#FFF9F9F9">
 
 
                         <Grid Grid.Row="2">
@@ -194,9 +220,13 @@
                                 <ColumnDefinition Width="01*" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock Margin="4" HorizontalAlignment="Center"
-                                           VerticalAlignment="Center" FontSize="22"
+                            <StackPanel Grid.Column="0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center">
+                                <TextBlock Margin="4"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontSize="22"
                                            Foreground="#FF464646">
                                     <TextBlock.Text>
 
@@ -206,8 +236,10 @@
 
                                     </TextBlock.Text>
                                 </TextBlock>
-                                <TextBlock Margin="4" HorizontalAlignment="Left"
-                                           FontSize=" 22" Foreground="#FF464646">
+                                <TextBlock Margin="4"
+                                           HorizontalAlignment="Left"
+                                           FontSize=" 22"
+                                           Foreground="#FF464646">
                                     <TextBlock.Text>
                                         <MultiBinding StringFormat="焊接功率： {0}">
                                             <Binding Path="WM.Welding_Power" />
@@ -216,8 +248,10 @@
                                     </TextBlock.Text>
                                 </TextBlock>
 
-                                <TextBlock Margin="4" HorizontalAlignment="Left"
-                                           FontSize=" 22" Foreground="#FF464646">
+                                <TextBlock Margin="4"
+                                           HorizontalAlignment="Left"
+                                           FontSize=" 22"
+                                           Foreground="#FF464646">
                                     <TextBlock.Text>
                                         <MultiBinding StringFormat="当前状态： {0}模式">
                                             <Binding Path="WM.Robot_status" />

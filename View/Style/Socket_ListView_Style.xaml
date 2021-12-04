@@ -1,7 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2">
 
-    <SolidColorBrush x:Key="ListBorder" Color="#828790" />
-    <Style x:Key="ListViewStyle1" TargetType="{x:Type ListView}">
+    <SolidColorBrush x:Key="ListBorder"
+                     Color="#828790" />
+    <Style x:Key="ListViewStyle1"
+           TargetType="{x:Type ListView}">
         <Setter Property="Background" Value="{StaticResource {x:Static SystemColors.WindowBrushKey}}" />
         <Setter Property="BorderBrush" Value="{StaticResource ListBorder}" />
         <Setter Property="BorderThickness" Value="1" />
@@ -25,7 +27,8 @@
                                           RenderMouseOver="{TemplateBinding IsMouseOver}"
                                           RenderFocused="{TemplateBinding IsKeyboardFocusWithin}"
                                           SnapsToDevicePixels="true">
-                        <ScrollViewer Style="{StaticResource {x:Static GridView.GridViewScrollViewerStyleKey}}" Padding="{TemplateBinding Padding}">
+                        <ScrollViewer Style="{StaticResource {x:Static GridView.GridViewScrollViewerStyleKey}}"
+                                      Padding="{TemplateBinding Padding}">
                             <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                         </ScrollViewer>
                     </Themes:ListBoxChrome>

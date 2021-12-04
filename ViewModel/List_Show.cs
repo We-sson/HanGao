@@ -18,6 +18,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using HanGao.ViewModel.Messenger_Eunm;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using Microsoft.Toolkit.Mvvm.Messaging.Messages;
+using System.Threading.Tasks;
 
 namespace HanGao.ViewModel
 {
@@ -30,7 +31,7 @@ namespace HanGao.ViewModel
 
 
 
-
+            IsActive = true;
 
             //接收修改参数属性
             Messenger.Register<Sink_Models, string >(this, nameof(Meg_Value_Eunm.Sink_Value_All_OK), (O,S) =>
@@ -98,11 +99,9 @@ namespace HanGao.ViewModel
             });
 
 
-            WeakReferenceMessenger.Default.Register<dynamic ,string>(this, nameof(Meg_Value_Eunm.Sink_Size_Value_Load),(O, _S)=>
-                {
 
-                    _S.Re
-            });
+
+    
 
 
 
@@ -124,6 +123,8 @@ namespace HanGao.ViewModel
                 new Sink_Models(Photo_Sink_Enum.普通双盆) { Model_Number = 901253,  } ,
                 new Sink_Models(Photo_Sink_Enum.上下单盆) { Model_Number = 952119,  } ,
             };
+
+
         /// <summary>
         /// 水槽列表集合
         /// </summary>
@@ -217,8 +218,10 @@ namespace HanGao.ViewModel
 
 
 
-
-
+        /// <summary>
+        /// 初始化弹窗显示
+        /// </summary>
+        public UserControl User_Pop { get; set; }= new UC_Pop_Ups() { DataContext = new UC_Pop_Ups_VM() { } };
 
 
         /// <summary>
@@ -226,40 +229,49 @@ namespace HanGao.ViewModel
         /// </summary>
         public ICommand Show_Pop_Ups_Page
         {
-            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            get => new AsyncRelayCommand<RoutedEventArgs>(async (Sm,T) =>
               {
 
                   FrameworkElement e = Sm.Source as FrameworkElement;
 
-
+                  //转换用户选择的水槽选项
                   Sink_Models M = e.DataContext as Sink_Models;
 
 
+                  User_Control_Show.User_UserControl = User_Pop;
 
-                  //UC_Sink_Type _Sink_Type =new UC_Sink_Type() { DataContext = new UC_Sink_Type_VM() { Sink_Type_Load = M.Photo_Sink_Type } };
+   
 
-                  //UC_Sink_Size _Sink_Size = new UC_Sink_Size() { DataContext = new UC_Sink_Size_VM() { Sink_Size_Value = M } };
+
+                  //打开显示弹窗首页面
+                  Messenger.Send<dynamic, string>(RadioButton_Name.水槽类型选择,nameof(Meg_Value_Eunm.Pop_Sink_Show));
+
+                  await Task.Delay(1);
+
+                  //传送水槽类型到弹窗
+                  Messenger.Send<dynamic ,string >(M.Photo_Sink_Type, nameof(Meg_Value_Eunm.Sink_Type_Value_Load));
 
 
 
                   //初始弹窗容器
-                  UC_Pop_Ups_VM _Pop_Ups = new UC_Pop_Ups_VM()
-                  {
-                      _UC_Sink_Size = new UC_Sink_Size() { },
-                      _UC_Sink_Type = new UC_Sink_Type() { },
-                      Sink_Type_Checked = true
-                  };
-
-
-                  User_Control_Show.User_UserControl = new UC_Pop_Ups() { DataContext = _Pop_Ups };
-
-
-                  Messenger.Send(M, nameof(Meg_Value_Eunm.Sink_Size_Value_Load));
-
-                  Messenger.Send<Sink_Models, string >(M, nameof(Meg_Value_Eunm.Sink_Type_Value_Load));
 
 
 
+
+
+
+
+                  //Messenger.Send<Sink_Models,string >(M, nameof(Meg_Value_Eunm.Sink_Size_Value_Load));
+
+
+
+
+
+
+
+
+
+                 
 
               });
         }

@@ -6,7 +6,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:UC_Working="clr-namespace:HanGao.View.User_Control"
              xmlns:local="clr-namespace:HanGao.View.User_Control"
-             d:DesignHeight="800" d:DesignWidth="500"
+             d:DesignHeight="800"
+             d:DesignWidth="500"
              DataContext="{Binding Source={StaticResource Locator}, Path=Socket_Setup}"
              mc:Ignorable="d">
     <UserControl.Resources />
@@ -16,8 +17,10 @@
                    Text="{Binding Connter_Time_Delay, StringFormat={}通讯延时:{0}ms}"
                    Margin="10,-20,0,0"
                    HorizontalAlignment="Left"
-                   VerticalAlignment="Top" Panel.ZIndex="1"
-                   Visibility="Visible" Foreground="Green"
+                   VerticalAlignment="Top"
+                   Panel.ZIndex="1"
+                   Visibility="Visible"
+                   Foreground="Green"
                    FontSize="15" />
 
 
@@ -29,12 +32,15 @@
             <TextBlock Grid.Row="0" Grid.Column="0"
                        Text="{Binding ClientCount, StringFormat={}库卡连接数量:{0}}"
                        HorizontalAlignment="Center"
-                       VerticalAlignment="Top" Panel.ZIndex="1"
+                       VerticalAlignment="Top"
+                       Panel.ZIndex="1"
                        Visibility="{Binding Socket_Countion_Show}"
-                       Foreground="Green" FontSize="15" />
+                       Foreground="Green"
+                       FontSize="15" />
 
 
-            <UC_Working:UserControl_Socket_Conntec_UI Margin="0,0,0,0" DataContext="{Binding Source={StaticResource Locator}, Path=Socket_Setup.Socket_Server_Setup}" />
+            <UC_Working:UserControl_Socket_Conntec_UI Margin="0,0,0,0"
+                                                      DataContext="{Binding Source={StaticResource Locator}, Path=Socket_Setup.Socket_Server_Setup}" />
 
 
 
