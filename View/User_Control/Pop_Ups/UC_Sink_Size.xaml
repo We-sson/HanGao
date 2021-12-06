@@ -73,11 +73,11 @@
 
         <TextBlock Grid.Column="1"
                    Name="Sink_ico"
-                   Text="&#xe61b;"
+                   Text="{Binding Sink_Size_Value.Photo_ico}"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Effect="{StaticResource 全局背景阴影}"
-                   FontSize="250"
+                   FontSize="200"
                    Foreground="#FF4B6587"
                    FontFamily="/Resources/#iconfont" />
 

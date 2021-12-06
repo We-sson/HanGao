@@ -58,7 +58,7 @@
                          IsChecked="{Binding Sink_UpDown_Checked}"
                          Margin="10"
                          GroupName="Sink_Type"
-                         Tag="2"
+                         Tag="{Binding Sink_Type_Load.上下单盆}"
                          Background="#EBEBEBEB"
                          ToolTip="水槽工艺参数">
                 <StackPanel Margin="10"

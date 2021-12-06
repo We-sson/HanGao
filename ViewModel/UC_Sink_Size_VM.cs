@@ -24,19 +24,29 @@ namespace HanGao.ViewModel
             var a = Thread.CurrentThread.ManagedThreadId.ToString();
 
             IsActive = true;
-     
 
 
-            
+            //水槽尺寸加载接收
+            Messenger.Register<Sink_Models, string>(this, nameof(Meg_Value_Eunm.Sink_Size_Value_Load), (O, T) =>
+             {
+
+                 Sink_Size_Value = T;
+
+             });
 
 
 
-            //Messenger.Register<dynamic ,string > (Meg_Value_Eunm.Sink_Type_Value_OK,(_ob,_T) =>
-            //{
 
-            //    //var a = Thread.CurrentThread.ManagedThreadId.ToString();
-            //    //Sink_Size_Value.Photo_Sink_Type = _T.Sink_Size_Value.Photo_Sink_Type;
-            //});
+            //水槽类型选择成功
+            Messenger.Register<dynamic, string>(this,nameof( Meg_Value_Eunm.Sink_Type_Value_OK), (O,T ) =>
+           {
+               if (Sink_Size_Value !=null)
+               {
+
+               //var a = Thread.CurrentThread.ManagedThreadId.ToString();
+               Sink_Size_Value.Photo_Sink_Type =(Photo_Sink_Enum) T;
+               }
+           });
 
         }
 
@@ -64,7 +74,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 静态属性更新通知事件
         /// </summary>
-        public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
+        //public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
 
 
 

@@ -246,22 +246,22 @@ namespace HanGao.ViewModel
                   //打开显示弹窗首页面
                   Messenger.Send<dynamic, string>(RadioButton_Name.水槽类型选择,nameof(Meg_Value_Eunm.Pop_Sink_Show));
 
-                  await Task.Delay(1);
+                  await Task.Delay(0);
 
                   //传送水槽类型到弹窗
                   Messenger.Send<dynamic ,string >(M.Photo_Sink_Type, nameof(Meg_Value_Eunm.Sink_Type_Value_Load));
 
+                  await Task.Delay(0);
 
 
                   //初始弹窗容器
+                  Messenger.Send<Sink_Models, string>(M, nameof(Meg_Value_Eunm.Sink_Size_Value_Load));
 
 
 
 
 
 
-
-                  //Messenger.Send<Sink_Models,string >(M, nameof(Meg_Value_Eunm.Sink_Size_Value_Load));
 
 
 
