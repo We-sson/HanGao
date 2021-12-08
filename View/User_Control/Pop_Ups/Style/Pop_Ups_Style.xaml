@@ -202,7 +202,7 @@
         <Setter Property="MaxLength" Value="5" />
         <Setter Property="FontSize" Value="24" />
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
-        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="Width" Value="250" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="AllowDrop" Value="true" />
 
@@ -224,29 +224,41 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Background="{TemplateBinding Background}"
                             SnapsToDevicePixels="True">
-                        <StackPanel Margin="5"
-                                    Orientation="Horizontal">
 
-                            <TextBlock Text="{TemplateBinding Tag}"
+                        <Grid Margin="5"
+                              ShowGridLines="True">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0"
+                                       Text="{TemplateBinding Tag}"
                                        Margin="3"
-                                       HorizontalAlignment="Left"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
                                        FontFamily="{TemplateBinding FontFamily}"
                                        Foreground="Black"
                                        FontSize="{TemplateBinding FontSize}" />
-                            <ScrollViewer x:Name="PART_ContentHost"
-                                          MinWidth=" 45"
+                            <ScrollViewer x:Name="PART_ContentHost" Grid.Column="1"
+                                          MinWidth=" 55"
                                           Margin="3"
                                           HorizontalAlignment="Center"
-                                          Focusable="false"
+                                          VerticalAlignment="Center"
+                                          Focusable="True"
                                           HorizontalScrollBarVisibility="Hidden"
                                           VerticalScrollBarVisibility="Hidden" />
-                            <TextBlock Text="mm"
-                                       Margin="3"
-                                       HorizontalAlignment="Right"
+                            <TextBlock Grid.Column="2"
+                                       Text="mm"
+                                       Margin="0"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
                                        Foreground="Gray"
                                        FontFamily="{TemplateBinding FontFamily}"
                                        FontSize="{TemplateBinding FontSize}" />
-                        </StackPanel>
+                        </Grid>
+
                     </Border>
 
 

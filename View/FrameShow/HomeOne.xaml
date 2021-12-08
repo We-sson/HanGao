@@ -116,8 +116,8 @@
                          ItemsSource="{Binding SinkModels}"
                          ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                          ScrollViewer.VerticalScrollBarVisibility="Auto"
-                         ItemContainerStyle="{StaticResource ListBoxItemStyle1}"
-                         ItemTemplate="{StaticResource DataTemplate1}"
+                         ItemContainerStyle="{DynamicResource ListBoxItemStyle1}"
+                         ItemTemplate="{DynamicResource DataTemplate1}"
                          RenderTransformOrigin="0.5,0.5">
 
                     <ListBox.RenderTransform>

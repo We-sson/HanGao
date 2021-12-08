@@ -36,19 +36,20 @@ namespace HanGao.ViewModel
             //接收修改参数属性
             Messenger.Register<Sink_Models, string >(this, nameof(Meg_Value_Eunm.Sink_Value_All_OK), (O,S) =>
             {
-                
 
-                foreach (var item in SinkModels)
+                //查找修改对象类型属性
+                for (int i = 0; i < SinkModels.Count; i++)
                 {
-
-                    if (item.Model_Number == S.Model_Number)
+                    if (SinkModels[i].Model_Number==S.Model_Number)
                     {
-                        item.Photo_Sink_Type = S.Photo_Sink_Type;
-                        item.Sink_Process =S.Sink_Process;
-                        break;
+                        SinkModels[i] = S;
                     }
+                    
 
                 }
+
+                //关闭弹窗
+                Messenger.Send<UserControl , string>(null, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
 
 
             });

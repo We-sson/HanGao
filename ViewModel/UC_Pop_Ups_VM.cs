@@ -37,21 +37,21 @@ namespace HanGao.ViewModel
 
 
 
-            //接收用户输入号的水槽尺寸属性
-            Messenger.Register<Sink_Models,string >(this, nameof(Meg_Value_Eunm.Sink_Size_Value_OK), (O,_S) =>
-             {
+            ////接收用户输入号的水槽尺寸属性
+            //Messenger.Register<Sink_Models,string >(this, nameof(Meg_Value_Eunm.Sink_Size_Value_OK), (O,_S) =>
+            // {
 
 
-                 //修改好的水槽尺寸
-                 SM = _S;
+            //     //修改好的水槽尺寸
+            //     SM = _S;
 
 
-                 //发送用户最终编辑好的水槽参数
-                 Messenger.Send<Sink_Models,string >(SM, nameof(Meg_Value_Eunm.Sink_Value_All_OK));
+            //     //发送用户最终编辑好的水槽参数
+            //     Messenger.Send<Sink_Models,string >(SM, nameof(Meg_Value_Eunm.Sink_Value_All_OK));
 
-                 //关闭弹窗
-                 User_Control_Show.User_UserControl = null;
-             });
+            //     //关闭弹窗
+            //     User_Control_Show.User_UserControl = null;
+            // });
 
 
 

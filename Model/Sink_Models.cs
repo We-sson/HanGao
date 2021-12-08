@@ -67,6 +67,7 @@ namespace HanGao.Model
         {
             get
             { return Sink_Process.Sink_Size_Long.ToString() + "X" + Sink_Process.Sink_Size_Width.ToString(); }
+            set { }
         }
 
 
