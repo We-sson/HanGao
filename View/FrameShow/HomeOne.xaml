@@ -171,7 +171,7 @@
 
                 <!--  加工路径区域  -->
                 <UC_Working:User_Control_Working_Path Grid.Row="1" Grid.Column="0"
-                                                      Margin="0,20,0,0"
+                                                      Margin="0,20,0,0" Visibility="Collapsed"
                                                       DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_Path_VM}" />
 
 

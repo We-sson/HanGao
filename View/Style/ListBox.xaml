@@ -147,14 +147,12 @@
 
 
     <!--  列表数据模板  -->
-    <DataTemplate x:Key="DataTemplate1"
-                 >
+    <DataTemplate x:Key="DataTemplate1">
 
 
         <Grid x:Name="Gd5"
               Width="380"
               VerticalAlignment="Top"
-             
               Visibility="{Binding List_Show}"
               ShowGridLines="False">
 
@@ -208,25 +206,24 @@
                                FontFamily="/Resources/#iconfont"
                                FontSize="70" />
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                    <StackPanel HorizontalAlignment="Center"
+                                Orientation="Horizontal">
 
 
-                        <TextBlock Margin="0,10,0,0" Text="{Binding Sink_Process.Sink_Size_Long, StringFormat={}{0}X  }"
-                               HorizontalAlignment="Center" 
-                               VerticalAlignment="Center"
-                               FontFamily="DengXian Light"
-                               FontSize="35"
-                               Foreground="#EEEEEE">
-
-                    </TextBlock>
-                        <TextBlock Margin="0,10,0,0" Text="{Binding Sink_Process.Sink_Size_Width}"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               FontFamily="DengXian Light"
-                               FontSize="35"
-                               Foreground="#EEEEEE">
-     
-                        </TextBlock>
+                        <TextBlock Text="{Binding Sink_Process.Sink_Size_Long, StringFormat={}{0}X}"
+                                   Margin="0,10,0,0"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="DengXian Light"
+                                   FontSize="35"
+                                   Foreground="#EEEEEE" />
+                        <TextBlock Text="{Binding Sink_Process.Sink_Size_Width}"
+                                   Margin="0,10,0,0"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="DengXian Light"
+                                   FontSize="35"
+                                   Foreground="#EEEEEE" />
                     </StackPanel>
 
                 </StackPanel>
