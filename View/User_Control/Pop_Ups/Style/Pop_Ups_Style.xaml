@@ -169,10 +169,11 @@
 
                             <Setter TargetName="optionMark" Property="Effect">
                                 <Setter.Value>
-                                    <DropShadowEffect BlurRadius="40"
+                                    <DropShadowEffect BlurRadius="50"
                                                       Direction="-90"
-                                                      ShadowDepth="5"
-                                                      Opacity="0.2" />
+                                                      ShadowDepth="3"
+                                                      Opacity="0.3"
+                                                      Color="#FF4B6587" />
 
                                 </Setter.Value>
                             </Setter>
@@ -202,7 +203,7 @@
         <Setter Property="MaxLength" Value="5" />
         <Setter Property="FontSize" Value="24" />
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
-        <Setter Property="Width" Value="250" />
+        <Setter Property="Width" Value="auto" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="AllowDrop" Value="true" />
 
@@ -225,13 +226,10 @@
                             Background="{TemplateBinding Background}"
                             SnapsToDevicePixels="True">
 
-                        <Grid Margin="5"
-                              ShowGridLines="True">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="80" />
-                                <ColumnDefinition Width="auto" />
-                            </Grid.ColumnDefinitions>
+                        <StackPanel Margin="5"
+                                    HorizontalAlignment="Stretch"
+                                    Orientation="Horizontal">
+
 
                             <TextBlock Grid.Column="0"
                                        Text="{TemplateBinding Tag}"
@@ -242,10 +240,11 @@
                                        Foreground="Black"
                                        FontSize="{TemplateBinding FontSize}" />
                             <ScrollViewer x:Name="PART_ContentHost" Grid.Column="1"
-                                          MinWidth=" 55"
+                                          MinWidth="80"
+                                          MaxWidth="80"
                                           Margin="3"
-                                          HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"
+                                          HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Stretch"
                                           Focusable="True"
                                           HorizontalScrollBarVisibility="Hidden"
                                           VerticalScrollBarVisibility="Hidden" />
@@ -257,7 +256,7 @@
                                        Foreground="Gray"
                                        FontFamily="{TemplateBinding FontFamily}"
                                        FontSize="{TemplateBinding FontSize}" />
-                        </Grid>
+                        </StackPanel>
 
                     </Border>
 

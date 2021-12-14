@@ -158,7 +158,7 @@ namespace HanGao.ViewModel
 
 
         /// <summary>
-        /// 现在原属性水槽类型
+        /// 加载属性水槽类型
         /// </summary>
         public ICommand Sink_Size_Loaded_Comm
         {
