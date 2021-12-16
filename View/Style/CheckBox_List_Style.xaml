@@ -84,9 +84,10 @@
                     <Grid>
                         <Grid.Effect>
                             <DropShadowEffect BlurRadius="10"
-                                              Direction="0" Color="#FFC947"
+                                              Direction="0"
                                               ShadowDepth="0"
-                                              Opacity="0.3" />
+                                              Opacity="0.3"
+                                              Color="#FFC947" />
                         </Grid.Effect>
 
                         <!--<Ellipse x:Name="templateRoot" StrokeThickness="{TemplateBinding BorderThickness}" Stroke="{TemplateBinding BorderBrush}">

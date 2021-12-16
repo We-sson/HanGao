@@ -42,7 +42,7 @@
                      Height="{Binding ActualHeight, ElementName=Sink_ico}"
                      Margin="20"
                      HorizontalAlignment="Center"
-                     Rows="2">
+                     Rows="3">
 
 
 
@@ -60,6 +60,13 @@
                      VerticalContentAlignment="Center"
                      FontFamily="Calibri"
                      Tag="水槽宽度=" />
+            <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Short"
+                     HorizontalAlignment="Stretch"
+                     VerticalAlignment="Center"
+                     HorizontalContentAlignment="Center"
+                     VerticalContentAlignment="Center"
+                     FontFamily="Calibri"
+                     Tag="小边长度=" />
 
         </UniformGrid>
         <Button Style="{StaticResource ButtonStyle3}" Grid.Row="1"
@@ -94,14 +101,8 @@
 
 
 
-            <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Short"
-                     HorizontalAlignment="Stretch"
-                     VerticalAlignment="Center"
-                     HorizontalContentAlignment="Center"
-                     VerticalContentAlignment="Center"
-                     FontFamily="Calibri"
-                     Tag="小边长度=" />
-            <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Thickness"
+
+            <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Panel"
                      HorizontalAlignment="Stretch"
                      VerticalAlignment="Center"
                      HorizontalContentAlignment="Center"
@@ -115,6 +116,14 @@
                      VerticalContentAlignment="Center"
                      FontFamily="Calibri"
                      Tag="圆角直径=" />
+
+            <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Pots"
+                     HorizontalAlignment="Stretch"
+                     VerticalAlignment="Center"
+                     HorizontalContentAlignment="Center"
+                     VerticalContentAlignment="Center"
+                     FontFamily="Calibri"
+                     Tag="面板厚度=" />
 
         </UniformGrid>
 

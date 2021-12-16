@@ -97,7 +97,9 @@ namespace HanGao.ViewModel
                                 Socket_Read_List[i].Val_Var = _Byte.Message_Show;
                                 //MessageBox.Show(Socket_Read_List[i].Val_Var);
                                 //把属于自己的区域回传
-                                Messenger.Send<Socket_Models_List,string  >(Socket_Read_List[i], Socket_Read_List[i].Send_Area);
+                                Socket_Models_List a = Socket_Read_List[i];
+
+                                Messenger.Send<Socket_Models_List,string  >(a, Socket_Read_List[i].Send_Area);
                                 return;
                             }
 
@@ -217,7 +219,6 @@ namespace HanGao.ViewModel
                         {
                             Socket_Read_List[i].Val_Update_Time = DateTime.Now.ToLocalTime();
                             Socket_Read_List[i].Val_Var = _Byte.Message_Show;
-                            //MessageBox.Show(Socket_Read_List[i].Val_Var);
                             //把属于自己的区域回传
                             Messenger.Send<Socket_Models_List,string >(Socket_Read_List[i], Socket_Read_List[i].Send_Area);
                             return;

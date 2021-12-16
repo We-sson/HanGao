@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="HanGao.View.User_Control.User_Control_Working_Path"
+﻿<UserControl x:Class="HanGao.View.User_Control.User_Control_KUKA_State"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"

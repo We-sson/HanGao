@@ -291,6 +291,7 @@ namespace Soceket_KUKA.Models
             Int,
             Char,
             Bool,
+            Enum,
             Null
         }
 

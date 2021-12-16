@@ -9,7 +9,7 @@ using System;
 namespace HanGao.Model
 {
     [AddINotifyPropertyChangedInterface]
-    public class Sink_Models: RequestMessage<Sink_Models>
+    public class Sink_Models: ObservableRecipient
     {
 
         public Sink_Models(Photo_Sink_Enum _Photo_Sink_Type)
@@ -208,11 +208,14 @@ namespace HanGao.Model
         public double Sink_Size_Short_Side { set; get; } = 23;
 
         /// <summary>
+        /// 水槽面板厚度
+        /// </summary>
+        public double Sink_Size_Panel_Thickness { set; get; } = 2.85;
+
+        /// <summary>
         /// 水槽盆胆厚度
         /// </summary>
-        public double Sink_Size_Thickness { set; get; } = 0.75;
-
-
+        public double Sink_Size_Pots_Thickness { set; get; } = 0.75;
 
 
 

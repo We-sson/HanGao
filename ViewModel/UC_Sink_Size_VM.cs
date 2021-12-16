@@ -27,7 +27,7 @@ namespace HanGao.ViewModel
 
 
             //水槽尺寸加载接收
-            Messenger.Register<Sink_Models, string>(this, nameof(Meg_Value_Eunm.Sink_Size_Value_Load), (O, T) =>
+            Messenger.Register<Sink_Models,string >(this, nameof(Meg_Value_Eunm.Sink_Size_Value_Load), (O, T) =>
              {
 
                  Sink_Size_Value = T;
@@ -138,7 +138,8 @@ namespace HanGao.ViewModel
                 Sink_Size_Value.Sink_Process.Sink_Size_Long = double.Parse(Sm.Sink_Long.Text);
                 Sink_Size_Value.Sink_Process.Sink_Size_Width = double.Parse(Sm.Sink_Width.Text);
                 Sink_Size_Value.Sink_Process.Sink_Size_Short_Side = double.Parse(Sm.Sink_Short.Text);
-                Sink_Size_Value.Sink_Process.Sink_Size_Thickness = double.Parse(Sm.Sink_Thickness.Text);
+                Sink_Size_Value.Sink_Process.Sink_Size_Panel_Thickness = double.Parse(Sm.Sink_Panel.Text);
+                Sink_Size_Value.Sink_Process.Sink_Size_Pots_Thickness = double.Parse(Sm.Sink_Pots.Text);
                 Sink_Size_Value.Sink_Process.Sink_Size_R = double.Parse(Sm.Sink_R.Text);
 
 
@@ -174,7 +175,8 @@ namespace HanGao.ViewModel
                     Sm.Sink_Long.Text = Sink_Size_Value.Sink_Process.Sink_Size_Long.ToString();
                     Sm.Sink_Width.Text = Sink_Size_Value.Sink_Process.Sink_Size_Width.ToString();
                     Sm.Sink_Short.Text = Sink_Size_Value.Sink_Process.Sink_Size_Short_Side.ToString();
-                    Sm.Sink_Thickness.Text = Sink_Size_Value.Sink_Process.Sink_Size_Thickness.ToString();
+                    Sm.Sink_Panel.Text = Sink_Size_Value.Sink_Process.Sink_Size_Panel_Thickness.ToString();
+                    Sm.Sink_Pots.Text = Sink_Size_Value.Sink_Process.Sink_Size_Pots_Thickness.ToString();
                     Sm.Sink_R.Text = Sink_Size_Value.Sink_Process.Sink_Size_R.ToString();
 
                 }

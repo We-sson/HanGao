@@ -19,13 +19,50 @@ namespace HanGao.ViewModel.Messenger_Eunm
         /// </summary>
         public enum Meg_Value_Eunm
         {
+
+            /// <summary>
+            /// 水槽类型加载
+            /// </summary>
             Sink_Type_Value_Load,
+
+            /// <summary>
+            /// 水槽类型值保存
+            /// </summary>
             Sink_Type_Value_Save,
+
+            /// <summary>
+            /// 水槽类型参数设置
+            /// </summary>
             Sink_Type_Value_OK,
+
+            /// <summary>
+            /// 服务器读取线程
+            /// </summary>
             Socket_Read_Thread,
+
+            /// <summary>
+            /// 服务器写入线程
+            /// </summary>
             Socket_Write_Thread,
+
+            /// <summary>
+            /// 水槽全部参数修改完成
+            /// </summary>
             Sink_Value_All_OK,
+
+            /// <summary>
+            /// 连接服务器界面UI按钮
+            /// </summary>
             Connect_Server_Button_IsEnabled,
+
+            /// <summary>
+            /// 连接客户端界面UI按钮
+            /// </summary>
+            Connect_Client_Button_IsEnabled,
+
+            /// <summary>
+            /// 水槽列表按钮显示
+            /// </summary>
             List_IsCheck_Show,
 
             /// <summary>
@@ -36,18 +73,30 @@ namespace HanGao.ViewModel.Messenger_Eunm
 
             Home_Visibility_Show,
 
+
             Socket_Countion_Show,
+
+            /// <summary>
+            /// 水槽尺寸参数值加载
+            /// </summary>
             Sink_Size_Value_Load,
 
             Connect_Client_Socketing_Button_Show,
+
+            /// <summary>
+            /// 弹窗界面消息显示
+            /// </summary>
             User_Contorl_Message_Show,
 
+            /// <summary>
+            /// 水槽尺寸参数设置完成
+            /// </summary>
             Sink_Size_Value_OK,
             
             UI_Sink_Set,
 
             Clear_List,
-            Connect_Client_Button_IsEnabled,
+
 
             /// <summary>
             /// 弹窗工艺界面显示
@@ -80,6 +129,13 @@ namespace HanGao.ViewModel.Messenger_Eunm
             /// 服务器加载设置
             /// </summary>
             Sever_Initialization,
+
+
+            /// <summary>
+            /// 机器人状态
+            /// </summary>
+            KUKA_State,
+
         }
 
 
@@ -96,5 +152,8 @@ namespace HanGao.ViewModel.Messenger_Eunm
             水槽尺寸调节,
             工艺参数调节
         }
+
+
+
     }
 }

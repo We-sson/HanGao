@@ -653,7 +653,9 @@ namespace Soceket_Connect
                 if (Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.Read)
                 {
 
-                    Messenger.Send(_Byte, "Socket_Read_List");
+
+
+                    Messenger.Send<Socket_Modesl_Byte,string >(_Byte, nameof(Meg_Value_Eunm.Socket_Read_List));
 
                 }
 

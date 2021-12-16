@@ -140,13 +140,12 @@
     <Compile Include="Model\User_Message_Models.cs" />
     <Compile Include="Model\User_Working_Path_Models.cs" />
     <Compile Include="Model\Wroking_Models.cs" />
-    <Compile Include="Service_Ioc\IValue_Ioc.cs" />
-    <Compile Include="Service_Ioc\Value_IOC.cs" />
     <Compile Include="Socket_KUKA\Models\Socket_Models.cs" />
     <Compile Include="Socket_KUKA\Socket_Connect.cs" />
     <Compile Include="Socket_KUKA\Socket_Receive.cs" />
     <Compile Include="Socket_KUKA\Socket_Sever.cs" />
     <Compile Include="ViewModel\Messenger_Eunm\Messenger_Name.cs" />
+    <Compile Include="ViewModel\UC_KUKA_State_VM.cs" />
     <Compile Include="ViewModel\UC_Sink_Craft_List_VM.cs" />
     <Compile Include="ViewModel\UC_Sink_Craft_VM.cs" />
     <Compile Include="ViewModel\FrameShow.cs" />
@@ -225,6 +224,9 @@
     </Compile>
     <Compile Include="View\User_Control\User_Control_Working.xaml.cs">
       <DependentUpon>User_Control_Working.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\User_Control\User_Control_KUKA_State.xaml.cs">
+      <DependentUpon>User_Control_KUKA_State.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\User_Control\User_Control_Working_Path.xaml.cs">
       <DependentUpon>User_Control_Working_Path.xaml</DependentUpon>
@@ -367,6 +369,9 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\User_Control\User_Control_Working.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\User_Control\User_Control_KUKA_State.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\User_Control\User_Control_Working_Path.xaml">

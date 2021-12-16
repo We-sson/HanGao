@@ -28,32 +28,62 @@ namespace HanGao.ViewModel
         #region -----属性、字段声明-----
 
 
-        public const   string UserControl_Function_Reset = "UserControl_Function_Reset" ;
-        public const   string UserControl_Function_Set = "UserControl_Function_Set";
-       
+        public const string UserControl_Function_Reset = "UserControl_Function_Reset";
+        public const string UserControl_Function_Set = "UserControl_Function_Set";
+
+
+
         /// <summary>
         /// 传递参数区域全局名称：重要！
         /// </summary>
-        public const    string Work_String_Name_Global = "Show_Reveice_method_Bool";
+        public const string Work_String_Name_Global = "Show_Reveice_method_Bool";
 
 
         /// <summary>
         /// 变量名称枚举存放地方
         /// </summary>
-        [Flags]
+       [Flags]
         public enum Value_Name_enum
         {
+            /// <summary>
+            /// 程序解释器Submit状态
+            /// </summary>
+            [StringValue("$"+nameof(PRO_STATE0)),UserArea(nameof(Meg_Value_Eunm.KUKA_State)),BingdingValue(nameof(KUKA_State_Models.KUKA_Submit_State),Value_Type.Enum,false )]
+            PRO_STATE0,
+
+            /// <summary>
+            /// 机器人程序状态
+            /// </summary>
+            [StringValue("$"+nameof(PRO_STATE1)), UserArea(nameof(Meg_Value_Eunm.KUKA_State)), BingdingValue(nameof(KUKA_State_Models.KUKA_Program_State), Value_Type.Enum, false )]
+            PRO_STATE1,
+
+            /// <summary>
+            /// 机器人操作模式
+            /// </summary>
+            [StringValue("$"+nameof(MODE_OP)), UserArea(nameof(Meg_Value_Eunm.KUKA_State)), BingdingValue(nameof(KUKA_State_Models.KUKA_Mode_State), Value_Type.Enum, false )]
+            MODE_OP,
+
+
+
+
             [StringValue("$VEL_ACT"), UserArea(User_Control_Working_VM_1.Work_String_Name), BingdingValue("Robot_Speed", Value_Type.Int, false)]
             VEL_ACT_1,
             [StringValue("$VEL_ACT"), UserArea(User_Control_Working_VM_2.Work_String_Name), BingdingValue("Robot_Speed", Value_Type.Int, false)]
             VEL_ACT_2,
-            //程序解释器状态
-            [StringValue("$PRO_STATE")]
-            PRO_STATE,
-            [StringValue("$MODE_OP"), UserArea(User_Control_Working_VM_1.Work_String_Name), BingdingValue("Robot_status", Value_Type.String, false)]
-            MODE_OP_1,
-            [StringValue("$MODE_OP"), UserArea(User_Control_Working_VM_2.Work_String_Name), BingdingValue("Robot_status", Value_Type.String, false)]
-            MODE_OP_2,
+
+
+            /// <summary>
+            ///  机器人驱动状态
+            /// </summary>
+            [StringValue("$PERI_RDY"), UserArea(nameof(Meg_Value_Eunm.KUKA_State)), BingdingValue(nameof(KUKA_State_Models.KUKA_Drive_State), Value_Type.Bool, false )]
+            PERI_RDY,
+
+            /// <summary>
+            /// 围边工艺焊接尺寸
+            /// </summary>
+            Surround_Welding_size,
+
+
             [StringValue("$Run_Work_1"), UserArea(User_Control_Working_VM_1.Work_String_Name), BingdingValue("Work_Run", Value_Type.Bool, true)]
             Run_Work_1,
             [StringValue("$Run_Work_2"), UserArea(User_Control_Working_VM_2.Work_String_Name), BingdingValue("Work_Run", Value_Type.Bool, true)]
@@ -94,9 +124,8 @@ namespace HanGao.ViewModel
             //机器人各轴扭矩数据信息
             [StringValue("$TORQUE_AXIS_ACT[]")]
             TORQUE_AXIS_ACT,
-            //机器人驱动是否运行
-            [StringValue("$PERI_RDY")]
-            PERI_RDY
+
+
         }
 
         #endregion

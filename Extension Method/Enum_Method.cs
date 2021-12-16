@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using HanGao.Extension_Method;
+using System;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using HanGao.Extension_Method;
 using static Soceket_KUKA.Models.KUKA_Value_Type;
 
 namespace HanGao.Extension_Method
@@ -16,7 +12,7 @@ namespace HanGao.Extension_Method
     /// </summary>
     public class StringValueAttribute : Attribute
     {
-        internal StringValueAttribute( string value)
+        public StringValueAttribute(string value)
         {
             StringValue = value;
         }
@@ -28,8 +24,8 @@ namespace HanGao.Extension_Method
     /// </summary>
     public class UserAreaAttribute : Attribute
     {
-        public string  UserArea { set; get; }
-        internal UserAreaAttribute(  string  value)
+        public string UserArea { set; get; }
+        public UserAreaAttribute(string value)
         {
             UserArea = value;
         }
@@ -43,7 +39,7 @@ namespace HanGao.Extension_Method
     }
 
     /// <summary>
-    /// 用于保存绑定对呀变量值，锁定俩端值数据：参数1：绑定属性名称，参数2：属性类似枚举
+    /// 用于保存绑定对呀变量值，锁定俩端值数据：参数1：绑定属性名称，参数2：属性类似枚举, 参数3: 属性双向绑定
     /// </summary>
     public class BingdingValueAttribute : Attribute
     {
@@ -55,7 +51,7 @@ namespace HanGao.Extension_Method
         /// </summary>
         /// <param name="value">绑定属性名称</param>
         /// <param name="_enum">属性类型</param>
-        internal BingdingValueAttribute(string value, Value_Type _enum,bool _Start)
+        public BingdingValueAttribute(string value, Value_Type _enum, bool _Start)
         {
             KUKA_Value.BingdingValue = value;
             KUKA_Value.SetValueType = _enum;
@@ -63,72 +59,72 @@ namespace HanGao.Extension_Method
 
 
         }
-         
 
-        }
 
     }
 
+}
+
+
+/// <summary>
+/// 用于设定库卡端的属性类型
+/// </summary>
+public class SetValueTypeAttribute : Attribute
+{
+    public Value_Type SetValueType { set; get; }
+
+    public SetValueTypeAttribute(Value_Type value)
+    {
+        SetValueType = value;
+    }
+
+}
+
+
+
+
+
+public static class EnumExtensions
+{
+    /// <summary>
+    /// 获取特性 (DisplayAttribute) 的名称；如果未使用该特性，则返回枚举的名称。
+    /// </summary>
+    /// <param name="enumValue">枚举值</param>
+    /// <returns></returns>
+    public static string GetStringValue(this Enum enumValue)
+    {
+        FieldInfo fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
+        StringValueAttribute[] attrs = fieldInfo.GetCustomAttributes(typeof(StringValueAttribute), false) as StringValueAttribute[];
+
+        return attrs.Length > 0 ? attrs[0].StringValue : enumValue.ToString();
+    }
 
     /// <summary>
-    /// 用于设定库卡端的属性类型
+    /// 获取特性 (DisplayAttribute) 的区域名称；如果未使用，则返回空。
     /// </summary>
-    public class SetValueTypeAttribute : Attribute
+    /// <param name="enumValue"></param>
+    /// <returns></returns>
+    public static string GetAreaValue(this Enum enumValue)
     {
-        public Value_Type SetValueType { set; get; }
+        FieldInfo fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
+        UserAreaAttribute[] attrs =
+            fieldInfo.GetCustomAttributes(typeof(UserAreaAttribute), false) as UserAreaAttribute[];
 
-        internal SetValueTypeAttribute(Value_Type value)
-        {
-            SetValueType = value;
-        }
-
+        return attrs.Length > 0 ? attrs[0].UserArea : string.Empty;
     }
 
-   
-
-
-
-        public static class EnumExtensions
+    /// <summary>
+    /// 获取特性 (DisplayAttribute) 的区域绑定值名称；如果未使用，则返回空。
+    /// </summary>
+    /// <param name="enumValue"></param>
+    /// <returns></returns>
+    public static KUKA_ValueType GetBingdingValue(this Enum enumValue)
     {
-        /// <summary>
-        /// 获取特性 (DisplayAttribute) 的名称；如果未使用该特性，则返回枚举的名称。
-        /// </summary>
-        /// <param name="enumValue">枚举值</param>
-        /// <returns></returns>
-        public static string GetStringValue(this Enum enumValue)
-        {
-            FieldInfo fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
-            StringValueAttribute[] attrs =fieldInfo.GetCustomAttributes(typeof(StringValueAttribute), false) as StringValueAttribute[];
+        FieldInfo fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
+        BingdingValueAttribute[] attrs =
+            fieldInfo.GetCustomAttributes(typeof(BingdingValueAttribute), true) as BingdingValueAttribute[];
 
-            return attrs.Length > 0 ? attrs[0].StringValue : enumValue.ToString();
-        }
-
-        /// <summary>
-        /// 获取特性 (DisplayAttribute) 的区域名称；如果未使用，则返回空。
-        /// </summary>
-        /// <param name="enumValue"></param>
-        /// <returns></returns>
-        public static string   GetAreaValue(this Enum enumValue)
-        {
-            FieldInfo fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
-            UserAreaAttribute[] attrs =
-                fieldInfo.GetCustomAttributes(typeof(UserAreaAttribute), false) as UserAreaAttribute[];
-
-            return attrs.Length > 0 ? attrs[0].UserArea : string.Empty;
-        }
-
-        /// <summary>
-        /// 获取特性 (DisplayAttribute) 的区域绑定值名称；如果未使用，则返回空。
-        /// </summary>
-        /// <param name="enumValue"></param>
-        /// <returns></returns>
-        public static KUKA_ValueType GetBingdingValue(this Enum enumValue)
-        {
-            FieldInfo fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
-            BingdingValueAttribute[] attrs =
-                fieldInfo.GetCustomAttributes(typeof(BingdingValueAttribute), true) as BingdingValueAttribute[];
-
-            return attrs.Length > 0 ? attrs[0].KUKA_Value : new KUKA_ValueType() { } ;
+        return attrs.Length > 0 ? attrs[0].KUKA_Value : new KUKA_ValueType() { };
 
 
     }

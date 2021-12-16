@@ -90,6 +90,7 @@ namespace HanGao.ViewModel
                 User_Log_Add("加载" + S.Wroking_Models_ListBox.Work_Type + "型号到" +WM.Number_Work + "号");
 
 
+                //Socket_Client_Setup.Write.Send_Write_Var(item.GetStringValue(), a);
 
             });
 

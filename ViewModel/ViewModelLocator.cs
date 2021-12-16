@@ -91,7 +91,7 @@ namespace HanGao.ViewModelLocator
                     .AddScoped<UC_Sink_Size_VM>()
                     .AddScoped<UC_Sink_Craft_VM>()
                     .AddScoped<UC_Sink_Type_VM>()
-
+                    .AddScoped<UC_KUKA_State_VM>()
 
                     .BuildServiceProvider());
 
@@ -118,10 +118,11 @@ namespace HanGao.ViewModelLocator
         public UC_Sink_Size_VM UC_Sink_Size_VM => Ioc.Default.GetService<UC_Sink_Size_VM>();
         public UC_Sink_Craft_VM UC_Sink_Craft_VM => Ioc.Default.GetService<UC_Sink_Craft_VM>();
         public UC_Sink_Craft_List_VM UC_Sink_Craft_List_VM => Ioc.Default.GetService<UC_Sink_Craft_List_VM>();
+        public UC_KUKA_State_VM UC_KUKA_State_VM => Ioc.Default.GetService<UC_KUKA_State_VM>();
         public UserControl_Socket_Setup_ViewModel Socket_Setup => Ioc.Default.GetService<UserControl_Socket_Setup_ViewModel>();
 
 
-
+        
 
 
 
