@@ -45,16 +45,16 @@ namespace HanGao.ViewModel
                     Application.Current.Dispatcher.Invoke(() =>
                     {
 
-                        for (int i = 0; i < 100; i++)
-                        {
+                        //for (int i = 0; i < 100; i++)
+                        //{
 
 
                         //发输入框内的数值
                         Socket_Client_Setup.Write.Send_Write_Var(Sm.Send_Name.Text, Sm.Send_Val.Text);
 
-                            Task.Delay(50);
+                        //    Task.Delay(50);
                     
-                        }
+                        //}
 
                     });
                 });

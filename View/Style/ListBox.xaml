@@ -247,7 +247,7 @@
 
 
                 <TextBlock Grid.Row="0"
-                           Text="{Binding Model_Number}"
+                           Text="{Binding Sink_Model}"
                            Margin="0"
                            HorizontalAlignment="Stretch"
                            VerticalAlignment="Stretch"

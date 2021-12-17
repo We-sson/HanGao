@@ -70,7 +70,7 @@ namespace HanGao.Model
             }
         }
 
-        private string _KUKA_Now_Point_Show;
+        private string _KUKA_Now_Point_Show=String.Empty;
         /// <summary>
         /// 前段UI坐标显示全部
         /// </summary>

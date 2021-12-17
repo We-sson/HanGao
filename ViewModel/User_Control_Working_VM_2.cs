@@ -66,7 +66,7 @@ namespace HanGao.ViewModel
 
 
                 WM.Work_Run = false;
-                WM.Work_Type = S.Model_Number.ToString();
+                WM.Work_Type = S.Sink_Model.ToString();
                 UF.Work_Connt = S.User_Check_2.Work_Connt;
                 UF.Work_Pause = S.User_Check_2.Work_Pause;
                 UF.Work_NullRun = S.User_Check_2.Work_NullRun;

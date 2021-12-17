@@ -32,15 +32,15 @@ namespace HanGao.ViewModel
             {
 
 
-                switch ((Photo_Sink_Enum)T)
+                switch ((Sink_Type_Enum)T)
                 {
-                    case Photo_Sink_Enum.左右单盆:
+                    case Sink_Type_Enum.LeftRight_One:
                         Sink_LR_Checked = true;
                         break;
-                    case Photo_Sink_Enum.上下单盆:
+                    case Sink_Type_Enum.UpDown_One:
                         Sink_UpDown_Checked = true;
                         break;
-                    case Photo_Sink_Enum.普通双盆:
+                    case Sink_Type_Enum.LeftRighe_Two:
                         Sink_Twin_Checked = true;
                         break;
                     default:
@@ -73,11 +73,11 @@ namespace HanGao.ViewModel
 
 
 
-        private   Photo_Sink_Enum _Sink_Type_Load;
+        private Sink_Type_Enum _Sink_Type_Load;
         /// <summary>
         /// 用户选择的水槽类型
         /// </summary>
-        public   Photo_Sink_Enum Sink_Type_Load
+        public Sink_Type_Enum Sink_Type_Load
         {
             set
             {
@@ -112,7 +112,7 @@ namespace HanGao.ViewModel
 
                 if (value)
                 {
-                    Messenger.Send<dynamic, string>(Photo_Sink_Enum.左右单盆, nameof(Meg_Value_Eunm.Sink_Type_Value_OK));
+                    Messenger.Send<dynamic, string>(Sink_Type_Enum.LeftRight_One, nameof(Meg_Value_Eunm.Sink_Type_Value_OK));
                 }
 
                 //MessageBox.Show("_Sink_LR_Checked=" + value.ToString());
@@ -135,7 +135,7 @@ namespace HanGao.ViewModel
 
                 if (value)
                 {
-                    Messenger.Send<dynamic, string>(Photo_Sink_Enum.上下单盆, nameof(Meg_Value_Eunm.Sink_Type_Value_OK));
+                    Messenger.Send<dynamic, string>(Sink_Type_Enum.UpDown_One, nameof(Meg_Value_Eunm.Sink_Type_Value_OK));
                 }
                 //MessageBox.Show("_Sink_UpDown_Checked="+value.ToString());
 
@@ -157,7 +157,7 @@ namespace HanGao.ViewModel
                 _Sink_Twin_Checked = value;
                 if (value)
                 {
-                    Messenger.Send<dynamic, string>(Photo_Sink_Enum.普通双盆, nameof(Meg_Value_Eunm.Sink_Type_Value_OK));
+                    Messenger.Send<dynamic, string>(Sink_Type_Enum.LeftRighe_Two, nameof(Meg_Value_Eunm.Sink_Type_Value_OK));
                 }
                 //MessageBox.Show("Sink_Twin_Checked=" + value.ToString());
 

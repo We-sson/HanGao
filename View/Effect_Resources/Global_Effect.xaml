@@ -116,54 +116,7 @@
                                   Color="Gray" />
             </Setter.Value>
         </Setter>
-        <!--<Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Effect">
-                    <Setter.Value>
-                        <DropShadowEffect Opacity="0.5" />
-                    </Setter.Value>
-                </Setter>
-            </Trigger>
-            <Trigger Property="IsMouseOver" Value="False">
-                <Setter Property="Effect">
-                    <Setter.Value>
-                        <DropShadowEffect Opacity="0.2" />
-                    </Setter.Value>
-                </Setter>
-            </Trigger>
-        </Style.Triggers>-->
-        <!--<Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Trigger.EnterActions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation SpeedRatio="2"
-                                             Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.Opacity)"
-                                             To="1" Duration="0:0:0:1">
-                                <DoubleAnimation.EasingFunction>
-                                    <QuinticEase EasingMode="EaseOut" />
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
 
-                        </Storyboard>
-                    </BeginStoryboard>
-                </Trigger.EnterActions>
-                <Trigger.ExitActions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation SpeedRatio="5"
-                                             Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.Opacity)"
-                                             To=".4" Duration="0:0:0:1">
-
-                                <DoubleAnimation.EasingFunction>
-                                    <QuinticEase EasingMode="EaseOut" />
-                                </DoubleAnimation.EasingFunction>
-                            </DoubleAnimation>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </Trigger.ExitActions>
-            </Trigger>
-        </Style.Triggers>-->
     </Style>
 
 

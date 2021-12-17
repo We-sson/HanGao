@@ -372,13 +372,13 @@ namespace Soceket_KUKA.Models
     [AddINotifyPropertyChangedInterface]
     public class Socket_Modesl_Byte : ObservableObject
     {
-        public int _ID { set; get; } = -1;
-        public int _Val_Total_Length { set; get; } = -1;
-        public int _Return_Tpye { set; get; } = -1;
-        public int _Val_Length { set; get; } = -1;
+        public int Byte_ID { set; get; } = -1;
+        public int Byte_Val_Total_Length { set; get; } = -1;
+        public int Byte_Return_Tpye { set; get; } = -1;
+        public int Byte_Val_Length { set; get; } = -1;
         public string  Message_Show { set; get; } = string.Empty;
-        public int _Write_Type { set; get; } = -1;
-        public byte[] _data { set; get; } = Array.Empty<byte>();
+        public int Byte_Write_Type { set; get; } = -1;
+        public byte[] Byte_data { set; get; } = Array.Empty<byte>();
 
 
     }

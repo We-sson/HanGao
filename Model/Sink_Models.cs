@@ -5,6 +5,7 @@ using Microsoft.Toolkit.Mvvm.Messaging.Messages;
 using Nancy.Helpers;
 using PropertyChanged;
 using System;
+using System.Windows;
 
 namespace HanGao.Model
 {
@@ -12,35 +13,42 @@ namespace HanGao.Model
     public class Sink_Models: ObservableRecipient
     {
 
-        public Sink_Models(Photo_Sink_Enum _Photo_Sink_Type)
+        public Sink_Models(Sink_Type_Enum _Sink_Type)
         {
 
-            Photo_Sink_Type = _Photo_Sink_Type;
+            Sink_Type = _Sink_Type;
 
 
 
         }
 
         /// <summary>
-        /// 水槽工艺参数
+        /// 获得围边焊接对于参数字符
+        /// </summary>
+        /// <returns>对应付机器人结构变量</returns>
+        public  string Get_Surround_Struc_String()
+        {
+
+            return $"{{Surround_Welding_Type:{nameof(Sink_Process.Sink_Size_Long)} {Sink_Process.Sink_Size_Long},{nameof(Sink_Process.Sink_Size_Width)} {Sink_Process.Sink_Size_Width},{nameof(Sink_Process.Sink_Size_R)} {Sink_Process.Sink_Size_R},{nameof(Sink_Process.Sink_Size_Pots_Thick)} {Sink_Process.Sink_Size_Pots_Thick},{nameof(Sink_Process.Sink_Size_Panel_Thick)} {Sink_Process.Sink_Size_Panel_Thick},Sink_Model {Sink_Model}}}";
+        }
+
+
+
+
+
+        /// <summary>
+        /// 水槽工艺尺寸参数
         /// </summary>
         public Sink_Size_Models Sink_Process { set; get; } = new Sink_Size_Models() { Sink_Size_Long=640, Sink_Size_Width=345 };
 
 
 
 
-
-
-        private string _LIst_Show = "Visible";
+        private Visibility _LIst_Show = Visibility.Visible;
         /// <summary>
-        ///Visible 显示元素。
-        ///  
-        ///Hidden 不显示元素，但是在布局中为元素保留空间。
-        /// 
-        ///Collapsed 不显示元素，并且不在布局中为它保留空间。
-        ///
+        /// 筛选显示
         /// </summary>
-        public string List_Show
+        public Visibility List_Show
         {
             get
             { return _LIst_Show; }
@@ -52,10 +60,12 @@ namespace HanGao.Model
 
 
 
+
+
         /// <summary>
         /// 水槽型号
         /// </summary>
-        public int Model_Number { set; get; } = 952154;
+        public int Sink_Model { set; get; } = 952154;
 
 
 
@@ -87,22 +97,22 @@ namespace HanGao.Model
         }
 
 
-        private  Photo_Sink_Enum _Photo_Sink_Type;
+        private Sink_Type_Enum _Sink_Type;
         /// <summary>
         /// 根据水槽类型显示对于图标
         /// </summary>
-        public Photo_Sink_Enum Photo_Sink_Type
+        public Sink_Type_Enum Sink_Type
         {
             set
             {
                 Photo_ico = value.GetStringValue();
 
                
-                _Photo_Sink_Type = value;
+                _Sink_Type = value;
             }
             get
             {
-                return _Photo_Sink_Type;
+                return _Sink_Type;
             }
 
         }
@@ -112,16 +122,16 @@ namespace HanGao.Model
         /// 列表显示水槽枚举
         /// </summary>
      
-        public enum Photo_Sink_Enum
+        public enum Sink_Type_Enum
         {
             [StringValue(" ")]
-            空,
+            Null,
             [StringValue("&#xe61b;") ]
-            左右单盆,
+            LeftRight_One,
             [StringValue("&#xe61a;")]
-            上下单盆,
+            UpDown_One,
             [StringValue("&#xe61d;")]
-            普通双盆,
+            LeftRighe_Two,
         }
 
 
@@ -210,15 +220,19 @@ namespace HanGao.Model
         /// <summary>
         /// 水槽面板厚度
         /// </summary>
-        public double Sink_Size_Panel_Thickness { set; get; } = 2.85;
+        public double Sink_Size_Panel_Thick { set; get; } = 2.85;
 
         /// <summary>
         /// 水槽盆胆厚度
         /// </summary>
-        public double Sink_Size_Pots_Thickness { set; get; } = 0.75;
+        public double Sink_Size_Pots_Thick { set; get; } = 0.75;
 
 
 
 
     }
+
+
+    
+
 }

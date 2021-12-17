@@ -40,7 +40,7 @@ namespace HanGao.ViewModel
                 //查找修改对象类型属性
                 for (int i = 0; i < SinkModels.Count; i++)
                 {
-                    if (SinkModels[i].Model_Number==S.Model_Number)
+                    if (SinkModels[i].Sink_Model==S.Sink_Model)
                     {
                         SinkModels[i] = S;
                     }
@@ -61,7 +61,7 @@ namespace HanGao.ViewModel
 
                 foreach (var item in SinkModels)
                 {
-                    if (item.Model_Number.ToString() == _List.List_Show_Name)
+                    if (item.Sink_Model.ToString() == _List.List_Show_Name)
                     {
                         if (_List.User_Check == "Yes")
                         {
@@ -73,7 +73,7 @@ namespace HanGao.ViewModel
                             //清楚非选择控件
                             foreach (var SinkModel in SinkModels)
                             {
-                                if (SinkModel.Model_Number.ToString() != _List.List_Show_Name)
+                                if (SinkModel.Sink_Model.ToString() != _List.List_Show_Name)
                                 {
                                     SinkModel.GetType().GetProperty("List_IsChecked_" + _List.List_Chick_NO).SetValue(SinkModel, false);
 
@@ -114,15 +114,15 @@ namespace HanGao.ViewModel
             {
 
 
-                new Sink_Models(Photo_Sink_Enum.左右单盆) { Model_Number = 952154,} ,
-                new Sink_Models(Photo_Sink_Enum.上下单盆) { Model_Number = 953212,} ,
-                new Sink_Models(Photo_Sink_Enum.左右单盆) { Model_Number = 952172, } ,
-                 new Sink_Models(Photo_Sink_Enum.左右单盆) { Model_Number = 952173, } ,
-                new Sink_Models(Photo_Sink_Enum.普通双盆) { Model_Number = 952127,  } ,
-                new Sink_Models(Photo_Sink_Enum.左右单盆) { Model_Number = 952128,  } ,
-                new Sink_Models(Photo_Sink_Enum.左右单盆) { Model_Number = 952333, } ,
-                new Sink_Models(Photo_Sink_Enum.普通双盆) { Model_Number = 901253,  } ,
-                new Sink_Models(Photo_Sink_Enum.上下单盆) { Model_Number = 952119,  } ,
+                new Sink_Models(Sink_Type_Enum.LeftRight_One) { Sink_Model = 952154,} ,
+                new Sink_Models(Sink_Type_Enum.UpDown_One) { Sink_Model = 953212,} ,
+                new Sink_Models(Sink_Type_Enum.LeftRight_One) { Sink_Model = 952172, } ,
+                 new Sink_Models(Sink_Type_Enum.LeftRight_One) { Sink_Model = 952173, } ,
+                new Sink_Models(Sink_Type_Enum.LeftRighe_Two) { Sink_Model = 952127,  } ,
+                new Sink_Models(Sink_Type_Enum.LeftRight_One) { Sink_Model = 952128,  } ,
+                new Sink_Models(Sink_Type_Enum.LeftRight_One) { Sink_Model = 952333, } ,
+                new Sink_Models(Sink_Type_Enum.LeftRighe_Two) { Sink_Model = 901253,  } ,
+                new Sink_Models(Sink_Type_Enum.UpDown_One) { Sink_Model = 952119,  } ,
             };
 
 
@@ -156,16 +156,16 @@ namespace HanGao.ViewModel
                 for (int i = 0; i < SinkModels.Count; i++)
                 {
 
-                    String Num = SinkModels[i].Model_Number.ToString();
+                    String Num = SinkModels[i].Sink_Model.ToString();
                     //MessageBox.Show(SinkModels[i].Model_Number.ToString());
 
                     if (Num.IndexOf(ob) == -1)
                     {
-                        SinkModels[i].List_Show = "Collapsed";
+                        SinkModels[i].List_Show = Visibility.Collapsed;
                     }
                     else if (Num.IndexOf(ob) == 0)
                     {
-                        SinkModels[i].List_Show = "Visible";
+                        SinkModels[i].List_Show = Visibility.Visible;
                     }
                 }
             });
@@ -181,16 +181,16 @@ namespace HanGao.ViewModel
             for (int i = 0; i < SinkModels.Count; i++)
             {
 
-                String Num = SinkModels[i].Model_Number.ToString();
+                String Num = SinkModels[i].Sink_Model.ToString();
                 //MessageBox.Show(SinkModels[i].Model_Number.ToString());
 
                 if (Num.IndexOf(ob) == -1)
                 {
-                    SinkModels[i].List_Show = "Collapsed";
+                    SinkModels[i] .List_Show = Visibility.Collapsed;
                 }
                 else if (Num.IndexOf(ob) == 0)
                 {
-                    SinkModels[i].List_Show = "Visible";
+                    SinkModels[i].List_Show = Visibility.Visible;
                 }
             }
 
@@ -250,7 +250,7 @@ namespace HanGao.ViewModel
                   await Task.Delay(0);
 
                   //传送水槽类型到弹窗
-                  Messenger.Send<dynamic ,string >(M.Photo_Sink_Type, nameof(Meg_Value_Eunm.Sink_Type_Value_Load));
+                  Messenger.Send<dynamic ,string >(M.Sink_Type, nameof(Meg_Value_Eunm.Sink_Type_Value_Load));
 
                   await Task.Delay(0);
 
@@ -302,7 +302,7 @@ namespace HanGao.ViewModel
                 //添加弹窗提示用户连接下位机通讯
                 //if (!Global_Socket_Read.Connected && !Global_Socket_Write.Connected) { e.IsChecked = false; return; }
 
-                S.Wroking_Models_ListBox.Work_Type = S.Model_Number.ToString();
+                S.Wroking_Models_ListBox.Work_Type = S.Sink_Model.ToString();
 
 
 
@@ -328,10 +328,10 @@ namespace HanGao.ViewModel
                                 List_Show_Models = new List_Show_Models()
                                 {
                                     Model = S,
-                                    List_Show_Name = S.Model_Number.ToString(),
+                                    List_Show_Name = S.Sink_Model.ToString(),
                                     List_Chick_NO = e.Uid
                                 },
-                                User_Wrok_Trye = S.Model_Number.ToString()
+                                User_Wrok_Trye = S.Sink_Model.ToString()
                             }
 
                         },

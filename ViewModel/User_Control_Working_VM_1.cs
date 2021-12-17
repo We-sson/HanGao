@@ -79,10 +79,10 @@ namespace HanGao.ViewModel
             //功能属性设置
             Messenger.Register<Sink_Models,string >(this, UserControl_Function_Set_1, (O,S) =>
             {
-
+               var a= S.Get_Surround_Struc_String();
 
                 WM.Work_Run = false;
-                WM.Work_Type = S.Model_Number.ToString();
+                WM.Work_Type = S.Sink_Model.ToString();
                 UF.Work_Connt = S.User_Check_1.Work_Connt;
                 UF.Work_Pause = S.User_Check_1.Work_Pause;
                 UF.Work_NullRun = S.User_Check_1.Work_NullRun;
@@ -90,7 +90,9 @@ namespace HanGao.ViewModel
                 User_Log_Add("加载" + S.Wroking_Models_ListBox.Work_Type + "型号到" +WM.Number_Work + "号");
 
 
-                //Socket_Client_Setup.Write.Send_Write_Var(item.GetStringValue(), a);
+
+
+                Socket_Client_Setup.Write.Send_Write_Var(nameof (Value_Name_enum.Surround_Welding_size), a);
 
             });
 

@@ -91,42 +91,7 @@
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter TargetName="rectangle" Property="SolidColorBrush.Color" Value="#A1A1A1" />
 
-                            <!--<Trigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <ColorAnimation SpeedRatio="8"
-                                                        Storyboard.TargetName="rectangle"
-                                                        Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"
-                                                        To="#A1A1A1" Duration="0:0:0:1" />
-                                        <ColorAnimation SpeedRatio="8"
-                                                        Storyboard.TargetName="rectangle"
-                                                        Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.Color)"
-                                                        To="Black" Duration="0:0:0:1" />
-                                        <DoubleAnimation SpeedRatio="8"
-                                                         Storyboard.TargetName="rectangle"
-                                                         Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.Opacity)"
-                                                         To="5" Duration="0:0:0:1" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.EnterActions>
-                            <Trigger.ExitActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <ColorAnimation SpeedRatio="8"
-                                                        Storyboard.TargetName="rectangle"
-                                                        Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"
-                                                        To="#999999" Duration="0:0:0:1" />
-                                        <ColorAnimation SpeedRatio="8"
-                                                        Storyboard.TargetName="rectangle"
-                                                        Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.Color)"
-                                                        To="Transparent" Duration="0:0:0:1" />
-                                        <DoubleAnimation SpeedRatio="8"
-                                                         Storyboard.TargetName="rectangle"
-                                                         Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.Opacity)"
-                                                         To="0" Duration="0:0:0:1" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.ExitActions>-->
+
 
 
 

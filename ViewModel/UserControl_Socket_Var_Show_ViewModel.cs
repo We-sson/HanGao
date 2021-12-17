@@ -91,7 +91,7 @@ namespace HanGao.ViewModel
                         for (int i = 0; i < Socket_Read_List.Count; i++)
                         {
 
-                            if (Socket_Read_List[i].Val_ID == _Byte._ID && Socket_Read_List[i].Val_Var != _Byte.Message_Show)
+                            if (Socket_Read_List[i].Val_ID == _Byte.Byte_ID && Socket_Read_List[i].Val_Var != _Byte.Message_Show)
                             {
                                 Socket_Read_List[i].Val_Update_Time = DateTime.Now.ToLocalTime();
                                 Socket_Read_List[i].Val_Var = _Byte.Message_Show;
@@ -215,7 +215,7 @@ namespace HanGao.ViewModel
                     for (int i = 0; i < Socket_Read_List.Count; i++)
                     {
 
-                        if (Socket_Read_List[i].Val_ID == _Byte._ID && Socket_Read_List[i].Val_Var != _Byte.Message_Show)
+                        if (Socket_Read_List[i].Val_ID == _Byte.Byte_ID && Socket_Read_List[i].Val_Var != _Byte.Message_Show)
                         {
                             Socket_Read_List[i].Val_Update_Time = DateTime.Now.ToLocalTime();
                             Socket_Read_List[i].Val_Var = _Byte.Message_Show;

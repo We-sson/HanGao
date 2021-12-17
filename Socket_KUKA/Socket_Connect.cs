@@ -597,51 +597,51 @@ namespace Soceket_Connect
                 if (Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.Read)
                 {
 
-                    _Byte._data = Socket_KUKA_Receive.Byte_Read_Receive;
+                    _Byte.Byte_data = Socket_KUKA_Receive.Byte_Read_Receive;
                     Socket_KUKA_Receive.Byte_Read_Receive = new byte[1024 * 2];
                 }
                 else if (Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.Write)
                 {
-                    _Byte._data = Socket_KUKA_Receive.Byte_Write_Receive;
+                    _Byte.Byte_data = Socket_KUKA_Receive.Byte_Write_Receive;
                     Socket_KUKA_Receive.Byte_Write_Receive = new byte[1024 * 2];
                 }
 
 
                 //Array.Resize(ref _data, Socket_KUKA_Receive.Byte_Leng);
 
-                _Byte._data = _Byte._data.Skip(0).Take(Socket_KUKA_Receive.Byte_Leng).ToArray();
+                _Byte.Byte_data = _Byte.Byte_data.Skip(0).Take(Socket_KUKA_Receive.Byte_Leng).ToArray();
 
                 #region 排序
 
                 //提出前俩位的id号
-                _Byte._ID = Int32.Parse(BitConverter.ToString(_Byte._data.Skip(0).Take(2).ToArray()).Replace("-", ""), System.Globalization.NumberStyles.HexNumber);
+                _Byte.Byte_ID = Int32.Parse(BitConverter.ToString(_Byte.Byte_data.Skip(0).Take(2).ToArray()).Replace("-", ""), System.Globalization.NumberStyles.HexNumber);
 
                 //提取接收变量总长度
-                _Byte._Val_Total_Length = Int32.Parse(BitConverter.ToString(_Byte._data.Skip(2).Take(2).ToArray()).Replace("-", ""), System.Globalization.NumberStyles.HexNumber);
+                _Byte.Byte_Val_Total_Length = Int32.Parse(BitConverter.ToString(_Byte.Byte_data.Skip(2).Take(2).ToArray()).Replace("-", ""), System.Globalization.NumberStyles.HexNumber);
 
                 //提取读取还是写入状态
-                _Byte._Return_Tpye = Int32.Parse(BitConverter.ToString(_Byte._data.Skip(4).Take(1).ToArray()).Replace("-", ""), System.Globalization.NumberStyles.HexNumber);
+                _Byte.Byte_Return_Tpye = Int32.Parse(BitConverter.ToString(_Byte.Byte_data.Skip(4).Take(1).ToArray()).Replace("-", ""), System.Globalization.NumberStyles.HexNumber);
 
                 //提取变量长度数据
-                var b = _Byte._data.Skip(5).Take(2).ToArray();
+                var b = _Byte.Byte_data.Skip(5).Take(2).ToArray();
                 var bb = BitConverter.ToString(b).Replace("-", "");
                 var bbb = Convert.ToInt64(bb, 16);
-                _Byte._Val_Length = Int32.Parse(bb, System.Globalization.NumberStyles.HexNumber);
+                _Byte.Byte_Val_Length = Int32.Parse(bb, System.Globalization.NumberStyles.HexNumber);
 
                 //提取接收返回变量值
-                _Byte.Message_Show = Encoding.ASCII.GetString(_Byte._data, 7, _Byte._Val_Length);
+                _Byte.Message_Show = Encoding.ASCII.GetString(_Byte.Byte_data, 7, _Byte.Byte_Val_Length);
 
                 //提取写入是否成功
-                _Byte._Write_Type = Int32.Parse(BitConverter.ToString(_Byte._data.Skip(_Byte._Val_Total_Length + 3).Take(1).ToArray()).Replace("-", ""), System.Globalization.NumberStyles.HexNumber);
+                _Byte.Byte_Write_Type = Int32.Parse(BitConverter.ToString(_Byte.Byte_data.Skip(_Byte.Byte_Val_Total_Length + 3).Take(1).ToArray()).Replace("-", ""), System.Globalization.NumberStyles.HexNumber);
 
 
                 #endregion
 
-                if (_Byte._Return_Tpye == 1 && _Byte._Write_Type == 1)
+                if (_Byte.Byte_Return_Tpye == 1 && _Byte.Byte_Write_Type == 1)
                 {
                     User_Log_Add(_Byte.Message_Show + " 写入成功！");
                 }
-                else if (_Byte._Return_Tpye == 1 && _Byte._Write_Type == 0)
+                else if (_Byte.Byte_Return_Tpye == 1 && _Byte.Byte_Write_Type == 0)
                 {
                     User_Log_Add($"Read Val:" + _Byte.Message_Show + " 写入失败！");
 

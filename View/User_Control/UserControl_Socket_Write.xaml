@@ -6,7 +6,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HanGao.View.User_Control"
-             d:DesignHeight="250" d:DesignWidth="500"
+             d:DesignHeight="250"
+             d:DesignWidth="500"
              DataContext="{Binding Source={StaticResource Locator}, Path=Socket_Write}"
              mc:Ignorable="d">
     <Grid>
@@ -31,9 +32,13 @@
 
 
                 <Border x:Name="BD1"
-                        Height="65" Margin="3" Padding="5"
-                        BorderThickness="2" Background="#c5c5c5"
-                        CornerRadius="10" ClipToBounds="True">
+                        Height="65"
+                        Margin="3"
+                        Padding="5"
+                        BorderThickness="2"
+                        Background="#c5c5c5"
+                        CornerRadius="10"
+                        ClipToBounds="True">
 
 
 
@@ -51,11 +56,14 @@
 
 
                         <TextBlock Grid.Column="0"
-                                   Text=" 变量:" HorizontalAlignment="Center"
-                                   VerticalAlignment="Center" FontSize="30" />
+                                   Text=" 变量:"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="30" />
                         <TextBox Style="{StaticResource TextBoxStyle1}" x:Name="Send_Name" Grid.Column="1"
                                  Text="$out[1]"
-                                 VerticalAlignment="Center" FontSize="25"
+                                 VerticalAlignment="Center"
+                                 FontSize="25"
                                  Background="Transparent"
                                  TextAlignment="Center" />
 
@@ -79,12 +87,15 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="数值:" HorizontalAlignment="Center"
-                                   VerticalAlignment="Center" FontSize="30" />
+                        <TextBlock Text="数值:"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="30" />
 
                         <TextBox Style="{StaticResource TextBoxStyle1}" x:Name="Send_Val" Grid.Column="1"
                                  Text="$out[1]"
-                                 VerticalAlignment="Center" FontSize="25"
+                                 VerticalAlignment="Center"
+                                 FontSize="25"
                                  Background="Transparent"
                                  TextAlignment="Center" />
 
@@ -102,18 +113,23 @@
 
 
 
-                <Grid Grid.Row="1" Margin="5" VerticalAlignment="Top">
+                <Grid Grid.Row="1"
+                      Margin="5"
+                      VerticalAlignment="Top">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
 
                     <Button x:Name="BT2" Grid.Column="0"
-                            Content="发送" Height=" 50"
-                            Margin="0,0,5,0" FontSize="25"
+                            Content="发送"
+                            Height=" 50"
+                            Margin="0,0,5,0"
+                            FontSize="25"
                             Background="#47aa57">
                         <Button.Style>
-                            <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle3}">
+                            <Style TargetType="Button"
+                                   BasedOn="{StaticResource ButtonStyle3}">
                                 <Setter Property="IsEnabled" Value="True" />
                                 <Style.Triggers />
                             </Style>
@@ -122,18 +138,23 @@
 
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction Command="{Binding Socket_Send_Comm}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Socket_Write}}}" PassEventArgsToCommand="True" />
+                                <i:InvokeCommandAction Command="{Binding Socket_Send_Comm}"
+                                                       CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorLevel=3, AncestorType={x:Type UserControl}}}"
+                                                       PassEventArgsToCommand="True" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
 
 
                     <Button Style="{StaticResource ButtonStyle3}" Grid.Column="1"
-                            Content="清除" FontSize="25"
+                            Content="清除"
+                            FontSize="25"
                             Background="#F4D160">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction Command="{Binding Content_Removal_Comm}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Socket_Write}}}" PassEventArgsToCommand="True" />
+                                <i:InvokeCommandAction Command="{Binding Content_Removal_Comm}"
+                                                       CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorLevel=3, AncestorType={x:Type UserControl}}}"
+                                                       PassEventArgsToCommand="True" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>

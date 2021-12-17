@@ -44,18 +44,18 @@ namespace HanGao.ViewModel
                {
 
                    //var a = Thread.CurrentThread.ManagedThreadId.ToString();
-                   Sink_Type_OK = (Photo_Sink_Enum) T;
+                   Sink_Type_OK = (Sink_Type_Enum) T;
                }
            });
 
         }
 
 
-        private Photo_Sink_Enum _Sink_Type_OK;
+        private Sink_Type_Enum _Sink_Type_OK;
         /// <summary>
         /// 界面用户存储类型属性
         /// </summary>
-        public Photo_Sink_Enum Sink_Type_OK 
+        public Sink_Type_Enum Sink_Type_OK 
         {
             set {
                 Photo_ico = value.GetStringValue();
@@ -93,7 +93,7 @@ namespace HanGao.ViewModel
         {
             set
             {
-                var a = Thread.CurrentThread.ManagedThreadId.ToString();
+                //var a = Thread.CurrentThread.ManagedThreadId.ToString();
                 _Sink_Size_Value = value;
                 //StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Sink_Size_Value)));
             }
@@ -138,13 +138,13 @@ namespace HanGao.ViewModel
                 Sink_Size_Value.Sink_Process.Sink_Size_Long = double.Parse(Sm.Sink_Long.Text);
                 Sink_Size_Value.Sink_Process.Sink_Size_Width = double.Parse(Sm.Sink_Width.Text);
                 Sink_Size_Value.Sink_Process.Sink_Size_Short_Side = double.Parse(Sm.Sink_Short.Text);
-                Sink_Size_Value.Sink_Process.Sink_Size_Panel_Thickness = double.Parse(Sm.Sink_Panel.Text);
-                Sink_Size_Value.Sink_Process.Sink_Size_Pots_Thickness = double.Parse(Sm.Sink_Pots.Text);
+                Sink_Size_Value.Sink_Process.Sink_Size_Panel_Thick = double.Parse(Sm.Sink_Panel.Text);
+                Sink_Size_Value.Sink_Process.Sink_Size_Pots_Thick = double.Parse(Sm.Sink_Pots.Text);
                 Sink_Size_Value.Sink_Process.Sink_Size_R = double.Parse(Sm.Sink_R.Text);
 
 
                 //水槽类型
-                Sink_Size_Value.Photo_Sink_Type = Sink_Type_OK;
+                Sink_Size_Value.Sink_Type = Sink_Type_OK;
 
 
                 //发送水槽修改好属性
@@ -175,8 +175,8 @@ namespace HanGao.ViewModel
                     Sm.Sink_Long.Text = Sink_Size_Value.Sink_Process.Sink_Size_Long.ToString();
                     Sm.Sink_Width.Text = Sink_Size_Value.Sink_Process.Sink_Size_Width.ToString();
                     Sm.Sink_Short.Text = Sink_Size_Value.Sink_Process.Sink_Size_Short_Side.ToString();
-                    Sm.Sink_Panel.Text = Sink_Size_Value.Sink_Process.Sink_Size_Panel_Thickness.ToString();
-                    Sm.Sink_Pots.Text = Sink_Size_Value.Sink_Process.Sink_Size_Pots_Thickness.ToString();
+                    Sm.Sink_Panel.Text = Sink_Size_Value.Sink_Process.Sink_Size_Panel_Thick.ToString();
+                    Sm.Sink_Pots.Text = Sink_Size_Value.Sink_Process.Sink_Size_Pots_Thick.ToString();
                     Sm.Sink_R.Text = Sink_Size_Value.Sink_Process.Sink_Size_R.ToString();
 
                 }

@@ -45,6 +45,13 @@ namespace HanGao.ViewModel
        [Flags]
         public enum Value_Name_enum
         {
+
+            /// <summary>
+            /// 围边工艺焊接尺寸
+            /// </summary>
+            Surround_Welding_size,
+
+
             /// <summary>
             /// 程序解释器Submit状态
             /// </summary>
@@ -78,10 +85,6 @@ namespace HanGao.ViewModel
             [StringValue("$PERI_RDY"), UserArea(nameof(Meg_Value_Eunm.KUKA_State)), BingdingValue(nameof(KUKA_State_Models.KUKA_Drive_State), Value_Type.Bool, false )]
             PERI_RDY,
 
-            /// <summary>
-            /// 围边工艺焊接尺寸
-            /// </summary>
-            Surround_Welding_size,
 
 
             [StringValue("$Run_Work_1"), UserArea(User_Control_Working_VM_1.Work_String_Name), BingdingValue("Work_Run", Value_Type.Bool, true)]
