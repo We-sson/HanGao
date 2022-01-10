@@ -29,7 +29,7 @@ namespace HanGao.Model
         public  string Get_Surround_Struc_String()
         {
 
-            return $"{{Surround_Welding_Type:{nameof(Sink_Process.Sink_Size_Long)} {Sink_Process.Sink_Size_Long},{nameof(Sink_Process.Sink_Size_Width)} {Sink_Process.Sink_Size_Width},{nameof(Sink_Process.Sink_Size_R)} {Sink_Process.Sink_Size_R},{nameof(Sink_Process.Sink_Size_Pots_Thick)} {Sink_Process.Sink_Size_Pots_Thick},{nameof(Sink_Process.Sink_Size_Panel_Thick)} {Sink_Process.Sink_Size_Panel_Thick},Sink_Model {Sink_Model}}}";
+            return $"{{Surround_Welding_Type: {nameof(Sink_Process.Sink_Size_Long)} {Sink_Process.Sink_Size_Long}, {nameof(Sink_Process.Sink_Size_Width)} {Sink_Process.Sink_Size_Width},{nameof(Sink_Process.Sink_Size_R)} {Sink_Process.Sink_Size_R},{nameof(Sink_Process.Sink_Size_Pots_Thick)} {Sink_Process.Sink_Size_Pots_Thick},{nameof(Sink_Process.Sink_Size_Panel_Thick)} {Sink_Process.Sink_Size_Panel_Thick}, {nameof(Sink_Model)} {Sink_Model}, {nameof( Sink_Process.Sink_Size_Left_Distance)} {Sink_Process.Sink_Size_Down_Distance}, {nameof(Sink_Process.Sink_Size_Down_Distance)} {Sink_Process.Sink_Size_Down_Distance}, {nameof(Sink_Type)} #{Sink_Type}}}";
         }
 
 
@@ -131,7 +131,7 @@ namespace HanGao.Model
             [StringValue("&#xe61a;")]
             UpDown_One,
             [StringValue("&#xe61d;")]
-            LeftRighe_Two,
+            LeftRight_Two,
         }
 
 
@@ -221,15 +221,21 @@ namespace HanGao.Model
         /// 水槽面板厚度
         /// </summary>
         public double Sink_Size_Panel_Thick { set; get; } = 2.85;
-
+  
         /// <summary>
         /// 水槽盆胆厚度
         /// </summary>
         public double Sink_Size_Pots_Thick { set; get; } = 0.75;
 
+        /// <summary>
+        /// 水槽面板左配件尺寸
+        /// </summary>
+        public double Sink_Size_Left_Distance { set; get; } = 23.8;
 
-
-
+        /// <summary>
+        /// 水槽面板下配件尺寸
+        /// </summary>
+        public double Sink_Size_Down_Distance { set; get; } = 23.8;
     }
 
 

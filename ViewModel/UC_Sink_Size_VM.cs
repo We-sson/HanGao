@@ -141,6 +141,10 @@ namespace HanGao.ViewModel
                 Sink_Size_Value.Sink_Process.Sink_Size_Panel_Thick = double.Parse(Sm.Sink_Panel.Text);
                 Sink_Size_Value.Sink_Process.Sink_Size_Pots_Thick = double.Parse(Sm.Sink_Pots.Text);
                 Sink_Size_Value.Sink_Process.Sink_Size_R = double.Parse(Sm.Sink_R.Text);
+                Sink_Size_Value.Sink_Process.Sink_Size_Down_Distance=double.Parse(Sm.Sink_Down_Distance.Text);
+                Sink_Size_Value.Sink_Process.Sink_Size_Left_Distance = double.Parse(Sm.Sink_Left_Distance.Text);
+
+
 
 
                 //水槽类型
@@ -178,7 +182,8 @@ namespace HanGao.ViewModel
                     Sm.Sink_Panel.Text = Sink_Size_Value.Sink_Process.Sink_Size_Panel_Thick.ToString();
                     Sm.Sink_Pots.Text = Sink_Size_Value.Sink_Process.Sink_Size_Pots_Thick.ToString();
                     Sm.Sink_R.Text = Sink_Size_Value.Sink_Process.Sink_Size_R.ToString();
-
+                    Sm.Sink_Left_Distance.Text =Sink_Size_Value.Sink_Process.Sink_Size_Left_Distance.ToString();
+                    Sm.Sink_Down_Distance.Text = Sink_Size_Value.Sink_Process.Sink_Size_Down_Distance.ToString();
                 }
 
 

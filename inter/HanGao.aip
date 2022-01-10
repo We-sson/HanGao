@@ -1,30 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<DOCUMENT Type="Advanced Installer" CreateVersion="18.6.1" version="18.6.1" Modules="architect" RootPath="." Language="zh" Id="{A558E5ED-248D-43AE-BF54-941E4C27BFFC}">
+<DOCUMENT Type="Advanced Installer" CreateVersion="18.6.1" version="19.0" Modules="architect" RootPath="." Language="zh" Id="{A558E5ED-248D-43AE-BF54-941E4C27BFFC}">
   <COMPONENT cid="caphyon.advinst.msicomp.MsiPropsComponent">
     <ROW Property="AI_BITMAP_DISPLAY_MODE" Value="0"/>
-    <ROW Property="AI_CURRENT_YEAR" Value="2021" ValueLocId="-"/>
-    <ROW Property="AI_FINDEXE_TITLE" Value="选择 [|ProductName] 安装包" ValueLocId="AI.Property.FindExeTitle"/>
-    <ROW Property="AI_PREDEF_LCONDS_PROPS" Value="AI_DETECTED_DOTNET_VERSION"/>
-    <ROW Property="AI_REQUIRED_DOTNET_DISPLAY" MultiBuildValue="x64_Release:4.8" ValueLocId="-"/>
-    <ROW Property="AI_REQUIRED_DOTNET_VERSION" MultiBuildValue="x64_Release:4.8" ValueLocId="-"/>
+    <ROW Property="AI_CURRENT_YEAR" Value="2022" ValueLocId="-"/>
+    <ROW Property="AI_UPGRADE" Value="No"/>
     <ROW Property="ALLUSERS" Value="1"/>
     <ROW Property="ARPCOMMENTS" Value="此 Installer 数据库包含了安装 [|ProductName] 所需的逻辑和数据。" ValueLocId="*"/>
-    <ROW Property="ARPNOREPAIR" MultiBuildValue="x64_Release:1"/>
-    <ROW Property="Manufacturer" Value="kuka"/>
+    <ROW Property="Manufacturer" Value="KUKA_HMI"/>
     <ROW Property="ProductCode" Value="2052:{4B630BE3-E4B4-4C87-B0AD-72EC16C01886} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="HanGao"/>
     <ROW Property="ProductVersion" Value="1.0.0" Type="32"/>
-    <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
+    <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{DB0A1C70-4625-42D2-A2A6-FE1334770CC0}"/>
-    <ROW Property="WindowsType9X" MultiBuildValue="x64_Release:Windows 9x/ME" ValueLocId="-"/>
-    <ROW Property="WindowsType9XDisplay" MultiBuildValue="x64_Release:Windows 9x/ME" ValueLocId="-"/>
-    <ROW Property="WindowsTypeNT40" MultiBuildValue="x64_Release:Windows NT 4.0" ValueLocId="-"/>
-    <ROW Property="WindowsTypeNT40Display" MultiBuildValue="x64_Release:Windows NT 4.0" ValueLocId="-"/>
-    <ROW Property="WindowsTypeNT50" MultiBuildValue="x64_Release:Windows 2000" ValueLocId="-"/>
-    <ROW Property="WindowsTypeNT50Display" MultiBuildValue="x64_Release:Windows 2000" ValueLocId="-"/>
-    <ROW Property="WindowsTypeNT5X" MultiBuildValue="x64_Release:Windows XP/2003" ValueLocId="-"/>
-    <ROW Property="WindowsTypeNT5XDisplay" MultiBuildValue="x64_Release:Windows XP/2003" ValueLocId="-"/>
+    <ROW Property="WindowsType9X" MultiBuildValue="x64_Debug:Windows 9x/ME" ValueLocId="-"/>
+    <ROW Property="WindowsType9XDisplay" MultiBuildValue="x64_Debug:Windows 9x/ME" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT40" MultiBuildValue="x64_Debug:Windows NT 4.0" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT40Display" MultiBuildValue="x64_Debug:Windows NT 4.0" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT50" MultiBuildValue="x64_Debug:Windows 2000" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT50Display" MultiBuildValue="x64_Debug:Windows 2000" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT5X" MultiBuildValue="x64_Debug:Windows XP/2003" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT5XDisplay" MultiBuildValue="x64_Debug:Windows XP/2003" ValueLocId="-"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiDirsComponent">
     <ROW Directory="APPDIR" Directory_Parent="TARGETDIR" DefaultDir="APPDIR:." IsPseudoRoot="1"/>
@@ -33,7 +29,6 @@
     <ROW Directory="TARGETDIR" DefaultDir="SourceDir"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCompsComponent">
-    <ROW Component="AI_ExePath" ComponentId="{50EBCEB1-F7C3-4FAF-B9FB-A7605F2EC195}" Directory_="APPDIR" Attributes="4" KeyPath="AI_ExePath"/>
     <ROW Component="APPDIR" ComponentId="{E2637E17-7884-46C8-BC4E-BE097BCECD41}" Directory_="APPDIR" Attributes="0"/>
     <ROW Component="CommonServiceLocator.dll" ComponentId="{523B4EEE-4BAF-4941-B47A-EDAFC5C6A8BF}" Directory_="APPDIR" Attributes="0" KeyPath="CommonServiceLocator.dll"/>
     <ROW Component="GalaSoft.MvvmLight.Extras.dll" ComponentId="{343C8C48-E6BB-4AB0-B335-BC9A721E47B6}" Directory_="APPDIR" Attributes="0" KeyPath="GalaSoft.MvvmLight.Extras.dll"/>
@@ -41,7 +36,14 @@
     <ROW Component="GalaSoft.MvvmLight.dll" ComponentId="{3FFD5A73-828E-4A53-8507-5ABE7A45283F}" Directory_="APPDIR" Attributes="0" KeyPath="GalaSoft.MvvmLight.dll"/>
     <ROW Component="HanGao.exe" ComponentId="{27DCE205-540E-4156-8126-EA18A6B0D4BD}" Directory_="APPDIR" Attributes="0" KeyPath="HanGao.exe"/>
     <ROW Component="HanGao.exe.config" ComponentId="{FF8369C7-B952-42B0-BA89-DD2DCE8904B1}" Directory_="APPDIR" Attributes="0" KeyPath="HanGao.exe.config" Type="0"/>
+    <ROW Component="LiveCharts.Wpf.dll" ComponentId="{3798EDB3-CAB8-4B9A-8FB2-74E06125551F}" Directory_="APPDIR" Attributes="0" KeyPath="LiveCharts.Wpf.dll"/>
+    <ROW Component="LiveCharts.dll" ComponentId="{C32F754D-7E21-4AB6-A7BD-A360F7F8578C}" Directory_="APPDIR" Attributes="0" KeyPath="LiveCharts.dll"/>
+    <ROW Component="Microsoft.Bcl.AsyncInterfaces.dll" ComponentId="{0671810A-CFCE-4C02-B29E-26E764247CA6}" Directory_="APPDIR" Attributes="0" KeyPath="Microsoft.Bcl.AsyncInterfaces.dll"/>
     <ROW Component="Microsoft.CSharp.dll" ComponentId="{D2C57951-B6B0-499D-97FA-75553AAEDD12}" Directory_="APPDIR" Attributes="0" KeyPath="Microsoft.CSharp.dll"/>
+    <ROW Component="Microsoft.Expression.Interactions.dll" ComponentId="{DE0733EF-08E0-489C-B2E1-996853682A21}" Directory_="APPDIR" Attributes="0" KeyPath="Microsoft.Expression.Interactions.dll"/>
+    <ROW Component="Microsoft.Extensions.DependencyInjection.Abstractions.dll" ComponentId="{3119C34D-3074-4D44-BE99-9CC6C3B42CD1}" Directory_="APPDIR" Attributes="0" KeyPath="Microsoft.Extensions.DependencyInjection.Abstractions.dll"/>
+    <ROW Component="Microsoft.Extensions.DependencyInjection.dll" ComponentId="{87ECF6FC-F820-4EDF-BFE9-2098901946E7}" Directory_="APPDIR" Attributes="0" KeyPath="Microsoft.Extensions.DependencyInjection.dll"/>
+    <ROW Component="Microsoft.Toolkit.Mvvm.dll" ComponentId="{E51977BC-4EB1-4ECF-AB67-3B325D19632E}" Directory_="APPDIR" Attributes="0" KeyPath="Microsoft.Toolkit.Mvvm.dll"/>
     <ROW Component="Microsoft.Win32.Primitives.dll" ComponentId="{77AE7D36-6D29-454D-9199-A619F781E4CF}" Directory_="APPDIR" Attributes="0" KeyPath="Microsoft.Win32.Primitives.dll"/>
     <ROW Component="Microsoft.Xaml.Behaviors.dll" ComponentId="{5BE8DB71-C506-4E30-A505-FB2DA53B4007}" Directory_="APPDIR" Attributes="0" KeyPath="Microsoft.Xaml.Behaviors.dll"/>
     <ROW Component="Nancy.dll" ComponentId="{CC7A6ED1-FA0D-4B1F-9B17-1DF611916E82}" Directory_="APPDIR" Attributes="0" KeyPath="Nancy.dll"/>
@@ -53,12 +55,14 @@
     <ROW Component="PropertyChanged.dll" ComponentId="{1C2B26A7-065D-436A-AD21-C30C3BC395F5}" Directory_="APPDIR" Attributes="0" KeyPath="PropertyChanged.dll"/>
     <ROW Component="SHORTCUTDIR" ComponentId="{607AE395-C80F-4C56-B2D6-E1BDC53A7295}" Directory_="SHORTCUTDIR" Attributes="0"/>
     <ROW Component="System.AppContext.dll" ComponentId="{2F16446A-FF06-4735-B690-E59171FEF388}" Directory_="APPDIR" Attributes="0" KeyPath="System.AppContext.dll"/>
+    <ROW Component="System.Buffers.dll" ComponentId="{9866D634-C4F8-496C-80AD-7C7231E83B26}" Directory_="APPDIR" Attributes="0" KeyPath="System.Buffers.dll"/>
     <ROW Component="System.Collections.Concurrent.dll" ComponentId="{188F0E9C-8753-4F35-8B4C-FDB640056754}" Directory_="APPDIR" Attributes="0" KeyPath="System.Collections.Concurrent.dll"/>
     <ROW Component="System.Collections.NonGeneric.dll" ComponentId="{14E5B4BA-0AA1-4743-BCEB-DFB94ACE95D0}" Directory_="APPDIR" Attributes="0" KeyPath="System.Collections.NonGeneric.dll"/>
     <ROW Component="System.Collections.Specialized.dll" ComponentId="{AFA5EA3E-8B29-42D3-A651-DC1BFAA667DD}" Directory_="APPDIR" Attributes="0" KeyPath="System.Collections.Specialized.dll"/>
     <ROW Component="System.Collections.dll" ComponentId="{C4D0E669-0B7D-4193-B451-109F0A343CD7}" Directory_="APPDIR" Attributes="0" KeyPath="System.Collections.dll"/>
     <ROW Component="System.ComponentModel.Annotations.dll" ComponentId="{AABAF38E-DA6B-47FC-98B3-E0B0701E202B}" Directory_="APPDIR" Attributes="0" KeyPath="System.ComponentModel.Annotations.dll"/>
     <ROW Component="System.ComponentModel.Composition.dll" ComponentId="{E264B815-FB48-4744-9403-31874E3E5FB3}" Directory_="APPDIR" Attributes="0" KeyPath="System.ComponentModel.Composition.dll"/>
+    <ROW Component="System.ComponentModel.DataAnnotations.dll" ComponentId="{99D05307-1287-48EB-A755-3AD580A0CE08}" Directory_="APPDIR" Attributes="0" KeyPath="System.ComponentModel.DataAnnotations.dll"/>
     <ROW Component="System.ComponentModel.EventBasedAsync.dll" ComponentId="{DEC2B3EC-1D10-4E6B-81ED-21CE6DFF78C2}" Directory_="APPDIR" Attributes="0" KeyPath="System.ComponentModel.EventBasedAsync.dll"/>
     <ROW Component="System.ComponentModel.Primitives.dll" ComponentId="{B795F525-B175-4451-A96B-4402879F2EA9}" Directory_="APPDIR" Attributes="0" KeyPath="System.ComponentModel.Primitives.dll"/>
     <ROW Component="System.ComponentModel.TypeConverter.dll" ComponentId="{D2A56BE4-7A41-4174-9D8A-C0DDBA5273FA}" Directory_="APPDIR" Attributes="0" KeyPath="System.ComponentModel.TypeConverter.dll"/>
@@ -97,6 +101,7 @@
     <ROW Component="System.Linq.Parallel.dll" ComponentId="{F5F90A10-7B7D-41AC-9812-2AD5F5F50C71}" Directory_="APPDIR" Attributes="0" KeyPath="System.Linq.Parallel.dll"/>
     <ROW Component="System.Linq.Queryable.dll" ComponentId="{5DA7ECC0-8AD8-451B-AB38-773DEAD9979B}" Directory_="APPDIR" Attributes="0" KeyPath="System.Linq.Queryable.dll"/>
     <ROW Component="System.Linq.dll" ComponentId="{84972044-244C-4125-AC8A-EBC3AA164972}" Directory_="APPDIR" Attributes="0" KeyPath="System.Linq.dll"/>
+    <ROW Component="System.Memory.dll" ComponentId="{9FC996BA-7AE6-4089-A8D7-56D14AAEBDE3}" Directory_="APPDIR" Attributes="0" KeyPath="System.Memory.dll"/>
     <ROW Component="System.Net.Http.Rtc.dll" ComponentId="{03A743AD-A2E4-4745-AB5B-329A7BCB560F}" Directory_="APPDIR" Attributes="0" KeyPath="System.Net.Http.Rtc.dll"/>
     <ROW Component="System.Net.NameResolution.dll" ComponentId="{A0163626-FA66-4CF3-8ADD-A78590243E9C}" Directory_="APPDIR" Attributes="0" KeyPath="System.Net.NameResolution.dll"/>
     <ROW Component="System.Net.NetworkInformation.dll" ComponentId="{3B5EAFF5-A199-43EC-9779-7FF17F6C4DDF}" Directory_="APPDIR" Attributes="0" KeyPath="System.Net.NetworkInformation.dll"/>
@@ -108,6 +113,7 @@
     <ROW Component="System.Net.WebHeaderCollection.dll" ComponentId="{F3C7B596-A7D5-4B9B-8E02-42F379A8213A}" Directory_="APPDIR" Attributes="0" KeyPath="System.Net.WebHeaderCollection.dll"/>
     <ROW Component="System.Net.WebSockets.Client.dll" ComponentId="{8E3B1381-9D06-4986-9A80-18D7C67816FE}" Directory_="APPDIR" Attributes="0" KeyPath="System.Net.WebSockets.Client.dll"/>
     <ROW Component="System.Net.WebSockets.dll" ComponentId="{414EA1CB-382A-44F3-B183-D0D6236AD142}" Directory_="APPDIR" Attributes="0" KeyPath="System.Net.WebSockets.dll"/>
+    <ROW Component="System.Numerics.Vectors.dll" ComponentId="{5FC20A0B-42CB-4F3F-B8EE-9C193044C7AF}" Directory_="APPDIR" Attributes="0" KeyPath="System.Numerics.Vectors.dll"/>
     <ROW Component="System.Numerics.dll" ComponentId="{13252E0A-339A-43D4-9334-06F9F7FFAA97}" Directory_="APPDIR" Attributes="0" KeyPath="System.Numerics.dll"/>
     <ROW Component="System.ObjectModel.dll" ComponentId="{C93085E6-A6F4-4813-B57F-339EC141EA09}" Directory_="APPDIR" Attributes="0" KeyPath="System.ObjectModel.dll"/>
     <ROW Component="System.Reflection.Emit.ILGeneration.dll" ComponentId="{AA494FD1-0E54-4531-90FC-FF0722E88348}" Directory_="APPDIR" Attributes="0" KeyPath="System.Reflection.Emit.ILGeneration.dll"/>
@@ -181,19 +187,19 @@
     <ROW File="System.Runtime.CompilerServices.VisualC.dll" Component_="System.Runtime.CompilerServices.VisualC.dll" FileName="SYSTEM~1.DLL|System.Runtime.CompilerServices.VisualC.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\System.Runtime.CompilerServices.VisualC.dll" SelfReg="false"/>
     <ROW File="System.AppContext.dll" Component_="System.AppContext.dll" FileName="SYSTEM~2.DLL|System.AppContext.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\System.AppContext.dll" SelfReg="false"/>
     <ROW File="System.Xml.Linq.dll" Component_="System.Xml.Linq.dll" FileName="SYSTEM~3.DLL|System.Xml.Linq.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Xml.Linq.dll" SelfReg="false"/>
-    <ROW File="HanGao.exe" Component_="HanGao.exe" FileName="HanGao.exe" Attributes="0" SourcePath="..\bin\x64\Release\HanGao.exe" SelfReg="false" DigSign="true"/>
+    <ROW File="HanGao.exe" Component_="HanGao.exe" FileName="HanGao.exe" Attributes="0" SourcePath="..\bin\x86\Debug\HanGao.exe" SelfReg="false" DigSign="true"/>
     <ROW File="WindowsBase.dll" Component_="WindowsBase.dll" FileName="WINDOW~1.DLL|WindowsBase.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\WindowsBase.dll" SelfReg="false"/>
     <ROW File="GalaSoft.MvvmLight.Extras.dll" Component_="GalaSoft.MvvmLight.Extras.dll" FileName="GALASO~1.DLL|GalaSoft.MvvmLight.Extras.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\mvvmlightlibs\5.4.1.1\lib\net45\GalaSoft.MvvmLight.Extras.dll" SelfReg="false"/>
     <ROW File="System.Security.Cryptography.X509Certificates.dll" Component_="System.Security.Cryptography.X509Certificates.dll" FileName="SYSTEM~4.DLL|System.Security.Cryptography.X509Certificates.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\System.Security.Cryptography.X509Certificates.dll" SelfReg="false"/>
-    <ROW File="HanGao.exe.config" Component_="HanGao.exe.config" FileName="HANGAO~1.CON|HanGao.exe.config" Attributes="0" SourcePath="..\bin\x64\Release\HanGao.exe.config" SelfReg="false"/>
+    <ROW File="HanGao.exe.config" Component_="HanGao.exe.config" FileName="HANGAO~1.CON|HanGao.exe.config" Attributes="0" SourcePath="..\bin\x86\Debug\HanGao.exe.config" SelfReg="false"/>
     <ROW File="System.Drawing.Primitives.dll" Component_="System.Drawing.Primitives.dll" FileName="SYSTEM~5.DLL|System.Drawing.Primitives.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\System.Drawing.Primitives.dll" SelfReg="false"/>
     <ROW File="GalaSoft.MvvmLight.Platform.dll" Component_="GalaSoft.MvvmLight.Platform.dll" FileName="GALASO~2.DLL|GalaSoft.MvvmLight.Platform.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\mvvmlightlibs\5.4.1.1\lib\net45\GalaSoft.MvvmLight.Platform.dll" SelfReg="false"/>
-    <ROW File="System.Runtime.CompilerServices.Unsafe.dll" Component_="System.Runtime.CompilerServices.Unsafe.dll" FileName="SYSTEM~6.DLL|System.Runtime.CompilerServices.Unsafe.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\system.runtime.compilerservices.unsafe\5.0.0\ref\net461\System.Runtime.CompilerServices.Unsafe.dll" SelfReg="false"/>
+    <ROW File="System.Runtime.CompilerServices.Unsafe.dll" Component_="System.Runtime.CompilerServices.Unsafe.dll" FileName="SYSTEM~6.DLL|System.Runtime.CompilerServices.Unsafe.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\system.runtime.compilerservices.unsafe\6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll" SelfReg="false"/>
     <ROW File="CommonServiceLocator.dll" Component_="CommonServiceLocator.dll" FileName="COMMON~1.DLL|CommonServiceLocator.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\commonservicelocator\2.0.6\lib\net48\CommonServiceLocator.dll" SelfReg="false"/>
     <ROW File="GalaSoft.MvvmLight.dll" Component_="GalaSoft.MvvmLight.dll" FileName="GALASO~3.DLL|GalaSoft.MvvmLight.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\mvvmlightlibs\5.4.1.1\lib\net45\GalaSoft.MvvmLight.dll" SelfReg="false"/>
     <ROW File="System.dll" Component_="System.dll" FileName="System.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.dll" SelfReg="false"/>
     <ROW File="Microsoft.CSharp.dll" Component_="Microsoft.CSharp.dll" FileName="MICROS~1.DLL|Microsoft.CSharp.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Microsoft.CSharp.dll" SelfReg="false"/>
-    <ROW File="Microsoft.Xaml.Behaviors.dll" Component_="Microsoft.Xaml.Behaviors.dll" FileName="MICROS~2.DLL|Microsoft.Xaml.Behaviors.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\microsoft.xaml.behaviors.wpf\1.1.31\lib\net45\Microsoft.Xaml.Behaviors.dll" SelfReg="false"/>
+    <ROW File="Microsoft.Xaml.Behaviors.dll" Component_="Microsoft.Xaml.Behaviors.dll" FileName="MICROS~2.DLL|Microsoft.Xaml.Behaviors.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\microsoft.xaml.behaviors.wpf\1.1.39\lib\net45\Microsoft.Xaml.Behaviors.dll" SelfReg="false"/>
     <ROW File="netstandard.dll" Component_="netstandard.dll" FileName="NETSTA~1.DLL|netstandard.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\netstandard.dll" SelfReg="false"/>
     <ROW File="mscorlib.dll" Component_="mscorlib.dll" FileName="mscorlib.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\mscorlib.dll" SelfReg="false"/>
     <ROW File="System.Xml.ReaderWriter.dll" Component_="System.Xml.ReaderWriter.dll" FileName="SYSTEM~7.DLL|System.Xml.ReaderWriter.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\System.Xml.ReaderWriter.dll" SelfReg="false"/>
@@ -217,14 +223,14 @@
     <ROW File="System.Drawing.dll" Component_="System.Drawing.dll" FileName="SYSTE~19.DLL|System.Drawing.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Drawing.dll" SelfReg="false"/>
     <ROW File="System.Numerics.dll" Component_="System.Numerics.dll" FileName="SYSTE~20.DLL|System.Numerics.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Numerics.dll" SelfReg="false"/>
     <ROW File="System.Threading.Tasks.Extensions.dll" Component_="System.Threading.Tasks.Extensions.dll" FileName="SYSTE~21.DLL|System.Threading.Tasks.Extensions.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\system.threading.tasks.extensions\4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll" SelfReg="false"/>
-    <ROW File="System.Windows.Interactivity.dll" Component_="System.Windows.Interactivity.dll" FileName="SYSTE~22.DLL|System.Windows.Interactivity.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\mvvmlightlibs\5.4.1.1\lib\net45\System.Windows.Interactivity.dll" SelfReg="false"/>
+    <ROW File="System.Windows.Interactivity.dll" Component_="System.Windows.Interactivity.dll" FileName="SYSTE~22.DLL|System.Windows.Interactivity.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\system.windows.interactivity.wpf\2.0.20525\lib\net40\System.Windows.Interactivity.dll" SelfReg="false"/>
     <ROW File="System.Xaml.dll" Component_="System.Xaml.dll" FileName="SYSTE~23.DLL|System.Xaml.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Xaml.dll" SelfReg="false"/>
     <ROW File="System.Xml.dll" Component_="System.Xml.dll" FileName="SYSTE~24.DLL|System.Xml.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Xml.dll" SelfReg="false"/>
     <ROW File="Microsoft.Win32.Primitives.dll" Component_="Microsoft.Win32.Primitives.dll" FileName="MICROS~3.DLL|Microsoft.Win32.Primitives.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\Microsoft.Win32.Primitives.dll" SelfReg="false"/>
     <ROW File="System.Collections.Concurrent.dll" Component_="System.Collections.Concurrent.dll" FileName="SYSTE~25.DLL|System.Collections.Concurrent.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\System.Collections.Concurrent.dll" SelfReg="false"/>
     <ROW File="System.Collections.NonGeneric.dll" Component_="System.Collections.NonGeneric.dll" FileName="SYSTE~26.DLL|System.Collections.NonGeneric.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\System.Collections.NonGeneric.dll" SelfReg="false"/>
     <ROW File="System.Collections.Specialized.dll" Component_="System.Collections.Specialized.dll" FileName="SYSTE~27.DLL|System.Collections.Specialized.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\System.Collections.Specialized.dll" SelfReg="false"/>
-    <ROW File="System.ComponentModel.Annotations.dll" Component_="System.ComponentModel.Annotations.dll" FileName="SYSTE~28.DLL|System.ComponentModel.Annotations.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\System.ComponentModel.Annotations.dll" SelfReg="false"/>
+    <ROW File="System.ComponentModel.Annotations.dll" Component_="System.ComponentModel.Annotations.dll" FileName="SYSTE~28.DLL|System.ComponentModel.Annotations.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\system.componentmodel.annotations\5.0.0\lib\net461\System.ComponentModel.Annotations.dll" SelfReg="false"/>
     <ROW File="System.Diagnostics.StackTrace.dll" Component_="System.Diagnostics.StackTrace.dll" FileName="SYSTE~29.DLL|System.Diagnostics.StackTrace.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\System.Diagnostics.StackTrace.dll" SelfReg="false"/>
     <ROW File="System.ComponentModel.EventBasedAsync.dll" Component_="System.ComponentModel.EventBasedAsync.dll" FileName="SYSTE~30.DLL|System.ComponentModel.EventBasedAsync.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\System.ComponentModel.EventBasedAsync.dll" SelfReg="false"/>
     <ROW File="System.ComponentModel.Primitives.dll" Component_="System.ComponentModel.Primitives.dll" FileName="SYSTE~31.DLL|System.ComponentModel.Primitives.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\System.ComponentModel.Primitives.dll" SelfReg="false"/>
@@ -313,16 +319,25 @@
     <ROW File="System.Xml.XmlSerializer.dll" Component_="System.Xml.XmlSerializer.dll" FileName="SYST~114.DLL|System.Xml.XmlSerializer.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\System.Xml.XmlSerializer.dll" SelfReg="false"/>
     <ROW File="System.Xml.XPath.XDocument.dll" Component_="System.Xml.XPath.XDocument.dll" FileName="SYST~115.DLL|System.Xml.XPath.XDocument.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\System.Xml.XPath.XDocument.dll" SelfReg="false"/>
     <ROW File="System.Runtime.Serialization.dll" Component_="System.Runtime.Serialization.dll" FileName="SYST~116.DLL|System.Runtime.Serialization.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Runtime.Serialization.dll" SelfReg="false"/>
-    <ROW File="Log.txt" Component_="HanGao.exe.config" FileName="Log.txt" Attributes="0" SourcePath="..\bin\x64\Release\Resources\Log.txt" SelfReg="false"/>
+    <ROW File="Log.txt" Component_="HanGao.exe.config" FileName="Log.txt" Attributes="0" SourcePath="..\bin\x86\Debug\Resources\Log.txt" SelfReg="false"/>
+    <ROW File="System.ComponentModel.DataAnnotations.dll" Component_="System.ComponentModel.DataAnnotations.dll" FileName="SYST~117.DLL|System.ComponentModel.DataAnnotations.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.ComponentModel.DataAnnotations.dll" SelfReg="false"/>
+    <ROW File="Microsoft.Toolkit.Mvvm.dll" Component_="Microsoft.Toolkit.Mvvm.dll" FileName="MICROS~4.DLL|Microsoft.Toolkit.Mvvm.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\microsoft.toolkit.mvvm\7.1.2\lib\netstandard2.0\Microsoft.Toolkit.Mvvm.dll" SelfReg="false"/>
+    <ROW File="LiveCharts.Wpf.dll" Component_="LiveCharts.Wpf.dll" FileName="LIVECH~1.DLL|LiveCharts.Wpf.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\livecharts.wpf\0.9.7\lib\net45\LiveCharts.Wpf.dll" SelfReg="false"/>
+    <ROW File="System.Memory.dll" Component_="System.Memory.dll" FileName="SYST~118.DLL|System.Memory.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\system.memory\4.5.4\lib\net461\System.Memory.dll" SelfReg="false"/>
+    <ROW File="LiveCharts.dll" Component_="LiveCharts.dll" FileName="LIVECH~2.DLL|LiveCharts.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\livecharts\0.9.7\lib\net45\LiveCharts.dll" SelfReg="false"/>
+    <ROW File="Microsoft.Extensions.DependencyInjection.dll" Component_="Microsoft.Extensions.DependencyInjection.dll" FileName="MICROS~5.DLL|Microsoft.Extensions.DependencyInjection.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\microsoft.extensions.dependencyinjection\6.0.0\lib\net461\Microsoft.Extensions.DependencyInjection.dll" SelfReg="false"/>
+    <ROW File="Microsoft.Bcl.AsyncInterfaces.dll" Component_="Microsoft.Bcl.AsyncInterfaces.dll" FileName="MICROS~6.DLL|Microsoft.Bcl.AsyncInterfaces.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\microsoft.bcl.asyncinterfaces\6.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll" SelfReg="false"/>
+    <ROW File="Microsoft.Extensions.DependencyInjection.Abstractions.dll" Component_="Microsoft.Extensions.DependencyInjection.Abstractions.dll" FileName="MICROS~7.DLL|Microsoft.Extensions.DependencyInjection.Abstractions.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\microsoft.extensions.dependencyinjection.abstractions\6.0.0\lib\net461\Microsoft.Extensions.DependencyInjection.Abstractions.dll" SelfReg="false"/>
+    <ROW File="System.Buffers.dll" Component_="System.Buffers.dll" FileName="SYST~119.DLL|System.Buffers.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\system.buffers\4.5.1\lib\net461\System.Buffers.dll" SelfReg="false"/>
+    <ROW File="System.Numerics.Vectors.dll" Component_="System.Numerics.Vectors.dll" FileName="SYST~120.DLL|System.Numerics.Vectors.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\system.numerics.vectors\4.5.0\lib\net46\System.Numerics.Vectors.dll" SelfReg="false"/>
+    <ROW File="Microsoft.Expression.Interactions.dll" Component_="Microsoft.Expression.Interactions.dll" FileName="MICROS~8.DLL|Microsoft.Expression.Interactions.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\system.windows.interactivity.wpf\2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll" SelfReg="false"/>
+    <ROW File="HanGao.pdb" Component_="HanGao.exe" FileName="HanGao.pdb" Attributes="0" SourcePath="..\bin\x86\Debug\HanGao.pdb" SelfReg="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BootstrOptComponent">
     <ROW BootstrOptKey="GlobalOptions" DownloadFolder="[AppDataFolder][|Manufacturer]\[|ProductName]\prerequisites" Options="2"/>
   </COMPONENT>
-  <COMPONENT cid="caphyon.advinst.msicomp.BootstrapperUISequenceComponent">
-    <ROW Action="AI_DetectSoftware" Sequence="151"/>
-  </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
-    <ROW BuildKey="x64_Release" BuildName="x64_Release" BuildOrder="1" BuildType="0" PackageFolder="x64_ReleaseSetupFiles" PackageFileName="HanGao" Languages="zh" InstallationType="4" CabsLocation="1" PackageType="1" FilesInsideExe="true" ExtractionFolder="[AppDataFolder][|Manufacturer]\[|ProductName] [|ProductVersion]\install" UseLargeSchema="true" UACExecutionLevel="2"/>
+    <ROW BuildKey="x64_Debug" BuildName="x64_Debug" BuildOrder="1" BuildType="0" PackageFolder="x64_DebugSetupFiles" PackageFileName="HanGao" Languages="zh" InstallationType="4" UseLargeSchema="true"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
     <ROW Path="&lt;AI_DICTS&gt;ui.ail"/>
@@ -333,6 +348,9 @@
     <ROW Fragment="FolderDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\FolderDlg.aip"/>
     <ROW Fragment="MaintenanceTypeDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\MaintenanceTypeDlg.aip"/>
     <ROW Fragment="MaintenanceWelcomeDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\MaintenanceWelcomeDlg.aip"/>
+    <ROW Fragment="PreparePrereqDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\PreparePrereqDlg.aip"/>
+    <ROW Fragment="PrerequisitesDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\PrerequisitesDlg.aip"/>
+    <ROW Fragment="ProgressPrereqDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\ProgressPrereqDlg.aip"/>
     <ROW Fragment="SequenceDialogs.aip" Path="&lt;AI_THEMES&gt;classic\fragments\SequenceDialogs.aip"/>
     <ROW Fragment="Sequences.aip" Path="&lt;AI_FRAGS&gt;Sequences.aip"/>
     <ROW Fragment="StaticUIStrings.aip" Path="&lt;AI_FRAGS&gt;StaticUIStrings.aip"/>
@@ -341,22 +359,11 @@
     <ROW Fragment="VerifyRemoveDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\VerifyRemoveDlg.aip"/>
     <ROW Fragment="VerifyRepairDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\VerifyRepairDlg.aip"/>
     <ROW Fragment="WelcomeDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\WelcomeDlg.aip"/>
-  </COMPONENT>
-  <COMPONENT cid="caphyon.advinst.msicomp.MsiActionTextComponent">
-    <ROW Action="AI_DeleteLzma" Description="正在删除从档案中提取的文件" DescriptionLocId="ActionText.Description.AI_DeleteLzma" TemplateLocId="-"/>
-    <ROW Action="AI_DeleteRLzma" Description="正在删除从档案中提取的文件" DescriptionLocId="ActionText.Description.AI_DeleteLzma" TemplateLocId="-"/>
-    <ROW Action="AI_ExtractFiles" Description="正在从档案中提取文件" DescriptionLocId="ActionText.Description.AI_ExtractLzma" TemplateLocId="-"/>
-    <ROW Action="AI_ExtractLzma" Description="正在从档案中提取文件" DescriptionLocId="ActionText.Description.AI_ExtractLzma" TemplateLocId="-"/>
-  </COMPONENT>
-  <COMPONENT cid="caphyon.advinst.msicomp.MsiAppSearchComponent">
-    <ROW Property="AI_SETUPEXEPATH" Signature_="AI_EXE_PATH_LM" Builds="x64_Release"/>
-    <ROW Property="AI_SETUPEXEPATH" Signature_="AI_EXE_PATH_CU" Builds="x64_Release"/>
+    <ROW Fragment="WelcomePrereqDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\WelcomePrereqDlg.aip"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiBinaryComponent">
     <ROW Name="Prereq.dll" SourcePath="&lt;AI_CUSTACTS&gt;Prereq.dll"/>
-    <ROW Name="SoftwareDetector.dll" SourcePath="&lt;AI_CUSTACTS&gt;SoftwareDetector.dll"/>
     <ROW Name="aicustact.dll" SourcePath="&lt;AI_CUSTACTS&gt;aicustact.dll"/>
-    <ROW Name="lzmaextractor.dll" SourcePath="&lt;AI_CUSTACTS&gt;lzmaextractor.dll"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiControlEventComponent">
     <ROW Dialog_="WelcomeDlg" Control_="Next" Event="NewDialog" Argument="FolderDlg" Condition="AI_INSTALL" Ordering="1"/>
@@ -381,30 +388,22 @@
     <ROW Dialog_="ResumeDlg" Control_="Install" Event="EndDialog" Argument="Return" Condition="AI_RESUME" Ordering="299"/>
     <ROW Dialog_="VerifyReadyDlg" Control_="Install" Event="EndDialog" Argument="Return" Condition="AI_PATCH" Ordering="199"/>
     <ROW Dialog_="VerifyReadyDlg" Control_="Back" Event="NewDialog" Argument="PatchWelcomeDlg" Condition="AI_PATCH" Ordering="203"/>
+    <ROW Dialog_="WelcomePrereqDlg" Control_="Next" Event="NewDialog" Argument="PrerequisitesDlg" Condition="AI_BOOTSTRAPPER" Ordering="1"/>
+    <ROW Dialog_="PrerequisitesDlg" Control_="Next" Event="EndDialog" Argument="Return" Condition="AI_BOOTSTRAPPER" Ordering="1"/>
+    <ROW Dialog_="PrerequisitesDlg" Control_="Back" Event="NewDialog" Argument="WelcomePrereqDlg" Condition="AI_BOOTSTRAPPER" Ordering="1"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCreateFolderComponent">
     <ROW Directory_="APPDIR" Component_="APPDIR" ManualDelete="true"/>
     <ROW Directory_="SHORTCUTDIR" Component_="SHORTCUTDIR" ManualDelete="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCustActComponent">
+    <ROW Action="AI_AppSearchEx" Type="1" Source="Prereq.dll" Target="DoAppSearchEx"/>
     <ROW Action="AI_BACKUP_AI_SETUPEXEPATH" Type="51" Source="AI_SETUPEXEPATH_ORIGINAL" Target="[AI_SETUPEXEPATH]"/>
-    <ROW Action="AI_DATA_SETTER" Type="51" Source="CustomActionData" Target="[AI_SETUPEXEPATH]"/>
-    <ROW Action="AI_DOWNGRADE" Type="19" Target="4010"/>
-    <ROW Action="AI_DeleteCadLzma" Type="51" Source="AI_DeleteLzma" Target="[AI_SETUPEXEPATH]"/>
-    <ROW Action="AI_DeleteLzma" Type="1025" Source="lzmaextractor.dll" Target="DeleteLZMAFiles"/>
-    <ROW Action="AI_DeleteRCadLzma" Type="51" Source="AI_DeleteRLzma" Target="[AI_SETUPEXEPATH]"/>
-    <ROW Action="AI_DeleteRLzma" Type="1281" Source="lzmaextractor.dll" Target="DeleteLZMAFiles"/>
-    <ROW Action="AI_DetectSoftware" Type="257" Source="SoftwareDetector.dll" Target="OnDetectSoftware"/>
     <ROW Action="AI_DpiContentScale" Type="1" Source="aicustact.dll" Target="DpiContentScale"/>
     <ROW Action="AI_EnableDebugLog" Type="321" Source="aicustact.dll" Target="EnableDebugLog"/>
-    <ROW Action="AI_ExtractCadLzma" Type="51" Source="AI_ExtractLzma" Target="[AI_SETUPEXEPATH]"/>
-    <ROW Action="AI_ExtractFiles" Type="1" Source="Prereq.dll" Target="ExtractSourceFiles" AdditionalSeq="AI_DATA_SETTER"/>
-    <ROW Action="AI_ExtractLzma" Type="1025" Source="lzmaextractor.dll" Target="ExtractLZMAFiles"/>
-    <ROW Action="AI_FindExeLzma" Type="1" Source="lzmaextractor.dll" Target="FindEXE"/>
     <ROW Action="AI_InstallModeCheck" Type="1" Source="aicustact.dll" Target="UpdateInstallMode" WithoutSeq="true"/>
     <ROW Action="AI_PREPARE_UPGRADE" Type="65" Source="aicustact.dll" Target="PrepareUpgrade"/>
     <ROW Action="AI_RESTORE_AI_SETUPEXEPATH" Type="51" Source="AI_SETUPEXEPATH" Target="[AI_SETUPEXEPATH_ORIGINAL]"/>
-    <ROW Action="AI_RESTORE_LOCATION" Type="65" Source="aicustact.dll" Target="RestoreLocation"/>
     <ROW Action="AI_ResolveKnownFolders" Type="1" Source="aicustact.dll" Target="AI_ResolveKnownFolders"/>
     <ROW Action="AI_SHOW_LOG" Type="65" Source="aicustact.dll" Target="LaunchLogFile" WithoutSeq="true"/>
     <ROW Action="AI_STORE_LOCATION" Type="51" Source="ARPINSTALLLOCATION" Target="[APPDIR]"/>
@@ -551,58 +550,51 @@
     <ROW Feature_="MainFeature" Component_="System.Xml.XPath.XDocument.dll"/>
     <ROW Feature_="MainFeature" Component_="System.Runtime.Serialization.dll"/>
     <ROW Feature_="MainFeature" Component_="SHORTCUTDIR"/>
-    <ROW Feature_="MainFeature" Component_="AI_ExePath"/>
+    <ROW Feature_="MainFeature" Component_="System.ComponentModel.DataAnnotations.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.Toolkit.Mvvm.dll"/>
+    <ROW Feature_="MainFeature" Component_="LiveCharts.Wpf.dll"/>
+    <ROW Feature_="MainFeature" Component_="System.Memory.dll"/>
+    <ROW Feature_="MainFeature" Component_="LiveCharts.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.Extensions.DependencyInjection.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.Bcl.AsyncInterfaces.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.Extensions.DependencyInjection.Abstractions.dll"/>
+    <ROW Feature_="MainFeature" Component_="System.Buffers.dll"/>
+    <ROW Feature_="MainFeature" Component_="System.Numerics.Vectors.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.Expression.Interactions.dll"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstExSeqComponent">
-    <ROW Action="AI_DOWNGRADE" Condition="AI_NEWERPRODUCTFOUND AND (UILevel &lt;&gt; 5)" Sequence="210"/>
-    <ROW Action="RemoveExistingProducts" Condition="AI_UPGRADE&lt;&gt;&quot;No&quot;" Sequence="6501" SeqType="0" MsiKey="RemoveExistingProducts"/>
-    <ROW Action="AI_RESTORE_LOCATION" Condition="APPDIR=&quot;&quot;" Sequence="749"/>
+    <ROW Action="RemoveExistingProducts" Condition="AI_UPGRADE&lt;&gt;&quot;No&quot;" Sequence="1401" SeqType="0" MsiKey="RemoveExistingProducts"/>
     <ROW Action="AI_STORE_LOCATION" Condition="(Not Installed) OR REINSTALL" Sequence="1501"/>
     <ROW Action="AI_PREPARE_UPGRADE" Condition="AI_UPGRADE=&quot;No&quot; AND (Not Installed)" Sequence="1397"/>
     <ROW Action="AI_ResolveKnownFolders" Sequence="52"/>
     <ROW Action="AI_EnableDebugLog" Sequence="51"/>
-    <ROW Action="AI_BACKUP_AI_SETUPEXEPATH" Sequence="99" Builds="x64_Release"/>
-    <ROW Action="AI_RESTORE_AI_SETUPEXEPATH" Condition="AI_SETUPEXEPATH_ORIGINAL" Sequence="102" Builds="x64_Release"/>
-    <ROW Action="AI_DeleteCadLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="199" Builds="x64_Release"/>
-    <ROW Action="AI_DeleteRCadLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="198" Builds="x64_Release"/>
-    <ROW Action="AI_ExtractCadLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="197" Builds="x64_Release"/>
-    <ROW Action="AI_FindExeLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="196" Builds="x64_Release"/>
-    <ROW Action="AI_ExtractLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="1549" Builds="x64_Release"/>
-    <ROW Action="AI_DeleteRLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="1548" Builds="x64_Release"/>
-    <ROW Action="AI_DeleteLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="6599" Builds="x64_Release"/>
-    <ROW Action="AI_ExtractFiles" Sequence="1399" Builds="x64_Release"/>
-    <ROW Action="AI_DATA_SETTER" Sequence="1398"/>
-    <ROW Action="AI_DetectSoftware" Sequence="101"/>
+    <ROW Action="AI_AppSearchEx" Sequence="101"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstallUISequenceComponent">
-    <ROW Action="AI_RESTORE_LOCATION" Condition="APPDIR=&quot;&quot;" Sequence="749"/>
     <ROW Action="AI_ResolveKnownFolders" Sequence="53"/>
     <ROW Action="AI_DpiContentScale" Sequence="52"/>
     <ROW Action="AI_EnableDebugLog" Sequence="51"/>
     <ROW Action="AI_BACKUP_AI_SETUPEXEPATH" Sequence="99"/>
     <ROW Action="AI_RESTORE_AI_SETUPEXEPATH" Condition="AI_SETUPEXEPATH_ORIGINAL" Sequence="102"/>
-    <ROW Action="AI_DetectSoftware" Sequence="101"/>
+    <ROW Action="AI_AppSearchEx" Sequence="101"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiLaunchConditionsComponent">
-    <ROW Condition="((VersionNT &lt;&gt; 501) AND (VersionNT &lt;&gt; 502))" Description="[ProductName] 无法安装在 [WindowsTypeNT5XDisplay]." DescriptionLocId="AI.LaunchCondition.NoNT5X" IsPredefined="true" Builds="x64_Release"/>
-    <ROW Condition="(VersionNT &lt;&gt; 400)" Description="[ProductName] 无法安装在 [WindowsTypeNT40Display]." DescriptionLocId="AI.LaunchCondition.NoNT40" IsPredefined="true" Builds="x64_Release"/>
-    <ROW Condition="(VersionNT &lt;&gt; 500)" Description="[ProductName] 无法安装在 [WindowsTypeNT50Display]." DescriptionLocId="AI.LaunchCondition.NoNT50" IsPredefined="true" Builds="x64_Release"/>
-    <ROW Condition="AI_DETECTED_DOTNET_VERSION &gt;= AI_REQUIRED_DOTNET_VERSION" Description="[ProductName] 无法安装在 .NET Framework 版本低于 [AI_REQUIRED_DOTNET_DISPLAY] 的系统上。" DescriptionLocId="AI.LaunchCondition.DotNET" IsPredefined="true" Builds="x64_Release"/>
-    <ROW Condition="SETUPEXEDIR OR (REMOVE=&quot;ALL&quot;)" Description="This package can only be run from a bootstrapper." DescriptionLocId="AI.LaunchCondition.RequireBootstrapper" IsPredefined="true" Builds="x64_Release"/>
-    <ROW Condition="VersionNT" Description="[ProductName] 无法安装在 [WindowsType9XDisplay]." DescriptionLocId="AI.LaunchCondition.No9X" IsPredefined="true" Builds="x64_Release"/>
-  </COMPONENT>
-  <COMPONENT cid="caphyon.advinst.msicomp.MsiRegLocatorComponent">
-    <ROW Signature_="AI_EXE_PATH_CU" Root="1" Key="Software\Caphyon\Advanced Installer\LZMA\[ProductCode]\[ProductVersion]" Name="AI_ExePath" Type="2"/>
-    <ROW Signature_="AI_EXE_PATH_LM" Root="2" Key="Software\Caphyon\Advanced Installer\LZMA\[ProductCode]\[ProductVersion]" Name="AI_ExePath" Type="2"/>
+    <ROW Condition="((VersionNT &lt;&gt; 501) AND (VersionNT &lt;&gt; 502))" Description="[ProductName] 无法安装在 [WindowsTypeNT5XDisplay]." DescriptionLocId="AI.LaunchCondition.NoNT5X" IsPredefined="true" Builds="x64_Debug"/>
+    <ROW Condition="(VersionNT &lt;&gt; 400)" Description="[ProductName] 无法安装在 [WindowsTypeNT40Display]." DescriptionLocId="AI.LaunchCondition.NoNT40" IsPredefined="true" Builds="x64_Debug"/>
+    <ROW Condition="(VersionNT &lt;&gt; 500)" Description="[ProductName] 无法安装在 [WindowsTypeNT50Display]." DescriptionLocId="AI.LaunchCondition.NoNT50" IsPredefined="true" Builds="x64_Debug"/>
+    <ROW Condition="VersionNT" Description="[ProductName] 无法安装在 [WindowsType9XDisplay]." DescriptionLocId="AI.LaunchCondition.No9X" IsPredefined="true" Builds="x64_Debug"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiRegsComponent">
-    <ROW Registry="AI_ExePath" Root="-1" Key="Software\Caphyon\Advanced Installer\LZMA\[ProductCode]\[ProductVersion]" Name="AI_ExePath" Value="[AI_SETUPEXEPATH]" Component_="AI_ExePath"/>
     <ROW Registry="Path" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="Path" Value="[APPDIR]" Component_="ProductInformation"/>
     <ROW Registry="Version" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="Version" Value="[ProductVersion]" Component_="ProductInformation"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiShortsComponent">
     <ROW Shortcut="HanGao.exe" Directory_="SHORTCUTDIR" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
     <ROW Shortcut="HanGao.exe_1" Directory_="DesktopFolder" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="HanGao.exe_10" Directory_="SHORTCUTDIR" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="HanGao.exe_11" Directory_="DesktopFolder" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="HanGao.exe_12" Directory_="SHORTCUTDIR" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="HanGao.exe_13" Directory_="DesktopFolder" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
     <ROW Shortcut="HanGao.exe_2" Directory_="SHORTCUTDIR" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
     <ROW Shortcut="HanGao.exe_3" Directory_="DesktopFolder" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
     <ROW Shortcut="HanGao.exe_4" Directory_="SHORTCUTDIR" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
@@ -617,6 +609,12 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiUpgradeComponent">
     <ROW UpgradeCode="[|UpgradeCode]" VersionMin="0.0.1" VersionMax="[|ProductVersion]" Attributes="257" ActionProperty="OLDPRODUCTS"/>
-    <ROW UpgradeCode="[|UpgradeCode]" VersionMin="[|ProductVersion]" Attributes="2" ActionProperty="AI_NEWERPRODUCTFOUND"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.PreReqComponent">
+    <ROW PrereqKey="B96F93FA27E74B02866727AAE83982D0" DisplayName=".NET Framework 4.8" SetupFileUrl="Prerequisites\.NET Framework 4.8\ndp48-x86-x64-allos-enu.exe" Location="0" ExactSize="0" WinNTVersions="Windows Vista x86, Windows Server 2008 x86, Windows 7 RTM x86, Windows 8 x86, Windows 10 version 1507 x86, Windows 10 version 1511 x86, Windows 10 version 1903 x86, Windows 10 version 1909 x86, Windows 10 version 2004 x86, Windows 10 version 20H2 x86, Windows 10 version 21H1 x86, Windows 10 version 21H2 x86" WinNT64Versions="Windows Vista x64, Windows Server 2008 x64, Windows 7 RTM x64, Windows Server 2008 R2 RTM x64, Windows 8 x64, Windows 10 version 1507 x64, Windows 10 version 1511 x64, Windows 10 version 1903 x64, Windows 10 version 1909 x64, Windows 10 version 2004 x64, Windows 10 version 20H2 x64, Windows 10 version 21H1 x64, Windows 10 version 21H2 x64, Windows Server 2022 x64, Windows 11 x64" Operator="1" NoUiComLine="/q /norestart" Options="xy" TargetName=".NET Framework 4.8\ndp48-x86-x64-allos-enu.exe"/>
+    <ATTRIBUTE name="PrereqsOrder" value="B96F93FA27E74B02866727AAE83982D0"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.PreReqSearchComponent">
+    <ROW SearchKey="B96F93FA27E74B02866727AAE83982D0Rel" Prereq="B96F93FA27E74B02866727AAE83982D0" SearchType="9" SearchString="HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\Release" RefContent="G528048" Order="1" Property="PreReqSearch_B96F93FA27E74B02866727"/>
   </COMPONENT>
 </DOCUMENT>

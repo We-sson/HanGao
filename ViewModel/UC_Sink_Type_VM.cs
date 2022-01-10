@@ -40,7 +40,7 @@ namespace HanGao.ViewModel
                     case Sink_Type_Enum.UpDown_One:
                         Sink_UpDown_Checked = true;
                         break;
-                    case Sink_Type_Enum.LeftRighe_Two:
+                    case Sink_Type_Enum.LeftRight_Two:
                         Sink_Twin_Checked = true;
                         break;
                     default:
@@ -157,7 +157,7 @@ namespace HanGao.ViewModel
                 _Sink_Twin_Checked = value;
                 if (value)
                 {
-                    Messenger.Send<dynamic, string>(Sink_Type_Enum.LeftRighe_Two, nameof(Meg_Value_Eunm.Sink_Type_Value_OK));
+                    Messenger.Send<dynamic, string>(Sink_Type_Enum.LeftRight_Two, nameof(Meg_Value_Eunm.Sink_Type_Value_OK));
                 }
                 //MessageBox.Show("Sink_Twin_Checked=" + value.ToString());
 

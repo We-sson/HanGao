@@ -118,10 +118,10 @@ namespace HanGao.ViewModel
                 new Sink_Models(Sink_Type_Enum.UpDown_One) { Sink_Model = 953212,} ,
                 new Sink_Models(Sink_Type_Enum.LeftRight_One) { Sink_Model = 952172, } ,
                  new Sink_Models(Sink_Type_Enum.LeftRight_One) { Sink_Model = 952173, } ,
-                new Sink_Models(Sink_Type_Enum.LeftRighe_Two) { Sink_Model = 952127,  } ,
+                new Sink_Models(Sink_Type_Enum.LeftRight_Two) { Sink_Model = 952127,  } ,
                 new Sink_Models(Sink_Type_Enum.LeftRight_One) { Sink_Model = 952128,  } ,
                 new Sink_Models(Sink_Type_Enum.LeftRight_One) { Sink_Model = 952333, } ,
-                new Sink_Models(Sink_Type_Enum.LeftRighe_Two) { Sink_Model = 901253,  } ,
+                new Sink_Models(Sink_Type_Enum.LeftRight_Two) { Sink_Model = 901253,  } ,
                 new Sink_Models(Sink_Type_Enum.UpDown_One) { Sink_Model = 952119,  } ,
             };
 

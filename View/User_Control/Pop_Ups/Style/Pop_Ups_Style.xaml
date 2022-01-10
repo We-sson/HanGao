@@ -201,7 +201,7 @@
         <Setter Property="Foreground" Value="#4B6587" />
         <Setter Property="BorderThickness" Value="3" />
         <Setter Property="MaxLength" Value="5" />
-        <Setter Property="FontSize" Value="24" />
+        <Setter Property="FontSize" Value="20" />
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
         <Setter Property="Width" Value="auto" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
@@ -226,7 +226,7 @@
                             Background="{TemplateBinding Background}"
                             SnapsToDevicePixels="True">
 
-                        <StackPanel Margin="5"
+                        <StackPanel Margin="2"
                                     HorizontalAlignment="Stretch"
                                     Orientation="Horizontal">
 
