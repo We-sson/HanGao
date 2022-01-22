@@ -1,5 +1,5 @@
-&ACCESS RVO
-&REL 118
+&ACCESS RVO1
+&REL 130
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HG
@@ -23,9 +23,9 @@ GLOBAL STRUC Calculate_Lin_Const REAL A,REAL B,REAL C
 
 
 
-GLOBAL STRUC Welding_Speed_Type REAL LO_Speed,REAL C45_Speed
 
-GLOBAL STRUC Surr_Welding_Craft_Type REAL Welding_Power,REAL Welding_Speed,REAL Welding_Angle,Offset_POS Weding_Offset
+
+GLOBAL STRUC Surr_Welding_Craft_Type REAL Welding_Power,REAL Welding_Speed,REAL Welding_Angle, Offset_POS Welding_Offset
 
 
 
@@ -42,13 +42,14 @@ DECL GLOBAL E6POS PODEFAULT={X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}
 
 
 DECL GLOBAL Surr_Welding_Craft_Type L0_Welding_Craft[10]
-DECL GLOBAL Surr_Welding_Craft_Type C45_Welding_Craft[10]
+DECL GLOBAL Surr_Welding_Craft_Type C45_Welding_Craft[2]
 DECL GLOBAL Surr_Welding_Craft_Type L90_Welding_Craft[10]
-DECL GLOBAL Surr_Welding_Craft_Type C135_Welding_Craft[10]
+DECL GLOBAL Surr_Welding_Craft_Type C135_Welding_Craft[2]
 DECL GLOBAL Surr_Welding_Craft_Type L180_Welding_Craft[10]
-DECL GLOBAL Surr_Welding_Craft_Type C225_Welding_Craft[10]
+DECL GLOBAL Surr_Welding_Craft_Type C225_Welding_Craft[2]
 DECL GLOBAL Surr_Welding_Craft_Type L270_Welding_Craft[10]
-DECL GLOBAL Surr_Welding_Craft_Type C315_Welding_Craft[10]
+DECL GLOBAL Surr_Welding_Craft_Type C315_Welding_Craft[2]
+
 
 
 

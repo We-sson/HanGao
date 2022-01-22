@@ -128,10 +128,10 @@ DEFTP Surround={ SOt FALSE,Soc TRUE }
  
 
   DECL PARAM Area_LIN_lIST = {SHORTNAME[] "Area: ",, VALUE {LIST: _
-   ITEM[1] {ITEM: VALUE[] "#L0"   , DISP[] "LO"},   _
-   ITEM[2] {ITEM: VALUE[] "#L90"  , DISP[] "L90"},  _
-   ITEM[3] {ITEM: VALUE[] "#L180" , DISP[] "L180"}, _
-   ITEM[4] {ITEM: VALUE[] "#L270"  , DISP[] "L270"}, _
+   ITEM[1] {ITEM: VALUE[] "L0"   , DISP[] "LO"},   _
+   ITEM[2] {ITEM: VALUE[] "L90"  , DISP[] "L90"},  _
+   ITEM[3] {ITEM: VALUE[] "L180" , DISP[] "L180"}, _
+   ITEM[4] {ITEM: VALUE[] "L270"  , DISP[] "L270"}, _
    POS 1}}
 
  DECL PARAM OFFSET_NO={shortname[] "OFFSET_NO:[", unit[] "]", value { LIST : POS 1, _
@@ -278,16 +278,16 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
   Decl PARAM LIN_Position = {SHORTNAME[] "Point: ", VALUE {NUMBER:MIN 5, MAX 95, STEP 1, AUTOLIMIT TRUE, DEFAULT 50,VISIBLE FALSE}, UNIT[] " % " , SHORTCUT[]  " % " }
 
  
-   DECL FOLD LIN_FOLD[6] 
+   DECL FOLD LIN_FOLD[7] 
              LIN_FOLD[1]= "/; X=%Pos_X , Y=%Pos_Y , Z=%Pos_Z , A=%Pos_A , B=%Pos_B , C=%Pos_C"
-             LIN_FOLD[2]= "HanGao_Surr_Calculate( %LIN_Position , %Area_LIN_lIST , #L_LIN_POS , PO%MOVE_Name , ,  )"
+             LIN_FOLD[2]= "HanGao_Surr_Calculate( %LIN_Position , #%Area_LIN_lIST , #L_LIN_POS , PO%MOVE_Name , , , FF%Offset_List  , , %OFFSET_NO , %Vel  )"
              LIN_FOLD[3]= " "
              LIN_FOLD[4]= "FDAT_ACT=F%MOVE_DAT"
              LIN_FOLD[5]= "LDAT_ACT=L%MOVE_DAT"
-             LIN_FOLD[6]= "BAS(#CP_PARAMS,%Vel )"
-             LIN_FOLD[6]= "LIN PO%MOVE_Name  C_DIS C_DIS"
+             LIN_FOLD[6]= "BAS(#CP_PARAMS,%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Speed )"
+             LIN_FOLD[7]= "LIN PO%MOVE_Name  C_DIS C_DIS"
 
-             
+      
              
              
              
@@ -340,10 +340,10 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
 		 
 			 
   DECL PARAM Area_CIR_lIST = {SHORTNAME[] "Area: " , VALUE {LIST: _
-   ITEM[1] {ITEM: VALUE[] "#C45"   , DISP[] "C45"},   _
-   ITEM[2] {ITEM: VALUE[] "#C135"  , DISP[] "C135"},  _
-   ITEM[3] {ITEM: VALUE[] "#C225" ,  DISP[] "C225"},  _
-   ITEM[4] {ITEM: VALUE[] "#C315"  , DISP[] "C315"},  _
+   ITEM[1] {ITEM: VALUE[] "C45"   , DISP[] "C45"},   _
+   ITEM[2] {ITEM: VALUE[] "C135"  , DISP[] "C135"},  _
+   ITEM[3] {ITEM: VALUE[] "C225" ,  DISP[] "C225"},  _
+   ITEM[4] {ITEM: VALUE[] "C315"  , DISP[] "C315"},  _
    POS 1}}
 
    
@@ -353,25 +353,25 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
    POS 1}}
 
 
-   DECL FOLD CIR_L_FOLD[6] 
+   DECL FOLD CIR_L_FOLD[7] 
              CIR_L_FOLD[1]= "/; X=%Pos_X , Y=%Pos_Y , Z=%Pos_Z , A=%Pos_A , B=%Pos_B , C=%Pos_C"
-             CIR_L_FOLD[2]= "HanGao_Surr_Calculate(  , %Area_CIR_lIST , #C_LIN_POS , PO%MOVE_Name , ,  )"
+             CIR_L_FOLD[2]= "HanGao_Surr_Calculate(  , #%Area_CIR_lIST , #C_LIN_POS , PO%MOVE_Name , , , FF%Offset_List  , ,  , %Vel )"
              CIR_L_FOLD[3]= " "
              CIR_L_FOLD[4]= "FDAT_ACT=F%MOVE_DAT"
              CIR_L_FOLD[5]= "LDAT_ACT=L%MOVE_DAT"
-             CIR_L_FOLD[6]= "BAS(#CP_PARAMS,%Vel )"
-             CIR_L_FOLD[6]= "LIN PO%MOVE_Name  C_DIS C_DIS"
+             CIR_L_FOLD[6]= "BAS(#CP_PARAMS, %Area_CIR_lIST _Welding_Craft[1].Welding_Speed )"
+             CIR_L_FOLD[7]= "LIN PO%MOVE_Name  C_DIS C_DIS"
 
              
-   DECL FOLD Cir_FOLD[6] 
+   DECL FOLD Cir_FOLD[8] 
              Cir_FOLD[1]= "/; %MOVE_Name  : X=%Pos_X , Y=%Pos_Y , Z=%Pos_Z , A=%Pos_A , B=%Pos_B , C=%Pos_C"
-			 Cir_FOLD[1]= "/; %CIR_End_Name  : X=%CIR_Pos_X , Y=%CIR_Pos_Y , Z=%CIR_Pos_Z , A=%CIR_Pos_A , B=%CIR_Pos_B , C=%CIR_Pos_C"
-             Cir_FOLD[2]= "HanGao_Surr_Calculate(  , %Area_CIR_lIST , #C_CIR_POS ,  , PO%MOVE_Name , PO%CIR_End_Name )"
-             Cir_FOLD[3]= " "
-             Cir_FOLD[4]= "FDAT_ACT=F%CIR_End_Name"
-             Cir_FOLD[5]= "LDAT_ACT=L%CIR_End_Name"
-             Cir_FOLD[6]= "BAS(#CP_PARAMS,%Vel )"
-             Cir_FOLD[6]= "CIRC PO%MOVE_Name , PO%CIR_End_Name  C_DIS C_DIS"
+			 Cir_FOLD[2]= "/; %CIR_End_Name  : X=%CIR_Pos_X , Y=%CIR_Pos_Y , Z=%CIR_Pos_Z , A=%CIR_Pos_A , B=%CIR_Pos_B , C=%CIR_Pos_C"
+             Cir_FOLD[3]= "HanGao_Surr_Calculate(  , #%Area_CIR_lIST , #C_CIR_POS ,  , PO%MOVE_Name , PO%CIR_End_Name  , FF%Offset_CIR_List  ,FF%Offset_CIR_List  ,  , %Vel )"
+             Cir_FOLD[4]= " "
+             Cir_FOLD[5]= "FDAT_ACT=F%CIR_End_Name"
+             Cir_FOLD[6]= "LDAT_ACT=L%CIR_End_Name"
+             Cir_FOLD[7]= "BAS(#CP_PARAMS,%Area_CIR_lIST _Welding_Craft[2].Welding_Speed )"
+             Cir_FOLD[8]= "CIRC PO%MOVE_Name , PO%CIR_End_Name  C_DIS C_DIS"
 			 
              
              
@@ -400,7 +400,9 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
 
 
    DEFSCRIPT LIN_Refresh
-
+ 
+    
+	
     SHOWVAR (FULLPATH[] "PO%MOVE_Name .X",  PARAM Pos_X)
     SHOWVAR (FULLPATH[] "PO%MOVE_Name .Y" , PARAM Pos_Y)
     SHOWVAR (FULLPATH[] "PO%MOVE_Name .Z" , PARAM Pos_Z)
@@ -418,7 +420,6 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
   ENDSCRIPT
 
 
-
   
   
   DEFSCRIPT LIN_SAVE
@@ -426,7 +427,8 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
     REDECL(PATH[] "%MODULE ",DECLARATION[] "DECL Offset_POS FF%Offset_List ={X %Offset_X ,Y %Offset_Y ,Z %Offset_Z }")
     REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL FDAT F%MOVE_DAT ={TOOL_NO %TOOL_NO ,BASE_NO %BASE_NO ,IPO_FRAME #BASE ,POINT2[] /" /",TQ_STATE FALSE }" )
     REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL LDAT L%MOVE_DAT ={VEL %Vel ,ACC %ACC ,APO_DIST %CDIS ,APO_FAC 50.0000 ,AXIS_VEL 100.0,AXIS_ACC 100.0,ORI_TYP #VAR ,CIRC_TYP #BASE,JERK_FAC 50.0,GEAR_JERK 50.0,EXAX_IGN 0}" )
-    
+          
+    MESSAGE " %Area_LIN_lIST  "
     MESSAGE " %MOVE_Name   SAVE "
   ENDSCRIPT
 
