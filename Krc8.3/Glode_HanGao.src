@@ -1,0 +1,377 @@
+&ACCESS RVO
+&REL 118
+&PARAM EDITMASK = *
+&PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
+&PARAM DISKPATH = KRC:\R1\Program\HG
+DEF Glode_HanGao( )
+
+;# DATE:2021-1-4
+
+
+
+
+
+END
+
+GLOBAL DEF HanGao_Surr_Calculate(Surr_Path:IN , Sink_Area:IN ,POS_Type:IN , Lin_Pos:OUt , Cir_Middle_POS:OUT , Cir_END_POS:OUT)
+;------------DECL_VALUE--------------
+DECL REAL Surr_Path
+DECL Area_Enum Sink_Area
+DECL E6POS Lin_Pos
+DECL E6POS Cir_Middle_POS
+DECL E6POS Cir_END_POS
+DECL Pos_Type_Enum Pos_Type
+
+;------------DECL_VALUE--------------
+
+IF Surround_Welding_Size.Write_Status THEN
+
+
+
+Lin_Pos={X 0,Y 0, Z 0,A 0,B 0,C 0}
+
+Cir_Middle_POS={X 0,Y 0, Z 0,A 0,B 0,C 0}
+
+Cir_END_POS={X 0,Y 0, Z 0,A 0,B 0,C 0}
+
+
+
+SWITCH Sink_Area
+
+CASE #L0
+ 
+ Lin_Pos.X=Surround_Welding_Size.Sink_Size_Width+Surround_Welding_Size.Sink_Size_Down_Distance
+ Lin_Pos.Y=(Surround_Welding_Size.Sink_Size_Long-Surround_Welding_Size.Sink_Size_R*2)* (1-(Surr_Path*0.01))+Surround_Welding_Size.Sink_Size_Left_Distance+Surround_Welding_Size.Sink_Size_R
+ 
+
+
+
+CASE #C45
+
+SWITCH Pos_Type
+
+CASE #C_LIN_POS
+ Lin_Pos.X=Surround_Welding_Size.Sink_Size_Width+Surround_Welding_Size.Sink_Size_Down_Distance
+ Lin_Pos.Y=Surround_Welding_Size.Sink_Size_Left_Distance+Surround_Welding_Size.Sink_Size_R
+
+
+
+CASE #C_CIR_POS
+ 
+ Cir_Middle_POS.x=Surround_Welding_Size.Sink_Size_Down_Distance+Surround_Welding_Size.Sink_Size_Width-Surround_Welding_Size.Sink_Size_R+(COS(45)*Surround_Welding_Size.Sink_Size_R)
+ Cir_Middle_POS.Y=Surround_Welding_Size.Sink_Size_Left_Distance+((1-COS(45))*Surround_Welding_Size.Sink_Size_R)
+ Cir_END_POS.X=Surround_Welding_Size.Sink_Size_Down_Distance+Surround_Welding_Size.Sink_Size_Width-Surround_Welding_Size.Sink_Size_R
+ Cir_END_POS.Y=Surround_Welding_Size.Sink_Size_Left_Distance
+
+
+
+ENDSWITCH
+
+
+CASE #L90
+
+ Lin_Pos.X=(Surround_Welding_Size.Sink_Size_Width-Surround_Welding_Size.Sink_Size_R*2)* (1-(Surr_Path*0.01))+Surround_Welding_Size.Sink_Size_Down_Distance+Surround_Welding_Size.Sink_Size_R
+ Lin_Pos.Y=Surround_Welding_Size.Sink_Size_Left_Distance
+
+
+
+CASE #C135
+
+SWITCH Pos_Type
+
+CASE #C_LIN_POS
+ Lin_Pos.X=Surround_Welding_Size.Sink_Size_Down_Distance+Surround_Welding_Size.Sink_Size_R
+ Lin_Pos.Y=Surround_Welding_Size.Sink_Size_Left_Distance
+
+CASE #C_CIR_POS
+
+ Cir_Middle_POS.x=Surround_Welding_Size.Sink_Size_Down_Distance+((1-COS(45))*Surround_Welding_Size.Sink_Size_R)
+ Cir_Middle_POS.Y=Surround_Welding_Size.Sink_Size_Left_Distance+((1-COS(45))*Surround_Welding_Size.Sink_Size_R)
+ Cir_END_POS.X=Surround_Welding_Size.Sink_Size_Down_Distance
+ Cir_END_POS.Y=Surround_Welding_Size.Sink_Size_Left_Distance+Surround_Welding_Size.Sink_Size_R
+
+
+ENDSWITCH
+
+
+CASE #L180
+ Lin_Pos.X=Surround_Welding_Size.Sink_Size_Down_Distance
+ Lin_Pos.Y=(Surround_Welding_Size.Sink_Size_Long-Surround_Welding_Size.Sink_Size_R*2)* (Surr_Path*0.01)+Surround_Welding_Size.Sink_Size_Left_Distance+Surround_Welding_Size.Sink_Size_R
+
+
+
+CASE #C225
+
+SWITCH Pos_Type
+
+CASE #C_LIN_POS
+ 
+ Lin_Pos.X=Surround_Welding_Size.Sink_Size_Down_Distance
+ Lin_Pos.Y=Surround_Welding_Size.Sink_Size_Left_Distance+Surround_Welding_Size.Sink_Size_Long-Surround_Welding_Size.Sink_Size_R
+
+
+
+CASE #C_CIR_POS
+
+ Cir_Middle_POS.x=Surround_Welding_Size.Sink_Size_Down_Distance+((1-COS(45))*Surround_Welding_Size.Sink_Size_R)
+ Cir_Middle_POS.Y=Surround_Welding_Size.Sink_Size_Left_Distance+Surround_Welding_Size.Sink_Size_Long-Surround_Welding_Size.Sink_Size_R+( COS(45)*Surround_Welding_Size.Sink_Size_R )
+ Cir_END_POS.X=Surround_Welding_Size.Sink_Size_Down_Distance+Surround_Welding_Size.Sink_Size_R
+ Cir_END_POS.Y=Surround_Welding_Size.Sink_Size_Left_Distance+Surround_Welding_Size.Sink_Size_Long
+
+ENDSWITCH
+
+
+CASE #L270
+
+ Lin_Pos.X=(Surround_Welding_Size.Sink_Size_Width-Surround_Welding_Size.Sink_Size_R*2)* (Surr_Path*0.01)+Surround_Welding_Size.Sink_Size_Down_Distance+Surround_Welding_Size.Sink_Size_R
+ Lin_Pos.Y=Surround_Welding_Size.Sink_Size_Left_Distance+Surround_Welding_Size.Sink_Size_Long
+
+
+CASE #C315
+
+SWITCH Pos_Type
+
+CASE #C_LIN_POS
+ 
+ Lin_Pos.X=Surround_Welding_Size.Sink_Size_Down_Distance+Surround_Welding_Size.Sink_Size_Width-Surround_Welding_Size.Sink_Size_R
+ Lin_Pos.Y=Surround_Welding_Size.Sink_Size_Long+Surround_Welding_Size.Sink_Size_Left_Distance
+ 
+
+CASE #C_CIR_POS
+
+ Cir_Middle_POS.x=Surround_Welding_Size.Sink_Size_Down_Distance+Surround_Welding_Size.Sink_Size_Width-Surround_Welding_Size.Sink_Size_R+(COS(45)*Surround_Welding_Size.Sink_Size_R)
+ Cir_Middle_POS.Y=Surround_Welding_Size.Sink_Size_Long+Surround_Welding_Size.Sink_Size_Left_Distance-Surround_Welding_Size.Sink_Size_R+(COS(45)*Surround_Welding_Size.Sink_Size_R)
+ Cir_END_POS.X=Surround_Welding_Size.Sink_Size_Down_Distance+Surround_Welding_Size.Sink_Size_Width
+ Cir_END_POS.Y=Surround_Welding_Size.Sink_Size_Left_Distance+Surround_Welding_Size.Sink_Size_Long-Surround_Welding_Size.Sink_Size_R
+
+ENDSWITCH
+
+
+ENDSWITCH
+
+
+
+
+
+
+ENDIF
+
+
+SWITCH Pos_Type
+
+CASE #L_LIN_POS,#C_LIN_POS
+Lin_Pos.Z=-(Surround_Welding_Size.Sink_Size_Panel_Thick)
+
+CASE #C_CIR_POS
+
+Cir_Middle_POS.Z=-(Surround_Welding_Size.Sink_Size_Panel_Thick)
+Cir_END_POS.Z=-(Surround_Welding_Size.Sink_Size_Panel_Thick)
+
+
+ENDSWITCH
+
+
+END
+
+
+
+
+GLOBAL DEF HanGao_Base_Calculate(POS_1:IN,POS_2:IN,POS_3:IN,POS_4:IN,G_BASE:IN,Work_Area:IN)
+DECL E6POS POS_1
+DECL E6POS POS_2
+DECL E6POS POS_3
+DECL E6POS POS_4
+DECL Work_Area_Enum Work_Area
+DECL REAL Direction_Deg,ATan_Deg
+DECL INT G_BASE,OPFFSET
+DECL Calculate_Lin_Const Lin_1_CONST
+DECL Calculate_Lin_Const Lin_2_CONST
+DECL POS Lin_Curss
+DECL CHAR Meg_Str[1024]
+DECL BOOL User_Revise
+DECL State_t _State
+
+OPFFSET=0
+Lin_Curss={X 0, Y 0, Z 0, A 0,B 0,C 0}
+
+
+Lin_1_CONST.A=POS_2.Y-POS_1.Y
+Lin_1_CONST.B=POS_1.X-POS_2.X
+Lin_1_CONST.C=POS_2.X*POS_1.Y-POS_1.X*POS_2.Y
+
+Lin_2_CONST.A=POS_4.Y-POS_3.Y
+Lin_2_CONST.B=POS_3.X-POS_4.X
+Lin_2_CONST.C=POS_4.X*POS_3.Y-POS_3.X*POS_4.Y
+
+
+Lin_Curss.X=(Lin_1_CONST.B*Lin_2_CONST.C-Lin_2_CONST.B*Lin_1_CONST.C)/(Lin_1_CONST.A*Lin_2_CONST.B-Lin_2_CONST.A*Lin_1_CONST.B)
+Lin_Curss.Y=(Lin_2_CONST.A*Lin_1_CONST.C-Lin_1_CONST.A*Lin_2_CONST.C)/(Lin_2_CONST.B*Lin_1_CONST.A-Lin_1_CONST.B*Lin_2_CONST.A)
+Lin_Curss.Z=POS_1.Z-Surround_Welding_Size.Sink_Size_Panel_Thick
+
+
+
+SWITCH Work_Area
+
+
+CASE #A0
+
+Direction_Deg=-180.000
+
+IF Lin_Curss.X<>POS_4.X THEN
+
+ATan_Deg=ATAN2(ABS(POS_4.x-Lin_Curss.x),ABS(POS_4.y-Lin_Curss.y))
+
+IF POS_4.X-Lin_Curss.X<0 THEN
+Lin_Curss.A=Direction_Deg+ATan_Deg
+ENDIF
+
+IF POS_4.X-Lin_Curss.X>0 THEN
+Lin_Curss.A=Direction_Deg-ATan_Deg
+ENDIF
+
+
+ELSE
+
+Lin_Curss.A=Direction_Deg
+
+ENDIF
+
+CASE #A90
+
+Direction_Deg=-90.000
+
+IF Lin_Curss.Y<>POS_4.Y THEN
+
+ATan_Deg=ATAN2(ABS(POS_4.Y-Lin_Curss.Y),ABS(POS_4.X-Lin_Curss.X))
+
+IF POS_4.Y-Lin_Curss.Y<0 THEN
+Lin_Curss.A=Direction_Deg-ATan_Deg
+ENDIF
+
+IF POS_4.Y-Lin_Curss.Y>0 THEN
+Lin_Curss.A=Direction_Deg+ATan_Deg
+ENDIF
+
+
+ELSE
+
+Lin_Curss.A=Direction_Deg
+
+ENDIF
+
+
+
+
+CASE #A270
+
+Direction_Deg=90.000
+
+IF Lin_Curss.Y<>POS_4.Y THEN
+
+ATan_Deg=ATAN2(ABS(POS_4.Y-Lin_Curss.Y),ABS(POS_4.X-Lin_Curss.X))
+
+IF POS_4.Y-Lin_Curss.Y<0 THEN
+Lin_Curss.A=Direction_Deg+ATan_Deg
+ENDIF
+
+IF POS_4.Y-Lin_Curss.Y>0 THEN
+Lin_Curss.A=Direction_Deg-ATan_Deg
+ENDIF
+
+
+ELSE
+
+Lin_Curss.A=Direction_Deg
+
+ENDIF
+
+
+
+
+ENDSWITCH
+
+
+
+
+
+
+
+
+
+
+Lin_Curss.B=0
+Lin_Curss.C=-180.000
+
+
+SWRITE( Meg_Str[] , _State , OPFFSET , "New_BASE[%d]=X:%7.3F,Y:%7.3F,Z:%7.3F,A:%7.3F,B:%7.3F,C:%7.3F" , G_BASE ,Lin_Curss.X,Lin_Curss.Y,Lin_Curss.Z,Lin_Curss.A,Lin_Curss.B,Lin_Curss.C) 
+
+
+Global_Messages_Dlg(Lin_Curss, Meg_Str[] ,User_Revise)
+
+IF User_Revise==TRUE THEN
+
+IF G_BASE<>0  THEN
+
+BASE_DATA[G_BASE].X=Lin_Curss.X
+BASE_DATA[G_BASE].Y=Lin_Curss.Y
+BASE_DATA[G_BASE].Z=Lin_Curss.Z
+BASE_DATA[G_BASE].A=Lin_Curss.A
+BASE_DATA[G_BASE].B=Lin_Curss.B
+BASE_DATA[G_BASE].C=Lin_Curss.C
+
+ENDIF
+
+ENDIF
+
+
+END
+
+
+
+GLOBAL DEF Global_Messages_Dlg(Old_Pos:IN , Messsage_All[]:IN , User_Switch:OUT)
+
+DECL KrlMsg_T msg
+DECL KrlMsgPar_T Par[3]
+DECL KrlmsgOpt_T opt
+DECL KrlMsgDlgSK_T SK[7]
+DECL INT nHandle,keynumber,OPFFSET
+DECl BOOL User_Switch
+DECL CHAR Messsage_All[]
+DECL POS Old_Pos
+
+
+msg={modul[] "HanGao" ,Nr 7}
+msg.msg_txt[] = Messsage_All[]
+SK[1]={sk_Type #value, sk_txt[] "Yes"}
+SK[2]={sk_type #value, sk_txt[] "NO" }
+
+nHandle= Set_KrlDlg( msg, par[],sk[],opt)
+
+IF (nHandle>0) THEN
+
+While (Exists_KrlDlg(nHandle,keynumber))
+ wait sec 0.1
+ENDWhile
+
+SWITCH keynumber
+   case 1
+   User_Switch=true
+   
+   case 2
+   User_Switch=false
+
+ENDSWITCH  
+
+
+
+
+
+
+
+
+
+
+ENDIF
+
+
+END

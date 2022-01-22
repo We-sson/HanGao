@@ -1,0 +1,37 @@
+&ACCESS RP
+&REL 65
+&PARAM SensorITMASK = *
+&PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
+&PARAM DISKPATH = KRC:\R1\Program
+DEF XmlHanGao( )
+;FOLD Declaration
+  DECL EKI_STATUS RET
+  DECL  CHAR Name[50]
+;ENDFOLD (Declaration)
+
+;FOLD INI
+  ;FOLD BASISTECH INI
+  ;INTERRUPT DECL 89 WHEN $FLAG[4]==FALSE DO EKRI_ERR("XmlHanGao")
+;INTERRUPT ON 89
+  ;ENDFOLD (BASISTECH INI)
+  ;FOLD USER INI
+    ;Make your modifications here
+    Name[]="HanGaoEkrl"
+  ;ENDFOLD (USER INI)
+;ENDFOLD (INI)
+
+
+RET=EKI_Init(Name[])
+RET=EKI_Open(Name[])
+
+wait sec 2
+; wait until server is conntected
+
+wait for $FLAG[4]
+halt
+; wait until server is deconnected
+wait for $FLAG[1]==FALSE
+
+RET=EKI_Clear(Name[])
+
+END

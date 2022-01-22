@@ -1,0 +1,74 @@
+&ACCESS RVO
+&REL 118
+&PARAM EDITMASK = *
+&PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
+&PARAM DISKPATH = KRC:\R1\Program\HG
+DEFDAT  Glode_HanGao PUBLIC
+
+
+
+
+;--------DECL_Enum---------------
+GLOBAL ENUM Sink_Type_Enum UpDown_One,LeftRight_One,LeftRight_Two,Null
+GLOBAL ENUM Area_Enum L0,C45,L90,C135,L180,C225,L270,C315
+GLOBAL ENUM Pos_Type_Enum C_LIN_POS,C_CIR_POS,L_LIN_POS
+GLOBAL ENUM Work_Area_Enum A0,A90,A270
+;----------------------------------
+;---DECL-STRUC-------------------------
+
+GLOBAL STRUC Surround_Welding_Type BOOL Write_Status,REAL Sink_Size_Long,REAL Sink_Size_Width,REAL Sink_Size_R,REAL Sink_Size_Pots_Thick,REAL Sink_Size_Panel_Thick,INT Sink_Model,REAL Sink_Size_Left_Distance,REAL Sink_Size_Down_Distance,Sink_Type_Enum Sink_Type
+GLOBAL STRUC LSC_TOOL_TYP INT LSR_MAX_PWR,INT LSR_MIN_PWR,INT LSR_Prg,REAL SNSR_Prg,INT SNSR_State,REAL GAS_Pressure,INT LSR_Dly,INT GAS_Pre_Flow,INT GAS_Post_Flow
+GLOBAL STRUC Offset_POS REAL X,REAL Y,REAL Z,REAL A,REAL B,REAL C
+GLOBAL STRUC Calculate_Lin_Const REAL A,REAL B,REAL C
+
+
+
+GLOBAL STRUC Welding_Speed_Type REAL LO_Speed,REAL C45_Speed
+
+GLOBAL STRUC Surr_Welding_Craft_Type REAL Welding_Power,REAL Welding_Speed,REAL Welding_Angle,Offset_POS Weding_Offset
+
+
+
+
+
+;-------------------------------------
+
+
+;----------DECL_Value----------------------
+DECL GLOBAL Surround_Welding_Type SW_DEFAULT={Sink_Size_Long 50.0000,Sink_Size_Width 345.000,Sink_Size_R 10.0000,Sink_Size_Pots_Thick 0.750000,Sink_Size_Panel_Thick 2.85000,Sink_Model 952154,Sink_Type #UpDown_One}
+DECL GLOBAL LSC_TOOL_TYP LTDEFAULT={LSR_MAX_PWR 500,LSR_MIN_PWR 50,LSR_Prg 1,SNSR_Prg 1.00000,SNSR_State 0,GAS_Pressure 1.00000,LSR_Dly 100,GAS_Pre_Flow 0,GAS_Post_Flow 0}
+DECL GLOBAL Offset_POS FFDEFAULT={X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}
+DECL GLOBAL E6POS PODEFAULT={X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}
+
+
+DECL GLOBAL Surr_Welding_Craft_Type L0_Welding_Craft[10]
+DECL GLOBAL Surr_Welding_Craft_Type C45_Welding_Craft[10]
+DECL GLOBAL Surr_Welding_Craft_Type L90_Welding_Craft[10]
+DECL GLOBAL Surr_Welding_Craft_Type C135_Welding_Craft[10]
+DECL GLOBAL Surr_Welding_Craft_Type L180_Welding_Craft[10]
+DECL GLOBAL Surr_Welding_Craft_Type C225_Welding_Craft[10]
+DECL GLOBAL Surr_Welding_Craft_Type L270_Welding_Craft[10]
+DECL GLOBAL Surr_Welding_Craft_Type C315_Welding_Craft[10]
+
+
+
+
+
+
+
+DECL GLOBAL Surround_Welding_Type Surround_Welding_Size={Write_Status TRUE,Sink_Size_Long 640.000,Sink_Size_Width 345.000,Sink_Size_R 10.0000,Sink_Size_Pots_Thick 0.750000,Sink_Size_Panel_Thick 2.85000,Sink_Model 952127,Sink_Size_Left_Distance 23.8000,Sink_Size_Down_Distance 23.8000,Sink_Type #UpDown_One}
+;-----------Value_INI------------
+
+
+GLOBAL CHAR $Socket_Connect[1024]
+GLOBAL BOOL $RUN_WORK_1=FALSE
+GLOBAL BOOL $RUN_WORK_2=FALSE
+DECL GLOBAL CHAR $SOCKET_MESS[1024]
+DECL GLOBAL MODEL_TYPE $MY_WORK_1
+DECL GLOBAL MODEL_TYPE $MY_WORK_2
+DECL GLOBAL INT $MY_Work_Number=-1
+
+
+
+;----------------------------------
+ENDDAT
