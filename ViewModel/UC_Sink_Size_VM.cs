@@ -184,6 +184,7 @@ namespace HanGao.ViewModel
                     Sm.Sink_R.Text = Sink_Size_Value.Sink_Process.Sink_Size_R.ToString();
                     Sm.Sink_Left_Distance.Text =Sink_Size_Value.Sink_Process.Sink_Size_Left_Distance.ToString();
                     Sm.Sink_Down_Distance.Text = Sink_Size_Value.Sink_Process.Sink_Size_Down_Distance.ToString();
+                    Sink_Type_OK = Sink_Size_Value.Sink_Type;
                 }
 
 

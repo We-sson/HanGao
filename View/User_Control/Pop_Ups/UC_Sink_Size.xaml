@@ -14,13 +14,13 @@
 
 
 
-    <Grid HorizontalAlignment="Center"
+    <Grid HorizontalAlignment="Center" Height="auto" Width="1000"
           VerticalAlignment="Center"
           Background="Transparent">
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
-            <ColumnDefinition Width=" 380" />
+            <ColumnDefinition Width=" auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <i:Interaction.Triggers>
@@ -93,7 +93,7 @@
                    Name="Sink_ico"
                    Text="{Binding Photo_ico}"
                    HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
+                   VerticalAlignment="Stretch"
                    Effect="{StaticResource 全局背景阴影}"
                    FontSize="230"
                    Foreground="#FF4B6587"
