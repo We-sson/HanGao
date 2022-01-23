@@ -170,7 +170,7 @@
         <Setter Property="BorderBrush" Value="Black" />
         <Setter Property="BorderThickness" Value="1.5" />
         <Setter Property="Background" Value="#FFFFFF" />
-        <Setter Property="Padding" Value="15" />
+        <Setter Property="Padding" Value="10" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type GroupBox}">
@@ -194,7 +194,7 @@
                                     BorderThickness="{TemplateBinding BorderThickness}"
                                     Background="{TemplateBinding Background}"
                                     CornerRadius="12"
-                                    ClipToBounds="True"
+                                    ClipToBounds="False"
                                     BorderBrush="{TemplateBinding BorderBrush}">
 
                                 <Border.Effect>
