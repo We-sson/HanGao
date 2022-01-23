@@ -1,11 +1,12 @@
 &ACCESS RVO
-&REL 130
+&REL 134
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HG
 DEF Glode_HanGao( )
 
 ;# DATE:2021-1-4
+
 
 
 
@@ -49,9 +50,9 @@ CASE #L0
  Lin_Pos.X=Surround_Welding_Size.Sink_Size_Width+Surround_Welding_Size.Sink_Size_Down_Distance
  Lin_Pos.Y=(Surround_Welding_Size.Sink_Size_Long-Surround_Welding_Size.Sink_Size_R*2)* (1-(Surr_Path*0.01))+Surround_Welding_Size.Sink_Size_Left_Distance+Surround_Welding_Size.Sink_Size_R
  
-Lin_Pos.A=0
-Lin_Pos.B=-(L0_Welding_Craft[OFFSET_NO].Welding_Angle)
-Lin_Pos.C=0
+ Lin_Pos.A=0 
+ Lin_Pos.B=-(L0_Welding_Craft[OFFSET_NO].Welding_Angle)
+ Lin_Pos.C=0
 
  
 CASE #C45
@@ -257,13 +258,29 @@ ENDIF
 SWITCH Pos_Type
 
 CASE #L_LIN_POS,#C_LIN_POS
+
+
+
 Lin_Pos.Z=-(Surround_Welding_Size.Sink_Size_Panel_Thick)
+
+Lin_Pos.X=Lin_Pos.X+Offset_info.X
+Lin_Pos.Y=Lin_Pos.Y+Offset_info.Y
+Lin_Pos.Z=Lin_Pos.Z+Offset_info.Z
 
 CASE #C_CIR_POS
 
 Cir_Middle_POS.Z=-(Surround_Welding_Size.Sink_Size_Panel_Thick)
 Cir_END_POS.Z=-(Surround_Welding_Size.Sink_Size_Panel_Thick)
 
+
+
+Cir_Middle_POS.X=Cir_Middle_POS.X+Offset_info.X
+Cir_Middle_POS.Y=Cir_Middle_POS.Y+Offset_info.Y
+Cir_Middle_POS.Z=Cir_Middle_POS.Z+Offset_info.Z
+
+Cir_END_POS.X=Cir_END_POS.X+Offset_cir_info.X
+Cir_END_POS.Y=Cir_END_POS.Y+Offset_cir_info.Y
+Cir_END_POS.Z=Cir_END_POS.Z+Offset_cir_info.Z
 
 ENDSWITCH
 

@@ -246,10 +246,10 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
   Decl PARAM MOVE_Name = {SHORTNAME[] "Point:", UNIT[] "" , Value {NAME: DEFAULT[] "S1"}}
   DECL PLIST MOVE_LIN[6] -> MOVE_Name
              MOVE_LIN[1] = Pos_X
-             MOVE_LIN[2] = Pos_Y
-             MOVE_LIN[3] = Pos_Z
-             MOVE_LIN[4] = Pos_A
-             MOVE_LIN[5] = Pos_B
+             MOVE_LIN[2] = Pos_A
+             MOVE_LIN[3] = Pos_Y
+             MOVE_LIN[4] = Pos_B
+             MOVE_LIN[5] = Pos_Z
              MOVE_LIN[6] = Pos_C
 
   
@@ -330,10 +330,10 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
   Decl PARAM CIR_End_Name = {SHORTNAME[] "", UNIT[] "" , Value {NAME: DEFAULT[] "SM1"}}
   DECL PLIST CIR_END[6] -> CIR_End_Name
              CIR_END[1] = CIR_Pos_X
-             CIR_END[2] = CIR_Pos_Y
-             CIR_END[3] = CIR_Pos_Z
-             CIR_END[4] = CIR_Pos_A
-             CIR_END[5] = CIR_Pos_B
+             CIR_END[2] = CIR_Pos_A
+             CIR_END[3] = CIR_Pos_Y
+             CIR_END[4] = CIR_Pos_B
+             CIR_END[5] = CIR_Pos_Z
              CIR_END[6] = CIR_Pos_C
              
 			 
