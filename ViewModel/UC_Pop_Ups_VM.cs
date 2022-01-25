@@ -96,7 +96,7 @@ namespace HanGao.ViewModel
 
 
 
-        private bool _Sink_Type_Checked=true ;
+        private bool _Sink_Type_Checked ;
         public bool Sink_Type_Checked
         {
             set
@@ -127,7 +127,7 @@ namespace HanGao.ViewModel
         }
 
 
-        private bool _Sink_Craft_Checked;
+        private bool _Sink_Craft_Checked = true;
         public bool Sink_Craft_Checked
         {
             set

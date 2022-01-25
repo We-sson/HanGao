@@ -147,7 +147,6 @@
     <Compile Include="ViewModel\Messenger_Eunm\Messenger_Name.cs" />
     <Compile Include="ViewModel\UC_KUKA_State_VM.cs" />
     <Compile Include="ViewModel\UC_Sink_Craft_List_VM.cs" />
-    <Compile Include="ViewModel\UC_Sink_Craft_VM.cs" />
     <Compile Include="ViewModel\FrameShow.cs" />
     <Compile Include="ViewModel\Home_ViewModel.cs" />
     <Compile Include="ViewModel\LIst_Reveice.cs" />

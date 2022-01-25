@@ -50,7 +50,7 @@
                      HorizontalAlignment="Stretch"
                      VerticalAlignment="Center"
                      HorizontalContentAlignment="Center"
-                     VerticalContentAlignment="Stretch"
+                     VerticalContentAlignment="Center"
                      FontFamily="Calibri"
                      Tag="水槽长度=" />
             <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Width"
@@ -66,14 +66,14 @@
                      HorizontalContentAlignment="Center"
                      VerticalContentAlignment="Center"
                      FontFamily="Calibri"
-                     Tag="左配件长度=" />
+                     Tag="左件长度=" />
             <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Down_Distance"
                      HorizontalAlignment="Stretch"
                      VerticalAlignment="Center"
                      HorizontalContentAlignment="Center"
                      VerticalContentAlignment="Center"
                      FontFamily="Calibri"
-                     Tag="下配件长度=" />
+                     Tag="下件长度=" />
 
 
         </UniformGrid>
