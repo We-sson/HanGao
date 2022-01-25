@@ -226,9 +226,17 @@
                             Background="{TemplateBinding Background}"
                             SnapsToDevicePixels="True">
 
-                        <StackPanel Margin="2"
-                                    HorizontalAlignment="Stretch"
-                                    Orientation="Horizontal">
+
+                        <Grid Width="240"
+                              Margin="2"
+                              HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="auto" />
+                            </Grid.ColumnDefinitions>
+
+
 
 
                             <TextBlock Grid.Column="0"
@@ -240,8 +248,6 @@
                                        Foreground="Black"
                                        FontSize="{TemplateBinding FontSize}" />
                             <ScrollViewer x:Name="PART_ContentHost" Grid.Column="1"
-                                          MinWidth="80"
-                                          MaxWidth="80"
                                           Margin="3"
                                           HorizontalAlignment="Stretch"
                                           VerticalAlignment="Stretch"
@@ -251,12 +257,12 @@
                             <TextBlock Grid.Column="2"
                                        Text="mm"
                                        Margin="0"
-                                       HorizontalAlignment="Center"
+                                       HorizontalAlignment="Right"
                                        VerticalAlignment="Center"
                                        Foreground="Gray"
                                        FontFamily="{TemplateBinding FontFamily}"
                                        FontSize="{TemplateBinding FontSize}" />
-                        </StackPanel>
+                        </Grid>
 
                     </Border>
 
@@ -295,88 +301,90 @@
     <DataTemplate x:Key="Sink_Data_Template">
 
         <Grid x:Name="Gb1"
-              HorizontalAlignment="Stretch"
-              d:IsHidden="True">
-            <Border x:Name="border"
-                    Width=" 800"
+              Width=" 750"   
+              Margin="10"
+              HorizontalAlignment="Stretch">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width=" 250" />
+                <ColumnDefinition />
+                <ColumnDefinition Width=" 100" />
+            </Grid.ColumnDefinitions>
+
+
+            <Border x:Name="border" Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Padding="10"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
-                    d:IsHidden="True"
                     Effect="{Binding Source={StaticResource 全局背景阴影}}"
-                    CornerRadius=" 20"
-                    Background="#ECECEC">
-
-                <Grid d:IsHidden="True">
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto" />
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="100" />
-                    </Grid.ColumnDefinitions>
+                    CornerRadius=" 10"
+                    Background="#ECECEC" />
 
 
-                    <TextBlock x:Name="Sink_ico" Grid.Column="0"
-                               Text="{Binding Sink_Ico}"
-                               Margin="25"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               d:IsHidden="True"
-                               FontSize="120"
-                               Foreground="#FF4B6587"
-                               FontFamily="/Resources/#iconfont" />
+            <TextBlock x:Name="Sink_ico" Grid.Column="0"
+                       Text="{Binding Sink_Ico}"
+                       Margin="20"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="115"
+                       Foreground="#FF4B6587"
+                       FontFamily="/Resources/#iconfont" />
 
 
 
 
 
 
-                    <StackPanel Grid.Column="1"
-                                Margin="50,0,0,0"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                d:IsHidden="True">
+            <StackPanel Grid.Column="1"
+                        Margin="20,10,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center">
 
-                        <TextBlock Text="{Binding Sink_Title}"
-                                   Margin="5"
-                                   d:IsHidden="True"
-                                   Foreground=" #4B6587"
-                                   FontSize="35" />
-                        <TextBlock Text="{Binding Sink_Subtitle}"
-                                   Margin="8"
-                                   d:IsHidden="True"
-                                   FontSize="14"
-                                   Foreground="#FF999999"
-                                   LineHeight="9"
-                                   TextDecorations="{x:Null}" />
-                    </StackPanel>
+                <TextBlock Text="{Binding Sink_Title}"
+                           Margin="0"
+                           HorizontalAlignment="Left"
+                           Foreground=" #4B6587"
+                           FontSize="32" />
+                <TextBlock Text="{Binding Sink_Subtitle}"
+                           Margin="3"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
+                           FontSize="12"
+                           Foreground="#FF999999"
+                           LineHeight="9" />
+            </StackPanel>
 
-                    <TextBlock Grid.Column="2"
-                               Text="&#xe606;"
-                               Margin="10"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               d:IsHidden="True"
-                               Effect="{StaticResource 全局背景阴影}"
-                               FontSize="30"
-                               Foreground="#FF4B6587"
-                               FontFamily="/Resources/#iconfont"
-                               TextDecorations="{x:Null}" />
+            <TextBlock Grid.Column="2"
+                       Text="&#xe606;"
+                       Margin="10"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Effect="{StaticResource 全局背景阴影}"
+                       FontSize="30"
+                       Foreground="#FF4B6587"
+                       FontFamily="/Resources/#iconfont"
+                       TextDecorations="{x:Null}" />
 
 
-                </Grid>
 
-            </Border>
+
+
+
+
+
+
 
 
 
         </Grid>
         <DataTemplate.Triggers>
-            <Trigger SourceName="border" Property="IsMouseOver" Value="True">
+            <Trigger SourceName="Gb1" Property="IsMouseOver" Value="True">
 
                 <Setter Property="Opacity" Value="1" />
             </Trigger>
-            <Trigger SourceName="border" Property="IsMouseOver" Value="False">
-                <Setter Property="Opacity" Value="0.5" />
+            <Trigger SourceName="Gb1" Property="IsMouseOver" Value="False">
+                <Setter Property="Opacity" Value="0.3" />
             </Trigger>
 
             <!--<EventTrigger RoutedEvent="MouseDown" SourceName="border">
@@ -416,7 +424,7 @@
     <Style x:Key="Sink_ListBoxItemStyle"
            TargetType="{x:Type ListBoxItem}">
         <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="Padding" Value="10" />
+        <Setter Property="Padding" Value="0" />
 
         <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
         <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />

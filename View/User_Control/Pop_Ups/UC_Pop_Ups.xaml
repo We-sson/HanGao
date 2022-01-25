@@ -145,13 +145,19 @@
                           HorizontalContentAlignment="Center"
                           VerticalContentAlignment="Center"
                           Background="#EBEBEB">
-                    <Grid Margin="5"
+                    <Grid Margin="0"
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Stretch">
 
-                        <Pop:UC_Sink_Type Visibility="{Binding IsChecked, Converter={StaticResource TruthyToVisibleConverter}, ElementName=R1}" />
-                        <Pop:UC_Sink_Size Visibility="{Binding IsChecked, Converter={StaticResource TruthyToVisibleConverter}, ElementName=R2}" />
-                        <Pop:UC_Sink_Craft_List Visibility="{Binding IsChecked, Converter={StaticResource TruthyToVisibleConverter}, ElementName=R3}" />
+                        <Pop:UC_Sink_Type HorizontalContentAlignment="Stretch"
+                                          VerticalContentAlignment="Stretch"
+                                          Visibility="{Binding IsChecked, Converter={StaticResource TruthyToVisibleConverter}, ElementName=R1}" />
+                        <Pop:UC_Sink_Size HorizontalContentAlignment="Stretch"
+                                          VerticalContentAlignment="Stretch"
+                                          Visibility="{Binding IsChecked, Converter={StaticResource TruthyToVisibleConverter}, ElementName=R2}" />
+                        <Pop:UC_Sink_Craft_List HorizontalContentAlignment="Stretch"
+                                                VerticalContentAlignment="Stretch"
+                                                Visibility="{Binding IsChecked, Converter={StaticResource TruthyToVisibleConverter}, ElementName=R3}" />
 
 
                         <!--<ContentControl Content="{Binding Pop_UserControl}"

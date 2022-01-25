@@ -4,20 +4,20 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HanGao.View.User_Control"
-             Width="1020"
              HorizontalContentAlignment="Center"
              VerticalContentAlignment="Center"
-             d:DesignHeight="550"
-             DataContext="{Binding Source={StaticResource Locator}, Path=UC_Sink_Craft_List_VM}"
-             mc:Ignorable="d">
+             DataContext="{Binding UC_Sink_Craft_List_VM, Mode=OneWay, Source={StaticResource Locator}}">
     <Grid Margin="5"
-          Background="Gray">
-        <ListBox Style="{StaticResource ListBoxStyle1}"
-                 DataContext="{Binding Source={StaticResource Locator}, Path=UC_Sink_Craft_List_VM}"
-                 ItemsSource="{Binding Sink_Craft}"
+          Background="Transparent">
+        <ListBox Style="{DynamicResource ListBoxStyle1}"
+                 HorizontalAlignment="Stretch"
+                 BorderThickness="0"
+                 BorderBrush="Black"
+                 DataContext="{Binding UC_Sink_Craft_List_VM, Mode=OneWay, Source={StaticResource Locator}}"
                  Background="Transparent"
                  ItemTemplate="{DynamicResource Sink_Data_Template}"
-                 ItemContainerStyle="{DynamicResource Sink_ListBoxItemStyle}" />
+                 ItemContainerStyle="{DynamicResource Sink_ListBoxItemStyle}"
+                 ItemsSource="{Binding Sink_Craft}" />
 
 
     </Grid>

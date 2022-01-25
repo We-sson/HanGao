@@ -35,6 +35,7 @@
         <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
         <Setter Property="ScrollViewer.PanningMode" Value="Both" />
         <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
+        
         <Setter Property="VirtualizingPanel.IsVirtualizing" Value="True" />
         <Setter Property="VirtualizingPanel.VirtualizationMode" Value="Recycling" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -50,8 +51,8 @@
                         <ScrollViewer Padding="{TemplateBinding Padding}"
                                       HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                       Template="{DynamicResource ScrollViewerControlTemplate1}"
-                                      CanContentScroll="True"
-                                      Focusable="false">
+                                      CanContentScroll="True" 
+                                      Focusable="false" >
                             <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                         </ScrollViewer>
                     </Border>
