@@ -16,8 +16,7 @@
 
 
 
-    <Style x:Key="标题_字体_选择动画样式"
-           TargetType="{x:Type TextBlock}">
+    <Style x:Key="标题_字体_选择动画样式" TargetType="{x:Type TextBlock}">
         <Setter Property="FontFamily" Value="Microsoft Sans Serif" />
         <Style.Triggers>
             <MultiDataTrigger>
@@ -33,8 +32,7 @@
                                              To="{StaticResource 标题_字体_放大字号}"
                                              Duration="0:0:0:1">
                                 <DoubleAnimation.EasingFunction>
-                                    <BackEase EasingMode="EaseInOut"
-                                              Amplitude="1" />
+                                    <BackEase EasingMode="EaseInOut" Amplitude="1" />
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
                         </Storyboard>
@@ -48,8 +46,7 @@
                                              To="{StaticResource 标题_字体_正常字号}"
                                              Duration="0:0:0:1">
                                 <DoubleAnimation.EasingFunction>
-                                    <BackEase EasingMode="EaseInOut"
-                                              Amplitude="1" />
+                                    <BackEase EasingMode="EaseInOut" Amplitude="1" />
 
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
@@ -66,8 +63,7 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="标题_图标_选择动画样式"
-           TargetType="{x:Type TextBlock}">
+    <Style x:Key="标题_图标_选择动画样式" TargetType="{x:Type TextBlock}">
         <Setter Property="TextWrapping" Value="NoWrap" />
         <Setter Property="TextTrimming" Value="None" />
         <Style.Triggers>
@@ -84,8 +80,7 @@
                                              To="{StaticResource 标题_图标_放大字号}"
                                              Duration="0:0:0:1">
                                 <DoubleAnimation.EasingFunction>
-                                    <BackEase EasingMode="EaseInOut"
-                                              Amplitude="2" />
+                                    <BackEase EasingMode="EaseInOut" Amplitude="2" />
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
                         </Storyboard>
@@ -99,8 +94,7 @@
                                              To="{StaticResource 标题_图标_正常字号}"
                                              Duration="0:0:0:1">
                                 <DoubleAnimation.EasingFunction>
-                                    <BackEase EasingMode="EaseInOut"
-                                              Amplitude=" 0" />
+                                    <BackEase EasingMode="EaseInOut" Amplitude=" 0" />
 
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>

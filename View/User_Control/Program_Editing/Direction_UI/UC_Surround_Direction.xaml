@@ -1,0 +1,140 @@
+﻿<UserControl x:Class="HanGao.View.User_Control.Program_Editing.Direction_UI.UC_Direction"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:HanGao.View.User_Control.Program_Editing.Direction_UI"
+             Padding="10"
+             d:DesignHeight="466"
+             d:DesignWidth="760"
+             mc:Ignorable="d">
+
+    <Grid>
+
+        <TextBlock Name="Sink_ico"
+                   Text="&#xe61b;"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Opacity=" 0.4"
+                   FontSize="350"
+                   Foreground="#FF4B6587"
+                   FontFamily="/Resources/#iconfont" />
+
+        <Border Margin="120,100,118,65"
+                CornerRadius="20"
+                Effect="{StaticResource 全局背景阴影}"
+                BorderThickness="10"
+                BorderBrush="Red" />
+
+
+        <Grid Grid.ColumnSpan="2" ShowGridLines="False">
+
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+
+            </Grid.ColumnDefinitions>
+
+
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+
+
+
+            <RadioButton Style="{DynamicResource Program_RadioButton_Style}" Grid.Row="0" Grid.Column="1"
+                         Content="L  0"
+                         IsChecked="True"
+                         Width="100"
+                         HorizontalAlignment="Stretch"
+                         VerticalAlignment="Top"
+                         HorizontalContentAlignment="Center"
+                         VerticalContentAlignment="Stretch"
+                         GroupName="Sink_Direction"
+                         Background="#FF4B6587"
+                         FontSize="20" />
+            <RadioButton Style="{DynamicResource Program_RadioButton_Style}" Grid.Row="0" Grid.Column="0"
+                         Content="C  45"
+                         Width="100"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Center"
+                         HorizontalContentAlignment="Center"
+                         VerticalContentAlignment="Center"
+                         GroupName="Sink_Direction"
+                         Background="#FF4B6587"
+                         FontSize="22" />
+            <RadioButton Style="{DynamicResource Program_RadioButton_Style}" Grid.Row="1" Grid.Column="0"
+                         Content="L  90"
+                         Width="100"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Center"
+                         HorizontalContentAlignment="Center"
+                         VerticalContentAlignment="Center"
+                         GroupName="Sink_Direction"
+                         Background="#FF4B6587"
+                         FontSize="22" />
+            <RadioButton Style="{DynamicResource Program_RadioButton_Style}" Grid.Row="2" Grid.Column="0"
+                         Content="C  135"
+                         Width="100"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Center"
+                         GroupName="Sink_Direction"
+                         Background="#FF4B6587"
+                         FontSize="22" />
+            <RadioButton Style="{DynamicResource Program_RadioButton_Style}" Grid.Row="2" Grid.Column="1"
+                         Content="L  180"
+                         Width="100"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Bottom"
+                         HorizontalContentAlignment="Center"
+                         VerticalContentAlignment="Center"
+                         GroupName="Sink_Direction"
+                         Background="#FF4B6587"
+                         FontSize="22" />
+            <RadioButton Style="{DynamicResource Program_RadioButton_Style}" Grid.Row="2" Grid.Column="2"
+                         Content="C  225"
+                         Width="100"
+                         HorizontalAlignment="Right"
+                         VerticalAlignment="Center"
+                         HorizontalContentAlignment="Center"
+                         VerticalContentAlignment="Center"
+                         GroupName="Sink_Direction"
+                         Background="#FF4B6587"
+                         FontSize="22" />
+            <RadioButton Style="{DynamicResource Program_RadioButton_Style}" Grid.Row="1" Grid.Column="2"
+                         Content="L  270"
+                         Width="100"
+                         HorizontalAlignment="Right"
+                         VerticalAlignment="Center"
+                         HorizontalContentAlignment="Center"
+                         VerticalContentAlignment="Center"
+                         GroupName="Sink_Direction"
+                         Background="#FF4B6587"
+                         FontSize="22" />
+            <RadioButton Style="{DynamicResource Program_RadioButton_Style}" Grid.Row="0" Grid.Column="2"
+                         Content="L  90"
+                         Width="100"
+                         HorizontalAlignment="Right"
+                         VerticalAlignment="Center"
+                         HorizontalContentAlignment="Center"
+                         VerticalContentAlignment="Center"
+                         GroupName="Sink_Direction"
+                         Background="#FF4B6587"
+                         FontSize="22" />
+
+
+
+        </Grid>
+
+
+
+
+
+
+    </Grid>
+</UserControl>

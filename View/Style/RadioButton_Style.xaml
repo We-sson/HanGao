@@ -17,14 +17,11 @@
     <Color x:Key="标题_选项_阴影色">black</Color>
 
 
-    <SolidColorBrush x:Key="Color1"
-                     Color="#E3E3E3" />
-    <SolidColorBrush x:Key="Color2"
-                     Color="#BEBDBD" />
+    <SolidColorBrush x:Key="Color1" Color="#E3E3E3" />
+    <SolidColorBrush x:Key="Color2" Color="#BEBDBD" />
 
 
-    <Style x:Key="标题_选项_样式"
-           TargetType="RadioButton">
+    <Style x:Key="标题_选项_样式" TargetType="RadioButton">
         <!--<Setter Property="BorderBrush"  Value="{StaticResource   Color1}"/>
         <Setter Property="BorderThickness" Value="0"/>-->
         <Setter Property="Template">
@@ -34,8 +31,7 @@
                     <Grid x:Name="RB_template">
                         <!--    -->
                         <Grid.Background>
-                            <SolidColorBrush x:Name="标题_选项_主背景"
-                                             Color="Transparent" />
+                            <SolidColorBrush x:Name="标题_选项_主背景" Color="Transparent" />
                         </Grid.Background>
 
 

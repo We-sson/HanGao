@@ -1,0 +1,265 @@
+﻿<UserControl x:Class="HanGao.View.User_Control.Program_Editing.Direction_UI.UC_Short_Side"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:HanGao.View.User_Control.Program_Editing.Direction_UI"
+             xmlns:Points="clr-namespace:LiveCharts.Wpf.Points;assembly=LiveCharts.Wpf"
+             d:DesignHeight="466"
+             d:DesignWidth="760"
+             mc:Ignorable="d">
+
+    <Grid Margin="10">
+
+        <TextBlock x:Name="Sink_ico"
+                   Text="&#xE61B;"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Opacity=" 0.4"
+                   FontSize="350"
+                   Foreground="#FF4B6587"
+                   FontFamily="/Resources/#iconfont" />
+
+
+        <Grid>
+
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Grid.Column="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center">
+
+
+                <RadioButton Style="{DynamicResource Program_RadioButton_Style}"
+                             Content="SS-1"
+                             Width="90"
+                             HorizontalContentAlignment="Center"
+                             VerticalContentAlignment="Center"
+                             GroupName="Sink_Direction"
+                             Background="#FF4B6587"
+                             FontSize="20" />
+                <ComboBox Style="{DynamicResource ComboBox_Style}"
+                          Height=" 40"
+                          Margin="0,6,0,0"
+                          HorizontalContentAlignment="Center"
+                          VerticalContentAlignment="Center"
+                          BorderBrush="#4B6587"
+                          Effect="{Binding Source={StaticResource 全局背景阴影}}"
+                          BorderThickness="2"
+                          Background="#E3E3E3"
+                          FontSize="20">
+                    <ComboBoxItem Content="1"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  HorizontalContentAlignment="Center"
+                                  VerticalContentAlignment="Center"
+                                  IsSelected="True" />
+                    <ComboBoxItem Content="2"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  HorizontalContentAlignment="Center"
+                                  VerticalContentAlignment="Center" />
+                    <ComboBoxItem Content="3"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  HorizontalContentAlignment="Center"
+                                  VerticalContentAlignment="Center" />
+                    <ComboBoxItem Content="4"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  HorizontalContentAlignment="Center"
+                                  VerticalContentAlignment="Center" />
+
+                </ComboBox>
+
+
+            </StackPanel>
+
+
+            <StackPanel Grid.Row="0" Grid.Column="2"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center">
+
+                <RadioButton Style="{DynamicResource Program_RadioButton_Style}"
+                             Content="SS-2"
+                             Width="90"
+                             HorizontalContentAlignment="Center"
+                             VerticalContentAlignment="Center"
+                             GroupName="Sink_Direction"
+                             Background="#FF4B6587"
+                             FontSize="20" />
+                <ComboBox Style="{DynamicResource ComboBox_Style}"
+                          Height=" 40"
+                          Margin="0,6,0,0"
+                          HorizontalContentAlignment="Center"
+                          VerticalContentAlignment="Center"
+                          BorderBrush="#4B6587"
+                          Effect="{Binding Source={StaticResource 全局背景阴影}}"
+                          BorderThickness="2"
+                          Background="#E3E3E3"
+                          FontSize="20">
+                    <ComboBoxItem Content="1"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  HorizontalContentAlignment="Center"
+                                  VerticalContentAlignment="Center"
+                                  IsSelected="True" />
+                    <ComboBoxItem Content="2"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  HorizontalContentAlignment="Center"
+                                  VerticalContentAlignment="Center" />
+                    <ComboBoxItem Content="3"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  HorizontalContentAlignment="Center"
+                                  VerticalContentAlignment="Center" />
+                    <ComboBoxItem Content="4"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  HorizontalContentAlignment="Center"
+                                  VerticalContentAlignment="Center" />
+
+                </ComboBox>
+
+            </StackPanel>
+
+
+            <StackPanel Grid.Row="1" Grid.Column="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center">
+
+                <RadioButton Style="{DynamicResource Program_RadioButton_Style}"
+                             Content="SS-3"
+                             Width="90"
+                             HorizontalContentAlignment="Center"
+                             VerticalContentAlignment="Center"
+                             GroupName="Sink_Direction"
+                             Background="#FF4B6587"
+                             FontSize="20" />
+                <ComboBox Style="{DynamicResource ComboBox_Style}"
+                          Height=" 40"
+                          Margin="0,6,0,0"
+                          HorizontalContentAlignment="Center"
+                          VerticalContentAlignment="Center"
+                          BorderBrush="#4B6587"
+                          Effect="{Binding Source={StaticResource 全局背景阴影}}"
+                          BorderThickness="2"
+                          Background="#E3E3E3"
+                          FontSize="20">
+                    <ComboBoxItem Content="1"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  HorizontalContentAlignment="Center"
+                                  VerticalContentAlignment="Center"
+                                  IsSelected="True" />
+                    <ComboBoxItem Content="2"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  HorizontalContentAlignment="Center"
+                                  VerticalContentAlignment="Center" />
+                    <ComboBoxItem Content="3"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  HorizontalContentAlignment="Center"
+                                  VerticalContentAlignment="Center" />
+                    <ComboBoxItem Content="4"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  HorizontalContentAlignment="Center"
+                                  VerticalContentAlignment="Center" />
+
+                </ComboBox>
+
+
+            </StackPanel>
+            <StackPanel Grid.Row="1" Grid.Column="2"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center">
+
+
+                <RadioButton Style="{DynamicResource Program_RadioButton_Style}"
+                             Content="SS-4"
+                             Width="90"
+                             HorizontalContentAlignment="Center"
+                             VerticalContentAlignment="Center"
+                             GroupName="Sink_Direction"
+                             Background="#FF4B6587"
+                             FontSize="20" />
+
+                <ComboBox Style="{DynamicResource ComboBox_Style}"
+                          Height=" 40"
+                          Margin="0,6,0,0"
+                          HorizontalContentAlignment="Center"
+                          VerticalContentAlignment="Center"
+                          BorderBrush="#4B6587"
+                          Effect="{Binding Source={StaticResource 全局背景阴影}}"
+                          BorderThickness="2"
+                          Background="#E3E3E3"
+                          FontSize="20">
+                    <ComboBoxItem Content="1"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  HorizontalContentAlignment="Center"
+                                  VerticalContentAlignment="Center"
+                                  IsSelected="True" />
+                    <ComboBoxItem Content="2"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  HorizontalContentAlignment="Center"
+                                  VerticalContentAlignment="Center" />
+                    <ComboBoxItem Content="3"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  HorizontalContentAlignment="Center"
+                                  VerticalContentAlignment="Center" />
+                    <ComboBoxItem Content="4"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  HorizontalContentAlignment="Center"
+                                  VerticalContentAlignment="Center" />
+
+                </ComboBox>
+
+            </StackPanel>
+        </Grid>
+        <Rectangle Width="18"
+                   Height="8"
+                   Margin="-510,-210,0,0"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Fill="#FF5E57" />
+
+        <Rectangle Width="18"
+                   Height="8"
+                   Margin="-510,280,0,0"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Fill="#FF5E57" />
+
+
+        <Rectangle Width="18"
+                   Height="8"
+                   Margin="510,280,0,0"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Fill="#FF5E57" />
+
+        <Rectangle Width="18"
+                   Height="8"
+                   Margin="510,-210,0,0"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Fill="#FF5E57" />
+    </Grid>
+</UserControl>

@@ -2,8 +2,7 @@
 
 
     <!--  按钮样式  -->
-    <Style x:Key="ScrollBarButton"
-           TargetType="{x:Type RepeatButton}">
+    <Style x:Key="ScrollBarButton" TargetType="{x:Type RepeatButton}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -53,8 +52,7 @@
 
 
     <!--  竖滚动条中间样式  -->
-    <Style x:Key="ScrollBarThumbVertical"
-           TargetType="{x:Type Thumb}">
+    <Style x:Key="ScrollBarThumbVertical" TargetType="{x:Type Thumb}">
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="IsTabStop" Value="false" />
         <Setter Property="Template">
@@ -83,8 +81,7 @@
 
     <!--  横滚动条中间样式  -->
 
-    <Style x:Key="ScrollBarThumbHorizontal"
-           TargetType="{x:Type Thumb}">
+    <Style x:Key="ScrollBarThumbHorizontal" TargetType="{x:Type Thumb}">
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="IsTabStop" Value="false" />
         <Setter Property="Template">
@@ -111,8 +108,7 @@
 
 
 
-    <Style x:Key="ScrollBarStyle2"
-           TargetType="{x:Type ScrollBar}">
+    <Style x:Key="ScrollBarStyle2" TargetType="{x:Type ScrollBar}">
         <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false" />
         <Setter Property="Stylus.IsFlicksEnabled" Value="false" />
         <Setter Property="Background" Value="{StaticResource ScrollBar.Static.Background}" />
@@ -124,8 +120,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ScrollBar}">
-                    <Grid x:Name="Bg"
-                          SnapsToDevicePixels="true">
+                    <Grid x:Name="Bg" SnapsToDevicePixels="true">
                         <Grid.RowDefinitions>
                             <RowDefinition MaxHeight="{StaticResource {x:Static SystemParameters.VerticalScrollBarButtonHeightKey}}" />
                             <RowDefinition Height="0.00001*" />
@@ -148,12 +143,10 @@
                                IsDirectionReversed="true"
                                IsEnabled="{TemplateBinding IsMouseOver}">
                             <Track.DecreaseRepeatButton>
-                                <RepeatButton Style="{StaticResource RepeatButtonTransparent}"
-                                              Command="{x:Static ScrollBar.PageUpCommand}" />
+                                <RepeatButton Style="{StaticResource RepeatButtonTransparent}" Command="{x:Static ScrollBar.PageUpCommand}" />
                             </Track.DecreaseRepeatButton>
                             <Track.IncreaseRepeatButton>
-                                <RepeatButton Style="{StaticResource RepeatButtonTransparent}"
-                                              Command="{x:Static ScrollBar.PageDownCommand}" />
+                                <RepeatButton Style="{StaticResource RepeatButtonTransparent}" Command="{x:Static ScrollBar.PageDownCommand}" />
                             </Track.IncreaseRepeatButton>
                             <Track.Thumb>
                                 <Thumb Style="{StaticResource ScrollBarThumbVertical}" />
@@ -227,8 +220,7 @@
 
                         <!--  整个滚动条整体控件  -->
                         <ControlTemplate TargetType="{x:Type ScrollBar}">
-                            <Grid x:Name="Bg"
-                                  SnapsToDevicePixels="true">
+                            <Grid x:Name="Bg" SnapsToDevicePixels="true">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />

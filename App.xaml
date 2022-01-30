@@ -30,7 +30,8 @@
                 <ResourceDictionary Source="View\Style\Sidebar_Button_Style.xaml" />
 
                 <ResourceDictionary Source="View\User_Control\Pop_Ups\Style\Pop_Ups_Style.xaml" />
-
+                <ResourceDictionary Source="View\User_Control\Program_Editing\Program_Style.xaml" />
+                <ResourceDictionary Source="View\User_Control\Program_Editing\Point_UI\Point_UI_Style.xaml" />
 
 
 

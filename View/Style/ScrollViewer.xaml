@@ -1,10 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:local="clr-namespace:HanGao.View">
 
     <!--  列表的滑动条样式  -->
-    <ControlTemplate x:Key="ScrollViewerControlTemplate1"
-                     TargetType="{x:Type ScrollViewer}">
-        <Grid x:Name="Grid"
-              Background="{TemplateBinding Background}">
+    <ControlTemplate x:Key="ScrollViewerControlTemplate1" TargetType="{x:Type ScrollViewer}">
+        <Grid x:Name="Grid" Background="{TemplateBinding Background}">
             <!--<Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto" />
@@ -50,10 +48,8 @@
         <!--  功能按钮的滑动条样式  -->
 
     </ControlTemplate>
-    <ControlTemplate x:Key="ScrollViewerControlTemplate2"
-                     TargetType="{x:Type ScrollViewer}">
-        <Grid x:Name="Grid"
-              Background="{TemplateBinding Background}">
+    <ControlTemplate x:Key="ScrollViewerControlTemplate2" TargetType="{x:Type ScrollViewer}">
+        <Grid x:Name="Grid" Background="{TemplateBinding Background}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="0" />

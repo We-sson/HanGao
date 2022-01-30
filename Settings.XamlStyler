@@ -1,6 +1,6 @@
 {
     // ==========[属性格式化]==========
-    "AttributesTolerance": 1, // 单行最大属性数，2[默认]，如果元素属性数不大于此数就不会换行
+    "AttributesTolerance": 2, // 单行最大属性数，2[默认]，如果元素属性数不大于此数就不会换行
     "KeepFirstAttributeOnSameLine": true, // 第一个属性是否与开始标记在同一行，false[默认]
     "MaxAttributeCharactersPerLine": 10, // 多个属性大于多少个字符就该换行，0[默认]
     "MaxAttributesPerLine": 2, // 大于几个属性就该换行，1[默认]

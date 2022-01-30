@@ -7,8 +7,7 @@
              HorizontalContentAlignment="Center"
              VerticalContentAlignment="Center"
              DataContext="{Binding UC_Sink_Craft_List_VM, Mode=OneWay, Source={StaticResource Locator}}">
-    <Grid Margin="5"
-          Background="Transparent">
+    <Grid Background="Transparent">
         <ListBox Style="{DynamicResource ListBoxStyle1}"
                  HorizontalAlignment="Stretch"
                  BorderThickness="0"

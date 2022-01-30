@@ -4,12 +4,114 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HanGao.View.FrameShow"
-             d:DesignHeight="450" d:DesignWidth="800"
+             xmlns:Direction_UI="clr-namespace:HanGao.View.User_Control.Program_Editing.Direction_UI"
+             xmlns:Point_UI="clr-namespace:HanGao.View.User_Control.Program_Editing.Point_UI"
+             d:DesignHeight="992"
+             d:DesignWidth="1920"
              mc:Ignorable="d">
 
-    <Grid ShowGridLines="True" Background="Transparent">
-        <TextBlock Text="程序界面" HorizontalAlignment="Center"
-                   VerticalAlignment="Center" FontSize="40"
-                   Foreground="White" />
+    <Grid Background="Transparent">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width=" 0.7*" />
+            <ColumnDefinition />
+
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0"
+                    Margin="20,20,10,10"
+                    Effect="{Binding Source={StaticResource 全局背景阴影}}"
+                    Background="#E3E3E3"
+                    CornerRadius="10">
+
+
+
+                <Direction_UI:UC_Short_Side />
+
+
+
+            </Border>
+
+            <Border Grid.Row="1"
+                    Margin="20,10,10,20"
+                    Effect="{Binding Source={StaticResource 全局背景阴影}}"
+                    Background="#E3E3E3"
+                    CornerRadius="10">
+
+                <Point_UI:UC_Surround_Point />
+
+            </Border>
+
+
+
+        </Grid>
+
+        <Grid Grid.Column="1">
+
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="0.2*" />
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0"
+                    Margin="10,20,20,10"
+                    Effect="{Binding Source={StaticResource 全局背景阴影}}"
+                    Background="#E3E3E3"
+                    CornerRadius="10" />
+
+
+            <Grid Grid.Row="1" HorizontalAlignment="Stretch">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Button Style="{DynamicResource Program_UI_ButtonStyle}" Grid.Column="0"
+                        Content="保存"
+                        Width="250"
+                        Height=" 100"
+                        VerticalAlignment="Center"
+                        Background="#6baa75"
+                        FontSize="40" />
+                <Button Style="{DynamicResource Program_UI_ButtonStyle}" Grid.Column="1"
+                        Content=" 默认值"
+                        Width="250"
+                        Height=" 100"
+                        VerticalAlignment="Center"
+                        Background=" #ecd662"
+                        FontSize="40" />
+                <Button Style="{DynamicResource Program_UI_ButtonStyle}" Grid.Column="2"
+                        Content="取消"
+                        Width="250"
+                        Height=" 100"
+                        VerticalAlignment="Center"
+                        Background=" #ff4c29"
+                        FontSize="40" />
+
+
+            </Grid>
+
+
+
+        </Grid>
+
+
+
+
     </Grid>
+
+
+
+
+
+
 </UserControl>

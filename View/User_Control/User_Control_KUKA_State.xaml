@@ -12,13 +12,9 @@
 
 
     <Grid x:Name="GD1" Grid.Row="0" Grid.Column="1"
-          Margin="0">
-        <Grid.Effect>
-            <DropShadowEffect ShadowDepth="0"
-                              Direction="20"
-                              Opacity="0.2"
-                              BlurRadius="20" />
-        </Grid.Effect>
+          Margin="0"
+          Effect="{Binding Source={StaticResource 全局背景阴影}}">
+
 
 
         <Border BorderThickness="5"

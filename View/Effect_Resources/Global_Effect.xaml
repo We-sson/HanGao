@@ -21,8 +21,7 @@
     </FontFamily>
 
 
-    <Style x:Key="全局_弹窗_背景侧挡样式"
-           TargetType="Border">
+    <Style x:Key="全局_弹窗_背景侧挡样式" TargetType="Border">
         <Setter Property="Background" Value="Gray" />
         <Setter Property="Opacity" Value=" 0.8" />
         <Setter Property="Effect">
@@ -34,14 +33,12 @@
 
 
     <!--  全局图标路径  -->
-    <Style x:Key="首页_左上角_公司图标_路径"
-           TargetType="Image">
+    <Style x:Key="首页_左上角_公司图标_路径" TargetType="Image">
         <Setter Property="Source" Value="/Resources/黑色logo.png" />
     </Style>
 
 
-    <Style x:Key="首页_上方_标题图标_鼠标事件"
-           TargetType="Image">
+    <Style x:Key="首页_上方_标题图标_鼠标事件" TargetType="Image">
 
 
 
@@ -101,12 +98,11 @@
     <DropShadowEffect x:Key="全局背景阴影"
                       BlurRadius="40"
                       Direction="-90"
-                      ShadowDepth="5"
+                      ShadowDepth="10"
                       Opacity="0.2" />
 
     <!--  全局Grid背景模糊样式  -->
-    <Style x:Key="Gd_Effect"
-           TargetType="{x:Type Grid}">
+    <Style x:Key="Gd_Effect" TargetType="{x:Type Grid}">
         <Setter Property="Effect">
             <Setter.Value>
                 <DropShadowEffect ShadowDepth="0"
@@ -121,11 +117,9 @@
 
 
     <!--  工作框鼠标上方边框显示  -->
-    <Style x:Key="Border_BorderBrush"
-           TargetType="{x:Type Border}">
+    <Style x:Key="Border_BorderBrush" TargetType="{x:Type Border}">
         <Style.Triggers>
-            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type Grid}}}"
-                         Value="true">
+            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type Grid}}}" Value="true">
                 <DataTrigger.EnterActions>
                     <BeginStoryboard>
                         <Storyboard>
@@ -165,8 +159,7 @@
     </Style>
 
 
-    <Style x:Key="GroupBox_Grid_Effect"
-           TargetType="{x:Type GroupBox}">
+    <Style x:Key="GroupBox_Grid_Effect" TargetType="{x:Type GroupBox}">
         <Setter Property="BorderBrush" Value="Black" />
         <Setter Property="BorderThickness" Value="1.5" />
         <Setter Property="Background" Value="#FFFFFF" />
@@ -185,8 +178,7 @@
 
                         <Grid>
                             <Grid.OpacityMask>
-                                <VisualBrush Visual="{Binding ElementName=MaskBorder}"
-                                             Stretch="None" />
+                                <VisualBrush Visual="{Binding ElementName=MaskBorder}" Stretch="None" />
                             </Grid.OpacityMask>
 
                             <Border x:Name="Bd"
@@ -202,8 +194,7 @@
                                 </Border.Effect>
                             </Border>
 
-                            <ContentPresenter Margin="{TemplateBinding Padding}"
-                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            <ContentPresenter Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 
 
 
