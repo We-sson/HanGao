@@ -117,7 +117,7 @@
                          Background="#FF4B6587"
                          FontSize="22" />
             <RadioButton Style="{DynamicResource Program_RadioButton_Style}" Grid.Row="0" Grid.Column="2"
-                         Content="L  90"
+                         Content="C  315"
                          Width="100"
                          HorizontalAlignment="Right"
                          VerticalAlignment="Center"

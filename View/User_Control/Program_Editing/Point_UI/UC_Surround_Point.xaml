@@ -6,11 +6,103 @@
              xmlns:local="clr-namespace:HanGao.View.User_Control.Program_Editing.Point_UI"
              d:DesignHeight="466"
              d:DesignWidth="760"
+             DataContext="{Binding Source={StaticResource Locator}, Path=UC_Surround_Point_VM}"
              mc:Ignorable="d">
-    <Grid>
-        <ListView Style="{DynamicResource Point_ListViewStyle}"
-                  ItemsSource="{Binding Surround_Offset_Point}"
-                  DataContext="{Binding Source={StaticResource Locator}, Path=UC_Surround_Point_VM}" />
+    <Grid Margin="40,30,30,30">
+
+
+
+
+        <DataGrid Style="{DynamicResource Point_DataGridStyle}"
+                  CellStyle="{DynamicResource Point_DataGridCellStyle}"
+                  RowStyle="{DynamicResource Point_DataGridRowStyle}"
+                  IsReadOnly="True"
+                  ColumnHeaderStyle="{DynamicResource Point_DataGridColumnHeaderStyle}"
+                  GridLinesVisibility="None"
+                  Background="Transparent"
+                  HeadersVisibility="Column"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  SelectionUnit="FullRow"
+                  SelectionMode="Single"
+                  CanUserResizeColumns="False"
+                  CanUserReorderColumns="False"
+                  CanUserDeleteRows="False"
+                  ColumnWidth="*"
+                  RowBackground="Transparent"
+                  AlternatingRowBackground="Transparent"
+                  RowHeight="56"
+                  ItemsSource="{Binding Surround_Offset_Point}">
+
+
+
+            <DataGrid.Columns>
+
+
+
+                <DataGridTemplateColumn Width="80" Header="序号">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Offset_NO}"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="20" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="名称">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Offset_Name}"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="20" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+
+                <DataGridTemplateColumn Header="偏移 X">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Offset_X}"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="20" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="偏移 Y">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Offset_Y}"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="20" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+
+                <DataGridTemplateColumn Header="偏移 Z">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Offset_Z}"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="20" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+
+
+
+        </DataGrid>
+
 
 
     </Grid>

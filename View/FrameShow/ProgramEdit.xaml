@@ -33,7 +33,8 @@
 
 
 
-                <Direction_UI:UC_Short_Side />
+                <!--<Direction_UI:UC_Short_Side />-->
+                <Direction_UI:UC_Direction />
 
 
 
