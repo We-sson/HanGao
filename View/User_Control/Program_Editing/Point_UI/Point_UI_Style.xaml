@@ -4,55 +4,12 @@
 
 
 
-    <!--    -->
-    <Style x:Key="LIstVew_HeadStyle" TargetType="{x:Type GridViewColumnHeader}">
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Padding" Value="0" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
-
-
-                    <Grid Name="g"
-                          HorizontalAlignment="Stretch"
-                          VerticalAlignment="Stretch"
-                          Background="Transparent">
-                        <Border Name="bd"
-                                Padding="{TemplateBinding Padding}"
-                                BorderThickness="0,0,0,1"
-                                BorderBrush="Green">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Border>
-                    </Grid>
-
-
-
-                    <!--  时间  -->
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="g" Property="Background">
-                                <Setter.Value>
-                                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                        <GradientStop Offset="0.3" Color="DeepPink" />
-                                        <GradientStop Offset="1" Color="White" />
-                                    </LinearGradientBrush>
-                                </Setter.Value>
-                            </Setter>
-                        </Trigger>
-
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
 
 
 
 
 
 
-    <!--  偏移点 Data表头样式  -->
-    <SolidColorBrush x:Key="{x:Static DataGrid.FocusBorderBrushKey}" Color="#FF000000" />
 
 
 
@@ -154,12 +111,9 @@
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Background" Value="#d8e0ea" />
-
                 <Setter Property="Foreground" Value="Black" />
             </Trigger>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
-
-
                 <!--<Setter Property="BorderBrush" Value="{DynamicResource {x:Static DataGrid.FocusBorderBrushKey}}"/>-->
             </Trigger>
             <MultiTrigger>
