@@ -30,9 +30,7 @@
               ShowGridLines="False"
               Background="Transparent">
 
-            <Grid.Effect>
-                <BlurEffect Radius="0" />
-            </Grid.Effect>
+
 
 
 
@@ -96,10 +94,8 @@
                                  TextAlignment="Center">
                             <TextBox.Triggers />
                             <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="TextChanged"
-                                                SourceName="Tt1">
-                                    <i:InvokeCommandAction Command="{Binding Find_List_event}"
-                                                           CommandParameter="{Binding ElementName=Tt1, Path=Text}" />
+                                <i:EventTrigger EventName="TextChanged" SourceName="Tt1">
+                                    <i:InvokeCommandAction Command="{Binding Find_List_event}" CommandParameter="{Binding ElementName=Tt1, Path=Text}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
 
@@ -141,8 +137,7 @@
 
 
             <!--  中间功能显示区  -->
-            <Grid Grid.Column="1"
-                  Margin="10">
+            <Grid Grid.Column="1" Margin="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
@@ -199,8 +194,7 @@
 
 
             <!--  左侧功能弹出栏  -->
-            <Grid Grid.Column="0"
-                  Margin="0,15,0,15">
+            <Grid Grid.Column="0" Margin="0,15,0,15">
                 <StackPanel>
 
                     <Button Style="{StaticResource Sidebar_Button}"

@@ -6,13 +6,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HanGao.View.UserMessage"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             d:DesignHeight="380" d:DesignWidth="450"
+             d:DesignHeight="380"
+             d:DesignWidth="450"
              DataContext="{Binding Source={StaticResource Locator}, Path=User_Message_ViewModel}"
              Background="{x:Null}"
              mc:Ignorable="d">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding User_Window_Comm}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
+            <i:InvokeCommandAction Command="{Binding User_Window_Comm}"
+                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                   PassEventArgsToCommand="True" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
@@ -22,7 +25,8 @@
 
 
         <Grid Style="{StaticResource Gd_Effect}" x:Name="grid"
-              MaxWidth="450" MaxHeight="380">
+              MaxWidth="450"
+              MaxHeight="380">
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
@@ -30,7 +34,9 @@
             </Grid.RowDefinitions>
 
 
-            <Border Grid.RowSpan="3" Background="#f6f6f6" CornerRadius="20" />
+            <Border Grid.RowSpan="3"
+                    Background="#f6f6f6"
+                    CornerRadius="20" />
 
             <Grid Grid.Row="0" Margin="0,-50,0,0">
 
@@ -38,47 +44,66 @@
                            Margin="0,10,0,0"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Stretch"
-                           Panel.ZIndex="10" Foreground="White"
+                           Panel.ZIndex="10"
+                           Foreground="White"
                            FontFamily="/Resources/#iconfont"
                            FontSize="70" />
 
-                <Ellipse Width="100" Height="100"
-                         VerticalAlignment="Top" Fill="#f05454"
-                         StrokeThickness="5" Stroke="#f6f6f6f6" />
+                <Ellipse Width="100"
+                         Height="100"
+                         VerticalAlignment="Top"
+                         Fill="#f05454"
+                         StrokeThickness="5"
+                         Stroke="#f6f6f6f6" />
 
             </Grid>
             <Grid Grid.Row="0">
-                <TextBlock Text="提示信息" Margin="0,0,0,0"
+                <TextBlock Text="提示信息"
+                           Margin="0,0,0,0"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Bottom"
-                           Foreground="#f05454" FontSize="46" />
+                           Foreground="#f05454"
+                           FontSize="46" />
             </Grid>
 
             <Grid Grid.Row="1">
 
-                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock Text="" VerticalAlignment="Center"
-                               Foreground="Gray" FontSize="30" />
-                    <TextBlock Text="{Binding User_Wrok_Trye, Mode=TwoWay, FallbackValue=00000}" Foreground="#f05454" FontSize="40" />
+                <StackPanel HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                    <TextBlock Text=""
+                               VerticalAlignment="Center"
+                               Foreground="Gray"
+                               FontSize="30" />
+                    <TextBlock Text="{Binding User_Wrok_Trye, Mode=TwoWay, FallbackValue=00000}"
+                               Foreground="#f05454"
+                               FontSize="40" />
                 </StackPanel>
 
 
             </Grid>
 
             <Grid Grid.Row="2" ShowGridLines="False">
-                <TextBlock Text="是否确定替换该型号" Margin="0,-20,0,0"
+                <TextBlock Text="是否确定替换该型号"
+                           Margin="0,-20,0,0"
                            HorizontalAlignment="Center"
-                           VerticalAlignment="Top" FontSize="35"
+                           VerticalAlignment="Top"
+                           FontSize="35"
                            Foreground="Black" />
 
                 <Button Style="{StaticResource Button_message}" x:Name="BT1"
-                        Uid="Yes" Width="225" Height="60"
+                        Uid="Yes"
+                        Width="225"
+                        Height="60"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Bottom"
-                        Background="#47aa57" FontSize="25">
+                        Background="#47aa57"
+                        FontSize="25">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding Path=DataContext.Yes_No_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
+                            <i:InvokeCommandAction Command="{Binding Yes_No_Comm}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                   PassEventArgsToCommand="True" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
 
@@ -109,14 +134,19 @@
 
 
                 <Button Style="{StaticResource Button_message}" x:Name="BT2"
-                        Uid="No" Width="225" Height="60"
+                        Uid="No"
+                        Width="225"
+                        Height="60"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Bottom"
-                        Foreground="White" Background="#f05454"
+                        Foreground="White"
+                        Background="#f05454"
                         FontSize="25">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding Path=DataContext.Yes_No_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
+                            <i:InvokeCommandAction Command="{Binding Yes_No_Comm}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                   PassEventArgsToCommand="True" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
 

@@ -64,8 +64,7 @@
                         <Style TargetType="Border">
 
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=TB1, Path=(Validation.HasError)}"
-                                             Value="true">
+                                <DataTrigger Binding="{Binding ElementName=TB1, Path=(Validation.HasError)}" Value="true">
 
                                     <Setter Property="BorderBrush" Value="#FF5E57" />
                                 </DataTrigger>
@@ -111,8 +110,7 @@
                         <Style TargetType="Border">
 
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=TB2, Path=(Validation.HasError)}"
-                                             Value="true">
+                                <DataTrigger Binding="{Binding ElementName=TB2, Path=(Validation.HasError)}" Value="true">
 
                                     <Setter Property="BorderBrush" Value="Red" />
                                 </DataTrigger>
@@ -141,8 +139,7 @@
                             FontSize="25">
 
                         <Button.Style>
-                            <Style BasedOn="{StaticResource ButtonStyle3}"
-                                   TargetType="Button">
+                            <Style BasedOn="{StaticResource ButtonStyle3}" TargetType="Button">
                                 <Style.Setters>
                                     <Setter Property="Background" Value="#AAAAAA" />
                                     <Setter Property="Content" Value="{Binding Control_Name_String}" />
@@ -176,9 +173,7 @@
                         </Button.Style>
 
                         <i:Interaction.Triggers>
-                            <!--<i:EventTrigger EventName="Loaded">
-                                <i:InvokeCommandAction  Command="{Binding Socket_Client_Connection_Comm}" CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Socket_Conntec_UI}}}" PassEventArgsToCommand="True" />
-                            </i:EventTrigger>-->
+
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction Command="{Binding Socket_Client_Connection_Comm}"
                                                        CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Socket_Conntec_UI}}}"
@@ -201,7 +196,7 @@
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction Command="{Binding Socket_Close_Comm}"
-                                                       CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Socket_Write}}}"
+                                                       CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Socket_Conntec_UI}}}"
                                                        PassEventArgsToCommand="True" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>

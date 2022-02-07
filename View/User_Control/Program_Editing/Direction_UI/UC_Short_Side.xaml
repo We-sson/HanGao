@@ -40,7 +40,7 @@
                         VerticalAlignment="Center">
 
 
-                <RadioButton Style="{DynamicResource Program_RadioButton_Style}"
+                <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}"
                              Content="SS-1"
                              Width="90"
                              HorizontalContentAlignment="Center"
@@ -90,7 +90,7 @@
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center">
 
-                <RadioButton Style="{DynamicResource Program_RadioButton_Style}"
+                <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}"
                              Content="SS-2"
                              Width="90"
                              HorizontalContentAlignment="Center"
@@ -139,7 +139,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center">
 
-                <RadioButton Style="{DynamicResource Program_RadioButton_Style}"
+                <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}"
                              Content="SS-3"
                              Width="90"
                              HorizontalContentAlignment="Center"
@@ -188,7 +188,7 @@
                         VerticalAlignment="Center">
 
 
-                <RadioButton Style="{DynamicResource Program_RadioButton_Style}"
+                <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}"
                              Content="SS-4"
                              Width="90"
                              HorizontalContentAlignment="Center"

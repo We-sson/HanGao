@@ -465,7 +465,7 @@
 
 
     <!--  多选按钮样式  -->
-    <Style x:Key="Program_RadioButton_Style" TargetType="{x:Type RadioButton}">
+    <Style x:Key="ShortSide_RadioButton_Style" TargetType="{x:Type RadioButton}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Padding" Value="8" />

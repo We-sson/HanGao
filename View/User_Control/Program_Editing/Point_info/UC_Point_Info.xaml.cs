@@ -13,18 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HanGao.View.User_Control.Program_Editing.Point_UI
+namespace HanGao.View.User_Control.Program_Editing.Point_info
 {
     /// <summary>
-    /// UC_Surround_Point.xaml 的交互逻辑
+    /// UC_Point_Info.xaml 的交互逻辑
     /// </summary>
-    public partial class UC_Surround_Point : UserControl
+    public partial class UC_Point_Info : UserControl
     {
-        public UC_Surround_Point()
+        public UC_Point_Info()
         {
             InitializeComponent();
         }
-
-
     }
 }

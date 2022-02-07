@@ -12,79 +12,110 @@ namespace HanGao.ViewModel
     [AddINotifyPropertyChangedInterface]
     public class FrameShow : ObservableObject
     {
-        /// <summary>
-        /// 页面初始化内容
-        /// </summary>
+
         public FrameShow()
         {
 
-            //启动首页
-            User_Show = HomeOne;
+ 
         }
+
         /// <summary>
         /// 软件启动把页面写入内存
         /// </summary>
-        private readonly  UserControl HomeOne = new HomeOne();
-        private readonly UserControl ProgRamEdit = new ProgramEdit();
-        private readonly UserControl ReadData = new RealData();
-        private readonly UserControl WeldingGui = new WeldingGui();
+        public  static  UserControl HomeOne = new HomeOne();
+        public  static UserControl ProgRamEdit = new ProgramEdit();
+        public  static UserControl ReadData = new RealData();
+        public  static UserControl WeldingGui = new WeldingGui();
 
 
 
         /// <summary>
         /// 用于前段绑定显示页面内容
         /// </summary>
-        private UserControl _User_Show;
+
+
+
+        private UserControl _User_Show = HomeOne;
+
         public UserControl User_Show
         {
-
             get { return _User_Show; }
-            set
-            {
-                if (_User_Show == value)
+            set { _User_Show = value; }
+        }
+
+
+        private bool _HomeOne_UI=true;
+        /// <summary>
+        /// 控制台主页
+        /// </summary>
+        public bool HomeOne_UI
+        {
+            get { return _HomeOne_UI; }
+            set {
+                _HomeOne_UI = value;
+                if (_HomeOne_UI)
                 {
-                    return;
-                }
-                _User_Show = value;
-            }
-        }
-
-
-
-
-        /// <summary>
-        /// 标题栏选择事件触发
-        /// </summary>
-        public ICommand Set_User_Show
-        {
-            get => new RelayCommand<Control>(Set_User);
-        }
-
-
-
-        /// <summary>
-        /// 使用Uid识别码来显示内容
-        /// </summary>
-        /// <param name="_name"></param>
-        private void Set_User(Control _name)
-        {
-
-            switch (_name.Uid)
-            {
-                case "1":
                     User_Show = HomeOne;
-                    break;
-                case "2":
-                    User_Show = ProgRamEdit;
-                    break;
-                case "3":
-                    User_Show = ReadData;
-                    break;
-                case "4":
-                    User_Show = WeldingGui;
-                    break;
+                }
             }
         }
+
+
+        private bool _ProgramEdit_UI;
+        /// <summary>
+        /// 程序编辑页面
+        /// </summary>
+        public bool ProgramEdit_UI
+        {
+            get { return _ProgramEdit_UI; }
+            set { 
+                _ProgramEdit_UI = value;
+                if (_ProgramEdit_UI)
+                {
+                    User_Show = ProgRamEdit;
+                }
+            }
+        }
+
+
+        private bool _RealData_UI;
+        /// <summary>
+        /// 数据页面
+        /// </summary>
+        public bool RealData_UI
+        {
+            get { return _RealData_UI; }
+            set { 
+                _RealData_UI = value;
+                if (_RealData_UI)
+                {
+                    User_Show = ReadData;
+                }
+            }
+        }
+
+        private bool _WeldingGUI_UI;
+        /// <summary>
+        /// 震镜页面
+        /// </summary>
+        public bool WeldingGUI_UI
+        {
+            get { return _WeldingGUI_UI; }
+            set {
+                
+                _WeldingGUI_UI = value;
+                if (_WeldingGUI_UI)
+                {
+                    User_Show = WeldingGui;
+                }
+            }
+        }
+
+
+
+
+
+
 
 
 

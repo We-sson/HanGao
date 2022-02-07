@@ -66,8 +66,8 @@
 
                             <Grid.Background>
                                 <LinearGradientBrush Opacity="1" StartPoint="0,0" EndPoint="0,1">
-                                    <GradientStop x:Name="Bor_Back1" Offset="0" Color="{StaticResource 标题_选项_背景_过渡色1}" />
-                                    <GradientStop x:Name="Bor_Back2" Offset="1" Color="{StaticResource 标题_选项_背景_过渡色2}" />
+                                    <GradientStop x:Name="Bor_Back1" Offset="0" Color="{DynamicResource 标题_选项_背景_过渡色1}" />
+                                    <GradientStop x:Name="Bor_Back2" Offset="1" Color="{DynamicResource 标题_选项_背景_过渡色2}" />
                                 </LinearGradientBrush>
 
                             </Grid.Background>
@@ -90,7 +90,7 @@
                                 <DropShadowEffect ShadowDepth="1"
                                                   BlurRadius="1"
                                                   Opacity="1"
-                                                  Color="{StaticResource 标题_选项_阴影色}" />
+                                                  Color="Black" />
                             </ContentPresenter.Effect>
 
                         </ContentPresenter>

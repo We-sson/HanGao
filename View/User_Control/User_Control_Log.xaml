@@ -51,7 +51,7 @@
 
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ScrollChanged">
-                    <i:InvokeCommandAction Command="{Binding Path=DataContext.Update_Log_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+                    <i:InvokeCommandAction Command="{Binding Update_Log_Comm}"
                                            CommandParameter="{Binding ElementName=SV1}"
                                            PassEventArgsToCommand="True" />
                 </i:EventTrigger>

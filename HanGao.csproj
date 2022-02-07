@@ -205,6 +205,9 @@
     <Compile Include="View\User_Control\Program_Editing\Direction_UI\UC_Surround_Direction.xaml.cs">
       <DependentUpon>UC_Surround_Direction.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\User_Control\Program_Editing\Point_info\UC_Point_Info.xaml.cs">
+      <DependentUpon>UC_Point_Info.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\User_Control\Program_Editing\Point_UI\UC_Surround_Point.xaml.cs">
       <DependentUpon>UC_Surround_Point.xaml</DependentUpon>
     </Compile>
@@ -357,6 +360,12 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\User_Control\Program_Editing\Direction_UI\UC_Surround_Direction.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\User_Control\Program_Editing\Point_info\UC_Point_Info.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\User_Control\Program_Editing\Point_info\UC_Point_Style.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\User_Control\Program_Editing\Point_UI\Point_UI_Style.xaml">

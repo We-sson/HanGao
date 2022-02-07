@@ -47,7 +47,7 @@
 
 
 
-            <RadioButton Style="{DynamicResource Program_RadioButton_Style}" Grid.Row="0" Grid.Column="1"
+            <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="0" Grid.Column="1"
                          Content="L  0"
                          IsChecked="True"
                          Width="100"
@@ -58,7 +58,7 @@
                          GroupName="Sink_Direction"
                          Background="#FF4B6587"
                          FontSize="20" />
-            <RadioButton Style="{DynamicResource Program_RadioButton_Style}" Grid.Row="0" Grid.Column="0"
+            <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="0" Grid.Column="0"
                          Content="C  45"
                          Width="100"
                          HorizontalAlignment="Left"
@@ -68,7 +68,7 @@
                          GroupName="Sink_Direction"
                          Background="#FF4B6587"
                          FontSize="22" />
-            <RadioButton Style="{DynamicResource Program_RadioButton_Style}" Grid.Row="1" Grid.Column="0"
+            <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="1" Grid.Column="0"
                          Content="L  90"
                          Width="100"
                          HorizontalAlignment="Left"
@@ -78,7 +78,7 @@
                          GroupName="Sink_Direction"
                          Background="#FF4B6587"
                          FontSize="22" />
-            <RadioButton Style="{DynamicResource Program_RadioButton_Style}" Grid.Row="2" Grid.Column="0"
+            <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="2" Grid.Column="0"
                          Content="C  135"
                          Width="100"
                          HorizontalAlignment="Left"
@@ -86,7 +86,7 @@
                          GroupName="Sink_Direction"
                          Background="#FF4B6587"
                          FontSize="22" />
-            <RadioButton Style="{DynamicResource Program_RadioButton_Style}" Grid.Row="2" Grid.Column="1"
+            <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="2" Grid.Column="1"
                          Content="L  180"
                          Width="100"
                          HorizontalAlignment="Center"
@@ -96,7 +96,7 @@
                          GroupName="Sink_Direction"
                          Background="#FF4B6587"
                          FontSize="22" />
-            <RadioButton Style="{DynamicResource Program_RadioButton_Style}" Grid.Row="2" Grid.Column="2"
+            <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="2" Grid.Column="2"
                          Content="C  225"
                          Width="100"
                          HorizontalAlignment="Right"
@@ -106,7 +106,7 @@
                          GroupName="Sink_Direction"
                          Background="#FF4B6587"
                          FontSize="22" />
-            <RadioButton Style="{DynamicResource Program_RadioButton_Style}" Grid.Row="1" Grid.Column="2"
+            <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="1" Grid.Column="2"
                          Content="L  270"
                          Width="100"
                          HorizontalAlignment="Right"
@@ -116,7 +116,7 @@
                          GroupName="Sink_Direction"
                          Background="#FF4B6587"
                          FontSize="22" />
-            <RadioButton Style="{DynamicResource Program_RadioButton_Style}" Grid.Row="0" Grid.Column="2"
+            <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="0" Grid.Column="2"
                          Content="C  315"
                          Width="100"
                          HorizontalAlignment="Right"

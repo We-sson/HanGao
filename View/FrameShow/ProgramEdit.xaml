@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:HanGao.View.FrameShow"
              xmlns:Direction_UI="clr-namespace:HanGao.View.User_Control.Program_Editing.Direction_UI"
              xmlns:Point_UI="clr-namespace:HanGao.View.User_Control.Program_Editing.Point_UI"
+             xmlns:Point_info="clr-namespace:HanGao.View.User_Control.Program_Editing.Point_info"
              d:DesignHeight="992"
              d:DesignWidth="1920"
              mc:Ignorable="d">
@@ -65,7 +66,13 @@
                     Margin="10,20,20,10"
                     Effect="{Binding Source={StaticResource 全局背景阴影}}"
                     Background="#E3E3E3"
-                    CornerRadius="10" />
+                    CornerRadius="10">
+
+                <Point_info:UC_Point_Info />
+
+
+
+            </Border>
 
 
             <Grid Grid.Row="1" HorizontalAlignment="Stretch">

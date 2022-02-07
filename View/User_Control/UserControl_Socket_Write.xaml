@@ -128,8 +128,7 @@
                             FontSize="25"
                             Background="#47aa57">
                         <Button.Style>
-                            <Style TargetType="Button"
-                                   BasedOn="{StaticResource ButtonStyle3}">
+                            <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle3}">
                                 <Setter Property="IsEnabled" Value="True" />
                                 <Style.Triggers />
                             </Style>
@@ -139,7 +138,7 @@
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction Command="{Binding Socket_Send_Comm}"
-                                                       CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorLevel=3, AncestorType={x:Type UserControl}}}"
+                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:UserControl_Socket_Write}}}"
                                                        PassEventArgsToCommand="True" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
@@ -153,7 +152,7 @@
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction Command="{Binding Content_Removal_Comm}"
-                                                       CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorLevel=3, AncestorType={x:Type UserControl}}}"
+                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:UserControl_Socket_Write}}}"
                                                        PassEventArgsToCommand="True" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>

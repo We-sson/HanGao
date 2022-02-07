@@ -9,21 +9,26 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:usermessage="clr-namespace:HanGao.View.UserMessage"
         xmlns:viewmodel="clr-namespace:HanGao.ViewModel"
-        Title="MainWindow" MinWidth="1920"
-        MinHeight="1080" Padding="0"
-       
+        Title="MainWindow"
+        MinWidth="1920"
+        MinHeight="1080"
+        Padding="0"
+        d:DataContext="{d:DesignInstance Type=viewmodel:User_Control_Show}"
         d:DesignWidth="1920"
-        
-        d:DesignHeight="1080" Background="Gray"
+        d:DesignHeight="1080"
+        DataContext="{Binding Source={StaticResource Locator}, Path=FrameShow}"
+        Background="Gray"
         AllowsTransparency="True"
-        WindowStyle="None" mc:Ignorable="d">
+        WindowStyle="None"
+        mc:Ignorable="d">
 
 
     <!--  拖动标题栏顶部范围  -->
     <WindowChrome.WindowChrome>
         <WindowChrome UseAeroCaptionButtons="True"
                       CaptionHeight="15"
-                      GlassFrameThickness="0" CornerRadius="0" />
+                      GlassFrameThickness="0"
+                      CornerRadius="0" />
     </WindowChrome.WindowChrome>
 
 
@@ -44,8 +49,8 @@
 
         <!--  主页标题栏  -->
         <Grid Grid.Row="0"
-              Margin="0,15,0,0" ShowGridLines="False"
-              DataContext="{Binding Source={StaticResource Locator}, Path=FrameShow}">
+              Margin="0,15,0,0"
+              ShowGridLines="False">
 
 
 
@@ -59,35 +64,39 @@
 
             <!--  首页_左上角_公司图标  -->
             <Image Style="{StaticResource 首页_左上角_公司图标_样式}" Grid.Column="0"
-                   Width="300" Margin="25,0,35,0"
+                   Width="300"
+                   Margin="25,0,35,0"
                    HorizontalAlignment="Center" />
             <StackPanel Grid.Column="1"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Orientation="Horizontal">
 
-                <RadioButton Style="{StaticResource 标题_选项_样式}" x:Name="HomeOne_Radio"
-                             Uid="1" IsChecked="True" Width="250"
+                <RadioButton Style="{StaticResource 标题_选项_样式}"
+                             IsChecked="{Binding HomeOne_UI}"
+                             Width="250"
                              Margin="0,0,0,0"
                              VerticalAlignment="Center"
                              GroupName="Rt">
 
-                    <i:Interaction.Triggers>
+                    <!--<i:Interaction.Triggers>
                         <i:EventTrigger EventName="Checked">
                             <i:InvokeCommandAction Command="{Binding Set_User_Show}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type RadioButton}, AncestorLevel=1, Mode=FindAncestor}}" />
                         </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                    </i:Interaction.Triggers>-->
 
 
 
 
                     <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Stretch">
                         <TextBlock Style="{StaticResource 标题_图标_选择动画样式}"
-                                   Text="&#xE609;" Margin="5"
+                                   Text="&#xE609;"
+                                   Margin="5"
                                    HorizontalAlignment="Center"
                                    FontFamily="./Resources/#iconfont"
                                    FontSize="32" />
-                        <TextBlock Text="控制台" Margin="10,5,10,0"
+                        <TextBlock Text="控制台"
+                                   Margin="10,5,10,0"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    FontSize="{StaticResource 标题_字体_正常字号}"
@@ -99,22 +108,26 @@
                 </RadioButton>
 
 
-                <RadioButton Style="{StaticResource 标题_选项_样式}" x:Name="ProgramEdit_Radio"
-                             Uid="2" Width="250" Margin="0,0,0,0"
+                <RadioButton Style="{StaticResource 标题_选项_样式}"
+                             IsChecked="{Binding RealData_UI}"
+                             Width="250"
+                             Margin="0,0,0,0"
                              HorizontalAlignment="Stretch"
                              GroupName="Rt">
-                    <i:Interaction.Triggers>
+                    <!--<i:Interaction.Triggers>
                         <i:EventTrigger EventName="Checked">
                             <i:InvokeCommandAction Command="{Binding Set_User_Show}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type RadioButton}, AncestorLevel=1, Mode=FindAncestor}}" />
                         </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                    </i:Interaction.Triggers>-->
 
                     <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Stretch">
-                        <TextBlock Text="&#xE67E;" Margin="5"
+                        <TextBlock Text="&#xE67E;"
+                                   Margin="5"
                                    HorizontalAlignment="Center"
                                    FontFamily="./Resources/#iconfont"
                                    FontSize="30" />
-                        <TextBlock Text="实时数据" Margin="10,5,10,0"
+                        <TextBlock Text="实时数据"
+                                   Margin="10,5,10,0"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    FontSize="{StaticResource 标题_字体_正常字号}"
@@ -123,24 +136,29 @@
 
                 </RadioButton>
 
-                <RadioButton Style="{StaticResource 标题_选项_样式}" x:Name="RealData_Radio"
-                             x:Uid="3" Width="250" Margin="0,0,0,0"
+                <RadioButton Style="{StaticResource 标题_选项_样式}"
+                             x:Uid="3"
+                             IsChecked="{Binding ProgramEdit_UI}"
+                             Width="250"
+                             Margin="0,0,0,0"
                              HorizontalAlignment="Stretch"
                              GroupName="Rt">
-                    <i:Interaction.Triggers>
+                    <!--<i:Interaction.Triggers>
                         <i:EventTrigger EventName="Checked">
                             <i:InvokeCommandAction Command="{Binding Set_User_Show}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type RadioButton}, AncestorLevel=1, Mode=FindAncestor}}" />
                         </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                    </i:Interaction.Triggers>-->
 
 
                     <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Stretch">
-                        <TextBlock Text="&#xE6A5;" Margin="5"
+                        <TextBlock Text="&#xE6A5;"
+                                   Margin="5"
                                    HorizontalAlignment="Stretch"
                                    VerticalAlignment="Stretch"
                                    FontFamily="./Resources/#iconfont"
                                    FontSize="32" />
-                        <TextBlock Text="程序编辑" Margin="10,0,10,0"
+                        <TextBlock Text="程序编辑"
+                                   Margin="10,0,10,0"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    FontSize="{StaticResource 标题_字体_正常字号}"
@@ -149,23 +167,27 @@
 
                 </RadioButton>
 
-                <RadioButton Style="{StaticResource 标题_选项_样式}" x:Name="WeldingGui_Radio"
-                             x:Uid="4" Width="250" Margin="0,0,0,0"
+                <RadioButton Style="{StaticResource 标题_选项_样式}"
+                             IsChecked="{Binding WeldingGUI_UI}"
+                             Width="250"
+                             Margin="0,0,0,0"
                              GroupName="Rt">
 
-                    <i:Interaction.Triggers>
+                    <!--<i:Interaction.Triggers>
                         <i:EventTrigger EventName="Checked">
                             <i:InvokeCommandAction Command="{Binding Set_User_Show}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type RadioButton}, AncestorLevel=1, Mode=FindAncestor}}" />
                         </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                    </i:Interaction.Triggers>-->
 
                     <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Stretch">
-                        <TextBlock Text="&#xE635;" Margin="5"
+                        <TextBlock Text="&#xE635;"
+                                   Margin="5"
                                    HorizontalAlignment="Stretch"
                                    VerticalAlignment="Stretch"
                                    FontFamily="./Resources/#iconfont"
                                    FontSize="32" />
-                        <TextBlock Text="振镜界面" Margin="10,0,10,0"
+                        <TextBlock Text="振镜界面"
+                                   Margin="10,0,10,0"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    FontSize="{StaticResource 标题_字体_正常字号}"
@@ -194,29 +216,41 @@
 
 
                 <Button Style="{DynamicResource Windows_Button_Style}"
-                        x:Uid="1" Margin="12,0,12,0"
-                        Background="#2AD043" BorderBrush="Gray">
+                        x:Uid="1"
+                        Margin="12,0,12,0"
+                        Background="#2AD043"
+                        BorderBrush="Gray">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding Path=DataContext.Min_Window, RelativeSource={RelativeSource AncestorType={x:Type Grid}, Mode=FindAncestor}}" CommandParameter="{Binding ElementName=WD1}" PassEventArgsToCommand="True" />
+                            <i:InvokeCommandAction Command="{Binding Min_Window}"
+                                                   CommandParameter="{Binding ElementName=WD1}"
+                                                   PassEventArgsToCommand="True" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
                 <Button Style="{DynamicResource Windows_Button_Style}"
-                        x:Uid="2" Margin="12,0,12,0"
-                        Background="#FFBC2F" BorderBrush="Gray">
+                        x:Uid="2"
+                        Margin="12,0,12,0"
+                        Background="#FFBC2F"
+                        BorderBrush="Gray">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding Path=DataContext.Max_Window, RelativeSource={RelativeSource AncestorType={x:Type Grid}, Mode=FindAncestor}}" CommandParameter="{Binding ElementName=WD1}" PassEventArgsToCommand="True" />
+                            <i:InvokeCommandAction Command="{Binding Max_Window}"
+                                                   CommandParameter="{Binding ElementName=WD1}"
+                                                   PassEventArgsToCommand="True" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
                 <Button Style="{DynamicResource Windows_Button_Style}"
-                        x:Uid="3" Margin="12,0,12,0"
-                        Background="#FF5E57" BorderBrush="Gray">
+                        x:Uid="3"
+                        Margin="12,0,12,0"
+                        Background="#FF5E57"
+                        BorderBrush="Gray">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding Path=DataContext.Close_Window, RelativeSource={RelativeSource AncestorType={x:Type Grid}, Mode=FindAncestor}}" CommandParameter="{Binding ElementName=WD1}" PassEventArgsToCommand="True" />
+                            <i:InvokeCommandAction Command="{Binding Close_Window}"
+                                                   CommandParameter="{Binding ElementName=WD1}"
+                                                   PassEventArgsToCommand="True" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
@@ -228,25 +262,25 @@
 
 
         <!--  分割装饰栏  -->
-        <Border Grid.Row="1" Panel.ZIndex="-1" Background="Gray" />
+        <Border Grid.Row="1"
+                Panel.ZIndex="-1"
+                Background="Gray" />
 
 
 
 
 
-        <!--  标题栏对应显示的内容  -->
-        <!--<Frame Grid.Row="2"
-               IsEnabled="True" Visibility="Collapsed"
-               Source="{Binding Uri_Show.Frame_Source}"
-               NavigationUIVisibility="Hidden"
-               Background="Transparent" Opacity="1"
-               DataContext="{Binding Source={StaticResource Locator}, Path=FrameShow}" />-->
-        <ContentControl Grid.Row="2" Content="{Binding User_Show}" DataContext="{Binding Source={StaticResource Locator}, Path=FrameShow}" />
+        <!--  控制台内容显示  -->
+        <ContentControl Grid.Row="2"
+                        Content="{Binding User_Show}"
+                        DataContext="{Binding FrameShow, Mode=OneWay, Source={StaticResource Locator}}" />
 
+
+        <!--  弹窗控件显示  -->
         <ContentControl Grid.Row="0"
                         Grid.RowSpan="3"
-                        Content="{Binding User_UserControl}"
-                        DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Show}" d:IsHidden="True" />
+                        Content="{Binding User_Control_Show.User_UserControl, Source={StaticResource Locator}}"
+                        d:IsHidden="True" />
 
 
 

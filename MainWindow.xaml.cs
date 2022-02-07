@@ -16,7 +16,7 @@ namespace HanGao
 
 
 
-            //DataContext =App.Current.Services.GetService(typeof(MainViewModel));
+
 
 
         }
