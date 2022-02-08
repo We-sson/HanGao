@@ -410,13 +410,20 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
     SHOWVAR (FULLPATH[] "PO%MOVE_Name .B" , PARAM Pos_B)
     SHOWVAR (FULLPATH[] "PO%MOVE_Name .C" , PARAM Pos_C)
     
-    MESSAGE " %MOVE_Name  Position: X=%Pos_X  , Y=%Pos_Y  , Z=%Pos_Z , A=%Pos_A , B=%Pos_B , C=%Pos_C"
-    
+	
+	SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset.X" , PARAM Offset_X)
+    SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset.Y" , PARAM Offset_Y)
+    SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset.Z" , PARAM Offset_Z)
+	
+	
+	
+    MESSAGE " %MOVE_Name  Position: X=%Pos_X  , Y=%Pos_Y  , Z=%Pos_Z , A=%Pos_A , B=%Pos_B , C=%Pos_C "
+    MESSAGE " %Offset_List  Offset: X=%Offset_X  ,Y=%Offset_Y  ,Z=%Offset_Z "
    ENDSCRIPT
 
   DEFSCRIPT LIN_New
 
-    
+
   ENDSCRIPT
 
 
@@ -424,7 +431,10 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
   
   DEFSCRIPT LIN_SAVE
     
-    REDECL(PATH[] "%MODULE ",DECLARATION[] "DECL Offset_POS FF%Offset_List ={X %Offset_X ,Y %Offset_Y ,Z %Offset_Z }")
+    ;REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL Offset_POS FF%Offset_List ={X %Offset_X ,Y %Offset_Y ,Z %Offset_Z }")
+	
+	SETVAR(FULLPATH[] "FF%Offset_List ", VALUE[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset")
+	
     REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL FDAT F%MOVE_DAT ={TOOL_NO %TOOL_NO ,BASE_NO %BASE_NO ,IPO_FRAME #BASE ,POINT2[] /" /",TQ_STATE FALSE }" )
     REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL LDAT L%MOVE_DAT ={VEL %Vel ,ACC %ACC ,APO_DIST %CDIS ,APO_FAC 50.0000 ,AXIS_VEL 100.0,AXIS_ACC 100.0,ORI_TYP #VAR ,CIRC_TYP #BASE,JERK_FAC 50.0,GEAR_JERK 50.0,EXAX_IGN 0}" )
           
@@ -476,7 +486,8 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
     SHOWVAR (FULLPATH[] "PO%CIR_End_Name .B" , PARAM CIR_Pos_B)
     SHOWVAR (FULLPATH[] "PO%CIR_End_Name .C" , PARAM CIR_Pos_C)
     
-    MESSAGE " %CIR_End_Name  Position: X=%CIR_Pos_X  , Y=%CIR_Pos_Y  , Z=%CIR_Pos_Z , A=%CIR_Pos_A , B=%CIR_Pos_B , C=%CIR_Pos_C"
+    MESSAGE " %CIR_End_Name  CIR End Position: X=%CIR_Pos_X  , Y=%CIR_Pos_Y  , Z=%CIR_Pos_Z , A=%CIR_Pos_A , B=%CIR_Pos_B , C=%CIR_Pos_C"
+	MESSAGE " %Offset_CIR_List  CIR End Offset: X=%Offset_CIR_X  ,Y=%Offset_CIR_Y  ,Z=%Offset_CIR_Z "
     DO LIN_Refresh
    ENDSCRIPT
    

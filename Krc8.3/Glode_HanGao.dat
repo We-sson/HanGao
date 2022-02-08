@@ -1,12 +1,9 @@
-&ACCESS RVO1
-&REL 134
+&ACCESS RVO
+&REL 141
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HG
-DEFDAT  Glode_HanGao PUBLIC
-
-
-
+DEFDAT  GLODE_HANGAO PUBLIC
 
 ;--------DECL_Enum---------------
 GLOBAL ENUM Sink_Type_Enum UpDown_One,LeftRight_One,LeftRight_Two,Null
@@ -25,7 +22,7 @@ GLOBAL STRUC Calculate_Lin_Const REAL A,REAL B,REAL C
 
 
 
-GLOBAL STRUC Surr_Welding_Craft_Type REAL Welding_Power,REAL Welding_Speed,REAL Welding_Angle, Offset_POS Welding_Offset
+GLOBAL STRUC Surr_Welding_Craft_Type REAL Welding_Power,REAL Welding_Speed,REAL Welding_Angle,Offset_POS Welding_Offset
 
 
 
@@ -42,14 +39,72 @@ DECL GLOBAL E6POS PODEFAULT={X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}
 
 
 DECL GLOBAL Surr_Welding_Craft_Type L0_Welding_Craft[10]
-DECL GLOBAL Surr_Welding_Craft_Type C45_Welding_Craft[2]
-DECL GLOBAL Surr_Welding_Craft_Type L90_Welding_Craft[10]
-DECL GLOBAL Surr_Welding_Craft_Type C135_Welding_Craft[2]
-DECL GLOBAL Surr_Welding_Craft_Type L180_Welding_Craft[10]
-DECL GLOBAL Surr_Welding_Craft_Type C225_Welding_Craft[2]
-DECL GLOBAL Surr_Welding_Craft_Type L270_Welding_Craft[10]
-DECL GLOBAL Surr_Welding_Craft_Type C315_Welding_Craft[2]
+L0_Welding_Craft[1]={Welding_Speed 0.0500000,Welding_Angle 25.0000,Welding_Offset {X 10.0000,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L0_Welding_Craft[2]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L0_Welding_Craft[3]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L0_Welding_Craft[4]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L0_Welding_Craft[5]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L0_Welding_Craft[6]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L0_Welding_Craft[7]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L0_Welding_Craft[8]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L0_Welding_Craft[9]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L0_Welding_Craft[10]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
 
+DECL GLOBAL Surr_Welding_Craft_Type C45_Welding_Craft[3]
+C45_Welding_Craft[1]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+C45_Welding_Craft[2]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+C45_Welding_Craft[3]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+
+DECL GLOBAL Surr_Welding_Craft_Type L90_Welding_Craft[10]
+L90_Welding_Craft[1]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L90_Welding_Craft[2]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L90_Welding_Craft[3]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L90_Welding_Craft[4]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L90_Welding_Craft[5]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L90_Welding_Craft[6]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L90_Welding_Craft[7]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L90_Welding_Craft[8]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L90_Welding_Craft[9]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L90_Welding_Craft[10]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+
+DECL GLOBAL Surr_Welding_Craft_Type C135_Welding_Craft[3]
+C135_Welding_Craft[1]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+C135_Welding_Craft[2]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+C135_Welding_Craft[3]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+
+DECL GLOBAL Surr_Welding_Craft_Type L180_Welding_Craft[10]
+L180_Welding_Craft[1]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L180_Welding_Craft[2]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L180_Welding_Craft[3]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L180_Welding_Craft[4]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L180_Welding_Craft[5]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L180_Welding_Craft[6]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L180_Welding_Craft[7]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L180_Welding_Craft[8]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L180_Welding_Craft[9]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L180_Welding_Craft[10]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+
+DECL GLOBAL Surr_Welding_Craft_Type C225_Welding_Craft[3]
+C225_Welding_Craft[1]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+C225_Welding_Craft[2]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+C225_Welding_Craft[3]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+
+DECL GLOBAL Surr_Welding_Craft_Type L270_Welding_Craft[10]
+L270_Welding_Craft[1]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L270_Welding_Craft[2]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L270_Welding_Craft[3]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L270_Welding_Craft[4]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L270_Welding_Craft[5]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L270_Welding_Craft[6]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L270_Welding_Craft[7]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L270_Welding_Craft[8]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L270_Welding_Craft[9]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+L270_Welding_Craft[10]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+
+DECL GLOBAL Surr_Welding_Craft_Type C315_Welding_Craft[3]
+C315_Welding_Craft[1]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+C315_Welding_Craft[2]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
+C315_Welding_Craft[3]={Welding_Offset {X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}}
 
 
 

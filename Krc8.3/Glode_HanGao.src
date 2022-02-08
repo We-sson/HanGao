@@ -1,5 +1,5 @@
 &ACCESS RVO
-&REL 134
+&REL 141
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HG
@@ -7,12 +7,9 @@ DEF Glode_HanGao( )
 
 ;# DATE:2021-1-4
 
-
-
-
 END
 
-GLOBAL DEF HanGao_Surr_Calculate(Surr_Path:IN , Sink_Area:IN ,POS_Type:IN , Lin_Pos:OUt , Cir_Middle_POS:OUT , Cir_END_POS:OUT , Offset_info:IN  ,Offset_cir_info:IN , Offset_No:IN , Welding_Speed:IN)
+GLOBAL DEF HanGao_Surr_Calculate(Surr_Path:IN , Sink_Area:IN ,POS_Type:IN , Lin_Pos:OUt , Cir_Middle_POS:OUT , Cir_END_POS:OUT , Offset_info:OUT  ,Offset_cir_info:out , Offset_No:IN , Welding_Speed:IN)
 ;------------DECL_VALUE--------------
 DECL REAL Surr_Path , Welding_Speed
 DECL Area_Enum Sink_Area
@@ -42,7 +39,7 @@ SWITCH Sink_Area
 CASE #L0
  
  L0_Welding_Craft[OFFSET_NO].Welding_Speed=Welding_Speed
- L0_Welding_Craft[OFFSET_NO].Welding_Offset=Offset_info
+ Offset_info=L0_Welding_Craft[OFFSET_NO].Welding_Offset
  L0_Welding_Craft[OFFSET_NO].Welding_Angle=25.000
  
  
@@ -65,7 +62,7 @@ SWITCH Pos_Type
 
 CASE #C_LIN_POS
  C45_Welding_Craft[1].Welding_Speed=Welding_Speed
- C45_Welding_Craft[1].Welding_Offset=Offset_info
+ Offset_info=C45_Welding_Craft[1].Welding_Offset
  C45_Welding_Craft[1].Welding_Angle=25.000
 
 
@@ -80,9 +77,10 @@ Lin_Pos.C=0
 
 
 CASE #C_CIR_POS
- C45_Welding_Craft[2].Welding_Speed=Welding_Speed
- C45_Welding_Craft[2].Welding_Offset=Offset_info
- C45_Welding_Craft[2].Welding_Angle=25.000
+ C45_Welding_Craft[3].Welding_Speed=Welding_Speed
+ Offset_info=C45_Welding_Craft[2].Welding_Offset
+ Offset_cir_info=C45_Welding_Craft[3].Welding_Offset
+ C45_Welding_Craft[3].Welding_Angle=25.000
  
  
  Cir_Middle_POS.x=Surround_Welding_Size.Sink_Size_Down_Distance+Surround_Welding_Size.Sink_Size_Width-Surround_Welding_Size.Sink_Size_R+(COS(45)*Surround_Welding_Size.Sink_Size_R)
@@ -90,7 +88,9 @@ CASE #C_CIR_POS
  Cir_END_POS.X=Surround_Welding_Size.Sink_Size_Down_Distance+Surround_Welding_Size.Sink_Size_Width-Surround_Welding_Size.Sink_Size_R
  Cir_END_POS.Y=Surround_Welding_Size.Sink_Size_Left_Distance
 
- Cir_END_POS.A=-(C45_Welding_Craft[2].Welding_Angle)
+
+
+ Cir_END_POS.A=-(C45_Welding_Craft[3].Welding_Angle)
  Cir_END_POS.B=0
  Cir_END_POS.C=0
 
@@ -120,7 +120,7 @@ SWITCH Pos_Type
 
 CASE #C_LIN_POS
  C135_Welding_Craft[1].Welding_Speed=Welding_Speed
- C135_Welding_Craft[1].Welding_Offset=Offset_info
+ Offset_info=C135_Welding_Craft[1].Welding_Offset
  C135_Welding_Craft[1].Welding_Angle=25.000
 
 
@@ -133,9 +133,10 @@ CASE #C_LIN_POS
 
 
 CASE #C_CIR_POS
- C135_Welding_Craft[2].Welding_Speed=Welding_Speed
- C135_Welding_Craft[2].Welding_Offset=Offset_info
- C135_Welding_Craft[2].Welding_Angle=25.000
+ C135_Welding_Craft[3].Welding_Speed=Welding_Speed
+ Offset_info=C135_Welding_Craft[2].Welding_Offset
+ Offset_cir_info=C135_Welding_Craft[3].Welding_Offset
+ C135_Welding_Craft[3].Welding_Angle=25.000
 
 
 
@@ -144,7 +145,7 @@ CASE #C_CIR_POS
  Cir_END_POS.X=Surround_Welding_Size.Sink_Size_Down_Distance
  Cir_END_POS.Y=Surround_Welding_Size.Sink_Size_Left_Distance+Surround_Welding_Size.Sink_Size_R
  Cir_END_POS.A=0
- Cir_END_POS.B=C135_Welding_Craft[2].Welding_Angle
+ Cir_END_POS.B=C135_Welding_Craft[3].Welding_Angle
  Cir_END_POS.C=0
 
 
@@ -173,7 +174,7 @@ SWITCH Pos_Type
 
 CASE #C_LIN_POS
  C225_Welding_Craft[1].Welding_Speed=Welding_Speed
- C225_Welding_Craft[1].Welding_Offset=Offset_info
+ Offset_info=C225_Welding_Craft[1].Welding_Offset
  C225_Welding_Craft[1].Welding_Angle=22.000
  
  Lin_Pos.X=Surround_Welding_Size.Sink_Size_Down_Distance
@@ -184,9 +185,10 @@ CASE #C_LIN_POS
 
 
 CASE #C_CIR_POS
- C225_Welding_Craft[2].Welding_Speed=Welding_Speed
- C225_Welding_Craft[2].Welding_Offset=Offset_info
- C225_Welding_Craft[2].Welding_Angle=25.000
+ C225_Welding_Craft[3].Welding_Speed=Welding_Speed
+ Offset_info=C225_Welding_Craft[3].Welding_Offset
+ Offset_cir_info=C225_Welding_Craft[2].Welding_Offset
+ C225_Welding_Craft[3].Welding_Angle=25.000
 
 
 
@@ -194,7 +196,7 @@ CASE #C_CIR_POS
  Cir_Middle_POS.Y=Surround_Welding_Size.Sink_Size_Left_Distance+Surround_Welding_Size.Sink_Size_Long-Surround_Welding_Size.Sink_Size_R+( COS(45)*Surround_Welding_Size.Sink_Size_R )
  Cir_END_POS.X=Surround_Welding_Size.Sink_Size_Down_Distance+Surround_Welding_Size.Sink_Size_R
  Cir_END_POS.Y=Surround_Welding_Size.Sink_Size_Left_Distance+Surround_Welding_Size.Sink_Size_Long
- Cir_END_POS.A=C225_Welding_Craft[2].Welding_Angle
+ Cir_END_POS.A=C225_Welding_Craft[3].Welding_Angle
  Cir_END_POS.B=0
  Cir_END_POS.C=0
 ENDSWITCH
@@ -219,7 +221,7 @@ SWITCH Pos_Type
 
 CASE #C_LIN_POS
  C315_Welding_Craft[1].Welding_Speed=Welding_Speed
- C315_Welding_Craft[1].Welding_Offset=Offset_info
+ Offset_info=C315_Welding_Craft[1].Welding_Offset
  C315_Welding_Craft[1].Welding_Angle=25.000
  
  
@@ -231,16 +233,19 @@ CASE #C_LIN_POS
 
 CASE #C_CIR_POS
 
- C315_Welding_Craft[2].Welding_Speed=Welding_Speed
- C315_Welding_Craft[2].Welding_Offset=Offset_info
- C315_Welding_Craft[2].Welding_Angle=25.000
+ C315_Welding_Craft[3].Welding_Speed=Welding_Speed
+ Offset_info=C315_Welding_Craft[2].Welding_Offset
+ Offset_cir_info=C315_Welding_Craft[3].Welding_Offset
+ C315_Welding_Craft[3].Welding_Angle=25.000
+ 
+ 
 
  Cir_Middle_POS.x=Surround_Welding_Size.Sink_Size_Down_Distance+Surround_Welding_Size.Sink_Size_Width-Surround_Welding_Size.Sink_Size_R+(COS(45)*Surround_Welding_Size.Sink_Size_R)
  Cir_Middle_POS.Y=Surround_Welding_Size.Sink_Size_Long+Surround_Welding_Size.Sink_Size_Left_Distance-Surround_Welding_Size.Sink_Size_R+(COS(45)*Surround_Welding_Size.Sink_Size_R)
  Cir_END_POS.X=Surround_Welding_Size.Sink_Size_Down_Distance+Surround_Welding_Size.Sink_Size_Width
  Cir_END_POS.Y=Surround_Welding_Size.Sink_Size_Left_Distance+Surround_Welding_Size.Sink_Size_Long-Surround_Welding_Size.Sink_Size_R
  Cir_END_POS.A=0
- Cir_END_POS.B=-(C315_Welding_Craft[2].Welding_Angle)
+ Cir_END_POS.B=-(C315_Welding_Craft[3].Welding_Angle)
  Cir_END_POS.C=0
 ENDSWITCH
 
