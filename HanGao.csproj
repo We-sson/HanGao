@@ -448,6 +448,7 @@
     <None Include="Krc8.3\MyTech.kfd" />
     <None Include="Krc8.3\SmartHMI.User.config" />
     <None Include="Krc8.3\XmlHanGao.src" />
+    <None Include="Krc8.3\计算参数说明.docx" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
