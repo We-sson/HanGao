@@ -1,4 +1,5 @@
 ﻿using HanGao.ViewModel;
+using HanGao.Xml_Date.Xml_WriteRead;
 using System.Windows;
 
 
@@ -16,7 +17,7 @@ namespace HanGao
 
 
 
-
+            var Xml = new XML_Write_Read();
 
 
         }

@@ -85,10 +85,12 @@
     <OutputPath>bin\x86\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <LangVersion>8.0</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <Optimize>false</Optimize>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -245,6 +247,7 @@
       <DependentUpon>User_Control_Working_Path.xaml</DependentUpon>
     </Compile>
     <Compile Include="Xml_Date\Xml_Models\Xml_Model.cs" />
+    <Compile Include="Xml_Date\Xml_WriteRead\XML_Write_Read.cs" />
     <Page Include="View\Style\Button_message.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -488,7 +491,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DataStore\DataStore\" />
-    <Folder Include="Xml_Date\Xml_WriteRead\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\link.png" />
