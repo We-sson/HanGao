@@ -1,29 +1,35 @@
-﻿using System;
+﻿using HanGao.Extension_Method;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
-using static HanGao.Model.Sink_Models;
 
 namespace HanGao.Xml_Date.Xml_Models
 {
+    /// <summary>
+    /// xml文件头目
+    /// </summary>
     [Serializable]
     [XmlRoot("Sink_Date")]
-    public  class Xml_Model
+    public class Xml_Model
     {
         [XmlAttribute("Date_Revise")]
-        public DateTime Date_Last_Modify  { get; set; }
+        public DateTime Date_Last_Modify { get; set; }
         [XmlAttribute("Max_SinkLIst")]
         public int Sink_List_number { get; set; }
 
+        /// <summary>
+        /// 水槽XML列表
+        /// </summary>
+        [XmlElement(ElementName = "Sink")]
         public List<Xml_Sink_Model> Sink_List { get; set; }
 
 
 
     }
-    [Serializable]
-    [xmol]
+
+    /// <summary>
+    /// Xml文件，水槽属性类型说明
+    /// </summary>
     public class Xml_Sink_Model
     {
         [XmlAttribute("Sink_Model")]
@@ -34,8 +40,182 @@ namespace HanGao.Xml_Date.Xml_Models
         public double Sink_Size_Pots_Thick { get; set; }
         public double Sink_Size_Panel_Thick { get; set; }
         [XmlAttribute("Sink_Type")]
-        public string  Sink_Type { get; set; }
+        public string Sink_Type { get; set; }
 
+        [XmlElement(ElementName = "Surround_Craft")]
+        public Xml_SInk_Surround_Craft Surround_Craft { get; set; } = new Xml_SInk_Surround_Craft() { };
+    }
+
+    /// <summary>
+    /// Xml文件，围边水槽工艺焊接部位
+    /// </summary>
+    [Serializable]
+    public class Xml_SInk_Surround_Craft
+    {
+
+        public Xml_Surround_Craft_Data L0_Welding_Craft { get; set; } = new Xml_Surround_Craft_Data()
+        {
+            MaxArray = 10,
+            Distance_Type = Distance_Type_Enum.LIN
+        };
+        public Xml_Surround_Craft_Data C45_Welding_Craft { get; set; } = new Xml_Surround_Craft_Data()
+        {
+            Distance_Type = Distance_Type_Enum.CIR,
+            MaxArray = 3,
+
+        };
+        public Xml_Surround_Craft_Data L90_Welding_Craft { get; set; } = new Xml_Surround_Craft_Data()
+        {
+            Distance_Type = Distance_Type_Enum.LIN,
+            MaxArray = 10,
+
+        };
+        public Xml_Surround_Craft_Data C135_Welding_Craft { get; set; } = new Xml_Surround_Craft_Data()
+        {
+            Distance_Type = Distance_Type_Enum.CIR,
+            MaxArray = 3,
+
+        };
+        public Xml_Surround_Craft_Data L180_Welding_Craft { get; set; } = new Xml_Surround_Craft_Data()
+        {
+            Distance_Type = Distance_Type_Enum.LIN,
+            MaxArray = 10,
+
+
+        };
+        public Xml_Surround_Craft_Data C225_Welding_Craft { get; set; } = new Xml_Surround_Craft_Data()
+        {
+            Distance_Type = Distance_Type_Enum.CIR,
+            MaxArray = 3,
+
+        };
+        public Xml_Surround_Craft_Data L270_Welding_Craft { get; set; } = new Xml_Surround_Craft_Data()
+        {
+            Distance_Type = Distance_Type_Enum.LIN,
+            MaxArray = 10,
+
+
+        };
+        public Xml_Surround_Craft_Data C315_Welding_Craft { get; set; } = new Xml_Surround_Craft_Data()
+        {
+            Distance_Type = Distance_Type_Enum.CIR,
+            MaxArray = 3,
+
+        };
+    }
+
+
+    /// <summary>
+    /// 围边焊接方向创建数据
+    /// </summary>
+    public class Xml_Surround_Craft_Data
+    {
+        [XmlIgnore]
+        public Distance_Type_Enum Distance_Type;
+
+        [XmlElement]
+        public List<Xml_Craft_Date> Craft_Date { get; set; } = new List<Xml_Craft_Date>();
+
+        private int _maxArray;
+
+        [XmlAttribute]
+        public int MaxArray
+        {
+            get { return _maxArray; }
+            set
+            {
+                switch (Distance_Type)
+                {
+                    case Distance_Type_Enum.LIN:
+                        for (int i = 1; i < value; i++)
+                        {
+                            Craft_Date.Add(new Xml_Craft_Date() { NO = i, Craft_Type = Craft_Type_Enum.L_LIN_POS });
+                        }
+                        break;
+                    case Distance_Type_Enum.CIR:
+                        Craft_Date.Add(new Xml_Craft_Date() { NO = 1, Craft_Type = Craft_Type_Enum.C_LIN_POS });
+                        Craft_Date.Add(new Xml_Craft_Date() { NO = 2, Craft_Type = Craft_Type_Enum.C_CIR_POS });
+                        Craft_Date.Add(new Xml_Craft_Date() { NO = 3, Craft_Type = Craft_Type_Enum.C_CIR_POS });
+
+                        break;
+                    default:
+                        break;
+                }
+
+
+
+
+                _maxArray = value;
+            }
+        }
+
+
+
+    }
+
+   /// <summary>
+   /// 围边工艺
+   /// </summary>
+    public class Xml_Craft_Date
+    {
+        [XmlAttribute]
+        public int NO { get; set; }
+
+        [XmlAttribute]
+        public Craft_Type_Enum Craft_Type { get; set; }
+
+        [XmlAttribute]
+        public string Welding_Name { get; set; } = "...";
+        [XmlAttribute]
+        public int Welding_Power { get; set; } = 80;
+        [XmlAttribute]
+        public double Welding_Speed { get; set; } = 0.045;
+        [XmlAttribute]
+        public double Welding_Angle { get; set; } = 25;
+        [XmlAttribute]
+        public int Welding_CDIS { get; set; } = 10;
+
+        [XmlElement(ElementName = "Welding_Offset")]
+        public Welding_Offset_Date Pos_Offset { get; set; } = new Welding_Offset_Date() { };
+    }
+
+
+
+    [Serializable]
+    public class Welding_Offset_Date
+    {
+        [XmlAttribute]
+        public double X { get; set; } = 0.000;
+        [XmlAttribute]
+        public double Y { get; set; } = 0.000;
+        [XmlAttribute]
+        public double Z { get; set; } = 0.000;
+        [XmlAttribute]
+        public double A { get; set; } = 0.000;
+        [XmlAttribute]
+        public double B { get; set; } = 0.000;
+        [XmlAttribute]
+        public double C { get; set; } = 0.000;
+
+
+    }
+
+    public enum Craft_Type_Enum
+    {
+        [StringValue("#L_LIN_POS")]
+        L_LIN_POS,
+        [StringValue("#C_LIN_POS")]
+        C_LIN_POS,
+        [StringValue("#C_CIR_POS")]
+        C_CIR_POS,
+        [StringValue("")]
+        Null
+    }
+
+    public enum Distance_Type_Enum
+    {
+        LIN,
+        CIR
     }
 
 }

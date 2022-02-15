@@ -28,7 +28,7 @@ namespace HanGao.Xml_Date.Xml_WriteRead
             
 
                 Date_Last_Modify = DateTime.Now,
-                Sink = new List<Xml_Sink_Model>()
+                Sink_List = new List<Xml_Sink_Model>()
                 {
                 
 
@@ -56,16 +56,7 @@ namespace HanGao.Xml_Date.Xml_WriteRead
                     Sink_Type = Model.Sink_Models.Sink_Type_Enum.LeftRight_One.ToString()
                     },
                     
-                    new Xml_Sink_Model()
-                    {
-                    Sink_Model = 952154,
-                    Sink_Size_Long = 400,
-                    Sink_Size_Panel_Thick = 23.8,
-                    Sink_Size_Pots_Thick = 23.8,
-                    Sink_Size_R = 10,
-                    Sink_Size_Width = 454,
-                    Sink_Type = Model.Sink_Models.Sink_Type_Enum.LeftRight_One.ToString()
-                    }
+    
                 },
 
        
@@ -76,9 +67,11 @@ namespace HanGao.Xml_Date.Xml_WriteRead
             };
 
             var Xml = new XmlSerializer(typeof(Xml_Model));
+            var ns = new XmlSerializerNamespaces();
+            ns.Add("", "");
             using (var XmlContent=new StreamWriter(@"XmlDate.xml"))
             {
-                Xml.Serialize(XmlContent, Sink);
+                Xml.Serialize(XmlContent, Sink,ns);
                 var xmlContent=XmlContent.ToString();
                 Console.WriteLine(xmlContent);
 
