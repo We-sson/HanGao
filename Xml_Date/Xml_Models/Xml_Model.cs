@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using static HanGao.Model.Sink_Models;
 
 namespace HanGao.Xml_Date.Xml_Models
 {
@@ -32,15 +33,18 @@ namespace HanGao.Xml_Date.Xml_Models
     /// </summary>
     public class Xml_Sink_Model
     {
-        [XmlAttribute("Sink_Model")]
-        public double Sink_Model { get; set; }
+        [XmlAttribute]
+        public int Sink_Model { get; set; }
         public double Sink_Size_Long { get; set; }
         public double Sink_Size_Width { get; set; }
         public double Sink_Size_R { get; set; }
+        public double Sink_Size_Down_Distance { get; set; }
+        public double Sink_Size_Left_Distance { get; set; }
+        public double Sink_Size_Short_Side { get; set; }
         public double Sink_Size_Pots_Thick { get; set; }
         public double Sink_Size_Panel_Thick { get; set; }
-        [XmlAttribute("Sink_Type")]
-        public string Sink_Type { get; set; }
+        [XmlAttribute]
+        public Sink_Type_Enum Sink_Type { get; set; }
 
         [XmlElement(ElementName = "Surround_Craft")]
         public Xml_SInk_Surround_Craft Surround_Craft { get; set; } = new Xml_SInk_Surround_Craft() { };
@@ -53,55 +57,14 @@ namespace HanGao.Xml_Date.Xml_Models
     public class Xml_SInk_Surround_Craft
     {
 
-        public Xml_Surround_Craft_Data L0_Welding_Craft { get; set; } = new Xml_Surround_Craft_Data()
-        {
-            MaxArray = 10,
-            Distance_Type = Distance_Type_Enum.LIN
-        };
-        public Xml_Surround_Craft_Data C45_Welding_Craft { get; set; } = new Xml_Surround_Craft_Data()
-        {
-            Distance_Type = Distance_Type_Enum.CIR,
-            MaxArray = 3,
-
-        };
-        public Xml_Surround_Craft_Data L90_Welding_Craft { get; set; } = new Xml_Surround_Craft_Data()
-        {
-            Distance_Type = Distance_Type_Enum.LIN,
-            MaxArray = 10,
-
-        };
-        public Xml_Surround_Craft_Data C135_Welding_Craft { get; set; } = new Xml_Surround_Craft_Data()
-        {
-            Distance_Type = Distance_Type_Enum.CIR,
-            MaxArray = 3,
-
-        };
-        public Xml_Surround_Craft_Data L180_Welding_Craft { get; set; } = new Xml_Surround_Craft_Data()
-        {
-            Distance_Type = Distance_Type_Enum.LIN,
-            MaxArray = 10,
-
-
-        };
-        public Xml_Surround_Craft_Data C225_Welding_Craft { get; set; } = new Xml_Surround_Craft_Data()
-        {
-            Distance_Type = Distance_Type_Enum.CIR,
-            MaxArray = 3,
-
-        };
-        public Xml_Surround_Craft_Data L270_Welding_Craft { get; set; } = new Xml_Surround_Craft_Data()
-        {
-            Distance_Type = Distance_Type_Enum.LIN,
-            MaxArray = 10,
-
-
-        };
-        public Xml_Surround_Craft_Data C315_Welding_Craft { get; set; } = new Xml_Surround_Craft_Data()
-        {
-            Distance_Type = Distance_Type_Enum.CIR,
-            MaxArray = 3,
-
-        };
+        public Xml_Surround_Craft_Data L0_Welding_Craft { get; set; } 
+        public Xml_Surround_Craft_Data C45_Welding_Craft { get; set; }
+        public Xml_Surround_Craft_Data L90_Welding_Craft { get; set; } 
+        public Xml_Surround_Craft_Data C135_Welding_Craft { get; set; }
+        public Xml_Surround_Craft_Data L180_Welding_Craft { get; set; } 
+        public Xml_Surround_Craft_Data C225_Welding_Craft { get; set; } 
+        public Xml_Surround_Craft_Data L270_Welding_Craft { get; set; } 
+        public Xml_Surround_Craft_Data C315_Welding_Craft { get; set; } 
     }
 
 
@@ -112,6 +75,8 @@ namespace HanGao.Xml_Date.Xml_Models
     {
         [XmlIgnore]
         public Distance_Type_Enum Distance_Type;
+        [XmlIgnore]
+        public bool Write_Mode=false;
 
         [XmlElement]
         public List<Xml_Craft_Date> Craft_Date { get; set; } = new List<Xml_Craft_Date>();
@@ -124,10 +89,13 @@ namespace HanGao.Xml_Date.Xml_Models
             get { return _maxArray; }
             set
             {
+                if (Write_Mode)
+                {
+
                 switch (Distance_Type)
                 {
                     case Distance_Type_Enum.LIN:
-                        for (int i = 1; i < value; i++)
+                        for (int i = 1; i < value+1; i++)
                         {
                             Craft_Date.Add(new Xml_Craft_Date() { NO = i, Craft_Type = Craft_Type_Enum.L_LIN_POS });
                         }
@@ -136,12 +104,10 @@ namespace HanGao.Xml_Date.Xml_Models
                         Craft_Date.Add(new Xml_Craft_Date() { NO = 1, Craft_Type = Craft_Type_Enum.C_LIN_POS });
                         Craft_Date.Add(new Xml_Craft_Date() { NO = 2, Craft_Type = Craft_Type_Enum.C_CIR_POS });
                         Craft_Date.Add(new Xml_Craft_Date() { NO = 3, Craft_Type = Craft_Type_Enum.C_CIR_POS });
-
-                        break;
-                    default:
                         break;
                 }
 
+                }
 
 
 

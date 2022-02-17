@@ -19,6 +19,7 @@ using HanGao.ViewModel.Messenger_Eunm;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using Microsoft.Toolkit.Mvvm.Messaging.Messages;
 using System.Threading.Tasks;
+using HanGao.Xml_Date.Xml_WriteRead;
 
 namespace HanGao.ViewModel
 {
@@ -102,28 +103,18 @@ namespace HanGao.ViewModel
 
 
 
-    
+            //XML_Write_Read.XML_To_object();
 
+           
 
 
 
 
         }
 
-        public static ObservableCollection<Sink_Models> _SinkModels = new ObservableCollection<Sink_Models>
-            {
 
 
-                new Sink_Models(Sink_Type_Enum.LeftRight_One) { Sink_Model = 952154,} ,
-                new Sink_Models(Sink_Type_Enum.UpDown_One) { Sink_Model = 953212,} ,
-                new Sink_Models(Sink_Type_Enum.LeftRight_One) { Sink_Model = 952172, } ,
-                 new Sink_Models(Sink_Type_Enum.LeftRight_One) { Sink_Model = 952173, } ,
-                new Sink_Models(Sink_Type_Enum.LeftRight_Two) { Sink_Model = 952127,  } ,
-                new Sink_Models(Sink_Type_Enum.LeftRight_One) { Sink_Model = 952128,  } ,
-                new Sink_Models(Sink_Type_Enum.LeftRight_One) { Sink_Model = 952333, } ,
-                new Sink_Models(Sink_Type_Enum.LeftRight_Two) { Sink_Model = 901253,  } ,
-                new Sink_Models(Sink_Type_Enum.UpDown_One) { Sink_Model = 952119,  } ,
-            };
+        public static ObservableCollection<Sink_Models> _SinkModels=new ObservableCollection<Sink_Models>() { }  ;
 
 
         /// <summary>
