@@ -13,7 +13,6 @@
         MinWidth="1920"
         MinHeight="1080"
         Padding="0"
-        d:DataContext="{d:DesignInstance Type=viewmodel:User_Control_Show}"
         d:DesignWidth="1920"
         d:DesignHeight="1080"
         DataContext="{Binding Source={StaticResource Locator}, Path=FrameShow}"
@@ -142,6 +141,7 @@
                              Width="250"
                              Margin="0,0,0,0"
                              HorizontalAlignment="Stretch"
+                             IsEnabled="{Binding ProgramEdit_Click}"
                              GroupName="Rt">
                     <!--<i:Interaction.Triggers>
                         <i:EventTrigger EventName="Checked">

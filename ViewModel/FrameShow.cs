@@ -6,6 +6,9 @@ using System.Windows.Input;
 using HanGao.View.FrameShow;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using System.Threading.Tasks;
+using System.ComponentModel;
+using System;
 
 namespace HanGao.ViewModel
 {
@@ -35,20 +38,56 @@ namespace HanGao.ViewModel
 
 
 
-        private UserControl _User_Show = HomeOne;
 
-        public UserControl User_Show
+
+     
+
+        private static  UserControl _User_Show = HomeOne;
+
+        public static  UserControl User_Show
         {
             get { return _User_Show; }
-            set { _User_Show = value; }
+            set { 
+                _User_Show = value; 
+                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(User_Show)));
+
+            }
         }
 
 
-        private bool _HomeOne_UI=true;
+        /// <summary>
+        /// 静态属性更新通知事件
+        /// </summary>
+        public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
+
+
+        private static  bool _ProgramEdit_Click=false   ;
+        /// <summary>
+        /// 程序页面可点击属性
+        /// </summary>
+        public static  bool ProgramEdit_Click
+        {
+            get { return _ProgramEdit_Click; }
+            set
+            {
+
+                _ProgramEdit_Click = value ;
+                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(ProgramEdit_Click)));
+
+            }
+        }
+
+
+
+    
+
+
+
+        private static  bool _HomeOne_UI=true;
         /// <summary>
         /// 控制台主页
         /// </summary>
-        public bool HomeOne_UI
+        public static  bool HomeOne_UI
         {
             get { return _HomeOne_UI; }
             set {
@@ -57,15 +96,17 @@ namespace HanGao.ViewModel
                 {
                     User_Show = HomeOne;
                 }
+                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(HomeOne_UI)));
+
             }
         }
 
 
-        private bool _ProgramEdit_UI;
+        private static  bool _ProgramEdit_UI;
         /// <summary>
         /// 程序编辑页面
         /// </summary>
-        public bool ProgramEdit_UI
+        public static  bool ProgramEdit_UI
         {
             get { return _ProgramEdit_UI; }
             set { 
@@ -74,15 +115,17 @@ namespace HanGao.ViewModel
                 {
                     User_Show = ProgRamEdit;
                 }
+                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(ProgramEdit_UI)));
+
             }
         }
 
 
-        private bool _RealData_UI;
+        private static  bool _RealData_UI;
         /// <summary>
         /// 数据页面
         /// </summary>
-        public bool RealData_UI
+        public static  bool RealData_UI
         {
             get { return _RealData_UI; }
             set { 
@@ -91,14 +134,16 @@ namespace HanGao.ViewModel
                 {
                     User_Show = ReadData;
                 }
+                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(RealData_UI)));
+
             }
         }
 
-        private bool _WeldingGUI_UI;
+        private static  bool _WeldingGUI_UI;
         /// <summary>
         /// 震镜页面
         /// </summary>
-        public bool WeldingGUI_UI
+        public static  bool WeldingGUI_UI
         {
             get { return _WeldingGUI_UI; }
             set {
@@ -108,6 +153,8 @@ namespace HanGao.ViewModel
                 {
                     User_Show = WeldingGui;
                 }
+                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(WeldingGUI_UI)));
+
             }
         }
 
@@ -119,52 +166,51 @@ namespace HanGao.ViewModel
 
 
 
-        public ICommand Min_Window
-        {
-            get => new RelayCommand<Window>(Min_Window_Comm);
-        }
         /// <summary>
         /// 主窗口最小化
         /// </summary>
-        private void Min_Window_Comm(Window Sm)
+        public ICommand Min_Window
         {
+            get => new AsyncRelayCommand<Window>(async (Sm, T) =>
+            {
+                await Task.Delay(0);
 
-
-            //窗口最小化
-            Sm.WindowState = WindowState.Minimized;
-
+                //窗口最小化
+                Sm.WindowState = WindowState.Minimized;
+            });
         }
+ 
 
-        public ICommand Max_Window
-        {
-            get => new RelayCommand<Window>(Max_Window_Comm);
-        }
+
+
         /// <summary>
         /// 主窗口最大化
         /// </summary>
-        private void Max_Window_Comm(Window Sm)
+        public ICommand Max_Window
         {
+            get => new AsyncRelayCommand<Window>(async (Sm, T) =>
+            {
+                await Task.Delay(0);
 
-
-            //窗口最大化
-            Sm.WindowState = WindowState.Maximized;
-
+                //窗口最大化
+                Sm.WindowState = WindowState.Maximized;
+            });
         }
-        public ICommand Close_Window
-        {
-            get => new RelayCommand<Window>(Close_Window_Comm);
-        }
+
         /// <summary>
         /// 主窗口关闭
         /// </summary>
-        private void Close_Window_Comm(Window Sm)
+        public ICommand Close_Window
         {
+            get => new AsyncRelayCommand<Window>(async (Sm, T) =>
+            {
+                await Task.Delay(0);
 
-            //窗口关闭
-            Sm.Close();
-
-
+                //窗口关闭
+                Sm.Close();
+            });
         }
+
 
     }
 }

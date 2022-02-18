@@ -46,7 +46,7 @@
             <!--  左侧型号栏  -->
             <Grid Grid.Column="2"
                   Margin="0,15,0,0"
-                  ShowGridLines="False">
+                  ShowGridLines="False" >
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition Height=" 80" />

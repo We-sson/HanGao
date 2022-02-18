@@ -24,5 +24,7 @@ namespace HanGao.View.User_Control.Pop_Ups
         {
             InitializeComponent();
         }
+
+
     }
 }

@@ -30,7 +30,7 @@ namespace HanGao.ViewModel
         {
             //注册接收消息
 
-
+            
 
             IsActive = true;
 

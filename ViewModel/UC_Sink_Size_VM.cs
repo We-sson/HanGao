@@ -12,6 +12,7 @@ using static HanGao.Model.Sink_Models;
 using Microsoft.Toolkit.Mvvm.Input;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using Microsoft.Toolkit.Mvvm.Messaging.Messages;
+using System.Windows.Controls;
 
 namespace HanGao.ViewModel
 {
@@ -21,8 +22,6 @@ namespace HanGao.ViewModel
 
         public UC_Sink_Size_VM() 
         {
-            var a = Thread.CurrentThread.ManagedThreadId.ToString();
-
             IsActive = true;
 
 
@@ -42,8 +41,6 @@ namespace HanGao.ViewModel
            {
                if (Sink_Size_Value !=null)
                {
-
-                   //var a = Thread.CurrentThread.ManagedThreadId.ToString();
                    Sink_Type_OK = (Sink_Type_Enum) T;
                }
            });
@@ -85,23 +82,14 @@ namespace HanGao.ViewModel
 
 
 
-        private   Sink_Models _Sink_Size_Value ;
+       
         /// <summary>
         /// 水槽各参数
         /// </summary>
-        public     Sink_Models Sink_Size_Value 
-        {
-            set
-            {
-                //var a = Thread.CurrentThread.ManagedThreadId.ToString();
-                _Sink_Size_Value = value;
-                //StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Sink_Size_Value)));
-            }
-            get
-            {
-                return _Sink_Size_Value;
-            }
-        }
+        public     Sink_Models Sink_Size_Value { set; get; }
+
+
+
 
 
         /// <summary>
@@ -195,7 +183,46 @@ namespace HanGao.ViewModel
 
 
 
+        /// <summary>
+        /// 传送用户设置好的参数
+        /// </summary>
+        public ICommand Sink_Craft_Set_Comm
+        {
+            get => new RelayCommand<UC_Sink_Size>((Sm) =>
+            {
 
+
+                FrameShow.ProgramEdit_Click = true;
+                FrameShow.ProgramEdit_UI = true;
+                //关闭弹窗
+                Messenger.Send<UserControl, string>(null, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
+
+
+                ////水槽尺寸
+                //Sink_Size_Value.Sink_Process.Sink_Size_Long = double.Parse(Sm.Sink_Long.Text);
+                //Sink_Size_Value.Sink_Process.Sink_Size_Width = double.Parse(Sm.Sink_Width.Text);
+                //Sink_Size_Value.Sink_Process.Sink_Size_Short_Side = double.Parse(Sm.Sink_Short.Text);
+                //Sink_Size_Value.Sink_Process.Sink_Size_Panel_Thick = double.Parse(Sm.Sink_Panel.Text);
+                //Sink_Size_Value.Sink_Process.Sink_Size_Pots_Thick = double.Parse(Sm.Sink_Pots.Text);
+                //Sink_Size_Value.Sink_Process.Sink_Size_R = double.Parse(Sm.Sink_R.Text);
+                //Sink_Size_Value.Sink_Process.Sink_Size_Down_Distance = double.Parse(Sm.Sink_Down_Distance.Text);
+                //Sink_Size_Value.Sink_Process.Sink_Size_Left_Distance = double.Parse(Sm.Sink_Left_Distance.Text);
+
+
+
+
+                ////水槽类型
+                //Sink_Size_Value.Sink_Type = Sink_Type_OK;
+
+
+                ////发送水槽修改好属性
+                //Messenger.Send<Sink_Models, string>(Sink_Size_Value, nameof(Meg_Value_Eunm.Sink_Value_All_OK));
+
+
+
+
+            });
+        }
 
     }
 

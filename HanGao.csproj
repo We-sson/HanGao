@@ -183,6 +183,7 @@
     <Compile Include="Socket_KUKA\Socket_Sever.cs" />
     <Compile Include="ViewModel\Messenger_Eunm\Messenger_Name.cs" />
     <Compile Include="ViewModel\UC_KUKA_State_VM.cs" />
+    <Compile Include="ViewModel\UC_ProgramEdit_ViewModel.cs" />
     <Compile Include="ViewModel\UC_Sink_Craft_List_VM.cs" />
     <Compile Include="ViewModel\FrameShow.cs" />
     <Compile Include="ViewModel\Home_ViewModel.cs" />

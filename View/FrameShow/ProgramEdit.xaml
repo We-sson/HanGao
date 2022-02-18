@@ -9,6 +9,7 @@
              xmlns:Point_info="clr-namespace:HanGao.View.User_Control.Program_Editing.Point_info"
              d:DesignHeight="992"
              d:DesignWidth="1920"
+             DataContext="{Binding Source={StaticResource Locator}, Path=UC_ProgramEdit_ViewModel}"
              mc:Ignorable="d">
 
     <Grid Background="Transparent">

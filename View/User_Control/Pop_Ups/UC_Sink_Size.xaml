@@ -14,7 +14,9 @@
 
 
 
-    <Grid HorizontalAlignment="Center" Height="auto" Width="1000"
+    <Grid Width="1000"
+          Height="auto"
+          HorizontalAlignment="Center"
           VerticalAlignment="Center"
           Background="Transparent">
 
@@ -85,7 +87,15 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
                 Background="#ff5e58"
-                FontSize="22" />
+                FontSize="22">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <i:InvokeCommandAction Command="{Binding Sink_Craft_Set_Comm}"
+                                           CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UC_Sink_Size}}}"
+                                           PassEventArgsToCommand="True" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
 
 
 
