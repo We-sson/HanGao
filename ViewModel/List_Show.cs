@@ -118,7 +118,7 @@ namespace HanGao.ViewModel
 
 
 
-        public static ObservableCollection<Sink_Models> _SinkModels=new() { }  ;
+        public static ObservableCollection<Sink_Models> _SinkModels = new ObservableCollection<Sink_Models>();
 
 
         /// <summary>
