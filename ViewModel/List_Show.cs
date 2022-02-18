@@ -38,12 +38,17 @@ namespace HanGao.ViewModel
             Messenger.Register<Sink_Models, string >(this, nameof(Meg_Value_Eunm.Sink_Value_All_OK), (O,S) =>
             {
 
+
+
+
+
                 //查找修改对象类型属性
                 for (int i = 0; i < SinkModels.Count; i++)
                 {
                     if (SinkModels[i].Sink_Model==S.Sink_Model)
                     {
                         SinkModels[i] = S;
+                        XML_Write_Read.Write_Xml(S);
                     }
                     
 
@@ -103,7 +108,6 @@ namespace HanGao.ViewModel
 
 
 
-            //XML_Write_Read.XML_To_object();
 
            
 
@@ -114,7 +118,7 @@ namespace HanGao.ViewModel
 
 
 
-        public static ObservableCollection<Sink_Models> _SinkModels=new ObservableCollection<Sink_Models>() { }  ;
+        public static ObservableCollection<Sink_Models> _SinkModels=new() { }  ;
 
 
         /// <summary>
@@ -126,6 +130,10 @@ namespace HanGao.ViewModel
             get { return _SinkModels; }
             set
             {
+
+
+
+
                 _SinkModels = value;
                 StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(SinkModels)));
             }

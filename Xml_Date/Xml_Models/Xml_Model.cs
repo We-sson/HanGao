@@ -14,7 +14,7 @@ namespace HanGao.Xml_Date.Xml_Models
     public class Xml_Model
     {
         [XmlAttribute("Date_Revise")]
-        public DateTime Date_Last_Modify { get; set; }
+        public string  Date_Last_Modify { get; set; }
         [XmlAttribute("Max_SinkLIst")]
         public int Sink_List_number { get; set; }
 

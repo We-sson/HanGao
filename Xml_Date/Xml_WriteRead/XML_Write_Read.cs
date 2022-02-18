@@ -29,7 +29,7 @@ namespace HanGao.Xml_Date.Xml_WriteRead
 
 
 
-                Date_Last_Modify = DateTime.Now,
+                Date_Last_Modify = DateTime.Now.ToString(),
                 Sink_List = new List<Xml_Sink_Model>()
                 {
 
@@ -186,14 +186,64 @@ namespace HanGao.Xml_Date.Xml_WriteRead
             {
                 Xml.Serialize(XmlContent, Sink, ns);
                 var xmlContent = XmlContent.ToString();
-                Console.WriteLine(xmlContent);
+                
 
             }
 
         }
 
-
+        /// <summary>
+        /// 水槽总数据
+        /// </summary>
         public static Xml_Model Sink_Date { set; get; }
+
+
+
+        /// <summary>
+        /// 保存修改后的水槽尺寸
+        /// </summary>
+        /// <param name="sink"></param>
+        public static void Write_Xml(Sink_Models sink)
+        {
+
+            foreach (var item in XML_Write_Read.Sink_Date.Sink_List)
+            {
+                if (item.Sink_Model==sink.Sink_Model)
+                {
+                    item.Sink_Type=sink.Sink_Type;
+                    item.Sink_Size_Long = sink.Sink_Process.Sink_Size_Long;
+                    item.Sink_Size_Width = sink.Sink_Process.Sink_Size_Width;
+                    item.Sink_Size_R = sink.Sink_Process.Sink_Size_R;
+                    item.Sink_Size_Pots_Thick = sink.Sink_Process.Sink_Size_Pots_Thick;
+                    item.Sink_Size_Panel_Thick = sink.Sink_Process.Sink_Size_Panel_Thick;
+                    item.Sink_Size_Down_Distance = sink.Sink_Process.Sink_Size_Down_Distance;
+                    item.Sink_Size_Left_Distance = sink.Sink_Process.Sink_Size_Left_Distance;
+
+
+                }
+
+
+
+            }
+
+
+
+            Sink_Date.Date_Last_Modify = DateTime.Now.ToString();
+
+            var Xml = new XmlSerializer(typeof(Xml_Model));
+            var ns = new XmlSerializerNamespaces();
+            ns.Add("", "");
+            if (!Directory.Exists(@"Date"))
+                Directory.CreateDirectory(@"Date");
+            using var XmlContent = new StreamWriter(@"Date\XmlDate.xml");
+            Xml.Serialize(XmlContent, Sink_Date, ns);
+            var xmlContent = XmlContent.ToString();
+
+
+
+        }
+
+
 
 
         /// <summary>
