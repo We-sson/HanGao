@@ -192,10 +192,7 @@ namespace HanGao.ViewModel
             {
 
 
-                FrameShow.ProgramEdit_Click = true;
-                FrameShow.ProgramEdit_UI = true;
-                //关闭弹窗
-                Messenger.Send<UserControl, string>(null, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
+    
 
 
                 ////水槽尺寸

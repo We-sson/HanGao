@@ -295,106 +295,100 @@
     <!--  列表数据模板  -->
     <DataTemplate x:Key="Sink_Data_Template">
 
-        <Grid x:Name="Gb1"
-              Width=" 750"
-              Margin="10"
-              HorizontalAlignment="Stretch">
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width=" 250" />
-                <ColumnDefinition />
-                <ColumnDefinition Width=" 100" />
-            </Grid.ColumnDefinitions>
-
-
-            <Border x:Name="border" Grid.Column="0"
-                    Grid.ColumnSpan="3"
-                    Padding="10"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    Effect="{Binding Source={StaticResource 全局背景阴影}}"
-                    CornerRadius=" 10"
-                    Background="#ECECEC" />
-
-
-            <TextBlock x:Name="Sink_ico" Grid.Column="0"
-                       Text="{Binding Sink_Ico}"
-                       Margin="20"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       FontSize="115"
-                       Foreground="#FF4B6587"
-                       FontFamily="/Resources/#iconfont" />
+        <Button Style="{DynamicResource ButtonStyle3}"
+                Margin="8"
+                Padding="0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                BorderThickness="2"
+                Background="Transparent"
+                Foreground="Transparent"
+                BorderBrush="Transparent">
 
 
 
+            <Grid x:Name="Gb1"
+                  HorizontalAlignment="Stretch"
+                  ShowGridLines="False">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width=" 250" />
+                    <ColumnDefinition Width=" 400" />
+                    <ColumnDefinition Width=" 100" />
+                </Grid.ColumnDefinitions>
 
 
+                <Border x:Name="border" Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        Padding="10"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Opacity="1"
+                        Effect="{DynamicResource 全局背景阴影}"
+                        CornerRadius=" 10"
+                        Background="#ECECEC" />
 
-            <StackPanel Grid.Column="1"
-                        Margin="20,10,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center">
 
-                <TextBlock Text="{Binding Sink_Title}"
-                           Margin="0"
-                           HorizontalAlignment="Left"
-                           Foreground=" #4B6587"
-                           FontSize="32" />
-                <TextBlock Text="{Binding Sink_Subtitle}"
-                           Margin="3"
-                           HorizontalAlignment="Left"
+                <TextBlock x:Name="Sink_ico" Grid.Column="0"
+                           Text="{Binding Sink_Ico}"
+                           Margin="20"
+                           HorizontalAlignment="Center"
                            VerticalAlignment="Center"
-                           FontSize="12"
-                           Foreground="#FF999999"
-                           LineHeight="9" />
-            </StackPanel>
+                           FontSize="115"
+                           Foreground="#FF4B6587"
+                           FontFamily="/Resources/#iconfont" />
 
-            <TextBlock Grid.Column="2"
-                       Text="&#xe606;"
-                       Margin="10"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       Effect="{StaticResource 全局背景阴影}"
-                       FontSize="30"
-                       Foreground="#FF4B6587"
-                       FontFamily="/Resources/#iconfont"
-                       TextDecorations="{x:Null}" />
 
+
+
+
+
+                <StackPanel Grid.Column="1"
+                            Margin="20,10,0,0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center">
+
+                    <TextBlock Text="{Binding Sink_Title}"
+                               Margin="0"
+                               HorizontalAlignment="Left"
+                               Foreground=" #4B6587"
+                               FontSize="32" />
+                    <TextBlock Text="{Binding Sink_Subtitle}"
+                               Margin="3"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center"
+                               FontSize="12"
+                               Foreground="#FF999999"
+                               LineHeight="9" />
+                </StackPanel>
+
+                <TextBlock Grid.Column="2"
+                           Text="&#xe606;"
+                           Margin="10"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Effect="{StaticResource 全局背景阴影}"
+                           FontSize="30"
+                           Foreground="#FF4B6587"
+                           FontFamily="/Resources/#iconfont"
+                           TextDecorations="{x:Null}" />
+
+
+
+
+
+            </Grid>
             <i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseLeftButtonDown">
-                    <i:InvokeCommandAction Command="{Binding DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
+                <i:EventTrigger EventName="Click">
+                    <i:InvokeCommandAction Command="{Binding DataContext.Craft_UI_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
                                            CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}"
                                            PassEventArgsToCommand="True" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
 
 
-
-
-
-
-
-
-
-
-        </Grid>
-        <DataTemplate.Triggers>
-            <Trigger SourceName="Gb1" Property="IsMouseOver" Value="True">
-                <Setter Property="Opacity" Value="1" />
-            </Trigger>
-            <Trigger SourceName="Gb1" Property="IsMouseOver" Value="False">
-                <Setter Property="Opacity" Value="0.3" />
-            </Trigger>
-       
-
-
-
-
-
-        </DataTemplate.Triggers>
-
-
+        </Button>
 
     </DataTemplate>
 

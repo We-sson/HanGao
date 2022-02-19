@@ -13,6 +13,10 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using static HanGao.Model.Sink_Models;
+using Microsoft.Toolkit.Mvvm.Input;
+using System.Windows.Input;
+using System.Windows;
+using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 
 namespace HanGao.ViewModel
 {
@@ -44,7 +48,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 水槽列表集合
         /// </summary>
-        public static     ObservableCollection<Sink_Craft_Models> Sink_Craft
+        public static    ObservableCollection<Sink_Craft_Models> Sink_Craft
         {
             get { return _Sink_Craft; }
             set { 
@@ -58,6 +62,33 @@ namespace HanGao.ViewModel
         /// 静态属性更新通知事件
         /// </summary>
         public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
+
+
+
+
+        /// <summary>
+        /// 加载属性水槽类型
+        /// </summary>
+        public ICommand Craft_UI_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+
+                FrameShow.ProgramEdit_Click = true;
+                FrameShow.ProgramEdit_UI = true;
+                //关闭弹窗
+                Messenger.Send<UserControl, string>(null, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
+                //把参数类型转换控件
+                //FrameworkElement e = Sm.Source as FrameworkElement;
+
+
+
+
+
+
+            });
+        }
+
 
     }
 }

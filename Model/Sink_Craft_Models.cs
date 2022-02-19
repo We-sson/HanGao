@@ -19,6 +19,10 @@ namespace HanGao.Model
 
         }
 
+
+
+
+
         private string _Sink_Ico;
         public string Sink_Ico 
         {

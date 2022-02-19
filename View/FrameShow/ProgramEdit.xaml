@@ -36,7 +36,7 @@
 
 
                 <!--<Direction_UI:UC_Short_Side />-->
-                <Direction_UI:UC_Direction />
+                <ContentControl Content="{Binding Distance_UI}" />
 
 
 

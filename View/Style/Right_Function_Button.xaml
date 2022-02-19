@@ -104,13 +104,15 @@
                             <!--<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource {x:Static SystemColors.HighlightBrushKey}}" />-->
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="BorderThickness" Value="3" />
+                            <Setter Property="BorderThickness" Value="2" />
                             <Setter Property="BorderBrush" Value="Black" />
+                            <Setter Property="Effect" Value="{DynamicResource 全局背景阴影}" />
                             <!--<Setter TargetName="border" Property="Background" Value="{StaticResource Button.MouseOver.Background}" />
                             <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.MouseOver.Border}" />-->
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
                             <Setter Property="Opacity" Value="0.5" />
+
                             <!--<Setter TargetName="border" Property="Background" Value="{StaticResource Button.Pressed.Background}" />
                             <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.Pressed.Border}" />-->
 
