@@ -49,19 +49,11 @@ namespace HanGao.ViewModel
 
 
                 }
-                //<Photo_Sink_Enum>
-                //UC_Sink_Type_VM.Sink_Type_Load = (Photo_Sink_Enum)_E.Sink_Type_Load;
 
-                //Sink_Type_Load = (Photo_Sink_Enum)_E;
-
-
-                //MessageBox.Show(Sink_Type_Load.ToString());
 
 
 
             });
-
-            //Messenger.Send(this, Meg_Value_Eunm.Sink_Type_Value_Save.ToString());
 
 
 
@@ -86,7 +78,7 @@ namespace HanGao.ViewModel
 
                 //if (value != Sink_Type_Load )
                 //{
-              
+
 
                 //}
                 //}

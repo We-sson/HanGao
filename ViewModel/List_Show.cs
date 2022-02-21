@@ -248,16 +248,15 @@ namespace HanGao.ViewModel
 
                   await Task.Delay(0);
 
-                  //传送水槽类型到弹窗
+                  //传送水槽类型到弹窗页面
                   Messenger.Send<dynamic ,string >(M.Sink_Type, nameof(Meg_Value_Eunm.Sink_Type_Value_Load));
 
-                  await Task.Delay(0);
-
-
-                  //初始弹窗容器
+                 
+                  //传送尺寸参数弹窗页面
                   Messenger.Send<Sink_Models, string>(M, nameof(Meg_Value_Eunm.Sink_Size_Value_Load));
 
 
+                  Messenger.Send<Sink_Models, string>(M, nameof(Meg_Value_Eunm.Sink_Craft_Value_Load));
 
 
 
@@ -271,7 +270,7 @@ namespace HanGao.ViewModel
 
 
 
-                 
+
 
               });
         }

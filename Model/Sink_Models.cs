@@ -6,6 +6,7 @@ using Nancy.Helpers;
 using PropertyChanged;
 using System;
 using System.Windows;
+using static HanGao.Model.Sink_Craft_Models;
 
 namespace HanGao.Model
 {
@@ -13,11 +14,19 @@ namespace HanGao.Model
     public class Sink_Models: ObservableRecipient
     {
 
+        public Sink_Models(Sink_Type_Enum _Sink_Type , int  _Sink_Model)
+        {
+
+            Sink_Type = _Sink_Type;
+            Sink_Model = _Sink_Model;
+
+
+        }
         public Sink_Models(Sink_Type_Enum _Sink_Type)
         {
 
             Sink_Type = _Sink_Type;
-
+           
 
 
         }
@@ -65,8 +74,13 @@ namespace HanGao.Model
         /// <summary>
         /// 水槽型号
         /// </summary>
-        public int Sink_Model { set; get; } = 952154;
+        public int Sink_Model { set; get; }
 
+
+        /// <summary>
+        /// 水槽焊接工艺包含
+        /// </summary>
+        public Craft_Type_Enum Sink_Craft { set; get; } = Craft_Type_Enum.Surround_Direction | Craft_Type_Enum.Short_Side;
 
 
 

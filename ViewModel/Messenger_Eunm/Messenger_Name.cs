@@ -136,6 +136,12 @@ namespace HanGao.ViewModel.Messenger_Eunm
             /// </summary>
             KUKA_State,
 
+
+            /// <summary>
+            /// 围边工艺加载
+            /// </summary>
+            Sink_Craft_Value_Load
+
         }
 
 

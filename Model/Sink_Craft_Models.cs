@@ -17,6 +17,10 @@ namespace HanGao.Model
         {
 
 
+
+
+
+
         }
 
 
@@ -24,18 +28,54 @@ namespace HanGao.Model
 
 
         private string _Sink_Ico;
-        public string Sink_Ico 
+        /// <summary>
+        /// 水槽图标
+        /// </summary>
+        public string Sink_Ico
         {
             get { return HttpUtility.HtmlDecode(_Sink_Ico); }
-            set{  _Sink_Ico = value;}
+            set { _Sink_Ico = value; }
+        }
+
+        /// <summary>
+        /// 工艺水槽标题
+        /// </summary>
+        public string Sink_Title { set; get; }
+        /// <summary>
+        /// 工艺副标题
+        /// </summary>
+        public string Sink_Subtitle { set; get; }
+
+
+
+
+        /// <summary>
+        /// 工艺类型
+        /// </summary>
+        private Craft_Type_Enum _Craft_Type = Craft_Type_Enum.Surround_Direction | Craft_Type_Enum.Short_Side;
+
+        public Craft_Type_Enum Craft_Type
+        {
+            get { return _Craft_Type; }
+            set { _Craft_Type = value; }
         }
 
 
-        public string Sink_Title { set; get; }
 
-        public string Sink_Subtitle { set; get; }
 
- 
+
+
+        [Flags]
+        /// <summary>
+        /// 各工艺枚举
+        /// </summary>
+        public enum Craft_Type_Enum
+        {
+            [DependsOn("Surronnd_Welding")]
+            Surround_Direction=1,
+            Short_Side=2,
+
+        }
 
 
 

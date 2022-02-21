@@ -37,10 +37,9 @@ namespace HanGao.ViewModel
 
 
           public   static     ObservableCollection<Sink_Craft_Models> _Sink_Craft = new ObservableCollection<Sink_Craft_Models>  { 
-            new Sink_Craft_Models (){ Sink_Ico= Sink_Type_Enum.LeftRight_One.GetStringValue()  , Sink_Title="水槽围边焊接工艺" , Sink_Subtitle="焊接工艺由机器人记录多个位置姿态,通过重复行走路径激光焊接完成!", },
-            new Sink_Craft_Models (){ Sink_Ico="&#xE61B;", Sink_Title="水槽短边焊接工艺" , Sink_Subtitle="焊接工艺由多个位置姿态,连续激光焊接完成!", },
-            new Sink_Craft_Models (){ Sink_Ico=Sink_Type_Enum.LeftRight_Two.GetStringValue(), Sink_Title="水槽围边焊接工艺" , Sink_Subtitle="焊接工艺由多个位置姿态,连续激光焊接完成!", },
-            new Sink_Craft_Models (){ Sink_Ico="&#xE61B;", Sink_Title="水槽围边焊接工艺" , Sink_Subtitle="焊接工艺由多个位置姿态,连续激光焊接完成!", },
+            new Sink_Craft_Models (){ Craft_Type= Sink_Craft_Models.Craft_Type_Enum.Surround_Direction, Sink_Ico= Sink_Type_Enum.LeftRight_One.GetStringValue()  , Sink_Title="水槽围边焊接工艺" , Sink_Subtitle="焊接工艺由机器人记录多个位置姿态,通过重复行走路径激光焊接完成!", },
+            new Sink_Craft_Models (){ Craft_Type= Sink_Craft_Models.Craft_Type_Enum.Short_Side, Sink_Ico="&#xE61B;", Sink_Title="水槽短边焊接工艺" , Sink_Subtitle="焊接工艺由多个位置姿态,连续激光焊接完成!", },
+         
 
 
 
