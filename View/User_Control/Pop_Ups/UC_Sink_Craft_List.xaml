@@ -2,14 +2,16 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HanGao.View.User_Control"
+             xmlns:av="http://schemas.microsoft.com/expression/blend/2008"
              HorizontalContentAlignment="Center"
              VerticalContentAlignment="Center"
-             DataContext="{Binding UC_Sink_Craft_List_VM, Mode=OneWay, Source={StaticResource Locator}}">
+             DataContext="{Binding UC_Sink_Craft_List_VM, Mode=OneWay, Source={StaticResource Locator}}"
+             mc:Ignorable="av">
     <Grid Background="Transparent">
         <ListBox Style="{DynamicResource ListBoxStyle1}"
                  HorizontalAlignment="Stretch"
+                 av:ItemsSource="{av:SampleData ItemCount=5}"
                  BorderThickness="0"
                  BorderBrush="Black"
                  DataContext="{Binding UC_Sink_Craft_List_VM, Mode=OneWay, Source={StaticResource Locator}}"

@@ -8,11 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static HanGao.Model.UC_Surround_Point_Models;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Messaging;
 
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public  class UC_Surround_Point_VM
+    public  class UC_Surround_Point_VM: ObservableRecipient
     {
 
 

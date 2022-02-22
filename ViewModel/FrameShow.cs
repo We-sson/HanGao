@@ -61,18 +61,18 @@ namespace HanGao.ViewModel
         public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
 
 
-        private static  bool _ProgramEdit_Click=false   ;
+        private static  bool _ProgramEdit_Enabled = false   ;
         /// <summary>
         /// 程序页面可点击属性
         /// </summary>
-        public static  bool ProgramEdit_Click
+        public static  bool ProgramEdit_Enabled
         {
-            get { return _ProgramEdit_Click; }
+            get { return _ProgramEdit_Enabled; }
             set
             {
 
-                _ProgramEdit_Click = value ;
-                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(ProgramEdit_Click)));
+                _ProgramEdit_Enabled = value ;
+                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(ProgramEdit_Enabled)));
 
             }
         }

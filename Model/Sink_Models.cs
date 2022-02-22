@@ -1,20 +1,19 @@
 ﻿
 using HanGao.Extension_Method;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Messaging.Messages;
 using Nancy.Helpers;
 using PropertyChanged;
-using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using static HanGao.Model.Sink_Craft_Models;
 
 namespace HanGao.Model
 {
     [AddINotifyPropertyChangedInterface]
-    public class Sink_Models: ObservableRecipient
+    public class Sink_Models : ObservableRecipient
     {
 
-        public Sink_Models(Sink_Type_Enum _Sink_Type , int  _Sink_Model)
+        public Sink_Models(Sink_Type_Enum _Sink_Type, int _Sink_Model)
         {
 
             Sink_Type = _Sink_Type;
@@ -26,7 +25,7 @@ namespace HanGao.Model
         {
 
             Sink_Type = _Sink_Type;
-           
+
 
 
         }
@@ -35,10 +34,10 @@ namespace HanGao.Model
         /// 获得围边焊接对于参数字符
         /// </summary>
         /// <returns>对应付机器人结构变量</returns>
-        public  string Get_Surround_Struc_String()
+        public string Get_Surround_Struc_String()
         {
 
-            return $"{{Surround_Welding_Type: {nameof(Sink_Process.Sink_Size_Long)} {Sink_Process.Sink_Size_Long}, {nameof(Sink_Process.Sink_Size_Width)} {Sink_Process.Sink_Size_Width},{nameof(Sink_Process.Sink_Size_R)} {Sink_Process.Sink_Size_R},{nameof(Sink_Process.Sink_Size_Pots_Thick)} {Sink_Process.Sink_Size_Pots_Thick},{nameof(Sink_Process.Sink_Size_Panel_Thick)} {Sink_Process.Sink_Size_Panel_Thick}, {nameof(Sink_Model)} {Sink_Model}, {nameof( Sink_Process.Sink_Size_Left_Distance)} {Sink_Process.Sink_Size_Down_Distance}, {nameof(Sink_Process.Sink_Size_Down_Distance)} {Sink_Process.Sink_Size_Down_Distance}, {nameof(Sink_Type)} #{Sink_Type}}}";
+            return $"{{Surround_Welding_Type: {nameof(Sink_Process.Sink_Size_Long)} {Sink_Process.Sink_Size_Long}, {nameof(Sink_Process.Sink_Size_Width)} {Sink_Process.Sink_Size_Width},{nameof(Sink_Process.Sink_Size_R)} {Sink_Process.Sink_Size_R},{nameof(Sink_Process.Sink_Size_Pots_Thick)} {Sink_Process.Sink_Size_Pots_Thick},{nameof(Sink_Process.Sink_Size_Panel_Thick)} {Sink_Process.Sink_Size_Panel_Thick}, {nameof(Sink_Model)} {Sink_Model}, {nameof(Sink_Process.Sink_Size_Left_Distance)} {Sink_Process.Sink_Size_Down_Distance}, {nameof(Sink_Process.Sink_Size_Down_Distance)} {Sink_Process.Sink_Size_Down_Distance}, {nameof(Sink_Type)} #{Sink_Type}}}";
         }
 
 
@@ -48,7 +47,35 @@ namespace HanGao.Model
         /// <summary>
         /// 水槽工艺尺寸参数
         /// </summary>
-        public Sink_Size_Models Sink_Process { set; get; } = new Sink_Size_Models() { Sink_Size_Long=640, Sink_Size_Width=345 };
+        public Sink_Size_Models Sink_Process { set; get; } = new Sink_Size_Models() { Sink_Size_Long = 640, Sink_Size_Width = 345 };
+
+
+
+        private ObservableCollection<Sink_Craft_Models> _Sink_Craft = new ObservableCollection<Sink_Craft_Models>()
+        {
+            new Sink_Craft_Models()
+            {
+                  Craft_Type= Craft_Type_Enum.Surround_Direction,
+                  Sink_Title="水槽围边焊接工艺" ,
+                  Sink_Subtitle="焊接工艺由机器人记录多个位置姿态,通过重复行走路径激光焊接完成!",
+            },
+            new Sink_Craft_Models()
+            {
+                  Craft_Type= Craft_Type_Enum.Short_Side,
+                  Sink_Title="水槽短边焊接工艺" ,
+                  Sink_Subtitle="焊接工艺由多个位置姿态,连续激光焊接完成!"
+            }
+        };
+        /// <summary>
+        /// 水槽焊接工艺包含
+        /// </summary>
+        public ObservableCollection<Sink_Craft_Models> Sink_Craft
+        {
+            get { return _Sink_Craft; }
+            set { _Sink_Craft = value; }
+        }
+
+
 
 
 
@@ -77,10 +104,8 @@ namespace HanGao.Model
         public int Sink_Model { set; get; }
 
 
-        /// <summary>
-        /// 水槽焊接工艺包含
-        /// </summary>
-        public Craft_Type_Enum Sink_Craft { set; get; } = Craft_Type_Enum.Surround_Direction | Craft_Type_Enum.Short_Side;
+
+
 
 
 
@@ -106,8 +131,8 @@ namespace HanGao.Model
         public string Photo_ico
         {
             get { return HttpUtility.HtmlDecode(_Photo_ico); }
-            set  { _Photo_ico = value; }
-      
+            set { _Photo_ico = value; }
+
         }
 
 
@@ -121,7 +146,7 @@ namespace HanGao.Model
             {
                 Photo_ico = value.GetStringValue();
 
-               
+
                 _Sink_Type = value;
             }
             get
@@ -135,12 +160,12 @@ namespace HanGao.Model
         /// <summary>
         /// 列表显示水槽枚举
         /// </summary>
-     
+
         public enum Sink_Type_Enum
         {
             [StringValue(" ")]
             Null,
-            [StringValue("&#xe61b;") ]
+            [StringValue("&#xe61b;")]
             LeftRight_One,
             [StringValue("&#xe61a;")]
             UpDown_One,
@@ -166,7 +191,7 @@ namespace HanGao.Model
 
 
 
-     
+
         /// <summary>
         /// 列表中区域2水槽的功能保存
         /// </summary>
@@ -188,7 +213,7 @@ namespace HanGao.Model
         /// 选定加工区域2按钮
         /// </summary>
         public bool List_IsChecked_2 { set; get; } = false;
- 
+
 
 
 
@@ -204,11 +229,11 @@ namespace HanGao.Model
 
 
     [AddINotifyPropertyChangedInterface]
-    public class Sink_Size_Models 
+    public class Sink_Size_Models
     {
-       public Sink_Size_Models()
+        public Sink_Size_Models()
         {
-   
+
         }
 
 
@@ -235,7 +260,7 @@ namespace HanGao.Model
         /// 水槽面板厚度
         /// </summary>
         public double Sink_Size_Panel_Thick { set; get; } = 2.85;
-  
+
         /// <summary>
         /// 水槽盆胆厚度
         /// </summary>
@@ -253,6 +278,6 @@ namespace HanGao.Model
     }
 
 
-    
+
 
 }

@@ -27,7 +27,7 @@ namespace HanGao.Model
 
 
 
-        private string _Sink_Ico;
+        private string _Sink_Ico= "&#xE61B;";
         /// <summary>
         /// 水槽图标
         /// </summary>

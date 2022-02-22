@@ -256,7 +256,7 @@ namespace HanGao.ViewModel
                   Messenger.Send<Sink_Models, string>(M, nameof(Meg_Value_Eunm.Sink_Size_Value_Load));
 
 
-                  Messenger.Send<Sink_Models, string>(M, nameof(Meg_Value_Eunm.Sink_Craft_Value_Load));
+                  Messenger.Send<Sink_Models, string>(M, nameof(Meg_Value_Eunm.Sink_Craft_List_Value_Load));
 
 
 

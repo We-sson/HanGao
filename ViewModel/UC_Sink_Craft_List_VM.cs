@@ -27,23 +27,34 @@ namespace HanGao.ViewModel
         public UC_Sink_Craft_List_VM()
         {
 
+            //接收修改参数属性
+            Messenger.Register<Sink_Models, string>(this, nameof(Meg_Value_Eunm.Sink_Craft_List_Value_Load), (O, S) =>
+            {
+
+
+                Sink_Craft = S.Sink_Craft;
+                Sink = S;
+
+
+            });
+
+
+
 
 
         }
 
 
+        /// <summary>
+        /// 临时存放用户选择水槽属性
+        /// </summary>
+        public Sink_Models Sink { get; set; }
 
 
 
 
-          public   static     ObservableCollection<Sink_Craft_Models> _Sink_Craft = new ObservableCollection<Sink_Craft_Models>  { 
-            new Sink_Craft_Models (){ Craft_Type= Sink_Craft_Models.Craft_Type_Enum.Surround_Direction, Sink_Ico= Sink_Type_Enum.LeftRight_One.GetStringValue()  , Sink_Title="水槽围边焊接工艺" , Sink_Subtitle="焊接工艺由机器人记录多个位置姿态,通过重复行走路径激光焊接完成!", },
-            new Sink_Craft_Models (){ Craft_Type= Sink_Craft_Models.Craft_Type_Enum.Short_Side, Sink_Ico="&#xE61B;", Sink_Title="水槽短边焊接工艺" , Sink_Subtitle="焊接工艺由多个位置姿态,连续激光焊接完成!", },
-         
 
-
-
-            };
+        public static ObservableCollection<Sink_Craft_Models> _Sink_Craft = new ObservableCollection<Sink_Craft_Models>();
         /// <summary>
         /// 水槽列表集合
         /// </summary>
@@ -73,8 +84,25 @@ namespace HanGao.ViewModel
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
 
-                FrameShow.ProgramEdit_Click = true;
+                //把参数类型转换控件
+                Button E = Sm.Source as Button;
+                Sink_Craft_Models S = E.DataContext as Sink_Craft_Models;
+
+
+
+                FrameShow.ProgramEdit_Enabled = true;
                 FrameShow.ProgramEdit_UI = true;
+
+
+
+
+                //传送工艺属性
+                Messenger.Send<Sink_Craft_Models, string>(S, nameof(Meg_Value_Eunm.Program_UI_Load));
+
+                
+
+
+
                 //关闭弹窗
                 Messenger.Send<UserControl, string>(null, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
                 //把参数类型转换控件

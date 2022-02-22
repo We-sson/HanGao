@@ -25,12 +25,13 @@ namespace HanGao.ViewModel
 
 
             //接收修改参数属性
-            Messenger.Register<Sink_Models, string>(this, nameof(Meg_Value_Eunm.Sink_Craft_Value_Load), (O, S) =>
+            Messenger.Register<Sink_Craft_Models, string>(this, nameof(Meg_Value_Eunm.Program_UI_Load), (O, S) =>
             {
 
+                Sink_Craft_Type = S.Craft_Type;
 
 
-              
+
 
 
             });
@@ -45,6 +46,47 @@ namespace HanGao.ViewModel
 
 
 
+        private Craft_Type_Enum _Sink_Craft_Type;
+
+        public Craft_Type_Enum Sink_Craft_Type
+        {
+            get { return _Sink_Craft_Type; }
+            set 
+            {
+                switch (value)
+                {
+                    case Craft_Type_Enum.Surround_Direction:
+                        Distance_UI = UI_Direction;
+
+
+
+
+
+
+                        break;
+                    case Craft_Type_Enum.Short_Side:
+                        Distance_UI = UI_Short_Size;
+                        break;
+                    default:
+                        break;
+                }
+
+
+                _Sink_Craft_Type = value; 
+            
+            }
+        }
+
+
+
+        /// <summary>
+        /// 加载焊接方向界面
+        /// </summary>
+        public UserControl UI_Direction { get; set; }= new UC_Direction();
+        /// <summary>
+        /// 加载短边工艺界面
+        /// </summary>
+        public UserControl UI_Short_Size { get; set; }= new UC_Short_Side();
 
 
 
@@ -57,8 +99,6 @@ namespace HanGao.ViewModel
         {
             get { return _Distance_UI; }
             set {
-
-     
 
 
                 _Distance_UI = value;

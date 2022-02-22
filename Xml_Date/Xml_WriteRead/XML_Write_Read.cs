@@ -102,7 +102,7 @@ namespace HanGao.Xml_Date.Xml_WriteRead
                     },
                     new Xml_Sink_Model()
                     {
-                    Sink_Model = 952154,
+                    Sink_Model = 952128,
                     Sink_Size_Long = 400,
                     Sink_Size_Panel_Thick = 2.85,
                     Sink_Size_Pots_Thick =0.75,
@@ -180,8 +180,8 @@ namespace HanGao.Xml_Date.Xml_WriteRead
             var Xml = new XmlSerializer(typeof(Xml_Model));
             var ns = new XmlSerializerNamespaces();
             ns.Add("", "");
-            if (!Directory.Exists(@"Date"))
-                Directory.CreateDirectory(@"Date");
+      
+            if (!Directory.Exists(@"Date"))  Directory.CreateDirectory(@"Date");
             using (var XmlContent = new StreamWriter(@"Date\XmlDate.xml"))
             {
                 Xml.Serialize(XmlContent, Sink, ns);
@@ -252,6 +252,7 @@ namespace HanGao.Xml_Date.Xml_WriteRead
         public static void XML_To_object()
         {
             var xmlSerializer = new XmlSerializer(typeof(Xml_Model));
+            if (!File.Exists(@"Date\XmlDate.xml")) ToXmlString();
             using var reader = new StreamReader(@"Date\XmlDate.xml");
             Sink_Date = (Xml_Model)xmlSerializer.Deserialize(reader);
 

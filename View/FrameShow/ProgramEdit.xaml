@@ -48,7 +48,7 @@
                     Background="#E3E3E3"
                     CornerRadius="10">
 
-                <Point_UI:UC_Surround_Point />
+                <Point_UI:UC_Surround_Point DataContext="{Binding Source={StaticResource Locator}, Path=UC_Surround_Point_VM}" />
 
             </Border>
 
