@@ -18,9 +18,9 @@ namespace HanGao.View.User_Control.Program_Editing.Direction_UI
     /// <summary>
     /// UC_Direction.xaml 的交互逻辑
     /// </summary>
-    public partial class UC_Direction : UserControl
+    public partial class UC_Surround_Direction : UserControl
     {
-        public UC_Direction()
+        public UC_Surround_Direction()
         {
             InitializeComponent();
         }

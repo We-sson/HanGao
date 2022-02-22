@@ -22,11 +22,103 @@ namespace HanGao.ViewModel
         {
 
 
+
+
+
         }
 
 
+        public enum Surround_Direction_Enum
+        {
+            L0,
+            C45,
+            L90,
+            C135,
+            L180,
+            C225,
+            L270,
+            C315
+        }
 
 
+        /// <summary>
+        /// 围边工艺枚举
+        /// </summary>
+        private Surround_Direction_Enum _Surround_Direction_Type;
+
+        public Surround_Direction_Enum Surround_Direction_Type
+        {
+            get { return _Surround_Direction_Type; }
+            set { _Surround_Direction_Type = value;    
+                //传送用户选中围边方向
+                Messenger.Send<dynamic , string>(value, nameof(Meg_Value_Eunm.Sink_Surround_Craft_Point_Load));
+            }
+        }
+
+
+        private bool _L0_Checked=true ;
+
+        public bool L0_Checked
+        {
+            get { return _L0_Checked; }
+            set { _L0_Checked = value; if(value) Surround_Direction_Type = Surround_Direction_Enum.L0;}
+        }
+
+        private bool _C45_Checked;
+
+        public bool C45_Checked
+        {
+            get { return _C45_Checked; }
+            set { _C45_Checked = value; if(value) Surround_Direction_Type = Surround_Direction_Enum.C45; }
+        }
+
+        private bool _L90_Checked;
+                
+        public bool L90_Checked
+        {
+            get { return _L90_Checked; }
+            set { _L90_Checked = value; if (value) Surround_Direction_Type = Surround_Direction_Enum.L90; }
+        }
+
+        private bool _C135_Checked;
+
+        public bool C135_Checked
+        {
+            get { return _C135_Checked; }
+            set { _C135_Checked = value; if (value) Surround_Direction_Type = Surround_Direction_Enum.C135; }
+        }
+
+        private bool _L180_Checked;
+
+        public bool L180_Checked
+        {
+            get { return _L180_Checked; }
+            set { _L180_Checked = value; if (value) Surround_Direction_Type = Surround_Direction_Enum.L180; }
+        }
+
+        private bool _C225_Checked;
+
+        public bool C225_Checked
+        {
+            get { return _C225_Checked; }
+            set { _C225_Checked = value; if (value) Surround_Direction_Type = Surround_Direction_Enum.C225; }
+        }
+
+        private bool _L270_Checked;
+
+        public bool L270_Checked
+        {
+            get { return _L270_Checked; }
+            set { _L270_Checked = value; if (value) Surround_Direction_Type = Surround_Direction_Enum.L270; }
+        }
+
+        private bool _C315_Checked;
+
+        public bool C315_Checked
+        {
+            get { return _C315_Checked; }
+            set { _C315_Checked = value; if (value) Surround_Direction_Type = Surround_Direction_Enum.C315; }
+        }
 
     }
 }

@@ -24,20 +24,13 @@ namespace HanGao.ViewModel
             IsActive = true;
 
 
-            //接收修改参数属性
+            ///接收工艺参数属性显示对应UI控件
             Messenger.Register<Sink_Craft_Models, string>(this, nameof(Meg_Value_Eunm.Program_UI_Load), (O, S) =>
             {
 
                 Sink_Craft_Type = S.Craft_Type;
 
-
-
-
-
             });
-
-
-
 
 
         }
@@ -82,7 +75,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 加载焊接方向界面
         /// </summary>
-        public UserControl UI_Direction { get; set; }= new UC_Direction();
+        public UserControl UI_Direction { get; set; }= new UC_Surround_Direction();
         /// <summary>
         /// 加载短边工艺界面
         /// </summary>

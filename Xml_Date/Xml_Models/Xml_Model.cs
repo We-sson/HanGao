@@ -48,6 +48,8 @@ namespace HanGao.Xml_Date.Xml_Models
 
         [XmlElement(ElementName = "Surround_Craft")]
         public Xml_SInk_Surround_Craft Surround_Craft { get; set; } = new Xml_SInk_Surround_Craft() { };
+
+        public string[] Short_Side_Craft { get; set; }
     }
 
     /// <summary>

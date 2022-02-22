@@ -255,7 +255,7 @@ namespace HanGao.ViewModel
                   //传送尺寸参数弹窗页面
                   Messenger.Send<Sink_Models, string>(M, nameof(Meg_Value_Eunm.Sink_Size_Value_Load));
 
-
+                  //传送工艺列表到弹窗页面
                   Messenger.Send<Sink_Models, string>(M, nameof(Meg_Value_Eunm.Sink_Craft_List_Value_Load));
 
 

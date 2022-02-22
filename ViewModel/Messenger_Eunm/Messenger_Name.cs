@@ -150,7 +150,12 @@ namespace HanGao.ViewModel.Messenger_Eunm
             /// <summary>
             /// 程序界面方向空间加载
             /// </summary>
-            Program_UI_Load
+            Program_UI_Load,
+
+            /// <summary>
+            /// 水槽围边工艺加载
+            /// </summary>
+               Sink_Surround_Craft_Point_Load,
         }
 
 

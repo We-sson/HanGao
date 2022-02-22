@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="HanGao.View.User_Control.Program_Editing.Direction_UI.UC_Direction"
+﻿<UserControl x:Class="HanGao.View.User_Control.Program_Editing.Direction_UI.UC_Surround_Direction"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -7,6 +7,7 @@
              Padding="10"
              d:DesignHeight="466"
              d:DesignWidth="760"
+             DataContext="{Binding Source={StaticResource Locator}, Path=UC_Surround_Direction_VM}"
              mc:Ignorable="d">
 
     <Grid>
@@ -49,7 +50,7 @@
 
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="0" Grid.Column="1"
                          Content="L  0"
-                         IsChecked="True"
+                         IsChecked="{Binding L0_Checked}"
                          Width="100"
                          HorizontalAlignment="Stretch"
                          VerticalAlignment="Top"
@@ -60,6 +61,7 @@
                          FontSize="20" />
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="0" Grid.Column="0"
                          Content="C  45"
+                         IsChecked="{Binding C45_Checked}"
                          Width="100"
                          HorizontalAlignment="Left"
                          VerticalAlignment="Center"
@@ -70,6 +72,7 @@
                          FontSize="22" />
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="1" Grid.Column="0"
                          Content="L  90"
+                         IsChecked="{Binding L90_Checked}"
                          Width="100"
                          HorizontalAlignment="Left"
                          VerticalAlignment="Center"
@@ -80,6 +83,7 @@
                          FontSize="22" />
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="2" Grid.Column="0"
                          Content="C  135"
+                         IsChecked="{Binding C135_Checked}"
                          Width="100"
                          HorizontalAlignment="Left"
                          VerticalAlignment="Center"
@@ -88,6 +92,7 @@
                          FontSize="22" />
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="2" Grid.Column="1"
                          Content="L  180"
+                         IsChecked="{Binding L180_Checked}"
                          Width="100"
                          HorizontalAlignment="Center"
                          VerticalAlignment="Bottom"
@@ -98,6 +103,7 @@
                          FontSize="22" />
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="2" Grid.Column="2"
                          Content="C  225"
+                         IsChecked="{Binding C225_Checked}"
                          Width="100"
                          HorizontalAlignment="Right"
                          VerticalAlignment="Center"
@@ -108,6 +114,7 @@
                          FontSize="22" />
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="1" Grid.Column="2"
                          Content="L  270"
+                         IsChecked="{Binding L270_Checked}"
                          Width="100"
                          HorizontalAlignment="Right"
                          VerticalAlignment="Center"
@@ -118,6 +125,7 @@
                          FontSize="22" />
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="0" Grid.Column="2"
                          Content="C  315"
+                         IsChecked="{Binding C315_Checked}"
                          Width="100"
                          HorizontalAlignment="Right"
                          VerticalAlignment="Center"
