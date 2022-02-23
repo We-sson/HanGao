@@ -24,15 +24,7 @@ namespace HanGao.ViewModel
 
 
 
-            //接收用户触发的水槽项参数
-            Messenger.Register<Sink_Models,string >(this, nameof(Meg_Value_Eunm.Clear_List), (O,S) =>
-             {
-                 //UC_Sink_Type_VM.Sink_Type_Load = S.Photo_Sink_Type;
 
-
-
-
-             });
 
 
 
@@ -82,7 +74,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 获取用户选择的水槽属性
         /// </summary>
-        public static  Sink_Models SM { set; get; }
+        public   Sink_Models _Sink { set; get; }
 
         /// <summary>
         /// 用户修改后的水槽属性

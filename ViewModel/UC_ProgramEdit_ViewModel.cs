@@ -33,10 +33,22 @@ namespace HanGao.ViewModel
             });
 
 
+
+
+            ///接收工艺参数属性显示对应UI控件
+            Messenger.Register<Sink_Models, string>(this, nameof(Meg_Value_Eunm.UC_Pop_Sink_Value_Load), (O, S) =>
+            {
+                _Sink = S;
+
+            });
+
+
         }
 
-
-
+        /// <summary>
+        /// 临时存放用户选择水槽属性
+        /// </summary>
+        public Sink_Models _Sink { get; set; }
 
 
         private Craft_Type_Enum _Sink_Craft_Type;

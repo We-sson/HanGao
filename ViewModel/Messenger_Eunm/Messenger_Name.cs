@@ -148,6 +148,11 @@ namespace HanGao.ViewModel.Messenger_Eunm
             Sink_Craft_List_Value_Load,
 
             /// <summary>
+            /// 用户选择水槽
+            /// </summary>
+            User_Pick_Sink_Value,
+
+            /// <summary>
             /// 程序界面方向空间加载
             /// </summary>
             Program_UI_Load,
@@ -155,7 +160,12 @@ namespace HanGao.ViewModel.Messenger_Eunm
             /// <summary>
             /// 水槽围边工艺加载
             /// </summary>
-               Sink_Surround_Craft_Point_Load,
+            Sink_Surround_Craft_Point_Load,
+
+            /// <summary>
+            /// 弹窗用户选择水槽属性加载
+            /// </summary>
+            UC_Pop_Sink_Value_Load,
         }
 
 

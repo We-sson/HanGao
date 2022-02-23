@@ -25,7 +25,15 @@ namespace HanGao.ViewModel
         {
 
 
+            //接收用户选择的水槽项参数
+            Messenger.Register<Sink_Models, string>(this, nameof(Meg_Value_Eunm.UC_Pop_Sink_Value_Load), (O, S) =>
+            {
 
+
+                _Sink = S;
+
+
+            });
 
             //接收修改参数属性
             Messenger.Register<dynamic , string>(this, nameof(Meg_Value_Eunm.Sink_Surround_Craft_Point_Load), (O, S) =>
@@ -34,18 +42,22 @@ namespace HanGao.ViewModel
                 S.ToString();
 
 
-                List<Xml_Craft_Date> Date = new List<Xml_Craft_Date>();
+
+
+                dynamic  Date = new object ();
 
                 foreach (var item in XML_Write_Read.Sink_Date.Sink_List)
                 {
                     //item.Surround_Craft.L0_Welding_Craft.Craft_Date
-                    if (true)
+                    if (_Sink.Sink_Model==item.Sink_Model)
                     {
 
+                       var a= item.Surround_Craft.GetType().GetProperty(S.ToString() + "_Welding_Craft").GetValue(Date);
 
-                     item.Surround_Craft.GetType().GetProperty((nameof(S) + "_Welding_Craft")).GetValue(Date);
 
-                     
+
+
+
 
 
                     }
@@ -62,38 +74,16 @@ namespace HanGao.ViewModel
             });
         }
 
-        public Sink_Models Sink { get; set; }
+
+        /// <summary>
+        /// 临时存放用户选择水槽属性
+        /// </summary>
+        public Sink_Models _Sink { get; set; }
 
 
 
-        public static ObservableCollection<UC_Surround_Point_Models> _Surround_Offset_Point = new ObservableCollection<UC_Surround_Point_Models>
-            {
-
-            new UC_Surround_Point_Models(){ Offset_Name="SS_1" , Offset_NO=1, Offset_Type=Offset_Type_Enum.LIN  },
-            new UC_Surround_Point_Models(){ Offset_Name="SS_2" , Offset_NO=1, Offset_Type=Offset_Type_Enum.LIN  },
-            new UC_Surround_Point_Models(){ Offset_Name="SS_3" , Offset_NO=1, Offset_Type=Offset_Type_Enum.LIN  },
-            new UC_Surround_Point_Models(){ Offset_Name="SS_4" , Offset_NO=1, Offset_Type=Offset_Type_Enum.LIN  },
-            new UC_Surround_Point_Models(){ Offset_Name="SS_1" , Offset_NO=1, Offset_Type=Offset_Type_Enum.LIN  },
-            new UC_Surround_Point_Models(){ Offset_Name="SS_2" , Offset_NO=1, Offset_Type=Offset_Type_Enum.LIN  },
-            new UC_Surround_Point_Models(){ Offset_Name="SS_3" , Offset_NO=1, Offset_Type=Offset_Type_Enum.LIN  },
-            new UC_Surround_Point_Models(){ Offset_Name="SS_4" , Offset_NO=1, Offset_Type=Offset_Type_Enum.LIN  },
-            new UC_Surround_Point_Models(){ Offset_Name="SS_1" , Offset_NO=1, Offset_Type=Offset_Type_Enum.LIN  },
-            new UC_Surround_Point_Models(){ Offset_Name="SS_2" , Offset_NO=1, Offset_Type=Offset_Type_Enum.LIN  },
-            new UC_Surround_Point_Models(){ Offset_Name="SS_3" , Offset_NO=1, Offset_Type=Offset_Type_Enum.LIN  },
-            new UC_Surround_Point_Models(){ Offset_Name="SS_4" , Offset_NO=1, Offset_Type=Offset_Type_Enum.LIN  },
-             new UC_Surround_Point_Models(){ Offset_Name="SS_1" , Offset_NO=1, Offset_Type=Offset_Type_Enum.LIN  },
-            new UC_Surround_Point_Models(){ Offset_Name="SS_2" , Offset_NO=1, Offset_Type=Offset_Type_Enum.LIN  },
-            new UC_Surround_Point_Models(){ Offset_Name="SS_3" , Offset_NO=1, Offset_Type=Offset_Type_Enum.LIN  },
-            new UC_Surround_Point_Models(){ Offset_Name="SS_4" , Offset_NO=1, Offset_Type=Offset_Type_Enum.LIN  },
-            new UC_Surround_Point_Models(){ Offset_Name="SS_1" , Offset_NO=1, Offset_Type=Offset_Type_Enum.LIN  },
-            new UC_Surround_Point_Models(){ Offset_Name="SS_2" , Offset_NO=1, Offset_Type=Offset_Type_Enum.LIN  },
-            new UC_Surround_Point_Models(){ Offset_Name="SS_3" , Offset_NO=1, Offset_Type=Offset_Type_Enum.LIN  },
-            new UC_Surround_Point_Models(){ Offset_Name="SS_4" , Offset_NO=1, Offset_Type=Offset_Type_Enum.LIN  },
-            new UC_Surround_Point_Models(){ Offset_Name="SS_1" , Offset_NO=1, Offset_Type=Offset_Type_Enum.LIN  },
-            new UC_Surround_Point_Models(){ Offset_Name="SS_2" , Offset_NO=1, Offset_Type=Offset_Type_Enum.LIN  },
-            new UC_Surround_Point_Models(){ Offset_Name="SS_3" , Offset_NO=1, Offset_Type=Offset_Type_Enum.LIN  },
-            new UC_Surround_Point_Models(){ Offset_Name="SS_4" , Offset_NO=1, Offset_Type=Offset_Type_Enum.LIN  }
-            };
+        public static ObservableCollection<UC_Surround_Point_Models> _Surround_Offset_Point = new ObservableCollection<UC_Surround_Point_Models>();
+    
 
 
         /// <summary>

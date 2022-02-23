@@ -27,18 +27,16 @@ namespace HanGao.ViewModel
         public UC_Sink_Craft_List_VM()
         {
 
-            //接收修改参数属性
-            Messenger.Register<Sink_Models, string>(this, nameof(Meg_Value_Eunm.Sink_Craft_List_Value_Load), (O, S) =>
+
+
+            //接收用户选择的水槽项参数
+            Messenger.Register<Sink_Models, string>(this, nameof(Meg_Value_Eunm.UC_Pop_Sink_Value_Load), (O, S) =>
             {
 
-              
+                _Sink = S;
                 Sink_Craft = S.Sink_Craft;
-                Sink = S;
-
 
             });
-
-
 
 
 
@@ -48,7 +46,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 临时存放用户选择水槽属性
         /// </summary>
-        public Sink_Models Sink { get; set; }
+        public Sink_Models _Sink { get; set; }
 
 
 
@@ -96,13 +94,11 @@ namespace HanGao.ViewModel
 
 
 
-                //传送工艺枚举属性
+                //传送用户选择工艺
                 Messenger.Send<Sink_Craft_Models, string>(S, nameof(Meg_Value_Eunm.Program_UI_Load));
 
 
-                //传送用户选中的水槽属性
-                //Messenger.Send<Sink_Models, string>(Sink, nameof(Meg_Value_Eunm.Sink_Surround_Craft_Point_Load));
-                
+
 
                 //关闭弹窗
                 Messenger.Send<UserControl, string>(null, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));

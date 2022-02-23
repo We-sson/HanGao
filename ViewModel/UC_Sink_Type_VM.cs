@@ -25,12 +25,17 @@ namespace HanGao.ViewModel
             IsActive = true;
 
 
-            //打开读取用户点击水槽类型
-            Messenger.Register<dynamic , string >(this, nameof( Meg_Value_Eunm.Sink_Type_Value_Load),     (O,T) =>
+
+
+
+            //接收用户选择的水槽项参数
+            Messenger.Register<Sink_Models, string>(this, nameof(Meg_Value_Eunm.UC_Pop_Sink_Value_Load), (O, S) =>
             {
 
 
-                switch ((Sink_Type_Enum)T)
+                _Sink = S;
+
+                switch (_Sink.Sink_Type)
                 {
                     case Sink_Type_Enum.LeftRight_One:
                         Sink_LR_Checked = true;
@@ -49,17 +54,19 @@ namespace HanGao.ViewModel
                 }
 
 
-
-
             });
+
+
 
 
 
             
         }
 
-
-        public Sink_Models[] Sink { get; set; } 
+        /// <summary>
+        /// 临时存放用户选择水槽属性
+        /// </summary>
+        public Sink_Models _Sink { get; set; } 
 
 
 

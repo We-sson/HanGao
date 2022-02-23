@@ -30,6 +30,7 @@ namespace HanGao.ViewModel
 
         public enum Surround_Direction_Enum
         {
+            Null,
             L0,
             C45,
             L90,
@@ -44,19 +45,19 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 围边工艺枚举
         /// </summary>
-        private Surround_Direction_Enum _Surround_Direction_Type;
+        private Surround_Direction_Enum _Surround_Direction_Type= Surround_Direction_Enum.Null;
 
         public Surround_Direction_Enum Surround_Direction_Type
         {
             get { return _Surround_Direction_Type; }
             set { _Surround_Direction_Type = value;    
-                //传送用户选中围边方向
-                Messenger.Send<dynamic , string>(value, nameof(Meg_Value_Eunm.Sink_Surround_Craft_Point_Load));
+                //传送用户选中围边方向 
+             if(value!=Surround_Direction_Enum.Null)   Messenger.Send<dynamic , string>(value, nameof(Meg_Value_Eunm.Sink_Surround_Craft_Point_Load));
             }
         }
 
 
-        private bool _L0_Checked=true ;
+        private bool _L0_Checked ;
 
         public bool L0_Checked
         {

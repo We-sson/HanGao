@@ -141,7 +141,7 @@
                              Width="250"
                              Margin="0,0,0,0"
                              HorizontalAlignment="Stretch"
-                             IsEnabled="{Binding ProgramEdit_Click}"
+                             IsEnabled="{Binding ProgramEdit_Enabled}"
                              GroupName="Rt">
                     <!--<i:Interaction.Triggers>
                         <i:EventTrigger EventName="Checked">
