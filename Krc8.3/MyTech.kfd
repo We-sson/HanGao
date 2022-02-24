@@ -435,6 +435,7 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
 	
 	SETVAR(FULLPATH[] "FF%Offset_List ", VALUE[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset")
 	
+	SETVAR(FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Name[]", VALUE[] "/"%MOVE_Name /"" )
     REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL FDAT F%MOVE_DAT ={TOOL_NO %TOOL_NO ,BASE_NO %BASE_NO ,IPO_FRAME #BASE ,POINT2[] /" /",TQ_STATE FALSE }" )
     REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL LDAT L%MOVE_DAT ={VEL %Vel ,ACC %ACC ,APO_DIST %CDIS ,APO_FAC 50.0000 ,AXIS_VEL 100.0,AXIS_ACC 100.0,ORI_TYP #VAR ,CIRC_TYP #BASE,JERK_FAC 50.0,GEAR_JERK 50.0,EXAX_IGN 0}" )
           
