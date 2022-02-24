@@ -14,6 +14,7 @@ using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using HanGao.Xml_Date.Xml_WriteRead;
 using static HanGao.ViewModel.UC_Surround_Direction_VM;
 using HanGao.Xml_Date.Xml_Models;
+using System.Reflection;
 
 namespace HanGao.ViewModel
 {
@@ -44,7 +45,7 @@ namespace HanGao.ViewModel
 
 
 
-                dynamic  Date = new object ();
+              
 
                 foreach (var item in XML_Write_Read.Sink_Date.Sink_List)
                 {
@@ -52,13 +53,19 @@ namespace HanGao.ViewModel
                     if (_Sink.Sink_Model==item.Sink_Model)
                     {
 
-                       var a= item.Surround_Craft.GetType().GetProperty(S.ToString() + "_Welding_Craft").GetValue(Date);
+                      var t=  typeof(Xml_Surround_Craft_Data).GetProperty(S.ToString() + "_Welding_Craft");
 
+                        Xml_Surround_Craft_Data Date= item.Surround_Craft.GetType().GetProperty(S.ToString() + "_Welding_Craft").GetValue(item.Surround_Craft, null);
 
+                        Surround_Offset_Point.Clear();
+                        foreach (var Date_item in Date.Craft_Date)
+                        {
 
+                            Surround_Offset_Point.Add(new UC_Surround_Point_Models() { Offset_NO= Date_item.NO , Offset_Name = Date_item.Welding_Name, Offset_X = Date_item.Pos_Offset.X, Offset_Y = Date_item.Pos_Offset.Y, Offset_Z = Date_item.Pos_Offset.Z });
 
+                        }
 
-
+                        
 
                     }
                     
@@ -73,6 +80,10 @@ namespace HanGao.ViewModel
 
             });
         }
+
+
+
+        public Xml_Craft_Date Date { get; set; }=new Xml_Craft_Date();
 
 
         /// <summary>
