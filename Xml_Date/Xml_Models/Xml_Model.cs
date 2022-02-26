@@ -144,13 +144,16 @@ namespace HanGao.Xml_Date.Xml_Models
         public int Welding_CDIS { get; set; } = 10;
 
         [XmlElement(ElementName = "Welding_Offset")]
-        public Welding_Offset_Date Pos_Offset { get; set; } = new Welding_Offset_Date() { };
+        public Welding_Pos_Date Pos_Offset { get; set; } = new Welding_Pos_Date() { };
+
+        [XmlElement(ElementName = "Welding_Pos")]
+        public Welding_Pos_Date Welding_Pos { get; set; } = new Welding_Pos_Date() { };
     }
 
 
 
     [Serializable]
-    public class Welding_Offset_Date
+    public class Welding_Pos_Date
     {
         [XmlAttribute]
         public double X { get; set; } = 0.000;
