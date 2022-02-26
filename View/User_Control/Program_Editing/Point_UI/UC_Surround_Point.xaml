@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HanGao.View.User_Control.Program_Editing.Point_UI"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              d:DesignHeight="466"
              d:DesignWidth="760"
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_Surround_Point_VM}"
@@ -14,6 +15,8 @@
 
 
         <DataGrid Style="{DynamicResource Point_DataGridStyle}"
+                  d:ItemsSource="{d:SampleData ItemCount=5}"
+                  SelectedItem="{Binding User_Selected_SInk_Pos}"
                   CellStyle="{DynamicResource Point_DataGridCellStyle}"
                   RowStyle="{DynamicResource Point_DataGridRowStyle}"
                   IsReadOnly="True"
@@ -98,6 +101,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
+
 
 
 

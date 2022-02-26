@@ -15,6 +15,11 @@ using HanGao.Xml_Date.Xml_WriteRead;
 using static HanGao.ViewModel.UC_Surround_Direction_VM;
 using HanGao.Xml_Date.Xml_Models;
 using System.Reflection;
+using System.Windows.Input;
+using Microsoft.Toolkit.Mvvm.Input;
+using System.Windows;
+using System.Windows.Controls;
+using System.Data;
 
 namespace HanGao.ViewModel
 {
@@ -115,6 +120,27 @@ namespace HanGao.ViewModel
         /// 静态属性更新通知事件
         /// </summary>
         public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
+
+
+
+
+        private UC_Surround_Point_Models _User_Selected_SInk_Pos;
+        /// <summary>
+        /// 用户选择水槽工艺号数
+        /// </summary>
+        public UC_Surround_Point_Models User_Selected_SInk_Pos
+        {
+            get { return _User_Selected_SInk_Pos; }
+            set { 
+                _User_Selected_SInk_Pos = value;
+                //打开显示弹窗首页面
+                Messenger.Send<UC_Surround_Point_Models, string>(value, nameof(Meg_Value_Eunm.Sink_Surround_Craft_Point_Value));
+
+            }
+        }
+
+
+
 
     }
 }

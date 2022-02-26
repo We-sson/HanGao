@@ -166,6 +166,13 @@ namespace HanGao.ViewModel.Messenger_Eunm
             /// 弹窗用户选择水槽属性加载
             /// </summary>
             UC_Pop_Sink_Value_Load,
+
+
+            /// <summary>
+            /// 水槽围边工艺值
+            /// </summary>
+            Sink_Surround_Craft_Point_Value,
+
         }
 
 

@@ -155,37 +155,37 @@
 
 
         <!--  第三列  -->
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" Grid.Row="1" Grid.Column="2"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="X" Grid.Row="1" Grid.Column="2"
                  Text="0.000"
                  Margin="10"
                  HorizontalAlignment="Stretch"
                  HorizontalContentAlignment="Center"
                  MaxLines="7" />
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" Grid.Row="2" Grid.Column="2"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Y" Grid.Row="2" Grid.Column="2"
                  Text="0.000"
                  Margin="10"
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Stretch"
                  MaxLines="7" />
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" Grid.Row="3" Grid.Column="2"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Z" Grid.Row="3" Grid.Column="2"
                  Text="0.000"
                  Margin="10"
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Stretch"
                  MaxLines="7" />
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" Grid.Row="4" Grid.Column="2"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="A" Grid.Row="4" Grid.Column="2"
                  Text="0.000"
                  Margin="10"
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Stretch"
                  MaxLines="7" />
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" Grid.Row="5" Grid.Column="2"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="B" Grid.Row="5" Grid.Column="2"
                  Text="0.000"
                  Margin="10"
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Stretch"
                  MaxLines="7" />
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" Grid.Row="6" Grid.Column="2"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="C" Grid.Row="6" Grid.Column="2"
                  Text="0.000"
                  Margin="10"
                  HorizontalAlignment="Stretch"
@@ -457,7 +457,7 @@
                     HorizontalAlignment="Center"
                     Orientation="Horizontal">
 
-            <TextBox Style="{DynamicResource InPut_TextBoxStyle}"
+            <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="CDIS"
                      Text="0"
                      Width=" 200"
                      Margin="10"
@@ -475,7 +475,7 @@
                     HorizontalAlignment="Center"
                     Orientation="Horizontal">
 
-            <TextBox Style="{DynamicResource InPut_TextBoxStyle}"
+            <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Vel"
                      Text="0.000"
                      Width=" 200"
                      Margin="10"
