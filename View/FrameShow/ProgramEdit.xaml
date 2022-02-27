@@ -7,6 +7,7 @@
              xmlns:Direction_UI="clr-namespace:HanGao.View.User_Control.Program_Editing.Direction_UI"
              xmlns:Point_UI="clr-namespace:HanGao.View.User_Control.Program_Editing.Point_UI"
              xmlns:Point_info="clr-namespace:HanGao.View.User_Control.Program_Editing.Point_info"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              d:DesignHeight="992"
              d:DesignWidth="1920"
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_ProgramEdit_ViewModel}"
@@ -69,7 +70,7 @@
                     Background="#E3E3E3"
                     CornerRadius="10">
 
-                <Point_info:UC_Point_Info />
+                <Point_info:UC_Point_Info DataContext="{Binding UC_Point_Info_VM, Source={StaticResource Locator}}" />
 
 
 
@@ -84,21 +85,29 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
-                <Button Style="{DynamicResource Program_UI_ButtonStyle}" Grid.Column="0"
+                <Button Style="{DynamicResource ButtonStyle3}" Grid.Column="0"
                         Content="保存"
                         Width="250"
                         Height=" 100"
                         VerticalAlignment="Center"
                         Background="#6baa75"
-                        FontSize="40" />
-                <Button Style="{DynamicResource Program_UI_ButtonStyle}" Grid.Column="1"
+                        FontSize="40">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding Craft_Save_Comm}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                   PassEventArgsToCommand="True" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+                <Button Style="{DynamicResource ButtonStyle3}" Grid.Column="1"
                         Content=" 默认值"
                         Width="250"
                         Height=" 100"
                         VerticalAlignment="Center"
                         Background=" #ecd662"
                         FontSize="40" />
-                <Button Style="{DynamicResource Program_UI_ButtonStyle}" Grid.Column="2"
+                <Button Style="{DynamicResource ButtonStyle3}" Grid.Column="2"
                         Content="取消"
                         Width="250"
                         Height=" 100"

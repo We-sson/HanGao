@@ -48,12 +48,32 @@ namespace HanGao.ViewModel
                     if (SinkModels[i].Sink_Model==S.Sink_Model)
                     {
                         SinkModels[i] = S;
-                        XML_Write_Read.Write_Xml(S);
+                        foreach (var item in XML_Write_Read.Sink_Date.Sink_List)
+                        {
+                            if (item.Sink_Model == S.Sink_Model)
+                            {
+                                item.Sink_Type = S.Sink_Type;
+                                item.Sink_Size_Long = S.Sink_Process.Sink_Size_Long;
+                                item.Sink_Size_Width = S.Sink_Process.Sink_Size_Width;
+                                item.Sink_Size_R = S.Sink_Process.Sink_Size_R;
+                                item.Sink_Size_Pots_Thick = S.Sink_Process.Sink_Size_Pots_Thick;
+                                item.Sink_Size_Panel_Thick = S.Sink_Process.Sink_Size_Panel_Thick;
+                                item.Sink_Size_Down_Distance = S.Sink_Process.Sink_Size_Down_Distance;
+                                item.Sink_Size_Left_Distance = S.Sink_Process.Sink_Size_Left_Distance;
+
+
+                            }
+
+
+
+                        }
                     }
                     
 
                 }
 
+
+                XML_Write_Read.Write_Xml();
                 //关闭弹窗
                 Messenger.Send<UserControl , string>(null, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
 

@@ -27,7 +27,7 @@ namespace HanGao.ViewModel
         public UC_Sink_Craft_List_VM()
         {
 
-
+            IsActive = true;
 
             //接收用户选择的水槽项参数
             Messenger.Register<Sink_Models, string>(this, nameof(Meg_Value_Eunm.UC_Pop_Sink_Value_Load), (O, S) =>
@@ -37,6 +37,10 @@ namespace HanGao.ViewModel
                 Sink_Craft = S.Sink_Craft;
 
             });
+
+
+
+
 
 
 

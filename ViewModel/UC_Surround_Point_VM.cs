@@ -29,7 +29,7 @@ namespace HanGao.ViewModel
 
         public UC_Surround_Point_VM()
         {
-
+            IsActive = true;
 
             //接收用户选择的水槽项参数
             Messenger.Register<Sink_Models, string>(this, nameof(Meg_Value_Eunm.UC_Pop_Sink_Value_Load), (O, S) =>
@@ -45,12 +45,13 @@ namespace HanGao.ViewModel
             Messenger.Register<dynamic , string>(this, nameof(Meg_Value_Eunm.Sink_Surround_Craft_Point_Load), (O, S) =>
             {
 
-                S.ToString();
+               
+
+                User_Checked_Direction = S;
 
 
 
 
-              
 
                 foreach (var item in XML_Write_Read.Sink_Date.Sink_List)
                 {
@@ -58,9 +59,9 @@ namespace HanGao.ViewModel
                     if (_Sink.Sink_Model==item.Sink_Model)
                     {
 
-                      var t=  typeof(Xml_Surround_Craft_Data).GetProperty(S.ToString() + "_Welding_Craft");
+                      var t=  typeof(Xml_Surround_Craft_Data).GetProperty(User_Checked_Direction.ToString() + "_Welding_Craft");
 
-                        Xml_Surround_Craft_Data Date= item.Surround_Craft.GetType().GetProperty(S.ToString() + "_Welding_Craft").GetValue(item.Surround_Craft, null);
+                         Date= (Xml_Surround_Craft_Data)item.Surround_Craft.GetType().GetProperty(User_Checked_Direction.ToString() + "_Welding_Craft").GetValue(item.Surround_Craft);
 
                         Surround_Offset_Point.Clear();
                         foreach (var Date_item in Date.Craft_Date)
@@ -70,25 +71,69 @@ namespace HanGao.ViewModel
 
                         }
 
-                        
-
                     }
                     
-
-
-
-
                 };
 
 
+            });
+
+            //获得工艺数据回传给工艺列表保存对应方向
+            Messenger.Register<Xml_Craft_Date, string>(this, nameof(Meg_Value_Eunm.Sink_Craft_Data_OK), (O, S) =>
+            {
+
+                foreach (var item in XML_Write_Read.Sink_Date.Sink_List)
+                {
+                    //item.Surround_Craft.L0_Welding_Craft.Craft_Date
+                    if (_Sink.Sink_Model == item.Sink_Model)
+                    {
+                        foreach (var _item in Date.Craft_Date)
+                        {
+                            if (_item.NO==S.NO)
+                            {
+                                _item.Welding_Angle = S.Welding_Angle;
+                                _item.Welding_CDIS = S.Welding_CDIS;
+                                _item.Welding_Power = S.Welding_Power;
+                                _item.Welding_Speed = S.Welding_Speed;  
+                                _item.Pos_Offset = S.Pos_Offset;
+
+
+
+                            }
+                           
+
+                        }
+                       
+
+                        item.Surround_Craft.GetType().GetProperty(User_Checked_Direction.ToString() + "_Welding_Craft").SetValue(item.Surround_Craft, Date);
+
+     
+          
+
+                    }
+
+                };
+
+                XML_Write_Read.Write_Xml();
+                FrameShow.ProgramEdit_Enabled = false ;
+                FrameShow.HomeOne_UI = true;
 
 
             });
+
         }
 
 
+        /// <summary>
+        /// 围边方向工艺数据
+        /// </summary>
+        public Xml_Surround_Craft_Data Date { get; set; }=new Xml_Surround_Craft_Data();
 
-        public Xml_Craft_Date Date { get; set; }=new Xml_Craft_Date();
+
+        /// <summary>
+        /// 用户选择的方向枚举
+        /// </summary>
+        public  Surround_Direction_Enum User_Checked_Direction { set; get; }
 
 
         /// <summary>
@@ -134,7 +179,24 @@ namespace HanGao.ViewModel
             set { 
                 _User_Selected_SInk_Pos = value;
                 //打开显示弹窗首页面
-                Messenger.Send<UC_Surround_Point_Models, string>(value, nameof(Meg_Value_Eunm.Sink_Surround_Craft_Point_Value));
+                if (value!=null)
+                {
+
+                foreach (var item in Date.Craft_Date)
+                {
+                    if (value.Offset_NO== item.NO)
+                    {
+
+                Messenger.Send<Xml_Craft_Date, string>(item, nameof(Meg_Value_Eunm.Sink_Surround_Craft_Selected_Value));
+                    }
+
+
+
+                }
+
+                }
+
+
 
             }
         }

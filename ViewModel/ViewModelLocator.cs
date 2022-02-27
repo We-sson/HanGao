@@ -95,7 +95,8 @@ namespace HanGao.ViewModelLocator
                     .AddScoped<UC_Surround_Point_VM>()
                     .AddScoped<UC_ProgramEdit_ViewModel>()
                     .AddScoped<UC_Surround_Direction_VM>()
-
+                    .AddScoped<UC_Point_Info_VM>()
+                    
                     .BuildServiceProvider());
 
 
@@ -125,6 +126,7 @@ namespace HanGao.ViewModelLocator
         public UC_Surround_Point_VM UC_Surround_Point_VM => Ioc.Default.GetService<UC_Surround_Point_VM>();
         public UC_ProgramEdit_ViewModel UC_ProgramEdit_ViewModel => Ioc.Default.GetService<UC_ProgramEdit_ViewModel>();
         public UC_Surround_Direction_VM UC_Surround_Direction_VM => Ioc.Default.GetService<UC_Surround_Direction_VM>();
+        public UC_Point_Info_VM UC_Point_Info_VM => Ioc.Default.GetService<UC_Point_Info_VM>();
 
         
 

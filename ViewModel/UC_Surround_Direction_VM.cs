@@ -23,7 +23,7 @@ namespace HanGao.ViewModel
 
 
 
-
+            IsActive = true;
 
         }
 

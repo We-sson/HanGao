@@ -169,9 +169,20 @@ namespace HanGao.ViewModel.Messenger_Eunm
 
 
             /// <summary>
-            /// 水槽围边工艺值
+            /// 水槽围边工艺选择项
             /// </summary>
-            Sink_Surround_Craft_Point_Value,
+            Sink_Surround_Craft_Selected_Value,
+
+
+            /// <summary>
+            /// 水槽工艺数据保存
+            /// </summary>
+            Sink_Craft_Data_Save,
+
+            /// <summary>
+            /// 水槽工艺数据用户输入完成
+            /// </summary>
+            Sink_Craft_Data_OK,
 
         }
 

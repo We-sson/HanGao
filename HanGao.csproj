@@ -171,6 +171,7 @@
     <Compile Include="Model\Sink_Craft_Models.cs" />
     <Compile Include="Model\Sink_Models.cs" />
     <Compile Include="Model\Socket_Setup_Models.cs" />
+    <Compile Include="Model\UC_Point_Info_Models.cs" />
     <Compile Include="Model\UC_Surround_Point_Models.cs" />
     <Compile Include="Model\User_Features.cs" />
     <Compile Include="Model\User_Log_Models.cs" />
@@ -183,6 +184,7 @@
     <Compile Include="Socket_KUKA\Socket_Sever.cs" />
     <Compile Include="ViewModel\Messenger_Eunm\Messenger_Name.cs" />
     <Compile Include="ViewModel\UC_KUKA_State_VM.cs" />
+    <Compile Include="ViewModel\UC_Point_Info_VM.cs" />
     <Compile Include="ViewModel\UC_ProgramEdit_ViewModel.cs" />
     <Compile Include="ViewModel\UC_Sink_Craft_List_VM.cs" />
     <Compile Include="ViewModel\FrameShow.cs" />

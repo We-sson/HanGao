@@ -139,7 +139,7 @@ namespace HanGao.Xml_Date.Xml_Models
         [XmlAttribute]
         public double Welding_Speed { get; set; } = 0.045;
         [XmlAttribute]
-        public double Welding_Angle { get; set; } = 25;
+        public double Welding_Angle { get; set; } = 23;
         [XmlAttribute]
         public int Welding_CDIS { get; set; } = 10;
 

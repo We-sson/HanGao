@@ -195,7 +195,18 @@ namespace HanGao.Xml_Date.Xml_WriteRead
         /// <summary>
         /// 水槽总数据
         /// </summary>
-        public static Xml_Model Sink_Date { set; get; }
+        private static  Xml_Model _Sink_Date;
+
+        public static Xml_Model Sink_Date
+        {
+            get { return _Sink_Date; }
+            set {
+                _Sink_Date = value; 
+            
+             
+
+            }
+        }
 
 
 
@@ -203,28 +214,8 @@ namespace HanGao.Xml_Date.Xml_WriteRead
         /// 保存修改后的水槽尺寸
         /// </summary>
         /// <param name="sink"></param>
-        public static void Write_Xml(Sink_Models sink)
+        public static void Write_Xml()
         {
-
-            foreach (var item in XML_Write_Read.Sink_Date.Sink_List)
-            {
-                if (item.Sink_Model==sink.Sink_Model)
-                {
-                    item.Sink_Type=sink.Sink_Type;
-                    item.Sink_Size_Long = sink.Sink_Process.Sink_Size_Long;
-                    item.Sink_Size_Width = sink.Sink_Process.Sink_Size_Width;
-                    item.Sink_Size_R = sink.Sink_Process.Sink_Size_R;
-                    item.Sink_Size_Pots_Thick = sink.Sink_Process.Sink_Size_Pots_Thick;
-                    item.Sink_Size_Panel_Thick = sink.Sink_Process.Sink_Size_Panel_Thick;
-                    item.Sink_Size_Down_Distance = sink.Sink_Process.Sink_Size_Down_Distance;
-                    item.Sink_Size_Left_Distance = sink.Sink_Process.Sink_Size_Left_Distance;
-
-
-                }
-
-
-
-            }
 
 
 
