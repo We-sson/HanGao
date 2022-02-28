@@ -18,6 +18,12 @@ namespace HanGao.Xml_Date.Xml_WriteRead
             //创建模板
             //ToXmlString();
 
+
+
+
+
+
+
         }
         /// <summary>
         /// 新建空模板序列化

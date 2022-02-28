@@ -598,12 +598,12 @@ namespace Soceket_Connect
                 {
 
                     _Byte.Byte_data = Socket_KUKA_Receive.Byte_Read_Receive;
-                    Socket_KUKA_Receive.Byte_Read_Receive = new byte[1024 * 2];
+                    Socket_KUKA_Receive.Byte_Read_Receive = new byte[1024 * 24];
                 }
                 else if (Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.Write)
                 {
                     _Byte.Byte_data = Socket_KUKA_Receive.Byte_Write_Receive;
-                    Socket_KUKA_Receive.Byte_Write_Receive = new byte[1024 * 2];
+                    Socket_KUKA_Receive.Byte_Write_Receive = new byte[1024 * 24];
                 }
 
 

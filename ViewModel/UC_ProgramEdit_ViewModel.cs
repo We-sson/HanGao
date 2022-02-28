@@ -5,6 +5,7 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using PropertyChanged;
+using Soceket_KUKA.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,63 @@ namespace HanGao.ViewModel
         public UC_ProgramEdit_ViewModel()
         {
             IsActive = true;
+
+
+
+            //获得机器人状态
+            Messenger.Register<Socket_Models_List, string>(this, nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data), (O, S) =>
+            {
+
+                string Welding_Name = "Welding_Name[]";
+
+
+
+
+                string[]  a = S.Val_Var.Split(new string[] { "{Surr_Welding_Craft_Type:" }, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (var item in a)
+                {
+                    string[] b = item.Split(new string[] { "Welding_Pos {E6POS:", "}", "Welding_Offset {Offset_POS:" }, StringSplitOptions.RemoveEmptyEntries);
+
+                    int  c = item.IndexOf("Welding_Name[]");
+                    
+                }
+
+                //var a = KUKA_State.GetType().GetProperty(T.Bingding_Value).GetValue(KUKA_State).ToString();
+
+
+                //if (T.Val_Var != "")
+                //{
+                //    if (T.KUKA_Value_Enum == KUKA_Value_Type.Value_Type.Enum)
+                //    {
+
+
+                //        //接收消息转换类型
+                //        var b = (KUKA_State_Enum)Enum.Parse(typeof(KUKA_State_Enum), T.Val_Var.Replace("#", ""));
+                //        //设置类型
+                //        KUKA_State.GetType().GetProperty(T.Bingding_Value).SetValue(KUKA_State, b);
+                //    }
+                //    if (T.KUKA_Value_Enum == KUKA_Value_Type.Value_Type.Bool)
+                //    {
+
+
+                //        var b = bool.Parse(T.Val_Var);
+
+                //        KUKA_State.GetType().GetProperty(T.Bingding_Value).SetValue(KUKA_State, b);
+
+                //    }
+
+
+
+                //}
+
+
+
+
+
+
+            });
+
 
 
             ///接收工艺参数属性显示对应UI控件
@@ -121,7 +179,7 @@ namespace HanGao.ViewModel
 
 
         /// <summary>
-        /// 加载属性水槽类型
+        /// 保存用户修改工艺动作
         /// </summary>
         public ICommand Craft_Save_Comm
         {
@@ -132,6 +190,24 @@ namespace HanGao.ViewModel
 
 
                 Messenger.Send <dynamic ,string>( nameof(Meg_Value_Eunm.Sink_Craft_Data_Save));
+
+
+
+            });
+        }
+
+
+        /// <summary>
+        /// 读取机器人数据工艺动作
+        /// </summary>
+        public ICommand Read_Robot_Craft_Data_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                //把参数类型转换控件
+                //FrameworkElement e = Sm.Source as FrameworkElement;
+
+
 
 
 

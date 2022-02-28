@@ -95,40 +95,99 @@ namespace HanGao.ViewModel
             My_Work_1,
             [StringValue("$My_Work_2"), UserArea(User_Control_Working_VM_2.Work_String_Name), BingdingValue("Work_Type", Value_Type.String, true)]
             My_Work_2,
-            [StringValue("$my_work_number")]
-            my_work_number,
-            //机器人运行倍率
+     
+
+            /// <summary>
+            /// 机器人运行倍率
+            /// </summary>
             [StringValue("$OV_PRO")]
             OV_PRO,
-            //机器人运动下一个点位置信息
+            /// <summary>
+            /// 机器人运动下一个点位置信息
+            /// </summary>
             [StringValue("$POS_BACK")]
             POS_BACK,
-            //机器人在轨迹中途停下笛卡尔位置信息
+            /// <summary>
+            /// 机器人在轨迹中途停下笛卡尔位置信息
+            /// </summary>
             [StringValue("$POS_RET")]
             POS_RET,
-            //机器人是否激活运行
+            /// <summary>
+            /// 机器人是否激活运行
+            /// </summary>
             [StringValue("$PRO_ACT")]
             PRO_ACT,
-            //程序当前运行点名称
+            /// <summary>
+            /// 程序当前运行点名称
+            /// </summary>
             [StringValue("$PRO_IP.P_NAME[]")]
             PRO_IP_P_NAME,
-            //机器人是否运动状态
+            /// <summary>
+            /// 机器人是否运动状态
+            /// </summary>
             [StringValue("$PRO_MOVE")]
             PRO_MOVE,
-            //机器人当前运行程序名
+            /// <summary>
+            /// 机器人当前运行程序名
+            /// </summary>
             [StringValue("$PRO_NAME[]")]
             PRO_NAME,
-            //机器人中断位置轴位置数据信息
-            [StringValue("$AXIS_INT")]
-            AXIS_INT,
-            //机器人移动下一个点位置距离信息
+
+            /// <summary>
+            /// 机器人移动下一个点位置距离信息
+            /// </summary>
             [StringValue("$DIST_NEXT")]
             DIST_NEXT,
-            //机器人各轴扭矩数据信息
-            [StringValue("$TORQUE_AXIS_ACT[]")]
-            TORQUE_AXIS_ACT,
 
+            /// <summary>
+            /// 围边工艺方向变量
+            /// </summary>
+            [StringValue("L0_Welding_Craft[]"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
+            L0_Welding_craft,
 
+            /// <summary>
+            /// 围边工艺方向变量
+            /// </summary>
+            [StringValue("C45_Welding_craft[]"),UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
+            C45_Welding_craft,
+
+            /// <summary>
+            /// 围边工艺方向变量
+            /// </summary>
+            [StringValue("L90_Welding_craft[]"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
+            L90_Welding_craft,
+
+            /// <summary>
+            /// 围边工艺方向变量
+            /// </summary>
+            [StringValue("C135_Welding_craft[]"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
+            C135_Welding_craft,
+
+            /// <summary>
+            /// 围边工艺方向变量
+            /// </summary>
+            [StringValue("L180_Welding_craft[]"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
+            L180_Welding_craft,
+
+            /// <summary>
+            /// 围边工艺方向变量
+            /// </summary>
+            [StringValue("C225_Welding_craft[]"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
+            C225_Welding_craft,
+
+            /// <summary>
+            /// 围边工艺方向变量
+            /// </summary>
+            [StringValue("L270_Welding_craft[]"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
+            L270_Welding_craft,
+
+            
+
+            /// <summary>
+            /// 围边工艺方向变量
+            /// </summary>
+            [StringValue("C315_Welding_craft[]"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
+            C315_Welding_craft,
         }
 
         #endregion

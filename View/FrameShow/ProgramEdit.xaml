@@ -101,12 +101,20 @@
                     </i:Interaction.Triggers>
                 </Button>
                 <Button Style="{DynamicResource ButtonStyle3}" Grid.Column="1"
-                        Content=" 默认值"
+                        Content="读取工艺值"
                         Width="250"
                         Height=" 100"
                         VerticalAlignment="Center"
                         Background=" #ecd662"
-                        FontSize="40" />
+                        FontSize="40">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding Read_Robot_Craft_Data_Comm}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                   PassEventArgsToCommand="True" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
                 <Button Style="{DynamicResource ButtonStyle3}" Grid.Column="2"
                         Content="取消"
                         Width="250"

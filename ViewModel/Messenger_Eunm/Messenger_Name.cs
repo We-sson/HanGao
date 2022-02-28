@@ -184,6 +184,10 @@ namespace HanGao.ViewModel.Messenger_Eunm
             /// </summary>
             Sink_Craft_Data_OK,
 
+            /// <summary>
+            /// 读取机器人围边工艺数据
+            /// </summary>
+            Read_Robot_Surround_Craft_Data,
         }
 
 
