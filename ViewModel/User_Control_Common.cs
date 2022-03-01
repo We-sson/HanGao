@@ -142,7 +142,7 @@ namespace HanGao.ViewModel
             /// <summary>
             /// 围边工艺方向变量
             /// </summary>
-            [StringValue("L0_Welding_Craft[]"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
+            [StringValue("L0_Welding_Craft[1].Welding_Pos"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
             L0_Welding_craft,
 
             /// <summary>

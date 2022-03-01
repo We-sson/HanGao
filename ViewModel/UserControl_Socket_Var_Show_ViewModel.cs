@@ -259,15 +259,6 @@ namespace HanGao.ViewModel
 
                 MessageBox.Show(Thread.CurrentThread.ManagedThreadId.ToString());
 
-                //for (int i = 0; i < Socket_Read_List.Count; i++)
-                //{
-                //    Socket_Read_List[i].Val_Var = "0.011";
-
-                //    Task.Run(() => 
-                //    {
-                //    MessageBox.Show(Socket_Read_List[i].Val_Var);
-                //    });
-                //}
 
             });
         }
@@ -341,19 +332,7 @@ namespace HanGao.ViewModel
                        Messenger.Send<string,string >((DateTime.Now - Delay_time).TotalMilliseconds.ToString().Split('.')[0], nameof(Meg_Value_Eunm.Connter_Time_Delay_Method));
 
                     }
-                    //for (int i = 0; i < Socket_Read_List.Count; i++)
-                    //{
-                    //    if (Socket_Read_List[i].Val_OnOff == true)
-                    //    {
-
-
-                    //        Socket_Read_List[i].Val_ID = i;
-                    //        Socket_Send.Send_Read_Var(Socket_Read_List[i].Val_Name, i);
-
-
-
-                    //    }
-                    //}
+       
 
 
                 }

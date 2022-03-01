@@ -32,7 +32,7 @@ namespace HanGao.ViewModel
 
 
             //设置初始ip和端口
-            IP_Client = "192.168.153.130";
+            IP_Client = "192.168.153.131";
             Port_Client = "7000";
             IP_Sever = "192.168.153.1";
             Port_Sever = "5000";

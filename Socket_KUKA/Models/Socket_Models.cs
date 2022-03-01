@@ -16,67 +16,6 @@ namespace Soceket_KUKA.Models
     public class Socket_Models_Connect : ObservableObject
     {
 
-        //private object _IP = null;
-        ///// <summary>
-        ///// Socket连接所需IP
-        ///// </summary>
-        //public object IP
-        //{
-        //    get
-        //    {
-
-        //        return _IP;
-        //    }
-        //    set
-        //    {
-
-        //        string[] S = ((string)value).Split(new char[] { ':' });
-        //        _IP = new IPEndPoint(IPAddress.Parse(S[0]), int.Parse(S[1]));
-
-
-        //    }
-        //}
-
-
-
-
-        ///// <summary>
-        ///// Socket读取属性
-        ///// </summary>
-        //public Socket Read_Client { set; get; }
-
-        ///// <summary>
-        ///// Socket写入属性
-        ///// </summary>
-        //public Socket Write_Client { set; get; }
-
-        /// <summary>
-        /// 读写枚举属性
-        /// </summary>
-        //public Read_Write_Enum R_W_Enum { set; get; }
-
-
-
-
-
-        //private object _Send_Read_Var;
-        ///// <summary>
-        ///// 传入读取的变量名，返回对应发送的字节流，以序号接收对应回传
-        ///// </summary>
-        //public object Send_Read_Var
-        //{
-        //    get
-        //    {
-        //        return _Send_Read_Var;
-        //    }
-        //    set
-        //    {
-
-        //        _Send_Read_Var = value;
-
-
-        //    }
-        //}
 
 
 
@@ -302,7 +241,7 @@ namespace Soceket_KUKA.Models
         /// <summary>
         /// 写入读取枚举属性
         /// </summary>
-        public enum Read_Write_Enum { Null = -1, Read, Write,All }
+        public enum Read_Write_Enum { Null = -1, Read, Write,One_Read }
 
     }
 

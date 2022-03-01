@@ -1,4 +1,5 @@
-﻿using HanGao.Model;
+﻿using HanGao.Extension_Method;
+using HanGao.Model;
 using HanGao.View.User_Control.Program_Editing.Direction_UI;
 using HanGao.Xml_Date.Xml_Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -34,20 +35,45 @@ namespace HanGao.ViewModel
             Messenger.Register<Socket_Models_List, string>(this, nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data), (O, S) =>
             {
 
+               
+
                 string Welding_Name = "Welding_Name[]";
+                string Welding_Speed = "Welding_Speed";
+
+
+
+                string[]  a = S.Val_Var.Split(new string[] { "{Surr_Welding_Craft_Type: " }, StringSplitOptions.RemoveEmptyEntries);
+
+
+                    //for (int i = 0; i < a.Length; i++)
+                    //{
+                    //    if (a[i].Contains(Welding_Name))
+                    //    {
+                    //        int ST = a[i].IndexOf(Welding_Name);
+                    //        int E = a[i].IndexOf(',', ST);
+                    //      var Val= a[i].Substring(ST, E).Split('\"');
+                             
+                           
+
+                    //    }
+
+                    //if (a[i].Contains(Welding_Speed))
+                    //{
+                    //    int ST = a[i].IndexOf(Welding_Speed);
+                    //    int E = a[i].IndexOf(',', ST);
+                    //    var Val = a[i].Substring(ST, E).Split(',');
+
+
+                    //}
 
 
 
 
-                string[]  a = S.Val_Var.Split(new string[] { "{Surr_Welding_Craft_Type:" }, StringSplitOptions.RemoveEmptyEntries);
+                    //}
 
-                foreach (var item in a)
-                {
-                    string[] b = item.Split(new string[] { "Welding_Pos {E6POS:", "}", "Welding_Offset {Offset_POS:" }, StringSplitOptions.RemoveEmptyEntries);
-
-                    int  c = item.IndexOf("Welding_Name[]");
+             
                     
-                }
+     
 
                 //var a = KUKA_State.GetType().GetProperty(T.Bingding_Value).GetValue(KUKA_State).ToString();
 
@@ -156,6 +182,18 @@ namespace HanGao.ViewModel
         public UserControl UI_Short_Size { get; set; }= new UC_Short_Side();
 
 
+
+        public enum KUKA_Read_Info_Value_Enum
+        {
+            [StringValue("Welding_Name[]")]
+           Welding_Name,
+            [StringValue("Welding_Speed")]
+            Welding_Speed,
+            Welding_Pos,
+            [StringValue("Welding_Angle")]
+            Welding_Angle,
+            Welding_Offset,
+        }
 
 
 

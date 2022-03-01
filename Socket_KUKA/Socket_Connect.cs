@@ -212,17 +212,35 @@ namespace Soceket_Connect
         /// <param name="_Port"></param>
         public void Socket_Client_Thread(Read_Write_Enum _Enum, string _IP, string _Port)
         {
-            if (_Enum == Read_Write_Enum.Read)
+
+
+            switch (_Enum)
             {
+                case Read_Write_Enum.Read:
+
+
                 //读取用多线程连接
                 Socket_Connect_Thread = new Thread(() => Socket_Client_KUKA(_Enum, _IP, _Port)) { Name = "Connect—KUKA", IsBackground = true };
                 Socket_Connect_Thread.Start();
+
+                    break;
+                case Read_Write_Enum.Write:
+
+                    //写入同步线程连接
+                    Socket_Client_KUKA(_Enum, _IP, _Port);
+                    break;
+                case Read_Write_Enum.One_Read:
+
+                    Socket_Client_KUKA(_Enum, _IP, _Port);
+
+
+                    break;
+                default:
+                    break;
             }
-            if (_Enum == Read_Write_Enum.Write)
-            {
-                //写入同步线程连接
-                Socket_Client_KUKA(_Enum, _IP, _Port);
-            }
+
+
+
 
         }
 
@@ -283,8 +301,7 @@ namespace Soceket_Connect
             {
 
                 //加线程锁，只允许单次进入
-                //Connect_Lock.WaitOne();
-
+ 
 
                 Connnect_Write.Reset();
 
@@ -293,32 +310,9 @@ namespace Soceket_Connect
 
                 Global_Socket_Write.BeginConnect(IP, new AsyncCallback(Client_Inf), R_W_Enum);
 
-                //连接超时判断
-
-
-
-
-                //释放线程锁
-                //Connect_Lock.ReleaseMutex();
+ 
 
             }
-            //开始异步连接
-
-
-
-            //禁止控件用户二次连接
-
-
-
-            //}
-            //catch (Exception e)
-            //{
-
-            //    User_Log_Add("Error:-5 " + e.Message);
-
-            //}
-
-
 
 
 
@@ -712,8 +706,6 @@ namespace Soceket_Connect
         /// <summary>
         /// 消息发送
         /// </summary>
-        /// <param name="Message">发送处理好的字节流发送</param>
-        /// <param name="_i">0是读取发送，1是写入发送</param>
         public void Socket_Send_Message_Method(Socket_Models_Send _S)
         {
 
