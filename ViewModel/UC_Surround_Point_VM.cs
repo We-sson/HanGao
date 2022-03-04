@@ -20,6 +20,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using System.Windows;
 using System.Windows.Controls;
 using System.Data;
+using HanGao.Extension_Method;
 
 namespace HanGao.ViewModel
 {
@@ -122,6 +123,70 @@ namespace HanGao.ViewModel
             });
 
         }
+
+
+
+
+
+       private enum KUKA_Craft_Value_Name
+        {
+
+            /// <summary>
+            /// 围边工艺方向变量
+            /// </summary>
+            [StringValue("L0_Welding_Craft[1]"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
+            L0_Welding_craft_1,
+
+            /// <summary>
+            /// 围边工艺方向变量
+            /// </summary>
+            [StringValue("C45_Welding_craft[]"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
+            C45_Welding_craft,
+
+            /// <summary>
+            /// 围边工艺方向变量
+            /// </summary>
+            [StringValue("L90_Welding_craft[]"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
+            L90_Welding_craft,
+
+            /// <summary>
+            /// 围边工艺方向变量
+            /// </summary>
+            [StringValue("C135_Welding_craft[]"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
+            C135_Welding_craft,
+
+            /// <summary>
+            /// 围边工艺方向变量
+            /// </summary>
+            [StringValue("L180_Welding_craft[]"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
+            L180_Welding_craft,
+
+            /// <summary>
+            /// 围边工艺方向变量
+            /// </summary>
+            [StringValue("C225_Welding_craft[]"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
+            C225_Welding_craft,
+
+            /// <summary>
+            /// 围边工艺方向变量
+            /// </summary>
+            [StringValue("L270_Welding_craft[]"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
+            L270_Welding_craft,
+
+
+
+            /// <summary>
+            /// 围边工艺方向变量
+            /// </summary>
+            [StringValue("C315_Welding_craft[]"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
+            C315_Welding_craft,
+
+
+        }
+
+
+
+
 
 
         /// <summary>

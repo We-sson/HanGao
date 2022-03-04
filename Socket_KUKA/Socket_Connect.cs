@@ -106,13 +106,13 @@ namespace Soceket_Connect
         /// <summary>
         /// 写入连接成功属性
         /// </summary>
-        public volatile bool Is_Write_Client = false;
+        public  bool Is_Write_Client = false;
 
 
         /// <summary>
         /// 写入连接成功属性
         /// </summary>
-        public volatile bool Is_Read_Client = false;
+        public  bool Is_Read_Client = false;
 
         /// <summary>
         /// 集合读取允许
@@ -186,12 +186,12 @@ namespace Soceket_Connect
         /// <summary>
         /// IP设置属性
         /// </summary>
-        public IPEndPoint IP { set; get; }
+        private  IPEndPoint IP { set; get; }
 
         /// <summary>
         /// 输入ID号返回对应byte组
         /// </summary>
-        public byte[] Send_number_ID(int _ID)
+        private  byte[] Send_number_ID(int _ID)
         {
 
             var arr = new byte[_ID.ToString("x4").Length / 2];
@@ -251,7 +251,7 @@ namespace Soceket_Connect
         /// <param name="R_W_Enum"></param>
         /// <param name="_IP"></param>
         /// <param name="_Port"></param>
-        public void Socket_Client_KUKA(Read_Write_Enum R_W_Enum, string _IP, string _Port)
+        private  void Socket_Client_KUKA(Read_Write_Enum R_W_Enum, string _IP, string _Port)
         {
 
 
@@ -329,7 +329,7 @@ namespace Soceket_Connect
         /// <param name="KeepAliveTime">数据空闲时间开始</param>
         /// <param name="KeepAliveInterval">相隔发送时间</param>
         /// <returns></returns>
-        public void KeepAlive(Socket _Socket, bool _On, int KeepAliveTime, int KeepAliveInterval)
+        private  void KeepAlive(Socket _Socket, bool _On, int KeepAliveTime, int KeepAliveInterval)
         {
             if (_Socket != null)
             {
@@ -350,7 +350,7 @@ namespace Soceket_Connect
         /// 异步连接回调命令
         /// </summary>
         /// <param name="ar"></param>
-        public void Client_Inf(IAsyncResult ar)
+        private  void Client_Inf(IAsyncResult ar)
         {
 
 
@@ -524,7 +524,7 @@ namespace Soceket_Connect
         /// 异步接收信息
         /// </summary>
         /// <param name="ar">Socket属性</param>
-        public void Socke_Receive_Message(IAsyncResult ar)
+        private  void Socke_Receive_Message(IAsyncResult ar)
         {
 
 
@@ -706,7 +706,7 @@ namespace Soceket_Connect
         /// <summary>
         /// 消息发送
         /// </summary>
-        public void Socket_Send_Message_Method(Socket_Models_Send _S)
+        private  void Socket_Send_Message_Method(Socket_Models_Send _S)
         {
 
 
@@ -768,7 +768,7 @@ namespace Soceket_Connect
 
             }
 
-            if (_S.Read_Write_Type == Read_Write_Enum.Read)
+            if (_S.Read_Write_Type == Read_Write_Enum.Read || _S.Read_Write_Type == Read_Write_Enum.One_Read)
             {
                 lock (Global_Socket_Read)
                 {
@@ -787,7 +787,7 @@ namespace Soceket_Connect
         /// 发送信息异步回调
         /// </summary>
         /// <param name="Socket">异步参数</param>
-        public void Socket_Send_Message(IAsyncResult ar)
+        private  void Socket_Send_Message(IAsyncResult ar)
         {
             //线程加锁
             //Send_IA_Lock.WaitOne();
@@ -876,6 +876,51 @@ namespace Soceket_Connect
 
 
         /// <summary>
+        /// 处理读取变量字节流
+        /// </summary>
+        /// <param name="_var">读取名称</param>
+        /// <returns></returns>
+        public void Send_One_Read_Var(string _var)
+        {
+
+
+
+            //临时存放变量
+            List<byte> _data = new List<byte>();
+            //变量转换byte
+            byte[] _v = Encoding.Default.GetBytes(_var);
+
+
+
+
+            //传输数据排列，固定顺序不可修改
+
+            //传输数据唯一标识
+            _data.AddRange(Send_number_ID(Write_Number_ID));
+            //传输数据总长度值
+            _data.AddRange(Send_number_ID(_v.Length + 3));
+            //读取标识 0x00 
+            _data.AddRange(new byte[1] { 0x00 });
+            //传输变量长度值
+            _data.AddRange(Send_number_ID(_v.Length));
+            //传输变量
+            _data.AddRange(_v);
+            //结束位号
+            _data.AddRange(new byte[1] { 0x00 });
+
+            //发送排序好的字节流发送
+            Socket_Send_Message_Thread(new Socket_Models_Send() { Send_Byte = _data.ToArray(), Read_Write_Type = Read_Write_Enum.One_Read });
+
+
+
+        }
+
+
+
+
+
+
+        /// <summary>
         /// 处理写入变量转换字节流
         /// </summary>
         /// <param name="_name">写入变量名</param>
@@ -924,18 +969,28 @@ namespace Soceket_Connect
         /// 新建线程发送消息
         /// </summary>
         /// <param name="_S"></param>
-        public void Socket_Send_Message_Thread(Socket_Models_Send _S)
+        private  void Socket_Send_Message_Thread(Socket_Models_Send _S)
         {
 
 
+            switch (_S.Read_Write_Type)
+            {
 
-            //if (!Socket_Write_Thread.IsAlive && Socket_Write_Thread==null)
-            //{
+                case Read_Write_Enum.Read:
+                    break;
+                case Read_Write_Enum.Write:
             //读取用多线程连接
             Socket_Write_Thread = new Thread(() => Socket_Send_Message_Method(_S)) { Name = "Write—KUKA", IsBackground = true };
             Socket_Write_Thread.Start();
+                    break;
+                case Read_Write_Enum.One_Read:
+                    Socket_Write_Thread = new Thread(() => Socket_Send_Message_Method(_S)) { Name = "One_Read—KUKA", IsBackground = true };
+                    Socket_Write_Thread.Start();
+                    break;
+            }
 
-            //}
+
+
 
 
 

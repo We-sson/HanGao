@@ -1,22 +1,49 @@
 ﻿using HanGao.Extension_Method;
 using System;
 using System.Reflection;
+using static HanGao.Extension_Method.KUKA_ValueType_Model;
+using static HanGao.Extension_Method.StringValueAttribute;
+using static HanGao.Extension_Method.ValueReadTypeAttribute;
 using static Soceket_KUKA.Models.KUKA_Value_Type;
 
 namespace HanGao.Extension_Method
 {
 
+    /// <summary>
+    /// 设置变量读取类型,默认循环类型
+    /// </summary>
+    public class ValueReadTypeAttribute : Attribute
+    {
+
+        public ValueReadTypeAttribute(Read_Type_Enum _Read_Type)
+        {
+        
+            Read_Type = _Read_Type;
+        }
+
+        public Read_Type_Enum Read_Type { set; get; } = Read_Type_Enum.Loop_Read;
+        /// <summary>
+        /// 变量读取类型
+        /// </summary>
+        public enum Read_Type_Enum
+        {
+            Loop_Read,
+            One_Read
+        }
+    }
 
     /// <summary>
-    /// 继承特征声明新的方法,用于报错字符串变量名称
+    /// 设置字符串变量名称
     /// </summary>
     public class StringValueAttribute : Attribute
-    {
-        public StringValueAttribute(string value)
+    { 
+        public StringValueAttribute(string _StringValue)
         {
-            StringValue = value;
+            StringValue = _StringValue;
         }
         public string StringValue { set; get; }
+
+
     }
 
     /// <summary>
@@ -31,11 +58,23 @@ namespace HanGao.Extension_Method
         }
     }
 
-    public class KUKA_ValueType
+    /// <summary>
+    /// 设置库卡变量类型属性
+    /// </summary>
+    public class KUKA_ValueType_Model
     {
         public string BingdingValue { set; get; } = "";
         public Value_Type SetValueType { set; get; } = Value_Type.Null;
-        public bool Binding_Start { set; get; } = false;
+        public Binding_Type Binding_Start { set; get; } =  Binding_Type.OneWay;
+
+        /// <summary>
+        /// 绑定属性
+        /// </summary>
+        public enum Binding_Type
+        {
+            OneWay,
+            TwoWay,
+        }
     }
 
     /// <summary>
@@ -44,14 +83,15 @@ namespace HanGao.Extension_Method
     public class BingdingValueAttribute : Attribute
     {
 
-        public KUKA_ValueType KUKA_Value { set; get; } = new KUKA_ValueType();
+        public KUKA_ValueType_Model KUKA_Value { set; get; } = new KUKA_ValueType_Model();
 
         /// <summary>
         /// 设置属性
         /// </summary>
         /// <param name="value">绑定属性名称</param>
         /// <param name="_enum">属性类型</param>
-        public BingdingValueAttribute(string value, Value_Type _enum, bool _Start)
+        /// 
+        public BingdingValueAttribute(string value, Value_Type _enum, Binding_Type _Start)
         {
             KUKA_Value.BingdingValue = value;
             KUKA_Value.SetValueType = _enum;
@@ -118,13 +158,24 @@ public static class EnumExtensions
     /// </summary>
     /// <param name="enumValue"></param>
     /// <returns></returns>
-    public static KUKA_ValueType GetBingdingValue(this Enum enumValue)
+    public static KUKA_ValueType_Model GetBingdingValue(this Enum enumValue)
     {
         FieldInfo fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
         BingdingValueAttribute[] attrs =
             fieldInfo.GetCustomAttributes(typeof(BingdingValueAttribute), true) as BingdingValueAttribute[];
 
-        return attrs.Length > 0 ? attrs[0].KUKA_Value : new KUKA_ValueType() { };
+        return attrs.Length > 0 ? attrs[0].KUKA_Value : new KUKA_ValueType_Model() { };
+
+
+    }
+
+    public static Read_Type_Enum GetValueReadTypeValue(this Enum enumValue)
+    {
+        FieldInfo fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
+        ValueReadTypeAttribute[] attrs =
+            fieldInfo.GetCustomAttributes(typeof(ValueReadTypeAttribute), false) as ValueReadTypeAttribute[];
+
+        return attrs.Length > 0 ? attrs[0].Read_Type : Read_Type_Enum.Loop_Read;
 
 
     }

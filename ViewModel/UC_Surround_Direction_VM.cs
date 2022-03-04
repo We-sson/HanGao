@@ -50,9 +50,15 @@ namespace HanGao.ViewModel
         public Surround_Direction_Enum Surround_Direction_Type
         {
             get { return _Surround_Direction_Type; }
-            set { _Surround_Direction_Type = value;    
+            set { _Surround_Direction_Type = value;
+        
                 //传送用户选中围边方向 
-             if(value!=Surround_Direction_Enum.Null)   Messenger.Send<dynamic , string>(value, nameof(Meg_Value_Eunm.Sink_Surround_Craft_Point_Load));
+                if (value != Surround_Direction_Enum.Null)
+                { 
+                    Messenger.Send<dynamic, string>(value, nameof(Meg_Value_Eunm.Sink_Surround_Craft_Point_Load));
+                   
+
+                }
             }
         }
 

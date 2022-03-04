@@ -34,6 +34,7 @@ namespace HanGao.ViewModel
         public UserControl_Socket_Var_Show_ViewModel()
         {
 
+            IsActive = true;
             //开始读取集合发送线程
             Messenger.Register<dynamic ,string >(this,nameof( Meg_Value_Eunm.Socket_Read_Thread), (O,_Bool) =>
             {

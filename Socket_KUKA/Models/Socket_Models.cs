@@ -215,7 +215,12 @@ namespace Soceket_KUKA.Models
             /// </summary>
             public string Send_Area { set; get; } = string.Empty;
 
-        }
+        /// <summary>
+        /// 是否读取一次后删除读取变量
+        /// </summary>
+        public bool One_Read { get; set; } = false;
+
+    }
 
 
     [AddINotifyPropertyChangedInterface]

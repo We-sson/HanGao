@@ -50,10 +50,18 @@ namespace HanGao.ViewModel
 
 
                         //发输入框内的数值
-                        Socket_Client_Setup.Write.Send_Write_Var(Sm.Send_Name.Text, Sm.Send_Val.Text);
+                        //Socket_Client_Setup.Write.Send_Write_Var(Sm.Send_Name.Text, Sm.Send_Val.Text);
+
+                        Socket_Client_Setup.Read .Send_One_Read_Var(Sm.Send_Name.Text);
+
+
+                        
+                        //Socket_Client_Setup.One_Read.Send_Read_Var(Sm.Send_Name.Text, UserControl_Socket_Var_Show_ViewModel.Write_Number_ID);
+
+                        //Socket_Client_Setup.One_Read.Socket_Client_Thread(Soceket_KUKA.Models.Socket_Eunm.Read_Write_Enum.One_Read, IP_Client, Port_Client);
 
                         //    Task.Delay(50);
-                    
+
                         //}
 
                     });

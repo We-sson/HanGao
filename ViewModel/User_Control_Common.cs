@@ -17,6 +17,7 @@ using static HanGao.ViewModel.UserControl_Socket_Var_Show_ViewModel;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
+using static HanGao.Extension_Method.KUKA_ValueType_Model;
 
 namespace HanGao.ViewModel
 {
@@ -55,45 +56,45 @@ namespace HanGao.ViewModel
             /// <summary>
             /// 程序解释器Submit状态
             /// </summary>
-            [StringValue("$"+nameof(PRO_STATE0)),UserArea(nameof(Meg_Value_Eunm.KUKA_State)),BingdingValue(nameof(KUKA_State_Models.KUKA_Submit_State),Value_Type.Enum,false )]
+            [StringValue("$"+nameof(PRO_STATE0)),UserArea(nameof(Meg_Value_Eunm.KUKA_State)),BingdingValue(nameof(KUKA_State_Models.KUKA_Submit_State),Value_Type.Enum, Binding_Type.OneWay )]
             PRO_STATE0,
 
             /// <summary>
             /// 机器人程序状态
             /// </summary>
-            [StringValue("$"+nameof(PRO_STATE1)), UserArea(nameof(Meg_Value_Eunm.KUKA_State)), BingdingValue(nameof(KUKA_State_Models.KUKA_Program_State), Value_Type.Enum, false )]
+            [StringValue("$"+nameof(PRO_STATE1)), UserArea(nameof(Meg_Value_Eunm.KUKA_State)), BingdingValue(nameof(KUKA_State_Models.KUKA_Program_State), Value_Type.Enum, Binding_Type.OneWay)]
             PRO_STATE1,
 
             /// <summary>
             /// 机器人操作模式
             /// </summary>
-            [StringValue("$"+nameof(MODE_OP)), UserArea(nameof(Meg_Value_Eunm.KUKA_State)), BingdingValue(nameof(KUKA_State_Models.KUKA_Mode_State), Value_Type.Enum, false )]
+            [StringValue("$"+nameof(MODE_OP)), UserArea(nameof(Meg_Value_Eunm.KUKA_State)), BingdingValue(nameof(KUKA_State_Models.KUKA_Mode_State), Value_Type.Enum, Binding_Type.OneWay)]
             MODE_OP,
 
 
 
 
-            [StringValue("$VEL_ACT"), UserArea(User_Control_Working_VM_1.Work_String_Name), BingdingValue("Robot_Speed", Value_Type.Int, false)]
+            [StringValue("$VEL_ACT"), UserArea(User_Control_Working_VM_1.Work_String_Name), BingdingValue("Robot_Speed", Value_Type.Int, Binding_Type.OneWay)]
             VEL_ACT_1,
-            [StringValue("$VEL_ACT"), UserArea(User_Control_Working_VM_2.Work_String_Name), BingdingValue("Robot_Speed", Value_Type.Int, false)]
+            [StringValue("$VEL_ACT"), UserArea(User_Control_Working_VM_2.Work_String_Name), BingdingValue("Robot_Speed", Value_Type.Int, Binding_Type.OneWay)]
             VEL_ACT_2,
 
 
             /// <summary>
             ///  机器人驱动状态
             /// </summary>
-            [StringValue("$PERI_RDY"), UserArea(nameof(Meg_Value_Eunm.KUKA_State)), BingdingValue(nameof(KUKA_State_Models.KUKA_Drive_State), Value_Type.Bool, false )]
+            [StringValue("$PERI_RDY"), UserArea(nameof(Meg_Value_Eunm.KUKA_State)), BingdingValue(nameof(KUKA_State_Models.KUKA_Drive_State), Value_Type.Bool, Binding_Type.OneWay)]
             PERI_RDY,
 
 
 
-            [StringValue("$Run_Work_1"), UserArea(User_Control_Working_VM_1.Work_String_Name), BingdingValue("Work_Run", Value_Type.Bool, true)]
+            [StringValue("$Run_Work_1"), UserArea(User_Control_Working_VM_1.Work_String_Name), BingdingValue("Work_Run", Value_Type.Bool, Binding_Type.TwoWay)]
             Run_Work_1,
-            [StringValue("$Run_Work_2"), UserArea(User_Control_Working_VM_2.Work_String_Name), BingdingValue("Work_Run", Value_Type.Bool, true)]
+            [StringValue("$Run_Work_2"), UserArea(User_Control_Working_VM_2.Work_String_Name), BingdingValue("Work_Run", Value_Type.Bool, Binding_Type.TwoWay)]
             Run_Work_2,
-            [StringValue("$My_Work_1"), UserArea(User_Control_Working_VM_1.Work_String_Name), BingdingValue("Work_Type", Value_Type.String, true)]
+            [StringValue("$My_Work_1"), UserArea(User_Control_Working_VM_1.Work_String_Name), BingdingValue("Work_Type", Value_Type.String, Binding_Type.TwoWay)]
             My_Work_1,
-            [StringValue("$My_Work_2"), UserArea(User_Control_Working_VM_2.Work_String_Name), BingdingValue("Work_Type", Value_Type.String, true)]
+            [StringValue("$My_Work_2"), UserArea(User_Control_Working_VM_2.Work_String_Name), BingdingValue("Work_Type", Value_Type.String, Binding_Type.TwoWay)]
             My_Work_2,
      
 
@@ -139,55 +140,7 @@ namespace HanGao.ViewModel
             [StringValue("$DIST_NEXT")]
             DIST_NEXT,
 
-            /// <summary>
-            /// 围边工艺方向变量
-            /// </summary>
-            [StringValue("L0_Welding_Craft[1].Welding_Pos"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
-            L0_Welding_craft,
 
-            /// <summary>
-            /// 围边工艺方向变量
-            /// </summary>
-            [StringValue("C45_Welding_craft[]"),UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
-            C45_Welding_craft,
-
-            /// <summary>
-            /// 围边工艺方向变量
-            /// </summary>
-            [StringValue("L90_Welding_craft[]"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
-            L90_Welding_craft,
-
-            /// <summary>
-            /// 围边工艺方向变量
-            /// </summary>
-            [StringValue("C135_Welding_craft[]"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
-            C135_Welding_craft,
-
-            /// <summary>
-            /// 围边工艺方向变量
-            /// </summary>
-            [StringValue("L180_Welding_craft[]"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
-            L180_Welding_craft,
-
-            /// <summary>
-            /// 围边工艺方向变量
-            /// </summary>
-            [StringValue("C225_Welding_craft[]"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
-            C225_Welding_craft,
-
-            /// <summary>
-            /// 围边工艺方向变量
-            /// </summary>
-            [StringValue("L270_Welding_craft[]"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
-            L270_Welding_craft,
-
-            
-
-            /// <summary>
-            /// 围边工艺方向变量
-            /// </summary>
-            [StringValue("C315_Welding_craft[]"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
-            C315_Welding_craft,
         }
 
         #endregion

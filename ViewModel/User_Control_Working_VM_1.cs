@@ -21,8 +21,7 @@ using static Soceket_KUKA.Models.Socket_Models_Receive;
 using static Soceket_KUKA.Socket_Receive;
 using static HanGao.ViewModel.User_Control_Log_ViewModel;
 using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
-
-
+using static HanGao.Extension_Method.KUKA_ValueType_Model;
 
 namespace HanGao.ViewModel
 {
@@ -139,7 +138,7 @@ namespace HanGao.ViewModel
                         {
 
                             //判断是否设置时候双向绑定
-                            if (item.GetBingdingValue().Binding_Start)
+                            if (item.GetBingdingValue().Binding_Start== Binding_Type.TwoWay)
                             {
 
                                 var  a = WM.GetType().GetProperty(item.GetBingdingValue().BingdingValue).GetValue(WM).ToString();

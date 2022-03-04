@@ -71,9 +71,15 @@ namespace HanGao.Model
         public Socket_Connect Write { set; get; } 
 
         /// <summary>
-        /// 读取TCP对象
+        /// 循环读取TCP对象
         /// </summary>
-        public Socket_Connect Read { set; get; } 
+        public Socket_Connect Read { set; get; }
+
+        /// <summary>
+        /// 单次TCP对象
+        /// </summary>
+        public Socket_Connect One_Read { set; get; } 
+
 
         /// <summary>
         /// 服务器属性
@@ -180,7 +186,7 @@ namespace HanGao.Model
         /// </summary>
         public ICommand Socket_Close_Comm
         {
-            get => new RelayCommand<RoutedEventArgs>(async (Sm) =>
+            get => new RelayCommand<UserControl_Socket_Conntec_UI>(async (Sm) =>
            {
                await Task.Run(() =>
               {
