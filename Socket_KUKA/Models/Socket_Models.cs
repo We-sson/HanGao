@@ -218,7 +218,7 @@ namespace Soceket_KUKA.Models
         /// <summary>
         /// 是否读取一次后删除读取变量
         /// </summary>
-        public bool One_Read { get; set; } = false;
+        public bool Value_One_Read { get; set; } = false;
 
     }
 

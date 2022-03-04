@@ -138,6 +138,7 @@ namespace HanGao.ViewModel
 
 
 
+
         private static int _Write_Number_ID = 0;
         /// <summary>
         /// 写入变量唯一标识ID号

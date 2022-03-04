@@ -3,7 +3,7 @@ using System;
 using System.Reflection;
 using static HanGao.Extension_Method.KUKA_ValueType_Model;
 using static HanGao.Extension_Method.StringValueAttribute;
-using static HanGao.Extension_Method.ValueReadTypeAttribute;
+using static HanGao.Extension_Method.SetReadTypeAttribute;
 using static Soceket_KUKA.Models.KUKA_Value_Type;
 
 namespace HanGao.Extension_Method
@@ -12,10 +12,10 @@ namespace HanGao.Extension_Method
     /// <summary>
     /// 设置变量读取类型,默认循环类型
     /// </summary>
-    public class ValueReadTypeAttribute : Attribute
+    public class SetReadTypeAttribute : Attribute
     {
 
-        public ValueReadTypeAttribute(Read_Type_Enum _Read_Type)
+        public SetReadTypeAttribute(Read_Type_Enum _Read_Type)
         {
         
             Read_Type = _Read_Type;
@@ -172,8 +172,8 @@ public static class EnumExtensions
     public static Read_Type_Enum GetValueReadTypeValue(this Enum enumValue)
     {
         FieldInfo fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
-        ValueReadTypeAttribute[] attrs =
-            fieldInfo.GetCustomAttributes(typeof(ValueReadTypeAttribute), false) as ValueReadTypeAttribute[];
+        SetReadTypeAttribute[] attrs =
+            fieldInfo.GetCustomAttributes(typeof(SetReadTypeAttribute), false) as SetReadTypeAttribute[];
 
         return attrs.Length > 0 ? attrs[0].Read_Type : Read_Type_Enum.Loop_Read;
 

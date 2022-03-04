@@ -21,6 +21,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Data;
 using HanGao.Extension_Method;
+using Soceket_KUKA.Models;
 
 namespace HanGao.ViewModel
 {
@@ -32,6 +33,16 @@ namespace HanGao.ViewModel
         {
             IsActive = true;
 
+            
+            //接收读取围边工艺所需值
+            Messenger.Register<Socket_Models_List, string>(this, nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data), (O, S) =>
+                           {
+
+
+                             
+
+
+                           });
             //接收用户选择的水槽项参数
             Messenger.Register<Sink_Models, string>(this, nameof(Meg_Value_Eunm.UC_Pop_Sink_Value_Load), (O, S) =>
             {
@@ -63,14 +74,45 @@ namespace HanGao.ViewModel
                       var t=  typeof(Xml_Surround_Craft_Data).GetProperty(User_Checked_Direction.ToString() + "_Welding_Craft");
 
                          Date= (Xml_Surround_Craft_Data)item.Surround_Craft.GetType().GetProperty(User_Checked_Direction.ToString() + "_Welding_Craft").GetValue(item.Surround_Craft);
-
+                        //更新UI显示先清除原来的数据
                         Surround_Offset_Point.Clear();
+                        //将反射得到的数据添加到UI列表中
                         foreach (var Date_item in Date.Craft_Date)
                         {
 
                             Surround_Offset_Point.Add(new UC_Surround_Point_Models() { Offset_NO= Date_item.NO , Offset_Name = Date_item.Welding_Name, Offset_X = Date_item.Pos_Offset.X, Offset_Y = Date_item.Pos_Offset.Y, Offset_Z = Date_item.Pos_Offset.Z });
 
                         }
+
+                
+
+
+                        //添加好后的围边工艺方向偏移点后，转送给循环发送的列表读取方向工艺名称和位置
+                        foreach (var _Point in Surround_Offset_Point)
+                        {
+
+                               
+
+
+                            WeakReferenceMessenger.Default.Send<ObservableCollection<Socket_Models_List>, string>(new ObservableCollection<Socket_Models_List>() 
+                            { 
+                                new Socket_Models_List() 
+                                { Val_Name = User_Checked_Direction.ToString() + "_Welding_Craft" + "[" + _Point.Offset_NO + "]"+ ".Welding_Name[]", 
+                                    Val_ID = UserControl_Socket_Var_Show_ViewModel.Read_Number_ID, 
+                                    Send_Area = nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data) , 
+                                    Value_One_Read=true 
+                                },
+                                 new Socket_Models_List()
+                                { Val_Name = User_Checked_Direction.ToString() + "_Welding_Craft" + "[" + _Point.Offset_NO + "]"+ ".Welding_Pos",
+                                    Val_ID = UserControl_Socket_Var_Show_ViewModel.Read_Number_ID,
+                                    Send_Area = nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data) ,
+                                    Value_One_Read=true
+                                },
+                            }, nameof(Meg_Value_Eunm.List_Connect));
+
+                        }
+                        
+
 
                     }
                     
@@ -134,43 +176,43 @@ namespace HanGao.ViewModel
             /// <summary>
             /// 围边工艺方向变量
             /// </summary>
-            [StringValue("L0_Welding_Craft[1]"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
-            L0_Welding_craft_1,
+            [StringValue("L0_Welding_Craft"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data)),SetReadType(SetReadTypeAttribute.Read_Type_Enum.One_Read)]
+            L0_Welding_craft,
 
             /// <summary>
             /// 围边工艺方向变量
             /// </summary>
-            [StringValue("C45_Welding_craft[]"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
+            [StringValue("C45_Welding_craft"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data)), SetReadType(SetReadTypeAttribute.Read_Type_Enum.One_Read)]
             C45_Welding_craft,
 
             /// <summary>
             /// 围边工艺方向变量
             /// </summary>
-            [StringValue("L90_Welding_craft[]"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
+            [StringValue("L90_Welding_craft"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data)), SetReadType(SetReadTypeAttribute.Read_Type_Enum.One_Read)]
             L90_Welding_craft,
 
             /// <summary>
             /// 围边工艺方向变量
             /// </summary>
-            [StringValue("C135_Welding_craft[]"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
+            [StringValue("C135_Welding_craft"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data)), SetReadType(SetReadTypeAttribute.Read_Type_Enum.One_Read)]
             C135_Welding_craft,
 
             /// <summary>
             /// 围边工艺方向变量
             /// </summary>
-            [StringValue("L180_Welding_craft[]"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
+            [StringValue("L180_Welding_craft"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data)), SetReadType(SetReadTypeAttribute.Read_Type_Enum.One_Read)]
             L180_Welding_craft,
 
             /// <summary>
             /// 围边工艺方向变量
             /// </summary>
-            [StringValue("C225_Welding_craft[]"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
+            [StringValue("C225_Welding_craft"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data)), SetReadType(SetReadTypeAttribute.Read_Type_Enum.One_Read)]
             C225_Welding_craft,
 
             /// <summary>
             /// 围边工艺方向变量
             /// </summary>
-            [StringValue("L270_Welding_craft[]"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
+            [StringValue("L270_Welding_craft"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data)), SetReadType(SetReadTypeAttribute.Read_Type_Enum.One_Read)]
             L270_Welding_craft,
 
 
@@ -178,7 +220,7 @@ namespace HanGao.ViewModel
             /// <summary>
             /// 围边工艺方向变量
             /// </summary>
-            [StringValue("C315_Welding_craft[]"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data))]
+            [StringValue("C315_Welding_craft"), UserArea(nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data)), SetReadType(SetReadTypeAttribute.Read_Type_Enum.One_Read)]
             C315_Welding_craft,
 
 
