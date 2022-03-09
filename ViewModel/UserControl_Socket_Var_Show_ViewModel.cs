@@ -22,6 +22,7 @@ using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
+using static HanGao.Extension_Method.SetReadTypeAttribute;
 
 namespace HanGao.ViewModel
 {
@@ -82,10 +83,9 @@ namespace HanGao.ViewModel
             //接收消息更新列表变量值
             Messenger.Register<Socket_Modesl_Byte,string >(this, nameof(Meg_Value_Eunm.Socket_Read_List), (O, _Byte) =>
             {
-                lock (Socket_Read_List)
-                {
-
-                    if (Socket_Read_List.Count > 0)
+                //Read_List_Lock.EnterWriteLock();
+                //User_Log_Add("剩余写入变量列表线程：" + Read_List_Lock.WaitingWriteCount.ToString());
+                if (Socket_Read_List.Count > 0)
                     {
 
 
@@ -100,7 +100,9 @@ namespace HanGao.ViewModel
                                 //把属于自己的区域回传
                                 Socket_Models_List a = Socket_Read_List[i];
 
+
                                 Messenger.Send<Socket_Models_List,string  >(a, Socket_Read_List[i].Send_Area);
+
                                 return;
                             }
 
@@ -108,16 +110,11 @@ namespace HanGao.ViewModel
 
 
 
-
-
-
-
-
-                    }
+                    
 
 
                 }
-
+                //Read_List_Lock.ExitWriteLock();
 
             });
 
@@ -128,13 +125,52 @@ namespace HanGao.ViewModel
 
 
 
+        /// <summary>
+        /// 写入锁
+        /// </summary>
+        public static ReaderWriterLockSlim Read_List_Lock = new ReaderWriterLockSlim();
+
 
         /// <summary>
         /// 读取库卡变量列表集合
         /// </summary>
-        public static ObservableCollection<Socket_Models_List> Socket_Read_List { set; get; } = new ObservableCollection<Socket_Models_List>() { };
+        private static  ObservableCollection<Socket_Models_List> _Socket_Read_List=new ObservableCollection<Socket_Models_List> ();
+
+        public static  ObservableCollection<Socket_Models_List> Socket_Read_List
+        {
+            get 
+            {
+                //Read_List_Lock.EnterReadLock();
+                //if(Read_List_Lock.WaitingReadCount>0) User_Log_Add("剩余读取变量列表线程：" + Read_List_Lock.WaitingReadCount.ToString());
+                return _Socket_Read_List; 
+
+                try
+                {
+
+                }
+                finally { 
+                    //Read_List_Lock.ExitReadLock();
+                }
+            }
+            set 
+            {
+
+                //Read_List_Lock.EnterWriteLock();
+                //if (Read_List_Lock.WaitingWriteCount>0) User_Log_Add("剩余写入变量列表线程：" + Read_List_Lock.WaitingWriteCount.ToString());
+            
+            _Socket_Read_List =  value; 
+                try
+                {
+
+                }
+                finally
+                {
+                    //Read_List_Lock.ExitWriteLock();
+                }
 
 
+            }
+        }
 
 
 
@@ -201,14 +237,16 @@ namespace HanGao.ViewModel
         /// </summary>
         public Thread Socket_Read_Thread { set; get; }
 
-
+        /// <summary>
+        /// 弃用
+        /// </summary>
+        /// <param name="_Byte"></param>
         public void List_Var_Show(Socket_Modesl_Byte _Byte)
         {
             //MessageBox.Show($"线程ID：" + Thread.CurrentThread.ManagedThreadId.ToString());
 
 
-            lock (Socket_Read_List)
-            {
+        
 
                 if (Socket_Read_List.Count > 0)
                 {
@@ -235,7 +273,7 @@ namespace HanGao.ViewModel
 
 
 
-                }
+                
 
 
             }
@@ -284,10 +322,15 @@ namespace HanGao.ViewModel
 
             while (true)
             {
+                lock (Socket_Read_List)
+                {
+
 
                 try
                 {
 
+                //Read_List_Lock.EnterWriteLock();
+                    //User_Log_Add("剩余写入变量列表线程：" + Read_List_Lock.WaitingWriteCount.ToString());
 
                     var bool_A = Socket_Read_List.Count > 0;
                     //var bool_B = Global_Socket_Read.Poll(-1, SelectMode.SelectRead);
@@ -318,12 +361,22 @@ namespace HanGao.ViewModel
                                 //等待发送完成
 
 
-                                if (!Send_Waite.WaitOne(3000, false) || !Socket_Client_Setup.Read.Is_Read_Client)
+                                if (!Send_Waite.WaitOne(5000,true ) || !Socket_Client_Setup.Read.Is_Read_Client)
                                 {
                                     Socket_Client_Setup.Read.Socket_Receive_Error(Read_Write_Enum.Read, "发送超时无应答，退出线程发送！");
                                     return;
                                 }
 
+                                if (Socket_Read_List[i].Value_One_Read== Read_Type_Enum.One_Read )
+                                {
+                                    Application.Current.Dispatcher.Invoke((Action)(() =>
+                                        {
+                                    User_Log_Add(Socket_Read_List[i].Val_Name+" 删除成功!");
+                                       
+                                        Socket_Read_List.RemoveAt(i);
+                                        }));
+
+                                }
      
                             }
 
@@ -346,7 +399,15 @@ namespace HanGao.ViewModel
                     //Clear_List();
                     return;
                 }
+                finally
+                {
+
+                //Read_List_Lock.ExitWriteLock();
+                }
+                }
+
             }
+
 
 
 

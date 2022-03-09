@@ -379,7 +379,7 @@ namespace Soceket_Connect
                 Local_IP = Global_Socket_Write.LocalEndPoint.ToString();
                 try
                 {
-
+                    Task.Delay(10);
                     //挂起读取异步连接
                     Global_Socket_Write.EndConnect(ar);
                     Is_Write_Client = true;
@@ -418,14 +418,18 @@ namespace Soceket_Connect
 
 
             if (Global_Socket_Read.Connected && _Enum == Read_Write_Enum.Read)
-            {
+            { 
+                lock (ar)
+                {
 
+           
 
                 //当前错误信息IP号
                 Local_IP = Global_Socket_Read.LocalEndPoint.ToString();
                 //Remote_IP = Global_Socket_Read.RemoteEndPoint.ToString();
                 try
                 {
+                    Task.Delay(10);
 
                     //挂起读取异步连接
                     Global_Socket_Read.EndConnect(ar);
@@ -472,7 +476,7 @@ namespace Soceket_Connect
                 //连接成功标识
                 Socket_Read.Set();
 
-
+                }
 
             }
 

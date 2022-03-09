@@ -95,21 +95,18 @@ namespace HanGao.ViewModel
 
                Messenger.Send<Socket_Setup_Models ,string >(new Socket_Setup_Models()
                 {
-                    Read = new Socket_Connect(IP_Client, Port_Client, Connect_Type.Long, Read_Write_Enum.Read),
-                    Write = new Socket_Connect(IP_Client, Port_Client, Connect_Type.Short, Read_Write_Enum.Write),
+                    
+                    
 
-                    Connect_Socket_Type = Socket_Type.Client,
-                    Control_Name_String = "连接控制柜",
-                    Text_Error = new IP_Text_Error() { User_IP = IP_Client, User_Port = Port_Client }
+
+                    
                 }, nameof (Meg_Value_Eunm.Client_Initialization));
 
 
                 Messenger.Send<Socket_Setup_Models,string >(new Socket_Setup_Models()
                 {
-                    Connect_Socket_Type = Socket_Type.Server,
-                    Sever = new Socket_Sever(IP_Sever, Port_Sever),
-                    Control_Name_String = "监听控制柜",
-                    Text_Error = new IP_Text_Error() { User_IP = IP_Sever, User_Port = Port_Sever }
+
+              
                 }, nameof(Meg_Value_Eunm.Sever_Initialization));
 
 

@@ -31,11 +31,11 @@ namespace HanGao.ViewModel
         {
 
 
-            //设置初始ip和端口
-            IP_Client = "192.168.153.130";
-            Port_Client = "7000";
-            IP_Sever = "192.168.153.1";
-            Port_Sever = "5000";
+            ////设置初始ip和端口
+            //IP_Client = "192.168.153.130";
+            //Port_Client = "7000";
+            //IP_Sever = "192.168.153.1";
+            //Port_Sever = "5000";
 
 
 
@@ -87,29 +87,68 @@ namespace HanGao.ViewModel
 
         }
 
+
+
         /// <summary>
         /// 客户端IP
         /// </summary>
-        public static string IP_Client { set; get; }
+        private static  string _IP_Client = "192.168.153.130";
+
+        public static string IP_Client
+        {
+            get { return _IP_Client; }
+            set { _IP_Client = value; StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(IP_Client))); }
+        }
+
+
 
         /// <summary>
         /// 客户端端口
         /// </summary>
-        public static string Port_Client { set; get; }
+        private static string _Port_Client = "7000";
+
+        public static string Port_Client
+        {
+            get { return _Port_Client; }
+            set { _Port_Client = value; StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Port_Client))); }
+        }
+
+
 
         /// <summary>
         /// 服务器IP
         /// </summary>
-        public static string IP_Sever { set; get; }
+        private static string _IP_Sever = "192.168.153.1";
+
+        public static string IP_Sever
+        {
+            get { return _IP_Sever; }
+            set { _IP_Sever = value; StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(IP_Sever))); }
+        }
 
         /// <summary>
         /// 服务器端口
         /// </summary>
-        public static string Port_Sever { set; get; }
+        private static string _Port_Sever = "5000";
+
+        public static string Port_Sever
+        {
+            get { return _Port_Sever; }
+            set { _Port_Sever = value; StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Port_Sever))); }
+        }
+   
 
 
 
-        private static Socket_Setup_Models _Socket_Client_Setup = new Socket_Setup_Models();
+        private static Socket_Setup_Models _Socket_Client_Setup = new Socket_Setup_Models()
+        {
+            IP = IP_Client, Port= Port_Client, 
+
+            Read = new Socket_Connect(IP_Client, Port_Client, Connect_Type.Long, Read_Write_Enum.Read),
+            Write = new Socket_Connect(IP_Client, Port_Client, Connect_Type.Short, Read_Write_Enum.Write),
+            Connect_Socket_Type = Socket_Type.Client,
+            Control_Name_String = "连接控制柜",
+        };
         /// <summary>
         /// 客户端静态属性
         /// </summary>
@@ -126,7 +165,14 @@ namespace HanGao.ViewModel
         }
 
 
-        private static Socket_Setup_Models _Socket_Server_Setup = new Socket_Setup_Models();
+        private static Socket_Setup_Models _Socket_Server_Setup = new Socket_Setup_Models() 
+        {
+            IP = IP_Sever,
+            Port = Port_Sever,
+            Connect_Socket_Type = Socket_Type.Server,
+            Sever = new Socket_Sever(IP_Sever, Port_Sever),
+            Control_Name_String = "监听控制柜",
+        };
         /// <summary>
         /// 服务器静态属性
         /// </summary>

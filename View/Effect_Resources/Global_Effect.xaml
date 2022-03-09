@@ -12,8 +12,7 @@
                       ShadowDepth="0"
                       BlurRadius="3"
                       Direction="270"
-                      Opacity="0.6"
-                      Color="{Binding}" />
+                      Opacity="0.6" />
 
     <!--  全局图标路径  -->
     <FontFamily x:Key="全局_图标库">

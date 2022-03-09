@@ -188,15 +188,11 @@ namespace HanGao.ViewModel
 
             //初始化
 
-    
+
 
             //发送需要读取的变量名枚举值
             Send_KUKA_Value_List(typeof(Value_Name_enum));
-            //foreach (Enum item in Enum.GetValues(typeof(Value_Name_enum)))
-            //{
 
-            //    Messenger.Send<ObservableCollection<Socket_Models_List>,string >(new ObservableCollection<Socket_Models_List>() { new Socket_Models_List() { Val_Name = item.GetStringValue(), Val_ID = Read_Number_ID, Send_Area = item.GetAreaValue(), Value_Enum = item, Bingding_Value = item.GetBingdingValue().BingdingValue, KUKA_Value_Enum = item.GetBingdingValue().SetValueType } }, nameof(Meg_Value_Eunm.List_Connect));
-            //}
         }
 
         #endregion
@@ -215,7 +211,9 @@ namespace HanGao.ViewModel
             foreach (Enum item in Enum.GetValues(_Enum))
             {
 
-                WeakReferenceMessenger.Default.Send<ObservableCollection<Socket_Models_List>, string>(new ObservableCollection<Socket_Models_List>() { new Socket_Models_List() { Val_Name = item.GetStringValue(), Val_ID = Read_Number_ID, Send_Area = item.GetAreaValue(), Value_Enum = item, Bingding_Value = item.GetBingdingValue().BingdingValue, KUKA_Value_Enum = item.GetBingdingValue().SetValueType , Value_One_Read =true   } }, nameof(Meg_Value_Eunm.List_Connect));
+                WeakReferenceMessenger.Default.Send<ObservableCollection<Socket_Models_List>, string>(new ObservableCollection<Socket_Models_List>() { new Socket_Models_List() { Val_Name = item.GetStringValue(), Val_ID = Read_Number_ID, Send_Area = item.GetAreaValue(), Value_Enum = item, Bingding_Value = item.GetBingdingValue().BingdingValue, KUKA_Value_Enum = item.GetBingdingValue().SetValueType , Value_One_Read = item.GetValueReadTypeValue(),  } }, nameof(Meg_Value_Eunm.List_Connect));
+
+
             }
 
         }

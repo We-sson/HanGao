@@ -48,7 +48,7 @@
                         <TextBox Style="{StaticResource TextBoxStyle1}" Grid.Column="1"
                                  Name="TB1"
                                  Grid.ColumnSpan="2"
-                                 Text="{Binding Text_Error.User_IP, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                 Text="{Binding IP, UpdateSourceTrigger=PropertyChanged}"
                                  Margin="0"
                                  HorizontalAlignment="Stretch"
                                  VerticalAlignment="Center"
@@ -92,7 +92,7 @@
                                    FontSize="30" />
                         <TextBox Style="{StaticResource TextBoxStyle1}" Grid.Column="1"
                                  Name="TB2"
-                                 Text="{Binding Text_Error.User_Port, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                 Text="{Binding Port, UpdateSourceTrigger=PropertyChanged}"
                                  Margin="0"
                                  HorizontalAlignment="Stretch"
                                  VerticalAlignment="Center"

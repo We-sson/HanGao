@@ -9,6 +9,7 @@ using static Soceket_KUKA.Models.Socket_Eunm;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
 using static HanGao.ViewModel.UserControl_Socket_Var_Show_ViewModel;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using static HanGao.Extension_Method.SetReadTypeAttribute;
 
 namespace Soceket_KUKA.Models
 {
@@ -122,8 +123,8 @@ namespace Soceket_KUKA.Models
             /// </summary>
             public string Bingding_Value { set; get; }
 
-            private string _Val_Name;
-            /// <summary>
+            private string _Val_Name="";
+            /// <summary> 
             /// 变量名称
             /// </summary>
             public string Val_Name
@@ -157,7 +158,7 @@ namespace Soceket_KUKA.Models
                 }
                 set
                 {
-                    if (_Val_Var == value) { return; }
+                    //if (_Val_Var == value) { return; }
 
                     _Val_Var = value;
                 }
@@ -218,7 +219,13 @@ namespace Soceket_KUKA.Models
         /// <summary>
         /// 是否读取一次后删除读取变量
         /// </summary>
-        public bool Value_One_Read { get; set; } = false;
+        public Read_Type_Enum Value_One_Read { get; set; } = Read_Type_Enum.Loop_Read;
+
+
+        /// <summary>
+        /// 自定义存储属性
+        /// </summary>
+        public object  UserObject { get; set; }
 
     }
 

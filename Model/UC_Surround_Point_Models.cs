@@ -1,4 +1,5 @@
 ﻿using HanGao.Extension_Method;
+using HanGao.Xml_Date.Xml_Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Messaging.Messages;
 using Nancy.Helpers;
@@ -64,6 +65,14 @@ namespace HanGao.Model
             get { return _Offset_Z; }
             set { _Offset_Z = value; }
         }
+
+        /// <summary>
+        /// 焊接点位置
+        /// </summary>
+        public Welding_Pos_Date Welding_Pos { get; set; } = new Welding_Pos_Date() { };
+
+
+
 
         private Offset_Type_Enum _Offset_Type= Offset_Type_Enum.LIN;
 

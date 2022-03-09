@@ -9,17 +9,26 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:usermessage="clr-namespace:HanGao.View.UserMessage"
         xmlns:viewmodel="clr-namespace:HanGao.ViewModel"
+        xmlns:Frameshow="clr-namespace:HanGao.View.FrameShow"
+        xmlns:Converters="clr-namespace:Nicenis.Windows.Data.Converters;assembly=Nicenis"
         Title="MainWindow"
         MinWidth="1920"
         MinHeight="1080"
         Padding="0"
         d:DesignWidth="1920"
         d:DesignHeight="1080"
-        DataContext="{Binding Source={StaticResource Locator}, Path=FrameShow}"
         Background="Gray"
         AllowsTransparency="True"
         WindowStyle="None"
         mc:Ignorable="d">
+
+
+    <Window.Resources>
+        <Converters:TruthyToVisibleConverter x:Key="TruthyToVisibleConverter" />
+    </Window.Resources>
+    <Window.DataContext>
+        <Binding Path="FrameShow" Source="{StaticResource Locator}" />
+    </Window.DataContext>
 
 
     <!--  拖动标题栏顶部范围  -->
@@ -270,10 +279,11 @@
 
 
 
-        <!--  控制台内容显示  -->
+     
+
         <ContentControl Grid.Row="2"
                         Content="{Binding User_Show}"
-                        DataContext="{Binding FrameShow, Mode=OneWay, Source={StaticResource Locator}}" />
+                        DataContext="{Binding FrameShow, Source={StaticResource Locator}}" />
 
 
         <!--  弹窗控件显示  -->

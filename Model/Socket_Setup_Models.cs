@@ -30,6 +30,7 @@ using static HanGao.ViewModel.User_Control_Log_ViewModel;
 using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using System.ComponentModel;
 
 namespace HanGao.Model
 
@@ -44,6 +45,35 @@ namespace HanGao.Model
         }
 
         #region 属性
+
+        /// <summary>
+        /// 设置IP
+        /// </summary>
+        private string _IP;
+
+        public  string IP
+        {
+            get { return _IP; }
+            set { _IP = value;  }
+        }
+
+
+
+        /// <summary>
+        /// 设置端口
+        /// </summary>
+        private string _Port;
+
+        public  string Port
+        {
+            get { return _Port; }
+            set { _Port = value;  }
+        }
+
+        /// <summary>
+        /// 静态属性更新通知事件
+        /// </summary>
+        public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
 
         /// <summary>
         /// IP输入识别内容属性
@@ -79,6 +109,10 @@ namespace HanGao.Model
         /// 单次TCP对象
         /// </summary>
         public Socket_Connect One_Read { set; get; } 
+
+
+
+
 
 
         /// <summary>
@@ -165,7 +199,7 @@ namespace HanGao.Model
                       {
                           case Socket_Type.Client:
                
-                              Socket_Client_Setup.Read.Socket_Client_Thread(Read_Write_Enum.Read,Text_Error.User_IP,Text_Error.User_Port);
+                              Socket_Client_Setup.Read.Socket_Client_Thread(Read_Write_Enum.Read,IP,Port);
                               break;
                           case Socket_Type.Server:
                               Socket_Server_Setup.Sever.Socket_Server_KUKA();
