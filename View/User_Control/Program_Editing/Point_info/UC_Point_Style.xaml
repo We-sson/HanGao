@@ -4,7 +4,8 @@
     <Style x:Key="InPut_TextBoxStyle" TargetType="{x:Type TextBox}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="#5c7ca7" />
-
+        <Setter Property="Width" Value="150"/>
+        <Setter Property="Height" Value="50"/>
         <Setter Property="Foreground" Value="#4E4E4E" />
         <Setter Property="BorderThickness" Value="2.5" />
         <Setter Property="Effect" Value="{DynamicResource 全局背景阴影}" />

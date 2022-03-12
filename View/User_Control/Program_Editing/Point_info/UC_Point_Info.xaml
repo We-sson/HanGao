@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HanGao.View.User_Control.Program_Editing.Point_info"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             d:DesignHeight="796"
-             d:DesignWidth="1099"
+             d:DesignHeight="992"
+             d:DesignWidth="1129"
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_Point_Info_VM}"
              mc:Ignorable="d">
     <Grid Margin="40,20,40,20">
@@ -33,7 +33,7 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="80" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="150" />
             <ColumnDefinition Width="*" />
@@ -398,22 +398,22 @@
         <!--  功能区  -->
         <!--  第一列  -->
         <TextBlock Grid.Row="8" Grid.Column="0"
-                   Text="{Binding UI_Craft_Date.Welding_CDIS, Mode=TwoWay, StringFormat={}圆过度值 : {0} mm}"
+                   Text="{Binding UI_Craft_Date.Welding_CDIS, Mode=TwoWay, StringFormat={}    圆过度值 : {0} mm}"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
                    FontSize="24" />
         <TextBlock Grid.Row="9" Grid.Column="0"
-                   Text="{Binding UI_Craft_Date.Welding_Speed, Mode=TwoWay, StringFormat={}直线速度 :  {0} m/s}"
+                   Text="{Binding UI_Craft_Date.Welding_Speed, Mode=TwoWay, StringFormat={}    直线速度 :  {0} m/s}"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
                    FontSize="24" />
         <TextBlock Grid.Row="10" Grid.Column="0"
-                   Text="{Binding UI_Craft_Date.Welding_Angle, Mode=TwoWay, StringFormat={}焊接角度 :  {0}°}"
+                   Text="{Binding UI_Craft_Date.Welding_Angle, Mode=TwoWay, StringFormat={}    焊接角度 :  {0}°}"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
                    FontSize="24" />
         <TextBlock Grid.Row="11" Grid.Column="0"
-                   Text="{Binding UI_Craft_Date.Welding_Power, Mode=TwoWay, StringFormat={}焊接功率 :  {0}%}"
+                   Text="{Binding UI_Craft_Date.Welding_Power, Mode=TwoWay, StringFormat={}    焊接功率 :  {0}%}"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
                    FontSize="24" />
@@ -421,33 +421,24 @@
         <!--  第二列  -->
 
 
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="CDIS" Grid.Row="8" Grid.Column="1"
-                 Grid.ColumnSpan="2"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="CDIS" Grid.Row="8" Grid.Column="2"
                  Text="{Binding UI_Craft_Date.Welding_CDIS, Mode=TwoWay, StringFormat={}{0}}"
-                 Width=" 200"
-                 Margin="10"
                  HorizontalAlignment="Center"
                  VerticalAlignment="Stretch"
                  MaxLines="7" />
 
 
 
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Vel" Grid.Row="9" Grid.Column="1"
-                 Grid.ColumnSpan="2"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Vel" Grid.Row="9" Grid.Column="2"
                  Text="{Binding UI_Craft_Date.Welding_Speed, Mode=TwoWay, StringFormat={}{0:N3}}"
-                 Width=" 200"
-                 Margin="10"
                  HorizontalAlignment="Center"
                  VerticalAlignment="Stretch"
                  MaxLines="7" />
 
 
 
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Angle" Grid.Row="10" Grid.Column="1"
-                 Grid.ColumnSpan="2"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Angle" Grid.Row="10" Grid.Column="2"
                  Text="{Binding UI_Craft_Date.Welding_Angle, Mode=TwoWay, StringFormat={}{0:N3}}"
-                 Width=" 200"
-                 Margin="10"
                  HorizontalAlignment="Center"
                  VerticalAlignment="Stretch"
                  MaxLines="7" />
@@ -455,14 +446,50 @@
 
 
 
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Power" Grid.Row="11" Grid.Column="1"
-                 Grid.ColumnSpan="2"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Power" Grid.Row="11" Grid.Column="2"
                  Text="{Binding UI_Craft_Date.Welding_Power, Mode=TwoWay, StringFormat={}{0}}"
-                 Width=" 200"
-                 Margin="10"
                  HorizontalAlignment="Center"
                  VerticalAlignment="Stretch"
                  MaxLines="7" />
+
+
+
+        <!--  功能按钮  -->
+        <Button Style="{DynamicResource ButtonStyle3}" Grid.Row="8" Grid.Column="3"
+                Grid.RowSpan="2"
+                Grid.ColumnSpan="2"
+                Content="保存"
+                Width=" 250"
+                Height=" 80"
+                VerticalAlignment="Center"
+                Background="#6baa75"
+                FontSize="35">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <i:InvokeCommandAction Command="{Binding Craft_Save_Comm}"
+                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                           PassEventArgsToCommand="True" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+        <Button Style="{DynamicResource ButtonStyle3}" Grid.Row="10" Grid.Column="3"
+                Grid.RowSpan="2"
+                Grid.ColumnSpan="2"
+                Content="取消"
+                Width=" 250"
+                Height=" 80"
+                VerticalAlignment="Center"
+                Background="#FF5E57"
+                FontSize="35">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <i:InvokeCommandAction Command="{Binding Craft_Save_Comm}"
+                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                           PassEventArgsToCommand="True" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+
 
 
 

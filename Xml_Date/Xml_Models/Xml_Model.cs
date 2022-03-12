@@ -1,4 +1,5 @@
 ﻿using HanGao.Extension_Method;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
@@ -121,9 +122,10 @@ namespace HanGao.Xml_Date.Xml_Models
 
     }
 
-   /// <summary>
-   /// 围边工艺
-   /// </summary>
+    /// <summary>
+    /// 围边工艺
+    /// </summary>
+
     public class Xml_Craft_Date
     {
         [XmlAttribute]

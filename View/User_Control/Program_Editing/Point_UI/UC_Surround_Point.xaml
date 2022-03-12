@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:HanGao.View.User_Control.Program_Editing.Point_UI"
+             xmlns:local="clr-namespace:HanGao.ViewModel"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              d:DesignHeight="466"
              d:DesignWidth="760"
@@ -15,7 +15,6 @@
 
 
         <DataGrid Style="{DynamicResource Point_DataGridStyle}"
-                  d:ItemsSource="{d:SampleData ItemCount=5}"
                   SelectedItem="{Binding User_Selected_SInk_Pos}"
                   CellStyle="{DynamicResource Point_DataGridCellStyle}"
                   RowStyle="{DynamicResource Point_DataGridRowStyle}"
@@ -46,7 +45,7 @@
                 <DataGridTemplateColumn Width="80" Header="序号">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Offset_NO}"
+                            <TextBlock Text="{Binding NO}"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        FontSize="20" />
@@ -58,7 +57,7 @@
                 <DataGridTemplateColumn Header="名称">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Offset_Name}"
+                            <TextBlock Text="{Binding Welding_Name}"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        FontSize="20" />
@@ -70,7 +69,7 @@
                 <DataGridTemplateColumn Header="偏移 X">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Offset_X, StringFormat={}{0:F3}}"
+                            <TextBlock Text="{Binding Pos_Offset.X, StringFormat={}{0:F3}}"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        FontSize="20" />
@@ -81,7 +80,7 @@
                 <DataGridTemplateColumn Header="偏移 Y">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Offset_Y, StringFormat={}{0:F3}}"
+                            <TextBlock Text="{Binding Pos_Offset.Y, StringFormat={}{0:F3}}"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        FontSize="20" />
@@ -93,7 +92,7 @@
                 <DataGridTemplateColumn Header="偏移 Z">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Offset_Z, StringFormat={}{0:F3}}"
+                            <TextBlock Text="{Binding Pos_Offset.Z, StringFormat={}{0:F3}}"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        FontSize="20" />

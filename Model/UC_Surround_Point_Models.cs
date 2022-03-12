@@ -66,27 +66,24 @@ namespace HanGao.Model
             set { _Offset_Z = value; }
         }
 
+
+
         /// <summary>
         /// 焊接点位置
         /// </summary>
         public Welding_Pos_Date Welding_Pos { get; set; } = new Welding_Pos_Date() { };
 
 
-        
-
-        private Craft_Type_Enum _Point_Type = Craft_Type_Enum.Null;
-
-        public Craft_Type_Enum Point_Type
-        {
-            get { return _Point_Type; }
-            set { _Point_Type = value; }
-        }
 
 
-        public enum  Offset_Type_Enum
-        {
-            LIN,
-            CIR
-        }
+
+        /// <summary>
+        /// 工艺点类型属性
+        /// </summary>
+        public Craft_Type_Enum Point_Type { get; set; }
+
+
+
+
     }
 }

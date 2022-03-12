@@ -730,7 +730,7 @@ namespace Soceket_Connect
                 //等待连接完成
 
 
-                if (!Connnect_Write.WaitOne(300, false))
+                if (!Connnect_Write.WaitOne(500, false))
                 {
                     Socket_Receive_Error(_S.Read_Write_Type, "Error: -54 原因:写入连接超时！检查网络与IP设置是否正确。");
 
