@@ -103,8 +103,8 @@ namespace HanGao.ViewModel
 
                                 Messenger.Send<Socket_Models_List,string  >(a, Socket_Read_List[i].Send_Area);
 
-                                return;
-                            }
+                            return;
+                        }
 
                         }
 
@@ -140,32 +140,32 @@ namespace HanGao.ViewModel
         {
             get 
             {
-                //Read_List_Lock.EnterReadLock();
+                Read_List_Lock.EnterReadLock();
                 //if(Read_List_Lock.WaitingReadCount>0) User_Log_Add("剩余读取变量列表线程：" + Read_List_Lock.WaitingReadCount.ToString());
-                return _Socket_Read_List; 
 
                 try
                 {
+                return _Socket_Read_List; 
 
                 }
                 finally { 
-                    //Read_List_Lock.ExitReadLock();
+                    Read_List_Lock.ExitReadLock();
                 }
             }
             set 
             {
 
-                //Read_List_Lock.EnterWriteLock();
+                Read_List_Lock.EnterWriteLock();
                 //if (Read_List_Lock.WaitingWriteCount>0) User_Log_Add("剩余写入变量列表线程：" + Read_List_Lock.WaitingWriteCount.ToString());
-            
-            _Socket_Read_List =  value; 
+
                 try
                 {
+                _Socket_Read_List =  value; 
 
                 }
                 finally
                 {
-                    //Read_List_Lock.ExitWriteLock();
+                    Read_List_Lock.ExitWriteLock();
                 }
 
 
@@ -361,11 +361,12 @@ namespace HanGao.ViewModel
                                 //等待发送完成
 
 
-                                if (!Send_Waite.WaitOne(5000,true ) || !Socket_Client_Setup.Read.Is_Read_Client)
+                                if (!Send_Waite.WaitOne(15000,true ) || !Socket_Client_Setup.Read.Is_Read_Client)
                                 {
                                     Socket_Client_Setup.Read.Socket_Receive_Error(Read_Write_Enum.Read, "发送超时无应答，退出线程发送！");
                                     return;
                                 }
+
 
                                 if (Socket_Read_List[i].Value_One_Read== Read_Type_Enum.One_Read )
                                 {
@@ -421,10 +422,10 @@ namespace HanGao.ViewModel
         /// </summary>
         public void Clear_List()
         {
-            foreach (var List in Socket_Read_List)
-            {
-                List.Val_Var = string.Empty;
-            }
+            //foreach (var List in Socket_Read_List)
+            //{
+            //    List.Val_Var = string.Empty;
+            //}
         }
 
 

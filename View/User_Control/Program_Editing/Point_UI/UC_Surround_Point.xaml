@@ -70,7 +70,7 @@
                 <DataGridTemplateColumn Header="偏移 X">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Offset_X}"
+                            <TextBlock Text="{Binding Offset_X, StringFormat={}{0:F3}}"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        FontSize="20" />
@@ -81,7 +81,7 @@
                 <DataGridTemplateColumn Header="偏移 Y">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Offset_Y}"
+                            <TextBlock Text="{Binding Offset_Y, StringFormat={}{0:F3}}"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        FontSize="20" />
@@ -93,7 +93,7 @@
                 <DataGridTemplateColumn Header="偏移 Z">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Offset_Z}"
+                            <TextBlock Text="{Binding Offset_Z, StringFormat={}{0:F3}}"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        FontSize="20" />

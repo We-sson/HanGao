@@ -419,8 +419,7 @@ namespace Soceket_Connect
 
             if (Global_Socket_Read.Connected && _Enum == Read_Write_Enum.Read)
             { 
-                lock (ar)
-                {
+     
 
            
 
@@ -429,8 +428,8 @@ namespace Soceket_Connect
                 //Remote_IP = Global_Socket_Read.RemoteEndPoint.ToString();
                 try
                 {
-                    Task.Delay(10);
-
+                    //Task.Delay(10);
+                      Thread.Sleep(20);
                     //挂起读取异步连接
                     Global_Socket_Read.EndConnect(ar);
                     Is_Read_Client = true;
@@ -476,7 +475,7 @@ namespace Soceket_Connect
                 //连接成功标识
                 Socket_Read.Set();
 
-                }
+                
 
             }
 

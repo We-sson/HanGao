@@ -158,7 +158,7 @@ namespace Soceket_KUKA.Models
                 }
                 set
                 {
-                    //if (_Val_Var == value) { return; }
+                  
 
                     _Val_Var = value;
                 }

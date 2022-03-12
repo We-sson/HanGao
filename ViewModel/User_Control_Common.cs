@@ -26,6 +26,23 @@ namespace HanGao.ViewModel
     {
 
 
+        #region ----初始化、消息通知接收处-----
+
+        public User_Control_Common()
+        {
+
+            //初始化
+
+
+
+            //发送需要读取的变量名枚举值
+            Send_KUKA_Value_List(typeof(Value_Name_enum));
+
+        }
+
+        #endregion
+
+
         #region -----属性、字段声明-----
 
 
@@ -181,21 +198,7 @@ namespace HanGao.ViewModel
 
 
 
-        #region ----初始化、消息通知接收处-----
 
-        public User_Control_Common()
-        {
-
-            //初始化
-
-
-
-            //发送需要读取的变量名枚举值
-            Send_KUKA_Value_List(typeof(Value_Name_enum));
-
-        }
-
-        #endregion
 
 
 
@@ -231,11 +234,11 @@ namespace HanGao.ViewModel
         {
             if (IsCheck == true)
             {
-                User_Control_Log_ViewModel.User_Log_Add("NO." + User.ToString() + Fea + "功能开启");
+                User_Log_Add("NO." + User.ToString() + Fea + "功能开启");
             }
             else if (IsCheck == false)
             {
-                User_Control_Log_ViewModel.User_Log_Add("NO." + User.ToString() + Fea + "功能关闭");
+                User_Log_Add("NO." + User.ToString() + Fea + "功能关闭");
 
             }
 

@@ -170,7 +170,7 @@ namespace HanGao.Xml_Date.Xml_Models
 
 
     }
-
+    [Flags]
     public enum Craft_Type_Enum
     {
         [StringValue("#L_LIN_POS")]

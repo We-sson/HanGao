@@ -33,6 +33,7 @@ namespace HanGao.ViewModel
             Null,
             L0_Welding_Craft,
             C45_Welding_Craft,
+         
             L90_Welding_Craft,
             C135_Welding_Craft,
             L180_Welding_Craft,

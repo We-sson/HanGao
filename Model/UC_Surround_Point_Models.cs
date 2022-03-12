@@ -72,14 +72,14 @@ namespace HanGao.Model
         public Welding_Pos_Date Welding_Pos { get; set; } = new Welding_Pos_Date() { };
 
 
+        
 
+        private Craft_Type_Enum _Point_Type = Craft_Type_Enum.Null;
 
-        private Offset_Type_Enum _Offset_Type= Offset_Type_Enum.LIN;
-
-        public Offset_Type_Enum Offset_Type
+        public Craft_Type_Enum Point_Type
         {
-            get { return _Offset_Type; }
-            set { _Offset_Type = value; }
+            get { return _Point_Type; }
+            set { _Point_Type = value; }
         }
 
 
