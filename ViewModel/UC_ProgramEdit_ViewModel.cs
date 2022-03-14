@@ -150,7 +150,7 @@ namespace HanGao.ViewModel
                 //FrameworkElement e = Sm.Source as FrameworkElement;
 
 
-                Messenger.Send <dynamic ,string>( nameof(Meg_Value_Eunm.Sink_Craft_Data_Save));
+                //Messenger.Send <dynamic ,string>( nameof(Meg_Value_Eunm.Sink_Craft_Data_Save));
 
 
 

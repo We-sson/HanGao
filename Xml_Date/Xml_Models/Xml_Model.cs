@@ -132,7 +132,7 @@ namespace HanGao.Xml_Date.Xml_Models
         public int NO { get; set; }
 
         [XmlAttribute]
-        public Craft_Type_Enum Craft_Type { get; set; }
+        public Craft_Type_Enum Craft_Type { get; set; } = Craft_Type_Enum.Null;
 
         [XmlAttribute]
         public string Welding_Name { get; set; } = "...";

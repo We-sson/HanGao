@@ -157,13 +157,13 @@
 
         <!--  第三列  -->
         <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="X" Grid.Row="1" Grid.Column="2"
-                 Text="{Binding UI_Craft_Date.Pos_Offset.X, StringFormat={}{0:N3}}"
+                 Text="{Binding UI_Craft_Date.Pos_Offset.X, Mode=OneWay, StringFormat={}{0:N3}}"
                  Margin="10"
                  HorizontalAlignment="Stretch"
                  HorizontalContentAlignment="Center"
                  MaxLines="7" />
         <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Y" Grid.Row="2" Grid.Column="2"
-                 Text="{Binding UI_Craft_Date.Pos_Offset.Y, StringFormat={}{0:N3}}"
+                 Text="{Binding UI_Craft_Date.Pos_Offset.Y, Mode=OneWay, StringFormat={}{0:N3}}"
                  Margin="10"
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Stretch"
@@ -422,15 +422,15 @@
 
 
         <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="CDIS" Grid.Row="8" Grid.Column="2"
-                 Text="{Binding UI_Craft_Date.Welding_CDIS, Mode=TwoWay, StringFormat={}{0}}"
+                 Text="{Binding UI_Craft_Date.Welding_CDIS, Mode=OneWay, StringFormat={}{0}}"
                  HorizontalAlignment="Center"
                  VerticalAlignment="Stretch"
                  MaxLines="7" />
 
 
 
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Vel" Grid.Row="9" Grid.Column="2"
-                 Text="{Binding UI_Craft_Date.Welding_Speed, Mode=TwoWay, StringFormat={}{0:N3}}"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Speed" Grid.Row="9" Grid.Column="2"
+                 Text="{Binding UI_Craft_Date.Welding_Speed, Mode=OneWay, StringFormat={}{0:N3}}"
                  HorizontalAlignment="Center"
                  VerticalAlignment="Stretch"
                  MaxLines="7" />
@@ -438,7 +438,7 @@
 
 
         <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Angle" Grid.Row="10" Grid.Column="2"
-                 Text="{Binding UI_Craft_Date.Welding_Angle, Mode=TwoWay, StringFormat={}{0:N3}}"
+                 Text="{Binding UI_Craft_Date.Welding_Angle, Mode=OneWay, StringFormat={}{0:N3}}"
                  HorizontalAlignment="Center"
                  VerticalAlignment="Stretch"
                  MaxLines="7" />
@@ -447,7 +447,7 @@
 
 
         <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Power" Grid.Row="11" Grid.Column="2"
-                 Text="{Binding UI_Craft_Date.Welding_Power, Mode=TwoWay, StringFormat={}{0}}"
+                 Text="{Binding UI_Craft_Date.Welding_Power, Mode=OneWay, StringFormat={}{0}}"
                  HorizontalAlignment="Center"
                  VerticalAlignment="Stretch"
                  MaxLines="7" />
@@ -466,8 +466,8 @@
                 FontSize="35">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Click">
-                    <i:InvokeCommandAction Command="{Binding Craft_Save_Comm}"
-                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                    <i:InvokeCommandAction Command="{Binding Craft_Point_Info_Save_Comm}"
+                                           CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UC_Point_Info}}}"
                                            PassEventArgsToCommand="True" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
@@ -483,7 +483,7 @@
                 FontSize="35">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Click">
-                    <i:InvokeCommandAction Command="{Binding Craft_Save_Comm}"
+                    <i:InvokeCommandAction Command="{Binding Craft_Point_Info_Save_Comm}"
                                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                            PassEventArgsToCommand="True" />
                 </i:EventTrigger>

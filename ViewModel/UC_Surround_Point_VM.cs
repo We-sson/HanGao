@@ -59,7 +59,7 @@ namespace HanGao.ViewModel
 
 
 
-                                               Surround_Offset_Point[Point_NO].Welding_Name = S.Val_Var;
+                                               Surround_Offset_Point[Point_NO].Welding_Name = S.Val_Var.Replace('"',' ');
 
 
                                                }
@@ -227,37 +227,7 @@ namespace HanGao.ViewModel
                             }
 
 
-                            //WeakReferenceMessenger.Default.Send<ObservableCollection<Socket_Models_List>, string>(new ObservableCollection<Socket_Models_List>()
-                            //{
-                            //    new Socket_Models_List()
-                            //    { Val_Name = User_Checked_Direction.ToString() + "[" + _Point.NO + "]"+ "."+KUKA_Craft_Value_Name.Welding_Name.GetStringValue(),
-                            //        Val_ID = UserControl_Socket_Var_Show_ViewModel.Read_Number_ID,
-                            //        Send_Area = nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data) ,
-                            //        Value_One_Read= Read_Type_Enum.One_Read ,
-                            //         UserObject=new KUKA_Craft_Value(){ Craft_Point_NO=_Point.NO, KUKA_Craft_Type=KUKA_Craft_Value_Name.Welding_Name , KUKA_Point_Type=_Point.Craft_Type}
-                            //    },
-                            //     new Socket_Models_List()
-                            //    { Val_Name = User_Checked_Direction.ToString()  + "[" + _Point.NO + "]"+ "."+KUKA_Craft_Value_Name.Welding_Pos.ToString(),
-                            //        Val_ID = UserControl_Socket_Var_Show_ViewModel.Read_Number_ID,
-                            //        Send_Area = nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data) ,
-                            //        Value_One_Read=Read_Type_Enum.One_Read,
-                            //        UserObject=new KUKA_Craft_Value(){ Craft_Point_NO=_Point.NO, KUKA_Craft_Type=KUKA_Craft_Value_Name.Welding_Pos , KUKA_Point_Type=_Point.Craft_Type}
-                            //    },
-                            //        new Socket_Models_List()
-                            //    { Val_Name = User_Checked_Direction.ToString()  + "[" + _Point.NO + "]"+ "."+KUKA_Craft_Value_Name.Welding_Offset.ToString(),
-                            //        Val_ID = UserControl_Socket_Var_Show_ViewModel.Read_Number_ID,
-                            //        Send_Area = nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data) ,
-                            //        Value_One_Read=Read_Type_Enum.One_Read,
-                            //        UserObject=new KUKA_Craft_Value(){ Craft_Point_NO=_Point.NO, KUKA_Craft_Type=KUKA_Craft_Value_Name.Welding_Offset , KUKA_Point_Type=_Point.Craft_Type}
-                            //    },
-                            //       new Socket_Models_List()
-                            //    { Val_Name = User_Checked_Direction.ToString()  + "[" + _Point.NO + "]"+ "."+KUKA_Craft_Value_Name.Welding_Offset.ToString(),
-                            //        Val_ID = UserControl_Socket_Var_Show_ViewModel.Read_Number_ID,
-                            //        Send_Area = nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data) ,
-                            //        Value_One_Read=Read_Type_Enum.One_Read,
-                            //        UserObject=new KUKA_Craft_Value(){ Craft_Point_NO=_Point.NO, KUKA_Craft_Type=KUKA_Craft_Value_Name.Welding_Offset , KUKA_Point_Type=_Point.Craft_Type}
-                            //    },
-                            //}, nameof(Meg_Value_Eunm.List_Connect));
+
 
 
 
@@ -287,25 +257,19 @@ namespace HanGao.ViewModel
                     //item.Surround_Craft.L0_Welding_Craft.Craft_Date
                     if (_Sink.Sink_Model == item.Sink_Model)
                     {
-                        foreach (var _item in Date.Craft_Date)
+                        for (int i = 0; i < Date.Craft_Date.Count; i++)
                         {
-                            if (_item.NO==S.NO)
+                            if (Date.Craft_Date[i].NO == S.NO)
                             {
-                                _item.Welding_Angle = S.Welding_Angle;
-                                _item.Welding_CDIS = S.Welding_CDIS;
-                                _item.Welding_Power = S.Welding_Power;
-                                _item.Welding_Speed = S.Welding_Speed;  
-                                _item.Pos_Offset = S.Pos_Offset;
-                                _item.Craft_Type = S.Craft_Type;
-
-
+                                Date.Craft_Date[i] = S;
                             }
-                           
+
 
                         }
+          
                        
 
-                        item.Surround_Craft.GetType().GetProperty(User_Checked_Direction.ToString() + "_Welding_Craft").SetValue(item.Surround_Craft, Date);
+                        //item.Surround_Craft.GetType().GetProperty(User_Checked_Direction.ToString() + "_Welding_Craft").SetValue(item.Surround_Craft, Date);
 
      
           
