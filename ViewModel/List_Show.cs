@@ -368,7 +368,11 @@ namespace HanGao.ViewModel
 
                     //发送用户选择加工型号到加工区显示
                     var aa = UserControl_Function_Set + e.Uid;
+
+              
+
                     Messenger.Send<Sink_Models,string >(S, UserControl_Function_Set + e.Uid);
+                    
 
                 }
                 else

@@ -1,11 +1,13 @@
 &ACCESS RVO
-&REL 154
+&REL 161
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HG
 DEF Glode_HanGao( )
 
 ;# DATE:2021-1-4
+
+
 
 END
 

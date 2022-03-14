@@ -399,7 +399,41 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
 
 
 
-   DEFSCRIPT LIN_Refresh
+
+
+  DEFSCRIPT LIN_New
+
+
+  ENDSCRIPT
+
+
+  DEFSCRIPT LIN_Write
+     
+    MESSAGE "Write Stat"
+	
+	
+    SETVAR(FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset.X", VALUE[] "FF%Offset_List .X")
+	SETVAR(FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset.Y", VALUE[] "FF%Offset_List .Y")
+	SETVAR(FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset.Z", VALUE[] "FF%Offset_List .Z")
+	SETVAR(FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Speed", VALUE[] " %Vel ")
+
+    REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL Offset_POS FF%Offset_List ={X %Offset_X ,Y %Offset_Y ,Z %Offset_Z }")
+	MESSAGE " %Offset_List  Offset: X=%Offset_X  ,Y=%Offset_Y  ,Z=%Offset_Z "
+  ENDSCRIPT
+
+  DEFSCRIPT LIN_Read
+     
+    MESSAGE "Read Stat"
+    SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset.X" , PARAM Offset_X)
+    SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset.Y" , PARAM Offset_Y)
+    SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset.Z" , PARAM Offset_Z)
+    SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Speed" , PARAM Vel)
+
+
+	MESSAGE " %Offset_List  Offset: X=%Offset_X  ,Y=%Offset_Y  ,Z=%Offset_Z "
+  ENDSCRIPT
+
+     DEFSCRIPT LIN_Refresh
  
     
 	
@@ -410,37 +444,37 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
     SHOWVAR (FULLPATH[] "PO%MOVE_Name .B" , PARAM Pos_B)
     SHOWVAR (FULLPATH[] "PO%MOVE_Name .C" , PARAM Pos_C)
     
+	MESSAGE " %MOVE_Name  Position: X=%Pos_X  , Y=%Pos_Y  , Z=%Pos_Z , A=%Pos_A , B=%Pos_B , C=%Pos_C "
+	  
+	  SWITCH "Surround_Welding_Size.Write_Status"
+      CASE "TRUE" DO  LIN_Write
+      CASE "FALSE" DO LIN_Read
+      ENDSWITCH
 	
-	SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset.X" , PARAM Offset_X)
-    SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset.Y" , PARAM Offset_Y)
-    SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset.Z" , PARAM Offset_Z)
 	
 	
-	
-    MESSAGE " %MOVE_Name  Position: X=%Pos_X  , Y=%Pos_Y  , Z=%Pos_Z , A=%Pos_A , B=%Pos_B , C=%Pos_C "
-    MESSAGE " %Offset_List  Offset: X=%Offset_X  ,Y=%Offset_Y  ,Z=%Offset_Z "
+    
+    
    ENDSCRIPT
-
-  DEFSCRIPT LIN_New
-
-
-  ENDSCRIPT
-
-
-  
   
   DEFSCRIPT LIN_SAVE
     
-    ;REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL Offset_POS FF%Offset_List ={X %Offset_X ,Y %Offset_Y ,Z %Offset_Z }")
-	
-	SETVAR(FULLPATH[] "FF%Offset_List ", VALUE[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset")
-	
+    
+
 	SETVAR(FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Name[]", VALUE[] "/"%MOVE_Name /"" )
     REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL FDAT F%MOVE_DAT ={TOOL_NO %TOOL_NO ,BASE_NO %BASE_NO ,IPO_FRAME #BASE ,POINT2[] /" /",TQ_STATE FALSE }" )
     REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL LDAT L%MOVE_DAT ={VEL %Vel ,ACC %ACC ,APO_DIST %CDIS ,APO_FAC 50.0000 ,AXIS_VEL 100.0,AXIS_ACC 100.0,ORI_TYP #VAR ,CIRC_TYP #BASE,JERK_FAC 50.0,GEAR_JERK 50.0,EXAX_IGN 0}" )
-          
+    REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL Offset_POS FF%Offset_List ={X %Offset_X ,Y %Offset_Y ,Z %Offset_Z }")
+
+	
     MESSAGE " %Area_LIN_lIST  "
     MESSAGE " %MOVE_Name   SAVE "
+	
+	  SWITCH "Surround_Welding_Size.Write_Status"
+      CASE "TRUE" DO  LIN_Write
+      CASE "FALSE" DO LIN_Read
+      ENDSWITCH
+	
   ENDSCRIPT
 
    
@@ -470,6 +504,8 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
 
     MESSAGE "  %MOVE_Name  ,  %CIR_End_Name  SAVE "
     
+
+	
   ENDSCRIPT
    
   DEFSCRIPT CIR_New

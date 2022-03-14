@@ -636,11 +636,15 @@ namespace Soceket_Connect
 
                 if (_Byte.Byte_Return_Tpye == 1 && _Byte.Byte_Write_Type == 1)
                 {
-                    User_Log_Add(_Byte.Message_Show + " 写入成功！");
+                    User_Log_Add(_Byte.Message_Show );
+                    User_Log_Add( " 变量值写入成功！");
+
                 }
                 else if (_Byte.Byte_Return_Tpye == 1 && _Byte.Byte_Write_Type == 0)
                 {
-                    User_Log_Add($"Read Val:" + _Byte.Message_Show + " 写入失败！");
+                    User_Log_Add($"Write Val:" + _Byte.Message_Show );
+                    User_Log_Add( " 变量值写入失败！");
+
 
                 }
 
@@ -723,7 +727,7 @@ namespace Soceket_Connect
                 User_Log_Add("剩余读取线程：" + Send_Lock.WaitingWriteCount.ToString());
 
                 //同步线程启动
-                Socket_Client_Thread(Read_Write_Enum.Write, Socket_Client_Setup.Text_Error.User_IP, Socket_Client_Setup.Text_Error.User_Port);
+                Socket_Client_Thread(Read_Write_Enum.Write, Socket_Client_Setup.IP, Socket_Client_Setup.Port);
 
 
 

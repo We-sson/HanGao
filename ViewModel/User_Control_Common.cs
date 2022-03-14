@@ -36,7 +36,7 @@ namespace HanGao.ViewModel
 
 
             //发送需要读取的变量名枚举值
-            //Send_KUKA_Value_List(typeof(Value_Name_enum));
+            Send_KUKA_Value_List(typeof(Value_Name_enum));
 
         }
 
