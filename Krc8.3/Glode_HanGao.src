@@ -61,7 +61,7 @@ CASE #L0
  Lin_Pos.Z=-(Surround_Welding_Size.Sink_Size_Panel_Thick)
  
  Lin_Pos.A=0 
- Lin_Pos.B=-(L0_Welding_Craft[OFFSET_NO].Welding_Angle)
+ Lin_Pos.B=L0_Welding_Craft[OFFSET_NO].Welding_Angle
  Lin_Pos.C=0
 
 
@@ -98,7 +98,7 @@ Lin_Pos.Y=Surround_Welding_Size.Sink_Size_Left_Distance+Surround_Welding_Size.Si
 Lin_Pos.Z=-(Surround_Welding_Size.Sink_Size_Panel_Thick)
 
 Lin_Pos.A=0
-Lin_Pos.B=-(C45_Welding_Craft[1].Welding_Angle)
+Lin_Pos.B=C45_Welding_Craft[1].Welding_Angle
 Lin_Pos.C=0
 
 C45_Welding_Craft[1].Welding_Pos.X=Lin_Pos.X
@@ -131,7 +131,7 @@ IF  Surround_Welding_Size.Write_Status THEN
  Cir_END_POS.Z=-(Surround_Welding_Size.Sink_Size_Panel_Thick)
 
 
- Cir_END_POS.A=-(C45_Welding_Craft[3].Welding_Angle)
+ Cir_END_POS.A=C45_Welding_Craft[3].Welding_Angle
  Cir_END_POS.B=0
  Cir_END_POS.C=0
 
@@ -170,7 +170,7 @@ ENDIF
  Lin_Pos.X=(Surround_Welding_Size.Sink_Size_Width-Surround_Welding_Size.Sink_Size_R*2)* (1-(Surr_Path*0.01))+Surround_Welding_Size.Sink_Size_Down_Distance+Surround_Welding_Size.Sink_Size_R
  Lin_Pos.Y=Surround_Welding_Size.Sink_Size_Left_Distance
  Lin_Pos.Z=-(Surround_Welding_Size.Sink_Size_Panel_Thick)
- Lin_Pos.A=-(L90_Welding_Craft[OFFSET_NO].Welding_Angle)
+ Lin_Pos.A=L90_Welding_Craft[OFFSET_NO].Welding_Angle
  Lin_Pos.B=0
  Lin_Pos.C=0
 
@@ -202,8 +202,8 @@ IF  Surround_Welding_Size.Write_Status THEN
  Lin_Pos.X=Surround_Welding_Size.Sink_Size_Down_Distance+Surround_Welding_Size.Sink_Size_R
  Lin_Pos.Y=Surround_Welding_Size.Sink_Size_Left_Distance
  Lin_Pos.Z=-(Surround_Welding_Size.Sink_Size_Panel_Thick)
- Lin_Pos.A=-(C135_Welding_Craft[1].Welding_Angle)
- Lin_Pos.B=0
+ Lin_Pos.A=0
+ Lin_Pos.B=C135_Welding_Craft[1].Welding_Angle
  Lin_Pos.C=0
 
 C135_Welding_Craft[1].Welding_Pos.X=Lin_Pos.X
@@ -340,9 +340,9 @@ IF  Surround_Welding_Size.Write_Status THEN
  Cir_END_POS.X=Surround_Welding_Size.Sink_Size_Down_Distance+Surround_Welding_Size.Sink_Size_R
  Cir_END_POS.Y=Surround_Welding_Size.Sink_Size_Left_Distance+Surround_Welding_Size.Sink_Size_Long
  Cir_END_POS.Z=-(Surround_Welding_Size.Sink_Size_Panel_Thick)
- Cir_END_POS.A=C225_Welding_Craft[3].Welding_Angle
+ Cir_END_POS.A=0
  Cir_END_POS.B=0
- Cir_END_POS.C=0
+ Cir_END_POS.C=C225_Welding_Craft[3].Welding_Angle
  
 C225_Welding_Craft[2].Welding_Pos.X=Cir_Middle_POS.X
 C225_Welding_Craft[2].Welding_Pos.Y=Cir_Middle_POS.Y
@@ -375,9 +375,9 @@ ENDIF
  Lin_Pos.X=(Surround_Welding_Size.Sink_Size_Width-Surround_Welding_Size.Sink_Size_R*2)* (Surr_Path*0.01)+Surround_Welding_Size.Sink_Size_Down_Distance+Surround_Welding_Size.Sink_Size_R
  Lin_Pos.Y=Surround_Welding_Size.Sink_Size_Left_Distance+Surround_Welding_Size.Sink_Size_Long
  Lin_Pos.Z=-(Surround_Welding_Size.Sink_Size_Panel_Thick)
- Lin_Pos.A=L270_Welding_Craft[OFFSET_NO].Welding_Angle
+ Lin_Pos.A=0
  Lin_Pos.B=0
- Lin_Pos.C=0
+ Lin_Pos.C=L270_Welding_Craft[OFFSET_NO].Welding_Angle
  
 L270_Welding_Craft[OFFSET_NO].Welding_Pos.X=Lin_Pos.X
 L270_Welding_Craft[OFFSET_NO].Welding_Pos.Y=Lin_Pos.Y
@@ -404,8 +404,8 @@ ENDIF
  Lin_Pos.X=Surround_Welding_Size.Sink_Size_Down_Distance+Surround_Welding_Size.Sink_Size_Width-Surround_Welding_Size.Sink_Size_R
  Lin_Pos.Y=Surround_Welding_Size.Sink_Size_Long+Surround_Welding_Size.Sink_Size_Left_Distance
  Lin_Pos.Z=-(Surround_Welding_Size.Sink_Size_Panel_Thick)
- Lin_Pos.A=C315_Welding_Craft[1].Welding_Angle
- Lin_Pos.B=0
+ Lin_Pos.A=0
+ Lin_Pos.B=C315_Welding_Craft[1].Welding_Angle
  Lin_Pos.C=0
 
  C315_Welding_Craft[1].Welding_Pos.X=Lin_Pos.X
@@ -436,7 +436,7 @@ Offset_cir_info=C315_Welding_Craft[3].Welding_Offset
  Cir_END_POS.Y=Surround_Welding_Size.Sink_Size_Left_Distance+Surround_Welding_Size.Sink_Size_Long-Surround_Welding_Size.Sink_Size_R
  Cir_END_POS.Z=-(Surround_Welding_Size.Sink_Size_Panel_Thick)
  Cir_END_POS.A=0
- Cir_END_POS.B=-(C315_Welding_Craft[3].Welding_Angle)
+ Cir_END_POS.B=C315_Welding_Craft[3].Welding_Angle
  Cir_END_POS.C=0
  
 C315_Welding_Craft[2].Welding_Pos.X=Cir_Middle_POS.X
