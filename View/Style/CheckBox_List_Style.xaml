@@ -54,9 +54,9 @@
         </Setter>
     </Style>
 
-    
-    
-    
+
+
+
     <Style x:Key="CheckBoxStyle2" TargetType="{x:Type CheckBox}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />

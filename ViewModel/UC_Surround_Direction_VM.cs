@@ -12,6 +12,7 @@ using System;
 using HanGao.Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using Microsoft.Toolkit.Mvvm.Messaging.Messages;
+using System.Threading;
 
 namespace HanGao.ViewModel
 {
@@ -58,11 +59,11 @@ namespace HanGao.ViewModel
                 //传送用户选中围边方向 
                 if (value != Surround_Direction_Enum.Null)
                 {
-     
 
-       
 
-                      Messenger.Send<dynamic, string>(value, nameof(Meg_Value_Eunm.Sink_Surround_Craft_Point_Load));
+                 
+
+                    Messenger.Send<dynamic, string>(value, nameof(Meg_Value_Eunm.Sink_Surround_Craft_Point_Load));
       
       
 

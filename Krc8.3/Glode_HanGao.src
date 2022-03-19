@@ -1,5 +1,5 @@
-&ACCESS RVO
-&REL 161
+&ACCESS RVO1
+&REL 169
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HG
@@ -131,9 +131,9 @@ IF  Surround_Welding_Size.Write_Status THEN
  Cir_END_POS.Z=-(Surround_Welding_Size.Sink_Size_Panel_Thick)
 
 
- Cir_END_POS.A=C45_Welding_Craft[3].Welding_Angle
+ Cir_END_POS.A=0
  Cir_END_POS.B=0
- Cir_END_POS.C=0
+ Cir_END_POS.C=C45_Welding_Craft[3].Welding_Angle
 
 
 
@@ -170,9 +170,9 @@ ENDIF
  Lin_Pos.X=(Surround_Welding_Size.Sink_Size_Width-Surround_Welding_Size.Sink_Size_R*2)* (1-(Surr_Path*0.01))+Surround_Welding_Size.Sink_Size_Down_Distance+Surround_Welding_Size.Sink_Size_R
  Lin_Pos.Y=Surround_Welding_Size.Sink_Size_Left_Distance
  Lin_Pos.Z=-(Surround_Welding_Size.Sink_Size_Panel_Thick)
- Lin_Pos.A=L90_Welding_Craft[OFFSET_NO].Welding_Angle
+ Lin_Pos.A=0
  Lin_Pos.B=0
- Lin_Pos.C=0
+ Lin_Pos.C=L90_Welding_Craft[OFFSET_NO].Welding_Angle
 
 L90_Welding_Craft[OFFSET_NO].Welding_Pos.X=Lin_Pos.X
 L90_Welding_Craft[OFFSET_NO].Welding_Pos.Y=Lin_Pos.Y
@@ -203,8 +203,8 @@ IF  Surround_Welding_Size.Write_Status THEN
  Lin_Pos.Y=Surround_Welding_Size.Sink_Size_Left_Distance
  Lin_Pos.Z=-(Surround_Welding_Size.Sink_Size_Panel_Thick)
  Lin_Pos.A=0
- Lin_Pos.B=C135_Welding_Craft[1].Welding_Angle
- Lin_Pos.C=0
+ Lin_Pos.B=0
+ Lin_Pos.C=C135_Welding_Craft[1].Welding_Angle
 
 C135_Welding_Craft[1].Welding_Pos.X=Lin_Pos.X
 C135_Welding_Craft[1].Welding_Pos.Y=Lin_Pos.Y
@@ -405,8 +405,8 @@ ENDIF
  Lin_Pos.Y=Surround_Welding_Size.Sink_Size_Long+Surround_Welding_Size.Sink_Size_Left_Distance
  Lin_Pos.Z=-(Surround_Welding_Size.Sink_Size_Panel_Thick)
  Lin_Pos.A=0
- Lin_Pos.B=C315_Welding_Craft[1].Welding_Angle
- Lin_Pos.C=0
+ Lin_Pos.B=0
+ Lin_Pos.C=C315_Welding_Craft[1].Welding_Angle
 
  C315_Welding_Craft[1].Welding_Pos.X=Lin_Pos.X
  C315_Welding_Craft[1].Welding_Pos.Y=Lin_Pos.Y

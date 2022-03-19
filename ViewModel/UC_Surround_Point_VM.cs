@@ -22,8 +22,11 @@ using System.Windows.Controls;
 using System.Data;
 using HanGao.Extension_Method;
 using Soceket_KUKA.Models;
+using static HanGao.ViewModel.User_Control_Log_ViewModel;
 using static HanGao.Extension_Method.SetReadTypeAttribute;
 using static HanGao.ViewModel.UC_Surround_Point_VM;
+using static HanGao.ViewModel.UserControl_Socket_Var_Show_ViewModel;
+using System.Threading;
 
 namespace HanGao.ViewModel
 {
@@ -40,124 +43,143 @@ namespace HanGao.ViewModel
             Messenger.Register<Socket_Models_List, string>(this, nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data), (O, S) =>
                            {
 
-                               string [] data=new string[0];
+                            
+
+           
+                             
+
+                               //Read_Lock.EnterWriteLock();
+
+                                if (Read_Lock.WaitingWriteCount>0) User_Log_Add("剩余写入变量列表线程：" + Read_Lock.WaitingWriteCount.ToString());
 
 
-                      
+
+
+
+
+
+
+                                   string[] data = new string[0];
+
+
+
 
                                if (S.UserObject == null) return;
                                KUKA_Craft_Value Craft_Value = S.UserObject as KUKA_Craft_Value;
-                                  int Point_NO =Craft_Value.Craft_Point_NO-1;
-                                   
-                                       
-                                       switch (Craft_Value.KUKA_Craft_Type)
+                               int Point_NO = Craft_Value.Craft_Point_NO;
+
+
+                               switch (Craft_Value.KUKA_Craft_Type)
+                               {
+
+                                   case KUKA_Craft_Value_Name.Welding_Name:
+                                       if (S.Val_Var != "")
                                        {
 
-                                           case KUKA_Craft_Value_Name.Welding_Name:
-                                               if (S.Val_Var!="")
-                                               {
 
 
-
-                                               Surround_Offset_Point[Point_NO].Welding_Name = S.Val_Var.Replace('"',' ');
-
-
-                                               }
-                                               break;
-                                           case KUKA_Craft_Value_Name.Welding_Pos:
-                                               if (S.Val_Var != "")
-                                               {
-
-
-                                              data = S.Val_Var.Split(new string[] { "{E6POS: ", "}" }, StringSplitOptions.RemoveEmptyEntries);
-                                               if (data.Length != 0)
-                                               {
-
-
-                                                    data= data[0].Split(',');
-
-                                                   PropertyInfo[] a = Surround_Offset_Point[Point_NO].Welding_Pos.GetType().GetProperties();
-
-                                                   foreach (var item in data)
-                                                   {
-
-                                                       foreach (var _Pr in a)
-                                                       {
-                                                           if (item.Contains(_Pr.Name))
-                                                           {
-                                                               var b = item.Replace(_Pr.Name, "");
-
-                                                               Surround_Offset_Point[Point_NO].Welding_Pos.GetType().GetProperty(_Pr.Name).SetValue(Surround_Offset_Point[Point_NO].Welding_Pos, double.Parse(b));
-
-                                                              
-                                                           }
-                                                       }
-
-                                                   }
-
-                                               }
-                                               else
-                                               {
-                                                   return;
-                                               }
-                                               }
-                                               break;
-
-                                           case KUKA_Craft_Value_Name.Welding_Offset:
-
-                                               if (S.Val_Var != "")
-                                               {
-
-                                               
-
-                                               data = S.Val_Var.Split(new string[] { "{Offset_POS: ", "}" }, StringSplitOptions.RemoveEmptyEntries);
-                                               if (data.Length != 0)
-                                               {
-                                                   data = data[0].Split(',');
-
-
-                                                   foreach (var item in data)
-                                                   {
-                                                       if (item.Contains("X"))
-                                                       {
-                                                           item.Replace('X', ' ');
-                                                           Surround_Offset_Point[Point_NO].Pos_Offset.X = double.Parse(item.Replace('X', ' '));
-
-                                                       }
-                                                       else if (item.Contains("Y"))
-                                                       {
-                                                           item.Replace('Y',' ');
-                                                           Surround_Offset_Point[Point_NO].Pos_Offset.Y = double.Parse(item.Replace('Y', ' '));
-
-                                                       }
-                                                       else if (item.Contains("Z"))
-                                                       {
-                                                           item.Replace('Z', ' ');
-                                                           Surround_Offset_Point[Point_NO].Pos_Offset.Z = double.Parse(item.Replace('Z', ' '));
-                                                       }
-
-
-                                                   }
-
-
-
-
-                                               }
-
-
-
-                                               }
-
-                                    break;
-
-                                            
+                                           Surround_Offset_Point[Point_NO].Welding_Name = S.Val_Var.Replace('"', ' ');
+                                     
 
                                        }
-                                   
+                                       break;
+                                   case KUKA_Craft_Value_Name.Welding_Pos:
+                                       if (S.Val_Var != "")
+                                       {
 
-                                   return;
-                               
-                             
+
+                                           data = S.Val_Var.Split(new string[] { "{E6POS: ", "}" }, StringSplitOptions.RemoveEmptyEntries);
+                                           if (data.Length != 0)
+                                           {
+
+
+                                               data = data[0].Split(',');
+
+
+
+
+                                               //PropertyInfo[] a = Surround_Offset_Point[Point_NO].Welding_Pos.GetType().GetProperties();
+
+                                               foreach (var item in data)
+                                               {
+
+                                                   foreach (var _Pr in Surround_Offset_Point[Point_NO].Welding_Pos.GetType().GetProperties())
+                                                   {
+                                                       if (item.Contains(_Pr.Name))
+                                                       {
+                                                           var b = item.Replace(_Pr.Name, "");
+
+                                                           Surround_Offset_Point[Point_NO].Welding_Pos.GetType().GetProperty(_Pr.Name).SetValue(Surround_Offset_Point[Point_NO].Welding_Pos, double.Parse(b));
+
+                                                         
+                                                       }
+                                                   }
+
+                                               }
+
+                                           }
+                                           else
+                                           {
+                                               //return;
+                                           }
+                                       }
+                                       break;
+
+                                   case KUKA_Craft_Value_Name.Welding_Offset:
+
+                                       if (S.Val_Var != "")
+                                       {
+
+
+
+                                           data = S.Val_Var.Split(new string[] { "{Offset_POS: ", "}" }, StringSplitOptions.RemoveEmptyEntries);
+                                           if (data.Length != 0)
+                                           {
+                                               data = data[0].Split(',');
+
+
+                                               foreach (var item in data)
+                                               {
+                                                   if (item.Contains("X"))
+                                                   {
+                                                       item.Replace('X', ' ');
+                                                       Surround_Offset_Point[Point_NO].Pos_Offset.X = double.Parse(item.Replace('X', ' '));
+                                                 
+                                                   }
+                                                   else if (item.Contains("Y"))
+                                                   {
+                                                       item.Replace('Y', ' ');
+                                                       Surround_Offset_Point[Point_NO].Pos_Offset.Y = double.Parse(item.Replace('Y', ' '));
+                                                      
+                                                   }
+                                                   else if (item.Contains("Z"))
+                                                   {
+                                                       item.Replace('Z', ' ');
+                                                       Surround_Offset_Point[Point_NO].Pos_Offset.Z = double.Parse(item.Replace('Z', ' '));
+                                                    
+                                                   }
+
+
+                                               }
+
+
+
+
+                                           }
+
+
+
+                                       }
+
+                                       break;
+
+
+
+                               }
+
+        
+                               //return;
+
 
 
                            });
@@ -176,7 +198,7 @@ namespace HanGao.ViewModel
             {
 
 
-           
+                Write_Data.WaitOne();
 
                 User_Checked_Direction = S;
 
@@ -288,8 +310,11 @@ namespace HanGao.ViewModel
         }
 
 
-
-
+        /// <summary>
+        /// 写入锁
+        /// </summary>
+        public  ReaderWriterLockSlim Read_Lock = new ReaderWriterLockSlim();
+        public static ManualResetEvent Write_Data { set; get; } = new ManualResetEvent(true );
         /// <summary>
         /// 需要读取库卡工艺数据变量枚举
         /// </summary>
@@ -342,6 +367,7 @@ namespace HanGao.ViewModel
             get { return _Surround_Offset_Point; }
             set
             {
+                Thread.Sleep(300);
                 _Surround_Offset_Point = value;
         
                 StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Surround_Offset_Point)));
@@ -395,7 +421,16 @@ namespace HanGao.ViewModel
     /// </summary>
     public class KUKA_Craft_Value
     {
-        public int Craft_Point_NO { get; set; }
+      
+        private int _Craft_Point_NO;
+
+        public int Craft_Point_NO
+        {
+            get { return _Craft_Point_NO; }
+            set { _Craft_Point_NO = value-1; }
+        }
+
+
         public KUKA_Craft_Value_Name KUKA_Craft_Type { get; set; }
 
         public Craft_Type_Enum KUKA_Point_Type { get;  set; }

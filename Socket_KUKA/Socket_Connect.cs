@@ -705,6 +705,10 @@ namespace Soceket_Connect
                 Send_Waite.Set();
             }
 
+
+
+
+
         }
 
 

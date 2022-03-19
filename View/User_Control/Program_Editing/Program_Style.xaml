@@ -123,8 +123,8 @@
                         </Border>
                     </Border>
                     <ControlTemplate.Triggers>
-                        
-                        
+
+
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
                                 <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="true" />
