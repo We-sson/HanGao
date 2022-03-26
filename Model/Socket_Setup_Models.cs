@@ -200,6 +200,7 @@ namespace HanGao.Model
                           case Socket_Type.Client:
                
                               Socket_Client_Setup.Read.Socket_Client_Thread(Read_Write_Enum.Read,IP,Port);
+                             
                               break;
                           case Socket_Type.Server:
                               Socket_Server_Setup.Sever.Socket_Server_KUKA();

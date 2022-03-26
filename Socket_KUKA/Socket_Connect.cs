@@ -231,7 +231,9 @@ namespace Soceket_Connect
                     break;
                 case Read_Write_Enum.One_Read:
 
-                    Socket_Client_KUKA(_Enum, _IP, _Port);
+                    //读取用多线程连接
+                    Socket_Connect_Thread = new Thread(() => Socket_Client_KUKA(_Enum, _IP, _Port)) { Name = "One_Read—KUKA", IsBackground = true };
+                    Socket_Connect_Thread.Start();
 
 
                     break;
@@ -595,12 +597,12 @@ namespace Soceket_Connect
                 {
 
                     _Byte.Byte_data = Socket_KUKA_Receive.Byte_Read_Receive;
-                    Socket_KUKA_Receive.Byte_Read_Receive = new byte[1024 * 24];
+                    Socket_KUKA_Receive.Byte_Read_Receive = new byte[1024 * 1024];
                 }
                 else if (Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.Write)
                 {
                     _Byte.Byte_data = Socket_KUKA_Receive.Byte_Write_Receive;
-                    Socket_KUKA_Receive.Byte_Write_Receive = new byte[1024 * 24];
+                    Socket_KUKA_Receive.Byte_Write_Receive = new byte[1024 * 1024];
                 }
 
 
@@ -656,7 +658,24 @@ namespace Soceket_Connect
 
 
 
-                    Messenger.Send<Socket_Modesl_Byte,string >(_Byte, nameof(Meg_Value_Eunm.Socket_Read_List));
+
+                    ///多线程修改值变量
+                    Thread Read_receive = new Thread(new ThreadStart(new Action(() =>
+                    {
+
+                        Messenger.Send<Socket_Modesl_Byte, string>(_Byte, nameof(Meg_Value_Eunm.Socket_Read_List));
+
+                    })))
+                    {
+                   
+                        IsBackground = true
+                    };
+                    Read_receive.Name = Read_receive.ManagedThreadId.ToString() + "  Revise_Value";
+                    Read_receive.Start();
+
+
+  
+
 
                 }
 

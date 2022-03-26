@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Collections.Specialized;
 using HanGao.Socket_KUKA;
 using HanGao.ViewModel;
 using static Soceket_Connect.Socket_Connect;
@@ -36,6 +37,8 @@ namespace HanGao.ViewModel
 
         public UserControl_Socket_Var_Show_ViewModel()
         {
+
+            Socket_Read_List.CollectionChanged += Socket_Read_List_CollectionChanged;
 
             IsActive = true;
             //开始读取集合发送线程
@@ -68,69 +71,112 @@ namespace HanGao.ViewModel
             // 发送内容集合接收写入
            Messenger.Register<ObservableCollection<Socket_Models_List>,string >(this, nameof(Meg_Value_Eunm.List_Connect), (O,_List) =>
             {
+
+
+                //User_Log_Add("剩余读取线程：" + Read_List.WaitingWriteCount.ToString());
+                Read_List.EnterWriteLock();
                 //写入集合中
                 foreach (var item in _List)
                 {
+                   
 
                     if (!Socket_Read_List.Any<Socket_Models_List>(l => l.Val_Name == item.Val_Name))
                     {
-
+                        Application.Current.Dispatcher.Invoke((Action)(() =>
+                        {
+            
                         Socket_Read_List.Add(item);
+                        }));
+
+
+
                     }
+                    else
+                    {
+                        //查找相同名称和只读取一次属性
+                  var a=  Socket_Read_List.Where<Socket_Models_List>(l => l.Value_One_Read ==  Read_Type_Enum.One_Read).FirstOrDefault()  ;
+                        if (a !=null)
+                        {
+                        a.Val_OnOff = true;
+
+                        } 
+                    }
+                   
+          
+
 
                 }
+
+                Read_List.ExitWriteLock();
             });
 
 
             //接收消息更新列表变量值
             Messenger.Register<Socket_Modesl_Byte,string >(this, nameof(Meg_Value_Eunm.Socket_Read_List), (O, _Byte) =>
             {
-                
-                if (Socket_Read_List.Count > 0)
+
+
+                    for (int i = 0; i < Socket_Read_List.Count; i++)
                     {
-                       
 
-                        for (int i = 0; i < Socket_Read_List.Count; i++)
+                        if (Socket_Read_List[i].Val_ID == _Byte.Byte_ID && Socket_Read_List[i].Val_Var != _Byte.Message_Show)
                         {
-
-                            if (Socket_Read_List[i].Val_ID == _Byte.Byte_ID && Socket_Read_List[i].Val_Var != _Byte.Message_Show)
-                            {
-                                Socket_Read_List[i].Val_Update_Time = DateTime.Now.ToLocalTime();
-                                Socket_Read_List[i].Val_Var = _Byte.Message_Show;
-                                //MessageBox.Show(Socket_Read_List[i].Val_Var);
-                                //把属于自己的区域回传
-                                Socket_Models_List a = Socket_Read_List[i];
+                            Socket_Read_List[i].Val_Update_Time = DateTime.Now.ToLocalTime();
+                            Socket_Read_List[i].Val_Var = _Byte.Message_Show;
+                            //MessageBox.Show(Socket_Read_List[i].Val_Var);
+                            //把属于自己的区域回传
+                            Socket_Models_List a = Socket_Read_List[i];
 
 
-                                Messenger.Send<Socket_Models_List,string  >(a, Socket_Read_List[i].Send_Area);
 
-                            //return;
-                        }
+                            Messenger.Send<Socket_Models_List, string>(a, Socket_Read_List[i].Send_Area);
+
+
+                           return;
 
                         }
 
-
-
-                    
-
-
-                }
-                
+                    }
 
             });
 
 
-            //释放发送线程
-
         }
+
+
+
+
+
+
+        /// <summary>
+        /// 集合列表更改事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        private void Socket_Read_List_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+
+
+            //if (Socket_Read_Thread!=null )
+            //{
+                
+            //    Read_List_Lock.WaitOne  ();
+
+            //}
+  
+
+
+
+    }
 
 
 
         /// <summary>
         /// 写入锁
         /// </summary>
-        public  ReaderWriterLockSlim Read_List_Lock = new ReaderWriterLockSlim();
-
+        public static ManualResetEvent Read_List_Lock = new ManualResetEvent(false );
+        public static ReaderWriterLockSlim Read_List = new ReaderWriterLockSlim();
 
         /// <summary>
         /// 读取库卡变量列表集合
@@ -141,17 +187,21 @@ namespace HanGao.ViewModel
         {
             get 
             {
-   
+
+  
+
                 return _Socket_Read_List; 
+    
+
 
    
             }
             set 
             {
 
-     
-                _Socket_Read_List =  value; 
+               
 
+                _Socket_Read_List =  value;
 
 
             }
@@ -220,53 +270,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 循环读取线程设置
         /// </summary>
-        public Thread Socket_Read_Thread { set; get; }
-
-        /// <summary>
-        /// 弃用
-        /// </summary>
-        /// <param name="_Byte"></param>
-        public void List_Var_Show(Socket_Modesl_Byte _Byte)
-        {
-            //MessageBox.Show($"线程ID：" + Thread.CurrentThread.ManagedThreadId.ToString());
-
-
-        
-
-                if (Socket_Read_List.Count > 0)
-                {
-
-
-                    for (int i = 0; i < Socket_Read_List.Count; i++)
-                    {
-
-                        if (Socket_Read_List[i].Val_ID == _Byte.Byte_ID && Socket_Read_List[i].Val_Var != _Byte.Message_Show)
-                        {
-                            Socket_Read_List[i].Val_Update_Time = DateTime.Now.ToLocalTime();
-                            Socket_Read_List[i].Val_Var = _Byte.Message_Show;
-                            //把属于自己的区域回传
-                            Messenger.Send<Socket_Models_List,string >(Socket_Read_List[i], Socket_Read_List[i].Send_Area);
-                            return;
-                        }
-
-                    }
-
-
-
-
-
-
-
-
-                
-
-
-            }
-
-
-        }
-
-
+        public Thread Socket_Read_Thread { set; get; } 
 
 
 
@@ -307,14 +311,11 @@ namespace HanGao.ViewModel
 
             while (true)
             {
-                lock (Socket_Read_List)
-                {
 
 
-                try
-                {
+                //try
+                //{
 
- 
 
                   Delay_time = DateTime.Now;
 
@@ -322,47 +323,59 @@ namespace HanGao.ViewModel
                     if (Socket_Read_List.Count > 0)
                     {
 
+                //Read_List_Lock.Reset();
+                Read_List.EnterWriteLock();
+
+
                         for (int i = 0; i < Socket_Read_List.Count; i++)
                         {
 
 
 
 
-                            Send_Waite.Reset();
                             //当前时间
-                            if (Socket_Read_List[i].Val_OnOff)
+                            if (Socket_Read_List[i].Val_OnOff )
                             {
+
+
+
+
+                                Send_Waite.Reset();
                                 int _ID = Socket_Read_List[i].Val_ID;
                                 //重置发送等待标识
                                 Send_Read.Reset();
 
+
+
+
                                 //发送变量集合内容
                                 Socket_Client_Setup.Read.Send_Read_Var(Socket_Read_List[i].Val_Name, _ID);
 
+
                                     //等待发送完,增加延时减少发送压力
 
-                                    Thread.Sleep(5);
+                                    //Thread.Sleep(5);
 
-                                if (!Send_Waite.WaitOne(15000,true ) || !Socket_Client_Setup.Read.Is_Read_Client)
+
+                            if (Socket_Read_List[i].Value_One_Read == Read_Type_Enum.One_Read)
+                            {
+
+                                Socket_Read_List[i].Val_OnOff = false;
+
+                            }
+
+                                if (!Send_Waite.WaitOne(15000000,true ) || !Socket_Client_Setup.Read.Is_Read_Client)
                                 {
                                     Socket_Client_Setup.Read.Socket_Receive_Error(Read_Write_Enum.Read, "发送超时无应答，退出线程发送！");
                                     return;
                                 }
 
 
-                                if (Socket_Read_List[i].Value_One_Read== Read_Type_Enum.One_Read )
-                                {
-                                    Application.Current.Dispatcher.Invoke((Action)(() =>
-                                        {
-                                    //User_Log_Add(Socket_Read_List[i].Val_Name+" 删除成功!");
-                                       
-                                        Socket_Read_List.RemoveAt(i);
-                                        }));
-
-                                    }
                              
      
                             }
+
+
 
 
                         }
@@ -371,36 +384,35 @@ namespace HanGao.ViewModel
                        Messenger.Send<string,string >((DateTime.Now - Delay_time).TotalMilliseconds.ToString().Split('.')[0], nameof(Meg_Value_Eunm.Connter_Time_Delay_Method));
 
 
-                        var a = Socket_Read_List.Any<Socket_Models_List>(l => l.Value_One_Read == Read_Type_Enum.One_Read);
-
-                        if (!a)
-                        {
-                            Write_Data.Set();
-
-
-                        }
 
 
 
 
-                    }
 
 
-                    }
-                catch (Exception e)
-                {
-                    //异常处理
-                    User_Log_Add($"Error: -08 原因:" + e.Message);
-                    //User_Log_Add("-1.5，退出发送线程");
-                    //Clear_List();
-                    return;
+                   //Read_List_Lock.Set ();
+
+                    Read_List.ExitWriteLock();
                 }
-                finally
-                {
 
-                //Read_List_Lock.ExitWriteLock();
-                }
-                }
+
+                //    }
+                //catch (Exception e)
+                //{
+                //    //异常处理
+                //    User_Log_Add($"Error: -08 原因:" + e.Message);
+                //    //User_Log_Add("-1.5，退出发送线程");
+                //    //Clear_List();
+                //    return;
+                //}
+                //finally
+                //{
+
+                ////Read_List_Lock.ExitWriteLock();
+                //}
+
+
+
 
             }
 
@@ -417,10 +429,7 @@ namespace HanGao.ViewModel
         /// </summary>
         public void Clear_List()
         {
-            //foreach (var List in Socket_Read_List)
-            //{
-            //    List.Val_Var = string.Empty;
-            //}
+
         }
 
 

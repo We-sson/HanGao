@@ -28,7 +28,9 @@ namespace HanGao.ViewModel
 
         }
 
-
+        /// <summary>
+        /// 围边方向枚举
+        /// </summary>
         public enum Surround_Direction_Enum
         {
             Null,

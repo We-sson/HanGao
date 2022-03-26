@@ -172,6 +172,9 @@ namespace HanGao.Xml_Date.Xml_Models
 
 
     }
+    /// <summary>
+    /// 工艺点类型
+    /// </summary>
     [Flags]
     public enum Craft_Type_Enum
     {
