@@ -301,7 +301,7 @@ namespace HanGao.ViewModel
         /// 读取集合循环发送
         /// </summary>
         /// <param name="_Obj"></param>
-        public void Receive_Read_Theam()
+        public  static  void Receive_Read_Theam()
         {
 
 
@@ -317,7 +317,7 @@ namespace HanGao.ViewModel
                 //{
 
 
-                  Delay_time = DateTime.Now;
+                DateTime Delay_time = DateTime.Now;
 
 
                     if (Socket_Read_List.Count > 0)
@@ -382,7 +382,7 @@ namespace HanGao.ViewModel
 
                         //发送通讯延迟
                        Messenger.Send<string,string >((DateTime.Now - Delay_time).TotalMilliseconds.ToString().Split('.')[0], nameof(Meg_Value_Eunm.Connter_Time_Delay_Method));
-
+                    
 
 
 
