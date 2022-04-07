@@ -23,10 +23,14 @@ using static Soceket_KUKA.Models.Socket_Eunm;
 using static Soceket_KUKA.Models.Socket_Models_Connect;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
 
+
+
 using static Soceket_KUKA.Socket_Receive;
 using static HanGao.Socket_KUKA.Socket_Sever;
 
 using static HanGao.ViewModel.User_Control_Log_ViewModel;
+using static HanGao.ViewModel.UserControl_Socket_Var_Show_ViewModel;
+
 using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -73,7 +77,7 @@ namespace HanGao.Model
         /// <summary>
         /// 静态属性更新通知事件
         /// </summary>
-        public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
+        //public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
 
         /// <summary>
         /// IP输入识别内容属性
@@ -198,9 +202,14 @@ namespace HanGao.Model
                       switch (Connect_Socket_Type)
                       {
                           case Socket_Type.Client:
-               
-                              Socket_Client_Setup.Read.Socket_Client_Thread(Read_Write_Enum.Read,IP,Port);
-                             
+
+                              Socket_Client_Setup.Read.Socket_Client_Thread(Read_Write_Enum.Read, IP, Port);
+
+                              //读取用多线程连接
+                              //Socket_Connect_Thread = new Thread(() => Receive_Read_Theam()) { Name = "KUKA_Ver_LoopRead", IsBackground = true };
+                              //Socket_Connect_Thread.Start();
+
+
                               break;
                           case Socket_Type.Server:
                               Socket_Server_Setup.Sever.Socket_Server_KUKA();

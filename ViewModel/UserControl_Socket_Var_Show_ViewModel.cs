@@ -38,19 +38,19 @@ namespace HanGao.ViewModel
         public UserControl_Socket_Var_Show_ViewModel()
         {
 
-            Socket_Read_List.CollectionChanged += Socket_Read_List_CollectionChanged;
+       
 
             IsActive = true;
             //开始读取集合发送线程
             Messenger.Register<dynamic ,string >(this,nameof( Meg_Value_Eunm.Socket_Read_Thread), (O,_Bool) =>
             {
-                if (_Bool)
-                {
-                    Socket_Read_Thread = new Thread(Receive_Read_Theam) { Name = "Read", IsBackground = true };
-                    Socket_Read_Thread.Start();
-                    User_Log_Add("启动变量发送线程");
+                //if (_Bool)
+                //{
+                //    Socket_Read_Thread = new Thread(Receive_Read_Theam) { Name = "Read", IsBackground = true };
+                //    Socket_Read_Thread.Start();
+                //    User_Log_Add("启动变量发送线程");
 
-                }
+                //}
 
 
             });
@@ -148,27 +148,7 @@ namespace HanGao.ViewModel
 
 
 
-        /// <summary>
-        /// 集合列表更改事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <exception cref="NotImplementedException"></exception>
-        private void Socket_Read_List_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
 
-
-            //if (Socket_Read_Thread!=null )
-            //{
-                
-            //    Read_List_Lock.WaitOne  ();
-
-            //}
-  
-
-
-
-    }
 
 
 
@@ -301,23 +281,22 @@ namespace HanGao.ViewModel
         /// 读取集合循环发送
         /// </summary>
         /// <param name="_Obj"></param>
-        public  static  void Receive_Read_Theam()
+        public  static  void Receive_Read_Theam(Socket_Models_Receive _Socket_Receive_Inf)
         {
 
 
 
 
 
-
-            while (true)
-            {
+            var aa = _Socket_Receive_Inf.Read_Write_Type;
 
 
-                //try
-                //{
+
+            //try
+            //{
 
 
-                DateTime Delay_time = DateTime.Now;
+            DateTime Delay_time = DateTime.Now;
 
 
                     if (Socket_Read_List.Count > 0)
@@ -337,7 +316,7 @@ namespace HanGao.ViewModel
                             if (Socket_Read_List[i].Val_OnOff )
                             {
 
-
+                  
 
 
                                 Send_Waite.Reset();
@@ -346,10 +325,11 @@ namespace HanGao.ViewModel
                                 Send_Read.Reset();
 
 
-
-
-                                //发送变量集合内容
-                                Socket_Client_Setup.Read.Send_Read_Var(Socket_Read_List[i].Val_Name, _ID);
+                        //将需要发送的变量信息写入回调参数忠
+                            _Socket_Receive_Inf.Reveice_Target_Inf = Socket_Read_List[i];
+                        
+                        //发送变量集合内容
+                        Socket_Client_Setup.Read.Send_Read_Var(_Socket_Receive_Inf);
 
 
                                     //等待发送完,增加延时减少发送压力
@@ -357,12 +337,12 @@ namespace HanGao.ViewModel
                                     //Thread.Sleep(5);
 
 
-                            if (Socket_Read_List[i].Value_One_Read == Read_Type_Enum.One_Read)
-                            {
+                            //if (Socket_Read_List[i].Value_One_Read == Read_Type_Enum.One_Read)
+                            //{
 
-                                Socket_Read_List[i].Val_OnOff = false;
+                            //    Socket_Read_List[i].Val_OnOff = false;
 
-                            }
+                            //}
 
                                 if (!Send_Waite.WaitOne(15000000,true ) || !Socket_Client_Setup.Read.Is_Read_Client)
                                 {
@@ -380,8 +360,8 @@ namespace HanGao.ViewModel
 
                         }
 
-                        //发送通讯延迟
-                       Messenger.Send<string,string >((DateTime.Now - Delay_time).TotalMilliseconds.ToString().Split('.')[0], nameof(Meg_Value_Eunm.Connter_Time_Delay_Method));
+                    //发送通讯延迟
+                    WeakReferenceMessenger.Default.Send<string,string >((DateTime.Now - Delay_time).TotalMilliseconds.ToString().Split('.')[0], nameof(Meg_Value_Eunm.Connter_Time_Delay_Method));
                     
 
 
@@ -414,7 +394,8 @@ namespace HanGao.ViewModel
 
 
 
-            }
+          
+            Receive_Read_Theam(Socket_KUKA_Receive);
 
 
 

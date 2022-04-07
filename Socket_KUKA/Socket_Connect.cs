@@ -449,10 +449,10 @@ namespace Soceket_Connect
                 //KeepAlive(Global_Socket_Read, true, 2000, 1000);
 
                 //异步监听接收读取消息
-                Global_Socket_Read.BeginReceive(Socket_KUKA_Receive.Byte_Read_Receive, 0, Socket_KUKA_Receive.Byte_Read_Receive.Length, SocketFlags.None, new AsyncCallback(Socke_Receive_Message), Socket_KUKA_Receive);
+                //Global_Socket_Read.BeginReceive(Socket_KUKA_Receive.Byte_Read_Receive, 0, Socket_KUKA_Receive.Byte_Read_Receive.Length, SocketFlags.None, new AsyncCallback(Socke_Receive_Message), Socket_KUKA_Receive);
 
 
-
+              
                 //发送终端连接信息
                 User_Log_Add("读取连接目标IP：" + Global_Socket_Read.RemoteEndPoint.ToString());
                 User_Log_Add("读取本地连接IP：" + Global_Socket_Read.LocalEndPoint.ToString());
@@ -465,8 +465,12 @@ namespace Soceket_Connect
                 //Thread.Sleep(1000);
 
                 //开启多线程监听集合内循环发送
-                Messenger.Send<dynamic, string >(true,nameof( Meg_Value_Eunm.Socket_Read_Thread));
+                //Messenger.Send<dynamic, string >(true,nameof( Meg_Value_Eunm.Socket_Read_Thread));
 
+
+                //读取用多线程连接
+                Socket_Connect_Thread = new Thread(() => Receive_Read_Theam(Socket_KUKA_Receive)) { Name = "KUKA_Ver_LoopRead", IsBackground = true };
+                Socket_Connect_Thread.Start();
 
                 //前端显示连接成功
                 Messenger.Send<dynamic, string >(1,nameof(Meg_Value_Eunm.Connect_Client_Socketing_Button_Show));
@@ -529,7 +533,7 @@ namespace Soceket_Connect
         /// 异步接收信息
         /// </summary>
         /// <param name="ar">Socket属性</param>
-        private  void Socke_Receive_Message(IAsyncResult ar)
+        public   void Socke_Receive_Message(IAsyncResult ar)
         {
 
 
@@ -663,7 +667,9 @@ namespace Soceket_Connect
                     Thread Read_receive = new Thread(new ThreadStart(new Action(() =>
                     {
 
-                        Messenger.Send<Socket_Modesl_Byte, string>(_Byte, nameof(Meg_Value_Eunm.Socket_Read_List));
+
+
+                        //Messenger.Send<Socket_Modesl_Byte, string>(_Byte, nameof(Meg_Value_Eunm.Socket_Read_List));
 
                     })))
                     {
@@ -736,7 +742,7 @@ namespace Soceket_Connect
         /// <summary>
         /// 消息发送
         /// </summary>
-        private  void Socket_Send_Message_Method(Socket_Models_Send _S)
+        private  void Socket_Send_Message_Method(Socket_Models_Receive _S)
         {
 
 
@@ -800,12 +806,17 @@ namespace Soceket_Connect
 
             if (_S.Read_Write_Type == Read_Write_Enum.Read || _S.Read_Write_Type == Read_Write_Enum.One_Read)
             {
-                lock (Global_Socket_Read)
-                {
+
+                Socket_KUKA_Receive = _S;
+                //异步监听接收读取消息
+               Global_Socket_Read.BeginReceive(Socket_KUKA_Receive.Byte_Read_Receive, 0, Socket_KUKA_Receive.Byte_Read_Receive.Length, SocketFlags.None, new AsyncCallback(Socke_Receive_Message), Socket_KUKA_Receive);
+
+
+       
 
                     //异步读取发送
                     Global_Socket_Read.BeginSend(Message, 0, Message.Length, SocketFlags.None, new AsyncCallback(Socket_Send_Message), Global_Socket_Read);
-                }
+
 
             }
 
@@ -869,15 +880,18 @@ namespace Soceket_Connect
         /// <param name="_var">读取名称</param>
         /// <param name="_ID">ID号</param>
         /// <returns></returns>
-        public void Send_Read_Var(string _var, int _ID)
+        public void Send_Read_Var(Socket_Models_Receive _Socket_Receive_Inf)
         {
 
 
+            if (_Socket_Receive_Inf.Reveice_Target_Inf.Val_Name!="")
+            {
 
+             
             //临时存放变量
             List<byte> _data = new List<byte>();
             //变量转换byte
-            byte[] _v = Encoding.Default.GetBytes(_var);
+            byte[] _v = Encoding.Default.GetBytes(_Socket_Receive_Inf.Reveice_Target_Inf.Val_Var);
 
 
 
@@ -885,7 +899,7 @@ namespace Soceket_Connect
             //传输数据排列，固定顺序不可修改
 
             //传输数据唯一标识
-            _data.AddRange(Send_number_ID(_ID));
+            _data.AddRange(Send_number_ID(_Socket_Receive_Inf.Reveice_Target_Inf.Val_ID));
             //传输数据总长度值
             _data.AddRange(Send_number_ID(_v.Length + 3));
             //读取标识 0x00 
@@ -897,9 +911,13 @@ namespace Soceket_Connect
             //结束位号
             _data.AddRange(new byte[1] { 0x00 });
 
+         
+                _Socket_Receive_Inf.Send_Byte = _data.ToArray()
             //发送排序好的字节流发送
-            Socket_Send_Message_Method(new Socket_Models_Send() { Send_Byte = _data.ToArray(), Read_Write_Type = Read_Write_Enum.Read });
+            //Socket_Send_Message_Method(new Socket_Models_Send() { Send_Byte = _data.ToArray(), Read_Write_Type = Read_Write_Enum.Read });
+                Socket_Send_Message_Method(_Socket_Receive_Inf);
 
+            }
 
 
         }

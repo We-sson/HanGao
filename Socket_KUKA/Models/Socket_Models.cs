@@ -52,6 +52,9 @@ namespace Soceket_KUKA.Models
     {
 
 
+
+        public Socket_Models_List Reveice_Target_Inf;
+
         /// <summary>
         /// 接收空字节流属性
         /// </summary>
@@ -61,7 +64,7 @@ namespace Soceket_KUKA.Models
         /// <summary>
         /// 接收字节长度
         /// </summary>
-        public int Byte_Leng { set; get; } = 0;
+        public int Byte_Leng  = 0;
 
 
 
@@ -69,10 +72,13 @@ namespace Soceket_KUKA.Models
         /// 接收字节组属性
         /// </summary>
         public byte[] Reveive_Byte { set; get; }= Array.Empty<byte>();
+        /// <summary>
+        /// 发送字节组属性
+        /// </summary>
+        public byte[] Send_Byte { set; get; } = Array.Empty<byte>();
 
 
 
-        private readonly static object _lock = new object();
         private Read_Write_Enum read_Write_Type = Read_Write_Enum.Null;
         /// <summary>
         /// 写入属性
