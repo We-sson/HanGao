@@ -91,10 +91,9 @@ namespace Soceket_KUKA.Models
             }
             get
             {
-                lock (_lock)
-                {
+      
                     return read_Write_Type;
-                }
+                
             }
         }
 

@@ -395,7 +395,7 @@ namespace HanGao.ViewModel
 
 
           
-            Receive_Read_Theam(Socket_KUKA_Receive);
+            Receive_Read_Theam(_Socket_Receive_Inf);
 
 
 

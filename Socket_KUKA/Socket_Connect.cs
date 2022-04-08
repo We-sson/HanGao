@@ -541,7 +541,7 @@ namespace Soceket_Connect
 
 
             //传入参数转换
-            Socket_Models_Receive Socket_KUKA_Receive = ar.AsyncState as Socket_Models_Receive;
+            Socket_Models_Receive _Receive = ar.AsyncState as Socket_Models_Receive;
 
             Socket_Modesl_Byte _Byte = new Socket_Modesl_Byte() { };
 
@@ -661,6 +661,11 @@ namespace Soceket_Connect
                 {
 
 
+                        Socket_Models_List _List = Socket_Read_List.Where<Socket_Models_List>(l => l.Val_ID == _Receive.Reveice_Target_Inf.Val_ID).FirstOrDefault();
+                        _List.Val_Update_Time = DateTime.Now.ToLocalTime();
+                        _List.Val_Var= _Byte.Message_Show;
+                    if (_List.Send_Area !="")
+                    {
 
 
                     ///多线程修改值变量
@@ -668,19 +673,22 @@ namespace Soceket_Connect
                     {
 
 
+                        Messenger.Send<Socket_Models_List, string>(_List, _List.Send_Area);
+       
 
                         //Messenger.Send<Socket_Modesl_Byte, string>(_Byte, nameof(Meg_Value_Eunm.Socket_Read_List));
 
                     })))
                     {
-                   
+
                         IsBackground = true
                     };
                     Read_receive.Name = Read_receive.ManagedThreadId.ToString() + "  Revise_Value";
                     Read_receive.Start();
 
+                    }
 
-  
+
 
 
                 }
@@ -723,7 +731,7 @@ namespace Soceket_Connect
                 if (Is_Read_Client)
                 {
 
-                    Global_Socket_Read.BeginReceive(Socket_KUKA_Receive.Byte_Read_Receive, 0, Socket_KUKA_Receive.Byte_Read_Receive.Length, SocketFlags.None, new AsyncCallback(Socke_Receive_Message), Socket_KUKA_Receive);
+                    //Global_Socket_Read.BeginReceive(Socket_KUKA_Receive.Byte_Read_Receive, 0, Socket_KUKA_Receive.Byte_Read_Receive.Length, SocketFlags.None, new AsyncCallback(Socke_Receive_Message), Socket_KUKA_Receive);
                 }
 
                 //接收完成释放一次读取线程
@@ -891,7 +899,7 @@ namespace Soceket_Connect
             //临时存放变量
             List<byte> _data = new List<byte>();
             //变量转换byte
-            byte[] _v = Encoding.Default.GetBytes(_Socket_Receive_Inf.Reveice_Target_Inf.Val_Var);
+            byte[] _v = Encoding.Default.GetBytes(_Socket_Receive_Inf.Reveice_Target_Inf.Val_Name);
 
 
 
@@ -911,8 +919,8 @@ namespace Soceket_Connect
             //结束位号
             _data.AddRange(new byte[1] { 0x00 });
 
-         
-                _Socket_Receive_Inf.Send_Byte = _data.ToArray()
+
+                _Socket_Receive_Inf.Send_Byte = _data.ToArray();
             //发送排序好的字节流发送
             //Socket_Send_Message_Method(new Socket_Models_Send() { Send_Byte = _data.ToArray(), Read_Write_Type = Read_Write_Enum.Read });
                 Socket_Send_Message_Method(_Socket_Receive_Inf);
@@ -922,46 +930,6 @@ namespace Soceket_Connect
 
         }
 
-
-        /// <summary>
-        /// 处理读取变量字节流
-        /// </summary>
-        /// <param name="_var">读取名称</param>
-        /// <returns></returns>
-        public void Send_One_Read_Var(string _var)
-        {
-
-
-
-            //临时存放变量
-            List<byte> _data = new List<byte>();
-            //变量转换byte
-            byte[] _v = Encoding.Default.GetBytes(_var);
-
-
-
-
-            //传输数据排列，固定顺序不可修改
-
-            //传输数据唯一标识
-            _data.AddRange(Send_number_ID(Write_Number_ID));
-            //传输数据总长度值
-            _data.AddRange(Send_number_ID(_v.Length + 3));
-            //读取标识 0x00 
-            _data.AddRange(new byte[1] { 0x00 });
-            //传输变量长度值
-            _data.AddRange(Send_number_ID(_v.Length));
-            //传输变量
-            _data.AddRange(_v);
-            //结束位号
-            _data.AddRange(new byte[1] { 0x00 });
-
-            //发送排序好的字节流发送
-            Socket_Send_Message_Thread(new Socket_Models_Send() { Send_Byte = _data.ToArray(), Read_Write_Type = Read_Write_Enum.One_Read });
-
-
-
-        }
 
 
 
@@ -1008,7 +976,7 @@ namespace Soceket_Connect
 
 
 
-            Socket_Send_Message_Thread(new Socket_Models_Send() { Send_Byte = _data.ToArray(), Read_Write_Type = Read_Write_Enum.Write });
+            Socket_Send_Message_Thread(new Socket_Models_Receive() { Send_Byte = _data.ToArray(), Read_Write_Type = Read_Write_Enum.Write });
 
 
         }
@@ -1017,7 +985,7 @@ namespace Soceket_Connect
         /// 新建线程发送消息
         /// </summary>
         /// <param name="_S"></param>
-        private  void Socket_Send_Message_Thread(Socket_Models_Send _S)
+        private  void Socket_Send_Message_Thread(Socket_Models_Receive _S)
         {
 
 

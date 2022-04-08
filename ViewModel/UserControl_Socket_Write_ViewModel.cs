@@ -52,7 +52,7 @@ namespace HanGao.ViewModel
                         //发输入框内的数值
                         //Socket_Client_Setup.Write.Send_Write_Var(Sm.Send_Name.Text, Sm.Send_Val.Text);
 
-                        Socket_Client_Setup.Read .Send_One_Read_Var(Sm.Send_Name.Text);
+                        //Socket_Client_Setup.Read .Send_One_Read_Var(Sm.Send_Name.Text);
 
 
                         
