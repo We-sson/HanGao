@@ -96,8 +96,10 @@ namespace HanGao.Model
             set
             {
                 //值相同返回，减少UI更新占用资源
-                if (_Robot_Speed == value) { return; }
+                if (value!=String .Empty)
+                {
                 _Robot_Speed = value;
+                }
             }
         }
 

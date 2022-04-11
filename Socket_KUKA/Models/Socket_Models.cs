@@ -55,6 +55,9 @@ namespace Soceket_KUKA.Models
 
         public Socket_Models_List Reveice_Target_Inf;
 
+        public Socket_Modesl_Byte Receive_Byte;
+
+
         /// <summary>
         /// 接收空字节流属性
         /// </summary>

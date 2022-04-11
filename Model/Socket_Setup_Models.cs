@@ -205,6 +205,9 @@ namespace HanGao.Model
 
                               Socket_Client_Setup.Read.Socket_Client_Thread(Read_Write_Enum.Read, IP, Port);
 
+
+
+
                               //读取用多线程连接
                               //Socket_Connect_Thread = new Thread(() => Receive_Read_Theam()) { Name = "KUKA_Ver_LoopRead", IsBackground = true };
                               //Socket_Connect_Thread.Start();

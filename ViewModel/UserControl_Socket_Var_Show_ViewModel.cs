@@ -73,8 +73,8 @@ namespace HanGao.ViewModel
             {
 
 
+                //Read_List.EnterWriteLock();
                 //User_Log_Add("剩余读取线程：" + Read_List.WaitingWriteCount.ToString());
-                Read_List.EnterWriteLock();
                 //写入集合中
                 foreach (var item in _List)
                 {
@@ -91,23 +91,23 @@ namespace HanGao.ViewModel
 
 
                     }
-                    else
-                    {
-                        //查找相同名称和只读取一次属性
-                  var a=  Socket_Read_List.Where<Socket_Models_List>(l => l.Value_One_Read ==  Read_Type_Enum.One_Read).FirstOrDefault()  ;
-                        if (a !=null)
-                        {
-                        a.Val_OnOff = true;
+                  //  else
+                  //  {
+                  //      //查找相同名称和只读取一次属性
+                  //var a=  Socket_Read_List.Where<Socket_Models_List>(l => l.Value_One_Read ==  Read_Type_Enum.One_Read).FirstOrDefault()  ;
+                  //      if (a !=null)
+                  //      {
+                  //      a.Val_OnOff = true;
 
-                        } 
-                    }
+                  //      } 
+                  //  }
                    
           
 
 
                 }
 
-                Read_List.ExitWriteLock();
+                //Read_List.ExitWriteLock();
             });
 
 
@@ -303,7 +303,7 @@ namespace HanGao.ViewModel
                     {
 
                 //Read_List_Lock.Reset();
-                Read_List.EnterWriteLock();
+                //Read_List.EnterWriteLock();
 
 
                         for (int i = 0; i < Socket_Read_List.Count; i++)
@@ -332,19 +332,25 @@ namespace HanGao.ViewModel
                         Socket_Client_Setup.Read.Send_Read_Var(_Socket_Receive_Inf);
 
 
-                                    //等待发送完,增加延时减少发送压力
 
-                                    //Thread.Sleep(5);
+                        if (Socket_Read_List[i].Value_One_Read== Read_Type_Enum.One_Read)
+                        {
 
 
-                            //if (Socket_Read_List[i].Value_One_Read == Read_Type_Enum.One_Read)
-                            //{
+                            Socket_Client_Setup.One_Read.Send_Read_Var(_Socket_Receive_Inf);
+                            ;  Socket_Read_List[i].Val_OnOff = false;
 
-                            //    Socket_Read_List[i].Val_OnOff = false;
+                        }
 
-                            //}
+                    
+                        //等待发送完,增加延时减少发送压力
 
-                                if (!Send_Waite.WaitOne(15000000,true ) || !Socket_Client_Setup.Read.Is_Read_Client)
+                        //Thread.Sleep(5);
+
+
+
+
+                        if (!Send_Waite.WaitOne(15000000,true ) || !Socket_Client_Setup.Read.Is_Read_Client)
                                 {
                                     Socket_Client_Setup.Read.Socket_Receive_Error(Read_Write_Enum.Read, "发送超时无应答，退出线程发送！");
                                     return;
@@ -372,29 +378,47 @@ namespace HanGao.ViewModel
 
                    //Read_List_Lock.Set ();
 
-                    Read_List.ExitWriteLock();
+                    //Read_List.ExitWriteLock();
                 }
 
 
-                //    }
-                //catch (Exception e)
-                //{
-                //    //异常处理
-                //    User_Log_Add($"Error: -08 原因:" + e.Message);
-                //    //User_Log_Add("-1.5，退出发送线程");
-                //    //Clear_List();
-                //    return;
-                //}
-                //finally
-                //{
-
-                ////Read_List_Lock.ExitWriteLock();
-                //}
 
 
+            //Socket_Models_List _List;
+            //do
+            //{
+
+         
+
+            // _List = Socket_Read_List.FirstOrDefault(L => L.Value_One_Read == Read_Type_Enum.One_Read);
+            //if (_List != null)
+            //{ 
+            //Application.Current.Dispatcher.Invoke((Action)(() =>
+            //{
+            //    Socket_Read_List.Remove(_List);
+            //}));
+            //}
+
+            //} while ( _List !=null);
+            //    }
+            //catch (Exception e)
+            //{
+            //    //异常处理
+            //    User_Log_Add($"Error: -08 原因:" + e.Message);
+            //    //User_Log_Add("-1.5，退出发送线程");
+            //    //Clear_List();
+            //    return;
+            //}
+            //finally
+            //{
+
+            ////Read_List_Lock.ExitWriteLock();
+            //}
 
 
-          
+
+
+
             Receive_Read_Theam(_Socket_Receive_Inf);
 
 

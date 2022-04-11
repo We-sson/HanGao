@@ -231,9 +231,11 @@ namespace Soceket_Connect
                     break;
                 case Read_Write_Enum.One_Read:
 
+
+                    Socket_Client_KUKA(_Enum, _IP, _Port);
                     //读取用多线程连接
-                    Socket_Connect_Thread = new Thread(() => Socket_Client_KUKA(_Enum, _IP, _Port)) { Name = "One_Read—KUKA", IsBackground = true };
-                    Socket_Connect_Thread.Start();
+                    //Socket_Connect_Thread = new Thread(() => Socket_Client_KUKA(_Enum, _IP, _Port)) { Name = "One_Read—KUKA", IsBackground = true };
+                    //Socket_Connect_Thread.Start();
 
 
                     break;
@@ -431,7 +433,7 @@ namespace Soceket_Connect
                 try
                 {
                     //Task.Delay(10);
-                      Thread.Sleep(20);
+                      //Thread.Sleep(20);
                     //挂起读取异步连接
                     Global_Socket_Read.EndConnect(ar);
                     Is_Read_Client = true;
@@ -659,22 +661,26 @@ namespace Soceket_Connect
                 //回传接收消息到显示
                 if (Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.Read)
                 {
+    
+                    _Receive.Reveice_Target_Inf.Val_Var = _Byte.Message_Show;
 
-
-                        Socket_Models_List _List = Socket_Read_List.Where<Socket_Models_List>(l => l.Val_ID == _Receive.Reveice_Target_Inf.Val_ID).FirstOrDefault();
-                        _List.Val_Update_Time = DateTime.Now.ToLocalTime();
-                        _List.Val_Var= _Byte.Message_Show;
-                    if (_List.Send_Area !="")
+                        //Socket_Models_List _List = Socket_Read_List.Where<Socket_Models_List>(l => l.Val_ID == _Receive.Reveice_Target_Inf.Val_ID).FirstOrDefault();
+                        //_List.Val_Update_Time = DateTime.Now.ToLocalTime();
+                        //_List.Val_Var= _Byte.Message_Show;
+                    if (_Receive.Reveice_Target_Inf.Send_Area !="" )
                     {
 
 
                     ///多线程修改值变量
                     Thread Read_receive = new Thread(new ThreadStart(new Action(() =>
                     {
+                        lock (_Receive)
+                        {
 
 
-                        Messenger.Send<Socket_Models_List, string>(_List, _List.Send_Area);
+                        Messenger.Send<Socket_Models_List, string>(_Receive.Reveice_Target_Inf, _Receive.Reveice_Target_Inf.Send_Area);
        
+                        }
 
                         //Messenger.Send<Socket_Modesl_Byte, string>(_Byte, nameof(Meg_Value_Eunm.Socket_Read_List));
 
@@ -756,6 +762,12 @@ namespace Soceket_Connect
 
             Byte[] Message = _S.Send_Byte;
 
+
+            switch (_S.Read_Write_Type)
+            {
+                case Read_Write_Enum.Write:
+
+
             if (_S.Read_Write_Type == Read_Write_Enum.Write)
             {
                 //互斥线程锁，保证每次只有一个线程接收消息
@@ -812,8 +824,11 @@ namespace Soceket_Connect
 
             }
 
-            if (_S.Read_Write_Type == Read_Write_Enum.Read || _S.Read_Write_Type == Read_Write_Enum.One_Read)
-            {
+
+                    break;
+                case Read_Write_Enum.Read:
+
+ 
 
                 Socket_KUKA_Receive = _S;
                 //异步监听接收读取消息
@@ -826,7 +841,25 @@ namespace Soceket_Connect
                     Global_Socket_Read.BeginSend(Message, 0, Message.Length, SocketFlags.None, new AsyncCallback(Socket_Send_Message), Global_Socket_Read);
 
 
+
+
+
+                    break;
+                case Read_Write_Enum.One_Read:
+
+                    Socket_Client_Setup.One_Read.Socket_Client_Thread(Read_Write_Enum.Read, IP_Client , Port_Client);
+
+                    Global_Socket_Read.BeginReceive(Socket_KUKA_Receive.Byte_Read_Receive, 0, Socket_KUKA_Receive.Byte_Read_Receive.Length, SocketFlags.None, new AsyncCallback(Socke_Receive_Message), Socket_KUKA_Receive);
+
+
+                    break;
+
             }
+
+
+
+
+
 
 
         }
