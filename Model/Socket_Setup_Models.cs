@@ -30,8 +30,8 @@ using static HanGao.Socket_KUKA.Socket_Sever;
 
 using static HanGao.ViewModel.User_Control_Log_ViewModel;
 using static HanGao.ViewModel.UserControl_Socket_Var_Show_ViewModel;
-
 using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
+
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System.ComponentModel;
@@ -208,8 +208,8 @@ namespace HanGao.Model
 
 
 
-                              //读取用多线程连接
-                              //Socket_Connect_Thread = new Thread(() => Receive_Read_Theam()) { Name = "KUKA_Ver_LoopRead", IsBackground = true };
+                              ////读取用多线程连接
+                              //Socket_Connect_Thread = new Thread(() => Receive_Read_Theam()) { Name = "kuka_ver_loopread", IsBackground = true };
                               //Socket_Connect_Thread.Start();
 
 

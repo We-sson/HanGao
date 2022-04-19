@@ -39,8 +39,8 @@
                        FontSize="15" />
 
 
-            <UC_Working:UserControl_Socket_Conntec_UI Margin="0,0,0,0"
-                                                      DataContext="{Binding Source={StaticResource Locator}, Path=Socket_Setup.Socket_Server_Setup}" />
+            <!--<UC_Working:UserControl_Socket_Conntec_UI Margin="0,0,0,0"
+                                                      DataContext="{Binding Source={StaticResource Locator}, Path=Socket_Setup.Socket_Server_Setup}" />-->
 
 
 

@@ -46,7 +46,7 @@
             <!--  左侧型号栏  -->
             <Grid Grid.Column="2"
                   Margin="0,15,0,0"
-                  ShowGridLines="False" >
+                  ShowGridLines="False">
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition Height=" 80" />
@@ -68,7 +68,7 @@
                                           Color="Gray" />
                     </Border.Effect>
 
-                    <Grid Grid.Row="1" >
+                    <Grid Grid.Row="1">
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.2*" />
@@ -84,7 +84,7 @@
                                    FontFamily="/Resources/#iconfont" />
 
                         <TextBox Style="{StaticResource TextBoxStyle1}" x:Name="Tt1" Grid.Column="1"
-                                 MaxLength="10" 
+                                 MaxLength="10"
                                  VerticalContentAlignment="Center"
                                  Tag="搜索型号"
                                  DataContext="{Binding Source={StaticResource Locator}, Path=List_Show}"
@@ -107,6 +107,7 @@
 
                 <ListBox Style="{StaticResource ListBoxStyle1}" x:Name="LB1" Grid.Row="0"
                          HorizontalContentAlignment="Center"
+                         d:ItemsSource="{d:SampleData ItemCount=5}"
                          Background="Transparent"
                          DataContext="{Binding Source={StaticResource Locator}, Path=List_Show}"
                          ItemsSource="{Binding SinkModels}"
@@ -114,7 +115,7 @@
                          ScrollViewer.VerticalScrollBarVisibility="Auto"
                          ItemContainerStyle="{DynamicResource ListBoxItemStyle1}"
                          ItemTemplate="{DynamicResource DataTemplate1}"
-                         RenderTransformOrigin="0.5,0.5" d:ItemsSource="{d:SampleData ItemCount=5}">
+                         RenderTransformOrigin="0.5,0.5">
 
                     <ListBox.RenderTransform>
                         <TransformGroup>
@@ -149,7 +150,7 @@
 
 
                 <!--  工位2区域  -->
-                <UC_Working:User_Control_Working Grid.Row="0" Grid.Column="0"
+                <!--<UC_Working:User_Control_Working Grid.Row="0" Grid.Column="0"
                                                  Uid="2"
                                                  DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_VM_2}">
                     <i:Interaction.Triggers>
@@ -159,7 +160,7 @@
                                                    PassEventArgsToCommand="True" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                </UC_Working:User_Control_Working>
+                </UC_Working:User_Control_Working>-->
 
 
 

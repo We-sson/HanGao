@@ -70,6 +70,10 @@ namespace HanGao.ViewModel.Messenger_Eunm
             /// </summary>
             List_Connect,
 
+            /// <summary>
+            /// 发送内容集合
+            /// </summary>
+            One_List_Connect,
 
             Home_Visibility_Show,
 

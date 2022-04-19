@@ -142,8 +142,9 @@ namespace HanGao.ViewModel
 
         private static Socket_Setup_Models _Socket_Client_Setup = new Socket_Setup_Models()
         {
-            IP = IP_Client, Port= Port_Client, 
-
+            IP = IP_Client,
+            Port = Port_Client,
+            One_Read =  new Socket_Connect(IP_Client, Port_Client, Connect_Type.Short, Read_Write_Enum.One_Read),
             Read = new Socket_Connect(IP_Client, Port_Client, Connect_Type.Long, Read_Write_Enum.Read),
             Write = new Socket_Connect(IP_Client, Port_Client, Connect_Type.Short, Read_Write_Enum.Write),
             Connect_Socket_Type = Socket_Type.Client,

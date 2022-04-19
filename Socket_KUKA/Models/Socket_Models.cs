@@ -82,23 +82,12 @@ namespace Soceket_KUKA.Models
 
 
 
-        private Read_Write_Enum read_Write_Type = Read_Write_Enum.Null;
+     
         /// <summary>
         /// 写入属性
         /// </summary>
-        public  Read_Write_Enum Read_Write_Type
-        {
-            set
-            {
-                 read_Write_Type=value ;
-            }
-            get
-            {
-      
-                    return read_Write_Type;
-                
-            }
-        }
+        public  Read_Write_Enum Read_Write_Type { set; get; } = Read_Write_Enum.Null;
+
 
 
 

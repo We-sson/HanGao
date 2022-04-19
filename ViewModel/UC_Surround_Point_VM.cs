@@ -201,7 +201,7 @@ namespace HanGao.ViewModel
 
                 User_Checked_Direction = S;
 
-
+                ObservableCollection<Socket_Models_List> _List = new ObservableCollection<Socket_Models_List>();
 
 
 
@@ -225,40 +225,63 @@ namespace HanGao.ViewModel
                         //添加好后的围边工艺方向偏移点后，转送给循环发送的列表读取方向工艺名称和位置
                         foreach (var _Point in Date.Craft_Date)
                         {
-                            foreach (Enum _Value in Enum.GetValues( typeof( KUKA_Craft_Value_Name)))
+                            foreach (Enum _Value in Enum.GetValues(typeof(KUKA_Craft_Value_Name)))
                             {
+
+
+                                _List.Add(new Socket_Models_List()
+                                {
+                                    Val_Name = User_Checked_Direction.ToString() + "[" + _Point.NO + "]" + "." + _Value.GetStringValue(),
+                                    Val_ID = Read_Number_ID,
+                                    Send_Area = nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data),
+                                    Value_One_Read = Read_Type_Enum.One_Read,
+                                    UserObject = new KUKA_Craft_Value()
+                                    { Craft_Point_NO = _Point.NO, KUKA_Craft_Type = (KUKA_Craft_Value_Name)_Value, KUKA_Point_Type = _Point.Craft_Type, User_Direction = S },
+
+                                } );
+                                
 
                                 ///多线程修改值变量
-                                Thread Read_receive = new Thread(new ThreadStart(new Action(() =>
-                                {
+                            //    Thread Read_receive = new Thread(new ThreadStart(new Action(() =>
+                            //    {
 
                             
-                                Messenger.Send<ObservableCollection<Socket_Models_List>, string>(new ObservableCollection<Socket_Models_List>()
-                            {
-                                new Socket_Models_List()
-                                { Val_Name = User_Checked_Direction.ToString() + "[" + _Point.NO + "]"+ "."+_Value.GetStringValue(),
-                                    Val_ID = UserControl_Socket_Var_Show_ViewModel.Read_Number_ID,
-                                    Send_Area = nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data) ,
-                                    Value_One_Read= Read_Type_Enum.One_Read ,
-                                     UserObject=new KUKA_Craft_Value(){ Craft_Point_NO=_Point.NO, KUKA_Craft_Type=(KUKA_Craft_Value_Name)_Value , KUKA_Point_Type=_Point.Craft_Type , User_Direction=S}
-                                },
+                            //    Messenger.Send<ObservableCollection<Socket_Models_List>, string>(new ObservableCollection<Socket_Models_List>()
+                            //{
+                            //    new Socket_Models_List()
+                            //    { Val_Name = User_Checked_Direction.ToString() + "[" + _Point.NO + "]"+ "."+_Value.GetStringValue(),
+                            //        Val_ID = Read_Number_ID,
+                            //        Send_Area = nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data) ,
+                            //        Value_One_Read= Read_Type_Enum.One_Read ,
+                            //         UserObject=new KUKA_Craft_Value(){ Craft_Point_NO=_Point.NO, KUKA_Craft_Type=(KUKA_Craft_Value_Name)_Value , KUKA_Point_Type=_Point.Craft_Type , User_Direction=S}
+                            //    },
     
-                            }, nameof(Meg_Value_Eunm.List_Connect));
+                            //}, nameof(Meg_Value_Eunm.One_List_Connect));
 
-                                })))
-                                {
+                            //    })))
+                            //    {
 
-                                    IsBackground = true
-                                };
-                                Read_receive.Name = Read_receive.ManagedThreadId.ToString() + "  ADD_Value_List";
-                                Read_receive.Start();
+                            //        IsBackground = true
+                            //    };
+
+                            //    Read_receive.Name = Read_receive.ManagedThreadId.ToString() + "  ADD_Value_List";
+                            //    Read_receive.Start();
 
 
 
                             }
 
                         }
-              
+
+                        Task.Run(async () =>
+                        {
+
+                        Messenger.Send<ObservableCollection<Socket_Models_List>, string>( _List, nameof(Meg_Value_Eunm.One_List_Connect));
+                            await Task.Delay(1);
+
+                        });
+
+
 
 
 

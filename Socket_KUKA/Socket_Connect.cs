@@ -46,7 +46,7 @@ namespace Soceket_Connect
             {
                 if (Socket_Connect_Thread == null)
                 {
-                    Socket_Client_Thread(_Enum, _IP, _Port);
+                    //Socket_Client_Thread(_Enum, _IP, _Port);
 
                 }
             }
@@ -89,10 +89,10 @@ namespace Soceket_Connect
         /// 连接线程设置
         /// </summary>
         public static Thread Socket_Connect_Thread { set; get; }
-        /// <summary>
-        /// 连接线程设置
-        /// </summary>
-        public Thread Socket_Write_Thread { set; get; }
+    /// <summary>
+    /// 连接线程设置
+    /// </summary>
+    public Thread Socket_Write_Thread { set; get; }
 
 
         /// <summary>
@@ -265,18 +265,39 @@ namespace Soceket_Connect
 
 
 
-
             //设置读写IP
             IP = new IPEndPoint(IPAddress.Parse(_IP), int.Parse(_Port));
 
-
-
-            //显示连接中状态
-
-
-            //读取连接设置
-            if (R_W_Enum == Read_Write_Enum.Read && !Is_Read_Client)
+            switch (R_W_Enum)
             {
+
+                case Read_Write_Enum.Write:
+
+            //if (R_W_Enum == Read_Write_Enum.Write && !Is_Write_Client)
+            //{
+
+                //加线程锁，只允许单次进入
+ 
+
+                Connnect_Write.Reset();
+
+                Global_Socket_Write = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                //Global_Socket_Write.Connect(IP);
+
+                Global_Socket_Write.BeginConnect(IP, new AsyncCallback(Client_Inf), R_W_Enum);
+
+ 
+
+            //}
+
+                    break;
+
+
+
+                case Read_Write_Enum.Read:
+
+            //if (R_W_Enum == Read_Write_Enum.Read && !Is_Read_Client)
+            //{
             Messenger.Send<dynamic, string >(   0  ,nameof( Meg_Value_Eunm.Connect_Client_Socketing_Button_Show));
                 //重置连接阻塞标识
                 Socket_Read.Reset();
@@ -299,24 +320,52 @@ namespace Soceket_Connect
                     return;
                 }
             Messenger.Send<dynamic,string >(false, nameof(Meg_Value_Eunm.Connect_Client_Button_IsEnabled));
+            //}
+
+                    break;
+
+
+
+
+
+
+                case Read_Write_Enum.One_Read:
+
+                    //重置连接阻塞标识
+                    Socket_Read.Reset();
+
+
+
+                    //设置Socket
+                    Global_Socket_Read = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+                    //启动异步连接
+                    Global_Socket_Read.BeginConnect(IP, new AsyncCallback(Client_Inf), R_W_Enum);
+
+
+
+
+                    //连接超时判断
+                    if (!Socket_Read.WaitOne(10000, true) || !Is_Read_Client)
+                    {
+                        Socket_Receive_Error(R_W_Enum, "Error: -53 原因:读取连接超时！检查网络与IP设置是否正确。");
+                        return;
+                    }
+
+
+
+
+                    break;
+                default:
+                    break;
             }
 
-            if (R_W_Enum == Read_Write_Enum.Write && !Is_Write_Client)
-            {
 
-                //加线程锁，只允许单次进入
- 
+            //显示连接中状态
 
-                Connnect_Write.Reset();
 
-                Global_Socket_Write = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                //Global_Socket_Write.Connect(IP);
+            //读取连接设置
 
-                Global_Socket_Write.BeginConnect(IP, new AsyncCallback(Client_Inf), R_W_Enum);
-
- 
-
-            }
 
 
 
@@ -370,13 +419,14 @@ namespace Soceket_Connect
 
             //try
             //{
+            switch (_Enum)
+            {
+                case Read_Write_Enum.Write:
 
 
             //连接成功再继续
-            if (Global_Socket_Write.Connected && _Enum == Read_Write_Enum.Write && !Is_Write_Client)
+            if (Global_Socket_Write.Connected  )
             {
-
-
 
                 //当前错误信息IP号
                 //Remote_IP = Global_Socket_Write.RemoteEndPoint.ToString();
@@ -419,9 +469,12 @@ namespace Soceket_Connect
 
 
 
+                    break;
+                case Read_Write_Enum.Read:
 
 
-            if (Global_Socket_Read.Connected && _Enum == Read_Write_Enum.Read)
+
+            if (Global_Socket_Read.Connected )
             { 
      
 
@@ -462,20 +515,14 @@ namespace Soceket_Connect
 
 
 
-
-                //阻塞一定时间，等待其他程序集载入
-                //Thread.Sleep(1000);
-
-                //开启多线程监听集合内循环发送
-                //Messenger.Send<dynamic, string >(true,nameof( Meg_Value_Eunm.Socket_Read_Thread));
+                        //读取用多线程连接
+                        //Socket_Connect_Thread = new Thread(() => Receive_Read_Theam(Socket_KUKA_Receive)) { Name = "KUKA_Ver_LoopRead", IsBackground = true };
+                        //Socket_Connect_Thread.Start();
 
 
-                //读取用多线程连接
-                Socket_Connect_Thread = new Thread(() => Receive_Read_Theam(Socket_KUKA_Receive)) { Name = "KUKA_Ver_LoopRead", IsBackground = true };
-                Socket_Connect_Thread.Start();
 
-                //前端显示连接成功
-                Messenger.Send<dynamic, string >(1,nameof(Meg_Value_Eunm.Connect_Client_Socketing_Button_Show));
+                        //前端显示连接成功
+                        Messenger.Send<dynamic, string >(1,nameof(Meg_Value_Eunm.Connect_Client_Socketing_Button_Show));
 
 
 
@@ -484,8 +531,93 @@ namespace Soceket_Connect
                 Socket_Read.Set();
 
                 
+                        Socket_Connect_Thread = new Thread(() => Receive_Read_Theam(new Socket_Models_Receive() { Read_Write_Type = Read_Write_Enum.Read })) { Name = "KUKA_Ver_LoopRead", IsBackground = true };
+                        Socket_Connect_Thread.Start();
+                        User_Log_Add("启动变量发送线程");
 
             }
+
+
+                    break;
+
+
+
+                //case Read_Write_Enum.One_Read:
+
+                //    if (Global_Socket_Read.Connected)
+                //    {
+
+
+
+
+                //        //当前错误信息IP号
+                //        Local_IP = Global_Socket_Read.LocalEndPoint.ToString();
+                //        //Remote_IP = Global_Socket_Read.RemoteEndPoint.ToString();
+                //        try
+                //        {
+                //            //Task.Delay(10);
+                //            //Thread.Sleep(20);
+                //            //挂起读取异步连接
+                //            Global_Socket_Read.EndConnect(ar);
+                //            Is_Read_Client = true;
+
+                //        }
+                //        catch (Exception e)
+                //        {
+
+                //            //User_Log_Add($"读取连接目标IP—失败！");
+                //            User_Log_Add($"Error: -50 原因:" + e.Message);
+                //            return;
+                //        }
+
+
+                //        //KeepAlive(Global_Socket_Read, true, 2000, 1000);
+
+                //        //异步监听接收读取消息
+                //        //Global_Socket_Read.BeginReceive(Socket_KUKA_Receive.Byte_Read_Receive, 0, Socket_KUKA_Receive.Byte_Read_Receive.Length, SocketFlags.None, new AsyncCallback(Socke_Receive_Message), Socket_KUKA_Receive);
+
+
+
+                //        //发送终端连接信息
+                //        User_Log_Add("读取连接目标IP：" + Global_Socket_Read.RemoteEndPoint.ToString());
+                //        User_Log_Add("读取本地连接IP：" + Global_Socket_Read.LocalEndPoint.ToString());
+
+
+
+
+
+                //        //阻塞一定时间，等待其他程序集载入
+                //        //Thread.Sleep(1000);
+
+                //        //开启多线程监听集合内循环发送
+                //        //Messenger.Send<dynamic, string >(true,nameof( Meg_Value_Eunm.Socket_Read_Thread));
+
+
+                //        //读取用多线程连接
+                //        Socket_Connect_Thread = new Thread(() => Receive_Read_Theam(Socket_KUKA_Receive)) { Name = "KUKA_Ver_LoopRead", IsBackground = true };
+                //        Socket_Connect_Thread.Start();
+
+                //        //前端显示连接成功
+                //        Messenger.Send<dynamic, string>(1, nameof(Meg_Value_Eunm.Connect_Client_Socketing_Button_Show));
+
+
+
+
+                //        //连接成功标识
+                //        Socket_Read.Set();
+
+
+
+                //    }
+
+                //    break;
+      
+            }
+
+
+
+
+
 
 
 
@@ -560,7 +692,7 @@ namespace Soceket_Connect
                 if (Socket_KUKA_Receive.Byte_Leng == 0)
                 {
                     //接收异常退出
-                    User_Log_Add("Error: -19 原因:" + GetType().Name + " 接收线程，库卡服务器断开！");
+                    User_Log_Add("Error: -19 原因:" + GetType().Name + " 接收消息异常，库卡服务器断开！");
                     //Socket_Receive_Error("Error:-19 " + GetType().Name + " 接收线程，库卡服务器断开！");
                     //Quit_Waite.Set();
                     return;
@@ -640,7 +772,6 @@ namespace Soceket_Connect
                 _Byte.Byte_Write_Type = Int32.Parse(BitConverter.ToString(_Byte.Byte_data.Skip(_Byte.Byte_Val_Total_Length + 3).Take(1).ToArray()).Replace("-", ""), System.Globalization.NumberStyles.HexNumber);
 
 
-                #endregion
 
                 if (_Byte.Byte_Return_Tpye == 1 && _Byte.Byte_Write_Type == 1)
                 {
@@ -656,6 +787,7 @@ namespace Soceket_Connect
 
                 }
 
+                #endregion
 
 
                 //回传接收消息到显示
@@ -671,26 +803,17 @@ namespace Soceket_Connect
                     {
 
 
-                    ///多线程修改值变量
-                    Thread Read_receive = new Thread(new ThreadStart(new Action(() =>
-                    {
-                        lock (_Receive)
+
+                        Task.Run(async () =>
                         {
 
+                            await Task.Delay(0);
 
+                       
                         Messenger.Send<Socket_Models_List, string>(_Receive.Reveice_Target_Inf, _Receive.Reveice_Target_Inf.Send_Area);
-       
-                        }
 
-                        //Messenger.Send<Socket_Modesl_Byte, string>(_Byte, nameof(Meg_Value_Eunm.Socket_Read_List));
+                        });
 
-                    })))
-                    {
-
-                        IsBackground = true
-                    };
-                    Read_receive.Name = Read_receive.ManagedThreadId.ToString() + "  Revise_Value";
-                    Read_receive.Start();
 
                     }
 
@@ -703,10 +826,11 @@ namespace Soceket_Connect
 
 
             }
+ 
 
 
 
-            if (Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.Write && Is_Write_Client)
+            if (Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.Write )
             {
                 //线程独占锁
                 Rece_IA_Lock.WaitOne();
@@ -733,12 +857,12 @@ namespace Soceket_Connect
             {
                 //递归调用读取接收
 
-                var _ = Global_Socket_Read.Connected;
-                if (Is_Read_Client)
-                {
+                //var _ = Global_Socket_Read.Connected;
+                //if (Is_Read_Client)
+                //{
 
-                    //Global_Socket_Read.BeginReceive(Socket_KUKA_Receive.Byte_Read_Receive, 0, Socket_KUKA_Receive.Byte_Read_Receive.Length, SocketFlags.None, new AsyncCallback(Socke_Receive_Message), Socket_KUKA_Receive);
-                }
+                //    //Global_Socket_Read.BeginReceive(Socket_KUKA_Receive.Byte_Read_Receive, 0, Socket_KUKA_Receive.Byte_Read_Receive.Length, SocketFlags.None, new AsyncCallback(Socke_Receive_Message), Socket_KUKA_Receive);
+                //}
 
                 //接收完成释放一次读取线程
                 Send_Waite.Set();
@@ -761,6 +885,7 @@ namespace Soceket_Connect
 
 
             Byte[] Message = _S.Send_Byte;
+            Socket_KUKA_Receive = _S;
 
 
             switch (_S.Read_Write_Type)
@@ -830,15 +955,21 @@ namespace Soceket_Connect
 
  
 
-                Socket_KUKA_Receive = _S;
                 //异步监听接收读取消息
                Global_Socket_Read.BeginReceive(Socket_KUKA_Receive.Byte_Read_Receive, 0, Socket_KUKA_Receive.Byte_Read_Receive.Length, SocketFlags.None, new AsyncCallback(Socke_Receive_Message), Socket_KUKA_Receive);
 
+                    Thread.Sleep(1);  
 
-       
-
-                    //异步读取发送
                     Global_Socket_Read.BeginSend(Message, 0, Message.Length, SocketFlags.None, new AsyncCallback(Socket_Send_Message), Global_Socket_Read);
+
+                    if (!Send_Waite.WaitOne(15000000) && !Send_Read.Wait(15000000))
+                    {
+                        Socket_Client_Setup.Read.Socket_Receive_Error(Read_Write_Enum.Read, "接收超时无应答，退出线程发送！");
+                        return;
+                    }
+        
+       
+                    //异步读取发送
 
 
 
@@ -847,7 +978,7 @@ namespace Soceket_Connect
                     break;
                 case Read_Write_Enum.One_Read:
 
-                    Socket_Client_Setup.One_Read.Socket_Client_Thread(Read_Write_Enum.Read, IP_Client , Port_Client);
+                    Socket_Client_Setup.One_Read.Socket_Client_Thread(Read_Write_Enum.One_Read, Socket_Client_Setup.IP, Socket_Client_Setup.Port);
 
                     Global_Socket_Read.BeginReceive(Socket_KUKA_Receive.Byte_Read_Receive, 0, Socket_KUKA_Receive.Byte_Read_Receive.Length, SocketFlags.None, new AsyncCallback(Socke_Receive_Message), Socket_KUKA_Receive);
 

@@ -12,6 +12,7 @@ using HanGao.Model;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
 using static HanGao.ViewModel.UserControl_Socket_Var_Show_ViewModel;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using static HanGao.Extension_Method.SetReadTypeAttribute;
 
 namespace HanGao.ViewModel
 {
@@ -24,19 +25,14 @@ namespace HanGao.ViewModel
         [Flags]
         public enum Value_Name_enum
         {
-            [StringValue("$POS_ACT"), UserArea(Work_String_Name)]
-            POS_ACT,
-            [StringValue("$ACT_TOOL"), UserArea(Work_String_Name)]
-            ACT_TOOL,
-            [StringValue("$ACT_BASE"), UserArea(Work_String_Name)]
-            ACT_BASE
+
         }
 
 
         public User_Control_Working_Path_VM()
         {
-            //发生需要读取的变量值
-            User_Control_Common.Send_KUKA_Value_List(typeof(Value_Name_enum));
+            ////发生需要读取的变量值
+            //User_Control_Common.Send_KUKA_Value_List(typeof(Value_Name_enum));
 
 
 
@@ -50,21 +46,21 @@ namespace HanGao.ViewModel
             WeakReferenceMessenger.Default.Register<Socket_Models_List,string >(this, Work_String_Name, (O,Name_Val) =>
             {
 
-                switch (Name_Val.Value_Enum)
-                {
-                    //case Value_Name_enum.POS_ACT:
-                    //    Working_Path.KUKA_Now_Point_Show = Name_Val.Val_Var;
-                    //    break;
-                    case Value_Name_enum.ACT_TOOL:
-                        Working_Path.KUKA_TOOL_Number = Name_Val.Val_Var;
+                //switch (Name_Val.Value_Enum)
+                //{
+                //    //case Value_Name_enum.POS_ACT:
+                //    //    Working_Path.KUKA_Now_Point_Show = Name_Val.Val_Var;
+                //    //    break;
+                //    case Value_Name_enum.ACT_TOOL:
+                //        Working_Path.KUKA_TOOL_Number = Name_Val.Val_Var;
 
-                        break;
-                    case Value_Name_enum.ACT_BASE:
-                        Working_Path.KUKA_Base_Number = Name_Val.Val_Var;
+                //        break;
+                //    case Value_Name_enum.ACT_BASE:
+                //        Working_Path.KUKA_Base_Number = Name_Val.Val_Var;
 
-                        break;
+                //        break;
 
-                }
+                //}
 
 
 

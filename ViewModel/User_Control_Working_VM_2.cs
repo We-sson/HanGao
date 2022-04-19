@@ -23,7 +23,7 @@ using static HanGao.ViewModel.User_Control_Log_ViewModel;
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class User_Control_Working_VM_2 : User_Control_Common
+    public class User_Control_Working_VM_2 
     {
 
         public Wroking_Models WM { get; set; } = new Wroking_Models() { Work_NO =int.Parse(Work_NO) };
@@ -39,7 +39,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 传递参数区域名称：重要！
         /// </summary>
-        public const    string Work_String_Name = Work_String_Name_Global + Work_NO;
+      //  public const    string Work_String_Name = Work_String_Name_Global + Work_NO;
 
 
         //------------------属性、字段声明------------------------
@@ -60,48 +60,48 @@ namespace HanGao.ViewModel
         {
 
 
-            //功能属性设置
-            Messenger.Register<Sink_Models,string >(this, UserControl_Function_Set_2, (O,S) =>
-            {
+            ////功能属性设置
+            //Messenger.Register<Sink_Models,string >(this, UserControl_Function_Set_2, (O,S) =>
+            //{
 
 
-                WM.Work_Run = false;
-                WM.Work_Type = S.Sink_Model.ToString();
-                UF.Work_Connt = S.User_Check_2.Work_Connt;
-                UF.Work_Pause = S.User_Check_2.Work_Pause;
-                UF.Work_NullRun = S.User_Check_2.Work_NullRun;
-                UF.Work_JumpOver = S.User_Check_2.Work_JumpOver;
-                User_Log_Add("加载" + S.Wroking_Models_ListBox.Work_Type + "型号到" + WM.Number_Work + "号");
-
-
-
-            });
+            //    WM.Work_Run = false;
+            //    WM.Work_Type = S.Sink_Model.ToString();
+            //    UF.Work_Connt = S.User_Check_2.Work_Connt;
+            //    UF.Work_Pause = S.User_Check_2.Work_Pause;
+            //    UF.Work_NullRun = S.User_Check_2.Work_NullRun;
+            //    UF.Work_JumpOver = S.User_Check_2.Work_JumpOver;
+            //    User_Log_Add("加载" + S.Wroking_Models_ListBox.Work_Type + "型号到" + WM.Number_Work + "号");
 
 
 
-            //功能属性初始化
-            Messenger.Register<dynamic ,string >(this, UserControl_Function_Reset_2, (O,_Bool) =>
-            {
-                WM.Work_Run = false;
-                WM.Work_Type = "";
-                UF.Work_Pause = false;
-                UF.Work_Connt = true;
-                UF.Work_NullRun = false;
-                UF.Work_JumpOver = false;
-
-                User_Log_Add("卸载" + WM.Number_Work + "号的加工型号");
-
-            });
+            //});
 
 
 
+            ////功能属性初始化
+            //Messenger.Register<dynamic ,string >(this, UserControl_Function_Reset_2, (O,_Bool) =>
+            //{
+            //    WM.Work_Run = false;
+            //    WM.Work_Type = "";
+            //    UF.Work_Pause = false;
+            //    UF.Work_Connt = true;
+            //    UF.Work_NullRun = false;
+            //    UF.Work_JumpOver = false;
 
-            //接收读取集合内的值方法
-            Messenger.Register<Socket_Models_List,string >(this, Work_String_Name, (O,Name_Val) =>
-            {
+            //    User_Log_Add("卸载" + WM.Number_Work + "号的加工型号");
+
+            //});
 
 
-            });
+
+
+            ////接收读取集合内的值方法
+            //Messenger.Register<Socket_Models_List,string >(this, Work_String_Name, (O,Name_Val) =>
+            //{
+
+
+            //});
         }
 
 
