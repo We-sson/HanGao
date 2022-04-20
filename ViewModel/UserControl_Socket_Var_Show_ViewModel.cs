@@ -106,6 +106,11 @@ namespace HanGao.ViewModel
 
             Messenger.Register<ObservableCollection<Socket_Models_List>,string >(this, nameof(Meg_Value_Eunm.One_List_Connect),(O,_List) =>
             {
+
+                //ObservableCollection<Socket_Models_List> O_List = new ObservableCollection<Socket_Models_List>();
+
+
+
                 foreach (var item in _List)
                 {
 
@@ -114,13 +119,19 @@ namespace HanGao.ViewModel
                         Application.Current.Dispatcher.Invoke((Action)(() =>
                         {
 
-                            On_Read_List.Add(item);
+                        //On_Read_List= O_List;
+                        On_Read_List.Add(item);
                         }));
-
-
 
                     }
                 }
+
+                Socket_Client_Setup.One_Read.Socket_Client_Thread(Read_Write_Enum.One_Read, Socket_Client_Setup.IP, Socket_Client_Setup.Port);
+
+
+
+
+
 
 
 
@@ -180,6 +191,7 @@ namespace HanGao.ViewModel
 
 
         public static ObservableCollection<Socket_Models_List> On_Read_List { set; get; } = new ObservableCollection<Socket_Models_List>(); 
+
 
         /// <summary>
         /// 读取库卡变量列表集合
@@ -307,48 +319,21 @@ namespace HanGao.ViewModel
         public  static  void Receive_Read_Theam(Socket_Models_Receive _Socket_Receive_Inf)
         {
 
-
-
-
-       
-
             var aa = _Socket_Receive_Inf.Read_Write_Type;
 
-
-
-            //try
-            //{
-
-
-
-            //Read_List_Lock.WaitOne();
-
-            
-            //List_Lock.Reset();
 
                     if (Socket_Read_List.Count > 0 && Socket_Client_Setup.Read.Is_Read_Client)
                     {
                
 
-
-
                  DateTime Delay_time = DateTime.Now;
-
-                //Read_List_Lock.Reset();
-                //Read_List.EnterWriteLock();
-
 
                         for (int i = 0; i < Socket_Read_List.Count; i++)
                         {
 
-
-
-
                             //当前时间
                             if (Socket_Read_List[i].Val_OnOff )
                             {
-
-                  
 
                                //重置发生等待阻塞
                                 Send_Waite.Reset();
@@ -359,22 +344,19 @@ namespace HanGao.ViewModel
                                 int _ID = Socket_Read_List[i].Val_ID;
                                 //重置发送等待标识
 
-
                         //将需要发送的变量信息写入回调参数忠
                             _Socket_Receive_Inf.Reveice_Target_Inf = Socket_Read_List[i];
                         
                         //发送变量集合内容
 
+                        //if (Socket_Read_List[i].Value_One_Read== Read_Type_Enum.One_Read)
+                        //{
 
+                        //    //_Socket_Receive_Inf.Read_Write_Type = Read_Write_Enum.One_Read;
+                        //    //Socket_Client_Setup.One_Read.Send_Read_Var(_Socket_Receive_Inf);
+                        //    ;  Socket_Read_List[i].Val_OnOff = false;
 
-                        if (Socket_Read_List[i].Value_One_Read== Read_Type_Enum.One_Read)
-                        {
-
-                            //_Socket_Receive_Inf.Read_Write_Type = Read_Write_Enum.One_Read;
-                            //Socket_Client_Setup.One_Read.Send_Read_Var(_Socket_Receive_Inf);
-                            ;  Socket_Read_List[i].Val_OnOff = false;
-
-                        }
+                        //}
 
                         Socket_Client_Setup.Read.Send_Read_Var(_Socket_Receive_Inf);
 

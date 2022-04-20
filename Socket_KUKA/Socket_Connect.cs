@@ -346,7 +346,7 @@ namespace Soceket_Connect
 
 
                     //连接超时判断
-                    if (!Socket_Read.WaitOne(10000, true) || !Is_Read_Client)
+                    if (!Socket_Read.WaitOne(1000, true))
                     {
                         Socket_Receive_Error(R_W_Enum, "Error: -53 原因:读取连接超时！检查网络与IP设置是否正确。");
                         return;
@@ -419,9 +419,10 @@ namespace Soceket_Connect
 
             //try
             //{
-            switch (_Enum)
-            {
-                case Read_Write_Enum.Write:
+     
+            
+                    if (_Enum== Read_Write_Enum.Write)
+                    {
 
 
             //连接成功再继续
@@ -469,9 +470,10 @@ namespace Soceket_Connect
 
 
 
-                    break;
-                case Read_Write_Enum.Read:
-
+                    }
+             
+                    if (_Enum== Read_Write_Enum.Read || _Enum == Read_Write_Enum.One_Read)
+                    {
 
 
             if (Global_Socket_Read.Connected )
@@ -522,23 +524,27 @@ namespace Soceket_Connect
 
 
                         //前端显示连接成功
-                        Messenger.Send<dynamic, string >(1,nameof(Meg_Value_Eunm.Connect_Client_Socketing_Button_Show));
 
 
 
 
-                //连接成功标识
+                //连接成功释放阻塞
                 Socket_Read.Set();
 
-                
+                    if (_Enum== Read_Write_Enum.Read)
+                    {
+
+                        Messenger.Send<dynamic, string >(1,nameof(Meg_Value_Eunm.Connect_Client_Socketing_Button_Show));
                         Socket_Connect_Thread = new Thread(() => Receive_Read_Theam(new Socket_Models_Receive() { Read_Write_Type = Read_Write_Enum.Read })) { Name = "KUKA_Ver_LoopRead", IsBackground = true };
                         Socket_Connect_Thread.Start();
                         User_Log_Add("启动变量发送线程");
+                    }
 
             }
+                    }
 
 
-                    break;
+                 
 
 
 
@@ -612,7 +618,7 @@ namespace Soceket_Connect
 
                 //    break;
       
-            }
+            
 
 
 
@@ -950,7 +956,7 @@ namespace Soceket_Connect
             }
 
 
-                    break;
+                break;
                 case Read_Write_Enum.Read:
 
  
@@ -978,7 +984,12 @@ namespace Soceket_Connect
                     break;
                 case Read_Write_Enum.One_Read:
 
+
+
+
                     Socket_Client_Setup.One_Read.Socket_Client_Thread(Read_Write_Enum.One_Read, Socket_Client_Setup.IP, Socket_Client_Setup.Port);
+
+
 
                     Global_Socket_Read.BeginReceive(Socket_KUKA_Receive.Byte_Read_Receive, 0, Socket_KUKA_Receive.Byte_Read_Receive.Length, SocketFlags.None, new AsyncCallback(Socke_Receive_Message), Socket_KUKA_Receive);
 
