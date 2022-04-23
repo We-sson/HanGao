@@ -61,8 +61,8 @@ namespace Soceket_KUKA.Models
         /// <summary>
         /// 接收空字节流属性
         /// </summary>
-        public byte[] Byte_Write_Receive { set; get; } = new byte[1024 * 2];
-        public byte[] Byte_Read_Receive { set; get; } = new byte[1024 * 2];
+        public byte[] Byte_Write_Receive { set; get; } = new byte[1024 * 1024];
+        public byte[] Byte_Read_Receive { set; get; } = new byte[1024 * 1024];
 
         /// <summary>
         /// 接收字节长度
@@ -74,15 +74,15 @@ namespace Soceket_KUKA.Models
         /// <summary>
         /// 接收字节组属性
         /// </summary>
-        public byte[] Reveive_Byte { set; get; }= Array.Empty<byte>();
+        public byte[] Reveive_Byte { set; get; }
         /// <summary>
         /// 发送字节组属性
         /// </summary>
-        public byte[] Send_Byte { set; get; } = Array.Empty<byte>();
+        public byte[] Send_Byte { set; get; } 
 
 
 
-     
+
         /// <summary>
         /// 写入属性
         /// </summary>

@@ -109,7 +109,10 @@ namespace HanGao.ViewModel
 
                 //ObservableCollection<Socket_Models_List> O_List = new ObservableCollection<Socket_Models_List>();
 
+                List_Lock.Reset();
 
+
+                            Socket_Client_Setup.One_Read.Socket_Client_Thread(Read_Write_Enum.One_Read, Socket_Client_Setup.IP, Socket_Client_Setup.Port);
 
                 foreach (var item in _List)
                 {
@@ -119,14 +122,18 @@ namespace HanGao.ViewModel
                         Application.Current.Dispatcher.Invoke((Action)(() =>
                         {
 
+                            On_Read_List.Add(item);
+
                         //On_Read_List= O_List;
-                        On_Read_List.Add(item);
                         }));
 
+
+                            Socket_Client_Setup.One_Read.Send_Read_Var(new Socket_Models_Receive() { Read_Write_Type = Read_Write_Enum.One_Read, Reveice_Target_Inf = item });
+                        List_Lock.WaitOne(1000);
                     }
                 }
 
-                Socket_Client_Setup.One_Read.Socket_Client_Thread(Read_Write_Enum.One_Read, Socket_Client_Setup.IP, Socket_Client_Setup.Port);
+               //Socket_Client_Setup.One_Read.Socket_Client_Thread(Read_Write_Enum.One_Read, Socket_Client_Setup.IP, Socket_Client_Setup.Port);
 
 
 
@@ -186,7 +193,7 @@ namespace HanGao.ViewModel
         /// 写入锁
         /// </summary>
         // public static ManualResetEvent Read_List_Lock = new ManualResetEvent(false );
-        public static ManualResetEvent List_Lock = new ManualResetEvent(true  );
+        public static ManualResetEvent List_Lock = new ManualResetEvent(false   );
         public static ReaderWriterLockSlim Read_List = new ReaderWriterLockSlim();
 
 

@@ -92,7 +92,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 客户端IP
         /// </summary>
-        private static  string _IP_Client = "192.168.153.130";
+        private static  string _IP_Client = "192.168.153.128";
 
         public static string IP_Client
         {
@@ -199,7 +199,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 通讯延时显示
         /// </summary>
-        public string Connter_Time_Delay { set; get; } = "0";
+        public static  string Connter_Time_Delay { set; get; } = "0";
 
 
         /// <summary>
