@@ -203,7 +203,7 @@ namespace HanGao.Model
                       {
                           case Socket_Type.Client:
 
-                              Socket_Client_Setup.Read.Socket_Client_Thread(Read_Write_Enum.Read, IP, Port);
+                              Socket_Client_Setup.Read.Socket_Client_Thread(  Socket_Client_Type.Synchronized,Read_Write_Enum.Read, IP, Port);
 
 
 

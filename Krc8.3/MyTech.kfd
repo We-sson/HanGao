@@ -370,7 +370,7 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
              Cir_FOLD[4]= " "
              Cir_FOLD[5]= "FDAT_ACT=F%CIR_End_Name"
              Cir_FOLD[6]= "LDAT_ACT=L%CIR_End_Name"
-             Cir_FOLD[7]= "BAS(#CP_PARAMS,%Area_CIR_lIST _Welding_Craft[2].Welding_Speed )"
+             Cir_FOLD[7]= "BAS(#CP_PARAMS,%Area_CIR_lIST _Welding_Craft[3].Welding_Speed )"
              Cir_FOLD[8]= "CIRC PO%MOVE_Name , PO%CIR_End_Name  C_DIS C_DIS"
 			 
              
@@ -404,13 +404,15 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
   DEFSCRIPT LIN_New
 
 
+
+
   ENDSCRIPT
 
 
   DEFSCRIPT LIN_Write
      
-    MESSAGE "Write Stat"
-	
+    
+
 	
     SETVAR(FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset.X", VALUE[] "FF%Offset_List .X")
 	SETVAR(FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset.Y", VALUE[] "FF%Offset_List .Y")
@@ -419,11 +421,12 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
 
     REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL Offset_POS FF%Offset_List ={X %Offset_X ,Y %Offset_Y ,Z %Offset_Z }")
 	MESSAGE " %Offset_List  Offset: X=%Offset_X  ,Y=%Offset_Y  ,Z=%Offset_Z "
+	MESSAGE "Write Stat"
   ENDSCRIPT
 
   DEFSCRIPT LIN_Read
      
-    MESSAGE "Read Stat"
+    
     SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset.X" , PARAM Offset_X)
     SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset.Y" , PARAM Offset_Y)
     SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset.Z" , PARAM Offset_Z)
@@ -431,6 +434,7 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
 
 
 	MESSAGE " %Offset_List  Offset: X=%Offset_X  ,Y=%Offset_Y  ,Z=%Offset_Z "
+	MESSAGE "Read Stat"
   ENDSCRIPT
 
      DEFSCRIPT LIN_Refresh
@@ -457,11 +461,24 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
     
    ENDSCRIPT
   
-  DEFSCRIPT LIN_SAVE
-    
+
+
+   
+   DEFSCRIPT OnOpen_Lin
+      SWITCH "ISCHANGE"
+      CASE "TRUE" DO  LIN_Refresh
+      CASE "FALSE" DO LIN_New
+      ENDSWITCH
+      ;DO ACCEPTINLINEFORM
+   ENDSCRIPT
+   
+   
+   ;--------------------LIn_Program------------------------------
+   
+     DEFSCRIPT U_SAVE
     
 
-	SETVAR(FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Name[]", VALUE[] "/"%MOVE_Name /"" )
+	
     REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL FDAT F%MOVE_DAT ={TOOL_NO %TOOL_NO ,BASE_NO %BASE_NO ,IPO_FRAME #BASE ,POINT2[] /" /",TQ_STATE FALSE }" )
     REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL LDAT L%MOVE_DAT ={VEL %Vel ,ACC %ACC ,APO_DIST %CDIS ,APO_FAC 50.0000 ,AXIS_VEL 100.0,AXIS_ACC 100.0,ORI_TYP #VAR ,CIRC_TYP #BASE,JERK_FAC 50.0,GEAR_JERK 50.0,EXAX_IGN 0}" )
     REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL Offset_POS FF%Offset_List ={X %Offset_X ,Y %Offset_Y ,Z %Offset_Z }")
@@ -476,41 +493,103 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
       ENDSWITCH
 	
   ENDSCRIPT
+   
+     DEFSCRIPT LIN_SAVE
+    
 
-   
-   DEFSCRIPT OnOpen_Lin
-      SWITCH "ISCHANGE"
-      CASE "TRUE" DO  LIN_Refresh
-      CASE "FALSE" DO LIN_New
-      ENDSWITCH
-      ;DO ACCEPTINLINEFORM
-   ENDSCRIPT
-   
-   
-   ;--------------------LIn_Program------------------------------
+	SETVAR(FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Name[] ", VALUE[] "/"%MOVE_Name /"" )
+    DO U_SAVE
+	
+  ENDSCRIPT
    
    ;--------------------CIR_Program------------------------------
    
    
+  DEFSCRIPT CIR_L_SAVE
+    
+    MESSAGE "%Area_CIR_lIST "
+    MESSAGE "%OFFSET_NO "
+    MESSAGE "%MOVE_Name"
+	SETVAR(FULLPATH[] "%Area_CIR_lIST _Welding_Craft[%OFFSET_NO ].Welding_Name[] ", VALUE[] "/"%MOVE_Name /"" )
+    DO U_SAVE
+  	
+  ENDSCRIPT
+   
+   
 
    
+  DEFSCRIPT CIR_Write
+     
+    MESSAGE "Write Stat"
+	MESSAGE "%OFFSET_NO "
+	
+    SETVAR(FULLPATH[] "%Area_CIR_lIST _Welding_Craft[2].Welding_Offset.X", VALUE[] "FF%Offset_List .X")
+	SETVAR(FULLPATH[] "%Area_CIR_lIST _Welding_Craft[2].Welding_Offset.Y", VALUE[] "FF%Offset_List .Y")
+	SETVAR(FULLPATH[] "%Area_CIR_lIST _Welding_Craft[2].Welding_Offset.Z", VALUE[] "FF%Offset_List .Z")
+	SETVAR(FULLPATH[] "%Area_CIR_lIST _Welding_Craft[3].Welding_Offset.X", VALUE[] "FF%Offset_CIR_List .X")
+	SETVAR(FULLPATH[] "%Area_CIR_lIST _Welding_Craft[3].Welding_Offset.Y", VALUE[] "FF%Offset_CIR_List .Y")
+	SETVAR(FULLPATH[] "%Area_CIR_lIST _Welding_Craft[3].Welding_Offset.Z", VALUE[] "FF%Offset_CIR_List .Z")
+	SETVAR(FULLPATH[] "%Area_CIR_lIST _Welding_Craft[3].Welding_Speed",    VALUE[] "%Vel ")
+
+    REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL Offset_POS FF%Offset_List ={X %Offset_X ,Y %Offset_Y ,Z %Offset_Z }")
+	REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL Offset_POS FF%Offset_CIR_List ={X %Offset_CIR_X ,Y %Offset_CIR_Y ,Z %Offset_CIR_Z }")
+	
+	MESSAGE " %Offset_List  Offset: X=%Offset_X  ,Y=%Offset_Y  ,Z=%Offset_Z "
+	MESSAGE " %Offset_CIR_List  Offset: X=%Offset_CIR_X  ,Y=%Offset_CIR_Y  ,Z=%Offset_CIR_Z "
+  ENDSCRIPT
+
+  DEFSCRIPT CIR_Read
+     
+    MESSAGE "Read Stat"
+	SHOWVAR (FULLPATH[] "%Area_CIR_lIST _Welding_Craft[2].Welding_Offset.X" , PARAM Offset_X)
+    SHOWVAR (FULLPATH[] "%Area_CIR_lIST _Welding_Craft[2].Welding_Offset.Y" , PARAM Offset_Y)
+    SHOWVAR (FULLPATH[] "%Area_CIR_lIST _Welding_Craft[2].Welding_Offset.Z" , PARAM Offset_Z)
+    SHOWVAR (FULLPATH[] "%Area_CIR_lIST _Welding_Craft[3].Welding_Offset.X" , PARAM Offset_CIR_X)
+    SHOWVAR (FULLPATH[] "%Area_CIR_lIST _Welding_Craft[3].Welding_Offset.Y" , PARAM Offset_CIR_Y)
+    SHOWVAR (FULLPATH[] "%Area_CIR_lIST _Welding_Craft[3].Welding_Offset.Z" , PARAM Offset_CIR_Z)
+    SHOWVAR (FULLPATH[] "%Area_CIR_lIST _Welding_Craft[3].Welding_Speed" , PARAM Vel)
+
+
+	MESSAGE " %Offset_List  Offset: X=%Offset_X  ,Y=%Offset_Y  ,Z=%Offset_Z "
+	MESSAGE " %Offset_CIR_List  Offset: X=%Offset_CIR_X  ,Y=%Offset_CIR_Y  ,Z=%Offset_CIR_Z "
+  ENDSCRIPT
    
-   DEFSCRIPT CIR_E_SAVE
+  DEFSCRIPT CIR_E_SAVE
 
     REDECL (PATH[] "%MODULE ", DECLARATION[] "DECL Offset_POS FF%Offset_List ={X %Offset_X ,Y %Offset_Y ,Z %Offset_Z }")
 	REDECL (PATH[] "%MODULE ", DECLARATION[] "DECL Offset_POS FF%Offset_CIR_List ={X %Offset_CIR_X ,Y %Offset_CIR_Y ,Z %Offset_CIR_Z }")
     REDECL (PATH[] "%MODULE ", DECLARATION[] "DECL FDAT F%CIR_End_Name ={TOOL_NO %TOOL_NO ,BASE_NO %BASE_NO ,IPO_FRAME #BASE ,POINT2[] /" /",TQ_STATE FALSE }" )
     REDECL (PATH[] "%MODULE ", DECLARATION[] "DECL LDAT L%CIR_End_Name ={VEL %Vel ,ACC %ACC ,APO_DIST %CDIS ,APO_FAC 50.0000 ,AXIS_VEL 100.0,AXIS_ACC 100.0,ORI_TYP #VAR ,CIRC_TYP #BASE,JERK_FAC 50.0,GEAR_JERK 50.0,EXAX_IGN 0}" )
 
+    SETVAR(FULLPATH[] "%Area_CIR_lIST _Welding_Craft[2].Welding_Name[] ", VALUE[] "/"%MOVE_Name /"" )
+	SETVAR(FULLPATH[] "%Area_CIR_lIST _Welding_Craft[3].Welding_Name[] ", VALUE[] "/"%CIR_End_Name /"" )
     MESSAGE "  %MOVE_Name  ,  %CIR_End_Name  SAVE "
-    
 
-	
+
+	  SWITCH "Surround_Welding_Size.Write_Status"
+      CASE "TRUE" DO  CIR_Write
+      CASE "FALSE" DO CIR_Read
+      ENDSWITCH
   ENDSCRIPT
    
+   
+   
+   
   DEFSCRIPT CIR_New
-
+  
+    SHOWVAR (FULLPATH[] "3",  PARAM OFFSET_NO)
     
+	MESSAGE "%OFFSET_NO "
+  ENDSCRIPT
+  
+  
+  
+  DEFSCRIPT CIR_L_New
+  
+    SHOWVAR (FULLPATH[] "1",  PARAM OFFSET_NO)
+    
+	MESSAGE "%OFFSET_NO "
+	
   ENDSCRIPT
    
    DEFSCRIPT CIR_Refresh
@@ -525,7 +604,22 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
     
     MESSAGE " %CIR_End_Name  CIR End Position: X=%CIR_Pos_X  , Y=%CIR_Pos_Y  , Z=%CIR_Pos_Z , A=%CIR_Pos_A , B=%CIR_Pos_B , C=%CIR_Pos_C"
 	MESSAGE " %Offset_CIR_List  CIR End Offset: X=%Offset_CIR_X  ,Y=%Offset_CIR_Y  ,Z=%Offset_CIR_Z "
-    DO LIN_Refresh
+    
+
+	SHOWVAR (FULLPATH[] "PO%MOVE_Name .X",  PARAM Pos_X)
+    SHOWVAR (FULLPATH[] "PO%MOVE_Name .Y" , PARAM Pos_Y)
+    SHOWVAR (FULLPATH[] "PO%MOVE_Name .Z" , PARAM Pos_Z)
+    SHOWVAR (FULLPATH[] "PO%MOVE_Name .A" , PARAM Pos_A)
+    SHOWVAR (FULLPATH[] "PO%MOVE_Name .B" , PARAM Pos_B)
+    SHOWVAR (FULLPATH[] "PO%MOVE_Name .C" , PARAM Pos_C)
+    
+	MESSAGE " %MOVE_Name  Position: X=%Pos_X  , Y=%Pos_Y  , Z=%Pos_Z , A=%Pos_A , B=%Pos_B , C=%Pos_C "
+	MESSAGE " %Offset_List CIR Middle Offset: X=%Offset_X  ,Y=%Offset_Y  ,Z=%Offset_Z "  
+	  
+	  SWITCH "Surround_Welding_Size.Write_Status"
+      CASE "TRUE" DO  CIR_Write
+      CASE "FALSE" DO CIR_Read
+      ENDSWITCH
    ENDSCRIPT
    
    
@@ -541,8 +635,16 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
       ;DO ACCEPTINLINEFORM
    ENDSCRIPT
    
+     DEFSCRIPT OnOpen_CIR_L
+      SWITCH "ISCHANGE"
+      CASE "TRUE"  DO LIN_Refresh
+      CASE "FALSE" DO CIR_L_New
+      ENDSWITCH
+      ;DO ACCEPTINLINEFORM
+   ENDSCRIPT
    
-      ;--------------------CIR_Program------------------------------
+   
+;--------------------CIR_Program------------------------------
    
    
    
@@ -591,7 +693,7 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
 
    Decl InlineForm S_LIN={FOLD[1] LIN_FOLD , PARAM[1] MOVE_Name  , PARAM[2] Vel, PARAM[3] LIN_Position, PARAM[4] Area_LIN_lIST, PARAM[5] MOVE_DAT  , PARAM[6] OFFSET_NO , PARAM[7] Offset_List ,ONOPEN OnOpen_Lin ,ONACCEPT LIN_SAVE} 
    
-   Decl InlineForm S_C_LIN = {FOLD[1] CIR_L_FOLD ,  PARAM[1] MOVE_Name , PARAM[2] Vel, PARAM[3] Area_CIR_lIST , PARAM[4] MOVE_DAT  , PARAM[5] Offset_List  , ONOPEN OnOpen_Lin , ONACCEPT LIN_SAVE} 
+   Decl InlineForm S_C_LIN = {FOLD[1] CIR_L_FOLD ,  PARAM[1] MOVE_Name , PARAM[2] Vel, PARAM[3] Area_CIR_lIST , PARAM[4] MOVE_DAT  , PARAM[5] Offset_List  , ONOPEN OnOpen_CIR_L , ONACCEPT CIR_L_SAVE} 
    Decl InlineForm S_C_CIR = {FOLD[1] Cir_FOLD ,  PARAM[1] MOVE_Name , PARAM[2] CIR_End_Name , PARAM[3] Vel , PARAM[4] Area_CIR_lIST , PARAM[5] MOVE_DAT  , PARAM[6] Offset_List , PARAM[7] Offset_CIR_List , ONOPEN OnOpen_CIR , ONACCEPT CIR_E_SAVE}  
    
    Decl InlineForm Cross_Pos={FOLD[1] Cross_Fold , PARAM[1] BASE_NO , PARAM[2] Robot_Dir_lIST  , PARAM[3] POS_1_Name ,PARAM[4] POS_2_Name , PARAM[5] POS_3_Name , PARAM[6] POS_4_Name}

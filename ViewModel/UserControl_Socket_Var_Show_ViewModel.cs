@@ -112,7 +112,7 @@ namespace HanGao.ViewModel
                 List_Lock.Reset();
 
 
-                            Socket_Client_Setup.One_Read.Socket_Client_Thread(Read_Write_Enum.One_Read, Socket_Client_Setup.IP, Socket_Client_Setup.Port);
+                            Socket_Client_Setup.One_Read.Socket_Client_Thread( Socket_Client_Type.Synchronized, Read_Write_Enum.One_Read, Socket_Client_Setup.IP, Socket_Client_Setup.Port);
 
                 foreach (var item in _List)
                 {

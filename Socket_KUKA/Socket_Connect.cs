@@ -651,15 +651,15 @@ namespace Soceket_Connect
 
 
 
-                        Task.Run(async () =>
-                        {
+                        //Task.Run(async () =>
+                        //{
 
-                            await Task.Delay(0);
+                        //    await Task.Delay(0);
 
                        
                         Messenger.Send<Socket_Models_List, string>(_Receive.Reveice_Target_Inf, _Receive.Reveice_Target_Inf.Send_Area);
 
-                        });
+                        //});
 
 
                     }
