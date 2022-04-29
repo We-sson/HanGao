@@ -109,10 +109,10 @@ namespace HanGao.ViewModel
 
                 //ObservableCollection<Socket_Models_List> O_List = new ObservableCollection<Socket_Models_List>();
 
-                List_Lock.Reset();
+                // List_Lock.Reset();
 
 
-                            Socket_Client_Setup.One_Read.Socket_Client_Thread( Socket_Client_Type.Synchronized, Read_Write_Enum.One_Read, Socket_Client_Setup.IP, Socket_Client_Setup.Port);
+                ObservableCollection < Socket_Models_List > _On_List=new ObservableCollection<Socket_Models_List> ();
 
                 foreach (var item in _List)
                 {
@@ -123,17 +123,27 @@ namespace HanGao.ViewModel
                         {
 
                             On_Read_List.Add(item);
-
-                        //On_Read_List= O_List;
+                          
+                            //On_Read_List= O_List;
                         }));
 
+                      // new Thread(() => Socket_Client_Setup.One_Read.Cycle_Real_Send(new Socket_Models_Receive() { Read_Write_Type = Read_Write_Enum.One_Read, Reveice_Inf = item })) { Name = "Connect—KUKA", IsBackground = true }.Start();
+                    
 
-                            Socket_Client_Setup.One_Read.Send_Read_Var(new Socket_Models_Receive() { Read_Write_Type = Read_Write_Enum.One_Read, Reveice_Target_Inf = item });
-                        List_Lock.WaitOne(1000);
+                        //Socket_Client_Setup.One_Read.Send_Read_Var(new Socket_Models_Receive() { Read_Write_Type = Read_Write_Enum.One_Read, Reveice_Target_Inf = item });
+                       
+                        
+                        
+                       // List_Lock.WaitOne(1000);
                     }
                 }
 
-               //Socket_Client_Setup.One_Read.Socket_Client_Thread(Read_Write_Enum.One_Read, Socket_Client_Setup.IP, Socket_Client_Setup.Port);
+
+
+
+               new Thread(() => Socket_Client_Setup.One_Read.Cycle_Real_Send(On_Read_List)) { Name = "Cycle_Real—KUKA", IsBackground = true }.Start();
+
+                
 
 
 
@@ -244,17 +254,14 @@ namespace HanGao.ViewModel
             }
             get
             {
-                if (_Write_Number_ID > 65500)
+                if (_Write_Number_ID > 65500  )
                 {
                     _Write_Number_ID = 0;
                 }
-                bool a = false;
-                do
-                {
-                    a = Socket_Read_List.Any<Socket_Models_List>(_ => _.Val_ID == _Write_Number_ID);
+                //bool a = false;
+         
+                    
                     _Write_Number_ID++;
-                }
-                while (a);
 
 
 
@@ -275,15 +282,23 @@ namespace HanGao.ViewModel
             }
             get
             {
+              
+
+
                 if (_Read_Number_ID > 65500)
                 {
                     _Read_Number_ID = 0;
                 }
+                do
+                {
 
                 _Read_Number_ID++;
 
+                } while (Socket_Read_List.Any<Socket_Models_List>(l => l.Val_ID == _Read_Number_ID) && On_Read_List.Any<Socket_Models_List>(l => l.Val_ID == _Read_Number_ID));
+
                 return _Read_Number_ID;
-            }
+             }
+            
         }
 
 
@@ -349,10 +364,10 @@ namespace HanGao.ViewModel
 
 
                                 int _ID = Socket_Read_List[i].Val_ID;
-                                //重置发送等待标识
+                         //重置发送等待标识
 
                         //将需要发送的变量信息写入回调参数忠
-                            _Socket_Receive_Inf.Reveice_Target_Inf = Socket_Read_List[i];
+                            _Socket_Receive_Inf.Reveice_Inf = Socket_Read_List[i];
                         
                         //发送变量集合内容
 
@@ -365,7 +380,7 @@ namespace HanGao.ViewModel
 
                         //}
 
-                        Socket_Client_Setup.Read.Send_Read_Var(_Socket_Receive_Inf);
+                       // Socket_Client_Setup.Read.Send_Read_Var(_Socket_Receive_Inf);
 
                         //等待发送完,增加延时减少发送压力
 
@@ -399,54 +414,8 @@ namespace HanGao.ViewModel
                
                 }
 
-
-
-
-
-
-
-                //Read_List_Lock.Set ();
-
-                //Read_List.ExitWriteLock();
             }
 
-
-
-            //List_Lock.Set();
-                //Thread.Sleep(5);
-
-
-
-            //Socket_Models_List _List;
-            //do
-            //{
-
-
-
-            // _List = Socket_Read_List.FirstOrDefault(L => L.Value_One_Read == Read_Type_Enum.One_Read);
-            //if (_List != null)
-            //{ 
-            //Application.Current.Dispatcher.Invoke((Action)(() =>
-            //{
-            //    Socket_Read_List.Remove(_List);
-            //}));
-            //}
-
-            //} while ( _List !=null);
-            //    }
-            //catch (Exception e)
-            //{
-            //    //异常处理
-            //    User_Log_Add($"Error: -08 原因:" + e.Message);
-            //    //User_Log_Add("-1.5，退出发送线程");
-            //    //Clear_List();
-            //    return;
-            //}
-            //finally
-            //{
-
-            ////Read_List_Lock.ExitWriteLock();
-            //}
 
 
 

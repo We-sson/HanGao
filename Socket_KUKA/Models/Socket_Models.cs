@@ -53,9 +53,9 @@ namespace Soceket_KUKA.Models
 
 
 
-        public Socket_Models_List Reveice_Target_Inf;
+        public Socket_Models_List Reveice_Inf { set; get; }
 
-        public Socket_Modesl_Byte Receive_Byte;
+        public Socket_Modesl_Byte Receive_Byte=new Socket_Modesl_Byte();
 
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Soceket_KUKA.Models
         /// <summary>
         /// 接收字节组属性
         /// </summary>
-        public byte[] Reveive_Byte { set; get; }
+        public byte[] Write_Byte { set; get; }
         /// <summary>
         /// 发送字节组属性
         /// </summary>

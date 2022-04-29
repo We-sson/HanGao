@@ -27,6 +27,7 @@ using static HanGao.ViewModel.UserControl_Socket_Var_Show_ViewModel;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
+using System.Collections.ObjectModel;
 
 namespace Soceket_Connect
 {
@@ -36,20 +37,20 @@ namespace Soceket_Connect
 
 
 
-        public Socket_Connect(string _IP, string _Port, Connect_Type _Type, Read_Write_Enum _Enum)
+        public Socket_Connect(string _IP, string _Port, Read_Write_Enum _Enum)
         {
 
             //实例初始化
             //IP = new IPEndPoint(IPAddress.Parse(_IP), int.Parse(_Port));
 
-            if (_Type == Connect_Type.Long)
-            {
-                if (Socket_Connect_Thread == null)
-                {
-                    //Socket_Client_Thread(_Enum, _IP, _Port);
+            //if (_Type == Connect_Type.Long)
+            //{
+            //    if (Socket_Connect_Thread == null)
+            //    {
+            //        //Socket_Client_Thread(_Enum, _IP, _Port);
 
-                }
-            }
+            //    }
+            //}
         }
 
 
@@ -145,7 +146,7 @@ namespace Soceket_Connect
         /// <summary>
         /// 异步接受属性
         /// </summary>
-        public Socket_Models_Receive Socket_KUKA_Receive { set; get; } = new Socket_Models_Receive();
+        public Socket_Models_Receive Socket_KUKA_Receive  = new Socket_Models_Receive();
 
 
 
@@ -514,7 +515,7 @@ namespace Soceket_Connect
         /// 异步接收信息
         /// </summary>
         /// <param name="ar">Socket属性</param>
-        public   void Socke_Receive_Message(IAsyncResult ar)
+        private    void Socke_Receive_Message(IAsyncResult ar)
         {
 
 
@@ -524,7 +525,7 @@ namespace Soceket_Connect
             //传入参数转换
             Socket_Models_Receive _Receive = ar.AsyncState as Socket_Models_Receive;
 
-            Socket_Modesl_Byte _Byte = new Socket_Modesl_Byte() { };
+          //  Socket_Modesl_Byte _Byte = new Socket_Modesl_Byte() { };
 
 
 
@@ -549,7 +550,7 @@ namespace Soceket_Connect
 
             if (Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.Write)
             {
-                Rece_IA_Lock.WaitOne();
+                // Rece_IA_Lock.WaitOne();
 
 
                 Socket_KUKA_Receive.Byte_Leng = Global_Socket_Write.EndReceive(ar);
@@ -562,11 +563,11 @@ namespace Soceket_Connect
                     return;
 
                 }
-                Rece_IA_Lock.ReleaseMutex();
+               // Rece_IA_Lock.ReleaseMutex();
 
             }
 
-
+            
 
 
 
@@ -581,58 +582,23 @@ namespace Soceket_Connect
                 if (Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.Read  || Socket_KUKA_Receive.Read_Write_Type== Read_Write_Enum.One_Read)
                 {
 
-                    _Byte.Byte_data = Socket_KUKA_Receive.Byte_Read_Receive;
-                    Socket_KUKA_Receive.Byte_Read_Receive = new byte[1024 * 1024];
+                    //_Byte.Byte_data = Socket_KUKA_Receive.Byte_Read_Receive;
+                     Real_Byte_To_Var(ref Socket_KUKA_Receive);
+                   // Socket_KUKA_Receive.Byte_Read_Receive = new byte[1024 * 1024];
                 }
                 else if (Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.Write)
                 {
-                    _Byte.Byte_data = Socket_KUKA_Receive.Byte_Write_Receive;
-                    Socket_KUKA_Receive.Byte_Write_Receive = new byte[1024 * 1024];
+                   // _Byte.Byte_data = Socket_KUKA_Receive.Byte_Write_Receive;
+                    Real_Byte_To_Var(ref Socket_KUKA_Receive);
+
+                  // Socket_KUKA_Receive.Byte_Write_Receive = new byte[1024 * 1024];
                 }
 
-
-                //Array.Resize(ref _data, Socket_KUKA_Receive.Byte_Leng);
-
-                _Byte.Byte_data = _Byte.Byte_data.Skip(0).Take(Socket_KUKA_Receive.Byte_Leng).ToArray();
 
                 #region 排序
+                //Array.Resize(ref _data, Socket_KUKA_Receive.Byte_Leng);
 
-                //提出前俩位的id号
-                _Byte.Byte_ID = Int32.Parse(BitConverter.ToString(_Byte.Byte_data.Skip(0).Take(2).ToArray()).Replace("-", ""), System.Globalization.NumberStyles.HexNumber);
-
-                //提取接收变量总长度
-                _Byte.Byte_Val_Total_Length = Int32.Parse(BitConverter.ToString(_Byte.Byte_data.Skip(2).Take(2).ToArray()).Replace("-", ""), System.Globalization.NumberStyles.HexNumber);
-
-                //提取读取还是写入状态
-                _Byte.Byte_Return_Tpye = Int32.Parse(BitConverter.ToString(_Byte.Byte_data.Skip(4).Take(1).ToArray()).Replace("-", ""), System.Globalization.NumberStyles.HexNumber);
-
-                //提取变量长度数据
-                var b = _Byte.Byte_data.Skip(5).Take(2).ToArray();
-                var bb = BitConverter.ToString(b).Replace("-", "");
-                var bbb = Convert.ToInt64(bb, 16);
-                _Byte.Byte_Val_Length = Int32.Parse(bb, System.Globalization.NumberStyles.HexNumber);
-
-                //提取接收返回变量值
-                _Byte.Message_Show = Encoding.ASCII.GetString(_Byte.Byte_data, 7, _Byte.Byte_Val_Length);
-
-                //提取写入是否成功
-                _Byte.Byte_Write_Type = Int32.Parse(BitConverter.ToString(_Byte.Byte_data.Skip(_Byte.Byte_Val_Total_Length + 3).Take(1).ToArray()).Replace("-", ""), System.Globalization.NumberStyles.HexNumber);
-
-
-
-                if (_Byte.Byte_Return_Tpye == 1 && _Byte.Byte_Write_Type == 1)
-                {
-                    User_Log_Add(_Byte.Message_Show );
-                    User_Log_Add( " 变量值写入成功！");
-
-                }
-                else if (_Byte.Byte_Return_Tpye == 1 && _Byte.Byte_Write_Type == 0)
-                {
-                    User_Log_Add($"Write Val:" + _Byte.Message_Show );
-                    User_Log_Add( " 变量值写入失败！");
-
-
-                }
+               
 
                 #endregion
 
@@ -641,12 +607,12 @@ namespace Soceket_Connect
                 if (Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.Read || Socket_KUKA_Receive.Read_Write_Type== Read_Write_Enum.One_Read)
                 {
     
-                    _Receive.Reveice_Target_Inf.Val_Var = _Byte.Message_Show;
+                    _Receive.Reveice_Inf.Val_Var = Socket_KUKA_Receive.Receive_Byte.Message_Show;
 
                         //Socket_Models_List _List = Socket_Read_List.Where<Socket_Models_List>(l => l.Val_ID == _Receive.Reveice_Target_Inf.Val_ID).FirstOrDefault();
                         //_List.Val_Update_Time = DateTime.Now.ToLocalTime();
                         //_List.Val_Var= _Byte.Message_Show;
-                    if (_Receive.Reveice_Target_Inf.Send_Area !="" )
+                    if (_Receive.Reveice_Inf.Send_Area !="" )
                     {
 
 
@@ -657,7 +623,7 @@ namespace Soceket_Connect
                         //    await Task.Delay(0);
 
                        
-                        Messenger.Send<Socket_Models_List, string>(_Receive.Reveice_Target_Inf, _Receive.Reveice_Target_Inf.Send_Area);
+                        Messenger.Send<Socket_Models_List, string>(_Receive.Reveice_Inf, _Receive.Reveice_Inf.Send_Area);
 
                         //});
 
@@ -667,11 +633,11 @@ namespace Soceket_Connect
 
 
 
-                    if (Socket_KUKA_Receive.Read_Write_Type== Read_Write_Enum.One_Read)
-                    {
+                    //if (Socket_KUKA_Receive.Read_Write_Type== Read_Write_Enum.One_Read)
+                    //{
 
-                        List_Lock.Set();
-                    }
+                    //    List_Lock.Set();
+                    //}
 
 
                 }
@@ -681,7 +647,6 @@ namespace Soceket_Connect
 
             }
  
-
 
 
             if (Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.Write )
@@ -743,7 +708,7 @@ namespace Soceket_Connect
 
 
             Byte[] Message = _S.Send_Byte;
-            Socket_KUKA_Receive = _S;
+            //Socket_KUKA_Receive = _S;
             
 
 
@@ -811,18 +776,20 @@ namespace Soceket_Connect
 
                 if (_S.Read_Write_Type == Read_Write_Enum.One_Read)
                 {
-
+                   
                 }
 
+                Send_Waite.Reset();
+                Send_Read.Reset();
                 
                 //异步监听接收读取消息
-                Global_Socket_Read.BeginReceive(Socket_KUKA_Receive.Byte_Read_Receive, 0, Socket_KUKA_Receive.Byte_Read_Receive.Length, SocketFlags.None, new AsyncCallback(Socke_Receive_Message), _S);
+                    Global_Socket_Read.BeginReceive(Socket_KUKA_Receive.Byte_Read_Receive, 0, Socket_KUKA_Receive.Byte_Read_Receive.Length, SocketFlags.None, new AsyncCallback(Socke_Receive_Message), _S);
 
-                    Thread.Sleep(1);  
+                   // Thread.Sleep(1);  
 
                     Global_Socket_Read.BeginSend(Message, 0, Message.Length, SocketFlags.None, new AsyncCallback(Socket_Send_Message), Global_Socket_Read);
 
-                    if (!Send_Waite.WaitOne(15000000) && !Send_Read.Wait(15000000))
+                    if (!Send_Waite.WaitOne(1500) && !Send_Read.Wait(1500))
                     {
                         Socket_Client_Setup.Read.Socket_Receive_Error(Read_Write_Enum.Read, "接收超时无应答，退出线程发送！");
                         return;
@@ -854,25 +821,18 @@ namespace Soceket_Connect
         /// <param name="Socket">异步参数</param>
         private  void Socket_Send_Message(IAsyncResult ar)
         {
-            //线程加锁
-            //Send_IA_Lock.WaitOne();
+ 
 
             if (Global_Socket_Write == (Socket)ar.AsyncState)
             {
 
                 Global_Socket_Write.EndSend(ar);
 
-
-
-                //Connect_IA.Set();
                 //释放发送等待状态
                 Send_Write.Set();
 
-
                 //发送回调完成后再关闭通讯口
                 Send_IA.Set();
-
-
             }
 
             if (Global_Socket_Read == (Socket)ar.AsyncState)
@@ -885,8 +845,6 @@ namespace Soceket_Connect
 
             }
 
-            //线程释放锁
-            //Send_IA_Lock.ReleaseMutex();
 
         }
 
@@ -898,32 +856,137 @@ namespace Soceket_Connect
 
 
 
+
+
+
+        /// <summary>
+        /// 读取变量周期发生
+        /// </summary>
+        /// <param name="Sml">周期传输集合</param>
+        public  void Cycle_Real_Send(ObservableCollection<Socket_Models_List> Sml)
+        {
+
+
+
+                lock (Socket_KUKA_Receive)
+                {
+
+            Socket_Client_Thread(Socket_Client_Type.Synchronized, Read_Write_Enum.One_Read, Socket_Client_Setup.IP, Socket_Client_Setup.Port);
+
+
+            foreach (var item in Sml)
+            {
+
+                //Read_Var_To_Byte(item);
+
+
+
+                Socket_KUKA_Receive = new Socket_Models_Receive() { Send_Byte = Read_Var_To_Byte(item), Read_Write_Type = Read_Write_Enum.One_Read, Reveice_Inf = item };
+                
+                Socket_Send_Message_Method(Socket_KUKA_Receive);
+
+
+            }
+
+
+
+            Socket_Close(Read_Write_Enum.One_Read);
+
+                }
+        }
+
+
+        public void Loop_Real_Send(ObservableCollection<Socket_Models_List> SmL)
+        {
+
+
+
+
+
+        }
+
+
+        private void Real_Byte_To_Var(ref Socket_Models_Receive Smr)
+        {
+
+            if (Smr.Read_Write_Type== Read_Write_Enum.Read || Smr.Read_Write_Type== Read_Write_Enum.One_Read)
+            {
+
+            Smr.Receive_Byte.Byte_data = Smr.Byte_Read_Receive.Skip(0).Take(Smr.Byte_Leng).ToArray();
+            }else
+            {
+                Smr.Receive_Byte.Byte_data = Smr.Byte_Write_Receive.Skip(0).Take(Smr.Byte_Leng).ToArray();
+            }
+
+
+            //提出前俩位的id号
+            Smr.Receive_Byte.Byte_ID = Int32.Parse(BitConverter.ToString(Smr.Receive_Byte.Byte_data.Skip(0).Take(2).ToArray()).Replace("-", ""), System.Globalization.NumberStyles.HexNumber);
+
+            //提取接收变量总长度
+            Smr.Receive_Byte.Byte_Val_Total_Length = Int32.Parse(BitConverter.ToString(Smr.Receive_Byte.Byte_data.Skip(2).Take(2).ToArray()).Replace("-", ""), System.Globalization.NumberStyles.HexNumber);
+
+            //提取读取还是写入状态
+            Smr.Receive_Byte.Byte_Return_Tpye = Int32.Parse(BitConverter.ToString(Smr.Receive_Byte.Byte_data.Skip(4).Take(1).ToArray()).Replace("-", ""), System.Globalization.NumberStyles.HexNumber);
+
+            //提取变量长度数据
+            var b = Smr.Receive_Byte.Byte_data.Skip(5).Take(2).ToArray();
+            var bb = BitConverter.ToString(b).Replace("-", "");
+            var bbb = Convert.ToInt64(bb, 16);
+            Smr.Receive_Byte.Byte_Val_Length = Int32.Parse(bb, System.Globalization.NumberStyles.HexNumber);
+
+            //提取接收返回变量值
+            Smr.Receive_Byte.Message_Show = Encoding.ASCII.GetString(Smr.Receive_Byte.Byte_data, 7, Smr.Receive_Byte.Byte_Val_Length);
+
+
+            //MessageBox.Show(Smr.Receive_Byte.Message_Show);
+
+            //提取写入是否成功
+            Smr.Receive_Byte.Byte_Write_Type = Int32.Parse(BitConverter.ToString(Smr.Receive_Byte.Byte_data.Skip(Smr.Receive_Byte.Byte_Val_Total_Length + 3).Take(1).ToArray()).Replace("-", ""), System.Globalization.NumberStyles.HexNumber);
+
+
+
+            if (Smr.Receive_Byte.Byte_Return_Tpye == 1 && Smr.Receive_Byte.Byte_Write_Type == 1)
+            {
+                User_Log_Add(Smr.Receive_Byte.Message_Show);
+                User_Log_Add(" 变量值写入成功！");
+
+            }
+            else if (Smr.Receive_Byte.Byte_Return_Tpye == 1 && Smr.Receive_Byte.Byte_Write_Type == 0)
+            {
+                User_Log_Add($"Write Val:" + Smr.Receive_Byte.Message_Show);
+                User_Log_Add(" 变量值写入失败！");
+
+
+            }
+
+          
+
+        }
+
+
         /// <summary>
         /// 处理读取变量字节流
         /// </summary>
         /// <param name="_var">读取名称</param>
         /// <param name="_ID">ID号</param>
         /// <returns></returns>
-        public void Send_Read_Var(Socket_Models_Receive _Socket_Receive_Inf)
+        public byte[] Read_Var_To_Byte(Socket_Models_List Var)
         {
 
 
-            if (_Socket_Receive_Inf.Reveice_Target_Inf.Val_Name!="")
-            {
 
-             
+
+
             //临时存放变量
-            List<byte> _data = new List<byte>();
+            List<byte> _data = new();
             //变量转换byte
-            byte[] _v = Encoding.Default.GetBytes(_Socket_Receive_Inf.Reveice_Target_Inf.Val_Name);
-
-
+            byte[] _v = Encoding.Default.GetBytes(Var.Val_Name);
 
 
             //传输数据排列，固定顺序不可修改
 
             //传输数据唯一标识
-            _data.AddRange(Send_number_ID(_Socket_Receive_Inf.Reveice_Target_Inf.Val_ID));
+            _data.AddRange(Send_number_ID(Var.Val_ID));
             //传输数据总长度值
             _data.AddRange(Send_number_ID(_v.Length + 3));
             //读取标识 0x00 
@@ -936,21 +999,16 @@ namespace Soceket_Connect
             _data.AddRange(new byte[1] { 0x00 });
 
 
-                _Socket_Receive_Inf.Send_Byte = _data.ToArray();
-            //发送排序好的字节流发送
-            //Socket_Send_Message_Method(new Socket_Models_Send() { Send_Byte = _data.ToArray(), Read_Write_Type = Read_Write_Enum.Read });
-                Socket_Send_Message_Method(_Socket_Receive_Inf);
+               return _data.ToArray();
 
-            }
+            //发送排序好的字节流发送
+          //  Socket_Send_Message_Method(new Socket_Models_Send() { Send_Byte = _data.ToArray(), Read_Write_Type = Read_Write_Enum.Read });
+              //  Socket_Send_Message_Method(_Socket_Receive_Inf);
+
+            
 
 
         }
-
-
-
-
-
-
 
         /// <summary>
         /// 处理写入变量转换字节流
@@ -1039,7 +1097,7 @@ namespace Soceket_Connect
 
 
 
-            if (_Enum == Read_Write_Enum.Read)
+            if (_Enum == Read_Write_Enum.Read || _Enum== Read_Write_Enum.One_Read)
             {
 
                 //断开读取连接
@@ -1053,7 +1111,7 @@ namespace Soceket_Connect
                 if (Global_Socket_Read.Connected)
                 {
 
-                    Close_Waite.WaitOne();
+                    //Close_Waite.WaitOne();
 
                     Global_Socket_Read.Shutdown(SocketShutdown.Both);
                     Global_Socket_Read.Close();
@@ -1115,11 +1173,7 @@ namespace Soceket_Connect
         /// <param name="_Error">连接失败原因输入</param>
         public void Socket_Receive_Error(Read_Write_Enum _Enum, string _Error)
         {
-            //线程独占锁
-            //Quit_Lock.EnterWriteLock();
 
-            //重置退出标记
-            //Quit_Waite.Reset();
 
 
             Close_Waite.Reset();
@@ -1130,7 +1184,6 @@ namespace Soceket_Connect
             Socket_Close(_Enum);
             User_Log_Add(_Error);
 
-            //Quit_Lock.ExitWriteLock();
         }
 
 

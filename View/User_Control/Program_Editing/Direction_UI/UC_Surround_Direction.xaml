@@ -10,6 +10,7 @@
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_Surround_Direction_VM}"
              mc:Ignorable="d">
 
+
     <Grid>
 
         <TextBlock Name="Sink_ico"
@@ -140,6 +141,38 @@
         </Grid>
 
 
+        <Border x:Name="B1"
+                Background="Gray"
+                Opacity=" 0.8">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Direction_State}" Value="Reading">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+
+        </Border>
+        <TextBlock x:Name="Tb1"
+                   Text="参数正在读取中...."
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Foreground="Red"
+                   FontSize="32">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Direction_State}" Value="Reading">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
 
 
 

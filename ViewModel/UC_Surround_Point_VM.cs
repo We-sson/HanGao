@@ -42,6 +42,8 @@ namespace HanGao.ViewModel
             //接收读取围边工艺所需值
             Messenger.Register<Socket_Models_List, string>(this, nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data), (O, S) =>
                            {
+                               lock (S)
+                               {
 
                                if (S.UserObject == null) return;
                                KUKA_Craft_Value Craft_Value = S.UserObject as KUKA_Craft_Value;
@@ -179,6 +181,7 @@ namespace HanGao.ViewModel
                                }
 
 
+                               }
      
 
                            });

@@ -194,7 +194,11 @@ namespace HanGao.ViewModel.Messenger_Eunm
             Read_Robot_Surround_Craft_Data,
 
 
-           
+            /// <summary>
+            /// 围边方向状态
+            /// </summary>
+            Surround_Direction_State
+
         }
 
 

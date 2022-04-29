@@ -23,6 +23,12 @@ namespace HanGao.ViewModel
         {
 
 
+            WeakReferenceMessenger.Default.Register<dynamic , string>(this, nameof(Meg_Value_Eunm.Surround_Direction_State), (O, _S) =>
+            {
+                Direction_State = _S;
+            });
+
+
 
             IsActive = true;
 
@@ -46,11 +52,22 @@ namespace HanGao.ViewModel
         }
 
 
+        public enum Surround_Direction_Type_Enum
+        {
+            Reading,
+            Ok
+        }
+
+
+
+        public Surround_Direction_Type_Enum Direction_State { get; set; } = Surround_Direction_Type_Enum.Ok;
+
+
+
         /// <summary>
         /// 围边工艺枚举
         /// </summary>
         private Surround_Direction_Enum _Surround_Direction_Type= Surround_Direction_Enum.Null;
-
         public Surround_Direction_Enum Surround_Direction_Type
         {
             get { return _Surround_Direction_Type; }
