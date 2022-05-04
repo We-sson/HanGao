@@ -24,5 +24,7 @@ namespace HanGao.View.User_Control.Program_Editing.Direction_UI
         {
             InitializeComponent();
         }
+
+
     }
 }

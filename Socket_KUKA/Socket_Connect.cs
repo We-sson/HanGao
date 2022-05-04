@@ -870,18 +870,20 @@ namespace Soceket_Connect
 
                 lock (Socket_KUKA_Receive)
                 {
+                Socket_KUKA_Receive = new Socket_Models_Receive();
+                 Socket_Client_Thread(Socket_Client_Type.Synchronized, Read_Write_Enum.One_Read, Socket_Client_Setup.IP, Socket_Client_Setup.Port);
 
-            Socket_Client_Thread(Socket_Client_Type.Synchronized, Read_Write_Enum.One_Read, Socket_Client_Setup.IP, Socket_Client_Setup.Port);
 
+                for (int i = 0; i < Sml.Count; i++)
+                {
 
-            foreach (var item in Sml)
-            {
+      
 
                 //Read_Var_To_Byte(item);
 
 
 
-                Socket_KUKA_Receive = new Socket_Models_Receive() { Send_Byte = Read_Var_To_Byte(item), Read_Write_Type = Read_Write_Enum.One_Read, Reveice_Inf = item };
+                Socket_KUKA_Receive = new Socket_Models_Receive() { Send_Byte = Read_Var_To_Byte(Sml[i]), Read_Write_Type = Read_Write_Enum.One_Read, Reveice_Inf = Sml[i] };
                 
                 Socket_Send_Message_Method(Socket_KUKA_Receive);
 

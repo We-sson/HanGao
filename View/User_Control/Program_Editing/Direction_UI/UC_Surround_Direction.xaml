@@ -4,11 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HanGao.View.User_Control.Program_Editing.Direction_UI"
+             xmlns:arcui="clr-namespace:WPFArcUILibrary;assembly=WPFArcUILibrary"
              Padding="10"
              d:DesignHeight="466"
              d:DesignWidth="760"
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_Surround_Direction_VM}"
              mc:Ignorable="d">
+
+
 
 
     <Grid>
@@ -26,7 +29,7 @@
                 CornerRadius="20"
                 Effect="{StaticResource 全局背景阴影}"
                 BorderThickness="10"
-                BorderBrush="Red" />
+                BorderBrush="#FF5E57" />
 
 
         <Grid Grid.ColumnSpan="2" ShowGridLines="False">
@@ -142,8 +145,9 @@
 
 
         <Border x:Name="B1"
-                Background="Gray"
-                Opacity=" 0.8">
+                Margin="-10"
+                Background="#E3E3E3"
+                Opacity=" 0.9">
             <Border.Style>
                 <Style TargetType="Border">
                     <Setter Property="Visibility" Value="Collapsed" />
@@ -156,23 +160,49 @@
             </Border.Style>
 
         </Border>
-        <TextBlock x:Name="Tb1"
-                   Text="参数正在读取中...."
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   Foreground="Red"
-                   FontSize="32">
-            <TextBlock.Style>
-                <Style TargetType="TextBlock">
-                    <Setter Property="Visibility" Value="Collapsed" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Direction_State}" Value="Reading">
-                            <Setter Property="Visibility" Value="Visible" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </TextBlock.Style>
-        </TextBlock>
+
+        <StackPanel HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+
+            <!--<arcui:ArcLine x:Name="Arc" Visibility="Collapsed"
+                           MinHeight="200"
+                           Effect="{StaticResource 全局背景阴影}"
+                           StartAngle="-180"
+                           EndAngle="180"
+                           Radius="80"
+                           ArcWidth="25"
+                           FillLineRatio="{Binding ElementName=Nb, Path=Opacity}"
+                           AnimationTime="800"
+                           Foreground="SteelBlue"
+                           Background="Transparent" />-->
+
+
+            <TextBlock x:Name="Tb1"
+                       Text="参数正在读取中...."
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Effect="{StaticResource 全局背景阴影}"
+                       Foreground="#FE5E57"
+                       FontSize="32">
+
+
+
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Direction_State}" Value="Reading">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+
+
+        </StackPanel>
 
 
 

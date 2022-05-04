@@ -27,8 +27,7 @@
     <Grid>
 
 
-        <Grid x:Name="GD1"
-              HorizontalAlignment="Left">
+        <Grid x:Name="GD1" HorizontalAlignment="Left">
 
 
             <Grid x:Name="GD2" Grid.Column="0"
@@ -38,13 +37,11 @@
                         <Setter Property="Grid.Margin" Value="-500 0 0 0" />
 
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Sideber_Var.Sideber_Open}"
-                                         Value=" True">
+                            <DataTrigger Binding="{Binding Sideber_Var.Sideber_Open}" Value=" True">
 
                                 <Setter Property="Grid.Margin" Value="0 0 0 0" />
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding Sideber_Var.Sideber_Open}"
-                                         Value="False">
+                            <DataTrigger Binding="{Binding Sideber_Var.Sideber_Open}" Value="False">
                                 <Setter Property="Grid.Margin" Value="-500 0 0 0" />
                             </DataTrigger>
 
@@ -53,8 +50,7 @@
                         </Style.Triggers>
                     </Style>
                 </Grid.Style>
-                <Border CornerRadius="0 20 20 0"
-                        Background="White" />
+                <Border CornerRadius="0 20 20 0" Background="White" />
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="70" />

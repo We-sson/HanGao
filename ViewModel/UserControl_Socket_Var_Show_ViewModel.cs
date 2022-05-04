@@ -25,7 +25,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static HanGao.Extension_Method.SetReadTypeAttribute;
 using static HanGao.ViewModel.UC_Surround_Point_VM;
-
+using static HanGao.ViewModel.UC_Surround_Direction_VM;
 
 namespace HanGao.ViewModel
 {
@@ -107,12 +107,13 @@ namespace HanGao.ViewModel
             Messenger.Register<ObservableCollection<Socket_Models_List>,string >(this, nameof(Meg_Value_Eunm.One_List_Connect),(O,_List) =>
             {
 
-                //ObservableCollection<Socket_Models_List> O_List = new ObservableCollection<Socket_Models_List>();
+                Application.Current.Dispatcher.Invoke((Action)(() =>
+                {
 
-                // List_Lock.Reset();
+                    On_Read_List.Clear();
 
-
-                ObservableCollection < Socket_Models_List > _On_List=new ObservableCollection<Socket_Models_List> ();
+                }));
+    
 
                 foreach (var item in _List)
                 {
@@ -123,28 +124,31 @@ namespace HanGao.ViewModel
                         {
 
                             On_Read_List.Add(item);
-                          
-                            //On_Read_List= O_List;
+
                         }));
 
-                      // new Thread(() => Socket_Client_Setup.One_Read.Cycle_Real_Send(new Socket_Models_Receive() { Read_Write_Type = Read_Write_Enum.One_Read, Reveice_Inf = item })) { Name = "Connect—KUKA", IsBackground = true }.Start();
-                    
 
-                        //Socket_Client_Setup.One_Read.Send_Read_Var(new Socket_Models_Receive() { Read_Write_Type = Read_Write_Enum.One_Read, Reveice_Target_Inf = item });
-                       
-                        
-                        
-                       // List_Lock.WaitOne(1000);
                     }
                 }
 
 
 
 
-               new Thread(() => Socket_Client_Setup.One_Read.Cycle_Real_Send(On_Read_List)) { Name = "Cycle_Real—KUKA", IsBackground = true }.Start();
+               //new Thread(() => Socket_Client_Setup.One_Read.Cycle_Real_Send(On_Read_List)) { Name = "Cycle_Real—KUKA", IsBackground = true }.Start();
 
-                
 
+                new Thread(new ThreadStart(new Action(() =>
+               {
+
+                   Messenger.Send<dynamic, string>(Surround_Direction_Type_Enum.Reading, nameof(Meg_Value_Eunm.Surround_Direction_State));
+
+                   Socket_Client_Setup.One_Read.Cycle_Real_Send(On_Read_List);
+
+                   Messenger.Send<dynamic, string>(Surround_Direction_Type_Enum.Ok , nameof(Meg_Value_Eunm.Surround_Direction_State));
+
+
+               })))
+                { IsBackground =true, Name = "Cycle_Real—KUKA" }.Start();
 
 
 

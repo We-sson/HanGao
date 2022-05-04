@@ -244,34 +244,6 @@ namespace HanGao.ViewModel
                                 } );
                                 
 
-                                ///多线程修改值变量
-                            //    Thread Read_receive = new Thread(new ThreadStart(new Action(() =>
-                            //    {
-
-                            
-                            //    Messenger.Send<ObservableCollection<Socket_Models_List>, string>(new ObservableCollection<Socket_Models_List>()
-                            //{
-                            //    new Socket_Models_List()
-                            //    { Val_Name = User_Checked_Direction.ToString() + "[" + _Point.NO + "]"+ "."+_Value.GetStringValue(),
-                            //        Val_ID = Read_Number_ID,
-                            //        Send_Area = nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data) ,
-                            //        Value_One_Read= Read_Type_Enum.One_Read ,
-                            //         UserObject=new KUKA_Craft_Value(){ Craft_Point_NO=_Point.NO, KUKA_Craft_Type=(KUKA_Craft_Value_Name)_Value , KUKA_Point_Type=_Point.Craft_Type , User_Direction=S}
-                            //    },
-    
-                            //}, nameof(Meg_Value_Eunm.One_List_Connect));
-
-                            //    })))
-                            //    {
-
-                            //        IsBackground = true
-                            //    };
-
-                            //    Read_receive.Name = Read_receive.ManagedThreadId.ToString() + "  ADD_Value_List";
-                            //    Read_receive.Start();
-
-
-
                             }
 
                         }

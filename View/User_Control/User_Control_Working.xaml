@@ -12,7 +12,8 @@
              mc:Ignorable="d">
     <Grid x:Name="GD1" Grid.Row="0" Grid.Column="0"
           Margin="0"
-          ShowGridLines="False" Effect="{Binding  Source={StaticResource 全局背景阴影}}">
+          ShowGridLines="False"
+          Effect="{Binding Source={StaticResource 全局背景阴影}}">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.15*" />
             <RowDefinition />
@@ -97,8 +98,7 @@
 
 
 
-                    <WrapPanel HorizontalAlignment="Center"
-                               VerticalAlignment="Center">
+                    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
 
                         <CheckBox Style="{StaticResource Button_List_Style}" x:Name="Work_Run_Check"
                                   Content="启动"

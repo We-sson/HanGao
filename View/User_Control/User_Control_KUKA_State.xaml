@@ -34,12 +34,10 @@
                         <Style TargetType="Border">
                             <Setter Property="Background" Value="Gray" />
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding KUKA_State.KUKA_Submit_State}"
-                                             Value="P_ACTIVE">
+                                <DataTrigger Binding="{Binding KUKA_State.KUKA_Submit_State}" Value="P_ACTIVE">
                                     <Setter Property="Background" Value="Green" />
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding KUKA_State.KUKA_Submit_State}"
-                                             Value="P_STOP">
+                                <DataTrigger Binding="{Binding KUKA_State.KUKA_Submit_State}" Value="P_STOP">
                                     <Setter Property="Background" Value="Red" />
                                 </DataTrigger>
                             </Style.Triggers>
@@ -61,8 +59,7 @@
                         <Style TargetType="Border">
                             <Setter Property="Background" Value="Gray" />
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding KUKA_State.KUKA_Drive_State}"
-                                             Value="TRUE">
+                                <DataTrigger Binding="{Binding KUKA_State.KUKA_Drive_State}" Value="TRUE">
                                     <Setter Property="Background" Value="Green" />
                                 </DataTrigger>
                             </Style.Triggers>
@@ -84,20 +81,16 @@
                         <Style TargetType="Border">
                             <Setter Property="Background" Value="Gray" />
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding KUKA_State.KUKA_Program_State}"
-                                             Value="P_RESET">
+                                <DataTrigger Binding="{Binding KUKA_State.KUKA_Program_State}" Value="P_RESET">
                                     <Setter Property="Background" Value="Yellow" />
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding KUKA_State.KUKA_Program_State}"
-                                             Value="P_ACTIVE">
+                                <DataTrigger Binding="{Binding KUKA_State.KUKA_Program_State}" Value="P_ACTIVE">
                                     <Setter Property="Background" Value="Green" />
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding KUKA_State.KUKA_Program_State}"
-                                             Value="P_STOP">
+                                <DataTrigger Binding="{Binding KUKA_State.KUKA_Program_State}" Value="P_STOP">
                                     <Setter Property="Background" Value="Red" />
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding KUKA_State.KUKA_Program_State}"
-                                             Value="P_END ">
+                                <DataTrigger Binding="{Binding KUKA_State.KUKA_Program_State}" Value="P_END ">
                                     <Setter Property="Background" Value="Black" />
                                 </DataTrigger>
                             </Style.Triggers>
@@ -115,8 +108,7 @@
                             <Style TargetType="TextBlock">
                                 <Setter Property="Foreground" Value="Black" />
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding KUKA_State.KUKA_Program_State}"
-                                                 Value="P_END ">
+                                    <DataTrigger Binding="{Binding KUKA_State.KUKA_Program_State}" Value="P_END ">
                                         <Setter Property="Foreground" Value="White" />
                                     </DataTrigger>
                                 </Style.Triggers>
@@ -133,8 +125,7 @@
                         <Style TargetType="Border">
                             <Setter Property="Background" Value="Gray" />
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding KUKA_State.KUKA_Mode_State}"
-                                             Value="AUT">
+                                <DataTrigger Binding="{Binding KUKA_State.KUKA_Mode_State}" Value="AUT">
                                     <Setter Property="Background" Value="Green" />
                                 </DataTrigger>
                             </Style.Triggers>
@@ -148,8 +139,7 @@
                             <Style TargetType="TextBlock">
                                 <Setter Property="Text" Value="T1" />
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding KUKA_State.KUKA_Mode_State}"
-                                                 Value="AUT">
+                                    <DataTrigger Binding="{Binding KUKA_State.KUKA_Mode_State}" Value="AUT">
                                         <Setter Property="Text" Value="AUT" />
 
                                     </DataTrigger>

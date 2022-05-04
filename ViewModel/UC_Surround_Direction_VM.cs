@@ -23,10 +23,7 @@ namespace HanGao.ViewModel
         {
 
 
-            WeakReferenceMessenger.Default.Register<dynamic , string>(this, nameof(Meg_Value_Eunm.Surround_Direction_State), (O, _S) =>
-            {
-                Direction_State = _S;
-            });
+            WeakReferenceMessenger.Default.Register<dynamic , string>(this, nameof(Meg_Value_Eunm.Surround_Direction_State), (O, _S) => {  Direction_State = _S; });
 
 
 
@@ -60,7 +57,7 @@ namespace HanGao.ViewModel
 
 
 
-        public Surround_Direction_Type_Enum Direction_State { get; set; } = Surround_Direction_Type_Enum.Ok;
+        public Surround_Direction_Type_Enum Direction_State { get; set; } = Surround_Direction_Type_Enum.Ok ;
 
 
 
