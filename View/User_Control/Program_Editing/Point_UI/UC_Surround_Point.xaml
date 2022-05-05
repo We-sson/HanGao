@@ -34,7 +34,7 @@
                   RowBackground="Transparent"
                   AlternatingRowBackground="Transparent"
                   RowHeight="56"
-                  ItemsSource="{Binding Surround_Offset_Point}">
+                  ItemsSource="{Binding Surround_Offset_Point, Mode=TwoWay}">
 
 
 

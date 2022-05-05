@@ -287,17 +287,7 @@ namespace HanGao.ViewModel
                             {
                                 Date.Craft_Date[i] = S;
                             }
-
-
                         }
-          
-                       
-
-                        //item.Surround_Craft.GetType().GetProperty(User_Checked_Direction.ToString() + "_Welding_Craft").SetValue(item.Surround_Craft, Date);
-
-     
-          
-
                     }
 
                 };

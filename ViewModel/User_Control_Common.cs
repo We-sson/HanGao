@@ -232,6 +232,8 @@ namespace HanGao.ViewModel
             }
 
 
+
+
             WeakReferenceMessenger.Default.Send<ObservableCollection<Socket_Models_List>, string>(_List, nameof(Meg_Value_Eunm.List_Connect));
               
   

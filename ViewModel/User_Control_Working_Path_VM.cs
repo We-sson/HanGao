@@ -46,22 +46,6 @@ namespace HanGao.ViewModel
             WeakReferenceMessenger.Default.Register<Socket_Models_List,string >(this, Work_String_Name, (O,Name_Val) =>
             {
 
-                //switch (Name_Val.Value_Enum)
-                //{
-                //    //case Value_Name_enum.POS_ACT:
-                //    //    Working_Path.KUKA_Now_Point_Show = Name_Val.Val_Var;
-                //    //    break;
-                //    case Value_Name_enum.ACT_TOOL:
-                //        Working_Path.KUKA_TOOL_Number = Name_Val.Val_Var;
-
-                //        break;
-                //    case Value_Name_enum.ACT_BASE:
-                //        Working_Path.KUKA_Base_Number = Name_Val.Val_Var;
-
-                //        break;
-
-                //}
-
 
 
             }

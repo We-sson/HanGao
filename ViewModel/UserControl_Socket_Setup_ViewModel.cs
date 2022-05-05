@@ -92,7 +92,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 客户端IP
         /// </summary>
-        private static  string _IP_Client = "192.168.153.128";
+        private static  string _IP_Client = "192.168.153.131";
 
         public static string IP_Client
         {

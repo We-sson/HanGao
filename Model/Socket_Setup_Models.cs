@@ -31,16 +31,16 @@ using static HanGao.Socket_KUKA.Socket_Sever;
 using static HanGao.ViewModel.User_Control_Log_ViewModel;
 using static HanGao.ViewModel.UserControl_Socket_Var_Show_ViewModel;
 using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
-
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using System.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Messaging;
+using static HanGao.ViewModel.UC_Surround_Direction_VM;
 
 namespace HanGao.Model
 
 {
     [AddINotifyPropertyChangedInterface]
-    public class Socket_Setup_Models : ObservableObject
+    public class Socket_Setup_Models : ObservableRecipient
     {
 
         public Socket_Setup_Models()
@@ -190,8 +190,8 @@ namespace HanGao.Model
               {
 
 
-                  Application.Current.Dispatcher.Invoke(() =>
-                  {
+                  //Application.Current.Dispatcher.Invoke(() =>
+                  //{
                       //把参数类型转换控件
 
                
@@ -203,9 +203,20 @@ namespace HanGao.Model
                       {
                           case Socket_Type.Client:
 
-                              Socket_Client_Setup.Read.Socket_Client_Thread(  Socket_Client_Type.Synchronized,Read_Write_Enum.Read, IP, Port);
+                              //Socket_Client_Setup.Read.Socket_Client_Thread(  Socket_Client_Type.Synchronized,Read_Write_Enum.Read, IP, Port);
+
+                              //使用多线程读取
+                              new Thread(new ThreadStart(new Action(() =>
+                              {
 
 
+
+                                  Socket_Client_Setup .Read.Loop_Real_Send(Socket_Read_List);
+
+
+
+                              })))
+                              { IsBackground = true, Name = "Loop_Real—KUKA" }.Start();
 
 
                               ////读取用多线程连接
@@ -221,7 +232,7 @@ namespace HanGao.Model
                       }
                         //创建连接
 
-                    });
+                    //});
               });
 
           });

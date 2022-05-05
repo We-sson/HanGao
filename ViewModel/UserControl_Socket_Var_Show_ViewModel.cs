@@ -87,12 +87,12 @@ namespace HanGao.ViewModel
             
                         Socket_Read_List.Add(item);
                         }));
-
-
-
                     }
 
                 }
+
+                //---------------------------------------------
+
 
 
 
@@ -103,7 +103,7 @@ namespace HanGao.ViewModel
 
 
 
-
+            ///添加周期发生库卡变量集合
             Messenger.Register<ObservableCollection<Socket_Models_List>,string >(this, nameof(Meg_Value_Eunm.One_List_Connect),(O,_List) =>
             {
 
@@ -113,8 +113,6 @@ namespace HanGao.ViewModel
                     On_Read_List.Clear();
 
                 }));
-    
-
                 foreach (var item in _List)
                 {
 
@@ -122,9 +120,7 @@ namespace HanGao.ViewModel
                     {
                         Application.Current.Dispatcher.Invoke((Action)(() =>
                         {
-
                             On_Read_List.Add(item);
-
                         }));
 
 
@@ -132,11 +128,7 @@ namespace HanGao.ViewModel
                 }
 
 
-
-
-               //new Thread(() => Socket_Client_Setup.One_Read.Cycle_Real_Send(On_Read_List)) { Name = "Cycle_Real—KUKA", IsBackground = true }.Start();
-
-
+                //使用多线程读取
                 new Thread(new ThreadStart(new Action(() =>
                {
 
@@ -223,23 +215,11 @@ namespace HanGao.ViewModel
         {
             get 
             {
-
-  
-
                 return _Socket_Read_List; 
-    
-
-
-   
             }
             set 
             {
-
-               
-
                 _Socket_Read_List =  value;
-
-
             }
         }
 
@@ -295,7 +275,6 @@ namespace HanGao.ViewModel
                 }
                 do
                 {
-
                 _Read_Number_ID++;
 
                 } while (Socket_Read_List.Any<Socket_Models_List>(l => l.Val_ID == _Read_Number_ID) && On_Read_List.Any<Socket_Models_List>(l => l.Val_ID == _Read_Number_ID));
@@ -342,91 +321,91 @@ namespace HanGao.ViewModel
         /// 读取集合循环发送
         /// </summary>
         /// <param name="_Obj"></param>
-        public  static  void Receive_Read_Theam(Socket_Models_Receive _Socket_Receive_Inf)
-        {
+        //public  static  void Receive_Read_Theam(Socket_Models_Receive _Socket_Receive_Inf)
+        //{
 
-            var aa = _Socket_Receive_Inf.Read_Write_Type;
+        //    var aa = _Socket_Receive_Inf.Read_Write_Type;
 
 
-                    if (Socket_Read_List.Count > 0 && Socket_Client_Setup.Read.Is_Read_Client)
-                    {
+        //            if (Socket_Read_List.Count > 0 && Socket_Client_Setup.Read.Is_Read_Client)
+        //            {
                
 
-                 DateTime Delay_time = DateTime.Now;
+        //         DateTime Delay_time = DateTime.Now;
 
-                        for (int i = 0; i < Socket_Read_List.Count; i++)
-                        {
+        //                for (int i = 0; i < Socket_Read_List.Count; i++)
+        //                {
 
-                            //当前时间
-                            if (Socket_Read_List[i].Val_OnOff )
-                            {
+        //                    //当前时间
+        //                    if (Socket_Read_List[i].Val_OnOff )
+        //                    {
 
-                               //重置发生等待阻塞
-                                Send_Waite.Reset();
-                                Send_Read.Reset();
+        //                       //重置发生等待阻塞
+        //                        Send_Waite.Reset();
+        //                        Send_Read.Reset();
 
 
 
-                                int _ID = Socket_Read_List[i].Val_ID;
-                         //重置发送等待标识
+        //                        int _ID = Socket_Read_List[i].Val_ID;
+        //                 //重置发送等待标识
 
-                        //将需要发送的变量信息写入回调参数忠
-                            _Socket_Receive_Inf.Reveice_Inf = Socket_Read_List[i];
+        //                //将需要发送的变量信息写入回调参数忠
+        //                    _Socket_Receive_Inf.Reveice_Inf = Socket_Read_List[i];
                         
-                        //发送变量集合内容
+        //                //发送变量集合内容
 
-                        //if (Socket_Read_List[i].Value_One_Read== Read_Type_Enum.One_Read)
-                        //{
+        //                //if (Socket_Read_List[i].Value_One_Read== Read_Type_Enum.One_Read)
+        //                //{
 
-                        //    //_Socket_Receive_Inf.Read_Write_Type = Read_Write_Enum.One_Read;
-                        //    //Socket_Client_Setup.One_Read.Send_Read_Var(_Socket_Receive_Inf);
-                        //    ;  Socket_Read_List[i].Val_OnOff = false;
+        //                //    //_Socket_Receive_Inf.Read_Write_Type = Read_Write_Enum.One_Read;
+        //                //    //Socket_Client_Setup.One_Read.Send_Read_Var(_Socket_Receive_Inf);
+        //                //    ;  Socket_Read_List[i].Val_OnOff = false;
 
-                        //}
+        //                //}
 
-                       // Socket_Client_Setup.Read.Send_Read_Var(_Socket_Receive_Inf);
+        //               // Socket_Client_Setup.Read.Send_Read_Var(_Socket_Receive_Inf);
 
-                        //等待发送完,增加延时减少发送压力
+        //                //等待发送完,增加延时减少发送压力
 
-                        //Thread.Sleep(5);
+        //                //Thread.Sleep(5);
 
                         
 
 
-                        if ( !Socket_Client_Setup.Read.Is_Read_Client)
-                                {
-                                    Socket_Client_Setup.Read.Socket_Receive_Error(Read_Write_Enum.Read, "发送超时无应答，退出线程发送！");
-                                    return;
-                                }
+        //                if ( !Socket_Client_Setup.Read.Is_Read_Client)
+        //                        {
+        //                            Socket_Client_Setup.Read.Socket_Receive_Error(Read_Write_Enum.Read, "发送超时无应答，退出线程发送！");
+        //                            return;
+        //                        }
 
 
                              
      
-                            }
+        //                    }
 
 
 
 
-                        }
+        //                }
 
-                var Socke_Time = (DateTime.Now - Delay_time).TotalMilliseconds;
-                if (Socke_Time > 0)
-                {
+        //        var Socke_Time = (DateTime.Now - Delay_time).TotalMilliseconds;
+        //        if (Socke_Time > 0)
+        //        {
 
-                    //发送通讯延迟
-                    WeakReferenceMessenger.Default.Send<string,string >(Socke_Time.ToString().Split('.')[0], nameof(Meg_Value_Eunm.Connter_Time_Delay_Method));
+        //            //发送通讯延迟
+        //            WeakReferenceMessenger.Default.Send<string,string >(Socke_Time.ToString().Split('.')[0], nameof(Meg_Value_Eunm.Connter_Time_Delay_Method));
                
-                }
+        //        }
 
-            }
-
-
+        //    }
 
 
-            Receive_Read_Theam(_Socket_Receive_Inf);
 
 
-         }
+        //    Receive_Read_Theam(_Socket_Receive_Inf);
+
+
+        // }
 
 
         

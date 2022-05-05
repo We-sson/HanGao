@@ -65,8 +65,8 @@ namespace Soceket_Connect
 
 
         //public static ManualResetEventSlim Connnect_Read { set; get; } = new ManualResetEventSlim(false);
-        public static ManualResetEvent Socket_Read { set; get; } = new ManualResetEvent(false);
-        public static ManualResetEventSlim Send_Read { set; get; } = new ManualResetEventSlim(false);
+        private   ManualResetEvent Socket_Read { set; get; } = new ManualResetEvent(false);
+        private   ManualResetEventSlim Send_Read { set; get; } = new ManualResetEventSlim(false);
         public static ManualResetEventSlim Rece_Read { set; get; } = new ManualResetEventSlim(false);
 
 
@@ -75,14 +75,13 @@ namespace Soceket_Connect
         public static ManualResetEvent Connnect_Write { set; get; } = new ManualResetEvent(false);
         public static ManualResetEvent Send_Write { set; get; } = new ManualResetEvent(false);
         public static ManualResetEvent Rece_Write { set; get; } = new ManualResetEvent(false);
-        public static ManualResetEvent Connect_IA { set; get; } = new ManualResetEvent(false);
         public static ManualResetEvent Send_IA { set; get; } = new ManualResetEvent(false);
 
 
 
 
 
-        public static ManualResetEvent Send_Waite { set; get; } = new ManualResetEvent(false);
+        private   ManualResetEvent Send_Waite { set; get; } = new ManualResetEvent(false);
 
 
 
@@ -380,6 +379,13 @@ namespace Soceket_Connect
             string Remote_IP = String.Empty;
             string Local_IP = String.Empty;
 
+
+
+
+
+
+
+
             //初始接收属性
             Socket_KUKA_Receive = new Socket_Models_Receive() { Read_Write_Type = _Enum };
 
@@ -442,8 +448,8 @@ namespace Soceket_Connect
                     {
 
 
-            if (Global_Socket_Read.Connected )
-            { 
+            //if (Global_Socket_Read.Connected )
+            //{ 
      
 
            
@@ -481,16 +487,16 @@ namespace Soceket_Connect
                 //连接成功释放阻塞
                 Socket_Read.Set();
 
-                    if (_Enum== Read_Write_Enum.Read)
-                    {
+                    //if (_Enum== Read_Write_Enum.Read)
+                    //{
 
-                        Messenger.Send<dynamic, string >(1,nameof(Meg_Value_Eunm.Connect_Client_Socketing_Button_Show));
-                        Socket_Connect_Thread = new Thread(() => Receive_Read_Theam(new Socket_Models_Receive() { Read_Write_Type = Read_Write_Enum.Read })) { Name = "KUKA_Ver_LoopRead", IsBackground = true };
-                        Socket_Connect_Thread.Start();
-                        User_Log_Add("启动变量发送线程");
-                    }
+                    //    Messenger.Send<dynamic, string >(1,nameof(Meg_Value_Eunm.Connect_Client_Socketing_Button_Show));
+                    //    Socket_Connect_Thread = new Thread(() => Receive_Read_Theam(new Socket_Models_Receive() { Read_Write_Type = Read_Write_Enum.Read })) { Name = "KUKA_Ver_LoopRead", IsBackground = true };
+                    //    Socket_Connect_Thread.Start();
+                    //    User_Log_Add("启动变量发送线程");
+                    //}
 
-            }
+            //}
                     }
 
 
@@ -774,22 +780,18 @@ namespace Soceket_Connect
                     if (_S.Read_Write_Type== Read_Write_Enum.Read  || _S.Read_Write_Type == Read_Write_Enum.One_Read)
                     {
 
-                if (_S.Read_Write_Type == Read_Write_Enum.One_Read)
-                {
-                   
-                }
-
+                //复位连接发生线程堵塞
                 Send_Waite.Reset();
                 Send_Read.Reset();
                 
                 //异步监听接收读取消息
                     Global_Socket_Read.BeginReceive(Socket_KUKA_Receive.Byte_Read_Receive, 0, Socket_KUKA_Receive.Byte_Read_Receive.Length, SocketFlags.None, new AsyncCallback(Socke_Receive_Message), _S);
 
-                   // Thread.Sleep(1);  
+                   Thread.Sleep(5);  
 
                     Global_Socket_Read.BeginSend(Message, 0, Message.Length, SocketFlags.None, new AsyncCallback(Socket_Send_Message), Global_Socket_Read);
 
-                    if (!Send_Waite.WaitOne(1500) && !Send_Read.Wait(1500))
+                    if (!Send_Waite.WaitOne(150000) && !Send_Read.Wait(1500000))
                     {
                         Socket_Client_Setup.Read.Socket_Receive_Error(Read_Write_Enum.Read, "接收超时无应答，退出线程发送！");
                         return;
@@ -867,20 +869,15 @@ namespace Soceket_Connect
         {
 
 
-
+            //加锁
                 lock (Socket_KUKA_Receive)
                 {
                 Socket_KUKA_Receive = new Socket_Models_Receive();
                  Socket_Client_Thread(Socket_Client_Type.Synchronized, Read_Write_Enum.One_Read, Socket_Client_Setup.IP, Socket_Client_Setup.Port);
 
-
+                //发生集合内的对象
                 for (int i = 0; i < Sml.Count; i++)
                 {
-
-      
-
-                //Read_Var_To_Byte(item);
-
 
 
                 Socket_KUKA_Receive = new Socket_Models_Receive() { Send_Byte = Read_Var_To_Byte(Sml[i]), Read_Write_Type = Read_Write_Enum.One_Read, Reveice_Inf = Sml[i] };
@@ -888,19 +885,62 @@ namespace Soceket_Connect
                 Socket_Send_Message_Method(Socket_KUKA_Receive);
 
 
-            }
+                 }
 
 
-
+             // 关闭连接
             Socket_Close(Read_Write_Enum.One_Read);
 
                 }
         }
 
 
-        public void Loop_Real_Send(ObservableCollection<Socket_Models_List> SmL)
+        public void Loop_Real_Send(ObservableCollection<Socket_Models_List> Sml)
         {
+            //加锁
+            lock (Socket_KUKA_Receive)
+            {
 
+                Socket_KUKA_Receive = new Socket_Models_Receive();
+                Socket_Client_Thread(Socket_Client_Type.Synchronized, Read_Write_Enum.One_Read, Socket_Client_Setup.IP, Socket_Client_Setup.Port);
+
+
+                do
+                {
+
+                    DateTime timeB = DateTime.Now;  //获取当前时间
+
+
+
+                    //发生集合内的对象
+                    for (int i = 0; i < Sml.Count; i++)
+                    {
+
+
+
+                        Socket_KUKA_Receive = new Socket_Models_Receive() { Send_Byte = Read_Var_To_Byte(Sml[i]), Read_Write_Type = Read_Write_Enum.One_Read, Reveice_Inf = Sml[i] };
+
+                        Socket_Send_Message_Method(Socket_KUKA_Receive);
+
+
+                    }
+
+
+
+
+
+                    //发送通讯延迟
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                    string time = (DateTime.Now - timeB).TotalSeconds.ToString();
+                    WeakReferenceMessenger.Default.Send<string, string>(time, nameof(Meg_Value_Eunm.Connter_Time_Delay_Method));
+                    });
+                } while (Socket_Client_Setup.Read.Is_Read_Client);
+
+                // 关闭连接
+                Socket_Close(Read_Write_Enum.One_Read);
+
+            }
 
 
 
@@ -1099,7 +1139,7 @@ namespace Soceket_Connect
 
 
 
-            if (_Enum == Read_Write_Enum.Read || _Enum== Read_Write_Enum.One_Read)
+            if (_Enum == Read_Write_Enum.Read  )
             {
 
                 //断开读取连接
@@ -1128,7 +1168,34 @@ namespace Soceket_Connect
                 //清除集合内容
                 Messenger.Send<dynamic,string >(true, nameof(Meg_Value_Eunm.Clear_List));
                 //User_Log_Add("断开读取连接");
+
+                //连接失败后允许用户再次点击连接按钮
+                Messenger.Send<dynamic, string>(true, nameof(Meg_Value_Eunm.Connect_Client_Button_IsEnabled));
+                Messenger.Send<dynamic, string>(-1, nameof(Meg_Value_Eunm.Connect_Client_Socketing_Button_Show));
+
             }
+
+
+            if (_Enum == Read_Write_Enum.One_Read)
+            {
+
+                if (Global_Socket_Read.Connected)
+                {
+
+                    //Close_Waite.WaitOne();
+
+                    Global_Socket_Read.Shutdown(SocketShutdown.Both);
+                    Global_Socket_Read.Close();
+
+                }
+
+
+            }
+
+
+
+
+
 
             if (_Enum == Read_Write_Enum.Write)
             {
@@ -1153,10 +1220,6 @@ namespace Soceket_Connect
 
 
 
-
-            //连接失败后允许用户再次点击连接按钮
-            Messenger.Send<dynamic, string >(true, nameof(Meg_Value_Eunm.Connect_Client_Button_IsEnabled));
-            Messenger.Send<dynamic, string >(-1, nameof(Meg_Value_Eunm.Connect_Client_Socketing_Button_Show));
 
 
 
