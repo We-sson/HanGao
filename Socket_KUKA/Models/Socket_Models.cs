@@ -100,8 +100,9 @@ namespace Soceket_KUKA.Models
 
     }
 
-    [AddINotifyPropertyChangedInterface]
-    public class Socket_Models_List : ObservableObject
+
+
+    public class Socket_Models_List 
     {
 
             /// <summary>
@@ -192,6 +193,10 @@ namespace Soceket_KUKA.Models
                 }
             }
 
+
+        public string Write_Value { set; get; } = "";
+
+
             private DateTime _Val_Update_Time = DateTime.Now.ToLocalTime();
             /// <summary>
             /// 读取时间
@@ -214,7 +219,7 @@ namespace Soceket_KUKA.Models
             public string Send_Area { set; get; } = string.Empty;
 
         /// <summary>
-        /// 是否读取一次后删除读取变量
+        /// 是否读取一次后删除读取变量,,停用
         /// </summary>
         public Read_Type_Enum Value_One_Read { get; set; } = Read_Type_Enum.Loop_Read;
 

@@ -91,8 +91,12 @@ namespace HanGao.ViewModel
 
 
 
-
-                Socket_Client_Setup.Write.Send_Write_Var(nameof (Value_Name_enum.Surround_Welding_size), a);
+                //使用多线程写入
+                new Thread(new ThreadStart(new Action(() =>
+                {
+                Socket_Client_Setup.Write.Cycle_Write_Send(nameof (Value_Name_enum.Surround_Welding_size), a);
+                })))
+                { IsBackground = true, Name = "Cycle_Write—KUKA" }.Start();
 
             });
 
@@ -155,7 +159,17 @@ namespace HanGao.ViewModel
                                     {
 
                                     //属性不相同时，以软件端为首发送更改发送机器端
-                                    Socket_Client_Setup.Write.Send_Write_Var(item.GetStringValue(), a);
+
+
+                                    //使用多线程写入
+                                    new Thread(new ThreadStart(new Action(() =>
+                                    {
+                                    Socket_Client_Setup.Write.Cycle_Write_Send(item.GetStringValue(), a);
+                                    })))
+                                    { IsBackground = true, Name = "Cycle_Write—KUKA" }.Start();
+
+
+
                                     }
                               
 

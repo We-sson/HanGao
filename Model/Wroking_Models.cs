@@ -5,6 +5,8 @@ using System.ComponentModel;
 using HanGao.Socket_KUKA;
 using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Soceket_KUKA.Models;
+using System.Threading;
 
 namespace HanGao.Model
 {
@@ -62,13 +64,27 @@ namespace HanGao.Model
                     //将显示的水槽型号发送到kuka端，同时修改显示颜色
                     if (Work_Type == "#ERROR")
                     {
-                        Socket_Client_Setup.Write.Send_Write_Var("$my_work_" + Work_NO, "#ERROR");
 
+
+                        //使用多线程读取
+                        new Thread(new ThreadStart(new Action(() =>
+                        {
+                        Socket_Client_Setup.Write.Cycle_Write_Send("$my_work_" + Work_NO, "#ERROR");
+                        })))
+                        { IsBackground = true, Name = "Cycle_Write—KUKA" }.Start();
+
+
+                       
                         Work_back = "#E3E3E3";
                     }
                     else if (Work_Type != "#ERROR")
                     {
-                        Socket_Client_Setup.Write.Send_Write_Var("$my_work_" + Work_NO, Work_Type);
+                        //使用多线程读取
+                        new Thread(new ThreadStart(new Action(() =>
+                        {
+                         Socket_Client_Setup.Write.Cycle_Write_Send("$my_work_" + Work_NO, "#ERROR");
+                        })))
+                        { IsBackground = true, Name = "Cycle_Write—KUKA" }.Start();
 
                         Work_back = "#F4D160";
 
@@ -221,7 +237,14 @@ namespace HanGao.Model
 
                 _Work_Run = value;
                 //属性发送更改发送机器端
-                Socket_Client_Setup.Write.Send_Write_Var("$Run_Work_" + Work_NO.ToString(), value.ToString());
+
+                //使用多线程读取
+                new Thread(new ThreadStart(new Action(() =>
+                {
+                Socket_Client_Setup.Write.Cycle_Write_Send("$Run_Work_" + Work_NO.ToString(), value.ToString());
+                })))
+                { IsBackground = true, Name = "Cycle_Write—KUKA" }.Start();
+
             }
         }
 

@@ -91,17 +91,10 @@ namespace HanGao.ViewModel
                     Pos_Offset = new Welding_Pos_Date() { X = double.Parse(Sm.X.Text), Y = double.Parse(Sm.Y.Text), Z = double.Parse(Sm.Z.Text), A = double.Parse(Sm.A.Text), B = double.Parse(Sm.B.Text), C = double.Parse(Sm.C.Text) }
                 };
 
-                //UI_Craft_Date.Pos_Offset.X =  double .Parse( Sm.X.Text);
-                //UI_Craft_Date.Pos_Offset.Y  = double.Parse(Sm.Y.Text);
-                //UI_Craft_Date.Pos_Offset.Z = double.Parse(Sm.Z.Text);
-                //UI_Craft_Date.Pos_Offset.A = double.Parse(Sm.A.Text);
-                //UI_Craft_Date.Pos_Offset.B  = double.Parse(Sm.B .Text);
-                //UI_Craft_Date.Pos_Offset.C  = double.Parse(Sm.C .Text);
+ 
 
-                //UI_Craft_Date.Welding_Angle =double .Parse( Sm.Angle.Text);
-                //UI_Craft_Date.Welding_Speed = double.Parse(Sm.Speed.Text);
-                //UI_Craft_Date.Welding_Power = int.Parse(Sm.Power.Text);
-                //UI_Craft_Date.Welding_CDIS = int.Parse(Sm.CDIS.Text);
+
+
 
                 //传送用户选择工艺
                 Messenger.Send<Xml_Craft_Date, string>(a, nameof(Meg_Value_Eunm.Sink_Craft_Data_OK));

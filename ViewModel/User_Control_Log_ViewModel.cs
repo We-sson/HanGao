@@ -31,7 +31,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 显示状态信息输出
         /// </summary>
-        public static User_Log_Models User_UI_Log
+        public  static User_Log_Models User_UI_Log
         {
             get
             {
@@ -56,13 +56,16 @@ namespace HanGao.ViewModel
 
 
 
-          
-            Receive_Lock.WaitOne();
+            lock (User_UI_Log)
+            {
+
+       
 
             User_UI_Log.User_Log += User_UI_Log.User_Log_Number+" | " + DateTime.Now.ToShortTimeString().ToString() + "——" + Log + HttpUtility.HtmlDecode("&#x000A;");
 
+            }
 
-            Receive_Lock.ReleaseMutex();
+
 
 
 
