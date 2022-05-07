@@ -143,14 +143,14 @@ namespace Soceket_Connect
         /// <summary>
         /// Socket唯一写入连接标识
         /// </summary>
-        public Socket Global_Socket_Write { set; get; } = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        private  Socket Global_Socket_Write { set; get; } = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
 
 
         /// <summary>
         /// Socket唯一读取连接标识
         /// </summary>
-        public Socket Global_Socket_Read { set; get; } = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        private  Socket Global_Socket_Read { set; get; } = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
         /// <summary>
         /// IP设置属性
@@ -184,7 +184,7 @@ namespace Soceket_Connect
         /// <param name="_Enum"></param>
         /// <param name="_IP"></param>
         /// <param name="_Port"></param>
-        public void Socket_Client_Thread(Socket_Client_Type _Enum , Read_Write_Enum R_W_Enum, string _IP, string _Port)
+        private  void Socket_Client_Thread(Socket_Client_Type _Enum , Read_Write_Enum R_W_Enum, string _IP, string _Port)
         {
 
 
@@ -352,8 +352,8 @@ namespace Soceket_Connect
                 }
 
           //发送终端连接信息
-                User_Log_Add("写入连接目标IP：" + Global_Socket_Write.RemoteEndPoint.ToString());
-                User_Log_Add("写入本地连接IP：" + Global_Socket_Write.LocalEndPoint.ToString());
+                //User_Log_Add("写入连接目标IP：" + Global_Socket_Write.RemoteEndPoint.ToString());
+                //User_Log_Add("写入本地连接IP：" + Global_Socket_Write.LocalEndPoint.ToString());
 
                 //释放连接线程，保留
 
@@ -398,8 +398,8 @@ namespace Soceket_Connect
 
               
                 //发送终端连接信息
-                User_Log_Add("读取连接目标IP：" + Global_Socket_Read.RemoteEndPoint.ToString());
-                User_Log_Add("读取本地连接IP：" + Global_Socket_Read.LocalEndPoint.ToString());
+                //User_Log_Add("读取连接目标IP：" + Global_Socket_Read.RemoteEndPoint.ToString());
+                //User_Log_Add("读取本地连接IP：" + Global_Socket_Read.LocalEndPoint.ToString());
 
 
                 //连接成功释放阻塞
@@ -737,7 +737,7 @@ namespace Soceket_Connect
 
 
 
-                User_Log_Add("等待写入线程："+Write_Lock.WaitingWriteCount.ToString());
+                //User_Log_Add("等待写入线程："+Write_Lock.WaitingWriteCount.ToString());
 
                 Socket_Models_List Sml = new Socket_Models_List() { Val_Name = _ValName, Write_Value = _WriteVar , Val_ID= Read_Number_ID };
                     Socket_KUKA_Receive = new Socket_Models_Receive() { Send_Byte = Write_Var_To_Byte(Sml), Read_Write_Type = Read_Write_Enum.Write, Reveice_Inf = Sml };
@@ -870,7 +870,10 @@ namespace Soceket_Connect
 
         }
 
-
+        /// <summary>
+        /// 读取格式专值
+        /// </summary>
+        /// <param name="Smr"></param>
         private void Real_Byte_To_Var(ref Socket_Models_Receive Smr)
         {
 
@@ -912,7 +915,7 @@ namespace Soceket_Connect
 
             if (Smr.Receive_Byte.Byte_Return_Tpye == 1 && Smr.Receive_Byte.Byte_Write_Type == 1)
             {
-                User_Log_Add(Smr.Receive_Byte.Message_Show);
+                User_Log_Add(Smr.Reveice_Inf.Val_Name+" = "+ Smr.Receive_Byte.Message_Show);
                 User_Log_Add(" 变量值写入成功！");
 
             }
