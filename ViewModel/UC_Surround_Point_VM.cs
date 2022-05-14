@@ -17,7 +17,6 @@ using static HanGao.ViewModel.UC_Surround_Direction_VM;
 using static HanGao.ViewModel.UC_Surround_Point_VM;
 using static HanGao.ViewModel.UserControl_Socket_Var_Show_ViewModel;
 using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
-using System.Collections.Generic;
 
 namespace HanGao.ViewModel
 {
@@ -128,19 +127,19 @@ namespace HanGao.ViewModel
                                                                if (item.Contains("X"))
                                                                {
                                                                    item.Replace('X', ' ');
-                                                                   Date.Craft_Date[Point_NO].Welding_Offset.X = double.Parse(item.Replace('X', ' '));
+                                                                   Date.Craft_Date[Point_NO].Pos_Offset.X = double.Parse(item.Replace('X', ' '));
 
                                                                }
                                                                else if (item.Contains("Y"))
                                                                {
                                                                    item.Replace('Y', ' ');
-                                                                   Date.Craft_Date[Point_NO].Welding_Offset.Y = double.Parse(item.Replace('Y', ' '));
+                                                                   Date.Craft_Date[Point_NO].Pos_Offset.Y = double.Parse(item.Replace('Y', ' '));
 
                                                                }
                                                                else if (item.Contains("Z"))
                                                                {
                                                                    item.Replace('Z', ' ');
-                                                                   Date.Craft_Date[Point_NO].Welding_Offset.Z = double.Parse(item.Replace('Z', ' '));
+                                                                   Date.Craft_Date[Point_NO].Pos_Offset.Z = double.Parse(item.Replace('Z', ' '));
 
                                                                }
 
@@ -272,15 +271,8 @@ namespace HanGao.ViewModel
                             {
                                 Date.Craft_Date[i] = S;
 
-
-
-
-                                XmlVal_Write_KUKAString(S);
-
-
-                                //Socket_Client_Setup.Write.Cycle_Write_Send(_N, XmlVal_Write_KUKAString(S).ToString());
-
-
+                                Socket_Client_Setup.Write.Cycle_Real_Send(On_Read_List);
+                
 
                                 break;
                             }
@@ -300,67 +292,6 @@ namespace HanGao.ViewModel
             });
 
         }
-
-
-        private void XmlVal_Write_KUKAString(Xml_Craft_Date Xcd)
-        {
-
-
-            // string[,] _Val = new string[10, 10];
-
-
-            var b = Xcd.GetType().GetProperties();
-
-            foreach (var item in Xcd.GetType().GetProperties())
-            {
-                foreach (var autt in item.GetCustomAttributes(false ))
-                {
-                    if (autt is ReadWriteAttribute Autt)
-                    {
-                        if (Autt.ReadWrite_Type == ReadWrite_Enum.Write)
-                        {
-
-                            string _N = User_Checked_Direction.ToString() + "[" + Xcd.NO + "]." + item.Name;
-
-                            string _Val = item.GetValue(Xcd).ToString();
-                            if (item.Name == nameof(Xcd.Welding_Offset))
-                            {
-
-                                _Val = @"{ Offset_POS : X " + Xcd.Welding_Offset.X + ", Y " + Xcd.Welding_Offset.Y + ", Z " + Xcd.Welding_Offset.Z + " } ";
-                                
-
-
-                        }
-
-
-                            Socket_Client_Setup.Write.Cycle_Write_Send(_N, _Val);
-
-
-                        }
-                    }
-                }  
-
-            }
-
-
-      //var a = Attribute.GetCustomAttributes(Xcd.GetType());
-
-
-
-      //      _Val[1,0]=User_Checked_Direction.ToString() + "[" + Xcd.NO + "]."+ Xcd.Welding_Speed.ToString();
-      //      _Val[1, 1]=Xcd.Welding_Speed.ToString();
-
-
-
-      //      // {Surr_Welding_Craft_Type:Welding_Name[] "S2",Welding_Pos {E6POS:  X 400,Y 200,Z - 3,A 0,B 23,C 0},Welding_Speed 0.02,Welding_Angle 23,Welding_Offset {Offset_POS:X 0.2,Y 0,Z 0}}
-      //    //  string _Val = @"{Surr_Welding_Craft_Type:Welding_Power "+ Xcd.Welding_Power + ",  Welding_Speed " + Xcd.Welding_Speed + ", Welding_Angle "+Xcd.Welding_Angle + ", Welding_CDIS "+Xcd.Welding_CDIS + ", Welding_Offset{Offset_POS: X "+ Xcd .Pos_Offset.X+ ", Y "+ Xcd.Pos_Offset.Y +",Z "+ Xcd.Pos_Offset.Z+ " }}";
-
-
-
-
-      //      return _Val;
-        }
-
 
 
         /// <summary>

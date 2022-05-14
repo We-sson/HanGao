@@ -157,37 +157,37 @@
 
         <!--  第三列  -->
         <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="X" Grid.Row="1" Grid.Column="2"
-                 Text="{Binding UI_Craft_Date.Welding_Offset.X, Mode=OneWay, StringFormat={}{0:N3}}"
+                 Text="{Binding UI_Craft_Date.Pos_Offset.X, Mode=OneWay, StringFormat={}{0:N3}}"
                  Margin="10"
                  HorizontalAlignment="Stretch"
                  HorizontalContentAlignment="Center"
                  MaxLines="7" />
         <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Y" Grid.Row="2" Grid.Column="2"
-                 Text="{Binding UI_Craft_Date.Welding_Offset.Y, Mode=OneWay, StringFormat={}{0:N3}}"
+                 Text="{Binding UI_Craft_Date.Pos_Offset.Y, Mode=OneWay, StringFormat={}{0:N3}}"
                  Margin="10"
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Stretch"
                  MaxLines="7" />
         <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Z" Grid.Row="3" Grid.Column="2"
-                 Text="{Binding UI_Craft_Date.Welding_Offset.Z, Mode=OneWay, StringFormat={}{0:N3}}"
+                 Text="{Binding UI_Craft_Date.Pos_Offset.Z, Mode=OneWay, StringFormat={}{0:N3}}"
                  Margin="10"
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Stretch"
                  MaxLines="7" />
         <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="A" Grid.Row="4" Grid.Column="2"
-                 Text="{Binding UI_Craft_Date.Welding_Offset.A, Mode=OneWay, StringFormat={}{0:N3}}"
+                 Text="{Binding UI_Craft_Date.Pos_Offset.A, Mode=OneWay, StringFormat={}{0:N3}}"
                  Margin="10"
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Stretch"
                  MaxLines="7" />
         <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="B" Grid.Row="5" Grid.Column="2"
-                 Text="{Binding UI_Craft_Date.Welding_Offset.B, Mode=OneWay, StringFormat={}{0:N3}}"
+                 Text="{Binding UI_Craft_Date.Pos_Offset.B, Mode=OneWay, StringFormat={}{0:N3}}"
                  Margin="10"
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Stretch"
                  MaxLines="7" />
         <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="C" Grid.Row="6" Grid.Column="2"
-                 Text="{Binding UI_Craft_Date.Welding_Offset.C, Mode=OneWay, StringFormat={}{0:N3}}"
+                 Text="{Binding UI_Craft_Date.Pos_Offset.C, Mode=OneWay, StringFormat={}{0:N3}}"
                  Margin="10"
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Stretch"
