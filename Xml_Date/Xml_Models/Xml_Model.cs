@@ -137,20 +137,28 @@ namespace HanGao.Xml_Date.Xml_Models
         [XmlAttribute]
         public string Welding_Name { get; set; } = "...";
         [XmlAttribute]
+        [ReadWriteAttribute( ReadWrite_Enum.Write)]
         public int Welding_Power { get; set; } = 80;
         [XmlAttribute]
+        [ReadWriteAttribute(ReadWrite_Enum.Write)]
         public double Welding_Speed { get; set; } = 0.045;
         [XmlAttribute]
+        [ReadWriteAttribute(ReadWrite_Enum.Write)]
         public double Welding_Angle { get; set; } = 23;
         [XmlAttribute]
+        [ReadWriteAttribute(ReadWrite_Enum.Write)]
         public int Welding_CDIS { get; set; } = 10;
 
         [XmlElement(ElementName = "Welding_Offset")]
-        public Welding_Pos_Date Pos_Offset { get; set; } = new Welding_Pos_Date() { };
+        [ReadWriteAttribute(ReadWrite_Enum.Write)]
+        public Welding_Pos_Date Welding_Offset { get; set; } = new Welding_Pos_Date() { };
 
         [XmlElement(ElementName = "Welding_Pos")]
         public Welding_Pos_Date Welding_Pos { get; set; } = new Welding_Pos_Date() { };
     }
+
+
+
 
 
 
@@ -187,6 +195,36 @@ namespace HanGao.Xml_Date.Xml_Models
         [StringValue("")]
         Null
     }
+
+
+    [AttributeUsage(AttributeTargets.All, AllowMultiple =false ,Inherited =false )]
+    public   class ReadWriteAttribute : Attribute
+    {
+         public  ReadWrite_Enum ReadWrite_Type;
+
+
+        public ReadWriteAttribute(ReadWrite_Enum _Enum)
+        {
+            ReadWrite_Type=_Enum;
+        }
+
+        public  ReadWrite_Enum GetReadWriteType()
+        {
+            return ReadWrite_Type;
+        }
+
+    }
+
+
+    public enum ReadWrite_Enum
+    {
+        Read,
+        Write,
+        Null
+    }
+
+
+
 
     public enum Distance_Type_Enum
     {
