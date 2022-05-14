@@ -1,11 +1,13 @@
-&ACCESS RVO
-&REL 178
+&ACCESS RVO1
+&REL 169
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HG
 DEF Glode_HanGao( )
 
 ;# DATE:2021-1-4
+
+
 
 END
 
@@ -17,8 +19,7 @@ DECL E6POS Lin_Pos
 DECL E6POS Cir_Middle_POS
 DECL E6POS Cir_END_POS
 DECL Pos_Type_Enum Pos_Type
-DECL Offset_POS Offset_info  
-DECL Offset_CIR Offset_cir_info
+DECL Offset_POS Offset_info , Offset_cir_info
 DECL INT OFFSET_NO
 
 ;------------DECL_VALUE--------------
@@ -112,13 +113,13 @@ CASE #C_CIR_POS
 IF  Surround_Welding_Size.Write_Status THEN
  C45_Welding_Craft[3].Welding_Speed=Welding_Speed
  C45_Welding_Craft[2].Welding_Offset=Offset_info
- C45_Welding_Craft[3].Welding_Offset_CIR=Offset_cir_info
+ C45_Welding_Craft[3].Welding_Offset=Offset_cir_info
  
  
  ELSE
   Welding_Speed=C45_Welding_Craft[3].Welding_Speed
   Offset_info=C45_Welding_Craft[2].Welding_Offset
-  Offset_cir_info=C45_Welding_Craft[3].Welding_Offset_CIR
+  Offset_cir_info=C45_Welding_Craft[3].Welding_Offset
  
  ENDIF
  
@@ -217,13 +218,13 @@ IF  Surround_Welding_Size.Write_Status THEN
 
  C135_Welding_Craft[3].Welding_Speed=Welding_Speed
  C135_Welding_Craft[2].Welding_Offset=Offset_info
- C135_Welding_Craft[3].Welding_Offset_CIR=Offset_cir_info
+ C135_Welding_Craft[3].Welding_Offset=Offset_cir_info
 
 
 ELSE
  Welding_Speed=C135_Welding_Craft[3].Welding_Speed
  Offset_info=C135_Welding_Craft[2].Welding_Offset
- Offset_cir_info=C135_Welding_Craft[3].Welding_Offset_CIR
+ Offset_cir_info=C135_Welding_Craft[3].Welding_Offset
 
 ENDIF
 
@@ -320,13 +321,13 @@ CASE #C_CIR_POS
 IF  Surround_Welding_Size.Write_Status THEN
  C225_Welding_Craft[3].Welding_Speed=Welding_Speed
  C225_Welding_Craft[2].Welding_Offset=Offset_info
- C225_Welding_Craft[3].Welding_Offset_CIR=Offset_cir_info
+ C225_Welding_Craft[3].Welding_Offset=Offset_cir_info
  
  ELSE
  
  Welding_Speed=C225_Welding_Craft[3].Welding_Speed
  Offset_info=C225_Welding_Craft[2].Welding_Offset
- Offset_cir_info=C225_Welding_Craft[3].Welding_Offset_CIR
+ Offset_cir_info=C225_Welding_Craft[3].Welding_Offset
  
  
  ENDIF
@@ -418,11 +419,11 @@ CASE #C_CIR_POS
 IF  Surround_Welding_Size.Write_Status THEN
  C315_Welding_Craft[3].Welding_Speed=Welding_Speed
  C315_Welding_Craft[2].Welding_Offset=Offset_info
-C315_Welding_Craft[3].Welding_Offset_CIR= Offset_cir_info
+C315_Welding_Craft[3].Welding_Offset= Offset_cir_info
  ELSE
   Welding_Speed=C315_Welding_Craft[3].Welding_Speed
  Offset_info=C315_Welding_Craft[2].Welding_Offset
-Offset_cir_info=C315_Welding_Craft[3].Welding_Offset_CIR
+Offset_cir_info=C315_Welding_Craft[3].Welding_Offset
  
  ENDIF
  
@@ -473,9 +474,10 @@ CASE #L_LIN_POS,#C_LIN_POS
 
 
 
-Lin_Pos.X=Lin_Pos.X+Offset_info.O_X
-Lin_Pos.Y=Lin_Pos.Y+Offset_info.O_Y
-Lin_Pos.Z=Lin_Pos.Z+Offset_info.O_Z
+
+Lin_Pos.X=Lin_Pos.X+Offset_info.X
+Lin_Pos.Y=Lin_Pos.Y+Offset_info.Y
+Lin_Pos.Z=Lin_Pos.Z+Offset_info.Z
 
 
 
@@ -487,13 +489,13 @@ CASE #C_CIR_POS
 
 
 
-Cir_Middle_POS.X=Cir_Middle_POS.X+Offset_info.O_X
-Cir_Middle_POS.Y=Cir_Middle_POS.Y+Offset_info.O_Y
-Cir_Middle_POS.Z=Cir_Middle_POS.Z+Offset_info.O_Z
+Cir_Middle_POS.X=Cir_Middle_POS.X+Offset_info.X
+Cir_Middle_POS.Y=Cir_Middle_POS.Y+Offset_info.Y
+Cir_Middle_POS.Z=Cir_Middle_POS.Z+Offset_info.Z
 
-Cir_END_POS.X=Cir_END_POS.X+Offset_cir_info.C_X
-Cir_END_POS.Y=Cir_END_POS.Y+Offset_cir_info.C_Y
-Cir_END_POS.Z=Cir_END_POS.Z+Offset_cir_info.C_Z
+Cir_END_POS.X=Cir_END_POS.X+Offset_cir_info.X
+Cir_END_POS.Y=Cir_END_POS.Y+Offset_cir_info.Y
+Cir_END_POS.Z=Cir_END_POS.Z+Offset_cir_info.Z
 
 ENDSWITCH
 
