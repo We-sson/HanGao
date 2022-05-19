@@ -1,0 +1,484 @@
+;======================
+;For this "MyTech.kfd" you have to modify the file "smartHmi.User.config" (C:\KRC\User).
+;An Example how to do this see prepared node in "SmartHMI.User.Config-Nodes.xml"
+;======================
+
+DEFTP Surround_LIN={ SOt FALSE,Soc TRUE }
+
+
+  
+
+  ; Decl PARAM LSR_MAX_PWR = {SHORTNAME[] "Maximum Power", VALUE {NUMBER:MIN 0, MAX 20000, STEP 100, AUTOLIMIT TRUE, DEFAULT 1000 }, UNIT[] "W", SHORTCUT[]  "MAXP" }
+  ; Decl PARAM LSR_MIN_PWR = {SHORTNAME[] "Minimum Power",  VALUE {NUMBER:MIN 0, MAX 20000, STEP 100 , AUTOLIMIT TRUE, DEFAULT 2000 }, UNIT[] "W", SHORTCUT[]  "MINP" }
+  ; Decl PARAM LSR_PRG = {SHORTNAME[] "Laser Program",  VALUE {NUMBER:MIN 1, MAX 79,STEP 1, AUTOLIMIT TRUE, DEFAULT 1 }, SHORTCUT[] "PRG"}
+  ; Decl PARAM SNSR_PRG = {SHORTNAME[]  "Sensor Program", VALUE {NUMBER:MIN 0, MAX 3,STEP 1, AUTOLIMIT TRUE, DEFAULT 1}, SHORTCUT[] "PREC"}
+  ; Decl PARAM SnSR_State = {SHORTNAME[] "Piercing Time",  VALUE {NUMBER:MIN 0, MAX 5000, STEP 100 , AUTOLIMIT TRUE, DEFAULT 0}, UNIT[] "ms", SHORTCUT[]  "LSR" }  
+  ; Decl PARAM GAS_PRESSURE = {SHORTNAME[] "Cutting Gas",  VALUE {NUMBER:MIN 0, MAX 8, STEP 1 , AUTOLIMIT TRUE, DEFAULT 2}, UNIT[] "bar", SHORTCUT[]  "GAS" }
+  ; Decl PARAM LSR_Dly = {SHORTNAME[] "Piercing Time",  VALUE {NUMBER:MIN 0, MAX 5000, STEP 100 , AUTOLIMIT TRUE, DEFAULT 0}, UNIT[] "ms", SHORTCUT[]  "LSR" }
+  ; Decl PARAM GAS_PRE_FLOW = {SHORTNAME[] "PRE Flow Time",  VALUE {NUMBER:MIN 0, MAX 5000, STEP 100 , AUTOLIMIT TRUE, DEFAULT 0}, UNIT[] "ms", SHORTCUT[]  "PRE" }
+  ; Decl PARAM GAS_POST_FLOW = {SHORTNAME[] "POST Flow Time",  VALUE {NUMBER:MIN 0, MAX 5000, STEP 100 , AUTOLIMIT TRUE, DEFAULT 0}, UNIT[] "ms", SHORTCUT[]  "POST" }
+  
+  
+  ; Decl PARAM TestBool = {SHORTNAME[] "Laser",  VALUE {BOOL: DEFAULT TRUE , TRUE[] "EIN", FALSE[] "AUS"},  SHORTCUT[]  "LS3" }	
+
+
+  ; Decl PARAM ParamList={SHORTNAME[] "Var:",VALUE {Name: DEFAULT[] "V0"}}
+
+  ; Decl PARAM PL_LsrTool = {SHORTNAME[] "PLTOOL", VAR[] "LSC_TOOL_TYP", SHORTCUT[] "LT", UNIT[] "TOOL" ,Value {FREE: DEFAULT[] "_"}}
+  
+
+  
+  ; DECL PLIST LsrTool[9] -> ParamList
+  ; LsrTool[1]  =  LSR_MAX_PWR 
+  ; LsrTool[2]  =  LSR_MIN_PWR  
+  ; LsrTool[3]  =  LSR_PRG 
+  ; LsrTool[4]  =  SNSR_PRG 
+  ; LsrTool[5]  =  SnSR_State  
+  ; LsrTool[6]  =  GAS_PRESSURE
+  ; LsrTool[7]  =  LSR_Dly
+  ; LsrTool[8]  =  GAS_PRE_FLOW 
+  ; LsrTool[9]  =  GAS_POST_FLOW 
+
+
+  ; DECL FOLD MyFold[1] 
+     ; MyFold[1]= "/;test"
+  
+
+     
+     
+  ; DECL FOLD SPL_FOLD[1]
+     ; SPL_Fold[1]= "/;Spline Fold"
+
+
+
+;-----------------START-----------------------
+
+ DECL PARAM Write_lIST = {SHORTNAME[] "Write: ",, VALUE {LIST: ITEM[1] {ITEM: VALUE[] "TRUE", DISP[] "TRUE"}, ITEM[2] {ITEM: VALUE[] "FALSE",DISP[] "FALSE"},POS 2}}
+
+
+
+
+ DECL FOLD Write_State_Fold[1] 
+           Write_State_Fold[1]= "Surround_Welding_Size.Write_Status=%Write_lIST"
+
+
+  DEFSCRIPT Write_State_SAVE
+  
+     SETVAR(FULLPATH[] "Surround_Welding_Size.Write_Status", VALUE[] "%Write_lIST")
+     ;REDECL (PATH[] "Surround_Welding_Size.Write_Status",DECLARATION[] "DECL BOOL  A = %Write_lIST ")
+      MESSAGE "SAVE! %Write_lIST "
+  ENDSCRIPT
+
+
+
+  DEFSCRIPT Write_State_READ
+     SHOWVAR(FULLPATH[] "Surround_Welding_Size.Write_Status", PARAM Write_lIST)
+	 
+
+      MESSAGE "OPEN! %Write_lIST "
+
+  ENDSCRIPT
+
+  DECL FOLD END_FOLD[1] 
+            END_FOLD[1]= "/; LT%ParamList"
+
+
+
+;-----------------START-----------------------
+
+
+;----------------------CROSS POS-------------------
+
+  DECL PARAM POS_1_Name = {SHORTNAME[] "X_Dir_NAME :", UNIT[] "" , VALUE {NAME: DEFAULT[] "P1"}}
+  DECL PARAM POS_2_Name = {SHORTNAME[] "", UNIT[] "" , VALUE {NAME: DEFAULT[] "P2"}}
+  DECL PARAM POS_3_Name = {SHORTNAME[] "Y_Dir_NAME :", UNIT[] "" , VALUE {NAME: DEFAULT[] "P3"}}
+  DECL PARAM POS_4_Name = {SHORTNAME[] "", UNIT[] "" , VALUE {NAME: DEFAULT[] "P4"}}
+
+
+
+  DECL PARAM Robot_Dir_lIST={shortname[] "Direction:", unit[] "", value { LIST : POS 1, _
+       ITEM[1] {ITEM:VALUE[] "#A0",     disp[] "0"}, _
+       ITEM[2] {ITEM:VALUE[] "#A90",   disp[] "90"}, _
+       ITEM[3] {ITEM:VALUE[] "#A270",    disp[] "270"}}}
+  
+
+     
+   DECL FOLD Cross_Fold[3] 
+             Cross_Fold[1]= "  "
+             Cross_Fold[2]= "HanGao_Base_Calculate( X%POS_1_Name , X%POS_2_Name , X%POS_3_Name , X%POS_4_Name , %BASE_NO , %Robot_Dir_lIST  )"
+             Cross_Fold[3]= "  "
+
+
+
+
+
+
+
+
+
+
+
+;----------------------CROSS POS-------------------
+
+
+;-----------------LIN_DECL------------------------
+
+  Decl PARAM State = {SHORTNAME[] "State",  VALUE {BOOL: DEFAULT TRUE , TRUE[] "TRUE", FALSE[] "FALSE"},  SHORTCUT[]  "" }	
+  Decl PARAM New_Start = {SHORTNAME[] "State",  VALUE {BOOL: DEFAULT FALSE , TRUE[] "TRUE", FALSE[] "FALSE"},  SHORTCUT[]  "" }	
+  
+  
+  DECL PARAM Area_LIN_lIST = {SHORTNAME[] "Area:",, VALUE {LIST: _
+   ITEM[1] {ITEM: VALUE[] "L0"   , DISP[] "LO"},   _
+   ITEM[2] {ITEM: VALUE[] "L90"  , DISP[] "L90"},  _
+   ITEM[3] {ITEM: VALUE[] "L180" , DISP[] "L180"}, _
+   ITEM[4] {ITEM: VALUE[] "L270"  , DISP[] "L270"}, _
+   POS 1}}
+   
+   
+  DECL PARAM Area_CIR_lIST = {SHORTNAME[] "Area: " , VALUE {LIST: _
+   ITEM[1] {ITEM: VALUE[] "C45"   , DISP[] "C45"},   _
+   ITEM[2] {ITEM: VALUE[] "C135"  , DISP[] "C135"},  _
+   ITEM[3] {ITEM: VALUE[] "C225" ,  DISP[] "C225"},  _
+   ITEM[4] {ITEM: VALUE[] "C315"  , DISP[] "C315"},  _
+   POS 1}}
+
+ DECL PARAM OFFSET_NO={shortname[] "OFFSET_NO:", unit[] "", value { LIST : POS 1, _
+  ITEM[1] {ITEM:VALUE[] "1",   disp[] "1"}, _
+  ITEM[2] {ITEM:VALUE[] "2",   disp[] "2"}, _
+  ITEM[3] {ITEM:VALUE[] "3",   disp[] "3"}, _
+  ITEM[4] {ITEM:VALUE[] "4",   disp[] "4"}, _
+  ITEM[5] {ITEM:VALUE[] "5",   disp[] "5"}, _
+  ITEM[6] {ITEM:VALUE[] "6",   disp[] "6"}, _
+  ITEM[7] {ITEM:VALUE[] "7",   disp[] "7"}, _
+  ITEM[8] {ITEM:VALUE[] "8",   disp[] "8"}, _
+  ITEM[9] {ITEM:VALUE[] "9",   disp[] "9"}, _
+  ITEM[10] {ITEM:VALUE[] "10", disp[] "10"}}}
+  
+DECL PARAM TOOL_NO={shortname[] "Tool:", shortcut[] "", unit[] "", value { LIST : POS 2, _
+  ITEM[1] {ITEM:VALUE[] "0", disp[] "NULLFRAME"}, _
+  ITEM[2] {ITEM:VALUE[] "1", disp[] "TOOL:1"}, _
+  ITEM[3] {ITEM:VALUE[] "2", disp[] "TOOL:2"}, _
+  ITEM[4] {ITEM:VALUE[] "3", disp[] "TOOL:3"}, _
+  ITEM[5] {ITEM:VALUE[] "4", disp[] "TOOL:4"}, _
+  ITEM[6] {ITEM:VALUE[] "5", disp[] "TOOL:5"}, _
+  ITEM[7] {ITEM:VALUE[] "6", disp[] "TOOL:6"}, _
+  ITEM[8] {ITEM:VALUE[] "7", disp[] "TOOL:7"}, _
+  ITEM[9] {ITEM:VALUE[] "8", disp[] "TOOL:8"}, _
+  ITEM[10] {ITEM:VALUE[] "9", disp[] "TOOL:9"}, _
+  ITEM[11] {ITEM:VALUE[] "10", disp[] "TOOL:10"}, _
+  ITEM[12] {ITEM:VALUE[] "11", disp[] "TOOL:11"}, _
+  ITEM[13] {ITEM:VALUE[] "12", disp[] "TOOL:12"}, _
+  ITEM[14] {ITEM:VALUE[] "13", disp[] "TOOL:13"}, _
+  ITEM[15] {ITEM:VALUE[] "14", disp[] "TOOL:14"}, _
+  ITEM[16] {ITEM:VALUE[] "15", disp[] "TOOL:15"}, _
+  ITEM[17] {ITEM:VALUE[] "16", disp[] "TOOL:16"}, _
+  ITEM[18] {ITEM:VALUE[] "17", disp[] "TOOL:17"}, _
+  ITEM[19] {ITEM:VALUE[] "18", disp[] "TOOL:18"}, _
+  ITEM[20] {ITEM:VALUE[] "19", disp[] "TOOL:19"}, _
+  ITEM[21] {ITEM:VALUE[] "20", disp[] "TOOL:20"}, _
+  ITEM[22] {ITEM:VALUE[] "21", disp[] "TOOL:21"}, _
+  ITEM[23] {ITEM:VALUE[] "22", disp[] "TOOL:22"}, _
+  ITEM[24] {ITEM:VALUE[] "23", disp[] "TOOL:23"}, _
+  ITEM[25] {ITEM:VALUE[] "24", disp[] "TOOL:24"}, _
+  ITEM[26] {ITEM:VALUE[] "25", disp[] "TOOL:25"}, _
+  ITEM[27] {ITEM:VALUE[] "26", disp[] "TOOL:26"}, _
+  ITEM[28] {ITEM:VALUE[] "27", disp[] "TOOL:27"}, _
+  ITEM[29] {ITEM:VALUE[] "28", disp[] "TOOL:28"}, _
+  ITEM[30] {ITEM:VALUE[] "29", disp[] "TOOL:29"}, _
+  ITEM[31] {ITEM:VALUE[] "30", disp[] "TOOL:30"}, _
+  ITEM[32] {ITEM:VALUE[] "31", disp[] "TOOL:31"}, _
+  ITEM[33] {ITEM:VALUE[] "32", disp[] "TOOL:32"}}}  
+  
+DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST : POS 2, _
+  ITEM[1] {ITEM:VALUE[] "0", disp[] "NULLFRAME"}, _
+  ITEM[2] {ITEM:VALUE[] "1", disp[] "BASE:1"}, _
+  ITEM[3] {ITEM:VALUE[] "2", disp[] "BASE:2"}, _
+  ITEM[4] {ITEM:VALUE[] "3", disp[] "BASE:3"}, _
+  ITEM[5] {ITEM:VALUE[] "4", disp[] "BASE:4"}, _
+  ITEM[6] {ITEM:VALUE[] "5", disp[] "BASE:5"}, _
+  ITEM[7] {ITEM:VALUE[] "6", disp[] "BASE:6"}, _
+  ITEM[8] {ITEM:VALUE[] "7", disp[] "BASE:7"}, _
+  ITEM[9] {ITEM:VALUE[] "8", disp[] "BASE:8"}, _
+  ITEM[10] {ITEM:VALUE[] "9", disp[] "BASE:9"}, _
+  ITEM[11] {ITEM:VALUE[] "10", disp[] "BASE:10"}, _
+  ITEM[12] {ITEM:VALUE[] "11", disp[] "BASE:11"}, _
+  ITEM[13] {ITEM:VALUE[] "12", disp[] "BASE:12"}, _
+  ITEM[14] {ITEM:VALUE[] "13", disp[] "BASE:13"}, _
+  ITEM[15] {ITEM:VALUE[] "14", disp[] "BASE:14"}, _
+  ITEM[16] {ITEM:VALUE[] "15", disp[] "BASE:15"}, _
+  ITEM[17] {ITEM:VALUE[] "16", disp[] "BASE:16"}, _
+  ITEM[18] {ITEM:VALUE[] "17", disp[] "BASE:17"}, _
+  ITEM[19] {ITEM:VALUE[] "18", disp[] "BBASE:18"}, _
+  ITEM[20] {ITEM:VALUE[] "19", disp[] "BASE:19"}, _
+  ITEM[21] {ITEM:VALUE[] "20", disp[] "BASE:20"}, _
+  ITEM[22] {ITEM:VALUE[] "21", disp[] "BASE:21"}, _
+  ITEM[23] {ITEM:VALUE[] "22", disp[] "BASE:22"}, _
+  ITEM[24] {ITEM:VALUE[] "23", disp[] "BASE:23"}, _
+  ITEM[25] {ITEM:VALUE[] "24", disp[] "BASE:24"}, _
+  ITEM[26] {ITEM:VALUE[] "25", disp[] "BASE:25"}, _
+  ITEM[27] {ITEM:VALUE[] "26", disp[] "BASE:26"}, _
+  ITEM[28] {ITEM:VALUE[] "27", disp[] "BASE:27"}, _
+  ITEM[29] {ITEM:VALUE[] "28", disp[] "BASE:28"}, _
+  ITEM[30] {ITEM:VALUE[] "29", disp[] "BASE:29"}, _
+  ITEM[31] {ITEM:VALUE[] "30", disp[] "BASE:30"}, _
+  ITEM[32] {ITEM:VALUE[] "31", disp[] "BASE:31"}, _
+  ITEM[33] {ITEM:VALUE[] "32", disp[] "BASE:32"}}}
+
+ 
+  DECL PARAM Vel = {SHORTNAME[] "Vel=", UNIT[] "m/s" , VALUE {REAL: MIN 0, MAX 3000, STEP 0.1, DEFAULT 0.02}}
+
+  
+  DECL PARAM X={SHORTNAME[] "X:", UNIT[] "MM" , ENABLE[] FALSE , VALUE {REAL: MIN -3000, MAX 3000, STEP 0.1, DEFAULT 0}}
+  DECL PARAM Y={SHORTNAME[] "Y:", UNIT[] "MM" , ENABLE[] FALSE , VALUE {REAL: MIN -3000, MAX 3000, STEP 0.1, DEFAULT 0}}
+  DECL PARAM Z={SHORTNAME[] "Z:", UNIT[] "MM" , ENABLE[] FALSE , VALUE {REAL: MIN -3000, MAX 3000, STEP 0.1, DEFAULT 0}}
+  DECL PARAM A={SHORTNAME[] "A:", UNIT[] "MM" , ENABLE[] FALSE , VALUE {REAL: MIN -360, MAX 360, STEP 0.1, DEFAULT 0}}
+  DECL PARAM B={SHORTNAME[] "B:", UNIT[] "MM" , ENABLE[] FALSE , VALUE {REAL: MIN -360, MAX 360, STEP 0.1, DEFAULT 0}}
+  DECL PARAM C={SHORTNAME[] "C:", UNIT[] "MM" , ENABLE[] FALSE , VALUE {REAL: MIN -360, MAX 360, STEP 0.1, DEFAULT 0}}
+
+  Decl PARAM ACC =  {SHORTNAME[] "Acc" ,  VALUE {NUMBER:MIN 1, MAX 100, STEP 1, AUTOLIMIT TRUE, DEFAULT 100}, UNIT[] "%", SHORTCUT[] "Acc" }
+  Decl PARAM APO_DIST = {SHORTNAME[] "Cont" , VALUE {NUMBER:MIN 0, MAX 1000, STEP 1, AUTOLIMIT TRUE, DEFAULT 10}, UNIT[] "mm", SHORTCUT[] "Cont" }
+  
+  
+  DECL PARAM O_X = {SHORTNAME[] "Offset.X=", UNIT[] "MM", VALUE {REAL: MIN -100, MAX 100, STEP 0.1, DEFAULT 0}}
+  DECL PARAM O_Y = {SHORTNAME[] "Offset.Y=", UNIT[] "MM", VALUE {REAL: MIN -100, MAX 100, STEP 0.1, DEFAULT 0}}
+  DECL PARAM O_Z = {SHORTNAME[] "Offset.Z=", UNIT[] "MM", VALUE {REAL: MIN -100, MAX 100, STEP 0.1, DEFAULT 0}}
+
+
+  Decl PARAM PL_FDAT = {SHORTNAME[] "Lin Parametet Settings", VAR[] "FDAT", SHORTCUT[] "F", UNIT[] "", Value {FREE: DEFAULT[] "_"}}
+  Decl PARAM PL_LDat = {SHORTNAME[] "Lin Parameter", VAR[] "LDAT", SHORTCUT[] "L", UNIT[] "" ,Value {FREE: DEFAULT[] "_"}}
+  Decl PARAM PL_MOVE_LIN = {SHORTNAME[] "Move POS", VAR[] "E6POS", SHORTCUT[] "PO", UNIT[] "" ,Value {FREE: DEFAULT[] "_"}}
+  Decl PARAM PL_Offset = {SHORTNAME[] "Offset_TOOL", VAR[] "Offset_POS", SHORTCUT[] "FF", UNIT[] "POS" ,Value {FREE: DEFAULT[] "_"}}
+  
+  
+  Decl PARAM MOVE_Name = {SHORTNAME[] "Point:", UNIT[] "" , Value {NAME: DEFAULT[] "S1"}}
+  ; DECL PLIST MOVE_LIN[6] -> MOVE_Name
+             ; MOVE_LIN[1] = X
+             ; MOVE_LIN[2] = A
+             ; MOVE_LIN[3] = Y
+             ; MOVE_LIN[4] = B
+             ; MOVE_LIN[5] = Z
+             ; MOVE_LIN[6] = C
+
+  
+  
+  DECL PARAM MOVE_FDAT = {SHORTNAME[] "FDAT:", UNIT[] "" , VALUE {NAME: DEFAULT[] "S1"}}
+  DECL PLIST FDAT[2] -> MOVE_Name
+   FDAT[1] = TOOL_NO
+   FDAT[2] = BASE_NO
+
+       
+  DECL PARAM MOVE_LDAT = {SHORTNAME[] "LDAT:", UNIT[] "" , VALUE {NAME: DEFAULT[] "L1"}}
+  DECL PLIST LDat[2] -> MOVE_LDAT
+             LDat[1] = ACC
+             LDat[2] = APO_DIST
+  
+  
+  
+  
+  
+  Decl PARAM Offset_Name={SHORTNAME[] "Offset:" , VALUE {Name: DEFAULT[] "S1"}}
+  ; DECL PLIST Offset[3]  -> Offset_Name
+             ; Offset[1]  =  O_X 
+             ; Offset[2]  =  O_Y 
+             ; Offset[3]  =  O_Z 
+
+
+
+  Decl PARAM LIN_Position = {SHORTNAME[] "Point: ", VALUE {NUMBER:MIN 5, MAX 95, STEP 1, AUTOLIMIT TRUE, DEFAULT 50 }, UNIT[] "/%" , SHORTCUT[]  "/%" }
+
+ 
+   DECL FOLD LIN_FOLD[7] 
+             LIN_FOLD[1]= "/; LIN %MOVE_Name POS: X=%X , Y=%Y , Z=%Z , A=%A , B=%B , C=%C"
+             LIN_FOLD[2]= "/; LIN Offset POS:X=%O_X , Y=%O_Y , Z=%O_Z "
+             LIN_FOLD[2]= "HanGao_Surr_Calculate( %LIN_Position , #%Area_LIN_lIST , #L_LIN_POS , PO%MOVE_Name , , , %Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset  , , %OFFSET_NO , %Vel  )"
+             LIN_FOLD[3]= " "
+             LIN_FOLD[4]= "FDAT_ACT=F%MOVE_Name"
+             LIN_FOLD[5]= "LDAT_ACT=L%MOVE_LDAT"
+             LIN_FOLD[6]= "BAS(#CP_PARAMS,%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Speed )"
+             LIN_FOLD[7]= "LIN PO%MOVE_Name  C_DIS C_DIS"
+
+   DECL FOLD CIR_L_FOLD[8] 
+             CIR_L_FOLD[1]= "/; CIR %MOVE_Name POS: X=%X , Y=%Y , Z=%Z , A=%A , B=%B , C=%C"
+             CIR_L_FOLD[2]= "/; CIR Offset POS:X=%O_X , Y=%O_Y , Z=%O_Z "
+             CIR_L_FOLD[3]= "HanGao_Surr_Calculate(  , #%Area_CIR_lIST , #C_LIN_POS , PO%MOVE_Name , , , %Area_CIR_lIST _Welding_Craft[1].Welding_Offset , ,  , %Vel )"
+             CIR_L_FOLD[4]= " "
+             CIR_L_FOLD[5]= "FDAT_ACT=F%MOVE_Name"
+             CIR_L_FOLD[6]= "LDAT_ACT=L%MOVE_LDAT"
+             CIR_L_FOLD[7]= "BAS(#CP_PARAMS, %Area_CIR_lIST _Welding_Craft[1].Welding_Speed )"
+             CIR_L_FOLD[8]= "LIN PO%MOVE_Name  C_DIS C_DIS"  
+             
+             
+             
+             
+;-----------------LIN_DECL------------------------
+
+
+
+
+
+;--------------------LIn_Program------------------------------
+
+
+
+  DEFSCRIPT LIN_START
+    
+    REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL E6POS PO%MOVE_Name ={X 0 ,Y 0 ,Z 0 , A 0 , B 0 , C 0 }")
+     Message  "NEW POS"
+  ENDSCRIPT 
+
+
+
+  DEFSCRIPT Read_Date
+  
+
+   SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset .X",  PARAM O_X)
+   SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset .Y" , PARAM O_Y)
+   SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset .Z" , PARAM O_Z)
+
+   SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Speed" , PARAM VEL)
+   SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_CDIS" , PARAM APO_DIST)
+   SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_ACC" , PARAM ACC)
+  
+   MESSAGE " %MOVE_Name  Offset: X=%O_X  ,Y=%O_Y  ,Z=%O_Z "
+   MESSAGE " Lin Vel : %VEL  m/s" 
+  
+   ENDSCRIPT
+
+
+
+
+  DEFSCRIPT LIN_New
+
+  MESSAGE  "New State : %New_Start"
+   SHOWVAR (FULLPATH[] "True",  PARAM New_Start)
+
+   ;MESSAGE  "LIN NEW"
+   MESSAGE  "New State : %New_Start"
+   
+   
+   
+   
+   DO Read_Date
+
+  ENDSCRIPT
+  
+  
+
+  DEFSCRIPT LIN_Read
+     
+    
+    SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset.X" , PARAM O_X)
+    SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset.Y" , PARAM O_Y)
+    SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset.Z" , PARAM O_Z)
+    SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Speed" , PARAM Vel)
+
+
+	MESSAGE " %MOVE_Name  Offset: X=%O_X  ,Y=%O_Y  ,Z=%O_Z "
+	MESSAGE "Read Stat"
+  ENDSCRIPT
+
+  DEFSCRIPT LIN_Refresh
+
+    SHOWVAR (FULLPATH[] "False",  PARAM New_Start)
+    MESSAGE  "New State : %New_Start"
+  
+	 SHOWVAR (FULLPATH[] "Surround_Welding_Size.Write_Status",  PARAM State)
+    SHOWVAR (FULLPATH[] "PO%MOVE_Name .X",  PARAM X)
+    SHOWVAR (FULLPATH[] "PO%MOVE_Name .Y" , PARAM Y)
+    SHOWVAR (FULLPATH[] "PO%MOVE_Name .Z" , PARAM Z)
+    SHOWVAR (FULLPATH[] "PO%MOVE_Name .A" , PARAM A)
+    SHOWVAR (FULLPATH[] "PO%MOVE_Name .B" , PARAM B)
+    SHOWVAR (FULLPATH[] "PO%MOVE_Name .C" , PARAM C)
+    
+	MESSAGE " %MOVE_Name  Position: X=%X  , Y=%Y  , Z=%Z , A=%A , B=%B , C=%C "
+
+
+
+   Do Read_Date
+      
+	
+   ENDSCRIPT
+  
+
+
+   
+   DEFSCRIPT OnOpen_LIN
+      SWITCH "ISCHANGE"
+      CASE "TRUE" DO  LIN_Refresh
+      CASE "FALSE" DO LIN_New
+      ENDSWITCH
+ 
+   ENDSCRIPT
+   
+
+   
+   
+   ;--------------------LIn_Program------------------------------
+   
+   DEFSCRIPT U_SAVE
+    
+    MESSAGE  "New State : %New_Start"
+    
+     SWITCH "%New_Start"
+       CASE "True"  DO LIN_START
+     ENDSWITCH
+
+	
+    REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL FDAT F%MOVE_Name ={TOOL_NO %TOOL_NO ,BASE_NO %BASE_NO ,IPO_FRAME #BASE ,POINT2[] /" /",TQ_STATE FALSE }" )
+    REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL LDAT L%MOVE_LDAT ={VEL %Vel ,ACC %ACC ,APO_DIST %APO_DIST ,APO_FAC 50.0000 ,AXIS_VEL 100.0,AXIS_ACC 100.0,ORI_TYP #VAR ,CIRC_TYP #BASE,JERK_FAC 50.0,GEAR_JERK 50.0,EXAX_IGN 0}" )
+    ;REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL Offset_POS FF%Offset_Name ={O_X %O_X ,O_Y %O_Y ,O_Z %O_Z }")
+
+	
+    ;MESSAGE " %Area_LIN_lIST  "
+    MESSAGE " %MOVE_Name   SAVE "
+	
+
+	
+  ENDSCRIPT
+   
+  DEFSCRIPT LIN_SAVE
+  
+	  SETVAR(FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Name[] ", VALUE[] "/"%MOVE_Name /"" )
+     
+     
+     DO U_SAVE
+     
+  ENDSCRIPT
+   
+   DEFSCRIPT CIR_L_SAVE
+    
+    MESSAGE " CIR : %Area_CIR_lIST "
+    MESSAGE " Offset_NO: %OFFSET_NO "
+
+	 SETVAR(FULLPATH[] "%Area_CIR_lIST _Welding_Craft[%OFFSET_NO ].Welding_Name[] ", VALUE[] "/"%MOVE_Name /"" )
+    DO U_SAVE
+  	
+  ENDSCRIPT
+   
+   
+   
+   
+;---------------------USER_Program-----------------------------
+
+
+
+   Decl InlineForm _START={FOLD[1] Write_State_Fold, PARAM[1] Write_lIST   , ONOPEN Write_State_READ , ONACCEPT Write_State_SAVE } 
+   Decl InlineForm _END={FOLD[1] END_FOLD} 
+
+   Decl InlineForm S_LIN={FOLD[1] LIN_FOLD , PARAM[1] MOVE_Name  , PARAM[2] Vel, PARAM[3] LIN_Position, PARAM[4] Area_LIN_lIST,PARAM[5] MOVE_LDAT  , PARAM[6] OFFSET_NO ,ONOPEN OnOpen_LIN ,ONACCEPT LIN_SAVE} 
+   Decl InlineForm S_C_LIN = {FOLD[1] CIR_L_FOLD ,  PARAM[1] MOVE_Name , PARAM[2] Vel, PARAM[3] Area_CIR_lIST , PARAM[4] MOVE_LDAT    , ONOPEN OnOpen_LIN , ONACCEPT CIR_L_SAVE}  
+   
+   Decl InlineForm Cross_Pos={FOLD[1] Cross_Fold , PARAM[1] BASE_NO , PARAM[2] Robot_Dir_lIST  , PARAM[3] POS_1_Name ,PARAM[4] POS_2_Name , PARAM[5] POS_3_Name , PARAM[6] POS_4_Name}
+
+ENDTP
+
+
+
+
+
+
+
+
+
+
+;checksum 63365908727 

@@ -1,8 +1,8 @@
-&ACCESS RVO1
-&REL 169
+&ACCESS RVO
+&REL 190
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
-&PARAM DISKPATH = KRC:\R1\Program\HG
+&PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
 DEF Glode_HanGao( )
 
 ;# DATE:2021-1-4
@@ -20,6 +20,7 @@ DECL E6POS Cir_Middle_POS
 DECL E6POS Cir_END_POS
 DECL Pos_Type_Enum Pos_Type
 DECL Offset_POS Offset_info , Offset_cir_info
+
 DECL INT OFFSET_NO
 
 ;------------DECL_VALUE--------------
@@ -474,7 +475,6 @@ CASE #L_LIN_POS,#C_LIN_POS
 
 
 
-
 Lin_Pos.X=Lin_Pos.X+Offset_info.X
 Lin_Pos.Y=Lin_Pos.Y+Offset_info.Y
 Lin_Pos.Z=Lin_Pos.Z+Offset_info.Z
@@ -567,7 +567,7 @@ ENDIF
 
 CASE #A90
 
-Direction_Deg=-90.000
+Direction_Deg=90.000
 
 IF Lin_Curss.Y<>POS_4.Y THEN
 
@@ -593,7 +593,7 @@ ENDIF
 
 CASE #A270
 
-Direction_Deg=90.000
+Direction_Deg=-90.000
 
 IF Lin_Curss.Y<>POS_4.Y THEN
 
