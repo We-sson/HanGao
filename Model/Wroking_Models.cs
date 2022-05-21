@@ -8,6 +8,7 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Soceket_KUKA.Models;
 using System.Threading;
 
+
 namespace HanGao.Model
 {
     [AddINotifyPropertyChangedInterface]
@@ -15,7 +16,7 @@ namespace HanGao.Model
     {
         public Wroking_Models()
         {
-
+         
         }
 
         
@@ -33,7 +34,7 @@ namespace HanGao.Model
         {
             get
             {
-                return "NO." + Work_NO.ToString() + ":";
+                return  Work_NO.ToString() + "号 工作区";
             }
     
         }
@@ -49,7 +50,7 @@ namespace HanGao.Model
             {
 
                 if (_Work_Type != "") { return "#P" + _Work_Type; }
-                return "#ERROR";
+                return " ";
 
 
             }
@@ -62,27 +63,27 @@ namespace HanGao.Model
                 if (Work_NO != 0)
                 {
                     //将显示的水槽型号发送到kuka端，同时修改显示颜色
-                    if (Work_Type == "#ERROR")
+                    if (Work_Type == " ")
                     {
 
 
                         //使用多线程读取
                         new Thread(new ThreadStart(new Action(() =>
                         {
-                        Socket_Client_Setup.Write.Cycle_Write_Send("$my_work_" + Work_NO, "#ERROR");
+                        Socket_Client_Setup.Write.Cycle_Write_Send("$my_work_" + Work_NO, " ");
                         })))
                         { IsBackground = true, Name = "Cycle_Write—KUKA" }.Start();
 
+                        
 
-                       
                         Work_back = "#E3E3E3";
                     }
-                    else if (Work_Type != "#ERROR")
+                    else if (Work_Type != " ")
                     {
                         //使用多线程读取
                         new Thread(new ThreadStart(new Action(() =>
                         {
-                         Socket_Client_Setup.Write.Cycle_Write_Send("$my_work_" + Work_NO, "#ERROR");
+                         Socket_Client_Setup.Write.Cycle_Write_Send("$my_work_" + Work_NO, " ");
                         })))
                         { IsBackground = true, Name = "Cycle_Write—KUKA" }.Start();
 
@@ -185,7 +186,7 @@ namespace HanGao.Model
         {
             get
             {
-                if (Work_Type !="#ERROR")
+                if (Work_Type !=" ")
                 {
                     if (Work_Run)
                     {
@@ -261,7 +262,7 @@ namespace HanGao.Model
         {
             get
             {
-                if (_Work_Type == "#ERROR" || _Work_Type == "") { return _Work_IsEnabled = false; } else { return _Work_IsEnabled = true; }
+                if (_Work_Type == " " || _Work_Type == "") { return _Work_IsEnabled = false; } else { return _Work_IsEnabled = true; }
                 //return _Work_IsEnabled;
 
             }

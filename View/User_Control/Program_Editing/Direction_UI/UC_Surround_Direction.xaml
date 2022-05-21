@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HanGao.View.User_Control.Program_Editing.Direction_UI"
-             xmlns:arcui="clr-namespace:WPFArcUILibrary;assembly=WPFArcUILibrary"
+            
              Padding="10"
              d:DesignHeight="466"
              d:DesignWidth="760"

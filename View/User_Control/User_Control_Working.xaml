@@ -6,8 +6,9 @@
              xmlns:local="clr-namespace:HanGao.View.User_Control"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:cmd="http://www.galasoft.ch/mvvmlight"
-             d:DesignHeight="466"
-             d:DesignWidth="765"
+             xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
+             d:DesignHeight="403"
+             d:DesignWidth="491"
              DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_VM_1}"
              mc:Ignorable="d">
     <Grid x:Name="GD1" Grid.Row="0" Grid.Column="0"
@@ -19,249 +20,319 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-
         <Border x:Name="Bd1"
                 Grid.RowSpan="2"
                 CornerRadius="10"
-                BorderThickness="5"
                 BorderBrush="Transparent"
-                Background="{Binding WM.Work_back, Mode=TwoWay}">
+                Background="{Binding WM.Work_back, Mode=TwoWay}" />
+
+        <StackPanel Grid.Column="0"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+            <TextBlock x:Name="TB2"
+                       Text="{Binding WM.Number_Work}"
+                       Margin="0,0,0,0"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontFamily="DengXian"
+                       FontSize="30" />
+            <TextBlock x:Name="TB1" Grid.Column="1"
+                       Grid.ColumnSpan="2"
+                       Text="{Binding WM.Work_Type}"
+                       Margin="0,10,0,0"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="50"
+                       FontStretch="Condensed"
+                       FontFamily="DengXian" />
+        </StackPanel>
 
 
 
+        <Grid Grid.Row="1">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height=" *" />
+            </Grid.RowDefinitions>
 
 
+            <Border Grid.RowSpan="2"
+                    Grid.ColumnSpan="2"
+                    Margin="0"
+                    Background="#2a3c55"
+                    CornerRadius="0 0 10 10" />
 
-            <StackPanel HorizontalAlignment="Center"
-                        VerticalAlignment="Top"
-                        Orientation="Horizontal">
-                <TextBlock x:Name="TB2"
-                           Text="{Binding WM.Number_Work}"
-                           Margin="0,10,30,0"
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0"
+                           Text="&#xe61b;"
+                           Margin="10,0,0,0"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
-                           FontFamily="DengXian"
-                           FontSize="50" />
-                <TextBlock x:Name="TB1" Grid.Column="1"
-                           Grid.ColumnSpan="2"
-                           Text="{Binding WM.Work_Type}"
-                           Margin="0,10,0,0"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           FontSize="50"
-                           FontStretch="Condensed"
-                           FontFamily="DengXian" />
-            </StackPanel>
+                           Foreground="#EEEEEE"
+                           FontFamily="/Resources/#iconfont"
+                           FontSize="120" />
 
-        </Border>
+                <Grid Grid.Column="1" Margin="10,10,10,0">
+                    <Border Background="#EEEEEE"
+                            BorderBrush="Black"
+                            BorderThickness="3">
 
 
-        <Border Grid.Row="1"
-                Margin="5"
-                Background="#F6F6F6"
-                CornerRadius="10">
+
+                        <ProgressBar Width=" 80"
+                                     Height=" 80"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Center"
+                                     Foreground="#15b15d"
+                                     Value="50">
+                            <ProgressBar.Style>
+                                <Style TargetType="ProgressBar">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ProgressBar">
+                                                <Grid>
+                                                    <ed:Arc ArcThickness="8"
+                                                            StartAngle="-120"
+                                                            Stretch="None"
+                                                            EndAngle="{TemplateBinding Value}"
+                                                            Fill="Green" />
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ProgressBar.Style>
+                        </ProgressBar>
 
 
-            <Grid Style="{StaticResource GridStyle1}"
-                  Margin="0"
-                  ShowGridLines="False">
 
+                    </Border>
+
+
+
+
+
+
+
+
+                </Grid>
+            </Grid>
+
+
+
+            <Grid Grid.Row="1" Grid.Column="0"
+                  Grid.ColumnSpan="2"
+                  Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
-                    <RowDefinition Height=" 0.5*" />
-                    <RowDefinition Height="1*" />
-
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <!--<Border Grid.Row="0" Grid.Column="0"
-                        Grid.RowSpan="2" Grid.ColumnSpan="2"
-                        Margin="-7" Visibility="Collapsed"
-                        BorderThickness="2" BorderBrush="Gray"
-                        CornerRadius="25" />-->
 
 
-                <!--<TextBlock Grid.ColumnSpan="2" Text="基本功能"
-                           Margin="25,0,0,6"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Bottom"
-                           Visibility="Collapsed" FontSize="25" />-->
-
-                <!--<Border Grid.Row="1"
-                        Margin="25,0,25,0"
-                        Visibility="Collapsed" Opacity="0.5"
-                        Background="#A0A0A0" CornerRadius="2" />-->
-
-                <GroupBox Style="{DynamicResource GroupBox_Grid_Effect}" Grid.Row="0"
-                          Margin="20,20,20,10"
-                          Visibility="Collapsed"
-                          Background="#FFF9F9F9">
+                <Border Grid.RowSpan="2"
+                        Grid.ColumnSpan="2"
+                        Background="#EEEEEE"
+                        CornerRadius="8" />
 
 
+                <Grid Grid.Column="0"
+                      Grid.ColumnSpan="2"
+                      Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
 
-
-                    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-
-                        <CheckBox Style="{StaticResource Button_List_Style}" x:Name="Work_Run_Check"
-                                  Content="启动"
-                                  IsChecked="{Binding WM.Work_Run, Mode=TwoWay}"
-                                  HorizontalAlignment="Center"
-                                  VerticalAlignment="Center"
-                                  IsEnabled="{Binding WM.Work_IsEnabled}">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.Work_Run_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:User_Control_Working}}}"
-                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                           PassEventArgsToCommand="True" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-
-
-
-                        </CheckBox>
-
-                        <CheckBox Style="{StaticResource Button_List_Style}"
-                                  Content="计数"
-                                  IsChecked="{Binding UF.Work_Connt}"
-                                  HorizontalAlignment="Center"
-                                  VerticalAlignment="Center"
-                                  IsEnabled="{Binding WM.Work_IsEnabled}">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.Work_Connt_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:User_Control_Working}}}"
-                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                           PassEventArgsToCommand="True" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </CheckBox>
-
-
-
-                        <CheckBox Style="{StaticResource Button_List_Style}"
-                                  Content="空运"
-                                  IsChecked="{Binding UF.Work_NullRun}"
-                                  HorizontalAlignment="Center"
-                                  VerticalAlignment="Center"
-                                  IsEnabled="{Binding WM.Work_IsEnabled}">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <!--<cmd:EventToCommand Command="{Binding Path=DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />-->
-                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.Work_NullRun_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:User_Control_Working}}}"
-                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                           PassEventArgsToCommand="True" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </CheckBox>
-                        <CheckBox Style="{StaticResource Button_List_Style}"
-                                  Content="暂停"
-                                  IsChecked="{Binding UF.Work_Pause, Mode=TwoWay}"
-                                  HorizontalAlignment="Center"
-                                  VerticalAlignment="Center"
-                                  IsEnabled="{Binding WM.Work_IsEnabled}">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <!--<cmd:EventToCommand Command="{Binding Path=DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />-->
-                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.Work_Pause_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:User_Control_Working}}}"
-                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                           PassEventArgsToCommand="True" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </CheckBox>
-                        <CheckBox Style="{StaticResource Button_List_Style}"
-                                  Content="跳过"
-                                  IsChecked="{Binding UF.Work_JumpOver, Mode=TwoWay}"
-                                  HorizontalAlignment="Center"
-                                  VerticalAlignment="Center"
-                                  IsEnabled="{Binding WM.Work_IsEnabled}">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <!--<cmd:EventToCommand Command="{Binding Path=DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />-->
-                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.Work_JumpOver_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:User_Control_Working}}}"
-                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                           PassEventArgsToCommand="True" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </CheckBox>
-
-
-
-                    </WrapPanel>
-                </GroupBox>
-
-
-
-                <Grid Grid.Row="3"
-                      Margin="20,10,20,20"
-                      ShowGridLines="False">
-
-
-
-
-                    <!--<TextBlock Grid.Row="0"
-                               Text="机器人运行数据" Margin="0,0,0,6"
+                    <TextBlock Grid.Column="0"
+                               Text="952154"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Center"
+                               FontSize="20"
+                               FontFamily="Yu Gothic UI" />
+                    <TextBlock Grid.Column="1"
+                               Text="水槽尺寸信息"
                                HorizontalAlignment="Left"
-                               VerticalAlignment="Bottom" FontSize="25" />-->
+                               VerticalAlignment="Center"
+                               FontSize="18"
+                               FontFamily="YouYuan" />
+                </Grid>
 
-                    <!--<Border Grid.Row="1" Background="#A0A0A0" Opacity="0.5" />-->
+                <Grid Grid.Row="1" Grid.Column="0"
+                      Margin="20,0,20,0"
+                      HorizontalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height=" auto" />
+                        <RowDefinition Height=" *" />
+                        <RowDefinition Height=" auto" />
+                        <RowDefinition Height=" *" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height=" *" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <TextBlock Text="长"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   FontSize="18"
+                                   FontFamily="YouYuan" />
+                        <TextBlock Text="680.000mm"
+                                   Margin="2"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center"
+                                   FontSize="18"
+                                   FontFamily="Yu Gothic UI Semilight" />
+                    </Grid>
+                    <Border Grid.Row="1"
+                            Height="2"
+                            Background="#BBBBBB"
+                            CornerRadius="1" />
+
+                    <Grid Grid.Row="2">
+
+                        <TextBlock Text="宽"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   FontSize="18"
+                                   FontFamily="YouYuan" />
+                        <TextBlock Text="400.000mm"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center"
+                                   FontSize="18"
+                                   FontFamily="Yu Gothic UI Semilight" />
+                    </Grid>
+                    <Border Grid.Row="3"
+                            Height="2"
+                            Background="#BBBBBB"
+                            CornerRadius="1" />
+                    <Grid Grid.Row="4">
+
+                        <TextBlock Text="R角"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   FontSize="16"
+                                   FontFamily="YouYuan" />
+                        <TextBlock Text="10.000mm"
+                                   Margin="2"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center"
+                                   FontSize="18"
+                                   FontFamily="Yu Gothic UI Semilight" />
 
 
+                    </Grid>
+                    <Border Grid.Row="5"
+                            Height="2"
+                            Background="#BBBBBB"
+                            CornerRadius="1" />
+                    <Grid Grid.Row="6">
+
+                        <TextBlock Text="短边"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   FontSize="16"
+                                   FontFamily="YouYuan" />
+                        <TextBlock Text="23.800mm"
+                                   Margin="2"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center"
+                                   FontSize="18"
+                                   FontFamily="Yu Gothic UI Semilight" />
+                    </Grid>
 
 
-                    <GroupBox Style="{DynamicResource GroupBox_Grid_Effect}" Grid.Row="0"
-                              Grid.RowSpan="2"
-                              Visibility="Collapsed"
-                              Background="#FFF9F9F9">
+                </Grid>
+                <Grid Grid.Row="1" Grid.Column="1"
+                      Margin="20,0,20,0"
+                      HorizontalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height=" auto" />
+                        <RowDefinition Height=" *" />
+                        <RowDefinition Height=" auto" />
+                        <RowDefinition Height=" *" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height=" *" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <TextBlock Text="面板厚度"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   FontSize="18"
+                                   FontFamily="YouYuan" />
+                        <TextBlock Text="2.950mm"
+                                   Margin="2"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center"
+                                   FontSize="18"
+                                   FontFamily="Yu Gothic UI Semilight" />
+                    </Grid>
+                    <Border Grid.Row="1"
+                            Height="2"
+                            Background="#BBBBBB"
+                            CornerRadius="1" />
+
+                    <Grid Grid.Row="2">
+
+                        <TextBlock Text="盆胆厚度"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   FontSize="18"
+                                   FontFamily="YouYuan" />
+                        <TextBlock Text="0.750mm"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center"
+                                   FontSize="18"
+                                   FontFamily="Yu Gothic UI Semilight" />
+                    </Grid>
+                    <Border Grid.Row="3"
+                            Height="2"
+                            Background="#BBBBBB"
+                            CornerRadius="1" />
+                    <Grid Grid.Row="4">
+
+                        <TextBlock Text="左边宽度"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   FontSize="16"
+                                   FontFamily="YouYuan" />
+                        <TextBlock Text="23.800mm"
+                                   Margin="2"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center"
+                                   FontSize="18"
+                                   FontFamily="Yu Gothic UI Semilight" />
 
 
-                        <Grid Grid.Row="2 ">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="01*" />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center">
-                                <TextBlock Margin="4"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="22"
-                                           Foreground="#FF464646">
-                                    <TextBlock.Text>
+                    </Grid>
+                    <Border Grid.Row="5"
+                            Height="2"
+                            Background="#BBBBBB"
+                            CornerRadius="1" />
+                    <Grid Grid.Row="6">
 
-                                        <MultiBinding StringFormat="{}焊接速度： {0}m/分钟">
-                                            <Binding Path="WM.Robot_Speed" />
-                                        </MultiBinding>
-
-                                    </TextBlock.Text>
-                                </TextBlock>
-                                <TextBlock Margin="4"
-                                           HorizontalAlignment="Left"
-                                           FontSize=" 22"
-                                           Foreground="#FF464646">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="焊接功率： {0}">
-                                            <Binding Path="WM.Welding_Power" />
-                                        </MultiBinding>
-
-                                    </TextBlock.Text>
-                                </TextBlock>
-
-                                <TextBlock Margin="4"
-                                           HorizontalAlignment="Left"
-                                           FontSize=" 22"
-                                           Foreground="#FF464646">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="当前状态： {0}模式">
-                                            <Binding Path="WM.Robot_status" />
-                                        </MultiBinding>
-
-                                    </TextBlock.Text>
-                                </TextBlock>
-
-                            </StackPanel>
-
-                        </Grid>
-
-                    </GroupBox>
-
+                        <TextBlock Text="下边宽度"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   FontSize="16"
+                                   FontFamily="YouYuan" />
+                        <TextBlock Text="23.800mm"
+                                   Margin="2"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center"
+                                   FontSize="18"
+                                   FontFamily="Yu Gothic UI Semilight" />
+                    </Grid>
 
 
                 </Grid>
@@ -269,12 +340,11 @@
 
 
 
+
             </Grid>
 
 
-
-        </Border>
-
+        </Grid>
 
 
 

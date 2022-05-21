@@ -29,42 +29,32 @@
                 <ControlTemplate TargetType="{x:Type RadioButton}">
 
                     <Grid x:Name="RB_template">
-                        <!--    -->
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
                         <Grid.Background>
                             <SolidColorBrush x:Name="标题_选项_主背景" Color="Transparent" />
                         </Grid.Background>
 
-                        <Border x:Name="bd1"
+                        <Border x:Name="bd1" Grid.Row="1"
                                 Width="{Binding ElementName=Conten, Path=Width}"
-                                Height="7"
-                                Margin="0,0,0,-5"
+                                Height="5"
+                                Margin="-20,0,-20,0"
                                 VerticalAlignment="Bottom"
-                                CornerRadius="0,0,0,0"
+                                CornerRadius="2"
                                 Background="#07689F"
                                 Opacity="0" />
 
                         <!--  背景渐变色  -->
-                        <Grid x:Name="标题_选项_背景"
-                              Opacity="0"
-                              ClipToBounds="False">
-                            <Rectangle Stroke="Gray"
-                                       StrokeThickness=" 0.5"
-                                       RadiusX="7"
-                                       RadiusY="7">
-                                <Rectangle.Effect>
-                                    <BlurEffect Radius="2" />
-                                </Rectangle.Effect>
-                            </Rectangle>
 
-
-                        </Grid>
 
 
 
                         <!--<ContentPresenter x:Name="contentPresenter"  Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>-->
                         <ContentPresenter x:Name="Conten"
                                           Margin="{TemplateBinding Padding}"
-                                          HorizontalAlignment="Stretch"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                           RecognizesAccessKey="True"
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
@@ -93,21 +83,11 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.3" />
                         </Trigger>
-
                         <!--  标题选择效果  -->
                         <Trigger Property="IsChecked" Value="True">
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation SpeedRatio="3"
-                                                         Storyboard.TargetName="标题_选项_背景"
-                                                         Storyboard.TargetProperty="Opacity"
-                                                         To="0"
-                                                         Duration="0:0:0:1">
-                                            <DoubleAnimation.EasingFunction>
-                                                <QuinticEase EasingMode="EaseIn" />
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
                                         <DoubleAnimation SpeedRatio="5"
                                                          Storyboard.TargetName="bd1"
                                                          Storyboard.TargetProperty="Opacity"
@@ -123,12 +103,7 @@
                             <Trigger.ExitActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation SpeedRatio="8"
-                                                         Storyboard.TargetName="标题_选项_背景"
-                                                         Storyboard.TargetProperty="Opacity"
-                                                         To="0"
-                                                         Duration="0:0:0:1" />
-                                        <DoubleAnimation SpeedRatio="8"
+                                        <DoubleAnimation SpeedRatio="2"
                                                          Storyboard.TargetName="bd1"
                                                          Storyboard.TargetProperty="Opacity"
                                                          To="0"
@@ -136,6 +111,7 @@
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.ExitActions>
+
                         </Trigger>
 
 

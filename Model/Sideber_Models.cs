@@ -101,7 +101,15 @@ namespace HanGao.Model
                 char[] st = value.ToCharArray();
                 for (int i = 0; i < st.Length; i++)
                 {
-                    _Sidebar_Subtitle += st[i] + HttpUtility.HtmlDecode("&#10;");
+                    if (i== st.Length-1)
+                    {
+                        _Sidebar_Subtitle += st[i];
+                    }
+                    else
+                    {
+                            
+                    _Sidebar_Subtitle += st[i] + HttpUtility.HtmlDecode("&#x000A;");
+                    }
 
                 }
             }

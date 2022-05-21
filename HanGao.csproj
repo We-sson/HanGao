@@ -118,9 +118,6 @@
     <Reference Include="System.Data">
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Drawing">
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.IO.Compression.FileSystem">
       <Private>True</Private>
     </Reference>
@@ -154,9 +151,6 @@
     </Reference>
     <Reference Include="PresentationFramework">
       <Private>False</Private>
-    </Reference>
-    <Reference Include="WPFArcUILibrary">
-      <HintPath>..\..\..\Desktop\ArcUILibrary-master\WPFArcUILibrary\obj\Release\WPFArcUILibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -563,6 +557,9 @@
     <PackageReference Include="CommonServiceLocator">
       <Version>2.0.6</Version>
     </PackageReference>
+    <PackageReference Include="Expression.Blend.Sdk.WPF">
+      <Version>1.0.1</Version>
+    </PackageReference>
     <PackageReference Include="LiveCharts.Wpf">
       <Version>0.9.7</Version>
     </PackageReference>
@@ -583,6 +580,12 @@
     </PackageReference>
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" PrivateAssets="All">
     </PackageReference>
+    <PackageReference Include="System.Drawing.Common">
+      <Version>6.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Drawing.Primitives">
+      <Version>4.3.0</Version>
+    </PackageReference>
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe">
       <Version>6.0.0</Version>
     </PackageReference>
@@ -591,6 +594,9 @@
     </PackageReference>
     <PackageReference Include="System.Windows.Interactivity.WPF">
       <Version>2.0.20525</Version>
+    </PackageReference>
+    <PackageReference Include="Unnoficial.Microsoft.Expression.Drawing">
+      <Version>1.0.0</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

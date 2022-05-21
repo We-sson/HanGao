@@ -8,8 +8,8 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:cmd="http://www.galasoft.ch/mvvmlight"
              xmlns:UC_Working="clr-namespace:HanGao.View.User_Control"
-             d:DesignHeight="992"
-             d:DesignWidth="1920"
+             d:DesignHeight="812"
+             d:DesignWidth="1440"
              DataContext="{Binding Source={StaticResource Locator}, Path=Home_ViewModel}"
              mc:Ignorable="d">
 
@@ -38,7 +38,7 @@
 
             <Grid.ColumnDefinitions>
 
-                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="auto" />
                 <ColumnDefinition />
                 <ColumnDefinition Width="400" />
 
@@ -195,27 +195,31 @@
 
 
             <!--  左侧功能弹出栏  -->
-            <Grid Grid.Column="0" Margin="0,15,0,15">
-                <StackPanel>
+            <Grid Grid.Column="0" Margin="0,20,0,20">
+                <StackPanel Width="45">
 
                     <Button Style="{StaticResource Sidebar_Button}"
                             Uid="1"
+                            Padding="0,10,0,10"
                             VerticalAlignment="Top"
                             FontSize="22"
                             Background="#F9F9F9"
                             Foreground="Black">
                         <Button.Content>
-                            <StackPanel HorizontalAlignment="Center">
-                                <TextBlock Text="&#xe615;"
-                                           Margin="8"
+                            <StackPanel>
+
+                                <TextBlock Grid.Row="0"
+                                           Text="&#xe615;"
+                                           Margin="0"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
-                                           FontSize="26"
                                            Foreground="#0C4271"
                                            FontFamily="/Resources/#iconfont" />
-                                <TextBlock x:Name="S_B_1"
+                                <TextBlock x:Name="S_B_1" Grid.Row="1"
                                            Text="{Binding Sideber_List[0].Sidebar_Subtitle}"
-                                           HorizontalAlignment="Center" />
+                                           Margin="0,10,0,0"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center" />
                             </StackPanel>
                         </Button.Content>
                         <i:Interaction.Triggers>
@@ -231,21 +235,23 @@
 
                     <Button Style="{StaticResource Sidebar_Button}"
                             Uid="2"
-                            VerticalAlignment="Top"
+                            Padding="0,10,0,10"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
                             FontSize="22"
                             Background="#F9F9F9"
                             Foreground="Black">
                         <Button.Content>
                             <StackPanel HorizontalAlignment="Center">
                                 <TextBlock Text="&#xe618;"
-                                           Margin="8"
+                                           Margin="0"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Foreground="#0C4271"
-                                           FontSize="26"
                                            FontFamily="/Resources/#iconfont" />
                                 <TextBlock x:Name="S_B_2"
                                            Text="{Binding Sideber_List[1].Sidebar_Subtitle}"
+                                           Margin="0,10,0,0"
                                            HorizontalAlignment="Center" />
                             </StackPanel>
                         </Button.Content>
@@ -260,6 +266,7 @@
 
                     <Button Style="{StaticResource Sidebar_Button}"
                             Uid="3"
+                            Padding="0,10,0,10"
                             VerticalAlignment="Top"
                             FontSize="22"
                             Background="#F9F9F9"
@@ -267,14 +274,13 @@
                         <Button.Content>
                             <StackPanel HorizontalAlignment="Center">
                                 <TextBlock Text="&#xe619;"
-                                           Margin="8"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Foreground="#0C4271"
-                                           FontSize="26"
                                            FontFamily="/Resources/#iconfont" />
                                 <TextBlock x:Name="S_B_3"
                                            Text="{Binding Sideber_List[2].Sidebar_Subtitle}"
+                                           Margin="0,10,0,0"
                                            HorizontalAlignment="Center" />
                             </StackPanel>
                         </Button.Content>

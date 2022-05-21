@@ -54,7 +54,7 @@ namespace HanGao.ViewModel
         public static void User_Log_Add(string Log)
         {
 
-
+            
 
             lock (User_UI_Log)
             {

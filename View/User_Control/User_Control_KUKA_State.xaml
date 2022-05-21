@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HanGao.View.User_Control"
-             d:DesignHeight="436"
-             d:DesignWidth="675"
+             d:DesignHeight="376"
+             d:DesignWidth="491"
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_KUKA_State_VM}"
              mc:Ignorable="d">
     <!--  加工路径区域  -->
@@ -13,6 +13,8 @@
 
     <Grid x:Name="GD1" Grid.Row="0" Grid.Column="1"
           Margin="0"
+          HorizontalAlignment="Stretch"
+          VerticalAlignment="Center"
           Effect="{Binding Source={StaticResource 全局背景阴影}}">
 
 
@@ -23,134 +25,204 @@
                 BorderBrush="Transparent">
 
 
-            <UniformGrid Margin="30"
-                         VerticalAlignment="Top"
-                         Columns="4">
-                <Border x:Name="S"
-                        Width="100"
-                        Height=" 100"
-                        CornerRadius="10">
-                    <Border.Style>
-                        <Style TargetType="Border">
-                            <Setter Property="Background" Value="Gray" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding KUKA_State.KUKA_Submit_State}" Value="P_ACTIVE">
-                                    <Setter Property="Background" Value="Green" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding KUKA_State.KUKA_Submit_State}" Value="P_STOP">
-                                    <Setter Property="Background" Value="Red" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Border.Style>
+            <Grid Margin="20" VerticalAlignment="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="S"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               FontSize="28" />
+                <StackPanel Grid.Column="0">
 
-                </Border>
-                <Border x:Name="I"
-                        Width="100"
-                        Height=" 100"
-                        CornerRadius="10">
-
-                    <Border.Style>
-                        <Style TargetType="Border">
-                            <Setter Property="Background" Value="Gray" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding KUKA_State.KUKA_Drive_State}" Value="TRUE">
-                                    <Setter Property="Background" Value="Green" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Border.Style>
-
-                    <TextBlock Name="I_Text"
-                               Text="I"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               FontSize="28" />
-                </Border>
-                <Border x:Name="R"
-                        Width="100"
-                        Height=" 100"
-                        CornerRadius="10">
-
-                    <Border.Style>
-                        <Style TargetType="Border">
-                            <Setter Property="Background" Value="Gray" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding KUKA_State.KUKA_Program_State}" Value="P_RESET">
-                                    <Setter Property="Background" Value="Yellow" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding KUKA_State.KUKA_Program_State}" Value="P_ACTIVE">
-                                    <Setter Property="Background" Value="Green" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding KUKA_State.KUKA_Program_State}" Value="P_STOP">
-                                    <Setter Property="Background" Value="Red" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding KUKA_State.KUKA_Program_State}" Value="P_END ">
-                                    <Setter Property="Background" Value="Black" />
-                                </DataTrigger>
-                            </Style.Triggers>
-
-
-                        </Style>
-                    </Border.Style>
-
-                    <TextBlock Text="R"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               FontSize="28">
-
-                        <TextBlock.Style>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="Foreground" Value="Black" />
+                    <Border x:Name="S"
+                            Width="90"
+                            Height=" 90"
+                            Margin="5"
+                            BorderThickness="4"
+                            CornerRadius="0"
+                            BorderBrush="Black">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Background" Value="#FFCACACA" />
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding KUKA_State.KUKA_Program_State}" Value="P_END ">
-                                        <Setter Property="Foreground" Value="White" />
+                                    <DataTrigger Binding="{Binding KUKA_State.KUKA_Submit_State}" Value="P_ACTIVE">
+                                        <Setter Property="Background" Value="Green" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding KUKA_State.KUKA_Submit_State}" Value="P_STOP">
+                                        <Setter Property="Background" Value="Red" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-                </Border>
-                <Border x:Name="T"
-                        Width="100"
-                        Height=" 100"
-                        CornerRadius="10">
+                        </Border.Style>
 
-                    <Border.Style>
-                        <Style TargetType="Border">
-                            <Setter Property="Background" Value="Gray" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding KUKA_State.KUKA_Mode_State}" Value="AUT">
-                                    <Setter Property="Background" Value="Green" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Border.Style>
+                        <TextBlock Text="S"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="28" />
 
-                    <TextBlock HorizontalAlignment="Center"
+                    </Border>
+                    <TextBlock Text="程序解释器"
+                               Margin="0,10,0,0"
+                               HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               FontSize="28">
-                        <TextBlock.Style>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="Text" Value="T1" />
+                               FontSize="16"
+                               FontFamily="YouYuan" />
+
+                </StackPanel>
+
+
+                <StackPanel Grid.Column="1">
+
+                    <Border x:Name="I"
+                            Width="90"
+                            Height=" 90"
+                            Margin="5"
+                            BorderBrush="Black"
+                            BorderThickness="4"
+                            CornerRadius="0">
+
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Background" Value="#FFCACACA" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding KUKA_State.KUKA_Drive_State}" Value="TRUE">
+                                        <Setter Property="Background" Value="Green" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+
+                        <TextBlock Name="I_Text"
+                                   Text="I"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="28" />
+                    </Border>
+
+
+
+                    <TextBlock Text="电机通电"
+                               Margin="0,10,0,0"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontSize="16"
+                               FontFamily="YouYuan" />
+
+
+
+                </StackPanel>
+
+
+                <StackPanel Grid.Column="2">
+
+                    <Border x:Name="R"
+                            Width="90"
+                            Height=" 90"
+                            Margin="5"
+                            BorderBrush="Black"
+                            BorderThickness="4"
+                            CornerRadius="0">
+
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Background" Value="#FFCACACA" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding KUKA_State.KUKA_Program_State}" Value="P_RESET">
+                                        <Setter Property="Background" Value="Yellow" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding KUKA_State.KUKA_Program_State}" Value="P_ACTIVE">
+                                        <Setter Property="Background" Value="Green" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding KUKA_State.KUKA_Program_State}" Value="P_STOP">
+                                        <Setter Property="Background" Value="Red" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding KUKA_State.KUKA_Program_State}" Value="P_END ">
+                                        <Setter Property="Background" Value="Black" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+
+
+                            </Style>
+                        </Border.Style>
+
+                        <TextBlock Text="R"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="28">
+
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="Black" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding KUKA_State.KUKA_Program_State}" Value="P_END ">
+                                            <Setter Property="Foreground" Value="White" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Border>
+
+                    <TextBlock Text="程序选择"
+                               Margin="0,10,0,0"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontSize="16"
+                               FontFamily="YouYuan" />
+
+                </StackPanel>
+
+
+                <StackPanel Grid.Column="3">
+
+                    <Border x:Name="T"
+                            Width="90"
+                            Height=" 90"
+                            Margin="5"
+                            BorderBrush="Black"
+                            BorderThickness="4"
+                            CornerRadius="0">
+
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Background" Value="#FFCACACA" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding KUKA_State.KUKA_Mode_State}" Value="AUT">
-                                        <Setter Property="Text" Value="AUT" />
-
+                                        <Setter Property="Background" Value="Green" />
                                     </DataTrigger>
-
                                 </Style.Triggers>
                             </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-                </Border>
+                        </Border.Style>
 
-            </UniformGrid>
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="28">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Text" Value="T1" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding KUKA_State.KUKA_Mode_State}" Value="AUT">
+                                            <Setter Property="Text" Value="AUT" />
+
+                                        </DataTrigger>
+
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Border>
+
+                    <TextBlock Text="设备模式"
+                               Margin="0,10,0,0"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontSize="16"
+                               FontFamily="YouYuan" />
+
+                </StackPanel>
+
+            </Grid>
 
 
         </Border>

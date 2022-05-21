@@ -5,11 +5,10 @@
         <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}" />
         <Setter Property="Foreground" Value="{StaticResource {x:Static SystemColors.ControlTextBrushKey}}" />-->
         <Setter Property="BorderThickness" Value="2" />
-        <Setter Property="Width" Value="35" />
-        <Setter Property="Height" Value="35" />
+        <Setter Property="Width" Value="85" />
+        <Setter Property="Height" Value="40" />
 
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
+
         <Setter Property="Padding" Value="0" />
         <Setter Property="Template">
             <Setter.Value>
@@ -21,11 +20,13 @@
                     <Grid Style="{StaticResource Gd_Effect}">
 
                         <Border x:Name="border"
+                                HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Background="{TemplateBinding Background}"
                                 SnapsToDevicePixels="true"
-                                CornerRadius="35">
+                                CornerRadius="3">
                             <ContentPresenter x:Name="contentPresenter"
                                               Margin="{TemplateBinding Padding}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"

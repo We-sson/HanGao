@@ -88,6 +88,7 @@ namespace HanGao.ViewModel
                     Welding_CDIS = int.Parse(Sm.CDIS.Text),
                     Welding_Power = int.Parse(Sm.Power.Text),
                     Welding_Speed = double.Parse(Sm.Speed.Text),
+                    Welding_ACC= int.Parse(Sm.ACC.Text),
                     Welding_Offset = new Welding_Pos_Date() { X = double.Parse(Sm.X.Text), Y = double.Parse(Sm.Y.Text), Z = double.Parse(Sm.Z.Text), A = double.Parse(Sm.A.Text), B = double.Parse(Sm.B.Text), C = double.Parse(Sm.C.Text) }
                 };
 

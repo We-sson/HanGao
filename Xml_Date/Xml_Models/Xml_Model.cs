@@ -134,6 +134,7 @@ namespace HanGao.Xml_Date.Xml_Models
         [XmlAttribute]
         public Craft_Type_Enum Craft_Type { get; set; } = Craft_Type_Enum.Null;
 
+        [StringValue("Welding_Name[]")]
         [XmlAttribute]
         public string Welding_Name { get; set; } = "...";
         [XmlAttribute]
@@ -148,6 +149,10 @@ namespace HanGao.Xml_Date.Xml_Models
         [XmlAttribute]
         [ReadWriteAttribute(ReadWrite_Enum.Write)]
         public int Welding_CDIS { get; set; } = 10;
+        [XmlAttribute]
+        [ReadWriteAttribute(ReadWrite_Enum.Write)]
+        public int Welding_ACC { get; set; } = 100;
+
 
         [XmlElement(ElementName = "Welding_Offset")]
         [ReadWriteAttribute(ReadWrite_Enum.Write)]

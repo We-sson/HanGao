@@ -15,7 +15,7 @@
 
 
         <Grid.RowDefinitions>
-            <RowDefinition Height=" 80" />
+            <RowDefinition Height=" 60" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
@@ -27,7 +27,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
-
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
 
@@ -59,7 +59,7 @@
         <TextBlock Grid.Row="0" Grid.Column="2"
                    Text="补偿值"
                    HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
+                   VerticalAlignment="Stretch"
                    FontSize="26" />
 
 
@@ -403,16 +403,21 @@
                    VerticalAlignment="Center"
                    FontSize="24" />
         <TextBlock Grid.Row="9" Grid.Column="0"
-                   Text="{Binding UI_Craft_Date.Welding_Speed, Mode=TwoWay, StringFormat={}    直线速度 :  {0} m/s}"
+                   Text="{Binding UI_Craft_Date.Welding_ACC, Mode=TwoWay, StringFormat={}    加速度 : {0} %}"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
                    FontSize="24" />
         <TextBlock Grid.Row="10" Grid.Column="0"
-                   Text="{Binding UI_Craft_Date.Welding_Angle, Mode=TwoWay, StringFormat={}    焊接角度 :  {0}°}"
+                   Text="{Binding UI_Craft_Date.Welding_Speed, Mode=TwoWay, StringFormat={}    直线速度 :  {0} m/s}"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
                    FontSize="24" />
         <TextBlock Grid.Row="11" Grid.Column="0"
+                   Text="{Binding UI_Craft_Date.Welding_Angle, Mode=TwoWay, StringFormat={}    焊接角度 :  {0}°}"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   FontSize="24" />
+        <TextBlock Grid.Row="12" Grid.Column="0"
                    Text="{Binding UI_Craft_Date.Welding_Power, Mode=TwoWay, StringFormat={}    焊接功率 :  {0}%}"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
@@ -429,7 +434,13 @@
 
 
 
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Speed" Grid.Row="9" Grid.Column="2"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="ACC" Grid.Row="9" Grid.Column="2"
+                 Text="{Binding UI_Craft_Date.Welding_ACC, TargetNullValue=100 , Mode=OneWay, StringFormat={}{0}}"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Stretch"
+                 MaxLines="7" />
+
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Speed" Grid.Row="10" Grid.Column="2"
                  Text="{Binding UI_Craft_Date.Welding_Speed, Mode=OneWay, StringFormat={}{0:N3}}"
                  HorizontalAlignment="Center"
                  VerticalAlignment="Stretch"
@@ -437,7 +448,7 @@
 
 
 
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Angle" Grid.Row="10" Grid.Column="2"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Angle" Grid.Row="11" Grid.Column="2"
                  Text="{Binding UI_Craft_Date.Welding_Angle, Mode=OneWay, StringFormat={}{0:N3}}"
                  HorizontalAlignment="Center"
                  VerticalAlignment="Stretch"
@@ -446,7 +457,7 @@
 
 
 
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Power" Grid.Row="11" Grid.Column="2"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Power" Grid.Row="12" Grid.Column="2"
                  Text="{Binding UI_Craft_Date.Welding_Power, Mode=OneWay, StringFormat={}{0}}"
                  HorizontalAlignment="Center"
                  VerticalAlignment="Stretch"

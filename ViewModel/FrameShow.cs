@@ -194,6 +194,16 @@ namespace HanGao.ViewModel
 
                 //窗口最大化
                 Sm.WindowState = WindowState.Maximized;
+                Sm.WindowStyle = System.Windows.WindowStyle.None;
+                Sm.WindowState = System.Windows.WindowState.Maximized;
+                Sm.Topmost = true;
+                Sm.Left = 0;
+                Sm.Top = 0;
+                Sm.Width = System.Windows.SystemParameters.PrimaryScreenWidth;
+                Sm.Height = System.Windows.SystemParameters.PrimaryScreenHeight;
+                Sm.Hide(); //先调用其隐藏方法 然后再显示出来,这样就会全屏,且任务栏不会出现.如果不加这句 可能会出现假全屏即任务栏还在下面.
+                Sm.Show();
+
             });
         }
 
