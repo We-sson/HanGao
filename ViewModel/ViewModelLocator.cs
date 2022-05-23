@@ -74,8 +74,7 @@ namespace HanGao.ViewModelLocator
 
                     .AddScoped<MainWindow>()
                     .AddScoped<FrameShow>()
-                    .AddScoped<User_Control_Working_VM_1>()
-                    .AddScoped<User_Control_Working_VM_2>()
+                    .AddScoped<User_Control_Working_VM>()
                     .AddScoped<List_Show>()
                     .AddScoped<User_Message_ViewModel>()
                     .AddScoped<User_Control_Log_ViewModel>()
@@ -111,8 +110,8 @@ namespace HanGao.ViewModelLocator
         public User_Control_Log_ViewModel User_Log => Ioc.Default.GetService<User_Control_Log_ViewModel>();
         public FrameShow FrameShow => Ioc.Default.GetService<FrameShow>();
         public List_Show List_Show => Ioc.Default.GetService<List_Show>();
-        public User_Control_Working_VM_1 User_Control_Working_VM_1 => Ioc.Default.GetService<User_Control_Working_VM_1>();
-        public User_Control_Working_VM_2 User_Control_Working_VM_2 => Ioc.Default.GetService<User_Control_Working_VM_2>();
+        public User_Control_Working_VM User_Control_Working_VM => Ioc.Default.GetService<User_Control_Working_VM>();
+       
         public User_Message_ViewModel User_Message_ViewModel => Ioc.Default.GetService<User_Message_ViewModel>();
         public User_Control_Show User_Control_Show => Ioc.Default.GetService<User_Control_Show>();
         public Home_ViewModel Home_ViewModel => Ioc.Default.GetService<Home_ViewModel>();

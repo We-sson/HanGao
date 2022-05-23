@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HanGao.View.User_Control.Program_Editing.Direction_UI"
             
-             Padding="10"
+             
              d:DesignHeight="466"
              d:DesignWidth="760"
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_Surround_Direction_VM}"
@@ -14,19 +14,19 @@
 
 
 
-    <Grid>
+    <Grid Margin=" 5">
 
         <TextBlock Name="Sink_ico"
                    Text="&#xe61b;"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Opacity=" 0.4"
-                   FontSize="350"
+                   FontSize="250"
                    Foreground="#FF4B6587"
                    FontFamily="/Resources/#iconfont" />
 
-        <Border Margin="120,100,118,65"
-                CornerRadius="20"
+        <Border Margin="120,100,118,65" Visibility="Collapsed"
+                CornerRadius="10"
                 Effect="{StaticResource 全局背景阴影}"
                 BorderThickness="10"
                 BorderBrush="#FF5E57" />
@@ -55,7 +55,7 @@
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="0" Grid.Column="1"
                          Content="L  0"
                          IsChecked="{Binding L0_Checked}"
-                         Width="100"
+                         Width="65"
                          HorizontalAlignment="Stretch"
                          VerticalAlignment="Top"
                          HorizontalContentAlignment="Center"
@@ -66,14 +66,14 @@
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="0" Grid.Column="0"
                          Content="C  45"
                          IsChecked="{Binding C45_Checked}"
-                         Width="100"
+                         Width="65"
                          HorizontalAlignment="Left"
                          VerticalAlignment="Center"
                          HorizontalContentAlignment="Center"
                          VerticalContentAlignment="Center"
                          GroupName="Sink_Direction"
                          Background="#FF4B6587"
-                         FontSize="22" />
+                         FontSize="16" />
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="1" Grid.Column="0"
                          Content="L  90"
                          IsChecked="{Binding L90_Checked}"

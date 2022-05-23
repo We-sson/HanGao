@@ -7,7 +7,7 @@ using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Soceket_KUKA.Models;
 using System.Threading;
-
+using System.Windows;
 
 namespace HanGao.Model
 {
@@ -19,7 +19,9 @@ namespace HanGao.Model
          
         }
 
-        
+
+        public Visibility UI_Show { set; get; } =Visibility.Visible;    
+
 
         /// <summary>
         /// 工作区设置编号

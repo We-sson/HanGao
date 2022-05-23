@@ -17,27 +17,26 @@
 
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.2*" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="0.01*" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <Border Grid.RowSpan="3"
-                BorderThickness="5"
+                Margin="5"
                 BorderBrush="Transparent"
-                Background="#E3E3E3"
+                Background="#EEEEEE"
                 CornerRadius="10" />
 
         <TextBlock Text="设 备 状 态"
-                   Margin="8"
+                   Margin="10"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Bottom"
-                   FontSize="40" />
+                   FontSize="26" />
 
         <Border Grid.Row="1"
-                Margin="35,0,35,0"
-                Opacity="0.5"
+                Margin="25,0,25,0"
                 Background="#A0A0A0"
-                CornerRadius="5" />
+                CornerRadius="1" />
 
         <ScrollViewer x:Name="SV1" Grid.Row="2"
                       Margin="20,10,20,10"

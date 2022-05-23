@@ -170,6 +170,7 @@
     <Compile Include="Model\Socket_Setup_Models.cs" />
     <Compile Include="Model\UC_Point_Info_Models.cs" />
     <Compile Include="Model\UC_Surround_Point_Models.cs" />
+    <Compile Include="Model\UC_Working_Models.cs" />
     <Compile Include="Model\User_Features.cs" />
     <Compile Include="Model\User_Log_Models.cs" />
     <Compile Include="Model\User_Message_Models.cs" />
@@ -202,7 +203,7 @@
     <Compile Include="ViewModel\User_Control_Log_ViewModel.cs" />
     <Compile Include="ViewModel\User_Control_Working_Path_VM.cs" />
     <Compile Include="ViewModel\User_Control_Working_VM_2.cs" />
-    <Compile Include="ViewModel\User_Control_Working_VM_1.cs" />
+    <Compile Include="ViewModel\User_Control_Working_VM.cs" />
     <Compile Include="ViewModel\User_Message_Control_Show.cs" />
     <Compile Include="ViewModel\User_Message_ViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />

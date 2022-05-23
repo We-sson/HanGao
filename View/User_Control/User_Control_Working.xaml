@@ -9,10 +9,10 @@
              xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
              d:DesignHeight="403"
              d:DesignWidth="491"
-             DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_VM_1}"
+             DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_VM.UC_Working_VM_1}"
              mc:Ignorable="d">
     <Grid x:Name="GD1" Grid.Row="0" Grid.Column="0"
-          Margin="0"
+          Margin="5"
           ShowGridLines="False"
           Effect="{Binding Source={StaticResource 全局背景阴影}}">
         <Grid.RowDefinitions>
@@ -24,13 +24,13 @@
                 Grid.RowSpan="2"
                 CornerRadius="10"
                 BorderBrush="Transparent"
-                Background="{Binding WM.Work_back, Mode=TwoWay}" />
+                Background="{Binding Work_back, Mode=TwoWay}" />
 
         <StackPanel Grid.Column="0"
                     HorizontalAlignment="Center"
                     Orientation="Horizontal">
             <TextBlock x:Name="TB2"
-                       Text="{Binding WM.Number_Work}"
+                       Text="{Binding Number_Work}"
                        Margin="0,0,0,0"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
@@ -38,7 +38,7 @@
                        FontSize="30" />
             <TextBlock x:Name="TB1" Grid.Column="1"
                        Grid.ColumnSpan="2"
-                       Text="{Binding WM.Work_Type}"
+                       Text="{Binding Work_Type}"
                        Margin="0,10,0,0"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
@@ -49,12 +49,13 @@
 
 
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1"  Visibility="{Binding UI_Show}">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height=" *" />
             </Grid.RowDefinitions>
+
 
 
             <Border Grid.RowSpan="2"
@@ -65,62 +66,131 @@
 
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto" />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="0.6*" />
+                    <ColumnDefinition Width=" 0.8*" />
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Column="0"
                            Text="&#xe61b;"
-                           Margin="10,0,0,0"
+                           Margin="5,0,0,0"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            Foreground="#EEEEEE"
                            FontFamily="/Resources/#iconfont"
-                           FontSize="120" />
+                           FontSize="130" />
 
-                <Grid Grid.Column="1" Margin="10,10,10,0">
+                <Grid Grid.Column="1" Margin="10,10,10,10">
                     <Border Background="#EEEEEE"
                             BorderBrush="Black"
-                            BorderThickness="3">
+                            BorderThickness="4">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
 
 
 
-                        <ProgressBar Width=" 80"
-                                     Height=" 80"
-                                     HorizontalAlignment="Center"
-                                     VerticalAlignment="Center"
-                                     Foreground="#15b15d"
-                                     Value="50">
-                            <ProgressBar.Style>
-                                <Style TargetType="ProgressBar">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="ProgressBar">
-                                                <Grid>
-                                                    <ed:Arc ArcThickness="8"
-                                                            StartAngle="-120"
-                                                            Stretch="None"
-                                                            EndAngle="{TemplateBinding Value}"
-                                                            Fill="Green" />
-                                                </Grid>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ProgressBar.Style>
-                        </ProgressBar>
+                            <Grid Grid.Column="0"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height=" *" />
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Stretch">
+
+                                    <ProgressBar Style="{StaticResource Arc_ProgressBar_Style}"
+                                                 Width="70"
+                                                 Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}"
+                                                 HorizontalAlignment="Stretch"
+                                                 VerticalAlignment="Stretch"
+                                                 Foreground="#15b15d"
+                                                 Value="50" />
+
+                                    <TextBlock Text=" 50 %"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontSize="14" />
+                                </Grid>
+                                <TextBlock Grid.Row="1"
+                                           Text="焊接功率"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Top"
+                                           FontSize="14" />
+                            </Grid>
 
 
+                            <Grid Grid.Column="1"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center">
 
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height=" *" />
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Stretch">
+
+                                    <ProgressBar Style="{StaticResource Arc_ProgressBar_Style}"
+                                                 Width="70"
+                                                 Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}"
+                                                 HorizontalAlignment="Stretch"
+                                                 VerticalAlignment="Stretch"
+                                                 Foreground="#15b15d"
+                                                 Value="50" />
+
+                                    <TextBlock Text="0.04m/s"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontSize="12" />
+                                </Grid>
+                                <TextBlock Grid.Row="1"
+                                           Text="焊接速度"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Top"
+                                           FontSize="14" />
+                            </Grid>
+
+
+                            <Grid Grid.Column="2"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height=" *" />
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Stretch">
+
+                                    <ProgressBar Style="{StaticResource Arc_ProgressBar_Style}"
+                                                 Width="70"
+                                                 Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}"
+                                                 HorizontalAlignment="Stretch"
+                                                 VerticalAlignment="Stretch"
+                                                 Foreground="#15b15d"
+                                                 Value="10" />
+
+                                    <TextBlock Text=" 50 S"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontSize="14" />
+                                </Grid>
+                                <TextBlock Grid.Row="1"
+                                           Text="周期时间"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Top"
+                                           FontSize="14" />
+                            </Grid>
+                        </Grid>
                     </Border>
-
-
-
-
-
-
-
-
                 </Grid>
             </Grid>
 
@@ -148,17 +218,21 @@
 
                 <Grid Grid.Column="0"
                       Grid.ColumnSpan="2"
-                      Margin="5">
+                      Margin="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
 
+
+
                     <TextBlock Grid.Column="0"
                                Text="952154"
+                               Margin="0,0,20,0"
                                HorizontalAlignment="Right"
                                VerticalAlignment="Center"
-                               FontSize="20"
+                               FontSize="24"
+                               Foreground="Red"
                                FontFamily="Yu Gothic UI" />
                     <TextBlock Grid.Column="1"
                                Text="水槽尺寸信息"

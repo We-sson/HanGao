@@ -175,27 +175,27 @@ namespace HanGao.ViewModel
 
 
 
-        /// <summary>
-        /// 工作区1：功能初始化，消息通道字典名称
-        /// </summary>
-        public const string UserControl_Function_Reset_1 = UserControl_Function_Reset + User_Control_Working_VM_1.Work_NO;
+        ///// <summary>
+        ///// 工作区1：功能初始化，消息通道字典名称
+        ///// </summary>
+        //public const string UserControl_Function_Reset_1 = UserControl_Function_Reset + User_Control_Working_VM_1.Work_NO;
 
 
-        /// <summary>
-        /// 工作区1：功能设置，消息通道字典名称
-        /// </summary>
-        public const string UserControl_Function_Set_1 = UserControl_Function_Set + User_Control_Working_VM_1.Work_NO;
+        ///// <summary>
+        ///// 工作区1：功能设置，消息通道字典名称
+        ///// </summary>
+        //public const string UserControl_Function_Set_1 = UserControl_Function_Set + User_Control_Working_VM_1.Work_NO;
 
 
-        /// <summary>
-        /// 工作区2：功能初始化，消息通道字典名称
-        /// </summary>
-        public const string UserControl_Function_Reset_2 = UserControl_Function_Reset + User_Control_Working_VM_2. Work_NO;
+        ///// <summary>
+        ///// 工作区2：功能初始化，消息通道字典名称
+        ///// </summary>
+        //public const string UserControl_Function_Reset_2 = UserControl_Function_Reset + User_Control_Working_VM_2. Work_NO;
 
-        /// <summary>
-        /// 工作区2：功能设置，消息通道字典名称
-        /// </summary>
-        public const string UserControl_Function_Set_2 = UserControl_Function_Set + User_Control_Working_VM_2.Work_NO;
+        ///// <summary>
+        ///// 工作区2：功能设置，消息通道字典名称
+        ///// </summary>
+        //public const string UserControl_Function_Set_2 = UserControl_Function_Set + User_Control_Working_VM_2.Work_NO;
 
 
         #endregion
@@ -244,26 +244,26 @@ namespace HanGao.ViewModel
 
 
 
-        /// <summary>
-        /// 功能开关日志输出
-        /// </summary>
-        /// <param name="IsCheck">开关</param>
-        /// <param name="User">工作区号码</param>
-        /// <param name="Fea">功能名称</param>
-        public void User_Features_OnOff_Log(bool? IsCheck, int User, string Fea)
-        {
-            if (IsCheck == true)
-            {
-                User_Log_Add("NO." + User.ToString() + Fea + "功能开启");
-            }
-            else if (IsCheck == false)
-            {
-                User_Log_Add("NO." + User.ToString() + Fea + "功能关闭");
+        ///// <summary>
+        ///// 功能开关日志输出
+        ///// </summary>
+        ///// <param name="IsCheck">开关</param>
+        ///// <param name="User">工作区号码</param>
+        ///// <param name="Fea">功能名称</param>
+        //public void User_Features_OnOff_Log(bool? IsCheck, int User, string Fea)
+        //{
+        //    if (IsCheck == true)
+        //    {
+        //        User_Log_Add("NO." + User.ToString() + Fea + "功能开启");
+        //    }
+        //    else if (IsCheck == false)
+        //    {
+        //        User_Log_Add("NO." + User.ToString() + Fea + "功能关闭");
 
-            }
+        //    }
 
 
-        }
+        //}
 
 
         ///// <summary>

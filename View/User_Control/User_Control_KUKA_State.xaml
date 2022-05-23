@@ -14,13 +14,13 @@
     <Grid x:Name="GD1" Grid.Row="0" Grid.Column="1"
           Margin="0"
           HorizontalAlignment="Stretch"
-          VerticalAlignment="Center"
+          VerticalAlignment="Top"
           Effect="{Binding Source={StaticResource 全局背景阴影}}">
 
 
 
         <Border BorderThickness="5"
-                Background="#E3E3E3"
+                Background="#EEEEEE"
                 CornerRadius="10"
                 BorderBrush="Transparent">
 

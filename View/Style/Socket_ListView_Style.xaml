@@ -74,11 +74,11 @@
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="Orientation" Value="Vertical">
-                            <Setter TargetName="TemplateRoot" Property="LayoutTransform">
+                            <!--<Setter TargetName="TemplateRoot" Property="LayoutTransform">
                                 <Setter.Value>
                                     <RotateTransform Angle="-90" />
                                 </Setter.Value>
-                            </Setter>
+                            </Setter>-->
                         </Trigger>
                         <Trigger Property="IsIndeterminate" Value="true">
                             <!--<Setter TargetName="Indicator" Property="Visibility" Value="Collapsed" />-->
@@ -88,8 +88,8 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
-    
-   
-    
+
+
+
+
 </ResourceDictionary>

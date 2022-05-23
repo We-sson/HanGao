@@ -138,29 +138,29 @@
 
 
             <!--  中间功能显示区  -->
-            <Grid Grid.Column="1" Margin="10">
+            <Grid Grid.Column="1" Margin="0,10,5,10">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width=" *" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height=" *" />
                 </Grid.RowDefinitions>
 
 
                 <!--  工位2区域  -->
-                <!--<UC_Working:User_Control_Working Grid.Row="0" Grid.Column="0"
+                <UC_Working:User_Control_Working Grid.Row="0" Grid.Column="0"
                                                  Uid="2"
-                                                 DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_VM_2}">
-                    <i:Interaction.Triggers>
+                                                 DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_VM.UC_Working_VM_1}">
+                    <!--<i:Interaction.Triggers>
                         <i:EventTrigger EventName="Loaded">
                             <i:InvokeCommandAction Command="{Binding Path=DataContext.User_Loaded_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UC_Working:User_Control_Working}}}"
                                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                    PassEventArgsToCommand="True" />
                         </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </UC_Working:User_Control_Working>-->
+                    </i:Interaction.Triggers>-->
+                </UC_Working:User_Control_Working>
 
 
 
@@ -168,21 +168,21 @@
                 <!--  加工路径区域  -->
 
                 <UC_Working:User_Control_Working_Path Grid.Row="1" Grid.Column="0"
-                                                      Margin="0,20,0,0"
+                                                      Margin="0,10,0,0"
                                                       DataContext="{Binding Source={StaticResource Locator}, Path=UC_KUKA_State_VM}" />
 
 
                 <!--  设备状态显示区域  -->
                 <UC_Working:User_Control_Log Grid.Row="1" Grid.Column="1"
-                                             Margin="0,20,0,0" />
+                                             Margin="0,10,0,0" />
 
 
 
 
-                <!--  工位1区域  -->
+                <!--  工位2区域  -->
                 <UC_Working:User_Control_Working Grid.Row="0" Grid.Column="1"
                                                  Uid="1"
-                                                 DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_VM_1}" />
+                                                 DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_VM.UC_Working_VM_2}" />
                 <!--<i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
                         <i:InvokeCommandAction Command="{Binding Path=DataContext.User_Loaded_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UC_Working:User_Control_Working}}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}" PassEventArgsToCommand="True" />
@@ -195,7 +195,7 @@
 
 
             <!--  左侧功能弹出栏  -->
-            <Grid Grid.Column="0" Margin="0,20,0,20">
+            <Grid Grid.Column="0" Margin="0,10,0,10">
                 <StackPanel Width="45">
 
                     <Button Style="{StaticResource Sidebar_Button}"
@@ -294,7 +294,6 @@
 
                     </Button>
 
-
                 </StackPanel>
             </Grid>
 
@@ -319,7 +318,7 @@
 
 
         <!--  侧边栏弹出  -->
-        <UC_Working:UserControl_Sideber_Show Margin="0,15,15,15"
+        <UC_Working:UserControl_Sideber_Show Margin="0,10,10,10"
                                              Panel.ZIndex="1"
                                              d:IsHidden="True"
                                              DataContext="{Binding Source={StaticResource Locator}, Path=Sideber_Show}" />

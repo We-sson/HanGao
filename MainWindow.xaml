@@ -104,7 +104,8 @@
                              VerticalAlignment="Stretch"
                              HorizontalContentAlignment="Stretch"
                              VerticalContentAlignment="Center"
-                             GroupName="Rt">
+                             GroupName="Rt"
+                             FontSize="14">
 
                     <!--<i:Interaction.Triggers>
                         <i:EventTrigger EventName="Checked">
@@ -116,17 +117,16 @@
 
 
                     <WrapPanel>
-                        <TextBlock Style="{StaticResource 标题_图标_选择动画样式}"
-                                   Text="&#xE609;"
+                        <TextBlock Text="&#xE609;"
                                    HorizontalAlignment="Center"
-                                   FontFamily="./Resources/#iconfont" 
-                
-                                   FontSize="20" />
+                                   VerticalAlignment="Center"
+                                   FontFamily="./Resources/#iconfont"
+                                   FontSize="26" />
                         <TextBlock Text="控制台"
                                    Margin="10,5,10,0"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   FontSize="{StaticResource 标题_字体_正常字号}"
+                                   FontSize="24"
                                    FontFamily="Microsoft JhengHei UI" />
                     </WrapPanel>
 
@@ -137,7 +137,7 @@
 
                 <RadioButton Style="{StaticResource 标题_选项_样式}" Grid.Column="1"
                              IsChecked="{Binding RealData_UI}"
-                             Margin="0,0,0,0"
+                             Margin="15,0,15,0"
                              HorizontalAlignment="Stretch"
                              VerticalAlignment="Stretch"
                              VerticalContentAlignment="Center"
@@ -154,12 +154,12 @@
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    FontFamily="./Resources/#iconfont"
-                                   FontSize="25" />
+                                   FontSize="26" />
                         <TextBlock Text="实时数据"
                                    Margin="10,5,10,0"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   FontSize="{StaticResource 标题_字体_正常字号}"
+                                   FontSize="24"
                                    FontFamily="Microsoft JhengHei UI" />
                     </WrapPanel>
 
@@ -188,12 +188,12 @@
                                    HorizontalAlignment="Stretch"
                                    VerticalAlignment="Center"
                                    FontFamily="./Resources/#iconfont"
-                                   FontSize="25" />
+                                   FontSize="26" />
                         <TextBlock Text="程序编辑"
                                    Margin="10,0,10,0"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   FontSize="{StaticResource 标题_字体_正常字号}"
+                                   FontSize="24"
                                    FontFamily="Microsoft JhengHei UI" />
                     </WrapPanel>
 
@@ -219,12 +219,12 @@
                                    HorizontalAlignment="Stretch"
                                    VerticalAlignment="Stretch"
                                    FontFamily="./Resources/#iconfont"
-                                   FontSize="25" />
+                                   FontSize="26" />
                         <TextBlock Text="振镜界面"
                                    Margin="10,0,10,0"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   FontSize="{StaticResource 标题_字体_正常字号}"
+                                   FontSize="24"
                                    FontFamily="Microsoft JhengHei UI" />
                     </WrapPanel>
                 </RadioButton>
