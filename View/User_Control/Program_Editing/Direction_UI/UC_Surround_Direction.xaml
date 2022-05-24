@@ -4,8 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HanGao.View.User_Control.Program_Editing.Direction_UI"
-            
-             
              d:DesignHeight="466"
              d:DesignWidth="760"
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_Surround_Direction_VM}"
@@ -14,39 +12,35 @@
 
 
 
-    <Grid Margin=" 5">
+    <Grid Margin="5">
 
         <TextBlock Name="Sink_ico"
                    Text="&#xe61b;"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
-                   Opacity=" 0.4"
-                   FontSize="250"
-                   Foreground="#FF4B6587"
+                   Opacity=" 0.8"
+                   FontSize="200"
+                   Foreground="#3E4756"
                    FontFamily="/Resources/#iconfont" />
 
-        <Border Margin="120,100,118,65" Visibility="Collapsed"
-                CornerRadius="10"
-                Effect="{StaticResource 全局背景阴影}"
-                BorderThickness="10"
-                BorderBrush="#FF5E57" />
 
 
-        <Grid Grid.ColumnSpan="2" ShowGridLines="False">
+
+        <Grid Grid.ColumnSpan="2"
+              Margin="5"
+              ShowGridLines="False">
 
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-
+                <ColumnDefinition Width=" 65" />
+                <ColumnDefinition Width=" *" />
+                <ColumnDefinition Width="65" />
             </Grid.ColumnDefinitions>
 
-
             <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
+                <RowDefinition Height=" 65" />
+                <RowDefinition Height=" *" />
+                <RowDefinition Height=" 65" />
             </Grid.RowDefinitions>
 
 
@@ -55,93 +49,114 @@
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="0" Grid.Column="1"
                          Content="L  0"
                          IsChecked="{Binding L0_Checked}"
-                         Width="65"
                          HorizontalAlignment="Stretch"
-                         VerticalAlignment="Top"
+                         VerticalAlignment="Stretch"
                          HorizontalContentAlignment="Center"
-                         VerticalContentAlignment="Stretch"
+                         VerticalContentAlignment="Center"
+                         BorderThickness="0,3,0,3"
+                         BorderBrush="Black"
                          GroupName="Sink_Direction"
                          Background="#FF4B6587"
                          FontSize="20" />
+
+
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="0" Grid.Column="0"
                          Content="C  45"
                          IsChecked="{Binding C45_Checked}"
-                         Width="65"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Center"
+                         HorizontalAlignment="Stretch"
+                         VerticalAlignment="Stretch"
                          HorizontalContentAlignment="Center"
                          VerticalContentAlignment="Center"
+                         BorderThickness="3"
+                         BorderBrush="Black"
                          GroupName="Sink_Direction"
                          Background="#FF4B6587"
-                         FontSize="16" />
+                         FontSize="20"
+                         FontFamily="Yu Gothic UI Semilight" />
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="1" Grid.Column="0"
                          Content="L  90"
                          IsChecked="{Binding L90_Checked}"
-                         Width="100"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Center"
+                         HorizontalAlignment="Stretch"
+                         VerticalAlignment="Stretch"
                          HorizontalContentAlignment="Center"
                          VerticalContentAlignment="Center"
+                         FontFamily="Yu Gothic UI Semilight"
+                         BorderThickness="3,0,3,0"
+                         BorderBrush="Black"
                          GroupName="Sink_Direction"
                          Background="#FF4B6587"
-                         FontSize="22" />
+                         FontSize="20" />
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="2" Grid.Column="0"
                          Content="C  135"
                          IsChecked="{Binding C135_Checked}"
-                         Width="100"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Center"
+                         HorizontalAlignment="Stretch"
+                         VerticalAlignment="Stretch"
+                         HorizontalContentAlignment="Center"
+                         VerticalContentAlignment="Center"
+                         FontFamily="Yu Gothic UI Semilight"
+                         BorderThickness="3,3,3,3"
+                         BorderBrush="Black"
                          GroupName="Sink_Direction"
                          Background="#FF4B6587"
-                         FontSize="22" />
+                         FontSize="20" />
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="2" Grid.Column="1"
                          Content="L  180"
                          IsChecked="{Binding L180_Checked}"
-                         Width="100"
-                         HorizontalAlignment="Center"
-                         VerticalAlignment="Bottom"
+                         HorizontalAlignment="Stretch"
+                         VerticalAlignment="Stretch"
                          HorizontalContentAlignment="Center"
                          VerticalContentAlignment="Center"
+                         FontFamily="Yu Gothic UI Semilight"
+                         BorderThickness="0,3,0,3"
+                         BorderBrush="Black"
                          GroupName="Sink_Direction"
                          Background="#FF4B6587"
-                         FontSize="22" />
+                         FontSize="20" />
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="2" Grid.Column="2"
                          Content="C  225"
                          IsChecked="{Binding C225_Checked}"
-                         Width="100"
-                         HorizontalAlignment="Right"
-                         VerticalAlignment="Center"
+                         HorizontalAlignment="Stretch"
+                         VerticalAlignment="Stretch"
                          HorizontalContentAlignment="Center"
                          VerticalContentAlignment="Center"
+                         FontFamily="Yu Gothic UI Semilight"
+                         BorderThickness="3,3,3,3"
+                         BorderBrush="Black"
                          GroupName="Sink_Direction"
                          Background="#FF4B6587"
-                         FontSize="22" />
+                         FontSize="20" />
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="1" Grid.Column="2"
                          Content="L  270"
                          IsChecked="{Binding L270_Checked}"
-                         Width="100"
-                         HorizontalAlignment="Right"
-                         VerticalAlignment="Center"
+                         HorizontalAlignment="Stretch"
+                         VerticalAlignment="Stretch"
                          HorizontalContentAlignment="Center"
                          VerticalContentAlignment="Center"
+                         FontFamily="Yu Gothic UI Semilight"
+                         BorderThickness="3,0,3,0"
+                         BorderBrush="Black"
                          GroupName="Sink_Direction"
                          Background="#FF4B6587"
-                         FontSize="22" />
+                         FontSize="20" />
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="0" Grid.Column="2"
                          Content="C  315"
                          IsChecked="{Binding C315_Checked}"
-                         Width="100"
-                         HorizontalAlignment="Right"
-                         VerticalAlignment="Center"
+                         HorizontalAlignment="Stretch"
+                         VerticalAlignment="Stretch"
                          HorizontalContentAlignment="Center"
                          VerticalContentAlignment="Center"
+                         FontFamily="Yu Gothic UI Semilight"
+                         BorderBrush="Black"
+                         BorderThickness="3,3,3,3"
                          GroupName="Sink_Direction"
                          Background="#FF4B6587"
-                         FontSize="22" />
+                         FontSize="20" />
 
 
 
         </Grid>
+
+
 
 
         <Border x:Name="B1"
@@ -165,23 +180,13 @@
                     VerticalAlignment="Center"
                     Orientation="Vertical">
 
-            <!--<arcui:ArcLine x:Name="Arc" Visibility="Collapsed"
-                           MinHeight="200"
-                           Effect="{StaticResource 全局背景阴影}"
-                           StartAngle="-180"
-                           EndAngle="180"
-                           Radius="80"
-                           ArcWidth="25"
-                           FillLineRatio="{Binding ElementName=Nb, Path=Opacity}"
-                           AnimationTime="800"
-                           Foreground="SteelBlue"
-                           Background="Transparent" />-->
+
 
 
             <TextBlock x:Name="Tb1"
                        Text="参数正在读取中...."
                        HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
+                       VerticalAlignment="Center" 
                        Effect="{StaticResource 全局背景阴影}"
                        Foreground="#FE5E57"
                        FontSize="32">
@@ -201,6 +206,23 @@
                 </TextBlock.Style>
             </TextBlock>
 
+            <ProgressBar Width=" 300"
+                         Height="30"  
+                         Margin="20"
+                         Effect="{StaticResource 全局背景阴影}"
+                         IsIndeterminate="True"
+                         BorderThickness="0">
+                <ProgressBar.Style>
+                    <Style TargetType="ProgressBar">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Direction_State}" Value="Reading">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ProgressBar.Style>
+            </ProgressBar>
 
         </StackPanel>
 
