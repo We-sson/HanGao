@@ -946,7 +946,7 @@ namespace Soceket_Connect
 
 
             //临时存放变量
-            List<byte> _data = new();
+            List<byte> _data = new List<byte>();
             //变量转换byte
             byte[] _v = Encoding.Default.GetBytes(Var.Val_Name);
 
