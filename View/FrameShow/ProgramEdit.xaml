@@ -8,8 +8,8 @@
              xmlns:Point_UI="clr-namespace:HanGao.View.User_Control.Program_Editing.Point_UI"
              xmlns:Point_info="clr-namespace:HanGao.View.User_Control.Program_Editing.Point_info"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             d:DesignHeight="992"
-             d:DesignWidth="1920"
+             d:DesignHeight="812"
+             d:DesignWidth="1440"
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_ProgramEdit_ViewModel}"
              mc:Ignorable="d">
 

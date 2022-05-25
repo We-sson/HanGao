@@ -5,24 +5,26 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HanGao.View.User_Control.Program_Editing.Point_info"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             d:DesignHeight="992"
-             d:DesignWidth="1129"
+             d:DesignHeight="772"
+             d:DesignWidth="817"
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_Point_Info_VM}"
              mc:Ignorable="d">
-    <Grid Margin="40,20,40,20">
+    <Grid Margin="50"
+          HorizontalAlignment="Stretch"
+          VerticalAlignment="Stretch">
 
 
 
 
         <Grid.RowDefinitions>
-            <RowDefinition Height=" 60" />
+            <RowDefinition Height=" 40" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="80" />
+            <RowDefinition Height="40" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
@@ -32,10 +34,10 @@
 
 
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="50" />
+            <ColumnDefinition Width="180" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="80" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="150" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
@@ -44,23 +46,26 @@
 
         <!--  表头  -->
         <TextBlock Grid.Row="0" Grid.Column="0"
-                   Text="{Binding UI_Craft_Date.Welding_Name, StringFormat={}位置名称: {0}}"
+                   Text="{Binding UI_Craft_Date.Welding_Name, StringFormat={}位置名称: {0}, FallbackValue=位置名称:...}"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
-                   FontSize="26" />
+                   FontFamily="Yu Gothic Medium"
+                   FontSize="22"
+                   FontWeight="Normal" />
 
         <Border Grid.Column="0"
                 Grid.ColumnSpan="5"
-                Height=" 4"
-                Margin="0,0,0,10"
+                Height=" 2"
+                Margin="20,0,20,0"
                 VerticalAlignment="Bottom"
                 Background="Green" />
 
         <TextBlock Grid.Row="0" Grid.Column="2"
                    Text="补偿值"
                    HorizontalAlignment="Center"
-                   VerticalAlignment="Stretch"
-                   FontSize="26" />
+                   VerticalAlignment="Center"
+                   FontFamily="Yu Gothic Medium"
+                   FontSize="22" />
 
 
 
@@ -68,41 +73,41 @@
 
         <!--  第一列  -->
         <TextBlock Grid.Row="1" Grid.Column="0"
-                   Text="{Binding UI_Craft_Date.Welding_Pos.X, Mode=OneWay, StringFormat={}X: {0:N3} mm}"
+                   Text="{Binding UI_Craft_Date.Welding_Pos.X, Mode=OneWay, FallbackValue=X:000.000, StringFormat={}X: {0:N3} mm}"
                    Margin="10"
-                   HorizontalAlignment="Center"
+                   HorizontalAlignment="Stretch"
                    VerticalAlignment="Center"
-                   FontSize="26" />
+                   FontSize="22" />
         <TextBlock Grid.Row="2" Grid.Column="0"
-                   Text="{Binding UI_Craft_Date.Welding_Pos.Y, Mode=OneWay, StringFormat={}Y: {0:N3} mm}"
+                   Text="{Binding UI_Craft_Date.Welding_Pos.Y, Mode=OneWay, FallbackValue=Y:000.000, StringFormat={}Y: {0:N3} mm}"
                    Margin="10"
-                   HorizontalAlignment="Center"
+                   HorizontalAlignment="Stretch"
                    VerticalAlignment="Center"
-                   FontSize="26" />
+                   FontSize="22" />
         <TextBlock Grid.Row="3" Grid.Column="0"
-                   Text="{Binding UI_Craft_Date.Welding_Pos.Z, Mode=OneWay, StringFormat={}Z: {0:N3} mm}"
+                   Text="{Binding UI_Craft_Date.Welding_Pos.Z, Mode=OneWay, FallbackValue=Z:000.000, StringFormat={}Z: {0:N3} mm}"
                    Margin="10"
-                   HorizontalAlignment="Center"
+                   HorizontalAlignment="Stretch"
                    VerticalAlignment="Center"
-                   FontSize="26" />
+                   FontSize="22" />
         <TextBlock Grid.Row="4" Grid.Column="0"
-                   Text="{Binding UI_Craft_Date.Welding_Pos.A, Mode=OneWay, StringFormat={}A: {0:N3} mm}"
+                   Text="{Binding UI_Craft_Date.Welding_Pos.A, Mode=OneWay, FallbackValue=A:000.000, StringFormat={}A: {0:N3} mm}"
                    Margin="10"
-                   HorizontalAlignment="Center"
+                   HorizontalAlignment="Stretch"
                    VerticalAlignment="Center"
-                   FontSize="26" />
+                   FontSize="22" />
         <TextBlock Grid.Row="5" Grid.Column="0"
-                   Text="{Binding UI_Craft_Date.Welding_Pos.B, Mode=OneWay, StringFormat={}B: {0:N3} mm}"
+                   Text="{Binding UI_Craft_Date.Welding_Pos.B, Mode=OneWay, FallbackValue=B:000.000, StringFormat={}B: {0:N3} mm}"
                    Margin="10"
-                   HorizontalAlignment="Center"
+                   HorizontalAlignment="Stretch"
                    VerticalAlignment="Center"
-                   FontSize="26" />
+                   FontSize="22" />
         <TextBlock Grid.Row="6" Grid.Column="0"
-                   Text="{Binding UI_Craft_Date.Welding_Pos.C, Mode=OneWay, StringFormat={}C: {0:N3} mm}"
+                   Text="{Binding UI_Craft_Date.Welding_Pos.C, Mode=OneWay, FallbackValue=C:000.000, StringFormat={}C: {0:N3} mm}"
                    Margin="10"
-                   HorizontalAlignment="Center"
+                   HorizontalAlignment="Stretch"
                    VerticalAlignment="Center"
-                   FontSize="26" />
+                   FontSize="22" />
 
 
 
@@ -157,40 +162,46 @@
 
         <!--  第三列  -->
         <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="X" Grid.Row="1" Grid.Column="2"
-                 Text="{Binding UI_Craft_Date.Welding_Offset.X, Mode=OneWay, StringFormat={}{0:N3}}"
-                 Margin="10"
+                 Text="{Binding UI_Craft_Date.Welding_Offset.X, Mode=OneWay, FallbackValue=0.000, StringFormat={}{0:N3}}"
+                 Margin="5"
                  HorizontalAlignment="Stretch"
                  HorizontalContentAlignment="Center"
+                 Tag="mm"
                  MaxLines="7" />
         <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Y" Grid.Row="2" Grid.Column="2"
-                 Text="{Binding UI_Craft_Date.Welding_Offset.Y, Mode=OneWay, StringFormat={}{0:N3}}"
-                 Margin="10"
+                 Text="{Binding UI_Craft_Date.Welding_Offset.Y, Mode=OneWay, FallbackValue=0.000, StringFormat={}{0:N3}}"
+                 Margin="5"
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Stretch"
+                 Tag="mm"
                  MaxLines="7" />
         <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Z" Grid.Row="3" Grid.Column="2"
-                 Text="{Binding UI_Craft_Date.Welding_Offset.Z, Mode=OneWay, StringFormat={}{0:N3}}"
-                 Margin="10"
+                 Text="{Binding UI_Craft_Date.Welding_Offset.Z, Mode=OneWay, FallbackValue=0.000, StringFormat={}{0:N3}}"
+                 Margin="5"
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Stretch"
+                 Tag="mm"
                  MaxLines="7" />
         <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="A" Grid.Row="4" Grid.Column="2"
-                 Text="{Binding UI_Craft_Date.Welding_Offset.A, Mode=OneWay, StringFormat={}{0:N3}}"
-                 Margin="10"
+                 Text="{Binding UI_Craft_Date.Welding_Offset.A, Mode=OneWay, FallbackValue=0.000, StringFormat={}{0:N3}}"
+                 Margin="5"
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Stretch"
+                 Tag="mm"
                  MaxLines="7" />
         <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="B" Grid.Row="5" Grid.Column="2"
-                 Text="{Binding UI_Craft_Date.Welding_Offset.B, Mode=OneWay, StringFormat={}{0:N3}}"
-                 Margin="10"
+                 Text="{Binding UI_Craft_Date.Welding_Offset.B, Mode=OneWay, FallbackValue=0.000, StringFormat={}{0:N3}}"
+                 Margin="5"
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Stretch"
+                 Tag="mm"
                  MaxLines="7" />
         <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="C" Grid.Row="6" Grid.Column="2"
-                 Text="{Binding UI_Craft_Date.Welding_Offset.C, Mode=OneWay, StringFormat={}{0:N3}}"
-                 Margin="10"
+                 Text="{Binding UI_Craft_Date.Welding_Offset.C, Mode=OneWay, FallbackValue=0.000, StringFormat={}{0:N3}}"
+                 Margin="5"
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Stretch"
+                 Tag="mm"
                  MaxLines="7" />
 
 
@@ -203,10 +214,11 @@
         <!--  第四列  -->
         <StackPanel Grid.Row="1" Grid.Column="3"
                     HorizontalAlignment="Center"
+                    Visibility="Collapsed"
                     Orientation="Horizontal">
             <Button Style="{DynamicResource ButtonStyle3}"
-                    Width="50"
-                    Height="50"
+                    Width="40"
+                    Height="40"
                     Margin="0,0,20,0"
                     Background=" #f0d59c">
                 <Button.Content>
@@ -218,8 +230,8 @@
                 </Button.Content>
             </Button>
             <Button Style="{DynamicResource ButtonStyle3}"
-                    Width="50"
-                    Height="50"
+                    Width="40"
+                    Height="40"
                     Margin="0,0,0,0"
                     Background=" #3a4559">
                 <Button.Content>
@@ -235,10 +247,11 @@
 
         <StackPanel Grid.Row="2" Grid.Column="3"
                     HorizontalAlignment="Center"
+                    Visibility="Collapsed"
                     Orientation="Horizontal">
             <Button Style="{DynamicResource ButtonStyle3}"
-                    Width="50"
-                    Height="50"
+                    Width="40"
+                    Height="40"
                     Margin="0,0,20,0"
                     Background=" #f0d59c">
                 <Button.Content>
@@ -250,8 +263,8 @@
                 </Button.Content>
             </Button>
             <Button Style="{DynamicResource ButtonStyle3}"
-                    Width="50"
-                    Height="50"
+                    Width="40"
+                    Height="40"
                     Margin="0,0,0,0"
                     Background=" #3a4559">
                 <Button.Content>
@@ -267,10 +280,11 @@
 
         <StackPanel Grid.Row="3" Grid.Column="3"
                     HorizontalAlignment="Center"
+                    Visibility="Collapsed"
                     Orientation="Horizontal">
             <Button Style="{DynamicResource ButtonStyle3}"
-                    Width="50"
-                    Height="50"
+                    Width="40"
+                    Height="40"
                     Margin="0,0,20,0"
                     Background=" #f0d59c">
                 <Button.Content>
@@ -282,8 +296,8 @@
                 </Button.Content>
             </Button>
             <Button Style="{DynamicResource ButtonStyle3}"
-                    Width="50"
-                    Height="50"
+                    Width="40"
+                    Height="40"
                     Margin="0,0,0,0"
                     Background=" #3a4559">
                 <Button.Content>
@@ -299,10 +313,11 @@
 
         <StackPanel Grid.Row="4" Grid.Column="3"
                     HorizontalAlignment="Center"
+                    Visibility="Collapsed"
                     Orientation="Horizontal">
             <Button Style="{DynamicResource ButtonStyle3}"
-                    Width="50"
-                    Height="50"
+                    Width="40"
+                    Height="40"
                     Margin="0,0,20,0"
                     Background=" #f0d59c">
                 <Button.Content>
@@ -314,8 +329,8 @@
                 </Button.Content>
             </Button>
             <Button Style="{DynamicResource ButtonStyle3}"
-                    Width="50"
-                    Height="50"
+                    Width="40"
+                    Height="40"
                     Margin="0,0,0,0"
                     Background=" #3a4559">
                 <Button.Content>
@@ -331,10 +346,11 @@
 
         <StackPanel Grid.Row="5" Grid.Column="3"
                     HorizontalAlignment="Center"
+                    Visibility="Collapsed"
                     Orientation="Horizontal">
             <Button Style="{DynamicResource ButtonStyle3}"
-                    Width="50"
-                    Height="50"
+                    Width="40"
+                    Height="40"
                     Margin="0,0,20,0"
                     Background=" #f0d59c">
                 <Button.Content>
@@ -346,8 +362,8 @@
                 </Button.Content>
             </Button>
             <Button Style="{DynamicResource ButtonStyle3}"
-                    Width="50"
-                    Height="50"
+                    Width="40"
+                    Height="40"
                     Margin="0,0,0,0"
                     Background=" #3a4559">
                 <Button.Content>
@@ -363,10 +379,11 @@
 
         <StackPanel Grid.Row="6" Grid.Column="3"
                     HorizontalAlignment="Center"
+                    Visibility="Collapsed"
                     Orientation="Horizontal">
             <Button Style="{DynamicResource ButtonStyle3}"
-                    Width="50"
-                    Height="50"
+                    Width="40"
+                    Height="40"
                     Margin="0,0,20,0"
                     Background="#f0d59c">
                 <Button.Content>
@@ -378,8 +395,8 @@
                 </Button.Content>
             </Button>
             <Button Style="{DynamicResource ButtonStyle3}"
-                    Width="50"
-                    Height="50"
+                    Width="40"
+                    Height="40"
                     Margin="0,0,0,0"
                     Background=" #3a4559">
                 <Button.Content>
@@ -396,82 +413,112 @@
 
 
         <!--  功能区  -->
+
+
+
+
+        <TextBlock Grid.Row="7" Grid.Column="0"
+                   Text="原参数"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontFamily="Yu Gothic UI"
+                   FontSize="22" />
+        <TextBlock Grid.Row="7" Grid.Column="2"
+                   Text="修改参数"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="22" />
         <!--  第一列  -->
         <TextBlock Grid.Row="8" Grid.Column="0"
-                   Text="{Binding UI_Craft_Date.Welding_CDIS, Mode=TwoWay, StringFormat={}    圆过度值 : {0} mm}"
+                   Text="{Binding UI_Craft_Date.Welding_CDIS, Mode=TwoWay, FallbackValue=圆弧过渡:, StringFormat={}圆过度值 : {0} mm}"
+                   Margin="10"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
-                   FontSize="24" />
+                   FontSize="20"
+                   FontFamily="Yu Gothic Medium" />
         <TextBlock Grid.Row="9" Grid.Column="0"
-                   Text="{Binding UI_Craft_Date.Welding_ACC, Mode=TwoWay, StringFormat={}    加速度 : {0} %}"
+                   Text="{Binding UI_Craft_Date.Welding_ACC, Mode=TwoWay, FallbackValue=加速度值:, StringFormat={}加速度 : {0} %}"
+                   Margin="10"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
-                   FontSize="24" />
+                   FontFamily="Yu Gothic Medium"
+                   FontSize="20" />
         <TextBlock Grid.Row="10" Grid.Column="0"
-                   Text="{Binding UI_Craft_Date.Welding_Speed, Mode=TwoWay, StringFormat={}    直线速度 :  {0} m/s}"
+                   Text="{Binding UI_Craft_Date.Welding_Speed, Mode=TwoWay, FallbackValue=行走速度:, StringFormat={}直线速度 :  {0} m/s}"
+                   Margin="10"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
-                   FontSize="24" />
+                   FontFamily="Yu Gothic Medium"
+                   FontSize="20" />
         <TextBlock Grid.Row="11" Grid.Column="0"
-                   Text="{Binding UI_Craft_Date.Welding_Angle, Mode=TwoWay, StringFormat={}    焊接角度 :  {0}°}"
+                   Text="{Binding UI_Craft_Date.Welding_Angle, Mode=TwoWay, FallbackValue=焊接角度:, StringFormat={}焊接角度 :  {0}°}"
+                   Margin="10"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
-                   FontSize="24" />
+                   FontFamily="Yu Gothic Medium"
+                   FontSize="20" />
         <TextBlock Grid.Row="12" Grid.Column="0"
-                   Text="{Binding UI_Craft_Date.Welding_Power, Mode=TwoWay, StringFormat={}    焊接功率 :  {0}%}"
+                   Text="{Binding UI_Craft_Date.Welding_Power, Mode=TwoWay, FallbackValue=焊接功率:, StringFormat={}焊接功率 :  {0}%}"
+                   Margin="10"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
-                   FontSize="24" />
+                   FontFamily="Yu Gothic Medium"
+                   FontSize="20" />
 
         <!--  第二列  -->
 
 
         <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="CDIS" Grid.Row="8" Grid.Column="2"
-                 Text="{Binding UI_Craft_Date.Welding_CDIS, Mode=OneWay, StringFormat={}{0}}"
-                 HorizontalAlignment="Center"
+                 Text="{Binding UI_Craft_Date.Welding_CDIS, Mode=OneWay, FallbackValue=0, StringFormat={}{0}}"
+                 Margin="5"
+                 HorizontalAlignment="Stretch"
                  VerticalAlignment="Stretch"
-                 MaxLines="7" />
+                 Tag="mm" />
 
 
 
         <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="ACC" Grid.Row="9" Grid.Column="2"
-                 Text="{Binding UI_Craft_Date.Welding_ACC, TargetNullValue=100 , Mode=OneWay, StringFormat={}{0}}"
-                 HorizontalAlignment="Center"
+                 Text="{Binding UI_Craft_Date.Welding_ACC, TargetNullValue=100, FallbackValue=0, Mode=OneWay, StringFormat={}{0}}"
+                 Margin="5"
+                 HorizontalAlignment="Stretch"
                  VerticalAlignment="Stretch"
-                 MaxLines="7" />
+                 Tag="%" />
 
         <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Speed" Grid.Row="10" Grid.Column="2"
-                 Text="{Binding UI_Craft_Date.Welding_Speed, Mode=OneWay, StringFormat={}{0:N3}}"
-                 HorizontalAlignment="Center"
+                 Text="{Binding UI_Craft_Date.Welding_Speed, Mode=OneWay, FallbackValue=0.000, StringFormat={}{0:N3}}"
+                 Margin="5"
+                 HorizontalAlignment="Stretch"
                  VerticalAlignment="Stretch"
-                 MaxLines="7" />
+                 Tag="m/s" />
 
 
 
         <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Angle" Grid.Row="11" Grid.Column="2"
                  Text="{Binding UI_Craft_Date.Welding_Angle, Mode=OneWay, StringFormat={}{0:N3}}"
-                 HorizontalAlignment="Center"
+                 Margin="5"
+                 HorizontalAlignment="Stretch"
                  VerticalAlignment="Stretch"
-                 MaxLines="7" />
+                 Tag="°" />
 
 
 
 
         <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Power" Grid.Row="12" Grid.Column="2"
-                 Text="{Binding UI_Craft_Date.Welding_Power, Mode=OneWay, StringFormat={}{0}}"
-                 HorizontalAlignment="Center"
+                 Text="{Binding UI_Craft_Date.Welding_Power, Mode=OneWay, FallbackValue=0, StringFormat={}{0}}"
+                 Margin="5"
+                 HorizontalAlignment="Stretch"
                  VerticalAlignment="Stretch"
-                 MaxLines="7" />
+                 Tag="%" />
 
 
 
         <!--  功能按钮  -->
         <Button Style="{DynamicResource ButtonStyle3}" Grid.Row="8" Grid.Column="3"
-                Grid.RowSpan="2"
+                Grid.RowSpan="3"
                 Grid.ColumnSpan="2"
                 Content="保存"
-                Width=" 250"
-                Height=" 80"
+                Width=" 200"
+                Height=" 60"
                 VerticalAlignment="Center"
                 Background="#6baa75"
                 FontSize="35">
@@ -484,11 +531,11 @@
             </i:Interaction.Triggers>
         </Button>
         <Button Style="{DynamicResource ButtonStyle3}" Grid.Row="10" Grid.Column="3"
-                Grid.RowSpan="2"
+                Grid.RowSpan="3"
                 Grid.ColumnSpan="2"
                 Content="取消"
-                Width=" 250"
-                Height=" 80"
+                Width=" 200"
+                Height=" 60"
                 VerticalAlignment="Center"
                 Background="#FF5E57"
                 FontSize="35">

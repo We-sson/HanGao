@@ -76,7 +76,7 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="BorderThickness" Value="0,0,0,5" />
+                <Setter Property="BorderThickness" Value="0,0,0,3" />
                 <Setter Property="BorderBrush" Value="#7FAAE1" />
                 <Setter Property="Effect" Value="{DynamicResource 全局背景阴影}" />
 

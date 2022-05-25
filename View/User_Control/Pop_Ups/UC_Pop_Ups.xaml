@@ -34,9 +34,9 @@
                 </Grid.RowDefinitions>
 
                 <Button Style="{StaticResource Windows_Button_Style}"
-                        Margin="0,20,-20,0"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Top"
+                        Margin="10" Width="10" Height=" 10"
+                        HorizontalAlignment="Right"   
+                        VerticalAlignment="Center"  
                         Background="Red">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">

@@ -53,7 +53,7 @@
                 <Border CornerRadius="0 20 20 0" Background="White" />
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="70" />
+                        <RowDefinition Height="60" />
                         <RowDefinition />
 
 
@@ -66,16 +66,16 @@
 
                         <Button Style="{StaticResource ButtonStyle2}" Grid.Column="1"
                                 Uid="Close"
-                                Margin="10"
+                                Margin="5"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Center">
                             <TextBlock Text="&#xe606;"
-                                       Width="40"
+                                       Width="auto"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Visibility="Visible"
                                        FontFamily="/Resources/#iconfont"
-                                       FontSize="38"
+                                       FontSize="30"
                                        Foreground="Red"
                                        RenderTransformOrigin="0.5,0.5">
                                 <TextBlock.RenderTransform>
@@ -100,14 +100,14 @@
                                    Text="{Binding Sideber_Var.Sidebar_MainTitle}"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   FontSize="35" />
+                                   FontSize="28" />
 
 
                     </Grid>
 
                     <ContentControl x:Name="CC1" Grid.Row="1"
                                     Content="{Binding Sideber_Var.Sidebar_Control}"
-                                    Margin="15" />
+                                    Margin="10" />
 
 
                 </Grid>
