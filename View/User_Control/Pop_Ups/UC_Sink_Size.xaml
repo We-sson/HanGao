@@ -80,14 +80,14 @@
 
         </UniformGrid>
         <Button Style="{StaticResource ButtonStyle3}" Grid.Row="1"
-                Content="工艺参数"
-                Width="140"
+                Content="删除型号"
+                Width="120"
                 Height=" 40"
                 Margin="8"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
                 Background="#ff5e58"
-                FontSize="22">
+                FontSize="20">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Click">
                     <i:InvokeCommandAction Command="{Binding Sink_Craft_Set_Comm}"
@@ -108,6 +108,33 @@
                    FontSize="230"
                    Foreground="#FF4B6587"
                    FontFamily="/Resources/#iconfont" />
+
+
+        <Border Grid.Row="1" Grid.Column="1"
+                Height=" 40"
+                Margin="8"
+                Padding="5"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                BorderThickness="3"
+                BorderBrush="Gray"
+                CornerRadius="5"
+                Background="#dddddd">
+
+            <StackPanel Orientation="Horizontal">
+
+
+                <TextBlock Text="水槽型号："
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="20" />
+
+                <TextBox Style="{StaticResource TextBoxStyle1}" x:Name="Sink_Name"
+                         Width=" 200" Text="{Binding _Sink.Sink_Model}" FontSize="22"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Stretch" />
+            </StackPanel>
+        </Border>
 
 
 
@@ -155,12 +182,12 @@
 
         <Button Style="{StaticResource ButtonStyle3}" Grid.Row="1" Grid.Column="2"
                 Content="确定"
-                Width="140"
+                Width="120"
                 Height=" 40"
                 Margin="8"
                 VerticalAlignment="Bottom"
                 Background="#6baa75"
-                FontSize="22">
+                FontSize="20">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Click">
                     <i:InvokeCommandAction Command="{Binding Sink_Value_OK_Comm}"

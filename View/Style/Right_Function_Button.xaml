@@ -105,7 +105,7 @@
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
                             <!--<Setter Property="Background" Value="White" />-->
-
+                            <Setter Property="Opacity" Value="0.8" />
                             <!--<Setter Property="BorderThickness" Value="2" />-->
                             <!--<Setter Property="BorderBrush" Value="Black" />-->
                             <!--<Setter Property="Effect" Value="{DynamicResource 全局背景阴影}" />-->

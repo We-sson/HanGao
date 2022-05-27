@@ -74,7 +74,7 @@
             <!--  首页_左上角_公司图标  -->
             <Border Grid.Column="0"
                     HorizontalAlignment="Stretch"
-                    Background="#FFBC2F">
+                    Background="#ECD662">
 
                 <TextBlock Text="Warning"
                            HorizontalAlignment="Center"

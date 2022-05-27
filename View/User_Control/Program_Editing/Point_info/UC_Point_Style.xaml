@@ -3,10 +3,10 @@
 
     <Style x:Key="InPut_TextBoxStyle" TargetType="{x:Type TextBox}">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderBrush" Value="Gray" />
+        <Setter Property="BorderBrush" Value="#E3E3E3" />
 
         <Setter Property="Height" Value="40" />
-        <Setter Property="Foreground" Value="#4E4E4E" />
+        <Setter Property="Foreground" Value="#E3E3E3" />
         <Setter Property="BorderThickness" Value="3" />
         <Setter Property="Effect" Value="{DynamicResource 全局背景阴影}" />
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
@@ -51,7 +51,7 @@
                                         <ColumnDefinition />
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
-                                    <Button Style="{StaticResource ButtonStyle3}" Grid.Column="0"
+                                    <Button Style="{DynamicResource ButtonStyle3}" Grid.Column="0"
                                             Width="22"
                                             Height=" 22"
                                             Background="Transparent">
@@ -59,11 +59,12 @@
                                             <TextBlock Text="&#xe639;"
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
+                                                       Foreground="#ECD662"
                                                        FontSize="14"
                                                        FontFamily="/Resources/#iconfont" />
                                         </Button.Content>
                                     </Button>
-                                    <Button Style="{StaticResource ButtonStyle3}" Grid.Column="1"
+                                    <Button Style="{DynamicResource ButtonStyle3}" Grid.Column="1"
                                             Width=" 22"
                                             Height=" 22"
                                             Background="Transparent">
@@ -71,6 +72,7 @@
                                             <TextBlock Text="&#xe644;"
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
+                                                       Foreground="#ECD662"
                                                        FontSize="14"
                                                        FontFamily="/Resources/#iconfont" />
                                         </Button.Content>
@@ -87,13 +89,13 @@
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter TargetName="Function_Grid" Property="Visibility" Value="Visible" />
                             <Setter TargetName="Unit_Text" Property="Visibility" Value="Collapsed" />
-                            <Setter TargetName="border" Property="BorderBrush" Value="green" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="#ECD662" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="true">
                             <Setter TargetName="Function_Grid" Property="Visibility" Value="Visible" />
                             <Setter TargetName="Unit_Text" Property="Visibility" Value="Collapsed" />
-                            <Setter Property="Foreground" Value="Black" />
-                            <Setter TargetName="border" Property="BorderBrush" Value="green" />
+
+                            <Setter TargetName="border" Property="BorderBrush" Value="#ECD662" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

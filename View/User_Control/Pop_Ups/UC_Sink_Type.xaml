@@ -27,8 +27,7 @@
     </i:Interaction.Triggers>
 
     <Grid Margin="5">
-        <UniformGrid HorizontalAlignment="Center"
-                     Columns="3">
+        <UniformGrid HorizontalAlignment="Center" Columns="3">
 
             <RadioButton Style="{DynamicResource RadioButton_Sink_Type_Style}" x:Name="R1" Grid.Column="4"
                          IsChecked="{Binding Sink_LR_Checked}"

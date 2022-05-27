@@ -97,8 +97,8 @@
     <DropShadowEffect x:Key="全局背景阴影"
                       BlurRadius="40"
                       Direction="-90"
-                      ShadowDepth="10"
-                      Opacity="0.2" />
+                      ShadowDepth="5"
+                      Opacity="0.4" />
 
     <!--  全局Grid背景模糊样式  -->
     <Style x:Key="Gd_Effect" TargetType="{x:Type Grid}">
