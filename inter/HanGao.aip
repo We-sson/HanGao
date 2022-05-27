@@ -12,14 +12,14 @@
     <ROW Property="ProductVersion" Value="1.0.0" Type="32"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{DB0A1C70-4625-42D2-A2A6-FE1334770CC0}"/>
-    <ROW Property="WindowsType9X" MultiBuildValue="x86_Release:Windows 9x/ME" ValueLocId="-"/>
-    <ROW Property="WindowsType9XDisplay" MultiBuildValue="x86_Release:Windows 9x/ME" ValueLocId="-"/>
-    <ROW Property="WindowsTypeNT40" MultiBuildValue="x86_Release:Windows NT 4.0" ValueLocId="-"/>
-    <ROW Property="WindowsTypeNT40Display" MultiBuildValue="x86_Release:Windows NT 4.0" ValueLocId="-"/>
-    <ROW Property="WindowsTypeNT50" MultiBuildValue="x86_Release:Windows 2000" ValueLocId="-"/>
-    <ROW Property="WindowsTypeNT50Display" MultiBuildValue="x86_Release:Windows 2000" ValueLocId="-"/>
-    <ROW Property="WindowsTypeNT5X" MultiBuildValue="x86_Release:Windows XP/2003" ValueLocId="-"/>
-    <ROW Property="WindowsTypeNT5XDisplay" MultiBuildValue="x86_Release:Windows XP/2003" ValueLocId="-"/>
+    <ROW Property="WindowsType9X" MultiBuildValue="x64_Debug:Windows 9x/ME#x64_Release:Windows 9x/ME" ValueLocId="-"/>
+    <ROW Property="WindowsType9XDisplay" MultiBuildValue="x64_Debug:Windows 9x/ME#x64_Release:Windows 9x/ME" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT40" MultiBuildValue="x64_Debug:Windows NT 4.0#x64_Release:Windows NT 4.0" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT40Display" MultiBuildValue="x64_Debug:Windows NT 4.0#x64_Release:Windows NT 4.0" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT50" MultiBuildValue="x64_Debug:Windows 2000#x64_Release:Windows 2000" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT50Display" MultiBuildValue="x64_Debug:Windows 2000#x64_Release:Windows 2000" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT5X" MultiBuildValue="x64_Debug:Windows XP/2003#x64_Release:Windows XP/2003" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT5XDisplay" MultiBuildValue="x64_Debug:Windows XP/2003#x64_Release:Windows XP/2003" ValueLocId="-"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiDirsComponent">
     <ROW Directory="APPDIR" Directory_Parent="TARGETDIR" DefaultDir="APPDIR:." IsPseudoRoot="1"/>
@@ -39,7 +39,13 @@
     <ROW Component="LiveCharts.dll" ComponentId="{C32F754D-7E21-4AB6-A7BD-A360F7F8578C}" Directory_="APPDIR" Attributes="0" KeyPath="LiveCharts.dll"/>
     <ROW Component="Microsoft.Bcl.AsyncInterfaces.dll" ComponentId="{0671810A-CFCE-4C02-B29E-26E764247CA6}" Directory_="APPDIR" Attributes="0" KeyPath="Microsoft.Bcl.AsyncInterfaces.dll"/>
     <ROW Component="Microsoft.CSharp.dll" ComponentId="{D2C57951-B6B0-499D-97FA-75553AAEDD12}" Directory_="APPDIR" Attributes="0" KeyPath="Microsoft.CSharp.dll"/>
+    <ROW Component="Microsoft.Expression.Controls.resources.dll" ComponentId="{BA3C00F1-602A-4864-A58E-3D142FA43FCD}" Directory_="APPDIR" Attributes="0" KeyPath="Microsoft.Expression.Controls.resources.dll"/>
+    <ROW Component="Microsoft.Expression.Drawing.dll" ComponentId="{CB632136-CADE-4E7A-9803-1EC7A2B56842}" Directory_="APPDIR" Attributes="0" KeyPath="Microsoft.Expression.Drawing.dll"/>
+    <ROW Component="Microsoft.Expression.Drawing.resources.dll" ComponentId="{202BDEE3-7D80-4CAA-96C7-A15098CCB878}" Directory_="APPDIR" Attributes="0" KeyPath="Microsoft.Expression.Drawing.resources.dll"/>
+    <ROW Component="Microsoft.Expression.Effects.resources.dll" ComponentId="{86E88384-6696-4F62-9466-A0D1E7277828}" Directory_="APPDIR" Attributes="0" KeyPath="Microsoft.Expression.Effects.resources.dll"/>
     <ROW Component="Microsoft.Expression.Interactions.dll" ComponentId="{DE0733EF-08E0-489C-B2E1-996853682A21}" Directory_="APPDIR" Attributes="0" KeyPath="Microsoft.Expression.Interactions.dll"/>
+    <ROW Component="Microsoft.Expression.Interactions.resources.dll" ComponentId="{91793D65-A562-4441-85E9-5C33AB7D6244}" Directory_="APPDIR" Attributes="0" KeyPath="Microsoft.Expression.Interactions.resources.dll"/>
+    <ROW Component="Microsoft.Expression.Prototyping.Interactivity.resources.dll" ComponentId="{6FE5AF00-808E-4018-A3A2-46BE352ED6D4}" Directory_="APPDIR" Attributes="0" KeyPath="Microsoft.Expression.Prototyping.Interactivity.resources.dll"/>
     <ROW Component="Microsoft.Extensions.DependencyInjection.Abstractions.dll" ComponentId="{3119C34D-3074-4D44-BE99-9CC6C3B42CD1}" Directory_="APPDIR" Attributes="0" KeyPath="Microsoft.Extensions.DependencyInjection.Abstractions.dll"/>
     <ROW Component="Microsoft.Extensions.DependencyInjection.dll" ComponentId="{87ECF6FC-F820-4EDF-BFE9-2098901946E7}" Directory_="APPDIR" Attributes="0" KeyPath="Microsoft.Extensions.DependencyInjection.dll"/>
     <ROW Component="Microsoft.Toolkit.Mvvm.dll" ComponentId="{E51977BC-4EB1-4ECF-AB67-3B325D19632E}" Directory_="APPDIR" Attributes="0" KeyPath="Microsoft.Toolkit.Mvvm.dll"/>
@@ -79,6 +85,7 @@
     <ROW Component="System.Diagnostics.TextWriterTraceListener.dll" ComponentId="{BCF640D4-A3F6-4120-91FB-7C657D7AB5C1}" Directory_="APPDIR" Attributes="0" KeyPath="System.Diagnostics.TextWriterTraceListener.dll"/>
     <ROW Component="System.Diagnostics.Tools.dll" ComponentId="{551C61F3-4EEC-466C-9E3E-3B487C511CC9}" Directory_="APPDIR" Attributes="0" KeyPath="System.Diagnostics.Tools.dll"/>
     <ROW Component="System.Diagnostics.TraceSource.dll" ComponentId="{68ADF4BB-49B5-4DBF-AC95-CF9CA41B63CC}" Directory_="APPDIR" Attributes="0" KeyPath="System.Diagnostics.TraceSource.dll"/>
+    <ROW Component="System.Drawing.Common.dll" ComponentId="{0C128787-DD5E-43EC-AC94-F34761C0945C}" Directory_="APPDIR" Attributes="0" KeyPath="System.Drawing.Common.dll"/>
     <ROW Component="System.Drawing.Primitives.dll" ComponentId="{718892F9-8321-4A85-BCD3-517478988664}" Directory_="APPDIR" Attributes="0" KeyPath="System.Drawing.Primitives.dll"/>
     <ROW Component="System.Drawing.dll" ComponentId="{EC944A2E-3620-4D72-B7CD-5953D0151629}" Directory_="APPDIR" Attributes="0" KeyPath="System.Drawing.dll"/>
     <ROW Component="System.Dynamic.Runtime.dll" ComponentId="{0C50D5D3-771C-4C74-BEA7-6A43FCE63E51}" Directory_="APPDIR" Attributes="0" KeyPath="System.Dynamic.Runtime.dll"/>
@@ -164,6 +171,7 @@
     <ROW Component="System.Threading.dll" ComponentId="{EF44015B-9CF8-4C95-9610-70B81307B57A}" Directory_="APPDIR" Attributes="0" KeyPath="System.Threading.dll"/>
     <ROW Component="System.ValueTuple.dll" ComponentId="{F850400D-43CA-445D-8CC7-9909BD701DB3}" Directory_="APPDIR" Attributes="0" KeyPath="System.ValueTuple.dll"/>
     <ROW Component="System.Windows.Interactivity.dll" ComponentId="{FF31E97D-E73E-403C-8A85-4DF61FAC17FE}" Directory_="APPDIR" Attributes="0" KeyPath="System.Windows.Interactivity.dll"/>
+    <ROW Component="System.Windows.Interactivity.resources.dll" ComponentId="{5D58F1D9-0F9E-4533-9AD0-EF1D738AC659}" Directory_="APPDIR" Attributes="0" KeyPath="System.Windows.Interactivity.resources.dll"/>
     <ROW Component="System.Xaml.dll" ComponentId="{F42B6A4D-ADCA-4D7F-8A94-F6A68B3F55B3}" Directory_="APPDIR" Attributes="0" KeyPath="System.Xaml.dll"/>
     <ROW Component="System.Xml.Linq.dll" ComponentId="{9950DD2A-44A1-4314-BC3B-79A192DFA903}" Directory_="APPDIR" Attributes="0" KeyPath="System.Xml.Linq.dll"/>
     <ROW Component="System.Xml.ReaderWriter.dll" ComponentId="{A35D3525-0BF6-4273-B0A1-B71C161C033F}" Directory_="APPDIR" Attributes="0" KeyPath="System.Xml.ReaderWriter.dll"/>
@@ -186,11 +194,11 @@
     <ROW File="System.Runtime.CompilerServices.VisualC.dll" Component_="System.Runtime.CompilerServices.VisualC.dll" FileName="SYSTEM~1.DLL|System.Runtime.CompilerServices.VisualC.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\System.Runtime.CompilerServices.VisualC.dll" SelfReg="false"/>
     <ROW File="System.AppContext.dll" Component_="System.AppContext.dll" FileName="SYSTEM~2.DLL|System.AppContext.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\System.AppContext.dll" SelfReg="false"/>
     <ROW File="System.Xml.Linq.dll" Component_="System.Xml.Linq.dll" FileName="SYSTEM~3.DLL|System.Xml.Linq.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Xml.Linq.dll" SelfReg="false"/>
-    <ROW File="HanGao.exe" Component_="HanGao.exe" FileName="HanGao.exe" Attributes="0" SourcePath="..\bin\x86\Release\HanGao.exe" SelfReg="false" DigSign="true"/>
+    <ROW File="HanGao.exe" Component_="HanGao.exe" FileName="HanGao.exe" Attributes="0" SourcePath="..\bin\x64\Release\HanGao.exe" SelfReg="false" DigSign="true"/>
     <ROW File="WindowsBase.dll" Component_="WindowsBase.dll" FileName="WINDOW~1.DLL|WindowsBase.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\WindowsBase.dll" SelfReg="false"/>
     <ROW File="GalaSoft.MvvmLight.Extras.dll" Component_="GalaSoft.MvvmLight.Extras.dll" FileName="GALASO~1.DLL|GalaSoft.MvvmLight.Extras.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\mvvmlightlibs\5.4.1.1\lib\net45\GalaSoft.MvvmLight.Extras.dll" SelfReg="false"/>
     <ROW File="System.Security.Cryptography.X509Certificates.dll" Component_="System.Security.Cryptography.X509Certificates.dll" FileName="SYSTEM~4.DLL|System.Security.Cryptography.X509Certificates.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\System.Security.Cryptography.X509Certificates.dll" SelfReg="false"/>
-    <ROW File="HanGao.exe.config" Component_="HanGao.exe.config" FileName="HANGAO~1.CON|HanGao.exe.config" Attributes="0" SourcePath="..\bin\x86\Release\HanGao.exe.config" SelfReg="false"/>
+    <ROW File="HanGao.exe.config" Component_="HanGao.exe.config" FileName="HANGAO~1.CON|HanGao.exe.config" Attributes="0" SourcePath="..\bin\x64\Release\HanGao.exe.config" SelfReg="false"/>
     <ROW File="System.Drawing.Primitives.dll" Component_="System.Drawing.Primitives.dll" FileName="SYSTEM~5.DLL|System.Drawing.Primitives.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\System.Drawing.Primitives.dll" SelfReg="false"/>
     <ROW File="GalaSoft.MvvmLight.Platform.dll" Component_="GalaSoft.MvvmLight.Platform.dll" FileName="GALASO~2.DLL|GalaSoft.MvvmLight.Platform.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\mvvmlightlibs\5.4.1.1\lib\net45\GalaSoft.MvvmLight.Platform.dll" SelfReg="false"/>
     <ROW File="System.Runtime.CompilerServices.Unsafe.dll" Component_="System.Runtime.CompilerServices.Unsafe.dll" FileName="SYSTEM~6.DLL|System.Runtime.CompilerServices.Unsafe.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\system.runtime.compilerservices.unsafe\6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll" SelfReg="false"/>
@@ -222,7 +230,7 @@
     <ROW File="System.Drawing.dll" Component_="System.Drawing.dll" FileName="SYSTE~19.DLL|System.Drawing.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Drawing.dll" SelfReg="false"/>
     <ROW File="System.Numerics.dll" Component_="System.Numerics.dll" FileName="SYSTE~20.DLL|System.Numerics.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Numerics.dll" SelfReg="false"/>
     <ROW File="System.Threading.Tasks.Extensions.dll" Component_="System.Threading.Tasks.Extensions.dll" FileName="SYSTE~21.DLL|System.Threading.Tasks.Extensions.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\system.threading.tasks.extensions\4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll" SelfReg="false"/>
-    <ROW File="System.Windows.Interactivity.dll" Component_="System.Windows.Interactivity.dll" FileName="SYSTE~22.DLL|System.Windows.Interactivity.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\system.windows.interactivity.wpf\2.0.20525\lib\net40\System.Windows.Interactivity.dll" SelfReg="false"/>
+    <ROW File="System.Windows.Interactivity.dll" Component_="System.Windows.Interactivity.dll" FileName="SYSTE~22.DLL|System.Windows.Interactivity.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\expression.blend.sdk.wpf\1.0.1\lib\net45\System.Windows.Interactivity.dll" SelfReg="false"/>
     <ROW File="System.Xaml.dll" Component_="System.Xaml.dll" FileName="SYSTE~23.DLL|System.Xaml.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Xaml.dll" SelfReg="false"/>
     <ROW File="System.Xml.dll" Component_="System.Xml.dll" FileName="SYSTE~24.DLL|System.Xml.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Xml.dll" SelfReg="false"/>
     <ROW File="Microsoft.Win32.Primitives.dll" Component_="Microsoft.Win32.Primitives.dll" FileName="MICROS~3.DLL|Microsoft.Win32.Primitives.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\Microsoft.Win32.Primitives.dll" SelfReg="false"/>
@@ -318,7 +326,7 @@
     <ROW File="System.Xml.XmlSerializer.dll" Component_="System.Xml.XmlSerializer.dll" FileName="SYST~114.DLL|System.Xml.XmlSerializer.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\System.Xml.XmlSerializer.dll" SelfReg="false"/>
     <ROW File="System.Xml.XPath.XDocument.dll" Component_="System.Xml.XPath.XDocument.dll" FileName="SYST~115.DLL|System.Xml.XPath.XDocument.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\System.Xml.XPath.XDocument.dll" SelfReg="false"/>
     <ROW File="System.Runtime.Serialization.dll" Component_="System.Runtime.Serialization.dll" FileName="SYST~116.DLL|System.Runtime.Serialization.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Runtime.Serialization.dll" SelfReg="false"/>
-    <ROW File="Log.txt" Component_="HanGao.exe.config" FileName="Log.txt" Attributes="0" SourcePath="..\bin\x86\Release\Resources\Log.txt" SelfReg="false"/>
+    <ROW File="Log.txt" Component_="HanGao.exe.config" FileName="Log.txt" Attributes="0" SourcePath="..\bin\x64\Release\Resources\Log.txt" SelfReg="false"/>
     <ROW File="System.ComponentModel.DataAnnotations.dll" Component_="System.ComponentModel.DataAnnotations.dll" FileName="SYST~117.DLL|System.ComponentModel.DataAnnotations.dll" Attributes="0" SourcePath="..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.ComponentModel.DataAnnotations.dll" SelfReg="false"/>
     <ROW File="Microsoft.Toolkit.Mvvm.dll" Component_="Microsoft.Toolkit.Mvvm.dll" FileName="MICROS~4.DLL|Microsoft.Toolkit.Mvvm.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\microsoft.toolkit.mvvm\7.1.2\lib\netstandard2.0\Microsoft.Toolkit.Mvvm.dll" SelfReg="false"/>
     <ROW File="LiveCharts.Wpf.dll" Component_="LiveCharts.Wpf.dll" FileName="LIVECH~1.DLL|LiveCharts.Wpf.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\livecharts.wpf\0.9.7\lib\net45\LiveCharts.Wpf.dll" SelfReg="false"/>
@@ -329,14 +337,23 @@
     <ROW File="Microsoft.Extensions.DependencyInjection.Abstractions.dll" Component_="Microsoft.Extensions.DependencyInjection.Abstractions.dll" FileName="MICROS~7.DLL|Microsoft.Extensions.DependencyInjection.Abstractions.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\microsoft.extensions.dependencyinjection.abstractions\6.0.0\lib\net461\Microsoft.Extensions.DependencyInjection.Abstractions.dll" SelfReg="false"/>
     <ROW File="System.Buffers.dll" Component_="System.Buffers.dll" FileName="SYST~119.DLL|System.Buffers.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\system.buffers\4.5.1\lib\net461\System.Buffers.dll" SelfReg="false"/>
     <ROW File="System.Numerics.Vectors.dll" Component_="System.Numerics.Vectors.dll" FileName="SYST~120.DLL|System.Numerics.Vectors.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\system.numerics.vectors\4.5.0\lib\net46\System.Numerics.Vectors.dll" SelfReg="false"/>
-    <ROW File="Microsoft.Expression.Interactions.dll" Component_="Microsoft.Expression.Interactions.dll" FileName="MICROS~8.DLL|Microsoft.Expression.Interactions.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\system.windows.interactivity.wpf\2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll" SelfReg="false"/>
-    <ROW File="HanGao.pdb" Component_="HanGao.exe" FileName="HanGao.pdb" Attributes="0" SourcePath="..\bin\x86\Release\HanGao.pdb" SelfReg="false"/>
+    <ROW File="Microsoft.Expression.Interactions.dll" Component_="Microsoft.Expression.Interactions.dll" FileName="MICROS~8.DLL|Microsoft.Expression.Interactions.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\expression.blend.sdk.wpf\1.0.1\lib\net45\Microsoft.Expression.Interactions.dll" SelfReg="false"/>
+    <ROW File="HanGao.pdb" Component_="HanGao.exe" FileName="HanGao.pdb" Attributes="0" SourcePath="..\bin\ALL\HanGao.pdb" SelfReg="false"/>
+    <ROW File="System.Windows.Interactivity.resources.dll" Component_="System.Windows.Interactivity.resources.dll" FileName="SYST~121.DLL|System.Windows.Interactivity.resources.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\expression.blend.sdk.wpf\1.0.1\lib\net45\zh-Hant\System.Windows.Interactivity.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.Expression.Prototyping.Interactivity.resources.dll" Component_="Microsoft.Expression.Prototyping.Interactivity.resources.dll" FileName="MICROS~9.DLL|Microsoft.Expression.Prototyping.Interactivity.resources.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\expression.blend.sdk.wpf\1.0.1\lib\net45\zh-Hant\Microsoft.Expression.Prototyping.Interactivity.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.Expression.Effects.resources.dll" Component_="Microsoft.Expression.Effects.resources.dll" FileName="MICRO~10.DLL|Microsoft.Expression.Effects.resources.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\expression.blend.sdk.wpf\1.0.1\lib\net45\zh-Hant\Microsoft.Expression.Effects.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.Expression.Interactions.resources.dll" Component_="Microsoft.Expression.Interactions.resources.dll" FileName="MICRO~11.DLL|Microsoft.Expression.Interactions.resources.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\expression.blend.sdk.wpf\1.0.1\lib\net45\zh-Hant\Microsoft.Expression.Interactions.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.Expression.Controls.resources.dll" Component_="Microsoft.Expression.Controls.resources.dll" FileName="MICRO~12.DLL|Microsoft.Expression.Controls.resources.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\expression.blend.sdk.wpf\1.0.1\lib\net45\zh-Hant\Microsoft.Expression.Controls.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.Expression.Drawing.resources.dll" Component_="Microsoft.Expression.Drawing.resources.dll" FileName="MICRO~13.DLL|Microsoft.Expression.Drawing.resources.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\expression.blend.sdk.wpf\1.0.1\lib\net45\zh-Hant\Microsoft.Expression.Drawing.resources.dll" SelfReg="false"/>
+    <ROW File="System.Drawing.Common.dll" Component_="System.Drawing.Common.dll" FileName="SYST~122.DLL|System.Drawing.Common.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\system.drawing.common\6.0.0\lib\net461\System.Drawing.Common.dll" SelfReg="false"/>
+    <ROW File="Microsoft.Expression.Drawing.dll" Component_="Microsoft.Expression.Drawing.dll" FileName="MICRO~14.DLL|Microsoft.Expression.Drawing.dll" Attributes="0" SourcePath="..\..\..\..\.nuget\packages\unnoficial.microsoft.expression.drawing\1.0.0\lib\Microsoft.Expression.Drawing.dll" SelfReg="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BootstrOptComponent">
     <ROW BootstrOptKey="GlobalOptions" DownloadFolder="[AppDataFolder][|Manufacturer]\[|ProductName]\prerequisites" Options="2"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
-    <ROW BuildKey="x86_Release" BuildName="x86_Release" BuildOrder="1" BuildType="0" PackageFolder="x86_ReleaseSetupFiles" PackageFileName="HanGao" Languages="zh" InstallationType="4" UseLargeSchema="true"/>
+    <ROW BuildKey="x64_Debug" BuildName="x64_Debug" BuildOrder="1" BuildType="0" PackageFolder="x64_DebugSetupFiles" PackageFileName="HanGao" Languages="zh" InstallationType="4" UseLargeSchema="true"/>
+    <ROW BuildKey="x64_Release" BuildName="x64_Release" BuildOrder="2" BuildType="0" PackageFolder="x64_ReleaseSetupFiles" PackageFileName="HanGao" Languages="zh" InstallationType="4" UseLargeSchema="true"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
     <ROW Path="&lt;AI_DICTS&gt;ui.ail"/>
@@ -553,6 +570,14 @@
     <ROW Feature_="MainFeature" Component_="System.Buffers.dll"/>
     <ROW Feature_="MainFeature" Component_="System.Numerics.Vectors.dll"/>
     <ROW Feature_="MainFeature" Component_="Microsoft.Expression.Interactions.dll"/>
+    <ROW Feature_="MainFeature" Component_="System.Windows.Interactivity.resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.Expression.Prototyping.Interactivity.resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.Expression.Effects.resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.Expression.Interactions.resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.Expression.Controls.resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.Expression.Drawing.resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="System.Drawing.Common.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.Expression.Drawing.dll"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstExSeqComponent">
     <ROW Action="RemoveExistingProducts" Condition="AI_UPGRADE&lt;&gt;&quot;No&quot;" Sequence="1401" SeqType="0" MsiKey="RemoveExistingProducts"/>
@@ -572,10 +597,10 @@
     <ROW Action="AI_RESTORE_LOCATION" Condition="APPDIR=&quot;&quot;" Sequence="749"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiLaunchConditionsComponent">
-    <ROW Condition="((VersionNT &lt;&gt; 501) AND (VersionNT &lt;&gt; 502))" Description="[ProductName] 无法安装在 [WindowsTypeNT5XDisplay]." DescriptionLocId="AI.LaunchCondition.NoNT5X" IsPredefined="true" Builds="x86_Release"/>
-    <ROW Condition="(VersionNT &lt;&gt; 400)" Description="[ProductName] 无法安装在 [WindowsTypeNT40Display]." DescriptionLocId="AI.LaunchCondition.NoNT40" IsPredefined="true" Builds="x86_Release"/>
-    <ROW Condition="(VersionNT &lt;&gt; 500)" Description="[ProductName] 无法安装在 [WindowsTypeNT50Display]." DescriptionLocId="AI.LaunchCondition.NoNT50" IsPredefined="true" Builds="x86_Release"/>
-    <ROW Condition="VersionNT" Description="[ProductName] 无法安装在 [WindowsType9XDisplay]." DescriptionLocId="AI.LaunchCondition.No9X" IsPredefined="true" Builds="x86_Release"/>
+    <ROW Condition="((VersionNT &lt;&gt; 501) AND (VersionNT &lt;&gt; 502))" Description="[ProductName] 无法安装在 [WindowsTypeNT5XDisplay]." DescriptionLocId="AI.LaunchCondition.NoNT5X" IsPredefined="true" Builds="x64_Debug;x64_Release"/>
+    <ROW Condition="(VersionNT &lt;&gt; 400)" Description="[ProductName] 无法安装在 [WindowsTypeNT40Display]." DescriptionLocId="AI.LaunchCondition.NoNT40" IsPredefined="true" Builds="x64_Debug;x64_Release"/>
+    <ROW Condition="(VersionNT &lt;&gt; 500)" Description="[ProductName] 无法安装在 [WindowsTypeNT50Display]." DescriptionLocId="AI.LaunchCondition.NoNT50" IsPredefined="true" Builds="x64_Debug;x64_Release"/>
+    <ROW Condition="VersionNT" Description="[ProductName] 无法安装在 [WindowsType9XDisplay]." DescriptionLocId="AI.LaunchCondition.No9X" IsPredefined="true" Builds="x64_Debug;x64_Release"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiRegsComponent">
     <ROW Registry="Path" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="Path" Value="[APPDIR]" Component_="ProductInformation"/>
@@ -595,6 +620,10 @@
     <ROW Shortcut="HanGao.exe_18" Directory_="SHORTCUTDIR" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
     <ROW Shortcut="HanGao.exe_19" Directory_="DesktopFolder" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
     <ROW Shortcut="HanGao.exe_2" Directory_="SHORTCUTDIR" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="HanGao.exe_20" Directory_="SHORTCUTDIR" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="HanGao.exe_21" Directory_="DesktopFolder" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="HanGao.exe_22" Directory_="SHORTCUTDIR" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="HanGao.exe_23" Directory_="DesktopFolder" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
     <ROW Shortcut="HanGao.exe_3" Directory_="DesktopFolder" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
     <ROW Shortcut="HanGao.exe_4" Directory_="SHORTCUTDIR" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
     <ROW Shortcut="HanGao.exe_5" Directory_="DesktopFolder" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
