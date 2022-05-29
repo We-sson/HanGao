@@ -56,17 +56,12 @@
                         Height=" 50"
                         Margin="0,0,15,15"
                         VerticalAlignment="Bottom"
+                        Effect="{StaticResource 全局背景阴影}"
                         Background="#F6F6F6"
                         CornerRadius="10,10,10,10"
                         BorderThickness="0"
                         BorderBrush="Black">
 
-                    <Border.Effect>
-                        <DropShadowEffect BlurRadius="20"
-                                          ShadowDepth="0"
-                                          Opacity="0.195"
-                                          Color="Gray" />
-                    </Border.Effect>
 
                     <Grid Grid.Row="1">
 
