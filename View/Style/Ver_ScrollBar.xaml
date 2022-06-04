@@ -122,7 +122,8 @@
 
 
 
-                        <Border x:Name="bod1" Margin=" 10 0 0 0"
+                        <Border x:Name="bod1"
+                                Margin="10,0,0,0"
                                 CornerRadius="0"
                                 Opacity="0"
                                 BorderBrush="{TemplateBinding BorderBrush}"

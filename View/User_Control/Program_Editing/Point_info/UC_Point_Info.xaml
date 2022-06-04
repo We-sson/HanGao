@@ -9,7 +9,7 @@
              d:DesignWidth="817"
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_Point_Info_VM}"
              mc:Ignorable="d">
-    <Grid Margin="10 0 10 10"
+    <Grid Margin="10"
           HorizontalAlignment="Stretch"
           VerticalAlignment="Stretch">
 
@@ -17,7 +17,7 @@
 
 
         <Grid.RowDefinitions>
-            <RowDefinition Height=" 40" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
@@ -45,29 +45,57 @@
 
 
         <!--  表头  -->
-        <TextBlock Grid.Row="0" Grid.Column="0"
-                   Grid.ColumnSpan=" 2"
-                   Text="{Binding UI_Craft_Date.Welding_Name, StringFormat={}位置名称: {0}, FallbackValue=位置名称:...}"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   FontSize="20"
-                   FontWeight="Normal" />
 
-        <Border Grid.Row="1" Grid.Column="0"
-                Grid.RowSpan="6"
+        <Border Grid.Row="0" Grid.Column="0"
                 Grid.ColumnSpan="3"
-                Margin="5"
+                Height=" 40"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 CornerRadius=" 5"
                 Effect="{StaticResource 全局背景阴影}"
-                Background="#5F5D6C" />
-
-        <TextBlock Grid.Row="0" Grid.Column="2"
-                   Text="补偿值"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   FontSize="22" />
+                Background="#434343">
+            <Grid>
+                <Button Style="{StaticResource ButtonStyle3}"
+                        Width=" 28"
+                        Height=" 28"
+                        Margin="10,0,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Background="Transparent">
+                    <Button.Content>
+                        <TextBlock Text="&#xe677;"
+                                   Margin="0"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="20"
+                                   Foreground="#6baa75"
+                                   FontFamily="/Resources/#iconfont" />
+                    </Button.Content>
+                </Button>
+                <TextBlock Text="位置设置"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Foreground="#e3e3e3"
+                           FontSize="20" />
+                <Button Style="{StaticResource ButtonStyle3}"
+                        Width=" 28"
+                        Height=" 28"
+                        Margin="0,0,10,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Background="Transparent">
+                    <Button.Content>
+                        <TextBlock Text="&#xe624;"
+                                   Margin="0"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="20"
+                                   Foreground="#ff5e57"
+                                   FontFamily="/Resources/#iconfont" />
+                    </Button.Content>
+                </Button>
+            </Grid>
+        </Border>
 
 
 
@@ -80,42 +108,42 @@
                    HorizontalAlignment="Stretch"
                    VerticalAlignment="Center"
                    FontSize="22"
-                   Foreground="#E3E3E3" />
+                   Foreground="#434343" />
         <TextBlock Grid.Row="2" Grid.Column="0"
                    Text="{Binding UI_Craft_Date.Welding_Pos.Y, Mode=OneWay, FallbackValue=Y:000.000, StringFormat={}Y: {0:N3} mm}"
                    Margin="10"
                    HorizontalAlignment="Stretch"
                    VerticalAlignment="Center"
                    FontSize="22"
-                   Foreground="#E3E3E3" />
+                   Foreground="#434343" />
         <TextBlock Grid.Row="3" Grid.Column="0"
                    Text="{Binding UI_Craft_Date.Welding_Pos.Z, Mode=OneWay, FallbackValue=Z:000.000, StringFormat={}Z: {0:N3} mm}"
                    Margin="10"
                    HorizontalAlignment="Stretch"
                    VerticalAlignment="Center"
                    FontSize="22"
-                   Foreground="#E3E3E3" />
+                   Foreground="#434343" />
         <TextBlock Grid.Row="4" Grid.Column="0"
                    Text="{Binding UI_Craft_Date.Welding_Pos.A, Mode=OneWay, FallbackValue=A:000.000, StringFormat={}A: {0:N3} mm}"
                    Margin="10"
                    HorizontalAlignment="Stretch"
                    VerticalAlignment="Center"
                    FontSize="22"
-                   Foreground="#E3E3E3" />
+                   Foreground="#434343" />
         <TextBlock Grid.Row="5" Grid.Column="0"
                    Text="{Binding UI_Craft_Date.Welding_Pos.B, Mode=OneWay, FallbackValue=B:000.000, StringFormat={}B: {0:N3} mm}"
                    Margin="10"
                    HorizontalAlignment="Stretch"
                    VerticalAlignment="Center"
                    FontSize="22"
-                   Foreground="#E3E3E3" />
+                   Foreground="#434343" />
         <TextBlock Grid.Row="6" Grid.Column="0"
                    Text="{Binding UI_Craft_Date.Welding_Pos.C, Mode=OneWay, FallbackValue=C:000.000, StringFormat={}C: {0:N3} mm}"
                    Margin="10"
                    HorizontalAlignment="Stretch"
                    VerticalAlignment="Center"
                    FontSize="22"
-                   Foreground="#E3E3E3" />
+                   Foreground="#434343" />
 
 
 
@@ -129,7 +157,7 @@
                    VerticalAlignment="Center"
                    FontSize="24"
                    FontFamily="/Resources/#iconfont"
-                   Foreground="White" />
+                   Foreground="#434343" />
         <TextBlock Grid.Row="2" Grid.Column="1"
                    Text="&#xe639;"
                    Margin="14"
@@ -137,7 +165,7 @@
                    VerticalAlignment="Center"
                    FontSize="24"
                    FontFamily="/Resources/#iconfont"
-                   Foreground="White" />
+                   Foreground="#434343" />
         <TextBlock Grid.Row="3" Grid.Column="1"
                    Text="&#xe639;"
                    Margin="14"
@@ -145,7 +173,7 @@
                    VerticalAlignment="Center"
                    FontSize="25"
                    FontFamily="/Resources/#iconfont"
-                   Foreground="White" />
+                   Foreground="#434343" />
         <TextBlock Grid.Row="4" Grid.Column="1"
                    Text="&#xe639;"
                    Margin="14"
@@ -153,7 +181,7 @@
                    VerticalAlignment="Center"
                    FontSize="25"
                    FontFamily="/Resources/#iconfont"
-                   Foreground="White" />
+                   Foreground="#434343" />
         <TextBlock Grid.Row="5" Grid.Column="1"
                    Text="&#xe639;"
                    Margin="14"
@@ -161,7 +189,7 @@
                    VerticalAlignment="Center"
                    FontSize="25"
                    FontFamily="/Resources/#iconfont"
-                   Foreground="White" />
+                   Foreground="#434343" />
         <TextBlock Grid.Row="6" Grid.Column="1"
                    Text="&#xe639;"
                    Margin="14"
@@ -169,7 +197,7 @@
                    VerticalAlignment="Center"
                    FontSize="25"
                    FontFamily="/Resources/#iconfont"
-                   Foreground="White" />
+                   Foreground="#434343" />
 
 
 
@@ -216,8 +244,7 @@
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Stretch"
                  Tag="mm"
-                 MaxLines="7"
-                 Foreground="White" />
+                 MaxLines="7" />
 
 
 

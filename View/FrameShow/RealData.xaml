@@ -4,12 +4,28 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HanGao.View.FrameShow"
-             d:DesignHeight="450" d:DesignWidth="800"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
              mc:Ignorable="d">
 
     <Grid ShowGridLines="True" Background="Transparent">
-        <TextBlock Text="实时数据" HorizontalAlignment="Center"
-                   VerticalAlignment="Center" FontSize="40"
+        <TextBlock Text="实时数据"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="40"
                    Foreground="White" />
+
+        <Expander Name="myExpander"
+                  Width="500"
+                  HorizontalAlignment="Left"
+                  Header="My Expander"
+                  ExpandDirection="Down"
+                  IsExpanded="True">
+            <TextBlock TextWrapping="Wrap" Background="Wheat">
+                Lorem ipsum dolor sit amet, consectetur
+                adipisicing elit, sed do eiusmod tempor incididunt ut
+                labore et dolore magna aliqua
+            </TextBlock>
+        </Expander>
     </Grid>
 </UserControl>
