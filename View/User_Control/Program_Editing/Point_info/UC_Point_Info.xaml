@@ -459,34 +459,29 @@
 
 
 
-        <TextBlock Grid.Row="7" Grid.Column="0"
-                   Grid.ColumnSpan=" 2"
-                   Text="原参数"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   FontSize="22" />
-        <TextBlock Grid.Row="7" Grid.Column="2"
-                   Text="修改参数"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   FontSize="22" />
-
-        <Border Grid.Row="8" Grid.Column="0"
-                Grid.RowSpan="5"
+        <Border Grid.Row="7" Grid.Column="0"
                 Grid.ColumnSpan="3"
-                Margin="5"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 CornerRadius=" 5"
                 Effect="{StaticResource 全局背景阴影}"
-                Background="#5F5D6C" />
+                Background="#626262">
+
+            <TextBlock Text="工艺设置"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Foreground="#e3e3e3"
+                       FontSize="20" />
+        </Border>
+
+
         <!--  第一列  -->
         <TextBlock Grid.Row="8" Grid.Column="0"
                    Text="{Binding UI_Craft_Date.Welding_CDIS, Mode=TwoWay, FallbackValue=圆弧过渡:, StringFormat={}圆过度值 : {0} mm}"
                    Margin="10"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
-                   Foreground="#E3E3E3"
+                   Foreground="#434343"
                    FontSize="20"
                    FontFamily="Yu Gothic Medium" />
         <TextBlock Grid.Row="9" Grid.Column="0"
@@ -494,7 +489,7 @@
                    Margin="10"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
-                   Foreground="#E3E3E3"
+                   Foreground="#434343"
                    FontFamily="Yu Gothic Medium"
                    FontSize="20" />
         <TextBlock Grid.Row="10" Grid.Column="0"
@@ -502,7 +497,7 @@
                    Margin="10"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
-                   Foreground="#E3E3E3"
+                   Foreground="#434343"
                    FontFamily="Yu Gothic Medium"
                    FontSize="20" />
         <TextBlock Grid.Row="11" Grid.Column="0"
@@ -510,7 +505,7 @@
                    Margin="10"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
-                   Foreground="#E3E3E3"
+                   Foreground="#434343"
                    FontFamily="Yu Gothic Medium"
                    FontSize="20" />
         <TextBlock Grid.Row="12" Grid.Column="0"
@@ -518,7 +513,7 @@
                    Margin="10"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
-                   Foreground="#E3E3E3"
+                   Foreground="#434343"
                    FontFamily="Yu Gothic Medium"
                    FontSize="20" />
 

@@ -93,7 +93,14 @@ namespace HanGao.Model
             { _LIst_Show = value; }
         }
 
-
+        /// <summary>
+        /// 工作区号数
+        /// </summary>
+        public enum Work_NO
+        {
+            N_1,
+            N_2
+        }
 
 
 
@@ -218,8 +225,10 @@ namespace HanGao.Model
 
 
 
-
-        public string Trigger_Work_NO { set; get; } = "0";
+        /// <summary>
+        /// 用户选择的加载区域
+        /// </summary>
+        public Work_NO Work_No_Emun { set; get; } 
 
 
 

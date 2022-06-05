@@ -8,7 +8,7 @@
         <Setter Property="Height" Value="40" />
         <Setter Property="Foreground" Value="#434343" />
         <Setter Property="BorderThickness" Value="3" />
-        <Setter Property="Effect" Value="{DynamicResource 全局背景阴影}" />
+
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -59,7 +59,7 @@
                                             <TextBlock Text="&#xe639;"
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
-                                                       Foreground="#ECD662"
+                                                       Foreground="#0C4271"
                                                        FontSize="14"
                                                        FontFamily="/Resources/#iconfont" />
                                         </Button.Content>
@@ -72,7 +72,7 @@
                                             <TextBlock Text="&#xe644;"
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
-                                                       Foreground="#ECD662"
+                                                       Foreground="#0C4271"
                                                        FontSize="14"
                                                        FontFamily="/Resources/#iconfont" />
                                         </Button.Content>

@@ -203,7 +203,6 @@
     <Compile Include="ViewModel\User_Control_Common.cs" />
     <Compile Include="ViewModel\User_Control_Log_ViewModel.cs" />
     <Compile Include="ViewModel\User_Control_Working_Path_VM.cs" />
-    <Compile Include="ViewModel\User_Control_Working_VM_2.cs" />
     <Compile Include="ViewModel\User_Control_Working_VM.cs" />
     <Compile Include="ViewModel\User_Message_Control_Show.cs" />
     <Compile Include="ViewModel\User_Message_ViewModel.cs" />

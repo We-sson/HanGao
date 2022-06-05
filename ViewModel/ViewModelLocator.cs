@@ -13,6 +13,7 @@
 */
 
 using HanGao.Errorinfo;
+using HanGao.Model;
 using HanGao.ViewModel;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
@@ -95,6 +96,7 @@ namespace HanGao.ViewModelLocator
                     .AddScoped<UC_ProgramEdit_ViewModel>()
                     .AddScoped<UC_Surround_Direction_VM>()
                     .AddScoped<UC_Point_Info_VM>()
+                    .AddScoped<Sink_Models>()
                     
                     .BuildServiceProvider());
 

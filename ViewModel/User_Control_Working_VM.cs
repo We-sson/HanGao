@@ -23,20 +23,58 @@ using static Soceket_KUKA.Socket_Receive;
 using static HanGao.ViewModel.User_Control_Log_ViewModel;
 using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
 using static HanGao.Extension_Method.KUKA_ValueType_Model;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
+using static HanGao.Model.Sink_Models;
 
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class User_Control_Working_VM : User_Control_Common
+    public class User_Control_Working_VM : ObservableRecipient
     {
 
 
         //------------------属性、字段声明------------------------
 
 
-        public static Wroking_Models UC_Working_VM_1 { get; set; } = new Wroking_Models() { Work_NO=1, UI_Show= Visibility.Collapsed };
+        public User_Control_Working_VM()
+        {
 
-        public static Wroking_Models UC_Working_VM_2 { get; set; }= new Wroking_Models() { Work_NO=2 };
+            //接收修改参数属性
+            Messenger.Register<Wroking_Models, string>(this, nameof(Meg_Value_Eunm.UI_Work_No), (O, S) =>
+            {
+
+
+                if (S.UI_Sink_Show.Work_No_Emun== Work_NO.N_1)
+                {
+                    UC_Working_VM_1 = S;
+
+
+                }
+                else if (S.UI_Sink_Show.Work_No_Emun== Work_NO.N_2)
+                {
+
+                    UC_Working_VM_2 = S;
+
+
+
+                }
+
+
+
+
+            });
+
+
+
+        }
+
+
+
+
+        public  Wroking_Models UC_Working_VM_1 { get; set; } = new Wroking_Models() { Work_NO="1",  };
+
+        public  Wroking_Models UC_Working_VM_2 { get; set; }= new Wroking_Models() { Work_NO="2" };
 
 
 

@@ -9,7 +9,7 @@
              xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
              d:DesignHeight="403"
              d:DesignWidth="491"
-             DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_VM.UC_Working_VM_1}"
+             DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_VM.UC_Working_VM_2}"
              mc:Ignorable="d">
     <Grid x:Name="GD1" Grid.Row="0" Grid.Column="0"
           Margin="5"
@@ -30,7 +30,7 @@
                     HorizontalAlignment="Center"
                     Orientation="Horizontal">
             <TextBlock x:Name="TB2"
-                       Text="{Binding Number_Work}"
+                       Text="{Binding Work_NO, StringFormat={}{0}号 工作区}"
                        Margin="0,0,0,0"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
@@ -71,7 +71,7 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Column="0"
-                           Text="&#xe61b;"
+                           Text="{Binding UI_Sink_Show.Photo_ico}"
                            Margin="5,0,0,0"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
@@ -104,15 +104,20 @@
                                       HorizontalAlignment="Stretch"
                                       VerticalAlignment="Stretch">
 
-                                    <ProgressBar Style="{StaticResource Arc_ProgressBar_Style}"
-                                                 Width="70"
-                                                 Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}"
-                                                 HorizontalAlignment="Stretch"
-                                                 VerticalAlignment="Stretch"
-                                                 Foreground="#15b15d"
-                                                 Value="50" />
 
-                                    <TextBlock Text=" 50 %"
+                                    <ed:Arc x:Name="PB_Power"
+                                            Width="70"
+                                            Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Stretch"
+                                            ArcThickness="8"
+                                            StartAngle="0"
+                                            Stretch="None"
+                                            ArcThicknessUnit="Pixel"
+                                            EndAngle="{Binding UI_Welding_Power}"
+                                            Fill="Green" />
+
+                                    <TextBlock Text="{Binding Welding_Power, StringFormat={}{0}%}"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                FontSize="14" />
@@ -137,15 +142,20 @@
                                       HorizontalAlignment="Stretch"
                                       VerticalAlignment="Stretch">
 
-                                    <ProgressBar Style="{StaticResource Arc_ProgressBar_Style}"
-                                                 Width="70"
-                                                 Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}"
-                                                 HorizontalAlignment="Stretch"
-                                                 VerticalAlignment="Stretch"
-                                                 Foreground="#15b15d"
-                                                 Value="50" />
 
-                                    <TextBlock Text="0.04m/s"
+                                    <ed:Arc x:Name="PB_Speel"
+                                            Width="70"
+                                            Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Stretch"
+                                            ArcThickness="8"
+                                            StartAngle="0"
+                                            Stretch="None"
+                                            ArcThicknessUnit="Pixel"
+                                            EndAngle="{Binding UI_Robot_Speed}"
+                                            Fill="Green" />
+
+                                    <TextBlock Text="{Binding Robot_Speed, StringFormat={}{0:N2}m/s}"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                FontSize="12" />
@@ -170,15 +180,20 @@
                                       HorizontalAlignment="Stretch"
                                       VerticalAlignment="Stretch">
 
-                                    <ProgressBar Style="{StaticResource Arc_ProgressBar_Style}"
-                                                 Width="70"
-                                                 Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}"
-                                                 HorizontalAlignment="Stretch"
-                                                 VerticalAlignment="Stretch"
-                                                 Foreground="#15b15d"
-                                                 Value="10" />
 
-                                    <TextBlock Text=" 50 S"
+
+                                    <ed:Arc x:Name="PB_Time"
+                                            Width="70"
+                                            Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Stretch"
+                                            ArcThickness="8"
+                                            StartAngle="0"
+                                            Stretch="None"
+                                            ArcThicknessUnit="Pixel"
+                                            EndAngle="{Binding UI_Welding_Time}"
+                                            Fill="Green" />
+                                    <TextBlock Text="{Binding Welding_Time, StringFormat={}{0}S}"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                FontSize="14" />
@@ -227,7 +242,7 @@
 
 
                     <TextBlock Grid.Column="0"
-                               Text="952154"
+                               Text="{Binding UI_Sink_Show.Sink_Model}"
                                Margin="0,0,20,0"
                                HorizontalAlignment="Right"
                                VerticalAlignment="Center"
@@ -260,7 +275,7 @@
                                    VerticalAlignment="Center"
                                    FontSize="18"
                                    FontFamily="YouYuan" />
-                        <TextBlock Text="680.000mm"
+                        <TextBlock Text="{Binding UI_Sink_Show.Sink_Process.Sink_Size_Long, Mode=OneTime, FallbackValue=...mm, StringFormat={}{0:N3} mm}"
                                    Margin="2"
                                    HorizontalAlignment="Right"
                                    VerticalAlignment="Center"
@@ -279,7 +294,7 @@
                                    VerticalAlignment="Center"
                                    FontSize="18"
                                    FontFamily="YouYuan" />
-                        <TextBlock Text="400.000mm"
+                        <TextBlock Text="{Binding UI_Sink_Show.Sink_Process.Sink_Size_Width, Mode=OneTime, FallbackValue=...mm, StringFormat={}{0:N3} mm}"
                                    HorizontalAlignment="Right"
                                    VerticalAlignment="Center"
                                    FontSize="18"
@@ -296,7 +311,7 @@
                                    VerticalAlignment="Center"
                                    FontSize="16"
                                    FontFamily="YouYuan" />
-                        <TextBlock Text="10.000mm"
+                        <TextBlock Text="{Binding UI_Sink_Show.Sink_Process.Sink_Size_R, Mode=OneTime, FallbackValue=...mm, StringFormat={}{0:N3} mm}"
                                    Margin="2"
                                    HorizontalAlignment="Right"
                                    VerticalAlignment="Center"
@@ -316,7 +331,7 @@
                                    VerticalAlignment="Center"
                                    FontSize="16"
                                    FontFamily="YouYuan" />
-                        <TextBlock Text="23.800mm"
+                        <TextBlock Text="{Binding UI_Sink_Show.Sink_Process.Sink_Size_Short_Side, Mode=OneTime, FallbackValue=...mm, StringFormat={}{0:N3} mm}"
                                    Margin="2"
                                    HorizontalAlignment="Right"
                                    VerticalAlignment="Center"
@@ -344,7 +359,7 @@
                                    VerticalAlignment="Center"
                                    FontSize="18"
                                    FontFamily="YouYuan" />
-                        <TextBlock Text="2.950mm"
+                        <TextBlock Text="{Binding UI_Sink_Show.Sink_Process.Sink_Size_Panel_Thick, Mode=OneTime, FallbackValue=...mm, StringFormat={}{0:N3} mm}"
                                    Margin="2"
                                    HorizontalAlignment="Right"
                                    VerticalAlignment="Center"
@@ -363,7 +378,7 @@
                                    VerticalAlignment="Center"
                                    FontSize="18"
                                    FontFamily="YouYuan" />
-                        <TextBlock Text="0.750mm"
+                        <TextBlock Text="{Binding UI_Sink_Show.Sink_Process.Sink_Size_Pots_Thick, Mode=OneTime, FallbackValue=...mm, StringFormat={}{0:N3} mm}"
                                    HorizontalAlignment="Right"
                                    VerticalAlignment="Center"
                                    FontSize="18"
@@ -380,7 +395,7 @@
                                    VerticalAlignment="Center"
                                    FontSize="16"
                                    FontFamily="YouYuan" />
-                        <TextBlock Text="23.800mm"
+                        <TextBlock Text="{Binding UI_Sink_Show.Sink_Process.Sink_Size_Left_Distance, Mode=OneTime, FallbackValue=...mm, StringFormat={}{0:N3} mm}"
                                    Margin="2"
                                    HorizontalAlignment="Right"
                                    VerticalAlignment="Center"
@@ -400,7 +415,7 @@
                                    VerticalAlignment="Center"
                                    FontSize="16"
                                    FontFamily="YouYuan" />
-                        <TextBlock Text="23.800mm"
+                        <TextBlock Text="{Binding UI_Sink_Show.Sink_Process.Sink_Size_Down_Distance, Mode=OneTime, FallbackValue=...mm, StringFormat={}{0:N3} mm}"
                                    Margin="2"
                                    HorizontalAlignment="Right"
                                    VerticalAlignment="Center"

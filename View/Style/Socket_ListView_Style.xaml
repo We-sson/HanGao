@@ -18,8 +18,9 @@
 
 
                         <ed:Arc ArcThickness="8"
-                                StartAngle="-120"
+                                StartAngle="-180"
                                 Stretch="None"
+                                ArcThicknessUnit="Pixel"
                                 EndAngle="{TemplateBinding Value}"
                                 Fill="Green" />
 

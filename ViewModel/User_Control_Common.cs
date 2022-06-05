@@ -47,15 +47,15 @@ namespace HanGao.ViewModel
         #region -----属性、字段声明-----
 
 
-        public const string UserControl_Function_Reset = "UserControl_Function_Reset";
-        public const string UserControl_Function_Set = "UserControl_Function_Set";
+        //public const string UserControl_Function_Reset = "UserControl_Function_Reset";
+        //public const string UserControl_Function_Set = "UserControl_Function_Set";
 
 
 
         /// <summary>
         /// 传递参数区域全局名称：重要！
         /// </summary>
-        public const string Work_String_Name_Global = "Show_Reveice_method_Bool";
+        //public const string Work_String_Name_Global = "Show_Reveice_method_Bool";
 
 
         /// <summary>

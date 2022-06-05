@@ -91,9 +91,9 @@ namespace HanGao.ViewModel
                     {
                         if (_List.User_Check == "Yes")
                         {
-
+                         
                             //传输确定更换型号的参数到控件显示
-                            var aa = UserControl_Function_Set + _List.List_Chick_NO;
+                            var aa = Meg_Value_Eunm.UI_Work_No + _List.List_Chick_NO;
                             Messenger.Send<Sink_Models,string>(_List.Model, aa);
 
                             //清楚非选择控件
@@ -164,6 +164,12 @@ namespace HanGao.ViewModel
         /// </summary>
         public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
 
+
+
+
+
+
+
         /// <summary>
         /// 文本输入事件触发属性
         /// </summary>
@@ -215,25 +221,6 @@ namespace HanGao.ViewModel
 
 
 
-        }
-
-
-        /// <summary>
-        /// 选择加工工位触发事件命令
-        /// </summary>
-        public ICommand Work_Connt_Comm
-        {
-            get => new RelayCommand<RoutedEventArgs>(Set_Work_Connt);
-        }
-        /// <summary>
-        /// 显示计数功能
-        /// </summary>
-        /// <param name="Sm"></param>
-        private void Set_Work_Connt(RoutedEventArgs Sm)
-        {
-            //把参数类型转换控件
-            //FrameworkElement e = Sm.Source as FrameworkElement;
-            //Sink_Models S = (Sink_Models)e.DataContext;
         }
 
 
@@ -303,7 +290,6 @@ namespace HanGao.ViewModel
 
 
 
-
         /// <summary>
         /// 选择加工工位触发事件命令
         /// </summary>
@@ -316,17 +302,27 @@ namespace HanGao.ViewModel
 
                 Sink_Models S = (Sink_Models)e.DataContext;
 
-                var g = this.GetType();
 
                 //写入工位触发工号
-                S.Trigger_Work_NO = e.Uid;
+                //(Work_NO)e.Tag;
 
                 //添加弹窗提示用户连接下位机通讯
                 //if (!Global_Socket_Read.Connected && !Global_Socket_Write.Connected) { e.IsChecked = false; return; }
 
-                S.Wroking_Models_ListBox.Work_Type = S.Sink_Model.ToString();
+                //S.Wroking_Models_ListBox.Work_Type = S.Sink_Model.ToString();
 
 
+                if (e.Uid == "1")
+                {
+
+                    S.Work_No_Emun = Work_NO.N_1;
+
+                }
+                else  if(e.Uid=="2") 
+                {
+                    S.Work_No_Emun = Work_NO.N_2;
+                    
+                }
 
 
 
@@ -367,11 +363,11 @@ namespace HanGao.ViewModel
 
 
                     //发送用户选择加工型号到加工区显示
-                    var aa = UserControl_Function_Set + e.Uid;
+                    string aa = Meg_Value_Eunm.UI_Work_No.ToString();
 
-              
 
-                    Messenger.Send<Sink_Models,string >(S, UserControl_Function_Set + e.Uid);
+
+                    Messenger.Send<Wroking_Models, string >(new Wroking_Models() { UI_Sink_Show=S, Work_NO=e.Uid}, aa);
                     
 
                 }
@@ -381,10 +377,13 @@ namespace HanGao.ViewModel
 
 
                     //清空加工区功能状态显示
-                    var a = UserControl_Function_Reset + e.Uid;
+                    string aa = Meg_Value_Eunm.UI_Work_No.ToString();
 
 
-                    Messenger.Send<dynamic, string>(false, UserControl_Function_Reset + e.Uid);
+
+                    Messenger.Send<Wroking_Models, string>(new Wroking_Models() { UI_Sink_Show = S, Work_NO = e.Uid, UI_Show= Visibility.Collapsed }, aa);
+
+                    //Messenger.Send<dynamic, string>(false, UserControl_Function_Reset + e.Uid);
 
 
 

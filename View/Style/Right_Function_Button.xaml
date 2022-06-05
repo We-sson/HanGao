@@ -114,7 +114,7 @@
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
                             <Setter Property="Opacity" Value="0.5" />
-                            <Setter TargetName="border" Property="Background" Value="#EEEEEE" />
+                            <Setter TargetName="border" Property="Background" Value="Gray" />
 
                             <!--<Setter TargetName="border" Property="Background" Value="{StaticResource Button.Pressed.Background}" />
                             <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.Pressed.Border}" />-->

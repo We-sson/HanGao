@@ -21,6 +21,12 @@ namespace HanGao.ViewModel.Messenger_Eunm
         {
 
             /// <summary>
+            /// UI显示工作区
+            /// </summary>
+            UI_Work_No,
+
+
+            /// <summary>
             /// 水槽类型加载
             /// </summary>
             Sink_Type_Value_Load,
