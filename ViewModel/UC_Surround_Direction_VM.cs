@@ -39,7 +39,6 @@ namespace HanGao.ViewModel
             Null,
             L0_Welding_Craft,
             C45_Welding_Craft,
-         
             L90_Welding_Craft,
             C135_Welding_Craft,
             L180_Welding_Craft,
@@ -49,7 +48,7 @@ namespace HanGao.ViewModel
         }
 
 
-        public enum Surround_Direction_Type_Enum
+        public enum UI_Type_Enum
         {
             Reading,
             Ok
@@ -57,7 +56,7 @@ namespace HanGao.ViewModel
 
 
 
-        public Surround_Direction_Type_Enum Direction_State { get; set; } = Surround_Direction_Type_Enum.Ok ;
+        public UI_Type_Enum Direction_State { get; set; } = UI_Type_Enum.Ok ;
 
 
 

@@ -26,24 +26,17 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 接收列表传来的控件
         /// </summary>
-        public static CheckBox List_Check_Control { set; get; }
+        //public static CheckBox List_Check_Control { set; get; }
 
 
 
 
         public User_Message_ViewModel()
         {
-            
+
 
             // 显示弹窗信息型号
             //WeakReferenceMessenger.Default.Register<string>(this, "User_Message_Work_Type", (Type) => { User_Message_View.User_Wrok_Trye = Type; });
-
-
-
-
-
-
-
 
 
 
@@ -104,10 +97,17 @@ namespace HanGao.ViewModel
 
 
 
-            //记录用户选择的是或否
-            List_Show_Models.User_Check = e.Uid.ToString();
 
-            Messenger.Send<List_Show_Models,string >(List_Show_Models, nameof(Meg_Value_Eunm.List_IsCheck_Show) );
+            List_Show_Models.GetUser_Select(bool.Parse(e.Uid));
+
+
+       
+
+
+            //记录用户选择的是或否
+            //List_Show_Models.User_Check = e.Uid.ToString();
+
+            //Messenger.Send<List_Show_Models,string >(List_Show_Models, nameof(Meg_Value_Eunm.List_IsCheck_Show) );
 
 
 
@@ -115,9 +115,7 @@ namespace HanGao.ViewModel
         }
 
 
-
-
-
+ 
 
 
 

@@ -302,10 +302,10 @@ namespace HanGao.ViewModel
         }
 
         /// <summary>
-        /// XML文件转换KUKA读取变量名
+        /// XML文件转换KUKA写入变量名
         /// </summary>
         /// <param name="Xcd"></param>
-        private void XmlVal_Write_KUKAString(Xml_Craft_Date Xcd)
+        public   void XmlVal_Write_KUKAString(Xml_Craft_Date Xcd)
         {
 
 
@@ -390,6 +390,7 @@ namespace HanGao.ViewModel
 
 
         }
+
 
 
 

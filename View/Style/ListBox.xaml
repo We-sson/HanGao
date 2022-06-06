@@ -262,7 +262,7 @@
 
 
                                 <CheckBox Style="{StaticResource CheckBoxStyle2}"
-                                          Uid="1"
+                                          Uid="N_1"
                                           IsChecked="{Binding List_IsChecked_1}"
                                           Width=" 30"
                                           Height="30"
@@ -294,7 +294,7 @@
                                         Orientation="Horizontal">
 
                                 <CheckBox Style="{StaticResource CheckBoxStyle2}"
-                                          Uid="2"
+                                          Uid="N_2"
                                           IsChecked="{Binding List_IsChecked_2}"
                                           Width=" 30"
                                           Height="30"

@@ -92,7 +92,7 @@
                            Foreground="Black" />
 
                 <Button Style="{StaticResource Button_message}" x:Name="BT1"
-                        Uid="Yes"
+                        Uid="True"
                         Width="225"
                         Height="60"
                         HorizontalAlignment="Left"
@@ -134,7 +134,7 @@
 
 
                 <Button Style="{StaticResource Button_message}" x:Name="BT2"
-                        Uid="No"
+                        Uid="False"
                         Width="225"
                         Height="60"
                         HorizontalAlignment="Right"

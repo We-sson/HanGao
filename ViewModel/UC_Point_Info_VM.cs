@@ -39,15 +39,15 @@ namespace HanGao.ViewModel
 
             });
 
-           //获得工艺数据回传给工艺列表保存对应方向
-            Messenger.Register<dynamic  ,string>(this, nameof(Meg_Value_Eunm.Sink_Craft_Data_Save), (O, S) =>
-            {
+           //获得工艺数据回传给工艺列表保存对应方向——停用
+            //Messenger.Register<dynamic  ,string>(this, nameof(Meg_Value_Eunm.Sink_Craft_Data_Save), (O, S) =>
+            //{
 
-                //传送用户选择工艺
-                Messenger.Send<Xml_Craft_Date, string>(UI_Craft_Date, nameof(Meg_Value_Eunm.Sink_Craft_Data_OK));
+            //    //传送用户选择工艺
+            //    Messenger.Send<Xml_Craft_Date, string>(UI_Craft_Date, nameof(Meg_Value_Eunm.Sink_Craft_Data_OK));
 
 
-            });
+            //});
             
 
 
@@ -97,8 +97,8 @@ namespace HanGao.ViewModel
 
 
 
-                //传送用户选择工艺
-                Messenger.Send<Xml_Craft_Date, string>(a, nameof(Meg_Value_Eunm.Sink_Craft_Data_OK));
+                //停用
+                //Messenger.Send<Xml_Craft_Date, string>(a, nameof(Meg_Value_Eunm.Sink_Craft_Data_OK));
 
             });
         }

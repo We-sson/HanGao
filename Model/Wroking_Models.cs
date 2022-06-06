@@ -8,6 +8,8 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Soceket_KUKA.Models;
 using System.Threading;
 using System.Windows;
+using static HanGao.Model.Sink_Models;
+using static HanGao.ViewModel.UC_Surround_Direction_VM;
 
 namespace HanGao.Model
 {
@@ -20,19 +22,23 @@ namespace HanGao.Model
         }
 
 
-        public Visibility UI_Show { set; get; } =Visibility.Visible;    
+        public Visibility UI_Show { set; get; } =Visibility.Visible;
 
 
         /// <summary>
         /// 工作区设置编号
         /// </summary>
-        public string  Work_NO { set; get; }
+        public Work_No Work_NO { set; get; }
 
-       
+       /// <summary>
+       /// UI界面水槽尺寸显示
+       /// </summary>
        public Sink_Models UI_Sink_Show { set; get; }
 
-       
-
+        /// <summary>
+        /// 发送数据到机器人显示状态
+        /// </summary>
+        public UI_Type_Enum UI_Loade { set; get; } = UI_Type_Enum.Ok;
 
 
         /// <summary>

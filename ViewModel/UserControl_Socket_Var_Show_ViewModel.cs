@@ -132,11 +132,11 @@ namespace HanGao.ViewModel
                 new Thread(new ThreadStart(new Action(() =>
                {
 
-                   Messenger.Send<dynamic, string>(Surround_Direction_Type_Enum.Reading, nameof(Meg_Value_Eunm.Surround_Direction_State));
+                   Messenger.Send<dynamic, string>(UI_Type_Enum.Reading, nameof(Meg_Value_Eunm.Surround_Direction_State));
 
                    Socket_Client_Setup.One_Read.Cycle_Real_Send(On_Read_List);
 
-                   Messenger.Send<dynamic, string>(Surround_Direction_Type_Enum.Ok , nameof(Meg_Value_Eunm.Surround_Direction_State));
+                   Messenger.Send<dynamic, string>(UI_Type_Enum.Ok , nameof(Meg_Value_Eunm.Surround_Direction_State));
 
 
                })))

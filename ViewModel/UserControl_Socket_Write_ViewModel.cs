@@ -50,11 +50,9 @@ namespace HanGao.ViewModel
 
                     for (int i = 0; i < 500; i++)
                     {
+                                  new Thread(() => Socket_Client_Setup.Write.Cycle_Write_Send(Sm.Send_Name.Text, Sm.Send_Val.Text)) { Name = "Cycle_Write—KUKA", IsBackground = true }.Start();
 
-                         Thread _=  new Thread(() => Socket_Client_Setup.Write.Cycle_Write_Send(Sm.Send_Name.Text, Sm.Send_Val.Text)) { Name = "Cycle_Write—KUKA", IsBackground = true };
-
-                        _.Start();
-
+          
 
                       
                     }

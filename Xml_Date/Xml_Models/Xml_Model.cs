@@ -136,6 +136,7 @@ namespace HanGao.Xml_Date.Xml_Models
 
         [StringValue("Welding_Name[]")]
         [XmlAttribute]
+        [ReadWriteAttribute(ReadWrite_Enum.Read)]
         public string Welding_Name { get; set; } = "...";
         [XmlAttribute]
         [ReadWriteAttribute( ReadWrite_Enum.Write)]
@@ -159,6 +160,7 @@ namespace HanGao.Xml_Date.Xml_Models
         public Welding_Pos_Date Welding_Offset { get; set; } = new Welding_Pos_Date() { };
 
         [XmlElement(ElementName = "Welding_Pos")]
+        [ReadWriteAttribute(ReadWrite_Enum.Read)]
         public Welding_Pos_Date Welding_Pos { get; set; } = new Welding_Pos_Date() { };
     }
 
@@ -166,7 +168,9 @@ namespace HanGao.Xml_Date.Xml_Models
 
 
 
-
+    /// <summary>
+    /// XML文件中焊接点数据
+    /// </summary>
     [Serializable]
     public class Welding_Pos_Date
     {
@@ -201,7 +205,9 @@ namespace HanGao.Xml_Date.Xml_Models
         Null
     }
 
-
+    /// <summary>
+    /// 属性读取写入标识方法
+    /// </summary>
     [AttributeUsage(AttributeTargets.All, AllowMultiple =false ,Inherited =false )]
     public   class ReadWriteAttribute : Attribute
     {
@@ -220,7 +226,9 @@ namespace HanGao.Xml_Date.Xml_Models
 
     }
 
-
+    /// <summary>
+    /// XML文件中读取写入标识
+    /// </summary>
     public enum ReadWrite_Enum
     {
         Read,
@@ -230,7 +238,9 @@ namespace HanGao.Xml_Date.Xml_Models
 
 
 
-
+    /// <summary>
+    /// XML文件中直线圆弧标识
+    /// </summary>
     public enum Distance_Type_Enum
     {
         LIN,

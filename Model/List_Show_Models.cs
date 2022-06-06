@@ -42,5 +42,12 @@ namespace HanGao.Model
 
         //存放需要更换UI参数内容
         public Sink_Models Model { set; get; } = new Sink_Models( Sink_Models.Sink_Type_Enum.LeftRight_One);
+
+
+
+        public delegate void GetUser_Select_Method(bool Value2);
+        public GetUser_Select_Method GetUser_Select;
+
+
     }
 }

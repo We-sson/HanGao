@@ -7,24 +7,27 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:cmd="http://www.galasoft.ch/mvvmlight"
              xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
+             xmlns:pop_ups="clr-namespace:HanGao.View.User_Control.Pop_Ups"
              d:DesignHeight="403"
              d:DesignWidth="491"
              DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_VM.UC_Working_VM_2}"
              mc:Ignorable="d">
     <Grid x:Name="GD1" Grid.Row="0" Grid.Column="0"
           Margin="5"
-          ShowGridLines="False"
-          Effect="{Binding Source={StaticResource 全局背景阴影}}">
+          ShowGridLines="False">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.15*" />
             <RowDefinition />
         </Grid.RowDefinitions>
 
+
+
+
         <Border x:Name="Bd1"
                 Grid.RowSpan="2"
                 CornerRadius="10"
                 BorderBrush="Transparent"
-                Background="{Binding Work_back, Mode=TwoWay}" />
+                Background="{Binding Work_back, FallbackValue=#EEEEEE, Mode=TwoWay}" />
 
         <StackPanel Grid.Column="0"
                     HorizontalAlignment="Center"
@@ -77,7 +80,7 @@
                            VerticalAlignment="Center"
                            Foreground="#EEEEEE"
                            FontFamily="/Resources/#iconfont"
-                           FontSize="130" />
+                           FontSize="110" />
 
                 <Grid Grid.Column="1" Margin="10,10,10,10">
                     <Border Background="#EEEEEE"
@@ -436,7 +439,10 @@
         </Grid>
 
 
-
+        <pop_ups:UC_Wait_Loading Grid.Row="0" Grid.Column="0"
+                                 Grid.RowSpan="2"
+                                 Grid.ColumnSpan="2"
+                                 DataContext="{Binding UI_Loade}" />
     </Grid>
 
 

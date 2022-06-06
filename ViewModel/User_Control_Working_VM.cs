@@ -45,17 +45,18 @@ namespace HanGao.ViewModel
             {
 
 
-                if (S.UI_Sink_Show.Work_No_Emun== Work_NO.N_1)
+                if (S.UI_Sink_Show.Work_No_Emun  == Work_No.N_1)
                 {
+
+
                     UC_Working_VM_1 = S;
 
 
                 }
-                else if (S.UI_Sink_Show.Work_No_Emun== Work_NO.N_2)
+                else if (S.UI_Sink_Show.Work_No_Emun== Work_No.N_2)
                 {
 
                     UC_Working_VM_2 = S;
-
 
 
                 }
@@ -72,9 +73,9 @@ namespace HanGao.ViewModel
 
 
 
-        public  Wroking_Models UC_Working_VM_1 { get; set; } = new Wroking_Models() { Work_NO="1",  };
+        public  Wroking_Models UC_Working_VM_1 { get; set; } = new Wroking_Models() { Work_NO= Work_No.N_1,  };
 
-        public  Wroking_Models UC_Working_VM_2 { get; set; }= new Wroking_Models() { Work_NO="2" };
+        public  Wroking_Models UC_Working_VM_2 { get; set; }= new Wroking_Models() { Work_NO= Work_No.N_2 };
 
 
 

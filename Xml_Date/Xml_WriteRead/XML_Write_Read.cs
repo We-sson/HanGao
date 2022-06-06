@@ -253,7 +253,7 @@ namespace HanGao.Xml_Date.Xml_WriteRead
             using var reader = new StreamReader(@"Date\XmlDate.xml");
             Sink_Date = (Xml_Model)xmlSerializer.Deserialize(reader);
 
-            foreach (var item in XML_Write_Read.Sink_Date.Sink_List)
+            foreach (var item in Sink_Date.Sink_List)
             {
                 List_Show.SinkModels.Add(new Sink_Models(item.Sink_Type)
                 {

@@ -96,9 +96,9 @@ namespace HanGao.Model
         /// <summary>
         /// 工作区号数
         /// </summary>
-        public enum Work_NO
+        public enum Work_No
         {
-            N_1,
+            N_1=1,
             N_2
         }
 
@@ -187,22 +187,22 @@ namespace HanGao.Model
         /// <summary>
         /// 列表中水槽的保存参数
         /// </summary>
-        public Wroking_Models Wroking_Models_ListBox = new Wroking_Models() { };
+        public Wroking_Models Wroking_Models_ListBox { set; get; } = new Wroking_Models() { };
 
 
 
-        /// <summary>
-        /// 列表中区域1水槽的功能保存
-        /// </summary>
-        public User_Features User_Check_1 { set; get; } = new User_Features() { };
+        ///// <summary>
+        ///// 列表中区域1水槽的功能保存
+        ///// </summary>
+        //public User_Features User_Check_1 { set; get; } = new User_Features() { };
 
 
 
 
-        /// <summary>
-        /// 列表中区域2水槽的功能保存
-        /// </summary>
-        public User_Features User_Check_2 { set; get; } = new User_Features() { };
+        ///// <summary>
+        ///// 列表中区域2水槽的功能保存
+        ///// </summary>
+        //public User_Features User_Check_2 { set; get; } = new User_Features() { };
 
 
 
@@ -228,7 +228,7 @@ namespace HanGao.Model
         /// <summary>
         /// 用户选择的加载区域
         /// </summary>
-        public Work_NO Work_No_Emun { set; get; } 
+        public Work_No Work_No_Emun { set; get; } 
 
 
 
