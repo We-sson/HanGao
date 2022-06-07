@@ -921,7 +921,7 @@ namespace Soceket_Connect
             }
             else if (Smr.Receive_Byte.Byte_Return_Tpye == 1 && Smr.Receive_Byte.Byte_Write_Type == 0)
             {
-                User_Log_Add($"Write Val:" + Smr.Receive_Byte.Message_Show);
+                User_Log_Add(Smr.Reveice_Inf.Val_Name + " = " + Smr.Receive_Byte.Message_Show);
                 User_Log_Add(" 变量值写入失败！");
 
 

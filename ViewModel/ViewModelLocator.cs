@@ -97,6 +97,7 @@ namespace HanGao.ViewModelLocator
                     .AddScoped<UC_Surround_Direction_VM>()
                     .AddScoped<UC_Point_Info_VM>()
                     .AddScoped<Sink_Models>()
+                    .AddScoped<User_Control_Common>()
                     
                     .BuildServiceProvider());
 
@@ -113,7 +114,8 @@ namespace HanGao.ViewModelLocator
         public FrameShow FrameShow => Ioc.Default.GetService<FrameShow>();
         public List_Show List_Show => Ioc.Default.GetService<List_Show>();
         public User_Control_Working_VM User_Control_Working_VM => Ioc.Default.GetService<User_Control_Working_VM>();
-       
+        public User_Control_Common User_Control_Common => Ioc.Default.GetService<User_Control_Common>();
+        
         public User_Message_ViewModel User_Message_ViewModel => Ioc.Default.GetService<User_Message_ViewModel>();
         public User_Control_Show User_Control_Show => Ioc.Default.GetService<User_Control_Show>();
         public Home_ViewModel Home_ViewModel => Ioc.Default.GetService<Home_ViewModel>();

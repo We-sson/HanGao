@@ -68,6 +68,10 @@ namespace HanGao.Xml_Date.Xml_Models
         public Xml_Surround_Craft_Data C225_Welding_Craft { get; set; } 
         public Xml_Surround_Craft_Data L270_Welding_Craft { get; set; } 
         public Xml_Surround_Craft_Data C315_Welding_Craft { get; set; } 
+
+
+
+
     }
 
 
@@ -78,6 +82,10 @@ namespace HanGao.Xml_Date.Xml_Models
     {
         [XmlIgnore]
         public Distance_Type_Enum Distance_Type;
+
+        /// <summary>
+        /// 写入模式
+        /// </summary>
         [XmlIgnore]
         public bool Write_Mode=false;
 
@@ -86,6 +94,9 @@ namespace HanGao.Xml_Date.Xml_Models
 
         private int _maxArray;
 
+        /// <summary>
+        /// 最大数组
+        /// </summary>
         [XmlAttribute]
         public int MaxArray
         {
@@ -117,8 +128,7 @@ namespace HanGao.Xml_Date.Xml_Models
                 _maxArray = value;
             }
         }
-
-
+     
 
     }
 

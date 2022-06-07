@@ -385,7 +385,9 @@ namespace HanGao.ViewModel
                                             //发送水槽数据
                                             Messenger.Send<Wroking_Models, string>(new Wroking_Models() { UI_Sink_Show = S, Work_NO = S.Work_No_Emun }, Work_Str);
 
-                                            WriteToKuKa_SinkVal(S);
+
+                                           new Thread(() => WriteToKuKa_SinkVal(S)) { Name = "Write—KUKA", IsBackground = true }.Start ();
+                        
 
 
                                         }
@@ -430,8 +432,9 @@ namespace HanGao.ViewModel
 
 
                     Messenger.Send<Wroking_Models, string >(new Wroking_Models() { UI_Sink_Show=S, Work_NO= S.Work_No_Emun }, Work_Str);
-                    WriteToKuKa_SinkVal(S);
-                    
+
+                   new Thread(() => WriteToKuKa_SinkVal(S)) { Name = "Write—KUKA", IsBackground = true }.Start();
+
 
                 }
                 else
@@ -461,7 +464,10 @@ namespace HanGao.ViewModel
 
 
 
-
+        /// <summary>
+        /// 水槽尺寸工艺数据写入库卡变量中
+        /// </summary>
+        /// <param name="Val1"></param>
         public void WriteToKuKa_SinkVal(Sink_Models Val1 ) 
         {
             foreach (var item in XML_Write_Read.Sink_Date.Sink_List)
@@ -469,22 +475,80 @@ namespace HanGao.ViewModel
                 if (item.Sink_Model==Val1.Sink_Model)
                 {
 
-                    PropertyInfo[] Surr_Data =  item.Surround_Craft.GetType().GetProperties();
+                    //PropertyInfo[] Surr_Data =  item.Surround_Craft.GetType().GetProperties();
 
                    
 
-                    foreach (var Surround_Craft_Name in Surr_Data)
+                    foreach (var Surround_Craft_Name in item.Surround_Craft.GetType().GetProperties())
                     {
 
                         //Xml_Surround_Craft_Data Xml_SinkDate = (Xml_Surround_Craft_Data)Surround_Craft_Name.GetValue(item.Surround_Craft);
 
 
 
-                        PropertyInfo[] Surr_List= Surround_Craft_Name.GetType().GetProperties();
+                        Xml_Surround_Craft_Data Surr_List = (Xml_Surround_Craft_Data)Surround_Craft_Name.GetValue(item.Surround_Craft);
+
+
+
+                        for (int i = 0; i < Surr_List.Craft_Date.Count; i++)
+                        {
+
+                            foreach (var Craft_List in Surr_List.Craft_Date[i].GetType().GetProperties())
+                            {
+                                foreach (var List_Name in Craft_List.GetCustomAttributes( true))
+                                {
+
+                                    if (List_Name is ReadWriteAttribute Autt)
+                                    {
+
+                                        switch (Autt.ReadWrite_Type)
+                                        {
+                                            case ReadWrite_Enum.Read:
+                                                break;
+                                            case ReadWrite_Enum.Write:
+
+                                                string _N = Surround_Craft_Name.Name +"["+(i+1)+"]."+ Craft_List.Name;
+                                                string _Val = string.Empty;
+                                                
+
+                                                if (Craft_List.GetValue(Surr_List.Craft_Date[i]) is Welding_Pos_Date)
+                                                {
+                                                    Welding_Pos_Date _P = Craft_List.GetValue(Surr_List.Craft_Date[i]) as Welding_Pos_Date;
+
+                                                   _Val = @"{Offset_POS: X " + _P.X + ", Y " + _P.Y + ", Z " + _P.Z + " }";
+
+                                                }
+                                                else
+                                                {
+                                                    var _P = Craft_List.GetValue(Surr_List.Craft_Date[i]);
+                                                     _Val =  _P.ToString();
+                                                }
+                                                //Socket_Client_Setup.Write.Cycle_Write_Send(_N, _Val);
+
+
+                                                Socket_Client_Setup.Write.Cycle_Write_Send(_N, _Val);
+
+
+
+                                                break;
+                          
+                                        }
 
 
 
 
+
+                                    }
+
+
+
+
+
+
+                                }
+                            }
+
+                        }
 
 
                         //var Xml_SinkDate = (Xml_Surround_Craft_Data)Surround_Craft_Name.GetType().GetProperty();
@@ -493,8 +557,7 @@ namespace HanGao.ViewModel
                    
 
 
-                        for (int i = 0; i < Surr_List.Length; i++)
-                            {
+                 
 
                             //PropertyInfo[] Surround_Craft_Name = Val2.GetType().GetProperties();
 
@@ -546,7 +609,7 @@ namespace HanGao.ViewModel
                             //        }
 
 
-                        }
+                        
       //传送用户选择工艺
                             //Messenger.Send<Xml_Craft_Date, string>(Val2, nameof(Meg_Value_Eunm.Sink_Craft_Data_OK));
                     
