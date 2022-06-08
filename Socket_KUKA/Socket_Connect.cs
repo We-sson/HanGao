@@ -37,7 +37,7 @@ namespace Soceket_Connect
 
 
 
-        public Socket_Connect(string _IP, string _Port, Read_Write_Enum _Enum)
+        public Socket_Connect()
         {
 
             //实例初始化
@@ -322,7 +322,7 @@ namespace Soceket_Connect
 
 
        
-            string Local_IP;
+            //string Local_IP;
 
 
                     if (_Enum== Read_Write_Enum.Write)
@@ -331,7 +331,7 @@ namespace Soceket_Connect
 
 
                 //当前错误信息IP号
-                Local_IP = Global_Socket_Write.LocalEndPoint.ToString();
+                //Local_IP = Global_Socket_Write.LocalEndPoint.ToString();
 
 
 
@@ -375,7 +375,7 @@ namespace Soceket_Connect
                     {
 
                 //当前错误信息IP号
-                Local_IP = Global_Socket_Read.LocalEndPoint.ToString();
+                //Local_IP = Global_Socket_Read.LocalEndPoint.ToString();
                 //Remote_IP = Global_Socket_Read.RemoteEndPoint.ToString();
                 try
                 {

@@ -144,9 +144,9 @@ namespace HanGao.ViewModel
         {
             IP = IP_Client,
             Port = Port_Client,
-            One_Read =  new Socket_Connect(IP_Client, Port_Client,  Read_Write_Enum.One_Read),
-            Read = new Socket_Connect(IP_Client, Port_Client, Read_Write_Enum.Read),
-            Write = new Socket_Connect(IP_Client, Port_Client,  Read_Write_Enum.Write),
+            One_Read =  new Socket_Connect(),
+            Read = new Socket_Connect(),
+            Write = new Socket_Connect(),
             Connect_Socket_Type = Socket_Type.Client,
             Control_Name_String = "连接控制柜",
         };

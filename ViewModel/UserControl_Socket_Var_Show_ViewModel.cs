@@ -39,7 +39,6 @@ namespace HanGao.ViewModel
         {
 
 
-       
 
 
 
@@ -72,7 +71,7 @@ namespace HanGao.ViewModel
 
 
             // 发送内容集合接收写入
-           Messenger.Register<ObservableCollection<Socket_Models_List>,string >(this, nameof(Meg_Value_Eunm.List_Connect), (O,_List) =>
+            WeakReferenceMessenger.Default.Register<ObservableCollection<Socket_Models_List>,string >(this, nameof(Meg_Value_Eunm.List_Connect), (O,_List) =>
             {
 
 
@@ -181,6 +180,10 @@ namespace HanGao.ViewModel
 
             });
 
+
+
+
+            User_Control_Common KUKA_Val_Emum = new User_Control_Common();
 
         }
 

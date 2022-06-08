@@ -312,7 +312,7 @@ namespace HanGao.ViewModel
             // string[,] _Val = new string[10, 10];
 
 
-            var b = Xcd.GetType().GetProperties();
+            //var b = Xcd.GetType().GetProperties();
 
             foreach (var item in Xcd.GetType().GetProperties())
             {

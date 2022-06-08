@@ -170,42 +170,12 @@ namespace HanGao.ViewModel
 
 
 
-        #region  -----消息通知名称声明-----
-
-
-
-
-        ///// <summary>
-        ///// 工作区1：功能初始化，消息通道字典名称
-        ///// </summary>
-        //public const string UserControl_Function_Reset_1 = UserControl_Function_Reset + User_Control_Working_VM_1.Work_NO;
-
-
-        ///// <summary>
-        ///// 工作区1：功能设置，消息通道字典名称
-        ///// </summary>
-        //public const string UserControl_Function_Set_1 = UserControl_Function_Set + User_Control_Working_VM_1.Work_NO;
-
-
-        ///// <summary>
-        ///// 工作区2：功能初始化，消息通道字典名称
-        ///// </summary>
-        //public const string UserControl_Function_Reset_2 = UserControl_Function_Reset + User_Control_Working_VM_2. Work_NO;
-
-        ///// <summary>
-        ///// 工作区2：功能设置，消息通道字典名称
-        ///// </summary>
-        //public const string UserControl_Function_Set_2 = UserControl_Function_Set + User_Control_Working_VM_2.Work_NO;
-
-
-        #endregion
 
 
 
 
 
-
-        private static  ObservableCollection<Socket_Models_List> _List = new ObservableCollection<Socket_Models_List>();  
+        private static readonly    ObservableCollection<Socket_Models_List> _List = new ObservableCollection<Socket_Models_List>();  
 
 
         #region -----方法体-----
@@ -221,81 +191,17 @@ namespace HanGao.ViewModel
             foreach (Enum item in Enum.GetValues(_Enum))
             {
 
- 
-                        _List.Add(new Socket_Models_List() { Val_Name = item.GetStringValue(), Val_ID = Read_Number_ID, Send_Area = item.GetAreaValue(), Value_Enum = item, Bingding_Value = item.GetBingdingValue().BingdingValue, KUKA_Value_Enum = item.GetBingdingValue().SetValueType,  });
-     
-
-
-
-
+                 _List.Add(new Socket_Models_List() { Val_Name = item.GetStringValue(), Val_ID = Read_Number_ID, Send_Area = item.GetAreaValue(), Value_Enum = item, Bingding_Value = item.GetBingdingValue().BingdingValue, KUKA_Value_Enum = item.GetBingdingValue().SetValueType,  });
 
             }
-
-
-
-
             WeakReferenceMessenger.Default.Send<ObservableCollection<Socket_Models_List>, string>(_List, nameof(Meg_Value_Eunm.List_Connect));
-              
-  
-          
 
         }
 
 
 
 
-        ///// <summary>
-        ///// 功能开关日志输出
-        ///// </summary>
-        ///// <param name="IsCheck">开关</param>
-        ///// <param name="User">工作区号码</param>
-        ///// <param name="Fea">功能名称</param>
-        //public void User_Features_OnOff_Log(bool? IsCheck, int User, string Fea)
-        //{
-        //    if (IsCheck == true)
-        //    {
-        //        User_Log_Add("NO." + User.ToString() + Fea + "功能开启");
-        //    }
-        //    else if (IsCheck == false)
-        //    {
-        //        User_Log_Add("NO." + User.ToString() + Fea + "功能关闭");
-
-        //    }
-
-
-        //}
-
-
-        ///// <summary>
-        ///// 传入触发控件，返回对应触发的DataContext，否则空
-        ///// </summary>
-        ///// <param name="e">传入控件</param>
-        //public object  Log_Work_data( RoutedEventArgs _e)
-        //{
-
-
-        //    dynamic  Data = (_e.Source as CheckBox).DataContext;
-
-
-
-        //    if (Data.WM.Work_NO == 1)
-        //    {
-
-        //        return (User_Control_Working_VM_1)Data;
-
-
-        //    }
-        //    else if (Data.WM.Work_NO == 2)
-        //    {
-        //        return (User_Control_Working_VM_2)Data;
-
-        //    };
-
-        //    return null;
-
-
-
-        //}
+       
 
 
 
