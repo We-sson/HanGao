@@ -141,6 +141,11 @@ DEFTP Surround_LIN={ SOt FALSE,Soc TRUE }
    ITEM[3] {ITEM: VALUE[] "C225" ,  DISP[] "C225"},  _
    ITEM[4] {ITEM: VALUE[] "C315"  , DISP[] "C315"},  _
    POS 1}}
+   
+  DECL PARAM Work_Area= {SHORTNAME[] "Area: " , VALUE {LIST: _
+   ITEM[1] {ITEM: VALUE[] "1"   , DISP[] "N_1"},   _
+   ITEM[2] {ITEM: VALUE[] "2"  , DISP[] "N_2"},  _
+   POS 1}}
 
  DECL PARAM OFFSET_NO={shortname[] "OFFSET_NO:", unit[] "", value { LIST : POS 1, _
   ITEM[1] {ITEM:VALUE[] "1",   disp[] "1"}, _
@@ -290,21 +295,21 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
    DECL FOLD LIN_FOLD[7] 
              LIN_FOLD[1]= "/; LIN %MOVE_Name POS: X=%X , Y=%Y , Z=%Z , A=%A , B=%B , C=%C"
              LIN_FOLD[2]= "/; LIN Offset POS:X=%O_X , Y=%O_Y , Z=%O_Z "
-             LIN_FOLD[2]= "HanGao_Surr_Calculate( %LIN_Position , #%Area_LIN_lIST , #L_LIN_POS , PO%MOVE_Name , , , %Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset  , , %OFFSET_NO , %Vel  )"
+             LIN_FOLD[2]= "HanGao_Surr_Calculate( %LIN_Position , #%Area_LIN_lIST , #L_LIN_POS , PO%MOVE_Name , , , %Area_LIN_lIST _Welding_Craft[%Work_Area ,%OFFSET_NO ].Welding_Offset  , , %OFFSET_NO , %Work_Area  )"
              LIN_FOLD[3]= " "
              LIN_FOLD[4]= "FDAT_ACT=F%MOVE_Name"
              LIN_FOLD[5]= "LDAT_ACT=L%MOVE_LDAT"
-             LIN_FOLD[6]= "BAS(#CP_PARAMS,%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Speed )"
+             LIN_FOLD[6]= "BAS(#CP_PARAMS,%Area_LIN_lIST _Welding_Craft[%Work_Area ,%OFFSET_NO ].Welding_Speed )"
              LIN_FOLD[7]= "LIN PO%MOVE_Name  C_DIS C_DIS"
 
    DECL FOLD CIR_L_FOLD[8] 
              CIR_L_FOLD[1]= "/; CIR %MOVE_Name POS: X=%X , Y=%Y , Z=%Z , A=%A , B=%B , C=%C"
              CIR_L_FOLD[2]= "/; CIR Offset POS:X=%O_X , Y=%O_Y , Z=%O_Z "
-             CIR_L_FOLD[3]= "HanGao_Surr_Calculate(  , #%Area_CIR_lIST , #C_LIN_POS , PO%MOVE_Name , , , %Area_CIR_lIST _Welding_Craft[1].Welding_Offset , ,  , %Vel )"
+             CIR_L_FOLD[3]= "HanGao_Surr_Calculate(  , #%Area_CIR_lIST , #C_LIN_POS , PO%MOVE_Name , , , %Area_CIR_lIST _Welding_Craft[%Work_Area ,1].Welding_Offset , ,  , %Work_Area )"
              CIR_L_FOLD[4]= " "
              CIR_L_FOLD[5]= "FDAT_ACT=F%MOVE_Name"
              CIR_L_FOLD[6]= "LDAT_ACT=L%MOVE_LDAT"
-             CIR_L_FOLD[7]= "BAS(#CP_PARAMS, %Area_CIR_lIST _Welding_Craft[1].Welding_Speed )"
+             CIR_L_FOLD[7]= "BAS(#CP_PARAMS, %Area_CIR_lIST _Welding_Craft[%Work_Area ,1].Welding_Speed )"
              CIR_L_FOLD[8]= "LIN PO%MOVE_Name  C_DIS C_DIS"  
              
              
@@ -323,7 +328,8 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
   DEFSCRIPT LIN_START
     
     REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL E6POS PO%MOVE_Name ={X 0 ,Y 0 ,Z 0 , A 0 , B 0 , C 0 }")
-     Message  "NEW POS"
+    
+    
   ENDSCRIPT 
 
 
@@ -331,17 +337,17 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
   DEFSCRIPT Read_Date
   
 
-   SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset .X",  PARAM O_X)
-   SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset .Y" , PARAM O_Y)
-   SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset .Z" , PARAM O_Z)
+   SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%Work_Area ,%OFFSET_NO ].Welding_Offset .X",  PARAM O_X)
+   SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%Work_Area ,%OFFSET_NO ].Welding_Offset .Y" , PARAM O_Y)
+   SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%Work_Area ,%OFFSET_NO ].Welding_Offset .Z" , PARAM O_Z)
 
-   SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Speed" , PARAM VEL)
-   SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_CDIS" , PARAM APO_DIST)
-   SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_ACC" , PARAM ACC)
+   SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%Work_Area ,%OFFSET_NO ].Welding_Speed" , PARAM VEL)
+   SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%Work_Area ,%OFFSET_NO ].Welding_CDIS" , PARAM APO_DIST)
+   SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%Work_Area ,%OFFSET_NO ].Welding_ACC" , PARAM ACC)
   
    MESSAGE " %MOVE_Name  Offset: X=%O_X  ,Y=%O_Y  ,Z=%O_Z "
-   MESSAGE " Lin Vel : %VEL  m/s" 
-  
+   MESSAGE " Lin  Vel: %VEL m/s ACC: %ACC mm CDIS: %APO_DIST mm  " 
+
    ENDSCRIPT
 
 
@@ -349,11 +355,9 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
 
   DEFSCRIPT LIN_New
 
-  MESSAGE  "New State : %New_Start"
+ 
    SHOWVAR (FULLPATH[] "True",  PARAM New_Start)
-
-   ;MESSAGE  "LIN NEW"
-   MESSAGE  "New State : %New_Start"
+   MESSAGE  "Command  State : %New_Start"
    
    
    
@@ -364,25 +368,25 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
   
   
 
-  DEFSCRIPT LIN_Read
+  ; DEFSCRIPT LIN_Read
      
     
-    SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset.X" , PARAM O_X)
-    SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset.Y" , PARAM O_Y)
-    SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset.Z" , PARAM O_Z)
-    SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Speed" , PARAM Vel)
+    ; SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset.X" , PARAM O_X)
+    ; SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset.Y" , PARAM O_Y)
+    ; SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Offset.Z" , PARAM O_Z)
+    ; SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Speed" , PARAM Vel)
 
 
-	MESSAGE " %MOVE_Name  Offset: X=%O_X  ,Y=%O_Y  ,Z=%O_Z "
-	MESSAGE "Read Stat"
-  ENDSCRIPT
+	; MESSAGE " %MOVE_Name  Offset: X=%O_X  ,Y=%O_Y  ,Z=%O_Z "
+	; MESSAGE "Read Stat"
+  ; ENDSCRIPT
 
   DEFSCRIPT LIN_Refresh
 
     SHOWVAR (FULLPATH[] "False",  PARAM New_Start)
-    MESSAGE  "New State : %New_Start"
+    MESSAGE  "New State One: %New_Start"
   
-	 SHOWVAR (FULLPATH[] "Surround_Welding_Size.Write_Status",  PARAM State)
+	 SHOWVAR (FULLPATH[] "N%Work_Area _Surround_Size.Write_Status",  PARAM State)
     SHOWVAR (FULLPATH[] "PO%MOVE_Name .X",  PARAM X)
     SHOWVAR (FULLPATH[] "PO%MOVE_Name .Y" , PARAM Y)
     SHOWVAR (FULLPATH[] "PO%MOVE_Name .Z" , PARAM Z)
@@ -417,8 +421,8 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
    
    DEFSCRIPT U_SAVE
     
-    MESSAGE  "New State : %New_Start"
-    
+    ; MESSAGE  "New State : %New_Start "
+    ; MESSAGE  "Save Work Area NO: %Work_Area "
      SWITCH "%New_Start"
        CASE "True"  DO LIN_START
      ENDSWITCH
@@ -438,7 +442,7 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
    
   DEFSCRIPT LIN_SAVE
   
-	  SETVAR(FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%OFFSET_NO ].Welding_Name[] ", VALUE[] "/"%MOVE_Name /"" )
+	  SETVAR(FULLPATH[] "%Area_LIN_lIST _Welding_Craft[%Work_Area ,%OFFSET_NO ].Welding_Name[] ", VALUE[] "/"%MOVE_Name /"" )
      
      
      DO U_SAVE
@@ -450,7 +454,7 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
     MESSAGE " CIR : %Area_CIR_lIST "
     MESSAGE " Offset_NO: %OFFSET_NO "
 
-	 SETVAR(FULLPATH[] "%Area_CIR_lIST _Welding_Craft[%OFFSET_NO ].Welding_Name[] ", VALUE[] "/"%MOVE_Name /"" )
+	 SETVAR(FULLPATH[] "%Area_CIR_lIST _Welding_Craft[%Work_Area ,%OFFSET_NO ].Welding_Name[] ", VALUE[] "/"%MOVE_Name /"" )
     DO U_SAVE
   	
   ENDSCRIPT
@@ -465,8 +469,8 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
    Decl InlineForm _START={FOLD[1] Write_State_Fold, PARAM[1] Write_lIST   , ONOPEN Write_State_READ , ONACCEPT Write_State_SAVE } 
    Decl InlineForm _END={FOLD[1] END_FOLD} 
 
-   Decl InlineForm S_LIN={FOLD[1] LIN_FOLD , PARAM[1] MOVE_Name  , PARAM[2] Vel, PARAM[3] LIN_Position, PARAM[4] Area_LIN_lIST,PARAM[5] MOVE_LDAT  , PARAM[6] OFFSET_NO ,ONOPEN OnOpen_LIN ,ONACCEPT LIN_SAVE} 
-   Decl InlineForm S_C_LIN = {FOLD[1] CIR_L_FOLD ,  PARAM[1] MOVE_Name , PARAM[2] Vel, PARAM[3] Area_CIR_lIST , PARAM[4] MOVE_LDAT    , ONOPEN OnOpen_LIN , ONACCEPT CIR_L_SAVE}  
+   Decl InlineForm S_LIN={FOLD[1] LIN_FOLD , PARAM[1] MOVE_Name  , PARAM[2] Vel, PARAM[3] LIN_Position, PARAM[4] Area_LIN_lIST,PARAM[5] MOVE_LDAT  , PARAM[6] OFFSET_NO ,PARAM[7] Work_Area,ONOPEN OnOpen_LIN ,ONACCEPT LIN_SAVE} 
+   Decl InlineForm S_C_LIN = {FOLD[1] CIR_L_FOLD ,  PARAM[1] MOVE_Name , PARAM[2] Vel, PARAM[3] Area_CIR_lIST , PARAM[4] MOVE_LDAT    ,  PARAM[5] Work_Area , ONOPEN OnOpen_LIN , ONACCEPT CIR_L_SAVE}  
    
    Decl InlineForm Cross_Pos={FOLD[1] Cross_Fold , PARAM[1] BASE_NO , PARAM[2] Robot_Dir_lIST  , PARAM[3] POS_1_Name ,PARAM[4] POS_2_Name , PARAM[5] POS_3_Name , PARAM[6] POS_4_Name}
 

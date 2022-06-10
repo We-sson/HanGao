@@ -179,9 +179,9 @@
                   Opacity="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width=" *" />
-
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
+
 
 
                 <StackPanel Grid.Column="0"
@@ -213,6 +213,7 @@
                                    FontFamily="DengXian Light"
                                    FontSize="35"
                                    Foreground="#EEEEEE" />
+
                     </StackPanel>
 
                 </StackPanel>
@@ -245,110 +246,138 @@
                            Foreground="#333333" />
 
                 <StackPanel Grid.Row="1"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Center">
+                            Margin="0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Stretch">
 
-                    <Grid HorizontalAlignment="Center">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width=" auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
 
+
+                    <StackPanel Margin="0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Orientation="Vertical">
                         <StackPanel Margin="5"
-                                    HorizontalAlignment="Left"
-                                    Orientation="Vertical">
-                            <StackPanel Margin="0,0,5,5" Orientation="Horizontal">
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    Orientation="Horizontal">
 
 
 
-                                <CheckBox Style="{StaticResource CheckBoxStyle2}"
-                                          Uid="N_1"
-                                          IsChecked="{Binding List_IsChecked_1}"
-                                          Width=" 30"
-                                          Height="30"
-                                          Margin="0,0,5,0"
-                                          HorizontalAlignment="Center"
-                                          VerticalAlignment="Stretch"
-                                          BorderThickness="1.5"
-                                          BorderBrush="#FFC947">
+                            <CheckBox Style="{StaticResource CheckBoxStyle2}"
+                                      Uid="N_1"
+                                      IsChecked="{Binding List_IsChecked_1}"
+                                      Width=" 30"
+                                      Height="30"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Stretch"
+                                      BorderThickness="1.5"
+                                      BorderBrush="#FFC947">
 
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
-                                                                   CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}"
-                                                                   PassEventArgsToCommand="True" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
+                                                               CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}"
+                                                               PassEventArgsToCommand="True" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
 
-                                </CheckBox>
-
-
-                                <TextBlock Text="1号加载"
-                                           VerticalAlignment="Center"
-                                           FontFamily="DengXian"
-                                           FontSize="16"
-                                           Foreground="Gray" />
-                            </StackPanel>
-                            <StackPanel Margin="0"
-                                        HorizontalAlignment="Stretch"
-                                        Orientation="Horizontal">
-
-                                <CheckBox Style="{StaticResource CheckBoxStyle2}"
-                                          Uid="N_2"
-                                          IsChecked="{Binding List_IsChecked_2}"
-                                          Width=" 30"
-                                          Height="30"
-                                          Margin="0,0,5,0"
-                                          HorizontalAlignment="Stretch"
-                                          VerticalAlignment="Stretch"
-                                          BorderThickness="1.5"
-                                          BorderBrush="#FFC947">
-
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
-                                                                   CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}"
-                                                                   PassEventArgsToCommand="True" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-
-                                </CheckBox>
+                            </CheckBox>
 
 
-                                <TextBlock Text="2号加载"
-                                           VerticalAlignment="Center"
-                                           FontFamily="DengXian"
-                                           FontSize="16"
-                                           Foreground="Gray" />
-                            </StackPanel>
+                            <TextBlock Text="1号加载"
+                                       Margin="5"
+                                       VerticalAlignment="Center"
+                                       FontFamily="DengXian"
+                                       FontSize="18"
+                                       Foreground="Gray" />
+                            <Button Style="{DynamicResource ButtonStyle3}" Grid.Column="1"
+                                    Uid="N_1"
+                                    Width="36"
+                                    Height="36"
+                                    Margin="0"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    Background="#ECD662">
+                                <Button.Content>
+                                    <TextBlock Text="&#xe708;"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontFamily="/Resources/#iconfont"
+                                               FontSize="20" />
+                                </Button.Content>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding DataContext.Show_Pop_Ups_Page, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
+                                                               CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}"
+                                                               PassEventArgsToCommand="True" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+
                         </StackPanel>
+                        <StackPanel Margin="0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Orientation="Horizontal">
+
+                            <CheckBox Style="{StaticResource CheckBoxStyle2}"
+                                      Uid="N_2"
+                                      IsChecked="{Binding List_IsChecked_2}"
+                                      Width=" 30"
+                                      Height="30"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Stretch"
+                                      BorderThickness="1.5"
+                                      BorderBrush="#FFC947">
+
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
+                                                               CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}"
+                                                               PassEventArgsToCommand="True" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+
+                            </CheckBox>
+
+
+                            <TextBlock Text="2号加载"
+                                       Margin="5"
+                                       VerticalAlignment="Center"
+                                       FontFamily="DengXian"
+                                       FontSize="18"
+                                       Foreground="Gray" />
+                            <Button Style="{DynamicResource ButtonStyle3}" Grid.Column="1"
+                                    Uid="N_2"
+                                    Width="36"
+                                    Height="36"
+                                    Margin="0"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    Background="#ECD662">
+                                <Button.Content>
+                                    <TextBlock Text="&#xe708;"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontFamily="/Resources/#iconfont"
+                                               FontSize="20" />
+                                </Button.Content>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding DataContext.Show_Pop_Ups_Page, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
+                                                               CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}"
+                                                               PassEventArgsToCommand="True" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+
+                        </StackPanel>
+                    </StackPanel>
 
 
 
-                        <Button Style="{DynamicResource ButtonStyle3}" Grid.Column="1"
-                                Width="55"
-                                Height="55"
-                                Margin="0"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch"
-                                Background="#ECD662">
-                            <Button.Content>
-                                <TextBlock Text="&#xe708;"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontFamily="/Resources/#iconfont"
-                                           FontSize="30" />
-                            </Button.Content>
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding DataContext.Show_Pop_Ups_Page, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
-                                                           CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}"
-                                                           PassEventArgsToCommand="True" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </Button>
 
-                    </Grid>
+
 
 
                 </StackPanel>

@@ -40,6 +40,11 @@
    ;Decl PARAM PL_OFFSET_MID = {SHORTNAME[] "Offset_TOOL", VAR[] "Offset_CIR", SHORTCUT[] "FC", UNIT[] "POS" ,Value {FREE: DEFAULT[] "_"}}
    ;Decl PARAM PL_OFFSET_END = {SHORTNAME[] "Offset_TOOL", VAR[] "Offset_POS", SHORTCUT[] "FF", UNIT[] "POS" ,Value {FREE: DEFAULT[] "_"}}
   
+  
+   DECL PARAM Work_Area= {SHORTNAME[] "Work Area: " , VALUE {LIST: _
+   ITEM[1] {ITEM: VALUE[] "1"   , DISP[] "N_1"},   _
+   ITEM[2] {ITEM: VALUE[] "2"  , DISP[] "N_2"},  _
+   POS 1}}
     
 
   ; DECL PARAM O_CIR_X = {SHORTNAME[] "Offset.X=", UNIT[] "MM", VALUE {REAL: MIN -3000, MAX 3000, STEP 0.1, DEFAULT 0}}
@@ -173,7 +178,7 @@
              LDAT[1] = ACC
              LDAT[2] = APO_DIST
              
-   DECL PARAM Area_CIR_lIST = {SHORTNAME[] "Area: " , VALUE {LIST: _
+   DECL PARAM Area_CIR_lIST = {SHORTNAME[] "Angle Area: " , VALUE {LIST: _
    ITEM[1] {ITEM: VALUE[] "C45"   , DISP[] "C45"},   _
    ITEM[2] {ITEM: VALUE[] "C135"  , DISP[] "C135"},  _
    ITEM[3] {ITEM: VALUE[] "C225" ,  DISP[] "C225"},  _
@@ -188,11 +193,11 @@
 			    Cir_FOLD[2]= "/; %CIR_END_NAME  : X=%X , Y=%Y , Z=%Z , A=%A , B=%B , C=%C"
              Cir_FOLD[3]= "/; CIR_MID_OFFSET  : X=%C_X , Y=%C_Y , Z=%C_Z "
 			    Cir_FOLD[4]= "/; CIR_END_OFFSET  : X=%O_X , Y=%O_Y , Z=%O_Z "
-             Cir_FOLD[5]= "HanGao_Surr_Calculate(  , #%Area_CIR_lIST , #C_CIR_POS ,  , PO%CIR_MID_NAME , PO%CIR_End_Name  , %Area_CIR_lIST _Welding_Craft[3].Welding_Offset  , %Area_CIR_lIST _Welding_Craft[2].Welding_Offset  ,  , %Vel )"
+             Cir_FOLD[5]= "HanGao_Surr_Calculate(  , #%Area_CIR_lIST , #C_CIR_POS ,  , PO%CIR_MID_NAME , PO%CIR_End_Name  , %Area_CIR_lIST _Welding_Craft[%Work_Area ,3].Welding_Offset  , %Area_CIR_lIST _Welding_Craft[%Work_Area , 2].Welding_Offset  ,  , %Work_Area )"
              Cir_FOLD[6]= " "
              Cir_FOLD[7]= "FDAT_ACT=F%CIR_END_NAME "
              Cir_FOLD[8]= "LDAT_ACT=L%CIR_MID_NAME "
-             Cir_FOLD[9]= "BAS(#CP_PARAMS,%Area_CIR_lIST _Welding_Craft[3].Welding_Speed )"
+             Cir_FOLD[9]= "BAS(#CP_PARAMS,%Area_CIR_lIST _Welding_Craft[%Work_Area ,3].Welding_Speed )"
              Cir_FOLD[10]= "CIRC PO%CIR_MID_Name , PO%CIR_End_Name  C_DIS C_DIS"
 
              
@@ -217,14 +222,14 @@
    ENDSWITCH
   
   
-    Message  "SAVE"
+   
   
     
     REDECL (PATH[] "%MODULE ", DECLARATION[] "DECL FDAT F%CIR_END_NAME ={TOOL_NO %TOOL_NO ,BASE_NO %BASE_NO ,IPO_FRAME #BASE ,POINT2[] /" /",TQ_STATE FALSE }" )
     REDECL (PATH[] "%MODULE ", DECLARATION[] "DECL LDAT L%CIR_MID_NAME ={VEL %Vel ,ACC %ACC ,APO_DIST %APO_DIST ,APO_FAC 50.0000 ,AXIS_VEL 100.0,AXIS_ACC 100.0,ORI_TYP #VAR ,CIRC_TYP #BASE,JERK_FAC 50.0,GEAR_JERK 50.0,EXAX_IGN 0}" )
 
-    SETVAR(FULLPATH[] "%Area_CIR_lIST _Welding_Craft[2].Welding_Name[] ", VALUE[] "/"%CIR_MID_NAME /"" )
-	 SETVAR(FULLPATH[] "%Area_CIR_lIST _Welding_Craft[3].Welding_Name[] ", VALUE[] "/"%CIR_End_Name /"" )
+    SETVAR(FULLPATH[] "%Area_CIR_lIST _Welding_Craft[%Work_Area ,2].Welding_Name[] ", VALUE[] "/"%CIR_MID_NAME /"" )
+	 SETVAR(FULLPATH[] "%Area_CIR_lIST _Welding_Craft[%Work_Area ,3].Welding_Name[] ", VALUE[] "/"%CIR_End_Name /"" )
     MESSAGE "  %CIR_MID_NAME  ,  %CIR_End_Name  SAVE "
 
 
@@ -238,19 +243,23 @@
   DEFSCRIPT Read_Date
   
 
-   SHOWVAR (FULLPATH[] "%Area_CIR_lIST _Welding_Craft[3].Welding_Offset .X",  PARAM O_X)
-   SHOWVAR (FULLPATH[] "%Area_CIR_lIST _Welding_Craft[3].Welding_Offset .Y" , PARAM O_Y)
-   SHOWVAR (FULLPATH[] "%Area_CIR_lIST _Welding_Craft[3].Welding_Offset .Z" , PARAM O_Z)
+   SHOWVAR (FULLPATH[] "%Area_CIR_lIST _Welding_Craft[%Work_Area ,3].Welding_Offset .X",  PARAM O_X)
+   SHOWVAR (FULLPATH[] "%Area_CIR_lIST _Welding_Craft[%Work_Area ,3].Welding_Offset .Y" , PARAM O_Y)
+   SHOWVAR (FULLPATH[] "%Area_CIR_lIST _Welding_Craft[%Work_Area ,3].Welding_Offset .Z" , PARAM O_Z)
 
-   SHOWVAR (FULLPATH[] "%Area_CIR_lIST _Welding_Craft[2].Welding_Offset .X",  PARAM C_X)
-   SHOWVAR (FULLPATH[] "%Area_CIR_lIST _Welding_Craft[2].Welding_Offset .Y" , PARAM C_Y)
-   SHOWVAR (FULLPATH[] "%Area_CIR_lIST _Welding_Craft[2].Welding_Offset .Z" , PARAM C_Z)
+   SHOWVAR (FULLPATH[] "%Area_CIR_lIST _Welding_Craft[%Work_Area ,2].Welding_Offset .X",  PARAM C_X)
+   SHOWVAR (FULLPATH[] "%Area_CIR_lIST _Welding_Craft[%Work_Area ,2].Welding_Offset .Y" , PARAM C_Y)
+   SHOWVAR (FULLPATH[] "%Area_CIR_lIST _Welding_Craft[%Work_Area ,2].Welding_Offset .Z" , PARAM C_Z)
   
-   SHOWVAR (FULLPATH[] " %Area_CIR_lIST _Welding_Craft[3].Welding_Speed" , PARAM VEL)
-   SHOWVAR (FULLPATH[] " %Area_CIR_lIST _Welding_Craft[3].Welding_CDIS" , PARAM APO_DIST)
-   SHOWVAR (FULLPATH[] " %Area_CIR_lIST _Welding_Craft[3].Welding_ACC" , PARAM ACC)
-   MESSAGE " %OFFSET_MID_NAME  CIR MID Offset: X=%O_X  , Y=%O_Y  , Z=%O_Z "
-	MESSAGE " %OFFSET_END_NAME  CIR End Offset: X=%C_X  ,Y=%C_Y  ,Z=%C_Z "
+   SHOWVAR (FULLPATH[] " %Area_CIR_lIST _Welding_Craft[%Work_Area ,3].Welding_Speed" , PARAM VEL)
+   SHOWVAR (FULLPATH[] " %Area_CIR_lIST _Welding_Craft[%Work_Area ,3].Welding_CDIS" , PARAM APO_DIST)
+   SHOWVAR (FULLPATH[] " %Area_CIR_lIST _Welding_Craft[%Work_Area ,3].Welding_ACC" , PARAM ACC)
+   MESSAGE "%OFFSET_MID_NAME  CIR MID Offset: X=%O_X  , Y=%O_Y  , Z=%O_Z "
+	MESSAGE "%OFFSET_END_NAME  CIR End Offset: X=%C_X  ,Y=%C_Y  ,Z=%C_Z "
+   MESSAGE "New State One: %New_Start "
+   MESSAGE "Cir Vel: %VEL m/s ACC: %ACC mm CDIS: %APO_DIST mm  " 
+  	MESSAGE "Cir Offset NO:%OFFSET_NO "
+   MESSAGE "Angle Area: %Area_CIR_lIST "
   
    ENDSCRIPT
    
@@ -261,14 +270,14 @@
    
    DEFSCRIPT CIR_Refresh
 
-    MESSAGE "%New_Start "
-    message "Refresh"
+    
+    
    
     SHOWVAR (FULLPATH[] "False",  PARAM New_Start)
-    SHOWVAR (FULLPATH[] " %Area_CIR_lIST _Welding_Craft[3].Welding_Speed" , PARAM VEL)
-    SHOWVAR (FULLPATH[] " %Area_CIR_lIST _Welding_Craft[3].Welding_CDIS" , PARAM APO_DIST)
-    SHOWVAR (FULLPATH[] " %Area_CIR_lIST _Welding_Craft[3].Welding_ACC" , PARAM ACC)
-    MESSAGE "   CIR Vel =%VEL "
+    SHOWVAR (FULLPATH[] " %Area_CIR_lIST _Welding_Craft[%Work_Area ,3].Welding_Speed" , PARAM VEL)
+    SHOWVAR (FULLPATH[] " %Area_CIR_lIST _Welding_Craft[%Work_Area ,3].Welding_CDIS" , PARAM APO_DIST)
+    SHOWVAR (FULLPATH[] " %Area_CIR_lIST _Welding_Craft[%Work_Area ,3].Welding_ACC" , PARAM ACC)
+   
 
     DO Read_Date
    
@@ -300,9 +309,7 @@
     SHOWVAR (FULLPATH[] "3",  PARAM OFFSET_NO)
     SHOWVAR (FULLPATH[] "True",  PARAM New_Start)
 
-	 MESSAGE "%OFFSET_NO "
-    MESSAGE "%New_Start "
-    MESSAGE "%Area_CIR_lIST "
+
    
    DO Read_Date
    
@@ -323,7 +330,7 @@
    
 
  
-   Decl InlineForm S_C_CIR = {FOLD[1] Cir_FOLD ,  PARAM[1] CIR_MID_NAME , PARAM[2] CIR_END_NAME , PARAM[3] Vel , PARAM[4] Area_CIR_lIST   , ONOPEN OnOpen_CIR ,ONTOUCHUP CIR_Touch  , ONACCEPT CIR_SAVE }  
+   Decl InlineForm S_C_CIR = {FOLD[1] Cir_FOLD ,  PARAM[1] CIR_MID_NAME , PARAM[2] CIR_END_NAME , PARAM[3] Vel , PARAM[4] Area_CIR_lIST ,PARAM[5] Work_Area  , ONOPEN OnOpen_CIR ,ONTOUCHUP CIR_Touch  , ONACCEPT CIR_SAVE }  
  ENDTP
 
 

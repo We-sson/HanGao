@@ -79,15 +79,15 @@ namespace Soceket_Connect
 
 
 
-        /// <summary>
-        /// 连接线程设置
-        /// </summary>
-        private   Thread Socket_Connect_Thread { set; get; }
+        ///// <summary>
+        ///// 连接线程设置
+        ///// </summary>
+        //private   Thread Socket_Connect_Thread { set; get; }
 
-    /// <summary>
-    /// 连接线程设置
-    /// </summary>
-    private  Thread Socket_Write_Thread { set; get; }
+    ///// <summary>
+    ///// 连接线程设置
+    ///// </summary>
+    //private  Thread Socket_Write_Thread { set; get; }
 
 
 
@@ -125,10 +125,10 @@ namespace Soceket_Connect
   
 
 
-        /// <summary>
-        /// 接收回调锁
-        /// </summary>
-        private   Mutex Rece_IA_Lock { set; get; } = new Mutex();
+        ///// <summary>
+        ///// 接收回调锁
+        ///// </summary>
+        //private   Mutex Rece_IA_Lock { set; get; } = new Mutex();
 
 
 
@@ -899,7 +899,7 @@ namespace Soceket_Connect
             //提取变量长度数据
             var b = Smr.Receive_Byte.Byte_data.Skip(5).Take(2).ToArray();
             var bb = BitConverter.ToString(b).Replace("-", "");
-            var bbb = Convert.ToInt64(bb, 16);
+            //var bbb = Convert.ToInt64(bb, 16);
             Smr.Receive_Byte.Byte_Val_Length = Int32.Parse(bb, System.Globalization.NumberStyles.HexNumber);
 
             //提取接收返回变量值
@@ -1019,36 +1019,36 @@ namespace Soceket_Connect
 
         }
 
-        /// <summary>
-        /// 新建线程发送消息
-        /// </summary>
-        /// <param name="_S"></param>
-        private  void Socket_Send_Message_Thread(Socket_Models_Receive _S)
-        {
+        ///// <summary>
+        ///// 新建线程发送消息
+        ///// </summary>
+        ///// <param name="_S"></param>
+        //private  void Socket_Send_Message_Thread(Socket_Models_Receive _S)
+        //{
 
 
-            switch (_S.Read_Write_Type)
-            {
+        //    switch (_S.Read_Write_Type)
+        //    {
 
-                case Read_Write_Enum.Read:
-                    break;
-                case Read_Write_Enum.Write:
-            //读取用多线程连接
-            Socket_Write_Thread = new Thread(() => Socket_Send_Message_Method(_S)) { Name = "Write—KUKA", IsBackground = true };
-            Socket_Write_Thread.Start();
-                    break;
-                case Read_Write_Enum.One_Read:
-                    Socket_Write_Thread = new Thread(() => Socket_Send_Message_Method(_S)) { Name = "One_Read—KUKA", IsBackground = true };
-                    Socket_Write_Thread.Start();
-                    break;
-            }
-
-
-
+        //        case Read_Write_Enum.Read:
+        //            break;
+        //        case Read_Write_Enum.Write:
+        //    //读取用多线程连接
+        //    Socket_Write_Thread = new Thread(() => Socket_Send_Message_Method(_S)) { Name = "Write—KUKA", IsBackground = true };
+        //    Socket_Write_Thread.Start();
+        //            break;
+        //        case Read_Write_Enum.One_Read:
+        //            Socket_Write_Thread = new Thread(() => Socket_Send_Message_Method(_S)) { Name = "One_Read—KUKA", IsBackground = true };
+        //            Socket_Write_Thread.Start();
+        //            break;
+        //    }
 
 
 
-        }
+
+
+
+        //}
 
 
 
