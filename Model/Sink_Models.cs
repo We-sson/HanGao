@@ -30,15 +30,7 @@ namespace HanGao.Model
 
         }
 
-        /// <summary>
-        /// 获得围边焊接对于参数字符
-        /// </summary>
-        /// <returns>对应付机器人结构变量</returns>
-        public string Get_Surround_Struc_String()
-        {
 
-            return $"{{Surround_Welding_Type: {nameof(Sink_Process.Sink_Size_Long)} {Sink_Process.Sink_Size_Long}, {nameof(Sink_Process.Sink_Size_Width)} {Sink_Process.Sink_Size_Width},{nameof(Sink_Process.Sink_Size_R)} {Sink_Process.Sink_Size_R},{nameof(Sink_Process.Sink_Size_Pots_Thick)} {Sink_Process.Sink_Size_Pots_Thick},{nameof(Sink_Process.Sink_Size_Panel_Thick)} {Sink_Process.Sink_Size_Panel_Thick}, {nameof(Sink_Model)} {Sink_Model}, {nameof(Sink_Process.Sink_Size_Left_Distance)} {Sink_Process.Sink_Size_Down_Distance}, {nameof(Sink_Process.Sink_Size_Down_Distance)} {Sink_Process.Sink_Size_Down_Distance}, {nameof(Sink_Type)} #{Sink_Type}}}";
-        }
 
 
 

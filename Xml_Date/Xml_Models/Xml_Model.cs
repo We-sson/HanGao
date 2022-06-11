@@ -16,8 +16,8 @@ namespace HanGao.Xml_Date.Xml_Models
     {
         [XmlAttribute("Date_Revise")]
         public string  Date_Last_Modify { get; set; }
-        [XmlAttribute("Max_SinkLIst")]
-        public int Sink_List_number { get; set; }
+
+   
 
         /// <summary>
         /// 水槽XML列表
@@ -47,11 +47,37 @@ namespace HanGao.Xml_Date.Xml_Models
         [XmlAttribute]
         public Sink_Type_Enum Sink_Type { get; set; }
 
-        [XmlElement(ElementName = "Surround_Craft")]
-        public Xml_SInk_Surround_Craft Surround_Craft { get; set; } = new Xml_SInk_Surround_Craft() { };
+      
+        public Xml_Sink_Work_Area Sink_Craft { get; set; } = new Xml_Sink_Work_Area() { };
 
-        public string[] Short_Side_Craft { get; set; }
+        
     }
+
+    /// <summary>
+    /// 水槽作业区
+    /// </summary>
+    [Serializable]
+    public class Xml_Sink_Work_Area
+    {
+
+        public Xml_SInk_Craft N_1 { get; set; } = new Xml_SInk_Craft() { };
+        public Xml_SInk_Craft N_2 { get; set; } = new Xml_SInk_Craft() { };
+
+
+    }
+
+
+    /// <summary>
+    /// 水槽工艺
+    /// </summary>
+    [Serializable]
+    public class Xml_SInk_Craft
+    {
+        public Xml_SInk_Surround_Craft Sink_Surround_Craft = new Xml_SInk_Surround_Craft();
+        public string Short_Side_Craft { get; set; } = "Null";
+    }
+
+
 
     /// <summary>
     /// Xml文件，围边水槽工艺焊接部位
@@ -59,6 +85,7 @@ namespace HanGao.Xml_Date.Xml_Models
     [Serializable]
     public class Xml_SInk_Surround_Craft
     {
+       
 
         public Xml_Surround_Craft_Data L0_Welding_Craft { get; set; } 
         public Xml_Surround_Craft_Data C45_Welding_Craft { get; set; }

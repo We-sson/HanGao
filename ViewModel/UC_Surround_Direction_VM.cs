@@ -76,14 +76,14 @@ namespace HanGao.ViewModel
                 {
 
 
-                     Task.Run(async () =>
-                    {
+                    // Task.Run(async () =>
+                    //{
 
-                        await Task.Delay(1);
+                    //    await Task.Delay(1);
 
                     Messenger.Send<dynamic, string>(value, nameof(Meg_Value_Eunm.Sink_Surround_Craft_Point_Load));
 
-                    });
+                    //});
 
 
       

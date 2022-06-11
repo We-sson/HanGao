@@ -248,6 +248,7 @@ namespace HanGao.ViewModel
 
                   //转换用户选择的水槽选项
                   Sink_Models M = e.DataContext as Sink_Models;
+                  M.Work_No_Emun = (Work_No)Enum.Parse(typeof(Work_No), e.Uid);
 
 
                   User_Control_Show.User_UserControl = User_Pop;
@@ -479,14 +480,14 @@ namespace HanGao.ViewModel
 
                    
 
-                    foreach (var Surround_Craft_Name in item.Surround_Craft.GetType().GetProperties())
+                    foreach (var Surround_Craft_Name in item.Sink_Craft.GetType().GetProperties())
                     {
 
                         //Xml_Surround_Craft_Data Xml_SinkDate = (Xml_Surround_Craft_Data)Surround_Craft_Name.GetValue(item.Surround_Craft);
 
 
 
-                        Xml_Surround_Craft_Data Surr_List = (Xml_Surround_Craft_Data)Surround_Craft_Name.GetValue(item.Surround_Craft);
+                        Xml_Surround_Craft_Data Surr_List = (Xml_Surround_Craft_Data)Surround_Craft_Name.GetValue(item.Sink_Craft);
 
 
 

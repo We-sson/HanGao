@@ -33,7 +33,8 @@ namespace HanGao.ViewModel
             Messenger.Register<Sink_Models, string>(this, nameof(Meg_Value_Eunm.UC_Pop_Sink_Value_Load), (O, S) =>
             {
 
-                _Sink = S;
+                //_Sink = S;
+
                 Sink_Craft = S.Sink_Craft;
 
             });
