@@ -18,6 +18,7 @@ using static HanGao.ViewModel.UC_Surround_Point_VM;
 using static HanGao.ViewModel.UserControl_Socket_Var_Show_ViewModel;
 using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
 using System.Collections.Generic;
+using static HanGao.Model.Sink_Models;
 
 namespace HanGao.ViewModel
 {
@@ -40,28 +41,57 @@ namespace HanGao.ViewModel
                                    KUKA_Craft_Value Craft_Value = S.UserObject as KUKA_Craft_Value;
                                    int Point_NO = Craft_Value.Craft_Point_NO;
                                    if (S.Val_Var == String.Empty) return;
-
+                                   
 
                                    foreach (var _List in XML_Write_Read.Sink_Date.Sink_List)
                                    {
-
-                                       if (_Sink.Sink_Model == _List.Sink_Model)
+                                      
+                                       if (User_Sink.Sink_Model == _List.Sink_Model)
                                        {
+                                          
+                                           Xml_SInk_Craft _WorkNo = (Xml_SInk_Craft)_List.Sink_Craft.GetType().GetProperty(Craft_Value.User_Work.ToString()).GetValue(_List.Sink_Craft);
+
+                                           switch (Craft_Value.User_Work)
+                                           {
+                                               case Work_No.N_1:
+
+                                                   break;
+                                               case Work_No.N_2:
+
+                                                   break;
+                               
+                                           }
+
+
 
                                            var t = typeof(Xml_Surround_Craft_Data).GetProperty(Craft_Value.User_Direction.ToString());
 
-                                           Xml_Surround_Craft_Data Date = (Xml_Surround_Craft_Data)_List.Sink_Craft.GetType().GetProperty(Craft_Value.User_Direction.ToString()).GetValue(_List.Sink_Craft);
+                                          
+                                           foreach (var WorkNo in _List.Sink_Craft.GetType().GetProperties())
+                                           {
+                                              
+                                               if ( WorkNo.Name== Craft_Value.User_Work.ToString ())
+                                               {
+
+                                                   Xml_Surround_Craft_Data Date = (Xml_Surround_Craft_Data)_WorkNo.Sink_Surround_Craft.GetType().GetProperty(Craft_Value.User_Direction.ToString()).GetValue(_WorkNo.Sink_Surround_Craft);
+                                               }
+                                           
+
+
+
+                                           }
+                                           
+
                                            //更新UI显示先清除原来的数据
 
 
                                            switch (Craft_Value.KUKA_Craft_Type)
                                            {
 
-                                               case KUKA_Craft_Value_Name.Welding_Name:
+                                               case nameof(Xml_Craft_Date.Welding_Name):
                                                    if (S.Val_Var != String.Empty)
                                                    {
-
-
+                                                    
                                                        Date.Craft_Date[Point_NO].Welding_Name = S.Val_Var.Replace('"', ' ');
                                                        //Surround_Offset_Point[Point_NO].Welding_Name = S.Val_Var.Replace('"', ' ');
 
@@ -72,8 +102,11 @@ namespace HanGao.ViewModel
                                                    {
                                                        Date.Craft_Date[Point_NO].Welding_Name = "...";
                                                    }
+
+
+
                                                    break;
-                                               case KUKA_Craft_Value_Name.Welding_Pos:
+                                               case nameof(Xml_Craft_Date.Welding_Pos) :
                                                    if (S.Val_Var != String.Empty)
                                                    {
 
@@ -106,7 +139,7 @@ namespace HanGao.ViewModel
                                                    }
                                                    break;
 
-                                               case KUKA_Craft_Value_Name.Welding_Offset:
+                                               case nameof(Xml_Craft_Date.Welding_Offset):
 
 
 
@@ -175,7 +208,7 @@ namespace HanGao.ViewModel
             {
 
 
-                _Sink = S;
+                User_Sink = S;
 
 
             });
@@ -188,7 +221,7 @@ namespace HanGao.ViewModel
 
               
                User_Checked_Direction = S;
-                int User_Switech_Work_No = ((int)_Sink.Work_No_Emun);
+                int User_Switech_Work_No = ((int)User_Sink.Work_No_Emun);
 
 
 
@@ -200,81 +233,66 @@ namespace HanGao.ViewModel
                ObservableCollection<Socket_Models_List> _List = new ObservableCollection<Socket_Models_List>();
 
 
-
+               //变量数据xml总表
                foreach (var item in XML_Write_Read.Sink_Date.Sink_List)
                {
 
-                   if (_Sink.Sink_Model == item.Sink_Model)
+
+                   //判断对应水槽型号
+                   if (User_Sink.Sink_Model == item.Sink_Model)
                    {
 
+                       //反射xml属性用户选择的水槽生产工作区
+                       Xml_SInk_Craft Work_Craft =  (Xml_SInk_Craft)item.Sink_Craft.GetType().GetProperty(User_Sink.Work_No_Emun.ToString()).GetValue(item.Sink_Craft);
 
-                       Xml_SInk_Craft Work_Craft =  (Xml_SInk_Craft)item.Sink_Craft.GetType().GetProperty(_Sink.Work_No_Emun.ToString()).GetValue(item.Sink_Craft);
+
+                       //反射xml属性用户选择的水槽围边工作区
+                       Date = (Xml_Surround_Craft_Data)Work_Craft.Sink_Surround_Craft.GetType().GetProperty(User_Checked_Direction.ToString()).GetValue(Work_Craft.Sink_Surround_Craft);
 
 
 
-                      Date = (Xml_Surround_Craft_Data)Work_Craft.Sink_Surround_Craft.GetType().GetProperty(User_Checked_Direction.ToString()).GetValue(Work_Craft.Sink_Surround_Craft);
-
-                       //Date = (Xml_Surround_Craft_Data)Work_Craft.Sink_Surround_Craft.GetType().GetProperty(User_Checked_Direction.ToString()).GetValue(typeof(object));
-
-                       //更新UI显示先清除原来的数据
-                       //Surround_Offset_Point.Clear();
-
+                       //将反射得到的数据添加到UI列表中
                        Surround_Offset_Point = new ObservableCollection<Xml_Craft_Date>(Date.Craft_Date);
-                       ////将反射得到的数据添加到UI列表中
 
 
 
-
+                       //循环水槽围边工艺数目
                        for (int i = 0; i < Date.Craft_Date.Count; i++)
                        {
-
+                           //遍历每个围边工艺属性中是否合适条件
                            foreach (var Craft_List in Date.Craft_Date[i].GetType().GetProperties())
                            {
+                               //遍历每个xml列表中的每个参数是否读写属性
                                foreach (var List_Name in Craft_List.GetCustomAttributes(true))
                                {
-
-                                   if (List_Name is ReadWriteAttribute Autt)
+                    
+                                   if  (List_Name is ReadWriteAttribute Autt)
                                    {
+
+             
+
 
                                        switch (Autt.ReadWrite_Type)
                                        {
                                            case ReadWrite_Enum.Read:
-                                               
 
 
+                                              //针对库卡变量字符类型修改
+                                            string    Name_Val = (Craft_List.Name == nameof(Xml_Craft_Date.Welding_Name)) ? Craft_List.Name + "[]" : Craft_List.Name;
 
+
+                                               //添加集合
                                                _List.Add(new Socket_Models_List()
                                                {
-                                                   Val_Name = User_Checked_Direction.ToString() + "[" + (int)_Sink.Work_No_Emun+" , " + Date.Craft_Date[i].NO + "]" + "." + Craft_List.Name,
+                                                   Val_Name = User_Checked_Direction.ToString() + "[" + (int)User_Sink.Work_No_Emun+"," + Date.Craft_Date[i].NO + "]" + "." + Name_Val,
                                                    Val_ID = Read_Number_ID,
                                                    Send_Area = nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data),
                                                    UserObject = new KUKA_Craft_Value()
-                                                   { Craft_Point_NO = Date.Craft_Date[i].NO, KUKA_Craft_Type = (KUKA_Craft_Value_Name)Craft_List.Name, KUKA_Point_Type = _Point.Craft_Type, User_Direction = S },
+                                                   { Craft_Point_NO = Date.Craft_Date[i].NO, KUKA_Craft_Type = Craft_List.Name, KUKA_Point_Type = Date.Craft_Date[i].Craft_Type, User_Direction = S , User_Work= User_Sink.Work_No_Emun },
 
                                                });
                                                break;
                                            case ReadWrite_Enum.Write:
-
-                                               string _N = Surround_Craft_Name.Name + "[" + (i + 1) + "]." + Craft_List.Name;
-                                               string _Val = string.Empty;
-
-
-                                               if (Craft_List.GetValue(Surr_List.Craft_Date[i]) is Welding_Pos_Date)
-                                               {
-                                                   Welding_Pos_Date _P = Craft_List.GetValue(Surr_List.Craft_Date[i]) as Welding_Pos_Date;
-
-                                                   _Val = @"{Offset_POS: X " + _P.X + ", Y " + _P.Y + ", Z " + _P.Z + " }";
-
-                                               }
-                                               else
-                                               {
-                                                   var _P = Craft_List.GetValue(Surr_List.Craft_Date[i]);
-                                                   _Val = _P.ToString();
-                                               }
-                                               //Socket_Client_Setup.Write.Cycle_Write_Send(_N, _Val);
-
-
-                                               Socket_Client_Setup.Write.Cycle_Write_Send(_N, _Val);
 
 
 
@@ -301,28 +319,8 @@ namespace HanGao.ViewModel
 
 
 
-                       //添加好后的围边工艺方向偏移点后，转送给循环发送的列表读取方向工艺名称和位置
-                       foreach (var _Point in Date.Craft_Date)
-                       {
-                           foreach (Enum _Value in Enum.GetValues(typeof(KUKA_Craft_Value_Name)))
-                           {
 
-
-                               _List.Add(new Socket_Models_List()
-                               {
-                                   Val_Name = User_Checked_Direction.ToString() + "[" + _Point.NO + "]" + "." + _Value.GetStringValue(),
-                                   Val_ID = Read_Number_ID,
-                                   Send_Area = nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data),
-                                   UserObject = new KUKA_Craft_Value()
-                                   { Craft_Point_NO = _Point.NO, KUKA_Craft_Type = (KUKA_Craft_Value_Name)_Value, KUKA_Point_Type = _Point.Craft_Type, User_Direction = S },
-
-                               });
-
-
-                           }
-
-                       }
-
+                       //发生全部集合到周期读取传送
                        Task.Run(async () =>
                        {
 
@@ -355,7 +353,7 @@ namespace HanGao.ViewModel
                 foreach (var item in XML_Write_Read.Sink_Date.Sink_List)
                 {
                     //item.Surround_Craft.L0_Welding_Craft.Craft_Date
-                    if (_Sink.Sink_Model == item.Sink_Model)
+                    if (User_Sink.Sink_Model == item.Sink_Model)
                     {
                         for (int i = 0; i < Date.Craft_Date.Count; i++)
                         {
@@ -462,6 +460,9 @@ namespace HanGao.ViewModel
         /// </summary>
         public ReaderWriterLockSlim Read_Lock = new ReaderWriterLockSlim();
         public static ManualResetEvent Write_Data { set; get; } = new ManualResetEvent(true);
+       
+        
+        
         /// <summary>
         /// 需要读取库卡工艺数据变量枚举
         /// </summary>
@@ -501,7 +502,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 临时存放用户选择水槽属性
         /// </summary>
-        public Sink_Models _Sink { get; set; }
+        public Sink_Models User_Sink { get; set; }
 
 
 
@@ -581,6 +582,11 @@ namespace HanGao.ViewModel
         }
 
         /// <summary>
+        /// 记录用户选择工位
+        /// </summary>
+        public Work_No User_Work { set; get; }
+
+        /// <summary>
         /// 用户选择的方向枚举
         /// </summary>
         public Surround_Direction_Enum User_Direction { set; get; }
@@ -589,8 +595,11 @@ namespace HanGao.ViewModel
         /// <summary>
         /// KUKA工艺名字
         /// </summary>
-        public KUKA_Craft_Value_Name KUKA_Craft_Type { get; set; }
+        public string  KUKA_Craft_Type { get; set; }
 
+        /// <summary>
+        /// 工艺点类型
+        /// </summary>
         public Craft_Type_Enum KUKA_Point_Type { get; set; }
     }
 }

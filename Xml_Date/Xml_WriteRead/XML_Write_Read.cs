@@ -308,13 +308,9 @@ namespace HanGao.Xml_Date.Xml_WriteRead
             ns.Add("", "");
       
             if (!Directory.Exists(@"Date"))  Directory.CreateDirectory(@"Date");
-            using (var XmlContent = new StreamWriter(@"Date\XmlDate.xml"))
-            {
-                Xml.Serialize(XmlContent, Sink, ns);
-                var xmlContent = XmlContent.ToString();
-                
-
-            }
+            using var XmlContent = new StreamWriter(@"Date\XmlDate.xml");
+            Xml.Serialize(XmlContent, Sink, ns);
+            var xmlContent = XmlContent.ToString();
 
         }
 

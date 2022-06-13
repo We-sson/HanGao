@@ -24,7 +24,7 @@ namespace HanGao.ViewModel
             Messenger.Register<Sink_Models, string>(this, nameof(Meg_Value_Eunm.UC_Pop_Sink_Value_Load), (O, S) =>
             {
 
-                _Sink = S;
+                User_Sink = S;
 
 
             });
@@ -59,7 +59,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 临时存放用户选择水槽属性
         /// </summary>
-        public Sink_Models _Sink { get; set; }
+        public Sink_Models User_Sink { get; set; }
 
         /// <summary>
         /// UI界面数据

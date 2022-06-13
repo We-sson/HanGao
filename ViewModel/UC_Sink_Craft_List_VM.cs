@@ -51,7 +51,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 临时存放用户选择水槽属性
         /// </summary>
-        public Sink_Models _Sink { get; set; }
+        public Sink_Models User_Sink { get; set; }
 
 
 

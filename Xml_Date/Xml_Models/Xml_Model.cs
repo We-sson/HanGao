@@ -173,10 +173,10 @@ namespace HanGao.Xml_Date.Xml_Models
 
         [StringValue("Welding_Name[]")]
         [XmlAttribute]
-        [ReadWriteAttribute(ReadWrite_Enum.Read)]
+        [ReadWrite(ReadWrite_Enum.Read)]
         public string Welding_Name { get; set; } = "...";
         [XmlAttribute]
-        [ReadWriteAttribute( ReadWrite_Enum.Write)]
+        [ReadWrite( ReadWrite_Enum.Write)]
         public int Welding_Power { get; set; } = 80;
         [XmlAttribute]
         [ReadWriteAttribute(ReadWrite_Enum.Write)]
