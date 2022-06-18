@@ -447,7 +447,7 @@ namespace Soceket_Connect
             if (Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.Read || Socket_KUKA_Receive.Read_Write_Type==  Read_Write_Enum.One_Read)
             {
                 //等待发送完成标识
-                Send_Read.WaitOne();
+                Send_Read.WaitOne(10000);
 
                 //获取接收字节数量
                 Socket_KUKA_Receive.Byte_Leng = Global_Socket_Read.EndReceive(ar);

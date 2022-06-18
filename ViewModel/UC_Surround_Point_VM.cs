@@ -43,6 +43,7 @@ namespace HanGao.ViewModel
                                    if (S.Val_Var == String.Empty) return;
                                    
 
+
                                    foreach (var _List in XML_Write_Read.Sink_Date.Sink_List)
                                    {
                                       
@@ -51,17 +52,7 @@ namespace HanGao.ViewModel
                                           
                                            Xml_SInk_Craft _WorkNo = (Xml_SInk_Craft)_List.Sink_Craft.GetType().GetProperty(Craft_Value.User_Work.ToString()).GetValue(_List.Sink_Craft);
 
-                                           switch (Craft_Value.User_Work)
-                                           {
-                                               case Work_No.N_1:
-
-                                                   break;
-                                               case Work_No.N_2:
-
-                                                   break;
-                               
-                                           }
-
+           
 
 
                                            var t = typeof(Xml_Surround_Craft_Data).GetProperty(Craft_Value.User_Direction.ToString());
@@ -74,18 +65,8 @@ namespace HanGao.ViewModel
                                                {
 
                                                    Xml_Surround_Craft_Data Date = (Xml_Surround_Craft_Data)_WorkNo.Sink_Surround_Craft.GetType().GetProperty(Craft_Value.User_Direction.ToString()).GetValue(_WorkNo.Sink_Surround_Craft);
-                                               }
-                                           
-
-
-
-                                           }
-                                           
-
-                                           //更新UI显示先清除原来的数据
-
-
-                                           switch (Craft_Value.KUKA_Craft_Type)
+                                               
+                                                    switch (Craft_Value.KUKA_Craft_Type)
                                            {
 
                                                case nameof(Xml_Craft_Date.Welding_Name):
@@ -194,7 +175,29 @@ namespace HanGao.ViewModel
                                            }
 
 
-                                           _List.Sink_Craft.GetType().GetProperty(Craft_Value.User_Direction.ToString()).SetValue(_List.Sink_Craft, Date);
+
+                                                 _WorkNo.Sink_Surround_Craft.GetType().GetProperty(Craft_Value.User_Direction.ToString()).SetValue(_WorkNo.Sink_Surround_Craft,Date);
+
+
+                                               }
+
+
+
+                                           }
+                                           
+
+                                           //更新UI显示先清除原来的数据
+
+
+
+
+
+                                           // _List.Sink_Craft.GetType().GetProperty(Craft_Value.User_Work.ToString()).GetValue(_List.Sink_Craft);
+
+                                           //_List.Sink_Craft.GetType().GetProperty(Craft_Value.User_Direction.ToString()).SetValue(_List.Sink_Craft, Date);
+
+
+
                                        }
                                    }
 

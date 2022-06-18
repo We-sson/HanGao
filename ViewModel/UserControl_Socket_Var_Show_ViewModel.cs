@@ -183,7 +183,6 @@ namespace HanGao.ViewModel
 
 
 
-            User_Control_Common KUKA_Val_Emum = new User_Control_Common();
 
         }
 
