@@ -381,7 +381,7 @@ namespace HanGao.ViewModel
 
                 };
 
-                XML_Write_Read.Write_Xml();
+                XML_Write_Read.Save_Xml();
 
 
                 //UI界面清除按钮

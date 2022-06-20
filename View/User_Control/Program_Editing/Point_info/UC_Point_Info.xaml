@@ -34,7 +34,7 @@
 
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="200" />
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="200" />
             <ColumnDefinition Width="*" />
@@ -71,6 +71,13 @@
                                    Foreground="#6baa75"
                                    FontFamily="/Resources/#iconfont" />
                     </Button.Content>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding Craft_Point_Info_SaveToVal_Comm}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UC_Point_Info}}}"
+                                                   PassEventArgsToCommand="True" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                 </Button>
                 <TextBlock Text="位置设置"
                            HorizontalAlignment="Center"
@@ -104,6 +111,7 @@
         <!--  第一列  -->
         <TextBlock Grid.Row="1" Grid.Column="0"
                    Text="{Binding UI_Craft_Date.Welding_Pos.X, Mode=OneWay, FallbackValue=X:000.000, StringFormat={}X: {0:N3} mm}"
+                   MinWidth="150"
                    Margin="10"
                    HorizontalAlignment="Stretch"
                    VerticalAlignment="Center"
@@ -577,7 +585,7 @@
                 FontSize="35">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Click">
-                    <i:InvokeCommandAction Command="{Binding Craft_Point_Info_Save_Comm}"
+                    <i:InvokeCommandAction Command="{Binding Craft_Point_Info_SaveToXml_Comm}"
                                            CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UC_Point_Info}}}"
                                            PassEventArgsToCommand="True" />
                 </i:EventTrigger>
@@ -595,7 +603,7 @@
                 FontSize="35">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Click">
-                    <i:InvokeCommandAction Command="{Binding Craft_Point_Info_Save_Comm}"
+                    <i:InvokeCommandAction Command="{Binding Craft_Point_Info_SaveToXml_Comm}"
                                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                            PassEventArgsToCommand="True" />
                 </i:EventTrigger>

@@ -39,16 +39,6 @@ namespace HanGao.ViewModel
 
             });
 
-           //获得工艺数据回传给工艺列表保存对应方向——停用
-            //Messenger.Register<dynamic  ,string>(this, nameof(Meg_Value_Eunm.Sink_Craft_Data_Save), (O, S) =>
-            //{
-
-            //    //传送用户选择工艺
-            //    Messenger.Send<Xml_Craft_Date, string>(UI_Craft_Date, nameof(Meg_Value_Eunm.Sink_Craft_Data_OK));
-
-
-            //});
-            
 
 
 
@@ -69,40 +59,43 @@ namespace HanGao.ViewModel
 
 
         /// <summary>
-        /// 加载属性水槽类型
+        /// 保存属性水槽类型到XMl
         /// </summary>
-        public ICommand Craft_Point_Info_Save_Comm
+        public ICommand Craft_Point_Info_SaveToXml_Comm
         {
             get => new RelayCommand<UC_Point_Info>((Sm) =>
             {
                 //把参数类型转换控件
-                //FrameworkElement e = Sm.Source as FrameworkElement;
-
-                Xml_Craft_Date a = new Xml_Craft_Date()
-                {
-                    NO = UI_Craft_Date.NO,
-                     Welding_Name = UI_Craft_Date.Welding_Name.ToString(),
-                      Welding_Pos = UI_Craft_Date.Welding_Pos,
-                    Craft_Type = UI_Craft_Date.Craft_Type,
-                    Welding_Angle = double.Parse(Sm.Angle.Text),
-                    Welding_CDIS = int.Parse(Sm.CDIS.Text),
-                    Welding_Power = int.Parse(Sm.Power.Text),
-                    Welding_Speed = double.Parse(Sm.Speed.Text),
-                    Welding_ACC= int.Parse(Sm.ACC.Text),
-                    Welding_Offset = new Welding_Pos_Date() { X = double.Parse(Sm.X.Text), Y = double.Parse(Sm.Y.Text), Z = double.Parse(Sm.Z.Text), A = double.Parse(Sm.A.Text), B = double.Parse(Sm.B.Text), C = double.Parse(Sm.C.Text) }
-                };
-
- 
 
 
 
-
-                //停用
-                //Messenger.Send<Xml_Craft_Date, string>(a, nameof(Meg_Value_Eunm.Sink_Craft_Data_OK));
+                XML_Write_Read.Save_Xml();
 
             });
         }
 
+
+
+        /// <summary>
+        /// 保存属性水槽类型到XMl
+        /// </summary>
+        public ICommand Craft_Point_Info_SaveToVal_Comm
+        {
+            get => new RelayCommand<UC_Point_Info>((Sm) =>
+            {
+                //把参数类型转换控件
+
+
+                Xml_Sink_Model _Sink_List = XML_Write_Read.GetXml_Sink_Models_Data(User_Sink.Sink_Model);
+
+                _Sink_List.Sink_Craft.GetType().GetProperty(User_Sink.Work_No_Emun.ToString());
+
+
+
+                //XML_Write_Read.Save_Xml();
+
+            });
+        }
 
     }
 

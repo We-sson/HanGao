@@ -52,7 +52,6 @@
                                  Margin="0"
                                  HorizontalAlignment="Stretch"
                                  VerticalAlignment="Center"
-                                 ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"
                                  Validation.ErrorTemplate="{x:Null}"
                                  Tag="输入控制柜IP地址"
                                  FontSize="25"
@@ -60,7 +59,7 @@
 
                     </Grid>
                     <!--  用户输入验证提示  -->
-                    <Border.Style>
+                    <!--<Border.Style>
                         <Style TargetType="Border">
 
                             <Style.Triggers>
@@ -71,7 +70,7 @@
 
                             </Style.Triggers>
                         </Style>
-                    </Border.Style>
+                    </Border.Style>-->
                 </Border>
 
                 <Border Height="{Binding ElementName=BD1, Path=Height}"
@@ -97,7 +96,6 @@
                                  HorizontalAlignment="Stretch"
                                  VerticalAlignment="Center"
                                  Validation.ErrorTemplate="{x:Null}"
-                                 ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"
                                  FontSize="25"
                                  Tag="默认端口7000" />
 

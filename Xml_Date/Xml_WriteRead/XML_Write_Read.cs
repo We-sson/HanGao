@@ -327,13 +327,34 @@ namespace HanGao.Xml_Date.Xml_WriteRead
             }
         }
 
+        /// <summary>
+        ///返回输入的Xml水槽数据
+        /// </summary>
+        /// <param name="_Sink_Model"></param>
+        /// <returns></returns>
+        public static Xml_Sink_Model GetXml_Sink_Models_Data( int _Sink_Model)
+        {
+            foreach (var _Sink_list in Sink_Date.Sink_List)
+            {
+                if (_Sink_list.Sink_Model== _Sink_Model)
+                {
+                    return _Sink_list;
+                }
+    
+            }
+            return null;
+
+        }
+
+
+
 
 
         /// <summary>
         /// 保存修改后的水槽尺寸
         /// </summary>
         /// <param name="sink"></param>
-        public static void Write_Xml()
+        public static void Save_Xml()
         {
 
 

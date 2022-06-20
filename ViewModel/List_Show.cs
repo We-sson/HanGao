@@ -78,7 +78,7 @@ namespace HanGao.ViewModel
                 }
 
 
-                XML_Write_Read.Write_Xml();
+                XML_Write_Read.Save_Xml();
                 //关闭弹窗
                 Messenger.Send<UserControl , string>(null, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
 
