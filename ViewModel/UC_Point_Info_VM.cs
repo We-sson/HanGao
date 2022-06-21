@@ -86,10 +86,13 @@ namespace HanGao.ViewModel
                 //把参数类型转换控件
 
 
-                Xml_Sink_Model _Sink_List = XML_Write_Read.GetXml_Sink_Models_Data(User_Sink.Sink_Model);
+             //XML_Write_Read.SetXml_User_Data(new User_Read_Xml_Model(User_Sink.Sink_Model,  ) );
 
-                _Sink_List.Sink_Craft.GetType().GetProperty(User_Sink.Work_No_Emun.ToString());
+                //Xml_Sink_Model _Sink_List = XML_Write_Read.GetXml_Sink_Models_Data(User_Sink.Sink_Model);
 
+                //Xml_SInk_Craft a = (Xml_SInk_Craft)_Sink_List.Sink_Craft.GetType().GetProperty(User_Sink.Work_No_Emun.ToString()).GetValue(_Sink_List.Sink_Craft);
+
+                //a.Sink_Surround_Craft.GetType();
 
 
                 //XML_Write_Read.Save_Xml();

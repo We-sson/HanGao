@@ -4,7 +4,11 @@ using HanGao.Xml_Date.Xml_Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Xml.Serialization;
+using static HanGao.Model.Sink_Models;
+using static HanGao.ViewModel.UC_Surround_Direction_VM;
+
 
 namespace HanGao.Xml_Date.Xml_WriteRead
 {
@@ -332,17 +336,73 @@ namespace HanGao.Xml_Date.Xml_WriteRead
         /// </summary>
         /// <param name="_Sink_Model"></param>
         /// <returns></returns>
-        public static Xml_Sink_Model GetXml_Sink_Models_Data( int _Sink_Model)
+        public static List<Xml_Craft_Date> GetXml_User_Data( User_Read_Xml_Model  _User_Model )
         {
-            foreach (var _Sink_list in Sink_Date.Sink_List)
+
+            
+
+            foreach (var _Sink_List in Sink_Date.Sink_List)
             {
-                if (_Sink_list.Sink_Model== _Sink_Model)
+                if (_Sink_List.Sink_Model== _User_Model.User_Sink_Model)
                 {
-                    return _Sink_list;
+
+                    Xml_SInk_Craft Craft = (Xml_SInk_Craft)_Sink_List.GetType().GetProperty(_User_Model.User_Work_Area.ToString()).GetValue(_Sink_List);
+
+                    Xml_SInk_Surround_Craft Area_Craft = (Xml_SInk_Surround_Craft)Craft.GetType().GetProperty(_User_Model.User_Craft.User_Welding_Craft.ToString()).GetValue(Craft);
+
+                    Xml_Surround_Craft_Data Area_Date_List = (Xml_Surround_Craft_Data)Area_Craft.GetType().GetProperty(_User_Model.User_Craft.User_Welding_Craft.ToString()).GetValue(Area_Craft);
+
+                    return Area_Date_List.Craft_Date;
                 }
     
             }
             return null;
+
+        }
+
+        /// <summary>
+        ///设置对应的Xml水槽数据
+        /// </summary>
+        /// <param name="_Sink_Model"></param>
+        /// <returns></returns>
+        public static  void  SetXml_User_Data (User_Read_Xml_Model _User_Model ,string _Val_Name, object _Val)
+        {
+
+            foreach (var _Sink_List in Sink_Date.Sink_List)
+            {
+                if (_Sink_List.Sink_Model == _User_Model.User_Sink_Model)
+                {
+
+                    Xml_SInk_Craft Craft = (Xml_SInk_Craft)_Sink_List.GetType().GetProperty(_User_Model.User_Work_Area.ToString()).GetValue(_Sink_List);
+
+                    Xml_SInk_Surround_Craft Area_Craft = (Xml_SInk_Surround_Craft)Craft.GetType().GetProperty(_User_Model.User_Craft.User_Welding_Craft.ToString()).GetValue(Craft);
+
+                    Xml_Surround_Craft_Data Area_Date_List = (Xml_Surround_Craft_Data)Area_Craft.GetType().GetProperty(_User_Model.User_Craft.User_Welding_Craft.ToString()).GetValue(Area_Craft);
+
+
+
+                    PropertyInfo[] b = Area_Date_List.Craft_Date[_User_Model.User_Craft.User_Welding_Craft_ID].GetType().GetProperties();
+
+                    foreach (PropertyInfo _Data_ValName in b)
+                    {
+                        if (_Data_ValName.Name  == _Val_Name)
+                        {
+
+                            _Data_ValName.SetValue(null , _Val);
+
+                        }
+                    }
+                    
+
+                }
+
+            }
+
+
+
+
+
+
 
         }
 
@@ -409,4 +469,93 @@ namespace HanGao.Xml_Date.Xml_WriteRead
             }
         }
     }
+
+    public class User_Read_Xml_Model
+    {
+        public User_Read_Xml_Model( int _Sink_Model, Work_No_Enum _Work_No, User_Craft_Enum _User_Craft, Direction_Enum _User_Direction)
+        {
+            User_Sink_Model = _Sink_Model;
+            User_Work_Area = _Work_No;
+            User_Craft = new User_Weld_Craft(_User_Craft, _User_Direction);
+        }
+
+        /// <summary>
+        /// 用户选择水槽类型
+        /// </summary>
+        public int User_Sink_Model { set; get; }
+        /// <summary>
+        /// 用户选择工作区域
+        /// </summary>
+        public Work_No_Enum User_Work_Area { set; get; }
+        /// <summary>
+        /// 用户选择工艺
+        /// </summary>
+        public User_Weld_Craft User_Craft { set; get; }
+
+
+
+
+        /// <summary>
+        /// 工作区号数
+        /// </summary>
+        public enum Work_No_Enum
+        {
+            N_1 = 1,
+            N_2
+        }
+
+
+
+        public enum Weld_Craft_Enum
+        {
+            Sink_Surround_Craft=1,
+            Short_Side_Craft,
+            Spot_Welding_Craft,
+        }
+
+
+
+        /// <summary>
+        /// 用户选择工序
+        /// </summary>
+        public class User_Weld_Craft
+        {
+            public User_Weld_Craft(User_Craft_Enum _User_Welding_Craft, Direction_Enum _Direction_Enum , int _User_Welding_Craft_ID)
+            {
+                User_Welding_Craft = _User_Welding_Craft;
+                User_Direction = _Direction_Enum;
+                User_Welding_Craft_ID = _User_Welding_Craft_ID;
+            }
+            public User_Weld_Craft(User_Craft_Enum _User_Welding_Craft, Direction_Enum _Direction_Enum)
+            {
+                User_Welding_Craft = _User_Welding_Craft;
+                User_Direction = _Direction_Enum;
+ 
+            }
+            public User_Craft_Enum User_Welding_Craft;
+            public Direction_Enum User_Direction;
+            public int User_Welding_Craft_ID=0;
+
+        }
+
+
+        /// <summary>
+        /// 用户选择工艺
+        /// </summary>
+        public enum User_Craft_Enum
+        {
+            Surround_Craft,
+            Short_Craft,
+
+        }
+
+
+
+    }
+
+
+
+
+
+
 }

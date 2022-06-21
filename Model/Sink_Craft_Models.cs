@@ -52,7 +52,7 @@ namespace HanGao.Model
         /// <summary>
         /// 工艺类型
         /// </summary>
-        private Craft_Type_Enum _Craft_Type = Craft_Type_Enum.Surround_Direction | Craft_Type_Enum.Short_Side;
+        private Craft_Type_Enum _Craft_Type;
 
         public Craft_Type_Enum Craft_Type
         {

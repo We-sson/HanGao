@@ -20,6 +20,8 @@ using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
 using System.Collections.Generic;
 using static HanGao.Model.Sink_Models;
 
+using static HanGao.Xml_Date.Xml_WriteRead.User_Read_Xml_Model;
+
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
@@ -466,25 +468,7 @@ namespace HanGao.ViewModel
        
         
         
-        /// <summary>
-        /// 需要读取库卡工艺数据变量枚举
-        /// </summary>
-        public enum KUKA_Craft_Value_Name
-        {
 
-            [StringValue("Welding_Name[]")]
-            Welding_Name,
-            Welding_Pos,
-            Welding_Offset,
-            Welding_CDIS,
-            Welding_Power,
-            Welding_Speed,
-            Welding_Angle,
-            Welding_ACC
-
-
-
-        }
 
 
 
@@ -499,7 +483,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 用户选择的方向枚举
         /// </summary>
-        public Surround_Direction_Enum User_Checked_Direction { set; get; }
+        public Direction_Enum User_Checked_Direction { set; get; }
 
 
         /// <summary>
@@ -587,12 +571,12 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 记录用户选择工位
         /// </summary>
-        public Work_No User_Work { set; get; }
+        public Work_No_Enum User_Work { set; get; }
 
         /// <summary>
         /// 用户选择的方向枚举
         /// </summary>
-        public Surround_Direction_Enum User_Direction { set; get; }
+        public Direction_Enum User_Direction { set; get; }
 
 
         /// <summary>

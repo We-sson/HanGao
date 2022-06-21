@@ -34,7 +34,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 围边方向枚举
         /// </summary>
-        public enum Surround_Direction_Enum
+        public enum Direction_Enum
         {
             Null,
             L0_Welding_Craft,
@@ -46,6 +46,9 @@ namespace HanGao.ViewModel
             L270_Welding_Craft,
             C315_Welding_Craft,
         }
+
+
+
 
 
         public enum UI_Type_Enum
@@ -63,8 +66,8 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 围边工艺枚举
         /// </summary>
-        private Surround_Direction_Enum _Surround_Direction_Type= Surround_Direction_Enum.Null;
-        public Surround_Direction_Enum Surround_Direction_Type
+        private Direction_Enum _Surround_Direction_Type = Direction_Enum.Null;
+        public Direction_Enum Surround_Direction_Type
         {
             get { return _Surround_Direction_Type; }
             set { _Surround_Direction_Type = value;
@@ -72,7 +75,7 @@ namespace HanGao.ViewModel
 
 
                 //传送用户选中围边方向 
-                if (value != Surround_Direction_Enum.Null)
+                if (value != Direction_Enum.Null)
                 {
 
 
@@ -102,7 +105,7 @@ namespace HanGao.ViewModel
         public bool L0_Checked
         {
             get { return _L0_Checked; }
-            set { _L0_Checked = value; if(value) Surround_Direction_Type = Surround_Direction_Enum.L0_Welding_Craft;}
+            set { _L0_Checked = value; if(value) Surround_Direction_Type = Direction_Enum.L0_Welding_Craft;}
         }
 
         private bool _C45_Checked;
@@ -110,7 +113,7 @@ namespace HanGao.ViewModel
         public bool C45_Checked
         {
             get { return _C45_Checked; }
-            set { _C45_Checked = value; if(value) Surround_Direction_Type = Surround_Direction_Enum.C45_Welding_Craft; }
+            set { _C45_Checked = value; if(value) Surround_Direction_Type = Direction_Enum.C45_Welding_Craft; }
         }
 
         private bool _L90_Checked;
@@ -118,7 +121,7 @@ namespace HanGao.ViewModel
         public bool L90_Checked
         {
             get { return _L90_Checked; }
-            set { _L90_Checked = value; if (value) Surround_Direction_Type = Surround_Direction_Enum.L90_Welding_Craft; }
+            set { _L90_Checked = value; if (value) Surround_Direction_Type = Direction_Enum.L90_Welding_Craft; }
         }
 
         private bool _C135_Checked;
@@ -126,7 +129,7 @@ namespace HanGao.ViewModel
         public bool C135_Checked
         {
             get { return _C135_Checked; }
-            set { _C135_Checked = value; if (value) Surround_Direction_Type = Surround_Direction_Enum.C135_Welding_Craft; }
+            set { _C135_Checked = value; if (value) Surround_Direction_Type = Direction_Enum.C135_Welding_Craft; }
         }
 
         private bool _L180_Checked;
@@ -134,7 +137,7 @@ namespace HanGao.ViewModel
         public bool L180_Checked
         {
             get { return _L180_Checked; }
-            set { _L180_Checked = value; if (value) Surround_Direction_Type = Surround_Direction_Enum.L180_Welding_Craft; }
+            set { _L180_Checked = value; if (value) Surround_Direction_Type = Direction_Enum.L180_Welding_Craft; }
         }
 
         private bool _C225_Checked;
@@ -142,7 +145,7 @@ namespace HanGao.ViewModel
         public bool C225_Checked
         {
             get { return _C225_Checked; }
-            set { _C225_Checked = value; if (value) Surround_Direction_Type = Surround_Direction_Enum.C225_Welding_Craft; }
+            set { _C225_Checked = value; if (value) Surround_Direction_Type = Direction_Enum.C225_Welding_Craft; }
         }
 
         private bool _L270_Checked;
@@ -150,7 +153,7 @@ namespace HanGao.ViewModel
         public bool L270_Checked
         {
             get { return _L270_Checked; }
-            set { _L270_Checked = value; if (value) Surround_Direction_Type = Surround_Direction_Enum.L270_Welding_Craft; }
+            set { _L270_Checked = value; if (value) Surround_Direction_Type = Direction_Enum.L270_Welding_Craft; }
         }
 
         private bool _C315_Checked;
@@ -158,7 +161,7 @@ namespace HanGao.ViewModel
         public bool C315_Checked
         {
             get { return _C315_Checked; }
-            set { _C315_Checked = value; if (value) Surround_Direction_Type = Surround_Direction_Enum.C315_Welding_Craft; }
+            set { _C315_Checked = value; if (value) Surround_Direction_Type = Direction_Enum.C315_Welding_Craft; }
         }
 
     }

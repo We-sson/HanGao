@@ -1,11 +1,14 @@
 ﻿
 using HanGao.Extension_Method;
+using HanGao.Xml_Date.Xml_WriteRead;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Nancy.Helpers;
 using PropertyChanged;
 using System.Collections.ObjectModel;
 using System.Windows;
 using static HanGao.Model.Sink_Craft_Models;
+using static HanGao.Xml_Date.Xml_WriteRead.User_Read_Xml_Model;
+
 
 namespace HanGao.Model
 {
@@ -13,22 +16,9 @@ namespace HanGao.Model
     public class Sink_Models : ObservableRecipient
     {
 
-        public Sink_Models(Sink_Type_Enum _Sink_Type, int _Sink_Model)
-        {
 
-            Sink_Type = _Sink_Type;
-            Sink_Model = _Sink_Model;
+ 
 
-
-        }
-        public Sink_Models(Sink_Type_Enum _Sink_Type)
-        {
-
-            Sink_Type = _Sink_Type;
-
-
-
-        }
 
 
 
@@ -39,14 +29,14 @@ namespace HanGao.Model
         /// <summary>
         /// 水槽工艺尺寸参数
         /// </summary>
-        public Sink_Size_Models Sink_Process { set; get; } = new Sink_Size_Models() { Sink_Size_Long = 640, Sink_Size_Width = 345 };
+        public Sink_Size_Models Sink_Process { set; get; } 
 
 
 
         private ObservableCollection<Sink_Craft_Models> _Sink_Craft = new ObservableCollection<Sink_Craft_Models>()
         {
             new Sink_Craft_Models()
-            {
+            {    
                   Craft_Type= Craft_Type_Enum.Surround_Direction,
                   Sink_Title="水槽围边焊接工艺" ,
                   Sink_Subtitle="焊接工艺由机器人记录多个位置姿态,通过重复行走路径激光焊接完成!",
@@ -85,14 +75,7 @@ namespace HanGao.Model
             { _LIst_Show = value; }
         }
 
-        /// <summary>
-        /// 工作区号数
-        /// </summary>
-        public enum Work_No
-        {
-            N_1=1,
-            N_2
-        }
+
 
 
 
@@ -174,38 +157,10 @@ namespace HanGao.Model
 
 
 
-
-
-        /// <summary>
-        /// 列表中水槽的保存参数
-        /// </summary>
-        public Wroking_Models Wroking_Models_ListBox { set; get; } = new Wroking_Models() { };
-
-
-
-        ///// <summary>
-        ///// 列表中区域1水槽的功能保存
-        ///// </summary>
-        //public User_Features User_Check_1 { set; get; } = new User_Features() { };
-
-
-
-
-        ///// <summary>
-        ///// 列表中区域2水槽的功能保存
-        ///// </summary>
-        //public User_Features User_Check_2 { set; get; } = new User_Features() { };
-
-
-
-
         /// <summary>
         /// 选定加工区域1按钮
         /// </summary>
         public bool List_IsChecked_1 { set; get; } = false;
-
-
-
 
 
         /// <summary>
@@ -215,15 +170,13 @@ namespace HanGao.Model
 
 
 
-
-
         /// <summary>
         /// 用户选择的加载区域
         /// </summary>
-        public Work_No Work_No_Emun { set; get; } 
+        public Work_No_Enum Work_No_Emun { set; get; } 
 
 
-
+   public User_Read_Xml_Model User_Picking_Craft { set; get; }
 
     }
 
@@ -279,6 +232,17 @@ namespace HanGao.Model
     }
 
 
+    public class SInk_UI_Models
+    {
+        public SInk_UI_Models()
+        {
 
+        }
+
+
+
+
+
+    }
 
 }

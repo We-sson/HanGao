@@ -26,6 +26,8 @@ using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
 using HanGao.Xml_Date.Xml_Models;
 using System.Reflection;
 
+using static HanGao.Xml_Date.Xml_WriteRead.User_Read_Xml_Model;
+
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
@@ -248,7 +250,7 @@ namespace HanGao.ViewModel
 
                   //转换用户选择的水槽选项
                   Sink_Models M = e.DataContext as Sink_Models;
-                  M.Work_No_Emun = (Work_No)Enum.Parse(typeof(Work_No), e.Uid);
+                  M.Work_No_Emun = (Work_No_Enum)Enum.Parse(typeof(Work_No_Enum), e.Uid);
 
 
                   User_Control_Show.User_UserControl = User_Pop;
@@ -320,7 +322,7 @@ namespace HanGao.ViewModel
 
 
                 //转换按钮枚举值
-                S.Work_No_Emun = (Work_No)Enum.Parse(typeof( Work_No), e.Uid);
+                S.Work_No_Emun = (Work_No_Enum)Enum.Parse(typeof(Work_No_Enum), e.Uid);
 
 
        
@@ -361,24 +363,24 @@ namespace HanGao.ViewModel
 
                                             foreach (var item in SinkModels)
                                             {
-                                                if (S.Work_No_Emun ==  Work_No.N_1)
+                                                if (S.Work_No_Emun == Work_No_Enum.N_1)
                                                 {
 
                                                 item.List_IsChecked_1 = false ;
                                                 }
-                                                else if (S.Work_No_Emun ==  Work_No.N_2)
+                                                else if (S.Work_No_Emun == Work_No_Enum.N_2)
                                                 {
                                                     item.List_IsChecked_2 = false ;
                                                 }
                                             }
 
 
-                                            if (S.Work_No_Emun == Work_No.N_1)
+                                            if (S.Work_No_Emun == Work_No_Enum.N_1)
                                             {
 
                                                 S.List_IsChecked_1 = true;
                                             }
-                                            else if (S.Work_No_Emun == Work_No.N_2)
+                                            else if (S.Work_No_Emun == Work_No_Enum.N_2)
                                             {
                                                 S.List_IsChecked_2 = true;
                                             }
@@ -395,12 +397,12 @@ namespace HanGao.ViewModel
                                         else
                                         {
 
-                                            if (S.Work_No_Emun == Work_No.N_1)
+                                            if (S.Work_No_Emun == Work_No_Enum.N_1)
                                             {
 
                                                 S.List_IsChecked_1 = false;
                                             }
-                                            else if (S.Work_No_Emun == Work_No.N_2)
+                                            else if (S.Work_No_Emun == Work_No_Enum.N_2)
                                             {
                                                 S.List_IsChecked_2 = false;
                                             }

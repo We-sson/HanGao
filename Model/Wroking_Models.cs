@@ -10,6 +10,7 @@ using System.Threading;
 using System.Windows;
 using static HanGao.Model.Sink_Models;
 using static HanGao.ViewModel.UC_Surround_Direction_VM;
+using static HanGao.Xml_Date.Xml_WriteRead.User_Read_Xml_Model;
 
 namespace HanGao.Model
 {
@@ -28,7 +29,7 @@ namespace HanGao.Model
         /// <summary>
         /// 工作区设置编号
         /// </summary>
-        public Work_No Work_NO { set; get; }
+        public Work_No_Enum Work_NO { set; get; }
 
        /// <summary>
        /// UI界面水槽尺寸显示

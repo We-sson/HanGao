@@ -26,6 +26,7 @@ using static HanGao.Extension_Method.KUKA_ValueType_Model;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static HanGao.Model.Sink_Models;
+using static HanGao.Xml_Date.Xml_WriteRead.User_Read_Xml_Model;
 
 namespace HanGao.ViewModel
 {
@@ -45,7 +46,7 @@ namespace HanGao.ViewModel
             {
 
 
-                if (S.UI_Sink_Show.Work_No_Emun  == Work_No.N_1)
+                if (S.UI_Sink_Show.Work_No_Emun  == Work_No_Enum.N_1)
                 {
 
 
@@ -53,7 +54,7 @@ namespace HanGao.ViewModel
 
 
                 }
-                else if (S.UI_Sink_Show.Work_No_Emun== Work_No.N_2)
+                else if (S.UI_Sink_Show.Work_No_Emun== Work_No_Enum.N_2)
                 {
 
                     UC_Working_VM_2 = S;
@@ -73,9 +74,9 @@ namespace HanGao.ViewModel
 
 
 
-        public  Wroking_Models UC_Working_VM_1 { get; set; } = new Wroking_Models() { Work_NO= Work_No.N_1,  };
+        public  Wroking_Models UC_Working_VM_1 { get; set; } = new Wroking_Models() { Work_NO= Work_No_Enum.N_1,  };
 
-        public  Wroking_Models UC_Working_VM_2 { get; set; }= new Wroking_Models() { Work_NO= Work_No.N_2 };
+        public  Wroking_Models UC_Working_VM_2 { get; set; }= new Wroking_Models() { Work_NO= Work_No_Enum.N_2 };
 
 
 
