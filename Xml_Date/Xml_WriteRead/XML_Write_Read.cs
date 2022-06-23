@@ -7,6 +7,7 @@ using System.IO;
 using System.Reflection;
 using System.Xml.Serialization;
 using static HanGao.Model.Sink_Models;
+using static HanGao.Model.SInk_UI_Models;
 using static HanGao.ViewModel.UC_Surround_Direction_VM;
 
 
@@ -53,7 +54,7 @@ namespace HanGao.Xml_Date.Xml_WriteRead
                     Sink_Size_Left_Distance = 23.8,
                     Sink_Size_R = 10,
                     Sink_Size_Width = 454,
-                    Sink_Type = Model.Sink_Models.Sink_Type_Enum.LeftRight_One,
+                    Sink_Type = Sink_Type_Enum.LeftRight_One,
                      Sink_Craft =new Xml_Sink_Work_Area()
                      {
                           N_1=new Xml_SInk_Craft()
@@ -180,7 +181,7 @@ namespace HanGao.Xml_Date.Xml_WriteRead
                     Sink_Size_Left_Distance = 23.8,
                     Sink_Size_R = 10,
                     Sink_Size_Width = 454,
-                    Sink_Type = Model.Sink_Models.Sink_Type_Enum.LeftRight_One,
+                    Sink_Type = Sink_Type_Enum.LeftRight_One,
                     Sink_Craft =new Xml_Sink_Work_Area()
                      {
                           N_1=new Xml_SInk_Craft()
@@ -343,8 +344,8 @@ namespace HanGao.Xml_Date.Xml_WriteRead
 
             foreach (var _Sink_List in Sink_Date.Sink_List)
             {
-                if (_Sink_List.Sink_Model== _User_Model.User_Sink_Model)
-                {
+                //if (_Sink_List.Sink_Model== _User_Model.User_Sink_Model)
+                //{
 
                     Xml_SInk_Craft Craft = (Xml_SInk_Craft)_Sink_List.GetType().GetProperty(_User_Model.User_Work_Area.ToString()).GetValue(_Sink_List);
 
@@ -353,7 +354,7 @@ namespace HanGao.Xml_Date.Xml_WriteRead
                     Xml_Surround_Craft_Data Area_Date_List = (Xml_Surround_Craft_Data)Area_Craft.GetType().GetProperty(_User_Model.User_Craft.User_Welding_Craft.ToString()).GetValue(Area_Craft);
 
                     return Area_Date_List.Craft_Date;
-                }
+                //}
     
             }
             return null;
@@ -370,8 +371,8 @@ namespace HanGao.Xml_Date.Xml_WriteRead
 
             foreach (var _Sink_List in Sink_Date.Sink_List)
             {
-                if (_Sink_List.Sink_Model == _User_Model.User_Sink_Model)
-                {
+                //if (_Sink_List.Sink_Model == _User_Model.User_Sink_Model)
+                //{
 
                     Xml_SInk_Craft Craft = (Xml_SInk_Craft)_Sink_List.GetType().GetProperty(_User_Model.User_Work_Area.ToString()).GetValue(_Sink_List);
 
@@ -394,7 +395,7 @@ namespace HanGao.Xml_Date.Xml_WriteRead
                     }
                     
 
-                }
+                //}
 
             }
 
@@ -449,22 +450,10 @@ namespace HanGao.Xml_Date.Xml_WriteRead
 
             foreach (var item in Sink_Date.Sink_List)
             {
-                List_Show.SinkModels.Add(new Sink_Models(item.Sink_Type)
+                List_Show.SinkModels.Add(new Sink_Models()
                 {
-                    Sink_Model = item.Sink_Model,
-                    Sink_Type = item.Sink_Type,
-                    Sink_Process = new Sink_Size_Models()
-                    {
-                        Sink_Size_Long = item.Sink_Size_Long,
-                        Sink_Size_Width = item.Sink_Size_Width,
-                        Sink_Size_R = item.Sink_Size_R,
-                        Sink_Size_Pots_Thick = item.Sink_Size_Pots_Thick,
-                        Sink_Size_Down_Distance = item.Sink_Size_Down_Distance,
-                        Sink_Size_Left_Distance = item.Sink_Size_Left_Distance,
-                        Sink_Size_Panel_Thick = item.Sink_Size_Panel_Thick,
-                        Sink_Size_Short_Side = item.Sink_Size_Short_Side,
-                    }, 
-                     
+                   Sink_Process= item,
+           
                 });
             }
         }
@@ -474,15 +463,17 @@ namespace HanGao.Xml_Date.Xml_WriteRead
     {
         public User_Read_Xml_Model( int _Sink_Model, Work_No_Enum _Work_No, User_Craft_Enum _User_Craft, Direction_Enum _User_Direction)
         {
-            User_Sink_Model = _Sink_Model;
+            //User_Sink_Model = _Sink_Model;
             User_Work_Area = _Work_No;
             User_Craft = new User_Weld_Craft(_User_Craft, _User_Direction);
         }
 
-        /// <summary>
-        /// 用户选择水槽类型
-        /// </summary>
-        public int User_Sink_Model { set; get; }
+        public User_Read_Xml_Model()
+        {
+
+        }
+
+
         /// <summary>
         /// 用户选择工作区域
         /// </summary>
@@ -490,7 +481,7 @@ namespace HanGao.Xml_Date.Xml_WriteRead
         /// <summary>
         /// 用户选择工艺
         /// </summary>
-        public User_Weld_Craft User_Craft { set; get; }
+        public User_Weld_Craft User_Craft { set; get; } = new User_Weld_Craft();
 
 
 
@@ -532,6 +523,9 @@ namespace HanGao.Xml_Date.Xml_WriteRead
                 User_Direction = _Direction_Enum;
  
             }
+            public User_Weld_Craft() { }
+
+
             public User_Craft_Enum User_Welding_Craft;
             public Direction_Enum User_Direction;
             public int User_Welding_Craft_ID=0;

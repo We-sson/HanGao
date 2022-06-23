@@ -36,10 +36,28 @@ namespace HanGao.ViewModel
 
 
             ///接收工艺参数属性显示对应UI控件
-            Messenger.Register<Sink_Craft_Models, string>(this, nameof(Meg_Value_Eunm.Program_UI_Load), (O, S) =>
+            Messenger.Register<Sink_Models, string>(this, nameof(Meg_Value_Eunm.Program_UI_Load), (O, S) =>
             {
 
-                Sink_Craft_Type = S.Craft_Type;
+
+                //var a=   S.Sink_UI.Sink_Craft.Any(X => X.Craft_Type == S.User_Picking_Craft.User_Craft.User_Welding_Craft);
+
+                //查找到用户选择工艺后赋值到窗口显示
+                foreach (var _Craft in S.Sink_UI.Sink_Craft)
+                {
+                    if (_Craft.Craft_Type== S.User_Picking_Craft.User_Craft.User_Welding_Craft)
+                    {
+                        Distance_UI = _Craft.Craft_UI_Direction;
+                    }
+                }
+
+
+      
+
+
+
+                //Sink_Craft_Type = S.Craft_Type;
+
 
             });
 
@@ -47,11 +65,11 @@ namespace HanGao.ViewModel
 
 
             ///接收工艺参数属性显示对应UI控件
-            Messenger.Register<Sink_Models, string>(this, nameof(Meg_Value_Eunm.UC_Pop_Sink_Value_Load), (O, S) =>
-            {
-                _Sink = S;
+            //Messenger.Register<Sink_Models, string>(this, nameof(Meg_Value_Eunm.UC_Pop_Sink_Value_Load), (O, S) =>
+            //{
+            //    User_Sink = S;
 
-            });
+            //});
 
 
         }
@@ -59,50 +77,17 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 临时存放用户选择水槽属性
         /// </summary>
-        public Sink_Models _Sink { get; set; }
+        public Sink_Models User_Sink { get; set; }
 
 
-        private Sink_Craft_Models.Craft_Type_Enum _Sink_Craft_Type;
-
-        public Sink_Craft_Models.Craft_Type_Enum Sink_Craft_Type
-        {
-            get { return _Sink_Craft_Type; }
-            set 
-            {
-                switch (value)
-                {
-                    case Sink_Craft_Models.Craft_Type_Enum.Surround_Direction:
-                        Distance_UI = UI_Direction;
-
-
-
-
-
-
-                        break;
-                    case Sink_Craft_Models.Craft_Type_Enum.Short_Side:
-                        Distance_UI = UI_Short_Size;
-                        break;
-                    default:
-                        break;
-                }
-
-
-                _Sink_Craft_Type = value; 
-            
-            }
-        }
-
-
-
-        /// <summary>
-        /// 加载焊接方向界面
-        /// </summary>
-        public UserControl UI_Direction { get; set; }= new UC_Surround_Direction();
-        /// <summary>
-        /// 加载短边工艺界面
-        /// </summary>
-        public UserControl UI_Short_Size { get; set; }= new UC_Short_Side();
+        ///// <summary>
+        ///// 加载焊接方向界面
+        ///// </summary>
+        //public UserControl UI_Direction { get; set; }= new UC_Surround_Direction();
+        ///// <summary>
+        ///// 加载短边工艺界面
+        ///// </summary>
+        //public UserControl UI_Short_Size { get; set; }= new UC_Short_Side();
 
 
 
@@ -121,20 +106,11 @@ namespace HanGao.ViewModel
 
 
 
-        private UserControl _Distance_UI;
         /// <summary>
         /// 方向UI部件
         /// </summary>
-        public UserControl Distance_UI
-        {
-            get { return _Distance_UI; }
-            set {
+        public UserControl Distance_UI { set; get; }
 
-
-                _Distance_UI = value;
-            
-            }
-        }
 
 
 

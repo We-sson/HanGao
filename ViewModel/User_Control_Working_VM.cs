@@ -46,7 +46,7 @@ namespace HanGao.ViewModel
             {
 
 
-                if (S.UI_Sink_Show.Work_No_Emun  == Work_No_Enum.N_1)
+                if (S.UI_Sink_Show.User_Picking_Craft.User_Work_Area  == Work_No_Enum.N_1)
                 {
 
 
@@ -54,7 +54,7 @@ namespace HanGao.ViewModel
 
 
                 }
-                else if (S.UI_Sink_Show.Work_No_Emun== Work_No_Enum.N_2)
+                else if (S.UI_Sink_Show.User_Picking_Craft.User_Work_Area == Work_No_Enum.N_2)
                 {
 
                     UC_Working_VM_2 = S;

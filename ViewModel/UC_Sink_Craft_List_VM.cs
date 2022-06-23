@@ -33,9 +33,9 @@ namespace HanGao.ViewModel
             Messenger.Register<Sink_Models, string>(this, nameof(Meg_Value_Eunm.UC_Pop_Sink_Value_Load), (O, S) =>
             {
 
-                //_Sink = S;
+                User_Sink = S;
 
-                Sink_Craft = S.Sink_Craft;
+                Sink_Craft = S.Sink_UI.Sink_Craft;
 
             });
 
@@ -91,7 +91,7 @@ namespace HanGao.ViewModel
                 Button E = Sm.Source as Button;
                 Sink_Craft_Models S = E.DataContext as Sink_Craft_Models;
 
-
+                User_Sink.User_Picking_Craft.User_Craft.User_Welding_Craft = S.Craft_Type;
 
                 FrameShow.ProgramEdit_Enabled = true;
                 FrameShow.ProgramEdit_UI = true;
@@ -100,7 +100,7 @@ namespace HanGao.ViewModel
 
 
                 //传送用户选择工艺
-                Messenger.Send<Sink_Craft_Models, string>(S, nameof(Meg_Value_Eunm.Program_UI_Load));
+                Messenger.Send<Sink_Models, string>(User_Sink, nameof(Meg_Value_Eunm.Program_UI_Load));
 
 
 

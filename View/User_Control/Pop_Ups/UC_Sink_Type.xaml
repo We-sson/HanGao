@@ -18,13 +18,13 @@
 
 
 
-    <i:Interaction.Triggers>
+    <!--<i:Interaction.Triggers>
         <i:EventTrigger EventName="Unloaded">
             <i:InvokeCommandAction Command="{Binding Sink_Type_Unloaded_Comm}"
                                    CommandParameter="{Binding EventArgsConverterParameter, RelativeSource={RelativeSource Self}}"
                                    PassEventArgsToCommand="True" />
         </i:EventTrigger>
-    </i:Interaction.Triggers>
+    </i:Interaction.Triggers>-->
 
     <Grid Margin="5">
         <UniformGrid HorizontalAlignment="Center" Columns="3">

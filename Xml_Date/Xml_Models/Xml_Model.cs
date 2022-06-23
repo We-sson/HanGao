@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using static HanGao.Model.Sink_Models;
+using static HanGao.Model.SInk_UI_Models;
 
 namespace HanGao.Xml_Date.Xml_Models
 {
@@ -32,6 +33,7 @@ namespace HanGao.Xml_Date.Xml_Models
     /// <summary>
     /// Xml文件，水槽属性类型说明
     /// </summary>
+    [AddINotifyPropertyChangedInterface]
     public class Xml_Sink_Model
     {
         [XmlAttribute]

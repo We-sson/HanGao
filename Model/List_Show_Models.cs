@@ -41,7 +41,7 @@ namespace HanGao.Model
         public string User_Check { set; get; } = "";
 
         //存放需要更换UI参数内容
-        public Sink_Models Model { set; get; } = new Sink_Models( Sink_Models.Sink_Type_Enum.LeftRight_One);
+        public Sink_Models Model { set; get; } = new Sink_Models( );
 
 
 

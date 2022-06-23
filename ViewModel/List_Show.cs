@@ -52,29 +52,29 @@ namespace HanGao.ViewModel
                 //查找修改对象类型属性
                 for (int i = 0; i < SinkModels.Count; i++)
                 {
-                    if (SinkModels[i].Sink_Model==S.Sink_Model)
-                    {
-                        SinkModels[i] = S;
-                        foreach (var item in XML_Write_Read.Sink_Date.Sink_List)
-                        {
-                            if (item.Sink_Model == S.Sink_Model)
-                            {
-                                item.Sink_Type = S.Sink_Type;
-                                item.Sink_Size_Long = S.Sink_Process.Sink_Size_Long;
-                                item.Sink_Size_Width = S.Sink_Process.Sink_Size_Width;
-                                item.Sink_Size_R = S.Sink_Process.Sink_Size_R;
-                                item.Sink_Size_Pots_Thick = S.Sink_Process.Sink_Size_Pots_Thick;
-                                item.Sink_Size_Panel_Thick = S.Sink_Process.Sink_Size_Panel_Thick;
-                                item.Sink_Size_Down_Distance = S.Sink_Process.Sink_Size_Down_Distance;
-                                item.Sink_Size_Left_Distance = S.Sink_Process.Sink_Size_Left_Distance;
+                    //if (SinkModels[i].Sink_Model==S.Sink_Model)
+                    //{
+                    //    SinkModels[i] = S;
+                    //    foreach (var item in XML_Write_Read.Sink_Date.Sink_List)
+                    //    {
+                    //        if (item.Sink_Model == S.Sink_Model)
+                    //        {
+                    //            item.Sink_Type = S.Sink_Type;
+                    //            item.Sink_Size_Long = S.Sink_Process.Sink_Size_Long;
+                    //            item.Sink_Size_Width = S.Sink_Process.Sink_Size_Width;
+                    //            item.Sink_Size_R = S.Sink_Process.Sink_Size_R;
+                    //            item.Sink_Size_Pots_Thick = S.Sink_Process.Sink_Size_Pots_Thick;
+                    //            item.Sink_Size_Panel_Thick = S.Sink_Process.Sink_Size_Panel_Thick;
+                    //            item.Sink_Size_Down_Distance = S.Sink_Process.Sink_Size_Down_Distance;
+                    //            item.Sink_Size_Left_Distance = S.Sink_Process.Sink_Size_Left_Distance;
 
 
-                            }
+                    //        }
 
 
 
-                        }
-                    }
+                    //    }
+                    //}
                     
 
                 }
@@ -92,43 +92,43 @@ namespace HanGao.ViewModel
             Messenger.Register<List_Show_Models,string >(this, nameof(Meg_Value_Eunm.List_IsCheck_Show), (O,_List) =>
             {
 
-                foreach (var item in SinkModels)
-                {
-                    if (item.Sink_Model.ToString() == _List.List_Show_Name)
-                    {
-                        if (_List.User_Check == "Yes")
-                        {
+                //foreach (var item in SinkModels)
+                //{ 
+                //    if (item.Sink_Model.ToString() == _List.List_Show_Name)
+                //    {
+                //        if (_List.User_Check == "Yes")
+                //        {
                          
-                            //传输确定更换型号的参数到控件显示
-                            var aa = Meg_Value_Eunm.UI_Work_No + _List.List_Chick_NO;
-                            Messenger.Send<Sink_Models,string>(_List.Model, aa);
+                //            //传输确定更换型号的参数到控件显示
+                //            var aa = Meg_Value_Eunm.UI_Work_No + _List.List_Chick_NO;
+                //            Messenger.Send<Sink_Models,string>(_List.Model, aa);
 
-                            //清楚非选择控件
-                            foreach (var SinkModel in SinkModels)
-                            {
-                                if (SinkModel.Sink_Model.ToString() != _List.List_Show_Name)
-                                {
-                                    SinkModel.GetType().GetProperty("List_IsChecked_" + _List.List_Chick_NO).SetValue(SinkModel, false);
+                //            //清楚非选择控件
+                //            foreach (var SinkModel in SinkModels)
+                //            {
+                //                if (SinkModel.Sink_Model.ToString() != _List.List_Show_Name)
+                //                {
+                //                    SinkModel.GetType().GetProperty("List_IsChecked_" + _List.List_Chick_NO).SetValue(SinkModel, false);
 
-                                }
-                            }
+                //                }
+                //            }
 
 
-                        }
-                        else if (_List.User_Check == "No")
-                        {
+                //        }
+                //        else if (_List.User_Check == "No")
+                //        {
 
-                            // 清除控件选定
-                            item.GetType().GetProperty("List_IsChecked_" + _List.List_Chick_NO).SetValue(item, false);
+                //            // 清除控件选定
+                //            item.GetType().GetProperty("List_IsChecked_" + _List.List_Chick_NO).SetValue(item, false);
 
-                        }
+                //        }
 
-                        //关闭弹窗
-                        Messenger.Send<UserControl,string >(null, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
+                //        //关闭弹窗
+                //        Messenger.Send<UserControl,string >(null, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
 
-                    }
+                //    }
 
-                }
+                //}
 
             });
 
@@ -188,17 +188,17 @@ namespace HanGao.ViewModel
                 for (int i = 0; i < SinkModels.Count; i++)
                 {
 
-                    String Num = SinkModels[i].Sink_Model.ToString();
-                    //MessageBox.Show(SinkModels[i].Model_Number.ToString());
+                    //String Num = SinkModels[i].Sink_Model.ToString();
+                    ////MessageBox.Show(SinkModels[i].Model_Number.ToString());
 
-                    if (Num.IndexOf(ob) == -1)
-                    {
-                        SinkModels[i].List_Show = Visibility.Collapsed;
-                    }
-                    else if (Num.IndexOf(ob) == 0)
-                    {
-                        SinkModels[i].List_Show = Visibility.Visible;
-                    }
+                    //if (Num.IndexOf(ob) == -1)
+                    //{
+                    //    SinkModels[i].List_Show = Visibility.Collapsed;
+                    //}
+                    //else if (Num.IndexOf(ob) == 0)
+                    //{
+                    //    SinkModels[i].List_Show = Visibility.Visible;
+                    //}
                 }
             });
         }
@@ -213,17 +213,17 @@ namespace HanGao.ViewModel
             for (int i = 0; i < SinkModels.Count; i++)
             {
 
-                String Num = SinkModels[i].Sink_Model.ToString();
-                //MessageBox.Show(SinkModels[i].Model_Number.ToString());
+                //String Num = SinkModels[i].Sink_Model.ToString();
+                ////MessageBox.Show(SinkModels[i].Model_Number.ToString());
 
-                if (Num.IndexOf(ob) == -1)
-                {
-                    SinkModels[i] .List_Show = Visibility.Collapsed;
-                }
-                else if (Num.IndexOf(ob) == 0)
-                {
-                    SinkModels[i].List_Show = Visibility.Visible;
-                }
+                //if (Num.IndexOf(ob) == -1)
+                //{
+                //    SinkModels[i] .List_Show = Visibility.Collapsed;
+                //}
+                //else if (Num.IndexOf(ob) == 0)
+                //{
+                //    SinkModels[i].List_Show = Visibility.Visible;
+                //}
             }
 
 
@@ -244,13 +244,13 @@ namespace HanGao.ViewModel
         public ICommand Show_Pop_Ups_Page
         {
             get => new AsyncRelayCommand<RoutedEventArgs>(async (Sm,T) =>
-              {
+                {
 
                   FrameworkElement e = Sm.Source as FrameworkElement;
 
                   //转换用户选择的水槽选项
                   Sink_Models M = e.DataContext as Sink_Models;
-                  M.Work_No_Emun = (Work_No_Enum)Enum.Parse(typeof(Work_No_Enum), e.Uid);
+                  M.User_Picking_Craft.User_Work_Area = (Work_No_Enum)Enum.Parse(typeof(Work_No_Enum), e.Uid);
 
 
                   User_Control_Show.User_UserControl = User_Pop;
@@ -321,142 +321,142 @@ namespace HanGao.ViewModel
 
 
 
-                //转换按钮枚举值
-                S.Work_No_Emun = (Work_No_Enum)Enum.Parse(typeof(Work_No_Enum), e.Uid);
+                ////转换按钮枚举值
+                //S.Work_No_Emun = (Work_No_Enum)Enum.Parse(typeof(Work_No_Enum), e.Uid);
 
 
        
      
 
-                string Work_Str = Meg_Value_Eunm.UI_Work_No.ToString();
+                //string Work_Str = Meg_Value_Eunm.UI_Work_No.ToString();
 
 
 
-                if (e.IsChecked == true)
-                {
+                //if (e.IsChecked == true)
+                //{
 
 
-                    //判断是都有多个添加到加工区域
-                    if (SinkModels.Count(o => o.List_IsChecked_1 == true) > 1 || SinkModels.Count(o => o.List_IsChecked_2 == true) > 1)
-                    {
+                //    //判断是都有多个添加到加工区域
+                //    if (SinkModels.Count(o => o.List_IsChecked_1 == true) > 1 || SinkModels.Count(o => o.List_IsChecked_2 == true) > 1)
+                //    {
 
 
 
 
 
-                        //消息通知初始化一个消息内容显示
-                        Messenger.Send<UserControl,string >(new User_Message()
-                        {
+                //        //消息通知初始化一个消息内容显示
+                //        Messenger.Send<UserControl,string >(new User_Message()
+                //        {
 
-                            DataContext = new User_Message_ViewModel()
-                            {
-
-
-                                List_Show_Models = new List_Show_Models()
-                                {
-
-                                    //根据弹窗用户选择使用委托方法
-                                    GetUser_Select  =Val =>
-                                    {
-                                        if (Val)
-                                        {
-
-                                            foreach (var item in SinkModels)
-                                            {
-                                                if (S.Work_No_Emun == Work_No_Enum.N_1)
-                                                {
-
-                                                item.List_IsChecked_1 = false ;
-                                                }
-                                                else if (S.Work_No_Emun == Work_No_Enum.N_2)
-                                                {
-                                                    item.List_IsChecked_2 = false ;
-                                                }
-                                            }
+                //            DataContext = new User_Message_ViewModel()
+                //            {
 
 
-                                            if (S.Work_No_Emun == Work_No_Enum.N_1)
-                                            {
+                //                List_Show_Models = new List_Show_Models()
+                //                {
 
-                                                S.List_IsChecked_1 = true;
-                                            }
-                                            else if (S.Work_No_Emun == Work_No_Enum.N_2)
-                                            {
-                                                S.List_IsChecked_2 = true;
-                                            }
+                //                    //根据弹窗用户选择使用委托方法
+                //                    GetUser_Select  =Val =>
+                //                    {
+                //                        if (Val)
+                //                        {
 
-                                            //发送水槽数据
-                                            Messenger.Send<Wroking_Models, string>(new Wroking_Models() { UI_Sink_Show = S, Work_NO = S.Work_No_Emun }, Work_Str);
+                //                            foreach (var item in SinkModels)
+                //                            {
+                //                                if (S.Work_No_Emun == Work_No_Enum.N_1)
+                //                                {
+
+                //                                item.List_IsChecked_1 = false ;
+                //                                }
+                //                                else if (S.Work_No_Emun == Work_No_Enum.N_2)
+                //                                {
+                //                                    item.List_IsChecked_2 = false ;
+                //                                }
+                //                            }
 
 
-                                           new Thread(() => WriteToKuKa_SinkVal(S)) { Name = "Write—KUKA", IsBackground = true }.Start ();
+                //                            if (S.Work_No_Emun == Work_No_Enum.N_1)
+                //                            {
+
+                //                                S.List_IsChecked_1 = true;
+                //                            }
+                //                            else if (S.Work_No_Emun == Work_No_Enum.N_2)
+                //                            {
+                //                                S.List_IsChecked_2 = true;
+                //                            }
+
+                //                            //发送水槽数据
+                //                            Messenger.Send<Wroking_Models, string>(new Wroking_Models() { UI_Sink_Show = S, Work_NO = S.Work_No_Emun }, Work_Str);
+
+
+                //                           new Thread(() => WriteToKuKa_SinkVal(S)) { Name = "Write—KUKA", IsBackground = true }.Start ();
                         
 
 
-                                        }
-                                        else
-                                        {
+                //                        }
+                //                        else
+                //                        {
 
-                                            if (S.Work_No_Emun == Work_No_Enum.N_1)
-                                            {
+                //                            if (S.Work_No_Emun == Work_No_Enum.N_1)
+                //                            {
 
-                                                S.List_IsChecked_1 = false;
-                                            }
-                                            else if (S.Work_No_Emun == Work_No_Enum.N_2)
-                                            {
-                                                S.List_IsChecked_2 = false;
-                                            }
-                                        }
+                //                                S.List_IsChecked_1 = false;
+                //                            }
+                //                            else if (S.Work_No_Emun == Work_No_Enum.N_2)
+                //                            {
+                //                                S.List_IsChecked_2 = false;
+                //                            }
+                //                        }
 
-                                        //清空弹窗控件
-                                        Messenger.Send<UserControl, string>(null, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
-
-
-                                    },
-                                    Model = S,
-                                    List_Show_Name = S.Sink_Model.ToString(),
-                                    List_Chick_NO = e.Uid
-                                },
-                                User_Wrok_Trye = S.Sink_Model.ToString()
-                            }
-
-                        },
-                        nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
+                //                        //清空弹窗控件
+                //                        Messenger.Send<UserControl, string>(null, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
 
 
-                        return;
+                //                    },
+                //                    Model = S,
+                //                    List_Show_Name = S.Sink_Model.ToString(),
+                //                    List_Chick_NO = e.Uid
+                //                },
+                //                User_Wrok_Trye = S.Sink_Model.ToString()
+                //            }
 
-                    }
+                //        },
+                //        nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
 
 
+                //        return;
 
-                    //发送用户选择加工型号到加工区显示
+                //    }
 
 
 
-                    Messenger.Send<Wroking_Models, string >(new Wroking_Models() { UI_Sink_Show=S, Work_NO= S.Work_No_Emun }, Work_Str);
-
-                   new Thread(() => WriteToKuKa_SinkVal(S)) { Name = "Write—KUKA", IsBackground = true }.Start();
-
-
-                }
-                else
-                {
+                //    //发送用户选择加工型号到加工区显示
 
 
 
-                    //用户取消时候，隐藏界面
-                    Messenger.Send<Wroking_Models, string>(new Wroking_Models() { UI_Sink_Show = S, Work_NO = S.Work_No_Emun, UI_Show= Visibility.Collapsed }, Work_Str);
+                //    Messenger.Send<Wroking_Models, string >(new Wroking_Models() { UI_Sink_Show=S, Work_NO= S.Work_No_Emun }, Work_Str);
 
-                    //Messenger.Send<dynamic, string>(false, UserControl_Function_Reset + e.Uid);
+                //   new Thread(() => WriteToKuKa_SinkVal(S)) { Name = "Write—KUKA", IsBackground = true }.Start();
 
 
+                //}
+                //else
+                //{
+
+
+
+                //    //用户取消时候，隐藏界面
+                //    Messenger.Send<Wroking_Models, string>(new Wroking_Models() { UI_Sink_Show = S, Work_NO = S.Work_No_Emun, UI_Show= Visibility.Collapsed }, Work_Str);
+
+                //    //Messenger.Send<dynamic, string>(false, UserControl_Function_Reset + e.Uid);
 
 
 
 
 
-                }
+
+
+                //}
 
 
 
@@ -473,88 +473,88 @@ namespace HanGao.ViewModel
         /// <param name="Val1"></param>
         public void WriteToKuKa_SinkVal(Sink_Models Val1 ) 
         {
-            foreach (var item in XML_Write_Read.Sink_Date.Sink_List)
-            {
-                if (item.Sink_Model==Val1.Sink_Model)
-                {
+      //      foreach (var item in XML_Write_Read.Sink_Date.Sink_List)
+      //      {
+      //          if (item.Sink_Model==Val1.Sink_Model)
+      //          {
 
-                    //PropertyInfo[] Surr_Data =  item.Surround_Craft.GetType().GetProperties();
+      //              //PropertyInfo[] Surr_Data =  item.Surround_Craft.GetType().GetProperties();
 
                    
 
-                    foreach (var Surround_Craft_Name in item.Sink_Craft.GetType().GetProperties())
-                    {
+      //              foreach (var Surround_Craft_Name in item.Sink_Craft.GetType().GetProperties())
+      //              {
 
-                        //Xml_Surround_Craft_Data Xml_SinkDate = (Xml_Surround_Craft_Data)Surround_Craft_Name.GetValue(item.Surround_Craft);
-
-
-
-                        Xml_Surround_Craft_Data Surr_List = (Xml_Surround_Craft_Data)Surround_Craft_Name.GetValue(item.Sink_Craft);
+      //                  //Xml_Surround_Craft_Data Xml_SinkDate = (Xml_Surround_Craft_Data)Surround_Craft_Name.GetValue(item.Surround_Craft);
 
 
 
-                        for (int i = 0; i < Surr_List.Craft_Date.Count; i++)
-                        {
+      //                  Xml_Surround_Craft_Data Surr_List = (Xml_Surround_Craft_Data)Surround_Craft_Name.GetValue(item.Sink_Craft);
 
-                            foreach (var Craft_List in Surr_List.Craft_Date[i].GetType().GetProperties())
-                            {
-                                foreach (var List_Name in Craft_List.GetCustomAttributes( true))
-                                {
 
-                                    if (List_Name is ReadWriteAttribute Autt)
-                                    {
 
-                                        switch (Autt.ReadWrite_Type)
-                                        {
-                                            case ReadWrite_Enum.Read:
-                                                break;
-                                            case ReadWrite_Enum.Write:
+      //                  for (int i = 0; i < Surr_List.Craft_Date.Count; i++)
+      //                  {
 
-                                                string _N = Surround_Craft_Name.Name +"["+(i+1)+"]."+ Craft_List.Name;
-                                                string _Val = string.Empty;
+      //                      foreach (var Craft_List in Surr_List.Craft_Date[i].GetType().GetProperties())
+      //                      {
+      //                          foreach (var List_Name in Craft_List.GetCustomAttributes( true))
+      //                          {
+
+      //                              if (List_Name is ReadWriteAttribute Autt)
+      //                              {
+
+      //                                  switch (Autt.ReadWrite_Type)
+      //                                  {
+      //                                      case ReadWrite_Enum.Read:
+      //                                          break;
+      //                                      case ReadWrite_Enum.Write:
+
+      //                                          string _N = Surround_Craft_Name.Name +"["+(i+1)+"]."+ Craft_List.Name;
+      //                                          string _Val = string.Empty;
                                                 
 
-                                                if (Craft_List.GetValue(Surr_List.Craft_Date[i]) is Welding_Pos_Date)
-                                                {
-                                                    Welding_Pos_Date _P = Craft_List.GetValue(Surr_List.Craft_Date[i]) as Welding_Pos_Date;
+      //                                          if (Craft_List.GetValue(Surr_List.Craft_Date[i]) is Welding_Pos_Date)
+      //                                          {
+      //                                              Welding_Pos_Date _P = Craft_List.GetValue(Surr_List.Craft_Date[i]) as Welding_Pos_Date;
 
-                                                   _Val = @"{Offset_POS: X " + _P.X + ", Y " + _P.Y + ", Z " + _P.Z + " }";
+      //                                             _Val = @"{Offset_POS: X " + _P.X + ", Y " + _P.Y + ", Z " + _P.Z + " }";
 
-                                                }
-                                                else
-                                                {
-                                                    var _P = Craft_List.GetValue(Surr_List.Craft_Date[i]);
-                                                     _Val =  _P.ToString();
-                                                }
-                                                //Socket_Client_Setup.Write.Cycle_Write_Send(_N, _Val);
-
-
-                                                Socket_Client_Setup.Write.Cycle_Write_Send(_N, _Val);
+      //                                          }
+      //                                          else
+      //                                          {
+      //                                              var _P = Craft_List.GetValue(Surr_List.Craft_Date[i]);
+      //                                               _Val =  _P.ToString();
+      //                                          }
+      //                                          //Socket_Client_Setup.Write.Cycle_Write_Send(_N, _Val);
 
 
+      //                                          Socket_Client_Setup.Write.Cycle_Write_Send(_N, _Val);
 
-                                                break;
+
+
+      //                                          break;
                           
-                                        }
+      //                                  }
 
 
 
 
 
-                                    }
+      //                              }
 
 
 
 
 
 
-                                }
-                            }
+      //                          }
+      //                      }
 
-                        }
+      //                  }
 
 
-                        //var Xml_SinkDate = (Xml_Surround_Craft_Data)Surround_Craft_Name.GetType().GetProperty();
+      //                  //var Xml_SinkDate = (Xml_Surround_Craft_Data)Surround_Craft_Name.GetType().GetProperty();
 
 
                    
@@ -562,59 +562,59 @@ namespace HanGao.ViewModel
 
                  
 
-                            //PropertyInfo[] Surround_Craft_Name = Val2.GetType().GetProperties();
+      //                      //PropertyInfo[] Surround_Craft_Name = Val2.GetType().GetProperties();
 
 
 
-                            //foreach (var Val3 in Xml_Craft_Data)
-                            //{
+      //                      //foreach (var Val3 in Xml_Craft_Data)
+      //                      //{
 
-                            //    Val3.GetCustomAttributes(false);
-                            //    foreach (var Val4 in Val3.GetCustomAttributes(false))
-                            //    {
-                            //        if (Val4 is ReadWriteAttribute Autt)
-                            //        {
-                            //                switch (Autt.ReadWrite_Type)
-                            //                {
-                            //                    case ReadWrite_Enum.Read:
-                            //                        break;
-                            //                    case ReadWrite_Enum.Write:
+      //                      //    Val3.GetCustomAttributes(false);
+      //                      //    foreach (var Val4 in Val3.GetCustomAttributes(false))
+      //                      //    {
+      //                      //        if (Val4 is ReadWriteAttribute Autt)
+      //                      //        {
+      //                      //                switch (Autt.ReadWrite_Type)
+      //                      //                {
+      //                      //                    case ReadWrite_Enum.Read:
+      //                      //                        break;
+      //                      //                    case ReadWrite_Enum.Write:
 
-                            //string _N = Surround_Craft_Name.Name + "[" + i + "]." +   ;
+      //                      //string _N = Surround_Craft_Name.Name + "[" + i + "]." +   ;
 
-                            //                        break;
+      //                      //                        break;
 
-                            //                }
-
-
-                            //            string _Val = item.GetValue(Xcd).ToString();
-                            //            if (item.Name == nameof(Xcd.Welding_Offset))
-                            //            {
-
-                            //                _Val = @"{ Offset_POS : X " + Xcd.Welding_Offset.X + ", Y " + Xcd.Welding_Offset.Y + ", Z " + Xcd.Welding_Offset.Z + " } ";
+      //                      //                }
 
 
+      //                      //            string _Val = item.GetValue(Xcd).ToString();
+      //                      //            if (item.Name == nameof(Xcd.Welding_Offset))
+      //                      //            {
 
-                            //            }
-
-
-                            //            Socket_Client_Setup.Write.Cycle_Write_Send(_N, _Val);
+      //                      //                _Val = @"{ Offset_POS : X " + Xcd.Welding_Offset.X + ", Y " + Xcd.Welding_Offset.Y + ", Z " + Xcd.Welding_Offset.Z + " } ";
 
 
 
+      //                      //            }
 
-                            //        }
-                            //    }
+
+      //                      //            Socket_Client_Setup.Write.Cycle_Write_Send(_N, _Val);
 
 
 
 
-                            //        }
+      //                      //        }
+      //                      //    }
+
+
+
+
+      //                      //        }
 
 
                         
-      //传送用户选择工艺
-                            //Messenger.Send<Xml_Craft_Date, string>(Val2, nameof(Meg_Value_Eunm.Sink_Craft_Data_OK));
+      ////传送用户选择工艺
+      //                      //Messenger.Send<Xml_Craft_Date, string>(Val2, nameof(Meg_Value_Eunm.Sink_Craft_Data_OK));
                     
                                 
 
@@ -624,26 +624,26 @@ namespace HanGao.ViewModel
                         
                       
 
-             //           string Na_str
+      //       //           string Na_str
 
-                        //new Thread(() => Socket_Client_Setup.Write.Cycle_Write_Send(Sm.Send_Name.Text, Sm.Send_Val.Text)) {  IsBackground = true }.Start();
-
-
-                    };
+      //                  //new Thread(() => Socket_Client_Setup.Write.Cycle_Write_Send(Sm.Send_Name.Text, Sm.Send_Val.Text)) {  IsBackground = true }.Start();
 
 
-
-
-
-
-                    //new Thread(() => Socket_Client_Setup.Write.Cycle_Write_Send(Sm.Send_Name.Text, Sm.Send_Val.Text)) { Name = "Cycle_Write—KUKA", IsBackground = true }.Start();
+      //              };
 
 
 
 
 
-                }
-            }
+
+      //              //new Thread(() => Socket_Client_Setup.Write.Cycle_Write_Send(Sm.Send_Name.Text, Sm.Send_Val.Text)) { Name = "Cycle_Write—KUKA", IsBackground = true }.Start();
+
+
+
+
+
+      //          }
+      //      }
 
 
 

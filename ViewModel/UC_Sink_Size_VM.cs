@@ -13,6 +13,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using Microsoft.Toolkit.Mvvm.Messaging.Messages;
 using System.Windows.Controls;
+using static HanGao.Model.SInk_UI_Models;
 
 namespace HanGao.ViewModel
 {
@@ -32,7 +33,7 @@ namespace HanGao.ViewModel
             {
 
 
-                _Sink = S;
+                User_Sink = S;
 
 
             });
@@ -41,7 +42,7 @@ namespace HanGao.ViewModel
             //水槽类型选择成功
             Messenger.Register<dynamic, string>(this,nameof( Meg_Value_Eunm.Sink_Type_Value_OK), (O,T ) =>
            {
-               if (_Sink != null)
+               if (User_Sink != null)
                {
                    Sink_Type_OK = (Sink_Type_Enum) T;
                }
@@ -88,7 +89,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 用户选择的水槽项参数
         /// </summary>
-        public Sink_Models _Sink { set; get; }
+        public Sink_Models User_Sink { set; get; }
 
 
 
@@ -125,24 +126,24 @@ namespace HanGao.ViewModel
             {
 
                 //水槽尺寸
-                _Sink.Sink_Process.Sink_Size_Long = double.Parse(Sm.Sink_Long.Text);
-                _Sink.Sink_Process.Sink_Size_Width = double.Parse(Sm.Sink_Width.Text);
-                _Sink.Sink_Process.Sink_Size_Short_Side = double.Parse(Sm.Sink_Short.Text);
-                _Sink.Sink_Process.Sink_Size_Panel_Thick = double.Parse(Sm.Sink_Panel.Text);
-                _Sink.Sink_Process.Sink_Size_Pots_Thick = double.Parse(Sm.Sink_Pots.Text);
-                _Sink.Sink_Process.Sink_Size_R = double.Parse(Sm.Sink_R.Text);
-                _Sink.Sink_Process.Sink_Size_Down_Distance=double.Parse(Sm.Sink_Down_Distance.Text);
-                _Sink.Sink_Process.Sink_Size_Left_Distance = double.Parse(Sm.Sink_Left_Distance.Text);
+                User_Sink.Sink_Process.Sink_Size_Long = double.Parse(Sm.Sink_Long.Text);
+                User_Sink.Sink_Process.Sink_Size_Width = double.Parse(Sm.Sink_Width.Text);
+                User_Sink.Sink_Process.Sink_Size_Short_Side = double.Parse(Sm.Sink_Short.Text);
+                User_Sink.Sink_Process.Sink_Size_Panel_Thick = double.Parse(Sm.Sink_Panel.Text);
+                User_Sink.Sink_Process.Sink_Size_Pots_Thick = double.Parse(Sm.Sink_Pots.Text);
+                User_Sink.Sink_Process.Sink_Size_R = double.Parse(Sm.Sink_R.Text);
+                User_Sink.Sink_Process.Sink_Size_Down_Distance=double.Parse(Sm.Sink_Down_Distance.Text);
+                User_Sink.Sink_Process.Sink_Size_Left_Distance = double.Parse(Sm.Sink_Left_Distance.Text);
 
 
 
 
                 //水槽类型
-                _Sink.Sink_Type = Sink_Type_OK;
+                User_Sink.Sink_Process.Sink_Type = Sink_Type_OK;
 
 
                 //发送水槽修改好属性
-                Messenger.Send<Sink_Models,string >(_Sink, nameof(Meg_Value_Eunm.Sink_Value_All_OK));
+                Messenger.Send<Sink_Models,string >(User_Sink, nameof(Meg_Value_Eunm.Sink_Value_All_OK));
 
 
 
@@ -162,19 +163,19 @@ namespace HanGao.ViewModel
                 //把参数类型转换控件
                 //FrameworkElement e = Sm.Source as FrameworkElement;
 
-                if (_Sink != null)
+                if (User_Sink != null)
                 {
 
                     //界面读取水槽参数
-                    Sm.Sink_Long.Text = _Sink.Sink_Process.Sink_Size_Long.ToString();
-                    Sm.Sink_Width.Text = _Sink.Sink_Process.Sink_Size_Width.ToString();
-                    Sm.Sink_Short.Text = _Sink.Sink_Process.Sink_Size_Short_Side.ToString();
-                    Sm.Sink_Panel.Text = _Sink.Sink_Process.Sink_Size_Panel_Thick.ToString();
-                    Sm.Sink_Pots.Text = _Sink.Sink_Process.Sink_Size_Pots_Thick.ToString();
-                    Sm.Sink_R.Text = _Sink.Sink_Process.Sink_Size_R.ToString();
-                    Sm.Sink_Left_Distance.Text = _Sink.Sink_Process.Sink_Size_Left_Distance.ToString();
-                    Sm.Sink_Down_Distance.Text = _Sink.Sink_Process.Sink_Size_Down_Distance.ToString();
-                    Sink_Type_OK = _Sink.Sink_Type;
+                    Sm.Sink_Long.Text = User_Sink.Sink_Process.Sink_Size_Long.ToString();
+                    Sm.Sink_Width.Text = User_Sink.Sink_Process.Sink_Size_Width.ToString();
+                    Sm.Sink_Short.Text = User_Sink.Sink_Process.Sink_Size_Short_Side.ToString();
+                    Sm.Sink_Panel.Text = User_Sink.Sink_Process.Sink_Size_Panel_Thick.ToString();
+                    Sm.Sink_Pots.Text = User_Sink.Sink_Process.Sink_Size_Pots_Thick.ToString();
+                    Sm.Sink_R.Text = User_Sink.Sink_Process.Sink_Size_R.ToString();
+                    Sm.Sink_Left_Distance.Text = User_Sink.Sink_Process.Sink_Size_Left_Distance.ToString();
+                    Sm.Sink_Down_Distance.Text = User_Sink.Sink_Process.Sink_Size_Down_Distance.ToString();
+                    Sink_Type_OK = User_Sink.Sink_Process.Sink_Type;
                 }
 
 

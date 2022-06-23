@@ -1,4 +1,5 @@
-﻿using Nancy.Helpers;
+﻿using HanGao.View.User_Control.Program_Editing.Direction_UI;
+using Nancy.Helpers;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -7,18 +8,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using static HanGao.Xml_Date.Xml_WriteRead.User_Read_Xml_Model;
 
 namespace HanGao.Model
 {
     [AddINotifyPropertyChangedInterface]
     public class Sink_Craft_Models
     {
-        public Sink_Craft_Models()
+        public Sink_Craft_Models(User_Craft_Enum _Craft_Type)
         {
 
 
 
-
+            Craft_Type = _Craft_Type;
 
 
         }
@@ -52,15 +54,32 @@ namespace HanGao.Model
         /// <summary>
         /// 工艺类型
         /// </summary>
-        private Craft_Type_Enum _Craft_Type;
+        private User_Craft_Enum _Craft_Type;
 
-        public Craft_Type_Enum Craft_Type
+        public User_Craft_Enum Craft_Type
         {
             get { return _Craft_Type; }
-            set { _Craft_Type = value; }
+            set 
+            {
+
+                _Craft_Type = value;
+                switch (value)
+                {
+                    case User_Craft_Enum.Surround_Craft:
+                        Craft_UI_Direction = new UC_Surround_Direction();
+                        break;
+                    case User_Craft_Enum.Short_Craft:
+                        Craft_UI_Direction = new UC_Short_Side();
+                        break;
+
+                }
+            }
         }
 
-
+        /// <summary>
+        /// 工艺UI方向显示
+        /// </summary>
+        public UserControl Craft_UI_Direction { set; get; }
 
 
 
@@ -69,11 +88,11 @@ namespace HanGao.Model
         /// <summary>
         /// 各工艺枚举
         /// </summary>
-        public enum Craft_Type_Enum
+        public enum Welding_Craft_Type_Enum
         {
             [DependsOn("Surronnd_Welding")]
-            Surround_Direction=1,
-            Short_Side=2,
+            Surround_Direction = 1,
+            Short_Side = 2,
 
         }
 

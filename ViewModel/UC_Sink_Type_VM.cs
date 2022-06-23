@@ -9,7 +9,7 @@ using static HanGao.Model.Sink_Models;
 using System.Threading.Tasks;
 using HanGao.Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
-
+using static HanGao.Model.SInk_UI_Models;
 
 namespace HanGao.ViewModel
 {
@@ -35,7 +35,7 @@ namespace HanGao.ViewModel
 
                 _Sink = S;
 
-                switch (_Sink.Sink_Type)
+                switch (_Sink.Sink_Process.Sink_Type)
                 {
                     case Sink_Type_Enum.LeftRight_One:
                         Sink_LR_Checked = true;

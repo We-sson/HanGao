@@ -130,9 +130,11 @@
                            FontSize="20" />
 
                 <TextBox Style="{StaticResource TextBoxStyle1}" x:Name="Sink_Name"
-                         Width=" 200" Text="{Binding _Sink.Sink_Model}" FontSize="22"
+                         Text="{Binding User_Sink.Sink_Process.Sink_Model}"
+                         Width=" 200"
                          HorizontalAlignment="Center"
-                         VerticalAlignment="Stretch" />
+                         VerticalAlignment="Stretch"
+                         FontSize="22" />
             </StackPanel>
         </Border>
 
