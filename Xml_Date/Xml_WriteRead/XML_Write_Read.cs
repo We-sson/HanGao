@@ -59,52 +59,52 @@ namespace HanGao.Xml_Date.Xml_WriteRead
                      {
                           N_1=new Xml_SInk_Craft()
                           {
-                               Sink_Surround_Craft=new Xml_SInk_Surround_Craft()
+                               Sink_Surround_Craft=new Xml_SInk_Craft_Model()
                                {
-                           L0_Welding_Craft=new Xml_Surround_Craft_Data()
+                           L0_Welding_Craft=new Xml_Craft_Data()
                                    {
                                Write_Mode = true,
                                Distance_Type = Distance_Type_Enum.LIN,
                                MaxArray = 10,
                                   },
-                           C45_Welding_Craft=new Xml_Surround_Craft_Data()
+                           C45_Welding_Craft=new Xml_Craft_Data()
                            {
                                Write_Mode = true,
                                Distance_Type = Distance_Type_Enum.CIR,
                                MaxArray = 3,
                            },
-                            L90_Welding_Craft=new Xml_Surround_Craft_Data()
+                            L90_Welding_Craft=new Xml_Craft_Data()
                             {
                                Write_Mode = true,
                                Distance_Type = Distance_Type_Enum.LIN,
                                MaxArray = 10,
                             },
-                             C135_Welding_Craft=new Xml_Surround_Craft_Data()
+                             C135_Welding_Craft=new Xml_Craft_Data()
                              {
                                Write_Mode = true,
                                Distance_Type = Distance_Type_Enum.CIR,
                                MaxArray = 3,
 
                              },
-                             L180_Welding_Craft=new Xml_Surround_Craft_Data()
+                             L180_Welding_Craft=new Xml_Craft_Data()
                              {
                                Write_Mode = true,
                                Distance_Type = Distance_Type_Enum.LIN,
                                MaxArray = 10,
                              },
-                              C225_Welding_Craft=new Xml_Surround_Craft_Data()
+                              C225_Welding_Craft=new Xml_Craft_Data()
                               {
                                Write_Mode = true,
                                Distance_Type = Distance_Type_Enum.CIR,
                                MaxArray = 3,
                               },
-                               L270_Welding_Craft=new Xml_Surround_Craft_Data()
+                               L270_Welding_Craft=new Xml_Craft_Data()
                                {
                                Write_Mode = true,
                                Distance_Type = Distance_Type_Enum.LIN,
                                MaxArray = 10,
                                },
-                                C315_Welding_Craft=new Xml_Surround_Craft_Data()
+                                C315_Welding_Craft=new Xml_Craft_Data()
                                 {
                                  Write_Mode = true,
                                Distance_Type = Distance_Type_Enum.CIR,
@@ -114,52 +114,52 @@ namespace HanGao.Xml_Date.Xml_WriteRead
                           },
                           N_2=new Xml_SInk_Craft()
                           {
-                               Sink_Surround_Craft=new Xml_SInk_Surround_Craft()
+                               Sink_Surround_Craft=new Xml_SInk_Craft_Model()
                                {
-                           L0_Welding_Craft=new Xml_Surround_Craft_Data()
+                           L0_Welding_Craft=new Xml_Craft_Data()
                                    {
                                Write_Mode = true,
                                Distance_Type = Distance_Type_Enum.LIN,
                                MaxArray = 10,
                                   },
-                           C45_Welding_Craft=new Xml_Surround_Craft_Data()
+                           C45_Welding_Craft=new Xml_Craft_Data()
                            {
                                Write_Mode = true,
                                Distance_Type = Distance_Type_Enum.CIR,
                                MaxArray = 3,
                            },
-                            L90_Welding_Craft=new Xml_Surround_Craft_Data()
+                            L90_Welding_Craft=new Xml_Craft_Data()
                             {
                                Write_Mode = true,
                                Distance_Type = Distance_Type_Enum.LIN,
                                MaxArray = 10,
                             },
-                             C135_Welding_Craft=new Xml_Surround_Craft_Data()
+                             C135_Welding_Craft=new Xml_Craft_Data()
                              {
                                Write_Mode = true,
                                Distance_Type = Distance_Type_Enum.CIR,
                                MaxArray = 3,
 
                              },
-                             L180_Welding_Craft=new Xml_Surround_Craft_Data()
+                             L180_Welding_Craft=new Xml_Craft_Data()
                              {
                                Write_Mode = true,
                                Distance_Type = Distance_Type_Enum.LIN,
                                MaxArray = 10,
                              },
-                              C225_Welding_Craft=new Xml_Surround_Craft_Data()
+                              C225_Welding_Craft=new Xml_Craft_Data()
                               {
                                Write_Mode = true,
                                Distance_Type = Distance_Type_Enum.CIR,
                                MaxArray = 3,
                               },
-                               L270_Welding_Craft=new Xml_Surround_Craft_Data()
+                               L270_Welding_Craft=new Xml_Craft_Data()
                                {
                                Write_Mode = true,
                                Distance_Type = Distance_Type_Enum.LIN,
                                MaxArray = 10,
                                },
-                                C315_Welding_Craft=new Xml_Surround_Craft_Data()
+                                C315_Welding_Craft=new Xml_Craft_Data()
                                 {
                                  Write_Mode = true,
                                Distance_Type = Distance_Type_Enum.CIR,
@@ -186,52 +186,52 @@ namespace HanGao.Xml_Date.Xml_WriteRead
                      {
                           N_1=new Xml_SInk_Craft()
                           {
-                               Sink_Surround_Craft=new Xml_SInk_Surround_Craft()
+                               Sink_Surround_Craft=new Xml_SInk_Craft_Model()
                                {
-                           L0_Welding_Craft=new Xml_Surround_Craft_Data()
+                           L0_Welding_Craft=new Xml_Craft_Data()
                                    {
                                Write_Mode = true,
                                Distance_Type = Distance_Type_Enum.LIN,
                                MaxArray = 10,
                                   },
-                           C45_Welding_Craft=new Xml_Surround_Craft_Data()
+                           C45_Welding_Craft=new Xml_Craft_Data()
                            {
                                Write_Mode = true,
                                Distance_Type = Distance_Type_Enum.CIR,
                                MaxArray = 3,
                            },
-                            L90_Welding_Craft=new Xml_Surround_Craft_Data()
+                            L90_Welding_Craft=new Xml_Craft_Data()
                             {
                                Write_Mode = true,
                                Distance_Type = Distance_Type_Enum.LIN,
                                MaxArray = 10,
                             },
-                             C135_Welding_Craft=new Xml_Surround_Craft_Data()
+                             C135_Welding_Craft=new Xml_Craft_Data()
                              {
                                Write_Mode = true,
                                Distance_Type = Distance_Type_Enum.CIR,
                                MaxArray = 3,
 
                              },
-                             L180_Welding_Craft=new Xml_Surround_Craft_Data()
+                             L180_Welding_Craft=new Xml_Craft_Data()
                              {
                                Write_Mode = true,
                                Distance_Type = Distance_Type_Enum.LIN,
                                MaxArray = 10,
                              },
-                              C225_Welding_Craft=new Xml_Surround_Craft_Data()
+                              C225_Welding_Craft=new Xml_Craft_Data()
                               {
                                Write_Mode = true,
                                Distance_Type = Distance_Type_Enum.CIR,
                                MaxArray = 3,
                               },
-                               L270_Welding_Craft=new Xml_Surround_Craft_Data()
+                               L270_Welding_Craft=new Xml_Craft_Data()
                                {
                                Write_Mode = true,
                                Distance_Type = Distance_Type_Enum.LIN,
                                MaxArray = 10,
                                },
-                                C315_Welding_Craft=new Xml_Surround_Craft_Data()
+                                C315_Welding_Craft=new Xml_Craft_Data()
                                 {
                                  Write_Mode = true,
                                Distance_Type = Distance_Type_Enum.CIR,
@@ -241,52 +241,52 @@ namespace HanGao.Xml_Date.Xml_WriteRead
                           },     
                           N_2=new Xml_SInk_Craft()
                           {
-                               Sink_Surround_Craft=new Xml_SInk_Surround_Craft()
+                               Sink_Surround_Craft=new Xml_SInk_Craft_Model()
                                {
-                           L0_Welding_Craft=new Xml_Surround_Craft_Data()
+                           L0_Welding_Craft=new Xml_Craft_Data()
                                    {
                                Write_Mode = true,
                                Distance_Type = Distance_Type_Enum.LIN,
                                MaxArray = 10,
                                   },
-                           C45_Welding_Craft=new Xml_Surround_Craft_Data()
+                           C45_Welding_Craft=new Xml_Craft_Data()
                            {
                                Write_Mode = true,
                                Distance_Type = Distance_Type_Enum.CIR,
                                MaxArray = 3,
                            },
-                            L90_Welding_Craft=new Xml_Surround_Craft_Data()
+                            L90_Welding_Craft=new Xml_Craft_Data()
                             {
                                Write_Mode = true,
                                Distance_Type = Distance_Type_Enum.LIN,
                                MaxArray = 10,
                             },
-                             C135_Welding_Craft=new Xml_Surround_Craft_Data()
+                             C135_Welding_Craft=new Xml_Craft_Data()
                              {
                                Write_Mode = true,
                                Distance_Type = Distance_Type_Enum.CIR,
                                MaxArray = 3,
 
                              },
-                             L180_Welding_Craft=new Xml_Surround_Craft_Data()
+                             L180_Welding_Craft=new Xml_Craft_Data()
                              {
                                Write_Mode = true,
                                Distance_Type = Distance_Type_Enum.LIN,
                                MaxArray = 10,
                              },
-                              C225_Welding_Craft=new Xml_Surround_Craft_Data()
+                              C225_Welding_Craft=new Xml_Craft_Data()
                               {
                                Write_Mode = true,
                                Distance_Type = Distance_Type_Enum.CIR,
                                MaxArray = 3,
                               },
-                               L270_Welding_Craft=new Xml_Surround_Craft_Data()
+                               L270_Welding_Craft=new Xml_Craft_Data()
                                {
                                Write_Mode = true,
                                Distance_Type = Distance_Type_Enum.LIN,
                                MaxArray = 10,
                                },
-                                C315_Welding_Craft=new Xml_Surround_Craft_Data()
+                                C315_Welding_Craft=new Xml_Craft_Data()
                                 {
                                  Write_Mode = true,
                                Distance_Type = Distance_Type_Enum.CIR,
@@ -337,25 +337,25 @@ namespace HanGao.Xml_Date.Xml_WriteRead
         /// </summary>
         /// <param name="_Sink_Model"></param>
         /// <returns></returns>
-        public static List<Xml_Craft_Date> GetXml_User_Data( User_Read_Xml_Model  _User_Model )
+        public static Xml_Craft_Data GetXml_User_Data(Sink_Models _User_Model )
         {
 
             
 
             foreach (var _Sink_List in Sink_Date.Sink_List)
             {
-                //if (_Sink_List.Sink_Model== _User_Model.User_Sink_Model)
-                //{
+                if (_Sink_List.Sink_Model == _User_Model.Sink_Process.Sink_Model)
+                {
 
-                    Xml_SInk_Craft Craft = (Xml_SInk_Craft)_Sink_List.GetType().GetProperty(_User_Model.User_Work_Area.ToString()).GetValue(_Sink_List);
+                    Xml_SInk_Craft Area = (Xml_SInk_Craft)_Sink_List.Sink_Craft.GetType().GetProperty(_User_Model.User_Picking_Craft.User_Work_Area.ToString()).GetValue(_Sink_List.Sink_Craft);
 
-                    Xml_SInk_Surround_Craft Area_Craft = (Xml_SInk_Surround_Craft)Craft.GetType().GetProperty(_User_Model.User_Craft.User_Welding_Craft.ToString()).GetValue(Craft);
+                    Xml_SInk_Craft_Model Craft = (Xml_SInk_Craft_Model)Area.GetType().GetProperty(_User_Model.User_Picking_Craft.User_Welding_Craft.ToString()).GetValue(Area);
 
-                    Xml_Surround_Craft_Data Area_Date_List = (Xml_Surround_Craft_Data)Area_Craft.GetType().GetProperty(_User_Model.User_Craft.User_Welding_Craft.ToString()).GetValue(Area_Craft);
+                    Xml_Craft_Data Date_List = (Xml_Craft_Data)Craft.GetType().GetProperty(_User_Model.User_Picking_Craft.User_Direction.ToString()).GetValue(Craft);
 
-                    return Area_Date_List.Craft_Date;
-                //}
-    
+                    return Date_List;
+                }
+
             }
             return null;
 
@@ -366,36 +366,23 @@ namespace HanGao.Xml_Date.Xml_WriteRead
         /// </summary>
         /// <param name="_Sink_Model"></param>
         /// <returns></returns>
-        public static  void  SetXml_User_Data (User_Read_Xml_Model _User_Model ,string _Val_Name, object _Val)
+        public static  void  SetXml_User_Data (Sink_Models _User_Model, Xml_Craft_Data  _Val)
         {
+
 
             foreach (var _Sink_List in Sink_Date.Sink_List)
             {
-                //if (_Sink_List.Sink_Model == _User_Model.User_Sink_Model)
-                //{
+                if (_Sink_List.Sink_Model == _User_Model.Sink_Process.Sink_Model)
+                {
 
-                    Xml_SInk_Craft Craft = (Xml_SInk_Craft)_Sink_List.GetType().GetProperty(_User_Model.User_Work_Area.ToString()).GetValue(_Sink_List);
+                    Xml_SInk_Craft Area = (Xml_SInk_Craft)_Sink_List.Sink_Craft.GetType().GetProperty(_User_Model.User_Picking_Craft.User_Work_Area.ToString()).GetValue(_Sink_List.Sink_Craft);
 
-                    Xml_SInk_Surround_Craft Area_Craft = (Xml_SInk_Surround_Craft)Craft.GetType().GetProperty(_User_Model.User_Craft.User_Welding_Craft.ToString()).GetValue(Craft);
+                    Xml_SInk_Craft_Model Craft = (Xml_SInk_Craft_Model)Area.GetType().GetProperty(_User_Model.User_Picking_Craft.User_Welding_Craft.ToString()).GetValue(Area);
 
-                    Xml_Surround_Craft_Data Area_Date_List = (Xml_Surround_Craft_Data)Area_Craft.GetType().GetProperty(_User_Model.User_Craft.User_Welding_Craft.ToString()).GetValue(Area_Craft);
+                     Craft.GetType().GetProperty(_User_Model.User_Picking_Craft.User_Direction.ToString()).SetValue(Craft, _Val);
 
-
-
-                    PropertyInfo[] b = Area_Date_List.Craft_Date[_User_Model.User_Craft.User_Welding_Craft_ID].GetType().GetProperties();
-
-                    foreach (PropertyInfo _Data_ValName in b)
-                    {
-                        if (_Data_ValName.Name  == _Val_Name)
-                        {
-
-                            _Data_ValName.SetValue(null , _Val);
-
-                        }
-                    }
                     
-
-                //}
+                }
 
             }
 
@@ -453,7 +440,7 @@ namespace HanGao.Xml_Date.Xml_WriteRead
                 List_Show.SinkModels.Add(new Sink_Models()
                 {
                    Sink_Process= item,
-           
+                   
                 });
             }
         }
@@ -461,12 +448,12 @@ namespace HanGao.Xml_Date.Xml_WriteRead
 
     public class User_Read_Xml_Model
     {
-        public User_Read_Xml_Model( int _Sink_Model, Work_No_Enum _Work_No, User_Craft_Enum _User_Craft, Direction_Enum _User_Direction)
-        {
-            //User_Sink_Model = _Sink_Model;
-            User_Work_Area = _Work_No;
-            User_Craft = new User_Weld_Craft(_User_Craft, _User_Direction);
-        }
+        //public User_Read_Xml_Model( int _Sink_Model, Work_No_Enum _Work_No, User_Craft_Enum _User_Craft, Direction_Enum _User_Direction)
+        //{
+        //    //User_Sink_Model = _Sink_Model;
+        //    User_Work_Area = _Work_No;
+        //    User_Craft = new User_Weld_Craft();
+        //}
 
         public User_Read_Xml_Model()
         {
@@ -481,8 +468,16 @@ namespace HanGao.Xml_Date.Xml_WriteRead
         /// <summary>
         /// 用户选择工艺
         /// </summary>
-        public User_Weld_Craft User_Craft { set; get; } = new User_Weld_Craft();
+        public User_Craft_Enum User_Welding_Craft { set; get; }
 
+        /// <summary>
+        /// 用户选择工艺区域
+        /// </summary>
+        public Direction_Enum User_Direction { set; get; }
+        /// <summary>
+        /// 用户选择工艺号数
+        /// </summary>
+        public int User_Welding_Craft_ID { set; get; }
 
 
 
@@ -495,6 +490,13 @@ namespace HanGao.Xml_Date.Xml_WriteRead
             N_2
         }
 
+        public enum User_Craft_Enum
+        {
+            Null,
+            Sink_Surround_Craft,
+            Sink_ShortSide_Craft,
+
+        }
 
 
         public enum Weld_Craft_Enum
@@ -506,42 +508,7 @@ namespace HanGao.Xml_Date.Xml_WriteRead
 
 
 
-        /// <summary>
-        /// 用户选择工序
-        /// </summary>
-        public class User_Weld_Craft
-        {
-            public User_Weld_Craft(User_Craft_Enum _User_Welding_Craft, Direction_Enum _Direction_Enum , int _User_Welding_Craft_ID)
-            {
-                User_Welding_Craft = _User_Welding_Craft;
-                User_Direction = _Direction_Enum;
-                User_Welding_Craft_ID = _User_Welding_Craft_ID;
-            }
-            public User_Weld_Craft(User_Craft_Enum _User_Welding_Craft, Direction_Enum _Direction_Enum)
-            {
-                User_Welding_Craft = _User_Welding_Craft;
-                User_Direction = _Direction_Enum;
- 
-            }
-            public User_Weld_Craft() { }
 
-
-            public User_Craft_Enum User_Welding_Craft;
-            public Direction_Enum User_Direction;
-            public int User_Welding_Craft_ID=0;
-
-        }
-
-
-        /// <summary>
-        /// 用户选择工艺
-        /// </summary>
-        public enum User_Craft_Enum
-        {
-            Surround_Craft,
-            Short_Craft,
-
-        }
 
 
 

@@ -10,6 +10,7 @@ using static Soceket_KUKA.Models.Socket_Models_Receive;
 using static HanGao.ViewModel.UserControl_Socket_Var_Show_ViewModel;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using static HanGao.Extension_Method.SetReadTypeAttribute;
+using HanGao.Xml_Date.Xml_WriteRead;
 
 namespace Soceket_KUKA.Models
 {
@@ -219,9 +220,9 @@ namespace Soceket_KUKA.Models
             public string Send_Area { set; get; } = string.Empty;
 
         /// <summary>
-        /// 是否读取一次后删除读取变量,,停用
+        /// 用户选择步骤记录
         /// </summary>
-        public Read_Type_Enum Value_One_Read { get; set; } = Read_Type_Enum.Loop_Read;
+        public User_Read_Xml_Model User_Picking_Craft { set; get; } 
 
 
         /// <summary>

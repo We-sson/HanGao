@@ -39,17 +39,20 @@ namespace HanGao.ViewModel
             Messenger.Register<Sink_Models, string>(this, nameof(Meg_Value_Eunm.Program_UI_Load), (O, S) =>
             {
 
+                //赋值选择工艺图形
+                Distance_UI= S.Sink_UI.Sink_Craft.First(X => X.Craft_Type == S.User_Picking_Craft.User_Welding_Craft ).Craft_UI_Direction;
 
-                //var a=   S.Sink_UI.Sink_Craft.Any(X => X.Craft_Type == S.User_Picking_Craft.User_Craft.User_Welding_Craft);
+
+                
 
                 //查找到用户选择工艺后赋值到窗口显示
-                foreach (var _Craft in S.Sink_UI.Sink_Craft)
-                {
-                    if (_Craft.Craft_Type== S.User_Picking_Craft.User_Craft.User_Welding_Craft)
-                    {
-                        Distance_UI = _Craft.Craft_UI_Direction;
-                    }
-                }
+                //foreach (var _Craft in S.Sink_UI.Sink_Craft)
+                //{
+                //    if (_Craft.Craft_Type== S.User_Picking_Craft.User_Craft.User_Welding_Craft)
+                //    {
+                //        Distance_UI = _Craft.Craft_UI_Direction;
+                //    }
+                //}
 
 
       

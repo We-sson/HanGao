@@ -15,12 +15,10 @@ namespace HanGao.Model
     [AddINotifyPropertyChangedInterface]
     public class Sink_Craft_Models
     {
-        public Sink_Craft_Models(User_Craft_Enum _Craft_Type)
+        public Sink_Craft_Models()
         {
 
 
-
-            Craft_Type = _Craft_Type;
 
 
         }
@@ -61,18 +59,7 @@ namespace HanGao.Model
             get { return _Craft_Type; }
             set 
             {
-
                 _Craft_Type = value;
-                switch (value)
-                {
-                    case User_Craft_Enum.Surround_Craft:
-                        Craft_UI_Direction = new UC_Surround_Direction();
-                        break;
-                    case User_Craft_Enum.Short_Craft:
-                        Craft_UI_Direction = new UC_Short_Side();
-                        break;
-
-                }
             }
         }
 

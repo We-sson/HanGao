@@ -657,6 +657,8 @@ namespace Soceket_Connect
                 Send_Read.Reset();
                 Send_Waite.Reset();
                 
+
+
                 //异步监听接收读取消息
                     Global_Socket_Read.BeginReceive(Socket_KUKA_Receive.Byte_Read_Receive, 0, Socket_KUKA_Receive.Byte_Read_Receive.Length, SocketFlags.None, new AsyncCallback(Socke_Receive_Message), _S);
 

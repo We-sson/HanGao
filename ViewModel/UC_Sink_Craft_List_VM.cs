@@ -91,7 +91,8 @@ namespace HanGao.ViewModel
                 Button E = Sm.Source as Button;
                 Sink_Craft_Models S = E.DataContext as Sink_Craft_Models;
 
-                User_Sink.User_Picking_Craft.User_Craft.User_Welding_Craft = S.Craft_Type;
+
+                User_Sink.User_Picking_Craft.User_Welding_Craft = S.Craft_Type;
 
                 FrameShow.ProgramEdit_Enabled = true;
                 FrameShow.ProgramEdit_UI = true;

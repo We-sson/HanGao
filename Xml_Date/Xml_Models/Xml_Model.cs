@@ -75,8 +75,8 @@ namespace HanGao.Xml_Date.Xml_Models
     [Serializable]
     public class Xml_SInk_Craft
     {
-        public Xml_SInk_Surround_Craft Sink_Surround_Craft = new Xml_SInk_Surround_Craft();
-        public string Short_Side_Craft { get; set; } = "Null";
+        public Xml_SInk_Craft_Model Sink_Surround_Craft { set; get; } = new Xml_SInk_Craft_Model();
+        public string Sink_ShortSide_Craft { get; set; } = "null";
     }
 
 
@@ -85,18 +85,18 @@ namespace HanGao.Xml_Date.Xml_Models
     /// Xml文件，围边水槽工艺焊接部位
     /// </summary>
     [Serializable]
-    public class Xml_SInk_Surround_Craft
+    public class Xml_SInk_Craft_Model
     {
        
 
-        public Xml_Surround_Craft_Data L0_Welding_Craft { get; set; } 
-        public Xml_Surround_Craft_Data C45_Welding_Craft { get; set; }
-        public Xml_Surround_Craft_Data L90_Welding_Craft { get; set; } 
-        public Xml_Surround_Craft_Data C135_Welding_Craft { get; set; }
-        public Xml_Surround_Craft_Data L180_Welding_Craft { get; set; } 
-        public Xml_Surround_Craft_Data C225_Welding_Craft { get; set; } 
-        public Xml_Surround_Craft_Data L270_Welding_Craft { get; set; } 
-        public Xml_Surround_Craft_Data C315_Welding_Craft { get; set; } 
+        public Xml_Craft_Data L0_Welding_Craft { get; set; } 
+        public Xml_Craft_Data C45_Welding_Craft { get; set; }
+        public Xml_Craft_Data L90_Welding_Craft { get; set; } 
+        public Xml_Craft_Data C135_Welding_Craft { get; set; }
+        public Xml_Craft_Data L180_Welding_Craft { get; set; } 
+        public Xml_Craft_Data C225_Welding_Craft { get; set; } 
+        public Xml_Craft_Data L270_Welding_Craft { get; set; } 
+        public Xml_Craft_Data C315_Welding_Craft { get; set; } 
 
 
 
@@ -107,7 +107,7 @@ namespace HanGao.Xml_Date.Xml_Models
     /// <summary>
     /// 围边焊接方向创建数据
     /// </summary>
-    public class Xml_Surround_Craft_Data
+    public class Xml_Craft_Data
     {
         [XmlIgnore]
         public Distance_Type_Enum Distance_Type;
