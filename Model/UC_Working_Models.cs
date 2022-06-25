@@ -185,12 +185,12 @@ namespace HanGao.Model
         }
 
 
-        //Ui显示类
-        public Wroking_Models WM { get; set; } = new Wroking_Models()
-        {
+        ////Ui显示类
+        //public Wroking_Models WM { get; set; } = new Wroking_Models()
+        //{
 
 
-        };
+        //};
 
 
 

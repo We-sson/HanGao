@@ -5,7 +5,7 @@ using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using PropertyChanged;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using HanGao.Model;
-using HanGao.Xml_Date.Xml_WriteRead;
+using HanGao.Xml_Date.Xml_Write_Read;
 using Microsoft.Toolkit.Mvvm.Input;
 using HanGao.View.User_Control.Pop_Ups;
 using HanGao.Xml_Date.Xml_Models;
@@ -33,14 +33,7 @@ namespace HanGao.ViewModel
             //接收用户选择的水槽项参数
             Messenger.Register<Xml_Craft_Date, string>(this, nameof(Meg_Value_Eunm.Sink_Surround_Craft_Selected_Value), (O, S) =>
             {
-
-                
-
-
                 UI_Craft_Date = S;
-
-
-
             });
 
 
@@ -81,6 +74,13 @@ namespace HanGao.ViewModel
 
                 XML_Write_Read.Save_Xml();
 
+
+                ///清楚程序编辑界面数据选项
+                Messenger.Send<dynamic, string>(null, nameof(Meg_Value_Eunm.Surround_Direction_Rest));
+                Messenger.Send<dynamic, string>(null, nameof(Meg_Value_Eunm.Direction_Info_Rest));
+                UI_Craft_Date = null;
+                FrameShow.ProgramEdit_Enabled = false;
+                FrameShow.HomeOne_UI = true;
 
 
 

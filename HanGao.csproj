@@ -175,6 +175,7 @@
     <Compile Include="Model\User_Features.cs" />
     <Compile Include="Model\User_Log_Models.cs" />
     <Compile Include="Model\User_Message_Models.cs" />
+    <Compile Include="Model\User_Read_Xml_Model.cs" />
     <Compile Include="Model\User_Working_Path_Models.cs" />
     <Compile Include="Model\Wroking_Models.cs" />
     <Compile Include="Socket_KUKA\Models\Socket_Models.cs" />

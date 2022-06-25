@@ -1,7 +1,7 @@
 ﻿using HanGao.Extension_Method;
 using HanGao.Model;
 using HanGao.Xml_Date.Xml_Models;
-using HanGao.Xml_Date.Xml_WriteRead;
+
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using PropertyChanged;
@@ -19,8 +19,8 @@ using static HanGao.ViewModel.UserControl_Socket_Var_Show_ViewModel;
 using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
 using System.Collections.Generic;
 using static HanGao.Model.Sink_Models;
-
-using static HanGao.Xml_Date.Xml_WriteRead.User_Read_Xml_Model;
+using HanGao.Xml_Date.Xml_Write_Read;
+using static HanGao.Model.User_Read_Xml_Model;
 
 namespace HanGao.ViewModel
 {
@@ -31,6 +31,14 @@ namespace HanGao.ViewModel
         public UC_Surround_Point_VM()
         {
             IsActive = true;
+
+
+            //清楚工艺列表显示
+            Messenger.Register<dynamic, string>(this, nameof(Meg_Value_Eunm.Direction_Info_Rest), (O, S) =>
+            {
+                Surround_Offset_Point = new ObservableCollection<Xml_Craft_Date>();
+
+            });
 
 
             //接收读取围边工艺所需值
@@ -308,11 +316,6 @@ namespace HanGao.ViewModel
                            }
 
                        }
-
-
-
-
-
                        //发生全部集合到周期读取传送
                        Task.Run(async () =>
                        {
@@ -323,16 +326,6 @@ namespace HanGao.ViewModel
                        });
 
 
-
-
-
-
-                   //}
-
-               //};
-
-               //重置堵塞
-               //Write_Data.Reset();
 
 
            });
@@ -448,18 +441,13 @@ namespace HanGao.ViewModel
 
 
 
-        /// <summary>
-        /// 写入锁
-        /// </summary>
-        public ReaderWriterLockSlim Read_Lock = new ReaderWriterLockSlim();
-        public static ManualResetEvent Write_Data { set; get; } = new ManualResetEvent(true);
+        ///// <summary>
+        ///// 写入锁
+        ///// </summary>
+        //public ReaderWriterLockSlim Read_Lock { set; get; } = new ReaderWriterLockSlim();
+        //public static ManualResetEvent Write_Data { set; get; } = new ManualResetEvent(true);
        
         
-        
-
-
-
-
 
 
         /// <summary>

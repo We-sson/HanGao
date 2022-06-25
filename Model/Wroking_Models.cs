@@ -10,31 +10,55 @@ using System.Threading;
 using System.Windows;
 using static HanGao.Model.Sink_Models;
 using static HanGao.ViewModel.UC_Surround_Direction_VM;
-using static HanGao.Xml_Date.Xml_WriteRead.User_Read_Xml_Model;
+using static HanGao.Model.User_Read_Xml_Model;
 
 namespace HanGao.Model
 {
     [AddINotifyPropertyChangedInterface]
-    public class Wroking_Models : ObservableObject
+    public class Working_Area_Data
     {
-        public Wroking_Models()
+        public Working_Area_Data()
         {
          
         }
 
 
-        public Visibility UI_Show { set; get; } =Visibility.Visible;
+
+       /// <summary>
+       /// UI界面水槽尺寸显示
+       /// </summary>
+       public Sink_Models User_Sink { set; get; }
+
+
+        public Working_Area_UI_Model Working_Area_UI { set; get; }
+
+
+    };
+
+
+    public class Working_Area_UI_Model
+    {
+        public Working_Area_UI_Model()
+        {
+
+        }
+
+
+        /// <summary>
+        /// 加载工作区UI的区域
+        /// </summary>
+        public Work_No_Enum Load_UI_Work { set; get; }
+
+       /// <summary>
+       /// UI工作区显示
+       /// </summary>
+        public Visibility UI_Show { set; get; } = Visibility.Visible;
 
 
         /// <summary>
         /// 工作区设置编号
         /// </summary>
         public Work_No_Enum Work_NO { set; get; }
-
-       /// <summary>
-       /// UI界面水槽尺寸显示
-       /// </summary>
-       public Sink_Models UI_Sink_Show { set; get; }
 
         /// <summary>
         /// 发送数据到机器人显示状态
@@ -55,24 +79,25 @@ namespace HanGao.Model
             }
             get
             {
-                var a = Robot_Speed/(double)(2.0/360);
+                var a = Robot_Speed / (double)(2.0 / 360);
                 return a;
             }
         }
         /// <summary>
         /// 显示机器人焊接功率
         /// </summary>
-        public double  Welding_Power { set; get; } = 50;
+        public double Welding_Power { set; get; } = 50;
 
 
         public double UI_Welding_Power
         {
-            set { 
-                UI_Welding_Power = value; 
+            set
+            {
+                UI_Welding_Power = value;
             }
             get
             {
-                return Welding_Power/(100.0/360);
+                return Welding_Power / (100.0 / 360);
             }
         }
         /// <summary>
@@ -88,191 +113,17 @@ namespace HanGao.Model
             }
             get
             {
-                return Welding_Time/(120.0/360);
+                return Welding_Time / (120.0 / 360);
             }
         }
 
 
-        ////#E3E3E3背景白色,#22AB38运行绿色,#F4D160待机黄色
-        //private string _Work_Type = "";
-        ///// <summary>
-        ///// 显示加工水槽型号
-        ///// </summary>
-        //public string Work_Type
-        //{
-        //    get
-        //    {
-
-        //        if (_Work_Type != "") { return "#P" + _Work_Type; }
-        //        return " ";
-
-
-        //    }
-        //    set
-        //    {
-        //        _Work_Type = value;
-
-
-        //        //加工区号非空时
-        //        if (Work_NO != 0)
-        //        {
-        //            //将显示的水槽型号发送到kuka端，同时修改显示颜色
-        //            if (Work_Type == " ")
-        //            {
-
-
-        //                //使用多线程读取
-        //                new Thread(new ThreadStart(new Action(() =>
-        //                {
-        //                Socket_Client_Setup.Write.Cycle_Write_Send("$my_work_" + Work_NO, " ");
-        //                })))
-        //                { IsBackground = true, Name = "Cycle_Write—KUKA" }.Start();
 
 
 
-        //                Work_back = "#E3E3E3";
-        //            }
-        //            else if (Work_Type != " ")
-        //            {
-        //                //使用多线程读取
-        //                new Thread(new ThreadStart(new Action(() =>
-        //                {
-        //                 Socket_Client_Setup.Write.Cycle_Write_Send("$my_work_" + Work_NO, " ");
-        //                })))
-        //                { IsBackground = true, Name = "Cycle_Write—KUKA" }.Start();
-
-        //                Work_back = "#F4D160";
-
-        //            }
-        //        }
-        //    }
-        //}
+    }
 
 
-
-
-
-
-
-
-
-        //private string _Robot_status = "#T1";
-        ///// <summary>
-        ///// 显示机器人当前状态
-        ///// </summary>
-        //public string Robot_status
-        //{
-        //    get
-        //    {
-        //        return _Robot_status.IndexOf('#') != -1 ? _Robot_status.Replace("#", "") : _Robot_status;
-        //    }
-        //    set
-        //    {
-        //        if (value.IndexOf('#') == -1)
-        //        {
-        //            _Robot_status = value.Replace("#", "");
-        //        }
-        //        else
-        //        {
-        //            _Robot_status = value;
-        //        }
-
-
-
-        //    }
-        //}
-        /// <summary>
-        /////  显示机器人当前状态枚举
-        ///// </summary>
-        //public enum Robot_status_enum
-        //{
-        //    空闲中,
-        //    运行中,
-        //    焊接中,
-        //}
-
-
-        ////#E3E3E3背景白色,#22AB38运行绿色,#F4D160待机黄色
-
-        //private string _Work_back = "#E3E3E3";
-        ///// <summary>
-        ///// 加工区背景颜色
-        ///// </summary>
-        //public string Work_back
-        //{
-        //    get
-        //    {
-        //        if (Work_Type !=" ")
-        //        {
-        //            if (Work_Run)
-        //            {
-        //                _Work_back = "#22AB38";
-        //            }
-        //            else
-        //            {
-        //                _Work_back = "#F4D160";
-        //            }
-
-        //        }
-        //        else
-        //        {
-        //            _Work_back = "#E3E3E3";
-
-        //        }
-
-
-        //        return _Work_back;
-        //    }
-
-
-
-
-        //    set
-        //    {
-        //        _Work_back = value;
-
-        //    }
-        //}
-
-        //private bool _Work_Run = false;
-        ///// <summary>
-        ///// 显示是否启动加工区域
-        ///// </summary>
-        //public bool Work_Run
-        //{
-        //    get
-        //    {
-
-
-        //        return _Work_Run;
-        //    }
-        //    set
-        //    {
-
-        //        //值相同返回，减少UI更新占用资源
-        //        if (_Work_Run == value) { return; }
-
-        //        _Work_Run = value;
-        //        //属性发送更改发送机器端
-
-        //        //使用多线程读取
-        //        new Thread(new ThreadStart(new Action(() =>
-        //        {
-        //        Socket_Client_Setup.Write.Cycle_Write_Send("$Run_Work_" + Work_NO.ToString(), value.ToString());
-        //        })))
-        //        { IsBackground = true, Name = "Cycle_Write—KUKA" }.Start();
-
-        //    }
-        //}
-
-
-
-
-
-
-
-
-    };
 }
 
 

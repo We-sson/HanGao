@@ -22,12 +22,27 @@ namespace HanGao.ViewModel
         public UC_Surround_Direction_VM()
         {
 
+            IsActive = true;
 
             WeakReferenceMessenger.Default.Register<dynamic , string>(this, nameof(Meg_Value_Eunm.Surround_Direction_State), (O, _S) => {  Direction_State = _S; });
 
 
+            ///清除UI界面显示
+            WeakReferenceMessenger.Default.Register<dynamic, string>(this, nameof(Meg_Value_Eunm.Surround_Direction_Rest), (O, _S) => 
+            {
 
-            IsActive = true;
+                L0_Checked = false;
+                C45_Checked = false;
+                L90_Checked = false;
+                C135_Checked = false;
+                L180_Checked = false;
+                C225_Checked= false;
+                L270_Checked = false;
+                C315_Checked = false;
+                Surround_Direction_Type = Direction_Enum.Null;
+            });
+
+
 
         }
 
@@ -50,7 +65,9 @@ namespace HanGao.ViewModel
 
 
 
-
+        /// <summary>
+        /// 围边状态显示枚举
+        /// </summary>
         public enum UI_Type_Enum
         {
             Reading,
@@ -58,7 +75,9 @@ namespace HanGao.ViewModel
         }
 
 
-
+        /// <summary>
+        ///  围边UI显示状态属性
+        /// </summary>
         public UI_Type_Enum Direction_State { get; set; } = UI_Type_Enum.Ok ;
 
 

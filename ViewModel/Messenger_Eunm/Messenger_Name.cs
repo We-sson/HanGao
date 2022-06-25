@@ -23,8 +23,8 @@ namespace HanGao.ViewModel.Messenger_Eunm
             /// <summary>
             /// UI显示工作区
             /// </summary>
-            UI_Work_No,
-
+            UI_Work,
+ 
 
             /// <summary>
             /// 水槽类型加载
@@ -203,8 +203,19 @@ namespace HanGao.ViewModel.Messenger_Eunm
             /// <summary>
             /// 围边方向状态
             /// </summary>
-            Surround_Direction_State
+            Surround_Direction_State,
 
+
+            /// <summary>
+            /// 围边状态复位
+            /// </summary>
+            Surround_Direction_Rest,
+
+
+            /// <summary>
+            /// 工艺点列表状态复位
+            /// </summary>
+            Direction_Info_Rest
         }
 
 

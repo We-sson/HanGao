@@ -20,13 +20,12 @@ using HanGao.ViewModel.Messenger_Eunm;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using Microsoft.Toolkit.Mvvm.Messaging.Messages;
 using System.Threading.Tasks;
-using HanGao.Xml_Date.Xml_WriteRead;
+using HanGao.Xml_Date.Xml_Write_Read;
 using System.Threading;
 using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
 using HanGao.Xml_Date.Xml_Models;
 using System.Reflection;
-
-using static HanGao.Xml_Date.Xml_WriteRead.User_Read_Xml_Model;
+using static HanGao.Model.User_Read_Xml_Model;
 
 namespace HanGao.ViewModel
 {
@@ -318,15 +317,26 @@ namespace HanGao.ViewModel
                 //if (!Global_Socket_Read.Connected && !Global_Socket_Write.Connected) { e.IsChecked = false; return; }
 
                 //S.Wroking_Models_ListBox.Work_Type = S.Sink_Model.ToString();
+                Work_No_Enum User_Area = (Work_No_Enum)Enum.Parse(typeof(Work_No_Enum), e.Uid);
+
+                if ((bool)e.IsChecked)
+                {
+
+
+                //用户选择
 
 
 
-                ////转换按钮枚举值
-                //S.Work_No_Emun = (Work_No_Enum)Enum.Parse(typeof(Work_No_Enum), e.Uid);
+                Messenger.Send<Working_Area_Data, string>(new Working_Area_Data() { User_Sink=S, Working_Area_UI=new Working_Area_UI_Model() { Load_UI_Work= User_Area } }, nameof(Meg_Value_Eunm.UI_Work));
 
+                }
+                else
+                {
 
-       
-     
+                    Messenger.Send<Working_Area_Data, string>(new Working_Area_Data() { User_Sink = null, Working_Area_UI = new Working_Area_UI_Model() { Load_UI_Work = User_Area } }, nameof(Meg_Value_Eunm.UI_Work));
+
+                }
+
 
                 //string Work_Str = Meg_Value_Eunm.UI_Work_No.ToString();
 
@@ -390,7 +400,7 @@ namespace HanGao.ViewModel
 
 
                 //                           new Thread(() => WriteToKuKa_SinkVal(S)) { Name = "Write—KUKA", IsBackground = true }.Start ();
-                        
+
 
 
                 //                        }

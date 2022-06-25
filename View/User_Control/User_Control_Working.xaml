@@ -10,7 +10,7 @@
              xmlns:pop_ups="clr-namespace:HanGao.View.User_Control.Pop_Ups"
              d:DesignHeight="403"
              d:DesignWidth="491"
-             DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_VM.UC_Working_VM_2}"
+             DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_VM.UC_Working_VM_N2}"
              mc:Ignorable="d">
     <Grid x:Name="GD1" Grid.Row="0" Grid.Column="0"
           Margin="5"
@@ -33,7 +33,7 @@
                     HorizontalAlignment="Center"
                     Orientation="Horizontal">
             <TextBlock x:Name="TB2"
-                       Text="{Binding Work_NO, StringFormat={}{0}号 工作区}"
+                       Text="{Binding Working_Area_UI.Work_NO, StringFormat={}{0}号 工作区}"
                        Margin="0,0,0,0"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
@@ -51,7 +51,7 @@
 
 
 
-        <Grid Grid.Row="1" Visibility="{Binding UI_Show}">
+        <Grid Grid.Row="1" Visibility="{Binding Working_Area_UI.UI_Show}">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -73,13 +73,28 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Column="0"
-                           Text="{Binding UI_Sink_Show.Photo_ico}"
                            Margin="5,0,0,0"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            Foreground="#EEEEEE"
                            FontFamily="/Resources/#iconfont"
-                           FontSize="110" />
+                           FontSize="110">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding User_Sink.Sink_Process.Sink_Type}" Value="LeftRight_One">
+                                    <Setter Property="TextBlock.Text" Value="&#xe61b;" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding User_Sink.Sink_Process.Sink_Type}" Value="UpDown_One">
+                                    <Setter Property="TextBlock.Text" Value="&#xe61a;" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding User_Sink.Sink_Process.Sink_Type}" Value="LeftRight_Two">
+                                    <Setter Property="TextBlock.Text" Value="&#xe61d;" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
 
                 <Grid Grid.Column="1" Margin="10,10,10,10">
                     <Border Background="#EEEEEE"
@@ -116,10 +131,10 @@
                                             StartAngle="0"
                                             Stretch="None"
                                             ArcThicknessUnit="Pixel"
-                                            EndAngle="{Binding UI_Welding_Power}"
+                                            EndAngle="{Binding Working_Area_UI.UI_Welding_Power}"
                                             Fill="Green" />
 
-                                    <TextBlock Text="{Binding Welding_Power, StringFormat={}{0}%}"
+                                    <TextBlock Text="{Binding Working_Area_UI.Welding_Power, StringFormat={}{0}%}"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                FontSize="14" />
@@ -154,10 +169,10 @@
                                             StartAngle="0"
                                             Stretch="None"
                                             ArcThicknessUnit="Pixel"
-                                            EndAngle="{Binding UI_Robot_Speed}"
+                                            EndAngle="{Binding Working_Area_UI.UI_Robot_Speed}"
                                             Fill="Green" />
 
-                                    <TextBlock Text="{Binding Robot_Speed, StringFormat={}{0:N2}m/s}"
+                                    <TextBlock Text="{Binding Working_Area_UI.Robot_Speed, StringFormat={}{0:N2}m/s}"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                FontSize="12" />
@@ -193,9 +208,9 @@
                                             StartAngle="0"
                                             Stretch="None"
                                             ArcThicknessUnit="Pixel"
-                                            EndAngle="{Binding UI_Welding_Time}"
+                                            EndAngle="{Binding Working_Area_UI.UI_Welding_Time}"
                                             Fill="Green" />
-                                    <TextBlock Text="{Binding Welding_Time, StringFormat={}{0}S}"
+                                    <TextBlock Text="{Binding Working_Area_UI.Welding_Time, StringFormat={}{0}S}"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                FontSize="14" />
@@ -215,7 +230,7 @@
 
             <Grid Grid.Row="1" Grid.Column="0"
                   Grid.ColumnSpan="2"
-                  Margin="10">
+                  Margin="10,5,10,10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
@@ -243,20 +258,14 @@
 
 
 
+
                     <TextBlock Grid.Column="0"
-                               Text="{Binding UI_Sink_Show.Sink_Model}"
-                               Margin="0,0,20,0"
-                               HorizontalAlignment="Right"
+                               Grid.ColumnSpan="2"
+                               Text="{Binding User_Sink.Sink_Process.Sink_Model, Mode=OneWay, FallbackValue=水槽尺寸信息, StringFormat={}{0} 水槽尺寸信息}"
+                               Margin="0,0,0,0"
+                               HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               FontSize="24"
-                               Foreground="Red"
-                               FontFamily="Yu Gothic UI" />
-                    <TextBlock Grid.Column="1"
-                               Text="水槽尺寸信息"
-                               HorizontalAlignment="Left"
-                               VerticalAlignment="Center"
-                               FontSize="18"
-                               FontFamily="YouYuan" />
+                               FontSize="20" />
                 </Grid>
 
                 <Grid Grid.Row="1" Grid.Column="0"
@@ -277,7 +286,7 @@
                                    VerticalAlignment="Center"
                                    FontSize="18"
                                    FontFamily="YouYuan" />
-                        <TextBlock Text="{Binding UI_Sink_Show.Sink_Process.Sink_Size_Long, Mode=OneTime, FallbackValue=...mm, StringFormat={}{0:N3} mm}"
+                        <TextBlock Text="{Binding User_Sink.Sink_Process.Sink_Size_Long, Mode=OneWay, FallbackValue=...mm, StringFormat={}{0:N3} mm}"
                                    Margin="2"
                                    HorizontalAlignment="Right"
                                    VerticalAlignment="Center"
@@ -296,7 +305,7 @@
                                    VerticalAlignment="Center"
                                    FontSize="18"
                                    FontFamily="YouYuan" />
-                        <TextBlock Text="{Binding UI_Sink_Show.Sink_Process.Sink_Size_Width, Mode=OneTime, FallbackValue=...mm, StringFormat={}{0:N3} mm}"
+                        <TextBlock Text="{Binding User_Sink.Sink_Process.Sink_Size_Width, Mode=OneWay, FallbackValue=...mm, StringFormat={}{0:N3} mm}"
                                    HorizontalAlignment="Right"
                                    VerticalAlignment="Center"
                                    FontSize="18"
@@ -313,7 +322,7 @@
                                    VerticalAlignment="Center"
                                    FontSize="16"
                                    FontFamily="YouYuan" />
-                        <TextBlock Text="{Binding UI_Sink_Show.Sink_Process.Sink_Size_R, Mode=OneTime, FallbackValue=...mm, StringFormat={}{0:N3} mm}"
+                        <TextBlock Text="{Binding User_Sink.Sink_Process.Sink_Size_R, Mode=OneWay, FallbackValue=...mm, StringFormat={}{0:N3} mm}"
                                    Margin="2"
                                    HorizontalAlignment="Right"
                                    VerticalAlignment="Center"
@@ -333,7 +342,7 @@
                                    VerticalAlignment="Center"
                                    FontSize="16"
                                    FontFamily="YouYuan" />
-                        <TextBlock Text="{Binding UI_Sink_Show.Sink_Process.Sink_Size_Short_Side, Mode=OneTime, FallbackValue=...mm, StringFormat={}{0:N3} mm}"
+                        <TextBlock Text="{Binding User_Sink.Sink_Process.Sink_Size_Short_Side, Mode=OneWay, FallbackValue=...mm, StringFormat={}{0:N3} mm}"
                                    Margin="2"
                                    HorizontalAlignment="Right"
                                    VerticalAlignment="Center"
@@ -361,7 +370,7 @@
                                    VerticalAlignment="Center"
                                    FontSize="18"
                                    FontFamily="YouYuan" />
-                        <TextBlock Text="{Binding UI_Sink_Show.Sink_Process.Sink_Size_Panel_Thick, Mode=OneTime, FallbackValue=...mm, StringFormat={}{0:N3} mm}"
+                        <TextBlock Text="{Binding User_Sink.Sink_Process.Sink_Size_Panel_Thick, Mode=OneWay, FallbackValue=...mm, StringFormat={}{0:N3} mm}"
                                    Margin="2"
                                    HorizontalAlignment="Right"
                                    VerticalAlignment="Center"
@@ -380,7 +389,7 @@
                                    VerticalAlignment="Center"
                                    FontSize="18"
                                    FontFamily="YouYuan" />
-                        <TextBlock Text="{Binding UI_Sink_Show.Sink_Process.Sink_Size_Pots_Thick, Mode=OneTime, FallbackValue=...mm, StringFormat={}{0:N3} mm}"
+                        <TextBlock Text="{Binding User_Sink.Sink_Process.Sink_Size_Pots_Thick, Mode=OneWay, FallbackValue=...mm, StringFormat={}{0:N3} mm}"
                                    HorizontalAlignment="Right"
                                    VerticalAlignment="Center"
                                    FontSize="18"
@@ -397,7 +406,7 @@
                                    VerticalAlignment="Center"
                                    FontSize="16"
                                    FontFamily="YouYuan" />
-                        <TextBlock Text="{Binding UI_Sink_Show.Sink_Process.Sink_Size_Left_Distance, Mode=OneTime, FallbackValue=...mm, StringFormat={}{0:N3} mm}"
+                        <TextBlock Text="{Binding User_Sink.Sink_Process.Sink_Size_Left_Distance, Mode=OneWay, FallbackValue=...mm, StringFormat={}{0:N3} mm}"
                                    Margin="2"
                                    HorizontalAlignment="Right"
                                    VerticalAlignment="Center"
@@ -417,7 +426,7 @@
                                    VerticalAlignment="Center"
                                    FontSize="16"
                                    FontFamily="YouYuan" />
-                        <TextBlock Text="{Binding UI_Sink_Show.Sink_Process.Sink_Size_Down_Distance, Mode=OneTime, FallbackValue=...mm, StringFormat={}{0:N3} mm}"
+                        <TextBlock Text="{Binding User_Sink.Sink_Process.Sink_Size_Down_Distance, Mode=OneWay, FallbackValue=...mm, StringFormat={}{0:N3} mm}"
                                    Margin="2"
                                    HorizontalAlignment="Right"
                                    VerticalAlignment="Center"
@@ -441,7 +450,8 @@
         <pop_ups:UC_Wait_Loading Grid.Row="0" Grid.Column="0"
                                  Grid.RowSpan="2"
                                  Grid.ColumnSpan="2"
-                                 DataContext="{Binding UI_Loade}" />
+                                 Visibility="Collapsed"
+                                 DataContext="{Binding Working_Area_UI.UI_Loade}" />
     </Grid>
 
 

@@ -26,7 +26,7 @@ using static HanGao.Extension_Method.KUKA_ValueType_Model;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static HanGao.Model.Sink_Models;
-using static HanGao.Xml_Date.Xml_WriteRead.User_Read_Xml_Model;
+using static HanGao.Model.User_Read_Xml_Model;
 
 namespace HanGao.ViewModel
 {
@@ -42,25 +42,36 @@ namespace HanGao.ViewModel
         {
 
             //接收修改参数属性
-            Messenger.Register<Wroking_Models, string>(this, nameof(Meg_Value_Eunm.UI_Work_No), (O, S) =>
+            Messenger.Register<Working_Area_Data, string>(this, nameof(Meg_Value_Eunm.UI_Work), (O, S) =>
             {
 
+                this.GetType().GetProperties();
 
-                if (S.UI_Sink_Show.User_Picking_Craft.User_Work_Area  == Work_No_Enum.N_1)
+                foreach (var _Work_No in GetType().GetProperties())
                 {
-
-
-                    UC_Working_VM_1 = S;
-
-
+                    if (_Work_No.Name== ("UC_Working_VM_" + S.Working_Area_UI.Load_UI_Work.ToString()))
+                    {
+                        Working_Area_Data Work_Data =  (Working_Area_Data)_Work_No.GetValue(this);
+                        Work_Data.User_Sink = S.User_Sink;
+                    }
                 }
-                else if (S.UI_Sink_Show.User_Picking_Craft.User_Work_Area == Work_No_Enum.N_2)
-                {
-
-                    UC_Working_VM_2 = S;
 
 
-                }
+                //if (S.UI_Sink_Show.User_Picking_Craft.User_Work_Area  == Work_No_Enum.N_1)
+                //{
+
+
+                //    UC_Working_VM_1 = S;
+
+
+                //}
+                //else if (S.UI_Sink_Show.User_Picking_Craft.User_Work_Area == Work_No_Enum.N_2)
+                //{
+
+                //    UC_Working_VM_2 = S;
+
+
+                //}
 
 
 
@@ -69,14 +80,16 @@ namespace HanGao.ViewModel
 
 
 
+
         }
 
 
 
 
-        public  Wroking_Models UC_Working_VM_1 { get; set; } = new Wroking_Models() { Work_NO= Work_No_Enum.N_1,  };
+        public Working_Area_Data UC_Working_VM_N1 { get; set; } = new Working_Area_Data() {  Working_Area_UI =new Working_Area_UI_Model() {  Work_NO= Work_No_Enum.N1}  };
 
-        public  Wroking_Models UC_Working_VM_2 { get; set; }= new Wroking_Models() { Work_NO= Work_No_Enum.N_2 };
+        public Working_Area_Data UC_Working_VM_N2 { get; set; } = new Working_Area_Data() { Working_Area_UI = new Working_Area_UI_Model() { Work_NO = Work_No_Enum.N2 } };
+
 
 
 

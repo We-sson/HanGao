@@ -577,7 +577,7 @@
 
 
         <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="ACC" Grid.Row="9" Grid.Column="3"
-                 Text="{Binding UI_Craft_Date.Welding_ACC, TargetNullValue=100, FallbackValue=0, Mode=OneWay, StringFormat={}{0}}"
+                 Text="{Binding UI_Craft_Date.Welding_ACC, FallbackValue=0, Mode=OneWay, StringFormat={}{0}}"
                  Margin="10,10,10,11"
                  Tag="%" />
 

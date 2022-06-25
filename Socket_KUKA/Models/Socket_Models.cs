@@ -10,7 +10,7 @@ using static Soceket_KUKA.Models.Socket_Models_Receive;
 using static HanGao.ViewModel.UserControl_Socket_Var_Show_ViewModel;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using static HanGao.Extension_Method.SetReadTypeAttribute;
-using HanGao.Xml_Date.Xml_WriteRead;
+using HanGao.Model;
 
 namespace Soceket_KUKA.Models
 {

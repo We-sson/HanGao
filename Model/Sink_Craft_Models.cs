@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using static HanGao.Xml_Date.Xml_WriteRead.User_Read_Xml_Model;
+using static HanGao.Model.User_Read_Xml_Model;
 
 namespace HanGao.Model
 {
