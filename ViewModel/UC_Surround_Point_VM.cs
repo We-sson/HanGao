@@ -481,28 +481,34 @@ namespace HanGao.ViewModel
 
 
 
-        public static ObservableCollection<Xml_Craft_Date> _Surround_Offset_Point = new ObservableCollection<Xml_Craft_Date>();
 
-        /// <summary>
-        /// 围边工艺偏移点集合
-        /// </summary>
-        public static ObservableCollection<Xml_Craft_Date> Surround_Offset_Point
-        {
+        public ObservableCollection<Xml_Craft_Date> Surround_Offset_Point { set; get; } = new ObservableCollection<Xml_Craft_Date>();
 
-            get { return _Surround_Offset_Point; }
-            set
-            {
 
-                _Surround_Offset_Point = value;
 
-                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Surround_Offset_Point)));
-            }
-        }
 
-        /// <summary>
-        /// 静态属性更新通知事件
-        /// </summary>
-        public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
+        //public static ObservableCollection<Xml_Craft_Date> _Surround_Offset_Point = new ObservableCollection<Xml_Craft_Date>();
+
+        ///// <summary>
+        ///// 围边工艺偏移点集合
+        ///// </summary>
+        //public static ObservableCollection<Xml_Craft_Date> Surround_Offset_Point
+        //{
+
+        //    get { return _Surround_Offset_Point; }
+        //    set
+        //    {
+
+        //        _Surround_Offset_Point = value;
+
+        //        StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Surround_Offset_Point)));
+        //    }
+        //}
+
+        ///// <summary>
+        ///// 静态属性更新通知事件
+        ///// </summary>
+        //public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
 
 
 
@@ -521,9 +527,9 @@ namespace HanGao.ViewModel
                 if (value != null)
                 {
 
+                    //User_Sink.User_Picking_Craft.User_Welding_Craft_ID = value.NO;
 
-
-                    Messenger.Send<Xml_Craft_Date, string>(Surround_Offset_Point[value.NO - 1], nameof(Meg_Value_Eunm.Sink_Surround_Craft_Selected_Value));
+                    Messenger.Send<Xml_Craft_Date, string>(value, nameof(Meg_Value_Eunm.Sink_Surround_Craft_Selected_Value));
 
 
 

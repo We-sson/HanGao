@@ -34,7 +34,8 @@
 
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="50" />
+            <ColumnDefinition Width="160" />
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="200" />
             <ColumnDefinition Width="*" />
@@ -47,10 +48,8 @@
         <!--  表头  -->
 
         <Border Grid.Row="0" Grid.Column="0"
-                Grid.ColumnSpan="3"
+                Grid.ColumnSpan="4"
                 Height=" 40"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
                 CornerRadius=" 5"
                 Effect="{StaticResource 全局背景阴影}"
                 Background="#434343">
@@ -79,7 +78,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-                <TextBlock Text="位置设置"
+                <TextBlock Text="{Binding UI_Craft_Date.Welding_Name, Mode=OneWay, FallbackValue=位置设置, StringFormat={}{0} 位置设置}"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            Foreground="#e3e3e3"
@@ -100,55 +99,104 @@
                                    Foreground="#ff5e57"
                                    FontFamily="/Resources/#iconfont" />
                     </Button.Content>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding Craft_Point_Info_Restoration_Comm}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UC_Point_Info}}}"
+                                                   PassEventArgsToCommand="True" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                 </Button>
             </Grid>
         </Border>
 
 
 
-
-
         <!--  第一列  -->
         <TextBlock Grid.Row="1" Grid.Column="0"
-                   Text="{Binding UI_Craft_Date.Welding_Pos.X, Mode=OneWay, FallbackValue=X:000.000, StringFormat={}X: {0:N3} mm}"
+                   Text="X :"
                    MinWidth="150"
-                   Margin="10"
-                   HorizontalAlignment="Stretch"
+                   Margin="10,0,10,0"
                    VerticalAlignment="Center"
                    FontSize="22"
                    Foreground="#434343" />
         <TextBlock Grid.Row="2" Grid.Column="0"
-                   Text="{Binding UI_Craft_Date.Welding_Pos.Y, Mode=OneWay, FallbackValue=Y:000.000, StringFormat={}Y: {0:N3} mm}"
-                   Margin="10"
-                   HorizontalAlignment="Stretch"
+                   Grid.ColumnSpan="2"
+                   Text="Y :"
+                   Margin="10,0,10,0"
                    VerticalAlignment="Center"
                    FontSize="22"
                    Foreground="#434343" />
         <TextBlock Grid.Row="3" Grid.Column="0"
-                   Text="{Binding UI_Craft_Date.Welding_Pos.Z, Mode=OneWay, FallbackValue=Z:000.000, StringFormat={}Z: {0:N3} mm}"
-                   Margin="10"
-                   HorizontalAlignment="Stretch"
+                   Grid.ColumnSpan="2"
+                   Text="Z :"
+                   Margin="10,0,10,0"
                    VerticalAlignment="Center"
                    FontSize="22"
                    Foreground="#434343" />
         <TextBlock Grid.Row="4" Grid.Column="0"
-                   Text="{Binding UI_Craft_Date.Welding_Pos.A, Mode=OneWay, FallbackValue=A:000.000, StringFormat={}A: {0:N3} mm}"
-                   Margin="10"
-                   HorizontalAlignment="Stretch"
+                   Grid.ColumnSpan="2"
+                   Text="A :"
+                   Margin="10,0,10,0"
                    VerticalAlignment="Center"
                    FontSize="22"
                    Foreground="#434343" />
         <TextBlock Grid.Row="5" Grid.Column="0"
-                   Text="{Binding UI_Craft_Date.Welding_Pos.B, Mode=OneWay, FallbackValue=B:000.000, StringFormat={}B: {0:N3} mm}"
-                   Margin="10"
-                   HorizontalAlignment="Stretch"
+                   Grid.ColumnSpan="2"
+                   Text="B :"
+                   Margin="10,0,10,0"
                    VerticalAlignment="Center"
                    FontSize="22"
                    Foreground="#434343" />
         <TextBlock Grid.Row="6" Grid.Column="0"
-                   Text="{Binding UI_Craft_Date.Welding_Pos.C, Mode=OneWay, FallbackValue=C:000.000, StringFormat={}C: {0:N3} mm}"
-                   Margin="10"
-                   HorizontalAlignment="Stretch"
+                   Grid.ColumnSpan="2"
+                   Text="C :"
+                   Margin="10,0,10,0"
+                   VerticalAlignment="Center"
+                   FontSize="22"
+                   Foreground="#434343" />
+
+
+        <!--  第二列  -->
+        <TextBlock Grid.Row="1" Grid.Column="1"
+                   Text="{Binding UI_Craft_Date.Welding_Pos.X, Mode=OneWay, FallbackValue=000.000 mm, StringFormat={}{0:N3} mm}"
+                   Margin="0,0,10,0"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center"
+                   FontSize="22"
+                   Foreground="#434343" />
+        <TextBlock Grid.Row="2" Grid.Column="1"
+                   Text="{Binding UI_Craft_Date.Welding_Pos.Y, Mode=OneWay, FallbackValue=000.000 mm, StringFormat={}{0:N3} mm}"
+                   Margin="0,0,10,0"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center"
+                   FontSize="22"
+                   Foreground="#434343" />
+        <TextBlock Grid.Row="3" Grid.Column="1"
+                   Text="{Binding UI_Craft_Date.Welding_Pos.Z, Mode=OneWay, FallbackValue=000.000 mm, StringFormat={}{0:N3} mm}"
+                   Margin="0,0,10,0"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center"
+                   FontSize="22"
+                   Foreground="#434343" />
+        <TextBlock Grid.Row="4" Grid.Column="1"
+                   Text="{Binding UI_Craft_Date.Welding_Pos.A, Mode=OneWay, FallbackValue=000.000 mm, StringFormat={}{0:N3} mm}"
+                   Margin="0,0,10,0"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center"
+                   FontSize="22"
+                   Foreground="#434343" />
+        <TextBlock Grid.Row="5" Grid.Column="1"
+                   Text="{Binding UI_Craft_Date.Welding_Pos.B, Mode=OneWay, FallbackValue=000.000 mm, StringFormat={}{0:N3} mm}"
+                   Margin="0,0,10,0"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center"
+                   FontSize="22"
+                   Foreground="#434343" />
+        <TextBlock Grid.Row="6" Grid.Column="1"
+                   Text="{Binding UI_Craft_Date.Welding_Pos.C, Mode=OneWay, FallbackValue=000.000 mm, StringFormat={}{0:N3} mm}"
+                   Margin="0,0,10,0"
+                   HorizontalAlignment="Right"
                    VerticalAlignment="Center"
                    FontSize="22"
                    Foreground="#434343" />
@@ -157,50 +205,44 @@
 
 
 
-        <!--  第二列  -->
-        <TextBlock Grid.Row="1" Grid.Column="1"
+        <!--  第三列  -->
+        <TextBlock Grid.Row="1" Grid.Column="2"
                    Text="&#xe639;"
-                   Margin="14"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    FontSize="24"
                    FontFamily="/Resources/#iconfont"
                    Foreground="#434343" />
-        <TextBlock Grid.Row="2" Grid.Column="1"
+        <TextBlock Grid.Row="2" Grid.Column="2"
                    Text="&#xe639;"
-                   Margin="14"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    FontSize="24"
                    FontFamily="/Resources/#iconfont"
                    Foreground="#434343" />
-        <TextBlock Grid.Row="3" Grid.Column="1"
+        <TextBlock Grid.Row="3" Grid.Column="2"
                    Text="&#xe639;"
-                   Margin="14"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    FontSize="25"
                    FontFamily="/Resources/#iconfont"
                    Foreground="#434343" />
-        <TextBlock Grid.Row="4" Grid.Column="1"
+        <TextBlock Grid.Row="4" Grid.Column="2"
                    Text="&#xe639;"
-                   Margin="14"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    FontSize="25"
                    FontFamily="/Resources/#iconfont"
                    Foreground="#434343" />
-        <TextBlock Grid.Row="5" Grid.Column="1"
+        <TextBlock Grid.Row="5" Grid.Column="2"
                    Text="&#xe639;"
-                   Margin="14"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    FontSize="25"
                    FontFamily="/Resources/#iconfont"
                    Foreground="#434343" />
-        <TextBlock Grid.Row="6" Grid.Column="1"
+        <TextBlock Grid.Row="6" Grid.Column="2"
                    Text="&#xe639;"
-                   Margin="14"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    FontSize="25"
@@ -211,46 +253,35 @@
 
 
         <!--  第三列  -->
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="X" Grid.Row="1" Grid.Column="2"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="X" Grid.Row="1" Grid.Column="3"
                  Text="{Binding UI_Craft_Date.Welding_Offset.X, Mode=OneWay, FallbackValue=0.000, StringFormat={}{0:N3}}"
-                 Margin="10"
-                 HorizontalAlignment="Stretch"
+                 Margin="10,11,10,10"
                  HorizontalContentAlignment="Center"
                  Tag="mm"
                  MaxLines="7" />
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Y" Grid.Row="2" Grid.Column="2"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Y" Grid.Row="2" Grid.Column="3"
                  Text="{Binding UI_Craft_Date.Welding_Offset.Y, Mode=OneWay, FallbackValue=0.000, StringFormat={}{0:N3}}"
-                 Margin="10"
-                 HorizontalAlignment="Stretch"
-                 VerticalAlignment="Stretch"
+                 Margin="10,11,10,10"
                  Tag="mm"
                  MaxLines="7" />
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Z" Grid.Row="3" Grid.Column="2"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Z" Grid.Row="3" Grid.Column="3"
                  Text="{Binding UI_Craft_Date.Welding_Offset.Z, Mode=OneWay, FallbackValue=0.000, StringFormat={}{0:N3}}"
-                 Margin="10"
-                 HorizontalAlignment="Stretch"
-                 VerticalAlignment="Stretch"
+                 Margin="10,11,10,10"
                  Tag="mm"
                  MaxLines="7" />
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="A" Grid.Row="4" Grid.Column="2"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="A" Grid.Row="4" Grid.Column="3"
                  Text="{Binding UI_Craft_Date.Welding_Offset.A, Mode=OneWay, FallbackValue=0.000, StringFormat={}{0:N3}}"
-                 Margin="10"
-                 HorizontalAlignment="Stretch"
-                 VerticalAlignment="Stretch"
+                 Margin="10,11,10,10"
                  Tag="mm"
                  MaxLines="7" />
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="B" Grid.Row="5" Grid.Column="2"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="B" Grid.Row="5" Grid.Column="3"
                  Text="{Binding UI_Craft_Date.Welding_Offset.B, Mode=OneWay, FallbackValue=0.000, StringFormat={}{0:N3}}"
-                 Margin="10"
-                 HorizontalAlignment="Stretch"
-                 VerticalAlignment="Stretch"
+                 Margin="10,11,10,10"
                  Tag="mm"
                  MaxLines="7" />
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="C" Grid.Row="6" Grid.Column="2"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="C" Grid.Row="6" Grid.Column="3"
                  Text="{Binding UI_Craft_Date.Welding_Offset.C, Mode=OneWay, FallbackValue=0.000, StringFormat={}{0:N3}}"
-                 Margin="10"
-                 HorizontalAlignment="Stretch"
-                 VerticalAlignment="Stretch"
+                 Margin="10,11,10,11"
                  Tag="mm"
                  MaxLines="7" />
 
@@ -262,7 +293,7 @@
 
 
         <!--  第四列  -->
-        <StackPanel Grid.Row="1" Grid.Column="3"
+        <StackPanel Grid.Row="1" Grid.Column="4"
                     HorizontalAlignment="Center"
                     Visibility="Collapsed"
                     Orientation="Horizontal">
@@ -295,7 +326,9 @@
             </Button>
         </StackPanel>
 
-        <StackPanel Grid.Row="2" Grid.Column="3"
+        <StackPanel Grid.Row="1" Grid.Column="4"
+                    Grid.RowSpan="2"
+                    Margin="0,61,0,0"
                     HorizontalAlignment="Center"
                     Visibility="Collapsed"
                     Orientation="Horizontal">
@@ -328,7 +361,9 @@
             </Button>
         </StackPanel>
 
-        <StackPanel Grid.Row="3" Grid.Column="3"
+        <StackPanel Grid.Row="2" Grid.Column="4"
+                    Grid.RowSpan="2"
+                    Margin="0,61,0,0"
                     HorizontalAlignment="Center"
                     Visibility="Collapsed"
                     Orientation="Horizontal">
@@ -361,7 +396,9 @@
             </Button>
         </StackPanel>
 
-        <StackPanel Grid.Row="4" Grid.Column="3"
+        <StackPanel Grid.Row="3" Grid.Column="4"
+                    Grid.RowSpan="2"
+                    Margin="0,61,0,0"
                     HorizontalAlignment="Center"
                     Visibility="Collapsed"
                     Orientation="Horizontal">
@@ -394,7 +431,9 @@
             </Button>
         </StackPanel>
 
-        <StackPanel Grid.Row="5" Grid.Column="3"
+        <StackPanel Grid.Row="4" Grid.Column="4"
+                    Grid.RowSpan="2"
+                    Margin="0,61,0,0"
                     HorizontalAlignment="Center"
                     Visibility="Collapsed"
                     Orientation="Horizontal">
@@ -427,7 +466,9 @@
             </Button>
         </StackPanel>
 
-        <StackPanel Grid.Row="6" Grid.Column="3"
+        <StackPanel Grid.Row="5" Grid.Column="4"
+                    Grid.RowSpan="3"
+                    Margin="0,61,0,40"
                     HorizontalAlignment="Center"
                     Visibility="Collapsed"
                     Orientation="Horizontal">
@@ -468,14 +509,14 @@
 
 
         <Border Grid.Row="7" Grid.Column="0"
-                Grid.ColumnSpan="3"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
+                Grid.ColumnSpan="4"
+                Height="40"
+                Margin="0,0,0,0"
                 CornerRadius=" 5"
                 Effect="{StaticResource 全局背景阴影}"
-                Background="#626262">
+                Background="#434343">
 
-            <TextBlock Text="工艺设置"
+            <TextBlock Text="{Binding UI_Craft_Date.Welding_Name, Mode=OneWay, FallbackValue=工艺设置, StringFormat={}{0} 工艺设置}"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
                        Foreground="#e3e3e3"
@@ -485,100 +526,90 @@
 
         <!--  第一列  -->
         <TextBlock Grid.Row="8" Grid.Column="0"
-                   Text="{Binding UI_Craft_Date.Welding_CDIS, Mode=TwoWay, FallbackValue=圆弧过渡:, StringFormat={}圆过度值 : {0} mm}"
-                   Margin="10"
+                   Grid.ColumnSpan="2"
+                   Text="圆弧过渡:"
+                   Margin="10,0,0,0"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
                    Foreground="#434343"
-                   FontSize="20"
-                   FontFamily="Yu Gothic Medium" />
+                   FontSize="20" />
         <TextBlock Grid.Row="9" Grid.Column="0"
-                   Text="{Binding UI_Craft_Date.Welding_ACC, Mode=TwoWay, FallbackValue=加速度值:, StringFormat={}加速度 : {0} %}"
-                   Margin="10"
+                   Grid.ColumnSpan="2"
+                   Text="加速度值:"
+                   Margin="10,0,0,0"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
                    Foreground="#434343"
-                   FontFamily="Yu Gothic Medium"
                    FontSize="20" />
         <TextBlock Grid.Row="10" Grid.Column="0"
-                   Text="{Binding UI_Craft_Date.Welding_Speed, Mode=TwoWay, FallbackValue=行走速度:, StringFormat={}直线速度 :  {0} m/s}"
-                   Margin="10"
+                   Grid.ColumnSpan="2"
+                   Text="行走速度:"
+                   Margin="10,0,0,0"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
                    Foreground="#434343"
-                   FontFamily="Yu Gothic Medium"
                    FontSize="20" />
         <TextBlock Grid.Row="11" Grid.Column="0"
-                   Text="{Binding UI_Craft_Date.Welding_Angle, Mode=TwoWay, FallbackValue=焊接角度:, StringFormat={}焊接角度 :  {0}°}"
-                   Margin="10"
+                   Grid.ColumnSpan="2"
+                   Text="焊接角度:"
+                   Margin="10,0,0,0"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
                    Foreground="#434343"
-                   FontFamily="Yu Gothic Medium"
                    FontSize="20" />
         <TextBlock Grid.Row="12" Grid.Column="0"
-                   Text="{Binding UI_Craft_Date.Welding_Power, Mode=TwoWay, FallbackValue=焊接功率:, StringFormat={}焊接功率 :  {0}%}"
-                   Margin="10"
+                   Grid.ColumnSpan="2"
+                   Text="焊接功率:"
+                   Margin="10,0,0,0"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
                    Foreground="#434343"
-                   FontFamily="Yu Gothic Medium"
                    FontSize="20" />
 
         <!--  第二列  -->
 
 
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="CDIS" Grid.Row="8" Grid.Column="2"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="CDIS" Grid.Row="8" Grid.Column="3"
                  Text="{Binding UI_Craft_Date.Welding_CDIS, Mode=OneWay, FallbackValue=0, StringFormat={}{0}}"
-                 Margin="10"
-                 HorizontalAlignment="Stretch"
-                 VerticalAlignment="Stretch"
+                 Margin="10,10,10,11"
                  Tag="mm" />
 
 
 
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="ACC" Grid.Row="9" Grid.Column="2"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="ACC" Grid.Row="9" Grid.Column="3"
                  Text="{Binding UI_Craft_Date.Welding_ACC, TargetNullValue=100, FallbackValue=0, Mode=OneWay, StringFormat={}{0}}"
-                 Margin="10"
-                 HorizontalAlignment="Stretch"
-                 VerticalAlignment="Stretch"
+                 Margin="10,10,10,11"
                  Tag="%" />
 
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Speed" Grid.Row="10" Grid.Column="2"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Speed" Grid.Row="10" Grid.Column="3"
                  Text="{Binding UI_Craft_Date.Welding_Speed, Mode=OneWay, FallbackValue=0.000, StringFormat={}{0:N3}}"
-                 Margin="10"
-                 HorizontalAlignment="Stretch"
-                 VerticalAlignment="Stretch"
+                 Margin="10,10,10,11"
                  Tag="m/s" />
 
 
 
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Angle" Grid.Row="11" Grid.Column="2"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Angle" Grid.Row="11" Grid.Column="3"
                  Text="{Binding UI_Craft_Date.Welding_Angle, Mode=OneWay, StringFormat={}{0:N3}}"
-                 Margin="10"
-                 HorizontalAlignment="Stretch"
-                 VerticalAlignment="Stretch"
+                 Margin="10,10,10,11"
                  Tag="°" />
 
 
 
 
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Power" Grid.Row="12" Grid.Column="2"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Power" Grid.Row="12" Grid.Column="3"
                  Text="{Binding UI_Craft_Date.Welding_Power, Mode=OneWay, FallbackValue=0, StringFormat={}{0}}"
-                 Margin="10"
-                 HorizontalAlignment="Stretch"
-                 VerticalAlignment="Stretch"
+                 Margin="10,10,10,11"
                  Tag="%" />
 
 
 
         <!--  功能按钮  -->
-        <Button Style="{DynamicResource ButtonStyle3}" Grid.Row="8" Grid.Column="3"
-                Grid.RowSpan="3"
+        <Button Style="{DynamicResource ButtonStyle3}" Grid.Row="9" Grid.Column="4"
                 Grid.ColumnSpan="2"
                 Content="保存"
                 Width=" 200"
                 Height=" 60"
+                Margin="72,0,72,0"
                 VerticalAlignment="Center"
                 Effect="{StaticResource 全局背景阴影}"
                 Background="#6baa75"
@@ -591,12 +622,12 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </Button>
-        <Button Style="{DynamicResource ButtonStyle3}" Grid.Row="10" Grid.Column="3"
-                Grid.RowSpan="3"
+        <Button Style="{DynamicResource ButtonStyle3}" Grid.Row="11" Grid.Column="4"
                 Grid.ColumnSpan="2"
                 Content="取消"
                 Width=" 200"
                 Height=" 60"
+                Margin="72,0,72,0"
                 VerticalAlignment="Center"
                 Effect="{StaticResource 全局背景阴影}"
                 Background="#FF5E57"

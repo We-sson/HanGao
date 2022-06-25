@@ -77,7 +77,7 @@
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="BorderThickness" Value="0,0,0,3" />
-                <Setter Property="BorderBrush" Value="#7FAAE1" />
+                <Setter Property="BorderBrush" Value="#16a637" />
                 <Setter Property="Effect" Value="{DynamicResource 全局背景阴影}" />
 
 
@@ -111,7 +111,7 @@
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Background" Value="#d8e0ea" />
-                <Setter Property="Foreground" Value="Black" />
+                <Setter Property="Foreground" Value="#4B6587" />
             </Trigger>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
                 <!--<Setter Property="BorderBrush" Value="{DynamicResource {x:Static DataGrid.FocusBorderBrushKey}}"/>-->
@@ -138,9 +138,9 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="FontSize" Value="22" />
+        <Setter Property="FontSize" Value="20" />
         <Setter Property="Height" Value="50" />
-        <Setter Property="FontWeight" Value="DemiBold" />
+        <Setter Property="FontWeight" Value="Heavy" />
         <Setter Property="Foreground" Value="#555555" />
         <Setter Property="Template">
             <Setter.Value>
@@ -166,10 +166,10 @@
                         <Thumb Style="{DynamicResource ColumnHeaderGripperStyle}" x:Name="PART_RightHeaderGripper"
                                HorizontalAlignment="Right" />
                         <Border x:Name="B"
-                                Height="2"
+                                Height="3"
                                 Margin="0,0,0,0"
                                 VerticalAlignment="Bottom"
-                                Background="#6baa75" />
+                                Background="#4B6587" />
 
                     </Grid>
                     <ControlTemplate.Triggers />

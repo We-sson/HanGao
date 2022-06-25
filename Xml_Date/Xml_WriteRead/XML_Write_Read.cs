@@ -362,7 +362,7 @@ namespace HanGao.Xml_Date.Xml_WriteRead
         }
 
         /// <summary>
-        ///设置对应的Xml水槽数据
+        ///设置对应的Xml水槽列表数据
         /// </summary>
         /// <param name="_Sink_Model"></param>
         /// <returns></returns>
@@ -381,16 +381,39 @@ namespace HanGao.Xml_Date.Xml_WriteRead
 
                      Craft.GetType().GetProperty(_User_Model.User_Picking_Craft.User_Direction.ToString()).SetValue(Craft, _Val);
 
-                    
                 }
-
+                
             }
 
+        }
+
+        /// <summary>
+        ///设置对应的Xml水槽列表数据
+        /// </summary>
+        /// <param name="_Sink_Model"></param>
+        /// <returns></returns>
+        public static void SetXml_User_Data(Sink_Models _User_Model, Xml_Craft_Date _Val)
+        {
 
 
+            foreach (var _Sink_List in Sink_Date.Sink_List)
+            {
+                if (_Sink_List.Sink_Model == _User_Model.Sink_Process.Sink_Model)
+                {
 
+                    Xml_SInk_Craft Area = (Xml_SInk_Craft)_Sink_List.Sink_Craft.GetType().GetProperty(_User_Model.User_Picking_Craft.User_Work_Area.ToString()).GetValue(_Sink_List.Sink_Craft);
 
+                    Xml_SInk_Craft_Model Craft = (Xml_SInk_Craft_Model)Area.GetType().GetProperty(_User_Model.User_Picking_Craft.User_Welding_Craft.ToString()).GetValue(Area);
 
+                    Xml_Craft_Data Date_List = (Xml_Craft_Data)Craft.GetType().GetProperty(_User_Model.User_Picking_Craft.User_Direction.ToString()).GetValue(Craft);
+
+                    Date_List.Craft_Date[_Val.NO-1] = _Val;
+
+                    Craft.GetType().GetProperty(_User_Model.User_Picking_Craft.User_Direction.ToString()).SetValue(Craft, Date_List);
+
+                }
+                
+            }
 
         }
 
