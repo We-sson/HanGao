@@ -44,7 +44,7 @@ namespace HanGao.Model
         public Sink_Models Model { set; get; } = new Sink_Models( );
 
 
-
+        //委托方法
         public delegate void GetUser_Select_Method(bool Value2);
         public GetUser_Select_Method GetUser_Select;
 

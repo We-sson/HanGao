@@ -62,8 +62,8 @@ namespace HanGao.Xml_Date.Xml_Models
     public class Xml_Sink_Work_Area
     {
 
-        public Xml_SInk_Craft N_1 { get; set; } = new Xml_SInk_Craft() { };
-        public Xml_SInk_Craft N_2 { get; set; } = new Xml_SInk_Craft() { };
+        public Xml_SInk_Craft N1 { get; set; } = new Xml_SInk_Craft() { };
+        public Xml_SInk_Craft N2 { get; set; } = new Xml_SInk_Craft() { };
 
 
     }
@@ -185,7 +185,7 @@ namespace HanGao.Xml_Date.Xml_Models
         public double Welding_Speed { get; set; } = 0.045;
         [XmlAttribute]
         [ReadWriteAttribute(ReadWrite_Enum.Write)]
-        public double Welding_Angle { get; set; } = 23;
+        public double Welding_Angle { get; set; } = 23.000;
         [XmlAttribute]
         [ReadWriteAttribute(ReadWrite_Enum.Write)]
         public int Welding_CDIS { get; set; } = 10;
@@ -201,6 +201,7 @@ namespace HanGao.Xml_Date.Xml_Models
         [XmlElement(ElementName = "Welding_Pos")]
         [ReadWriteAttribute(ReadWrite_Enum.Read)]
         public Welding_Pos_Date Welding_Pos { get; set; } = new Welding_Pos_Date() { };
+
     }
 
 

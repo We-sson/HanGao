@@ -292,7 +292,7 @@ namespace Soceket_Connect
 
 
                 //连接超时判断
-                if (!Connnect_Write.WaitOne(20000, true) || !Is_Write_Client)
+                if (!Connnect_Write.WaitOne(2000, true) || !Is_Write_Client)
                 {
                     Socket_Receive_Error(R_W_Enum, "Error: -53 原因:写入连接超时！检查网络与IP设置是否正确。");
                     return;

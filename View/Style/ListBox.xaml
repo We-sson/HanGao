@@ -285,8 +285,7 @@
 
 
 
-                            <CheckBox Style="{StaticResource CheckBoxStyle2}"
-                                      Uid="N1"
+                            <CheckBox Uid="N1"
                                       IsChecked="{Binding Sink_UI.List_IsChecked_1}"
                                       Width=" 30"
                                       Height="30"
@@ -302,7 +301,18 @@
                                                                PassEventArgsToCommand="True" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
-
+                                <CheckBox.Style>
+                                    <Style TargetType="CheckBox" BasedOn="{StaticResource CheckBoxStyle2}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Sink_UI.UI_Checked_Type_1}" Value="Readinh">
+                                                <Setter Property="IsEnabled" Value="False" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Sink_UI.UI_Checked_Type_1}" Value="Ok">
+                                                <Setter Property="IsEnabled" Value="True" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </CheckBox.Style>
                             </CheckBox>
 
 
@@ -342,8 +352,7 @@
                                     VerticalAlignment="Center"
                                     Orientation="Horizontal">
 
-                            <CheckBox Style="{StaticResource CheckBoxStyle2}"
-                                      Uid="N2"
+                            <CheckBox Uid="N2"
                                       IsChecked="{Binding Sink_UI.List_IsChecked_2}"
                                       Width=" 30"
                                       Height="30"
@@ -359,7 +368,18 @@
                                                                PassEventArgsToCommand="True" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
-
+                                <CheckBox.Style>
+                                    <Style TargetType="CheckBox" BasedOn="{StaticResource CheckBoxStyle2}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Sink_UI.UI_Checked_Type_2}" Value="Readinh">
+                                                <Setter Property="IsEnabled" Value="False" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Sink_UI.UI_Checked_Type_2}" Value="Ok">
+                                                <Setter Property="IsEnabled" Value="True" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </CheckBox.Style>
                             </CheckBox>
 
 

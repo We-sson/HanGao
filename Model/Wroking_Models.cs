@@ -14,7 +14,7 @@ using static HanGao.Model.User_Read_Xml_Model;
 
 namespace HanGao.Model
 {
-    [AddINotifyPropertyChangedInterface]
+[AddINotifyPropertyChangedInterface]
     public class Working_Area_Data
     {
         public Working_Area_Data()
@@ -35,7 +35,7 @@ namespace HanGao.Model
 
     };
 
-
+    [AddINotifyPropertyChangedInterface]
     public class Working_Area_UI_Model
     {
         public Working_Area_UI_Model()

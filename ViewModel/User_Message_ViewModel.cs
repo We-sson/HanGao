@@ -97,11 +97,11 @@ namespace HanGao.ViewModel
 
 
 
-
+            //委托方法放回用户选择值
             List_Show_Models.GetUser_Select(bool.Parse(e.Uid));
 
-
-       
+            //清空弹窗显示
+             Messenger.Send<UserControl,string >(null,nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
 
 
             //记录用户选择的是或否

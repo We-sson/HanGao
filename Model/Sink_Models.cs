@@ -10,10 +10,10 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using static HanGao.Model.Sink_Craft_Models;
 using static HanGao.Model.User_Read_Xml_Model;
+using static HanGao.ViewModel.UC_Surround_Direction_VM;
 
 namespace HanGao.Model
 {
-    [AddINotifyPropertyChangedInterface]
     public class Sink_Models : ObservableRecipient
     {
 
@@ -222,6 +222,9 @@ namespace HanGao.Model
         /// </summary>
         public bool List_IsChecked_2 { set; get; } = false;
 
+        public UI_Type_Enum UI_Checked_Type_1 { set; get; } = UI_Type_Enum.Ok;
+        public UI_Type_Enum UI_Checked_Type_2 { set; get; } = UI_Type_Enum.Ok;
+
 
 
         /// <summary>
@@ -238,39 +241,6 @@ namespace HanGao.Model
             [StringValue("&#xe61d;")]
             LeftRight_Two,
         }
-
-        //private Sink_Type_Enum _Sink_Type;
-        ///// <summary>
-        ///// 根据水槽类型显示对于图标
-        ///// </summary>
-        //public Sink_Type_Enum Sink_Type
-        //{
-        //    set
-        //    {
-        //        Photo_ico = value.GetStringValue();
-
-
-        //        _Sink_Type = value;
-        //    }
-        //    get
-        //    {
-        //        return _Sink_Type;
-        //    }
-
-        //}
-
-
-        ////&#xe610;   &#xe60a;   &#xe60b;
-        //private string _Photo_ico = "&#xe61b;";
-        ///// <summary>
-        ///// 列表显示对应水槽类型图片码
-        ///// </summary>
-        //public string Photo_ico
-        //{
-        //    get { return HttpUtility.HtmlDecode(_Photo_ico); }
-        //    set { _Photo_ico = value; }
-
-        //}
 
 
     }

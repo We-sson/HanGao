@@ -38,7 +38,7 @@
                     Background="#f6f6f6"
                     CornerRadius="20" />
 
-            <Grid Grid.Row="0" Margin="0,-50,0,0">
+            <Grid Grid.Row="0" Margin="0,-30,0,0">
 
                 <TextBlock Text="&#xea76;"
                            Margin="0,10,0,0"
@@ -63,7 +63,7 @@
                            HorizontalAlignment="Center"
                            VerticalAlignment="Bottom"
                            Foreground="#f05454"
-                           FontSize="46" />
+                           FontSize="40" />
             </Grid>
 
             <Grid Grid.Row="1">
@@ -75,7 +75,7 @@
                                VerticalAlignment="Center"
                                Foreground="Gray"
                                FontSize="30" />
-                    <TextBlock Text="{Binding User_Wrok_Trye, Mode=TwoWay, FallbackValue=00000}"
+                    <TextBlock Text="{Binding List_Show_Models.List_Show_Name, Mode=OneWay, FallbackValue=00000}"
                                Foreground="#f05454"
                                FontSize="40" />
                 </StackPanel>

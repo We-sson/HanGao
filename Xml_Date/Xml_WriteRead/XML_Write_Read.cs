@@ -57,7 +57,7 @@ namespace HanGao.Xml_Date.Xml_Write_Read
                     Sink_Type = Sink_Type_Enum.LeftRight_One,
                      Sink_Craft =new Xml_Sink_Work_Area()
                      {
-                          N_1=new Xml_SInk_Craft()
+                          N1=new Xml_SInk_Craft()
                           {
                                Sink_Surround_Craft=new Xml_SInk_Craft_Model()
                                {
@@ -112,7 +112,7 @@ namespace HanGao.Xml_Date.Xml_Write_Read
                                 }
                                }
                           },
-                          N_2=new Xml_SInk_Craft()
+                          N2=new Xml_SInk_Craft()
                           {
                                Sink_Surround_Craft=new Xml_SInk_Craft_Model()
                                {
@@ -184,7 +184,7 @@ namespace HanGao.Xml_Date.Xml_Write_Read
                     Sink_Type = Sink_Type_Enum.LeftRight_One,
                     Sink_Craft =new Xml_Sink_Work_Area()
                      {
-                          N_1=new Xml_SInk_Craft()
+                          N1=new Xml_SInk_Craft()
                           {
                                Sink_Surround_Craft=new Xml_SInk_Craft_Model()
                                {
@@ -239,7 +239,7 @@ namespace HanGao.Xml_Date.Xml_Write_Read
                                 }
                                }
                           },     
-                          N_2=new Xml_SInk_Craft()
+                          N2=new Xml_SInk_Craft()
                           {
                                Sink_Surround_Craft=new Xml_SInk_Craft_Model()
                                {

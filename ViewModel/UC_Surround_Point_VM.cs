@@ -45,7 +45,6 @@ namespace HanGao.ViewModel
             Messenger.Register<Socket_Models_List, string>(this, nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data), (O, S) =>
                            {
 
-
                                lock (S)
                                {
 
@@ -59,34 +58,10 @@ namespace HanGao.ViewModel
 
                                    User_Sink.User_Picking_Craft.User_Welding_Craft_ID= Point_NO;
 
-                             
-
-                                   //foreach (var _List in XML_Write_Read.Sink_Date.Sink_List)
-                                   //{
-
-                                   //if (User_Sink.Sink_Process.Sink_Model == _List.Sink_Model)
-                                   //{
-
-                                   //Xml_SInk_Craft _WorkNo = (Xml_SInk_Craft)_List.Sink_Craft.GetType().GetProperty(Craft_Value.User_Work.ToString()).GetValue(_List.Sink_Craft);
-
-
-
-
-                                   //var t = typeof(Xml_Craft_Data).GetProperty(Craft_Value.User_Direction.ToString());
-
-
-                                   //foreach (var WorkNo in _List.Sink_Craft.GetType().GetProperties())
-                                   //{
-
-                                   //if ( WorkNo.Name== Craft_Value.User_Work.ToString ())
-                                   //{
-
-                                   //Xml_Craft_Data Date = (Xml_Craft_Data)_WorkNo.Sink_Surround_Craft.GetType().GetProperty(Craft_Value.User_Direction.ToString()).GetValue(_WorkNo.Sink_Surround_Craft);
 
                                    Xml_Craft_Data Date = XML_Write_Read.GetXml_User_Data(User_Sink);
 
-
-                                                    switch (Craft_Value.KUKA_Craft_Type)
+                                             switch (Craft_Value.KUKA_Craft_Type)
                                                {
 
                                                case nameof(Xml_Craft_Date.Welding_Name):
@@ -142,15 +117,8 @@ namespace HanGao.ViewModel
 
                                                case nameof(Xml_Craft_Date.Welding_Offset):
 
-
-
-
-
                                                    if (S.Val_Var != "")
                                                    {
-
-
-
                                                        string[] data = S.Val_Var.Split(new string[] { "{Offset_POS: ", "}" }, StringSplitOptions.RemoveEmptyEntries);
                                                        if (data.Length != 0)
                                                        {
@@ -177,50 +145,14 @@ namespace HanGao.ViewModel
                                                                    Date.Craft_Date[Point_NO].Welding_Offset.Z = double.Parse(item.Replace('Z', ' '));
 
                                                                }
-
-
                                                            }
-
-
-
-
                                                        }
-
-
-
                                                    }
 
                                                    break;
-
                                            }
 
                                    XML_Write_Read.SetXml_User_Data(User_Sink, Date);
-
-                                                 //_WorkNo.Sink_Surround_Craft.GetType().GetProperty(Craft_Value.User_Direction.ToString()).SetValue(_WorkNo.Sink_Surround_Craft,Date);
-
-
-                                   //}
-
-
-
-                                   //}
-
-
-                                   //更新UI显示先清除原来的数据
-
-
-
-
-
-                                   // _List.Sink_Craft.GetType().GetProperty(Craft_Value.User_Work.ToString()).GetValue(_List.Sink_Craft);
-
-                                   //_List.Sink_Craft.GetType().GetProperty(Craft_Value.User_Direction.ToString()).SetValue(_List.Sink_Craft, Date);
-
-
-
-                                   //}
-                                   //}
-
 
                                }
 
@@ -271,7 +203,7 @@ namespace HanGao.ViewModel
                                //遍历每个xml列表中的每个参数是否读写属性
                                foreach (var List_Name in Craft_List.GetCustomAttributes(true))
                                {
-                                   if  (List_Name is ReadWriteAttribute Autt)
+                                   if  (List_Name is ReadWriteAttribute Autt )
                                    {
 
                                        switch (Autt.ReadWrite_Type)
@@ -353,9 +285,6 @@ namespace HanGao.ViewModel
                                 XmlVal_Write_KUKAString(S);
 
 
-                                //Socket_Client_Setup.Write.Cycle_Write_Send(_N, XmlVal_Write_KUKAString(S).ToString());
-
-
 
                                 break;
                             }
@@ -382,13 +311,6 @@ namespace HanGao.ViewModel
         /// <param name="Xcd"></param>
         public   void XmlVal_Write_KUKAString(Xml_Craft_Date Xcd)
         {
-
-
-            // string[,] _Val = new string[10, 10];
-
-
-            //var b = Xcd.GetType().GetProperties();
-
             foreach (var item in Xcd.GetType().GetProperties())
             {
                 foreach (var autt in item.GetCustomAttributes(false ))
@@ -421,33 +343,10 @@ namespace HanGao.ViewModel
             }
 
 
-      //var a = Attribute.GetCustomAttributes(Xcd.GetType());
-
-
-
-      //      _Val[1,0]=User_Checked_Direction.ToString() + "[" + Xcd.NO + "]."+ Xcd.Welding_Speed.ToString();
-      //      _Val[1, 1]=Xcd.Welding_Speed.ToString();
-
-
-
-      //      // {Surr_Welding_Craft_Type:Welding_Name[] "S2",Welding_Pos {E6POS:  X 400,Y 200,Z - 3,A 0,B 23,C 0},Welding_Speed 0.02,Welding_Angle 23,Welding_Offset {Offset_POS:X 0.2,Y 0,Z 0}}
-      //    //  string _Val = @"{Surr_Welding_Craft_Type:Welding_Power "+ Xcd.Welding_Power + ",  Welding_Speed " + Xcd.Welding_Speed + ", Welding_Angle "+Xcd.Welding_Angle + ", Welding_CDIS "+Xcd.Welding_CDIS + ", Welding_Offset{Offset_POS: X "+ Xcd .Pos_Offset.X+ ", Y "+ Xcd.Pos_Offset.Y +",Z "+ Xcd.Pos_Offset.Z+ " }}";
-
-
-
-
-      //      return _Val;
         }
 
 
 
-        ///// <summary>
-        ///// 写入锁
-        ///// </summary>
-        //public ReaderWriterLockSlim Read_Lock { set; get; } = new ReaderWriterLockSlim();
-        //public static ManualResetEvent Write_Data { set; get; } = new ManualResetEvent(true);
-       
-        
 
 
         /// <summary>
@@ -469,7 +368,9 @@ namespace HanGao.ViewModel
 
 
 
-
+        /// <summary>
+        /// 围边点集合显示
+        /// </summary>
         public ObservableCollection<Xml_Craft_Date> Surround_Offset_Point { set; get; } = new ObservableCollection<Xml_Craft_Date>();
 
 

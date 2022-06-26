@@ -82,13 +82,13 @@
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding User_Sink.Sink_Process.Sink_Type}" Value="LeftRight_One">
+                                <DataTrigger Binding="{Binding User_Sink.Sink_Process.Sink_Type, Mode=OneWay}" Value="LeftRight_One">
                                     <Setter Property="TextBlock.Text" Value="&#xe61b;" />
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding User_Sink.Sink_Process.Sink_Type}" Value="UpDown_One">
+                                <DataTrigger Binding="{Binding User_Sink.Sink_Process.Sink_Type, Mode=OneWay}" Value="UpDown_One">
                                     <Setter Property="TextBlock.Text" Value="&#xe61a;" />
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding User_Sink.Sink_Process.Sink_Type}" Value="LeftRight_Two">
+                                <DataTrigger Binding="{Binding User_Sink.Sink_Process.Sink_Type, Mode=OneWay}" Value="LeftRight_Two">
                                     <Setter Property="TextBlock.Text" Value="&#xe61d;" />
                                 </DataTrigger>
                             </Style.Triggers>
@@ -131,10 +131,10 @@
                                             StartAngle="0"
                                             Stretch="None"
                                             ArcThicknessUnit="Pixel"
-                                            EndAngle="{Binding Working_Area_UI.UI_Welding_Power}"
+                                            EndAngle="{Binding Working_Area_UI.UI_Welding_Power, Mode=OneWay}"
                                             Fill="Green" />
 
-                                    <TextBlock Text="{Binding Working_Area_UI.Welding_Power, StringFormat={}{0}%}"
+                                    <TextBlock Text="{Binding Working_Area_UI.Welding_Power, Mode=OneWay, StringFormat={}{0}%}"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                FontSize="14" />
@@ -169,10 +169,10 @@
                                             StartAngle="0"
                                             Stretch="None"
                                             ArcThicknessUnit="Pixel"
-                                            EndAngle="{Binding Working_Area_UI.UI_Robot_Speed}"
+                                            EndAngle="{Binding Working_Area_UI.UI_Robot_Speed, Mode=OneWay}"
                                             Fill="Green" />
 
-                                    <TextBlock Text="{Binding Working_Area_UI.Robot_Speed, StringFormat={}{0:N2}m/s}"
+                                    <TextBlock Text="{Binding Working_Area_UI.Robot_Speed, Mode=OneWay, StringFormat={}{0:N2}m/s}"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                FontSize="12" />
@@ -208,9 +208,9 @@
                                             StartAngle="0"
                                             Stretch="None"
                                             ArcThicknessUnit="Pixel"
-                                            EndAngle="{Binding Working_Area_UI.UI_Welding_Time}"
+                                            EndAngle="{Binding Working_Area_UI.UI_Welding_Time, Mode=OneWay}"
                                             Fill="Green" />
-                                    <TextBlock Text="{Binding Working_Area_UI.Welding_Time, StringFormat={}{0}S}"
+                                    <TextBlock Text="{Binding Working_Area_UI.Welding_Time, Mode=OneWay, StringFormat={}{0}S}"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                FontSize="14" />
@@ -450,7 +450,6 @@
         <pop_ups:UC_Wait_Loading Grid.Row="0" Grid.Column="0"
                                  Grid.RowSpan="2"
                                  Grid.ColumnSpan="2"
-                                 Visibility="Collapsed"
                                  DataContext="{Binding Working_Area_UI.UI_Loade}" />
     </Grid>
 
