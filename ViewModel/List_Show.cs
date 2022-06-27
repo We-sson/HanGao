@@ -310,86 +310,164 @@ namespace HanGao.ViewModel
 
 
 
-
+                //判断用户按钮触发条件
                 if ((bool)e.IsChecked)
                 {
-
-                    switch (User_Area)
+                    //遍历水槽集合
+                    foreach (var _Sink in SinkModels)
                     {
-                        case Work_No_Enum.N1:
-                            if (SinkModels.Count(X => X.Sink_Process.Sink_Model!=S.Sink_Process.Sink_Model && X.Sink_UI.List_IsChecked_1 == true)>=1)
+
+                        //判断非用户选定的按钮是否有选择情况       
+                        if (_Sink.Sink_Process.Sink_Model!=S.Sink_Process.Sink_Model)
+                        {
+                            bool aa = (bool)_Sink.Sink_UI.GetType().GetProperty("List_IsChecked_" + (int)User_Area).GetValue(_Sink.Sink_UI);
+
+                            if (aa)
                             {
 
+
+                                //
                                 Messenger.Send<UserControl, string>(new User_Message()
                                 {
                                     DataContext = new User_Message_ViewModel()
-                                    {  List_Show_Models=new List_Show_Models() 
-                                    { 
-                                        List_Chick_NO= User_Area.ToString(), List_Show_Bool= Visibility.Visible, List_Show_Name=S.Sink_Process.Sink_Model.ToString() 
-                                        ,
-                                        GetUser_Select = Val =>
+                                    {
+                                        List_Show_Models = new List_Show_Models()
                                         {
-                                            if (Val)
+                                            List_Chick_NO = User_Area.ToString(),
+                                            List_Show_Bool = Visibility.Visible,
+                                            List_Show_Name = S.Sink_Process.Sink_Model.ToString()
+                                        ,
+                                            GetUser_Select = Val =>
                                             {
-                                                SinkModels.First(X => X.Sink_Process.Sink_Model != S.Sink_Process.Sink_Model && X.Sink_UI.List_IsChecked_1 == true).Sink_UI.List_IsChecked_1 = false  ;
-                                                Task.Run(() =>
-                    {
+                                                if (Val)
+                                                {
+                                                    //复位其他水槽加载按钮
+                                                   _Sink.Sink_UI.GetType().GetProperty("List_IsChecked_" + (int)User_Area).SetValue(_Sink.Sink_UI, false  );
+                                                    
+                                                    //异步发送水槽全部参数到库卡变量
+                                                    Task.Run(() =>
+                                                    {
 
-                        //发送期间UI禁止重发触发
-                        e.Dispatcher.BeginInvoke(() => { e.IsEnabled = false   ; });
-                        
-                    
-
-                        //异步发送用户选择
-                       Messenger.Send<Working_Area_Data, string>(new Working_Area_Data() { User_Sink=S, Working_Area_UI=new Working_Area_UI_Model() { Load_UI_Work= User_Area, UI_Loade= UC_Surround_Direction_VM.UI_Type_Enum.Reading } }, nameof(Meg_Value_Eunm.UI_Work));
-
-
-                        //释放UI触发
-                        e.Dispatcher.BeginInvoke(() => { e.IsEnabled = true   ; });
+                                                        //发送期间UI禁止重发触发
+                                                        e.Dispatcher.BeginInvoke(() => { e.IsEnabled = false; });
 
 
-                    });
-                                               
+                                                        //异步发送用户选择
+                                                        Messenger.Send<Working_Area_Data, string>(new Working_Area_Data() { User_Sink = S, Working_Area_UI = new Working_Area_UI_Model() { Load_UI_Work = User_Area, UI_Loade = UC_Surround_Direction_VM.UI_Type_Enum.Reading } }, nameof(Meg_Value_Eunm.UI_Work));
 
-                                            }
-                                            else
-                                            {
-                                                SinkModels.First(X => X.Sink_Process.Sink_Model == S.Sink_Process.Sink_Model).Sink_UI.List_IsChecked_1 = false ;
 
+                                                        //释放UI触发
+                                                        e.Dispatcher.BeginInvoke(() => { e.IsEnabled = true; });
+
+
+                                                    });
+
+
+                                                }
+                                                else
+                                                {
+
+                                                    //弹窗询问用户取消就复位按钮
+                                                    e.IsChecked = false;
+
+                                                }
                                             }
                                         }
-                                    } 
                                     }
                                 }, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
 
 
-                            }
-                            else
+                            }else
                             {
-                                Task.Run(() =>
-                                {
 
-                                    //发送期间UI禁止重发触发
-                                    e.Dispatcher.BeginInvoke(() => { e.IsEnabled = false; });
-
-
-
-                                    //异步发送用户选择
-                                    Messenger.Send<Working_Area_Data, string>(new Working_Area_Data() { User_Sink = S, Working_Area_UI = new Working_Area_UI_Model() { Load_UI_Work = User_Area, UI_Loade = UC_Surround_Direction_VM.UI_Type_Enum.Reading } }, nameof(Meg_Value_Eunm.UI_Work));
-
-
-                                    //释放UI触发
-                                    e.Dispatcher.BeginInvoke(() => { e.IsEnabled = true; });
-
-
-                                });
                             }
-                            
-                            break;
-                        case Work_No_Enum.N2:
-                            SinkModels.Count(X => X.Sink_UI.List_IsChecked_2 == true);
-                            break;
+
+
+
+                        }
+
+
+
                     }
+
+
+
+                    //switch (User_Area)
+                    //{
+                    //    case Work_No_Enum.N1:
+                    //        if (SinkModels.Count(X => X.Sink_Process.Sink_Model!=S.Sink_Process.Sink_Model && X.Sink_UI.List_IsChecked_1 == true)>=1)
+                    //        {
+
+                    //            Messenger.Send<UserControl, string>(new User_Message()
+                    //            {
+                    //                DataContext = new User_Message_ViewModel()
+                    //                {  List_Show_Models=new List_Show_Models() 
+                    //                { 
+                    //                    List_Chick_NO= User_Area.ToString(), List_Show_Bool= Visibility.Visible, List_Show_Name=S.Sink_Process.Sink_Model.ToString() 
+                    //                    ,
+                    //                    GetUser_Select = Val =>
+                    //                    {
+                    //                        if (Val)
+                    //                        {
+                    //                            SinkModels.First(X => X.Sink_Process.Sink_Model != S.Sink_Process.Sink_Model && X.Sink_UI.List_IsChecked_1 == true).Sink_UI.List_IsChecked_1 = false  ;
+                    //                            Task.Run(() =>
+                    //{
+
+                    //    //发送期间UI禁止重发触发
+                    //    e.Dispatcher.BeginInvoke(() => { e.IsEnabled = false   ; });
+                        
+                    
+
+                    //    //异步发送用户选择
+                    //   Messenger.Send<Working_Area_Data, string>(new Working_Area_Data() { User_Sink=S, Working_Area_UI=new Working_Area_UI_Model() { Load_UI_Work= User_Area, UI_Loade= UC_Surround_Direction_VM.UI_Type_Enum.Reading } }, nameof(Meg_Value_Eunm.UI_Work));
+
+
+                    //    //释放UI触发
+                    //    e.Dispatcher.BeginInvoke(() => { e.IsEnabled = true   ; });
+
+
+                    //});
+                                               
+
+                    //                        }
+                    //                        else
+                    //                        {
+                    //                            SinkModels.First(X => X.Sink_Process.Sink_Model == S.Sink_Process.Sink_Model).Sink_UI.List_IsChecked_1 = false ;
+
+                    //                        }
+                    //                    }
+                    //                } 
+                    //                }
+                    //            }, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
+
+
+                    //        }
+                    //        else
+                    //        {
+                    //            Task.Run(() =>
+                    //            {
+
+                    //                //发送期间UI禁止重发触发
+                    //                e.Dispatcher.BeginInvoke(() => { e.IsEnabled = false; });
+
+
+
+                    //                //异步发送用户选择
+                    //                Messenger.Send<Working_Area_Data, string>(new Working_Area_Data() { User_Sink = S, Working_Area_UI = new Working_Area_UI_Model() { Load_UI_Work = User_Area, UI_Loade = UC_Surround_Direction_VM.UI_Type_Enum.Reading } }, nameof(Meg_Value_Eunm.UI_Work));
+
+
+                    //                //释放UI触发
+                    //                e.Dispatcher.BeginInvoke(() => { e.IsEnabled = true; });
+
+
+                    //            });
+                    //        }
+                            
+                    //        break;
+                    //    case Work_No_Enum.N2:
+                    //        SinkModels.Count(X => X.Sink_UI.List_IsChecked_2 == true);
+                    //        break;
+                    //}
 
 
                 }

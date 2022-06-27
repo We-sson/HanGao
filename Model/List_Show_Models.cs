@@ -46,7 +46,7 @@ namespace HanGao.Model
 
         //委托方法
         public delegate void GetUser_Select_Method(bool Value2);
-        public GetUser_Select_Method GetUser_Select;
+        public GetUser_Select_Method GetUser_Select { set; get; }
 
 
     }
