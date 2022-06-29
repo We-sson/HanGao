@@ -344,7 +344,9 @@ namespace HanGao.ViewModel
                                                     //复位其他水槽加载按钮
                                                    _Sink.Sink_UI.GetType().GetProperty("List_IsChecked_" + (int)User_Area).SetValue(_Sink.Sink_UI, false  );
                                                     
-                                                    //异步发送水槽全部参数到库卡变量
+
+                                                    ////异步发送水槽全部参数到库卡变量
+                                                    ///
                                                     Task.Run(() =>
                                                     {
 
@@ -379,97 +381,27 @@ namespace HanGao.ViewModel
 
                             }else
                             {
+                                //异步发送水槽全部参数到库卡变量
+                                Task.Run(() =>
+                                {
+
+                                    //发送期间UI禁止重发触发
+                                    e.Dispatcher.BeginInvoke(() => { e.IsEnabled = false; });
+
+
+                                    //异步发送用户选择
+                                    Messenger.Send<Working_Area_Data, string>(new Working_Area_Data() { User_Sink = S, Working_Area_UI = new Working_Area_UI_Model() { Load_UI_Work = User_Area, UI_Loade = UC_Surround_Direction_VM.UI_Type_Enum.Reading } }, nameof(Meg_Value_Eunm.UI_Work));
+
+
+                                    //释放UI触发
+                                    e.Dispatcher.BeginInvoke(() => { e.IsEnabled = true; });
+
+
+                                });
 
                             }
-
-
-
                         }
-
-
-
                     }
-
-
-
-                    //switch (User_Area)
-                    //{
-                    //    case Work_No_Enum.N1:
-                    //        if (SinkModels.Count(X => X.Sink_Process.Sink_Model!=S.Sink_Process.Sink_Model && X.Sink_UI.List_IsChecked_1 == true)>=1)
-                    //        {
-
-                    //            Messenger.Send<UserControl, string>(new User_Message()
-                    //            {
-                    //                DataContext = new User_Message_ViewModel()
-                    //                {  List_Show_Models=new List_Show_Models() 
-                    //                { 
-                    //                    List_Chick_NO= User_Area.ToString(), List_Show_Bool= Visibility.Visible, List_Show_Name=S.Sink_Process.Sink_Model.ToString() 
-                    //                    ,
-                    //                    GetUser_Select = Val =>
-                    //                    {
-                    //                        if (Val)
-                    //                        {
-                    //                            SinkModels.First(X => X.Sink_Process.Sink_Model != S.Sink_Process.Sink_Model && X.Sink_UI.List_IsChecked_1 == true).Sink_UI.List_IsChecked_1 = false  ;
-                    //                            Task.Run(() =>
-                    //{
-
-                    //    //发送期间UI禁止重发触发
-                    //    e.Dispatcher.BeginInvoke(() => { e.IsEnabled = false   ; });
-                        
-                    
-
-                    //    //异步发送用户选择
-                    //   Messenger.Send<Working_Area_Data, string>(new Working_Area_Data() { User_Sink=S, Working_Area_UI=new Working_Area_UI_Model() { Load_UI_Work= User_Area, UI_Loade= UC_Surround_Direction_VM.UI_Type_Enum.Reading } }, nameof(Meg_Value_Eunm.UI_Work));
-
-
-                    //    //释放UI触发
-                    //    e.Dispatcher.BeginInvoke(() => { e.IsEnabled = true   ; });
-
-
-                    //});
-                                               
-
-                    //                        }
-                    //                        else
-                    //                        {
-                    //                            SinkModels.First(X => X.Sink_Process.Sink_Model == S.Sink_Process.Sink_Model).Sink_UI.List_IsChecked_1 = false ;
-
-                    //                        }
-                    //                    }
-                    //                } 
-                    //                }
-                    //            }, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
-
-
-                    //        }
-                    //        else
-                    //        {
-                    //            Task.Run(() =>
-                    //            {
-
-                    //                //发送期间UI禁止重发触发
-                    //                e.Dispatcher.BeginInvoke(() => { e.IsEnabled = false; });
-
-
-
-                    //                //异步发送用户选择
-                    //                Messenger.Send<Working_Area_Data, string>(new Working_Area_Data() { User_Sink = S, Working_Area_UI = new Working_Area_UI_Model() { Load_UI_Work = User_Area, UI_Loade = UC_Surround_Direction_VM.UI_Type_Enum.Reading } }, nameof(Meg_Value_Eunm.UI_Work));
-
-
-                    //                //释放UI触发
-                    //                e.Dispatcher.BeginInvoke(() => { e.IsEnabled = true; });
-
-
-                    //            });
-                    //        }
-                            
-                    //        break;
-                    //    case Work_No_Enum.N2:
-                    //        SinkModels.Count(X => X.Sink_UI.List_IsChecked_2 == true);
-                    //        break;
-                    //}
-
-
                 }
                 else
                 {
@@ -477,141 +409,6 @@ namespace HanGao.ViewModel
                     Messenger.Send<Working_Area_Data, string>(new Working_Area_Data() { User_Sink = null, Working_Area_UI = new Working_Area_UI_Model() { Load_UI_Work = User_Area } }, nameof(Meg_Value_Eunm.UI_Work));
 
                 }
-
-
-                //string Work_Str = Meg_Value_Eunm.UI_Work_No.ToString();
-
-
-
-                //if (e.IsChecked == true)
-                //{
-
-
-                //    //判断是都有多个添加到加工区域
-                //    if (SinkModels.Count(o => o.List_IsChecked_1 == true) > 1 || SinkModels.Count(o => o.List_IsChecked_2 == true) > 1)
-                //    {
-
-
-
-
-
-                //        //消息通知初始化一个消息内容显示
-                //        Messenger.Send<UserControl,string >(new User_Message()
-                //        {
-
-                //            DataContext = new User_Message_ViewModel()
-                //            {
-
-
-                //                List_Show_Models = new List_Show_Models()
-                //                {
-
-                //                    //根据弹窗用户选择使用委托方法
-                //                    GetUser_Select  =Val =>
-                //                    {
-                //                        if (Val)
-                //                        {
-
-                //                            foreach (var item in SinkModels)
-                //                            {
-                //                                if (S.Work_No_Emun == Work_No_Enum.N_1)
-                //                                {
-
-                //                                item.List_IsChecked_1 = false ;
-                //                                }
-                //                                else if (S.Work_No_Emun == Work_No_Enum.N_2)
-                //                                {
-                //                                    item.List_IsChecked_2 = false ;
-                //                                }
-                //                            }
-
-
-                //                            if (S.Work_No_Emun == Work_No_Enum.N_1)
-                //                            {
-
-                //                                S.List_IsChecked_1 = true;
-                //                            }
-                //                            else if (S.Work_No_Emun == Work_No_Enum.N_2)
-                //                            {
-                //                                S.List_IsChecked_2 = true;
-                //                            }
-
-                //                            //发送水槽数据
-                //                            Messenger.Send<Wroking_Models, string>(new Wroking_Models() { UI_Sink_Show = S, Work_NO = S.Work_No_Emun }, Work_Str);
-
-
-                //                           new Thread(() => WriteToKuKa_SinkVal(S)) { Name = "Write—KUKA", IsBackground = true }.Start ();
-
-
-
-                //                        }
-                //                        else
-                //                        {
-
-                //                            if (S.Work_No_Emun == Work_No_Enum.N_1)
-                //                            {
-
-                //                                S.List_IsChecked_1 = false;
-                //                            }
-                //                            else if (S.Work_No_Emun == Work_No_Enum.N_2)
-                //                            {
-                //                                S.List_IsChecked_2 = false;
-                //                            }
-                //                        }
-
-                //                        //清空弹窗控件
-                //                        Messenger.Send<UserControl, string>(null, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
-
-
-                //                    },
-                //                    Model = S,
-                //                    List_Show_Name = S.Sink_Model.ToString(),
-                //                    List_Chick_NO = e.Uid
-                //                },
-                //                User_Wrok_Trye = S.Sink_Model.ToString()
-                //            }
-
-                //        },
-                //        nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
-
-
-                //        return;
-
-                //    }
-
-
-
-                //    //发送用户选择加工型号到加工区显示
-
-
-
-                //    Messenger.Send<Wroking_Models, string >(new Wroking_Models() { UI_Sink_Show=S, Work_NO= S.Work_No_Emun }, Work_Str);
-
-                //   new Thread(() => WriteToKuKa_SinkVal(S)) { Name = "Write—KUKA", IsBackground = true }.Start();
-
-
-                //}
-                //else
-                //{
-
-
-
-                //    //用户取消时候，隐藏界面
-                //    Messenger.Send<Wroking_Models, string>(new Wroking_Models() { UI_Sink_Show = S, Work_NO = S.Work_No_Emun, UI_Show= Visibility.Collapsed }, Work_Str);
-
-                //    //Messenger.Send<dynamic, string>(false, UserControl_Function_Reset + e.Uid);
-
-
-
-
-
-
-
-                //}
-
-
-
-
 
             });
         }
@@ -622,181 +419,33 @@ namespace HanGao.ViewModel
         /// 水槽尺寸工艺数据写入库卡变量中
         /// </summary>
         /// <param name="Val1"></param>
-        public void WriteToKuKa_SinkVal(Sink_Models Val1 ) 
+        public void WriteToKuKa_SinkVal(  CheckBox e , Work_No_Enum User_Area) 
         {
-      //      foreach (var item in XML_Write_Read.Sink_Date.Sink_List)
-      //      {
-      //          if (item.Sink_Model==Val1.Sink_Model)
-      //          {
 
-      //              //PropertyInfo[] Surr_Data =  item.Surround_Craft.GetType().GetProperties();
 
-                   
 
-      //              foreach (var Surround_Craft_Name in item.Sink_Craft.GetType().GetProperties())
-      //              {
 
-      //                  //Xml_Surround_Craft_Data Xml_SinkDate = (Xml_Surround_Craft_Data)Surround_Craft_Name.GetValue(item.Surround_Craft);
+            //发送期间UI禁止重发触发
+            //e.Dispatcher.BeginInvoke(() => {
+           
+            //e.IsEnabled = false; 
+            //});
+            //   Sink_Models S = (Sink_Models)e.DataContext;
 
 
 
-      //                  Xml_Surround_Craft_Data Surr_List = (Xml_Surround_Craft_Data)Surround_Craft_Name.GetValue(item.Sink_Craft);
 
+            //Messenger.Send<Working_Area_Data, string>(new Working_Area_Data() { User_Sink = S, Working_Area_UI = new Working_Area_UI_Model() { Load_UI_Work = User_Area, UI_Loade = UC_Surround_Direction_VM.UI_Type_Enum.Reading } }, nameof(Meg_Value_Eunm.UI_Work));
+            //    //异步发送用户选择
 
 
-      //                  for (int i = 0; i < Surr_List.Craft_Date.Count; i++)
-      //                  {
 
-      //                      foreach (var Craft_List in Surr_List.Craft_Date[i].GetType().GetProperties())
-      //                      {
-      //                          foreach (var List_Name in Craft_List.GetCustomAttributes( true))
-      //                          {
 
-      //                              if (List_Name is ReadWriteAttribute Autt)
-      //                              {
+            //    //释放UI触发
+            //    e.Dispatcher.BeginInvoke(() => { e.IsEnabled = true; });
 
-      //                                  switch (Autt.ReadWrite_Type)
-      //                                  {
-      //                                      case ReadWrite_Enum.Read:
-      //                                          break;
-      //                                      case ReadWrite_Enum.Write:
 
-      //                                          string _N = Surround_Craft_Name.Name +"["+(i+1)+"]."+ Craft_List.Name;
-      //                                          string _Val = string.Empty;
-                                                
-
-      //                                          if (Craft_List.GetValue(Surr_List.Craft_Date[i]) is Welding_Pos_Date)
-      //                                          {
-      //                                              Welding_Pos_Date _P = Craft_List.GetValue(Surr_List.Craft_Date[i]) as Welding_Pos_Date;
-
-      //                                             _Val = @"{Offset_POS: X " + _P.X + ", Y " + _P.Y + ", Z " + _P.Z + " }";
-
-      //                                          }
-      //                                          else
-      //                                          {
-      //                                              var _P = Craft_List.GetValue(Surr_List.Craft_Date[i]);
-      //                                               _Val =  _P.ToString();
-      //                                          }
-      //                                          //Socket_Client_Setup.Write.Cycle_Write_Send(_N, _Val);
-
-
-      //                                          Socket_Client_Setup.Write.Cycle_Write_Send(_N, _Val);
-
-
-
-      //                                          break;
-                          
-      //                                  }
-
-
-
-
-
-      //                              }
-
-
-
-
-
-
-      //                          }
-      //                      }
-
-      //                  }
-
-
-      //                  //var Xml_SinkDate = (Xml_Surround_Craft_Data)Surround_Craft_Name.GetType().GetProperty();
-
-
-                   
-
-
-                 
-
-      //                      //PropertyInfo[] Surround_Craft_Name = Val2.GetType().GetProperties();
-
-
-
-      //                      //foreach (var Val3 in Xml_Craft_Data)
-      //                      //{
-
-      //                      //    Val3.GetCustomAttributes(false);
-      //                      //    foreach (var Val4 in Val3.GetCustomAttributes(false))
-      //                      //    {
-      //                      //        if (Val4 is ReadWriteAttribute Autt)
-      //                      //        {
-      //                      //                switch (Autt.ReadWrite_Type)
-      //                      //                {
-      //                      //                    case ReadWrite_Enum.Read:
-      //                      //                        break;
-      //                      //                    case ReadWrite_Enum.Write:
-
-      //                      //string _N = Surround_Craft_Name.Name + "[" + i + "]." +   ;
-
-      //                      //                        break;
-
-      //                      //                }
-
-
-      //                      //            string _Val = item.GetValue(Xcd).ToString();
-      //                      //            if (item.Name == nameof(Xcd.Welding_Offset))
-      //                      //            {
-
-      //                      //                _Val = @"{ Offset_POS : X " + Xcd.Welding_Offset.X + ", Y " + Xcd.Welding_Offset.Y + ", Z " + Xcd.Welding_Offset.Z + " } ";
-
-
-
-      //                      //            }
-
-
-      //                      //            Socket_Client_Setup.Write.Cycle_Write_Send(_N, _Val);
-
-
-
-
-      //                      //        }
-      //                      //    }
-
-
-
-
-      //                      //        }
-
-
-                        
-      ////传送用户选择工艺
-      //                      //Messenger.Send<Xml_Craft_Date, string>(Val2, nameof(Meg_Value_Eunm.Sink_Craft_Data_OK));
-                    
-                                
-
-
-
-
-                        
-                      
-
-      //       //           string Na_str
-
-      //                  //new Thread(() => Socket_Client_Setup.Write.Cycle_Write_Send(Sm.Send_Name.Text, Sm.Send_Val.Text)) {  IsBackground = true }.Start();
-
-
-      //              };
-
-
-
-
-
-
-      //              //new Thread(() => Socket_Client_Setup.Write.Cycle_Write_Send(Sm.Send_Name.Text, Sm.Send_Val.Text)) { Name = "Cycle_Write—KUKA", IsBackground = true }.Start();
-
-
-
-
-
-      //          }
-      //      }
-
-
+    
 
 
         }

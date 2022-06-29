@@ -825,7 +825,7 @@ namespace Soceket_Connect
                 Socket_KUKA_Receive = new Socket_Models_Receive();
 
 
-                Messenger.Send<dynamic, string>(0, nameof(Meg_Value_Eunm.Connect_Client_Socketing_Button_Show));
+                //Messenger.Send<dynamic, string>(0, nameof(Meg_Value_Eunm.Connect_Client_Socketing_Button_Show));
 
                 Socket_Client_Thread(Socket_Client_Type.Asynchronous, Read_Write_Enum.One_Read, Socket_Client_Setup.IP, Socket_Client_Setup.Port);
 

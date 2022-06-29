@@ -184,10 +184,10 @@ namespace HanGao.Model
         /// </summary>
         public ICommand Socket_Client_Connection_Comm
         {
-            get => new RelayCommand<UserControl_Socket_Conntec_UI>(async (Sm) =>
+            get => new RelayCommand<UserControl_Socket_Conntec_UI>( (Sm) =>
           {
-              await Task.Run(() =>
-              {
+              //await Task.Run(() =>
+              //{
 
 
                   //Application.Current.Dispatcher.Invoke(() =>
@@ -233,7 +233,7 @@ namespace HanGao.Model
                         //创建连接
 
                     //});
-              });
+              //});
 
           });
         }

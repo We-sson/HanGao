@@ -142,7 +142,7 @@
                                     <Setter Property="Background" Value="#AAAAAA" />
                                     <Setter Property="Content" Value="{Binding Control_Name_String}" />
                                 </Style.Setters>
-                                <Style.Triggers>
+                                <!--<Style.Triggers>
                                     <MultiDataTrigger>
                                         <MultiDataTrigger.Conditions>
                                             <Condition Binding="{Binding Connect_Socket_OK}" Value="false" />
@@ -166,7 +166,7 @@
                                     </MultiDataTrigger>
 
 
-                                </Style.Triggers>
+                                </Style.Triggers>-->
                             </Style>
                         </Button.Style>
 

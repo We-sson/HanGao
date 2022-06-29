@@ -57,7 +57,10 @@ namespace HanGao.ViewModel
             //连接按钮屏蔽方法
             WeakReferenceMessenger.Default.Register<dynamic ,string >(this, nameof(Meg_Value_Eunm.Connect_Client_Button_IsEnabled) , (O,_Bool) =>
             {
-                Socket_Client_Setup.Connect_Button_IsEnabled = _Bool;
+
+
+
+                //Socket_Client_Setup.Connect_Button_IsEnabled = _Bool;
             });
 
 
@@ -214,6 +217,15 @@ namespace HanGao.ViewModel
         public Visibility Socket_Countion_Show { set; get; } = Visibility.Hidden;
 
 
+        /// <summary>
+        /// Socket连接UI显示枚举
+        /// </summary>
+        public enum Socket_UI_State_Enum
+        {
+            Connecting,
+            Connection_Failed,
+            Connect_OK
+        }
 
     }
 }

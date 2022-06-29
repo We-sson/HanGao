@@ -23,11 +23,9 @@ using static HanGao.Extension_Method.SetReadTypeAttribute;
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class User_Control_Common : ObservableRecipient
+    public class User_Control_Common
     {
 
-
-        #region ----初始化、消息通知接收处-----
 
         public User_Control_Common()
         {
@@ -41,27 +39,14 @@ namespace HanGao.ViewModel
 
         }
 
-        #endregion
-
-
-        #region -----属性、字段声明-----
-
-
-        //public const string UserControl_Function_Reset = "UserControl_Function_Reset";
-        //public const string UserControl_Function_Set = "UserControl_Function_Set";
 
 
 
-        /// <summary>
-        /// 传递参数区域全局名称：重要！
-        /// </summary>
-        //public const string Work_String_Name_Global = "Show_Reveice_method_Bool";
 
 
         /// <summary>
         /// 变量名称枚举存放地方
         /// </summary>
-       [Flags]
         public enum Value_Name_enum
         {
 
@@ -166,7 +151,6 @@ namespace HanGao.ViewModel
 
         }
 
-        #endregion
 
 
 
@@ -175,10 +159,9 @@ namespace HanGao.ViewModel
 
 
 
-        private static readonly    ObservableCollection<Socket_Models_List> _List = new ObservableCollection<Socket_Models_List>();  
 
 
-        #region -----方法体-----
+
 
         /// <summary>
         /// 发送枚举定义库卡变量到变量显示表
@@ -186,10 +169,11 @@ namespace HanGao.ViewModel
         /// <param name="_Enum">定义库卡变量类型枚举</param>
         public static void  Send_KUKA_Value_List(Type _Enum)
         {
-           
+            ObservableCollection<Socket_Models_List> _List=new ObservableCollection<Socket_Models_List> ();
             //发送需要读取的变量名枚举值
             foreach (Enum item in Enum.GetValues(_Enum))
             {
+
 
                  _List.Add(new Socket_Models_List() { Val_Name = item.GetStringValue(), Val_ID = Read_Number_ID, Send_Area = item.GetAreaValue(), Value_Enum = item, Bingding_Value = item.GetBingdingValue().BingdingValue, KUKA_Value_Enum = item.GetBingdingValue().SetValueType,  });
 
@@ -205,7 +189,6 @@ namespace HanGao.ViewModel
 
 
 
-        #endregion
 
     }
 }

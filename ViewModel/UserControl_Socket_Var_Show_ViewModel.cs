@@ -26,11 +26,14 @@ using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static HanGao.Extension_Method.SetReadTypeAttribute;
 using static HanGao.ViewModel.UC_Surround_Point_VM;
 using static HanGao.ViewModel.UC_Surround_Direction_VM;
+using HanGao.Extension_Method;
+using static Soceket_KUKA.Models.KUKA_Value_Type;
+using static HanGao.Extension_Method.KUKA_ValueType_Model;
 
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class UserControl_Socket_Var_Show_ViewModel : ObservableRecipient
+    public class UserControl_Socket_Var_Show_ViewModel    : ObservableRecipient
     {
 
 
@@ -46,14 +49,6 @@ namespace HanGao.ViewModel
             //开始读取集合发送线程
             Messenger.Register<dynamic ,string >(this,nameof( Meg_Value_Eunm.Socket_Read_Thread), (O,_Bool) =>
             {
-                //if (_Bool)
-                //{
-                //    Socket_Read_Thread = new Thread(Receive_Read_Theam) { Name = "Read", IsBackground = true };
-                //    Socket_Read_Thread.Start();
-                //    User_Log_Add("启动变量发送线程");
-
-                //}
-
 
             });
             //读取变量集合发送
@@ -181,7 +176,8 @@ namespace HanGao.ViewModel
             });
 
 
-
+            //发送需要读取的变量名枚举值
+            Send_KUKA_Value_List(typeof(Value_Name_enum));
 
 
         }
@@ -315,102 +311,151 @@ namespace HanGao.ViewModel
         }
 
 
+        /// <summary>
+        /// 变量名称枚举存放地方
+        /// </summary>
+        public enum Value_Name_enum
+        {
+
+            /// <summary>
+            /// 围边工艺焊接尺寸
+            /// </summary>
+            Surround_Welding_size,
+
+
+            /// <summary>
+            /// 程序解释器Submit状态
+            /// </summary>
+            [StringValue("$" + nameof(PRO_STATE0)), UserArea(nameof(Meg_Value_Eunm.KUKA_State)), BingdingValue(nameof(KUKA_State_Models.KUKA_Submit_State), Value_Type.Enum, Binding_Type.OneWay)]
+            PRO_STATE0,
+
+            /// <summary>
+            /// 机器人程序状态
+            /// </summary>
+            [StringValue("$" + nameof(PRO_STATE1)), UserArea(nameof(Meg_Value_Eunm.KUKA_State)), BingdingValue(nameof(KUKA_State_Models.KUKA_Program_State), Value_Type.Enum, Binding_Type.OneWay)]
+            PRO_STATE1,
+
+            ///// <summary>
+            ///// 机器人操作模式
+            ///// </summary>
+            //[StringValue("$"+nameof(MODE_OP)), UserArea(nameof(Meg_Value_Eunm.KUKA_State)), BingdingValue(nameof(KUKA_State_Models.KUKA_Mode_State), Value_Type.Enum, Binding_Type.OneWay)]
+            //MODE_OP,
+
+            [StringValue("$POS_ACT"), UserArea(User_Control_Working_Path_VM.Work_String_Name)]
+            POS_ACT,
+            [StringValue("$ACT_TOOL"), UserArea(User_Control_Working_Path_VM.Work_String_Name)]
+            ACT_TOOL,
+            [StringValue("$ACT_BASE"), UserArea(User_Control_Working_Path_VM.Work_String_Name)]
+            ACT_BASE,
+
+
+            //[StringValue("$VEL_ACT"), UserArea(User_Control_Working_VM_1.Work_String_Name), BingdingValue("Robot_Speed", Value_Type.Int, Binding_Type.OneWay)]
+            //VEL_ACT_1,
+            //[StringValue("$VEL_ACT"), UserArea(User_Control_Working_VM_2.Work_String_Name), BingdingValue("Robot_Speed", Value_Type.Int, Binding_Type.OneWay)]
+            //VEL_ACT_2,
+
+
+            /// <summary>
+            ///  机器人驱动状态
+            /// </summary>
+            [StringValue("$PERI_RDY"), UserArea(nameof(Meg_Value_Eunm.KUKA_State)), BingdingValue(nameof(KUKA_State_Models.KUKA_Drive_State), Value_Type.Bool, Binding_Type.OneWay)]
+            PERI_RDY,
+
+
+
+            //[StringValue("$Run_Work_1"), UserArea(User_Control_Working_VM_1.Work_String_Name), BingdingValue("Work_Run", Value_Type.Bool, Binding_Type.TwoWay)]
+            //Run_Work_1,
+            //[StringValue("$Run_Work_2"), UserArea(User_Control_Working_VM_2.Work_String_Name), BingdingValue("Work_Run", Value_Type.Bool, Binding_Type.TwoWay)]
+            //Run_Work_2,
+            //[StringValue("$My_Work_1"), UserArea(User_Control_Working_VM_1.Work_String_Name), BingdingValue("Work_Type", Value_Type.String, Binding_Type.OneWay)]
+            //My_Work_1,
+            //[StringValue("$My_Work_2"), UserArea(User_Control_Working_VM_2.Work_String_Name), BingdingValue("Work_Type", Value_Type.String, Binding_Type.OneWay)]
+            //My_Work_2,
+
+
+            /// <summary>
+            /// 机器人运行倍率
+            /// </summary>
+            [StringValue("$OV_PRO")]
+            OV_PRO,
+            /// <summary>
+            /// 机器人运动下一个点位置信息
+            /// </summary>
+            [StringValue("$POS_BACK")]
+            POS_BACK,
+            /// <summary>
+            /// 机器人在轨迹中途停下笛卡尔位置信息
+            /// </summary>
+            [StringValue("$POS_RET")]
+            POS_RET,
+            /// <summary>
+            /// 机器人是否激活运行
+            /// </summary>
+            [StringValue("$PRO_ACT")]
+            PRO_ACT,
+            /// <summary>
+            /// 程序当前运行点名称
+            /// </summary>
+            [StringValue("$PRO_IP.P_NAME[]")]
+            PRO_IP_P_NAME,
+            /// <summary>
+            /// 机器人是否运动状态
+            /// </summary>
+            [StringValue("$PRO_MOVE")]
+            PRO_MOVE,
+            /// <summary>
+            /// 机器人当前运行程序名
+            /// </summary>
+            [StringValue("$PRO_NAME[]")]
+            PRO_NAME,
+
+            /// <summary>
+            /// 机器人移动下一个点位置距离信息
+            /// </summary>
+            [StringValue("$DIST_NEXT")]
+            DIST_NEXT,
+
+
+        }
+
+
+
+
+
+
+
+
+
 
 
 
 
         /// <summary>
-        /// 读取集合循环发送
+        /// 发送枚举定义库卡变量到变量显示表
         /// </summary>
-        /// <param name="_Obj"></param>
-        //public  static  void Receive_Read_Theam(Socket_Models_Receive _Socket_Receive_Inf)
-        //{
-
-        //    var aa = _Socket_Receive_Inf.Read_Write_Type;
-
-
-        //            if (Socket_Read_List.Count > 0 && Socket_Client_Setup.Read.Is_Read_Client)
-        //            {
-               
-
-        //         DateTime Delay_time = DateTime.Now;
-
-        //                for (int i = 0; i < Socket_Read_List.Count; i++)
-        //                {
-
-        //                    //当前时间
-        //                    if (Socket_Read_List[i].Val_OnOff )
-        //                    {
-
-        //                       //重置发生等待阻塞
-        //                        Send_Waite.Reset();
-        //                        Send_Read.Reset();
+        /// <param name="_Enum">定义库卡变量类型枚举</param>
+        public static void Send_KUKA_Value_List(Type _Enum)
+        {
+            ObservableCollection<Socket_Models_List> _List = new ObservableCollection<Socket_Models_List>();
+            //发送需要读取的变量名枚举值
+            foreach (Enum item in Enum.GetValues(_Enum))
+            {
 
 
+                _List.Add(new Socket_Models_List() { Val_Name = item.GetStringValue(), Val_ID = Read_Number_ID, Send_Area = item.GetAreaValue(), Value_Enum = item, Bingding_Value = item.GetBingdingValue().BingdingValue, KUKA_Value_Enum = item.GetBingdingValue().SetValueType, });
 
-        //                        int _ID = Socket_Read_List[i].Val_ID;
-        //                 //重置发送等待标识
+            }
+            WeakReferenceMessenger.Default.Send<ObservableCollection<Socket_Models_List>, string>(_List, nameof(Meg_Value_Eunm.List_Connect));
 
-        //                //将需要发送的变量信息写入回调参数忠
-        //                    _Socket_Receive_Inf.Reveice_Inf = Socket_Read_List[i];
-                        
-        //                //发送变量集合内容
-
-        //                //if (Socket_Read_List[i].Value_One_Read== Read_Type_Enum.One_Read)
-        //                //{
-
-        //                //    //_Socket_Receive_Inf.Read_Write_Type = Read_Write_Enum.One_Read;
-        //                //    //Socket_Client_Setup.One_Read.Send_Read_Var(_Socket_Receive_Inf);
-        //                //    ;  Socket_Read_List[i].Val_OnOff = false;
-
-        //                //}
-
-        //               // Socket_Client_Setup.Read.Send_Read_Var(_Socket_Receive_Inf);
-
-        //                //等待发送完,增加延时减少发送压力
-
-        //                //Thread.Sleep(5);
-
-                        
-
-
-        //                if ( !Socket_Client_Setup.Read.Is_Read_Client)
-        //                        {
-        //                            Socket_Client_Setup.Read.Socket_Receive_Error(Read_Write_Enum.Read, "发送超时无应答，退出线程发送！");
-        //                            return;
-        //                        }
-
-
-                             
-     
-        //                    }
+        }
 
 
 
 
-        //                }
-
-        //        var Socke_Time = (DateTime.Now - Delay_time).TotalMilliseconds;
-        //        if (Socke_Time > 0)
-        //        {
-
-        //            //发送通讯延迟
-        //            WeakReferenceMessenger.Default.Send<string,string >(Socke_Time.ToString().Split('.')[0], nameof(Meg_Value_Eunm.Connter_Time_Delay_Method));
-               
-        //        }
-
-        //    }
 
 
 
 
-        //    Receive_Read_Theam(_Socket_Receive_Inf);
-
-
-        // }
-
-
-        
 
 
 
