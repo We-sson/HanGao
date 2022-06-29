@@ -1,5 +1,5 @@
 &ACCESS RVO
-&REL 200
+&REL 202
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
@@ -38,10 +38,10 @@ Cir_END_POS={X 0,Y 0, Z 0,A 0,B 0,C 0}
 switch Work_Area
 
 CASE 1
-Surround_Welding_Size=N1_Surround_Size
+Surround_Welding_Size=N1_Sink_Data
 
 CASE 2
-Surround_Welding_Size=N2_Surround_Size
+Surround_Welding_Size=N2_Sink_Data
 
 ENDSWITCH
 
