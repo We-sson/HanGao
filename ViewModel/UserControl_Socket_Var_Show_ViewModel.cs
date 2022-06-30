@@ -29,6 +29,9 @@ using static HanGao.ViewModel.UC_Surround_Direction_VM;
 using HanGao.Extension_Method;
 using static Soceket_KUKA.Models.KUKA_Value_Type;
 using static HanGao.Extension_Method.KUKA_ValueType_Model;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 
 namespace HanGao.ViewModel
 {
@@ -147,31 +150,36 @@ namespace HanGao.ViewModel
 
 
             //接收消息更新列表变量值,弃用
-            Messenger.Register<Socket_Modesl_Byte,string >(this, nameof(Meg_Value_Eunm.Socket_Read_List), (O, _Byte) =>
+            Messenger.Register<Socket_Models_List, string >(this, nameof(Meg_Value_Eunm.Socket_Read_List), (O, S) =>
             {
 
 
-                    for (int i = 0; i < Socket_Read_List.Count; i++)
-                    {
-
-                        if (Socket_Read_List[i].Val_ID == _Byte.Byte_ID && Socket_Read_List[i].Val_Var != _Byte.Message_Show)
-                        {
-                            Socket_Read_List[i].Val_Update_Time = DateTime.Now.ToLocalTime();
-                            Socket_Read_List[i].Val_Var = _Byte.Message_Show;
-                            //MessageBox.Show(Socket_Read_List[i].Val_Var);
-                            //把属于自己的区域回传
-                            Socket_Models_List a = Socket_Read_List[i];
+                 //Socket_Read_List.Where(l => l.Val_ID == S.Val_ID).FirstOrDefault().Val_Var=S.Val_Var;
+                //_List = S;
+                //_List.Val_Update_Time = DateTime.Now.ToLocalTime();
 
 
+                //for (int i = 0; i < Socket_Read_List.Count; i++)
+                //    {
 
-                            Messenger.Send<Socket_Models_List, string>(a, Socket_Read_List[i].Send_Area);
+                //        if (Socket_Read_List[i].Val_ID == _Byte.Byte_ID && Socket_Read_List[i].Val_Var != _Byte.Message_Show)
+                //        {
+                //            Socket_Read_List[i].Val_Update_Time = DateTime.Now.ToLocalTime();
+                //            Socket_Read_List[i].Val_Var = _Byte.Message_Show;
+                //            //MessageBox.Show(Socket_Read_List[i].Val_Var);
+                //            //把属于自己的区域回传
+                //            Socket_Models_List a = Socket_Read_List[i];
 
 
-                           return;
 
-                        }
+                //            Messenger.Send<Socket_Models_List, string>(a, Socket_Read_List[i].Send_Area);
 
-                    }
+
+                //           return;
+
+                //        }
+
+                //    }
 
             });
 
@@ -197,29 +205,35 @@ namespace HanGao.ViewModel
         /// 写入锁
         /// </summary>
         // public static ManualResetEvent Read_List_Lock = new ManualResetEvent(false );
-        public static ManualResetEvent List_Lock = new ManualResetEvent(false   );
-        public static ReaderWriterLockSlim Read_List = new ReaderWriterLockSlim();
+        //public static ManualResetEvent List_Lock { set; get; } = new ManualResetEvent(false   );
+        //public static ReaderWriterLockSlim Read_List { set; get; } = new ReaderWriterLockSlim();
 
 
-        public static ObservableCollection<Socket_Models_List> On_Read_List { set; get; } = new ObservableCollection<Socket_Models_List>(); 
-
+        public static ObservableCollection<Socket_Models_List> On_Read_List { set; get; } = new ObservableCollection<Socket_Models_List>();
 
         /// <summary>
         /// 读取库卡变量列表集合
         /// </summary>
-        private static  ObservableCollection<Socket_Models_List> _Socket_Read_List=new ObservableCollection<Socket_Models_List> ();
+        private   static ObservableCollection<Socket_Models_List> _Socket_Read_List=new ObservableCollection<Socket_Models_List> ();
 
-        public static  ObservableCollection<Socket_Models_List> Socket_Read_List
+        public  static ObservableCollection<Socket_Models_List> Socket_Read_List
         {
-            get 
+
+            get
             {
-                return _Socket_Read_List; 
+                return _Socket_Read_List;
             }
-            set 
+            set
             {
-                _Socket_Read_List =  value;
+                _Socket_Read_List = value;
+                //OnStaticPropertyChanged();
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Socket_Read_List)));
             }
         }
+
+        // 定义静态属性值变化事件 
+        public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
+
 
 
 
@@ -311,6 +325,7 @@ namespace HanGao.ViewModel
         }
 
 
+
         /// <summary>
         /// 变量名称枚举存放地方
         /// </summary>
@@ -320,8 +335,20 @@ namespace HanGao.ViewModel
             /// <summary>
             /// 围边工艺焊接尺寸
             /// </summary>
-            Surround_Welding_size,
+            N1_Sink_Data,
+            N2_Sink_Data,
 
+            /// <summary>
+            /// 机器速度
+            /// </summary>
+            [StringValue("$VEL.CP")]
+             VEL,
+
+            /// <summary>
+            /// 激光功率
+            /// </summary>
+            [StringValue("$ANOUT[1]")]
+            ANOUT_1,
 
             /// <summary>
             /// 程序解释器Submit状态
@@ -341,10 +368,20 @@ namespace HanGao.ViewModel
             //[StringValue("$"+nameof(MODE_OP)), UserArea(nameof(Meg_Value_Eunm.KUKA_State)), BingdingValue(nameof(KUKA_State_Models.KUKA_Mode_State), Value_Type.Enum, Binding_Type.OneWay)]
             //MODE_OP,
 
-            [StringValue("$POS_ACT"), UserArea(User_Control_Working_Path_VM.Work_String_Name)]
+
+            /// <summary>
+            /// 机器人Base当前位置
+            /// </summary>
+            [StringValue("$POS_ACT")]
             POS_ACT,
+            /// <summary>
+            /// 工具选定号数
+            /// </summary>
             [StringValue("$ACT_TOOL"), UserArea(User_Control_Working_Path_VM.Work_String_Name)]
             ACT_TOOL,
+            /// <summary>
+            /// 基坐标号数
+            /// </summary>
             [StringValue("$ACT_BASE"), UserArea(User_Control_Working_Path_VM.Work_String_Name)]
             ACT_BASE,
 
@@ -360,17 +397,6 @@ namespace HanGao.ViewModel
             /// </summary>
             [StringValue("$PERI_RDY"), UserArea(nameof(Meg_Value_Eunm.KUKA_State)), BingdingValue(nameof(KUKA_State_Models.KUKA_Drive_State), Value_Type.Bool, Binding_Type.OneWay)]
             PERI_RDY,
-
-
-
-            //[StringValue("$Run_Work_1"), UserArea(User_Control_Working_VM_1.Work_String_Name), BingdingValue("Work_Run", Value_Type.Bool, Binding_Type.TwoWay)]
-            //Run_Work_1,
-            //[StringValue("$Run_Work_2"), UserArea(User_Control_Working_VM_2.Work_String_Name), BingdingValue("Work_Run", Value_Type.Bool, Binding_Type.TwoWay)]
-            //Run_Work_2,
-            //[StringValue("$My_Work_1"), UserArea(User_Control_Working_VM_1.Work_String_Name), BingdingValue("Work_Type", Value_Type.String, Binding_Type.OneWay)]
-            //My_Work_1,
-            //[StringValue("$My_Work_2"), UserArea(User_Control_Working_VM_2.Work_String_Name), BingdingValue("Work_Type", Value_Type.String, Binding_Type.OneWay)]
-            //My_Work_2,
 
 
             /// <summary>

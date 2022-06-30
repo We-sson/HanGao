@@ -157,8 +157,22 @@ namespace Soceket_Connect
         /// </summary>
         private  IPEndPoint IP { set; get; }
 
-
-        public enum Socket_Client_Type { Synchronized, Asynchronous,Thread }
+        /// <summary>
+        /// Socket连接
+        /// </summary>
+        public enum Socket_Client_Type {
+            /// <summary>
+            /// 同步连接
+            /// </summary>
+            Synchronized, 
+            /// <summary>
+            /// 异步连接
+            /// </summary>
+            Asynchronous,
+            /// <summary>
+            /// 多线程连接
+            /// </summary>
+            Thread }
 
 
 
@@ -524,24 +538,33 @@ namespace Soceket_Connect
     
                     _Receive.Reveice_Inf.Val_Var = Socket_KUKA_Receive.Receive_Byte.Message_Show;
 
-                        //Socket_Models_List _List = Socket_Read_List.Where<Socket_Models_List>(l => l.Val_ID == _Receive.Reveice_Target_Inf.Val_ID).FirstOrDefault();
-                        //_List.Val_Update_Time = DateTime.Now.ToLocalTime();
-                        //_List.Val_Var= _Byte.Message_Show;
-                    if (_Receive.Reveice_Inf.Send_Area !="" )
+
+
+
+                    //_List.Val_Update_Time = DateTime.Now.ToLocalTime();
+                    //_List.Val_Var = _Receive.Reveice_Inf.Val_Var;
+                    //_List.Val_Var = _Byte.Message_Show;
+                    if (_Receive.Reveice_Inf.Send_Area =="" )
                     {
 
-
+                        //MessageBox.Show(_Receive.Reveice_Inf.Val_Var.ToString());
+                        Messenger.Send<Socket_Models_List, string>(_Receive.Reveice_Inf, nameof(Meg_Value_Eunm.Socket_Read_List));
 
                         //Task.Run(async () =>
                         //{
 
                         //    await Task.Delay(0);
 
-                        Messenger.Send<Socket_Models_List, string>(_Receive.Reveice_Inf, _Receive.Reveice_Inf.Send_Area);
 
                         //});
 
 
+                    }
+                    else 
+                    {
+                    
+                        Messenger.Send<Socket_Models_List, string>(_Receive.Reveice_Inf, _Receive.Reveice_Inf.Send_Area);
+                    
                     }
 
 
@@ -816,7 +839,7 @@ namespace Soceket_Connect
         /// 读取变量循环方法
         /// </summary>
         /// <param name="Sml"></param>
-        public void Loop_Real_Send(ObservableCollection<Socket_Models_List> Sml)
+        public void Loop_Real_Send()
         {
             //加锁
             lock (Socket_KUKA_Receive)
@@ -827,7 +850,7 @@ namespace Soceket_Connect
 
                 //Messenger.Send<dynamic, string>(0, nameof(Meg_Value_Eunm.Connect_Client_Socketing_Button_Show));
 
-                Socket_Client_Thread(Socket_Client_Type.Asynchronous, Read_Write_Enum.One_Read, Socket_Client_Setup.IP, Socket_Client_Setup.Port);
+                Socket_Client_Thread(Socket_Client_Type.Synchronized, Read_Write_Enum.One_Read, Socket_Client_Setup.IP, Socket_Client_Setup.Port);
 
                 Messenger.Send<dynamic, string>(false, nameof(Meg_Value_Eunm.Connect_Client_Button_IsEnabled));
                 do
@@ -838,12 +861,12 @@ namespace Soceket_Connect
 
 
                     //发生集合内的对象
-                    for (int i = 0; i < Sml.Count; i++)
+                    for (int i = 0; i < Socket_Read_List.Count; i++)
                     {
 
 
 
-                        Socket_KUKA_Receive = new Socket_Models_Receive() { Send_Byte = Read_Var_To_Byte(Sml[i]), Read_Write_Type = Read_Write_Enum.One_Read, Reveice_Inf = Sml[i] };
+                        Socket_KUKA_Receive = new Socket_Models_Receive() { Send_Byte = Read_Var_To_Byte(Socket_Read_List[i]), Read_Write_Type = Read_Write_Enum.One_Read, Reveice_Inf = Socket_Read_List[i] };
 
                         Socket_Send_Message_Method(Socket_KUKA_Receive);
 

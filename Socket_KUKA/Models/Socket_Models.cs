@@ -26,37 +26,40 @@ namespace Soceket_KUKA.Models
 
 
 
-    [AddINotifyPropertyChangedInterface]
-    public class Socket_Models_Send : ObservableObject
-    {
+    //public class Socket_Models_Send : ObservableObject
+    //{
 
 
 
-        /// <summary>
-        /// 发送字节组属性
-        /// </summary>
-        public byte[] Send_Byte { set; get; }= Array.Empty<byte>();
+    //    /// <summary>
+    //    /// 发送字节组属性
+    //    /// </summary>
+    //    public byte[] Send_Byte { set; get; }= Array.Empty<byte>();
 
 
 
-        /// <summary>
-        /// 读取写入属性
-        /// </summary>
-        public Read_Write_Enum Read_Write_Type { set; get; } = Read_Write_Enum.Null;
+    //    /// <summary>
+    //    /// 读取写入属性
+    //    /// </summary>
+    //    public Read_Write_Enum Read_Write_Type { set; get; } = Read_Write_Enum.Null;
 
 
 
-    }
+    //}
 
-    [AddINotifyPropertyChangedInterface]
     public class Socket_Models_Receive : ObservableObject
     {
 
 
-
+        /// <summary>
+        /// 接收变量基本信息
+        /// </summary>
         public Socket_Models_List Reveice_Inf { set; get; }
 
-        public Socket_Modesl_Byte Receive_Byte=new Socket_Modesl_Byte();
+        /// <summary>
+        /// 接收字节原数据
+        /// </summary>
+        public Socket_Modesl_Byte Receive_Byte { set; get; } =new Socket_Modesl_Byte();
 
 
         /// <summary>
@@ -93,17 +96,18 @@ namespace Soceket_KUKA.Models
 
 
 
-        /// <summary>
-        /// 长短连接枚举属性
-        /// </summary>
-        public enum Connect_Type {Null=-1 ,Long,Short };
+        ///// <summary>
+        ///// 长短连接枚举属性
+        ///// </summary>
+        //public enum Connect_Type {Null=-1 ,Long,Short };
 
 
     }
 
 
 
-    public class Socket_Models_List 
+    [AddINotifyPropertyChangedInterface]
+    public class Socket_Models_List
     {
 
             /// <summary>

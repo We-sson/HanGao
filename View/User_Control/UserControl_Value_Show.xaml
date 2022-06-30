@@ -23,7 +23,7 @@
 
 
                 <ListView Grid.Row="0"
-                          ItemsSource="{Binding Socket_Read_List}"
+                          ItemsSource="{Binding Socket_Read_List, Mode=TwoWay}"
                           DataContext="{Binding Source={StaticResource Locator}, Path=Socket_Var_Show}">
                     <ListView.View>
                         <GridView AllowsColumnReorder="False">
@@ -38,7 +38,7 @@
                                 </GridViewColumn.Header>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <CheckBox IsChecked="{Binding Val_OnOff}"
+                                        <CheckBox IsChecked="{Binding Val_OnOff, Mode=TwoWay}"
                                                   HorizontalAlignment="Stretch"
                                                   VerticalAlignment="Stretch"
                                                   HorizontalContentAlignment="Center"
@@ -53,7 +53,7 @@
                             <GridViewColumn Width="auto" Header="ID">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Val_ID}"
+                                        <TextBlock Text="{Binding Val_ID, Mode=TwoWay}"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center" />
                                     </DataTemplate>
@@ -62,23 +62,23 @@
                             <GridViewColumn Width="auto" Header="变量名">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Val_Name}" HorizontalAlignment="Stretch" />
+                                        <TextBlock Text="{Binding Val_Name, Mode=TwoWay}" HorizontalAlignment="Stretch" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="300"
                                             Header="读取值"
-                                            DisplayMemberBinding="{Binding Val_Var}">
+                                            DisplayMemberBinding="{Binding Val_Var, Mode=TwoWay}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Val_Var}" HorizontalAlignment="Center" />
+                                        <TextBlock Text="{Binding Val_Var, Mode=TwoWay}" HorizontalAlignment="Center" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="auto" Header="更新时间">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Val_Update_Time, StringFormat={}{0:HH:mm:ss}}"
+                                        <TextBlock Text="{Binding Val_Update_Time, Mode=TwoWay, StringFormat={}{0:HH:mm:ss}}"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center" />
                                     </DataTemplate>
@@ -90,7 +90,7 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <CheckBox Content="开启" IsChecked="{Binding Val_OnOff}" />
+                                <CheckBox Content="开启" IsChecked="{Binding Val_OnOff, Mode=TwoWay}" />
                             </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>

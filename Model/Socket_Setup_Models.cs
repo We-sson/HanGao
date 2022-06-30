@@ -211,7 +211,7 @@ namespace HanGao.Model
 
 
 
-                                  Socket_Client_Setup .Read.Loop_Real_Send(Socket_Read_List);
+                                  Socket_Client_Setup .Read.Loop_Real_Send();
 
 
 

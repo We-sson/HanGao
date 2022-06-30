@@ -164,7 +164,7 @@ namespace HanGao.Xml_Date.Xml_Models
     /// <summary>
     /// 围边工艺
     /// </summary>
-
+    [AddINotifyPropertyChangedInterface]
     public class Xml_Craft_Date
     {
         [XmlAttribute]
