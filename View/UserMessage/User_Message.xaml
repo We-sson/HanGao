@@ -84,7 +84,7 @@
             </Grid>
 
             <Grid Grid.Row="2" ShowGridLines="False">
-                <TextBlock Text="是否确定替换该型号"
+                <TextBlock Text="{Binding List_Show_Models.Message_title, TargetNullValue=消息标题, StringFormat={}{0}?}"
                            Margin="0,-20,0,0"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Top"

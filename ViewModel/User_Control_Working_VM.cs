@@ -149,6 +149,12 @@ namespace HanGao.ViewModel
 
                 }
             });
+
+
+
+
+
+
         }
 
         public Working_Area_Data UC_Working_VM_N1 { get; set; } = new Working_Area_Data() {  Working_Area_UI =new Working_Area_UI_Model() {  Work_NO= Work_No_Enum.N1}  };

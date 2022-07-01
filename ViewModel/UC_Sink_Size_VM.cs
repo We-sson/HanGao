@@ -5,6 +5,8 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Nancy.Helpers;
 using PropertyChanged;
 using System;
+using System.Linq;
+
 using System.ComponentModel;
 using System.Threading;
 using System.Windows.Input;
@@ -14,6 +16,11 @@ using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using Microsoft.Toolkit.Mvvm.Messaging.Messages;
 using System.Windows.Controls;
 using static HanGao.Model.SInk_UI_Models;
+using HanGao.Xml_Date.Xml_Write_Read;
+using HanGao.Xml_Date.Xml_Models;
+using System.Windows;
+using HanGao.View.UserMessage;
+using static HanGao.Model.List_Show_Models;
 
 namespace HanGao.ViewModel
 {
@@ -189,37 +196,45 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 传送用户设置好的参数
         /// </summary>
-        public ICommand Sink_Craft_Set_Comm
+        public ICommand Sink_Craft_Delete_Comm
         {
             get => new RelayCommand<UC_Sink_Size>((Sm) =>
             {
 
 
-    
+                //读取列表中
+                Xml_Sink_Model b= XML_Write_Read.Sink_Date.Sink_List.FirstOrDefault(X => X.Sink_Model == int.Parse(Sm.Sink_Name.Text));
+                Sink_Models a =  List_Show.SinkModels.FirstOrDefault(X => X.Sink_Process.Sink_Model == int.Parse(Sm.Sink_Name.Text));
 
 
-                ////水槽尺寸
-                //Sink_Size_Value.Sink_Process.Sink_Size_Long = double.Parse(Sm.Sink_Long.Text);
-                //Sink_Size_Value.Sink_Process.Sink_Size_Width = double.Parse(Sm.Sink_Width.Text);
-                //Sink_Size_Value.Sink_Process.Sink_Size_Short_Side = double.Parse(Sm.Sink_Short.Text);
-                //Sink_Size_Value.Sink_Process.Sink_Size_Panel_Thick = double.Parse(Sm.Sink_Panel.Text);
-                //Sink_Size_Value.Sink_Process.Sink_Size_Pots_Thick = double.Parse(Sm.Sink_Pots.Text);
-                //Sink_Size_Value.Sink_Process.Sink_Size_R = double.Parse(Sm.Sink_R.Text);
-                //Sink_Size_Value.Sink_Process.Sink_Size_Down_Distance = double.Parse(Sm.Sink_Down_Distance.Text);
-                //Sink_Size_Value.Sink_Process.Sink_Size_Left_Distance = double.Parse(Sm.Sink_Left_Distance.Text);
+                //弹窗显示用户选择
+                Messenger.Send<UserControl, string>(new User_Message()
+                {
+                    DataContext = new User_Message_ViewModel()
+                    {
+                        List_Show_Models = new List_Show_Models()
+                        {
+                           
+                            List_Show_Bool = Visibility.Visible,
+                            List_Show_Name = Sm.Sink_Name.Text,
+                             Message_title= Message_Type.是否确定删除该型号.ToString(),
+                            GetUser_Select = Val =>
+                            {
+                                if (Val)
+                                {
+                               
+                                    //删除UI水槽列表数据
+                                    List_Show.SinkModels.Remove(List_Show.SinkModels.FirstOrDefault(X => X.Sink_Process.Sink_Model == int.Parse(Sm.Sink_Name.Text)));
+                                    XML_Write_Read.Sink_Date.Sink_List.Remove(XML_Write_Read.Sink_Date.Sink_List.FirstOrDefault(X => X.Sink_Model == int.Parse(Sm.Sink_Name.Text)));
 
+                                    //保存文件
+                                    XML_Write_Read.Save_Xml();
 
-
-
-                ////水槽类型
-                //Sink_Size_Value.Sink_Type = Sink_Type_OK;
-
-
-                ////发送水槽修改好属性
-                //Messenger.Send<Sink_Models, string>(Sink_Size_Value, nameof(Meg_Value_Eunm.Sink_Value_All_OK));
-
-
-
+                                }
+                            }
+                        }
+                    }
+                }, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
 
             });
         }

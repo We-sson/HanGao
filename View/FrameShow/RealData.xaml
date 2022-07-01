@@ -8,24 +8,30 @@
              d:DesignWidth="800"
              mc:Ignorable="d">
 
-    <Grid ShowGridLines="True" Background="Transparent">
-        <TextBlock Text="实时数据"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   FontSize="40"
-                   Foreground="White" />
+    <Grid>
+        <CheckBox Name="PCheckBox"
+                  Content="Checked Me"
+                  MaxWidth=" 100"
+                  MaxHeight="50"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center" />
+        <Popup IsOpen="{Binding ElementName=PCheckBox, Path=IsChecked}"
+               PlacementTarget="{Binding ElementName=PCheckBox}"
+               AllowsTransparency="True"
+               StaysOpen="False"
+               PopupAnimation="Slide">
 
-        <Expander Name="myExpander"
-                  Width="500"
-                  HorizontalAlignment="Left"
-                  Header="My Expander"
-                  ExpandDirection="Down"
-                  IsExpanded="True">
-            <TextBlock TextWrapping="Wrap" Background="Wheat">
-                Lorem ipsum dolor sit amet, consectetur
-                adipisicing elit, sed do eiusmod tempor incididunt ut
-                labore et dolore magna aliqua
-            </TextBlock>
-        </Expander>
+            <Canvas Width="125"
+                    Height="100"
+                    Background="LightGray">
+                <Canvas.RenderTransform>
+                    <RotateTransform x:Name="theTransform" />
+                </Canvas.RenderTransform>
+                <TextBlock Text="Hi, this is Popup"
+                           TextWrapping="Wrap"
+                           Foreground="Blue" />
+            </Canvas>
+
+        </Popup>
     </Grid>
 </UserControl>

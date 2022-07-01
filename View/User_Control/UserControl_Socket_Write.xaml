@@ -23,7 +23,7 @@
 
 
 
-        <GroupBox Style="{StaticResource GroupBox_Grid_Effect}">
+        <Grid>
 
 
             <StackPanel>
@@ -145,7 +145,7 @@
                     </Button>
 
 
-                    <Button Style="{StaticResource ButtonStyle3}" Grid.Column="1"
+                    <Button Style="{DynamicResource ButtonStyle3}" Grid.Column="1"
                             Content="清除"
                             FontSize="25"
                             Background="#F4D160">
@@ -164,7 +164,7 @@
 
 
 
-        </GroupBox>
+        </Grid>
 
     </Grid>
 </UserControl>

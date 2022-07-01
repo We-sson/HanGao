@@ -90,7 +90,7 @@
                 FontSize="20">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Click">
-                    <i:InvokeCommandAction Command="{Binding Sink_Craft_Set_Comm}"
+                    <i:InvokeCommandAction Command="{Binding Sink_Craft_Delete_Comm}"
                                            CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UC_Sink_Size}}}"
                                            PassEventArgsToCommand="True" />
                 </i:EventTrigger>

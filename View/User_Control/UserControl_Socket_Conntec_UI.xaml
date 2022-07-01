@@ -10,9 +10,7 @@
              DataContext="{Binding Source={StaticResource Locator}, Path=Socket_Setup.Socket_Client_Setup}"
              mc:Ignorable="d">
     <Grid>
-        <GroupBox Style="{StaticResource GroupBox_Grid_Effect}"
-                  VerticalAlignment="Top"
-                  Background="White">
+        <Grid VerticalAlignment="Top" Background="White">
 
             <StackPanel>
 
@@ -209,7 +207,7 @@
 
             </StackPanel>
 
-        </GroupBox>
+        </Grid>
 
     </Grid>
 </UserControl>

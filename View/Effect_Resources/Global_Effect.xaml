@@ -9,10 +9,10 @@
 
     <!--  全局字体阴影  -->
     <DropShadowEffect x:Key="全局_字体_阴影样式"
-                      ShadowDepth="0"
-                      BlurRadius="3"
-                      Direction="270"
-                      Opacity="0.6" />
+                      BlurRadius="12"
+                      Direction="-90"
+                      ShadowDepth="2"
+                      Opacity="0.2" />
 
     <!--  全局图标路径  -->
     <FontFamily x:Key="全局_图标库">
@@ -95,10 +95,10 @@
 
 
     <DropShadowEffect x:Key="全局背景阴影"
-                      BlurRadius="20"
+                      BlurRadius="12"
                       Direction="-90"
-                      ShadowDepth="5"
-                      Opacity="0.4" />
+                      ShadowDepth="2"
+                      Opacity="0.2" />
 
     <!--  全局Grid背景模糊样式  -->
     <Style x:Key="Gd_Effect" TargetType="{x:Type Grid}">

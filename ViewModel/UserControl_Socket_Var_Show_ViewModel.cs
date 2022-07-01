@@ -59,7 +59,7 @@ namespace HanGao.ViewModel
             {
                 if (_Bool)
                 {
-
+                  
                     foreach (var List in Socket_Read_List)
                     {
                         List.Val_Var = string.Empty;

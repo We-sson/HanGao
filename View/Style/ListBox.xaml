@@ -292,7 +292,7 @@
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Stretch"
                                       BorderThickness="1.5"
-                                      BorderBrush="#FFC947">
+                                      BorderBrush="#B9CBEA">
 
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Click">
@@ -329,7 +329,7 @@
                                     Margin="0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
-                                    Background="#ECD662">
+                                    Background="#9BACCA">
                                 <Button.Content>
                                     <TextBlock Text="&#xe708;"
                                                HorizontalAlignment="Center"
@@ -359,7 +359,7 @@
                                       HorizontalAlignment="Stretch"
                                       VerticalAlignment="Stretch"
                                       BorderThickness="1.5"
-                                      BorderBrush="#FFC947">
+                                      BorderBrush="#B9CBEA">
 
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Click">
@@ -396,7 +396,7 @@
                                     Margin="0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
-                                    Background="#ECD662">
+                                    Background="#9BACCA">
                                 <Button.Content>
                                     <TextBlock Text="&#xe708;"
                                                HorizontalAlignment="Center"

@@ -4,7 +4,7 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:Pop="clr-namespace:HanGao.View.User_Control.Pop_Ups"
+             xmlns:Pop="clr-namespace:HanGao.View.User_Control.Pop_Ups" DataContext="{Binding Source={StaticResource Locator}, Path=UC_Pop_Ups_VM}"
              xmlns:Converters="clr-namespace:Nicenis.Windows.Data.Converters;assembly=Nicenis"
              mc:Ignorable="d">
     <UserControl.Resources>
@@ -12,10 +12,7 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
 
-    <UserControl.DataContext>
-        <Binding Path="UC_Pop_Ups_VM"
-                 Source="{StaticResource Locator}" />
-    </UserControl.DataContext>
+
 
     <Grid>
         <!--  背景遮挡  -->

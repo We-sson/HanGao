@@ -28,7 +28,6 @@ namespace HanGao.ViewModel
 
 
 
-
             ////接收用户输入号的水槽尺寸属性
             //Messenger.Register<Sink_Models,string >(this, nameof(Meg_Value_Eunm.Sink_Size_Value_OK), (O,_S) =>
             // {
@@ -52,7 +51,7 @@ namespace HanGao.ViewModel
             {
 
 
-                Pop_Show((RadioButton_Name)_E);
+                //Pop_Show((RadioButton_Name)_E);
 
             });
 
@@ -88,7 +87,7 @@ namespace HanGao.ViewModel
 
 
 
-        private bool _Sink_Type_Checked ;
+        private bool _Sink_Type_Checked =true;
         public bool Sink_Type_Checked
         {
             set
@@ -119,7 +118,7 @@ namespace HanGao.ViewModel
         }
 
 
-        private bool _Sink_Craft_Checked = true;
+        private bool _Sink_Craft_Checked;
         public bool Sink_Craft_Checked
         {
             set

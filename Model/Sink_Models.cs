@@ -14,6 +14,7 @@ using static HanGao.ViewModel.UC_Surround_Direction_VM;
 
 namespace HanGao.Model
 {
+    [AddINotifyPropertyChangedInterface]
     public class Sink_Models : ObservableRecipient
     {
 

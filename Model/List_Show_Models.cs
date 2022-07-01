@@ -44,6 +44,14 @@ namespace HanGao.Model
         public Sink_Models Model { set; get; } = new Sink_Models( );
 
 
+        public string Message_title { set; get; }
+
+        public enum Message_Type
+        {
+            是否确定替换该型号,
+            是否确定删除该型号
+        }
+
         //委托方法
         public delegate void GetUser_Select_Method(bool Value2);
         public GetUser_Select_Method GetUser_Select { set; get; }

@@ -52,53 +52,85 @@
                     <RowDefinition Height=" 80" />
                 </Grid.RowDefinitions>
 
-                <Border x:Name="bd2" Grid.Row="1"
-                        Height=" 50"
-                        Margin="0,0,15,15"
-                        VerticalAlignment="Bottom"
-                        Effect="{StaticResource 全局背景阴影}"
-                        Background="#F6F6F6"
-                        CornerRadius="10,10,10,10"
-                        BorderThickness="0"
-                        BorderBrush="Black">
 
 
-                    <Grid Grid.Row="1">
 
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.2*" />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock x:Name="Tt2" Grid.Column="0"
-                                   Text="&#xe6e5;"
+
+
+                <Grid Grid.Row="1">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+
+
+                    <Border x:Name="bd2" Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Height=" 50"
+                            Margin="0,0,0,15"
+                            VerticalAlignment="Bottom"
+                            Effect="{StaticResource 全局背景阴影}"
+                            Background="#F6F6F6"
+                            CornerRadius="10,10,10,10"
+                            BorderThickness="0"
+                            BorderBrush="Black" />
+
+
+                    <TextBlock x:Name="Tt2" Grid.Column="0"
+                               Text="&#xe6e5;"
+                               Margin="0,0,0,0"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Foreground="Black"
+                               FontSize="25"
+                               FontFamily="/Resources/#iconfont" />
+
+                    <TextBox x:Name="Tt1" Grid.Column="1"
+                             MaxLength="10"
+                             VerticalAlignment="Center"
+                             DataContext="{Binding Source={StaticResource Locator}, Path=List_Show}"
+                             FontSize="25"
+                             Background="Transparent"
+                             BorderThickness="0"
+                             TextAlignment="Left">
+                        <TextBox.Triggers />
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="TextChanged" SourceName="Tt1">
+                                <i:InvokeCommandAction Command="{Binding Find_List_event}" CommandParameter="{Binding ElementName=Tt1, Path=Text}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBox>
+
+                    <Button Style="{DynamicResource ButtonStyle3}" Grid.Column="2"
+                            Width=" 50"
+                            Height=" 50"
+                            Margin="5,0,5,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Stretch"
+                            Background="#6F7788">
+                        <TextBlock Grid.Column="0"
+                                   Text="&#xe639;"
                                    Margin="0,0,0,0"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   Foreground="Black"
+                                   Foreground="White"
                                    FontSize="25"
                                    FontFamily="/Resources/#iconfont" />
 
-                        <TextBox Style="{StaticResource TextBoxStyle1}" x:Name="Tt1" Grid.Column="1"
-                                 MaxLength="10"
-                                 VerticalContentAlignment="Center"
-                                 Tag="搜索型号"
-                                 DataContext="{Binding Source={StaticResource Locator}, Path=List_Show}"
-                                 FontSize="25"
-                                 Background="Transparent"
-                                 BorderThickness="0"
-                                 TextAlignment="Center">
-                            <TextBox.Triggers />
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="TextChanged" SourceName="Tt1">
-                                    <i:InvokeCommandAction Command="{Binding Find_List_event}" CommandParameter="{Binding ElementName=Tt1, Path=Text}" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
 
-                        </TextBox>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding Sink_Data_Add_Comm}"
+                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                       PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                </Grid>
 
-                    </Grid>
 
-                </Border>
 
                 <ListBox Style="{StaticResource ListBoxStyle1}" x:Name="LB1" Grid.Row="0"
                          HorizontalContentAlignment="Center"

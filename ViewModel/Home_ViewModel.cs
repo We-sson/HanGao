@@ -122,6 +122,31 @@ namespace HanGao.ViewModel
 
         }
 
+        public ICommand Sink_Data_Add_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+
+
+                User_Control_Show.User_UserControl = new UC_Pop_Ups() { DataContext = new UC_Pop_Ups_VM() { } };
+
+
+
+
+                //打开显示弹窗首页面
+                Messenger.Send<dynamic, string>(RadioButton_Name.水槽类型选择, nameof(Meg_Value_Eunm.Pop_Sink_Show));
+
+
+
+
+
+
+
+
+            });
+
+
+        }
 
 
 

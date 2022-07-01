@@ -10,6 +10,7 @@ using HanGao.Extension_Method;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -26,6 +27,8 @@ using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
 using HanGao.Xml_Date.Xml_Models;
 using System.Reflection;
 using static HanGao.Model.User_Read_Xml_Model;
+using System.Collections.Generic;
+using static HanGao.Model.List_Show_Models;
 
 namespace HanGao.ViewModel
 {
@@ -51,30 +54,7 @@ namespace HanGao.ViewModel
                 //查找修改对象类型属性
                 for (int i = 0; i < SinkModels.Count; i++)
                 {
-                    //if (SinkModels[i].Sink_Model==S.Sink_Model)
-                    //{
-                    //    SinkModels[i] = S;
-                    //    foreach (var item in XML_Write_Read.Sink_Date.Sink_List)
-                    //    {
-                    //        if (item.Sink_Model == S.Sink_Model)
-                    //        {
-                    //            item.Sink_Type = S.Sink_Type;
-                    //            item.Sink_Size_Long = S.Sink_Process.Sink_Size_Long;
-                    //            item.Sink_Size_Width = S.Sink_Process.Sink_Size_Width;
-                    //            item.Sink_Size_R = S.Sink_Process.Sink_Size_R;
-                    //            item.Sink_Size_Pots_Thick = S.Sink_Process.Sink_Size_Pots_Thick;
-                    //            item.Sink_Size_Panel_Thick = S.Sink_Process.Sink_Size_Panel_Thick;
-                    //            item.Sink_Size_Down_Distance = S.Sink_Process.Sink_Size_Down_Distance;
-                    //            item.Sink_Size_Left_Distance = S.Sink_Process.Sink_Size_Left_Distance;
 
-
-                    //        }
-
-
-
-                    //    }
-                    //}
-                    
 
                 }
 
@@ -91,43 +71,6 @@ namespace HanGao.ViewModel
             Messenger.Register<List_Show_Models,string >(this, nameof(Meg_Value_Eunm.List_IsCheck_Show), (O,_List) =>
             {
 
-                //foreach (var item in SinkModels)
-                //{ 
-                //    if (item.Sink_Model.ToString() == _List.List_Show_Name)
-                //    {
-                //        if (_List.User_Check == "Yes")
-                //        {
-                         
-                //            //传输确定更换型号的参数到控件显示
-                //            var aa = Meg_Value_Eunm.UI_Work_No + _List.List_Chick_NO;
-                //            Messenger.Send<Sink_Models,string>(_List.Model, aa);
-
-                //            //清楚非选择控件
-                //            foreach (var SinkModel in SinkModels)
-                //            {
-                //                if (SinkModel.Sink_Model.ToString() != _List.List_Show_Name)
-                //                {
-                //                    SinkModel.GetType().GetProperty("List_IsChecked_" + _List.List_Chick_NO).SetValue(SinkModel, false);
-
-                //                }
-                //            }
-
-
-                //        }
-                //        else if (_List.User_Check == "No")
-                //        {
-
-                //            // 清除控件选定
-                //            item.GetType().GetProperty("List_IsChecked_" + _List.List_Chick_NO).SetValue(item, false);
-
-                //        }
-
-                //        //关闭弹窗
-                //        Messenger.Send<UserControl,string >(null, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
-
-                //    }
-
-                //}
 
             });
 
@@ -258,7 +201,7 @@ namespace HanGao.ViewModel
 
 
                   //打开显示弹窗首页面
-                  Messenger.Send<dynamic, string>(RadioButton_Name.水槽类型选择,nameof(Meg_Value_Eunm.Pop_Sink_Show));
+                  //Messenger.Send<dynamic, string>(RadioButton_Name.水槽类型选择,nameof(Meg_Value_Eunm.Pop_Sink_Show));
 
            
 
@@ -335,8 +278,8 @@ namespace HanGao.ViewModel
                                         {
                                             List_Chick_NO = User_Area.ToString(),
                                             List_Show_Bool = Visibility.Visible,
-                                            List_Show_Name = S.Sink_Process.Sink_Model.ToString()
-                                        ,
+                                            List_Show_Name = S.Sink_Process.Sink_Model.ToString(),
+                                         Message_title= Message_Type.是否确定替换该型号.ToString(),
                                             GetUser_Select = Val =>
                                             {
                                                 if (Val)
@@ -419,7 +362,7 @@ namespace HanGao.ViewModel
         /// 水槽尺寸工艺数据写入库卡变量中
         /// </summary>
         /// <param name="Val1"></param>
-        public void WriteToKuKa_SinkVal(  CheckBox e , Work_No_Enum User_Area) 
+        public void WriteToKuKa_SinkVal(  ) 
         {
 
 
