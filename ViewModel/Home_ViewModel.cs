@@ -134,7 +134,7 @@ namespace HanGao.ViewModel
 
 
                 //打开显示弹窗首页面
-                Messenger.Send<dynamic, string>(RadioButton_Name.水槽类型选择, nameof(Meg_Value_Eunm.Pop_Sink_Show));
+                //Messenger.Send<dynamic, string>(RadioButton_Name.水槽类型选择, nameof(Meg_Value_Eunm.Pop_Sink_Show));
 
 
 

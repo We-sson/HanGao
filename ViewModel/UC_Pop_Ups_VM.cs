@@ -82,7 +82,11 @@ namespace HanGao.ViewModel
 
 
 
+        public UserControl UC_Sink_Type { set; get; } = new UC_Sink_Type();
 
+        public UserControl UC_Sink_Size { set; get; } = new UC_Sink_Size();
+
+        public UserControl UC_Sink_Craft_List { set; get; } = new UC_Sink_Craft_List();
 
 
 
