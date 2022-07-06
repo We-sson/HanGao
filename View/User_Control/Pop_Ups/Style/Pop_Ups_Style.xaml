@@ -95,17 +95,15 @@
         <Setter Property="BorderBrush" Value="{StaticResource RadioButton.Static.Border}" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Width" Value="250" />
-        <Setter Property="Height" Value="280" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-
-
-        <Setter Property="Margin" Value="10" />
+        <Setter Property="Padding" Value="10" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RadioButton}">
-                    <Grid x:Name="templateRoot" SnapsToDevicePixels="True">
+                    <Grid x:Name="templateRoot"
+                          SnapsToDevicePixels="True"
+                          ShowGridLines="False">
 
                         <Grid.RowDefinitions>
                             <RowDefinition />
@@ -119,7 +117,7 @@
                                 BorderThickness="0"
                                 CornerRadius="10"
                                 Visibility="Visible"
-                                Background="{TemplateBinding Background}"
+                                Background="Transparent"
                                 RenderTransformOrigin="0.5,0.5"
                                 BorderBrush="{TemplateBinding BorderBrush}" />
 
@@ -130,7 +128,7 @@
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                           Focusable="False"
-                                          Opacity=" 0.3"
+                                          Opacity=" 0.5"
                                           RecognizesAccessKey="True"
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                     </Grid>
@@ -161,18 +159,9 @@
                         </Trigger>
                         <Trigger Property="IsChecked" Value="true">
 
-                            <Setter TargetName="optionMark" Property="BorderThickness" Value="0" />
 
-                            <Setter TargetName="optionMark" Property="Effect">
-                                <Setter.Value>
-                                    <DropShadowEffect BlurRadius="50"
-                                                      Direction="-90"
-                                                      ShadowDepth="3"
-                                                      Opacity="0.3"
-                                                      Color="#FF4B6587" />
-
-                                </Setter.Value>
-                            </Setter>
+                            <Setter TargetName="optionMark" Property="Background" Value="#e6e6e6" />
+                            <Setter TargetName="optionMark" Property="Effect" Value="{DynamicResource 全局背景阴影}" />
                             <Setter TargetName="contentPresenter" Property="Opacity" Value="1" />
                             <!--<Setter TargetName="optionMark" Property="Visibility" Value="Visible" />
                             <Setter TargetName="contentPresenter" Property="Opacity" Value="1" />
@@ -194,8 +183,8 @@
         <Setter Property="Background" Value="#dddddd" />
         <Setter Property="BorderBrush" Value="Gray" />
         <Setter Property="Foreground" Value="#4B6587" />
-        <Setter Property="BorderThickness" Value="3" />
-        <Setter Property="MaxLength" Value="5" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="MaxLength" Value="8" />
         <Setter Property="FontSize" Value="20" />
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
         <Setter Property="Width" Value="auto" />
@@ -215,7 +204,7 @@
 
 
                     <Border x:Name="border"
-                            CornerRadius="6"
+                            CornerRadius="4"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Background="{TemplateBinding Background}"
@@ -224,11 +213,12 @@
 
                         <Grid Width="240"
                               Margin="2"
-                              HorizontalAlignment="Stretch">
+                              HorizontalAlignment="Stretch"
+                              ShowGridLines="False">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto" />
                                 <ColumnDefinition Width="1*" />
-                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition MaxWidth="50" />
                             </Grid.ColumnDefinitions>
 
 
@@ -236,7 +226,7 @@
 
                             <TextBlock Grid.Column="0"
                                        Text="{TemplateBinding Tag}"
-                                       Margin="3"
+                                       Margin="8,3,3,3"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        FontFamily="{TemplateBinding FontFamily}"
@@ -244,19 +234,26 @@
                                        FontSize="{TemplateBinding FontSize}" />
                             <ScrollViewer x:Name="PART_ContentHost" Grid.Column="1"
                                           Margin="3"
-                                          HorizontalAlignment="Stretch"
+                                          HorizontalAlignment="Right"
                                           VerticalAlignment="Stretch"
                                           Focusable="True"
                                           HorizontalScrollBarVisibility="Hidden"
                                           VerticalScrollBarVisibility="Hidden" />
-                            <TextBlock Grid.Column="2"
-                                       Text="mm"
-                                       Margin="0"
+                            <TextBlock x:Name="Tb2" Grid.Column="2"
+                                       Text="{TemplateBinding Uid}"
+                                       Margin="0,0,3,0"
                                        HorizontalAlignment="Right"
                                        VerticalAlignment="Center"
+                                       Visibility="Visible"
                                        Foreground="Gray"
                                        FontFamily="{TemplateBinding FontFamily}"
                                        FontSize="{TemplateBinding FontSize}" />
+                            <TextBlock x:Name="Tb1" Grid.Column=" 2"
+                                       Text="!"
+                                       HorizontalAlignment="Center"
+                                       Visibility="Collapsed"
+                                       Foreground="Red"
+                                       FontSize="25" />
                         </Grid>
 
                     </Border>
@@ -265,16 +262,27 @@
 
 
                     <ControlTemplate.Triggers>
+                        <Trigger Property="Text" Value="{x:Null}">
+                            <Setter TargetName="border" Property="BorderBrush" Value="red" />
+                            <Setter TargetName="Tb2" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="Tb1" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="Text" Value="">
+                            <Setter TargetName="border" Property="BorderBrush" Value="red" />
+                            <Setter TargetName="Tb2" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="Tb1" Property="Visibility" Value="Visible" />
+                        </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter TargetName="border" Property="Opacity" Value="0.56" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="border" Property="Effect" Value="{DynamicResource 全局背景阴影}" />
                             <Setter TargetName="border" Property="BorderBrush" Value="#4B6587" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="true">
                             <!--<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource TextBox.Focus.Border}" />-->
-                            <Setter TargetName="border" Property="Effect" Value="{StaticResource 全局背景阴影}" />
-                            <Setter Property="Foreground" Value="Red" />
+
+                            <Setter Property="Foreground" Value="Black" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

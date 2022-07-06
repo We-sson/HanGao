@@ -2,6 +2,7 @@
 
 using HanGao.Model;
 using HanGao.View.User_Control;
+using HanGao.View.User_Control.Pop_Ups;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using PropertyChanged;
@@ -128,7 +129,7 @@ namespace HanGao.ViewModel
             {
 
 
-                User_Control_Show.User_UserControl = new UC_Pop_Ups() { DataContext = new UC_Pop_Ups_VM() { } };
+                User_Control_Show.User_UserControl = new UC_SInk_Add() { };
 
 
 

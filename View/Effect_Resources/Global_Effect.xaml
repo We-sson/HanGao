@@ -25,73 +25,22 @@
         <Setter Property="Opacity" Value=" 0.8" />
         <Setter Property="Effect">
             <Setter.Value>
-                <BlurEffect Radius="10" />
+                <BlurEffect Radius="20" />
             </Setter.Value>
         </Setter>
     </Style>
 
 
     <!--  全局图标路径  -->
-    <Style x:Key="首页_左上角_公司图标_路径" TargetType="Image">
-        <Setter Property="Source" Value="/Resources/黑色logo.png" />
-    </Style>
 
-
-    <Style x:Key="首页_上方_标题图标_鼠标事件" TargetType="Image">
-
-
-
-
-
-        <Style.Triggers>
-
-
-
-            <!--<Trigger Property="IsMouseOver" Value="True" >
-                <Setter Property="RenderTransform" >
-                    <Setter.Value>
-                        <ScaleTransform ScaleX="1.2" ScaleY="1.2" CenterX="5" CenterY="5"/>
-                    </Setter.Value>
-                </Setter>
-            </Trigger>
-            <Trigger Property="IsMouseOver" Value="False">
-                <Setter Property="RenderTransform" >
-                    <Setter.Value>
-                        <ScaleTransform ScaleX="1" ScaleY="1" CenterX="5" CenterY="5"/>
-                    </Setter.Value>
-                </Setter>
-            </Trigger>-->
-
-        </Style.Triggers>
-
-
-        <!--<Style.Setters>
-            <Setter Property="RenderTransform" >
-                <Setter.Value>
-                    <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
-                </Setter.Value>
-            </Setter>
-        </Style.Setters>-->
-    </Style>
 
 
 
 
     <!--  全局样式定义  -->
-    <Style x:Key="首页_左上角_公司图标_样式"
-           TargetType="Image"
-           BasedOn="{StaticResource 首页_左上角_公司图标_路径}">
-        <Setter Property="Effect" Value="{StaticResource 全局_字体_阴影样式}" />
 
+    <SolidColorBrush x:Key="全局_背景_主颜色" Color="#E6e6e6" />
 
-    </Style>
-
-
-    <Style x:Key="首页_上方_标题图标_路径"
-           TargetType="Image"
-           BasedOn="{StaticResource 首页_上方_标题图标_鼠标事件}">
-        <Setter Property="Source" Value="/Resources/控制台.png" />
-    </Style>
 
 
     <DropShadowEffect x:Key="全局背景阴影"
@@ -116,46 +65,6 @@
 
 
     <!--  工作框鼠标上方边框显示  -->
-    <Style x:Key="Border_BorderBrush" TargetType="{x:Type Border}">
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type Grid}}}" Value="true">
-                <DataTrigger.EnterActions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <ColorAnimation SpeedRatio="10"
-                                            Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
-                                            To="#FFAE181F"
-                                            Duration="0:0:0:1">
-                                <ColorAnimation.EasingFunction>
-                                    <QuinticEase EasingMode="EaseInOut" />
-                                </ColorAnimation.EasingFunction>
-
-
-                            </ColorAnimation>
-
-
-                        </Storyboard>
-                    </BeginStoryboard>
-                </DataTrigger.EnterActions>
-                <DataTrigger.ExitActions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <ColorAnimation SpeedRatio="3"
-                                            Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
-                                            To="Transparent"
-                                            Duration="0:0:0:1">
-                                <ColorAnimation.EasingFunction>
-                                    <QuinticEase EasingMode="EaseInOut" />
-                                </ColorAnimation.EasingFunction>
-                            </ColorAnimation>
-
-
-                        </Storyboard>
-                    </BeginStoryboard>
-                </DataTrigger.ExitActions>
-            </DataTrigger>
-        </Style.Triggers>
-    </Style>
 
 
     <Style x:Key="GroupBox_Grid_Effect" TargetType="{x:Type GroupBox}">

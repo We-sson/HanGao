@@ -69,7 +69,7 @@
                                FontSize="110"
                                Foreground="#FF4B6587"
                                FontFamily="{StaticResource 全局_图标库}" />
-                    <TextBlock Text=" 上下单盆类型"
+                    <TextBlock Text="上下单盆类型"
                                Margin="0,50,0,0"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Bottom"
@@ -94,7 +94,7 @@
                                FontSize="110"
                                Foreground="#FF4B6587"
                                FontFamily="{StaticResource 全局_图标库}" />
-                    <TextBlock Text=" 双盆类型"
+                    <TextBlock Text="双盆类型"
                                Margin="0,50,0,0"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Bottom"
