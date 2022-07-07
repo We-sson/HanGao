@@ -1,4 +1,4 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:i="http://schemas.microsoft.com/xaml/behaviors" mc:Ignorable="d">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d">
 
 
 
@@ -29,10 +29,10 @@
 
 
                         <Border x:Name="optionMark" Grid.Row="1"
-                                CornerRadius="2"
-                                Visibility="Hidden"
                                 Background="#ecac5d"
-                                RenderTransformOrigin="0.5,0.5" />
+                                CornerRadius="2"
+                                RenderTransformOrigin="0.5,0.5"
+                                Visibility="Hidden" />
 
 
                         <ContentPresenter x:Name="contentPresenter" Grid.Row="0"
@@ -102,8 +102,8 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RadioButton}">
                     <Grid x:Name="templateRoot"
-                          SnapsToDevicePixels="True"
-                          ShowGridLines="False">
+                          ShowGridLines="False"
+                          SnapsToDevicePixels="True">
 
                         <Grid.RowDefinitions>
                             <RowDefinition />
@@ -114,12 +114,12 @@
 
                         <Border x:Name="optionMark" Grid.Row="0"
                                 Grid.RowSpan="2"
+                                Background="Transparent"
+                                BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="0"
                                 CornerRadius="10"
-                                Visibility="Visible"
-                                Background="Transparent"
                                 RenderTransformOrigin="0.5,0.5"
-                                BorderBrush="{TemplateBinding BorderBrush}" />
+                                Visibility="Visible" />
 
 
 
@@ -204,10 +204,10 @@
 
 
                     <Border x:Name="border"
-                            CornerRadius="4"
+                            Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            Background="{TemplateBinding Background}"
+                            CornerRadius="4"
                             SnapsToDevicePixels="True">
 
 
@@ -230,8 +230,8 @@
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        FontFamily="{TemplateBinding FontFamily}"
-                                       Foreground="Black"
-                                       FontSize="{TemplateBinding FontSize}" />
+                                       FontSize="{TemplateBinding FontSize}"
+                                       Foreground="Black" />
                             <ScrollViewer x:Name="PART_ContentHost" Grid.Column="1"
                                           Margin="3"
                                           HorizontalAlignment="Right"
@@ -244,16 +244,16 @@
                                        Margin="0,0,3,0"
                                        HorizontalAlignment="Right"
                                        VerticalAlignment="Center"
-                                       Visibility="Visible"
-                                       Foreground="Gray"
                                        FontFamily="{TemplateBinding FontFamily}"
-                                       FontSize="{TemplateBinding FontSize}" />
+                                       FontSize="{TemplateBinding FontSize}"
+                                       Foreground="Gray"
+                                       Visibility="Visible" />
                             <TextBlock x:Name="Tb1" Grid.Column=" 2"
                                        Text="!"
                                        HorizontalAlignment="Center"
-                                       Visibility="Collapsed"
+                                       FontSize="25"
                                        Foreground="Red"
-                                       FontSize="25" />
+                                       Visibility="Collapsed" />
                         </Grid>
 
                     </Border>
@@ -309,10 +309,10 @@
                 Padding="0"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                BorderThickness="2"
                 Background="Transparent"
-                Foreground="Transparent"
-                BorderBrush="Transparent">
+                BorderBrush="Transparent"
+                BorderThickness="2"
+                Foreground="Transparent">
 
 
 
@@ -332,10 +332,10 @@
                         Padding="10"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        Opacity="1"
-                        Effect="{DynamicResource 全局背景阴影}"
+                        Background="#ECECEC"
                         CornerRadius=" 10"
-                        Background="#ECECEC" />
+                        Effect="{DynamicResource 全局背景阴影}"
+                        Opacity="1" />
 
 
                 <TextBlock x:Name="Sink_ico" Grid.Column="0"
@@ -343,9 +343,9 @@
                            Margin="20"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
+                           FontFamily="/Resources/#iconfont"
                            FontSize="115"
-                           Foreground="#FF4B6587"
-                           FontFamily="/Resources/#iconfont" />
+                           Foreground="#FF4B6587" />
 
 
 
@@ -360,8 +360,8 @@
                     <TextBlock Text="{Binding Sink_Title}"
                                Margin="0"
                                HorizontalAlignment="Left"
-                               Foreground=" #4B6587"
-                               FontSize="32" />
+                               FontSize="32"
+                               Foreground=" #4B6587" />
                     <TextBlock Text="{Binding Sink_Subtitle}"
                                Margin="3"
                                HorizontalAlignment="Left"
@@ -377,9 +377,9 @@
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            Effect="{StaticResource 全局背景阴影}"
+                           FontFamily="/Resources/#iconfont"
                            FontSize="30"
                            Foreground="#FF4B6587"
-                           FontFamily="/Resources/#iconfont"
                            TextDecorations="{x:Null}" />
 
 
@@ -410,8 +410,8 @@
                     <Rectangle Margin="2"
                                SnapsToDevicePixels="true"
                                Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
-                               StrokeThickness="1"
-                               StrokeDashArray="1 2" />
+                               StrokeDashArray="1 2"
+                               StrokeThickness="1" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -438,9 +438,9 @@
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                     <Border x:Name="Bd"
                             Padding="{TemplateBinding Padding}"
+                            Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            Background="{TemplateBinding Background}"
                             SnapsToDevicePixels="true">
                         <ContentPresenter HorizontalAlignment="Center"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"

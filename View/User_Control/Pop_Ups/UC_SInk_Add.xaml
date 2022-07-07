@@ -1,20 +1,21 @@
 ﻿<UserControl x:Class="HanGao.View.User_Control.Pop_Ups.UC_SInk_Add"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:HanGao.View.User_Control.Pop_Ups"
-             d:Width="1440"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              d:Height="900"
+             d:Width="1440"
+             DataContext="{Binding Source={StaticResource Locator}, Path=UC_Sink_Add_VM}"
              mc:Ignorable="d">
     <Grid>
         <!--  背景遮挡  -->
         <Border Style="{StaticResource 全局_弹窗_背景侧挡样式}" />
         <Border Width="1100"
                 Height="700"
-                CornerRadius="25"
-                Background="{StaticResource 全局_背景_主颜色}">
+                Background="{StaticResource 全局_背景_主颜色}"
+                CornerRadius="25">
             <Grid Margin="40,30,40,30" ShowGridLines="False">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
@@ -37,6 +38,7 @@
                     <TextBlock Text="+  添加水槽型号尺寸详细页面"
                                Margin="30,0,0,0"
                                VerticalAlignment="Center"
+                               FontFamily="Calibri"
                                FontSize=" 22"
                                Foreground="#19365c" />
                 </Border>
@@ -54,11 +56,12 @@
                         <TextBlock Text="&#xE6C0;"
                                    Margin="15"
                                    HorizontalAlignment="Center"
-                                   FontSize="50"
                                    FontFamily="/Resources/#iconfont"
+                                   FontSize="50"
                                    Foreground="#FF4B6587" />
                         <TextBlock Text="水槽类型"
                                    VerticalAlignment="Center"
+                                   FontFamily="Calibri"
                                    FontSize="24" />
                     </StackPanel>
 
@@ -75,55 +78,83 @@
                         <ColumnDefinition />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <RadioButton Style="{DynamicResource RadioButton_Sink_Type_Style}" Grid.Column=" 0"
-                                 IsChecked="True"
-                                 Height="186 ">
+                    <RadioButton Style="{DynamicResource RadioButton_Sink_Type_Style}" x:Name="LeftRight_One" Grid.Column=" 0"
+                                 Height="186 "
+                                 Tag="">
+
                         <StackPanel>
                             <TextBlock Text="&#xE61B;"
                                        Margin="0,0,0,0"
                                        HorizontalAlignment="Center"
+                                       FontFamily="{StaticResource 全局_图标库}"
                                        FontSize="80"
-                                       Foreground="#FF4B6587"
-                                       FontFamily="{StaticResource 全局_图标库}" />
+                                       Foreground="#FF4B6587" />
                             <TextBlock Text=" 左右单盆类型"
                                        Margin="0,20,0,0"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Bottom"
-                                       FontSize="20"
-                                       FontFamily="Calibri" />
+                                       FontFamily="Calibri"
+                                       FontSize="20" />
                         </StackPanel>
+
+
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Checked">
+                                <i:InvokeCommandAction Command="{Binding User_Checked_Sink_Type_Comm}"
+                                                       CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                       PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+
                     </RadioButton>
-                    <RadioButton Style="{DynamicResource RadioButton_Sink_Type_Style}" Grid.Column=" 1">
+                    <RadioButton Style="{DynamicResource RadioButton_Sink_Type_Style}" x:Name="UpDown_One" Grid.Column=" 1">
                         <StackPanel>
                             <TextBlock Text="&#xe61a;"
                                        Margin="0,0,0,0"
                                        HorizontalAlignment="Center"
+                                       FontFamily="{StaticResource 全局_图标库}"
                                        FontSize="80"
-                                       Foreground="#FF4B6587"
-                                       FontFamily="{StaticResource 全局_图标库}" />
+                                       Foreground="#FF4B6587" />
                             <TextBlock Text="上下单盆类型"
                                        Margin="0,20,0,0"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Bottom"
-                                       FontSize="20"
-                                       FontFamily="Calibri" />
+                                       FontFamily="Calibri"
+                                       FontSize="20" />
                         </StackPanel>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Checked">
+                                <i:InvokeCommandAction Command="{Binding User_Checked_Sink_Type_Comm}"
+                                                       CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                       PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
                     </RadioButton>
-                    <RadioButton Style="{DynamicResource RadioButton_Sink_Type_Style}" Grid.Column=" 2">
+                    <RadioButton Style="{DynamicResource RadioButton_Sink_Type_Style}" x:Name="LeftRight_Two" Grid.Column=" 2">
                         <StackPanel>
                             <TextBlock Text="&#xe61d;"
                                        Margin="0,0,0,0"
                                        HorizontalAlignment="Center"
+                                       FontFamily="{StaticResource 全局_图标库}"
                                        FontSize="80"
-                                       Foreground="#FF4B6587"
-                                       FontFamily="{StaticResource 全局_图标库}" />
+                                       Foreground="#FF4B6587" />
                             <TextBlock Text="双盆类型"
                                        Margin="0,20,0,0"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Bottom"
-                                       FontSize="20"
-                                       FontFamily="Calibri" />
+                                       FontFamily="Calibri"
+                                       FontSize="20" />
+
+
+
                         </StackPanel>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Checked">
+                                <i:InvokeCommandAction Command="{Binding User_Checked_Sink_Type_Comm}"
+                                                       CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                       PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
                     </RadioButton>
                 </Grid>
 
@@ -144,11 +175,12 @@
                     <TextBlock Text="&#xe633;"
                                Margin="15"
                                HorizontalAlignment="Center"
-                               FontSize="50"
                                FontFamily="/Resources/#iconfont"
+                               FontSize="50"
                                Foreground="#FF4B6587" />
                     <TextBlock Text="水槽尺寸"
                                VerticalAlignment="Center"
+                               FontFamily="Calibri"
                                FontSize="24" />
                 </StackPanel>
                 <Grid Grid.Row=" 3" Grid.Column="2"
@@ -169,54 +201,54 @@
 
                     </Grid.RowDefinitions>
 
-                    <TextBox Style="{DynamicResource TextBox_Style}" Grid.Row=" 0" Grid.Column=" 0"
+                    <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Model" Grid.Row=" 0" Grid.Column=" 0"
                              Margin="0"
                              HorizontalAlignment="Center"
                              VerticalAlignment="Center"
                              Tag="型号 :" />
-                    <TextBox Style="{DynamicResource TextBox_Style}" Grid.Row=" 0" Grid.Column=" 1"
+                    <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Long" Grid.Row=" 0" Grid.Column=" 1"
                              Uid="mm"
                              Margin="0"
                              HorizontalAlignment="Center"
                              VerticalAlignment="Center"
                              Tag="长 :" />
-                    <TextBox Style="{DynamicResource TextBox_Style}" Grid.Row=" 0" Grid.Column=" 2"
+                    <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Width" Grid.Row=" 0" Grid.Column=" 2"
                              Uid="mm"
                              Margin="0"
                              HorizontalAlignment="Center"
                              VerticalAlignment="Center"
                              Tag="宽 :" />
-                    <TextBox Style="{DynamicResource TextBox_Style}" Grid.Row=" 1" Grid.Column=" 0"
+                    <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_R" Grid.Row=" 1" Grid.Column=" 0"
                              Uid="mm"
                              Margin="0"
                              HorizontalAlignment="Center"
                              VerticalAlignment="Center"
                              Tag="R角 :" />
-                    <TextBox Style="{DynamicResource TextBox_Style}" Grid.Row=" 1" Grid.Column=" 1"
+                    <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Short_Side" Grid.Row=" 1" Grid.Column=" 1"
                              Uid="mm"
                              Margin="0"
                              HorizontalAlignment="Center"
                              VerticalAlignment="Center"
                              Tag="短边 :" />
-                    <TextBox Style="{DynamicResource TextBox_Style}" Grid.Row="1" Grid.Column=" 2"
+                    <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Left_Distance" Grid.Row="1" Grid.Column=" 2"
                              Uid="mm"
                              Margin="0"
                              HorizontalAlignment="Center"
                              VerticalAlignment="Center"
                              Tag="左边宽度 :" />
-                    <TextBox Style="{DynamicResource TextBox_Style}" Grid.Row="2" Grid.Column=" 0"
+                    <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Down_Distance" Grid.Row="2" Grid.Column=" 0"
                              Uid="mm"
                              Margin="0"
                              HorizontalAlignment="Center"
                              VerticalAlignment="Center"
-                             Tag="右边宽度 :" />
-                    <TextBox Style="{DynamicResource TextBox_Style}" Grid.Row="2" Grid.Column=" 1"
+                             Tag="下边宽度 :" />
+                    <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Pots_Thick" Grid.Row="2" Grid.Column=" 1"
                              Uid="mm"
                              Margin="0"
                              HorizontalAlignment="Center"
                              VerticalAlignment="Center"
                              Tag="面板厚度 :" />
-                    <TextBox Style="{DynamicResource TextBox_Style}" Grid.Row="2" Grid.Column=" 2"
+                    <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Panel_Thick" Grid.Row="2" Grid.Column=" 2"
                              Uid="mm"
                              Margin="0"
                              HorizontalAlignment="Center"
@@ -239,7 +271,18 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Background="#89c997"
-                            FontSize="23" />
+                            FontSize="23">
+
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding User_Save_Sink_Szie_Comm}"
+                                                       CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:UC_SInk_Add}}}"
+                                                       PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+
+
+                    </Button>
                     <Button Style="{StaticResource ButtonStyle3}"
                             Content="取消"
                             Width="100"
@@ -248,155 +291,22 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Background="#bfbfbf"
-                            FontSize="23" />
+                            FontSize="23">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding User_Close_Sink_Szie_Comm}"
+                                                       CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                       PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+
+
+
+                    </Button>
                 </StackPanel>
 
 
             </Grid>
-
-
-
-
-
-
-
-
-
-
-
-            <!--<Grid Margin="40,0,40,40">
-
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" />
-                    <RowDefinition />
-
-                </Grid.RowDefinitions>
-
-                <Button Style="{StaticResource Windows_Button_Style}"
-                        Width="10"
-                        Height=" 10"
-                        Margin="10"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        Background="Red">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding Pop_Close_Comm}"
-                                                   CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}"
-                                                   PassEventArgsToCommand="True" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </Button>
-
-
-                <Grid Grid.Row="0"
-                      Margin="100,0,100,0"
-                      VerticalAlignment="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-
-                    </Grid.ColumnDefinitions>
-
-                    <RadioButton Style="{DynamicResource RadioButton_Pop_Style}" x:Name="R1" Grid.Column="0"
-                                 IsChecked="{Binding Sink_Type_Checked}"
-                                 Tag="0"
-                                 ToolTip="水槽类型选择"
-                                 GroupName="Pop_UI">
-                        <Border CornerRadius="5" Background="{Binding Background, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Border}}}">
-
-
-                            <StackPanel Margin="5" Orientation="Vertical">
-                                <TextBlock Text="&#xE6C0;"
-                                           Margin="15"
-                                           HorizontalAlignment="Center"
-                                           FontSize="50"
-                                           FontFamily="/Resources/#iconfont"
-                                           Foreground="#FF4B6587" />
-                                <TextBlock Text="水槽类型选择"
-                                           HorizontalAlignment="Center"
-                                           FontSize="15" />
-                            </StackPanel>
-                        </Border>
-
-
-                    </RadioButton>
-
-                    <Border Grid.Column="1"
-                            Height="4"
-                            Background="#FFCFCFCF"
-                            CornerRadius="2" />
-
-                    <RadioButton Style="{DynamicResource RadioButton_Pop_Style}" x:Name="R2" Grid.Column="2"
-                                 IsChecked="{Binding Sink_Size_Checked}"
-                                 Tag="1"
-                                 GroupName="Pop_UI"
-                                 ToolTip="水槽尺寸修改">
-                        <StackPanel>
-                            <TextBlock Text="&#xE64F;"
-                                       Margin="15"
-                                       HorizontalAlignment="Center"
-                                       FontSize="50"
-                                       Foreground="#FF4B6587"
-                                       FontFamily="/Resources/#iconfont" />
-                            <TextBlock Text="水槽尺寸调节"
-                                       HorizontalAlignment="Center"
-                                       FontSize="15" />
-                        </StackPanel>
-
-                    </RadioButton>
-
-                    <Border Grid.Column="3"
-                            Height="4"
-                            Background="#FFCFCFCF"
-                            CornerRadius="2" />
-
-
-                    <RadioButton Style="{DynamicResource RadioButton_Pop_Style}" x:Name="R3" Grid.Column="4"
-                                 IsChecked="{Binding Sink_Craft_Checked}"
-                                 Tag="2"
-                                 GroupName="Pop_UI"
-                                 ToolTip="水槽工艺参数">
-                        <StackPanel>
-                            <TextBlock Text="&#xE649;"
-                                       Margin="15"
-                                       HorizontalAlignment="Center"
-                                       FontSize="50"
-                                       Foreground="#FF4B6587"
-                                       FontFamily="/Resources/#iconfont" />
-                            <TextBlock Text="工艺参数调节"
-                                       HorizontalAlignment="Center"
-                                       FontSize="15" />
-                        </StackPanel>
-
-                    </RadioButton>
-
-
-
-                </Grid>
-
-
-
-                <GroupBox Style="{StaticResource GroupBox_Grid_Effect}" Grid.Row="1"
-                          HorizontalContentAlignment="Center"
-                          VerticalContentAlignment="Center"
-                          Background="#EBEBEB">
-                    <Grid Margin="0"
-                          HorizontalAlignment="Stretch"
-                          VerticalAlignment="Stretch" />
-
-
-                </GroupBox>
-
-
-
-
-
-
-            </Grid>-->
 
         </Border>
     </Grid>

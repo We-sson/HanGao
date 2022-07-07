@@ -129,7 +129,7 @@ namespace HanGao.ViewModel
             {
 
 
-                User_Control_Show.User_UserControl = new UC_SInk_Add() { };
+                User_Control_Show.User_UserControl = new UC_SInk_Add() { DataContext=new UC_Sink_Add_VM() };
 
 
 

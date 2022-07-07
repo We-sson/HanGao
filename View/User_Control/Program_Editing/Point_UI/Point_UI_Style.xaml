@@ -150,12 +150,12 @@
                                                     Background="{TemplateBinding Background}"
                                                     BorderBrush="{TemplateBinding BorderBrush}"
                                                     BorderThickness="{TemplateBinding BorderThickness}"
-                                                    IsPressed="{TemplateBinding IsPressed}"
-                                                    IsHovered="{TemplateBinding IsMouseOver}"
                                                     IsClickable="{TemplateBinding CanUserSort}"
-                                                    SortDirection="{TemplateBinding SortDirection}"
+                                                    IsHovered="{TemplateBinding IsMouseOver}"
+                                                    IsPressed="{TemplateBinding IsPressed}"
+                                                    SeparatorBrush="{TemplateBinding SeparatorBrush}"
                                                     SeparatorVisibility="{TemplateBinding SeparatorVisibility}"
-                                                    SeparatorBrush="{TemplateBinding SeparatorBrush}">
+                                                    SortDirection="{TemplateBinding SortDirection}">
                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                               RecognizesAccessKey="True"

@@ -31,9 +31,9 @@
             <Setter.Value>
                 <ControlTemplate>
                     <Rectangle Margin="2"
-                               StrokeDashArray="1 2"
-                               Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
                                SnapsToDevicePixels="true"
+                               Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
+                               StrokeDashArray="1 2"
                                StrokeThickness="1" />
                 </ControlTemplate>
             </Setter.Value>
@@ -57,12 +57,12 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border x:Name="border"
-                            CornerRadius="10"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            SnapsToDevicePixels="true"
-                            Effect="{Binding Source={StaticResource 全局背景阴影}}">
+                            CornerRadius="10"
+                            Effect="{Binding Source={StaticResource 全局背景阴影}}"
+                            SnapsToDevicePixels="true">
                         <ContentPresenter x:Name="contentPresenter"
                                           Margin="{TemplateBinding Padding}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -108,9 +108,9 @@
                     <Grid Name="Gd1" Margin="{TemplateBinding Padding}">
                         <Grid.Effect>
                             <DropShadowEffect BlurRadius="20"
+                                              Direction="0"
                                               Opacity="0.2"
                                               ShadowDepth="0"
-                                              Direction="0"
                                               Color="#B2B1B9" />
                         </Grid.Effect>
 
@@ -125,10 +125,10 @@
 
                         <Border x:Name="border"
                                 Grid.ColumnSpan="3"
-                                CornerRadius="8"
+                                Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                Background="{TemplateBinding Background}"
+                                CornerRadius="8"
                                 SnapsToDevicePixels="true" />
 
 
@@ -158,8 +158,8 @@
                                  Margin="5"
                                  HorizontalAlignment="Stretch"
                                  VerticalAlignment="Center"
-                                 Visibility="Collapsed"
-                                 Fill="Green" />
+                                 Fill="Green"
+                                 Visibility="Collapsed" />
 
 
                         <TextBlock x:Name="Tb1" Grid.Column="0"
@@ -168,11 +168,11 @@
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    Panel.ZIndex="0"
-                                   Visibility="Collapsed"
-                                   Opacity="0"
                                    FontFamily="/Resources/#iconfont"
+                                   FontSize="24"
                                    Foreground="Green"
-                                   FontSize="24" />
+                                   Opacity="0"
+                                   Visibility="Collapsed" />
 
                     </Grid>
 

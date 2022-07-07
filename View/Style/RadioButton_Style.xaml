@@ -42,8 +42,8 @@
                                 Height="5"
                                 Margin="-20,0,-20,0"
                                 VerticalAlignment="Bottom"
-                                CornerRadius="2"
                                 Background="#07689F"
+                                CornerRadius="2"
                                 Opacity="0" />
 
                         <!--  背景渐变色  -->
@@ -62,9 +62,9 @@
 
                             <!--  标题_选项_阴影  -->
                             <ContentPresenter.Effect>
-                                <DropShadowEffect ShadowDepth="1"
-                                                  BlurRadius="1"
+                                <DropShadowEffect BlurRadius="1"
                                                   Opacity="1"
+                                                  ShadowDepth="1"
                                                   Color="Black" />
                             </ContentPresenter.Effect>
 

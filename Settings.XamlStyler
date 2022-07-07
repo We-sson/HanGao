@@ -43,7 +43,7 @@
         "Storyboard.*, From, To, Duration"
     ],
     "FirstLineAttributes": "x:Name,Grid.Row,Grid.Column,Style", // 应该在第一行的属性，例如Name、x:Name和x:Uid等等，None[默认]
-    "OrderAttributesByName": false, // 是否按照属性名称进行排序
+    "OrderAttributesByName": true, // 是否按照属性名称进行排序
     //
     // ==========[元素格式化]==========
     "PutEndingBracketOnNewLine": false, // 结束括号是否独占一行，false[默认]

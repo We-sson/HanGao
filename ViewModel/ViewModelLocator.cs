@@ -98,6 +98,7 @@ namespace HanGao.ViewModelLocator
                     .AddScoped<UC_Point_Info_VM>()
                     .AddScoped<Sink_Models>()
                     .AddScoped<User_Control_Common>()
+                    .AddScoped<UC_Sink_Add_VM>()
                     
                     .BuildServiceProvider());
 
@@ -129,39 +130,12 @@ namespace HanGao.ViewModelLocator
         public UC_ProgramEdit_ViewModel UC_ProgramEdit_ViewModel => Ioc.Default.GetService<UC_ProgramEdit_ViewModel>();
         public UC_Surround_Direction_VM UC_Surround_Direction_VM => Ioc.Default.GetService<UC_Surround_Direction_VM>();
         public UC_Point_Info_VM UC_Point_Info_VM => Ioc.Default.GetService<UC_Point_Info_VM>();
+        public UC_Sink_Add_VM UC_Sink_Add_VM => Ioc.Default.GetService<UC_Sink_Add_VM>();
+
 
         
 
 
-
-
-
-        //public MainWindow MainWindow => CommonServiceLocator.ServiceLocator.Current.GetInstance<MainWindow>();
-        //public User_Control_Working_Path_VM User_Control_Working_Path_VM => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Control_Working_Path_VM>();
-
-        //public UserControl_Sideber_Show_ViewModel Sideber_Show => CommonServiceLocator.ServiceLocator.Current.GetInstance<UserControl_Sideber_Show_ViewModel>();
-        //public UserControl_Socket_Write_ViewModel Socket_Write => CommonServiceLocator.ServiceLocator.Current.GetInstance<UserControl_Socket_Write_ViewModel>();
-        //public UserControl_Socket_Var_Show_ViewModel Socket_Var_Show => CommonServiceLocator.ServiceLocator.Current.GetInstance<UserControl_Socket_Var_Show_ViewModel>();
-
-        //public User_Control_Log_ViewModel User_Log => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Control_Log_ViewModel>();
-        //public FrameShow FrameShow => CommonServiceLocator.ServiceLocator.Current.GetInstance<FrameShow>();
-        //public List_Show List_Show => CommonServiceLocator.ServiceLocator.Current.GetInstance<List_Show>();
-        //public User_Control_Working_VM_1 User_Control_Working_VM_1 => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Control_Working_VM_1>();
-        //public User_Control_Working_VM_2 User_Control_Working_VM_2 => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Control_Working_VM_2>();
-        //public User_Message_ViewModel User_Message_ViewModel => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Message_ViewModel>();
-        //public User_Control_Show User_Control_Show => CommonServiceLocator.ServiceLocator.Current.GetInstance<User_Control_Show>();
-        //public Home_ViewModel Home_ViewModel => CommonServiceLocator.ServiceLocator.Current.GetInstance<Home_ViewModel>();
-        //public IP_Text_Error IP_Text_Error => CommonServiceLocator.ServiceLocator.Current.GetInstance<IP_Text_Error>();
-        //public UC_Pop_Ups_VM UC_Pop_Ups_VM => CommonServiceLocator.ServiceLocator.Current.GetInstance<UC_Pop_Ups_VM>();
-        //public UC_Sink_Type_VM UC_Sink_Type_VM => CommonServiceLocator.ServiceLocator.Current.GetInstance<UC_Sink_Type_VM>();
-        //public UC_Sink_Size_VM UC_Sink_Size_VM => CommonServiceLocator.ServiceLocator.Current.GetInstance<UC_Sink_Size_VM>();
-        //public UC_Sink_Craft_VM UC_Sink_Craft_VM => CommonServiceLocator.ServiceLocator.Current.GetInstance<UC_Sink_Craft_VM>();
-        //public UC_Sink_Short_Side_VM UC_Sink_Short_Side_VM => CommonServiceLocator.ServiceLocator.Current.GetInstance<UC_Sink_Short_Side_VM>();
-        //public UC_Sink_Craft_List_VM UC_Sink_Craft_List_VM => CommonServiceLocator.ServiceLocator.Current.GetInstance<UC_Sink_Craft_List_VM>();
-
-
-
-        //public UserControl_Socket_Setup_ViewModel Socket_Setup => CommonServiceLocator.ServiceLocator.Current.GetInstance<UserControl_Socket_Setup_ViewModel>();
 
 
 

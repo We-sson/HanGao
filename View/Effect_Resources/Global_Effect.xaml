@@ -11,8 +11,8 @@
     <DropShadowEffect x:Key="全局_字体_阴影样式"
                       BlurRadius="12"
                       Direction="-90"
-                      ShadowDepth="2"
-                      Opacity="0.2" />
+                      Opacity="0.2"
+                      ShadowDepth="2" />
 
     <!--  全局图标路径  -->
     <FontFamily x:Key="全局_图标库">
@@ -46,17 +46,17 @@
     <DropShadowEffect x:Key="全局背景阴影"
                       BlurRadius="12"
                       Direction="-90"
-                      ShadowDepth="2"
-                      Opacity="0.2" />
+                      Opacity="0.2"
+                      ShadowDepth="2" />
 
     <!--  全局Grid背景模糊样式  -->
     <Style x:Key="Gd_Effect" TargetType="{x:Type Grid}">
         <Setter Property="Effect">
             <Setter.Value>
-                <DropShadowEffect ShadowDepth="0"
+                <DropShadowEffect BlurRadius="20"
                                   Direction="20"
                                   Opacity="0.2"
-                                  BlurRadius="20"
+                                  ShadowDepth="0"
                                   Color="Gray" />
             </Setter.Value>
         </Setter>
@@ -79,23 +79,23 @@
 
 
                         <Border x:Name="MaskBorder"
-                                BorderBrush="{TemplateBinding BorderBrush}"
                                 Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
                                 CornerRadius="12.5" />
 
 
                         <Grid>
                             <Grid.OpacityMask>
-                                <VisualBrush Visual="{Binding ElementName=MaskBorder}" Stretch="None" />
+                                <VisualBrush Stretch="None" Visual="{Binding ElementName=MaskBorder}" />
                             </Grid.OpacityMask>
 
                             <Border x:Name="Bd"
                                     Margin="0"
-                                    BorderThickness="{TemplateBinding BorderThickness}"
                                     Background="{TemplateBinding Background}"
-                                    CornerRadius="12"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
                                     ClipToBounds="False"
-                                    BorderBrush="{TemplateBinding BorderBrush}">
+                                    CornerRadius="12">
 
                                 <Border.Effect>
                                     <BlurEffect Radius="15" />

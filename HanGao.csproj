@@ -170,6 +170,7 @@
     <Compile Include="Model\Sink_Models.cs" />
     <Compile Include="Model\Socket_Setup_Models.cs" />
     <Compile Include="Model\UC_Point_Info_Models.cs" />
+    <Compile Include="Model\UC_Sink_Add_Model.cs" />
     <Compile Include="Model\UC_Surround_Point_Models.cs" />
     <Compile Include="Model\UC_Working_Models.cs" />
     <Compile Include="Model\User_Features.cs" />
@@ -186,6 +187,7 @@
     <Compile Include="ViewModel\UC_KUKA_State_VM.cs" />
     <Compile Include="ViewModel\UC_Point_Info_VM.cs" />
     <Compile Include="ViewModel\UC_ProgramEdit_ViewModel.cs" />
+    <Compile Include="ViewModel\UC_Sink_Add_VM.cs" />
     <Compile Include="ViewModel\UC_Sink_Craft_List_VM.cs" />
     <Compile Include="ViewModel\FrameShow.cs" />
     <Compile Include="ViewModel\Home_ViewModel.cs" />

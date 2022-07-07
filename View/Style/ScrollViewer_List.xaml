@@ -127,9 +127,9 @@
                             <RowDefinition MaxHeight="{StaticResource {x:Static SystemParameters.VerticalScrollBarButtonHeightKey}}" />
                         </Grid.RowDefinitions>
                         <Border Grid.Row="1"
+                                Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                Background="{TemplateBinding Background}" />
+                                BorderThickness="{TemplateBinding BorderThickness}" />
                         <RepeatButton Style="{StaticResource ScrollBarButton}" x:Name="PART_LineUpButton"
                                       Command="{x:Static ScrollBar.LineUpCommand}"
                                       IsEnabled="{TemplateBinding IsMouseOver}">
@@ -235,13 +235,13 @@
                                 <!--  上按钮  -->
                                 <RepeatButton Style="{StaticResource ScrollBarButton}" x:Name="PART_LineLeftButton"
                                               Command="{x:Static ScrollBar.LineLeftCommand}"
-                                              BorderBrush="Transparent"
-                                              Background="Transparent">
+                                              Background="Transparent"
+                                              BorderBrush="Transparent">
                                     <Path x:Name="ArrowLeft"
                                           Margin="0"
                                           Data="M163.1,0C73.1,0,0,73.1,0,163c0,89.9,73.2,163,163.1,163s163-73.1,163-163C326.1,73.1,253,0,163.1,0z M191.2,82.8  c-3.4-3.4-3.5-8.9-0.1-12.3c1.7-1.7,3.9-2.6,6.2-2.6c2.2,0,4.4,0.8,6.1,2.5l82.3,81.2h0c3.3,3.6,3.2,9.1-0.2,12.6l-80.9,80.9  c-3.3,3.3-8.7,3.7-12.1,0.6c-3.8-3.4-3.9-9.2-0.4-12.7l67.6-67.6c0,0,0-0.1,0-0.1l-219.9,0c-4.1,0-7.8-3.2-7.9-7.3  c-0.1-4.3,3.3-7.7,7.5-7.7h220.1c0,0,0,0,0-0.1L191.2,82.8z"
-                                          Stretch="Uniform"
-                                          Fill="Black" />
+                                          Fill="Black"
+                                          Stretch="Uniform" />
                                 </RepeatButton>
 
                                 <!--  中间滑条  -->

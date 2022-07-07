@@ -10,8 +10,8 @@
                     <Rectangle Margin="2"
                                SnapsToDevicePixels="true"
                                Stroke="{StaticResource {x:Static SystemColors.ControlTextBrushKey}}"
-                               StrokeThickness="1"
-                               StrokeDashArray="1 2" />
+                               StrokeDashArray="1 2"
+                               StrokeThickness="1" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -25,8 +25,8 @@
                     <Rectangle Margin="14,0,0,0"
                                SnapsToDevicePixels="true"
                                Stroke="{StaticResource {x:Static SystemColors.ControlTextBrushKey}}"
-                               StrokeThickness="1"
-                               StrokeDashArray="1 2" />
+                               StrokeDashArray="1 2"
+                               StrokeThickness="1" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -75,9 +75,9 @@
                                 Margin="2"
                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Background="Transparent"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                Background="Transparent"
                                 CornerRadius="10" />
                         <!--<Grid x:Name="markGrid" Margin="5">
                                 <Ellipse x:Name="optionMark" Fill="{StaticResource RadioButton.Static.Glyph}" MinWidth="6" MinHeight="6" Opacity="1"/>

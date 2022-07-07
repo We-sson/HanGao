@@ -13,9 +13,9 @@
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
                         <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                Background="{TemplateBinding Background}"
                                 SnapsToDevicePixels="true" />
                         <ContentPresenter x:Name="contentPresenter"
                                           Margin="{TemplateBinding Padding}"
@@ -23,15 +23,15 @@
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                           Focusable="False"
                                           RecognizesAccessKey="True"
-                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                          RenderTransformOrigin="0.5,0.5" />
+                                          RenderTransformOrigin="0.5,0.5"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                         <Border x:Name="BD"
                                 Width="{Binding ActualWidth, ElementName=border}"
                                 Height="3"
                                 VerticalAlignment="Bottom"
-                                Visibility="Collapsed"
+                                Background="Gray"
                                 CornerRadius="2"
-                                Background="Gray" />
+                                Visibility="Collapsed" />
 
 
                     </Grid>
@@ -82,10 +82,10 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border x:Name="border"
-                            CornerRadius="5"
+                            Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            Background="{TemplateBinding Background}"
+                            CornerRadius="5"
                             SnapsToDevicePixels="true">
                         <ContentPresenter x:Name="contentPresenter"
                                           Margin="{TemplateBinding Padding}"

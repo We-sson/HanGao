@@ -23,10 +23,10 @@
                 <ControlTemplate TargetType="{x:Type TextBox}">
 
                     <Border x:Name="border"
-                            CornerRadius="0"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="0"
                             SnapsToDevicePixels="True">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -44,8 +44,8 @@
                                            Text="{TemplateBinding Tag}"
                                            HorizontalAlignment="Stretch"
                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                           FontSize="{TemplateBinding FontSize}"
-                                           FontFamily="{TemplateBinding FontFamily}" />
+                                           FontFamily="{TemplateBinding FontFamily}"
+                                           FontSize="{TemplateBinding FontSize}" />
                                 <Grid Name="Function_Grid" Visibility="Collapsed">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition />
@@ -59,9 +59,9 @@
                                             <TextBlock Text="&#xe639;"
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
-                                                       Foreground="#0C4271"
+                                                       FontFamily="/Resources/#iconfont"
                                                        FontSize="14"
-                                                       FontFamily="/Resources/#iconfont" />
+                                                       Foreground="#0C4271" />
                                         </Button.Content>
                                     </Button>
                                     <Button Style="{DynamicResource ButtonStyle3}" Grid.Column="1"
@@ -72,9 +72,9 @@
                                             <TextBlock Text="&#xe644;"
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
-                                                       Foreground="#0C4271"
+                                                       FontFamily="/Resources/#iconfont"
                                                        FontSize="14"
-                                                       FontFamily="/Resources/#iconfont" />
+                                                       Foreground="#0C4271" />
                                         </Button.Content>
                                     </Button>
                                 </Grid>
@@ -128,10 +128,10 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border x:Name="border"
-                            CornerRadius="10"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="10"
                             SnapsToDevicePixels="true">
                         <ContentPresenter x:Name="contentPresenter"
                                           Margin="{TemplateBinding Padding}"

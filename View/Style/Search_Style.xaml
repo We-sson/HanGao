@@ -26,9 +26,9 @@
 
 
                         <Border x:Name="border" Grid.Column="1"
+                                Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                Background="{TemplateBinding Background}"
                                 SnapsToDevicePixels="True">
 
 

@@ -23,9 +23,9 @@
                     <Grid>
 
                         <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                Background="{TemplateBinding Background}"
                                 CornerRadius="0 10 10 0"
                                 SnapsToDevicePixels="true">
 
