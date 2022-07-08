@@ -1,40 +1,40 @@
 ﻿<UserControl x:Class="HanGao.View.User_Control.Program_Editing.Point_UI.UC_Surround_Point"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:HanGao.ViewModel"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:local="clr-namespace:HanGao.ViewModel"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              d:DesignHeight="466"
              d:DesignWidth="760"
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_Surround_Point_VM}"
              mc:Ignorable="d">
-    <Grid Margin="2" ShowGridLines="True">
+    <Grid Margin="5" ShowGridLines="True">
 
 
 
 
         <DataGrid Style="{DynamicResource Point_DataGridStyle}"
-                  SelectedItem="{Binding User_Selected_SInk_Pos}"
-                  CellStyle="{DynamicResource Point_DataGridCellStyle}"
-                  RowStyle="{DynamicResource Point_DataGridRowStyle}"
-                  IsReadOnly="True"
-                  ColumnHeaderStyle="{DynamicResource Point_DataGridColumnHeaderStyle}"
-                  GridLinesVisibility="None"
-                  Background="Transparent"
-                  HeadersVisibility="Column"
-                  AutoGenerateColumns="False"
-                  CanUserAddRows="False"
-                  SelectionUnit="FullRow"
-                  SelectionMode="Single"
-                  CanUserResizeColumns="False"
-                  CanUserReorderColumns="False"
-                  CanUserDeleteRows="False"
-                  ColumnWidth="*"
-                  RowBackground="Transparent"
                   AlternatingRowBackground="Transparent"
-                  RowHeight="56"   
-                  ItemsSource="{Binding Surround_Offset_Point, Mode=TwoWay}">
+                  AutoGenerateColumns="False"
+                  Background="Transparent"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  CanUserReorderColumns="False"
+                  CanUserResizeColumns="False"
+                  CellStyle="{DynamicResource Point_DataGridCellStyle}"
+                  ColumnHeaderStyle="{DynamicResource Point_DataGridColumnHeaderStyle}"
+                  ColumnWidth="*"
+                  GridLinesVisibility="None"
+                  HeadersVisibility="Column"
+                  IsReadOnly="True"
+                  ItemsSource="{Binding Surround_Offset_Point, Mode=TwoWay}"
+                  RowBackground="Transparent"
+                  RowHeight="56"
+                  RowStyle="{DynamicResource Point_DataGridRowStyle}"
+                  SelectedItem="{Binding User_Selected_SInk_Pos}"
+                  SelectionMode="Single"
+                  SelectionUnit="FullRow">
 
 
             <DataGrid.Columns>

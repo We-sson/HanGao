@@ -8,7 +8,7 @@
 
     <Style x:Key="RadioButton_Pop_Style" TargetType="{x:Type RadioButton}">
 
-        <Setter Property="Background" Value="#FFCCCCCC" />
+        <Setter Property="Background" Value="{DynamicResource 全局_背景_白颜色}" />
         <Setter Property="BorderBrush" Value="{StaticResource RadioButton.Static.Border}" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
         <Setter Property="BorderThickness" Value="0" />
@@ -29,7 +29,7 @@
 
 
                         <Border x:Name="optionMark" Grid.Row="1"
-                                Background="#ecac5d"
+                                Background="{DynamicResource 全局_按钮_黄颜色}"
                                 CornerRadius="2"
                                 RenderTransformOrigin="0.5,0.5"
                                 Visibility="Hidden" />
@@ -180,9 +180,9 @@
 
 
     <Style x:Key="TextBox_Style" TargetType="{x:Type TextBox}">
-        <Setter Property="Background" Value="#dddddd" />
+        <Setter Property="Background" Value="{DynamicResource 全局_背景_白颜色}" />
         <Setter Property="BorderBrush" Value="Gray" />
-        <Setter Property="Foreground" Value="#4B6587" />
+        <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_蓝颜色}" />
         <Setter Property="BorderThickness" Value="2" />
         <Setter Property="MaxLength" Value="8" />
         <Setter Property="FontSize" Value="20" />
@@ -231,7 +231,7 @@
                                        VerticalAlignment="Center"
                                        FontFamily="{TemplateBinding FontFamily}"
                                        FontSize="{TemplateBinding FontSize}"
-                                       Foreground="Black" />
+                                       Foreground="#293241" />
                             <ScrollViewer x:Name="PART_ContentHost" Grid.Column="1"
                                           Margin="3"
                                           HorizontalAlignment="Right"
@@ -246,13 +246,13 @@
                                        VerticalAlignment="Center"
                                        FontFamily="{TemplateBinding FontFamily}"
                                        FontSize="{TemplateBinding FontSize}"
-                                       Foreground="Gray"
+                                       Foreground="#8d99ae"
                                        Visibility="Visible" />
                             <TextBlock x:Name="Tb1" Grid.Column=" 2"
                                        Text="!"
                                        HorizontalAlignment="Center"
                                        FontSize="25"
-                                       Foreground="Red"
+                                       Foreground="{DynamicResource 全局_按钮_红颜色}"
                                        Visibility="Collapsed" />
                         </Grid>
 
@@ -263,12 +263,12 @@
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="Text" Value="{x:Null}">
-                            <Setter TargetName="border" Property="BorderBrush" Value="red" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource 全局_按钮_红颜色}" />
                             <Setter TargetName="Tb2" Property="Visibility" Value="Collapsed" />
                             <Setter TargetName="Tb1" Property="Visibility" Value="Visible" />
                         </Trigger>
                         <Trigger Property="Text" Value="">
-                            <Setter TargetName="border" Property="BorderBrush" Value="red" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource 全局_按钮_红颜色}" />
                             <Setter TargetName="Tb2" Property="Visibility" Value="Collapsed" />
                             <Setter TargetName="Tb1" Property="Visibility" Value="Visible" />
                         </Trigger>
@@ -332,7 +332,7 @@
                         Padding="10"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        Background="#ECECEC"
+                        Background="{DynamicResource 全局_背景_白颜色}"
                         CornerRadius=" 10"
                         Effect="{DynamicResource 全局背景阴影}"
                         Opacity="1" />
@@ -343,9 +343,9 @@
                            Margin="20"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
-                           FontFamily="/Resources/#iconfont"
+                           FontFamily="{DynamicResource 全局_图标库}"
                            FontSize="115"
-                           Foreground="#FF4B6587" />
+                           Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
 
 
 
@@ -361,13 +361,13 @@
                                Margin="0"
                                HorizontalAlignment="Left"
                                FontSize="32"
-                               Foreground=" #4B6587" />
+                               Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
                     <TextBlock Text="{Binding Sink_Subtitle}"
                                Margin="3"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Center"
                                FontSize="12"
-                               Foreground="#FF999999"
+                               Foreground="Gray"
                                LineHeight="9" />
                 </StackPanel>
 
@@ -377,9 +377,9 @@
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            Effect="{StaticResource 全局背景阴影}"
-                           FontFamily="/Resources/#iconfont"
+                           FontFamily="{DynamicResource 全局_图标库}"
                            FontSize="30"
-                           Foreground="#FF4B6587"
+                           Foreground="{DynamicResource 全局_按钮_蓝颜色}"
                            TextDecorations="{x:Null}" />
 
 

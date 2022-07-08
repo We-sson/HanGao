@@ -11,10 +11,10 @@
              mc:Ignorable="d">
     <Grid>
         <!--  背景遮挡  -->
-        <Border Style="{StaticResource 全局_弹窗_背景侧挡样式}" />
+        <Border Style="{DynamicResource 全局_弹窗_背景侧挡样式}" />
         <Border Width="1100"
                 Height="700"
-                Background="{StaticResource 全局_背景_主颜色}"
+                Background="{DynamicResource 全局_背景_白颜色}"
                 CornerRadius="25">
             <Grid Margin="40,30,40,30" ShowGridLines="False">
                 <Grid.RowDefinitions>
@@ -56,9 +56,9 @@
                         <TextBlock Text="&#xE6C0;"
                                    Margin="15"
                                    HorizontalAlignment="Center"
-                                   FontFamily="/Resources/#iconfont"
+                                   FontFamily="{DynamicResource 全局_图标库}"
                                    FontSize="50"
-                                   Foreground="#FF4B6587" />
+                                   Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
                         <TextBlock Text="水槽类型"
                                    VerticalAlignment="Center"
                                    FontFamily="Calibri"
@@ -86,9 +86,9 @@
                             <TextBlock Text="&#xE61B;"
                                        Margin="0,0,0,0"
                                        HorizontalAlignment="Center"
-                                       FontFamily="{StaticResource 全局_图标库}"
+                                       FontFamily="{DynamicResource 全局_图标库}"
                                        FontSize="80"
-                                       Foreground="#FF4B6587" />
+                                       Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
                             <TextBlock Text=" 左右单盆类型"
                                        Margin="0,20,0,0"
                                        HorizontalAlignment="Center"
@@ -112,9 +112,9 @@
                             <TextBlock Text="&#xe61a;"
                                        Margin="0,0,0,0"
                                        HorizontalAlignment="Center"
-                                       FontFamily="{StaticResource 全局_图标库}"
+                                       FontFamily="{DynamicResource 全局_图标库}"
                                        FontSize="80"
-                                       Foreground="#FF4B6587" />
+                                       Foreground="{DynamicResource 全局_背景_蓝颜色}" />
                             <TextBlock Text="上下单盆类型"
                                        Margin="0,20,0,0"
                                        HorizontalAlignment="Center"
@@ -135,9 +135,9 @@
                             <TextBlock Text="&#xe61d;"
                                        Margin="0,0,0,0"
                                        HorizontalAlignment="Center"
-                                       FontFamily="{StaticResource 全局_图标库}"
+                                       FontFamily="{DynamicResource 全局_图标库}"
                                        FontSize="80"
-                                       Foreground="#FF4B6587" />
+                                       Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
                             <TextBlock Text="双盆类型"
                                        Margin="0,20,0,0"
                                        HorizontalAlignment="Center"
@@ -177,7 +177,7 @@
                                HorizontalAlignment="Center"
                                FontFamily="/Resources/#iconfont"
                                FontSize="50"
-                               Foreground="#FF4B6587" />
+                               Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
                     <TextBlock Text="水槽尺寸"
                                VerticalAlignment="Center"
                                FontFamily="Calibri"
@@ -264,13 +264,13 @@
                             HorizontalAlignment="Right"
                             VerticalAlignment="Stretch"
                             Orientation="Horizontal">
-                    <Button Style="{StaticResource ButtonStyle3}"
+                    <Button Style="{DynamicResource ButtonStyle3}"
                             Content="保存"
                             Width="100"
                             Height=" 40"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Background="#89c997"
+                            Background="{DynamicResource 全局_按钮_绿颜色}"
                             FontSize="23">
 
                         <i:Interaction.Triggers>
@@ -290,7 +290,7 @@
                             Margin="20,0,0,0"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Background="#bfbfbf"
+                            Background="{DynamicResource 全局_按钮_灰颜色}"
                             FontSize="23">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">

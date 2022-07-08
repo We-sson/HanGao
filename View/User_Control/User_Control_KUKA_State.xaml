@@ -1,9 +1,9 @@
 ﻿<UserControl x:Class="HanGao.View.User_Control.User_Control_Working_Path"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HanGao.View.User_Control"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              d:DesignHeight="376"
              d:DesignWidth="491"
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_KUKA_State_VM}"
@@ -19,10 +19,10 @@
 
 
 
-        <Border BorderThickness="5"
-                Background="#EEEEEE"
-                CornerRadius="10"
-                BorderBrush="Transparent">
+        <Border Background="{DynamicResource 全局_背景_白颜色}"
+                BorderBrush="Transparent"
+                BorderThickness="5"
+                CornerRadius="10">
 
 
             <Grid Margin="20" VerticalAlignment="Top">
@@ -39,9 +39,9 @@
                             Width="90"
                             Height=" 90"
                             Margin="5"
+                            BorderBrush="Black"
                             BorderThickness="4"
-                            CornerRadius="0"
-                            BorderBrush="Black">
+                            CornerRadius="0">
                         <Border.Style>
                             <Style TargetType="Border">
                                 <Setter Property="Background" Value="#FFCACACA" />
@@ -66,8 +66,8 @@
                                Margin="0,10,0,0"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               FontSize="16"
-                               FontFamily="YouYuan" />
+                               FontFamily="YouYuan"
+                               FontSize="16" />
 
                 </StackPanel>
 
@@ -106,8 +106,8 @@
                                Margin="0,10,0,0"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               FontSize="16"
-                               FontFamily="YouYuan" />
+                               FontFamily="YouYuan"
+                               FontSize="16" />
 
 
 
@@ -129,13 +129,13 @@
                                 <Setter Property="Background" Value="#FFCACACA" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding KUKA_State.KUKA_Program_State}" Value="P_RESET">
-                                        <Setter Property="Background" Value="Yellow" />
+                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_黄颜色}" />
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding KUKA_State.KUKA_Program_State}" Value="P_ACTIVE">
-                                        <Setter Property="Background" Value="Green" />
+                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding KUKA_State.KUKA_Program_State}" Value="P_STOP">
-                                        <Setter Property="Background" Value="Red" />
+                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding KUKA_State.KUKA_Program_State}" Value="P_END ">
                                         <Setter Property="Background" Value="Black" />
@@ -168,8 +168,8 @@
                                Margin="0,10,0,0"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               FontSize="16"
-                               FontFamily="YouYuan" />
+                               FontFamily="YouYuan"
+                               FontSize="16" />
 
                 </StackPanel>
 
@@ -189,7 +189,7 @@
                                 <Setter Property="Background" Value="#FFCACACA" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding KUKA_State.KUKA_Mode_State}" Value="AUT">
-                                        <Setter Property="Background" Value="Green" />
+                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -217,8 +217,8 @@
                                Margin="0,10,0,0"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               FontSize="16"
-                               FontFamily="YouYuan" />
+                               FontFamily="YouYuan"
+                               FontSize="16" />
 
                 </StackPanel>
 

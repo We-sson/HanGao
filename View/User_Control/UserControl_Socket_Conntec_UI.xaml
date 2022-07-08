@@ -1,10 +1,10 @@
 ﻿<UserControl x:Class="HanGao.View.User_Control.UserControl_Socket_Conntec_UI"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:HanGao.View.User_Control"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              d:DesignHeight="250"
              d:DesignWidth="500"
              DataContext="{Binding Source={StaticResource Locator}, Path=Socket_Setup.Socket_Client_Setup}"
@@ -20,10 +20,10 @@
                         Height="65"
                         Margin="3"
                         Padding="5"
-                        BorderThickness="2"
                         Background="#c5c5c5"
-                        CornerRadius="10"
-                        ClipToBounds="True">
+                        BorderThickness="2"
+                        ClipToBounds="True"
+                        CornerRadius="10">
 
 
 
@@ -43,17 +43,17 @@
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    FontSize="30" />
-                        <TextBox Style="{StaticResource TextBoxStyle1}" Grid.Column="1"
+                        <TextBox Style="{DynamicResource TextBoxStyle1}" Grid.Column="1"
                                  Name="TB1"
                                  Grid.ColumnSpan="2"
                                  Text="{Binding IP, UpdateSourceTrigger=PropertyChanged}"
                                  Margin="0"
                                  HorizontalAlignment="Stretch"
                                  VerticalAlignment="Center"
-                                 Validation.ErrorTemplate="{x:Null}"
-                                 Tag="输入控制柜IP地址"
+                                 Background="Transparent"
                                  FontSize="25"
-                                 Background="Transparent" />
+                                 Tag="输入控制柜IP地址"
+                                 Validation.ErrorTemplate="{x:Null}" />
 
                     </Grid>
                     <!--  用户输入验证提示  -->
@@ -74,8 +74,8 @@
                 <Border Height="{Binding ElementName=BD1, Path=Height}"
                         Margin="{Binding ElementName=BD1, Path=Margin}"
                         Padding="{Binding ElementName=BD1, Path=Padding}"
-                        BorderThickness="{Binding ElementName=BD1, Path=BorderThickness}"
                         Background="{Binding ElementName=BD1, Path=Background}"
+                        BorderThickness="{Binding ElementName=BD1, Path=BorderThickness}"
                         CornerRadius="{Binding ElementName=BD1, Path=CornerRadius}">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -93,9 +93,9 @@
                                  Margin="0"
                                  HorizontalAlignment="Stretch"
                                  VerticalAlignment="Center"
-                                 Validation.ErrorTemplate="{x:Null}"
                                  FontSize="25"
-                                 Tag="默认端口7000" />
+                                 Tag="默认端口7000"
+                                 Validation.ErrorTemplate="{x:Null}" />
 
 
 
@@ -129,10 +129,10 @@
                     <Button x:Name="BU1" Grid.Column="0"
                             Height="50"
                             Margin="0,0,5,0"
-                            Tag="Connect"
+                            FontSize="25"
                             Foreground="White"
                             IsEnabled="{Binding Connect_Button_IsEnabled}"
-                            FontSize="25">
+                            Tag="Connect">
 
                         <Button.Style>
                             <Style BasedOn="{StaticResource ButtonStyle3}" TargetType="Button">
@@ -182,10 +182,10 @@
                     <Button Style="{StaticResource ButtonStyle3}" x:Name="BU2" Grid.Column="1"
                             Content="断开连接"
                             Margin="5,0,0,0"
-                            Tag="Disconnect"
-                            Foreground="Black"
                             Background="#FF5E57"
-                            FontSize="25">
+                            FontSize="25"
+                            Foreground="Black"
+                            Tag="Disconnect">
 
 
 

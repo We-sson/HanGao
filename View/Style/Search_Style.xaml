@@ -45,7 +45,7 @@
                                 Margin="0,0,0,-2"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Bottom"
-                                Background="Black" />
+                                Background="{DynamicResource 全局_背景_蓝颜色}" />
 
 
 
@@ -75,7 +75,7 @@
                             <Setter TargetName="bb3" Property="Background" Value="#07689F" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="true">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource TextBox.Focus.Border}" />
+                            <!--<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource TextBox.Focus.Border}" />-->
                             <Setter TargetName="bb3" Property="Width" Value="{Binding ElementName=Gd1, Path=ActualWidth}" />
                             <!--<Trigger.EnterActions>
                                 <BeginStoryboard >

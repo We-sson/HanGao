@@ -123,6 +123,9 @@ namespace HanGao.ViewModel
 
         }
 
+        /// <summary>
+        /// 添加水槽弹窗功能
+        /// </summary>
         public ICommand Sink_Data_Add_Comm
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>

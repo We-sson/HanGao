@@ -39,8 +39,21 @@
 
     <!--  全局样式定义  -->
 
-    <SolidColorBrush x:Key="全局_背景_主颜色" Color="#E6e6e6" />
 
+
+    <SolidColorBrush x:Key="全局_背景_白颜色" Color="#E6e6e6" />
+    <SolidColorBrush x:Key="全局_背景_蓝颜色" Color="#2a3c55" />
+
+    <SolidColorBrush x:Key="全局_按钮_白颜色" Color="#ffffff" />
+    <SolidColorBrush x:Key="全局_按钮_红颜色" Color="#ff5e58" />
+    <SolidColorBrush x:Key="全局_按钮_蓝颜色" Color="#FF4B6587" />
+    <SolidColorBrush x:Key="全局_按钮_黄颜色" Color="#FEDD6C" />
+    <SolidColorBrush x:Key="全局_按钮_绿颜色" Color="#6baa75" />
+    <SolidColorBrush x:Key="全局_按钮_灰颜色" Color="#bfbfbf" />
+    <SolidColorBrush x:Key="全局_按钮_黑颜色" Color="#434343" />
+
+    <FontFamily x:Key="全局_文字_数字字体">DengXian</FontFamily>
+    <FontFamily x:Key="全局_文字_中文字体">Yu Gothic UI Semilight</FontFamily>
 
 
     <DropShadowEffect x:Key="全局背景阴影"

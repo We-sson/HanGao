@@ -1,13 +1,13 @@
 ﻿<UserControl x:Class="HanGao.View.FrameShow.ProgramEdit "
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:HanGao.View.FrameShow"
              xmlns:Direction_UI="clr-namespace:HanGao.View.User_Control.Program_Editing.Direction_UI"
              xmlns:Point_UI="clr-namespace:HanGao.View.User_Control.Program_Editing.Point_UI"
              xmlns:Point_info="clr-namespace:HanGao.View.User_Control.Program_Editing.Point_info"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:local="clr-namespace:HanGao.View.FrameShow"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              d:DesignHeight="812"
              d:DesignWidth="1440"
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_ProgramEdit_ViewModel}"
@@ -30,9 +30,9 @@
 
             <Border Grid.Row="0"
                     Margin="20,20,10,10"
-                    Effect="{Binding Source={StaticResource 全局背景阴影}}"
-                    Background="#E3E3E3"
-                    CornerRadius="10">
+                    Background="{DynamicResource 全局_背景_白颜色}"
+                    CornerRadius="10"
+                    Effect="{Binding Source={StaticResource 全局背景阴影}}">
 
 
 
@@ -45,9 +45,9 @@
 
             <Border Grid.Row="1"
                     Margin="20,10,10,20"
-                    Effect="{Binding Source={StaticResource 全局背景阴影}}"
-                    Background="#E3E3E3"
-                    CornerRadius="10">
+                    Background="{DynamicResource 全局_背景_白颜色}"
+                    CornerRadius="10"
+                    Effect="{Binding Source={StaticResource 全局背景阴影}}">
 
                 <Point_UI:UC_Surround_Point DataContext="{Binding Source={StaticResource Locator}, Path=UC_Surround_Point_VM}" />
 
@@ -63,9 +63,9 @@
 
             <Border Grid.Row="0"
                     Margin="10,20,20,20"
-                    Effect="{Binding Source={StaticResource 全局背景阴影}}"
-                    Background="#E3E3E3"
-                    CornerRadius="10">
+                    Background="{DynamicResource 全局_背景_白颜色}"
+                    CornerRadius="10"
+                    Effect="{Binding Source={StaticResource 全局背景阴影}}">
 
                 <Point_info:UC_Point_Info DataContext="{Binding UC_Point_Info_VM, Source={StaticResource Locator}}" />
 
@@ -74,7 +74,7 @@
             </Border>
 
 
- 
+
 
 
 

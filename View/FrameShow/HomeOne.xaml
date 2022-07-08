@@ -1,13 +1,13 @@
 ﻿<UserControl x:Class="HanGao.View.FrameShow.HomeOne"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:HanGao.View.FrameShow"
-             xmlns:n="clr-namespace:Nicenis.Windows;assembly=Nicenis"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:cmd="http://www.galasoft.ch/mvvmlight"
              xmlns:UC_Working="clr-namespace:HanGao.View.User_Control"
+             xmlns:cmd="http://www.galasoft.ch/mvvmlight"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:local="clr-namespace:HanGao.View.FrameShow"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:n="clr-namespace:Nicenis.Windows;assembly=Nicenis"
              d:DesignHeight="812"
              d:DesignWidth="1440"
              DataContext="{Binding Source={StaticResource Locator}, Path=Home_ViewModel}"
@@ -27,8 +27,8 @@
 
 
         <Grid x:Name="Home_GD1"
-              ShowGridLines="False"
-              Background="Transparent">
+              Background="Transparent"
+              ShowGridLines="False">
 
 
 
@@ -71,11 +71,11 @@
                             Height=" 50"
                             Margin="0,0,0,15"
                             VerticalAlignment="Bottom"
-                            Effect="{StaticResource 全局背景阴影}"
                             Background="#F6F6F6"
-                            CornerRadius="10,10,10,10"
+                            BorderBrush="Black"
                             BorderThickness="0"
-                            BorderBrush="Black" />
+                            CornerRadius="10,10,10,10"
+                            Effect="{StaticResource 全局背景阴影}" />
 
 
                     <TextBlock x:Name="Tt2" Grid.Column="0"
@@ -83,17 +83,17 @@
                                Margin="0,0,0,0"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               Foreground="Black"
+                               FontFamily="{DynamicResource 全局_图标库}"
                                FontSize="25"
-                               FontFamily="/Resources/#iconfont" />
+                               Foreground="Black" />
 
                     <TextBox x:Name="Tt1" Grid.Column="1"
                              MaxLength="10"
                              VerticalAlignment="Center"
-                             DataContext="{Binding Source={StaticResource Locator}, Path=List_Show}"
-                             FontSize="25"
                              Background="Transparent"
                              BorderThickness="0"
+                             DataContext="{Binding Source={StaticResource Locator}, Path=List_Show}"
+                             FontSize="25"
                              TextAlignment="Left">
                         <TextBox.Triggers />
                         <i:Interaction.Triggers>
@@ -109,15 +109,15 @@
                             Margin="5,0,5,0"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Stretch"
-                            Background="#6F7788">
+                            Background="{DynamicResource 全局_按钮_蓝颜色}">
                         <TextBlock Grid.Column="0"
                                    Text="&#xe639;"
                                    Margin="0,0,0,0"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   Foreground="White"
+                                   FontFamily="{DynamicResource 全局_图标库}"
                                    FontSize="25"
-                                   FontFamily="/Resources/#iconfont" />
+                                   Foreground="{DynamicResource 全局_按钮_白颜色}" />
 
 
                         <i:Interaction.Triggers>
@@ -137,12 +137,12 @@
                          d:ItemsSource="{d:SampleData ItemCount=5}"
                          Background="Transparent"
                          DataContext="{Binding Source={StaticResource Locator}, Path=List_Show}"
-                         ItemsSource="{Binding SinkModels}"
-                         ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                         ScrollViewer.VerticalScrollBarVisibility="Auto"
                          ItemContainerStyle="{DynamicResource ListBoxItemStyle1}"
                          ItemTemplate="{DynamicResource DataTemplate1}"
-                         RenderTransformOrigin="0.5,0.5">
+                         ItemsSource="{Binding SinkModels}"
+                         RenderTransformOrigin="0.5,0.5"
+                         ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto">
 
                     <ListBox.RenderTransform>
                         <TransformGroup>
@@ -229,8 +229,8 @@
                             Uid="1"
                             Padding="0,10,0,10"
                             VerticalAlignment="Top"
-                            FontSize="22"
                             Background="#F9F9F9"
+                            FontSize="22"
                             Foreground="Black">
                         <Button.Content>
                             <StackPanel>
@@ -240,8 +240,8 @@
                                            Margin="0"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
-                                           Foreground="#0C4271"
-                                           FontFamily="/Resources/#iconfont" />
+                                           FontFamily="/Resources/#iconfont"
+                                           Foreground="#0C4271" />
                                 <TextBlock x:Name="S_B_1" Grid.Row="1"
                                            Text="{Binding Sideber_List[0].Sidebar_Subtitle}"
                                            Margin="0,10,0,0"
@@ -265,8 +265,8 @@
                             Padding="0,10,0,10"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Center"
-                            FontSize="22"
                             Background="#F9F9F9"
+                            FontSize="22"
                             Foreground="Black">
                         <Button.Content>
                             <StackPanel HorizontalAlignment="Center">
@@ -274,8 +274,8 @@
                                            Margin="0"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
-                                           Foreground="#0C4271"
-                                           FontFamily="/Resources/#iconfont" />
+                                           FontFamily="/Resources/#iconfont"
+                                           Foreground="#0C4271" />
                                 <TextBlock x:Name="S_B_2"
                                            Text="{Binding Sideber_List[1].Sidebar_Subtitle}"
                                            Margin="0,10,0,0"
@@ -295,16 +295,16 @@
                             Uid="3"
                             Padding="0,10,0,10"
                             VerticalAlignment="Top"
-                            FontSize="22"
                             Background="#F9F9F9"
+                            FontSize="22"
                             Foreground="Black">
                         <Button.Content>
                             <StackPanel HorizontalAlignment="Center">
                                 <TextBlock Text="&#xe619;"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
-                                           Foreground="#0C4271"
-                                           FontFamily="/Resources/#iconfont" />
+                                           FontFamily="/Resources/#iconfont"
+                                           Foreground="#0C4271" />
                                 <TextBlock x:Name="S_B_3"
                                            Text="{Binding Sideber_List[2].Sidebar_Subtitle}"
                                            Margin="0,10,0,0"

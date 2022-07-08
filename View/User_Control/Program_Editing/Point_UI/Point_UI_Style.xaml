@@ -77,7 +77,7 @@
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="BorderThickness" Value="0,0,0,3" />
-                <Setter Property="BorderBrush" Value="#16a637" />
+                <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_绿颜色}" />
                 <Setter Property="Effect" Value="{DynamicResource 全局背景阴影}" />
 
 
@@ -111,7 +111,7 @@
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Background" Value="#d8e0ea" />
-                <Setter Property="Foreground" Value="#4B6587" />
+                <Setter Property="Foreground" Value="{DynamicResource 全局_背景_蓝颜色}" />
             </Trigger>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
                 <!--<Setter Property="BorderBrush" Value="{DynamicResource {x:Static DataGrid.FocusBorderBrushKey}}"/>-->
@@ -141,7 +141,7 @@
         <Setter Property="FontSize" Value="20" />
         <Setter Property="Height" Value="50" />
         <Setter Property="FontWeight" Value="Heavy" />
-        <Setter Property="Foreground" Value="#555555" />
+        <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_黑颜色}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
@@ -169,7 +169,7 @@
                                 Height="3"
                                 Margin="0,0,0,0"
                                 VerticalAlignment="Bottom"
-                                Background="#4B6587" />
+                                Background="{DynamicResource 全局_按钮_蓝颜色}" />
 
                     </Grid>
                     <ControlTemplate.Triggers />

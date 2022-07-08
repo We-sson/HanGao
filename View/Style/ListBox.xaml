@@ -154,7 +154,7 @@
                     Grid.ColumnSpan="2"
                     Height=" 145"
                     VerticalAlignment="Stretch"
-                    Background="#334257"
+                    Background="{DynamicResource 全局_背景_蓝颜色}"
                     CornerRadius="8">
 
                 <Border.Effect>
@@ -167,7 +167,7 @@
 
             <Border Grid.Column="1"
                     Grid.ColumnSpan="2"
-                    Background="#ececec"
+                    Background="{DynamicResource 全局_背景_白颜色}"
                     CornerRadius="8" />
 
 
@@ -263,7 +263,7 @@
                            Margin="0"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Stretch"
-                           FontFamily="DengXian Light"
+                           FontFamily="{DynamicResource 全局_文字_数字字体}"
                            FontSize="48"
                            Foreground="#333333" />
 
@@ -291,16 +291,9 @@
                                       Height="30"
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Stretch"
-                                      BorderBrush="#B9CBEA"
-                                      BorderThickness="1.5">
+                                      BorderBrush="{DynamicResource 全局_背景_蓝颜色}"
+                                      BorderThickness="0">
 
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="Click">
-                                        <i:InvokeCommandAction Command="{Binding DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
-                                                               CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}"
-                                                               PassEventArgsToCommand="True" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
                                 <CheckBox.Style>
                                     <Style BasedOn="{StaticResource CheckBoxStyle2}" TargetType="CheckBox">
                                         <Style.Triggers>
@@ -313,13 +306,19 @@
                                         </Style.Triggers>
                                     </Style>
                                 </CheckBox.Style>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding DataContext.Set_Working_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
+                                                               CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}"
+                                                               PassEventArgsToCommand="True" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
                             </CheckBox>
 
 
                             <TextBlock Text="1号加载"
                                        Margin="5"
                                        VerticalAlignment="Center"
-                                       FontFamily="DengXian"
                                        FontSize="18"
                                        Foreground="Gray" />
                             <Button Style="{DynamicResource ButtonStyle3}" Grid.Column="1"
@@ -329,12 +328,12 @@
                                     Margin="0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
-                                    Background="#9BACCA">
+                                    Background="{DynamicResource 全局_按钮_黄颜色}">
                                 <Button.Content>
                                     <TextBlock Text="&#xe708;"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
-                                               FontFamily="/Resources/#iconfont"
+                                               FontFamily="{DynamicResource 全局_图标库}"
                                                FontSize="20" />
                                 </Button.Content>
                                 <i:Interaction.Triggers>
@@ -358,8 +357,8 @@
                                       Height="30"
                                       HorizontalAlignment="Stretch"
                                       VerticalAlignment="Stretch"
-                                      BorderBrush="#B9CBEA"
-                                      BorderThickness="1.5">
+                                      BorderBrush="{DynamicResource 全局_背景_蓝颜色}"
+                                      BorderThickness="0">
 
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Click">
@@ -386,7 +385,6 @@
                             <TextBlock Text="2号加载"
                                        Margin="5"
                                        VerticalAlignment="Center"
-                                       FontFamily="DengXian"
                                        FontSize="18"
                                        Foreground="Gray" />
                             <Button Style="{DynamicResource ButtonStyle3}" Grid.Column="1"
@@ -396,12 +394,12 @@
                                     Margin="0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
-                                    Background="#9BACCA">
+                                    Background="{DynamicResource 全局_按钮_黄颜色}">
                                 <Button.Content>
                                     <TextBlock Text="&#xe708;"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
-                                               FontFamily="/Resources/#iconfont"
+                                               FontFamily="{DynamicResource 全局_图标库}"
                                                FontSize="20" />
                                 </Button.Content>
                                 <i:Interaction.Triggers>

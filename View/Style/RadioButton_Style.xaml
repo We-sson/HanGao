@@ -42,7 +42,7 @@
                                 Height="5"
                                 Margin="-20,0,-20,0"
                                 VerticalAlignment="Bottom"
-                                Background="#07689F"
+                                Background="{DynamicResource 全局_按钮_蓝颜色}"
                                 CornerRadius="2"
                                 Opacity="0" />
 

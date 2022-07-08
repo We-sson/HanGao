@@ -1,9 +1,9 @@
 ﻿<UserControl x:Class="HanGao.View.User_Control.Program_Editing.Direction_UI.UC_Surround_Direction"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HanGao.View.User_Control.Program_Editing.Direction_UI"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:pop_ups="clr-namespace:HanGao.View.User_Control.Pop_Ups"
              d:DesignHeight="466"
              d:DesignWidth="760"
@@ -19,10 +19,10 @@
                    Text="&#xe61b;"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
-                   Opacity=" 0.8"
+                   FontFamily="/Resources/#iconfont"
                    FontSize="200"
-                   Foreground="#3E4756"
-                   FontFamily="/Resources/#iconfont" />
+                   Foreground="{DynamicResource 全局_按钮_蓝颜色}"
+                   Opacity=" 0.5" />
 
 
 
@@ -54,11 +54,11 @@
                          VerticalAlignment="Stretch"
                          HorizontalContentAlignment="Center"
                          VerticalContentAlignment="Center"
-                         BorderThickness="0,3,0,3"
+                         Background="{DynamicResource 全局_按钮_蓝颜色}"
                          BorderBrush="Black"
-                         GroupName="Sink_Direction"
-                         Background="#FF4B6587"
-                         FontSize="20" />
+                         BorderThickness="0,3,0,3"
+                         FontSize="20"
+                         GroupName="Sink_Direction" />
 
 
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="0" Grid.Column="0"
@@ -68,12 +68,12 @@
                          VerticalAlignment="Stretch"
                          HorizontalContentAlignment="Center"
                          VerticalContentAlignment="Center"
-                         BorderThickness="3"
+                         Background="{DynamicResource 全局_按钮_蓝颜色}"
                          BorderBrush="Black"
-                         GroupName="Sink_Direction"
-                         Background="#FF4B6587"
+                         BorderThickness="3"
+                         FontFamily="Yu Gothic UI Semilight"
                          FontSize="20"
-                         FontFamily="Yu Gothic UI Semilight" />
+                         GroupName="Sink_Direction" />
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="1" Grid.Column="0"
                          Content="L  90"
                          IsChecked="{Binding L90_Checked}"
@@ -81,12 +81,12 @@
                          VerticalAlignment="Stretch"
                          HorizontalContentAlignment="Center"
                          VerticalContentAlignment="Center"
-                         FontFamily="Yu Gothic UI Semilight"
-                         BorderThickness="3,0,3,0"
+                         Background="{DynamicResource 全局_按钮_蓝颜色}"
                          BorderBrush="Black"
-                         GroupName="Sink_Direction"
-                         Background="#FF4B6587"
-                         FontSize="20" />
+                         BorderThickness="3,0,3,0"
+                         FontFamily="Yu Gothic UI Semilight"
+                         FontSize="20"
+                         GroupName="Sink_Direction" />
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="2" Grid.Column="0"
                          Content="C  135"
                          IsChecked="{Binding C135_Checked}"
@@ -94,12 +94,12 @@
                          VerticalAlignment="Stretch"
                          HorizontalContentAlignment="Center"
                          VerticalContentAlignment="Center"
-                         FontFamily="Yu Gothic UI Semilight"
-                         BorderThickness="3,3,3,3"
+                         Background="{DynamicResource 全局_按钮_蓝颜色}"
                          BorderBrush="Black"
-                         GroupName="Sink_Direction"
-                         Background="#FF4B6587"
-                         FontSize="20" />
+                         BorderThickness="3,3,3,3"
+                         FontFamily="Yu Gothic UI Semilight"
+                         FontSize="20"
+                         GroupName="Sink_Direction" />
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="2" Grid.Column="1"
                          Content="L  180"
                          IsChecked="{Binding L180_Checked}"
@@ -107,12 +107,12 @@
                          VerticalAlignment="Stretch"
                          HorizontalContentAlignment="Center"
                          VerticalContentAlignment="Center"
-                         FontFamily="Yu Gothic UI Semilight"
-                         BorderThickness="0,3,0,3"
+                         Background="{DynamicResource 全局_按钮_蓝颜色}"
                          BorderBrush="Black"
-                         GroupName="Sink_Direction"
-                         Background="#FF4B6587"
-                         FontSize="20" />
+                         BorderThickness="0,3,0,3"
+                         FontFamily="Yu Gothic UI Semilight"
+                         FontSize="20"
+                         GroupName="Sink_Direction" />
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="2" Grid.Column="2"
                          Content="C  225"
                          IsChecked="{Binding C225_Checked}"
@@ -120,12 +120,12 @@
                          VerticalAlignment="Stretch"
                          HorizontalContentAlignment="Center"
                          VerticalContentAlignment="Center"
-                         FontFamily="Yu Gothic UI Semilight"
-                         BorderThickness="3,3,3,3"
+                         Background="{DynamicResource 全局_按钮_蓝颜色}"
                          BorderBrush="Black"
-                         GroupName="Sink_Direction"
-                         Background="#FF4B6587"
-                         FontSize="20" />
+                         BorderThickness="3,3,3,3"
+                         FontFamily="Yu Gothic UI Semilight"
+                         FontSize="20"
+                         GroupName="Sink_Direction" />
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="1" Grid.Column="2"
                          Content="L  270"
                          IsChecked="{Binding L270_Checked}"
@@ -133,12 +133,12 @@
                          VerticalAlignment="Stretch"
                          HorizontalContentAlignment="Center"
                          VerticalContentAlignment="Center"
-                         FontFamily="Yu Gothic UI Semilight"
-                         BorderThickness="3,0,3,0"
+                         Background="{DynamicResource 全局_按钮_蓝颜色}"
                          BorderBrush="Black"
-                         GroupName="Sink_Direction"
-                         Background="#FF4B6587"
-                         FontSize="20" />
+                         BorderThickness="3,0,3,0"
+                         FontFamily="Yu Gothic UI Semilight"
+                         FontSize="20"
+                         GroupName="Sink_Direction" />
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="0" Grid.Column="2"
                          Content="C  315"
                          IsChecked="{Binding C315_Checked}"
@@ -146,12 +146,12 @@
                          VerticalAlignment="Stretch"
                          HorizontalContentAlignment="Center"
                          VerticalContentAlignment="Center"
-                         FontFamily="Yu Gothic UI Semilight"
+                         Background="{DynamicResource 全局_按钮_蓝颜色}"
                          BorderBrush="Black"
                          BorderThickness="3,3,3,3"
-                         GroupName="Sink_Direction"
-                         Background="#FF4B6587"
-                         FontSize="20" />
+                         FontFamily="Yu Gothic UI Semilight"
+                         FontSize="20"
+                         GroupName="Sink_Direction" />
 
 
 

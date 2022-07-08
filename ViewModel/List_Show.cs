@@ -1,34 +1,22 @@
-﻿using Microsoft.Toolkit.Mvvm.Messaging;
-using HanGao.Model;
+﻿using HanGao.Model;
 using HanGao.View.User_Control;
-using HanGao.View.User_Control.Pop_Ups;
 using HanGao.View.UserMessage;
+using HanGao.Xml_Date.Xml_Write_Read;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using PropertyChanged;
 using System;
-using HanGao.Extension_Method;
+using System.Linq;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using static HanGao.Model.Sink_Models;
-using static HanGao.ViewModel.User_Control_Common;
-using Microsoft.Toolkit.Mvvm.Input;
-using HanGao.ViewModel.Messenger_Eunm;
-using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
-using Microsoft.Toolkit.Mvvm.Messaging.Messages;
-using System.Threading.Tasks;
-using HanGao.Xml_Date.Xml_Write_Read;
-using System.Threading;
-using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
-using HanGao.Xml_Date.Xml_Models;
-using System.Reflection;
-using static HanGao.Model.User_Read_Xml_Model;
-using System.Collections.Generic;
 using static HanGao.Model.List_Show_Models;
+using static HanGao.Model.User_Read_Xml_Model;
+using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 
 namespace HanGao.ViewModel
 {
@@ -39,12 +27,12 @@ namespace HanGao.ViewModel
         {
             //注册接收消息
 
-            
+
 
             IsActive = true;
 
             //接收修改参数属性
-            Messenger.Register<Sink_Models, string >(this, nameof(Meg_Value_Eunm.Sink_Value_All_OK), (O,S) =>
+            Messenger.Register<Sink_Models, string>(this, nameof(Meg_Value_Eunm.Sink_Value_All_OK), (O, S) =>
             {
 
 
@@ -61,14 +49,14 @@ namespace HanGao.ViewModel
 
                 XML_Write_Read.Save_Xml();
                 //关闭弹窗
-                Messenger.Send<UserControl , string>(null, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
+                Messenger.Send<UserControl, string>(null, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
 
 
             });
 
 
             //根据用户选择做出相应的动作
-            Messenger.Register<List_Show_Models,string >(this, nameof(Meg_Value_Eunm.List_IsCheck_Show), (O,_List) =>
+            Messenger.Register<List_Show_Models, string>(this, nameof(Meg_Value_Eunm.List_IsCheck_Show), (O, _List) =>
             {
 
 
@@ -78,7 +66,7 @@ namespace HanGao.ViewModel
 
 
 
-           
+
 
 
 
@@ -177,7 +165,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 初始化弹窗显示
         /// </summary>
-        public UserControl User_Pop { get; set; }= new UC_Pop_Ups() { DataContext = new UC_Pop_Ups_VM() { } };
+        public UserControl User_Pop { get; set; } = new UC_Pop_Ups() { DataContext = new UC_Pop_Ups_VM() { } };
 
 
         /// <summary>
@@ -185,31 +173,29 @@ namespace HanGao.ViewModel
         /// </summary>
         public ICommand Show_Pop_Ups_Page
         {
-            get => new RelayCommand<RoutedEventArgs>( (Sm) =>
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
                 {
 
-                  FrameworkElement e = Sm.Source as FrameworkElement;
+                    FrameworkElement e = Sm.Source as FrameworkElement;
 
-                  //转换用户选择的水槽选项
-                  Sink_Models M = e.DataContext as Sink_Models;
-                  M.User_Picking_Craft.User_Work_Area = (Work_No_Enum)Enum.Parse(typeof(Work_No_Enum), e.Uid);
-
-
-                  User_Control_Show.User_UserControl = User_Pop;
-
-   
+                    //转换用户选择的水槽选项
+                    Sink_Models M = e.DataContext as Sink_Models;
+                    M.User_Picking_Craft.User_Work_Area = (Work_No_Enum)Enum.Parse(typeof(Work_No_Enum), e.Uid);
 
 
-                  //打开显示弹窗首页面
-                  //Messenger.Send<dynamic, string>(RadioButton_Name.水槽类型选择,nameof(Meg_Value_Eunm.Pop_Sink_Show));
-
-           
+                    User_Control_Show.User_UserControl = User_Pop;
 
 
-                  //传送尺寸参数弹窗页面
-                  Messenger.Send<Sink_Models, string>(M, nameof(Meg_Value_Eunm.UC_Pop_Sink_Value_Load));
 
 
+                    //打开显示弹窗首页面
+                    //Messenger.Send<dynamic, string>(RadioButton_Name.水槽类型选择,nameof(Meg_Value_Eunm.Pop_Sink_Show));
+
+
+
+
+                    //传送尺寸参数弹窗页面
+                    Messenger.Send<Sink_Models, string>(M, nameof(Meg_Value_Eunm.UC_Pop_Sink_Value_Load));
 
 
 
@@ -226,7 +212,9 @@ namespace HanGao.ViewModel
 
 
 
-              });
+
+
+                });
         }
 
 
@@ -252,99 +240,193 @@ namespace HanGao.ViewModel
                 Work_No_Enum User_Area = (Work_No_Enum)Enum.Parse(typeof(Work_No_Enum), e.Uid);
 
 
-
                 //判断用户按钮触发条件
                 if ((bool)e.IsChecked)
                 {
-                    //遍历水槽集合
-                    foreach (var _Sink in SinkModels)
-                    {
 
-                        //判断非用户选定的按钮是否有选择情况       
-                        if (_Sink.Sink_Process.Sink_Model!=S.Sink_Process.Sink_Model)
+                    bool aa;
+
+                     Sink_Models Sink_Result =   SinkModels.FirstOrDefault(x =>x.Sink_Process.Sink_Model != S.Sink_Process.Sink_Model && (bool)x.Sink_UI.GetType().GetProperty("List_IsChecked_" + (int)User_Area).GetValue(x.Sink_UI) == true);
+
+
+                    if (Sink_Result != null)
+                    { 
+
+        
+                        Messenger.Send<UserControl, string>(new User_Message()
                         {
-                            bool aa = (bool)_Sink.Sink_UI.GetType().GetProperty("List_IsChecked_" + (int)User_Area).GetValue(_Sink.Sink_UI);
-
-                            if (aa)
+                            DataContext = new User_Message_ViewModel()
                             {
-
-
-                                //
-                                Messenger.Send<UserControl, string>(new User_Message()
+                                List_Show_Models = new List_Show_Models()
                                 {
-                                    DataContext = new User_Message_ViewModel()
+                                    List_Chick_NO = User_Area.ToString(),
+                                    List_Show_Bool = Visibility.Visible,
+                                    List_Show_Name = S.Sink_Process.Sink_Model.ToString(),
+                                    Message_title = Message_Type.是否确定替换该型号.ToString(),
+                                    GetUser_Select = Val =>
                                     {
-                                        List_Show_Models = new List_Show_Models()
+                                        if (Val)
                                         {
-                                            List_Chick_NO = User_Area.ToString(),
-                                            List_Show_Bool = Visibility.Visible,
-                                            List_Show_Name = S.Sink_Process.Sink_Model.ToString(),
-                                         Message_title= Message_Type.是否确定替换该型号.ToString(),
-                                            GetUser_Select = Val =>
+                                            //复位其他水槽加载按钮
+                                            Sink_Result.Sink_UI.GetType().GetProperty("List_IsChecked_" + (int)User_Area).SetValue(Sink_Result.Sink_UI, false);
+
+
+                                            ////异步发送水槽全部参数到库卡变量
+                                            ///
+                                            Task.Run(() =>
                                             {
-                                                if (Val)
-                                                {
-                                                    //复位其他水槽加载按钮
-                                                   _Sink.Sink_UI.GetType().GetProperty("List_IsChecked_" + (int)User_Area).SetValue(_Sink.Sink_UI, false  );
-                                                    
 
-                                                    ////异步发送水槽全部参数到库卡变量
-                                                    ///
-                                                    Task.Run(() =>
-                                                    {
-
-                                                        //发送期间UI禁止重发触发
-                                                        e.Dispatcher.BeginInvoke(() => { e.IsEnabled = false; });
+                                                //发送期间UI禁止重发触发
+                                                e.Dispatcher.BeginInvoke(() => { e.IsEnabled = false; });
 
 
-                                                        //异步发送用户选择
-                                                        Messenger.Send<Working_Area_Data, string>(new Working_Area_Data() { User_Sink = S, Working_Area_UI = new Working_Area_UI_Model() { Load_UI_Work = User_Area, UI_Loade = UC_Surround_Direction_VM.UI_Type_Enum.Reading } }, nameof(Meg_Value_Eunm.UI_Work));
+                                                //异步发送用户选择
+                                                Messenger.Send<Working_Area_Data, string>(new Working_Area_Data() { User_Sink = S, Working_Area_UI = new Working_Area_UI_Model() { Load_UI_Work = User_Area, UI_Loade = UC_Surround_Direction_VM.UI_Type_Enum.Reading } }, nameof(Meg_Value_Eunm.UI_Work));
 
 
-                                                        //释放UI触发
-                                                        e.Dispatcher.BeginInvoke(() => { e.IsEnabled = true; });
+                                                //释放UI触发
+                                                e.Dispatcher.BeginInvoke(() => { e.IsEnabled = true; });
 
 
-                                                    });
+                                            });
 
 
-                                                }
-                                                else
-                                                {
+                                        }
+                                        else
+                                        {
 
-                                                    //弹窗询问用户取消就复位按钮
-                                                    e.IsChecked = false;
+                                            //弹窗询问用户取消就复位按钮
+                                            e.IsChecked = false;
 
-                                                }
-                                            }
                                         }
                                     }
-                                }, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
-
-
-                            }else
-                            {
-                                //异步发送水槽全部参数到库卡变量
-                                Task.Run(() =>
-                                {
-
-                                    //发送期间UI禁止重发触发
-                                    e.Dispatcher.BeginInvoke(() => { e.IsEnabled = false; });
-
-
-                                    //异步发送用户选择
-                                    Messenger.Send<Working_Area_Data, string>(new Working_Area_Data() { User_Sink = S, Working_Area_UI = new Working_Area_UI_Model() { Load_UI_Work = User_Area, UI_Loade = UC_Surround_Direction_VM.UI_Type_Enum.Reading } }, nameof(Meg_Value_Eunm.UI_Work));
-
-
-                                    //释放UI触发
-                                    e.Dispatcher.BeginInvoke(() => { e.IsEnabled = true; });
-
-
-                                });
-
+                                }
                             }
-                        }
+                        }, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
+
+
                     }
+                    else
+                    {
+                        Task.Run(() =>
+                        {
+
+                            //发送期间UI禁止重发触发
+                            e.Dispatcher.BeginInvoke(() => { e.IsEnabled = false; });
+
+
+                            //异步发送用户选择
+                            Messenger.Send<Working_Area_Data, string>(new Working_Area_Data() { User_Sink = S, Working_Area_UI = new Working_Area_UI_Model() { Load_UI_Work = User_Area, UI_Loade = UC_Surround_Direction_VM.UI_Type_Enum.Reading } }, nameof(Meg_Value_Eunm.UI_Work));
+
+
+                            //释放UI触发
+                            e.Dispatcher.BeginInvoke(() => { e.IsEnabled = true; });
+
+
+                        });
+
+                    }
+
+
+
+                    //遍历水槽集合
+                    //foreach (var _Sink in SinkModels)
+                    //{
+
+
+
+                    //    //判断非用户选定的按钮是否有选择情况       
+                    //    if (_Sink.Sink_Process.Sink_Model != S.Sink_Process.Sink_Model)
+                    //    {
+                    //        aa = (bool)_Sink.Sink_UI.GetType().GetProperty("List_IsChecked_" + (int)User_Area).GetValue(_Sink.Sink_UI);
+                    //if (aa)
+                    //{
+
+
+                    //    //
+                    //    Messenger.Send<UserControl, string>(new User_Message()
+                    //    {
+                    //        DataContext = new User_Message_ViewModel()
+                    //        {
+                    //            List_Show_Models = new List_Show_Models()
+                    //            {
+                    //                List_Chick_NO = User_Area.ToString(),
+                    //                List_Show_Bool = Visibility.Visible,
+                    //                List_Show_Name = S.Sink_Process.Sink_Model.ToString(),
+                    //                Message_title = Message_Type.是否确定替换该型号.ToString(),
+                    //                GetUser_Select = Val =>
+                    //                {
+                    //                    if (Val)
+                    //                    {
+                    //                                //复位其他水槽加载按钮
+                    //                        _Sink.Sink_UI.GetType().GetProperty("List_IsChecked_" + (int)User_Area).SetValue(_Sink.Sink_UI, false);
+
+
+                    //                                ////异步发送水槽全部参数到库卡变量
+                    //                                ///
+                    //                        Task.Run(() =>
+                    //                        {
+
+                    //                                    //发送期间UI禁止重发触发
+                    //                            e.Dispatcher.BeginInvoke(() => { e.IsEnabled = false; });
+
+
+                    //                                    //异步发送用户选择
+                    //                            Messenger.Send<Working_Area_Data, string>(new Working_Area_Data() { User_Sink = S, Working_Area_UI = new Working_Area_UI_Model() { Load_UI_Work = User_Area, UI_Loade = UC_Surround_Direction_VM.UI_Type_Enum.Reading } }, nameof(Meg_Value_Eunm.UI_Work));
+
+
+                    //                                    //释放UI触发
+                    //                            e.Dispatcher.BeginInvoke(() => { e.IsEnabled = true; });
+
+
+                    //                        });
+
+
+                    //                    }
+                    //                    else
+                    //                    {
+
+                    //                                //弹窗询问用户取消就复位按钮
+                    //                        e.IsChecked = false;
+
+                    //                    }
+                    //                }
+                    //            }
+                    //        }
+                    //    }, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
+
+
+                    //}
+                    //else
+                    //{
+                    //    //异步发送水槽全部参数到库卡变量
+                    //    Task.Run(() =>
+                    //    {
+
+                    //                //发送期间UI禁止重发触发
+                    //        e.Dispatcher.BeginInvoke(() => { e.IsEnabled = false; });
+
+
+                    //                //异步发送用户选择
+                    //        Messenger.Send<Working_Area_Data, string>(new Working_Area_Data() { User_Sink = S, Working_Area_UI = new Working_Area_UI_Model() { Load_UI_Work = User_Area, UI_Loade = UC_Surround_Direction_VM.UI_Type_Enum.Reading } }, nameof(Meg_Value_Eunm.UI_Work));
+
+
+                    //                //释放UI触发
+                    //        e.Dispatcher.BeginInvoke(() => { e.IsEnabled = true; });
+
+
+                    //    });
+
+                    //    return;
+
+                    //}
+
+                    //    }
+
+
+                    //}
+
+
                 }
                 else
                 {
@@ -362,7 +444,7 @@ namespace HanGao.ViewModel
         /// 水槽尺寸工艺数据写入库卡变量中
         /// </summary>
         /// <param name="Val1"></param>
-        public void WriteToKuKa_SinkVal(  ) 
+        public void WriteToKuKa_SinkVal()
         {
 
 
@@ -370,7 +452,7 @@ namespace HanGao.ViewModel
 
             //发送期间UI禁止重发触发
             //e.Dispatcher.BeginInvoke(() => {
-           
+
             //e.IsEnabled = false; 
             //});
             //   Sink_Models S = (Sink_Models)e.DataContext;
@@ -388,7 +470,7 @@ namespace HanGao.ViewModel
             //    e.Dispatcher.BeginInvoke(() => { e.IsEnabled = true; });
 
 
-    
+
 
 
         }
