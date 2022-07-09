@@ -17,7 +17,7 @@
 
     <Grid>
         <!--  背景遮挡  -->
-        <Border Style="{StaticResource 全局_弹窗_背景侧挡样式}" />
+        <Border Style="{DynamicResource 全局_弹窗_背景侧挡样式}" />
         <Border Width="1100"
                 Height="700"
                 Background="{DynamicResource 全局_背景_白颜色}"
@@ -49,7 +49,7 @@
 
 
                 <Grid Grid.Row="0"
-                      Margin="100,0,100,0"
+                      Margin="100,0,100,10"
                       VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
@@ -139,22 +139,25 @@
 
 
 
-                <GroupBox Style="{StaticResource GroupBox_Grid_Effect}" Grid.Row="1"
-                          HorizontalContentAlignment="Center"
-                          VerticalContentAlignment="Center"
-                          Background="#EBEBEB">
+                <Border Grid.Row="1"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Background="{DynamicResource 全局_背景_白颜色}"
+                        CornerRadius=" 25"
+                        Effect="{DynamicResource 全局背景阴影}">
                     <Grid Margin="0"
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Stretch">
 
-                        <Pop:UC_Sink_Type HorizontalContentAlignment="Stretch"
-                                          VerticalContentAlignment="Stretch"
+                        <Pop:UC_Sink_Type HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Stretch"
+                                          DataContext="{Binding Source={StaticResource Locator}, Path=UC_Sink_Type_VM}"
                                           Visibility="{Binding IsChecked, Converter={StaticResource TruthyToVisibleConverter}, ElementName=R1}" />
-                        <Pop:UC_Sink_Size HorizontalContentAlignment="Stretch"
-                                          VerticalContentAlignment="Stretch"
+                        <Pop:UC_Sink_Size HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Stretch"
                                           Visibility="{Binding IsChecked, Converter={StaticResource TruthyToVisibleConverter}, ElementName=R2}" />
-                        <Pop:UC_Sink_Craft_List HorizontalContentAlignment="Stretch"
-                                                VerticalContentAlignment="Stretch"
+                        <Pop:UC_Sink_Craft_List HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Stretch"
                                                 Visibility="{Binding IsChecked, Converter={StaticResource TruthyToVisibleConverter}, ElementName=R3}" />
 
 
@@ -200,7 +203,7 @@
                     </Grid>
 
 
-                </GroupBox>
+                </Border>
 
 
 

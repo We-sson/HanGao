@@ -87,10 +87,6 @@ namespace HanGao.ViewModel
             get { return _SinkModels; }
             set
             {
-
-
-
-
                 _SinkModels = value;
                 StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(SinkModels)));
             }
@@ -165,7 +161,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 初始化弹窗显示
         /// </summary>
-        public UserControl User_Pop { get; set; } = new UC_Pop_Ups() { DataContext = new UC_Pop_Ups_VM() { } };
+        public UserControl User_Pop { get; set; } = new UC_Pop_Ups() {};
 
 
         /// <summary>
@@ -185,33 +181,8 @@ namespace HanGao.ViewModel
 
                     User_Control_Show.User_UserControl = User_Pop;
 
-
-
-
-                    //打开显示弹窗首页面
-                    //Messenger.Send<dynamic, string>(RadioButton_Name.水槽类型选择,nameof(Meg_Value_Eunm.Pop_Sink_Show));
-
-
-
-
                     //传送尺寸参数弹窗页面
                     Messenger.Send<Sink_Models, string>(M, nameof(Meg_Value_Eunm.UC_Pop_Sink_Value_Load));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
                 });
@@ -244,15 +215,15 @@ namespace HanGao.ViewModel
                 if ((bool)e.IsChecked)
                 {
 
-                    bool aa;
-
+  
+                    //查看UI水槽集合中是否有加载按钮
                      Sink_Models Sink_Result =   SinkModels.FirstOrDefault(x =>x.Sink_Process.Sink_Model != S.Sink_Process.Sink_Model && (bool)x.Sink_UI.GetType().GetProperty("List_IsChecked_" + (int)User_Area).GetValue(x.Sink_UI) == true);
 
 
                     if (Sink_Result != null)
                     { 
 
-        
+        //提示弹窗让用户选择
                         Messenger.Send<UserControl, string>(new User_Message()
                         {
                             DataContext = new User_Message_ViewModel()
@@ -277,15 +248,16 @@ namespace HanGao.ViewModel
                                             {
 
                                                 //发送期间UI禁止重发触发
-                                                e.Dispatcher.BeginInvoke(() => { e.IsEnabled = false; });
-
+                                                //e.Dispatcher.BeginInvoke(() => { e.IsEnabled = false; });
+                                                Application.Current.Dispatcher.Invoke(() =>{ e.IsEnabled = false; });
 
                                                 //异步发送用户选择
                                                 Messenger.Send<Working_Area_Data, string>(new Working_Area_Data() { User_Sink = S, Working_Area_UI = new Working_Area_UI_Model() { Load_UI_Work = User_Area, UI_Loade = UC_Surround_Direction_VM.UI_Type_Enum.Reading } }, nameof(Meg_Value_Eunm.UI_Work));
 
 
                                                 //释放UI触发
-                                                e.Dispatcher.BeginInvoke(() => { e.IsEnabled = true; });
+                                                //e.Dispatcher.BeginInvoke(() => { e.IsEnabled = true; });
+                                                Application.Current.Dispatcher.Invoke(() => { e.IsEnabled = true ; });
 
 
                                             });
@@ -312,7 +284,7 @@ namespace HanGao.ViewModel
                         {
 
                             //发送期间UI禁止重发触发
-                            e.Dispatcher.BeginInvoke(() => { e.IsEnabled = false; });
+                            Application.Current.Dispatcher.Invoke(() => { e.IsEnabled = false ; });
 
 
                             //异步发送用户选择
@@ -320,7 +292,8 @@ namespace HanGao.ViewModel
 
 
                             //释放UI触发
-                            e.Dispatcher.BeginInvoke(() => { e.IsEnabled = true; });
+                            Application.Current.Dispatcher.Invoke(() => { e.IsEnabled = true ; });
+
 
 
                         });
@@ -328,103 +301,6 @@ namespace HanGao.ViewModel
                     }
 
 
-
-                    //遍历水槽集合
-                    //foreach (var _Sink in SinkModels)
-                    //{
-
-
-
-                    //    //判断非用户选定的按钮是否有选择情况       
-                    //    if (_Sink.Sink_Process.Sink_Model != S.Sink_Process.Sink_Model)
-                    //    {
-                    //        aa = (bool)_Sink.Sink_UI.GetType().GetProperty("List_IsChecked_" + (int)User_Area).GetValue(_Sink.Sink_UI);
-                    //if (aa)
-                    //{
-
-
-                    //    //
-                    //    Messenger.Send<UserControl, string>(new User_Message()
-                    //    {
-                    //        DataContext = new User_Message_ViewModel()
-                    //        {
-                    //            List_Show_Models = new List_Show_Models()
-                    //            {
-                    //                List_Chick_NO = User_Area.ToString(),
-                    //                List_Show_Bool = Visibility.Visible,
-                    //                List_Show_Name = S.Sink_Process.Sink_Model.ToString(),
-                    //                Message_title = Message_Type.是否确定替换该型号.ToString(),
-                    //                GetUser_Select = Val =>
-                    //                {
-                    //                    if (Val)
-                    //                    {
-                    //                                //复位其他水槽加载按钮
-                    //                        _Sink.Sink_UI.GetType().GetProperty("List_IsChecked_" + (int)User_Area).SetValue(_Sink.Sink_UI, false);
-
-
-                    //                                ////异步发送水槽全部参数到库卡变量
-                    //                                ///
-                    //                        Task.Run(() =>
-                    //                        {
-
-                    //                                    //发送期间UI禁止重发触发
-                    //                            e.Dispatcher.BeginInvoke(() => { e.IsEnabled = false; });
-
-
-                    //                                    //异步发送用户选择
-                    //                            Messenger.Send<Working_Area_Data, string>(new Working_Area_Data() { User_Sink = S, Working_Area_UI = new Working_Area_UI_Model() { Load_UI_Work = User_Area, UI_Loade = UC_Surround_Direction_VM.UI_Type_Enum.Reading } }, nameof(Meg_Value_Eunm.UI_Work));
-
-
-                    //                                    //释放UI触发
-                    //                            e.Dispatcher.BeginInvoke(() => { e.IsEnabled = true; });
-
-
-                    //                        });
-
-
-                    //                    }
-                    //                    else
-                    //                    {
-
-                    //                                //弹窗询问用户取消就复位按钮
-                    //                        e.IsChecked = false;
-
-                    //                    }
-                    //                }
-                    //            }
-                    //        }
-                    //    }, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
-
-
-                    //}
-                    //else
-                    //{
-                    //    //异步发送水槽全部参数到库卡变量
-                    //    Task.Run(() =>
-                    //    {
-
-                    //                //发送期间UI禁止重发触发
-                    //        e.Dispatcher.BeginInvoke(() => { e.IsEnabled = false; });
-
-
-                    //                //异步发送用户选择
-                    //        Messenger.Send<Working_Area_Data, string>(new Working_Area_Data() { User_Sink = S, Working_Area_UI = new Working_Area_UI_Model() { Load_UI_Work = User_Area, UI_Loade = UC_Surround_Direction_VM.UI_Type_Enum.Reading } }, nameof(Meg_Value_Eunm.UI_Work));
-
-
-                    //                //释放UI触发
-                    //        e.Dispatcher.BeginInvoke(() => { e.IsEnabled = true; });
-
-
-                    //    });
-
-                    //    return;
-
-                    //}
-
-                    //    }
-
-
-                    //}
 
 
                 }
@@ -449,25 +325,6 @@ namespace HanGao.ViewModel
 
 
 
-
-            //发送期间UI禁止重发触发
-            //e.Dispatcher.BeginInvoke(() => {
-
-            //e.IsEnabled = false; 
-            //});
-            //   Sink_Models S = (Sink_Models)e.DataContext;
-
-
-
-
-            //Messenger.Send<Working_Area_Data, string>(new Working_Area_Data() { User_Sink = S, Working_Area_UI = new Working_Area_UI_Model() { Load_UI_Work = User_Area, UI_Loade = UC_Surround_Direction_VM.UI_Type_Enum.Reading } }, nameof(Meg_Value_Eunm.UI_Work));
-            //    //异步发送用户选择
-
-
-
-
-            //    //释放UI触发
-            //    e.Dispatcher.BeginInvoke(() => { e.IsEnabled = true; });
 
 
 

@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 using HanGao.Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static HanGao.Model.SInk_UI_Models;
+using System;
 
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-
     public class UC_Sink_Type_VM : ObservableRecipient
     {
 
@@ -34,7 +34,7 @@ namespace HanGao.ViewModel
 
 
                 _Sink = S;
-
+                //Sink_Type_Load = _Sink.Sink_Process.Sink_Type;
                 switch (_Sink.Sink_Process.Sink_Type)
                 {
                     case Sink_Type_Enum.LeftRight_One:
@@ -44,7 +44,7 @@ namespace HanGao.ViewModel
                         Sink_UpDown_Checked = true;
                         break;
                     case Sink_Type_Enum.LeftRight_Two:
-                        Sink_Twin_Checked = true;
+                         Sink_Two_Checked = true;
                         break;
                     default:
                         break;
@@ -70,104 +70,61 @@ namespace HanGao.ViewModel
 
 
 
-        private Sink_Type_Enum _Sink_Type_Load;
+ 
         /// <summary>
         /// 用户选择的水槽类型
         /// </summary>
-        public Sink_Type_Enum Sink_Type_Load
-        {
-            set
-            {
-                //if (Sink_Type_Load != Photo_Sink_Enum.空)
-                //{
-
-                //if (value != Sink_Type_Load )
-                //{
-
-
-                //}
-                //}
-                _Sink_Type_Load = value;
-
-            }
-
-
-            get { return _Sink_Type_Load; }
-        }
+        public Sink_Type_Enum Sink_Type_Load { set; get; }
 
 
 
 
 
-        private bool _Sink_LR_Checked;
-        public   bool Sink_LR_Checked
-        {
-            get { return _Sink_LR_Checked; }
-            set
-            {
-                _Sink_LR_Checked = value;
+        //private bool _Sink_LR_Checked=true;
+        public   bool Sink_LR_Checked { set; get; }
+        //{
+        //    get { return _Sink_LR_Checked; }
+        //    set
+        //    {
+        //        _Sink_LR_Checked = value;
 
-                if (value)
-                {
-                    Messenger.Send<dynamic, string>(Sink_Type_Enum.LeftRight_One, nameof(Meg_Value_Eunm.Sink_Type_Value_OK));
-                }
+        //        //if (value)
+        //        //{
+        //        //    Messenger.Send<dynamic, string>(Sink_Type_Enum.LeftRight_One, nameof(Meg_Value_Eunm.Sink_Type_Value_OK));
+        //        //}
 
-                //MessageBox.Show("_Sink_LR_Checked=" + value.ToString());
+        //    }
+        //}
+        //private   bool _Sink_UpDown_Checked;
+        public   bool Sink_UpDown_Checked { set; get; }
+        //{
+        //    get { return _Sink_UpDown_Checked; }
+        //    set
+        //    {
+        //        _Sink_UpDown_Checked = value;
 
-                //SetProperty(ref _Sink_LR_Checked, value);
-                //if (value == true || Sink_LR_Checked != _Sink_LR_Checked)
-                //{
-                //    Sink_Type_Load = Photo_Sink_Enum.左右单盆;
+        //        //if (value)
+        //        //{
+        //        //    Messenger.Send<dynamic, string>(Sink_Type_Enum.UpDown_One, nameof(Meg_Value_Eunm.Sink_Type_Value_OK));
+        //        //}
 
-                //}
-            }
-        }
-        private   bool _Sink_UpDown_Checked;
-        public   bool Sink_UpDown_Checked
-        {
-            get { return _Sink_UpDown_Checked; }
-            set
-            {
-                _Sink_UpDown_Checked = value;
 
-                if (value)
-                {
-                    Messenger.Send<dynamic, string>(Sink_Type_Enum.UpDown_One, nameof(Meg_Value_Eunm.Sink_Type_Value_OK));
-                }
-                //MessageBox.Show("_Sink_UpDown_Checked="+value.ToString());
+        //    }
+        //}
+        //private   bool _Sink_Twin_Checked;
+        public   bool Sink_Two_Checked { set; get; }
+        //{
+        //    get { return _Sink_Twin_Checked; }
+        //    set
+        //    {
+        //        _Sink_Twin_Checked = value;
+        //        //if (value)
+        //        //{
+        //        //    Messenger.Send<dynamic, string>(Sink_Type_Enum.LeftRight_Two, nameof(Meg_Value_Eunm.Sink_Type_Value_OK));
+        //        //}
 
-                //SetProperty(ref _Sink_UpDown_Checked, value);
-                //if (value == true || Sink_UpDown_Checked != _Sink_UpDown_Checked)
-                //{
-                //    Sink_Type_Load = Photo_Sink_Enum.上下单盆;
-
-                //}
-
-            }
-        }
-        private   bool _Sink_Twin_Checked;
-        public   bool Sink_Twin_Checked
-        {
-            get { return _Sink_Twin_Checked; }
-            set
-            {
-                _Sink_Twin_Checked = value;
-                if (value)
-                {
-                    Messenger.Send<dynamic, string>(Sink_Type_Enum.LeftRight_Two, nameof(Meg_Value_Eunm.Sink_Type_Value_OK));
-                }
-                //MessageBox.Show("Sink_Twin_Checked=" + value.ToString());
-
-                //SetProperty(ref _Sink_Twin_Checked, value);
-
-                //if (value == true || Sink_Twin_Checked != _Sink_Twin_Checked)
-                //{
-                //    Sink_Type_Load = Photo_Sink_Enum.普通双盆;
-
-                //}
-            }
-        }
-        //public bool Sink_LeftRight_Checked = {set;get;}
+        //    }
+        //}
 
 
 
@@ -187,9 +144,6 @@ namespace HanGao.ViewModel
                 
                 
                 });
-                //UC_Sink_Size_VM.Sink_Size_Value.Photo_Sink_Type = Sink_Type_Load;
-
-
 
 
 
@@ -208,7 +162,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 修改水槽类型选择事件
         /// </summary>
-        public ICommand Sink_Type_Comm
+        public ICommand Sink_Type_Set_Comm
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
@@ -219,10 +173,10 @@ namespace HanGao.ViewModel
                 //用户设置水槽属性
                 //Sink_Type_Load.Photo_Sink_Type = (Photo_Sink_Enum)int.Parse((String)e.Tag);
 
+                   Messenger.Send<dynamic, string>(Enum.Parse(typeof(Sink_Type_Enum), e.Name), nameof(Meg_Value_Eunm.Sink_Type_Value_OK));
+                
 
-
-
-
+                
 
 
 

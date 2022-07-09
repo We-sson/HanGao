@@ -126,7 +126,7 @@
                                    Margin="10,5,10,0"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   FontFamily="Yu Gothic UI Semilight"
+                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
                                    FontSize="24"
                                    Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                     </WrapPanel>

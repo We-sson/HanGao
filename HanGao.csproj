@@ -356,6 +356,10 @@
     <Page Include="View\Style\Socket_ListView_Style.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Style\UC_Loading_Style.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Style\Window_Button.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

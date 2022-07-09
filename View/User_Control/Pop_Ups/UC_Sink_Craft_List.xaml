@@ -1,23 +1,21 @@
 ﻿<UserControl x:Class="HanGao.View.User_Control.Pop_Ups.UC_Sink_Craft_List"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:local="clr-namespace:HanGao.View.User_Control"
              xmlns:av="http://schemas.microsoft.com/expression/blend/2008"
-             HorizontalContentAlignment="Center"
-             VerticalContentAlignment="Center"
+             xmlns:local="clr-namespace:HanGao.View.User_Control"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              DataContext="{Binding UC_Sink_Craft_List_VM, Mode=OneWay, Source={StaticResource Locator}}"
              mc:Ignorable="av">
-    <Grid Background="Transparent">
+    <Grid Margin="15" Background="Transparent">
         <ListBox Style="{DynamicResource ListBoxStyle1}"
                  HorizontalAlignment="Stretch"
                  av:ItemsSource="{av:SampleData ItemCount=5}"
-                 BorderThickness="0"
-                 BorderBrush="Black"
-                 DataContext="{Binding UC_Sink_Craft_List_VM, Mode=OneWay, Source={StaticResource Locator}}"
                  Background="Transparent"
-                 ItemTemplate="{DynamicResource Sink_Data_Template}"
+                 BorderBrush="Black"
+                 BorderThickness="0"
+                 DataContext="{Binding UC_Sink_Craft_List_VM, Mode=OneWay, Source={StaticResource Locator}}"
                  ItemContainerStyle="{DynamicResource Sink_ListBoxItemStyle}"
+                 ItemTemplate="{DynamicResource Sink_Data_Template}"
                  ItemsSource="{Binding Sink_Craft}" />
 
 

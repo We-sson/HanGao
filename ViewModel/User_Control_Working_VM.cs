@@ -70,8 +70,12 @@ namespace HanGao.ViewModel
                         //将水槽尺寸发生写入到选择的区域
                         string _Name = @S.Working_Area_UI.Load_UI_Work.ToString() + "_Sink_Data";
                         string _Val=@"{Surround_Welding_Type:"+nameof(Xml_Sink_Model.Sink_Size_Long)+" "+S.User_Sink.Sink_Process.Sink_Size_Long+","+nameof(Xml_Sink_Model.Sink_Size_Width)+" "+S.User_Sink.Sink_Process.Sink_Size_Width+","+nameof(Xml_Sink_Model.Sink_Size_R)+" "+S.User_Sink.Sink_Process.Sink_Size_R+","+nameof(Xml_Sink_Model.Sink_Size_Pots_Thick)+" "+S.User_Sink.Sink_Process.Sink_Size_Pots_Thick+","+nameof(Xml_Sink_Model.Sink_Size_Panel_Thick)+" "+S.User_Sink.Sink_Process.Sink_Size_Panel_Thick+","+nameof(Xml_Sink_Model.Sink_Model)+" "+S.User_Sink.Sink_Process.Sink_Model+","+nameof(Xml_Sink_Model.Sink_Size_Left_Distance)+" "+S.User_Sink.Sink_Process.Sink_Size_Left_Distance+","+nameof(Xml_Sink_Model.Sink_Size_Down_Distance)+" "+S.User_Sink.Sink_Process.Sink_Size_Down_Distance+","+nameof(Xml_Sink_Model.Sink_Type)+" "+"#"+S.User_Sink.Sink_Process.Sink_Type.ToString()+"}";
-                        Socket_Client_Setup.Write.Cycle_Write_Send(_Name, _Val);
-
+                       
+                            Socket_Client_Setup.Write.Cycle_Write_Send(_Name, _Val);
+                            //无连接停止发生
+                            bool aa = Socket_Client_Setup.Write.Is_Write_Client;
+                      
+                     
 
 
                             //获取加载区域数据
@@ -127,6 +131,7 @@ namespace HanGao.ViewModel
                                     }
                                 }
                             }
+                            
                             //加工工区UI显示加载完成
                             Work_Data.Working_Area_UI.UI_Loade = UC_Surround_Direction_VM.UI_Type_Enum.Ok;
                         }

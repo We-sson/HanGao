@@ -114,10 +114,9 @@
 
                         <Border x:Name="optionMark" Grid.Row="0"
                                 Grid.RowSpan="2"
-                                Background="Transparent"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="0"
-                                CornerRadius="10"
+                                CornerRadius="15"
                                 RenderTransformOrigin="0.5,0.5"
                                 Visibility="Visible" />
 

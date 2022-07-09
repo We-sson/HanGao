@@ -62,7 +62,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
 
-        <Setter Property="Background" Value="{StaticResource OptionMark.Static.Background}" />
+        <Setter Property="Background" Value="{StaticResource 全局_按钮_白颜色}" />
         <Setter Property="BorderBrush" Value="{StaticResource OptionMark.Static.Border}" />
         <Setter Property="Foreground" Value="{StaticResource {x:Static SystemColors.ControlTextBrushKey}}" />
         <Setter Property="BorderThickness" Value="0" />

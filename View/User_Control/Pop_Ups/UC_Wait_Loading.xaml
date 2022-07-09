@@ -11,9 +11,9 @@
 
         <Border x:Name="B1"
                 Margin="-10"
-                Background="{DynamicResource 全局_背景_白颜色}"
-                CornerRadius=" 10"
-                Opacity="0.9">
+                Background="{DynamicResource 全局_按钮_灰颜色}"
+                CornerRadius=" 8"
+                Opacity="1">
 
 
             <Border.Style>
@@ -40,10 +40,12 @@
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            Effect="{StaticResource 全局背景阴影}"
+                           FontFamily="{DynamicResource 全局_文字_中文字体}"
                            FontSize="32"
                            Foreground="{DynamicResource 全局_按钮_红颜色}" />
 
-                <ProgressBar Width=" 300"
+                <ProgressBar Style="{DynamicResource UC_ProgressBar_Style}"
+                             Width="300"
                              Height="30"
                              Margin="20"
                              BorderThickness="0"

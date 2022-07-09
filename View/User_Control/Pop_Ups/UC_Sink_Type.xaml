@@ -6,105 +6,110 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:HanGao.View.User_Control.Pop_Ups"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             Width="1020"
-             HorizontalAlignment="Center"
-             VerticalAlignment="Center"
-             HorizontalContentAlignment="Center"
-             VerticalContentAlignment="Center"
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_Sink_Type_VM}"
              mc:Ignorable="d">
 
 
+    <Grid Margin="15"
+          HorizontalAlignment="Stretch"
+          VerticalAlignment="Center">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
 
 
+        <RadioButton Style="{DynamicResource RadioButton_Sink_Type_Style}" x:Name="LeftRight_One" Grid.Column=" 0"
+                     IsChecked="{Binding Sink_LR_Checked}"
+                     Margin="0"
+                     GroupName="Sink_Type"
+                     Tag="1">
 
-    <!--<i:Interaction.Triggers>
-        <i:EventTrigger EventName="Unloaded">
-            <i:InvokeCommandAction Command="{Binding Sink_Type_Unloaded_Comm}"
-                                   CommandParameter="{Binding EventArgsConverterParameter, RelativeSource={RelativeSource Self}}"
-                                   PassEventArgsToCommand="True" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>-->
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Checked">
+                    <i:InvokeCommandAction Command="{Binding Sink_Type_Set_Comm}"
+                                           CommandParameter="{Binding Mode=TwoWay, RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                           PassEventArgsToCommand="True" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <StackPanel>
+                <TextBlock Text="&#xe61b;"
+                           Margin="0,0,0,0"
+                           HorizontalAlignment="Center"
+                           FontFamily="{StaticResource 全局_图标库}"
+                           FontSize="110"
+                           Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
+                <TextBlock Text=" 左右单盆类型"
+                           Margin="0,50,0,0"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom"
+                           FontFamily="Calibri"
+                           FontSize="25" />
+            </StackPanel>
 
-    <Grid Margin="5">
-        <UniformGrid HorizontalAlignment="Center" Columns="3">
+        </RadioButton>
+        <RadioButton Style="{DynamicResource RadioButton_Sink_Type_Style}" Grid.Column=" 1"
+                     Name="UpDown_One"
+                     IsChecked="{Binding Sink_UpDown_Checked}"
+                     GroupName="Sink_Type">
 
-            <RadioButton Style="{DynamicResource RadioButton_Sink_Type_Style}" x:Name="R1" Grid.Column="4"
-                         IsChecked="{Binding Sink_LR_Checked}"
-                         Margin="20"
-                         Background="#EBEBEBEB"
-                         GroupName="Sink_Type"
-                         Tag="1"
-                         ToolTip="水槽工艺参数">
-                <StackPanel>
-                    <TextBlock Text="&#xe61b;"
-                               Margin="0,0,0,0"
-                               HorizontalAlignment="Center"
-                               FontFamily="{StaticResource 全局_图标库}"
-                               FontSize="110"
-                               Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
-                    <TextBlock Text=" 左右单盆类型"
-                               Margin="0,50,0,0"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Bottom"
-                               FontFamily="Calibri"
-                               FontSize="25" />
-                </StackPanel>
+            <StackPanel Margin="10,10,10,10"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                <TextBlock Text="&#xe61a;"
+                           Margin="0,0,0,0"
+                           HorizontalAlignment="Center"
+                           FontFamily="{StaticResource 全局_图标库}"
+                           FontSize="110"
+                           Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
+                <TextBlock Text="上下单盆类型"
+                           Margin="0,50,0,0"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom"
+                           FontFamily="Cambria"
+                           FontSize="25" />
+            </StackPanel>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Checked">
+                    <i:InvokeCommandAction Command="{Binding Sink_Type_Set_Comm}"
+                                           CommandParameter="{Binding Mode=TwoWay, RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                           PassEventArgsToCommand="True" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </RadioButton>
+        <RadioButton Style="{DynamicResource RadioButton_Sink_Type_Style}" x:Name="LeftRight_Two" Grid.Column="2"
+                     IsChecked="{Binding Sink_Two_Checked}"
+                     Margin="0"
+                     GroupName="Sink_Type">
 
-            </RadioButton>
-            <RadioButton Style="{DynamicResource RadioButton_Sink_Type_Style}" Grid.Column="4"
-                         Name="R2"
-                         IsChecked="{Binding Sink_UpDown_Checked}"
-                         Margin="10"
-                         Background="{DynamicResource 全局_背景_白颜色}"
-                         GroupName="Sink_Type"
-                         Tag="2"
-                         ToolTip="水槽工艺参数">
-                <StackPanel Margin="10"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center">
-                    <TextBlock Text="&#xe61a;"
-                               Margin="0,0,0,0"
-                               HorizontalAlignment="Center"
-                               FontFamily="{StaticResource 全局_图标库}"
-                               FontSize="110"
-                               Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
-                    <TextBlock Text="上下单盆类型"
-                               Margin="0,50,0,0"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Bottom"
-                               FontFamily="Cambria"
-                               FontSize="25" />
-                </StackPanel>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Checked">
+                    <i:InvokeCommandAction Command="{Binding Sink_Type_Set_Comm}"
+                                           CommandParameter="{Binding Mode=TwoWay, RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                           PassEventArgsToCommand="True" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <StackPanel Margin="10"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                <TextBlock Text="&#xe61d;"
+                           Margin="0,0,0,0"
+                           HorizontalAlignment="Center"
+                           FontFamily="{DynamicResource 全局_图标库}"
+                           FontSize="110"
+                           Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
+                <TextBlock Text="双盆类型"
+                           Margin="0,50,0,0"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom"
+                           FontFamily="Cambria"
+                           FontSize="25" />
+            </StackPanel>
 
-            </RadioButton>
-            <RadioButton Style="{DynamicResource RadioButton_Sink_Type_Style}" x:Name="R3" Grid.Column="4"
-                         IsChecked="{Binding Sink_Twin_Checked}"
-                         Margin="10"
-                         Background="{DynamicResource 全局_背景_白颜色}"
-                         GroupName="Sink_Type"
-                         Tag="3"
-                         ToolTip="水槽工艺参数">
-                <StackPanel Margin="10"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center">
-                    <TextBlock Text="&#xe61d;"
-                               Margin="0,0,0,0"
-                               HorizontalAlignment="Center"
-                               FontFamily="{StaticResource 全局_图标库}"
-                               FontSize="110"
-                               Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
-                    <TextBlock Text="双盆类型"
-                               Margin="0,50,0,0"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Bottom"
-                               FontFamily="Cambria"
-                               FontSize="25" />
-                </StackPanel>
+        </RadioButton>
 
-            </RadioButton>
 
-        </UniformGrid>
 
 
     </Grid>

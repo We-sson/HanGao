@@ -114,7 +114,7 @@
                                        HorizontalAlignment="Center"
                                        FontFamily="{DynamicResource 全局_图标库}"
                                        FontSize="80"
-                                       Foreground="{DynamicResource 全局_背景_蓝颜色}" />
+                                       Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
                             <TextBlock Text="上下单盆类型"
                                        Margin="0,20,0,0"
                                        HorizontalAlignment="Center"

@@ -23,11 +23,8 @@
     <Style x:Key="全局_弹窗_背景侧挡样式" TargetType="Border">
         <Setter Property="Background" Value="Gray" />
         <Setter Property="Opacity" Value=" 0.8" />
-        <Setter Property="Effect">
-            <Setter.Value>
-                <BlurEffect Radius="20" />
-            </Setter.Value>
-        </Setter>
+        <Setter Property="Effect" Value="{DynamicResource 全局背景阴影}" />
+
     </Style>
 
 
@@ -53,7 +50,7 @@
     <SolidColorBrush x:Key="全局_按钮_黑颜色" Color="#434343" />
 
     <FontFamily x:Key="全局_文字_数字字体">DengXian</FontFamily>
-    <FontFamily x:Key="全局_文字_中文字体">Yu Gothic UI Semilight</FontFamily>
+    <FontFamily x:Key="全局_文字_中文字体">Cambria</FontFamily>
 
 
     <DropShadowEffect x:Key="全局背景阴影"
