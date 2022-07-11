@@ -1,7 +1,6 @@
 ﻿<UserControl x:Class="HanGao.View.User_Control.UC_Pop_Ups"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Converters="clr-namespace:Nicenis.Windows.Data.Converters;assembly=Nicenis"
              xmlns:Pop="clr-namespace:HanGao.View.User_Control.Pop_Ups"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
@@ -9,7 +8,7 @@
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_Pop_Ups_VM}"
              mc:Ignorable="d">
     <UserControl.Resources>
-        <Converters:TruthyToVisibleConverter x:Key="TruthyToVisibleConverter" />
+
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
 
@@ -72,9 +71,9 @@
                                 <TextBlock Text="&#xE6C0;"
                                            Margin="15"
                                            HorizontalAlignment="Center"
-                                           FontFamily="/Resources/#iconfont"
+                                           FontFamily="{DynamicResource 全局_图标库}"
                                            FontSize="50"
-                                           Foreground="#FF4B6587" />
+                                           Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
                                 <TextBlock Text="水槽类型选择"
                                            HorizontalAlignment="Center"
                                            FontSize="15" />
@@ -123,9 +122,9 @@
                             <TextBlock Text="&#xE649;"
                                        Margin="15"
                                        HorizontalAlignment="Center"
-                                       FontFamily="/Resources/#iconfont"
+                                       FontFamily="{DynamicResource 全局_图标库}"
                                        FontSize="50"
-                                       Foreground="#FF4B6587" />
+                                       Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
                             <TextBlock Text="工艺参数调节"
                                        HorizontalAlignment="Center"
                                        FontSize="15" />
@@ -148,17 +147,61 @@
                     <Grid Margin="0"
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Stretch">
+                        <!--<Grid.Resources>
+                            <Style TargetType="{x:Type Pop:UC_Sink_Type}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=R1, Path=IsChecked}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
 
-                        <Pop:UC_Sink_Type HorizontalAlignment="Stretch"
+                        </Grid.Resources>-->
+                        <Pop:UC_Sink_Type x:Name="U1"
+                                          HorizontalAlignment="Stretch"
                                           VerticalAlignment="Stretch"
                                           DataContext="{Binding Source={StaticResource Locator}, Path=UC_Sink_Type_VM}"
-                                          Visibility="{Binding IsChecked, Converter={StaticResource TruthyToVisibleConverter}, ElementName=R1}" />
-                        <Pop:UC_Sink_Size HorizontalAlignment="Stretch"
+                                          Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=R1, Mode=TwoWay}">
+                            <!--<Style TargetType="{x:Type Pop:UC_Sink_Type}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=R1, Path=IsChecked}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>-->
+
+                        </Pop:UC_Sink_Type>
+
+                        <Pop:UC_Sink_Size x:Name="U2"
+                                          HorizontalAlignment="Stretch"
                                           VerticalAlignment="Stretch"
-                                          Visibility="{Binding IsChecked, Converter={StaticResource TruthyToVisibleConverter}, ElementName=R2}" />
-                        <Pop:UC_Sink_Craft_List HorizontalAlignment="Stretch"
+                                          DataContext="{Binding Source={StaticResource Locator}, Path=UC_Sink_Size_VM}"
+                                          Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=R2, Mode=TwoWay}">
+                            <!--<Style TargetType="{x:Type Pop:UC_Sink_Size}">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=R2, Path=IsChecked}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>-->
+                        </Pop:UC_Sink_Size>
+
+                        <Pop:UC_Sink_Craft_List x:Name="U3"
+                                                HorizontalAlignment="Stretch"
                                                 VerticalAlignment="Stretch"
-                                                Visibility="{Binding IsChecked, Converter={StaticResource TruthyToVisibleConverter}, ElementName=R3}" />
+                                                DataContext="{Binding Source={StaticResource Locator}, Path=UC_Sink_Craft_List_VM}"
+                                                Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=R3, Mode=TwoWay}">
+                            <!--<Style TargetType="{x:Type Pop:UC_Sink_Craft_List}">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=R3, Path=IsChecked}" Value="TRUE">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>-->
+                        </Pop:UC_Sink_Craft_List>
+
 
 
                         <!--<ContentControl Content="{Binding Pop_UserControl}"

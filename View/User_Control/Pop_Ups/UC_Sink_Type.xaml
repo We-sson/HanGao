@@ -29,7 +29,7 @@
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Checked">
                     <i:InvokeCommandAction Command="{Binding Sink_Type_Set_Comm}"
-                                           CommandParameter="{Binding Mode=TwoWay, RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                           CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                            PassEventArgsToCommand="True" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
@@ -73,7 +73,7 @@
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Checked">
                     <i:InvokeCommandAction Command="{Binding Sink_Type_Set_Comm}"
-                                           CommandParameter="{Binding Mode=TwoWay, RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                           CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                            PassEventArgsToCommand="True" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
@@ -86,7 +86,7 @@
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Checked">
                     <i:InvokeCommandAction Command="{Binding Sink_Type_Set_Comm}"
-                                           CommandParameter="{Binding Mode=TwoWay, RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                           CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                            PassEventArgsToCommand="True" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>

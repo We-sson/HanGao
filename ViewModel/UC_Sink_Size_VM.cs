@@ -30,7 +30,7 @@ namespace HanGao.ViewModel
 
         public UC_Sink_Size_VM() 
         {
-            IsActive = true;
+            
 
 
 

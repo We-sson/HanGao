@@ -179,7 +179,9 @@ namespace HanGao.ViewModel
                     M.User_Picking_Craft.User_Work_Area = (Work_No_Enum)Enum.Parse(typeof(Work_No_Enum), e.Uid);
 
 
-                    User_Control_Show.User_UserControl = User_Pop;
+                    //User_Control_Show.User_UserControl = new UC_Pop_Ups() {};
+                    Messenger.Send<UserControl, string>(new UC_Pop_Ups() { }, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
+
 
                     //传送尺寸参数弹窗页面
                     Messenger.Send<Sink_Models, string>(M, nameof(Meg_Value_Eunm.UC_Pop_Sink_Value_Load));

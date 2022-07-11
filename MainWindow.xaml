@@ -42,7 +42,7 @@
 
 
 
-    <Grid x:Name="grid" Background="{DynamicResource 全局_背景_白颜色}">
+    <Grid x:Name="grid"  Background="{DynamicResource 全局_背景_白颜色}">
 
 
 

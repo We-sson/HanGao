@@ -132,9 +132,10 @@ namespace HanGao.ViewModel
             {
 
 
-                User_Control_Show.User_UserControl = new UC_SInk_Add() { DataContext=new UC_Sink_Add_VM() };
+                //User_Control_Show.User_UserControl = new UC_SInk_Add() { DataContext=new UC_Sink_Add_VM() };
 
 
+                Messenger.Send<UserControl, string>(new UC_SInk_Add() { DataContext = new UC_Sink_Add_VM() }, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
 
 
                 //打开显示弹窗首页面

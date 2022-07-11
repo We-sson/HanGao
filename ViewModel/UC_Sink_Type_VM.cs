@@ -22,7 +22,7 @@ namespace HanGao.ViewModel
 
         public UC_Sink_Type_VM()
         {
-            IsActive = true;
+          
 
 
 
@@ -77,54 +77,11 @@ namespace HanGao.ViewModel
         public Sink_Type_Enum Sink_Type_Load { set; get; }
 
 
+        public bool Sink_LR_Checked { set; get; } = false  ;
 
+        public   bool Sink_UpDown_Checked { set; get; } = false;
 
-
-        //private bool _Sink_LR_Checked=true;
-        public   bool Sink_LR_Checked { set; get; }
-        //{
-        //    get { return _Sink_LR_Checked; }
-        //    set
-        //    {
-        //        _Sink_LR_Checked = value;
-
-        //        //if (value)
-        //        //{
-        //        //    Messenger.Send<dynamic, string>(Sink_Type_Enum.LeftRight_One, nameof(Meg_Value_Eunm.Sink_Type_Value_OK));
-        //        //}
-
-        //    }
-        //}
-        //private   bool _Sink_UpDown_Checked;
-        public   bool Sink_UpDown_Checked { set; get; }
-        //{
-        //    get { return _Sink_UpDown_Checked; }
-        //    set
-        //    {
-        //        _Sink_UpDown_Checked = value;
-
-        //        //if (value)
-        //        //{
-        //        //    Messenger.Send<dynamic, string>(Sink_Type_Enum.UpDown_One, nameof(Meg_Value_Eunm.Sink_Type_Value_OK));
-        //        //}
-
-
-        //    }
-        //}
-        //private   bool _Sink_Twin_Checked;
-        public   bool Sink_Two_Checked { set; get; }
-        //{
-        //    get { return _Sink_Twin_Checked; }
-        //    set
-        //    {
-        //        _Sink_Twin_Checked = value;
-        //        //if (value)
-        //        //{
-        //        //    Messenger.Send<dynamic, string>(Sink_Type_Enum.LeftRight_Two, nameof(Meg_Value_Eunm.Sink_Type_Value_OK));
-        //        //}
-
-        //    }
-        //}
+        public   bool Sink_Two_Checked { set; get; } = false;
 
 
 
