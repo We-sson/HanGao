@@ -386,7 +386,7 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
     SHOWVAR (FULLPATH[] "False",  PARAM New_Start)
     MESSAGE  "New State One: %New_Start"
   
-	 SHOWVAR (FULLPATH[] "N%Work_Area _Surround_Size.Write_Status",  PARAM State)
+	 ; SHOWVAR (FULLPATH[] "N%Work_Area _Sink_Data.Write_Status",  PARAM State)
     SHOWVAR (FULLPATH[] "PO%MOVE_Name .X",  PARAM X)
     SHOWVAR (FULLPATH[] "PO%MOVE_Name .Y" , PARAM Y)
     SHOWVAR (FULLPATH[] "PO%MOVE_Name .Z" , PARAM Z)

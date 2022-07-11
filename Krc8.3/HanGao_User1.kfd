@@ -256,10 +256,10 @@
    SHOWVAR (FULLPATH[] " %Area_CIR_lIST _Welding_Craft[%Work_Area ,3].Welding_ACC" , PARAM ACC)
    MESSAGE "%OFFSET_MID_NAME  CIR MID Offset: X=%O_X  , Y=%O_Y  , Z=%O_Z "
 	MESSAGE "%OFFSET_END_NAME  CIR End Offset: X=%C_X  ,Y=%C_Y  ,Z=%C_Z "
-   MESSAGE "New State One: %New_Start "
+   MESSAGE "New State: %New_Start "
    MESSAGE "Cir Vel: %VEL m/s ACC: %ACC mm CDIS: %APO_DIST mm  " 
-  	MESSAGE "Cir Offset NO:%OFFSET_NO "
-   MESSAGE "Angle Area: %Area_CIR_lIST "
+  	MESSAGE "Cir Offset NO:%OFFSET_NO  Angle Area: %Area_CIR_lIST "
+
   
    ENDSCRIPT
    
