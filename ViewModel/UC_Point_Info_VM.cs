@@ -21,13 +21,13 @@ namespace HanGao.ViewModel
         {
             IsActive = true;
             //接收用户选择的水槽项参数
-            //Messenger.Register<Sink_Models, string>(this, nameof(Meg_Value_Eunm.UC_Pop_Sink_Value_Load), (O, S) =>
-            //{
+            Messenger.Register<Sink_Models, string>(this, nameof(Meg_Value_Eunm.UC_Pop_Sink_Value_Load), (O, S) =>
+            {
 
-            //    User_Sink = S;
+                User_Sink = S;
 
 
-            //});
+            });
 
 
             //接收用户选择的水槽项参数
@@ -51,7 +51,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// UI界面数据
         /// </summary>
-        public Xml_Craft_Date UI_Craft_Date { set; get; }
+        public Xml_Craft_Date UI_Craft_Date { set; get; } = new Xml_Craft_Date();
 
 
 

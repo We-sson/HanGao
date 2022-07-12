@@ -66,8 +66,8 @@
                     </Grid.ColumnDefinitions>
 
                     <RadioButton Style="{DynamicResource RadioButton_Pop_Style}" x:Name="R1" Grid.Column="0"
+                                 IsChecked="True"
                                  GroupName="Pop_UI"
-                                 Tag="0"
                                  ToolTip="水槽类型选择">
                         <Border Background="{Binding Background, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Border}}}" CornerRadius="5">
 
@@ -116,7 +116,6 @@
 
 
                     <RadioButton Style="{DynamicResource RadioButton_Pop_Style}" x:Name="R3" Grid.Column="4"
-                                 IsChecked="True"
                                  GroupName="Pop_UI">
                         <StackPanel>
                             <TextBlock Text="&#xE649;"

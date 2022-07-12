@@ -12,14 +12,14 @@
     <ROW Property="ProductVersion" Value="1.0.0" Type="32"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{5024F735-101F-4A06-AD9E-D39E5073357C}"/>
-    <ROW Property="WindowsType9X" MultiBuildValue="x64_Debug:Windows 9x/ME" ValueLocId="-"/>
-    <ROW Property="WindowsType9XDisplay" MultiBuildValue="x64_Debug:Windows 9x/ME" ValueLocId="-"/>
-    <ROW Property="WindowsTypeNT40" MultiBuildValue="x64_Debug:Windows NT 4.0" ValueLocId="-"/>
-    <ROW Property="WindowsTypeNT40Display" MultiBuildValue="x64_Debug:Windows NT 4.0" ValueLocId="-"/>
-    <ROW Property="WindowsTypeNT50" MultiBuildValue="x64_Debug:Windows 2000" ValueLocId="-"/>
-    <ROW Property="WindowsTypeNT50Display" MultiBuildValue="x64_Debug:Windows 2000" ValueLocId="-"/>
-    <ROW Property="WindowsTypeNT5X" MultiBuildValue="x64_Debug:Windows XP/2003" ValueLocId="-"/>
-    <ROW Property="WindowsTypeNT5XDisplay" MultiBuildValue="x64_Debug:Windows XP/2003" ValueLocId="-"/>
+    <ROW Property="WindowsType9X" MultiBuildValue="x64_Debug_1_1:Windows 9x/ME#x64_Release_1:Windows 9x/ME" ValueLocId="-"/>
+    <ROW Property="WindowsType9XDisplay" MultiBuildValue="x64_Debug_1_1:Windows 9x/ME#x64_Release_1:Windows 9x/ME" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT40" MultiBuildValue="x64_Debug_1_1:Windows NT 4.0#x64_Release_1:Windows NT 4.0" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT40Display" MultiBuildValue="x64_Debug_1_1:Windows NT 4.0#x64_Release_1:Windows NT 4.0" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT50" MultiBuildValue="x64_Debug_1_1:Windows 2000#x64_Release_1:Windows 2000" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT50Display" MultiBuildValue="x64_Debug_1_1:Windows 2000#x64_Release_1:Windows 2000" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT5X" MultiBuildValue="x64_Debug_1_1:Windows XP/2003#x64_Release_1:Windows XP/2003" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT5XDisplay" MultiBuildValue="x64_Debug_1_1:Windows XP/2003#x64_Release_1:Windows XP/2003" ValueLocId="-"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiDirsComponent">
     <ROW Directory="APPDIR" Directory_Parent="TARGETDIR" DefaultDir="APPDIR:." IsPseudoRoot="1"/>
@@ -88,13 +88,13 @@
     <ROW File="System.ComponentModel.Composition.dll" Component_="System.ComponentModel.Composition.dll" FileName="SYSTEM~1.DLL|System.ComponentModel.Composition.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.ComponentModel.Composition.dll" SelfReg="false"/>
     <ROW File="PresentationCore.dll" Component_="PresentationCore.dll" FileName="PRESEN~1.DLL|PresentationCore.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\PresentationCore.dll" SelfReg="false"/>
     <ROW File="PropertyChanged.dll" Component_="PropertyChanged.dll" FileName="PROPER~1.DLL|PropertyChanged.dll" Attributes="0" SourcePath="C:\Users\zhiwei2.he\.nuget\packages\propertychanged.fody\3.4.1\lib\net40\PropertyChanged.dll" SelfReg="false"/>
-    <ROW File="HanGao.exe" Component_="HanGao.exe" FileName="HanGao.exe" Attributes="0" SourcePath="C:\Users\zhiwei2.he\source\repos\HanGao\bin\ALL\HanGao.exe" SelfReg="false" DigSign="true"/>
+    <ROW File="HanGao.exe" Component_="HanGao.exe" FileName="HanGao.exe" Attributes="0" SourcePath="C:\Users\zhiwei2.he\source\repos\HanGao\bin\x64\Release\HanGao.exe" SelfReg="false" DigSign="true"/>
     <ROW File="Microsoft.Expression.Prototyping.Interactivity.resources.dll" Component_="Microsoft.Expression.Prototyping.Interactivity.resources.dll" FileName="MICROS~1.DLL|Microsoft.Expression.Prototyping.Interactivity.resources.dll" Attributes="0" SourcePath="C:\Users\zhiwei2.he\.nuget\packages\expression.blend.sdk.wpf\1.0.1\lib\net45\zh-Hans\Microsoft.Expression.Prototyping.Interactivity.resources.dll" SelfReg="false"/>
     <ROW File="System.Windows.Interactivity.resources.dll" Component_="System.Windows.Interactivity.resources.dll" FileName="SYSTEM~2.DLL|System.Windows.Interactivity.resources.dll" Attributes="0" SourcePath="C:\Users\zhiwei2.he\.nuget\packages\expression.blend.sdk.wpf\1.0.1\lib\net45\zh-Hant\System.Windows.Interactivity.resources.dll" SelfReg="false"/>
     <ROW File="System.ComponentModel.DataAnnotations.dll" Component_="System.ComponentModel.DataAnnotations.dll" FileName="SYSTEM~3.DLL|System.ComponentModel.DataAnnotations.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.ComponentModel.DataAnnotations.dll" SelfReg="false"/>
     <ROW File="Microsoft.CSharp.dll" Component_="Microsoft.CSharp.dll" FileName="MICROS~2.DLL|Microsoft.CSharp.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Microsoft.CSharp.dll" SelfReg="false"/>
     <ROW File="Microsoft.Expression.Controls.resources.dll" Component_="Microsoft.Expression.Controls.resources.dll" FileName="MICROS~3.DLL|Microsoft.Expression.Controls.resources.dll" Attributes="0" SourcePath="C:\Users\zhiwei2.he\.nuget\packages\expression.blend.sdk.wpf\1.0.1\lib\net45\zh-Hant\Microsoft.Expression.Controls.resources.dll" SelfReg="false"/>
-    <ROW File="HanGao.exe.config" Component_="HanGao.exe.config" FileName="HANGAO~1.CON|HanGao.exe.config" Attributes="0" SourcePath="C:\Users\zhiwei2.he\source\repos\HanGao\bin\ALL\HanGao.exe.config" SelfReg="false"/>
+    <ROW File="HanGao.exe.config" Component_="HanGao.exe.config" FileName="HANGAO~1.CON|HanGao.exe.config" Attributes="0" SourcePath="C:\Users\zhiwei2.he\source\repos\HanGao\bin\x64\Release\HanGao.exe.config" SelfReg="false"/>
     <ROW File="System.Windows.Interactivity.dll" Component_="System.Windows.Interactivity.dll" FileName="SYSTEM~4.DLL|System.Windows.Interactivity.dll" Attributes="0" SourcePath="C:\Users\zhiwei2.he\.nuget\packages\expression.blend.sdk.wpf\1.0.1\lib\net45\System.Windows.Interactivity.dll" SelfReg="false"/>
     <ROW File="PresentationFramework.Aero2.dll" Component_="PresentationFramework.Aero2.dll" FileName="PRESEN~2.DLL|PresentationFramework.Aero2.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\PresentationFramework.Aero2.dll" SelfReg="false"/>
     <ROW File="netstandard.dll" Component_="netstandard.dll" FileName="NETSTA~1.DLL|netstandard.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\netstandard.dll" SelfReg="false"/>
@@ -133,14 +133,15 @@
     <ROW File="System.Memory.dll" Component_="System.Memory.dll" FileName="SYSTE~20.DLL|System.Memory.dll" Attributes="0" SourcePath="C:\Users\zhiwei2.he\.nuget\packages\system.memory\4.5.4\lib\net461\System.Memory.dll" SelfReg="false"/>
     <ROW File="System.Numerics.Vectors.dll" Component_="System.Numerics.Vectors.dll" FileName="SYSTE~21.DLL|System.Numerics.Vectors.dll" Attributes="0" SourcePath="C:\Users\zhiwei2.he\.nuget\packages\system.numerics.vectors\4.5.0\lib\net46\System.Numerics.Vectors.dll" SelfReg="false"/>
     <ROW File="Microsoft.Expression.Drawing.dll" Component_="Microsoft.Expression.Drawing.dll" FileName="MICRO~13.DLL|Microsoft.Expression.Drawing.dll" Attributes="0" SourcePath="C:\Users\zhiwei2.he\.nuget\packages\unnoficial.microsoft.expression.drawing\1.0.0\lib\Microsoft.Expression.Drawing.dll" SelfReg="false"/>
-    <ROW File="Log.txt" Component_="HanGao.exe.config" FileName="Log.txt" Attributes="0" SourcePath="C:\Users\zhiwei2.he\source\repos\HanGao\bin\ALL\Resources\Log.txt" SelfReg="false"/>
+    <ROW File="Log.txt" Component_="HanGao.exe.config" FileName="Log.txt" Attributes="0" SourcePath="C:\Users\zhiwei2.he\source\repos\HanGao\bin\x64\Release\Resources\Log.txt" SelfReg="false"/>
     <ROW File="HanGao.pdb" Component_="HanGao.exe" FileName="HanGao.pdb" Attributes="0" SourcePath="C:\Users\zhiwei2.he\source\repos\HanGao\bin\ALL\HanGao.pdb" SelfReg="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BootstrOptComponent">
     <ROW BootstrOptKey="GlobalOptions" DownloadFolder="[AppDataFolder][|Manufacturer]\[|ProductName]\prerequisites" Options="2"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
-    <ROW BuildKey="x64_Debug" BuildName="x64_Debug" BuildOrder="1" BuildType="0" PackageFolder="." PackageFileName="HanGao" Languages="en" InstallationType="4" UseLargeSchema="true"/>
+    <ROW BuildKey="x64_Debug_1_1" BuildName="x64_Debug_1" BuildOrder="1" BuildType="0" PackageFolder="x64_Debug_1_1SetupFiles" PackageFileName="HanGao" Languages="en" InstallationType="4" UseLargeSchema="true"/>
+    <ROW BuildKey="x64_Release_1" BuildName="x64_Release_1" BuildOrder="2" BuildType="0" PackageFolder="x64_Release_1SetupFiles" PackageFileName="HanGao" Languages="en" InstallationType="4" UseLargeSchema="true"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
     <ROW Path="&lt;AI_DICTS&gt;ui.ail"/>
@@ -277,10 +278,10 @@
     <ROW Action="AI_RESTORE_AI_SETUPEXEPATH" Condition="AI_SETUPEXEPATH_ORIGINAL" Sequence="101"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiLaunchConditionsComponent">
-    <ROW Condition="((VersionNT &lt;&gt; 501) AND (VersionNT &lt;&gt; 502))" Description="[ProductName] cannot be installed on [WindowsTypeNT5XDisplay]." DescriptionLocId="AI.LaunchCondition.NoNT5X" IsPredefined="true" Builds="x64_Debug"/>
-    <ROW Condition="(VersionNT &lt;&gt; 400)" Description="[ProductName] cannot be installed on [WindowsTypeNT40Display]." DescriptionLocId="AI.LaunchCondition.NoNT40" IsPredefined="true" Builds="x64_Debug"/>
-    <ROW Condition="(VersionNT &lt;&gt; 500)" Description="[ProductName] cannot be installed on [WindowsTypeNT50Display]." DescriptionLocId="AI.LaunchCondition.NoNT50" IsPredefined="true" Builds="x64_Debug"/>
-    <ROW Condition="VersionNT" Description="[ProductName] cannot be installed on [WindowsType9XDisplay]." DescriptionLocId="AI.LaunchCondition.No9X" IsPredefined="true" Builds="x64_Debug"/>
+    <ROW Condition="((VersionNT &lt;&gt; 501) AND (VersionNT &lt;&gt; 502))" Description="[ProductName] cannot be installed on [WindowsTypeNT5XDisplay]." DescriptionLocId="AI.LaunchCondition.NoNT5X" IsPredefined="true" Builds="x64_Debug_1_1;x64_Release_1"/>
+    <ROW Condition="(VersionNT &lt;&gt; 400)" Description="[ProductName] cannot be installed on [WindowsTypeNT40Display]." DescriptionLocId="AI.LaunchCondition.NoNT40" IsPredefined="true" Builds="x64_Debug_1_1;x64_Release_1"/>
+    <ROW Condition="(VersionNT &lt;&gt; 500)" Description="[ProductName] cannot be installed on [WindowsTypeNT50Display]." DescriptionLocId="AI.LaunchCondition.NoNT50" IsPredefined="true" Builds="x64_Debug_1_1;x64_Release_1"/>
+    <ROW Condition="VersionNT" Description="[ProductName] cannot be installed on [WindowsType9XDisplay]." DescriptionLocId="AI.LaunchCondition.No9X" IsPredefined="true" Builds="x64_Debug_1_1;x64_Release_1"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiRegsComponent">
     <ROW Registry="Path" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="Path" Value="[APPDIR]" Component_="ProductInformation"/>
@@ -289,10 +290,16 @@
   <COMPONENT cid="caphyon.advinst.msicomp.MsiShortsComponent">
     <ROW Shortcut="HanGao.exe" Directory_="SHORTCUTDIR" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
     <ROW Shortcut="HanGao.exe_1" Directory_="DesktopFolder" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="HanGao.exe_10" Directory_="SHORTCUTDIR" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="HanGao.exe_11" Directory_="DesktopFolder" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
     <ROW Shortcut="HanGao.exe_2" Directory_="SHORTCUTDIR" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
     <ROW Shortcut="HanGao.exe_3" Directory_="DesktopFolder" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
     <ROW Shortcut="HanGao.exe_4" Directory_="SHORTCUTDIR" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
     <ROW Shortcut="HanGao.exe_5" Directory_="DesktopFolder" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="HanGao.exe_6" Directory_="SHORTCUTDIR" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="HanGao.exe_7" Directory_="DesktopFolder" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="HanGao.exe_8" Directory_="SHORTCUTDIR" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="HanGao.exe_9" Directory_="DesktopFolder" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiThemeComponent">
     <ATTRIBUTE name="UsedTheme" value="classic"/>
