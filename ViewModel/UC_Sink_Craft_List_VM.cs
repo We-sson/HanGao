@@ -30,14 +30,14 @@ namespace HanGao.ViewModel
             IsActive = true;
 
             //接收用户选择的水槽项参数
-            Messenger.Register<Sink_Models, string>(this, nameof(Meg_Value_Eunm.UC_Pop_Sink_Value_Load), (O, S) =>
-            {
+            //Messenger.Register<Sink_Models, string>(this, nameof(Meg_Value_Eunm.UC_Pop_Sink_Value_Load), (O, S) =>
+            //{
 
-                User_Sink = S;
+            //    User_Sink = S;
 
-                Sink_Craft = S.Sink_UI.Sink_Craft;
+            //    Sink_Craft = S.Sink_UI.Sink_Craft;
 
-            });
+            //});
 
 
 

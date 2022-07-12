@@ -10,7 +10,8 @@
              mc:Ignorable="d">
 
 
-    <Grid Margin="15"
+    <Grid x:Name="Sink_Type"
+          Margin="15"
           HorizontalAlignment="Stretch"
           VerticalAlignment="Center">
         <Grid.ColumnDefinitions>

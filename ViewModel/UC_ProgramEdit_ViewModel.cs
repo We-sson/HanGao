@@ -42,8 +42,8 @@ namespace HanGao.ViewModel
                 //赋值选择工艺图形
                 Distance_UI= S.Sink_UI.Sink_Craft.First(X => X.Craft_Type == S.User_Picking_Craft.User_Welding_Craft ).Craft_UI_Direction;
 
+                User_Sink = S;
 
-                
 
                 //查找到用户选择工艺后赋值到窗口显示
                 //foreach (var _Craft in S.Sink_UI.Sink_Craft)
@@ -55,7 +55,7 @@ namespace HanGao.ViewModel
                 //}
 
 
-      
+
 
 
 

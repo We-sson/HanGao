@@ -11,7 +11,13 @@
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
-
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding Sink_Size_Loaded_Comm}"
+                                   CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+                                   PassEventArgsToCommand="True" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 
 
     <Grid>
@@ -60,7 +66,6 @@
                     </Grid.ColumnDefinitions>
 
                     <RadioButton Style="{DynamicResource RadioButton_Pop_Style}" x:Name="R1" Grid.Column="0"
-                                 IsChecked="{Binding Sink_Type_Checked}"
                                  GroupName="Pop_UI"
                                  Tag="0"
                                  ToolTip="水槽类型选择">
@@ -89,10 +94,7 @@
                             CornerRadius="2" />
 
                     <RadioButton Style="{DynamicResource RadioButton_Pop_Style}" x:Name="R2" Grid.Column="2"
-                                 IsChecked="{Binding Sink_Size_Checked}"
-                                 GroupName="Pop_UI"
-                                 Tag="1"
-                                 ToolTip="水槽尺寸修改">
+                                 GroupName="Pop_UI">
                         <StackPanel>
                             <TextBlock Text="&#xE64F;"
                                        Margin="15"
@@ -114,10 +116,8 @@
 
 
                     <RadioButton Style="{DynamicResource RadioButton_Pop_Style}" x:Name="R3" Grid.Column="4"
-                                 IsChecked="{Binding Sink_Craft_Checked}"
-                                 GroupName="Pop_UI"
-                                 Tag="2"
-                                 ToolTip="水槽工艺参数">
+                                 IsChecked="True"
+                                 GroupName="Pop_UI">
                         <StackPanel>
                             <TextBlock Text="&#xE649;"
                                        Margin="15"
@@ -143,112 +143,401 @@
                         VerticalAlignment="Stretch"
                         Background="{DynamicResource 全局_背景_白颜色}"
                         CornerRadius=" 25"
-                        Effect="{DynamicResource 全局背景阴影}">
-                    <Grid Margin="0"
-                          HorizontalAlignment="Stretch"
-                          VerticalAlignment="Stretch">
-                        <!--<Grid.Resources>
-                            <Style TargetType="{x:Type Pop:UC_Sink_Type}">
+                        Effect="{DynamicResource 全局背景阴影}" />
+                <!--<Grid Grid.Row=" 1"
+                      Margin="0"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"
+                      Visibility="Collapsed">
+
+                    <Pop:UC_Sink_Type x:Name="U1"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Stretch"
+                                      DataContext="{Binding Source={StaticResource Locator}, Path=UC_Sink_Type_VM}"
+                                      Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=R1, Mode=TwoWay}" />
+
+                    <Pop:UC_Sink_Size x:Name="U2"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Stretch"
+                                      DataContext="{Binding Source={StaticResource Locator}, Path=UC_Sink_Size_VM}"
+                                      Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=R2, Mode=TwoWay}" />
+
+                    <Pop:UC_Sink_Craft_List x:Name="U3"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Stretch"
+                                            DataContext="{Binding Source={StaticResource Locator}, Path=UC_Sink_Craft_List_VM}"
+                                            Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=R3, Mode=TwoWay}" />
+
+
+
+
+
+                </Grid>-->
+
+
+                <Grid x:Name="Sink_Type" Grid.Row=" 1"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Center"
+                      Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=R1}">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+
+                    <RadioButton x:Name="LeftRight_One" Grid.Column=" 0"
+                                 Margin="0"
+                                 GroupName="Sink_Type">
+                        <RadioButton.Style>
+                            <Style BasedOn="{StaticResource RadioButton_Sink_Type_Style}" TargetType="RadioButton">
+                                <Setter Property="IsChecked" Value="False" />
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ElementName=R1, Path=IsChecked}" Value="True">
-                                        <Setter Property="Visibility" Value="Visible" />
+                                    <DataTrigger Binding="{Binding UI_Sink_Type, Mode=OneWay}" Value="LeftRight_One">
+                                        <Setter Property="IsChecked" Value="True" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
+                        </RadioButton.Style>
 
-                        </Grid.Resources>-->
-                        <Pop:UC_Sink_Type x:Name="U1"
-                                          HorizontalAlignment="Stretch"
-                                          VerticalAlignment="Stretch"
-                                          DataContext="{Binding Source={StaticResource Locator}, Path=UC_Sink_Type_VM}"
-                                          Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=R1, Mode=TwoWay}">
-                            <!--<Style TargetType="{x:Type Pop:UC_Sink_Type}">
+
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Checked">
+                                <i:InvokeCommandAction Command="{Binding Sink_Type_Set_Comm}"
+                                                       CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                       PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <StackPanel>
+                            <TextBlock Text="&#xe61b;"
+                                       Margin="0,0,0,0"
+                                       HorizontalAlignment="Center"
+                                       FontFamily="{StaticResource 全局_图标库}"
+                                       FontSize="110"
+                                       Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
+                            <TextBlock Text=" 左右单盆类型"
+                                       Margin="0,50,0,0"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Bottom"
+                                       FontFamily="Calibri"
+                                       FontSize="25" />
+                        </StackPanel>
+
+                    </RadioButton>
+                    <RadioButton Grid.Column=" 1"
+                                 Name="UpDown_One"
+                                 GroupName="Sink_Type">
+                        <RadioButton.Style>
+                            <Style BasedOn="{StaticResource RadioButton_Sink_Type_Style}" TargetType="RadioButton">
+                                <Setter Property="IsChecked" Value="False" />
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ElementName=R1, Path=IsChecked}" Value="True">
-                                        <Setter Property="Visibility" Value="Visible" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>-->
-
-                        </Pop:UC_Sink_Type>
-
-                        <Pop:UC_Sink_Size x:Name="U2"
-                                          HorizontalAlignment="Stretch"
-                                          VerticalAlignment="Stretch"
-                                          DataContext="{Binding Source={StaticResource Locator}, Path=UC_Sink_Size_VM}"
-                                          Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=R2, Mode=TwoWay}">
-                            <!--<Style TargetType="{x:Type Pop:UC_Sink_Size}">
-                                <Setter Property="Visibility" Value="Collapsed" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ElementName=R2, Path=IsChecked}" Value="True">
-                                        <Setter Property="Visibility" Value="Visible" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>-->
-                        </Pop:UC_Sink_Size>
-
-                        <Pop:UC_Sink_Craft_List x:Name="U3"
-                                                HorizontalAlignment="Stretch"
-                                                VerticalAlignment="Stretch"
-                                                DataContext="{Binding Source={StaticResource Locator}, Path=UC_Sink_Craft_List_VM}"
-                                                Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=R3, Mode=TwoWay}">
-                            <!--<Style TargetType="{x:Type Pop:UC_Sink_Craft_List}">
-                                <Setter Property="Visibility" Value="Collapsed" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ElementName=R3, Path=IsChecked}" Value="TRUE">
-                                        <Setter Property="Visibility" Value="Visible" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>-->
-                        </Pop:UC_Sink_Craft_List>
-
-
-
-                        <!--<ContentControl Content="{Binding Pop_UserControl}"
-                                        VerticalAlignment="Center">
-
-                        -->
-                        <!--<ContentControl.Style>
-                            <Style TargetType="ContentControl">
-                                <Setter Property="Content" Value="{x:Null}" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ElementName=R1, Path=IsChecked}"
-                                                 Value="TRUE">
-                                        <Setter Property="Content">
-                                            <Setter.Value>
-
-                                                <Pop:UC_Sink_Type DataContext="{Binding Source={StaticResource Locator}, Path=UC_Sink_Type_VM}" />
-                                            </Setter.Value>
-                                        </Setter>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding ElementName=R2, Path=IsChecked}"
-                                                 Value="TRUE">
-                                        <Setter Property="Content">
-                                            <Setter.Value>
-                                                <Pop:UC_Sink_Size DataContext="{Binding Source={StaticResource Locator}, Path=UC_Sink_Size_VM}" />
-                                            </Setter.Value>
-                                        </Setter>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding ElementName=R3, Path=IsChecked}"
-                                                 Value="TRUE">
-                                        <Setter Property="Content">
-                                            <Setter.Value>
-                                                <Pop:UC_Sink_Craft_List DataContext="{Binding Source={StaticResource Locator}, Path=UC_Sink_Craft_List_VM}" />
-                                            </Setter.Value>
-                                        </Setter>
+                                    <DataTrigger Binding="{Binding UI_Sink_Type, Mode=OneWay}" Value="UpDown_One">
+                                        <Setter Property="IsChecked" Value="True" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </ContentControl.Style>-->
-                        <!--
-                        </ContentControl>-->
+                        </RadioButton.Style>
+                        <StackPanel Margin="10,10,10,10"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                            <TextBlock Text="&#xe61a;"
+                                       Margin="0,0,0,0"
+                                       HorizontalAlignment="Center"
+                                       FontFamily="{StaticResource 全局_图标库}"
+                                       FontSize="110"
+                                       Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
+                            <TextBlock Text="上下单盆类型"
+                                       Margin="0,50,0,0"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Bottom"
+                                       FontFamily="Cambria"
+                                       FontSize="25" />
+                        </StackPanel>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Checked">
+                                <i:InvokeCommandAction Command="{Binding Sink_Type_Set_Comm}"
+                                                       CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                       PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </RadioButton>
+                    <RadioButton x:Name="LeftRight_Two" Grid.Column="2"
+                                 Margin="0"
+                                 GroupName="Sink_Type">
+                        <RadioButton.Style>
+                            <Style BasedOn="{StaticResource RadioButton_Sink_Type_Style}" TargetType="RadioButton">
+                                <Setter Property="IsChecked" Value="False" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding UI_Sink_Type, Mode=OneWay}" Value="LeftRight_Two">
+                                        <Setter Property="IsChecked" Value="True" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </RadioButton.Style>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Checked">
+                                <i:InvokeCommandAction Command="{Binding Sink_Type_Set_Comm}"
+                                                       CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                       PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <StackPanel Margin="10"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                            <TextBlock Text="&#xe61d;"
+                                       Margin="0,0,0,0"
+                                       HorizontalAlignment="Center"
+                                       FontFamily="{DynamicResource 全局_图标库}"
+                                       FontSize="110"
+                                       Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
+                            <TextBlock Text="双盆类型"
+                                       Margin="0,50,0,0"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Bottom"
+                                       FontFamily="Cambria"
+                                       FontSize="25" />
+                        </StackPanel>
 
-                    </Grid>
+                    </RadioButton>
 
 
-                </Border>
 
 
+                </Grid>
+
+                <Grid x:Name="Sink_Size" Grid.Row=" 1"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Center"
+                      Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=R2}">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width=" auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <!--<i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Loaded">
+                            <i:InvokeCommandAction Command="{Binding Sink_Size_Loaded_Comm}"
+                                                   CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+                                                   PassEventArgsToCommand="True" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>-->
+
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="100" />
+                    </Grid.RowDefinitions>
+
+
+                    <UniformGrid Grid.Row="0" Grid.Column="0"
+                                 Height="auto"
+                                 Margin="0"
+                                 HorizontalAlignment="Center"
+                                 Rows="4">
+                        <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Width"
+                                 Uid="mm"
+                                 HorizontalAlignment="Stretch"
+                                 VerticalAlignment="Center"
+                                 HorizontalContentAlignment="Center"
+                                 VerticalContentAlignment="Center"
+                                 FontFamily="Calibri"
+                                 Tag="水槽宽度=" />
+                        <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Left_Distance"
+                                 Uid="mm"
+                                 HorizontalAlignment="Stretch"
+                                 VerticalAlignment="Center"
+                                 HorizontalContentAlignment="Center"
+                                 VerticalContentAlignment="Center"
+                                 FontFamily="Calibri"
+                                 Tag="左件长度=" />
+                        <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Down_Distance"
+                                 Uid="mm"
+                                 HorizontalAlignment="Stretch"
+                                 VerticalAlignment="Center"
+                                 HorizontalContentAlignment="Center"
+                                 VerticalContentAlignment="Center"
+                                 FontFamily="Calibri"
+                                 Tag="下件长度=" />
+                        <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Long"
+                                 Uid="mm"
+                                 VerticalAlignment="Center"
+                                 HorizontalContentAlignment="Center"
+                                 VerticalContentAlignment="Center"
+                                 FontFamily="Calibri"
+                                 Tag="水槽长度=" />
+
+
+                    </UniformGrid>
+                    <Button Style="{StaticResource ButtonStyle3}" Grid.Row="1"
+                            Content="删除型号"
+                            Width="120"
+                            Height=" 40"
+                            Margin="8"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Background="#ff5e58"
+                            FontSize="20">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding Sink_Craft_Delete_Comm}"
+                                                       CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+                                                       PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+
+
+
+                    <TextBlock Grid.Column="1"
+                               Name="Sink_ico"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Stretch"
+                               Effect="{StaticResource 全局背景阴影}"
+                               FontFamily="{DynamicResource 全局_图标库}"
+                               FontSize="230"
+                               Foreground="{DynamicResource 全局_按钮_蓝颜色}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding UI_Sink_Type}" Value="LeftRight_One">
+                                        <Setter Property="Text" Value="&#xe61b;" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding UI_Sink_Type}" Value="UpDown_One">
+                                        <Setter Property="Text" Value="&#xe61a;" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding UI_Sink_Type}" Value="LeftRight_Two">
+                                        <Setter Property="Text" Value="&#xe61d;" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+
+                    <Border Grid.Row="1" Grid.Column="1"
+                            Height=" 40"
+                            Margin="8"
+                            Padding="5"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Background="#dddddd"
+                            BorderBrush="Gray"
+                            BorderThickness="3"
+                            CornerRadius="5">
+
+                        <StackPanel Orientation="Horizontal">
+
+
+                            <TextBlock Text="水槽型号："
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="20" />
+
+                            <TextBox Style="{StaticResource TextBoxStyle1}" x:Name="Sink_Name"
+                                     Width=" 200"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Stretch"
+                                     FontSize="22"
+                                     Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
+                        </StackPanel>
+                    </Border>
+
+
+
+                    <UniformGrid Grid.Column="2"
+                                 Height="auto"
+                                 Margin="0"
+                                 HorizontalAlignment="Center"
+                                 Rows="4">
+
+
+
+
+                        <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Panel"
+                                 Uid="mm"
+                                 HorizontalAlignment="Stretch"
+                                 VerticalAlignment="Center"
+                                 HorizontalContentAlignment="Center"
+                                 VerticalContentAlignment="Center"
+                                 FontFamily="Calibri"
+                                 Tag="盆胆厚度=" />
+                        <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_R"
+                                 Uid="mm"
+                                 HorizontalAlignment="Stretch"
+                                 VerticalAlignment="Center"
+                                 HorizontalContentAlignment="Center"
+                                 VerticalContentAlignment="Center"
+                                 FontFamily="Calibri"
+                                 Tag="圆角直径=" />
+
+                        <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Pots"
+                                 Uid="mm"
+                                 HorizontalAlignment="Stretch"
+                                 VerticalAlignment="Center"
+                                 HorizontalContentAlignment="Center"
+                                 VerticalContentAlignment="Center"
+                                 FontFamily="Calibri"
+                                 Tag="面板厚度=" />
+                        <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Short"
+                                 Uid="mm"
+                                 HorizontalAlignment="Stretch"
+                                 VerticalAlignment="Center"
+                                 HorizontalContentAlignment="Center"
+                                 VerticalContentAlignment="Center"
+                                 FontFamily="Calibri"
+                                 Tag="小边长度=" />
+
+                    </UniformGrid>
+
+
+                    <Button Style="{StaticResource ButtonStyle3}" Grid.Row="1" Grid.Column="2"
+                            Content="确定"
+                            Width="120"
+                            Height=" 40"
+                            Margin="8"
+                            VerticalAlignment="Bottom"
+                            Background="{DynamicResource 全局_按钮_绿颜色}"
+                            FontSize="20">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding Sink_Value_OK_Comm}"
+                                                       CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+                                                       PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+
+
+
+
+
+
+
+
+
+                    <!--  起点 起点x,起点y 画椭圆 长轴,短轴 旋转角度 是否是优弧 正角方向绘制 终点x,终点y  -->
+
+
+                </Grid>
+
+                <Grid x:Name="Sink_Craft_List" Grid.Row=" 1"
+                      Margin="5"
+                      Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=R3}">
+
+                    <ListBox Style="{DynamicResource ListBoxStyle1}"
+                             HorizontalAlignment="Stretch"
+                             d:ItemsSource="{d:SampleData ItemCount=5}"
+                             Background="Transparent"
+                             BorderBrush="Black"
+                             BorderThickness="0"
+                             ItemContainerStyle="{DynamicResource Sink_ListBoxItemStyle}"
+                             ItemTemplate="{DynamicResource Sink_Data_Template}"
+                             ItemsSource="{Binding _Sink.Sink_UI.Sink_Craft}" />
+
+
+                </Grid>
 
 
 
