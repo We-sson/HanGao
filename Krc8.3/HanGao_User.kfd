@@ -289,7 +289,7 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
 
 
 
-  Decl PARAM LIN_Position = {SHORTNAME[] "Point: ", VALUE {NUMBER:MIN 5, MAX 95, STEP 1, AUTOLIMIT TRUE, DEFAULT 50 }, UNIT[] "/%" , SHORTCUT[]  "/%" }
+  Decl PARAM LIN_Position = {SHORTNAME[] "Point: ", VALUE {NUMBER:MIN 0, MAX 100, STEP 1, AUTOLIMIT TRUE, DEFAULT 50 }, UNIT[] "/%" , SHORTCUT[]  "/%" }
 
  
    DECL FOLD LIN_FOLD[7] 

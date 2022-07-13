@@ -246,7 +246,7 @@ namespace HanGao.ViewModel
         /// </summary>
         public ICommand Sink_Craft_Delete_Comm
         {
-            get => new RelayCommand<UC_Sink_Size>((Sm) =>
+            get => new RelayCommand<UC_Pop_Ups>((Sm) =>
             {
 
 

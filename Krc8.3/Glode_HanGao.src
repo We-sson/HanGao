@@ -1,8 +1,8 @@
 &ACCESS RVO1
-&REL 202
+&REL 205
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
-&PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
+&PARAM DISKPATH = KRC:\R1\Program\HK
 DEF Glode_HanGao( )
 
 ;# DATE:2021-1-4
@@ -51,20 +51,20 @@ SWITCH Sink_Area
 
 CASE #L0
  
- IF  Surround_Welding_Size.Write_Status THEN
+ ;IF  Surround_Welding_Size.Write_Status THEN
  
  
  ; L0_Welding_Craft[Work_Area,OFFSET_NO].Welding_Speed=Welding_Speed
  ; L0_Welding_Craft[Work_Area,OFFSET_NO].Welding_Offset=Offset_info
  
  
- ELSE
+ ;ELSE
  
  ; Welding_Speed= L0_Welding_Craft[Work_Area,OFFSET_NO].Welding_Speed
  ; Offset_info=L0_Welding_Craft[Work_Area,OFFSET_NO].Welding_Offset
  
  
- ENDIF
+ ;ENDIF
  
  
  
@@ -92,17 +92,17 @@ CASE #C45
 SWITCH Pos_Type
 
 CASE #C_LIN_POS
-IF  Surround_Welding_Size.Write_Status THEN
+;IF  Surround_Welding_Size.Write_Status THEN
 
  ; C45_Welding_Craft[Work_Area,1].Welding_Speed=Welding_Speed
  ; C45_Welding_Craft[Work_Area,1].Welding_Offset=Offset_info
  
 
-ELSE
+;ELSE
  ; Welding_Speed=C45_Welding_Craft[Work_Area,1].Welding_Speed
  ; Offset_info=C45_Welding_Craft[Work_Area,1].Welding_Offset
 
-ENDIF
+;ENDIF
 
 
 Lin_Pos.X=Surround_Welding_Size.Sink_Size_Width+Surround_Welding_Size.Sink_Size_Down_Distance
@@ -122,18 +122,18 @@ C45_Welding_Craft[Work_Area,1].Welding_Pos.C=Lin_Pos.C
 
 CASE #C_CIR_POS
 
-IF  Surround_Welding_Size.Write_Status THEN
+;IF  Surround_Welding_Size.Write_Status THEN
  ; C45_Welding_Craft[Work_Area,3].Welding_Speed=Welding_Speed
  ; C45_Welding_Craft[Work_Area,2].Welding_Offset=Offset_info
  ; C45_Welding_Craft[Work_Area,3].Welding_Offset=Offset_cir_info
  
  
- ELSE
+ ;ELSE
   ; Welding_Speed=C45_Welding_Craft[Work_Area,3].Welding_Speed
   ; Offset_info=C45_Welding_Craft[Work_Area,2].Welding_Offset
   ; Offset_cir_info=C45_Welding_Craft[Work_Area,3].Welding_Offset
  
- ENDIF
+ ;ENDIF
  
  Cir_Middle_POS.x=Surround_Welding_Size.Sink_Size_Down_Distance+Surround_Welding_Size.Sink_Size_Width-Surround_Welding_Size.Sink_Size_R+(COS(45)*Surround_Welding_Size.Sink_Size_R)
  Cir_Middle_POS.Y=Surround_Welding_Size.Sink_Size_Left_Distance+((1-COS(45))*Surround_Welding_Size.Sink_Size_R)
@@ -167,17 +167,17 @@ ENDSWITCH
 
 
 CASE #L90
-IF  Surround_Welding_Size.Write_Status THEN
+;IF  Surround_Welding_Size.Write_Status THEN
 
  ; L90_Welding_Craft[Work_Area,OFFSET_NO].Welding_Speed=Welding_Speed
  ; L90_Welding_Craft[Work_Area,OFFSET_NO].Welding_Offset=Offset_info
  
-ELSE
+;ELSE
 
  ; Welding_Speed=L90_Welding_Craft[Work_Area,OFFSET_NO].Welding_Speed
  ; Offset_info=L90_Welding_Craft[Work_Area,OFFSET_NO].Welding_Offset
  
-ENDIF
+;ENDIF
 
  Lin_Pos.X=(Surround_Welding_Size.Sink_Size_Width-Surround_Welding_Size.Sink_Size_R*2)* (1-(Surr_Path*0.01))+Surround_Welding_Size.Sink_Size_Down_Distance+Surround_Welding_Size.Sink_Size_R
  Lin_Pos.Y=Surround_Welding_Size.Sink_Size_Left_Distance
@@ -199,15 +199,15 @@ SWITCH Pos_Type
 
 CASE #C_LIN_POS
 
-IF  Surround_Welding_Size.Write_Status THEN
+;IF  Surround_Welding_Size.Write_Status THEN
  ; C135_Welding_Craft[Work_Area,1].Welding_Speed=Welding_Speed
  ; C135_Welding_Craft[Work_Area,1].Welding_Offset=Offset_info
  
- ELSE
+ ;ELSE
  ; Welding_Speed=C135_Welding_Craft[Work_Area,1].Welding_Speed
  ; Offset_info=C135_Welding_Craft[Work_Area,1].Welding_Offset
  
- ENDIF
+ ;ENDIF
 
 
 
@@ -226,19 +226,19 @@ C135_Welding_Craft[Work_Area,1].Welding_Pos.B=Lin_Pos.B
 C135_Welding_Craft[Work_Area,1].Welding_Pos.C=Lin_Pos.C
 
 CASE #C_CIR_POS
-IF  Surround_Welding_Size.Write_Status THEN
+;IF  Surround_Welding_Size.Write_Status THEN
 
  ; C135_Welding_Craft[Work_Area,3].Welding_Speed=Welding_Speed
  ; C135_Welding_Craft[Work_Area,2].Welding_Offset=Offset_info
  ; C135_Welding_Craft[Work_Area,3].Welding_Offset=Offset_cir_info
 
 
-ELSE
+;ELSE
  ; Welding_Speed=C135_Welding_Craft[Work_Area,3].Welding_Speed
  ; Offset_info=C135_Welding_Craft[Work_Area,2].Welding_Offset
  ; Offset_cir_info=C135_Welding_Craft[Work_Area,3].Welding_Offset
 
-ENDIF
+;ENDIF
 
 
  Cir_Middle_POS.x=Surround_Welding_Size.Sink_Size_Down_Distance+((1-COS(45))*Surround_Welding_Size.Sink_Size_R)
@@ -270,17 +270,17 @@ ENDSWITCH
 
 CASE #L180
 
-IF  Surround_Welding_Size.Write_Status THEN
+;IF  Surround_Welding_Size.Write_Status THEN
  ; L180_Welding_Craft[Work_Area,OFFSET_NO].Welding_Speed=Welding_Speed
  ; L180_Welding_Craft[Work_Area,OFFSET_NO].Welding_Offset=Offset_info
 
 
-ELSE
+;ELSE
 
  ; Welding_Speed=L180_Welding_Craft[Work_Area,OFFSET_NO].Welding_Speed
  ; Offset_info=L180_Welding_Craft[Work_Area,OFFSET_NO].Welding_Offset
 
-ENDIF
+;ENDIF
 
  Lin_Pos.X=Surround_Welding_Size.Sink_Size_Down_Distance
  Lin_Pos.Y=(Surround_Welding_Size.Sink_Size_Long-Surround_Welding_Size.Sink_Size_R*2)* (Surr_Path*0.01)+Surround_Welding_Size.Sink_Size_Left_Distance+Surround_Welding_Size.Sink_Size_R
@@ -302,16 +302,16 @@ SWITCH Pos_Type
 
 CASE #C_LIN_POS
 
-IF  Surround_Welding_Size.Write_Status THEN
+;IF  Surround_Welding_Size.Write_Status THEN
 
  ; C225_Welding_Craft[Work_Area,1].Welding_Speed=Welding_Speed
  ; C225_Welding_Craft[Work_Area,1].Welding_Offset=Offset_info
  
- ELSE
+ ;ELSE
   ; Welding_Speed=C225_Welding_Craft[Work_Area,1].Welding_Speed
   ; Offset_info=C225_Welding_Craft[Work_Area,1].Welding_Offset
  
- ENDIF
+ ;ENDIF
  
  
  Lin_Pos.X=Surround_Welding_Size.Sink_Size_Down_Distance
@@ -330,19 +330,19 @@ C225_Welding_Craft[Work_Area,1].Welding_Pos.C=Lin_Pos.C
 
 CASE #C_CIR_POS
 
-IF  Surround_Welding_Size.Write_Status THEN
+;IF  Surround_Welding_Size.Write_Status THEN
  ; C225_Welding_Craft[Work_Area,3].Welding_Speed=Welding_Speed
  ; C225_Welding_Craft[Work_Area,2].Welding_Offset=Offset_info
  ; C225_Welding_Craft[Work_Area,3].Welding_Offset=Offset_cir_info
  
- ELSE
+ ;ELSE
  
  ; Welding_Speed=C225_Welding_Craft[Work_Area,3].Welding_Speed
  ; Offset_info=C225_Welding_Craft[Work_Area,2].Welding_Offset
  ; Offset_cir_info=C225_Welding_Craft[Work_Area,3].Welding_Offset
  
  
- ENDIF
+ ;ENDIF
 
 
 
@@ -374,14 +374,14 @@ ENDSWITCH
 
 
 CASE #L270
-IF  Surround_Welding_Size.Write_Status THEN
+;IF  Surround_Welding_Size.Write_Status THEN
  ; L270_Welding_Craft[Work_Area,OFFSET_NO].Welding_Speed=Welding_Speed
  ; L270_Welding_Craft[Work_Area,OFFSET_NO].Welding_Offset=Offset_info
-ELSE
+;ELSE
  ; Welding_Speed=L270_Welding_Craft[Work_Area,OFFSET_NO].Welding_Speed
  ; Offset_info=L270_Welding_Craft[Work_Area,OFFSET_NO].Welding_Offset
 
-ENDIF
+;ENDIF
 
 
  Lin_Pos.X=(Surround_Welding_Size.Sink_Size_Width-Surround_Welding_Size.Sink_Size_R*2)* (Surr_Path*0.01)+Surround_Welding_Size.Sink_Size_Down_Distance+Surround_Welding_Size.Sink_Size_R
@@ -403,14 +403,14 @@ CASE #C315
 SWITCH Pos_Type
 
 CASE #C_LIN_POS
-IF  Surround_Welding_Size.Write_Status THEN
+;IF  Surround_Welding_Size.Write_Status THEN
  ; C315_Welding_Craft[Work_Area,1].Welding_Speed=Welding_Speed
  ; C315_Welding_Craft[Work_Area,1].Welding_Offset=Offset_info
-ELSE
+;ELSE
 
  ; Welding_Speed=C315_Welding_Craft[Work_Area,1].Welding_Speed
  ; Offset_info=C315_Welding_Craft[Work_Area,1].Welding_Offset
-ENDIF
+;ENDIF
  
  
  Lin_Pos.X=Surround_Welding_Size.Sink_Size_Down_Distance+Surround_Welding_Size.Sink_Size_Width-Surround_Welding_Size.Sink_Size_R
@@ -428,16 +428,16 @@ ENDIF
  C315_Welding_Craft[Work_Area,1].Welding_Pos.C=Lin_Pos.C
 
 CASE #C_CIR_POS
-IF  Surround_Welding_Size.Write_Status THEN
+;IF  Surround_Welding_Size.Write_Status THEN
  ; C315_Welding_Craft[Work_Area,3].Welding_Speed=Welding_Speed
  ; C315_Welding_Craft[Work_Area,2].Welding_Offset=Offset_info
 ; C315_Welding_Craft[Work_Area,3].Welding_Offset= Offset_cir_info
- ELSE
+ ;ELSE
   ; Welding_Speed=C315_Welding_Craft[Work_Area,3].Welding_Speed
  ; Offset_info=C315_Welding_Craft[Work_Area,2].Welding_Offset
 ; Offset_cir_info=C315_Welding_Craft[Work_Area,3].Welding_Offset
  
- ENDIF
+ ;ENDIF
  
  
 

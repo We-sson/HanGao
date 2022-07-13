@@ -61,7 +61,6 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="20"
-                            
                             SnapsToDevicePixels="true">
                         <ContentPresenter x:Name="contentPresenter"
                                           Margin="{TemplateBinding Padding}"
@@ -75,8 +74,8 @@
                         <Trigger Property="IsDefaulted" Value="true">
                             <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
                         </Trigger>
-                        <Trigger Property="IsMouseOver" Value="true" >
-                            <Setter Property="Effect" Value="{DynamicResource 全局背景阴影}"/>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Effect" Value="{DynamicResource 全局背景阴影}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
                             <Setter TargetName="border" Property="Opacity" Value="0.5" />
