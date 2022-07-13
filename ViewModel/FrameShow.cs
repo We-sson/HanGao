@@ -9,6 +9,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System;
+using System.Reflection;
 
 namespace HanGao.ViewModel
 {
@@ -18,8 +19,9 @@ namespace HanGao.ViewModel
 
         public FrameShow()
         {
-
- 
+           
+            Assembly.GetExecutingAssembly();
+            //App_VerSion = Application.ResourceAssembly.GetName().Version.ToString();
         }
 
         /// <summary>
@@ -38,9 +40,10 @@ namespace HanGao.ViewModel
 
 
 
+        public string App_VerSion { set; get; }= Application.ResourceAssembly.GetName().Version.ToString();
 
 
-     
+
 
         private static  UserControl _User_Show = HomeOne;
 

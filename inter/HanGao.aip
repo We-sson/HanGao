@@ -6,6 +6,7 @@
     <ROW Property="AI_SERVAL_TYPE" Value="0"/>
     <ROW Property="ALLUSERS" Value="1"/>
     <ROW Property="ARPCOMMENTS" Value="This installer database contains the logic and data required to install [|ProductName]." ValueLocId="*"/>
+    <ROW Property="ARPPRODUCTICON" Value="pcdstart.exe" Type="8"/>
     <ROW Property="Manufacturer" Value="HanGao.CJ"/>
     <ROW Property="PIDTemplate" Value="&lt;###-###-###-###&gt;"/>
     <ROW Property="ProductCode" Value="1033:{6B49C630-BA3E-4182-8ECA-C0E2BEA7E5D0} " Type="16"/>
@@ -142,7 +143,7 @@
     <ROW BootstrOptKey="GlobalOptions" DownloadFolder="[AppDataFolder][|Manufacturer]\[|ProductName]\prerequisites" Options="2"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
-    <ROW BuildKey="x64_Debug_1" BuildName="x64_Debug_1" BuildOrder="1" BuildType="0" PackageFolder="x64_Debug_1SetupFiles" PackageFileName="HanGao" Languages="en" InstallationType="4" UseLargeSchema="true"/>
+    <ROW BuildKey="x64_Debug_1" BuildName="x64_Debug_1" BuildOrder="1" BuildType="0" PackageFolder="x64_Debug_1SetupFiles" PackageFileName="HanGao_[|ProductVersion]" Languages="en" InstallationType="4" UseLargeSchema="true"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
     <ROW Path="&lt;AI_DICTS&gt;ui.ail"/>
@@ -266,6 +267,9 @@
     <ROW Feature_="MainFeature" Component_="System.Numerics.Vectors.dll"/>
     <ROW Feature_="MainFeature" Component_="Microsoft.Expression.Drawing.dll"/>
     <ROW Feature_="MainFeature" Component_="SHORTCUTDIR"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiIconsComponent">
+    <ROW Name="pcdstart.exe" SourcePath="D:\3D库\MISUMI\MISUMI_2017_3D_CAD_Catalog\software\bin\x86\32\pcdstart.exe" Index="0"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstExSeqComponent">
     <ROW Action="AI_STORE_LOCATION" Condition="(Not Installed) OR REINSTALL" Sequence="1501"/>
