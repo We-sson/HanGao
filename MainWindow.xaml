@@ -26,6 +26,7 @@
 
     <Window.Resources>
         <Converters:TruthyToVisibleConverter x:Key="TruthyToVisibleConverter" />
+        <Storyboard x:Key="UI_Socket_Type_Stroy"/>
     </Window.Resources>
     <Window.DataContext>
         <Binding Path="FrameShow" Source="{StaticResource Locator}" />
@@ -72,16 +73,39 @@
             </Grid.ColumnDefinitions>
 
             <!--  首页_左上角_公司图标  -->
-            <Border Grid.Column="0"
-                    HorizontalAlignment="Stretch"
-                    Background="{DynamicResource 全局_按钮_黄颜色}">
+            <Border Grid.Column="0" HorizontalAlignment="Stretch">
 
-                <TextBlock Text="Warning"
-                           HorizontalAlignment="Center"
+
+                <TextBlock HorizontalAlignment="Center"
                            VerticalAlignment="Center"
-                           FontFamily="Microsoft YaHei UI"
-                           FontSize="36"
-                           FontWeight="Normal" />
+                           FontFamily="{DynamicResource 全局_文字_英文字体}"
+                           FontSize="42">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding UI_Socket_Type}" Value="Connect_Cancel">
+                                    <Setter Property="Text" Value="Warning" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding UI_Socket_Type}" Value="Connect_OK">
+                                    <Setter Property="Text" Value="Connect OK" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding UI_Socket_Type}" Value="Connect_Cancel">
+                                <Setter Property="Background" Value="{StaticResource 全局_按钮_黄颜色}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding UI_Socket_Type}" Value="Connect_OK">
+                                <Setter Property="Background" Value="{StaticResource 全局_按钮_绿颜色}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
             </Border>
             <Grid Grid.Column="1"
                   HorizontalAlignment="Center"
@@ -121,7 +145,8 @@
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    FontFamily="{DynamicResource 全局_图标库}"
-                                   FontSize="26" />
+                                   FontSize="26"
+                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                         <TextBlock Text="控制台"
                                    Margin="10,5,10,0"
                                    HorizontalAlignment="Center"
@@ -155,12 +180,13 @@
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    FontFamily="{DynamicResource 全局_图标库}"
-                                   FontSize="26" />
+                                   FontSize="26"
+                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                         <TextBlock Text="视觉功能"
                                    Margin="10,5,10,0"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   FontFamily="Yu Gothic UI Semilight"
+                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
                                    FontSize="24" />
                     </WrapPanel>
 
@@ -189,12 +215,13 @@
                                    HorizontalAlignment="Stretch"
                                    VerticalAlignment="Center"
                                    FontFamily="{DynamicResource 全局_图标库}"
-                                   FontSize="26" />
+                                   FontSize="26"
+                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                         <TextBlock Text="工艺编辑"
                                    Margin="10,0,10,0"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   FontFamily="Yu Gothic UI Semilight"
+                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
                                    FontSize="24" />
                     </WrapPanel>
 
@@ -220,13 +247,15 @@
                                    HorizontalAlignment="Stretch"
                                    VerticalAlignment="Stretch"
                                    FontFamily="{DynamicResource 全局_图标库}"
-                                   FontSize="26" />
+                                   FontSize="26"
+                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                         <TextBlock Text="振镜界面"
                                    Margin="10,0,10,0"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   FontFamily="Yu Gothic UI Semilight"
-                                   FontSize="24" />
+                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                   FontSize="24"
+                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                     </WrapPanel>
                 </RadioButton>
 

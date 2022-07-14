@@ -48,18 +48,62 @@ namespace Soceket_Connect
         private ManualResetEvent Send_Waite { set; get; } = new ManualResetEvent(false);
 
 
+        /// <summary>
+        /// 连接状态枚举
+        /// </summary>
+        public enum Socket_Tpye
+        {
+            Connect_OK,
+            Connect_Cancel,
+        }
+
+
+
+        private bool _Is_Write_Client=false;
 
         /// <summary>
         /// 写入连接成功属性
         /// </summary>
-        public bool Is_Write_Client { set; get; } = false;
+        public bool Is_Write_Client
+        {
+            get { return _Is_Write_Client=false; }
+            set { 
+                _Is_Write_Client = value;
+                if (value)
+                {
+                    Messenger.Send<string , string>(Socket_Tpye.Connect_OK.ToString(), Meg_Value_Eunm.Socket_Write_Tpye.ToString());
+                }
+                else
+                {
+                    Messenger.Send<string, string>(Socket_Tpye.Connect_Cancel.ToString(), Meg_Value_Eunm.Socket_Write_Tpye.ToString());
+
+                }
+            }
+        }
 
 
+
+
+
+        private bool _Is_Read_Client=false ;
         /// <summary>
         /// 写入连接成功属性
         /// </summary>
-        public bool Is_Read_Client { set; get; } = false;
+        public bool Is_Read_Client
+        {
+            get { return _Is_Read_Client; }
+            set { _Is_Read_Client = value;
+                if (value)
+                {
+                    Messenger.Send<string, string>(Socket_Tpye.Connect_OK.ToString(), Meg_Value_Eunm.Socket_Read_Tpye.ToString());
+                }
+                else
+                {
+                    Messenger.Send<string, string>(Socket_Tpye.Connect_Cancel.ToString(), Meg_Value_Eunm.Socket_Read_Tpye.ToString());
 
+                }
+            }
+        }
 
 
 
@@ -137,6 +181,8 @@ namespace Soceket_Connect
         /// <param name="_Port"></param>
         private void Socket_Client_Thread(Socket_Client_Type _Enum, Read_Write_Enum R_W_Enum, string _IP, string _Port)
         {
+
+
 
 
             switch (_Enum)
@@ -292,6 +338,9 @@ namespace Soceket_Connect
                     //挂起读取异步连接
                     Global_Socket_Write.EndConnect(ar);
                     Is_Write_Client = true;
+
+
+
 
                 }
                 catch (Exception e)

@@ -47,6 +47,15 @@ namespace HanGao.ViewModel.Messenger_Eunm
             Socket_Read_Thread,
 
             /// <summary>
+            /// 服务器 读取连接状态
+            /// </summary>
+            Socket_Read_Tpye,
+
+            /// <summary>
+            /// 服务器写入连接状态
+            /// </summary>
+            Socket_Write_Tpye,
+            /// <summary>
             /// 服务器写入线程
             /// </summary>
             Socket_Write_Thread,

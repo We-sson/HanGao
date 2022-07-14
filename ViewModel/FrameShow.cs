@@ -6,22 +6,35 @@ using System.Windows.Input;
 using HanGao.View.FrameShow;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System;
 using System.Reflection;
+using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
+using static Soceket_Connect.Socket_Connect;
 
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class FrameShow : ObservableObject
+    public class FrameShow : ObservableRecipient
     {
 
         public FrameShow()
         {
-           
-            Assembly.GetExecutingAssembly();
+
+            var a = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             //App_VerSion = Application.ResourceAssembly.GetName().Version.ToString();
+
+
+
+            ///服务器现在状态映射UI
+            Messenger.Register<string , string>(this, nameof(Meg_Value_Eunm.Socket_Read_Tpye), (O, _S) =>
+            {
+
+                UI_Socket_Type = (Socket_Tpye)Enum.Parse(typeof (Socket_Tpye),_S);
+
+            });
         }
 
         /// <summary>
@@ -39,14 +52,22 @@ namespace HanGao.ViewModel
         /// </summary>
 
 
+        /// <summary>
+        /// 版本显示
+        /// </summary>
+        public string App_VerSion { set; get; } = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-        public string App_VerSion { set; get; }= Application.ResourceAssembly.GetName().Version.ToString();
 
-
+        /// <summary>
+        /// UI连接状态属性
+        /// </summary>
+        public Socket_Tpye UI_Socket_Type { set; get; } = Socket_Tpye.Connect_Cancel;
 
 
         private static  UserControl _User_Show = HomeOne;
-
+        /// <summary>
+        /// 界面显示
+        /// </summary>
         public static  UserControl User_Show
         {
             get { return _User_Show; }

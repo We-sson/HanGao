@@ -61,12 +61,12 @@
 
 
                             <!--  标题_选项_阴影  -->
-                            <ContentPresenter.Effect>
+                            <!--<ContentPresenter.Effect>
                                 <DropShadowEffect BlurRadius="1"
                                                   Opacity="1"
                                                   ShadowDepth="1"
                                                   Color="Black" />
-                            </ContentPresenter.Effect>
+                            </ContentPresenter.Effect>-->
 
                         </ContentPresenter>
 

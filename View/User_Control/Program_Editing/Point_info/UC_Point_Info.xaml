@@ -96,7 +96,7 @@
                                    Margin="0"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   FontFamily="/Resources/#iconfont"
+                                   FontFamily="{DynamicResource 全局_图标库}"
                                    FontSize="20"
                                    Foreground="{DynamicResource 全局_按钮_红颜色}" />
                     </Button.Content>
@@ -513,15 +513,43 @@
                 Grid.ColumnSpan="4"
                 Height="40"
                 Margin="0,0,0,0"
-                Background="#434343"
+                Background="{DynamicResource 全局_按钮_黑颜色}"
                 CornerRadius=" 5"
                 Effect="{StaticResource 全局背景阴影}">
 
-            <TextBlock Text="{Binding UI_Craft_Date.Welding_Name, Mode=OneWay, FallbackValue=工艺设置, StringFormat={}{0} 工艺设置}"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       FontSize="20"
-                       Foreground="{DynamicResource 全局_背景_白颜色}" />
+
+            <Grid>
+                <Button Style="{DynamicResource ButtonStyle3}"
+                        Width=" 28"
+                        Height=" 28"
+                        Margin="10,0,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Background="Transparent">
+                    <Button.Content>
+                        <TextBlock Text="&#xe677;"
+                                   Margin="0"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="/Resources/#iconfont"
+                                   FontSize="20"
+                                   Foreground="{DynamicResource 全局_按钮_绿颜色}" />
+                    </Button.Content>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding Craft_Point_Info_SaveToVal_Comm}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UC_Point_Info}}}"
+                                                   PassEventArgsToCommand="True" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+
+                <TextBlock Text="{Binding UI_Craft_Date.Welding_Name, Mode=OneWay, FallbackValue=工艺设置, StringFormat={}{0} 工艺设置}"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="20"
+                           Foreground="{DynamicResource 全局_背景_白颜色}" />
+            </Grid>
         </Border>
 
 
@@ -633,7 +661,7 @@
                 FontSize="24">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Click">
-                    <i:InvokeCommandAction Command="{Binding Craft_Point_Info_SaveToXml_Comm}"
+                    <i:InvokeCommandAction Command="{Binding Craft_Point_Info_Close_Comm}"
                                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                            PassEventArgsToCommand="True" />
                 </i:EventTrigger>

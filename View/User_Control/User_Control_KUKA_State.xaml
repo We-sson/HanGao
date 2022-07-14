@@ -44,7 +44,7 @@
                             CornerRadius="0">
                         <Border.Style>
                             <Style TargetType="Border">
-                                <Setter Property="Background" Value="#FFCACACA" />
+                                <Setter Property="Background" Value="{DynamicResource 全局_背景_白颜色}" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding KUKA_State.KUKA_Submit_State}" Value="P_ACTIVE">
                                         <Setter Property="Background" Value="Green" />
@@ -66,7 +66,7 @@
                                Margin="0,10,0,0"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               FontFamily="YouYuan"
+                               FontFamily="{DynamicResource 全局_文字_中文字体}"
                                FontSize="16" />
 
                 </StackPanel>
@@ -84,10 +84,10 @@
 
                         <Border.Style>
                             <Style TargetType="Border">
-                                <Setter Property="Background" Value="#FFCACACA" />
+                                <Setter Property="Background" Value="{DynamicResource 全局_背景_白颜色}" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding KUKA_State.KUKA_Drive_State}" Value="TRUE">
-                                        <Setter Property="Background" Value="Green" />
+                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -106,7 +106,7 @@
                                Margin="0,10,0,0"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               FontFamily="YouYuan"
+                               FontFamily="{DynamicResource 全局_文字_中文字体}"
                                FontSize="16" />
 
 
@@ -126,7 +126,7 @@
 
                         <Border.Style>
                             <Style TargetType="Border">
-                                <Setter Property="Background" Value="#FFCACACA" />
+                                <Setter Property="Background" Value="{DynamicResource 全局_背景_白颜色}" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding KUKA_State.KUKA_Program_State}" Value="P_RESET">
                                         <Setter Property="Background" Value="{DynamicResource 全局_按钮_黄颜色}" />
@@ -168,7 +168,7 @@
                                Margin="0,10,0,0"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               FontFamily="YouYuan"
+                               FontFamily="{DynamicResource 全局_文字_中文字体}"
                                FontSize="16" />
 
                 </StackPanel>
@@ -186,7 +186,7 @@
 
                         <Border.Style>
                             <Style TargetType="Border">
-                                <Setter Property="Background" Value="#FFCACACA" />
+                                <Setter Property="Background" Value="{DynamicResource 全局_背景_白颜色}" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding KUKA_State.KUKA_Mode_State}" Value="AUT">
                                         <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
@@ -217,7 +217,7 @@
                                Margin="0,10,0,0"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               FontFamily="YouYuan"
+                               FontFamily="{DynamicResource 全局_文字_中文字体}"
                                FontSize="16" />
 
                 </StackPanel>

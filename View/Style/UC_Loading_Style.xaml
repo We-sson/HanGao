@@ -22,7 +22,7 @@
 
 
                         <Grid x:Name="PART_Indicator"
-                              Margin=" 0 0 0 0"
+                              Margin="0,0,0,0"
                               HorizontalAlignment="Left"
                               ClipToBounds="true">
                             <Rectangle x:Name="Indicator" Fill="{TemplateBinding Foreground}" />

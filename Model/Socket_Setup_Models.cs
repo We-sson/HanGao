@@ -244,9 +244,9 @@ namespace HanGao.Model
         /// </summary>
         public ICommand Socket_Close_Comm
         {
-            get => new RelayCommand<UserControl_Socket_Conntec_UI>(async (Sm) =>
+            get => new RelayCommand<UserControl_Socket_Conntec_UI>( (Sm) =>
            {
-               await Task.Run(() =>
+                Task.Run(() =>
               {
                   //把参数类型转换控件
                   //UIElement e = Sm.Source as UIElement;

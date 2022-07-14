@@ -55,7 +55,31 @@ namespace HanGao.ViewModel
 
 
 
+        /// <summary>
+        /// 保存属性水槽类型到XMl
+        /// </summary>
+        public ICommand Craft_Point_Info_Close_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                //把参数类型转换控件
 
+
+
+                //XML_Write_Read.Save_Xml();
+
+
+                ///清楚程序编辑界面数据选项
+                Messenger.Send<dynamic, string>(null, nameof(Meg_Value_Eunm.Surround_Direction_Rest));
+                Messenger.Send<dynamic, string>(null, nameof(Meg_Value_Eunm.Direction_Info_Rest));
+                UI_Craft_Date = null;
+                FrameShow.ProgramEdit_Enabled = false;
+                FrameShow.HomeOne_UI = true;
+
+
+
+            });
+        }
 
 
 
@@ -66,12 +90,12 @@ namespace HanGao.ViewModel
         /// </summary>
         public ICommand Craft_Point_Info_SaveToXml_Comm
         {
-            get => new RelayCommand<UC_Point_Info>((Sm) =>
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
                 //把参数类型转换控件
 
 
-
+                
                 XML_Write_Read.Save_Xml();
 
 
