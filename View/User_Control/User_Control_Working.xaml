@@ -461,7 +461,8 @@
         <pop_ups:UC_Wait_Loading Grid.Row="0" Grid.Column="0"
                                  Grid.RowSpan="2"
                                  Grid.ColumnSpan="2"
-                                 DataContext="{Binding Working_Area_UI.UI_Loade}" />
+                                 DataContext="{Binding Working_Area_UI.UI_Loade}"
+                                 Visibility="Collapsed" />
     </Grid>
 
 

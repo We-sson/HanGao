@@ -1,265 +1,301 @@
 ﻿<UserControl x:Class="HanGao.View.User_Control.Program_Editing.Direction_UI.UC_Short_Side"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:HanGao.View.User_Control.Program_Editing.Direction_UI"
              xmlns:Points="clr-namespace:LiveCharts.Wpf.Points;assembly=LiveCharts.Wpf"
-             d:DesignHeight="466"
-             d:DesignWidth="760"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:local="clr-namespace:HanGao.View.User_Control.Program_Editing.Direction_UI"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="386"
+             d:DesignWidth="560"
+             DataContext="{Binding Source={StaticResource Locator}, Path=UC_Short_Side_VM}"
              mc:Ignorable="d">
 
-    <Grid Margin="10">
 
-        <TextBlock x:Name="Sink_ico"
+
+
+
+
+
+
+    <Grid Margin="10" ShowGridLines="False">
+
+
+
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+
+        <TextBlock x:Name="Sink_ico" Grid.Row=" 0" Grid.Column=" 1"
+                   Grid.RowSpan=" 3"
                    Text="&#xE61B;"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
-                   Opacity=" 0.4"
-                   FontSize="350"
-                   Foreground="#FF4B6587"
-                   FontFamily="/Resources/#iconfont" />
+                   FontFamily="{DynamicResource 全局_图标库}"
+                   FontSize="220"
+                   Foreground="{DynamicResource 全局_按钮_蓝颜色}"
+                   Opacity=" 0.5"
+                   Visibility="Visible" />
 
 
-        <Grid>
+        <StackPanel Grid.Row="0" Grid.Column="0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center">
 
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
+            <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" x:Name="N45_Short_Craft"
+                         Content="N__45"
+                         Width="90"
+                         Height=" 40"
+                         HorizontalContentAlignment="Center"
+                         VerticalContentAlignment="Center"
+                         Background="{DynamicResource 全局_按钮_蓝颜色}"
+                         BorderBrush="Black"
+                         BorderThickness="2"
+                         FontFamily="{DynamicResource 全局_文字_数字字体}"
+                         FontSize="20"
+                         GroupName="Sink_Direction">
 
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Checked">
+                        <i:InvokeCommandAction Command="{Binding UC_Short_Area_Checked_Comm}"
+                                               CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                               PassEventArgsToCommand="True" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
 
-            <StackPanel Grid.Row="0" Grid.Column="0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center">
+            </RadioButton>
 
-
-                <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}"
-                             Content="SS-1"
-                             Width="90"
-                             HorizontalContentAlignment="Center"
-                             VerticalContentAlignment="Center"
-                             GroupName="Sink_Direction"
-                             Background="#FF4B6587"
-                             FontSize="20" />
-                <ComboBox Style="{DynamicResource ComboBox_Style}"
-                          Height=" 40"
-                          Margin="0,6,0,0"
-                          HorizontalContentAlignment="Center"
-                          VerticalContentAlignment="Center"
-                          BorderBrush="#4B6587"
-                          Effect="{Binding Source={StaticResource 全局背景阴影}}"
-                          BorderThickness="2"
-                          Background="#E3E3E3"
-                          FontSize="20">
-                    <ComboBoxItem Content="1"
-                                  HorizontalAlignment="Stretch"
-                                  VerticalAlignment="Stretch"
-                                  HorizontalContentAlignment="Center"
-                                  VerticalContentAlignment="Center"
-                                  IsSelected="True" />
-                    <ComboBoxItem Content="2"
-                                  HorizontalAlignment="Stretch"
-                                  VerticalAlignment="Stretch"
-                                  HorizontalContentAlignment="Center"
-                                  VerticalContentAlignment="Center" />
-                    <ComboBoxItem Content="3"
-                                  HorizontalAlignment="Stretch"
-                                  VerticalAlignment="Stretch"
-                                  HorizontalContentAlignment="Center"
-                                  VerticalContentAlignment="Center" />
-                    <ComboBoxItem Content="4"
-                                  HorizontalAlignment="Stretch"
-                                  VerticalAlignment="Stretch"
-                                  HorizontalContentAlignment="Center"
-                                  VerticalContentAlignment="Center" />
-
-                </ComboBox>
+            <!--<ComboBox x:Name="Short_Area_SS1"
+                      Height=" 40"
+                      Margin="0,10,0,0"
+                      HorizontalContentAlignment="Center"
+                      VerticalContentAlignment="Center"
+                      BorderThickness="2"
+                      Effect="{Binding Source={StaticResource 全局背景阴影}}"
+                      FontSize="20"
+                      ItemsSource="{Binding UI_Short_Area}"
+                      SelectedIndex="0"
+                      SelectedValue="">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding UI_Combox_Area_Name}"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                   FontSize="26"
+                                   IsEnabled="True" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
 
 
-            </StackPanel>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Selected">
+                        <i:InvokeCommandAction Command="{Binding UC_Short_Selected_Comm}"
+                                               CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                               PassEventArgsToCommand="True" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+            </ComboBox>-->
 
 
-            <StackPanel Grid.Row="0" Grid.Column="2"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center">
-
-                <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}"
-                             Content="SS-2"
-                             Width="90"
-                             HorizontalContentAlignment="Center"
-                             VerticalContentAlignment="Center"
-                             GroupName="Sink_Direction"
-                             Background="#FF4B6587"
-                             FontSize="20" />
-                <ComboBox Style="{DynamicResource ComboBox_Style}"
-                          Height=" 40"
-                          Margin="0,6,0,0"
-                          HorizontalContentAlignment="Center"
-                          VerticalContentAlignment="Center"
-                          BorderBrush="#4B6587"
-                          Effect="{Binding Source={StaticResource 全局背景阴影}}"
-                          BorderThickness="2"
-                          Background="#E3E3E3"
-                          FontSize="20">
-                    <ComboBoxItem Content="1"
-                                  HorizontalAlignment="Stretch"
-                                  VerticalAlignment="Stretch"
-                                  HorizontalContentAlignment="Center"
-                                  VerticalContentAlignment="Center"
-                                  IsSelected="True" />
-                    <ComboBoxItem Content="2"
-                                  HorizontalAlignment="Stretch"
-                                  VerticalAlignment="Stretch"
-                                  HorizontalContentAlignment="Center"
-                                  VerticalContentAlignment="Center" />
-                    <ComboBoxItem Content="3"
-                                  HorizontalAlignment="Stretch"
-                                  VerticalAlignment="Stretch"
-                                  HorizontalContentAlignment="Center"
-                                  VerticalContentAlignment="Center" />
-                    <ComboBoxItem Content="4"
-                                  HorizontalAlignment="Stretch"
-                                  VerticalAlignment="Stretch"
-                                  HorizontalContentAlignment="Center"
-                                  VerticalContentAlignment="Center" />
-
-                </ComboBox>
-
-            </StackPanel>
+        </StackPanel>
 
 
-            <StackPanel Grid.Row="1" Grid.Column="0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center">
+        <StackPanel Grid.Row="0" Grid.Column="2"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center">
 
-                <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}"
-                             Content="SS-3"
-                             Width="90"
-                             HorizontalContentAlignment="Center"
-                             VerticalContentAlignment="Center"
-                             GroupName="Sink_Direction"
-                             Background="#FF4B6587"
-                             FontSize="20" />
-                <ComboBox Style="{DynamicResource ComboBox_Style}"
-                          Height=" 40"
-                          Margin="0,6,0,0"
-                          HorizontalContentAlignment="Center"
-                          VerticalContentAlignment="Center"
-                          BorderBrush="#4B6587"
-                          Effect="{Binding Source={StaticResource 全局背景阴影}}"
-                          BorderThickness="2"
-                          Background="#E3E3E3"
-                          FontSize="20">
-                    <ComboBoxItem Content="1"
-                                  HorizontalAlignment="Stretch"
-                                  VerticalAlignment="Stretch"
-                                  HorizontalContentAlignment="Center"
-                                  VerticalContentAlignment="Center"
-                                  IsSelected="True" />
-                    <ComboBoxItem Content="2"
-                                  HorizontalAlignment="Stretch"
-                                  VerticalAlignment="Stretch"
-                                  HorizontalContentAlignment="Center"
-                                  VerticalContentAlignment="Center" />
-                    <ComboBoxItem Content="3"
-                                  HorizontalAlignment="Stretch"
-                                  VerticalAlignment="Stretch"
-                                  HorizontalContentAlignment="Center"
-                                  VerticalContentAlignment="Center" />
-                    <ComboBoxItem Content="4"
-                                  HorizontalAlignment="Stretch"
-                                  VerticalAlignment="Stretch"
-                                  HorizontalContentAlignment="Center"
-                                  VerticalContentAlignment="Center" />
-
-                </ComboBox>
+            <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" x:Name="N315_Short_Craft"
+                         Content="N__315"
+                         Width="90"
+                         Height=" 40"
+                         HorizontalContentAlignment="Center"
+                         VerticalContentAlignment="Center"
+                         Background="{DynamicResource 全局_按钮_蓝颜色}"
+                         BorderBrush="Black"
+                         BorderThickness="2"
+                         FontFamily="{DynamicResource 全局_文字_数字字体}"
+                         FontSize="20"
+                         GroupName="Sink_Direction">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Checked">
+                        <i:InvokeCommandAction Command="{Binding UC_Short_Area_Checked_Comm}"
+                                               CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                               PassEventArgsToCommand="True" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
 
 
-            </StackPanel>
-            <StackPanel Grid.Row="1" Grid.Column="2"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center">
+            </RadioButton>
+            <!--<ComboBox Height=" 40"
+                      Margin="0,10,0,0"
+                      HorizontalContentAlignment="Center"
+                      VerticalContentAlignment="Center"
+                      Background="#E3E3E3"
+                      BorderBrush="#4B6587"
+                      BorderThickness="2"
+                      Effect="{Binding Source={StaticResource 全局背景阴影}}"
+                      FontSize="20">
+                <ComboBoxItem Content="1"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              HorizontalContentAlignment="Center"
+                              VerticalContentAlignment="Center"
+                              IsSelected="True" />
+                <ComboBoxItem Content="2"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              HorizontalContentAlignment="Center"
+                              VerticalContentAlignment="Center" />
+                <ComboBoxItem Content="3"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              HorizontalContentAlignment="Center"
+                              VerticalContentAlignment="Center" />
+                <ComboBoxItem Content="4"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              HorizontalContentAlignment="Center"
+                              VerticalContentAlignment="Center" />
+
+            </ComboBox>-->
+
+        </StackPanel>
 
 
-                <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}"
-                             Content="SS-4"
-                             Width="90"
-                             HorizontalContentAlignment="Center"
-                             VerticalContentAlignment="Center"
-                             GroupName="Sink_Direction"
-                             Background="#FF4B6587"
-                             FontSize="20" />
+        <StackPanel Grid.Row="2" Grid.Column="0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center">
 
-                <ComboBox Style="{DynamicResource ComboBox_Style}"
-                          Height=" 40"
-                          Margin="0,6,0,0"
-                          HorizontalContentAlignment="Center"
-                          VerticalContentAlignment="Center"
-                          BorderBrush="#4B6587"
-                          Effect="{Binding Source={StaticResource 全局背景阴影}}"
-                          BorderThickness="2"
-                          Background="#E3E3E3"
-                          FontSize="20">
-                    <ComboBoxItem Content="1"
-                                  HorizontalAlignment="Stretch"
-                                  VerticalAlignment="Stretch"
-                                  HorizontalContentAlignment="Center"
-                                  VerticalContentAlignment="Center"
-                                  IsSelected="True" />
-                    <ComboBoxItem Content="2"
-                                  HorizontalAlignment="Stretch"
-                                  VerticalAlignment="Stretch"
-                                  HorizontalContentAlignment="Center"
-                                  VerticalContentAlignment="Center" />
-                    <ComboBoxItem Content="3"
-                                  HorizontalAlignment="Stretch"
-                                  VerticalAlignment="Stretch"
-                                  HorizontalContentAlignment="Center"
-                                  VerticalContentAlignment="Center" />
-                    <ComboBoxItem Content="4"
-                                  HorizontalAlignment="Stretch"
-                                  VerticalAlignment="Stretch"
-                                  HorizontalContentAlignment="Center"
-                                  VerticalContentAlignment="Center" />
+            <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" x:Name="N135_Short_Craft"
+                         Content="N__135"
+                         Width="90"
+                         Height=" 40"
+                         HorizontalContentAlignment="Center"
+                         VerticalContentAlignment="Center"
+                         Background="{DynamicResource 全局_按钮_蓝颜色}"
+                         BorderBrush="Black"
+                         BorderThickness="2"
+                         FontFamily="{DynamicResource 全局_文字_数字字体}"
+                         FontSize="20"
+                         GroupName="Sink_Direction">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Checked">
+                        <i:InvokeCommandAction Command="{Binding UC_Short_Area_Checked_Comm}"
+                                               CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                               PassEventArgsToCommand="True" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </RadioButton>
+            <!--<ComboBox Height=" 40"
+                      Margin="0,10,0,0"
+                      HorizontalContentAlignment="Center"
+                      VerticalContentAlignment="Center"
+                      Background="#E3E3E3"
+                      BorderBrush="#4B6587"
+                      BorderThickness="2"
+                      Effect="{Binding Source={StaticResource 全局背景阴影}}"
+                      FontSize="20">
+                <ComboBoxItem Content="1"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              HorizontalContentAlignment="Center"
+                              VerticalContentAlignment="Center"
+                              IsSelected="True" />
+                <ComboBoxItem Content="2"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              HorizontalContentAlignment="Center"
+                              VerticalContentAlignment="Center" />
+                <ComboBoxItem Content="3"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              HorizontalContentAlignment="Center"
+                              VerticalContentAlignment="Center" />
+                <ComboBoxItem Content="4"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              HorizontalContentAlignment="Center"
+                              VerticalContentAlignment="Center" />
 
-                </ComboBox>
-
-            </StackPanel>
-        </Grid>
-        <Rectangle Width="18"
-                   Height="8"
-                   Margin="-510,-210,0,0"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   Fill="#FF5E57" />
-
-        <Rectangle Width="18"
-                   Height="8"
-                   Margin="-510,280,0,0"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   Fill="#FF5E57" />
+            </ComboBox>-->
 
 
-        <Rectangle Width="18"
-                   Height="8"
-                   Margin="510,280,0,0"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   Fill="#FF5E57" />
+        </StackPanel>
+        <StackPanel Grid.Row="2" Grid.Column="2"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center">
 
-        <Rectangle Width="18"
-                   Height="8"
-                   Margin="510,-210,0,0"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   Fill="#FF5E57" />
+
+            <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" x:Name="N225_Short_Craft"
+                         Content="N__225"
+                         Width="90"
+                         Height=" 40"
+                         HorizontalContentAlignment="Center"
+                         VerticalContentAlignment="Center"
+                         Background="{DynamicResource 全局_按钮_蓝颜色}"
+                         BorderBrush="Black"
+                         BorderThickness="2"
+                         FontFamily="{DynamicResource 全局_文字_数字字体}"
+                         FontSize="20"
+                         GroupName="Sink_Direction">
+
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Checked">
+                        <i:InvokeCommandAction Command="{Binding UC_Short_Area_Checked_Comm}"
+                                               CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                               PassEventArgsToCommand="True" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </RadioButton>
+
+            <!--<ComboBox Height=" 40"
+                      Margin="0,10,0,0"
+                      HorizontalContentAlignment="Center"
+                      VerticalContentAlignment="Center"
+                      Background="#E3E3E3"
+                      BorderBrush="#4B6587"
+                      BorderThickness="2"
+                      Effect="{Binding Source={StaticResource 全局背景阴影}}"
+                      FontSize="20">
+                <ComboBoxItem Content="1"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              HorizontalContentAlignment="Center"
+                              VerticalContentAlignment="Center"
+                              IsSelected="True" />
+                <ComboBoxItem Content="2"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              HorizontalContentAlignment="Center"
+                              VerticalContentAlignment="Center" />
+                <ComboBoxItem Content="3"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              HorizontalContentAlignment="Center"
+                              VerticalContentAlignment="Center" />
+                <ComboBoxItem Content="4"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              HorizontalContentAlignment="Center"
+                              VerticalContentAlignment="Center" />
+
+            </ComboBox>-->
+
+        </StackPanel>
     </Grid>
+
+
+
+
+
+
+
+
 </UserControl>

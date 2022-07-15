@@ -224,7 +224,13 @@ namespace HanGao.ViewModel.Messenger_Eunm
             /// <summary>
             /// 工艺点列表状态复位
             /// </summary>
-            Direction_Info_Rest
+            Direction_Info_Rest,
+
+
+            /// <summary>
+            ///  水槽短边工艺区域点加载
+           /// </summary>
+           Sink_Short_Craft_Point_Load
         }
 
 

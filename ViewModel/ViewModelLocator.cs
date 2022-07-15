@@ -26,47 +26,6 @@ namespace HanGao.ViewModelLocator
 
         public ViewModelLocator()
         {
-
-
-            //CommonServiceLocator.ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-
-            ////if (ViewModelBase.IsInDesignModeStatic)
-            ////{
-            ////    // Create design time view services and models
-            ////    SimpleIoc.Default.Register<IDataService, DesignDataService>();
-            ////}
-            ////else
-            ////{
-            ////    // Create run time view services and models
-            ////    SimpleIoc.Default.Register<IDataService, DataService>();
-            ////}
-
-
-
-            //SimpleIoc.Default.Register<MainWindow>();
-            //SimpleIoc.Default.Register<FrameShow>();
-            //SimpleIoc.Default.Register<User_Control_Working_VM_1>();
-            //SimpleIoc.Default.Register<User_Control_Working_VM_2>();
-            //SimpleIoc.Default.Register<List_Show>();
-            //SimpleIoc.Default.Register<User_Message_ViewModel>();
-            //SimpleIoc.Default.Register<User_Control_Log_ViewModel>();
-            //SimpleIoc.Default.Register<User_Control_Show>();
-            //SimpleIoc.Default.Register<Home_ViewModel>();
-            //SimpleIoc.Default.Register<IP_Text_Error>();
-            //SimpleIoc.Default.Register<User_Control_Working_Path_VM>();
-            //SimpleIoc.Default.Register<UserControl_Socket_Setup_ViewModel>();
-            //SimpleIoc.Default.Register<UserControl_Sideber_Show_ViewModel>();
-            //SimpleIoc.Default.Register<UserControl_Socket_Write_ViewModel>();
-            //SimpleIoc.Default.Register<UserControl_Socket_Var_Show_ViewModel>();
-            //SimpleIoc.Default.Register<UC_Pop_Ups_VM>();
-            //SimpleIoc.Default.Register<UC_Sink_Type_VM>();
-            //SimpleIoc.Default.Register<UC_Sink_Size_VM>();
-            //SimpleIoc.Default.Register<UC_Sink_Craft_VM>();
-            //SimpleIoc.Default.Register<UC_Sink_Short_Side_VM>();
-            //SimpleIoc.Default.Register<UC_Sink_Craft_List_VM>();
-
-
-
             Ioc.Default.ConfigureServices(
                       new ServiceCollection()
 
@@ -99,6 +58,7 @@ namespace HanGao.ViewModelLocator
                     .AddScoped<Sink_Models>()
                     .AddScoped<User_Control_Common>()
                     .AddScoped<UC_Sink_Add_VM>()
+                    .AddScoped<UC_Short_Side_VM>()
                     
                     .BuildServiceProvider());
 
@@ -131,9 +91,10 @@ namespace HanGao.ViewModelLocator
         public UC_Surround_Direction_VM UC_Surround_Direction_VM => Ioc.Default.GetService<UC_Surround_Direction_VM>();
         public UC_Point_Info_VM UC_Point_Info_VM => Ioc.Default.GetService<UC_Point_Info_VM>();
         public UC_Sink_Add_VM UC_Sink_Add_VM => Ioc.Default.GetService<UC_Sink_Add_VM>();
-
-
+        public UC_Short_Side_VM UC_Short_Side_VM => Ioc.Default.GetService<UC_Short_Side_VM>();
         
+
+
 
 
 

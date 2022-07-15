@@ -5,8 +5,8 @@
              xmlns:local="clr-namespace:HanGao.View.User_Control.Program_Editing.Direction_UI"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:pop_ups="clr-namespace:HanGao.View.User_Control.Pop_Ups"
-             d:DesignHeight="466"
-             d:DesignWidth="760"
+             d:DesignHeight="386"
+             d:DesignWidth="560"
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_Surround_Direction_VM}"
              mc:Ignorable="d">
 
@@ -19,7 +19,7 @@
                    Text="&#xe61b;"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
-                   FontFamily="/Resources/#iconfont"
+                   FontFamily="{DynamicResource 全局_图标库}"
                    FontSize="200"
                    Foreground="{DynamicResource 全局_按钮_蓝颜色}"
                    Opacity=" 0.5" />

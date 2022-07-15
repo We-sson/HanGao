@@ -20,13 +20,14 @@
         AllowsTransparency="False"
         Background="Gray"
         Topmost="False"
+        WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         mc:Ignorable="d">
 
 
     <Window.Resources>
         <Converters:TruthyToVisibleConverter x:Key="TruthyToVisibleConverter" />
-        <Storyboard x:Key="UI_Socket_Type_Stroy"/>
+        <Storyboard x:Key="UI_Socket_Type_Stroy" />
     </Window.Resources>
     <Window.DataContext>
         <Binding Path="FrameShow" Source="{StaticResource Locator}" />
@@ -263,12 +264,6 @@
 
 
             </Grid>
-
-
-
-
-
-
 
 
             <Grid Grid.Row="1" ShowGridLines="True" />

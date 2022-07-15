@@ -79,45 +79,45 @@ namespace HanGao.ViewModel
 
 
 
-        /// <summary>
-        /// 加载属性水槽类型
-        /// </summary>
-        public ICommand Craft_UI_Comm
-        {
-            get => new RelayCommand<RoutedEventArgs>((Sm) =>
-            {
+        ///// <summary>
+        ///// 加载属性水槽类型
+        ///// </summary>
+        //public ICommand Craft_UI_Comm
+        //{
+        //    get => new RelayCommand<RoutedEventArgs>((Sm) =>
+        //    {
 
-                //把参数类型转换控件
-                Button E = Sm.Source as Button;
-                Sink_Craft_Models S = E.DataContext as Sink_Craft_Models;
-
-
-                User_Sink.User_Picking_Craft.User_Welding_Craft = S.Craft_Type;
-
-                FrameShow.ProgramEdit_Enabled = true;
-                FrameShow.ProgramEdit_UI = true;
+        //        //把参数类型转换控件
+        //        Button E = Sm.Source as Button;
+        //        Sink_Craft_Models S = E.DataContext as Sink_Craft_Models;
 
 
+        //        User_Sink.User_Picking_Craft.User_Welding_Craft = S.Craft_Type;
 
-
-                //传送用户选择工艺
-                Messenger.Send<Sink_Models, string>(User_Sink, nameof(Meg_Value_Eunm.Program_UI_Load));
+        //        FrameShow.ProgramEdit_Enabled = true;
+        //        FrameShow.ProgramEdit_UI = true;
 
 
 
 
-                //关闭弹窗
-                Messenger.Send<UserControl, string>(null, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
-                //把参数类型转换控件
-                //FrameworkElement e = Sm.Source as FrameworkElement;
+        //        //传送用户选择工艺
+        //        Messenger.Send<Sink_Models, string>(User_Sink, nameof(Meg_Value_Eunm.Program_UI_Load));
+
+
+
+
+        //        //关闭弹窗
+        //        Messenger.Send<UserControl, string>(null, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
+        //        //把参数类型转换控件
+        //        //FrameworkElement e = Sm.Source as FrameworkElement;
 
 
 
 
 
 
-            });
-        }
+        //    });
+        //}
 
 
     }

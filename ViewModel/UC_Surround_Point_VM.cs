@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using static HanGao.Model.Sink_Models;
 using HanGao.Xml_Date.Xml_Write_Read;
 using static HanGao.Model.User_Read_Xml_Model;
+using static HanGao.ViewModel.UC_Short_Side_VM;
 
 namespace HanGao.ViewModel
 {
@@ -30,7 +31,7 @@ namespace HanGao.ViewModel
 
         public UC_Surround_Point_VM()
         {
-            IsActive = true;
+          
 
 
             //清楚工艺列表显示
@@ -168,6 +169,20 @@ namespace HanGao.ViewModel
 
             });
 
+
+
+            Messenger.Register<dynamic , string>(this, nameof(Meg_Value_Eunm.Sink_Short_Craft_Point_Load), (O, S) =>
+            {
+
+                //User_Checked_Direction = (Direction_Enum)Enum.Parse(typeof(Direction_Enum), S);
+                User_Sink.User_Picking_Craft.User_Direction = (Direction_Enum)Enum.Parse(typeof(Direction_Enum), S);
+
+
+
+
+
+            });
+
             //接收修改参数属性
             Messenger.Register<dynamic, string>(this, nameof(Meg_Value_Eunm.Sink_Surround_Craft_Point_Load), (O, S) =>
            {
@@ -175,7 +190,7 @@ namespace HanGao.ViewModel
                //if (!Write_Data.WaitOne(3000, false )) { MessageBox.Show("接收超时"); return; }
 
               
-               User_Checked_Direction = S;
+               //User_Checked_Direction = S;
                //int User_Switech_Work_No = ((int)User_Sink.Work_No_Emun);
                User_Sink.User_Picking_Craft.User_Direction = S;
 
@@ -217,7 +232,7 @@ namespace HanGao.ViewModel
                                                //添加集合
                                                _List.Add(new Socket_Models_List()
                                                {
-                                                   Val_Name = User_Checked_Direction.ToString() + "[" + (int)User_Sink.User_Picking_Craft.User_Work_Area +"," + Date.Craft_Date[i].NO + "]" + "." + Name_Val,
+                                                   Val_Name = User_Sink.User_Picking_Craft.User_Direction.ToString() + "[" + (int)User_Sink.User_Picking_Craft.User_Work_Area +"," + Date.Craft_Date[i].NO + "]" + "." + Name_Val,
                                                    Val_ID = Read_Number_ID,
                                                    Send_Area = nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data),
                                                    UserObject = new KUKA_Craft_Value()
@@ -320,7 +335,7 @@ namespace HanGao.ViewModel
                         if (Autt.ReadWrite_Type == ReadWrite_Enum.Write)
                         {
 
-                            string _N = User_Checked_Direction.ToString() + "[" + Xcd.NO + "]." + item.Name;
+                            string _N = User_Sink.User_Picking_Craft.User_Direction.ToString() + "[" + Xcd.NO + "]." + item.Name;
 
                             string _Val = item.GetValue(Xcd).ToString();
                             if (item.Name == nameof(Xcd.Welding_Offset))
@@ -356,9 +371,15 @@ namespace HanGao.ViewModel
 
 
         /// <summary>
-        /// 用户选择的方向枚举
+        /// 用户选择的围边工艺方向枚举
         /// </summary>
-        public Direction_Enum User_Checked_Direction { set; get; }
+        //public Direction_Enum User_Checked_Direction { set; get; }
+
+        /// <summary>
+        /// 用户选择的短边工艺方向枚举
+        /// </summary>
+        //public Short_Area_Enum User_Checked_Short { set; get; }
+
 
 
         /// <summary>

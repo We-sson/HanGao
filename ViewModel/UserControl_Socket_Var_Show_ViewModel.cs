@@ -341,7 +341,7 @@ namespace HanGao.ViewModel
             /// <summary>
             /// 机器速度
             /// </summary>
-            [StringValue("$VEL.CP")]
+            [StringValue("$VEL.CP"), UserArea(nameof(Meg_Value_Eunm.UC_Pop_Sink_Value_Load))]
              VEL,
 
             /// <summary>

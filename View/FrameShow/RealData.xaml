@@ -1,37 +1,12 @@
 ﻿<UserControl x:Class="HanGao.View.FrameShow.RealData"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HanGao.View.FrameShow"
-             d:DesignHeight="450"
-             d:DesignWidth="800"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="812"
+             d:DesignWidth="1440"
              mc:Ignorable="d">
 
-    <Grid>
-        <CheckBox Name="PCheckBox"
-                  Content="Checked Me"
-                  MaxWidth=" 100"
-                  MaxHeight="50"
-                  HorizontalAlignment="Center"
-                  VerticalAlignment="Center" />
-        <Popup IsOpen="{Binding ElementName=PCheckBox, Path=IsChecked}"
-               PlacementTarget="{Binding ElementName=PCheckBox}"
-               AllowsTransparency="True"
-               StaysOpen="False"
-               PopupAnimation="Slide">
-
-            <Canvas Width="125"
-                    Height="100"
-                    Background="LightGray">
-                <Canvas.RenderTransform>
-                    <RotateTransform x:Name="theTransform" />
-                </Canvas.RenderTransform>
-                <TextBlock Text="Hi, this is Popup"
-                           TextWrapping="Wrap"
-                           Foreground="Blue" />
-            </Canvas>
-
-        </Popup>
-    </Grid>
+    <Grid />
 </UserControl>

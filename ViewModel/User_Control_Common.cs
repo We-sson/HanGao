@@ -50,6 +50,9 @@ namespace HanGao.ViewModel
         public enum Value_Name_enum
         {
 
+
+
+
             /// <summary>
             /// 围边工艺焊接尺寸
             /// </summary>

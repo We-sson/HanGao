@@ -22,8 +22,7 @@ namespace HanGao.ViewModel
         public UC_Surround_Direction_VM()
         {
 
-            IsActive = true;
-
+     
             WeakReferenceMessenger.Default.Register<dynamic , string>(this, nameof(Meg_Value_Eunm.Surround_Direction_State), (O, _S) => {  Direction_State = _S; });
 
 
@@ -60,6 +59,10 @@ namespace HanGao.ViewModel
             C225_Welding_Craft,
             L270_Welding_Craft,
             C315_Welding_Craft,
+            N45_Short_Craft,
+            N135_Short_Craft,
+            N225_Short_Craft,
+            N315_Short_Craft,
         }
 
 
