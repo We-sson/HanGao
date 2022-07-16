@@ -174,17 +174,18 @@ namespace HanGao.Model
         {
             new Sink_Craft_Models()
             {
-                  Craft_UI_Direction =new UC_Surround_Direction(),
                  Craft_Type= User_Craft_Enum.Sink_Surround_Craft,
                   Sink_Title="水槽围边焊接工艺" ,
                   Sink_Subtitle="焊接工艺由机器人记录多个位置姿态,通过重复行走路径激光焊接完成!",
+                  Craft_UI_Direction =new UC_Surround_Direction(),
             },
             new Sink_Craft_Models()
             {
+            
                  Craft_Type= User_Craft_Enum.Sink_ShortSide_Craft,
+                  Sink_Title="水槽短边焊接工艺" ,
+                  Sink_Subtitle="焊接工艺由多个位置姿态,连续激光焊接完成!",
                   Craft_UI_Direction =new UC_Short_Side(),
-        Sink_Title="水槽短边焊接工艺" ,
-                  Sink_Subtitle="焊接工艺由多个位置姿态,连续激光焊接完成!"
             },
         };
         /// <summary>

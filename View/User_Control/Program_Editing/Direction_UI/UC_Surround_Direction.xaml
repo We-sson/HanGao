@@ -50,13 +50,12 @@
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="0" Grid.Column="1"
                          Content="L  0"
                          IsChecked="{Binding L0_Checked}"
-                         HorizontalAlignment="Stretch"
-                         VerticalAlignment="Stretch"
                          HorizontalContentAlignment="Center"
                          VerticalContentAlignment="Center"
                          Background="{DynamicResource 全局_按钮_蓝颜色}"
                          BorderBrush="Black"
                          BorderThickness="0,3,0,3"
+                         FontFamily="{DynamicResource 全局_文字_数字字体}"
                          FontSize="20"
                          GroupName="Sink_Direction" />
 
@@ -71,7 +70,7 @@
                          Background="{DynamicResource 全局_按钮_蓝颜色}"
                          BorderBrush="Black"
                          BorderThickness="3"
-                         FontFamily="Yu Gothic UI Semilight"
+                         FontFamily="{DynamicResource 全局_文字_数字字体}"
                          FontSize="20"
                          GroupName="Sink_Direction" />
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="1" Grid.Column="0"
@@ -84,7 +83,7 @@
                          Background="{DynamicResource 全局_按钮_蓝颜色}"
                          BorderBrush="Black"
                          BorderThickness="3,0,3,0"
-                         FontFamily="Yu Gothic UI Semilight"
+                         FontFamily="{DynamicResource 全局_文字_数字字体}"
                          FontSize="20"
                          GroupName="Sink_Direction" />
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="2" Grid.Column="0"
@@ -97,7 +96,7 @@
                          Background="{DynamicResource 全局_按钮_蓝颜色}"
                          BorderBrush="Black"
                          BorderThickness="3,3,3,3"
-                         FontFamily="Yu Gothic UI Semilight"
+                         FontFamily="{DynamicResource 全局_文字_数字字体}"
                          FontSize="20"
                          GroupName="Sink_Direction" />
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="2" Grid.Column="1"
@@ -110,7 +109,7 @@
                          Background="{DynamicResource 全局_按钮_蓝颜色}"
                          BorderBrush="Black"
                          BorderThickness="0,3,0,3"
-                         FontFamily="Yu Gothic UI Semilight"
+                         FontFamily="{DynamicResource 全局_文字_数字字体}"
                          FontSize="20"
                          GroupName="Sink_Direction" />
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="2" Grid.Column="2"
@@ -123,7 +122,7 @@
                          Background="{DynamicResource 全局_按钮_蓝颜色}"
                          BorderBrush="Black"
                          BorderThickness="3,3,3,3"
-                         FontFamily="Yu Gothic UI Semilight"
+                         FontFamily="{DynamicResource 全局_文字_数字字体}"
                          FontSize="20"
                          GroupName="Sink_Direction" />
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="1" Grid.Column="2"
@@ -136,7 +135,7 @@
                          Background="{DynamicResource 全局_按钮_蓝颜色}"
                          BorderBrush="Black"
                          BorderThickness="3,0,3,0"
-                         FontFamily="Yu Gothic UI Semilight"
+                         FontFamily="{DynamicResource 全局_文字_数字字体}"
                          FontSize="20"
                          GroupName="Sink_Direction" />
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" Grid.Row="0" Grid.Column="2"
@@ -149,7 +148,7 @@
                          Background="{DynamicResource 全局_按钮_蓝颜色}"
                          BorderBrush="Black"
                          BorderThickness="3,3,3,3"
-                         FontFamily="Yu Gothic UI Semilight"
+                         FontFamily="{DynamicResource 全局_文字_数字字体}"
                          FontSize="20"
                          GroupName="Sink_Direction" />
 

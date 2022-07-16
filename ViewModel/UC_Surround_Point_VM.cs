@@ -434,8 +434,8 @@ namespace HanGao.ViewModel
             {
                 _User_Selected_SInk_Pos = value;
                 //打开显示弹窗首页面
-                if (value != null)
-                {
+                //if (value != null)
+                //{
 
                     //User_Sink.User_Picking_Craft.User_Welding_Craft_ID = value.NO;
 
@@ -445,7 +445,7 @@ namespace HanGao.ViewModel
 
 
 
-                }
+                //}
 
 
 

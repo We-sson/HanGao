@@ -66,7 +66,7 @@ namespace Soceket_Connect
         /// </summary>
         public bool Is_Write_Client
         {
-            get { return _Is_Write_Client=false; }
+            get { return _Is_Write_Client; }
             set { 
                 _Is_Write_Client = value;
                 if (value)
@@ -264,7 +264,7 @@ namespace Soceket_Connect
 
 
                 //连接超时判断
-                if (!Connnect_Read.WaitOne(50, true) || !Is_Read_Client)
+                if (!Connnect_Read.WaitOne(1000, true) || !Is_Read_Client)
                 {
                     Socket_Receive_Error(R_W_Enum, "Error: -53 原因:读取连接超时！检查网络与IP设置是否正确。");
                     return;
@@ -289,7 +289,7 @@ namespace Soceket_Connect
 
 
                 //连接超时判断
-                if (!Connnect_Write.WaitOne(50, true) || !Is_Write_Client)
+                if (!Connnect_Write.WaitOne(1000, false ) || !Is_Write_Client)
                 {
                     Socket_Receive_Error(R_W_Enum, "Error: -53 原因:写入连接超时！检查网络与IP设置是否正确。");
                     return;
@@ -334,7 +334,7 @@ namespace Soceket_Connect
 
                 try
                 {
-                    Task.Delay(10);
+                    //Task.Delay(10);
                     //挂起读取异步连接
                     Global_Socket_Write.EndConnect(ar);
                     Is_Write_Client = true;
@@ -748,8 +748,10 @@ namespace Soceket_Connect
                 Socket_Client_Thread(Socket_Client_Type.Synchronized, Read_Write_Enum.Write, Socket_Client_Setup.IP, Socket_Client_Setup.Port);
 
                 //发生集合内的对象
+                //Thread.Sleep(100);
 
-                if (Global_Socket_Write.Connected)
+
+                if (Global_Socket_Write.Connected  ||  Is_Write_Client)
                 {
                 //发送消息
                 Socket_Send_Message_Method(Socket_KUKA_Receive);
@@ -856,8 +858,8 @@ namespace Soceket_Connect
                     //发送通讯延迟
                     Application.Current.Dispatcher.Invoke(() =>
                     {
-                        string time = (DateTime.Now - timeB).TotalSeconds.ToString();
-                        WeakReferenceMessenger.Default.Send<string, string>(time, nameof(Meg_Value_Eunm.Connter_Time_Delay_Method));
+                        double time = (DateTime.Now - timeB).TotalSeconds;
+                        WeakReferenceMessenger.Default.Send<dynamic , string>((DateTime.Now - timeB).TotalSeconds, nameof(Meg_Value_Eunm.Connter_Time_Delay_Method));
                     });
                 } while (Socket_Client_Setup.Read.Is_Read_Client);
 
@@ -1066,9 +1068,6 @@ namespace Soceket_Connect
             if (_Enum == Read_Write_Enum.Read)
             {
 
-                //断开读取连接
-                //读取标识重置
-                Is_Read_Client = false;
 
 
                 //等待发送变量退出后关闭连接
@@ -1084,6 +1083,9 @@ namespace Soceket_Connect
 
                 }
 
+                //断开读取连接
+                //读取标识重置
+                Is_Read_Client = false;
 
 
 
@@ -1102,6 +1104,7 @@ namespace Soceket_Connect
 
             if (_Enum == Read_Write_Enum.One_Read)
             {
+           
 
                 if (Global_Socket_Read.Connected)
                 {
@@ -1112,7 +1115,9 @@ namespace Soceket_Connect
                     Global_Socket_Read.Close();
 
                 }
-
+                ////断开读取连接
+                ////读取标识重置
+                //Is_Read_Client = false;
 
             }
 

@@ -49,6 +49,7 @@
 
             <RadioButton Style="{DynamicResource ShortSide_RadioButton_Style}" x:Name="N45_Short_Craft"
                          Content="N__45"
+                         IsChecked="{x:Null}"
                          Width="90"
                          Height=" 40"
                          HorizontalContentAlignment="Center"

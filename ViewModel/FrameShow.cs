@@ -26,7 +26,11 @@ namespace HanGao.ViewModel
             var a = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             //App_VerSion = Application.ResourceAssembly.GetName().Version.ToString();
 
-
+            //通讯延时绑定
+            Messenger.Register<dynamic , string>(this, nameof(Meg_Value_Eunm.Connter_Time_Delay_Method), (O, _String) => 
+            { 
+                Connter_Time_Delay=_String; 
+            });
 
             ///服务器现在状态映射UI
             Messenger.Register<string , string>(this, nameof(Meg_Value_Eunm.Socket_Read_Tpye), (O, _S) =>
@@ -56,6 +60,11 @@ namespace HanGao.ViewModel
         /// 版本显示
         /// </summary>
         public string App_VerSion { set; get; } = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+        /// <summary>
+        /// 通讯延时显示
+        /// </summary>
+        public double  Connter_Time_Delay { set; get; } =0.0;
 
 
         /// <summary>

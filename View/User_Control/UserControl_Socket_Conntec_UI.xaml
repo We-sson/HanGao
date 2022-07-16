@@ -17,7 +17,7 @@
 
 
                 <Border x:Name="BD1"
-                        Height="65"
+                        Height="55"
                         Margin="3"
                         Padding="5"
                         Background="#c5c5c5"
@@ -42,7 +42,7 @@
                                    Text="地址:"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   FontSize="30" />
+                                   FontSize="24" />
                         <TextBox Style="{DynamicResource TextBoxStyle1}" Grid.Column="1"
                                  Name="TB1"
                                  Grid.ColumnSpan="2"
@@ -51,7 +51,7 @@
                                  HorizontalAlignment="Stretch"
                                  VerticalAlignment="Center"
                                  Background="Transparent"
-                                 FontSize="25"
+                                 FontSize="24"
                                  Tag="输入控制柜IP地址"
                                  Validation.ErrorTemplate="{x:Null}" />
 
@@ -86,14 +86,14 @@
                                    Text="端口:"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   FontSize="30" />
+                                   FontSize="24" />
                         <TextBox Style="{StaticResource TextBoxStyle1}" Grid.Column="1"
                                  Name="TB2"
                                  Text="{Binding Port, UpdateSourceTrigger=PropertyChanged}"
                                  Margin="0"
                                  HorizontalAlignment="Stretch"
                                  VerticalAlignment="Center"
-                                 FontSize="25"
+                                 FontSize="24"
                                  Tag="默认端口7000"
                                  Validation.ErrorTemplate="{x:Null}" />
 

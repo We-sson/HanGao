@@ -45,35 +45,12 @@ namespace HanGao.ViewModel
                 User_Sink = S;
 
 
-                //查找到用户选择工艺后赋值到窗口显示
-                //foreach (var _Craft in S.Sink_UI.Sink_Craft)
-                //{
-                //    if (_Craft.Craft_Type== S.User_Picking_Craft.User_Craft.User_Welding_Craft)
-                //    {
-                //        Distance_UI = _Craft.Craft_UI_Direction;
-                //    }
-                //}
-
-
-
-
-
-
-                //Sink_Craft_Type = S.Craft_Type;
-
-
             });
 
 
 
 
-            ///接收工艺参数属性显示对应UI控件
-            //Messenger.Register<Sink_Models, string>(this, nameof(Meg_Value_Eunm.UC_Pop_Sink_Value_Load), (O, S) =>
-            //{
-            //    User_Sink = S;
-
-            //});
-
+ 
 
         }
 
@@ -81,17 +58,6 @@ namespace HanGao.ViewModel
         /// 临时存放用户选择水槽属性
         /// </summary>
         public Sink_Models User_Sink { get; set; }
-
-
-        ///// <summary>
-        ///// 加载焊接方向界面
-        ///// </summary>
-        //public UserControl UI_Direction { get; set; }= new UC_Surround_Direction();
-        ///// <summary>
-        ///// 加载短边工艺界面
-        ///// </summary>
-        //public UserControl UI_Short_Size { get; set; }= new UC_Short_Side();
-
 
 
         public enum KUKA_Read_Info_Value_Enum

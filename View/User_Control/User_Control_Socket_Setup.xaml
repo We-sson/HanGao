@@ -13,7 +13,7 @@
     <UserControl.Resources />
     <Grid>
 
-        <TextBlock Grid.Row="0" Grid.Column="0"
+        <!--<TextBlock Grid.Row="0" Grid.Column="0"
                    Text="{Binding Connter_Time_Delay, StringFormat={}通讯延时:{0}ms}"
                    Margin="10,-20,0,0"
                    HorizontalAlignment="Left"
@@ -21,7 +21,7 @@
                    Panel.ZIndex="1"
                    FontSize="15"
                    Foreground="Green"
-                   Visibility="Visible" />
+                   Visibility="Visible" />-->
 
 
 

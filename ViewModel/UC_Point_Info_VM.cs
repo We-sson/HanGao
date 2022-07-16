@@ -51,7 +51,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// UI界面数据
         /// </summary>
-        public Xml_Craft_Date UI_Craft_Date { set; get; } = new Xml_Craft_Date();
+        public Xml_Craft_Date UI_Craft_Date { set; get; } 
 
 
 
@@ -90,7 +90,7 @@ namespace HanGao.ViewModel
         /// </summary>
         public ICommand Craft_Point_Info_SaveToXml_Comm
         {
-            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            get => new RelayCommand<UC_Point_Info>((Sm) =>
             {
                 //把参数类型转换控件
 
@@ -122,7 +122,12 @@ namespace HanGao.ViewModel
             {
                 //把参数类型转换控件
 
+
+                if (UI_Craft_Date   is null) { return; }
+      
                 Xml_Craft_Date New_Set_Data = UI_Craft_Date;
+
+                
                 New_Set_Data.Welding_Offset.X = double.Parse(Sm.X.Text);
                 New_Set_Data.Welding_Offset.Y = double.Parse(Sm.Y.Text);
                 New_Set_Data.Welding_Offset.Z = double.Parse(Sm.Z.Text);
@@ -139,7 +144,7 @@ namespace HanGao.ViewModel
 
 
 
-                XML_Write_Read.SetXml_User_Data(User_Sink, New_Set_Data);
+                XML_Write_Read.Set_User_Sink_Data(User_Sink, New_Set_Data);
 
       
 

@@ -74,8 +74,7 @@ namespace HanGao.ViewModel
 
 
 
-            //通讯延时绑定
-            WeakReferenceMessenger.Default.Register<string,string >(this, nameof(Meg_Value_Eunm.Connter_Time_Delay_Method) , (O,_String) => { Connter_Time_Delay = _String; });
+
 
 
 
@@ -95,7 +94,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 客户端IP
         /// </summary>
-        private static  string _IP_Client = "192.168.153.131";
+        private static  string _IP_Client = "192.168.153.150";
 
         public static string IP_Client
         {
@@ -199,10 +198,6 @@ namespace HanGao.ViewModel
 
 
 
-        /// <summary>
-        /// 通讯延时显示
-        /// </summary>
-        public static  string Connter_Time_Delay { set; get; } = "0";
 
 
         /// <summary>

@@ -82,13 +82,21 @@ namespace HanGao.ViewModel
                             Xml_SInk_Craft _Craft = (Xml_SInk_Craft)S.User_Sink.Sink_Process.Sink_Craft.GetType().GetProperty(S.Working_Area_UI.Load_UI_Work.ToString()).GetValue(S.User_Sink.Sink_Process.Sink_Craft);
 
                             ///循环工艺区域焊接参数
-                            foreach (var _Surround_Direction in _Craft.Sink_Surround_Craft.GetType().GetProperties())
+                            foreach (var _Craft_List_Data in _Craft.GetType().GetProperties())
                             {
+                                //Xml_SInk_Craft_Model _TVal = (Xml_SInk_Craft_Model)_Craft_List_Data.GetValue(_Craft, null);
+      
+                                ///遍历工艺列表
+                                foreach (var _Direction in _Craft_List_Data.GetValue(_Craft).GetType().GetProperties())
+                                {
 
-                                Xml_Craft_Data _Craft_Data= (Xml_Craft_Data)_Surround_Direction.GetValue(_Craft.Sink_Surround_Craft);
+                                
+        
+                                    //反射获得工艺列表内容
+                                    Xml_Craft_Data _Craft_Data = (Xml_Craft_Data)_Direction.GetValue(_Craft_List_Data.GetValue(_Craft));
 
-                                //循环水槽围边工艺数
-                                for (int i = 0; i < _Craft_Data.Craft_Date.Count; i++)
+                                    //循环水槽围边工艺数
+                                    for (int i = 0; i < _Craft_Data.Craft_Date.Count; i++)
                                 {
                                     //遍历每个围边工艺属性中是否合适条件
                                     foreach (var Craft_List in _Craft_Data.Craft_Date[i].GetType().GetProperties())
@@ -109,7 +117,7 @@ namespace HanGao.ViewModel
                                                     case ReadWrite_Enum.Write:
 
                                                        //获取字符串kuka变量名
-                                                         _Name = _Surround_Direction.Name + "["+(int)S.Working_Area_UI.Load_UI_Work +","+(i+1)+ "]." +Craft_List.Name;
+                                                         _Name = _Direction.Name + "["+(int)S.Working_Area_UI.Load_UI_Work +","+(i+1)+ "]." +Craft_List.Name;
                                                  
                                                         //获取字符串kuka变量值
                                                         if ( Craft_List.Name is nameof(Xml_Craft_Date.Welding_Offset))
@@ -129,6 +137,11 @@ namespace HanGao.ViewModel
                                             }
                                         }
                                     }
+                                }
+                               
+                                
+                                
+                                
                                 }
                             }
                             
