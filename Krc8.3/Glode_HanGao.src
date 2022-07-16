@@ -1,8 +1,8 @@
-&ACCESS RVO1
-&REL 205
+&ACCESS RVO
+&REL 204
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
-&PARAM DISKPATH = KRC:\R1\Program\HK
+&PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
 DEF Glode_HanGao( )
 
 ;# DATE:2021-1-4
@@ -469,15 +469,29 @@ ENDSWITCH
 
 
 
+
+
+CASE #N45
+;
+
+
+
+
+
+CASE #N135
+;
+
+CASE #N225
+;
+
+
+
+CASE #N315
+;
+
+
+
 ENDSWITCH
-
-
-
-
-
-
-
-
 
 SWITCH Pos_Type
 
