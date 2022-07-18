@@ -504,6 +504,7 @@
     <None Include="inter\HanGao-cache\part1\output-info.ini" />
     <None Include="inter\HanGao-cache\part2\output-info.ini" />
     <None Include="inter\HanGao.aip" />
+    <None Include="inter\x64_Debug_1SetupFiles\HanGao_1.0.8230.17531.msi" />
     <None Include="Krc8.3\Glode_HanGao.dat" />
     <None Include="Krc8.3\Glode_HanGao.src" />
     <None Include="Krc8.3\HanGao.msi" />
@@ -562,7 +563,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DataStore\DataStore\" />
-    <Folder Include="inter\x64_Release_1SetupFiles\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\link.png" />
@@ -570,8 +570,6 @@
     <Resource Include="inter\HanGao-cache\cacheIndex.txt" />
     <Content Include="inter\HanGao-cache\part1\HanGao1.cab" />
     <Content Include="inter\HanGao-cache\part2\HanGao1.cab" />
-    <Content Include="inter\HanGao-x86_Debug-SetupFiles\x86_Debug.exe" />
-    <Content Include="inter\x64_ReleaseSetupFiles\HanGao.exe" />
     <Resource Include="Krc8.3\HanGaoEkrl.xml" />
     <Resource Include="inter\序列号.txt" />
     <Content Include="Ps_UI\单盆图标.svg" />
