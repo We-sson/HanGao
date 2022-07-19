@@ -249,7 +249,7 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
    DECL FOLD LIN_FOLD[7] 
              LIN_FOLD[1]= "/; LIN %MOVE_Name POS: X=%X , Y=%Y , Z=%Z , A=%A , B=%B , C=%C"
              LIN_FOLD[2]= "/; LIN Offset POS:X=%O_X , Y=%O_Y , Z=%O_Z "
-             LIN_FOLD[2]= "HanGao_Surr_Calculate(  , #%Area_LIN_lIST , #L_LIN_POS , PO%MOVE_Name , , , %Area_LIN_lIST _Short_Craft[%Work_Area ,%Short_Pos ].Welding_Offset  , , %Short_Pos , %Work_Area , N%Work_Area _Sink_Data.Sink_Type)"
+             LIN_FOLD[2]= "HanGao_Surr_Calculate( %LIN_Position , #%Area_LIN_lIST , #L_LIN_POS , PO%MOVE_Name , , , %Area_LIN_lIST _Short_Craft[%Work_Area ,%Short_Pos ].Welding_Offset  , , %Short_Pos , %Work_Area , N%Work_Area _Sink_Data.Sink_Type)"
              LIN_FOLD[3]= " "
              LIN_FOLD[4]= "FDAT_ACT=F%MOVE_Name"
              LIN_FOLD[5]= "LDAT_ACT=L%MOVE_LDAT"  
