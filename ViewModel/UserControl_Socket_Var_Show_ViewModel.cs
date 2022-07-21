@@ -362,11 +362,11 @@ namespace HanGao.ViewModel
             [StringValue("$" + nameof(PRO_STATE1)), UserArea(nameof(Meg_Value_Eunm.KUKA_State)), BingdingValue(nameof(KUKA_State_Models.KUKA_Program_State), Value_Type.Enum, Binding_Type.OneWay)]
             PRO_STATE1,
 
-            ///// <summary>
-            ///// 机器人操作模式
-            ///// </summary>
-            //[StringValue("$"+nameof(MODE_OP)), UserArea(nameof(Meg_Value_Eunm.KUKA_State)), BingdingValue(nameof(KUKA_State_Models.KUKA_Mode_State), Value_Type.Enum, Binding_Type.OneWay)]
-            //MODE_OP,
+            /// <summary>
+            /// 机器人操作模式
+            /// </summary>
+            [StringValue("$" + nameof(MODE_OP)), UserArea(nameof(Meg_Value_Eunm.KUKA_State)), BingdingValue(nameof(KUKA_State_Models.KUKA_Mode_State), Value_Type.Enum, Binding_Type.OneWay)]
+            MODE_OP,
 
 
             /// <summary>

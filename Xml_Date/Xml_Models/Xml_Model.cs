@@ -201,7 +201,7 @@ namespace HanGao.Xml_Date.Xml_Models
                             break;
                         case Distance_Type_Enum.CIR:
 
-                            if (Craft_Area_Type >= Direction_Enum.L180_Welding_Craft)
+                            if (Craft_Area_Type >= Direction_Enum.C135_Welding_Craft)
                             {
                                 Craft_Date.Add(new Xml_Craft_Date() { NO = 1, Craft_Type = Craft_Type_Enum.C_LIN_POS, Welding_Angle=-20 });
                                 Craft_Date.Add(new Xml_Craft_Date() { NO = 2, Craft_Type = Craft_Type_Enum.C_CIR_POS, Welding_Angle = -20 });
@@ -219,7 +219,7 @@ namespace HanGao.Xml_Date.Xml_Models
                             for (int i = 1; i < value + 1; i++)
                             {
 
-                            Craft_Date.Add(new Xml_Craft_Date() { NO = i , Craft_Type = Craft_Type_Enum.L_LIN_POS, Welding_Angle=0, Welding_CDIS=0, Welding_Speed=0.1 });
+                            Craft_Date.Add(new Xml_Craft_Date() { NO = i , Craft_Type = Craft_Type_Enum.L_LIN_POS, Welding_Angle=0, Welding_CDIS=0, Welding_Speed=0.5 });
                           
                             }
 

@@ -253,7 +253,7 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
              LIN_FOLD[3]= " "
              LIN_FOLD[4]= "FDAT_ACT=F%MOVE_Name"
              LIN_FOLD[5]= "LDAT_ACT=L%MOVE_LDAT"  
-             LIN_FOLD[6]= "BAS(#CP_PARAMS,%Area_LIN_lIST _Short_Craft[%Work_Area ,%OFFSET_NO ].Welding_Speed )"
+             LIN_FOLD[6]= "BAS(#CP_PARAMS,%Area_LIN_lIST _Short_Craft[%Work_Area ,%Short_Pos ].Welding_Speed )"
              LIN_FOLD[7]= "LIN PO%MOVE_Name  C_DIS C_DIS"
 
 
@@ -283,13 +283,13 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
   DEFSCRIPT Read_Date
   
 
-   SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Short_Craft[%Work_Area ,%OFFSET_NO ].Welding_Offset .X",  PARAM O_X)
-   SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Short_Craft[%Work_Area ,%OFFSET_NO ].Welding_Offset .Y" , PARAM O_Y)
-   SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Short_Craft[%Work_Area ,%OFFSET_NO ].Welding_Offset .Z" , PARAM O_Z)
+   SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Short_Craft[%Work_Area ,%Short_Pos ].Welding_Offset .X",  PARAM O_X)
+   SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Short_Craft[%Work_Area ,%Short_Pos ].Welding_Offset .Y" , PARAM O_Y)
+   SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Short_Craft[%Work_Area ,%Short_Pos ].Welding_Offset .Z" , PARAM O_Z)
 
-   SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Short_Craft[%Work_Area ,%OFFSET_NO ].Welding_Speed" , PARAM VEL)
-   SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Short_Craft[%Work_Area ,%OFFSET_NO ].Welding_CDIS" , PARAM APO_DIST)
-   SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Short_Craft[%Work_Area ,%OFFSET_NO ].Welding_ACC" , PARAM ACC)
+   SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Short_Craft[%Work_Area ,%Short_Pos ].Welding_Speed" , PARAM VEL)
+   SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Short_Craft[%Work_Area ,%Short_Pos ].Welding_CDIS" , PARAM APO_DIST)
+   SHOWVAR (FULLPATH[] "%Area_LIN_lIST _Short_Craft[%Work_Area ,%Short_Pos ].Welding_ACC" , PARAM ACC)
   
    MESSAGE " %MOVE_Name  Offset: X=%O_X  ,Y=%O_Y  ,Z=%O_Z "
    MESSAGE " Lin  Vel: %VEL m/s ACC: %ACC mm CDIS: %APO_DIST mm  " 
