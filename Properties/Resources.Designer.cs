@@ -22,7 +22,7 @@ namespace HanGao.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Resources {
+    internal class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace HanGao.Properties {
         ///   返回此类使用的缓存的 ResourceManager 实例。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("HanGao.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace HanGao.Properties {
         ///   使用此强类型资源类的所有资源查找执行重写。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace HanGao.Properties {
         /// <summary>
         ///   查找 System.Byte[] 类型的本地化资源。
         /// </summary>
-        public static byte[] iconfont {
+        internal static byte[] iconfont {
             get {
                 object obj = ResourceManager.GetObject("iconfont", resourceCulture);
                 return ((byte[])(obj));
@@ -73,9 +73,9 @@ namespace HanGao.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        public static System.Drawing.Bitmap 控制台 {
+        internal static System.Drawing.Bitmap UC_开始页面状态_1 {
             get {
-                object obj = ResourceManager.GetObject("控制台", resourceCulture);
+                object obj = ResourceManager.GetObject("UC_开始页面状态_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,19 @@ namespace HanGao.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        public static System.Drawing.Bitmap 黑色logo {
+        internal static System.Drawing.Bitmap UC_开始页面状态_2 {
             get {
-                object obj = ResourceManager.GetObject("黑色logo", resourceCulture);
+                object obj = ResourceManager.GetObject("UC_开始页面状态_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap UC_开始页面状态_3 {
+            get {
+                object obj = ResourceManager.GetObject("UC_开始页面状态_3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

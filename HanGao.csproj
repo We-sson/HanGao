@@ -120,6 +120,7 @@
     <Reference Include="System.Data">
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression.FileSystem">
       <Private>True</Private>
     </Reference>
@@ -259,6 +260,9 @@
     </Compile>
     <Compile Include="View\User_Control\Program_Editing\Point_UI\UC_Surround_Point.xaml.cs">
       <DependentUpon>UC_Surround_Point.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\User_Control\UC_Start_State_From.xaml.cs">
+      <DependentUpon>UC_Start_State_From.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\User_Control\UserControl_Grid.xaml.cs">
       <DependentUpon>UserControl_Grid.xaml</DependentUpon>
@@ -439,6 +443,10 @@
     <Page Include="View\User_Control\Program_Editing\Program_Style.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\User_Control\UC_Start_State_From.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\User_Control\UserControl_Grid.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -492,11 +500,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
+    <Resource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
+    </Resource>
     <None Include=".editorconfig" />
     <None Include="FodyWeavers.xsd">
       <SubType>Designer</SubType>
@@ -554,18 +562,12 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\黑色logo.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\控制台.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="DataStore\DataStore\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\link.png" />
+    <Resource Include="Resources\UC_开始页面状态_2.png" />
+    <Resource Include="Resources\UC_开始页面状态_1.png" />
+    <Resource Include="Resources\UC_开始页面状态_3.png" />
     <Resource Include="FodyWeavers.xml" />
     <Resource Include="inter\HanGao-cache\cacheIndex.txt" />
     <Content Include="inter\HanGao-cache\part1\HanGao1.cab" />

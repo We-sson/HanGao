@@ -8,8 +8,8 @@
              xmlns:local="clr-namespace:HanGao.View.User_Control"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:pop_ups="clr-namespace:HanGao.View.User_Control.Pop_Ups"
-             d:DesignHeight="403"
-             d:DesignWidth="491"
+             d:DesignHeight="386"
+             d:DesignWidth="475"
              DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_VM.UC_Working_VM_N2}"
              mc:Ignorable="d">
     <Grid x:Name="GD1" Grid.Row="0" Grid.Column="0"
