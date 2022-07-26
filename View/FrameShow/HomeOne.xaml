@@ -206,8 +206,8 @@
                                                  Margin="5"
                                                  DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_VM.UC_Working_VM_N2}" />
 
-                <UC_Working:UC_Start_State_From Grid.Column="0"
-                                                Grid.ColumnSpan=" 1"
+                <UC_Working:UC_Start_State_From Grid.Row=" 0" Grid.Column="0"
+                                                Grid.ColumnSpan=" 2"
                                                 Margin="10" />
 
 

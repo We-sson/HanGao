@@ -4,99 +4,281 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HanGao.View.User_Control"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             d:DesignHeight="450"
-             d:DesignWidth="800"
+             d:DesignHeight="386"
+             d:DesignWidth="970"
+             DataContext="{Binding Source={StaticResource Locator}, Path=UC_Start_State_From_VM}"
              mc:Ignorable="d">
-    <Grid ShowGridLines="True">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column=" 0">
-
-            <Border Width="250"
-                    Height="280"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Top"
-                    Background="{DynamicResource 全局_按钮_灰颜色}"
-                    CornerRadius="10 0 65 0">
-                <Image Height=" 180" Source="/Resources/UC_开始页面状态_1.png" />
-
-            </Border>
-
-        </Grid>
+    <Border Background="{DynamicResource 全局_背景_白颜色}"
+            CornerRadius=" 10"
+            Effect="{DynamicResource 全局背景阴影}">
 
 
-        <Grid Grid.Column=" 1" VerticalAlignment="Center">
+        <Grid ShowGridLines="False">
+
+
+
+
+
+
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
+                <ColumnDefinition Width="auto" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height=" auto" />
-                <RowDefinition Height=" auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height=" auto" />
+            <Grid Grid.Column=" 0">
 
-            </Grid.RowDefinitions>
-            <Grid Grid.Row=" 0" Grid.Column=" 0">
+                <Border Width="250"
+                        Height="280"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Background="{DynamicResource 全局_按钮_灰颜色}"
+                        CornerRadius="10 0 65 0">
+                    <Image Height=" 180" Source="/Resources/UC_开始页面状态_1.png" />
 
-                <Ellipse Width="100"
-                         Height="100"
-                         Effect="{DynamicResource 全局背景阴影}"
-                         Stroke="{DynamicResource 全局_按钮_绿颜色}"
-                         StrokeThickness="10" />
-                <Image Height=" 40" Source="/Resources/UC_开始页面状态_2.png" />
+                </Border>
+
             </Grid>
 
-            <Grid Grid.Row=" 1" Grid.Column=" 0"
-                  Margin="5">
-                <Border Width=" 2"
-                        Height="18"
-                        Background="{DynamicResource 全局_按钮_绿颜色}"
-                        CornerRadius=" 1"
-                        Effect="{DynamicResource 全局背景阴影}" />
+
+            <Grid Grid.Column=" 1"
+                  Margin="50,0,0,0"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height=" auto" />
+                    <RowDefinition Height=" auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height=" auto" />
+
+                </Grid.RowDefinitions>
+                <Grid Grid.Row=" 0" Grid.Column=" 0">
+
+                    <Ellipse x:Name="E1"
+                             Width="100"
+                             Height="100"
+                             StrokeThickness="10">
+                        <Ellipse.Style>
+                            <Style TargetType="Ellipse">
+                                <Setter Property="Stroke" Value="{StaticResource 全局_按钮_灰颜色}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding UI_Data.UI_Socket_State}" Value="Connect_OK">
+                                        <Setter Property="Stroke" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                        <Setter Property="Effect" Value="{DynamicResource 全局背景阴影}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                    <Image Height=" 40" Source="/Resources/UC_开始页面状态_2.png" />
+                </Grid>
+
+                <Grid Grid.Row=" 1" Grid.Column=" 0"
+                      Margin="5">
+                    <Border Width=" 2"
+                            Height="18"
+                            Background="{Binding Stroke, ElementName=E1}"
+                            CornerRadius=" 1"
+                            Effect="{Binding Effect, ElementName=E1}" />
+                </Grid>
+
+                <Grid Grid.Row=" 2" Grid.Column=" 0">
+
+                    <Ellipse x:Name="E2"
+                             Width="100"
+                             Height="100"
+                             StrokeThickness="10">
+                        <Ellipse.Style>
+                            <Style TargetType="Ellipse">
+                                <Setter Property="Stroke" Value="{StaticResource 全局_按钮_灰颜色}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding UI_Data.UI_Robot_State}" Value="False">
+                                        <Setter Property="Stroke" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                        <Setter Property="Effect" Value="{DynamicResource 全局背景阴影}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                    <Image Height=" 40"
+                           Effect="{DynamicResource 全局背景阴影}"
+                           Source="/Resources/UC_开始页面状态_3.png" />
+                </Grid>
+                <Grid Grid.Row=" 3" Grid.Column=" 0"
+                      Margin="5">
+                    <Border Width=" 2"
+                            Height="18"
+                            Background="{Binding Stroke, ElementName=E2}"
+                            CornerRadius=" 1"
+                            Effect="{Binding Effect, ElementName=E2}" />
+                </Grid>
+
+                <Grid Grid.Row=" 4" Grid.Column=" 0">
+
+                    <Ellipse Width="100"
+                             Height="100"
+                             StrokeThickness="10">
+                        <Ellipse.Style>
+                            <Style TargetType="Ellipse">
+                                <Setter Property="Stroke" Value="{StaticResource 全局_按钮_灰颜色}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding UI_Data.UI_Mode_State}" Value="T1">
+                                        <Setter Property="Stroke" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                        <Setter Property="Effect" Value="{DynamicResource 全局背景阴影}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                    <TextBlock Text="T1"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Effect="{DynamicResource 全局背景阴影}"
+                               FontFamily="{DynamicResource 全局_文字_英文字体}"
+                               FontSize="40" />
+                </Grid>
+
+
+                <Grid Grid.Row=" 0" Grid.Column=" 1"
+                      VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height=" auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="1.设备网络连接正常"
+                               Margin="5"
+                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                               FontSize=" 26" />
+                    <Grid Grid.Row=" 1" Margin="5">
+                        <StackPanel HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Orientation="Horizontal">
+                            <Border Width=" 15"
+                                    Height=" 15"
+                                    Margin="10,5,10,5"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    CornerRadius=" 15">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding UI_Data.UI_Socket_State}" Value="Connect_OK">
+                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_灰颜色}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+                            <TextBlock Text="        上位机需要正常连接到设备才能进行通讯处理否者无法控制设备！"
+                                       Width=" 250"
+                                       TextWrapping="Wrap"
+                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                       FontSize="12"
+                                       Foreground="{DynamicResource 全局_按钮_灰颜色}" />
+                        </StackPanel>
+                    </Grid>
+
+                </Grid>
+
+                <Grid Grid.Row=" 2" Grid.Column=" 1"
+                      VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height=" auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="2.机器人必须停止运动"
+                               Margin="5"
+                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                               FontSize=" 26" />
+                    <Grid Grid.Row=" 1" Margin="5">
+                        <StackPanel HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Orientation="Horizontal">
+                            <Border Width=" 15"
+                                    Height=" 15"
+                                    Margin="10,5,10,5"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    CornerRadius=" 15">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding UI_Data.UI_Robot_State}" Value="False">
+                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_灰颜色}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+                            <TextBlock Text="        设备必须停止运动才能对设备进行设置，避免移动过程中出现突发位移！"
+                                       Width=" 250"
+                                       TextWrapping="Wrap"
+                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                       FontSize="12"
+                                       Foreground="{DynamicResource 全局_按钮_灰颜色}" />
+                        </StackPanel>
+                    </Grid>
+
+                </Grid>
+
+
+                <Grid Grid.Row=" 4" Grid.Column=" 1"
+                      VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height=" auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="3.T1模式下传输参数"
+                               Margin="5"
+                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                               FontSize=" 26" />
+                    <Grid Grid.Row=" 1" Margin="5">
+                        <StackPanel HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Orientation="Horizontal">
+                            <Border Width=" 15"
+                                    Height=" 15"
+                                    Margin="10,5,10,5"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    CornerRadius=" 15">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding UI_Data.UI_Mode_State}" Value="T1">
+                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_灰颜色}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+
+                            <TextBlock Text="        上位机进行参数传输时，必须在T1模式下操作以免发生不必要事故 ！"
+                                       Width=" 250"
+                                       TextWrapping="Wrap"
+                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                       FontSize="12"
+                                       Foreground="{DynamicResource 全局_按钮_灰颜色}" />
+                        </StackPanel>
+                    </Grid>
+
+                </Grid>
             </Grid>
 
-            <Grid Grid.Row=" 2" Grid.Column=" 0">
-
-                <Ellipse Width="100"
-                         Height="100"
-                         Effect="{DynamicResource 全局背景阴影}"
-                         Stroke="{DynamicResource 全局_按钮_绿颜色}"
-                         StrokeThickness="10" />
-                <Image Height=" 40" Source="/Resources/UC_开始页面状态_3.png" />
-            </Grid>
-            <Grid Grid.Row=" 3" Grid.Column=" 0"
-                  Margin="5">
-                <Border Width=" 2"
-                        Height="18"
-                        Background="{DynamicResource 全局_按钮_绿颜色}"
-                        CornerRadius=" 1"
-                        Effect="{DynamicResource 全局背景阴影}" />
-            </Grid>
-
-            <Grid Grid.Row=" 4" Grid.Column=" 0">
-
-                <Ellipse Width="100"
-                         Height="100"
-                         Effect="{DynamicResource 全局背景阴影}"
-                         Stroke="{DynamicResource 全局_按钮_绿颜色}"
-                         StrokeThickness="10" />
-                <TextBlock Text="T1"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           FontFamily="{DynamicResource 全局_文字_英文字体}"
-                           FontSize="40" />
-            </Grid>
 
 
         </Grid>
-
-
-
-    </Grid>
+    </Border>
 </UserControl>

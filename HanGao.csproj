@@ -200,6 +200,7 @@
     <Compile Include="ViewModel\UC_Pop_Ups_VM.cs" />
     <Compile Include="ViewModel\UC_Sink_Size_VM.cs" />
     <Compile Include="ViewModel\UC_Sink_Type_VM.cs" />
+    <Compile Include="ViewModel\UC_Start_State_From_VM.cs" />
     <Compile Include="ViewModel\UC_Surround_Direction_VM.cs" />
     <Compile Include="ViewModel\UC_Surround_Point_VM.cs" />
     <Compile Include="ViewModel\UserControl_Sideber_Show_ViewModel.cs" />

@@ -59,21 +59,34 @@ namespace HanGao.ViewModel
 
 
         }
-
+        /// <summary>
+        /// KUKA状态枚举
+        /// </summary>
         [Flags]
         public enum KUKA_State_Enum
         {
-            /// <summary>
-            /// KUKA进程状态枚举
-            /// </summary>
+ 
             [StringValue("#P_FREE")]
             P_FREE,
+            /// <summary>
+            /// 
+            /// </summary>
             [StringValue("#P_RESET")]
             P_RESET,
+            /// <summary>
+            /// 
+            /// </summary>
             [StringValue("#P_ACTIVE")]
             P_ACTIVE,
+
+            /// <summary>
+            /// 
+            /// </summary>
             [StringValue("#P_STOP")]
             P_STOP,
+            /// <summary>
+            /// 程序结束
+            /// </summary>
             [StringValue("#P_END")]
             P_END,
 

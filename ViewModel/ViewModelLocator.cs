@@ -59,6 +59,7 @@ namespace HanGao.ViewModelLocator
                     .AddScoped<User_Control_Common>()
                     .AddScoped<UC_Sink_Add_VM>()
                     .AddScoped<UC_Short_Side_VM>()
+                    .AddScoped<UC_Start_State_From_VM>()
                     
                     .BuildServiceProvider());
 
@@ -92,8 +93,9 @@ namespace HanGao.ViewModelLocator
         public UC_Point_Info_VM UC_Point_Info_VM => Ioc.Default.GetService<UC_Point_Info_VM>();
         public UC_Sink_Add_VM UC_Sink_Add_VM => Ioc.Default.GetService<UC_Sink_Add_VM>();
         public UC_Short_Side_VM UC_Short_Side_VM => Ioc.Default.GetService<UC_Short_Side_VM>();
-        
+        public UC_Start_State_From_VM UC_Start_State_From_VM => Ioc.Default.GetService<UC_Start_State_From_VM>();
 
+        
 
 
 
