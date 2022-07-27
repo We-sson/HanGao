@@ -230,7 +230,12 @@ namespace HanGao.ViewModel.Messenger_Eunm
             /// <summary>
             ///  水槽短边工艺区域点加载
            /// </summary>
-           Sink_Short_Craft_Point_Load
+           Sink_Short_Craft_Point_Load,
+
+           /// <summary>
+           /// UI开始页面状态信息
+           /// </summary>
+         UI_Start_State_Info,
         }
 
 

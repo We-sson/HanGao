@@ -44,6 +44,12 @@ namespace HanGao.ViewModel
             //接收修改参数属性
             Messenger.Register<Working_Area_Data, string>(this, nameof(Meg_Value_Eunm.UI_Work), (O, S) =>
             {
+
+                if (UC_Start_State_From_VM.UI_Data.UI_Show== Visibility.Collapsed)
+                {
+
+
+
                 ///循环属性与选项工作区一致
                 foreach (var _Work_No in GetType().GetProperties())
                 {
@@ -165,6 +171,11 @@ namespace HanGao.ViewModel
 
 
 
+                }
+                }
+                else
+                {
+                    User_Control_Log_ViewModel.User_Log_Add("设备加载条件不满足，禁止传输参数到机器人！");
                 }
             });
 

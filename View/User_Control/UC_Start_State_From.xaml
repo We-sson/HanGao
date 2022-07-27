@@ -11,10 +11,28 @@
 
     <Border Background="{DynamicResource 全局_背景_白颜色}"
             CornerRadius=" 10"
-            Effect="{DynamicResource 全局背景阴影}">
+            Effect="{DynamicResource 全局背景阴影}"
+            Visibility="{Binding UI_Data.UI_Show, Mode=TwoWay}">
+        <!--<Border.Style>
+            <Style TargetType="Border">
 
+                <Style.Triggers>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding UI_Data.UI_Socket_State}" Value="Connect_OK" />
+                            <Condition Binding="{Binding UI_Data.UI_Robot_State}" Value="False" />
+                            <Condition Binding="{Binding UI_Data.UI_Mode_State}" Value="T1" />
+                        </MultiDataTrigger.Conditions>
+                        <Setter Property="Visibility" Value="Collapsed" />
 
-        <Grid ShowGridLines="False">
+                    </MultiDataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>-->
+
+        <Grid HorizontalAlignment="Stretch"
+              VerticalAlignment="Stretch"
+              ShowGridLines="False">
 
 
 
@@ -22,14 +40,16 @@
 
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition />
+                <ColumnDefinition Width="0.4*" />
+                <ColumnDefinition Width=" *" />
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column=" 0">
+            <Grid Grid.Column=" 0"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Top">
 
                 <Border Width="250"
-                        Height="280"
+                        Height="300"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Top"
                         Background="{DynamicResource 全局_按钮_灰颜色}"
@@ -42,12 +62,12 @@
 
 
             <Grid Grid.Column=" 1"
-                  Margin="50,0,0,0"
+                  Margin="100,0,0,0"
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="200" />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
@@ -180,6 +200,7 @@
                             <TextBlock Text="        上位机需要正常连接到设备才能进行通讯处理否者无法控制设备！"
                                        Width=" 250"
                                        TextWrapping="Wrap"
+                                       HorizontalAlignment="Stretch"
                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                        FontSize="12"
                                        Foreground="{DynamicResource 全局_按钮_灰颜色}" />
@@ -200,7 +221,7 @@
                                FontFamily="{DynamicResource 全局_文字_中文字体}"
                                FontSize=" 26" />
                     <Grid Grid.Row=" 1" Margin="5">
-                        <StackPanel HorizontalAlignment="Left"
+                        <StackPanel HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
                                     Orientation="Horizontal">
                             <Border Width=" 15"
@@ -244,7 +265,7 @@
                                FontFamily="{DynamicResource 全局_文字_中文字体}"
                                FontSize=" 26" />
                     <Grid Grid.Row=" 1" Margin="5">
-                        <StackPanel HorizontalAlignment="Left"
+                        <StackPanel HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
                                     Orientation="Horizontal">
                             <Border Width=" 15"

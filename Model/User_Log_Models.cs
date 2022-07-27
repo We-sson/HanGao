@@ -35,7 +35,7 @@ namespace HanGao.Model
         {
             get
             {
-                if (_User_Log_Number > 50)
+                if (_User_Log_Number > 200)
                 {
                     _User_Log = string.Empty;
                     User_Log_Number = 0;

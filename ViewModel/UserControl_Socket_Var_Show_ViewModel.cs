@@ -77,7 +77,7 @@ namespace HanGao.ViewModel
                 foreach (var item in _List)
                 {
 
-                    if (!Socket_Read_List.Any<Socket_Models_List>(l => l.Val_Name == item.Val_Name))
+                    if (!Socket_Read_List.Any<Socket_Models_List>(l => l.Val_ID == item.Val_ID))
                     {
                         Application.Current.Dispatcher.Invoke((Action)(() =>
                         {
@@ -231,6 +231,7 @@ namespace HanGao.ViewModel
             }
         }
 
+
         // 定义静态属性值变化事件 
         public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
 
@@ -325,7 +326,7 @@ namespace HanGao.ViewModel
         }
 
 
-
+        [Flags]
         /// <summary>
         /// 变量名称枚举存放地方
         /// </summary>
@@ -365,9 +366,17 @@ namespace HanGao.ViewModel
             /// <summary>
             /// 机器人操作模式
             /// </summary>
-            [StringValue("$" + nameof(MODE_OP)), UserArea(nameof(Meg_Value_Eunm.KUKA_State)), BingdingValue(nameof(KUKA_State_Models.KUKA_Mode_State), Value_Type.Enum, Binding_Type.OneWay)]
-            MODE_OP,
+            [StringValue("$MODE_OP"), UserArea(nameof(Meg_Value_Eunm.KUKA_State)), BingdingValue(nameof(KUKA_State_Models.KUKA_Mode_State), Value_Type.Enum, Binding_Type.OneWay)]
+            MODE_OP_UI,
 
+
+            /// <summary>
+            /// 机器人操作模式
+            /// </summary>
+            [StringValue("$MODE_OP"), UserArea(nameof(Meg_Value_Eunm.UI_Start_State_Info)), BingdingValue(nameof(UC_Start_State_From_Model.UI_Mode_State), Value_Type.Enum, Binding_Type.OneWay)]
+            MODE_OP_State,
+
+            
 
             /// <summary>
             /// 机器人Base当前位置
@@ -427,7 +436,7 @@ namespace HanGao.ViewModel
             /// <summary>
             /// 机器人是否运动状态
             /// </summary>
-            [StringValue("$PRO_MOVE")]
+            [StringValue("$PRO_MOVE"), UserArea(nameof(Meg_Value_Eunm.UI_Start_State_Info)), BingdingValue(nameof(UC_Start_State_From_Model.UI_Robot_State), Value_Type.Bool, Binding_Type.OneWay)]
             PRO_MOVE,
             /// <summary>
             /// 机器人当前运行程序名

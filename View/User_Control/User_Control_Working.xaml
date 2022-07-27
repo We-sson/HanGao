@@ -462,7 +462,7 @@
                                  Grid.RowSpan="2"
                                  Grid.ColumnSpan="2"
                                  DataContext="{Binding Working_Area_UI.UI_Loade}"
-                                 Visibility="Collapsed" />
+                                 Visibility="Visible" />
     </Grid>
 
 

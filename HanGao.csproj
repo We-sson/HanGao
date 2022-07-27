@@ -501,6 +501,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="inter\HanGao-cache\cacheIndex.txt" />
     <Resource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -510,10 +511,27 @@
     <None Include="FodyWeavers.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="inter\HanGao-cache\part10\output-info.ini" />
+    <None Include="inter\HanGao-cache\part11\output-info.ini" />
+    <None Include="inter\HanGao-cache\part12\output-info.ini" />
+    <None Include="inter\HanGao-cache\part13\output-info.ini" />
     <None Include="inter\HanGao-cache\part1\output-info.ini" />
     <None Include="inter\HanGao-cache\part2\output-info.ini" />
+    <None Include="inter\HanGao-cache\part3\output-info.ini" />
+    <None Include="inter\HanGao-cache\part4\output-info.ini" />
+    <None Include="inter\HanGao-cache\part5\output-info.ini" />
+    <None Include="inter\HanGao-cache\part6\output-info.ini" />
+    <None Include="inter\HanGao-cache\part7\output-info.ini" />
+    <None Include="inter\HanGao-cache\part8\output-info.ini" />
+    <None Include="inter\HanGao-cache\part9\output-info.ini" />
     <None Include="inter\HanGao.aip" />
+    <None Include="inter\x64_DebugSetupFiles\HanGao_1.0.8243.26362.msi" />
+    <None Include="inter\x64_DebugSetupFiles\HanGao_1.0.8243.26988.msi" />
+    <None Include="inter\x64_DebugSetupFiles\HanGao_1.0.8243.27188.msi" />
     <None Include="inter\x64_Debug_1SetupFiles\HanGao_1.0.8230.17531.msi" />
+    <None Include="inter\x64_Debug_1SetupFiles\HanGao_1.0.8235.16363.msi" />
+    <None Include="inter\x64_Debug_1SetupFiles\HanGao_1.0.8243.26875.msi" />
+    <None Include="inter\x64_Debug_1SetupFiles\HanGao_1.0.8243.26988.msi" />
     <None Include="Krc8.3\Glode_HanGao.dat" />
     <None Include="Krc8.3\Glode_HanGao.src" />
     <None Include="Krc8.3\HanGao.msi" />
@@ -570,11 +588,23 @@
     <Resource Include="Resources\UC_开始页面状态_1.png" />
     <Resource Include="Resources\UC_开始页面状态_3.png" />
     <Resource Include="FodyWeavers.xml" />
-    <Resource Include="inter\HanGao-cache\cacheIndex.txt" />
-    <Content Include="inter\HanGao-cache\part1\HanGao1.cab" />
-    <Content Include="inter\HanGao-cache\part2\HanGao1.cab" />
     <Resource Include="Krc8.3\HanGaoEkrl.xml" />
     <Resource Include="inter\序列号.txt" />
+    <Content Include="inter\HanGao-cache\part10\disk1.cab" />
+    <Content Include="inter\HanGao-cache\part11\disk1.cab" />
+    <Content Include="inter\HanGao-cache\part12\disk1.cab" />
+    <Content Include="inter\HanGao-cache\part13\disk1.cab" />
+    <Content Include="inter\HanGao-cache\part1\disk1.cab" />
+    <Content Include="inter\HanGao-cache\part1\HanGao1.cab" />
+    <Content Include="inter\HanGao-cache\part2\disk1.cab" />
+    <Content Include="inter\HanGao-cache\part2\HanGao1.cab" />
+    <Content Include="inter\HanGao-cache\part3\disk1.cab" />
+    <Content Include="inter\HanGao-cache\part4\disk1.cab" />
+    <Content Include="inter\HanGao-cache\part5\disk1.cab" />
+    <Content Include="inter\HanGao-cache\part6\disk1.cab" />
+    <Content Include="inter\HanGao-cache\part7\disk1.cab" />
+    <Content Include="inter\HanGao-cache\part8\disk1.cab" />
+    <Content Include="inter\HanGao-cache\part9\HanGao1.cab" />
     <Content Include="Ps_UI\单盆图标.svg" />
     <Content Include="Ps_UI\双盆图标.svg" />
     <Content Include="Ps_UI\左右盆图标.svg" />
