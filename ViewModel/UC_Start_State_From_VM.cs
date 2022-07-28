@@ -93,7 +93,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 主控件显示属性
         /// </summary>
-        public Visibility UI_Show { set; get; } = Visibility.Visible;
+        public bool Sink_Load_Stata { set; get; } = false;
 
 
 
@@ -109,8 +109,13 @@ namespace HanGao.ViewModel
 
                 if (UI_Mode_State == KUKA_State_Enum.T1 && UI_Socket_State == Socket_Tpye.Connect_OK && UI_Robot_State == false)
                 {
-                    UI_Show = Visibility.Collapsed;
+                    Sink_Load_Stata = true;
                 }
+                else
+                {
+                    Sink_Load_Stata = false ;
+                }
+
             }
         }
 
@@ -129,7 +134,11 @@ namespace HanGao.ViewModel
                 _UI_Robot_State = value;
                 if (UI_Mode_State == KUKA_State_Enum.T1 && UI_Socket_State == Socket_Tpye.Connect_OK && UI_Robot_State == false)
                 {
-                    UI_Show = Visibility.Collapsed;
+                    Sink_Load_Stata = true;
+                }
+                else
+                {
+                    Sink_Load_Stata = false;
                 }
             }
         }
@@ -149,7 +158,11 @@ namespace HanGao.ViewModel
                 _UI_Mode_State = value;
                 if (UI_Mode_State == KUKA_State_Enum.T1 && UI_Socket_State == Socket_Tpye.Connect_OK && UI_Robot_State == false)
                 {
-                    UI_Show = Visibility.Collapsed;
+                    Sink_Load_Stata = true;
+                }
+                else
+                {
+                    Sink_Load_Stata = false;
                 }
             }
         }

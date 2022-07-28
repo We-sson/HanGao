@@ -18,7 +18,7 @@ namespace HanGao
 
 
 
-            var Xml = new XML_Write_Read();
+            new XML_Write_Read();
 
 
         }

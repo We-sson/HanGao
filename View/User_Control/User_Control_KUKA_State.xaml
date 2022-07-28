@@ -21,7 +21,6 @@
 
         <Border Background="{DynamicResource 全局_背景_白颜色}"
                 BorderBrush="Transparent"
-                BorderThickness="5"
                 CornerRadius="10">
 
 

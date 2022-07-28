@@ -339,7 +339,7 @@
 
         <TextBlock Grid.Row=" 2"
                    Text="{Binding App_VerSion, StringFormat={}v{0:F0}}"
-                   Margin="5"
+                   Margin="0"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Bottom" />
 

@@ -45,7 +45,7 @@ namespace HanGao.ViewModel
             Messenger.Register<Working_Area_Data, string>(this, nameof(Meg_Value_Eunm.UI_Work), (O, S) =>
             {
 
-                if (UC_Start_State_From_VM.UI_Data.UI_Show== Visibility.Collapsed)
+                if (UC_Start_State_From_VM.UI_Data.Sink_Load_Stata)
                 {
 
 

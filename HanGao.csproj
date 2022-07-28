@@ -502,6 +502,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Resource Include="inter\HanGao-cache\cacheIndex.txt" />
+    <Resource Include="Krc8.3\HanGaoEkrl.xml" />
     <Resource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -528,13 +529,18 @@
     <None Include="inter\x64_DebugSetupFiles\HanGao_1.0.8243.26362.msi" />
     <None Include="inter\x64_DebugSetupFiles\HanGao_1.0.8243.26988.msi" />
     <None Include="inter\x64_DebugSetupFiles\HanGao_1.0.8243.27188.msi" />
+    <None Include="inter\x64_DebugSetupFiles\HanGao_1.0.8244.26536.msi" />
     <None Include="inter\x64_Debug_1SetupFiles\HanGao_1.0.8230.17531.msi" />
     <None Include="inter\x64_Debug_1SetupFiles\HanGao_1.0.8235.16363.msi" />
     <None Include="inter\x64_Debug_1SetupFiles\HanGao_1.0.8243.26875.msi" />
     <None Include="inter\x64_Debug_1SetupFiles\HanGao_1.0.8243.26988.msi" />
+    <None Include="inter\x64_Debug_1SetupFiles\HanGao_1.0.8243.27154.msi" />
+    <None Include="inter\x64_Debug_1SetupFiles\HanGao_1.0.8244.26459.msi" />
     <None Include="Krc8.3\Glode_HanGao.dat" />
     <None Include="Krc8.3\Glode_HanGao.src" />
     <None Include="Krc8.3\HanGao.msi" />
+    <None Include="Krc8.3\HanGao_1.0.8235.16363.msi" />
+    <None Include="Krc8.3\HanGao_1.0.8244.26536.msi" />
     <None Include="Krc8.3\HanGao_Short_Craft .kfd" />
     <None Include="Krc8.3\HanGao_User.kfd" />
     <None Include="Krc8.3\HanGao_User1.kfd" />
@@ -588,7 +594,6 @@
     <Resource Include="Resources\UC_开始页面状态_1.png" />
     <Resource Include="Resources\UC_开始页面状态_3.png" />
     <Resource Include="FodyWeavers.xml" />
-    <Resource Include="Krc8.3\HanGaoEkrl.xml" />
     <Resource Include="inter\序列号.txt" />
     <Content Include="inter\HanGao-cache\part10\disk1.cab" />
     <Content Include="inter\HanGao-cache\part11\disk1.cab" />

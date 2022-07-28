@@ -41,7 +41,7 @@
    ;Decl PARAM PL_OFFSET_END = {SHORTNAME[] "Offset_TOOL", VAR[] "Offset_POS", SHORTCUT[] "FF", UNIT[] "POS" ,Value {FREE: DEFAULT[] "_"}}
   
   
-   DECL PARAM Work_Area= {SHORTNAME[] "Work Area: " , VALUE {LIST: _
+   DECL PARAM Work_Area= {SHORTNAME[] "Work: " , VALUE {LIST: _
    ITEM[1] {ITEM: VALUE[] "1"   , DISP[] "N_1"},   _
    ITEM[2] {ITEM: VALUE[] "2"  , DISP[] "N_2"},  _
    POS 1}}

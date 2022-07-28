@@ -142,7 +142,7 @@ DEFTP Surround_LIN={ SOt FALSE,Soc TRUE }
    ITEM[4] {ITEM: VALUE[] "C315"  , DISP[] "C315"},  _
    POS 1}}
    
-  DECL PARAM Work_Area= {SHORTNAME[] "Area: " , VALUE {LIST: _
+  DECL PARAM Work_Area= {SHORTNAME[] "Work: " , VALUE {LIST: _
    ITEM[1] {ITEM: VALUE[] "1"   , DISP[] "N_1"},   _
    ITEM[2] {ITEM: VALUE[] "2"  , DISP[] "N_2"},  _
    POS 1}}
@@ -427,7 +427,7 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
        CASE "True"  DO LIN_START
      ENDSWITCH
 
-	
+	 DO LIN_START
     REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL FDAT F%MOVE_Name ={TOOL_NO %TOOL_NO ,BASE_NO %BASE_NO ,IPO_FRAME #BASE ,POINT2[] /" /",TQ_STATE FALSE }" )
     REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL LDAT L%MOVE_LDAT ={VEL %Vel ,ACC %ACC ,APO_DIST %APO_DIST ,APO_FAC 50.0000 ,AXIS_VEL 100.0,AXIS_ACC 100.0,ORI_TYP #VAR ,CIRC_TYP #BASE,JERK_FAC 50.0,GEAR_JERK 50.0,EXAX_IGN 0}" )
     ;REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL Offset_POS FF%Offset_Name ={O_X %O_X ,O_Y %O_Y ,O_Z %O_Z }")
@@ -451,10 +451,13 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
    
    DEFSCRIPT CIR_L_SAVE
     
+     SHOWVAR (FULLPATH[] "1",  PARAM OFFSET_NO)
+    
     MESSAGE " CIR : %Area_CIR_lIST "
     MESSAGE " Offset_NO: %OFFSET_NO "
+    MESSAGE " CIR_Lin Name: %MOVE_Name "
 
-	 SETVAR(FULLPATH[] "%Area_CIR_lIST _Welding_Craft[%Work_Area ,%OFFSET_NO ].Welding_Name[] ", VALUE[] "/"%MOVE_Name /"" )
+	 SETVAR(FULLPATH[] "%Area_CIR_lIST _Welding_Craft[%Work_Area , %OFFSET_NO ].Welding_Name[] ", VALUE[] "/"%MOVE_Name /"" )
     DO U_SAVE
   	
   ENDSCRIPT

@@ -47,14 +47,14 @@ namespace HanGao.Xml_Date.Xml_Write_Read
                     new Xml_Sink_Model()
                     {
                     Sink_Model = 952154,
-                    Sink_Size_Long = 400,
-                    Sink_Size_Panel_Thick = 2.85,
+                    Sink_Size_Long = 632,
+                    Sink_Size_Panel_Thick = 0,
                     Sink_Size_Pots_Thick =0.75,
                     Sink_Size_Short_Side = 23,
-                    Sink_Size_Down_Distance = 23.8,
-                    Sink_Size_Left_Distance = 23.8,
-                    Sink_Size_R = 10,
-                    Sink_Size_Width = 454,
+                    Sink_Size_Down_Distance = 24,
+                    Sink_Size_Left_Distance = 24,
+                    Sink_Size_R = 12,
+                    Sink_Size_Width = 352,
                     Sink_Type = Sink_Type_Enum.LeftRight_One,
                      Sink_Craft =new Xml_Sink_Work_Area()
                     },
@@ -62,21 +62,115 @@ namespace HanGao.Xml_Date.Xml_Write_Read
                     {
                     Sink_Model = 952128,
                     Sink_Size_Long = 400,
-                    Sink_Size_Panel_Thick = 2.85,
+                    Sink_Size_Panel_Thick = 0,
                     Sink_Size_Pots_Thick =0.75,
                     Sink_Size_Short_Side = 23,
-                    Sink_Size_Down_Distance = 23.8,
-                    Sink_Size_Left_Distance = 23.8,
-                    Sink_Size_R = 10,
-                    Sink_Size_Width = 454,
+                    Sink_Size_Down_Distance = 24,
+                    Sink_Size_Left_Distance = 24,
+                    Sink_Size_R = 12,
+                    Sink_Size_Width = 352,
                     Sink_Type = Sink_Type_Enum.LeftRight_One,
                     Sink_Craft =new Xml_Sink_Work_Area()
-                },
+                    },
+                    new Xml_Sink_Model()
+                    {
+                    Sink_Model = 952231,
+                    Sink_Size_Long = 722,
+                    Sink_Size_Panel_Thick = 0,
+                    Sink_Size_Pots_Thick =0.75,
+                    Sink_Size_Short_Side = 23,
+                    Sink_Size_Down_Distance = 24,
+                    Sink_Size_Left_Distance = 24,
+                    Sink_Size_R = 12,
+                    Sink_Size_Width = 380,
+                    Sink_Type = Sink_Type_Enum.LeftRight_One,
+                    Sink_Craft =new Xml_Sink_Work_Area()
+                    },
+                    new Xml_Sink_Model()
+                    {
+                    Sink_Model = 902182,
+                    Sink_Size_Long = 640,
+                    Sink_Size_Panel_Thick = 0,
+                    Sink_Size_Pots_Thick =0.75,
+                    Sink_Size_Short_Side = 23,
+                    Sink_Size_Down_Distance = 24,
+                    Sink_Size_Left_Distance = 24,
+                    Sink_Size_R = 12,
+                    Sink_Size_Width = 355,
+                    Sink_Type = Sink_Type_Enum.LeftRight_One,
+                    Sink_Craft =new Xml_Sink_Work_Area()
+                    },
+                    new Xml_Sink_Model()
+                    {
+                    Sink_Model = 952127,
+                    Sink_Size_Long = 530,
+                    Sink_Size_Panel_Thick = 0,
+                    Sink_Size_Pots_Thick =0.75,
+                    Sink_Size_Short_Side = 23,
+                    Sink_Size_Down_Distance = 24,
+                    Sink_Size_Left_Distance = 24,
+                    Sink_Size_R = 12,
+                    Sink_Size_Width = 345,
+                    Sink_Type = Sink_Type_Enum.LeftRight_One,
+                    Sink_Craft =new Xml_Sink_Work_Area()
+                    },
+                    new Xml_Sink_Model()
+                    {
+                    Sink_Model = 952233,
+                    Sink_Size_Long = 550,
+                    Sink_Size_Panel_Thick = 0,
+                    Sink_Size_Pots_Thick =0.75,
+                    Sink_Size_Short_Side = 23,
+                    Sink_Size_Down_Distance = 24,
+                    Sink_Size_Left_Distance = 24,
+                    Sink_Size_R = 12,
+                    Sink_Size_Width = 350,
+                    Sink_Type = Sink_Type_Enum.LeftRight_One,
+                    Sink_Craft =new Xml_Sink_Work_Area()
+                    },
+                    new Xml_Sink_Model()
+                    {
+                    Sink_Model = 952172,
+                    Sink_Size_Long = 530,
+                    Sink_Size_Panel_Thick = 0,
+                    Sink_Size_Pots_Thick =0.75,
+                    Sink_Size_Short_Side = 23,
+                    Sink_Size_Down_Distance = 24,
+                    Sink_Size_Left_Distance = 75,
+                    Sink_Size_R = 12,
+                    Sink_Size_Width = 365,
+                    Sink_Type = Sink_Type_Enum.UpDown_One ,
+                    Sink_Craft =new Xml_Sink_Work_Area()
+                    },
+                    new Xml_Sink_Model()
+                    {
+                    Sink_Model = 952173,
+                    Sink_Size_Long = 590,
+                    Sink_Size_Panel_Thick = 0,
+                    Sink_Size_Pots_Thick =0.75,
+                    Sink_Size_Short_Side = 23,
+                    Sink_Size_Down_Distance = 24,
+                    Sink_Size_Left_Distance = 75,
+                    Sink_Size_R = 12,
+                    Sink_Size_Width = 365,
+                    Sink_Type = Sink_Type_Enum.UpDown_One,
+                    Sink_Craft =new Xml_Sink_Work_Area()
+                    },
 
-
-
-
-
+                    new Xml_Sink_Model()
+                    {
+                    Sink_Model = 952119,
+                    Sink_Size_Long = 550,
+                    Sink_Size_Panel_Thick = 0,
+                    Sink_Size_Pots_Thick =0.75,
+                    Sink_Size_Short_Side = 23,
+                    Sink_Size_Down_Distance = 24,
+                    Sink_Size_Left_Distance = 75,
+                    Sink_Size_R = 12,
+                    Sink_Size_Width = 365,
+                    Sink_Type = Sink_Type_Enum.UpDown_One ,
+                    Sink_Craft =new Xml_Sink_Work_Area()
+                    },
                     }
             };
 
