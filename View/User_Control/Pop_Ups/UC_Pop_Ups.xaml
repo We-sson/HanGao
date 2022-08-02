@@ -130,9 +130,6 @@
                         </StackPanel>
 
                     </RadioButton>
-
-
-
                 </Grid>
 
 
@@ -143,35 +140,6 @@
                         Background="{DynamicResource 全局_背景_白颜色}"
                         CornerRadius=" 25"
                         Effect="{DynamicResource 全局背景阴影}" />
-                <!--<Grid Grid.Row=" 1"
-                      Margin="0"
-                      HorizontalAlignment="Stretch"
-                      VerticalAlignment="Stretch"
-                      Visibility="Collapsed">
-
-                    <Pop:UC_Sink_Type x:Name="U1"
-                                      HorizontalAlignment="Stretch"
-                                      VerticalAlignment="Stretch"
-                                      DataContext="{Binding Source={StaticResource Locator}, Path=UC_Sink_Type_VM}"
-                                      Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=R1, Mode=TwoWay}" />
-
-                    <Pop:UC_Sink_Size x:Name="U2"
-                                      HorizontalAlignment="Stretch"
-                                      VerticalAlignment="Stretch"
-                                      DataContext="{Binding Source={StaticResource Locator}, Path=UC_Sink_Size_VM}"
-                                      Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=R2, Mode=TwoWay}" />
-
-                    <Pop:UC_Sink_Craft_List x:Name="U3"
-                                            HorizontalAlignment="Stretch"
-                                            VerticalAlignment="Stretch"
-                                            DataContext="{Binding Source={StaticResource Locator}, Path=UC_Sink_Craft_List_VM}"
-                                            Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=R3, Mode=TwoWay}" />
-
-
-
-
-
-                </Grid>-->
 
 
                 <Grid x:Name="Sink_Type" Grid.Row=" 1"
@@ -325,7 +293,7 @@
 
 
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="300" />
                         <RowDefinition Height="100" />
                     </Grid.RowDefinitions>
 
@@ -357,7 +325,7 @@
                                  HorizontalContentAlignment="Center"
                                  VerticalContentAlignment="Center"
                                  FontFamily="Calibri"
-                                 Tag="左件长度=" />
+                                 Tag="盆左件长度=" />
                         <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Down_Distance"
                                  Uid="mm"
                                  HorizontalAlignment="Stretch"
@@ -365,7 +333,7 @@
                                  HorizontalContentAlignment="Center"
                                  VerticalContentAlignment="Center"
                                  FontFamily="Calibri"
-                                 Tag="下件长度=" />
+                                 Tag="盆下件长度=" />
 
 
 
@@ -450,7 +418,7 @@
                                  Height="auto"
                                  Margin="0"
                                  HorizontalAlignment="Center"
-                                 Rows="4">
+                                 Rows="5">
 
 
                         <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Pots"
@@ -478,7 +446,7 @@
                                  HorizontalContentAlignment="Center"
                                  VerticalContentAlignment="Center"
                                  FontFamily="Calibri"
-                                 Tag="圆角直径=" />
+                                 Tag="焊接圆角=" />
 
 
                         <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Short"
@@ -489,6 +457,15 @@
                                  VerticalContentAlignment="Center"
                                  FontFamily="Calibri"
                                  Tag="小边长度=" />
+
+                        <TextBox Style="{DynamicResource TextBox_Style}"
+                                 Uid="mm"
+                                 HorizontalAlignment="Stretch"
+                                 VerticalAlignment="Center"
+                                 HorizontalContentAlignment="Center"
+                                 VerticalContentAlignment="Center"
+                                 FontFamily="Calibri"
+                                 Tag="短边左距离=" />
 
                     </UniformGrid>
 
