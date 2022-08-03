@@ -1,11 +1,12 @@
 &ACCESS RVO
-&REL 222
+&REL 223
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HG
 DEF Glode_HanGao( )
 
 ;# DATE:2021-1-4
+
 
 
 END
@@ -675,14 +676,14 @@ SWITCH Sink_Welding_Size.Sink_Type
 CASE #UpDown_One
 Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_Side-Sink_Welding_Size.Sink_Size_Short_Side*(Surr_Path/100)
 Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_OnePos
-Lin_Pos.Z=0
+Lin_Pos.Z=-150.000
 Lin_Pos.A=0
 Lin_Pos.B=0
 Lin_Pos.C=0
 case #LeftRight_One
 Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos
 Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_Side-Sink_Welding_Size.Sink_Size_Short_Side*(Surr_Path/100)
-Lin_Pos.Z=0
+Lin_Pos.Z=-150.000
 Lin_Pos.A=0
 Lin_Pos.B=0
 Lin_Pos.C=0
@@ -769,12 +770,13 @@ Lin_Pos.B=0
 Lin_Pos.C=0
 case #LeftRight_One
 Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos
-Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Long+Sink_Welding_Size.Sink_Size_Left_Distance+Sink_Welding_Size.Sink_Size_Short_Side
+Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Long+Sink_Welding_Size.Sink_Size_Left_Distance*2-Sink_Welding_Size.Sink_Size_Short_Side
 Lin_Pos.Z=0
 Lin_Pos.A=0
 Lin_Pos.B=0
 Lin_Pos.C=0
 ENDSWITCH
+
 
 N225_Short_Craft[Work_Area,3].Welding_Pos.X=Lin_Pos.X
 N225_Short_Craft[Work_Area,3].Welding_Pos.Y=Lin_Pos.Y
