@@ -31,6 +31,7 @@
                         <Border x:Name="optionMark" Grid.Row="1"
                                 Background="{DynamicResource 全局_按钮_黄颜色}"
                                 CornerRadius="2"
+                                Effect="{DynamicResource 全局背景阴影}"
                                 RenderTransformOrigin="0.5,0.5"
                                 Visibility="Hidden" />
 
@@ -225,7 +226,7 @@
 
                             <TextBlock Grid.Column="0"
                                        Text="{TemplateBinding Tag}"
-                                       Margin="8,3,3,3"
+                                       Margin="5,3,3,3"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        FontFamily="{TemplateBinding FontFamily}"
@@ -275,12 +276,14 @@
                             <Setter TargetName="border" Property="Opacity" Value="0.56" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="border" Property="Effect" Value="{DynamicResource 全局背景阴影}" />
+                            <!--<Setter TargetName="border" Property="Effect" Value="{DynamicResource 全局背景阴影}" />-->
                             <Setter TargetName="border" Property="BorderBrush" Value="#4B6587" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="true">
                             <!--<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource TextBox.Focus.Border}" />-->
-
+                            <!--<Setter TargetName="border" Property="Effect" Value="{DynamicResource 全局背景阴影}" />-->
+                            <Setter Property="BorderThickness" Value="0" />
+                            <Setter Property="Background" Value="White" />
                             <Setter Property="Foreground" Value="Black" />
                         </Trigger>
                     </ControlTemplate.Triggers>

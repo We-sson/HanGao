@@ -33,14 +33,14 @@
                         Grid.ColumnSpan=" 2"
                         Height="50"
                         VerticalAlignment="Top"
-                        Background="#bfbfbf"
+                        Background="{DynamicResource 全局_背景_蓝颜色}"
                         CornerRadius="10 10 10 10 ">
                     <TextBlock Text="+  添加水槽型号尺寸详细页面"
                                Margin="30,0,0,0"
                                VerticalAlignment="Center"
                                FontFamily="Calibri"
                                FontSize=" 22"
-                               Foreground="#19365c" />
+                               Foreground="{DynamicResource 全局_背景_白颜色}" />
                 </Border>
 
                 <Grid Grid.Row=" 1"
@@ -61,8 +61,8 @@
                                    Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
                         <TextBlock Text="水槽类型"
                                    VerticalAlignment="Center"
-                                   FontFamily="Calibri"
-                                   FontSize="24" />
+                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                   FontSize="22" />
                     </StackPanel>
 
 
@@ -93,7 +93,7 @@
                                        Margin="0,20,0,0"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Bottom"
-                                       FontFamily="Calibri"
+                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
                                        FontSize="20" />
                         </StackPanel>
 
@@ -175,31 +175,21 @@
                     <TextBlock Text="&#xe633;"
                                Margin="15"
                                HorizontalAlignment="Center"
-                               FontFamily="/Resources/#iconfont"
+                               FontFamily="{DynamicResource 全局_图标库}"
                                FontSize="50"
                                Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
                     <TextBlock Text="水槽尺寸"
                                VerticalAlignment="Center"
-                               FontFamily="Calibri"
-                               FontSize="24" />
+                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                               FontSize="22" />
                 </StackPanel>
-                <Grid Grid.Row=" 3" Grid.Column="2"
-                      Height=" 250"
-                      HorizontalAlignment="Stretch"
-                      VerticalAlignment="Top"
-                      ShowGridLines="False">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
+                <UniformGrid Grid.Row=" 3" Grid.Column="2"
+                             Height=" 250"
+                             HorizontalAlignment="Stretch"
+                             VerticalAlignment="Top"
+                             Columns="3"
+                             Rows=" 4">
 
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-
-                    </Grid.RowDefinitions>
 
                     <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Model" Grid.Row=" 0" Grid.Column=" 0"
                              Margin="0"
@@ -235,13 +225,13 @@
                              Margin="0"
                              HorizontalAlignment="Center"
                              VerticalAlignment="Center"
-                             Tag="左边宽度 :" />
+                             Tag="内框左距离 :" />
                     <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Down_Distance" Grid.Row="2" Grid.Column=" 0"
                              Uid="mm"
                              Margin="0"
                              HorizontalAlignment="Center"
                              VerticalAlignment="Center"
-                             Tag="下边宽度 :" />
+                             Tag="内框下距离 :" />
                     <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Pots_Thick" Grid.Row="2" Grid.Column=" 1"
                              Uid="mm"
                              Margin="0"
@@ -254,9 +244,19 @@
                              HorizontalAlignment="Center"
                              VerticalAlignment="Center"
                              Tag="盆胆厚度 :" />
-
-
-                </Grid>
+                    <TextBox Style="{DynamicResource TextBox_Style}" x:Name="SInk_Short_OnePos" Grid.Row="2" Grid.Column=" 2"
+                             Uid="mm"
+                             Margin="0"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center"
+                             Tag="上/左配件宽度 :" />
+                    <TextBox Style="{DynamicResource TextBox_Style}" x:Name="SInk_Short_TwoPos" Grid.Row="2" Grid.Column=" 2"
+                             Uid="mm"
+                             Margin="0"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center"
+                             Tag="中间配件长度 :" />
+                </UniformGrid>
 
 
                 <StackPanel Grid.Row="4" Grid.Column="3"

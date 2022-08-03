@@ -1,9 +1,10 @@
-&ACCESS RVO1
-&REL 217
+&ACCESS RVO
+&REL 222
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HG
 DEFDAT  GLODE_HANGAO PUBLIC
+
 
 
 ;--------DECL_Enum---------------
@@ -14,7 +15,8 @@ GLOBAL ENUM Work_Area_Enum A0,A90,A270
 ;----------------------------------
 ;---DECL-STRUC-------------------------
 
-GLOBAL STRUC Surround_Welding_Type BOOL Write_Status,REAL Sink_Size_Long,REAL Sink_Size_Width,REAL Sink_Size_R,REAL Sink_Size_Short_Side,REAL Sink_Size_Pots_Thick,REAL Sink_Size_Panel_Thick,INT Sink_Model,REAL Sink_Size_Left_Distance,REAL Sink_Size_Down_Distance,Sink_Type_Enum Sink_Type
+
+GLOBAL STRUC Surround_Welding_Type BOOL Write_Status,REAL Sink_Size_Long,REAL Sink_Size_Width,REAL Sink_Size_R,REAL Sink_Size_Short_Side,REAL Sink_Size_Short_OnePos,REAL Sink_Size_Short_TwoPos,REAL Sink_Size_Pots_Thick,REAL Sink_Size_Panel_Thick,INT Sink_Model,REAL Sink_Size_Left_Distance,REAL Sink_Size_Down_Distance,Sink_Type_Enum Sink_Type
 GLOBAL STRUC LSC_TOOL_TYP INT LSR_MAX_PWR,INT LSR_MIN_PWR,INT LSR_Prg,REAL SNSR_Prg,INT SNSR_State,REAL GAS_Pressure,INT LSR_Dly,INT GAS_Pre_Flow,INT GAS_Post_Flow
 GLOBAL STRUC Offset_POS REAL X,REAL Y,REAL Z,REAL A,REAL B,REAL C
 GLOBAL STRUC Offset_CIR REAL C_X,REAL C_Y,REAL C_Z,REAL C_A,REAL C_B,REAL C_C
@@ -216,7 +218,7 @@ N315_Short_Craft[2,5]={Welding_Name[] "S12",Welding_Pos {X 28.9999981,Y 400.000,
 
 
 
-DECL GLOBAL Surround_Welding_Type N1_Sink_Data={Sink_Size_Long 530.000,Sink_Size_Width 365.000,Sink_Size_R 12.0000,Sink_Size_Short_Side 23.0000,Sink_Size_Pots_Thick 0.750000,Sink_Size_Panel_Thick 0.0,Sink_Model 952172,Sink_Size_Left_Distance 75.0000,Sink_Size_Down_Distance 24.0000,Sink_Type #UpDown_One}
+DECL GLOBAL Surround_Welding_Type N1_Sink_Data={Sink_Size_Long 632.000,Sink_Size_Width 352.000,Sink_Size_R 10.0000,Sink_Size_Short_Side 23.0000,Sink_Size_Short_OnePos 36.0000,Sink_Size_Short_TwoPos 328.000,Sink_Size_Pots_Thick 0.750000,Sink_Size_Panel_Thick 0.0,Sink_Model 952154,Sink_Size_Left_Distance 24.0000,Sink_Size_Down_Distance 24.0000,Sink_Type #LeftRight_One}
 DECL GLOBAL Surround_Welding_Type N2_Sink_Data={Sink_Size_Long 722.000,Sink_Size_Width 380.000,Sink_Size_R 12.0000,Sink_Size_Short_Side 23.0000,Sink_Size_Pots_Thick 0.0,Sink_Size_Panel_Thick 0.0,Sink_Model 952231,Sink_Size_Left_Distance 24.0000,Sink_Size_Down_Distance 24.0000,Sink_Type #LeftRight_One}
 ;-----------Value_INI------------
 

@@ -64,6 +64,8 @@ namespace HanGao.ViewModel
                 Sink_Data.Sink_Process.Sink_Size_Long = double.Parse(Sm.Sink_Long.Text);
                 Sink_Data.Sink_Process.Sink_Size_Width = double.Parse(Sm.Sink_Width.Text);
                 Sink_Data.Sink_Process.Sink_Size_Short_Side = double.Parse(Sm.Sink_Short_Side.Text);
+                Sink_Data.Sink_Process.Sink_Size_Short_OnePos = double.Parse(Sm.SInk_Short_OnePos.Text);
+                Sink_Data.Sink_Process.Sink_Size_Short_TwoPos = double.Parse(Sm.SInk_Short_TwoPos.Text);
                 Sink_Data.Sink_Process.Sink_Size_Panel_Thick = double.Parse(Sm.Sink_Panel_Thick.Text);
                 Sink_Data.Sink_Process.Sink_Size_Pots_Thick = double.Parse(Sm.Sink_Pots_Thick.Text);
                 Sink_Data.Sink_Process.Sink_Size_R = double.Parse(Sm.Sink_R.Text);

@@ -45,6 +45,8 @@ namespace HanGao.Xml_Date.Xml_Models
         public double Sink_Size_Down_Distance { get; set; }
         public double Sink_Size_Left_Distance { get; set; }
         public double Sink_Size_Short_Side { get; set; }
+        public double Sink_Size_Short_OnePos { get; set; }
+        public double Sink_Size_Short_TwoPos { get; set; }
         public double Sink_Size_Pots_Thick { get; set; }
         public double Sink_Size_Panel_Thick { get; set; }
         [XmlAttribute]

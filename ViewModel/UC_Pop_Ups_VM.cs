@@ -172,40 +172,17 @@ namespace HanGao.ViewModel
                     Sm.Sink_Panel.Text = _Sink.Sink_Process.Sink_Size_Panel_Thick.ToString();
                     Sm.Sink_Pots.Text = _Sink.Sink_Process.Sink_Size_Pots_Thick.ToString();
                     Sm.Sink_R.Text = _Sink.Sink_Process.Sink_Size_R.ToString();
+                    Sm.SInk_Short_OnePos.Text = _Sink.Sink_Process.Sink_Size_Short_OnePos.ToString();
+                    Sm.SInk_Short_TwoPos.Text = _Sink.Sink_Process.Sink_Size_Short_TwoPos.ToString();
                     Sm.Sink_Left_Distance.Text = _Sink.Sink_Process.Sink_Size_Left_Distance.ToString();
                     Sm.Sink_Down_Distance.Text = _Sink.Sink_Process.Sink_Size_Down_Distance.ToString();
                     Sm.Sink_Name.Text = _Sink.Sink_Process.Sink_Model.ToString();
                     UI_Sink_Type = _Sink.Sink_Process.Sink_Type;
                 }
 
-
-
-
             });
         }
 
-        ///// <summary>
-        ///// 切换弹窗页面
-        ///// </summary>
-        ///// <param name="_E">弹窗名称枚举值</param>
-        //public void Pop_Show(RadioButton_Name _E)
-        //{
-        //    switch (_E)
-        //    {
-        //        case RadioButton_Name.水槽类型选择:
-        //            Sink_Type_Checked = true;
-        //            break;
-        //        case RadioButton_Name.水槽尺寸调节:
-        //            Sink_Size_Checked = true;
-        //            break;
-        //        case RadioButton_Name.工艺参数调节:
-        //            Sink_Craft_Checked = true;
-        //            break;
-        //        default:
-        //            break;
-        //    }
-
-        //}
 
         /// <summary>
         /// 水槽尺寸保存方法
@@ -218,13 +195,14 @@ namespace HanGao.ViewModel
                 _Sink.Sink_Process.Sink_Size_Long = double.Parse(Sm.Sink_Long.Text);
                 _Sink.Sink_Process.Sink_Size_Width = double.Parse(Sm.Sink_Width.Text);
                 _Sink.Sink_Process.Sink_Size_Short_Side = double.Parse(Sm.Sink_Short.Text);
+                _Sink.Sink_Process.Sink_Size_Short_OnePos = double.Parse(Sm.SInk_Short_OnePos.Text);
+                _Sink.Sink_Process.Sink_Size_Short_TwoPos = double.Parse(Sm.SInk_Short_TwoPos.Text);
                 _Sink.Sink_Process.Sink_Size_Panel_Thick = double.Parse(Sm.Sink_Panel.Text);
                 _Sink.Sink_Process.Sink_Size_Pots_Thick = double.Parse(Sm.Sink_Pots.Text);
                 _Sink.Sink_Process.Sink_Size_R = double.Parse(Sm.Sink_R.Text);
                 _Sink.Sink_Process.Sink_Size_Down_Distance = double.Parse(Sm.Sink_Down_Distance.Text);
                 _Sink.Sink_Process.Sink_Size_Left_Distance = double.Parse(Sm.Sink_Left_Distance.Text);
                 _Sink.Sink_Process.Sink_Model = int.Parse(Sm.Sink_Name.Text);
-
 
 
                 //水槽类型
