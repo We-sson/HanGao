@@ -337,11 +337,11 @@
                         Content="{Binding User_Control_Show.User_UserControl, Source={StaticResource Locator}}"
                         d:IsHidden="True" />
 
-        <TextBlock Grid.Row=" 2"
+        <TextBlock Grid.Row=" 0"
                    Text="{Binding App_VerSion, StringFormat={}v{0:F0}}"
                    Margin="0"
                    HorizontalAlignment="Left"
-                   VerticalAlignment="Bottom" />
+                   VerticalAlignment="Top" />
 
 
     </Grid>
