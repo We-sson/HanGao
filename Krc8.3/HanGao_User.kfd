@@ -423,16 +423,16 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
     
     ; MESSAGE  "New State : %New_Start "
     ; MESSAGE  "Save Work Area NO: %Work_Area "
-     SWITCH "%New_Start"
-       CASE "True"  DO LIN_START
-     ENDSWITCH
+     ; SWITCH "%New_Start"
+       ; CASE "True"  DO LIN_START
+     ; ENDSWITCH
 
-	 DO LIN_START
+	 
     REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL FDAT F%MOVE_Name ={TOOL_NO %TOOL_NO ,BASE_NO %BASE_NO ,IPO_FRAME #BASE ,POINT2[] /" /",TQ_STATE FALSE }" )
     REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL LDAT L%MOVE_LDAT ={VEL %Vel ,ACC %ACC ,APO_DIST %APO_DIST ,APO_FAC 50.0000 ,AXIS_VEL 100.0,AXIS_ACC 100.0,ORI_TYP #VAR ,CIRC_TYP #BASE,JERK_FAC 50.0,GEAR_JERK 50.0,EXAX_IGN 0}" )
     ;REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL Offset_POS FF%Offset_Name ={O_X %O_X ,O_Y %O_Y ,O_Z %O_Z }")
 
-	
+	 DO LIN_START
     ;MESSAGE " %Area_LIN_lIST  "
     MESSAGE " %MOVE_Name   SAVE "
 	
@@ -488,4 +488,4 @@ ENDTP
 
 
 
-;checksum 63365908727 
+;checksum 70368484383 

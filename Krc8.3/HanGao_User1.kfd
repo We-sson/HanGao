@@ -217,9 +217,9 @@
    
   DEFSCRIPT CIR_SAVE
 
-   SWITCH "%New_Start"
-     CASE "True"  DO CIR_START
-   ENDSWITCH
+   ; SWITCH "%New_Start"
+     ; CASE "True"  DO CIR_START
+   ; ENDSWITCH
   
   
    
@@ -230,6 +230,8 @@
 
     SETVAR(FULLPATH[] "%Area_CIR_lIST _Welding_Craft[%Work_Area ,2].Welding_Name[] ", VALUE[] "/"%CIR_MID_NAME /"" )
 	 SETVAR(FULLPATH[] "%Area_CIR_lIST _Welding_Craft[%Work_Area ,3].Welding_Name[] ", VALUE[] "/"%CIR_End_Name /"" )
+    
+    DO CIR_START
     MESSAGE "  %CIR_MID_NAME  ,  %CIR_End_Name  SAVE "
 
 
@@ -340,4 +342,4 @@
 
 
 
-;checksum 17734849393 
+;checksum 28895442229 
