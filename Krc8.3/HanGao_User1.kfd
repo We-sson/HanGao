@@ -193,7 +193,7 @@
 			    Cir_FOLD[2]= "/; CIR END POS:%CIR_END_NAME  : X=%X , Y=%Y , Z=%Z , A=%A , B=%B , C=%C "
              Cir_FOLD[3]= "/; CIR_MID_OFFSET  : X=%C_X , Y=%C_Y , Z=%C_Z "
 			    Cir_FOLD[4]= "/; CIR_END_OFFSET  : X=%O_X , Y=%O_Y , Z=%O_Z "
-             Cir_FOLD[5]= "HanGao_Surr_Calculate(  , #%Area_CIR_lIST , #C_CIR_POS ,  , PO%CIR_MID_NAME , PO%CIR_End_Name  , %Area_CIR_lIST _Welding_Craft[%Work_Area ,3].Welding_Offset  , %Area_CIR_lIST _Welding_Craft[%Work_Area , 2].Welding_Offset  ,  , %Work_Area )"
+             Cir_FOLD[5]= "HanGao_Surr_Calculate(  , #%Area_CIR_lIST , #C_CIR_POS ,  , PO%CIR_MID_NAME , PO%CIR_End_Name  , %Area_CIR_lIST _Welding_Craft[%Work_Area ,2].Welding_Offset  , %Area_CIR_lIST _Welding_Craft[%Work_Area , 3].Welding_Offset  ,  , %Work_Area )"
              Cir_FOLD[6]= " "
              Cir_FOLD[7]= "FDAT_ACT=F%CIR_END_NAME "
              Cir_FOLD[8]= "LDAT_ACT=L%CIR_MID_NAME "

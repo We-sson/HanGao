@@ -367,6 +367,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Style\Visual_From_Styles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Style\Window_Button.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -450,7 +450,21 @@ namespace HanGao.ViewModel
             [StringValue("$DIST_NEXT")]
             DIST_NEXT,
 
-
+            /// <summary>
+            /// 中断位置
+            /// </summary>
+            [StringValue("$POS_INT")]
+            POS_INT,
+            /// <summary>
+            /// 电脑风扇速度
+            /// </summary>
+            [StringValue("$PC_FANSPEED")]
+            PC_FANSPEED,
+            /// <summary>
+            /// BCO移动过程状态
+            /// </summary>
+            [StringValue("$MOVE_BCO")]
+            MOVE_BCO
         }
 
 

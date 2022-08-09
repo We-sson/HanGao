@@ -24,6 +24,7 @@
                 <ResourceDictionary Source="View\Style\Grid_function_Style.xaml" />
                 <ResourceDictionary Source="View\Style\Button_message.xaml" />
                 <ResourceDictionary Source="View\Style\Window_Button.xaml" />
+                <ResourceDictionary Source="View\Style\Visual_From_Styles.xaml" />
                 <ResourceDictionary Source="View\Style\Right_Function_Button.xaml" />
                 <ResourceDictionary Source="View\Style\Button_List.xaml" />
                 <ResourceDictionary Source="View\Style\ScrollViewer_List.xaml" />

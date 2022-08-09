@@ -33,7 +33,68 @@
                 <Grid Grid.Column=" 0" Margin="12,12,6,6">
                     <Border Background="{DynamicResource 全局_背景_白颜色}"
                             CornerRadius="5"
-                            Effect="{DynamicResource 全局背景阴影}" />
+                            Effect="{DynamicResource 全局背景阴影}">
+
+                        <StackPanel Orientation="Vertical">
+
+                            <RadioButton x:Name="R1"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         GroupName="T">
+
+                                <Expander Style="{DynamicResource ExpanderStyle}"
+                                          Width=" 300"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          ExpandDirection="Down"
+                                          Header="Expander"
+                                          IsExpanded="{Binding ElementName=R1, Path=IsChecked}">
+                                    <Grid Background="#FFE5E5E5">
+                                        <Border Width=" 300"
+                                                Height="500"
+                                                Background="Gray" />
+                                    </Grid>
+                                </Expander>
+                            </RadioButton>
+                            <RadioButton x:Name="R2"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         GroupName="T">
+
+                                <Expander HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          ExpandDirection="Down"
+                                          Header="Expander"
+                                          IsExpanded="{Binding ElementName=R2, Path=IsChecked}">
+                                    <Grid Background="#FFE5E5E5">
+                                        <Border Width=" 300"
+                                                Height="500"
+                                                Background="Gray" />
+                                    </Grid>
+                                </Expander>
+                            </RadioButton>
+
+                            <RadioButton x:Name="R3"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         GroupName="T">
+
+                                <Expander HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          ExpandDirection="Down"
+                                          Header="Expander"
+                                          IsExpanded="{Binding ElementName=R3, Path=IsChecked}">
+                                    <Grid Background="#FFE5E5E5">
+                                        <Border Width=" 300"
+                                                Height="500"
+                                                Background="Gray" />
+                                    </Grid>
+                                </Expander>
+                            </RadioButton>
+                        </StackPanel>
+
+
+                    </Border>
                 </Grid>
 
                 <Grid Grid.Column=" 1" Margin="6,12,6,6">
