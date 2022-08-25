@@ -578,6 +578,7 @@
     <None Include="Ps_UI\界面UI.xd" />
     <None Include="Ps_UI\界面参考素材.ai" />
     <None Include="Ps_UI\界面效果图.psd" />
+    <None Include="Ps_UI\界面效果图.xd" />
     <None Include="Ps_UI\软件UI.xmind" />
     <None Include="Settings.XamlStyler" />
     <Resource Include="Resources\iconfont.ttf" />
