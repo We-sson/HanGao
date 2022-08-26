@@ -46,7 +46,7 @@ namespace HanGao.ViewModel
         /// </summary>
         public  static  UserControl HomeOne = new HomeOne();
         public  static UserControl ProgRamEdit = new ProgramEdit();
-        public  static UserControl ReadData = new RealData();
+        public  static UserControl ReadData = new Vision();
         public  static UserControl WeldingGui = new WeldingGui();
 
 

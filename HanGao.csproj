@@ -108,6 +108,9 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="halcondotnet">
+      <HintPath>D:\Halcon\2022\MVTec\HALCON-22.05-Progress\bin\dotnet35\halcondotnet.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationFramework.Aero2">
       <Private>False</Private>
     </Reference>
@@ -203,6 +206,7 @@
     <Compile Include="ViewModel\UC_Start_State_From_VM.cs" />
     <Compile Include="ViewModel\UC_Surround_Direction_VM.cs" />
     <Compile Include="ViewModel\UC_Surround_Point_VM.cs" />
+    <Compile Include="ViewModel\UC_Visal_Function_VM.cs" />
     <Compile Include="ViewModel\UserControl_Sideber_Show_ViewModel.cs" />
     <Compile Include="ViewModel\UserControl_Socket_Setup_ViewModel.cs" />
     <Compile Include="ViewModel\UserControl_Socket_Var_Show_ViewModel.cs" />
@@ -217,8 +221,8 @@
     <Compile Include="View\Style\Word_list.xaml.cs">
       <DependentUpon>Word_list.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\FrameShow\RealData.xaml.cs">
-      <DependentUpon>RealData.xaml</DependentUpon>
+    <Compile Include="View\FrameShow\Vision.xaml.cs">
+      <DependentUpon>Vision.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\FrameShow\WeldingGui.xaml.cs">
       <DependentUpon>WeldingGui.xaml</DependentUpon>
@@ -384,7 +388,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\FrameShow\RealData.xaml">
+    <Page Include="View\FrameShow\Vision.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
