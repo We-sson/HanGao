@@ -8,7 +8,7 @@ using static Soceket_KUKA.Models.KUKA_Value_Type;
 using static Soceket_KUKA.Models.Socket_Eunm;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
 using static HanGao.ViewModel.UserControl_Socket_Var_Show_ViewModel;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using static HanGao.Extension_Method.SetReadTypeAttribute;
 using HanGao.Model;
 

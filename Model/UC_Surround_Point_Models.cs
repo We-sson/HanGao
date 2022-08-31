@@ -1,7 +1,7 @@
 ﻿using HanGao.Extension_Method;
 using HanGao.Xml_Date.Xml_Models;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Messaging.Messages;
+using CommunityToolkit.Mvvm.ComponentModel;
+
 using Nancy.Helpers;
 using PropertyChanged;
 using System;

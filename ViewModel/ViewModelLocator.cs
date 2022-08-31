@@ -12,11 +12,12 @@
   See http://www.galasoft.ch/mvvm
 */
 
+using CommunityToolkit.Mvvm.DependencyInjection;
 using HanGao.Errorinfo;
 using HanGao.Model;
 using HanGao.ViewModel;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
+
 
 namespace HanGao.ViewModelLocator
 {

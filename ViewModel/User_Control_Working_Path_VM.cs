@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.Messaging;
 using PropertyChanged;
 using Soceket_KUKA.Models;
 using System;
@@ -11,7 +11,7 @@ using HanGao.Extension_Method;
 using HanGao.Model;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
 using static HanGao.ViewModel.UserControl_Socket_Var_Show_ViewModel;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using static HanGao.Extension_Method.SetReadTypeAttribute;
 
 namespace HanGao.ViewModel
