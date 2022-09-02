@@ -601,6 +601,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DataStore\DataStore\" />
+    <Folder Include="View\Vision_Control\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\UC_开始页面状态_2.png" />

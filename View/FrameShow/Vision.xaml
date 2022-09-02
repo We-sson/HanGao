@@ -34,13 +34,47 @@
                 </Grid.ColumnDefinitions>
 
                 <Grid Grid.Column=" 0" Margin="12,12,6,6">
-                    <Border Background="{DynamicResource 全局_背景_白颜色}"
-                            CornerRadius="5"
-                            Effect="{DynamicResource 全局背景阴影}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="48"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
 
-                        <StackPanel Orientation="Vertical">
+                    <Grid  Grid.Row=" 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Border   CornerRadius="5 5 0 0" Background="{DynamicResource 全局_按钮_黄颜色}"   Grid.Column=" 0 "  Grid.ColumnSpan=" 5"/>
 
-                            <RadioButton x:Name="R1"
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <RadioButton Content="相机视角"  GroupName="Halcon_Window"  Grid.Column=" 0" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            <RadioButton Content="结果图像"  GroupName="Halcon_Window"  Grid.Column=" 1"/>
+                            <RadioButton Content=" 特征图像"  GroupName="Halcon_Window"  Grid.Column=" 2"/>
+
+                        </Grid>
+
+                    </Grid>
+
+                    <Grid Grid.Row=" 1" >
+
+
+                         <!--窗口蒙版-->
+                        <Border x:Name="Mask"  CornerRadius="0 0 5 5 "   Background="White"/>
+
+                        <Halcon:HSmartWindowControlWPF   ClipToBounds="True" x:Name="H_Window"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SnapsToDevicePixels="True"  >
+                            <Halcon:HSmartWindowControlWPF.OpacityMask>
+                                <VisualBrush Visual="{Binding ElementName=Mask}" />
+                            </Halcon:HSmartWindowControlWPF.OpacityMask>
+                        </Halcon:HSmartWindowControlWPF>
+
+                        <!--<RadioButton x:Name="R1"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
                                          GroupName="T">
@@ -93,19 +127,13 @@
                                                 Background="Gray" />
                                     </Grid>
                                 </Expander>
-                            </RadioButton>
-
-                            <Halcon:HWindowControlWPF x:Name="H_Window"
-                                                      Width="900"
-                                                      Height=" 450"
-                                                      HorizontalAlignment="Stretch" />
-                        </StackPanel>
+                            </RadioButton>-->
 
 
-
-
-
-                    </Border>
+                    </Grid>
+                    
+                    
+                    
                 </Grid>
 
                 <Grid Grid.Column=" 1" Margin="6,12,6,6">
@@ -152,7 +180,7 @@
                     <Border Background="{DynamicResource 全局_背景_白颜色}"
                             CornerRadius="5"
                             Effect="{DynamicResource 全局背景阴影}">
-                        <Halcon:HSmartWindowControlWPF x:Name="H_SWindow"  Width=" 500" Height=" 250"/>
+
                     </Border>
 
                 </Grid>
