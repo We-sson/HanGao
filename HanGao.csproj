@@ -328,6 +328,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Style\Global_Color_Style.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Style\ListBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -490,6 +494,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Vision_Control\Vision_UserControl_Style.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -508,7 +516,7 @@
     <Resource Include="inter\HanGao-cache\cacheIndex.txt" />
     <Resource Include="Krc8.3\HanGaoEkrl.xml" />
     <Resource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </Resource>
@@ -601,9 +609,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DataStore\DataStore\" />
-    <Folder Include="View\Vision_Control\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\Vision_图像自适应_ioc.png" />
+    <Resource Include="Resources\Vision_特征图像_ioc.png" />
+    <Resource Include="Resources\Vision_相机视角_ioc.png" />
+    <Resource Include="Resources\Vision_图像结果_ioc.png" />
     <Resource Include="Resources\UC_开始页面状态_2.png" />
     <Resource Include="Resources\UC_开始页面状态_1.png" />
     <Resource Include="Resources\UC_开始页面状态_3.png" />
@@ -632,6 +643,13 @@
     <Content Include="Ps_UI\单盆图标.svg" />
     <Content Include="Ps_UI\双盆图标.svg" />
     <Content Include="Ps_UI\左右盆图标.svg" />
+    <Resource Include="Resources\Control_设备日志_ioc.png" />
+    <Resource Include="Resources\Control_创建模型_ioc.png" />
+    <Resource Include="Resources\Control_机器通讯_ioc.png" />
+    <Resource Include="Resources\Control_九点标定_ioc.png" />
+    <Resource Include="Resources\Control_相机设置_ioc.png" />
+    <Resource Include="Resources\Control_自动模式_ioc.png" />
+    <Resource Include="Resources\ListView_参数添加_ioc.png" />
     <Content Include="Resources\Log.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

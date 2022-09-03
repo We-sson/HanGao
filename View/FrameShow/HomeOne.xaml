@@ -203,7 +203,7 @@
 
                 <!--  设备状态显示区域  -->
                 <UC_Working:User_Control_Log Grid.Row="1" Grid.Column="1"
-                                             Margin="5" />
+                                           />
 
 
 

@@ -35,8 +35,10 @@
                 <ResourceDictionary Source="View\User_Control\Program_Editing\Program_Style.xaml" />
                 <ResourceDictionary Source="View\User_Control\Program_Editing\Point_UI\Point_UI_Style.xaml" />
                 <ResourceDictionary Source="View\User_Control\Program_Editing\Point_info\UC_Point_Style.xaml" />
+                <ResourceDictionary Source="View\Vision_Control\Vision_UserControl_Style.xaml" />
+                <ResourceDictionary Source="View\Style\Global_Color_Style.xaml" />
 
-
+                
 
 
 

@@ -5,12 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:HanGao.View.FrameShow"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:Halcon="clr-namespace:HalconDotNet;assembly=halcondotnet"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:Halcon="clr-namespace:HalconDotNet;assembly=halcondotnet" xmlns:UC_Working="clr-namespace:HanGao.View.User_Control"
              d:DesignHeight="832"
              d:DesignWidth="1440"
              DataContext="{Binding UC_Visal_Function_VM, Source={StaticResource Locator}}"
              mc:Ignorable="d">
+    <UserControl.Resources>
 
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
 
 
 
@@ -18,57 +21,101 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="80*" />
-            <ColumnDefinition Width="30*" />
+            <ColumnDefinition Width="25*" />
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column=" 0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="2*" />
+                <RowDefinition  Height="2.6*" />
                 <RowDefinition />
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
-                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="70" />
                 </Grid.ColumnDefinitions>
 
                 <Grid Grid.Column=" 0" Margin="12,12,6,6">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="48"/>
+                        <RowDefinition Height="40"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
 
                     <Grid  Grid.Row=" 0">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition   Width="auto"/>
                             <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition Width=" auto"/>
                         </Grid.ColumnDefinitions>
                         <Border   CornerRadius="5 5 0 0" Background="{DynamicResource 全局_按钮_黄颜色}"   Grid.Column=" 0 "  Grid.ColumnSpan=" 5"/>
 
-
-                        <Grid>
+                        <!-- 图像窗口按钮-->
+                        <Grid Grid.Column=" 0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <RadioButton Content="相机视角"  GroupName="Halcon_Window"  Grid.Column=" 0" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                            <RadioButton Content="结果图像"  GroupName="Halcon_Window"  Grid.Column=" 1"/>
-                            <RadioButton Content=" 特征图像"  GroupName="Halcon_Window"  Grid.Column=" 2"/>
 
+                            <RadioButton IsChecked="False"    x:Name="Live_Window_Button"     Margin=" 5"   Style="{DynamicResource Halcon_Window_RadioButton_Style}"    GroupName="Halcon_Window"  Grid.Column=" 0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                                <StackPanel Margin=" 5" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Image Height=" 24" Margin=" 5 0 5 0" Source="/Resources/Vision_相机视角_ioc.png" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    <TextBlock FontSize="16"  FontFamily="{DynamicResource 全局_文字_数字字体}" Text="相机视角" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+
+                            <RadioButton IsChecked="True"        x:Name="Results_Window_Button"    Margin=" 5"    Style="{DynamicResource Halcon_Window_RadioButton_Style}"    GroupName="Halcon_Window"  Grid.Column=" 1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                                <StackPanel Margin=" 5" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Image Height=" 24" Margin="  5 0 5 0" Source="/Resources/Vision_图像结果_ioc.png" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    <TextBlock FontSize="16"   FontFamily="{DynamicResource 全局_文字_数字字体}" Text="图像结果" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+
+                            <RadioButton  IsChecked="False"    x:Name="Features_Window_Button"     Margin=" 5"     Style="{DynamicResource Halcon_Window_RadioButton_Style}"    GroupName="Halcon_Window"  Grid.Column=" 2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                                <StackPanel Margin=" 5" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Image Height=" 20" Margin="  5 0 5 0" Source="/Resources/Vision_特征图像_ioc.png" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    <TextBlock FontSize="16"  FontFamily="{DynamicResource 全局_文字_数字字体}" Text="特征图像" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
                         </Grid>
 
+
+                        <!-- 图像功能按钮-->
+                        <Grid  Grid.Column=" 1" HorizontalAlignment="Right">
+                            <StackPanel  Orientation="Horizontal" Margin=" 5">
+                                <Button Style="{DynamicResource Halcon_Window_Button}"  Background="{DynamicResource 全局_背景_白颜色}">
+                                    <StackPanel Margin=" 5" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Image Height=" 20" Margin="  5 0 5 0" Source="/Resources/Vision_图像自适应_ioc.png" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        <TextBlock FontSize="16"  FontFamily="{DynamicResource 全局_文字_数字字体}" Text=" 图像自适应" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+
+
+                        <!-- 图像窗口信息-->
+                        <Grid Grid.Column=" 2">
+                            <StackPanel Margin=" 5" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock Text="相机IP：10.30.3.156 " FontSize="16"  FontFamily="{DynamicResource 全局_文字_数字字体}"/>
+                                <TextBlock Text="分辨率：3024X2016 " FontSize="16"  FontFamily="{DynamicResource 全局_文字_数字字体}"/>
+                                <TextBlock Text="帧率：13 " FontSize="16"  FontFamily="{DynamicResource 全局_文字_数字字体}"/>
+                            </StackPanel>
+                        </Grid>
                     </Grid>
 
-                    <Grid Grid.Row=" 1" >
 
 
-                         <!--窗口蒙版-->
+
+
+                    <Grid Grid.Row=" 1"  Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Live_Window_Button}">
+
+                        <!--窗口蒙版-->
                         <Border x:Name="Mask"  CornerRadius="0 0 5 5 "   Background="White"/>
 
-                        <Halcon:HSmartWindowControlWPF   ClipToBounds="True" x:Name="H_Window"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SnapsToDevicePixels="True"  >
+                        
+                        <!--相机图像-->
+                        <Halcon:HSmartWindowControlWPF   x:Name="Live_Window"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SnapsToDevicePixels="True"  >
                             <Halcon:HSmartWindowControlWPF.OpacityMask>
                                 <VisualBrush Visual="{Binding ElementName=Mask}" />
                             </Halcon:HSmartWindowControlWPF.OpacityMask>
@@ -131,15 +178,183 @@
 
 
                     </Grid>
-                    
-                    
-                    
+
+
+                    <Grid Grid.Row=" 1" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Features_Window_Button}" >
+
+                        <!--特征窗口-->
+
+
+                        <Halcon:HSmartWindowControlWPF   x:Name="Features_Window"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SnapsToDevicePixels="True"  >
+                            <Halcon:HSmartWindowControlWPF.OpacityMask>
+                                <VisualBrush Visual="{Binding ElementName=Mask}" />
+                            </Halcon:HSmartWindowControlWPF.OpacityMask>
+                        </Halcon:HSmartWindowControlWPF>
+
+
+
+
+                    </Grid>
+
+                    <Grid Grid.Row=" 1" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Results_Window_Button}" >
+
+                        <!--结果窗口-->
+                        <Grid.ColumnDefinitions >
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition  Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+
+              
+
+
+                        <!--Halcon 控件-->
+                        <Halcon:HSmartWindowControlWPF Grid.Column=" 0" Grid.Row=" 0"   x:Name="Results_Window_1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SnapsToDevicePixels="True"  >
+                            <Halcon:HSmartWindowControlWPF.OpacityMask>
+                                <VisualBrush Visual="{Binding ElementName=Mask}" />
+                            </Halcon:HSmartWindowControlWPF.OpacityMask>
+                        </Halcon:HSmartWindowControlWPF>
+                        <Halcon:HSmartWindowControlWPF  Grid.Column=" 0" Grid.Row=" 2"    x:Name="Results_Window_2"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SnapsToDevicePixels="True"  >
+                            <Halcon:HSmartWindowControlWPF.OpacityMask>
+                                <VisualBrush Visual="{Binding ElementName=Mask}" />
+                            </Halcon:HSmartWindowControlWPF.OpacityMask>
+                        </Halcon:HSmartWindowControlWPF>
+                        <Halcon:HSmartWindowControlWPF  Grid.Column=" 2" Grid.Row=" 0"   x:Name="Results_Window_3"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SnapsToDevicePixels="True"  >
+                            <Halcon:HSmartWindowControlWPF.OpacityMask>
+                                <VisualBrush Visual="{Binding ElementName=Mask}" />
+                            </Halcon:HSmartWindowControlWPF.OpacityMask>
+                        </Halcon:HSmartWindowControlWPF>
+                        <Halcon:HSmartWindowControlWPF  Grid.Column=" 2" Grid.Row=" 2"   x:Name="Results_Window_4"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SnapsToDevicePixels="True"  >
+                            <Halcon:HSmartWindowControlWPF.OpacityMask>
+                                <VisualBrush Visual="{Binding ElementName=Mask}" />
+                            </Halcon:HSmartWindowControlWPF.OpacityMask>
+                        </Halcon:HSmartWindowControlWPF>
+
+<!--图像坐标信息-->
+                        <Grid  Grid.Column=" 0" Grid.Row=" 0" VerticalAlignment="Bottom">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="180"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Background="{DynamicResource  全局_按钮_黑颜色}"    Grid.Column=" 0" Opacity=" 0.8"/>
+                            <Border Background="{DynamicResource  全局_按钮_绿颜色}"     Grid.Column=" 1"  Opacity=" 0.5"/>
+                            <StackPanel Orientation="Horizontal" Grid.Column=" 0" HorizontalAlignment="Left" Margin=" 5">
+                                <TextBlock Text="图像 X：1356 Y：2853 (像素) | "  Foreground="{DynamicResource  全局_按钮_白颜色}" FontFamily="{DynamicResource    全局_文字_数字字体}" FontSize="11" VerticalAlignment="Center"/>
+                                <TextBlock Text="机器 X：32.23 Y：-751.333 (mm)" Foreground="{DynamicResource  全局_按钮_白颜色}" FontFamily="{DynamicResource 全局_文字_数字字体}" FontSize="11" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Grid.Column=" 1" HorizontalAlignment="Center" Margin=" 5">
+                                <TextBlock Text="位置名称：左下角  |"  Foreground="{DynamicResource  全局_按钮_白颜色}" FontFamily="{DynamicResource 全局_文字_数字字体}" FontSize="11" VerticalAlignment="Center"/>
+                                <TextBlock Text="  结果：PASS" Foreground="{DynamicResource  全局_按钮_白颜色}" FontFamily="{DynamicResource 全局_文字_数字字体}" FontSize="11" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Grid>
+                        
+                        <Grid  Grid.Column=" 2" Grid.Row=" 0" VerticalAlignment="Bottom">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="180"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Background="{DynamicResource  全局_按钮_黑颜色}"    Grid.Column=" 0" Opacity=" 0.8"/>
+                            <Border Background="{DynamicResource   全局_按钮_红颜色}"     Grid.Column=" 1"  Opacity=" 0.5"/>
+                            <StackPanel Orientation="Horizontal" Grid.Column=" 0" HorizontalAlignment="Left" Margin=" 5">
+                                <TextBlock Text="图像 X：1356 Y：2853 (像素) | "  Foreground="{DynamicResource  全局_按钮_白颜色}" FontFamily="{DynamicResource    全局_文字_数字字体}" FontSize="11" VerticalAlignment="Center"/>
+                                <TextBlock Text="机器 X：32.23 Y：-751.333 (mm)" Foreground="{DynamicResource  全局_按钮_白颜色}" FontFamily="{DynamicResource 全局_文字_数字字体}" FontSize="11" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Grid.Column=" 1" HorizontalAlignment="Center" Margin=" 5">
+                                <TextBlock Text="位置名称：左下角  |"  Foreground="{DynamicResource  全局_按钮_白颜色}" FontFamily="{DynamicResource 全局_文字_数字字体}" FontSize="11" VerticalAlignment="Center"/>
+                                <TextBlock Text="  结果：PASS" Foreground="{DynamicResource  全局_按钮_白颜色}" FontFamily="{DynamicResource 全局_文字_数字字体}" FontSize="11" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid  Grid.Column=" 2" Grid.Row=" 2" VerticalAlignment="Bottom">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="180"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Background="{DynamicResource  全局_按钮_黑颜色}"    Grid.Column=" 0" Opacity=" 0.8"/>
+                            <Border Background="{DynamicResource  全局_按钮_绿颜色}"     Grid.Column=" 1"  Opacity=" 0.5"/>
+                            <StackPanel Orientation="Horizontal" Grid.Column=" 0" HorizontalAlignment="Left" Margin=" 5">
+                                <TextBlock Text="图像 X：1356 Y：2853 (像素) | "  Foreground="{DynamicResource  全局_按钮_白颜色}" FontFamily="{DynamicResource    全局_文字_数字字体}" FontSize="11" VerticalAlignment="Center"/>
+                                <TextBlock Text="机器 X：32.23 Y：-751.333 (mm)" Foreground="{DynamicResource  全局_按钮_白颜色}" FontFamily="{DynamicResource 全局_文字_数字字体}" FontSize="11" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Grid.Column=" 1" HorizontalAlignment="Center" Margin=" 5">
+                                <TextBlock Text="位置名称：左下角  |"  Foreground="{DynamicResource  全局_按钮_白颜色}" FontFamily="{DynamicResource 全局_文字_数字字体}" FontSize="11" VerticalAlignment="Center"/>
+                                <TextBlock Text="  结果：PASS" Foreground="{DynamicResource  全局_按钮_白颜色}" FontFamily="{DynamicResource 全局_文字_数字字体}" FontSize="11" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid  Grid.Column=" 0" Grid.Row=" 2" VerticalAlignment="Bottom">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="180"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Background="{DynamicResource  全局_按钮_黑颜色}"    Grid.Column=" 0" Opacity=" 0.8"/>
+                            <Border Background="{DynamicResource  全局_按钮_绿颜色}"     Grid.Column=" 1"  Opacity=" 0.5"/>
+                            <StackPanel Orientation="Horizontal" Grid.Column=" 0" HorizontalAlignment="Left" Margin=" 5">
+                                <TextBlock Text="图像 X：1356 Y：2853 (像素) | "  Foreground="{DynamicResource  全局_按钮_白颜色}" FontFamily="{DynamicResource    全局_文字_数字字体}" FontSize="11" VerticalAlignment="Center"/>
+                                <TextBlock Text="机器 X：32.23 Y：-751.333 (mm)" Foreground="{DynamicResource  全局_按钮_白颜色}" FontFamily="{DynamicResource 全局_文字_数字字体}" FontSize="11" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Grid.Column=" 1" HorizontalAlignment="Center" Margin=" 5">
+                                <TextBlock Text="位置名称：左下角  |"  Foreground="{DynamicResource  全局_按钮_白颜色}" FontFamily="{DynamicResource 全局_文字_数字字体}" FontSize="11" VerticalAlignment="Center"/>
+                                <TextBlock Text="  结果：PASS" Foreground="{DynamicResource  全局_按钮_白颜色}" FontFamily="{DynamicResource 全局_文字_数字字体}" FontSize="11" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Grid>
+                        <!--窗口分割条-->
+                        <Border Grid.Column=" 1" Grid.Row=" 0" Grid.RowSpan=" 3" Width="2"    Background="{DynamicResource 全局_背景_白颜色}"/>
+                        <Border Grid.Column=" 0" Grid.Row=" 1" Grid.ColumnSpan=" 3"  Height=" 2"  Background="{DynamicResource 全局_背景_白颜色}"/>
+
+           
+
+                    </Grid>
+
+
                 </Grid>
 
-                <Grid Grid.Column=" 1" Margin="6,12,6,6">
+                <Grid Grid.Column=" 1" Margin="5,12,5,5">
                     <Border Background="{DynamicResource 全局_背景_白颜色}"
                             CornerRadius=" 5 "
                             Effect="{DynamicResource 全局背景阴影}" />
+                    <StackPanel Orientation="Vertical">
+                        <Button Style="{DynamicResource Halcon_Window_Button}"   Background="{DynamicResource 全局_按钮_蓝颜色}" Height="50" FontSize="40" Margin=" 5" >
+                            <Image Height=" 28" Margin="  5 0 5 0" Source="/Resources/ListView_参数添加_ioc.png" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Button>
+                        <ListBox BorderThickness="0" Padding=" 0"  Background="Transparent" >
+                            <ListBoxItem HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"  Width="50" Height=" 50" Padding=" 0"  BorderThickness=" 0"  Margin=" 4" >
+                                <Button  Background="{DynamicResource 全局_按钮_绿颜色}" Style="{DynamicResource Halcon_Window_Button}"  Content="1"  FontSize=" 24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            </ListBoxItem>
+                            <ListBoxItem HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Width="50" Height=" 50" Padding=" 0"  BorderThickness=" 0" Margin=" 4"   >
+                                <Button Style="{DynamicResource Halcon_Window_Button}"   Content="2"  FontSize=" 24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            </ListBoxItem>
+                            <ListBoxItem HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Width="50" Height=" 50" Padding=" 0"  BorderThickness=" 0"  Margin=" 4"  >
+                                <Button Style="{DynamicResource Halcon_Window_Button}"   Content="3"  FontSize=" 24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            </ListBoxItem>
+                            <ListBoxItem HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Width="50" Height=" 50" Padding=" 0"  BorderThickness=" 0" Margin=" 4"    >
+                                <Button Style="{DynamicResource Halcon_Window_Button}"   Content="4"  FontSize=" 24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            </ListBoxItem>
+                            <ListBoxItem HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Width="50" Height=" 50" Padding=" 0"  BorderThickness=" 0"  Margin=" 4"   >
+                                <Button Style="{DynamicResource Halcon_Window_Button}"    Content="5"  FontSize=" 24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            </ListBoxItem>
+                            <ListBoxItem HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Width="50" Height=" 50" Padding=" 0"  BorderThickness=" 0" Margin=" 4"    >
+                                <Button Style="{DynamicResource Halcon_Window_Button}"   Content="6"  FontSize=" 24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            </ListBoxItem>
+                            <ListBoxItem HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Width="50" Height=" 50" Padding=" 0"  BorderThickness=" 0" Margin=" 4"    >
+                                <Button Style="{DynamicResource Halcon_Window_Button}"   Content="7"  FontSize=" 24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            </ListBoxItem>
+                            
+                        </ListBox>
+            
+
+
+
+                    </StackPanel>
+                    
+                    
                 </Grid>
 
             </Grid>
@@ -153,14 +368,51 @@
                 <Grid Grid.Column=" 0" Margin="12,6,6,12">
                     <Border Background="{DynamicResource 全局_背景_白颜色}"
                             CornerRadius="5"
-                            Effect="{DynamicResource 全局背景阴影}">
+                            Effect="{DynamicResource 全局背景阴影}"/>
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Center" Margin=" 5">
 
 
+                        <Button  Style="{DynamicResource Halcon_Window_Button}" Margin=" 2"
+                                Width=" 120"
+                                Height=" 35">
+                            <StackPanel Margin=" 0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Image Height=" 24" Margin="  5 0 10 0" Source="/Resources/Control_相机设置_ioc.png" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <TextBlock FontSize="16"  FontFamily="{DynamicResource 全局_文字_数字字体}" Text="相机设置" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </StackPanel>
+                                
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding User_Comm}"
+                                                           CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Vision}}}"
+                                                           PassEventArgsToCommand="True" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
 
-                        <Button Content=" 采集"
-                                Width=" 100"
-                                Height=" 50">
+                        <Button  Style="{DynamicResource Halcon_Window_Button}" Margin=" 2"
+                                Width=" 120"
+                                Height=" 35">
+                        <StackPanel Margin=" 0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Image Height=" 24" Margin="  5 0 10 0" Source="/Resources/Control_九点标定_ioc.png" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <TextBlock FontSize="16"  FontFamily="{DynamicResource 全局_文字_数字字体}" Text="九点标定" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </StackPanel>
 
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding User_Comm}"
+                                                           CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Vision}}}"
+                                                           PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+
+                        <Button  Style="{DynamicResource Halcon_Window_Button}" Margin=" 2"
+                                Width=" 120"
+                                Height=" 35">
+                            <StackPanel Margin=" 0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Image Height=" 24" Margin="  5 0 10 0" Source="/Resources/Control_创建模型_ioc.png" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <TextBlock FontSize="16"  FontFamily="{DynamicResource 全局_文字_数字字体}" Text="创建模型" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </StackPanel>
 
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
@@ -170,18 +422,49 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </Button>
-                    </Border>
 
+                        <Button  Style="{DynamicResource Halcon_Window_Button}" Margin=" 2"
+                                Width=" 120"
+                                Height=" 35">
+                            <StackPanel Margin=" 0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Image Height=" 24" Margin="  5 0 10 0" Source="/Resources/Control_机器通讯_ioc.png" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <TextBlock FontSize="16"  FontFamily="{DynamicResource 全局_文字_数字字体}" Text="机器通讯" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </StackPanel>
+
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding User_Comm}"
+                                                           CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Vision}}}"
+                                                           PassEventArgsToCommand="True" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+
+                        <Button  Style="{DynamicResource Halcon_Window_Button}" Margin=" 2"
+                                Width=" 120"
+                                Height=" 35">
+                            <StackPanel Margin=" 0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Image Height=" 24" Margin="  5 0 10 0" Source="/Resources/Control_自动模式_ioc.png" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <TextBlock FontSize="16"  FontFamily="{DynamicResource 全局_文字_数字字体}" Text="机器通讯" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </StackPanel>
+
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding User_Comm}"
+                                                           CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Vision}}}"
+                                                           PassEventArgsToCommand="True" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                    </StackPanel>
 
 
                 </Grid>
 
-                <Grid Grid.Column=" 1" Margin="6,6,6,12">
-                    <Border Background="{DynamicResource 全局_背景_白颜色}"
-                            CornerRadius="5"
-                            Effect="{DynamicResource 全局背景阴影}">
-
-                    </Border>
+                <Grid Grid.Column=" 1" Margin="6 6 6 12">
+                    <!--  设备状态显示区域  -->
+                    <!--  设备状态显示区域  -->
+                    <UC_Working:User_Control_Log  />
 
                 </Grid>
             </Grid>

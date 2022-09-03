@@ -5,37 +5,46 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             d:DesignHeight="436"
-             d:DesignWidth="675"
+             d:DesignHeight="500"
+             d:DesignWidth="600"
              DataContext="{Binding Source={StaticResource Locator}, Path=User_Log}"
              mc:Ignorable="d">
     <!--  设备状态显示区域  -->
     <Grid Grid.Row="1" Grid.Column="0"
-          Margin="5"
+      
           Effect="{Binding Source={StaticResource 全局背景阴影}}">
 
 
 
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
-            <RowDefinition Height="0.01*" />
             <RowDefinition />
         </Grid.RowDefinitions>
+        
+        
+        
         <Border Grid.RowSpan="3"
                 Background="{DynamicResource 全局_背景_白颜色}"
                 BorderBrush="Transparent"
-                CornerRadius="10" />
+                CornerRadius="5" />
 
-        <TextBlock Text="设 备 状 态"
-                   Margin="5"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Bottom"
-                   FontSize="20" />
+        <Border Grid.Row="0"
+                Margin="0" Width="150"  Opacity=" 0.6"
+                Background="{DynamicResource   全局_按钮_灰颜色}"
+                CornerRadius="6" HorizontalAlignment="Left" >
+           
+        </Border>
+        <StackPanel Orientation="Horizontal" Margin=" 10 0 0 0" Grid.Row="0" HorizontalAlignment="Left">
 
-        <Border Grid.Row="1"
-                Margin="25,0,25,0"
-                Background="{DynamicResource 全局_按钮_灰颜色}"
-                CornerRadius="1" />
+            <Image Height=" 22" Margin="  8 0 5 0" Source="/Resources/Control_设备日志_ioc.png" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+
+            <TextBlock Text="设备状态"   FontFamily="{DynamicResource   全局_文字_中文字体}"  UseLayoutRounding="True"
+                   Margin="3"   Foreground="{DynamicResource  全局_按钮_黑颜色}" TextOptions.TextFormattingMode="Display"
+                   FontSize="20" VerticalAlignment="Center" SnapsToDevicePixels="True" />
+        </StackPanel>
+
+
 
         <ScrollViewer x:Name="SV1" Grid.Row="2"
                       Margin="20,10,20,10"

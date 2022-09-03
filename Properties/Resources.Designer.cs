@@ -22,7 +22,7 @@ namespace HanGao.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace HanGao.Properties {
         ///   返回此类使用的缓存的 ResourceManager 实例。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("HanGao.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace HanGao.Properties {
         ///   使用此强类型资源类的所有资源查找执行重写。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,9 +61,69 @@ namespace HanGao.Properties {
         }
         
         /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Control_九点标定_ioc {
+            get {
+                object obj = ResourceManager.GetObject("Control_九点标定_ioc", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Control_创建模型_ioc {
+            get {
+                object obj = ResourceManager.GetObject("Control_创建模型_ioc", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Control_机器通讯_ioc {
+            get {
+                object obj = ResourceManager.GetObject("Control_机器通讯_ioc", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Control_相机设置_ioc {
+            get {
+                object obj = ResourceManager.GetObject("Control_相机设置_ioc", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Control_自动模式_ioc {
+            get {
+                object obj = ResourceManager.GetObject("Control_自动模式_ioc", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Control_设备日志_ioc {
+            get {
+                object obj = ResourceManager.GetObject("Control_设备日志_ioc", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查找 System.Byte[] 类型的本地化资源。
         /// </summary>
-        internal static byte[] iconfont {
+        public static byte[] iconfont {
             get {
                 object obj = ResourceManager.GetObject("iconfont", resourceCulture);
                 return ((byte[])(obj));
@@ -73,7 +133,17 @@ namespace HanGao.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap UC_开始页面状态_1 {
+        public static System.Drawing.Bitmap ListView_参数添加_ioc {
+            get {
+                object obj = ResourceManager.GetObject("ListView_参数添加_ioc", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap UC_开始页面状态_1 {
             get {
                 object obj = ResourceManager.GetObject("UC_开始页面状态_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -83,7 +153,7 @@ namespace HanGao.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap UC_开始页面状态_2 {
+        public static System.Drawing.Bitmap UC_开始页面状态_2 {
             get {
                 object obj = ResourceManager.GetObject("UC_开始页面状态_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -93,9 +163,49 @@ namespace HanGao.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap UC_开始页面状态_3 {
+        public static System.Drawing.Bitmap UC_开始页面状态_3 {
             get {
                 object obj = ResourceManager.GetObject("UC_开始页面状态_3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Vision_图像结果_ioc {
+            get {
+                object obj = ResourceManager.GetObject("Vision_图像结果_ioc", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Vision_图像自适应_ioc {
+            get {
+                object obj = ResourceManager.GetObject("Vision_图像自适应_ioc", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Vision_特征图像_ioc {
+            get {
+                object obj = ResourceManager.GetObject("Vision_特征图像_ioc", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Vision_相机视角_ioc {
+            get {
+                object obj = ResourceManager.GetObject("Vision_相机视角_ioc", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

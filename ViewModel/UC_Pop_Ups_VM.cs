@@ -143,7 +143,7 @@ namespace HanGao.ViewModel
 
 
                 //关闭弹窗
-                Messenger.Send<UserControl, string>(null, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
+                Messenger.Send<UserControl, string>(new UserControl(), nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
                 //把参数类型转换控件
                 //FrameworkElement e = Sm.Source as FrameworkElement;
 
@@ -279,7 +279,7 @@ namespace HanGao.ViewModel
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
 
-                Messenger.Send<UserControl,string >(null, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
+                Messenger.Send<UserControl,string >(new UserControl(), nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
 
 
 

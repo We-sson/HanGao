@@ -80,7 +80,7 @@ namespace HanGao.ViewModel
                 XML_Write_Read.Save_Xml();
 
    //关闭弹窗
-                Messenger.Send<UserControl, string>(null, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
+                Messenger.Send<UserControl, string>(new UserControl(), nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
 
 
 
@@ -103,7 +103,7 @@ namespace HanGao.ViewModel
 
                 //转换用户选择的水槽选项
                 //Sink_Models M = e.DataContext as Sink_Models;
-                Messenger.Send<UserControl, string>(null, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
+                Messenger.Send<UserControl, string>(new UserControl(), nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
 
 
 

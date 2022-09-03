@@ -14,10 +14,10 @@
         Title="MainWindow"
         MinWidth="1440"
         MinHeight="900"
-        Padding="0"
+       
         d:DesignHeight="900"
         d:DesignWidth="1440"
-        AllowsTransparency="False"
+        AllowsTransparency="True" 
         Background="Gray"
         Topmost="False"
         WindowStartupLocation="CenterScreen"
@@ -50,7 +50,7 @@
 
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="65" />
+            <RowDefinition Height="60" />
             <RowDefinition Height="3" />
             <RowDefinition />
         </Grid.RowDefinitions>

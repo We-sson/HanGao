@@ -118,8 +118,29 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Control_九点标定_ioc" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Control_九点标定_ioc.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Control_创建模型_ioc" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Control_创建模型_ioc.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Control_机器通讯_ioc" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Control_机器通讯_ioc.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Control_相机设置_ioc" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Control_相机设置_ioc.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Control_自动模式_ioc" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Control_自动模式_ioc.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Control_设备日志_ioc" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Control_设备日志_ioc.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="iconfont" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\iconfont.ttf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ListView_参数添加_ioc" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ListView_参数添加_ioc.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="UC_开始页面状态_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\UC_开始页面状态_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -129,5 +150,17 @@
   </data>
   <data name="UC_开始页面状态_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\UC_开始页面状态_3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Vision_图像结果_ioc" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Vision_图像结果_ioc.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Vision_图像自适应_ioc" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Vision_图像自适应_ioc.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Vision_特征图像_ioc" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Vision_特征图像_ioc.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Vision_相机视角_ioc" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Vision_相机视角_ioc.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

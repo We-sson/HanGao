@@ -101,7 +101,7 @@ namespace HanGao.ViewModel
             List_Show_Models.GetUser_Select(bool.Parse(e.Uid));
 
             //清空弹窗显示
-             Messenger.Send<UserControl,string >(null,nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
+             Messenger.Send<UserControl,string >(new UserControl(), nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
 
 
             //记录用户选择的是或否
