@@ -113,7 +113,7 @@
                         <!--窗口蒙版-->
                         <Border x:Name="Mask"  CornerRadius="0 0 5 5 "   Background="White"/>
 
-                        
+
                         <!--相机图像-->
                         <Halcon:HSmartWindowControlWPF   x:Name="Live_Window"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SnapsToDevicePixels="True"  >
                             <Halcon:HSmartWindowControlWPF.OpacityMask>
@@ -211,7 +211,7 @@
                         </Grid.RowDefinitions>
 
 
-              
+
 
 
                         <!--Halcon 控件-->
@@ -236,7 +236,7 @@
                             </Halcon:HSmartWindowControlWPF.OpacityMask>
                         </Halcon:HSmartWindowControlWPF>
 
-<!--图像坐标信息-->
+                        <!--图像坐标信息-->
                         <Grid  Grid.Column=" 0" Grid.Row=" 0" VerticalAlignment="Bottom">
 
                             <Grid.ColumnDefinitions>
@@ -246,7 +246,7 @@
                             <Border Background="{DynamicResource  全局_按钮_黑颜色}"    Grid.Column=" 0" Opacity=" 0.8"/>
                             <Border Background="{DynamicResource  全局_按钮_绿颜色}"     Grid.Column=" 1"  Opacity=" 0.5"/>
                             <StackPanel Orientation="Horizontal" Grid.Column=" 0" HorizontalAlignment="Left" Margin=" 5">
-                                <TextBlock Text="图像 X：1356 Y：2853 (像素) | "  Foreground="{DynamicResource  全局_按钮_白颜色}" FontFamily="{DynamicResource    全局_文字_数字字体}" FontSize="11" VerticalAlignment="Center"/>
+                                <TextBlock Text="图像 X：1356 Y：2853 (像素) | "  Foreground="{DynamicResource  全局_按钮_白颜色}" FontFamily="{DynamicResource        全局_文字_英文字体}" FontSize="11" VerticalAlignment="Center"/>
                                 <TextBlock Text="机器 X：32.23 Y：-751.333 (mm)" Foreground="{DynamicResource  全局_按钮_白颜色}" FontFamily="{DynamicResource 全局_文字_数字字体}" FontSize="11" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Grid.Column=" 1" HorizontalAlignment="Center" Margin=" 5">
@@ -254,7 +254,7 @@
                                 <TextBlock Text="  结果：PASS" Foreground="{DynamicResource  全局_按钮_白颜色}" FontFamily="{DynamicResource 全局_文字_数字字体}" FontSize="11" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Grid>
-                        
+
                         <Grid  Grid.Column=" 2" Grid.Row=" 0" VerticalAlignment="Bottom">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
@@ -309,7 +309,7 @@
                         <Border Grid.Column=" 1" Grid.Row=" 0" Grid.RowSpan=" 3" Width="2"    Background="{DynamicResource 全局_背景_白颜色}"/>
                         <Border Grid.Column=" 0" Grid.Row=" 1" Grid.ColumnSpan=" 3"  Height=" 2"  Background="{DynamicResource 全局_背景_白颜色}"/>
 
-           
+
 
                     </Grid>
 
@@ -346,15 +346,15 @@
                             <ListBoxItem HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Width="50" Height=" 50" Padding=" 0"  BorderThickness=" 0" Margin=" 4"    >
                                 <Button Style="{DynamicResource Halcon_Window_Button}"   Content="7"  FontSize=" 24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                             </ListBoxItem>
-                            
+
                         </ListBox>
-            
+
 
 
 
                     </StackPanel>
-                    
-                    
+
+
                 </Grid>
 
             </Grid>
@@ -377,9 +377,9 @@
                                 Height=" 35">
                             <StackPanel Margin=" 0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Image Height=" 24" Margin="  5 0 10 0" Source="/Resources/Control_相机设置_ioc.png" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                <TextBlock FontSize="16"  FontFamily="{DynamicResource 全局_文字_数字字体}" Text="相机设置" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <TextBlock FontSize="16"  FontFamily="{DynamicResource  全局_文字_中文字体}" Text="相机设置" HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </StackPanel>
-                                
+
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
                                     <i:InvokeCommandAction Command="{Binding User_Comm}"
@@ -392,26 +392,26 @@
                         <Button  Style="{DynamicResource Halcon_Window_Button}" Margin=" 2"
                                 Width=" 120"
                                 Height=" 35">
-                        <StackPanel Margin=" 0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Image Height=" 24" Margin="  5 0 10 0" Source="/Resources/Control_九点标定_ioc.png" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                <TextBlock FontSize="16"  FontFamily="{DynamicResource 全局_文字_数字字体}" Text="九点标定" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </StackPanel>
+                            <StackPanel Margin=" 0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Image Height=" 24" Margin="  5 0 10 0" Source="/Resources/Control_九点标定_ioc.png" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <TextBlock FontSize="16"  FontFamily="{DynamicResource  全局_文字_中文字体}" Text="九点标定" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </StackPanel>
 
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction Command="{Binding User_Comm}"
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding User_Comm}"
                                                            CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Vision}}}"
                                                            PassEventArgsToCommand="True" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </Button>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
 
                         <Button  Style="{DynamicResource Halcon_Window_Button}" Margin=" 2"
                                 Width=" 120"
                                 Height=" 35">
                             <StackPanel Margin=" 0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Image Height=" 24" Margin="  5 0 10 0" Source="/Resources/Control_创建模型_ioc.png" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                <TextBlock FontSize="16"  FontFamily="{DynamicResource 全局_文字_数字字体}" Text="创建模型" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <TextBlock FontSize="16"  FontFamily="{DynamicResource  全局_文字_中文字体 }" Text="创建模型" HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </StackPanel>
 
                             <i:Interaction.Triggers>
@@ -428,7 +428,7 @@
                                 Height=" 35">
                             <StackPanel Margin=" 0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Image Height=" 24" Margin="  5 0 10 0" Source="/Resources/Control_机器通讯_ioc.png" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                <TextBlock FontSize="16"  FontFamily="{DynamicResource 全局_文字_数字字体}" Text="机器通讯" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <TextBlock FontSize="16"  FontFamily="{DynamicResource  全局_文字_中文字体}" Text="机器通讯" HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </StackPanel>
 
                             <i:Interaction.Triggers>
@@ -473,6 +473,76 @@
 
         </Grid>
 
+
+        <Grid Grid.Column=" 1"    >
+
+       
+ 
+            <StackPanel Orientation="Vertical" Grid.Row=" 0" >
+
+                <RadioButton x:Name="radioButton"  Margin=" 10" Background="{DynamicResource 全局_背景_蓝颜色}"   Style="{DynamicResource Halcon_Window_RadioButton_Style}">
+                    <RadioButton.Content>
+                        <StackPanel Margin=" 10" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Image Height=" 24" Margin="  5 0 10 0" Source="/Resources/Control_九点标定_ioc.png" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <TextBlock FontSize="16"  FontFamily="{DynamicResource   全局_文字_数字字体}" Text="Camera 九点标定" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </RadioButton.Content>
+                </RadioButton>
+                <Expander Style="{DynamicResource Vision_Fence_Expander_Style}" Header=""  ExpandDirection="Down" IsExpanded="{Binding IsChecked, ElementName=radioButton}">
+                    <Grid>
+                                            <Border   CornerRadius=" 0 0 5 5" Background="{DynamicResource 全局_背景_白颜色}" Effect="{DynamicResource 全局背景阴影 }" Margin="0"/>
+                        <StackPanel Orientation="Vertical">
+                            <Button Content=" 1111"   Margin=" 10"/>
+                            <Button Content=" 1111" Margin=" 10"/>
+                            <Button Content=" 1111" Margin=" 10"/>
+                            <Button Content=" 1111" Margin=" 10"/>
+                            <Button Content=" 1111" Margin=" 10"/>
+                            <Button Content=" 1111" Margin=" 10" />
+                            <Button Content=" 1111" Margin=" 10" />
+                            <Button Content=" 1111" Margin=" 10" />
+                            <Button Content=" 1111"   Margin=" 10"/>
+                            <Button Content=" 1111" Margin=" 10"/>
+                            <Button Content=" 1111" Margin=" 10"/>
+                            <Button Content=" 1111" Margin=" 10"/>
+                            <Button Content=" 1111" Margin=" 10"/>
+                            <Button Content=" 1111" Margin=" 10" />
+                            <Button Content=" 1111" Margin=" 10" />
+                            <Button Content=" 1111" Margin=" 10" />
+        
+                        </StackPanel>
+                                               
+                    </Grid>
+                </Expander>
+                <RadioButton x:Name="radioButton1" Margin=" 10"  Background="{DynamicResource 全局_背景_蓝颜色}"   Style="{DynamicResource Halcon_Window_RadioButton_Style}">
+                    <RadioButton.Content>
+                        <StackPanel Margin=" 10" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Image Height=" 24" Margin="  5 0 10 0" Source="/Resources/Control_九点标定_ioc.png" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <TextBlock FontSize="16"  FontFamily="{DynamicResource   全局_文字_数字字体}" Text="Camera 九点标定" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </RadioButton.Content>
+                </RadioButton>
+                <Expander Style="{DynamicResource Vision_Fence_Expander_Style}" Header=""  ExpandDirection="Down" IsExpanded="{Binding IsChecked, ElementName=radioButton1}">
+                    <Grid>
+                        <Border   CornerRadius=" 0 0 5 5" Background="{DynamicResource 全局_背景_白颜色}" Effect="{DynamicResource 全局背景阴影 }" Margin="0"/>
+                        <StackPanel Orientation="Vertical">
+                            <Button Content=" 1111"   Margin=" 10"/>
+                            <Button Content=" 1111" Margin=" 10"/>
+                            <Button Content=" 1111" Margin=" 10"/>
+                            <Button Content=" 1111" Margin=" 10"/>
+                            <Button Content=" 1111" Margin=" 10"/>
+                            <Button Content=" 1111" Margin=" 10" />
+                            <Button Content=" 1111" Margin=" 10" />
+                            <Button Content=" 1111" Margin=" 10" />
+                        </StackPanel>
+
+                    </Grid>
+                </Expander>
+
+            </StackPanel>
+
+
+
+        </Grid>
 
     </Grid>
 </UserControl>

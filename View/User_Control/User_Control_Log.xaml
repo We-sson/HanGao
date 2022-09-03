@@ -12,7 +12,7 @@
     <!--  设备状态显示区域  -->
     <Grid Grid.Row="1" Grid.Column="0"
       
-          Effect="{Binding Source={StaticResource 全局背景阴影}}">
+        >
 
 
 
@@ -23,18 +23,18 @@
         
         
         
-        <Border Grid.RowSpan="3"
+        <Border Grid.RowSpan="3" Effect="{DynamicResource 全局背景阴影}"
                 Background="{DynamicResource 全局_背景_白颜色}"
                 BorderBrush="Transparent"
                 CornerRadius="5" />
 
-        <Border Grid.Row="0"
+        <Border Grid.Row="0" Effect="{DynamicResource 全局背景阴影}"
                 Margin="0" Width="150"  Opacity=" 0.6"
                 Background="{DynamicResource   全局_按钮_灰颜色}"
                 CornerRadius="6" HorizontalAlignment="Left" >
            
         </Border>
-        <StackPanel Orientation="Horizontal" Margin=" 10 0 0 0" Grid.Row="0" HorizontalAlignment="Left">
+        <StackPanel Orientation="Horizontal" Margin=" 10 2 0 2" Grid.Row="0" HorizontalAlignment="Left">
 
             <Image Height=" 22" Margin="  8 0 5 0" Source="/Resources/Control_设备日志_ioc.png" HorizontalAlignment="Center" VerticalAlignment="Center" />
 
