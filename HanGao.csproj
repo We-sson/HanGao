@@ -611,6 +611,7 @@
     <Folder Include="DataStore\DataStore\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\Vision_下拉选择_ioc.png" />
     <Resource Include="Resources\Vision_图像自适应_ioc.png" />
     <Resource Include="Resources\Vision_特征图像_ioc.png" />
     <Resource Include="Resources\Vision_相机视角_ioc.png" />

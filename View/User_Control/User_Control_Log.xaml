@@ -46,12 +46,12 @@
 
 
 
-        <ScrollViewer x:Name="SV1" Grid.Row="2"
+        <ScrollViewer x:Name="SV1" Grid.Row="2" Style="{DynamicResource Vision_Data_List_ScrollViewerStyle}"
                       Margin="20,10,20,10"
                       CanContentScroll="True"
                       ScrollViewer.HorizontalScrollBarVisibility="Auto"
                       ScrollViewer.VerticalScrollBarVisibility="Auto"
-                      Template="{StaticResource ScrollViewerControlTemplate1}"
+                    
                       VirtualizingPanel.IsVirtualizing="True"
                       VirtualizingPanel.ScrollUnit="Item"
                       VirtualizingPanel.VirtualizationMode="Recycling">
