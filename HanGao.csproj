@@ -204,6 +204,7 @@
     <Compile Include="ViewModel\UC_Surround_Direction_VM.cs" />
     <Compile Include="ViewModel\UC_Surround_Point_VM.cs" />
     <Compile Include="ViewModel\UC_Visal_Function_VM.cs" />
+    <Compile Include="ViewModel\UC_Vision_Point_Calibration_ViewModel.cs" />
     <Compile Include="ViewModel\UserControl_Sideber_Show_ViewModel.cs" />
     <Compile Include="ViewModel\UserControl_Socket_Setup_ViewModel.cs" />
     <Compile Include="ViewModel\UserControl_Socket_Var_Show_ViewModel.cs" />
@@ -299,6 +300,12 @@
     <Compile Include="View\User_Control\User_Control_Working_Path.xaml.cs">
       <DependentUpon>User_Control_Working_Path.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\User_Control\Vision_Control\UC_Vision_Point_Calibration.xaml.cs">
+      <DependentUpon>UC_Vision_Point_Calibration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\User_Control\Vision_Control\UC_Vision_CameraSet.xaml.cs">
+      <DependentUpon>UC_Vision_CameraSet.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Xml_Date\Xml_Models\Xml_Model.cs" />
     <Compile Include="Xml_Date\Xml_WriteRead\XML_Write_Read.cs" />
     <Page Include="View\Style\Button_message.xaml">
@@ -372,8 +379,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Style\Visual_From_Styles.xaml">
+    <Page Include="View\Style\Vision_From2_Style.xaml">
+      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Style\Vision_From_Styles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Style\Window_Button.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -494,6 +506,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\User_Control\Vision_Control\UC_Vision_Point_Calibration.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\User_Control\Vision_Control\UC_Vision_CameraSet.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Vision_Control\Vision_UserControl_Style.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -611,6 +631,8 @@
     <Folder Include="DataStore\DataStore\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\Vision_标定板例图_ioc.png" />
+    <Resource Include="Resources\Vision_文件夹_ioc.png" />
     <Resource Include="Resources\Vision_下拉选择_ioc.png" />
     <Resource Include="Resources\Vision_图像自适应_ioc.png" />
     <Resource Include="Resources\Vision_特征图像_ioc.png" />

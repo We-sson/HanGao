@@ -203,6 +203,26 @@ namespace HanGao.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        public static System.Drawing.Bitmap Vision_文件夹_ioc {
+            get {
+                object obj = ResourceManager.GetObject("Vision_文件夹_ioc", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Vision_标定板例图_ioc {
+            get {
+                object obj = ResourceManager.GetObject("Vision_标定板例图_ioc", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         public static System.Drawing.Bitmap Vision_特征图像_ioc {
             get {
                 object obj = ResourceManager.GetObject("Vision_特征图像_ioc", resourceCulture);

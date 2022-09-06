@@ -24,7 +24,7 @@
                 <ResourceDictionary Source="View\Style\Grid_function_Style.xaml" />
                 <ResourceDictionary Source="View\Style\Button_message.xaml" />
                 <ResourceDictionary Source="View\Style\Window_Button.xaml" />
-                <ResourceDictionary Source="View\Style\Visual_From_Styles.xaml" />
+                <ResourceDictionary Source="View\Style\Vision_From_Styles.xaml" />
                 <ResourceDictionary Source="View\Style\Right_Function_Button.xaml" />
                 <ResourceDictionary Source="View\Style\Button_List.xaml" />
                 <ResourceDictionary Source="View\Style\ScrollViewer_List.xaml" />
@@ -37,8 +37,9 @@
                 <ResourceDictionary Source="View\User_Control\Program_Editing\Point_info\UC_Point_Style.xaml" />
                 <ResourceDictionary Source="View\Vision_Control\Vision_UserControl_Style.xaml" />
                 <ResourceDictionary Source="View\Style\Global_Color_Style.xaml" />
+                <ResourceDictionary Source="View\Style\Vision_From2_Style.xaml" />
 
-                
+
 
 
 

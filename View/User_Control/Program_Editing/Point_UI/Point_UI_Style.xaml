@@ -138,8 +138,8 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="FontSize" Value="20" />
-        <Setter Property="Height" Value="50" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Height" Value="auto" />
         <Setter Property="FontWeight" Value="Heavy" />
         <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_黑颜色}" />
         <Setter Property="Template">

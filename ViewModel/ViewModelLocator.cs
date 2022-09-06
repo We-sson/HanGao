@@ -62,6 +62,7 @@ namespace HanGao.ViewModelLocator
                     .AddScoped<UC_Short_Side_VM>()
                     .AddScoped<UC_Start_State_From_VM>()
                     .AddScoped<UC_Visal_Function_VM>()
+                    .AddScoped<UC_Vision_Point_Calibration_ViewModel>()
                     
                     .BuildServiceProvider());
 
@@ -97,10 +98,11 @@ namespace HanGao.ViewModelLocator
         public UC_Short_Side_VM UC_Short_Side_VM => Ioc.Default.GetService<UC_Short_Side_VM>();
         public UC_Start_State_From_VM UC_Start_State_From_VM => Ioc.Default.GetService<UC_Start_State_From_VM>();
         public UC_Visal_Function_VM UC_Visal_Function_VM => Ioc.Default.GetService<UC_Visal_Function_VM>();
+        public UC_Vision_Point_Calibration_ViewModel UC_Vision_Point_Calibration_ViewModel => Ioc.Default.GetService<UC_Vision_Point_Calibration_ViewModel>();
+
+
 
         
-
-
 
 
 

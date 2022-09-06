@@ -41,7 +41,16 @@
 
 
 
-                <DataGridTemplateColumn Width="80" Header="No">
+                <DataGridTemplateColumn Width="80">
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="No"
+                                   Margin="8,0,8,8"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                   FontSize="26"
+                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                    </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding NO}"
@@ -53,7 +62,16 @@
 
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Header="Name">
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="Name"
+                                   Margin="8,0,8,8"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                   FontSize="26"
+                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                    </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Welding_Name}"
@@ -65,7 +83,16 @@
                 </DataGridTemplateColumn>
 
 
-                <DataGridTemplateColumn Header="Offset.X">
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="Offset.X"
+                                   Margin="8,0,8,8"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                   FontSize="26"
+                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                    </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Welding_Offset.X, StringFormat={}{0:F3}}"
@@ -76,7 +103,16 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Header="Offset.Y">
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="Offset.Y"
+                                   Margin="8,0,8,8"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                   FontSize="26"
+                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                    </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Welding_Offset.Y, StringFormat={}{0:F3}}"
@@ -88,7 +124,16 @@
                 </DataGridTemplateColumn>
 
 
-                <DataGridTemplateColumn Header="Offset.Z">
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="Offset.Z"
+                                   Margin="8,0,8,8"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                   FontSize="26"
+                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                    </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Welding_Offset.Z, StringFormat={}{0:F3}}"
