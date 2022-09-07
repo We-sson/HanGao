@@ -666,7 +666,7 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             SnapsToDevicePixels="true">
                         <Border x:Name="splitBorder"
-                                Width="25"
+                                Width="30"
                                 Margin="0"
                                 HorizontalAlignment="Right"
                                 BorderBrush="Transparent"
@@ -965,7 +965,7 @@
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-        <Setter Property="Padding" Value="5,3,5,3" />
+        <Setter Property="Padding" Value="5,0,5,0" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
         <Setter Property="ScrollViewer.PanningMode" Value="Both" />
         <Setter Property="Stylus.IsFlicksEnabled" Value="False" />

@@ -35,30 +35,29 @@ namespace HanGao.ViewModel
         /// </summary>
         public ICommand Socket_Send_Comm
         {
-            get => new RelayCommand<UserControl_Socket_Write>(async (Sm)=> 
+            get => new RelayCommand<UserControl_Socket_Write>((Sm) =>
             {
 
-                //把参数类型转换控件
-                //UIElement e = Sm.Source as UIElement;
+            //把参数类型转换控件
+            //UIElement e = Sm.Source as UIElement;
 
 
 
+            Socket_Client_Setup.Write.Cycle_Write_Send(Sm.Send_Name.Text, Sm.Send_Val.Text);
 
 
+                //await Task.Run(() =>
+                //{
 
-                await Task.Run(() =>
-                {
 
-                    for (int i = 0; i < 500; i++)
-                    {
-                                  new Thread(() => Socket_Client_Setup.Write.Cycle_Write_Send(Sm.Send_Name.Text, Sm.Send_Val.Text)) { Name = "Cycle_Write—KUKA", IsBackground = true }.Start();
+                                  //new Thread(() => Socket_Client_Setup.Write.Cycle_Write_Send(Sm.Send_Name.Text, Sm.Send_Val.Text)) { Name = "Cycle_Write—KUKA", IsBackground = true }.Start();
 
           
 
                       
-                    }
+                    
 
-                });
+                //});
 
             });
         }

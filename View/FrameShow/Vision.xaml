@@ -185,7 +185,7 @@
 
                         <!--  窗口蒙版  -->
                         <Border x:Name="Mask"
-                                Background="White"
+                                Background="{DynamicResource 全局_按钮_黑颜色}"
                                 CornerRadius="0 0 5 5 " />
 
 
@@ -264,6 +264,7 @@
 
                         <!--  特征窗口  -->
 
+                        <Border Background="{DynamicResource 全局_按钮_黑颜色}" />
 
                         <Halcon:HSmartWindowControlWPF x:Name="Features_Window"
                                                        HorizontalAlignment="Stretch"
@@ -295,6 +296,11 @@
                             <RowDefinition />
                         </Grid.RowDefinitions>
 
+
+                        <Border Grid.Row=" 0" Grid.Column=" 0"
+                                Grid.RowSpan=" 3"
+                                Grid.ColumnSpan=" 3"
+                                Background="{DynamicResource 全局_按钮_黑颜色}" />
 
 
 

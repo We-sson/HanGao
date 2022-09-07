@@ -63,6 +63,7 @@ namespace HanGao.ViewModelLocator
                     .AddScoped<UC_Start_State_From_VM>()
                     .AddScoped<UC_Visal_Function_VM>()
                     .AddScoped<UC_Vision_Point_Calibration_ViewModel>()
+                    .AddScoped<UC_Vision_Create_Template_ViewMode>()
                     
                     .BuildServiceProvider());
 
@@ -99,6 +100,7 @@ namespace HanGao.ViewModelLocator
         public UC_Start_State_From_VM UC_Start_State_From_VM => Ioc.Default.GetService<UC_Start_State_From_VM>();
         public UC_Visal_Function_VM UC_Visal_Function_VM => Ioc.Default.GetService<UC_Visal_Function_VM>();
         public UC_Vision_Point_Calibration_ViewModel UC_Vision_Point_Calibration_ViewModel => Ioc.Default.GetService<UC_Vision_Point_Calibration_ViewModel>();
+        public UC_Vision_Create_Template_ViewMode UC_Vision_Create_Template_ViewMode => Ioc.Default.GetService<UC_Vision_Create_Template_ViewMode>();
 
 
 

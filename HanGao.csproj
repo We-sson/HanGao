@@ -204,6 +204,7 @@
     <Compile Include="ViewModel\UC_Surround_Direction_VM.cs" />
     <Compile Include="ViewModel\UC_Surround_Point_VM.cs" />
     <Compile Include="ViewModel\UC_Visal_Function_VM.cs" />
+    <Compile Include="ViewModel\UC_Vision_Create_Template_ViewMode.cs" />
     <Compile Include="ViewModel\UC_Vision_Point_Calibration_ViewModel.cs" />
     <Compile Include="ViewModel\UserControl_Sideber_Show_ViewModel.cs" />
     <Compile Include="ViewModel\UserControl_Socket_Setup_ViewModel.cs" />
@@ -299,6 +300,9 @@
     </Compile>
     <Compile Include="View\User_Control\User_Control_Working_Path.xaml.cs">
       <DependentUpon>User_Control_Working_Path.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\User_Control\Vision_Control\UC_Vision_Create_Template.xaml.cs">
+      <DependentUpon>UC_Vision_Create_Template.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\User_Control\Vision_Control\UC_Vision_Point_Calibration.xaml.cs">
       <DependentUpon>UC_Vision_Point_Calibration.xaml</DependentUpon>
@@ -505,6 +509,10 @@
     <Page Include="View\Style\Ver_ScrollBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\User_Control\Vision_Control\UC_Vision_Create_Template.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\User_Control\Vision_Control\UC_Vision_Point_Calibration.xaml">
       <Generator>MSBuild:Compile</Generator>

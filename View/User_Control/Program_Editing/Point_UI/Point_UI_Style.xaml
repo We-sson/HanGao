@@ -166,7 +166,7 @@
                         <Thumb Style="{DynamicResource ColumnHeaderGripperStyle}" x:Name="PART_RightHeaderGripper"
                                HorizontalAlignment="Right" />
                         <Border x:Name="B"
-                                Height="3"
+                                Height="2"
                                 Margin="0,0,0,0"
                                 VerticalAlignment="Bottom"
                                 Background="{DynamicResource 全局_按钮_蓝颜色}" />
