@@ -39,7 +39,15 @@ namespace HanGao.ViewModel
                          new Vision_Create_Model_Drawing_Data_Model()
                          {
                               X=123, Y=456
-                         }
+                         },
+                         new Vision_Create_Model_Drawing_Data_Model()
+                         {
+                              X=123, Y=456
+                         },
+                         new Vision_Create_Model_Drawing_Data_Model()
+                         {
+                              X=123, Y=456
+                         },
                      }
                 },
                  new Vision_Create_Model_Drawing_Model()
@@ -51,7 +59,15 @@ namespace HanGao.ViewModel
                          new Vision_Create_Model_Drawing_Data_Model()
                          {
                               X=123, Y=456
-                         }
+                         },
+                         new Vision_Create_Model_Drawing_Data_Model()
+                         {
+                              X=123, Y=456
+                         },
+                         new Vision_Create_Model_Drawing_Data_Model()
+                         {
+                              X=123, Y=456
+                         },
                      }
                 },
                 new Vision_Create_Model_Drawing_Model()
@@ -62,8 +78,28 @@ namespace HanGao.ViewModel
                      {
                          new Vision_Create_Model_Drawing_Data_Model()
                          {
+                              X=1123, Y=456
+                         },
+                         new Vision_Create_Model_Drawing_Data_Model()
+                         {
                               X=123, Y=456
-                         }
+                         },
+                         new Vision_Create_Model_Drawing_Data_Model()
+                         {
+                              X=123, Y=4561
+                         },
+                         new Vision_Create_Model_Drawing_Data_Model()
+                         {
+                              X=123, Y=456
+                         },
+                         new Vision_Create_Model_Drawing_Data_Model()
+                         {
+                              X=123, Y=4561
+                         },
+                         new Vision_Create_Model_Drawing_Data_Model()
+                         {
+                              X=1213, Y=456
+                         },
                      }
                 },
                 new Vision_Create_Model_Drawing_Model()

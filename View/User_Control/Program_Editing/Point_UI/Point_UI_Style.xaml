@@ -94,7 +94,7 @@
     <Style x:Key="Point_DataGridCellStyle" TargetType="{x:Type DataGridCell}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="Foreground" Value="Gray" />
+        <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_黑颜色}" />
         <Setter Property="BorderThickness" Value="0,0,0,0" />
         <Setter Property="Template">
             <Setter.Value>
@@ -110,7 +110,7 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="#d8e0ea" />
+                <!--<Setter Property="Background" Value="{DynamicResource 全局_背景_白颜色}" />-->
                 <Setter Property="Foreground" Value="{DynamicResource 全局_背景_蓝颜色}" />
             </Trigger>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">

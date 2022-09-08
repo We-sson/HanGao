@@ -183,6 +183,16 @@ namespace HanGao.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        public static System.Drawing.Bitmap Vision_删除_ioc {
+            get {
+                object obj = ResourceManager.GetObject("Vision_删除_ioc", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         public static System.Drawing.Bitmap Vision_图像结果_ioc {
             get {
                 object obj = ResourceManager.GetObject("Vision_图像结果_ioc", resourceCulture);

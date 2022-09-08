@@ -94,8 +94,7 @@ namespace HanGao.ViewModel
 
 
 
-        public ObservableCollection<Calibration_Results_Model> Calibration_Results_List { set; get; }
-
+        public ObservableCollection<Calibration_Results_Model> Calibration_Results_List { set; get; } = new ObservableCollection<Calibration_Results_Model>() { };
 
 
 

@@ -4,7 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HanGao.View.User_Control.Vision_Control"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             d:DesignHeight="817"
+             d:DesignHeight="1517"
              d:DesignWidth="332"
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_Create_Template_ViewMode}"
              mc:Ignorable="d">
@@ -236,21 +236,23 @@
                                           CanUserReorderColumns="False"
                                           CanUserResizeColumns="False"
                                           CanUserResizeRows="False"
+                                          CellStyle="{DynamicResource Point_DataGridCellStyle}"
                                           ClipboardCopyMode="None"
                                           ColumnHeaderStyle="{DynamicResource Point_DataGridColumnHeaderStyle}"
                                           EnableColumnVirtualization="True"
                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
                                           Grid.IsSharedSizeScope="True"
-                                          GridLinesVisibility="Horizontal"
+                                          GridLinesVisibility="None"
                                           HeadersVisibility="Column"
+                                          HorizontalGridLinesBrush="{DynamicResource 全局_按钮_黑颜色}"
                                           HorizontalScrollBarVisibility="Disabled"
                                           IsReadOnly="True"
-                                          ItemsSource="{Binding Drawing_Data_List, Mode=TwoWay}"
+                                          ItemsSource="{Binding Drawing_Data_List}"
                                           OverridesDefaultStyle="True"
                                           RowBackground="Transparent"
-                                          RowHeight="38"
+                                          RowStyle="{DynamicResource Point_DataGridRowStyle}"
                                           ScrollViewer.CanContentScroll="True"
-                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
                                           ScrollViewer.VerticalScrollBarVisibility="Disabled"
                                           SelectionMode="Single"
                                           SelectionUnit="Cell">
@@ -260,14 +262,14 @@
 
 
 
-                                        <DataGridTemplateColumn Width="50">
+                                        <DataGridTemplateColumn Width="40">
                                             <DataGridTemplateColumn.Header>
                                                 <TextBlock Text="图号"
-                                                           Margin="8,0,8,8"
+                                                           Margin="0,0,0,8"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                           FontSize="16"
+                                                           FontSize="14"
                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                             </DataGridTemplateColumn.Header>
                                             <DataGridTemplateColumn.CellTemplate>
@@ -282,52 +284,176 @@
 
                                         </DataGridTemplateColumn>
 
-                                        <DataGridTemplateColumn Width="*"
-                                                                MinWidth="50"
-                                                                CanUserResize="False">
+                                        <DataGridTemplateColumn Width="40">
                                             <DataGridTemplateColumn.Header>
-                                                <TextBlock Text="X"
-                                                           Margin="8,0,8,8"
+                                                <TextBlock Text="类型"
+                                                           Margin="0,0,0,8"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                           FontSize="16"
+                                                           FontSize="14"
                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                             </DataGridTemplateColumn.Header>
                                             <DataGridTemplateColumn.CellTemplate>
-
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding X}"
+                                                    <TextBlock Text="{Binding Drawing_Type}"
                                                                Margin="4"
                                                                HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
-                                                               FontSize="20" />
+                                                               FontSize="16" />
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
+
                                         </DataGridTemplateColumn>
 
-
-                                        <DataGridTemplateColumn Width="*"
-                                                                MinWidth="50"
-                                                                CanUserResize="False">
+                                        <DataGridTemplateColumn Width="50">
                                             <DataGridTemplateColumn.Header>
-                                                <TextBlock Text="Y"
-                                                           Margin="8,0,8,8"
+
+
+
+                                                <TextBlock Text="方向"
+                                                           Margin="0,0,0,8"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                           FontSize="16"
+                                                           FontSize="14"
                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                             </DataGridTemplateColumn.Header>
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding Y, StringFormat={}{0:F3}}"
-                                                               HorizontalAlignment="Center"
-                                                               VerticalAlignment="Center"
-                                                               FontSize="20" />
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition />
+                                                            <RowDefinition />
+                                                        </Grid.RowDefinitions>
+
+
+                                                        <TextBlock Grid.Row=" 0"
+                                                                   Text="X"
+                                                                   Margin="0"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontSize="16" />
+                                                        <TextBlock Grid.Row=" 1"
+                                                                   Text="Y"
+                                                                   Margin="0"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontSize="16" />
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Width="auto">
+                                            <DataGridTemplateColumn.Header>
+
+
+
+                                                <TextBlock Text="操作"
+                                                           Margin="0,0,0,8"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                           FontSize="14"
+                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            </DataGridTemplateColumn.Header>
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid Margin="5,0,5,0">
+
+
+                                                        <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                                                HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center"
+                                                                Background="{DynamicResource 全局_按钮_灰颜色}">
+                                                            <Image Height=" 24"
+                                                                   Margin="5"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   Source="/Resources/Vision_删除_ioc.png" />
+                                                        </Button>
+
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+
+                                        </DataGridTemplateColumn>
+
+                                        <DataGridTemplateColumn Width="auto"
+                                                                MinWidth="50"
+                                                                CanUserResize="False">
+                                            <DataGridTemplateColumn.Header>
+                                                <TextBlock Text="数据"
+                                                           Margin="8,0,8,8"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                           FontSize="14"
+                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            </DataGridTemplateColumn.Header>
+                                            <DataGridTemplateColumn.CellTemplate>
+
+                                                <DataTemplate>
+                                                    <Grid HorizontalAlignment="Left"
+                                                          VerticalAlignment="Center"
+                                                          ShowGridLines="True">
+
+
+                                                        <ListView Padding="0"
+                                                                  HorizontalAlignment="Stretch"
+                                                                  VerticalAlignment="Stretch"
+                                                                  HorizontalContentAlignment="Stretch"
+                                                                  VerticalContentAlignment="Stretch"
+                                                                  Background="Transparent"
+                                                                  BorderBrush="Transparent"
+                                                                  BorderThickness="0"
+                                                                  ItemsSource="{Binding Drawing_Data}"
+                                                                  ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                                                  ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                                                            <ListView.ItemsPanel>
+                                                                <ItemsPanelTemplate>
+                                                                    <WrapPanel />
+                                                                </ItemsPanelTemplate>
+                                                            </ListView.ItemsPanel>
+
+
+                                                            <ListView.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <Grid>
+                                                                        <Grid.RowDefinitions>
+                                                                            <RowDefinition />
+                                                                            <RowDefinition />
+                                                                        </Grid.RowDefinitions>
+                                                                        <TextBlock Grid.Row=" 0"
+                                                                                   Text="{Binding X}"
+                                                                                   Margin="0"
+                                                                                   Padding="2"
+                                                                                   HorizontalAlignment="Right"
+                                                                                   VerticalAlignment="Center"
+                                                                                   FontSize="16"
+                                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                                        <TextBlock Grid.Row=" 1"
+                                                                                   Text="{Binding Y}"
+                                                                                   Padding="2"
+                                                                                   HorizontalAlignment="Right"
+                                                                                   VerticalAlignment="Center"
+                                                                                   FontSize="16"
+                                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                                    </Grid>
+                                                                </DataTemplate>
+                                                            </ListView.ItemTemplate>
+
+                                                        </ListView>
+
+
+                                                    </Grid>
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
                                         </DataGridTemplateColumn>
+
+
+
                                     </DataGrid.Columns>
 
 
@@ -394,9 +520,9 @@
                                            Margin="5"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
-                                           Source="/Resources/Control_九点标定_ioc.png" />
+                                           Source="/Resources/Control_创建模型_ioc.png" />
                                 </Border>
-                                <TextBlock Text="图像识别结果位置"
+                                <TextBlock Text="创建模板参数"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -407,301 +533,579 @@
 
                         </Border>
                     </Expander.Header>
+
+
                     <Grid>
-
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <Border Grid.RowSpan=" 2"
-                                Background="{DynamicResource 全局_背景_白颜色}"
-                                CornerRadius=" 0 0 5 5" />
-
-
-                        <Image Grid.Row=" 0"
-                               Height=" 200 "
-                               Margin="15"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Source="/Resources/Vision_标定板例图_ioc.png" />
-
-
-
-
-
-
-                        <DataGrid Style="{DynamicResource Point_DataGridStyle}" Grid.Row=" 1"
-                                  Margin="8"
-                                  Padding="0,0,0,10"
-                                  HorizontalContentAlignment="Stretch"
-                                  VerticalContentAlignment="Stretch"
-                                  AlternatingRowBackground="Transparent"
-                                  AutoGenerateColumns="False"
-                                  Background="Transparent"
-                                  BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                  CanUserAddRows="False"
-                                  CanUserDeleteRows="False"
-                                  CanUserReorderColumns="False"
-                                  CanUserResizeColumns="False"
-                                  CanUserResizeRows="False"
-                                  ClipboardCopyMode="None"
-                                  ColumnHeaderStyle="{DynamicResource Point_DataGridColumnHeaderStyle}"
-                                  EnableColumnVirtualization="True"
-                                  FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                  Grid.IsSharedSizeScope="True"
-                                  GridLinesVisibility="Horizontal"
-                                  HeadersVisibility="Column"
-                                  HorizontalScrollBarVisibility="Disabled"
-                                  IsReadOnly="True"
-                                  ItemsSource="{Binding Calibration_Results_List, Mode=TwoWay}"
-                                  OverridesDefaultStyle="True"
-                                  RowBackground="Transparent"
-                                  RowHeight="38"
-                                  ScrollViewer.CanContentScroll="True"
-                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                                  SelectionMode="Single"
-                                  SelectionUnit="Cell">
-
-
-                            <DataGrid.Columns>
-
-
-
-                                <DataGridTemplateColumn Width="50">
-                                    <DataGridTemplateColumn.Header>
-                                        <TextBlock Text="图号"
-                                                   Margin="8,0,8,8"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="16"
-                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                    </DataGridTemplateColumn.Header>
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Number}"
-                                                       Margin="4"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"
-                                                       FontSize="16" />
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-
-                                </DataGridTemplateColumn>
-
-                                <DataGridTemplateColumn Width="*"
-                                                        MinWidth="50"
-                                                        CanUserResize="False">
-                                    <DataGridTemplateColumn.Header>
-                                        <TextBlock Text="X"
-                                                   Margin="8,0,8,8"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="16"
-                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                    </DataGridTemplateColumn.Header>
-                                    <DataGridTemplateColumn.CellTemplate>
-
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding X}"
-                                                       Margin="4"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"
-                                                       FontSize="20" />
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-
-
-                                <DataGridTemplateColumn Width="*"
-                                                        MinWidth="50"
-                                                        CanUserResize="False">
-                                    <DataGridTemplateColumn.Header>
-                                        <TextBlock Text="Y"
-                                                   Margin="8,0,8,8"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="16"
-                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                    </DataGridTemplateColumn.Header>
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Y, StringFormat={}{0:F3}}"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"
-                                                       FontSize="20" />
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                            </DataGrid.Columns>
-
-
-
-
-                        </DataGrid>
-
-
-
-
-
-
-
-
-                    </Grid>
-                </Expander>
-
-
-                <Expander Style="{DynamicResource Vision_Fence_Expander_Style}"
-                          Margin="0,0,0,10"
-                          HorizontalContentAlignment="Stretch"
-                          VerticalContentAlignment="Stretch"
-                          IsExpanded="False">
-                    <Expander.Header>
-                        <Border Margin="0" Background="{DynamicResource 全局_按钮_黑颜色}">
-                            <Border.Style>
-                                <Style TargetType="{x:Type Border}">
-                                    <Setter Property="CornerRadius" Value="5" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsExpanded, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Expander}}}" Value="True">
-
-                                            <Setter Property="CornerRadius" Value="5 5 0 0" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Border.Style>
-
-                            <StackPanel Margin="10"
-                                        VerticalAlignment="Center"
-                                        Orientation="Horizontal">
-                                <Border Margin="0,0,10,0"
-                                        Background="{DynamicResource 全局_按钮_灰颜色}"
-                                        CornerRadius=" 15">
-                                    <Image Height=" 24"
-                                           Margin="5"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Source="/Resources/Control_九点标定_ioc.png" />
-                                </Border>
-                                <TextBlock Text="机器人坐标"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                           FontSize="16"
-                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
-                            </StackPanel>
-
-
-                        </Border>
-                    </Expander.Header>
-                    <Grid>
-
-
-
 
                         <Border Grid.RowSpan=" 2"
                                 Background="{DynamicResource 全局_背景_白颜色}"
                                 CornerRadius=" 0 0 5 5" />
 
-                        <StackPanel Orientation="Vertical">
+                        <StackPanel>
+
+
 
                             <Grid Margin="8">
-
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="90" />
+                                    <ColumnDefinition Width=" 90" />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
+
+
                                 <TextBlock Grid.Column=" 0"
-                                           Text="标定位置"
+                                           Text="模板类型"
                                            HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                <Grid Grid.Column=" 1" Margin="4">
+                                    <StackPanel>
+                                        <CheckBox Content="一般形状匹配"
+                                                  Margin="4"
+                                                  FontSize=" 16" />
+                                        <CheckBox Content="比例缩放匹配"
+                                                  Margin="4"
+                                                  FontSize=" 16" />
+                                        <CheckBox Content="线性变形匹配"
+                                                  Margin="4"
+                                                  FontSize=" 16" />
+                                        <CheckBox Content="局部变形匹配"
+                                                  Margin="4"
+                                                  FontSize=" 16" />
+                                    </StackPanel>
+                                </Grid>
+
+
+
+
+
+                            </Grid>
+
+
+                            <Grid Height="35" Margin="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=" 90" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+
+                                <TextBlock Grid.Column=" 0"
+                                           Text="模板参数"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
                                 <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
-                                          Height="35"
-                                          HorizontalContentAlignment="Center"
                                           VerticalContentAlignment="Center"
                                           BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                           BorderThickness="2"
-                                          FontSize="22"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="1">
-                                    <ComboBoxItem Padding="0,6,6,6"
-                                                  BorderBrush="Black"
-                                                  BorderThickness="0">
+                                          SelectedIndex="0">
+                                    <ComboBoxItem Padding="6">
 
-                                        <TextBlock Text="B_45"
-                                                   Width=" 150"
+                                        <TextBlock Text="一般形状匹配参数"
                                                    TextWrapping="Wrap"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="16"
+                                                   FontSize="14"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </ComboBoxItem>
-                                    <ComboBoxItem Padding="0,6,6,6"
-                                                  BorderBrush="Black"
-                                                  BorderThickness="0"
-                                                  IsSelected="True">
+                                    <ComboBoxItem Padding="6">
 
-                                        <TextBlock Text="B_135"
+                                        <TextBlock Text="比例缩放匹配参数"
                                                    Width=" 150"
                                                    TextWrapping="Wrap"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="16"
+                                                   FontSize="14"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </ComboBoxItem>
-                                    <ComboBoxItem Padding="0,6,6,6"
-                                                  BorderBrush="Black"
-                                                  BorderThickness="0"
-                                                  IsSelected="True">
+                                    <ComboBoxItem Padding="6">
 
-                                        <TextBlock Text="B_225"
+                                        <TextBlock Text="线性变形匹配参数"
                                                    Width=" 150"
                                                    TextWrapping="Wrap"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="16"
+                                                   FontSize="14"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </ComboBoxItem>
-                                    <ComboBoxItem Padding="0,6,6,6"
-                                                  BorderBrush="Black"
-                                                  BorderThickness="0"
-                                                  IsSelected="True">
+                                    <ComboBoxItem Padding="6">
 
-                                        <TextBlock Text="B_315"
+                                        <TextBlock Text="局部变形匹配参数"
                                                    Width=" 150"
                                                    TextWrapping="Wrap"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="16"
+                                                   FontSize="14"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </ComboBoxItem>
                                 </ComboBox>
 
+                            </Grid>
+
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=" 80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="金字塔层"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Camera_Exposure" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="1"
+                                        Minimum=" 0"
+                                        SmallChange="0.1"
+                                        TickFrequency=" 0.1"
+                                        Value="1" />
+
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                         Text="{Binding ElementName=Camera_Exposure, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Width=" 100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="开始角度"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Camera_Gain" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="10"
+                                        Minimum="-10"
+                                        SmallChange="0.1"
+                                        TickFrequency=" 0.01"
+                                        Value="1" />
+
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                         Text="{Binding ElementName=Camera_Gain, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Width=" 100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=" 80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="旋转范围"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Camera_Exposure1" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="1"
+                                        Minimum=" 0"
+                                        SmallChange="0.1"
+                                        TickFrequency=" 0.1"
+                                        Value="1" />
+
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                         Text="{Binding ElementName=Camera_Exposure1, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Width=" 100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="角度步长"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="10"
+                                        Minimum="-10"
+                                        SmallChange="0.1"
+                                        TickFrequency=" 0.01"
+                                        Value="1" />
+
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                         Text="{Binding ElementName=Camera_Gain, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Width=" 100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=" 90" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+
+                                <TextBlock Grid.Column=" 0"
+                                           Text="优化类型"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
+                                          VerticalContentAlignment="Center"
+                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                          BorderThickness="2"
+                                          IsDropDownOpen="False"
+                                          IsSynchronizedWithCurrentItem="True"
+                                          SelectedIndex="0">
+                                    <ComboBoxItem Padding="6">
+
+                                        <TextBlock Text="Auto"
+                                                   Width=" 150"
+                                                   TextWrapping="Wrap"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem Padding="6">
+
+                                        <TextBlock Text="None"
+                                                   Width=" 150"
+                                                   TextWrapping="Wrap"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem Padding="6">
+
+                                        <TextBlock Text="Point_reduction_high"
+                                                   Width=" 150"
+                                                   TextWrapping="Wrap"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem Padding="6">
+
+                                        <TextBlock Text="Point_reduction_low"
+                                                   Width=" 150"
+                                                   TextWrapping="Wrap"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem Padding="6">
+
+                                        <TextBlock Text="Point_reduction_medium"
+                                                   Width=" 150"
+                                                   TextWrapping="Wrap"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                </ComboBox>
+
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=" 90" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+
+                                <TextBlock Grid.Column=" 0"
+                                           Text="匹配指标"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
+                                          VerticalContentAlignment="Center"
+                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                          BorderThickness="2"
+                                          IsDropDownOpen="False"
+                                          IsSynchronizedWithCurrentItem="True"
+                                          SelectedIndex="0">
+                                    <ComboBoxItem Padding="6">
+
+                                        <TextBlock Text="None"
+                                                   Width=" 150"
+                                                   TextWrapping="Wrap"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem Padding="6">
+
+                                        <TextBlock Text="Ignore_color_polarity"
+                                                   Width=" 150"
+                                                   TextWrapping="Wrap"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem Padding="6">
+
+                                        <TextBlock Text="Ignore_global_polarity"
+                                                   Width=" 150"
+                                                   TextWrapping="Wrap"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem Padding="6">
+
+                                        <TextBlock Text="Ignore_local_polarity"
+                                                   Width=" 150"
+                                                   TextWrapping="Wrap"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem Padding="6">
+
+                                        <TextBlock Text="Ignore_part_polarity"
+                                                   Width=" 150"
+                                                   TextWrapping="Wrap"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem Padding="6">
+
+                                        <TextBlock Text="Use_polarity"
+                                                   Width=" 150"
+                                                   TextWrapping="Wrap"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                </ComboBox>
 
                             </Grid>
 
                             <Grid Height="35" Margin="8">
 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width=" 90" />
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="最小对比"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="10"
+                                        Minimum="-10"
+                                        SmallChange="0.1"
+                                        TickFrequency=" 0.01"
+                                        Value="1" />
 
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                         Text="{Binding ElementName=Camera_Gain, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Width=" 100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                            </Grid>
+
+
+                            <Grid Height="35" Margin="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=" 90" />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="标定精度"
+
+
+                                <TextBlock Grid.Column=" 0"
+                                           Text="参数名称"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
+                                          VerticalContentAlignment="Center"
+                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                          BorderThickness="2"
+                                          IsDropDownOpen="False"
+                                          IsSynchronizedWithCurrentItem="True"
+                                          SelectedIndex="0">
+                                    <ComboBoxItem Padding="6">
+
+                                        <TextBlock Text="&quot;[]&quot;"
+                                                   Width=" 150"
+                                                   TextWrapping="Wrap"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem Padding="6">
+
+                                        <TextBlock Text="&quot;Part_size&quot;"
+                                                   Width=" 150"
+                                                   TextWrapping="Wrap"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                </ComboBox>
+
+                            </Grid>
+
+
+                            <Grid Height="35" Margin="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=" 90" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+
+                                <TextBlock Grid.Column=" 0"
+                                           Text="参数名称"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
+                                          VerticalContentAlignment="Center"
+                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                          BorderThickness="2"
+                                          IsDropDownOpen="False"
+                                          IsSynchronizedWithCurrentItem="True"
+                                          SelectedIndex="0">
+                                    <ComboBoxItem Padding="6">
+
+                                        <TextBlock Text="&quot;大&quot;"
+                                                   Width=" 150"
+                                                   TextWrapping="Wrap"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem Padding="6">
+
+                                        <TextBlock Text="&quot;中等&quot;"
+                                                   Width=" 150"
+                                                   TextWrapping="Wrap"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem Padding="6">
+
+                                        <TextBlock Text="&quot;小&quot;"
+                                                   Width=" 150"
+                                                   TextWrapping="Wrap"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                </ComboBox>
+
+                            </Grid>
+
+
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="模型层数"
                                            HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -709,132 +1113,29 @@
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
 
-                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="0.085"
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 1"
+                                         Text="1"
+                                         Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
-                                         Background="{DynamicResource 全局_按钮_黄颜色}"
-                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_红颜色}"
                                          BorderThickness="2"
-                                         FontSize="18" />
-                            </Grid>
+                                         FontSize="18"
+                                         Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-                            <Grid Margin="8">
-
-
-                                <DataGrid Style="{DynamicResource Point_DataGridStyle}" Grid.Row=" 1"
-                                          Padding="0,0,0,0"
-                                          HorizontalContentAlignment="Stretch"
-                                          VerticalContentAlignment="Stretch"
-                                          AlternatingRowBackground="Transparent"
-                                          AutoGenerateColumns="False"
-                                          Background="Transparent"
-                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                          CanUserAddRows="False"
-                                          CanUserDeleteRows="False"
-                                          CanUserReorderColumns="False"
-                                          CanUserResizeColumns="False"
-                                          CanUserResizeRows="False"
-                                          ClipboardCopyMode="None"
-                                          ColumnHeaderStyle="{DynamicResource Point_DataGridColumnHeaderStyle}"
-                                          EnableColumnVirtualization="True"
-                                          FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                          Grid.IsSharedSizeScope="True"
-                                          GridLinesVisibility="Horizontal"
-                                          HeadersVisibility="Column"
-                                          HorizontalScrollBarVisibility="Disabled"
-                                          IsReadOnly="True"
-                                          ItemsSource="{Binding Calibration_Results_List, Mode=TwoWay}"
-                                          OverridesDefaultStyle="True"
-                                          RowBackground="Transparent"
-                                          RowHeight="38"
-                                          ScrollViewer.CanContentScroll="True"
-                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                          ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                                          SelectionMode="Single"
-                                          SelectionUnit="Cell">
-
-
-                                    <DataGrid.Columns>
-
-
-
-                                        <DataGridTemplateColumn Width="50">
-                                            <DataGridTemplateColumn.Header>
-                                                <TextBlock Text="图号"
-                                                           Margin="8,0,8,8"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                           FontSize="16"
-                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                            </DataGridTemplateColumn.Header>
-                                            <DataGridTemplateColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock Text="{Binding Number}"
-                                                               Margin="4"
-                                                               HorizontalAlignment="Center"
-                                                               VerticalAlignment="Center"
-                                                               FontSize="16" />
-                                                </DataTemplate>
-                                            </DataGridTemplateColumn.CellTemplate>
-
-                                        </DataGridTemplateColumn>
-
-                                        <DataGridTemplateColumn Width="*"
-                                                                MinWidth="50"
-                                                                CanUserResize="False">
-                                            <DataGridTemplateColumn.Header>
-                                                <TextBlock Text="X"
-                                                           Margin="8,0,8,8"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                           FontSize="16"
-                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                            </DataGridTemplateColumn.Header>
-                                            <DataGridTemplateColumn.CellTemplate>
-
-                                                <DataTemplate>
-                                                    <TextBlock Text="{Binding X}"
-                                                               Margin="4"
-                                                               HorizontalAlignment="Center"
-                                                               VerticalAlignment="Center"
-                                                               FontSize="20" />
-                                                </DataTemplate>
-                                            </DataGridTemplateColumn.CellTemplate>
-                                        </DataGridTemplateColumn>
-
-
-                                        <DataGridTemplateColumn Width="*"
-                                                                MinWidth="50"
-                                                                CanUserResize="False">
-                                            <DataGridTemplateColumn.Header>
-                                                <TextBlock Text="Y"
-                                                           Margin="8,0,8,8"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                           FontSize="16"
-                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                            </DataGridTemplateColumn.Header>
-                                            <DataGridTemplateColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock Text="{Binding Y, StringFormat={}{0:F3}}"
-                                                               HorizontalAlignment="Center"
-                                                               VerticalAlignment="Center"
-                                                               FontSize="20" />
-                                                </DataTemplate>
-                                            </DataGridTemplateColumn.CellTemplate>
-                                        </DataGridTemplateColumn>
-                                    </DataGrid.Columns>
-
-
-
-
-                                </DataGrid>
-
-
+                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                        Width="100"
+                                        Margin="0,0,0,0"
+                                        HorizontalAlignment="Right"
+                                        Background="{DynamicResource 全局_按钮_蓝颜色}">
+                                    <TextBlock Text="查看模型"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                               FontSize="16"
+                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                </Button>
                             </Grid>
 
 
@@ -898,14 +1199,826 @@
 
                             </Grid>
 
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="创建状态："
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+                                <TextBlock Grid.Column=" 1"
+                                           Text="成功"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           Background="Transparent"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_绿颜色}" />
+
+                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                        Width="100"
+                                        Margin="0,0,0,0"
+                                        HorizontalAlignment="Right"
+                                        Background="{DynamicResource 全局_按钮_绿颜色}">
+                                    <TextBlock Text="创建模型"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                               FontSize="16"
+                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                </Button>
+                            </Grid>
+
+                        </StackPanel>
+                    </Grid>
+                </Expander>
+
+
+                <Expander Style="{DynamicResource Vision_Fence_Expander_Style}"
+                          Margin="0,0,0,10"
+                          HorizontalContentAlignment="Stretch"
+                          VerticalContentAlignment="Stretch"
+                          IsExpanded="True">
+                    <Expander.Header>
+                        <Border Margin="0" Background="{DynamicResource 全局_按钮_黑颜色}">
+                            <Border.Style>
+                                <Style TargetType="{x:Type Border}">
+                                    <Setter Property="CornerRadius" Value="5" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsExpanded, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Expander}}}" Value="True">
+
+                                            <Setter Property="CornerRadius" Value="5 5 0 0" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+
+                            <StackPanel Margin="10"
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal">
+                                <Border Margin="0,0,10,0"
+                                        Background="{DynamicResource 全局_按钮_灰颜色}"
+                                        CornerRadius=" 15">
+                                    <Image Height=" 24"
+                                           Margin="5"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Source="/Resources/Control_创建模型_ioc.png" />
+                                </Border>
+                                <TextBlock Text="测试模板识别"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                            </StackPanel>
+
+
+                        </Border>
+                    </Expander.Header>
+                    <Grid>
+
+
+
+
+                        <Border Grid.RowSpan=" 2"
+                                Background="{DynamicResource 全局_背景_白颜色}"
+                                CornerRadius=" 0 0 5 5" />
+
+                        <StackPanel Orientation="Vertical">
+
+                            <Grid Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="90" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column=" 0"
+                                           Text="模板类型"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
+                                          VerticalContentAlignment="Center"
+                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                          BorderThickness="2"
+                                          IsDropDownOpen="False"
+                                          IsSynchronizedWithCurrentItem="True"
+                                          SelectedIndex="0">
+                                    <ComboBoxItem Padding="6">
+
+                                        <TextBlock Text="一般形状匹配参数"
+                                                   TextWrapping="Wrap"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem Padding="6">
+
+                                        <TextBlock Text="比例缩放匹配参数"
+                                                   Width=" 150"
+                                                   TextWrapping="Wrap"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem Padding="6">
+
+                                        <TextBlock Text="线性变形匹配参数"
+                                                   Width=" 150"
+                                                   TextWrapping="Wrap"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem Padding="6">
+
+                                        <TextBlock Text="局部变形匹配参数"
+                                                   Width=" 150"
+                                                   TextWrapping="Wrap"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                </ComboBox>
+
+                            </Grid>
+
+
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=" 80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="金字塔层"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="1"
+                                        Minimum=" 0"
+                                        SmallChange="0.1"
+                                        TickFrequency=" 0.1"
+                                        Value="1" />
+
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                         Text="{Binding ElementName=Camera_Exposure, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Width=" 100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="开始角度"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="10"
+                                        Minimum="-10"
+                                        SmallChange="0.1"
+                                        TickFrequency=" 0.01"
+                                        Value="1" />
+
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                         Text="{Binding ElementName=Camera_Gain, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Width=" 100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=" 80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="旋转范围"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="1"
+                                        Minimum=" 0"
+                                        SmallChange="0.1"
+                                        TickFrequency=" 0.1"
+                                        Value="1" />
+
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                         Text="{Binding ElementName=Camera_Exposure1, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Width=" 100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="角度步长"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="10"
+                                        Minimum="-10"
+                                        SmallChange="0.1"
+                                        TickFrequency=" 0.01"
+                                        Value="1" />
+
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                         Text="{Binding ElementName=Camera_Gain, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Width=" 100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                            </Grid>
+
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=" 80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="ScaleRMin"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="1"
+                                        Minimum=" 0"
+                                        SmallChange="0.1"
+                                        TickFrequency=" 0.1"
+                                        Value="1" />
+
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                         Text="{Binding ElementName=Camera_Exposure, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Width=" 100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="ScaleRMax"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="10"
+                                        Minimum="-10"
+                                        SmallChange="0.1"
+                                        TickFrequency=" 0.01"
+                                        Value="1" />
+
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                         Text="{Binding ElementName=Camera_Gain, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Width=" 100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=" 80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="ScaleCMin"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="1"
+                                        Minimum=" 0"
+                                        SmallChange="0.1"
+                                        TickFrequency=" 0.1"
+                                        Value="1" />
+
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                         Text="{Binding ElementName=Camera_Exposure1, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Width=" 100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="ScaleRMax"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="10"
+                                        Minimum="-10"
+                                        SmallChange="0.1"
+                                        TickFrequency=" 0.01"
+                                        Value="1" />
+
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                         Text="{Binding ElementName=Camera_Gain, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Width=" 100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                            </Grid>
+
+
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=" 80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="最小分数"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="1"
+                                        Minimum=" 0"
+                                        SmallChange="0.1"
+                                        TickFrequency=" 0.1"
+                                        Value="1" />
+
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                         Text="{Binding ElementName=Camera_Exposure1, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Width=" 100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="模型数量"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="10"
+                                        Minimum="-10"
+                                        SmallChange="0.1"
+                                        TickFrequency=" 0.01"
+                                        Value="1" />
+
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                         Text="{Binding ElementName=Camera_Gain, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Width=" 100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="最大重叠"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="10"
+                                        Minimum="-10"
+                                        SmallChange="0.1"
+                                        TickFrequency=" 0.01"
+                                        Value="1" />
+
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                         Text="{Binding ElementName=Camera_Gain, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Width=" 100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="最大金字塔"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="10"
+                                        Minimum="-10"
+                                        SmallChange="0.1"
+                                        TickFrequency=" 0.01"
+                                        Value="1" />
+
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                         Text="{Binding ElementName=Camera_Gain, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Width=" 100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="贪婪值"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="10"
+                                        Minimum="-10"
+                                        SmallChange="0.1"
+                                        TickFrequency=" 0.01"
+                                        Value="1" />
+
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                         Text="{Binding ElementName=Camera_Gain, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Width=" 100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                            </Grid>
 
 
                             <Grid Margin="8">
-                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
-                                        Height="40"
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=" 90" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+
+                                <TextBlock Grid.Column=" 0"
+                                           Text="参数名称"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
+                                          Padding="6"
+                                          VerticalContentAlignment="Center"
+                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                          BorderThickness="2"
+                                          IsDropDownOpen="False"
+                                          IsSynchronizedWithCurrentItem="True"
+                                          SelectedIndex="0">
+                                    <ComboBoxItem Padding="6">
+
+                                        <TextBlock Text="&quot;Angle_change_restriction&quot;"
+                                                   Width=" 150"
+                                                   TextWrapping="Wrap"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem Padding="6">
+
+                                        <TextBlock Text="&quot;Angle_step&quot;"
+                                                   Width=" 150"
+                                                   TextWrapping="NoWrap"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem Padding="6">
+
+                                        <TextBlock Text="&quot;Aniso_scale_change_restriction&quot;"
+                                                   Width=" 150"
+                                                   TextWrapping="Wrap"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem Padding="6">
+
+                                        <TextBlock Text="&quot;Scale_c_step&quot;"
+                                                   Width=" 150"
+                                                   TextWrapping="Wrap"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem Padding="6">
+
+                                        <TextBlock Text="&quot;Scale_r_step&quot;"
+                                                   Width=" 150"
+                                                   TextWrapping="NoWrap"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem Padding="6">
+
+                                        <TextBlock Text="&quot;Subpixel&quot;"
+                                                   Width=" 150"
+                                                   TextWrapping="Wrap"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                </ComboBox>
+
+                            </Grid>
+
+
+                            <Grid Margin="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=" 90" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+
+                                <TextBlock Grid.Column=" 0"
+                                           Text="参数名称"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
+                                          Padding="6"
+                                          VerticalContentAlignment="Center"
+                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                          BorderThickness="2"
+                                          IsDropDownOpen="False"
+                                          IsSynchronizedWithCurrentItem="True"
+                                          SelectedIndex="0">
+                                    <ComboBoxItem Padding="6">
+
+                                        <TextBlock Text="&quot;None&quot;"
+                                                   Width=" 150"
+                                                   TextWrapping="Wrap"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem Padding="6">
+
+                                        <TextBlock Text="&quot;Least_squares&quot;"
+                                                   Width=" 150"
+                                                   TextWrapping="NoWrap"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem Padding="6">
+
+                                        <TextBlock Text="&quot;Least_squares_high&quot;"
+                                                   Width=" 150"
+                                                   TextWrapping="NoWrap"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem Padding="6">
+
+                                        <TextBlock Text="&quot;Least_squares_very_high&quot;"
+                                                   Width=" 150"
+                                                   TextWrapping="Wrap"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                </ComboBox>
+
+                            </Grid>
+
+
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="识别时间："
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+                                <TextBlock Grid.Column="1"
+                                           Text="835ms"
+                                           Width=" 100"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           Background="Transparent"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_绿颜色}" />
+
+                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                        Width="100"
                                         Margin="0,0,0,0"
-                                        Background="{DynamicResource 全局_按钮_绿颜色}">
-                                    <TextBlock Text="保存本地相机参数"
+                                        HorizontalAlignment="Right"
+                                        Background="{DynamicResource 全局_按钮_蓝颜色}">
+                                    <TextBlock Text="识别模型"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                FontFamily="{DynamicResource 全局_文字_中文字体}"

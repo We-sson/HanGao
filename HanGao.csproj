@@ -639,6 +639,7 @@
     <Folder Include="DataStore\DataStore\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\Vision_删除_ioc.png" />
     <Resource Include="Resources\Vision_标定板例图_ioc.png" />
     <Resource Include="Resources\Vision_文件夹_ioc.png" />
     <Resource Include="Resources\Vision_下拉选择_ioc.png" />
