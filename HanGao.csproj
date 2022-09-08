@@ -304,6 +304,9 @@
     <Compile Include="View\User_Control\Vision_Control\UC_Vision_Create_Template.xaml.cs">
       <DependentUpon>UC_Vision_Create_Template.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\User_Control\Vision_Control\UC_Vision_Auto_Model.xaml.cs">
+      <DependentUpon>UC_Vision_Auto_Model.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\User_Control\Vision_Control\UC_Vision_Point_Calibration.xaml.cs">
       <DependentUpon>UC_Vision_Point_Calibration.xaml</DependentUpon>
     </Compile>
@@ -511,6 +514,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\User_Control\Vision_Control\UC_Vision_Create_Template.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\User_Control\Vision_Control\UC_Vision_Auto_Model.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

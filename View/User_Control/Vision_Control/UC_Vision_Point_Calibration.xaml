@@ -29,7 +29,7 @@
                           Margin="0,0,0,10"
                           HorizontalContentAlignment="Stretch"
                           VerticalContentAlignment="Stretch"
-                          IsExpanded="False">
+                          IsExpanded="True">
                     <Expander.Header>
                         <Border x:Name="Radio_1"
                                 Margin="0"
@@ -771,7 +771,7 @@
                           Margin="0,0,0,10"
                           HorizontalContentAlignment="Stretch"
                           VerticalContentAlignment="Stretch"
-                          IsExpanded="True">
+                          IsExpanded="False">
                     <Expander.Header>
                         <Border Margin="0" Background="{DynamicResource 全局_按钮_黑颜色}">
                             <Border.Style>

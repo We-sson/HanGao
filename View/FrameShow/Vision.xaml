@@ -842,13 +842,20 @@
 
         </Grid>
 
+
+
         <Vision_Control:UC_Vision_CameraSet Grid.Column=" 1"
                                             Margin="6,12,6,12"
                                             Visibility="Collapsed" />
         <Vision_Control:UC_Vision_Point_Calibration Grid.Column=" 1"
                                                     Margin="6,12,6,12"
                                                     Visibility="Collapsed" />
-        <Vision_Control:UC_Vision_Create_Template Grid.Column=" 1" Margin="6,12,6,12" />
+        <Vision_Control:UC_Vision_Create_Template Grid.Column=" 1"
+                                                  Margin="6,12,6,12"
+                                                  Visibility="Visible" />
+        <Vision_Control:UC_Vision_Auto_Model Grid.Column=" 1"
+                                             Margin="6,12,6,12"
+                                             Visibility="Collapsed" />
 
 
 

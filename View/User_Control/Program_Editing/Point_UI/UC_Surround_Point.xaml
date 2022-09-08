@@ -48,7 +48,7 @@
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                   FontSize="26"
+                                   FontSize="28"
                                    Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -69,7 +69,7 @@
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                   FontSize="26"
+                                   FontSize="28"
                                    Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -90,7 +90,7 @@
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                   FontSize="26"
+                                   FontSize="28"
                                    Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -110,7 +110,7 @@
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                   FontSize="26"
+                                   FontSize="28"
                                    Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -131,7 +131,7 @@
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                   FontSize="26"
+                                   FontSize="28"
                                    Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
