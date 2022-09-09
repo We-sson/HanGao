@@ -113,7 +113,7 @@
                           Background="Transparent"
                           SnapsToDevicePixels="True">
                         <!--  背景  -->
-                        <Border x:Name="radioButtonBorder"
+                        <Border x:Name="radioButtonBorder" CornerRadius=" 4"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}">

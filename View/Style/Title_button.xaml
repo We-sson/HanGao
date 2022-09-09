@@ -107,7 +107,7 @@
 
 
                         <Trigger Property="IsChecked" Value="true">
-                            <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource  RadioButton.Pressed.Border}" />
+                            <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource RadioButton.Pressed.Border}" />
                             <Setter TargetName="radioButtonBorder" Property="Opacity" Value="0.7" />
                         </Trigger>
 

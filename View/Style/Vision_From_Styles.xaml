@@ -111,7 +111,7 @@
                                          HorizontalAlignment="Center"
                                          VerticalAlignment="Center"
                                          Fill="{DynamicResource Expander.Static.Circle.Fill}"
-                                         Stroke="{DynamicResource  Expander.Static.Circle.Stroke}" />
+                                         Stroke="{DynamicResource Expander.Static.Circle.Stroke}" />
                                 <Path x:Name="arrow"
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center"
@@ -185,7 +185,7 @@
                                          HorizontalAlignment="Center"
                                          VerticalAlignment="Center"
                                          Fill="{DynamicResource Expander.Static.Circle.Fill}"
-                                         Stroke="{DynamicResource  Expander.Static.Circle.Stroke}" />
+                                         Stroke="{DynamicResource Expander.Static.Circle.Stroke}" />
                                 <Path x:Name="arrow"
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center"
@@ -255,7 +255,7 @@
                                          HorizontalAlignment="Center"
                                          VerticalAlignment="Center"
                                          Fill="{DynamicResource Expander.Static.Circle.Fill}"
-                                         Stroke="{DynamicResource  Expander.Static.Circle.Stroke}" />
+                                         Stroke="{DynamicResource Expander.Static.Circle.Stroke}" />
                                 <Path x:Name="arrow"
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center"

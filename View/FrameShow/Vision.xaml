@@ -681,10 +681,15 @@
                                 Orientation="Vertical">
 
 
-                        <Button Style="{DynamicResource Halcon_Window_Button}"
-                                Width=" 120"
-                                Height=" 35"
-                                Margin="2">
+                        <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}"
+                                     Name="Camera_Settings"
+                                     Width=" 120"
+                                     Height=" 35"
+                                     Margin="2"
+                                     HorizontalContentAlignment="Center"
+                                     VerticalContentAlignment="Center"
+                                     Background="{DynamicResource 全局_按钮_灰颜色}"
+                                     GroupName="Vision_Function">
                             <StackPanel Margin="0"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
@@ -701,19 +706,16 @@
                                            FontSize="16" />
                             </StackPanel>
 
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding User_Comm}"
-                                                           CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Vision}}}"
-                                                           PassEventArgsToCommand="True" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </Button>
+                        </RadioButton>
 
-                        <Button Style="{DynamicResource Halcon_Window_Button}"
-                                Width=" 120"
-                                Height=" 35"
-                                Margin="2">
+                        <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Point_Calibration"
+                                     Width=" 120"
+                                     Height=" 35"
+                                     Margin="2"
+                                     HorizontalContentAlignment="Center"
+                                     VerticalContentAlignment="Center"
+                                     Background="{DynamicResource 全局_按钮_灰颜色}"
+                                     GroupName="Vision_Function">
                             <StackPanel Margin="0"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
@@ -730,19 +732,16 @@
                                            FontSize="16" />
                             </StackPanel>
 
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding User_Comm}"
-                                                           CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Vision}}}"
-                                                           PassEventArgsToCommand="True" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </Button>
+                        </RadioButton>
 
-                        <Button Style="{DynamicResource Halcon_Window_Button}"
-                                Width=" 120"
-                                Height=" 35"
-                                Margin="2">
+                        <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Create_Model"
+                                     Width=" 120"
+                                     Height=" 35"
+                                     Margin="2"
+                                     HorizontalContentAlignment="Center"
+                                     VerticalContentAlignment="Center"
+                                     Background="{DynamicResource 全局_按钮_灰颜色}"
+                                     GroupName="Vision_Function">
                             <StackPanel Margin="0"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
@@ -759,19 +758,17 @@
                                            FontSize="16" />
                             </StackPanel>
 
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding User_Comm}"
-                                                           CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Vision}}}"
-                                                           PassEventArgsToCommand="True" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </Button>
 
-                        <Button Style="{DynamicResource Halcon_Window_Button}"
-                                Width=" 120"
-                                Height=" 35"
-                                Margin="2">
+                        </RadioButton>
+
+                        <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Robot_Comm"
+                                     Width=" 120"
+                                     Height=" 35"
+                                     Margin="2"
+                                     HorizontalContentAlignment="Center"
+                                     VerticalContentAlignment="Center"
+                                     Background="{DynamicResource 全局_按钮_灰颜色}"
+                                     GroupName="Vision_Function">
                             <StackPanel Margin="0"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
@@ -788,19 +785,18 @@
                                            FontSize="16" />
                             </StackPanel>
 
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding User_Comm}"
-                                                           CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Vision}}}"
-                                                           PassEventArgsToCommand="True" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </Button>
 
-                        <Button Style="{DynamicResource Halcon_Window_Button}"
-                                Width=" 120"
-                                Height=" 35"
-                                Margin="2">
+                        </RadioButton>
+
+                        <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Auto_Model"
+                                     IsChecked="True"
+                                     Width=" 120"
+                                     Height=" 35"
+                                     Margin="2"
+                                     HorizontalContentAlignment="Center"
+                                     VerticalContentAlignment="Center"
+                                     Background="{DynamicResource 全局_按钮_灰颜色}"
+                                     GroupName="Vision_Function">
                             <StackPanel Margin="0"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
@@ -817,14 +813,11 @@
                                            FontSize="16" />
                             </StackPanel>
 
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding User_Comm}"
-                                                           CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Vision}}}"
-                                                           PassEventArgsToCommand="True" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </Button>
+
+                        </RadioButton>
+
+
+
                     </StackPanel>
 
 
@@ -846,16 +839,16 @@
 
         <Vision_Control:UC_Vision_CameraSet Grid.Column=" 1"
                                             Margin="6,12,6,12"
-                                            Visibility="Collapsed" />
+                                            Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Camera_Settings}" />
         <Vision_Control:UC_Vision_Point_Calibration Grid.Column=" 1"
                                                     Margin="6,12,6,12"
-                                                    Visibility="Collapsed" />
+                                                    Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Point_Calibration}" />
         <Vision_Control:UC_Vision_Create_Template Grid.Column=" 1"
                                                   Margin="6,12,6,12"
-                                                  Visibility="Visible" />
+                                                  Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Create_Model}" />
         <Vision_Control:UC_Vision_Auto_Model Grid.Column=" 1"
                                              Margin="6,12,6,12"
-                                             Visibility="Collapsed" />
+                                             Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Auto_Model}" />
 
 
 

@@ -36,8 +36,8 @@
     <Style x:Key="Program_UI_ButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
 
-        <Setter Property="BorderBrush" Value="{DynamicResource  Button.Disabled.Background}" />
- 
+        <Setter Property="BorderBrush" Value="{DynamicResource Button.Disabled.Background}" />
+
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Margin" Value="0" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -72,7 +72,7 @@
 
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource  Button.Disabled.Background}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Button.Disabled.Background}" />
                             <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Button.Disabled.Border}" />
                             <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{DynamicResource Button.Disabled.Foreground}" />
                         </Trigger>

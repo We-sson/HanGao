@@ -108,6 +108,9 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MvCamCtrl.Net">
+      <HintPath>D:\MVS\MVS\Development\DotNet\win64\MvCamCtrl.Net.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationFramework.Aero2">
       <Private>False</Private>
     </Reference>
@@ -204,6 +207,7 @@
     <Compile Include="ViewModel\UC_Surround_Direction_VM.cs" />
     <Compile Include="ViewModel\UC_Surround_Point_VM.cs" />
     <Compile Include="ViewModel\UC_Visal_Function_VM.cs" />
+    <Compile Include="ViewModel\UC_Vision_CameraSet_ViewModel.cs" />
     <Compile Include="ViewModel\UC_Vision_Create_Template_ViewMode.cs" />
     <Compile Include="ViewModel\UC_Vision_Point_Calibration_ViewModel.cs" />
     <Compile Include="ViewModel\UserControl_Sideber_Show_ViewModel.cs" />

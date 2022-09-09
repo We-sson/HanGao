@@ -7,7 +7,7 @@
 
 
     <Style x:Key="Sidebar_Button" TargetType="{x:Type Button}">
-     
+
         <Setter Property="Background" Value="#334257" />
         <Setter Property="BorderBrush" Value="Transparent" />
 
@@ -56,7 +56,7 @@
                             <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.Pressed.Border}" />-->
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource  Button.Disabled.Background}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Button.Disabled.Background}" />
                             <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Button.Disabled.Border}" />
                             <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{DynamicResource Button.Disabled.Foreground}" />
                         </Trigger>

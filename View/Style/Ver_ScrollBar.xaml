@@ -85,7 +85,7 @@
         <Setter Property="Stylus.IsFlicksEnabled" Value="false" />
         <Setter Property="Background" Value="{DynamicResource ScrollBar.Static.Background}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ScrollBar.Static.Border}" />
-    
+
         <Setter Property="BorderThickness" Value="0" />
 
         <Setter Property="Width" Value="{StaticResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}" />

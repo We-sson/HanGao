@@ -7,7 +7,7 @@
         <Setter Property="Background" Value="{DynamicResource ListBox.Static.Background}" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
-      
+
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
@@ -40,8 +40,8 @@
                     <ControlTemplate.Triggers>
 
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource  ListBox.Disabled.Background}" />
-                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource  ListBox.Disabled.Border}" />
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource ListBox.Disabled.Background}" />
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource ListBox.Disabled.Border}" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>

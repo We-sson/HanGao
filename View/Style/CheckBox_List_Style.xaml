@@ -1,12 +1,12 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:HanGao.View">
 
     <Style x:Key="CheckBoxStyle1" TargetType="{x:Type CheckBox}">
-        
+
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Background" Value="{DynamicResource  OptionMark.Static.Background}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource  OptionMark.Static.Border}" />
-  
+        <Setter Property="Background" Value="{DynamicResource OptionMark.Static.Background}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource OptionMark.Static.Border}" />
+
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Template">
             <Setter.Value>
@@ -47,12 +47,12 @@
 
 
     <Style x:Key="CheckBoxStyle2" TargetType="{x:Type CheckBox}">
-       
+
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
 
         <Setter Property="Background" Value="{DynamicResource 全局_按钮_白颜色}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource  OptionMark.Static.Border}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource OptionMark.Static.Border}" />
 
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Template">
