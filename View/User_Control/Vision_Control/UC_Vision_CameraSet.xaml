@@ -86,18 +86,22 @@
                                           BorderThickness="2"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
-                                          ItemsSource="{Binding}"
+                                          ItemsSource="{Binding Camera_List}"
                                           SelectedIndex="0">
-
-                                    <ComboBoxItem Padding="6" BorderBrush="Black">
-
-                                        <TextBlock Text="GEV:Hikviion-10.30.45.65-123456"
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding }"
                                                    Width=" 150"
                                                    TextWrapping="Wrap"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                    FontSize="14"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                    TextTrimming="CharacterEllipsis" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                    <ComboBoxItem Padding="6" BorderBrush="Black">
+
+
                                     </ComboBoxItem>
                                     <ComboBoxItem Padding="6" IsSelected="True">
 

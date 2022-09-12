@@ -45,10 +45,10 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 软件启动把页面写入内存
         /// </summary>
-        public  static  UserControl HomeOne = new HomeOne();
-        public  static UserControl ProgRamEdit = new ProgramEdit();
-        public  static UserControl ReadData = new Vision();
-        public  static UserControl WeldingGui = new WeldingGui();
+        public  static  UserControl HomeOne { set; get; } = new HomeOne();
+        public  static UserControl ProgRamEdit { set; get; } = new ProgramEdit();
+        public  static UserControl ReadData { set; get; } = new Vision();
+        public  static UserControl WeldingGui { set; get; } = new WeldingGui();
 
 
 
@@ -85,6 +85,7 @@ namespace HanGao.ViewModel
                 _User_Show = value; 
                 StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(User_Show)));
 
+              
             }
         }
 
