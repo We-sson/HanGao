@@ -663,10 +663,6 @@
     <Resource Include="Resources\UC_开始页面状态_3.png" />
     <Resource Include="FodyWeavers.xml" />
     <Resource Include="inter\序列号.txt" />
-    <Content Include="DLL\MVS\win32\MvCamCtrl.Net.dll" />
-    <Resource Include="DLL\MVS\win32\MvCamCtrl.Net.xml" />
-    <Content Include="DLL\MVS\win64\MvCamCtrl.Net.dll" />
-    <Resource Include="DLL\MVS\win64\MvCamCtrl.Net.xml" />
     <Content Include="inter\HanGao-cache\part10\disk1.cab" />
     <Content Include="inter\HanGao-cache\part11\disk1.cab" />
     <Content Include="inter\HanGao-cache\part12\disk1.cab" />
