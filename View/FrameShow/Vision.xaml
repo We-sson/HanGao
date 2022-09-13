@@ -84,6 +84,9 @@
                                                FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                FontSize="16" />
                                 </StackPanel>
+
+
+
                             </RadioButton>
 
                             <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Results_Window_Button" Grid.Column=" 1"
@@ -183,78 +186,47 @@
 
                     <Grid Grid.Row=" 1" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Live_Window_Button}">
 
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="IsVisibleChanged">
+                                <i:InvokeCommandAction Command="{Binding}"
+                                                       CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                       PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+
+
+
                         <!--  窗口蒙版  -->
                         <Border x:Name="Mask"
                                 Background="{DynamicResource 全局_按钮_黑颜色}"
                                 CornerRadius="0 0 5 5 " />
 
 
+
+
+
+                        <ContentControl x:Name="Live_Window" Content="{Binding Live_Window}">
+                            <ContentControl.OpacityMask>
+                                <VisualBrush Visual="{Binding ElementName=Mask}" />
+                            </ContentControl.OpacityMask>
+                        </ContentControl>
+
+
+
+
                         <!--  相机图像  -->
-                        <Halcon:HSmartWindowControlWPF x:Name="Live_Window"
-                                                       HorizontalAlignment="Stretch"
+                        <!--<Halcon:HSmartWindowControlWPF HorizontalAlignment="Stretch"
                                                        VerticalAlignment="Stretch"
                                                        HorizontalContentAlignment="Center"
                                                        VerticalContentAlignment="Center"
-                                                       SnapsToDevicePixels="True">
+                                                       SnapsToDevicePixels="True"
+                                                       Visibility="Collapsed">
                             <Halcon:HSmartWindowControlWPF.OpacityMask>
                                 <VisualBrush Visual="{Binding ElementName=Mask}" />
                             </Halcon:HSmartWindowControlWPF.OpacityMask>
-                        </Halcon:HSmartWindowControlWPF>
+                        </Halcon:HSmartWindowControlWPF>-->
 
-                        <!--<RadioButton x:Name="R1"
-                                         HorizontalContentAlignment="Center"
-                                         VerticalContentAlignment="Center"
-                                         GroupName="T">
 
-                                <Expander Style="{DynamicResource ExpanderStyle}"
-                                          Width=" 300"
-                                          HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"
-                                          ExpandDirection="Down"
-                                          Header="Expander"
-                                          IsExpanded="{Binding IsChecked, ElementName=R1}">
-                                    <Grid Background="#FFE5E5E5">
-                                        <Border Width=" 300"
-                                                Height="500"
-                                                Background="Gray" />
-                                    </Grid>
-                                </Expander>
-                            </RadioButton>
-                            <RadioButton x:Name="R2"
-                                         HorizontalContentAlignment="Center"
-                                         VerticalContentAlignment="Center"
-                                         GroupName="T">
-
-                                <Expander HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"
-                                          ExpandDirection="Down"
-                                          Header="Expander"
-                                          IsExpanded="{Binding IsChecked, ElementName=R2}">
-                                    <Grid Background="#FFE5E5E5">
-                                        <Border Width=" 300"
-                                                Height="500"
-                                                Background="Gray" />
-                                    </Grid>
-                                </Expander>
-                            </RadioButton>
-
-                            <RadioButton x:Name="R3"
-                                         HorizontalContentAlignment="Center"
-                                         VerticalContentAlignment="Center"
-                                         GroupName="T">
-
-                                <Expander HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"
-                                          ExpandDirection="Down"
-                                          Header="Expander"
-                                          IsExpanded="{Binding IsChecked, ElementName=R3}">
-                                    <Grid Background="#FFE5E5E5">
-                                        <Border Width=" 300"
-                                                Height="500"
-                                                Background="Gray" />
-                                    </Grid>
-                                </Expander>
-                            </RadioButton>-->
 
 
                     </Grid>

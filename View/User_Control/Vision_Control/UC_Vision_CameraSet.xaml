@@ -86,33 +86,23 @@
                                           BorderThickness="2"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
-                                          ItemsSource="{Binding Camera_List}"
-                                          SelectedIndex="0">
+                                          ItemsSource="{Binding Camera_UI_List, Mode=TwoWay}"
+                                          SelectedIndex="{Binding Camera_UI_Select}">
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding }"
-                                                   Width=" 150"
-                                                   TextWrapping="Wrap"
-                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="14"
-                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                   TextTrimming="CharacterEllipsis" />
+
+                                            <TextBlock Text="{Binding}"
+                                                       TextWrapping="Wrap"
+                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                       FontSize="14"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                       TextTrimming="CharacterEllipsis" />
+
+
+
                                         </DataTemplate>
                                     </ComboBox.ItemTemplate>
-                                    <ComboBoxItem Padding="6" BorderBrush="Black">
 
-
-                                    </ComboBoxItem>
-                                    <ComboBoxItem Padding="6" IsSelected="True">
-
-                                        <TextBlock Text="GEV:Hikviion-10.30.45.65-123456"
-                                                   Width=" 150"
-                                                   TextWrapping="Wrap"
-                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="14"
-                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                   TextTrimming="CharacterEllipsis" />
-                                    </ComboBoxItem>
                                 </ComboBox>
                                 <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
                                         Width="100"
@@ -131,7 +121,7 @@
 
                                         <i:EventTrigger EventName="Click">
                                             <i:InvokeCommandAction Command="{Binding Initialize_GIGE_Camera_Comm}"
-                                                                   CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UC_Vision_CameraSet}}}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UC_Vision_CameraSet}}}"
                                                                    PassEventArgsToCommand="True" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
