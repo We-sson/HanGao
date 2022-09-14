@@ -667,7 +667,9 @@
     <Content Include="DLL\MVS\X64\MvCamCtrl.Net.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DLL\MVS\X86\MvCamCtrl.Net.dll" />
+    <Content Include="DLL\MVS\X86\MvCamCtrl.Net.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="inter\HanGao-cache\part10\disk1.cab" />
     <Content Include="inter\HanGao-cache\part11\disk1.cab" />
     <Content Include="inter\HanGao-cache\part12\disk1.cab" />

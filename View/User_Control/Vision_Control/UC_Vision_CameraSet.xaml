@@ -560,18 +560,40 @@
                                                FontSize="16"
                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                 </Button>
-                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
-                                        Width="90"
-                                        Height=" 38"
-                                        Margin="0,0,0,0"
-                                        Background="{DynamicResource 全局_按钮_蓝颜色}">
+                                <CheckBox Style="{DynamicResource CheckBoxStyle1}" Grid.Column=" 1"
+                                          Width="90"
+                                          Height=" 38"
+                                          Margin="0,0,0,0"
+                                          HorizontalContentAlignment="Center"
+                                          VerticalContentAlignment="Center"
+                                          Background="{DynamicResource 全局_按钮_灰颜色}"
+                                          FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                          FontSize=" 26"
+                                          Foreground="{DynamicResource 全局_按钮_黑颜色}">
                                     <TextBlock Text="实时采集"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                FontSize="16"
                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
-                                </Button>
+
+
+
+                                    <i:Interaction.Triggers>
+
+                                        <i:EventTrigger EventName="Checked">
+                                            <i:InvokeCommandAction Command="{Binding Live_Camera_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </CheckBox>
+
+
+
+
+
+
                                 <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
                                         Width="90"
                                         Height=" 38"
