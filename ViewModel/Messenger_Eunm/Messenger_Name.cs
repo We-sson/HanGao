@@ -236,6 +236,13 @@ namespace HanGao.ViewModel.Messenger_Eunm
            /// UI开始页面状态信息
            /// </summary>
          UI_Start_State_Info,
+
+
+         /// <summary>
+         /// 实时窗口图像显示
+         /// </summary>
+            Live_Window_Image_Show
+
         }
 
 

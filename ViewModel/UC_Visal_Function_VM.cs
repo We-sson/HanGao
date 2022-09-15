@@ -27,8 +27,12 @@ namespace HanGao.ViewModel
 
 
             //halcon控件操作
-            Messenger.Register<UserControl, string>(this, nameof(Meg_Value_Eunm.User_Contorl_Message_Show), (O, _List) =>
+            Messenger.Register<MVS_Image_delegate_Mode, string>(this, nameof(Meg_Value_Eunm.Live_Window_Image_Show), (O, _Mvs_Image) =>
             {
+                HImage image = new HImage();
+
+                image.GenImage1("byte", (int)_Mvs_Image.pFrameInfo.nWidth, _Mvs_Image. pFrameInfo.nHeight, _Mvs_Image.pData);
+
 
 
 
