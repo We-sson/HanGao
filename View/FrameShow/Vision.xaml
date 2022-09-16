@@ -205,26 +205,31 @@
 
 
 
-                        <ContentControl x:Name="Live_Window" Content="{Binding Live_Window}">
+                        <!--<ContentControl x:Name="Live_Window" Content="{Binding Live_Window}">
                             <ContentControl.OpacityMask>
                                 <VisualBrush Visual="{Binding ElementName=Mask}" />
                             </ContentControl.OpacityMask>
-                        </ContentControl>
+                        </ContentControl>-->
 
 
 
 
                         <!--  相机图像  -->
-                        <!--<Halcon:HSmartWindowControlWPF HorizontalAlignment="Stretch"
+                        <Halcon:HSmartWindowControlWPF x:Name="Live_Window"
+                                                       HorizontalAlignment="Stretch"
                                                        VerticalAlignment="Stretch"
                                                        HorizontalContentAlignment="Center"
                                                        VerticalContentAlignment="Center"
                                                        SnapsToDevicePixels="True"
-                                                       Visibility="Collapsed">
+                                                       Visibility="Visible">
+                            <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Live_Window_Image}" />
+
+
+
                             <Halcon:HSmartWindowControlWPF.OpacityMask>
                                 <VisualBrush Visual="{Binding ElementName=Mask}" />
                             </Halcon:HSmartWindowControlWPF.OpacityMask>
-                        </Halcon:HSmartWindowControlWPF>-->
+                        </Halcon:HSmartWindowControlWPF>
 
 
 

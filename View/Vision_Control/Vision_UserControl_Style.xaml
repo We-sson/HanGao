@@ -38,7 +38,7 @@
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
         <Setter Property="Background" Value="{DynamicResource 全局_按钮_灰颜色}" />
         <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderThickness" Value="0" />
         <!--<Setter Property="Effect" Value="{DynamicResource 全局背景阴影}"/>-->
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -52,7 +52,7 @@
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="5"
+                                CornerRadius="4"
                                 Effect="{DynamicResource 全局背景阴影}"
                                 SnapsToDevicePixels="true" />
                         <ContentPresenter x:Name="contentPresenter"
@@ -72,11 +72,12 @@
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_灰颜色}" />
+                            <Setter Property="BorderThickness" Value="2"/>
                             <!--<Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
                             <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>-->
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter Property="Opacity" Value="0.8" />
+                            <Setter Property="Opacity" Value="0.5" />
                             <!--<Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
                             <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>-->
                         </Trigger>

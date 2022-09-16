@@ -566,10 +566,9 @@
                                           Margin="0,0,0,0"
                                           HorizontalContentAlignment="Center"
                                           VerticalContentAlignment="Center"
-                                          Background="{DynamicResource 全局_按钮_灰颜色}"
+                                          Background="{DynamicResource 全局_按钮_蓝颜色}"
                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                          FontSize=" 26"
-                                          Foreground="{DynamicResource 全局_按钮_黑颜色}">
+                                          FontSize=" 26">
                                     <TextBlock Text="实时采集"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
@@ -581,7 +580,7 @@
 
                                     <i:Interaction.Triggers>
 
-                                        <i:EventTrigger EventName="Checked">
+                                        <i:EventTrigger EventName="Click">
                                             <i:InvokeCommandAction Command="{Binding Live_Camera_Comm}"
                                                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                    PassEventArgsToCommand="True" />
@@ -606,6 +605,16 @@
                                                FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                FontSize="16"
                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+                                    <i:Interaction.Triggers>
+
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding Single_Camera_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
                                 </Button>
 
                             </Grid>

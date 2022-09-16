@@ -27,6 +27,7 @@ using System.Threading;
 using HanGao.View.FrameShow;
 using HalconDotNet;
 using HanGao.Xml_Date.Xml_Models;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace HanGao.ViewModel
 {
@@ -86,8 +87,7 @@ namespace HanGao.ViewModel
 
             Messenger.Send<MVS_Image_delegate_Mode, string>(new MVS_Image_delegate_Mode() { pData= pData , pFrameInfo= pFrameInfo , pUser=pUser}, nameof(Meg_Value_Eunm.Live_Window_Image_Show));
 
-            MessageBox.Show("Get one frame: Width[" + Convert.ToString(pFrameInfo.nWidth) + "] , Height[" + Convert.ToString(pFrameInfo.nHeight)
-                                + "] , FrameNum[" + Convert.ToString(pFrameInfo.nFrameNum) + "]");
+            // MessageBox.Show("Get one frame: Width[" + Convert.ToString(pFrameInfo.nWidth) + "] , Height[" + Convert.ToString(pFrameInfo.nHeight) + "] , FrameNum[" + Convert.ToString(pFrameInfo.nFrameNum) + "]");
 
 
 
@@ -177,7 +177,9 @@ namespace HanGao.ViewModel
 
 
 
-
+        /// <summary>
+        /// 相机实时采集图像功能
+        /// </summary>
         public ICommand Live_Camera_Comm
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
@@ -300,7 +302,89 @@ namespace HanGao.ViewModel
         }
 
 
+        public ICommand Single_Camera_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
 
+                Button E = Sm.Source as Button;
+
+                 CIntValue stParam=new CIntValue ();
+
+
+
+                CCameraInfo _L = _Camera_List[Camera_UI_Select];
+
+                //创建相机
+                Nret = Live_Camera.CreateHandle(ref _L);
+                //创建失败方法
+                if (CErrorDefine.MV_OK != Nret)
+                {
+                    MessageBox.Show("创建相机失败");
+                    return;
+                }
+
+                //打开相机
+                Nret = Live_Camera.OpenDevice();
+                //打卡失败方法
+                if (CErrorDefine.MV_OK != Nret)
+                {
+                    return;
+                }
+
+                Nret = Live_Camera.StartGrabbing();
+                //开始捕捉
+                if (CErrorDefine.MV_OK != Nret)
+                {
+                    MessageBox.Show("设置回调方法失败");
+                    return;
+                }
+
+                Live_Camera.GetIntValue("PayloadSize", ref stParam);
+
+                //帧图像信息
+                Single_Image_Mode Single_Image = new Single_Image_Mode
+                {
+                    pData = new byte[stParam.CurValue]
+                };
+
+
+                Nret =   Live_Camera.GetOneFrameTimeout(Single_Image.pData, (uint)stParam.CurValue, ref Single_Image.Single_ImageInfo, 1000);
+
+
+          
+                Messenger.Send<Single_Image_Mode, string>(Single_Image, nameof(Meg_Value_Eunm.Single_Image_Show));
+
+
+
+
+                Nret = Live_Camera.StopGrabbing();
+                //停止抓图方法
+                if (CErrorDefine.MV_OK != Nret)
+                {
+                    MessageBox.Show("关闭相机失败");
+                    return;
+                }
+
+
+                Nret = Live_Camera.CloseDevice();
+                //关闭相机失败方法
+                if (CErrorDefine.MV_OK != Nret)
+                {
+                    MessageBox.Show("关闭相机失败");
+                    return;
+                }
+
+                Nret = Live_Camera.DestroyHandle();
+                //销毁失败方法
+                if (CErrorDefine.MV_OK != Nret)
+                {
+                    MessageBox.Show("关闭相机失败");
+                    return;
+                }
+
+            }); 
+        }
 
         /// <summary>
         /// 查找网络内相机
@@ -316,12 +400,6 @@ namespace HanGao.ViewModel
                 int nRet = CErrorDefine.MV_OK;
 
 
-
-
-
-            
-
-              
 
                Task<int> _T=   Task.Run(() =>
                 {
@@ -404,16 +482,28 @@ namespace HanGao.ViewModel
     /// </summary>
     public class MVS_Image_delegate_Mode
     {
-        public IntPtr pData { set; get; }
-        public MV_FRAME_OUT_INFO_EX pFrameInfo { set; get; }
-      public   IntPtr pUser { set; get; }
-
-
-
-
+        public IntPtr pData;
+        public MV_FRAME_OUT_INFO_EX pFrameInfo;
+        public IntPtr pUser;
 
     }
 
+    public class Single_Image_Mode
+    {
+     
+        public byte[] pData ;
+        public CFrameoutEx Single_ImageInfo=new CFrameoutEx ();
+        public IntPtr Get_IntPtr()
+        {
+            if (pData!=null)
+            {
+
+            return  Marshal.UnsafeAddrOfPinnedArrayElement((Array)pData, 0);
+            }
+            return IntPtr.Zero;
+        }
+
+    }
 
 }
 

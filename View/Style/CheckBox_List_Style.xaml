@@ -5,9 +5,9 @@
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Background" Value="{DynamicResource OptionMark.Static.Background}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource OptionMark.Static.Border}" />
-
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Effect" Value="{DynamicResource 全局背景阴影}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
@@ -15,6 +15,7 @@
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius=" 4"
                             SnapsToDevicePixels="true">
 
 
@@ -29,12 +30,13 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasContent" Value="true" />
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="templateRoot" Property="Background" Value="#AbABAB" />
+                            <Setter TargetName="templateRoot" Property="BorderThickness" Value="2" />
+                            <Setter TargetName="templateRoot" Property="BorderBrush" Value="{DynamicResource 全局_按钮_灰颜色}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false" />
                         <Trigger Property="IsPressed" Value="true" />
                         <Trigger Property="IsChecked" Value="true">
-                            <Setter TargetName="templateRoot" Property="Background" Value="#22AB38" />
+                            <Setter TargetName="templateRoot" Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="{x:Null}" />
                     </ControlTemplate.Triggers>

@@ -13,6 +13,7 @@ using System.Reflection;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static Soceket_Connect.Socket_Connect;
 using HalconDotNet;
+using MvCamCtrl.NET;
 
 namespace HanGao.ViewModel
 {
@@ -26,7 +27,7 @@ namespace HanGao.ViewModel
 
 
 
-            //halcon控件操作
+            //halcon实时图像显示操作
             Messenger.Register<MVS_Image_delegate_Mode, string>(this, nameof(Meg_Value_Eunm.Live_Window_Image_Show), (O, _Mvs_Image) =>
             {
                 HImage image = new HImage();
@@ -34,7 +35,22 @@ namespace HanGao.ViewModel
                 image.GenImage1("byte", (int)_Mvs_Image.pFrameInfo.nWidth, _Mvs_Image. pFrameInfo.nHeight, _Mvs_Image.pData);
 
 
+                Live_Window_Image = image;
 
+
+
+
+            });
+            //halcon  单帧操作
+            Messenger.Register<Single_Image_Mode, string>(this, nameof(Meg_Value_Eunm.Single_Image_Show), (O, _Mvs_Image) =>
+            {
+
+                HImage image = new HImage();
+
+                image.GenImage1("byte", (int)_Mvs_Image.Single_ImageInfo. ImageInfo.Width, _Mvs_Image.Single_ImageInfo.ImageInfo.Height, _Mvs_Image.Get_IntPtr());
+
+
+                Live_Window_Image = image;
 
 
 
@@ -43,7 +59,16 @@ namespace HanGao.ViewModel
 
 
         }
-        public HSmartWindowControlWPF Live_Window { set; get; } = new HSmartWindowControlWPF() { };
+        public HSmartWindowControlWPF Live_Window_UserContol { set; get; } = new HSmartWindowControlWPF() { };
+
+
+        /// <summary>
+        /// 实时窗口图像显示
+        /// </summary>
+        public HObject Live_Window_Image { set; get; }=new HObject () { };
+
+
+
 
         // 接收到消息创建对应字符的消息框
 
