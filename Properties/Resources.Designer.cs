@@ -121,16 +121,6 @@ namespace HanGao.Properties {
         }
         
         /// <summary>
-        ///   查找 System.Byte[] 类型的本地化资源。
-        /// </summary>
-        public static byte[] iconfont {
-            get {
-                object obj = ResourceManager.GetObject("iconfont", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
         public static System.Drawing.Bitmap ListView_参数添加_ioc {

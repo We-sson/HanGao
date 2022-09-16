@@ -185,6 +185,11 @@
     <Compile Include="Model\User_Read_Xml_Model.cs" />
     <Compile Include="Model\User_Working_Path_Models.cs" />
     <Compile Include="Model\Wroking_Models.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Socket_KUKA\Models\Socket_Models.cs" />
     <Compile Include="Socket_KUKA\Socket_Connect.cs" />
     <Compile Include="Socket_KUKA\Socket_Receive.cs" />
@@ -543,11 +548,6 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -557,8 +557,8 @@
     <Resource Include="Krc8.3\HanGaoEkrl.xml" />
     <Resource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </Resource>
     <None Include=".editorconfig" />
     <None Include="FodyWeavers.xsd">
@@ -664,12 +664,43 @@
     <Resource Include="Resources\UC_开始页面状态_3.png" />
     <Resource Include="FodyWeavers.xml" />
     <Resource Include="inter\序列号.txt" />
-    <Content Include="DLL\MVS\X64\MvCamCtrl.Net.dll">
+    <Resource Include="DLL\MVS\X64\MvCamCtrl.Net.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DLL\MVS\X86\MvCamCtrl.Net.dll">
+    </Resource>
+    <Resource Include="DLL\Halcon\2022\halcon.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </Resource>
+    <Resource Include="DLL\Halcon\2022\halconc.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DLL\Halcon\2022\halconcpp.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DLL\Halcon\2022\halconcppxl.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="DLL\Halcon\2022\halconcxl.dll" />
+    <Resource Include="DLL\Halcon\2022\halcondl.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DLL\Halcon\2022\halcondlxl.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DLL\Halcon\2022\halconxl.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DLL\Halcon\2022\hcanvas.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DLL\Halcon\2022\hdevenginecpp.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DLL\Halcon\2022\hdevenginecppxl.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DLL\Halcon\2022\libiomp5md.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Content Include="inter\HanGao-cache\part10\disk1.cab" />
     <Content Include="inter\HanGao-cache\part11\disk1.cab" />
     <Content Include="inter\HanGao-cache\part12\disk1.cab" />
@@ -700,6 +731,14 @@
     <Resource Include="Resources\Control_相机设置_ioc.png" />
     <Resource Include="Resources\Control_自动模式_ioc.png" />
     <Resource Include="Resources\ListView_参数添加_ioc.png" />
+    <None Include="Resources\halcondotnet.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Content Include="Resources\halcondotnetxl.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\hdevenginedotnet.dll" />
+    <None Include="Resources\hdevenginedotnetxl.dll" />
     <Content Include="Resources\Log.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
