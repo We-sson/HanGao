@@ -156,6 +156,14 @@
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                    FontSize="16" />
                                     </StackPanel>
+                                    <i:Interaction.Triggers>
+
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding Image_AutoSize_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
                                 </Button>
                             </StackPanel>
                         </Grid>
@@ -216,15 +224,25 @@
 
                         <!--  相机图像  -->
                         <Halcon:HSmartWindowControlWPF x:Name="Live_Window"
+                                                       Width="auto"
+                                                       Height="auto"
                                                        HorizontalAlignment="Stretch"
                                                        VerticalAlignment="Stretch"
                                                        HorizontalContentAlignment="Center"
                                                        VerticalContentAlignment="Center"
+                                                       HDisableAutoResize="True"
                                                        SnapsToDevicePixels="True"
                                                        Visibility="Visible">
                             <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Live_Window_Image}" />
 
+                            <i:Interaction.Triggers>
 
+                                <i:EventTrigger EventName="Loaded">
+                                    <i:InvokeCommandAction Command="{Binding Loaded_Live_Camera_Comm}"
+                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                           PassEventArgsToCommand="True" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
 
                             <Halcon:HSmartWindowControlWPF.OpacityMask>
                                 <VisualBrush Visual="{Binding ElementName=Mask}" />
