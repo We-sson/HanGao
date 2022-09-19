@@ -79,15 +79,14 @@ namespace HanGao.ViewModel
 
                 //Live_Window_Image = image;
                 //Live_HWindow.SetPart(0, 0, (int)_Mvs_Image.Single_ImageInfo.ImageInfo.Height  - 2, (int)_Mvs_Image.Single_ImageInfo.ImageInfo.Width - 2);
-                //Live_HWindow.SetPart(0, 0, -1, -1);
 
                 //SetHalconScalingZoom(Live_Window_UserContol, (int)_Mvs_Image.Single_ImageInfo.ImageInfo.Height, (int)_Mvs_Image.Single_ImageInfo.ImageInfo.Width);
-
-
+           
                 //Live_HWindow.DispObj(image);
                 //DispImage(image, Live_HWindow);
                 Live_HWindow.DispImage(image);
-                Live_Window_UserContol.SetFullImagePart(null);
+                Live_HWindow.SetPart(0, 0, -2, -2);
+               // Live_Window_UserContol.SetFullImagePart(image);
 
                 
 
@@ -159,9 +158,15 @@ namespace HanGao.ViewModel
 
                 Live_HWindow = Live_Window_UserContol.HalconWindow;
 
-                //Live_HWindow.SetPart( 0, 0, -2, -2);
 
-                //Live_Window_UserContol.HDisableAutoResize = true;
+
+
+                Live_Window_UserContol.HalconWindow.SetWindowExtents(0, 0, (int)Live_Window_UserContol.WindowSize.Width,(int) Live_Window_UserContol.WindowSize.Height);
+
+
+         
+
+        
 
 
 
@@ -180,11 +185,11 @@ namespace HanGao.ViewModel
             {
                 Button E = Sm.Source as Button;
 
-                Live_Window_UserContol.HKeepAspectRatio = true;
+            
                  Live_Window_UserContol.SetFullImagePart();
 
+                Live_HWindow.SetPart(0, 0, -2, -2);
 
-          
             });
         }
 

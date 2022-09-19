@@ -371,7 +371,7 @@
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Camera_Exposure" Grid.Column=" 1"
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" Grid.Column=" 1"
                                         Margin="5"
                                         VerticalAlignment="Center"
                                         HorizontalContentAlignment="Stretch"
@@ -384,7 +384,7 @@
                                         Value="1" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=Camera_Exposure, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Text="1"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"

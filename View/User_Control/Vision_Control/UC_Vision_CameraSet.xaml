@@ -118,7 +118,6 @@
 
 
                                     <i:Interaction.Triggers>
-
                                         <i:EventTrigger EventName="Click">
                                             <i:InvokeCommandAction Command="{Binding Initialize_GIGE_Camera_Comm}"
                                                                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UC_Vision_CameraSet}}}"
@@ -157,14 +156,23 @@
                                         Value="1" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=Camera_Exposure, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                         Width=" 100"
+                                         Text="{Binding ElementName=Camera_Exposure, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"
+                                         Width="100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
                                          Background="Transparent"
                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                          BorderThickness="2"
-                                         FontSize="18" />
+                                         FontSize="18">
+                                    <i:Interaction.Triggers>
+
+                                        <i:EventTrigger EventName="TextChanged">
+                                            <i:InvokeCommandAction Command="{Binding Camera_Image_Exposure_time_Set_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
                             </Grid>
 
                             <Grid Margin="8">

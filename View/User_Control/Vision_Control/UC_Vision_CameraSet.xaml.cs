@@ -24,5 +24,10 @@ namespace HanGao.View.User_Control.Vision_Control
         {
             InitializeComponent();
         }
+
+        private void TextBox_SourceUpdated(object sender, DataTransferEventArgs e)
+        {
+
+        }
     }
 }

@@ -73,6 +73,11 @@ namespace HanGao.ViewModel
         public int Camera_UI_Select { set; get; } = 0;
 
 
+
+
+        /// <summary>
+        /// 查找相机枚举集合
+        /// </summary>
         private List<CCameraInfo> _Camera_List=new List<CCameraInfo> ();
 
 
@@ -302,6 +307,33 @@ namespace HanGao.ViewModel
         }
 
 
+
+        /// <summary>
+        /// 查找网络内相机
+        /// </summary>
+        public ICommand Camera_Image_Exposure_time_Set_Comm
+        {
+            get => new AsyncRelayCommand<RoutedEventArgs>(async (Sm) => 
+            {
+
+                await Task.Delay(1000);
+
+                TextBox E = Sm.Source as TextBox;
+
+                MessageBox.Show(E.Text);
+
+
+
+
+
+
+            });
+        }
+
+
+        /// <summary>
+        /// 单帧获取图像功能
+        /// </summary>
         public ICommand Single_Camera_Comm
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
@@ -386,6 +418,9 @@ namespace HanGao.ViewModel
             }); 
         }
 
+
+
+
         /// <summary>
         /// 查找网络内相机
         /// </summary>
@@ -468,6 +503,13 @@ namespace HanGao.ViewModel
 
             });
         }
+
+
+
+
+
+
+
 
 
 
