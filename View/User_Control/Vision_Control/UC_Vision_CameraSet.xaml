@@ -149,11 +149,11 @@
                                         HorizontalContentAlignment="Stretch"
                                         VerticalContentAlignment="Stretch"
                                         IsSnapToTickEnabled="True"
-                                        Maximum="1"
+                                        Maximum="2500000"
                                         Minimum=" 0"
                                         SmallChange="0.1"
                                         TickFrequency=" 0.1"
-                                        Value="1" />
+                                        Value="500" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding ElementName=Camera_Exposure, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"
@@ -208,7 +208,19 @@
                                          Background="Transparent"
                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                          BorderThickness="2"
-                                         FontSize="18" />
+                                         FontSize="18">
+                                    <i:Interaction.Triggers>
+
+                                        <i:EventTrigger EventName="TextChanged">
+                                            <i:InvokeCommandAction Command="{Binding Camera_Image_Gain_Set_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
+
+
+                                </TextBox>
                             </Grid>
 
                             <Grid Margin="8">

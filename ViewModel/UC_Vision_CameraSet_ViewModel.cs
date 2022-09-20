@@ -1,4 +1,4 @@
-﻿using HanGao.Model;
+﻿global using HanGao.Model;
 using HanGao.View.User_Control;
 using HanGao.View.UserMessage;
 using HanGao.Xml_Date.Xml_Write_Read;
@@ -27,7 +27,7 @@ using System.Threading;
 using HanGao.View.FrameShow;
 using HalconDotNet;
 using HanGao.Xml_Date.Xml_Models;
-using System.Runtime.InteropServices.ComTypes;
+ using System.Runtime.InteropServices.ComTypes;
 
 namespace HanGao.ViewModel
 {
@@ -55,11 +55,22 @@ namespace HanGao.ViewModel
 
         public CCamera Live_Camera { set; get; } = new CCamera();
 
-
+        private int nret= CErrorDefine.MV_ALG_OK;
         /// <summary>
         /// 相机状态
         /// </summary>
-        public int Nret { set; get; } = CErrorDefine.MV_OK;
+        public int Nret
+        {
+            get { return nret; }
+            set {
+                nret = value;
+                if (value != CErrorDefine.MV_ALG_OK)
+                {
+                   
+                }
+            }
+        }
+
 
 
         /// <summary>
@@ -236,7 +247,7 @@ namespace HanGao.ViewModel
                     }
 
                     //设置采集模式
-                    Nret= Live_Camera.SetEnumValue("AcquisitionMode", (uint)MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS);
+                    Nret= Live_Camera.SetEnumValue(Camera_Parameters_Name_Enum.AcquisitionMode.ToString(), (uint)MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS);
                     //创建失败方法
                     if (CErrorDefine.MV_OK != Nret)
                     {
@@ -309,7 +320,7 @@ namespace HanGao.ViewModel
 
 
         /// <summary>
-        /// 查找网络内相机
+        /// 设置相机曝光时间
         /// </summary>
         public ICommand Camera_Image_Exposure_time_Set_Comm
         {
@@ -322,6 +333,55 @@ namespace HanGao.ViewModel
 
                 MessageBox.Show(E.Text);
 
+                if (float.Parse (E.Text)==0)
+                {
+                    //设置曝光时间
+                    Nret = Live_Camera.SetEnumValue(Camera_Parameters_Name_Enum.ExposureAuto.ToString(), (uint)MV_CAM_EXPOSURE_AUTO_MODE.MV_EXPOSURE_AUTO_MODE_CONTINUOUS);
+                    if (CErrorDefine.MV_OK != Nret)
+                    {
+                        MessageBox.Show("设置相机自动曝光模式失败");
+                        return;
+                    }
+                }
+                else
+                {
+                    //设置曝光时间
+                    Nret = Live_Camera.SetEnumValue(Camera_Parameters_Name_Enum.ExposureAuto.ToString(), (uint)MV_CAM_EXPOSURE_AUTO_MODE.MV_EXPOSURE_AUTO_MODE_ONCE);
+                    if (CErrorDefine.MV_OK != Nret)
+                    {
+                        MessageBox.Show("设置相机曝光模式失败");
+                        return;
+                    }
+                    //设置曝光时间
+                    Nret = Live_Camera.SetFloatValue(Camera_Parameters_Name_Enum.ExposureTime.ToString(), float.Parse(E.Text));
+                    if (CErrorDefine.MV_OK != Nret)
+                    {
+                        MessageBox.Show("设置相机曝光时间失败");
+                        return;
+                    }
+                }
+ 
+
+
+
+
+            });
+        }
+      
+         /// <summary>
+        /// 设置相机曝光时间
+        /// </summary>
+        public ICommand Camera_Image_Gain_Set_Comm
+        {
+            get => new AsyncRelayCommand<RoutedEventArgs>(async (Sm) =>
+            {
+
+                await Task.Delay(500);
+
+                TextBox E = Sm.Source as TextBox;
+
+                MessageBox.Show(E.Text);
+
 
 
 
@@ -329,7 +389,6 @@ namespace HanGao.ViewModel
 
             });
         }
-
 
         /// <summary>
         /// 单帧获取图像功能
@@ -382,9 +441,14 @@ namespace HanGao.ViewModel
 
 
                 Nret =   Live_Camera.GetOneFrameTimeout(Single_Image.pData, (uint)stParam.CurValue, ref Single_Image.Single_ImageInfo, 1000);
+                //抓图错误方法
+                if (CErrorDefine.MV_OK != Nret)
+                {
+                    MessageBox.Show("相机抓图失败");
+                    return;
+                }
 
 
-          
                 Messenger.Send<Single_Image_Mode, string>(Single_Image, nameof(Meg_Value_Eunm.Single_Image_Show));
 
 
@@ -508,8 +572,113 @@ namespace HanGao.ViewModel
 
 
 
+        /// <summary>
+        /// 相机功能参数名称
+        /// </summary>
+        public  enum Camera_Parameters_Name_Enum
+        {
+            /// <summary>
+            /// 设备采集的采集模式、枚举类型值 ——默认持续采集模式，"MV_CAM_ACQUISITION_MODE"
+            /// </summary>
+            AcquisitionMode,
+            /// <summary>
+            /// 每个帧突发开始触发信号采集的帧数、整数类型——默认1，最大1023
+            /// </summary>
+            AcquisitionBurstFrameCount,
+            /// <summary>
+            /// 控制抓取帧的采集频率、双精度类型——默认1，最小0.4，最大500
+            /// </summary>
+            AcquisitionFrameRate,
+            /// <summary>
+            /// 控制所选触发器是否处于活动状态、枚举类型——默认Off，"MV_CAM_TRIGGER_MODE"
+            /// </summary>
+            TriggerMode,
+            /// <summary>
+            /// 指定用作触发源的内部信号或物理输入线路。所选触发器的触发模式必须设置为“开”。枚举类型——线路0，"MV_CAM_TRIGGER_SOURCE"
+            /// </summary>
+            TriggerSource,
+            /// <summary>
+            /// 指定在激活触发接收之前要应用的延迟（以us为单位），双精度类型——默认0，最小0，最大3.2e+07
+            /// </summary>
+            TriggerDelay,
+            /// <summary>
+            /// 设置所选行去缓冲时间的值（us），整数类型——默认0，最小0，最大1000000
+            /// </summary>
+            LineDebouncerTime,
+            /// <summary>
+            /// 设置定时曝光模式时的自动曝光模式，枚举类型——默认连续模式，"MV_CAM_EXPOSURE_AUTO_MODE"
+            /// </summary>
+            ExposureAuto,
+            /// <summary>
+            /// 曝光模式定时时的曝光时间(us)，双精度类型——默认500，最小27，最大 2.5e+06
+            /// </summary>
+            ExposureTime,
+            /// <summary>
+            /// 应用于图像的增益，单位为dB，双精度类型——默认0，最小0，最大20.0322
+            /// </summary>
+            Gain,
+            /// <summary>
+            /// 设置自动增益控制（AGC）模式，枚举类型——模式连续模式，"MV_CAM_GAIN_MODE"
+            /// </summary>
+            GainAuto,
+            /// <summary>
+            /// 设置选定的数字移位控制，双精度类型——默认0，最小-6，最大6
+            /// </summary>
+            DigitalShift,
+            /// <summary>
+            /// 使能/禁用数字移位调节，布尔类型——默认False
+            /// </summary>
+            DigitalShiftEnable,
+            /// <summary>
+            /// 设置选定的亮度控制，整数类似——默认100，最小0，最大255
+            /// </summary>
+            Brightness,
+            /// <summary>
+            /// 模拟黑电平百分比，整数类型——默认200，最小0，最大4095
+            /// </summary>
+            BlackLevel,
+            /// <summary>
+            /// 使能/禁用黑电平调整，布尔类型——默认True
+            /// </summary>
+            BlackLevelEnable,
+            /// <summary>
+            /// 控制像素强度的伽马校正，双精度类型——默认0.5，最小0，最大4
+            /// </summary>
+            Gamma,
+            /// <summary>
+            /// 使能/禁用伽马校正，布尔类型——默认True
+            /// </summary>
+            GammaEnable,
+            /// <summary>
+            /// 图像的锐度，整数类型——默认10，最小0，最大100
+            /// </summary>
+            Sharpness,
+            /// <summary>
+            /// 使能/禁用锐度调节，布尔类型——默认False
+            /// </summary>
+            SharpnessEnable,
+            /// <summary>
+            /// 设置设备图像宽度（像素），整数类型——默认512，最小376，最大3072
+            /// </summary>
+            Width,
+            /// <summary>
+            /// 设置设备图像高度（像素），整数类型——默认512，最小320，最大2048
+            /// </summary>
+            Height,
+            /// <summary>
+            /// 从原点到AOI的垂直偏移（像素）,整数类型——默认0，最小0，最大3072
+            /// </summary>
+            OffsetX,
+            /// <summary>
+            /// 从原点到AOI的水平偏移（像素）,整数类型——默认0，最小0，最大2048
+            /// </summary>
+            OffsetY,
+            /// <summary>
+            /// 水平翻转设备发送的图像。翻转后应用感兴趣区域，布尔类型——默认False
+            /// </summary>
+            ReverseX,
 
-
+        }
 
 
 
@@ -532,7 +701,7 @@ namespace HanGao.ViewModel
 
     public class Single_Image_Mode
     {
-     
+      
         public byte[] pData ;
         public CFrameoutEx Single_ImageInfo=new CFrameoutEx ();
         public IntPtr Get_IntPtr()
@@ -549,216 +718,4 @@ namespace HanGao.ViewModel
 
 }
 
-namespace Grab_Callback
-{
 
-
-    class Grab_Callback
-    {
-        private static cbOutputExdelegate ImageCallback;
-
-        static void ImageCallbackFunc(IntPtr pData, ref MV_FRAME_OUT_INFO_EX pFrameInfo, IntPtr pUser)
-        {
-            Console.WriteLine("Get one frame: Width[" + Convert.ToString(pFrameInfo.nWidth) + "] , Height[" + Convert.ToString(pFrameInfo.nHeight)
-                                + "] , FrameNum[" + Convert.ToString(pFrameInfo.nFrameNum) + "]");
-        }
-
-        static void Main(string[] args)
-        {
-            int nRet = CErrorDefine.MV_OK;
-            bool m_bIsDeviceOpen = false;       // ch:设备打开状态 | en:Is device open
-            CCamera m_MyCamera = new CCamera();
-
-            do
-            {
-                List<CCameraInfo> ltDeviceList = new List<CCameraInfo>();
-
-                // ch:枚举设备 | en:Enum device
-                nRet = CSystem.EnumDevices(CSystem.MV_GIGE_DEVICE | CSystem.MV_USB_DEVICE, ref ltDeviceList);
-                if (CErrorDefine.MV_OK != nRet)
-                {
-                    Console.WriteLine("Enum device failed:{0:x8}", nRet);
-                    break;
-                }
-                Console.WriteLine("Enum device count : " + Convert.ToString(ltDeviceList.Count));
-                if (0 == ltDeviceList.Count)
-                {
-                    break;
-                }
-
-                // ch:打印设备信息 en:Print device info
-                for (int i = 0; i < ltDeviceList.Count; i++)
-                {
-                    if (CSystem.MV_GIGE_DEVICE == ltDeviceList[i].nTLayerType)
-                    {
-                        CGigECameraInfo cGigEDeviceInfo = (CGigECameraInfo)ltDeviceList[i];
-
-                        uint nIp1 = ((cGigEDeviceInfo.nCurrentIp & 0xff000000) >> 24);
-                        uint nIp2 = ((cGigEDeviceInfo.nCurrentIp & 0x00ff0000) >> 16);
-                        uint nIp3 = ((cGigEDeviceInfo.nCurrentIp & 0x0000ff00) >> 8);
-                        uint nIp4 = (cGigEDeviceInfo.nCurrentIp & 0x000000ff);
-
-                        Console.WriteLine("[device " + i.ToString() + "]:");
-                        Console.WriteLine("  DevIP:" + nIp1 + "." + nIp2 + "." + nIp3 + "." + nIp4);
-                        if ("" != cGigEDeviceInfo.UserDefinedName)
-                        {
-                            Console.WriteLine("  UserDefineName:" + cGigEDeviceInfo.UserDefinedName + "\n");
-                        }
-                        else
-                        {
-                            Console.WriteLine("  ManufacturerName:" + cGigEDeviceInfo.chManufacturerName + "\n");
-                        }
-                    }
-                    else if (CSystem.MV_USB_DEVICE == ltDeviceList[i].nTLayerType)
-                    {
-                        CUSBCameraInfo cUsb3DeviceInfo = (CUSBCameraInfo)ltDeviceList[i];
-
-                        Console.WriteLine("[device " + i.ToString() + "]:");
-                        Console.WriteLine("  SerialNumber:" + cUsb3DeviceInfo.chSerialNumber);
-                        if ("" != cUsb3DeviceInfo.UserDefinedName)
-                        {
-                            Console.WriteLine("  UserDefineName:" + cUsb3DeviceInfo.UserDefinedName + "\n");
-                        }
-                        else
-                        {
-                            Console.WriteLine("  ManufacturerName:" + cUsb3DeviceInfo.chManufacturerName + "\n");
-                        }
-                    }
-                }
-
-                // ch:选择设备序号 | en:Select device
-                int nDevIndex = 0;
-                Console.Write("Please input index(0-{0:d}):", ltDeviceList.Count - 1);
-                try
-                {
-                    nDevIndex = Convert.ToInt32(Console.ReadLine());
-                }
-                catch
-                {
-                    Console.Write("Invalid Input!\n");
-                    break;
-                }
-
-                if (nDevIndex > ltDeviceList.Count - 1 || nDevIndex < 0)
-                {
-                    Console.Write("Input Error!\n");
-                    break;
-                }
-
-                // ch:获取选择的设备信息 | en:Get selected device information
-                CCameraInfo stDevice = ltDeviceList[nDevIndex];
-
-                // ch:创建设备 | en:Create device
-                nRet = m_MyCamera.CreateHandle(ref stDevice);
-                if (CErrorDefine.MV_OK != nRet)
-                {
-                    Console.WriteLine("Create device failed:{0:x8}", nRet);
-                    break;
-                }
-
-                // ch:打开设备 | en:Open device
-                nRet = m_MyCamera.OpenDevice();
-                if (CErrorDefine.MV_OK != nRet)
-                {
-                    Console.WriteLine("Open device failed:{0:x8}", nRet);
-                    break;
-                }
-                m_bIsDeviceOpen = true;
-
-                // ch:探测网络最佳包大小(只对GigE相机有效) | en:Detection network optimal package size(It only works for the GigE camera)
-                if (CSystem.MV_GIGE_DEVICE == stDevice.nTLayerType)
-                {
-                    int nPacketSize = m_MyCamera.GIGE_GetOptimalPacketSize();
-                    if (nPacketSize > 0)
-                    {
-                        nRet = m_MyCamera.SetIntValue("GevSCPSPacketSize", (uint)nPacketSize);
-                        if (CErrorDefine.MV_OK != nRet)
-                        {
-                            Console.WriteLine("Warning: Set Packet Size failed {0:x8}", nRet);
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Warning: Get Packet Size failed {0:x8}", nPacketSize);
-                    }
-                }
-
-                // ch:设置触发模式为off || en:set trigger mode as off
-                nRet = m_MyCamera.SetEnumValue("TriggerMode", (uint)MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_OFF);
-                if (CErrorDefine.MV_OK != nRet)
-                {
-                    Console.WriteLine("Set TriggerMode failed:{0:x8}", nRet);
-                    break;
-                }
-
-                // ch:注册回调函数 | en:Register image callback
-                ImageCallback = new cbOutputExdelegate(ImageCallbackFunc);
-                nRet = m_MyCamera.RegisterImageCallBackEx(ImageCallback, IntPtr.Zero);
-                if (CErrorDefine.MV_OK != nRet)
-                {
-                    Console.WriteLine("Register image callback failed!");
-                    break;
-                }
-
-                // ch:开启抓图 || en: start grab image
-                nRet = m_MyCamera.StartGrabbing();
-                if (CErrorDefine.MV_OK != nRet)
-                {
-                    Console.WriteLine("Start grabbing failed:{0:x8}", nRet);
-                    break;
-                }
-
-                Console.WriteLine("Press enter to exit");
-                Console.ReadLine();
-
-                // ch:停止抓图 | en:Stop grabbing
-                nRet = m_MyCamera.StopGrabbing();
-                if (CErrorDefine.MV_OK != nRet)
-                {
-                    Console.WriteLine("Stop grabbing failed:{0:x8}", nRet);
-                    break;
-                }
-
-                // ch:关闭设备 | en:Close device
-                nRet = m_MyCamera.CloseDevice();
-                if (CErrorDefine.MV_OK != nRet)
-                {
-                    Console.WriteLine("Close device failed:{0:x8}", nRet);
-                    break;
-                }
-                m_bIsDeviceOpen = false;
-
-                // ch:销毁设备 | en:Destroy device
-                nRet = m_MyCamera.DestroyHandle();
-                if (CErrorDefine.MV_OK != nRet)
-                {
-                    Console.WriteLine("Destroy device failed:{0:x8}", nRet);
-                    break;
-                }
-            } while (false);
-
-            if (CErrorDefine.MV_OK != nRet)
-            {
-                // ch:关闭设备 | en:Close device
-                if (true == m_bIsDeviceOpen)
-                {
-                    nRet = m_MyCamera.CloseDevice();
-                    if (CErrorDefine.MV_OK != nRet)
-                    {
-                        Console.WriteLine("Close device failed:{0:x8}", nRet);
-                    }
-                }
-
-                // ch:销毁设备 | en:Destroy device
-                nRet = m_MyCamera.DestroyHandle();
-                if (CErrorDefine.MV_OK != nRet)
-                {
-                    Console.WriteLine("Destroy device failed:{0:x8}", nRet);
-                }
-            }
-
-            Console.WriteLine("Press enter to exit");
-            Console.ReadKey();
-        }
-    }
-}

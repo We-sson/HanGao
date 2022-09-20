@@ -54,41 +54,9 @@ namespace HanGao.ViewModel
                 image.GenImage1("byte", (int)_Mvs_Image.Single_ImageInfo. ImageInfo.Width, _Mvs_Image.Single_ImageInfo.ImageInfo.Height, _Mvs_Image.Get_IntPtr());
 
 
-                //int imgWidth, imgHeight, winRow, winCol, winWidth, winHeight, partWidth, partHeight;
-                //try
-                //{
-                //    image.GetImageSize(out imgWidth, out imgHeight);
-                //    Live_HWindow.GetWindowExtents(out winRow, out winCol, out winWidth, out winHeight);
-                //    if (winWidth < winHeight)
-                //    {
-                //        partWidth = imgWidth;
-                //        partHeight = imgWidth * winHeight / winWidth;
-                //    }
-                //    else
-                //    {
-                //        partWidth = imgHeight * winWidth / winHeight;
-                //        partHeight = imgHeight;
-                //    }
-                //    Live_HWindow.SetPart(0, 0, partHeight - 1, partWidth - 1);
-                //    Live_HWindow.DispImage(image);
-                //}
-                //catch (HalconException hEx)
-                //{
-                //    MessageBox.Show(hEx.Message);
-                //}
 
-                //Live_Window_Image = image;
-                //Live_HWindow.SetPart(0, 0, (int)_Mvs_Image.Single_ImageInfo.ImageInfo.Height  - 2, (int)_Mvs_Image.Single_ImageInfo.ImageInfo.Width - 2);
-
-                //SetHalconScalingZoom(Live_Window_UserContol, (int)_Mvs_Image.Single_ImageInfo.ImageInfo.Height, (int)_Mvs_Image.Single_ImageInfo.ImageInfo.Width);
-           
-                //Live_HWindow.DispObj(image);
-                //DispImage(image, Live_HWindow);
                 Live_HWindow.DispImage(image);
                 Live_HWindow.SetPart(0, 0, -2, -2);
-               // Live_Window_UserContol.SetFullImagePart(image);
-
-                
 
 
 
@@ -193,59 +161,6 @@ namespace HanGao.ViewModel
             });
         }
 
-        /// <summary>
-        /// 让 Halcon 图像等比例缩放到控件尺寸
-        /// </summary>
-        private void SetHalconScalingZoom(HSmartWindowControlWPF Halcon , double width, double height)
-        {
-            double wRatio = Halcon.ActualWidth / width;
-            double hRatio = Halcon.ActualHeight / height;
-            double ratio = Math.Min(wRatio, hRatio);
-            // Halcon 是 WPF 控件对象
-            Halcon.HImagePart = wRatio > hRatio
-                ? new Rect
-                {
-                    X = -0.5 * (Halcon.ActualWidth / ratio - width),
-                    Y = 0,
-                    Width = Halcon.ActualWidth / ratio,
-                    Height = Halcon.ActualHeight / ratio
-                }
-                : new Rect
-                {
-                    X = 0,
-                    Y = -0.5 * (Halcon.ActualHeight / ratio - height),
-                    Width = Halcon.ActualWidth / ratio,
-                    Height = Halcon.ActualHeight / ratio
-                };
-        }
-
-
-        private void DispImage(HImage image, HWindow window)
-        {
-            int imgWidth, imgHeight, winRow, winCol, winWidth, winHeight, partWidth, partHeight;
-            
-            try
-            {
-                image.GetImageSize(out imgWidth, out imgHeight);
-                window.GetWindowExtents(out winRow, out winCol, out winWidth, out winHeight);
-                if (winWidth < winHeight)
-                {
-                    partWidth = imgWidth;
-                    partHeight = imgWidth * winHeight / winWidth;
-                }
-                else
-                {
-                    partWidth = imgHeight * winWidth / winHeight;
-                    partHeight = imgHeight;
-                }
-                window.SetPart(100, 0, -2, -2);
-                window.DispImage(image);
-            }
-            catch (HalconException hEx)
-            {
-                MessageBox.Show(hEx.Message);
-            }
-        }
 
     }
 }
