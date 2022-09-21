@@ -52,7 +52,9 @@ namespace HanGao.ViewModel
         /// </summary>
         public ObservableCollection<string> Camera_UI_List { set; get; } = new ObservableCollection<string >();
 
-
+        /// <summary>
+        /// 
+        /// </summary>
         public CCamera Live_Camera { set; get; } = new CCamera();
 
         private int nret= CErrorDefine.MV_ALG_OK;
@@ -123,66 +125,8 @@ namespace HanGao.ViewModel
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
-                //把参数类型转换控件
 
-                //// ch:创建设备列表 | en:Create Device List
-                //System.GC.Collect();
-
-
-                //MV_CC_DEVICE_INFO_LIST DeviceList =new MV_CC_DEVICE_INFO_LIST ();
-                //DeviceList.nDeviceNum = 0;
-
-
-                ////获得设备枚举
-                //int nRet=  CSystem.EnumDevices(CSystem.MV_GIGE_DEVICE, ref Camera_List);
-
-
-
-                //int nRet = CCamera.CreateHandle(CCamera.MV_GIGE_DEVICE | CCamera.MV_USB_DEVICE, ref m_stDeviceList);
-                //if (0 != nRet)
-                //{
-                //    ShowErrorMsg("Enumerate devices fail!", 0);
-                //    return;
-                //}
-
-                //// ch:在窗体列表中显示设备名 | en:Display device name in the form list
-                //for (int i = 0; i < m_stDeviceList.nDeviceNum; i++)
-                //{
-                //    MyCamera.MV_CC_DEVICE_INFO device = (MyCamera.MV_CC_DEVICE_INFO)Marshal.PtrToStructure(m_stDeviceList.pDeviceInfo[i], typeof(MyCamera.MV_CC_DEVICE_INFO));
-                //    if (device.nTLayerType == MyCamera.MV_GIGE_DEVICE)
-                //    {
-                //        MyCamera.MV_GIGE_DEVICE_INFO gigeInfo = (MyCamera.MV_GIGE_DEVICE_INFO)MyCamera.ByteToStruct(device.SpecialInfo.stGigEInfo, typeof(MyCamera.MV_GIGE_DEVICE_INFO));
-
-                //        if (gigeInfo.chUserDefinedName != "")
-                //        {
-                //            cbDeviceList.Items.Add("GEV: " + gigeInfo.chUserDefinedName + " (" + gigeInfo.chSerialNumber + ")");
-                //        }
-                //        else
-                //        {
-                //            cbDeviceList.Items.Add("GEV: " + gigeInfo.chManufacturerName + " " + gigeInfo.chModelName + " (" + gigeInfo.chSerialNumber + ")");
-                //        }
-                //    }
-                //    else if (device.nTLayerType == MyCamera.MV_USB_DEVICE)
-                //    {
-                //        MyCamera.MV_USB3_DEVICE_INFO usbInfo = (MyCamera.MV_USB3_DEVICE_INFO)MyCamera.ByteToStruct(device.SpecialInfo.stUsb3VInfo, typeof(MyCamera.MV_USB3_DEVICE_INFO));
-                //        if (usbInfo.chUserDefinedName != "")
-                //        {
-                //            cbDeviceList.Items.Add("U3V: " + usbInfo.chUserDefinedName + " (" + usbInfo.chSerialNumber + ")");
-                //        }
-                //        else
-                //        {
-                //            cbDeviceList.Items.Add("U3V: " + usbInfo.chManufacturerName + " " + usbInfo.chModelName + " (" + usbInfo.chSerialNumber + ")");
-                //        }
-                //    }
-                //}
-
-                //// ch:选择第一项 | en:Select the first item
-                //if (m_stDeviceList.nDeviceNum != 0)
-                //{
-                //    cbDeviceList.SelectedIndex = 0;
-                //}
-
-
+             
 
 
 
@@ -206,24 +150,6 @@ namespace HanGao.ViewModel
                 {
                     CCameraInfo _L = _Camera_List[Camera_UI_Select];
 
-                    //创建相机
-                    Nret = Live_Camera.CreateHandle(ref _L);
-                    //创建失败方法
-                    if (CErrorDefine.MV_OK != Nret)
-                    {
-                        MessageBox.Show("创建相机失败");
-                        return;
-                    }
-
-                    //打开相机
-                    Nret = Live_Camera.OpenDevice();
-                    //打卡失败方法
-                    if (CErrorDefine.MV_OK != Nret)
-                    {
-                        return;
-                    }
-
-
                     //GEGI相机专属设置
                     if (_L.nTLayerType == CSystem.MV_GIGE_DEVICE)
                     {
@@ -246,24 +172,7 @@ namespace HanGao.ViewModel
 
                     }
 
-                    //设置采集模式
-                    Nret= Live_Camera.SetEnumValue(Camera_Parameters_Name_Enum.AcquisitionMode.ToString(), (uint)MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS);
-                    //创建失败方法
-                    if (CErrorDefine.MV_OK != Nret)
-                    {
-                        MessageBox.Show("设置相机触发模式失败");
-                        return;
-                    }
 
-
-                    //设置相机触发模式
-                    Nret = Live_Camera.SetEnumValue("TriggerMode", (uint)MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_OFF);
-                    //创建失败方法
-                    if (CErrorDefine.MV_OK != Nret)
-                    {
-                        MessageBox.Show("设置相机触发模式失败");
-                        return;
-                    }
 
                     //创建抓图回调函数
                     ImageCallback = new cbOutputExdelegate(ImageCallbackFunc);
@@ -287,6 +196,8 @@ namespace HanGao.ViewModel
                 }else if((bool)E.IsChecked==false)
                 {
 
+                  
+
                     Nret = Live_Camera.StopGrabbing();
                     //停止抓图方法
                     if (CErrorDefine.MV_OK != Nret)
@@ -296,21 +207,15 @@ namespace HanGao.ViewModel
                     }
 
 
-                    Nret = Live_Camera.CloseDevice();
-                    //关闭相机失败方法
+                   
+                    Nret = Live_Camera.RegisterImageCallBackEx(null, IntPtr.Zero);
+                    //创建失败方法
                     if (CErrorDefine.MV_OK != Nret)
                     {
-                        MessageBox.Show("关闭相机失败");
+                        MessageBox.Show("取消回调方法失败");
                         return;
                     }
 
-                    Nret = Live_Camera.DestroyHandle();
-                    //销毁失败方法
-                    if (CErrorDefine.MV_OK != Nret)
-                    {
-                        MessageBox.Show("关闭相机失败");
-                        return;
-                    }
 
                 }
 
@@ -331,7 +236,7 @@ namespace HanGao.ViewModel
 
                 TextBox E = Sm.Source as TextBox;
 
-                MessageBox.Show(E.Text);
+                //MessageBox.Show(E.Text);
 
                 if (float.Parse (E.Text)==0)
                 {
@@ -367,8 +272,152 @@ namespace HanGao.ViewModel
 
             });
         }
-      
-         /// <summary>
+
+        
+
+        /// <summary>
+        /// 连接相机命令
+        /// </summary>
+        public ICommand Connection_Camera_Comm
+        {
+            get => new AsyncRelayCommand<UC_Vision_CameraSet>(async (E) =>
+            {
+          
+
+                await Task.Delay(100);
+
+             
+                //MessageBox.Show(E.Text);
+
+                CCameraInfo _L = _Camera_List[Camera_UI_Select];
+                //创建相机
+                Nret = Live_Camera.CreateHandle(ref _L);
+                //创建失败方法
+                if (CErrorDefine.MV_OK != Nret)
+                {
+                    MessageBox.Show("创建相机失败");
+                    return;
+                }
+
+                //打开相机
+                Nret = Live_Camera.OpenDevice();
+                //打卡失败方法
+                if (CErrorDefine.MV_OK != Nret)
+                {
+                    MessageBox.Show("打开相机失败");
+                    return;
+                }
+
+                //设置采集模式
+                Nret = Live_Camera.SetEnumValue(Camera_Parameters_Name_Enum.AcquisitionMode.ToString(), (uint)MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS);
+                //创建失败方法
+                if (CErrorDefine.MV_OK != Nret)
+                {
+                    MessageBox.Show("设置相机触发模式失败");
+                    return;
+                }
+
+
+                //设置相机触发模式
+                Nret = Live_Camera.SetEnumValue("TriggerMode", (uint)MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_OFF);
+                //创建失败方法
+                if (CErrorDefine.MV_OK != Nret)
+                {
+                    MessageBox.Show("设置相机触发模式失败");
+                    return;
+                }
+
+                //连接成功后关闭UI操作
+                E.Connection_Camera.IsEnabled = false ;
+
+
+
+            });
+        }
+
+        /// <summary>
+        /// 断开相机命令
+        /// </summary>
+        public ICommand Disconnection_Camera_Comm
+        {
+            get => new AsyncRelayCommand<UC_Vision_CameraSet>(async (E) =>
+            {
+
+                await Task.Delay(100);
+
+               
+
+                //MessageBox.Show(E.Text);
+
+                Nret = Live_Camera.CloseDevice();
+                //停止抓图方法
+                if (CErrorDefine.MV_OK != Nret)
+                {
+                    MessageBox.Show("关闭相机失败");
+                    return;
+                }
+
+                Nret = Live_Camera.DestroyHandle();
+                //停止抓图方法
+                if (CErrorDefine.MV_OK != Nret)
+                {
+                    MessageBox.Show("关闭相机句柄失败");
+                    return;
+                }
+
+
+
+                //断开连接后可以再次连接相机
+               E.Connection_Camera.IsEnabled = true ;
+            
+
+            });
+        }
+
+
+
+
+        /// <summary>
+        /// 设置相机曝光时间
+        /// </summary>
+        public ICommand Window_Unloaded_Camera_Close_Comm
+        {
+            get => new AsyncRelayCommand<RoutedEventArgs>(async (Sm) =>
+            {
+
+                await Task.Delay(100);
+
+                UserControl E = Sm.Source as UserControl;
+
+                //MessageBox.Show(E.Text);
+
+                Nret = Live_Camera.CloseDevice();
+                //停止抓图方法
+                if (CErrorDefine.MV_OK != Nret)
+                {
+                    MessageBox.Show("关闭相机失败");
+                    return;
+                }
+
+                Nret = Live_Camera.DestroyHandle();
+                //停止抓图方法
+                if (CErrorDefine.MV_OK != Nret)
+                {
+                    MessageBox.Show("关闭相机句柄失败");
+                    return;
+                }
+
+
+
+
+            });
+        }
+
+
+
+
+
+        /// <summary>
         /// 设置相机曝光时间
         /// </summary>
         public ICommand Camera_Image_Gain_Set_Comm
@@ -395,7 +444,7 @@ namespace HanGao.ViewModel
         /// </summary>
         public ICommand Single_Camera_Comm
         {
-            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            get => new AsyncRelayCommand<RoutedEventArgs>(async(Sm) =>
             {
 
                 Button E = Sm.Source as Button;
@@ -404,30 +453,13 @@ namespace HanGao.ViewModel
 
 
 
-                CCameraInfo _L = _Camera_List[Camera_UI_Select];
 
-                //创建相机
-                Nret = Live_Camera.CreateHandle(ref _L);
-                //创建失败方法
-                if (CErrorDefine.MV_OK != Nret)
-                {
-                    MessageBox.Show("创建相机失败");
-                    return;
-                }
-
-                //打开相机
-                Nret = Live_Camera.OpenDevice();
-                //打卡失败方法
-                if (CErrorDefine.MV_OK != Nret)
-                {
-                    return;
-                }
 
                 Nret = Live_Camera.StartGrabbing();
                 //开始捕捉
                 if (CErrorDefine.MV_OK != Nret)
                 {
-                    MessageBox.Show("设置回调方法失败");
+                    MessageBox.Show("设置开启相机失败");
                     return;
                 }
 
@@ -452,7 +484,7 @@ namespace HanGao.ViewModel
                 Messenger.Send<Single_Image_Mode, string>(Single_Image, nameof(Meg_Value_Eunm.Single_Image_Show));
 
 
-
+                await Task.Delay(500);
 
                 Nret = Live_Camera.StopGrabbing();
                 //停止抓图方法
@@ -463,21 +495,7 @@ namespace HanGao.ViewModel
                 }
 
 
-                Nret = Live_Camera.CloseDevice();
-                //关闭相机失败方法
-                if (CErrorDefine.MV_OK != Nret)
-                {
-                    MessageBox.Show("关闭相机失败");
-                    return;
-                }
 
-                Nret = Live_Camera.DestroyHandle();
-                //销毁失败方法
-                if (CErrorDefine.MV_OK != Nret)
-                {
-                    MessageBox.Show("关闭相机失败");
-                    return;
-                }
 
             }); 
         }
@@ -553,6 +571,8 @@ namespace HanGao.ViewModel
                         MessageBox.Show("选择设备被占用相机不可使用");
                         return;
                     }
+
+                 
 
 
 
