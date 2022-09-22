@@ -1,42 +1,42 @@
 ﻿global using HanGao.Model;
-using HanGao.View.User_Control;
-using HanGao.View.UserMessage;
-using HanGao.Xml_Date.Xml_Write_Read;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using HalconDotNet;
+using HanGao.View.FrameShow;
+using HanGao.View.User_Control;
+using HanGao.View.User_Control.Vision_Control;
+using HanGao.View.UserMessage;
+using HanGao.Xml_Date.Xml_Models;
+using HanGao.Xml_Date.Xml_Write_Read;
+using MvCamCtrl.NET;
+using MvCamCtrl.NET.CameraParams;
 using PropertyChanged;
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Media3D;
 using static HanGao.Model.List_Show_Models;
 using static HanGao.Model.User_Read_Xml_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Windows.Media.Media3D;
-using MvCamCtrl.NET;
-using MvCamCtrl.NET.CameraParams;
-using HanGao.View.User_Control.Vision_Control;
-using System.Threading;
-using HanGao.View.FrameShow;
-using HalconDotNet;
-using HanGao.Xml_Date.Xml_Models;
- using System.Runtime.InteropServices.ComTypes;
 
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-        public class UC_Vision_CameraSet_ViewModel : ObservableRecipient
+    public class UC_Vision_CameraSet_ViewModel : ObservableRecipient
     {
         public UC_Vision_CameraSet_ViewModel()
         {
-            
+
 
 
 
@@ -50,25 +50,26 @@ namespace HanGao.ViewModel
         /// <summary>
         /// UI相机显示列表
         /// </summary>
-        public ObservableCollection<string> Camera_UI_List { set; get; } = new ObservableCollection<string >();
+        public ObservableCollection<string> Camera_UI_List { set; get; } = new ObservableCollection<string>();
 
         /// <summary>
         /// 
         /// </summary>
         public CCamera Live_Camera { set; get; } = new CCamera();
 
-        private int nret= CErrorDefine.MV_ALG_OK;
+        private int nret = CErrorDefine.MV_ALG_OK;
         /// <summary>
         /// 相机状态
         /// </summary>
         public int Nret
         {
             get { return nret; }
-            set {
+            set
+            {
                 nret = value;
                 if (value != CErrorDefine.MV_ALG_OK)
                 {
-                   
+
                 }
             }
         }
@@ -91,19 +92,19 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 查找相机枚举集合
         /// </summary>
-        private List<CCameraInfo> _Camera_List=new List<CCameraInfo> ();
+        private List<CCameraInfo> _Camera_List = new List<CCameraInfo>();
 
 
         /// <summary>
         /// 定义回调类型
         /// </summary>
-        private  cbOutputExdelegate ImageCallback;
-         
+        private cbOutputExdelegate ImageCallback;
+
         private void ImageCallbackFunc(IntPtr pData, ref MV_FRAME_OUT_INFO_EX pFrameInfo, IntPtr pUser)
         {
 
 
-            Messenger.Send<MVS_Image_delegate_Mode, string>(new MVS_Image_delegate_Mode() { pData= pData , pFrameInfo= pFrameInfo , pUser=pUser}, nameof(Meg_Value_Eunm.Live_Window_Image_Show));
+            Messenger.Send<MVS_Image_delegate_Mode, string>(new MVS_Image_delegate_Mode() { pData = pData, pFrameInfo = pFrameInfo, pUser = pUser }, nameof(Meg_Value_Eunm.Live_Window_Image_Show));
 
             // MessageBox.Show("Get one frame: Width[" + Convert.ToString(pFrameInfo.nWidth) + "] , Height[" + Convert.ToString(pFrameInfo.nHeight) + "] , FrameNum[" + Convert.ToString(pFrameInfo.nFrameNum) + "]");
 
@@ -126,7 +127,7 @@ namespace HanGao.ViewModel
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
 
-             
+
 
 
 
@@ -193,10 +194,11 @@ namespace HanGao.ViewModel
                     }
 
 
-                }else if((bool)E.IsChecked==false)
+                }
+                else if ((bool)E.IsChecked == false)
                 {
 
-                  
+
 
                     Nret = Live_Camera.StopGrabbing();
                     //停止抓图方法
@@ -207,7 +209,7 @@ namespace HanGao.ViewModel
                     }
 
 
-                   
+
                     Nret = Live_Camera.RegisterImageCallBackEx(null, IntPtr.Zero);
                     //创建失败方法
                     if (CErrorDefine.MV_OK != Nret)
@@ -229,7 +231,7 @@ namespace HanGao.ViewModel
         /// </summary>
         public ICommand Camera_Image_Exposure_time_Set_Comm
         {
-            get => new AsyncRelayCommand<RoutedEventArgs>(async (Sm) => 
+            get => new AsyncRelayCommand<RoutedEventArgs>(async (Sm) =>
             {
 
                 await Task.Delay(1000);
@@ -238,7 +240,7 @@ namespace HanGao.ViewModel
 
                 //MessageBox.Show(E.Text);
 
-                if (float.Parse (E.Text)==0)
+                if (float.Parse(E.Text) == 0)
                 {
                     //设置曝光时间
                     Nret = Live_Camera.SetEnumValue(Camera_Parameters_Name_Enum.ExposureAuto.ToString(), (uint)MV_CAM_EXPOSURE_AUTO_MODE.MV_EXPOSURE_AUTO_MODE_CONTINUOUS);
@@ -251,7 +253,7 @@ namespace HanGao.ViewModel
                 else
                 {
                     //设置曝光时间
-                    Nret = Live_Camera.SetEnumValue(Camera_Parameters_Name_Enum.ExposureAuto.ToString(), (uint)MV_CAM_EXPOSURE_AUTO_MODE.MV_EXPOSURE_AUTO_MODE_ONCE);
+                    Nret = Live_Camera.SetEnumValue(Camera_Parameters_Name_Enum.ExposureAuto.ToString(), (uint)MV_CAM_EXPOSURE_AUTO_MODE.MV_EXPOSURE_AUTO_MODE_OFF);
                     if (CErrorDefine.MV_OK != Nret)
                     {
                         MessageBox.Show("设置相机曝光模式失败");
@@ -265,7 +267,7 @@ namespace HanGao.ViewModel
                         return;
                     }
                 }
- 
+
 
 
 
@@ -273,7 +275,7 @@ namespace HanGao.ViewModel
             });
         }
 
-        
+
 
         /// <summary>
         /// 连接相机命令
@@ -282,11 +284,11 @@ namespace HanGao.ViewModel
         {
             get => new AsyncRelayCommand<UC_Vision_CameraSet>(async (E) =>
             {
-          
+
 
                 await Task.Delay(100);
 
-             
+
                 //MessageBox.Show(E.Text);
 
                 CCameraInfo _L = _Camera_List[Camera_UI_Select];
@@ -328,7 +330,7 @@ namespace HanGao.ViewModel
                 }
 
                 //连接成功后关闭UI操作
-                E.Connection_Camera.IsEnabled = false ;
+                E.Connection_Camera.IsEnabled = false;
 
 
 
@@ -345,7 +347,7 @@ namespace HanGao.ViewModel
 
                 await Task.Delay(100);
 
-               
+
 
                 //MessageBox.Show(E.Text);
 
@@ -368,8 +370,8 @@ namespace HanGao.ViewModel
 
 
                 //断开连接后可以再次连接相机
-               E.Connection_Camera.IsEnabled = true ;
-            
+                E.Connection_Camera.IsEnabled = true;
+
 
             });
         }
@@ -429,7 +431,7 @@ namespace HanGao.ViewModel
 
                 TextBox E = Sm.Source as TextBox;
 
-                MessageBox.Show(E.Text);
+                //MessageBox.Show(E.Text);
 
 
 
@@ -444,12 +446,12 @@ namespace HanGao.ViewModel
         /// </summary>
         public ICommand Single_Camera_Comm
         {
-            get => new AsyncRelayCommand<RoutedEventArgs>(async(Sm) =>
+            get => new AsyncRelayCommand<RoutedEventArgs>(async (Sm) =>
             {
 
                 Button E = Sm.Source as Button;
 
-                 CIntValue stParam=new CIntValue ();
+                CIntValue stParam = new CIntValue();
 
 
 
@@ -472,7 +474,7 @@ namespace HanGao.ViewModel
                 };
 
 
-                Nret =   Live_Camera.GetOneFrameTimeout(Single_Image.pData, (uint)stParam.CurValue, ref Single_Image.Single_ImageInfo, 1000);
+                Nret = Live_Camera.GetOneFrameTimeout(Single_Image.pData, (uint)stParam.CurValue, ref Single_Image.Single_ImageInfo, 1000);
                 //抓图错误方法
                 if (CErrorDefine.MV_OK != Nret)
                 {
@@ -497,7 +499,7 @@ namespace HanGao.ViewModel
 
 
 
-            }); 
+            });
         }
 
 
@@ -518,13 +520,13 @@ namespace HanGao.ViewModel
 
 
 
-               Task<int> _T=   Task.Run(() =>
-                {
-            
-                      nRet = CSystem.EnumDevices(CSystem.MV_GIGE_DEVICE, ref _Camera_List);
-                   
-                    return nRet;
-                });
+                Task<int> _T = Task.Run(() =>
+                 {
+
+                     nRet = CSystem.EnumDevices(CSystem.MV_GIGE_DEVICE, ref _Camera_List);
+
+                     return nRet;
+                 });
                 //获得设备枚举
 
                 //查找相机设备失败动作
@@ -544,7 +546,7 @@ namespace HanGao.ViewModel
 
                     if (_Camera_List[i].nTLayerType == CSystem.MV_GIGE_DEVICE)
                     {
-                        
+
                         //转换
                         CGigECameraInfo _GEGI = Camera_List[i] as CGigECameraInfo;
 
@@ -552,12 +554,12 @@ namespace HanGao.ViewModel
 
 
                     }
-                   
+
 
 
                 }
                 //查找到相关相机设备后，默认选择第一个相机
-                if (_Camera_List.Count !=0)
+                if (_Camera_List.Count != 0)
                 {
 
                     Camera_UI_Select = 0;
@@ -565,14 +567,14 @@ namespace HanGao.ViewModel
                     CCameraInfo _L = _Camera_List[Camera_UI_Select];
 
                     //检查相机设备可用情况
-                    bool nBol=   CSystem.IsDeviceAccessible(ref _L, MV_ACCESS_MODE.MV_ACCESS_EXCLUSIVE);
-                    if (nBol == false  )
+                    bool nBol = CSystem.IsDeviceAccessible(ref _L, MV_ACCESS_MODE.MV_ACCESS_EXCLUSIVE);
+                    if (nBol == false)
                     {
                         MessageBox.Show("选择设备被占用相机不可使用");
                         return;
                     }
 
-                 
+
 
 
 
@@ -595,7 +597,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 相机功能参数名称
         /// </summary>
-        public  enum Camera_Parameters_Name_Enum
+        public enum Camera_Parameters_Name_Enum
         {
             /// <summary>
             /// 设备采集的采集模式、枚举类型值 ——默认持续采集模式，"MV_CAM_ACQUISITION_MODE"
@@ -721,15 +723,15 @@ namespace HanGao.ViewModel
 
     public class Single_Image_Mode
     {
-      
-        public byte[] pData ;
-        public CFrameoutEx Single_ImageInfo=new CFrameoutEx ();
+
+        public byte[] pData;
+        public CFrameoutEx Single_ImageInfo = new CFrameoutEx();
         public IntPtr Get_IntPtr()
         {
-            if (pData!=null)
+            if (pData != null)
             {
 
-            return  Marshal.UnsafeAddrOfPinnedArrayElement((Array)pData, 0);
+                return Marshal.UnsafeAddrOfPinnedArrayElement((Array)pData, 0);
             }
             return IntPtr.Zero;
         }

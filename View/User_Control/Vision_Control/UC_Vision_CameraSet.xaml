@@ -222,14 +222,13 @@
                                         HorizontalContentAlignment="Stretch"
                                         VerticalContentAlignment="Stretch"
                                         IsSnapToTickEnabled="True"
-                                        Maximum="20000"
+                                        Maximum="40000"
                                         Minimum=" 0"
                                         SmallChange="1"
-                                        TickFrequency=" 1"
                                         Value="500" />
 
-                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=Camera_Exposure, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" x:Name="Camera_Exposure_Val" Grid.Column=" 2"
+                                         Text="{Binding ElementName=Camera_Exposure, Path=Value, Mode=TwoWay}"
                                          Width="100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -267,14 +266,60 @@
                                         HorizontalContentAlignment="Stretch"
                                         VerticalContentAlignment="Stretch"
                                         IsSnapToTickEnabled="True"
-                                        Maximum="10"
-                                        Minimum="-10"
+                                        Maximum="20"
+                                        Minimum="0"
                                         SmallChange="0.1"
-                                        TickFrequency=" 0.01"
-                                        Value="1" />
+                                        TickFrequency="0.01"
+                                        Value="10">
 
-                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=Camera_Gain, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    <i:Interaction.Triggers>
+
+                                        <i:EventTrigger EventName="ValueChanged">
+                                            <i:InvokeCommandAction Command="{Binding Camera_Image_Gain_Set_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Slider>
+
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" x:Name="Camera_Gain_Val" Grid.Column=" 2"
+                                         Text="{Binding ElementName=Camera_Gain, Path=Value, Mode=TwoWay}"
+                                         Width=" 100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                            </Grid>
+
+                            <Grid Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="数字增益"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Camera_DigitalGain" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="6"
+                                        Minimum="-6"
+                                        SmallChange="0.1"
+                                        TickFrequency="0.01"
+                                        Value="0" />
+
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" x:Name="Camera_DigitalGain_Val" Grid.Column=" 2"
+                                         Text="{Binding ElementName=Camera_DigitalGain, Path=Value, Mode=TwoWay}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -315,14 +360,14 @@
                                         HorizontalContentAlignment="Stretch"
                                         VerticalContentAlignment="Stretch"
                                         IsSnapToTickEnabled="True"
-                                        Maximum="1"
-                                        Minimum=" 0"
-                                        SmallChange="0.1"
-                                        TickFrequency=" 0.01"
-                                        Value="1" />
+                                        Maximum="4"
+                                        Minimum="0"
+                                        SmallChange="0.01"
+                                        TickFrequency="0.1"
+                                        Value="0.5" />
 
-                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=Camera_Gamma, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" x:Name="Camera_Gamma_Val" Grid.Column=" 2"
+                                         Text="{Binding ElementName=Camera_Gamma, Path=Value, Mode=TwoWay}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -331,41 +376,7 @@
                                          BorderThickness="2"
                                          FontSize="18" />
                             </Grid>
-                            <Grid Margin="8">
 
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80" />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width=" auto" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="对比度"
-                                           HorizontalAlignment="Left"
-                                           VerticalAlignment="Center"
-                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                           FontSize="16"
-                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Camera_Contrast" Grid.Column=" 1"
-                                        Margin="5"
-                                        VerticalAlignment="Center"
-                                        HorizontalContentAlignment="Stretch"
-                                        VerticalContentAlignment="Stretch"
-                                        IsSnapToTickEnabled="True"
-                                        Maximum="1"
-                                        Minimum=" 0"
-                                        SmallChange="0.1"
-                                        TickFrequency=" 0.1"
-                                        Value="1" />
-
-                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=Camera_Contrast, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                         Width=" 100"
-                                         HorizontalContentAlignment="Center"
-                                         VerticalContentAlignment="Center"
-                                         Background="Transparent"
-                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                         BorderThickness="2"
-                                         FontSize="18" />
-                            </Grid>
                             <Grid Margin="8">
 
                                 <Grid.ColumnDefinitions>
@@ -385,14 +396,13 @@
                                         HorizontalContentAlignment="Stretch"
                                         VerticalContentAlignment="Stretch"
                                         IsSnapToTickEnabled="True"
-                                        Maximum="1"
+                                        Maximum="100"
                                         Minimum=" 0"
-                                        SmallChange="0.1"
-                                        TickFrequency=" 0.1"
-                                        Value="1" />
+                                        SmallChange="0"
+                                        Value="10" />
 
-                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding Value, ElementName=Camera_Sharpness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" x:Name="Camera_Sharpness_Val" Grid.Column=" 2"
+                                         Text="{Binding Value, ElementName=Camera_Sharpness, Mode=TwoWay}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -414,20 +424,19 @@
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" Grid.Column=" 1"
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Camera_BlackLevel" Grid.Column=" 1"
                                         Margin="5"
                                         VerticalAlignment="Center"
                                         HorizontalContentAlignment="Stretch"
                                         VerticalContentAlignment="Stretch"
                                         IsSnapToTickEnabled="True"
-                                        Maximum="1"
+                                        Maximum="4095"
                                         Minimum=" 0"
-                                        SmallChange="0.1"
-                                        TickFrequency=" 0.1"
-                                        Value="1" />
+                                        SmallChange="1"
+                                        Value="100" />
 
-                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding Value, ElementName=Camera_Sharpness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" x:Name="Camera_BlackLevel_Val" Grid.Column=" 2"
+                                         Text="{Binding Value, ElementName=Camera_BlackLevel, Mode=TwoWay}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -565,7 +574,8 @@
                                                  Background="Transparent"
                                                  BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                  BorderThickness="2"
-                                                 FontSize="16" />
+                                                 FontSize="16"
+                                                 MaxLines=" 5" />
                                     </StackPanel>
                                     <StackPanel Grid.Row=" 1" Grid.Column=" 0"
                                                 Margin="4"

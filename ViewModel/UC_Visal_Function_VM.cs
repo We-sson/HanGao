@@ -1,19 +1,13 @@
-﻿using PropertyChanged;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using HalconDotNet;
+using HanGao.View.FrameShow;
+using PropertyChanged;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using HanGao.View.FrameShow;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
-using CommunityToolkit.Mvvm.Input;
-using System.Threading.Tasks;
-using System.ComponentModel;
-using System;
-using System.Reflection;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
-using static Soceket_Connect.Socket_Connect;
-using HalconDotNet;
-using MvCamCtrl.NET;
 
 namespace HanGao.ViewModel
 {
@@ -32,15 +26,16 @@ namespace HanGao.ViewModel
             {
                 HImage image = new HImage();
 
-                image.GenImage1("byte", (int)_Mvs_Image.pFrameInfo.nWidth, _Mvs_Image. pFrameInfo.nHeight, _Mvs_Image.pData);
+                //转换halcon图像格式
+                image.GenImage1("byte", (int)_Mvs_Image.pFrameInfo.nWidth, _Mvs_Image.pFrameInfo.nHeight, _Mvs_Image.pData);
 
-               
+
 
 
 
                 Live_HWindow.DispObj(image);
 
-                         //Live_Window_Image = image;
+                //Live_Window_Image = image;
 
 
 
@@ -50,11 +45,11 @@ namespace HanGao.ViewModel
             Messenger.Register<Single_Image_Mode, string>(this, nameof(Meg_Value_Eunm.Single_Image_Show), (O, _Mvs_Image) =>
             {
                 HImage image = new HImage();
+                //转换halcon图像格式
+                image.GenImage1("byte", (int)_Mvs_Image.Single_ImageInfo.ImageInfo.Width, _Mvs_Image.Single_ImageInfo.ImageInfo.Height, _Mvs_Image.Get_IntPtr());
 
-                image.GenImage1("byte", (int)_Mvs_Image.Single_ImageInfo. ImageInfo.Width, _Mvs_Image.Single_ImageInfo.ImageInfo.Height, _Mvs_Image.Get_IntPtr());
 
-
-
+                //显示图像和图像居中
                 Live_HWindow.DispImage(image);
                 Live_HWindow.SetPart(0, 0, -2, -2);
 
@@ -70,7 +65,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 实时窗口图像显示
         /// </summary>
-        public HObject Live_Window_Image { set; get; }=new HObject () { };
+        public HObject Live_Window_Image { set; get; } = new HObject() { };
 
 
         public static HWindow Live_HWindow { set; get; }
@@ -87,7 +82,7 @@ namespace HanGao.ViewModel
                 Vision e = Sm.Source as Vision;
 
 
-              
+
 
 
 
@@ -124,17 +119,19 @@ namespace HanGao.ViewModel
             {
                 HSmartWindowControlWPF Live_Window_UserContol = Sm.Source as HSmartWindowControlWPF;
 
+
+                //加载halcon图像属性
                 Live_HWindow = Live_Window_UserContol.HalconWindow;
 
 
 
+                //设置halcon窗体大小
+                Live_Window_UserContol.HalconWindow.SetWindowExtents(0, 0, (int)Live_Window_UserContol.WindowSize.Width, (int)Live_Window_UserContol.WindowSize.Height);
 
-                Live_Window_UserContol.HalconWindow.SetWindowExtents(0, 0, (int)Live_Window_UserContol.WindowSize.Width,(int) Live_Window_UserContol.WindowSize.Height);
 
 
-         
 
-        
+
 
 
 
@@ -153,9 +150,8 @@ namespace HanGao.ViewModel
             {
                 Button E = Sm.Source as Button;
 
-            
-                 Live_Window_UserContol.SetFullImagePart();
-
+                //图像居中
+                Live_Window_UserContol.SetFullImagePart();
                 Live_HWindow.SetPart(0, 0, -2, -2);
 
             });
