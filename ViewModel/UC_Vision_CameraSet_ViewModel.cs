@@ -23,6 +23,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media.Media3D;
 using static HanGao.Model.List_Show_Models;
@@ -37,13 +38,28 @@ namespace HanGao.ViewModel
         public UC_Vision_CameraSet_ViewModel()
         {
 
+            Dictionary<int, string> _E =new Dictionary<int, string >();
 
 
-
-
+            //添加枚举到UI下拉显示
+            foreach (var E in Enum.GetValues(typeof(ACQUISITION_MODE)))
+            {
+                _E.Add((int)(ACQUISITION_MODE)Enum.Parse(typeof(ACQUISITION_MODE), E.ToString()), E.ToString());
+            }
+            AcquisitionMode_ComboBox_UI = _E;
 
 
         }
+
+
+
+        /// <summary>
+        /// 设备采集的采集模式UI绑定 ——默认持续采集模式，"MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS"
+        /// </summary>
+        public IEnumerable<KeyValuePair<int,string >> AcquisitionMode_ComboBox_UI {private  set; get; }
+
+
+
 
 
 
@@ -53,9 +69,17 @@ namespace HanGao.ViewModel
         public ObservableCollection<string> Camera_UI_List { set; get; } = new ObservableCollection<string>();
 
         /// <summary>
-        /// 
+        ///  用户选择相机对象
         /// </summary>
         public CCamera Live_Camera { set; get; } = new CCamera();
+
+
+        /// <summary>
+        /// 相机对象参数
+        /// </summary>
+        public Camrea_Parameters_UI_Model Camera_Parameters_UI { set; get; } = new Camrea_Parameters_UI_Model();
+
+
 
         private int nret = CErrorDefine.MV_ALG_OK;
         /// <summary>
@@ -82,11 +106,9 @@ namespace HanGao.ViewModel
         public List<CCameraInfo> Camera_List { set; get; } = new List<CCameraInfo>();
 
         /// <summary>
-        /// 用户选择相机参数项
+        /// 用户选择相机数
         /// </summary>
         public int Camera_UI_Select { set; get; } = 0;
-
-
 
 
         /// <summary>
@@ -120,7 +142,7 @@ namespace HanGao.ViewModel
 
 
         /// <summary>
-        /// 查找网络内相机
+        /// 读取图像
         /// </summary>
         public ICommand Read_Image_Comm
         {
@@ -229,18 +251,19 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 设置相机曝光时间
         /// </summary>
-        public ICommand Camera_Image_Exposure_time_Set_Comm
+        public ICommand Camera_Exposure_Set_Comm
         {
             get => new AsyncRelayCommand<RoutedEventArgs>(async (Sm) =>
             {
 
-                await Task.Delay(1000);
 
-                TextBox E = Sm.Source as TextBox;
-
+                Slider E = Sm.Source as Slider;
+                
+      
+                
                 //MessageBox.Show(E.Text);
 
-                if (float.Parse(E.Text) == 0)
+                if ((E.Value) == 0)
                 {
                     //设置曝光时间
                     Nret = Live_Camera.SetEnumValue(Camera_Parameters_Name_Enum.ExposureAuto.ToString(), (uint)MV_CAM_EXPOSURE_AUTO_MODE.MV_EXPOSURE_AUTO_MODE_CONTINUOUS);
@@ -260,7 +283,7 @@ namespace HanGao.ViewModel
                         return;
                     }
                     //设置曝光时间
-                    Nret = Live_Camera.SetFloatValue(Camera_Parameters_Name_Enum.ExposureTime.ToString(), float.Parse(E.Text));
+                    Nret = Live_Camera.SetFloatValue(Camera_Parameters_Name_Enum.ExposureTime.ToString(),  (float)E.Value);
                     if (CErrorDefine.MV_OK != Nret)
                     {
                         MessageBox.Show("设置相机曝光时间失败");
@@ -269,11 +292,14 @@ namespace HanGao.ViewModel
                 }
 
 
+                await Task.Delay(100);
 
 
 
             });
         }
+
+
 
 
 
@@ -310,6 +336,8 @@ namespace HanGao.ViewModel
                     return;
                 }
 
+
+
                 //设置采集模式
                 Nret = Live_Camera.SetEnumValue(Camera_Parameters_Name_Enum.AcquisitionMode.ToString(), (uint)MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS);
                 //创建失败方法
@@ -320,6 +348,7 @@ namespace HanGao.ViewModel
                 }
 
 
+
                 //设置相机触发模式
                 Nret = Live_Camera.SetEnumValue("TriggerMode", (uint)MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_OFF);
                 //创建失败方法
@@ -328,6 +357,9 @@ namespace HanGao.ViewModel
                     MessageBox.Show("设置相机触发模式失败");
                     return;
                 }
+
+
+
 
                 //连接成功后关闭UI操作
                 E.Connection_Camera.IsEnabled = false;
@@ -593,115 +625,15 @@ namespace HanGao.ViewModel
 
 
 
-
         /// <summary>
-        /// 相机功能参数名称
+        /// 采集模式中文枚举名
         /// </summary>
-        public enum Camera_Parameters_Name_Enum
+        public enum ACQUISITION_MODE
         {
-            /// <summary>
-            /// 设备采集的采集模式、枚举类型值 ——默认持续采集模式，"MV_CAM_ACQUISITION_MODE"
-            /// </summary>
-            AcquisitionMode,
-            /// <summary>
-            /// 每个帧突发开始触发信号采集的帧数、整数类型——默认1，最大1023
-            /// </summary>
-            AcquisitionBurstFrameCount,
-            /// <summary>
-            /// 控制抓取帧的采集频率、双精度类型——默认1，最小0.4，最大500
-            /// </summary>
-            AcquisitionFrameRate,
-            /// <summary>
-            /// 控制所选触发器是否处于活动状态、枚举类型——默认Off，"MV_CAM_TRIGGER_MODE"
-            /// </summary>
-            TriggerMode,
-            /// <summary>
-            /// 指定用作触发源的内部信号或物理输入线路。所选触发器的触发模式必须设置为“开”。枚举类型——线路0，"MV_CAM_TRIGGER_SOURCE"
-            /// </summary>
-            TriggerSource,
-            /// <summary>
-            /// 指定在激活触发接收之前要应用的延迟（以us为单位），双精度类型——默认0，最小0，最大3.2e+07
-            /// </summary>
-            TriggerDelay,
-            /// <summary>
-            /// 设置所选行去缓冲时间的值（us），整数类型——默认0，最小0，最大1000000
-            /// </summary>
-            LineDebouncerTime,
-            /// <summary>
-            /// 设置定时曝光模式时的自动曝光模式，枚举类型——默认连续模式，"MV_CAM_EXPOSURE_AUTO_MODE"
-            /// </summary>
-            ExposureAuto,
-            /// <summary>
-            /// 曝光模式定时时的曝光时间(us)，双精度类型——默认500，最小27，最大 2.5e+06
-            /// </summary>
-            ExposureTime,
-            /// <summary>
-            /// 应用于图像的增益，单位为dB，双精度类型——默认0，最小0，最大20.0322
-            /// </summary>
-            Gain,
-            /// <summary>
-            /// 设置自动增益控制（AGC）模式，枚举类型——模式连续模式，"MV_CAM_GAIN_MODE"
-            /// </summary>
-            GainAuto,
-            /// <summary>
-            /// 设置选定的数字移位控制，双精度类型——默认0，最小-6，最大6
-            /// </summary>
-            DigitalShift,
-            /// <summary>
-            /// 使能/禁用数字移位调节，布尔类型——默认False
-            /// </summary>
-            DigitalShiftEnable,
-            /// <summary>
-            /// 设置选定的亮度控制，整数类似——默认100，最小0，最大255
-            /// </summary>
-            Brightness,
-            /// <summary>
-            /// 模拟黑电平百分比，整数类型——默认200，最小0，最大4095
-            /// </summary>
-            BlackLevel,
-            /// <summary>
-            /// 使能/禁用黑电平调整，布尔类型——默认True
-            /// </summary>
-            BlackLevelEnable,
-            /// <summary>
-            /// 控制像素强度的伽马校正，双精度类型——默认0.5，最小0，最大4
-            /// </summary>
-            Gamma,
-            /// <summary>
-            /// 使能/禁用伽马校正，布尔类型——默认True
-            /// </summary>
-            GammaEnable,
-            /// <summary>
-            /// 图像的锐度，整数类型——默认10，最小0，最大100
-            /// </summary>
-            Sharpness,
-            /// <summary>
-            /// 使能/禁用锐度调节，布尔类型——默认False
-            /// </summary>
-            SharpnessEnable,
-            /// <summary>
-            /// 设置设备图像宽度（像素），整数类型——默认512，最小376，最大3072
-            /// </summary>
-            Width,
-            /// <summary>
-            /// 设置设备图像高度（像素），整数类型——默认512，最小320，最大2048
-            /// </summary>
-            Height,
-            /// <summary>
-            /// 从原点到AOI的垂直偏移（像素）,整数类型——默认0，最小0，最大3072
-            /// </summary>
-            OffsetX,
-            /// <summary>
-            /// 从原点到AOI的水平偏移（像素）,整数类型——默认0，最小0，最大2048
-            /// </summary>
-            OffsetY,
-            /// <summary>
-            /// 水平翻转设备发送的图像。翻转后应用感兴趣区域，布尔类型——默认False
-            /// </summary>
-            ReverseX,
-
+            单帧模式,
+            多帧模式,
+            持续采集模式
         }
-
 
 
     }
@@ -737,6 +669,297 @@ namespace HanGao.ViewModel
         }
 
     }
+
+    /// <summary>
+    /// 海康相机Int参数类型
+    /// </summary>
+    public class MVS_Int_UI_Type
+    {
+        /// <summary>
+        /// 默认值
+        /// </summary>
+        public int Val { set; get; }
+        /// <summary>
+        /// 最大值
+        /// </summary>
+        public int Max { get; set; }
+        /// <summary>
+        /// 最小值
+        /// </summary>
+        public int Min { set; get; }
+
+    }
+
+    /// <summary>
+    /// 海康相机Float参数类型
+    /// </summary>
+    public class MVS_Float_UI_Type
+    {
+        /// <summary>
+        /// 默认值
+        /// </summary>
+        public double Val { set; get; }
+        /// <summary>
+        /// 最大值
+        /// </summary>
+        public double Max { get; set; }
+        /// <summary>
+        /// 最小值
+        /// </summary>
+        public double Min { set; get; }
+
+    }
+
+    /// <summary>
+    /// 海康相机Enum参数类型
+    /// </summary>
+    public class MVS_Enum_UI_Type
+    {
+        /// <summary>
+        /// 默认值
+        /// </summary>
+        public Enum Val { set; get; }
+        /// <summary>
+        /// 枚举类型
+        /// </summary>
+        public Enum EType { get; set; }
+
+
+    }
+    /// <summary>
+    /// UI界面相机参数
+    /// </summary>
+    public class Camrea_Parameters_UI_Model
+    {
+   
+        public MVS_Float_UI_Type Exposure_UI { set; get; } = new MVS_Float_UI_Type() { Val = 500, Max = 40000, Min = 0 };
+
+        public MVS_Float_UI_Type Gain_UI { set; get; } = new MVS_Float_UI_Type() { Val = 0, Max = 20.000, Min = 0 };
+
+        public MVS_Float_UI_Type DigitalShift_UI { set; get; } = new MVS_Float_UI_Type() { Val = 0, Max = 6, Min= - 6 };
+
+        public MVS_Float_UI_Type Gamma_UI { set; get; } = new MVS_Float_UI_Type() { Val = 0.5, Max = 4, Min = 0 };
+
+        public MVS_Int_UI_Type Sharpness_UI { set; get; } = new MVS_Int_UI_Type() { Val = 10, Max = 100, Min = 0 };
+
+        public MVS_Int_UI_Type BlackLevel_UI { set; get; }=new MVS_Int_UI_Type() { Val=100, Max = 4095, Min = 0 };
+
+        public MVS_ROI_UI_Type ROI_UI { set; get; } = new MVS_ROI_UI_Type() { HeightMax = 2048, WidthMax = 3072, Height = 2048, Width = 3072, OffsetX = 0, OffsetY = 0, ReverseX = false };
+    }
+
+    public class MVS_ROI_UI_Type
+    {
+        /// <summary>
+        /// 图像的最大宽度（以像素为单位）
+        /// </summary>
+        public int WidthMax { set; get; }
+        /// <summary>
+        /// 图像的最大高度（以像素为单位）
+        /// </summary>
+        public int HeightMax { set; get; }
+        /// <summary>
+        /// 设备提供的图像宽度（像素）
+        /// </summary>
+        public int Width { set; get; }
+        /// <summary>
+        /// 设备提供的图像的高度（像素）
+        /// </summary>
+        public int Height { set; get; }
+        /// <summary>
+        /// 从原点到AOI的垂直偏移（像素）,整数类型——默认0，最小0，最大3072
+        /// </summary>
+        public int OffsetX { set; get; }
+        /// <summary>
+        /// 从原点到AOI的水平偏移（像素）,整数类型——默认0，最小0，最大2048
+        /// </summary>
+        public int OffsetY { set; get; }
+        /// <summary>
+        /// 水平翻转设备发送的图像。翻转后应用感兴趣区域，布尔类型——默认False
+        /// </summary>
+        public bool ReverseX { set; get; }
+
+    }
+
+    /// <summary>
+    /// 相机功能参数名称
+    /// </summary>
+    public enum Camera_Parameters_Name_Enum
+    {
+        /// <summary>
+        /// 设备采集的采集模式、枚举类型值 ——默认持续采集模式，"MV_CAM_ACQUISITION_MODE"
+        /// </summary>
+        AcquisitionMode,
+        /// <summary>
+        /// 每个帧突发开始触发信号采集的帧数、整数类型——默认1，最大1023
+        /// </summary>
+        AcquisitionBurstFrameCount,
+        /// <summary>
+        /// 控制抓取帧的采集频率、双精度类型——默认1，最小0.4，最大500
+        /// </summary>
+        AcquisitionFrameRate,
+        /// <summary>
+        /// 控制所选触发器是否处于活动状态、枚举类型——默认Off，"MV_CAM_TRIGGER_MODE"
+        /// </summary>
+        TriggerMode,
+        /// <summary>
+        /// 指定用作触发源的内部信号或物理输入线路。所选触发器的触发模式必须设置为“开”。枚举类型——线路0，"MV_CAM_TRIGGER_SOURCE"
+        /// </summary>
+        TriggerSource,
+        /// <summary>
+        /// 指定在激活触发接收之前要应用的延迟（以us为单位），双精度类型——默认0，最小0，最大3.2e+07
+        /// </summary>
+        TriggerDelay,
+        /// <summary>
+        /// 设置所选行去缓冲时间的值（us），整数类型——默认0，最小0，最大1000000
+        /// </summary>
+        LineDebouncerTime,
+        /// <summary>
+        /// 设置定时曝光模式时的自动曝光模式，枚举类型——默认连续模式，"MV_CAM_EXPOSURE_AUTO_MODE"
+        /// </summary>
+        ExposureAuto,
+        /// <summary>
+        /// 曝光模式定时时的曝光时间(us)，双精度类型——默认500，最小27，最大 2.5e+06
+        /// </summary>
+        ExposureTime,
+        /// <summary>
+        /// 应用于图像的增益，单位为dB，双精度类型——默认0，最小0，最大20.0322
+        /// </summary>
+        Gain,
+        /// <summary>
+        /// 设置自动增益控制（AGC）模式，枚举类型——模式连续模式，"MV_CAM_GAIN_MODE"
+        /// </summary>
+        GainAuto,
+        /// <summary>
+        /// 设置选定的数字移位控制，双精度类型——默认0，最小-6，最大6
+        /// </summary>
+        DigitalShift,
+        /// <summary>
+        /// 使能/禁用数字移位调节，布尔类型——默认False
+        /// </summary>
+        DigitalShiftEnable,
+        /// <summary>
+        /// 设置选定的亮度控制，整数类似——默认100，最小0，最大255
+        /// </summary>
+        Brightness,
+        /// <summary>
+        /// 模拟黑电平百分比，整数类型——默认200，最小0，最大4095
+        /// </summary>
+        BlackLevel,
+        /// <summary>
+        /// 使能/禁用黑电平调整，布尔类型——默认True
+        /// </summary>
+        BlackLevelEnable,
+        /// <summary>
+        /// 控制像素强度的伽马校正，双精度类型——默认0.5，最小0，最大4
+        /// </summary>
+        Gamma,
+        /// <summary>
+        /// 使能/禁用伽马校正，布尔类型——默认True
+        /// </summary>
+        GammaEnable,
+        /// <summary>
+        /// 图像的锐度，整数类型——默认10，最小0，最大100
+        /// </summary>
+        Sharpness,
+        /// <summary>
+        /// 使能/禁用锐度调节，布尔类型——默认False
+        /// </summary>
+        SharpnessEnable,
+        /// <summary>
+        /// 设置设备图像宽度（像素），整数类型——默认512，最小376，最大3072
+        /// </summary>
+        Width,
+        /// <summary>
+        /// 设置设备图像高度（像素），整数类型——默认512，最小320，最大2048
+        /// </summary>
+        Height,
+        /// <summary>
+        /// 从原点到AOI的垂直偏移（像素）,整数类型——默认0，最小0，最大3072
+        /// </summary>
+        OffsetX,
+        /// <summary>
+        /// 从原点到AOI的水平偏移（像素）,整数类型——默认0，最小0，最大2048
+        /// </summary>
+        OffsetY,
+        /// <summary>
+        /// 水平翻转设备发送的图像。翻转后应用感兴趣区域，布尔类型——默认False
+        /// </summary>
+        ReverseX,
+
+    }
+
+
+    public class MVS_Camera_Parameter_Val
+    {
+        /// <summary>
+        /// 设备采集的采集模式、枚举类型值 ——默认持续采集模式，"MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS"
+        /// </summary>
+        public Enum AcquisitionMode { set; get; } = MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS;
+         /// <summary>
+        /// 每个帧突发开始触发信号采集的帧数、整数类型——默认1，最大1023
+        /// </summary>
+        public int AcquisitionBurstFrameCount { set; get; } = 1;
+        /// <summary>
+        /// 控制抓取帧的采集频率、双精度类型——默认1，最小0.4，最大500
+        /// </summary>
+        public double AcquisitionFrameRate { set; get; } = 13.6;
+        /// <summary>
+        /// 设置定时曝光模式时的自动曝光模式，枚举类型——默认连续模式，"MV_CAM_EXPOSURE_AUTO_MODE.MV_EXPOSURE_AUTO_MODE_OFF"
+        /// </summary>
+        public Enum ExposureAuto { set; get; } = MV_CAM_EXPOSURE_AUTO_MODE.MV_EXPOSURE_AUTO_MODE_OFF;
+        /// <summary>
+        /// 曝光模式定时时的曝光时间
+        /// </summary>
+        public double ExposureTime { set; get; } = 500;
+        /// <summary>
+        /// 设置曝光（或快门）的工作模式,枚举类型——默认定时模式，"MV_CAM_EXPOSURE_MODE.MV_EXPOSURE_MODE_TIMED"
+        /// </summary>
+        public Enum ExposureMode { set; get; } = MV_CAM_EXPOSURE_MODE.MV_EXPOSURE_MODE_TIMED;
+        /// <summary>
+        /// 控制所选触发器是否处于活动状态、枚举类型——默认Off，"MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_OFF"
+        /// </summary>
+        public Enum TriggerMode { set; get; } = MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_OFF;
+        /// <summary>
+        /// 控制所选触发器是否处于活动状态，枚举类型——默认，"MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_LINE0"
+        /// </summary>
+        public Enum TriggerActivation { set; get; } = MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_LINE0;
+        /// <summary>
+        /// 指定在激活触发接收之前要应用的延迟（以us为单位）
+        /// </summary>
+        public double TriggerDelay { set; get; } = 0.00;
+        /// <summary>
+        /// 应用于图像的增益，单位为dB，Float类型，默认0.00
+        /// </summary>
+        public double Gain { set; get; } = 0.00;
+        /// <summary>
+        /// 设置自动增益控制（AGC）模式，枚举类型——默认，"MV_CAM_GAIN_MODE.MV_GAIN_MODE_OFF"
+        /// </summary>
+        public Enum GainAuto { set; get; } = MV_CAM_GAIN_MODE.MV_GAIN_MODE_OFF;
+        /// <summary>
+        /// 此值设置选定的数字移位控制，Float类型——默认0
+        /// </summary>
+        public double DigitalShift { set; get; } = 0.00;
+        /// <summary>
+        /// 模拟黑电平百分比，整数类型——默认200，最小0，最大4095
+        /// </summary>
+        public int BlackLevel { set; get; } = 100;
+        /// <summary>
+        /// 控制像素强度的伽马校正，双精度类型——默认0.5，最小0，最大4
+        /// </summary>
+        public double Gamma { set; get; } = 0.5;
+        /// <summary>
+        /// 图像的锐度，整数类型——默认10，最小0，最大100
+        /// </summary>
+        public int Sharpness { set; get; } = 10;
+        /// <summary>
+        /// 图像格式控制功能类
+        /// </summary>
+        public MVS_ROI_UI_Type ImageFormatControl = new MVS_ROI_UI_Type() { };
+    }
+
+
+
+
 
 }
 
