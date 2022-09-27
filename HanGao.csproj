@@ -665,9 +665,9 @@
     <Resource Include="Resources\UC_开始页面状态_3.png" />
     <Resource Include="FodyWeavers.xml" />
     <Resource Include="inter\序列号.txt" />
-    <Resource Include="DLL\MVS\X64\MvCamCtrl.Net.dll">
+    <None Include="DLL\MVS\X64\MvCamCtrl.Net.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </None>
     <Resource Include="DLL\Halcon\2022\halcon.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -706,6 +706,9 @@
     <Content Include="DLL\Halcon\2022\halcondotnetxl.dll" />
     <Content Include="DLL\Halcon\2022\hdevenginedotnet.dll" />
     <Content Include="DLL\Halcon\2022\hdevenginedotnetxl.dll" />
+    <None Include="DLL\MVS\X86\MvCamCtrl.Net.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="inter\HanGao-cache\part10\disk1.cab" />
     <Content Include="inter\HanGao-cache\part11\disk1.cab" />
     <Content Include="inter\HanGao-cache\part12\disk1.cab" />
@@ -790,6 +793,12 @@
     <PackageReference Include="Unnoficial.Microsoft.Expression.Drawing">
       <Version>1.0.0</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MVS_SDK_Base\MVS_SDK_Base.csproj">
+      <Project>{cef239fb-6902-4f1b-8fdc-c6a7aa7d76b5}</Project>
+      <Name>MVS_SDK_Base</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
