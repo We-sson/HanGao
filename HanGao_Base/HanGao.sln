@@ -5,7 +5,9 @@ VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HanGao_Base", "HanGao_Base.csproj", "{1B2622B5-B29B-4EB1-981E-EF015A0AABE4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVS_SDK_Base", "..\MVS_SDK_DLL\MVS_SDK_Base.csproj", "{09BDE038-3DBC-4FCE-9D4D-AD4D8422C3E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVS_SDK", "..\MVS_SDK\MVS_SDK.csproj", "{09BDE038-3DBC-4FCE-9D4D-AD4D8422C3E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Halcon_SDK", "..\Halcon_SDK\Halcon_SDK.csproj", "{85285344-B1E3-4E96-8F9E-C9437C682B04}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,18 @@ Global
 		{09BDE038-3DBC-4FCE-9D4D-AD4D8422C3E1}.Release|x64.Build.0 = Release|Any CPU
 		{09BDE038-3DBC-4FCE-9D4D-AD4D8422C3E1}.Release|x86.ActiveCfg = Release|Any CPU
 		{09BDE038-3DBC-4FCE-9D4D-AD4D8422C3E1}.Release|x86.Build.0 = Release|Any CPU
+		{85285344-B1E3-4E96-8F9E-C9437C682B04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85285344-B1E3-4E96-8F9E-C9437C682B04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85285344-B1E3-4E96-8F9E-C9437C682B04}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{85285344-B1E3-4E96-8F9E-C9437C682B04}.Debug|x64.Build.0 = Debug|Any CPU
+		{85285344-B1E3-4E96-8F9E-C9437C682B04}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{85285344-B1E3-4E96-8F9E-C9437C682B04}.Debug|x86.Build.0 = Debug|Any CPU
+		{85285344-B1E3-4E96-8F9E-C9437C682B04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85285344-B1E3-4E96-8F9E-C9437C682B04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85285344-B1E3-4E96-8F9E-C9437C682B04}.Release|x64.ActiveCfg = Release|Any CPU
+		{85285344-B1E3-4E96-8F9E-C9437C682B04}.Release|x64.Build.0 = Release|Any CPU
+		{85285344-B1E3-4E96-8F9E-C9437C682B04}.Release|x86.ActiveCfg = Release|Any CPU
+		{85285344-B1E3-4E96-8F9E-C9437C682B04}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

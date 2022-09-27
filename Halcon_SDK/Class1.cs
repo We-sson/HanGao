@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MVS_SDK_Base
+namespace Halcon_SDK_DLL
 {
     public class Class1
     {
-
-
     }
 }

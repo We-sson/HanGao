@@ -10,8 +10,7 @@ using HanGao.View.User_Control.Vision_Control;
 using HanGao.View.UserMessage;
 using HanGao.Xml_Date.Xml_Models;
 using HanGao.Xml_Date.Xml_Write_Read;
-using MvCamCtrl.NET;
-using MvCamCtrl.NET.CameraParams;
+using MVS_SDK;
 using Nancy.Extensions;
 using PropertyChanged;
 using System;
@@ -33,7 +32,7 @@ using System.Xml.Linq;
 using static HanGao.Model.List_Show_Models;
 using static HanGao.Model.User_Read_Xml_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
-using MVS_SDK_Base;
+
 
 namespace HanGao.ViewModel
 {
@@ -78,7 +77,11 @@ namespace HanGao.ViewModel
         /// <summary>
         ///  用户选择相机对象
         /// </summary>
-        public CCamera Live_Camera { set; get; } = new CCamera();
+        public MVS MVS_Camera { set; get; } = new MVS();
+
+
+
+
 
 
         /// <summary>
@@ -107,10 +110,10 @@ namespace HanGao.ViewModel
 
 
 
-        /// <summary>
-        /// 初始化存储相机设备
-        /// </summary>
-        public List<CCameraInfo> Camera_List { set; get; } = new List<CCameraInfo>();
+        ///// <summary>
+        ///// 初始化存储相机设备
+        ///// </summary>
+        //public List<CCameraInfo> Camera_List { set; get; } = new List<CCameraInfo>();
 
         /// <summary>
         /// 用户选择相机数
@@ -183,14 +186,14 @@ namespace HanGao.ViewModel
                     //GEGI相机专属设置
                     if (_L.nTLayerType == CSystem.MV_GIGE_DEVICE)
                     {
-                        int _PacketSize = Live_Camera.GIGE_GetOptimalPacketSize();
+                        int _PacketSize = MVS_Camera.Live_Camera.GIGE_GetOptimalPacketSize();
                         if (_PacketSize > 0)
                         {
 
                             //设置曝光模式
                             Set_Camera_State(
                                 Camera_Parameters_Name_Enum.GevSCPSPacketSize,
-                                Live_Camera.SetIntValue("GevSCPSPacketSize", (uint)_PacketSize)
+                              MVS_Camera.Live_Camera.SetIntValue("GevSCPSPacketSize", (uint)_PacketSize)
                                 );
 
                         }
@@ -597,13 +600,13 @@ namespace HanGao.ViewModel
                 for (int i = 0; i < _Camera_List.Count; i++)
                 {
                     //添加到属性
-                    Camera_List.Add(_Camera_List[i]);
+                    MVS_Camera.Camera_List.Add(_Camera_List[i]);
 
                     if (_Camera_List[i].nTLayerType == CSystem.MV_GIGE_DEVICE)
                     {
 
                         //转换
-                        CGigECameraInfo _GEGI = Camera_List[i] as CGigECameraInfo;
+                        CGigECameraInfo _GEGI =Camera_List[i] as CGigECameraInfo;
 
                         //将相机信息名称添加到UI列表上
                         Camera_UI_List.Add(_GEGI.chManufacturerName + _GEGI.chModelName);

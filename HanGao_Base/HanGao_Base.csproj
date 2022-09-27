@@ -108,10 +108,16 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MvCamCtrl.Net, Version=4.0.0.4, Culture=neutral, PublicKeyToken=52fddfb3f94be800, processorArchitecture=AMD64">
+    <Reference Include="halcondotnet, Version=22.5.0.0, Culture=neutral, PublicKeyToken=4973bed59ddbf2b8, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>DLL\MVS\X64\MvCamCtrl.Net.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>..\Halcon_SDK\DLL\Halcon\2022\halcondotnet.dll</HintPath>
+    </Reference>
+    <Reference Include="hdevenginedotnet, Version=22.5.0.0, Culture=neutral, PublicKeyToken=4973bed59ddbf2b8, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Halcon_SDK\DLL\Halcon\2022\hdevenginedotnet.dll</HintPath>
+    </Reference>
+    <Reference Include="MvCamCtrl.Net">
+      <HintPath>..\MVS_SDK\DLL\MVS\X64\MvCamCtrl.Net.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework.Aero2">
       <Private>False</Private>
@@ -561,7 +567,6 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </Resource>
-    <None Include=".editorconfig" />
     <None Include="FodyWeavers.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -793,6 +798,16 @@
     <PackageReference Include="Unnoficial.Microsoft.Expression.Drawing">
       <Version>1.0.0</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Halcon_SDK\Halcon_SDK.csproj">
+      <Project>{85285344-b1e3-4e96-8f9e-c9437c682b04}</Project>
+      <Name>Halcon_SDK</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MVS_SDK\MVS_SDK.csproj">
+      <Project>{09bde038-3dbc-4fce-9d4d-ad4d8422c3e1}</Project>
+      <Name>MVS_SDK</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
