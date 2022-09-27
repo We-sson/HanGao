@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HanGao_Base", "HanGao_Base.csproj", "{1B2622B5-B29B-4EB1-981E-EF015A0AABE4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVS_SDK_Base", "MVS_SDK_DLL\MVS_SDK_Base.csproj", "{09BDE038-3DBC-4FCE-9D4D-AD4D8422C3E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVS_SDK_Base", "..\MVS_SDK_DLL\MVS_SDK_Base.csproj", "{09BDE038-3DBC-4FCE-9D4D-AD4D8422C3E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

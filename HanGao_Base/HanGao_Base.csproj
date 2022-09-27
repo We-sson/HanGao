@@ -794,12 +794,6 @@
       <Version>1.0.0</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="MVS_SDK_DLL\MVS_SDK_Base.csproj">
-      <Project>{09bde038-3dbc-4fce-9d4d-ad4d8422c3e1}</Project>
-      <Name>MVS_SDK_Base</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
