@@ -42,6 +42,15 @@ namespace Soceket_Connect
         private ManualResetEvent Rece_Write { set; get; } = new ManualResetEvent(false);
         private ManualResetEvent Send_Waite { set; get; } = new ManualResetEvent(false);
 
+        /// <summary>
+        /// 通讯接收信息委托申声明
+        /// </summary>
+        /// <param name="_Receive_Info"></param>
+        public delegate void Socket_Receive_delegate(Socket_Models_Receive _Receive_Info);
+        /// <summary>
+        /// 通讯接收信息委托属性
+        /// </summary>
+        public Socket_Receive_delegate Socket_Receive_Delegate { set; get; }
 
         /// <summary>
         /// 连接状态枚举
@@ -331,7 +340,7 @@ namespace Soceket_Connect
 
 
                 //连接超时判断
-                if (!Connnect_Read.WaitOne(1000, true) || !Is_Read_Client)
+                if (!Connnect_Read.WaitOne(10000, true) || !Is_Read_Client)
                 {
                     Socket_Receive_Error(R_W_Enum, "Error: -53 原因:读取连接超时！检查网络与IP设置是否正确。");
                     return;
@@ -525,6 +534,7 @@ namespace Soceket_Connect
                 {
                     //接收异常退出
                     //User_Log_Add("Error: -19 原因:" + GetType().Name + " 接收消息异常，库卡服务器断开！");
+                    Socket_Receive_Error(Socket_KUKA_Receive.Read_Write_Type, "Error: -20 原因:" + GetType().Name + " 写入线程，库卡服务器断开！");
 
                     return;
                 }
@@ -595,22 +605,15 @@ namespace Soceket_Connect
 
 
 
-
-                    if (_Receive.Reveice_Inf.Send_Area == "")
+                    //设置了变量值接收位置的，委托传输
+                    if (_Receive.Reveice_Inf.Send_Area != "")
                     {
-
-
-                        //Messenger.Send<Socket_Models_List, string>(_Receive.Reveice_Inf, nameof(Meg_Value_Eunm.Socket_Read_List));
-
-
+                        //委托方法
+                        Socket_Receive_Delegate(_Receive);
+                    
 
                     }
-                    else
-                    {
-
-                        //Messenger.Send<Socket_Models_List, string>(_Receive.Reveice_Inf, _Receive.Reveice_Inf.Send_Area);
-
-                    }
+ 
 
 
                 }
@@ -897,8 +900,12 @@ namespace Soceket_Connect
 
 
                         Socket_KUKA_Receive = new Socket_Models_Receive() { Send_Byte = Read_Var_To_Byte(Socket_Read_List[i]), Read_Write_Type = Read_Write_Enum.One_Read, Reveice_Inf = Socket_Read_List[i] };
+                        if (Is_Read_Client)
+                        {
+
 
                         Socket_Send_Message_Method(Socket_KUKA_Receive);
+                        }
 
 
                     }

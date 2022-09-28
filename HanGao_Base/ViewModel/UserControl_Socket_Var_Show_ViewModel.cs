@@ -45,11 +45,7 @@ namespace HanGao.ViewModel
 
 
             IsActive = true;
-            //开始读取集合发送线程
-            Messenger.Register<dynamic ,string >(this,nameof( Meg_Value_Eunm.Socket_Read_Thread), (O,_Bool) =>
-            {
 
-            });
             //读取变量集合发送
             Messenger.Register<dynamic ,string >(this, nameof(Meg_Value_Eunm.Clear_List), (O,_Bool) =>
             {
@@ -103,17 +99,17 @@ namespace HanGao.ViewModel
                 Application.Current.Dispatcher.Invoke((Action)(() =>
                 {
 
-                    On_Read_List.Clear();
+                    On_Read_List_UI.Clear();
 
                 }));
                 foreach (var item in _List)
                 {
 
-                    if (!On_Read_List.Any<Socket_Models_List>(l => l.Val_Name == item.Val_Name))
+                    if (!On_Read_List_UI.Any<Socket_Models_List>(l => l.Val_Name == item.Val_Name))
                     {
                         Application.Current.Dispatcher.Invoke((Action)(() =>
                         {
-                            On_Read_List.Add(item);
+                            On_Read_List_UI.Add(item);
                         }));
 
 
@@ -127,7 +123,7 @@ namespace HanGao.ViewModel
 
                    Messenger.Send<dynamic, string>(UI_Type_Enum.Reading, nameof(Meg_Value_Eunm.Surround_Direction_State));
 
-                   Socket_Client_Setup.One_Read.Cycle_Real_Send(On_Read_List);
+                   Socket_Client_Setup.One_Read.Cycle_Real_Send(On_Read_List_UI);
 
                    Messenger.Send<dynamic, string>(UI_Type_Enum.Ok , nameof(Meg_Value_Eunm.Surround_Direction_State));
 
@@ -145,12 +141,6 @@ namespace HanGao.ViewModel
             });
 
 
-            //接收消息更新列表变量值,弃用
-            Messenger.Register<Socket_Models_List, string >(this, nameof(Meg_Value_Eunm.Socket_Read_List), (O, S) =>
-            {
-
-
-            });
 
 
             //发送需要读取的变量名枚举值
@@ -159,8 +149,10 @@ namespace HanGao.ViewModel
 
         }
 
-
-        public static ObservableCollection<Socket_Models_List> On_Read_List { set; get; } = new ObservableCollection<Socket_Models_List>();
+        /// <summary>
+        /// UI界面显示周期发送变量
+        /// </summary>
+        public static ObservableCollection<Socket_Models_List> On_Read_List_UI { set; get; } = new ObservableCollection<Socket_Models_List>();
 
         /// <summary>
         /// 读取库卡变量列表集合
@@ -228,11 +220,7 @@ namespace HanGao.ViewModel
         public enum Value_Name_enum
         {
 
-            /// <summary>
-            /// 围边工艺焊接尺寸
-            /// </summary>
-            N1_Sink_Data,
-            N2_Sink_Data,
+
 
             /// <summary>
             /// 机器速度
@@ -240,11 +228,7 @@ namespace HanGao.ViewModel
             [StringValue("$VEL.CP"), UserArea(nameof(Meg_Value_Eunm.UC_Pop_Sink_Value_Load))]
              VEL,
 
-            /// <summary>
-            /// 激光功率
-            /// </summary>
-            [StringValue("$ANOUT[1]")]
-            ANOUT_1,
+
 
             /// <summary>
             /// 程序解释器Submit状态
@@ -257,6 +241,21 @@ namespace HanGao.ViewModel
             /// </summary>
             [StringValue("$" + nameof(PRO_STATE1)), UserArea(nameof(Meg_Value_Eunm.KUKA_State)), BingdingValue(nameof(KUKA_State_Models.KUKA_Program_State), Value_Type.Enum, Binding_Type.OneWay)]
             PRO_STATE1,
+
+            /// <summary>
+            /// 当前激光功率
+            /// </summary>
+            [StringValue("$ANOUT[1]")]
+            ANOUT_1,
+
+            /// <summary>
+            /// 工位1当前围边工艺焊接尺寸
+            /// </summary>
+            N1_Sink_Data,
+            /// <summary>
+            /// 工位1当前围边工艺焊接尺寸
+            /// </summary>
+            N2_Sink_Data,
 
             /// <summary>
             /// 机器人操作模式

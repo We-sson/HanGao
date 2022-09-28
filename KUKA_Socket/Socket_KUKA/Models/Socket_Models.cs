@@ -63,13 +63,6 @@ namespace Soceket_KUKA.Models
 
 
 
-
-        ///// <summary>
-        ///// 长短连接枚举属性
-        ///// </summary>
-        //public enum Connect_Type {Null=-1 ,Long,Short };
-
-
     }
 
 

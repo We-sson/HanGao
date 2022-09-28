@@ -2,6 +2,7 @@
 using static HanGao.ViewModel.User_Control_Log_ViewModel;
 using static HanGao.ViewModel.UserControl_Socket_Var_Show_ViewModel;
 using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
+using static Soceket_Connect.Socket_Connect;
 
 namespace HanGao.Model
 
@@ -49,7 +50,13 @@ namespace HanGao.Model
         /// <summary>
         /// IP输入识别内容属性
         /// </summary>
-        public IP_Text_Error Text_Error { set; get; } 
+        public IP_Text_Error Text_Error { set; get; }
+
+
+
+
+
+
 
         /// <summary>
         /// 连接按钮名称属性
@@ -153,27 +160,29 @@ namespace HanGao.Model
         {
             get => new RelayCommand<UserControl_Socket_Conntec_UI>( (Sm) =>
           {
-              //await Task.Run(() =>
-              //{
 
-
-                  //Application.Current.Dispatcher.Invoke(() =>
-                  //{
-                      //把参数类型转换控件
-
-               
-                      //Socket_Connect _Client = new Socket_Connect();
-                      //Socket_Sever _Server = new Socket_Sever();
 
 
                       switch (Connect_Socket_Type)
                       {
                           case Socket_Type.Client:
 
-                              //Socket_Client_Setup.Read.Socket_Client_Thread(  Socket_Client_Type.Synchronized,Read_Write_Enum.Read, IP, Port);
+                      //Socket_Client_Setup.Read.Socket_Client_Thread(  Socket_Client_Type.Synchronized,Read_Write_Enum.Read, IP, Port);
+                     
+                      //设置连接对象信息和回调方法
+                      Socket_Client_Setup.Read.KUKA_IP = IP;
+                      Socket_Client_Setup.Read.KUKA_Port = Port;
+                      Socket_Client_Setup.Read.Socket_Receive_Delegate = (Socket_Models_Receive _Receive )=>
+                      {
 
-                              //使用多线程读取
-                              new Thread(new ThreadStart(new Action(() =>
+                          Messenger.Send<Socket_Models_List, string>(_Receive.Reveice_Inf, _Receive.Reveice_Inf.Send_Area);
+
+
+                      };
+
+
+                      //使用多线程读取
+                      new Thread(new ThreadStart(new Action(() =>
                               {
 
 
@@ -197,10 +206,7 @@ namespace HanGao.Model
                               break;
 
                       }
-                        //创建连接
-
-                    //});
-              //});
+    
 
           });
         }
@@ -245,6 +251,17 @@ namespace HanGao.Model
            });
         }
 
+
+        /// <summary>
+        ///    库卡通讯委托接收变量值信息
+        /// </summary>
+        /// <param name="_Receive"></param>
+        private  void Socket_Receive_Method(Socket_Models_Receive _Receive)
+        {
+
+   
+
+        }
 
 
         #endregion
