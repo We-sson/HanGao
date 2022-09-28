@@ -1,26 +1,11 @@
 ﻿
-using HanGao.Model;
-using HanGao.View.User_Control.Pop_Ups;
-using CommunityToolkit.Mvvm.ComponentModel;
-using Nancy.Helpers;
-using PropertyChanged;
-using System;
-using System.Linq;
-using CommunityToolkit.Mvvm.Messaging;
-using System.ComponentModel;
-using System.Threading;
-using System.Windows.Input;
-using static HanGao.Model.Sink_Models;
-using CommunityToolkit.Mvvm.Input;
-using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 
-using System.Windows.Controls;
+using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static HanGao.Model.SInk_UI_Models;
 using HanGao.Xml_Date.Xml_Write_Read;
-using HanGao.Xml_Date.Xml_Models;
-using System.Windows;
 using HanGao.View.UserMessage;
 using static HanGao.Model.List_Show_Models;
+using HanGao.View.User_Control.Pop_Ups;
 
 namespace HanGao.ViewModel
 {

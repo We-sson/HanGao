@@ -1,40 +1,7 @@
-﻿
-
-using PropertyChanged;
-using Soceket_Connect;
-using Soceket_KUKA;
-using Soceket_KUKA.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
-using HanGao.Errorinfo;
-using HanGao.Socket_KUKA;
-using HanGao.View.User_Control;
-using HanGao.ViewModel;
-using static Soceket_Connect.Socket_Connect;
-using static Soceket_KUKA.Models.Socket_Eunm;
-using static Soceket_KUKA.Models.Socket_Models_Connect;
-using static Soceket_KUKA.Models.Socket_Models_Receive;
-
-
-
-using static Soceket_KUKA.Socket_Receive;
-using static HanGao.Socket_KUKA.Socket_Sever;
-
+﻿using HanGao.View.User_Control;
 using static HanGao.ViewModel.User_Control_Log_ViewModel;
 using static HanGao.ViewModel.UserControl_Socket_Var_Show_ViewModel;
 using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-
-using static HanGao.ViewModel.UC_Surround_Direction_VM;
 
 namespace HanGao.Model
 
@@ -211,7 +178,7 @@ namespace HanGao.Model
 
 
 
-                                  Socket_Client_Setup .Read.Loop_Real_Send();
+                                  Socket_Client_Setup .Read.Loop_Real_Send(Socket_Read_List);
 
 
 

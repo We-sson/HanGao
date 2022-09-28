@@ -1,14 +1,4 @@
-﻿using HanGao.View.User_Control.Program_Editing.Direction_UI;
-using Nancy.Helpers;
-using PropertyChanged;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using static HanGao.Model.User_Read_Xml_Model;
+﻿using static HanGao.Model.User_Steps_Model;
 
 namespace HanGao.Model
 {

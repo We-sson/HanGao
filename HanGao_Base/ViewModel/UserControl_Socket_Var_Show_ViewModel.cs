@@ -16,22 +16,18 @@ using System.Collections.Specialized;
 using HanGao.Socket_KUKA;
 using HanGao.ViewModel;
 using static Soceket_Connect.Socket_Connect;
-using static Soceket_KUKA.Models.Socket_Eunm;
 using static Soceket_KUKA.Models.Socket_Models_Receive;
 using static HanGao.ViewModel.User_Control_Log_ViewModel;
 using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
-using static HanGao.Extension_Method.SetReadTypeAttribute;
+
 using static HanGao.ViewModel.UC_Surround_Point_VM;
 using static HanGao.ViewModel.UC_Surround_Direction_VM;
-using HanGao.Extension_Method;
-using static Soceket_KUKA.Models.KUKA_Value_Type;
-using static HanGao.Extension_Method.KUKA_ValueType_Model;
+
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Collections.Generic;
+
 
 namespace HanGao.ViewModel
 {
@@ -154,33 +150,6 @@ namespace HanGao.ViewModel
             {
 
 
-                 //Socket_Read_List.Where(l => l.Val_ID == S.Val_ID).FirstOrDefault().Val_Var=S.Val_Var;
-                //_List = S;
-                //_List.Val_Update_Time = DateTime.Now.ToLocalTime();
-
-
-                //for (int i = 0; i < Socket_Read_List.Count; i++)
-                //    {
-
-                //        if (Socket_Read_List[i].Val_ID == _Byte.Byte_ID && Socket_Read_List[i].Val_Var != _Byte.Message_Show)
-                //        {
-                //            Socket_Read_List[i].Val_Update_Time = DateTime.Now.ToLocalTime();
-                //            Socket_Read_List[i].Val_Var = _Byte.Message_Show;
-                //            //MessageBox.Show(Socket_Read_List[i].Val_Var);
-                //            //把属于自己的区域回传
-                //            Socket_Models_List a = Socket_Read_List[i];
-
-
-
-                //            Messenger.Send<Socket_Models_List, string>(a, Socket_Read_List[i].Send_Area);
-
-
-                //           return;
-
-                //        }
-
-                //    }
-
             });
 
 
@@ -189,24 +158,6 @@ namespace HanGao.ViewModel
 
 
         }
-
-
-
-
-
-
-
-
-
-
-
-
-        /// <summary>
-        /// 写入锁
-        /// </summary>
-        // public static ManualResetEvent Read_List_Lock = new ManualResetEvent(false );
-        //public static ManualResetEvent List_Lock { set; get; } = new ManualResetEvent(false   );
-        //public static ReaderWriterLockSlim Read_List { set; get; } = new ReaderWriterLockSlim();
 
 
         public static ObservableCollection<Socket_Models_List> On_Read_List { set; get; } = new ObservableCollection<Socket_Models_List>();
@@ -239,63 +190,7 @@ namespace HanGao.ViewModel
 
 
 
-        private static int _Write_Number_ID = 0;
-        /// <summary>
-        /// 写入变量唯一标识ID号
-        /// </summary>
-        public static int Write_Number_ID
-        {
-            set
-            {
-                _Write_Number_ID = value;
-            }
-            get
-            {
-                if (_Write_Number_ID > 65500  )
-                {
-                    _Write_Number_ID = 0;
-                }
-                //bool a = false;
-         
-                    
-                    _Write_Number_ID++;
 
-
-
-
-                return _Write_Number_ID;
-            }
-        }
-
-        private static int _Read_Number_ID;
-        /// <summary>
-        /// 读取变量唯一标识ID号
-        /// </summary>
-        public static int Read_Number_ID
-        {
-            set
-            {
-                _Read_Number_ID = value;
-            }
-            get
-            {
-              
-
-
-                if (_Read_Number_ID > 65500)
-                {
-                    _Read_Number_ID = 0;
-                }
-                do
-                {
-                _Read_Number_ID++;
-
-                } while (Socket_Read_List.Any<Socket_Models_List>(l => l.Val_ID == _Read_Number_ID) && On_Read_List.Any<Socket_Models_List>(l => l.Val_ID == _Read_Number_ID));
-
-                return _Read_Number_ID;
-             }
-            
-        }
 
 
         public DateTime Delay_time { set; get; }
@@ -491,7 +386,7 @@ namespace HanGao.ViewModel
             {
 
 
-                _List.Add(new Socket_Models_List() { Val_Name = item.GetStringValue(), Val_ID = Read_Number_ID, Send_Area = item.GetAreaValue(), Value_Enum = item, Bingding_Value = item.GetBingdingValue().BingdingValue, KUKA_Value_Enum = item.GetBingdingValue().SetValueType, });
+                _List.Add(new Socket_Models_List() { Val_Name = item.GetStringValue(), Val_ID = Read_Number_ID, Send_Area = item.GetAreaValue(), Value_Enum = item, Bingding_Value = item.GetBingdingValue().BingdingValue, KUKA_Value_Enum = (Value_Type)item.GetBingdingValue().SetValueType, });
 
             }
             WeakReferenceMessenger.Default.Send<ObservableCollection<Socket_Models_List>, string>(_List, nameof(Meg_Value_Eunm.List_Connect));

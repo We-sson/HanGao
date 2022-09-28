@@ -1,7 +1,4 @@
-﻿using Nancy.Helpers;
-using PropertyChanged;
-using System;
-
+﻿
 namespace HanGao.Model
 {
     [AddINotifyPropertyChangedInterface]

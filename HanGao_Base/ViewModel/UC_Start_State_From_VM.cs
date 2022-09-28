@@ -41,7 +41,7 @@ namespace HanGao.ViewModel
 
                 if (T.Val_Var != "")
                 {
-                    if (T.KUKA_Value_Enum == KUKA_Value_Type.Value_Type.Enum)
+                    if (T.KUKA_Value_Enum == Value_Type.Enum)
                     {
 
 
@@ -50,7 +50,7 @@ namespace HanGao.ViewModel
                         //设置类型
                         UI_Data.GetType().GetProperty(T.Bingding_Value).SetValue(UI_Data, b);
                     }
-                    if (T.KUKA_Value_Enum == KUKA_Value_Type.Value_Type.Bool)
+                    if (T.KUKA_Value_Enum == Value_Type.Bool)
                     {
 
 

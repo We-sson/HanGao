@@ -1,28 +1,8 @@
-﻿using HanGao.Extension_Method;
-using HanGao.Model;
-using HanGao.Xml_Date.Xml_Models;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
-using CommunityToolkit.Mvvm.Input;
-using PropertyChanged;
-using Soceket_KUKA.Models;
-using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Threading;
-using System.Threading.Tasks;
-using static HanGao.Extension_Method.SetReadTypeAttribute;
-using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
+﻿using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static HanGao.ViewModel.UC_Surround_Direction_VM;
-using static HanGao.ViewModel.UC_Surround_Point_VM;
-using static HanGao.ViewModel.UserControl_Socket_Var_Show_ViewModel;
 using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
-using System.Collections.Generic;
-using static HanGao.Model.Sink_Models;
 using HanGao.Xml_Date.Xml_Write_Read;
-using static HanGao.Model.User_Read_Xml_Model;
-using static HanGao.ViewModel.UC_Short_Side_VM;
-
+using static HanGao.Model.User_Steps_Model;
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
@@ -233,32 +213,18 @@ namespace HanGao.ViewModel
                                                _List.Add(new Socket_Models_List()
                                                {
                                                    Val_Name = User_Sink.User_Picking_Craft.User_Direction.ToString() + "[" + (int)User_Sink.User_Picking_Craft.User_Work_Area +"," + Date.Craft_Date[i].NO + "]" + "." + Name_Val,
-                                                   Val_ID = Read_Number_ID,
+                                                   
                                                    Send_Area = nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data),
                                                    UserObject = new KUKA_Craft_Value()
                                                    { Craft_Point_NO = Date.Craft_Date[i].NO, KUKA_Craft_Type = Craft_List.Name, KUKA_Point_Type = Date.Craft_Date[i].Craft_Type, User_Direction = S , User_Work= User_Sink.User_Picking_Craft.User_Work_Area },
-                                                    User_Picking_Craft=User_Sink.User_Picking_Craft,
+                                                    //User_Picking_Craft=User_Sink.User_Picking_Craft,
                                                });
                                                break;
                                            case ReadWrite_Enum.Write:
 
-
-
                                                break;
-
                                        }
-
-
-
-
-
                                    }
-
-
-
-
-
-
                                }
                            }
 

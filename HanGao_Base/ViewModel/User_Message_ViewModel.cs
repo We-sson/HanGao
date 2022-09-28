@@ -1,14 +1,4 @@
-﻿
-
-using PropertyChanged;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using HanGao.Model;
-using HanGao.View.UserMessage;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
+﻿using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 
 namespace HanGao.ViewModel
 {

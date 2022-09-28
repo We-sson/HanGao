@@ -1,5 +1,4 @@
-﻿using PropertyChanged;
-using System.ComponentModel;
+﻿
 
 namespace HanGao.Model
 {

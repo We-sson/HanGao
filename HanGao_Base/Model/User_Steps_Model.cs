@@ -1,22 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+
 using static HanGao.ViewModel.UC_Surround_Direction_VM;
 
 namespace HanGao.Model
 {
-    public class User_Read_Xml_Model
+    public class User_Steps_Model
     {
-        //public User_Read_Xml_Model( int _Sink_Model, Work_No_Enum _Work_No, User_Craft_Enum _User_Craft, Direction_Enum _User_Direction)
-        //{
-        //    //User_Sink_Model = _Sink_Model;
-        //    User_Work_Area = _Work_No;
-        //    User_Craft = new User_Weld_Craft();
-        //}
 
-        public User_Read_Xml_Model()
+
+        public User_Steps_Model()
         {
 
         }

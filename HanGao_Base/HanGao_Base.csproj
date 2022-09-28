@@ -174,7 +174,6 @@
     </ApplicationDefinition>
     <Compile Include="Errorinfo\IP_Text_Error.cs" />
     <Compile Include="Errorinfo\LogManager.cs" />
-    <Compile Include="Extension Method\Enum_Method.cs" />
     <Compile Include="Model\Frame_Uri_Models.cs" />
     <Compile Include="Model\Home_Models.cs" />
     <Compile Include="Model\List_Show_Models.cs" />
@@ -185,11 +184,10 @@
     <Compile Include="Model\UC_Point_Info_Models.cs" />
     <Compile Include="Model\UC_Sink_Add_Model.cs" />
     <Compile Include="Model\UC_Surround_Point_Models.cs" />
-    <Compile Include="Model\UC_Working_Models.cs" />
     <Compile Include="Model\User_Features.cs" />
     <Compile Include="Model\User_Log_Models.cs" />
     <Compile Include="Model\User_Message_Models.cs" />
-    <Compile Include="Model\User_Read_Xml_Model.cs" />
+    <Compile Include="Model\User_Steps_Model.cs" />
     <Compile Include="Model\User_Working_Path_Models.cs" />
     <Compile Include="Model\Wroking_Models.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -197,10 +195,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Socket_KUKA\Models\Socket_Models.cs" />
-    <Compile Include="Socket_KUKA\Socket_Connect.cs" />
-    <Compile Include="Socket_KUKA\Socket_Receive.cs" />
-    <Compile Include="Socket_KUKA\Socket_Sever.cs" />
+    <Compile Include="ViewModel\Global_Using.cs" />
     <Compile Include="ViewModel\Messenger_Eunm\Messenger_Name.cs" />
     <Compile Include="ViewModel\UC_KUKA_State_VM.cs" />
     <Compile Include="ViewModel\UC_Point_Info_VM.cs" />
@@ -653,9 +648,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DataStore\DataStore\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Resources\Vision_删除_ioc.png" />
     <Resource Include="Resources\Vision_标定板例图_ioc.png" />
@@ -670,50 +663,6 @@
     <Resource Include="Resources\UC_开始页面状态_3.png" />
     <Resource Include="FodyWeavers.xml" />
     <Resource Include="inter\序列号.txt" />
-    <None Include="DLL\MVS\X64\MvCamCtrl.Net.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Resource Include="DLL\Halcon\2022\halcon.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="DLL\Halcon\2022\halconc.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="DLL\Halcon\2022\halconcpp.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="DLL\Halcon\2022\halconcppxl.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Content Include="DLL\Halcon\2022\halconcxl.dll" />
-    <Resource Include="DLL\Halcon\2022\halcondl.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="DLL\Halcon\2022\halcondlxl.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="DLL\Halcon\2022\halconxl.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="DLL\Halcon\2022\hcanvas.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="DLL\Halcon\2022\hdevenginecpp.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="DLL\Halcon\2022\hdevenginecppxl.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="DLL\Halcon\2022\libiomp5md.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Content Include="DLL\Halcon\2022\halcondotnet.dll" />
-    <Content Include="DLL\Halcon\2022\halcondotnetxl.dll" />
-    <Content Include="DLL\Halcon\2022\hdevenginedotnet.dll" />
-    <Content Include="DLL\Halcon\2022\hdevenginedotnetxl.dll" />
-    <None Include="DLL\MVS\X86\MvCamCtrl.Net.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <Content Include="inter\HanGao-cache\part10\disk1.cab" />
     <Content Include="inter\HanGao-cache\part11\disk1.cab" />
     <Content Include="inter\HanGao-cache\part12\disk1.cab" />
@@ -800,9 +749,21 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Enum_Extension\KUKA_Val_Extension.csproj">
+      <Project>{5647b968-3330-4159-bc39-872f1b889a9b}</Project>
+      <Name>KUKA_Val_Extension</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Generic_Extension\Generic_Extension.csproj">
+      <Project>{1CFBC836-D70F-4C44-98D1-17D4778F883B}</Project>
+      <Name>Generic_Extension</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Halcon_SDK\Halcon_SDK.csproj">
       <Project>{85285344-b1e3-4e96-8f9e-c9437c682b04}</Project>
       <Name>Halcon_SDK</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KUKA_Socket\KUKA_Socket.csproj">
+      <Project>{4e727e85-63ec-4664-abf6-211ed2457e48}</Project>
+      <Name>KUKA_Socket</Name>
     </ProjectReference>
     <ProjectReference Include="..\MVS_SDK\MVS_SDK.csproj">
       <Project>{09bde038-3dbc-4fce-9d4d-ad4d8422c3e1}</Project>

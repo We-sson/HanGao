@@ -1,22 +1,4 @@
 ﻿
-using HanGao.Model;
-using HanGao.View.User_Control.Pop_Ups;
-using Nancy.Helpers;
-using PropertyChanged;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using CommunityToolkit.Mvvm.ComponentModel;
-using static HanGao.Model.Sink_Models;
-using CommunityToolkit.Mvvm.Input;
-using System.Windows.Input;
-using System.Windows;
-using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 
 namespace HanGao.ViewModel
 {
@@ -38,13 +20,6 @@ namespace HanGao.ViewModel
             //    Sink_Craft = S.Sink_UI.Sink_Craft;
 
             //});
-
-
-
-
-
-
-
         }
 
 
@@ -76,48 +51,6 @@ namespace HanGao.ViewModel
         /// </summary>
         public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
 
-
-
-
-        ///// <summary>
-        ///// 加载属性水槽类型
-        ///// </summary>
-        //public ICommand Craft_UI_Comm
-        //{
-        //    get => new RelayCommand<RoutedEventArgs>((Sm) =>
-        //    {
-
-        //        //把参数类型转换控件
-        //        Button E = Sm.Source as Button;
-        //        Sink_Craft_Models S = E.DataContext as Sink_Craft_Models;
-
-
-        //        User_Sink.User_Picking_Craft.User_Welding_Craft = S.Craft_Type;
-
-        //        FrameShow.ProgramEdit_Enabled = true;
-        //        FrameShow.ProgramEdit_UI = true;
-
-
-
-
-        //        //传送用户选择工艺
-        //        Messenger.Send<Sink_Models, string>(User_Sink, nameof(Meg_Value_Eunm.Program_UI_Load));
-
-
-
-
-        //        //关闭弹窗
-        //        Messenger.Send<UserControl, string>(null, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
-        //        //把参数类型转换控件
-        //        //FrameworkElement e = Sm.Source as FrameworkElement;
-
-
-
-
-
-
-        //    });
-        //}
 
 
     }

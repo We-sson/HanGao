@@ -1,12 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
-using HalconDotNet;
+﻿
 using HanGao.View.FrameShow;
-using PropertyChanged;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 
 namespace HanGao.ViewModel

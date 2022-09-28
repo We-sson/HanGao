@@ -1,25 +1,5 @@
-﻿
-using PropertyChanged;
-using Soceket_Connect;
-using Soceket_KUKA.Models;
-using System;
-using System.Collections.ObjectModel;
-using System.Reflection;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using HanGao.Extension_Method;
-using HanGao.Model;
-using static Soceket_KUKA.Models.KUKA_Value_Type;
-using static Soceket_KUKA.Models.Socket_Models_Receive;
-using static HanGao.ViewModel.User_Control_Log_ViewModel;
-using static HanGao.ViewModel.UserControl_Socket_Var_Show_ViewModel;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
-using CommunityToolkit.Mvvm.Input;
-using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
-using static HanGao.Extension_Method.KUKA_ValueType_Model;
-using static HanGao.Extension_Method.SetReadTypeAttribute;
+﻿using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
+
 
 namespace HanGao.ViewModel
 {
@@ -179,7 +159,7 @@ namespace HanGao.ViewModel
             {
 
 
-                 _List.Add(new Socket_Models_List() { Val_Name = item.GetStringValue(), Val_ID = Read_Number_ID, Send_Area = item.GetAreaValue(), Value_Enum = item, Bingding_Value = item.GetBingdingValue().BingdingValue, KUKA_Value_Enum = item.GetBingdingValue().SetValueType,  });
+                 _List.Add(new Socket_Models_List() { Val_Name = item.GetStringValue(), Send_Area = item.GetAreaValue(), Value_Enum = item, Bingding_Value = item.GetBingdingValue().BingdingValue, KUKA_Value_Enum = item.GetBingdingValue().SetValueType,  });
 
             }
             WeakReferenceMessenger.Default.Send<ObservableCollection<Socket_Models_List>, string>(_List, nameof(Meg_Value_Eunm.List_Connect));

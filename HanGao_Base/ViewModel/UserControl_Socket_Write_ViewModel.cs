@@ -1,21 +1,6 @@
-﻿
- 
-using PropertyChanged;
-using Soceket_Connect;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Input;
-
-using HanGao.Socket_KUKA;
-using HanGao.View.User_Control;
-using System.Threading.Tasks;
-using System.Windows;
-
+﻿using HanGao.View.User_Control;
 using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
-using System.Threading;
-using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
-using System;
+
 
 
 namespace HanGao.ViewModel

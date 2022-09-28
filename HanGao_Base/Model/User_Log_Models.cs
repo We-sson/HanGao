@@ -1,4 +1,4 @@
-﻿using PropertyChanged;
+﻿
 
 namespace HanGao.Model
 {

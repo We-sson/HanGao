@@ -1,23 +1,4 @@
-﻿using HanGao.Model;
-using HanGao.View.User_Control;
-using HanGao.View.UserMessage;
-using HanGao.Xml_Date.Xml_Write_Read;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
-using CommunityToolkit.Mvvm.Input;
-using PropertyChanged;
-using System;
-using System.Linq;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using static HanGao.Model.List_Show_Models;
-using static HanGao.Model.User_Read_Xml_Model;
-using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
-
+﻿
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]

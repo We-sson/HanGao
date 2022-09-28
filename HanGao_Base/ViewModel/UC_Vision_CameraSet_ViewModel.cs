@@ -1,36 +1,7 @@
-﻿global using HanGao.Model;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
-using HalconDotNet;
-using HanGao.Extension_Method;
-using HanGao.View.FrameShow;
-using HanGao.View.User_Control;
+﻿
+
+
 using HanGao.View.User_Control.Vision_Control;
-using HanGao.View.UserMessage;
-using HanGao.Xml_Date.Xml_Models;
-using HanGao.Xml_Date.Xml_Write_Read;
-using MVS_SDK;
-using Nancy.Extensions;
-using PropertyChanged;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.ComTypes;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Input;
-using System.Windows.Media.Media3D;
-using System.Xml.Linq;
-using static HanGao.Model.List_Show_Models;
-using static HanGao.Model.User_Read_Xml_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 
 
@@ -66,7 +37,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 相机参数
         /// </summary>
-        public MVS_Camera_Parameter_Model Camera_Parameter_Val { set; get; } = new MVS_Camera_Parameter_Model();
+        public MVS.MVS_Camera_Parameter_Model Camera_Parameter_Val { set; get; } = new MVS.MVS_Camera_Parameter_Model();
 
 
         /// <summary>
@@ -192,7 +163,7 @@ namespace HanGao.ViewModel
 
                             //设置曝光模式
                             Set_Camera_State(
-                                Camera_Parameters_Name_Enum.GevSCPSPacketSize,
+                               MVS.Camera_Parameters_Name_Enum.GevSCPSPacketSize,
                               MVS_Camera.Live_Camera.SetIntValue("GevSCPSPacketSize", (uint)_PacketSize)
                                 );
 
@@ -210,12 +181,12 @@ namespace HanGao.ViewModel
                     //创建抓图回调函数
                     ImageCallback = new cbOutputExdelegate(ImageCallbackFunc);
                     Set_Camera_State(
-                                                    Camera_Parameters_Name_Enum.RegisterImageCallBackEx,
-                                                    Live_Camera.RegisterImageCallBackEx(ImageCallback, IntPtr.Zero)
+                                                   MVS.Camera_Parameters_Name_Enum.RegisterImageCallBackEx,
+                                                   MVS_Camera.Live_Camera.RegisterImageCallBackEx(ImageCallback, IntPtr.Zero)
                                                     );
 
                     //开始取流
-                    Set_Camera_State(Camera_Parameters_Name_Enum.StartGrabbing, Live_Camera.StartGrabbing());
+                    Set_Camera_State(MVS.Camera_Parameters_Name_Enum.StartGrabbing, MVS_Camera.Live_Camera.StartGrabbing());
 
 
 
@@ -226,13 +197,13 @@ namespace HanGao.ViewModel
 
 
                     //相机停止取流
-                    Set_Camera_State(Camera_Parameters_Name_Enum.StopGrabbing, Live_Camera.StopGrabbing());
+                    Set_Camera_State(MVS.Camera_Parameters_Name_Enum.StopGrabbing, MVS_Camera.Live_Camera.StopGrabbing());
 
 
                     //回调方法设置为空
                     Set_Camera_State(
-                                Camera_Parameters_Name_Enum.RegisterImageCallBackEx,
-                               Live_Camera.RegisterImageCallBackEx(null, IntPtr.Zero)
+                               MVS.Camera_Parameters_Name_Enum.RegisterImageCallBackEx,
+                               MVS_Camera.Live_Camera.RegisterImageCallBackEx(null, IntPtr.Zero)
                                 );
 
 
@@ -247,6 +218,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 设置相机曝光时间
         /// </summary>
+    
         public ICommand Camera_Exposure_Set_Comm
         {
             get => new AsyncRelayCommand<RoutedEventArgs>(async (Sm) =>
@@ -260,18 +232,18 @@ namespace HanGao.ViewModel
                 if ((E.Value) == 0)
                 {
                     //设置曝光模式
-                    Set_Camera_State(Camera_Parameters_Name_Enum.ExposureAuto, Live_Camera.SetEnumValue(Camera_Parameters_Name_Enum.ExposureAuto.ToString(), (uint)MV_CAM_EXPOSURE_AUTO_MODE.MV_EXPOSURE_AUTO_MODE_CONTINUOUS));
+                    Set_Camera_State(MVS.Camera_Parameters_Name_Enum.ExposureAuto, MVS_Camera.Live_Camera.SetEnumValue(MVS.Camera_Parameters_Name_Enum.ExposureAuto.ToString(), (uint)MV_CAM_EXPOSURE_AUTO_MODE.MV_EXPOSURE_AUTO_MODE_CONTINUOUS));
 
 
                 }
                 else
                 {
                     //设置曝光模式
-                    Set_Camera_State(Camera_Parameters_Name_Enum.ExposureAuto, Live_Camera.SetEnumValue(Camera_Parameters_Name_Enum.ExposureAuto.ToString(), (uint)MV_CAM_EXPOSURE_AUTO_MODE.MV_EXPOSURE_AUTO_MODE_OFF));
+                    Set_Camera_State(MVS.Camera_Parameters_Name_Enum.ExposureAuto, MVS_Camera.Live_Camera.SetEnumValue(MVS.Camera_Parameters_Name_Enum.ExposureAuto.ToString(), (uint)MV_CAM_EXPOSURE_AUTO_MODE.MV_EXPOSURE_AUTO_MODE_OFF));
 
 
                     //设置曝光时间
-                    Set_Camera_State(Camera_Parameters_Name_Enum.ExposureTime, Live_Camera.SetFloatValue(Camera_Parameters_Name_Enum.ExposureTime.ToString(), (float)E.Value));
+                    Set_Camera_State(MVS.Camera_Parameters_Name_Enum.ExposureTime, MVS_Camera.Live_Camera.SetFloatValue(MVS.Camera_Parameters_Name_Enum.ExposureTime.ToString(), (float)E.Value));
 
                 }
 
@@ -322,7 +294,7 @@ namespace HanGao.ViewModel
                 case Type _T when _T == typeof(Enum):
 
                     //设置相机参数
-                    Camera_ErrorInfo(_Val_Type, Live_Camera.SetEnumValue(_Val_Type.Name, Convert.ToUInt32(_val)));
+                    Camera_ErrorInfo(_Val_Type, MVS_Camera.Live_Camera.SetEnumValue(_Val_Type.Name, Convert.ToUInt32(_val)));
 
 
 
@@ -331,26 +303,26 @@ namespace HanGao.ViewModel
                 case Type _T when _T == typeof(int):
 
                     //设置相机参数
-                    Camera_ErrorInfo(_Val_Type, Live_Camera.SetIntValue(_Val_Type.Name, (int)_val));
+                    Camera_ErrorInfo(_Val_Type, MVS_Camera.Live_Camera.SetIntValue(_Val_Type.Name, (int)_val));
 
 
                     break;
                 case Type _T when _T == typeof(double):
                     //设置相机参数
-                    Camera_ErrorInfo(_Val_Type, Live_Camera.SetFloatValue(_Val_Type.Name, Convert.ToSingle(_val)));
+                    Camera_ErrorInfo(_Val_Type, MVS_Camera.Live_Camera.SetFloatValue(_Val_Type.Name, Convert.ToSingle(_val)));
 
 
                     break;
 
                 case Type _T when _T == typeof(string):
                     //设置相机参数
-                    Camera_ErrorInfo(_Val_Type, Live_Camera.SetStringValue(_Val_Type.Name, _val.ToString()));
+                    Camera_ErrorInfo(_Val_Type, MVS_Camera.Live_Camera.SetStringValue(_Val_Type.Name, _val.ToString()));
 
 
                     break;
                 case Type _T when _T == typeof(bool):
                     //设置相机参数
-                    Camera_ErrorInfo(_Val_Type, Live_Camera.SetBoolValue(_Val_Type.Name, (bool)_val));
+                    Camera_ErrorInfo(_Val_Type, MVS_Camera.Live_Camera.SetBoolValue(_Val_Type.Name, (bool)_val));
 
 
                     break;
@@ -362,7 +334,7 @@ namespace HanGao.ViewModel
         /// </summary>
         /// <param name="_name">相机参数名称枚举</param>
         /// <param name="_key">相机状态码</param>
-        private bool Set_Camera_State(Camera_Parameters_Name_Enum _name, object _key)
+        private bool Set_Camera_State(MVS.Camera_Parameters_Name_Enum _name, object _key)
         {
 
 
@@ -420,11 +392,11 @@ namespace HanGao.ViewModel
 
 
                 //创建相机
-                Set_Camera_State(Camera_Parameters_Name_Enum.CreateHandle, Live_Camera.CreateHandle(ref _L));
+                Set_Camera_State(MVS.Camera_Parameters_Name_Enum.CreateHandle, MVS_Camera.Live_Camera.CreateHandle(ref _L));
 
 
                 //打开相机
-                Set_Camera_State(Camera_Parameters_Name_Enum.OpenDevice, Live_Camera.OpenDevice());
+                Set_Camera_State(MVS.Camera_Parameters_Name_Enum.OpenDevice, MVS_Camera.Live_Camera.OpenDevice());
 
 
 
@@ -460,10 +432,10 @@ namespace HanGao.ViewModel
 
 
                 //关闭相机
-                Set_Camera_State(Camera_Parameters_Name_Enum.CloseDevice, Live_Camera.CloseDevice());
+                Set_Camera_State(MVS.Camera_Parameters_Name_Enum.CloseDevice, MVS_Camera.Live_Camera.CloseDevice());
 
                 //销毁相机句柄 
-                Set_Camera_State(Camera_Parameters_Name_Enum.DestroyHandle, Live_Camera.DestroyHandle());
+                Set_Camera_State(MVS.Camera_Parameters_Name_Enum.DestroyHandle, MVS_Camera.Live_Camera.DestroyHandle());
 
 
                 //断开连接后可以再次连接相机
@@ -530,11 +502,11 @@ namespace HanGao.ViewModel
 
 
                 //开始取流
-                Set_Camera_State(Camera_Parameters_Name_Enum.StartGrabbing, Live_Camera.StartGrabbing());
+                Set_Camera_State(MVS.Camera_Parameters_Name_Enum.StartGrabbing, MVS_Camera.Live_Camera.StartGrabbing());
 
 
                 //获取图像缓存大小
-                Set_Camera_State(Camera_Parameters_Name_Enum.PayloadSize, Live_Camera.GetIntValue("PayloadSize", ref stParam));
+                Set_Camera_State(MVS.Camera_Parameters_Name_Enum.PayloadSize, MVS_Camera.Live_Camera.GetIntValue("PayloadSize", ref stParam));
 
                 //创建帧图像信息
                 Single_Image_Mode Single_Image = new Single_Image_Mode
@@ -543,17 +515,17 @@ namespace HanGao.ViewModel
                 };
 
                 //抓取一张图片
-                if (Set_Camera_State(Camera_Parameters_Name_Enum.GetOneFrameTimeout, Live_Camera.GetOneFrameTimeout(Single_Image.pData, (uint)stParam.CurValue, ref Single_Image.Single_ImageInfo, 1000)))
+                if (Set_Camera_State(MVS.Camera_Parameters_Name_Enum.GetOneFrameTimeout, MVS_Camera.Live_Camera.GetOneFrameTimeout(Single_Image.pData, (uint)stParam.CurValue, ref Single_Image.Single_ImageInfo, 1000)))
                 {
 
-       
-
-                Messenger.Send<Single_Image_Mode, string>(Single_Image, nameof(Meg_Value_Eunm.Single_Image_Show));
 
 
-                await Task.Delay(500);
-                //相机停止取流
-                Set_Camera_State(Camera_Parameters_Name_Enum.StopGrabbing, Live_Camera.StopGrabbing());
+                    Messenger.Send<Single_Image_Mode, string>(Single_Image, nameof(Meg_Value_Eunm.Single_Image_Show));
+
+
+                    await Task.Delay(500);
+                    //相机停止取流
+                    Set_Camera_State(MVS.Camera_Parameters_Name_Enum.StopGrabbing, MVS_Camera.Live_Camera.StopGrabbing());
 
                 };
 
@@ -606,7 +578,7 @@ namespace HanGao.ViewModel
                     {
 
                         //转换
-                        CGigECameraInfo _GEGI =Camera_List[i] as CGigECameraInfo;
+                        CGigECameraInfo _GEGI = MVS_Camera.Camera_List[i] as CGigECameraInfo;
 
                         //将相机信息名称添加到UI列表上
                         Camera_UI_List.Add(_GEGI.chManufacturerName + _GEGI.chModelName);
@@ -628,7 +600,7 @@ namespace HanGao.ViewModel
 
 
                     //检查相机设备可用情况
-                    Set_Camera_State(Camera_Parameters_Name_Enum.IsDeviceAccessible, CSystem.IsDeviceAccessible(ref _L, MV_ACCESS_MODE.MV_ACCESS_EXCLUSIVE));
+                    Set_Camera_State(MVS.Camera_Parameters_Name_Enum.IsDeviceAccessible, CSystem.IsDeviceAccessible(ref _L, MV_ACCESS_MODE.MV_ACCESS_EXCLUSIVE));
 
 
 
@@ -803,280 +775,6 @@ namespace HanGao.ViewModel
         public MVS_ROI_UI_Type ROI_UI { set; get; } = new MVS_ROI_UI_Type() { HeightMax = 2048, WidthMax = 3072, Height = 2048, Width = 3072, OffsetX = 0, OffsetY = 0, ReverseX = false };
     }
 
-
-    /// <summary>
-    /// 相机功能参数名称
-    /// </summary>
-    public enum Camera_Parameters_Name_Enum
-    {
-        /// <summary>
-        /// 设备采集的采集模式、枚举类型值 ——默认持续采集模式，"MV_CAM_ACQUISITION_MODE"
-        /// </summary>
-        AcquisitionMode,
-        /// <summary>
-        /// 每个帧突发开始触发信号采集的帧数、整数类型——默认1，最大1023
-        /// </summary>
-        AcquisitionBurstFrameCount,
-        /// <summary>
-        /// 控制抓取帧的采集频率、双精度类型——默认1，最小0.4，最大500
-        /// </summary>
-        AcquisitionFrameRate,
-        /// <summary>
-        /// 控制所选触发器是否处于活动状态、枚举类型——默认Off，"MV_CAM_TRIGGER_MODE"
-        /// </summary>
-        TriggerMode,
-        /// <summary>
-        /// 指定用作触发源的内部信号或物理输入线路。所选触发器的触发模式必须设置为“开”。枚举类型——线路0，"MV_CAM_TRIGGER_SOURCE"
-        /// </summary>
-        TriggerSource,
-        /// <summary>
-        /// 指定在激活触发接收之前要应用的延迟（以us为单位），双精度类型——默认0，最小0，最大3.2e+07
-        /// </summary>
-        TriggerDelay,
-        /// <summary>
-        /// 设置所选行去缓冲时间的值（us），整数类型——默认0，最小0，最大1000000
-        /// </summary>
-        LineDebouncerTime,
-        /// <summary>
-        /// 设置定时曝光模式时的自动曝光模式，枚举类型——默认连续模式，"MV_CAM_EXPOSURE_AUTO_MODE"
-        /// </summary>
-        [StringValue("设置相机自动曝光模式失败")]
-        ExposureAuto,
-        /// <summary>
-        /// 曝光模式定时时的曝光时间(us)，双精度类型——默认500，最小27，最大 2.5e+06
-        /// </summary>
-        [StringValue("设置相机曝光时间失败")]
-        ExposureTime,
-        /// <summary>
-        /// 应用于图像的增益，单位为dB，双精度类型——默认0，最小0，最大20.0322
-        /// </summary>
-        Gain,
-        /// <summary>
-        /// 设置自动增益控制（AGC）模式，枚举类型——模式连续模式，"MV_CAM_GAIN_MODE"
-        /// </summary>
-        GainAuto,
-        /// <summary>
-        /// 设置选定的数字移位控制，双精度类型——默认0，最小-6，最大6
-        /// </summary>
-        DigitalShift,
-        /// <summary>
-        /// 使能/禁用数字移位调节，布尔类型——默认False
-        /// </summary>
-        DigitalShiftEnable,
-        /// <summary>
-        /// 设置选定的亮度控制，整数类似——默认100，最小0，最大255
-        /// </summary>
-        Brightness,
-        /// <summary>
-        /// 模拟黑电平百分比，整数类型——默认200，最小0，最大4095
-        /// </summary>
-        BlackLevel,
-        /// <summary>
-        /// 使能/禁用黑电平调整，布尔类型——默认True
-        /// </summary>
-        BlackLevelEnable,
-        /// <summary>
-        /// 控制像素强度的伽马校正，双精度类型——默认0.5，最小0，最大4
-        /// </summary>
-        Gamma,
-        /// <summary>
-        /// 使能/禁用伽马校正，布尔类型——默认True
-        /// </summary>
-        GammaEnable,
-        /// <summary>
-        /// 图像的锐度，整数类型——默认10，最小0，最大100
-        /// </summary>
-        Sharpness,
-        /// <summary>
-        /// 使能/禁用锐度调节，布尔类型——默认False
-        /// </summary>
-        SharpnessEnable,
-        /// <summary>
-        /// 设置设备图像宽度（像素），整数类型——默认512，最小376，最大3072
-        /// </summary>
-        Width,
-        /// <summary>
-        /// 设置设备图像高度（像素），整数类型——默认512，最小320，最大2048
-        /// </summary>
-        Height,
-        /// <summary>
-        /// 从原点到AOI的垂直偏移（像素）,整数类型——默认0，最小0，最大3072
-        /// </summary>
-        OffsetX,
-        /// <summary>
-        /// 从原点到AOI的水平偏移（像素）,整数类型——默认0，最小0，最大2048
-        /// </summary>
-        OffsetY,
-        /// <summary>
-        /// 水平翻转设备发送的图像。翻转后应用感兴趣区域，布尔类型——默认False
-        /// </summary>
-        ReverseX,
-        /// <summary>
-        /// 创建设备句柄方法。成功，返回MV_OK；失败，返回错误码 
-        /// </summary>
-        [StringValue("创建设备句柄失败")]
-        CreateHandle,
-        /// <summary>
-        ///  打开设备方法。成功，返回MV_OK；失败，返回错误码 
-        /// </summary>
-        [StringValue("打开设备失败")]
-        OpenDevice,
-
-        /// <summary>
-        /// 关闭设备方法。成功，返回MV_OK；失败，返回错误码 
-        /// </summary>
-        [StringValue("关闭设备失败")]
-        CloseDevice,
-        /// <summary>
-        /// 销毁相机句柄。成功，返回MV_OK；失败，返回错误码
-        /// </summary>
-        [StringValue("销毁相机句柄失败")]
-        DestroyHandle,
-        /// <summary>
-        /// 相机开始取流。成功，返回MV_OK；失败，返回错误码 
-        /// </summary>
-        [StringValue("相机开始取流失败")]
-        StartGrabbing,
-        /// <summary>
-        /// 相机停止取流。成功，返回MV_OK；失败，返回错误码 
-        /// </summary>
-        [StringValue("相机停止取流失败")]
-        StopGrabbing,
-        /// <summary>
-        /// 获取图像缓存大小。成功，返回MV_OK；失败，返回错误码 
-        /// </summary>
-        [StringValue("获取图像缓存大小失败")]
-        PayloadSize,
-        /// <summary>
-        /// 采用超时机制获取一帧图片，SDK内部等待直到有数据时返回 。成功，返回MV_OK；失败，返回错误码 
-        /// </summary>
-        [StringValue("获取一帧图片，或超时失败")]
-        GetOneFrameTimeout,
-        /// <summary>
-        /// 检查相机设备是否可达。可达，返回true；不可达，返回false
-        /// </summary>
-        [StringValue("选择相机设备被占用相机不可使用")]
-        IsDeviceAccessible,
-        /// <summary>
-        /// 探测网络最佳包大小(只对GigE相机有效)，成功，返回MV_OK；失败，返回错误码 
-        /// </summary>
-        [StringValue("设置相机探测网络最佳包大小参数失败")]
-        GevSCPSPacketSize,
-        /// <summary>
-        /// 注册图像数据回调方法，成功，返回MV_OK；失败，返回错误码 
-        /// </summary>
-        [StringValue("设置注册图像数据回调失败")]
-        RegisterImageCallBackEx,
-
-    }
-
-
-    public class MVS_Camera_Parameter_Model
-    {
-        /// <summary>
-        /// 设备采集的采集模式、枚举类型值 ——默认持续采集模式，"MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS"
-        /// </summary>
-        [StringValue("设置相机触发模式失败")]
-        public Enum AcquisitionMode { set; get; } = MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS;
-        /// <summary>
-        /// 每个帧突发开始触发信号采集的帧数、整数类型——默认1，最大1023
-        /// </summary>
-        [StringValue("设置每个帧突发开始触发信号采集的帧数失败")]
-        public int AcquisitionBurstFrameCount { set; get; } = 1;
-        /// <summary>
-        /// 控制抓取帧的采集频率、双精度类型——默认1，最小0.4，最大500
-        /// </summary>
-        [StringValue("设置控制抓取帧的采集频率失败")]
-        public double AcquisitionFrameRate { set; get; } = 13.6;
-        /// <summary>
-        /// 设置定时曝光模式时的自动曝光模式，枚举类型——默认连续模式，"MV_CAM_EXPOSURE_AUTO_MODE.MV_EXPOSURE_AUTO_MODE_OFF"
-        /// </summary>
-        [StringValue("设置控制抓取帧的采集频率失败")]
-        public Enum ExposureAuto { set; get; } = MV_CAM_EXPOSURE_AUTO_MODE.MV_EXPOSURE_AUTO_MODE_OFF;
-        /// <summary>
-        /// 曝光模式定时时的曝光时间
-        /// </summary>
-        [StringValue("设置曝光模式定时时的曝光时间失败")]
-        public double ExposureTime { set; get; } = 500;
-        /// <summary>
-        /// 设置曝光（或快门）的工作模式,枚举类型——默认定时模式，"MV_CAM_EXPOSURE_MODE.MV_EXPOSURE_MODE_TIMED"
-        /// </summary>
-        [StringValue("设置曝光（或快门）的工作模式失败")]
-        public Enum ExposureMode { set; get; } = MV_CAM_EXPOSURE_MODE.MV_EXPOSURE_MODE_TIMED;
-        /// <summary>
-        /// 控制所选触发器是否处于活动状态、枚举类型——默认Off，"MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_OFF"
-        /// </summary>
-        [StringValue("设置控制所选触发器是否处于活动状态失败")]
-
-        public Enum TriggerMode { set; get; } = MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_OFF;
-        /// <summary>
-        /// 控制所选触发器是否处于活动状态，枚举类型——默认，"MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_LINE0"
-        /// </summary>
-        [StringValue("设置控制所选触发器是否处于活动状态")]
-        public Enum TriggerActivation { set; get; } = MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_LINE0;
-        /// <summary>
-        /// 指定在激活触发接收之前要应用的延迟（以us为单位）
-        /// </summary>
-        [StringValue("设置指定在激活触发接收之前要应用的延迟失败")]
-        public double TriggerDelay { set; get; } = 0.00;
-        /// <summary>
-        /// 应用于图像的增益，单位为dB，Float类型，默认0.00
-        /// </summary>
-        [StringValue("设置图像的增益失败")]
-        public double Gain { set; get; } = 0.00;
-        /// <summary>
-        /// 设置自动增益控制（AGC）模式，枚举类型——默认，"MV_CAM_GAIN_MODE.MV_GAIN_MODE_OFF"
-        /// </summary>
-        [StringValue("设置自动增益控制（AGC）模式失败")]
-        public Enum GainAuto { set; get; } = MV_CAM_GAIN_MODE.MV_GAIN_MODE_OFF;
-        /// <summary>
-        /// 使能/禁用数字移位调节，布尔类型——默认false
-        /// </summary>
-        [StringValue("设置使能/禁用数字移位调节失败")]
-        public bool DigitalShiftEnable { set; get; } = true;
-        /// <summary>
-        /// 设置选定的数字移位控制，Float类型——默认0
-        /// </summary>
-        [StringValue("设置数字移位控制失败")]
-        public double DigitalShift { set; get; } = 0.00;
-        /// <summary>
-        /// 使能/禁用黑电平调整，布尔类型——默认true；
-        /// </summary>
-        [StringValue("设置使能/禁用黑电平调整失败")]
-        public bool BlackLevelEnable { set; get; } = true;
-        /// <summary>
-        /// 模拟黑电平百分比，整数类型——默认200，最小0，最大4095
-        /// </summary>
-        [StringValue("设置模拟黑电平百分比失败")]
-        public int BlackLevel { set; get; } = 100;
-        /// <summary>
-        /// 使能/禁用伽马校正，布尔类型——默认true；
-        /// </summary>
-        [StringValue("设置使能/禁用伽马校正失败")]
-        public bool GammaEnable { set; get; } = true;
-        /// <summary>
-        /// 控制像素强度的伽马校正，双精度类型——默认0.5，最小0，最大4
-        /// </summary>
-        [StringValue("设置控制像素强度的伽马校正失败")]
-        public double Gamma { set; get; } = 0.5;
-        /// <summary>
-        /// 图像的锐度，布尔类型——默认false；
-        /// </summary>
-        [StringValue("设置使能/禁用伽马校正失败")]
-        public bool SharpnessEnable { set; get; } = true;
-        /// <summary>
-        /// 图像的锐度，整数类型——默认10，最小0，最大100
-        /// </summary>
-        [StringValue("设置图像的锐度失败")]
-        public int Sharpness { set; get; } = 10;
-
-        /// <summary>
-        /// 水平翻转设备发送的图像。翻转后应用感兴趣区域，布尔类型——默认false
-        /// </summary>
-        [StringValue("设置水平翻转设备发送的图像失败")]
-        public bool ReverseX { set; get; } = false;
-
-    }
 
 
 

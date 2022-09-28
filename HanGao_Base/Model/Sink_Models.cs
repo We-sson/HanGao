@@ -1,15 +1,5 @@
-﻿
-using HanGao.Extension_Method;
-using HanGao.View.User_Control.Program_Editing.Direction_UI;
-using HanGao.Xml_Date.Xml_Models;
-using HanGao.Xml_Date.Xml_Write_Read;
-using CommunityToolkit.Mvvm.ComponentModel;
-using Nancy.Helpers;
-using PropertyChanged;
-using System.Collections.ObjectModel;
-using System.Windows;
-using static HanGao.Model.Sink_Craft_Models;
-using static HanGao.Model.User_Read_Xml_Model;
+﻿using HanGao.View.User_Control.Program_Editing.Direction_UI;
+using static HanGao.Model.User_Steps_Model;
 using static HanGao.ViewModel.UC_Surround_Direction_VM;
 
 namespace HanGao.Model
@@ -52,45 +42,16 @@ namespace HanGao.Model
         /// <summary>
         /// 用户选择步骤记录
         /// </summary>
-        public User_Read_Xml_Model User_Picking_Craft { set; get; } = new User_Read_Xml_Model() { };
+        public User_Steps_Model User_Picking_Craft { set; get; } = new User_Steps_Model() { };
 
 
         /// <summary>
         ///  水槽读取Xml文件工艺数据
         /// </summary>
-    //public Xml_Sink_Work_Area Sink_Craft { get; set; } 
+        //public Xml_Sink_Work_Area Sink_Craft { get; set; }
 
 
 
-        /// <summary>
-        /// 水槽尺寸信息
-        /// </summary>
-        //public string Sink_Size
-        //{
-        //    get
-        //    { return Sink_Process.Sink_Size_Long.ToString() + "X" + Sink_Process.Sink_Size_Width.ToString(); }
-        //    set { }
-        //}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        ///// <summary>
-        ///// 用户选择的加载区域
-        ///// </summary>
-        //public Work_No_Enum Work_No_Emun { set; get; } 
 
 
     }

@@ -1,10 +1,4 @@
 ﻿
-using HanGao.Extension_Method;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
-using PropertyChanged;
-using Soceket_KUKA.Models;
-using System;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static HanGao.ViewModel.UC_KUKA_State_VM;
 
@@ -26,7 +20,7 @@ namespace HanGao.ViewModel
 
                   if (T.Val_Var != "")
                   {
-                      if (T.KUKA_Value_Enum == KUKA_Value_Type.Value_Type.Enum)
+                      if (T.KUKA_Value_Enum == Value_Type.Enum)
                       {
 
 
@@ -35,7 +29,7 @@ namespace HanGao.ViewModel
                           //设置类型
                           KUKA_State.GetType().GetProperty(T.Bingding_Value).SetValue(KUKA_State, b);
                       }
-                      if (T.KUKA_Value_Enum == KUKA_Value_Type.Value_Type.Bool)
+                      if (T.KUKA_Value_Enum == Value_Type.Bool)
                       {
 
 

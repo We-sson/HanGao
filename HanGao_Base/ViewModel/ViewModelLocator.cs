@@ -14,7 +14,6 @@
 
 using CommunityToolkit.Mvvm.DependencyInjection;
 using HanGao.Errorinfo;
-using HanGao.Model;
 using HanGao.ViewModel;
 using Microsoft.Extensions.DependencyInjection;
 

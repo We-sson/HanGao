@@ -1,23 +1,14 @@
-﻿using HanGao.Extension_Method;
-using HanGao.Model;
-using HanGao.View.User_Control.Program_Editing.Direction_UI;
-using HanGao.Xml_Date.Xml_Models;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+﻿
 
-using PropertyChanged;
-using Soceket_KUKA.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using CommunityToolkit.Mvvm.Messaging;
+
+
+
+
+
+
 using static HanGao.Model.Sink_Craft_Models;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
+
 
 namespace HanGao.ViewModel
 {

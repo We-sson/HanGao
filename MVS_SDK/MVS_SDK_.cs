@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Generic_Extension;
 using  MvCamCtrl;
 using MvCamCtrl.NET;
+using MvCamCtrl.NET.CameraParams;
 
 namespace MVS_SDK
 {
@@ -21,6 +23,282 @@ namespace MVS_SDK
         /// </summary>
         public List<CCameraInfo> Camera_List { set; get; } = new List<CCameraInfo>();
 
+
+        /// <summary>
+        /// 相机功能参数名称
+        /// </summary>
+        public enum Camera_Parameters_Name_Enum
+        {
+            /// <summary>
+            /// 设备采集的采集模式、枚举类型值 ——默认持续采集模式，"MV_CAM_ACQUISITION_MODE"
+            /// </summary>
+            AcquisitionMode,
+            /// <summary>
+            /// 每个帧突发开始触发信号采集的帧数、整数类型——默认1，最大1023
+            /// </summary>
+            AcquisitionBurstFrameCount,
+            /// <summary>
+            /// 控制抓取帧的采集频率、双精度类型——默认1，最小0.4，最大500
+            /// </summary>
+            AcquisitionFrameRate,
+            /// <summary>
+            /// 控制所选触发器是否处于活动状态、枚举类型——默认Off，"MV_CAM_TRIGGER_MODE"
+            /// </summary>
+            TriggerMode,
+            /// <summary>
+            /// 指定用作触发源的内部信号或物理输入线路。所选触发器的触发模式必须设置为“开”。枚举类型——线路0，"MV_CAM_TRIGGER_SOURCE"
+            /// </summary>
+            TriggerSource,
+            /// <summary>
+            /// 指定在激活触发接收之前要应用的延迟（以us为单位），双精度类型——默认0，最小0，最大3.2e+07
+            /// </summary>
+            TriggerDelay,
+            /// <summary>
+            /// 设置所选行去缓冲时间的值（us），整数类型——默认0，最小0，最大1000000
+            /// </summary>
+            LineDebouncerTime,
+            /// <summary>
+            /// 设置定时曝光模式时的自动曝光模式，枚举类型——默认连续模式，"MV_CAM_EXPOSURE_AUTO_MODE"
+            /// </summary>
+            [StringValue("设置相机自动曝光模式失败")]
+            ExposureAuto,
+            /// <summary>
+            /// 曝光模式定时时的曝光时间(us)，双精度类型——默认500，最小27，最大 2.5e+06
+            /// </summary>
+            [StringValue("设置相机曝光时间失败")]
+            ExposureTime,
+            /// <summary>
+            /// 应用于图像的增益，单位为dB，双精度类型——默认0，最小0，最大20.0322
+            /// </summary>
+            Gain,
+            /// <summary>
+            /// 设置自动增益控制（AGC）模式，枚举类型——模式连续模式，"MV_CAM_GAIN_MODE"
+            /// </summary>
+            GainAuto,
+            /// <summary>
+            /// 设置选定的数字移位控制，双精度类型——默认0，最小-6，最大6
+            /// </summary>
+            DigitalShift,
+            /// <summary>
+            /// 使能/禁用数字移位调节，布尔类型——默认False
+            /// </summary>
+            DigitalShiftEnable,
+            /// <summary>
+            /// 设置选定的亮度控制，整数类似——默认100，最小0，最大255
+            /// </summary>
+            Brightness,
+            /// <summary>
+            /// 模拟黑电平百分比，整数类型——默认200，最小0，最大4095
+            /// </summary>
+            BlackLevel,
+            /// <summary>
+            /// 使能/禁用黑电平调整，布尔类型——默认True
+            /// </summary>
+            BlackLevelEnable,
+            /// <summary>
+            /// 控制像素强度的伽马校正，双精度类型——默认0.5，最小0，最大4
+            /// </summary>
+            Gamma,
+            /// <summary>
+            /// 使能/禁用伽马校正，布尔类型——默认True
+            /// </summary>
+            GammaEnable,
+            /// <summary>
+            /// 图像的锐度，整数类型——默认10，最小0，最大100
+            /// </summary>
+            Sharpness,
+            /// <summary>
+            /// 使能/禁用锐度调节，布尔类型——默认False
+            /// </summary>
+            SharpnessEnable,
+            /// <summary>
+            /// 设置设备图像宽度（像素），整数类型——默认512，最小376，最大3072
+            /// </summary>
+            Width,
+            /// <summary>
+            /// 设置设备图像高度（像素），整数类型——默认512，最小320，最大2048
+            /// </summary>
+            Height,
+            /// <summary>
+            /// 从原点到AOI的垂直偏移（像素）,整数类型——默认0，最小0，最大3072
+            /// </summary>
+            OffsetX,
+            /// <summary>
+            /// 从原点到AOI的水平偏移（像素）,整数类型——默认0，最小0，最大2048
+            /// </summary>
+            OffsetY,
+            /// <summary>
+            /// 水平翻转设备发送的图像。翻转后应用感兴趣区域，布尔类型——默认False
+            /// </summary>
+            ReverseX,
+            /// <summary>
+            /// 创建设备句柄方法。成功，返回MV_OK；失败，返回错误码 
+            /// </summary>
+            [StringValue("创建设备句柄失败")]
+            CreateHandle,
+            /// <summary>
+            ///  打开设备方法。成功，返回MV_OK；失败，返回错误码 
+            /// </summary>
+            [StringValue("打开设备失败")]
+            OpenDevice,
+
+            /// <summary>
+            /// 关闭设备方法。成功，返回MV_OK；失败，返回错误码 
+            /// </summary>
+            [StringValue("关闭设备失败")]
+            CloseDevice,
+            /// <summary>
+            /// 销毁相机句柄。成功，返回MV_OK；失败，返回错误码
+            /// </summary>
+            [StringValue("销毁相机句柄失败")]
+            DestroyHandle,
+            /// <summary>
+            /// 相机开始取流。成功，返回MV_OK；失败，返回错误码 
+            /// </summary>
+            [StringValue("相机开始取流失败")]
+            StartGrabbing,
+            /// <summary>
+            /// 相机停止取流。成功，返回MV_OK；失败，返回错误码 
+            /// </summary>
+            [StringValue("相机停止取流失败")]
+            StopGrabbing,
+            /// <summary>
+            /// 获取图像缓存大小。成功，返回MV_OK；失败，返回错误码 
+            /// </summary>
+            [StringValue("获取图像缓存大小失败")]
+            PayloadSize,
+            /// <summary>
+            /// 采用超时机制获取一帧图片，SDK内部等待直到有数据时返回 。成功，返回MV_OK；失败，返回错误码 
+            /// </summary>
+            [StringValue("获取一帧图片，或超时失败")]
+            GetOneFrameTimeout,
+            /// <summary>
+            /// 检查相机设备是否可达。可达，返回true；不可达，返回false
+            /// </summary>
+            [StringValue("选择相机设备被占用相机不可使用")]
+            IsDeviceAccessible,
+            /// <summary>
+            /// 探测网络最佳包大小(只对GigE相机有效)，成功，返回MV_OK；失败，返回错误码 
+            /// </summary>
+            [StringValue("设置相机探测网络最佳包大小参数失败")]
+            GevSCPSPacketSize,
+            /// <summary>
+            /// 注册图像数据回调方法，成功，返回MV_OK；失败，返回错误码 
+            /// </summary>
+            [StringValue("设置注册图像数据回调失败")]
+            RegisterImageCallBackEx,
+
+        }
+
+        /// <summary>
+        /// 相机参数类型
+        /// </summary>
+        public class MVS_Camera_Parameter_Model
+        {
+            /// <summary>
+            /// 设备采集的采集模式、枚举类型值 ——默认持续采集模式，"MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS"
+            /// </summary>
+            [StringValue("设置相机触发模式失败")]
+            public Enum AcquisitionMode { set; get; } = MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS;
+            /// <summary>
+            /// 每个帧突发开始触发信号采集的帧数、整数类型——默认1，最大1023
+            /// </summary>
+            [StringValue("设置每个帧突发开始触发信号采集的帧数失败")]
+            public int AcquisitionBurstFrameCount { set; get; } = 1;
+            /// <summary>
+            /// 控制抓取帧的采集频率、双精度类型——默认1，最小0.4，最大500
+            /// </summary>
+            [StringValue("设置控制抓取帧的采集频率失败")]
+            public double AcquisitionFrameRate { set; get; } = 13.6;
+            /// <summary>
+            /// 设置定时曝光模式时的自动曝光模式，枚举类型——默认连续模式，"MV_CAM_EXPOSURE_AUTO_MODE.MV_EXPOSURE_AUTO_MODE_OFF"
+            /// </summary>
+            [StringValue("设置控制抓取帧的采集频率失败")]
+            public Enum ExposureAuto { set; get; } = MV_CAM_EXPOSURE_AUTO_MODE.MV_EXPOSURE_AUTO_MODE_OFF;
+            /// <summary>
+            /// 曝光模式定时时的曝光时间
+            /// </summary>
+            [StringValue("设置曝光模式定时时的曝光时间失败")]
+            public double ExposureTime { set; get; } = 500;
+            /// <summary>
+            /// 设置曝光（或快门）的工作模式,枚举类型——默认定时模式，"MV_CAM_EXPOSURE_MODE.MV_EXPOSURE_MODE_TIMED"
+            /// </summary>
+            [StringValue("设置曝光（或快门）的工作模式失败")]
+            public Enum ExposureMode { set; get; } = MV_CAM_EXPOSURE_MODE.MV_EXPOSURE_MODE_TIMED;
+            /// <summary>
+            /// 控制所选触发器是否处于活动状态、枚举类型——默认Off，"MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_OFF"
+            /// </summary>
+            [StringValue("设置控制所选触发器是否处于活动状态失败")]
+
+            public Enum TriggerMode { set; get; } = MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_OFF;
+            /// <summary>
+            /// 控制所选触发器是否处于活动状态，枚举类型——默认，"MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_LINE0"
+            /// </summary>
+            [StringValue("设置控制所选触发器是否处于活动状态")]
+            public Enum TriggerActivation { set; get; } = MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_LINE0;
+            /// <summary>
+            /// 指定在激活触发接收之前要应用的延迟（以us为单位）
+            /// </summary>
+            [StringValue("设置指定在激活触发接收之前要应用的延迟失败")]
+            public double TriggerDelay { set; get; } = 0.00;
+            /// <summary>
+            /// 应用于图像的增益，单位为dB，Float类型，默认0.00
+            /// </summary>
+            [StringValue("设置图像的增益失败")]
+            public double Gain { set; get; } = 0.00;
+            /// <summary>
+            /// 设置自动增益控制（AGC）模式，枚举类型——默认，"MV_CAM_GAIN_MODE.MV_GAIN_MODE_OFF"
+            /// </summary>
+            [StringValue("设置自动增益控制（AGC）模式失败")]
+            public Enum GainAuto { set; get; } = MV_CAM_GAIN_MODE.MV_GAIN_MODE_OFF;
+            /// <summary>
+            /// 使能/禁用数字移位调节，布尔类型——默认false
+            /// </summary>
+            [StringValue("设置使能/禁用数字移位调节失败")]
+            public bool DigitalShiftEnable { set; get; } = true;
+            /// <summary>
+            /// 设置选定的数字移位控制，Float类型——默认0
+            /// </summary>
+            [StringValue("设置数字移位控制失败")]
+            public double DigitalShift { set; get; } = 0.00;
+            /// <summary>
+            /// 使能/禁用黑电平调整，布尔类型——默认true；
+            /// </summary>
+            [StringValue("设置使能/禁用黑电平调整失败")]
+            public bool BlackLevelEnable { set; get; } = true;
+            /// <summary>
+            /// 模拟黑电平百分比，整数类型——默认200，最小0，最大4095
+            /// </summary>
+            [StringValue("设置模拟黑电平百分比失败")]
+            public int BlackLevel { set; get; } = 100;
+            /// <summary>
+            /// 使能/禁用伽马校正，布尔类型——默认true；
+            /// </summary>
+            [StringValue("设置使能/禁用伽马校正失败")]
+            public bool GammaEnable { set; get; } = true;
+            /// <summary>
+            /// 控制像素强度的伽马校正，双精度类型——默认0.5，最小0，最大4
+            /// </summary>
+            [StringValue("设置控制像素强度的伽马校正失败")]
+            public double Gamma { set; get; } = 0.5;
+            /// <summary>
+            /// 图像的锐度，布尔类型——默认false；
+            /// </summary>
+            [StringValue("设置使能/禁用伽马校正失败")]
+            public bool SharpnessEnable { set; get; } = true;
+            /// <summary>
+            /// 图像的锐度，整数类型——默认10，最小0，最大100
+            /// </summary>
+            [StringValue("设置图像的锐度失败")]
+            public int Sharpness { set; get; } = 10;
+
+            /// <summary>
+            /// 水平翻转设备发送的图像。翻转后应用感兴趣区域，布尔类型——默认false
+            /// </summary>
+            [StringValue("设置水平翻转设备发送的图像失败")]
+            public bool ReverseX { set; get; } = false;
+
+        }
 
 
 

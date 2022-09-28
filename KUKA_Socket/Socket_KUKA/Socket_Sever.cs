@@ -1,5 +1,5 @@
 ﻿
-using PropertyChanged;
+
 using Soceket_Connect;
 using Soceket_KUKA.Models;
 using System;
@@ -11,22 +11,17 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using HanGao.ViewModel;
+
 using static Soceket_Connect.Socket_Connect;
-using static Soceket_KUKA.Models.Socket_Models_Connect;
+
 using static Soceket_KUKA.Models.Socket_Models_Receive;
 using static Soceket_KUKA.Socket_Receive;
-using static HanGao.ViewModel.User_Control_Log_ViewModel;
-using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
-using static HanGao.ViewModel.UserControl_Socket_Var_Show_ViewModel;
-using CommunityToolkit.Mvvm.ComponentModel;
-using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
-using CommunityToolkit.Mvvm.Messaging;
+
 
 namespace HanGao.Socket_KUKA
 {
-    [AddINotifyPropertyChangedInterface]
-    public class Socket_Sever : ObservableRecipient
+
+    public class Socket_Sever 
     {
         public Socket_Sever(string _IP,string _Port)
         {
@@ -57,13 +52,13 @@ namespace HanGao.Socket_KUKA
                 _IsRuning = value;
                 if (value)
                 {
-                    WeakReferenceMessenger.Default.Send<dynamic ,string >(Visibility.Visible, nameof(Meg_Value_Eunm.Socket_Countion_Show));
+                    //WeakReferenceMessenger.Default.Send<dynamic ,string >(Visibility.Visible, nameof(Meg_Value_Eunm.Socket_Countion_Show));
                     
                 }
                 else
                 {
 
-                    WeakReferenceMessenger.Default.Send<dynamic ,string >(Visibility.Hidden, nameof(Meg_Value_Eunm.Socket_Countion_Show));
+                    //WeakReferenceMessenger.Default.Send<dynamic ,string >(Visibility.Hidden, nameof(Meg_Value_Eunm.Socket_Countion_Show));
                 }
 
 
@@ -81,7 +76,7 @@ namespace HanGao.Socket_KUKA
             set
             {
                 _ClientCount = value;
-                WeakReferenceMessenger.Default.Send<dynamic ,string >(value, nameof(Meg_Value_Eunm.ClientCount));
+                //WeakReferenceMessenger.Default.Send<dynamic ,string >(value, nameof(Meg_Value_Eunm.ClientCount));
             }
             get
             {
@@ -195,7 +190,7 @@ namespace HanGao.Socket_KUKA
                 if (Recv_Byte == 0)
                 {
                     ClientCount--;
-                    Messenger.Send<dynamic ,string >(ClientCount, nameof(Meg_Value_Eunm.ClientCount));
+                    //Messenger.Send<dynamic ,string >(ClientCount, nameof(Meg_Value_Eunm.ClientCount));
                     //接收数据0的时候处理
                     KUKA_Client_Close(State);
                     return;
@@ -227,7 +222,7 @@ namespace HanGao.Socket_KUKA
 
             var a = SM_Server.Server_Kuka_Client.RemoteEndPoint.ToString();
 
-            MessageBox.Show(a + Encoding.ASCII.GetString(SM_Server.Server_Recv_Byte));
+            //MessageBox.Show(a + Encoding.ASCII.GetString(SM_Server.Server_Recv_Byte));
 
         }
 
@@ -296,7 +291,7 @@ namespace HanGao.Socket_KUKA
             {
                 IsRuning = false;
                 ClientCount = 0;
-                Messenger.Send<dynamic ,string >(ClientCount, nameof(Meg_Value_Eunm.ClientCount));
+                //Messenger.Send<dynamic ,string >(ClientCount, nameof(Meg_Value_Eunm.ClientCount));
 
 
                 foreach (var item in KUKA_Client_List.ToArray())
