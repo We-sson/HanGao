@@ -57,7 +57,7 @@ namespace HanGao.ViewModel
                        
                             Socket_Client_Setup.Write.Cycle_Write_Send(_Name, _Val);
                             //无连接停止发生
-                            bool aa = Socket_Client_Setup.Write.Is_Write_Client;
+                            bool aa = Socket_Client_Setup.Write.Is_Connect_Client;
                       
                      
 

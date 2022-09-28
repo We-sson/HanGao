@@ -6,9 +6,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HanGao.View.User_Control"
-             d:DesignHeight="800"
+             d:DesignHeight="800" DataContext="{Binding Source={StaticResource Locator}, Path=Socket_Var_Show}"
              d:DesignWidth="700"
-             DataContext="{Binding Source={StaticResource Locator}, Path=Socket_Var_Show}"
+           
              mc:Ignorable="d">
     <Grid>
 
@@ -23,8 +23,9 @@
 
 
                 <ListView Grid.Row="0"
-                          ItemsSource="{Binding Socket_Read_List, Mode=TwoWay}"
-                          DataContext="{Binding Source={StaticResource Locator}, Path=Socket_Var_Show}">
+                          ItemsSource="{Binding Socket_Read_List_UI}"  
+                         
+                      >
                     <ListView.View>
                         <GridView AllowsColumnReorder="False">
 
@@ -38,7 +39,7 @@
                                 </GridViewColumn.Header>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <CheckBox IsChecked="{Binding Val_OnOff, Mode=TwoWay}"
+                                        <CheckBox IsChecked="{Binding Val_OnOff}"
                                                   HorizontalAlignment="Stretch"
                                                   VerticalAlignment="Stretch"
                                                   HorizontalContentAlignment="Center"
@@ -53,7 +54,7 @@
                             <GridViewColumn Width="auto" Header="ID">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Val_ID, Mode=TwoWay}"
+                                        <TextBlock Text="{Binding Val_ID}"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center" />
                                     </DataTemplate>
@@ -99,8 +100,8 @@
                 </ListView>
 
                 <ListView Grid.Row="1"
-                          ItemsSource="{Binding On_Read_List}"
-                          DataContext="{Binding Source={StaticResource Locator}, Path=Socket_Var_Show}">
+                          ItemsSource="{Binding On_Read_List_UI}"  
+                     >
                     <ListView.View>
                         <GridView AllowsColumnReorder="False">
 

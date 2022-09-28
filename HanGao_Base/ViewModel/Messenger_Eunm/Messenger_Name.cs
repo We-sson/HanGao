@@ -108,6 +108,17 @@ namespace HanGao.ViewModel.Messenger_Eunm
 
             Clear_List,
 
+            /// <summary>
+            /// UI集合变量多线程方法
+            /// </summary>
+            Socket_Read_List_UI_Thread,
+
+
+            /// <summary>
+            /// 周期读取变量值显示刷新
+            /// </summary>
+            Socket_Read_List_UI_Refresh,
+
 
             /// <summary>
             /// 弹窗工艺界面显示

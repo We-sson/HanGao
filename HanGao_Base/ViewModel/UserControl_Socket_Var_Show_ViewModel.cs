@@ -1,38 +1,13 @@
 ﻿
-using CommunityToolkit.Mvvm.Messaging;
-using PropertyChanged;
-using Soceket_Connect;
-using Soceket_KUKA.Models;
-using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
-using System.Collections.Specialized;
-using HanGao.Socket_KUKA;
-using HanGao.ViewModel;
-using static Soceket_Connect.Socket_Connect;
-using static Soceket_KUKA.Models.Socket_Models_Receive;
-using static HanGao.ViewModel.User_Control_Log_ViewModel;
-using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
-
-using static HanGao.ViewModel.UC_Surround_Point_VM;
 using static HanGao.ViewModel.UC_Surround_Direction_VM;
-
-using System.ComponentModel;
+using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
 
 
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class UserControl_Socket_Var_Show_ViewModel    : ObservableRecipient
+    public class UserControl_Socket_Var_Show_ViewModel : ObservableRecipient
     {
 
 
@@ -46,22 +21,56 @@ namespace HanGao.ViewModel
 
             IsActive = true;
 
-            //读取变量集合发送
-            Messenger.Register<dynamic ,string >(this, nameof(Meg_Value_Eunm.Clear_List), (O,_Bool) =>
+
+
+            Messenger.Register<dynamic, string>(this, nameof(Meg_Value_Eunm.Socket_Read_List_UI_Thread), (O, _bool) =>
             {
-                if (_Bool)
+
+                new Thread(new ThreadStart(new Action(() =>
                 {
-                  
-                    foreach (var List in Socket_Read_List)
+
+
+
+                    Socket_Client_Setup.Read.Loop_Real_Send(Socket_Read_List_UI);
+
+
+
+                })))
+                { IsBackground = true, Name = "Loop_Real—KUKA" }.Start();
+
+
+
+            });
+
+
+            //读取变量集合发送
+            Messenger.Register<Socket_Models_List, string>(this, nameof(Meg_Value_Eunm.Socket_Read_List_UI_Refresh), (O, _Socket_Val) =>
+            {
+
+
+                Application.Current.Dispatcher.Invoke((Action)(() =>
+                {
+                    for (int i = 0; i < Socket_Read_List_UI.Count; i++)
                     {
-                        List.Val_Var = string.Empty;
+                        if (Socket_Read_List_UI[i].Val_ID== _Socket_Val.Val_ID)
+                        {
+                            Socket_Read_List_UI[i] = _Socket_Val;
+                        }
                     }
-                }
+                    
+                }));
+
+                //Socket_Models_List _List = Socket_Read_List_UI.Where(_List => _List.Val_ID == _Socket_Val.Val_ID).FirstOrDefault();
+
+                //_List = _Socket_Val;
+
+
+
             });
 
 
             // 发送内容集合接收写入
-            WeakReferenceMessenger.Default.Register<ObservableCollection<Socket_Models_List>,string >(this, nameof(Meg_Value_Eunm.List_Connect), (O,_List) =>
+            Messenger.Register<ObservableCollection<Socket_Models_List>, string>(this, nameof(Meg_Value_Eunm.List_Connect), (O, _List) =>
             {
 
 
@@ -69,31 +78,23 @@ namespace HanGao.ViewModel
                 foreach (var item in _List)
                 {
 
-                    if (!Socket_Read_List.Any<Socket_Models_List>(l => l.Val_ID == item.Val_ID))
+                    if (!Socket_Read_List_UI.Any<Socket_Models_List>(l => l.Val_ID == item.Val_ID))
                     {
                         Application.Current.Dispatcher.Invoke((Action)(() =>
                         {
-            
-                        Socket_Read_List.Add(item);
+
+                            Socket_Read_List_UI.Add(item);
                         }));
                     }
 
                 }
-
-                //---------------------------------------------
-
-
-
-
-
-
 
             });
 
 
 
             ///添加周期发生库卡变量集合
-            Messenger.Register<ObservableCollection<Socket_Models_List>,string >(this, nameof(Meg_Value_Eunm.One_List_Connect),(O,_List) =>
+            Messenger.Register<ObservableCollection<Socket_Models_List>, string>(this, nameof(Meg_Value_Eunm.One_List_Connect), (O, _List) =>
             {
 
                 Application.Current.Dispatcher.Invoke((Action)(() =>
@@ -117,19 +118,27 @@ namespace HanGao.ViewModel
                 }
 
 
-                //使用多线程读取
-                new Thread(new ThreadStart(new Action(() =>
-               {
+               // //使用多线程读取
+               // new Thread(new ThreadStart(new Action(() =>
+               //{
 
-                   Messenger.Send<dynamic, string>(UI_Type_Enum.Reading, nameof(Meg_Value_Eunm.Surround_Direction_State));
-
-                   Socket_Client_Setup.One_Read.Cycle_Real_Send(On_Read_List_UI);
-
-                   Messenger.Send<dynamic, string>(UI_Type_Enum.Ok , nameof(Meg_Value_Eunm.Surround_Direction_State));
+               //    Messenger.Send<dynamic, string>(UI_Type_Enum.Reading, nameof(Meg_Value_Eunm.Surround_Direction_State));
 
 
-               })))
-                { IsBackground =true, Name = "Cycle_Real—KUKA" }.Start();
+               //    Socket_Client_Setup.One_Read.Cycle_Real_Send(On_Read_List_UI);
+               //    Socket_Client_Setup.One_Read.Socket_Receive_Delegate = (Socket_Models_Receive _Receive) =>
+               //    {
+            
+
+
+               //    };
+
+
+               //    Messenger.Send<dynamic, string>(UI_Type_Enum.Ok, nameof(Meg_Value_Eunm.Surround_Direction_State));
+
+
+               //})))
+               // { IsBackground = true, Name = "Cycle_Real—KUKA" }.Start();
 
 
 
@@ -149,6 +158,8 @@ namespace HanGao.ViewModel
 
         }
 
+
+
         /// <summary>
         /// UI界面显示周期发送变量
         /// </summary>
@@ -157,20 +168,20 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 读取库卡变量列表集合
         /// </summary>
-        private   static ObservableCollection<Socket_Models_List> _Socket_Read_List=new ObservableCollection<Socket_Models_List> ();
+        private static    ObservableCollection<Socket_Models_List> _Socket_Read_List_UI = new ObservableCollection<Socket_Models_List>();
 
-        public  static ObservableCollection<Socket_Models_List> Socket_Read_List
+        public  static   ObservableCollection<Socket_Models_List> Socket_Read_List_UI
         {
 
             get
             {
-                return _Socket_Read_List;
+                return _Socket_Read_List_UI;
             }
             set
             {
-                _Socket_Read_List = value;
+                _Socket_Read_List_UI = value;
                 //OnStaticPropertyChanged();
-                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Socket_Read_List)));
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Socket_Read_List_UI)));
             }
         }
 
@@ -190,7 +201,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 循环读取线程设置
         /// </summary>
-        public Thread Socket_Read_Thread { set; get; } 
+        public Thread Socket_Read_Thread { set; get; }
 
 
 
@@ -226,7 +237,7 @@ namespace HanGao.ViewModel
             /// 机器速度
             /// </summary>
             [StringValue("$VEL.CP"), UserArea(nameof(Meg_Value_Eunm.UC_Pop_Sink_Value_Load))]
-             VEL,
+            VEL,
 
 
 
@@ -270,7 +281,7 @@ namespace HanGao.ViewModel
             [StringValue("$MODE_OP"), UserArea(nameof(Meg_Value_Eunm.UI_Start_State_Info)), BingdingValue(nameof(UC_Start_State_From_Model.UI_Mode_State), Value_Type.Enum, Binding_Type.OneWay)]
             MODE_OP_State,
 
-            
+
 
             /// <summary>
             /// 机器人Base当前位置
@@ -381,12 +392,18 @@ namespace HanGao.ViewModel
         {
             ObservableCollection<Socket_Models_List> _List = new ObservableCollection<Socket_Models_List>();
             //发送需要读取的变量名枚举值
+            int _Val_ID = 0;
             foreach (Enum item in Enum.GetValues(_Enum))
             {
 
 
-                _List.Add(new Socket_Models_List() { Val_Name = item.GetStringValue(), Val_ID = Read_Number_ID, Send_Area = item.GetAreaValue(), Value_Enum = item, Bingding_Value = item.GetBingdingValue().BingdingValue, KUKA_Value_Enum = (Value_Type)item.GetBingdingValue().SetValueType, });
+                _List.Add(new Socket_Models_List() { Val_ID = _Val_ID, Val_Name = item.GetStringValue(), Send_Area = item.GetAreaValue(), Value_Enum = item, Bingding_Value = item.GetBingdingValue().BingdingValue, KUKA_Value_Enum = (Value_Type)item.GetBingdingValue().SetValueType, });
 
+                if (_Val_ID > 65500)
+                {
+                    _Val_ID = 0;
+                }
+                _Val_ID++;
             }
             WeakReferenceMessenger.Default.Send<ObservableCollection<Socket_Models_List>, string>(_List, nameof(Meg_Value_Eunm.List_Connect));
 
@@ -403,13 +420,7 @@ namespace HanGao.ViewModel
 
 
 
-        /// <summary>
-        /// 清除读取集合内容
-        /// </summary>
-        public void Clear_List()
-        {
 
-        }
 
 
     }

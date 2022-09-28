@@ -22,29 +22,29 @@ namespace HanGao.ViewModel
 
 
 
-            WeakReferenceMessenger.Default.Register<Socket_Setup_Models,string>(this, nameof(Meg_Value_Eunm.Client_Initialization) , (O,_S) =>
-            {
-                Socket_Client_Setup = _S;
-            });
+            //WeakReferenceMessenger.Default.Register<Socket_Setup_Models,string>(this, nameof(Meg_Value_Eunm.Client_Initialization) , (O,_S) =>
+            //{
+            //    Socket_Client_Setup = _S;
+            //});
 
-            WeakReferenceMessenger.Default.Register<Socket_Setup_Models,string >(this, nameof(Meg_Value_Eunm.Sever_Initialization) , (O,_S) =>
-            {
-                Socket_Server_Setup = _S;
-            });
+            //WeakReferenceMessenger.Default.Register<Socket_Setup_Models,string >(this, nameof(Meg_Value_Eunm.Sever_Initialization) , (O,_S) =>
+            //{
+            //    Socket_Server_Setup = _S;
+            //});
 
 
             //注册消息接收
 
 
 
-            //连接按钮屏蔽方法
-            WeakReferenceMessenger.Default.Register<dynamic ,string >(this, nameof(Meg_Value_Eunm.Connect_Client_Button_IsEnabled) , (O,_Bool) =>
-            {
+            ////连接按钮屏蔽方法
+            //WeakReferenceMessenger.Default.Register<dynamic ,string >(this, nameof(Meg_Value_Eunm.Connect_Client_Button_IsEnabled) , (O,_Bool) =>
+            //{
 
 
 
-                //Socket_Client_Setup.Connect_Button_IsEnabled = _Bool;
-            });
+            //    //Socket_Client_Setup.Connect_Button_IsEnabled = _Bool;
+            //});
 
 
 

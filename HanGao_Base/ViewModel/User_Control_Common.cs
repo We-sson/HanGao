@@ -16,7 +16,7 @@ namespace HanGao.ViewModel
 
 
             //发送需要读取的变量名枚举值
-            Send_KUKA_Value_List(typeof(Value_Name_enum));
+            //Send_KUKA_Value_List(typeof(Value_Name_enum));
 
         }
 
@@ -34,10 +34,7 @@ namespace HanGao.ViewModel
 
 
 
-            /// <summary>
-            /// 围边工艺焊接尺寸
-            /// </summary>
-            Surround_Welding_size,
+
 
 
             /// <summary>
@@ -147,24 +144,6 @@ namespace HanGao.ViewModel
 
 
 
-        /// <summary>
-        /// 发送枚举定义库卡变量到变量显示表
-        /// </summary>
-        /// <param name="_Enum">定义库卡变量类型枚举</param>
-        public static void  Send_KUKA_Value_List(Type _Enum)
-        {
-            ObservableCollection<Socket_Models_List> _List=new ObservableCollection<Socket_Models_List> ();
-            //发送需要读取的变量名枚举值
-            foreach (Enum item in Enum.GetValues(_Enum))
-            {
-
-
-                 _List.Add(new Socket_Models_List() { Val_Name = item.GetStringValue(), Send_Area = item.GetAreaValue(), Value_Enum = item, Bingding_Value = item.GetBingdingValue().BingdingValue, KUKA_Value_Enum = item.GetBingdingValue().SetValueType,  });
-
-            }
-            WeakReferenceMessenger.Default.Send<ObservableCollection<Socket_Models_List>, string>(_List, nameof(Meg_Value_Eunm.List_Connect));
-
-        }
 
 
 

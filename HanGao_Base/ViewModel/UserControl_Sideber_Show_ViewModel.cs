@@ -75,21 +75,21 @@ namespace HanGao.ViewModel
                 UIElement e = Sm.Source as UIElement;
 
 
-               Messenger.Send<Socket_Setup_Models ,string >(new Socket_Setup_Models()
-                {
+               //Messenger.Send<Socket_Setup_Models ,string >(new Socket_Setup_Models()
+               // {
                     
                     
 
 
                     
-                }, nameof (Meg_Value_Eunm.Client_Initialization));
+               // }, nameof (Meg_Value_Eunm.Client_Initialization));
 
 
-                Messenger.Send<Socket_Setup_Models,string >(new Socket_Setup_Models()
-                {
+               // Messenger.Send<Socket_Setup_Models,string >(new Socket_Setup_Models()
+               // {
 
               
-                }, nameof(Meg_Value_Eunm.Sever_Initialization));
+               // }, nameof(Meg_Value_Eunm.Sever_Initialization));
 
 
 

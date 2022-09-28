@@ -128,7 +128,7 @@ namespace Soceket_KUKA.Models
             }
         }
 
-        private int _Val_ID;
+        private int _Val_ID=0;
         /// <summary>
         /// 变量名称值
         /// </summary>
