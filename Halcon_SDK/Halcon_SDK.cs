@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Halcon_SDK_DLL
 {
-    public class Class1
+    public class Halcon_SDK
     {
+
+
+
     }
 }

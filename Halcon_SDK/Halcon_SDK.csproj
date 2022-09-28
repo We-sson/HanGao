@@ -54,8 +54,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Halcon_SDK.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DLL\Halcon\2022\halcon.dll" />
+    <Content Include="DLL\Halcon\2022\halconc.dll" />
+    <Content Include="DLL\Halcon\2022\halconcpp.dll" />
+    <Content Include="DLL\Halcon\2022\halconcppxl.dll" />
+    <Content Include="DLL\Halcon\2022\halconcxl.dll" />
+    <Content Include="DLL\Halcon\2022\halcondl.dll" />
+    <Content Include="DLL\Halcon\2022\halcondlxl.dll" />
+    <Content Include="DLL\Halcon\2022\halcondotnet.dll" />
+    <Content Include="DLL\Halcon\2022\halcondotnetxl.dll" />
+    <Content Include="DLL\Halcon\2022\halconxl.dll" />
+    <Content Include="DLL\Halcon\2022\hcanvas.dll" />
+    <Content Include="DLL\Halcon\2022\hdevenginecpp.dll" />
+    <Content Include="DLL\Halcon\2022\hdevenginecppxl.dll" />
+    <Content Include="DLL\Halcon\2022\hdevenginedotnet.dll" />
+    <Content Include="DLL\Halcon\2022\hdevenginedotnetxl.dll" />
+    <Content Include="DLL\Halcon\2022\libiomp5md.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

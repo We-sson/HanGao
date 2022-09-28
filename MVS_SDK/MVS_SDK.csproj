@@ -62,6 +62,10 @@
       <Name>Generic_Extension</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="DLL\MVS\X64\MvCamCtrl.Net.dll" />
+    <Content Include="DLL\MVS\X86\MvCamCtrl.Net.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>
     <VisualStudio AllowExistingFolder="true" />

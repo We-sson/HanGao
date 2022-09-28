@@ -62,22 +62,6 @@ namespace HanGao.ViewModel
 
 
 
-        //private int nret = CErrorDefine.MV_ALG_OK;
-        ///// <summary>
-        ///// 相机状态
-        ///// </summary>
-        //public int Nret
-        //{
-        //    get { return nret; }
-        //    set
-        //    {
-        //        nret = value;
-        //        if (value != CErrorDefine.MV_ALG_OK)
-        //        {
-
-        //        }
-        //    }
-        //}
 
 
 
