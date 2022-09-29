@@ -1,15 +1,14 @@
 ﻿using HanGao.View.User_Control;
+
 using static HanGao.ViewModel.User_Control_Log_ViewModel;
 using static HanGao.ViewModel.UserControl_Socket_Var_Show_ViewModel;
-using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
-using static Soceket_Connect.Socket_Connect;
-using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
+
 
 namespace HanGao.Model
 
 {
     [AddINotifyPropertyChangedInterface]
-    public class Socket_Setup_Models : ObservableRecipient
+    public class Socket_Setup_Models 
     {
 
         public Socket_Setup_Models()
@@ -171,34 +170,13 @@ namespace HanGao.Model
                       //Socket_Client_Setup.Read.Socket_Client_Thread(  Socket_Client_Type.Synchronized,Read_Write_Enum.Read, IP, Port);
                      
                       //设置连接对象信息和回调方法和连接状态
-                      Socket_Client_Setup.Read.KUKA_IP = IP;
-                      Socket_Client_Setup.Read.KUKA_Port = Port;
-                      Socket_Client_Setup.Write.KUKA_IP = IP;
-                      Socket_Client_Setup.Write.KUKA_Port = Port;
-                      Socket_Client_Setup.One_Read.KUKA_IP = IP;
-                      Socket_Client_Setup.One_Read.KUKA_Port = Port;
-                      Socket_Client_Setup.Read.Socket_Receive_Delegate = (Socket_Models_Receive _Receive )=>
-                      {
-
-                          Messenger.Send<Socket_Models_List, string>(_Receive.Reveice_Inf, _Receive.Reveice_Inf.Send_Area);
-                          Messenger.Send<Socket_Models_List, string>(_Receive.Reveice_Inf, nameof( Meg_Value_Eunm.Socket_Read_List_UI_Refresh));
-
-                          
-                      };
-                      Socket_Client_Setup.Read.Socket_Connect_State_delegate = (bool _Connect_State) =>
-                      {
-                          if (_Connect_State)
-                          {
-                              Messenger.Send<string, string>(Socket_Tpye.Connect_OK.ToString(), Meg_Value_Eunm.Socket_Read_Tpye.ToString());
-                          }
-                          else
-                          {
-
-                              Messenger.Send<string, string>(Socket_Tpye.Connect_Cancel.ToString(), Meg_Value_Eunm.Socket_Read_Tpye.ToString());
-
-                          }
-
-                      };
+                      Read.KUKA_IP = IP;
+                      Read.KUKA_Port = Port;
+                      Write.KUKA_IP = IP;
+                      Write.KUKA_Port = Port;
+                      One_Read.KUKA_IP = IP;
+                      One_Read.KUKA_Port = Port;
+                      //Read.Socket_CycleThread_delegate(true);
 
 
 
@@ -208,18 +186,18 @@ namespace HanGao.Model
 
 
 
-                      //使用多线程读取
-                      new Thread(new ThreadStart(new Action(() =>
-                              {
+                      ////使用多线程读取
+                      //new Thread(new ThreadStart(new Action(() =>
+                      //        {
 
 
 
-                                  Socket_Client_Setup.Read.Loop_Real_Send(Socket_Read_List_UI);
+                      //            Read.Loop_Real_Send(Socket_Read_List_UI);
 
 
 
-                              })))
-                      { IsBackground = true, Name = "Loop_Real—KUKA" }.Start();
+                      //        })))
+                      //{ IsBackground = true, Name = "Loop_Real—KUKA" }.Start();
 
 
                       ////读取用多线程连接
@@ -229,7 +207,7 @@ namespace HanGao.Model
 
                       break;
                           case Socket_Type.Server:
-                              Socket_Server_Setup.Sever.Socket_Server_KUKA();
+                              Sever.Socket_Server_KUKA();
                               break;
 
                       }
@@ -263,11 +241,11 @@ namespace HanGao.Model
                       switch (Connect_Socket_Type)
                       {
                           case Socket_Type.Client:
-                              Socket_Client_Setup.Read.Is_Connect_Client = false;
+                              Read.Is_Connect_Client = false;
                               //User_Log_Add("用户退出读取连接！");
                               break;
                           case Socket_Type.Server:
-                              Socket_Server_Setup.Sever.Socket_Server_Stop();
+                              Sever.Socket_Server_Stop();
                               break;
                       }
                       //创建连接
@@ -278,16 +256,7 @@ namespace HanGao.Model
         }
 
 
-        /// <summary>
-        ///    库卡通讯委托接收变量值信息
-        /// </summary>
-        /// <param name="_Receive"></param>
-        private  void Socket_Receive_Method(Socket_Models_Receive _Receive)
-        {
 
-   
-
-        }
 
 
         #endregion

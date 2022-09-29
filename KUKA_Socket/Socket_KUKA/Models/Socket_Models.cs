@@ -1,5 +1,6 @@
 ﻿
 
+
 using System;
 using System.Globalization;
 using System.Net;
@@ -33,8 +34,8 @@ namespace Soceket_KUKA.Models
         /// <summary>
         /// 接收空字节流属性
         /// </summary>
-        public byte[] Byte_Write_Receive { set; get; } = new byte[1024 * 1024];
-        public byte[] Byte_Read_Receive { set; get; } = new byte[1024 * 1024];
+        public byte[] Byte_Write_Receive { set; get; } = new byte[1024 * 10];
+        public byte[] Byte_Read_Receive { set; get; } = new byte[1024 * 10];
 
         /// <summary>
         /// 接收字节长度
@@ -163,15 +164,15 @@ namespace Soceket_KUKA.Models
         public string Write_Value { set; get; } = "";
 
 
-        private DateTime _Val_Update_Time = DateTime.Now.ToLocalTime();
+        private double _Val_Update_Time = -1;
         /// <summary>
         /// 读取时间
         /// </summary>
-        public DateTime Val_Update_Time
+        public double  Val_Update_Time
         {
             get
             {
-                return DateTime.Now;
+                return _Val_Update_Time;
             }
             set
             {
@@ -187,7 +188,7 @@ namespace Soceket_KUKA.Models
         /// <summary>
         /// 用户选择步骤记录
         /// </summary>
-        //public User_Read_Xml_Model User_Picking_Craft { set; get; }
+        //public User_Steps_Model User_Picking_Craft { set; get; }
 
 
         /// <summary>

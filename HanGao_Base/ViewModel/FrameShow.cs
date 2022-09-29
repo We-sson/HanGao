@@ -29,7 +29,8 @@ namespace HanGao.ViewModel
 
             //通讯延时绑定
             Messenger.Register<dynamic , string>(this, nameof(Meg_Value_Eunm.Connter_Time_Delay_Method), (O, _String) => 
-            { 
+            {
+ 
                 Connter_Time_Delay=_String; 
             });
 

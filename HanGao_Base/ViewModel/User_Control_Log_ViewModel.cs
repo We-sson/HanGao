@@ -1,4 +1,4 @@
-﻿
+﻿using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
 
 
 namespace HanGao.ViewModel
@@ -6,15 +6,35 @@ namespace HanGao.ViewModel
     [AddINotifyPropertyChangedInterface]
     public class User_Control_Log_ViewModel : ObservableObject
     {
-        ///// <summary>
-        ///// 初始化输出信息
-        ///// </summary>
-        //public   User_Control_Log_ViewModel()
-        //{
 
-        //    User_UI_Log.Add(new User_Log_Models() {  User_Log= "软件启动" });
 
-        //}
+
+       public User_Control_Log_ViewModel()
+        {
+
+
+
+
+            //报错信息传递
+            Socket_Client_Setup.Read.Socket_ErrorInfo_delegate += User_Log_Add;
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+
+
+
+
+
 
         private static User_Log_Models _User_UI_Log = new User_Log_Models();
         /// <summary>

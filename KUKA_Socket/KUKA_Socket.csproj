@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\HanGao_Base\packages\PropertyChanged.Fody.3.4.1\build\PropertyChanged.Fody.props" Condition="Exists('..\HanGao_Base\packages\PropertyChanged.Fody.3.4.1\build\PropertyChanged.Fody.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -12,6 +13,8 @@
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -48,5 +51,16 @@
     <Compile Include="Socket_KUKA\Socket_Receive.cs" />
     <Compile Include="Socket_KUKA\Socket_Sever.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\HanGao_Base\packages\Fody.6.6.2\build\Fody.targets" Condition="Exists('..\HanGao_Base\packages\Fody.6.6.2\build\Fody.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\HanGao_Base\packages\Fody.6.6.2\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\HanGao_Base\packages\Fody.6.6.2\build\Fody.targets'))" />
+    <Error Condition="!Exists('..\HanGao_Base\packages\PropertyChanged.Fody.3.4.1\build\PropertyChanged.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\HanGao_Base\packages\PropertyChanged.Fody.3.4.1\build\PropertyChanged.Fody.props'))" />
+  </Target>
 </Project>

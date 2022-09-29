@@ -1,4 +1,4 @@
-﻿<UserControl x:Name="userControl"
+﻿<UserControl 
              x:Class="HanGao.View.User_Control.UserControl_Value_Show"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -79,7 +79,7 @@
                             <GridViewColumn Width="auto" Header="更新时间">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Val_Update_Time, Mode=TwoWay, StringFormat={}{0:HH:mm:ss}}"
+                                        <TextBlock Text="{Binding Val_Update_Time, Mode=TwoWay, StringFormat={}Delay:{0:N0}ms}"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center" />
                                     </DataTemplate>

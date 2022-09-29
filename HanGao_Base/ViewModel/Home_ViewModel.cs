@@ -16,12 +16,12 @@ namespace HanGao.ViewModel
             //WeakReferenceMessenger.Default.Register<double>("Open_Effect", Home_Var.Open_Effect);
 
 
-            Messenger.Register<dynamic ,string  ,string >(this, nameof(Meg_Value_Eunm.Home_Visibility_Show), (O, S) => 
+            Messenger.Register<dynamic, string, string>(this, nameof(Meg_Value_Eunm.Home_Visibility_Show), (O, S) =>
             {
-            
-            
+
+
             });
-            Messenger.Register<dynamic,dynamic  , string>(this, nameof(Meg_Value_Eunm.Home_Visibility_Show), (O, S) =>
+            Messenger.Register<dynamic, dynamic, string>(this, nameof(Meg_Value_Eunm.Home_Visibility_Show), (O, S) =>
            {
                Home_Var.Home_Visibility_Show(S);
            });
@@ -63,8 +63,8 @@ namespace HanGao.ViewModel
 
 
 
-                        ////把参数类型转换控件
-                        Button e = Sm.Source as Button;
+                      ////把参数类型转换控件
+                      Button e = Sm.Source as Button;
 
                       Home_ViewModel S = (Home_ViewModel)e.DataContext;
 
@@ -78,8 +78,8 @@ namespace HanGao.ViewModel
 
                       for (int i = 0; i < l; i++)
                       {
-                            //查找控件
-                            TextBlock r = (TextBlock)VisualTreeHelper.GetChild(q, i);
+                          //查找控件
+                          TextBlock r = (TextBlock)VisualTreeHelper.GetChild(q, i);
                           foreach (var item in Sideber_List)
                           {
                               if (r.Text == item.Sidebar_Subtitle)
@@ -93,7 +93,7 @@ namespace HanGao.ViewModel
 
                       }
 
-                      Messenger.Send<Sideber_Models,string >(_Sidber, nameof(Meg_Value_Eunm.Sideber_Show) );
+                      Messenger.Send<Sideber_Models, string>(_Sidber, nameof(Meg_Value_Eunm.Sideber_Show));
 
 
 

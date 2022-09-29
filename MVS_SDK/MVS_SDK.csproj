@@ -53,10 +53,6 @@
     <Folder Include=".vs\MVS_SDK_Base\v17\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Enum_Extension\KUKA_Val_Extension.csproj">
-      <Project>{5647B968-3330-4159-BC39-872F1B889A9B}</Project>
-      <Name>KUKA_Val_Extension</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Generic_Extension\Generic_Extension.csproj">
       <Project>{1CFBC836-D70F-4C44-98D1-17D4778F883B}</Project>
       <Name>Generic_Extension</Name>

@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KUKA_Socket\KUKA_Socket.csproj">
-      <Project>{4E727E85-63EC-4664-ABF6-211ED2457E48}</Project>
+      <Project>{4e727e85-63ec-4664-abf6-211ed2457e48}</Project>
       <Name>KUKA_Socket</Name>
     </ProjectReference>
   </ItemGroup>

@@ -88,7 +88,7 @@
                                     <Setter Property="Text" Value="Warning" />
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding UI_Socket_Type}" Value="Connect_OK">
-                                    <Setter Property="Text" Value="{Binding Connter_Time_Delay, StringFormat={}Connect:{0:F1}ms}" />
+                                    <Setter Property="Text" Value="{Binding Connter_Time_Delay, StringFormat={}Delay:{0:N0}ms}" />
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>

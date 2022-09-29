@@ -1,8 +1,8 @@
-﻿using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
+﻿using HanGao.Xml_Date.Xml_Write_Read;
+using static HanGao.Model.User_Steps_Model;
+using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static HanGao.ViewModel.UC_Surround_Direction_VM;
 using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
-using HanGao.Xml_Date.Xml_Write_Read;
-using static HanGao.Model.User_Steps_Model;
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
@@ -11,7 +11,7 @@ namespace HanGao.ViewModel
 
         public UC_Surround_Point_VM()
         {
-          
+
 
 
             //清楚工艺列表显示
@@ -37,101 +37,101 @@ namespace HanGao.ViewModel
 
                                    if (S.Val_Var == String.Empty) return;
 
-                                   User_Sink.User_Picking_Craft.User_Welding_Craft_ID= Point_NO;
+                                   User_Sink.User_Picking_Craft.User_Welding_Craft_ID = Point_NO;
 
 
                                    Xml_Craft_Data Date = XML_Write_Read.GetXml_User_Data(User_Sink);
 
-                                             switch (Craft_Value.KUKA_Craft_Type)
+                                   switch (Craft_Value.KUKA_Craft_Type)
+                                   {
+
+                                       case nameof(Xml_Craft_Date.Welding_Name):
+                                           if (S.Val_Var != String.Empty)
+                                           {
+
+                                               Date.Craft_Date[Point_NO].Welding_Name = S.Val_Var.Replace('"', ' ');
+                                               //Surround_Offset_Point[Point_NO].Welding_Name = S.Val_Var.Replace('"', ' ');
+
+
+
+                                           }
+                                           else
+                                           {
+                                               Date.Craft_Date[Point_NO].Welding_Name = "...";
+                                           }
+
+
+
+                                           break;
+                                       case nameof(Xml_Craft_Date.Welding_Pos):
+                                           if (S.Val_Var != String.Empty)
+                                           {
+
+
+                                               string[] data = S.Val_Var.Split(new string[] { "{E6POS: ", "}" }, StringSplitOptions.RemoveEmptyEntries);
+                                               if (data.Length != 0)
                                                {
 
-                                               case nameof(Xml_Craft_Date.Welding_Name):
-                                                   if (S.Val_Var != String.Empty)
-                                                   {
-                                                    
-                                                       Date.Craft_Date[Point_NO].Welding_Name = S.Val_Var.Replace('"', ' ');
-                                                               //Surround_Offset_Point[Point_NO].Welding_Name = S.Val_Var.Replace('"', ' ');
+                                                   data = data[0].Split(',');
 
-
-
-                                                           }
-                                                           else
-                                                   {
-                                                       Date.Craft_Date[Point_NO].Welding_Name = "...";
-                                                   }
-
-
-
-                                                   break;
-                                               case nameof(Xml_Craft_Date.Welding_Pos) :
-                                                   if (S.Val_Var != String.Empty)
+                                                   foreach (var item in data)
                                                    {
 
-
-                                                       string[] data = S.Val_Var.Split(new string[] { "{E6POS: ", "}" }, StringSplitOptions.RemoveEmptyEntries);
-                                                       if (data.Length != 0)
+                                                       foreach (var _Pr in Date.Craft_Date[Point_NO].Welding_Pos.GetType().GetProperties())
                                                        {
-
-                                                           data = data[0].Split(',');
-
-                                                           foreach (var item in data)
+                                                           if (item.Contains(_Pr.Name))
                                                            {
+                                                               var b = item.Replace(_Pr.Name, "");
 
-                                                               foreach (var _Pr in Date.Craft_Date[Point_NO].Welding_Pos.GetType().GetProperties())
-                                                               {
-                                                                   if (item.Contains(_Pr.Name))
-                                                                   {
-                                                                       var b = item.Replace(_Pr.Name, "");
+                                                               Date.Craft_Date[Point_NO].Welding_Pos.GetType().GetProperty(_Pr.Name).SetValue(Date.Craft_Date[Point_NO].Welding_Pos, double.Parse(b));
 
-                                                                       Date.Craft_Date[Point_NO].Welding_Pos.GetType().GetProperty(_Pr.Name).SetValue(Date.Craft_Date[Point_NO].Welding_Pos, double.Parse(b));
-
-
-                                                                   }
-                                                               }
 
                                                            }
-
                                                        }
 
                                                    }
-                                                   break;
 
-                                               case nameof(Xml_Craft_Date.Welding_Offset):
+                                               }
 
-                                                   if (S.Val_Var != "")
-                                                   {
-                                                       string[] data = S.Val_Var.Split(new string[] { "{Offset_POS: ", "}" }, StringSplitOptions.RemoveEmptyEntries);
-                                                       if (data.Length != 0)
-                                                       {
-                                                           data = data[0].Split(',');
-
-
-                                                           foreach (var item in data)
-                                                           {
-                                                               if (item.Contains("X"))
-                                                               {
-                                                                   item.Replace('X', ' ');
-                                                                   Date.Craft_Date[Point_NO].Welding_Offset.X = double.Parse(item.Replace('X', ' '));
-
-                                                               }
-                                                               else if (item.Contains("Y"))
-                                                               {
-                                                                   item.Replace('Y', ' ');
-                                                                   Date.Craft_Date[Point_NO].Welding_Offset.Y = double.Parse(item.Replace('Y', ' '));
-
-                                                               }
-                                                               else if (item.Contains("Z"))
-                                                               {
-                                                                   item.Replace('Z', ' ');
-                                                                   Date.Craft_Date[Point_NO].Welding_Offset.Z = double.Parse(item.Replace('Z', ' '));
-
-                                                               }
-                                                           }
-                                                       }
-                                                   }
-
-                                                   break;
                                            }
+                                           break;
+
+                                       case nameof(Xml_Craft_Date.Welding_Offset):
+
+                                           if (S.Val_Var != "")
+                                           {
+                                               string[] data = S.Val_Var.Split(new string[] { "{Offset_POS: ", "}" }, StringSplitOptions.RemoveEmptyEntries);
+                                               if (data.Length != 0)
+                                               {
+                                                   data = data[0].Split(',');
+
+
+                                                   foreach (var item in data)
+                                                   {
+                                                       if (item.Contains("X"))
+                                                       {
+                                                           item.Replace('X', ' ');
+                                                           Date.Craft_Date[Point_NO].Welding_Offset.X = double.Parse(item.Replace('X', ' '));
+
+                                                       }
+                                                       else if (item.Contains("Y"))
+                                                       {
+                                                           item.Replace('Y', ' ');
+                                                           Date.Craft_Date[Point_NO].Welding_Offset.Y = double.Parse(item.Replace('Y', ' '));
+
+                                                       }
+                                                       else if (item.Contains("Z"))
+                                                       {
+                                                           item.Replace('Z', ' ');
+                                                           Date.Craft_Date[Point_NO].Welding_Offset.Z = double.Parse(item.Replace('Z', ' '));
+
+                                                       }
+                                                   }
+                                               }
+                                           }
+
+                                           break;
+                                   }
 
                                    XML_Write_Read.SetXml_User_Data(User_Sink, Date);
 
@@ -151,7 +151,7 @@ namespace HanGao.ViewModel
 
 
 
-            Messenger.Register<dynamic , string>(this, nameof(Meg_Value_Eunm.Sink_Short_Craft_Point_Load), (O, S) =>
+            Messenger.Register<dynamic, string>(this, nameof(Meg_Value_Eunm.Sink_Short_Craft_Point_Load), (O, S) =>
             {
 
                 //User_Checked_Direction = (Direction_Enum)Enum.Parse(typeof(Direction_Enum), S);
@@ -169,7 +169,7 @@ namespace HanGao.ViewModel
 
                //if (!Write_Data.WaitOne(3000, false )) { MessageBox.Show("接收超时"); return; }
 
-              
+
                //User_Checked_Direction = S;
                //int User_Switech_Work_No = ((int)User_Sink.Work_No_Emun);
                User_Sink.User_Picking_Craft.User_Direction = S;
@@ -179,64 +179,80 @@ namespace HanGao.ViewModel
                ObservableCollection<Socket_Models_List> _List = new ObservableCollection<Socket_Models_List>();
 
 
-                        ///获取用户选择步骤的Xml数据集合
-                       Date= XML_Write_Read.GetXml_User_Data(User_Sink);
+               ///获取用户选择步骤的Xml数据集合
+               Date = XML_Write_Read.GetXml_User_Data(User_Sink);
 
 
-                       //将反射得到的数据添加到UI列表中
-                       Surround_Offset_Point = new ObservableCollection<Xml_Craft_Date>(Date.Craft_Date);
+               //将反射得到的数据添加到UI列表中
+               Surround_Offset_Point = new ObservableCollection<Xml_Craft_Date>(Date.Craft_Date);
 
 
 
-                       //循环水槽围边工艺数目
-                       for (int i = 0; i < Date.Craft_Date.Count; i++)
+               //循环水槽围边工艺数目
+               for (int i = 0; i < Date.Craft_Date.Count; i++)
+               {
+                   //遍历每个围边工艺属性中是否合适条件
+                   foreach (var Craft_List in Date.Craft_Date[i].GetType().GetProperties())
+                   {
+
+                       //遍历每个xml列表中的每个参数是否读写属性
+                       foreach (var List_Name in Craft_List.GetCustomAttributes(true))
                        {
-                           //遍历每个围边工艺属性中是否合适条件
-                           foreach (var Craft_List in Date.Craft_Date[i].GetType().GetProperties())
+                           if (List_Name is ReadWriteAttribute Autt)
                            {
 
-                               //遍历每个xml列表中的每个参数是否读写属性
-                               foreach (var List_Name in Craft_List.GetCustomAttributes(true))
+                               switch (Autt.ReadWrite_Type)
                                {
-                                   if  (List_Name is ReadWriteAttribute Autt )
-                                   {
+                                   case ReadWrite_Enum.Read:
 
-                                       switch (Autt.ReadWrite_Type)
+
+                                       //针对库卡变量字符类型修改
+                                       string Name_Val = (Craft_List.Name == nameof(Xml_Craft_Date.Welding_Name)) ? Craft_List.Name + "[]" : Craft_List.Name;
+
+
+
+
+
+
+
+                                       //添加集合
+                                       _List.Add(new Socket_Models_List()
                                        {
-                                           case ReadWrite_Enum.Read:
+                                           Val_Name = User_Sink.User_Picking_Craft.User_Direction.ToString() + "[" + (int)User_Sink.User_Picking_Craft.User_Work_Area + "," + Date.Craft_Date[i].NO + "]" + "." + Name_Val,
+                                           Val_ID = Socket_Client_Setup.Read.Val_Number_ID,
+                                           Send_Area = nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data),
+                                           UserObject = new KUKA_Craft_Value()
+                                           { Craft_Point_NO = Date.Craft_Date[i].NO, KUKA_Craft_Type = Craft_List.Name, KUKA_Point_Type = Date.Craft_Date[i].Craft_Type, User_Direction = S, User_Work = User_Sink.User_Picking_Craft.User_Work_Area },
+                                           //User_Picking_Craft = User_Sink.User_Picking_Craft,
+                                       });
+                                       break;
+                                   case ReadWrite_Enum.Write:
 
-
-                                              //针对库卡变量字符类型修改
-                                            string    Name_Val = (Craft_List.Name == nameof(Xml_Craft_Date.Welding_Name)) ? Craft_List.Name + "[]" : Craft_List.Name;
-
-                                               //添加集合
-                                               _List.Add(new Socket_Models_List()
-                                               {
-                                                   Val_Name = User_Sink.User_Picking_Craft.User_Direction.ToString() + "[" + (int)User_Sink.User_Picking_Craft.User_Work_Area +"," + Date.Craft_Date[i].NO + "]" + "." + Name_Val,
-                                                   
-                                                   Send_Area = nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data),
-                                                   UserObject = new KUKA_Craft_Value()
-                                                   { Craft_Point_NO = Date.Craft_Date[i].NO, KUKA_Craft_Type = Craft_List.Name, KUKA_Point_Type = Date.Craft_Date[i].Craft_Type, User_Direction = S , User_Work= User_Sink.User_Picking_Craft.User_Work_Area },
-                                                    //User_Picking_Craft=User_Sink.User_Picking_Craft,
-                                               });
-                                               break;
-                                           case ReadWrite_Enum.Write:
-
-                                               break;
-                                       }
-                                   }
+                                       break;
                                }
                            }
-
                        }
-                       //发生全部集合到周期读取传送
-                       Task.Run(async () =>
-                       {
+                   }
 
-                           Messenger.Send<ObservableCollection<Socket_Models_List>, string>(_List, nameof(Meg_Value_Eunm.One_List_Connect));
-                           await Task.Delay(1);
+               }
+               //发生全部集合到周期读取传送
+               Task.Run(async () =>
+               {
 
-                       });
+                   Messenger.Send<ObservableCollection<Socket_Models_List>, string>(_List, nameof(Meg_Value_Eunm.One_List_Connect));
+                   await Task.Delay(100);
+
+
+                   new Thread(new ThreadStart(new Action(() =>
+                   {
+                       Socket_Client_Setup.One_Read.Cycle_Real_Send(_List);
+                   })))
+                   { IsBackground = true, Name = "Cycle_Real—KUKA" }.Start();
+
+
+
+
+               });
 
 
 
@@ -247,7 +263,7 @@ namespace HanGao.ViewModel
             Messenger.Register<Xml_Craft_Date, string>(this, nameof(Meg_Value_Eunm.Sink_Craft_Data_OK), (O, S) =>
             {
 
-                
+
 
                 foreach (var item in XML_Write_Read.Sink_Date.Sink_List)
                 {
@@ -290,11 +306,11 @@ namespace HanGao.ViewModel
         /// XML文件转换KUKA写入变量名
         /// </summary>
         /// <param name="Xcd"></param>
-        public   void XmlVal_Write_KUKAString(Xml_Craft_Date Xcd)
+        public void XmlVal_Write_KUKAString(Xml_Craft_Date Xcd)
         {
             foreach (var item in Xcd.GetType().GetProperties())
             {
-                foreach (var autt in item.GetCustomAttributes(false ))
+                foreach (var autt in item.GetCustomAttributes(false))
                 {
                     if (autt is ReadWriteAttribute Autt)
                     {
@@ -308,10 +324,10 @@ namespace HanGao.ViewModel
                             {
 
                                 _Val = @"{ Offset_POS : X " + Xcd.Welding_Offset.X + ", Y " + Xcd.Welding_Offset.Y + ", Z " + Xcd.Welding_Offset.Z + " } ";
-                                
 
 
-                        }
+
+                            }
 
 
                             Socket_Client_Setup.Write.Cycle_Write_Send(_N, _Val);
@@ -319,7 +335,7 @@ namespace HanGao.ViewModel
 
                         }
                     }
-                }  
+                }
 
             }
 
@@ -403,9 +419,12 @@ namespace HanGao.ViewModel
                 //if (value != null)
                 //{
 
-                    //User_Sink.User_Picking_Craft.User_Welding_Craft_ID = value.NO;
+                //User_Sink.User_Picking_Craft.User_Welding_Craft_ID = value.NO;
+                if (value != null)
+                {
 
                     Messenger.Send<Xml_Craft_Date, string>(value, nameof(Meg_Value_Eunm.Sink_Surround_Craft_Selected_Value));
+                }
 
 
 
@@ -456,7 +475,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// KUKA工艺名字
         /// </summary>
-        public string  KUKA_Craft_Type { get; set; }
+        public string KUKA_Craft_Type { get; set; }
 
         /// <summary>
         /// 工艺点类型

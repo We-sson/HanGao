@@ -1,6 +1,7 @@
-﻿using static HanGao.Model.Socket_Setup_Models;
+﻿
+using static HanGao.Model.Socket_Setup_Models;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
-
+using static Soceket_Connect.Socket_Connect;
 
 namespace HanGao.ViewModel
 {
@@ -14,42 +15,34 @@ namespace HanGao.ViewModel
         {
 
 
-            ////设置初始ip和端口
-            //IP_Client = "192.168.153.130";
-            //Port_Client = "7000";
-            //IP_Sever = "192.168.153.1";
-            //Port_Sever = "5000";
 
 
+            //得到变量值后发送到其他所需区域
+            Socket_Client_Setup.Read.Socket_Receive_Delegate= Socket_Client_Setup.One_Read.Socket_Receive_Delegate += (Socket_Models_Receive _Receive) =>
+            {
+                Messenger.Send<Socket_Models_List, string>(_Receive.Reveice_Inf, _Receive.Reveice_Inf.Send_Area);
 
-            //WeakReferenceMessenger.Default.Register<Socket_Setup_Models,string>(this, nameof(Meg_Value_Eunm.Client_Initialization) , (O,_S) =>
-            //{
-            //    Socket_Client_Setup = _S;
-            //});
+            };
 
-            //WeakReferenceMessenger.Default.Register<Socket_Setup_Models,string >(this, nameof(Meg_Value_Eunm.Sever_Initialization) , (O,_S) =>
-            //{
-            //    Socket_Server_Setup = _S;
-            //});
+            //
+            Socket_Client_Setup.Read.Socket_Connect_State_delegate = (bool _Connect_State) =>
+            {
+                if (_Connect_State)
+                {
+                    Messenger.Send<string, string>(Socket_Tpye.Connect_OK.ToString(), Meg_Value_Eunm.Socket_Read_Tpye.ToString());
+                }
+                else
+                {
+                    Messenger.Send<string, string>(Socket_Tpye.Connect_Cancel.ToString(), Meg_Value_Eunm.Socket_Read_Tpye.ToString());
+                }
 
+            };
 
-            //注册消息接收
-
-
-
-            ////连接按钮屏蔽方法
-            //WeakReferenceMessenger.Default.Register<dynamic ,string >(this, nameof(Meg_Value_Eunm.Connect_Client_Button_IsEnabled) , (O,_Bool) =>
-            //{
-
-
-
-            //    //Socket_Client_Setup.Connect_Button_IsEnabled = _Bool;
-            //});
 
 
 
             //连接控制柜，网络连接状态显示方法
-            WeakReferenceMessenger.Default.Register<dynamic ,string >(this, nameof(Meg_Value_Eunm.Connect_Client_Socketing_Button_Show) , (O,_int) =>
+            Messenger.Register<dynamic ,string >(this, nameof(Meg_Value_Eunm.Connect_Client_Socketing_Button_Show) , (O,_int) =>
             {
                 Socket_Client_Setup.Client_Button_Show(_int);
             });
@@ -62,11 +55,11 @@ namespace HanGao.ViewModel
 
 
             //客户端连接数量
-            WeakReferenceMessenger.Default.Register<dynamic ,string >(this, nameof(Meg_Value_Eunm.ClientCount) , (O,_int )=> { ClientCount = _int; });
+            Messenger.Register<dynamic ,string >(this, nameof(Meg_Value_Eunm.ClientCount) , (O,_int )=> { ClientCount = _int; });
 
 
             //显示
-            WeakReferenceMessenger.Default.Register<dynamic ,string >(this, nameof(Meg_Value_Eunm.Socket_Countion_Show) , (O,_Visibility )=> { Socket_Countion_Show = _Visibility; });
+            Messenger.Register<dynamic ,string >(this, nameof(Meg_Value_Eunm.Socket_Countion_Show) , (O,_Visibility )=> { Socket_Countion_Show = _Visibility; });
 
 
 
@@ -125,7 +118,7 @@ namespace HanGao.ViewModel
 
 
 
-        private static Socket_Setup_Models _Socket_Client_Setup = new Socket_Setup_Models()
+        private static Socket_Setup_Models _Socket_Client_Setup = new ()
         {
             IP = IP_Client,
             Port = Port_Client,
@@ -151,7 +144,7 @@ namespace HanGao.ViewModel
         }
 
 
-        private static Socket_Setup_Models _Socket_Server_Setup = new Socket_Setup_Models() 
+        private static Socket_Setup_Models _Socket_Server_Setup = new () 
         {
             IP = IP_Sever,
             Port = Port_Sever,
