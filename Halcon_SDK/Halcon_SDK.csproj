@@ -58,13 +58,21 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DLL\Halcon\2022\halcon.dll" />
-    <Content Include="DLL\Halcon\2022\halconc.dll" />
+    <Content Include="DLL\Halcon\2022\halcon.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DLL\Halcon\2022\halconc.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DLL\Halcon\2022\halconcpp.dll" />
     <Content Include="DLL\Halcon\2022\halconcppxl.dll" />
     <Content Include="DLL\Halcon\2022\halconcxl.dll" />
-    <Content Include="DLL\Halcon\2022\halcondl.dll" />
-    <Content Include="DLL\Halcon\2022\halcondlxl.dll" />
+    <Content Include="DLL\Halcon\2022\halcondl.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DLL\Halcon\2022\halcondlxl.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DLL\Halcon\2022\halcondotnet.dll" />
     <Content Include="DLL\Halcon\2022\halcondotnetxl.dll" />
     <Content Include="DLL\Halcon\2022\halconxl.dll" />

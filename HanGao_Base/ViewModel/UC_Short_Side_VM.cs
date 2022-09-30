@@ -73,8 +73,6 @@ namespace HanGao.ViewModel
 
 
                 Messenger.Send<dynamic , string>((Direction_Enum)Enum.Parse(typeof(Direction_Enum), e.Name), nameof(Meg_Value_Eunm.Sink_Surround_Craft_Point_Load));
-                //Messenger.Send<dynamic  , string>((Short_Area_Enum)Enum.Parse (typeof(Short_Area_Enum), e.Name), nameof(Meg_Value_Eunm.Sink_Short_Craft_Point_Load));
-
 
             });
         }

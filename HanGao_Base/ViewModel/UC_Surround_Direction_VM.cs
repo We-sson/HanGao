@@ -10,11 +10,11 @@ namespace HanGao.ViewModel
         {
 
      
-            WeakReferenceMessenger.Default.Register<dynamic , string>(this, nameof(Meg_Value_Eunm.Surround_Direction_State), (O, _S) => {  Direction_State = _S; });
+            Messenger.Register<dynamic , string>(this, nameof(Meg_Value_Eunm.Surround_Direction_State), (O, _S) => {  Direction_State = _S; });
 
 
             ///清除UI界面显示
-            WeakReferenceMessenger.Default.Register<dynamic, string>(this, nameof(Meg_Value_Eunm.Surround_Direction_Rest), (O, _S) => 
+            Messenger.Register<dynamic, string>(this, nameof(Meg_Value_Eunm.Surround_Direction_Rest), (O, _S) => 
             {
 
                 L0_Checked = false;

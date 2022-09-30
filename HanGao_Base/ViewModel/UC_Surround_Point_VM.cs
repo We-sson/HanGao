@@ -150,28 +150,24 @@ namespace HanGao.ViewModel
             });
 
 
-
+            //记录用户选择短边工艺加载
             Messenger.Register<dynamic, string>(this, nameof(Meg_Value_Eunm.Sink_Short_Craft_Point_Load), (O, S) =>
             {
 
-                //User_Checked_Direction = (Direction_Enum)Enum.Parse(typeof(Direction_Enum), S);
+         
                 User_Sink.User_Picking_Craft.User_Direction = (Direction_Enum)Enum.Parse(typeof(Direction_Enum), S);
-
-
-
-
 
             });
 
             //接收修改参数属性
             Messenger.Register<dynamic, string>(this, nameof(Meg_Value_Eunm.Sink_Surround_Craft_Point_Load), (O, S) =>
            {
+               //UI界面显示加载,禁止再次操作
+               Messenger.Send<dynamic, string>(UI_Type_Enum.Reading, nameof(Meg_Value_Eunm.Surround_Direction_State));
 
-               //if (!Write_Data.WaitOne(3000, false )) { MessageBox.Show("接收超时"); return; }
 
 
-               //User_Checked_Direction = S;
-               //int User_Switech_Work_No = ((int)User_Sink.Work_No_Emun);
+               //获得用户选择区域
                User_Sink.User_Picking_Craft.User_Direction = S;
 
 
@@ -238,9 +234,10 @@ namespace HanGao.ViewModel
                //发生全部集合到周期读取传送
                Task.Run(async () =>
                {
+        
+
 
                    Messenger.Send<ObservableCollection<Socket_Models_List>, string>(_List, nameof(Meg_Value_Eunm.One_List_Connect));
-                   await Task.Delay(100);
 
 
                    new Thread(new ThreadStart(new Action(() =>
@@ -249,7 +246,9 @@ namespace HanGao.ViewModel
                    })))
                    { IsBackground = true, Name = "Cycle_Real—KUKA" }.Start();
 
+                   await Task.Delay(500);
 
+                   Messenger.Send<dynamic, string>(UI_Type_Enum.Ok, nameof(Meg_Value_Eunm.Surround_Direction_State));
 
 
                });

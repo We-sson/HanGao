@@ -62,8 +62,8 @@ namespace HanGao.ViewModel
 
 
                 ///清楚程序编辑界面数据选项
-                Messenger.Send<dynamic, string>(null, nameof(Meg_Value_Eunm.Surround_Direction_Rest));
-                Messenger.Send<dynamic, string>(null, nameof(Meg_Value_Eunm.Direction_Info_Rest));
+                Messenger.Send<dynamic, string>(false, nameof(Meg_Value_Eunm.Surround_Direction_Rest));
+                Messenger.Send<dynamic, string>(false, nameof(Meg_Value_Eunm.Direction_Info_Rest));
                 UI_Craft_Date = null;
                 FrameShow.ProgramEdit_Enabled = false;
                 FrameShow.HomeOne_UI = true;
@@ -92,8 +92,8 @@ namespace HanGao.ViewModel
 
 
                 ///清楚程序编辑界面数据选项
-                Messenger.Send<dynamic, string>(null, nameof(Meg_Value_Eunm.Surround_Direction_Rest));
-                Messenger.Send<dynamic, string>(null, nameof(Meg_Value_Eunm.Direction_Info_Rest));
+                Messenger.Send<dynamic, string>(true , nameof(Meg_Value_Eunm.Surround_Direction_Rest));
+                Messenger.Send<dynamic, string>(true , nameof(Meg_Value_Eunm.Direction_Info_Rest));
                 UI_Craft_Date = null;
                 FrameShow.ProgramEdit_Enabled = false;
                 FrameShow.HomeOne_UI = true;
