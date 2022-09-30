@@ -210,7 +210,7 @@
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Camera_Exposure_UI" Grid.Column=" 1"
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Camera_ExposureTime_UI" Grid.Column=" 1"
                                         Margin="5"
                                         VerticalAlignment="Center"
                                         HorizontalContentAlignment="Stretch"
@@ -230,7 +230,7 @@
                                     </i:Interaction.Triggers>
                                 </Slider>
 
-                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" x:Name="Camera_Exposure_Val" Grid.Column=" 2"
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}"  Grid.Column=" 2"
                                          Text="{Binding ElementName=Camera_Exposure_UI, Path=Value, Mode=TwoWay}"
                                          Width="100"
                                          HorizontalContentAlignment="Center"
@@ -276,7 +276,7 @@
                                     </i:Interaction.Triggers>
                                 </Slider>
 
-                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" x:Name="Camera_Gain_Val" Grid.Column=" 2"
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding ElementName=Camera_Gain_UI, Path=Value, Mode=TwoWay}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
@@ -312,7 +312,7 @@
                                         TickFrequency="0.01"
                                         Value="{Binding Camera_Parameters_UI.DigitalShift_UI.Val}" />
 
-                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" x:Name="Camera_DigitalGain_Val" Grid.Column=" 2"
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}"  Grid.Column=" 2"
                                          Text="{Binding ElementName=Camera_DigitalGain_UI, Path=Value, Mode=TwoWay}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
@@ -360,7 +360,7 @@
                                         TickFrequency="0.1"
                                         Value="{Binding Camera_Parameters_UI.Gamma_UI.Val}" />
 
-                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" x:Name="Camera_Gamma_Val" Grid.Column=" 2"
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}"  Grid.Column=" 2"
                                          Text="{Binding ElementName=Camera_Gamma_UI, Path=Value, Mode=TwoWay}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
@@ -395,7 +395,7 @@
                                         SmallChange="0"
                                         Value="{Binding Camera_Parameters_UI.Sharpness_UI.Val}" />
 
-                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" x:Name="Camera_Sharpness_Val" Grid.Column=" 2"
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}"  Grid.Column=" 2"
                                          Text="{Binding Value, ElementName=Camera_Sharpness_UI, Mode=TwoWay}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
@@ -429,7 +429,7 @@
                                         SmallChange="1"
                                         Value="{Binding Camera_Parameters_UI.BlackLevel_UI.Val}" />
 
-                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" x:Name="Camera_BlackLevel_Val" Grid.Column=" 2"
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}"  Grid.Column=" 2"
                                          Text="{Binding Value, ElementName=Camera_BlackLevel_UI, Mode=TwoWay}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
@@ -454,7 +454,7 @@
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
+                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1" x:Name="AcquisitionMode_UI"
                                           HorizontalContentAlignment="Left"
                                           VerticalContentAlignment="Center"
                                           BorderBrush="{DynamicResource 全局_按钮_黑颜色}"

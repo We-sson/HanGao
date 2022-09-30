@@ -46,10 +46,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Socket_KUKA\Models\Socket_Models.cs" />
-    <Compile Include="Socket_KUKA\Socket_Connect.cs" />
-    <Compile Include="Socket_KUKA\Socket_Receive.cs" />
-    <Compile Include="Socket_KUKA\Socket_Sever.cs" />
+    <Compile Include="Models\Socket_Models.cs" />
+    <Compile Include="Socket_Connect.cs" />
+    <Compile Include="Socket_Receive.cs" />
+    <Compile Include="Socket_Sever.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
