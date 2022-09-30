@@ -703,6 +703,6 @@
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>rd /s /q "de" "en" "es" "fr" "hu" "it" "ja" "ko" "pr-br" "ro" "pt-br" "ru" "sv" "zh-hans" "zh-hant"
-set GENICAM_GENTL64_PATH=%25GENICAM_GENTL64_PATH%25$(TargetDir)</PostBuildEvent>
+set GENICAM_GENTL64_PATH=%25GENICAM_GENTL64_PATH%25;$(TargetDir)</PostBuildEvent>
   </PropertyGroup>
 </Project>
