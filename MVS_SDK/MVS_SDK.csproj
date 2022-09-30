@@ -62,14 +62,14 @@
   <ItemGroup>
     <Content Include="DLL\avcodec-57.dll" />
     <Content Include="DLL\avdevice-57.dll" />
-    <Content Include="DLL\avfilter-6.dll" />
-    <Content Include="DLL\avformat-57.dll" />
-    <Content Include="DLL\avutil-55.dll" />
-    <Content Include="DLL\CLAllSerial_MD_VC120_v3_0_MVS_v3_1_0.dll" />
-    <Content Include="DLL\CLProtocol_MD_VC120_v3_0_MVS_v3_1_0.dll" />
-    <Content Include="DLL\CLSerCOM.dll" />
-    <Content Include="DLL\CLSerHvc.dll" />
-    <Content Include="DLL\FormatConversion.dll" />
+    <None Include="DLL\avfilter-6.dll" />
+    <None Include="DLL\avformat-57.dll" />
+    <None Include="DLL\avutil-55.dll" />
+    <None Include="DLL\CLAllSerial_MD_VC120_v3_0_MVS_v3_1_0.dll" />
+    <None Include="DLL\CLProtocol_MD_VC120_v3_0_MVS_v3_1_0.dll" />
+    <None Include="DLL\CLSerCOM.dll" />
+    <None Include="DLL\CLSerHvc.dll" />
+    <None Include="DLL\FormatConversion.dll" />
     <Content Include="DLL\GCBase_MD_VC120_v3_0_MVS_v3_1_0.dll" />
     <Content Include="DLL\GenApi_MD_VC120_v3_0_MVS_v3_1_0.dll" />
     <Content Include="DLL\libmmd.dll" />
@@ -147,4 +147,7 @@
   <ProjectExtensions>
     <VisualStudio AllowExistingFolder="true" />
   </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>set GENICAM_GENTL64_PATH=%25GENICAM_GENTL64_PATH%25;$(TargetDir)</PostBuildEvent>
+  </PropertyGroup>
 </Project>
