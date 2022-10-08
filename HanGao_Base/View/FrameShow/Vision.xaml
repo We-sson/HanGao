@@ -677,7 +677,7 @@
 
 
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}"
-                                     Name="Camera_Settings"
+                                     Name="Camera_Settings"    IsChecked="True"
                                      Width=" 120"
                                      Height=" 35"
                                      Margin="2"
@@ -784,7 +784,7 @@
                         </RadioButton>
 
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Auto_Model"
-                                     IsChecked="True"
+                                  
                                      Width=" 120"
                                      Height=" 35"
                                      Margin="2"

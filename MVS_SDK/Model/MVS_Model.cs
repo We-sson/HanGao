@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MVS_SDK_Base.Model
 {
-    public  class MVS_Model
+    public class MVS_Model
     {
         /// <summary>
         /// 相机功能参数名称
@@ -164,6 +164,11 @@ namespace MVS_SDK_Base.Model
             [StringValue("选择相机设备被占用相机不可使用")]
             IsDeviceAccessible,
             /// <summary>
+            /// 获取最佳的packet size，该接口目前只支持GigE设备 ,成功，返回MV_OK；失败，返回错误码 
+            /// </summary>
+            [StringValue("获取相机探测网络最佳包大小参数失败")]
+            GIGE_GetOptimalPacketSize,
+            /// <summary>
             /// 探测网络最佳包大小(只对GigE相机有效)，成功，返回MV_OK；失败，返回错误码 
             /// </summary>
             [StringValue("设置相机探测网络最佳包大小参数失败")]
@@ -228,15 +233,15 @@ namespace MVS_SDK_Base.Model
             [StringValue("设置指定在激活触发接收之前要应用的延迟失败")]
             public double TriggerDelay { set; get; } = 0.00;
             /// <summary>
-            /// 应用于图像的增益，单位为dB，Float类型，默认0.00
-            /// </summary>
-            [StringValue("设置图像的增益失败")]
-            public double Gain { set; get; } = 0.00;
-            /// <summary>
             /// 设置自动增益控制（AGC）模式，枚举类型——默认，"MV_CAM_GAIN_MODE.MV_GAIN_MODE_OFF"
             /// </summary>
             [StringValue("设置自动增益控制（AGC）模式失败")]
             public Enum GainAuto { set; get; } = MV_CAM_GAIN_MODE.MV_GAIN_MODE_OFF;
+            /// <summary>
+            /// 应用于图像的增益，单位为dB，Float类型，默认0.00
+            /// </summary>
+            [StringValue("设置图像的增益失败")]
+            public double Gain { set; get; } = 0.00;
             /// <summary>
             /// 使能/禁用数字移位调节，布尔类型——默认false
             /// </summary>

@@ -35,8 +35,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="MvCamCtrl.Net">
-      <HintPath>DLL\MVS\X64\MvCamCtrl.Net.dll</HintPath>
+    <Reference Include="MvCamCtrl.Net, Version=4.0.0.4, Culture=neutral, PublicKeyToken=52fddfb3f94be800, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\MvCamCtrl.Net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -60,88 +61,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DLL\avcodec-57.dll" />
-    <Content Include="DLL\avdevice-57.dll" />
-    <None Include="DLL\avfilter-6.dll" />
-    <None Include="DLL\avformat-57.dll" />
-    <None Include="DLL\avutil-55.dll" />
-    <None Include="DLL\CLAllSerial_MD_VC120_v3_0_MVS_v3_1_0.dll" />
-    <None Include="DLL\CLProtocol_MD_VC120_v3_0_MVS_v3_1_0.dll" />
-    <None Include="DLL\CLSerCOM.dll" />
-    <None Include="DLL\CLSerHvc.dll" />
-    <None Include="DLL\FormatConversion.dll" />
-    <Content Include="DLL\GCBase_MD_VC120_v3_0_MVS_v3_1_0.dll" />
-    <Content Include="DLL\GenApi_MD_VC120_v3_0_MVS_v3_1_0.dll" />
-    <Content Include="DLL\libmmd.dll" />
-    <Content Include="DLL\log4cpp_MD_VC120_v3_0_MVS_v3_1_0.dll" />
-    <Content Include="DLL\Log_MD_VC120_v3_0_MVS_v3_1_0.dll" />
-    <Content Include="DLL\MathParser_MD_VC120_v3_0_MVS_v3_1_0.dll" />
-    <Content Include="DLL\MediaProcess.dll" />
-    <Content Include="DLL\msvcm90.dll" />
-    <Content Include="DLL\msvcp120.dll" />
-    <Content Include="DLL\msvcp90.dll" />
-    <Content Include="DLL\msvcr100.dll" />
-    <Content Include="DLL\msvcr120.dll" />
-    <Content Include="DLL\msvcr90.dll" />
-    <Content Include="DLL\MvCameraControl.dll" />
-    <Content Include="DLL\MvCameraControlGUI.dll" />
-    <Content Include="DLL\MvCameraControlWrapper.dll" />
-    <Content Include="DLL\MvCameraPatch.dll" />
-    <Content Include="DLL\MvCamLVision.dll" />
-    <Content Include="DLL\MVFGControl.dll" />
-    <Content Include="DLL\MVGigEVisionSDK.dll" />
-    <Content Include="DLL\MvISPControl.dll" />
-    <Content Include="DLL\MVMemAlloc.dll" />
-    <Content Include="DLL\MvRender.dll" />
-    <Content Include="DLL\MvSerial.dll" />
-    <Content Include="DLL\MvSerialCtrl.dll" />
-    <Content Include="DLL\MvUsb3vTL.dll" />
-    <Content Include="DLL\NodeMapData_MD_VC120_v3_0_MVS_v3_1_0.dll" />
-    <Content Include="DLL\pthreadGC2.dll" />
-    <Content Include="DLL\pthreadVC2.dll" />
-    <Content Include="DLL\swscale-4.dll" />
-    <Content Include="DLL\XmlParser_MD_VC120_v3_0_MVS_v3_1_0.dll" />
-    <Content Include="MvCamCtrl.Net.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="MvCameraControl.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="DLL\CommonParameters.ini">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="DLL\Microsoft.VC90.CRT.manifest">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DLL\Microsoft.VC90.DebugCRT.manifest">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DLL\MvDSS.ax">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DLL\MvDSS2.ax">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DLL\MvFGProducerCML.cti">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DLL\MvFGProducerCXP.cti">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DLL\MvFGProducerGEV.cti">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DLL\MvProducerGEV.cti">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DLL\MvProducerU3V.cti">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DLL\MvProducerVIR.cti">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="MvCamCtrl.Net.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>

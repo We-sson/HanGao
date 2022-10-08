@@ -231,7 +231,7 @@
                                 </Slider>
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}"  Grid.Column=" 2"
-                                         Text="{Binding ElementName=Camera_Exposure_UI, Path=Value, Mode=TwoWay}"
+                                         Text="{Binding ElementName=Camera_ExposureTime_UI, Path=Value, Mode=TwoWay}"
                                          Width="100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
