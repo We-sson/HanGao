@@ -62,12 +62,12 @@ namespace HanGao.ViewModel
         /// <summary>
         ///  用户选择相机对象
         /// </summary>
-        public  MVS MVS_Camera { set; get; } = new MVS();
+        public MVS MVS_Camera { set; get; } = new MVS();
 
         /// <summary>
         /// 图像回调字段
         /// </summary>
-        private static cbOutputExdelegate ImageCallback=new cbOutputExdelegate(ImageCallbackFunc);
+        private static cbOutputExdelegate ImageCallback = new cbOutputExdelegate(ImageCallbackFunc);
 
 
 
@@ -96,7 +96,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 查找相机枚举集合
         /// </summary>
-        private List<CCameraInfo> _Camera_List = new ();
+        private List<CCameraInfo> _Camera_List = new();
 
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace HanGao.ViewModel
         /// </summary>
         //private  cbOutputExdelegate ImageCallback;
 
-        private static  void  ImageCallbackFunc(IntPtr pData, ref MV_FRAME_OUT_INFO_EX pFrameInfo, IntPtr pUser)
+        private static void ImageCallbackFunc(IntPtr pData, ref MV_FRAME_OUT_INFO_EX pFrameInfo, IntPtr pUser)
         {
 
 
@@ -151,72 +151,44 @@ namespace HanGao.ViewModel
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
                 CheckBox E = Sm.Source as CheckBox;
+                bool _State = false;
+
 
                 if ((bool)E.IsChecked)
                 {
-           
+
                     //设置GEGI网络包大小
-                        MVS_Camera.Set_Camera_GEGI_GevSCPSPacketSize();
-
-                    
-
-
-
-                    //ImageCallback = new cbOutputExdelegate(ImageCallbackFunc);
-
-
+                    _State= MVS_Camera.Set_Camera_GEGI_GevSCPSPacketSize();
 
 
                     //创建抓图回调函数
-                    MVS_Camera.RegisterImageCallBackEx(ImageCallback);
+                    _State= MVS_Camera.RegisterImageCallBackEx(ImageCallback);
 
 
                     //开始取流
-                    MVS_Camera.StartGrabbing();
+                    _State= MVS_Camera.StartGrabbing();
 
-                    //MVS_Camera.Set_Camera_Val(Camera_Parameters_Name_Enum.RegisterImageCallBackEx, ImageCallback);
-
-
-
-                    //Set_Camera_State(
-                    //                               MVS.Camera_Parameters_Name_Enum.RegisterImageCallBackEx,
-                    //                               MVS_Camera.Live_Camera.RegisterImageCallBackEx(ImageCallback, IntPtr.Zero)
-                    //                                );
-
-                    //Set_Camera_State(MVS.Camera_Parameters_Name_Enum.StartGrabbing, MVS_Camera.Live_Camera.StartGrabbing());
-
+                    if (_State!=true )
+                    {
+                        E.IsChecked = false;
+                    }
 
 
                 }
                 else if ((bool)E.IsChecked == false)
                 {
 
-
-                    MVS_Camera.StopGrabbing();
-                    ////相机停止取流
-                    //Set_Camera_State(MVS.Camera_Parameters_Name_Enum.StopGrabbing, MVS_Camera.Live_Camera.StopGrabbing());
-
-
-                    ////回调方法设置为空
-                    //Set_Camera_State(
-                    //           MVS.Camera_Parameters_Name_Enum.RegisterImageCallBackEx,
-                    //           MVS_Camera.Live_Camera.RegisterImageCallBackEx(null, IntPtr.Zero)
-                    //            );
-
-
+                    _State = MVS_Camera.StopGrabbing();
 
                 }
 
             });
         }
 
-
-
         /// <summary>
-        /// 设置相机曝光时间
+        /// 浮点数类型参数设置
         /// </summary>
-
-        public ICommand Camera_Exposure_Set_Comm
+        public ICommand Set_Camera_ExposureTime_Val_Comm
         {
             get => new AsyncRelayCommand<RoutedEventArgs>(async (Sm) =>
             {
@@ -224,23 +196,31 @@ namespace HanGao.ViewModel
 
                 Slider E = Sm.Source as Slider;
 
-                //MessageBox.Show(E.Text);
-
                 if ((E.Value) == 0)
                 {
-                    //设置曝光模式
-                    //Set_Camera_State(Camera_Parameters_Name_Enum.ExposureAuto, MVS_Camera.Live_Camera.SetEnumValue(MVS.Camera_Parameters_Name_Enum.ExposureAuto.ToString(), (uint)MV_CAM_EXPOSURE_AUTO_MODE.MV_EXPOSURE_AUTO_MODE_CONTINUOUS));
-                    //MVS_Camera.Set_Camera_Parameters_Val(typeof(Enum),nameof(Camera_Parameters_Name_Enum.ExposureAuto), (uint) MV_CAM_EXPOSURE_AUTO_MODE.MV_EXPOSURE_AUTO_MODE_CONTINUOUS);
+
+
+                  
+             
+                    //设置曝光自动模式
+                    MVS_Camera.Set_Camera_Val(Camera_Parameters_Name_Enum.ExposureAuto, MVS_Camera.Camera.SetEnumValue(  nameof(Camera_Parameters_Name_Enum.ExposureAuto), (uint)MV_CAM_EXPOSURE_AUTO_MODE.MV_EXPOSURE_AUTO_MODE_CONTINUOUS));
+
+                    
 
                 }
                 else
                 {
-                    //设置曝光模式
-                    //MVS_Camera.Set_Camera_Parameters_Val(typeof(Enum),nameof(Camera_Parameters_Name_Enum.ExposureAuto), (uint)MV_CAM_EXPOSURE_AUTO_MODE.MV_EXPOSURE_AUTO_MODE_OFF);
+       
+                    //设置曝光手动模式
+                    MVS_Camera.Set_Camera_Val(Camera_Parameters_Name_Enum.ExposureAuto, MVS_Camera.Camera.SetEnumValue(nameof(Camera_Parameters_Name_Enum.ExposureAuto), (uint)MV_CAM_EXPOSURE_AUTO_MODE.MV_EXPOSURE_AUTO_MODE_OFF));
 
 
-            //设置曝光时间
-                //MVS_Camera.Set_Camera_Parameters_Val(typeof(Enum) , nameof(Camera_Parameters_Name_Enum.ExposureTime), (float)E.Value);
+                    //设置曝光时间
+                    MVS_Camera.Set_Camera_Val(Camera_Parameters_Name_Enum.ExposureTime, MVS_Camera.Camera.SetFloatValue(nameof(Camera_Parameters_Name_Enum.ExposureTime),(float)E.Value));
+
+
+                    Camera_Parameter_Val.ExposureTime = E.Value;
+
 
                 }
 
@@ -253,37 +233,124 @@ namespace HanGao.ViewModel
         }
 
 
-        ///// <summary>
-        ///// 提取参数报错信息显示
-        ///// </summary>
-        ///// <param name="_Val_Type">相机参数属性</param>
-        ///// <param name="_key">相机错误码</param>
-        //private void Camera_ErrorInfo(PropertyInfo _Val_Type, int _key)
-        //{
+        /// <summary>
+        /// 浮点数类型参数设置
+        /// </summary>
+        public ICommand Set_Camera_Gain_Val_Comm
+        {
+            get => new AsyncRelayCommand<RoutedEventArgs>(async (Sm) =>
+            {
 
-        //    if (CErrorDefine.MV_OK != _key)
-        //    {
-        //        foreach (var _Attri in _Val_Type.GetCustomAttributes())
-        //        {
-        //            if (_Attri is StringValueAttribute)
-        //            {
-        //                StringValueAttribute Errorinfo = (StringValueAttribute)_Attri;
-        //                MessageBox.Show(Errorinfo.StringValue);
-        //            }
 
-        //        }
-        //        return;
-        //    }
+                Slider E = Sm.Source as Slider;
 
-        //}
+                if ((E.Value) == 0)
+                {
 
 
 
 
+                    //设置曝光自动模式
+                    MVS_Camera.Set_Camera_Val(Camera_Parameters_Name_Enum.GainAuto, MVS_Camera.Camera.SetEnumValue(nameof(Camera_Parameters_Name_Enum.GainAuto), (uint)MV_CAM_GAIN_MODE.MV_GAIN_MODE_CONTINUOUS));
+
+
+                }
+                else
+                {
+
+                    //设置曝光手动模式
+                    MVS_Camera.Set_Camera_Val(Camera_Parameters_Name_Enum.GainAuto, MVS_Camera.Camera.SetEnumValue(nameof(Camera_Parameters_Name_Enum.GainAuto), (uint)MV_CAM_GAIN_MODE.MV_GAIN_MODE_OFF));
+
+
+                    //设置曝光时间
+                    MVS_Camera.Set_Camera_Val(Camera_Parameters_Name_Enum.Gain, MVS_Camera.Camera.SetFloatValue(nameof(Camera_Parameters_Name_Enum.Gain), (float)E.Value));
+
+
+                    Camera_Parameter_Val.Gain=E.Value;
+
+                }
+
+
+                await Task.Delay(100);
 
 
 
+            });
+        }
 
+
+        /// <summary>
+        /// 浮点数类型参数设置
+        /// </summary>
+        public ICommand Set_Camera_Float_Val_Comm
+        {
+            get => new AsyncRelayCommand<RoutedEventArgs>(async (Sm) =>
+            {
+
+
+                Slider E = Sm.Source as Slider;
+
+
+                MVS_Camera.Set_Camera_Val((Camera_Parameters_Name_Enum)Enum.Parse(typeof(Camera_Parameters_Name_Enum), E.Name), MVS_Camera.Camera.SetFloatValue(E.Name, (float)E.Value));
+
+
+                Camera_Parameter_Val.GetType().GetProperty(E.Name).SetValue(Camera_Parameter_Val, E.Value);
+
+                await Task.Delay(100);
+
+
+
+            });
+        }
+
+
+        /// <summary>
+        /// 整数数类型参数设置
+        /// </summary>
+        public ICommand Set_Camera_Int_Val_Comm
+        {
+            get => new AsyncRelayCommand<RoutedEventArgs>(async (Sm) =>
+            {
+
+
+                Slider E = Sm.Source as Slider;
+
+                MVS_Camera.Set_Camera_Val((Camera_Parameters_Name_Enum)Enum.Parse(typeof(Camera_Parameters_Name_Enum), E.Name), MVS_Camera.Camera.SetIntValue(E.Name, (Int32)E.Value));
+
+                Camera_Parameter_Val.GetType().GetProperty(E.Name).SetValue(Camera_Parameter_Val, (Int32)E.Value);
+
+
+                await Task.Delay(100);
+
+
+
+            });
+        }
+
+        /// <summary>
+        /// 枚举类型参数设置
+        /// </summary>
+        public ICommand Set_Camera_Enum_Val_Comm
+        {
+            get => new AsyncRelayCommand<RoutedEventArgs>(async (Sm) =>
+            {
+
+
+                ComboBox E = Sm.Source as ComboBox;
+
+
+                MVS_Camera.Set_Camera_Val(Camera_Parameters_Name_Enum.AcquisitionMode,  MVS_Camera.Camera.SetEnumValue(E.Name, (uint)(MV_CAM_ACQUISITION_MODE)E.SelectedIndex));
+
+
+                Camera_Parameter_Val.GetType().GetProperty(E.Name).SetValue(Camera_Parameter_Val, E.SelectedIndex);
+
+
+                await Task.Delay(100);
+
+
+
+            });
+        }
 
 
 
@@ -299,11 +366,11 @@ namespace HanGao.ViewModel
                 //获得UI设置的参数
                 Camera_Parameter_Val.ExposureTime = E.Camera_ExposureTime_UI.Value;
                 Camera_Parameter_Val.Gain = E.Camera_Gain_UI.Value;
-                Camera_Parameter_Val.DigitalShift = E.Camera_DigitalGain_UI.Value;
-                Camera_Parameter_Val.Gamma = E.Camera_Gamma_UI.Value;
-                Camera_Parameter_Val.Sharpness = (int)E.Camera_Sharpness_UI.Value;
-                Camera_Parameter_Val.BlackLevel = (int)E.Camera_BlackLevel_UI.Value;
-                Camera_Parameter_Val.AcquisitionMode =(MV_CAM_ACQUISITION_MODE)E.AcquisitionMode_UI.SelectedIndex;
+                Camera_Parameter_Val.DigitalShift = E.DigitalShift.Value;
+                Camera_Parameter_Val.Gamma = E.Gamma.Value;
+                Camera_Parameter_Val.Sharpness = (int)E.Sharpness.Value;
+                Camera_Parameter_Val.BlackLevel = (int)E.BlackLevel.Value;
+                Camera_Parameter_Val.AcquisitionMode = (MV_CAM_ACQUISITION_MODE)E.AcquisitionMode.SelectedIndex;
 
                 //打开相机
                 if (MVS_Camera.Open_Camera() != true) { return; }
@@ -312,7 +379,7 @@ namespace HanGao.ViewModel
 
                 //设置相机总参数
                 if (MVS_Camera.Set_Camrea_Parameters_List(Camera_Parameter_Val) != true) { return; }
-    
+
 
 
                 E.Connection_Camera.IsEnabled = false;
@@ -399,37 +466,14 @@ namespace HanGao.ViewModel
 
                 Button E = Sm.Source as Button;
 
-                CIntValue stParam = new ();
 
+                //设置相机总参数
+                if (MVS_Camera.Set_Camrea_Parameters_List(Camera_Parameter_Val) != true) { return; }
 
-                ////开始取流
-                //Set_Camera_State(MVS.Camera_Parameters_Name_Enum.StartGrabbing, MVS_Camera.Live_Camera.StartGrabbing());
-
-
-                ////获取图像缓存大小
-                //Set_Camera_State(MVS.Camera_Parameters_Name_Enum.PayloadSize, MVS_Camera.Live_Camera.GetIntValue("PayloadSize", ref stParam));
-
-                ////创建帧图像信息
-                //Single_Image_Mode Single_Image = new Single_Image_Mode
-                //{
-                //    pData = new byte[stParam.CurValue]
-                //};
-
-                ////抓取一张图片
-                //if (Set_Camera_State(MVS.Camera_Parameters_Name_Enum.GetOneFrameTimeout, MVS_Camera.Live_Camera.GetOneFrameTimeout(Single_Image.pData, (uint)stParam.CurValue, ref Single_Image.Single_ImageInfo, 1000)))
-                //{
-
-
-
-                //    Messenger.Send<Single_Image_Mode, string>(Single_Image, nameof(Meg_Value_Eunm.Single_Image_Show));
-
+                //获取一帧图像
+                Messenger.Send<Single_Image_Mode, string>(MVS_Camera.GetOneFrameTimeout(), nameof(Meg_Value_Eunm.Single_Image_Show));
 
                 await Task.Delay(500);
-                //    //相机停止取流
-                //    Set_Camera_State(MVS.Camera_Parameters_Name_Enum.StopGrabbing, MVS_Camera.Live_Camera.StopGrabbing());
-
-                //};
-
             });
         }
 
@@ -521,25 +565,6 @@ namespace HanGao.ViewModel
     }
 
 
-    /// <summary>
-    /// 图像显示模型
-    /// </summary>
-    public class Single_Image_Mode
-    {
-
-        public byte[] pData;
-        public CFrameoutEx Single_ImageInfo = new ();
-        public IntPtr Get_IntPtr()
-        {
-            if (pData != null)
-            {
-
-                return Marshal.UnsafeAddrOfPinnedArrayElement((Array)pData, 0);
-            }
-            return IntPtr.Zero;
-        }
-
-    }
 
     /// <summary>
     /// 海康相机Int参数类型UI显示模型
@@ -638,9 +663,9 @@ namespace HanGao.ViewModel
     public class Camrea_Parameters_UI_Model
     {
 
-        public MVS_Float_UI_Type Exposure_UI { set; get; } = new MVS_Float_UI_Type() { Val = 500, Max = 40000, Min = 0 };
+        public MVS_Float_UI_Type Exposure_UI { set; get; } = new MVS_Float_UI_Type() { Val = 500, Max = 50000, Min = 0 };
 
-        public MVS_Float_UI_Type Gain_UI { set; get; } = new MVS_Float_UI_Type() { Val = 0, Max = 20.000, Min = 0 };
+        public MVS_Float_UI_Type Gain_UI { set; get; } = new MVS_Float_UI_Type() { Val = 10, Max = 20.000, Min = 0 };
 
         public MVS_Float_UI_Type DigitalShift_UI { set; get; } = new MVS_Float_UI_Type() { Val = 0, Max = 6, Min = -6 };
 

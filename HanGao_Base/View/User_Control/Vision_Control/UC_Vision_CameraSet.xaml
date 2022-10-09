@@ -10,6 +10,15 @@
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_CameraSet_ViewModel}"
              mc:Ignorable="d">
 
+    <i:Interaction.Triggers>
+
+        <i:EventTrigger EventName="Unloaded">
+            <i:InvokeCommandAction Command="{Binding Disconnection_Camera_Comm}"
+                                                                   CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UC_Vision_CameraSet}}}"
+                                                                   PassEventArgsToCommand="True" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
     <Grid Effect="{DynamicResource 全局背景阴影}">
 
         <ScrollViewer Style="{DynamicResource Vision_Data_List_ScrollViewerStyle}" x:Name="scrollViewer"
@@ -219,11 +228,11 @@
                                         Maximum="{Binding Camera_Parameters_UI.Exposure_UI.Max}"
                                         Minimum="{Binding Camera_Parameters_UI.Exposure_UI.Min}"
                                         SmallChange="10"
-                                        Value="{Binding Camera_Parameters_UI.Exposure_UI.Val}">
+                                        Value="{Binding Camera_Parameters_UI.Exposure_UI.Val,Mode=TwoWay}">
                                     <i:Interaction.Triggers>
 
                                         <i:EventTrigger EventName="PreviewMouseUp">
-                                            <i:InvokeCommandAction Command="{Binding Camera_Exposure_Set_Comm}"
+                                            <i:InvokeCommandAction Command="{Binding Set_Camera_ExposureTime_Val_Comm}"
                                                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                    PassEventArgsToCommand="True" />
                                         </i:EventTrigger>
@@ -264,27 +273,28 @@
                                         Minimum="{Binding Camera_Parameters_UI.Gain_UI.Min}"
                                         SmallChange="0.1"
                                         TickFrequency="0.01"
-                                        Value="{Binding Camera_Parameters_UI.Gain_UI.Val}">
+                                        Value="{Binding Camera_Parameters_UI.Gain_UI.Val,Mode=TwoWay}">
 
                                     <i:Interaction.Triggers>
 
-                                        <i:EventTrigger EventName="ValueChanged">
-                                            <i:InvokeCommandAction Command="{Binding Camera_Image_Gain_Set_Comm}"
+                                        <i:EventTrigger EventName="PreviewMouseUp">
+                                            <i:InvokeCommandAction Command="{Binding Set_Camera_Gain_Val_Comm}"
                                                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                    PassEventArgsToCommand="True" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </Slider>
 
-                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=Camera_Gain_UI, Path=Value, Mode=TwoWay}"
+                                <TextBox  Grid.Column=" 2"  Style="{DynamicResource Vision_TextBoxStyle}"
+                                         Text="{Binding ElementName=Camera_Gain_UI, Path=Value}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
                                          Background="Transparent"
                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                          BorderThickness="2"
-                                         FontSize="18" />
+                                         FontSize="18" >
+                                </TextBox>
                             </Grid>
 
                             <Grid Margin="8">
@@ -300,7 +310,7 @@
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Camera_DigitalGain_UI" Grid.Column=" 1"
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="DigitalShift" Grid.Column=" 1"
                                         Margin="5"
                                         VerticalAlignment="Center"
                                         HorizontalContentAlignment="Stretch"
@@ -310,10 +320,19 @@
                                         Minimum="{Binding Camera_Parameters_UI.DigitalShift_UI.Min}"
                                         SmallChange="0.1"
                                         TickFrequency="0.01"
-                                        Value="{Binding Camera_Parameters_UI.DigitalShift_UI.Val}" />
+                                        Value="{Binding Camera_Parameters_UI.DigitalShift_UI.Val,Mode=TwoWay}" >
+                                    <i:Interaction.Triggers>
+
+                                        <i:EventTrigger EventName="PreviewMouseUp">
+                                            <i:InvokeCommandAction Command="{Binding Set_Camera_Float_Val_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Slider>
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}"  Grid.Column=" 2"
-                                         Text="{Binding ElementName=Camera_DigitalGain_UI, Path=Value, Mode=TwoWay}"
+                                         Text="{Binding ElementName=DigitalShift, Path=Value, Mode=TwoWay}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -348,7 +367,7 @@
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Camera_Gamma_UI" Grid.Column=" 1"
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Gamma" Grid.Column=" 1"
                                         Margin="5"
                                         VerticalAlignment="Center"
                                         HorizontalContentAlignment="Stretch"
@@ -358,10 +377,19 @@
                                         Minimum="{Binding Camera_Parameters_UI.Gamma_UI.Min}"
                                         SmallChange="0.01"
                                         TickFrequency="0.1"
-                                        Value="{Binding Camera_Parameters_UI.Gamma_UI.Val}" />
+                                        Value="{Binding Camera_Parameters_UI.Gamma_UI.Val,Mode=TwoWay}" >
+                                    <i:Interaction.Triggers>
+
+                                        <i:EventTrigger EventName="PreviewMouseUp">
+                                            <i:InvokeCommandAction Command="{Binding Set_Camera_Float_Val_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Slider>
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}"  Grid.Column=" 2"
-                                         Text="{Binding ElementName=Camera_Gamma_UI, Path=Value, Mode=TwoWay}"
+                                         Text="{Binding ElementName=Gamma, Path=Value, Mode=TwoWay}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -384,7 +412,7 @@
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Camera_Sharpness_UI" Grid.Column=" 1"
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Sharpness" Grid.Column=" 1"
                                         Margin="5"
                                         VerticalAlignment="Center"
                                         HorizontalContentAlignment="Stretch"
@@ -393,10 +421,19 @@
                                         Maximum="{Binding Camera_Parameters_UI.Sharpness_UI.Max}"
                                         Minimum="{Binding Camera_Parameters_UI.Sharpness_UI.Min}"
                                         SmallChange="0"
-                                        Value="{Binding Camera_Parameters_UI.Sharpness_UI.Val}" />
+                                        Value="{Binding Camera_Parameters_UI.Sharpness_UI.Val,Mode=TwoWay}" >
+                                    <i:Interaction.Triggers>
+
+                                        <i:EventTrigger EventName="PreviewMouseUp">
+                                            <i:InvokeCommandAction Command="{Binding Set_Camera_Int_Val_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Slider>
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}"  Grid.Column=" 2"
-                                         Text="{Binding Value, ElementName=Camera_Sharpness_UI, Mode=TwoWay}"
+                                         Text="{Binding Value, ElementName=Sharpness, Mode=TwoWay}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -418,7 +455,7 @@
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Camera_BlackLevel_UI" Grid.Column=" 1"
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="BlackLevel" Grid.Column=" 1"
                                         Margin="5"
                                         VerticalAlignment="Center"
                                         HorizontalContentAlignment="Stretch"
@@ -427,10 +464,19 @@
                                         Maximum="{Binding Camera_Parameters_UI.BlackLevel_UI.Max}"
                                         Minimum="{Binding Camera_Parameters_UI.BlackLevel_UI.Min}"
                                         SmallChange="1"
-                                        Value="{Binding Camera_Parameters_UI.BlackLevel_UI.Val}" />
+                                        Value="{Binding Camera_Parameters_UI.BlackLevel_UI.Val,Mode=TwoWay}" >
+                                    <i:Interaction.Triggers>
+
+                                        <i:EventTrigger EventName="PreviewMouseUp">
+                                            <i:InvokeCommandAction Command="{Binding Set_Camera_Int_Val_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Slider>
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}"  Grid.Column=" 2"
-                                         Text="{Binding Value, ElementName=Camera_BlackLevel_UI, Mode=TwoWay}"
+                                         Text="{Binding Value, ElementName=BlackLevel, Mode=TwoWay}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -454,7 +500,7 @@
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1" x:Name="AcquisitionMode_UI"
+                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1" x:Name="AcquisitionMode"
                                           HorizontalContentAlignment="Left"
                                           VerticalContentAlignment="Center"
                                           BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
@@ -464,6 +510,14 @@
                                           IsSynchronizedWithCurrentItem="True"
                                           ItemsSource="{Binding AcquisitionMode_ComboBox_UI}"
                                           SelectedIndex="2">
+                                    <i:Interaction.Triggers>
+
+                                        <i:EventTrigger EventName="SelectionChanged">
+                                            <i:InvokeCommandAction Command="{Binding Set_Camera_Enum_Val_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate>
 

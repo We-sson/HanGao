@@ -1,6 +1,7 @@
 ﻿
 using HanGao.View.FrameShow;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
+using static MVS_SDK_Base.Model.MVS_Model;
 
 namespace HanGao.ViewModel
 {

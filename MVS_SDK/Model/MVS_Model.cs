@@ -1,8 +1,10 @@
 ﻿using Generic_Extension;
+using MvCamCtrl.NET;
 using MvCamCtrl.NET.CameraParams;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,6 +20,7 @@ namespace MVS_SDK_Base.Model
             /// <summary>
             /// 设备采集的采集模式、枚举类型值 ——默认持续采集模式，"MV_CAM_ACQUISITION_MODE"
             /// </summary>
+            [StringValue("设备采集的采集模式失败")]
             AcquisitionMode,
             /// <summary>
             /// 每个帧突发开始触发信号采集的帧数、整数类型——默认1，最大1023
@@ -56,10 +59,13 @@ namespace MVS_SDK_Base.Model
             /// <summary>
             /// 应用于图像的增益，单位为dB，双精度类型——默认0，最小0，最大20.0322
             /// </summary>
+            [StringValue("设置相机图像的增益失败")]
             Gain,
             /// <summary>
             /// 设置自动增益控制（AGC）模式，枚举类型——模式连续模式，"MV_CAM_GAIN_MODE"
             /// </summary>
+            [StringValue("设置自动增益控制（AGC）模式失败")]
+
             GainAuto,
             /// <summary>
             /// 设置选定的数字移位控制，双精度类型——默认0，最小-6，最大6
@@ -236,12 +242,12 @@ namespace MVS_SDK_Base.Model
             /// 设置自动增益控制（AGC）模式，枚举类型——默认，"MV_CAM_GAIN_MODE.MV_GAIN_MODE_OFF"
             /// </summary>
             [StringValue("设置自动增益控制（AGC）模式失败")]
-            public Enum GainAuto { set; get; } = MV_CAM_GAIN_MODE.MV_GAIN_MODE_OFF;
+            public Enum GainAuto { set; get; } = MV_CAM_GAIN_MODE.MV_GAIN_MODE_ONCE;
             /// <summary>
             /// 应用于图像的增益，单位为dB，Float类型，默认0.00
             /// </summary>
             [StringValue("设置图像的增益失败")]
-            public double Gain { set; get; } = 0.00;
+            public double Gain { set; get; } = 10.00;
             /// <summary>
             /// 使能/禁用数字移位调节，布尔类型——默认false
             /// </summary>
@@ -290,6 +296,28 @@ namespace MVS_SDK_Base.Model
             public bool ReverseX { set; get; } = false;
 
         }
+
+
+        /// <summary>
+        /// 图像显示模型
+        /// </summary>
+        public class Single_Image_Mode
+        {
+
+            public byte[] pData;
+            public CFrameoutEx Single_ImageInfo = new CFrameoutEx();
+            public IntPtr Get_IntPtr()
+            {
+                if (pData != null)
+                {
+
+                    return Marshal.UnsafeAddrOfPinnedArrayElement((Array)pData, 0);
+                }
+                return IntPtr.Zero;
+            }
+
+        }
+
 
 
     }

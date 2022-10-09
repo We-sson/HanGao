@@ -15,7 +15,7 @@ namespace MVS_SDK
         /// <summary>
         ///  用户选择相机对象
         /// </summary>
-        private  CCamera Camera { set; get; } = new CCamera();
+        public   CCamera Camera { set; get; } = new CCamera();
 
         /// <summary>
         /// 
@@ -71,7 +71,7 @@ namespace MVS_SDK
         /// </summary>
         /// <param name="_name">相机参数名称枚举</param>
         /// <param name="_key">相机状态码</param>
-        public bool Set_Camera_Val<T1, T2>(T1 _name, T2 _key)
+        public  bool Set_Camera_Val<T1, T2>(T1 _name, T2 _key)
         {
             var aa = _name.GetType();
 
@@ -177,13 +177,13 @@ namespace MVS_SDK
             {
 
                 int nPacketSize = Camera.GIGE_GetOptimalPacketSize();
-         
+
 
 
 
                 if (nPacketSize > 0)
                 {
-                     Set_Camera_Val(Camera_Parameters_Name_Enum.GIGE_GetOptimalPacketSize, CErrorDefine.MV_OK);
+                    Set_Camera_Val(Camera_Parameters_Name_Enum.GIGE_GetOptimalPacketSize, CErrorDefine.MV_OK);
                     Set_Camera_Val(Camera_Parameters_Name_Enum.GevSCPSPacketSize, Camera.SetIntValue(nameof(Camera_Parameters_Name_Enum.GevSCPSPacketSize), (uint)nPacketSize));
                 }
                 else
@@ -208,6 +208,46 @@ namespace MVS_SDK
         }
 
 
+
+
+        /// <summary>
+        /// 获得一帧图像方法
+        /// </summary>
+        /// <param name="_Timeout"></param>
+        /// <returns></returns>
+        public Single_Image_Mode GetOneFrameTimeout(int _Timeout = 1000)
+        {
+            CIntValue stParam = new CIntValue();
+
+
+            StartGrabbing();
+            ////开始取流
+
+            //获取图像缓存大小
+            Set_Camera_Val(Camera_Parameters_Name_Enum.PayloadSize, Camera.GetIntValue("PayloadSize", ref stParam));
+
+            //创建帧图像信息
+            Single_Image_Mode Single_Image = new Single_Image_Mode
+            {
+                pData = new byte[stParam.CurValue]
+            };
+
+            //抓取一张图片
+            if (Set_Camera_Val(Camera_Parameters_Name_Enum.GetOneFrameTimeout, Camera.GetOneFrameTimeout(Single_Image.pData, (uint)stParam.CurValue, ref Single_Image.Single_ImageInfo, _Timeout)))
+            {
+                StopGrabbing();
+
+                return Single_Image;
+            }
+
+            StopGrabbing();
+
+
+
+            return null;
+
+
+        }
 
 
         public void Get_Camera_Var<T1, T2>(T1 _name, ref T2 _Val)
@@ -322,9 +362,9 @@ namespace MVS_SDK
 
 
             Set_Camera_Val(Camera_Parameters_Name_Enum.CloseDevice, Camera.CloseDevice());
-     
 
-          return   Set_Camera_Val(Camera_Parameters_Name_Enum.DestroyHandle, Camera.DestroyHandle());
+
+            return Set_Camera_Val(Camera_Parameters_Name_Enum.DestroyHandle, Camera.DestroyHandle());
 
         }
 
@@ -337,8 +377,8 @@ namespace MVS_SDK
         /// <returns></returns>
         public bool RegisterImageCallBackEx(cbOutputExdelegate _delegate)
         {
-            
-           return  Set_Camera_Val(Camera_Parameters_Name_Enum.RegisterImageCallBackEx, Camera.RegisterImageCallBackEx(_delegate, IntPtr.Zero));
+
+            return Set_Camera_Val(Camera_Parameters_Name_Enum.RegisterImageCallBackEx, Camera.RegisterImageCallBackEx(_delegate, IntPtr.Zero));
 
         }
 
@@ -350,8 +390,8 @@ namespace MVS_SDK
         public bool StartGrabbing()
         {
 
-          return   Set_Camera_Val(Camera_Parameters_Name_Enum.StartGrabbing, Camera.StartGrabbing());  
-      
+            return Set_Camera_Val(Camera_Parameters_Name_Enum.StartGrabbing, Camera.StartGrabbing());
+
         }
 
 
@@ -365,7 +405,7 @@ namespace MVS_SDK
             if (Set_Camera_Val(Camera_Parameters_Name_Enum.StopGrabbing, Camera.StopGrabbing()) != true) { return false; }
 
             //清空回调
-           return  Set_Camera_Val(Camera_Parameters_Name_Enum.RegisterImageCallBackEx, Camera.RegisterImageCallBackEx(null, IntPtr.Zero));
+            return Set_Camera_Val(Camera_Parameters_Name_Enum.RegisterImageCallBackEx, Camera.RegisterImageCallBackEx(null, IntPtr.Zero));
 
 
 
@@ -388,9 +428,9 @@ namespace MVS_SDK
 
 
 
-                
 
-                if (Set_Camera_Parameters_Val(_Type, _Type.Name, _Type.GetValue(_Camera_List)) != true )
+
+                if (Set_Camera_Parameters_Val(_Type, _Type.Name, _Type.GetValue(_Camera_List)) != true)
                 {
                     return false;
                 }
