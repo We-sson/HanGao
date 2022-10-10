@@ -216,7 +216,7 @@ namespace MVS_SDK_Base.Model
             /// 曝光模式定时时的曝光时间
             /// </summary>
             [StringValue("设置曝光模式定时时的曝光时间失败")]
-            public double ExposureTime { set; get; } = 500;
+            public double ExposureTime { set; get; } = 30000;
             /// <summary>
             /// 设置曝光（或快门）的工作模式,枚举类型——默认定时模式，"MV_CAM_EXPOSURE_MODE.MV_EXPOSURE_MODE_TIMED"
             /// </summary>

@@ -29,7 +29,7 @@
                           Margin="0,0,0,10"
                           HorizontalContentAlignment="Stretch"
                           VerticalContentAlignment="Stretch"
-                          IsExpanded="False">
+                          IsExpanded="True" >
                     <Expander.Header>
                         <Border x:Name="Radio_1"
                                 Margin="0"
@@ -82,7 +82,7 @@
 
 
                                 <TextBlock Grid.Column=" 0"
-                                           Text="图像方式"
+                                           Text="采集方式"
                                            HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -96,19 +96,19 @@
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
                                           SelectedIndex="0">
-                                    <ComboBoxItem Padding="6" BorderBrush="Black">
+                                    <ComboBoxItem BorderBrush="Black">
 
                                         <TextBlock Text="相机采集"
-                                                   Width=" 150"
+                                                   Width=" 150"  Padding="0,4,0,4"
                                                    TextWrapping="Wrap"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                    FontSize="14"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </ComboBoxItem>
-                                    <ComboBoxItem Padding="6" IsSelected="True">
+                                    <ComboBoxItem IsSelected="True">
 
-                                        <TextBlock Text="图片采集"
+                                        <TextBlock Text="图片采集"  Padding="0,4,0,4"
                                                    Width=" 150"
                                                    TextWrapping="Wrap"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"

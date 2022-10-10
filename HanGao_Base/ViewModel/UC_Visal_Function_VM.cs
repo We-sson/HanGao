@@ -1,5 +1,6 @@
 ﻿
 using HanGao.View.FrameShow;
+using System.Windows.Input;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static MVS_SDK_Base.Model.MVS_Model;
 
@@ -12,6 +13,10 @@ namespace HanGao.ViewModel
 
         public UC_Visal_Function_VM()
         {
+
+
+
+
 
 
 
@@ -35,6 +40,10 @@ namespace HanGao.ViewModel
 
 
             });
+
+
+
+
             //halcon  单帧操作
             Messenger.Register<Single_Image_Mode, string>(this, nameof(Meg_Value_Eunm.Single_Image_Show), (O, _Mvs_Image) =>
             {
@@ -53,16 +62,45 @@ namespace HanGao.ViewModel
 
 
         }
-        public static HSmartWindowControlWPF Live_Window_UserContol { set; get; } = new HSmartWindowControlWPF() { };
 
 
         /// <summary>
-        /// 实时窗口图像显示
+        /// 相机视角控件
         /// </summary>
-        public HObject Live_Window_Image { set; get; } = new HObject() { };
+        public static HSmartWindowControlWPF Live_Window_UserContol { set; get; } = new HSmartWindowControlWPF() { };
+        public static HSmartWindowControlWPF Features_Window_UserContol { set; get; } = new HSmartWindowControlWPF() { };
+        public static HSmartWindowControlWPF Results_Window_1_UserContol { set; get; } = new HSmartWindowControlWPF() { };
+        public static HSmartWindowControlWPF Results_Window_2_UserContol { set; get; } = new HSmartWindowControlWPF() { };
+        public static HSmartWindowControlWPF Results_Window_3_UserContol { set; get; } = new HSmartWindowControlWPF() { };
+        public static HSmartWindowControlWPF Results_Window_4_UserContol { set; get; } = new HSmartWindowControlWPF() { };
 
 
-        public static HWindow Live_HWindow { set; get; }
+
+        ///// <summary>
+        ///// 实时窗口图像显示
+        ///// </summary>
+        //public HObject Live_Window_Image { set; get; } = new HObject() { };
+
+
+
+        /// <summary>
+        /// 相机视角句柄
+        /// </summary>
+        public static HWindow Live_HWindow { set; get; } = new HWindow();
+
+        /// <summary>
+        /// 相机结果特征句柄
+        /// </summary>
+        public static HWindow Features_HWindow { set; get; } = new HWindow();
+
+        /// <summary>
+        /// 相机工位句柄
+        /// </summary>
+        public static HWindow Results_HWindow_1 { set; get; } = new HWindow();
+        public static HWindow Results_HWindow_2 { set; get; } = new HWindow();
+        public static HWindow Results_HWindow_3 { set; get; } = new HWindow();
+        public static HWindow Results_HWindow_4 { set; get; } = new HWindow();
+
 
         // 接收到消息创建对应字符的消息框
 
@@ -111,16 +149,68 @@ namespace HanGao.ViewModel
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
-                HSmartWindowControlWPF Live_Window_UserContol = Sm.Source as HSmartWindowControlWPF;
+                HSmartWindowControlWPF Window_UserContol = Sm.Source as HSmartWindowControlWPF;
 
 
-                //加载halcon图像属性
-                Live_HWindow = Live_Window_UserContol.HalconWindow;
+
+                switch (Window_UserContol.Name)
+                {
+                     case string _N when Window_UserContol.Name == nameof(Halcon_Window_Name.Live_Window) :
 
 
+                        //加载halcon图像属性
+                        Live_HWindow = Window_UserContol.HalconWindow;
+                        Live_Window_UserContol = Window_UserContol;
+
+
+                        break;
+
+                    case string _N when Window_UserContol.Name == nameof(Halcon_Window_Name.Features_Window):
+
+                        //加载halcon图像属性
+                        Features_HWindow = Window_UserContol.HalconWindow;
+                        Features_Window_UserContol = Window_UserContol;
+
+
+
+                        break;
+                    case string _N when (Window_UserContol.Name == nameof(Halcon_Window_Name.Results_Window_1)):
+
+                        //加载halcon图像属性
+                        Results_HWindow_1 = Window_UserContol.HalconWindow;
+                        Results_Window_1_UserContol = Window_UserContol;
+
+                        break;
+                    case string _N when (Window_UserContol.Name == nameof(Halcon_Window_Name.Results_Window_1)):
+
+                        //加载halcon图像属性
+                        Results_HWindow_2 = Window_UserContol.HalconWindow;
+                        Results_Window_2_UserContol = Window_UserContol;
+
+                        break;
+                    case string _N when (Window_UserContol.Name == nameof(Halcon_Window_Name.Results_Window_1)):
+
+                        //加载halcon图像属性
+                        Results_HWindow_3 = Window_UserContol.HalconWindow;
+                        Results_Window_3_UserContol = Window_UserContol;
+
+                        break;
+                    case string _N when (Window_UserContol.Name == nameof(Halcon_Window_Name.Results_Window_1)):
+
+                        //加载halcon图像属性
+                        Results_HWindow_4 = Window_UserContol.HalconWindow;
+                        Results_Window_4_UserContol = Window_UserContol;
+
+                        break;
+                }
 
                 //设置halcon窗体大小
-                Live_Window_UserContol.HalconWindow.SetWindowExtents(0, 0, (int)Live_Window_UserContol.WindowSize.Width, (int)Live_Window_UserContol.WindowSize.Height);
+                Window_UserContol.HalconWindow.SetWindowExtents(0, 0, (int)Window_UserContol.WindowSize.Width, (int)Window_UserContol.WindowSize.Height);
+
+
+
+
+
 
 
 
@@ -145,11 +235,30 @@ namespace HanGao.ViewModel
                 Button E = Sm.Source as Button;
 
                 //图像居中
-                Live_Window_UserContol.SetFullImagePart();
+                //Live_Window_UserContol.SetFullImagePart();
                 Live_HWindow.SetPart(0, 0, -2, -2);
 
             });
         }
+
+
+
+        /// <summary>
+        /// Halcon窗口名称
+        /// </summary>
+        public enum Halcon_Window_Name
+        {
+            Live_Window,
+            Features_Window,
+            Results_Window_1,
+            Results_Window_2,
+            Results_Window_3,
+            Results_Window_4
+        }
+
+
+
+
 
 
 

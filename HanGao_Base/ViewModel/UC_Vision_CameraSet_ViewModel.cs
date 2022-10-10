@@ -342,7 +342,7 @@ namespace HanGao.ViewModel
                 MVS_Camera.Set_Camera_Val(Camera_Parameters_Name_Enum.AcquisitionMode,  MVS_Camera.Camera.SetEnumValue(E.Name, (uint)(MV_CAM_ACQUISITION_MODE)E.SelectedIndex));
 
 
-                Camera_Parameter_Val.GetType().GetProperty(E.Name).SetValue(Camera_Parameter_Val, E.SelectedIndex);
+                Camera_Parameter_Val.GetType().GetProperty(E.Name).SetValue(Camera_Parameter_Val, (MV_CAM_ACQUISITION_MODE)E.SelectedIndex);
 
 
                 await Task.Delay(100);
@@ -663,7 +663,7 @@ namespace HanGao.ViewModel
     public class Camrea_Parameters_UI_Model
     {
 
-        public MVS_Float_UI_Type Exposure_UI { set; get; } = new MVS_Float_UI_Type() { Val = 500, Max = 50000, Min = 0 };
+        public MVS_Float_UI_Type Exposure_UI { set; get; } = new MVS_Float_UI_Type() { Val = 30000, Max = 50000, Min = 0 };
 
         public MVS_Float_UI_Type Gain_UI { set; get; } = new MVS_Float_UI_Type() { Val = 10, Max = 20.000, Min = 0 };
 

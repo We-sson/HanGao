@@ -233,7 +233,7 @@
                                                        HDisableAutoResize="True"
                                                        SnapsToDevicePixels="True"
                                                        Visibility="Visible">
-                            <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Live_Window_Image}" />
+                            <!--<Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Live_Window_Image}" />-->
 
                             <i:Interaction.Triggers>
 
@@ -267,6 +267,17 @@
                                                        HorizontalContentAlignment="Center"
                                                        VerticalContentAlignment="Center"
                                                        SnapsToDevicePixels="True">
+
+
+                            <i:Interaction.Triggers>
+
+                                <i:EventTrigger EventName="Loaded">
+                                    <i:InvokeCommandAction Command="{Binding Loaded_Live_Camera_Comm}"
+                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                           PassEventArgsToCommand="True" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+
                             <Halcon:HSmartWindowControlWPF.OpacityMask>
                                 <VisualBrush Visual="{Binding ElementName=Mask}" />
                             </Halcon:HSmartWindowControlWPF.OpacityMask>
@@ -307,6 +318,14 @@
                                                        HorizontalContentAlignment="Center"
                                                        VerticalContentAlignment="Center"
                                                        SnapsToDevicePixels="True">
+                            <i:Interaction.Triggers>
+
+                                <i:EventTrigger EventName="Loaded">
+                                    <i:InvokeCommandAction Command="{Binding Loaded_Live_Camera_Comm}"
+                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                           PassEventArgsToCommand="True" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                             <Halcon:HSmartWindowControlWPF.OpacityMask>
                                 <VisualBrush Visual="{Binding ElementName=Mask}" />
                             </Halcon:HSmartWindowControlWPF.OpacityMask>
@@ -317,6 +336,14 @@
                                                        HorizontalContentAlignment="Center"
                                                        VerticalContentAlignment="Center"
                                                        SnapsToDevicePixels="True">
+                            <i:Interaction.Triggers>
+
+                                <i:EventTrigger EventName="Loaded">
+                                    <i:InvokeCommandAction Command="{Binding Loaded_Live_Camera_Comm}"
+                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                           PassEventArgsToCommand="True" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                             <Halcon:HSmartWindowControlWPF.OpacityMask>
                                 <VisualBrush Visual="{Binding ElementName=Mask}" />
                             </Halcon:HSmartWindowControlWPF.OpacityMask>
@@ -327,6 +354,14 @@
                                                        HorizontalContentAlignment="Center"
                                                        VerticalContentAlignment="Center"
                                                        SnapsToDevicePixels="True">
+                            <i:Interaction.Triggers>
+
+                                <i:EventTrigger EventName="Loaded">
+                                    <i:InvokeCommandAction Command="{Binding Loaded_Live_Camera_Comm}"
+                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                           PassEventArgsToCommand="True" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                             <Halcon:HSmartWindowControlWPF.OpacityMask>
                                 <VisualBrush Visual="{Binding ElementName=Mask}" />
                             </Halcon:HSmartWindowControlWPF.OpacityMask>
@@ -337,6 +372,14 @@
                                                        HorizontalContentAlignment="Center"
                                                        VerticalContentAlignment="Center"
                                                        SnapsToDevicePixels="True">
+                            <i:Interaction.Triggers>
+
+                                <i:EventTrigger EventName="Loaded">
+                                    <i:InvokeCommandAction Command="{Binding Loaded_Live_Camera_Comm}"
+                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                           PassEventArgsToCommand="True" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                             <Halcon:HSmartWindowControlWPF.OpacityMask>
                                 <VisualBrush Visual="{Binding ElementName=Mask}" />
                             </Halcon:HSmartWindowControlWPF.OpacityMask>
