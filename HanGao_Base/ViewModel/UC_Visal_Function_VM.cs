@@ -29,14 +29,11 @@ namespace HanGao.ViewModel
                 image.GenImage1("byte", (int)_Mvs_Image.pFrameInfo.nWidth, _Mvs_Image.pFrameInfo.nHeight, _Mvs_Image.pData);
 
 
-
-
-
                 Live_HWindow.DispObj(image);
 
                 //Live_Window_Image = image;
 
-
+       
 
 
             });

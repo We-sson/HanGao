@@ -112,12 +112,43 @@ namespace HanGao.ViewModel
         }
 
 
+        /// <summary>
+        /// 画画数据列表
+        /// </summary>
+        public ObservableCollection< Vision_Create_Model_Drawing_Model >Drawing_Data_List { get; set; }
 
-        public ObservableCollection< Vision_Create_Model_Drawing_Model >Drawing_Data_List { get; set; }    
+
+
+
+
+
+
+
+        /// <summary>
+        /// 图片加载
+        /// </summary>
+        public ICommand User_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                HSmartWindowControlWPF Window_UserContol = Sm.Source as HSmartWindowControlWPF;
+
+
+
+
+
+            });
+        }
+
 
 
     }
 
+
+
+    /// <summary>
+    /// 创建模板画画模型
+    /// </summary>
     public class Vision_Create_Model_Drawing_Model
     {
         public int Number { set; get; }
@@ -130,6 +161,10 @@ namespace HanGao.ViewModel
 
     }
 
+
+    /// <summary>
+    /// 创建画画数据类型模型
+    /// </summary>
     public  class Vision_Create_Model_Drawing_Data_Model
     {
         public double X { set; get; }
@@ -138,6 +173,12 @@ namespace HanGao.ViewModel
     }
 
 
+
+
+
+    /// <summary>
+    /// 画画类型枚举
+    /// </summary>
     public enum Drawing_Type_Enme
     {
         线段,
