@@ -1,4 +1,12 @@
 ﻿
+using Halcon_SDK_DLL;
+using Microsoft.Win32;
+using System.IO;
+using System.Windows.Controls;
+using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
+using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
+using static MVS_SDK_Base.Model.MVS_Model;
+
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
@@ -119,21 +127,102 @@ namespace HanGao.ViewModel
 
 
 
+        public Halcon_SDK SHalcon { set; get; } = new Halcon_SDK();
 
 
+        /// <summary>
+        /// Ui图像采集方法选择
+        /// </summary>
+        public int Image_CollectionMethod_UI { set; get; } = 0;
 
+
+        /// <summary>
+        /// UI图像文件显示地址
+        /// </summary>
+        public string Image_Location_UI { set; get; } 
 
 
         /// <summary>
         /// 图片加载
         /// </summary>
-        public ICommand User_Comm
+        public ICommand Image_Location_Comm
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
-                HSmartWindowControlWPF Window_UserContol = Sm.Source as HSmartWindowControlWPF;
+                Button  Window_UserContol = Sm.Source as Button;
 
 
+
+                //打开文件选择框
+                OpenFileDialog openFileDialog = new OpenFileDialog
+                {
+                    InitialDirectory = Environment.CurrentDirectory,
+                    Filter = "图片文件|*.jpg;*.gif;*.bmp;*.png;*.tif;*.tiff;*.gif;*.bmp;*.jpg;*.jpeg;*.jp2;*.png;*.pcx;*.pgm;*.ppm;*.pbm;*.xwd;*.ima;*.hobj;",  
+                    RestoreDirectory = true
+                };
+                
+
+       
+                //选择图像文件
+                if (openFileDialog.ShowDialog() == true)
+                {
+                    //赋值图像地址到到UI
+                    Image_Location_UI = openFileDialog.FileName;
+
+                }
+
+
+            });
+        }
+
+
+        /// <summary>
+        /// 枚举类型参数设置
+        /// </summary>
+        public ICommand Image_CollectionMethod_Comm
+        {
+            get => new AsyncRelayCommand<RoutedEventArgs>(async (Sm) =>
+            {
+
+
+                ComboBox E = Sm.Source as ComboBox;
+
+
+                switch (Image_CollectionMethod_UI)
+                {
+                    case 0:
+
+
+                        UC_Vision_CameraSet_ViewModel.GetOneFrameTimeout(UC_Visal_Function_VM.Features_Window.HWindow);
+
+                        break;
+                    case 1:
+
+
+
+                        if (Image_Location_UI!=string.Empty)
+                        {
+
+                        //转换Halcon图像变量
+                        HObject Image = SHalcon.Local_To_Halcon_Image(Image_Location_UI);
+                        //发送显示图像位置
+                        Messenger.Send<HImage_Display_Model, string>(new HImage_Display_Model() { Image = Image, Image_Show_Halcon = UC_Visal_Function_VM.Features_Window.HWindow }, nameof(Meg_Value_Eunm.HWindow_Image_Show));
+                        }
+
+
+
+
+                        break;
+                }
+
+
+                //MVS_Camera.Set_Camera_Val(Camera_Parameters_Name_Enum.AcquisitionMode, MVS_Camera.Camera.SetEnumValue(E.Name, (uint)(MV_CAM_ACQUISITION_MODE)E.SelectedIndex));
+
+
+                //Camera_Parameter_Val.GetType().GetProperty(E.Name).SetValue(Camera_Parameter_Val, (MV_CAM_ACQUISITION_MODE)E.SelectedIndex);
+
+
+                await Task.Delay(100);
 
 
 
@@ -142,7 +231,13 @@ namespace HanGao.ViewModel
 
 
 
+
+
+
     }
+
+
+
 
 
 

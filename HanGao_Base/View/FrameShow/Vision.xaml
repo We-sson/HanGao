@@ -192,26 +192,22 @@
 
 
 
-                    <Grid Grid.Row=" 1" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Live_Window_Button}">
-
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="IsVisibleChanged">
-                                <i:InvokeCommandAction Command="{Binding}"
-                                                       CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                       PassEventArgsToCommand="True" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-
-
+                    <Grid Grid.Row=" 1"   >
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Visibility" Value="Hidden"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsChecked, ElementName=Live_Window_Button}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
 
                         <!--  窗口蒙版  -->
                         <Border x:Name="Mask"
                                 Background="{DynamicResource 全局_按钮_黑颜色}"
                                 CornerRadius="0 0 5 5 " />
-
-
-
-
 
                         <!--<ContentControl x:Name="Live_Window" Content="{Binding Live_Window}">
                             <ContentControl.OpacityMask>
@@ -224,16 +220,14 @@
 
                         <!--  相机图像  -->
                         <Halcon:HSmartWindowControlWPF x:Name="Live_Window"
-                                                       Width="auto"
-                                                       Height="auto"
+                                                   
                                                        HorizontalAlignment="Stretch"
                                                        VerticalAlignment="Stretch"
                                                        HorizontalContentAlignment="Center"
                                                        VerticalContentAlignment="Center"
                                                        HDisableAutoResize="True"
                                                        SnapsToDevicePixels="True"
-                                                       Visibility="Visible">
-                            <!--<Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Live_Window_Image}" />-->
+                                                    >
 
                             <i:Interaction.Triggers>
 
@@ -243,7 +237,10 @@
                                                            PassEventArgsToCommand="True" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
+                        
 
+          
+                        
                             <Halcon:HSmartWindowControlWPF.OpacityMask>
                                 <VisualBrush Visual="{Binding ElementName=Mask}" />
                             </Halcon:HSmartWindowControlWPF.OpacityMask>
@@ -254,41 +251,18 @@
 
                     </Grid>
 
+                    <Grid Grid.Row=" 1" >
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Visibility" Value="Hidden"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsChecked, ElementName=Results_Window_Button}" Value="True">
+                                        <Setter Property="Visibility"  Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
 
-                    <Grid Grid.Row=" 1" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Features_Window_Button}">
-
-                        <!--  特征窗口  -->
-
-                        <Border Background="{DynamicResource 全局_按钮_黑颜色}" />
-
-                        <Halcon:HSmartWindowControlWPF x:Name="Features_Window"
-                                                       HorizontalAlignment="Stretch"
-                                                       VerticalAlignment="Stretch"
-                                                       HorizontalContentAlignment="Center"
-                                                       VerticalContentAlignment="Center"
-                                                       SnapsToDevicePixels="True">
-
-
-                            <i:Interaction.Triggers>
-
-                                <i:EventTrigger EventName="Loaded">
-                                    <i:InvokeCommandAction Command="{Binding Loaded_Live_Camera_Comm}"
-                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                           PassEventArgsToCommand="True" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-
-                            <Halcon:HSmartWindowControlWPF.OpacityMask>
-                                <VisualBrush Visual="{Binding ElementName=Mask}" />
-                            </Halcon:HSmartWindowControlWPF.OpacityMask>
-                        </Halcon:HSmartWindowControlWPF>
-
-
-
-
-                    </Grid>
-
-                    <Grid Grid.Row=" 1" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Results_Window_Button}">
 
                         <!--  结果窗口  -->
                         <Grid.ColumnDefinitions>
@@ -575,6 +549,50 @@
 
 
                     </Grid>
+
+                    <Grid Grid.Row=" 1" >
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Visibility" Value="Hidden"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsChecked, ElementName=Features_Window_Button}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
+
+                        <!--  特征窗口  -->
+
+                        <Border Background="{DynamicResource 全局_按钮_黑颜色}" />
+
+                        <Halcon:HSmartWindowControlWPF x:Name="Features_Window"
+                                                       HorizontalAlignment="Stretch"
+                                                       VerticalAlignment="Stretch"
+                                                       HorizontalContentAlignment="Center"
+                                                       VerticalContentAlignment="Center"
+                                                       SnapsToDevicePixels="True">
+
+
+                            <i:Interaction.Triggers>
+
+                                <i:EventTrigger EventName="Loaded">
+                                    <i:InvokeCommandAction Command="{Binding Loaded_Live_Camera_Comm}"
+                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                           PassEventArgsToCommand="True" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+
+                            <Halcon:HSmartWindowControlWPF.OpacityMask>
+                                <VisualBrush Visual="{Binding ElementName=Mask}" />
+                            </Halcon:HSmartWindowControlWPF.OpacityMask>
+                        </Halcon:HSmartWindowControlWPF>
+
+
+
+
+                    </Grid>
+
 
 
                 </Grid>

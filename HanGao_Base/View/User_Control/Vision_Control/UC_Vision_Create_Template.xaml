@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HanGao.View.User_Control.Vision_Control"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              d:DesignHeight="1517"
              d:DesignWidth="332"
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_Create_Template_ViewMode}"
@@ -78,6 +78,7 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width=" 90" />
                                     <ColumnDefinition />
+                                    <ColumnDefinition  />
                                 </Grid.ColumnDefinitions>
 
 
@@ -90,26 +91,28 @@
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                 <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
-                                          VerticalContentAlignment="Center"
+                                          VerticalContentAlignment="Center"   Width=" 100"
                                           BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                           BorderThickness="2"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="0">
+                                          SelectedIndex="{Binding Image_CollectionMethod_UI}" HorizontalAlignment="Left" >
+
+
                                     <ComboBoxItem BorderBrush="Black">
 
                                         <TextBlock Text="相机采集"
-                                                   Width=" 150"  Padding="0,4,0,4"
+                                                   Padding="0,4,0,4"
                                                    TextWrapping="Wrap"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                    FontSize="14"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </ComboBoxItem>
-                                    <ComboBoxItem IsSelected="True">
+                                    <ComboBoxItem>
 
                                         <TextBlock Text="图片采集"  Padding="0,4,0,4"
-                                                   Width=" 150"
+                                               
                                                    TextWrapping="Wrap"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                    FontSize="14"
@@ -117,6 +120,28 @@
                                                    TextTrimming="CharacterEllipsis" />
                                     </ComboBoxItem>
                                 </ComboBox>
+
+
+                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                        Width="100"
+                                        Margin="0,0,0,0"
+                                        Background="{DynamicResource 全局_按钮_蓝颜色}" HorizontalAlignment="Right">
+                                    <i:Interaction.Triggers>
+
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding Image_CollectionMethod_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
+                                    <TextBlock Text="采集"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                               FontSize="16"
+                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                </Button>
 
                             </Grid>
 
@@ -149,10 +174,10 @@
 
 
                                         <TextBlock Grid.Column=" 0"
-                                                   Text="C:\Users\zhiwei2.he\Desktop"
+                                                   Text="{Binding Image_Location_UI}"
                                                    Width=" 150"
-                                                   TextWrapping="NoWrap"
-                                                   Margin="4"
+                                                   TextWrapping="Wrap"
+                                                  Margin=" 6 6 0 6"
                                                    HorizontalAlignment="Left"
                                                    VerticalAlignment="Center"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -171,6 +196,14 @@
                                                    VerticalAlignment="Center"
                                                    Effect="{DynamicResource 全局背景阴影}"
                                                    Source="/Resources/Vision_文件夹_ioc.png" />
+                                            <i:Interaction.Triggers>
+
+                                                <i:EventTrigger EventName="Click">
+                                                    <i:InvokeCommandAction Command="{Binding Image_Location_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
                                         </Button>
 
 
@@ -199,7 +232,7 @@
                                 <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
                                         Width="100"
                                         Margin="0,0,0,0"
-                                        Background="{DynamicResource 全局_按钮_蓝颜色}">
+                                        Background="{DynamicResource 全局_按钮_蓝颜色}" HorizontalAlignment="Left">
                                     <TextBlock Text="直线"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
@@ -211,7 +244,7 @@
                                 <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
                                         Width="100"
                                         Margin="0,0,0,0"
-                                        Background="{DynamicResource 全局_按钮_蓝颜色}">
+                                        Background="{DynamicResource 全局_按钮_蓝颜色}" HorizontalAlignment="Right">
                                     <TextBlock Text="圆弧"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"

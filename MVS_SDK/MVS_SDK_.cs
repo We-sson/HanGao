@@ -12,6 +12,10 @@ namespace MVS_SDK
     public class MVS
     {
 
+
+   
+
+
         /// <summary>
         ///  用户选择相机对象
         /// </summary>
@@ -210,14 +214,19 @@ namespace MVS_SDK
 
 
 
+
+
+
+
         /// <summary>
         /// 获得一帧图像方法
         /// </summary>
         /// <param name="_Timeout"></param>
         /// <returns></returns>
-        public Single_Image_Mode GetOneFrameTimeout(int _Timeout = 1000)
+        public MVS_Image_Mode GetOneFrameTimeout(int _Timeout = 1000)
         {
             CIntValue stParam = new CIntValue();
+
 
 
             StartGrabbing();
@@ -227,20 +236,25 @@ namespace MVS_SDK
             Set_Camera_Val(Camera_Parameters_Name_Enum.PayloadSize, Camera.GetIntValue("PayloadSize", ref stParam));
 
             //创建帧图像信息
-            Single_Image_Mode Single_Image = new Single_Image_Mode
+            MVS_Image_Mode Frame_Image = new MVS_Image_Mode
             {
-                pData = new byte[stParam.CurValue]
+
+                pData_Buffer = new byte[stParam.CurValue]
             };
 
+
+
             //抓取一张图片
-            if (Set_Camera_Val(Camera_Parameters_Name_Enum.GetOneFrameTimeout, Camera.GetOneFrameTimeout(Single_Image.pData, (uint)stParam.CurValue, ref Single_Image.Single_ImageInfo, _Timeout)))
+            if (Set_Camera_Val(Camera_Parameters_Name_Enum.GetOneFrameTimeout, Camera.GetOneFrameTimeout(Frame_Image.pData_Buffer, (uint)stParam.CurValue, ref Frame_Image.FrameEx_Info, _Timeout)))
             {
                 StopGrabbing();
 
-                return Single_Image;
+                return Frame_Image;
             }
 
             StopGrabbing();
+
+
 
 
 
@@ -250,17 +264,7 @@ namespace MVS_SDK
         }
 
 
-        public void Get_Camera_Var<T1, T2>(T1 _name, ref T2 _Val)
-        {
 
-
-
-
-
-
-
-
-        }
 
 
 

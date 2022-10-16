@@ -24,5 +24,7 @@ namespace HanGao.View.User_Control.Vision_Control
         {
             InitializeComponent();
         }
+
+
     }
 }

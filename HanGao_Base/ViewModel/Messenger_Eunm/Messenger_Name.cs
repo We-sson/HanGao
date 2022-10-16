@@ -244,7 +244,7 @@ namespace HanGao.ViewModel.Messenger_Eunm
          /// <summary>
          /// 实时窗口图像显示
          /// </summary>
-            Live_Window_Image_Show,
+            HWindow_Image_Show,
 
            /// <summary>
            /// 单帧图像显示

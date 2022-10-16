@@ -1,9 +1,11 @@
 ﻿
 
 
+using Halcon_SDK_DLL;
 using HanGao.View.User_Control.Vision_Control;
 using MVS_SDK_Base.Model;
 using System.CodeDom;
+using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static MVS_SDK_Base.Model.MVS_Model;
 
@@ -49,7 +51,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 相机参数
         /// </summary>
-        public MVS_Camera_Parameter_Model Camera_Parameter_Val { set; get; } = new MVS_Camera_Parameter_Model();
+        public static  MVS_Camera_Parameter_Model Camera_Parameter_Val { set; get; } = new MVS_Camera_Parameter_Model();
 
 
 
@@ -62,15 +64,15 @@ namespace HanGao.ViewModel
         /// <summary>
         ///  用户选择相机对象
         /// </summary>
-        public MVS MVS_Camera { set; get; } = new MVS();
+        public static  MVS MVS_Camera { set; get; } = new MVS();
 
         /// <summary>
         /// 图像回调字段
         /// </summary>
-        private static cbOutputExdelegate ImageCallback = new cbOutputExdelegate(ImageCallbackFunc);
+        private   cbOutputExdelegate ImageCallback ;
 
 
-
+        public static  Halcon_SDK SHalcon { set; get; } = new Halcon_SDK();
 
         /// <summary>
         /// 相机对象参数
@@ -104,18 +106,13 @@ namespace HanGao.ViewModel
         /// </summary>
         //private  cbOutputExdelegate ImageCallback;
 
-        private static void ImageCallbackFunc(IntPtr pData, ref MV_FRAME_OUT_INFO_EX pFrameInfo, IntPtr pUser)
+
+
+
+        private  void ImageCallbackFunc(IntPtr pData, ref MV_FRAME_OUT_INFO_EX pFrameInfo, IntPtr pUser)
         {
 
-
-
-            WeakReferenceMessenger.Default.Send<MVS_Image_delegate_Mode, string>(new MVS_Image_delegate_Mode() { pData = pData, pFrameInfo = pFrameInfo, pUser = pUser }, nameof(Meg_Value_Eunm.Live_Window_Image_Show));
-
-            // MessageBox.Show("Get one frame: Width[" + Convert.ToString(pFrameInfo.nWidth) + "] , Height[" + Convert.ToString(pFrameInfo.nHeight) + "] , FrameNum[" + Convert.ToString(pFrameInfo.nFrameNum) + "]");
-
-
-
-
+            WeakReferenceMessenger.Default.Send<HImage_Display_Model, string>(new HImage_Display_Model() {  Image = SHalcon.Mvs_To_Halcon_Image(pFrameInfo.nWidth, pFrameInfo.nHeight, pData), Image_Show_Halcon= UC_Visal_Function_VM.Live_Window.HWindow }, nameof(Meg_Value_Eunm.HWindow_Image_Show));
 
         }
 
@@ -160,9 +157,8 @@ namespace HanGao.ViewModel
                     //设置GEGI网络包大小
                     _State= MVS_Camera.Set_Camera_GEGI_GevSCPSPacketSize();
 
-
                     //创建抓图回调函数
-                    _State= MVS_Camera.RegisterImageCallBackEx(ImageCallback);
+                    _State = MVS_Camera.RegisterImageCallBackEx(ImageCallback = new cbOutputExdelegate(ImageCallbackFunc));
 
 
                     //开始取流
@@ -467,15 +463,40 @@ namespace HanGao.ViewModel
                 Button E = Sm.Source as Button;
 
 
-                //设置相机总参数
-                if (MVS_Camera.Set_Camrea_Parameters_List(Camera_Parameter_Val) != true) { return; }
+                GetOneFrameTimeout(UC_Visal_Function_VM.Live_Window.HWindow);
 
-                //获取一帧图像
-                Messenger.Send<Single_Image_Mode, string>(MVS_Camera.GetOneFrameTimeout(), nameof(Meg_Value_Eunm.Single_Image_Show));
 
-                await Task.Delay(500);
+
+                await Task.Delay(50);
             });
         }
+
+
+
+   /// <summary>
+   /// 获得一图像显示到指定窗口
+   /// </summary>
+   /// <param name="_HWindow"></param>
+        public static void GetOneFrameTimeout(HWindow _HWindow )
+        {
+
+            //设置相机总参数
+            if (MVS_Camera.Set_Camrea_Parameters_List(Camera_Parameter_Val) != true) { return; }
+
+
+            //获得一帧图片信息
+            MVS_Image_Mode _Image = MVS_Camera.GetOneFrameTimeout();
+
+            //转换Halcon图像变量
+            HObject Image = SHalcon.Mvs_To_Halcon_Image(_Image.FrameEx_Info.ImageInfo.Width, _Image.FrameEx_Info.ImageInfo.Height, _Image.PData);
+            //发送显示图像位置
+            WeakReferenceMessenger.Default.Send<HImage_Display_Model, string>(new HImage_Display_Model() { Image = Image, Image_Show_Halcon = _HWindow }, nameof(Meg_Value_Eunm.HWindow_Image_Show));
+
+
+
+
+        }
+
 
 
 
@@ -553,16 +574,7 @@ namespace HanGao.ViewModel
 
 
 
-    /// <summary>
-    /// 海康图像回调参数模型
-    /// </summary>
-    public class MVS_Image_delegate_Mode
-    {
-        public IntPtr pData;
-        public MV_FRAME_OUT_INFO_EX pFrameInfo;
-        public IntPtr pUser;
 
-    }
 
 
 

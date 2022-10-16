@@ -298,25 +298,60 @@ namespace MVS_SDK_Base.Model
         }
 
 
+
+
         /// <summary>
         /// 图像显示模型
         /// </summary>
-        public class Single_Image_Mode
+        public class MVS_Image_Mode
         {
+            /// <summary>
+            /// 图像缓存,只读
+            /// </summary>
+            public byte[] pData_Buffer;
 
-            public byte[] pData;
-            public CFrameoutEx Single_ImageInfo = new CFrameoutEx();
-            public IntPtr Get_IntPtr()
+            private IntPtr _PData = IntPtr.Zero;
+            /// <summary>
+            /// 图像缓存开始句柄
+            /// </summary>
+            public IntPtr PData
             {
-                if (pData != null)
+                get
                 {
+                    if (pData_Buffer != null)
+                    {
 
-                    return Marshal.UnsafeAddrOfPinnedArrayElement((Array)pData, 0);
+                        return _PData = Marshal.UnsafeAddrOfPinnedArrayElement((Array)pData_Buffer, 0);
+                    }
+                    return _PData ;
                 }
-                return IntPtr.Zero;
+                set { _PData = value; }
             }
 
+
+            /// <summary>
+            /// 图像信息(仅包含图像基本信息，不含图像缓存)
+            /// </summary>
+            public CFrameoutEx FrameEx_Info = new CFrameoutEx();
+
+
+            /// <summary>
+            /// 图像信息(仅包含图像基本信息，不含图像缓存)
+            /// </summary>
+            public CFrameout Frame_Info = new CFrameout();
+
+
+            /// <summary>
+            /// 用户信息句柄
+            /// </summary>
+            public IntPtr pUser = IntPtr.Zero;
+
+
         }
+
+
+
+
 
 
 
