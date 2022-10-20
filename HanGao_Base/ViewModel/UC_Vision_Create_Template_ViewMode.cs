@@ -200,7 +200,7 @@ namespace HanGao.ViewModel
 
 
 
-                        if (Image_Location_UI!=string.Empty)
+                        if (Image_Location_UI!="")
                         {
 
                         //转换Halcon图像变量
@@ -224,7 +224,7 @@ namespace HanGao.ViewModel
 
                 await Task.Delay(100);
 
-
+              
 
             });
         }

@@ -1,10 +1,7 @@
 ﻿
 using Halcon_SDK_DLL;
-using HanGao.View.FrameShow;
-using System.Windows.Input;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
-using static MVS_SDK_Base.Model.MVS_Model;
 
 namespace HanGao.ViewModel
 {
@@ -66,7 +63,7 @@ namespace HanGao.ViewModel
 
 
 
-
+        public Point Halcon_Position { set; get; }
 
 
 
@@ -150,26 +147,84 @@ namespace HanGao.ViewModel
 
 
 
-        public  void HMouseDoubleClick_Comm111(object sender, HMouseEventArgsWPF e)
-        {
 
-
-
-        }
         /// <summary>
-        /// 窗体t图像自适应
+        /// 读取Halcon控件鼠标图像位置
         /// </summary>
-        public ICommand HMouseDoubleClick_Comm
+        public ICommand HMouseMove_Comm
         {
-            get => new RelayCommand<HMouseEventArgsWPF>((Sm) =>
+            get => new AsyncRelayCommand<EventArgs>(async (Sm) =>
             {
-                //Button E = Sm.Source as Button;
 
+
+
+
+                HSmartWindowControlWPF.HMouseEventArgsWPF _E = Sm as HSmartWindowControlWPF.HMouseEventArgsWPF;
+                //Button E = Sm.Source as Button
+
+
+
+                Halcon_Position = new Point(_E.Row, _E.Column);
+
+               
+                //MessageBox.Show("X:" + _E.Row.ToString() + " Y:" + _E.Column.ToString());
                 //全部控件显示居中
 
 
+                await Task.Delay(100);
             });
         }
+
+
+
+        /// <summary>
+        /// 添加直线特征点
+        /// </summary>
+        public ICommand Add_Lin_Draw_Comm
+        {
+            get => new AsyncRelayCommand<RoutedEventArgs>(async (Sm) =>
+            {
+
+                MenuItem _E = Sm.Source as MenuItem;
+                //Button E = Sm.Source as Button
+
+
+
+                MessageBox.Show(Halcon_Position.ToString());
+                //MessageBox.Show("X:" + _E.Row.ToString() + " Y:" + _E.Column.ToString());
+                //全部控件显示居中
+
+
+                await Task.Delay(100);
+            });
+        }
+
+
+        /// <summary>
+        /// 添加圆弧特征点
+        /// </summary>
+        public ICommand Add_Cir_Draw_Comm
+        {
+            get => new AsyncRelayCommand<RoutedEventArgs>(async (Sm) =>
+            {
+
+                MenuItem _E = Sm.Source as MenuItem;
+                //Button E = Sm.Source as Button
+                MessageBox.Show(Halcon_Position.ToString());
+
+
+
+                //MessageBox.Show("X:" + _E.Row.ToString() + " Y:" + _E.Column.ToString());
+                //全部控件显示居中
+
+
+                await Task.Delay(100);
+            });
+        }
+
+
+
+
 
 
         /// <summary>

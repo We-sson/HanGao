@@ -228,7 +228,7 @@
                                                        HDisableAutoResize="True"
                                                        SnapsToDevicePixels="True"
                                                     >
-
+       
                             <i:Interaction.Triggers>
 
                                 <i:EventTrigger EventName="Loaded">
@@ -236,6 +236,11 @@
                                                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                            PassEventArgsToCommand="True" />
                                 </i:EventTrigger>
+
+
+                                
+
+
                             </i:Interaction.Triggers>
                         
 
@@ -572,17 +577,53 @@
                                                        HorizontalContentAlignment="Center"
                                                        VerticalContentAlignment="Center"
                                                        SnapsToDevicePixels="True">
+                            <Halcon:HSmartWindowControlWPF.ContextMenu>
+                                <ContextMenu  >
+                                    <MenuItem Name="Lin" Header="添加直线特征点">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding Add_Lin_Draw_Comm}"
+                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                           PassEventArgsToCommand="True" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </MenuItem>
+                                    <MenuItem Name="Cir" Header="添加圆弧特征点">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding Add_Cir_Draw_Comm}"
+                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                           PassEventArgsToCommand="True" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </MenuItem>
+                                    <Separator>
+                                    </Separator>
+                                    <MenuItem Name="OK" Header="完成组特征"/>
 
+                                </ContextMenu>
+                            </Halcon:HSmartWindowControlWPF.ContextMenu>
 
                             <i:Interaction.Triggers>
-
                                 <i:EventTrigger EventName="Loaded">
                                     <i:InvokeCommandAction Command="{Binding Loaded_Live_Camera_Comm}"
                                                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                            PassEventArgsToCommand="True" />
                                 </i:EventTrigger>
+
+                                <i:EventTrigger EventName="HMouseMove">
+                                    <i:InvokeCommandAction Command="{Binding HMouseMove_Comm}"   
+                                                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                           PassEventArgsToCommand="True" 
+                                                          />
+                                </i:EventTrigger>
                             </i:Interaction.Triggers>
 
+
+
+
+
+                            <!--//外观遮罩-->
                             <Halcon:HSmartWindowControlWPF.OpacityMask>
                                 <VisualBrush Visual="{Binding ElementName=Mask}" />
                             </Halcon:HSmartWindowControlWPF.OpacityMask>
@@ -731,6 +772,12 @@
                     <Border Background="{DynamicResource 全局_背景_白颜色}"
                             CornerRadius="5"
                             Effect="{DynamicResource 全局背景阴影}" />
+
+                    <StackPanel >
+                        <TextBlock Text="{Binding Halcon_Position}"/>
+                    </StackPanel>
+                    
+                    
                     <StackPanel Margin="5"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Center"
