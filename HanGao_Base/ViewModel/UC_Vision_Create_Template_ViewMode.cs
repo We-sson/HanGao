@@ -1,5 +1,6 @@
 ﻿
 using Halcon_SDK_DLL;
+using HanGao.Model;
 using Microsoft.Win32;
 using System.IO;
 using System.Windows.Controls;
@@ -16,114 +17,150 @@ namespace HanGao.ViewModel
         {
 
 
-            Drawing_Data_List = new ObservableCollection<Vision_Create_Model_Drawing_Model>()
+
+
+
+            //UI模型特征接收表
+            Messenger.Register<Vision_Create_Model_Drawing_Model, string>(this, nameof(Meg_Value_Eunm.Add_Draw_Data), (O, _Draw) =>
             {
-                new Vision_Create_Model_Drawing_Model()
-                {
-                     Drawing_Type= Drawing_Type_Enme.线段,
-                     Number =1,
-                     Drawing_Data=new List<Vision_Create_Model_Drawing_Data_Model>()
-                     {
-                         new Vision_Create_Model_Drawing_Data_Model()
-                         {
-                              X=123, Y=456
-                         },
-                         new Vision_Create_Model_Drawing_Data_Model()
-                         {
-                              X=123, Y=456
-                         },
-                         new Vision_Create_Model_Drawing_Data_Model()
-                         {
-                              X=123, Y=456
-                         },
-                     }
-                },
-                 new Vision_Create_Model_Drawing_Model()
-                {
-                     Drawing_Type= Drawing_Type_Enme.圆弧,
-                     Number =2,
-                     Drawing_Data=new List<Vision_Create_Model_Drawing_Data_Model>()
-                     {
-                         new Vision_Create_Model_Drawing_Data_Model()
-                         {
-                              X=123, Y=456
-                         },
-                         new Vision_Create_Model_Drawing_Data_Model()
-                         {
-                              X=123, Y=456
-                         },
-                         new Vision_Create_Model_Drawing_Data_Model()
-                         {
-                              X=123, Y=456
-                         },
-                     }
-                },
-                new Vision_Create_Model_Drawing_Model()
-                {
-                     Drawing_Type= Drawing_Type_Enme.线段,
-                     Number =3,
-                     Drawing_Data=new List<Vision_Create_Model_Drawing_Data_Model>()
-                     {
-                         new Vision_Create_Model_Drawing_Data_Model()
-                         {
-                              X=1123, Y=456
-                         },
-                         new Vision_Create_Model_Drawing_Data_Model()
-                         {
-                              X=123, Y=456
-                         },
-                         new Vision_Create_Model_Drawing_Data_Model()
-                         {
-                              X=123, Y=4561
-                         },
-                         new Vision_Create_Model_Drawing_Data_Model()
-                         {
-                              X=123, Y=456
-                         },
-                         new Vision_Create_Model_Drawing_Data_Model()
-                         {
-                              X=123, Y=4561
-                         },
-                         new Vision_Create_Model_Drawing_Data_Model()
-                         {
-                              X=1213, Y=456
-                         },
-                     }
-                },
-                new Vision_Create_Model_Drawing_Model()
-                {
-                     Drawing_Type= Drawing_Type_Enme.线段,
-                     Number =4,
-                    Drawing_Data=new List<Vision_Create_Model_Drawing_Data_Model>()
-                     {
-                         new Vision_Create_Model_Drawing_Data_Model()
-                         {
-                              X=123, Y=456
-                         }
-                     }
-                }, 
-                new Vision_Create_Model_Drawing_Model()
-                {
-                     Drawing_Type= Drawing_Type_Enme.线段,
-                     Number =5,
-                     Drawing_Data=new List<Vision_Create_Model_Drawing_Data_Model>()
-                     {
-                         new Vision_Create_Model_Drawing_Data_Model()
-                         {
-                              X=123, Y=456
-                         }
-                     }
-                },
-        };
+
+                Drawing_Data_List.Add(_Draw);
+
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+        //    Drawing_Data_List = new ObservableCollection<Vision_Create_Model_Drawing_Model>()
+        //    {
+        //        new Vision_Create_Model_Drawing_Model()
+        //        {
+        //             Drawing_Type= Drawing_Type_Enme.Draw_Lin,
+        //             Number =1,
+        //             Drawing_Data=new List<Vision_Create_Model_Drawing_Data_Model>()
+        //             {
+        //                 new Vision_Create_Model_Drawing_Data_Model()
+        //                 {
+        //                      X=123, Y=456
+        //                 },
+        //                 new Vision_Create_Model_Drawing_Data_Model()
+        //                 {
+        //                      X=123, Y=456
+        //                 },
+        //                 new Vision_Create_Model_Drawing_Data_Model()
+        //                 {
+        //                      X=123, Y=456
+        //                 },
+        //             }
+        //        },
+        //         new Vision_Create_Model_Drawing_Model()
+        //        {
+        //             Drawing_Type= Drawing_Type_Enme.Draw_Lin,
+        //             Number =2,
+        //             Drawing_Data=new List<Vision_Create_Model_Drawing_Data_Model>()
+        //             {
+        //                 new Vision_Create_Model_Drawing_Data_Model()
+        //                 {
+        //                      X=123, Y=456
+        //                 },
+        //                 new Vision_Create_Model_Drawing_Data_Model()
+        //                 {
+        //                      X=123, Y=456
+        //                 },
+        //                 new Vision_Create_Model_Drawing_Data_Model()
+        //                 {
+        //                      X=123, Y=456
+        //                 },
+        //             }
+        //        },
+        //        new Vision_Create_Model_Drawing_Model()
+        //        {
+        //             Drawing_Type= Drawing_Type_Enme.Draw_Lin,
+        //             Number =3,
+        //             Drawing_Data=new List<Vision_Create_Model_Drawing_Data_Model>()
+        //             {
+        //                 new Vision_Create_Model_Drawing_Data_Model()
+        //                 {
+        //                      X=1123, Y=456
+        //                 },
+        //                 new Vision_Create_Model_Drawing_Data_Model()
+        //                 {
+        //                      X=123, Y=456
+        //                 },
+        //                 new Vision_Create_Model_Drawing_Data_Model()
+        //                 {
+        //                      X=123, Y=4561
+        //                 },
+        //                 new Vision_Create_Model_Drawing_Data_Model()
+        //                 {
+        //                      X=123, Y=456
+        //                 },
+        //                 new Vision_Create_Model_Drawing_Data_Model()
+        //                 {
+        //                      X=123, Y=4561
+        //                 },
+        //                 new Vision_Create_Model_Drawing_Data_Model()
+        //                 {
+        //                      X=1213, Y=456
+        //                 },
+        //             }
+        //        },
+        //        new Vision_Create_Model_Drawing_Model()
+        //        {
+        //             Drawing_Type= Drawing_Type_Enme.Draw_Lin,
+        //             Number =4,
+        //            Drawing_Data=new List<Vision_Create_Model_Drawing_Data_Model>()
+        //             {
+        //                 new Vision_Create_Model_Drawing_Data_Model()
+        //                 {
+        //                      X=123, Y=456
+        //                 }
+        //             }
+        //        }, 
+        //        new Vision_Create_Model_Drawing_Model()
+        //        {
+        //             Drawing_Type= Drawing_Type_Enme.Draw_Lin,
+        //             Number =5,
+        //             Drawing_Data=new List<Vision_Create_Model_Drawing_Data_Model>()
+        //             {
+        //                 new Vision_Create_Model_Drawing_Data_Model()
+        //                 {
+        //                      X=123, Y=456
+        //                 }
+        //             }
+        //        },
+        //};
  
 
         }
 
 
+
+        private  static ObservableCollection<Vision_Create_Model_Drawing_Model> Drawing_Data_List_M { get; set; } = new ObservableCollection<Vision_Create_Model_Drawing_Model>();
         /// <summary>
         /// 画画数据列表
         /// </summary>
-        public ObservableCollection< Vision_Create_Model_Drawing_Model >Drawing_Data_List { get; set; }
+        public static ObservableCollection<Vision_Create_Model_Drawing_Model> Drawing_Data_List
+        {
+            get { return Drawing_Data_List_M; }
+            set
+            {
+                Drawing_Data_List_M = value;
+                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Drawing_Data_List)));
+            }
+        }
+        /// <summary>
+        /// 静态属性更新通知事件
+        /// </summary>
+        public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
 
 
 
@@ -244,40 +281,117 @@ namespace HanGao.ViewModel
     /// <summary>
     /// 创建模板画画模型
     /// </summary>
+    [AddINotifyPropertyChangedInterface]
     public class Vision_Create_Model_Drawing_Model
     {
-        public int Number { set; get; }
+        public int Number { set; get; } = new int();
         
-        public Drawing_Type_Enme Drawing_Type { set; get; }
+        public Drawing_Type_Enme Drawing_Type { set; get; } = new Drawing_Type_Enme();
 
-        public List<Vision_Create_Model_Drawing_Data_Model> Drawing_Data { set; get; }
+        public ObservableCollection<Point> Drawing_Data { set; get; } = new ObservableCollection<Point>();
+
+        public Line_Contour_Xld_Model Lin_Xld_Data { set; get; } = new Line_Contour_Xld_Model();
+
+        public Cir_Contour_Xld_Model Cir_Xld_Data { set; get; } = new Cir_Contour_Xld_Model();
+
+
+        /// <summary>
+        /// 图片加载
+        /// </summary>
+        public ICommand Create_Delete_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                Button _B = Sm.Source as Button;
+
+                Vision_Create_Model_Drawing_Model _Data =_B.DataContext as Vision_Create_Model_Drawing_Model;
+
+
+                Vision_Create_Model_Drawing_Model _Drawing = UC_Vision_Create_Template_ViewMode.Drawing_Data_List.Where(_L => _L.Number == _Data.Number).Single();
+                HOperatorSet.ClearWindow(UC_Visal_Function_VM.Features_Window.HWindow);
+
+
+
+                switch (_Drawing.Drawing_Type)
+                {
+                    case Drawing_Type_Enme.Draw_Lin:
+
+                foreach (var item in _Drawing.Lin_Xld_Data.HPoint_Group)
+                {
+
+
+                            HOperatorSet.ClearObj(item);
+         
+                        }
+
+
+                        break;
+                    case Drawing_Type_Enme.Draw_Cir:
+
+
+
+                        break;
+                }
+               
+
+
+                UC_Vision_Create_Template_ViewMode.Drawing_Data_List.Remove(_Drawing);
+
+            });
+        }
+
 
 
 
     }
+
 
 
     /// <summary>
-    /// 创建画画数据类型模型
+    /// Halcon  Xld直线参数属性
     /// </summary>
-    public  class Vision_Create_Model_Drawing_Data_Model
+    [AddINotifyPropertyChangedInterface]
+    public class Line_Contour_Xld_Model
     {
-        public double X { set; get; }
-        public double Y { set; get; }
+
+
+        public List<HObject> HPoint_Group { set; get; } = new List<HObject>();
+
+        public HTuple RowBegin { set; get; } = new HTuple();
+        public HTuple ColBegin { set; get; } = new HTuple();
+        public HTuple RowEnd { set; get; } = new HTuple();  
+        public HTuple ColEnd { set; get; } = new HTuple();
+        public HTuple Nr { set; get; } = new HTuple();
+        public HTuple Nc { set; get; } = new HTuple();
+        public HTuple Dist { set; get; } = new HTuple();
 
     }
 
+    /// <summary>
+    /// Halcon  Xld圆弧参数属性
+    /// </summary>
+    [AddINotifyPropertyChangedInterface]
+    public class Cir_Contour_Xld_Model
+    {
+        public List<HObject> HPoint_Group { set; get; } = new List<HObject>();
 
+        public HTuple Row { set; get; } = new HTuple();
+        public HTuple Column { set; get; } = new HTuple();
+        public HTuple Radius { set; get; } = new HTuple();
+        public HTuple StartPhi { set; get; } = new HTuple();
+        public HTuple EndPhi { set; get; } = new HTuple();
+        public HTuple PointOrder { set; get; } = new HTuple();
 
-
+    }
 
     /// <summary>
     /// 画画类型枚举
     /// </summary>
     public enum Drawing_Type_Enme
     {
-        线段,
-        圆弧
+        Draw_Lin,
+        Draw_Cir,
+        Draw_Ok
     }
 
 }

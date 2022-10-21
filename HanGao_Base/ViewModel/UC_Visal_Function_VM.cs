@@ -1,7 +1,13 @@
 ﻿
+using CommunityToolkit.Mvvm.Messaging;
 using Halcon_SDK_DLL;
+using HalconDotNet;
+using System.Drawing;
+using System.Windows.Input;
+using System.Windows.Shapes;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
+using Point = System.Windows.Point;
 
 namespace HanGao.ViewModel
 {
@@ -34,6 +40,12 @@ namespace HanGao.ViewModel
         }
 
 
+
+        /// <summary>
+        /// 保存添加模型点属性
+        /// </summary>
+        public Vision_Create_Model_Drawing_Model User_Drawing_Data { set; get; }
+
         /// <summary>
         /// 实施相机视角控件
         /// </summary>
@@ -63,6 +75,11 @@ namespace HanGao.ViewModel
 
 
 
+
+
+        /// <summary>
+        /// 鼠标当前位置
+        /// </summary>
         public Point Halcon_Position { set; get; }
 
 
@@ -127,7 +144,7 @@ namespace HanGao.ViewModel
 
                 //设置halcon窗体大小
                 Window_UserContol.HalconWindow.SetWindowExtents(0, 0, (int)Window_UserContol.WindowSize.Width, (int)Window_UserContol.WindowSize.Height);
-
+                Window_UserContol.HalconWindow.SetColor(nameof(KnownColor.Red).ToLower());
 
 
 
@@ -151,7 +168,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 读取Halcon控件鼠标图像位置
         /// </summary>
-        public ICommand HMouseMove_Comm
+        public ICommand HMouseDown_Comm
         {
             get => new AsyncRelayCommand<EventArgs>(async (Sm) =>
             {
@@ -163,10 +180,9 @@ namespace HanGao.ViewModel
                 //Button E = Sm.Source as Button
 
 
-
                 Halcon_Position = new Point(_E.Row, _E.Column);
 
-               
+
                 //MessageBox.Show("X:" + _E.Row.ToString() + " Y:" + _E.Column.ToString());
                 //全部控件显示居中
 
@@ -180,20 +196,49 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 添加直线特征点
         /// </summary>
-        public ICommand Add_Lin_Draw_Comm
+        public ICommand Add_Draw_Data_Comm
         {
             get => new AsyncRelayCommand<RoutedEventArgs>(async (Sm) =>
             {
 
                 MenuItem _E = Sm.Source as MenuItem;
-                //Button E = Sm.Source as Button
+
+                HOperatorSet.SetColor(Features_Window.HWindow, nameof(KnownColor.Red).ToLower());
+
+
+                //生成十字架
+                HOperatorSet.GenCrossContourXld(out HObject ho_Cross, Halcon_Position.X, Halcon_Position.Y, 50, Halcon_SDK.ToRadians(45));
+
+                //显示十字架
+                HOperatorSet.DispXld(ho_Cross, Features_Window.HWindow);
+
+
+                //获取列表对象数量
+                int _number = UC_Vision_Create_Template_ViewMode.Drawing_Data_List.Count;
+
+
+                //属性为空时创建属性
+                User_Drawing_Data ??= new Vision_Create_Model_Drawing_Model() { Number = ++_number, Drawing_Type = (Drawing_Type_Enme)Enum.Parse(typeof(Drawing_Type_Enme), _E.Name), Drawing_Data = new ObservableCollection<Point>() };
+
+
+                //添加坐标点数据
+                User_Drawing_Data.Drawing_Data.Add(new Point(Math.Round(Halcon_Position.X, 3), Math.Round(Halcon_Position.Y, 3)));
 
 
 
-                MessageBox.Show(Halcon_Position.ToString());
-                //MessageBox.Show("X:" + _E.Row.ToString() + " Y:" + _E.Column.ToString());
-                //全部控件显示居中
+                //添加Halcon图像对象,用于后续删除对象
+                switch (User_Drawing_Data.Drawing_Type)
+                {
+                    case Drawing_Type_Enme.Draw_Lin:
+                        User_Drawing_Data.Lin_Xld_Data.HPoint_Group.Add(ho_Cross);
 
+                        break;
+                    case Drawing_Type_Enme.Draw_Cir:
+
+                        User_Drawing_Data.Cir_Xld_Data.HPoint_Group.Add(ho_Cross);
+
+                        break;
+                }
 
                 await Task.Delay(100);
             });
@@ -203,15 +248,104 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 添加圆弧特征点
         /// </summary>
-        public ICommand Add_Cir_Draw_Comm
+        public ICommand Add_Draw_Ok_Comm
         {
             get => new AsyncRelayCommand<RoutedEventArgs>(async (Sm) =>
             {
 
                 MenuItem _E = Sm.Source as MenuItem;
                 //Button E = Sm.Source as Button
-                MessageBox.Show(Halcon_Position.ToString());
+                //MessageBox.Show(Halcon_Position.ToString());
 
+                //初始化坐标属性
+                HTuple RowLine = new();
+                HTuple ColLine = new();
+
+                HObject ho_Cont = new();
+
+
+                //设置显示图像颜色
+                HOperatorSet.SetColor(Features_Window.HWindow, nameof(KnownColor.Red).ToLower());
+
+                //添加到Halcon类型数据
+                for (int i = 0; i < User_Drawing_Data.Drawing_Data.Count; i++)
+                {
+                    RowLine = RowLine.TupleConcat(User_Drawing_Data.Drawing_Data[i].X);
+                    ColLine = ColLine.TupleConcat(User_Drawing_Data.Drawing_Data[i].Y);
+
+                }
+                //根据描绘点生产线段
+                HOperatorSet.GenContourPolygonXld(out HObject ho_Contour1, RowLine, ColLine);
+                //把线段显示到控件窗口
+                HOperatorSet.DispXld(ho_Contour1, Features_Window.HWindow);
+
+
+                switch (User_Drawing_Data.Drawing_Type)
+                {
+                    case Drawing_Type_Enme.Draw_Lin:
+
+                        //拟合直线
+                        HOperatorSet.FitLineContourXld(ho_Contour1, "tukey", -1, 0, 5, 2, out HTuple hv_RowBegin,
+               out HTuple hv_ColBegin, out HTuple hv_RowEnd, out HTuple hv_ColEnd, out HTuple hv_Nr, out HTuple hv_Nc, out HTuple hv_Dist);
+
+
+
+                        //添加拟合直线后参数
+                        User_Drawing_Data.Lin_Xld_Data.RowBegin = hv_RowBegin;
+                        User_Drawing_Data.Lin_Xld_Data.ColBegin = hv_ColBegin;
+                        User_Drawing_Data.Lin_Xld_Data.RowEnd = hv_RowEnd;
+                        User_Drawing_Data.Lin_Xld_Data.ColEnd = hv_ColEnd;
+                        User_Drawing_Data.Lin_Xld_Data.Dist = hv_Dist;
+                        User_Drawing_Data.Lin_Xld_Data.Nc = hv_Nc;
+                        User_Drawing_Data.Lin_Xld_Data.Nr = hv_Nr;
+
+                        //设置显示图像颜色
+                        HOperatorSet.SetColor(Features_Window.HWindow, nameof(KnownColor.Green).ToLower());
+
+                        //生成xld直线
+                        HOperatorSet.GenContourPolygonXld(out ho_Cont, hv_RowBegin.TupleConcat(hv_RowEnd),
+            hv_ColBegin.TupleConcat(hv_ColEnd));
+
+
+                        break;
+                    case Drawing_Type_Enme.Draw_Cir:
+
+                        //拟合xld圆弧
+                        HOperatorSet.FitCircleContourXld(ho_Contour1, "atukey", -1, 2, 0, 5, 2, out HTuple hv_Row,
+   out HTuple hv_Column, out HTuple hv_Radius, out HTuple hv_StartPhi, out HTuple hv_EndPhi, out HTuple hv_PointOrder);
+
+                        //添加拟合圆弧后参数
+                        User_Drawing_Data.Cir_Xld_Data.Row = hv_Row;
+                        User_Drawing_Data.Cir_Xld_Data.Column = hv_Column;
+                        User_Drawing_Data.Cir_Xld_Data.Radius = hv_Radius;
+                        User_Drawing_Data.Cir_Xld_Data.StartPhi = hv_StartPhi;
+                        User_Drawing_Data.Cir_Xld_Data.EndPhi = hv_EndPhi;
+                        User_Drawing_Data.Cir_Xld_Data.PointOrder = hv_PointOrder;
+
+                        //设置显示图像颜色
+                        HOperatorSet.SetColor(Features_Window.HWindow, nameof(KnownColor.Green).ToLower());
+
+                        //显示xld圆弧
+                        HOperatorSet.GenCircleContourXld(out ho_Cont, hv_Row, hv_Column, hv_Radius,
+                            hv_StartPhi, hv_EndPhi, hv_PointOrder, 0.5);
+
+                        break;
+
+                }
+
+
+                //把线段显示到控件窗口
+                HOperatorSet.DispXld(ho_Cont, Features_Window.HWindow);
+
+
+
+
+
+                //创建点增加到UI显示
+                UC_Vision_Create_Template_ViewMode.Drawing_Data_List.Add(User_Drawing_Data);
+                //Messenger.Send<Vision_Create_Model_Drawing_Model, string>(User_Drawing_Data, nameof(Meg_Value_Eunm.Add_Draw_Data));
+
+                User_Drawing_Data = null;
 
 
                 //MessageBox.Show("X:" + _E.Row.ToString() + " Y:" + _E.Column.ToString());

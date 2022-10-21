@@ -192,13 +192,13 @@
 
 
 
-                    <Grid Grid.Row=" 1"   >
+                    <Grid Grid.Row=" 1">
                         <Grid.Style>
                             <Style TargetType="Grid">
-                                <Setter Property="Visibility" Value="Hidden"/>
+                                <Setter Property="Visibility" Value="Hidden" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsChecked, ElementName=Live_Window_Button}" Value="True">
-                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Setter Property="Visibility" Value="Visible" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -220,15 +220,13 @@
 
                         <!--  相机图像  -->
                         <Halcon:HSmartWindowControlWPF x:Name="Live_Window"
-                                                   
                                                        HorizontalAlignment="Stretch"
                                                        VerticalAlignment="Stretch"
                                                        HorizontalContentAlignment="Center"
                                                        VerticalContentAlignment="Center"
                                                        HDisableAutoResize="True"
-                                                       SnapsToDevicePixels="True"
-                                                    >
-       
+                                                       SnapsToDevicePixels="True">
+
                             <i:Interaction.Triggers>
 
                                 <i:EventTrigger EventName="Loaded">
@@ -238,14 +236,14 @@
                                 </i:EventTrigger>
 
 
-                                
+
 
 
                             </i:Interaction.Triggers>
-                        
 
-          
-                        
+
+
+
                             <Halcon:HSmartWindowControlWPF.OpacityMask>
                                 <VisualBrush Visual="{Binding ElementName=Mask}" />
                             </Halcon:HSmartWindowControlWPF.OpacityMask>
@@ -256,13 +254,13 @@
 
                     </Grid>
 
-                    <Grid Grid.Row=" 1" >
+                    <Grid Grid.Row=" 1">
                         <Grid.Style>
                             <Style TargetType="Grid">
-                                <Setter Property="Visibility" Value="Hidden"/>
+                                <Setter Property="Visibility" Value="Hidden" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsChecked, ElementName=Results_Window_Button}" Value="True">
-                                        <Setter Property="Visibility"  Value="Visible"/>
+                                        <Setter Property="Visibility" Value="Visible" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -555,13 +553,13 @@
 
                     </Grid>
 
-                    <Grid Grid.Row=" 1" >
+                    <Grid Grid.Row=" 1">
                         <Grid.Style>
                             <Style TargetType="Grid">
-                                <Setter Property="Visibility" Value="Hidden"/>
+                                <Setter Property="Visibility" Value="Hidden" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsChecked, ElementName=Features_Window_Button}" Value="True">
-                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Setter Property="Visibility" Value="Visible" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -578,28 +576,35 @@
                                                        VerticalContentAlignment="Center"
                                                        SnapsToDevicePixels="True">
                             <Halcon:HSmartWindowControlWPF.ContextMenu>
-                                <ContextMenu  >
-                                    <MenuItem Name="Lin" Header="添加直线特征点">
+                                <ContextMenu>
+                                    <MenuItem x:Name="Draw_Lin" Header="添加直线特征点">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Click">
-                                                <i:InvokeCommandAction Command="{Binding Add_Lin_Draw_Comm}"
-                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                           PassEventArgsToCommand="True" />
+                                                <i:InvokeCommandAction Command="{Binding Add_Draw_Data_Comm}"
+                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                       PassEventArgsToCommand="True" />
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </MenuItem>
-                                    <MenuItem Name="Cir" Header="添加圆弧特征点">
+                                    <MenuItem x:Name="Draw_Cir" Header="添加圆弧特征点">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Click">
-                                                <i:InvokeCommandAction Command="{Binding Add_Cir_Draw_Comm}"
-                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                           PassEventArgsToCommand="True" />
+                                                <i:InvokeCommandAction Command="{Binding Add_Draw_Data_Comm}"
+                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                       PassEventArgsToCommand="True" />
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </MenuItem>
-                                    <Separator>
-                                    </Separator>
-                                    <MenuItem Name="OK" Header="完成组特征"/>
+                                    <Separator />
+                                    <MenuItem x:Name="Draw_Ok" Header="完成组特征">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding Add_Draw_Ok_Comm}"
+                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                       PassEventArgsToCommand="True" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </MenuItem>
 
                                 </ContextMenu>
                             </Halcon:HSmartWindowControlWPF.ContextMenu>
@@ -611,11 +616,10 @@
                                                            PassEventArgsToCommand="True" />
                                 </i:EventTrigger>
 
-                                <i:EventTrigger EventName="HMouseMove">
-                                    <i:InvokeCommandAction Command="{Binding HMouseMove_Comm}"   
-                                                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                           PassEventArgsToCommand="True" 
-                                                          />
+                                <i:EventTrigger EventName="HMouseDown">
+                                    <i:InvokeCommandAction Command="{Binding HMouseDown_Comm}"
+                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                           PassEventArgsToCommand="True" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
 
@@ -623,7 +627,7 @@
 
 
 
-                            <!--//外观遮罩-->
+                            <!--  //外观遮罩  -->
                             <Halcon:HSmartWindowControlWPF.OpacityMask>
                                 <VisualBrush Visual="{Binding ElementName=Mask}" />
                             </Halcon:HSmartWindowControlWPF.OpacityMask>
@@ -773,11 +777,11 @@
                             CornerRadius="5"
                             Effect="{DynamicResource 全局背景阴影}" />
 
-                    <StackPanel >
-                        <TextBlock Text="{Binding Halcon_Position}"/>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Halcon_Position}" />
                     </StackPanel>
-                    
-                    
+
+
                     <StackPanel Margin="5"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Center"
@@ -785,7 +789,8 @@
 
 
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}"
-                                     Name="Camera_Settings"    IsChecked="True"
+                                     Name="Camera_Settings"
+                                     IsChecked="True"
                                      Width=" 120"
                                      Height=" 35"
                                      Margin="2"
@@ -892,7 +897,6 @@
                         </RadioButton>
 
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Auto_Model"
-                                  
                                      Width=" 120"
                                      Height=" 35"
                                      Margin="2"

@@ -249,7 +249,13 @@ namespace HanGao.ViewModel.Messenger_Eunm
            /// <summary>
            /// 单帧图像显示
            /// </summary>
-            Single_Image_Show
+            Single_Image_Show,
+
+            /// <summary>
+            /// 添加模型画画数据
+            /// </summary>
+            Add_Draw_Data,
+
 
         }
 

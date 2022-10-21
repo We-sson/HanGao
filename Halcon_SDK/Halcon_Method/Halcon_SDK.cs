@@ -64,5 +64,19 @@ namespace Halcon_SDK_DLL
 
         }
 
+
+
+        /// <summary>
+        /// 角度转弧度
+        /// </summary>
+        /// <param name="_degrees"></param>
+        /// <returns></returns>
+        public static double ToRadians(double _degrees)
+        {
+            double radians = (Math.PI / 180) * _degrees;
+            return (radians);
+        }
+
+
     }
 }
