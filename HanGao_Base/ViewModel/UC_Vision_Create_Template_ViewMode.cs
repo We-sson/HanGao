@@ -2,16 +2,19 @@
 using Halcon_SDK_DLL;
 using HanGao.Model;
 using Microsoft.Win32;
+using System.Drawing;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static MVS_SDK_Base.Model.MVS_Model;
+using Point = System.Windows.Point;
 
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-        public  class UC_Vision_Create_Template_ViewMode: ObservableRecipient
+    public class UC_Vision_Create_Template_ViewMode : ObservableRecipient
     {
         public UC_Vision_Create_Template_ViewMode()
         {
@@ -39,112 +42,112 @@ namespace HanGao.ViewModel
 
 
 
-        //    Drawing_Data_List = new ObservableCollection<Vision_Create_Model_Drawing_Model>()
-        //    {
-        //        new Vision_Create_Model_Drawing_Model()
-        //        {
-        //             Drawing_Type= Drawing_Type_Enme.Draw_Lin,
-        //             Number =1,
-        //             Drawing_Data=new List<Vision_Create_Model_Drawing_Data_Model>()
-        //             {
-        //                 new Vision_Create_Model_Drawing_Data_Model()
-        //                 {
-        //                      X=123, Y=456
-        //                 },
-        //                 new Vision_Create_Model_Drawing_Data_Model()
-        //                 {
-        //                      X=123, Y=456
-        //                 },
-        //                 new Vision_Create_Model_Drawing_Data_Model()
-        //                 {
-        //                      X=123, Y=456
-        //                 },
-        //             }
-        //        },
-        //         new Vision_Create_Model_Drawing_Model()
-        //        {
-        //             Drawing_Type= Drawing_Type_Enme.Draw_Lin,
-        //             Number =2,
-        //             Drawing_Data=new List<Vision_Create_Model_Drawing_Data_Model>()
-        //             {
-        //                 new Vision_Create_Model_Drawing_Data_Model()
-        //                 {
-        //                      X=123, Y=456
-        //                 },
-        //                 new Vision_Create_Model_Drawing_Data_Model()
-        //                 {
-        //                      X=123, Y=456
-        //                 },
-        //                 new Vision_Create_Model_Drawing_Data_Model()
-        //                 {
-        //                      X=123, Y=456
-        //                 },
-        //             }
-        //        },
-        //        new Vision_Create_Model_Drawing_Model()
-        //        {
-        //             Drawing_Type= Drawing_Type_Enme.Draw_Lin,
-        //             Number =3,
-        //             Drawing_Data=new List<Vision_Create_Model_Drawing_Data_Model>()
-        //             {
-        //                 new Vision_Create_Model_Drawing_Data_Model()
-        //                 {
-        //                      X=1123, Y=456
-        //                 },
-        //                 new Vision_Create_Model_Drawing_Data_Model()
-        //                 {
-        //                      X=123, Y=456
-        //                 },
-        //                 new Vision_Create_Model_Drawing_Data_Model()
-        //                 {
-        //                      X=123, Y=4561
-        //                 },
-        //                 new Vision_Create_Model_Drawing_Data_Model()
-        //                 {
-        //                      X=123, Y=456
-        //                 },
-        //                 new Vision_Create_Model_Drawing_Data_Model()
-        //                 {
-        //                      X=123, Y=4561
-        //                 },
-        //                 new Vision_Create_Model_Drawing_Data_Model()
-        //                 {
-        //                      X=1213, Y=456
-        //                 },
-        //             }
-        //        },
-        //        new Vision_Create_Model_Drawing_Model()
-        //        {
-        //             Drawing_Type= Drawing_Type_Enme.Draw_Lin,
-        //             Number =4,
-        //            Drawing_Data=new List<Vision_Create_Model_Drawing_Data_Model>()
-        //             {
-        //                 new Vision_Create_Model_Drawing_Data_Model()
-        //                 {
-        //                      X=123, Y=456
-        //                 }
-        //             }
-        //        }, 
-        //        new Vision_Create_Model_Drawing_Model()
-        //        {
-        //             Drawing_Type= Drawing_Type_Enme.Draw_Lin,
-        //             Number =5,
-        //             Drawing_Data=new List<Vision_Create_Model_Drawing_Data_Model>()
-        //             {
-        //                 new Vision_Create_Model_Drawing_Data_Model()
-        //                 {
-        //                      X=123, Y=456
-        //                 }
-        //             }
-        //        },
-        //};
- 
+            //    Drawing_Data_List = new ObservableCollection<Vision_Create_Model_Drawing_Model>()
+            //    {
+            //        new Vision_Create_Model_Drawing_Model()
+            //        {
+            //             Drawing_Type= Drawing_Type_Enme.Draw_Lin,
+            //             Number =1,
+            //             Drawing_Data=new List<Vision_Create_Model_Drawing_Data_Model>()
+            //             {
+            //                 new Vision_Create_Model_Drawing_Data_Model()
+            //                 {
+            //                      X=123, Y=456
+            //                 },
+            //                 new Vision_Create_Model_Drawing_Data_Model()
+            //                 {
+            //                      X=123, Y=456
+            //                 },
+            //                 new Vision_Create_Model_Drawing_Data_Model()
+            //                 {
+            //                      X=123, Y=456
+            //                 },
+            //             }
+            //        },
+            //         new Vision_Create_Model_Drawing_Model()
+            //        {
+            //             Drawing_Type= Drawing_Type_Enme.Draw_Lin,
+            //             Number =2,
+            //             Drawing_Data=new List<Vision_Create_Model_Drawing_Data_Model>()
+            //             {
+            //                 new Vision_Create_Model_Drawing_Data_Model()
+            //                 {
+            //                      X=123, Y=456
+            //                 },
+            //                 new Vision_Create_Model_Drawing_Data_Model()
+            //                 {
+            //                      X=123, Y=456
+            //                 },
+            //                 new Vision_Create_Model_Drawing_Data_Model()
+            //                 {
+            //                      X=123, Y=456
+            //                 },
+            //             }
+            //        },
+            //        new Vision_Create_Model_Drawing_Model()
+            //        {
+            //             Drawing_Type= Drawing_Type_Enme.Draw_Lin,
+            //             Number =3,
+            //             Drawing_Data=new List<Vision_Create_Model_Drawing_Data_Model>()
+            //             {
+            //                 new Vision_Create_Model_Drawing_Data_Model()
+            //                 {
+            //                      X=1123, Y=456
+            //                 },
+            //                 new Vision_Create_Model_Drawing_Data_Model()
+            //                 {
+            //                      X=123, Y=456
+            //                 },
+            //                 new Vision_Create_Model_Drawing_Data_Model()
+            //                 {
+            //                      X=123, Y=4561
+            //                 },
+            //                 new Vision_Create_Model_Drawing_Data_Model()
+            //                 {
+            //                      X=123, Y=456
+            //                 },
+            //                 new Vision_Create_Model_Drawing_Data_Model()
+            //                 {
+            //                      X=123, Y=4561
+            //                 },
+            //                 new Vision_Create_Model_Drawing_Data_Model()
+            //                 {
+            //                      X=1213, Y=456
+            //                 },
+            //             }
+            //        },
+            //        new Vision_Create_Model_Drawing_Model()
+            //        {
+            //             Drawing_Type= Drawing_Type_Enme.Draw_Lin,
+            //             Number =4,
+            //            Drawing_Data=new List<Vision_Create_Model_Drawing_Data_Model>()
+            //             {
+            //                 new Vision_Create_Model_Drawing_Data_Model()
+            //                 {
+            //                      X=123, Y=456
+            //                 }
+            //             }
+            //        }, 
+            //        new Vision_Create_Model_Drawing_Model()
+            //        {
+            //             Drawing_Type= Drawing_Type_Enme.Draw_Lin,
+            //             Number =5,
+            //             Drawing_Data=new List<Vision_Create_Model_Drawing_Data_Model>()
+            //             {
+            //                 new Vision_Create_Model_Drawing_Data_Model()
+            //                 {
+            //                      X=123, Y=456
+            //                 }
+            //             }
+            //        },
+            //};
+
 
         }
 
 
 
-        private  static ObservableCollection<Vision_Create_Model_Drawing_Model> Drawing_Data_List_M { get; set; } = new ObservableCollection<Vision_Create_Model_Drawing_Model>();
+        private static ObservableCollection<Vision_Create_Model_Drawing_Model> Drawing_Data_List_M { get; set; } = new ObservableCollection<Vision_Create_Model_Drawing_Model>();
         /// <summary>
         /// 画画数据列表
         /// </summary>
@@ -176,7 +179,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// UI图像文件显示地址
         /// </summary>
-        public string Image_Location_UI { set; get; } 
+        public string Image_Location_UI { set; get; }
 
 
         /// <summary>
@@ -186,7 +189,7 @@ namespace HanGao.ViewModel
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
-                Button  Window_UserContol = Sm.Source as Button;
+                Button Window_UserContol = Sm.Source as Button;
 
 
 
@@ -194,12 +197,12 @@ namespace HanGao.ViewModel
                 OpenFileDialog openFileDialog = new OpenFileDialog
                 {
                     InitialDirectory = Environment.CurrentDirectory,
-                    Filter = "图片文件|*.jpg;*.gif;*.bmp;*.png;*.tif;*.tiff;*.gif;*.bmp;*.jpg;*.jpeg;*.jp2;*.png;*.pcx;*.pgm;*.ppm;*.pbm;*.xwd;*.ima;*.hobj;",  
+                    Filter = "图片文件|*.jpg;*.gif;*.bmp;*.png;*.tif;*.tiff;*.gif;*.bmp;*.jpg;*.jpeg;*.jp2;*.png;*.pcx;*.pgm;*.ppm;*.pbm;*.xwd;*.ima;*.hobj;",
                     RestoreDirectory = true
                 };
-                
 
-       
+
+
                 //选择图像文件
                 if (openFileDialog.ShowDialog() == true)
                 {
@@ -237,13 +240,13 @@ namespace HanGao.ViewModel
 
 
 
-                        if (Image_Location_UI!="")
+                        if (Image_Location_UI != "")
                         {
 
-                        //转换Halcon图像变量
-                        HObject Image = SHalcon.Local_To_Halcon_Image(Image_Location_UI);
-                        //发送显示图像位置
-                        Messenger.Send<HImage_Display_Model, string>(new HImage_Display_Model() { Image = Image, Image_Show_Halcon = UC_Visal_Function_VM.Features_Window.HWindow }, nameof(Meg_Value_Eunm.HWindow_Image_Show));
+                            //转换Halcon图像变量
+                            HObject Image = SHalcon.Local_To_Halcon_Image(Image_Location_UI);
+                            //发送显示图像位置
+                            Messenger.Send<HImage_Display_Model, string>(new HImage_Display_Model() { Image = Image, Image_Show_Halcon = UC_Visal_Function_VM.Features_Window.HWindow }, nameof(Meg_Value_Eunm.HWindow_Image_Show));
                         }
 
 
@@ -261,7 +264,7 @@ namespace HanGao.ViewModel
 
                 await Task.Delay(100);
 
-              
+
 
             });
         }
@@ -285,7 +288,7 @@ namespace HanGao.ViewModel
     public class Vision_Create_Model_Drawing_Model
     {
         public int Number { set; get; } = new int();
-        
+
         public Drawing_Type_Enme Drawing_Type { set; get; } = new Drawing_Type_Enme();
 
         public ObservableCollection<Point> Drawing_Data { set; get; } = new ObservableCollection<Point>();
@@ -293,6 +296,8 @@ namespace HanGao.ViewModel
         public Line_Contour_Xld_Model Lin_Xld_Data { set; get; } = new Line_Contour_Xld_Model();
 
         public Cir_Contour_Xld_Model Cir_Xld_Data { set; get; } = new Cir_Contour_Xld_Model();
+
+
 
 
         /// <summary>
@@ -304,38 +309,80 @@ namespace HanGao.ViewModel
             {
                 Button _B = Sm.Source as Button;
 
-                Vision_Create_Model_Drawing_Model _Data =_B.DataContext as Vision_Create_Model_Drawing_Model;
+                Vision_Create_Model_Drawing_Model _Data = _B.DataContext as Vision_Create_Model_Drawing_Model;
 
-
+                //筛选需要删除的对象
                 Vision_Create_Model_Drawing_Model _Drawing = UC_Vision_Create_Template_ViewMode.Drawing_Data_List.Where(_L => _L.Number == _Data.Number).Single();
+
+                //清除控件显示
                 HOperatorSet.ClearWindow(UC_Visal_Function_VM.Features_Window.HWindow);
 
+                //显示图像
+                HOperatorSet.DispObj(UC_Visal_Function_VM.Load_Image, UC_Visal_Function_VM.Features_Window.HWindow);
+
+                //移除集合中的对象
+                UC_Vision_Create_Template_ViewMode.Drawing_Data_List.Remove(_Drawing);
 
 
+                //重新显示没有移除的对象
                 switch (_Drawing.Drawing_Type)
                 {
                     case Drawing_Type_Enme.Draw_Lin:
 
-                foreach (var item in _Drawing.Lin_Xld_Data.HPoint_Group)
-                {
+                        foreach (var item in UC_Vision_Create_Template_ViewMode.Drawing_Data_List)
+                        {
 
+                            //设置显示图像颜色
+                            HOperatorSet.SetColor(UC_Visal_Function_VM.Features_Window.HWindow, nameof(KnownColor.Red).ToLower());
+                            HOperatorSet.SetLineWidth(UC_Visal_Function_VM.Features_Window.HWindow, 1);
+                            foreach (var _Group in item.Lin_Xld_Data.HPoint_Group)
+                            {
+                                HOperatorSet.DispObj(_Group, UC_Visal_Function_VM.Features_Window.HWindow);
+                            }
+                            HOperatorSet.DispObj(item.Lin_Xld_Data.Xld_Region, UC_Visal_Function_VM.Features_Window.HWindow);
 
-                            HOperatorSet.ClearObj(item);
-         
+                            //设置显示图像颜色
+                            HOperatorSet.SetColor(UC_Visal_Function_VM.Features_Window.HWindow, nameof(KnownColor.Green).ToLower());
+                            HOperatorSet.SetLineWidth(UC_Visal_Function_VM.Features_Window.HWindow, 3);
+                            HOperatorSet.DispObj(item.Lin_Xld_Data.Lin_Xld_Region, UC_Visal_Function_VM.Features_Window.HWindow);
                         }
-
 
                         break;
                     case Drawing_Type_Enme.Draw_Cir:
 
+                        foreach (var item in UC_Vision_Create_Template_ViewMode.Drawing_Data_List)
+                        {
+
+                            //设置显示图像颜色
+                            HOperatorSet.SetColor(UC_Visal_Function_VM.Features_Window.HWindow, nameof(KnownColor.Red).ToLower());
+                            HOperatorSet.SetLineWidth(UC_Visal_Function_VM.Features_Window.HWindow, 1);
+                            foreach (var _Group in item.Cir_Xld_Data.HPoint_Group)
+                            {
+                                HOperatorSet.DispObj(_Group, UC_Visal_Function_VM.Features_Window.HWindow);
+                            }
+                            HOperatorSet.DispObj(item.Cir_Xld_Data.Xld_Region, UC_Visal_Function_VM.Features_Window.HWindow);
+                            //设置显示图像颜色
+                            HOperatorSet.SetColor(UC_Visal_Function_VM.Features_Window.HWindow, nameof(KnownColor.Green).ToLower());
+                            HOperatorSet.SetLineWidth(UC_Visal_Function_VM.Features_Window.HWindow, 3);
+                            HOperatorSet.DispObj(item.Cir_Xld_Data.Cir_Xld_Region, UC_Visal_Function_VM.Features_Window.HWindow);
+                        }
 
 
                         break;
                 }
-               
 
 
-                UC_Vision_Create_Template_ViewMode.Drawing_Data_List.Remove(_Drawing);
+
+
+
+
+
+
+
+
+
+
+
 
             });
         }
@@ -350,16 +397,17 @@ namespace HanGao.ViewModel
     /// <summary>
     /// Halcon  Xld直线参数属性
     /// </summary>
-    [AddINotifyPropertyChangedInterface]
     public class Line_Contour_Xld_Model
     {
 
 
         public List<HObject> HPoint_Group { set; get; } = new List<HObject>();
+        public HObject Lin_Xld_Region { set; get; } = new HObject();
+        public HObject Xld_Region { set; get; } = new HObject();
 
         public HTuple RowBegin { set; get; } = new HTuple();
         public HTuple ColBegin { set; get; } = new HTuple();
-        public HTuple RowEnd { set; get; } = new HTuple();  
+        public HTuple RowEnd { set; get; } = new HTuple();
         public HTuple ColEnd { set; get; } = new HTuple();
         public HTuple Nr { set; get; } = new HTuple();
         public HTuple Nc { set; get; } = new HTuple();
@@ -370,10 +418,12 @@ namespace HanGao.ViewModel
     /// <summary>
     /// Halcon  Xld圆弧参数属性
     /// </summary>
-    [AddINotifyPropertyChangedInterface]
     public class Cir_Contour_Xld_Model
     {
         public List<HObject> HPoint_Group { set; get; } = new List<HObject>();
+        public HObject Cir_Xld_Region { set; get; } = new HObject();
+        public HObject Xld_Region { set; get; } = new HObject();
+
 
         public HTuple Row { set; get; } = new HTuple();
         public HTuple Column { set; get; } = new HTuple();

@@ -24,9 +24,15 @@ namespace HanGao.ViewModel
             //halcon实时图像显示操作
             Messenger.Register<HImage_Display_Model, string>(this, nameof(Meg_Value_Eunm.HWindow_Image_Show), (O, _Mvs_Image) =>
             {
-
+                //显示图像到对应窗口
                 HOperatorSet.DispObj(_Mvs_Image.Image, _Mvs_Image.Image_Show_Halcon);
-                _Mvs_Image.Image.Dispose();
+                //保存功能窗口图像
+                if (_Mvs_Image.Image_Show_Halcon == Features_Window.HWindow)
+                {
+                    Load_Image = _Mvs_Image.Image;
+                }
+
+
 
 
             });
@@ -73,7 +79,7 @@ namespace HanGao.ViewModel
 
 
 
-
+        public static HObject Load_Image { set; get; }
 
 
 
@@ -246,7 +252,7 @@ namespace HanGao.ViewModel
 
 
         /// <summary>
-        /// 添加圆弧特征点
+        /// 添加拟合特征点
         /// </summary>
         public ICommand Add_Draw_Ok_Comm
         {
@@ -264,9 +270,6 @@ namespace HanGao.ViewModel
                 HObject ho_Cont = new();
 
 
-                //设置显示图像颜色
-                HOperatorSet.SetColor(Features_Window.HWindow, nameof(KnownColor.Red).ToLower());
-
                 //添加到Halcon类型数据
                 for (int i = 0; i < User_Drawing_Data.Drawing_Data.Count; i++)
                 {
@@ -276,6 +279,10 @@ namespace HanGao.ViewModel
                 }
                 //根据描绘点生产线段
                 HOperatorSet.GenContourPolygonXld(out HObject ho_Contour1, RowLine, ColLine);
+
+                //设置显示图像颜色
+                HOperatorSet.SetColor(Features_Window.HWindow, nameof(KnownColor.Red).ToLower());
+                HOperatorSet.SetLineWidth(Features_Window.HWindow, 1);
                 //把线段显示到控件窗口
                 HOperatorSet.DispXld(ho_Contour1, Features_Window.HWindow);
 
@@ -287,6 +294,9 @@ namespace HanGao.ViewModel
                         //拟合直线
                         HOperatorSet.FitLineContourXld(ho_Contour1, "tukey", -1, 0, 5, 2, out HTuple hv_RowBegin,
                out HTuple hv_ColBegin, out HTuple hv_RowEnd, out HTuple hv_ColEnd, out HTuple hv_Nr, out HTuple hv_Nc, out HTuple hv_Dist);
+                        //生成xld直线
+                        HOperatorSet.GenContourPolygonXld(out ho_Cont, hv_RowBegin.TupleConcat(hv_RowEnd),
+            hv_ColBegin.TupleConcat(hv_ColEnd));
 
 
 
@@ -298,21 +308,17 @@ namespace HanGao.ViewModel
                         User_Drawing_Data.Lin_Xld_Data.Dist = hv_Dist;
                         User_Drawing_Data.Lin_Xld_Data.Nc = hv_Nc;
                         User_Drawing_Data.Lin_Xld_Data.Nr = hv_Nr;
-
-                        //设置显示图像颜色
-                        HOperatorSet.SetColor(Features_Window.HWindow, nameof(KnownColor.Green).ToLower());
-
-                        //生成xld直线
-                        HOperatorSet.GenContourPolygonXld(out ho_Cont, hv_RowBegin.TupleConcat(hv_RowEnd),
-            hv_ColBegin.TupleConcat(hv_ColEnd));
-
-
+                        User_Drawing_Data.Lin_Xld_Data.Lin_Xld_Region = ho_Cont;
+                        User_Drawing_Data.Lin_Xld_Data.Xld_Region = ho_Contour1;
                         break;
                     case Drawing_Type_Enme.Draw_Cir:
 
                         //拟合xld圆弧
                         HOperatorSet.FitCircleContourXld(ho_Contour1, "atukey", -1, 2, 0, 5, 2, out HTuple hv_Row,
    out HTuple hv_Column, out HTuple hv_Radius, out HTuple hv_StartPhi, out HTuple hv_EndPhi, out HTuple hv_PointOrder);
+                        //显示xld圆弧
+                        HOperatorSet.GenCircleContourXld(out ho_Cont, hv_Row, hv_Column, hv_Radius,
+                            hv_StartPhi, hv_EndPhi, hv_PointOrder, 0.5);
 
                         //添加拟合圆弧后参数
                         User_Drawing_Data.Cir_Xld_Data.Row = hv_Row;
@@ -321,21 +327,25 @@ namespace HanGao.ViewModel
                         User_Drawing_Data.Cir_Xld_Data.StartPhi = hv_StartPhi;
                         User_Drawing_Data.Cir_Xld_Data.EndPhi = hv_EndPhi;
                         User_Drawing_Data.Cir_Xld_Data.PointOrder = hv_PointOrder;
+                        User_Drawing_Data.Cir_Xld_Data.Cir_Xld_Region = ho_Cont;
+                        User_Drawing_Data.Cir_Xld_Data.Xld_Region = ho_Contour1;
 
-                        //设置显示图像颜色
-                        HOperatorSet.SetColor(Features_Window.HWindow, nameof(KnownColor.Green).ToLower());
-
-                        //显示xld圆弧
-                        HOperatorSet.GenCircleContourXld(out ho_Cont, hv_Row, hv_Column, hv_Radius,
-                            hv_StartPhi, hv_EndPhi, hv_PointOrder, 0.5);
 
                         break;
 
                 }
 
 
+                //设置显示图像颜色
+                HOperatorSet.SetColor(Features_Window.HWindow, nameof(KnownColor.Green).ToLower());
+                HOperatorSet.SetLineWidth(Features_Window.HWindow, 3);
+
                 //把线段显示到控件窗口
                 HOperatorSet.DispXld(ho_Cont, Features_Window.HWindow);
+
+                //设置显示图像颜色
+                HOperatorSet.SetColor(Features_Window.HWindow, nameof(KnownColor.Red).ToLower());
+                HOperatorSet.SetLineWidth(Features_Window.HWindow, 1);
 
 
 
