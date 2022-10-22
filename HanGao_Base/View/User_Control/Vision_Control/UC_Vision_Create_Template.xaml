@@ -102,7 +102,7 @@
                                           SelectedIndex="{Binding Image_CollectionMethod_UI}">
 
 
-                                    <ComboBoxItem BorderBrush="Black">
+                                    <ComboBoxItem>
 
                                         <TextBlock Text="相机采集"
                                                    TextWrapping="Wrap"
@@ -515,7 +515,7 @@
                           Margin="0,0,0,10"
                           HorizontalContentAlignment="Stretch"
                           VerticalContentAlignment="Stretch"
-                          IsExpanded="False">
+                          IsExpanded="True">
                     <Expander.Header>
                         <Border Margin="0" Background="{DynamicResource 全局_按钮_黑颜色}">
                             <Border.Style>
@@ -582,18 +582,30 @@
 
                                 <Grid Grid.Column=" 1" Margin="4">
                                     <StackPanel>
-                                        <CheckBox Content="一般形状匹配"
+                                        <CheckBox Style="{DynamicResource Button_List_Style}"
+                                                  Content="一般形状匹配"
                                                   Margin="4"
-                                                  FontSize=" 16" />
-                                        <CheckBox Content="比例缩放匹配"
+                                                  FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                  FontSize="16"
+                                                  Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                        <CheckBox Style="{DynamicResource Button_List_Style}"
+                                                  Content="比例缩放匹配"
                                                   Margin="4"
-                                                  FontSize=" 16" />
-                                        <CheckBox Content="线性变形匹配"
+                                                  FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                  FontSize="16"
+                                                  Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                        <CheckBox Style="{DynamicResource Button_List_Style}"
+                                                  Content="线性变形匹配"
                                                   Margin="4"
-                                                  FontSize=" 16" />
-                                        <CheckBox Content="局部变形匹配"
+                                                  FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                  FontSize="16"
+                                                  Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                        <CheckBox Style="{DynamicResource Button_List_Style}"
+                                                  Content="局部变形匹配"
                                                   Margin="4"
-                                                  FontSize=" 16" />
+                                                  FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                  FontSize="16"
+                                                  Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                     </StackPanel>
                                 </Grid>
 
@@ -623,43 +635,47 @@
                                           VerticalContentAlignment="Center"
                                           BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                           BorderThickness="2"
-                                          IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
                                           SelectedIndex="0">
-                                    <ComboBoxItem Padding="6">
+                                    <ComboBoxItem>
 
                                         <TextBlock Text="一般形状匹配参数"
                                                    TextWrapping="Wrap"
+                                                   Padding="0,4,0,4"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                    FontSize="14"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </ComboBoxItem>
-                                    <ComboBoxItem Padding="6">
+
+                                    <ComboBoxItem>
 
                                         <TextBlock Text="比例缩放匹配参数"
                                                    Width=" 150"
                                                    TextWrapping="Wrap"
+                                                   Padding="0,4,0,4"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                    FontSize="14"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </ComboBoxItem>
-                                    <ComboBoxItem Padding="6">
+                                    <ComboBoxItem>
 
                                         <TextBlock Text="线性变形匹配参数"
                                                    Width=" 150"
                                                    TextWrapping="Wrap"
+                                                   Padding="0,4,0,4"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                    FontSize="14"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </ComboBoxItem>
-                                    <ComboBoxItem Padding="6">
+                                    <ComboBoxItem>
 
                                         <TextBlock Text="局部变形匹配参数"
                                                    Width=" 150"
                                                    TextWrapping="Wrap"
+                                                   Padding="0,4,0,4"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                    FontSize="14"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
@@ -683,27 +699,37 @@
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" Grid.Column=" 1"
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="NumLeves" Grid.Column=" 1"
                                         Margin="5"
                                         VerticalAlignment="Center"
                                         HorizontalContentAlignment="Stretch"
                                         VerticalContentAlignment="Stretch"
                                         IsSnapToTickEnabled="True"
-                                        Maximum="1"
+                                        Maximum="10"
                                         Minimum=" 0"
-                                        SmallChange="0.1"
-                                        TickFrequency=" 0.1"
-                                        Value="1" />
+                                        SmallChange="1"
+                                        TickFrequency=" 1"
+                                        Value="0" />
 
-                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="1"
+                                <TextBox Grid.Column=" 2"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
                                          Background="Transparent"
                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                          BorderThickness="2"
-                                         FontSize="18" />
+                                         FontSize="18">
+                                    <TextBox.Style>
+                                        <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="TextBox">
+                                            <Setter Property="Text" Value="{Binding ElementName=NumLeves, Path=Value}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ElementName=NumLeves, Path=Value}" Value="0">
+                                                    <Setter Property="Text" Value="Auto" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
                             </Grid>
 
                             <Grid Height="35" Margin="8">
@@ -719,20 +745,20 @@
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Camera_Gain" Grid.Column=" 1"
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="AngleStart" Grid.Column=" 1"
                                         Margin="5"
                                         VerticalAlignment="Center"
                                         HorizontalContentAlignment="Stretch"
                                         VerticalContentAlignment="Stretch"
                                         IsSnapToTickEnabled="True"
-                                        Maximum="10"
-                                        Minimum="-10"
+                                        Maximum="0"
+                                        Minimum="-360"
                                         SmallChange="0.1"
-                                        TickFrequency=" 0.01"
-                                        Value="1" />
+                                        TickFrequency="0.1"
+                                        Value="0" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=Camera_Gain, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Text="{Binding ElementName=AngleStart, Path=Value}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -755,20 +781,19 @@
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" Grid.Column=" 1"
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="AngleExtent" Grid.Column=" 1"
                                         Margin="5"
                                         VerticalAlignment="Center"
                                         HorizontalContentAlignment="Stretch"
                                         VerticalContentAlignment="Stretch"
                                         IsSnapToTickEnabled="True"
-                                        Maximum="1"
+                                        Maximum="360"
                                         Minimum=" 0"
-                                        SmallChange="0.1"
                                         TickFrequency=" 0.1"
-                                        Value="1" />
+                                        Value="360" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="2"
+                                         Text="{Binding ElementName=AngleExtent, Path=Value}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -791,20 +816,64 @@
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" Grid.Column=" 1"
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="AngleStep" Grid.Column=" 1"
                                         Margin="5"
                                         VerticalAlignment="Center"
                                         HorizontalContentAlignment="Stretch"
                                         VerticalContentAlignment="Stretch"
                                         IsSnapToTickEnabled="True"
-                                        Maximum="10"
-                                        Minimum="-10"
-                                        SmallChange="0.1"
+                                        Maximum="1.57"
+                                        Minimum="0"
                                         TickFrequency=" 0.01"
-                                        Value="1" />
+                                        Value="0" />
+
+                                <TextBox Grid.Column=" 2"
+                                         Width=" 100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18">
+                                    <TextBox.Style>
+                                        <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="TextBox">
+                                            <Setter Property="Text" Value="{Binding ElementName=AngleStep, Path=Value}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ElementName=AngleStep, Path=Value}" Value="0">
+                                                    <Setter Property="Text" Value="Auto" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="最小比例"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="ScaleMin" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="1"
+                                        Minimum="0.5"
+                                        TickFrequency=" 0.1"
+                                        Value="0.9" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=Camera_Gain, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Text="{Binding ElementName=ScaleMin, Path=Value}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -812,6 +881,246 @@
                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                          BorderThickness="2"
                                          FontSize="18" />
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="行小比例"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="ScaleRMin" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="1"
+                                        Minimum="0.5"
+                                        TickFrequency=" 0.1"
+                                        Value="0.9" />
+
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                         Text="{Binding ElementName=ScaleRMin, Path=Value}"
+                                         Width=" 100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="行缩步长"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="ScaleRStep" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="0.2"
+                                        Minimum="0"
+                                        TickFrequency=" 0.01"
+                                        Value="0" />
+
+                                <TextBox Grid.Column=" 2"
+                                         Width=" 100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18">
+                                    <TextBox.Style>
+                                        <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="TextBox">
+                                            <Setter Property="Text" Value="{Binding ElementName=ScaleRStep, Path=Value}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ElementName=ScaleRStep, Path=Value}" Value="0">
+                                                    <Setter Property="Text" Value="Auto" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="最大比例"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="ScaleMax" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="1.5"
+                                        Minimum="1"
+                                        TickFrequency=" 0.1"
+                                        Value="1.1" />
+
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                         Text="{Binding ElementName=ScaleMax, Path=Value}"
+                                         Width=" 100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="列小比例"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="ScaleCMin" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="1.0"
+                                        Minimum="0.5"
+                                        TickFrequency=" 0.1"
+                                        Value="1.0" />
+
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                         Text="{Binding ElementName=ScaleCMin, Path=Value}"
+                                         Width=" 100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="列缩步长"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="ScaleCStep" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="0.2"
+                                        Minimum="0"
+                                        TickFrequency=" 0.01"
+                                        Value="0" />
+
+                                <TextBox Grid.Column=" 2"
+                                         Width=" 100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18">
+                                    <TextBox.Style>
+                                        <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="TextBox">
+                                            <Setter Property="Text" Value="{Binding ElementName=ScaleCStep, Path=Value}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ElementName=ScaleCStep, Path=Value}" Value="0">
+                                                    <Setter Property="Text" Value="Auto" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=" 80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="缩放步长"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="ScaleStep" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="0.2"
+                                        Minimum=" 0"
+                                        TickFrequency=" 0.01"
+                                        Value="0" />
+
+                                <TextBox Grid.Column=" 2"
+                                         Width=" 100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18">
+                                    <TextBox.Style>
+                                        <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="TextBox">
+                                            <Setter Property="Text" Value="{Binding ElementName=ScaleStep, Path=Value}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ElementName=ScaleStep, Path=Value}" Value="0">
+                                                    <Setter Property="Text" Value="Auto" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
                             </Grid>
 
                             <Grid Height="35" Margin="8">
@@ -829,60 +1138,78 @@
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
+                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="Optimization" Grid.Column=" 1"
                                           VerticalContentAlignment="Center"
                                           BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                           BorderThickness="2"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
                                           SelectedIndex="0">
-                                    <ComboBoxItem Padding="6">
+                                    <ComboBoxItem>
 
-                                        <TextBlock Text="Auto"
-                                                   Width=" 150"
+                                        <TextBlock Text="auto"
                                                    TextWrapping="Wrap"
+                                                   Padding="0,4,0,4"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="14"
+                                                   FontSize="16"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </ComboBoxItem>
-                                    <ComboBoxItem Padding="6">
 
-                                        <TextBlock Text="None"
-                                                   Width=" 150"
+                                    <ComboBoxItem>
+                                        <TextBlock Text="no_pregeneration"
                                                    TextWrapping="Wrap"
+                                                   Padding="0,4,0,4"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="14"
+                                                   FontSize="16"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </ComboBoxItem>
-                                    <ComboBoxItem Padding="6">
-
-                                        <TextBlock Text="Point_reduction_high"
-                                                   Width=" 150"
+                                    <ComboBoxItem>
+                                        <TextBlock Text="none"
                                                    TextWrapping="Wrap"
+                                                   Padding="0,4,0,4"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="14"
+                                                   FontSize="16"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </ComboBoxItem>
-                                    <ComboBoxItem Padding="6">
-
-                                        <TextBlock Text="Point_reduction_low"
-                                                   Width=" 150"
+                                    <ComboBoxItem>
+                                        <TextBlock Text="point_reduction_high"
                                                    TextWrapping="Wrap"
+                                                   Padding="0,4,0,4"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="14"
+                                                   FontSize="16"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </ComboBoxItem>
-                                    <ComboBoxItem Padding="6">
+                                    <ComboBoxItem>
 
-                                        <TextBlock Text="Point_reduction_medium"
-                                                   Width=" 150"
+                                        <TextBlock Text="point_reduction_low"
                                                    TextWrapping="Wrap"
+                                                   Padding="0,4,0,4"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="14"
+                                                   FontSize="16"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem>
+
+                                        <TextBlock Text="point_reduction_medium"
+                                                   TextWrapping="Wrap"
+                                                   Padding="0,4,0,4"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="16"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem>
+
+                                        <TextBlock Text="pregeneration"
+                                                   TextWrapping="Wrap"
+                                                   Padding="0,4,0,4"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="16"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </ComboBoxItem>
@@ -905,73 +1232,54 @@
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
+                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="Metric" Grid.Column=" 1"
                                           VerticalContentAlignment="Center"
                                           BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                           BorderThickness="2"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
                                           SelectedIndex="0">
-                                    <ComboBoxItem Padding="6">
+                                    <ComboBoxItem>
 
-                                        <TextBlock Text="None"
-                                                   Width=" 150"
+                                        <TextBlock Text="ignore_color_polarity"
                                                    TextWrapping="Wrap"
+                                                   Padding="0,4,0,4"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="14"
+                                                   FontSize="16"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </ComboBoxItem>
-                                    <ComboBoxItem Padding="6">
+                                    <ComboBoxItem>
 
-                                        <TextBlock Text="Ignore_color_polarity"
-                                                   Width=" 150"
+                                        <TextBlock Text="ignore_global_polarity"
                                                    TextWrapping="Wrap"
+                                                   Padding="0,4,0,4"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="14"
+                                                   FontSize="16"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </ComboBoxItem>
-                                    <ComboBoxItem Padding="6">
+                                    <ComboBoxItem>
 
-                                        <TextBlock Text="Ignore_global_polarity"
-                                                   Width=" 150"
+                                        <TextBlock Text="ignore_local_polarity"
                                                    TextWrapping="Wrap"
+                                                   Padding="0,4,0,4"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="14"
+                                                   FontSize="16"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </ComboBoxItem>
-                                    <ComboBoxItem Padding="6">
+                                    <ComboBoxItem>
 
-                                        <TextBlock Text="Ignore_local_polarity"
-                                                   Width=" 150"
+                                        <TextBlock Text="use_polarity"
                                                    TextWrapping="Wrap"
+                                                   Padding="0,4,0,4"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="14"
+                                                   FontSize="16"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </ComboBoxItem>
-                                    <ComboBoxItem Padding="6">
 
-                                        <TextBlock Text="Ignore_part_polarity"
-                                                   Width=" 150"
-                                                   TextWrapping="Wrap"
-                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="14"
-                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                   TextTrimming="CharacterEllipsis" />
-                                    </ComboBoxItem>
-                                    <ComboBoxItem Padding="6">
-
-                                        <TextBlock Text="Use_polarity"
-                                                   Width=" 150"
-                                                   TextWrapping="Wrap"
-                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="14"
-                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                   TextTrimming="CharacterEllipsis" />
-                                    </ComboBoxItem>
                                 </ComboBox>
 
                             </Grid>
@@ -989,20 +1297,17 @@
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" Grid.Column=" 1"
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="MinContrast" Grid.Column=" 1"
                                         Margin="5"
                                         VerticalAlignment="Center"
-                                        HorizontalContentAlignment="Stretch"
-                                        VerticalContentAlignment="Stretch"
                                         IsSnapToTickEnabled="True"
-                                        Maximum="10"
-                                        Minimum="-10"
-                                        SmallChange="0.1"
-                                        TickFrequency=" 0.01"
-                                        Value="1" />
+                                        Maximum="40"
+                                        Minimum="1"
+                                        TickFrequency=" 1"
+                                        Value="5" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=Camera_Gain, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Text="{Binding ElementName=MinContrast, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -1028,30 +1333,30 @@
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
+                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="GenParamName" Grid.Column=" 1"
                                           VerticalContentAlignment="Center"
                                           BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                           BorderThickness="2"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
                                           SelectedIndex="0">
-                                    <ComboBoxItem Padding="6">
+                                    <ComboBoxItem>
 
-                                        <TextBlock Text="&quot;[]&quot;"
-                                                   Width=" 150"
+                                        <TextBlock Text="[]"
                                                    TextWrapping="Wrap"
+                                                   Padding="0,4,0,4"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="14"
+                                                   FontSize="16"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </ComboBoxItem>
-                                    <ComboBoxItem Padding="6">
+                                    <ComboBoxItem>
 
-                                        <TextBlock Text="&quot;Part_size&quot;"
-                                                   Width=" 150"
+                                        <TextBlock Text="part_size"
                                                    TextWrapping="Wrap"
+                                                   Padding="0,4,0,4"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="14"
+                                                   FontSize="16"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </ComboBoxItem>
@@ -1082,33 +1387,33 @@
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
                                           SelectedIndex="0">
-                                    <ComboBoxItem Padding="6">
+                                    <ComboBoxItem>
 
-                                        <TextBlock Text="&quot;大&quot;"
-                                                   Width=" 150"
+                                        <TextBlock Text="big"
                                                    TextWrapping="Wrap"
+                                                   Padding="0,4,0,4"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="14"
+                                                   FontSize="16"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </ComboBoxItem>
-                                    <ComboBoxItem Padding="6">
+                                    <ComboBoxItem>
 
-                                        <TextBlock Text="&quot;中等&quot;"
-                                                   Width=" 150"
+                                        <TextBlock Text="medium"
                                                    TextWrapping="Wrap"
+                                                   Padding="0,4,0,4"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="14"
+                                                   FontSize="16"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </ComboBoxItem>
-                                    <ComboBoxItem Padding="6">
+                                    <ComboBoxItem>
 
-                                        <TextBlock Text="&quot;小&quot;"
-                                                   Width=" 150"
+                                        <TextBlock Text="small"
                                                    TextWrapping="Wrap"
+                                                   Padding="0,4,0,4"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="14"
+                                                   FontSize="16"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </ComboBoxItem>

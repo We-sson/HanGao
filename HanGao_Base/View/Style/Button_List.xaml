@@ -84,8 +84,8 @@
     <Style x:Key="Button_List_Style" TargetType="{x:Type CheckBox}">
 
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Foreground" Value="Black" />
-        <Setter Property="Margin" Value="10" />
+
+        <Setter Property="Margin" Value="0" />
         <Setter Property="FontSize" Value="24" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -135,21 +135,19 @@
 
                         <Ellipse Grid.Column="0"
                                  Name="Ep1"
-                                 Width="28"
-                                 Height="28"
-                                 Margin="5"
+                                 Width="24"
+                                 Height="24"
                                  HorizontalAlignment="Stretch"
                                  VerticalAlignment="Center"
-                                 Fill="#F4D160" />
+                                 Fill="{DynamicResource 全局_按钮_黄颜色}" />
 
                         <Ellipse Grid.Column="0"
                                  Name="Ep2"
-                                 Width="16"
-                                 Height="16"
-                                 Margin="5"
+                                 Width="18"
+                                 Height="18"
                                  HorizontalAlignment="Stretch"
                                  VerticalAlignment="Center"
-                                 Fill="Green"
+                                 Fill="{DynamicResource 全局_按钮_绿颜色}"
                                  Visibility="Collapsed" />
 
 
@@ -187,15 +185,13 @@
                             <Setter Property="Opacity" Value="0.8" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="Gd1" Property="Opacity" Value="0.7" />
-                            <!--<Setter TargetName="border" Property="Background" Value="{StaticResource Button.Disabled.Background}" />-->
-                            <!--<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.Disabled.Border}" />-->
-                            <!--<Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{StaticResource Button.Disabled.Foreground}" />-->
+                            <Setter TargetName="Gd1" Property="Opacity" Value="0.5" />
+
                         </Trigger>
 
 
 
-                        <!--  元素选中事件  -->
+
 
                         <Trigger Property="IsChecked" Value="True">
 
@@ -204,56 +200,6 @@
                         </Trigger>
 
 
-                        <!--<Trigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation SpeedRatio="5"
-                                                         Storyboard.TargetName="Tb1"
-                                                         Storyboard.TargetProperty="Opacity"
-                                                         To="1" Duration="0:0:0:1">
-                                            <DoubleAnimation.EasingFunction>
-                                                <QuinticEase EasingMode="EaseInOut" />
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
-                                        <ColorAnimation SpeedRatio="3"
-                                                        Storyboard.TargetName="border"
-                                                        Storyboard.TargetProperty="(BorderBrush).(SolidColorBrush.Color)"
-                                                        To="Green" Duration="0:0:0:1">
-                                            <ColorAnimation.EasingFunction>
-                                                <QuinticEase EasingMode="EaseInOut" />
-                                            </ColorAnimation.EasingFunction>
-                                        </ColorAnimation>
-                                        <ColorAnimation SpeedRatio="3"
-                                                        Storyboard.TargetName="Ep1"
-                                                        Storyboard.TargetProperty=" (Shape.Stroke).(SolidColorBrush.Color)"
-                                                        To="Black" Duration="0:0:0:1">
-                                            <ColorAnimation.EasingFunction>
-                                                <QuinticEase EasingMode="EaseInOut" />
-                                            </ColorAnimation.EasingFunction>
-                                        </ColorAnimation>
-
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.EnterActions>
-                            <Trigger.ExitActions>
-                                <BeginStoryboard>
-                                    <Storyboard FillBehavior="Stop">
-                                        <DoubleAnimation SpeedRatio="5"
-                                                         Storyboard.TargetName="Tb1"
-                                                         Storyboard.TargetProperty="Opacity"
-                                                         To="0" Duration="0:0:0:1" />
-                                        <ColorAnimation SpeedRatio="5"
-                                                        Storyboard.TargetName="border"
-                                                        Storyboard.TargetProperty="(BorderBrush).(SolidColorBrush.Color)"
-                                                        To="Gray" Duration="0:0:0:1" />
-                                        <ColorAnimation SpeedRatio="5"
-                                                        Storyboard.TargetName="Ep1"
-                                                        Storyboard.TargetProperty=" (Shape.Stroke).(SolidColorBrush.Color)"
-                                                        To="Gray" Duration="0:0:0:1" />
-
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.ExitActions>-->
 
 
 
