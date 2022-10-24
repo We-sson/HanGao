@@ -164,10 +164,17 @@
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-                                <Border Grid.Column=" 1"
-                                        BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                        BorderThickness="1.5">
-
+                                <Border Grid.Column=" 1" BorderThickness="1.5">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ElementName=ST2, Path=Text}" Value="">
+                                                    <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_红颜色}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition />
@@ -177,9 +184,8 @@
 
 
 
-                                        <TextBlock Grid.Column=" 0"
+                                        <TextBlock x:Name="ST2" Grid.Column=" 0"
                                                    Text="{Binding Image_Location_UI}"
-                                                   Width=" 150"
                                                    TextWrapping="Wrap"
                                                    Margin="6,6,0,6"
                                                    HorizontalAlignment="Left"
@@ -618,7 +624,7 @@
 
                             <Grid Height="35" Margin="8">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width=" 90" />
+                                    <ColumnDefinition Width=" 85" />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
 
@@ -631,12 +637,12 @@
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
+                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="ShapeModel_UI" Grid.Column=" 1"
                                           VerticalContentAlignment="Center"
                                           BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                           BorderThickness="2"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="0">
+                                          SelectedIndex="3">
                                     <ComboBoxItem>
 
                                         <TextBlock Text="一般形状匹配参数"
@@ -648,17 +654,7 @@
                                                    TextTrimming="CharacterEllipsis" />
                                     </ComboBoxItem>
 
-                                    <ComboBoxItem>
 
-                                        <TextBlock Text="比例缩放匹配参数"
-                                                   Width=" 150"
-                                                   TextWrapping="Wrap"
-                                                   Padding="0,4,0,4"
-                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="14"
-                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                   TextTrimming="CharacterEllipsis" />
-                                    </ComboBoxItem>
                                     <ComboBoxItem>
 
                                         <TextBlock Text="线性变形匹配参数"
@@ -681,6 +677,17 @@
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </ComboBoxItem>
+                                    <ComboBoxItem>
+
+                                        <TextBlock Text="比例缩放匹配参数"
+                                                   Width=" 150"
+                                                   TextWrapping="Wrap"
+                                                   Padding="0,4,0,4"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
                                 </ComboBox>
 
                             </Grid>
@@ -688,11 +695,14 @@
 
                             <Grid Height="35" Margin="8">
 
+
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width=" 80" />
                                     <ColumnDefinition />
                                     <ColumnDefinition Width=" auto" />
                                 </Grid.ColumnDefinitions>
+
+
                                 <TextBlock Text="金字塔层"
                                            HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
@@ -848,43 +858,21 @@
                                 </TextBox>
                             </Grid>
 
-                            <Grid Height="35" Margin="8">
-
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80" />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width=" auto" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="最小比例"
-                                           HorizontalAlignment="Left"
-                                           VerticalAlignment="Center"
-                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                           FontSize="16"
-                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="ScaleMin" Grid.Column=" 1"
-                                        Margin="5"
-                                        VerticalAlignment="Center"
-                                        HorizontalContentAlignment="Stretch"
-                                        VerticalContentAlignment="Stretch"
-                                        IsSnapToTickEnabled="True"
-                                        Maximum="1"
-                                        Minimum="0.5"
-                                        TickFrequency=" 0.1"
-                                        Value="0.9" />
-
-                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=ScaleMin, Path=Value}"
-                                         Width=" 100"
-                                         HorizontalContentAlignment="Center"
-                                         VerticalContentAlignment="Center"
-                                         Background="Transparent"
-                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                         BorderThickness="2"
-                                         FontSize="18" />
-                            </Grid>
 
                             <Grid Height="35" Margin="8">
-
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=ShapeModel_UI, Path=SelectedIndex}" Value="1">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding ElementName=ShapeModel_UI, Path=SelectedIndex}" Value="2">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="80" />
                                     <ColumnDefinition />
@@ -919,6 +907,20 @@
                             </Grid>
 
                             <Grid Height="35" Margin="8">
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=ShapeModel_UI, Path=SelectedIndex}" Value="1">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding ElementName=ShapeModel_UI, Path=SelectedIndex}" Value="2">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
+
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="80" />
@@ -964,42 +966,19 @@
                             </Grid>
 
                             <Grid Height="35" Margin="8">
-
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80" />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width=" auto" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="最大比例"
-                                           HorizontalAlignment="Left"
-                                           VerticalAlignment="Center"
-                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                           FontSize="16"
-                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="ScaleMax" Grid.Column=" 1"
-                                        Margin="5"
-                                        VerticalAlignment="Center"
-                                        HorizontalContentAlignment="Stretch"
-                                        VerticalContentAlignment="Stretch"
-                                        IsSnapToTickEnabled="True"
-                                        Maximum="1.5"
-                                        Minimum="1"
-                                        TickFrequency=" 0.1"
-                                        Value="1.1" />
-
-                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=ScaleMax, Path=Value}"
-                                         Width=" 100"
-                                         HorizontalContentAlignment="Center"
-                                         VerticalContentAlignment="Center"
-                                         Background="Transparent"
-                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                         BorderThickness="2"
-                                         FontSize="18" />
-                            </Grid>
-
-                            <Grid Height="35" Margin="8">
-
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=ShapeModel_UI, Path=SelectedIndex}" Value="1">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding ElementName=ShapeModel_UI, Path=SelectedIndex}" Value="2">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="80" />
                                     <ColumnDefinition />
@@ -1034,7 +1013,110 @@
                             </Grid>
 
                             <Grid Height="35" Margin="8">
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=ShapeModel_UI, Path=SelectedIndex}" Value="3">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="最小比例"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="ScaleMin" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="1"
+                                        Minimum="0.5"
+                                        TickFrequency=" 0.1"
+                                        Value="0.9" />
 
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                         Text="{Binding ElementName=ScaleMin, Path=Value}"
+                                         Width=" 100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=ShapeModel_UI, Path=SelectedIndex}" Value="3">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="最大比例"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="ScaleMax" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="1.5"
+                                        Minimum="1"
+                                        TickFrequency=" 0.1"
+                                        Value="1.1" />
+
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                         Text="{Binding ElementName=ScaleMax, Path=Value}"
+                                         Width=" 100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                            </Grid>
+
+
+
+
+                            <Grid Height="35" Margin="8">
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=ShapeModel_UI, Path=SelectedIndex}" Value="1">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding ElementName=ShapeModel_UI, Path=SelectedIndex}" Value="2">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="80" />
                                     <ColumnDefinition />
@@ -1079,7 +1161,16 @@
                             </Grid>
 
                             <Grid Height="35" Margin="8">
-
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=ShapeModel_UI, Path=SelectedIndex}" Value="3">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width=" 80" />
                                     <ColumnDefinition />
@@ -1125,7 +1216,7 @@
 
                             <Grid Height="35" Margin="8">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width=" 90" />
+                                    <ColumnDefinition Width=" 85" />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
 
@@ -1219,7 +1310,7 @@
 
                             <Grid Height="35" Margin="8">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width=" 90" />
+                                    <ColumnDefinition Width=" 85" />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
 
@@ -1319,8 +1410,21 @@
 
 
                             <Grid Height="35" Margin="8">
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=ShapeModel_UI, Path=SelectedIndex}" Value="1">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding ElementName=ShapeModel_UI, Path=SelectedIndex}" Value="2">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width=" 90" />
+                                    <ColumnDefinition Width=" 85" />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
 
@@ -1366,8 +1470,21 @@
 
 
                             <Grid Height="35" Margin="8">
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=ShapeModel_UI, Path=SelectedIndex}" Value="1">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding ElementName=ShapeModel_UI, Path=SelectedIndex}" Value="2">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width=" 90" />
+                                    <ColumnDefinition Width=" 85" />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
 
@@ -1426,7 +1543,7 @@
                             <Grid Height="35" Margin="8">
 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="85" />
                                     <ColumnDefinition />
                                     <ColumnDefinition Width=" auto" />
                                 </Grid.ColumnDefinitions>
@@ -1441,10 +1558,11 @@
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 1"
                                          Text="1"
                                          Width=" 100"
+                                         HorizontalAlignment="Left"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
                                          Background="Transparent"
-                                         BorderBrush="{DynamicResource 全局_按钮_红颜色}"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                          BorderThickness="2"
                                          FontSize="18"
                                          Foreground="{DynamicResource 全局_按钮_黑颜色}" />
@@ -1467,7 +1585,7 @@
                             <Grid Margin="8">
 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width=" 90" />
+                                    <ColumnDefinition Width=" 85" />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column=" 0"
@@ -1478,10 +1596,17 @@
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-                                <Border Grid.Column=" 1"
-                                        BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                        BorderThickness="1.5">
-
+                                <Border Grid.Column=" 1" BorderThickness="1.5">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ElementName=ST1, Path=Text}" Value="">
+                                                    <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_红颜色}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition />
@@ -1491,11 +1616,10 @@
 
 
 
-                                        <TextBlock Grid.Column=" 0"
-                                                   Text="C:\Users\zhiwei2.he\Desktop"
-                                                   Width=" 150"
-                                                   TextWrapping="NoWrap"
-                                                   Margin="4"
+                                        <TextBlock x:Name="ST1" Grid.Column=" 0"
+                                                   Text="{Binding ShapeModel_Location}"
+                                                   TextWrapping="Wrap"
+                                                   Margin="6,6,0,6"
                                                    HorizontalAlignment="Left"
                                                    VerticalAlignment="Center"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -1514,6 +1638,14 @@
                                                    VerticalAlignment="Center"
                                                    Effect="{DynamicResource 全局背景阴影}"
                                                    Source="/Resources/Vision_文件夹_ioc.png" />
+                                            <i:Interaction.Triggers>
+
+                                                <i:EventTrigger EventName="Click">
+                                                    <i:InvokeCommandAction Command="{Binding ShapeModel_Location_Comm}"
+                                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                           PassEventArgsToCommand="True" />
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
                                         </Button>
 
 

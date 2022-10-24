@@ -2,14 +2,20 @@
 using Halcon_SDK_DLL;
 using HanGao.Model;
 using Microsoft.Win32;
+
+
 using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Controls;
+
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static MVS_SDK_Base.Model.MVS_Model;
 using Point = System.Windows.Point;
+using System.Windows.Shapes;
+using Ookii.Dialogs.Wpf;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace HanGao.ViewModel
 {
@@ -19,7 +25,7 @@ namespace HanGao.ViewModel
         public UC_Vision_Create_Template_ViewMode()
         {
 
-
+       
 
 
 
@@ -95,6 +101,13 @@ namespace HanGao.ViewModel
         public string Image_Location_UI { set; get; }
 
 
+
+
+        /// <summary>
+        /// 创建模型存放位置
+        /// </summary>
+        public string ShapeModel_Location { set; get; }
+
         /// <summary>
         /// 图片加载
         /// </summary>
@@ -114,10 +127,8 @@ namespace HanGao.ViewModel
                     RestoreDirectory = true
                 };
 
-
-
                 //选择图像文件
-                if (openFileDialog.ShowDialog() == true)
+                if ((bool)openFileDialog.ShowDialog())
                 {
                     //赋值图像地址到到UI
                     Image_Location_UI = openFileDialog.FileName;
@@ -130,7 +141,61 @@ namespace HanGao.ViewModel
 
 
         /// <summary>
-        /// 创建模板图像参数方法
+        /// 模板存储位置选择
+        /// </summary>
+        public ICommand ShapeModel_Location_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                Button Window_UserContol = Sm.Source as Button;
+
+
+                //创建存放模型文件
+                if (!Directory.Exists(Environment.CurrentDirectory + "\\ShapeModel")) { Directory.CreateDirectory(Environment.CurrentDirectory + "\\ShapeModel"); }
+
+
+
+
+                //FolderBrowserDialogSettings settings = new()
+                //{
+                //    Description = "选择模板文件存放位置",
+                //    SelectedPath = Environment.CurrentDirectory,
+                //};
+
+                //var betterFolderBrowser = new BetterFolderBrowser
+                //{
+                //    Title = "Select folders...",
+                //    RootFolder = "C:\\",
+
+                //    // Allow multi-selection of folders.
+                //    Multiselect = true
+                //};
+
+
+                var FolderDialog = new VistaFolderBrowserDialog
+                {
+                    Description = "选择模板文件存放位置.",
+                    UseDescriptionForTitle = true, // This applies to the Vista style dialog only, not the old dialog.
+                    SelectedPath= Environment.CurrentDirectory,
+                    ShowNewFolderButton =true,
+                };
+
+
+                if ((bool)FolderDialog.ShowDialog())
+                {
+                    ShapeModel_Location = FolderDialog.SelectedPath;
+                }
+
+
+
+
+            });
+        }
+
+
+
+        /// <summary>
+        /// 模板图像获取方法
         /// </summary>
         public ICommand Image_CollectionMethod_Comm
         {
