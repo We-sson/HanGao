@@ -941,6 +941,13 @@
                 <Setter TargetName="shadow" Property="Margin" Value="0,0,5,5" />
                 <Setter TargetName="shadow" Property="Color" Value="#71000000" />
             </Trigger>
+            <Trigger Property="IsMouseOver" Value="true">
+
+                <Setter  Property="BorderBrush" Value="{DynamicResource 全局_按钮_绿颜色}" />
+            </Trigger>
+
+
+
             <Trigger Property="HasItems" Value="false">
                 <Setter TargetName="dropDownBorder" Property="Height" Value="95" />
             </Trigger>

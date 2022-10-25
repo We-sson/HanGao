@@ -30,6 +30,8 @@ namespace Halcon_SDK_DLL.Model
         }
 
 
+
+
         public class HImage_Display_Model
         {
             /// <summary>

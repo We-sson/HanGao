@@ -1,6 +1,7 @@
 ﻿using HalconDotNet;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -50,7 +51,7 @@ namespace Halcon_SDK_DLL
         /// </summary>
         /// <param name="_local"></param>
         /// <returns></returns>
-        public HObject Local_To_Halcon_Image(string _local)
+        public static  HObject Local_To_Halcon_Image(string _local)
         {
 
             //新建空属性
@@ -66,16 +67,21 @@ namespace Halcon_SDK_DLL
 
 
 
-        /// <summary>
-        /// 角度转弧度
-        /// </summary>
-        /// <param name="_degrees"></param>
-        /// <returns></returns>
-        public static double ToRadians(double _degrees)
+        public  static HTuple List_ConcatObj<T1>(T1 _List)
         {
-            double radians = (Math.PI / 180) * _degrees;
-            return (radians);
+
+
+
+            return new HTuple();
         }
+
+
+
+
+
+
+
+
 
 
     }
@@ -130,7 +136,7 @@ namespace Halcon_SDK_DLL
         /// <summary>
         /// 金字塔层的最大数量默认值：“自动”值列表：1， 2， 3， 4， 5， 6， 7， 8， 9， 10，“自动”
         /// </summary>
-        public int NumLevels { set; get; } = 0;
+        public string  NumLevels { set; get; } = "auto";
         /// <summary>
         /// 图案的最小旋转。默认值：-0.39 建议值： -3.14， -1.57， -0.79， -0.39， -0.20， 0.0
         /// </summary>
@@ -142,7 +148,7 @@ namespace Halcon_SDK_DLL
         /// <summary>
         /// 角度的步长（分辨率）。默认值： “自动”建议值：“自动”, 0.0175, 0.0349, 0.0524, 0.0698, 0.0873
         /// </summary>
-        public double AngleStep { set; get; } = 0;
+        public string  AngleStep { set; get; } = "auto";
         /// <summary>
         /// 用于生成模型的优化类型和可选方法。默认值： “自动”
         /// </summary>
@@ -154,9 +160,13 @@ namespace Halcon_SDK_DLL
         /// <summary>
         /// 搜索图像中对象的最小对比度。默认值：5,建议值：1、2、3、5、7、10、20、30、40
         /// </summary>
-        public double MinContrast { set; get; } = 5;
+        public int MinContrast { set; get; } = 5;
 
 
+        /// <summary>
+        /// 模型类型
+        /// </summary>
+        public Shape_Model_Type_Enum Model_Type { set; get; }
     }
 
     /// <summary>
@@ -167,7 +177,7 @@ namespace Halcon_SDK_DLL
         /// <summary>
         /// 金字塔层的最大数量默认值：“自动”值列表：1， 2， 3， 4， 5， 6， 7， 8， 9， 10，“自动”
         /// </summary>
-        public int NumLevels { set; get; } = 0;
+        public string  NumLevels { set; get; } = "auto";
         /// <summary>
         /// 图案的最小旋转。默认值：-0.39 建议值： -3.14， -1.57， -0.79， -0.39， -0.20， 0.0
         /// </summary>
@@ -179,7 +189,7 @@ namespace Halcon_SDK_DLL
         /// <summary>
         /// 角度的步长（分辨率）。默认值： “自动”建议值：“自动”, 0.0175, 0.0349, 0.0524, 0.0698, 0.0873
         /// </summary>
-        public double AngleStep { set; get; } = 0;
+        public string  AngleStep { set; get; } = "auto";
         /// <summary>
         /// 阵列在行方向上的最小比例。默认值：1.0,建议值：0.5、0.6、0.7、0.8、0.9、1.0
         /// </summary>
@@ -191,7 +201,7 @@ namespace Halcon_SDK_DLL
         /// <summary>
         /// 在行方向上缩放步长（分辨率）。默认值： “自动”建议值：“自动”, 0.01, 0.02, 0.05, 0.1, 0.15, 0.2
         /// </summary>
-        public double ScaleRStep { set; get; } = 0;
+        public string  ScaleRStep { set; get; } = "auto";
         /// <summary>
         /// 不使用此参数。默认值：[]
         /// </summary>
@@ -203,7 +213,7 @@ namespace Halcon_SDK_DLL
         /// <summary>
         /// 在列方向上缩放步长（分辨率）。默认值： “自动”建议值：“自动”, 0.01, 0.02, 0.05, 0.1, 0.15, 0.2
         /// </summary>
-        public double ScaleCStep { set; get; } = 0;
+        public string  ScaleCStep { set; get; } = "auto";
         /// <summary>
         /// 用于生成模型的优化类型和可选方法。默认值： “自动”
         /// </summary>
@@ -225,7 +235,10 @@ namespace Halcon_SDK_DLL
         /// </summary>
         public GenParam_Enum GenParamVal { set; get; }
 
-
+        /// <summary>
+        /// 模型类型
+        /// </summary>
+        public Shape_Model_Type_Enum Model_Type { set; get; }
 
 
     }
@@ -238,7 +251,7 @@ namespace Halcon_SDK_DLL
         /// <summary>
         /// 金字塔层的最大数量默认值：“自动”值列表：1， 2， 3， 4， 5， 6， 7， 8， 9， 10，“自动”
         /// </summary>
-        public int NumLevels { set; get; } = 0;
+        public string  NumLevels { set; get; } = "auto";
         /// <summary>
         /// 图案的最小旋转。默认值：-0.39 建议值： -3.14， -1.57， -0.79， -0.39， -0.20， 0.0
         /// </summary>
@@ -250,7 +263,7 @@ namespace Halcon_SDK_DLL
         /// <summary>
         /// 角度的步长（分辨率）。默认值： “自动”建议值：“自动”, 0.0175, 0.0349, 0.0524, 0.0698, 0.0873
         /// </summary>
-        public double AngleStep { set; get; } = 0;
+        public string  AngleStep { set; get; } = "auto";
         /// <summary>
         /// 图案的最小比例。 默认值：0.9,建议值：0.5、0.6、0.7、0.8、0.9、1.0
         /// </summary>
@@ -262,7 +275,7 @@ namespace Halcon_SDK_DLL
         /// <summary>
         /// 缩放步长（分辨率）。默认值： “自动”建议值：“自动”, 0.01, 0.02, 0.05, 0.1, 0.15, 0.2
         /// </summary>
-        public double ScaleStep { set; get; } = 0;
+        public string  ScaleStep { set; get; } = "auto";
         /// <summary>
         /// 用于生成模型的优化类型和可选方法。默认值： “自动”
         /// </summary>
@@ -277,7 +290,10 @@ namespace Halcon_SDK_DLL
         public double MinContrast { set; get; } = 5;
 
 
-
+        /// <summary>
+        /// 模型类型
+        /// </summary>
+        public Shape_Model_Type_Enum Model_Type { set; get; }
 
     }
 
@@ -309,13 +325,23 @@ namespace Halcon_SDK_DLL
     }
 
 
-
+    /// <summary>
+    /// 获得泛指名称
+    /// </summary>
     public enum GenParam_Enum
     {
         part_size,
         big,
         medium,
         small
+    }
+
+    public enum Shape_Model_Type_Enum
+    {
+        Create_Shape_Model,
+        Create_Planar_Model,
+        Create_Local_Model,
+        Create_Scaled_Model
     }
 
 }

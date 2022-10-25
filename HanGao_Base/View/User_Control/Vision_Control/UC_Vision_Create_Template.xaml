@@ -5,7 +5,7 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:HanGao.View.User_Control.Vision_Control"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             d:DesignHeight="1517"
+             d:DesignHeight="2517"
              d:DesignWidth="332"
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_Create_Template_ViewMode}"
              mc:Ignorable="d">
@@ -294,6 +294,7 @@
                                               RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
                                               SelectionMode="Single"
                                               SelectionUnit="CellOrRowHeader">
+
                                         <DataGrid.Columns>
 
 
@@ -586,28 +587,32 @@
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-                                <Grid Grid.Column=" 1" Margin="4">
+                                <Grid Grid.Column=" 1">
                                     <StackPanel>
                                         <CheckBox Style="{DynamicResource Button_List_Style}"
                                                   Content="一般形状匹配"
-                                                  Margin="4"
-                                                  FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                  FontSize="16"
-                                                  Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                        <CheckBox Style="{DynamicResource Button_List_Style}"
-                                                  Content="比例缩放匹配"
+                                                  IsChecked="{Binding Shape_Model_Group[0]}"
                                                   Margin="4"
                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                   FontSize="16"
                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                         <CheckBox Style="{DynamicResource Button_List_Style}"
                                                   Content="线性变形匹配"
+                                                  IsChecked="{Binding Shape_Model_Group[1]}"
                                                   Margin="4"
                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                   FontSize="16"
                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                         <CheckBox Style="{DynamicResource Button_List_Style}"
                                                   Content="局部变形匹配"
+                                                  IsChecked="{Binding Shape_Model_Group[2]}"
+                                                  Margin="4"
+                                                  FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                  FontSize="16"
+                                                  Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                        <CheckBox Style="{DynamicResource Button_List_Style}"
+                                                  Content="比例缩放匹配"
+                                                  IsChecked="{Binding Shape_Model_Group[3]}"
                                                   Margin="4"
                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                   FontSize="16"
@@ -1329,7 +1334,7 @@
                                           BorderThickness="2"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="0">
+                                          SelectedIndex="2">
                                     <ComboBoxItem>
 
                                         <TextBlock Text="ignore_color_polarity"
@@ -1555,7 +1560,7 @@
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
 
-                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 1"
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" x:Name="ShapeModel_Number" Grid.Column=" 1"
                                          Text="1"
                                          Width=" 100"
                                          HorizontalAlignment="Left"
@@ -1578,6 +1583,14 @@
                                                FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                FontSize="16"
                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                    <i:Interaction.Triggers>
+
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding Check_ShapeModel_Comm}"
+                                                                   CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UC_Vision_Create_Template}}}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
                                 </Button>
                             </Grid>
 
@@ -1663,7 +1676,7 @@
                                     <ColumnDefinition />
                                     <ColumnDefinition Width=" auto" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="创建状态："
+                                <TextBlock Text="创建名称："
                                            HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -1671,13 +1684,57 @@
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
 
-                                <TextBlock Grid.Column=" 1"
-                                           Text="成功"
-                                           HorizontalAlignment="Left"
-                                           VerticalAlignment="Center"
-                                           Background="Transparent"
-                                           FontSize="16"
-                                           Foreground="{DynamicResource 全局_按钮_绿颜色}" />
+                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="ShapeModel_Name" Grid.Column=" 1"
+                                          Margin="0,0,6,0"
+                                          VerticalContentAlignment="Center"
+                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                          BorderThickness="2"
+                                          IsSynchronizedWithCurrentItem="True"
+                                          SelectedIndex="0">
+                                    <ComboBoxItem>
+
+                                        <TextBlock Text="N45"
+                                                   TextWrapping="Wrap"
+                                                   Padding="0,4,0,4"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+
+
+                                    <ComboBoxItem>
+
+                                        <TextBlock Text="N135"
+                                                   TextWrapping="Wrap"
+                                                   Padding="0,4,0,4"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem>
+
+                                        <TextBlock Text="N225"
+                                                   TextWrapping="Wrap"
+                                                   Padding="0,4,0,4"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem>
+
+                                        <TextBlock Text="N315"
+                                                   TextWrapping="Wrap"
+                                                   Padding="0,4,0,4"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                </ComboBox>
+
 
                                 <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
                                         Width="100"
@@ -1690,6 +1747,14 @@
                                                FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                FontSize="16"
                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                    <i:Interaction.Triggers>
+
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding New_ShapeModel_Comm}"
+                                                                   CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UC_Vision_Create_Template}}}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
                                 </Button>
                             </Grid>
 

@@ -7,6 +7,7 @@ using System.Windows.Input;
 using System.Windows.Shapes;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
+using static HanGao.ViewModel.UC_Vision_CameraSet_ViewModel;
 using Point = System.Windows.Point;
 
 namespace HanGao.ViewModel
@@ -78,10 +79,17 @@ namespace HanGao.ViewModel
         public static Halcon_SDK Results_Window_4 { set; get; }
 
 
+        /// <summary>
+        /// 保存读取图像属性
+        /// </summary>
+        public static   HObject Load_Image { set; get; } 
 
-        public static HObject Load_Image { set; get; }
 
 
+        /// <summary>
+        /// 画画添加集合序号
+        /// </summary>
+        private int Drawing_Lint_Bunber=0;
 
         /// <summary>
         /// 鼠标当前位置
@@ -210,23 +218,31 @@ namespace HanGao.ViewModel
                 MenuItem _E = Sm.Source as MenuItem;
 
                 HOperatorSet.SetColor(Features_Window.HWindow, nameof(KnownColor.Red).ToLower());
+                HOperatorSet.SetLineWidth(UC_Visal_Function_VM.Features_Window.HWindow, 1);
 
+                HOperatorSet.GenEmptyObj(out HObject ho_Cross);
 
                 //生成十字架
-                HOperatorSet.GenCrossContourXld(out HObject ho_Cross, Halcon_Position.X, Halcon_Position.Y, 50, Halcon_SDK.ToRadians(45));
+                HOperatorSet.GenCrossContourXld(out  ho_Cross, Halcon_Position.X, Halcon_Position.Y, 50, (new HTuple(45)).TupleRad());
 
                 //显示十字架
                 HOperatorSet.DispXld(ho_Cross, Features_Window.HWindow);
 
 
                 //获取列表对象数量
-                int _number = UC_Vision_Create_Template_ViewMode.Drawing_Data_List.Count;
 
 
                 //属性为空时创建属性
-                User_Drawing_Data ??= new Vision_Create_Model_Drawing_Model() { Number = ++_number, Drawing_Type = (Drawing_Type_Enme)Enum.Parse(typeof(Drawing_Type_Enme), _E.Name), Drawing_Data = new ObservableCollection<Point>() };
+            
+                if (User_Drawing_Data==null)
+                {
+
+                    User_Drawing_Data = new Vision_Create_Model_Drawing_Model() { Number = Drawing_Lint_Bunber, Drawing_Type = (Drawing_Type_Enme)Enum.Parse(typeof(Drawing_Type_Enme), _E.Name), Drawing_Data = new ObservableCollection<Point>() };
+                    Drawing_Lint_Bunber++;
+                }
 
 
+          
                 //添加坐标点数据
                 User_Drawing_Data.Drawing_Data.Add(new Point(Math.Round(Halcon_Position.X, 3), Math.Round(Halcon_Position.Y, 3)));
 
@@ -252,11 +268,11 @@ namespace HanGao.ViewModel
 
 
         /// <summary>
-        /// 添加拟合特征点
+        /// 添加拟合特征点到UI集合
         /// </summary>
         public ICommand Add_Draw_Ok_Comm
         {
-            get => new AsyncRelayCommand<RoutedEventArgs>(async (Sm) =>
+            get => new RelayCommand<RoutedEventArgs>( (Sm) =>
             {
 
                 MenuItem _E = Sm.Source as MenuItem;
@@ -277,8 +293,9 @@ namespace HanGao.ViewModel
                     ColLine = ColLine.TupleConcat(User_Drawing_Data.Drawing_Data[i].Y);
 
                 }
+                HOperatorSet.GenEmptyObj(out HObject ho_Contour1);
                 //根据描绘点生产线段
-                HOperatorSet.GenContourPolygonXld(out HObject ho_Contour1, RowLine, ColLine);
+                HOperatorSet.GenContourPolygonXld(out  ho_Contour1, RowLine, ColLine);
 
                 //设置显示图像颜色
                 HOperatorSet.SetColor(Features_Window.HWindow, nameof(KnownColor.Red).ToLower());
@@ -309,7 +326,8 @@ namespace HanGao.ViewModel
                         User_Drawing_Data.Lin_Xld_Data.Nc = hv_Nc;
                         User_Drawing_Data.Lin_Xld_Data.Nr = hv_Nr;
                         User_Drawing_Data.Lin_Xld_Data.Lin_Xld_Region = ho_Cont;
-                        User_Drawing_Data.Lin_Xld_Data.Xld_Region = ho_Contour1;
+                
+                        User_Drawing_Data.Lin_Xld_Data.Xld_Region = new HObject(ho_Contour1);
                         break;
                     case Drawing_Type_Enme.Draw_Cir:
 
@@ -328,7 +346,8 @@ namespace HanGao.ViewModel
                         User_Drawing_Data.Cir_Xld_Data.EndPhi = hv_EndPhi;
                         User_Drawing_Data.Cir_Xld_Data.PointOrder = hv_PointOrder;
                         User_Drawing_Data.Cir_Xld_Data.Cir_Xld_Region = ho_Cont;
-                        User_Drawing_Data.Cir_Xld_Data.Xld_Region = ho_Contour1;
+                 
+                        User_Drawing_Data.Cir_Xld_Data.Xld_Region =new HObject ( ho_Contour1);
 
 
                         break;
@@ -362,7 +381,7 @@ namespace HanGao.ViewModel
                 //全部控件显示居中
 
 
-                await Task.Delay(100);
+   
             });
         }
 
