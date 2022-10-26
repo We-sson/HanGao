@@ -1,6 +1,7 @@
 ﻿
 using CommunityToolkit.Mvvm.Input;
 using Halcon_SDK_DLL;
+using HalconDotNet;
 using HanGao.Model;
 using HanGao.View.User_Control.Vision_Control;
 using Microsoft.Win32;
@@ -59,6 +60,8 @@ namespace HanGao.ViewModel
 
 
 
+        public Subpixel_Values_Enum Subpixel_Values_UI { get; set; }
+
 
 
 
@@ -81,10 +84,10 @@ namespace HanGao.ViewModel
         public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
 
 
-        public HTuple Halcon_Create_Shape_ModelXld_ID { set; get; } = new HTuple();
-        public HTuple Halcon_Create_Planar_Uncalib_Deformable_ModelXld_ID { set; get; } = new HTuple();
-        public HTuple Halcon_Create_Local_Deformable_ModelXld_ID { set; get; } = new HTuple();
-        public HTuple Halcon_Create_Scaled_Shape_ModelXld_ID { set; get; } = new HTuple();
+        public HTuple Halcon_Create_Shape_ModelXld_ID { set; get; }
+        public HTuple Halcon_Create_Planar_Uncalib_Deformable_ModelXld_ID { set; get; }
+        public HTuple Halcon_Create_Local_Deformable_ModelXld_ID { set; get; }
+        public HTuple Halcon_Create_Scaled_Shape_ModelXld_ID { set; get; }
 
 
 
@@ -132,14 +135,14 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 生成匹配模型类型选项
         /// </summary>
-        public bool[] Shape_Model_Group { set; get; } = new bool[4] {true ,true ,true ,true };
+        public bool[] Shape_Model_Group { set; get; } = new bool[4] { true, true, true, true };
 
 
 
         /// <summary>
         /// 创建模型存放位置
         /// </summary>
-        public string ShapeModel_Location { set; get; }
+        public string ShapeModel_Location { set; get; } = Directory.GetCurrentDirectory()+ "\\ShapeModel";
 
         /// <summary>
         /// 图片加载
@@ -185,14 +188,14 @@ namespace HanGao.ViewModel
 
 
                 //创建存放模型文件
-                if (!Directory.Exists(Environment.CurrentDirectory + "\\ShapeModel")) { Directory.CreateDirectory(Environment.CurrentDirectory + "\\ShapeModel"); }
+                if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\ShapeModel")) { Directory.CreateDirectory(Environment.CurrentDirectory + "\\ShapeModel"); }
 
 
                 var FolderDialog = new VistaFolderBrowserDialog
                 {
                     Description = "选择模板文件存放位置.",
                     UseDescriptionForTitle = true, // This applies to the Vista style dialog only, not the old dialog.
-                    SelectedPath = Environment.CurrentDirectory,
+                    SelectedPath = Directory.GetCurrentDirectory()+ "\\ShapeModel",
                     ShowNewFolderButton = true,
                 };
 
@@ -214,7 +217,7 @@ namespace HanGao.ViewModel
         /// </summary>
         public ICommand New_ShapeModel_Comm
         {
-            get => new AsyncRelayCommand<UC_Vision_Create_Template>( async(Sm) =>
+            get => new AsyncRelayCommand<UC_Vision_Create_Template>(async (Sm) =>
             {
                 //Button Window_UserContol = Sm.Source as Button;
 
@@ -399,7 +402,7 @@ namespace HanGao.ViewModel
                                 //}).Result;
                                 new Thread(new ThreadStart(new Action(() =>
                                 {
-                                    Halcon_Create_Local_Deformable_ModelXld_ID= ShapeModel_Save_Method(Halcon_Create_Local_Deformable_ModelXld_UI, _ModelsXld, _Name);
+                                    Halcon_Create_Local_Deformable_ModelXld_ID = ShapeModel_Save_Method(Halcon_Create_Local_Deformable_ModelXld_UI, _ModelsXld, _Name);
                                 })))
                                 { IsBackground = true, Name = "Create_Local_Thread" }.Start();
 
@@ -480,6 +483,126 @@ namespace HanGao.ViewModel
 
             });
         }
+
+
+        /// <summary>
+        /// 模板存储位置选择
+        /// </summary>
+        public ICommand Text_ShapeModel_Comm
+        {
+            get => new AsyncRelayCommand<UC_Vision_Create_Template>(async (Sm) =>
+            {
+                //Button Window_UserContol = Sm.Source as Button;
+
+                HTuple Shape_ModelID = new();
+                HTuple Planar_ModelID = new();
+                HTuple Local_ModelID = new();
+                HTuple Scaled_ModelID = new();
+                //获得识别位置名称
+                string _Name = ((ShapeModel_Name_Enum)Sm.Text_ShapeModel_Name.SelectedIndex).ToString();
+
+
+                //获得匹配模型文件地址
+                string _path = ShapeModel_Location + "\\" + _Name + "_Shape_Model.shm";
+                Shape_ModelID.Dispose();
+                //读取模型文件
+                if (Halcon_Create_Shape_ModelXld_ID == null)
+                {
+                    HOperatorSet.ReadShapeModel(_path, out Shape_ModelID);
+                    Halcon_Create_Shape_ModelXld_ID = Shape_ModelID;
+                }
+
+                //获得匹配模型文件地址
+                _path = ShapeModel_Location + "\\" + _Name + "_Planar_Model.dfm";
+                Planar_ModelID.Dispose();
+                //读取模型文件
+                if (Halcon_Create_Planar_Uncalib_Deformable_ModelXld_ID == null)
+                {
+                    HOperatorSet.ReadDeformableModel(_path, out Planar_ModelID);
+                    Halcon_Create_Planar_Uncalib_Deformable_ModelXld_ID = Planar_ModelID;
+                }
+
+                //获得匹配模型文件地址
+
+                _path = ShapeModel_Location + "\\" + _Name + "_Local_Model.dfm";
+                Local_ModelID.Dispose();
+                //读取模型文件
+                if (Halcon_Create_Local_Deformable_ModelXld_ID == null)
+                {
+                    HOperatorSet.ReadDeformableModel(_path, out Local_ModelID);
+                    Halcon_Create_Local_Deformable_ModelXld_ID = Local_ModelID;
+                }
+
+                //获得匹配模型文件地址
+                _path = ShapeModel_Location + "\\" + _Name + "_Scaled_Model.shm";
+                Scaled_ModelID.Dispose();
+                //读取模型文件
+                if (Halcon_Create_Scaled_Shape_ModelXld_ID == null)
+                {
+                    HOperatorSet.ReadShapeModel(_path, out Scaled_ModelID);
+                    Halcon_Create_Scaled_Shape_ModelXld_ID = Scaled_ModelID;
+                }
+
+
+
+                HTuple hv_row = new HTuple();
+                HTuple hv_column = new HTuple();
+                HTuple hv_angle = new HTuple();
+                HTuple hv_score = new HTuple();
+                HTuple hv_HomMat2D = new HTuple();
+                HTuple hv_Score = new HTuple();
+
+
+
+                switch (Sm.Text_ShapeModel_UI.SelectedIndex)
+                {
+                    case 0:
+
+
+
+
+                        HOperatorSet.FindShapeModel(UC_Visal_Function_VM.Load_Image, Halcon_Create_Shape_ModelXld_ID, (new HTuple(Sm.Text_AngleStart.Value)).TupleRad(), (new HTuple(Sm.Text_AngleExtent.Value)).TupleRad(), Sm.Text_MinScore.Value,
+                             Sm.Text_NumMatches.Value, Sm.Text_MaxOverlap.Value, ((Subpixel_Values_Enum)Sm.Text_SubPixel.SelectedIndex).ToString(), Sm.Text_NumLevels.Value, Sm.Text_Greediness.Value, out hv_row, out hv_column, out hv_angle, out hv_score);
+
+
+                        double s1 = hv_score.D;
+                        break;
+                    case 1:
+
+  
+
+
+                        HOperatorSet.FindPlanarUncalibDeformableModel(UC_Visal_Function_VM.Load_Image, Halcon_Create_Planar_Uncalib_Deformable_ModelXld_ID,
+                                                                                                           (new HTuple(Sm.Text_AngleStart.Value)).TupleRad(), (new HTuple(Sm.Text_AngleExtent.Value)).TupleRad(), Sm.Text_ScaleRMin.Value, Sm.Text_ScaleRMax.Value, Sm.Text_ScaleCMin.Value, Sm.Text_ScaleCMax.Value, Sm.Text_MinScore.Value,
+                                                                                                           Sm.Text_NumMatches.Value, Sm.Text_MaxOverlap.Value, Sm.Text_NumLevels.Value, Sm.Text_Greediness.Value, "subpixel", "least_squares", out hv_HomMat2D, out hv_Score);
+
+
+                        double s = hv_Score.D;
+
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+
+                }
+
+
+
+
+
+
+
+
+
+                await Task.Delay(100);
+
+            });
+        }
+
+
+
+
 
 
 

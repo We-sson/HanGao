@@ -344,4 +344,14 @@ namespace Halcon_SDK_DLL
         Create_Scaled_Model
     }
 
+    public  enum Subpixel_Values_Enum
+    {
+         none, 
+        interpolation, 
+        least_squares, 
+        least_squares_high, 
+        least_squares_very_high, 
+    }
+
+
 }
