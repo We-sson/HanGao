@@ -29,13 +29,8 @@ namespace HanGao.ViewModel
     {
         public UC_Vision_Create_Template_ViewMode()
         {
-            Dictionary<int, string> _E = new();
-            //添加枚举到UI下拉显示
-            foreach (var E in Enum.GetValues(typeof(ShapeModel_Name_Enum)))
-            {
-                _E.Add((int)(ShapeModel_Name_Enum)Enum.Parse(typeof(ShapeModel_Name_Enum), E.ToString()), E.ToString());
-            }
-            Shape_Model_Name_UI = _E;
+
+
 
 
 
@@ -96,6 +91,16 @@ namespace HanGao.ViewModel
         /// 一般形状模型匹配创建属性
         /// </summary>
         public Halcon_Create_Shape_ModelXld Halcon_Create_Shape_ModelXld_UI { set; get; } = new Halcon_Create_Shape_ModelXld();
+        /// <summary>
+        /// 一般形状模型匹配查找属性
+        /// </summary>
+        public Halcon_Find_Shape_ModelXld Halcon_Find_Shape_ModelXld_UI { set; get; } = new Halcon_Find_Shape_ModelXld();
+
+        /// <summary>
+        /// 一般形状模型匹配查找结果属性
+        /// </summary>
+        public Halcon_Find_Shape_Out_Parameter Halcon_Find_Shape_Out { set; get; } = new Halcon_Find_Shape_Out_Parameter();
+
 
 
 
@@ -103,6 +108,21 @@ namespace HanGao.ViewModel
         /// 可变形模型匹配创建属性
         /// </summary>
         public Halcon_Create_Planar_Uncalib_Deformable_ModelXld Halcon_Create_Planar_Uncalib_Deformable_ModelXld_UI { set; get; } = new Halcon_Create_Planar_Uncalib_Deformable_ModelXld();
+
+
+        /// <summary>
+        /// 可变形模型匹配查找属性
+        /// </summary>
+        public Halcon_Find_Deformable_model Halcon_Find_Planar_Uncalib_Deformable_ModelXld_UI { set; get; } = new Halcon_Find_Deformable_model();
+
+        /// <summary>
+        /// 一般形状模型匹配查找结果属性
+        /// </summary>
+        public Halcon_Find_Deformable_Out_Parameter Halcon_Find_Deformable_Out { set; get; } = new Halcon_Find_Deformable_Out_Parameter();
+
+
+
+
 
 
         /// <summary>
@@ -115,6 +135,7 @@ namespace HanGao.ViewModel
         /// </summary>
         public Halcon_Create_Scaled_Shape_ModelXld Halcon_Create_Scaled_Shape_ModelXld_UI { set; get; } = new Halcon_Create_Scaled_Shape_ModelXld();
 
+        public Halcon_Find_Shape_ModelXld Halcon_Find_Scaled_Shape_ModelXld_UI { set; get; } = new Halcon_Find_Shape_ModelXld();
 
 
         public Halcon_SDK SHalcon { set; get; } = new Halcon_SDK();
@@ -125,6 +146,14 @@ namespace HanGao.ViewModel
         /// </summary>
         public int Image_CollectionMethod_UI { set; get; } = 0;
 
+        /// <summary>
+        /// 测试查找匹配模型显示耗时
+        /// </summary>
+        public double Find_Models_Msec_UI { set; get; } = 0;
+        /// <summary>
+        /// 测试查找匹配模型分数
+        /// </summary>
+        public double Find_Modes_Score_UI { set; get; } = 0;
 
         /// <summary>
         /// UI图像文件显示地址
@@ -142,7 +171,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 创建模型存放位置
         /// </summary>
-        public string ShapeModel_Location { set; get; } = Directory.GetCurrentDirectory()+ "\\ShapeModel";
+        public string ShapeModel_Location { set; get; } = Directory.GetCurrentDirectory() + "\\ShapeModel";
 
         /// <summary>
         /// 图片加载
@@ -195,7 +224,7 @@ namespace HanGao.ViewModel
                 {
                     Description = "选择模板文件存放位置.",
                     UseDescriptionForTitle = true, // This applies to the Vista style dialog only, not the old dialog.
-                    SelectedPath = Directory.GetCurrentDirectory()+ "\\ShapeModel",
+                    SelectedPath = Directory.GetCurrentDirectory() + "\\ShapeModel",
                     ShowNewFolderButton = true,
                 };
 
@@ -264,12 +293,6 @@ namespace HanGao.ViewModel
                                 Halcon_Create_Shape_ModelXld_UI.Model_Type = Shape_Model_Type_Enum.Create_Shape_Model;
 
                                 //开启线保存匹配模型文件
-                                //Halcon_Create_Shape_ModelXld_ID = Task.Run<HTuple>(() =>
-                                //{
-                                //    return ShapeModel_Save_Method(Halcon_Create_Shape_ModelXld_UI, _ModelsXld, _Name);
-
-                                //}).Result;
-
                                 new Thread(new ThreadStart(new Action(() =>
                                 {
                                     Halcon_Create_Shape_ModelXld_ID = ShapeModel_Save_Method(Halcon_Create_Shape_ModelXld_UI, _ModelsXld, _Name);
@@ -330,12 +353,6 @@ namespace HanGao.ViewModel
                                 Halcon_Create_Planar_Uncalib_Deformable_ModelXld_UI.Model_Type = Shape_Model_Type_Enum.Create_Planar_Model;
 
                                 //开启线保存匹配模型文件
-                                //Halcon_Create_Planar_Uncalib_Deformable_ModelXld_ID = Task.Run<HTuple>(() =>
-                                //{
-                                //    return ShapeModel_Save_Method(Halcon_Create_Planar_Uncalib_Deformable_ModelXld_UI, _ModelsXld, _Name);
-
-                                //}).Result;
-
                                 new Thread(new ThreadStart(new Action(() =>
                                 {
                                     Halcon_Create_Planar_Uncalib_Deformable_ModelXld_ID = ShapeModel_Save_Method(Halcon_Create_Planar_Uncalib_Deformable_ModelXld_UI, _ModelsXld, _Name);
@@ -395,11 +412,6 @@ namespace HanGao.ViewModel
 
 
                                 //开启线保存匹配模型文件
-                                // Halcon_Create_Local_Deformable_ModelXld_ID =await  Task.Run<HTuple>(() =>
-                                //{
-                                //    return ShapeModel_Save_Method(Halcon_Create_Local_Deformable_ModelXld_UI, _ModelsXld, _Name);
-
-                                //}).Result;
                                 new Thread(new ThreadStart(new Action(() =>
                                 {
                                     Halcon_Create_Local_Deformable_ModelXld_ID = ShapeModel_Save_Method(Halcon_Create_Local_Deformable_ModelXld_UI, _ModelsXld, _Name);
@@ -452,12 +464,6 @@ namespace HanGao.ViewModel
 
 
                                 //开启线保存匹配模型文件
-                                //Halcon_Create_Scaled_Shape_ModelXld_ID = Task.Run<HTuple>(() =>
-                                //{
-                                //    return ShapeModel_Save_Method(Halcon_Create_Scaled_Shape_ModelXld_UI, _ModelsXld, _Name);
-
-                                //}).Result;
-
                                 new Thread(new ThreadStart(new Action(() =>
                                 {
                                     Halcon_Create_Scaled_Shape_ModelXld_ID = ShapeModel_Save_Method(Halcon_Create_Scaled_Shape_ModelXld_UI, _ModelsXld, _Name);
@@ -512,6 +518,10 @@ namespace HanGao.ViewModel
                     Halcon_Create_Shape_ModelXld_ID = Shape_ModelID;
                 }
 
+
+
+
+
                 //获得匹配模型文件地址
                 _path = ShapeModel_Location + "\\" + _Name + "_Planar_Model.dfm";
                 Planar_ModelID.Dispose();
@@ -545,39 +555,111 @@ namespace HanGao.ViewModel
 
 
 
-                HTuple hv_row = new HTuple();
-                HTuple hv_column = new HTuple();
-                HTuple hv_angle = new HTuple();
-                HTuple hv_score = new HTuple();
-                HTuple hv_HomMat2D = new HTuple();
-                HTuple hv_Score = new HTuple();
 
 
 
                 switch (Sm.Text_ShapeModel_UI.SelectedIndex)
                 {
                     case 0:
+                        //控件参数的值赋值
+                        Halcon_Find_Shape_ModelXld_UI.AngleStart = Sm.Text_AngleStart.Value;
+                        Halcon_Find_Shape_ModelXld_UI.AngleExtent = Sm.Text_AngleExtent.Value;
+                        Halcon_Find_Shape_ModelXld_UI.MinScore = Sm.Text_MinScore.Value;
+                        Halcon_Find_Shape_ModelXld_UI.NumMatches = (int)Sm.Text_NumMatches.Value;
+                        Halcon_Find_Shape_ModelXld_UI.SubPixel = (Subpixel_Values_Enum)Sm.Text_SubPixel.SelectedIndex;
+                        Halcon_Find_Shape_ModelXld_UI.MaxOverlap = Sm.Text_MaxOverlap.Value;
+                        Halcon_Find_Shape_ModelXld_UI.NumLevels = (int)Sm.Text_NumLevels.Value;
+                        Halcon_Find_Shape_ModelXld_UI.Greediness = Sm.Text_Greediness.Value;
+
+
+
+                        //开启多线程
+                        new Thread(new ThreadStart(new Action(() =>
+                        {
+
+                            //控件执行操作限制
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                Sm.Text_Models.IsEnabled = false;
+
+                            });
+                            //查找一般形状模型
+                            Halcon_Find_Shape_Out = SHalcon.Find_Deformable_Model<Halcon_Find_Shape_ModelXld, Halcon_Find_Shape_Out_Parameter>(Find_Model_Enum.Scale_Model, UC_Visal_Function_VM.Load_Image, Halcon_Create_Shape_ModelXld_ID, Halcon_Find_Shape_ModelXld_UI);
+
+                            Find_Models_Msec_UI = Halcon_Find_Shape_Out.Find_Time;
+                            Find_Modes_Score_UI = Halcon_Find_Shape_Out.Score;
+
+
+                            //控件执行操作限制
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                Sm.Text_Models.IsEnabled = true ;
+
+                            });
+                        })))
+                        { IsBackground = true, Name = "Find_Shape_Thread" }.Start();
 
 
 
 
-                        HOperatorSet.FindShapeModel(UC_Visal_Function_VM.Load_Image, Halcon_Create_Shape_ModelXld_ID, (new HTuple(Sm.Text_AngleStart.Value)).TupleRad(), (new HTuple(Sm.Text_AngleExtent.Value)).TupleRad(), Sm.Text_MinScore.Value,
-                             Sm.Text_NumMatches.Value, Sm.Text_MaxOverlap.Value, ((Subpixel_Values_Enum)Sm.Text_SubPixel.SelectedIndex).ToString(), Sm.Text_NumLevels.Value, Sm.Text_Greediness.Value, out hv_row, out hv_column, out hv_angle, out hv_score);
 
 
-                        double s1 = hv_score.D;
                         break;
                     case 1:
 
-  
+                        //控件参数的值赋值
+                        Halcon_Find_Planar_Uncalib_Deformable_ModelXld_UI.AngleStart = Sm.Text_AngleStart.Value;
+                        Halcon_Find_Planar_Uncalib_Deformable_ModelXld_UI.AngleExtent = Sm.Text_AngleExtent.Value;
+                        Halcon_Find_Planar_Uncalib_Deformable_ModelXld_UI.ScaleRMin = Sm.Text_ScaleRMin.Value;
+                        Halcon_Find_Planar_Uncalib_Deformable_ModelXld_UI.ScaleRMax = Sm.Text_ScaleRMax.Value;
+                        Halcon_Find_Planar_Uncalib_Deformable_ModelXld_UI.ScaleCMin = Sm.Text_ScaleCMin.Value;
+                        Halcon_Find_Planar_Uncalib_Deformable_ModelXld_UI.ScaleCMax = Sm.Text_ScaleCMax.Value;
+                        Halcon_Find_Planar_Uncalib_Deformable_ModelXld_UI.MinScore = Sm.Text_MinScore.Value;
+                        Halcon_Find_Planar_Uncalib_Deformable_ModelXld_UI.NumMatches = (int)Sm.Text_NumMatches.Value;
+                        Halcon_Find_Planar_Uncalib_Deformable_ModelXld_UI.MaxOverlap = Sm.Text_MaxOverlap.Value;
+                        Halcon_Find_Planar_Uncalib_Deformable_ModelXld_UI.NumLevels = (int)Sm.Text_NumLevels.Value;
+                        Halcon_Find_Planar_Uncalib_Deformable_ModelXld_UI.Greediness = Sm.Text_Greediness.Value;
 
 
-                        HOperatorSet.FindPlanarUncalibDeformableModel(UC_Visal_Function_VM.Load_Image, Halcon_Create_Planar_Uncalib_Deformable_ModelXld_ID,
-                                                                                                           (new HTuple(Sm.Text_AngleStart.Value)).TupleRad(), (new HTuple(Sm.Text_AngleExtent.Value)).TupleRad(), Sm.Text_ScaleRMin.Value, Sm.Text_ScaleRMax.Value, Sm.Text_ScaleCMin.Value, Sm.Text_ScaleCMax.Value, Sm.Text_MinScore.Value,
-                                                                                                           Sm.Text_NumMatches.Value, Sm.Text_MaxOverlap.Value, Sm.Text_NumLevels.Value, Sm.Text_Greediness.Value, "subpixel", "least_squares", out hv_HomMat2D, out hv_Score);
+                        //开启多线程
+                        new Thread(new ThreadStart(new Action(() =>
+                        {
+
+                            //控件执行操作限制
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                Sm.Text_Models.IsEnabled = false ;
+
+                            });
+
+                            //查找
+                            Halcon_Find_Deformable_Out = SHalcon.Find_Deformable_Model<Halcon_Find_Deformable_model, Halcon_Find_Deformable_Out_Parameter>(Find_Model_Enum.Planar_Deformable_Model, UC_Visal_Function_VM.Load_Image, Halcon_Create_Planar_Uncalib_Deformable_ModelXld_ID, Halcon_Find_Planar_Uncalib_Deformable_ModelXld_UI);
 
 
-                        double s = hv_Score.D;
+                            //UI显示识别情况
+                            Find_Models_Msec_UI = Halcon_Find_Deformable_Out.Find_Time;
+                            Find_Modes_Score_UI = Halcon_Find_Deformable_Out.Score;
+
+
+
+                            SHalcon.ProjectiveTrans_Xld( Find_Model_Enum.Planar_Deformable_Model,Halcon_Create_Planar_Uncalib_Deformable_ModelXld_ID, Halcon_Find_Deformable_Out.HomMat2D, UC_Visal_Function_VM.Features_Window.HWindow);
+                            
+                            
+                            
+                            //控件执行操作限制
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                Sm.Text_Models.IsEnabled = true ;
+
+                            });
+
+                        })))
+                        { IsBackground = true, Name = "Find_Planar_Thread" }.Start();
+
+
+
+
+
 
                         break;
                     case 2:
@@ -617,6 +699,8 @@ namespace HanGao.ViewModel
                 HObject ho_ModelContours = new();
 
 
+
+
                 switch (Sm.ShapeModel_UI.SelectedIndex)
                 {
                     case 0:
@@ -624,12 +708,14 @@ namespace HanGao.ViewModel
 
                         break;
                     case 1:
-                        HOperatorSet.GetShapeModelContours(out ho_ModelContours, Halcon_Create_Planar_Uncalib_Deformable_ModelXld_ID, int.Parse(Sm.ShapeModel_Number.Text));
+
+
+                        HOperatorSet.GetDeformableModelContours(out ho_ModelContours, Halcon_Create_Planar_Uncalib_Deformable_ModelXld_ID, int.Parse(Sm.ShapeModel_Number.Text));
 
 
                         break;
                     case 2:
-                        HOperatorSet.GetShapeModelContours(out ho_ModelContours, Halcon_Create_Local_Deformable_ModelXld_ID, int.Parse(Sm.ShapeModel_Number.Text));
+                        HOperatorSet.GetDeformableModelContours(out ho_ModelContours, Halcon_Create_Local_Deformable_ModelXld_ID, int.Parse(Sm.ShapeModel_Number.Text));
 
 
                         break;
@@ -695,7 +781,7 @@ namespace HanGao.ViewModel
         }
 
 
-        private HTuple ShapeModel_Save_Method<T1>(T1 _ShapeModel_Type, HObject ho_ModelsXld, string _ShapeModel_Name)
+        public HTuple ShapeModel_Save_Method<T1>(T1 _ShapeModel_Type, HObject ho_ModelsXld, string _ShapeModel_Name)
         {
 
 

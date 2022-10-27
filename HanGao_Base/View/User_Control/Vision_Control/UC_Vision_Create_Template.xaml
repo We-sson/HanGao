@@ -1669,7 +1669,7 @@
                             <Grid Height="35" Margin="8">
 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="85" />
                                     <ColumnDefinition />
                                     <ColumnDefinition Width=" auto" />
                                 </Grid.ColumnDefinitions>
@@ -1816,7 +1816,7 @@
                             <Grid Margin="8">
 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="90" />
+                                    <ColumnDefinition Width="85" />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column=" 0"
@@ -1885,7 +1885,7 @@
                             <Grid Height="35" Margin="8">
 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="85" />
                                     <ColumnDefinition />
                                     <ColumnDefinition Width=" auto" />
                                 </Grid.ColumnDefinitions>
@@ -1921,7 +1921,7 @@
                             <Grid Height="35" Margin="8">
 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width=" 80" />
+                                    <ColumnDefinition Width=" 85" />
                                     <ColumnDefinition />
                                     <ColumnDefinition Width=" auto" />
                                 </Grid.ColumnDefinitions>
@@ -2146,7 +2146,7 @@
                             <Grid Height="35" Margin="8">
 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width=" 80" />
+                                    <ColumnDefinition Width=" 85" />
                                     <ColumnDefinition />
                                     <ColumnDefinition Width=" auto" />
                                 </Grid.ColumnDefinitions>
@@ -2182,7 +2182,7 @@
                             <Grid Height="35" Margin="8">
 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="85" />
                                     <ColumnDefinition />
                                     <ColumnDefinition Width=" auto" />
                                 </Grid.ColumnDefinitions>
@@ -2218,7 +2218,7 @@
                             <Grid Height="35" Margin="8">
 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="85" />
                                     <ColumnDefinition />
                                     <ColumnDefinition Width=" auto" />
                                 </Grid.ColumnDefinitions>
@@ -2238,7 +2238,7 @@
                                         Minimum="0"
                                         SmallChange="0.1"
                                         TickFrequency=" 0.1"
-                                        Value="1" />
+                                        Value="0" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding ElementName=Text_MaxOverlap, Path=Value}"
@@ -2346,7 +2346,7 @@
                             <Grid Height="35" Margin="8">
 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="85" />
                                     <ColumnDefinition />
                                     <ColumnDefinition Width=" auto" />
                                 </Grid.ColumnDefinitions>
@@ -2382,7 +2382,7 @@
                             <Grid Height="35" Margin="8">
 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="85" />
                                     <ColumnDefinition />
                                     <ColumnDefinition Width=" auto" />
                                 </Grid.ColumnDefinitions>
@@ -2416,9 +2416,9 @@
                             </Grid>
 
 
-                            <Grid Margin="8">
+                            <!--<Grid Margin="8">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width=" 90" />
+                                    <ColumnDefinition Width=" 85" />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
 
@@ -2506,7 +2506,7 @@
 
                             <Grid Margin="8">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width=" 90" />
+                                    <ColumnDefinition Width=" 85" />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
 
@@ -2569,16 +2569,16 @@
                                     </ComboBoxItem>
                                 </ComboBox>
 
-                            </Grid>
+                            </Grid>-->
 
                             <Grid Height="35" Margin="8">
 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="90" />
+                                    <ColumnDefinition Width="85" />
                                     <ColumnDefinition />
 
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="识别位置："
+                                <TextBlock Text="识别位置"
                                            HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -2644,11 +2644,11 @@
                             <Grid Height="35" Margin="8">
 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="90" />
+                                    <ColumnDefinition Width="85" />
                                     <ColumnDefinition />
                                     <ColumnDefinition Width=" auto" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="识别时间："
+                                <TextBlock Text="识别数据:"
                                            HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -2657,15 +2657,20 @@
 
 
                                 <TextBlock Grid.Column="1"
-                                           Text="835ms"
-                                           Width=" 100"
                                            HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
                                            Background="Transparent"
-                                           FontSize="16"
-                                           Foreground="{DynamicResource 全局_按钮_绿颜色}" />
+                                           FontSize="14"
+                                           Foreground="{DynamicResource 全局_按钮_红颜色}">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="T:{0}ms S:{1:F3}">
+                                            <Binding Path="Find_Models_Msec_UI" />
+                                            <Binding Path="Find_Modes_Score_UI" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
 
-                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                <Button Style="{DynamicResource Halcon_Window_Button}" x:Name="Text_Models" Grid.Column=" 2"
                                         Width="100"
                                         Margin="0,0,0,0"
                                         HorizontalAlignment="Right"

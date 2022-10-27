@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Halcon_SDK_DLL.Model
 {
-    public  class Halcon_Data_Model
+    public class Halcon_Data_Model
     {
         public Halcon_Data_Model()
         {
@@ -43,6 +43,26 @@ namespace Halcon_SDK_DLL.Model
             /// 图像显示位置Halcon控件
             /// </summary>
             public HWindow Image_Show_Halcon = null;
+
+
+
+
+
+
+
+        }
+
+
+
+        /// <summary>
+        /// 查找模型结果数据类型
+        /// </summary>
+        public class Find_Planar_Out_Model
+        {
+            public double row { set; get; } = 0;
+            public double column { set; get; } = 0;
+            public double angle { set; get; } = 0;
+            public double score { set; get; } = 0;
 
 
         }

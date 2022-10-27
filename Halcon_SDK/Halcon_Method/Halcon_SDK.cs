@@ -51,7 +51,7 @@ namespace Halcon_SDK_DLL
         /// </summary>
         /// <param name="_local"></param>
         /// <returns></returns>
-        public static  HObject Local_To_Halcon_Image(string _local)
+        public static HObject Local_To_Halcon_Image(string _local)
         {
 
             //新建空属性
@@ -67,7 +67,7 @@ namespace Halcon_SDK_DLL
 
 
 
-        public  static HTuple List_ConcatObj<T1>(T1 _List)
+        public static HTuple List_ConcatObj<T1>(T1 _List)
         {
 
 
@@ -76,7 +76,133 @@ namespace Halcon_SDK_DLL
         }
 
 
+        /// <summary>
+        /// 投影映射XLD对象到图像控件位置
+        /// </summary>
+        /// <param name="_ModelXld"></param>
+        /// <param name="_HomMat2D"></param>
+        /// <param name="_Window"></param>
+        /// <returns></returns>
+        public void ProjectiveTrans_Xld(Find_Model_Enum _Find_Enum, HTuple _ModelXld, HTuple _HomMat2D, HWindow _Window)
+        {
 
+
+            HObject _ModelConect = new HObject();
+    
+
+            //根据匹配模型类型 读取模板内的xld对象
+            switch (_Find_Enum)
+            {
+                case Find_Model_Enum _Enum when (_Enum == Find_Model_Enum.Shape_Model) || (_Enum == Find_Model_Enum.Scale_Model):
+                    HOperatorSet.GetShapeModelContours(out _ModelConect, _ModelXld, 1);
+
+                    break;
+
+                case Find_Model_Enum.Shape_Model | Find_Model_Enum.Scale_Model:
+                    break;
+
+                case Find_Model_Enum _Enum when (_Enum == Find_Model_Enum.Planar_Deformable_Model) || (_Enum == Find_Model_Enum.Local_Deformable_Model):
+
+                    HOperatorSet.GetDeformableModelContours(out _ModelConect, _ModelXld, 1);
+
+                    break;
+
+            }
+
+            //将xld对象矩阵映射到图像中
+            HOperatorSet.ProjectiveTransContourXld(_ModelConect, out HObject _ContoursProjTrans, _HomMat2D);
+
+            //显示到对应的控件窗口
+            HOperatorSet.DispObj(_ContoursProjTrans, _Window);
+
+        }
+
+
+
+
+
+        /// <summary>
+        /// 查找匹配模型方法
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <param name="_Find_Enum"></param>
+        /// <param name="_Image"></param>
+        /// <param name="_ModelXld"></param>
+        /// <param name="_Find_Property"></param>
+        /// <returns></returns>
+        public T2 Find_Deformable_Model<T1, T2>(Find_Model_Enum _Find_Enum, HObject _Image, HTuple _ModelXld, T1 _Find_Property)
+        {
+
+
+
+
+            lock (_Find_Property)
+            {
+
+                HTuple hv_row = new HTuple();
+                HTuple hv_column = new HTuple();
+                HTuple hv_angle = new HTuple();
+                HTuple hv_score = new HTuple();
+                HTuple hv_HomMat2D = new HTuple();
+                DateTime RunTime = DateTime.Now;
+
+
+
+                switch (_Find_Enum)
+                {
+                    case Find_Model_Enum.Shape_Model:
+
+
+                        if (_Find_Property is Halcon_Find_Shape_ModelXld)
+                        {
+
+                            Halcon_Find_Shape_ModelXld Find_Shape = _Find_Property as Halcon_Find_Shape_ModelXld;
+
+
+                            HOperatorSet.FindShapeModel(_Image, _ModelXld, (new HTuple(Find_Shape.AngleStart)).TupleRad(), (new HTuple(Find_Shape.AngleExtent)).TupleRad(), Find_Shape.MinScore,
+                            Find_Shape.NumMatches, Find_Shape.MaxOverlap, Find_Shape.SubPixel.ToString(), Find_Shape.NumLevels, Find_Shape.Greediness, out hv_row, out hv_column, out hv_angle, out hv_score);
+
+
+                            return (T2)(object)new Halcon_Find_Shape_Out_Parameter() { Row = hv_row.D, Column = hv_column.D, Angle = hv_angle.D, Score = hv_score.D, Find_Time = (DateTime.Now - RunTime).Milliseconds };
+
+                        }
+
+                        break;
+
+                    case Find_Model_Enum.Planar_Deformable_Model:
+
+                        if (_Find_Property is Halcon_Find_Deformable_model)
+                        {
+
+                            Halcon_Find_Deformable_model Find_Planar = _Find_Property as Halcon_Find_Deformable_model;
+
+
+                            HOperatorSet.FindPlanarUncalibDeformableModel(_Image, _ModelXld,
+                                                                                                       (new HTuple(Find_Planar.AngleStart)).TupleRad(), (new HTuple(Find_Planar.AngleExtent)).TupleRad(), Find_Planar.ScaleRMin, Find_Planar.ScaleRMax, Find_Planar.ScaleCMin, Find_Planar.ScaleCMax, Find_Planar.MinScore,
+                                                                                                       Find_Planar.NumMatches, Find_Planar.MaxOverlap, Find_Planar.NumLevels, Find_Planar.Greediness, "subpixel", "least_squares", out hv_HomMat2D, out hv_score);
+
+
+                            return (T2)(object)new Halcon_Find_Deformable_Out_Parameter() { HomMat2D = hv_HomMat2D, Score = hv_score.D, Find_Time = (DateTime.Now - RunTime).Milliseconds };
+
+                        }
+                        break;
+                    case Find_Model_Enum.Local_Deformable_Model:
+                        break;
+                    case Find_Model_Enum.Scale_Model:
+                        break;
+
+                }
+
+
+                return default;
+
+
+
+
+            }
+
+        }
 
 
 
@@ -136,7 +262,7 @@ namespace Halcon_SDK_DLL
         /// <summary>
         /// 金字塔层的最大数量默认值：“自动”值列表：1， 2， 3， 4， 5， 6， 7， 8， 9， 10，“自动”
         /// </summary>
-        public string  NumLevels { set; get; } = "auto";
+        public string NumLevels { set; get; } = "auto";
         /// <summary>
         /// 图案的最小旋转。默认值：-0.39 建议值： -3.14， -1.57， -0.79， -0.39， -0.20， 0.0
         /// </summary>
@@ -148,7 +274,7 @@ namespace Halcon_SDK_DLL
         /// <summary>
         /// 角度的步长（分辨率）。默认值： “自动”建议值：“自动”, 0.0175, 0.0349, 0.0524, 0.0698, 0.0873
         /// </summary>
-        public string  AngleStep { set; get; } = "auto";
+        public string AngleStep { set; get; } = "auto";
         /// <summary>
         /// 用于生成模型的优化类型和可选方法。默认值： “自动”
         /// </summary>
@@ -169,6 +295,150 @@ namespace Halcon_SDK_DLL
         public Shape_Model_Type_Enum Model_Type { set; get; }
     }
 
+
+    /// <summary>
+    /// 一般形状匹配查找模型结果参数
+    /// </summary>
+    public class Halcon_Find_Shape_Out_Parameter
+    {
+        /// <summary>
+        /// 模型实例的行坐标
+        /// </summary>
+        public double Row { set; get; } = 0;
+        /// <summary>
+        /// 模型实例的列坐标
+        /// </summary>
+        public double Column { set; get; } = 0;
+        /// <summary>
+        /// 模型实例的旋转角度
+        /// </summary>
+        public double Angle { set; get; } = 0;
+        /// <summary>
+        /// 模型和找到的实例相似值
+        /// </summary>
+        public double Score { set; get; } = 0;
+        /// <summary>
+        /// 查找耗时
+        /// </summary>
+        public int Find_Time { set; get; } = 0;
+
+    }
+
+    /// <summary>
+    /// 可变形形状匹配查找模型结果参数
+    /// </summary>
+    public class Halcon_Find_Deformable_Out_Parameter
+    {
+
+        /// <summary>
+        /// 模型和找到的实例相似值
+        /// </summary>
+        public double Score { set; get; } = 0;
+        /// <summary>
+        /// 找到的模型实例的分数
+        /// </summary>
+        public HTuple HomMat2D { set; get; } = new HTuple();
+
+
+        /// <summary>
+        /// 查找耗时
+        /// </summary>
+        public int Find_Time { set; get; } = 0;
+    }
+
+    /// <summary>
+    ///  一般形状匹配查找模型参数
+    /// </summary>
+    public class Halcon_Find_Shape_ModelXld
+    {
+
+        /// <summary>
+        /// 模型的最小旋转。默认值：-0.39,建议值： -3.14， -1.57， -0.79， -0.39， -0.20， 0.0
+        /// </summary>
+        public double AngleStart { set; get; } = 0;
+        /// <summary>
+        /// 旋转角度的范围。默认值：0.79,建议值：6.29、3.14、1.57、0.79、0.39、0.0
+        /// </summary>
+        public double AngleExtent { set; get; } = 360;
+        /// <summary>
+        /// 要查找的模型实例的最低分数。 默认值：0.5,建议值：0.3、 0.4、 0.5、 0.6、 0.7、 0.8、 0.9、 1.0
+        /// </summary>
+        public double MinScore { set; get; } = 0.8;
+        /// <summary>
+        /// 要找到的模型的实例数（对于所有匹配项，为 0）。默认值：1,建议值：0、1、2、3、4、5、10、20
+        /// </summary>
+        public int NumMatches { set; get; } = 1;
+        /// <summary>
+        /// 要查找的模型实例的最大重叠。默认值：0.5,建议值：0.0， 0.1， 0.2， 0.3， 0.4， 0.5， 0.6， 0.7， 0.8， 0.9， 1.0
+        /// </summary>
+        public double MaxOverlap { set; get; } = 0;
+        /// <summary>
+        /// 亚像素精度（如果不等于）“无”.默认值： “least_squares”
+        /// </summary>
+        public Subpixel_Values_Enum SubPixel { set; get; } = Subpixel_Values_Enum.least_squares;
+        /// <summary>
+        /// 匹配中使用的金字塔级别数（如果|，则使用的最低金字塔级别numLevels|= 2）。默认值：0
+        /// </summary>
+        public int NumLevels { set; get; } = 3;
+        /// <summary>
+        /// 搜索启发式的“贪婪”（0：安全但慢;1：快但可能会错过匹配）。默认值：0.9
+        /// </summary>
+        public double Greediness { set; get; } = 0.9;
+
+    }
+
+    /// <summary>
+    /// 可变形形状匹配查找模型参数
+    /// </summary>
+    public class Halcon_Find_Deformable_model
+    {
+        /// <summary>
+        /// 模型的最小旋转。默认值：-0.39,建议值： -3.14， -1.57， -0.79， -0.39， -0.20， 0.0
+        /// </summary>
+        public double AngleStart { set; get; } = 0;
+        /// <summary>
+        /// 旋转角度的范围。默认值：0.79,建议值：6.29、3.14、1.57、0.79、0.39、0.0
+        /// </summary>
+        public double AngleExtent { set; get; } = 360;
+        /// <summary>
+        /// 阵列在行方向上的最小比例。默认值：1.0,建议值：0.5、0.6、0.7、0.8、0.9、1.0
+        /// </summary>
+        public double ScaleRMin { set; get; } = 1.0;
+        /// <summary>
+        /// 不使用此参数。默认值：[]
+        /// </summary>
+        public double ScaleRMax { set; get; } = 0;
+        /// <summary>
+        /// 不使用此参数。默认值：[]
+        /// </summary>
+        public double ScaleCMax { set; get; } = 0;
+        /// <summary>
+        /// 阵列在列方向上的最小比例。默认值：1.0,建议值：0.5、0.6、0.7、0.8、0.9、1.0
+        /// </summary>
+        public double ScaleCMin { set; get; } = 1.0;
+        /// <summary>
+        /// 要查找的模型实例的最低分数。 默认值：0.5,建议值：0.3、 0.4、 0.5、 0.6、 0.7、 0.8、 0.9、 1.0
+        /// </summary>
+        public double MinScore { set; get; } = 0.8;
+        /// <summary>
+        /// 要找到的模型的实例数（对于所有匹配项，为 0）。默认值：1,建议值：0、1、2、3、4、5、10、20
+        /// </summary>
+        public int NumMatches { set; get; } = 1;
+        /// <summary>
+        /// 要查找的模型实例的最大重叠。默认值：0.5,建议值：0.0， 0.1， 0.2， 0.3， 0.4， 0.5， 0.6， 0.7， 0.8， 0.9， 1.0
+        /// </summary>
+        public double MaxOverlap { set; get; } = 0;
+        /// <summary>
+        /// 匹配中使用的金字塔级别数（如果|，则使用的最低金字塔级别numLevels|= 2）。默认值：0
+        /// </summary>
+        public int NumLevels { set; get; } = 3;
+        /// <summary>
+        /// 搜索启发式的“贪婪”（0：安全但慢;1：快但可能会错过匹配）。默认值：0.9
+        /// </summary>
+        public double Greediness { set; get; } = 0.9;
+    }
+
+
     /// <summary>
     /// 可变形形状匹配创建模型参数
     /// </summary>
@@ -177,7 +447,7 @@ namespace Halcon_SDK_DLL
         /// <summary>
         /// 金字塔层的最大数量默认值：“自动”值列表：1， 2， 3， 4， 5， 6， 7， 8， 9， 10，“自动”
         /// </summary>
-        public string  NumLevels { set; get; } = "auto";
+        public string NumLevels { set; get; } = "auto";
         /// <summary>
         /// 图案的最小旋转。默认值：-0.39 建议值： -3.14， -1.57， -0.79， -0.39， -0.20， 0.0
         /// </summary>
@@ -189,7 +459,7 @@ namespace Halcon_SDK_DLL
         /// <summary>
         /// 角度的步长（分辨率）。默认值： “自动”建议值：“自动”, 0.0175, 0.0349, 0.0524, 0.0698, 0.0873
         /// </summary>
-        public string  AngleStep { set; get; } = "auto";
+        public string AngleStep { set; get; } = "auto";
         /// <summary>
         /// 阵列在行方向上的最小比例。默认值：1.0,建议值：0.5、0.6、0.7、0.8、0.9、1.0
         /// </summary>
@@ -201,7 +471,7 @@ namespace Halcon_SDK_DLL
         /// <summary>
         /// 在行方向上缩放步长（分辨率）。默认值： “自动”建议值：“自动”, 0.01, 0.02, 0.05, 0.1, 0.15, 0.2
         /// </summary>
-        public string  ScaleRStep { set; get; } = "auto";
+        public string ScaleRStep { set; get; } = "auto";
         /// <summary>
         /// 不使用此参数。默认值：[]
         /// </summary>
@@ -213,7 +483,7 @@ namespace Halcon_SDK_DLL
         /// <summary>
         /// 在列方向上缩放步长（分辨率）。默认值： “自动”建议值：“自动”, 0.01, 0.02, 0.05, 0.1, 0.15, 0.2
         /// </summary>
-        public string  ScaleCStep { set; get; } = "auto";
+        public string ScaleCStep { set; get; } = "auto";
         /// <summary>
         /// 用于生成模型的优化类型和可选方法。默认值： “自动”
         /// </summary>
@@ -243,6 +513,15 @@ namespace Halcon_SDK_DLL
 
     }
 
+
+
+
+
+
+
+
+
+
     /// <summary>
     /// 各向同性缩放的形状模型参数
     /// </summary>
@@ -251,7 +530,7 @@ namespace Halcon_SDK_DLL
         /// <summary>
         /// 金字塔层的最大数量默认值：“自动”值列表：1， 2， 3， 4， 5， 6， 7， 8， 9， 10，“自动”
         /// </summary>
-        public string  NumLevels { set; get; } = "auto";
+        public string NumLevels { set; get; } = "auto";
         /// <summary>
         /// 图案的最小旋转。默认值：-0.39 建议值： -3.14， -1.57， -0.79， -0.39， -0.20， 0.0
         /// </summary>
@@ -263,7 +542,7 @@ namespace Halcon_SDK_DLL
         /// <summary>
         /// 角度的步长（分辨率）。默认值： “自动”建议值：“自动”, 0.0175, 0.0349, 0.0524, 0.0698, 0.0873
         /// </summary>
-        public string  AngleStep { set; get; } = "auto";
+        public string AngleStep { set; get; } = "auto";
         /// <summary>
         /// 图案的最小比例。 默认值：0.9,建议值：0.5、0.6、0.7、0.8、0.9、1.0
         /// </summary>
@@ -275,7 +554,7 @@ namespace Halcon_SDK_DLL
         /// <summary>
         /// 缩放步长（分辨率）。默认值： “自动”建议值：“自动”, 0.01, 0.02, 0.05, 0.1, 0.15, 0.2
         /// </summary>
-        public string  ScaleStep { set; get; } = "auto";
+        public string ScaleStep { set; get; } = "auto";
         /// <summary>
         /// 用于生成模型的优化类型和可选方法。默认值： “自动”
         /// </summary>
@@ -344,14 +623,29 @@ namespace Halcon_SDK_DLL
         Create_Scaled_Model
     }
 
-    public  enum Subpixel_Values_Enum
+
+    /// <summary>
+    /// 亚像素精度枚举
+    /// </summary>
+    public enum Subpixel_Values_Enum
     {
-         none, 
-        interpolation, 
-        least_squares, 
-        least_squares_high, 
-        least_squares_very_high, 
+        none,
+        interpolation,
+        least_squares,
+        least_squares_high,
+        least_squares_very_high,
     }
 
+    /// <summary>
+    /// 查找匹配模型类型
+    /// </summary>
+    public enum Find_Model_Enum
+    {
+        Shape_Model,
+        Planar_Deformable_Model,
+        Local_Deformable_Model,
+        Scale_Model
+
+    }
 
 }
