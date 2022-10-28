@@ -77,7 +77,7 @@
                         <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 5 5" />
                         <StackPanel Orientation="Vertical">
 
-                            <Grid Height="35" Margin="8">
+                            <Grid Margin="8">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width=" 90" />
                                     <ColumnDefinition />
@@ -2166,7 +2166,7 @@
                                         Minimum=" 0"
                                         SmallChange="0.1"
                                         TickFrequency=" 0.1"
-                                        Value="0.5" />
+                                        Value="0.9" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding ElementName=Text_MinScore, Path=Value}"
