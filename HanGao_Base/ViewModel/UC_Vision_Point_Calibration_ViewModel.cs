@@ -2,6 +2,7 @@
 using Halcon_SDK_DLL;
 using HanGao.View.User_Control.Vision_Control;
 using Microsoft.Win32;
+using System.IO;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 
@@ -13,9 +14,12 @@ namespace HanGao.ViewModel
 
         public UC_Vision_Point_Calibration_ViewModel()
         {
+            //创建存放模型文件
+            if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\Nine_Calibration")) { Directory.CreateDirectory(Environment.CurrentDirectory + "\\Nine_Calibration"); }
 
 
-  
+
+
 
         }
 
@@ -23,7 +27,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// UI图像文件显示地址
         /// </summary>
-        public string Image_Location_UI { set; get; }
+        public string Image_Location_UI { set; get; } = Directory.GetCurrentDirectory() + "\\Nine_Calibration";
 
 
 
@@ -74,7 +78,7 @@ namespace HanGao.ViewModel
                 switch (Sm.Get_Image_UI.SelectedIndex)
                 {
                     case 0:
-                        GetOneFrameTimeout(UC_Visal_Function_VM.Features_Window.HWindow);
+                        UC_Vision_CameraSet_ViewModel. GetOneFrameTimeout(UC_Visal_Function_VM.Features_Window.HWindow);
                         break;
                     case 1:
                         if (Image_Location_UI != "")
