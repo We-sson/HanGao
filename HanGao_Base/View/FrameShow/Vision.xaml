@@ -778,7 +778,10 @@
                             Effect="{DynamicResource 全局背景阴影}" />
 
                     <StackPanel>
-                        <TextBlock Text="{Binding Halcon_Position}" />
+
+                        <TextBlock Text="{Binding Halcon_Position, StringFormat=鼠标位置: {0}}" />
+                        <TextBlock Text="{Binding Mouse_Pos_Gray, StringFormat=鼠标灰度值: {0}}" />
+
                     </StackPanel>
 
 

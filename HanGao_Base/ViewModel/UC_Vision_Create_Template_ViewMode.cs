@@ -830,16 +830,15 @@ namespace HanGao.ViewModel
                 switch (Image_CollectionMethod_UI)
                 {
                     case 0:
-                        GetOneFrameTimeout(UC_Visal_Function_VM.Features_Window.HWindow);
+                        UC_Visal_Function_VM.Load_Image= GetOneFrameTimeout(UC_Visal_Function_VM.Features_Window.HWindow);
                         break;
                     case 1:
                         if (Image_Location_UI != "")
                         {
+                            UC_Visal_Function_VM.Load_Image = SHalcon.Disp_Image(UC_Visal_Function_VM.Features_Window.HWindow, Image_Location_UI);
 
-                            //转换Halcon图像变量
-                            HObject Image = Halcon_SDK.Local_To_Halcon_Image(Image_Location_UI);
                             //发送显示图像位置
-                            Messenger.Send<HImage_Display_Model, string>(new HImage_Display_Model() { Image = Image, Image_Show_Halcon = UC_Visal_Function_VM.Features_Window.HWindow }, nameof(Meg_Value_Eunm.HWindow_Image_Show));
+                            //Messenger.Send<HImage_Display_Model, string>(new HImage_Display_Model() { Image = Image, Image_Show_Halcon = UC_Visal_Function_VM.Features_Window.HWindow }, nameof(Meg_Value_Eunm.HWindow_Image_Show));
                         }
                         break;
                 }

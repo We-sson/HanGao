@@ -82,8 +82,17 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 保存读取图像属性
         /// </summary>
-        public static   HObject Load_Image { set; get; } 
+        private static  HObject _Load_Image;
 
+        public static  HObject Load_Image
+        {
+            get { return _Load_Image; }
+            set { 
+
+                _Load_Image = value; 
+            
+            }
+        }
 
 
         /// <summary>
@@ -96,7 +105,7 @@ namespace HanGao.ViewModel
         /// </summary>
         public Point Halcon_Position { set; get; }
 
-
+        public int  Mouse_Pos_Gray { set; get; } =0;
 
         /// <summary>
         /// 窗体加载赋值
@@ -195,7 +204,24 @@ namespace HanGao.ViewModel
                 //Button E = Sm.Source as Button
 
 
-                Halcon_Position = new Point(_E.Row, _E.Column);
+                Halcon_Position = new Point(Math.Round(_E.Row, 3), Math.Round(_E.Column, 3));
+
+
+                try
+                {
+
+                HOperatorSet.GetGrayval(Load_Image, _E.Row, _E.Column, out HTuple _Gray);
+
+                Mouse_Pos_Gray = (int)_Gray.D;
+       
+                }
+                catch (Exception e)
+                {
+                       var  a= e.Message;
+                    Mouse_Pos_Gray = 0;
+                }
+
+
 
 
                 //MessageBox.Show("X:" + _E.Row.ToString() + " Y:" + _E.Column.ToString());

@@ -463,7 +463,7 @@ namespace HanGao.ViewModel
                 Button E = Sm.Source as Button;
 
 
-                GetOneFrameTimeout(UC_Visal_Function_VM.Live_Window.HWindow);
+                UC_Visal_Function_VM.Load_Image = GetOneFrameTimeout(UC_Visal_Function_VM.Live_Window.HWindow);
 
 
 
@@ -477,11 +477,11 @@ namespace HanGao.ViewModel
    /// 获得一图像显示到指定窗口
    /// </summary>
    /// <param name="_HWindow"></param>
-        public static void GetOneFrameTimeout(HWindow _HWindow )
+        public static  HObject  GetOneFrameTimeout(HWindow _HWindow )
         {
 
             //设置相机总参数
-            if (MVS_Camera.Set_Camrea_Parameters_List(Camera_Parameter_Val) != true) { return; }
+            if (MVS_Camera.Set_Camrea_Parameters_List(Camera_Parameter_Val) != true) { return default; }
 
 
             //获得一帧图片信息
@@ -490,9 +490,12 @@ namespace HanGao.ViewModel
             //转换Halcon图像变量
             HObject Image = SHalcon.Mvs_To_Halcon_Image(_Image.FrameEx_Info.ImageInfo.Width, _Image.FrameEx_Info.ImageInfo.Height, _Image.PData);
             //发送显示图像位置
-            WeakReferenceMessenger.Default.Send<HImage_Display_Model, string>(new HImage_Display_Model() { Image = Image, Image_Show_Halcon = _HWindow }, nameof(Meg_Value_Eunm.HWindow_Image_Show));
+            //WeakReferenceMessenger.Default.Send<HImage_Display_Model, string>(new HImage_Display_Model() { Image = Image, Image_Show_Halcon = _HWindow }, nameof(Meg_Value_Eunm.HWindow_Image_Show));
+
+            _HWindow.DispObj(Image);
 
 
+            return Image;
 
 
         }
