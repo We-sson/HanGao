@@ -90,6 +90,7 @@
     <Content Include="KUKA_KRL\KUKAVARPROXY 9.0\src\cswsk32.ocx" />
     <Content Include="KUKA_KRL\KUKAVARPROXY 9.0\src\KukavarProxy.exe" />
     <Content Include="KUKA_KRL\KUKAVARPROXY 9.0\src\WBF_Time.dll" />
+    <Content Include="KUKA_Xml.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\HanGao_Base\packages\Fody.6.6.2\build\Fody.targets" Condition="Exists('..\HanGao_Base\packages\Fody.6.6.2\build\Fody.targets')" />

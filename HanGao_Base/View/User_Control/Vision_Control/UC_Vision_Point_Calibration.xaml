@@ -248,125 +248,7 @@
 
                             </Grid>
 
-                            <Grid Margin="8">
-
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width=" 90" />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column=" 0"
-                                           Text="相机内参"
-                                           HorizontalAlignment="Left"
-                                           VerticalAlignment="Center"
-                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                           FontSize="16"
-                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
-                                <Border Grid.Column=" 1"
-                                        BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                        BorderThickness="1.5">
-
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition />
-                                            <ColumnDefinition Width="auto" />
-                                        </Grid.ColumnDefinitions>
-
-
-
-
-                                        <TextBlock Grid.Column=" 0"
-                                                   Text="C:\Users\zhiwei2.he\Desktop"
-                                                   Width=" 150"
-                                                   TextWrapping="NoWrap"
-                                                   Margin="4"
-                                                   HorizontalAlignment="Left"
-                                                   VerticalAlignment="Center"
-                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="16"
-                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                   TextTrimming="CharacterEllipsis" />
-
-
-                                        <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
-                                                Margin="8,4,8,4"
-                                                HorizontalAlignment="Right"
-                                                Background="Transparent"
-                                                BorderThickness="0">
-                                            <Image Height="24"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Effect="{DynamicResource 全局背景阴影}"
-                                                   Source="/Resources/Vision_文件夹_ioc.png" />
-                                        </Button>
-
-
-                                    </Grid>
-                                </Border>
-
-
-
-                            </Grid>
-
-                            <Grid Margin="8">
-
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width=" 90" />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column=" 0"
-                                           Text="相机外参"
-                                           HorizontalAlignment="Left"
-                                           VerticalAlignment="Center"
-                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                           FontSize="16"
-                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
-                                <Border Grid.Column=" 1"
-                                        BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                        BorderThickness="1.5">
-
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition />
-                                            <ColumnDefinition Width="auto" />
-                                        </Grid.ColumnDefinitions>
-
-
-
-
-                                        <TextBlock Grid.Column=" 0"
-                                                   Text="C:\Users\zhiwei2.he\Desktop"
-                                                   Width=" 150"
-                                                   TextWrapping="NoWrap"
-                                                   Margin="4"
-                                                   HorizontalAlignment="Left"
-                                                   VerticalAlignment="Center"
-                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="16"
-                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                   TextTrimming="CharacterEllipsis" />
-
-
-                                        <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
-                                                Margin="8,4,8,4"
-                                                HorizontalAlignment="Right"
-                                                Background="Transparent"
-                                                BorderThickness="0">
-                                            <Image Height="24"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Effect="{DynamicResource 全局背景阴影}"
-                                                   Source="/Resources/Vision_文件夹_ioc.png" />
-                                        </Button>
-
-
-                                    </Grid>
-                                </Border>
-
-
-
-                            </Grid>
+                     
 
                             <Grid Margin="8">
 
@@ -1355,18 +1237,17 @@
 
 
 
+                            
                                         <TextBlock Grid.Column=" 0"
-                                                   Text="C:\Users\zhiwei2.he\Desktop"
-                                                   Width=" 150"
-                                                   TextWrapping="NoWrap"
-                                                   Margin="4"
+                                                   Text="{Binding Calibration_Save_Location}"
+                                                   TextWrapping="Wrap"
+                                                   Margin="6,6,0,6"
                                                    HorizontalAlignment="Left"
                                                    VerticalAlignment="Center"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                    FontSize="16"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                    TextTrimming="CharacterEllipsis" />
-
 
                                         <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
                                                 Margin="8,4,8,4"
@@ -1391,9 +1272,9 @@
                             <Grid Height="35" Margin="8">
 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="90" />
                                     <ColumnDefinition />
-                                    <ColumnDefinition Width=" auto" />
+                                    <ColumnDefinition  />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="标定操作"
                                            HorizontalAlignment="Left"
@@ -1405,8 +1286,8 @@
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 1"
                                          Text="0"
-                                         Width=" 120"
-                                         HorizontalAlignment="Left"
+                                       
+                                         HorizontalAlignment="Stretch"  
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
                                          Background="{DynamicResource 全局_按钮_黄颜色}"

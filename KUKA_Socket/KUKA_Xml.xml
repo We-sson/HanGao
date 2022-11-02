@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<KUKA_Data>
+	<KUKA_Receive>
+	<Calibration_Data  Area="C_45"  Work_Nunber="1">
+		<LastPos A="111.111" B="222.222" C="333.333" X="444.444" Y="555.555" Z="666.666"/>
+	</Calibration_Data>
+	</KUKA_Receive>
+
+	
+	
+	
+<APP_Send>
+	<Sink_Number>952154</Sink_Number>
+	<IsResult>1</IsResult>
+	
+	
+</APP_Send>
+	
+	
+	
+</KUKA_Data>
+
+

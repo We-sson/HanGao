@@ -105,7 +105,7 @@ namespace HanGao.ViewModel
         /// </summary>
         public Point Halcon_Position { set; get; }
 
-        public int  Mouse_Pos_Gray { set; get; } =0;
+        public int  Mouse_Pos_Gray { set; get; } =-1;
 
         /// <summary>
         /// 窗体加载赋值
@@ -218,7 +218,7 @@ namespace HanGao.ViewModel
                 catch (Exception e)
                 {
                        var  a= e.Message;
-                    Mouse_Pos_Gray = 0;
+                    Mouse_Pos_Gray = -1;
                 }
 
 

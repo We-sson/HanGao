@@ -95,9 +95,12 @@ namespace HanGao.ViewModel
         /// <summary>
         /// UI图像文件显示地址
         /// </summary>
-        public string Image_Location_UI { set; get; } = Directory.GetCurrentDirectory() + "\\Nine_Calibration";
+        public string Image_Location_UI { set; get; } = Directory.GetCurrentDirectory() ;
 
-
+        /// <summary>
+        /// 标定文件保存位置
+        /// </summary>
+        public string Calibration_Save_Location { set; get; } = Directory.GetCurrentDirectory() + "\\Nine_Calibration";
 
         /// <summary>
         /// 九点标定数据列表
