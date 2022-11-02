@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Application Name="Router" Version="2.2.0.4">
+<Route Name="ProConOS" IP-Address="192.0.1.1" Source-Port="20547" Destination-Port="20547" Protocol="TCP" Options="0"/>
+<Route Name="" IP-Address="192.0.1.1" Source-Port="23" Destination-Port="23" Protocol="TCP" Options="0"/>
+</Application>

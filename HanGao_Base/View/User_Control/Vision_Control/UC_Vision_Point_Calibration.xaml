@@ -1274,22 +1274,9 @@
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
                                           SelectedIndex="1">
-                                    <ComboBoxItem Padding="0,6,6,6"
-                                                  BorderBrush="Black"
-                                                  BorderThickness="0">
+                                    <ComboBoxItem >
 
-                                        <TextBlock Text="B_45"
-                                                   TextWrapping="Wrap"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="16"
-                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                   TextTrimming="CharacterEllipsis" />
-                                    </ComboBoxItem>
-                                    <ComboBoxItem>
-
-                                        <TextBlock Text="N_135"
+                                        <TextBlock Text="B_45"  Padding="0,4,0,4"
                                                    TextWrapping="Wrap"
                                                    HorizontalAlignment="Left"
                                                    VerticalAlignment="Center"
@@ -1300,7 +1287,18 @@
                                     </ComboBoxItem>
                                     <ComboBoxItem>
 
-                                        <TextBlock Text="N_225"
+                                        <TextBlock Text="B_135"  Padding="0,4,0,4"
+                                                   TextWrapping="Wrap"
+                                                   HorizontalAlignment="Left"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="16"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem>
+
+                                        <TextBlock Text="B_225"  Padding="0,4,0,4"
                                                    TextWrapping="Wrap"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
@@ -1311,7 +1309,7 @@
                                     </ComboBoxItem>
                                     <ComboBoxItem>
 
-                                        <TextBlock Text="N_315"
+                                        <TextBlock Text="B_315"  Padding="0,4,0,4"
                                                    TextWrapping="Wrap"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"

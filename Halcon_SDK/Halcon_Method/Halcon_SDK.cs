@@ -118,7 +118,7 @@ namespace Halcon_SDK_DLL
 
 
             // 使用全局阈值分割图像
-            HOperatorSet.Threshold(_Image2, out _Image3, _Calibration_Data.MinGray, _Calibration_Data.MaxGray);
+            HOperatorSet.Threshold(_Image1, out _Image3, _Calibration_Data.MinGray, _Calibration_Data.MaxGray);
 
 
             //计算区域中连接的组件

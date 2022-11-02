@@ -53,7 +53,43 @@
     <Compile Include="Socket_Sever.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="KUKA_KRL\8.3\EthernetKRL.kop" />
+    <None Include="KUKA_KRL\8.5\EthernetKRL.kop" />
+    <None Include="KUKA_KRL\8.6\EthernetKRL_3.1.kop" />
+    <None Include="KUKA_KRL\KUKA Router\Router.routes" />
+    <None Include="KUKA_KRL\KUKAVARPROXY 9.0\lib\Cross.oca" />
+    <None Include="KUKA_KRL\KUKAVARPROXY 9.0\lib\Cross3Krc.CIE" />
+    <None Include="KUKA_KRL\KUKAVARPROXY 9.0\lib\CSWSK32.oca" />
+    <None Include="KUKA_KRL\KUKAVARPROXY 9.0\README.md" />
+    <None Include="KUKA_KRL\KUKAVARPROXY 9.0\src\Cross.oca" />
+    <None Include="KUKA_KRL\KUKAVARPROXY 9.0\src\Cross3Krc.CIE" />
+    <None Include="KUKA_KRL\KUKAVARPROXY 9.0\src\CSWSK32.oca" />
+    <None Include="KUKA_KRL\KUKAVARPROXY 9.0\src\frmMain.frm" />
+    <None Include="KUKA_KRL\KUKAVARPROXY 9.0\src\frmMain.frx" />
+    <None Include="KUKA_KRL\KUKAVARPROXY 9.0\src\KukavarProxy.vbp" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="KUKA_KRL\KUKA Router\ProConOS.xml" />
+    <Content Include="KUKA_KRL\KUKA Router\Router.exe" />
+    <Content Include="KUKA_KRL\KUKAVARPROXY 9.0\.gitignore" />
+    <Content Include="KUKA_KRL\KUKAVARPROXY 9.0\kukavarproxy.png" />
+    <Content Include="KUKA_KRL\KUKAVARPROXY 9.0\lib\Cross.ocx" />
+    <Content Include="KUKA_KRL\KUKAVARPROXY 9.0\lib\Cross2_29.dll" />
+    <Content Include="KUKA_KRL\KUKAVARPROXY 9.0\lib\CrossCommEXE.exe" />
+    <Content Include="KUKA_KRL\KUKAVARPROXY 9.0\lib\cswsk32.ocx" />
+    <Content Include="KUKA_KRL\KUKAVARPROXY 9.0\lib\WBF_Time.dll" />
+    <Content Include="KUKA_KRL\KUKAVARPROXY 9.0\src\basConstants.bas" />
+    <Content Include="KUKA_KRL\KUKAVARPROXY 9.0\src\basMain.bas" />
+    <Content Include="KUKA_KRL\KUKAVARPROXY 9.0\src\basOSVer.bas" />
+    <Content Include="KUKA_KRL\KUKAVARPROXY 9.0\src\Bender.ico" />
+    <Content Include="KUKA_KRL\KUKAVARPROXY 9.0\src\cCrossComm.cls" />
+    <Content Include="KUKA_KRL\KUKAVARPROXY 9.0\src\Cross.ocx" />
+    <Content Include="KUKA_KRL\KUKAVARPROXY 9.0\src\Cross2_29.dll" />
+    <Content Include="KUKA_KRL\KUKAVARPROXY 9.0\src\CrossCommEXE.exe" />
+    <Content Include="KUKA_KRL\KUKAVARPROXY 9.0\src\cswsk32.ocx" />
+    <Content Include="KUKA_KRL\KUKAVARPROXY 9.0\src\KukavarProxy.exe" />
+    <Content Include="KUKA_KRL\KUKAVARPROXY 9.0\src\WBF_Time.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\HanGao_Base\packages\Fody.6.6.2\build\Fody.targets" Condition="Exists('..\HanGao_Base\packages\Fody.6.6.2\build\Fody.targets')" />
