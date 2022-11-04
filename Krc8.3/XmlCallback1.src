@@ -1,0 +1,164 @@
+&ACCESS RVO
+&REL 105
+&PARAM SensorITMASK = *
+&PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
+&PARAM DISKPATH = KRC:\R1\Program
+DEF XmlCallback1( )
+;FOLD Declaration
+  INT i, OPFFSET
+  DECL EKI_STATUS RET
+  DECL FRAME  Point[9]
+  $FLAG[1]=FALSE
+;ENDFOLD (Declaration)
+;FOLD Communicated data
+  ;FOLD Receive from external program
+  ; <Sensor>
+    ; <Message>Example message</Message>
+    ; <Positions>
+      ; <Current X="4645.2" />
+      ; <Before>
+        ; <X>0.9842</X>
+      ; </Before>
+    ; </Positions>
+    ; <Nmb>8</Nmb>
+    ; <Status>
+      ; <IsActive>1</IsActive>
+    ; </Status>
+    ; <Read>
+      ; <xyzabc X="210.3" Y="825.3" Z="234.3" A="84.2" B="12.3" C="43.5" />
+    ; </Read>
+    ; <Show error="0" temp="9929">Taginfo in attributes</Show>
+    ; <Free>2912</Free>
+  ; </Sensor>
+  ;ENDFOLD (Receive from external program)
+  ;FOLD Send to external program
+  ; <Robot>
+    ; <Data>
+      ; <ActPos X="1000.12">
+      ; </ActPos>
+      ; <LastPos A="..." B="..." C="..." X="..." Y="..." Z="...">
+      ; </LastPos>
+    ; </Data>
+    ; <Mode>ConnectSensor</Mode>
+    ; <RobotLamp>
+      ; <GrenLamp>
+        ; <LightOn>1</LightOn>
+      ; </GrenLamp>
+    ; </RobotLamp>
+    ; <Status>12345678</Status>
+  ; </Robot>
+  ;ENDFOLD (Send to external program)
+;ENDFOLD (Communicated data)
+;FOLD INI
+  ;FOLD BASISTECH INI   
+  BAS (#INITMOV,0)
+  ;ENDFOLD (BASISTECH INI)
+  ;FOLD USER INI
+    ;Make your modifications here
+  ;ENDFOLD (USER INI)
+;ENDFOLD (INI)
+;FOLD Define callback
+  INTERRUPT DECL 89 WHEN $FLAG[2]==TRUE DO GET_DATA()
+  INTERRUPT ON 89
+;ENDFOLD (Define callback)
+
+
+
+RET=EKI_Init("XmlCallBack")
+RET=EKI_Open("XmlCallBack")
+$Act_Tool=1
+$ACT_BASE=0
+halt
+
+Point[1]=$POS_ACT
+Point[2]=$POS_ACT
+Point[3]=$POS_ACT
+Point[4]=$POS_ACT
+Point[5]=$POS_ACT
+Point[6]=$POS_ACT
+Point[7]=$POS_ACT
+Point[8]=$POS_ACT
+Point[9]=$POS_ACT
+
+
+
+
+RET=EKI_SetFrame("XmlCallBack","KUKA_Receive/Calibration_Model/Calibration_Point/Pos_1", Point[1])
+RET=EKI_SetFrame("XmlCallBack","KUKA_Receive/Calibration_Model/Calibration_Point/Pos_2", Point[2])
+RET=EKI_SetFrame("XmlCallBack","KUKA_Receive/Calibration_Model/Calibration_Point/Pos_3", Point[3])
+RET=EKI_SetFrame("XmlCallBack","KUKA_Receive/Calibration_Model/Calibration_Point/Pos_4", Point[4])
+RET=EKI_SetFrame("XmlCallBack","KUKA_Receive/Calibration_Model/Calibration_Point/Pos_5", Point[5])
+RET=EKI_SetFrame("XmlCallBack","KUKA_Receive/Calibration_Model/Calibration_Point/Pos_6", Point[6])
+RET=EKI_SetFrame("XmlCallBack","KUKA_Receive/Calibration_Model/Calibration_Point/Pos_7", Point[7])
+RET=EKI_SetFrame("XmlCallBack","KUKA_Receive/Calibration_Model/Calibration_Point/Pos_8", Point[8])
+RET=EKI_SetFrame("XmlCallBack","KUKA_Receive/Calibration_Model/Calibration_Point/Pos_9", Point[9])
+
+
+RET=EKI_SetString("XmlCallBack","KUKA_Receive/Calibration_Model/@Area","C_45")
+RET=EKI_SetInt("XmlCallBack","KUKA_Receive/Calibration_Model/@Work_Number", 1)
+;FOLD Write data to connection
+  ; Write frame to <LastPos X="" Y="" Z="" A="" B="" C="" />
+  ;RET=EKI_SetFrame("XmlCallBack","KUKA_Receive/Calibration_Data/LastPos", $POS_ACT)
+  ; Write real to <ActPos X="" />
+  ;RET=EKI_SetReal("XmlCallBack","Robot/Data/ActPos/@X", 1000.12)
+  ; Write int to <Status></Status>
+  ;RET=EKI_SetInt("XmlCallBack","Robot/Status", 12345678)
+  ; Write string to <Mode></Mode>
+ ; RET=EKI_SetString("XmlCallBack","Robot/Mode","ConnectSensor")
+  ; Write bool to <LightOn></LightOn>
+ ; RET=EKI_SetBool("XmlCallBack","Robot/RobotLamp/GrenLamp/LightOn",true)
+;ENDFOLD (Write data to connection)
+
+RET = EKI_Send("XmlCallBack","KUKA_Receive")
+
+;wait until data read
+WAIT FOR $FLAG[1]
+
+
+RET=EKI_Close("XmlCallBack")
+RET=EKI_Clear("XmlCallBack")
+END
+
+DEF GET_DATA()
+;FOLD Declaration
+  INT i
+  INT valueInt
+  DECL EKI_STATUS RET
+  CHAR valueChar[256]
+  REAL valueReal
+  BOOL valueBOOL
+  FRAME valueFrame
+;ENDFOLD (Declaration)
+;FOLD Initialize sample data
+  FOR i=(1) TO (256)  
+    valueChar[i]=0
+  ENDFOR 
+  valueInt=0
+  valueReal=0.0
+  valueFrame={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+  valueBOOL=FALSE
+;ENDFOLD (Initialize sample data)
+
+
+halt
+  RET=EKI_GetBool("XmlCallBack","KUKA_Send/IsStatus" ,valueBOOL)
+;FOLD Get received sensor data
+  ; Get string in <Message>Example message</Message>
+ ; RET=EKI_GetString("XmlCallBack","Sensor/Message",valueChar[])
+  ; Get real value in <Current X="4645.2" />
+;  RET=EKI_GetReal("XmlCallBack","Sensor/Positions/Current/@X",valueReal)
+  ; Get int value in <Nmb>8</Nmb>
+ ; RET=EKI_GetInt("XmlCallBack","Sensor/Nmb",valueInt)
+  ; Get bool value in textnode <IsActive>1</IsActive>
+;  RET=EKI_GetBool("XmlCallBack","Sensor/Status/IsActive" ,valueBOOL)
+  ; Get bool value in attribute <Show error="0" />
+;  RET=EKI_GetBool("XmlCallBack","Sensor/Show/@error" ,valueBOOL)
+  ; Get frame in <xyzabc X="210.3" Y="825.3" Z="234.3" A="84.2" B="12.3" C="43.5" />
+;  RET=EKI_GetFrame("XmlCallBack","Sensor/Read/xyzabc",valueFrame)
+;ENDFOLD (Get received sensor data)
+
+;FOLD Signal read
+  $FLAG[2]=FALSE
+  $FLAG[1]=TRUE
+;ENDFOLD (Signal read)
+END

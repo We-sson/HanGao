@@ -1,0 +1,244 @@
+&ACCESS RVP
+&REL 400
+&PARAM EDITMASK = *
+&PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
+&PARAM DISKPATH = KRC:\R1\Program\HK
+DEF A_952154( )
+;FOLD INI;%{PE}
+  ;FOLD BASISTECH INI
+    GLOBAL INTERRUPT DECL 3 WHEN $STOPMESS==TRUE DO IR_STOPM ( )
+    INTERRUPT ON 3 
+    BAS (#INITMOV,0 )
+  ;ENDFOLD (BASISTECH INI)
+  ;FOLD USER INI
+    ;Make your modifications here
+
+  ;ENDFOLD (USER INI)
+;ENDFOLD (INI)
+
+
+
+;FOLD PTP Home Vel=100 % PDAT1;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=Home; Kuka.BlendingEnabled=False; Kuka.MoveDataPtpName=PDAT1; Kuka.VelocityPtp=100; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
+;ENDFOLD
+$BWDSTART = FALSE
+PDAT_ACT = PPDAT1
+FDAT_ACT = FHome
+BAS(#PTP_PARAMS, 100.0)
+SET_CD_PARAMS (0)
+PTP XHome
+;ENDFOLD
+
+halt
+;FOLD Calibration.C_Start_Connect Xml_Name:XmlCallBack;%{PE}%MKUKATPUSER
+
+EKRL_NAME[]="XmlCallBack"
+EKRL_Connect()
+
+
+
+
+;ENDFOLD
+
+;FOLD LIN P2 Vel=2 m/s CPDAT1 Tool[1]:Tool1 Base[0] ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=P2; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=2; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
+;ENDFOLD
+$BWDSTART = FALSE
+LDAT_ACT = LCPDAT1
+FDAT_ACT = FP2
+BAS(#CP_PARAMS, 2.0)
+SET_CD_PARAMS (0)
+LIN XP2
+;ENDFOLD
+;FOLD Calibration.C_Number Calib_NO:1;%{PE}%MKUKATPUSER
+
+Calibration_Point[1]=$POS_ACT
+
+
+
+
+
+;ENDFOLD
+
+;FOLD LIN P3 Vel=2 m/s CPDAT2 Tool[1]:Tool1 Base[0] ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=P3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=2; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
+;ENDFOLD
+$BWDSTART = FALSE
+LDAT_ACT = LCPDAT2
+FDAT_ACT = FP3
+BAS(#CP_PARAMS, 2.0)
+SET_CD_PARAMS (0)
+LIN XP3
+;ENDFOLD
+;FOLD Calibration.C_Number Calib_NO:2;%{PE}%MKUKATPUSER
+
+Calibration_Point[2]=$POS_ACT
+
+
+
+
+
+;ENDFOLD
+
+
+;FOLD LIN P4 Vel=2 m/s CPDAT3 Tool[1]:Tool1 Base[0] ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT3; Kuka.VelocityPath=2; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
+;ENDFOLD
+$BWDSTART = FALSE
+LDAT_ACT = LCPDAT3
+FDAT_ACT = FP4
+BAS(#CP_PARAMS, 2.0)
+SET_CD_PARAMS (0)
+LIN XP4
+;ENDFOLD
+;FOLD Calibration.C_Number Calib_NO:3;%{PE}%MKUKATPUSER
+
+Calibration_Point[3]=$POS_ACT
+
+
+
+
+
+;ENDFOLD
+
+;FOLD LIN P5 Vel=2 m/s CPDAT4 Tool[1]:Tool1 Base[0] ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=P5; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT4; Kuka.VelocityPath=2; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
+;ENDFOLD
+$BWDSTART = FALSE
+LDAT_ACT = LCPDAT4
+FDAT_ACT = FP5
+BAS(#CP_PARAMS, 2.0)
+SET_CD_PARAMS (0)
+LIN XP5
+;ENDFOLD
+;FOLD Calibration.C_Number Calib_NO:4;%{PE}%MKUKATPUSER
+
+Calibration_Point[4]=$POS_ACT
+
+
+
+
+
+;ENDFOLD
+
+;FOLD LIN P6 Vel=2 m/s CPDAT5 Tool[1]:Tool1 Base[0] ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=P6; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT5; Kuka.VelocityPath=2; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
+;ENDFOLD
+$BWDSTART = FALSE
+LDAT_ACT = LCPDAT5
+FDAT_ACT = FP6
+BAS(#CP_PARAMS, 2.0)
+SET_CD_PARAMS (0)
+LIN XP6
+;ENDFOLD
+;FOLD Calibration.C_Number Calib_NO:5;%{PE}%MKUKATPUSER
+
+Calibration_Point[5]=$POS_ACT
+
+
+
+
+
+;ENDFOLD
+
+;FOLD LIN P7 Vel=2 m/s CPDAT6 Tool[1]:Tool1 Base[0] ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=P7; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT6; Kuka.VelocityPath=2; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
+;ENDFOLD
+$BWDSTART = FALSE
+LDAT_ACT = LCPDAT6
+FDAT_ACT = FP7
+BAS(#CP_PARAMS, 2.0)
+SET_CD_PARAMS (0)
+LIN XP7
+;ENDFOLD
+;FOLD Calibration.C_Number Calib_NO:6;%{PE}%MKUKATPUSER
+
+Calibration_Point[6]=$POS_ACT
+
+
+
+
+
+;ENDFOLD
+
+;FOLD LIN P8 Vel=2 m/s CPDAT7 Tool[1]:Tool1 Base[0] ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=P8; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT7; Kuka.VelocityPath=2; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
+;ENDFOLD
+$BWDSTART = FALSE
+LDAT_ACT = LCPDAT7
+FDAT_ACT = FP8
+BAS(#CP_PARAMS, 2.0)
+SET_CD_PARAMS (0)
+LIN XP8
+;ENDFOLD
+;FOLD Calibration.C_Number Calib_NO:7;%{PE}%MKUKATPUSER
+
+Calibration_Point[7]=$POS_ACT
+
+
+
+
+
+;ENDFOLD
+
+;FOLD LIN P9 Vel=2 m/s CPDAT8 Tool[1]:Tool1 Base[0] ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=P9; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT8; Kuka.VelocityPath=2; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
+;ENDFOLD
+$BWDSTART = FALSE
+LDAT_ACT = LCPDAT8
+FDAT_ACT = FP9
+BAS(#CP_PARAMS, 2.0)
+SET_CD_PARAMS (0)
+LIN XP9
+;ENDFOLD
+;FOLD Calibration.C_Number Calib_NO:8;%{PE}%MKUKATPUSER
+
+Calibration_Point[8]=$POS_ACT
+
+
+
+
+
+;ENDFOLD
+
+;FOLD LIN P10 Vel=2 m/s CPDAT9 Tool[1]:Tool1 Base[0] ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=P10; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT9; Kuka.VelocityPath=2; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
+;ENDFOLD
+$BWDSTART = FALSE
+LDAT_ACT = LCPDAT9
+FDAT_ACT = FP10
+BAS(#CP_PARAMS, 2.0)
+SET_CD_PARAMS (0)
+LIN XP10
+;ENDFOLD
+;FOLD Calibration.C_Number Calib_NO:9;%{PE}%MKUKATPUSER
+
+Calibration_Point[9]=$POS_ACT
+
+
+
+
+
+;ENDFOLD
+halt
+;FOLD Calibration.C_Data_Send Work: W_1, Area:Calib_315;%{PE}%MKUKATPUSER
+
+EKRL_Send("C_315",1)
+
+
+
+
+
+;ENDFOLD
+
+END

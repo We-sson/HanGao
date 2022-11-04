@@ -1,5 +1,5 @@
-&ACCESS RVP
-&REL 141
+&ACCESS RVO
+&REL 147
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 DEF HG_EKRL( )
@@ -20,7 +20,7 @@ DECL EKI_STATUS RET
   ;ENDFOLD (USER INI)
 
 ;ENDFOLD (INI)
-
+;------------3-------
 
 EKRL_CONNECT()
 
@@ -29,11 +29,68 @@ EKRL_CONNECT()
 
 ;EKRL_Close()
 END
+
+
+
+GLOBAL DEF EKRL_Send(Area_Name:IN,Work_Number:IN)
+
+DECL CHAR Area_Name[]
+DECL EKI_STATUS RET
+DECL INT Mess_INT,Work_Number
+DECL BOOL Mess_Del,Calibration_Status
+Mess_INT=-1
+$Flag[2]=FALSE
+Calibration_Status=False
+
+RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Calibration_Model/Calibration_Point/Pos_1", Calibration_Point[1])
+RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Calibration_Model/Calibration_Point/Pos_2", Calibration_Point[2])
+RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Calibration_Model/Calibration_Point/Pos_3", Calibration_Point[3])
+RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Calibration_Model/Calibration_Point/Pos_4", Calibration_Point[4])
+RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Calibration_Model/Calibration_Point/Pos_5", Calibration_Point[5])
+RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Calibration_Model/Calibration_Point/Pos_6", Calibration_Point[6])
+RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Calibration_Model/Calibration_Point/Pos_7", Calibration_Point[7])
+RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Calibration_Model/Calibration_Point/Pos_8", Calibration_Point[8])
+RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Calibration_Model/Calibration_Point/Pos_9", Calibration_Point[9])
+
+RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/Calibration_Model/@Area",Area_Name[])
+RET=EKI_SetInt(EKRL_NAME[],"KUKA_Receive/Calibration_Model/@Work_Number", Work_Number)
+
+RET = EKI_Send("XmlCallBack","KUKA_Receive")
+
+
+
+REPEAT
+;halt
+IF NOT Exists_KrlMsg(Mess_INT) THEN
+Msg_Wait("Calibration Data Sending",false,Mess_INT,2)
+;halt
+ENDIF
+
+
+UNTIL  $Flag[2]
+;Mess_Del=Clear_KrlMsg(Mess_INT)
+
+
+ RET=EKI_GetBool(EKRL_NAME[],"KUKA_Send/IsStatus" ,Calibration_Status)
+
+
+
+MSGNOTIFY("Calibration Data Send OK!")
+
+RET=EKI_Close(EKRL_NAME[])
+RET=EKI_Clear(EKRL_NAME[])
+;wait until data read
+;WAIT FOR $FLAG[1]
+
+
+
+End
 GLOBAL DEF EKRL_Connect()
 DECL EKI_STATUS RET
 DECL INT Mess_INT
 DECL BOOL Mess_Del
-EKRL_NAME[]="HanGaoEkrl"
+
+;EKRL_NAME[]="HanGaoEkrl"
 Mess_INT=-1
 RET=EKI_Init(EKRL_NAME[])
 EKI_CHECK(RET,#Quit,EKRL_NAME[])
@@ -46,19 +103,20 @@ WAIT SEC 2
 
 ;MSGNOTIFY("HanGao:Socket Connecting!")
 
+
 REPEAT
 ;halt
 IF NOT Exists_KrlMsg(Mess_INT) THEN
-Msg_Wait("Socket Connecting",false,Mess_INT)
+Msg_Wait("Socket Connecting",false,Mess_INT,Connect_Falg)
 ;halt
 ENDIF
-IF NOT $FLAG[Flag_Number]  THEN
+IF NOT $FLAG[Connect_Falg]  THEN
 RET=EKI_open(EKRL_NAME[])
 wait sec 2
 ;HALT
 ENDIF
 
-UNTIL  $Flag[Flag_Number]
+UNTIL  $Flag[Connect_Falg]
 Mess_Del=Clear_KrlMsg(Mess_INT)
 MSGNOTIFY("HanGao:Socket Connecting OK!")
 
@@ -74,8 +132,8 @@ END
 
 
 
-GLOBAL  DEF  Msg_Wait(mess[]:IN,Wait_ON:IN,MSG_INT:OUT)
-DECL INT Msg_INT
+GLOBAL  DEF  Msg_Wait(mess[]:IN,Wait_ON:IN,MSG_INT:OUT,Connect_Flag:IN)
+DECL INT Msg_INT,Connect_Flag
 DECL BOOL Msg_Clear,Msg_Exit,Wait_ON
 DECL CHAR mess[]
 DECL KRLMSG_T MYMESSAGE
@@ -94,7 +152,7 @@ MSG_INT=SET_KRLMSG(#WAITING,MYMESSAGE,Parameter[],Option)
 
 REPEAT
 wait sec 0.012
-IF $FLAG[Flag_Number] THEN
+IF $FLAG[Connect_Flag] THEN
 Msg_Clear=Clear_KrlMsg(Msg_INT)
 ENDIF
 Msg_Exit=Exists_KrlMsg(Msg_INT)
