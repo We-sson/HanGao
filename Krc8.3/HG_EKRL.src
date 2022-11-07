@@ -20,7 +20,7 @@ DECL EKI_STATUS RET
   ;ENDFOLD (USER INI)
 
 ;ENDFOLD (INI)
-;------------3-------
+;------------6-------
 
 EKRL_CONNECT()
 
@@ -32,15 +32,102 @@ END
 
 
 
-GLOBAL DEF EKRL_Send(Area_Name:IN,Work_Number:IN)
+GLOBAL DEF EKRL_Find_Model_Send(Find_ID:IN,Work_Number:IN,Find_Area:IN,LastPos:OUT,Message_Err[]:OUT)
+DECL INT Find_ID,Work_Number,ID,Work
+DECL CHAR Find_Area[]
+DECL CHAR Message_Err[1024]
+DECL BOOL Calculation_Status
+DECL Frame LastPos
+DECL EKI_STATUS RET
+Calculation_Status=false
+$Flag[2]=false
+LastPos={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+
+Message_Err[]=" "
+
+
+
+RET=EKI_SetInt(EKRL_NAME[],"KUKA_Receive/Find_Model/@ID", Find_ID)
+RET=EKI_SetInt(EKRL_NAME[],"KUKA_Receive/Find_Model/@Work", Work_Number)
+
+RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/Find_Model/@Area", Find_Area[])
+
+RET = EKI_Send(EKRL_NAME[],"KUKA_Receive")
+
+
+Message_Wait("Find Model Data Sending",2)
+
+RET=EKI_GetBool(EKRL_NAME[],"KUKA_Send/IsStatus" ,Calculation_Status)
+
+IF  Calculation_Status THEN
+
+MSGNOTIFY("Calculation Data Send OK!")
+RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Calculation_Point/Pos" ,LastPos)
+RET=EKI_GetString(EKRL_NAME[],"KUKA_Send/Messer_Error" ,Message_Err[])
+
+switch Find_Area
+
+CASE "F_45"
+
+
+CASE "F_135"
+
+CASE "F_225"
+
+
+CASE "F_315"
+
+
+ENDSWITCH
+
+
+
+else
+
+MsgQuit("Find Model Error:", "HanGao")
+ENDIF
+ 
+
+RET=EKI_Close(EKRL_NAME[])
+RET=EKI_Clear(EKRL_NAME[])
+
+End
+
+
+GLOBAL DEF  Message_Wait(Msg_String:IN,Flag_No:IN)
+DECL CHAR Msg_String[]
+DECL INT Flag_No
+DECL INT Mess_INT
+DECL BOOL Mess_Del
+Mess_INT=-1
+
+REPEAT
+;halt
+IF NOT Exists_KrlMsg(Mess_INT) THEN
+Msg_Wait(Msg_String[],false,Mess_INT,Flag_No)
+;halt
+ENDIF
+
+
+UNTIL  $Flag[Flag_No]
+Mess_Del=Clear_KrlMsg(Mess_INT)
+
+
+END
+
+
+
+GLOBAL DEF EKRL_Calibration_Send(Area_Name:IN,Work_Number:IN)
 
 DECL CHAR Area_Name[]
 DECL EKI_STATUS RET
-DECL INT Mess_INT,Work_Number
-DECL BOOL Mess_Del,Calibration_Status
-Mess_INT=-1
+DECL INT Work_Number
+DECL BOOL Calibration_Status
+
 $Flag[2]=FALSE
 Calibration_Status=False
+$Flag[2]=false
+
 
 RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Calibration_Model/Calibration_Point/Pos_1", Calibration_Point[1])
 RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Calibration_Model/Calibration_Point/Pos_2", Calibration_Point[2])
@@ -55,27 +142,25 @@ RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Calibration_Model/Calibration_Point/P
 RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/Calibration_Model/@Area",Area_Name[])
 RET=EKI_SetInt(EKRL_NAME[],"KUKA_Receive/Calibration_Model/@Work_Number", Work_Number)
 
-RET = EKI_Send("XmlCallBack","KUKA_Receive")
+RET = EKI_Send(EKRL_NAME[],"KUKA_Receive")
 
 
 
-REPEAT
-;halt
-IF NOT Exists_KrlMsg(Mess_INT) THEN
-Msg_Wait("Calibration Data Sending",false,Mess_INT,2)
-;halt
+Message_Wait("Calibration Data Sending",2)
+
+
+
+RET=EKI_GetBool(EKRL_NAME[],"KUKA_Send/IsStatus" ,Calibration_Status)
+
+IF  Calibration_Status THEN
+
+MSGNOTIFY("Calibration Data ADD OK!")
+
+else
+
+MsgQuit("Calibration Data Error", "HanGao")
 ENDIF
-
-
-UNTIL  $Flag[2]
-;Mess_Del=Clear_KrlMsg(Mess_INT)
-
-
- RET=EKI_GetBool(EKRL_NAME[],"KUKA_Send/IsStatus" ,Calibration_Status)
-
-
-
-MSGNOTIFY("Calibration Data Send OK!")
+ 
 
 RET=EKI_Close(EKRL_NAME[])
 RET=EKI_Clear(EKRL_NAME[])

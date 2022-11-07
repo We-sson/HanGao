@@ -1,4 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
+<Vision_Xml>
+	
+	
+		
 <KUKA_Data>
 	<KUKA_Receive>
 		<Calibration_Model  Area="C_45"  Work_Nunber="1" >
@@ -20,6 +24,7 @@
 
 
 <KUKA_Send>
+	<Messer_Error>Find time timeout</Messer_Error>
 	<IsStatus>1</IsStatus>
 </KUKA_Send>
 	
@@ -27,6 +32,23 @@
 	
 </KUKA_Data>
 
+ 
+	
+	<KUKA_Receive>
+		<Find_Model ID="1" Work="1" Area="N_45"></Find_Model>
+	</KUKA_Receive>
+	
+	
+	
+		
+	
+<KUKA_Send>
+	<Messer_Error>Find time timeout</Messer_Error>
+	<IsStatus>1</IsStatus>
+    <Calculation_Point >
+		<Pos  X="210.3" Y="825.3" Z="234.3" A="84.2" B="12.3" C="43.5"/>
+	</Calculation_Point>
+</KUKA_Send>
 
 
-
+</Vision_Xml>

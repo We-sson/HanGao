@@ -1,5 +1,5 @@
 &ACCESS RVP
-&REL 400
+&REL 403
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HK
@@ -30,7 +30,7 @@ SET_CD_PARAMS (0)
 PTP XHome
 ;ENDFOLD
 
-halt
+;halt
 ;FOLD Calibration.C_Start_Connect Xml_Name:XmlCallBack;%{PE}%MKUKATPUSER
 
 EKRL_NAME[]="XmlCallBack"
@@ -230,10 +230,10 @@ Calibration_Point[9]=$POS_ACT
 
 
 ;ENDFOLD
-halt
-;FOLD Calibration.C_Data_Send Work: W_1, Area:Calib_315;%{PE}%MKUKATPUSER
+;halt
+;FOLD Vision.Calibration_Send Work: Work 1, Area:Calib_45;%{PE}%MKUKATPUSER
 
-EKRL_Send("C_315",1)
+EKRL_Calibration_Send("C_45",1)
 
 
 

@@ -1,0 +1,72 @@
+&ACCESS RVP
+&REL 37
+&PARAM EDITMASK = *
+&PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
+&PARAM DISKPATH = KRC:\R1\T
+DEF A_154( )
+;FOLD INI;%{PE}
+  ;FOLD BASISTECH INI
+    GLOBAL INTERRUPT DECL 3 WHEN $STOPMESS==TRUE DO IR_STOPM ( )
+    INTERRUPT ON 3 
+    BAS (#INITMOV,0 )
+  ;ENDFOLD (BASISTECH INI)
+  ;FOLD USER INI
+    ;Make your modifications here
+
+  ;ENDFOLD (USER INI)
+;ENDFOLD (INI)
+
+ 
+;FOLD PTP P1 Vel=100 % PDAT1 Tool[1] Base[0];%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=P1; Kuka.BlendingEnabled=False; Kuka.MoveDataPtpName=PDAT1; Kuka.VelocityPtp=100; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
+;ENDFOLD
+$BWDSTART = FALSE
+PDAT_ACT = PPDAT1
+FDAT_ACT = FP1
+BAS(#PTP_PARAMS, 100.0)
+SET_CD_PARAMS (0)
+PTP XP1
+;ENDFOLD
+
+
+;FOLD Vision.Start_Connect Xml_Name:XmlCallBack1;%{PE}%MKUKATPUSER
+
+EKRL_NAME[]="XmlCallBack1"
+EKRL_Connect()
+
+
+
+
+;ENDFOLD
+halt
+;FOLD Vision.Find_Model ID:1, Work: Work 1, Area: N 45;%{PE}%MKUKATPUSER
+
+EKRL_Find_Model_Send(1,1, "N_45")
+
+
+
+
+
+;ENDFOLD
+
+;FOLD Calibration.Find_Model ID:1, Work: Work 1, Area: N_45;%{PE}%MKUKATPUSER
+
+
+
+
+
+
+
+;ENDFOLD
+;FOLD Calibration.Calculation_Offset Work: Work 1;%{PE}%MKUKATPUSER
+
+
+
+
+
+
+
+;ENDFOLD
+
+END
