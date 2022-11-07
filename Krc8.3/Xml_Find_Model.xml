@@ -1,0 +1,50 @@
+<ETHERNETKRL>
+	<CONFIGURATION>
+		<EXTERNAL>
+			<IP>192.168.0.1</IP>
+			<PORT>5000</PORT>
+		</EXTERNAL>
+      <INTERNAL>
+			<ALIVE Set_Flag="1"/>
+		</INTERNAL>
+	</CONFIGURATION>
+	<RECEIVE>
+		<XML>
+         <ELEMENT Tag="KUKA_Send/Message_Error" Type="STRING"/>
+         <ELEMENT Tag="KUKA_Send/IsStatus" Type="BOOL" /> 
+         <ELEMENT Tag="KUKA_Send/Calculation_Point/Pos" Type="FRAME"/>
+         <ELEMENT Tag="KUKA_Send" Set_Flag="2"/>
+			<!-- <ELEMENT Tag="Sensor/Message" Type="STRING"/> -->
+			<!-- <ELEMENT Tag="Sensor/Positions/Current/@X" Type="REAL"/> -->
+			<!-- <ELEMENT Tag="Sensor/Positions/Before/X" Type="REAL"/> -->
+			<!-- <ELEMENT Tag="Sensor/Nmb" Type="INT"/> -->
+			<!-- <ELEMENT Tag="Sensor/Status/IsActive" Type="BOOL"/> -->
+			<!-- <ELEMENT Tag="Sensor/Read/xyzabc" Type="FRAME"/> -->
+			<!-- <ELEMENT Tag="Sensor/Show/@error" Type="BOOL"/> -->
+			<!-- <ELEMENT Tag="Sensor/Show/@temp" Type="INT"/> -->
+			<!-- <ELEMENT Tag="Sensor/Show" Type="STRING"/> -->
+			<!-- <ELEMENT Tag="Sensor/Free" Type="INT" Set_Out="998"/> -->
+			<!-- <ELEMENT Tag="Sensor" Set_Flag="998"/> -->
+		</XML>
+	</RECEIVE>
+	<SEND>
+		<XML>
+         
+         <ELEMENT Tag="KUKA_Receive/Find_Model/@ID" Type="INT"/>
+         <ELEMENT Tag="KUKA_Receive/Find_Model/@Work" Type="INT"/>
+         <ELEMENT Tag="KUKA_Receive/Find_Model/@Area" Type="STRING"/>
+         
+   
+			<!-- <ELEMENT Tag="Robot/Data/LastPos/@X"/> -->
+			<!-- <ELEMENT Tag="Robot/Data/LastPos/@Y"/> -->
+			<!-- <ELEMENT Tag="Robot/Data/LastPos/@Z"/> -->
+			<!-- <ELEMENT Tag="Robot/Data/LastPos/@A"/> -->
+			<!-- <ELEMENT Tag="Robot/Data/LastPos/@B"/> -->
+			<!-- <ELEMENT Tag="Robot/Data/LastPos/@C"/> -->
+			<!-- <ELEMENT Tag="Robot/Data/ActPos/@X"/> -->
+			<!-- <ELEMENT Tag="Robot/Status"/> -->
+			<!-- <ELEMENT Tag="Robot/Mode"/> -->
+			<!-- <ELEMENT Tag="Robot/RobotLamp/GrenLamp/LightOn"/> -->
+		</XML>
+	</SEND>
+</ETHERNETKRL>

@@ -1,5 +1,5 @@
 &ACCESS RVP
-&REL 403
+&REL 425
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HK
@@ -31,9 +31,9 @@ PTP XHome
 ;ENDFOLD
 
 ;halt
-;FOLD Calibration.C_Start_Connect Xml_Name:XmlCallBack;%{PE}%MKUKATPUSER
+;FOLD Vision.Start_Connect Xml_Name: Xml_Find_Model;%{PE}%MKUKATPUSER
 
-EKRL_NAME[]="XmlCallBack"
+EKRL_NAME[]="Xml_Find_Model"
 EKRL_Connect()
 
 
@@ -52,7 +52,7 @@ BAS(#CP_PARAMS, 2.0)
 SET_CD_PARAMS (0)
 LIN XP2
 ;ENDFOLD
-;FOLD Calibration.C_Number Calib_NO:1;%{PE}%MKUKATPUSER
+;FOLD Vision.Number Calib_NO:1;%{PE}%MKUKATPUSER
 
 Calibration_Point[1]=$POS_ACT
 
@@ -73,7 +73,7 @@ BAS(#CP_PARAMS, 2.0)
 SET_CD_PARAMS (0)
 LIN XP3
 ;ENDFOLD
-;FOLD Calibration.C_Number Calib_NO:2;%{PE}%MKUKATPUSER
+;FOLD Vision.Number Calib_NO:2;%{PE}%MKUKATPUSER
 
 Calibration_Point[2]=$POS_ACT
 
@@ -82,7 +82,6 @@ Calibration_Point[2]=$POS_ACT
 
 
 ;ENDFOLD
-
 
 ;FOLD LIN P4 Vel=2 m/s CPDAT3 Tool[1]:Tool1 Base[0] ;%{PE}
 ;FOLD Parameters ;%{h}
@@ -95,7 +94,7 @@ BAS(#CP_PARAMS, 2.0)
 SET_CD_PARAMS (0)
 LIN XP4
 ;ENDFOLD
-;FOLD Calibration.C_Number Calib_NO:3;%{PE}%MKUKATPUSER
+;FOLD Vision.Number Calib_NO:3;%{PE}%MKUKATPUSER
 
 Calibration_Point[3]=$POS_ACT
 
@@ -116,7 +115,7 @@ BAS(#CP_PARAMS, 2.0)
 SET_CD_PARAMS (0)
 LIN XP5
 ;ENDFOLD
-;FOLD Calibration.C_Number Calib_NO:4;%{PE}%MKUKATPUSER
+;FOLD Vision.Number Calib_NO:4;%{PE}%MKUKATPUSER
 
 Calibration_Point[4]=$POS_ACT
 
@@ -137,7 +136,7 @@ BAS(#CP_PARAMS, 2.0)
 SET_CD_PARAMS (0)
 LIN XP6
 ;ENDFOLD
-;FOLD Calibration.C_Number Calib_NO:5;%{PE}%MKUKATPUSER
+;FOLD Vision.Number Calib_NO:5;%{PE}%MKUKATPUSER
 
 Calibration_Point[5]=$POS_ACT
 
@@ -158,7 +157,7 @@ BAS(#CP_PARAMS, 2.0)
 SET_CD_PARAMS (0)
 LIN XP7
 ;ENDFOLD
-;FOLD Calibration.C_Number Calib_NO:6;%{PE}%MKUKATPUSER
+;FOLD Vision.Number Calib_NO:6;%{PE}%MKUKATPUSER
 
 Calibration_Point[6]=$POS_ACT
 
@@ -179,7 +178,7 @@ BAS(#CP_PARAMS, 2.0)
 SET_CD_PARAMS (0)
 LIN XP8
 ;ENDFOLD
-;FOLD Calibration.C_Number Calib_NO:7;%{PE}%MKUKATPUSER
+;FOLD Vision.Number Calib_NO:7;%{PE}%MKUKATPUSER
 
 Calibration_Point[7]=$POS_ACT
 
@@ -200,7 +199,7 @@ BAS(#CP_PARAMS, 2.0)
 SET_CD_PARAMS (0)
 LIN XP9
 ;ENDFOLD
-;FOLD Calibration.C_Number Calib_NO:8;%{PE}%MKUKATPUSER
+;FOLD Vision.Number Calib_NO:8;%{PE}%MKUKATPUSER
 
 Calibration_Point[8]=$POS_ACT
 
@@ -221,7 +220,7 @@ BAS(#CP_PARAMS, 2.0)
 SET_CD_PARAMS (0)
 LIN XP10
 ;ENDFOLD
-;FOLD Calibration.C_Number Calib_NO:9;%{PE}%MKUKATPUSER
+;FOLD Vision.Number Calib_NO:9;%{PE}%MKUKATPUSER
 
 Calibration_Point[9]=$POS_ACT
 

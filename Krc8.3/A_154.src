@@ -1,5 +1,5 @@
 &ACCESS RVP
-&REL 37
+&REL 38
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\T
@@ -30,9 +30,9 @@ PTP XP1
 ;ENDFOLD
 
 
-;FOLD Vision.Start_Connect Xml_Name:XmlCallBack1;%{PE}%MKUKATPUSER
+;FOLD Vision.Start_Connect Xml_Name: Xml_Find_Model;%{PE}%MKUKATPUSER
 
-EKRL_NAME[]="XmlCallBack1"
+EKRL_NAME[]="Xml_Find_Model"
 EKRL_Connect()
 
 
@@ -40,26 +40,19 @@ EKRL_Connect()
 
 ;ENDFOLD
 halt
-;FOLD Vision.Find_Model ID:1, Work: Work 1, Area: N 45;%{PE}%MKUKATPUSER
 
-EKRL_Find_Model_Send(1,1, "N_45")
+;FOLD Vision.Find_Model ID:10, Work: Work 1, Area: F 45;%{PE}%MKUKATPUSER
 
-
-
-
-
-;ENDFOLD
-
-;FOLD Calibration.Find_Model ID:1, Work: Work 1, Area: N_45;%{PE}%MKUKATPUSER
-
-
+EKRL_Find_Model_Send(10,1,1)
 
 
 
 
 
 ;ENDFOLD
-;FOLD Calibration.Calculation_Offset Work: Work 1;%{PE}%MKUKATPUSER
+
+halt
+;FOLD Vision.Calculation_Offset Work: Work 1;%{PE}%MKUKATPUSER
 
 
 

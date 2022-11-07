@@ -1,5 +1,5 @@
-&ACCESS RVO
-&REL 147
+&ACCESS RVO1
+&REL 160
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 DEF HG_EKRL( )
@@ -22,6 +22,7 @@ DECL EKI_STATUS RET
 ;ENDFOLD (INI)
 ;------------6-------
 
+
 EKRL_CONNECT()
 
 ;Bytes[]="hellow"
@@ -32,25 +33,46 @@ END
 
 
 
-GLOBAL DEF EKRL_Find_Model_Send(Find_ID:IN,Work_Number:IN,Find_Area:IN,LastPos:OUT,Message_Err[]:OUT)
-DECL INT Find_ID,Work_Number,ID,Work
-DECL CHAR Find_Area[]
-DECL CHAR Message_Err[1024]
+GLOBAL DEF EKRL_Find_Model_Send(Find_ID:IN,Work_Number:IN,Find_Area:IN)
+DECL INT Find_ID,Work_Number,ID,Work,Find_Area,OPFFSET
+DECL CHAR Find_Area_String[1024], Message_Error[1024],Message_Show[1024]
 DECL BOOL Calculation_Status
 DECL Frame LastPos
 DECL EKI_STATUS RET
+DECL State_t _State
+
+
+
+OPFFSET=0
 Calculation_Status=false
 $Flag[2]=false
 LastPos={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
 
-Message_Err[]=" "
+Find_Area_String[]=" "
+Message_Error[]=" "
+Message_Show[]=" "
 
+switch Find_Area
 
+CASE 1
+
+Find_Area_String[]="F_45"
+
+CASE 2
+Find_Area_String[]="F_135"
+
+CASE 3
+Find_Area_String[]="F_225"
+
+CASE 4
+Find_Area_String[]="F_315"
+
+ENDSWITCH
 
 RET=EKI_SetInt(EKRL_NAME[],"KUKA_Receive/Find_Model/@ID", Find_ID)
 RET=EKI_SetInt(EKRL_NAME[],"KUKA_Receive/Find_Model/@Work", Work_Number)
 
-RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/Find_Model/@Area", Find_Area[])
+RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/Find_Model/@Area", Find_Area_String[])
 
 RET = EKI_Send(EKRL_NAME[],"KUKA_Receive")
 
@@ -58,25 +80,29 @@ RET = EKI_Send(EKRL_NAME[],"KUKA_Receive")
 Message_Wait("Find Model Data Sending",2)
 
 RET=EKI_GetBool(EKRL_NAME[],"KUKA_Send/IsStatus" ,Calculation_Status)
-
+RET=EKI_GetString(EKRL_NAME[],"KUKA_Send/Message_Error" ,Message_Error[])
 IF  Calculation_Status THEN
 
 MSGNOTIFY("Calculation Data Send OK!")
 RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Calculation_Point/Pos" ,LastPos)
-RET=EKI_GetString(EKRL_NAME[],"KUKA_Send/Messer_Error" ,Message_Err[])
+
+
+
 
 switch Find_Area
 
-CASE "F_45"
+CASE 1
 
+N45_OFFSET_POS=LastPos
 
-CASE "F_135"
+CASE 2
+N135_OFFSET_POS=LastPos
 
-CASE "F_225"
+CASE 3
+N225_OFFSET_POS=LastPos
 
-
-CASE "F_315"
-
+CASE 4
+N315_OFFSET_POS=LastPos
 
 ENDSWITCH
 
@@ -84,7 +110,12 @@ ENDSWITCH
 
 else
 
-MsgQuit("Find Model Error:", "HanGao")
+SWRITE( Message_Show[] , _State , OPFFSET ,"Find Model Error: %s"  ,Message_Error[] ) 
+;halt
+MsgQuit(Message_Show[], "HanGao")
+
+BRAKE
+
 ENDIF
  
 
@@ -170,6 +201,9 @@ RET=EKI_Clear(EKRL_NAME[])
 
 
 End
+
+
+
 GLOBAL DEF EKRL_Connect()
 DECL EKI_STATUS RET
 DECL INT Mess_INT
@@ -184,7 +218,7 @@ EKI_CHECK(RET,#Quit,EKRL_NAME[])
 RET=EKI_OPEN(EKRL_NAME[])
 EKI_CHECK(RET,#Quit,EKRL_NAME[])
 
-WAIT SEC 2
+wait sec 2
 
 ;MSGNOTIFY("HanGao:Socket Connecting!")
 
@@ -197,8 +231,12 @@ Msg_Wait("Socket Connecting",false,Mess_INT,Connect_Falg)
 ENDIF
 IF NOT $FLAG[Connect_Falg]  THEN
 RET=EKI_open(EKRL_NAME[])
-wait sec 2
 ;HALT
+
+wait sec 2
+
+
+
 ENDIF
 
 UNTIL  $Flag[Connect_Falg]

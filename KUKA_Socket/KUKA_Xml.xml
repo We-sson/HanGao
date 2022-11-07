@@ -43,7 +43,7 @@
 		
 	
 <KUKA_Send>
-	<Messer_Error>Find time timeout</Messer_Error>
+	<Message_Error>Find time timeout</Message_Error>
 	<IsStatus>1</IsStatus>
     <Calculation_Point >
 		<Pos  X="210.3" Y="825.3" Z="234.3" A="84.2" B="12.3" C="43.5"/>
