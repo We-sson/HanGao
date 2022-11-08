@@ -1,5 +1,5 @@
 &ACCESS RVO1
-&REL 160
+&REL 171
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 DEF HG_EKRL( )
@@ -22,7 +22,6 @@ DECL EKI_STATUS RET
 ;ENDFOLD (INI)
 ;------------6-------
 
-
 EKRL_CONNECT()
 
 ;Bytes[]="hellow"
@@ -39,8 +38,9 @@ DECL CHAR Find_Area_String[1024], Message_Error[1024],Message_Show[1024]
 DECL BOOL Calculation_Status
 DECL Frame LastPos
 DECL EKI_STATUS RET
-DECL State_t _State
-
+DECL State_t _State,STAT
+DECL MODUS_T MODE
+MODE=#SYNC
 
 
 OPFFSET=0
@@ -111,10 +111,11 @@ ENDSWITCH
 else
 
 SWRITE( Message_Show[] , _State , OPFFSET ,"Find Model Error: %s"  ,Message_Error[] ) 
-;halt
-MsgQuit(Message_Show[], "HanGao")
 
-BRAKE
+MsgQuit(Message_Show[], "HanGao")
+halt
+
+
 
 ENDIF
  
