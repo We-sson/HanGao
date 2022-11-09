@@ -1,0 +1,21 @@
+&ACCESS RVO
+&REL 2
+&PARAM EDITMASK = *
+&PARAM TEMPLATE = C:\KRC\Roboter\Template\FunctionVorgabe
+DEFFCT BOOL Match_Text( )
+DECL E6POS  P1
+DECL E6POS  P2
+DECL REAL L_A,L_B,L_C,K_K,K_B,L_DIS
+
+
+
+P1={ x 191 ,y 1352,z 0,a 0,b 0,c 0}
+P2={ x 258 ,y 1365,z 0,a 0,b 0,c 0}
+
+Lin_Equation(P1,P2,L_A,L_B,L_C)
+
+Lin_Equation_LTk(L_A,L_B,L_C,K_K,K_B)
+
+PP_Equation(P1,P2,0.5,L_DIS)
+
+ENDFCT

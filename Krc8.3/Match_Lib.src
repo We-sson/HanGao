@@ -1,0 +1,63 @@
+&ACCESS RVO
+&REL 1
+&PARAM EDITMASK = *
+&PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
+DEF Match_Lib( )
+
+;------2022-11-9
+
+
+
+
+
+END
+
+;Ax+By+C=0  
+GLOBAL DEF Lin_Equation (P1:IN,P2:IN,L_A:OUT,L_B:OUT,L_C:OUT)
+DECL E6POS P1,P2
+DECL REAL A,B,C,L_A,L_B,L_C
+L_A=0.00
+L_B=0.00
+L_C=0.00
+
+
+
+L_A=P2.Y-P1.Y
+L_B=P1.X-P2.X
+L_C=P2.X*P1.Y-P1.X*P2.Y
+
+
+
+
+END
+
+
+
+;y=kx+b 
+GLOBAL DEF Lin_Equation_LTk (A:IN,B:IN,C:IN,K_K:OUT,K_B:OUT)
+DECL REAL A,B,C,K_K,K_B
+K_K=0
+K_B=0
+
+K_K=-(a/b)
+K_B=-(c/b)
+
+
+
+END
+
+;Point-Point distance 
+GLOBAL DEF PP_Equation (P1:IN,P2:IN,U_Lin:IN,L_Distance:OUT)
+DECL E6POS P1,P2
+DECL REAL L_Distance
+DECL REAL U_Lin
+
+L_Distance=0
+
+
+
+L_Distance=SQRT((P2.X-P1.X)*(P2.X-P1.X)+(P2.Y-P1.Y)*(P2.Y-P1.Y))
+
+L_Distance=U_Lin*L_Distance
+
+END
