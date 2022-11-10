@@ -1,11 +1,14 @@
 &ACCESS RVO
-&REL 223
+&REL 224
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HG
 DEF Glode_HanGao( )
 
 ;# DATE:2021-1-4
+
+
+
 
 
 
@@ -53,25 +56,13 @@ SWITCH Sink_Area
 
 CASE #L0
  
- ;IF  Sink_Welding_Size.Write_Status THEN
  
- 
- ; L0_Welding_Craft[Work_Area,OFFSET_NO].Welding_Speed=Welding_Speed
- ; L0_Welding_Craft[Work_Area,OFFSET_NO].Welding_Offset=Offset_info
- 
- 
- ;ELSE
- 
- ; Welding_Speed= L0_Welding_Craft[Work_Area,OFFSET_NO].Welding_Speed
- ; Offset_info=L0_Welding_Craft[Work_Area,OFFSET_NO].Welding_Offset
- 
- 
- ;ENDIF
+ UL_Equation(N315_OFFSET_POS,N45_OFFSET_POS,(Surr_Path*0.01),Lin_Pos.X,Lin_Pos.Y)
  
  
  
- Lin_Pos.X=Sink_Welding_Size.Sink_Size_Width+Sink_Welding_Size.Sink_Size_Down_Distance
- Lin_Pos.Y=(Sink_Welding_Size.Sink_Size_Long-Sink_Welding_Size.Sink_Size_R*2)* (1-(Surr_Path*0.01))+Sink_Welding_Size.Sink_Size_Left_Distance+Sink_Welding_Size.Sink_Size_R
+ ;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Width+Sink_Welding_Size.Sink_Size_Down_Distance
+ ;Lin_Pos.Y=(Sink_Welding_Size.Sink_Size_Long-Sink_Welding_Size.Sink_Size_R*2)* (1-(Surr_Path*0.01))+Sink_Welding_Size.Sink_Size_Left_Distance+Sink_Welding_Size.Sink_Size_R
  Lin_Pos.Z=-(Sink_Welding_Size.Sink_Size_Panel_Thick)
  
  Lin_Pos.A=0 
@@ -169,20 +160,12 @@ ENDSWITCH
 
 
 CASE #L90
-;IF  Sink_Welding_Size.Write_Status THEN
 
- ; L90_Welding_Craft[Work_Area,OFFSET_NO].Welding_Speed=Welding_Speed
- ; L90_Welding_Craft[Work_Area,OFFSET_NO].Welding_Offset=Offset_info
- 
-;ELSE
 
- ; Welding_Speed=L90_Welding_Craft[Work_Area,OFFSET_NO].Welding_Speed
- ; Offset_info=L90_Welding_Craft[Work_Area,OFFSET_NO].Welding_Offset
- 
-;ENDIF
+UL_Equation(N45_OFFSET_POS,N135_OFFSET_POS,Surr_Path, Lin_Pos.X, Lin_Pos.Y)
 
- Lin_Pos.X=(Sink_Welding_Size.Sink_Size_Width-Sink_Welding_Size.Sink_Size_R*2)* (1-(Surr_Path*0.01))+Sink_Welding_Size.Sink_Size_Down_Distance+Sink_Welding_Size.Sink_Size_R
- Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Left_Distance
+ ;Lin_Pos.X=(Sink_Welding_Size.Sink_Size_Width-Sink_Welding_Size.Sink_Size_R*2)* (1-(Surr_Path*0.01))+Sink_Welding_Size.Sink_Size_Down_Distance+Sink_Welding_Size.Sink_Size_R
+ ;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Left_Distance
  Lin_Pos.Z=-(Sink_Welding_Size.Sink_Size_Panel_Thick)
  Lin_Pos.A=0
  Lin_Pos.B=0
@@ -272,20 +255,10 @@ ENDSWITCH
 
 CASE #L180
 
-;IF  Sink_Welding_Size.Write_Status THEN
- ; L180_Welding_Craft[Work_Area,OFFSET_NO].Welding_Speed=Welding_Speed
- ; L180_Welding_Craft[Work_Area,OFFSET_NO].Welding_Offset=Offset_info
+UL_Equation(N135_OFFSET_POS,N225_OFFSET_POS,Surr_Path, Lin_Pos.X, Lin_Pos.Y)
 
-
-;ELSE
-
- ; Welding_Speed=L180_Welding_Craft[Work_Area,OFFSET_NO].Welding_Speed
- ; Offset_info=L180_Welding_Craft[Work_Area,OFFSET_NO].Welding_Offset
-
-;ENDIF
-
- Lin_Pos.X=Sink_Welding_Size.Sink_Size_Down_Distance
- Lin_Pos.Y=(Sink_Welding_Size.Sink_Size_Long-Sink_Welding_Size.Sink_Size_R*2)* (Surr_Path*0.01)+Sink_Welding_Size.Sink_Size_Left_Distance+Sink_Welding_Size.Sink_Size_R
+ ;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Down_Distance
+ ;Lin_Pos.Y=(Sink_Welding_Size.Sink_Size_Long-Sink_Welding_Size.Sink_Size_R*2)* (Surr_Path*0.01)+Sink_Welding_Size.Sink_Size_Left_Distance+Sink_Welding_Size.Sink_Size_R
  Lin_Pos.Z=-(Sink_Welding_Size.Sink_Size_Panel_Thick)
  Lin_Pos.A=0
  Lin_Pos.B=L180_Welding_Craft[Work_Area,OFFSET_NO].Welding_Angle
@@ -376,18 +349,16 @@ ENDSWITCH
 
 
 CASE #L270
-;IF  Sink_Welding_Size.Write_Status THEN
- ; L270_Welding_Craft[Work_Area,OFFSET_NO].Welding_Speed=Welding_Speed
- ; L270_Welding_Craft[Work_Area,OFFSET_NO].Welding_Offset=Offset_info
-;ELSE
- ; Welding_Speed=L270_Welding_Craft[Work_Area,OFFSET_NO].Welding_Speed
- ; Offset_info=L270_Welding_Craft[Work_Area,OFFSET_NO].Welding_Offset
-
-;ENDIF
 
 
- Lin_Pos.X=(Sink_Welding_Size.Sink_Size_Width-Sink_Welding_Size.Sink_Size_R*2)* (Surr_Path*0.01)+Sink_Welding_Size.Sink_Size_Down_Distance+Sink_Welding_Size.Sink_Size_R
- Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Left_Distance+Sink_Welding_Size.Sink_Size_Long
+
+UL_Equation(N225_OFFSET_POS,N315_OFFSET_POS,Surr_Path, Lin_Pos.X, Lin_Pos.Y)
+
+
+
+
+; Lin_Pos.X=(Sink_Welding_Size.Sink_Size_Width-Sink_Welding_Size.Sink_Size_R*2)* (Surr_Path*0.01)+Sink_Welding_Size.Sink_Size_Down_Distance+Sink_Welding_Size.Sink_Size_R
+ ;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Left_Distance+Sink_Welding_Size.Sink_Size_Long
  Lin_Pos.Z=-(Sink_Welding_Size.Sink_Size_Panel_Thick)
  Lin_Pos.A=0
  Lin_Pos.B=0
@@ -1120,14 +1091,14 @@ END
 
 
 
-GLOBAL DEF Global_Messages_Dlg(Old_Pos:IN , Messsage_All[]:IN , User_Switch:OUT)
+GLOBAL DEF Global_Messages_Dlg(Old_Pos:IN , Messsage_All[]:IN , User_S:OUT)
 
 DECL KrlMsg_T msg
 DECL KrlMsgPar_T Par[3]
 DECL KrlmsgOpt_T opt
 DECL KrlMsgDlgSK_T SK[7]
 DECL INT nHandle,keynumber,OPFFSET
-DECl BOOL User_Switch
+DECl BOOL User_S
 DECL CHAR Messsage_All[]
 DECL POS Old_Pos
 
@@ -1147,10 +1118,10 @@ ENDWhile
 
 SWITCH keynumber
    case 1
-   User_Switch=true
+   User_S=true
    
    case 2
-   User_Switch=false
+   User_S=false
 
 ENDSWITCH  
 
@@ -1167,3 +1138,44 @@ ENDIF
 
 
 END
+
+
+
+;Point-User distance 
+GLOBAL DEF UL_Equation (UP1:IN,UP2:IN,U_DIS:IN,R_X:OUT,R_Y:OUT)
+DECL E6POS UP1,UP2
+DECL REAL L_Distance,L_DIS,U_DIS,R_X,R_Y
+
+
+
+PP_Equation(UP1,UP2,L_DIS)
+
+R_X=L_DIS*U_DIS*(UP2.X-UP1.X)/L_DIS+UP1.X
+R_Y=L_DIS*U_DIS*(UP2.Y-UP1.Y)/L_DIS+UP1.Y
+
+
+
+END
+
+
+
+;Point-Point distance 
+GLOBAL DEF PP_Equation (PP1:IN,PP2:IN,L_Distance:OUT)
+DECL E6POS PP1,PP2
+DECL REAL L_Distance
+
+
+L_Distance=0
+
+
+
+L_Distance=SQRT((PP2.X-PP1.X)*(PP2.X-PP1.X)+(PP2.Y-PP1.Y)*(PP2.Y-PP1.Y))
+
+
+
+END
+
+
+
+
+
