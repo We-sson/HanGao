@@ -1,11 +1,9 @@
-&ACCESS RVO1
-&REL 224
+&ACCESS RVEO
+&REL 226
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HG
 DEFDAT  GLODE_HANGAO PUBLIC
-
-
 
 ;--------DECL_Enum---------------
 GLOBAL ENUM Sink_Type_Enum UpDown_One,LeftRight_One,LeftRight_Two,Null
@@ -50,6 +48,21 @@ DECL GLOBAL FRAME N135_OFFSET_POS={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
 DECL GLOBAL FRAME N225_OFFSET_POS={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
 DECL GLOBAL FRAME N315_OFFSET_POS={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
 
+DECL GLOBAL FRAME N45_CIR_POS={X 0,Y 0,Z 0,A 0,B 0,C 0}
+DECL GLOBAL FRAME N135_CIR_POS={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+DECL GLOBAL FRAME N225_CIR_POS={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+DECL GLOBAL FRAME N315_CIR_POS={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+
+DECL GLOBAL FRAME D45_Start_POS={X 0,Y 0,Z 0,A 0,B 0,C 0}
+DECL GLOBAL FRAME D45_End_POS={X 0,Y 0,Z 0,A 0,B 0,C 0}
+DECL GLOBAL FRAME D135_Start_POS={X 0,Y 0,Z 0,A 0,B 0,C 0}
+DECL GLOBAL FRAME D135_End_POS={X 0,Y 0,Z 0,A 0,B 0,C 0}
+DECL GLOBAL FRAME D225_Start_POS={X 0,Y 0,Z 0,A 0,B 0,C 0}
+DECL GLOBAL FRAME D225_End_POS={X 0,Y 0,Z 0,A 0,B 0,C 0}
+DECL GLOBAL FRAME D315_Start_POS={X 0,Y 0,Z 0,A 0,B 0,C 0}
+DECL GLOBAL FRAME D315_End_POS={X 0,Y 0,Z 0,A 0,B 0,C 0}
+
+
 DECL GLOBAL Surr_Welding_Craft_Type L0_Welding_Craft[2,10]
 L0_Welding_Craft[1,1]={Welding_Name[] "S2",Welding_Pos {X 376.000,Y 95.2000122,Z 0.0,A 0.0,B 20.0000,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
 L0_Welding_Craft[1,2]={Welding_Name[] "L0_S2",Welding_Pos {X 376.000,Y 584.800,Z 0.0,A 0.0,B 20.0000,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
@@ -75,7 +88,7 @@ L0_Welding_Craft[2,10]={Welding_Name[] "S10",Welding_Pos {X 533.000,Y 338.000,Z 
 
 
 DECL GLOBAL Surr_Welding_Craft_Type C45_Welding_Craft[2,3]
-C45_Welding_Craft[1,1]={Welding_Name[] "C45_S1",Welding_Pos {X 376.000,Y 34.0000,Z 0.0,A 0.0,B 20.0000,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
+C45_Welding_Craft[1,1]={Welding_Name[] "S2",Welding_Pos {X 376.000,Y 34.0000,Z 0.0,A 0.0,B 20.0000,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
 C45_Welding_Craft[1,2]={Welding_Name[] "PM2",Welding_Pos {X 373.071075,Y 26.9289322,Z 0.0,A 0.0,B 0.0,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0},Welding_Offset_CIR {C_X 0.0,C_Y 0.0,C_Z 0.0}}
 C45_Welding_Craft[1,3]={Welding_Name[] "PE2",Welding_Pos {X 366.000,Y 24.0000,Z 0.0,A 0.0,B 0.0,C 20.0000},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
 C45_Welding_Craft[2,1]={Welding_Name[] "C45_S1",Welding_Pos {X 404.000,Y 36.0000,Z 0.0,A 0.0,B 20.0000,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}

@@ -1,14 +1,11 @@
 &ACCESS RVO
-&REL 224
+&REL 226
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HG
 DEF Glode_HanGao( )
 
 ;# DATE:2021-1-4
-
-
-
 
 
 
@@ -85,21 +82,11 @@ CASE #C45
 SWITCH Pos_Type
 
 CASE #C_LIN_POS
-;IF  Sink_Welding_Size.Write_Status THEN
 
- ; C45_Welding_Craft[Work_Area,1].Welding_Speed=Welding_Speed
- ; C45_Welding_Craft[Work_Area,1].Welding_Offset=Offset_info
- 
+UL_Equation(N315_OFFSET_POS,N45_OFFSET_POS,Sink_Welding_Size.Sink_Size_R,Lin_Pos.X,Lin_Pos.Y)
 
-;ELSE
- ; Welding_Speed=C45_Welding_Craft[Work_Area,1].Welding_Speed
- ; Offset_info=C45_Welding_Craft[Work_Area,1].Welding_Offset
-
-;ENDIF
-
-
-Lin_Pos.X=Sink_Welding_Size.Sink_Size_Width+Sink_Welding_Size.Sink_Size_Down_Distance
-Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Left_Distance+Sink_Welding_Size.Sink_Size_R
+;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Width+Sink_Welding_Size.Sink_Size_Down_Distance
+;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Left_Distance+Sink_Welding_Size.Sink_Size_R
 Lin_Pos.Z=-(Sink_Welding_Size.Sink_Size_Panel_Thick)
 
 Lin_Pos.A=0
@@ -115,24 +102,19 @@ C45_Welding_Craft[Work_Area,1].Welding_Pos.C=Lin_Pos.C
 
 CASE #C_CIR_POS
 
-;IF  Sink_Welding_Size.Write_Status THEN
- ; C45_Welding_Craft[Work_Area,3].Welding_Speed=Welding_Speed
- ; C45_Welding_Craft[Work_Area,2].Welding_Offset=Offset_info
- ; C45_Welding_Craft[Work_Area,3].Welding_Offset=Offset_cir_info
+
+ Cir_Middle_POS.X=N45_CIR_POS.x
+ Cir_Middle_POS.Y=N45_CIR_POS.Y
  
- 
- ;ELSE
-  ; Welding_Speed=C45_Welding_Craft[Work_Area,3].Welding_Speed
-  ; Offset_info=C45_Welding_Craft[Work_Area,2].Welding_Offset
-  ; Offset_cir_info=C45_Welding_Craft[Work_Area,3].Welding_Offset
- 
- ;ENDIF
- 
- Cir_Middle_POS.x=Sink_Welding_Size.Sink_Size_Down_Distance+Sink_Welding_Size.Sink_Size_Width-Sink_Welding_Size.Sink_Size_R+(COS(45)*Sink_Welding_Size.Sink_Size_R)
- Cir_Middle_POS.Y=Sink_Welding_Size.Sink_Size_Left_Distance+((1-COS(45))*Sink_Welding_Size.Sink_Size_R)
+ ;Cir_Middle_POS.x=Sink_Welding_Size.Sink_Size_Down_Distance+Sink_Welding_Size.Sink_Size_Width-Sink_Welding_Size.Sink_Size_R+(COS(45)*Sink_Welding_Size.Sink_Size_R)
+ ;Cir_Middle_POS.Y=Sink_Welding_Size.Sink_Size_Left_Distance+((1-COS(45))*Sink_Welding_Size.Sink_Size_R)
  Cir_Middle_POS.Z=-(Sink_Welding_Size.Sink_Size_Panel_Thick)
- Cir_END_POS.X=Sink_Welding_Size.Sink_Size_Down_Distance+Sink_Welding_Size.Sink_Size_Width-Sink_Welding_Size.Sink_Size_R
- Cir_END_POS.Y=Sink_Welding_Size.Sink_Size_Left_Distance
+ 
+ 
+ UL_Equation(N45_OFFSET_POS,N135_OFFSET_POS,Sink_Welding_Size.Sink_Size_R,Cir_END_POS.X,Cir_END_POS.Y)
+ 
+ ;Cir_END_POS.X=Sink_Welding_Size.Sink_Size_Down_Distance+Sink_Welding_Size.Sink_Size_Width-Sink_Welding_Size.Sink_Size_R
+ ;Cir_END_POS.Y=Sink_Welding_Size.Sink_Size_Left_Distance
  Cir_END_POS.Z=-(Sink_Welding_Size.Sink_Size_Panel_Thick)
 
 
@@ -162,7 +144,7 @@ ENDSWITCH
 CASE #L90
 
 
-UL_Equation(N45_OFFSET_POS,N135_OFFSET_POS,Surr_Path, Lin_Pos.X, Lin_Pos.Y)
+UL_Equation(N45_OFFSET_POS,N135_OFFSET_POS,(Surr_Path*0.01), Lin_Pos.X, Lin_Pos.Y)
 
  ;Lin_Pos.X=(Sink_Welding_Size.Sink_Size_Width-Sink_Welding_Size.Sink_Size_R*2)* (1-(Surr_Path*0.01))+Sink_Welding_Size.Sink_Size_Down_Distance+Sink_Welding_Size.Sink_Size_R
  ;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Left_Distance
@@ -184,20 +166,10 @@ SWITCH Pos_Type
 
 CASE #C_LIN_POS
 
-;IF  Sink_Welding_Size.Write_Status THEN
- ; C135_Welding_Craft[Work_Area,1].Welding_Speed=Welding_Speed
- ; C135_Welding_Craft[Work_Area,1].Welding_Offset=Offset_info
- 
- ;ELSE
- ; Welding_Speed=C135_Welding_Craft[Work_Area,1].Welding_Speed
- ; Offset_info=C135_Welding_Craft[Work_Area,1].Welding_Offset
- 
- ;ENDIF
+UL_Equation(N135_OFFSET_POS,N45_OFFSET_POS,Sink_Welding_Size.Sink_Size_R, Lin_Pos.X, Lin_Pos.Y)
 
-
-
- Lin_Pos.X=Sink_Welding_Size.Sink_Size_Down_Distance+Sink_Welding_Size.Sink_Size_R
- Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Left_Distance
+ ;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Down_Distance+Sink_Welding_Size.Sink_Size_R
+ ;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Left_Distance
  Lin_Pos.Z=-(Sink_Welding_Size.Sink_Size_Panel_Thick)
  Lin_Pos.A=0
  Lin_Pos.B=0
@@ -211,26 +183,23 @@ C135_Welding_Craft[Work_Area,1].Welding_Pos.B=Lin_Pos.B
 C135_Welding_Craft[Work_Area,1].Welding_Pos.C=Lin_Pos.C
 
 CASE #C_CIR_POS
-;IF  Sink_Welding_Size.Write_Status THEN
-
- ; C135_Welding_Craft[Work_Area,3].Welding_Speed=Welding_Speed
- ; C135_Welding_Craft[Work_Area,2].Welding_Offset=Offset_info
- ; C135_Welding_Craft[Work_Area,3].Welding_Offset=Offset_cir_info
 
 
-;ELSE
- ; Welding_Speed=C135_Welding_Craft[Work_Area,3].Welding_Speed
- ; Offset_info=C135_Welding_Craft[Work_Area,2].Welding_Offset
- ; Offset_cir_info=C135_Welding_Craft[Work_Area,3].Welding_Offset
 
-;ENDIF
+ Cir_Middle_POS.X=N135_CIR_POS.x
+ Cir_Middle_POS.Y=N135_CIR_POS.Y
 
 
- Cir_Middle_POS.x=Sink_Welding_Size.Sink_Size_Down_Distance+((1-COS(45))*Sink_Welding_Size.Sink_Size_R)
- Cir_Middle_POS.Y=Sink_Welding_Size.Sink_Size_Left_Distance+((1-COS(45))*Sink_Welding_Size.Sink_Size_R)
+ ;Cir_Middle_POS.x=Sink_Welding_Size.Sink_Size_Down_Distance+((1-COS(45))*Sink_Welding_Size.Sink_Size_R)
+ ;Cir_Middle_POS.Y=Sink_Welding_Size.Sink_Size_Left_Distance+((1-COS(45))*Sink_Welding_Size.Sink_Size_R)
  Cir_Middle_POS.Z=-(Sink_Welding_Size.Sink_Size_Panel_Thick)
- Cir_END_POS.X=Sink_Welding_Size.Sink_Size_Down_Distance
- Cir_END_POS.Y=Sink_Welding_Size.Sink_Size_Left_Distance+Sink_Welding_Size.Sink_Size_R
+ 
+ 
+  
+ UL_Equation(N135_OFFSET_POS,N225_OFFSET_POS,Sink_Welding_Size.Sink_Size_R,Cir_END_POS.X,Cir_END_POS.Y)
+ 
+ ;Cir_END_POS.X=Sink_Welding_Size.Sink_Size_Down_Distance
+ ;Cir_END_POS.Y=Sink_Welding_Size.Sink_Size_Left_Distance+Sink_Welding_Size.Sink_Size_R
  Cir_END_POS.Z=-(Sink_Welding_Size.Sink_Size_Panel_Thick)
  Cir_END_POS.A=0
  Cir_END_POS.B=C135_Welding_Craft[Work_Area,3].Welding_Angle
@@ -255,7 +224,7 @@ ENDSWITCH
 
 CASE #L180
 
-UL_Equation(N135_OFFSET_POS,N225_OFFSET_POS,Surr_Path, Lin_Pos.X, Lin_Pos.Y)
+UL_Equation(N135_OFFSET_POS,N225_OFFSET_POS,(Surr_Path*0.01), Lin_Pos.X, Lin_Pos.Y)
 
  ;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Down_Distance
  ;Lin_Pos.Y=(Sink_Welding_Size.Sink_Size_Long-Sink_Welding_Size.Sink_Size_R*2)* (Surr_Path*0.01)+Sink_Welding_Size.Sink_Size_Left_Distance+Sink_Welding_Size.Sink_Size_R
@@ -277,20 +246,11 @@ SWITCH Pos_Type
 
 CASE #C_LIN_POS
 
-;IF  Sink_Welding_Size.Write_Status THEN
 
- ; C225_Welding_Craft[Work_Area,1].Welding_Speed=Welding_Speed
- ; C225_Welding_Craft[Work_Area,1].Welding_Offset=Offset_info
+ UL_Equation(N225_OFFSET_POS,N135_OFFSET_POS,Sink_Welding_Size.Sink_Size_R, Lin_Pos.X, Lin_Pos.Y)
  
- ;ELSE
-  ; Welding_Speed=C225_Welding_Craft[Work_Area,1].Welding_Speed
-  ; Offset_info=C225_Welding_Craft[Work_Area,1].Welding_Offset
- 
- ;ENDIF
- 
- 
- Lin_Pos.X=Sink_Welding_Size.Sink_Size_Down_Distance
- Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Left_Distance+Sink_Welding_Size.Sink_Size_Long-Sink_Welding_Size.Sink_Size_R
+ ;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Down_Distance
+ ;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Left_Distance+Sink_Welding_Size.Sink_Size_Long-Sink_Welding_Size.Sink_Size_R
  Lin_Pos.Z=-(Sink_Welding_Size.Sink_Size_Panel_Thick)
  Lin_Pos.A=0
  Lin_Pos.B=C225_Welding_Craft[Work_Area,1].Welding_Angle
@@ -305,27 +265,21 @@ C225_Welding_Craft[Work_Area,1].Welding_Pos.C=Lin_Pos.C
 
 CASE #C_CIR_POS
 
-;IF  Sink_Welding_Size.Write_Status THEN
- ; C225_Welding_Craft[Work_Area,3].Welding_Speed=Welding_Speed
- ; C225_Welding_Craft[Work_Area,2].Welding_Offset=Offset_info
- ; C225_Welding_Craft[Work_Area,3].Welding_Offset=Offset_cir_info
- 
- ;ELSE
- 
- ; Welding_Speed=C225_Welding_Craft[Work_Area,3].Welding_Speed
- ; Offset_info=C225_Welding_Craft[Work_Area,2].Welding_Offset
- ; Offset_cir_info=C225_Welding_Craft[Work_Area,3].Welding_Offset
- 
- 
- ;ENDIF
 
+ Cir_Middle_POS.X=N225_CIR_POS.x
+ Cir_Middle_POS.Y=N225_CIR_POS.Y
+ 
 
+ 
 
- Cir_Middle_POS.x=Sink_Welding_Size.Sink_Size_Down_Distance+((1-COS(45))*Sink_Welding_Size.Sink_Size_R)
- Cir_Middle_POS.Y=Sink_Welding_Size.Sink_Size_Left_Distance+Sink_Welding_Size.Sink_Size_Long-Sink_Welding_Size.Sink_Size_R+( COS(45)*Sink_Welding_Size.Sink_Size_R )
+ ;Cir_Middle_POS.x=Sink_Welding_Size.Sink_Size_Down_Distance+((1-COS(45))*Sink_Welding_Size.Sink_Size_R)
+ ;Cir_Middle_POS.Y=Sink_Welding_Size.Sink_Size_Left_Distance+Sink_Welding_Size.Sink_Size_Long-Sink_Welding_Size.Sink_Size_R+( COS(45)*Sink_Welding_Size.Sink_Size_R )
  Cir_Middle_POS.Z=-(Sink_Welding_Size.Sink_Size_Panel_Thick)
- Cir_END_POS.X=Sink_Welding_Size.Sink_Size_Down_Distance+Sink_Welding_Size.Sink_Size_R
- Cir_END_POS.Y=Sink_Welding_Size.Sink_Size_Left_Distance+Sink_Welding_Size.Sink_Size_Long
+ 
+  UL_Equation(N135_OFFSET_POS,N225_OFFSET_POS,Sink_Welding_Size.Sink_Size_R,Cir_END_POS.X,Cir_END_POS.Y)
+  
+ ;Cir_END_POS.X=Sink_Welding_Size.Sink_Size_Down_Distance+Sink_Welding_Size.Sink_Size_R
+; Cir_END_POS.Y=Sink_Welding_Size.Sink_Size_Left_Distance+Sink_Welding_Size.Sink_Size_Long
  Cir_END_POS.Z=-(Sink_Welding_Size.Sink_Size_Panel_Thick)
  Cir_END_POS.A=0
  Cir_END_POS.B=0
@@ -352,7 +306,7 @@ CASE #L270
 
 
 
-UL_Equation(N225_OFFSET_POS,N315_OFFSET_POS,Surr_Path, Lin_Pos.X, Lin_Pos.Y)
+UL_Equation(N225_OFFSET_POS,N315_OFFSET_POS,(Surr_Path*0.01), Lin_Pos.X, Lin_Pos.Y)
 
 
 
@@ -376,18 +330,16 @@ CASE #C315
 SWITCH Pos_Type
 
 CASE #C_LIN_POS
-;IF  Sink_Welding_Size.Write_Status THEN
- ; C315_Welding_Craft[Work_Area,1].Welding_Speed=Welding_Speed
- ; C315_Welding_Craft[Work_Area,1].Welding_Offset=Offset_info
-;ELSE
 
- ; Welding_Speed=C315_Welding_Craft[Work_Area,1].Welding_Speed
- ; Offset_info=C315_Welding_Craft[Work_Area,1].Welding_Offset
-;ENDIF
+
+
+ UL_Equation(N315_OFFSET_POS,N225_OFFSET_POS,Sink_Welding_Size.Sink_Size_R, Lin_Pos.X, Lin_Pos.Y)
+ 
+
  
  
- Lin_Pos.X=Sink_Welding_Size.Sink_Size_Down_Distance+Sink_Welding_Size.Sink_Size_Width-Sink_Welding_Size.Sink_Size_R
- Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Long+Sink_Welding_Size.Sink_Size_Left_Distance
+ ;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Down_Distance+Sink_Welding_Size.Sink_Size_Width-Sink_Welding_Size.Sink_Size_R
+ ;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Long+Sink_Welding_Size.Sink_Size_Left_Distance
  Lin_Pos.Z=-(Sink_Welding_Size.Sink_Size_Panel_Thick)
  Lin_Pos.A=0
  Lin_Pos.B=0
@@ -401,24 +353,20 @@ CASE #C_LIN_POS
  C315_Welding_Craft[Work_Area,1].Welding_Pos.C=Lin_Pos.C
 
 CASE #C_CIR_POS
-;IF  Sink_Welding_Size.Write_Status THEN
- ; C315_Welding_Craft[Work_Area,3].Welding_Speed=Welding_Speed
- ; C315_Welding_Craft[Work_Area,2].Welding_Offset=Offset_info
-; C315_Welding_Craft[Work_Area,3].Welding_Offset= Offset_cir_info
- ;ELSE
-  ; Welding_Speed=C315_Welding_Craft[Work_Area,3].Welding_Speed
- ; Offset_info=C315_Welding_Craft[Work_Area,2].Welding_Offset
-; Offset_cir_info=C315_Welding_Craft[Work_Area,3].Welding_Offset
+
  
- ;ENDIF
- 
+ Cir_Middle_POS.X=N315_CIR_POS.x
+ Cir_Middle_POS.Y=N315_CIR_POS.Y
  
 
- Cir_Middle_POS.x=Sink_Welding_Size.Sink_Size_Down_Distance+Sink_Welding_Size.Sink_Size_Width-Sink_Welding_Size.Sink_Size_R+(COS(45)*Sink_Welding_Size.Sink_Size_R)
- Cir_Middle_POS.Y=Sink_Welding_Size.Sink_Size_Long+Sink_Welding_Size.Sink_Size_Left_Distance-Sink_Welding_Size.Sink_Size_R+(COS(45)*Sink_Welding_Size.Sink_Size_R)
+ ;Cir_Middle_POS.x=Sink_Welding_Size.Sink_Size_Down_Distance+Sink_Welding_Size.Sink_Size_Width-Sink_Welding_Size.Sink_Size_R+(COS(45)*Sink_Welding_Size.Sink_Size_R)
+ ;Cir_Middle_POS.Y=Sink_Welding_Size.Sink_Size_Long+Sink_Welding_Size.Sink_Size_Left_Distance-Sink_Welding_Size.Sink_Size_R+(COS(45)*Sink_Welding_Size.Sink_Size_R)
  Cir_Middle_POS.Z=-(Sink_Welding_Size.Sink_Size_Panel_Thick)
- Cir_END_POS.X=Sink_Welding_Size.Sink_Size_Down_Distance+Sink_Welding_Size.Sink_Size_Width
- Cir_END_POS.Y=Sink_Welding_Size.Sink_Size_Left_Distance+Sink_Welding_Size.Sink_Size_Long-Sink_Welding_Size.Sink_Size_R
+ 
+   UL_Equation(N315_OFFSET_POS,N45_OFFSET_POS,Sink_Welding_Size.Sink_Size_R,Cir_END_POS.X,Cir_END_POS.Y)
+ 
+ ;Cir_END_POS.X=Sink_Welding_Size.Sink_Size_Down_Distance+Sink_Welding_Size.Sink_Size_Width
+ ;Cir_END_POS.Y=Sink_Welding_Size.Sink_Size_Left_Distance+Sink_Welding_Size.Sink_Size_Long-Sink_Welding_Size.Sink_Size_R
  Cir_END_POS.Z=-(Sink_Welding_Size.Sink_Size_Panel_Thick)
  Cir_END_POS.A=0
  Cir_END_POS.B=C315_Welding_Craft[Work_Area,3].Welding_Angle
@@ -456,15 +404,23 @@ CASE 1
 
 SWITCH Sink_Welding_Size.Sink_Type
 CASE #UpDown_One
-Lin_Pos.X=Sink_Welding_Size.Sink_Size_Down_Distance*2+Sink_Welding_Size.Sink_Size_Width
-Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_TwoPos
+
+Lin_Pos.X=D45_Start_POS.X
+Lin_Pos.Y=D45_Start_POS.X
+
+;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Down_Distance*2+Sink_Welding_Size.Sink_Size_Width
+;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_TwoPos
 Lin_Pos.Z=-150.000
 Lin_Pos.A=0
 Lin_Pos.B=0
 Lin_Pos.C=0
 case #LeftRight_One
-Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
-Lin_Pos.Y=0
+
+Lin_Pos.X=D45_Start_POS.X
+Lin_Pos.Y=D45_Start_POS.X
+
+;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
+;Lin_Pos.Y=0
 Lin_Pos.Z=-150.000
 Lin_Pos.A=0
 Lin_Pos.B=0
@@ -481,8 +437,12 @@ N45_Short_Craft[Work_Area,1].Welding_Pos.C=Lin_Pos.C
 CASE 2
 SWITCH Sink_Welding_Size.Sink_Type
 CASE #UpDown_One
-Lin_Pos.X=Sink_Welding_Size.Sink_Size_Down_Distance*2+Sink_Welding_Size.Sink_Size_Width
-Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_TwoPos
+
+Lin_Pos.X=D45_Start_POS.X
+Lin_Pos.Y=D45_Start_POS.Y
+
+;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Down_Distance*2+Sink_Welding_Size.Sink_Size_Width
+;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_TwoPos
 Lin_Pos.Z=0
 Lin_Pos.A=0
 Lin_Pos.B=0
@@ -507,14 +467,22 @@ N45_Short_Craft[Work_Area,2].Welding_Pos.C=Lin_Pos.C
 CASE 3
 SWITCH Sink_Welding_Size.Sink_Type
 CASE #UpDown_One
-Lin_Pos.X=Sink_Welding_Size.Sink_Size_Down_Distance*2+Sink_Welding_Size.Sink_Size_Width
-Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_TwoPos-Sink_Welding_Size.Sink_Size_Short_Side
+
+Lin_Pos.X=D45_End_POS.X
+Lin_Pos.Y=D45_End_POS.Y
+
+;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Down_Distance*2+Sink_Welding_Size.Sink_Size_Width
+;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_TwoPos-Sink_Welding_Size.Sink_Size_Short_Side
 Lin_Pos.Z=0.000
 Lin_Pos.A=0
 Lin_Pos.B=0
 Lin_Pos.C=0
 case #LeftRight_One
-Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
+
+Lin_Pos.X=D45_End_POS.X
+Lin_Pos.Y=D45_End_POS.Y
+
+;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
 Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_Side
 Lin_Pos.Z=0.000
 Lin_Pos.A=0
@@ -533,15 +501,21 @@ N45_Short_Craft[Work_Area,3].Welding_Pos.C=Lin_Pos.C
 CASE 4
 SWITCH Sink_Welding_Size.Sink_Type
 CASE #UpDown_One
-Lin_Pos.X=Sink_Welding_Size.Sink_Size_Down_Distance+Sink_Welding_Size.Sink_Size_Width+Sink_Welding_Size.Sink_Size_Short_Side*(Surr_Path/100)
-Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_TwoPos-Sink_Welding_Size.Sink_Size_Short_Side
+
+UL_Equation(D45_Start_POS,D45_End_POS,(Surr_Path*0.01),Lin_Pos.X,Lin_Pos.Y)
+
+;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Down_Distance+Sink_Welding_Size.Sink_Size_Width+Sink_Welding_Size.Sink_Size_Short_Side*(Surr_Path/100)
+;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_TwoPos-Sink_Welding_Size.Sink_Size_Short_Side
 Lin_Pos.Z=-150
 Lin_Pos.A=0
 Lin_Pos.B=0
 Lin_Pos.C=0
 case #LeftRight_One
-Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
-Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_Side-Sink_Welding_Size.Sink_Size_Short_Side*(Surr_Path/100)
+
+UL_Equation(D45_Start_POS,D45_End_POS,(Surr_Path*0.01),Lin_Pos.X,Lin_Pos.Y)
+
+;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
+;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_Side-Sink_Welding_Size.Sink_Size_Short_Side*(Surr_Path/100)
 Lin_Pos.Z=-150
 Lin_Pos.A=0
 Lin_Pos.B=0
@@ -569,15 +543,23 @@ SWITCH  Offset_No
 CASE 1
 SWITCH Sink_Welding_Size.Sink_Type
 CASE #UpDown_One
-Lin_Pos.X=0
-Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_OnePos
+
+Lin_Pos.X=D135_Start_POS.X
+Lin_Pos.Y=D135_Start_POS.Y
+
+;Lin_Pos.X=0
+;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_OnePos
 Lin_Pos.Z=-150.000
 Lin_Pos.A=0
 Lin_Pos.B=0
 Lin_Pos.C=0
 case #LeftRight_One
-Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos
-Lin_Pos.Y=0
+
+Lin_Pos.X=D135_Start_POS.X
+Lin_Pos.Y=D135_Start_POS.Y
+
+;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos
+;Lin_Pos.Y=0
 Lin_Pos.Z=-150.000
 Lin_Pos.A=0
 Lin_Pos.B=0
@@ -595,15 +577,23 @@ N135_Short_Craft[Work_Area,1].Welding_Pos.C=Lin_Pos.C
 CASE 2
 SWITCH Sink_Welding_Size.Sink_Type
 CASE #UpDown_One
-Lin_Pos.X=0
-Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_OnePos
+
+Lin_Pos.X=D135_Start_POS.X
+Lin_Pos.Y=D135_Start_POS.Y
+
+;Lin_Pos.X=0
+;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_OnePos
 Lin_Pos.Z=0
 Lin_Pos.A=0
 Lin_Pos.B=0
 Lin_Pos.C=0
 case #LeftRight_One
-Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos
-Lin_Pos.Y=0
+
+Lin_Pos.X=D135_Start_POS.X
+Lin_Pos.Y=D135_Start_POS.Y
+
+;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos
+;Lin_Pos.Y=0
 Lin_Pos.Z=0
 Lin_Pos.A=0
 Lin_Pos.B=0
@@ -620,15 +610,23 @@ N135_Short_Craft[Work_Area,2].Welding_Pos.C=Lin_Pos.C
 CASE 3
 SWITCH Sink_Welding_Size.Sink_Type
 CASE #UpDown_One
-Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_Side
-Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_OnePos
+
+Lin_Pos.X=D135_End_POS.X
+Lin_Pos.Y=D135_End_POS.Y
+
+;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_Side
+;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_OnePos
 Lin_Pos.Z=0.000
 Lin_Pos.A=0
 Lin_Pos.B=0
 Lin_Pos.C=0
 case #LeftRight_One
-Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos
-Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_Side
+
+Lin_Pos.X=D135_End_POS.X
+Lin_Pos.Y=D135_End_POS.Y
+
+;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos
+;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_Side
 Lin_Pos.Z=0.000
 Lin_Pos.A=0
 Lin_Pos.B=0
@@ -645,15 +643,22 @@ N135_Short_Craft[Work_Area,3].Welding_Pos.C=Lin_Pos.C
 CASE 4
 SWITCH Sink_Welding_Size.Sink_Type
 CASE #UpDown_One
-Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_Side-Sink_Welding_Size.Sink_Size_Short_Side*(Surr_Path/100)
-Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_OnePos
+
+
+UL_Equation(D135_Start_POS,D135_End_POS,(Surr_Path*0.01),Lin_Pos.X,Lin_Pos.Y)
+
+;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_Side-Sink_Welding_Size.Sink_Size_Short_Side*(Surr_Path/100)
+;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_OnePos
 Lin_Pos.Z=-150.000
 Lin_Pos.A=0
 Lin_Pos.B=0
 Lin_Pos.C=0
 case #LeftRight_One
-Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos
-Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_Side-Sink_Welding_Size.Sink_Size_Short_Side*(Surr_Path/100)
+
+UL_Equation(D135_Start_POS,D135_End_POS,(Surr_Path*0.01),Lin_Pos.X,Lin_Pos.Y)
+
+;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos
+;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_Side-Sink_Welding_Size.Sink_Size_Short_Side*(Surr_Path/100)
 Lin_Pos.Z=-150.000
 Lin_Pos.A=0
 Lin_Pos.B=0
@@ -681,15 +686,23 @@ SWITCH  Offset_No
 CASE 1
 SWITCH Sink_Welding_Size.Sink_Type
 CASE #UpDown_One
-Lin_Pos.X=0
-Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
+
+Lin_Pos.X=D225_Start_POS.X
+Lin_Pos.Y=D225_Start_POS.Y
+
+;Lin_Pos.X=0
+;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
 Lin_Pos.Z=-150.000
 Lin_Pos.A=0
 Lin_Pos.B=0
 Lin_Pos.C=0
 case #LeftRight_One
-Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos
-Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Long+Sink_Welding_Size.Sink_Size_Left_Distance*2
+
+Lin_Pos.X=D225_Start_POS.X
+Lin_Pos.Y=D225_Start_POS.Y
+
+;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos
+;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Long+Sink_Welding_Size.Sink_Size_Left_Distance*2
 Lin_Pos.Z=-150.000
 Lin_Pos.A=0
 Lin_Pos.B=0
@@ -707,15 +720,23 @@ N225_Short_Craft[Work_Area,1].Welding_Pos.C=Lin_Pos.C
 CASE 2
 SWITCH Sink_Welding_Size.Sink_Type
 CASE #UpDown_One
-Lin_Pos.X=0
-Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
+
+Lin_Pos.X=D225_Start_POS.X
+Lin_Pos.Y=D225_Start_POS.Y
+
+;Lin_Pos.X=0
+;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
 Lin_Pos.Z=0
 Lin_Pos.A=0
 Lin_Pos.B=0
 Lin_Pos.C=0
 case #LeftRight_One
-Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos
-Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Long+Sink_Welding_Size.Sink_Size_Left_Distance*2
+
+Lin_Pos.X=D225_Start_POS.X
+Lin_Pos.Y=D225_Start_POS.Y
+
+;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos
+;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Long+Sink_Welding_Size.Sink_Size_Left_Distance*2
 Lin_Pos.Z=0
 Lin_Pos.A=0
 Lin_Pos.B=0
@@ -733,15 +754,24 @@ N225_Short_Craft[Work_Area,2].Welding_Pos.C=Lin_Pos.C
 CASE 3
 SWITCH Sink_Welding_Size.Sink_Type
 CASE #UpDown_One
-Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_Side
-Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
+
+
+Lin_Pos.X=D225_End_POS.X
+Lin_Pos.Y=D225_End_POS.Y
+
+;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_Side
+;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
 Lin_Pos.Z=0
 Lin_Pos.A=0
 Lin_Pos.B=0
 Lin_Pos.C=0
 case #LeftRight_One
-Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos
-Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Long+Sink_Welding_Size.Sink_Size_Left_Distance*2-Sink_Welding_Size.Sink_Size_Short_Side
+
+Lin_Pos.X=D225_End_POS.X
+Lin_Pos.Y=D225_End_POS.Y
+
+;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos
+;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Long+Sink_Welding_Size.Sink_Size_Left_Distance*2-Sink_Welding_Size.Sink_Size_Short_Side
 Lin_Pos.Z=0
 Lin_Pos.A=0
 Lin_Pos.B=0
@@ -759,15 +789,21 @@ N225_Short_Craft[Work_Area,3].Welding_Pos.C=Lin_Pos.C
 CASE 4
 SWITCH Sink_Welding_Size.Sink_Type
 CASE #UpDown_One
-Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_Side-Sink_Welding_Size.Sink_Size_Short_Side*(Surr_Path/100)
-Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
+
+UL_Equation(D225_Start_POS,D225_End_POS,(Surr_Path*0.01),Lin_Pos.X,Lin_Pos.Y)
+
+;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_Side-Sink_Welding_Size.Sink_Size_Short_Side*(Surr_Path/100)
+;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
 Lin_Pos.Z=-150.000
 Lin_Pos.A=0
 Lin_Pos.B=0
 Lin_Pos.C=0
 case #LeftRight_One
-Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos
-Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Long+Sink_Welding_Size.Sink_Size_Left_Distance+Sink_Welding_Size.Sink_Size_Short_Side*(Surr_Path/100)
+
+UL_Equation(D225_Start_POS,D225_End_POS,(Surr_Path*0.01),Lin_Pos.X,Lin_Pos.Y)
+
+;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos
+;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Long+Sink_Welding_Size.Sink_Size_Left_Distance+Sink_Welding_Size.Sink_Size_Short_Side*(Surr_Path/100)
 Lin_Pos.Z=-150.000
 Lin_Pos.A=0
 Lin_Pos.B=0
@@ -792,16 +828,26 @@ SWITCH  Offset_No
 CASE 1
 SWITCH Sink_Welding_Size.Sink_Type
 CASE #UpDown_One
-Lin_Pos.X=Sink_Welding_Size.Sink_Size_Width+Sink_Welding_Size.Sink_Size_Down_Distance*2
-Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
+
+Lin_Pos.X=D315_Start_POS.X
+Lin_Pos.Y=D315_Start_POS.Y
+
+
+;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Width+Sink_Welding_Size.Sink_Size_Down_Distance*2
+;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
 Lin_Pos.Z=-150.000
 Lin_Pos.A=0
 Lin_Pos.B=0
 Lin_Pos.C=0
 
 case #LeftRight_One
-Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
-Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Long+Sink_Welding_Size.Sink_Size_Left_Distance*2
+
+
+Lin_Pos.X=D315_Start_POS.X
+Lin_Pos.Y=D315_Start_POS.Y
+
+;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
+;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Long+Sink_Welding_Size.Sink_Size_Left_Distance*2
 Lin_Pos.Z=-150.000
 Lin_Pos.A=0
 Lin_Pos.B=0
@@ -819,16 +865,25 @@ N315_Short_Craft[Work_Area,1].Welding_Pos.C=Lin_Pos.C
 CASE 2
 SWITCH Sink_Welding_Size.Sink_Type
 CASE #UpDown_One
-Lin_Pos.X=Sink_Welding_Size.Sink_Size_Width+Sink_Welding_Size.Sink_Size_Down_Distance*2
-Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
+
+Lin_Pos.X=D315_Start_POS.X
+Lin_Pos.Y=D315_Start_POS.Y
+
+;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Width+Sink_Welding_Size.Sink_Size_Down_Distance*2
+;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
 Lin_Pos.Z=0
 Lin_Pos.A=0
 Lin_Pos.B=0
 Lin_Pos.C=0
 
 case #LeftRight_One
-Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
-Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Long+Sink_Welding_Size.Sink_Size_Left_Distance*2
+
+Lin_Pos.X=D315_Start_POS.X
+Lin_Pos.Y=D315_Start_POS.Y
+
+
+;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
+;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Long+Sink_Welding_Size.Sink_Size_Left_Distance*2
 Lin_Pos.Z=0
 Lin_Pos.A=0
 Lin_Pos.B=0
@@ -846,16 +901,25 @@ N315_Short_Craft[Work_Area,2].Welding_Pos.C=Lin_Pos.C
 CASE 3
 SWITCH Sink_Welding_Size.Sink_Type
 CASE #UpDown_One
-Lin_Pos.X=Sink_Welding_Size.Sink_Size_Width+Sink_Welding_Size.Sink_Size_Down_Distance*2-Sink_Welding_Size.Sink_Size_Short_Side
-Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
+
+Lin_Pos.X=D315_End_POS.X
+Lin_Pos.Y=D315_End_POS.Y
+
+
+;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Width+Sink_Welding_Size.Sink_Size_Down_Distance*2-Sink_Welding_Size.Sink_Size_Short_Side
+;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
 Lin_Pos.Z=0
 Lin_Pos.A=0
 Lin_Pos.B=0
 Lin_Pos.C=0
 
 case #LeftRight_One
-Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
-Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Long+Sink_Welding_Size.Sink_Size_Left_Distance*2-Sink_Welding_Size.Sink_Size_Short_Side
+
+Lin_Pos.X=D315_End_POS.X
+Lin_Pos.Y=D315_End_POS.Y
+
+;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
+;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Long+Sink_Welding_Size.Sink_Size_Left_Distance*2-Sink_Welding_Size.Sink_Size_Short_Side
 Lin_Pos.Z=0
 Lin_Pos.A=0
 Lin_Pos.B=0
@@ -873,16 +937,23 @@ N315_Short_Craft[Work_Area,3].Welding_Pos.C=Lin_Pos.C
 CASE 4
 SWITCH Sink_Welding_Size.Sink_Type
 CASE #UpDown_One
-Lin_Pos.X=Sink_Welding_Size.Sink_Size_Width+Sink_Welding_Size.Sink_Size_Down_Distance+Sink_Welding_Size.Sink_Size_Short_Side*(Surr_Path/100)
-Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
+
+
+UL_Equation(D315_Start_POS,D315_End_POS,(Surr_Path*0.01),Lin_Pos.X,Lin_Pos.Y)
+
+;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Width+Sink_Welding_Size.Sink_Size_Down_Distance+Sink_Welding_Size.Sink_Size_Short_Side*(Surr_Path/100)
+;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
 Lin_Pos.Z=-150.000
 Lin_Pos.A=0
 Lin_Pos.B=0
 Lin_Pos.C=0
 
 case #LeftRight_One
-Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
-Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Long+Sink_Welding_Size.Sink_Size_Left_Distance+Sink_Welding_Size.Sink_Size_Short_Side*(Surr_Path/100)
+
+UL_Equation(D315_Start_POS,D315_End_POS,(Surr_Path*0.01),Lin_Pos.X,Lin_Pos.Y)
+
+;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
+;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Long+Sink_Welding_Size.Sink_Size_Left_Distance+Sink_Welding_Size.Sink_Size_Short_Side*(Surr_Path/100)
 Lin_Pos.Z=-150.000
 Lin_Pos.A=0
 Lin_Pos.B=0
@@ -1140,6 +1211,39 @@ ENDIF
 END
 
 
+;Ax+By+C=0  
+GLOBAL DEF Lin_Equation (P1:IN,P2:IN,L_A:OUT,L_B:OUT,L_C:OUT)
+DECL E6POS P1,P2
+DECL REAL A,B,C,L_A,L_B,L_C
+L_A=0.00
+L_B=0.00
+L_C=0.00
+
+
+
+L_A=P2.Y-P1.Y
+L_B=P1.X-P2.X
+L_C=P2.X*P1.Y-P1.X*P2.Y
+
+
+
+
+END
+
+
+
+;y=kx+b 
+GLOBAL DEF Lin_Equation_LTk (A:IN,B:IN,C:IN,K_K:OUT,K_B:OUT)
+DECL REAL A,B,C,K_K,K_B
+K_K=0
+K_B=0
+
+K_K=-(a/b)
+K_B=-(c/b)
+
+
+
+END
 
 ;Point-User distance 
 GLOBAL DEF UL_Equation (UP1:IN,UP2:IN,U_DIS:IN,R_X:OUT,R_Y:OUT)
@@ -1150,8 +1254,19 @@ DECL REAL L_Distance,L_DIS,U_DIS,R_X,R_Y
 
 PP_Equation(UP1,UP2,L_DIS)
 
+IF U_DIS>1 THEN
+
+R_X=U_DIS*(UP2.X-UP1.X)/L_DIS+UP1.X
+R_Y=U_DIS*(UP2.Y-UP1.Y)/L_DIS+UP1.Y
+
+ELSE
+
 R_X=L_DIS*U_DIS*(UP2.X-UP1.X)/L_DIS+UP1.X
 R_Y=L_DIS*U_DIS*(UP2.Y-UP1.Y)/L_DIS+UP1.Y
+
+ENDIF
+
+
 
 
 

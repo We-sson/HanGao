@@ -47,6 +47,9 @@
 	<IsStatus>0</IsStatus>
     <Calculation_Point >
 		<Pos  X="210.3" Y="825.3" Z="234.3" A="84.2" B="12.3" C="43.5"/>
+		<C_Pos  X="210.3" Y="825.3" Z="234.3" A="84.2" B="12.3" C="43.5"/>
+		<D_Start_Pos  X="210.3" Y="825.3" Z="234.3" A="84.2" B="12.3" C="43.5"/>
+		<D_End_Pos  X="210.3" Y="825.3" Z="234.3" A="84.2" B="12.3" C="43.5"/>
 	</Calculation_Point>
 </KUKA_Send>
 
