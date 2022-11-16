@@ -12,7 +12,11 @@
 		<XML>
          <ELEMENT Tag="KUKA_Send/Message_Error" Type="STRING"/>
          <ELEMENT Tag="KUKA_Send/IsStatus" Type="BOOL" /> 
-         <ELEMENT Tag="KUKA_Send/Calculation_Point/Pos" Type="FRAME"/>
+         <ELEMENT Tag="KUKA_Send/Calculation_Point/Pos_1" Type="FRAME"/>
+         <ELEMENT Tag="KUKA_Send/Calculation_Point/Pos_2" Type="FRAME"/>
+         <ELEMENT Tag="KUKA_Send/Calculation_Point/C_Pos" Type="FRAME"/>
+         <ELEMENT Tag="KUKA_Send/Calculation_Point/D_Start_Pos" Type="FRAME"/>
+         <ELEMENT Tag="KUKA_Send/Calculation_Point/D_End_Pos" Type="FRAME"/>
          <ELEMENT Tag="KUKA_Send" Set_Flag="2"/>
 			<!-- <ELEMENT Tag="Sensor/Message" Type="STRING"/> -->
 			<!-- <ELEMENT Tag="Sensor/Positions/Current/@X" Type="REAL"/> -->

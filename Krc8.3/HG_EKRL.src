@@ -1,5 +1,5 @@
-&ACCESS RVO1
-&REL 171
+&ACCESS RVO2
+&REL 172
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 DEF HG_EKRL( )
@@ -22,6 +22,7 @@ DECL EKI_STATUS RET
 ;ENDFOLD (INI)
 ;------------6-------
 
+
 EKRL_CONNECT()
 
 ;Bytes[]="hellow"
@@ -36,7 +37,7 @@ GLOBAL DEF EKRL_Find_Model_Send(Find_ID:IN,Work_Number:IN,Find_Area:IN)
 DECL INT Find_ID,Work_Number,ID,Work,Find_Area,OPFFSET
 DECL CHAR Find_Area_String[1024], Message_Error[1024],Message_Show[1024]
 DECL BOOL Calculation_Status
-DECL Frame LastPos
+DECL Frame LastPos1,LastPos2
 DECL EKI_STATUS RET
 DECL State_t _State,STAT
 DECL MODUS_T MODE
@@ -46,7 +47,8 @@ MODE=#SYNC
 OPFFSET=0
 Calculation_Status=false
 $Flag[2]=false
-LastPos={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+LastPos1={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+LastPos2={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
 
 Find_Area_String[]=" "
 Message_Error[]=" "
@@ -84,8 +86,8 @@ RET=EKI_GetString(EKRL_NAME[],"KUKA_Send/Message_Error" ,Message_Error[])
 IF  Calculation_Status THEN
 
 MSGNOTIFY("Calculation Data Send OK!")
-RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Calculation_Point/Pos" ,LastPos)
-
+RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Calculation_Point/Pos_1" ,LastPos1)
+RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Calculation_Point/Pos_2" ,LastPos2)
 
 
 
@@ -93,17 +95,17 @@ switch Find_Area
 
 CASE 1
 
-N45_OFFSET_POS=LastPos
-
+N45_OFFSET_POS=LastPos1
+N45_CIR_POS=LastPos2
 CASE 2
-N135_OFFSET_POS=LastPos
-
+N135_OFFSET_POS=LastPos1
+N135_CIR_POS=LastPos2
 CASE 3
-N225_OFFSET_POS=LastPos
-
+N225_OFFSET_POS=LastPos1
+N225_CIR_POS=LastPos2
 CASE 4
-N315_OFFSET_POS=LastPos
-
+N315_OFFSET_POS=LastPos1
+N315_CIR_POS=LastPos2
 ENDSWITCH
 
 
@@ -151,7 +153,8 @@ END
 
 GLOBAL DEF EKRL_Calibration_Send(Area_Name:IN,Work_Number:IN)
 
-DECL CHAR Area_Name[]
+DECL INT Area_Name
+DECL CHAR Calibration_Name[1024]
 DECL EKI_STATUS RET
 DECL INT Work_Number
 DECL BOOL Calibration_Status
@@ -171,8 +174,31 @@ RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Calibration_Model/Calibration_Point/P
 RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Calibration_Model/Calibration_Point/Pos_8", Calibration_Point[8])
 RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Calibration_Model/Calibration_Point/Pos_9", Calibration_Point[9])
 
-RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/Calibration_Model/@Area",Area_Name[])
+
+SWITCH Area_Name
+
+CASE 1
+RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/Calibration_Model/@Area","C_45")
+RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Calibration_Model/Camera_Point/Pos", Cam_45_POS)
+
+CASE 2
+RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/Calibration_Model/@Area","C_135")
+RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Calibration_Model/Camera_Point/Pos", Cam_135_POS)
+CASE 3
+RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/Calibration_Model/@Area","C_225")
+RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Calibration_Model/Camera_Point/Pos", Cam_225_POS)
+CASE 4
+RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/Calibration_Model/@Area","C_315")
+RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Calibration_Model/Camera_Point/Pos", Cam_315_POS)
+ENDSWITCH
+
+
+
 RET=EKI_SetInt(EKRL_NAME[],"KUKA_Receive/Calibration_Model/@Work_Number", Work_Number)
+
+
+
+
 
 RET = EKI_Send(EKRL_NAME[],"KUKA_Receive")
 

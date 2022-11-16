@@ -3,7 +3,7 @@
 	
 	
 		
-<KUKA_Data>
+<Calibration_Data>
 	<KUKA_Receive>
 		<Calibration_Model  Area="C_45"  Work_Nunber="1" >
 		<Calibration_Point   >
@@ -17,6 +17,9 @@
 			<Pos_8  A="111.111" B="222.222" C="333.333" X="444.444" Y="555.555" Z="666.666"/>
 			<Pos_9  A="111.111" B="222.222" C="333.333" X="444.444" Y="555.555" Z="666.666"/>
 		</Calibration_Point>
+		<Camera_Point>
+			<Pos A="111.111" B="222.222" C="333.333" X="444.444" Y="555.555" Z="666.666"/>
+		</Camera_Point>
 	</Calibration_Model>
 	</KUKA_Receive>
 
@@ -30,9 +33,10 @@
 	
 	
 	
-</KUKA_Data>
+</Calibration_Data>
 
- 
+
+	 <Find_Data>
 	
 	<KUKA_Receive>
 		<Find_Model ID="1" Work="1" Area="N_45"></Find_Model>
@@ -44,11 +48,18 @@
 	
 <KUKA_Send>
 	<Message_Error>Find time timeout</Message_Error>
-	<IsStatus>0</IsStatus>
+	<IsStatus>1</IsStatus>
     <Calculation_Point >
-		<Pos  X="210.3" Y="825.3" Z="234.3" A="84.2" B="12.3" C="43.5"/>
+		<Pos_1  X="210.3" Y="825.3" Z="234.3" A="84.2" B="12.3" C="43.5"/>
+	    <Pos_2  X="210.3" Y="825.3" Z="234.3" A="84.2" B="12.3" C="43.5"/>
+		<Pos_3  X="210.3" Y="825.3" Z="234.3" A="84.2" B="12.3" C="43.5"/>
+		<Pos_4  X="210.3" Y="825.3" Z="234.3" A="84.2" B="12.3" C="43.5"/>
 	</Calculation_Point>
 </KUKA_Send>
+
+
+</Find_Data>
+
 
 
 </Vision_Xml>

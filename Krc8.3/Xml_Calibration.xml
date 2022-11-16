@@ -94,6 +94,15 @@
          <ELEMENT Tag="KUKA_Receive/Calibration_Model/Calibration_Point/Pos_9/@A" Type="REAL"/>
          <ELEMENT Tag="KUKA_Receive/Calibration_Model/Calibration_Point/Pos_9/@B" Type="REAL"/>
          <ELEMENT Tag="KUKA_Receive/Calibration_Model/Calibration_Point/Pos_9/@C" Type="REAL"/>
+         
+         <ELEMENT Tag="KUKA_Receive/Calibration_Model/Camera_Point/Pos/@X" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Calibration_Model/Camera_Point/Pos/@Y" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Calibration_Model/Camera_Point/Pos/@Z" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Calibration_Model/Camera_Point/Pos/@A" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Calibration_Model/Camera_Point/Pos/@B" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Calibration_Model/Camera_Point/Pos/@C" Type="REAL"/>
+  
+
 			<!-- <ELEMENT Tag="Robot/Data/LastPos/@X"/> -->
 			<!-- <ELEMENT Tag="Robot/Data/LastPos/@Y"/> -->
 			<!-- <ELEMENT Tag="Robot/Data/LastPos/@Z"/> -->

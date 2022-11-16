@@ -1,8 +1,8 @@
 &ACCESS RVP
-&REL 38
+&REL 58
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
-&PARAM DISKPATH = KRC:\R1\T
+&PARAM DISKPATH = KRC:\R1\Program\T
 DEF A_154( )
 ;FOLD INI;%{PE}
   ;FOLD BASISTECH INI
@@ -30,7 +30,8 @@ PTP XP1
 ;ENDFOLD
 
 
-;FOLD Vision.Start_Connect Xml_Name: Xml_Find_Model;%{PE}%MKUKATPUSER
+
+;FOLD Vision.Find_Connect Xml_Name: Xml_Find_Model;%{PE}%MKUKATPUSER
 
 EKRL_NAME[]="Xml_Find_Model"
 EKRL_Connect()
@@ -39,11 +40,33 @@ EKRL_Connect()
 
 
 ;ENDFOLD
+
+
 halt
+;FOLD Vision.Camera_Offset Camera_NAME :P2, Area:45, Work: Work 1;%{PE}%MKUKATPUSER
 
-;FOLD Vision.Find_Model ID:10, Work: Work 1, Area: F 45;%{PE}%MKUKATPUSER
+ HanGao_Camera_Offset(1,1,XP2)
 
-EKRL_Find_Model_Send(10,1,1)
+
+
+
+
+;ENDFOLD
+;FOLD PTP P2 Vel=100 % PDAT2 Tool[1]:Tool1 Base[0];%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=P2; Kuka.BlendingEnabled=False; Kuka.MoveDataPtpName=PDAT2; Kuka.VelocityPtp=100; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
+;ENDFOLD
+$BWDSTART = FALSE
+PDAT_ACT = PPDAT2
+FDAT_ACT = FP2
+BAS(#PTP_PARAMS, 100.0)
+SET_CD_PARAMS (0)
+PTP XP2
+;ENDFOLD
+halt
+;FOLD Vision.Find_Model ID:1, Work: 1, Area:45;%{PE}%MKUKATPUSER
+
+EKRL_Find_Model_Send(1,1,1)
 
 
 
@@ -51,15 +74,6 @@ EKRL_Find_Model_Send(10,1,1)
 
 ;ENDFOLD
 
-halt
-;FOLD Vision.Calculation_Offset Work: Work 1;%{PE}%MKUKATPUSER
 
-
-
-
-
-
-
-;ENDFOLD
 
 END
