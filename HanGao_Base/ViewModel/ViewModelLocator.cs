@@ -64,6 +64,7 @@ namespace HanGao.ViewModelLocator
                     .AddScoped<UC_Vision_Point_Calibration_ViewModel>()
                     .AddScoped<UC_Vision_Create_Template_ViewMode>()
                     .AddScoped<UC_Vision_CameraSet_ViewModel>()
+                    .AddScoped<UC_Vision_Auto_Model_ViewModel>()
                     
                     .BuildServiceProvider());
 
@@ -102,8 +103,9 @@ namespace HanGao.ViewModelLocator
         public UC_Vision_Point_Calibration_ViewModel UC_Vision_Point_Calibration_ViewModel => Ioc.Default.GetService<UC_Vision_Point_Calibration_ViewModel>();
         public UC_Vision_Create_Template_ViewMode UC_Vision_Create_Template_ViewMode => Ioc.Default.GetService<UC_Vision_Create_Template_ViewMode>();
         public UC_Vision_CameraSet_ViewModel UC_Vision_CameraSet_ViewModel => Ioc.Default.GetService<UC_Vision_CameraSet_ViewModel>();
-        
+        public UC_Vision_Auto_Model_ViewModel UC_Vision_Auto_Model_ViewModel => Ioc.Default.GetService<UC_Vision_Auto_Model_ViewModel>();
 
+        
 
 
 

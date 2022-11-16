@@ -219,6 +219,7 @@
     <Compile Include="ViewModel\UC_Surround_Direction_VM.cs" />
     <Compile Include="ViewModel\UC_Surround_Point_VM.cs" />
     <Compile Include="ViewModel\UC_Visal_Function_VM.cs" />
+    <Compile Include="ViewModel\UC_Vision_Auto_Model_ViewModel.cs" />
     <Compile Include="ViewModel\UC_Vision_CameraSet_ViewModel.cs" />
     <Compile Include="ViewModel\UC_Vision_Create_Template_ViewMode.cs" />
     <Compile Include="ViewModel\UC_Vision_Point_Calibration_ViewModel.cs" />
