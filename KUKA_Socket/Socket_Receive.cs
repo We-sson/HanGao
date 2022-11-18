@@ -12,6 +12,7 @@ using System.Windows;
 using HanGao.Socket_KUKA;
 using System.Net;
 using System.Collections.Generic;
+using static Soceket_Connect.Socket_Connect;
 
 namespace Soceket_KUKA
 {
@@ -44,15 +45,17 @@ namespace Soceket_KUKA
             socket.BeginAccept(new AsyncCallback(ClienAppcet), socket);
         }
 
+        public   delegate void ReceiveMessage_delegate<T>(T _T);
+        public static  ReceiveMessage_delegate<dynamic > KUKA_Receive_Delegate { set; get; }
 
 
-        private static byte[] buffer = new byte[1024];
+        private static byte[] buffer = new byte[1024*1024];
         private static int ConnectNumber = 0;
 
 
         public List<string > GetLocalIP()
         {
-            IPAddress localIp = null;
+        
             try
             {
                 IPAddress[] _ipArray;
@@ -72,8 +75,9 @@ namespace Soceket_KUKA
 
                 return _IPAddress;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
+                
                 //MessageBox.Show(ex.StackTrace + "\r\n" + ex.Message, "错误", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
                 //Log.WriteLog(ex);
             }
@@ -111,6 +115,13 @@ namespace Soceket_KUKA
             }
 
         }
+
+
+
+
+
+
+
         private static void ReceiveMessage(IAsyncResult ar)
         {
             Socket client = ar.AsyncState as Socket; //客户端对象
