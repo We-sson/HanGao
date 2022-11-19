@@ -1,29 +1,20 @@
-﻿
-
-using Soceket_Connect;
-using Soceket_KUKA.Models;
+﻿using HanGao.Socket_KUKA;
 using System;
-using System.Linq;
+using System.Collections.Generic;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using HanGao.Socket_KUKA;
-using System.Net;
-using System.Collections.Generic;
-using static Soceket_Connect.Socket_Connect;
 
 namespace Soceket_KUKA
 {
- 
+
     public class Socket_Receive
     {
 
-        public Socket_Receive( )
+        public Socket_Receive()
         {
 
-         
+
 
 
 
@@ -31,37 +22,73 @@ namespace Soceket_KUKA
         }
 
 
+
+        public   delegate  string  ReceiveMessage_delegate<T>(T _T);
+        public   ReceiveMessage_delegate<string> KUKA_Receive_String { set; get; }
+
+
+    
+
+
+        private  Socket Socket_Sever { set; get; }
+
+
+        private static byte[] buffer = new byte[1024 * 1024];
+        private static int ConnectNumber = 0;
+
+        /// <summary>
+        /// 启动服务器
+        /// </summary>
+        /// <param name="_IP"></param>
+        /// <param name="_Port"></param>
         public void Server_Strat(string _IP, string _Port)
         {
             //创建套接字
             IPEndPoint ipe = new IPEndPoint(IPAddress.Parse(_IP), int.Parse(_Port));
-            Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+            Socket_Sever = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
             //绑定端口和IP
-            socket.Bind(ipe);
+            Socket_Sever.Bind(ipe);
             //设置监听
-            socket.Listen(10);
+            Socket_Sever.Listen(10);
 
             //异步接收客户端
-            socket.BeginAccept(new AsyncCallback(ClienAppcet), socket);
+            Socket_Sever.BeginAccept(new AsyncCallback(ClienAppcet), Socket_Sever);
+  
+          
+
+
         }
 
-        public   delegate void ReceiveMessage_delegate<T>(T _T);
-        public static  ReceiveMessage_delegate<dynamic > KUKA_Receive_Delegate { set; get; }
-
-
-        private static byte[] buffer = new byte[1024*1024];
-        private static int ConnectNumber = 0;
-
-
-        public List<string > GetLocalIP()
+        /// <summary>
+        /// 服务器停止监听
+        /// </summary>
+        public void Sever_End()
         {
-        
+         
+
+          
+            Socket_Sever.Close();
+
+
+        }
+
+
+
+        /// <summary>
+        /// 查找本机所有IP地址
+        /// </summary>
+        /// <returns></returns>
+        public List<string> GetLocalIP()
+        {
+
             try
             {
                 IPAddress[] _ipArray;
                 _ipArray = Dns.GetHostAddresses(Dns.GetHostName());
-         
-               List< string >_IPAddress=new List<string > ();
+
+                List<string> _IPAddress = new List<string>();
                 foreach (var _ip in _ipArray)
                 {
                     if (_ip.AddressFamily == AddressFamily.InterNetwork)
@@ -77,7 +104,7 @@ namespace Soceket_KUKA
             }
             catch (Exception)
             {
-                
+
                 //MessageBox.Show(ex.StackTrace + "\r\n" + ex.Message, "错误", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
                 //Log.WriteLog(ex);
             }
@@ -89,7 +116,11 @@ namespace Soceket_KUKA
         }
 
 
-        private static void ClienAppcet(IAsyncResult ar)
+        /// <summary>
+        /// 异步接收连接方法
+        /// </summary>
+        /// <param name="ar"></param>
+        private  void ClienAppcet(IAsyncResult ar)
         {
             //每当连接进来的客户端数量增加时链接数量自增1
             ConnectNumber++;
@@ -97,13 +128,23 @@ namespace Soceket_KUKA
             Socket ServerSocket = ar.AsyncState as Socket;
             if (null != ServerSocket)
             {
+
+                try
+                {
+
                 //得到接受进来的socket客户端
                 Socket client = ServerSocket.EndAccept(ar);
+                //开始异步接收客户端数据
+                client.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), client);
+                }
+                catch (Exception)
+                {
+
+                    return ;
+                }
 
                 Console.WriteLine("第" + ConnectNumber + "连接进来了");
 
-                //开始异步接收客户端数据
-                client.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), client);
             }
 
 
@@ -122,7 +163,7 @@ namespace Soceket_KUKA
 
 
 
-        private static void ReceiveMessage(IAsyncResult ar)
+        private  void ReceiveMessage(IAsyncResult ar)
         {
             Socket client = ar.AsyncState as Socket; //客户端对象
             if (client != null)
@@ -135,6 +176,10 @@ namespace Soceket_KUKA
                     string message = Encoding.UTF8.GetString(buffer, 0, length);
                     //WriteLine(clientipe + " ：" + message, ConsoleColor.White);
                     //每当服务器收到消息就会给客户端返回一个Server received data
+
+                  string  _S=  KUKA_Receive_String(message);
+
+
                     client.Send(Encoding.UTF8.GetBytes("Server received data"));
                     //通过递归不停的接收该客户端的消息
                     client.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), client);

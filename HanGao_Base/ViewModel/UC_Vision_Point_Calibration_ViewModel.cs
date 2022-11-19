@@ -4,6 +4,8 @@ using HanGao.View.User_Control.Vision_Control;
 using Microsoft.Win32;
 using System.IO;
 using Point = System.Windows.Point;
+using static HanGao.ViewModel.UC_Vision_Auto_Model_ViewModel;
+using KUKA_Socket.Models;
 
 namespace HanGao.ViewModel
 {
@@ -89,6 +91,28 @@ namespace HanGao.ViewModel
             };
 
 
+
+
+            KUKA_Receive.KUKA_Receive_String += (string _S) =>
+            {
+
+                Calibration_Data_Receive _Receive = KUKA_Send_Receive_Xml.String_Xml<Calibration_Data_Receive>(_S);
+
+                if (_Receive.Model== Vision_Model_Enum.Calibration_Point)
+                {
+                    UC_Visal_Function_VM.Load_Image = UC_Vision_CameraSet_ViewModel.GetOneFrameTimeout(UC_Visal_Function_VM.Features_Window.HWindow);
+
+
+
+
+
+
+
+                }
+                return default;
+
+            };
+
         }
 
 
@@ -117,10 +141,10 @@ namespace HanGao.ViewModel
         public Halcon_SDK SHalcon { set; get; } = new Halcon_SDK();
 
 
+        public int Selected_Filtering_Model { set; get; } = 0;
 
 
-
-
+        public  int Selected_Get_Image { set; get; }=0;
 
 
 
@@ -150,7 +174,7 @@ namespace HanGao.ViewModel
             {
 
 
-                switch (Sm.Get_Image_UI.SelectedIndex)
+                switch (Selected_Get_Image)
                 {
                     case 0:
                         UC_Visal_Function_VM.Load_Image = UC_Vision_CameraSet_ViewModel.GetOneFrameTimeout(UC_Visal_Function_VM.Features_Window.HWindow);
@@ -158,6 +182,12 @@ namespace HanGao.ViewModel
                     case 1:
 
                         UC_Visal_Function_VM.Load_Image = SHalcon.Disp_Image(UC_Visal_Function_VM.Features_Window.HWindow, Image_Location_UI);
+
+                        break;
+
+                    case 2:
+
+
 
                         break;
                 }
@@ -171,6 +201,37 @@ namespace HanGao.ViewModel
             });
         }
 
+
+
+        public int Find_Calibration_Mod()
+        {
+            //查找九点定位图像
+            List<Point> _Calibration_List = SHalcon.Find_Calibration(UC_Visal_Function_VM.Features_Window.HWindow, UC_Visal_Function_VM.Load_Image, Selected_Filtering_Model, Find_Calibration);
+
+
+            //控件显示识别特征数量
+            int _Number = _Calibration_List.Count();
+
+
+
+            if (Selected_Get_Image !=3)
+            {
+
+            //识别特征坐标存储列表
+            Calibration_Results_List.Clear();
+            for (int i = 1; i < _Number + 1; i++)
+            {
+                double _X = _Calibration_List[i - 1].X;
+                double _Y = _Calibration_List[i - 1].Y;
+
+                //将图像坐标添加到集合中
+                Calibration_Results_List.Add(new Calibration_Results_Model_UI() { Number = i, Calibration_Points = new Point(_X, _Y) });
+
+            }
+            }
+            return _Number;
+
+        }
 
 
 
@@ -204,24 +265,7 @@ namespace HanGao.ViewModel
 
 
 
-                //查找九点定位图像
-                List<Point> _Calibration_List = SHalcon.Find_Calibration(UC_Visal_Function_VM.Features_Window.HWindow, UC_Visal_Function_VM.Load_Image, Sm.Filtering_Model_UI.SelectedIndex, Find_Calibration);
-
-                //控件显示识别特征数量
-                int _Number = _Calibration_List.Count();
-                Sm.Calibration_Image_Number.Text = _Number.ToString();
-
-                //识别特征坐标存储列表
-                Calibration_Results_List.Clear();
-                for (int i = 1; i < _Number + 1; i++)
-                {
-                    double _X = _Calibration_List[i-1].X;
-                    double _Y = _Calibration_List[i-1].Y;
-
-                    //将图像坐标添加到集合中
-                    Calibration_Results_List.Add(new Calibration_Results_Model_UI() { Number = i, Calibration_Points = new Point(_X, _Y) });
-
-                }
+                  Sm.Calibration_Image_Number.Text = Find_Calibration_Mod().ToString();
 
 
                 await Task.Delay(100);

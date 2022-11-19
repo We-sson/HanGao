@@ -1,0 +1,135 @@
+<ETHERNETKRL>
+	<CONFIGURATION>
+		<EXTERNAL>
+			<IP>192.168.0.1</IP>
+			<PORT>5000</PORT>
+		</EXTERNAL>
+      <INTERNAL>
+			<ALIVE Set_Flag="1"/>
+		</INTERNAL>
+	</CONFIGURATION>
+	<RECEIVE>
+		<XML>
+         <ELEMENT Tag="KUKA_Send/@IsStatus" Type="BOOL" /> 
+         <ELEMENT Tag="KUKA_Send/Message_Error" Type="STRING"/>
+         <ELEMENT Tag="KUKA_Send/Calculation_Point/Pos_1" Type="FRAME"/>
+         <ELEMENT Tag="KUKA_Send/Calculation_Point/Pos_2" Type="FRAME"/>
+         <ELEMENT Tag="KUKA_Send/Calculation_Point/Pos_3" Type="FRAME"/>
+         <ELEMENT Tag="KUKA_Send/Calculation_Point/Pos_4" Type="FRAME"/>
+         <ELEMENT Tag="KUKA_Send/Calculation_Point/Pos_5" Type="FRAME"/>
+         <ELEMENT Tag="KUKA_Send/Calculation_Point/Pos_6" Type="FRAME"/>
+         <ELEMENT Tag="KUKA_Send/Calculation_Point/Pos_7" Type="FRAME"/>
+         <ELEMENT Tag="KUKA_Send/Calculation_Point/Pos_8" Type="FRAME"/>
+         <ELEMENT Tag="KUKA_Send/Calculation_Point/Pos_9" Type="FRAME"/>
+         <ELEMENT Tag="KUKA_Send" Set_Flag="2"/>
+			<!-- <ELEMENT Tag="Sensor/Message" Type="STRING"/> -->
+			<!-- <ELEMENT Tag="Sensor/Positions/Current/@X" Type="REAL"/> -->
+			<!-- <ELEMENT Tag="Sensor/Positions/Before/X" Type="REAL"/> -->
+			<!-- <ELEMENT Tag="Sensor/Nmb" Type="INT"/> -->
+			<!-- <ELEMENT Tag="Sensor/Status/IsActive" Type="BOOL"/> -->
+			<!-- <ELEMENT Tag="Sensor/Read/xyzabc" Type="FRAME"/> -->
+			<!-- <ELEMENT Tag="Sensor/Show/@error" Type="BOOL"/> -->
+			<!-- <ELEMENT Tag="Sensor/Show/@temp" Type="INT"/> -->
+			<!-- <ELEMENT Tag="Sensor/Show" Type="STRING"/> -->
+			<!-- <ELEMENT Tag="Sensor/Free" Type="INT" Set_Out="998"/> -->
+			<!-- <ELEMENT Tag="Sensor" Set_Flag="998"/> -->
+		</XML>
+	</RECEIVE>
+	<SEND>
+		<XML>
+         <ELEMENT Tag="KUKA_Receive/@Model" Type="STRING"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/@ID" Type="INT"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/@Work_Area" Type="INT"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/@Vision_Area" Type="STRING"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/@Calibration_Number" Type="INT"/>
+         
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_1/@X" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_1/@Y" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_1/@Z" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_1/@A" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_1/@B" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_1/@C" Type="REAL"/>
+       
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_2/@X" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_2/@Y" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_2/@Z" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_2/@A" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_2/@B" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_2/@C" Type="REAL"/>
+         
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_3/@X" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_3/@Y" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_3/@Z" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_3/@A" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_3/@B" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_3/@C" Type="REAL"/>
+         
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_4/@X" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_4/@Y" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_4/@Z" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_4/@A" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_4/@B" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_4/@C" Type="REAL"/>
+         
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_5/@X" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_5/@Y" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_5/@Z" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_5/@A" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_5/@B" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_5/@C" Type="REAL"/>
+         
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_6/@X" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_6/@Y" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_6/@Z" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_6/@A" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_6/@B" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_6/@C" Type="REAL"/>
+         
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_7/@X" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_7/@Y" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_7/@Z" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_7/@A" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_7/@B" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_7/@C" Type="REAL"/>
+         
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_8/@X" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_8/@Y" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_8/@Z" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_8/@A" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_8/@B" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_8/@C" Type="REAL"/>
+         
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_9/@X" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_9/@Y" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_9/@Z" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_9/@A" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_9/@B" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_9/@C" Type="REAL"/>
+         
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Camera_Point/Pos_1/@X" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Camera_Point/Pos_1/@Y" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Camera_Point/Pos_1/@Z" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Camera_Point/Pos_1/@A" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Camera_Point/Pos_1/@B" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Camera_Point/Pos_1/@C" Type="REAL"/>
+  
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Camera_Point/Pos_2/@X" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Camera_Point/Pos_2/@Y" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Camera_Point/Pos_2/@Z" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Camera_Point/Pos_2/@A" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Camera_Point/Pos_2/@B" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/Camera_Point/Pos_2/@C" Type="REAL"/>
+
+			<!-- <ELEMENT Tag="Robot/Data/LastPos/@X"/> -->
+			<!-- <ELEMENT Tag="Robot/Data/LastPos/@Y"/> -->
+			<!-- <ELEMENT Tag="Robot/Data/LastPos/@Z"/> -->
+			<!-- <ELEMENT Tag="Robot/Data/LastPos/@A"/> -->
+			<!-- <ELEMENT Tag="Robot/Data/LastPos/@B"/> -->
+			<!-- <ELEMENT Tag="Robot/Data/LastPos/@C"/> -->
+			<!-- <ELEMENT Tag="Robot/Data/ActPos/@X"/> -->
+			<!-- <ELEMENT Tag="Robot/Status"/> -->
+			<!-- <ELEMENT Tag="Robot/Mode"/> -->
+			<!-- <ELEMENT Tag="Robot/RobotLamp/GrenLamp/LightOn"/> -->
+		</XML>
+	</SEND>
+</ETHERNETKRL>

@@ -1,5 +1,5 @@
 &ACCESS RVP
-&REL 58
+&REL 62
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\T
@@ -31,18 +31,27 @@ PTP XP1
 
 
 
-;FOLD Vision.Find_Connect Xml_Name: Xml_Find_Model;%{PE}%MKUKATPUSER
+;FOLD Vision.Find_Connect ;%{PE}%MKUKATPUSER
 
-EKRL_NAME[]="Xml_Find_Model"
+EKRL_NAME[]="Xml_Vision_Model "
 EKRL_Connect()
 
 
 
 
 ;ENDFOLD
+;FOLD Vision.Calibration_Connect Xml_Name: Xml_Calibration, Area:45, Work: 1;%{PE}%MKUKATPUSER
+
+EKRL_NAME[]="Xml_Vision_Model"
+EKRL_Connect()
+HanGao_Camera_Sink_Pos(1,1)
 
 
-halt
+
+;ENDFOLD
+
+
+;halt
 ;FOLD Vision.Camera_Offset Camera_NAME :P2, Area:45, Work: Work 1;%{PE}%MKUKATPUSER
 
  HanGao_Camera_Offset(1,1,XP2)

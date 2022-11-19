@@ -102,7 +102,7 @@
                                           BorderThickness="2"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="1">
+                                          SelectedIndex="{Binding Selected_Get_Image}">
 
 
                                     <ComboBoxItem>
@@ -172,6 +172,9 @@
                                 </Button>
 
                             </Grid>
+
+
+
 
 
                             <Grid Margin="8">
@@ -248,7 +251,7 @@
 
                             </Grid>
 
-                     
+
 
                             <Grid Margin="8">
 
@@ -270,7 +273,7 @@
                                           FontSize="16"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="0">
+                                          SelectedIndex="{Binding Selected_Filtering_Model}">
                                     <ComboBoxItem>
 
                                         <TextBlock Text="均值滤波"
@@ -1156,10 +1159,11 @@
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
                                           SelectedIndex="1">
-                                    <ComboBoxItem >
+                                    <ComboBoxItem>
 
-                                        <TextBlock Text="B_45"  Padding="0,4,0,4"
+                                        <TextBlock Text="B_45"
                                                    TextWrapping="Wrap"
+                                                   Padding="0,4,0,4"
                                                    HorizontalAlignment="Left"
                                                    VerticalAlignment="Center"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -1169,8 +1173,9 @@
                                     </ComboBoxItem>
                                     <ComboBoxItem>
 
-                                        <TextBlock Text="B_135"  Padding="0,4,0,4"
+                                        <TextBlock Text="B_135"
                                                    TextWrapping="Wrap"
+                                                   Padding="0,4,0,4"
                                                    HorizontalAlignment="Left"
                                                    VerticalAlignment="Center"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -1180,8 +1185,9 @@
                                     </ComboBoxItem>
                                     <ComboBoxItem>
 
-                                        <TextBlock Text="B_225"  Padding="0,4,0,4"
+                                        <TextBlock Text="B_225"
                                                    TextWrapping="Wrap"
+                                                   Padding="0,4,0,4"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -1191,8 +1197,9 @@
                                     </ComboBoxItem>
                                     <ComboBoxItem>
 
-                                        <TextBlock Text="B_315"  Padding="0,4,0,4"
+                                        <TextBlock Text="B_315"
                                                    TextWrapping="Wrap"
+                                                   Padding="0,4,0,4"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -1237,7 +1244,7 @@
 
 
 
-                            
+
                                         <TextBlock Grid.Column=" 0"
                                                    Text="{Binding Calibration_Save_Location}"
                                                    TextWrapping="Wrap"
@@ -1274,7 +1281,7 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="90" />
                                     <ColumnDefinition />
-                                    <ColumnDefinition  />
+                                    <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="标定操作"
                                            HorizontalAlignment="Left"
@@ -1286,8 +1293,7 @@
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 1"
                                          Text="0"
-                                       
-                                         HorizontalAlignment="Stretch"  
+                                         HorizontalAlignment="Stretch"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
                                          Background="{DynamicResource 全局_按钮_黄颜色}"

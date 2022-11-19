@@ -916,7 +916,7 @@
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Source="/Resources/Control_自动模式_ioc.png" />
-                                <TextBlock Text="机器通讯"
+                                <TextBlock Text="自动模式"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            FontFamily="{DynamicResource 全局_文字_数字字体}"

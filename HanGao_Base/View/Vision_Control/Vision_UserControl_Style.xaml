@@ -713,10 +713,11 @@
                                 <Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="false" />
                                 <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="true" />
                             </MultiDataTrigger.Conditions>
-                            <Setter TargetName="templateRoot" Property="Background" Value="{DynamicResource ComboBox.Static.Editable.Background}" />
+                            
+                            <!--<Setter TargetName="templateRoot" Property="Background" Value="{DynamicResource ComboBox.Static.Editable.Background}" />
                             <Setter TargetName="templateRoot" Property="BorderBrush" Value="{DynamicResource ComboBox.Static.Editable.Border}" />
                             <Setter TargetName="splitBorder" Property="Background" Value="{DynamicResource ComboBox.Static.Editable.Button.Background}" />
-                            <Setter TargetName="splitBorder" Property="BorderBrush" Value="{DynamicResource ComboBox.Static.Editable.Button.Border}" />
+                            <Setter TargetName="splitBorder" Property="BorderBrush" Value="{DynamicResource ComboBox.Static.Editable.Button.Border}" />-->
                         </MultiDataTrigger>
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter TargetName="arrow" Property="Fill" Value="{DynamicResource ComboBox.MouseOver.Glyph}" />
@@ -762,25 +763,26 @@
                             <Setter TargetName="splitBorder" Property="BorderBrush" Value="{DynamicResource ComboBox.Pressed.Editable.Button.Border}" />
                         </MultiDataTrigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="arrow" Property="Fill" Value="{DynamicResource ComboBox.Disabled.Glyph}" />
+                            <!--<Setter TargetName="arrow" Property="Fill" Value="{DynamicResource ComboBox.Disabled.Glyph}" />-->
+                            <Setter Property="Opacity" Value="0.5"/>
                         </Trigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
                                 <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false" />
                                 <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="false" />
                             </MultiDataTrigger.Conditions>
-                            <Setter TargetName="templateRoot" Property="Background" Value="{DynamicResource ComboBox.Disabled.Background}" />
-                            <Setter TargetName="templateRoot" Property="BorderBrush" Value="{DynamicResource ComboBox.Disabled.Border}" />
+                            <!--<Setter TargetName="templateRoot" Property="Background" Value="{DynamicResource ComboBox.Disabled.Background}" />
+                            <Setter TargetName="templateRoot" Property="BorderBrush" Value="{DynamicResource ComboBox.Disabled.Border}" />-->
                         </MultiDataTrigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
                                 <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false" />
                                 <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="true" />
                             </MultiDataTrigger.Conditions>
-                            <Setter TargetName="templateRoot" Property="Background" Value="{DynamicResource ComboBox.Disabled.Editable.Background}" />
+                            <!--<Setter TargetName="templateRoot" Property="Background" Value="{DynamicResource ComboBox.Disabled.Editable.Background}" />
                             <Setter TargetName="templateRoot" Property="BorderBrush" Value="{DynamicResource ComboBox.Disabled.Editable.Border}" />
                             <Setter TargetName="splitBorder" Property="Background" Value="{DynamicResource ComboBox.Disabled.Editable.Button.Background}" />
-                            <Setter TargetName="splitBorder" Property="BorderBrush" Value="{DynamicResource ComboBox.Disabled.Editable.Button.Border}" />
+                            <Setter TargetName="splitBorder" Property="BorderBrush" Value="{DynamicResource ComboBox.Disabled.Editable.Button.Border}" />-->
                         </MultiDataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -945,7 +947,9 @@
 
                 <Setter  Property="BorderBrush" Value="{DynamicResource 全局_按钮_绿颜色}" />
             </Trigger>
-
+            <Trigger  Property="IsEnabled" Value="false">
+                <Setter  TargetName="contentPresenter"  Property="Opacity" Value="0.5"/>
+            </Trigger>
 
 
             <Trigger Property="HasItems" Value="false">

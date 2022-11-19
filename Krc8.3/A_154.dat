@@ -1,5 +1,5 @@
 &ACCESS RVP
-&REL 58
+&REL 62
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\T

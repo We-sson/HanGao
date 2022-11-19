@@ -1,5 +1,5 @@
-&ACCESS RVO
-&REL 430
+&ACCESS RVP
+&REL 447
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HK
@@ -32,68 +32,17 @@ PTP XHome
 
 ;halt
 
-;FOLD Surround_LIN.S_LIN Point:S2, Vel=0.04m/s, Point: 90/%, Area:LO, LDAT:L2, OFFSET_NO:1, Work: N_1;%{PE}%MKUKATPUSER
 
-; LIN S2POS: X=0, Y=0, Z=0, A=0, B=0, C=0
-; LIN Offset POS:X=0, Y=0, Z=0
-HanGao_Surr_Calculate( 90, #L0, #L_LIN_POS , POS2, , , L0_Welding_Craft[1,1].Welding_Offset  , , 1, 1 )
- 
-FDAT_ACT=FS2
-LDAT_ACT=LL2
-BAS(#CP_PARAMS,L0_Welding_Craft[1,1].Welding_Speed )
-LIN POS2 C_DIS C_DIS
+;FOLD Vision.Calibration_Connect Area:45, Work: 1;%{PE}%MKUKATPUSER
 
-;ENDFOLD
-;FOLD Surround_LIN.S_C_LIN Point:S2, Vel=0.04m/s, Area: C45, LDAT:L2, Work: N_1;%{PE}%MKUKATPUSER
-
-; CIR S2POS: X=0, Y=0, Z=0, A=0, B=0, C=0
-; CIR Offset POS:X=0, Y=0, Z=0
-HanGao_Surr_Calculate(  , #C45, #C_LIN_POS , POS2, , , C45_Welding_Craft[1,1].Welding_Offset , ,  , 1)
- 
-FDAT_ACT=FS2
-LDAT_ACT=LL2
-BAS(#CP_PARAMS, C45_Welding_Craft[1,1].Welding_Speed )
-LIN POS2 C_DIS C_DIS
-
-;ENDFOLD
-;FOLD Surround_CIR.S_C_CIR Point:PM2, PE2, Vel=0.04m/s, Angle Area: C45, Work: N_1;%{PE}%MKUKATPUSER
-
-; CIR MID POS:PM2 : X=0, Y=0, Z=0, A=0, B=0, C=0
-; CIR END POS:PE2 : X=0, Y=0, Z=0, A=0, B=0, C=0
-; CIR_MID_OFFSET  : X=0, Y=0, Z=0
-; CIR_END_OFFSET  : X=0, Y=0, Z=0
-HanGao_Surr_Calculate(  , #C45, #C_CIR_POS ,  , POPM2, POPE2 , C45_Welding_Craft[1,2].Welding_Offset  , C45_Welding_Craft[1, 3].Welding_Offset  ,  , 1)
- 
-FDAT_ACT=FPE2
-LDAT_ACT=LPM2
-BAS(#CP_PARAMS,C45_Welding_Craft[1,3].Welding_Speed )
-CIRC POPM2, POPE2 C_DIS C_DIS
-
-;ENDFOLD
-
-;FOLD Short_Craft.S_LIN Point:S2, Vel=0.5m/s, Area: N45, Short_Pos: BackWelding, Point: 50/%, LDAT:L2, Work: N_1;%{PE}%MKUKATPUSER
-
-; LIN S2POS: X=0, Y=0, Z=0, A=0, B=0, C=0
-; LIN Offset POS:X=0, Y=0, Z=0
-HanGao_Surr_Calculate( 50, #N45, #L_LIN_POS , POS2, , , N45_Short_Craft[1,4].Welding_Offset  , , 4, 1, N1_Sink_Data.Sink_Type)
- 
-FDAT_ACT=FS2
-LDAT_ACT=LL2
-BAS(#CP_PARAMS,N45_Short_Craft[1,4].Welding_Speed )
-LIN POS2 C_DIS C_DIS
-
-;ENDFOLD
-
-
-;FOLD Vision.Start_Connect Xml_Name: Xml_Find_Model;%{PE}%MKUKATPUSER
-
-EKRL_NAME[]="Xml_Find_Model"
+EKRL_NAME[]="Xml_Vision_Model"
 EKRL_Connect()
-
+HanGao_Camera_Sink_Pos(1,1)
 
 
 
 ;ENDFOLD
+
 
 ;FOLD LIN P2 Vel=2 m/s CPDAT1 Tool[1]:Tool1 Base[0] ;%{PE}
 ;FOLD Parameters ;%{h}
@@ -283,10 +232,10 @@ Calibration_Point[9]=$POS_ACT
 
 
 ;ENDFOLD
-;halt
-;FOLD Vision.Calibration_Send Work: Work 1, Area:Calib_45;%{PE}%MKUKATPUSER
+halt
+;FOLD Vision.Calibration_Send Area:Calib_45, Work: Work 1;%{PE}%MKUKATPUSER
 
-EKRL_Calibration_Send("C_45",1)
+EKRL_Calibration_Send(1,1)
 
 
 

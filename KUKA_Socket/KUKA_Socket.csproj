@@ -47,7 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\KUKA_Send_Receive_Xml.cs" />
+    <Compile Include="KUKA_Send_Receive_Xml.cs" />
+    <Compile Include="Models\KUKA_Xml_Model.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Socket_Models.cs" />
     <Compile Include="Socket_Connect.cs" />
