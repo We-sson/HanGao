@@ -22,10 +22,10 @@ namespace KUKA_Socket.Models
     public class Calibration_Data_Receive
     {
 
-        public Calibration_Models Vision_Model { set; get; } = new Calibration_Models() { };
+        public Calibration_Models Vision_Model { set; get; } 
 
-
-        public Vision_Model_Enum Model { set; get; } = Vision_Model_Enum.Find_Model;
+    
+        public Vision_Model_Enum Model { set; get; } 
 
     }
 
@@ -38,17 +38,16 @@ namespace KUKA_Socket.Models
 
 
 
-        public string Messer_Error { set; get; }
+        public string Message_Error { set; get; }
         [XmlAttribute]
-        public string IsStatus { set; get; }
+        public int IsStatus { set; get; }
 
 
-        public Calibration_Point_Models Vision_Point { set; get; } = new Calibration_Point_Models();
+        public Calibration_Point_Models Vision_Point { set; get; }=new Calibration_Point_Models();
+
+
+
     }
-
-
-
-
 
 
 
@@ -57,8 +56,7 @@ namespace KUKA_Socket.Models
     {
         [XmlAttribute]
         public Calibration_Area_Enum Vision_Area { set; get; }
-        [XmlAttribute]
-        public string Calibration_Number { set; get; }
+
 
         [XmlAttribute]
         public string Work_Area { set; get; }
@@ -71,7 +69,7 @@ namespace KUKA_Socket.Models
 
 
 
-        public Calibration_Point_Models Vision_Point { set; get; } = new Calibration_Point_Models();
+        public Calibration_Point_Models Vision_Point { set; get; } 
 
         public Camera_Point_Models Camera_Point { set; get; }
     }
@@ -81,15 +79,15 @@ namespace KUKA_Socket.Models
     public class Calibration_Point_Models
     {
 
-        public Point_Models Pos_1 { set; get; } = new Point_Models();
+        public Point_Models Pos_1 { set; get; } =new Point_Models();
         public Point_Models Pos_2 { set; get; } = new Point_Models();
-        public Point_Models Pos_3 { set; get; } = new Point_Models();
-        public Point_Models Pos_4 { set; get; } = new Point_Models();
-        public Point_Models Pos_5 { set; get; } = new Point_Models();
-        public Point_Models Pos_6 { set; get; } = new Point_Models();
-        public Point_Models Pos_7 { set; get; } = new Point_Models();
-        public Point_Models Pos_8 { set; get; } = new Point_Models();
-        public Point_Models Pos_9 { set; get; } = new Point_Models();
+        public Point_Models Pos_3 { set; get; } = new Point_Models(); 
+        public Point_Models Pos_4 { set; get; } = new Point_Models(); 
+        public Point_Models Pos_5 { set; get; } = new Point_Models(); 
+        public Point_Models Pos_6 { set; get; } = new Point_Models(); 
+        public Point_Models Pos_7 { set; get; } = new Point_Models(); 
+        public Point_Models Pos_8 { set; get; } = new Point_Models(); 
+        public Point_Models Pos_9 { set; get; } = new Point_Models(); 
 
 
     }
@@ -123,7 +121,9 @@ namespace KUKA_Socket.Models
     }
 
 
-
+    /// <summary>
+    /// 标定识别区域枚举
+    /// </summary>
     public enum Calibration_Area_Enum
     {
         F_45,
@@ -133,12 +133,23 @@ namespace KUKA_Socket.Models
     }
 
 
-
+    /// <summary>
+    /// 视觉识别功能
+    /// </summary>
     public enum Vision_Model_Enum
     {
+        Calibration_Point,
         Find_Model,
-        Calibration_Point
     }
 
+
+    public enum Calibration_Error_Message_Enum
+    {
+        No_Error,
+        Find_time_timeout,
+
+
+
+    }
 
 }

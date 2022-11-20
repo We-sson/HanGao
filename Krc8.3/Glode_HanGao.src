@@ -1,12 +1,11 @@
-&ACCESS RVO1
-&REL 238
+&ACCESS RVO
+&REL 263
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HK
 DEF Glode_HanGao( )
 
 ;# DATE:2021-1-4
-
 
 
 
@@ -1063,8 +1062,8 @@ DECL CHAR Meg_Str[1024]
 DECL Surround_Welding_Type Sink_Size
 
  Meg_Str[]="This operation will overwrite the original data, whether to confirm?"
-Global_Messages_Dlg( Meg_Str[] ,User_Revise)
-
+ ;Global_Messages_Dlg( Meg_Str[] ,User_Revise)
+User_Revise=true
 
 switch Work_Camera
 

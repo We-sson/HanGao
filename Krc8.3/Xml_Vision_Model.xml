@@ -41,7 +41,7 @@
          <ELEMENT Tag="KUKA_Receive/Vision_Model/@ID" Type="INT"/>
          <ELEMENT Tag="KUKA_Receive/Vision_Model/@Work_Area" Type="INT"/>
          <ELEMENT Tag="KUKA_Receive/Vision_Model/@Vision_Area" Type="STRING"/>
-         <ELEMENT Tag="KUKA_Receive/Vision_Model/@Calibration_Number" Type="INT"/>
+        
          
          <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_1/@X" Type="REAL"/>
          <ELEMENT Tag="KUKA_Receive/Vision_Model/Vision_Point/Pos_1/@Y" Type="REAL"/>

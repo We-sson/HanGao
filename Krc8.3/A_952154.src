@@ -1,5 +1,5 @@
 &ACCESS RVP
-&REL 447
+&REL 452
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HK
@@ -16,7 +16,7 @@ DEF A_952154( )
   ;ENDFOLD (USER INI)
 ;ENDFOLD (INI)
 
-
+loop
 
 ;FOLD PTP Home Vel=100 % PDAT1;%{PE}
 ;FOLD Parameters ;%{h}
@@ -232,15 +232,16 @@ Calibration_Point[9]=$POS_ACT
 
 
 ;ENDFOLD
-halt
-;FOLD Vision.Calibration_Send Area:Calib_45, Work: Work 1;%{PE}%MKUKATPUSER
+;halt
+;FOLD Vision.Calibration_Send Area:135, Work: 1;%{PE}%MKUKATPUSER
 
-EKRL_Calibration_Send(1,1)
+EKRL_Calibration_Send(2,1)
 
 
 
 
 
 ;ENDFOLD
-
+wait sec 3
+endloop
 END

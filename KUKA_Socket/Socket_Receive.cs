@@ -1,4 +1,5 @@
 ﻿using HanGao.Socket_KUKA;
+using KUKA_Socket.Models;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -24,10 +25,10 @@ namespace Soceket_KUKA
 
 
         public   delegate  string  ReceiveMessage_delegate<T>(T _T);
-        public   ReceiveMessage_delegate<string> KUKA_Receive_String { set; get; }
+        public   ReceiveMessage_delegate<Calibration_Data_Receive> KUKA_Receive_Calibration_String { set; get; }
+        public ReceiveMessage_delegate<Calibration_Data_Receive> KUKA_Receive_Find_String { set; get; }
 
 
-    
 
 
         private  Socket Socket_Sever { set; get; }
@@ -177,10 +178,15 @@ namespace Soceket_KUKA
                     //WriteLine(clientipe + " ：" + message, ConsoleColor.White);
                     //每当服务器收到消息就会给客户端返回一个Server received data
 
-                  string  _S=  KUKA_Receive_String(message);
 
 
-                    client.Send(Encoding.UTF8.GetBytes("Server received data"));
+
+                    string _S=Vision_Model(message);
+
+          
+
+
+                    client.Send(Encoding.UTF8.GetBytes(_S));
                     //通过递归不停的接收该客户端的消息
                     client.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), client);
                 }
@@ -196,7 +202,29 @@ namespace Soceket_KUKA
         }
 
 
+        public  string   Vision_Model(string _St)
+        {
 
+            Calibration_Data_Receive _Receive = KUKA_Send_Receive_Xml.String_Xml<Calibration_Data_Receive>(_St);
+            string _Str="";
+                switch (_Receive.Model)
+                {
+                    case Vision_Model_Enum.Calibration_Point:
+
+                    _Str= KUKA_Receive_Calibration_String(_Receive);
+
+                    break;
+                    case Vision_Model_Enum.Find_Model:
+
+
+                    _Str= KUKA_Receive_Find_String(_Receive);
+                    break;
+
+                }
+
+            return _Str;
+
+        }
 
 
 

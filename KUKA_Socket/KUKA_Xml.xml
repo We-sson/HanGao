@@ -91,7 +91,7 @@
 
 
 	<KUKA_Receive  Model="Calibration">
-		<Vision_Model  ID="1" Work_Area="1"  Vision_Area="F_45" Calibration_Number="1">
+		<Vision_Model  ID="1" Work_Area="1"  Vision_Area="F_45" >
 			<Vision_Point>
 				<Pos_1 X="1765.000000" Y="0.000000" Z="1784.000000" A="0.000000" B="90.000000" C="0.000000"></Pos_1>
 				<Pos_2 X="1765.000000" Y="0.000000" Z="1784.000000" A="0.000000" B="90.000000" C="0.000000"></Pos_2>

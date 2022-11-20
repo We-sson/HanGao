@@ -1,5 +1,5 @@
 &ACCESS RVO1
-&REL 175
+&REL 199
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HK
@@ -22,6 +22,8 @@ DECL EKI_STATUS RET
 
 ;ENDFOLD (INI)
 ;------------6-------
+
+
 
 
 EKRL_CONNECT()
@@ -164,18 +166,18 @@ END
 
 
 
-GLOBAL DEF EKRL_Calibration_Send(Area_Name:IN,Calibration_Number:IN)
+GLOBAL DEF EKRL_Calibration_Send(Area_Name:IN,Work_Area:IN)
 
 DECL INT Area_Name
-DECL CHAR Calibration_Name[1024]
+DECL CHAR Message_Error[1024]
 DECL EKI_STATUS RET
-DECL INT Calibration_Number
+DECL INT Work_Area
 DECL BOOL Calibration_Status
 
 $Flag[2]=FALSE
 Calibration_Status=False
 $Flag[2]=false
-
+Message_Error[]=" "
 
 
 RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Model/Vision_Point/Pos_1", Calibration_Point[1])
@@ -208,7 +210,7 @@ ENDSWITCH
 
 
 RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/@Model","Calibration_Point")
-RET=EKI_SetInt(EKRL_NAME[],"KUKA_Receive/Vision_Model/@Calibration_Number", Calibration_Number)
+RET=EKI_SetInt(EKRL_NAME[],"KUKA_Receive/Vision_Model/@Work_Area", Work_Area)
 
 
 
@@ -227,14 +229,17 @@ Message_Wait("Calibration Data Sending",2)
 
 
 RET=EKI_GetBool(EKRL_NAME[],"KUKA_Send/@IsStatus" ,Calibration_Status)
+RET=EKI_GetString(EKRL_NAME[],"KUKA_Send/Message_Error" ,Message_Error[])
+
 
 IF  Calibration_Status THEN
 
-MSGNOTIFY("Calibration Data ADD OK!")
+MSGNOTIFY(Message_Error[])
 
 else
 
-MsgQuit("Calibration Data Error", "HanGao")
+MsgQuit(Message_Error[], "HanGao")
+halt
 ENDIF
  
 

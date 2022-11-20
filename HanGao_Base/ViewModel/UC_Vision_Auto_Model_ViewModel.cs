@@ -20,17 +20,10 @@ namespace HanGao.ViewModel
 
 
 
-            KUKA_Receive.KUKA_Receive_String += (string _S) =>
+            KUKA_Receive.KUKA_Receive_Find_String += (Calibration_Data_Receive _S) =>
             {
 
-                Calibration_Data_Receive _Receive= KUKA_Send_Receive_Xml.String_Xml<Calibration_Data_Receive>(_S);
-                if (_Receive.Model == Vision_Model_Enum.Find_Model)
-                {
 
-
-
-
-                }
 
 
                 return default;
