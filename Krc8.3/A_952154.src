@@ -1,5 +1,5 @@
 &ACCESS RVP
-&REL 452
+&REL 454
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HK
@@ -233,15 +233,15 @@ Calibration_Point[9]=$POS_ACT
 
 ;ENDFOLD
 ;halt
-;FOLD Vision.Calibration_Send Area:135, Work: 1;%{PE}%MKUKATPUSER
+;FOLD Vision.Calibration_Send Area:225, Work: 1;%{PE}%MKUKATPUSER
 
-EKRL_Calibration_Send(2,1)
+EKRL_Calibration_Send(3,1)
 
 
 
 
 
 ;ENDFOLD
-wait sec 3
+wait sec 0.1
 endloop
 END
