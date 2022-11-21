@@ -98,6 +98,10 @@ namespace HanGao.ViewModel
 
             KUKA_Receive.KUKA_Receive_Calibration_String += (Calibration_Data_Receive _S) =>
             {
+               List< Point >Calibration_P=new List<Point> ();
+                List< Point >Robot_P=new List<Point> ();
+                HTuple _Mat2D = new HTuple();
+
 
 
                 UC_Visal_Function_VM.Load_Image = UC_Vision_CameraSet_ViewModel.GetOneFrameTimeout(UC_Visal_Function_VM.Features_Window.HWindow);
@@ -128,59 +132,25 @@ namespace HanGao.ViewModel
                 Calibration_Area_UI=_S.Vision_Model.Vision_Area.ToString ();
                 Calibration_Work_Area = _S.Vision_Model.Work_Area;
 
-                //初始化坐标属性
-                HTuple Calibration_RowLine = new();
-                HTuple Calibration_ColLine = new();
-                HTuple Robot_RowLine = new();
-                HTuple Robot_ColLine = new();
-                HTuple HomMat2D = new HTuple();
-                HTuple _Qx = new HTuple();
-                HTuple _Qy = new HTuple();
-                List<double > _Error_List_X = new List<double  >(); 
-                List<double > _Error_List_Y = new List<double  >();
+                    //集合视觉点和机器人位置点
+                    foreach (var _Points in Calibration_Results_List)
+                    {
+                        Calibration_P.Add( new Point(_Points.Calibration_Points.X, _Points.Calibration_Points.Y));
+                        Robot_P .Add( new Point(_Points.Robot_Points.X, _Points.Robot_Points.Y));
 
+                    }
+                  
+                    //计算标定误差
+                 Point _EPoint=    Halcon_SDK.Calibration_Results_Compute(Calibration_P, Robot_P, ref  _Mat2D);
+                    Calibration_Error_X_UI = _EPoint.X.ToString();
+                    Calibration_Error_Y_UI = _EPoint.Y.ToString();
 
-                foreach (var _List in Calibration_Results_List)
-                { 
+                    //保存矩阵方法
+                    Halcon_SDK.Save_Mat2d_Method(_Mat2D, Calibration_Area_UI+"_"+Calibration_Work_Area, Calibration_Save_Location_UI);
 
-
-                    Calibration_ColLine = Calibration_ColLine.TupleConcat(_List.Calibration_Points.Y);
-
-                    Calibration_RowLine = Calibration_RowLine.TupleConcat(_List.Calibration_Points.X);
-
-                    Robot_RowLine = Robot_RowLine.TupleConcat(_List.Robot_Points.Y);
-
-                    Robot_ColLine = Robot_ColLine.TupleConcat(_List.Robot_Points.X);
-
-
-
-                }
-
-                HOperatorSet.VectorToHomMat2d(Calibration_ColLine, Calibration_RowLine, Robot_RowLine, Robot_ColLine,
-          out HomMat2D);
-
-
-                foreach (var _EList in Calibration_Results_List)
-                {
-
-
-                HOperatorSet.AffineTransPoint2d(HomMat2D, _EList.Calibration_Points.X, _EList.Calibration_Points.Y, out _Qx, out _Qy);
-
-
-                    double  _Ex = _EList.Calibration_Points.X - _Qx.D;
-                    double  _Ey = _EList.Calibration_Points.Y - _Qy.D;
-
-                    _Error_List_X.Add(_Ex);
-                    _Error_List_Y.Add(_Ey);
-                }
-
-                Calibration_Error_X_UI= Halcon_SDK.Specimen_Error(_Error_List_X);
-                Calibration_Error_Y_UI= Halcon_SDK.Specimen_Error(_Error_List_Y);
-
-
-
+                    //回传标定结果
                     _Send.IsStatus = 1;
-                    _Send.Message_Error = Calibration_Error_Message_Enum.No_Error.ToString()+ ",Specimen X：" + Calibration_Error_X_UI+", Y："+ Calibration_Error_Y_UI;
+                    _Send.Message_Error = Calibration_Error_Message_Enum.No_Error.ToString()+ ",Result Variance X : " + Calibration_Error_X_UI+", Y : "+ Calibration_Error_Y_UI;
 
 
                     string _Str = KUKA_Send_Receive_Xml.Property_Xml<Calibration_Data_Send>(_Send);
@@ -213,7 +183,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 标定文件保存位置
         /// </summary>
-        public string Calibration_Save_Location_UI { set; get; } = Directory.GetCurrentDirectory() + "\\Nine_Calibration";
+        public string Calibration_Save_Location_UI { set; get; } = Directory.GetCurrentDirectory() + "\\Nine_Calibration\\";
 
         /// <summary>
         /// 九点标定数据列表

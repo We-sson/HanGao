@@ -36,6 +36,99 @@ namespace Halcon_SDK_DLL
 
 
 
+        /// <summary>
+        /// 保存标定矩阵坐标方法
+        /// </summary>
+        /// <param name="_HomMat2D">需要保存矩阵对象</param>
+        /// <param name="_Name">保存名字</param>
+        /// <param name="_Path">保存地址</param>
+        public static void Save_Mat2d_Method(HTuple _HomMat2D,string _Name ,string _Path)
+        {
+            HTuple _HomMatID = new HTuple();
+            HTuple _FileHandle = new HTuple();
+
+
+            //矩阵二进制化
+            HOperatorSet.SerializeHomMat2d(_HomMat2D, out _HomMatID);
+
+
+            //打开文件
+            HOperatorSet.OpenFile(_Path+_Name + ".mat", "output_binary", out _FileHandle);
+
+            //写入矩阵变量
+            HOperatorSet.FwriteSerializedItem(_FileHandle, _HomMatID);
+            //关闭文件
+            HOperatorSet.CloseFile(_FileHandle);
+
+
+        }
+
+
+        /// <summary>
+        /// 计算矩阵， 放回结果计算误差方法
+        /// </summary>
+        /// <param name="Calibration"></param>
+        /// <param name="Robot"></param>
+        /// <returns></returns>
+        public static Point Calibration_Results_Compute(List<Point> Calibration, List<Point> Robot, ref HTuple HomMat2D)
+        {
+            //初始化坐标属性
+            HTuple Calibration_RowLine = new HTuple();
+            HTuple Calibration_ColLine = new HTuple();
+            HTuple Robot_RowLine = new HTuple();
+            HTuple Robot_ColLine = new HTuple();
+           
+            HTuple _Qx = new HTuple();
+            HTuple _Qy = new HTuple();
+            List<double> _Error_List_X = new List<double>();
+            List<double> _Error_List_Y = new List<double>();
+
+            //将点转化为Halcon组
+            foreach (var _List in Calibration)
+            {
+
+
+                Calibration_ColLine = Calibration_ColLine.TupleConcat(_List.Y);
+
+                Calibration_RowLine = Calibration_RowLine.TupleConcat(_List.X);
+
+            }
+            //将点转化为Halcon组
+            foreach (var _List in Robot)
+            {
+
+                Robot_RowLine = Robot_RowLine.TupleConcat(_List.Y);
+
+                Robot_ColLine = Robot_ColLine.TupleConcat(_List.X);
+
+            }
+
+            //根据位置点组计算矩阵坐标
+            HOperatorSet.VectorToHomMat2d(Calibration_ColLine, Calibration_RowLine, Robot_RowLine, Robot_ColLine,
+      out HomMat2D);
+
+            //转换视觉图像结果
+            foreach (var _EList in Calibration)
+            {
+
+
+                HOperatorSet.AffineTransPoint2d(HomMat2D, _EList.X, _EList.Y, out _Qx, out _Qy);
+
+
+                double _Ex = _EList.X - _Qx.D;
+                double _Ey = _EList.Y - _Qy.D;
+
+                _Error_List_X.Add(_Ex);
+                _Error_List_Y.Add(_Ey);
+            }
+            //计算结果组偏差
+           double   Calibration_Error_X_UI =double.Parse(Specimen_Error(_Error_List_X));
+           double   Calibration_Error_Y_UI =double .Parse(  Specimen_Error(_Error_List_Y));
+
+
+            return new Point(Calibration_Error_X_UI, Calibration_Error_Y_UI);
+        }
+
 
         /// <summary>
         /// 计算一组样本标准差值
