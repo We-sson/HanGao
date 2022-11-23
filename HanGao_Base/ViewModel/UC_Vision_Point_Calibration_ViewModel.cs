@@ -96,22 +96,27 @@ namespace HanGao.ViewModel
 
 
 
-            KUKA_Receive.KUKA_Receive_Calibration_String += (Calibration_Data_Receive _S) =>
+            KUKA_Receive.KUKA_Receive_Calibration_String += (Calibration_Data_Receive _S, string _RStr) =>
             {
                List< Point >Calibration_P=new List<Point> ();
                 List< Point >Robot_P=new List<Point> ();
                 HTuple _Mat2D = new HTuple();
-
-
-
-                UC_Visal_Function_VM.Load_Image = UC_Vision_CameraSet_ViewModel.GetOneFrameTimeout(UC_Visal_Function_VM.Features_Window.HWindow);
-
-
                 Calibration_Data_Send _Send = new();
 
 
+
+                //UI显示接收信息内容
+                UC_Vision_Robot_Protocol_ViewModel.Receive_Socket_String = _RStr;
+
+
+                //从相机获取照片
+                UC_Visal_Function_VM.Load_Image = UC_Vision_CameraSet_ViewModel.GetOneFrameTimeout(UC_Visal_Function_VM.Features_Window.HWindow);
+
+
+
+
                 //清楚模板内容，查找图像模型
-                if (Find_Calibration_Mod() == 9)
+                if (Find_Calibration_Mod(Split_Image_Show_UI) == 9)
                 {
 
 
@@ -129,6 +134,8 @@ namespace HanGao.ViewModel
                 Calibration_Results_List[7].Robot_Points = new Point(double.Parse(_S.Vision_Model.Vision_Point.Pos_8.X), double.Parse(_S.Vision_Model.Vision_Point.Pos_8.Y));
                 Calibration_Results_List[8].Robot_Points = new Point(double.Parse(_S.Vision_Model.Vision_Point.Pos_9.X), double.Parse(_S.Vision_Model.Vision_Point.Pos_9.Y));
 
+
+                    //标定位置和工装位置结果显示UI 
                 Calibration_Area_UI=_S.Vision_Model.Vision_Area.ToString ();
                 Calibration_Work_Area = _S.Vision_Model.Work_Area;
 
@@ -152,8 +159,10 @@ namespace HanGao.ViewModel
                     _Send.IsStatus = 1;
                     _Send.Message_Error = Calibration_Error_Message_Enum.No_Error.ToString()+ ",Result Variance X : " + Calibration_Error_X_UI+", Y : "+ Calibration_Error_Y_UI;
 
-
+                    //属性内容转换长文本
                     string _Str = KUKA_Send_Receive_Xml.Property_Xml<Calibration_Data_Send>(_Send);
+                    //显示UI层
+                    UC_Vision_Robot_Protocol_ViewModel.Send_Socket_String = _Str;
                     return _Str;
                 }
                 else
@@ -234,12 +243,20 @@ namespace HanGao.ViewModel
         /// </summary>
         public string  Calibration_Work_Area { set; get; } = "Null";
 
-
+        /// <summary>
+        /// 标定结果方差X
+        /// </summary>
         public string Calibration_Error_X_UI { set; get; } = "Null";
+        /// <summary>
+        /// 标定结果方差Y
+        /// </summary>
         public string Calibration_Error_Y_UI { set; get; } = "Null";
 
 
-
+        /// <summary>
+        /// 二值化图像结果显示
+        /// </summary>
+        public bool Split_Image_Show_UI { set; get; }=false;
 
 
 
@@ -278,10 +295,14 @@ namespace HanGao.ViewModel
         /// 查找图片上的标定板位置
         /// </summary>
         /// <returns></returns>
-        public int Find_Calibration_Mod()
+        public int Find_Calibration_Mod(bool _Split_Show )
         {
+
+
+            HOperatorSet.DispObj(UC_Visal_Function_VM.Load_Image, UC_Visal_Function_VM.Features_Window.HWindow);
+
             //查找九点定位图像
-            List<Point> _Calibration_List = SHalcon.Find_Calibration(UC_Visal_Function_VM.Features_Window.HWindow, UC_Visal_Function_VM.Load_Image, Selected_Filtering_Model, Find_Calibration);
+            List<Point> _Calibration_List = SHalcon.Find_Calibration(UC_Visal_Function_VM.Features_Window.HWindow, UC_Visal_Function_VM.Load_Image, Selected_Filtering_Model, Find_Calibration, _Split_Show);
 
 
             //控件显示识别特征数量
@@ -350,7 +371,7 @@ namespace HanGao.ViewModel
 
 
                 //查找图像中模板位置
-                Find_Calibration_Mod();
+                Find_Calibration_Mod(Split_Image_Show_UI);
 
                 await Task.Delay(100);
 

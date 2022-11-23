@@ -24,9 +24,9 @@ namespace Soceket_KUKA
 
 
 
-        public   delegate  string  ReceiveMessage_delegate<T>(T _T);
-        public   ReceiveMessage_delegate<Calibration_Data_Receive> KUKA_Receive_Calibration_String { set; get; }
-        public ReceiveMessage_delegate<Calibration_Data_Receive> KUKA_Receive_Find_String { set; get; }
+        public   delegate  string  ReceiveMessage_delegate<T1,T2>(T1 _T,T2 _S);
+        public   ReceiveMessage_delegate<Calibration_Data_Receive,string> KUKA_Receive_Calibration_String { set; get; }
+        public ReceiveMessage_delegate<Calibration_Data_Receive, string> KUKA_Receive_Find_String { set; get; }
 
 
 
@@ -201,7 +201,11 @@ namespace Soceket_KUKA
 
         }
 
-
+        /// <summary>
+        /// 视觉功能模式
+        /// </summary>
+        /// <param name="_St"></param>
+        /// <returns></returns>
         public  string   Vision_Model(string _St)
         {
 
@@ -211,13 +215,13 @@ namespace Soceket_KUKA
                 {
                     case Vision_Model_Enum.Calibration_Point:
 
-                    _Str= KUKA_Receive_Calibration_String(_Receive);
+                    _Str= KUKA_Receive_Calibration_String(_Receive, _St);
 
                     break;
                     case Vision_Model_Enum.Find_Model:
 
 
-                    _Str= KUKA_Receive_Find_String(_Receive);
+                    _Str= KUKA_Receive_Find_String(_Receive, _St);
                     break;
 
                 }

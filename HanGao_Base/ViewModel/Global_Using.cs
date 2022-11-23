@@ -29,3 +29,5 @@ global  using System.Threading;
 global using Soceket_Connect;
 global using System.Windows.Media;
 global using HanGao.Errorinfo;
+global using KUKA_Socket.Models;
+global using Soceket_KUKA;

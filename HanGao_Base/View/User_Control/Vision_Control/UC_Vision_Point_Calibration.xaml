@@ -635,7 +635,7 @@
                                         Minimum="3"
                                         SmallChange="2"
                                         TickFrequency=" 2"
-                                        Value="7" />
+                                        Value="30" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding ElementName=Emphasize_MaskWidth_UI, Path=Value}"
@@ -671,7 +671,7 @@
                                         Minimum="3"
                                         SmallChange="2"
                                         TickFrequency="2"
-                                        Value="7" />
+                                        Value="30" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding ElementName=Emphasize_MaskHeight_UI, Path=Value}"
@@ -796,7 +796,41 @@
                             </Grid>
 
 
+                            <Grid Margin="8">
 
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition />
+
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="图像功能"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+                                <StackPanel Grid.Column=" 2" Orientation="Vertical">
+
+                                    <CheckBox Style="{DynamicResource Button_List_Style}"
+                                              Content="灰度区域显示"
+                                              IsChecked="{Binding Split_Image_Show_UI}"
+                                              Margin="4"
+                                              FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                              FontSize="16"
+                                              Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                    <CheckBox Style="{DynamicResource Button_List_Style}"
+                                              Content="显示"
+                                              IsChecked="True"
+                                              Margin="4"
+                                              FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                              FontSize="16"
+                                              Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                </StackPanel>
+
+                            </Grid>
 
 
                             <Grid Height="35" Margin="8">

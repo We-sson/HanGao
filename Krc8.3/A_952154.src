@@ -1,5 +1,5 @@
 &ACCESS RVP
-&REL 454
+&REL 457
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HK
@@ -31,17 +31,6 @@ PTP XHome
 ;ENDFOLD
 
 ;halt
-
-
-;FOLD Vision.Calibration_Connect Area:45, Work: 1;%{PE}%MKUKATPUSER
-
-EKRL_NAME[]="Xml_Vision_Model"
-EKRL_Connect()
-HanGao_Camera_Sink_Pos(1,1)
-
-
-
-;ENDFOLD
 
 
 ;FOLD LIN P2 Vel=2 m/s CPDAT1 Tool[1]:Tool1 Base[0] ;%{PE}
@@ -235,11 +224,11 @@ Calibration_Point[9]=$POS_ACT
 ;halt
 ;FOLD Vision.Calibration_Send Area:225, Work: 1;%{PE}%MKUKATPUSER
 
+
+EKRL_NAME[]="Xml_Vision_Model"
+EKRL_Connect()
+HanGao_Camera_Sink_Pos(3,1)
 EKRL_Calibration_Send(3,1)
-
-
-
-
 
 ;ENDFOLD
 wait sec 0.1

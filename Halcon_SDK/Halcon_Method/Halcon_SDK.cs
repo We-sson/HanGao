@@ -217,13 +217,12 @@ namespace Halcon_SDK_DLL
         /// <param name="_Filtering_Model"></param>
         /// <param name="_Calibration_Data"></param>
         /// <returns></returns>
-        public List<Point> Find_Calibration(HWindow _Window,HObject _Input_Image ,int _Filtering_Model, Halcon_Find_Calibration_Model _Calibration_Data)
+        public List<Point> Find_Calibration(HWindow _Window,HObject _Input_Image ,int _Filtering_Model, Halcon_Find_Calibration_Model _Calibration_Data,bool _Show_Split)
         {
 
             HObject _Image=new HObject ();
             HObject _Image1, _Image2, _Image3, _Image4, _Image5, _Image6, _Image7, _Image8;
             HTuple _Area, _Row, _Column;
-    
 
 
 
@@ -259,12 +258,16 @@ namespace Halcon_SDK_DLL
             //图像最大灰度值分布在值范围0到255 中
             HOperatorSet.ScaleImageMax(_Image, out _Image1);
 
+
+
+
             //增强图像的对比度
             HOperatorSet.Emphasize(_Image1, out _Image2, _Calibration_Data.Emphasize_MaskWidth, _Calibration_Data.Emphasize_MaskHeight, _Calibration_Data.Factor);
 
 
             // 使用全局阈值分割图像
             HOperatorSet.Threshold(_Image1, out _Image3, _Calibration_Data.MinGray, _Calibration_Data.MaxGray);
+
 
 
             //计算区域中连接的组件
@@ -300,8 +303,12 @@ namespace Halcon_SDK_DLL
             HOperatorSet.DispObj(_Cross, _Window);
 
 
+            if (_Show_Split)
+            {
+            //生产xld到窗口控件
+            HOperatorSet.DispObj(_Image3, _Window);
 
-
+            }
 
 
 

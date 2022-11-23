@@ -23,7 +23,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="80*" />
-            <ColumnDefinition Width="25*" />
+            <ColumnDefinition Width="330" />
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column=" 0">
@@ -872,7 +872,7 @@
 
                         </RadioButton>
 
-                        <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Robot_Comm"
+                        <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Robot_Model"
                                      Width=" 120"
                                      Height=" 35"
                                      Margin="2"
@@ -936,7 +936,8 @@
                 <Grid Grid.Column=" 1" Margin="6,6,6,12">
                     <!--  设备状态显示区域  -->
                     <!--  设备状态显示区域  -->
-                    <UC_Working:User_Control_Log />
+                    <!--  设备状态显示区域  -->
+                    <UC_Working:User_Control_Log Grid.Row="1" Grid.Column="1" />
 
                 </Grid>
             </Grid>
@@ -959,6 +960,11 @@
         <Vision_Control:UC_Vision_Auto_Model Grid.Column=" 1"
                                              Margin="6,12,6,12"
                                              Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Auto_Model}" />
+        <Vision_Control:UC_Vision_Robot_Protocol Grid.Column=" 1"
+                                                 Margin="6,12,6,12"
+                                                 Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Robot_Model}" />
+
+
 
 
 

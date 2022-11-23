@@ -49,7 +49,7 @@ namespace HanGao.ViewModel
         public  static  UserControl HomeOne { set; get; } = new HomeOne();
         public  static UserControl ProgRamEdit { set; get; } = new ProgramEdit();
         public  static UserControl ReadData { set; get; } = new Vision();
-        public  static UserControl WeldingGui { set; get; } = new WeldingGui();
+        public  static UserControl Other_Window { set; get; } = new Other_Window();
 
 
 
@@ -187,7 +187,7 @@ namespace HanGao.ViewModel
                 _WeldingGUI_UI = value;
                 if (_WeldingGUI_UI)
                 {
-                    User_Show = WeldingGui;
+                    User_Show = Other_Window;
                 }
                 StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(WeldingGUI_UI)));
 
@@ -197,8 +197,32 @@ namespace HanGao.ViewModel
 
 
 
+        /// <summary>
+        /// 软件启动初始化时间
+        /// </summary>
+        public ICommand Loaded_Window
+        {
+            get => new AsyncRelayCommand<Window>(async (Sm, T) =>
+            {
+                await Task.Delay(0);
+
+              
+            });
+        }
+
+        /// <summary>
+        /// 软件启动初始化时间
+        /// </summary>
+        public ICommand UnLoaded_Window
+        {
+            get => new AsyncRelayCommand<Window>(async (Sm, T) =>
+            {
+                await Task.Delay(0);
 
 
+            });
+        }
+        
 
 
 

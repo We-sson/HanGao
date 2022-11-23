@@ -51,11 +51,11 @@ DEFTP Vision={ SOt FALSE,Soc TRUE }
 
 
   DECL FOLD Data_Send_FOLD[5]
-            Data_Send_FOLD[1]="EKRL_Calibration_Send(%Area_Calib_lIST ,%Work_Area )"
-            Data_Send_FOLD[2]=""
-            Data_Send_FOLD[3]=""
-            Data_Send_FOLD[4]=""
-            Data_Send_FOLD[5]=""
+            Data_Send_FOLD[1]=""
+            Data_Send_FOLD[2]="EKRL_NAME[]=/"Xml_Vision_Model/""
+            Data_Send_FOLD[3]="EKRL_Connect()"
+            Data_Send_FOLD[4]="HanGao_Camera_Sink_Pos(%Area_Calib_lIST ,%Work_Area )"
+            Data_Send_FOLD[5]="EKRL_Calibration_Send(%Area_Calib_lIST ,%Work_Area )"
             
   DECL FOLD Find_Connect_FOLD[5]
             Find_Connect_FOLD[1]="EKRL_NAME[]=/"Xml_Vision_Model /""
@@ -66,9 +66,9 @@ DEFTP Vision={ SOt FALSE,Soc TRUE }
             
             
   DECL FOLD Calibration_Connect_FOLD[5]
-            Calibration_Connect_FOLD[1]="EKRL_NAME[]=/"Xml_Vision_Model/""
-            Calibration_Connect_FOLD[2]="EKRL_Connect()"
-            Calibration_Connect_FOLD[3]="HanGao_Camera_Sink_Pos(%Area_Calib_lIST ,%Work_Area )"
+            Calibration_Connect_FOLD[1]=""
+            Calibration_Connect_FOLD[2]=""
+            Calibration_Connect_FOLD[3]=""
             Calibration_Connect_FOLD[4]=""
             Calibration_Connect_FOLD[5]=""          
  

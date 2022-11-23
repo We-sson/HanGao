@@ -307,7 +307,7 @@ namespace MVS_SDK
         /// 检查相机列表中选择相机是否可用
         /// </summary>
         /// <param name="_Camera_Number"></param>
-        public void Check_IsDeviceAccessible(int _Camera_Number)
+        public bool Check_IsDeviceAccessible(int _Camera_Number)
         {
 
             //读取选择相机信息
@@ -315,7 +315,7 @@ namespace MVS_SDK
 
 
             //检查相机设备可用情况
-            Set_Camera_Val(Camera_Parameters_Name_Enum.IsDeviceAccessible, CSystem.IsDeviceAccessible(ref CameraInfo, MV_ACCESS_MODE.MV_ACCESS_EXCLUSIVE));
+         return   Set_Camera_Val(Camera_Parameters_Name_Enum.IsDeviceAccessible, CSystem.IsDeviceAccessible(ref CameraInfo, MV_ACCESS_MODE.MV_ACCESS_EXCLUSIVE));
 
 
 

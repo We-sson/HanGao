@@ -14,24 +14,38 @@
         Title="MainWindow"
         MinWidth="1440"
         MinHeight="900"
-       
         d:DesignHeight="900"
         d:DesignWidth="1440"
-        AllowsTransparency="True" 
+        AllowsTransparency="True"
         Background="Gray"
+        DataContext="{Binding FrameShow, Source={StaticResource Locator}}"
         Topmost="False"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         mc:Ignorable="d">
 
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="loaded">
+            <i:InvokeCommandAction Command="{Binding Loaded_Window}"
+                                   CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Self}}"
+                                   PassEventArgsToCommand="True" />
+        </i:EventTrigger>
+
+        <i:EventTrigger EventName="Unloaded">
+            <i:InvokeCommandAction Command="{Binding UnLoaded_Window}"
+                                   CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Self}}"
+                                   PassEventArgsToCommand="True" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+
 
     <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <Converters:TruthyToVisibleConverter x:Key="TruthyToVisibleConverter" />
         <Storyboard x:Key="UI_Socket_Type_Stroy" />
     </Window.Resources>
-    <Window.DataContext>
-        <Binding Path="FrameShow" Source="{StaticResource Locator}" />
-    </Window.DataContext>
+
 
 
     <!--  拖动标题栏顶部范围  -->
@@ -122,7 +136,7 @@
                 </Grid.ColumnDefinitions>
 
 
-                <RadioButton Style="{StaticResource 标题_选项_样式}" Grid.Column="0"
+                <RadioButton Style="{StaticResource 标题_选项_样式}" x:Name="Home_Console" Grid.Column="0"
                              IsChecked="{Binding HomeOne_UI}"
                              Margin="15,0,15,0"
                              HorizontalAlignment="Stretch"
@@ -162,7 +176,7 @@
                 </RadioButton>
 
 
-                <RadioButton Style="{StaticResource 标题_选项_样式}" Grid.Column="1"
+                <RadioButton Style="{StaticResource 标题_选项_样式}" x:Name="Vision_Work" Grid.Column="1"
                              IsChecked="{Binding RealData_UI}"
                              Margin="15,0,15,0"
                              HorizontalAlignment="Stretch"
@@ -193,7 +207,7 @@
 
                 </RadioButton>
 
-                <RadioButton Style="{StaticResource 标题_选项_样式}" Grid.Column="2"
+                <RadioButton Style="{StaticResource 标题_选项_样式}" x:Name="Program_Edit" Grid.Column="2"
                              x:Uid="3"
                              IsChecked="{Binding ProgramEdit_UI}"
                              Margin="15,0,15,0"
@@ -228,7 +242,7 @@
 
                 </RadioButton>
 
-                <RadioButton Style="{StaticResource 标题_选项_样式}" Grid.Column="3"
+                <RadioButton Style="{StaticResource 标题_选项_样式}" x:Name="Other_Window" Grid.Column="3"
                              IsChecked="{Binding WeldingGUI_UI}"
                              Margin="15,0,15,0"
                              VerticalAlignment="Stretch"
@@ -325,9 +339,41 @@
 
 
 
-        <ContentControl Grid.Row="2"
+
+        <Frameshow:HomeOne Grid.Row="2">
+            <Frameshow:HomeOne.Style>
+                <Style TargetType="UserControl">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsChecked, ElementName=Home_Console}" Value="True">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Frameshow:HomeOne.Style>
+        </Frameshow:HomeOne>
+
+        <Frameshow:Vision Grid.Row="2" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Vision_Work}">
+            <Frameshow:Vision.Style>
+                <Style TargetType="UserControl">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsChecked, ElementName=Vision_Work}" Value="True">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Frameshow:Vision.Style>
+        </Frameshow:Vision>
+        <Frameshow:ProgramEdit Grid.Row="2" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Program_Edit}" />
+        <Frameshow:Other_Window Grid.Row="2" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Other_Window}" />
+
+
+
+
+        <!--<ContentControl Grid.Row="2"
                         Content="{Binding User_Show}"
-                        DataContext="{Binding FrameShow, Source={StaticResource Locator}}" />
+                        DataContext="{Binding FrameShow, Source={StaticResource Locator}}" />-->
 
 
 

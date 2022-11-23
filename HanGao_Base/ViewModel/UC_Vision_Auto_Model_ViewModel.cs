@@ -1,7 +1,4 @@
 ﻿using HanGao.View.User_Control.Vision_Control;
-using KUKA_Socket.Models;
-using Ookii.Dialogs.Wpf;
-using Soceket_KUKA;
 
 
 namespace HanGao.ViewModel
@@ -20,7 +17,7 @@ namespace HanGao.ViewModel
 
 
 
-            KUKA_Receive.KUKA_Receive_Find_String += (Calibration_Data_Receive _S) =>
+            KUKA_Receive.KUKA_Receive_Find_String += (Calibration_Data_Receive _S,string _RStr) =>
             {
 
 

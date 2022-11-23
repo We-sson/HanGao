@@ -189,21 +189,21 @@
                 <!--  加工路径区域  -->
                 <Grid Grid.Row="1" Grid.Column=" 0">
                     <Grid.RowDefinitions>
-                        <RowDefinition  Height=" auto"/>
+                        <RowDefinition Height=" auto" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
                     <UC_Working:User_Control_Working_Path Margin="5" DataContext="{Binding Source={StaticResource Locator}, Path=UC_KUKA_State_VM}" />
                     <UC_Working:UC_Start_State_From Grid.Row=" 1" Grid.Column="0"
-                                                Grid.ColumnSpan=" 2"
-                                                Margin="5" />
+                                                    Grid.ColumnSpan=" 2"
+                                                    Margin="5" />
 
                 </Grid>
 
 
                 <!--  设备状态显示区域  -->
-                <UC_Working:User_Control_Log Grid.Row="1" Grid.Column="1"   Margin="5"
-                                           />
+                <UC_Working:User_Control_Log Grid.Row="1" Grid.Column="1"
+                                             Margin="5" />
 
 
 
@@ -214,7 +214,7 @@
                                                  Margin="5"
                                                  DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_VM.UC_Working_VM_N2}" />
 
-      
+
 
 
             </Grid>

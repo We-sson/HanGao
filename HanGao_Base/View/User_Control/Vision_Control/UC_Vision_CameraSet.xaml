@@ -10,14 +10,7 @@
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_CameraSet_ViewModel}"
              mc:Ignorable="d">
 
-    <i:Interaction.Triggers>
 
-        <i:EventTrigger EventName="Unloaded">
-            <i:InvokeCommandAction Command="{Binding Disconnection_Camera_Comm}"
-                                                                   CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UC_Vision_CameraSet}}}"
-                                                                   PassEventArgsToCommand="True" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
 
     <Grid Effect="{DynamicResource 全局背景阴影}">
 
@@ -149,7 +142,7 @@
                                 </Grid.ColumnDefinitions>
 
 
-                                <Button Style="{DynamicResource Halcon_Window_Button}" x:Name="Connection_Camera" Grid.Column=" 0"
+                                <Button x:Name="Connection_Camera" Grid.Column=" 0"
                                         Height=" 38"
                                         Margin="0,0,10,0"
                                         HorizontalContentAlignment="Center"
@@ -157,12 +150,31 @@
                                         Background="{DynamicResource 全局_按钮_蓝颜色}"
                                         FontFamily="{DynamicResource 全局_文字_中文字体}"
                                         FontSize=" 26">
-                                    <TextBlock Text="连接相机"
-                                               HorizontalAlignment="Center"
+                                    <Button.Style>
+                                        <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Camera_Connect_OK}" Value="True">
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                    <TextBlock HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                FontSize="16"
-                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                               Foreground="{DynamicResource 全局_按钮_白颜色}">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Text" Value="连接相机" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Camera_Connect_OK}" Value="True">
+                                                        <Setter Property="Text" Value="已连接相机" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
 
 
 
@@ -228,7 +240,7 @@
                                         Maximum="{Binding Camera_Parameters_UI.Exposure_UI.Max}"
                                         Minimum="{Binding Camera_Parameters_UI.Exposure_UI.Min}"
                                         SmallChange="10"
-                                        Value="{Binding Camera_Parameters_UI.Exposure_UI.Val,Mode=TwoWay}">
+                                        Value="{Binding Camera_Parameters_UI.Exposure_UI.Val, Mode=TwoWay}">
                                     <i:Interaction.Triggers>
 
                                         <i:EventTrigger EventName="PreviewMouseUp">
@@ -239,7 +251,7 @@
                                     </i:Interaction.Triggers>
                                 </Slider>
 
-                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}"  Grid.Column=" 2"
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding ElementName=Camera_ExposureTime_UI, Path=Value, Mode=TwoWay}"
                                          Width="100"
                                          HorizontalContentAlignment="Center"
@@ -273,7 +285,7 @@
                                         Minimum="{Binding Camera_Parameters_UI.Gain_UI.Min}"
                                         SmallChange="0.1"
                                         TickFrequency="0.01"
-                                        Value="{Binding Camera_Parameters_UI.Gain_UI.Val,Mode=TwoWay}">
+                                        Value="{Binding Camera_Parameters_UI.Gain_UI.Val, Mode=TwoWay}">
 
                                     <i:Interaction.Triggers>
 
@@ -285,7 +297,7 @@
                                     </i:Interaction.Triggers>
                                 </Slider>
 
-                                <TextBox  Grid.Column=" 2"  Style="{DynamicResource Vision_TextBoxStyle}"
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding ElementName=Camera_Gain_UI, Path=Value}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
@@ -293,8 +305,7 @@
                                          Background="Transparent"
                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                          BorderThickness="2"
-                                         FontSize="18" >
-                                </TextBox>
+                                         FontSize="18" />
                             </Grid>
 
                             <Grid Margin="8">
@@ -320,7 +331,7 @@
                                         Minimum="{Binding Camera_Parameters_UI.DigitalShift_UI.Min}"
                                         SmallChange="0.1"
                                         TickFrequency="0.01"
-                                        Value="{Binding Camera_Parameters_UI.DigitalShift_UI.Val,Mode=TwoWay}" >
+                                        Value="{Binding Camera_Parameters_UI.DigitalShift_UI.Val, Mode=TwoWay}">
                                     <i:Interaction.Triggers>
 
                                         <i:EventTrigger EventName="PreviewMouseUp">
@@ -331,7 +342,7 @@
                                     </i:Interaction.Triggers>
                                 </Slider>
 
-                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}"  Grid.Column=" 2"
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding ElementName=DigitalShift, Path=Value, Mode=TwoWay}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
@@ -377,7 +388,7 @@
                                         Minimum="{Binding Camera_Parameters_UI.Gamma_UI.Min}"
                                         SmallChange="0.01"
                                         TickFrequency="0.1"
-                                        Value="{Binding Camera_Parameters_UI.Gamma_UI.Val,Mode=TwoWay}" >
+                                        Value="{Binding Camera_Parameters_UI.Gamma_UI.Val, Mode=TwoWay}">
                                     <i:Interaction.Triggers>
 
                                         <i:EventTrigger EventName="PreviewMouseUp">
@@ -388,7 +399,7 @@
                                     </i:Interaction.Triggers>
                                 </Slider>
 
-                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}"  Grid.Column=" 2"
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding ElementName=Gamma, Path=Value, Mode=TwoWay}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
@@ -421,7 +432,7 @@
                                         Maximum="{Binding Camera_Parameters_UI.Sharpness_UI.Max}"
                                         Minimum="{Binding Camera_Parameters_UI.Sharpness_UI.Min}"
                                         SmallChange="0"
-                                        Value="{Binding Camera_Parameters_UI.Sharpness_UI.Val,Mode=TwoWay}" >
+                                        Value="{Binding Camera_Parameters_UI.Sharpness_UI.Val, Mode=TwoWay}">
                                     <i:Interaction.Triggers>
 
                                         <i:EventTrigger EventName="PreviewMouseUp">
@@ -432,7 +443,7 @@
                                     </i:Interaction.Triggers>
                                 </Slider>
 
-                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}"  Grid.Column=" 2"
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding Value, ElementName=Sharpness, Mode=TwoWay}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
@@ -464,7 +475,7 @@
                                         Maximum="{Binding Camera_Parameters_UI.BlackLevel_UI.Max}"
                                         Minimum="{Binding Camera_Parameters_UI.BlackLevel_UI.Min}"
                                         SmallChange="1"
-                                        Value="{Binding Camera_Parameters_UI.BlackLevel_UI.Val,Mode=TwoWay}" >
+                                        Value="{Binding Camera_Parameters_UI.BlackLevel_UI.Val, Mode=TwoWay}">
                                     <i:Interaction.Triggers>
 
                                         <i:EventTrigger EventName="PreviewMouseUp">
@@ -475,7 +486,7 @@
                                     </i:Interaction.Triggers>
                                 </Slider>
 
-                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}"  Grid.Column=" 2"
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding Value, ElementName=BlackLevel, Mode=TwoWay}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
@@ -500,7 +511,7 @@
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1" x:Name="AcquisitionMode"
+                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="AcquisitionMode" Grid.Column=" 1"
                                           HorizontalContentAlignment="Left"
                                           VerticalContentAlignment="Center"
                                           BorderBrush="{DynamicResource 全局_按钮_黑颜色}"

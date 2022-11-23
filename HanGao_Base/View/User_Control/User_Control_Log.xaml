@@ -80,9 +80,9 @@
                        TextWrapping="WrapWithOverflow"
                        DataContext="{Binding Source={StaticResource Locator}, Path=User_Log}"
                        FontFamily="{DynamicResource 全局_文字_数字字体}"
-                       FontSize="14"
+                       FontSize="16"
                        Foreground="Black"
-                       Opacity="0.8"
+                       Opacity="0.9"
                        Visibility="Visible" />
         </ScrollViewer>
     </Grid>
