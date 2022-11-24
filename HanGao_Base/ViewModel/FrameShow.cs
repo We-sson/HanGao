@@ -13,6 +13,7 @@ using System;
 using System.Reflection;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static Soceket_Connect.Socket_Connect;
+using static HanGao.ViewModel.UC_Vision_CameraSet_ViewModel;
 
 
 namespace HanGao.ViewModel
@@ -68,21 +69,6 @@ namespace HanGao.ViewModel
         public Socket_Tpye UI_Socket_Type { set; get; } = Socket_Tpye.Connect_Cancel;
 
 
-        //private static UserControl _User_Show;
-        ///// <summary>
-        ///// 界面显示
-        ///// </summary>
-        //public static  UserControl User_Show
-        //{
-        //    get { return _User_Show; }
-        //    set { 
-        //        _User_Show = value; 
-        //        StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(User_Show)));
-
-              
-        //    }
-        //}
-
 
         /// <summary>
         /// 静态属性更新通知事件
@@ -112,20 +98,6 @@ namespace HanGao.ViewModel
 
 
 
-        private static bool _Home_Console_UI = true;
-        /// <summary>
-        /// 控制台主页
-        /// </summary>
-        public static bool Home_Console_UI
-        {
-            get { return _Home_Console_UI; }
-            set
-            {
-                _Home_Console_UI = value;
-                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Home_Console_UI)));
-
-            }
-        }
 
 
         private static bool _Vision_Work_UI;
@@ -145,7 +117,6 @@ namespace HanGao.ViewModel
 
 
         private static bool _Program_Edit_UI;
-        /// <summary>
         /// 数据页面
         /// </summary>
         public static bool Program_Edit_UI
@@ -177,28 +148,52 @@ namespace HanGao.ViewModel
 
 
 
+        private static bool _Home_Console_UI = true;
+        /// <summary>
+        /// 控制台主页
+        /// </summary>
+        public static bool Home_Console_UI
+        {
+            get { return _Home_Console_UI; }
+            set
+            {
+                _Home_Console_UI = value;
+                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Home_Console_UI)));
+
+            }
+        }
+
+
 
         /// <summary>
         /// 软件启动初始化时间
         /// </summary>
         public ICommand Loaded_Window
         {
-            get => new AsyncRelayCommand<Window>(async (Sm, T) =>
+            get => new AsyncRelayCommand<HanGao.MainWindow>(async (Sm, T) =>
             {
                 await Task.Delay(0);
 
-              
+
+                Messenger.Send<dynamic , string>(true, nameof(Meg_Value_Eunm.Initialization_Camera));
+
+
+
             });
         }
 
         /// <summary>
         /// 软件启动初始化时间
         /// </summary>
-        public ICommand UnLoaded_Window
+        public ICommand Closed_Window
         {
-            get => new AsyncRelayCommand<Window>(async (Sm, T) =>
+            get => new AsyncRelayCommand<HanGao.MainWindow>(async (Sm, T) =>
             {
                 await Task.Delay(0);
+
+
+                Messenger.Send<dynamic, string>(true, nameof(Meg_Value_Eunm.Close_Camera));
+
 
 
             });
@@ -256,6 +251,11 @@ namespace HanGao.ViewModel
             get => new AsyncRelayCommand<Window>(async (Sm, T) =>
             {
                 await Task.Delay(0);
+
+
+
+
+
 
                 //窗口关闭
                 Sm.Close();

@@ -256,7 +256,15 @@ namespace HanGao.ViewModel.Messenger_Eunm
             /// </summary>
             Add_Draw_Data,
 
+            /// <summary>
+            /// 初始化相机连接
+            /// </summary>
+            Initialization_Camera,
 
+            /// <summary>
+            /// 关闭相机连接
+            /// </summary>
+            Close_Camera,
         }
 
 

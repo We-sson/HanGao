@@ -33,6 +33,8 @@ namespace MVS_SDK
         public delegate void MVS_T_delegate<T>(T _Tl);
 
 
+
+
         /// <summary>
         /// 相机设置错误委托属性
         /// </summary>

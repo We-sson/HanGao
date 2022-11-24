@@ -162,14 +162,14 @@ namespace HanGao.ViewModel
                 }
 
                 //设置halcon窗体大小
-                //Window_UserContol.HalconWindow.SetWindowExtents(0, 0, (int)Window_UserContol.WindowSize.Width, (int)Window_UserContol.WindowSize.Height);
-                //Window_UserContol.HalconWindow.SetColored(12);
-                //Window_UserContol.HalconWindow.SetColor(nameof(KnownColor.Red).ToLower());
+                Window_UserContol.HalconWindow.SetWindowExtents(0, 0, (int)Window_UserContol.WindowSize.Width, (int)Window_UserContol.WindowSize.Height);
+                Window_UserContol.HalconWindow.SetColored(12);
+                Window_UserContol.HalconWindow.SetColor(nameof(KnownColor.Red).ToLower());
 
-                //HTuple _Font = Window_UserContol.HalconWindow.QueryFont();
+                HTuple _Font = Window_UserContol.HalconWindow.QueryFont();
 
-                //Window_UserContol.HalconWindow.SetFont(_Font.TupleSelect(75)+"-20");
-                
+                Window_UserContol.HalconWindow.SetFont(_Font.TupleSelect(1) + "-20");
+
 
 
 

@@ -25,15 +25,15 @@
         mc:Ignorable="d">
 
     <i:Interaction.Triggers>
-        <i:EventTrigger EventName="loaded">
+        <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding Loaded_Window}"
-                                   CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Self}}"
+                                   CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}"
                                    PassEventArgsToCommand="True" />
         </i:EventTrigger>
 
-        <i:EventTrigger EventName="Unloaded">
-            <i:InvokeCommandAction Command="{Binding UnLoaded_Window}"
-                                   CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Self}}"
+        <i:EventTrigger EventName="Closed">
+            <i:InvokeCommandAction Command="{Binding Closed_Window}"
+                                   CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}"
                                    PassEventArgsToCommand="True" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
@@ -338,23 +338,11 @@
 
 
 
-        <Frameshow:HomeOne Grid.Row="2">
-            <Frameshow:HomeOne.Style>
-                <Style TargetType="{x:Type Frameshow:HomeOne}">
-                    <Setter Property="Visibility" Value="Visible" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsChecked, ElementName=Home_Console}" Value="True">
-                            <Setter Property="Visibility" Value="Visible" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Frameshow:HomeOne.Style>
-        </Frameshow:HomeOne>
 
         <Frameshow:Vision Grid.Row="2">
             <Frameshow:Vision.Style>
                 <Style TargetType="{x:Type Frameshow:Vision}">
-                    <Setter Property="Visibility" Value="Visible" />
+                    <Setter Property="Visibility" Value="Hidden" />
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsChecked, ElementName=Vision_Work}" Value="True">
                             <Setter Property="Visibility" Value="Visible" />
@@ -366,7 +354,7 @@
         <Frameshow:ProgramEdit Grid.Row="2">
             <Frameshow:ProgramEdit.Style>
                 <Style TargetType="{x:Type Frameshow:ProgramEdit}">
-                    <Setter Property="Visibility" Value="Visible" />
+                    <Setter Property="Visibility" Value="Hidden" />
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsChecked, ElementName=Program_Edit}" Value="True">
                             <Setter Property="Visibility" Value="Visible" />
@@ -376,10 +364,11 @@
             </Frameshow:ProgramEdit.Style>
 
         </Frameshow:ProgramEdit>
+
         <Frameshow:Other_Window Grid.Row="2">
             <Frameshow:Other_Window.Style>
                 <Style TargetType="{x:Type Frameshow:Other_Window}">
-                    <Setter Property="Visibility" Value="Visible" />
+                    <Setter Property="Visibility" Value="Hidden" />
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsChecked, ElementName=Other_Window}" Value="True">
                             <Setter Property="Visibility" Value="Visible" />
@@ -390,6 +379,18 @@
         </Frameshow:Other_Window>
 
 
+        <Frameshow:HomeOne Grid.Row="2">
+            <Frameshow:HomeOne.Style>
+                <Style TargetType="{x:Type Frameshow:HomeOne}">
+                    <Setter Property="Visibility" Value="Hidden" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsChecked, ElementName=Home_Console}" Value="True">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Frameshow:HomeOne.Style>
+        </Frameshow:HomeOne>
 
 
 

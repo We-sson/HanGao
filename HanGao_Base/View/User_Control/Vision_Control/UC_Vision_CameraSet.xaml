@@ -89,7 +89,7 @@
                                           BorderThickness="2"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
-                                          ItemsSource="{Binding Camera_UI_List, Mode=TwoWay}"
+                                          ItemsSource="{Binding Camera_UI_List}"
                                           SelectedIndex="{Binding Camera_UI_Select}">
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate>
