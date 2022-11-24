@@ -116,8 +116,11 @@ namespace HanGao.ViewModel
 
                 _Sink.User_Picking_Craft.User_Welding_Craft = S.Craft_Type;
 
+
+
+
                 FrameShow.ProgramEdit_Enabled = true;
-                FrameShow.ProgramEdit_UI = true;
+                FrameShow.Program_Edit_UI = true;
 
 
 

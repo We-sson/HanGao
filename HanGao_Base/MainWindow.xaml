@@ -137,7 +137,7 @@
 
 
                 <RadioButton Style="{StaticResource 标题_选项_样式}" x:Name="Home_Console" Grid.Column="0"
-                             IsChecked="{Binding HomeOne_UI}"
+                             IsChecked="{Binding Home_Console_UI}"
                              Margin="15,0,15,0"
                              HorizontalAlignment="Stretch"
                              VerticalAlignment="Stretch"
@@ -177,7 +177,7 @@
 
 
                 <RadioButton Style="{StaticResource 标题_选项_样式}" x:Name="Vision_Work" Grid.Column="1"
-                             IsChecked="{Binding RealData_UI}"
+                             IsChecked="{Binding Vision_Work_UI}"
                              Margin="15,0,15,0"
                              HorizontalAlignment="Stretch"
                              VerticalAlignment="Stretch"
@@ -208,8 +208,7 @@
                 </RadioButton>
 
                 <RadioButton Style="{StaticResource 标题_选项_样式}" x:Name="Program_Edit" Grid.Column="2"
-                             x:Uid="3"
-                             IsChecked="{Binding ProgramEdit_UI}"
+                             IsChecked="{Binding Program_Edit_UI}"
                              Margin="15,0,15,0"
                              HorizontalAlignment="Stretch"
                              VerticalAlignment="Stretch"
@@ -243,7 +242,7 @@
                 </RadioButton>
 
                 <RadioButton Style="{StaticResource 标题_选项_样式}" x:Name="Other_Window" Grid.Column="3"
-                             IsChecked="{Binding WeldingGUI_UI}"
+                             IsChecked="{Binding Other_Window_UI}"
                              Margin="15,0,15,0"
                              VerticalAlignment="Stretch"
                              HorizontalContentAlignment="Center"
@@ -339,11 +338,10 @@
 
 
 
-
         <Frameshow:HomeOne Grid.Row="2">
             <Frameshow:HomeOne.Style>
-                <Style TargetType="UserControl">
-                    <Setter Property="Visibility" Value="Collapsed" />
+                <Style TargetType="{x:Type Frameshow:HomeOne}">
+                    <Setter Property="Visibility" Value="Visible" />
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsChecked, ElementName=Home_Console}" Value="True">
                             <Setter Property="Visibility" Value="Visible" />
@@ -353,10 +351,10 @@
             </Frameshow:HomeOne.Style>
         </Frameshow:HomeOne>
 
-        <Frameshow:Vision Grid.Row="2" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Vision_Work}">
+        <Frameshow:Vision Grid.Row="2">
             <Frameshow:Vision.Style>
-                <Style TargetType="UserControl">
-                    <Setter Property="Visibility" Value="Collapsed" />
+                <Style TargetType="{x:Type Frameshow:Vision}">
+                    <Setter Property="Visibility" Value="Visible" />
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsChecked, ElementName=Vision_Work}" Value="True">
                             <Setter Property="Visibility" Value="Visible" />
@@ -365,8 +363,32 @@
                 </Style>
             </Frameshow:Vision.Style>
         </Frameshow:Vision>
-        <Frameshow:ProgramEdit Grid.Row="2" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Program_Edit}" />
-        <Frameshow:Other_Window Grid.Row="2" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Other_Window}" />
+        <Frameshow:ProgramEdit Grid.Row="2">
+            <Frameshow:ProgramEdit.Style>
+                <Style TargetType="{x:Type Frameshow:ProgramEdit}">
+                    <Setter Property="Visibility" Value="Visible" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsChecked, ElementName=Program_Edit}" Value="True">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Frameshow:ProgramEdit.Style>
+
+        </Frameshow:ProgramEdit>
+        <Frameshow:Other_Window Grid.Row="2">
+            <Frameshow:Other_Window.Style>
+                <Style TargetType="{x:Type Frameshow:Other_Window}">
+                    <Setter Property="Visibility" Value="Visible" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsChecked, ElementName=Other_Window}" Value="True">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Frameshow:Other_Window.Style>
+        </Frameshow:Other_Window>
+
 
 
 

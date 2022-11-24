@@ -43,13 +43,6 @@ namespace HanGao.ViewModel
             });
         }
 
-        /// <summary>
-        /// 软件启动把页面写入内存
-        /// </summary>
-        public  static  UserControl HomeOne { set; get; } = new HomeOne();
-        public  static UserControl ProgRamEdit { set; get; } = new ProgramEdit();
-        public  static UserControl ReadData { set; get; } = new Vision();
-        public  static UserControl Other_Window { set; get; } = new Other_Window();
 
 
 
@@ -75,20 +68,20 @@ namespace HanGao.ViewModel
         public Socket_Tpye UI_Socket_Type { set; get; } = Socket_Tpye.Connect_Cancel;
 
 
-        private static  UserControl _User_Show = HomeOne;
-        /// <summary>
-        /// 界面显示
-        /// </summary>
-        public static  UserControl User_Show
-        {
-            get { return _User_Show; }
-            set { 
-                _User_Show = value; 
-                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(User_Show)));
+        //private static UserControl _User_Show;
+        ///// <summary>
+        ///// 界面显示
+        ///// </summary>
+        //public static  UserControl User_Show
+        //{
+        //    get { return _User_Show; }
+        //    set { 
+        //        _User_Show = value; 
+        //        StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(User_Show)));
 
               
-            }
-        }
+        //    }
+        //}
 
 
         /// <summary>
@@ -97,17 +90,17 @@ namespace HanGao.ViewModel
         public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
 
 
-        private static  bool _ProgramEdit_Enabled = false   ;
+        private static bool _ProgramEdit_Enabled = false;
         /// <summary>
         /// 程序页面可点击属性
         /// </summary>
-        public static  bool ProgramEdit_Enabled
+        public static bool ProgramEdit_Enabled
         {
             get { return _ProgramEdit_Enabled; }
             set
             {
 
-                _ProgramEdit_Enabled = value ;
+                _ProgramEdit_Enabled = value;
                 StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(ProgramEdit_Enabled)));
 
             }
@@ -115,81 +108,69 @@ namespace HanGao.ViewModel
 
 
 
-    
 
 
 
-        private static  bool _HomeOne_UI=true;
+
+        private static bool _Home_Console_UI = true;
         /// <summary>
         /// 控制台主页
         /// </summary>
-        public static  bool HomeOne_UI
+        public static bool Home_Console_UI
         {
-            get { return _HomeOne_UI; }
-            set {
-                _HomeOne_UI = value;
-                if (_HomeOne_UI)
-                {
-                    User_Show = HomeOne;
-                }
-                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(HomeOne_UI)));
+            get { return _Home_Console_UI; }
+            set
+            {
+                _Home_Console_UI = value;
+                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Home_Console_UI)));
 
             }
         }
 
 
-        private static  bool _ProgramEdit_UI;
+        private static bool _Vision_Work_UI;
         /// <summary>
         /// 程序编辑页面
         /// </summary>
-        public static  bool ProgramEdit_UI
+        public static bool Vision_Work_UI
         {
-            get { return _ProgramEdit_UI; }
-            set { 
-                _ProgramEdit_UI = value;
-                if (_ProgramEdit_UI)
-                {
-                    User_Show = ProgRamEdit;
-                }
-                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(ProgramEdit_UI)));
+            get { return _Vision_Work_UI; }
+            set
+            {
+                _Vision_Work_UI = value;
+                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Vision_Work_UI)));
 
             }
         }
 
 
-        private static  bool _RealData_UI;
+        private static bool _Program_Edit_UI;
         /// <summary>
         /// 数据页面
         /// </summary>
-        public static  bool RealData_UI
+        public static bool Program_Edit_UI
         {
-            get { return _RealData_UI; }
-            set { 
-                _RealData_UI = value;
-                if (_RealData_UI)
-                {
-                    User_Show = ReadData;
-                }
-                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(RealData_UI)));
+            get { return _Program_Edit_UI; }
+            set
+            {
+                _Program_Edit_UI = value;
+                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Program_Edit_UI)));
 
             }
         }
 
-        private static  bool _WeldingGUI_UI;
+        private static bool _Other_Window_UI;
         /// <summary>
         /// 震镜页面
         /// </summary>
-        public static  bool WeldingGUI_UI
+        public static bool Other_Window_UI
         {
-            get { return _WeldingGUI_UI; }
-            set {
-                
-                _WeldingGUI_UI = value;
-                if (_WeldingGUI_UI)
-                {
-                    User_Show = Other_Window;
-                }
-                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(WeldingGUI_UI)));
+            get { return _Other_Window_UI; }
+            set
+            {
+
+                _Other_Window_UI = value;
+                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Other_Window_UI)));
 
             }
         }

@@ -294,7 +294,7 @@ namespace HanGao.ViewModel
 
                 //UI界面清除按钮
                 FrameShow.ProgramEdit_Enabled = false;
-                FrameShow.HomeOne_UI = true;
+                FrameShow.Home_Console_UI = true;
 
 
             });

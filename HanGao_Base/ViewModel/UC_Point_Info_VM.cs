@@ -52,7 +52,7 @@ namespace HanGao.ViewModel
         /// </summary>
         public ICommand Craft_Point_Info_Close_Comm
         {
-            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            get => new RelayCommand<MainWindow>((Sm) =>
             {
                 //把参数类型转换控件
 
@@ -65,9 +65,9 @@ namespace HanGao.ViewModel
                 Messenger.Send<dynamic, string>(false, nameof(Meg_Value_Eunm.Surround_Direction_Rest));
                 Messenger.Send<dynamic, string>(false, nameof(Meg_Value_Eunm.Direction_Info_Rest));
                 UI_Craft_Date = null;
-                FrameShow.ProgramEdit_Enabled = false;
-                FrameShow.HomeOne_UI = true;
 
+                FrameShow.Home_Console_UI = true;
+                FrameShow.Program_Edit_UI = false;
 
 
             });
@@ -82,7 +82,7 @@ namespace HanGao.ViewModel
         /// </summary>
         public ICommand Craft_Point_Info_SaveToXml_Comm
         {
-            get => new RelayCommand<UC_Point_Info>((Sm) =>
+            get => new RelayCommand<MainWindow>((Sm) =>
             {
                 //把参数类型转换控件
 
@@ -95,9 +95,12 @@ namespace HanGao.ViewModel
                 Messenger.Send<dynamic, string>(true , nameof(Meg_Value_Eunm.Surround_Direction_Rest));
                 Messenger.Send<dynamic, string>(true , nameof(Meg_Value_Eunm.Direction_Info_Rest));
                 UI_Craft_Date = null;
-                FrameShow.ProgramEdit_Enabled = false;
-                FrameShow.HomeOne_UI = true;
 
+                //FrameShow.ProgramEdit_Enabled = false;
+                //FrameShow.HomeOne_UI = true;
+                FrameShow.Home_Console_UI = true;
+                FrameShow.Program_Edit_UI= false ;
+             
 
 
             });

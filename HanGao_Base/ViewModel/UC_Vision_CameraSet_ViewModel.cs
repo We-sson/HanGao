@@ -38,8 +38,8 @@ namespace HanGao.ViewModel
             };
 
 
-            //创建无参的线程
-            Thread thread1 = new Thread(new ThreadStart(Initialization_Camera_Thread));
+            ////创建无参的线程
+            //Thread thread1 = new Thread(new ThreadStart(Initialization_Camera_Thread));
 
      
 
