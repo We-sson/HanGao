@@ -8,6 +8,8 @@ using System.IO;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static HanGao.ViewModel.UC_Vision_CameraSet_ViewModel;
+using static HanGao.ViewModel.User_Control_Log_ViewModel;
+
 using Point = System.Windows.Point;
 
 namespace HanGao.ViewModel
@@ -574,7 +576,7 @@ namespace HanGao.ViewModel
 
                             });
                             //查找一般形状模型
-                            Halcon_Find_Shape_Out = SHalcon.Find_Deformable_Model<Halcon_Find_Shape_ModelXld, Halcon_Find_Shape_Out_Parameter>(Find_Model_Enum.Scale_Model, UC_Visal_Function_VM.Load_Image, Halcon_Create_Shape_ModelXld_ID, Halcon_Find_Shape_ModelXld_UI);
+                            Halcon_Find_Shape_Out = SHalcon.Find_Deformable_Model<Halcon_Find_Shape_ModelXld, Halcon_Find_Shape_Out_Parameter>(Find_Model_Enum.Shape_Model, UC_Visal_Function_VM.Load_Image, Halcon_Create_Shape_ModelXld_ID, Halcon_Find_Shape_ModelXld_UI);
 
                             Find_Models_Msec_UI = Halcon_Find_Shape_Out.Find_Time;
                             Find_Modes_Score_UI = Halcon_Find_Shape_Out.Score;
@@ -625,6 +627,8 @@ namespace HanGao.ViewModel
                             //查找
                             Halcon_Find_Deformable_Out = SHalcon.Find_Deformable_Model<Halcon_Find_Deformable_model, Halcon_Find_Deformable_Out_Parameter>(Find_Model_Enum.Planar_Deformable_Model, UC_Visal_Function_VM.Load_Image, Halcon_Create_Planar_Uncalib_Deformable_ModelXld_ID, Halcon_Find_Planar_Uncalib_Deformable_ModelXld_UI);
 
+                            if (Halcon_Find_Deformable_Out!=null)
+                            {
 
                             //UI显示识别情况
                             Find_Models_Msec_UI = Halcon_Find_Deformable_Out.Find_Time;
@@ -664,6 +668,20 @@ namespace HanGao.ViewModel
 
                             //显示十字架
                             HOperatorSet.DispXld(_Cross, UC_Visal_Function_VM.Features_Window.HWindow);
+
+
+                            }
+                            else
+                            {
+                                //UI显示识别情况
+                                Find_Models_Msec_UI = 0;
+                                Find_Modes_Score_UI = 0;
+                                User_Log_Add("特征图像中无法找到特征，请检查光照和环境因素！");
+
+                            }
+                            
+
+
 
                             //控件执行操作限制
                             Application.Current.Dispatcher.Invoke(() =>

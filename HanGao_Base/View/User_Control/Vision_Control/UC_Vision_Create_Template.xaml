@@ -7,7 +7,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sys="clr_namespace:System;assemly=mscorlib"
              d:DesignHeight="2517"
-             d:DesignWidth="332"
+             d:DesignWidth="300"
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_Create_Template_ViewMode}"
              mc:Ignorable="d">
 
@@ -79,7 +79,7 @@
 
                             <Grid Margin="8">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width=" 90" />
+                                    <ColumnDefinition Width=" 80" />
                                     <ColumnDefinition />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
@@ -155,7 +155,7 @@
                             <Grid Margin="8">
 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width=" 90" />
+                                    <ColumnDefinition Width=" 80" />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column=" 0"
@@ -166,7 +166,7 @@
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-                                <Border Grid.Column=" 1" BorderThickness="1.5">
+                                <Border Grid.Column=" 1" BorderThickness="2">
                                     <Border.Style>
                                         <Style TargetType="Border">
                                             <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
@@ -186,16 +186,17 @@
 
 
 
-                                        <TextBlock x:Name="ST2" Grid.Column=" 0"
-                                                   Text="{Binding Image_Location_UI}"
-                                                   TextWrapping="Wrap"
-                                                   Margin="6,6,0,6"
-                                                   HorizontalAlignment="Left"
-                                                   VerticalAlignment="Center"
-                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="16"
-                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                   TextTrimming="CharacterEllipsis" />
+                                        <TextBox x:Name="ST2" Grid.Column=" 0"
+                                                 Text="{Binding Image_Location_UI}"
+                                                 TextWrapping="Wrap"
+                                                 Margin="6,6,0,6"
+                                                 HorizontalAlignment="Left"
+                                                 VerticalAlignment="Center"
+                                                 Background="Transparent"
+                                                 BorderThickness="0"
+                                                 FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                 FontSize="16"
+                                                 Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
 
                                         <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
@@ -226,47 +227,7 @@
 
                             </Grid>
 
-                            <Grid Height="35" Margin="8">
 
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="90" />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="图像数量"
-                                           HorizontalAlignment="Left"
-                                           VerticalAlignment="Center"
-                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                           FontSize="16"
-                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
-
-                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
-                                        Width="100"
-                                        Margin="0,0,0,0"
-                                        HorizontalAlignment="Left"
-                                        Background="{DynamicResource 全局_按钮_蓝颜色}">
-                                    <TextBlock Text="直线"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                               FontSize="16"
-                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
-                                </Button>
-
-                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
-                                        Width="100"
-                                        Margin="0,0,0,0"
-                                        HorizontalAlignment="Right"
-                                        Background="{DynamicResource 全局_按钮_蓝颜色}">
-                                    <TextBlock Text="圆弧"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                               FontSize="16"
-                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
-                                </Button>
-                            </Grid>
 
                             <Grid Margin="8">
                                 <StackPanel Orientation="Vertical">
@@ -576,7 +537,7 @@
 
                             <Grid Margin="8">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width=" 90" />
+                                    <ColumnDefinition Width=" 80" />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
 
@@ -631,7 +592,7 @@
 
                             <Grid Height="35" Margin="8">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width=" 85" />
+                                    <ColumnDefinition Width=" 80" />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
 
@@ -649,7 +610,7 @@
                                           BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                           BorderThickness="2"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="0">
+                                          SelectedIndex="1">
                                     <ComboBoxItem>
 
                                         <TextBlock Text="一般形状匹配参数"
@@ -1218,7 +1179,7 @@
 
                             <Grid Height="35" Margin="8">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width=" 85" />
+                                    <ColumnDefinition Width=" 80" />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
 
@@ -1312,7 +1273,7 @@
 
                             <Grid Height="35" Margin="8">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width=" 85" />
+                                    <ColumnDefinition Width=" 80" />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
 
@@ -1545,7 +1506,7 @@
                             <Grid Height="35" Margin="8">
 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="85" />
+                                    <ColumnDefinition Width="80" />
                                     <ColumnDefinition />
                                     <ColumnDefinition Width=" auto" />
                                 </Grid.ColumnDefinitions>
@@ -1595,7 +1556,7 @@
                             <Grid Margin="8">
 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width=" 85" />
+                                    <ColumnDefinition Width=" 80" />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column=" 0"
@@ -1626,16 +1587,17 @@
 
 
 
-                                        <TextBlock x:Name="ST1" Grid.Column=" 0"
-                                                   Text="{Binding ShapeModel_Location}"
-                                                   TextWrapping="Wrap"
-                                                   Margin="6,6,0,6"
-                                                   HorizontalAlignment="Left"
-                                                   VerticalAlignment="Center"
-                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="16"
-                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                   TextTrimming="CharacterEllipsis" />
+                                        <TextBox x:Name="ST1" Grid.Column=" 0"
+                                                 Text="{Binding ShapeModel_Location}"
+                                                 TextWrapping="Wrap"
+                                                 Margin="6,6,0,6"
+                                                 HorizontalAlignment="Left"
+                                                 VerticalAlignment="Center"
+                                                 Background="Transparent"
+                                                 BorderThickness="0"
+                                                 FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                 FontSize="16"
+                                                 Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
 
                                         <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
@@ -1669,7 +1631,7 @@
                             <Grid Height="35" Margin="8">
 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="85" />
+                                    <ColumnDefinition Width="80" />
                                     <ColumnDefinition />
                                     <ColumnDefinition Width=" auto" />
                                 </Grid.ColumnDefinitions>
@@ -2670,19 +2632,24 @@
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
 
-                                <TextBlock Grid.Column="1"
-                                           HorizontalAlignment="Left"
-                                           VerticalAlignment="Center"
-                                           Background="Transparent"
-                                           FontSize="14"
-                                           Foreground="{DynamicResource 全局_按钮_红颜色}">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="T:{0}ms S:{1:F3}">
-                                            <Binding Path="Find_Models_Msec_UI" />
-                                            <Binding Path="Find_Modes_Score_UI" />
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
+
+                                <StackPanel Grid.Column="1">
+
+                                    <TextBlock Grid.Column="1"
+                                               Text="{Binding Find_Models_Msec_UI, StringFormat=Time : {0}ms}"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               Background="Transparent"
+                                               FontSize="14"
+                                               Foreground="{DynamicResource 全局_按钮_红颜色}" />
+                                    <TextBlock Grid.Column="1"
+                                               Text="{Binding Find_Modes_Score_UI, StringFormat=Score :{0:F3}}"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               Background="Transparent"
+                                               FontSize="14"
+                                               Foreground="{DynamicResource 全局_按钮_红颜色}" />
+                                </StackPanel>
 
                                 <Button Style="{DynamicResource Halcon_Window_Button}" x:Name="Text_Models" Grid.Column=" 2"
                                         Width="100"

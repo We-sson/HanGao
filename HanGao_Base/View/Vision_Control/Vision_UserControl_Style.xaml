@@ -1,6 +1,11 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2" mc:Ignorable="av">
 
 
+
+    <!--    -->
+
+
+    <!--    -->
     <!--  Tab样式  -->
     <Style x:Key="FocusVisual">
         <Setter Property="Control.Template">
@@ -143,11 +148,9 @@
                                 <Condition Property="IsMouseOver" Value="true" />
                                 <Condition Property="IsChecked" Value="false" />
                             </MultiTrigger.Conditions>
-                            <MultiTrigger.Setters>
-                                <Setter Property="BorderThickness" Value="1.5" />
-                                <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
+                            <Setter Property="BorderThickness" Value="1.5" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
 
-                            </MultiTrigger.Setters>
                         </MultiTrigger>
                         <Trigger Property="IsMouseOver" Value="true">
 
@@ -575,7 +578,7 @@
         </Setter>
     </Style>
 
-    <!--  中间按钮样式  -->
+    <!--  竖 中间按钮样式  -->
     <Style x:Key="ScrollBarThumbVertical" TargetType="{x:Type Thumb}">
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="IsTabStop" Value="false" />
@@ -603,23 +606,27 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+
+    <!--  横 中间按钮样式  -->
     <Style x:Key="ScrollBarThumbHorizontal" TargetType="{x:Type Thumb}">
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="IsTabStop" Value="false" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
-                    <Rectangle x:Name="rectangle"
-                               Width="{TemplateBinding Width}"
-                               Height="{TemplateBinding Height}"
-                               Fill="{DynamicResource ScrollBar.Static.Thumb}"
-                               SnapsToDevicePixels="True" />
+                    <Border x:Name="rectangle"
+                            Width="{TemplateBinding Width}"
+                            Height="{TemplateBinding Height}"
+                            Background="{DynamicResource 全局_按钮_灰颜色}"
+                            CornerRadius=" 5"
+                            SnapsToDevicePixels="True" />
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="rectangle" Property="Fill" Value="{DynamicResource ScrollBar.MouseOver.Thumb}" />
+                            <Setter TargetName="rectangle" Property="Background" Value="{DynamicResource ScrollBar.MouseOver.Thumb}" />
                         </Trigger>
                         <Trigger Property="IsDragging" Value="true">
-                            <Setter TargetName="rectangle" Property="Fill" Value="{DynamicResource ScrollBar.Pressed.Thumb}" />
+                            <Setter TargetName="rectangle" Property="Background" Value="{DynamicResource ScrollBar.Pressed.Thumb}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -629,7 +636,6 @@
 
 
 
-    <!--    -->
     <!--  下拉选项编辑字体样式  -->
     <Style x:Key="ComboBoxEditableTextBox" TargetType="{x:Type TextBox}">
         <Setter Property="OverridesDefaultStyle" Value="true" />
@@ -994,7 +1000,6 @@
     </Style>
 
 
-    <!--    -->
     <!--  -内容滚动右控件  -->
     <Style x:Key="Right_ScrollBarStyle" TargetType="{x:Type ScrollBar}">
         <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false" />
@@ -1110,25 +1115,35 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ScrollBar}">
-                            <Grid x:Name="Bg" SnapsToDevicePixels="true">
-                                <Grid.ColumnDefinitions>
+                            <Grid x:Name="Bg"
+                                  Margin="3.5"
+                                  SnapsToDevicePixels="true">
+                                <!--<Grid.ColumnDefinitions>
                                     <ColumnDefinition MaxWidth="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}}" />
                                     <ColumnDefinition Width="0.00001*" />
                                     <ColumnDefinition MaxWidth="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}}" />
-                                </Grid.ColumnDefinitions>
+                                </Grid.ColumnDefinitions>-->
                                 <Border Grid.Column="1"
+                                       
                                         Background="{TemplateBinding Background}"
                                         BorderBrush="{TemplateBinding BorderBrush}"
                                         BorderThickness="{TemplateBinding BorderThickness}" />
+
+
+                                <!--  上按钮  -->
                                 <RepeatButton Style="{StaticResource ScrollBarButton}" x:Name="PART_LineLeftButton"
                                               Command="{x:Static ScrollBar.LineLeftCommand}"
-                                              IsEnabled="{TemplateBinding IsMouseOver}">
+                                              IsEnabled="{TemplateBinding IsMouseOver}"
+                                              Visibility="Collapsed">
                                     <Path x:Name="ArrowLeft"
                                           Margin="3"
                                           Data="M 3.18,7 C3.18,7 5,7 5,7 5,7 1.81,3.5 1.81,3.5 1.81,3.5 5,0 5,0 5,0 3.18,0 3.18,0 3.18,0 0,3.5 0,3.5 0,3.5 3.18,7 3.18,7 z"
                                           Fill="{DynamicResource ScrollBar.Static.Glyph}"
                                           Stretch="Uniform" />
                                 </RepeatButton>
+
+
+
                                 <Track x:Name="PART_Track" Grid.Column="1"
                                        IsEnabled="{TemplateBinding IsMouseOver}">
                                     <Track.DecreaseRepeatButton>
@@ -1141,9 +1156,13 @@
                                         <Thumb Style="{StaticResource ScrollBarThumbHorizontal}" />
                                     </Track.Thumb>
                                 </Track>
+
+
+                                <!--  下按钮  -->
                                 <RepeatButton Style="{StaticResource ScrollBarButton}" x:Name="PART_LineRightButton" Grid.Column="2"
                                               Command="{x:Static ScrollBar.LineRightCommand}"
-                                              IsEnabled="{TemplateBinding IsMouseOver}">
+                                              IsEnabled="{TemplateBinding IsMouseOver}"
+                                              Visibility="Collapsed">
                                     <Path x:Name="ArrowRight"
                                           Margin="3"
                                           Data="M 1.81,7 C1.81,7 0,7 0,7 0,7 3.18,3.5 3.18,3.5 3.18,3.5 0,0 0,0 0,0 1.81,0 1.81,0 1.81,0 5,3.5 5,3.5 5,3.5 1.81,7 1.81,7 z"
@@ -1226,7 +1245,7 @@
                                    ViewportSize="{TemplateBinding ViewportHeight}"
                                    Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
                                    Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
-                        <ScrollBar x:Name="PART_HorizontalScrollBar" Grid.Row="1" Grid.Column="0"
+                        <ScrollBar Style="{DynamicResource Right_ScrollBarStyle}" x:Name="PART_HorizontalScrollBar" Grid.Row="1" Grid.Column="0"
                                    AutomationProperties.AutomationId="HorizontalScrollBar"
                                    Cursor="Arrow"
                                    Maximum="{TemplateBinding ScrollableWidth}"

@@ -143,8 +143,8 @@
 
                         <Ellipse Grid.Column="0"
                                  Name="Ep2"
-                                 Width="18"
-                                 Height="18"
+                                 Width="16"
+                                 Height="16"
                                  HorizontalAlignment="Stretch"
                                  VerticalAlignment="Center"
                                  Fill="{DynamicResource 全局_按钮_绿颜色}"

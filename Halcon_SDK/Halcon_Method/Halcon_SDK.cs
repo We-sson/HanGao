@@ -618,8 +618,15 @@ namespace Halcon_SDK_DLL
                                                                                                        (new HTuple(Find_Planar.AngleStart)).TupleRad(), (new HTuple(Find_Planar.AngleExtent)).TupleRad(), Find_Planar.ScaleRMin, Find_Planar.ScaleRMax, Find_Planar.ScaleCMin, Find_Planar.ScaleCMax, Find_Planar.MinScore,
                                                                                                        Find_Planar.NumMatches, Find_Planar.MaxOverlap, Find_Planar.NumLevels, Find_Planar.Greediness, "subpixel", "least_squares", out hv_HomMat2D, out hv_score);
 
+                         
+
+
+                            if (hv_score.Length >0)
+                            {
+
 
                             return (T2)(object)new Halcon_Find_Deformable_Out_Parameter() { HomMat2D = hv_HomMat2D, Score = hv_score.D, Find_Time = (DateTime.Now - RunTime).Milliseconds };
+                            }
 
                         }
                         break;
