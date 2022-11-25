@@ -210,6 +210,14 @@
 
                             </Grid>
 
+
+                            <Border Height=" 2"
+                                    Margin="8,4,8,4"
+                                    Background="{DynamicResource 全局_按钮_黑颜色}"
+                                    CornerRadius="1"
+                                    Opacity=" 0.5" />
+
+
                             <Grid Margin="8">
 
                                 <Grid.ColumnDefinitions>
@@ -421,6 +429,12 @@
                                          BorderThickness="2"
                                          FontSize="18" />
                             </Grid>
+
+                            <Border Height=" 2"
+                                    Margin="8,4,8,4"
+                                    Background="{DynamicResource 全局_按钮_黑颜色}"
+                                    CornerRadius="1"
+                                    Opacity=" 0.5" />
 
                             <Grid Margin="8">
 
@@ -826,6 +840,11 @@
                                 </ComboBox>
 
                             </Grid>
+                            <Border Height=" 2"
+                                    Margin="8,4,8,4"
+                                    Background="{DynamicResource 全局_按钮_黑颜色}"
+                                    CornerRadius="1"
+                                    Opacity=" 0.5" />
 
 
                             <Grid Height="35" Margin="8">

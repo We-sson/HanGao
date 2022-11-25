@@ -12,7 +12,7 @@ namespace HanGao.ViewModel
         }
 
 
-        private static  string  _Send_Socket_String;
+        private static  string  _Send_Socket_String="....";
 
         public static  string Send_Socket_String
         {
@@ -24,7 +24,7 @@ namespace HanGao.ViewModel
 
 
 
-        private static string  _Receive_Socket_String;
+        private static string  _Receive_Socket_String="...";
 
         public static string Receive_Socket_String
         {

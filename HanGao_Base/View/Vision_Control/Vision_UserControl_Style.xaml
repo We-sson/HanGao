@@ -72,7 +72,7 @@
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_灰颜色}" />
-                            <Setter Property="BorderThickness" Value="2"/>
+                            <Setter Property="BorderThickness" Value="2" />
                             <!--<Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
                             <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>-->
                         </Trigger>
@@ -82,7 +82,7 @@
                             <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>-->
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Opacity" Value="0.5"/>
+                            <Setter Property="Opacity" Value="0.5" />
                             <!--<Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
                             <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
                             <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>-->
@@ -115,10 +115,11 @@
                           Background="Transparent"
                           SnapsToDevicePixels="True">
                         <!--  背景  -->
-                        <Border x:Name="radioButtonBorder" CornerRadius=" 4"
+                        <Border x:Name="radioButtonBorder"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}">
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius=" 4">
                             <!--<Grid x:Name="markGrid" Margin="2">
                                 <Ellipse x:Name="optionMark" Fill="{StaticResource RadioButton.Static.Glyph}" MinWidth="6" MinHeight="6" Opacity="0"/>
                             </Grid>-->
@@ -713,7 +714,7 @@
                                 <Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="false" />
                                 <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="true" />
                             </MultiDataTrigger.Conditions>
-                            
+
                             <!--<Setter TargetName="templateRoot" Property="Background" Value="{DynamicResource ComboBox.Static.Editable.Background}" />
                             <Setter TargetName="templateRoot" Property="BorderBrush" Value="{DynamicResource ComboBox.Static.Editable.Border}" />
                             <Setter TargetName="splitBorder" Property="Background" Value="{DynamicResource ComboBox.Static.Editable.Button.Background}" />
@@ -764,7 +765,7 @@
                         </MultiDataTrigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <!--<Setter TargetName="arrow" Property="Fill" Value="{DynamicResource ComboBox.Disabled.Glyph}" />-->
-                            <Setter Property="Opacity" Value="0.5"/>
+                            <Setter Property="Opacity" Value="0.5" />
                         </Trigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
@@ -945,10 +946,10 @@
             </Trigger>
             <Trigger Property="IsMouseOver" Value="true">
 
-                <Setter  Property="BorderBrush" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_绿颜色}" />
             </Trigger>
-            <Trigger  Property="IsEnabled" Value="false">
-                <Setter  TargetName="contentPresenter"  Property="Opacity" Value="0.5"/>
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter TargetName="contentPresenter" Property="Opacity" Value="0.5" />
             </Trigger>
 
 

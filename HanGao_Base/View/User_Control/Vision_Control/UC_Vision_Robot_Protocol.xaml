@@ -108,6 +108,7 @@
                                         <TextBlock Text="库卡机器人"
                                                    Width=" 150"
                                                    TextWrapping="Wrap"
+                                                   Padding="6"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -173,6 +174,7 @@
                                         <TextBlock Text="ASCII"
                                                    Width=" 150"
                                                    TextWrapping="Wrap"
+                                                   Padding="6"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -231,11 +233,11 @@
 
 
 
-                                            <TextBlock Grid.Column=" 2"
-                                                       Text="12313213213213213213213333333333333333333333333333333546546546546546"
-                                                       Height=" 300"
-                                                       Background="Transparent"
-                                                       FontSize="16" />
+                                            <TextBox Grid.Column=" 2"
+                                                     Text="{Binding Send_Socket_String}"
+                                                     Height=" 300"
+                                                     Background="Transparent"
+                                                     FontSize="16" />
 
                                         </ScrollViewer>
                                     </Border>
@@ -273,11 +275,11 @@
 
 
 
-                                            <TextBlock Grid.Column=" 2"
-                                                       Text="12313213213213213213213333333333333333333333333333333546546546546546"
-                                                       Height=" 300"
-                                                       Background="Transparent"
-                                                       FontSize="16" />
+                                            <TextBox Grid.Column=" 2"
+                                                     Text="{Binding Receive_Socket_String}"
+                                                     Height=" 300"
+                                                     Background="Transparent"
+                                                     FontSize="16" />
 
                                         </ScrollViewer>
                                     </Border>

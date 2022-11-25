@@ -488,6 +488,17 @@ namespace Halcon_SDK_DLL.Model
             /// 灰度值的上限阈值或“Max”.默认值：255.0  建议值：0.0， 10.0， 30.0， 64.0， 128.0， 200.0， 220.0， 255.0，“Max”
             /// </summary>
             public double MaxGray { set; get; }
+
+            /// <summary>
+            /// 最小面积
+            /// </summary>
+            public  double Min_Area { set; get; }
+
+            /// <summary>
+            /// 最大面积
+            /// </summary>
+            public double Max_Area { set; get; }
+
         }
 
 

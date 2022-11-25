@@ -366,7 +366,9 @@ namespace HanGao.ViewModel
                     Emphasize_MaskHeight = Sm.Emphasize_MaskHeight_UI.Value,
                     MinGray = Sm.MinGray_UI.Value,
                     MaxGray = Sm.MaxGray_UI.Value,
-                    Factor = Sm.Factor_UI.Value
+                    Factor = Sm.Factor_UI.Value,
+                    Max_Area=Sm.Max_Area_UI.Value,
+                    Min_Area=Sm.Min_Area_UI.Value,
                 };
 
 

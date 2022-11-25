@@ -221,7 +221,7 @@ namespace Halcon_SDK_DLL
         {
 
             HObject _Image=new HObject ();
-            HObject _Image1, _Image2, _Image3, _Image4_1, _Image4, _Image5, _Image6, _Image7, _Image8;
+            HObject _Image1, _Image2, _Image3, _Image3_1, _Image4, _Image5, _Image6, _Image7, _Image8;
             HTuple _Area, _Row, _Column;
 
 
@@ -268,23 +268,23 @@ namespace Halcon_SDK_DLL
             // 使用全局阈值分割图像
             HOperatorSet.Threshold(_Image1, out _Image3, _Calibration_Data.MinGray, _Calibration_Data.MaxGray);
 
-
+            ////区域开运算消除边缘
+            HOperatorSet.OpeningCircle(_Image3, out _Image3_1, 5);
 
             //计算区域中连接的组件
-            HOperatorSet.Connection(_Image3, out _Image4);
+            HOperatorSet.Connection(_Image3_1, out _Image4);
 
-            //区域开运算消除边缘
-            HOperatorSet.OpeningCircle(_Image4, out _Image4_1, 10);
+
 
             //填补区域的漏洞
-            HOperatorSet.FillUp(_Image4_1, out _Image5);
+            HOperatorSet.FillUp(_Image4, out _Image5);
 
 
             //形状特征选择圆形和圆度筛选区域
-            HOperatorSet.SelectShape(_Image5, out _Image6, (new HTuple("area")).TupleConcat("circularity"), "and", (new HTuple(50000)).TupleConcat(0.9), (new HTuple(2000000)).TupleConcat(1));
+            HOperatorSet.SelectShape(_Image5, out _Image6, (new HTuple("area")).TupleConcat("circularity"), "and", (new HTuple(_Calibration_Data.Min_Area)).TupleConcat(0.9), (new HTuple(_Calibration_Data.Max_Area)).TupleConcat(1));
 
             //区域开运算消除边缘
-            HOperatorSet.OpeningCircle(_Image6, out _Image7, 200);
+            HOperatorSet.OpeningCircle(_Image6, out _Image7, 2);
 
 
             // 根据区域的相对位置对区域进行排序。
