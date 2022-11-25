@@ -12,7 +12,7 @@
     <ROW Property="ProductCode" Value="1033:{0DAE2CB2-E804-42F3-AE6E-C61E22164BBB} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="HanGao_[|ProductVersion]"/>
-    <ROW Property="ProductVersion" Value="1.0.8364.17835" Type="32" TargetFile="HanGao.exe"/>
+    <ROW Property="ProductVersion" Value="1.0.8364.32805" Type="32" TargetFile="HanGao.exe"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{1BF847BB-6B9E-48B2-9971-A3E9C586A146}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="x64_Debug_1:Windows 9x/ME" ValueLocId="-"/>
@@ -489,7 +489,7 @@
     <ROW Action="AI_UnpinFromTaskbar" Type="1025" Source="ShortcutFlags.dll" Target="UnpinFromTaskbar" WithoutSeq="true"/>
     <ROW Action="AI_UnpinShortcuts" Type="1" Source="ShortcutFlags.dll" Target="UnpinShortcuts"/>
     <ROW Action="AI_VALID_SERIAL" Type="1" Source="serval.dll" Target="ValidateSerial"/>
-    <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]" MultiBuildTarget="x64_Debug_1:[ProgramFilesFolder][Manufacturer]\[ProductName][ProductVersion]"/>
+    <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]" MultiBuildTarget="x64_Debug_1:[ProgramFilesFolder][Manufacturer]\[ProductName]_[ProductVersion]"/>
     <ROW Action="SET_SHORTCUTDIR" Type="307" Source="SHORTCUTDIR" Target="[ProgramMenuFolder][ProductName]"/>
     <ROW Action="SET_TARGETDIR_TO_APPDIR" Type="51" Source="TARGETDIR" Target="[APPDIR]"/>
   </COMPONENT>
@@ -721,6 +721,10 @@
     <ROW Shortcut="HanGao.exe_3" Directory_="DesktopFolder" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
     <ROW Shortcut="HanGao.exe_4" Directory_="SHORTCUTDIR" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
     <ROW Shortcut="HanGao.exe_5" Directory_="DesktopFolder" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="HanGao.exe_6" Directory_="SHORTCUTDIR" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="HanGao.exe_7" Directory_="DesktopFolder" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="HanGao.exe_8" Directory_="SHORTCUTDIR" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="HanGao.exe_9" Directory_="DesktopFolder" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiThemeComponent">
     <ATTRIBUTE name="UsedTheme" value="classic"/>
