@@ -216,6 +216,11 @@
                                 </Button>
 
                             </Grid>
+                            <Border Height=" 2"
+                                    Margin="8,4,8,4"
+                                    Background="{DynamicResource 全局_按钮_黑颜色}"
+                                    CornerRadius="1"
+                                    Opacity=" 0.5" />
 
 
                             <Grid Margin="8">
@@ -496,6 +501,11 @@
                                          BorderThickness="2"
                                          FontSize="18" />
                             </Grid>
+                            <Border Height=" 2"
+                                    Margin="8,4,8,4"
+                                    Background="{DynamicResource 全局_按钮_黑颜色}"
+                                    CornerRadius="1"
+                                    Opacity=" 0.5" />
 
 
                             <Grid Margin="8">
@@ -739,6 +749,11 @@
                                 </Button>
 
                             </Grid>
+                            <Border Height=" 2"
+                                    Margin="8,4,8,4"
+                                    Background="{DynamicResource 全局_按钮_黑颜色}"
+                                    CornerRadius="1"
+                                    Opacity=" 0.5" />
 
                             <Grid Margin="8">
 
@@ -878,19 +893,6 @@
 
                             </Grid>
 
-                            <Grid Margin="8">
-                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
-                                        Height="40"
-                                        Margin="0,0,0,0"
-                                        Background="{DynamicResource 全局_按钮_绿颜色}">
-                                    <TextBlock Text="保存本地相机参数"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                               FontSize="16"
-                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
-                                </Button>
-                            </Grid>
 
 
 

@@ -32,6 +32,7 @@ namespace Halcon_SDK_DLL.Model
 
 
 
+
         public class HImage_Display_Model
         {
             /// <summary>
@@ -43,11 +44,6 @@ namespace Halcon_SDK_DLL.Model
             /// 图像显示位置Halcon控件
             /// </summary>
             public HWindow Image_Show_Halcon = null;
-
-
-
-
-
 
 
         }
@@ -109,50 +105,50 @@ namespace Halcon_SDK_DLL.Model
         }
 
 
+        ///// <summary>
+        /////  一般形状匹配创建模型参数
+        ///// </summary>
+        //public class Halcon_Create_Shape_ModelXld
+        //{
+        //    /// <summary>
+        //    /// 金字塔层的最大数量默认值：“自动”值列表：1， 2， 3， 4， 5， 6， 7， 8， 9， 10，“自动”
+        //    /// </summary>
+        //    public string NumLevels { set; get; } = "auto";
+        //    /// <summary>
+        //    /// 图案的最小旋转。默认值：-0.39 建议值： -3.14， -1.57， -0.79， -0.39， -0.20， 0.0
+        //    /// </summary>
+        //    public double AngleStart { set; get; } = 0;
+        //    /// <summary>
+        //    /// 旋转角度的范围。默认值：0.79,建议值：6.29、3.14、1.57、0.79、0.39
+        //    /// </summary>
+        //    public double AngleExtent { set; get; } = 360;
+        //    /// <summary>
+        //    /// 角度的步长（分辨率）。默认值： “自动”建议值：“自动”, 0.0175, 0.0349, 0.0524, 0.0698, 0.0873
+        //    /// </summary>
+        //    public string AngleStep { set; get; } = "auto";
+        //    /// <summary>
+        //    /// 用于生成模型的优化类型和可选方法。默认值： “自动”
+        //    /// </summary>
+        //    public Optimization_Enum Optimization { set; get; } = Optimization_Enum.auto;
+        //    /// <summary>
+        //    /// 匹配指标。默认值： “ignore_local_polarity”
+        //    /// </summary>
+        //    public Metric_Enum Metric { set; get; } = Metric_Enum.ignore_local_polarity;
+        //    /// <summary>
+        //    /// 搜索图像中对象的最小对比度。默认值：5,建议值：1、2、3、5、7、10、20、30、40
+        //    /// </summary>
+        //    public int MinContrast { set; get; } = 5;
+
+
+        //    /// <summary>
+        //    /// 模型类型
+        //    /// </summary>
+        //    public Shape_Model_Type_Enum Model_Type { set; get; }
+        //}
+
+
         /// <summary>
-        ///  一般形状匹配创建模型参数
-        /// </summary>
-        public class Halcon_Create_Shape_ModelXld
-        {
-            /// <summary>
-            /// 金字塔层的最大数量默认值：“自动”值列表：1， 2， 3， 4， 5， 6， 7， 8， 9， 10，“自动”
-            /// </summary>
-            public string NumLevels { set; get; } = "auto";
-            /// <summary>
-            /// 图案的最小旋转。默认值：-0.39 建议值： -3.14， -1.57， -0.79， -0.39， -0.20， 0.0
-            /// </summary>
-            public double AngleStart { set; get; } = 0;
-            /// <summary>
-            /// 旋转角度的范围。默认值：0.79,建议值：6.29、3.14、1.57、0.79、0.39
-            /// </summary>
-            public double AngleExtent { set; get; } = 360;
-            /// <summary>
-            /// 角度的步长（分辨率）。默认值： “自动”建议值：“自动”, 0.0175, 0.0349, 0.0524, 0.0698, 0.0873
-            /// </summary>
-            public string AngleStep { set; get; } = "auto";
-            /// <summary>
-            /// 用于生成模型的优化类型和可选方法。默认值： “自动”
-            /// </summary>
-            public Optimization_Enum Optimization { set; get; } = Optimization_Enum.auto;
-            /// <summary>
-            /// 匹配指标。默认值： “ignore_local_polarity”
-            /// </summary>
-            public Metric_Enum Metric { set; get; } = Metric_Enum.ignore_local_polarity;
-            /// <summary>
-            /// 搜索图像中对象的最小对比度。默认值：5,建议值：1、2、3、5、7、10、20、30、40
-            /// </summary>
-            public int MinContrast { set; get; } = 5;
-
-
-            /// <summary>
-            /// 模型类型
-            /// </summary>
-            public Shape_Model_Type_Enum Model_Type { set; get; }
-        }
-
-
-        /// <summary>
-        /// 一般形状匹配查找模型结果参数
+        /// 形状匹配查找模型结果参数
         /// </summary>
         public class Halcon_Find_Shape_Out_Parameter
         {
@@ -177,128 +173,48 @@ namespace Halcon_SDK_DLL.Model
             /// </summary>
             public int Find_Time { set; get; } = 0;
 
-        }
 
-        /// <summary>
-        /// 可变形形状匹配查找模型结果参数
-        /// </summary>
-        public class Halcon_Find_Deformable_Out_Parameter
-        {
-
-            /// <summary>
-            /// 模型和找到的实例相似值
-            /// </summary>
-            public double Score { set; get; } = 0;
             /// <summary>
             /// 找到的模型实例的分数
             /// </summary>
             public HTuple HomMat2D { set; get; } = new HTuple();
 
-
-            /// <summary>
-            /// 查找耗时
-            /// </summary>
-            public int Find_Time { set; get; } = 0;
         }
 
-        /// <summary>
-        ///  一般形状匹配查找模型参数
-        /// </summary>
-        public class Halcon_Find_Shape_ModelXld
-        {
+        ///// <summary>
+        ///// 可变形形状匹配查找模型结果参数
+        ///// </summary>
+        //public class Halcon_Find_Deformable_Out_Parameter
+        //{
 
-            /// <summary>
-            /// 模型的最小旋转。默认值：-0.39,建议值： -3.14， -1.57， -0.79， -0.39， -0.20， 0.0
-            /// </summary>
-            public double AngleStart { set; get; } = 0;
-            /// <summary>
-            /// 旋转角度的范围。默认值：0.79,建议值：6.29、3.14、1.57、0.79、0.39、0.0
-            /// </summary>
-            public double AngleExtent { set; get; } = 360;
-            /// <summary>
-            /// 要查找的模型实例的最低分数。 默认值：0.5,建议值：0.3、 0.4、 0.5、 0.6、 0.7、 0.8、 0.9、 1.0
-            /// </summary>
-            public double MinScore { set; get; } = 0.8;
-            /// <summary>
-            /// 要找到的模型的实例数（对于所有匹配项，为 0）。默认值：1,建议值：0、1、2、3、4、5、10、20
-            /// </summary>
-            public int NumMatches { set; get; } = 1;
-            /// <summary>
-            /// 要查找的模型实例的最大重叠。默认值：0.5,建议值：0.0， 0.1， 0.2， 0.3， 0.4， 0.5， 0.6， 0.7， 0.8， 0.9， 1.0
-            /// </summary>
-            public double MaxOverlap { set; get; } = 0;
-            /// <summary>
-            /// 亚像素精度（如果不等于）“无”.默认值： “least_squares”
-            /// </summary>
-            public Subpixel_Values_Enum SubPixel { set; get; } = Subpixel_Values_Enum.least_squares;
-            /// <summary>
-            /// 匹配中使用的金字塔级别数（如果|，则使用的最低金字塔级别numLevels|= 2）。默认值：0
-            /// </summary>
-            public int NumLevels { set; get; } = 3;
-            /// <summary>
-            /// 搜索启发式的“贪婪”（0：安全但慢;1：快但可能会错过匹配）。默认值：0.9
-            /// </summary>
-            public double Greediness { set; get; } = 0.9;
+        //    /// <summary>
+        //    /// 模型和找到的实例相似值
+        //    /// </summary>
+        //    public double Score { set; get; } = 0;
+        //    /// <summary>
+        //    /// 找到的模型实例的分数
+        //    /// </summary>
+        //    public HTuple HomMat2D { set; get; } = new HTuple();
 
-        }
 
-        /// <summary>
-        /// 可变形形状匹配查找模型参数
-        /// </summary>
-        public class Halcon_Find_Deformable_model
-        {
-            /// <summary>
-            /// 模型的最小旋转。默认值：-0.39,建议值： -3.14， -1.57， -0.79， -0.39， -0.20， 0.0
-            /// </summary>
-            public double AngleStart { set; get; } = 0;
-            /// <summary>
-            /// 旋转角度的范围。默认值：0.79,建议值：6.29、3.14、1.57、0.79、0.39、0.0
-            /// </summary>
-            public double AngleExtent { set; get; } = 360;
-            /// <summary>
-            /// 阵列在行方向上的最小比例。默认值：1.0,建议值：0.5、0.6、0.7、0.8、0.9、1.0
-            /// </summary>
-            public double ScaleRMin { set; get; } = 1.0;
-            /// <summary>
-            /// 不使用此参数。默认值：[]
-            /// </summary>
-            public double ScaleRMax { set; get; } = 0;
-            /// <summary>
-            /// 不使用此参数。默认值：[]
-            /// </summary>
-            public double ScaleCMax { set; get; } = 0;
-            /// <summary>
-            /// 阵列在列方向上的最小比例。默认值：1.0,建议值：0.5、0.6、0.7、0.8、0.9、1.0
-            /// </summary>
-            public double ScaleCMin { set; get; } = 1.0;
-            /// <summary>
-            /// 要查找的模型实例的最低分数。 默认值：0.5,建议值：0.3、 0.4、 0.5、 0.6、 0.7、 0.8、 0.9、 1.0
-            /// </summary>
-            public double MinScore { set; get; } = 0.8;
-            /// <summary>
-            /// 要找到的模型的实例数（对于所有匹配项，为 0）。默认值：1,建议值：0、1、2、3、4、5、10、20
-            /// </summary>
-            public int NumMatches { set; get; } = 1;
-            /// <summary>
-            /// 要查找的模型实例的最大重叠。默认值：0.5,建议值：0.0， 0.1， 0.2， 0.3， 0.4， 0.5， 0.6， 0.7， 0.8， 0.9， 1.0
-            /// </summary>
-            public double MaxOverlap { set; get; } = 0;
-            /// <summary>
-            /// 匹配中使用的金字塔级别数（如果|，则使用的最低金字塔级别numLevels|= 2）。默认值：0
-            /// </summary>
-            public int NumLevels { set; get; } = 3;
-            /// <summary>
-            /// 搜索启发式的“贪婪”（0：安全但慢;1：快但可能会错过匹配）。默认值：0.9
-            /// </summary>
-            public double Greediness { set; get; } = 0.9;
-        }
+        //    /// <summary>
+        //    /// 查找耗时
+        //    /// </summary>
+        //    public int Find_Time { set; get; } = 0;
+        //}
 
 
         /// <summary>
-        /// 可变形形状匹配创建模型参数
+        /// 创建形状匹配模板总类型参数
         /// </summary>
-        public class Halcon_Create_Planar_Uncalib_Deformable_ModelXld
+        public class Create_Shape_Based_ModelXld
         {
+            /// <summary>
+            /// 模板类型
+            /// </summary>
+            public Shape_Based_Model_Enum Shape_Based_Model { set; get; }
+
+
             /// <summary>
             /// 金字塔层的最大数量默认值：“自动”值列表：1， 2， 3， 4， 5， 6， 7， 8， 9， 10，“自动”
             /// </summary>
@@ -360,44 +276,7 @@ namespace Halcon_SDK_DLL.Model
             /// </summary>
             public GenParam_Enum GenParamVal { set; get; }
 
-            /// <summary>
-            /// 模型类型
-            /// </summary>
-            public Shape_Model_Type_Enum Model_Type { set; get; }
 
-
-        }
-
-
-
-
-
-
-
-
-
-
-        /// <summary>
-        /// 各向同性缩放的形状模型参数
-        /// </summary>
-        public class Halcon_Create_Scaled_Shape_ModelXld
-        {
-            /// <summary>
-            /// 金字塔层的最大数量默认值：“自动”值列表：1， 2， 3， 4， 5， 6， 7， 8， 9， 10，“自动”
-            /// </summary>
-            public string NumLevels { set; get; } = "auto";
-            /// <summary>
-            /// 图案的最小旋转。默认值：-0.39 建议值： -3.14， -1.57， -0.79， -0.39， -0.20， 0.0
-            /// </summary>
-            public double AngleStart { set; get; } = 0;
-            /// <summary>
-            /// 旋转角度的范围。默认值：0.79,建议值：6.29、3.14、1.57、0.79、0.39
-            /// </summary>
-            public double AngleExtent { set; get; } = 360;
-            /// <summary>
-            /// 角度的步长（分辨率）。默认值： “自动”建议值：“自动”, 0.0175, 0.0349, 0.0524, 0.0698, 0.0873
-            /// </summary>
-            public string AngleStep { set; get; } = "auto";
             /// <summary>
             /// 图案的最小比例。 默认值：0.9,建议值：0.5、0.6、0.7、0.8、0.9、1.0
             /// </summary>
@@ -410,26 +289,214 @@ namespace Halcon_SDK_DLL.Model
             /// 缩放步长（分辨率）。默认值： “自动”建议值：“自动”, 0.01, 0.02, 0.05, 0.1, 0.15, 0.2
             /// </summary>
             public string ScaleStep { set; get; } = "auto";
-            /// <summary>
-            /// 用于生成模型的优化类型和可选方法。默认值： “自动”
-            /// </summary>
-            public Optimization_Enum Optimization { set; get; } = Optimization_Enum.auto;
-            /// <summary>
-            /// 匹配指标。默认值： “ignore_local_polarity”
-            /// </summary>
-            public Metric_Enum Metric { set; get; } = Metric_Enum.ignore_local_polarity;
-            /// <summary>
-            /// 搜索图像中对象的最小对比度。默认值：5,建议值：1、2、3、5、7、10、20、30、40
-            /// </summary>
-            public double MinContrast { set; get; } = 5;
 
 
-            /// <summary>
-            /// 模型类型
-            /// </summary>
-            public Shape_Model_Type_Enum Model_Type { set; get; }
 
         }
+
+
+        public class Find_Shape_Based_ModelXld
+        {
+            /// <summary>
+            /// 模板类型
+            /// </summary>
+            public Shape_Based_Model_Enum Shape_Based_Model { set; get; }
+
+
+            /// <summary>
+            /// 模型的最小旋转。默认值：-0.39,建议值： -3.14， -1.57， -0.79， -0.39， -0.20， 0.0
+            /// </summary>
+            public double AngleStart { set; get; } = 0;
+            /// <summary>
+            /// 旋转角度的范围。默认值：0.79,建议值：6.29、3.14、1.57、0.79、0.39、0.0
+            /// </summary>
+            public double AngleExtent { set; get; } = 360;
+            /// <summary>
+            /// 阵列在行方向上的最小比例。默认值：1.0,建议值：0.5、0.6、0.7、0.8、0.9、1.0
+            /// </summary>
+            public double ScaleRMin { set; get; } = 1.0;
+            /// <summary>
+            /// 不使用此参数。默认值：[]
+            /// </summary>
+            public double ScaleRMax { set; get; } = 0;
+            /// <summary>
+            /// 不使用此参数。默认值：[]
+            /// </summary>
+            public double ScaleCMax { set; get; } = 0;
+            /// <summary>
+            /// 阵列在列方向上的最小比例。默认值：1.0,建议值：0.5、0.6、0.7、0.8、0.9、1.0
+            /// </summary>
+            public double ScaleCMin { set; get; } = 1.0;
+            /// <summary>
+            /// 要查找的模型实例的最低分数。 默认值：0.5,建议值：0.3、 0.4、 0.5、 0.6、 0.7、 0.8、 0.9、 1.0
+            /// </summary>
+            public double MinScore { set; get; } = 0.8;
+            /// <summary>
+            /// 要找到的模型的实例数（对于所有匹配项，为 0）。默认值：1,建议值：0、1、2、3、4、5、10、20
+            /// </summary>
+            public int NumMatches { set; get; } = 1;
+            /// <summary>
+            /// 要查找的模型实例的最大重叠。默认值：0.5,建议值：0.0， 0.1， 0.2， 0.3， 0.4， 0.5， 0.6， 0.7， 0.8， 0.9， 1.0
+            /// </summary>
+            public double MaxOverlap { set; get; } = 0;
+            /// <summary>
+            /// 匹配中使用的金字塔级别数（如果|，则使用的最低金字塔级别numLevels|= 2）。默认值：0
+            /// </summary>
+            public int NumLevels { set; get; } = 3;
+            /// <summary>
+            /// 搜索启发式的“贪婪”（0：安全但慢;1：快但可能会错过匹配）。默认值：0.9
+            /// </summary>
+            public double Greediness { set; get; } = 0.9;
+
+            /// <summary>
+            /// 亚像素精度（如果不等于）“无”.默认值： “least_squares”
+            /// </summary>
+            public Subpixel_Values_Enum SubPixel { set; get; } = Subpixel_Values_Enum.least_squares;
+
+            /// <summary>
+            /// 最大灰度值功能使能
+            /// </summary>
+            public bool ScaleImageMax_Enable { set; get; } = true;
+            /// <summary>
+            /// 最大灰度值功能显示
+            /// </summary>
+            public bool ScaleImageMax_Disp { set; get; } = true;
+            /// <summary>
+            /// 增强图像功能使能
+            /// </summary>
+            public bool Emphasize_Enable { set; get; } = true;
+            /// <summary>
+            /// 增强图像功能显示
+            /// </summary>
+            public bool Emphasize_Disp { set; get; } = true;
+            /// <summary>
+            ///  增强图像的低通掩码的宽度。
+            /// </summary>
+            public double Emphasize_MaskWidth { set; get; } = 30;
+            /// <summary>
+            ///  增强图像的低通掩码的高度。
+            /// </summary>
+            public double Emphasize_MaskHeight { set; get; } = 30;
+            /// <summary>
+            /// 增强图像的对比强调的强度
+            /// </summary>
+            public double Emphasize_Factor { set; get; } = 15;
+
+            /// <summary>
+            /// 矩形掩码的中值滤波器使能
+            /// </summary>
+            public bool MedianRect_Enable { set; get; } = true;
+
+            /// <summary>
+            /// /矩形掩码的中值滤波器显示
+            /// </summary>
+            public bool MedianRect_Disp { set; get; } = true;
+
+            /// <summary>
+            /// 矩形掩码的中值滤波器使能,滤镜掩码的宽度。
+            /// </summary>
+            public double MedianRect_MaskWidth { set; get; } = 50;
+            /// <summary>
+            /// 矩形掩码的中值滤波器使能,滤镜掩码的高度。
+            /// /// </summary>
+            public double MedianRect_MaskHeight { set; get; } = 50;
+
+
+        }
+
+
+
+        ///// <summary>
+        /////  一般形状匹配查找模型参数
+        ///// </summary>
+        //public class Halcon_Find_Shape_ModelXld
+        //{
+
+        //    /// <summary>
+        //    /// 模型的最小旋转。默认值：-0.39,建议值： -3.14， -1.57， -0.79， -0.39， -0.20， 0.0
+        //    /// </summary>
+        //    public double AngleStart { set; get; } = 0;
+        //    /// <summary>
+        //    /// 旋转角度的范围。默认值：0.79,建议值：6.29、3.14、1.57、0.79、0.39、0.0
+        //    /// </summary>
+        //    public double AngleExtent { set; get; } = 360;
+        //    /// <summary>
+        //    /// 要查找的模型实例的最低分数。 默认值：0.5,建议值：0.3、 0.4、 0.5、 0.6、 0.7、 0.8、 0.9、 1.0
+        //    /// </summary>
+        //    public double MinScore { set; get; } = 0.8;
+        //    /// <summary>
+        //    /// 要找到的模型的实例数（对于所有匹配项，为 0）。默认值：1,建议值：0、1、2、3、4、5、10、20
+        //    /// </summary>
+        //    public int NumMatches { set; get; } = 1;
+        //    /// <summary>
+        //    /// 要查找的模型实例的最大重叠。默认值：0.5,建议值：0.0， 0.1， 0.2， 0.3， 0.4， 0.5， 0.6， 0.7， 0.8， 0.9， 1.0
+        //    /// </summary>
+        //    public double MaxOverlap { set; get; } = 0;
+        //    /// <summary>
+        //    /// 亚像素精度（如果不等于）“无”.默认值： “least_squares”
+        //    /// </summary>
+        //    public Subpixel_Values_Enum SubPixel { set; get; } = Subpixel_Values_Enum.least_squares;
+        //    /// <summary>
+        //    /// 匹配中使用的金字塔级别数（如果|，则使用的最低金字塔级别numLevels|= 2）。默认值：0
+        //    /// </summary>
+        //    public int NumLevels { set; get; } = 3;
+        //    /// <summary>
+        //    /// 搜索启发式的“贪婪”（0：安全但慢;1：快但可能会错过匹配）。默认值：0.9
+        //    /// </summary>
+        //    public double Greediness { set; get; } = 0.9;
+
+        //}
+
+        ///// <summary>
+        ///// 可变形形状匹配查找模型参数
+        ///// </summary>
+        //public class Halcon_Find_Deformable_model
+        //{
+        //    /// <summary>
+        //    /// 模型的最小旋转。默认值：-0.39,建议值： -3.14， -1.57， -0.79， -0.39， -0.20， 0.0
+        //    /// </summary>
+        //    public double AngleStart { set; get; } = 0;
+        //    /// <summary>
+        //    /// 旋转角度的范围。默认值：0.79,建议值：6.29、3.14、1.57、0.79、0.39、0.0
+        //    /// </summary>
+        //    public double AngleExtent { set; get; } = 360;
+        //    /// <summary>
+        //    /// 阵列在行方向上的最小比例。默认值：1.0,建议值：0.5、0.6、0.7、0.8、0.9、1.0
+        //    /// </summary>
+        //    public double ScaleRMin { set; get; } = 1.0;
+        //    /// <summary>
+        //    /// 不使用此参数。默认值：[]
+        //    /// </summary>
+        //    public double ScaleRMax { set; get; } = 0;
+        //    /// <summary>
+        //    /// 不使用此参数。默认值：[]
+        //    /// </summary>
+        //    public double ScaleCMax { set; get; } = 0;
+        //    /// <summary>
+        //    /// 阵列在列方向上的最小比例。默认值：1.0,建议值：0.5、0.6、0.7、0.8、0.9、1.0
+        //    /// </summary>
+        //    public double ScaleCMin { set; get; } = 1.0;
+        //    /// <summary>
+        //    /// 要查找的模型实例的最低分数。 默认值：0.5,建议值：0.3、 0.4、 0.5、 0.6、 0.7、 0.8、 0.9、 1.0
+        //    /// </summary>
+        //    public double MinScore { set; get; } = 0.8;
+        //    /// <summary>
+        //    /// 要找到的模型的实例数（对于所有匹配项，为 0）。默认值：1,建议值：0、1、2、3、4、5、10、20
+        //    /// </summary>
+        //    public int NumMatches { set; get; } = 1;
+        //    /// <summary>
+        //    /// 要查找的模型实例的最大重叠。默认值：0.5,建议值：0.0， 0.1， 0.2， 0.3， 0.4， 0.5， 0.6， 0.7， 0.8， 0.9， 1.0
+        //    /// </summary>
+        //    public double MaxOverlap { set; get; } = 0;
+        //    /// <summary>
+        //    /// 匹配中使用的金字塔级别数（如果|，则使用的最低金字塔级别numLevels|= 2）。默认值：0
+        //    /// </summary>
+        //    public int NumLevels { set; get; } = 3;
+        //    /// <summary>
+        //    /// 搜索启发式的“贪婪”（0：安全但慢;1：快但可能会错过匹配）。默认值：0.9
+        //    /// </summary>
+        //    public double Greediness { set; get; } = 0.9;
+        //}
 
 
 
@@ -492,7 +559,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 最小面积
             /// </summary>
-            public  double Min_Area { set; get; }
+            public double Min_Area { set; get; }
 
             /// <summary>
             /// 最大面积
@@ -500,6 +567,148 @@ namespace Halcon_SDK_DLL.Model
             public double Max_Area { set; get; }
 
         }
+
+        ///// <summary>
+        ///// 可变形形状匹配创建模型参数
+        ///// </summary>
+        //public class Halcon_Create_Planar_Uncalib_Deformable_ModelXld
+        //{
+        //    /// <summary>
+        //    /// 金字塔层的最大数量默认值：“自动”值列表：1， 2， 3， 4， 5， 6， 7， 8， 9， 10，“自动”
+        //    /// </summary>
+        //    public string NumLevels { set; get; } = "auto";
+        //    /// <summary>
+        //    /// 图案的最小旋转。默认值：-0.39 建议值： -3.14， -1.57， -0.79， -0.39， -0.20， 0.0
+        //    /// </summary>
+        //    public double AngleStart { set; get; } = 0;
+        //    /// <summary>
+        //    /// 旋转角度的范围。默认值：0.79,建议值：6.29、3.14、1.57、0.79、0.39
+        //    /// </summary>
+        //    public double AngleExtent { set; get; } = 360;
+        //    /// <summary>
+        //    /// 角度的步长（分辨率）。默认值： “自动”建议值：“自动”, 0.0175, 0.0349, 0.0524, 0.0698, 0.0873
+        //    /// </summary>
+        //    public string AngleStep { set; get; } = "auto";
+        //    /// <summary>
+        //    /// 阵列在行方向上的最小比例。默认值：1.0,建议值：0.5、0.6、0.7、0.8、0.9、1.0
+        //    /// </summary>
+        //    public double ScaleRMin { set; get; } = 1.0;
+        //    /// <summary>
+        //    /// 不使用此参数。默认值：[]
+        //    /// </summary>
+        //    public double ScaleRMax { set; get; } = 0;
+        //    /// <summary>
+        //    /// 在行方向上缩放步长（分辨率）。默认值： “自动”建议值：“自动”, 0.01, 0.02, 0.05, 0.1, 0.15, 0.2
+        //    /// </summary>
+        //    public string ScaleRStep { set; get; } = "auto";
+        //    /// <summary>
+        //    /// 不使用此参数。默认值：[]
+        //    /// </summary>
+        //    public double ScaleCMax { set; get; } = 0;
+        //    /// <summary>
+        //    /// 阵列在列方向上的最小比例。默认值：1.0,建议值：0.5、0.6、0.7、0.8、0.9、1.0
+        //    /// </summary>
+        //    public double ScaleCMin { set; get; } = 1.0;
+        //    /// <summary>
+        //    /// 在列方向上缩放步长（分辨率）。默认值： “自动”建议值：“自动”, 0.01, 0.02, 0.05, 0.1, 0.15, 0.2
+        //    /// </summary>
+        //    public string ScaleCStep { set; get; } = "auto";
+        //    /// <summary>
+        //    /// 用于生成模型的优化类型和可选方法。默认值： “自动”
+        //    /// </summary>
+        //    public Optimization_Enum Optimization { set; get; } = Optimization_Enum.auto;
+        //    /// <summary>
+        //    /// 匹配指标。默认值： “ignore_local_polarity”
+        //    /// </summary>
+        //    public Metric_Enum Metric { set; get; } = Metric_Enum.ignore_local_polarity;
+        //    /// <summary>
+        //    /// 搜索图像中对象的最小对比度。默认值：5,建议值：1、2、3、5、7、10、20、30、40
+        //    /// </summary>
+        //    public double MinContrast { set; get; } = 5;
+        //    /// <summary>
+        //    /// 泛型参数名称。默认值：[]
+        //    /// </summary>
+        //    public GenParam_Enum GenParamName { set; get; }
+        //    /// <summary>
+        //    /// 泛型参数的值。默认值：[]
+        //    /// </summary>
+        //    public GenParam_Enum GenParamVal { set; get; }
+
+        //    /// <summary>
+        //    /// 模型类型
+        //    /// </summary>
+        //    public Shape_Model_Type_Enum Model_Type { set; get; }
+
+
+
+
+        //}
+
+
+
+
+
+
+
+
+
+
+        ///// <summary>
+        ///// 各向同性缩放的形状模型参数
+        ///// </summary>
+        //public class Halcon_Create_Scaled_Shape_ModelXld
+        //{
+        //    /// <summary>
+        //    /// 金字塔层的最大数量默认值：“自动”值列表：1， 2， 3， 4， 5， 6， 7， 8， 9， 10，“自动”
+        //    /// </summary>
+        //    public string NumLevels { set; get; } = "auto";
+        //    /// <summary>
+        //    /// 图案的最小旋转。默认值：-0.39 建议值： -3.14， -1.57， -0.79， -0.39， -0.20， 0.0
+        //    /// </summary>
+        //    public double AngleStart { set; get; } = 0;
+        //    /// <summary>
+        //    /// 旋转角度的范围。默认值：0.79,建议值：6.29、3.14、1.57、0.79、0.39
+        //    /// </summary>
+        //    public double AngleExtent { set; get; } = 360;
+        //    /// <summary>
+        //    /// 角度的步长（分辨率）。默认值： “自动”建议值：“自动”, 0.0175, 0.0349, 0.0524, 0.0698, 0.0873
+        //    /// </summary>
+        //    public string AngleStep { set; get; } = "auto";
+        //    /// <summary>
+        //    /// 图案的最小比例。 默认值：0.9,建议值：0.5、0.6、0.7、0.8、0.9、1.0
+        //    /// </summary>
+        //    public double ScaleMin { set; get; } = 0;
+        //    /// <summary>
+        //    /// 图案的最大比例。 默认值：1.1,建议值：1.0、1.1、1.2、1.3、1.4、1.5
+        //    /// </summary>
+        //    public double ScaleMax { set; get; } = 0;
+        //    /// <summary>
+        //    /// 缩放步长（分辨率）。默认值： “自动”建议值：“自动”, 0.01, 0.02, 0.05, 0.1, 0.15, 0.2
+        //    /// </summary>
+        //    public string ScaleStep { set; get; } = "auto";
+        //    /// <summary>
+        //    /// 用于生成模型的优化类型和可选方法。默认值： “自动”
+        //    /// </summary>
+        //    public Optimization_Enum Optimization { set; get; } = Optimization_Enum.auto;
+        //    /// <summary>
+        //    /// 匹配指标。默认值： “ignore_local_polarity”
+        //    /// </summary>
+        //    public Metric_Enum Metric { set; get; } = Metric_Enum.ignore_local_polarity;
+        //    /// <summary>
+        //    /// 搜索图像中对象的最小对比度。默认值：5,建议值：1、2、3、5、7、10、20、30、40
+        //    /// </summary>
+        //    public double MinContrast { set; get; } = 5;
+
+
+        //    /// <summary>
+        //    /// 模型类型
+        //    /// </summary>
+        //    public Shape_Model_Type_Enum Model_Type { set; get; }
+
+        //}
+
+
+
 
 
 
@@ -594,6 +803,30 @@ namespace Halcon_SDK_DLL.Model
         }
 
 
+
+
+        /// <summary>
+        /// 形状匹配模板类型枚举
+        /// </summary>
+        public enum Shape_Based_Model_Enum
+        {
+            /// <summary>
+            /// 一般形状匹配模板
+            /// </summary>
+            shape_model,
+            /// <summary>
+            /// 线性变形匹配模板
+            /// </summary>
+            planar_deformable_model,
+            /// <summary>
+            /// 局部可变形模板
+            /// </summary>
+            local_deformable_model,
+            /// <summary>
+            /// 和比例缩放模板
+            /// </summary>
+            Scale_model
+        }
 
 
 

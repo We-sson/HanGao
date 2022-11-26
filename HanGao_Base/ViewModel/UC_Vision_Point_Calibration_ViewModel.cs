@@ -27,64 +27,64 @@ namespace HanGao.ViewModel
             //    new Calibration_Results_Model_UI ()
             //    {
             //         Number =1,
-            //         Calibration_Points =new Point (1000.123,1000.132),
-            //         Robot_Points=new Point(2222.123,2222.123)
+            //         Calibration_Points =new Point (393.198,939.198),
+            //         Robot_Points=new Point(336.015594,861.607605)
 
             //    },
             //    new Calibration_Results_Model_UI ()
             //    {
             //         Number =2,
-            //         Calibration_Points =new Point (1000.123,1000.132),
-            //         Robot_Points=new Point(2222.123,2222.123)
+            //         Calibration_Points =new Point (399.907,1520.94),
+            //         Robot_Points=new Point(364.252869,861.92157)
 
             //    },
             //    new Calibration_Results_Model_UI ()
             //    {
             //         Number =3,
-            //         Calibration_Points =new Point (1000.123,1000.132),
-            //         Robot_Points=new Point(2222.123,2222.123)
+            //         Calibration_Points =new Point (409.383,2097.478),
+            //         Robot_Points=new Point(392.496674,861.92157)
 
             //    },
             //    new Calibration_Results_Model_UI ()
             //    {
             //         Number =4,
-            //         Calibration_Points =new Point (1000.123,1000.132),
-            //         Robot_Points=new Point(2222.123,2222.123)
+            //         Calibration_Points =new Point (1087.873,928.25),
+            //         Robot_Points=new Point(336.559845,827.686035)
 
             //    },
             //    new Calibration_Results_Model_UI ()
             //    {
             //         Number =5,
-            //         Calibration_Points =new Point (1000.123,1000.132),
-            //         Robot_Points=new Point(2222.123,2222.123)
+            //         Calibration_Points =new Point (1096.221 ,1511.994),
+            //         Robot_Points=new Point( 364.712708,828.027466)
 
             //    },
             //    new Calibration_Results_Model_UI ()
             //    {
             //         Number =6,
-            //         Calibration_Points =new Point (1000.123,1000.132),
-            //         Robot_Points=new Point(2222.123,2222.123)
+            //         Calibration_Points =new Point (1104.34,2089.817),
+            //         Robot_Points=new Point(392.94931,828.219604)
 
             //    },
             //    new Calibration_Results_Model_UI ()
             //    {
             //         Number =7,
-            //         Calibration_Points =new Point (1000.123,1000.132),
-            //         Robot_Points=new Point(2222.123,2222.123)
+            //         Calibration_Points =new Point (1780.226,919.596),
+            //         Robot_Points=new Point(336.691193,794.155334)
 
             //    },
             //    new Calibration_Results_Model_UI ()
             //    {
             //         Number =8,
-            //         Calibration_Points =new Point (1000.123,1000.132),
-            //         Robot_Points=new Point(2222.123,2222.123)
+            //         Calibration_Points =new Point (1791.982,1502.214),
+            //         Robot_Points=new Point(364.89975,794.270508)
 
             //    },
             //    new Calibration_Results_Model_UI ()
             //    {
             //         Number =9,
-            //         Calibration_Points =new Point (1000.123,1000.132),
-            //         Robot_Points=new Point(2222.123,2222.123)
+            //         Calibration_Points =new Point (1799.85,2081.141),
+            //         Robot_Points=new Point(392.882751,794.61615)
 
             //    },
 
@@ -92,8 +92,6 @@ namespace HanGao.ViewModel
 
 
             //};
-
-
 
 
             KUKA_Receive.KUKA_Receive_Calibration_String += (Calibration_Data_Receive _S, string _RStr) =>

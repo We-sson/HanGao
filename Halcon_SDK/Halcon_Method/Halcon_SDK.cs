@@ -12,6 +12,7 @@ using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
 
 
+
 namespace Halcon_SDK_DLL
 {
     public class Halcon_SDK
@@ -96,33 +97,35 @@ namespace Halcon_SDK_DLL
             //将点转化为Halcon组
             foreach (var _List in Robot)
             {
+                Robot_ColLine = Robot_ColLine.TupleConcat(_List.Y);     
 
-                Robot_RowLine = Robot_RowLine.TupleConcat(_List.Y);
+                Robot_RowLine = Robot_RowLine.TupleConcat(_List.X);
 
-                Robot_ColLine = Robot_ColLine.TupleConcat(_List.X);
 
             }
 
             //根据位置点组计算矩阵坐标
-            HOperatorSet.VectorToHomMat2d(Calibration_ColLine, Calibration_RowLine, Robot_RowLine, Robot_ColLine,
+            HOperatorSet.VectorToHomMat2d(Calibration_RowLine, Calibration_ColLine, Robot_RowLine, Robot_ColLine,
       out HomMat2D);
 
+
             //转换视觉图像结果
-            foreach (var _EList in Calibration)
+            for (int i = 0; i < Calibration.Count; i++)
             {
+                HOperatorSet.AffineTransPoint2d(HomMat2D, Calibration[i].X, Calibration[i].Y, out _Qx, out _Qy);
 
-
-                HOperatorSet.AffineTransPoint2d(HomMat2D, _EList.X, _EList.Y, out _Qx, out _Qy);
-
-
-                double _Ex = _EList.X - _Qx.D;
-                double _Ey = _EList.Y - _Qy.D;
+                double _Ex = Robot_RowLine[i].D - _Qx.D;
+                double _Ey = Robot_ColLine[i].D - _Qy.D;
 
                 _Error_List_X.Add(_Ex);
                 _Error_List_Y.Add(_Ey);
+
             }
+
+
+
             //计算结果组偏差
-           double   Calibration_Error_X_UI =double.Parse(Specimen_Error(_Error_List_X));
+            double   Calibration_Error_X_UI =double.Parse(Specimen_Error(_Error_List_X));
            double   Calibration_Error_Y_UI =double .Parse(  Specimen_Error(_Error_List_Y));
 
 
@@ -472,7 +475,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_ModelsXLD"></param>
         /// <param name="_Path"></param>
         /// <returns></returns>
-        public HTuple ShapeModel_SaveFile<T1>(Find_Model_Enum _Save_Enum, T1 _Create_Model, HObject _ModelsXLD, string _Path)
+        public HTuple ShapeModel_SaveFile(Find_Model_Enum _Save_Enum, Create_Shape_Based_ModelXld _Create_Model, HObject _ModelsXLD, string _Path)
         {
 
             lock (_Create_Model)
@@ -481,75 +484,66 @@ namespace Halcon_SDK_DLL
 
                 HTuple _ModelID = new HTuple();
                 _ModelID.Dispose();
-                switch (_Save_Enum)
+
+
+                switch (_Create_Model.Shape_Based_Model)
                 {
-                    case Find_Model_Enum _Enum when _Enum == Find_Model_Enum.Shape_Model:
-                        if (_Create_Model is Halcon_Create_Shape_ModelXld)
-                        {
-                            Halcon_Create_Shape_ModelXld Create_Shap = _Create_Model as Halcon_Create_Shape_ModelXld;
+                    case Shape_Based_Model_Enum.shape_model:
 
-                            //创建模型
-                            HOperatorSet.CreateShapeModelXld(_ModelsXLD, Create_Shap.NumLevels, (new HTuple(Create_Shap.AngleStart)).TupleRad()
-               , (new HTuple(Create_Shap.AngleExtent)).TupleRad(), Create_Shap.AngleStep, Create_Shap.Optimization.ToString(), Create_Shap.Metric.ToString(),
-               Create_Shap.MinContrast, out _ModelID);
 
-                            //写入模型文件
-                            HOperatorSet.WriteShapeModel(_ModelID, _Path);
+                        //创建模型
+                        HOperatorSet.CreateShapeModelXld(_ModelsXLD, _Create_Model.NumLevels, (new HTuple(_Create_Model.AngleStart)).TupleRad()
+           , (new HTuple(_Create_Model.AngleExtent)).TupleRad(), _Create_Model.AngleStep, _Create_Model.Optimization.ToString(), _Create_Model.Metric.ToString(),
+           _Create_Model.MinContrast, out _ModelID);
 
-                        }
-                        break;
-                    case Find_Model_Enum _Enum when _Enum == Find_Model_Enum.Scale_Model:
+                        //写入模型文件
+                        HOperatorSet.WriteShapeModel(_ModelID, _Path);
 
-                        if (_Create_Model is Halcon_Create_Planar_Uncalib_Deformable_ModelXld)
-                        {
 
-                            Halcon_Create_Planar_Uncalib_Deformable_ModelXld Create_Planar = _Create_Model as Halcon_Create_Planar_Uncalib_Deformable_ModelXld;
-                            //创建模型
-                            HOperatorSet.CreatePlanarUncalibDeformableModelXld(_ModelsXLD, Create_Planar.NumLevels, (new HTuple(Create_Planar.AngleStart)).TupleRad()
-                                                                                                        , (new HTuple(Create_Planar.AngleExtent)).TupleRad(), Create_Planar.AngleStep, Create_Planar.ScaleRMin, new HTuple(), Create_Planar.ScaleRStep, Create_Planar.ScaleCMin, new HTuple(),
-                                                                                                         Create_Planar.ScaleCStep, Create_Planar.Optimization.ToString(), Create_Planar.Metric.ToString(), Create_Planar.MinContrast, new HTuple(), new HTuple(),
-                                                                                                        out _ModelID);
-                            //保存模型文件
-                            HOperatorSet.WriteDeformableModel(_ModelID, _Path);
-
-                        }
 
                         break;
-                    case Find_Model_Enum _Enum when _Enum == Find_Model_Enum.Planar_Deformable_Model:
+                    case Shape_Based_Model_Enum.planar_deformable_model:
 
-                        if (_Create_Model is Halcon_Create_Planar_Uncalib_Deformable_ModelXld)
-                        {
+                        //创建模型
+                        HOperatorSet.CreatePlanarUncalibDeformableModelXld(_ModelsXLD, _Create_Model.NumLevels, (new HTuple(_Create_Model.AngleStart)).TupleRad()
+                                                                                                    , (new HTuple(_Create_Model.AngleExtent)).TupleRad(), _Create_Model.AngleStep, _Create_Model.ScaleRMin, new HTuple(), _Create_Model.ScaleRStep, _Create_Model.ScaleCMin, new HTuple(),
+                                                                                                     _Create_Model.ScaleCStep, _Create_Model.Optimization.ToString(), _Create_Model.Metric.ToString(), _Create_Model.MinContrast, new HTuple(), new HTuple(),
+                                                                                                    out _ModelID);
+                        //保存模型文件
+                        HOperatorSet.WriteDeformableModel(_ModelID, _Path);
 
-                            Halcon_Create_Planar_Uncalib_Deformable_ModelXld Create_Local = _Create_Model as Halcon_Create_Planar_Uncalib_Deformable_ModelXld;
-                            //创建模型
-                            HOperatorSet.CreateLocalDeformableModelXld(_ModelsXLD, Create_Local.NumLevels, (new HTuple(Create_Local.AngleStart)).TupleRad()
-                                                                                                        , (new HTuple(Create_Local.AngleExtent)).TupleRad(), Create_Local.AngleStep, Create_Local.ScaleRMin, new HTuple(), Create_Local.ScaleRStep, Create_Local.ScaleCMin, new HTuple(),
-                                                                                                       Create_Local.ScaleCStep, Create_Local.Optimization.ToString(), Create_Local.Metric.ToString(), Create_Local.MinContrast, new HTuple(), new HTuple(),
-                                                                                                       out _ModelID);
-
-                            //保存模型文件
-                            HOperatorSet.WriteDeformableModel(_ModelID, _Path);
-                        }
-                        break;
-                    case Find_Model_Enum _Enum when _Enum == Find_Model_Enum.Local_Deformable_Model:
-                        if (_Create_Model is Halcon_Create_Scaled_Shape_ModelXld)
-                        {
-                            Halcon_Create_Scaled_Shape_ModelXld Create_Scaled = _Create_Model as Halcon_Create_Scaled_Shape_ModelXld;
-
-                            //创建模型
-                            HOperatorSet.CreateScaledShapeModelXld(_ModelsXLD, Create_Scaled.NumLevels, (new HTuple(Create_Scaled.AngleStart)).TupleRad()
-                                                                                                         , (new HTuple(Create_Scaled.AngleExtent)).TupleRad(), Create_Scaled.AngleStep, Create_Scaled.ScaleMin, Create_Scaled.ScaleMax, Create_Scaled.ScaleStep, Create_Scaled.Optimization.ToString(), Create_Scaled.Metric.ToString(),
-                                                                                                        Create_Scaled.MinContrast, out _ModelID);
-
-                            //保存模型文件
-                            HOperatorSet.WriteShapeModel(_ModelID, _Path);
-
-                        }
 
                         break;
+                    case Shape_Based_Model_Enum.local_deformable_model:
 
+                        HOperatorSet.CreateLocalDeformableModelXld(_ModelsXLD, _Create_Model.NumLevels, (new HTuple(_Create_Model.AngleStart)).TupleRad()
+                                                                                      , (new HTuple(_Create_Model.AngleExtent)).TupleRad(), _Create_Model.AngleStep, _Create_Model.ScaleRMin, new HTuple(), _Create_Model.ScaleRStep, _Create_Model.ScaleCMin, new HTuple(),
+                                                                                     _Create_Model.ScaleCStep, _Create_Model.Optimization.ToString(), _Create_Model.Metric.ToString(), _Create_Model.MinContrast, new HTuple(), new HTuple(),
+                                                                                     out _ModelID);
+
+                        //保存模型文件
+                        HOperatorSet.WriteDeformableModel(_ModelID, _Path);
+
+
+                        break;
+                    case Shape_Based_Model_Enum.Scale_model:
+
+                        //创建模型
+                        HOperatorSet.CreateScaledShapeModelXld(_ModelsXLD, _Create_Model.NumLevels, (new HTuple(_Create_Model.AngleStart)).TupleRad()
+                                                                                                     , (new HTuple(_Create_Model.AngleExtent)).TupleRad(), _Create_Model.AngleStep, _Create_Model.ScaleMin, _Create_Model.ScaleMax, _Create_Model.ScaleStep, _Create_Model.Optimization.ToString(), _Create_Model.Metric.ToString(),
+                                                                                                    _Create_Model.MinContrast, out _ModelID);
+
+                        //保存模型文件
+                        HOperatorSet.WriteShapeModel(_ModelID, _Path);
+
+                        break;
+               
                 }
 
+
+
+
+      
                 return _ModelID;
 
             }
@@ -567,7 +561,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_ModelXld"></param>
         /// <param name="_Find_Property"></param>
         /// <returns></returns>
-        public T2 Find_Deformable_Model<T1, T2>(Find_Model_Enum _Find_Enum, HObject _Image, HTuple _ModelXld, T1 _Find_Property)
+        public Halcon_Find_Shape_Out_Parameter Find_Deformable_Model(HWindow _HWindow, HObject _Image, HTuple _ModelXld, Find_Shape_Based_ModelXld _Find_Property)
         {
 
 
@@ -582,63 +576,78 @@ namespace Halcon_SDK_DLL
                 HTuple hv_score = new HTuple();
                 HTuple hv_HomMat2D = new HTuple();
                 DateTime RunTime = DateTime.Now;
+                HObject _Image1 = new HObject();
+                HObject _Image2 = new HObject();
+                HObject _Image3 = new HObject();
+                HObject _Image4 = new HObject();
+                HObject _Image5 = new HObject();
+                HObject _Image6 = new HObject();
+                HObject _Image7 = new HObject();
+                HObject _Image8 = new HObject();
+                HObject _Image9 = new HObject();
+                HObject _Image10 = new HObject();
+                Halcon_Find_Shape_Out_Parameter _Find_Out = new Halcon_Find_Shape_Out_Parameter();
 
 
 
-                switch (_Find_Enum)
+                switch (_Find_Property.Shape_Based_Model)
                 {
-                    case Find_Model_Enum.Shape_Model:
+                    case Shape_Based_Model_Enum.shape_model:
+
+                        HOperatorSet.FindShapeModel(_Image, _ModelXld, (new HTuple(_Find_Property.AngleStart)).TupleRad(), (new HTuple(_Find_Property.AngleExtent)).TupleRad(), _Find_Property.MinScore,
+                        _Find_Property.NumMatches, _Find_Property.MaxOverlap, _Find_Property.SubPixel.ToString(), _Find_Property.NumLevels, _Find_Property.Greediness, out hv_row, out hv_column, out hv_angle, out hv_score);
 
 
-                        if (_Find_Property is Halcon_Find_Shape_ModelXld)
-                        {
-
-                            Halcon_Find_Shape_ModelXld Find_Shape = _Find_Property as Halcon_Find_Shape_ModelXld;
-
-
-                            HOperatorSet.FindShapeModel(_Image, _ModelXld, (new HTuple(Find_Shape.AngleStart)).TupleRad(), (new HTuple(Find_Shape.AngleExtent)).TupleRad(), Find_Shape.MinScore,
-                            Find_Shape.NumMatches, Find_Shape.MaxOverlap, Find_Shape.SubPixel.ToString(), Find_Shape.NumLevels, Find_Shape.Greediness, out hv_row, out hv_column, out hv_angle, out hv_score);
-
-
-                            return (T2)(object)new Halcon_Find_Shape_Out_Parameter() { Row = hv_row.D, Column = hv_column.D, Angle = hv_angle.D, Score = hv_score.D, Find_Time = (DateTime.Now - RunTime).Milliseconds };
-
-                        }
+                         _Find_Out=      new Halcon_Find_Shape_Out_Parameter() { Row = hv_row.D, Column = hv_column.D, Angle = hv_angle.D, Score = hv_score.D, Find_Time = (DateTime.Now - RunTime).Milliseconds };
 
                         break;
+                    case Shape_Based_Model_Enum.planar_deformable_model:
 
-                    case Find_Model_Enum.Planar_Deformable_Model:
-
-                        if (_Find_Property is Halcon_Find_Deformable_model)
+                        if (_Find_Property.ScaleImageMax_Enable)
                         {
-
-                            Halcon_Find_Deformable_model Find_Planar = _Find_Property as Halcon_Find_Deformable_model;
-
-
-                            HOperatorSet.FindPlanarUncalibDeformableModel(_Image, _ModelXld,
-                                                                                                       (new HTuple(Find_Planar.AngleStart)).TupleRad(), (new HTuple(Find_Planar.AngleExtent)).TupleRad(), Find_Planar.ScaleRMin, Find_Planar.ScaleRMax, Find_Planar.ScaleCMin, Find_Planar.ScaleCMax, Find_Planar.MinScore,
-                                                                                                       Find_Planar.NumMatches, Find_Planar.MaxOverlap, Find_Planar.NumLevels, Find_Planar.Greediness, "subpixel", "least_squares", out hv_HomMat2D, out hv_score);
-
-                         
-
-
-                            if (hv_score.Length >0)
+                        //图像最大灰度值分布在值范围0到255 中
+                        HOperatorSet.ScaleImageMax(_Image, out _Image1);
+                            if (_Find_Property.ScaleImageMax_Disp)
                             {
+                                HOperatorSet.DispObj(_Image1, _HWindow);
+                            }
+                        }
 
 
-                            return (T2)(object)new Halcon_Find_Deformable_Out_Parameter() { HomMat2D = hv_HomMat2D, Score = hv_score.D, Find_Time = (DateTime.Now - RunTime).Milliseconds };
+                        if (_Find_Property.Emphasize_Enable)
+                        {
+                        //增强图像的对比度
+                        HOperatorSet.Emphasize(_Image1, out _Image2, _Find_Property.Emphasize_MaskWidth, _Find_Property.Emphasize_MaskHeight, _Find_Property.Emphasize_Factor);
+                            if (_Find_Property.Emphasize_Disp)
+                            {
+                                HOperatorSet.DispObj(_Image2, _HWindow);
                             }
 
                         }
-                        break;
-                    case Find_Model_Enum.Local_Deformable_Model:
-                        break;
-                    case Find_Model_Enum.Scale_Model:
-                        break;
 
+
+                        HOperatorSet.FindPlanarUncalibDeformableModel(_Image, _ModelXld,
+                                                                                                   (new HTuple(_Find_Property.AngleStart)).TupleRad(), (new HTuple(_Find_Property.AngleExtent)).TupleRad(), _Find_Property.ScaleRMin, _Find_Property.ScaleRMax, _Find_Property.ScaleCMin, _Find_Property.ScaleCMax, _Find_Property.MinScore,
+                                                                                                   _Find_Property.NumMatches, _Find_Property.MaxOverlap, _Find_Property.NumLevels, _Find_Property.Greediness, "subpixel", "least_squares", out hv_HomMat2D, out hv_score);
+
+                        _Find_Out=new Halcon_Find_Shape_Out_Parameter() { HomMat2D = hv_HomMat2D, Score = hv_score.D, Find_Time = (DateTime.Now - RunTime).Milliseconds };
+
+
+                        break;
+                    case Shape_Based_Model_Enum.local_deformable_model:
+
+
+
+                        break;
+                    case Shape_Based_Model_Enum.Scale_model:
+
+
+
+                        break;
                 }
 
+                return _Find_Out;
 
-                return default;
 
 
 
