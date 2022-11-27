@@ -475,7 +475,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_ModelsXLD"></param>
         /// <param name="_Path"></param>
         /// <returns></returns>
-        public HTuple ShapeModel_SaveFile(Find_Model_Enum _Save_Enum, Create_Shape_Based_ModelXld _Create_Model, HObject _ModelsXLD, string _Path)
+        public HTuple ShapeModel_SaveFile( Create_Shape_Based_ModelXld _Create_Model, HObject _ModelsXLD, string _Path)
         {
 
             lock (_Create_Model)

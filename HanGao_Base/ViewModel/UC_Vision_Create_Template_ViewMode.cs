@@ -4,7 +4,9 @@ using HanGao.View.User_Control.Vision_Control;
 using Microsoft.Win32;
 using Ookii.Dialogs.Wpf;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
+using System.Windows.Data;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static HanGao.ViewModel.UC_Visal_Function_VM;
@@ -292,7 +294,7 @@ namespace HanGao.ViewModel
 
 
 
-                                 _Path = ShapeModel_Location + "\\" + _Name + "_Shape_Model.shm";
+                                _Path = ShapeModel_Location + "\\" + _Name + "_Shape_Model.shm";
                                 Halcon_Create_Shape_ModelXld_UI.Shape_Based_Model = Shape_Based_Model_Enum.shape_model;
 
 
@@ -360,7 +362,7 @@ namespace HanGao.ViewModel
 
 
 
-                                     _Path = ShapeModel_Location + "\\" + _Name + "_Planar_Model.dfm";
+                                _Path = ShapeModel_Location + "\\" + _Name + "_Planar_Model.dfm";
                                 Halcon_Create_Shape_ModelXld_UI.Shape_Based_Model = Shape_Based_Model_Enum.planar_deformable_model;
                                 ////开启线保存匹配模型文件
                                 //new Thread(new ThreadStart(new Action(() =>
@@ -423,7 +425,7 @@ namespace HanGao.ViewModel
                                 //Halcon_Create_Local_Deformable_ModelXld_UI.Model_Type = Shape_Model_Type_Enum.Create_Local_Model;
 
 
-                                     _Path = ShapeModel_Location + "\\" + _Name + "_Local_Model.dfm";
+                                _Path = ShapeModel_Location + "\\" + _Name + "_Local_Model.dfm";
                                 Halcon_Create_Shape_ModelXld_UI.Shape_Based_Model = Shape_Based_Model_Enum.local_deformable_model;
                                 //开启线保存匹配模型文件
                                 //new Thread(new ThreadStart(new Action(() =>
@@ -478,7 +480,7 @@ namespace HanGao.ViewModel
                                 //Halcon_Create_Scaled_Shape_ModelXld_UI. = Shape_Model_Type_Enum.Create_Scaled_Model;
 
 
-                                     _Path = ShapeModel_Location + "\\" + _Name + "_Scaled_Model.shm";
+                                _Path = ShapeModel_Location + "\\" + _Name + "_Scaled_Model.shm";
                                 Halcon_Create_Shape_ModelXld_UI.Shape_Based_Model = Shape_Based_Model_Enum.Scale_model;
                                 //开启线保存匹配模型文件
                                 //new Thread(new ThreadStart(new Action(() =>
@@ -497,44 +499,12 @@ namespace HanGao.ViewModel
 
 
 
+                        ShapeModel_Save(Halcon_Create_Shape_ModelXld_UI, _ModelsXld, _Path);
 
                     }
                 }
 
 
-
-
-                //开启线保存匹配模型文件
-                new Thread(new ThreadStart(new Action(() =>
-                {
-                    lock (Halcon_Create_Shape_ModelXld_UI)
-                    {
-                        HTuple _ID = new HTuple();
-
-                        _ID = SHalcon.ShapeModel_SaveFile(Find_Model_Enum.Shape_Model, Halcon_Create_Shape_ModelXld_UI, _ModelsXld, _Path);
-
-                        switch (Halcon_Create_Shape_ModelXld_UI.Shape_Based_Model)
-                        {
-                            case Shape_Based_Model_Enum.shape_model:
-                                Halcon_Create_Shape_ModelXld_ID = _ID;
-
-                                break;
-                            case Shape_Based_Model_Enum.planar_deformable_model:
-
-                                Halcon_Create_Planar_Uncalib_Deformable_ModelXld_ID = _ID;
-                                break;
-                            case Shape_Based_Model_Enum.local_deformable_model:
-                                Halcon_Create_Local_Deformable_ModelXld_ID = _ID;
-                                break;
-                            case Shape_Based_Model_Enum.Scale_model:
-                                Halcon_Create_Scaled_Shape_ModelXld_ID= _ID;
-                                break;
-
-                        }
-
-                    }
-                })))
-                { IsBackground = true, Name = "Create_Shape_Thread" }.Start();
 
 
 
@@ -548,6 +518,52 @@ namespace HanGao.ViewModel
             });
         }
 
+
+        /// <summary>
+        /// 保存模型文件
+        /// </summary>
+        /// <param name="_Models"></param>
+        /// <param name="_ModelsXld"></param>
+        /// <param name="_path"></param>
+        public void ShapeModel_Save(Create_Shape_Based_ModelXld _Models, HObject _ModelsXld, string _path)
+        {
+
+            //开启线保存匹配模型文件
+            new Thread(new ThreadStart(new Action(() =>
+            {
+                lock (_Models)
+                {
+                    HTuple _ID = new HTuple();
+
+                    _ID = SHalcon.ShapeModel_SaveFile(_Models, _ModelsXld, _path);
+
+                    switch (_Models.Shape_Based_Model)
+                    {
+                        case Shape_Based_Model_Enum.shape_model:
+                            Halcon_Create_Shape_ModelXld_ID = _ID;
+
+                            break;
+                        case Shape_Based_Model_Enum.planar_deformable_model:
+
+                            Halcon_Create_Planar_Uncalib_Deformable_ModelXld_ID = _ID;
+                            break;
+                        case Shape_Based_Model_Enum.local_deformable_model:
+                            Halcon_Create_Local_Deformable_ModelXld_ID = _ID;
+                            break;
+                        case Shape_Based_Model_Enum.Scale_model:
+                            Halcon_Create_Scaled_Shape_ModelXld_ID = _ID;
+                            break;
+
+                    }
+
+                }
+            })))
+            { IsBackground = true, Name = "Create_Shape_Thread" }.Start();
+
+
+
+
+        }
 
         /// <summary>
         /// 测试匹配模型方法
@@ -573,8 +589,8 @@ namespace HanGao.ViewModel
 
                 if (File.Exists(_path))
                 {
-                //读取模型文件
-                Halcon_Create_Shape_ModelXld_ID ??= SHalcon.Read_ModelsXLD_File(Find_Model_Enum.Shape_Model, _path);
+                    //读取模型文件
+                    Halcon_Create_Shape_ModelXld_ID ??= SHalcon.Read_ModelsXLD_File(Find_Model_Enum.Shape_Model, _path);
                 }
 
 
@@ -632,7 +648,7 @@ namespace HanGao.ViewModel
                         _ModelID = Halcon_Create_Shape_ModelXld_ID;
 
                         //开启多线程
-                  
+
 
 
 
@@ -677,6 +693,7 @@ namespace HanGao.ViewModel
                         break;
 
                 }
+
 
 
                 new Thread(new ThreadStart(new Action(() =>
@@ -731,14 +748,14 @@ namespace HanGao.ViewModel
                                                             1), out HTuple Row1, out HTuple Column1, out HTuple IsOverlapping);
 
                         //控件窗口显示识别信息
-                        HOperatorSet.DispText(UC_Visal_Function_VM.Features_Window.HWindow, "识别图像坐标 X:" + Math.Round(Row1.D, 3) + " Y: " + Math.Round(Column1.D, 3) + " 夹角: " + Math.Round(_Angle.TupleDeg().D, 3), "window", "top", "left", "black", "box", "true");
+                        HOperatorSet.DispText(Features_Window.HWindow, "识别图像坐标 X:" + Math.Round(Row1.D, 3) + " Y: " + Math.Round(Column1.D, 3) + " 夹角: " + Math.Round(_Angle.TupleDeg().D, 3), "window", "top", "left", "black", "box", "true");
 
 
                         //生成十字架
                         HOperatorSet.GenCrossContourXld(out HObject _Cross, Row1, Column1, 80, (new HTuple(45)).TupleRad());
 
                         //显示十字架
-                        HOperatorSet.DispXld(_Cross, UC_Visal_Function_VM.Features_Window.HWindow);
+                        HOperatorSet.DispXld(_Cross, Features_Window.HWindow);
 
 
                     }
@@ -1068,7 +1085,38 @@ namespace HanGao.ViewModel
         F_315
     }
 
+    public class Halcon_StringConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+
+            if (value is double)
+            {
+                if ((double)value == 0)
+                {
+                    return "Auto";
+                }
+                else
+                {
+                    return value.ToString();
+                }
+            }
+
+            return default;
+
+
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+
+            return default(string);
 
 
 
+        }
+
+
+
+    }
 }

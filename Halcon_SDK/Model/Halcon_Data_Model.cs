@@ -218,7 +218,26 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 金字塔层的最大数量默认值：“自动”值列表：1， 2， 3， 4， 5， 6， 7， 8， 9， 10，“自动”
             /// </summary>
-            public string NumLevels { set; get; } = "auto";
+            public string  NumLevels { set; get; } = "Auto";
+
+           
+
+            //public string   NumLevels
+            //{
+            //    get { return NumLevels_UI.ToString(); }
+            //    set {
+            //        if (NumLevels_UI == 0)
+            //        {
+            //            NumLevels = "Auto";
+            //        }
+            //        {
+            //            NumLevels = value;
+            //        }
+            //         ;
+            //    }
+            //}
+
+
             /// <summary>
             /// 图案的最小旋转。默认值：-0.39 建议值： -3.14， -1.57， -0.79， -0.39， -0.20， 0.0
             /// </summary>
@@ -230,7 +249,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 角度的步长（分辨率）。默认值： “自动”建议值：“自动”, 0.0175, 0.0349, 0.0524, 0.0698, 0.0873
             /// </summary>
-            public string AngleStep { set; get; } = "auto";
+            public string AngleStep { set; get; } = "Auto";
             /// <summary>
             /// 阵列在行方向上的最小比例。默认值：1.0,建议值：0.5、0.6、0.7、0.8、0.9、1.0
             /// </summary>
@@ -254,7 +273,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 在列方向上缩放步长（分辨率）。默认值： “自动”建议值：“自动”, 0.01, 0.02, 0.05, 0.1, 0.15, 0.2
             /// </summary>
-            public string ScaleCStep { set; get; } = "auto";
+            public string ScaleCStep { set; get; } = "Auto";
             /// <summary>
             /// 用于生成模型的优化类型和可选方法。默认值： “自动”
             /// </summary>
@@ -288,7 +307,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 缩放步长（分辨率）。默认值： “自动”建议值：“自动”, 0.01, 0.02, 0.05, 0.1, 0.15, 0.2
             /// </summary>
-            public string ScaleStep { set; get; } = "auto";
+            public string ScaleStep { set; get; } = "Auto";
 
 
 
