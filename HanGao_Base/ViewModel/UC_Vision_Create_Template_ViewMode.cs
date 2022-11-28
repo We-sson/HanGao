@@ -125,6 +125,10 @@ namespace HanGao.ViewModel
         /// </summary>
         public int Image_CollectionMethod_UI { set; get; } = 0;
 
+
+
+
+
         /// <summary>
         /// 测试查找匹配模型显示耗时
         /// </summary>
@@ -228,21 +232,20 @@ namespace HanGao.ViewModel
             {
                 //Button Window_UserContol = Sm.Source as Button;
 
-                //集合拟合特征
-                HObject _ModelsXld = Draw_ShapeModel_Group();
                 string _Path = "";
-
                 string _Name = ShapeModel_Name.ToString();
+                //集合拟合特征
+                HObject _ModelsXld=new HObject ();
+
+                if (Draw_ShapeModel_Group(ref  _ModelsXld) )
+                {
+
 
                 //根据用户选择创建对应的模板类型
                 for (int i = 0; i < Shape_Model_Group.Length; i++)
                 {
                     if (Shape_Model_Group[i])
                     {
-
-
-
-
                         switch (i)
                         {
                             case 0:
@@ -494,6 +497,11 @@ namespace HanGao.ViewModel
 
                 //创建成功模型后删除所需画画对象
                 Drawing_Data_List.Clear();
+                }else 
+                {
+                    User_Log_Add("创建模型特征失败，检查设置！");
+
+                }
 
                 await Task.Delay(100);
 
@@ -785,12 +793,14 @@ namespace HanGao.ViewModel
         /// 将拟合好的特征对象合并一起
         /// </summary>
         /// <returns></returns>
-        private HObject Draw_ShapeModel_Group()
+        private bool  Draw_ShapeModel_Group(ref HObject ho_ModelsXld)
         {
             //赋值内存
-            HOperatorSet.GenEmptyObj(out HObject ho_ModelsXld);
+            HOperatorSet.GenEmptyObj(out  ho_ModelsXld);
 
 
+            if (Drawing_Data_List.Count>0)
+            {
 
             //把全部拟合特征集合一起
             foreach (Vision_Create_Model_Drawing_Model _Data in Drawing_Data_List)
@@ -825,7 +835,13 @@ namespace HanGao.ViewModel
 
 
 
-            return ho_ModelsXld;
+                return true;
+            }
+            else
+            {
+                User_Log_Add("描绘创建模型图像特征小于3组特征，不能创建模型！");
+                return false ;
+            }
         }
 
 
@@ -841,23 +857,18 @@ namespace HanGao.ViewModel
 
 
                 ComboBox E = Sm.Source as ComboBox;
+                HObject _Image = new HObject();
 
 
-                switch (Image_CollectionMethod_UI)
-                {
-                    case 0:
-                        UC_Visal_Function_VM.Load_Image = GetOneFrameTimeout(UC_Visal_Function_VM.Features_Window.HWindow);
-                        break;
-                    case 1:
-                        if (Image_Location_UI != "")
-                        {
-                            UC_Visal_Function_VM.Load_Image = SHalcon.Disp_Image(UC_Visal_Function_VM.Features_Window.HWindow, Image_Location_UI);
 
-                            //发送显示图像位置
-                            //Messenger.Send<HImage_Display_Model, string>(new HImage_Display_Model() { Image = Image, Image_Show_Halcon = UC_Visal_Function_VM.Features_Window.HWindow }, nameof(Meg_Value_Eunm.HWindow_Image_Show));
-                        }
-                        break;
-                }
+                Get_Image( ref _Image, (Get_Image_Model_Enum)Image_CollectionMethod_UI, Features_Window.HWindow, Image_Location_UI);
+
+
+
+
+                //图像存入全局变量
+
+
                 await Task.Delay(100);
 
 

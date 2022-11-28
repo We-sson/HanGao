@@ -100,7 +100,7 @@ namespace HanGao.ViewModel
                 List< Point >Robot_P=new List<Point> ();
                 HTuple _Mat2D = new HTuple();
                 Calibration_Data_Send _Send = new();
-
+                HObject _Image= new HObject();
 
 
                 //UI显示接收信息内容
@@ -108,10 +108,8 @@ namespace HanGao.ViewModel
 
 
                 //从相机获取照片
-                UC_Visal_Function_VM.Load_Image = UC_Vision_CameraSet_ViewModel.GetOneFrameTimeout(UC_Visal_Function_VM.Features_Window.HWindow);
-
-
-
+                if (UC_Vision_CameraSet_ViewModel.Get_Image( ref _Image, UC_Vision_CameraSet_ViewModel.Get_Image_Model_Enum.相机采集, UC_Visal_Function_VM.Features_Window.HWindow))
+                {
 
                 //清楚模板内容，查找图像模型
                 if (Find_Calibration_Mod(Split_Image_Show_UI) == 9)
@@ -172,8 +170,14 @@ namespace HanGao.ViewModel
                 }
 
 
-
-                
+                }
+                else
+                {
+                    _Send.IsStatus = 0;
+                    _Send.Message_Error = Calibration_Error_Message_Enum.Find_time_timeout.ToString();
+                    string _Str = KUKA_Send_Receive_Xml.Property_Xml<Calibration_Data_Send>(_Send);
+                    return _Str;
+                }
 
 
             };
@@ -267,19 +271,9 @@ namespace HanGao.ViewModel
             {
 
 
-                switch (Selected_Get_Image)
-                {
-                    case 0:
-                        UC_Visal_Function_VM.Load_Image = UC_Vision_CameraSet_ViewModel.GetOneFrameTimeout(UC_Visal_Function_VM.Features_Window.HWindow);
-                        break;
-                    case 1:
+                HObject _Image = new HObject();
 
-                        UC_Visal_Function_VM.Load_Image = SHalcon.Disp_Image(UC_Visal_Function_VM.Features_Window.HWindow, Image_Location_UI);
-
-                        break;
-                }
-
-
+                UC_Vision_CameraSet_ViewModel.Get_Image(ref _Image, (UC_Vision_CameraSet_ViewModel.Get_Image_Model_Enum)Selected_Get_Image, UC_Visal_Function_VM.Features_Window.HWindow, Image_Location_UI);
 
                 await Task.Delay(100);
 

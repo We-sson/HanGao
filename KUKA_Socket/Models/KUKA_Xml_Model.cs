@@ -142,12 +142,14 @@ namespace KUKA_Socket.Models
         Find_Model,
     }
 
-
+    /// <summary>
+    /// 标定错误消息返回
+    /// </summary>
     public enum Calibration_Error_Message_Enum
     {
         No_Error,
         Find_time_timeout,
-
+        Camera_Connection_Time_Out
 
 
     }

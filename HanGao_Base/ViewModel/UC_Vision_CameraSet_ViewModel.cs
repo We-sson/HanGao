@@ -559,14 +559,68 @@ namespace HanGao.ViewModel
 
                 Button E = Sm.Source as Button;
 
+                HObject _Image = new HObject();
 
-                UC_Visal_Function_VM.Load_Image = GetOneFrameTimeout(UC_Visal_Function_VM.Live_Window.HWindow);
+                Get_Image( ref _Image, Get_Image_Model_Enum.相机采集, UC_Visal_Function_VM.Features_Window.HWindow);
 
+            
 
 
                 await Task.Delay(50);
             });
         }
+
+        
+
+
+        /// <summary>
+        /// 根据采集方式获取图像
+        /// </summary>
+        /// <param name="_Image"></param>
+        /// <param name="_Get_Model"></param>
+        /// <param name="_Window"></param>
+        /// <param name="_path"></param>
+        /// <returns></returns>
+        public static bool Get_Image(ref HObject _Image , Get_Image_Model_Enum _Get_Model, HWindow _Window ,string _path="")
+        {
+
+            HObject _image = new HObject();
+
+
+            switch (_Get_Model)
+            {
+                case Get_Image_Model_Enum.相机采集:
+
+                    if (GetOneFrameTimeout(ref _image, _Window) ==false )
+                    {
+                        return false;
+                    }
+                   
+                    break;
+                case Get_Image_Model_Enum.图像采集:
+
+                    if (_path!="")
+                    {
+
+                    HOperatorSet.ReadImage(out _image, _path);
+                    _Window.DispObj(_image);
+                        
+                    }
+                    else
+                    {
+                        User_Log_Add("图像读取地址错误，请检查路径！");
+                        return false ;
+                    }
+ 
+                    break;
+            }
+            _Image = _image;
+            UC_Visal_Function_VM.Load_Image = _Image;
+
+             return true;
+
+        }
+
 
 
 
@@ -574,25 +628,37 @@ namespace HanGao.ViewModel
         /// 获得一图像显示到指定窗口
         /// </summary>
         /// <param name="_HWindow"></param>
-        public static HObject GetOneFrameTimeout(HWindow _HWindow)
+        public static bool GetOneFrameTimeout(ref HObject Image ,HWindow _Window)
         {
 
             //设置相机总参数
-            if (MVS_Camera.Set_Camrea_Parameters_List(Camera_Parameter_Val) != true) { return default; }
+            if (MVS_Camera.Set_Camrea_Parameters_List(Camera_Parameter_Val))
+            {
 
 
-            //获得一帧图片信息
-            MVS_Image_Mode _Image = MVS_Camera.GetOneFrameTimeout();
-
-            //转换Halcon图像变量
-            HObject Image = SHalcon.Mvs_To_Halcon_Image(_Image.FrameEx_Info.ImageInfo.Width, _Image.FrameEx_Info.ImageInfo.Height, _Image.PData);
-            //发送显示图像位置
-            //WeakReferenceMessenger.Default.Send<HImage_Display_Model, string>(new HImage_Display_Model() { Image = Image, Image_Show_Halcon = _HWindow }, nameof(Meg_Value_Eunm.HWindow_Image_Show));
-
-            _HWindow.DispObj(Image);
 
 
-            return Image;
+
+
+
+                //获得一帧图片信息
+                MVS_Image_Mode _Image = MVS_Camera.GetOneFrameTimeout();
+
+                //转换Halcon图像变量
+                Image = SHalcon.Mvs_To_Halcon_Image(_Image.FrameEx_Info.ImageInfo.Width, _Image.FrameEx_Info.ImageInfo.Height, _Image.PData);
+                //发送显示图像位置
+                //WeakReferenceMessenger.Default.Send<HImage_Display_Model, string>(new HImage_Display_Model() { Image = Image, Image_Show_Halcon = _HWindow }, nameof(Meg_Value_Eunm.HWindow_Image_Show));
+                _Window.DispObj(Image);
+
+                return true;
+            }
+            else
+            {
+                User_Log_Add("相机设置参数错误，连接失败，请检查相机连接和参数！");
+
+                return false;
+            }
+
 
 
         }
@@ -678,6 +744,17 @@ namespace HanGao.ViewModel
             多帧模式,
             持续采集模式
         }
+        public enum Get_Image_Model_Enum
+        {
+            相机采集,
+            图像采集,
+            触发采集
+
+
+
+
+        }
+
 
 
     }

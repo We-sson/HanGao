@@ -35,6 +35,12 @@ namespace Halcon_SDK_DLL
 
 
 
+        
+
+
+
+
+
         /// <summary>
         /// 保存标定矩阵坐标方法
         /// </summary>
@@ -354,33 +360,37 @@ namespace Halcon_SDK_DLL
         }
 
 
-        /// <summary>
-        /// 从路径读取图片显示到控件
-        /// </summary>
-        /// <param name="_Window"></param>
-        /// <param name="_Path"></param>
-        /// <returns></returns>
-        public HObject Disp_Image(HWindow _Window, string _Path)
-        {
+        ///// <summary>
+        ///// 从路径读取图片显示到控件
+        ///// </summary>
+        ///// <param name="_Window"></param>
+        ///// <param name="_Path"></param>
+        ///// <returns></returns>
+        //public bool Disp_Image(ref HObject Image, HWindow _Window, string _Path)
+        //{
 
-            HOperatorSet.GenEmptyObj(out HObject Image);
+        //    HOperatorSet.GenEmptyObj(out  Image);
 
-            if (_Path != "")
-            {
+        //    if (_Path != "")
+        //    {
 
-                //转换Halcon图像变量
-                HOperatorSet.ReadImage(out Image, _Path);
+        //        //转换Halcon图像变量
+        //        HOperatorSet.ReadImage(out Image, _Path);
 
-                _Window.DispObj(Image);
-
-
-                return Image;
-            }
-            return default;
+        //        _Window.DispObj(Image);
 
 
+        //        return true;
+        //    }else
+        //    {
 
-        }
+        //        return false;
+        //    }
+         
+
+
+
+        //}
 
 
         /// <summary>

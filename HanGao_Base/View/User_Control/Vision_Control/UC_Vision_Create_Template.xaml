@@ -1201,7 +1201,18 @@
                                     Margin="8,4,8,4"
                                     Background="{DynamicResource 全局_按钮_黑颜色}"
                                     CornerRadius="1"
-                                    Opacity=" 0.5" />
+                                    Opacity=" 0.5">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=ShapeModel_UI, Path=SelectedIndex}" Value="3">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
 
                             <Grid Height="35" Margin="8">
 
@@ -2479,7 +2490,19 @@
                                     Margin="8,4,8,4"
                                     Background="{DynamicResource 全局_按钮_黑颜色}"
                                     CornerRadius="1"
-                                    Opacity=" 0.5" />
+                                    Opacity=" 0.5">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+
+                                            <DataTrigger Binding="{Binding ElementName=Text_ShapeModel_UI, Path=SelectedIndex}" Value="1">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
 
 
                             <Grid Height="35" Margin="8">
