@@ -9,9 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Point = System.Windows.Point;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
-
-
-
+using Halcon_SDK_DLL.Model;
 
 namespace Halcon_SDK_DLL
 {

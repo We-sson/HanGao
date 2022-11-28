@@ -1,5 +1,6 @@
 ﻿
 using Halcon_SDK_DLL;
+using Halcon_SDK_DLL.Model;
 using HanGao.View.User_Control.Vision_Control;
 using Microsoft.Win32;
 using Ookii.Dialogs.Wpf;
@@ -44,11 +45,11 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 创建模板显示UI名称
         /// </summary>
-        public IEnumerable<KeyValuePair<int, string>> Shape_Model_Name_UI { private set; get; }
+        //public IEnumerable<KeyValuePair<int, string>> Shape_Model_Name_UI { private set; get; }
 
 
 
-        public Subpixel_Values_Enum Subpixel_Values_UI { get; set; }
+        //public Subpixel_Values_Enum Subpixel_Values_UI { get; set; }
 
 
 
@@ -78,28 +79,14 @@ namespace HanGao.ViewModel
         public HTuple Halcon_Create_Scaled_Shape_ModelXld_ID { set; get; }
 
 
-
+        public ShapeModel_Name_Enum ShapeModel_Name { set; get; } = ShapeModel_Name_Enum.F_45;
 
         /// <summary>
         /// 一般形状模型匹配创建属性
         /// </summary>
         public Create_Shape_Based_ModelXld Halcon_Create_Shape_ModelXld_UI { set; get; } = new Create_Shape_Based_ModelXld() { Shape_Based_Model = Shape_Based_Model_Enum.shape_model };
 
-        ///// <summary>
-        ///// 可变形模型匹配创建属性
-        ///// </summary>
-        //public Create_Shape_Based_ModelXld Halcon_Create_Planar_Uncalib_Deformable_ModelXld_UI { set; get; } = new Create_Shape_Based_ModelXld();
-
-        ///// <summary>
-        ///// 局部可变形匹配创建属性
-        ///// </summary>
-        //public Create_Shape_Based_ModelXld Halcon_Create_Local_Deformable_ModelXld_UI { set; get; } = new Create_Shape_Based_ModelXld();
-
-        ///// <summary>
-        ///// 各向同性缩放的形状模型属性
-        ///// </summary>
-        //public Create_Shape_Based_ModelXld Halcon_Create_Scaled_Shape_ModelXld_UI { set; get; } = new Create_Shape_Based_ModelXld();
-
+ 
         /// <summary>
         /// 一般形状模型匹配查找属性
         /// </summary>
@@ -119,11 +106,6 @@ namespace HanGao.ViewModel
         public Find_Shape_Based_ModelXld Halcon_Find_Scaled_Shape_ModelXld_UI { set; get; } = new Find_Shape_Based_ModelXld();
 
 
-
-        ///// <summary>
-        ///// 一般形状模型匹配查找结果属性
-        ///// </summary>
-        //public Halcon_Find_Shape_Out_Parameter Halcon_Find_Deformable_Out { set; get; } = new Halcon_Find_Shape_Out_Parameter();
 
 
         /// <summary>
@@ -242,7 +224,7 @@ namespace HanGao.ViewModel
         /// </summary>
         public ICommand New_ShapeModel_Comm
         {
-            get => new AsyncRelayCommand<UC_Vision_Create_Template>(async (Sm) =>
+            get => new AsyncRelayCommand<RoutedEventArgs>(async (Sm) =>
             {
                 //Button Window_UserContol = Sm.Source as Button;
 
@@ -250,7 +232,7 @@ namespace HanGao.ViewModel
                 HObject _ModelsXld = Draw_ShapeModel_Group();
                 string _Path = "";
 
-                string _Name = ((ShapeModel_Name_Enum)Sm.ShapeModel_Name.SelectedIndex).ToString();
+                string _Name = ShapeModel_Name.ToString();
 
                 //根据用户选择创建对应的模板类型
                 for (int i = 0; i < Shape_Model_Group.Length; i++)
@@ -577,7 +559,7 @@ namespace HanGao.ViewModel
                 HTuple _ModelID = new HTuple();
 
                 //获得识别位置名称
-                string _Name = ((ShapeModel_Name_Enum)Sm.Text_ShapeModel_Name.SelectedIndex).ToString();
+                string _Name = ShapeModel_Name.ToString();
 
 
 
@@ -627,72 +609,28 @@ namespace HanGao.ViewModel
 
 
 
-
-
-
-
-
-                switch (Sm.Text_ShapeModel_UI.SelectedIndex)
+                switch (Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model)
                 {
-                    case 0:
-                        //控件参数的值赋值
-                        //Halcon_Find_Shape_ModelXld_UI.AngleStart = Sm.Text_AngleStart.Value;
-                        //Halcon_Find_Shape_ModelXld_UI.AngleExtent = Sm.Text_AngleExtent.Value;
-                        //Halcon_Find_Shape_ModelXld_UI.MinScore = Sm.Text_MinScore.Value;
-                        //Halcon_Find_Shape_ModelXld_UI.NumMatches = (int)Sm.Text_NumMatches.Value;
-                        //Halcon_Find_Shape_ModelXld_UI.SubPixel = (Subpixel_Values_Enum)Sm.Text_SubPixel.SelectedIndex;
-                        //Halcon_Find_Shape_ModelXld_UI.MaxOverlap = Sm.Text_MaxOverlap.Value;
-                        //Halcon_Find_Shape_ModelXld_UI.NumLevels = (int)Sm.Text_NumLevels.Value;
-                        //Halcon_Find_Shape_ModelXld_UI.Greediness = Sm.Text_Greediness.Value;
+                    case Shape_Based_Model_Enum.shape_model:
 
                         _ModelID = Halcon_Create_Shape_ModelXld_ID;
 
-                        //开启多线程
-
-
-
-
-
-
-
                         break;
-                    case 1:
-
-
-
-                        ////控件参数的值赋值
-                        //Halcon_Find_Planar_Uncalib_Deformable_ModelXld_UI.AngleStart = Sm.Text_AngleStart.Value;
-                        //Halcon_Find_Planar_Uncalib_Deformable_ModelXld_UI.AngleExtent = Sm.Text_AngleExtent.Value;
-                        //Halcon_Find_Planar_Uncalib_Deformable_ModelXld_UI.ScaleRMin = Sm.Text_ScaleRMin.Value;
-                        //Halcon_Find_Planar_Uncalib_Deformable_ModelXld_UI.ScaleRMax = Sm.Text_ScaleRMax.Value;
-                        //Halcon_Find_Planar_Uncalib_Deformable_ModelXld_UI.ScaleCMin = Sm.Text_ScaleCMin.Value;
-                        //Halcon_Find_Planar_Uncalib_Deformable_ModelXld_UI.ScaleCMax = Sm.Text_ScaleCMax.Value;
-                        //Halcon_Find_Planar_Uncalib_Deformable_ModelXld_UI.MinScore = Sm.Text_MinScore.Value;
-                        //Halcon_Find_Planar_Uncalib_Deformable_ModelXld_UI.NumMatches = (int)Sm.Text_NumMatches.Value;
-                        //Halcon_Find_Planar_Uncalib_Deformable_ModelXld_UI.MaxOverlap = Sm.Text_MaxOverlap.Value;
-                        //Halcon_Find_Planar_Uncalib_Deformable_ModelXld_UI.NumLevels = (int)Sm.Text_NumLevels.Value;
-                        //Halcon_Find_Planar_Uncalib_Deformable_ModelXld_UI.Greediness = Sm.Text_Greediness.Value;
-
-
-                        //开启多线程
+                    case Shape_Based_Model_Enum.planar_deformable_model:
 
                         _ModelID = Halcon_Create_Planar_Uncalib_Deformable_ModelXld_ID;
 
-
-
                         break;
-                    case 2:
+                    case Shape_Based_Model_Enum.local_deformable_model:
                         _ModelID = Halcon_Create_Local_Deformable_ModelXld_ID;
 
-
                         break;
-                    case 3:
+                    case Shape_Based_Model_Enum.Scale_model:
                         _ModelID = Halcon_Create_Scaled_Shape_ModelXld_ID;
 
-
                         break;
-
                 }
+
 
 
 
@@ -1073,7 +1011,6 @@ namespace HanGao.ViewModel
         Draw_Ok
     }
 
-
     /// <summary>
     /// 匹配模型位置名称
     /// </summary>
@@ -1085,24 +1022,30 @@ namespace HanGao.ViewModel
         F_315
     }
 
+
+
     public class Halcon_StringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
 
-            if (value is double)
+            if (value is string  @String)
             {
-                if ((double)value == 0)
+                if (@String == "Auto")
                 {
-                    return "Auto";
+                    return (double )0;
                 }
                 else
                 {
-                    return value.ToString();
+                    return double.Parse(@String);
                 }
             }
+            else
+            {
 
-            return default;
+            return value;
+            }
+
 
 
         }
@@ -1110,8 +1053,7 @@ namespace HanGao.ViewModel
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
 
-            return default(string);
-
+            return value.ToString();
 
 
         }
@@ -1119,4 +1061,44 @@ namespace HanGao.ViewModel
 
 
     }
+
+    public class Halcon_EnumConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+
+
+
+
+
+
+
+
+            int enumValue = 0;
+            if (parameter is Type)
+            {
+                enumValue = (int)Enum.Parse((Type)parameter, value.ToString());
+            }
+            return enumValue;
+
+
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+
+            Enum returnValue = default;
+            if (parameter is Type @type)
+            {
+                returnValue = (Enum)Enum.Parse(@type, value.ToString());
+            }
+            return returnValue;
+
+        }
+
+
+
+    }
+
+
 }

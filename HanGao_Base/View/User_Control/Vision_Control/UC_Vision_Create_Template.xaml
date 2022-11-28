@@ -1,10 +1,11 @@
 ﻿<UserControl x:Class="HanGao.View.User_Control.Vision_Control.UC_Vision_Create_Template"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Viewmodel="clr-namespace:HanGao.ViewModel"
+             xmlns:Enum="clr-namespace:HanGao.ViewModel"
+             xmlns:Halcon_Enum="clr-namespace:Halcon_SDK_DLL.Model;assembly=Halcon_SDK_DLL"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:local="clr-namespace:HanGao.View.User_Control.Vision_Control"
+             xmlns:local="clr-namespace:HanGao.ViewModel"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sys="clr_namespace:System;assemly=mscorlib"
              d:DesignHeight="2517"
@@ -13,7 +14,8 @@
              mc:Ignorable="d">
 
     <UserControl.Resources>
-        <Viewmodel:Halcon_StringConverter x:Key="Halcon_StringConverter" />
+        <Enum:Halcon_StringConverter x:Key="Halcon_StringConverter" />
+        <Enum:Halcon_EnumConverter x:Key="Halcon_EnumConverter" />
     </UserControl.Resources>
 
 
@@ -616,7 +618,7 @@
                                           BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                           BorderThickness="2"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="1">
+                                          SelectedIndex="{Binding Halcon_Create_Shape_ModelXld_UI.Shape_Based_Model, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:Shape_Based_Model_Enum}}">
                                     <ComboBoxItem>
 
                                         <TextBlock Text="一般形状匹配参数"
@@ -809,7 +811,7 @@
                                         Maximum="1.57"
                                         Minimum="0"
                                         TickFrequency=" 0.01"
-                                        Value="{Binding Halcon_Create_Shape_ModelXld_UI.AngleStart}" />
+                                        Value="{Binding Halcon_Create_Shape_ModelXld_UI.AngleStart, Converter={StaticResource Halcon_StringConverter}}" />
 
                                 <TextBox Grid.Column=" 2"
                                          Width=" 100"
@@ -923,7 +925,7 @@
                                         Maximum="0.2"
                                         Minimum="0"
                                         TickFrequency=" 0.01"
-                                        Value="{Binding Halcon_Create_Shape_ModelXld_UI.ScaleRStep}" />
+                                        Value="{Binding Halcon_Create_Shape_ModelXld_UI.ScaleRStep, Converter={StaticResource Halcon_StringConverter}}" />
 
                                 <TextBox Grid.Column=" 2"
                                          Width=" 100"
@@ -1118,7 +1120,7 @@
                                         Maximum="0.2"
                                         Minimum="0"
                                         TickFrequency=" 0.01"
-                                        Value="{Binding Halcon_Create_Shape_ModelXld_UI.ScaleCStep}" />
+                                        Value="{Binding Halcon_Create_Shape_ModelXld_UI.ScaleCStep, Converter={StaticResource Halcon_StringConverter}}" />
 
                                 <TextBox Grid.Column=" 2"
                                          Width=" 100"
@@ -1172,7 +1174,7 @@
                                         Maximum="0.2"
                                         Minimum=" 0"
                                         TickFrequency=" 0.01"
-                                        Value="{Binding Halcon_Create_Shape_ModelXld_UI.ScaleStep}" />
+                                        Value="{Binding Halcon_Create_Shape_ModelXld_UI.ScaleStep, Converter={StaticResource Halcon_StringConverter}}" />
 
                                 <TextBox Grid.Column=" 2"
                                          Width=" 100"
@@ -1256,7 +1258,7 @@
                                           BorderThickness="2"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="{Binding Halcon_Create_Shape_ModelXld_UI.Optimization}">
+                                          SelectedIndex="{Binding Halcon_Create_Shape_ModelXld_UI.Optimization, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:Optimization_Enum}}">
                                     <ComboBoxItem>
 
                                         <TextBlock Text="auto"
@@ -1350,7 +1352,7 @@
                                           BorderThickness="2"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="{Binding Halcon_Create_Shape_ModelXld_UI.Metric}">
+                                          SelectedIndex="{Binding Halcon_Create_Shape_ModelXld_UI.Metric, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:Metric_Enum}}">
                                     <ComboBoxItem>
 
                                         <TextBlock Text="ignore_color_polarity"
@@ -1636,7 +1638,7 @@
                                           BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                           BorderThickness="2"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="0">
+                                          SelectedIndex="{Binding ShapeModel_Name, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:ShapeModel_Name_Enum}}">
                                     <ComboBoxItem>
 
                                         <TextBlock Text="F_45"
@@ -1696,9 +1698,7 @@
                                     <i:Interaction.Triggers>
 
                                         <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding New_ShapeModel_Comm}"
-                                                                   CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UC_Vision_Create_Template}}}"
-                                                                   PassEventArgsToCommand="True" />
+                                            <i:InvokeCommandAction Command="{Binding New_ShapeModel_Comm}" PassEventArgsToCommand="True" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </Button>
@@ -1745,9 +1745,7 @@
                                     <i:Interaction.Triggers>
 
                                         <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding Check_ShapeModel_Comm}"
-                                                                   CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UC_Vision_Create_Template}}}"
-                                                                   PassEventArgsToCommand="True" />
+                                            <i:InvokeCommandAction Command="{Binding Check_ShapeModel_Comm}" PassEventArgsToCommand="True" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </Button>
@@ -1832,7 +1830,7 @@
                                           BorderThickness="2"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="1">
+                                          SelectedIndex="{Binding Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:Shape_Based_Model_Enum}}">
                                     <ComboBoxItem>
 
                                         <TextBlock Text="一般形状匹配参数"
@@ -2231,7 +2229,7 @@
 
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=Text_AngleStart, Path=Value}"
+                                         Text="{Binding ElementName=Find_AngleStart, Path=Value}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -2267,7 +2265,7 @@
                                         Value="{Binding Halcon_Find_Shape_ModelXld_UI.AngleExtent}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=Text_AngleExtent, Path=Value}"
+                                         Text="{Binding ElementName=Find_AngleExtent, Path=Value}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -2329,7 +2327,7 @@
                                         Value="{Binding Halcon_Find_Shape_ModelXld_UI.ScaleRMin}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=Text_ScaleRMin, Path=Value}"
+                                         Text="{Binding ElementName=Find_ScaleRMin, Path=Value}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -2362,7 +2360,7 @@
                                            FontFamily="{DynamicResource 全局_文字_数字字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Text_ScaleRMax" Grid.Column=" 1"
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Find_ScaleRMax" Grid.Column=" 1"
                                         Margin="5"
                                         VerticalAlignment="Center"
                                         HorizontalContentAlignment="Stretch"
@@ -2375,7 +2373,7 @@
                                         Value="{Binding Halcon_Find_Shape_ModelXld_UI.ScaleRMax}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=Text_ScaleRMax, Path=Value}"
+                                         Text="{Binding ElementName=Find_ScaleRMax, Path=Value}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -2421,7 +2419,7 @@
                                         Value="{Binding Halcon_Find_Shape_ModelXld_UI.ScaleCMin}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=Text_ScaleCMin, Path=Value}"
+                                         Text="{Binding ElementName=Find_ScaleCMin, Path=Value}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -2467,7 +2465,7 @@
                                         Value="{Binding Halcon_Find_Shape_ModelXld_UI.ScaleCMax}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=Text_ScaleCMax, Path=Value}"
+                                         Text="{Binding ElementName=Find_ScaleCMax, Path=Value}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -2510,7 +2508,7 @@
                                         Value="{Binding Halcon_Find_Shape_ModelXld_UI.MinScore}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=Text_MinScore, Path=Value}"
+                                         Text="{Binding ElementName=Find_MinScore, Path=Value}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -2546,7 +2544,7 @@
                                         Value="{Binding Halcon_Find_Shape_ModelXld_UI.NumMatches}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=Text_NumMatches, Path=Value}"
+                                         Text="{Binding ElementName=Find_NumMatches, Path=Value}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -2582,7 +2580,7 @@
                                         Value="{Binding Halcon_Find_Shape_ModelXld_UI.MaxOverlap}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=Text_MaxOverlap, Path=Value}"
+                                         Text="{Binding ElementName=Find_MaxOverlap, Path=Value}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -2625,7 +2623,7 @@
                                           BorderThickness="2"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="{Binding Halcon_Find_Shape_ModelXld_UI.SubPixel}">
+                                          SelectedIndex="{Binding Halcon_Find_Shape_ModelXld_UI.SubPixel, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:Subpixel_Values_Enum}}">
                                     <ComboBoxItem>
 
                                         <TextBlock Text="none"
@@ -2710,7 +2708,7 @@
                                         Value="{Binding Halcon_Find_Shape_ModelXld_UI.NumLevels}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=Text_NumLevels, Path=Value}"
+                                         Text="{Binding ElementName=Find_NumLevels, Path=Value}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -2746,7 +2744,7 @@
                                         Value="{Binding Halcon_Find_Shape_ModelXld_UI.Greediness}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=Text_Greediness, Path=Value}"
+                                         Text="{Binding ElementName=Find_Greediness, Path=Value}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -2927,13 +2925,14 @@
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
 
-                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="Text_ShapeModel_Name" Grid.Column=" 1"
+                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="Find_ShapeModel_Name" Grid.Column=" 1"
                                           Margin="0,0,6,0"
                                           VerticalContentAlignment="Center"
                                           BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                           BorderThickness="2"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="0">
+                                          SelectedIndex="{Binding ShapeModel_Name, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:ShapeModel_Name_Enum}}">
+
                                     <ComboBoxItem>
 
                                         <TextBlock Text="F_45"
@@ -3031,9 +3030,7 @@
                                     <i:Interaction.Triggers>
 
                                         <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding Text_ShapeModel_Comm}"
-                                                                   CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UC_Vision_Create_Template}}}"
-                                                                   PassEventArgsToCommand="True" />
+                                            <i:InvokeCommandAction Command="{Binding Text_ShapeModel_Comm}" PassEventArgsToCommand="True" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </Button>
