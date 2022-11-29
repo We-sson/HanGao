@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 using Point = System.Windows.Point;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using Halcon_SDK_DLL.Model;
+using System.Xml.Linq;
+using System.Threading;
+using System.Runtime.InteropServices;
 
 namespace Halcon_SDK_DLL
 {
@@ -360,37 +363,38 @@ namespace Halcon_SDK_DLL
         }
 
 
-        ///// <summary>
-        ///// 从路径读取图片显示到控件
-        ///// </summary>
-        ///// <param name="_Window"></param>
-        ///// <param name="_Path"></param>
-        ///// <returns></returns>
-        //public bool Disp_Image(ref HObject Image, HWindow _Window, string _Path)
-        //{
-
-        //    HOperatorSet.GenEmptyObj(out  Image);
-
-        //    if (_Path != "")
-        //    {
-
-        //        //转换Halcon图像变量
-        //        HOperatorSet.ReadImage(out Image, _Path);
-
-        //        _Window.DispObj(Image);
+        public static bool Get_ModelXld( ref HObject ho_ModelContours , Shape_Based_Model_Enum _Model, HTuple _ModelXld_ID,int _Xld_Number, HWindow _Window)
+        {
 
 
-        //        return true;
-        //    }else
-        //    {
+            switch (_Model)
+            {
+                case Shape_Based_Model_Enum.shape_model & Shape_Based_Model_Enum.Scale_model:
 
-        //        return false;
-        //    }
-         
+                    HOperatorSet.GetShapeModelContours(out ho_ModelContours, _ModelXld_ID, _Xld_Number);
 
 
+                    break;
+                case Shape_Based_Model_Enum.planar_deformable_model | Shape_Based_Model_Enum.local_deformable_model:
 
-        //}
+                    HOperatorSet.GetDeformableModelContours(out ho_ModelContours, _ModelXld_ID, _Xld_Number);
+
+
+                    break;
+             
+            }
+
+
+            _Window.ClearWindow();
+            _Window.DispObj(ho_ModelContours);
+
+            return true;
+
+
+
+
+        }
+
 
 
         /// <summary>
@@ -443,33 +447,75 @@ namespace Halcon_SDK_DLL
         /// <param name="_Read_Enum"></param>
         /// <param name="_Path"></param>
         /// <returns></returns>
-        public HTuple Read_ModelsXLD_File(Find_Model_Enum _Read_Enum, string _Path)
+        public static  HTuple Read_ModelsXLD_File(Shape_Based_Model_Enum _Read_Enum, string _Path)
         {
+
+
+     
+      
+                //读取模型文件
+
+
+
 
             HTuple _ModelID = new HTuple();
 
-            //根据匹配模型类型 读取模板内的xld对象
+
+
+
+
+
+
+
+
             switch (_Read_Enum)
             {
-                case Find_Model_Enum _Enum when (_Enum == Find_Model_Enum.Shape_Model) || (_Enum == Find_Model_Enum.Scale_Model):
+                case Shape_Based_Model_Enum.shape_model & Shape_Based_Model_Enum.Scale_model:
 
                     HOperatorSet.ReadShapeModel(_Path, out _ModelID);
-                    break;
 
-                case Find_Model_Enum.Shape_Model | Find_Model_Enum.Scale_Model:
-                    break;
 
-                case Find_Model_Enum _Enum when (_Enum == Find_Model_Enum.Planar_Deformable_Model) || (_Enum == Find_Model_Enum.Local_Deformable_Model):
+                    break;
+                case Shape_Based_Model_Enum.planar_deformable_model | Shape_Based_Model_Enum.local_deformable_model:
 
                     HOperatorSet.ReadDeformableModel(_Path, out _ModelID);
+
+
                     break;
 
             }
 
+
+
+
+
+
+
+            //根据匹配模型类型 读取模板内的xld对象
+            //switch (_Read_Enum)
+            //{
+            //    case shape_model _Enum when (_Enum == Shape_Based_Model_Enum.shape_model) || (_Enum == Find_Model_Enum.Scale_Model):
+
+            //        HOperatorSet.ReadShapeModel(_Path, out _ModelID);
+            //        break;
+
+            //    case Find_Model_Enum.Shape_Model | Find_Model_Enum.Scale_Model:
+            //        break;
+
+            //    case Shape_Based_Model_Enum _Enum when (_Enum == Find_Model_Enum.Planar_Deformable_Model) || (_Enum == Find_Model_Enum.Local_Deformable_Model):
+
+            //        HOperatorSet.ReadDeformableModel(_Path, out _ModelID);
+            //        break;
+
+            //}
+
             return _ModelID;
 
 
+
         }
+
+
 
 
 
@@ -483,15 +529,22 @@ namespace Halcon_SDK_DLL
         /// <param name="_ModelsXLD"></param>
         /// <param name="_Path"></param>
         /// <returns></returns>
-        public HTuple ShapeModel_SaveFile( Create_Shape_Based_ModelXld _Create_Model, HObject _ModelsXLD, string _Path)
+        public static void   ShapeModel_SaveFile( ref HTuple _ModelID, Create_Shape_Based_ModelXld _Create_Model, HObject _ModelsXLD, string _Path)
         {
 
-            lock (_Create_Model)
-            {
+            //开启线保存匹配模型文件
+            //new Thread(new ThreadStart(new Action(() =>
+            //{
 
 
-                HTuple _ModelID = new HTuple();
-                _ModelID.Dispose();
+   
+
+            //lock (_Create_Model)
+            //{
+
+
+
+                    _ModelID.Dispose();
 
 
                 switch (_Create_Model.Shape_Based_Model)
@@ -552,9 +605,19 @@ namespace Halcon_SDK_DLL
 
 
       
-                return _ModelID;
 
-            }
+             
+
+                //}
+
+
+
+
+            //})))
+            //{ IsBackground = true, Name = "Create_Shape_Thread" }.Start();
+
+              
+
         }
 
 

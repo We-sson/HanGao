@@ -551,7 +551,7 @@
 
 
                                 <TextBlock Grid.Column=" 0"
-                                           Text="模板类型"
+                                           Text="创建类型"
                                            HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -562,28 +562,28 @@
                                     <StackPanel>
                                         <CheckBox Style="{DynamicResource Button_List_Style}"
                                                   Content="一般形状匹配"
-                                                  IsChecked="{Binding Shape_Model_Group[0]}"
+                                                  IsChecked="{Binding Shape_Model_Group_UI[0].IsEnable}"
                                                   Margin="4"
                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                   FontSize="16"
                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                         <CheckBox Style="{DynamicResource Button_List_Style}"
                                                   Content="线性变形匹配"
-                                                  IsChecked="{Binding Shape_Model_Group[1]}"
+                                                  IsChecked="{Binding Shape_Model_Group_UI[1].IsEnable}"
                                                   Margin="4"
                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                   FontSize="16"
                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                         <CheckBox Style="{DynamicResource Button_List_Style}"
                                                   Content="局部变形匹配"
-                                                  IsChecked="{Binding Shape_Model_Group[2]}"
+                                                  IsChecked="{Binding Shape_Model_Group_UI[2].IsEnable}"
                                                   Margin="4"
                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                   FontSize="16"
                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                         <CheckBox Style="{DynamicResource Button_List_Style}"
                                                   Content="比例缩放匹配"
-                                                  IsChecked="{Binding Shape_Model_Group[3]}"
+                                                  IsChecked="{Binding Shape_Model_Group_UI[3].IsEnable}"
                                                   Margin="4"
                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                   FontSize="16"
@@ -1731,7 +1731,7 @@
 
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" x:Name="ShapeModel_Number" Grid.Column=" 1"
-                                         Text="1"
+                                         Text="{Binding ShapeModel_Number_UI}"
                                          Width=" 100"
                                          HorizontalAlignment="Left"
                                          HorizontalContentAlignment="Center"
@@ -1747,7 +1747,7 @@
                                         Margin="0,0,0,0"
                                         HorizontalAlignment="Right"
                                         Background="{DynamicResource 全局_按钮_蓝颜色}">
-                                    <TextBlock Text="查看模型"
+                                    <TextBlock Text="读取模型"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -1842,44 +1842,52 @@
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
                                           SelectedIndex="{Binding Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:Shape_Based_Model_Enum}}">
-                                    <ComboBoxItem>
+                                    <ComboBoxItem IsEnabled="{Binding Shape_Model_Group_UI[0].IsRead}">
 
-                                        <TextBlock Text="一般形状匹配参数"
+                                        <TextBlock Style="{DynamicResource ComboBox_TextBlok_Style}"
+                                                   Text="一般形状匹配参数"
                                                    TextWrapping="Wrap"
                                                    Padding="0,4,0,4"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                    FontSize="14"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   IsEnabled="{Binding Shape_Model_Group_UI[0].IsRead}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </ComboBoxItem>
-                                    <ComboBoxItem>
+                                    <ComboBoxItem IsEnabled="{Binding Shape_Model_Group_UI[1].IsRead}">
 
-                                        <TextBlock Text="线性变形匹配参数"
+                                        <TextBlock Style="{DynamicResource ComboBox_TextBlok_Style}"
+                                                   Text="线性变形匹配参数"
                                                    TextWrapping="Wrap"
                                                    Padding="0,4,0,4"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                    FontSize="14"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   IsEnabled="{Binding Shape_Model_Group_UI[1].IsRead}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </ComboBoxItem>
-                                    <ComboBoxItem>
+                                    <ComboBoxItem IsEnabled="{Binding Shape_Model_Group_UI[2].IsRead}">
 
-                                        <TextBlock Text="局部变形匹配参数"
+                                        <TextBlock Style="{DynamicResource ComboBox_TextBlok_Style}"
+                                                   Text="局部变形匹配参数"
                                                    TextWrapping="Wrap"
                                                    Padding="0,4,0,4"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                    FontSize="14"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   IsEnabled="{Binding Shape_Model_Group_UI[2].IsRead}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </ComboBoxItem>
-                                    <ComboBoxItem>
+                                    <ComboBoxItem IsEnabled="{Binding Shape_Model_Group_UI[1].IsRead}">
 
-                                        <TextBlock Text="比例缩放匹配参数"
+                                        <TextBlock Style="{DynamicResource ComboBox_TextBlok_Style}"
+                                                   Text="比例缩放匹配参数"
                                                    TextWrapping="Wrap"
                                                    Padding="0,4,0,4"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                    FontSize="14"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   IsEnabled="{Binding Shape_Model_Group_UI[1].IsRead}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </ComboBoxItem>
                                 </ComboBox>
@@ -3042,7 +3050,8 @@
                                         Width="100"
                                         Margin="0,0,0,0"
                                         HorizontalAlignment="Right"
-                                        Background="{DynamicResource 全局_按钮_蓝颜色}">
+                                        Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                        IsEnabled="{Binding Find_Text_Models_UI_IsEnable}">
                                     <TextBlock Text="识别模型"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
