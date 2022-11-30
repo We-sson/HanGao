@@ -363,21 +363,36 @@ namespace Halcon_SDK_DLL
         }
 
 
+
+        /// <summary>
+        /// 更加ID获得Xld对象，显示到控件中
+        /// </summary>
+        /// <param name="ho_ModelContours"></param>
+        /// <param name="_Model"></param>
+        /// <param name="_ModelXld_ID"></param>
+        /// <param name="_Xld_Number"></param>
+        /// <param name="_Window"></param>
+        /// <returns></returns>
         public static bool Get_ModelXld( ref HObject ho_ModelContours , Shape_Based_Model_Enum _Model, HTuple _ModelXld_ID,int _Xld_Number, HWindow _Window)
         {
+
+            try
+            {
 
 
             switch (_Model)
             {
-                case Shape_Based_Model_Enum.shape_model & Shape_Based_Model_Enum.Scale_model:
+                    case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.shape_model || _T == Shape_Based_Model_Enum.Scale_model:
 
-                    HOperatorSet.GetShapeModelContours(out ho_ModelContours, _ModelXld_ID, _Xld_Number);
+
+                        HOperatorSet.GetShapeModelContours(out ho_ModelContours, _ModelXld_ID, _Xld_Number);
 
 
                     break;
-                case Shape_Based_Model_Enum.planar_deformable_model | Shape_Based_Model_Enum.local_deformable_model:
+                    case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.planar_deformable_model || _T == Shape_Based_Model_Enum.local_deformable_model:
 
-                    HOperatorSet.GetDeformableModelContours(out ho_ModelContours, _ModelXld_ID, _Xld_Number);
+
+                        HOperatorSet.GetDeformableModelContours(out ho_ModelContours, _ModelXld_ID, _Xld_Number);
 
 
                     break;
@@ -389,6 +404,17 @@ namespace Halcon_SDK_DLL
             _Window.DispObj(ho_ModelContours);
 
             return true;
+
+
+            }
+            catch (Exception)
+            {
+
+                return false;
+
+                throw;
+
+            }
 
 
 
@@ -404,7 +430,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_HomMat2D"></param>
         /// <param name="_Window"></param>
         /// <returns></returns>
-        public HObject ProjectiveTrans_Xld(Find_Model_Enum _Find_Enum, HTuple _ModelXld, HTuple _HomMat2D, HWindow _Window)
+        public HObject ProjectiveTrans_Xld(Shape_Based_Model_Enum _Find_Enum, HTuple _ModelXld, HTuple _HomMat2D, HWindow _Window)
         {
 
 
@@ -414,15 +440,13 @@ namespace Halcon_SDK_DLL
             //根据匹配模型类型 读取模板内的xld对象
             switch (_Find_Enum)
             {
-                case Find_Model_Enum _Enum when (_Enum == Find_Model_Enum.Shape_Model) || (_Enum == Find_Model_Enum.Scale_Model):
+                case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.shape_model || _T == Shape_Based_Model_Enum.Scale_model:
+
                     HOperatorSet.GetShapeModelContours(out _ModelConect, _ModelXld, 1);
 
                     break;
 
-                case Find_Model_Enum.Shape_Model | Find_Model_Enum.Scale_Model:
-                    break;
-
-                case Find_Model_Enum _Enum when (_Enum == Find_Model_Enum.Planar_Deformable_Model) || (_Enum == Find_Model_Enum.Local_Deformable_Model):
+                case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.planar_deformable_model || _T == Shape_Based_Model_Enum.local_deformable_model:
 
                     HOperatorSet.GetDeformableModelContours(out _ModelConect, _ModelXld, 1);
 
@@ -462,21 +486,16 @@ namespace Halcon_SDK_DLL
 
 
 
-
-
-
-
-
-
             switch (_Read_Enum)
             {
-                case Shape_Based_Model_Enum.shape_model & Shape_Based_Model_Enum.Scale_model:
+
+                case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.shape_model || _T == Shape_Based_Model_Enum.Scale_model:
 
                     HOperatorSet.ReadShapeModel(_Path, out _ModelID);
 
 
                     break;
-                case Shape_Based_Model_Enum.planar_deformable_model | Shape_Based_Model_Enum.local_deformable_model:
+                case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.planar_deformable_model || _T == Shape_Based_Model_Enum.local_deformable_model:
 
                     HOperatorSet.ReadDeformableModel(_Path, out _ModelID);
 
@@ -674,6 +693,10 @@ namespace Halcon_SDK_DLL
                         break;
                     case Shape_Based_Model_Enum.planar_deformable_model:
 
+                        _Image1 = _Image;
+                        HOperatorSet.DispObj(_Image1, _HWindow);
+
+
                         if (_Find_Property.ScaleImageMax_Enable)
                         {
                         //图像最大灰度值分布在值范围0到255 中
@@ -685,23 +708,53 @@ namespace Halcon_SDK_DLL
                         }
 
 
+
+                        if (_Find_Property.MedianRect_Enable)
+                        {
+                            //图像最大灰度值分布在值范围0到255 中
+                            HOperatorSet.MedianRect(_Image1, out _Image1, _Find_Property.MedianRect_MaskWidth, _Find_Property.MedianRect_MaskHeight);
+                            if (_Find_Property.MedianRect_Disp)
+                            {
+                                HOperatorSet.DispObj(_Image1, _HWindow);
+                            }
+                        }
+
+                        if (_Find_Property.ScaleImageMax_Enable)
+                        {
+                            //图像最大灰度值分布在值范围0到255 中
+                            HOperatorSet.ScaleImageMax(_Image1, out _Image1);
+                            if (_Find_Property.ScaleImageMax_Disp)
+                            {
+                                HOperatorSet.DispObj(_Image1, _HWindow);
+                            }
+                        }
+
+
                         if (_Find_Property.Emphasize_Enable)
                         {
                         //增强图像的对比度
-                        HOperatorSet.Emphasize(_Image1, out _Image2, _Find_Property.Emphasize_MaskWidth, _Find_Property.Emphasize_MaskHeight, _Find_Property.Emphasize_Factor);
+                        HOperatorSet.Emphasize(_Image1, out _Image1, _Find_Property.Emphasize_MaskWidth, _Find_Property.Emphasize_MaskHeight, _Find_Property.Emphasize_Factor);
                             if (_Find_Property.Emphasize_Disp)
                             {
-                                HOperatorSet.DispObj(_Image2, _HWindow);
+                                HOperatorSet.DispObj(_Image1, _HWindow);
                             }
 
                         }
 
 
-                        HOperatorSet.FindPlanarUncalibDeformableModel(_Image, _ModelXld,
+                        HOperatorSet.FindPlanarUncalibDeformableModel(_Image1, _ModelXld,
                                                                                                    (new HTuple(_Find_Property.AngleStart)).TupleRad(), (new HTuple(_Find_Property.AngleExtent)).TupleRad(), _Find_Property.ScaleRMin, _Find_Property.ScaleRMax, _Find_Property.ScaleCMin, _Find_Property.ScaleCMax, _Find_Property.MinScore,
                                                                                                    _Find_Property.NumMatches, _Find_Property.MaxOverlap, _Find_Property.NumLevels, _Find_Property.Greediness, "subpixel", "least_squares", out hv_HomMat2D, out hv_score);
+                        if (hv_score.Length!=0)
+                        {
 
                         _Find_Out=new Halcon_Find_Shape_Out_Parameter() { HomMat2D = hv_HomMat2D, Score = hv_score.D, Find_Time = (DateTime.Now - RunTime).Milliseconds };
+                        }
+                        else
+                        {
+                            _Find_Out = new Halcon_Find_Shape_Out_Parameter() {  Score =0, Find_Time = (DateTime.Now - RunTime).Milliseconds };
+
+                        }
 
 
                         break;

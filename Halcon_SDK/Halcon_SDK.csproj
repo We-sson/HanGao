@@ -41,6 +41,7 @@
     <Reference Include="hdevenginedotnet">
       <HintPath>DLL\Halcon\2022\hdevenginedotnet.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationFramework" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
@@ -55,6 +56,7 @@
     <Compile Include="Halcon_Method\Halcon_SDK.cs" />
     <Compile Include="Model\Halcon_Data_Model.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WPF_Converter\View_Converter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="halcon.dll">

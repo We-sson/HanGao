@@ -254,6 +254,9 @@ namespace Halcon_SDK_DLL.Model
             public Shape_Based_Model_Enum Shape_Based_Model { set; get; }
 
 
+
+
+
             /// <summary>
             /// 模型的最小旋转。默认值：-0.39,建议值： -3.14， -1.57， -0.79， -0.39， -0.20， 0.0
             /// </summary>
@@ -269,11 +272,11 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 不使用此参数。默认值：[]
             /// </summary>
-            public double ScaleRMax { set; get; } = 0;
+            public double ScaleRMax { set; get; } = 1.0;
             /// <summary>
             /// 不使用此参数。默认值：[]
             /// </summary>
-            public double ScaleCMax { set; get; } = 0;
+            public double ScaleCMax { set; get; } = 1.0;
             /// <summary>
             /// 阵列在列方向上的最小比例。默认值：1.0,建议值：0.5、0.6、0.7、0.8、0.9、1.0
             /// </summary>
@@ -323,15 +326,15 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             ///  增强图像的低通掩码的宽度。
             /// </summary>
-            public double Emphasize_MaskWidth { set; get; } = 30;
+            public double Emphasize_MaskWidth { set; get; } = 10;
             /// <summary>
             ///  增强图像的低通掩码的高度。
             /// </summary>
-            public double Emphasize_MaskHeight { set; get; } = 30;
+            public double Emphasize_MaskHeight { set; get; } = 10;
             /// <summary>
             /// 增强图像的对比强调的强度
             /// </summary>
-            public double Emphasize_Factor { set; get; } = 15;
+            public double Emphasize_Factor { set; get; } = 8;
 
             /// <summary>
             /// 矩形掩码的中值滤波器使能
@@ -346,11 +349,11 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 矩形掩码的中值滤波器使能,滤镜掩码的宽度。
             /// </summary>
-            public double MedianRect_MaskWidth { set; get; } = 50;
+            public double MedianRect_MaskWidth { set; get; } = 3;
             /// <summary>
             /// 矩形掩码的中值滤波器使能,滤镜掩码的高度。
             /// /// </summary>
-            public double MedianRect_MaskHeight { set; get; } = 50;
+            public double MedianRect_MaskHeight { set; get; } = 3;
 
 
         }
@@ -434,6 +437,30 @@ namespace Halcon_SDK_DLL.Model
 
 
 
+    }
+
+
+    /// <summary>
+    /// 查找模型位置方法名称枚举
+    /// </summary>
+        public enum Find_Shape_Function_Name_Enum
+    {
+        /// <summary>
+        /// 增强图像的对比度。
+        /// </summary>
+        Emphasize,
+        /// <summary>
+        /// 计算带有矩形掩码的中值滤波器。
+        /// </summary>
+        MedianRect,
+        /// <summary>
+        /// 最大灰度值分布在值范围0到255 中。
+        /// </summary>
+        ScaleImageMax,
+
+    }
+
+
 
 
         /// <summary>
@@ -495,7 +522,6 @@ namespace Halcon_SDK_DLL.Model
 
 
 
-    }
 
         /// <summary>
         /// 形状匹配模板类型枚举
@@ -534,6 +560,17 @@ namespace Halcon_SDK_DLL.Model
         F_315
     }
 
+
+    /// <summary>
+    /// 工装号数
+    /// </summary>
+    public enum Work_Name_Enum
+    {
+        Work_1,
+        Work_2,
+        Work_3,
+        Work_4
+    }
 
     /// <summary>
     /// 对于特别大的模型，通过设置来减少模型点的数量可能很有用optimization更改为不同于“无”.如果optimization = “无”，则存储所有模型点。在所有其他情况下，点数根据optimization.如果点数减少，则可能需要FindScaledShapeModel将参数设置为较小的值，例如 0.7 或 0.8。对于小型模型，模型点数量的减少不会导致搜索速度加快，因为在这种情况下，通常必须检查模型的更多潜在实例

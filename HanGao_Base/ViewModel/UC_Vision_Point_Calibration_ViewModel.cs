@@ -346,22 +346,22 @@ namespace HanGao.ViewModel
 
 
                 //初始化查找模型图像参数
-                Find_Calibration = new Halcon_Find_Calibration_Model()
-                {
-                    Filtering_Model = Sm.Filtering_Model_UI.SelectedIndex,
-                    MaskWidth = Sm.MaskWidth_UI.Value,
-                    MaskHeight = Sm.MaskHeight_UI.Value,
-                    MaskType_Model = ((MedianImage_MaskType_Enum)Sm.MaskType_Model_UI.SelectedIndex),
-                    Radius = Sm.Radius_UI.Value,
-                    Margin_Model = (MedianImage_Margin_Enum)Sm.Margin_Model_UI.SelectedIndex,
-                    Emphasize_MaskWidth = Sm.Emphasize_MaskWidth_UI.Value,
-                    Emphasize_MaskHeight = Sm.Emphasize_MaskHeight_UI.Value,
-                    MinGray = Sm.MinGray_UI.Value,
-                    MaxGray = Sm.MaxGray_UI.Value,
-                    Factor = Sm.Factor_UI.Value,
-                    Max_Area=Sm.Max_Area_UI.Value,
-                    Min_Area=Sm.Min_Area_UI.Value,
-                };
+                //Find_Calibration = new Halcon_Find_Calibration_Model()
+                //{
+                //    Filtering_Model = Sm.Filtering_Model_UI.SelectedIndex,
+                //    MaskWidth = Sm.MaskWidth_UI.Value,
+                //    MaskHeight = Sm.MaskHeight_UI.Value,
+                //    MaskType_Model = ((MedianImage_MaskType_Enum)Sm.MaskType_Model_UI.SelectedIndex),
+                //    Radius = Sm.Radius_UI.Value,
+                //    Margin_Model = (MedianImage_Margin_Enum)Sm.Margin_Model_UI.SelectedIndex,
+                //    Emphasize_MaskWidth = Sm.Emphasize_MaskWidth_UI.Value,
+                //    Emphasize_MaskHeight = Sm.Emphasize_MaskHeight_UI.Value,
+                //    MinGray = Sm.MinGray_UI.Value,
+                //    MaxGray = Sm.MaxGray_UI.Value,
+                //    Factor = Sm.Factor_UI.Value,
+                //    Max_Area=Sm.Max_Area_UI.Value,
+                //    Min_Area=Sm.Min_Area_UI.Value,
+                //};
 
 
                 //查找图像中模板位置
