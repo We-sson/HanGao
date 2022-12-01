@@ -4,6 +4,8 @@ using System.Drawing;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static HanGao.ViewModel.UC_Vision_CameraSet_ViewModel;
+using static HanGao.ViewModel.User_Control_Log_ViewModel;
+
 using Point = System.Windows.Point;
 
 namespace HanGao.ViewModel
@@ -48,6 +50,8 @@ namespace HanGao.ViewModel
         /// 保存添加模型点属性
         /// </summary>
         public Vision_Create_Model_Drawing_Model User_Drawing_Data { set; get; }
+
+
 
         /// <summary>
         /// 实施相机视角控件
@@ -101,6 +105,9 @@ namespace HanGao.ViewModel
         /// </summary>
         public Point Halcon_Position { set; get; }
 
+        /// <summary>
+        /// 鼠标当前灰度值
+        /// </summary>
         public int  Mouse_Pos_Gray { set; get; } =-1;
 
         /// <summary>
@@ -309,6 +316,35 @@ namespace HanGao.ViewModel
                 HObject ho_Cont = new();
 
 
+                if (User_Drawing_Data == null)
+                {
+                            User_Log_Add("请添加直线或圆弧特征点，创建特征失败！");
+                    return;
+                }
+
+                switch (User_Drawing_Data.Drawing_Type)
+                {
+                    case Drawing_Type_Enme.Draw_Lin:
+
+                        if (User_Drawing_Data.Drawing_Data.Count<=1)
+                        {
+                            User_Log_Add("描绘创建直线特征小于2组特征，不能创建模型！");
+                            User_Drawing_Data = null;
+                            return;
+                        }
+
+                        break;
+                    case Drawing_Type_Enme.Draw_Cir:
+                        if (User_Drawing_Data.Drawing_Data.Count <= 2)
+                        {
+                            User_Log_Add("描绘创建圆弧特征小于3组特征，不能创建模型！");
+                            User_Drawing_Data = null;
+                            return;
+                        }
+                        break;
+                }
+
+
                 //添加到Halcon类型数据
                 for (int i = 0; i < User_Drawing_Data.Drawing_Data.Count; i++)
                 {
@@ -330,6 +366,8 @@ namespace HanGao.ViewModel
                 switch (User_Drawing_Data.Drawing_Type)
                 {
                     case Drawing_Type_Enme.Draw_Lin:
+
+
 
                         //拟合直线
                         HOperatorSet.FitLineContourXld(ho_Contour1, "tukey", -1, 0, 5, 2, out HTuple hv_RowBegin,

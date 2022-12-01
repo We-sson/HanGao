@@ -31,3 +31,6 @@ global using System.Windows.Media;
 global using HanGao.Errorinfo;
 global using KUKA_Socket.Models;
 global using Soceket_KUKA;
+global using Halcon_SDK_DLL;
+global using Halcon_SDK_DLL.Model;
+global using System.IO;

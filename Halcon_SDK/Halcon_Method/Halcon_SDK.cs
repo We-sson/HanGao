@@ -430,7 +430,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_HomMat2D"></param>
         /// <param name="_Window"></param>
         /// <returns></returns>
-        public HObject ProjectiveTrans_Xld(Shape_Based_Model_Enum _Find_Enum, HTuple _ModelXld, HTuple _HomMat2D, HWindow _Window)
+        public static  HObject ProjectiveTrans_Xld(Shape_Based_Model_Enum _Find_Enum, HTuple _ModelXld, HTuple _HomMat2D, HWindow _Window)
         {
 
 
@@ -651,7 +651,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_ModelXld"></param>
         /// <param name="_Find_Property"></param>
         /// <returns></returns>
-        public Halcon_Find_Shape_Out_Parameter Find_Deformable_Model(HWindow _HWindow, HObject _Image, HTuple _ModelXld, Find_Shape_Based_ModelXld _Find_Property)
+        public static Halcon_Find_Shape_Out_Parameter Find_Deformable_Model(HWindow _HWindow, HObject _Image, HTuple _ModelXld, Find_Shape_Based_ModelXld _Find_Property)
         {
 
 
@@ -742,9 +742,15 @@ namespace Halcon_SDK_DLL
                         }
 
 
+
+
+
                         HOperatorSet.FindPlanarUncalibDeformableModel(_Image1, _ModelXld,
                                                                                                    (new HTuple(_Find_Property.AngleStart)).TupleRad(), (new HTuple(_Find_Property.AngleExtent)).TupleRad(), _Find_Property.ScaleRMin, _Find_Property.ScaleRMax, _Find_Property.ScaleCMin, _Find_Property.ScaleCMax, _Find_Property.MinScore,
                                                                                                    _Find_Property.NumMatches, _Find_Property.MaxOverlap, _Find_Property.NumLevels, _Find_Property.Greediness, "subpixel", "least_squares", out hv_HomMat2D, out hv_score);
+                      
+                        
+                        
                         if (hv_score.Length!=0)
                         {
 

@@ -17,15 +17,6 @@ namespace HanGao.ViewModel
 
 
 
-            KUKA_Receive.KUKA_Receive_Find_String += (Calibration_Data_Receive _S,string _RStr) =>
-            {
-
-
-
-
-                return default;
-
-            };
 
 
         }

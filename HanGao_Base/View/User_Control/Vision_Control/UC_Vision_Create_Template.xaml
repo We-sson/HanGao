@@ -493,7 +493,7 @@
                           Margin="0,0,0,10"
                           HorizontalContentAlignment="Stretch"
                           VerticalContentAlignment="Stretch"
-                          IsExpanded="True">
+                          IsExpanded="false">
                     <Expander.Header>
                         <Border Margin="0" Background="{DynamicResource 全局_按钮_黑颜色}">
                             <Border.Style>
@@ -520,7 +520,7 @@
                                            VerticalAlignment="Center"
                                            Source="/Resources/Control_创建模型_ioc.png" />
                                 </Border>
-                                <TextBlock Text="创建模板参数"
+                                <TextBlock Text="创建模板"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -1884,7 +1884,7 @@
                                            VerticalAlignment="Center"
                                            Source="/Resources/Control_创建模型_ioc.png" />
                                 </Border>
-                                <TextBlock Text="测试模板识别"
+                                <TextBlock Text="查找模板"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -3088,7 +3088,7 @@
 
                             </Grid>-->
 
-                            <Grid Height="35" Margin="8">
+                            <!--<Grid Height="35" Margin="8">
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="85" />
@@ -3157,7 +3157,7 @@
 
 
 
-                            </Grid>
+                            </Grid>-->
 
                             <Grid Height="35" Margin="8">
 

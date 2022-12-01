@@ -650,10 +650,11 @@
                             </Grid.ColumnDefinitions>
                             <Border Grid.Column=" 0"
                                     Background="{DynamicResource 全局_按钮_黑颜色}"
-                                    CornerRadius="0 0 0 4"
+                                    CornerRadius="0 0 0 10"
                                     Opacity=" 0.8" />
                             <Border Grid.Column=" 1"
                                     Background="{DynamicResource 全局_按钮_绿颜色}"
+                                    CornerRadius=" 0 0 10 0"
                                     Opacity=" 0.5" />
                             <StackPanel Grid.Column=" 0"
                                         Margin="10,0,0,0"
@@ -910,7 +911,7 @@
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Source="/Resources/Control_创建模型_ioc.png" />
-                                <TextBlock Text="创建模型"
+                                <TextBlock Text="识别模型"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
