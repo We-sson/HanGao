@@ -646,16 +646,26 @@
 
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
-                                <ColumnDefinition Width="180" />
+                                <ColumnDefinition Width="auto" />
                             </Grid.ColumnDefinitions>
                             <Border Grid.Column=" 0"
                                     Background="{DynamicResource 全局_按钮_黑颜色}"
                                     CornerRadius="0 0 0 10"
                                     Opacity=" 0.8" />
                             <Border Grid.Column=" 1"
-                                    Background="{DynamicResource 全局_按钮_绿颜色}"
                                     CornerRadius=" 0 0 10 0"
-                                    Opacity=" 0.5" />
+                                    Opacity=" 0.5">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Find_Shape_Result.Score}" Value="0">
+                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
                             <StackPanel Grid.Column=" 0"
                                         Margin="10,0,0,0"
                                         HorizontalAlignment="Left"
@@ -676,16 +686,40 @@
                                         Margin="5"
                                         HorizontalAlignment="Center"
                                         Orientation="Horizontal">
-                                <TextBlock Text="位置名称：左下角  |"
+
+                                <TextBlock Text="{Binding Find_Shape_Result.Find_Time, StringFormat=Time : {0}ms}"
+                                           Margin="4,0,4,0"
+                                           VerticalAlignment="Center"
+                                           Background="Transparent"
+                                           FontSize="11"
+                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                <TextBlock Text="{Binding Find_Shape_Result.Score, StringFormat=Score :{0:F3}}"
+                                           Margin="4,0,4,0"
+                                           VerticalAlignment="Center"
+                                           Background="Transparent"
+                                           FontSize="11"
+                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                <!--<TextBlock Text="位置名称：左下角  |"
                                            VerticalAlignment="Center"
                                            FontFamily="{DynamicResource 全局_文字_数字字体}"
                                            FontSize="11"
-                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
-                                <TextBlock Text="  结果：PASS"
+                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />-->
+                                <TextBlock Margin="4,0,4,0"
                                            VerticalAlignment="Center"
                                            FontFamily="{DynamicResource 全局_文字_数字字体}"
                                            FontSize="11"
-                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                           Foreground="{DynamicResource 全局_按钮_白颜色}">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Text" Value="结果：NG" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Find_Shape_Result.Score}" Value="0">
+                                                    <Setter Property="Text" Value="结果：PASS" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
                             </StackPanel>
                         </Grid>
 

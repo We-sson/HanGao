@@ -373,7 +373,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_Xld_Number"></param>
         /// <param name="_Window"></param>
         /// <returns></returns>
-        public static bool Get_ModelXld( ref HObject ho_ModelContours , Shape_Based_Model_Enum _Model, HTuple _ModelXld_ID,int _Xld_Number, HWindow _Window)
+        public static bool Get_ModelXld( ref HObject ho_ModelContours , Shape_Based_Model_Enum _Model, HTuple _ModelXld_ID,int _Xld_Number  )
         {
 
             try
@@ -400,8 +400,8 @@ namespace Halcon_SDK_DLL
             }
 
 
-            _Window.ClearWindow();
-            _Window.DispObj(ho_ModelContours);
+            //_Window.ClearWindow();
+            //_Window.DispObj(ho_ModelContours);
 
             return true;
 
@@ -435,6 +435,7 @@ namespace Halcon_SDK_DLL
 
 
             HObject _ModelConect = new HObject();
+            HObject _ContoursProjTrans = new HObject();
 
 
             //根据匹配模型类型 读取模板内的xld对象
@@ -454,11 +455,12 @@ namespace Halcon_SDK_DLL
 
             }
 
+
             //将xld对象矩阵映射到图像中
-            HOperatorSet.ProjectiveTransContourXld(_ModelConect, out HObject _ContoursProjTrans, _HomMat2D);
+                     HOperatorSet.ProjectiveTransContourXld(_ModelConect, out  _ContoursProjTrans, _HomMat2D);
 
             //显示到对应的控件窗口
-            HOperatorSet.DispObj(_ContoursProjTrans, _Window);
+                  HOperatorSet.DispObj(_ContoursProjTrans, _Window);
 
 
             return _ContoursProjTrans;
@@ -471,7 +473,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_Read_Enum"></param>
         /// <param name="_Path"></param>
         /// <returns></returns>
-        public static  HTuple Read_ModelsXLD_File(Shape_Based_Model_Enum _Read_Enum, string _Path)
+        public static  HTuple Read_ModelsXLD_File(Shape_Based_Model_Enum _Model_Based, string _Path)
         {
 
 
@@ -486,7 +488,7 @@ namespace Halcon_SDK_DLL
 
 
 
-            switch (_Read_Enum)
+            switch (_Model_Based)
             {
 
                 case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.shape_model || _T == Shape_Based_Model_Enum.Scale_model:
@@ -535,7 +537,52 @@ namespace Halcon_SDK_DLL
         }
 
 
+        /// <summary>
+        /// 根据模型类型获得模型文件地址
+        /// </summary>
+        /// <param name="_path"></param>
+        /// <param name="_Model_Enum"></param>
+        /// <returns></returns>
+        public static   bool Get_ModelXld_Path(ref string _path, string _Location, Shape_Based_Model_Enum _Model_Enum, ShapeModel_Name_Enum _Name, Work_Name_Enum _Work)
+        {
 
+            ////获得识别位置名称
+            //string _Name = ShapeModel_Name.ToString();
+            //string _Work = Work_Name.ToString();
+
+
+            if (_Location != "")
+            {
+
+
+                _path = _Location + "\\" + _Name.ToString() + "_" + ((int)_Model_Enum).ToString() + "_" + _Work.ToString();
+
+                //路径添加格式
+                switch (_Model_Enum)
+                {
+                    case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.shape_model || _T == Shape_Based_Model_Enum.Scale_model:
+
+                        _path += ".shm";
+
+                        break;
+
+                    case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.planar_deformable_model || _T == Shape_Based_Model_Enum.local_deformable_model:
+
+                        _path += ".dfm";
+                        break;
+
+
+                }
+                return true;
+            }
+            else
+            {
+                //User_Log_Add("读取模型文件地址错误，请检查设置！");
+                return false;
+
+            }
+
+        }
 
 
 
@@ -548,7 +595,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_ModelsXLD"></param>
         /// <param name="_Path"></param>
         /// <returns></returns>
-        public static void   ShapeModel_SaveFile( ref HTuple _ModelID, Create_Shape_Based_ModelXld _Create_Model, HObject _ModelsXLD, string _Path)
+        public static void   ShapeModel_SaveFile( ref HTuple _ModelID, string _Location, Create_Shape_Based_ModelXld _Create_Model, HObject _ModelsXLD )
         {
 
             //开启线保存匹配模型文件
@@ -556,14 +603,18 @@ namespace Halcon_SDK_DLL
             //{
 
 
-   
+
 
             //lock (_Create_Model)
             //{
 
-
+            string _Path = "";
 
                     _ModelID.Dispose();
+
+
+            Get_ModelXld_Path(ref _Path, _Location, _Create_Model.Shape_Based_Model, _Create_Model.ShapeModel_Name, _Create_Model.Work_Name);
+
 
 
                 switch (_Create_Model.Shape_Based_Model)

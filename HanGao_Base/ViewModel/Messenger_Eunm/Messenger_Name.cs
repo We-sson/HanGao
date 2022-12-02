@@ -265,6 +265,11 @@ namespace HanGao.ViewModel.Messenger_Eunm
             /// 关闭相机连接
             /// </summary>
             Close_Camera,
+
+            /// <summary>
+            /// 查找特征结果
+            /// </summary>
+            Find_Shape_Out,
         }
 
 

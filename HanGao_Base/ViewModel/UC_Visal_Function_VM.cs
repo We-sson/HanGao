@@ -36,9 +36,17 @@ namespace HanGao.ViewModel
 
             });
 
+            //halcon实时图像显示操作
+            Messenger.Register<Halcon_Find_Shape_Out_Parameter, string>(this, nameof(Meg_Value_Eunm.Find_Shape_Out), (O, _Fout) =>
+            {
+
+                Find_Shape_Result = _Fout;
 
 
+            });
 
+
+            
 
 
 
@@ -109,6 +117,12 @@ namespace HanGao.ViewModel
         /// 鼠标当前灰度值
         /// </summary>
         public int  Mouse_Pos_Gray { set; get; } =-1;
+
+
+
+
+        public Halcon_Find_Shape_Out_Parameter Find_Shape_Result { set; get; }=new Halcon_Find_Shape_Out_Parameter ();
+
 
         /// <summary>
         /// 窗体加载赋值
@@ -207,6 +221,10 @@ namespace HanGao.ViewModel
                 //Button E = Sm.Source as Button
 
 
+                if (_E.Button== MouseButton.Right)
+                {
+
+
                 Halcon_Position = new Point(Math.Round(_E.Row, 3), Math.Round(_E.Column, 3));
 
 
@@ -224,6 +242,7 @@ namespace HanGao.ViewModel
                     Mouse_Pos_Gray = -1;
                 }
 
+                }
 
 
 

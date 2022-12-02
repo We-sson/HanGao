@@ -160,6 +160,20 @@ namespace Halcon_SDK_DLL.Model
             public Shape_Based_Model_Enum Shape_Based_Model { set; get; }
 
 
+
+
+            /// <summary>
+            /// UI绑定查找模型区域名字
+            /// </summary>
+            public ShapeModel_Name_Enum ShapeModel_Name { set; get; } = ShapeModel_Name_Enum.F_45;
+
+            /// <summary>
+            /// UI绑定工装号数
+            /// </summary>
+            public Work_Name_Enum Work_Name { set; get; } = Work_Name_Enum.Work_1;
+
+
+
             /// <summary>
             /// 金字塔层的最大数量默认值：“自动”值列表：1， 2， 3， 4， 5， 6， 7， 8， 9， 10，“自动”
             /// </summary>
@@ -254,6 +268,15 @@ namespace Halcon_SDK_DLL.Model
             public Shape_Based_Model_Enum Shape_Based_Model { set; get; }
 
 
+            /// <summary>
+            /// UI绑定查找模型区域名字
+            /// </summary>
+            public ShapeModel_Name_Enum ShapeModel_Name { set; get; } = ShapeModel_Name_Enum.F_45;
+
+            /// <summary>
+            /// UI绑定工装号数
+            /// </summary>
+            public Work_Name_Enum Work_Name { set; get; } = Work_Name_Enum.Work_1;
 
 
 
@@ -441,7 +464,7 @@ namespace Halcon_SDK_DLL.Model
 
 
     /// <summary>
-    /// 查找模型位置方法名称枚举
+    /// 查找模型位置预处理方法名称枚举
     /// </summary>
         public enum Find_Shape_Function_Name_Enum
     {
@@ -457,6 +480,17 @@ namespace Halcon_SDK_DLL.Model
         /// 最大灰度值分布在值范围0到255 中。
         /// </summary>
         ScaleImageMax,
+
+
+
+
+    }
+
+    public enum Common_Filter_Name_Enum
+    {
+
+
+
 
     }
 
@@ -481,6 +515,7 @@ namespace Halcon_SDK_DLL.Model
             Create_Local_Model,
             Create_Scaled_Model
         }
+
 
 
 

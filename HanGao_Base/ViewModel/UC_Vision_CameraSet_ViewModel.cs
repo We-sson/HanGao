@@ -194,13 +194,13 @@ namespace HanGao.ViewModel
 
 
 
-        /// <summary>
-        /// 读取图像
-        /// </summary>
-        public ICommand Read_Image_Comm
-        {
-            get => new RelayCommand<RoutedEventArgs>((Sm) =>
-            {
+        ///// <summary>
+        ///// 读取图像
+        ///// </summary>
+        //public ICommand Read_Image_Comm
+        //{
+        //    get => new RelayCommand<RoutedEventArgs>((Sm) =>
+        //    {
 
 
 
@@ -208,8 +208,8 @@ namespace HanGao.ViewModel
 
 
 
-            });
-        }
+        //    });
+        //}
 
 
 
