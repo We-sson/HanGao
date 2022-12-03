@@ -118,6 +118,7 @@ namespace MVS_SDK_Base.Model
             /// <summary>
             /// 从原点到AOI的水平偏移（像素）,整数类型——默认0，最小0，最大2048
             /// </summary>
+            [StringValue("设置从原点到AOI的水平偏移（像素）失败")]
             OffsetY,
             /// <summary>
             /// 水平翻转设备发送的图像。翻转后应用感兴趣区域，布尔类型——默认False
@@ -295,9 +296,47 @@ namespace MVS_SDK_Base.Model
             [StringValue("设置水平翻转设备发送的图像失败")]
             public bool ReverseX { set; get; } = false;
 
+            [StringValue("设置设备提供的图像宽度（像素）失败")]
+            public int Width { set; get; } = 3072;
+
+            [StringValue("设置设备提供的图像的高度（像素）失败")]
+            public int Height { set; get; } = 2048;
+
+            [StringValue("设置从原点到AOI的垂直偏移（像素）失败")]
+
+            public int OffsetX { set; get; } = 0;
+
+            [StringValue("设置从原点到AOI的水平偏移（像素）失败")]
+            public int OffsetY { set; get; } = 0;
+
+
+
+
         }
 
 
+
+
+        /// <summary>
+        /// 相机属性参数
+        /// </summary>
+        public class MVS_Camera_Info_Model
+        {
+            [StringValue("获得有关设备的制造商信息~失败!")]
+            public string DeviceManufacturerInfo { set; get; } = "";
+            [StringValue("获得设备的型号名称~失败!")]
+            public string DeviceModelName { set; get; } = "";
+            [StringValue("获得设备序列号。此字符串是设备的唯一标识符~失败!")]
+            public string DeviceSerialNumber { set; get; } = "";
+            [StringValue("获得图像的最大宽度（以像素为单位）~失败!")]
+            public int WidthMax { set; get; } = 0;
+            [StringValue("获得图像的最大高度（以像素为单位）~失败!")]
+            public int HeightMax { set; get; } = 0;
+            [StringValue("获得允许的最大采集帧速率的“绝对”值~失败!")]
+            public double ResultingFrameRate { set; get; } = 0;
+            [StringValue("获得给定网络接口的当前IP地址~失败!")]
+            public int GevCurrentIPAddress { set; get; } = 0;
+        }
 
 
         /// <summary>
@@ -323,7 +362,7 @@ namespace MVS_SDK_Base.Model
 
                         return _PData = Marshal.UnsafeAddrOfPinnedArrayElement((Array)pData_Buffer, 0);
                     }
-                    return _PData ;
+                    return _PData;
                 }
                 set { _PData = value; }
             }

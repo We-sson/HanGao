@@ -750,25 +750,28 @@
 
 
                         <ListBox Style="{DynamicResource Vision_Data_ListBoxStyle}"
+                                 Padding="0"
                                  Background="Transparent"
                                  BorderThickness="0"
+                                 ItemContainerStyle="{DynamicResource Vison_Data_ListBoxItemContainerStyle}"
                                  ItemsSource="{Binding Find_Data_List}"
                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                  ScrollViewer.VerticalScrollBarVisibility="Auto">
+
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <ListBoxItem Width=" 50"
-                                                 Height=" 50"
-                                                 HorizontalContentAlignment="Stretch"
-                                                 VerticalContentAlignment="Stretch"
-                                                 BorderThickness="0">
-                                        <Button Style="{DynamicResource Halcon_Window_Button}"
-                                                Content="{Binding List_Number}"
-                                                HorizontalContentAlignment="Center"
-                                                VerticalContentAlignment="Center"
-                                                Background="{DynamicResource 全局_按钮_绿颜色}"
-                                                FontSize=" 20" />
-                                    </ListBoxItem>
+
+
+                                    <Button Style="{DynamicResource Halcon_Window_Button}"
+                                            Content="{Binding List_Number}"
+                                            Width=" 50"
+                                            Height=" 45"
+                                            VerticalAlignment="Stretch"
+                                            HorizontalContentAlignment="Center"
+                                            VerticalContentAlignment="Center"
+                                            Background="{DynamicResource 全局_按钮_绿颜色}"
+                                            FontSize=" 20" />
+
 
 
                                 </DataTemplate>

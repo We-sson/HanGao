@@ -84,8 +84,10 @@ namespace HanGao.ViewModel
         /// </summary>
         public static MVS_Camera_Parameter_Model Camera_Parameter_Val { set; get; } = new MVS_Camera_Parameter_Model();
 
-
-
+        /// <summary>
+        /// 相机信息
+        /// </summary>
+        public MVS_Camera_Info_Model Camera_Info { set; get; }=new MVS_Camera_Info_Model ();
 
 
 
@@ -132,6 +134,9 @@ namespace HanGao.ViewModel
             {
                 if (Initialization_Camera())
                 {
+
+
+
                     if (Connect_Camera())
                     {
                         return;

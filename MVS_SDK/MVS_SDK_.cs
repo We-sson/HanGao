@@ -13,13 +13,13 @@ namespace MVS_SDK
     {
 
 
-   
+
 
 
         /// <summary>
         ///  用户选择相机对象
         /// </summary>
-        public   CCamera Camera { set; get; } = new CCamera();
+        public CCamera Camera { set; get; } = new CCamera();
 
         /// <summary>
         /// 
@@ -77,7 +77,7 @@ namespace MVS_SDK
         /// </summary>
         /// <param name="_name">相机参数名称枚举</param>
         /// <param name="_key">相机状态码</param>
-        public  bool Set_Camera_Val<T1, T2>(T1 _name, T2 _key)
+        public bool Set_Camera_Val<T1, T2>(T1 _name, T2 _key)
         {
             var aa = _name.GetType();
 
@@ -166,6 +166,53 @@ namespace MVS_SDK
             return true;
 
 
+        }
+
+
+        public bool Get_Camera_Val<T1, T2>(T1 _name, T2 _key)
+        {
+
+            if (_name  is PropertyInfo _Tname)
+            {
+
+
+            
+            StringValueAttribute _ErrorInfo = (StringValueAttribute)_Tname.GetCustomAttribute(typeof(StringValueAttribute));
+
+            switch (_key)
+            {
+                case T2 _ when _key is int Tint:
+                    //创建失败方法
+                    if (CErrorDefine.MV_OK != Tint)
+                    {
+                        var a = (StringValueAttribute)_Tname.GetCustomAttribute(typeof(StringValueAttribute));
+
+                        MVS_ErrorInfo_delegate("参数 : " + _Tname.Name + " | 信息 : " + _ErrorInfo.StringValue);
+                        return false;
+                    }
+
+                    break;
+                case T2 _ when _key is bool Tbool:
+                    //创建失败方法
+                    if (false == Tbool)
+                    {
+                        var a = (StringValueAttribute)_Tname.GetCustomAttribute(typeof(StringValueAttribute));
+
+                        MVS_ErrorInfo_delegate("参数 : " + _Tname.Name + " | 信息 : " + _ErrorInfo.StringValue);
+                        return false;
+                    }
+
+                    break;
+
+            }
+
+                return true;
+            }
+
+
+
+
+            return false ;
         }
 
 
@@ -317,7 +364,7 @@ namespace MVS_SDK
 
 
             //检查相机设备可用情况
-         return   Set_Camera_Val(Camera_Parameters_Name_Enum.IsDeviceAccessible, CSystem.IsDeviceAccessible(ref CameraInfo, MV_ACCESS_MODE.MV_ACCESS_EXCLUSIVE));
+            return Set_Camera_Val(Camera_Parameters_Name_Enum.IsDeviceAccessible, CSystem.IsDeviceAccessible(ref CameraInfo, MV_ACCESS_MODE.MV_ACCESS_EXCLUSIVE));
 
 
 
@@ -426,29 +473,33 @@ namespace MVS_SDK
         public bool Set_Camrea_Parameters_List(MVS_Camera_Parameter_Model _Camera_List)
         {
 
-
-
             //遍历设置参数
             foreach (PropertyInfo _Type in _Camera_List.GetType().GetProperties())
             {
-
-
-
-
 
                 if (Set_Camera_Parameters_Val(_Type, _Type.Name, _Type.GetValue(_Camera_List)) != true)
                 {
                     return false;
                 }
-
-
             }
 
             return true;
 
+        }
 
 
 
+        public bool Get_Camrea_Info_Method(MVS_Camera_Info_Model _Info)
+        {
+            foreach (PropertyInfo _Type in _Info.GetType().GetProperties())
+            {
+
+                if (Get_Camera_Info_Val(_Type, _Type.Name, _Type.GetValue(_Info)))
+                {
+                    return true;
+                }
+            }
+            return false;
 
         }
 
@@ -498,6 +549,66 @@ namespace MVS_SDK
                 case Type _T when _T == typeof(bool):
                     //设置相机参数
                     _Parameters_Type = Set_Camera_Val(_Val_Type, Camera.SetBoolValue(_name, (bool)_val));
+
+
+                    break;
+            }
+
+            return _Parameters_Type;
+
+        }
+
+
+
+
+        /// <summary>
+        /// 利用反射设置相机属性参数
+        /// </summary>
+        /// <param name="_Val_Type"></param>
+        /// <param name="_name"></param>
+        /// <param name="_val"></param>
+        public bool Get_Camera_Info_Val(PropertyInfo _Val_Type, string _name, object _val)
+        {
+            //初始化设置相机状态
+            bool _Parameters_Type = false;
+
+            //对遍历参数类型分类
+            switch (_Val_Type.PropertyType)
+            {
+                case Type _T when _T == typeof(Enum):
+
+                    CEnumValue _val = new CEnumValue();
+                    //设置相机参数
+                    _Parameters_Type = Get_Camera_Val(_Val_Type, Camera.GetEnumValue(_name, ref _val));
+
+
+
+                    break;
+                case Type _T when _T == typeof(Int32):
+
+                     _val = new CEnumValue();
+
+                    //设置相机参数
+                    _Parameters_Type = Get_Camera_Val(_Val_Type, Camera.GetIntValue(_name, ref _val));
+
+
+                    break;
+                case Type _T when _T == typeof(double):
+                    //设置相机参数
+                    _Parameters_Type = Get_Camera_Val(_Val_Type, Camera.SetFloatValue(_name, Convert.ToSingle(_val)));
+
+
+                    break;
+
+                case Type _T when _T == typeof(string):
+                    //设置相机参数
+                    _Parameters_Type = Get_Camera_Val(_Val_Type, Camera.SetStringValue(_name, _val.ToString()));
+
+
+                    break;
+                case Type _T when _T == typeof(bool):
+                    //设置相机参数
+                    _Parameters_Type = Get_Camera_Val(_Val_Type, Camera.SetBoolValue(_name, (bool)_val));
 
 
                     break;

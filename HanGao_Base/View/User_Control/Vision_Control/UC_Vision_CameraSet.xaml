@@ -624,7 +624,7 @@
                                                    FontSize="18"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                 Text="{Binding Camera_Parameters_UI.ROI_Height_X}"
+                                                 Text="{Binding Camera_Parameter_Val.OffsetX}"
                                                  Width=" 60"
                                                  Height=" 30"
                                                  HorizontalAlignment="Center"
@@ -648,7 +648,7 @@
                                                    FontSize="18"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                 Text="{Binding Camera_Parameters_UI.ROI_Width_Y}"
+                                                 Text="{Binding Camera_Parameter_Val.OffsetY}"
                                                  Width=" 60"
                                                  Height=" 30"
                                                  Margin="4"
@@ -673,7 +673,7 @@
                                                    FontSize="18"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                 Text="{Binding Camera_Parameters_UI.ROI_Width_Max}"
+                                                 Text="{Binding Camera_Parameter_Val.Width}"
                                                  Width=" 60"
                                                  Height=" 30"
                                                  HorizontalAlignment="Center"
@@ -699,7 +699,7 @@
                                                    FontSize="16"
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                 Text="{Binding Camera_Parameters_UI.ROI_Height_Max}"
+                                                 Text="{Binding Camera_Parameter_Val.Height}"
                                                  Width=" 60"
                                                  Height=" 30"
                                                  Margin="4"
@@ -726,7 +726,7 @@
 
                                     <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row="2" Grid.Column=" 1"
                                               Content="备用"
-                                              IsChecked="{Binding Camera_Parameters_UI.ROI_ReverseX}"
+                                              IsChecked="False"
                                               Margin="4"
                                               HorizontalAlignment="Right"
                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
