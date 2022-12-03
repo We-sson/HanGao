@@ -442,6 +442,7 @@ namespace HanGao.ViewModel
                     return Camera_Connect_OK = true;
 
                 }
+
             }
 
             return false;
