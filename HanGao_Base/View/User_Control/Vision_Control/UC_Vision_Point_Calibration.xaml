@@ -1,6 +1,8 @@
 ﻿<UserControl x:Class="HanGao.View.User_Control.Vision_Control.UC_Vision_Point_Calibration"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Enum="clr-namespace:Halcon_SDK_DLL.WPF_Converter;assembly=Halcon_SDK_DLL"
+             xmlns:Halcon_Enum="clr-namespace:Halcon_SDK_DLL.Model;assembly=Halcon_SDK_DLL"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:HanGao.View.User_Control.Vision_Control"
@@ -9,6 +11,11 @@
              d:DesignWidth="332"
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_Point_Calibration_ViewModel}"
              mc:Ignorable="d">
+    <UserControl.Resources>
+        <Enum:Halcon_StringConverter x:Key="Halcon_StringConverter" />
+        <Enum:Halcon_EnumConverter x:Key="Halcon_EnumConverter" />
+    </UserControl.Resources>
+
     <Grid Effect="{DynamicResource 全局背景阴影}">
 
         <ScrollViewer Style="{DynamicResource Vision_Data_List_ScrollViewerStyle}" x:Name="scrollViewer"
@@ -78,7 +85,7 @@
                         <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 5 5" />
                         <StackPanel Orientation="Vertical">
 
-                            <Grid Margin="8">
+                            <Grid Height=" 35" Margin="8">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width=" 90" />
                                     <ColumnDefinition />
@@ -101,7 +108,7 @@
                                           BorderThickness="2"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="{Binding Selected_Get_Image}">
+                                          SelectedIndex="{Binding Find_Calibration.Get_Image_Model, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:Get_Image_Model_Enum}}">
 
 
                                     <ComboBoxItem>
@@ -253,72 +260,13 @@
 
                             </Grid>
 
+                            <Border Height=" 2"
+                                    Margin="8,4,8,4"
+                                    Background="{DynamicResource 全局_按钮_黑颜色}"
+                                    CornerRadius="1"
+                                    Opacity=" 0.5" />
 
 
-                            <Grid Margin="8">
-
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="90" />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column=" 0"
-                                           Text="滤波方式"
-                                           HorizontalAlignment="Left"
-                                           VerticalAlignment="Center"
-                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                           FontSize="16"
-                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="Filtering_Model_UI" Grid.Column=" 1"
-                                          VerticalContentAlignment="Center"
-                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                          BorderThickness="2"
-                                          FontSize="16"
-                                          IsDropDownOpen="False"
-                                          IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="1">
-                                    <ComboBoxItem>
-
-                                        <TextBlock Text="均值滤波"
-                                                   TextWrapping="Wrap"
-                                                   Padding="0,4,0,4"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="16"
-                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                   TextTrimming="CharacterEllipsis" />
-                                    </ComboBoxItem>
-                                    <ComboBoxItem>
-
-                                        <TextBlock Text="中值滤波"
-                                                   TextWrapping="Wrap"
-                                                   Padding="0,4,0,4"
-                                                   HorizontalAlignment="Left"
-                                                   VerticalAlignment="Center"
-                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="16"
-                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                   TextTrimming="CharacterEllipsis" />
-                                    </ComboBoxItem>
-                                    <ComboBoxItem>
-
-                                        <TextBlock Text="中值遮罩"
-                                                   TextWrapping="Wrap"
-                                                   Padding="0,4,0,4"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="16"
-                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                   TextTrimming="CharacterEllipsis" />
-                                    </ComboBoxItem>
-
-
-
-                                </ComboBox>
-
-
-                            </Grid>
                             <Grid Margin="8">
 
                                 <Grid.ColumnDefinitions>
@@ -329,42 +277,19 @@
 
 
 
-                                <Grid>
-
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition />
-                                        <RowDefinition />
-                                        <RowDefinition />
-
-                                    </Grid.RowDefinitions>
 
 
 
-                                    <TextBlock Text="中值滤波器"
-                                               TextWrapping="Wrap"
-                                               VerticalAlignment="Top"
-                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                               FontSize="16"
-                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                    <TextBlock Grid.Row=" 1"
-                                               Text="滤镜掩码宽度"
-                                               TextWrapping="Wrap"
-                                               VerticalAlignment="Center"
-                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                               FontSize="12"
-                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                               Opacity=" 0.8" />
-                                    <TextBlock Grid.Row=" 2"
-                                               Text="滤镜掩码高度"
-                                               TextWrapping="Wrap"
-                                               VerticalAlignment="Center"
-                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                               FontSize="12"
-                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                               Opacity=" 0.8" />
+                                <TextBlock Text="中值遮罩"
+                                           TextWrapping="Wrap"
+                                           Margin="0,4,0,0"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
 
-                                </Grid>
+
 
 
                                 <StackPanel Grid.Column=" 1" Orientation="Vertical">
@@ -378,7 +303,7 @@
                                         </Grid.ColumnDefinitions>
                                         <CheckBox Style="{DynamicResource Button_List_Style}" x:Name="MedianRect_Enable" Grid.Column=" 0"
                                                   Content="使用"
-                                                  IsChecked="{Binding Halcon_Find_Shape_ModelXld_UI.MedianRect_Enable}"
+                                                  IsChecked="{Binding Find_Calibration.MedianRect_Enable}"
                                                   Margin="4"
                                                   HorizontalAlignment="Center"
                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -386,7 +311,7 @@
                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                         <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Column=" 1"
                                                   Content="显示"
-                                                  IsChecked="{Binding Halcon_Find_Shape_ModelXld_UI.MedianRect_Disp}"
+                                                  IsChecked="{Binding Find_Calibration.MedianRect_Disp}"
                                                   Margin="4"
                                                   HorizontalAlignment="Center"
                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -396,82 +321,18 @@
 
                                     </Grid>
 
-                                    <Grid Margin="0,8,0,4" IsEnabled="{Binding IsChecked, ElementName=MedianRect_Enable}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width=" auto" />
-                                        </Grid.ColumnDefinitions>
 
-                                        <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="MedianRect_MaskWidth" Grid.Column=" 0"
-                                                Margin="4"
-                                                VerticalAlignment="Center"
-                                                HorizontalContentAlignment="Stretch"
-                                                VerticalContentAlignment="Stretch"
-                                                IsSnapToTickEnabled="True"
-                                                Maximum="120"
-                                                Minimum="3"
-                                                SmallChange="1"
-                                                TickFrequency=" 1"
-                                                Value="{Binding Halcon_Find_Shape_ModelXld_UI.MedianRect_MaskWidth}" />
-
-                                        <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 1"
-                                                 Text="{Binding ElementName=MedianRect_MaskWidth, Path=Value}"
-                                                 Width=" 100"
-                                                 Height=" 35"
-                                                 HorizontalAlignment="Right"
-                                                 HorizontalContentAlignment="Center"
-                                                 VerticalContentAlignment="Center"
-                                                 Background="Transparent"
-                                                 BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                 BorderThickness="2"
-                                                 FontSize="18" />
-                                    </Grid>
-
-
-                                    <Grid Margin="0,4,0,8" IsEnabled="{Binding IsChecked, ElementName=MedianRect_Enable}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width=" auto" />
-                                        </Grid.ColumnDefinitions>
-
-                                        <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="MedianRect_MaskHeight" Grid.Column=" 0"
-                                                Margin="4"
-                                                VerticalAlignment="Center"
-                                                HorizontalContentAlignment="Stretch"
-                                                VerticalContentAlignment="Stretch"
-                                                IsSnapToTickEnabled="True"
-                                                Maximum="120"
-                                                Minimum="3"
-                                                SmallChange="1"
-                                                TickFrequency=" 1"
-                                                Value="{Binding Halcon_Find_Shape_ModelXld_UI.MedianRect_MaskHeight}" />
-
-                                        <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 1"
-                                                 Text="{Binding ElementName=MedianRect_MaskHeight, Path=Value}"
-                                                 Width=" 100"
-                                                 Height=" 35"
-                                                 HorizontalAlignment="Right"
-                                                 HorizontalContentAlignment="Center"
-                                                 VerticalContentAlignment="Center"
-                                                 Background="Transparent"
-                                                 BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                 BorderThickness="2"
-                                                 FontSize="18" />
-                                    </Grid>
 
 
                                 </StackPanel>
                             </Grid>
 
 
-                            <Border Height=" 2"
-                                    Margin="8,4,8,4"
-                                    Background="{DynamicResource 全局_按钮_黑颜色}"
-                                    CornerRadius="1"
-                                    Opacity=" 0.5" />
 
-                            <Grid Height="35" Margin="8">
-                                <Grid.Style>
+
+                            <!--<Grid Height="35" Margin="8">
+                            -->
+                            <!--<Grid.Style>
                                     <Style TargetType="Grid">
                                         <Setter Property="Visibility" Value="Collapsed" />
                                         <Style.Triggers>
@@ -483,7 +344,8 @@
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
-                                </Grid.Style>
+                                </Grid.Style>-->
+                            <!--
 
 
 
@@ -522,7 +384,8 @@
                             </Grid>
 
                             <Grid Height="35" Margin="8">
-                                <Grid.Style>
+                            -->
+                            <!--<Grid.Style>
                                     <Style TargetType="Grid">
                                         <Setter Property="Visibility" Value="Collapsed" />
                                         <Style.Triggers>
@@ -534,7 +397,8 @@
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
-                                </Grid.Style>
+                                </Grid.Style>-->
+                            <!--
 
 
 
@@ -570,17 +434,16 @@
                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                          BorderThickness="2"
                                          FontSize="18" />
-                            </Grid>
+                            </Grid>-->
 
                             <Grid Margin="8">
                                 <Grid.Style>
                                     <Style TargetType="Grid">
                                         <Setter Property="Visibility" Value="Collapsed" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ElementName=Filtering_Model_UI, Path=SelectedIndex}" Value="1">
+                                            <DataTrigger Binding="{Binding ElementName=MedianRect_Enable, Path=IsChecked}" Value="true">
                                                 <Setter Property="Visibility" Value="Visible" />
                                             </DataTrigger>
-
                                         </Style.Triggers>
                                     </Style>
                                 </Grid.Style>
@@ -603,7 +466,7 @@
                                           FontSize="16"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="0">
+                                          SelectedIndex="{Binding Find_Calibration.MaskType_Model, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:MedianImage_MaskType_Enum}}">
                                     <ComboBoxItem>
 
                                         <TextBlock Text="圆形"
@@ -638,15 +501,13 @@
                             </Grid>
 
                             <Grid Height="35" Margin="8">
-
                                 <Grid.Style>
                                     <Style TargetType="Grid">
                                         <Setter Property="Visibility" Value="Collapsed" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ElementName=Filtering_Model_UI, Path=SelectedIndex}" Value="1">
+                                            <DataTrigger Binding="{Binding ElementName=MedianRect_Enable, Path=IsChecked}" Value="true">
                                                 <Setter Property="Visibility" Value="Visible" />
                                             </DataTrigger>
-
                                         </Style.Triggers>
                                     </Style>
                                 </Grid.Style>
@@ -691,10 +552,9 @@
                                     <Style TargetType="Grid">
                                         <Setter Property="Visibility" Value="Collapsed" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ElementName=Filtering_Model_UI, Path=SelectedIndex}" Value="1">
+                                            <DataTrigger Binding="{Binding ElementName=MedianRect_Enable, Path=IsChecked}" Value="true">
                                                 <Setter Property="Visibility" Value="Visible" />
                                             </DataTrigger>
-
                                         </Style.Triggers>
                                     </Style>
                                 </Grid.Style>
@@ -717,7 +577,7 @@
                                           FontSize="16"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="0">
+                                          SelectedIndex="{Binding Find_Calibration.Margin_Model, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:MedianImage_Margin_Enum}}">
                                     <ComboBoxItem>
 
                                         <TextBlock Text="镜像"
@@ -773,9 +633,77 @@
 
 
 
+                            <Grid Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+
+                                    <ColumnDefinition Width=" *" />
+                                </Grid.ColumnDefinitions>
+
+
+
+
+
+
+                                <TextBlock Text="增强对比"
+                                           TextWrapping="Wrap"
+                                           Margin="0,4,0,0"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+
+
+
+                                <StackPanel Grid.Column=" 1" Orientation="Vertical">
+
+
+                                    <Grid Height=" 38">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width=" *" />
+                                        </Grid.ColumnDefinitions>
+                                        <CheckBox Style="{DynamicResource Button_List_Style}" x:Name="Emphasize_Enable" Grid.Column=" 0"
+                                                  Content="使用"
+                                                  IsChecked="{Binding Find_Calibration.Emphasize_Enable}"
+                                                  Margin="4"
+                                                  HorizontalAlignment="Center"
+                                                  FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                  FontSize="16"
+                                                  Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                        <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Column=" 1"
+                                                  Content="显示"
+                                                  IsChecked="{Binding Find_Calibration.Emphasize_Disp}"
+                                                  Margin="4"
+                                                  HorizontalAlignment="Center"
+                                                  FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                  FontSize="16"
+                                                  Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                  IsEnabled="{Binding IsChecked, ElementName=Emphasize_Enable}" />
+
+                                    </Grid>
+
+
+
+
+                                </StackPanel>
+                            </Grid>
 
                             <Grid Height="35" Margin="8">
-
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=Emphasize_Enable, Path=IsChecked}" Value="true">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width=" 80" />
                                     <ColumnDefinition />
@@ -797,7 +725,7 @@
                                         Minimum="3"
                                         SmallChange="2"
                                         TickFrequency=" 2"
-                                        Value="30" />
+                                        Value="{Binding Find_Calibration.Emphasize_MaskWidth}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding ElementName=Emphasize_MaskWidth_UI, Path=Value}"
@@ -811,7 +739,16 @@
                             </Grid>
 
                             <Grid Height="35" Margin="8">
-
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=Emphasize_Enable, Path=IsChecked}" Value="true">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="80" />
                                     <ColumnDefinition />
@@ -833,7 +770,7 @@
                                         Minimum="3"
                                         SmallChange="2"
                                         TickFrequency="2"
-                                        Value="30" />
+                                        Value="{Binding Find_Calibration.Emphasize_MaskHeight}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding ElementName=Emphasize_MaskHeight_UI, Path=Value}"
@@ -847,7 +784,16 @@
                             </Grid>
 
                             <Grid Height="35" Margin="8">
-
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=Emphasize_Enable, Path=IsChecked}" Value="true">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="80" />
                                     <ColumnDefinition />
@@ -869,7 +815,7 @@
                                         Minimum="0"
                                         SmallChange="0.1"
                                         TickFrequency=" 0.1"
-                                        Value="50" />
+                                        Value="{Binding Find_Calibration.Emphasize_Factor}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding ElementName=Factor_UI, Path=Value}"
@@ -887,6 +833,111 @@
                                     CornerRadius="1"
                                     Opacity=" 0.5" />
 
+
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="平滑边缘"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="OpeningCircle_Radius_UI" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="255"
+                                        Minimum="0"
+                                        SmallChange="1"
+                                        TickFrequency=" 1"
+                                        Value="{Binding Find_Calibration.OpeningCircle_Radius}" />
+
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                         Text="{Binding ElementName=OpeningCircle_Radius_UI, Path=Value}"
+                                         Width=" 100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                            </Grid>
+
+
+                            <Border Height=" 2"
+                                    Margin="8,4,8,4"
+                                    Background="{DynamicResource 全局_按钮_黑颜色}"
+                                    CornerRadius="1"
+                                    Opacity=" 0.5" />
+
+                            <Grid Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+
+                                    <ColumnDefinition Width=" *" />
+                                </Grid.ColumnDefinitions>
+
+
+
+
+
+
+                                <TextBlock Text="灰度功能"
+                                           TextWrapping="Wrap"
+                                           Margin="0,4,0,0"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+
+
+
+                                <StackPanel Grid.Column=" 1" Orientation="Vertical">
+
+
+                                    <Grid Height=" 38">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width=" *" />
+                                        </Grid.ColumnDefinitions>
+                                        <CheckBox Style="{DynamicResource Button_List_Style}" x:Name="Gray_Enable" Grid.Column=" 0"
+                                                  Content="使用"
+                                                  IsChecked="True"
+                                                  Margin="4"
+                                                  HorizontalAlignment="Center"
+                                                  FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                  FontSize="16"
+                                                  Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                  Visibility="Collapsed" />
+                                        <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Column=" 1"
+                                                  Content="显示"
+                                                  IsChecked="{Binding Find_Calibration.Gray_Disp}"
+                                                  Margin="4"
+                                                  HorizontalAlignment="Center"
+                                                  FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                  FontSize="16"
+                                                  Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                  IsEnabled="{Binding IsChecked, ElementName=Gray_Enable}" />
+
+                                    </Grid>
+
+
+
+
+                                </StackPanel>
+                            </Grid>
 
                             <Grid Height="35" Margin="8">
 
@@ -1049,41 +1100,7 @@
                                     Opacity=" 0.5" />
 
 
-                            <Grid Margin="8">
 
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80" />
-                                    <ColumnDefinition />
-
-                                </Grid.ColumnDefinitions>
-
-                                <TextBlock Text="图像功能"
-                                           HorizontalAlignment="Left"
-                                           VerticalAlignment="Center"
-                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                           FontSize="16"
-                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
-
-                                <StackPanel Grid.Column=" 2" Orientation="Vertical">
-
-                                    <CheckBox Style="{DynamicResource Button_List_Style}"
-                                              Content="灰度区域显示"
-                                              IsChecked="{Binding Split_Image_Show_UI}"
-                                              Margin="4"
-                                              FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                              FontSize="16"
-                                              Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                    <CheckBox Style="{DynamicResource Button_List_Style}"
-                                              Content="显示"
-                                              IsChecked="True"
-                                              Margin="4"
-                                              FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                              FontSize="16"
-                                              Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                </StackPanel>
-
-                            </Grid>
 
 
                             <Grid Height="35" Margin="8">
@@ -1447,7 +1464,7 @@
                                          Background="Transparent"
                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                          BorderThickness="2"
-                                         FontSize="16"
+                                         FontSize="14"
                                          Foreground="{DynamicResource 全局_按钮_红颜色}" />
 
                                 <TextBlock Grid.Column=" 2"
@@ -1465,7 +1482,7 @@
                                          Background="Transparent"
                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                          BorderThickness="2"
-                                         FontSize="16"
+                                         FontSize="14"
                                          Foreground="{DynamicResource 全局_按钮_红颜色}" />
 
                             </Grid>
@@ -1568,13 +1585,13 @@
                                          Background="{DynamicResource 全局_按钮_黄颜色}"
                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                          BorderThickness="2"
-                                         FontSize="16"
+                                         FontSize="14"
                                          Foreground="{DynamicResource 全局_按钮_黑颜色}">
 
                                     <TextBox.Text>
                                         <MultiBinding StringFormat="X：{0} mm Y：{1} mm">
-                                            <Binding Path="Calibration_Error_X_UI" />
-                                            <Binding Path="Calibration_Error_Y_UI" />
+                                            <Binding Path="Calibration_Error_UI.X" />
+                                            <Binding Path="Calibration_Error_UI.Y" />
                                         </MultiBinding>
                                     </TextBox.Text>
                                 </TextBox>

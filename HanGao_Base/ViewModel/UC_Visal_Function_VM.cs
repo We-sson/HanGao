@@ -1,5 +1,6 @@
 ﻿
 using Halcon_SDK_DLL;
+using HanGao.Xml_Date.Vision_XML.Vision_Model;
 using System.Drawing;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
@@ -54,6 +55,29 @@ namespace HanGao.ViewModel
 
 
 
+
+        private static ObservableCollection<Vission_Xml_Models> _Find_Data_List { get; set; } = new ObservableCollection<Vission_Xml_Models>() { new Vission_Xml_Models() { List_Number =1 } ,new Vission_Xml_Models() { List_Number=2},};
+        /// <summary>
+        /// 画画数据列表
+        /// </summary>
+        public static ObservableCollection<Vission_Xml_Models> Find_Data_List
+        {
+            get { return _Find_Data_List; }
+            set
+            {
+                _Find_Data_List = value;
+                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Find_Data_List)));
+            }
+        }
+        /// <summary>
+        /// 静态属性更新通知事件
+        /// </summary>
+        public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
+
+
+
+
+
         /// <summary>
         /// 保存添加模型点属性
         /// </summary>
@@ -101,6 +125,9 @@ namespace HanGao.ViewModel
             
             }
         }
+
+
+
 
 
         /// <summary>
@@ -221,7 +248,7 @@ namespace HanGao.ViewModel
                 //Button E = Sm.Source as Button
 
 
-                if (_E.Button== MouseButton.Right)
+                if (_E.Button== MouseButton.Right || _E.Button == MouseButton.Left)
                 {
 
 

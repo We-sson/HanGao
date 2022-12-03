@@ -265,7 +265,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 模板类型
             /// </summary>
-            public Shape_Based_Model_Enum Shape_Based_Model { set; get; }
+            public Shape_Based_Model_Enum Shape_Based_Model { set; get; } = Shape_Based_Model_Enum.planar_deformable_model;
 
 
             /// <summary>
@@ -389,66 +389,96 @@ namespace Halcon_SDK_DLL.Model
         /// </summary>
         public class Halcon_Find_Calibration_Model
         {
-            /// <summary>
-            ///滤波模式    .三种模式
-            /// </summary>
-            public int Filtering_Model { set; get; }
 
             /// <summary>
-            /// 滤镜掩码的宽度。默认值：15 值列表（用于计算设备）：3、5  建议值：3， 5， 7， 9， 11， 13， 15， 17， 19， 21， 31， 49， 51， 61， 71， 81， 91， 101   典型值范围：3 ≤ maskWidth ≤ 4095
+            /// 用户选择采集图片方式
             /// </summary>
-            public double MaskWidth { set; get; }
+            public Get_Image_Model_Enum Get_Image_Model { set; get; } = Get_Image_Model_Enum.相机采集;
+
+     
+
 
             /// <summary>
-            /// 滤镜掩模的高度。 默认值：15  值列表（用于计算设备）：3、5  建议值：3， 5， 7， 9， 11， 13， 15， 17， 19， 21， 31， 49， 51， 61， 71， 81， 91， 101  典型值范围：3 ≤ maskHeight ≤ 4095
+            /// /计算带有矩形掩码的中值滤波器是使能
             /// </summary>
-            public double MaskHeight { set; get; }
+            public bool MedianRect_Enable { set; get; } = true;
+
+            /// <summary>
+            /// 计算带有矩形掩码的中值滤波器显示
+            /// </summary>
+            public bool MedianRect_Disp { set; get; } = true;
+
+
             /// <summary>
             /// 滤镜遮罩类型。默认值： “圆  值列表：“圆”, “正方形”值列表（对于计算设备）：“正方形”
             /// </summary>
-            public MedianImage_MaskType_Enum MaskType_Model { set; get; } = MedianImage_MaskType_Enum.square;
+            public MedianImage_MaskType_Enum MaskType_Model { set; get; } = MedianImage_MaskType_Enum.circle;
 
             /// <summary>
             /// 滤镜掩码的半径。默认值：1  值列表（用于计算设备）：1、2  建议值：1， 2， 3， 4， 5， 6， 7， 8， 9， 11， 15， 19， 25， 31， 39， 47， 59  典型值范围：1 ≤ radius ≤ 4095
             /// </summary>
-            public double Radius { set; get; }
+            public int Radius { set; get; } = 5;
             /// <summary>
             /// 边境处理。默认值： “镜像”值列表（对于计算设备）：“镜像”建议值：“镜像”, “循环”, “续”, 0, 30, 60, 90, 120, 150, 180, 210, 240, 255
             /// </summary>
             public MedianImage_Margin_Enum Margin_Model { set; get; } = MedianImage_Margin_Enum.mirrored;
 
+
+            /// <summary>
+            /// 增强图像的对比度使能
+            /// </summary>
+            public bool Emphasize_Enable { set; get; } = true;
+            /// <summary>
+            /// 增强图像的对比度显示参数
+            /// </summary>
+            public bool Emphasize_Disp { set; get; } = true;
+
+
             /// <summary>
             /// 滤镜掩码的宽度。默认值：15  值列表（用于计算设备）：3、5  建议值：3， 5， 7， 9， 11， 13， 15， 17， 19， 21， 31， 49， 51， 61， 71， 81， 91， 101  典型值范围：3 ≤ maskWidth ≤ 201
             /// </summary>
-            public double Emphasize_MaskWidth { set; get; }
+            public double Emphasize_MaskWidth { set; get; } = 15;
             /// <summary>
             /// 滤镜掩模的高度。 默认值：15  值列表（用于计算设备）：3、5  建议值：3， 5， 7， 9， 11， 13， 15， 17， 19， 21， 31， 49， 51， 61， 71， 81， 91， 101  典型值范围：3 ≤ maskHeight ≤ 201
             /// </summary>
-            public double Emphasize_MaskHeight { set; get; }
+            public double Emphasize_MaskHeight { set; get; } = 15;
 
             /// <summary>
             /// 对比强调的强度。 默认值：1.0建议值：0.3， 0.5， 0.7， 1.0， 1.4， 1.8， 2.0典型值范围：（sqrt）0.0 ≤ factor ≤ 20.0
             /// </summary>
-            public double Factor { set; get; }
+            public double Emphasize_Factor { set; get; } = 5;
+
+
+            /// <summary>
+            /// 灰度值选区 
+            /// </summary>
+            public bool Gray_Disp { set; get; }= true;
+
             /// <summary>
             /// 灰度值的较低阈值或“Min”.默认值：128.0 建议值：0.0， 10.0， 30.0， 64.0， 128.0， 200.0， 220.0， 255.0，“Min”
             /// </summary>
-            public double MinGray { set; get; }
+            public double MinGray { set; get; } = 0;
 
             /// <summary>
             /// 灰度值的上限阈值或“Max”.默认值：255.0  建议值：0.0， 10.0， 30.0， 64.0， 128.0， 200.0， 220.0， 255.0，“Max”
             /// </summary>
-            public double MaxGray { set; get; }
+            public double MaxGray { set; get; } = 100;
+
+            /// <summary>
+            /// 开运算消除边缘
+            /// </summary>
+            public double OpeningCircle_Radius { set; get; } = 2;
+
 
             /// <summary>
             /// 最小面积
             /// </summary>
-            public double Min_Area { set; get; }
+            public double Min_Area { set; get; } = 5000;
 
             /// <summary>
             /// 最大面积
             /// </summary>
-            public double Max_Area { set; get; }
+            public double Max_Area { set; get; } = 2000000;
 
         }
 
@@ -549,7 +579,8 @@ namespace Halcon_SDK_DLL.Model
         {
             mirrored,
             cyclic,
-            continued
+            continued,
+         
         }
 
 
@@ -644,4 +675,15 @@ namespace Halcon_SDK_DLL.Model
         least_squares_very_high,
     }
 
+
+    /// <summary>
+    /// 获得采集图片方式
+    /// </summary>
+    public enum Get_Image_Model_Enum
+    {
+        相机采集,
+        图像采集,
+        触发采集
+
+    }
 }

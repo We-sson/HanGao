@@ -746,10 +746,34 @@
                                    VerticalAlignment="Center"
                                    Source="/Resources/ListView_参数添加_ioc.png" />
                         </Button>
-                        <ListBox Padding="0"
+
+
+
+                        <ListBox Style="{DynamicResource Vision_Data_ListBoxStyle}"
                                  Background="Transparent"
-                                 BorderThickness="0">
-                            <ListBoxItem Width="50"
+                                 BorderThickness="0"
+                                 ItemsSource="{Binding Find_Data_List}"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                 ScrollViewer.VerticalScrollBarVisibility="Auto">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <ListBoxItem Width=" 50"
+                                                 Height=" 50"
+                                                 HorizontalContentAlignment="Stretch"
+                                                 VerticalContentAlignment="Stretch"
+                                                 BorderThickness="0">
+                                        <Button Style="{DynamicResource Halcon_Window_Button}"
+                                                Content="{Binding List_Number}"
+                                                HorizontalContentAlignment="Center"
+                                                VerticalContentAlignment="Center"
+                                                Background="{DynamicResource 全局_按钮_绿颜色}"
+                                                FontSize=" 20" />
+                                    </ListBoxItem>
+
+
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            <!--<ListBoxItem Width="50"
                                          Height=" 50"
                                          Margin="4"
                                          Padding="0"
@@ -762,85 +786,8 @@
                                         VerticalContentAlignment="Center"
                                         Background="{DynamicResource 全局_按钮_绿颜色}"
                                         FontSize=" 24" />
-                            </ListBoxItem>
-                            <ListBoxItem Width="50"
-                                         Height=" 50"
-                                         Margin="4"
-                                         Padding="0"
-                                         HorizontalContentAlignment="Stretch"
-                                         VerticalContentAlignment="Stretch"
-                                         BorderThickness="0">
-                                <Button Style="{DynamicResource Halcon_Window_Button}"
-                                        Content="2"
-                                        HorizontalContentAlignment="Center"
-                                        VerticalContentAlignment="Center"
-                                        FontSize=" 24" />
-                            </ListBoxItem>
-                            <ListBoxItem Width="50"
-                                         Height=" 50"
-                                         Margin="4"
-                                         Padding="0"
-                                         HorizontalContentAlignment="Stretch"
-                                         VerticalContentAlignment="Stretch"
-                                         BorderThickness="0">
-                                <Button Style="{DynamicResource Halcon_Window_Button}"
-                                        Content="3"
-                                        HorizontalContentAlignment="Center"
-                                        VerticalContentAlignment="Center"
-                                        FontSize=" 24" />
-                            </ListBoxItem>
-                            <ListBoxItem Width="50"
-                                         Height=" 50"
-                                         Margin="4"
-                                         Padding="0"
-                                         HorizontalContentAlignment="Stretch"
-                                         VerticalContentAlignment="Stretch"
-                                         BorderThickness="0">
-                                <Button Style="{DynamicResource Halcon_Window_Button}"
-                                        Content="4"
-                                        HorizontalContentAlignment="Center"
-                                        VerticalContentAlignment="Center"
-                                        FontSize=" 24" />
-                            </ListBoxItem>
-                            <ListBoxItem Width="50"
-                                         Height=" 50"
-                                         Margin="4"
-                                         Padding="0"
-                                         HorizontalContentAlignment="Stretch"
-                                         VerticalContentAlignment="Stretch"
-                                         BorderThickness="0">
-                                <Button Style="{DynamicResource Halcon_Window_Button}"
-                                        Content="5"
-                                        HorizontalContentAlignment="Center"
-                                        VerticalContentAlignment="Center"
-                                        FontSize=" 24" />
-                            </ListBoxItem>
-                            <ListBoxItem Width="50"
-                                         Height=" 50"
-                                         Margin="4"
-                                         Padding="0"
-                                         HorizontalContentAlignment="Stretch"
-                                         VerticalContentAlignment="Stretch"
-                                         BorderThickness="0">
-                                <Button Style="{DynamicResource Halcon_Window_Button}"
-                                        Content="6"
-                                        HorizontalContentAlignment="Center"
-                                        VerticalContentAlignment="Center"
-                                        FontSize=" 24" />
-                            </ListBoxItem>
-                            <ListBoxItem Width="50"
-                                         Height=" 50"
-                                         Margin="4"
-                                         Padding="0"
-                                         HorizontalContentAlignment="Stretch"
-                                         VerticalContentAlignment="Stretch"
-                                         BorderThickness="0">
-                                <Button Style="{DynamicResource Halcon_Window_Button}"
-                                        Content="7"
-                                        HorizontalContentAlignment="Center"
-                                        VerticalContentAlignment="Center"
-                                        FontSize=" 24" />
-                            </ListBoxItem>
+                            </ListBoxItem>-->
+
 
                         </ListBox>
 

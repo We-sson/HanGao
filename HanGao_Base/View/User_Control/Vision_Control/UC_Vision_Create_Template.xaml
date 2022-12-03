@@ -85,7 +85,7 @@
                         <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 5 5" />
                         <StackPanel Orientation="Vertical">
 
-                            <Grid Margin="8">
+                            <Grid Height=" 34" Margin="8">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width=" 80" />
                                     <ColumnDefinition />
@@ -109,7 +109,7 @@
                                           BorderThickness="2"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="{Binding Image_CollectionMethod_UI}">
+                                          SelectedIndex="{Binding Halcon_Create_Shape_ModelXld_UI.Get_Image_Model, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:Get_Image_Model_Enum}}">
 
 
                                     <ComboBoxItem>
@@ -160,7 +160,7 @@
                             </Grid>
 
 
-                            <Grid Margin="8">
+                            <Grid Height=" 34" Margin="8">
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width=" 80" />
@@ -598,7 +598,7 @@
                             </Grid>-->
 
 
-                            <Grid Height="35" Margin="8">
+                            <Grid Height=" 34" Margin="8">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width=" 80" />
                                     <ColumnDefinition />
@@ -1906,7 +1906,7 @@
 
                         <StackPanel Orientation="Vertical">
 
-                            <Grid Margin="8">
+                            <Grid Height=" 35" Margin="8">
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="85" />
@@ -2057,7 +2057,7 @@
 
                                     <TextBlock Text="中值滤波器"
                                                TextWrapping="Wrap"
-                                               VerticalAlignment="Top"
+                                               VerticalAlignment="Center"
                                                FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                FontSize="16"
                                                Foreground="{DynamicResource 全局_按钮_黑颜色}" />

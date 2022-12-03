@@ -7,6 +7,7 @@ using MVS_SDK_Base.Model;
 using System.CodeDom;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
+using static HanGao.ViewModel.UC_Vision_CameraSet_ViewModel;
 using static HanGao.ViewModel.User_Control_Log_ViewModel;
 using static MVS_SDK_Base.Model.MVS_Model;
 
@@ -21,12 +22,12 @@ namespace HanGao.ViewModel
             Dictionary<int, string> _E = new();
 
 
-            //添加枚举到UI下拉显示
-            foreach (var E in Enum.GetValues(typeof(ACQUISITION_MODE)))
-            {
-                _E.Add((int)(ACQUISITION_MODE)Enum.Parse(typeof(ACQUISITION_MODE), E.ToString()), E.ToString());
-            }
-            AcquisitionMode_ComboBox_UI = _E;
+            ////添加枚举到UI下拉显示
+            //foreach (var E in Enum.GetValues(typeof(ACQUISITION_MODE)))
+            //{
+            //    _E.Add((int)(ACQUISITION_MODE)Enum.Parse(typeof(ACQUISITION_MODE), E.ToString()), E.ToString());
+            //}
+            //AcquisitionMode_ComboBox_UI = _E;
 
 
 
@@ -69,10 +70,10 @@ namespace HanGao.ViewModel
 
 
 
-        /// <summary>
-        /// 设备采集的采集模式UI绑定 ——默认持续采集模式，"MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS"
-        /// </summary>
-        public IEnumerable<KeyValuePair<int, string>> AcquisitionMode_ComboBox_UI { private set; get; }
+        ///// <summary>
+        ///// 设备采集的采集模式UI绑定 ——默认持续采集模式，"MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS"
+        ///// </summary>
+        //public IEnumerable<KeyValuePair<int, string>> AcquisitionMode_ComboBox_UI { private set; get; }
 
 
 
@@ -117,7 +118,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 相机对象参数
         /// </summary>
-        public Camrea_Parameters_UI_Model Camera_Parameters_UI { set; get; } = new Camrea_Parameters_UI_Model();
+        //public Camrea_Parameters_UI_Model Camera_Parameters_UI { set; get; } = new Camrea_Parameters_UI_Model();
 
 
 
@@ -408,10 +409,10 @@ namespace HanGao.ViewModel
                 ComboBox E = Sm.Source as ComboBox;
 
 
-                MVS_Camera.Set_Camera_Val(Camera_Parameters_Name_Enum.AcquisitionMode, MVS_Camera.Camera.SetEnumValue(E.Name, (uint)(MV_CAM_ACQUISITION_MODE)E.SelectedIndex));
+                MVS_Camera.Set_Camera_Val(Camera_Parameters_Name_Enum.AcquisitionMode, MVS_Camera.Camera.SetEnumValue(E.Name, (uint)(MV_CAM_ACQUISITION_MODE)Camera_Parameter_Val.AcquisitionMode));
 
 
-                Camera_Parameter_Val.GetType().GetProperty(E.Name).SetValue(Camera_Parameter_Val, (MV_CAM_ACQUISITION_MODE)E.SelectedIndex);
+                Camera_Parameter_Val.GetType().GetProperty(E.Name).SetValue(Camera_Parameter_Val, Camera_Parameter_Val.AcquisitionMode);
 
 
                 await Task.Delay(100);
@@ -735,25 +736,8 @@ namespace HanGao.ViewModel
 
 
 
-        /// <summary>
-        /// 采集模式中文枚举名
-        /// </summary>
-        public enum ACQUISITION_MODE
-        {
-            单帧模式,
-            多帧模式,
-            持续采集模式
-        }
-        public enum Get_Image_Model_Enum
-        {
-            相机采集,
-            图像采集,
-            触发采集
 
 
-
-
-        }
 
 
 
@@ -864,19 +848,32 @@ namespace HanGao.ViewModel
     public class Camrea_Parameters_UI_Model
     {
 
-        public MVS_Float_UI_Type Exposure_UI { set; get; } = new MVS_Float_UI_Type() { Val = 30000, Max = 50000, Min = 0 };
+        public double Exposure { set; get; } = 30000;
 
-        public MVS_Float_UI_Type Gain_UI { set; get; } = new MVS_Float_UI_Type() { Val = 10, Max = 20.000, Min = 0 };
+        public double Gain { set; get; } = 10;
 
-        public MVS_Float_UI_Type DigitalShift_UI { set; get; } = new MVS_Float_UI_Type() { Val = 0, Max = 6, Min = -6 };
+        public double DigitalShift { set; get; } = 0;
 
-        public MVS_Float_UI_Type Gamma_UI { set; get; } = new MVS_Float_UI_Type() { Val = 0.5, Max = 4, Min = 0 };
+        public double Gamma { set; get; }=0.5;
 
-        public MVS_Int_UI_Type Sharpness_UI { set; get; } = new MVS_Int_UI_Type() { Val = 10, Max = 100, Min = 0 };
+        public int Sharpness { set; get; } = 10;
 
-        public MVS_Int_UI_Type BlackLevel_UI { set; get; } = new MVS_Int_UI_Type() { Val = 100, Max = 4095, Min = 0 };
+        public int BlackLevel { set; get; } = 100;
 
-        public MVS_ROI_UI_Type ROI_UI { set; get; } = new MVS_ROI_UI_Type() { HeightMax = 2048, WidthMax = 3072, Height = 2048, Width = 3072, OffsetX = 0, OffsetY = 0, ReverseX = false };
+        public int ROI_Height_Max { set; get; } = 2048;
+
+        public int ROI_Width_Max { set; get; } = 3072;
+
+        public int ROI_Height_X { set; get; } = 0;
+
+        public int ROI_Width_Y { set; get; } = 0;
+
+        /// <summary>
+        /// 水平翻转设备发送的图像。翻转后应用感兴趣区域，布尔类型——默认False
+        /// </summary>
+        public bool ROI_ReverseX { set; get; }
+
+        public ACQUISITION_MODE_Enum ACQUISITION_MODE { set; get; } = ACQUISITION_MODE_Enum.持续采集模式; 
     }
 
 

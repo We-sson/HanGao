@@ -356,4 +356,16 @@ namespace MVS_SDK_Base.Model
 
 
     }
+
+    /// <summary>
+    /// 采集模式中文枚举名
+    /// </summary>
+    public enum ACQUISITION_MODE_Enum
+    {
+        单帧模式,
+        多帧模式,
+        持续采集模式
+    }
+
+
 }

@@ -76,7 +76,7 @@
                         <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 5 5" />
                         <StackPanel Orientation="Vertical">
 
-                            <Grid Margin="8">
+                            <Grid Height=" 35" Margin="8">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width=" 80" />
                                     <ColumnDefinition />
@@ -93,8 +93,6 @@
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                 <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
-                                          Height=" 38"
-                                          Margin="5,0,5,0"
                                           VerticalContentAlignment="Center"
                                           BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                           BorderThickness="2"
@@ -142,7 +140,7 @@
 
                             </Grid>
 
-                            <Grid Margin="8">
+                            <Grid Height=" 35" Margin="8">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width=" 80" />
                                     <ColumnDefinition />
@@ -159,8 +157,6 @@
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                 <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
-                                          Height=" 38"
-                                          Margin="5,0,5,0"
                                           VerticalContentAlignment="Center"
                                           BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                           BorderThickness="2"
@@ -204,6 +200,13 @@
 
                             </Grid>
 
+
+                            <Border Height=" 2"
+                                    Margin="8,4,8,4"
+                                    Background="{DynamicResource 全局_按钮_黑颜色}"
+                                    CornerRadius="1"
+                                    Opacity=" 0.5" />
+
                             <Grid Margin="8">
 
                                 <StackPanel Orientation="Vertical">
@@ -211,36 +214,38 @@
 
                                     <TextBlock Grid.Column=" 0"
                                                Text="上位机发送机器人通讯内容"
-                                               Margin="10"
+                                               Margin="0,0,0,8"
                                                HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
+                                               VerticalAlignment="Top"
                                                FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                               FontSize="16"
+                                               FontSize="18"
                                                Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
 
 
-                                    <Border BorderBrush="{DynamicResource 全局_按钮_黑颜色}" BorderThickness="2">
 
-                                        <ScrollViewer Background="Transparent"
-                                                      CanContentScroll="False"
-                                                      PanningMode="Both"
-                                                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                                                      ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                                      VirtualizingPanel.IsVirtualizing="True"
-                                                      VirtualizingPanel.ScrollUnit="Pixel"
-                                                      VirtualizingPanel.VirtualizationMode="Recycling">
-
+                                    <ScrollViewer Background="Transparent"
+                                                  CanContentScroll="False"
+                                                  PanningMode="Both"
+                                                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                                  VirtualizingPanel.IsVirtualizing="True"
+                                                  VirtualizingPanel.ScrollUnit="Pixel"
+                                                  VirtualizingPanel.VirtualizationMode="Recycling">
 
 
-                                            <TextBox Grid.Column=" 2"
-                                                     Text="{Binding Send_Socket_String}"
-                                                     Height=" 300"
-                                                     Background="Transparent"
-                                                     FontSize="16" />
 
-                                        </ScrollViewer>
-                                    </Border>
+                                        <TextBox Grid.Column=" 2"
+                                                 Text="{Binding Send_Socket_String}"
+                                                 Height=" 300"
+                                                 TextWrapping="Wrap"
+                                                 Background="Transparent"
+                                                 BorderBrush="{DynamicResource 全局_按钮_绿颜色}"
+                                                 BorderThickness="2"
+                                                 FontSize="16" />
+
+                                    </ScrollViewer>
+
 
                                 </StackPanel>
 
@@ -253,36 +258,37 @@
 
                                     <TextBlock Grid.Column=" 0"
                                                Text="上位机接收机器人通讯内容"
-                                               Margin="10"
+                                               Margin="0,0,0,8"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                               FontSize="16"
+                                               FontSize="18"
                                                Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
 
 
-                                    <Border BorderBrush="{DynamicResource 全局_按钮_黑颜色}" BorderThickness="2">
-
-                                        <ScrollViewer Background="Transparent"
-                                                      CanContentScroll="False"
-                                                      PanningMode="Both"
-                                                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                                                      ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                                      VirtualizingPanel.IsVirtualizing="True"
-                                                      VirtualizingPanel.ScrollUnit="Pixel"
-                                                      VirtualizingPanel.VirtualizationMode="Recycling">
+                                    <ScrollViewer Background="Transparent"
+                                                  CanContentScroll="False"
+                                                  PanningMode="Both"
+                                                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                                  VirtualizingPanel.IsVirtualizing="True"
+                                                  VirtualizingPanel.ScrollUnit="Pixel"
+                                                  VirtualizingPanel.VirtualizationMode="Recycling">
 
 
 
-                                            <TextBox Grid.Column=" 2"
-                                                     Text="{Binding Receive_Socket_String}"
-                                                     Height=" 300"
-                                                     Background="Transparent"
-                                                     FontSize="16" />
+                                        <TextBox Grid.Column=" 2"
+                                                 Text="{Binding Receive_Socket_String}"
+                                                 Height=" 300"
+                                                 TextWrapping="Wrap"
+                                                 Background="Transparent"
+                                                 BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                                                 BorderThickness="2"
+                                                 FontSize="16" />
 
-                                        </ScrollViewer>
-                                    </Border>
+                                    </ScrollViewer>
+
 
                                 </StackPanel>
 
