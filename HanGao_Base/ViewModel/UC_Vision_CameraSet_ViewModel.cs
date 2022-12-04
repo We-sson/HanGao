@@ -436,6 +436,7 @@ namespace HanGao.ViewModel
             //打开相机
             if (MVS_Camera.Open_Camera())
             {
+                MVS_Camera. Get_Camrea_Info_Method(Camera_Info);
                 //设置相机总参数
                 if (MVS_Camera.Set_Camrea_Parameters_List(Camera_Parameter_Val))
                 {

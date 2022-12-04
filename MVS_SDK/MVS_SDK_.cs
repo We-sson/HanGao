@@ -3,7 +3,9 @@ using MvCamCtrl.NET;
 using MVS_SDK_Base.Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Xml.Linq;
 using static MVS_SDK_Base.Model.MVS_Model;
 
@@ -494,12 +496,22 @@ namespace MVS_SDK
             foreach (PropertyInfo _Type in _Info.GetType().GetProperties())
             {
 
-                if (Get_Camera_Info_Val(_Type, _Type.Name, _Type.GetValue(_Info)))
+
+
+                object _Val=new object ();
+
+
+                if (Get_Camera_Info_Val(_Type, _Type.Name, ref  _Val  ))
                 {
-                    return true;
+                    _Type.SetValue(_Info, _Val);
+                }
+                else
+                {
+                    return false ;
+
                 }
             }
-            return false;
+            return true ;
 
         }
 
@@ -567,49 +579,71 @@ namespace MVS_SDK
         /// <param name="_Val_Type"></param>
         /// <param name="_name"></param>
         /// <param name="_val"></param>
-        public bool Get_Camera_Info_Val(PropertyInfo _Val_Type, string _name, object _val)
+        public bool Get_Camera_Info_Val(PropertyInfo _Val_Type, string _name, ref object _Value)
         {
             //初始化设置相机状态
-            bool _Parameters_Type = false;
+            bool _Parameters_Type =false ;
 
+                
             //对遍历参数类型分类
             switch (_Val_Type.PropertyType)
             {
                 case Type _T when _T == typeof(Enum):
 
-                    CEnumValue _val = new CEnumValue();
+                    CEnumValue _EnumValue = new CEnumValue();
+
                     //设置相机参数
-                    _Parameters_Type = Get_Camera_Val(_Val_Type, Camera.GetEnumValue(_name, ref _val));
+                    _Parameters_Type = Get_Camera_Val(_Val_Type, Camera.GetEnumValue(_name, ref _EnumValue));
 
-
+                    _Value = _EnumValue.CurValue;
 
                     break;
                 case Type _T when _T == typeof(Int32):
 
-                     _val = new CEnumValue();
+                    CIntValue _IntValue = new CIntValue();
+
 
                     //设置相机参数
-                    _Parameters_Type = Get_Camera_Val(_Val_Type, Camera.GetIntValue(_name, ref _val));
+                    _Parameters_Type = Get_Camera_Val(_Val_Type, Camera.GetIntValue(_name, ref _IntValue));
+                    _Value =(int) _IntValue.CurValue;
 
+                    var b = (_IntValue.CurValue) >> 24;
+                    var bb = (_IntValue.CurValue) >> 16;
+                    var bbb = (_IntValue.CurValue & 0x0000FF00) >> 8;
+                    var bbbb = (_IntValue.CurValue & 0x000000FF);
 
                     break;
                 case Type _T when _T == typeof(double):
                     //设置相机参数
-                    _Parameters_Type = Get_Camera_Val(_Val_Type, Camera.SetFloatValue(_name, Convert.ToSingle(_val)));
+                    CFloatValue _DoubleValue = new CFloatValue();
+
+                    
+
+                    _Parameters_Type = Get_Camera_Val(_Val_Type, Camera.GetFloatValue(_name, ref _DoubleValue));
+                    _Value = _DoubleValue.CurValue;
 
 
                     break;
 
                 case Type _T when _T == typeof(string):
                     //设置相机参数
-                    _Parameters_Type = Get_Camera_Val(_Val_Type, Camera.SetStringValue(_name, _val.ToString()));
+
+                    CStringValue _StringValue = new CStringValue();
+
+                    _Parameters_Type = Get_Camera_Val(_Val_Type, Camera.GetStringValue(_name, ref _StringValue));
+
+                   _Value = _StringValue.CurValue;
 
 
                     break;
                 case Type _T when _T == typeof(bool):
                     //设置相机参数
-                    _Parameters_Type = Get_Camera_Val(_Val_Type, Camera.SetBoolValue(_name, (bool)_val));
 
+                    bool _BoolValue = new bool();
+
+                    _Parameters_Type = Get_Camera_Val(_Val_Type, Camera.GetBoolValue(_name, ref _BoolValue));
+
+                    _Value = _BoolValue;
 
                     break;
             }
