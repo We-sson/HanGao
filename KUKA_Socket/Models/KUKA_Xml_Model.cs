@@ -55,14 +55,14 @@ namespace KUKA_Socket.Models
     public class Calibration_Models
     {
         [XmlAttribute]
-        public Calibration_Area_Enum Vision_Area { set; get; }
+        public string  Vision_Area { set; get; }
 
 
         [XmlAttribute]
         public string Work_Area { set; get; }
 
         [XmlAttribute("ID")]
-        public string Find_ID { set; get; }
+        public int Find_ID { set; get; }
 
 
 
@@ -121,16 +121,16 @@ namespace KUKA_Socket.Models
     }
 
 
-    /// <summary>
-    /// 标定识别区域枚举
-    /// </summary>
-    public enum Calibration_Area_Enum
-    {
-        F_45,
-        F_135,
-        F_225,
-        F_315
-    }
+    ///// <summary>
+    ///// 标定识别区域枚举
+    ///// </summary>
+    //public enum Calibration_Area_Enum
+    //{
+    //    F_45,
+    //    F_135,
+    //    F_225,
+    //    F_315
+    //}
 
 
     /// <summary>

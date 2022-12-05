@@ -760,7 +760,7 @@
                                  Background="Transparent"
                                  BorderThickness="0"
                                  ItemContainerStyle="{DynamicResource Vison_Data_ListBoxItemContainerStyle}"
-                                 ItemsSource="{Binding Find_Data_List}"
+                                 ItemsSource="{Binding Find_Data_UI}"
                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                  ScrollViewer.VerticalScrollBarVisibility="Auto">
 
@@ -769,14 +769,22 @@
 
 
                                     <Button Style="{DynamicResource Halcon_Window_Button}"
-                                            Content="{Binding List_Number}"
+                                            Content="{Binding ID}"
                                             Width=" 50"
                                             Height=" 45"
                                             VerticalAlignment="Stretch"
                                             HorizontalContentAlignment="Center"
                                             VerticalContentAlignment="Center"
                                             Background="{DynamicResource 全局_按钮_绿颜色}"
-                                            FontSize=" 20" />
+                                            FontSize=" 20">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding DataContext.Find_Data_Send_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Vision}}}"
+                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                       PassEventArgsToCommand="True" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
 
 
 

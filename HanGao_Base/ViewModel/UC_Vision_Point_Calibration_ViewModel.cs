@@ -150,6 +150,8 @@ namespace HanGao.ViewModel
                         //保存矩阵方法
                         Halcon_SDK.Save_Mat2d_Method(_Mat2D, Calibration_Save_Location_UI+ Calibration_Area_UI + "_" + Calibration_Work_Area);
 
+
+
                         //回传标定结果
                         _Send.IsStatus = 1;
                         _Send.Message_Error = Calibration_Error_Message_Enum.No_Error.ToString() + ",Result Variance X : " + Calibration_Error_UI.X + ", Y : " + Calibration_Error_UI.Y;

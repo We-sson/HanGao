@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KUKA_Socket", "..\KUKA_Sock
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Generic_Extension", "..\Generic_Extension\Generic_Extension.csproj", "{1CFBC836-D70F-4C44-98D1-17D4778F883B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XML_ReadWrite", "..\..\XML_ReadWrite\XML_ReadWrite.csproj", "{E2F196A0-D8D9-43B4-9890-2FB6E084839C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XML_ReadWrite", "..\XML_ReadWrite\XML_ReadWrite.csproj", "{E2F196A0-D8D9-43B4-9890-2FB6E084839C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

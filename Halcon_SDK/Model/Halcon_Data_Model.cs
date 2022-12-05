@@ -146,6 +146,8 @@ namespace Halcon_SDK_DLL.Model
             /// </summary>
             public HTuple HomMat2D { set; get; } = new HTuple();
 
+
+
         }
 
 

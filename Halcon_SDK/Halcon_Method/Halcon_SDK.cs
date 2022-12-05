@@ -581,7 +581,7 @@ namespace Halcon_SDK_DLL
             {
 
 
-                _path = _Location + "\\" + _Name.ToString() + "_" + ((int)_Model_Enum).ToString() + "_" + _Work.ToString();
+                _path = _Location + "\\" + _Name + "_" + ((int)_Model_Enum).ToString() + "_" + _Work.ToString();
 
                 //路径添加格式
                 switch (_Model_Enum)

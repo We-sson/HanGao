@@ -275,7 +275,12 @@ namespace HanGao.ViewModel.Messenger_Eunm
             /// <summary>
             /// 相机信息显示UI
             /// </summary>
-            MVS_Camera_Info_Show
+            MVS_Camera_Info_Show,
+
+            /// <summary>
+            /// 相机参数文件读取
+            /// </summary>
+            Vision_Data_Xml_List,
         }
 
 

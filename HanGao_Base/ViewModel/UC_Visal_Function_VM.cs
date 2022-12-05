@@ -7,6 +7,8 @@ using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static HanGao.ViewModel.UC_Vision_CameraSet_ViewModel;
 using static HanGao.ViewModel.User_Control_Log_ViewModel;
+using static HanGao.ViewModel.UC_Vision_Create_Template_ViewMode;
+
 using static MVS_SDK_Base.Model.MVS_Model;
 using Point = System.Windows.Point;
 
@@ -20,11 +22,18 @@ namespace HanGao.ViewModel
         public UC_Visal_Function_VM()
         {
 
-
-            //初始化参数读取文件
-            Find_Data_List= Vision_Xml_Method.Read_Xml<Vision_Data>( Environment.CurrentDirectory + "\\Find_Data" + "\\Find_Data.Xml");
-        
-
+            //检查存放文件目录
+            if (Directory.Exists(Directory.GetCurrentDirectory() + "\\Find_Data"))
+            {
+                //初始化参数读取文件
+                Find_Data_List = Vision_Xml_Method.Read_Xml<Vision_Data>(Environment.CurrentDirectory + "\\Find_Data" + "\\Find_Data.Xml");
+            }
+            else
+            {
+                Directory.CreateDirectory(Environment.CurrentDirectory + "\\Find_Data");
+                Vision_Xml_Method.Save_Xml(Find_Data_List, Environment.CurrentDirectory + "\\Find_Data" + "\\Find_Data.Xml");
+           
+            }
 
             //halcon实时图像显示操作
             Messenger.Register<HImage_Display_Model, string>(this, nameof(Meg_Value_Eunm.HWindow_Image_Show), (O, _Mvs_Image) =>
@@ -42,7 +51,10 @@ namespace HanGao.ViewModel
 
             });
 
-            //halcon实时图像显示操作
+
+
+
+            //操作结果显示UI 
             Messenger.Register<Halcon_Find_Shape_Out_Parameter, string>(this, nameof(Meg_Value_Eunm.Find_Shape_Out), (O, _Fout) =>
             {
 
@@ -51,7 +63,7 @@ namespace HanGao.ViewModel
 
             });
 
-            //halcon实时图像显示操作
+            //相机信息显示UI 
             Messenger.Register<MVS_Camera_Info_Model, string>(this, nameof(Meg_Value_Eunm.MVS_Camera_Info_Show), (O, _M) =>
             {
 
@@ -61,8 +73,8 @@ namespace HanGao.ViewModel
                 //var bb = (_IntValue.CurValue) >> 16;
                 //var bbb = (_IntValue.CurValue & 0x0000FF00) >> 8;
                 //var bbbb = _IntValue.CurValue & 0x000000FF;
-                Camera_Resolution=_M.HeightMax.ToString()+"x"+_M.WidthMax.ToString();
-                Camera_FrameRate =  Math.Round(  _M.ResultingFrameRate,3);
+                Camera_Resolution = _M.HeightMax.ToString() + "x" + _M.WidthMax.ToString();
+                Camera_FrameRate = Math.Round(_M.ResultingFrameRate, 3);
 
             });
 
@@ -76,13 +88,13 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 视觉参数内容列表
         /// </summary>
-        public  static Vision_Data Find_Data_List { get; set; } = new Vision_Data() { Vision_List = new ObservableCollection<Vision_Xml_Models> { new Vision_Xml_Models() { ID = 1, Date_Last_Revise = DateTime.Now.ToString() }, new Vision_Xml_Models() { ID = 2, Date_Last_Revise = DateTime.Now.ToString() } } };
+        public static Vision_Data Find_Data_List { get; set; } = new Vision_Data() { Vision_List = new ObservableCollection<Vision_Xml_Models> { new Vision_Xml_Models() { ID = 1, Date_Last_Revise = DateTime.Now.ToString() } } };
 
 
 
 
 
-        private static ObservableCollection<Vision_Xml_Models> _Find_Data_UI { get; set; } = new ObservableCollection<Vision_Xml_Models>()  { new Vision_Xml_Models() { ID = 1, Date_Last_Revise = DateTime.Now.ToString() }, new Vision_Xml_Models() { ID = 2, Date_Last_Revise = DateTime.Now.ToString() } };
+        private static ObservableCollection<Vision_Xml_Models> _Find_Data_UI { get; set; } = new ObservableCollection<Vision_Xml_Models>() { new Vision_Xml_Models() { ID = 1, Date_Last_Revise = DateTime.Now.ToString() }, new Vision_Xml_Models() { ID = 2, Date_Last_Revise = DateTime.Now.ToString() } };
         /// <summary>
         /// 画画数据列表
         /// </summary>
@@ -140,15 +152,16 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 保存读取图像属性
         /// </summary>
-        private static  HObject _Load_Image;
+        private static HObject _Load_Image;
 
-        public static  HObject Load_Image
+        public static HObject Load_Image
         {
             get { return _Load_Image; }
-            set { 
+            set
+            {
 
-                _Load_Image = value; 
-            
+                _Load_Image = value;
+
             }
         }
 
@@ -159,7 +172,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 画画添加集合序号
         /// </summary>
-        private int Drawing_Lint_Bunber=0;
+        private int Drawing_Lint_Bunber = 0;
 
 
 
@@ -172,7 +185,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 鼠标当前灰度值
         /// </summary>
-        public int  Mouse_Pos_Gray { set; get; } =-1;
+        public int Mouse_Pos_Gray { set; get; } = -1;
 
         /// <summary>
         /// 相机IP显示UI 
@@ -188,7 +201,7 @@ namespace HanGao.ViewModel
         public double Camera_FrameRate { set; get; } = 0;
 
 
-        public Halcon_Find_Shape_Out_Parameter Find_Shape_Result { set; get; }=new Halcon_Find_Shape_Out_Parameter ();
+        public Halcon_Find_Shape_Out_Parameter Find_Shape_Result { set; get; } = new Halcon_Find_Shape_Out_Parameter();
 
 
         /// <summary>
@@ -288,26 +301,26 @@ namespace HanGao.ViewModel
                 //Button E = Sm.Source as Button
 
 
-                if (_E.Button== MouseButton.Right || _E.Button == MouseButton.Left)
+                if (_E.Button == MouseButton.Right || _E.Button == MouseButton.Left)
                 {
 
 
-                Halcon_Position = new Point(Math.Round(_E.Row, 3), Math.Round(_E.Column, 3));
+                    Halcon_Position = new Point(Math.Round(_E.Row, 3), Math.Round(_E.Column, 3));
 
 
-                try
-                {
+                    try
+                    {
 
-                HOperatorSet.GetGrayval(Load_Image, _E.Row, _E.Column, out HTuple _Gray);
+                        HOperatorSet.GetGrayval(Load_Image, _E.Row, _E.Column, out HTuple _Gray);
 
-                Mouse_Pos_Gray = (int)_Gray.D;
-       
-                }
-                catch (Exception e)
-                {
-                       var  a= e.Message;
-                    Mouse_Pos_Gray = -1;
-                }
+                        Mouse_Pos_Gray = (int)_Gray.D;
+
+                    }
+                    catch (Exception e)
+                    {
+                        var a = e.Message;
+                        Mouse_Pos_Gray = -1;
+                    }
 
                 }
 
@@ -339,7 +352,7 @@ namespace HanGao.ViewModel
                 HOperatorSet.GenEmptyObj(out HObject ho_Cross);
 
                 //生成十字架
-                HOperatorSet.GenCrossContourXld(out  ho_Cross, Halcon_Position.X, Halcon_Position.Y, 50, (new HTuple(45)).TupleRad());
+                HOperatorSet.GenCrossContourXld(out ho_Cross, Halcon_Position.X, Halcon_Position.Y, 50, (new HTuple(45)).TupleRad());
 
                 //显示十字架
                 HOperatorSet.DispXld(ho_Cross, Features_Window.HWindow);
@@ -349,8 +362,8 @@ namespace HanGao.ViewModel
 
 
                 //属性为空时创建属性
-            
-                if (User_Drawing_Data==null)
+
+                if (User_Drawing_Data == null)
                 {
 
                     User_Drawing_Data = new Vision_Create_Model_Drawing_Model() { Number = Drawing_Lint_Bunber, Drawing_Type = (Drawing_Type_Enme)Enum.Parse(typeof(Drawing_Type_Enme), _E.Name), Drawing_Data = new ObservableCollection<Point>() };
@@ -358,7 +371,7 @@ namespace HanGao.ViewModel
                 }
 
 
-          
+
                 //添加坐标点数据
                 User_Drawing_Data.Drawing_Data.Add(new Point(Math.Round(Halcon_Position.X, 3), Math.Round(Halcon_Position.Y, 3)));
 
@@ -388,7 +401,7 @@ namespace HanGao.ViewModel
         /// </summary>
         public ICommand Add_Draw_Ok_Comm
         {
-            get => new RelayCommand<RoutedEventArgs>( (Sm) =>
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
 
                 MenuItem _E = Sm.Source as MenuItem;
@@ -404,7 +417,7 @@ namespace HanGao.ViewModel
 
                 if (User_Drawing_Data == null)
                 {
-                            User_Log_Add("请添加直线或圆弧特征点，创建特征失败！");
+                    User_Log_Add("请添加直线或圆弧特征点，创建特征失败！");
                     return;
                 }
 
@@ -412,7 +425,7 @@ namespace HanGao.ViewModel
                 {
                     case Drawing_Type_Enme.Draw_Lin:
 
-                        if (User_Drawing_Data.Drawing_Data.Count<=1)
+                        if (User_Drawing_Data.Drawing_Data.Count <= 1)
                         {
                             User_Log_Add("描绘创建直线特征小于2组特征，不能创建模型！");
                             User_Drawing_Data = null;
@@ -440,7 +453,7 @@ namespace HanGao.ViewModel
                 }
                 HOperatorSet.GenEmptyObj(out HObject ho_Contour1);
                 //根据描绘点生产线段
-                HOperatorSet.GenContourPolygonXld(out  ho_Contour1, RowLine, ColLine);
+                HOperatorSet.GenContourPolygonXld(out ho_Contour1, RowLine, ColLine);
 
                 //设置显示图像颜色
                 HOperatorSet.SetColor(Features_Window.HWindow, nameof(KnownColor.Red).ToLower());
@@ -473,7 +486,7 @@ namespace HanGao.ViewModel
                         User_Drawing_Data.Lin_Xld_Data.Nc = hv_Nc;
                         User_Drawing_Data.Lin_Xld_Data.Nr = hv_Nr;
                         User_Drawing_Data.Lin_Xld_Data.Lin_Xld_Region = ho_Cont;
-                
+
                         User_Drawing_Data.Lin_Xld_Data.Xld_Region = new HObject(ho_Contour1);
                         break;
                     case Drawing_Type_Enme.Draw_Cir:
@@ -493,8 +506,8 @@ namespace HanGao.ViewModel
                         User_Drawing_Data.Cir_Xld_Data.EndPhi = hv_EndPhi;
                         User_Drawing_Data.Cir_Xld_Data.PointOrder = hv_PointOrder;
                         User_Drawing_Data.Cir_Xld_Data.Cir_Xld_Region = ho_Cont;
-                 
-                        User_Drawing_Data.Cir_Xld_Data.Xld_Region =new HObject ( ho_Contour1);
+
+                        User_Drawing_Data.Cir_Xld_Data.Xld_Region = new HObject(ho_Contour1);
 
 
                         break;
@@ -528,7 +541,7 @@ namespace HanGao.ViewModel
                 //全部控件显示居中
 
 
-   
+
             });
         }
 
@@ -558,7 +571,22 @@ namespace HanGao.ViewModel
             });
         }
 
+        /// <summary>
+        /// 发送用户选择参数
+        /// </summary>
+        public ICommand Find_Data_Send_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                Button E = Sm.Source as Button;
 
+                Vision_Xml_Models _Data = (Vision_Xml_Models)E.DataContext;
+
+
+                Messenger.Send<Vision_Xml_Models, string>(_Data, nameof(Meg_Value_Eunm.Vision_Data_Xml_List));
+
+            });
+        }
 
 
 

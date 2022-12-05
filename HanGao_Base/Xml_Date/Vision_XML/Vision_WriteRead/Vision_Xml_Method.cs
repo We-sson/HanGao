@@ -14,10 +14,8 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
 
         public Vision_Xml_Method()
         {
-            //检查存放文件目录
-            if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\Find_Data")) { Directory.CreateDirectory(Environment.CurrentDirectory + "\\Find_Data"); }
 
-            //Vision_Xml_Method.Save_Xml(Find_Data_List, Environment.CurrentDirectory + "\\Find_Data" + "\\Find_Data.Xml");
+
 
         }
 

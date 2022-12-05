@@ -3,6 +3,7 @@
 
 using Halcon_SDK_DLL;
 using HanGao.View.User_Control.Vision_Control;
+using HanGao.Xml_Date.Vision_XML.Vision_Model;
 using MvCamCtrl.NET;
 using MVS_SDK_Base.Model;
 using System.CodeDom;
@@ -63,7 +64,13 @@ namespace HanGao.ViewModel
 
             });
 
+            //接收用户选择参数
+            Messenger.Register<Vision_Xml_Models, string>(this, nameof(Meg_Value_Eunm.Vision_Data_Xml_List), (O, _V) =>
+            {
+                Camera_Parameter_Val = _V.Camera_Parameter_Data;
+                Camera_Data_ID_UI = _V.ID;
 
+            });
 
 
 
@@ -78,12 +85,29 @@ namespace HanGao.ViewModel
 
 
 
+        /// <summary>
+        /// 静态属性更新通知事件
+        /// </summary>
+        public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
 
 
+
+
+        private static MVS_Camera_Parameter_Model _Camera_Parameter_Val { get; set; } = new MVS_Camera_Parameter_Model();
         /// <summary>
         /// 相机参数
         /// </summary>
-        public static MVS_Camera_Parameter_Model Camera_Parameter_Val { set; get; } = new MVS_Camera_Parameter_Model();
+        public static MVS_Camera_Parameter_Model Camera_Parameter_Val
+        {
+            get { return _Camera_Parameter_Val; }
+            set
+            {
+                _Camera_Parameter_Val = value;
+                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Camera_Parameter_Val)));
+            }
+        }
+
+
 
         /// <summary>
         /// 相机信息
@@ -100,8 +124,10 @@ namespace HanGao.ViewModel
         /// </summary>
         public ObservableCollection<string> Camera_UI_List { set; get; } = new ObservableCollection<string>();
 
-
-
+        /// <summary>
+        /// 当前相机参数号数
+        /// </summary>
+        public int Camera_Data_ID_UI { set; get; }
 
 
 
@@ -117,12 +143,6 @@ namespace HanGao.ViewModel
 
 
         public static Halcon_SDK SHalcon { set; get; } = new Halcon_SDK();
-
-        /// <summary>
-        /// 相机对象参数
-        /// </summary>
-        //public Camrea_Parameters_UI_Model Camera_Parameters_UI { set; get; } = new Camrea_Parameters_UI_Model();
-
 
 
 
@@ -167,26 +187,10 @@ namespace HanGao.ViewModel
 
 
 
-
-        /// <summary>
-        /// 静态属性更新通知事件
-        /// </summary>
-        //public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
-
-
         /// <summary>
         /// 相机连接成功
         /// </summary>
         public bool Camera_Connect_OK { set; get; } = false;
-
-
-
-
-
-        /// <summary>
-        /// 查找相机枚举集合
-        /// </summary>
-        //private List<CCameraInfo> _Camera_List = new();
 
 
         /// <summary>
@@ -198,29 +202,6 @@ namespace HanGao.ViewModel
             WeakReferenceMessenger.Default.Send<HImage_Display_Model, string>(new HImage_Display_Model() { Image = SHalcon.Mvs_To_Halcon_Image(pFrameInfo.nWidth, pFrameInfo.nHeight, pData), Image_Show_Halcon = UC_Visal_Function_VM.Live_Window.HWindow }, nameof(Meg_Value_Eunm.HWindow_Image_Show));
 
         }
-
-
-
-
-
-
-        ///// <summary>
-        ///// 读取图像
-        ///// </summary>
-        //public ICommand Read_Image_Comm
-        //{
-        //    get => new RelayCommand<RoutedEventArgs>((Sm) =>
-        //    {
-
-
-
-
-
-
-
-        //    });
-        //}
-
 
 
         /// <summary>
@@ -528,45 +509,45 @@ namespace HanGao.ViewModel
 
 
 
-        /// <summary>
-        /// 设置相机曝光时间
-        /// </summary>
-        public ICommand Window_Unloaded_Camera_Close_Comm
-        {
-            get => new AsyncRelayCommand<RoutedEventArgs>(async (Sm) =>
-            {
+        ///// <summary>
+        ///// 设置相机曝光时间
+        ///// </summary>
+        //public ICommand Window_Unloaded_Camera_Close_Comm
+        //{
+        //    get => new AsyncRelayCommand<RoutedEventArgs>(async (Sm) =>
+        //    {
 
-                await Task.Delay(100);
-
-
-            });
-        }
+        //        await Task.Delay(100);
 
 
-
-
-
-        /// <summary>
-        /// 设置相机曝光时间
-        /// </summary>
-        public ICommand Camera_Image_Gain_Set_Comm
-        {
-            get => new AsyncRelayCommand<RoutedEventArgs>(async (Sm) =>
-            {
-
-                await Task.Delay(500);
-
-                TextBox E = Sm.Source as TextBox;
-
-                //MessageBox.Show(E.Text);
+        //    });
+        //}
 
 
 
 
 
+        ///// <summary>
+        ///// 设置相机曝光时间
+        ///// </summary>
+        //public ICommand Camera_Image_Gain_Set_Comm
+        //{
+        //    get => new AsyncRelayCommand<RoutedEventArgs>(async (Sm) =>
+        //    {
 
-            });
-        }
+        //        await Task.Delay(500);
+
+        //        TextBox E = Sm.Source as TextBox;
+
+        //        //MessageBox.Show(E.Text);
+
+
+
+
+
+
+        //    });
+        //}
 
         /// <summary>
         /// 单帧获取图像功能
