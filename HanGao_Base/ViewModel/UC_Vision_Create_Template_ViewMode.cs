@@ -75,10 +75,10 @@ namespace HanGao.ViewModel
         public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
 
 
-        public HTuple Halcon_Create_Shape_ModelXld_ID { set; get; }
-        public HTuple Halcon_Create_Planar_Uncalib_Deformable_ModelXld_ID { set; get; }
-        public HTuple Halcon_Create_Local_Deformable_ModelXld_ID { set; get; }
-        public HTuple Halcon_Create_Scaled_Shape_ModelXld_ID { set; get; }
+        //public HTuple Halcon_Create_Shape_ModelXld_ID { set; get; }
+        //public HTuple Halcon_Create_Planar_Uncalib_Deformable_ModelXld_ID { set; get; }
+        //public HTuple Halcon_Create_Local_Deformable_ModelXld_ID { set; get; }
+        //public HTuple Halcon_Create_Scaled_Shape_ModelXld_ID { set; get; }
 
 
 

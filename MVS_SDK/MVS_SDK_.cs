@@ -491,7 +491,7 @@ namespace MVS_SDK
 
 
 
-        public bool Get_Camrea_Info_Method(MVS_Camera_Info_Model _Info)
+        public bool Get_Camrea_Info_Method(ref MVS_Camera_Info_Model _Info)
         {
             foreach (PropertyInfo _Type in _Info.GetType().GetProperties())
             {
@@ -511,6 +511,9 @@ namespace MVS_SDK
 
                 }
             }
+
+
+
             return true ;
 
         }
@@ -607,10 +610,12 @@ namespace MVS_SDK
                     _Parameters_Type = Get_Camera_Val(_Val_Type, Camera.GetIntValue(_name, ref _IntValue));
                     _Value =(int) _IntValue.CurValue;
 
-                    var b = (_IntValue.CurValue) >> 24;
-                    var bb = (_IntValue.CurValue) >> 16;
-                    var bbb = (_IntValue.CurValue & 0x0000FF00) >> 8;
-                    var bbbb = (_IntValue.CurValue & 0x000000FF);
+
+                    //IP地址提取方法
+                    //var b = (_IntValue.CurValue) >> 24;
+                    //var bb = (_IntValue.CurValue) >> 16;
+                    //var bbb = (_IntValue.CurValue & 0x0000FF00) >> 8;
+                    //var bbbb = _IntValue.CurValue & 0x000000FF;
 
                     break;
                 case Type _T when _T == typeof(double):

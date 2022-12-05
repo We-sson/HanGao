@@ -322,18 +322,39 @@ namespace MVS_SDK_Base.Model
         /// </summary>
         public class MVS_Camera_Info_Model
         {
+            /// <summary>
+            /// 有关设备的制造商信息
+            /// </summary>
             [StringValue("获得有关设备的制造商信息~失败!")]
             public string DeviceManufacturerInfo { set; get; } = "";
+            /// <summary>
+            /// 设备的型号名称
+            /// </summary>
             [StringValue("获得设备的型号名称~失败!")]
             public string DeviceModelName { set; get; } = "";
+            /// <summary>
+            /// 设备序列号
+            /// </summary>
             [StringValue("获得设备序列号。此字符串是设备的唯一标识符~失败!")]
             public string DeviceSerialNumber { set; get; } = "";
+            /// <summary>
+            /// 图像的最大宽度
+            /// </summary>
             [StringValue("获得图像的最大宽度（以像素为单位）~失败!")]
             public int WidthMax { set; get; } = 0;
+            /// <summary>
+            /// 图像的最大高度
+            /// </summary>
             [StringValue("获得图像的最大高度（以像素为单位）~失败!")]
             public int HeightMax { set; get; } = 0;
+            /// <summary>
+            /// 最大采集帧速率
+            /// </summary>
             [StringValue("获得允许的最大采集帧速率的“绝对”值~失败!")]
             public double ResultingFrameRate { set; get; } = 0;
+            /// <summary>
+            /// 网络接口的当前IP地址
+            /// </summary>
             [StringValue("获得给定网络接口的当前IP地址~失败!")]
             public int GevCurrentIPAddress { set; get; } = 0;
         }

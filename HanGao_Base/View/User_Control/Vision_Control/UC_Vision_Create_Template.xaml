@@ -109,7 +109,7 @@
                                           BorderThickness="2"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="{Binding Halcon_Create_Shape_ModelXld_UI.Get_Image_Model, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:Get_Image_Model_Enum}}">
+                                          SelectedIndex="{Binding Get_Image_Model, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:Get_Image_Model_Enum}}">
 
 
                                     <ComboBoxItem>

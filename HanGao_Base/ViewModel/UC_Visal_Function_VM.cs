@@ -6,7 +6,7 @@ using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static HanGao.ViewModel.UC_Vision_CameraSet_ViewModel;
 using static HanGao.ViewModel.User_Control_Log_ViewModel;
-
+using static MVS_SDK_Base.Model.MVS_Model;
 using Point = System.Windows.Point;
 
 namespace HanGao.ViewModel
@@ -46,8 +46,21 @@ namespace HanGao.ViewModel
 
             });
 
+            //halcon实时图像显示操作
+            Messenger.Register<MVS_Camera_Info_Model, string>(this, nameof(Meg_Value_Eunm.MVS_Camera_Info_Show), (O, _M) =>
+            {
 
-            
+                Camera_IP_Address = ((_M.GevCurrentIPAddress & 0xFF000000) >> 24).ToString() + "." + ((_M.GevCurrentIPAddress & 0x00FF0000) >> 16).ToString() + "." + ((_M.GevCurrentIPAddress & 0x0000FF00) >> 8).ToString() + "." + ((_M.GevCurrentIPAddress & 0x000000FF)).ToString();
+                //IP地址提取方法  取对应位数移位
+                //var b = (_IntValue.CurValue) >> 24;
+                //var bb = (_IntValue.CurValue) >> 16;
+                //var bbb = (_IntValue.CurValue & 0x0000FF00) >> 8;
+                //var bbbb = _IntValue.CurValue & 0x000000FF;
+                Camera_Resolution=_M.HeightMax.ToString()+"x"+_M.WidthMax.ToString();
+                Camera_FrameRate =  Math.Round(  _M.ResultingFrameRate,3);
+
+            });
+
 
 
 
@@ -135,6 +148,9 @@ namespace HanGao.ViewModel
         /// </summary>
         private int Drawing_Lint_Bunber=0;
 
+
+
+
         /// <summary>
         /// 鼠标当前位置
         /// </summary>
@@ -145,7 +161,18 @@ namespace HanGao.ViewModel
         /// </summary>
         public int  Mouse_Pos_Gray { set; get; } =-1;
 
-
+        /// <summary>
+        /// 相机IP显示UI 
+        /// </summary>
+        public string Camera_IP_Address { set; get; } = "0.0.0.0";
+        /// <summary>
+        /// 相机分辨率显示IP
+        /// </summary>
+        public string Camera_Resolution { set; get; } = "0x0";
+        /// <summary>
+        /// 相机分辨率显示IP
+        /// </summary>
+        public double Camera_FrameRate { set; get; } = 0;
 
 
         public Halcon_Find_Shape_Out_Parameter Find_Shape_Result { set; get; }=new Halcon_Find_Shape_Out_Parameter ();

@@ -175,13 +175,16 @@
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Orientation="Horizontal">
-                                <TextBlock Text="相机IP：10.30.3.156 "
+                                <TextBlock Text="{Binding Camera_IP_Address, StringFormat=相机IP : {0}}"
+                                           Margin="4"
                                            FontFamily="{DynamicResource 全局_文字_数字字体}"
                                            FontSize="16" />
-                                <TextBlock Text="分辨率：3024X2016 "
+                                <TextBlock Text="{Binding Camera_Resolution, StringFormat=分辨率 : {0}}"
+                                           Margin="4"
                                            FontFamily="{DynamicResource 全局_文字_数字字体}"
                                            FontSize="16" />
-                                <TextBlock Text="帧率：13 "
+                                <TextBlock Text="{Binding Camera_FrameRate, StringFormat=帧率 : {0}}"
+                                           Margin="4"
                                            FontFamily="{DynamicResource 全局_文字_数字字体}"
                                            FontSize="16" />
                             </StackPanel>
@@ -722,8 +725,6 @@
                                 </TextBlock>
                             </StackPanel>
                         </Grid>
-
-
                     </Grid>
 
 
@@ -737,7 +738,7 @@
                     <StackPanel Orientation="Vertical">
                         <Button Style="{DynamicResource Halcon_Window_Button}"
                                 Height="50"
-                                Margin="5"
+                                Margin="4"
                                 Background="{DynamicResource 全局_按钮_蓝颜色}"
                                 FontSize="40">
                             <Image Height=" 28"
@@ -748,6 +749,11 @@
                         </Button>
 
 
+                        <Border Height=" 2"
+                                Margin="4,4,4,4"
+                                Background="{DynamicResource 全局_按钮_黑颜色}"
+                                CornerRadius="1"
+                                Opacity=" 0.5" />
 
                         <ListBox Style="{DynamicResource Vision_Data_ListBoxStyle}"
                                  Padding="0"

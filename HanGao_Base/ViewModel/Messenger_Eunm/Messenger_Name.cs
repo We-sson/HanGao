@@ -270,6 +270,12 @@ namespace HanGao.ViewModel.Messenger_Eunm
             /// 查找特征结果
             /// </summary>
             Find_Shape_Out,
+
+
+            /// <summary>
+            /// 相机信息显示UI
+            /// </summary>
+            MVS_Camera_Info_Show
         }
 
 

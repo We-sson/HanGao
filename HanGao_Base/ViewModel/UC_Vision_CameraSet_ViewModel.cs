@@ -3,6 +3,7 @@
 
 using Halcon_SDK_DLL;
 using HanGao.View.User_Control.Vision_Control;
+using MvCamCtrl.NET;
 using MVS_SDK_Base.Model;
 using System.CodeDom;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
@@ -139,6 +140,9 @@ namespace HanGao.ViewModel
 
                     if (Connect_Camera())
                     {
+
+
+
                         return;
                     }
 
@@ -436,7 +440,14 @@ namespace HanGao.ViewModel
             //打开相机
             if (MVS_Camera.Open_Camera())
             {
-                MVS_Camera. Get_Camrea_Info_Method(Camera_Info);
+
+
+                MVS_Camera_Info_Model _Info=new MVS_Camera_Info_Model ();
+                MVS_Camera. Get_Camrea_Info_Method(ref _Info);
+                Camera_Info = _Info;
+                Messenger.Send<MVS_Camera_Info_Model, string>(Camera_Info, nameof( Meg_Value_Eunm.MVS_Camera_Info_Show));
+                //Message
+
                 //设置相机总参数
                 if (MVS_Camera.Set_Camrea_Parameters_List(Camera_Parameter_Val))
                 {
