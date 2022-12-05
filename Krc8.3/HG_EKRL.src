@@ -1,5 +1,5 @@
-&ACCESS RVO4
-&REL 208
+&ACCESS RVO1
+&REL 210
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HK
@@ -26,6 +26,7 @@ DECL EKI_STATUS RET
 
 
 
+
 EKRL_CONNECT()
 
 ;Bytes[]="hellow"
@@ -40,7 +41,7 @@ GLOBAL DEF EKRL_Find_Model_Send(Find_ID:IN,Work_Number:IN,Find_Area:IN)
 DECL INT Find_ID,Work_Number,ID,Work,Find_Area,OPFFSET
 DECL CHAR Find_Area_String[1024], Message_Error[1024],Message_Show[1024]
 DECL BOOL Calculation_Status
-DECL Frame LastPos1,LastPos2,LastPos3,LastPos4
+DECL Frame LastPos1,LastPos2,LastPos3,LastPos4,LastPos5,LastPos6,LastPos7,LastPos8,LastPos9
 DECL EKI_STATUS RET
 DECL State_t _State,STAT
 DECL MODUS_T MODE
@@ -54,6 +55,12 @@ LastPos1={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
 LastPos2={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
 LastPos3={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
 LastPos4={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+LastPos5={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+LastPos6={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+LastPos7={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+LastPos8={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+LastPos9={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+
 
 Find_Area_String[]=" "
 Message_Error[]=" "
@@ -75,28 +82,31 @@ CASE 4
 Find_Area_String[]="F_315"
 
 ENDSWITCH
-
-RET=EKI_SetInt(EKRL_NAME[],"KUKA_Receive/Find_Model/@ID", Find_ID)
-RET=EKI_SetInt(EKRL_NAME[],"KUKA_Receive/Find_Model/@Work", Work_Number)
-
-RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/Find_Model/@Area", Find_Area_String[])
+RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/@Model","Find_Model")
+RET=EKI_SetInt(EKRL_NAME[],"KUKA_Receive/Vision_Model/@ID", Find_ID)
+RET=EKI_SetInt(EKRL_NAME[],"KUKA_Receive/Vision_Model/@Work_Area", Work_Number)
+RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/Vision_Model/@Vision_Area", Find_Area_String[])
+RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Model/Camera_Point/Pos_1", $POS_ACT)
 
 RET = EKI_Send(EKRL_NAME[],"KUKA_Receive")
 
 
 Message_Wait("Find Model Data Sending",2)
 
-RET=EKI_GetBool(EKRL_NAME[],"KUKA_Send/IsStatus" ,Calculation_Status)
+RET=EKI_GetBool(EKRL_NAME[],"KUKA_Send/@IsStatus" ,Calculation_Status)
 RET=EKI_GetString(EKRL_NAME[],"KUKA_Send/Message_Error" ,Message_Error[])
 IF  Calculation_Status THEN
 
-MSGNOTIFY("Calculation Data Send OK!")
-RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Calculation_Point/Pos_1" ,LastPos1)
-RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Calculation_Point/Pos_2" ,LastPos2)
-RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Calculation_Point/Pos_3" ,LastPos3)
-RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Calculation_Point/Pos_4" ,LastPos4)
-
-
+MSGNOTIFY("Message_Error[]")
+RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_1" ,LastPos1)
+RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_2" ,LastPos2)
+RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_3" ,LastPos3)
+RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_4" ,LastPos4)
+RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_5" ,LastPos5)
+RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_6" ,LastPos6)
+RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_7" ,LastPos7)
+RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_8" ,LastPos8)
+RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_9" ,LastPos9)
 
 switch Find_Area
 

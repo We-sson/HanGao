@@ -80,9 +80,9 @@ DEFTP Vision={ SOt FALSE,Soc TRUE }
             Pos_Number_FOLD[5]=""   
  
   DECL FOLD Find_Model_FOLD[5]
-            Find_Model_FOLD[1]="EKRL_Find_Model_Send(%Find_ID ,%Work_Area ,%Area_Calib_lIST )"
-            Find_Model_FOLD[2]=""
-            Find_Model_FOLD[3]=""
+            Find_Model_FOLD[1]="EKRL_NAME[]=/"Xml_Vision_Model/""
+            Find_Model_FOLD[2]="EKRL_Connect()"
+            Find_Model_FOLD[3]="EKRL_Find_Model_Send(%Find_ID ,%Work_Area ,%Area_Calib_lIST )"
             Find_Model_FOLD[4]=""
             Find_Model_FOLD[5]=""  
             

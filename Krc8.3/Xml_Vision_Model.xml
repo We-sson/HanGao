@@ -12,15 +12,15 @@
 		<XML>
          <ELEMENT Tag="KUKA_Send/@IsStatus" Type="BOOL" /> 
          <ELEMENT Tag="KUKA_Send/Message_Error" Type="STRING"/>
-         <ELEMENT Tag="KUKA_Send/Calculation_Point/Pos_1" Type="FRAME"/>
-         <ELEMENT Tag="KUKA_Send/Calculation_Point/Pos_2" Type="FRAME"/>
-         <ELEMENT Tag="KUKA_Send/Calculation_Point/Pos_3" Type="FRAME"/>
-         <ELEMENT Tag="KUKA_Send/Calculation_Point/Pos_4" Type="FRAME"/>
-         <ELEMENT Tag="KUKA_Send/Calculation_Point/Pos_5" Type="FRAME"/>
-         <ELEMENT Tag="KUKA_Send/Calculation_Point/Pos_6" Type="FRAME"/>
-         <ELEMENT Tag="KUKA_Send/Calculation_Point/Pos_7" Type="FRAME"/>
-         <ELEMENT Tag="KUKA_Send/Calculation_Point/Pos_8" Type="FRAME"/>
-         <ELEMENT Tag="KUKA_Send/Calculation_Point/Pos_9" Type="FRAME"/>
+         <ELEMENT Tag="KUKA_Send/Vision_Point/Pos_1" Type="FRAME"/>
+         <ELEMENT Tag="KUKA_Send/Vision_Point/Pos_2" Type="FRAME"/>
+         <ELEMENT Tag="KUKA_Send/Vision_Point/Pos_3" Type="FRAME"/>
+         <ELEMENT Tag="KUKA_Send/Vision_Point/Pos_4" Type="FRAME"/>
+         <ELEMENT Tag="KUKA_Send/Vision_Point/Pos_5" Type="FRAME"/>
+         <ELEMENT Tag="KUKA_Send/Vision_Point/Pos_6" Type="FRAME"/>
+         <ELEMENT Tag="KUKA_Send/Vision_Point/Pos_7" Type="FRAME"/>
+         <ELEMENT Tag="KUKA_Send/Vision_Point/Pos_8" Type="FRAME"/>
+         <ELEMENT Tag="KUKA_Send/Vision_Point/Pos_9" Type="FRAME"/>
          <ELEMENT Tag="KUKA_Send" Set_Flag="2"/>
 			<!-- <ELEMENT Tag="Sensor/Message" Type="STRING"/> -->
 			<!-- <ELEMENT Tag="Sensor/Positions/Current/@X" Type="REAL"/> -->
@@ -113,12 +113,7 @@
          <ELEMENT Tag="KUKA_Receive/Vision_Model/Camera_Point/Pos_1/@B" Type="REAL"/>
          <ELEMENT Tag="KUKA_Receive/Vision_Model/Camera_Point/Pos_1/@C" Type="REAL"/>
   
-         <ELEMENT Tag="KUKA_Receive/Vision_Model/Camera_Point/Pos_2/@X" Type="REAL"/>
-         <ELEMENT Tag="KUKA_Receive/Vision_Model/Camera_Point/Pos_2/@Y" Type="REAL"/>
-         <ELEMENT Tag="KUKA_Receive/Vision_Model/Camera_Point/Pos_2/@Z" Type="REAL"/>
-         <ELEMENT Tag="KUKA_Receive/Vision_Model/Camera_Point/Pos_2/@A" Type="REAL"/>
-         <ELEMENT Tag="KUKA_Receive/Vision_Model/Camera_Point/Pos_2/@B" Type="REAL"/>
-         <ELEMENT Tag="KUKA_Receive/Vision_Model/Camera_Point/Pos_2/@C" Type="REAL"/>
+       
 
 			<!-- <ELEMENT Tag="Robot/Data/LastPos/@X"/> -->
 			<!-- <ELEMENT Tag="Robot/Data/LastPos/@Y"/> -->
