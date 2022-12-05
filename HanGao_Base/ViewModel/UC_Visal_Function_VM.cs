@@ -1,6 +1,7 @@
 ﻿
 using Halcon_SDK_DLL;
 using HanGao.Xml_Date.Vision_XML.Vision_Model;
+using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
 using System.Drawing;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
@@ -19,6 +20,10 @@ namespace HanGao.ViewModel
         public UC_Visal_Function_VM()
         {
 
+
+            //初始化参数读取文件
+            Find_Data_List= Vision_Xml_Method.Read_Xml<Vision_Data>( Environment.CurrentDirectory + "\\Find_Data" + "\\Find_Data.Xml");
+        
 
 
             //halcon实时图像显示操作
@@ -68,18 +73,26 @@ namespace HanGao.ViewModel
 
 
 
+        /// <summary>
+        /// 视觉参数内容列表
+        /// </summary>
+        public  static Vision_Data Find_Data_List { get; set; } = new Vision_Data() { Vision_List = new ObservableCollection<Vision_Xml_Models> { new Vision_Xml_Models() { ID = 1, Date_Last_Revise = DateTime.Now.ToString() }, new Vision_Xml_Models() { ID = 2, Date_Last_Revise = DateTime.Now.ToString() } } };
 
-        private static ObservableCollection<Vission_Xml_Models> _Find_Data_List { get; set; } = new ObservableCollection<Vission_Xml_Models>() { new Vission_Xml_Models() { List_Number =1 } ,new Vission_Xml_Models() { List_Number=2},};
+
+
+
+
+        private static ObservableCollection<Vision_Xml_Models> _Find_Data_UI { get; set; } = new ObservableCollection<Vision_Xml_Models>()  { new Vision_Xml_Models() { ID = 1, Date_Last_Revise = DateTime.Now.ToString() }, new Vision_Xml_Models() { ID = 2, Date_Last_Revise = DateTime.Now.ToString() } };
         /// <summary>
         /// 画画数据列表
         /// </summary>
-        public static ObservableCollection<Vission_Xml_Models> Find_Data_List
+        public static ObservableCollection<Vision_Xml_Models> Find_Data_UI
         {
-            get { return _Find_Data_List; }
+            get { return _Find_Data_UI; }
             set
             {
-                _Find_Data_List = value;
-                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Find_Data_List)));
+                _Find_Data_UI = value;
+                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(_Find_Data_UI)));
             }
         }
         /// <summary>

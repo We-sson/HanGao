@@ -13,7 +13,7 @@ namespace Halcon_SDK_DLL.Model
     public class Halcon_Data_Model
     {
 
-  
+
 
         public Halcon_Data_Model()
         {
@@ -111,7 +111,7 @@ namespace Halcon_SDK_DLL.Model
         }
 
 
-  
+
 
 
         /// <summary>
@@ -177,7 +177,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 金字塔层的最大数量默认值：“自动”值列表：1， 2， 3， 4， 5， 6， 7， 8， 9， 10，“自动”
             /// </summary>
-            public string  NumLevels { set; get; } = "auto";
+            public string NumLevels { set; get; } = "auto";
 
 
 
@@ -260,6 +260,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 查找形状匹配模板总类型参数
         /// </summary>
+        [Serializable]
         public class Find_Shape_Based_ModelXld
         {
             /// <summary>
@@ -395,7 +396,7 @@ namespace Halcon_SDK_DLL.Model
             /// </summary>
             public Get_Image_Model_Enum Get_Image_Model { set; get; } = Get_Image_Model_Enum.相机采集;
 
-     
+
 
 
             /// <summary>
@@ -452,7 +453,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 灰度值选区 
             /// </summary>
-            public bool Gray_Disp { set; get; }= true;
+            public bool Gray_Disp { set; get; } = true;
 
             /// <summary>
             /// 灰度值的较低阈值或“Min”.默认值：128.0 建议值：0.0， 10.0， 30.0， 64.0， 128.0， 200.0， 220.0， 255.0，“Min”
@@ -496,7 +497,7 @@ namespace Halcon_SDK_DLL.Model
     /// <summary>
     /// 查找模型位置预处理方法名称枚举
     /// </summary>
-        public enum Find_Shape_Function_Name_Enum
+    public enum Find_Shape_Function_Name_Enum
     {
         /// <summary>
         /// 增强图像的对比度。
@@ -527,90 +528,90 @@ namespace Halcon_SDK_DLL.Model
 
 
 
+    /// <summary>
+    /// 获得泛指名称
+    /// </summary>
+    public enum GenParam_Enum
+    {
+        part_size,
+        big,
+        medium,
+        small
+    }
+
+    public enum Shape_Model_Type_Enum
+    {
+        Create_Shape_Model,
+        Create_Planar_Model,
+        Create_Local_Model,
+        Create_Scaled_Model
+    }
+
+
+
+
+
+    /// <summary>
+    /// 查找匹配模型类型
+    /// </summary>
+    public enum Find_Model_Enum
+    {
+        Shape_Model,
+        Planar_Deformable_Model,
+        Local_Deformable_Model,
+        Scale_Model
+
+    }
+
+    /// <summary>
+    /// 中值滤波器滤镜遮罩类型枚举
+    /// </summary>
+    public enum MedianImage_MaskType_Enum
+    {
+        circle,
+        square
+
+    }
+
+    /// <summary>
+    /// 中值滤波器边境处理类型枚举。
+    /// </summary>
+    public enum MedianImage_Margin_Enum
+    {
+        mirrored,
+        cyclic,
+        continued,
+
+    }
+
+
+
+
+
+
+
+    /// <summary>
+    /// 形状匹配模板类型枚举
+    /// </summary>
+    public enum Shape_Based_Model_Enum
+    {
         /// <summary>
-        /// 获得泛指名称
+        /// 一般形状匹配模板
         /// </summary>
-        public enum GenParam_Enum
-        {
-            part_size,
-            big,
-            medium,
-            small
-        }
-
-        public enum Shape_Model_Type_Enum
-        {
-            Create_Shape_Model,
-            Create_Planar_Model,
-            Create_Local_Model,
-            Create_Scaled_Model
-        }
-
-
-
-
-
+        shape_model,
         /// <summary>
-        /// 查找匹配模型类型
+        /// 线性变形匹配模板
         /// </summary>
-        public enum Find_Model_Enum
-        {
-            Shape_Model,
-            Planar_Deformable_Model,
-            Local_Deformable_Model,
-            Scale_Model
-
-        }
-
+        planar_deformable_model,
         /// <summary>
-        /// 中值滤波器滤镜遮罩类型枚举
+        /// 局部可变形模板
         /// </summary>
-        public enum MedianImage_MaskType_Enum
-        {
-            circle,
-            square
-
-        }
-
+        local_deformable_model,
         /// <summary>
-        /// 中值滤波器边境处理类型枚举。
+        /// 和比例缩放模板
         /// </summary>
-        public enum MedianImage_Margin_Enum
-        {
-            mirrored,
-            cyclic,
-            continued,
-         
-        }
-
-
-
-
-
-
-
-        /// <summary>
-        /// 形状匹配模板类型枚举
-        /// </summary>
-        public enum Shape_Based_Model_Enum
-        {
-            /// <summary>
-            /// 一般形状匹配模板
-            /// </summary>
-            shape_model,
-            /// <summary>
-            /// 线性变形匹配模板
-            /// </summary>
-            planar_deformable_model,
-            /// <summary>
-            /// 局部可变形模板
-            /// </summary>
-            local_deformable_model,
-            /// <summary>
-            /// 和比例缩放模板
-            /// </summary>
-            Scale_model
-        }
+        Scale_model
+    }
 
 
 

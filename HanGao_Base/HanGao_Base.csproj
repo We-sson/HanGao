@@ -334,7 +334,8 @@
     <Compile Include="View\User_Control\Vision_Control\UC_Vision_Robot_Protocol.xaml.cs">
       <DependentUpon>UC_Vision_Robot_Protocol.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Xml_Date\Vision_XML\Vision_Model\Vission_Xml_Models.cs" />
+    <Compile Include="Xml_Date\Vision_XML\Vision_Model\Vision_Xml_Models.cs" />
+    <Compile Include="Xml_Date\Vision_XML\Vision_WriteRead\Vision_Xml_Method.cs" />
     <Compile Include="Xml_Date\Xml_Models\Xml_Model.cs" />
     <Compile Include="Xml_Date\Xml_WriteRead\XML_Write_Read.cs" />
     <Page Include="View\Style\Button_message.xaml">
@@ -609,9 +610,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Xml_Date\Vision_XML\Vision_WriteRead\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Resources\Vision_删除_ioc.png" />
     <Resource Include="Resources\Vision_标定板例图_ioc.png" />

@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KUKA_Socket", "..\KUKA_Sock
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Generic_Extension", "..\Generic_Extension\Generic_Extension.csproj", "{1CFBC836-D70F-4C44-98D1-17D4778F883B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XML_ReadWrite", "..\..\XML_ReadWrite\XML_ReadWrite.csproj", "{E2F196A0-D8D9-43B4-9890-2FB6E084839C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +99,18 @@ Global
 		{1CFBC836-D70F-4C44-98D1-17D4778F883B}.Release|x64.Build.0 = Release|Any CPU
 		{1CFBC836-D70F-4C44-98D1-17D4778F883B}.Release|x86.ActiveCfg = Release|Any CPU
 		{1CFBC836-D70F-4C44-98D1-17D4778F883B}.Release|x86.Build.0 = Release|Any CPU
+		{E2F196A0-D8D9-43B4-9890-2FB6E084839C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2F196A0-D8D9-43B4-9890-2FB6E084839C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2F196A0-D8D9-43B4-9890-2FB6E084839C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E2F196A0-D8D9-43B4-9890-2FB6E084839C}.Debug|x64.Build.0 = Debug|Any CPU
+		{E2F196A0-D8D9-43B4-9890-2FB6E084839C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E2F196A0-D8D9-43B4-9890-2FB6E084839C}.Debug|x86.Build.0 = Debug|Any CPU
+		{E2F196A0-D8D9-43B4-9890-2FB6E084839C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2F196A0-D8D9-43B4-9890-2FB6E084839C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2F196A0-D8D9-43B4-9890-2FB6E084839C}.Release|x64.ActiveCfg = Release|Any CPU
+		{E2F196A0-D8D9-43B4-9890-2FB6E084839C}.Release|x64.Build.0 = Release|Any CPU
+		{E2F196A0-D8D9-43B4-9890-2FB6E084839C}.Release|x86.ActiveCfg = Release|Any CPU
+		{E2F196A0-D8D9-43B4-9890-2FB6E084839C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

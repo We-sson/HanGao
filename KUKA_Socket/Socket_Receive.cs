@@ -211,8 +211,9 @@ namespace Soceket_KUKA
 
             Calibration_Data_Receive _Receive = KUKA_Send_Receive_Xml.String_Xml<Calibration_Data_Receive>(_St);
             string _Str="";
-                switch (_Receive.Model)
-                {
+            switch ( _Receive.Model)
+            //switch (  Enum.Parse(typeof( Vision_Model_Enum),    _Receive.Model))
+            {
                     case Vision_Model_Enum.Calibration_Point:
 
                     _Str= KUKA_Receive_Calibration_String(_Receive, _St);

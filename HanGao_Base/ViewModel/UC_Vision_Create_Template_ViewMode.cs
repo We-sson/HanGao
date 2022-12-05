@@ -41,6 +41,25 @@ namespace HanGao.ViewModel
             KUKA_Receive.KUKA_Receive_Find_String += (Calibration_Data_Receive _S, string _RStr) =>
             {
 
+                //UI显示接收信息内容
+                UC_Vision_Robot_Protocol_ViewModel.Receive_Socket_String = _RStr;
+
+
+                //读取模型文件
+
+
+
+                //读取矩阵文件
+
+                //获得识别参数文件
+
+                //获取图片
+
+
+                //识别图像特征
+
+
+                //返回识别内容
 
 
 

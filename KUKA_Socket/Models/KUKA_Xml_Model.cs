@@ -22,9 +22,9 @@ namespace KUKA_Socket.Models
     public class Calibration_Data_Receive
     {
 
-        public Calibration_Models Vision_Model { set; get; } 
+        public Calibration_Models Vision_Model { set; get; }
 
-    
+        [XmlAttribute()]
         public Vision_Model_Enum Model { set; get; } 
 
     }
@@ -138,7 +138,9 @@ namespace KUKA_Socket.Models
     /// </summary>
     public enum Vision_Model_Enum
     {
+  
         Calibration_Point,
+  
         Find_Model,
     }
 

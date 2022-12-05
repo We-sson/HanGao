@@ -191,13 +191,14 @@ namespace MVS_SDK_Base.Model
         /// <summary>
         /// 相机参数类型
         /// </summary>
+        [Serializable]
         public class MVS_Camera_Parameter_Model
         {
             /// <summary>
             /// 设备采集的采集模式、枚举类型值 ——默认持续采集模式，"MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS"
             /// </summary>
             [StringValue("设置相机触发模式失败")]
-            public Enum AcquisitionMode { set; get; } = MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS;
+            public MV_CAM_ACQUISITION_MODE AcquisitionMode { set; get; } = MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS;
             /// <summary>
             /// 每个帧突发开始触发信号采集的帧数、整数类型——默认1，最大1023
             /// </summary>
@@ -212,7 +213,7 @@ namespace MVS_SDK_Base.Model
             /// 设置定时曝光模式时的自动曝光模式，枚举类型——默认连续模式，"MV_CAM_EXPOSURE_AUTO_MODE.MV_EXPOSURE_AUTO_MODE_OFF"
             /// </summary>
             [StringValue("设置控制抓取帧的采集频率失败")]
-            public Enum ExposureAuto { set; get; } = MV_CAM_EXPOSURE_AUTO_MODE.MV_EXPOSURE_AUTO_MODE_OFF;
+            public MV_CAM_EXPOSURE_AUTO_MODE ExposureAuto { set; get; } = MV_CAM_EXPOSURE_AUTO_MODE.MV_EXPOSURE_AUTO_MODE_OFF;
             /// <summary>
             /// 曝光模式定时时的曝光时间
             /// </summary>
@@ -222,18 +223,18 @@ namespace MVS_SDK_Base.Model
             /// 设置曝光（或快门）的工作模式,枚举类型——默认定时模式，"MV_CAM_EXPOSURE_MODE.MV_EXPOSURE_MODE_TIMED"
             /// </summary>
             [StringValue("设置曝光（或快门）的工作模式失败")]
-            public Enum ExposureMode { set; get; } = MV_CAM_EXPOSURE_MODE.MV_EXPOSURE_MODE_TIMED;
+            public MV_CAM_EXPOSURE_MODE ExposureMode { set; get; } = MV_CAM_EXPOSURE_MODE.MV_EXPOSURE_MODE_TIMED;
             /// <summary>
             /// 控制所选触发器是否处于活动状态、枚举类型——默认Off，"MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_OFF"
             /// </summary>
             [StringValue("设置控制所选触发器是否处于活动状态失败")]
 
-            public Enum TriggerMode { set; get; } = MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_OFF;
+            public MV_CAM_TRIGGER_MODE TriggerMode { set; get; } = MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_OFF;
             /// <summary>
             /// 控制所选触发器是否处于活动状态，枚举类型——默认，"MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_LINE0"
             /// </summary>
             [StringValue("设置控制所选触发器是否处于活动状态")]
-            public Enum TriggerActivation { set; get; } = MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_LINE0;
+            public MV_CAM_TRIGGER_SOURCE TriggerActivation { set; get; } = MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_LINE0;
             /// <summary>
             /// 指定在激活触发接收之前要应用的延迟（以us为单位）
             /// </summary>
@@ -243,7 +244,7 @@ namespace MVS_SDK_Base.Model
             /// 设置自动增益控制（AGC）模式，枚举类型——默认，"MV_CAM_GAIN_MODE.MV_GAIN_MODE_OFF"
             /// </summary>
             [StringValue("设置自动增益控制（AGC）模式失败")]
-            public Enum GainAuto { set; get; } = MV_CAM_GAIN_MODE.MV_GAIN_MODE_ONCE;
+            public MV_CAM_GAIN_MODE GainAuto { set; get; } = MV_CAM_GAIN_MODE.MV_GAIN_MODE_ONCE;
             /// <summary>
             /// 应用于图像的增益，单位为dB，Float类型，默认0.00
             /// </summary>
