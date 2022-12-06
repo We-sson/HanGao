@@ -142,22 +142,61 @@ namespace Halcon_SDK_DLL.Model
             public int Find_Time { set; get; } = 0;
 
 
+            public List<Pos_List_Model> Pos_Lists { set; get; } = new List<Pos_List_Model>()
+;
+
+
+
             /// <summary>
             /// 找到的模型实例的分数
             /// </summary>
             public HTuple HomMat2D { set; get; } = new HTuple();
 
 
-            /// <summary>
-            /// 存储结果点
-            /// </summary>
-            public List<Point> Vision_Pos { set; get; } = new List<Point>()
-;
+    
+
+
             /// <summary>
             /// 显示结果界面
             /// </summary>
             public HWindow DispWiindow { set; get; } = new HWindow();
+      
+
+            /// <summary>
+            /// 存放结果点
+            /// </summary>
+            /// <param name="_LV">视觉坐标</param>
+            /// <param name="_LR">机器坐标</param>
+            public void Set_Pos(List<Point> _LV, List<Point>  _LR)
+            {
+                Pos_Lists.Clear();
+                for (int i = 0; i < _LV.Count; i++)
+                {
+                    Pos_Lists.Add(new Pos_List_Model() { Vision_Pos = new Point(_LV[i].X, _LV[i].Y), Robot_Pos = new Point(_LR[i].X, _LR[i].Y)});
+                }
+            }
+  
+
         }
+
+            public class Pos_List_Model
+        {
+
+            /// <summary>
+            /// 存储结果点
+            /// </summary>
+            public Point Vision_Pos { set; get; } = new Point(0, 0);
+
+            /// <summary>
+            /// 存储结果点
+            /// </summary>
+            public Point Robot_Pos { set; get; } = new Point(0, 0);
+
+        }
+
+
+
+
 
 
         /// <summary>

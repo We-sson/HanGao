@@ -64,19 +64,19 @@ namespace HanGao.ViewModel
                         Find_Features_Window_Result = _Fout;
                         break;
                     case HWindow _T when _T == Results_Window_1.HWindow:
-                        Find_Features_Window_Result = _Fout;
+                        Find_Results1_Window_Result = _Fout;
 
                         break;
                     case HWindow _T when _T == Results_Window_2.HWindow:
-                        Find_Features_Window_Result = _Fout;
+                        Find_Results2_Window_Result = _Fout;
 
                         break;
                     case HWindow _T when _T == Results_Window_3.HWindow:
-                        Find_Features_Window_Result = _Fout;
+                        Find_Results3_Window_Result = _Fout;
 
                         break;
                     case HWindow _T when _T == Results_Window_4.HWindow:
-                        Find_Features_Window_Result = _Fout;
+                        Find_Results4_Window_Result = _Fout;
 
                         break;
 
@@ -227,7 +227,7 @@ namespace HanGao.ViewModel
 
 
         public Halcon_Find_Shape_Out_Parameter Find_Features_Window_Result { set; get; } = new Halcon_Find_Shape_Out_Parameter();
-        public Halcon_Find_Shape_Out_Parameter Find_Results1_Window_Result { set; get; } = new Halcon_Find_Shape_Out_Parameter();
+        public Halcon_Find_Shape_Out_Parameter Find_Results1_Window_Result { set; get; } = new Halcon_Find_Shape_Out_Parameter() { Pos_Lists=new List<Pos_List_Model>() { new Pos_List_Model() { Vision_Pos = new Point(1000.000, 1000.100), Robot_Pos = new Point(1000.000, 1000.000) },  new Pos_List_Model() { Vision_Pos = new Point(1000.000, 1000.100), Robot_Pos = new Point(1000.000, 1000.000) } , new Pos_List_Model() { Vision_Pos = new Point(1000.000, 1000.100), Robot_Pos = new Point(1000.000, 1000.000) } , new Pos_List_Model() { Vision_Pos = new Point(1000.000, 1000.100), Robot_Pos = new Point(1000.000, 1000.000) } , new Pos_List_Model() { Vision_Pos = new Point(1000.000, 1000.100), Robot_Pos = new Point(1000.000, 1000.000) } , new Pos_List_Model() { Vision_Pos = new Point(1000.000, 1000.100), Robot_Pos = new Point(1000.000, 1000.000) } }  };
         public Halcon_Find_Shape_Out_Parameter Find_Results2_Window_Result { set; get; } = new Halcon_Find_Shape_Out_Parameter();
         public Halcon_Find_Shape_Out_Parameter Find_Results3_Window_Result { set; get; } = new Halcon_Find_Shape_Out_Parameter();
         public Halcon_Find_Shape_Out_Parameter Find_Results4_Window_Result { set; get; } = new Halcon_Find_Shape_Out_Parameter();

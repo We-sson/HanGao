@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Media.Media3D;
 using System.Xml.Linq;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using Point = System.Windows.Point;
@@ -171,8 +172,7 @@ namespace Halcon_SDK_DLL
                 _Error_List_Y.Add(_Ey);
 
             }
-
-
+            //Point3D
 
             //计算结果组偏差
             double Calibration_Error_X_UI = double.Parse(Specimen_Error(_Error_List_X));
@@ -181,6 +181,10 @@ namespace Halcon_SDK_DLL
 
             return new Point(Calibration_Error_X_UI, Calibration_Error_Y_UI);
         }
+
+        
+
+
 
 
         /// <summary>

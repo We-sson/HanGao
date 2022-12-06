@@ -117,6 +117,9 @@ namespace HanGao.ViewModel
 
 
 
+                                    //Halcon_SDK.Calibration_Results_Compute(Calibration_P, Robot_P, ref _Mat2D);
+
+
 
 
                                     _Send.IsStatus = 1;
@@ -658,6 +661,8 @@ namespace HanGao.ViewModel
                     Out_Point.Add(new Point(_OX, _OY));
 
                 }
+
+
 
                 hv_Text = hv_Text.TupleConcat("夹角: " + Math.Round(_Angle.TupleDeg().D, 3));
 
