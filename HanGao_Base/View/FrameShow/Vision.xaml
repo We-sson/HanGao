@@ -90,7 +90,7 @@
                             </RadioButton>
 
                             <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Results_Window_Button" Grid.Column=" 1"
-                                         IsChecked="False"
+                                         IsChecked="True"
                                          Margin="5"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -113,7 +113,7 @@
                             </RadioButton>
 
                             <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Features_Window_Button" Grid.Column=" 2"
-                                         IsChecked="True"
+                                         IsChecked="False"
                                          Margin="5"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"

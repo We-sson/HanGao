@@ -100,7 +100,7 @@
                                                 <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_白颜色}" />
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding Camera_Data_ID_UI}" Value="0">
-                                                        <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_红颜色}" />
+                                                        <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_黄颜色}" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -852,7 +852,7 @@
                             </Grid>
 
 
-                            <Grid Margin="8">
+                            <!--<Grid Margin="8">
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
@@ -865,7 +865,7 @@
 
                                         <TextBlock Text="C:\Users\zhiwei2.he\Desktop"
                                                    Width=" 150"
-                                                   TextWrapping="NoWrap"
+                                                   TextWrapping="Wrap"
                                                    Margin="4"
                                                    HorizontalAlignment="Left"
                                                    VerticalAlignment="Center"
@@ -905,7 +905,7 @@
                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                 </Button>
 
-                            </Grid>
+                            </Grid>-->
 
 
 

@@ -78,8 +78,15 @@ namespace Halcon_SDK_DLL
         /// <param name="_Mat2D"></param>
         /// <param name="_Name"></param>
         /// <param name="_Path"></param>
-        public static void Read_Mat2d_Method(ref HTuple _Mat2D, string _Path)
+        public static bool Read_Mat2d_Method(ref HTuple _Mat2D, string _Path)
         {
+
+
+
+            try
+            {
+
+
             HTuple _FileHandle = new HTuple();
 
             HTuple _HomMatID = new HTuple();
@@ -95,6 +102,14 @@ namespace Halcon_SDK_DLL
             HOperatorSet.DeserializeHomMat2d(_HomMatID, out _Mat2D);
             //关闭文件
             HOperatorSet.CloseFile(_FileHandle);
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
 
 
         }
@@ -462,7 +477,8 @@ namespace Halcon_SDK_DLL
 
             HObject _ModelConect = new HObject();
             HObject _ContoursProjTrans = new HObject();
-
+            _Window.SetColor(nameof(KnownColor.Red).ToLower());
+            _Window.SetLineWidth(2);
 
             //根据匹配模型类型 读取模板内的xld对象
             switch (_Find_Enum)

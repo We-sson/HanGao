@@ -435,6 +435,12 @@ namespace HanGao.ViewModel
                     return Camera_Connect_OK = true;
 
                 }
+                else
+                {
+                    User_Log_Add("相机设置参数错误，请检查参数！");
+                    return false;
+                }
+
 
             }
 
@@ -616,8 +622,9 @@ namespace HanGao.ViewModel
             }
             _Image = _image;
             UC_Visal_Function_VM.Load_Image = _Image;
+            User_Log_Add(_Get_Model.ToString()+"图像读取成功！");
 
-             return true;
+            return true;
 
         }
 

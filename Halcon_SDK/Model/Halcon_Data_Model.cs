@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Halcon_SDK_DLL.Model
 {
@@ -147,7 +148,15 @@ namespace Halcon_SDK_DLL.Model
             public HTuple HomMat2D { set; get; } = new HTuple();
 
 
-
+            /// <summary>
+            /// 存储结果点
+            /// </summary>
+            public List<Point> Vision_Pos { set; get; } = new List<Point>()
+;
+            /// <summary>
+            /// 显示结果界面
+            /// </summary>
+            public HWindow DispWiindow { set; get; } = new HWindow();
         }
 
 

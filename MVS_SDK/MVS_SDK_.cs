@@ -472,7 +472,7 @@ namespace MVS_SDK
         /// 设置总相机相机俩表
         /// </summary>
         /// <param name="_Camera_List"></param>
-        public bool Set_Camrea_Parameters_List(MVS_Camera_Parameter_Model _Camera_List)
+        public   bool Set_Camrea_Parameters_List(MVS_Camera_Parameter_Model _Camera_List)
         {
 
             //遍历设置参数
@@ -481,6 +481,7 @@ namespace MVS_SDK
 
                 if (Set_Camera_Parameters_Val(_Type, _Type.Name, _Type.GetValue(_Camera_List)) != true)
                 {
+
                     return false;
                 }
             }
@@ -524,7 +525,7 @@ namespace MVS_SDK
         /// <param name="_Val_Type"></param>
         /// <param name="_name"></param>
         /// <param name="_val"></param>
-        public bool Set_Camera_Parameters_Val(PropertyInfo _Val_Type, string _name, object _val)
+        public   bool Set_Camera_Parameters_Val(PropertyInfo _Val_Type, string _name, object _val)
         {
             //初始化设置相机状态
             bool _Parameters_Type = false;
@@ -532,7 +533,7 @@ namespace MVS_SDK
             //对遍历参数类型分类
             switch (_Val_Type.PropertyType)
             {
-                case Type _T when _T == typeof(Enum):
+                case Type _T when _T.BaseType == typeof(Enum):
 
                     //设置相机参数
                     _Parameters_Type = Set_Camera_Val(_Val_Type, Camera.SetEnumValue(_name, Convert.ToUInt32(_val)));

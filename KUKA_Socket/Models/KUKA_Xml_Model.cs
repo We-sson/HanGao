@@ -151,8 +151,12 @@ namespace KUKA_Socket.Models
     {
         No_Error,
         Find_time_timeout,
-        Camera_Connection_Time_Out
-
+        Camera_Connection_Time_Out,
+        Error_No_Camera_GetImage,
+        Error_No_Read_Shape_Mode_File,
+        Error_No_Read_Math2D_File,
+        Error_No_Camera_Set_Parameters,
+        Error_No_Can_Find_the_model,
 
     }
 

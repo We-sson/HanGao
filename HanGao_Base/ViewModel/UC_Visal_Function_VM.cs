@@ -58,8 +58,33 @@ namespace HanGao.ViewModel
             Messenger.Register<Halcon_Find_Shape_Out_Parameter, string>(this, nameof(Meg_Value_Eunm.Find_Shape_Out), (O, _Fout) =>
             {
 
-                Find_Shape_Result = _Fout;
+                switch (_Fout.DispWiindow)
+                {
+                    case HWindow _T when _T == Features_Window.HWindow:
+                        Find_Features_Window_Result = _Fout;
+                        break;
+                    case HWindow _T when _T == Results_Window_1.HWindow:
+                        Find_Features_Window_Result = _Fout;
 
+                        break;
+                    case HWindow _T when _T == Results_Window_2.HWindow:
+                        Find_Features_Window_Result = _Fout;
+
+                        break;
+                    case HWindow _T when _T == Results_Window_3.HWindow:
+                        Find_Features_Window_Result = _Fout;
+
+                        break;
+                    case HWindow _T when _T == Results_Window_4.HWindow:
+                        Find_Features_Window_Result = _Fout;
+
+                        break;
+
+                }
+
+              
+
+     
 
             });
 
@@ -201,7 +226,11 @@ namespace HanGao.ViewModel
         public double Camera_FrameRate { set; get; } = 0;
 
 
-        public Halcon_Find_Shape_Out_Parameter Find_Shape_Result { set; get; } = new Halcon_Find_Shape_Out_Parameter();
+        public Halcon_Find_Shape_Out_Parameter Find_Features_Window_Result { set; get; } = new Halcon_Find_Shape_Out_Parameter();
+        public Halcon_Find_Shape_Out_Parameter Find_Results1_Window_Result { set; get; } = new Halcon_Find_Shape_Out_Parameter();
+        public Halcon_Find_Shape_Out_Parameter Find_Results2_Window_Result { set; get; } = new Halcon_Find_Shape_Out_Parameter();
+        public Halcon_Find_Shape_Out_Parameter Find_Results3_Window_Result { set; get; } = new Halcon_Find_Shape_Out_Parameter();
+        public Halcon_Find_Shape_Out_Parameter Find_Results4_Window_Result { set; get; } = new Halcon_Find_Shape_Out_Parameter();
 
 
         /// <summary>
