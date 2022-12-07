@@ -6,11 +6,12 @@ using KUKA_Socket.Models;
 using Microsoft.Win32;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Media.Media3D;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.UC_Visal_Function_VM;
 using static HanGao.ViewModel.UC_Vision_Auto_Model_ViewModel;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
-using Point = System.Windows.Point;
+
 
 namespace HanGao.ViewModel
 {
@@ -98,8 +99,8 @@ namespace HanGao.ViewModel
 
             KUKA_Receive.KUKA_Receive_Calibration_String += (Calibration_Data_Receive _S, string _RStr) =>
             {
-                List<Point> Calibration_P = new List<Point>();
-                List<Point> Robot_P = new List<Point>();
+                List<Point3D> Calibration_P = new List<Point3D>();
+                List<Point3D> Robot_P = new List<Point3D>();
                 HTuple _Mat2D = new HTuple();
                 Calibration_Data_Send _Send = new();
                 HObject _Image = new HObject();
@@ -119,15 +120,15 @@ namespace HanGao.ViewModel
 
 
                         //读取机器人对应模板点位置显示UI
-                        Calibration_Results_List[0].Robot_Points = new Point(double.Parse(_S.Vision_Model.Vision_Point.Pos_1.X), double.Parse(_S.Vision_Model.Vision_Point.Pos_1.Y));
-                        Calibration_Results_List[1].Robot_Points = new Point(double.Parse(_S.Vision_Model.Vision_Point.Pos_2.X), double.Parse(_S.Vision_Model.Vision_Point.Pos_2.Y));
-                        Calibration_Results_List[2].Robot_Points = new Point(double.Parse(_S.Vision_Model.Vision_Point.Pos_3.X), double.Parse(_S.Vision_Model.Vision_Point.Pos_3.Y));
-                        Calibration_Results_List[3].Robot_Points = new Point(double.Parse(_S.Vision_Model.Vision_Point.Pos_4.X), double.Parse(_S.Vision_Model.Vision_Point.Pos_4.Y));
-                        Calibration_Results_List[4].Robot_Points = new Point(double.Parse(_S.Vision_Model.Vision_Point.Pos_5.X), double.Parse(_S.Vision_Model.Vision_Point.Pos_5.Y));
-                        Calibration_Results_List[5].Robot_Points = new Point(double.Parse(_S.Vision_Model.Vision_Point.Pos_6.X), double.Parse(_S.Vision_Model.Vision_Point.Pos_6.Y));
-                        Calibration_Results_List[6].Robot_Points = new Point(double.Parse(_S.Vision_Model.Vision_Point.Pos_7.X), double.Parse(_S.Vision_Model.Vision_Point.Pos_7.Y));
-                        Calibration_Results_List[7].Robot_Points = new Point(double.Parse(_S.Vision_Model.Vision_Point.Pos_8.X), double.Parse(_S.Vision_Model.Vision_Point.Pos_8.Y));
-                        Calibration_Results_List[8].Robot_Points = new Point(double.Parse(_S.Vision_Model.Vision_Point.Pos_9.X), double.Parse(_S.Vision_Model.Vision_Point.Pos_9.Y));
+                        Calibration_Results_List[0].Robot_Points = new Point3D(double.Parse(_S.Vision_Model.Vision_Point.Pos_1.X), double.Parse(_S.Vision_Model.Vision_Point.Pos_1.Y),0);
+                        Calibration_Results_List[1].Robot_Points = new Point3D(double.Parse(_S.Vision_Model.Vision_Point.Pos_2.X), double.Parse(_S.Vision_Model.Vision_Point.Pos_2.Y),0);
+                        Calibration_Results_List[2].Robot_Points = new Point3D(double.Parse(_S.Vision_Model.Vision_Point.Pos_3.X), double.Parse(_S.Vision_Model.Vision_Point.Pos_3.Y),0);
+                        Calibration_Results_List[3].Robot_Points = new Point3D(double.Parse(_S.Vision_Model.Vision_Point.Pos_4.X), double.Parse(_S.Vision_Model.Vision_Point.Pos_4.Y),0);
+                        Calibration_Results_List[4].Robot_Points = new Point3D(double.Parse(_S.Vision_Model.Vision_Point.Pos_5.X), double.Parse(_S.Vision_Model.Vision_Point.Pos_5.Y),0);
+                        Calibration_Results_List[5].Robot_Points = new Point3D(double.Parse(_S.Vision_Model.Vision_Point.Pos_6.X), double.Parse(_S.Vision_Model.Vision_Point.Pos_6.Y),0);
+                        Calibration_Results_List[6].Robot_Points = new Point3D(double.Parse(_S.Vision_Model.Vision_Point.Pos_7.X), double.Parse(_S.Vision_Model.Vision_Point.Pos_7.Y),0);
+                        Calibration_Results_List[7].Robot_Points = new Point3D(double.Parse(_S.Vision_Model.Vision_Point.Pos_8.X), double.Parse(_S.Vision_Model.Vision_Point.Pos_8.Y),0);
+                        Calibration_Results_List[8].Robot_Points = new Point3D(double.Parse(_S.Vision_Model.Vision_Point.Pos_9.X), double.Parse(_S.Vision_Model.Vision_Point.Pos_9.Y),0);
 
 
                         //标定位置和工装位置结果显示UI 
@@ -137,8 +138,8 @@ namespace HanGao.ViewModel
                         //集合视觉点和机器人位置点
                         foreach (var _Points in Calibration_Results_List)
                         {
-                            Calibration_P.Add(new Point(_Points.Calibration_Points.X, _Points.Calibration_Points.Y));
-                            Robot_P.Add(new Point(_Points.Robot_Points.X, _Points.Robot_Points.Y));
+                            Calibration_P.Add(new Point3D(_Points.Calibration_Points.X, _Points.Calibration_Points.Y,0));
+                            Robot_P.Add(new Point3D(_Points.Robot_Points.X, _Points.Robot_Points.Y, 0));
 
                         }
 
@@ -239,7 +240,7 @@ namespace HanGao.ViewModel
 
 
 
-        public Point Calibration_Error_UI { set; get; } = new Point(-1, -1);
+        public Point3D Calibration_Error_UI { set; get; } = new Point3D(-1, -1,0);
 
 
 
@@ -276,7 +277,7 @@ namespace HanGao.ViewModel
 
 
             HObject _Image = new HObject();
-            List<Point> _Calibration_List = new List<Point>();
+            List<Point3D> _Calibration_List = new List<Point3D>();
 
             UC_Vision_CameraSet_ViewModel.Get_Image(ref _Image, _Find_Model.Get_Image_Model, Features_Window.HWindow, Image_Location_UI);
 
@@ -301,7 +302,7 @@ namespace HanGao.ViewModel
                             double _Y = _Calibration_List[i - 1].Y;
 
                             //将图像坐标添加到集合中
-                            Calibration_Results_List.Add(new Calibration_Results_Model_UI() { Number = i, Calibration_Points = new Point(_X, _Y) });
+                            Calibration_Results_List.Add(new Calibration_Results_Model_UI() { Number = i, Calibration_Points = new Point3D(_X, _Y,0) });
 
                         }
 
@@ -445,8 +446,8 @@ namespace HanGao.ViewModel
 
 
         public int Number { get; set; }
-        public Point Calibration_Points { get; set; }
-        public Point Robot_Points { get; set; }
+        public Point3D Calibration_Points { get; set; }
+        public Point3D Robot_Points { get; set; }
 
     }
 }

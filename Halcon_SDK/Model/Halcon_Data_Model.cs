@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media.Media3D;
 
 namespace Halcon_SDK_DLL.Model
 {
@@ -142,56 +143,73 @@ namespace Halcon_SDK_DLL.Model
             public int Find_Time { set; get; } = 0;
 
 
-            public List<Pos_List_Model> Pos_Lists { set; get; } = new List<Pos_List_Model>()
-;
+            //public List<Pos_List_Model> Pos_Lists { set; get; } = new List<Pos_List_Model>()
 
 
+            /// <summary>
+            /// 存储结果点
+            /// </summary>
+            public List<Point3D> Vision_Pos { set; get; } = new List<Point3D>();
+
+            /// <summary>
+            /// 存储结果点
+            /// </summary>
+            public List<Point3D> Robot_Pos { set; get; } = new List<Point3D>();
+
+
+            public double Right_Angle { set; get; } = 0;
 
             /// <summary>
             /// 找到的模型实例的分数
             /// </summary>
             public HTuple HomMat2D { set; get; } = new HTuple();
 
-
-    
+            /// <summary>
+            /// 页面显示结过集合
+            /// </summary>
+            public List<string> Text_Arr_UI { set; get; } = new List<string>() { };
 
 
             /// <summary>
             /// 显示结果界面
             /// </summary>
             public HWindow DispWiindow { set; get; } = new HWindow();
-      
 
-            /// <summary>
-            /// 存放结果点
-            /// </summary>
-            /// <param name="_LV">视觉坐标</param>
-            /// <param name="_LR">机器坐标</param>
-            public void Set_Pos(List<Point> _LV, List<Point>  _LR)
-            {
-                Pos_Lists.Clear();
-                for (int i = 0; i < _LV.Count; i++)
-                {
-                    Pos_Lists.Add(new Pos_List_Model() { Vision_Pos = new Point(_LV[i].X, _LV[i].Y), Robot_Pos = new Point(_LR[i].X, _LR[i].Y)});
-                }
-            }
-  
+
+            ///// <summary>
+            ///// 存放结果点
+            ///// </summary>
+            ///// <param name="_LV">视觉坐标</param>
+            ///// <param name="_LR">机器坐标</param>
+            //public void Set_Pos(List<Point3D> _LV, List<Point3D>  _LR)
+            //{
+            //    Pos_Lists.Clear();
+            //    for (int i = 0; i < _LV.Count; i++)
+            //    {
+            //        Pos_Lists.Add(new Pos_List_Model() { Vision_Pos = new Point3D(_LV[i].X, _LV[i].Y,0), Robot_Pos = new Point3D(_LR[i].X, _LR[i].Y, 0) });
+            //    }
+            //}
+
 
         }
 
-            public class Pos_List_Model
+        public class Pos_List_Model
         {
 
             /// <summary>
             /// 存储结果点
             /// </summary>
-            public Point Vision_Pos { set; get; } = new Point(0, 0);
+            public List<Point3D> Vision_Pos { set; get; } = new List<Point3D>();
 
             /// <summary>
             /// 存储结果点
             /// </summary>
-            public Point Robot_Pos { set; get; } = new Point(0, 0);
+            public List<Point3D> Robot_Pos { set; get; } = new List<Point3D>();
 
+            /// <summary>
+            /// 直角角度
+            /// </summary>
+            public double Right_Angle { set; get; } = 0;
         }
 
 
@@ -207,8 +225,8 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 模板类型
             /// </summary>
-            public Shape_Based_Model_Enum Shape_Based_Model { set; get; }
-
+            public Shape_Based_Model_Enum Shape_Based_Model { set; get; } = Shape_Based_Model_Enum.planar_deformable_model;
+            
 
 
 

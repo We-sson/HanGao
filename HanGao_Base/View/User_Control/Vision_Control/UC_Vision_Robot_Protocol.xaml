@@ -224,27 +224,29 @@
 
 
 
-                                    <ScrollViewer Background="Transparent"
+                                    <!--<ScrollViewer Style="{DynamicResource Vision_Data_List_ScrollViewerStyle}"
+                                                  Width=" auto"
+                                                  Background="Transparent"
                                                   CanContentScroll="False"
                                                   PanningMode="Both"
                                                   ScrollViewer.HorizontalScrollBarVisibility="Auto"
                                                   ScrollViewer.VerticalScrollBarVisibility="Auto"
                                                   VirtualizingPanel.IsVirtualizing="True"
                                                   VirtualizingPanel.ScrollUnit="Pixel"
-                                                  VirtualizingPanel.VirtualizationMode="Recycling">
+                                                  VirtualizingPanel.VirtualizationMode="Recycling">-->
 
 
 
-                                        <TextBox Grid.Column=" 2"
-                                                 Text="{Binding Send_Socket_String}"
-                                                 Height=" 300"
-                                                 TextWrapping="Wrap"
-                                                 Background="Transparent"
-                                                 BorderBrush="{DynamicResource 全局_按钮_绿颜色}"
-                                                 BorderThickness="2"
-                                                 FontSize="16" />
+                                    <TextBox Grid.Column=" 2"
+                                             Text="{Binding Send_Socket_String}"
+                                             MinHeight=" 300"
+                                             TextWrapping="Wrap"
+                                             Background="Transparent"
+                                             BorderBrush="{DynamicResource 全局_按钮_绿颜色}"
+                                             BorderThickness="2"
+                                             FontSize="16" />
 
-                                    </ScrollViewer>
+                                    <!--</ScrollViewer>-->
 
 
                                 </StackPanel>
@@ -267,27 +269,27 @@
 
 
 
-                                    <ScrollViewer Background="Transparent"
+                                    <!--<ScrollViewer Background="Transparent"
                                                   CanContentScroll="False"
                                                   PanningMode="Both"
                                                   ScrollViewer.HorizontalScrollBarVisibility="Auto"
                                                   ScrollViewer.VerticalScrollBarVisibility="Auto"
                                                   VirtualizingPanel.IsVirtualizing="True"
                                                   VirtualizingPanel.ScrollUnit="Pixel"
-                                                  VirtualizingPanel.VirtualizationMode="Recycling">
+                                                  VirtualizingPanel.VirtualizationMode="Recycling">-->
 
 
 
-                                        <TextBox Grid.Column=" 2"
-                                                 Text="{Binding Receive_Socket_String}"
-                                                 Height=" 300"
-                                                 TextWrapping="Wrap"
-                                                 Background="Transparent"
-                                                 BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
-                                                 BorderThickness="2"
-                                                 FontSize="16" />
+                                    <TextBox Grid.Column=" 2"
+                                             Text="{Binding Receive_Socket_String}"
+                                             MinHeight=" 300"
+                                             TextWrapping="Wrap"
+                                             Background="Transparent"
+                                             BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                                             BorderThickness="2"
+                                             FontSize="16" />
 
-                                    </ScrollViewer>
+                                    <!--</ScrollViewer>-->
 
 
                                 </StackPanel>

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 using System.Xml.Linq;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
-using Point = System.Windows.Point;
+
 
 namespace Halcon_SDK_DLL
 {
@@ -122,7 +122,7 @@ namespace Halcon_SDK_DLL
         /// <param name="Calibration"></param>
         /// <param name="Robot"></param>
         /// <returns></returns>
-        public static Point Calibration_Results_Compute(List<Point> Calibration, List<Point> Robot, ref HTuple HomMat2D)
+        public static Point3D Calibration_Results_Compute(List<Point3D> Calibration, List<Point3D> Robot, ref HTuple HomMat2D)
         {
             //初始化坐标属性
             HTuple Calibration_RowLine = new HTuple();
@@ -179,7 +179,7 @@ namespace Halcon_SDK_DLL
             double Calibration_Error_Y_UI = double.Parse(Specimen_Error(_Error_List_Y));
 
 
-            return new Point(Calibration_Error_X_UI, Calibration_Error_Y_UI);
+            return new Point3D(Calibration_Error_X_UI, Calibration_Error_Y_UI,0);
         }
 
         
@@ -274,7 +274,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_Filtering_Model"></param>
         /// <param name="_Calibration_Data"></param>
         /// <returns></returns>
-        public static bool Find_Calibration(ref List<Point> _Calibration_Point, HWindow _Window, HObject _Input_Image, Halcon_Find_Calibration_Model _Calibration_Data)
+        public static bool Find_Calibration(ref List<Point3D> _Calibration_Point, HWindow _Window, HObject _Input_Image, Halcon_Find_Calibration_Model _Calibration_Data)
         {
 
             HObject _Image = new HObject();
@@ -375,7 +375,7 @@ namespace Halcon_SDK_DLL
 
             //控件显示识别特征数量
             int _Number = _Image.CountObj();
-            _Calibration_Point = new List<Point>();
+            _Calibration_Point = new List<Point3D>();
 
             if (_Number == 9)
             {
@@ -388,7 +388,7 @@ namespace Halcon_SDK_DLL
                     double _X = Math.Round(_Row.TupleSelect(i - 1).D, 3);
                     double _Y = Math.Round(_Column.TupleSelect(i - 1).D, 3);
 
-                    _Calibration_Point.Add(new Point(_X, _Y));
+                    _Calibration_Point.Add(new Point3D(_X, _Y,0));
 
                     //控件窗口显示识别信息
                     HOperatorSet.DispText(_Window, "图号: " + i + " X:" + _X + " Y: " + _Y, "image", _X + 100, _Y - 100, "black", "box", "true");

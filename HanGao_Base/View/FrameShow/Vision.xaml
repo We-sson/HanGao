@@ -19,28 +19,13 @@
 
         <DataTemplate x:Key="Result_ListViewItemTemplate">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding Vision_Pos.X, StringFormat=图像坐标  X : \{0\}}"
+                <TextBlock Text="{Binding}"
                            Margin="0,0,4,0"
                            VerticalAlignment="Center"
                            FontFamily="{DynamicResource 全局_文字_英文字体}"
                            FontSize="12"
                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
-                <TextBlock Text="{Binding Vision_Pos.Y, StringFormat=Y : \{0\}}"
-                           VerticalAlignment="Center"
-                           FontFamily="{DynamicResource 全局_文字_英文字体}"
-                           FontSize="12"
-                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
-                <TextBlock Text="{Binding Robot_Pos.X, StringFormat=机器坐标  X : \{0\}}"
-                           Margin="0,0,4,0"
-                           VerticalAlignment="Center"
-                           FontFamily="{DynamicResource 全局_文字_英文字体}"
-                           FontSize="12"
-                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
-                <TextBlock Text="{Binding Robot_Pos.Y, StringFormat=Y : \{0\}}"
-                           VerticalAlignment="Center"
-                           FontFamily="{DynamicResource 全局_文字_英文字体}"
-                           FontSize="12"
-                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
             </StackPanel>
         </DataTemplate>
 
@@ -362,7 +347,7 @@
                                 <VisualBrush Visual="{Binding ElementName=Mask}" />
                             </Halcon:HSmartWindowControlWPF.OpacityMask>
                         </Halcon:HSmartWindowControlWPF>
-                        <Halcon:HSmartWindowControlWPF x:Name="Results_Window_3" Grid.Row=" 0" Grid.Column=" 2"
+                        <Halcon:HSmartWindowControlWPF x:Name="Results_Window_4" Grid.Row=" 0" Grid.Column=" 2"
                                                        HorizontalAlignment="Stretch"
                                                        VerticalAlignment="Stretch"
                                                        HorizontalContentAlignment="Center"
@@ -378,7 +363,7 @@
                             </i:Interaction.Triggers>
 
                         </Halcon:HSmartWindowControlWPF>
-                        <Halcon:HSmartWindowControlWPF x:Name="Results_Window_4" Grid.Row=" 2" Grid.Column=" 2"
+                        <Halcon:HSmartWindowControlWPF x:Name="Results_Window_3" Grid.Row=" 2" Grid.Column=" 2"
                                                        HorizontalAlignment="Stretch"
                                                        VerticalAlignment="Stretch"
                                                        HorizontalContentAlignment="Center"
@@ -403,7 +388,7 @@
 
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
-                                <ColumnDefinition Width="220" />
+                                <ColumnDefinition Width="auto" />
                             </Grid.ColumnDefinitions>
                             <Border Grid.Column=" 0"
                                     VerticalAlignment="Bottom"
@@ -432,14 +417,14 @@
                                           BorderThickness="0"
                                           ItemContainerStyle="{DynamicResource Vison_Data_ListBoxItemContainerStyle}"
                                           ItemTemplate="{DynamicResource Result_ListViewItemTemplate}"
-                                          ItemsSource="{Binding Find_Results1_Window_Result}"
+                                          ItemsSource="{Binding Find_Results1_Window_Result.Text_Arr_UI}"
                                           ScrollViewer.VerticalScrollBarVisibility="Disabled">
 
 
 
                                     <ListView.Style>
                                         <Style TargetType="ListView">
-                                            <Setter Property="Height" Value=" 25" />
+                                            <Setter Property="Height" Value=" 24" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsMouseOver, ElementName=G1}" Value="true">
                                                     <Setter Property="Height" Value=" 100" />
@@ -453,7 +438,7 @@
                             <Border Grid.Column=" 1"
                                     Height=" 25"
                                     VerticalAlignment="Bottom"
-                                    Opacity=" 0.5">
+                                    Opacity=" 0.8">
                                 <Border.Style>
                                     <Style TargetType="Border">
                                         <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
@@ -472,16 +457,26 @@
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Bottom"
                                         Orientation="Horizontal">
-                                <TextBlock Text="位置：左上角   "
+                                <TextBlock Text="位置：F_45   "
                                            VerticalAlignment="Center"
                                            FontFamily="{DynamicResource 全局_文字_数字字体}"
                                            FontSize="12"
                                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
-                                <TextBlock Text="  结果：PASS"
-                                           VerticalAlignment="Center"
+                                <TextBlock VerticalAlignment="Center"
                                            FontFamily="{DynamicResource 全局_文字_数字字体}"
                                            FontSize="12"
-                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                           Foreground="{DynamicResource 全局_按钮_白颜色}">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Text" Value="结果 : PASS" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Find_Results1_Window_Result.Score}" Value="0">
+                                                    <Setter Property="Text" Value="结果 : NG" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
                             </StackPanel>
                         </Grid>
 
@@ -489,7 +484,7 @@
                               VerticalAlignment="Bottom">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
-                                <ColumnDefinition Width="180" />
+                                <ColumnDefinition Width="auto" />
                             </Grid.ColumnDefinitions>
                             <Border Grid.Column=" 0"
                                     VerticalAlignment="Bottom"
@@ -509,7 +504,6 @@
                                 </Border.Style>
                             </Border>
                             <StackPanel Grid.Column=" 0"
-                                        Margin="5"
                                         HorizontalAlignment="Left"
                                         Orientation="Horizontal">
                                 <ListView VerticalAlignment="Bottom"
@@ -518,11 +512,11 @@
                                           BorderThickness="0"
                                           ItemContainerStyle="{DynamicResource Vison_Data_ListBoxItemContainerStyle}"
                                           ItemTemplate="{DynamicResource Result_ListViewItemTemplate}"
-                                          ItemsSource="{Binding Find_Results2_Window_Result.Vision_Pos}"
+                                          ItemsSource="{Binding Find_Results4_Window_Result.Text_Arr_UI}"
                                           ScrollViewer.VerticalScrollBarVisibility="Disabled">
                                     <ListView.Style>
                                         <Style TargetType="ListView">
-                                            <Setter Property="Height" Value=" 25" />
+                                            <Setter Property="Height" Value=" 24" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsMouseOver, ElementName=G2}" Value="true">
                                                     <Setter Property="Height" Value=" 100" />
@@ -536,30 +530,55 @@
                             <Border Grid.Column=" 1"
                                     Height=" 25"
                                     VerticalAlignment="Bottom"
-                                    Background="{DynamicResource 全局_按钮_红颜色}"
-                                    Opacity=" 0.5" />
+                                    Opacity=" 0.8">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Find_Results4_Window_Result.Score}" Value="0">
+                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+
+                            </Border>
                             <StackPanel Grid.Column=" 1"
                                         Margin="5"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Bottom"
                                         Orientation="Horizontal">
-                                <TextBlock Text="位置名称：左下角  |"
+                                <TextBlock Text="位置 : F_315 "
                                            VerticalAlignment="Center"
                                            FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                           FontSize="11"
+                                           FontSize="12"
                                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
-                                <TextBlock Text="  结果：PASS"
-                                           VerticalAlignment="Center"
+                                <TextBlock VerticalAlignment="Center"
                                            FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                           FontSize="11"
-                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                           FontSize="12"
+                                           Foreground="{DynamicResource 全局_按钮_白颜色}">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Text" Value="结果 : PASS" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Find_Results4_Window_Result.Score}" Value="0">
+                                                    <Setter Property="Text" Value="结果 : NG" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
                             </StackPanel>
                         </Grid>
+
+
+
+
                         <Grid x:Name="G3" Grid.Row=" 2" Grid.Column=" 0"
                               VerticalAlignment="Bottom">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
-                                <ColumnDefinition Width="180" />
+                                <ColumnDefinition Width="auto" />
                             </Grid.ColumnDefinitions>
 
                             <Border Grid.Column=" 0"
@@ -581,7 +600,6 @@
                             </Border>
 
                             <StackPanel Grid.Column=" 0"
-                                        Margin="5"
                                         HorizontalAlignment="Left"
                                         Orientation="Horizontal">
                                 <ListView VerticalAlignment="Bottom"
@@ -590,14 +608,14 @@
                                           BorderThickness="0"
                                           ItemContainerStyle="{DynamicResource Vison_Data_ListBoxItemContainerStyle}"
                                           ItemTemplate="{DynamicResource Result_ListViewItemTemplate}"
-                                          ItemsSource="{Binding Find_Results3_Window_Result}"
+                                          ItemsSource="{Binding Find_Results2_Window_Result.Text_Arr_UI}"
                                           ScrollViewer.VerticalScrollBarVisibility="Disabled">
 
 
 
                                     <ListView.Style>
                                         <Style TargetType="ListView">
-                                            <Setter Property="Height" Value=" 25" />
+                                            <Setter Property="Height" Value=" 24" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsMouseOver, ElementName=G3}" Value="true">
                                                     <Setter Property="Height" Value=" 100" />
@@ -610,30 +628,51 @@
                             <Border Grid.Column=" 1"
                                     Height=" 25"
                                     VerticalAlignment="Bottom"
-                                    Background="{DynamicResource 全局_按钮_绿颜色}"
-                                    Opacity=" 0.5" />
+                                    Opacity=" 0.8">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Find_Results2_Window_Result.Score}" Value="0">
+                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+
                             <StackPanel Grid.Column=" 1"
                                         Margin="5"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Bottom"
                                         Orientation="Horizontal">
-                                <TextBlock Text="位置名称：左下角  |"
+                                <TextBlock Text="位置 : F_135 "
                                            VerticalAlignment="Center"
                                            FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                           FontSize="11"
+                                           FontSize="12"
                                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
-                                <TextBlock Text="  结果：PASS"
-                                           VerticalAlignment="Center"
+                                <TextBlock VerticalAlignment="Center"
                                            FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                           FontSize="11"
-                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                           FontSize="12"
+                                           Foreground="{DynamicResource 全局_按钮_白颜色}">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Text" Value="结果 : PASS" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Find_Results2_Window_Result.Score}" Value="0">
+                                                    <Setter Property="Text" Value="结果 : NG" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
                             </StackPanel>
                         </Grid>
 
                         <Grid x:Name="G4" Grid.Row=" 2" Grid.Column=" 2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
-                                <ColumnDefinition Width="180" />
+                                <ColumnDefinition Width="auto" />
                             </Grid.ColumnDefinitions>
 
                             <Border Grid.Column=" 0"
@@ -655,8 +694,7 @@
                             </Border>
 
                             <StackPanel Grid.Column=" 0"
-                                        Margin="5"
-                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Bottom"
                                         Orientation="Horizontal">
                                 <ListView VerticalAlignment="Bottom"
                                           Background="Transparent"
@@ -664,14 +702,14 @@
                                           BorderThickness="0"
                                           ItemContainerStyle="{DynamicResource Vison_Data_ListBoxItemContainerStyle}"
                                           ItemTemplate="{DynamicResource Result_ListViewItemTemplate}"
-                                          ItemsSource="{Binding Find_Results4_Window_Result.Vision_Pos}"
+                                          ItemsSource="{Binding Find_Results3_Window_Result.Text_Arr_UI}"
                                           ScrollViewer.VerticalScrollBarVisibility="Disabled">
 
 
 
                                     <ListView.Style>
                                         <Style TargetType="ListView">
-                                            <Setter Property="Height" Value=" 25" />
+                                            <Setter Property="Height" Value=" 24" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsMouseOver, ElementName=G4}" Value="true">
                                                     <Setter Property="Height" Value=" 100" />
@@ -684,24 +722,45 @@
                             <Border Grid.Column="1"
                                     Height=" 25"
                                     VerticalAlignment="Bottom"
-                                    Background="{DynamicResource 全局_按钮_绿颜色}"
                                     CornerRadius=" 0 0 5 0"
-                                    Opacity=" 0.5" />
+                                    Opacity=" 0.8">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Find_Results3_Window_Result.Score}" Value="0">
+                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+
+                            </Border>
                             <StackPanel Grid.Column=" 1"
                                         Margin="5"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Bottom"
                                         Orientation="Horizontal">
-                                <TextBlock Text="位置名称：左下角  |"
+                                <TextBlock Text="位置 : F_225 "
                                            VerticalAlignment="Center"
                                            FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                           FontSize="11"
+                                           FontSize="12"
                                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
-                                <TextBlock Text="  结果：PASS"
-                                           VerticalAlignment="Center"
+                                <TextBlock VerticalAlignment="Center"
                                            FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                           FontSize="11"
-                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                           FontSize="12"
+                                           Foreground="{DynamicResource 全局_按钮_白颜色}">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Text" Value="结果 : PASS" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Find_Results3_Window_Result.Score}" Value="0">
+                                                    <Setter Property="Text" Value="结果 : NG" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
                             </StackPanel>
                         </Grid>
 
@@ -823,7 +882,7 @@
                                     <Style TargetType="Border">
                                         <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Find_Shape_Result.Score}" Value="0">
+                                            <DataTrigger Binding="{Binding Find_Features_Window_Result.Score}" Value="0">
                                                 <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -851,13 +910,13 @@
                                         HorizontalAlignment="Center"
                                         Orientation="Horizontal">
 
-                                <TextBlock Text="{Binding Find_Shape_Result.Find_Time, StringFormat=Time : {0}ms}"
+                                <TextBlock Text="{Binding Find_Features_Window_Result.Find_Time, StringFormat=Time : {0}ms}"
                                            Margin="4,0,4,0"
                                            VerticalAlignment="Center"
                                            Background="Transparent"
                                            FontSize="11"
                                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
-                                <TextBlock Text="{Binding Find_Shape_Result.Score, StringFormat=Score :{0:F3}}"
+                                <TextBlock Text="{Binding Find_Features_Window_Result.Score, StringFormat=Score :{0:F3}}"
                                            Margin="4,0,4,0"
                                            VerticalAlignment="Center"
                                            Background="Transparent"
@@ -877,7 +936,7 @@
                                         <Style TargetType="TextBlock">
                                             <Setter Property="Text" Value="结果：NG" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Find_Shape_Result.Score}" Value="0">
+                                                <DataTrigger Binding="{Binding Find_Features_Window_Result.Score}" Value="0">
                                                     <Setter Property="Text" Value="结果：PASS" />
                                                 </DataTrigger>
                                             </Style.Triggers>

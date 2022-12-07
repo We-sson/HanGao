@@ -11,6 +11,7 @@ using static HanGao.ViewModel.UC_Vision_Create_Template_ViewMode;
 
 using static MVS_SDK_Base.Model.MVS_Model;
 using Point = System.Windows.Point;
+using System.Windows.Media.Media3D;
 
 namespace HanGao.ViewModel
 {
@@ -227,7 +228,7 @@ namespace HanGao.ViewModel
 
 
         public Halcon_Find_Shape_Out_Parameter Find_Features_Window_Result { set; get; } = new Halcon_Find_Shape_Out_Parameter();
-        public Halcon_Find_Shape_Out_Parameter Find_Results1_Window_Result { set; get; } = new Halcon_Find_Shape_Out_Parameter() { Pos_Lists=new List<Pos_List_Model>() { new Pos_List_Model() { Vision_Pos = new Point(1000.000, 1000.100), Robot_Pos = new Point(1000.000, 1000.000) },  new Pos_List_Model() { Vision_Pos = new Point(1000.000, 1000.100), Robot_Pos = new Point(1000.000, 1000.000) } , new Pos_List_Model() { Vision_Pos = new Point(1000.000, 1000.100), Robot_Pos = new Point(1000.000, 1000.000) } , new Pos_List_Model() { Vision_Pos = new Point(1000.000, 1000.100), Robot_Pos = new Point(1000.000, 1000.000) } , new Pos_List_Model() { Vision_Pos = new Point(1000.000, 1000.100), Robot_Pos = new Point(1000.000, 1000.000) } , new Pos_List_Model() { Vision_Pos = new Point(1000.000, 1000.100), Robot_Pos = new Point(1000.000, 1000.000) } }  };
+        public Halcon_Find_Shape_Out_Parameter Find_Results1_Window_Result { set; get; } = new Halcon_Find_Shape_Out_Parameter();
         public Halcon_Find_Shape_Out_Parameter Find_Results2_Window_Result { set; get; } = new Halcon_Find_Shape_Out_Parameter();
         public Halcon_Find_Shape_Out_Parameter Find_Results3_Window_Result { set; get; } = new Halcon_Find_Shape_Out_Parameter();
         public Halcon_Find_Shape_Out_Parameter Find_Results4_Window_Result { set; get; } = new Halcon_Find_Shape_Out_Parameter();
@@ -395,14 +396,14 @@ namespace HanGao.ViewModel
                 if (User_Drawing_Data == null)
                 {
 
-                    User_Drawing_Data = new Vision_Create_Model_Drawing_Model() { Number = Drawing_Lint_Bunber, Drawing_Type = (Drawing_Type_Enme)Enum.Parse(typeof(Drawing_Type_Enme), _E.Name), Drawing_Data = new ObservableCollection<Point>() };
+                    User_Drawing_Data = new Vision_Create_Model_Drawing_Model() { Number = Drawing_Lint_Bunber, Drawing_Type = (Drawing_Type_Enme)Enum.Parse(typeof(Drawing_Type_Enme), _E.Name), Drawing_Data = new ObservableCollection<Point3D>() };
                     Drawing_Lint_Bunber++;
                 }
 
 
 
                 //添加坐标点数据
-                User_Drawing_Data.Drawing_Data.Add(new Point(Math.Round(Halcon_Position.X, 3), Math.Round(Halcon_Position.Y, 3)));
+                User_Drawing_Data.Drawing_Data.Add(new Point3D(Math.Round(Halcon_Position.X, 3), Math.Round(Halcon_Position.Y, 3),0));
 
 
 

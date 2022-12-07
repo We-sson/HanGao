@@ -157,6 +157,7 @@ namespace KUKA_Socket.Models
         Error_No_Read_Math2D_File,
         Error_No_Camera_Set_Parameters,
         Error_No_Can_Find_the_model,
+        Error_No_ID_Number,
 
     }
 

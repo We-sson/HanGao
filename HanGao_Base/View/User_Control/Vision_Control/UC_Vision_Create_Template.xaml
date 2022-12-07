@@ -164,7 +164,7 @@
                             </Grid>
 
 
-                            <Grid Height=" 34" Margin="8">
+                            <Grid Margin="8">
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width=" 80" />
