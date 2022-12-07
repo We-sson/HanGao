@@ -700,13 +700,16 @@ namespace HanGao.ViewModel
                     //没有矩阵数据跳过转换坐标
                     if (_Math2D!=null)
                     {
-
                     HOperatorSet.AffineTransPoint2d(_Math2D, _OX, _OY, out _Qx, out _Qy);
+                    }
+                    else
+                    {
+                        _Qx=0; _Qy=0;
+                    }
 
                     hv_Text[i+1] = "图像坐标_" + i + " X : " + _OX + " Y : " + _OY+" | 机器坐标_"+"X : "+ _Qx+" Y : "+ _Qy;
                     Halcon_Find_Shape_Out.Robot_Pos.Add(new Point3D(_Qx, _Qy, 0));
 
-                    }
                     _Window.DispText( i+"号", "image", _OX + 50, _OY - 50, "black", "box", "true");
                     Halcon_Find_Shape_Out.Vision_Pos.Add(new Point3D(_OX, _OY, 0));
                 }
@@ -740,6 +743,8 @@ namespace HanGao.ViewModel
             {
 
                 User_Log_Add("特征图像中无法找到特征，请检查光照和环境因素！");
+                hv_Text = hv_Text.TupleConcat("识别用时 : " + Halcon_Find_Shape_Out.Find_Time + "毫秒，" + "图像分数 : " + Math.Round(Halcon_Find_Shape_Out.Score, 3));
+                Halcon_Find_Shape_Out.Text_Arr_UI = new List<string>(hv_Text.SArr);
                 Halcon_Find_Shape_Out.Score = 0;
                 //床送结果到UI显示
                 Messenger.Send<Halcon_Find_Shape_Out_Parameter, string>( Halcon_Find_Shape_Out, nameof(Meg_Value_Eunm.Find_Shape_Out));

@@ -39,7 +39,7 @@
 		<XML>
          <ELEMENT Tag="KUKA_Receive/@Model" Type="STRING"/>
          <ELEMENT Tag="KUKA_Receive/Vision_Model/@ID" Type="INT"/>
-         <ELEMENT Tag="KUKA_Receive/Vision_Model/@Work_Area" Type="INT"/>
+         <ELEMENT Tag="KUKA_Receive/Vision_Model/@Work_Area" Type="STRING"/>
          <ELEMENT Tag="KUKA_Receive/Vision_Model/@Vision_Area" Type="STRING"/>
         
          

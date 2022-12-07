@@ -1,5 +1,5 @@
 &ACCESS RVO1
-&REL 210
+&REL 211
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HK
@@ -23,10 +23,6 @@ DECL EKI_STATUS RET
 ;ENDFOLD (INI)
 ;------------6-------
 
-
-
-
-
 EKRL_CONNECT()
 
 ;Bytes[]="hellow"
@@ -38,8 +34,8 @@ END
 
 
 GLOBAL DEF EKRL_Find_Model_Send(Find_ID:IN,Work_Number:IN,Find_Area:IN)
-DECL INT Find_ID,Work_Number,ID,Work,Find_Area,OPFFSET
-DECL CHAR Find_Area_String[1024], Message_Error[1024],Message_Show[1024]
+DECL INT Find_ID,ID,Work,Find_Area,OPFFSET,Work_Number
+DECL CHAR Find_Area_String[1024], Message_Error[1024],Message_Show[1024],Work_Area[1024]
 DECL BOOL Calculation_Status
 DECL Frame LastPos1,LastPos2,LastPos3,LastPos4,LastPos5,LastPos6,LastPos7,LastPos8,LastPos9
 DECL EKI_STATUS RET
@@ -82,9 +78,28 @@ CASE 4
 Find_Area_String[]="F_315"
 
 ENDSWITCH
+
+
+switch Work_Number
+
+CASE 1
+
+Work_Area[]="Work_1"
+
+CASE 2
+Work_Area[]="Work_2"
+
+CASE 3
+Work_Area[]="Work_3"
+
+CASE 4
+Work_Area[]="Work_4"
+
+ENDSWITCH
+
 RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/@Model","Find_Model")
 RET=EKI_SetInt(EKRL_NAME[],"KUKA_Receive/Vision_Model/@ID", Find_ID)
-RET=EKI_SetInt(EKRL_NAME[],"KUKA_Receive/Vision_Model/@Work_Area", Work_Number)
+RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/Vision_Model/@Work_Area", Work_Area[])
 RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/Vision_Model/@Vision_Area", Find_Area_String[])
 RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Model/Camera_Point/Pos_1", $POS_ACT)
 
@@ -97,7 +112,7 @@ RET=EKI_GetBool(EKRL_NAME[],"KUKA_Send/@IsStatus" ,Calculation_Status)
 RET=EKI_GetString(EKRL_NAME[],"KUKA_Send/Message_Error" ,Message_Error[])
 IF  Calculation_Status THEN
 
-MSGNOTIFY("Message_Error[]")
+
 RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_1" ,LastPos1)
 RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_2" ,LastPos2)
 RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_3" ,LastPos3)
@@ -139,7 +154,7 @@ else
 
 SWRITE( Message_Show[] , _State , OPFFSET ,"Find Model Error: %s"  ,Message_Error[] ) 
 
-MsgQuit(Message_Show[], "HanGao")
+MsgQuit(Message_Error[], "HanGao")
 halt
 
 

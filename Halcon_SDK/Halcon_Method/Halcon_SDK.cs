@@ -851,11 +851,11 @@ namespace Halcon_SDK_DLL
                         if (hv_score.Length != 0)
                         {
 
-                            _Find_Out = new Halcon_Find_Shape_Out_Parameter() { HomMat2D = hv_HomMat2D, Score = hv_score.D, Find_Time = (DateTime.Now - RunTime).Milliseconds };
+                            _Find_Out = new Halcon_Find_Shape_Out_Parameter() { DispWiindow=_HWindow, HomMat2D = hv_HomMat2D, Score = hv_score.D, Find_Time = (DateTime.Now - RunTime).Milliseconds };
                         }
                         else
                         {
-                            _Find_Out = new Halcon_Find_Shape_Out_Parameter() { Score = 0, Find_Time = (DateTime.Now - RunTime).Milliseconds };
+                            _Find_Out = new Halcon_Find_Shape_Out_Parameter() { DispWiindow = _HWindow, Score = 0, Find_Time = (DateTime.Now - RunTime).Milliseconds };
 
                         }
 

@@ -19,9 +19,11 @@ DEFTP Vision={ SOt FALSE,Soc TRUE }
 
 
    
-  DECL PARAM Work_Area= {SHORTNAME[] "Work: " , VALUE {LIST: _
+  DECL PARAM Work_Area= {SHORTNAME[] "Work:" , VALUE {LIST: _
    ITEM[1] {ITEM: VALUE[] "1"   , DISP[] "1"},   _
-   ITEM[2] {ITEM: VALUE[] "2"   , DISP[] "2"},  _
+   ITEM[2] {ITEM: VALUE[] "2"   , DISP[] "2"},   _
+   ITEM[3] {ITEM: VALUE[] "3"   , DISP[] "3"},   _
+   ITEM[4] {ITEM: VALUE[] "4"   , DISP[] "4"},   _
    POS 1}}
 
  DECL PARAM Calib_NO={shortname[] "Calib_NO:", unit[] "", value { LIST : POS 1, _
@@ -58,7 +60,7 @@ DEFTP Vision={ SOt FALSE,Soc TRUE }
             Data_Send_FOLD[5]="EKRL_Calibration_Send(%Area_Calib_lIST ,%Work_Area )"
             
   DECL FOLD Find_Connect_FOLD[5]
-            Find_Connect_FOLD[1]="EKRL_NAME[]=/"Xml_Vision_Model /""
+            Find_Connect_FOLD[1]="EKRL_NAME[]=/"Xml_Vision_Model/""
             Find_Connect_FOLD[2]="EKRL_Connect()"
             Find_Connect_FOLD[3]=""
             Find_Connect_FOLD[4]=""
