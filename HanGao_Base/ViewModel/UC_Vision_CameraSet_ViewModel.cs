@@ -24,12 +24,6 @@ namespace HanGao.ViewModel
             Dictionary<int, string> _E = new();
 
 
-            ////添加枚举到UI下拉显示
-            //foreach (var E in Enum.GetValues(typeof(ACQUISITION_MODE)))
-            //{
-            //    _E.Add((int)(ACQUISITION_MODE)Enum.Parse(typeof(ACQUISITION_MODE), E.ToString()), E.ToString());
-            //}
-            //AcquisitionMode_ComboBox_UI = _E;
 
 
 
@@ -78,12 +72,6 @@ namespace HanGao.ViewModel
 
 
 
-        ///// <summary>
-        ///// 设备采集的采集模式UI绑定 ——默认持续采集模式，"MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS"
-        ///// </summary>
-        //public IEnumerable<KeyValuePair<int, string>> AcquisitionMode_ComboBox_UI { private set; get; }
-
-
 
         /// <summary>
         /// 静态属性更新通知事件
@@ -124,10 +112,23 @@ namespace HanGao.ViewModel
         /// </summary>
         public ObservableCollection<string> Camera_UI_List { set; get; } = new ObservableCollection<string>();
 
+
+
+        private static int _Camera_Data_ID_UI { get; set; } = -1;
         /// <summary>
         /// 当前相机参数号数
         /// </summary>
-        public int Camera_Data_ID_UI { set; get; }
+        public static int Camera_Data_ID_UI
+        {
+            get { return _Camera_Data_ID_UI; }
+            set
+            {
+                _Camera_Data_ID_UI = value;
+                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Camera_Data_ID_UI)));
+            }
+        }
+
+
 
 
 

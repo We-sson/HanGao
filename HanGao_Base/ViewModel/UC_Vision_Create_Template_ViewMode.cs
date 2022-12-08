@@ -149,10 +149,6 @@ namespace HanGao.ViewModel
 
                             }
 
-
-
-
-
                         }
                         else
                         {
@@ -197,6 +193,19 @@ namespace HanGao.ViewModel
         }
 
 
+        private static int _Camera_Data_ID_UI { get; set; } = -1;
+        /// <summary>
+        /// 当前相机参数号数
+        /// </summary>
+        public static int Camera_Data_ID_UI
+        {
+            get { return _Camera_Data_ID_UI; }
+            set
+            {
+                _Camera_Data_ID_UI = value;
+                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Camera_Data_ID_UI)));
+            }
+        }
 
 
 
@@ -253,14 +262,6 @@ namespace HanGao.ViewModel
         /// 一般形状模型匹配创建属性
         /// </summary>
         public Create_Shape_Based_ModelXld Halcon_Create_Shape_ModelXld_UI { set; get; } = new Create_Shape_Based_ModelXld() { Shape_Based_Model = Shape_Based_Model_Enum.planar_deformable_model };
-
-
-
-        /// <summary>
-        /// 当前相机参数号数
-        /// </summary>
-        public int Camera_Data_ID_UI { set; get; }
-
 
 
 

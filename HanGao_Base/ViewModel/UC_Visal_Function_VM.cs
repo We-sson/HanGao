@@ -1,17 +1,18 @@
 ﻿
 using Halcon_SDK_DLL;
+using HanGao.View.FrameShow;
 using HanGao.Xml_Date.Vision_XML.Vision_Model;
 using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
 using System.Drawing;
+using System.Linq;
+using System.Windows.Media.Media3D;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static HanGao.ViewModel.UC_Vision_CameraSet_ViewModel;
-using static HanGao.ViewModel.User_Control_Log_ViewModel;
 using static HanGao.ViewModel.UC_Vision_Create_Template_ViewMode;
-
+using static HanGao.ViewModel.User_Control_Log_ViewModel;
 using static MVS_SDK_Base.Model.MVS_Model;
 using Point = System.Windows.Point;
-using System.Windows.Media.Media3D;
 
 namespace HanGao.ViewModel
 {
@@ -33,7 +34,7 @@ namespace HanGao.ViewModel
             {
                 Directory.CreateDirectory(Environment.CurrentDirectory + "\\Find_Data");
                 Vision_Xml_Method.Save_Xml(Find_Data_List, Environment.CurrentDirectory + "\\Find_Data" + "\\Find_Data.Xml");
-           
+
             }
 
             //halcon实时图像显示操作
@@ -83,9 +84,9 @@ namespace HanGao.ViewModel
 
                 }
 
-              
 
-     
+
+
 
             });
 
@@ -120,7 +121,7 @@ namespace HanGao.ViewModel
 
 
 
-        private static ObservableCollection<Vision_Xml_Models> _Find_Data_UI { get; set; } = new ObservableCollection<Vision_Xml_Models>() { new Vision_Xml_Models() { ID = 1, Date_Last_Revise = DateTime.Now.ToString() }, new Vision_Xml_Models() { ID = 2, Date_Last_Revise = DateTime.Now.ToString() } };
+        private static ObservableCollection<Vision_Xml_Models> _Find_Data_UI { get; set; } = new ObservableCollection<Vision_Xml_Models>() { new Vision_Xml_Models() { ID = 0, Date_Last_Revise = DateTime.Now.ToString() } };
         /// <summary>
         /// 画画数据列表
         /// </summary>
@@ -403,7 +404,7 @@ namespace HanGao.ViewModel
 
 
                 //添加坐标点数据
-                User_Drawing_Data.Drawing_Data.Add(new Point3D(Math.Round(Halcon_Position.X, 3), Math.Round(Halcon_Position.Y, 3),0));
+                User_Drawing_Data.Drawing_Data.Add(new Point3D(Math.Round(Halcon_Position.X, 3), Math.Round(Halcon_Position.Y, 3), 0));
 
 
 
@@ -608,18 +609,92 @@ namespace HanGao.ViewModel
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
-                Button E = Sm.Source as Button;
+                ListBox E = Sm.Source as ListBox;
 
-                Vision_Xml_Models _Data = (Vision_Xml_Models)E.DataContext;
+                Vision_Xml_Models _Vision_Model = (Vision_Xml_Models)E.SelectedValue as Vision_Xml_Models;
+
+                //选择为空事禁用操作
+                if (_Vision_Model == null)
+                {
 
 
-                Messenger.Send<Vision_Xml_Models, string>(_Data, nameof(Meg_Value_Eunm.Vision_Data_Xml_List));
+                    Messenger.Send<Vision_Xml_Models, string>(new Vision_Xml_Models() { ID = -1 }, nameof(Meg_Value_Eunm.Vision_Data_Xml_List));
+
+                }
+                else
+                {
+                    User_Log_Add("参数" + _Vision_Model.ID + "号已加载到参数列表中！");
+
+                    Messenger.Send<Vision_Xml_Models, string>(_Vision_Model, nameof(Meg_Value_Eunm.Vision_Data_Xml_List));
+
+                }
+
 
             });
         }
 
+        /// <summary>
+        /// 新建用户选择参数
+        /// </summary>
+        public ICommand New_Vision_Data_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                Button E = Sm.Source as Button;
 
 
+                int _ID_Number = Find_Data_UI.Max(_Max => _Max.ID) + 1;
+
+                if (Find_Data_UI.Count <= 99)
+                {
+
+                Find_Data_UI.OrderByDescending(_De => _De.ID);
+                Find_Data_UI.Add(new Vision_Xml_Models() { ID = _ID_Number, Date_Last_Revise = DateTime.Now.ToString() });
+                User_Log_Add("参数" + _ID_Number + "号是参数已新建！");
+                }else
+                {
+                    User_Log_Add("参数超过存储限制,请删除无用参数号！");
+
+                }
+
+
+            });
+        }
+        /// <summary>
+        /// 删除用户选择参数
+        /// </summary>
+        public ICommand Delete_Vision_Data_Comm
+        {
+            get => new RelayCommand<object >((Sm) =>
+            {
+                if (Sm != null)
+                {
+
+                        Vision_Xml_Models _Vision = (Vision_Xml_Models)Sm;
+
+                    if (_Vision.ID != 0)
+                    {
+
+                        Find_Data_UI.Remove(_Vision);
+                        Find_Data_UI.OrderByDescending(_De => _De.ID);
+                        User_Log_Add("参数" + _Vision.ID + "号是参数已删除！请重新选择参数号");
+
+                    }
+                    else
+                    {
+                        User_Log_Add("参数列表0号是默认参数，不能删除！");
+
+                    }
+
+                }
+                else
+                {
+                    User_Log_Add("请选择参数号进行操作！");
+
+                }
+
+            });
+        }
 
 
 

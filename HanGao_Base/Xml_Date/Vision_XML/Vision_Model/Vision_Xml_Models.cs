@@ -26,6 +26,8 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
         [XmlAttribute("Date_Revise")]
         public string Date_Last_Revise { get; set; }
 
+
+
     }
 
 

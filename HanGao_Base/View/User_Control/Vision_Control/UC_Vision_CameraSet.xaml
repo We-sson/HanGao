@@ -15,7 +15,7 @@
     <UserControl.Style>
         <Style TargetType="UserControl">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Camera_Data_ID_UI}" Value="0">
+                <DataTrigger Binding="{Binding Camera_Data_ID_UI}" Value="-1">
                     <Setter Property="IsEnabled" Value="False" />
                 </DataTrigger>
             </Style.Triggers>
@@ -99,7 +99,7 @@
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_白颜色}" />
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Camera_Data_ID_UI}" Value="0">
+                                                    <DataTrigger Binding="{Binding Camera_Data_ID_UI}" Value="-1">
                                                         <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_黄颜色}" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
