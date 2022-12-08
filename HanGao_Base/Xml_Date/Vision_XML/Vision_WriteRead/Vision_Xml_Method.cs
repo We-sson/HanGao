@@ -1,11 +1,12 @@
-﻿using System;
+﻿using HanGao.Xml_Date.Vision_XML.Vision_Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
-using static HanGao.ViewModel.UC_Visal_Function_VM;
+
 
 namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
 {
@@ -20,6 +21,48 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
         }
 
 
+
+        public static bool Read_Xml<T1>(ref T1  _Vale)
+        {
+            switch (_Vale)
+            {
+                case T1 _T when _T is Vision_Data:
+
+
+                    Vision_Data _Data = (Vision_Data)(object )_Vale as Vision_Data;
+                    //Find_Data_List = new Vision_Data() { Vision_List = new ObservableCollection<Vision_Xml_Models> { new Vision_Xml_Models() { ID = 0, Date_Last_Revise = DateTime.Now.ToString() } } };
+
+                    //检查存放文件目录
+                    if (!Directory.Exists(Environment.CurrentDirectory + "\\Find_Data"))
+                    {
+
+                        Directory.CreateDirectory(Environment.CurrentDirectory + "\\Find_Data");
+
+                    }
+
+                        if (!File.Exists(Environment.CurrentDirectory + "\\Find_Data" + "\\Find_Data.Xml"))
+                        {
+                        _Data. Vision_List = new ObservableCollection<Vision_Xml_Models> { new Vision_Xml_Models() { ID = 0 , }  };
+                        //初始化参数读取文件
+                        Save_Xml(_Vale, Environment.CurrentDirectory + "\\Find_Data" + "\\Find_Data.Xml");
+
+                    }
+                    else
+                    {
+
+                        _Vale = (T1)(object )Read_Xml<Vision_Data>(Environment.CurrentDirectory + "\\Find_Data" + "\\Find_Data.Xml");
+                       
+                    }
+
+
+
+                    break;
+     
+            }
+
+
+            return true;
+        }
 
 
 

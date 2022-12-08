@@ -1,6 +1,6 @@
 <Vision_Data Stat_Network_Number="1">
   <Vision_List>
-    <Vision_Xml_Models ID="1" Date_Revise="2022/12/5 15:37:44">
+    <Vision_Xml_Models ID="0" Date_Revise="2022/12/8 20:05:43">
       <Camera_Parameter_Data>
         <AcquisitionMode>MV_ACQ_MODE_CONTINUOUS</AcquisitionMode>
         <AcquisitionBurstFrameCount>1</AcquisitionBurstFrameCount>

@@ -24,18 +24,10 @@ namespace HanGao.ViewModel
         public UC_Visal_Function_VM()
         {
 
-            //检查存放文件目录
-            if (Directory.Exists(Directory.GetCurrentDirectory() + "\\Find_Data"))
-            {
-                //初始化参数读取文件
-                Find_Data_List = Vision_Xml_Method.Read_Xml<Vision_Data>(Environment.CurrentDirectory + "\\Find_Data" + "\\Find_Data.Xml");
-            }
-            else
-            {
-                Directory.CreateDirectory(Environment.CurrentDirectory + "\\Find_Data");
-                Vision_Xml_Method.Save_Xml(Find_Data_List, Environment.CurrentDirectory + "\\Find_Data" + "\\Find_Data.Xml");
 
-            }
+            Initialization_Vision_File();
+
+     
 
             //halcon实时图像显示操作
             Messenger.Register<HImage_Display_Model, string>(this, nameof(Meg_Value_Eunm.HWindow_Image_Show), (O, _Mvs_Image) =>
@@ -113,31 +105,51 @@ namespace HanGao.ViewModel
 
 
         /// <summary>
-        /// 视觉参数内容列表
-        /// </summary>
-        public static Vision_Data Find_Data_List { get; set; } = new Vision_Data() { Vision_List = new ObservableCollection<Vision_Xml_Models> { new Vision_Xml_Models() { ID = 1, Date_Last_Revise = DateTime.Now.ToString() } } };
-
-
-
-
-
-        private static ObservableCollection<Vision_Xml_Models> _Find_Data_UI { get; set; } = new ObservableCollection<Vision_Xml_Models>() { new Vision_Xml_Models() { ID = 0, Date_Last_Revise = DateTime.Now.ToString() } };
-        /// <summary>
-        /// 画画数据列表
-        /// </summary>
-        public static ObservableCollection<Vision_Xml_Models> Find_Data_UI
-        {
-            get { return _Find_Data_UI; }
-            set
-            {
-                _Find_Data_UI = value;
-                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(_Find_Data_UI)));
-            }
-        }
-        /// <summary>
         /// 静态属性更新通知事件
         /// </summary>
-        public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
+       private static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
+
+
+
+        //public Vision_Data Find_Data_List_UI { set; get; } 
+
+
+
+        /// <summary>
+        /// 视觉参数内容列表
+        /// </summary>
+        private static Vision_Data _Find_Data_List { get; set; } = new Vision_Data();
+
+        public static Vision_Data Find_Data_List
+        {
+            get { return _Find_Data_List; }
+            set
+            {
+                _Find_Data_List = value;
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Find_Data_List)));
+            }
+        }
+
+
+
+
+
+
+
+        //private static ObservableCollection<Vision_Xml_Models> _Find_Data_UI { get; set; } = new ObservableCollection<Vision_Xml_Models>() { new Vision_Xml_Models() { ID = 0, Date_Last_Revise = DateTime.Now.ToString() } };
+        ///// <summary>
+        ///// 画画数据列表
+        ///// </summary>
+        //public static ObservableCollection<Vision_Xml_Models> Find_Data_UI
+        //{
+        //    get { return _Find_Data_UI; }
+        //    set
+        //    {
+        //        _Find_Data_UI = value;
+        //        StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(_Find_Data_UI)));
+        //    }
+        //}
+
 
 
 
@@ -634,6 +646,57 @@ namespace HanGao.ViewModel
         }
 
         /// <summary>
+        /// 文件初始化读取
+        /// </summary>
+        public void Initialization_Vision_File()
+        {
+
+
+            Vision_Data _Date = new Vision_Data();
+            Vision_Xml_Method.Read_Xml(ref _Date);
+            Find_Data_List = _Date;
+
+        }
+
+
+        /// <summary>
+        /// 新建用户选择参数
+        /// </summary>
+        public ICommand Initialization_Vision_File_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                Button E = Sm.Source as Button;
+
+   
+
+
+            });
+        }
+
+
+
+        /// <summary>
+        /// 保存所以参数到文件
+        /// </summary>
+        public ICommand Save_Vision_Data_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                Button E = Sm.Source as Button;
+
+
+                Vision_Xml_Method.Save_Xml(Find_Data_List, Environment.CurrentDirectory + "\\Find_Data" + "\\Find_Data.Xml");
+                User_Log_Add("所以参数保存成功到文件！");
+
+
+
+            });
+        }
+
+
+
+        /// <summary>
         /// 新建用户选择参数
         /// </summary>
         public ICommand New_Vision_Data_Comm
@@ -643,13 +706,13 @@ namespace HanGao.ViewModel
                 Button E = Sm.Source as Button;
 
 
-                int _ID_Number = Find_Data_UI.Max(_Max => _Max.ID) + 1;
+                int _ID_Number = Find_Data_List.Vision_List.Max(_Max => _Max.ID) + 1;
 
-                if (Find_Data_UI.Count <= 99)
+                if (Find_Data_List.Vision_List.Count <= 99)
                 {
 
-                Find_Data_UI.OrderByDescending(_De => _De.ID);
-                Find_Data_UI.Add(new Vision_Xml_Models() { ID = _ID_Number, Date_Last_Revise = DateTime.Now.ToString() });
+                    Find_Data_List.Vision_List.OrderByDescending(_De => _De.ID);
+                    Find_Data_List.Vision_List.Add(new Vision_Xml_Models() { ID = _ID_Number, Date_Last_Revise = DateTime.Now.ToString() });
                 User_Log_Add("参数" + _ID_Number + "号是参数已新建！");
                 }else
                 {
@@ -675,8 +738,8 @@ namespace HanGao.ViewModel
                     if (_Vision.ID != 0)
                     {
 
-                        Find_Data_UI.Remove(_Vision);
-                        Find_Data_UI.OrderByDescending(_De => _De.ID);
+                        Find_Data_List.Vision_List.Remove(_Vision);
+                        Find_Data_List.Vision_List.OrderByDescending(_De => _De.ID);
                         User_Log_Add("参数" + _Vision.ID + "号是参数已删除！请重新选择参数号");
 
                     }

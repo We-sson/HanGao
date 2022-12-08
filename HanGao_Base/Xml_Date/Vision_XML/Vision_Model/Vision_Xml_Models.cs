@@ -40,7 +40,7 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
         [XmlAttribute()]
         public int Stat_Network_Number { set; get; } = 1;
 
-        public ObservableCollection<Vision_Xml_Models> Vision_List=new ObservableCollection<Vision_Xml_Models>() { };
+        public ObservableCollection<Vision_Xml_Models> Vision_List { set; get; } =new ObservableCollection<Vision_Xml_Models>() {  };
 
 
     }

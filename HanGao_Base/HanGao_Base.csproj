@@ -612,6 +612,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Resource Include="Resources\Vision_保存图标_ioc.png" />
     <Resource Include="Resources\Vision_删除_ioc.png" />
     <Resource Include="Resources\Vision_标定板例图_ioc.png" />
     <Resource Include="Resources\Vision_文件夹_ioc.png" />
