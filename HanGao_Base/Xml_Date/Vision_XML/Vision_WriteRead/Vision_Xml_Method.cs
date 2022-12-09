@@ -22,14 +22,16 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
 
 
 
-        public static bool Read_Xml<T1>(ref T1  _Vale)
+        public static bool Read_Xml<T1>(ref T1 _Vale)
         {
+
+
             switch (_Vale)
             {
                 case T1 _T when _T is Vision_Data:
 
 
-                    Vision_Data _Data = (Vision_Data)(object )_Vale as Vision_Data;
+                    Vision_Data _Data = (Vision_Data)(object)_Vale as Vision_Data;
                     //Find_Data_List = new Vision_Data() { Vision_List = new ObservableCollection<Vision_Xml_Models> { new Vision_Xml_Models() { ID = 0, Date_Last_Revise = DateTime.Now.ToString() } } };
 
                     //检查存放文件目录
@@ -40,9 +42,9 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
 
                     }
 
-                        if (!File.Exists(Environment.CurrentDirectory + "\\Find_Data" + "\\Find_Data.Xml"))
-                        {
-                        _Data. Vision_List = new ObservableCollection<Vision_Xml_Models> { new Vision_Xml_Models() { ID = 0 , }  };
+                    if (!File.Exists(Environment.CurrentDirectory + "\\Find_Data" + "\\Find_Data.Xml"))
+                    {
+                        _Data.Vision_List = new ObservableCollection<Vision_Xml_Models> { new Vision_Xml_Models() { ID = 0, } };
                         //初始化参数读取文件
                         Save_Xml(_Vale, Environment.CurrentDirectory + "\\Find_Data" + "\\Find_Data.Xml");
 
@@ -50,14 +52,22 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
                     else
                     {
 
-                        _Vale = (T1)(object )Read_Xml<Vision_Data>(Environment.CurrentDirectory + "\\Find_Data" + "\\Find_Data.Xml");
-                       
+                        _Data = Read_Xml<Vision_Data>(Environment.CurrentDirectory + "\\Find_Data" + "\\Find_Data.Xml");
+                        //参数0号为默认值
+                        _Data.Vision_List.Where(_List => _List.ID == 0).FirstOrDefault(_List =>
+                        {
+                            _List.Camera_Parameter_Data = new MVS_SDK_Base.Model.MVS_Model.MVS_Camera_Parameter_Model();
+                            _List.Find_Shape_Data = new Halcon_Data_Model.Find_Shape_Based_ModelXld();
+                            return true;
+
+                        });
+                        _Vale = (T1)(object)_Data;
                     }
 
 
 
                     break;
-     
+
             }
 
 
@@ -82,12 +92,14 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
             settings.OmitXmlDeclaration = true;
             settings.Encoding = Encoding.Default;
             settings.Indent = true;
-            //读取文件
-            FileStream _File = new FileStream(_Path, FileMode.Create);
-            var xmlWriter = XmlWriter.Create(_File, settings);
-            //反序列化
-            Xml.Serialize(xmlWriter, _Data, ns);
+            //读取文件操作
+            using (FileStream _File = new FileStream(_Path, FileMode.Create))
+            {
+                var xmlWriter = XmlWriter.Create(_File, settings);
+                //反序列化
+                Xml.Serialize(xmlWriter, _Data, ns);
 
+            }
 
 
         }

@@ -260,7 +260,7 @@
                                     Opacity=" 0.5" />
 
 
-                            <Grid Margin="8">
+                            <Grid Height="35" Margin="8">
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width=" 80" />
@@ -293,18 +293,28 @@
                                     </i:Interaction.Triggers>
                                 </Slider>
 
-                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=Camera_ExposureTime_UI, Path=Value, Mode=TwoWay}"
+                                <TextBox Grid.Column=" 2"
                                          Width="100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
                                          Background="Transparent"
                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                          BorderThickness="2"
-                                         FontSize="18" />
+                                         FontSize="18">
+                                    <TextBox.Style>
+                                        <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="TextBox">
+                                            <Setter Property="Text" Value="{Binding ElementName=Camera_ExposureTime_UI, Path=Value}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ElementName=Camera_ExposureTime_UI, Path=Value}" Value="0">
+                                                    <Setter Property="Text" Value="Auto" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
                             </Grid>
 
-                            <Grid Margin="8">
+                            <Grid Height="35" Margin="8">
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="80" />
@@ -350,7 +360,7 @@
                                          FontSize="18" />
                             </Grid>
 
-                            <Grid Margin="8">
+                            <Grid Height="35" Margin="8">
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="80" />
@@ -395,7 +405,7 @@
                                          FontSize="18" />
                             </Grid>
 
-                            <Grid Margin="8">
+                            <Grid Height="35" Margin="8">
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="80" />
@@ -440,7 +450,7 @@
                                          FontSize="18" />
                             </Grid>
 
-                            <Grid Margin="8">
+                            <Grid Height="35" Margin="8">
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="80" />
@@ -484,7 +494,7 @@
                                          BorderThickness="2"
                                          FontSize="18" />
                             </Grid>
-                            <Grid Margin="8">
+                            <Grid Height="35" Margin="8">
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="80" />
@@ -626,9 +636,9 @@
                                     </Grid.ColumnDefinitions>
 
                                     <Grid.RowDefinitions>
-                                        <RowDefinition />
-                                        <RowDefinition />
-                                        <RowDefinition />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
                                     </Grid.RowDefinitions>
 
                                     <StackPanel Grid.Row=" 0" Grid.Column=" 0"
