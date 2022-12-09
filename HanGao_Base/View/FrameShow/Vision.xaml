@@ -2,7 +2,7 @@
              x:Class="HanGao.View.FrameShow.Vision"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Halcon="clr-namespace:HalconDotNet;assembly=halcondotnet"
+             xmlns:Halcon="http://schemas.mvtec.com/halcondotnet"
              xmlns:UC_Working="clr-namespace:HanGao.View.User_Control"
              xmlns:Vision_Control="clr-namespace:HanGao.View.User_Control.Vision_Control"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"

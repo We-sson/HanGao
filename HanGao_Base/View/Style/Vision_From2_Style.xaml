@@ -383,7 +383,7 @@
     <Style x:Key="Vision_TextBoxStyle" TargetType="{x:Type TextBox}">
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_绿颜色}" />
-        <Setter Property="Foreground" Value="{DynamicResource  全局_按钮_黑颜色}" />
+        <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_黑颜色}" />
         <Setter Property="BorderThickness" Value="1.5" />
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -410,7 +410,7 @@
                         </Trigger>
 
                         <Trigger Property="Text" Value="Null">
-                            <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_红颜色}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_红颜色}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
 

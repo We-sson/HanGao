@@ -592,6 +592,18 @@
     <None Include="Ps_UI\界面效果图.psd" />
     <None Include="Ps_UI\界面效果图.xd" />
     <None Include="Ps_UI\软件UI.xmind" />
+    <Content Include="Resources\halcondotnet.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\halcondotnetxl.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\hdevenginedotnet.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\hdevenginedotnetxl.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Settings.XamlStyler" />
     <Resource Include="Resources\iconfont.ttf" />
   </ItemGroup>
@@ -635,17 +647,7 @@
     <Resource Include="Resources\Control_相机设置_ioc.png" />
     <Resource Include="Resources\Control_自动模式_ioc.png" />
     <Resource Include="Resources\ListView_参数添加_ioc.png" />
-    <None Include="Resources\halcondotnet.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="Resources\halcondotnetxl.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Resources\hdevenginedotnet.dll" />
-    <None Include="Resources\hdevenginedotnetxl.dll" />
-    <Content Include="Resources\Log.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="Resources\Log.txt" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm">

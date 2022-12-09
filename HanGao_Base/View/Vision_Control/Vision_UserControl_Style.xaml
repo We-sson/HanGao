@@ -754,8 +754,9 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             SnapsToDevicePixels="true">
-                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" x:Name="Content"
+                        <ContentPresenter x:Name="Content"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                     </Border>
                     <ControlTemplate.Triggers>
@@ -776,7 +777,7 @@
 
                             <!--<Setter TargetName="Bd" Property="Background" Value="{DynamicResource  Item.SelectedInactive.Background}" />-->
                             <!--<Setter TargetName="Content" Property="TextElement.Foreground" Value="{DynamicResource 全局_按钮_蓝颜色}" />-->
-                            
+
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
