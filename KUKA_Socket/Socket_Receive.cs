@@ -192,6 +192,7 @@ namespace Soceket_KUKA
                 }
                 catch (Exception)
                 {
+
                     //设置计数器
                     ConnectNumber--;
                     //断开连接

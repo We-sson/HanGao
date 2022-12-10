@@ -208,8 +208,8 @@
                                             </Style.Triggers>
                                         </Style>
                                     </Border.Style>
-                                    
-                                    
+
+
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition />
@@ -857,7 +857,7 @@
                                         VerticalContentAlignment="Stretch"
                                         IsSnapToTickEnabled="True"
                                         Maximum="255"
-                                        Minimum="0"
+                                        Minimum="1"
                                         SmallChange="1"
                                         TickFrequency=" 1"
                                         Value="{Binding Find_Calibration.OpeningCircle_Radius}" />

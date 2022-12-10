@@ -312,7 +312,7 @@ namespace HanGao.ViewModel
 
                 HTuple _Font = Window_UserContol.HalconWindow.QueryFont();
 
-                Window_UserContol.HalconWindow.SetFont(_Font.TupleSelect(1) + "-20");
+                Window_UserContol.HalconWindow.SetFont(_Font.TupleSelect(0) + "-18");
 
 
 
@@ -630,7 +630,7 @@ namespace HanGao.ViewModel
                 {
 
 
-                    Messenger.Send<Vision_Xml_Models, string>(new Vision_Xml_Models() { ID = -1 }, nameof(Meg_Value_Eunm.Vision_Data_Xml_List));
+                    Messenger.Send<Vision_Xml_Models, string>(new Vision_Xml_Models() { ID = "-1" }, nameof(Meg_Value_Eunm.Vision_Data_Xml_List));
 
                 }
                 else
@@ -706,13 +706,13 @@ namespace HanGao.ViewModel
                 Button E = Sm.Source as Button;
 
 
-                int _ID_Number = Find_Data_List.Vision_List.Max(_Max => _Max.ID) + 1;
+                int _ID_Number = Find_Data_List.Vision_List.Max(_Max => int.Parse( _Max.ID)) + 1;
 
                 if (Find_Data_List.Vision_List.Count <= 99)
                 {
 
                     Find_Data_List.Vision_List.OrderByDescending(_De => _De.ID);
-                    Find_Data_List.Vision_List.Add(new Vision_Xml_Models() { ID = _ID_Number, Date_Last_Revise = DateTime.Now.ToString() });
+                    Find_Data_List.Vision_List.Add(new Vision_Xml_Models() { ID = _ID_Number.ToString(), Date_Last_Revise = DateTime.Now.ToString() });
                 User_Log_Add("参数" + _ID_Number + "号是参数已新建！");
                 }else
                 {
@@ -735,7 +735,7 @@ namespace HanGao.ViewModel
 
                         Vision_Xml_Models _Vision = (Vision_Xml_Models)Sm;
 
-                    if (_Vision.ID != 0)
+                    if (int.Parse(_Vision.ID) != 0)
                     {
 
                         Find_Data_List.Vision_List.Remove(_Vision);

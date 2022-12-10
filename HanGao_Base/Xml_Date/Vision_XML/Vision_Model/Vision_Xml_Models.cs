@@ -21,7 +21,7 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
         public Find_Shape_Based_ModelXld Find_Shape_Data { set; get; } = new Find_Shape_Based_ModelXld() { };
 
         [XmlAttribute()]
-        public int ID { set; get; } = 0;
+        public string  ID { set; get; } = "0";
 
         [XmlAttribute("Date_Revise")]
         public string Date_Last_Revise { get; set; }

@@ -38,7 +38,7 @@ namespace HanGao.ViewModel
             Messenger.Register<Vision_Xml_Models, string>(this, nameof(Meg_Value_Eunm.Vision_Data_Xml_List), (O, _V) =>
             {
                 Halcon_Find_Shape_ModelXld_UI = _V.Find_Shape_Data;
-                Camera_Data_ID_UI = _V.ID;
+                Camera_Data_ID_UI = int.Parse(_V.ID);
 
             });
 

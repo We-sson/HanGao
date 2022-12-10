@@ -506,16 +506,16 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 滤镜掩码的宽度。默认值：15  值列表（用于计算设备）：3、5  建议值：3， 5， 7， 9， 11， 13， 15， 17， 19， 21， 31， 49， 51， 61， 71， 81， 91， 101  典型值范围：3 ≤ maskWidth ≤ 201
             /// </summary>
-            public double Emphasize_MaskWidth { set; get; } = 15;
+            public double Emphasize_MaskWidth { set; get; } = 50;
             /// <summary>
             /// 滤镜掩模的高度。 默认值：15  值列表（用于计算设备）：3、5  建议值：3， 5， 7， 9， 11， 13， 15， 17， 19， 21， 31， 49， 51， 61， 71， 81， 91， 101  典型值范围：3 ≤ maskHeight ≤ 201
             /// </summary>
-            public double Emphasize_MaskHeight { set; get; } = 15;
+            public double Emphasize_MaskHeight { set; get; } = 50;
 
             /// <summary>
             /// 对比强调的强度。 默认值：1.0建议值：0.3， 0.5， 0.7， 1.0， 1.4， 1.8， 2.0典型值范围：（sqrt）0.0 ≤ factor ≤ 20.0
             /// </summary>
-            public double Emphasize_Factor { set; get; } = 5;
+            public double Emphasize_Factor { set; get; } = 20;
 
 
             /// <summary>

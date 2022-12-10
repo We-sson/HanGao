@@ -62,7 +62,7 @@ namespace HanGao.ViewModel
             Messenger.Register<Vision_Xml_Models, string>(this, nameof(Meg_Value_Eunm.Vision_Data_Xml_List), (O, _V) =>
             {
                 Camera_Parameter_Val = _V.Camera_Parameter_Data;
-                Camera_Data_ID_UI = _V.ID;
+                Camera_Data_ID_UI = int.Parse(_V.ID);
 
             });
 

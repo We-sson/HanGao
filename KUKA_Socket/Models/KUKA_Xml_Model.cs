@@ -62,7 +62,7 @@ namespace KUKA_Socket.Models
         public string Work_Area { set; get; }
 
         [XmlAttribute("ID")]
-        public int Find_ID { set; get; }
+        public string  Find_ID { set; get; }
 
 
 
@@ -140,7 +140,6 @@ namespace KUKA_Socket.Models
     {
   
         Calibration_Point,
-  
         Find_Model,
     }
 
