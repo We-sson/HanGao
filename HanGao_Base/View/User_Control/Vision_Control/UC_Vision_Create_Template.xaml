@@ -1701,7 +1701,7 @@
 
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" x:Name="Create_Model_ID" Grid.Column=" 2"
-                                         Text="1"
+                                         Text="{Binding Halcon_Create_Shape_ModelXld_UI.ID_Name}"
                                          Margin="0,0,6,0"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -1709,7 +1709,7 @@
                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                          BorderThickness="2"
                                          FontSize="16"
-                                         IsReadOnly="True" />
+                                         IsReadOnly="False"  />
 
                             </Grid>
 

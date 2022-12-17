@@ -589,7 +589,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_path"></param>
         /// <param name="_Model_Enum"></param>
         /// <returns></returns>
-        public static bool Get_ModelXld_Path(ref string _path, string _Location, Shape_Based_Model_Enum _Model_Enum, ShapeModel_Name_Enum _Name, Work_Name_Enum _Work)
+        public static bool Get_ModelXld_Path(ref string _path, string _Location, Shape_Based_Model_Enum _Model_Enum, ShapeModel_Name_Enum _Name, int  _ID)
         {
 
             ////获得识别位置名称
@@ -601,7 +601,7 @@ namespace Halcon_SDK_DLL
             {
 
 
-                _path = _Location + "\\" + _Name + "_" + ((int)_Model_Enum).ToString() + "_" + _Work.ToString();
+                _path = _Location + "\\" + _ID.ToString() + "_" + _Name + "_" + ((int)_Model_Enum).ToString() ;
 
                 //路径添加格式
                 switch (_Model_Enum)
@@ -659,7 +659,7 @@ namespace Halcon_SDK_DLL
             _ModelID.Dispose();
 
 
-            Get_ModelXld_Path(ref _Path, _Location, _Create_Model.Shape_Based_Model, _Create_Model.ShapeModel_Name, _Create_Model.Work_Name);
+            Get_ModelXld_Path(ref _Path, _Location, _Create_Model.Shape_Based_Model, _Create_Model.ShapeModel_Name, _Create_Model.Create_ID);
 
 
 

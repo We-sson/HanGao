@@ -7,6 +7,7 @@
              xmlns:local="clr-namespace:HanGao.View.User_Control.Pop_Ups"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              Width="1020"
+             Height=" 519"
              HorizontalAlignment="Center"
              VerticalAlignment="Center"
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_Sink_Size_VM}"
@@ -14,10 +15,8 @@
 
 
 
-    <Grid Width="1000"
+    <Grid 
           Height="auto"
-          HorizontalAlignment="Center"
-          VerticalAlignment="Center"
           Background="Transparent">
 
         <Grid.ColumnDefinitions>
@@ -36,20 +35,17 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
-            <RowDefinition Height="100" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
 
-        <UniformGrid Grid.Row="0" Grid.Column="0"
-                     Height="auto"
-                     Margin="0"
-                     HorizontalAlignment="Center"
-                     Rows="4">
 
+            <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                
 
 
             <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Long"
-                     Uid="mm"
+                     Uid="mm"  Margin=" 4"
                      HorizontalAlignment="Stretch"
                      VerticalAlignment="Center"
                      HorizontalContentAlignment="Center"
@@ -57,7 +53,7 @@
                      FontFamily="Calibri"
                      Tag="水槽长度=" />
             <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Width"
-                     Uid="mm"
+                     Uid="mm" Margin=" 4"
                      HorizontalAlignment="Stretch"
                      VerticalAlignment="Center"
                      HorizontalContentAlignment="Center"
@@ -65,7 +61,7 @@
                      FontFamily="Calibri"
                      Tag="水槽宽度=" />
             <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Left_Distance"
-                     Uid="mm"
+                     Uid="mm" Margin=" 4"
                      HorizontalAlignment="Stretch"
                      VerticalAlignment="Center"
                      HorizontalContentAlignment="Center"
@@ -73,7 +69,7 @@
                      FontFamily="Calibri"
                      Tag="左件长度=" />
             <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Down_Distance"
-                     Uid="mm"
+                     Uid="mm" Margin=" 4"
                      HorizontalAlignment="Stretch"
                      VerticalAlignment="Center"
                      HorizontalContentAlignment="Center"
@@ -81,8 +77,9 @@
                      FontFamily="Calibri"
                      Tag="下件长度=" />
 
+            </StackPanel>
 
-        </UniformGrid>
+ 
         <Button Style="{StaticResource ButtonStyle3}" Grid.Row="1"
                 Content="删除型号"
                 Width="120"
@@ -114,48 +111,40 @@
                    Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
 
 
-        <Border Grid.Row="1" Grid.Column="1"
-                Height=" 40"
-                Margin="8"
-                Padding="5"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Bottom"
-                Background="#dddddd"
-                BorderBrush="Gray"
-                BorderThickness="3"
-                CornerRadius="5">
-
-            <StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1" Margin=" 4" >
+            
 
 
-                <TextBlock Text="水槽型号："
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           FontSize="20" />
+        <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Name"
+                     Uid=""  Text="{Binding User_Sink.Sink_Process.Sink_Model}" Margin=" 4"
+                     HorizontalContentAlignment="Center"
+                     VerticalContentAlignment="Center"
+                     FontFamily="Calibri"
+                     Tag="水槽型号：" VerticalAlignment="Center" HorizontalAlignment="Center" />
+            <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Vision_Find_ID" Margin=" 4"
+                     Uid="号"  Text="{Binding User_Sink.Sink_Process.Vision_Find_ID}"
+                     HorizontalContentAlignment="Center"
+                     VerticalContentAlignment="Center"
+                     FontFamily="Calibri"
+                     Tag="视觉参数：" VerticalAlignment="Center" HorizontalAlignment="Center" />
+            <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Vision_Find_Model" Margin=" 4"
+                     Uid="号"  Text="{Binding User_Sink.Sink_Process.Vision_Find_Model}"
+                     HorizontalContentAlignment="Center"
+                     VerticalContentAlignment="Center"
+                     FontFamily="Calibri"
+                     Tag="视觉模型：" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        </StackPanel>
 
-                <TextBox Style="{StaticResource TextBoxStyle1}" x:Name="Sink_Name"
-                         Text="{Binding User_Sink.Sink_Process.Sink_Model}"
-                         Width=" 200"
-                         HorizontalAlignment="Center"
-                         VerticalAlignment="Stretch"
-                         FontSize="22"
-                         Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
-            </StackPanel>
-        </Border>
+  
 
+    
 
-
-        <UniformGrid Grid.Column="2"
-                     Height="auto"
-                     Margin="0"
-                     HorizontalAlignment="Center"
-                     Rows="4">
-
-
+            <StackPanel Orientation="Vertical" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                
 
 
             <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Panel"
-                     Uid="mm"
+                     Uid="mm" Margin=" 4"
                      HorizontalAlignment="Stretch"
                      VerticalAlignment="Center"
                      HorizontalContentAlignment="Center"
@@ -163,7 +152,7 @@
                      FontFamily="Calibri"
                      Tag="盆胆厚度=" />
             <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_R"
-                     Uid="mm"
+                     Uid="mm" Margin=" 4"
                      HorizontalAlignment="Stretch"
                      VerticalAlignment="Center"
                      HorizontalContentAlignment="Center"
@@ -172,7 +161,7 @@
                      Tag="圆角直径=" />
 
             <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Pots"
-                     Uid="mm"
+                     Uid="mm" Margin=" 4"
                      HorizontalAlignment="Stretch"
                      VerticalAlignment="Center"
                      HorizontalContentAlignment="Center"
@@ -180,15 +169,16 @@
                      FontFamily="Calibri"
                      Tag="面板厚度=" />
             <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Short"
-                     Uid="mm"
+                     Uid="mm" Margin=" 4"
                      HorizontalAlignment="Stretch"
                      VerticalAlignment="Center"
                      HorizontalContentAlignment="Center"
                      VerticalContentAlignment="Center"
                      FontFamily="Calibri"
                      Tag="小边长度=" />
+            </StackPanel>
 
-        </UniformGrid>
+    
 
 
         <Button Style="{StaticResource ButtonStyle3}" Grid.Row="1" Grid.Column="2"

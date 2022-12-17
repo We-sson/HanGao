@@ -19,7 +19,7 @@ namespace HanGao.Xml_Date.Xml_Write_Read
         public XML_Write_Read()
         {
 
-            XML_To_object();
+            Initialization_Sink_Date();
             //创建模板
             //ToXmlString();
 
@@ -345,7 +345,7 @@ namespace HanGao.Xml_Date.Xml_Write_Read
         /// <summary>
         /// 读取文件内容方序列化
         /// </summary>
-        public static void XML_To_object()
+        public static void Initialization_Sink_Date()
         {
             var xmlSerializer = new XmlSerializer(typeof(Xml_Model));
             if (!File.Exists(@"Date\XmlDate.xml")) ToXmlString();

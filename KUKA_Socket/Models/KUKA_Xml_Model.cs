@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace KUKA_Socket.Models
 {
-    public  class KUKA_Xml_Model
+    public class KUKA_Xml_Model
     {
 
 
@@ -22,10 +18,14 @@ namespace KUKA_Socket.Models
     public class Calibration_Data_Receive
     {
 
-        public Calibration_Models Vision_Model { set; get; }
+        public Data_Models Vision_Model { set; get; }
+
+
+
+
 
         [XmlAttribute()]
-        public Vision_Model_Enum Model { set; get; } 
+        public Vision_Model_Enum Model { set; get; }
 
     }
 
@@ -43,7 +43,7 @@ namespace KUKA_Socket.Models
         public int IsStatus { set; get; }
 
 
-        public Calibration_Point_Models Vision_Point { set; get; }=new Calibration_Point_Models();
+        public Calibration_Point_Models Vision_Point { set; get; } = new Calibration_Point_Models();
 
 
 
@@ -52,24 +52,41 @@ namespace KUKA_Socket.Models
 
 
     [Serializable]
-    public class Calibration_Models
+    public class Calibration_Model_Receive
     {
         [XmlAttribute]
-        public string  Vision_Area { set; get; }
+        public string Vision_Area { set; get; }
 
 
         [XmlAttribute]
         public string Work_Area { set; get; }
 
-        [XmlAttribute("ID")]
-        public string  Find_ID { set; get; }
+
+    }
+
+    [Serializable]
+    public class Find_Model_Receive
+    {
+        [XmlAttribute]
+        public string Find_Data { set; get; }
+        [XmlAttribute]
+        public string Vision_Area { set; get; }
+        [XmlAttribute]
+        public string Work_Area { set; get; }
+    }
 
 
 
 
+    [Serializable]
+    public class Data_Models
+    {
 
+        public Calibration_Model_Receive Calibration_Model { set; get; }
 
-        public Calibration_Point_Models Vision_Point { set; get; } 
+        public Find_Model_Receive Find_Model { set; get; }
+
+        public Calibration_Point_Models Vision_Point { set; get; }
 
         public Camera_Point_Models Camera_Point { set; get; }
     }
@@ -79,15 +96,15 @@ namespace KUKA_Socket.Models
     public class Calibration_Point_Models
     {
 
-        public Point_Models Pos_1 { set; get; } =new Point_Models();
+        public Point_Models Pos_1 { set; get; } = new Point_Models();
         public Point_Models Pos_2 { set; get; } = new Point_Models();
-        public Point_Models Pos_3 { set; get; } = new Point_Models(); 
-        public Point_Models Pos_4 { set; get; } = new Point_Models(); 
-        public Point_Models Pos_5 { set; get; } = new Point_Models(); 
-        public Point_Models Pos_6 { set; get; } = new Point_Models(); 
-        public Point_Models Pos_7 { set; get; } = new Point_Models(); 
-        public Point_Models Pos_8 { set; get; } = new Point_Models(); 
-        public Point_Models Pos_9 { set; get; } = new Point_Models(); 
+        public Point_Models Pos_3 { set; get; } = new Point_Models();
+        public Point_Models Pos_4 { set; get; } = new Point_Models();
+        public Point_Models Pos_5 { set; get; } = new Point_Models();
+        public Point_Models Pos_6 { set; get; } = new Point_Models();
+        public Point_Models Pos_7 { set; get; } = new Point_Models();
+        public Point_Models Pos_8 { set; get; } = new Point_Models();
+        public Point_Models Pos_9 { set; get; } = new Point_Models();
 
 
     }
@@ -138,7 +155,7 @@ namespace KUKA_Socket.Models
     /// </summary>
     public enum Vision_Model_Enum
     {
-  
+
         Calibration_Point,
         Find_Model,
     }

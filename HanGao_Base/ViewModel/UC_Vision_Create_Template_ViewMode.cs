@@ -58,12 +58,21 @@ namespace HanGao.ViewModel
                 Calibration_Data_Send _Send = new Calibration_Data_Send();
                 //UI显示接收信息内容
                 UC_Vision_Robot_Protocol_ViewModel.Receive_Socket_String = _RStr;
+                int _Find_Data=-1;
 
+
+                ///读取型号保存的视觉参数号
+                List_Show.SinkModels.Where(_Find => _Find.Sink_Process.Sink_Model == int.Parse(_S.Vision_Model.Find_Model.Find_Data)).FirstOrDefault(_Sink=>
+                {
+                    _Find_Data = _Sink.Sink_Process.Vision_Find_ID;
+
+                    return true;
+                });
 
 
 
                 //获得识别参数文件
-                Vision_Xml_Models _Data_Xml = Find_Data_List.Vision_List.Where(_List => _List.ID == _S.Vision_Model.Find_ID).FirstOrDefault();
+                Vision_Xml_Models _Data_Xml = Find_Data_List.Vision_List.Where(_List =>int.Parse( _List.ID )==_Find_Data).FirstOrDefault();
 
 
                 if (_Data_Xml!=null)
@@ -74,14 +83,14 @@ namespace HanGao.ViewModel
 
 
                 //读取模型文件
-                if (Read_Shape_ModelXld(ref _ModelXld, _Data_Xml.Find_Shape_Data.Shape_Based_Model, (ShapeModel_Name_Enum)Enum.Parse(typeof(ShapeModel_Name_Enum), _S.Vision_Model.Vision_Area), (Work_Name_Enum)Enum.Parse(typeof(Work_Name_Enum), _S.Vision_Model.Work_Area)))
+                if (Read_Shape_ModelXld(ref _ModelXld, _Data_Xml.Find_Shape_Data.Shape_Based_Model, (ShapeModel_Name_Enum)Enum.Parse(typeof(ShapeModel_Name_Enum), _S.Vision_Model.Find_Model.Vision_Area), (int)(Work_Name_Enum)Enum.Parse(typeof(Work_Name_Enum), _S.Vision_Model.Find_Model.Work_Area)))
                 {
 
 
 
 
                     //读取矩阵文件
-                    if (Halcon_SDK.Read_Mat2d_Method(ref _Mat2D, Directory.GetCurrentDirectory() + "\\Nine_Calibration\\" + _S.Vision_Model.Vision_Area + "_" + _S.Vision_Model.Work_Area))
+                    if (Halcon_SDK.Read_Mat2d_Method(ref _Mat2D, Directory.GetCurrentDirectory() + "\\Nine_Calibration\\" + _S.Vision_Model.Find_Model.Vision_Area + "_" + _S.Vision_Model.Find_Model.Work_Area))
                     {
 
                         //if (Shape_Model_Group_UI.Where(_List => _List.Shape_Based_Model == Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model).FirstOrDefault().IsRead  )
@@ -91,7 +100,7 @@ namespace HanGao.ViewModel
                         {
 
                             //提前窗口id
-                            Read_HWindow_ID(ref _Window, _S.Vision_Model.Vision_Area);
+                            Read_HWindow_ID(ref _Window, _S.Vision_Model.Find_Model.Vision_Area);
 
 
                             //获取图片
@@ -418,7 +427,7 @@ namespace HanGao.ViewModel
                         ///保存创建模型
                         Halcon_SDK.ShapeModel_SaveFile(ref _ID, ShapeModel_Location, Halcon_Create_Shape_ModelXld_UI, _ModelsXld);
 
-                        User_Log_Add("创建" + Halcon_Create_Shape_ModelXld_UI.ShapeModel_Name.ToString() +"_"+ Halcon_Create_Shape_ModelXld_UI .Work_Name.ToString()+ "位置，模型：" + Halcon_Create_Shape_ModelXld_UI.Shape_Based_Model.ToString() + "特征成功！");
+                        User_Log_Add("创建区域："   + Halcon_Create_Shape_ModelXld_UI.ShapeModel_Name.ToString() +"，创建ID号："+ Halcon_Create_Shape_ModelXld_UI .Create_ID.ToString()+ "，创建模型：" + Halcon_Create_Shape_ModelXld_UI.Shape_Based_Model.ToString() + " 特征成功！");
 
                         Create_Shape_ModelXld_IsEnable = false;
 
@@ -448,14 +457,14 @@ namespace HanGao.ViewModel
         /// </summary>
         /// <param name="_ModelID"></param>
         /// <returns></returns>
-        public bool Read_Shape_ModelXld(ref HTuple _ModelID, Shape_Based_Model_Enum _Model_Enum, ShapeModel_Name_Enum _Name, Work_Name_Enum _Work)
+        public bool Read_Shape_ModelXld(ref HTuple _ModelID, Shape_Based_Model_Enum _Model_Enum, ShapeModel_Name_Enum _Name, int _ID)
         {
 
 
             string _Path = "";
 
 
-            if (Halcon_SDK.Get_ModelXld_Path(ref _Path, ShapeModel_Location, _Model_Enum, _Name, _Work))
+            if (Halcon_SDK.Get_ModelXld_Path(ref _Path, ShapeModel_Location, _Model_Enum, _Name, _ID))
             {
                 if (File.Exists(_Path))
                 {
@@ -539,11 +548,8 @@ namespace HanGao.ViewModel
 
 
 
-                //if (Shape_Model_Group_UI.Where(_List => _List.Shape_Based_Model == Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model).FirstOrDefault().IsRead  )
-                //{
 
-
-                if (Read_Shape_ModelXld(ref _ModelID, Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model, Halcon_Find_Shape_ModelXld_UI.ShapeModel_Name, Halcon_Find_Shape_ModelXld_UI.Work_Name))
+                if (Read_Shape_ModelXld(ref _ModelID, Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model, Halcon_Find_Shape_ModelXld_UI.ShapeModel_Name, (int)Halcon_Find_Shape_ModelXld_UI.Work_Name))
                 {
 
                     if (Get_Image(ref _Image, Get_Image_Model, Features_Window.HWindow, Image_Location_UI))
@@ -562,12 +568,10 @@ namespace HanGao.ViewModel
 
                 }
 
-                //}
-                //else
-                //{
+        
                 //    User_Log_Add("所选的查找特征对象没有读取，请读取查找类型对象！");
 
-                //}
+      
 
 
                 await Task.Delay(100);
@@ -786,7 +790,7 @@ namespace HanGao.ViewModel
                 HObject _ModelContours = new HObject();
 
 
-                if (Read_Shape_ModelXld(ref _ModelXld, Halcon_Create_Shape_ModelXld_UI.Shape_Based_Model, Halcon_Create_Shape_ModelXld_UI.ShapeModel_Name, Halcon_Create_Shape_ModelXld_UI.Work_Name))
+                if (Read_Shape_ModelXld(ref _ModelXld, Halcon_Create_Shape_ModelXld_UI.Shape_Based_Model, Halcon_Create_Shape_ModelXld_UI.ShapeModel_Name, Halcon_Create_Shape_ModelXld_UI.Create_ID))
                 {
                     Halcon_SDK.Get_ModelXld(ref _ModelContours, Halcon_Create_Shape_ModelXld_UI.Shape_Based_Model, _ModelXld, ShapeModel_Number_UI);
 

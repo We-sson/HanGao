@@ -180,12 +180,12 @@
 
 
     <Style x:Key="TextBox_Style" TargetType="{x:Type TextBox}">
-        <Setter Property="Background" Value="{DynamicResource 全局_背景_白颜色}" />
-        <Setter Property="BorderBrush" Value="Gray" />
+        <Setter Property="Background" Value="{DynamicResource  全局_按钮_灰颜色}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_灰颜色}" />
         <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_蓝颜色}" />
         <Setter Property="BorderThickness" Value="2" />
         <Setter Property="MaxLength" Value="8" />
-        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontSize" Value="16" />
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
         <Setter Property="Width" Value="auto" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
@@ -211,14 +211,14 @@
                             SnapsToDevicePixels="True">
 
 
-                        <Grid Width="240"
+                        <Grid MinWidth="240"
                               Margin="2"
-                              HorizontalAlignment="Stretch"
-                              ShowGridLines="False">
+                          
+                              ShowGridLines="True" >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto" />
                                 <ColumnDefinition Width="1*" />
-                                <ColumnDefinition MaxWidth="50" />
+                                <ColumnDefinition Width ="auto" />
                             </Grid.ColumnDefinitions>
 
 
@@ -227,13 +227,13 @@
                             <TextBlock Grid.Column="0"
                                        Text="{TemplateBinding Tag}"
                                        Margin="5,3,3,3"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Stretch"
+                                       VerticalAlignment="Stretch"
                                        FontFamily="{TemplateBinding FontFamily}"
                                        FontSize="{TemplateBinding FontSize}"
                                        Foreground="#293241" />
                             <ScrollViewer x:Name="PART_ContentHost" Grid.Column="1"
-                                          Margin="3"
+                                     
                                           HorizontalAlignment="Right"
                                           VerticalAlignment="Stretch"
                                           Focusable="True"
@@ -242,16 +242,16 @@
                             <TextBlock x:Name="Tb2" Grid.Column="2"
                                        Text="{TemplateBinding Uid}"
                                        Margin="0,0,3,0"
-                                       HorizontalAlignment="Right"
-                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Stretch"
+                                       VerticalAlignment="Stretch"
                                        FontFamily="{TemplateBinding FontFamily}"
                                        FontSize="{TemplateBinding FontSize}"
                                        Foreground="#8d99ae"
                                        Visibility="Visible" />
                             <TextBlock x:Name="Tb1" Grid.Column=" 2"
                                        Text="!"
-                                       HorizontalAlignment="Center"
-                                       FontSize="25"
+                                       HorizontalAlignment="Stretch"
+                                       FontSize="16"
                                        Foreground="{DynamicResource 全局_按钮_红颜色}"
                                        Visibility="Collapsed" />
                         </Grid>
@@ -283,8 +283,8 @@
                             <!--<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource TextBox.Focus.Border}" />-->
                             <!--<Setter TargetName="border" Property="Effect" Value="{DynamicResource 全局背景阴影}" />-->
                             <Setter Property="BorderThickness" Value="0" />
-                            <Setter Property="Background" Value="White" />
-                            <Setter Property="Foreground" Value="Black" />
+                            <!--<Setter Property="Background" Value="White" />
+                            <Setter Property="Foreground" Value="Black" />-->
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

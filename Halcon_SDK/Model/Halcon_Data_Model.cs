@@ -235,10 +235,12 @@ namespace Halcon_SDK_DLL.Model
             /// </summary>
             public ShapeModel_Name_Enum ShapeModel_Name { set; get; } = ShapeModel_Name_Enum.F_45;
 
+
+
             /// <summary>
-            /// UI绑定工装号数
+            /// 模型创建ID号
             /// </summary>
-            public Work_Name_Enum Work_Name { set; get; } = Work_Name_Enum.Work_1;
+            public int Create_ID { set; get; } = 1;
 
 
 

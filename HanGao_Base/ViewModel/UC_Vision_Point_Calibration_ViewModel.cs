@@ -132,8 +132,8 @@ namespace HanGao.ViewModel
 
 
                         //标定位置和工装位置结果显示UI 
-                        Calibration_Area_UI = _S.Vision_Model.Vision_Area.ToString();
-                        Calibration_Work_Area = _S.Vision_Model.Work_Area;
+                        Calibration_Area_UI = _S.Vision_Model.Calibration_Model.Vision_Area.ToString();
+                        Calibration_Work_Area = _S.Vision_Model.Calibration_Model.Work_Area;
 
                         //集合视觉点和机器人位置点
                         foreach (var _Points in Calibration_Results_List)

@@ -35,6 +35,11 @@ namespace HanGao.Xml_Date.Xml_Models
     public class Xml_Sink_Model
     {
         [XmlAttribute]
+        public int Vision_Find_ID { get; set; }
+        [XmlAttribute]
+        public int Vision_Find_Model { get; set; }
+
+        [XmlAttribute]
         public int Sink_Model { get; set; }
         public double Sink_Size_Long { get; set; }
         public double Sink_Size_Width { get; set; }

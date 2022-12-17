@@ -982,7 +982,7 @@
                             VerticalAlignment="Top"
                             Background="{DynamicResource 全局_按钮_蓝颜色}"
                             FontSize="40">
-                        <Image Height=" 28"
+                        <Image Height=" 32" Effect="{DynamicResource   全局背景阴影}"
                                Margin="5,0,5,0"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
@@ -1003,7 +1003,7 @@
                             VerticalAlignment="Top"
                             Background="{DynamicResource 全局_按钮_绿颜色}"
                             FontSize="40">
-                        <Image Height=" 28"
+                        <Image Height=" 28" Effect="{DynamicResource   全局背景阴影}"
                                Margin="5,0,5,0"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
@@ -1056,6 +1056,7 @@
 
                             <DataTemplate>
 
+                                
                                 <Border Width=" 50"
                                         Height=" 45"
                                         CornerRadius="5">
@@ -1144,13 +1145,13 @@
                             Height="50"
                             Margin="4"
                             VerticalAlignment="Top"
-                            Background="{DynamicResource 全局_按钮_绿颜色}"
+                            Background="#ECECEC"
                             FontSize="40">
-                        <Image Height=" 28"
+                        <Image Height=" 32" Effect="{DynamicResource   全局背景阴影}"
                                Margin="5,0,5,0"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               Source="/Resources/Control_设备日志_ioc.png" />
+                               Source="/Resources/Vision_刷新_ioc.png" />
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction Command="{Binding Save_Vision_Data_Comm}"
@@ -1173,6 +1174,7 @@
 
 
 
+                    
 
                     <ListBox Style="{DynamicResource Vision_Data_ListBoxStyle}" x:Name="Model_List_UI" Grid.Row=" 3"
                              HorizontalContentAlignment="Center"
@@ -1221,15 +1223,15 @@
 
 
                                         <Border Grid.Row="1" Grid.Column="0"
-                                                Background="{DynamicResource 全局_按钮_灰颜色}"
+                                                Background="Transparent" 
                                                 CornerRadius=" 0 0  0 4" />
 
                                         <Border Grid.Row="1" Grid.Column="1"
-                                                Background="{DynamicResource 全局_按钮_灰颜色}"
+                                                Background="Transparent" 
                                                 CornerRadius=" 0 0  4 0" />
 
                                         <Border Grid.Row="0" Grid.Column="0"
-                                                Background="{DynamicResource 全局_按钮_绿颜色}"
+                                                Background="Transparent" 
                                                 CornerRadius=" 4 0  0 0" />
                                         <Border Grid.Row="0" Grid.Column="1"
                                                 d:IsHidden="True"
@@ -1257,7 +1259,7 @@
                                         </Border.Style>-->
                                         <TextBlock Text="{Binding ID}"
                                                    HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
+                                                   VerticalAlignment="Center" Foreground="{DynamicResource   全局_按钮_黑颜色}"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                    FontSize="22" />
                                     </Border>
@@ -1270,36 +1272,10 @@
 
                     </ListBox>
 
-                    <Border Grid.Row=" 4"
-                            Height=" 2"
-                            Margin="4,4,4,4"
-                            Background="{DynamicResource 全局_按钮_黑颜色}"
-                            CornerRadius="1"
-                            Opacity=" 0.5" />
+          
 
 
-                    <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Row=" 5"
-                            Height="50"
-                            Margin="4"
-                            VerticalAlignment="Top"
-                            Background="{DynamicResource 全局_按钮_黑颜色}"
-                            FontSize="40">
-                        <Image Height=" 30"
-                               Margin="5,0,5,0"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Source="/Resources/Vision_删除_ioc.png" />
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction Command="{Binding Delete_Vision_Data_Comm}"
-                                                       CommandParameter="{Binding ElementName=Vision_List_UI, Path=SelectedValue}"
-                                                       PassEventArgsToCommand="False" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-
-
-                    </Button>
-
+                
 
 
                 </Grid>

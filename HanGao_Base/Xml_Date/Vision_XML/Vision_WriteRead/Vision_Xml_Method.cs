@@ -68,7 +68,21 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
 
                     break;
 
+            case T1 _T when _T is Xml_Model:
+
+
+
+
+
+
+
+
+                    break;
             }
+       
+
+                
+
 
 
             return true;
