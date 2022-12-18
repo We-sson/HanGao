@@ -34,3 +34,4 @@ global using Soceket_KUKA;
 global using Halcon_SDK_DLL;
 global using Halcon_SDK_DLL.Model;
 global using System.IO;
+global using HanGao.Xml_Date.Vision_XML.Vision_Model;

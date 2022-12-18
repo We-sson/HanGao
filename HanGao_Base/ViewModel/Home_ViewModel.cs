@@ -3,6 +3,8 @@ using HanGao.View.User_Control.Pop_Ups;
 using HanGao.Xml_Date.Vision_XML.Vision_Model;
 using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
+using static HanGao.Xml_Date.Xml_Write_Read.XML_Write_Read;
+
 
 namespace HanGao.ViewModel
 {
@@ -28,8 +30,10 @@ namespace HanGao.ViewModel
                Home_Var.Home_Visibility_Show(S);
            });
 
-            //Home_Var.Sidebar_Control = new UserControl_Right_Function_Connect() {  };
+      
 
+            ///初始化水槽内容数据
+            Initialization_Sink_Date();
 
         }
 

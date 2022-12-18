@@ -1701,7 +1701,7 @@
 
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" x:Name="Create_Model_ID" Grid.Column=" 2"
-                                         Text="{Binding Halcon_Create_Shape_ModelXld_UI.ID_Name}"
+                                         Text="{Binding Halcon_Create_Shape_ModelXld_UI.Create_ID}"
                                          Margin="0,0,6,0"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -1709,7 +1709,7 @@
                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                          BorderThickness="2"
                                          FontSize="16"
-                                         IsReadOnly="False"  />
+                                         IsReadOnly="False" />
 
                             </Grid>
 
@@ -1751,7 +1751,7 @@
                                         <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
                                             <Setter Property="Content" Value="{StaticResource T1}" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Create_Shape_ModelXld_IsEnable}" Value="true">
+                                                <DataTrigger Binding="{Binding Create_Shape_ModelXld_UI_IsEnable}" Value="true">
                                                     <Setter Property="IsEnabled" Value="False" />
                                                     <Setter Property="Content" Value="{StaticResource T2}" />
                                                 </DataTrigger>
@@ -1768,7 +1768,7 @@
                                 </Button>
                             </Grid>
 
-                   
+
 
 
 

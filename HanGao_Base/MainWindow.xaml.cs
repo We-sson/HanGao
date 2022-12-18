@@ -18,7 +18,7 @@ namespace HanGao
 
 
 
-            new XML_Write_Read();
+       
 
 
         }

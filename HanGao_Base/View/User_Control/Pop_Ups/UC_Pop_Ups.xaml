@@ -296,7 +296,7 @@
 
                     <Grid.RowDefinitions>
                         <RowDefinition Height="300" />
-                        <RowDefinition Height="100" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
 
@@ -394,43 +394,45 @@
 
 
 
-
-                    <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Name" Grid.Row="1" Grid.Column="1"
-                             Uid=""
-                             HorizontalAlignment="Center"
-                             VerticalAlignment="Center"
-                             HorizontalContentAlignment="Center"
-                             VerticalContentAlignment="Center"
-                             FontFamily="{DynamicResource 全局_文字_中文字体}"
-                             SnapsToDevicePixels="True"
-                             Tag="水槽型号=" />
-                    <!--<Border Grid.Row="1" Grid.Column="1"
-                            Height=" 40"
-                            Margin="8"
-                            Padding="5"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Bottom"
-                            Background="#dddddd"
-                            BorderBrush="Gray"
-                            BorderThickness="3"
-                            CornerRadius="5">
-
-                        <StackPanel Orientation="Horizontal">
+                    <StackPanel Grid.Row="1" Grid.Column="1"
+                                Margin="6"
+                                Orientation="Vertical">
 
 
-                            <TextBlock Text="水槽型号："
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       FontSize="20" />
 
-                            <TextBox Style="{StaticResource TextBoxStyle1}" x:Name="Sink_Name"
-                                     Width=" 200"
-                                     HorizontalAlignment="Center"
-                                     VerticalAlignment="Stretch"
-                                     FontSize="22"
-                                     Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
-                        </StackPanel>
-                    </Border>-->
+                        <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Name" Grid.Row="1" Grid.Column="1"
+                                 Uid=""
+                                 Margin="4"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 HorizontalContentAlignment="Center"
+                                 VerticalContentAlignment="Center"
+                                 FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                 SnapsToDevicePixels="True"
+                                 Tag="水槽型号=" />
+                        <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Vision_Find_ID"
+                                 Uid="号"
+                                 Margin="4"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 HorizontalContentAlignment="Center"
+                                 VerticalContentAlignment="Center"
+                                 FontFamily="Calibri"
+                                 Tag="视觉参数=" />
+                        <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Vision_Find_Model"
+                                 Uid="号"
+                                 Text="123456789"
+                                 Margin="4"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 HorizontalContentAlignment="Center"
+                                 VerticalContentAlignment="Center"
+                                 FontFamily="Calibri"
+                                 Tag="视觉模型=" />
+                    </StackPanel>
+
+
+
 
 
 

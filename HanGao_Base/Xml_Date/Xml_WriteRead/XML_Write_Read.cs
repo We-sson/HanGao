@@ -1,13 +1,9 @@
-﻿using HanGao.Model;
+﻿
 using HanGao.ViewModel;
-using HanGao.Xml_Date.Xml_Models;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
+using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
 using System.Xml.Serialization;
-using static HanGao.Model.Sink_Models;
 using static HanGao.Model.SInk_UI_Models;
+
 
 
 
@@ -19,14 +15,9 @@ namespace HanGao.Xml_Date.Xml_Write_Read
         public XML_Write_Read()
         {
 
-            Initialization_Sink_Date();
+            //Initialization_Sink_Date();
             //创建模板
             //ToXmlString();
-
-
-
-
-
 
 
         }
@@ -35,7 +26,7 @@ namespace HanGao.Xml_Date.Xml_Write_Read
         /// </summary>
         public static void ToXmlString()
         {
-            var Sink = new Xml_Model
+            Xml_Model Sink = new Xml_Model
             {
 
 
@@ -347,10 +338,10 @@ namespace HanGao.Xml_Date.Xml_Write_Read
         /// </summary>
         public static void Initialization_Sink_Date()
         {
-            var xmlSerializer = new XmlSerializer(typeof(Xml_Model));
-            if (!File.Exists(@"Date\XmlDate.xml")) ToXmlString();
-            using var reader = new StreamReader(@"Date\XmlDate.xml");
-            Sink_Date = (Xml_Model)xmlSerializer.Deserialize(reader);
+
+            Xml_Model _Sink_Date = new Xml_Model();
+            Vision_Xml_Method.Read_Xml(ref _Sink_Date);
+            Sink_Date = _Sink_Date;
 
             foreach (var item in Sink_Date.Sink_List)
             {
