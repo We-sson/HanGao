@@ -403,7 +403,13 @@ namespace HanGao.ViewModel
         }
 
 
+        public void Loop_Real_Val()
+        {
 
+
+
+
+        }
 
 
 
