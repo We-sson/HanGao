@@ -18,8 +18,13 @@ namespace KUKA_Socket.Models
     public class Calibration_Data_Receive
     {
 
-        public Data_Models Vision_Model { set; get; }
+        public Calibration_Model_Receive Calibration_Model { set; get; }
 
+        public Find_Model_Receive Find_Model { set; get; }
+
+        public Calibration_Point_Models Vision_Point { set; get; }
+
+        public Camera_Point_Models Camera_Point { set; get; }
 
 
 
@@ -78,18 +83,7 @@ namespace KUKA_Socket.Models
 
 
 
-    [Serializable]
-    public class Data_Models
-    {
 
-        public Calibration_Model_Receive Calibration_Model { set; get; }
-
-        public Find_Model_Receive Find_Model { set; get; }
-
-        public Calibration_Point_Models Vision_Point { set; get; }
-
-        public Camera_Point_Models Camera_Point { set; get; }
-    }
 
 
     [Serializable]

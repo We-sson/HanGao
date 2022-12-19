@@ -120,20 +120,20 @@ namespace HanGao.ViewModel
 
 
                         //读取机器人对应模板点位置显示UI
-                        Calibration_Results_List[0].Robot_Points = new Point3D(double.Parse(_S.Vision_Model.Vision_Point.Pos_1.X), double.Parse(_S.Vision_Model.Vision_Point.Pos_1.Y),0);
-                        Calibration_Results_List[1].Robot_Points = new Point3D(double.Parse(_S.Vision_Model.Vision_Point.Pos_2.X), double.Parse(_S.Vision_Model.Vision_Point.Pos_2.Y),0);
-                        Calibration_Results_List[2].Robot_Points = new Point3D(double.Parse(_S.Vision_Model.Vision_Point.Pos_3.X), double.Parse(_S.Vision_Model.Vision_Point.Pos_3.Y),0);
-                        Calibration_Results_List[3].Robot_Points = new Point3D(double.Parse(_S.Vision_Model.Vision_Point.Pos_4.X), double.Parse(_S.Vision_Model.Vision_Point.Pos_4.Y),0);
-                        Calibration_Results_List[4].Robot_Points = new Point3D(double.Parse(_S.Vision_Model.Vision_Point.Pos_5.X), double.Parse(_S.Vision_Model.Vision_Point.Pos_5.Y),0);
-                        Calibration_Results_List[5].Robot_Points = new Point3D(double.Parse(_S.Vision_Model.Vision_Point.Pos_6.X), double.Parse(_S.Vision_Model.Vision_Point.Pos_6.Y),0);
-                        Calibration_Results_List[6].Robot_Points = new Point3D(double.Parse(_S.Vision_Model.Vision_Point.Pos_7.X), double.Parse(_S.Vision_Model.Vision_Point.Pos_7.Y),0);
-                        Calibration_Results_List[7].Robot_Points = new Point3D(double.Parse(_S.Vision_Model.Vision_Point.Pos_8.X), double.Parse(_S.Vision_Model.Vision_Point.Pos_8.Y),0);
-                        Calibration_Results_List[8].Robot_Points = new Point3D(double.Parse(_S.Vision_Model.Vision_Point.Pos_9.X), double.Parse(_S.Vision_Model.Vision_Point.Pos_9.Y),0);
+                        Calibration_Results_List[0].Robot_Points = new Point3D(double.Parse(_S.Vision_Point.Pos_1.X), double.Parse(_S.Vision_Point.Pos_1.Y),0);
+                        Calibration_Results_List[1].Robot_Points = new Point3D(double.Parse(_S.Vision_Point.Pos_2.X), double.Parse(_S.Vision_Point.Pos_2.Y),0);
+                        Calibration_Results_List[2].Robot_Points = new Point3D(double.Parse(_S.Vision_Point.Pos_3.X), double.Parse(_S.Vision_Point.Pos_3.Y),0);
+                        Calibration_Results_List[3].Robot_Points = new Point3D(double.Parse(_S.Vision_Point.Pos_4.X), double.Parse(_S.Vision_Point.Pos_4.Y),0);
+                        Calibration_Results_List[4].Robot_Points = new Point3D(double.Parse(_S.Vision_Point.Pos_5.X), double.Parse(_S.Vision_Point.Pos_5.Y),0);
+                        Calibration_Results_List[5].Robot_Points = new Point3D(double.Parse(_S.Vision_Point.Pos_6.X), double.Parse(_S.Vision_Point.Pos_6.Y),0);
+                        Calibration_Results_List[6].Robot_Points = new Point3D(double.Parse(_S.Vision_Point.Pos_7.X), double.Parse(_S.Vision_Point.Pos_7.Y),0);
+                        Calibration_Results_List[7].Robot_Points = new Point3D(double.Parse(_S.Vision_Point.Pos_8.X), double.Parse(_S.Vision_Point.Pos_8.Y),0);
+                        Calibration_Results_List[8].Robot_Points = new Point3D(double.Parse(_S.Vision_Point.Pos_9.X), double.Parse(_S.Vision_Point.Pos_9.Y),0);
 
 
                         //标定位置和工装位置结果显示UI 
-                        Calibration_Area_UI = _S.Vision_Model.Calibration_Model.Vision_Area.ToString();
-                        Calibration_Work_Area = _S.Vision_Model.Calibration_Model.Work_Area;
+                        Calibration_Area_UI = _S.Calibration_Model.Vision_Area.ToString();
+                        Calibration_Work_Area = _S.Calibration_Model.Work_Area;
 
                         //集合视觉点和机器人位置点
                         foreach (var _Points in Calibration_Results_List)

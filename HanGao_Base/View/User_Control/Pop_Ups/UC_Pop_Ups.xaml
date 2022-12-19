@@ -419,9 +419,8 @@
                                  VerticalContentAlignment="Center"
                                  FontFamily="Calibri"
                                  Tag="视觉参数=" />
-                        <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Vision_Find_Model"
+                        <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Vision_Find_Shape_ID"
                                  Uid="号"
-                                 Text="123456789"
                                  Margin="4"
                                  HorizontalAlignment="Center"
                                  VerticalAlignment="Center"

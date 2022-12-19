@@ -65,7 +65,6 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
                     }
 
 
-
                     break;
 
             case T1 _T when _T is Xml_Model:
@@ -86,14 +85,6 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
 
                     if (!File.Exists(Environment.CurrentDirectory + "\\Sink_Date" + "\\Sink_List.Xml"))
                     {
-
-
-                        //_Data.Vision_List = new ObservableCollection<Vision_Xml_Models> { new Vision_Xml_Models() { ID = "0", } };
-
-                        //初始化参数读取文件
-                        //Save_Xml(_Vale, Environment.CurrentDirectory + "\\Sink_Date" + "\\Sink_List.Xml");
-
-
 
 
                         ///创建模板
@@ -118,7 +109,9 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
                     Sink_Size_Short_OnePos=36,
                     Sink_Size_Short_TwoPos=328,
                     Sink_Size_Width = 352,
-                    Sink_Type = Sink_Type_Enum.LeftRight_One,
+                     Vision_Find_ID=1,
+                      Vision_Find_Shape_ID=1,
+                                             Sink_Type = Sink_Type_Enum.LeftRight_One,
                      Sink_Craft =new Xml_Sink_Work_Area()
                     },
                     new Xml_Sink_Model()
@@ -134,6 +127,8 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
                     Sink_Size_Left_Distance = 24,
                     Sink_Size_R = 12,
                     Sink_Size_Width = 352,
+                        Vision_Find_ID=1,
+                      Vision_Find_Shape_ID=1,
                     Sink_Type = Sink_Type_Enum.LeftRight_One,
                     Sink_Craft =new Xml_Sink_Work_Area()
                     },
@@ -150,6 +145,8 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
                     Sink_Size_Left_Distance = 24,
                     Sink_Size_R = 12,
                     Sink_Size_Width = 380,
+                        Vision_Find_ID=1,
+                      Vision_Find_Shape_ID=1,
                     Sink_Type = Sink_Type_Enum.LeftRight_One,
                     Sink_Craft =new Xml_Sink_Work_Area()
                     },
@@ -166,6 +163,8 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
                     Sink_Size_Left_Distance = 24,
                     Sink_Size_R = 12,
                     Sink_Size_Width = 355,
+                        Vision_Find_ID=1,
+                      Vision_Find_Shape_ID=1,
                     Sink_Type = Sink_Type_Enum.LeftRight_One,
                     Sink_Craft =new Xml_Sink_Work_Area()
                     },
@@ -182,6 +181,8 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
                     Sink_Size_Left_Distance = 24,
                     Sink_Size_R = 12,
                     Sink_Size_Width = 345,
+                        Vision_Find_ID=1,
+                      Vision_Find_Shape_ID=1,
                     Sink_Type = Sink_Type_Enum.LeftRight_One,
                     Sink_Craft =new Xml_Sink_Work_Area()
                     },
@@ -198,6 +199,8 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
                     Sink_Size_Left_Distance = 24,
                     Sink_Size_R = 12,
                     Sink_Size_Width = 350,
+                        Vision_Find_ID=1,
+                      Vision_Find_Shape_ID=1,
                     Sink_Type = Sink_Type_Enum.LeftRight_One,
                     Sink_Craft =new Xml_Sink_Work_Area()
                     },
@@ -212,6 +215,8 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
                     Sink_Size_Left_Distance = 75,
                     Sink_Size_R = 12,
                     Sink_Size_Width = 365,
+                        Vision_Find_ID=1,
+                      Vision_Find_Shape_ID=1,
                     Sink_Type = Sink_Type_Enum.UpDown_One ,
                     Sink_Craft =new Xml_Sink_Work_Area()
                     },
@@ -228,6 +233,8 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
                     Sink_Size_Left_Distance = 75,
                     Sink_Size_R = 12,
                     Sink_Size_Width = 365,
+                        Vision_Find_ID=1,
+                      Vision_Find_Shape_ID=1,
                     Sink_Type = Sink_Type_Enum.UpDown_One,
                     Sink_Craft =new Xml_Sink_Work_Area()
                     },
@@ -245,6 +252,8 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
                     Sink_Size_Left_Distance = 75,
                     Sink_Size_R = 12,
                     Sink_Size_Width = 365,
+                        Vision_Find_ID=1,
+                      Vision_Find_Shape_ID=1,
                     Sink_Type = Sink_Type_Enum.UpDown_One ,
                     Sink_Craft =new Xml_Sink_Work_Area()
                     },
@@ -261,24 +270,9 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
                     {
                         //读取文件内容
                         _Sink_Data = Read_Xml<Xml_Model>(Environment.CurrentDirectory + "\\Sink_Date" + "\\Sink_List.Xml");
-                        ////参数0号为默认值
-                        //_Data.Vision_List.Where(_List => int.Parse(_List.ID) == 0).FirstOrDefault(_List =>
-                        //{
-                        //    _List.Camera_Parameter_Data = new MVS_SDK_Base.Model.MVS_Model.MVS_Camera_Parameter_Model();
-                        //    _List.Find_Shape_Data = new Halcon_Data_Model.Find_Shape_Based_ModelXld();
-                        //    return true;
-
-                        //});
-
+     
                         _Vale = (T1)(object)_Sink_Data;
                     }
-
-
-                    //var xmlSerializer = new XmlSerializer(typeof(Xml_Model));
-                    //if (!File.Exists(@"Date\XmlDate.xml")) ToXmlString();
-                    //using var reader = new StreamReader(@"Date\XmlDate.xml");
-                    //Sink_Date = (Xml_Model)xmlSerializer.Deserialize(reader);
-
 
 
 

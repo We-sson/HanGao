@@ -1,5 +1,5 @@
 &ACCESS RVO
-&REL 269
+&REL 275
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HK
@@ -51,6 +51,9 @@ ENDSWITCH
 SWITCH Sink_Area
 
 CASE #L0
+ 
+ 
+ 
  
  
  UL_Equation(N315_OFFSET_POS,N45_OFFSET_POS,(Surr_Path*0.01),Sink_Welding_Size.Sink_Size_R,Lin_Pos)
@@ -1001,7 +1004,7 @@ ENDSWITCH
 END
 
 GLOBAL DEF HanGao_Camera_Offset( Calibration_Area:IN,Work_Camera:IN, Camera_POS:OUT)
-DECL E6POS Camera_POS
+DECL E6POS Camera_POS,Cam_45_POS,Cam_135_POS,Cam_225_POS,Cam_315_POS
 DECL INT Calibration_Area,Work_Camera
 DECL Surround_Welding_Type Sink_Size
 DECL REAL T_X,T_Y
@@ -1013,9 +1016,17 @@ switch Work_Camera
 
 CASE 1
 Sink_Size=N1_Sink_Data
+Cam_45_POS=N1_Cam_45_POS
+Cam_135_POS=N1_Cam_135_POS
+Cam_225_POS=N1_Cam_225_POS
+Cam_315_POS=N1_Cam_315_POS
 
 CASE 2
 Sink_Size=N2_Sink_Data
+Cam_45_POS=N2_Cam_45_POS
+Cam_135_POS=N2_Cam_135_POS
+Cam_225_POS=N2_Cam_225_POS
+Cam_315_POS=N2_Cam_315_POS
 
 ENDSWITCH
 
@@ -1062,34 +1073,52 @@ DECL Surround_Welding_Type Sink_Size
  ;Global_Messages_Dlg( Meg_Str[] ,User_Revise)
 User_Revise=true
 
-switch Work_Camera
 
-CASE 1
-Sink_Size=N1_Sink_Data
-
-CASE 2
-Sink_Size=N2_Sink_Data
-
-ENDSWITCH
 
 
 
 IF User_Revise==TRUE THEN
 
-Camera_Calibration_Sink.Long=Sink_Size.Sink_Size_Long
-Camera_Calibration_Sink.Width= Sink_Size.Sink_Size_Width
 
+switch Work_Camera
+
+CASE 1
+
+Sink_Size=N1_Sink_Data
 SWITCH Calibration
 
 CASE 1
-Cam_45_POS=$POS_ACT
+N1_Cam_45_POS=$POS_ACT
 CASE 2
-Cam_135_POS=$POS_ACT
+N1_Cam_135_POS=$POS_ACT
 CASE 3
-Cam_225_POS=$POS_ACT
+N1_Cam_225_POS=$POS_ACT
 CASE 4
-Cam_315_POS=$POS_ACT
+N1_Cam_315_POS=$POS_ACT
 ENDSWITCH
+
+
+CASE 2
+
+Sink_Size=N2_Sink_Data
+SWITCH Calibration
+
+CASE 1
+N2_Cam_45_POS=$POS_ACT
+CASE 2
+N2_Cam_135_POS=$POS_ACT
+CASE 3
+N2_Cam_225_POS=$POS_ACT
+CASE 4
+N2_Cam_315_POS=$POS_ACT
+ENDSWITCH
+
+ENDSWITCH
+
+
+
+Camera_Calibration_Sink.Long=Sink_Size.Sink_Size_Long
+Camera_Calibration_Sink.Width= Sink_Size.Sink_Size_Width
 
 
 else 

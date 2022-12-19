@@ -519,7 +519,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_Read_Enum"></param>
         /// <param name="_Path"></param>
         /// <returns></returns>
-        public static HTuple Read_ModelsXLD_File(Shape_Based_Model_Enum _Model_Based, string _Path)
+        public static bool Read_ModelsXLD_File( ref HTuple _ModelID ,Shape_Based_Model_Enum _Model_Based, string _Path)
         {
 
 
@@ -530,8 +530,10 @@ namespace Halcon_SDK_DLL
 
 
 
-            HTuple _ModelID = new HTuple();
+            //HTuple _ModelID = new HTuple();
 
+            try
+            {
 
 
             switch (_Model_Based)
@@ -552,7 +554,17 @@ namespace Halcon_SDK_DLL
 
             }
 
+                return true;
 
+
+            }
+            catch (Exception)
+            {
+
+                //throw;
+                return false;
+
+            }
 
 
 
@@ -576,7 +588,7 @@ namespace Halcon_SDK_DLL
 
             //}
 
-            return _ModelID;
+            //return _ModelID;
 
 
 

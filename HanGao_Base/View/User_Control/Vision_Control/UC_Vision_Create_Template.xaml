@@ -1637,6 +1637,7 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="80" />
                                     <ColumnDefinition Width=" *" />
+                                    <ColumnDefinition Width=" auto" />
                                     <ColumnDefinition Width=" *" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="创建位置"
@@ -1698,9 +1699,15 @@
                                     </ComboBoxItem>
                                 </ComboBox>
 
+                                <TextBlock Grid.Column=" 2"
+                                           Text="ID:"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-
-                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" x:Name="Create_Model_ID" Grid.Column=" 2"
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" x:Name="Create_Model_ID" Grid.Column=" 3"
                                          Text="{Binding Halcon_Create_Shape_ModelXld_UI.Create_ID}"
                                          Margin="0,0,6,0"
                                          HorizontalContentAlignment="Center"
@@ -1740,7 +1747,7 @@
                                                    FontSize="16"
                                                    Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                         <TextBlock x:Key="T2"
-                                                   Text="创建模型中...."
+                                                   Text="创建模型中......"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -1817,7 +1824,7 @@
                                                FontSize="16"
                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                 </StackPanel>
-                                <TextBlock Text="{Binding Camera_Data_ID_UI, StringFormat=模型号 : {0}}"
+                                <!--<TextBlock Text="{Binding Camera_Data_ID_UI, StringFormat=模型号 : {0}}"
                                            Margin="0,0,10,0"
                                            HorizontalAlignment="Right"
                                            VerticalAlignment="Center"
@@ -1833,7 +1840,7 @@
                                             </Style.Triggers>
                                         </Style>
                                     </TextBlock.Style>
-                                </TextBlock>
+                                </TextBlock>-->
 
 
                             </Grid>
@@ -1842,6 +1849,214 @@
                     <Grid>
                         <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 5 5" />
                         <StackPanel Orientation="Vertical">
+
+
+
+                            <Grid Margin="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width=" auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+
+
+                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 0"
+                                        Width=" 50"
+                                        Height="50"
+                                        Margin="8"
+                                        VerticalAlignment="Top"
+                                        Background="#ECECEC"
+                                        FontSize="40">
+                                    <Image Height=" 32"
+                                           Margin="5,0,5,0"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Effect="{DynamicResource 全局背景阴影}"
+                                           Source="/Resources/Vision_刷新_ioc.png" />
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding ShapeModel_File_Update_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
+
+                                </Button>
+
+
+
+                                <ListBox Style="{DynamicResource Vision_Data_ListBoxStyle}" Grid.Column=" 2"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         d:ItemsSource="{d:SampleData ItemCount=5}"
+                                         Background="Transparent"
+                                         ItemContainerStyle="{DynamicResource Vison_Data_ListBoxItemContainerStyle}"
+                                         ItemsSource="{Binding Shape_File_UI_List}"
+                                         ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                         SelectedIndex="-1"
+                                         VirtualizingPanel.IsVirtualizing="True"
+                                         VirtualizingPanel.ScrollUnit="Pixel"
+                                         VirtualizingPanel.VirtualizationMode="Recycling">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="SelectionChanged">
+                                            <i:InvokeCommandAction Command="{Binding Shape_File_Select_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel />
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+
+                                            <Grid>
+
+
+
+                                                <Grid Width="50"
+                                                      Height=" 50"
+                                                      VerticalAlignment="Stretch"
+                                                      ShowGridLines="False">
+
+
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="*" />
+                                                        <RowDefinition Height="*" />
+                                                    </Grid.RowDefinitions>
+
+
+
+                                                    <Border Grid.Row="1" Grid.Column="0"
+                                                            CornerRadius=" 0 0  0 4">
+                                                        <Border.Style>
+                                                            <Style TargetType="Border">
+                                                                <Setter Property="Background" Value="Transparent" />
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding IsRead_F135}" Value="True">
+                                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_灰颜色}" />
+                                                                    </DataTrigger>
+                                                                    <MultiDataTrigger>
+                                                                        <MultiDataTrigger.Conditions>
+                                                                            <Condition Binding="{Binding IsRead_F135}" Value="True" />
+                                                                            <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" Value="true" />
+                                                                        </MultiDataTrigger.Conditions>
+                                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                                                    </MultiDataTrigger>
+
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Border.Style>
+                                                    </Border>
+
+                                                    <Border Grid.Row="1" Grid.Column="1"
+                                                            CornerRadius=" 0 0  4 0">
+                                                        <Border.Style>
+                                                            <Style TargetType="Border">
+                                                                <Setter Property="Background" Value="Transparent" />
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding IsRead_F225}" Value="True">
+                                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_灰颜色}" />
+                                                                    </DataTrigger>
+                                                                    <MultiDataTrigger>
+                                                                        <MultiDataTrigger.Conditions>
+                                                                            <Condition Binding="{Binding IsRead_F225}" Value="True" />
+                                                                            <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" Value="true" />
+                                                                        </MultiDataTrigger.Conditions>
+                                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                                                    </MultiDataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Border.Style>
+                                                    </Border>
+
+                                                    <Border Grid.Row="0" Grid.Column="0"
+                                                            CornerRadius=" 4 0  0 0">
+                                                        <Border.Style>
+                                                            <Style TargetType="Border">
+                                                                <Setter Property="Background" Value="Transparent" />
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding IsRead_F45}" Value="True">
+                                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_灰颜色}" />
+                                                                    </DataTrigger>
+                                                                    <MultiDataTrigger>
+                                                                        <MultiDataTrigger.Conditions>
+                                                                            <Condition Binding="{Binding IsRead_F45}" Value="True" />
+                                                                            <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" Value="true" />
+                                                                        </MultiDataTrigger.Conditions>
+                                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                                                    </MultiDataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Border.Style>
+                                                    </Border>
+                                                    <Border Grid.Row="0" Grid.Column="1"
+                                                            CornerRadius=" 0 4  0 0">
+                                                        <Border.Style>
+                                                            <Style TargetType="Border">
+                                                                <Setter Property="Background" Value="Transparent" />
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding IsRead_F315}" Value="True">
+                                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_灰颜色}" />
+                                                                    </DataTrigger>
+                                                                    <MultiDataTrigger>
+                                                                        <MultiDataTrigger.Conditions>
+                                                                            <Condition Binding="{Binding IsRead_F315}" Value="True" />
+                                                                            <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" Value="true" />
+                                                                        </MultiDataTrigger.Conditions>
+                                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                                                    </MultiDataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Border.Style>
+                                                    </Border>
+
+
+
+
+                                                </Grid>
+
+
+                                                <!--<Border Grid.Row=" 0" Grid.Column=" 0"
+                                                        Background="Transparent"
+                                                        CornerRadius="5">-->
+                                                <!--<Border.Style>
+                                            <Style TargetType="Border">
+                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_灰颜色}" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" Value="true">
+                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>-->
+                                                <TextBlock Text="{Binding File_ID}"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                           FontSize="22"
+                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                <!--</Border>-->
+
+                                            </Grid>
+
+
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+
+
+
+                            </Grid>
 
 
                             <Grid Height="35" Margin="8">
@@ -1864,54 +2079,31 @@
 
 
                                 <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="Model_ID" Grid.Column=" 1"
-                                          Margin="0,0,6,0"
                                           VerticalContentAlignment="Center"
                                           BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                           BorderThickness="2"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="{Binding Halcon_Create_Shape_ModelXld_UI.ShapeModel_Name, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:ShapeModel_Name_Enum}}">
-                                    <ComboBoxItem>
-
-                                        <TextBlock Text="1_F_45_1.shm"
-                                                   TextWrapping="Wrap"
-                                                   Padding="0,4,0,4"
-                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="14"
-                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                   TextTrimming="CharacterEllipsis" />
-                                    </ComboBoxItem>
-
-
-                                    <ComboBoxItem>
-
-                                        <TextBlock Text="1_F_135_1"
-                                                   TextWrapping="Wrap"
-                                                   Padding="0,4,0,4"
-                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="14"
-                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                   TextTrimming="CharacterEllipsis" />
-                                    </ComboBoxItem>
-                                    <ComboBoxItem>
-
-                                        <TextBlock Text="F_225"
-                                                   TextWrapping="Wrap"
-                                                   Padding="0,4,0,4"
-                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="14"
-                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                   TextTrimming="CharacterEllipsis" />
-                                    </ComboBoxItem>
-                                    <ComboBoxItem>
-
-                                        <TextBlock Text="F_315"
-                                                   TextWrapping="Wrap"
-                                                   Padding="0,4,0,4"
-                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="14"
-                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                   TextTrimming="CharacterEllipsis" />
-                                    </ComboBoxItem>
+                                          ItemsSource="{Binding Shape_FileFull_UI}"
+                                          SelectedIndex="0">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="SelectionChanged">
+                                            <i:InvokeCommandAction Command="{Binding ShapeModel_File_Show_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Style="{DynamicResource ComboBox_TextBlok_Style}"
+                                                       Text="{Binding File_Name}"
+                                                       TextWrapping="Wrap"
+                                                       Padding="0,4,0,4"
+                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                       FontSize="14"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                       TextTrimming="CharacterEllipsis" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
                                 </ComboBox>
 
 
@@ -1921,7 +2113,7 @@
                             </Grid>
 
 
-                            <Grid Height="35" Margin="8">
+                            <!--<Grid Height="35" Margin="8">
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="80" />
@@ -1939,6 +2131,7 @@
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" x:Name="ShapeModel_Number" Grid.Column=" 1"
                                          Text="{Binding ShapeModel_Number_UI}"
                                          Width=" auto"
+                                         Margin="0,0,6,0"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
                                          Background="Transparent"
@@ -1965,7 +2158,7 @@
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </Button>
-                            </Grid>
+                            </Grid>-->
 
 
 
@@ -3326,6 +3519,7 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="80" />
                                     <ColumnDefinition Width=" *" />
+                                    <ColumnDefinition Width=" auto" />
                                     <ColumnDefinition Width=" *" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="查找位置"
@@ -3387,57 +3581,25 @@
                                     </ComboBoxItem>
                                 </ComboBox>
 
-                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="Find_Work_Name" Grid.Column=" 2"
-                                          Margin="0,0,0,0"
-                                          VerticalContentAlignment="Center"
-                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                          BorderThickness="2"
-                                          IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="{Binding Halcon_Find_Shape_ModelXld_UI.Work_Name, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:Work_Name_Enum}}">
-                                    <ComboBoxItem>
 
-                                        <TextBlock Text="Work_1"
-                                                   TextWrapping="Wrap"
-                                                   Padding="0,4,0,4"
-                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="14"
-                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                   TextTrimming="CharacterEllipsis" />
-                                    </ComboBoxItem>
+                                <TextBlock Grid.Column=" 2"
+                                           Text="ID:"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-
-                                    <ComboBoxItem>
-
-                                        <TextBlock Text="Work_2"
-                                                   TextWrapping="Wrap"
-                                                   Padding="0,4,0,4"
-                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="14"
-                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                   TextTrimming="CharacterEllipsis" />
-                                    </ComboBoxItem>
-                                    <ComboBoxItem>
-
-                                        <TextBlock Text="Work_3"
-                                                   TextWrapping="Wrap"
-                                                   Padding="0,4,0,4"
-                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="14"
-                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                   TextTrimming="CharacterEllipsis" />
-                                    </ComboBoxItem>
-                                    <ComboBoxItem>
-
-                                        <TextBlock Text="Work_4"
-                                                   TextWrapping="Wrap"
-                                                   Padding="0,4,0,4"
-                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="14"
-                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                   TextTrimming="CharacterEllipsis" />
-                                    </ComboBoxItem>
-                                </ComboBox>
-
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" x:Name="Find_Model_ID" Grid.Column=" 3"
+                                         Text="{Binding Halcon_Find_Shape_ModelXld_UI.FInd_ID}"
+                                         Margin="0,0,6,0"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="16"
+                                         IsReadOnly="False" />
 
                             </Grid>
 
@@ -3460,17 +3622,37 @@
 
 
 
-                                <Button Style="{DynamicResource Halcon_Window_Button}" x:Name="Text_Models" Grid.Column=" 2"
+                                <Button x:Name="Text_Models" Grid.Column=" 2"
                                         Margin="0,0,0,0"
                                         Background="{DynamicResource 全局_按钮_蓝颜色}"
                                         IsEnabled="{Binding Find_Text_Models_UI_IsEnable}">
-                                    <TextBlock Text="识别模型"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                               FontSize="16"
-                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
-
+                                    <Button.Resources>
+                                        <TextBlock x:Key="T1"
+                                                   Text="查找模型"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                   FontSize="16"
+                                                   Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                        <TextBlock x:Key="T2"
+                                                   Text="查找模型中......"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                   FontSize="16"
+                                                   Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                    </Button.Resources>
+                                    <Button.Style>
+                                        <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
+                                            <Setter Property="Content" Value="{StaticResource T1}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Find_Text_Models_UI_IsEnable}" Value="false">
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                    <Setter Property="Content" Value="{StaticResource T2}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
                                     <i:Interaction.Triggers>
 
                                         <i:EventTrigger EventName="Click">

@@ -1,5 +1,5 @@
 ﻿using HanGao.View.User_Control;
-
+using HanGao.ViewModel;
 using static HanGao.ViewModel.User_Control_Log_ViewModel;
 using static HanGao.ViewModel.UserControl_Socket_Var_Show_ViewModel;
 
@@ -186,21 +186,21 @@ namespace HanGao.Model
 
 
 
-                      ////使用多线程读取
-                      //new Thread(new ThreadStart(new Action(() =>
-                      //        {
+                      //使用多线程读取
+                      new Thread(new ThreadStart(new Action(() =>
+                              {
 
 
 
-                      //            Read.Loop_Real_Send(Socket_Read_List_UI);
+                                  Read.Loop_Real_Send(UserControl_Socket_Var_Show_ViewModel.Socket_Read_List_UI);
 
 
 
-                      //        })))
-                      //{ IsBackground = true, Name = "Loop_Real—KUKA" }.Start();
+                              })))
+                      { IsBackground = true, Name = "Loop_Real—KUKA" }.Start();
 
 
-                      ////读取用多线程连接
+                      //读取用多线程连接
                       //Socket_Connect_Thread = new Thread(() => Receive_Read_Theam()) { Name = "kuka_ver_loopread", IsBackground = true };
                       //Socket_Connect_Thread.Start();
 

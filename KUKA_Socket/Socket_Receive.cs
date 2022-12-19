@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using static Soceket_Connect.Socket_Connect;
 
 namespace Soceket_KUKA
 {
@@ -29,9 +30,15 @@ namespace Soceket_KUKA
         public ReceiveMessage_delegate<Calibration_Data_Receive, string> KUKA_Receive_Find_String { set; get; }
 
 
+        /// <summary>
+        /// 通讯连接错误委托
+        /// </summary>
+        public Socket_T_delegate<string> Socket_ErrorInfo_delegate { set; get; }
 
 
-        private  Socket Socket_Sever { set; get; }
+
+
+        private Socket Socket_Sever { set; get; }
 
 
         private static byte[] buffer = new byte[1024 * 1024];
@@ -103,9 +110,10 @@ namespace Soceket_KUKA
 
                 return _IPAddress;
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
+                Socket_ErrorInfo_delegate(e.Message);
                 //MessageBox.Show(ex.StackTrace + "\r\n" + ex.Message, "错误", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
                 //Log.WriteLog(ex);
             }
@@ -138,11 +146,14 @@ namespace Soceket_KUKA
                 //开始异步接收客户端数据
                 client.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), client);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    Socket_ErrorInfo_delegate(e.Message);
 
-                    return ;
+                    return;
                 }
+
+                Socket_ErrorInfo_delegate("第" + ConnectNumber + "连接进来了");
 
                 Console.WriteLine("第" + ConnectNumber + "连接进来了");
 
@@ -190,11 +201,14 @@ namespace Soceket_KUKA
                     //通过递归不停的接收该客户端的消息
                     client.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), client);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
 
                     //设置计数器
                     ConnectNumber--;
+
+                    Socket_ErrorInfo_delegate(e.Message);
+
                     //断开连接
                     //WriteLine(clientipe + " is disconnected，total connects " + (connectCount), ConsoleColor.Red);
                 }

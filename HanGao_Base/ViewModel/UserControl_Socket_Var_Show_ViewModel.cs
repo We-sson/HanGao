@@ -168,32 +168,36 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 读取库卡变量数据列表集合
         /// </summary>
-        public ObservableCollection<Socket_Models_List> Socket_Read_List { set; get; } = new ObservableCollection<Socket_Models_List>();
+        public ObservableCollection<Socket_Models_List> On_Read_List { set; get; } = new ObservableCollection<Socket_Models_List>();
+
+
+
+
 
         /// <summary>
         /// 读取库卡变量数据列表集合
         /// </summary>
-        public ObservableCollection<Socket_Models_List> On_Read_List { set; get; } = new ObservableCollection<Socket_Models_List>();
+        public ObservableCollection<Socket_Models_List> _Socket_Read_List { set; get; } = new ObservableCollection<Socket_Models_List>();
 
-        //public     ObservableCollection<Socket_Val_List_UI_Model> Socket_Read_List_UI
-        //{
+        public ObservableCollection<Socket_Models_List> Socket_Read_List
+        {
 
-        //    get
-        //    {
-        //        return _Socket_Read_List_UI;
-        //    }
-        //    set
-        //    {
-        //        _Socket_Read_List_UI = value;
-        //        //OnStaticPropertyChanged();
-        //        //StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Socket_Read_List_UI)));
+            get
+            {
+                return _Socket_Read_List;
+            }
+            set
+            {
+                _Socket_Read_List = value;
+                //OnStaticPropertyChanged();
+                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Socket_Read_List)));
 
-        //    }
-        //}
+            }
+        }
 
 
-        // 定义静态属性值变化事件 
-        //public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
+        //定义静态属性值变化事件
+        public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
 
 
 

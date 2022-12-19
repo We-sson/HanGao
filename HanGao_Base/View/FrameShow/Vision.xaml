@@ -55,7 +55,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="70" />
-                    <ColumnDefinition Width="70" />
+
                 </Grid.ColumnDefinitions>
 
                 <Grid Grid.Column=" 0" Margin="12,12,6,6">
@@ -982,10 +982,11 @@
                             VerticalAlignment="Top"
                             Background="{DynamicResource 全局_按钮_蓝颜色}"
                             FontSize="40">
-                        <Image Height=" 32" Effect="{DynamicResource   全局背景阴影}"
+                        <Image Height=" 32"
                                Margin="5,0,5,0"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
+                               Effect="{DynamicResource 全局背景阴影}"
                                Source="/Resources/ListView_参数添加_ioc.png" />
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
@@ -1003,10 +1004,11 @@
                             VerticalAlignment="Top"
                             Background="{DynamicResource 全局_按钮_绿颜色}"
                             FontSize="40">
-                        <Image Height=" 28" Effect="{DynamicResource   全局背景阴影}"
+                        <Image Height=" 28"
                                Margin="5,0,5,0"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
+                               Effect="{DynamicResource 全局背景阴影}"
                                Source="/Resources/Vision_保存图标_ioc.png" />
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
@@ -1056,7 +1058,7 @@
 
                             <DataTemplate>
 
-                                
+
                                 <Border Width=" 50"
                                         Height=" 45"
                                         CornerRadius="5">
@@ -1121,164 +1123,6 @@
 
                 </Grid>
 
-                <Grid Grid.Column=" 2" Margin="5,12,5,5">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height=" auto" />
-                        <RowDefinition />
-                        <RowDefinition Height="auto " />
-                        <RowDefinition Height="auto " />
-                    </Grid.RowDefinitions>
-
-
-                    <Border Grid.Row=" 0"
-                            Grid.RowSpan=" 8"
-                            Background="{DynamicResource 全局_背景_白颜色}"
-                            CornerRadius=" 5 "
-                            Effect="{DynamicResource 全局背景阴影}" />
-
-
-
-
-                    <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Row=" 1"
-                            Height="50"
-                            Margin="4"
-                            VerticalAlignment="Top"
-                            Background="#ECECEC"
-                            FontSize="40">
-                        <Image Height=" 32" Effect="{DynamicResource   全局背景阴影}"
-                               Margin="5,0,5,0"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Source="/Resources/Vision_刷新_ioc.png" />
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction Command="{Binding Save_Vision_Data_Comm}"
-                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                       PassEventArgsToCommand="True" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-
-
-                    </Button>
-
-
-                    <Border Grid.Row=" 2"
-                            Height=" 2"
-                            Margin="4,4,4,4"
-                            Background="{DynamicResource 全局_按钮_黑颜色}"
-                            CornerRadius="1"
-                            Opacity=" 0.5" />
-
-
-
-
-                    
-
-                    <ListBox Style="{DynamicResource Vision_Data_ListBoxStyle}" x:Name="Model_List_UI" Grid.Row=" 3"
-                             HorizontalContentAlignment="Center"
-                             VerticalContentAlignment="Center"
-                             Background="Transparent"
-                             ItemContainerStyle="{DynamicResource Vison_Data_ListBoxItemContainerStyle}"
-                             ItemsSource="{Binding Find_Data_List.Vision_List}"
-                             ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                             ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                             SelectedIndex="-1"
-                             VirtualizingPanel.IsVirtualizing="True"
-                             VirtualizingPanel.ScrollUnit="Pixel"
-                             VirtualizingPanel.VirtualizationMode="Recycling">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="SelectionChanged">
-                                <i:InvokeCommandAction Command="{Binding Find_Data_Send_Comm}"
-                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                       PassEventArgsToCommand="True" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-
-
-                        <ListBox.ItemTemplate>
-
-                            <DataTemplate>
-
-                                <Grid>
-
-
-
-                                    <Grid Width="50"
-                                          Height=" 50"
-                                          VerticalAlignment="Stretch"
-                                          ShowGridLines="False">
-
-
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="*" />
-                                            <RowDefinition Height="*" />
-                                        </Grid.RowDefinitions>
-
-
-
-                                        <Border Grid.Row="1" Grid.Column="0"
-                                                Background="Transparent" 
-                                                CornerRadius=" 0 0  0 4" />
-
-                                        <Border Grid.Row="1" Grid.Column="1"
-                                                Background="Transparent" 
-                                                CornerRadius=" 0 0  4 0" />
-
-                                        <Border Grid.Row="0" Grid.Column="0"
-                                                Background="Transparent" 
-                                                CornerRadius=" 4 0  0 0" />
-                                        <Border Grid.Row="0" Grid.Column="1"
-                                                d:IsHidden="True"
-                                                Background="{DynamicResource 全局_按钮_灰颜色}"
-                                                CornerRadius=" 0 4  0 0" />
-
-
-
-
-                                    </Grid>
-
-
-                                    <Border Grid.Row=" 0" Grid.Column=" 0"
-                                            Background="Transparent"
-                                            CornerRadius="5">
-                                        <!--<Border.Style>
-                                            <Style TargetType="Border">
-                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_灰颜色}" />
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" Value="true">
-                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>-->
-                                        <TextBlock Text="{Binding ID}"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center" Foreground="{DynamicResource   全局_按钮_黑颜色}"
-                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="22" />
-                                    </Border>
-
-                                </Grid>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-
-
-
-                    </ListBox>
-
-          
-
-
-                
-
-
-                </Grid>
 
 
 

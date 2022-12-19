@@ -48,6 +48,8 @@ namespace HanGao.Xml_Date.Xml_Write_Read
                     Sink_Size_Short_TwoPos=328,
                     Sink_Size_Width = 352,
                     Sink_Type = Sink_Type_Enum.LeftRight_One,
+                     Vision_Find_Shape_ID=1,
+                      Vision_Find_ID=1,
                      Sink_Craft =new Xml_Sink_Work_Area()
                     },
                     new Xml_Sink_Model()
@@ -63,6 +65,8 @@ namespace HanGao.Xml_Date.Xml_Write_Read
                     Sink_Size_Left_Distance = 24,
                     Sink_Size_R = 12,
                     Sink_Size_Width = 352,
+                            Vision_Find_Shape_ID=1,
+                      Vision_Find_ID=1,
                     Sink_Type = Sink_Type_Enum.LeftRight_One,
                     Sink_Craft =new Xml_Sink_Work_Area()
                     },
@@ -79,6 +83,8 @@ namespace HanGao.Xml_Date.Xml_Write_Read
                     Sink_Size_Left_Distance = 24,
                     Sink_Size_R = 12,
                     Sink_Size_Width = 380,
+                            Vision_Find_Shape_ID=1,
+                      Vision_Find_ID=1,
                     Sink_Type = Sink_Type_Enum.LeftRight_One,
                     Sink_Craft =new Xml_Sink_Work_Area()
                     },
@@ -95,6 +101,8 @@ namespace HanGao.Xml_Date.Xml_Write_Read
                     Sink_Size_Left_Distance = 24,
                     Sink_Size_R = 12,
                     Sink_Size_Width = 355,
+                            Vision_Find_Shape_ID=1,
+                      Vision_Find_ID=1,
                     Sink_Type = Sink_Type_Enum.LeftRight_One,
                     Sink_Craft =new Xml_Sink_Work_Area()
                     },
@@ -111,6 +119,8 @@ namespace HanGao.Xml_Date.Xml_Write_Read
                     Sink_Size_Left_Distance = 24,
                     Sink_Size_R = 12,
                     Sink_Size_Width = 345,
+                            Vision_Find_Shape_ID=1,
+                      Vision_Find_ID=1,
                     Sink_Type = Sink_Type_Enum.LeftRight_One,
                     Sink_Craft =new Xml_Sink_Work_Area()
                     },
@@ -127,6 +137,8 @@ namespace HanGao.Xml_Date.Xml_Write_Read
                     Sink_Size_Left_Distance = 24,
                     Sink_Size_R = 12,
                     Sink_Size_Width = 350,
+                            Vision_Find_Shape_ID=1,
+                      Vision_Find_ID=1,
                     Sink_Type = Sink_Type_Enum.LeftRight_One,
                     Sink_Craft =new Xml_Sink_Work_Area()
                     },
@@ -141,6 +153,8 @@ namespace HanGao.Xml_Date.Xml_Write_Read
                     Sink_Size_Left_Distance = 75,
                     Sink_Size_R = 12,
                     Sink_Size_Width = 365,
+                            Vision_Find_Shape_ID=1,
+                      Vision_Find_ID=1,
                     Sink_Type = Sink_Type_Enum.UpDown_One ,
                     Sink_Craft =new Xml_Sink_Work_Area()
                     },
@@ -157,6 +171,8 @@ namespace HanGao.Xml_Date.Xml_Write_Read
                     Sink_Size_Left_Distance = 75,
                     Sink_Size_R = 12,
                     Sink_Size_Width = 365,
+                            Vision_Find_Shape_ID=1,
+                      Vision_Find_ID=1,
                     Sink_Type = Sink_Type_Enum.UpDown_One,
                     Sink_Craft =new Xml_Sink_Work_Area()
                     },
@@ -174,6 +190,8 @@ namespace HanGao.Xml_Date.Xml_Write_Read
                     Sink_Size_Left_Distance = 75,
                     Sink_Size_R = 12,
                     Sink_Size_Width = 365,
+                            Vision_Find_Shape_ID=1,
+                      Vision_Find_ID=1,
                     Sink_Type = Sink_Type_Enum.UpDown_One ,
                     Sink_Craft =new Xml_Sink_Work_Area()
                     },

@@ -169,6 +169,8 @@ namespace HanGao.ViewModel
                     Sm.Sink_Left_Distance.Text = _Sink.Sink_Process.Sink_Size_Left_Distance.ToString();
                     Sm.Sink_Down_Distance.Text = _Sink.Sink_Process.Sink_Size_Down_Distance.ToString();
                     Sm.Sink_Name.Text = _Sink.Sink_Process.Sink_Model.ToString();
+                    Sm.Vision_Find_ID.Text = _Sink.Sink_Process.Vision_Find_ID.ToString();
+                    Sm.Vision_Find_Shape_ID.Text  = _Sink.Sink_Process.Vision_Find_Shape_ID.ToString();
                     UI_Sink_Type = _Sink.Sink_Process.Sink_Type;
                 }
 
@@ -195,8 +197,8 @@ namespace HanGao.ViewModel
                 _Sink.Sink_Process.Sink_Size_Down_Distance = double.Parse(Sm.Sink_Down_Distance.Text);
                 _Sink.Sink_Process.Sink_Size_Left_Distance = double.Parse(Sm.Sink_Left_Distance.Text);
                 _Sink.Sink_Process.Sink_Model = int.Parse(Sm.Sink_Name.Text);
-
-
+                _Sink.Sink_Process.Vision_Find_ID = int.Parse(Sm.Vision_Find_ID.Text);
+                _Sink.Sink_Process.Vision_Find_Shape_ID = int.Parse(Sm.Vision_Find_Shape_ID.Text);
                 //水槽类型
                 _Sink.Sink_Process.Sink_Type =UI_Sink_Type;
 

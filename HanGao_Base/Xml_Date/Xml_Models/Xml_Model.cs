@@ -37,7 +37,7 @@ namespace HanGao.Xml_Date.Xml_Models
         [XmlAttribute]
         public int Vision_Find_ID { get; set; }
         [XmlAttribute]
-        public int Vision_Find_Model { get; set; }
+        public int Vision_Find_Shape_ID { get; set; }
 
         [XmlAttribute]
         public int Sink_Model { get; set; }
