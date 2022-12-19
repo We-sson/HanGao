@@ -192,7 +192,7 @@ namespace HanGao.Model
 
 
 
-                                  Read.Loop_Real_Send(Socket_Read_List_UI);
+                                  //Read.Loop_Real_Send(Socket_Read_List_UI);
 
 
 
