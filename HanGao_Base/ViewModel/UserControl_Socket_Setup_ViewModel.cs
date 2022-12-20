@@ -131,17 +131,17 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 客户端静态属性
         /// </summary>
-        public static Socket_Setup_Models Socket_Client_Setup
-        {
-            get => _Socket_Client_Setup;
-            set
-            {
+        //public static Socket_Setup_Models Socket_Client_Setup
+        //{
+        //    get => _Socket_Client_Setup;
+        //    set
+        //    {
 
-                _Socket_Client_Setup = value;
-                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Socket_Client_Setup)));
+        //        _Socket_Client_Setup = value;
+        //        StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Socket_Client_Setup)));
 
-            }
-        }
+        //    }
+        //}
 
 
         private static Socket_Setup_Models _Socket_Server_Setup = new () 
@@ -155,17 +155,17 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 服务器静态属性
         /// </summary>
-        public static Socket_Setup_Models Socket_Server_Setup
-        {
-            get => _Socket_Server_Setup;
-            set
-            {
+        //public static Socket_Setup_Models Socket_Server_Setup
+        //{
+        //    get => _Socket_Server_Setup;
+        //    set
+        //    {
 
-                _Socket_Server_Setup = value;
-                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Socket_Server_Setup)));
+        //        _Socket_Server_Setup = value;
+        //        StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Socket_Server_Setup)));
 
-            }
-        }
+        //    }
+        //}
 
         /// <summary>
         /// 静态属性更新通知事件

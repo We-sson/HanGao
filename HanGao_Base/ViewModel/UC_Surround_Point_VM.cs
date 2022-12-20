@@ -2,7 +2,7 @@
 using static HanGao.Model.User_Steps_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static HanGao.ViewModel.UC_Surround_Direction_VM;
-using static HanGao.ViewModel.UserControl_Socket_Setup_ViewModel;
+using static HanGao.ViewModel.UC_Vision_Robot_Protocol_ViewModel;
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
@@ -215,7 +215,7 @@ namespace HanGao.ViewModel
                                        _List.Add(new Socket_Models_List()
                                        {
                                            Val_Name = User_Sink.User_Picking_Craft.User_Direction.ToString() + "[" + (int)User_Sink.User_Picking_Craft.User_Work_Area + "," + Date.Craft_Date[i].NO + "]" + "." + Name_Val,
-                                           Val_ID = Socket_Client_Setup.Read.Val_Number_ID,
+                                           Val_ID = On_Read_List.Max(_List=>_List.Val_ID)+1,
                                            Send_Area = nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data),
                                            UserObject = new KUKA_Craft_Value()
                                            { Craft_Point_NO = Date.Craft_Date[i].NO, KUKA_Craft_Type = Craft_List.Name, KUKA_Point_Type = Date.Craft_Date[i].Craft_Type, User_Direction = S, User_Work = User_Sink.User_Picking_Craft.User_Work_Area },
@@ -232,26 +232,26 @@ namespace HanGao.ViewModel
 
                }
                //发生全部集合到周期读取传送
-               Task.Run(async () =>
-               {
+               //Task.Run(async () =>
+               //{
         
 
 
                    Messenger.Send<ObservableCollection<Socket_Models_List>, string>(_List, nameof(Meg_Value_Eunm.One_List_Connect));
 
 
-                   new Thread(new ThreadStart(new Action(() =>
-                   {
-                       Socket_Client_Setup.One_Read.Cycle_Real_Send(_List);
-                   })))
-                   { IsBackground = true, Name = "Cycle_Real—KUKA" }.Start();
+                   //new Thread(new ThreadStart(new Action(() =>
+                   //{
+                   //    One_Read.Cycle_Real_Send(_List);
+                   //})))
+                   //{ IsBackground = true, Name = "Cycle_Real—KUKA" }.Start();
 
-                   await Task.Delay(500);
+                   //await Task.Delay(500);
 
                    Messenger.Send<dynamic, string>(UI_Type_Enum.Ok, nameof(Meg_Value_Eunm.Surround_Direction_State));
 
 
-               });
+               //});
 
 
 

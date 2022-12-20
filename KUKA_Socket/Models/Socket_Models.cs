@@ -23,7 +23,7 @@ namespace Soceket_KUKA.Models
         /// <summary>
         /// 接收变量基本信息
         /// </summary>
-        public Socket_Models_List Reveice_Inf { set; get; }
+        public object  Reveice_Inf { set; get; }
 
         /// <summary>
         /// 接收字节原数据
@@ -69,134 +69,35 @@ namespace Soceket_KUKA.Models
 
 
 
-    public class Socket_Models_List
+    public  class Socket_SendInfo_Model
     {
 
         /// <summary>
-        /// 存储变量值的枚举名
+        /// 接收变量用户信息
         /// </summary>
-        public Enum Value_Enum { set; get; }
-
-        /// <summary>
-        /// 库卡端的属性类型
-        /// </summary>
-        public Value_Type KUKA_Value_Enum { set; get; } = Value_Type.Null;
+        public object Reveice_Inf { set; get; }
 
 
         /// <summary>
-        /// 储存绑定双方变量名
+        /// 值名称
         /// </summary>
-        public string Bingding_Value { set; get; }
-
-        private string _Val_Name = "";
-        /// <summary> 
-        /// 变量名称
-        /// </summary>
-        public string Val_Name
-        {
-            get
-            {
-                return _Val_Name;
-            }
-            set
-            {
-                _Val_Name = value;
-            }
-        }
-
-        private string _Val_Var = "";
-        /// <summary>
-        /// 变量名称值
-        /// </summary>
-        public string Val_Var
-        {
-            get
-            {
-                if (KUKA_Value_Enum == Value_Type.Bool && _Val_Var != "")
-                {
-                    return _Val_Var.ToUpper();
-
-                    //var a = _Val_Var.ToUpper();
-                    //return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(a);
-                }
-                return _Val_Var;
-            }
-            set
-            {
-
-
-                _Val_Var = value;
-            }
-        }
-
-        private int _Val_ID=0;
-        /// <summary>
-        /// 变量名称值
-        /// </summary>
-        public int Val_ID
-        {
-            get
-            {
-                return _Val_ID;
-            }
-            set
-            {
-                _Val_ID = value;
-            }
-        }
-        private bool _Val_OnOff = true;
-        /// <summary>
-        /// 读取开启关闭
-        /// </summary>
-        public bool Val_OnOff
-        {
-            get
-            {
-                return _Val_OnOff;
-            }
-            set
-            {
-                _Val_OnOff = value;
-            }
-        }
-
-
-        public string Write_Value { set; get; } = "";
-
-
-        private double _Val_Update_Time = -1;
-        /// <summary>
-        /// 读取时间
-        /// </summary>
-        public double  Val_Update_Time
-        {
-            get
-            {
-                return _Val_Update_Time;
-            }
-            set
-            {
-                _Val_Update_Time = value;
-            }
-
-        }
-        /// <summary>
-        /// 变量名称归属地方
-        /// </summary>
-        public string Send_Area { set; get; } = string.Empty;
+        public string Var_Name { set; get; }
 
         /// <summary>
-        /// 用户选择步骤记录
+        /// 写入值值
         /// </summary>
-        //public User_Steps_Model User_Picking_Craft { set; get; }
-
-
+        public string Write_Var { set; get; }
         /// <summary>
-        /// 自定义存储属性
+        /// 值ID
         /// </summary>
-        public object UserObject { get; set; }
+        public int Var_ID { set; get; }
 
     }
+
+  
+
+
+
     /// <summary>
     /// 机器人端变量属性
     /// </summary>

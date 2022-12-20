@@ -285,7 +285,7 @@
                                              MinHeight=" 300"
                                              TextWrapping="Wrap"
                                              Background="Transparent"
-                                             BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                                             BorderBrush="{DynamicResource 全局_按钮_绿颜色}"
                                              BorderThickness="2"
                                              FontSize="16" />
 
@@ -296,10 +296,507 @@
 
                             </Grid>
 
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="85" />
+                                    <ColumnDefinition Width=" *" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="外协议IP"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                         Text="{Binding UI_IP}"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                            </Grid>
+
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="85" />
+                                    <ColumnDefinition Width=" *" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="外协议Port"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                         Text="{Binding UI_Port}"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                            </Grid>
+
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="85" />
+
+                                    <ColumnDefinition Width=" *" />
+                                    <ColumnDefinition Width=" *" />
+                                </Grid.ColumnDefinitions>
 
 
 
 
+                                <Button Grid.Column=" 1"
+                                        Margin="0,0,4,0"
+                                        Background="{DynamicResource 全局_按钮_绿颜色}">
+                                    <Button.Resources>
+                                        <TextBlock x:Key="T1"
+                                                   Text="开始连接"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                   FontSize="16"
+                                                   Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                        <TextBlock x:Key="T2"
+                                                   Text="连接服务器中......"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                   FontSize="16"
+                                                   Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                    </Button.Resources>
+                                    <Button.Style>
+                                        <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
+                                            <Setter Property="Content" Value="{StaticResource T1}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Create_Shape_ModelXld_UI_IsEnable}" Value="true">
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                    <Setter Property="Content" Value="{StaticResource T2}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+
+                                    <i:Interaction.Triggers>
+
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding Socket_Client_Connection_Comm}" PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+
+                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                        Margin="4,0,0,0"
+                                        Background="{DynamicResource 全局_按钮_灰颜色}">
+
+                                    <TextBlock Text="断开连接"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                               FontSize="16"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+
+                                    <i:Interaction.Triggers>
+
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding Socket_Close_Comm}" PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+
+
+
+
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="85" />
+                                    <ColumnDefinition Width=" *" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="变量名称"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                         Text="$OUT[1]"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                            </Grid>
+
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="85" />
+                                    <ColumnDefinition Width=" *" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="变量数值"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                         Text="False"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                            </Grid>
+
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="85" />
+
+                                    <ColumnDefinition Width=" *" />
+                                    <ColumnDefinition Width=" *" />
+                                </Grid.ColumnDefinitions>
+
+
+
+
+                                <Button Grid.Column=" 1"
+                                        Margin="0,0,4,0"
+                                        Background="{DynamicResource 全局_按钮_绿颜色}">
+                                    <Button.Resources>
+                                        <TextBlock x:Key="T1"
+                                                   Text="修改"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                   FontSize="16"
+                                                   Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                        <TextBlock x:Key="T2"
+                                                   Text="连接服务器中......"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                   FontSize="16"
+                                                   Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                    </Button.Resources>
+                                    <Button.Style>
+                                        <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
+                                            <Setter Property="Content" Value="{StaticResource T1}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Create_Shape_ModelXld_UI_IsEnable}" Value="true">
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                    <Setter Property="Content" Value="{StaticResource T2}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+
+                                    <i:Interaction.Triggers>
+
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding New_ShapeModel_Comm}" PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+
+                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                        Margin="4,0,0,0"
+                                        Background="{DynamicResource 全局_按钮_灰颜色}">
+
+                                    <TextBlock Text="取消"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                               FontSize="16"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+
+                                    <i:Interaction.Triggers>
+
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding New_ShapeModel_Comm}" PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+
+
+
+
+                            </Grid>
+
+
+
+                            <Grid Margin="8">
+                                <StackPanel Orientation="Vertical">
+
+
+                                    <TextBlock Grid.Column=" 0"
+                                               Text="循环读取变量名列表"
+                                               Margin="0,0,0,8"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Top"
+                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                               FontSize="18"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+                                    <DataGrid AlternatingRowBackground="Gainsboro"
+                                              AlternationCount="2"
+                                              AutoGenerateColumns="False"
+                                              Background="Transparent"
+                                              BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                              BorderThickness="2"
+                                              CanUserAddRows="False"
+                                              CanUserDeleteRows="False"
+                                              CanUserReorderColumns="False"
+                                              CanUserResizeColumns="False"
+                                              CanUserResizeRows="False"
+                                              CanUserSortColumns="False"
+                                              CellStyle="{DynamicResource Point_UI_DataGridCellStyle}"
+                                              ColumnHeaderHeight="40"
+                                              ColumnHeaderStyle="{DynamicResource Point_UI_DataGridColumnHeaderStyle}"
+                                              FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                              FrozenColumnCount="2"
+                                              GridLinesVisibility="Horizontal"
+                                              HeadersVisibility="Column"
+                                              ItemsSource="{Binding Socket_Read_List}"
+                                              RowHeaderWidth="0"
+                                              RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
+                                              SelectionMode="Single"
+                                              SelectionUnit="CellOrRowHeader">
+
+                                        <DataGrid.Columns>
+
+
+
+                                            <DataGridTemplateColumn Width="auto" IsReadOnly="True">
+                                                <DataGridTemplateColumn.Header>
+                                                    <Border Background="Transparent"
+                                                            BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                            BorderThickness="0,0,0,1">
+
+                                                        <TextBlock Text="序号"
+                                                                   Margin="4"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="16"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                    </Border>
+                                                </DataGridTemplateColumn.Header>
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Val_ID}"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontSize="16" />
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+
+                                            </DataGridTemplateColumn>
+
+                                            <DataGridTemplateColumn Width="auto">
+                                                <DataGridTemplateColumn.Header>
+                                                    <Border Background="Transparent"
+                                                            BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                            BorderThickness="0,0,0,1">
+
+                                                        <TextBlock Text="变量名"
+                                                                   Margin="4"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="16"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                    </Border>
+                                                </DataGridTemplateColumn.Header>
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Val_Name}"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontSize="14" />
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+
+                                            </DataGridTemplateColumn>
+
+
+                                            <DataGridTemplateColumn CanUserResize="False">
+                                                <DataGridTemplateColumn.Header>
+                                                    <Border Background="Transparent"
+                                                            BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                            BorderThickness="0,0,0,1">
+
+                                                        <TextBlock Text="变量值"
+                                                                   Margin="4"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="16"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                    </Border>
+                                                </DataGridTemplateColumn.Header>
+                                                <DataGridTemplateColumn.CellTemplate>
+
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding UI_Var}"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontSize="14" />
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+
+
+
+                                </StackPanel>
+
+
+
+                            </Grid>
+
+
+
+                            <Grid Margin="8">
+                                <StackPanel Orientation="Vertical">
+
+
+                                    <TextBlock Grid.Column=" 0"
+                                               Text="短期读取变量名列表"
+                                               Margin="0,0,0,8"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Top"
+                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                               FontSize="18"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+                                    <DataGrid AlternatingRowBackground="Gainsboro"
+                                              AlternationCount="2"
+                                              AutoGenerateColumns="False"
+                                              Background="Transparent"
+                                              BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                              BorderThickness="2"
+                                              CanUserAddRows="False"
+                                              CanUserDeleteRows="False"
+                                              CanUserReorderColumns="False"
+                                              CanUserResizeColumns="False"
+                                              CanUserResizeRows="False"
+                                              CanUserSortColumns="False"
+                                              CellStyle="{DynamicResource Point_UI_DataGridCellStyle}"
+                                              ColumnHeaderHeight="40"
+                                              ColumnHeaderStyle="{DynamicResource Point_UI_DataGridColumnHeaderStyle}"
+                                              FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                              FrozenColumnCount="2"
+                                              GridLinesVisibility="Horizontal"
+                                              HeadersVisibility="Column"
+                                              ItemsSource="{Binding On_Read_List}"
+                                              RowHeaderWidth="0"
+                                              RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
+                                              SelectionMode="Single"
+                                              SelectionUnit="CellOrRowHeader">
+
+                                        <DataGrid.Columns>
+                                            <DataGridTemplateColumn Width="auto" IsReadOnly="True">
+                                                <DataGridTemplateColumn.Header>
+                                                    <TextBlock Text="序号"
+                                                               Margin="4"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                               FontSize="16"
+                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                </DataGridTemplateColumn.Header>
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Val_ID}"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontSize="16" />
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+
+                                            </DataGridTemplateColumn>
+
+                                            <DataGridTemplateColumn Width="auto">
+                                                <DataGridTemplateColumn.Header>
+                                                    <TextBlock Text="变量名"
+                                                               Margin="4"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                               FontSize="16"
+                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                </DataGridTemplateColumn.Header>
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Val_Name}"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontSize="14" />
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+
+                                            </DataGridTemplateColumn>
+                                            <DataGridTemplateColumn CanUserResize="False">
+                                                <DataGridTemplateColumn.Header>
+                                                    <TextBlock Text="变量值"
+                                                               Margin="4"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                               FontSize="16"
+                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                </DataGridTemplateColumn.Header>
+                                                <DataGridTemplateColumn.CellTemplate>
+
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Val_Var}"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontSize="14" />
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+
+
+
+                                </StackPanel>
+
+
+
+                            </Grid>
 
 
 

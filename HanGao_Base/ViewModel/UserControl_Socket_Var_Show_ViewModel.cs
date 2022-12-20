@@ -22,131 +22,131 @@ namespace HanGao.ViewModel
 
 
 
-            Socket_Client_Setup.Read.Socket_CycleThread_delegate += (bool _Run) =>
-            {
-                if (_Run)
-                {
-                    //使用多线程读取
-                    new Thread(new ThreadStart(new Action(() =>
-                    {
-                        Socket_Client_Setup.Read.Loop_Real_Send(Socket_Read_List);
-                    })))
-                    { IsBackground = true, Name = "Loop_Real—KUKA" }.Start();
+            //Socket_Client_Setup.Read.Socket_CycleThread_delegate += (bool _Run) =>
+            //{
+            //    if (_Run)
+            //    {
+            //        //使用多线程读取
+            //        new Thread(new ThreadStart(new Action(() =>
+            //        {
+            //            Socket_Client_Setup.Read.Loop_Real_Send(Socket_Read_List);
+            //        })))
+            //        { IsBackground = true, Name = "Loop_Real—KUKA" }.Start();
 
-                }
-            };
-
-
-
-            // 接收到变量值后更新UI值
-            Socket_Client_Setup.Read.Socket_Receive_Delegate = Socket_Client_Setup.One_Read.Socket_Receive_Delegate += (Socket_Models_Receive _Receive) =>
-            {
-                Socket_Val_List_UI_Model _List;
-
-                switch (_Receive.Read_Write_Type)
-                {
-                    case Read_Write_Enum.Read:
-
-                        //Messenger.Send<Socket_Models_List, string>(_Receive.Reveice_Inf, nameof( Meg_Value_Eunm.Socket_Read_List_UI_Refresh));
-                         _List = Socket_Read_List_UI.Where(_List => _List.Val_ID == _Receive.Reveice_Inf.Val_ID).FirstOrDefault();
-
-                        Task.Run(() =>
-                        {
-                            Messenger.Send<dynamic, string>(DateTime.UtcNow.TimeOfDay.TotalMilliseconds - _Receive.Reveice_Inf.Val_Update_Time, nameof(Meg_Value_Eunm.Connter_Time_Delay_Method));
-                            //_List.Val_Update_Time = DateTime.UtcNow.TimeOfDay.TotalMilliseconds - _Receive.Reveice_Inf.Val_Update_Time;
-                            _List.Val_Var = _Receive.Reveice_Inf.Val_Var;
-
-                        });
+            //    }
+            //};
 
 
 
-                        break;
-                    case Read_Write_Enum.Write:
+            //// 接收到变量值后更新UI值
+            //Socket_Client_Setup.Read.Socket_Receive_Delegate = Socket_Client_Setup.One_Read.Socket_Receive_Delegate += (Socket_Models_Receive _Receive) =>
+            //{
+            //    Socket_Val_List_UI_Model _List;
+
+            //    switch (_Receive.Read_Write_Type)
+            //    {
+            //        case Read_Write_Enum.Read:
+
+            //            //Messenger.Send<Socket_Models_List, string>(_Receive.Reveice_Inf, nameof( Meg_Value_Eunm.Socket_Read_List_UI_Refresh));
+            //             _List = Socket_Read_List_UI.Where(_List => _List.Val_ID == _Receive.Reveice_Inf.Val_ID).FirstOrDefault();
+
+            //            Task.Run(() =>
+            //            {
+            //                Messenger.Send<dynamic, string>(DateTime.UtcNow.TimeOfDay.TotalMilliseconds - _Receive.Reveice_Inf.Val_Update_Time, nameof(Meg_Value_Eunm.Connter_Time_Delay_Method));
+            //                //_List.Val_Update_Time = DateTime.UtcNow.TimeOfDay.TotalMilliseconds - _Receive.Reveice_Inf.Val_Update_Time;
+            //                _List.Val_Var = _Receive.Reveice_Inf.Val_Var;
+
+            //            });
 
 
 
-                        break;
-                    case Read_Write_Enum.One_Read:
+            //            break;
+            //        case Read_Write_Enum.Write:
 
 
-                        //Messenger.Send<Socket_Models_List, string>(_Receive.Reveice_Inf, nameof( Meg_Value_Eunm.Socket_Read_List_UI_Refresh));
-                        _List = On_Read_List_UI.Where(_List => _List.Val_ID == _Receive.Reveice_Inf.Val_ID).FirstOrDefault();
 
-                        Task.Run(() =>
-                        {
-                            Messenger.Send<dynamic, string>(DateTime.UtcNow.TimeOfDay.TotalMilliseconds - _Receive.Reveice_Inf.Val_Update_Time, nameof(Meg_Value_Eunm.Connter_Time_Delay_Method));
-                            //_List.Val_Update_Time = DateTime.UtcNow.TimeOfDay.TotalMilliseconds - _Receive.Reveice_Inf.Val_Update_Time;
-                            _List.Val_Var = _Receive.Reveice_Inf.Val_Var;
+            //            break;
+            //        case Read_Write_Enum.One_Read:
 
-                        });
 
-                        break;
-                }
-            };
+            //            //Messenger.Send<Socket_Models_List, string>(_Receive.Reveice_Inf, nameof( Meg_Value_Eunm.Socket_Read_List_UI_Refresh));
+            //            _List = On_Read_List_UI.Where(_List => _List.Val_ID == _Receive.Reveice_Inf.Val_ID).FirstOrDefault();
+
+            //            Task.Run(() =>
+            //            {
+            //                Messenger.Send<dynamic, string>(DateTime.UtcNow.TimeOfDay.TotalMilliseconds - _Receive.Reveice_Inf.Val_Update_Time, nameof(Meg_Value_Eunm.Connter_Time_Delay_Method));
+            //                //_List.Val_Update_Time = DateTime.UtcNow.TimeOfDay.TotalMilliseconds - _Receive.Reveice_Inf.Val_Update_Time;
+            //                _List.Val_Var = _Receive.Reveice_Inf.Val_Var;
+
+            //            });
+
+            //            break;
+            //    }
+            //};
 
 
 
 
 
             // 发送内容集合接收写入
-            Messenger.Register<ObservableCollection<Socket_Models_List>, string>(this, nameof(Meg_Value_Eunm.List_Connect), (O, _List) =>
-            {
+            //Messenger.Register<ObservableCollection<Socket_Models_List>, string>(this, nameof(Meg_Value_Eunm.List_Connect), (O, _List) =>
+            //{
 
 
-                //写入集合中
-                foreach (var item in _List)
-                {
+            //    //写入集合中
+            //    foreach (var item in _List)
+            //    {
 
-                    if (!Socket_Read_List_UI.Any(l => l.Val_ID == item.Val_ID))
-                    {
-                        Application.Current.Dispatcher.Invoke((Action)(() =>
-                        {
+            //        if (!Socket_Read_List_UI.Any(l => l.Val_ID == item.Val_ID))
+            //        {
+            //            Application.Current.Dispatcher.Invoke((Action)(() =>
+            //            {
 
-                            Socket_Read_List_UI.Add(new Socket_Val_List_UI_Model() { Val_ID = item.Val_ID, Val_Name = item.Val_Name, Val_OnOff = item.Val_OnOff, Val_Var = item.Val_Var, Val_Update_Time = item.Val_Update_Time });
-                        }));
-                    }
+            //                Socket_Read_List_UI.Add(new Socket_Val_List_UI_Model() { Val_ID = item.Val_ID, Val_Name = item.Val_Name, Val_Var = item.Val_Var, Val_Update_Time = item.Val_Update_Time });
+            //            }));
+            //        }
 
-                }
+            //    }
 
-            });
-
-
-
-            ///添加周期发生库卡变量集合
-            Messenger.Register<ObservableCollection<Socket_Models_List>, string>(this, nameof(Meg_Value_Eunm.One_List_Connect), (O, _List) =>
-            {
-
-                Application.Current.Dispatcher.Invoke((Action)(() =>
-                {
-
-                    On_Read_List_UI.Clear();
-
-                }));
-                foreach (var item in _List)
-                {
-
-                    if (!On_Read_List_UI.Any(l => l.Val_Name == item.Val_Name))
-                    {
-                        Application.Current.Dispatcher.Invoke((Action)(() =>
-                        {
-
-                            On_Read_List_UI.Add(new Socket_Val_List_UI_Model() { Val_ID = item.Val_ID, Val_Name = item.Val_Name, Val_OnOff = item.Val_OnOff, Val_Var = item.Val_Var, Val_Update_Time = item.Val_Update_Time });
-                        }));
-
-
-                    }
-                }
+            //});
 
 
 
+            /////添加周期发生库卡变量集合
+            //Messenger.Register<ObservableCollection<Socket_Models_List>, string>(this, nameof(Meg_Value_Eunm.One_List_Connect), (O, _List) =>
+            //{
 
-            });
+            //    Application.Current.Dispatcher.Invoke((Action)(() =>
+            //    {
+
+            //        On_Read_List_UI.Clear();
+
+            //    }));
+            //    foreach (var item in _List)
+            //    {
+
+            //        if (!On_Read_List_UI.Any(l => l.Val_Name == item.Val_Name))
+            //        {
+            //            Application.Current.Dispatcher.Invoke((Action)(() =>
+            //            {
+
+            //                On_Read_List_UI.Add(new Socket_Val_List_UI_Model() { Val_ID = item.Val_ID, Val_Name = item.Val_Name, Val_Var = item.Val_Var, Val_Update_Time = item.Val_Update_Time });
+            //            }));
+
+
+            //        }
+            //    }
+
+
+
+
+            //});
 
 
 
 
             //发送需要读取的变量名枚举值
-            Send_KUKA_Value_List(typeof(Value_Name_enum));
+            //Send_KUKA_Value_List(typeof(Value_Name_enum));
 
 
         }
@@ -156,48 +156,48 @@ namespace HanGao.ViewModel
         /// <summary>
         /// UI界面显示周期发送变量
         /// </summary>
-        public ObservableCollection<Socket_Val_List_UI_Model> On_Read_List_UI { set; get; } = new ObservableCollection<Socket_Val_List_UI_Model>();
+        //public ObservableCollection<Socket_Val_List_UI_Model> On_Read_List_UI { set; get; } = new ObservableCollection<Socket_Val_List_UI_Model>();
 
 
 
         /// <summary>
         /// 读取库卡变量UI列表集合
         /// </summary>
-        public ObservableCollection<Socket_Val_List_UI_Model> Socket_Read_List_UI { set; get; } = new ObservableCollection<Socket_Val_List_UI_Model>();
+        //public ObservableCollection<Socket_Val_List_UI_Model> Socket_Read_List_UI { set; get; } = new ObservableCollection<Socket_Val_List_UI_Model>();
 
         /// <summary>
         /// 读取库卡变量数据列表集合
         /// </summary>
-        public ObservableCollection<Socket_Models_List> On_Read_List { set; get; } = new ObservableCollection<Socket_Models_List>();
+        //public ObservableCollection<Socket_Models_List> On_Read_List { set; get; } = new ObservableCollection<Socket_Models_List>();
 
 
 
 
 
         /// <summary>
-        /// 读取库卡变量数据列表集合
-        /// </summary>
-        public ObservableCollection<Socket_Models_List> _Socket_Read_List { set; get; } = new ObservableCollection<Socket_Models_List>();
+        ///// 读取库卡变量数据列表集合
+        ///// </summary>
+        //public ObservableCollection<Socket_Models_List> _Socket_Read_List { set; get; } = new ObservableCollection<Socket_Models_List>();
 
-        public ObservableCollection<Socket_Models_List> Socket_Read_List
-        {
+        //public ObservableCollection<Socket_Models_List> Socket_Read_List
+        //{
 
-            get
-            {
-                return _Socket_Read_List;
-            }
-            set
-            {
-                _Socket_Read_List = value;
-                //OnStaticPropertyChanged();
-                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Socket_Read_List)));
+        //    get
+        //    {
+        //        return _Socket_Read_List;
+        //    }
+        //    set
+        //    {
+        //        _Socket_Read_List = value;
+        //        //OnStaticPropertyChanged();
+        //        StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Socket_Read_List)));
 
-            }
-        }
+        //    }
+        //}
 
 
-        //定义静态属性值变化事件
-        public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
+        ////定义静态属性值变化事件
+        //public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
 
 
 
@@ -205,19 +205,19 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 侧边栏打开关闭事件命令
         /// </summary>
-        public ICommand Click_Comm
-        {
-            get => new RelayCommand<RoutedEventArgs>((Sm) =>
-            {
+        //public ICommand Click_Comm
+        //{
+        //    get => new RelayCommand<RoutedEventArgs>((Sm) =>
+        //    {
 
-                //把参数类型转换控件
-                //UIElement e = Sm.Source as UIElement;
+        //        //把参数类型转换控件
+        //        //UIElement e = Sm.Source as UIElement;
 
-                MessageBox.Show(Thread.CurrentThread.ManagedThreadId.ToString());
+        //        MessageBox.Show(Thread.CurrentThread.ManagedThreadId.ToString());
 
 
-            });
-        }
+        //    });
+        //}
 
 
         [Flags]
@@ -384,32 +384,25 @@ namespace HanGao.ViewModel
         /// 发送枚举定义库卡变量到变量显示表
         /// </summary>
         /// <param name="_Enum">定义库卡变量类型枚举</param>
-        public void Send_KUKA_Value_List(Type _Enum)
-        {
-            ObservableCollection<Socket_Models_List> _List = new ObservableCollection<Socket_Models_List>();
-            //发送需要读取的变量名枚举值
-            foreach (Enum item in Enum.GetValues(_Enum))
-            {
+        //public void Send_KUKA_Value_List(Type _Enum)
+        //{
+   
+        //    //发送需要读取的变量名枚举值
+        //    foreach (Enum item in Enum.GetValues(_Enum))
+        //    {
 
 
-                int _Val_ID = Socket_Client_Setup.Read.Val_Number_ID;
-                Socket_Read_List.Add(new Socket_Models_List() { Val_ID = _Val_ID, Val_Name = item.GetStringValue(), Send_Area = item.GetAreaValue(), Value_Enum = item, Bingding_Value = item.GetBingdingValue().BingdingValue, KUKA_Value_Enum = (Value_Type)item.GetBingdingValue().SetValueType, });
-                Socket_Read_List_UI.Add(new Socket_Val_List_UI_Model() { Val_ID = _Val_ID, Val_Name = item.GetStringValue() });
-
-            }
-
-            //WeakReferenceMessenger.Default.Send<ObservableCollection<Socket_Models_List>, string>(_List, nameof(Meg_Value_Eunm.List_Connect));
-
-        }
+        //        int _Val_ID = Socket_Client_Setup.Read.Val_Number_ID;
+        //        Socket_Read_List.Add(new Socket_Models_List() { Val_ID = _Val_ID, Val_Name = item.GetStringValue(), Send_Area = item.GetAreaValue(), Value_Enum = item, Bingding_Value = item.GetBingdingValue().BingdingValue, KUKA_Value_Enum = (Value_Type)item.GetBingdingValue().SetValueType, });
 
 
-        public void Loop_Real_Val()
-        {
+        //    }
+
+     
+        //}
 
 
 
-
-        }
 
 
 
@@ -425,172 +418,172 @@ namespace HanGao.ViewModel
     }
 
 
-    [AddINotifyPropertyChangedInterface]
-    public class Socket_Val_List_UI_Model
-    {
+    //[AddINotifyPropertyChangedInterface]
+    //public class Socket_Val_List_UI_Model
+    //{
 
 
-        private string _Val_Name = "";
-        /// <summary> 
-        /// 变量名称
-        /// </summary>
-        public string Val_Name
-        {
-            get
-            {
-                return _Val_Name;
-            }
-            set
-            {
-                _Val_Name = value;
-            }
-        }
+    //    private string _Val_Name = "";
+    //    /// <summary> 
+    //    /// 变量名称
+    //    /// </summary>
+    //    public string Val_Name
+    //    {
+    //        get
+    //        {
+    //            return _Val_Name;
+    //        }
+    //        set
+    //        {
+    //            _Val_Name = value;
+    //        }
+    //    }
 
-        private string _Val_Var = "";
-        /// <summary>
-        /// 变量名称值
-        /// </summary>
-        public string Val_Var
-        {
-            get
-            {
+    //    private string _Val_Var = "";
+    //    /// <summary>
+    //    /// 变量名称值
+    //    /// </summary>
+    //    public string Val_Var
+    //    {
+    //        get
+    //        {
 
-                return _Val_Var;
-            }
-            set
-            {
-                _Val_Var = value;
-            }
-        }
+    //            return _Val_Var;
+    //        }
+    //        set
+    //        {
+    //            _Val_Var = value;
+    //        }
+    //    }
 
-        private int _Val_ID = 0;
-        /// <summary>
-        /// 变量名称值
-        /// </summary>
-        public int Val_ID
-        {
-            get
-            {
-                return _Val_ID;
-            }
-            set
-            {
-                _Val_ID = value;
-            }
-        }
-        private bool _Val_OnOff = true;
-        /// <summary>
-        /// 读取开启关闭
-        /// </summary>
-        public bool Val_OnOff
-        {
-            get
-            {
-                return _Val_OnOff;
-            }
-            set
-            {
-                _Val_OnOff = value;
-            }
-        }
-
-
-        private double _Val_Update_Time = -1;
-        /// <summary>
-        /// 读取时间
-        /// </summary>
-        public double Val_Update_Time
-        {
-            get
-            {
-                return _Val_Update_Time;
-            }
-            set
-            {
-                _Val_Update_Time = value;
-            }
-
-        }
-
-        /// <summary>
-        /// 变量名称归属地方
-        /// </summary>
-        public string Send_Area { set; get; } = string.Empty;
+    //    private int _Val_ID = 0;
+    //    /// <summary>
+    //    /// 变量名称值
+    //    /// </summary>
+    //    public int Val_ID
+    //    {
+    //        get
+    //        {
+    //            return _Val_ID;
+    //        }
+    //        set
+    //        {
+    //            _Val_ID = value;
+    //        }
+    //    }
+    //    private bool _Val_OnOff = true;
+    //    /// <summary>
+    //    /// 读取开启关闭
+    //    /// </summary>
+    //    public bool Val_OnOff
+    //    {
+    //        get
+    //        {
+    //            return _Val_OnOff;
+    //        }
+    //        set
+    //        {
+    //            _Val_OnOff = value;
+    //        }
+    //    }
 
 
+    //    private double _Val_Update_Time = -1;
+    //    /// <summary>
+    //    /// 读取时间
+    //    /// </summary>
+    //    public double Val_Update_Time
+    //    {
+    //        get
+    //        {
+    //            return _Val_Update_Time;
+    //        }
+    //        set
+    //        {
+    //            _Val_Update_Time = value;
+    //        }
 
-        /// <summary>
-        /// 自定义存储属性
-        /// </summary>
-        public object UserObject { get; set; }
+    //    }
 
-
-    }
+    //    /// <summary>
+    //    /// 变量名称归属地方
+    //    /// </summary>
+    //    public string Send_Area { set; get; } = string.Empty;
 
 
 
-
-    public class User_Steps_Model
-    {
-
-
-        public User_Steps_Model()
-        {
-
-        }
+    //    /// <summary>
+    //    /// 自定义存储属性
+    //    /// </summary>
+    //    public object UserObject { get; set; }
 
 
-        /// <summary>
-        /// 用户选择工作区域
-        /// </summary>
-        public Work_No_Enum User_Work_Area { set; get; }
-        /// <summary>
-        /// 用户选择工艺
-        /// </summary>
-        public User_Craft_Enum User_Welding_Craft { set; get; }
-
-        /// <summary>
-        /// 用户选择工艺区域
-        /// </summary>
-        public Direction_Enum User_Direction { set; get; }
-        /// <summary>
-        /// 用户选择工艺号数
-        /// </summary>
-        public int User_Welding_Craft_ID { set; get; }
-
-
-
-        /// <summary>
-        /// 工作区号数
-        /// </summary>
-        public enum Work_No_Enum
-        {
-            N1 = 1,
-            N2
-        }
-
-        public enum User_Craft_Enum
-        {
-            Null,
-            Sink_Surround_Craft,
-            Sink_ShortSide_Craft,
-
-        }
-
-
-        public enum Weld_Craft_Enum
-        {
-            Sink_Surround_Craft = 1,
-            Short_Side_Craft,
-            Spot_Welding_Craft,
-        }
+    //}
 
 
 
 
+    //public class User_Steps_Model
+    //{
+
+
+    //    public User_Steps_Model()
+    //    {
+
+    //    }
+
+
+    //    ///// <summary>
+    //    ///// 用户选择工作区域
+    //    ///// </summary>
+    //    //public Work_No_Enum User_Work_Area { set; get; }
+    //    ///// <summary>
+    //    ///// 用户选择工艺
+    //    ///// </summary>
+    //    //public User_Craft_Enum User_Welding_Craft { set; get; }
+
+    //    ///// <summary>
+    //    ///// 用户选择工艺区域
+    //    ///// </summary>
+    //    //public Direction_Enum User_Direction { set; get; }
+    //    ///// <summary>
+    //    ///// 用户选择工艺号数
+    //    ///// </summary>
+    //    //public int User_Welding_Craft_ID { set; get; }
 
 
 
-    }
+    //    ///// <summary>
+    //    ///// 工作区号数
+    //    ///// </summary>
+    //    //public enum Work_No_Enum
+    //    //{
+    //    //    N1 = 1,
+    //    //    N2
+    //    //}
+
+    //    //public enum User_Craft_Enum
+    //    //{
+    //    //    Null,
+    //    //    Sink_Surround_Craft,
+    //    //    Sink_ShortSide_Craft,
+
+    //    //}
+
+
+    //    //public enum Weld_Craft_Enum
+    //    //{
+    //    //    Sink_Surround_Craft = 1,
+    //    //    Short_Side_Craft,
+    //    //    Spot_Welding_Craft,
+    //    //}
+
+
+
+
+
+
+
+    //}
 
 }

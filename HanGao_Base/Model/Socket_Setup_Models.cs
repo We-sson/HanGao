@@ -78,6 +78,9 @@ namespace HanGao.Model
         /// </summary>
         public Socket_Connect Write { set; get; } 
 
+
+
+
         /// <summary>
         /// 循环读取TCP对象
         /// </summary>
@@ -153,107 +156,107 @@ namespace HanGao.Model
 
         #region 命令
 
-        /// <summary>
-        /// Socket连接事件命令
-        /// </summary>
-        public ICommand Socket_Client_Connection_Comm
-        {
-            get => new RelayCommand<UserControl_Socket_Conntec_UI>( (Sm) =>
-          {
+        ///// <summary>
+        ///// Socket连接事件命令
+        ///// </summary>
+        //public ICommand Socket_Client_Connection_Comm
+        //{
+        //    get => new RelayCommand<UserControl_Socket_Conntec_UI>( (Sm) =>
+        //  {
 
 
 
-                      switch (Connect_Socket_Type)
-                      {
-                          case Socket_Type.Client:
+        //              switch (Connect_Socket_Type)
+        //              {
+        //                  case Socket_Type.Client:
 
-                      //Socket_Client_Setup.Read.Socket_Client_Thread(  Socket_Client_Type.Synchronized,Read_Write_Enum.Read, IP, Port);
+        //              //Socket_Client_Setup.Read.Socket_Client_Thread(  Socket_Client_Type.Synchronized,Read_Write_Enum.Read, IP, Port);
                      
-                      //设置连接对象信息和回调方法和连接状态
-                      Read.KUKA_IP = IP;
-                      Read.KUKA_Port = Port;
-                      Write.KUKA_IP = IP;
-                      Write.KUKA_Port = Port;
-                      One_Read.KUKA_IP = IP;
-                      One_Read.KUKA_Port = Port;
-                      //Read.Socket_CycleThread_delegate(true);
+        //              //设置连接对象信息和回调方法和连接状态
+        //              Read.KUKA_IP = IP;
+        //              Read.KUKA_Port = Port;
+        //              Write.KUKA_IP = IP;
+        //              Write.KUKA_Port = Port;
+        //              One_Read.KUKA_IP = IP;
+        //              One_Read.KUKA_Port = Port;
+        //              //Read.Socket_CycleThread_delegate(true);
 
 
 
 
 
-                      //Messenger.Send<dynamic , string>(true, nameof( Meg_Value_Eunm.Socket_Read_List_UI_Thread));
+        //              //Messenger.Send<dynamic , string>(true, nameof( Meg_Value_Eunm.Socket_Read_List_UI_Thread));
 
 
 
-                      //使用多线程读取
-                      new Thread(new ThreadStart(new Action(() =>
-                              {
+        //              //使用多线程读取
+        //              new Thread(new ThreadStart(new Action(() =>
+        //                      {
 
 
 
-                                  //Read.Loop_Real_Send(Socket_Read_List_UI);
+        //                          Read.Loop_Real_Send(Socket_Read_List_UI);
 
 
 
-                              })))
-                      { IsBackground = true, Name = "Loop_Real—KUKA" }.Start();
+        //                      })))
+        //              { IsBackground = true, Name = "Loop_Real—KUKA" }.Start();
 
 
-                      //读取用多线程连接
-                      //Socket_Connect_Thread = new Thread(() => Receive_Read_Theam()) { Name = "kuka_ver_loopread", IsBackground = true };
-                      //Socket_Connect_Thread.Start();
+        //              //读取用多线程连接
+        //              //Socket_Connect_Thread = new Thread(() => Receive_Read_Theam()) { Name = "kuka_ver_loopread", IsBackground = true };
+        //              //Socket_Connect_Thread.Start();
 
 
-                      break;
-                          case Socket_Type.Server:
-                              Sever.Socket_Server_KUKA();
-                              break;
+        //              break;
+        //                  case Socket_Type.Server:
+        //                      Sever.Socket_Server_KUKA();
+        //                      break;
 
-                      }
+        //              }
     
 
-          });
-        }
+        //  });
+        //}
 
 
-        /// <summary>
-        /// Socket关闭事件命令
-        /// </summary>
-        public ICommand Socket_Close_Comm
-        {
-            get => new RelayCommand<UserControl_Socket_Conntec_UI>( (Sm) =>
-           {
-                Task.Run(() =>
-              {
-                  //把参数类型转换控件
-                  //UIElement e = Sm.Source as UIElement;
+        ///// <summary>
+        ///// Socket关闭事件命令
+        ///// </summary>
+        //public ICommand Socket_Close_Comm
+        //{
+        //    get => new RelayCommand<UserControl_Socket_Conntec_UI>( (Sm) =>
+        //   {
+        //        Task.Run(() =>
+        //      {
+        //          //把参数类型转换控件
+        //          //UIElement e = Sm.Source as UIElement;
 
 
-                  Application.Current.Dispatcher.Invoke(() =>
-                  {
-                      //把参数类型转换控件
+        //          Application.Current.Dispatcher.Invoke(() =>
+        //          {
+        //              //把参数类型转换控件
 
 
               
 
 
-                      switch (Connect_Socket_Type)
-                      {
-                          case Socket_Type.Client:
-                              Read.Is_Connect_Client = false;
-                              //User_Log_Add("用户退出读取连接！");
-                              break;
-                          case Socket_Type.Server:
-                              Sever.Socket_Server_Stop();
-                              break;
-                      }
-                      //创建连接
+        //              switch (Connect_Socket_Type)
+        //              {
+        //                  case Socket_Type.Client:
+        //                      Read.Is_Connect_Client = false;
+        //                      //User_Log_Add("用户退出读取连接！");
+        //                      break;
+        //                  case Socket_Type.Server:
+        //                      Sever.Socket_Server_Stop();
+        //                      break;
+        //              }
+        //              //创建连接
 
-                  });
-              });
-           });
-        }
+        //          });
+        //      });
+        //   });
+        //}
 
 
 

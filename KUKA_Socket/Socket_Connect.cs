@@ -64,7 +64,7 @@ namespace Soceket_Connect
         /// <summary>
         /// 开启多线程连接委托
         /// </summary>
-        public Socket_T_delegate<bool> Socket_CycleThread_delegate { set; get; }
+        //public Socket_T_delegate<bool> Socket_CycleThread_delegate { set; get; }
 
 
         /// <summary>
@@ -113,26 +113,15 @@ namespace Soceket_Connect
         /// <summary>
         /// 设置IP
         /// </summary>
-        private string _IP;
-
-        public string KUKA_IP
-        {
-            get { return _IP; }
-            set { _IP = value; }
-        }
+        public string Connect_IP { set; get; }
 
 
 
         /// <summary>
         /// 设置端口
         /// </summary>
-        private string _Port;
+        public string Connect_Port { set; get; }
 
-        public string KUKA_Port
-        {
-            get { return _Port; }
-            set { _Port = value; }
-        }
 
 
         //private static int _Write_Number_ID = 0;
@@ -259,47 +248,7 @@ namespace Soceket_Connect
         }
 
 
-        /// <summary>
-        /// 线程连接方式
-        /// </summary>
-        /// <param name="_Enum"></param>
-        /// <param name="_IP"></param>
-        /// <param name="_Port"></param>
-        private void Socket_Client_Thread(Socket_Client_Type _Enum, Read_Write_Enum R_W_Enum)
-        {
 
-
-
-
-            switch (_Enum)
-            {
-                case Socket_Client_Type.Synchronized:
-
-                    Socket_Client_KUKA(R_W_Enum);
-
-                    break;
-                case Socket_Client_Type.Asynchronous:
-
-                    Task.Run(async () =>
-                    {
-
-                        //写入同步线程连接
-                        Socket_Client_KUKA(R_W_Enum);
-
-                        await Task.Delay(5);
-
-                    });
-
-                    break;
-
-                case Socket_Client_Type.Thread:
-                    //读取用多线程连接
-                    new Thread(() => Socket_Client_KUKA(R_W_Enum)) { Name = "Connect—KUKA", IsBackground = true }.Start();
-
-                    break;
-            }
-
-        }
 
 
         /// <summary>
@@ -316,7 +265,7 @@ namespace Soceket_Connect
 
 
             //设置读写IP
-            IP = new IPEndPoint(IPAddress.Parse(KUKA_IP), int.Parse(KUKA_Port));
+            IP = new IPEndPoint(IPAddress.Parse(Connect_IP), int.Parse(Connect_Port));
 
 
 
@@ -527,7 +476,7 @@ namespace Soceket_Connect
                 if (Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.Read || Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.One_Read)
                 {
 
-                    _Receive.Reveice_Inf.Val_Var = Socket_KUKA_Receive.Receive_Byte.Message_Show;
+                    //_Receive.Reveice_Inf.Val_Var = Socket_KUKA_Receive.Receive_Byte.Message_Show;
 
 
                     //传送委托到声明位置
@@ -662,7 +611,7 @@ namespace Soceket_Connect
         /// 周期写入
         /// </summary>
         /// <param name="Sml"></param>
-        public void Cycle_Write_Send(string _ValName, string _WriteVar)
+        public void Cycle_Write_Send(string _ValName, string _WriteVar, int _ID)
         {
 
             lock (Socket_KUKA_Receive)
@@ -670,10 +619,12 @@ namespace Soceket_Connect
 
                 Write_Lock.EnterWriteLock();
 
-                Socket_Models_List Sml = new Socket_Models_List() { Val_ID = 1000, Val_Name = _ValName, Write_Value = _WriteVar };
-                Socket_KUKA_Receive = new Socket_Models_Receive() { Send_Byte = Write_Var_To_Byte(Sml), Read_Write_Type = Read_Write_Enum.Write, Reveice_Inf = Sml };
+                //Socket_Models_List Sml = new Socket_Models_List() { Val_ID = 1000, Val_Name = _ValName, Write_Value = _WriteVar };
+
+                Socket_KUKA_Receive = new Socket_Models_Receive() { Send_Byte = Write_Var_To_Byte(_WriteVar, _ValName,_ID), Read_Write_Type = Read_Write_Enum.Write };
                 //创建连接
-                Socket_Client_Thread(Socket_Client_Type.Synchronized, Read_Write_Enum.Write);
+                Socket_Client_KUKA(Read_Write_Enum.Write);
+         
 
                 if (Global_Socket_Write.Connected || Is_Connect_Client)
                 {
@@ -702,7 +653,7 @@ namespace Soceket_Connect
         /// 读取变量周期方法
         /// </summary>
         /// <param name="Sml">周期传输集合</param>
-        public void Cycle_Real_Send (ObservableCollection<Socket_Models_List> Sml)
+        public void Cycle_Real_Send (List <Socket_SendInfo_Model> Sml)
         {
 
 
@@ -710,23 +661,26 @@ namespace Soceket_Connect
             lock (Socket_KUKA_Receive)
             {
                 Socket_KUKA_Receive = new Socket_Models_Receive();
-                Socket_Client_Thread(Socket_Client_Type.Synchronized, Read_Write_Enum.One_Read);
+                Socket_Client_KUKA(Read_Write_Enum.One_Read);
 
+         
 
                 if (Global_Socket_Read.Connected)
                 {
 
                     //发生集合内的对象
-                    for (int i = 0; i < Sml.Count; i++)
+                    foreach (var item in Sml)
                     {
 
 
-                        Socket_KUKA_Receive = new Socket_Models_Receive() { Send_Byte = Read_Var_To_Byte(Sml[i]), Read_Write_Type = Read_Write_Enum.One_Read, Reveice_Inf = Sml[i] };
+
+                        Socket_KUKA_Receive = new Socket_Models_Receive() { Send_Byte = Read_Var_To_Byte(item.Var_Name, item.Var_ID), Read_Write_Type = Read_Write_Enum.One_Read, Reveice_Inf = item.Reveice_Inf };
 
                         Socket_Send_Message_Method(Socket_KUKA_Receive);
 
 
                     }
+               
 
 
                     // 关闭连接
@@ -740,7 +694,7 @@ namespace Soceket_Connect
         /// 读取变量循环方法
         /// </summary>
         /// <param name="Sml"></param>
-        public void Loop_Real_Send(ObservableCollection<Socket_Models_List> Socket_Read_List)
+        public void Loop_Real_Send(List<Socket_SendInfo_Model> Socket_Read_List)
         {
             //加锁
             lock (Socket_KUKA_Receive)
@@ -749,7 +703,7 @@ namespace Soceket_Connect
                 Socket_KUKA_Receive = new Socket_Models_Receive();
 
 
-                Socket_Client_Thread(Socket_Client_Type.Synchronized, Read_Write_Enum.One_Read);
+                Socket_Client_KUKA( Read_Write_Enum.Read);
 
 
                 do
@@ -760,13 +714,14 @@ namespace Soceket_Connect
 
 
                     //发生集合内的对象
-                    for (int i = 0; i < Socket_Read_List.Count; i++)
+                    foreach (var item in Socket_Read_List)
                     {
 
+
                         //获得当前时间
-                        Socket_Read_List[i].Val_Update_Time = DateTime.UtcNow.TimeOfDay.TotalMilliseconds;
+                        //Socket_Read_List[i].Val_Update_Time = DateTime.UtcNow.TimeOfDay.TotalMilliseconds;
                         //装箱
-                        Socket_KUKA_Receive = new Socket_Models_Receive() { Send_Byte = Read_Var_To_Byte(Socket_Read_List[i]), Read_Write_Type = Read_Write_Enum.Read, Reveice_Inf = Socket_Read_List[i] };
+                        Socket_KUKA_Receive = new Socket_Models_Receive() { Send_Byte = Read_Var_To_Byte(item.Var_Name, item.Var_ID), Read_Write_Type = Read_Write_Enum.Read, Reveice_Inf = item.Reveice_Inf };
                         if (Is_Connect_Client)
                         {
 
@@ -777,6 +732,7 @@ namespace Soceket_Connect
 
 
                     }
+                    
 
                 } while (Is_Connect_Client);
 
@@ -843,7 +799,7 @@ namespace Soceket_Connect
             }
             else if (Smr.Receive_Byte.Byte_Return_Tpye == 1 && Smr.Receive_Byte.Byte_Write_Type == 0)
             {
-                Socket_ErrorInfo_delegate(Smr.Reveice_Inf.Val_Name + " = " + Smr.Receive_Byte.Message_Show);
+                Socket_ErrorInfo_delegate(Smr.Receive_Byte.Message_Show);
                 Socket_ErrorInfo_delegate(" 变量值写入失败！");
 
 
@@ -860,7 +816,7 @@ namespace Soceket_Connect
         /// <param name="_var">读取名称</param>
         /// <param name="_ID">ID号</param>
         /// <returns></returns>
-        private byte[] Read_Var_To_Byte(Socket_Models_List Var)
+        private byte[] Read_Var_To_Byte(string Val_Name, int Val_ID)
         {
 
 
@@ -870,13 +826,13 @@ namespace Soceket_Connect
             //临时存放变量
             List<byte> _data = new List<byte>();
             //变量转换byte
-            byte[] _v = Encoding.Default.GetBytes(Var.Val_Name);
+            byte[] _v = Encoding.Default.GetBytes(Val_Name);
 
 
             //传输数据排列，固定顺序不可修改
 
             //传输数据唯一标识
-            _data.AddRange(Send_number_ID(Var.Val_ID));
+            _data.AddRange(Send_number_ID(Val_ID));
             //传输数据总长度值
             _data.AddRange(Send_number_ID(_v.Length + 3));
             //读取标识 0x00 
@@ -901,7 +857,7 @@ namespace Soceket_Connect
         /// </summary>
         /// <param name="_name">写入变量名</param>
         /// <param name="_var">写入变量值</param>
-        private byte[] Write_Var_To_Byte(Socket_Models_List Var)
+        private byte[] Write_Var_To_Byte(string Write_Value, string Val_Name, int Val_ID)
         {
 
 
@@ -911,13 +867,13 @@ namespace Soceket_Connect
             //临时存放变量
             List<byte> _data = new List<byte>();
             //变量转换byte
-            byte[] _v = Encoding.Default.GetBytes(Var.Write_Value);
-            byte[] _n = Encoding.Default.GetBytes(Var.Val_Name);
+            byte[] _v = Encoding.Default.GetBytes(Write_Value);
+            byte[] _n = Encoding.Default.GetBytes(Val_Name);
 
             //传输数据排列，固定顺序不可修改
 
             //传输数据唯一标识
-            _data.AddRange(Send_number_ID(Var.Val_ID));
+            _data.AddRange(Send_number_ID(Val_ID));
             //传输数据总长度值
             _data.AddRange(Send_number_ID(_n.Length + _v.Length + 5));
             //写入标识 0x01

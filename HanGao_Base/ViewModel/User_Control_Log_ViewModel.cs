@@ -16,7 +16,7 @@ namespace HanGao.ViewModel
 
 
             //报错信息传递
-            Socket_Client_Setup.Read.Socket_ErrorInfo_delegate += User_Log_Add;
+            //Socket_Client_Setup.Read.Socket_ErrorInfo_delegate += User_Log_Add;
 
 
 
