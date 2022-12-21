@@ -403,6 +403,12 @@ namespace Soceket_Connect
         /// <param name="ar">Socket属性</param>
         private void Socke_Receive_Message(IAsyncResult ar)
         {
+
+            lock (ar)
+            {
+
+            
+
             //传入参数转换
             Socket_Models_Receive _Receive = ar.AsyncState as Socket_Models_Receive;
 
@@ -507,9 +513,9 @@ namespace Soceket_Connect
 
 
 
-
-
         }
+
+    }
 
 
 
@@ -519,6 +525,12 @@ namespace Soceket_Connect
         /// </summary>
         private void Socket_Send_Message_Method(Socket_Models_Receive _S)
         {
+
+            lock (_S)
+            {
+
+            
+
 
 
             Byte[] Message = _S.Send_Byte;
@@ -571,6 +583,7 @@ namespace Soceket_Connect
 
             }
 
+        }
         }
 
 
