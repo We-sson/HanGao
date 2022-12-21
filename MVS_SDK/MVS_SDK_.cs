@@ -491,7 +491,11 @@ namespace MVS_SDK
         }
 
 
-
+        /// <summary>
+        /// 获得相机信息方法
+        /// </summary>
+        /// <param name="_Info"></param>
+        /// <returns></returns>
         public bool Get_Camrea_Info_Method(ref MVS_Camera_Info_Model _Info)
         {
             foreach (PropertyInfo _Type in _Info.GetType().GetProperties())

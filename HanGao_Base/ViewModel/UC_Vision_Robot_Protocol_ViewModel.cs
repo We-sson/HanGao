@@ -32,12 +32,16 @@ namespace HanGao.ViewModel
                     case Read_Write_Enum.Read:
 
                         //Messenger.Send<Socket_Models_List, string>(_Receive.Reveice_Inf, nameof( Meg_Value_Eunm.Socket_Read_List_UI_Refresh));
-                        _List = Socket_Read_List.Where(_List => _List.Val_ID == _Rece_Info.Val_ID).FirstOrDefault();
+                        _List = Socket_Read_List.Where(_List => _List.Val_ID == _Rece_Info.Val_ID).FirstOrDefault(_Li =>
+                        {
+                            _Li.Val_Var = _Receive.Receive_Var;
+                            return true;
+                        }) ;
 
              
-                            Messenger.Send<dynamic, string>(DateTime.UtcNow.TimeOfDay.TotalMilliseconds - _Rece_Info.Val_Update_Time, nameof(Meg_Value_Eunm.Connter_Time_Delay_Method));
+                            //Messenger.Send<dynamic, string>(DateTime.UtcNow.TimeOfDay.TotalMilliseconds - _Rece_Info.Val_Update_Time, nameof(Meg_Value_Eunm.Connter_Time_Delay_Method));
                             //_List.Val_Update_Time = DateTime.UtcNow.TimeOfDay.TotalMilliseconds - _Receive.Reveice_Inf.Val_Update_Time;
-                            _List.Val_Var = _Rece_Info.Val_Var;
+                            //_List.Val_Var = _Rece_Info.Val_Var;
                   
              
 
@@ -53,13 +57,19 @@ namespace HanGao.ViewModel
 
 
                         //Messenger.Send<Socket_Models_List, string>(_Receive.Reveice_Inf, nameof( Meg_Value_Eunm.Socket_Read_List_UI_Refresh));
-                        _List = On_Read_List.Where(_List => _List.Val_ID == _Rece_Info.Val_ID).FirstOrDefault();
+                        _List = On_Read_List.Where(_List => _List.Val_ID == _Rece_Info.Val_ID).FirstOrDefault(_Li =>
+                        {
+                            _Li.Val_Var = _Receive.Receive_Var;
+
+                            return true;
+
+                        });
 
                      
-                            Messenger.Send<dynamic, string>(DateTime.UtcNow.TimeOfDay.TotalMilliseconds - _Rece_Info.Val_Update_Time, nameof(Meg_Value_Eunm.Connter_Time_Delay_Method));
+                            //Messenger.Send<dynamic, string>(DateTime.UtcNow.TimeOfDay.TotalMilliseconds - _Rece_Info.Val_Update_Time, nameof(Meg_Value_Eunm.Connter_Time_Delay_Method));
                             //_List.Val_Update_Time = DateTime.UtcNow.TimeOfDay.TotalMilliseconds - _Receive.Reveice_Inf.Val_Update_Time;
                             _List.Val_Var = _Rece_Info.Val_Var;
-                            _List.UI_Var = _Rece_Info.Val_Var; 
+                      
 
                    
 
@@ -72,11 +82,17 @@ namespace HanGao.ViewModel
             Messenger.Register<ObservableCollection<Socket_Models_List>, string>(this, nameof(Meg_Value_Eunm.One_List_Connect), (O, _List) =>
             {
 
-             
+                Application.Current.Dispatcher.Invoke(() =>
+                {
 
-               On_Read_List.Clear();
+
+                On_Read_List.Clear();
 
                 On_Read_List = _List;
+                    //清楚相机UI列表
+                    
+
+                });
 
                 List<Socket_SendInfo_Model >_SendInfo = new List<Socket_SendInfo_Model>();
                 foreach (var item in _List)
@@ -85,7 +101,8 @@ namespace HanGao.ViewModel
                     _SendInfo.Add(new Socket_SendInfo_Model() { Reveice_Inf = item, Var_ID = item.Val_ID, Var_Name = item.Val_Name, Write_Var = item.Write_Value });
                 
                 }
-
+                One_Read.Connect_IP = UI_IP;
+                One_Read.Connect_Port= UI_Port;
                 new Thread(new ThreadStart(new Action(() =>
                 {
                     One_Read.Cycle_Real_Send(_SendInfo);
@@ -209,7 +226,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 单次TCP对象
         /// </summary>
-        public static  Socket_Connect One_Read { set; get; }=new Socket_Connect();
+        public   Socket_Connect One_Read { set; get; }=new Socket_Connect();
 
         /// <summary>
         /// UI IP显示
@@ -239,7 +256,7 @@ namespace HanGao.ViewModel
                  _Val_ID = Socket_Read_List.Max(_M => _M.Val_ID) + 1;
 
                 }
-                Socket_Read_List.Add(new Socket_Models_List() { Val_ID = _Val_ID, UI_Var="....." ,Val_Name = item.GetStringValue(), Send_Area = item.GetAreaValue(), Value_Enum = item, Bingding_Value = item.GetBingdingValue().BingdingValue, KUKA_Value_Enum = (Value_Type)item.GetBingdingValue().SetValueType, });
+                Socket_Read_List.Add(new Socket_Models_List() { Val_ID = _Val_ID,  Val_Var="....." ,Val_Name = item.GetStringValue(), Send_Area = item.GetAreaValue(), Value_Enum = item, Bingding_Value = item.GetBingdingValue().BingdingValue, KUKA_Value_Enum = (Value_Type)item.GetBingdingValue().SetValueType, });
 
 
             }
@@ -361,7 +378,7 @@ namespace HanGao.ViewModel
             }
         }
 
-        public string UI_Var { set; get; } = "";
+        //public string UI_Var { set; get; } = "";
 
         /// <summary>
         /// 变量名称值

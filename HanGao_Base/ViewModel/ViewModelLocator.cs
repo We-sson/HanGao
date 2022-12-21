@@ -41,11 +41,11 @@ namespace HanGao.ViewModelLocator
                     .AddScoped<User_Control_Show>()
                     .AddScoped<Home_ViewModel>()
                     .AddScoped<IP_Text_Error>()
-                    .AddScoped<User_Control_Working_Path_VM>()
-                    .AddScoped<UserControl_Socket_Setup_ViewModel>()
-                    .AddScoped<UserControl_Sideber_Show_ViewModel>()
-                    .AddScoped<UserControl_Socket_Write_ViewModel>()
-                    .AddScoped<UserControl_Socket_Var_Show_ViewModel>()
+                    //.AddScoped<User_Control_Working_Path_VM>()
+                    //.AddScoped<UserControl_Socket_Setup_ViewModel>()
+                    //.AddScoped<UserControl_Sideber_Show_ViewModel>()
+                    //.AddScoped<UserControl_Socket_Write_ViewModel>()
+                    //.AddScoped<UserControl_Socket_Var_Show_ViewModel>()
                     .AddScoped<UC_Pop_Ups_VM>()
                     .AddScoped<UC_Sink_Size_VM>()
                     .AddScoped<UC_Sink_Type_VM>()
@@ -74,10 +74,10 @@ namespace HanGao.ViewModelLocator
 
 
         public MainWindow MainWindow => Ioc.Default.GetService<MainWindow>();
-        public User_Control_Working_Path_VM User_Control_Working_Path_VM => Ioc.Default.GetService<User_Control_Working_Path_VM>();
-        public UserControl_Sideber_Show_ViewModel Sideber_Show => Ioc.Default.GetService<UserControl_Sideber_Show_ViewModel>();
-        public UserControl_Socket_Write_ViewModel Socket_Write => Ioc.Default.GetService<UserControl_Socket_Write_ViewModel>();
-        public UserControl_Socket_Var_Show_ViewModel Socket_Var_Show => Ioc.Default.GetService<UserControl_Socket_Var_Show_ViewModel>();
+        //public User_Control_Working_Path_VM User_Control_Working_Path_VM => Ioc.Default.GetService<User_Control_Working_Path_VM>();
+        //public UserControl_Sideber_Show_ViewModel Sideber_Show => Ioc.Default.GetService<UserControl_Sideber_Show_ViewModel>();
+        //public UserControl_Socket_Write_ViewModel Socket_Write => Ioc.Default.GetService<UserControl_Socket_Write_ViewModel>();
+        //public UserControl_Socket_Var_Show_ViewModel Socket_Var_Show => Ioc.Default.GetService<UserControl_Socket_Var_Show_ViewModel>();
         public User_Control_Log_ViewModel User_Log => Ioc.Default.GetService<User_Control_Log_ViewModel>();
         public FrameShow FrameShow => Ioc.Default.GetService<FrameShow>();
         public List_Show List_Show => Ioc.Default.GetService<List_Show>();

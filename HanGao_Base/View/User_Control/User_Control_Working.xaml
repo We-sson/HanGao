@@ -13,7 +13,7 @@
              DataContext="{Binding Source={StaticResource Locator}, Path=User_Control_Working_VM.UC_Working_VM_N2}"
              mc:Ignorable="d">
     <Grid x:Name="GD1" Grid.Row="0" Grid.Column="0"
-          Margin="5"
+          Margin="0"
           ShowGridLines="False">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.15*" />

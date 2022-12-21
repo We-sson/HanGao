@@ -296,8 +296,13 @@ namespace HanGao.ViewModel
                 }
                 else
                 {
+
+
                     //取消加载水槽
                     Messenger.Send<Working_Area_Data, string>(new Working_Area_Data() { User_Sink = null, Working_Area_UI = new Working_Area_UI_Model() { Load_UI_Work = User_Area } }, nameof(Meg_Value_Eunm.UI_Work));
+
+                    Application.Current.Dispatcher.Invoke(() => { e.IsChecked = false; });
+
 
                 }
 

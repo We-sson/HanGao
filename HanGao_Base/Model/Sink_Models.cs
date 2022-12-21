@@ -185,6 +185,8 @@ namespace HanGao.Model
         /// </summary>
         public bool List_IsChecked_2 { set; get; } = false;
 
+
+
         public UI_Type_Enum UI_Checked_Type_1 { set; get; } = UI_Type_Enum.Ok;
         public UI_Type_Enum UI_Checked_Type_2 { set; get; } = UI_Type_Enum.Ok;
 

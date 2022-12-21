@@ -173,7 +173,7 @@ namespace HanGao.ViewModel
 
 
                ObservableCollection<Socket_Models_List> _List = new ObservableCollection<Socket_Models_List>();
-
+               int _ID = 0;
 
                ///获取用户选择步骤的Xml数据集合
                Date = XML_Write_Read.GetXml_User_Data(User_Sink);
@@ -210,12 +210,15 @@ namespace HanGao.ViewModel
 
 
 
-
+                                       if (On_Read_List.Count!=0)
+                                       {
+                                           _ID = On_Read_List.Max(_List => _List.Val_ID) + 1;
+                                       }
                                        //添加集合
                                        _List.Add(new Socket_Models_List()
                                        {
                                            Val_Name = User_Sink.User_Picking_Craft.User_Direction.ToString() + "[" + (int)User_Sink.User_Picking_Craft.User_Work_Area + "," + Date.Craft_Date[i].NO + "]" + "." + Name_Val,
-                                           Val_ID = On_Read_List.Max(_List=>_List.Val_ID)+1,
+                                           Val_ID = _ID,
                                            Send_Area = nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data),
                                            UserObject = new KUKA_Craft_Value()
                                            { Craft_Point_NO = Date.Craft_Date[i].NO, KUKA_Craft_Type = Craft_List.Name, KUKA_Point_Type = Date.Craft_Date[i].Craft_Type, User_Direction = S, User_Work = User_Sink.User_Picking_Craft.User_Work_Area },
@@ -307,6 +310,9 @@ namespace HanGao.ViewModel
         /// <param name="Xcd"></param>
         public void XmlVal_Write_KUKAString(Xml_Craft_Date Xcd)
         {
+
+            ObservableCollection<Socket_Models_List> _List = new ObservableCollection<Socket_Models_List>();
+
             foreach (var item in Xcd.GetType().GetProperties())
             {
                 foreach (var autt in item.GetCustomAttributes(false))
@@ -329,7 +335,8 @@ namespace HanGao.ViewModel
                             }
 
 
-                            Socket_Client_Setup.Write.Cycle_Write_Send(_N, _Val);
+                            //Socket_Client_Setup.Write.Cycle_Write_Send(_N, _Val);
+                            _List.Add(new Socket_Models_List() { Val_Name = _N, Val_Var = _Val, Val_ID = On_Read_List.Max(_List => _List.Val_ID) + 1, });
 
 
                         }
@@ -337,6 +344,11 @@ namespace HanGao.ViewModel
                 }
 
             }
+
+
+
+            Messenger.Send<ObservableCollection<Socket_Models_List>, string>(_List, nameof(Meg_Value_Eunm.One_List_Connect));
+
 
 
         }

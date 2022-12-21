@@ -18,105 +18,105 @@ namespace HanGao.Model
 
         #region 属性
 
-        /// <summary>
-        /// 设置IP
-        /// </summary>
-        private string _IP;
+        ///// <summary>
+        ///// 设置IP
+        ///// </summary>
+        //private string _IP;
 
-        public  string IP
-        {
-            get { return _IP; }
-            set { _IP = value;  }
-        }
-
-
-
-        /// <summary>
-        /// 设置端口
-        /// </summary>
-        private string _Port;
-
-        public  string Port
-        {
-            get { return _Port; }
-            set { _Port = value;  }
-        }
-
-        /// <summary>
-        /// 静态属性更新通知事件
-        /// </summary>
-        //public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
-
-        /// <summary>
-        /// IP输入识别内容属性
-        /// </summary>
-        public IP_Text_Error Text_Error { set; get; }
+        //public  string IP
+        //{
+        //    get { return _IP; }
+        //    set { _IP = value;  }
+        //}
 
 
 
+        ///// <summary>
+        ///// 设置端口
+        ///// </summary>
+        //private string _Port;
 
+        //public  string Port
+        //{
+        //    get { return _Port; }
+        //    set { _Port = value;  }
+        //}
 
+        ///// <summary>
+        ///// 静态属性更新通知事件
+        ///// </summary>
+        ////public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
 
-
-        /// <summary>
-        /// 连接按钮名称属性
-        /// </summary>
-        public string Control_Name_String { set; get; } = null!;
-
-        /// <summary>
-        /// 连接类型枚举属性
-        /// </summary>
-        public Socket_Type Connect_Socket_Type { set; get; } = Socket_Type.Null;
-
-        /// <summary>
-        /// 连接类型枚举定义
-        /// </summary>
-        public enum Socket_Type { Null = -1, Client, Server }
-
-        /// <summary>
-        /// 写入TCP对象
-        /// </summary>
-        public Socket_Connect Write { set; get; } 
-
-
-
-
-        /// <summary>
-        /// 循环读取TCP对象
-        /// </summary>
-        public Socket_Connect Read { set; get; }
-
-        /// <summary>
-        /// 单次TCP对象
-        /// </summary>
-        public Socket_Connect One_Read { set; get; }
+        ///// <summary>
+        ///// IP输入识别内容属性
+        ///// </summary>
+        //public IP_Text_Error Text_Error { set; get; }
 
 
 
 
 
 
-        /// <summary>
-        /// 服务器属性
-        /// </summary>
-        public Socket_Sever Sever { set; get; } 
+
+        ///// <summary>
+        ///// 连接按钮名称属性
+        ///// </summary>
+        //public string Control_Name_String { set; get; } = null!;
+
+        ///// <summary>
+        ///// 连接类型枚举属性
+        ///// </summary>
+        //public Socket_Type Connect_Socket_Type { set; get; } = Socket_Type.Null;
+
+        ///// <summary>
+        ///// 连接类型枚举定义
+        ///// </summary>
+        //public enum Socket_Type { Null = -1, Client, Server }
+
+        ///// <summary>
+        ///// 写入TCP对象
+        ///// </summary>
+        //public Socket_Connect Write { set; get; } 
 
 
-        /// <summary>
-        /// 连接按钮连接后禁止重复连接
-        /// </summary>
-        public bool Connect_Button_IsEnabled { set; get; } = true;
-
-        /// <summary>
-        /// 设备连接中状态...
-        /// </summary>
-        public bool Connect_Socket_Connection { set; get; } = false;
 
 
-        /// <summary>
-        /// 设备成功状态...
-        /// </summary>
-        public bool Connect_Socket_OK { set; get; } = false;
+        ///// <summary>
+        ///// 循环读取TCP对象
+        ///// </summary>
+        //public Socket_Connect Read { set; get; }
+
+        ///// <summary>
+        ///// 单次TCP对象
+        ///// </summary>
+        //public Socket_Connect One_Read { set; get; }
+
+
+
+
+
+
+        ///// <summary>
+        ///// 服务器属性
+        ///// </summary>
+        //public Socket_Sever Sever { set; get; } 
+
+
+        ///// <summary>
+        ///// 连接按钮连接后禁止重复连接
+        ///// </summary>
+        //public bool Connect_Button_IsEnabled { set; get; } = true;
+
+        ///// <summary>
+        ///// 设备连接中状态...
+        ///// </summary>
+        //public bool Connect_Socket_Connection { set; get; } = false;
+
+
+        ///// <summary>
+        ///// 设备成功状态...
+        ///// </summary>
+        //public bool Connect_Socket_OK { set; get; } = false;
 
         #endregion
 
@@ -129,25 +129,25 @@ namespace HanGao.Model
         /// 客户端连接按钮显示状态
         /// </summary>
         /// <param name="_int"></param>
-        public void Client_Button_Show(int _int)
-        {
-            switch (_int)
-            {
-                case -1:
-                    Connect_Socket_Connection = false;
-                    Connect_Socket_OK = false;
-                    break;
-                case 0:
-                    Connect_Socket_Connection = true;
-                    break;
-                case 1:
-                    Connect_Socket_OK = true;
-                    break;
-                default:
-                    User_Log_Add($"-1网络状态显示，传入错误值");
-                    break;
-            }
-        }
+        //public void Client_Button_Show(int _int)
+        //{
+        //    switch (_int)
+        //    {
+        //        case -1:
+        //            Connect_Socket_Connection = false;
+        //            Connect_Socket_OK = false;
+        //            break;
+        //        case 0:
+        //            Connect_Socket_Connection = true;
+        //            break;
+        //        case 1:
+        //            Connect_Socket_OK = true;
+        //            break;
+        //        default:
+        //            User_Log_Add($"-1网络状态显示，传入错误值");
+        //            break;
+        //    }
+        //}
 
 
 

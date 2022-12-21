@@ -193,7 +193,7 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
-                    <UC_Working:User_Control_Working_Path Margin="5" DataContext="{Binding Source={StaticResource Locator}, Path=UC_KUKA_State_VM}" />
+                    <UC_Working:User_Control_KUKA_State Margin="5" DataContext="{Binding Source={StaticResource Locator}, Path=UC_KUKA_State_VM}" />
                     <UC_Working:UC_Start_State_From Grid.Row=" 1" Grid.Column="0"
                                                     Grid.ColumnSpan=" 2"
                                                     Margin="5" />
@@ -222,7 +222,7 @@
 
 
             <!--  左侧功能弹出栏  -->
-            <Grid Grid.Column="0" Margin="0,10,0,10">
+            <!--<Grid Grid.Column="0" Margin="0,10,0,10">
                 <StackPanel Width="45">
 
                     <Button Style="{StaticResource Sidebar_Button}"
@@ -322,7 +322,7 @@
                     </Button>
 
                 </StackPanel>
-            </Grid>
+            </Grid>-->
 
 
 
@@ -345,10 +345,11 @@
 
 
         <!--  侧边栏弹出  -->
+        <!--
         <UC_Working:UserControl_Sideber_Show Margin="0,10,10,10"
                                              Panel.ZIndex="1"
                                              d:IsHidden="True"
-                                             DataContext="{Binding Source={StaticResource Locator}, Path=Sideber_Show}" />
+                                             DataContext="{Binding Source={StaticResource Locator}, Path=Sideber_Show}" />-->
 
 
     </Grid>

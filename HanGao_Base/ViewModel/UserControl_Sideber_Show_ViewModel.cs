@@ -30,13 +30,13 @@ namespace HanGao.ViewModel
 
 
 
-            Messenger.Register<Sideber_Models,string >(this,nameof( Meg_Value_Eunm.Sideber_Show), (O,Sm) => { Sideber_Var = Sm; });
+            //Messenger.Register<Sideber_Models,string >(this,nameof( Meg_Value_Eunm.Sideber_Show), (O,Sm) => { Sideber_Var = Sm; });
 
         }
 
 
         //侧边栏内容
-        public Sideber_Models Sideber_Var { set; get; } = Sideber_List[0];
+        //public Sideber_Models Sideber_Var { set; get; } = Sideber_List[0];
 
 
 
@@ -46,50 +46,50 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 侧边栏打开关闭事件命令
         /// </summary>
-        public ICommand Click_OPen_Comm
-        {
-            get => new RelayCommand<RoutedEventArgs>((Sm)=> 
-            { 
+        //public ICommand Click_OPen_Comm
+        //{
+        //    get => new RelayCommand<RoutedEventArgs>((Sm)=> 
+        //    { 
             
-            //把参数类型转换控件
-            UIElement e = Sm.Source as UIElement;
+        //    //把参数类型转换控件
+        //    UIElement e = Sm.Source as UIElement;
 
 
-                Sideber_Var.Sideber_Open = false;
+        //        Sideber_Var.Sideber_Open = false;
                 
 
 
 
-            });
-        }
+        //    });
+        //}
 
         /// <summary>
         /// 侧边栏打开关闭事件命令
         /// </summary>
-        public ICommand Loaded_Comm
-        {
-            get => new RelayCommand<RoutedEventArgs>((Sm) =>
-            {
+        //public ICommand Loaded_Comm
+        //{
+        //    get => new RelayCommand<RoutedEventArgs>((Sm) =>
+        //    {
 
-                //把参数类型转换控件
-                UIElement e = Sm.Source as UIElement;
+        //        //把参数类型转换控件
+        //        UIElement e = Sm.Source as UIElement;
 
 
-               //Messenger.Send<Socket_Setup_Models ,string >(new Socket_Setup_Models()
-               // {
+        //       //Messenger.Send<Socket_Setup_Models ,string >(new Socket_Setup_Models()
+        //       // {
                     
                     
 
 
                     
-               // }, nameof (Meg_Value_Eunm.Client_Initialization));
+        //       // }, nameof (Meg_Value_Eunm.Client_Initialization));
 
 
-               // Messenger.Send<Socket_Setup_Models,string >(new Socket_Setup_Models()
-               // {
+        //       // Messenger.Send<Socket_Setup_Models,string >(new Socket_Setup_Models()
+        //       // {
 
               
-               // }, nameof(Meg_Value_Eunm.Sever_Initialization));
+        //       // }, nameof(Meg_Value_Eunm.Sever_Initialization));
 
 
 
@@ -99,8 +99,8 @@ namespace HanGao.ViewModel
 
 
 
-            });
-        }
+        //    });
+        //}
 
 
 

@@ -124,7 +124,7 @@
 
 
                         <ContentPresenter x:Name="contentPresenter" Grid.Column="1"
-                                          Margin="5,0,20,0"
+                                          Margin="5,0,0,0"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                           Focusable="False"

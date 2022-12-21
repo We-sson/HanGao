@@ -788,20 +788,23 @@
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
 
-                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 0"
-                                        Width="95"
-                                        Height=" 38"
-                                        Margin="0,0,0,0"
-                                        HorizontalAlignment="Left"
-                                        Background="{DynamicResource 全局_按钮_绿颜色}"
-                                        DockPanel.Dock="Left">
-                                    <TextBlock Text="闪光灯测试"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                               FontSize="16"
-                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
-                                </Button>
+
+                                <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row="0" Grid.Column=" 0"
+                                          Content="闪光灯测试"
+                                          Margin="4"
+                                          FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                          FontSize="16"
+                                          Foreground="{DynamicResource 全局_按钮_黑颜色}">
+                                    <i:Interaction.Triggers>
+
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding Camera_Flash_Open_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </CheckBox>
+
                                 <CheckBox Style="{DynamicResource CheckBoxStyle1}" Grid.Column=" 1"
                                           Width="90"
                                           Height=" 38"

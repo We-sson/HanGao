@@ -213,7 +213,7 @@
 
 
                         <Grid MinWidth="240" MinHeight="30"
-                              Margin="4"
+                              Margin="2"
                           
                               ShowGridLines="False"  >
                             <Grid.ColumnDefinitions>

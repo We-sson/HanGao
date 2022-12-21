@@ -42,7 +42,10 @@ namespace Soceket_KUKA.Models
         /// </summary>
         public int Byte_Leng = 0;
 
-
+        /// <summary>
+        /// 接收到值
+        /// </summary>
+        public string Receive_Var { set; get; }
 
         /// <summary>
         /// 接收字节组属性

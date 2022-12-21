@@ -516,45 +516,7 @@ namespace HanGao.ViewModel
 
 
 
-        ///// <summary>
-        ///// 设置相机曝光时间
-        ///// </summary>
-        //public ICommand Window_Unloaded_Camera_Close_Comm
-        //{
-        //    get => new AsyncRelayCommand<RoutedEventArgs>(async (Sm) =>
-        //    {
 
-        //        await Task.Delay(100);
-
-
-        //    });
-        //}
-
-
-
-
-
-        ///// <summary>
-        ///// 设置相机曝光时间
-        ///// </summary>
-        //public ICommand Camera_Image_Gain_Set_Comm
-        //{
-        //    get => new AsyncRelayCommand<RoutedEventArgs>(async (Sm) =>
-        //    {
-
-        //        await Task.Delay(500);
-
-        //        TextBox E = Sm.Source as TextBox;
-
-        //        //MessageBox.Show(E.Text);
-
-
-
-
-
-
-        //    });
-        //}
 
         /// <summary>
         /// 单帧获取图像功能
@@ -577,7 +539,35 @@ namespace HanGao.ViewModel
             });
         }
 
-        
+
+
+
+        /// <summary>
+        /// 相机测试闪光灯功能
+        /// </summary>
+        public ICommand Camera_Flash_Open_Comm
+        {
+            get => new AsyncRelayCommand<RoutedEventArgs>(async (Sm) =>
+            {
+
+                CheckBox E = Sm.Source as CheckBox;
+
+                if ((bool)E.IsChecked)
+                {
+
+                MVS_Camera.Set_Camera_Val(Camera_Parameters_Name_Enum.LineInverter, MVS_Camera.Camera.SetBoolValue (nameof(Camera_Parameters_Name_Enum.LineInverter), true));
+                }
+                else
+                {
+                    MVS_Camera.Set_Camera_Val(Camera_Parameters_Name_Enum.LineInverter, MVS_Camera.Camera.SetBoolValue(nameof(Camera_Parameters_Name_Enum.LineInverter), false ));
+
+                }
+
+
+
+                await Task.Delay(50);
+            });
+        }
 
 
         /// <summary>
@@ -628,6 +618,22 @@ namespace HanGao.ViewModel
             return true;
 
         }
+
+
+
+
+        public void Set_Flash_Open()
+        {
+
+
+
+
+
+
+
+        }
+
+
 
 
 

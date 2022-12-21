@@ -253,9 +253,6 @@
     <Compile Include="View\UserMessage\User_Message.xaml.cs">
       <DependentUpon>User_Message.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\User_Control\KUKA_Status.xaml.cs">
-      <DependentUpon>KUKA_Status.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\User_Control\Pop_Ups\UC_SInk_Add.xaml.cs">
       <DependentUpon>UC_SInk_Add.xaml</DependentUpon>
     </Compile>
@@ -286,38 +283,17 @@
     <Compile Include="View\User_Control\UC_Start_State_From.xaml.cs">
       <DependentUpon>UC_Start_State_From.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\User_Control\UserControl_Grid.xaml.cs">
-      <DependentUpon>UserControl_Grid.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\User_Control\Pop_Ups\UC_Pop_Ups.xaml.cs">
       <DependentUpon>UC_Pop_Ups.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\User_Control\UserControl_Sideber_Show.xaml.cs">
-      <DependentUpon>UserControl_Sideber_Show.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\User_Control\UserControl_Socket_Conntec_UI.xaml.cs">
-      <DependentUpon>UserControl_Socket_Conntec_UI.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\User_Control\UserControl_Socket_Write.xaml.cs">
-      <DependentUpon>UserControl_Socket_Write.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\User_Control\UserControl_Value_Show.xaml.cs">
-      <DependentUpon>UserControl_Value_Show.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\User_Control\User_Control_Log.xaml.cs">
       <DependentUpon>User_Control_Log.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\User_Control\User_Control_Socket_Setup.xaml.cs">
-      <DependentUpon>User_Control_Socket_Setup.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\User_Control\User_Control_Working.xaml.cs">
       <DependentUpon>User_Control_Working.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\User_Control\User_Control_KUKA_State.xaml.cs">
       <DependentUpon>User_Control_KUKA_State.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\User_Control\User_Control_Working_Path.xaml.cs">
-      <DependentUpon>User_Control_Working_Path.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\User_Control\Vision_Control\UC_Vision_Create_Template.xaml.cs">
       <DependentUpon>UC_Vision_Create_Template.xaml</DependentUpon>
@@ -450,10 +426,6 @@
     <Page Include="View\UserMessage\User_Message.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\User_Control\KUKA_Status.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\User_Control\Pop_Ups\Style\Pop_Ups_Style.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -498,38 +470,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\User_Control\UserControl_Grid.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\User_Control\Pop_Ups\UC_Pop_Ups.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\User_Control\UserControl_Sideber_Show.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\User_Control\UserControl_Socket_Conntec_UI.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\User_Control\UserControl_Socket_Write.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\User_Control\UserControl_Value_Show.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\User_Control\User_Control_Log.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\User_Control\User_Control_Socket_Setup.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\User_Control\User_Control_Working.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\User_Control\User_Control_KUKA_State.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\User_Control\User_Control_Working_Path.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Style\Ver_ScrollBar.xaml">

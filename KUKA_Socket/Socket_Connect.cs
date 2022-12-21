@@ -478,7 +478,7 @@ namespace Soceket_Connect
 
                     //_Receive.Reveice_Inf.Val_Var = Socket_KUKA_Receive.Receive_Byte.Message_Show;
 
-
+                    _Receive.Receive_Var = Socket_KUKA_Receive.Receive_Byte.Message_Show;
                     //传送委托到声明位置
                     Socket_Receive_Delegate(_Receive);
 

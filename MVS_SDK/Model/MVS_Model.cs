@@ -186,6 +186,12 @@ namespace MVS_SDK_Base.Model
             [StringValue("设置注册图像数据回调失败")]
             RegisterImageCallBackEx,
 
+            /// <summary>
+            /// 使能输出信号输出到所选线路
+            /// </summary>
+            [StringValue("设置使能输出信号输出到所选线路失败")]
+                    LineInverter
+
         }
 
         /// <summary>
@@ -210,15 +216,15 @@ namespace MVS_SDK_Base.Model
             [StringValue("设置控制抓取帧的采集频率失败")]
             public double AcquisitionFrameRate { set; get; } = 13.6;
             /// <summary>
-            /// 设置定时曝光模式时的自动曝光模式，枚举类型——默认连续模式，"MV_CAM_EXPOSURE_AUTO_MODE.MV_EXPOSURE_AUTO_MODE_OFF"
-            /// </summary>
-            [StringValue("设置控制抓取帧的采集频率失败")]
-            public MV_CAM_EXPOSURE_AUTO_MODE ExposureAuto { set; get; } = MV_CAM_EXPOSURE_AUTO_MODE.MV_EXPOSURE_AUTO_MODE_OFF;
-            /// <summary>
             /// 曝光模式定时时的曝光时间
             /// </summary>
             [StringValue("设置曝光模式定时时的曝光时间失败")]
             public double ExposureTime { set; get; } = 30000;
+            /// <summary>
+            /// 设置定时曝光模式时的自动曝光模式，枚举类型——默认连续模式，"MV_CAM_EXPOSURE_AUTO_MODE.MV_EXPOSURE_AUTO_MODE_OFF"
+            /// </summary>
+            [StringValue("设置控制抓取帧的采集频率失败")]
+            public MV_CAM_EXPOSURE_AUTO_MODE ExposureAuto { set; get; } = MV_CAM_EXPOSURE_AUTO_MODE.MV_EXPOSURE_AUTO_MODE_OFF;
             /// <summary>
             /// 设置曝光（或快门）的工作模式,枚举类型——默认定时模式，"MV_CAM_EXPOSURE_MODE.MV_EXPOSURE_MODE_TIMED"
             /// </summary>
@@ -310,9 +316,20 @@ namespace MVS_SDK_Base.Model
             [StringValue("设置从原点到AOI的水平偏移（像素）失败")]
             public int OffsetY { set; get; } = 0;
 
+            [StringValue("设置选择要配置的外部设备连接器的物理线（或管脚）失败")]
+            public MV_CAM_LINESELECTOR_MODE LineSelector { set; get; } = MV_CAM_LINESELECTOR_MODE.Lin1;
+
+            [StringValue("设置线路模式失败")]
+            public MV_CAM_LINEMODE_MODE LineMode { set; get; } = MV_CAM_LINEMODE_MODE.Strobe;
+
+            [StringValue("设置控制所选输入或输出线的信号反转失败")]
+            public bool LineInverter { set; get; } = false;
 
 
+            [StringValue("设置使能输出信号输出到所选线路失败")]
+            public bool StrobeEnable { set; get; } = true ;
 
+       
         }
 
 
@@ -428,5 +445,24 @@ namespace MVS_SDK_Base.Model
         持续采集模式
     }
 
+
+    /// <summary>
+    /// 线路选择器枚举
+    /// </summary>
+    public enum MV_CAM_LINESELECTOR_MODE
+    {
+        Lin0,
+        Lin1,
+        Lin2
+
+    }
+
+    /// <summary>
+    /// 线路模式枚举
+    /// </summary>
+    public enum MV_CAM_LINEMODE_MODE
+    {
+        Strobe = 8
+    }
 
 }

@@ -99,7 +99,7 @@
                                           FontSize="24"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="{Binding Communication_Protocol}">
+                                          SelectedIndex="1">
 
                                     <ComboBoxItem>
 
@@ -163,7 +163,7 @@
                                           FontSize="24"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="{Binding Content_Coding}">
+                                          SelectedIndex="1">
 
                                     <ComboBoxItem>
 
@@ -666,8 +666,8 @@
                                                 <DataGridTemplateColumn.CellTemplate>
 
                                                     <DataTemplate>
-                                                        <TextBlock Text="{Binding UI_Var}"
-                                                                   HorizontalAlignment="Center"
+                                                        <TextBlock Text="{Binding Val_Var}"
+                                                                   HorizontalAlignment="Left"
                                                                    VerticalAlignment="Center"
                                                                    FontSize="14" />
                                                     </DataTemplate>
@@ -716,7 +716,7 @@
                                               ColumnHeaderHeight="40"
                                               ColumnHeaderStyle="{DynamicResource Point_UI_DataGridColumnHeaderStyle}"
                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                              FrozenColumnCount="2"
+                                              FrozenColumnCount="1"
                                               GridLinesVisibility="Horizontal"
                                               HeadersVisibility="Column"
                                               ItemsSource="{Binding On_Read_List}"
@@ -781,7 +781,7 @@
 
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Val_Var}"
-                                                                   HorizontalAlignment="Center"
+                                                                   HorizontalAlignment="Left"
                                                                    VerticalAlignment="Center"
                                                                    FontSize="14" />
                                                     </DataTemplate>

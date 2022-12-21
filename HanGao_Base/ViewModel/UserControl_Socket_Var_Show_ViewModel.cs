@@ -220,153 +220,153 @@ namespace HanGao.ViewModel
         //}
 
 
-        [Flags]
-        /// <summary>
-        /// 变量名称枚举存放地方
-        /// </summary>
-        public enum Value_Name_enum
-        {
+        //[Flags]
+        ///// <summary>
+        ///// 变量名称枚举存放地方
+        ///// </summary>
+        //public enum Value_Name_enum
+        //{
 
 
 
-            /// <summary>
-            /// 机器速度
-            /// </summary>
-            [StringValue("$VEL.CP"), UserArea(nameof(Meg_Value_Eunm.UC_Pop_Sink_Value_Load))]
-            VEL,
+        //    /// <summary>
+        //    /// 机器速度
+        //    /// </summary>
+        //    [StringValue("$VEL.CP"), UserArea(nameof(Meg_Value_Eunm.UC_Pop_Sink_Value_Load))]
+        //    VEL,
 
 
 
-            /// <summary>
-            /// 程序解释器Submit状态
-            /// </summary>
-            [StringValue("$" + nameof(PRO_STATE0)), UserArea(nameof(Meg_Value_Eunm.KUKA_State)), BingdingValue(nameof(KUKA_State_Models.KUKA_Submit_State), Value_Type.Enum, Binding_Type.OneWay)]
-            PRO_STATE0,
+        //    /// <summary>
+        //    /// 程序解释器Submit状态
+        //    /// </summary>
+        //    [StringValue("$" + nameof(PRO_STATE0)), UserArea(nameof(Meg_Value_Eunm.KUKA_State)), BingdingValue(nameof(KUKA_State_Models.KUKA_Submit_State), Value_Type.Enum, Binding_Type.OneWay)]
+        //    PRO_STATE0,
 
-            /// <summary>
-            /// 机器人程序状态
-            /// </summary>
-            [StringValue("$" + nameof(PRO_STATE1)), UserArea(nameof(Meg_Value_Eunm.KUKA_State)), BingdingValue(nameof(KUKA_State_Models.KUKA_Program_State), Value_Type.Enum, Binding_Type.OneWay)]
-            PRO_STATE1,
+        //    /// <summary>
+        //    /// 机器人程序状态
+        //    /// </summary>
+        //    [StringValue("$" + nameof(PRO_STATE1)), UserArea(nameof(Meg_Value_Eunm.KUKA_State)), BingdingValue(nameof(KUKA_State_Models.KUKA_Program_State), Value_Type.Enum, Binding_Type.OneWay)]
+        //    PRO_STATE1,
 
-            /// <summary>
-            /// 当前激光功率
-            /// </summary>
-            [StringValue("$ANOUT[1]")]
-            ANOUT_1,
+        //    /// <summary>
+        //    /// 当前激光功率
+        //    /// </summary>
+        //    [StringValue("$ANOUT[1]")]
+        //    ANOUT_1,
 
-            /// <summary>
-            /// 工位1当前围边工艺焊接尺寸
-            /// </summary>
-            N1_Sink_Data,
-            /// <summary>
-            /// 工位1当前围边工艺焊接尺寸
-            /// </summary>
-            N2_Sink_Data,
+        //    /// <summary>
+        //    /// 工位1当前围边工艺焊接尺寸
+        //    /// </summary>
+        //    N1_Sink_Data,
+        //    /// <summary>
+        //    /// 工位1当前围边工艺焊接尺寸
+        //    /// </summary>
+        //    N2_Sink_Data,
 
-            /// <summary>
-            /// 机器人操作模式
-            /// </summary>
-            [StringValue("$MODE_OP"), UserArea(nameof(Meg_Value_Eunm.KUKA_State)), BingdingValue(nameof(KUKA_State_Models.KUKA_Mode_State), Value_Type.Enum, Binding_Type.OneWay)]
-            MODE_OP_UI,
-
-
-            /// <summary>
-            /// 机器人操作模式
-            /// </summary>
-            [StringValue("$MODE_OP"), UserArea(nameof(Meg_Value_Eunm.UI_Start_State_Info)), BingdingValue(nameof(UC_Start_State_From_Model.UI_Mode_State), Value_Type.Enum, Binding_Type.OneWay)]
-            MODE_OP_State,
+        //    /// <summary>
+        //    /// 机器人操作模式
+        //    /// </summary>
+        //    [StringValue("$MODE_OP"), UserArea(nameof(Meg_Value_Eunm.KUKA_State)), BingdingValue(nameof(KUKA_State_Models.KUKA_Mode_State), Value_Type.Enum, Binding_Type.OneWay)]
+        //    MODE_OP_UI,
 
 
-
-            /// <summary>
-            /// 机器人Base当前位置
-            /// </summary>
-            [StringValue("$POS_ACT")]
-            POS_ACT,
-            /// <summary>
-            /// 工具选定号数
-            /// </summary>
-            [StringValue("$ACT_TOOL"), UserArea(User_Control_Working_Path_VM.Work_String_Name)]
-            ACT_TOOL,
-            /// <summary>
-            /// 基坐标号数
-            /// </summary>
-            [StringValue("$ACT_BASE"), UserArea(User_Control_Working_Path_VM.Work_String_Name)]
-            ACT_BASE,
+        //    /// <summary>
+        //    /// 机器人操作模式
+        //    /// </summary>
+        //    [StringValue("$MODE_OP"), UserArea(nameof(Meg_Value_Eunm.UI_Start_State_Info)), BingdingValue(nameof(UC_Start_State_From_Model.UI_Mode_State), Value_Type.Enum, Binding_Type.OneWay)]
+        //    MODE_OP_State,
 
 
-            //[StringValue("$VEL_ACT"), UserArea(User_Control_Working_VM_1.Work_String_Name), BingdingValue("Robot_Speed", Value_Type.Int, Binding_Type.OneWay)]
-            //VEL_ACT_1,
-            //[StringValue("$VEL_ACT"), UserArea(User_Control_Working_VM_2.Work_String_Name), BingdingValue("Robot_Speed", Value_Type.Int, Binding_Type.OneWay)]
-            //VEL_ACT_2,
+
+        //    /// <summary>
+        //    /// 机器人Base当前位置
+        //    /// </summary>
+        //    [StringValue("$POS_ACT")]
+        //    POS_ACT,
+        //    /// <summary>
+        //    /// 工具选定号数
+        //    /// </summary>
+        //    [StringValue("$ACT_TOOL"), UserArea(User_Control_Working_Path_VM.Work_String_Name)]
+        //    ACT_TOOL,
+        //    /// <summary>
+        //    /// 基坐标号数
+        //    /// </summary>
+        //    [StringValue("$ACT_BASE"), UserArea(User_Control_Working_Path_VM.Work_String_Name)]
+        //    ACT_BASE,
 
 
-            /// <summary>
-            ///  机器人驱动状态
-            /// </summary>
-            [StringValue("$PERI_RDY"), UserArea(nameof(Meg_Value_Eunm.KUKA_State)), BingdingValue(nameof(KUKA_State_Models.KUKA_Drive_State), Value_Type.Bool, Binding_Type.OneWay)]
-            PERI_RDY,
+        //    //[StringValue("$VEL_ACT"), UserArea(User_Control_Working_VM_1.Work_String_Name), BingdingValue("Robot_Speed", Value_Type.Int, Binding_Type.OneWay)]
+        //    //VEL_ACT_1,
+        //    //[StringValue("$VEL_ACT"), UserArea(User_Control_Working_VM_2.Work_String_Name), BingdingValue("Robot_Speed", Value_Type.Int, Binding_Type.OneWay)]
+        //    //VEL_ACT_2,
 
 
-            /// <summary>
-            /// 机器人运行倍率
-            /// </summary>
-            [StringValue("$OV_PRO")]
-            OV_PRO,
-            /// <summary>
-            /// 机器人运动下一个点位置信息
-            /// </summary>
-            [StringValue("$POS_BACK")]
-            POS_BACK,
-            /// <summary>
-            /// 机器人在轨迹中途停下笛卡尔位置信息
-            /// </summary>
-            [StringValue("$POS_RET")]
-            POS_RET,
-            /// <summary>
-            /// 机器人是否激活运行
-            /// </summary>
-            [StringValue("$PRO_ACT")]
-            PRO_ACT,
-            /// <summary>
-            /// 程序当前运行点名称
-            /// </summary>
-            [StringValue("$PRO_IP.P_NAME[]")]
-            PRO_IP_P_NAME,
-            /// <summary>
-            /// 机器人是否运动状态
-            /// </summary>
-            [StringValue("$PRO_MOVE"), UserArea(nameof(Meg_Value_Eunm.UI_Start_State_Info)), BingdingValue(nameof(UC_Start_State_From_Model.UI_Robot_State), Value_Type.Bool, Binding_Type.OneWay)]
-            PRO_MOVE,
-            /// <summary>
-            /// 机器人当前运行程序名
-            /// </summary>
-            [StringValue("$PRO_NAME[]")]
-            PRO_NAME,
+        //    /// <summary>
+        //    ///  机器人驱动状态
+        //    /// </summary>
+        //    [StringValue("$PERI_RDY"), UserArea(nameof(Meg_Value_Eunm.KUKA_State)), BingdingValue(nameof(KUKA_State_Models.KUKA_Drive_State), Value_Type.Bool, Binding_Type.OneWay)]
+        //    PERI_RDY,
 
-            /// <summary>
-            /// 机器人移动下一个点位置距离信息
-            /// </summary>
-            [StringValue("$DIST_NEXT")]
-            DIST_NEXT,
 
-            /// <summary>
-            /// 中断位置
-            /// </summary>
-            [StringValue("$POS_INT")]
-            POS_INT,
-            /// <summary>
-            /// 电脑风扇速度
-            /// </summary>
-            [StringValue("$PC_FANSPEED")]
-            PC_FANSPEED,
-            /// <summary>
-            /// BCO移动过程状态
-            /// </summary>
-            [StringValue("$MOVE_BCO")]
-            MOVE_BCO
-        }
+        //    /// <summary>
+        //    /// 机器人运行倍率
+        //    /// </summary>
+        //    [StringValue("$OV_PRO")]
+        //    OV_PRO,
+        //    /// <summary>
+        //    /// 机器人运动下一个点位置信息
+        //    /// </summary>
+        //    [StringValue("$POS_BACK")]
+        //    POS_BACK,
+        //    /// <summary>
+        //    /// 机器人在轨迹中途停下笛卡尔位置信息
+        //    /// </summary>
+        //    [StringValue("$POS_RET")]
+        //    POS_RET,
+        //    /// <summary>
+        //    /// 机器人是否激活运行
+        //    /// </summary>
+        //    [StringValue("$PRO_ACT")]
+        //    PRO_ACT,
+        //    /// <summary>
+        //    /// 程序当前运行点名称
+        //    /// </summary>
+        //    [StringValue("$PRO_IP.P_NAME[]")]
+        //    PRO_IP_P_NAME,
+        //    /// <summary>
+        //    /// 机器人是否运动状态
+        //    /// </summary>
+        //    [StringValue("$PRO_MOVE"), UserArea(nameof(Meg_Value_Eunm.UI_Start_State_Info)), BingdingValue(nameof(UC_Start_State_From_Model.UI_Robot_State), Value_Type.Bool, Binding_Type.OneWay)]
+        //    PRO_MOVE,
+        //    /// <summary>
+        //    /// 机器人当前运行程序名
+        //    /// </summary>
+        //    [StringValue("$PRO_NAME[]")]
+        //    PRO_NAME,
+
+        //    /// <summary>
+        //    /// 机器人移动下一个点位置距离信息
+        //    /// </summary>
+        //    [StringValue("$DIST_NEXT")]
+        //    DIST_NEXT,
+
+        //    /// <summary>
+        //    /// 中断位置
+        //    /// </summary>
+        //    [StringValue("$POS_INT")]
+        //    POS_INT,
+        //    /// <summary>
+        //    /// 电脑风扇速度
+        //    /// </summary>
+        //    [StringValue("$PC_FANSPEED")]
+        //    PC_FANSPEED,
+        //    /// <summary>
+        //    /// BCO移动过程状态
+        //    /// </summary>
+        //    [StringValue("$MOVE_BCO")]
+        //    MOVE_BCO
+        //}
 
 
 
