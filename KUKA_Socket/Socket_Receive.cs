@@ -13,11 +13,11 @@ namespace Soceket_KUKA
     public class Socket_Receive
     {
 
-        public Socket_Receive()
+        public Socket_Receive(string _IP,string _Port)
         {
 
 
-
+            Server_Strat(_IP, _Port);
 
 
 
@@ -25,20 +25,23 @@ namespace Soceket_KUKA
 
 
 
-        public   delegate  string  ReceiveMessage_delegate<T1,T2>(T1 _T,T2 _S);
-        public   ReceiveMessage_delegate<Calibration_Data_Receive,string> KUKA_Receive_Calibration_String { set; get; }
-        public ReceiveMessage_delegate<Calibration_Data_Receive, string> KUKA_Receive_Find_String { set; get; }
+        public     delegate  string  ReceiveMessage_delegate<T1,T2>(T1 _T,T2 _S);
+
+        public    ReceiveMessage_delegate<Calibration_Data_Receive,string> KUKA_Receive_Calibration_String { set; get; }
+        public   ReceiveMessage_delegate<Calibration_Data_Receive, string> KUKA_Receive_Find_String { set; get; }
+
+
 
 
         /// <summary>
         /// 通讯连接错误委托
         /// </summary>
-        public Socket_T_delegate<string> Socket_ErrorInfo_delegate { set; get; }
+        public   Socket_T_delegate<string> Socket_ErrorInfo_delegate { set; get; }
 
 
 
 
-        private Socket Socket_Sever { set; get; }
+        public  Socket Socket_Sever { set; get; }
 
 
         private static byte[] buffer = new byte[1024 * 1024];
@@ -55,7 +58,7 @@ namespace Soceket_KUKA
             IPEndPoint ipe = new IPEndPoint(IPAddress.Parse(_IP), int.Parse(_Port));
 
             Socket_Sever = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
+            Socket_Sever.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
             //绑定端口和IP
             Socket_Sever.Bind(ipe);
             //设置监听
@@ -74,9 +77,9 @@ namespace Soceket_KUKA
         /// </summary>
         public void Sever_End()
         {
-         
 
-          
+
+            Socket_Sever.Shutdown( SocketShutdown.Both );
             Socket_Sever.Close();
 
 
@@ -88,7 +91,7 @@ namespace Soceket_KUKA
         /// 查找本机所有IP地址
         /// </summary>
         /// <returns></returns>
-        public List<string> GetLocalIP()
+        public static   bool  GetLocalIP(ref List<string> _IPAddress)
         {
 
             try
@@ -96,7 +99,7 @@ namespace Soceket_KUKA
                 IPAddress[] _ipArray;
                 _ipArray = Dns.GetHostAddresses(Dns.GetHostName());
 
-                List<string> _IPAddress = new List<string>();
+              _IPAddress = new List<string>();
                 foreach (var _ip in _ipArray)
                 {
                     if (_ip.AddressFamily == AddressFamily.InterNetwork)
@@ -108,20 +111,16 @@ namespace Soceket_KUKA
 
                 }
 
-                return _IPAddress;
+                return true ;
             }
-            catch (Exception e)
+            catch (Exception )
             {
 
-                Socket_ErrorInfo_delegate(e.Message);
-                //MessageBox.Show(ex.StackTrace + "\r\n" + ex.Message, "错误", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
-                //Log.WriteLog(ex);
+               return false ;
+      
             }
-            //if (localIp == null)
-            //{
-            //    localIp = IPAddress.Parse("127.0.0.1");
-            //}
-            return default;
+ 
+      
         }
 
 

@@ -16,7 +16,7 @@
                 Opacity="1">
 
 
-            <Border.Style>
+            <!--<Border.Style>
                 <Style TargetType="Border">
                     <Setter Property="Visibility" Value="Collapsed" />
                     <Style.Triggers>
@@ -25,7 +25,7 @@
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
-            </Border.Style>
+            </Border.Style>-->
 
 
             <StackPanel HorizontalAlignment="Stretch"

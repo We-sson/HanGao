@@ -184,7 +184,6 @@
     <Compile Include="Model\Sideber_Models.cs" />
     <Compile Include="Model\Sink_Craft_Models.cs" />
     <Compile Include="Model\Sink_Models.cs" />
-    <Compile Include="Model\Socket_Setup_Models.cs" />
     <Compile Include="Model\UC_Point_Info_Models.cs" />
     <Compile Include="Model\UC_Sink_Add_Model.cs" />
     <Compile Include="Model\UC_Surround_Point_Models.cs" />
@@ -224,9 +223,6 @@
     <Compile Include="ViewModel\UC_Vision_Create_Template_ViewMode.cs" />
     <Compile Include="ViewModel\UC_Vision_Point_Calibration_ViewModel.cs" />
     <Compile Include="ViewModel\UC_Vision_Robot_Protocol_ViewModel.cs" />
-    <Compile Include="ViewModel\UserControl_Sideber_Show_ViewModel.cs" />
-    <Compile Include="ViewModel\UserControl_Socket_Setup_ViewModel.cs" />
-    <Compile Include="ViewModel\UserControl_Socket_Var_Show_ViewModel.cs" />
     <Compile Include="ViewModel\UserControl_Socket_Write_ViewModel.cs" />
     <Compile Include="ViewModel\User_Control_Common.cs" />
     <Compile Include="ViewModel\User_Control_Log_ViewModel.cs" />

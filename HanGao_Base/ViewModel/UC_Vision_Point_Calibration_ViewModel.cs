@@ -97,7 +97,9 @@ namespace HanGao.ViewModel
             //};
 
 
-            KUKA_Receive.KUKA_Receive_Calibration_String += (Calibration_Data_Receive _S, string _RStr) =>
+
+
+            Static_KUKA_Receive_Find_String += (Calibration_Data_Receive _S, string _RStr) =>
             {
                 List<Point3D> Calibration_P = new List<Point3D>();
                 List<Point3D> Robot_P = new List<Point3D>();
@@ -205,19 +207,16 @@ namespace HanGao.ViewModel
 
 
 
-
-
-
-
-
-
+        /// <summary>
+        /// 查找标定属性
+        /// </summary>
         public Halcon_Find_Calibration_Model Find_Calibration { set; get; } = new Halcon_Find_Calibration_Model();
 
 
         /// <summary>
         /// Halcon 属性
         /// </summary>
-        public Halcon_SDK SHalcon { set; get; } = new Halcon_SDK();
+        //public Halcon_SDK SHalcon { set; get; } = new Halcon_SDK();
 
 
 
@@ -239,7 +238,9 @@ namespace HanGao.ViewModel
         public string Calibration_Work_Area { set; get; } = "Null";
 
 
-
+        /// <summary>
+        /// 标定误差显示UI
+        /// </summary>
         public Point3D Calibration_Error_UI { set; get; } = new Point3D(-1, -1,0);
 
 
@@ -315,6 +316,16 @@ namespace HanGao.ViewModel
             Calibration_Point_Number = _Calibration_List.Count();
 
             return Calibration_Point_Number;
+
+        }
+
+
+        public static void KUKA_Receive_Calibration(Calibration_Data_Receive _S, string _RStr)
+        {
+
+
+
+
 
         }
 

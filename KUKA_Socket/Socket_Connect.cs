@@ -404,6 +404,12 @@ namespace Soceket_Connect
         private void Socke_Receive_Message(IAsyncResult ar)
         {
 
+            try
+            {
+
+  
+
+
             lock (ar)
             {
 
@@ -514,8 +520,14 @@ namespace Soceket_Connect
 
 
         }
+            }
+            catch (Exception e)
+            {
 
-    }
+                Socket_ErrorInfo_delegate(e.Message);
+
+            }
+        }
 
 
 
@@ -525,6 +537,11 @@ namespace Soceket_Connect
         /// </summary>
         private void Socket_Send_Message_Method(Socket_Models_Receive _S)
         {
+
+            try
+            {
+
+ 
 
             lock (_S)
             {
@@ -584,6 +601,15 @@ namespace Soceket_Connect
             }
 
         }
+
+            }
+            catch (Exception e)
+            {
+
+                Socket_ErrorInfo_delegate(e.Message);
+
+            }
+
         }
 
 
@@ -627,6 +653,11 @@ namespace Soceket_Connect
         public void Cycle_Write_Send(string _ValName, string _WriteVar, int _ID)
         {
 
+            try
+            {
+
+    
+
             lock (Socket_KUKA_Receive)
             {
 
@@ -654,6 +685,16 @@ namespace Soceket_Connect
                 Write_Lock.ExitWriteLock();
 
             }
+
+
+
+            }
+            catch (Exception e)
+            {
+
+                Socket_ErrorInfo_delegate(e.Message);
+
+            }
         }
 
 
@@ -671,6 +712,10 @@ namespace Soceket_Connect
 
 
             //加锁
+            try
+            {
+
+
             lock (Socket_KUKA_Receive)
             {
                 Socket_KUKA_Receive = new Socket_Models_Receive();
@@ -701,6 +746,13 @@ namespace Soceket_Connect
                 }
 
             }
+            }
+            catch (Exception e)
+            {
+
+                Socket_ErrorInfo_delegate(e.Message);
+
+            }
         }
 
         /// <summary>
@@ -710,6 +762,11 @@ namespace Soceket_Connect
         public void Loop_Real_Send(List<Socket_SendInfo_Model> Socket_Read_List)
         {
             //加锁
+
+            try
+            {
+
+
             lock (Socket_KUKA_Receive)
             {
 
@@ -755,7 +812,13 @@ namespace Soceket_Connect
 
             }
 
+            }
+            catch (Exception e)
+            {
 
+                Socket_ErrorInfo_delegate(e.Message);
+
+            }
 
 
         }

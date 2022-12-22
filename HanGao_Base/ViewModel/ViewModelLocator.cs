@@ -92,7 +92,6 @@ namespace HanGao.ViewModelLocator
         public UC_Sink_Size_VM UC_Sink_Size_VM => Ioc.Default.GetService<UC_Sink_Size_VM>();
         public UC_Sink_Craft_List_VM UC_Sink_Craft_List_VM => Ioc.Default.GetService<UC_Sink_Craft_List_VM>();
         public UC_KUKA_State_VM UC_KUKA_State_VM => Ioc.Default.GetService<UC_KUKA_State_VM>();
-        public UserControl_Socket_Setup_ViewModel Socket_Setup => Ioc.Default.GetService<UserControl_Socket_Setup_ViewModel>();
         public UC_Surround_Point_VM UC_Surround_Point_VM => Ioc.Default.GetService<UC_Surround_Point_VM>();
         public UC_ProgramEdit_ViewModel UC_ProgramEdit_ViewModel => Ioc.Default.GetService<UC_ProgramEdit_ViewModel>();
         public UC_Surround_Direction_VM UC_Surround_Direction_VM => Ioc.Default.GetService<UC_Surround_Direction_VM>();

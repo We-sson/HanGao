@@ -70,7 +70,7 @@ namespace HanGao.Model
         /// <summary>
         /// 发送数据到机器人显示状态
         /// </summary>
-        public UI_Type_Enum UI_Loade { set; get; } = UI_Type_Enum.Ok;
+        public bool UI_Loade { set; get; } = false  ;
 
 
         /// <summary>

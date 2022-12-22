@@ -38,7 +38,7 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
     public class Vision_Data
     {
         [XmlAttribute()]
-        public int Stat_Network_Number { set; get; } = 1;
+        public int Stat_Network_Port { set; get; } = 5000;
 
         public ObservableCollection<Vision_Xml_Models> Vision_List { set; get; } =new ObservableCollection<Vision_Xml_Models>() {  };
 

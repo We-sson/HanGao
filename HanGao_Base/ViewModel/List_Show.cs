@@ -240,14 +240,15 @@ namespace HanGao.ViewModel
                                                 //发送期间UI禁止重发触发
                                                 //e.Dispatcher.BeginInvoke(() => { e.IsEnabled = false; });
                                                 Application.Current.Dispatcher.Invoke(() =>{ e.IsEnabled = false; });
-
+                                                Console.WriteLine(false);
                                                 //异步发送用户选择
-                                                Messenger.Send<Working_Area_Data, string>(new Working_Area_Data() { User_Sink = S, Working_Area_UI = new Working_Area_UI_Model() { Load_UI_Work = User_Area, UI_Loade = UC_Surround_Direction_VM.UI_Type_Enum.Reading } }, nameof(Meg_Value_Eunm.UI_Work));
+                                                Messenger.Send<Working_Area_Data, string>(new Working_Area_Data() { User_Sink = S, Working_Area_UI = new Working_Area_UI_Model() { Load_UI_Work = User_Area,  } }, nameof(Meg_Value_Eunm.UI_Work));
 
 
                                                 //释放UI触发
                                                 //e.Dispatcher.BeginInvoke(() => { e.IsEnabled = true; });
-                                                Application.Current.Dispatcher.Invoke(() => { e.IsEnabled = true ; });
+                                                Application.Current.Dispatcher.Invoke(() => { e.IsEnabled = true   ; });
+                                                Console.WriteLine(true );
 
 
                                             });
@@ -274,15 +275,17 @@ namespace HanGao.ViewModel
                         {
 
                             //发送期间UI禁止重发触发
-                            Application.Current.Dispatcher.Invoke(() => { e.IsEnabled = false ; });
+                            Application.Current.Dispatcher.Invoke(() => { e.IsEnabled = false ; });                                                Console.WriteLine(true );
+                            Console.WriteLine(false );
 
 
                             //异步发送用户选择
-                            Messenger.Send<Working_Area_Data, string>(new Working_Area_Data() { User_Sink = S, Working_Area_UI = new Working_Area_UI_Model() { Load_UI_Work = User_Area, UI_Loade = UC_Surround_Direction_VM.UI_Type_Enum.Reading } }, nameof(Meg_Value_Eunm.UI_Work));
+                            Messenger.Send<Working_Area_Data, string>(new Working_Area_Data() { User_Sink = S, Working_Area_UI = new Working_Area_UI_Model() { Load_UI_Work = User_Area } }, nameof(Meg_Value_Eunm.UI_Work));
 
 
                             //释放UI触发
-                            Application.Current.Dispatcher.Invoke(() => { e.IsEnabled = true ; });
+                            Application.Current.Dispatcher.Invoke(() => { e.IsEnabled = true   ; });
+                            Console.WriteLine(true);
 
 
 

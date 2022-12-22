@@ -99,10 +99,8 @@
                                           BorderThickness="2"
                                           FontSize="24"
                                           IsDropDownOpen="False"
-                                          IsEnabled="{Binding Receive_Start_Type}"
                                           IsSynchronizedWithCurrentItem="True"
-                                          ItemsSource="{Binding Local_IP_UI, Mode=TwoWay}"
-                                          SelectedIndex="{Binding IP_UI_Select}">
+                                          ItemsSource="{Binding Local_IP_UI, Mode=TwoWay}">
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate>
 

@@ -358,7 +358,7 @@
 
 
 
-                                <Button Grid.Column=" 1"
+                                <Button x:Name="Connect_UI" Grid.Column=" 1"
                                         Margin="0,0,4,0"
                                         Background="{DynamicResource 全局_按钮_绿颜色}">
                                     <Button.Resources>
@@ -374,17 +374,17 @@
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                   FontSize="16"
+                                                   FontSize="12"
                                                    Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                     </Button.Resources>
                                     <Button.Style>
                                         <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
                                             <Setter Property="Content" Value="{StaticResource T1}" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Create_Shape_ModelXld_UI_IsEnable}" Value="true">
-                                                    <Setter Property="IsEnabled" Value="False" />
+                                                <Trigger Property="IsEnabled" Value="False">
+
                                                     <Setter Property="Content" Value="{StaticResource T2}" />
-                                                </DataTrigger>
+                                                </Trigger>
                                             </Style.Triggers>
                                         </Style>
                                     </Button.Style>
@@ -413,7 +413,9 @@
                                     <i:Interaction.Triggers>
 
                                         <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding Socket_Close_Comm}" PassEventArgsToCommand="True" />
+                                            <i:InvokeCommandAction Command="{Binding Socket_Close_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:UC_Vision_Robot_Protocol}, AncestorLevel=1, Mode=FindAncestor}}"
+                                                                   PassEventArgsToCommand="True" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </Button>
@@ -508,7 +510,7 @@
                                         <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
                                             <Setter Property="Content" Value="{StaticResource T1}" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Create_Shape_ModelXld_UI_IsEnable}" Value="true">
+                                                <DataTrigger Binding="{Binding}" Value="true">
                                                     <Setter Property="IsEnabled" Value="False" />
                                                     <Setter Property="Content" Value="{StaticResource T2}" />
                                                 </DataTrigger>
@@ -519,7 +521,7 @@
                                     <i:Interaction.Triggers>
 
                                         <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding New_ShapeModel_Comm}" PassEventArgsToCommand="True" />
+                                            <i:InvokeCommandAction Command="{Binding}" PassEventArgsToCommand="True" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </Button>
@@ -540,7 +542,7 @@
                                     <i:Interaction.Triggers>
 
                                         <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding New_ShapeModel_Comm}" PassEventArgsToCommand="True" />
+                                            <i:InvokeCommandAction Command="{Binding}" PassEventArgsToCommand="True" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </Button>
@@ -579,7 +581,7 @@
                                               CanUserResizeRows="False"
                                               CanUserSortColumns="False"
                                               CellStyle="{DynamicResource Point_UI_DataGridCellStyle}"
-                                              ColumnHeaderHeight="40"
+                                              ColumnHeaderHeight="30"
                                               ColumnHeaderStyle="{DynamicResource Point_UI_DataGridColumnHeaderStyle}"
                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
                                               FrozenColumnCount="2"
@@ -587,6 +589,7 @@
                                               HeadersVisibility="Column"
                                               ItemsSource="{Binding Socket_Read_List}"
                                               RowHeaderWidth="0"
+                                              RowHeight="25"
                                               RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
                                               SelectionMode="Single"
                                               SelectionUnit="CellOrRowHeader">
@@ -629,7 +632,7 @@
 
                                                         <TextBlock Text="变量名"
                                                                    Margin="4"
-                                                                   HorizontalAlignment="Center"
+                                                                   HorizontalAlignment="Left"
                                                                    VerticalAlignment="Center"
                                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                                    FontSize="16"
@@ -639,7 +642,7 @@
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Val_Name}"
-                                                                   HorizontalAlignment="Center"
+                                                                   HorizontalAlignment="Left"
                                                                    VerticalAlignment="Center"
                                                                    FontSize="14" />
                                                     </DataTemplate>
@@ -713,7 +716,7 @@
                                               CanUserResizeRows="False"
                                               CanUserSortColumns="False"
                                               CellStyle="{DynamicResource Point_UI_DataGridCellStyle}"
-                                              ColumnHeaderHeight="40"
+                                              ColumnHeaderHeight="30"
                                               ColumnHeaderStyle="{DynamicResource Point_UI_DataGridColumnHeaderStyle}"
                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
                                               FrozenColumnCount="1"
@@ -721,6 +724,7 @@
                                               HeadersVisibility="Column"
                                               ItemsSource="{Binding On_Read_List}"
                                               RowHeaderWidth="0"
+                                              RowHeight="25"
                                               RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
                                               SelectionMode="Single"
                                               SelectionUnit="CellOrRowHeader">
@@ -760,7 +764,7 @@
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Val_Name}"
-                                                                   HorizontalAlignment="Center"
+                                                                   HorizontalAlignment="Left"
                                                                    VerticalAlignment="Center"
                                                                    FontSize="14" />
                                                     </DataTemplate>

@@ -9,6 +9,9 @@
              d:DesignWidth="560"
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_Surround_Direction_VM}"
              mc:Ignorable="d">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
 
 
 
@@ -157,7 +160,18 @@
         </Grid>
 
 
-        <pop_ups:UC_Wait_Loading DataContext="{Binding Direction_State}" />
+        <pop_ups:UC_Wait_Loading Visibility="{Binding Direction_State, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <!--<pop_ups:UC_Wait_Loading.Style>
+                <Style TargetType="pop_ups:UC_Wait_Loading">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Direction_State}" Value="Reading">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </pop_ups:UC_Wait_Loading.Style>-->
+        </pop_ups:UC_Wait_Loading>
 
 
 

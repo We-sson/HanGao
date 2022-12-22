@@ -14,27 +14,43 @@
 
 
 
-        <DataGrid Style="{DynamicResource Point_DataGridStyle}"
-                  AlternatingRowBackground="Transparent"
+
+
+
+        <DataGrid AlternatingRowBackground="Gainsboro"
+                  AlternationCount="2"
                   AutoGenerateColumns="False"
                   Background="Transparent"
+                  BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                  BorderThickness="2"
                   CanUserAddRows="False"
                   CanUserDeleteRows="False"
                   CanUserReorderColumns="False"
                   CanUserResizeColumns="False"
-                  CellStyle="{DynamicResource Point_DataGridCellStyle}"
-                  ColumnHeaderStyle="{DynamicResource Point_DataGridColumnHeaderStyle}"
-                  ColumnWidth="*"
-                  GridLinesVisibility="None"
+                  CanUserResizeRows="False"
+                  CanUserSortColumns="False"
+                  CellStyle="{DynamicResource Point_UI_DataGridCellStyle}"
+                  ColumnHeaderStyle="{DynamicResource Point_UI_DataGridColumnHeaderStyle}"
+                  FontFamily="{DynamicResource 全局_文字_数字字体}"
+                  FrozenColumnCount="2"
+                  GridLinesVisibility="Horizontal"
                   HeadersVisibility="Column"
-                  IsReadOnly="True"
-                  ItemsSource="{Binding Surround_Offset_Point, Mode=TwoWay}"
-                  RowBackground="Transparent"
-                  RowHeight="56"
-                  RowStyle="{DynamicResource Point_DataGridRowStyle}"
+                  ItemsSource="{Binding Surround_Offset_Point}"
+                  RowHeaderWidth="0"
+                  RowHeight="40"
+                  RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
                   SelectedItem="{Binding User_Selected_SInk_Pos}"
                   SelectionMode="Single"
                   SelectionUnit="FullRow">
+
+
+
+
+
+
+
+
+
 
 
             <DataGrid.Columns>
@@ -44,7 +60,7 @@
                 <DataGridTemplateColumn Width="80">
                     <DataGridTemplateColumn.Header>
                         <TextBlock Text="No"
-                                   Margin="8,0,8,8"
+                                   Margin="8"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -62,10 +78,10 @@
 
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="auto">
                     <DataGridTemplateColumn.Header>
                         <TextBlock Text="Name"
-                                   Margin="8,0,8,8"
+                                   Margin="8"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -83,10 +99,10 @@
                 </DataGridTemplateColumn>
 
 
-                <DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.Header>
                         <TextBlock Text="Offset.X"
-                                   Margin="8,0,8,8"
+                                   Margin="8"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -103,10 +119,10 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.Header>
                         <TextBlock Text="Offset.Y"
-                                   Margin="8,0,8,8"
+                                   Margin="8"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -124,10 +140,10 @@
                 </DataGridTemplateColumn>
 
 
-                <DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.Header>
                         <TextBlock Text="Offset.Z"
-                                   Margin="8,0,8,8"
+                                   Margin="8"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    FontFamily="{DynamicResource 全局_文字_数字字体}"

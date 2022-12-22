@@ -38,11 +38,11 @@ namespace HanGao.ViewModel
             });
 
             ///通讯错误信息回调显示
-            KUKA_Receive.Socket_ErrorInfo_delegate += User_Log_Add;
+            //KUKA_Receive.Socket_ErrorInfo_delegate += User_Log_Add;
 
 
             ///通讯接收查找指令
-            KUKA_Receive.KUKA_Receive_Find_String += (Calibration_Data_Receive _S, string _RStr) =>
+            Static_KUKA_Receive_Calibration_String += (Calibration_Data_Receive _S, string _RStr) =>
             {
 
 

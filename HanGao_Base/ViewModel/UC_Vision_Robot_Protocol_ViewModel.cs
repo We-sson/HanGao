@@ -1,7 +1,8 @@
 ﻿
 
+using CommunityToolkit.Mvvm.Messaging;
 using HanGao.View.User_Control;
-using static HanGao.Model.Socket_Setup_Models;
+using HanGao.View.User_Control.Vision_Control;
 using System.Windows;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static HanGao.ViewModel.User_Control_Log_ViewModel;
@@ -17,7 +18,7 @@ namespace HanGao.ViewModel
         {
 
             ///通讯报错显示
-            Read.Socket_ErrorInfo_delegate= One_Read.Socket_ErrorInfo_delegate += User_Log_Add;
+            Read.Socket_ErrorInfo_delegate = One_Read.Socket_ErrorInfo_delegate += User_Log_Add;
 
             // 接收到变量值后更新UI值
             Read.Socket_Receive_Delegate = One_Read.Socket_Receive_Delegate += (Socket_Models_Receive _Receive) =>
@@ -36,14 +37,17 @@ namespace HanGao.ViewModel
                         {
                             _Li.Val_Var = _Receive.Receive_Var;
                             return true;
-                        }) ;
+                        });
 
-             
-                            //Messenger.Send<dynamic, string>(DateTime.UtcNow.TimeOfDay.TotalMilliseconds - _Rece_Info.Val_Update_Time, nameof(Meg_Value_Eunm.Connter_Time_Delay_Method));
-                            //_List.Val_Update_Time = DateTime.UtcNow.TimeOfDay.TotalMilliseconds - _Receive.Reveice_Inf.Val_Update_Time;
-                            //_List.Val_Var = _Rece_Info.Val_Var;
-                  
-             
+                        _Rece_Info.Val_Var = _Receive.Receive_Var;
+                        ///发送回定义区域
+                        Messenger.Send<Socket_Models_List, string>(_Rece_Info, _Rece_Info.Send_Area);
+
+                        //Messenger.Send<dynamic, string>(DateTime.UtcNow.TimeOfDay.TotalMilliseconds - _Rece_Info.Val_Update_Time, nameof(Meg_Value_Eunm.Connter_Time_Delay_Method));
+                        //_List.Val_Update_Time = DateTime.UtcNow.TimeOfDay.TotalMilliseconds - _Receive.Reveice_Inf.Val_Update_Time;
+                        //_List.Val_Var = _Rece_Info.Val_Var;
+
+
 
 
 
@@ -64,14 +68,16 @@ namespace HanGao.ViewModel
                             return true;
 
                         });
+                        ///发送回定义区域
+                        _Rece_Info.Val_Var = _Receive.Receive_Var;
+                        Messenger.Send<Socket_Models_List, string>(_Rece_Info, _Rece_Info.Send_Area);
 
-                     
-                            //Messenger.Send<dynamic, string>(DateTime.UtcNow.TimeOfDay.TotalMilliseconds - _Rece_Info.Val_Update_Time, nameof(Meg_Value_Eunm.Connter_Time_Delay_Method));
-                            //_List.Val_Update_Time = DateTime.UtcNow.TimeOfDay.TotalMilliseconds - _Receive.Reveice_Inf.Val_Update_Time;
-                            _List.Val_Var = _Rece_Info.Val_Var;
-                      
+                        //Messenger.Send<dynamic, string>(DateTime.UtcNow.TimeOfDay.TotalMilliseconds - _Rece_Info.Val_Update_Time, nameof(Meg_Value_Eunm.Connter_Time_Delay_Method));
+                        //_List.Val_Update_Time = DateTime.UtcNow.TimeOfDay.TotalMilliseconds - _Receive.Reveice_Inf.Val_Update_Time;
+                        //_List.Val_Var = _Rece_Info.Val_Var;
 
-                   
+
+
 
                         break;
                 }
@@ -86,28 +92,30 @@ namespace HanGao.ViewModel
                 {
 
 
-                On_Read_List.Clear();
+                    On_Read_List.Clear();
 
-                On_Read_List = _List;
+                    On_Read_List = _List;
                     //清楚相机UI列表
-                    
+
 
                 });
 
-                List<Socket_SendInfo_Model >_SendInfo = new List<Socket_SendInfo_Model>();
+                List<Socket_SendInfo_Model> _SendInfo = new List<Socket_SendInfo_Model>();
                 foreach (var item in _List)
                 {
 
                     _SendInfo.Add(new Socket_SendInfo_Model() { Reveice_Inf = item, Var_ID = item.Val_ID, Var_Name = item.Val_Name, Write_Var = item.Write_Value });
-                
+
                 }
                 One_Read.Connect_IP = UI_IP;
-                One_Read.Connect_Port= UI_Port;
-                new Thread(new ThreadStart(new Action(() =>
-                {
-                    One_Read.Cycle_Real_Send(_SendInfo);
-                })))
-                { IsBackground = true, Name = "Cycle_Real—KUKA" }.Start();
+                One_Read.Connect_Port = UI_Port;
+                //new Thread(new ThreadStart(new Action(() =>
+                //{
+
+                One_Read.Cycle_Real_Send(_SendInfo);
+
+                //})))
+                //{ IsBackground = true, Name = "Cycle_Real—KUKA" }.Start();
 
 
 
@@ -171,9 +179,9 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 周期读取库卡变量数据列表集合
         /// </summary>
-        public static  ObservableCollection<Socket_Models_List> _On_Read_List { set; get; } = new ObservableCollection<Socket_Models_List>();
+        public static ObservableCollection<Socket_Models_List> _On_Read_List { set; get; } = new ObservableCollection<Socket_Models_List>();
 
-        public static  ObservableCollection<Socket_Models_List> On_Read_List
+        public static ObservableCollection<Socket_Models_List> On_Read_List
         {
 
             get
@@ -221,17 +229,17 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 循环读取TCP对象
         /// </summary>
-        public   Socket_Connect Read { set; get; }= new Socket_Connect();
+        public Socket_Connect Read { set; get; } = new Socket_Connect();
 
         /// <summary>
         /// 单次TCP对象
         /// </summary>
-        public   Socket_Connect One_Read { set; get; }=new Socket_Connect();
+        public Socket_Connect One_Read { set; get; } = new Socket_Connect();
 
         /// <summary>
         /// UI IP显示
         /// </summary>
-        public string UI_IP { set; get; } = "192.168.153.1";
+        public string UI_IP { set; get; } = "192.168.153.150";
 
         /// <summary>
         /// UI 端口显示
@@ -251,12 +259,12 @@ namespace HanGao.ViewModel
             foreach (Enum item in Enum.GetValues(_Enum))
             {
 
-                if (Socket_Read_List.Count!=0)
+                if (Socket_Read_List.Count != 0)
                 {
-                 _Val_ID = Socket_Read_List.Max(_M => _M.Val_ID) + 1;
+                    _Val_ID = Socket_Read_List.Max(_M => _M.Val_ID) + 1;
 
                 }
-                Socket_Read_List.Add(new Socket_Models_List() { Val_ID = _Val_ID,  Val_Var="....." ,Val_Name = item.GetStringValue(), Send_Area = item.GetAreaValue(), Value_Enum = item, Bingding_Value = item.GetBingdingValue().BingdingValue, KUKA_Value_Enum = (Value_Type)item.GetBingdingValue().SetValueType, });
+                Socket_Read_List.Add(new Socket_Models_List() { Val_ID = _Val_ID, Val_Var = ".....", Val_Name = item.GetStringValue(), Send_Area = item.GetAreaValue(), Value_Enum = item, Bingding_Value = item.GetBingdingValue().BingdingValue, KUKA_Value_Enum = (Value_Type)item.GetBingdingValue().SetValueType, });
 
 
             }
@@ -273,10 +281,11 @@ namespace HanGao.ViewModel
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
+                Button E = Sm.Source as Button;
 
 
-                            Read.Connect_IP = UI_IP;
-                            Read.Connect_Port=UI_Port;
+                Read.Connect_IP = UI_IP;
+                Read.Connect_Port = UI_Port;
 
                 //设置连接对象信息和回调方法和连接状态
 
@@ -290,19 +299,19 @@ namespace HanGao.ViewModel
                     _SendInfo.Add(new Socket_SendInfo_Model() { Reveice_Inf = item, Var_ID = item.Val_ID, Var_Name = item.Val_Name, Write_Var = item.Write_Value });
                 }
 
-                        //使用多线程读取
-                        new Thread(new ThreadStart(new Action(() =>
-                        {
+                //使用多线程读取
+                new Thread(new ThreadStart(new Action(() =>
+                {
 
-                            Read.Loop_Real_Send(_SendInfo);
-
-
-                        })))
-                        { IsBackground = true, Name = "Loop_Real—KUKA" }.Start();
+                    Read.Loop_Real_Send(_SendInfo);
 
 
-              
-       
+                })))
+                { IsBackground = true, Name = "Loop_Real—KUKA" }.Start();
+
+
+                E.IsEnabled = false;
+
             });
         }
         /// <summary>
@@ -310,11 +319,13 @@ namespace HanGao.ViewModel
         /// </summary>
         public ICommand Socket_Close_Comm
         {
-            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            get => new RelayCommand<UC_Vision_Robot_Protocol>((Sm) =>
             {
 
-                                Read.Is_Connect_Client = false;
-           
+                Sm.Connect_UI.IsEnabled = true;
+
+                Read.Is_Connect_Client = false;
+
             });
         }
 

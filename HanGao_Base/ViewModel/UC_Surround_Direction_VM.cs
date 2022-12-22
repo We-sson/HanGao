@@ -10,7 +10,7 @@ namespace HanGao.ViewModel
         {
 
      
-            Messenger.Register<dynamic , string>(this, nameof(Meg_Value_Eunm.Surround_Direction_State), (O, _S) => {  Direction_State = _S; });
+            //Messenger.Register<dynamic , string>(this, nameof(Meg_Value_Eunm.Surround_Direction_State), (O, _S) => {  Direction_State = _S; });
 
 
             ///清除UI界面显示
@@ -55,20 +55,13 @@ namespace HanGao.ViewModel
 
 
 
-        /// <summary>
-        /// 围边状态显示枚举
-        /// </summary>
-        public enum UI_Type_Enum
-        {
-            Reading,
-            Ok
-        }
+
 
 
         /// <summary>
         ///  围边UI显示状态属性
         /// </summary>
-        public UI_Type_Enum Direction_State { get; set; } = UI_Type_Enum.Ok ;
+        public bool Direction_State { get; set; } = false;
 
 
 
@@ -87,19 +80,19 @@ namespace HanGao.ViewModel
                 if (value != Direction_Enum.Null)
                 {
 
+                    Direction_State = true;
+                    Console.WriteLine(Direction_State);
 
-                    // Task.Run(async () =>
-                    //{
-
-                    //    await Task.Delay(1);
-
+                       
                     Messenger.Send<dynamic, string>(value, nameof(Meg_Value_Eunm.Sink_Surround_Craft_Point_Load));
 
                     //});
+                    Direction_State = false;
+                    Console.WriteLine(Direction_State);
 
 
-      
-      
+
+
 
 
 
@@ -173,5 +166,14 @@ namespace HanGao.ViewModel
             set { _C315_Checked = value; if (value) Surround_Direction_Type = Direction_Enum.C315_Welding_Craft; }
         }
 
+
+    /// <summary>
+    /// 围边状态显示枚举
+    /// </summary>
+    public enum UI_Type_Enum
+    {
+        Reading,
+        Ok
+    }
     }
 }
