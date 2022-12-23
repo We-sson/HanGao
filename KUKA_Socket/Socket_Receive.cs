@@ -58,6 +58,7 @@ namespace Soceket_KUKA
             IPEndPoint ipe = new IPEndPoint(IPAddress.Parse(_IP), int.Parse(_Port));
 
             Socket_Sever = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            //设置通讯口可重用端口
             Socket_Sever.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
             //绑定端口和IP
             Socket_Sever.Bind(ipe);

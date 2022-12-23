@@ -3,6 +3,7 @@
 using CommunityToolkit.Mvvm.Messaging;
 using HanGao.View.User_Control;
 using HanGao.View.User_Control.Vision_Control;
+using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
 using System.Windows;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static HanGao.ViewModel.User_Control_Log_ViewModel;
@@ -18,7 +19,7 @@ namespace HanGao.ViewModel
         {
 
             ///通讯报错显示
-            Read.Socket_ErrorInfo_delegate = One_Read.Socket_ErrorInfo_delegate += User_Log_Add;
+            //Read.Socket_ErrorInfo_delegate = One_Read.Socket_ErrorInfo_delegate += User_Log_Add;
 
             // 接收到变量值后更新UI值
             Read.Socket_Receive_Delegate = One_Read.Socket_Receive_Delegate += (Socket_Models_Receive _Receive) =>
@@ -108,7 +109,7 @@ namespace HanGao.ViewModel
 
                 }
                 One_Read.Connect_IP = UI_IP;
-                One_Read.Connect_Port = UI_Port;
+                One_Read.Connect_Port = UI_Port.ToString();
                 //new Thread(new ThreadStart(new Action(() =>
                 //{
 
@@ -134,8 +135,12 @@ namespace HanGao.ViewModel
             //发送需要读取的变量名枚举值
             ADD_KUKA_Value_List(typeof(Value_Name_enum));
 
-
+            Initialization_Read_Valer();
         }
+
+
+        public bool UI_Connect_Client { set; get; } = false;
+
 
 
         private static string _Send_Socket_String = "....";
@@ -229,12 +234,12 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 循环读取TCP对象
         /// </summary>
-        public Socket_Connect Read { set; get; } = new Socket_Connect();
+        public Socket_Connect Read { set; get; } = new Socket_Connect() { Socket_ErrorInfo_delegate = User_Log_Add };
 
         /// <summary>
         /// 单次TCP对象
         /// </summary>
-        public Socket_Connect One_Read { set; get; } = new Socket_Connect();
+        public Socket_Connect One_Read { set; get; } = new Socket_Connect() { Socket_ErrorInfo_delegate = User_Log_Add };
 
         /// <summary>
         /// UI IP显示
@@ -244,8 +249,36 @@ namespace HanGao.ViewModel
         /// <summary>
         /// UI 端口显示
         /// </summary>
-        public string UI_Port { set; get; } = "7000";
+        public int UI_Port { set; get; } = 7000;
 
+
+        /// <summary>
+        /// 初始化读取文件值
+        /// </summary>
+        public void Initialization_Read_Valer()
+        {
+            //读取存储文件参数
+            Vision_Data _Date = new Vision_Data();
+            Vision_Xml_Method.Read_Xml(ref _Date);
+            UI_IP = _Date.Connect_KUKA_IP;
+            UI_Port = _Date.Connect_KUKA_Port;
+
+
+            Task.Run(() => { 
+            for (int i = 0; i < 30; i++)
+            {
+
+                Connect_KUKA_Outer();
+                Thread.Sleep(1500);
+                    if (Read.Is_Connect_Client)
+                    {
+                        return;
+                    }
+                User_Log_Add("第" + i + "/30次" + "连接:" + UI_IP + "第三方协议中....");
+
+            }
+            });
+        }
 
 
         /// <summary>
@@ -275,6 +308,46 @@ namespace HanGao.ViewModel
 
 
         /// <summary>
+        ///连接库卡第三方协议循环取值
+        /// </summary>
+        public void Connect_KUKA_Outer()
+        {
+
+            Read.Connect_IP = UI_IP;
+            Read.Connect_Port = UI_Port.ToString();
+
+            //设置连接对象信息和回调方法和连接状态
+
+
+
+            List<Socket_SendInfo_Model> _SendInfo = new List<Socket_SendInfo_Model>();
+
+
+            foreach (var item in Socket_Read_List)
+            {
+                _SendInfo.Add(new Socket_SendInfo_Model() { Reveice_Inf = item, Var_ID = item.Val_ID, Var_Name = item.Val_Name, Write_Var = item.Write_Value });
+            }
+
+            //使用多线程读取
+            new Thread(new ThreadStart(new Action(() =>
+            {
+
+              
+                Read.Loop_Real_Send(_SendInfo);
+               
+
+            })))
+            { IsBackground = true, Name = "Loop_Real—KUKA" }.Start();
+
+
+
+        }
+
+
+
+
+
+        /// <summary>
         /// Socket连接事件命令
         /// </summary>
         public ICommand Socket_Client_Connection_Comm
@@ -283,34 +356,10 @@ namespace HanGao.ViewModel
             {
                 Button E = Sm.Source as Button;
 
-
-                Read.Connect_IP = UI_IP;
-                Read.Connect_Port = UI_Port;
-
-                //设置连接对象信息和回调方法和连接状态
+                Connect_KUKA_Outer();
 
 
-
-                List<Socket_SendInfo_Model> _SendInfo = new List<Socket_SendInfo_Model>();
-
-
-                foreach (var item in Socket_Read_List)
-                {
-                    _SendInfo.Add(new Socket_SendInfo_Model() { Reveice_Inf = item, Var_ID = item.Val_ID, Var_Name = item.Val_Name, Write_Var = item.Write_Value });
-                }
-
-                //使用多线程读取
-                new Thread(new ThreadStart(new Action(() =>
-                {
-
-                    Read.Loop_Real_Send(_SendInfo);
-
-
-                })))
-                { IsBackground = true, Name = "Loop_Real—KUKA" }.Start();
-
-
-                E.IsEnabled = false;
+                //E.IsEnabled = false;
 
             });
         }
@@ -322,7 +371,7 @@ namespace HanGao.ViewModel
             get => new RelayCommand<UC_Vision_Robot_Protocol>((Sm) =>
             {
 
-                Sm.Connect_UI.IsEnabled = true;
+                //Sm.Connect_UI.IsEnabled = true;
 
                 Read.Is_Connect_Client = false;
 

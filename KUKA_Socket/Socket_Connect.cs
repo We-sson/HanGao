@@ -53,7 +53,7 @@ namespace Soceket_Connect
         /// <summary>
         /// 通讯接收信息委托属性
         /// </summary>
-        public Socket_T_delegate <Socket_Models_Receive> Socket_Receive_Delegate { set; get; }
+        public Socket_T_delegate<Socket_Models_Receive> Socket_Receive_Delegate { set; get; }
 
 
         /// <summary>
@@ -94,14 +94,11 @@ namespace Soceket_Connect
         /// </summary>
         public bool Is_Connect_Client
         {
-            get { return _Is_Connect_Client; }
+            get => _Is_Connect_Client; 
             set
             {
                 _Is_Connect_Client = value;
-                if (Socket_Connect_State_delegate != null)
-                {
-                    Socket_Connect_State_delegate(value);
-                }
+                Socket_Connect_State_delegate?.Invoke(value);
 
             }
         }
@@ -407,119 +404,119 @@ namespace Soceket_Connect
             try
             {
 
-  
-
-
-            lock (ar)
-            {
-
-            
-
-            //传入参数转换
-            Socket_Models_Receive _Receive = ar.AsyncState as Socket_Models_Receive;
-
-            if (Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.Read || Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.One_Read)
-            {
-                //等待发送完成标识
-                Send_Read.WaitOne(10000);
-
-                //获取接收字节数量
-                Socket_KUKA_Receive.Byte_Leng = Global_Socket_Read.EndReceive(ar);
-
-                if (Socket_KUKA_Receive.Byte_Leng == 0)
-                {
-                    //接收异常退出
-                    //User_Log_Add("Error: -19 原因:" + GetType().Name + " 接收消息异常，库卡服务器断开！");
-                    Socket_Receive_Error(Socket_KUKA_Receive.Read_Write_Type, "Error: -20 原因:" + GetType().Name + " 写入线程，库卡服务器断开！");
-
-                    return;
-                }
-
-            }
-
-            if (Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.Write)
-            {
-
-
-                Socket_KUKA_Receive.Byte_Leng = Global_Socket_Write.EndReceive(ar);
-                if (Socket_KUKA_Receive.Byte_Leng == 0)
-                {
-                    //接收异常退出
-
-                    Socket_Receive_Error(Socket_KUKA_Receive.Read_Write_Type, "Error: -20 原因:" + GetType().Name + " 写入线程，库卡服务器断开！");
-
-                    return;
-
-                }
-                // Rece_IA_Lock.ReleaseMutex();
-
-            }
 
 
 
-
-
-
-
-            if (Socket_KUKA_Receive.Byte_Leng > 0)
-            {
-
-
-
-                //获取接收字节
-                if (Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.Read || Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.One_Read)
+                lock (ar)
                 {
 
-                    //_Byte.Byte_data = Socket_KUKA_Receive.Byte_Read_Receive;
-                    Real_Byte_To_Var(ref Socket_KUKA_Receive);
-                    // Socket_KUKA_Receive.Byte_Read_Receive = new byte[1024 * 1024];
+
+
+                    //传入参数转换
+                    Socket_Models_Receive _Receive = ar.AsyncState as Socket_Models_Receive;
+
+                    if (Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.Read || Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.One_Read)
+                    {
+                        //等待发送完成标识
+                        Send_Read.WaitOne(10000);
+
+                        //获取接收字节数量
+                        Socket_KUKA_Receive.Byte_Leng = Global_Socket_Read.EndReceive(ar);
+
+                        if (Socket_KUKA_Receive.Byte_Leng == 0)
+                        {
+                            //接收异常退出
+                            //User_Log_Add("Error: -19 原因:" + GetType().Name + " 接收消息异常，库卡服务器断开！");
+                            Socket_Receive_Error(Socket_KUKA_Receive.Read_Write_Type, "Error: -20 原因:" + GetType().Name + " 写入线程，库卡服务器断开！");
+
+                            return;
+                        }
+
+                    }
+
+                    if (Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.Write)
+                    {
+
+
+                        Socket_KUKA_Receive.Byte_Leng = Global_Socket_Write.EndReceive(ar);
+                        if (Socket_KUKA_Receive.Byte_Leng == 0)
+                        {
+                            //接收异常退出
+
+                            Socket_Receive_Error(Socket_KUKA_Receive.Read_Write_Type, "Error: -20 原因:" + GetType().Name + " 写入线程，库卡服务器断开！");
+
+                            return;
+
+                        }
+                        // Rece_IA_Lock.ReleaseMutex();
+
+                    }
+
+
+
+
+
+
+
+                    if (Socket_KUKA_Receive.Byte_Leng > 0)
+                    {
+
+
+
+                        //获取接收字节
+                        if (Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.Read || Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.One_Read)
+                        {
+
+                            //_Byte.Byte_data = Socket_KUKA_Receive.Byte_Read_Receive;
+                            Real_Byte_To_Var(ref Socket_KUKA_Receive);
+                            // Socket_KUKA_Receive.Byte_Read_Receive = new byte[1024 * 1024];
+                        }
+                        else if (Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.Write)
+                        {
+                            // _Byte.Byte_data = Socket_KUKA_Receive.Byte_Write_Receive;
+                            Real_Byte_To_Var(ref Socket_KUKA_Receive);
+
+                            // Socket_KUKA_Receive.Byte_Write_Receive = new byte[1024 * 1024];
+                        }
+
+
+
+                        //回传接收消息到显示
+                        if (Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.Read || Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.One_Read)
+                        {
+
+                            //_Receive.Reveice_Inf.Val_Var = Socket_KUKA_Receive.Receive_Byte.Message_Show;
+
+                            _Receive.Receive_Var = Socket_KUKA_Receive.Receive_Byte.Message_Show;
+                            //传送委托到声明位置
+                            Socket_Receive_Delegate(_Receive);
+
+                        }
+                    }
+
+
+
+                    if (Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.Write)
+                    {
+
+
+                        Is_Connect_Client = false;
+
+                        //释放接收等待状态
+                        Send_Waite.Set();
+
+                    }
+
+                    if (Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.Read || Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.One_Read)
+                    {
+                        //释放发送线程 
+                        Send_Waite.Set();
+
+                    }
+
+
+
                 }
-                else if (Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.Write)
-                {
-                    // _Byte.Byte_data = Socket_KUKA_Receive.Byte_Write_Receive;
-                    Real_Byte_To_Var(ref Socket_KUKA_Receive);
-
-                    // Socket_KUKA_Receive.Byte_Write_Receive = new byte[1024 * 1024];
-                }
-
-
-
-                //回传接收消息到显示
-                if (Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.Read || Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.One_Read)
-                {
-
-                    //_Receive.Reveice_Inf.Val_Var = Socket_KUKA_Receive.Receive_Byte.Message_Show;
-
-                    _Receive.Receive_Var = Socket_KUKA_Receive.Receive_Byte.Message_Show;
-                    //传送委托到声明位置
-                    Socket_Receive_Delegate(_Receive);
-
-                }
-            }
-
-
-
-            if (Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.Write)
-            {
-
-
-                Is_Connect_Client = false;
-
-                //释放接收等待状态
-                Send_Waite.Set();
-
-            }
-
-            if (Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.Read || Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.One_Read)
-            {
-                //释放发送线程 
-                Send_Waite.Set();
-
-            }
-
-
-
-        }
             }
             catch (Exception e)
             {
@@ -541,66 +538,66 @@ namespace Soceket_Connect
             try
             {
 
- 
-
-            lock (_S)
-            {
-
-            
 
 
-
-            Byte[] Message = _S.Send_Byte;
-            //Socket_KUKA_Receive = _S;
-
-            if (_S.Read_Write_Type == Read_Write_Enum.Write && Global_Socket_Write.Connected == true)
-            {
-
-                //重置发送等待状态
-                Send_Write.Reset();
-                Send_Waite.Reset();
-
-                //异步监听接收写入消息
-                Global_Socket_Write.BeginReceive(Socket_KUKA_Receive.Byte_Write_Receive, 0, Socket_KUKA_Receive.Byte_Write_Receive.Length, SocketFlags.None, new AsyncCallback(Socke_Receive_Message), _S);
-
-                Thread.Sleep(10);
-
-                //异步写入发送
-                Global_Socket_Write.BeginSend(Message, 0, Message.Length, SocketFlags.None, new AsyncCallback(Socket_Send_Message), Global_Socket_Write);
-
-
-                if (!Send_Waite.WaitOne(1000) && !Send_Write.WaitOne(1000))
-                {
-                    Socket_Receive_Error(_S.Read_Write_Type, "Error: -54 原因:写入连接超时！检查网络与IP设置是否正确。");
-
-                    return;
-                }
-
-            }
-            if ((_S.Read_Write_Type == Read_Write_Enum.Read || _S.Read_Write_Type == Read_Write_Enum.One_Read) && Global_Socket_Read.Connected == true)
-            {
-
-                //复位连接发生线程堵塞
-                Send_Read.Reset();
-                Send_Waite.Reset();
-
-                //异步监听接收读取消息
-                Global_Socket_Read.BeginReceive(Socket_KUKA_Receive.Byte_Read_Receive, 0, Socket_KUKA_Receive.Byte_Read_Receive.Length, SocketFlags.None, new AsyncCallback(Socke_Receive_Message), _S);
-
-                Thread.Sleep(15);
-
-                Global_Socket_Read.BeginSend(Message, 0, Message.Length, SocketFlags.None, new AsyncCallback(Socket_Send_Message), Global_Socket_Read);
-
-                if (!Send_Waite.WaitOne(150000) && !Send_Read.WaitOne(1500000))
+                lock (_S)
                 {
 
-                    Socket_Receive_Error(Read_Write_Enum.Read, "接收超时无应答，退出线程发送！");
-                    return;
+
+
+
+
+                    Byte[] Message = _S.Send_Byte;
+                    //Socket_KUKA_Receive = _S;
+
+                    if (_S.Read_Write_Type == Read_Write_Enum.Write && Global_Socket_Write.Connected == true)
+                    {
+
+                        //重置发送等待状态
+                        Send_Write.Reset();
+                        Send_Waite.Reset();
+
+                        //异步监听接收写入消息
+                        Global_Socket_Write.BeginReceive(Socket_KUKA_Receive.Byte_Write_Receive, 0, Socket_KUKA_Receive.Byte_Write_Receive.Length, SocketFlags.None, new AsyncCallback(Socke_Receive_Message), _S);
+
+                        Thread.Sleep(10);
+
+                        //异步写入发送
+                        Global_Socket_Write.BeginSend(Message, 0, Message.Length, SocketFlags.None, new AsyncCallback(Socket_Send_Message), Global_Socket_Write);
+
+
+                        if (!Send_Waite.WaitOne(1000) && !Send_Write.WaitOne(1000))
+                        {
+                            Socket_Receive_Error(_S.Read_Write_Type, "Error: -54 原因:写入连接超时！检查网络与IP设置是否正确。");
+
+                            return;
+                        }
+
+                    }
+                    if ((_S.Read_Write_Type == Read_Write_Enum.Read || _S.Read_Write_Type == Read_Write_Enum.One_Read) && Global_Socket_Read.Connected == true)
+                    {
+
+                        //复位连接发生线程堵塞
+                        Send_Read.Reset();
+                        Send_Waite.Reset();
+
+                        //异步监听接收读取消息
+                        Global_Socket_Read.BeginReceive(Socket_KUKA_Receive.Byte_Read_Receive, 0, Socket_KUKA_Receive.Byte_Read_Receive.Length, SocketFlags.None, new AsyncCallback(Socke_Receive_Message), _S);
+
+                        Thread.Sleep(15);
+
+                        Global_Socket_Read.BeginSend(Message, 0, Message.Length, SocketFlags.None, new AsyncCallback(Socket_Send_Message), Global_Socket_Read);
+
+                        if (!Send_Waite.WaitOne(150000) && !Send_Read.WaitOne(1500000))
+                        {
+
+                            Socket_Receive_Error(Read_Write_Enum.Read, "接收超时无应答，退出线程发送！");
+                            return;
+                        }
+
+                    }
+
                 }
-
-            }
-
-        }
 
             }
             catch (Exception e)
@@ -656,35 +653,35 @@ namespace Soceket_Connect
             try
             {
 
-    
 
-            lock (Socket_KUKA_Receive)
-            {
 
-                Write_Lock.EnterWriteLock();
-
-                //Socket_Models_List Sml = new Socket_Models_List() { Val_ID = 1000, Val_Name = _ValName, Write_Value = _WriteVar };
-
-                Socket_KUKA_Receive = new Socket_Models_Receive() { Send_Byte = Write_Var_To_Byte(_WriteVar, _ValName,_ID), Read_Write_Type = Read_Write_Enum.Write };
-                //创建连接
-                Socket_Client_KUKA(Read_Write_Enum.Write);
-         
-
-                if (Global_Socket_Write.Connected || Is_Connect_Client)
+                lock (Socket_KUKA_Receive)
                 {
-                    //发送消息
-                    Socket_Send_Message_Method(Socket_KUKA_Receive);
+
+                    Write_Lock.EnterWriteLock();
+
+                    //Socket_Models_List Sml = new Socket_Models_List() { Val_ID = 1000, Val_Name = _ValName, Write_Value = _WriteVar };
+
+                    Socket_KUKA_Receive = new Socket_Models_Receive() { Send_Byte = Write_Var_To_Byte(_WriteVar, _ValName, _ID), Read_Write_Type = Read_Write_Enum.Write };
+                    //创建连接
+                    Socket_Client_KUKA(Read_Write_Enum.Write);
 
 
-                    Send_Write.WaitOne(5000);
+                    if (Global_Socket_Write.Connected || Is_Connect_Client)
+                    {
+                        //发送消息
+                        Socket_Send_Message_Method(Socket_KUKA_Receive);
 
-                    // 关闭连接
-                    Socket_Close(Read_Write_Enum.Write);
+
+                        Send_Write.WaitOne(5000);
+
+                        // 关闭连接
+                        Socket_Close(Read_Write_Enum.Write);
+
+                    }
+                    Write_Lock.ExitWriteLock();
 
                 }
-                Write_Lock.ExitWriteLock();
-
-            }
 
 
 
@@ -707,7 +704,7 @@ namespace Soceket_Connect
         /// 读取变量周期方法
         /// </summary>
         /// <param name="Sml">周期传输集合</param>
-        public void Cycle_Real_Send (List <Socket_SendInfo_Model> Sml)
+        public void Cycle_Real_Send(List<Socket_SendInfo_Model> Sml)
         {
 
 
@@ -716,36 +713,36 @@ namespace Soceket_Connect
             {
 
 
-            lock (Socket_KUKA_Receive)
-            {
-                Socket_KUKA_Receive = new Socket_Models_Receive();
-                Socket_Client_KUKA(Read_Write_Enum.One_Read);
-
-         
-
-                if (Global_Socket_Read.Connected)
+                lock (Socket_KUKA_Receive)
                 {
+                    Socket_KUKA_Receive = new Socket_Models_Receive();
+                    Socket_Client_KUKA(Read_Write_Enum.One_Read);
 
-                    //发生集合内的对象
-                    foreach (var item in Sml)
+
+
+                    if (Global_Socket_Read.Connected)
                     {
 
+                        //发生集合内的对象
+                        foreach (var item in Sml)
+                        {
 
 
-                        Socket_KUKA_Receive = new Socket_Models_Receive() { Send_Byte = Read_Var_To_Byte(item.Var_Name, item.Var_ID), Read_Write_Type = Read_Write_Enum.One_Read, Reveice_Inf = item.Reveice_Inf };
 
-                        Socket_Send_Message_Method(Socket_KUKA_Receive);
+                            Socket_KUKA_Receive = new Socket_Models_Receive() { Send_Byte = Read_Var_To_Byte(item.Var_Name, item.Var_ID), Read_Write_Type = Read_Write_Enum.One_Read, Reveice_Inf = item.Reveice_Inf };
+
+                            Socket_Send_Message_Method(Socket_KUKA_Receive);
 
 
+                        }
+
+
+
+                        // 关闭连接
+                        Socket_Close(Read_Write_Enum.One_Read);
                     }
-               
 
-
-                    // 关闭连接
-                    Socket_Close(Read_Write_Enum.One_Read);
                 }
-
-            }
             }
             catch (Exception e)
             {
@@ -767,50 +764,57 @@ namespace Soceket_Connect
             {
 
 
-            lock (Socket_KUKA_Receive)
-            {
-
-                Socket_KUKA_Receive = new Socket_Models_Receive();
-
-
-                Socket_Client_KUKA( Read_Write_Enum.Read);
-
-
-                do
+                lock (Socket_KUKA_Receive)
                 {
 
-                    DateTime timeB = DateTime.Now;  //获取当前时间
+                    Socket_KUKA_Receive = new Socket_Models_Receive();
+
+
+                    Socket_Client_KUKA(Read_Write_Enum.Read);
 
 
 
-                    //发生集合内的对象
-                    foreach (var item in Socket_Read_List)
+                    while (Is_Connect_Client)
                     {
 
+                        DateTime timeB = DateTime.Now;  //获取当前时间
 
-                        //获得当前时间
-                        //Socket_Read_List[i].Val_Update_Time = DateTime.UtcNow.TimeOfDay.TotalMilliseconds;
-                        //装箱
-                        Socket_KUKA_Receive = new Socket_Models_Receive() { Send_Byte = Read_Var_To_Byte(item.Var_Name, item.Var_ID), Read_Write_Type = Read_Write_Enum.Read, Reveice_Inf = item.Reveice_Inf };
-                        if (Is_Connect_Client)
+
+
+                        //发生集合内的对象
+                        foreach (var item in Socket_Read_List)
                         {
 
 
-                            Socket_Send_Message_Method(Socket_KUKA_Receive);
+                            //获得当前时间
+                            //Socket_Read_List[i].Val_Update_Time = DateTime.UtcNow.TimeOfDay.TotalMilliseconds;
+                            //装箱
+                            Socket_KUKA_Receive = new Socket_Models_Receive() { Send_Byte = Read_Var_To_Byte(item.Var_Name, item.Var_ID), Read_Write_Type = Read_Write_Enum.Read, Reveice_Inf = item.Reveice_Inf };
+                            if (Is_Connect_Client)
+                            {
+
+
+                                Socket_Send_Message_Method(Socket_KUKA_Receive);
+
+                            }
+
+
+                            if (!Is_Connect_Client)
+                            {
+                                // 关闭连接
+                                Socket_Close(Read_Write_Enum.One_Read);
+                            }
 
                         }
 
 
                     }
-                    
-
-                } while (Is_Connect_Client);
-
-                // 关闭连接
-                Socket_Close(Read_Write_Enum.One_Read);
 
 
-            }
+
+
+
+                }
 
             }
             catch (Exception e)

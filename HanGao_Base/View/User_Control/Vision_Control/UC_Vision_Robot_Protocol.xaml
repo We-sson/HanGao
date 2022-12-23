@@ -298,6 +298,16 @@
 
                             <Grid Height="35" Margin="8">
 
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="IsEnabled" Value="True" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding UI_Connect_Client}" Value="true">
+                                                <Setter Property="IsEnabled" Value="False" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="85" />
                                     <ColumnDefinition Width=" *" />
@@ -322,7 +332,16 @@
 
 
                             <Grid Height="35" Margin="8">
-
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="IsEnabled" Value="True" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding UI_Connect_Client}" Value="true">
+                                                <Setter Property="IsEnabled" Value="False" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="85" />
                                     <ColumnDefinition Width=" *" />
@@ -381,10 +400,10 @@
                                         <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
                                             <Setter Property="Content" Value="{StaticResource T1}" />
                                             <Style.Triggers>
-                                                <Trigger Property="IsEnabled" Value="False">
-
+                                                <DataTrigger Binding="{Binding UI_Connect_Client}" Value="true">
                                                     <Setter Property="Content" Value="{StaticResource T2}" />
-                                                </Trigger>
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
                                     </Button.Style>

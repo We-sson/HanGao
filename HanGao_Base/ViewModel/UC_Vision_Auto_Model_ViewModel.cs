@@ -18,6 +18,8 @@ namespace HanGao.ViewModel
             Vision_Xml_Method.Read_Xml(ref _Date);
             Local_Port_UI = _Date.Stat_Network_Port;
 
+
+
             Initialization_Sever_Start();
 
 
@@ -67,8 +69,6 @@ namespace HanGao.ViewModel
 
 
 
-        //public KUKA_Send_Receive_Xml KUKA_Send_Receive { set; get; } = new KUKA_Send_Receive_Xml() { };
-
         //服务器开始状态
         public bool Receive_Start_Type { set; get; } = true;
 
@@ -84,14 +84,11 @@ namespace HanGao.ViewModel
                 {
 
                     Initialization_Sever_Start();
-
-                    //KUKA_Receive.Server_Strat(Local_IP_UI[IP_UI_Select].ToString(), Local_Port_UI.ToString ());
                     Receive_Start_Type = false;
 
                 }
                 else
                 {
-                    //KUKA_Receive.Sever_End();
                     Initialization_Sever_STOP();
                     Receive_Start_Type = true;
                 }

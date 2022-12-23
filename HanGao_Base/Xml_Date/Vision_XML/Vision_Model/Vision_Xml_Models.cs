@@ -39,6 +39,10 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
     {
         [XmlAttribute()]
         public int Stat_Network_Port { set; get; } = 5000;
+        [XmlAttribute()]
+        public string Connect_KUKA_IP { set; get; } = "192.168.153.150";
+        [XmlAttribute()]
+        public int Connect_KUKA_Port { set; get; } = 7000;
 
         public ObservableCollection<Vision_Xml_Models> Vision_List { set; get; } =new ObservableCollection<Vision_Xml_Models>() {  };
 

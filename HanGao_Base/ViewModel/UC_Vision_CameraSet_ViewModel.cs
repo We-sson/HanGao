@@ -39,11 +39,15 @@ namespace HanGao.ViewModel
             Messenger.Register<dynamic, string>(this, nameof(Meg_Value_Eunm.Initialization_Camera), (O, _S) =>
             {
                 ////使用多线程读取
-                new Thread(new ThreadStart(new Action(() =>
-                {
+                //new Thread(new ThreadStart(new Action(() =>
+                //{
+
+                    Task.Run(() => { 
+
                     Initialization_Camera_Thread();
-                })))
-                { IsBackground = true, Name = "Initialization_Camera_Thread" }.Start();
+                    });
+                //})))
+                //{ IsBackground = true, Name = "Initialization_Camera_Thread" }.Start();
 
 
 
@@ -162,14 +166,12 @@ namespace HanGao.ViewModel
                     if (Connect_Camera())
                     {
 
-
-
                         return;
                     }
 
                 }
-                Thread.Sleep(2000);
-                User_Log_Add("第" + i + "次重试连接相机！多次失败检查相机IP");
+                Thread.Sleep(1000);
+                User_Log_Add("第" + i + "/30次重试连接相机！多次失败检查相机IP");
             }
 
         }
