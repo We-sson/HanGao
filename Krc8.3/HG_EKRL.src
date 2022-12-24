@@ -1,5 +1,5 @@
 &ACCESS RVO
-&REL 226
+&REL 227
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\KRL
@@ -22,9 +22,6 @@ DECL EKI_STATUS RET
 
 ;ENDFOLD (INI)
 ;------------6-------
-
-
-
 
 EKRL_CONNECT()
 
@@ -152,7 +149,7 @@ LP9=LastPos9
 
 
 
-HanGao_Camera_Offset(Find_Area,Work_Number,LP1)
+HanGao_Camera_Offset(#Find_Model ,Find_Area,Work_Number,LP1)
 
 switch Find_Area
 

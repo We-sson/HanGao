@@ -89,7 +89,7 @@ DEFTP Vision={ SOt FALSE,Soc TRUE }
             Find_Model_FOLD[5]=""  
             
   DECL FOLD Camera_Offset_Fold[5]
-            Camera_Offset_Fold[1]=" HanGao_Camera_Offset(%Area_Calib_lIST ,%Work_Area ,X%Camera_Name )"
+            Camera_Offset_Fold[1]=" HanGao_Camera_Offset(#Calibration ,%Area_Calib_lIST ,%Work_Area ,X%Camera_Name )"
             Camera_Offset_Fold[2]=""
             Camera_Offset_Fold[3]=""
             Camera_Offset_Fold[4]=""

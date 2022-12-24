@@ -1,11 +1,13 @@
 &ACCESS RVO
-&REL 275
+&REL 278
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HK
 DEF Glode_HanGao( )
 
 ;# DATE:2021-1-4
+
+
 
 
 END
@@ -1003,18 +1005,19 @@ ENDSWITCH
 
 END
 
-GLOBAL DEF HanGao_Camera_Offset( Calibration_Area:IN,Work_Camera:IN, Camera_POS:OUT)
-DECL E6POS Camera_POS,Cam_45_POS,Cam_135_POS,Cam_225_POS,Cam_315_POS
+GLOBAL DEF HanGao_Camera_Offset(Vision_Model:IN ,Calibration_Area:IN,Work_Camera:IN, OFFSET_POS:OUT)
+DECL E6POS OFFSET_POS,Cam_45_POS,Cam_135_POS,Cam_225_POS,Cam_315_POS
 DECL INT Calibration_Area,Work_Camera
 DECL Surround_Welding_Type Sink_Size
-DECL REAL T_X,T_Y
-
+DECL REAL T_X,T_Y,Q_X,Q_Y
+DECL Vision_Model_Enum Vision_Model
 
 
 
 switch Work_Camera
 
 CASE 1
+
 Sink_Size=N1_Sink_Data
 Cam_45_POS=N1_Cam_45_POS
 Cam_135_POS=N1_Cam_135_POS
@@ -1032,30 +1035,85 @@ ENDSWITCH
 
 
 
-
-T_X=Camera_Calibration_Sink.Long- Sink_Size.Sink_Size_Long
-T_Y= Camera_Calibration_Sink.Width-Sink_Size.Sink_Size_Width
-
-
 SWITCH Calibration_Area
 
 CASE 1
 
-Camera_POS.X=Cam_45_POS.X+T_X
-Camera_POS.Y=Cam_45_POS.Y+T_Y
+
+Q_Y=Camera_Calibration_Data.Sink_Size_Left_Distance-Sink_Size.Sink_Size_Left_Distance
+Q_X=(Camera_Calibration_Data.Sink_Size_Down_Distance+Camera_Calibration_Data.Sink_Size_Width)-(Sink_Size.Sink_Size_Down_Distance+Sink_Size.Sink_Size_Width)
+
+SWITCH Vision_Model
+
+case #Calibration
+OFFSET_POS.X=Cam_45_POS.X+Q_X
+OFFSET_POS.Y=Cam_45_POS.Y+Q_Y
+OFFSET_POS.Z=Cam_45_POS.Z
+
+
+ENDSWITCH
 
 CASE 2
-Camera_POS.X=Cam_135_POS.X+T_X
-Camera_POS.Y=Cam_135_POS.Y+T_Y
+
+Q_Y=Camera_Calibration_Data.Sink_Size_Down_Distance-Sink_Size.Sink_Size_Down_Distance
+Q_X=Camera_Calibration_Data.Sink_Size_Left_Distance-Sink_Size.Sink_Size_Left_Distance
+
+SWITCH Vision_Model
+
+case #Calibration
+OFFSET_POS.X=Cam_135_POS.X-Q_X
+OFFSET_POS.Y=Cam_135_POS.Y-Q_Y
+OFFSET_POS.Z=Cam_135_POS.Z
+
+
+ENDSWITCH
+
+
 CASE 3
 
-Camera_POS.X=Cam_225_POS.X+T_X
-Camera_POS.Y=Cam_225_POS.Y+T_Y
+Q_Y=(Camera_Calibration_Data.Sink_Size_Left_Distance+Camera_Calibration_Data.Sink_Size_Long)  -(Sink_Size.Sink_Size_Left_Distance+Sink_Size.Sink_Size_Long)
+Q_X=Camera_Calibration_Data.Sink_Size_Down_Distance-Sink_Size.Sink_Size_Down_Distance
+
+SWITCH Vision_Model
+
+case #Calibration
+OFFSET_POS.X=Cam_225_POS.X-Q_X
+OFFSET_POS.Y=Cam_225_POS.Y-Q_Y
+OFFSET_POS.Z=Cam_225_POS.Z
+
+
+ENDSWITCH
+
+
 CASE 4
 
-Camera_POS.X=Cam_315_POS.X+T_X
-Camera_POS.Y=Cam_315_POS.Y+T_Y
+Q_Y=(Camera_Calibration_Data.Sink_Size_Left_Distance+Camera_Calibration_Data.Sink_Size_Long)-(Sink_Size.Sink_Size_Left_Distance+Sink_Size.Sink_Size_Long)
+Q_X=(Camera_Calibration_Data.Sink_Size_Down_Distance+Camera_Calibration_Data.Sink_Size_Width)-(Sink_Size.Sink_Size_Down_Distance+Sink_Size.Sink_Size_Width)
+
+SWITCH Vision_Model
+
+case #Calibration
+OFFSET_POS.X=Cam_315_POS.X-Q_X
+OFFSET_POS.Y=Cam_315_POS.Y-Q_Y
+OFFSET_POS.Z=Cam_315_POS.Z
+
+
 ENDSWITCH
+
+
+ENDSWITCH
+
+
+SWITCH Vision_Model
+
+case #Find_Model
+OFFSET_POS.X=OFFSET_POS.X+Q_X
+OFFSET_POS.Y=OFFSET_POS.Y+Q_Y
+
+ENDSWITCH
+
+
+
 
 
 END
@@ -1117,8 +1175,8 @@ ENDSWITCH
 
 
 
-Camera_Calibration_Sink.Long=Sink_Size.Sink_Size_Long
-Camera_Calibration_Sink.Width= Sink_Size.Sink_Size_Width
+Camera_Calibration_Data=Sink_Size
+
 
 
 else 

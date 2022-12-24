@@ -1,15 +1,17 @@
-&ACCESS  RV
+&ACCESS RVEO
+&REL 278
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HK
-&REL 275
 DEFDAT  GLODE_HANGAO PUBLIC
+
 
 ;--------DECL_Enum---------------
 GLOBAL ENUM Sink_Type_Enum UpDown_One,LeftRight_One,LeftRight_Two,Null
 GLOBAL ENUM Area_Enum L0,C45,L90,C135,L180,C225,L270,C315,N45,N135,N225,N315
 GLOBAL ENUM Pos_Type_Enum C_LIN_POS,C_CIR_POS,L_LIN_POS
 GLOBAL ENUM Work_Area_Enum A0,A90,A270
+GLOBAL ENUM Vision_Model_Enum Calibration,Find_Model
 ;----------------------------------
 ;---DECL-STRUC-------------------------
 
@@ -41,7 +43,7 @@ DECL GLOBAL Offset_CIR FCDEFAULT={C_X 0.0,C_Y 0.0,C_Z 0.0,C_A 0.0,C_B 0.0,C_C 0.
 DECL GLOBAL E6POS PODEFAULT={X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}
 
 
-DECL GLOBAL Calibration_Sink_TYP Camera_Calibration_Sink={Long 632.000,Width 352.000}
+DECL GLOBAL Surround_Welding_Type Camera_Calibration_Data={Sink_Size_Long 632.000,Sink_Size_Width 352.000,Sink_Size_R 10.0000,Sink_Size_Short_Side 23.0000,Sink_Size_Short_OnePos 36.0000,Sink_Size_Short_TwoPos 328.000,Sink_Size_Pots_Thick 0.750000,Sink_Size_Panel_Thick 0.0,Sink_Model 952154,Sink_Size_Left_Distance 24.0000,Sink_Size_Down_Distance 24.0000,Sink_Type #LeftRight_One}
 
 DECL GLOBAL E6POS N1_Cam_45_POS={X 1765.00,Y -1.00106740E-34,Z 1784.00,A 0.0,B 90.0000,C 3.24968513E-36}
 DECL GLOBAL E6POS N1_Cam_135_POS={X 1765.00,Y -9.34353299E-23,Z 1784.00,A 0.0,B 90.0000,C 3.03311614E-24}
