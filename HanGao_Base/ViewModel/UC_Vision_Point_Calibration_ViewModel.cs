@@ -99,7 +99,7 @@ namespace HanGao.ViewModel
 
 
 
-            Static_KUKA_Receive_Find_String += (Calibration_Data_Receive _S, string _RStr) =>
+            Static_KUKA_Receive_Calibration_String += (Calibration_Data_Receive _S, string _RStr) =>
             {
                 List<Point3D> Calibration_P = new List<Point3D>();
                 List<Point3D> Robot_P = new List<Point3D>();
@@ -110,6 +110,9 @@ namespace HanGao.ViewModel
 
                 //UI显示接收信息内容
                 UC_Vision_Robot_Protocol_ViewModel.Receive_Socket_String = _RStr;
+
+
+
 
 
                 //从相机获取照片

@@ -42,7 +42,7 @@ namespace HanGao.ViewModel
 
 
             ///通讯接收查找指令
-            Static_KUKA_Receive_Calibration_String += (Calibration_Data_Receive _S, string _RStr) =>
+            Static_KUKA_Receive_Find_String += (Calibration_Data_Receive _S, string _RStr) =>
             {
 
 
@@ -55,8 +55,8 @@ namespace HanGao.ViewModel
                 Calibration_Data_Send _Send = new Calibration_Data_Send();
                 //UI显示接收信息内容
                 UC_Vision_Robot_Protocol_ViewModel.Receive_Socket_String = _RStr;
-                int _Find_Data = -1;
-                int _Find_Shape=-1;
+                int _Find_Data = 1;
+                int _Find_Shape = 1;
 
                 ///读取型号保存的视觉参数号
                 List_Show.SinkModels.Where(_Find => _Find.Sink_Process.Sink_Model == int.Parse(_S.Find_Model.Find_Data)).FirstOrDefault(_Sink =>
