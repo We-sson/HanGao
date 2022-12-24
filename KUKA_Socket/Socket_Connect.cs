@@ -94,7 +94,7 @@ namespace Soceket_Connect
         /// </summary>
         public bool Is_Connect_Client
         {
-            get => _Is_Connect_Client; 
+            get => _Is_Connect_Client;
             set
             {
                 _Is_Connect_Client = value;
@@ -647,7 +647,7 @@ namespace Soceket_Connect
         /// 周期写入
         /// </summary>
         /// <param name="Sml"></param>
-        public void Cycle_Write_Send(string _ValName, string _WriteVar, int _ID)
+        public void Cycle_Write_Send(List<Socket_SendInfo_Model> Sml)
         {
 
             try
@@ -658,28 +658,38 @@ namespace Soceket_Connect
                 lock (Socket_KUKA_Receive)
                 {
 
-                    Write_Lock.EnterWriteLock();
+                    //Write_Lock.EnterWriteLock();
 
                     //Socket_Models_List Sml = new Socket_Models_List() { Val_ID = 1000, Val_Name = _ValName, Write_Value = _WriteVar };
 
-                    Socket_KUKA_Receive = new Socket_Models_Receive() { Send_Byte = Write_Var_To_Byte(_WriteVar, _ValName, _ID), Read_Write_Type = Read_Write_Enum.Write };
                     //创建连接
                     Socket_Client_KUKA(Read_Write_Enum.Write);
 
 
                     if (Global_Socket_Write.Connected || Is_Connect_Client)
                     {
-                        //发送消息
-                        Socket_Send_Message_Method(Socket_KUKA_Receive);
+
+                        foreach (var item in Sml)
+                        {
+
+                            Socket_KUKA_Receive = new Socket_Models_Receive() { Send_Byte = Write_Var_To_Byte(item.Write_Var, item.Var_Name, item.Var_ID), Read_Write_Type = Read_Write_Enum.Write, Reveice_Inf = item.Reveice_Inf };
+
+                            //发送消息
+                            Socket_Send_Message_Method(Socket_KUKA_Receive);
 
 
-                        Send_Write.WaitOne(5000);
+                            Send_Write.WaitOne(5000);
 
-                        // 关闭连接
+                            // 关闭连接
+
+
+
+                        }
+
                         Socket_Close(Read_Write_Enum.Write);
-
                     }
-                    Write_Lock.ExitWriteLock();
+
+                    //Write_Lock.ExitWriteLock();
 
                 }
 

@@ -1,6 +1,7 @@
 ﻿
 using HanGao.View.User_Control;
 using HanGao.View.UserMessage;
+using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
 using HanGao.Xml_Date.Xml_Write_Read;
 using static HanGao.Model.List_Show_Models;
 using static HanGao.Model.User_Steps_Model;
@@ -28,14 +29,15 @@ namespace HanGao.ViewModel
 
 
                 //查找修改对象类型属性
-                for (int i = 0; i < SinkModels.Count; i++)
-                {
+                //for (int i = 0; i < SinkModels.Count; i++)
+                //{
 
 
-                }
+                //}
 
-
-                XML_Write_Read.Save_Xml();
+                Vision_Xml_Method.Save_Xml(XML_Write_Read.Sink_Date);
+              
+         
                 //关闭弹窗
                 Messenger.Send<UserControl, string>(new UserControl(), nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
 

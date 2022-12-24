@@ -686,8 +686,8 @@ namespace HanGao.ViewModel
                 Button E = Sm.Source as Button;
 
 
-                Vision_Xml_Method.Save_Xml(Find_Data_List, Environment.CurrentDirectory + "\\Find_Data" + "\\Find_Data.Xml");
-                User_Log_Add("所以参数保存成功到文件！");
+                Vision_Xml_Method.Save_Xml(Find_Data_List);
+              
 
 
 

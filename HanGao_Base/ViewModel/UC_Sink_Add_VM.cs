@@ -1,5 +1,6 @@
 ﻿using HanGao.Model;
 using HanGao.View.User_Control.Pop_Ups;
+using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
 using HanGao.Xml_Date.Xml_Models;
 using HanGao.Xml_Date.Xml_Write_Read;
 using static HanGao.Model.SInk_UI_Models;
@@ -68,7 +69,7 @@ namespace HanGao.ViewModel
                 //添加到UI水槽列表显示，xml文件保存
                 List_Show.SinkModels.Add(Sink_Data);
                 XML_Write_Read.Sink_Date.Sink_List.Add(Sink_Data.Sink_Process);
-                XML_Write_Read.Save_Xml();
+                  Vision_Xml_Method.Save_Xml(XML_Write_Read.Sink_Date);
 
    //关闭弹窗
                 Messenger.Send<UserControl, string>(new UserControl(), nameof(Meg_Value_Eunm.User_Contorl_Message_Show));

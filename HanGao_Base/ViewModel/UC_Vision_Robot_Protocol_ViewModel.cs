@@ -84,6 +84,35 @@ namespace HanGao.ViewModel
                 }
             };
 
+            ///添加周期发生库卡变量集合
+            Messenger.Register<ObservableCollection<Socket_Models_List>, string>(this, nameof(Meg_Value_Eunm.Write_List_Connect), (O, _List) =>
+            {
+
+          
+
+                List<Socket_SendInfo_Model> _SendInfo = new List<Socket_SendInfo_Model>();
+                foreach (var item in _List)
+                {
+
+                    _SendInfo.Add(new Socket_SendInfo_Model() { Reveice_Inf = item, Var_ID = item.Val_ID, Var_Name = item.Val_Name, Write_Var = item.Write_Value });
+
+                }
+                Write.Connect_IP = UI_IP;
+                Write.Connect_Port = UI_Port.ToString();
+                //new Thread(new ThreadStart(new Action(() =>
+                //{
+
+                Write.Cycle_Write_Send(_SendInfo);
+
+                //})))
+                //{ IsBackground = true, Name = "Cycle_Real—KUKA" }.Start();
+
+
+
+
+            });
+
+
 
             ///添加周期发生库卡变量集合
             Messenger.Register<ObservableCollection<Socket_Models_List>, string>(this, nameof(Meg_Value_Eunm.One_List_Connect), (O, _List) =>
@@ -235,6 +264,7 @@ namespace HanGao.ViewModel
         /// 循环读取TCP对象
         /// </summary>
         public Socket_Connect Read { set; get; } = new Socket_Connect() { Socket_ErrorInfo_delegate = User_Log_Add };
+        public Socket_Connect Write { set; get; } = new Socket_Connect() { Socket_ErrorInfo_delegate = User_Log_Add };
 
         /// <summary>
         /// 单次TCP对象

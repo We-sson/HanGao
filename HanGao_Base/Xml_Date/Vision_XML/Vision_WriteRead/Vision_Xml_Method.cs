@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 using static HanGao.Model.SInk_UI_Models;
+using static HanGao.ViewModel.User_Control_Log_ViewModel;
+
 
 namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
 {
@@ -21,7 +23,12 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
         }
 
 
-
+        /// <summary>
+        /// 读取xml数据
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <param name="_Vale"></param>
+        /// <returns></returns>
         public static bool Read_Xml<T1>(ref T1 _Vale)
         {
 
@@ -46,7 +53,7 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
                     {
                         _Data.Vision_List = new ObservableCollection<Vision_Xml_Models> { new Vision_Xml_Models() { ID = "0", } };
                         //初始化参数读取文件
-                        Save_Xml(_Vale, Environment.CurrentDirectory + "\\Find_Data" + "\\Find_Data.Xml");
+                        Save_Xml(_Vale);
 
                     }
                     else
@@ -67,10 +74,10 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
 
                     break;
 
-            case T1 _T when _T is Xml_Model:
+                case T1 _T when _T is Xml_Model:
 
 
-                
+
                     Xml_Model _Sink_Data = (Xml_Model)(object)_Vale as Xml_Model;
 
 
@@ -259,10 +266,10 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
                     },
                     }
                         };
-               
+
                         _Vale = (T1)(object)Sink_List;
                         //保存文件
-                        Save_Xml(Sink_List, Environment.CurrentDirectory + "\\Sink_Date" + "\\Sink_List.Xml");
+                        Save_Xml(Sink_List);
 
 
                     }
@@ -270,7 +277,7 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
                     {
                         //读取文件内容
                         _Sink_Data = Read_Xml<Xml_Model>(Environment.CurrentDirectory + "\\Sink_Date" + "\\Sink_List.Xml");
-     
+
                         _Vale = (T1)(object)_Sink_Data;
                     }
 
@@ -279,9 +286,9 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
 
                     break;
             }
-       
 
-                
+
+
 
 
 
@@ -294,11 +301,11 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
         /// 保存修改后的水槽尺寸
         /// </summary>
         /// <param name="sink"></param>
-        public static void Save_Xml<T1>(T1 _Data, string _Path = "")
+        public static void Save_Xml<T1>(T1 _Data)
         {
 
             XmlSerializer Xml = new XmlSerializer(typeof(T1));
-
+            string _Path="";
             //去除xml声明
             XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
             ns.Add("", "");
@@ -307,6 +314,26 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
             settings.Encoding = Encoding.Default;
             settings.Indent = true;
             //读取文件操作
+
+            switch (_Data)
+            {
+                case T1 _T when _T is Vision_Data:
+                    _Path = Environment.CurrentDirectory + "\\Find_Data" + "\\Find_Data.Xml";
+                    break;
+
+
+                case T1 _T when _T is Xml_Model:
+
+                    _Path = Environment.CurrentDirectory + "\\Sink_Date" + "\\Sink_List.Xml";
+                    break;
+            }
+
+
+
+            if (_Path!="")
+            {
+
+
             using (FileStream _File = new FileStream(_Path, FileMode.Create))
             {
                 var xmlWriter = XmlWriter.Create(_File, settings);
@@ -315,6 +342,13 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
 
             }
 
+            User_Log_Add("参数保存成功到文件！");
+            }
+            else
+            {
+                User_Log_Add("参数保存地址错误或不存在! ");
+
+            }
 
         }
 

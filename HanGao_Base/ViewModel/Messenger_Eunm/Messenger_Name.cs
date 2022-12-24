@@ -82,6 +82,11 @@ namespace HanGao.ViewModel.Messenger_Eunm
             /// </summary>
             One_List_Connect,
 
+            /// <summary>
+            /// 写入内容集合
+            /// </summary>
+            Write_List_Connect,
+
             Home_Visibility_Show,
 
 

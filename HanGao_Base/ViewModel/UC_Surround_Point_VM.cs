@@ -1,4 +1,5 @@
-﻿using HanGao.Xml_Date.Xml_Write_Read;
+﻿using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
+using HanGao.Xml_Date.Xml_Write_Read;
 using static HanGao.Model.User_Steps_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static HanGao.ViewModel.UC_Surround_Direction_VM;
@@ -286,7 +287,8 @@ namespace HanGao.ViewModel
 
                 };
 
-                XML_Write_Read.Save_Xml();
+                Vision_Xml_Method.Save_Xml(XML_Write_Read.Sink_Date);
+
 
 
                 //UI界面清除按钮

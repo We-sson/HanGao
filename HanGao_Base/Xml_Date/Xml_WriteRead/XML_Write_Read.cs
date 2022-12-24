@@ -328,25 +328,25 @@ namespace HanGao.Xml_Date.Xml_Write_Read
         /// 保存修改后的水槽尺寸
         /// </summary>
         /// <param name="sink"></param>
-        public static void Save_Xml()
-        {
+        //public static void Save_Xml()
+        //{
 
 
 
-            Sink_Date.Date_Last_Modify = DateTime.Now.ToString();
+        //    Sink_Date.Date_Last_Modify = DateTime.Now.ToString();
 
-            var Xml = new XmlSerializer(typeof(Xml_Model));
-            var ns = new XmlSerializerNamespaces();
-            ns.Add("", "");
-            if (!Directory.Exists(@"Date"))
-                Directory.CreateDirectory(@"Date");
-            using var XmlContent = new StreamWriter(@"Date\XmlDate.xml");
-            Xml.Serialize(XmlContent, Sink_Date, ns);
-            var xmlContent = XmlContent.ToString();
+        //    var Xml = new XmlSerializer(typeof(Xml_Model));
+        //    var ns = new XmlSerializerNamespaces();
+        //    ns.Add("", "");
+        //    if (!Directory.Exists(@"Date"))
+        //        Directory.CreateDirectory(@"Date");
+        //    using var XmlContent = new StreamWriter(@"Date\XmlDate.xml");
+        //    Xml.Serialize(XmlContent, Sink_Date, ns);
+        //    var xmlContent = XmlContent.ToString();
 
 
 
-        }
+        //}
 
 
 

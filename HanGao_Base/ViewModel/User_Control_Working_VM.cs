@@ -76,7 +76,7 @@ namespace HanGao.ViewModel
                                 //    _ID= On_Read_List.Max(_List => _List.Val_ID) + 1;
                                 //}
 
-                                _List.Add(new Socket_Models_List() { Val_Name = _Name, Val_Var = _Val, Val_ID = _ID+1, });
+                                _List.Add(new Socket_Models_List() { Val_Name = _Name,  Write_Value = _Val, Val_ID = _ID, });
 
                                 //Messenger.Send<ObservableCollection<Socket_Models_List>, string>(_List, nameof(Meg_Value_Eunm.One_List_Connect));
 
@@ -148,7 +148,7 @@ namespace HanGao.ViewModel
 
 
                                                                 _ID += 1;
-                                                                _List.Add(new Socket_Models_List() { Val_Name = _Name, Val_Var = _Val, Val_ID =_ID , });
+                                                                _List.Add(new Socket_Models_List() { Val_Name = _Name, Write_Value = _Val, Val_ID =_ID , });
 
 
                                                                 break;
@@ -164,7 +164,7 @@ namespace HanGao.ViewModel
                                 }
                             }
 
-                                Messenger.Send<ObservableCollection<Socket_Models_List>, string>(_List, nameof(Meg_Value_Eunm.One_List_Connect));
+                                Messenger.Send<ObservableCollection<Socket_Models_List>, string>(_List, nameof(Meg_Value_Eunm.Write_List_Connect));
 
 
                                 //加工工区UI显示加载完成

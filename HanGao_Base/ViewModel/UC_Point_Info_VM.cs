@@ -2,6 +2,7 @@
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using HanGao.Xml_Date.Xml_Write_Read;
 using HanGao.View.User_Control.Program_Editing.Point_info;
+using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
 
 namespace HanGao.ViewModel
 {
@@ -88,7 +89,7 @@ namespace HanGao.ViewModel
 
 
                 
-                XML_Write_Read.Save_Xml();
+                   Vision_Xml_Method.Save_Xml(XML_Write_Read.Sink_Date);
 
 
                 ///清楚程序编辑界面数据选项

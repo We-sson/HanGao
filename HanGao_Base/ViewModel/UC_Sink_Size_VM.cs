@@ -6,6 +6,7 @@ using HanGao.Xml_Date.Xml_Write_Read;
 using HanGao.View.UserMessage;
 using static HanGao.Model.List_Show_Models;
 using HanGao.View.User_Control.Pop_Ups;
+using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
 
 namespace HanGao.ViewModel
 {
@@ -213,7 +214,7 @@ namespace HanGao.ViewModel
                                     XML_Write_Read.Sink_Date.Sink_List.Remove(XML_Write_Read.Sink_Date.Sink_List.FirstOrDefault(X => X.Sink_Model == int.Parse(Sm.Sink_Name.Text)));
 
                                     //保存文件
-                                    XML_Write_Read.Save_Xml();
+                                    Vision_Xml_Method.Save_Xml(XML_Write_Read.Sink_Date);
 
                                 }
                             }
