@@ -10,7 +10,7 @@ using static MVS_SDK_Base.Model.MVS_Model;
 namespace HanGao.Xml_Date.Vision_XML.Vision_Model
 {
     [Serializable]
-    [XmlRoot("Vision")]
+    [XmlRoot("Vision_Data")]
     public  class Vision_Xml_Models
     {
 
@@ -35,17 +35,53 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
     /// <summary>
     /// 视觉数据参数文件集合
     /// </summary>
+    [Serializable]
     public class Vision_Data
     {
-        [XmlAttribute()]
-        public int Stat_Network_Port { set; get; } = 5000;
-        [XmlAttribute()]
+
+     public Vision_Auto_Cofig_Model Vision_Auto_Config { set; get; }=new Vision_Auto_Cofig_Model ();
+
+      public ObservableCollection<Vision_Xml_Models> Vision_List { set; get; } =new ObservableCollection<Vision_Xml_Models>() {  };
+
+
+    }
+
+
+
+
+
+    [Serializable]
+    public class Vision_Auto_Cofig_Model
+    {
+        /// <summary>
+        /// 连接库卡协议外的ip
+        /// </summary>
         public string Connect_KUKA_IP { set; get; } = "192.168.153.150";
-        [XmlAttribute()]
+
+        /// <summary>
+        /// 连接库卡协议外的端口
+        /// </summary>
         public int Connect_KUKA_Port { set; get; } = 7000;
 
-        public ObservableCollection<Vision_Xml_Models> Vision_List { set; get; } =new ObservableCollection<Vision_Xml_Models>() {  };
+        /// <summary>
+        /// 上位机网络服务器端口
+        /// </summary>
+        public int Stat_Network_Port { set; get; } = 5000;
 
+        /// <summary>
+        /// 查找模型次数,最少1次
+        /// </summary>
+         public int Find_Run_Number { set; get; } = 1;
+
+        /// <summary>
+        /// 查找模型超时毫秒,最少1000毫秒
+        /// </summary>
+        public int Find_TimeOut_Millisecond { set; get; } = 3000;
+
+        /// <summary>
+        /// 查找模型位置允许误差范围
+        /// </summary>
+        public double Find_Allow_Error { set; get; } = 5.0;
 
     }
 

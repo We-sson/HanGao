@@ -24,192 +24,192 @@ namespace HanGao.Xml_Date.Xml_Write_Read
         /// <summary>
         /// 新建空模板序列化
         /// </summary>
-        public static void ToXmlString()
-        {
-            Xml_Model Sink = new Xml_Model
-            {
+        //public static void ToXmlString()
+        //{
+        //    Xml_Model Sink = new Xml_Model
+        //    {
 
 
 
-                Date_Last_Modify = DateTime.Now.ToString(),
-                Sink_List = new List<Xml_Sink_Model>()
-                {
-                    new Xml_Sink_Model()
-                    {
-                    Sink_Model = 952154,
-                    Sink_Size_Long = 632,
-                    Sink_Size_Panel_Thick = 0,
-                    Sink_Size_Pots_Thick =0.75,
-                    Sink_Size_Short_Side = 23,
-                    Sink_Size_Down_Distance = 24,
-                    Sink_Size_Left_Distance = 24,
-                    Sink_Size_R = 10,
-                    Sink_Size_Short_OnePos=36,
-                    Sink_Size_Short_TwoPos=328,
-                    Sink_Size_Width = 352,
-                    Sink_Type = Sink_Type_Enum.LeftRight_One,
-                     Vision_Find_Shape_ID=1,
-                      Vision_Find_ID=1,
-                     Sink_Craft =new Xml_Sink_Work_Area()
-                    },
-                    new Xml_Sink_Model()
-                    {
-                    Sink_Model = 952128,
-                    Sink_Size_Long = 400,
-                    Sink_Size_Panel_Thick = 0,
-                    Sink_Size_Pots_Thick =0.75,
-                    Sink_Size_Short_Side = 23,
-                    Sink_Size_Down_Distance = 24,
-                     Sink_Size_Short_OnePos=36,
-                    Sink_Size_Short_TwoPos=323,
-                    Sink_Size_Left_Distance = 24,
-                    Sink_Size_R = 12,
-                    Sink_Size_Width = 352,
-                            Vision_Find_Shape_ID=1,
-                      Vision_Find_ID=1,
-                    Sink_Type = Sink_Type_Enum.LeftRight_One,
-                    Sink_Craft =new Xml_Sink_Work_Area()
-                    },
-                    new Xml_Sink_Model()
-                    {
-                    Sink_Model = 952231,
-                    Sink_Size_Long = 722,
-                    Sink_Size_Panel_Thick = 0,
-                    Sink_Size_Pots_Thick =0.75,
-                    Sink_Size_Short_Side = 23,
-                    Sink_Size_Down_Distance = 24,
-                    Sink_Size_Short_OnePos=36,
-                    Sink_Size_Short_TwoPos=356,
-                    Sink_Size_Left_Distance = 24,
-                    Sink_Size_R = 12,
-                    Sink_Size_Width = 380,
-                            Vision_Find_Shape_ID=1,
-                      Vision_Find_ID=1,
-                    Sink_Type = Sink_Type_Enum.LeftRight_One,
-                    Sink_Craft =new Xml_Sink_Work_Area()
-                    },
-                    new Xml_Sink_Model()
-                    {
-                    Sink_Model = 902182,
-                    Sink_Size_Long = 640,
-                    Sink_Size_Panel_Thick = 0,
-                    Sink_Size_Pots_Thick =0.75,
-                    Sink_Size_Short_Side = 23,
-                    Sink_Size_Down_Distance = 24,
-                    Sink_Size_Short_OnePos=31.2,
-                    Sink_Size_Short_TwoPos=332.7,
-                    Sink_Size_Left_Distance = 24,
-                    Sink_Size_R = 12,
-                    Sink_Size_Width = 355,
-                            Vision_Find_Shape_ID=1,
-                      Vision_Find_ID=1,
-                    Sink_Type = Sink_Type_Enum.LeftRight_One,
-                    Sink_Craft =new Xml_Sink_Work_Area()
-                    },
-                    new Xml_Sink_Model()
-                    {
-                    Sink_Model = 952127,
-                    Sink_Size_Long = 530,
-                    Sink_Size_Panel_Thick = 0,
-                    Sink_Size_Pots_Thick =0.75,
-                    Sink_Size_Short_Side = 23,
-                    Sink_Size_Short_OnePos=36,
-                    Sink_Size_Short_TwoPos=323,
-                    Sink_Size_Down_Distance = 24,
-                    Sink_Size_Left_Distance = 24,
-                    Sink_Size_R = 12,
-                    Sink_Size_Width = 345,
-                            Vision_Find_Shape_ID=1,
-                      Vision_Find_ID=1,
-                    Sink_Type = Sink_Type_Enum.LeftRight_One,
-                    Sink_Craft =new Xml_Sink_Work_Area()
-                    },
-                    new Xml_Sink_Model()
-                    {
-                    Sink_Model = 952233,
-                    Sink_Size_Long = 550,
-                    Sink_Size_Panel_Thick = 0,
-                    Sink_Size_Pots_Thick =0.75,
-                    Sink_Size_Short_Side = 23,
-                    Sink_Size_Short_OnePos=36.3,
-                    Sink_Size_Short_TwoPos=327.4,
-                    Sink_Size_Down_Distance = 24,
-                    Sink_Size_Left_Distance = 24,
-                    Sink_Size_R = 12,
-                    Sink_Size_Width = 350,
-                            Vision_Find_Shape_ID=1,
-                      Vision_Find_ID=1,
-                    Sink_Type = Sink_Type_Enum.LeftRight_One,
-                    Sink_Craft =new Xml_Sink_Work_Area()
-                    },
-                    new Xml_Sink_Model()
-                    {
-                    Sink_Model = 952172,
-                    Sink_Size_Long = 530,
-                    Sink_Size_Panel_Thick = 0,
-                    Sink_Size_Pots_Thick =0.75,
-                    Sink_Size_Short_Side = 23,
-                    Sink_Size_Down_Distance = 24,
-                    Sink_Size_Left_Distance = 75,
-                    Sink_Size_R = 12,
-                    Sink_Size_Width = 365,
-                            Vision_Find_Shape_ID=1,
-                      Vision_Find_ID=1,
-                    Sink_Type = Sink_Type_Enum.UpDown_One ,
-                    Sink_Craft =new Xml_Sink_Work_Area()
-                    },
-                    new Xml_Sink_Model()
-                    {
-                    Sink_Model = 952173,
-                    Sink_Size_Long = 590,
-                    Sink_Size_Panel_Thick = 0,
-                    Sink_Size_Pots_Thick =0.75,
-                    Sink_Size_Short_Side = 23,
-                    Sink_Size_Short_OnePos=85.7,
-                    Sink_Size_Short_TwoPos=508.5,
-                    Sink_Size_Down_Distance = 24,
-                    Sink_Size_Left_Distance = 75,
-                    Sink_Size_R = 12,
-                    Sink_Size_Width = 365,
-                            Vision_Find_Shape_ID=1,
-                      Vision_Find_ID=1,
-                    Sink_Type = Sink_Type_Enum.UpDown_One,
-                    Sink_Craft =new Xml_Sink_Work_Area()
-                    },
+        //        Date_Last_Modify = DateTime.Now.ToString(),
+        //        Sink_List = new List<Xml_Sink_Model>()
+        //        {
+        //            new Xml_Sink_Model()
+        //            {
+        //            Sink_Model = 952154,
+        //            Sink_Size_Long = 632,
+        //            Sink_Size_Panel_Thick = 0,
+        //            Sink_Size_Pots_Thick =0.75,
+        //            Sink_Size_Short_Side = 23,
+        //            Sink_Size_Down_Distance = 24,
+        //            Sink_Size_Left_Distance = 24,
+        //            Sink_Size_R = 10,
+        //            Sink_Size_Short_OnePos=36,
+        //            Sink_Size_Short_TwoPos=328,
+        //            Sink_Size_Width = 352,
+        //            Sink_Type = Sink_Type_Enum.LeftRight_One,
+        //             Vision_Find_Shape_ID=1,
+        //              Vision_Find_ID=1,
+        //             Sink_Craft =new Xml_Sink_Work_Area()
+        //            },
+        //            new Xml_Sink_Model()
+        //            {
+        //            Sink_Model = 952128,
+        //            Sink_Size_Long = 400,
+        //            Sink_Size_Panel_Thick = 0,
+        //            Sink_Size_Pots_Thick =0.75,
+        //            Sink_Size_Short_Side = 23,
+        //            Sink_Size_Down_Distance = 24,
+        //             Sink_Size_Short_OnePos=36,
+        //            Sink_Size_Short_TwoPos=323,
+        //            Sink_Size_Left_Distance = 24,
+        //            Sink_Size_R = 12,
+        //            Sink_Size_Width = 352,
+        //                    Vision_Find_Shape_ID=1,
+        //              Vision_Find_ID=1,
+        //            Sink_Type = Sink_Type_Enum.LeftRight_One,
+        //            Sink_Craft =new Xml_Sink_Work_Area()
+        //            },
+        //            new Xml_Sink_Model()
+        //            {
+        //            Sink_Model = 952231,
+        //            Sink_Size_Long = 722,
+        //            Sink_Size_Panel_Thick = 0,
+        //            Sink_Size_Pots_Thick =0.75,
+        //            Sink_Size_Short_Side = 23,
+        //            Sink_Size_Down_Distance = 24,
+        //            Sink_Size_Short_OnePos=36,
+        //            Sink_Size_Short_TwoPos=356,
+        //            Sink_Size_Left_Distance = 24,
+        //            Sink_Size_R = 12,
+        //            Sink_Size_Width = 380,
+        //                    Vision_Find_Shape_ID=1,
+        //              Vision_Find_ID=1,
+        //            Sink_Type = Sink_Type_Enum.LeftRight_One,
+        //            Sink_Craft =new Xml_Sink_Work_Area()
+        //            },
+        //            new Xml_Sink_Model()
+        //            {
+        //            Sink_Model = 902182,
+        //            Sink_Size_Long = 640,
+        //            Sink_Size_Panel_Thick = 0,
+        //            Sink_Size_Pots_Thick =0.75,
+        //            Sink_Size_Short_Side = 23,
+        //            Sink_Size_Down_Distance = 24,
+        //            Sink_Size_Short_OnePos=31.2,
+        //            Sink_Size_Short_TwoPos=332.7,
+        //            Sink_Size_Left_Distance = 24,
+        //            Sink_Size_R = 12,
+        //            Sink_Size_Width = 355,
+        //                    Vision_Find_Shape_ID=1,
+        //              Vision_Find_ID=1,
+        //            Sink_Type = Sink_Type_Enum.LeftRight_One,
+        //            Sink_Craft =new Xml_Sink_Work_Area()
+        //            },
+        //            new Xml_Sink_Model()
+        //            {
+        //            Sink_Model = 952127,
+        //            Sink_Size_Long = 530,
+        //            Sink_Size_Panel_Thick = 0,
+        //            Sink_Size_Pots_Thick =0.75,
+        //            Sink_Size_Short_Side = 23,
+        //            Sink_Size_Short_OnePos=36,
+        //            Sink_Size_Short_TwoPos=323,
+        //            Sink_Size_Down_Distance = 24,
+        //            Sink_Size_Left_Distance = 24,
+        //            Sink_Size_R = 12,
+        //            Sink_Size_Width = 345,
+        //                    Vision_Find_Shape_ID=1,
+        //              Vision_Find_ID=1,
+        //            Sink_Type = Sink_Type_Enum.LeftRight_One,
+        //            Sink_Craft =new Xml_Sink_Work_Area()
+        //            },
+        //            new Xml_Sink_Model()
+        //            {
+        //            Sink_Model = 952233,
+        //            Sink_Size_Long = 550,
+        //            Sink_Size_Panel_Thick = 0,
+        //            Sink_Size_Pots_Thick =0.75,
+        //            Sink_Size_Short_Side = 23,
+        //            Sink_Size_Short_OnePos=36.3,
+        //            Sink_Size_Short_TwoPos=327.4,
+        //            Sink_Size_Down_Distance = 24,
+        //            Sink_Size_Left_Distance = 24,
+        //            Sink_Size_R = 12,
+        //            Sink_Size_Width = 350,
+        //                    Vision_Find_Shape_ID=1,
+        //              Vision_Find_ID=1,
+        //            Sink_Type = Sink_Type_Enum.LeftRight_One,
+        //            Sink_Craft =new Xml_Sink_Work_Area()
+        //            },
+        //            new Xml_Sink_Model()
+        //            {
+        //            Sink_Model = 952172,
+        //            Sink_Size_Long = 530,
+        //            Sink_Size_Panel_Thick = 0,
+        //            Sink_Size_Pots_Thick =0.75,
+        //            Sink_Size_Short_Side = 23,
+        //            Sink_Size_Down_Distance = 24,
+        //            Sink_Size_Left_Distance = 75,
+        //            Sink_Size_R = 12,
+        //            Sink_Size_Width = 365,
+        //                    Vision_Find_Shape_ID=1,
+        //              Vision_Find_ID=1,
+        //            Sink_Type = Sink_Type_Enum.UpDown_One ,
+        //            Sink_Craft =new Xml_Sink_Work_Area()
+        //            },
+        //            new Xml_Sink_Model()
+        //            {
+        //            Sink_Model = 952173,
+        //            Sink_Size_Long = 590,
+        //            Sink_Size_Panel_Thick = 0,
+        //            Sink_Size_Pots_Thick =0.75,
+        //            Sink_Size_Short_Side = 23,
+        //            Sink_Size_Short_OnePos=85.7,
+        //            Sink_Size_Short_TwoPos=508.5,
+        //            Sink_Size_Down_Distance = 24,
+        //            Sink_Size_Left_Distance = 75,
+        //            Sink_Size_R = 12,
+        //            Sink_Size_Width = 365,
+        //                    Vision_Find_Shape_ID=1,
+        //              Vision_Find_ID=1,
+        //            Sink_Type = Sink_Type_Enum.UpDown_One,
+        //            Sink_Craft =new Xml_Sink_Work_Area()
+        //            },
 
-                    new Xml_Sink_Model()
-                    {
-                    Sink_Model = 952119,
-                    Sink_Size_Long = 550,
-                    Sink_Size_Panel_Thick = 0,
-                    Sink_Size_Pots_Thick =0.75,
-                    Sink_Size_Short_Side = 23,
-                    Sink_Size_Short_OnePos=85.7,
-                    Sink_Size_Short_TwoPos=528.7,
-                    Sink_Size_Down_Distance = 24,
-                    Sink_Size_Left_Distance = 75,
-                    Sink_Size_R = 12,
-                    Sink_Size_Width = 365,
-                            Vision_Find_Shape_ID=1,
-                      Vision_Find_ID=1,
-                    Sink_Type = Sink_Type_Enum.UpDown_One ,
-                    Sink_Craft =new Xml_Sink_Work_Area()
-                    },
-                    }
-            };
+        //            new Xml_Sink_Model()
+        //            {
+        //            Sink_Model = 952119,
+        //            Sink_Size_Long = 550,
+        //            Sink_Size_Panel_Thick = 0,
+        //            Sink_Size_Pots_Thick =0.75,
+        //            Sink_Size_Short_Side = 23,
+        //            Sink_Size_Short_OnePos=85.7,
+        //            Sink_Size_Short_TwoPos=528.7,
+        //            Sink_Size_Down_Distance = 24,
+        //            Sink_Size_Left_Distance = 75,
+        //            Sink_Size_R = 12,
+        //            Sink_Size_Width = 365,
+        //                    Vision_Find_Shape_ID=1,
+        //              Vision_Find_ID=1,
+        //            Sink_Type = Sink_Type_Enum.UpDown_One ,
+        //            Sink_Craft =new Xml_Sink_Work_Area()
+        //            },
+        //            }
+        //    };
 
 
 
-            var Xml = new XmlSerializer(typeof(Xml_Model));
-            var ns = new XmlSerializerNamespaces();
-            ns.Add("", "");
+        //    var Xml = new XmlSerializer(typeof(Xml_Model));
+        //    var ns = new XmlSerializerNamespaces();
+        //    ns.Add("", "");
       
-            if (!Directory.Exists(@"Date"))  Directory.CreateDirectory(@"Date");
-            using var XmlContent = new StreamWriter(@"Date\XmlDate.xml");
-            Xml.Serialize(XmlContent, Sink, ns);
-            var xmlContent = XmlContent.ToString();
+        //    if (!Directory.Exists(@"Date"))  Directory.CreateDirectory(@"Date");
+        //    using var XmlContent = new StreamWriter(@"Date\XmlDate.xml");
+        //    Xml.Serialize(XmlContent, Sink, ns);
+        //    var xmlContent = XmlContent.ToString();
 
-        }
+        //}
 
         /// <summary>
         /// 水槽总数据
@@ -358,7 +358,7 @@ namespace HanGao.Xml_Date.Xml_Write_Read
         {
 
             Xml_Model _Sink_Date = new Xml_Model();
-            Vision_Xml_Method.Read_Xml(ref _Sink_Date);
+            Vision_Xml_Method.Read_Xml_File(ref _Sink_Date);
             Sink_Date = _Sink_Date;
 
             foreach (var item in Sink_Date.Sink_List)

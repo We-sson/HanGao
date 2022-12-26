@@ -18,6 +18,12 @@ namespace HanGao.ViewModel
         public UC_Vision_Robot_Protocol_ViewModel()
         {
 
+            ///循环读取对象连接成功委托
+            Read.Socket_Connect_State_delegate += (bool _IsConnect) => 
+            {
+                UI_Connect_Client = _IsConnect;
+
+            };
             ///通讯报错显示
             //Read.Socket_ErrorInfo_delegate = One_Read.Socket_ErrorInfo_delegate += User_Log_Add;
 
@@ -288,10 +294,9 @@ namespace HanGao.ViewModel
         public void Initialization_Read_Valer()
         {
             //读取存储文件参数
-            Vision_Data _Date = new Vision_Data();
-            Vision_Xml_Method.Read_Xml(ref _Date);
-            UI_IP = _Date.Connect_KUKA_IP;
-            UI_Port = _Date.Connect_KUKA_Port;
+      
+            UI_IP = UC_Vision_Auto_Model_ViewModel.Vision_Auto_Cofig.Connect_KUKA_IP;
+            UI_Port = UC_Vision_Auto_Model_ViewModel.Vision_Auto_Cofig.Connect_KUKA_Port;
 
 
             Task.Run(() => { 

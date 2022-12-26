@@ -1,0 +1,8 @@
+<Vision_Auto_Cofig_Model>
+  <Connect_KUKA_IP>192.168.153.150</Connect_KUKA_IP>
+  <Connect_KUKA_Port>7000</Connect_KUKA_Port>
+  <Stat_Network_Port>5000</Stat_Network_Port>
+  <Find_Run_Number>1</Find_Run_Number>
+  <Find_TimeOut_Millisecond>3000</Find_TimeOut_Millisecond>
+  <Find_Allow_Error>5</Find_Allow_Error>
+</Vision_Auto_Cofig_Model>

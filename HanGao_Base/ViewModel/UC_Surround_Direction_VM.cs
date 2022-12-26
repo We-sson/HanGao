@@ -80,16 +80,17 @@ namespace HanGao.ViewModel
                 if (value != Direction_Enum.Null)
                 {
 
+                    //异步读取围边信息
+                    Task.Run(() => { 
+                    
                     Direction_State = true;
-                    Console.WriteLine(Direction_State);
 
-                       
                     Messenger.Send<dynamic, string>(value, nameof(Meg_Value_Eunm.Sink_Surround_Craft_Point_Load));
 
-                    //});
+          
                     Direction_State = false;
-                    Console.WriteLine(Direction_State);
 
+                    });
 
 
 

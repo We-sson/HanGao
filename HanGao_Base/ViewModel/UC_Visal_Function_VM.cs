@@ -653,7 +653,7 @@ namespace HanGao.ViewModel
 
 
             Vision_Data _Date = new Vision_Data();
-            Vision_Xml_Method.Read_Xml(ref _Date);
+            Vision_Xml_Method.Read_Xml_File(ref _Date);
             Find_Data_List = _Date;
 
         }

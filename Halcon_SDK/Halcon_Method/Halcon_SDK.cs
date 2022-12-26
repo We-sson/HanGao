@@ -174,6 +174,7 @@ namespace Halcon_SDK_DLL
             }
             //Point3D
 
+
             //计算结果组偏差
             double Calibration_Error_X_UI = double.Parse(Specimen_Error(_Error_List_X));
             double Calibration_Error_Y_UI = double.Parse(Specimen_Error(_Error_List_Y));

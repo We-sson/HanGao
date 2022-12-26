@@ -624,21 +624,6 @@ namespace HanGao.ViewModel
 
 
 
-        public void Set_Flash_Open()
-        {
-
-
-
-
-
-
-
-        }
-
-
-
-
-
 
         /// <summary>
         /// 获得一图像显示到指定窗口

@@ -29,9 +29,9 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
         /// <typeparam name="T1"></typeparam>
         /// <param name="_Vale"></param>
         /// <returns></returns>
-        public static bool Read_Xml<T1>(ref T1 _Vale)
+        public static bool Read_Xml_File<T1>(ref T1 _Vale)
         {
-
+            string _Path = "";
 
             switch (_Vale)
             {
@@ -40,16 +40,17 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
 
                     Vision_Data _Data = (Vision_Data)(object)_Vale as Vision_Data;
                     //Find_Data_List = new Vision_Data() { Vision_List = new ObservableCollection<Vision_Xml_Models> { new Vision_Xml_Models() { ID = 0, Date_Last_Revise = DateTime.Now.ToString() } } };
+                    GetXml_Path<Vision_Data>(ref _Path, Get_Xml_File_Enum.Folder_Path);
 
+                    if (!Directory.Exists(_Path)) { Directory.CreateDirectory(_Path); }
                     //检查存放文件目录
-                    if (!Directory.Exists(Environment.CurrentDirectory + "\\Find_Data"))
-                    {
+                    GetXml_Path<Vision_Data>(ref _Path, Get_Xml_File_Enum.File_Path);
 
-                        Directory.CreateDirectory(Environment.CurrentDirectory + "\\Find_Data");
 
-                    }
 
-                    if (!File.Exists(Environment.CurrentDirectory + "\\Find_Data" + "\\Find_Data.Xml"))
+
+
+                    if (!File.Exists(_Path))
                     {
                         _Data.Vision_List = new ObservableCollection<Vision_Xml_Models> { new Vision_Xml_Models() { ID = "0", } };
                         //初始化参数读取文件
@@ -58,21 +59,60 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
                     }
                     else
                     {
-
-                        _Data = Read_Xml<Vision_Data>(Environment.CurrentDirectory + "\\Find_Data" + "\\Find_Data.Xml");
-                        //参数0号为默认值
-                        _Data.Vision_List.Where(_List => int.Parse(_List.ID) == 0).FirstOrDefault(_List =>
+                        ///读取文件
+                        if (Read_Xml(ref _Data))
                         {
-                            _List.Camera_Parameter_Data = new MVS_SDK_Base.Model.MVS_Model.MVS_Camera_Parameter_Model();
-                            _List.Find_Shape_Data = new Halcon_Data_Model.Find_Shape_Based_ModelXld();
-                            return true;
 
-                        });
-                        _Vale = (T1)(object)_Data;
+                            //参数0号为默认值
+                            _Data.Vision_List.Where(_List => int.Parse(_List.ID) == 0).FirstOrDefault(_List =>
+                            {
+                                _List.Camera_Parameter_Data = new MVS_SDK_Base.Model.MVS_Model.MVS_Camera_Parameter_Model();
+                                _List.Find_Shape_Data = new Halcon_Data_Model.Find_Shape_Based_ModelXld();
+                                return true;
+
+                            });
+                            _Vale = (T1)(object)_Data;
+                        }
                     }
 
 
                     break;
+
+
+                case T1 _T when _T is Vision_Auto_Cofig_Model:
+
+
+                    Vision_Auto_Cofig_Model Config_Data = (Vision_Auto_Cofig_Model)(object)_Vale as Vision_Auto_Cofig_Model;
+
+
+                    GetXml_Path<Vision_Auto_Cofig_Model>(ref _Path, Get_Xml_File_Enum.Folder_Path);
+                    if (!Directory.Exists(_Path)) { Directory.CreateDirectory(_Path); }
+                    //检查存放文件目录
+                    GetXml_Path<Vision_Auto_Cofig_Model>(ref _Path, Get_Xml_File_Enum.File_Path);
+
+
+
+                    if (!File.Exists(_Path))
+                    {
+                        Config_Data = new Vision_Auto_Cofig_Model();
+                        //初始化参数读取文件
+                        Save_Xml(Config_Data);
+
+                    }
+                    else
+                    {
+                        //读取文件
+                        if (Read_Xml(ref Config_Data))
+                        {
+
+                            _Vale = (T1)(object)Config_Data;
+                        }
+                    }
+
+
+
+                    break;
+
 
                 case T1 _T when _T is Xml_Model:
 
@@ -80,17 +120,13 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
 
                     Xml_Model _Sink_Data = (Xml_Model)(object)_Vale as Xml_Model;
 
-
+                    GetXml_Path<Xml_Model>(ref _Path, Get_Xml_File_Enum.Folder_Path);
+                    if (!Directory.Exists(_Path)) { Directory.CreateDirectory(_Path); }
                     //检查存放文件目录
-                    if (!Directory.Exists(Environment.CurrentDirectory + "\\Sink_Date"))
-                    {
-
-                        Directory.CreateDirectory(Environment.CurrentDirectory + "\\Sink_Date");
-
-                    }
+                    GetXml_Path<Xml_Model>(ref _Path, Get_Xml_File_Enum.File_Path);
 
 
-                    if (!File.Exists(Environment.CurrentDirectory + "\\Sink_Date" + "\\Sink_List.Xml"))
+                    if (!File.Exists(_Path))
                     {
 
 
@@ -276,9 +312,12 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
                     else
                     {
                         //读取文件内容
-                        _Sink_Data = Read_Xml<Xml_Model>(Environment.CurrentDirectory + "\\Sink_Date" + "\\Sink_List.Xml");
+                        if (Read_Xml(ref _Sink_Data))
+                        {
 
-                        _Vale = (T1)(object)_Sink_Data;
+
+                            _Vale = (T1)(object)_Sink_Data;
+                        }
                     }
 
 
@@ -298,6 +337,76 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
 
 
         /// <summary>
+        /// 获得xml属性位置
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <param name="_Path"></param>
+        /// <returns></returns>
+        public static bool GetXml_Path<T1>(ref string _Path, Get_Xml_File_Enum Get_Xml_File)
+        {
+            _Path = "";
+            Type T = typeof(T1);
+            switch (typeof(T1))
+            {
+                case Type _T when _T == typeof(Vision_Data):
+
+                    switch (Get_Xml_File)
+                    {
+                        case Get_Xml_File_Enum.Folder_Path:
+
+                            _Path = Environment.CurrentDirectory + "\\Find_Data";
+                            break;
+                        case Get_Xml_File_Enum.File_Path:
+                            _Path = Environment.CurrentDirectory + "\\Find_Data" + "\\Find_Data.Xml";
+
+                            break;
+                    }
+
+
+                    return true;
+
+                case Type _T when _T == typeof(Xml_Model):
+                    switch (Get_Xml_File)
+                    {
+                        case Get_Xml_File_Enum.Folder_Path:
+
+                            _Path = Environment.CurrentDirectory + "\\Sink_Date";
+
+                            break;
+                        case Get_Xml_File_Enum.File_Path:
+                            _Path = Environment.CurrentDirectory + "\\Sink_Date" + "\\Sink_List.Xml";
+
+
+                            break;
+                    }
+
+                    return true;
+
+                case Type _T when _T == typeof(Vision_Auto_Cofig_Model):
+
+                    switch (Get_Xml_File)
+                    {
+                        case Get_Xml_File_Enum.Folder_Path:
+
+                            _Path = Environment.CurrentDirectory + "\\Global_Config";
+
+                            break;
+                        case Get_Xml_File_Enum.File_Path:
+                            _Path = Environment.CurrentDirectory + "\\Global_Config" + "\\Global_Config.Xml";
+
+
+
+                            break;
+                    }
+                    return true;
+            }
+
+            return false;
+
+        }
+
+
+        /// <summary>
         /// 保存修改后的水槽尺寸
         /// </summary>
         /// <param name="sink"></param>
@@ -305,7 +414,7 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
         {
 
             XmlSerializer Xml = new XmlSerializer(typeof(T1));
-            string _Path="";
+            string _Path = "";
             //去除xml声明
             XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
             ns.Add("", "");
@@ -315,38 +424,31 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
             settings.Indent = true;
             //读取文件操作
 
-            switch (_Data)
-            {
-                case T1 _T when _T is Vision_Data:
-                    _Path = Environment.CurrentDirectory + "\\Find_Data" + "\\Find_Data.Xml";
-                    break;
-
-
-                case T1 _T when _T is Xml_Model:
-
-                    _Path = Environment.CurrentDirectory + "\\Sink_Date" + "\\Sink_List.Xml";
-                    break;
-            }
 
 
 
-            if (_Path!="")
+
+
+
+            if (GetXml_Path<T1>(ref _Path, Get_Xml_File_Enum.File_Path))
             {
 
 
-            using (FileStream _File = new FileStream(_Path, FileMode.Create))
-            {
-                var xmlWriter = XmlWriter.Create(_File, settings);
-                //反序列化
-                Xml.Serialize(xmlWriter, _Data, ns);
+                using (FileStream _File = new FileStream(_Path, FileMode.Create))
+                {
+                    var xmlWriter = XmlWriter.Create(_File, settings);
+                    //反序列化
+                    Xml.Serialize(xmlWriter, _Data, ns);
 
-            }
+                }
 
-            User_Log_Add("参数保存成功到文件！");
+                User_Log_Add("保存文件成功: " + _Path);
+
             }
             else
             {
-                User_Log_Add("参数保存地址错误或不存在! ");
+                User_Log_Add("保存文件失败: " + _Path);
+
 
             }
 
@@ -361,13 +463,35 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
         /// <typeparam name="T1"></typeparam>
         /// <param name="_Path"></param>
         /// <returns></returns>
-        public static T1 Read_Xml<T1>(string _Path = "")
+        private static bool Read_Xml<T1>(ref T1 _Val)
         {
+            string _Path = "";
+            if (GetXml_Path<T1>(ref _Path, Get_Xml_File_Enum.File_Path))
+            {
 
-            var xmlSerializer = new XmlSerializer(typeof(T1));
-            //if (!File.Exists(@"Date\XmlDate.xml")) ToXmlString();
-            using var reader = new StreamReader(_Path);
-            return (T1)xmlSerializer.Deserialize(reader);
+
+                var xmlSerializer = new XmlSerializer(typeof(T1));
+                //if (!File.Exists(@"Date\XmlDate.xml")) ToXmlString();
+                using var reader = new StreamReader(_Path);
+
+
+                User_Log_Add("读取文件成功: " + _Path);
+
+
+
+                _Val = (T1)xmlSerializer.Deserialize(reader);
+
+                return true;
+            }
+            else
+            {
+                User_Log_Add("读取文件失败: " + _Path);
+
+                _Val = default;
+
+                return false;
+            }
+
 
 
 
@@ -378,5 +502,14 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
 
     }
 
+
+    /// <summary>
+    /// 获得Xml目录枚举类型
+    /// </summary>
+    public enum Get_Xml_File_Enum
+    {
+        File_Path,
+        Folder_Path
+    }
 
 }

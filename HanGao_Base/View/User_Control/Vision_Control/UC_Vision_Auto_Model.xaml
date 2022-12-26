@@ -143,7 +143,7 @@
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 1"
-                                         Text="{Binding Local_Port_UI}"
+                                         Text="{Binding Vision_Auto_Cofig.Stat_Network_Port}"
                                          TextWrapping="Wrap"
                                          Margin="5,0,0,0"
                                          Padding="5"
@@ -287,7 +287,7 @@
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" Grid.Column=" 1"
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Find_Run_Number" Grid.Column=" 1"
                                         Margin="5"
                                         VerticalAlignment="Center"
                                         HorizontalContentAlignment="Stretch"
@@ -297,10 +297,10 @@
                                         Minimum=" 0"
                                         SmallChange="0.1"
                                         TickFrequency=" 0.1"
-                                        Value="1" />
+                                        Value="{Binding Vision_Auto_Cofig.Find_Run_Number}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="1"
+                                         Text="{Binding ElementName=Find_Run_Number, Path=Value}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -310,7 +310,44 @@
                                          FontSize="18" />
                             </Grid>
 
-                            <Grid Margin="8">
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=" 80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="采集超时"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Find_TimeOut_Millisecond" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="10000"
+                                        Minimum=" 0"
+                                        SmallChange="1"
+                                        TickFrequency=" 1"
+                                        Value="{Binding Vision_Auto_Cofig.Find_TimeOut_Millisecond}" />
+
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                         Text="{Binding ElementName=Find_TimeOut_Millisecond, Path=Value}"
+                                         Width=" 100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                            </Grid>
+
+
+                            <!--<Grid Margin="8">
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="90" />
@@ -363,7 +400,7 @@
 
                                 </ComboBox>
 
-                            </Grid>
+                            </Grid>-->
 
                             <Grid Height="35" Margin="8">
 
@@ -378,20 +415,20 @@
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" Grid.Column=" 1"
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Find_Allow_Error" Grid.Column=" 1"
                                         Margin="5"
                                         VerticalAlignment="Center"
                                         HorizontalContentAlignment="Stretch"
                                         VerticalContentAlignment="Stretch"
                                         IsSnapToTickEnabled="True"
-                                        Maximum="3"
-                                        Minimum=" 0"
+                                        Maximum="10"
+                                        Minimum=" 1"
                                         SmallChange="0.1"
                                         TickFrequency=" 0.1"
-                                        Value="0.5" />
+                                        Value="{Binding Vision_Auto_Cofig.Find_Allow_Error}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="1"
+                                         Text="{Binding ElementName=Find_Allow_Error, Path=Value}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -467,6 +504,14 @@
                                                FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                FontSize="16"
                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                    <i:Interaction.Triggers>
+
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding Save_Config_File_Comm}" PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
+
                                 </Button>
                             </Grid>
 

@@ -261,7 +261,7 @@
                                               ColumnHeaderHeight="40"
                                               ColumnHeaderStyle="{DynamicResource Point_UI_DataGridColumnHeaderStyle}"
                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                              FrozenColumnCount="4"
+                                              FrozenColumnCount="3"
                                               GridLinesVisibility="Horizontal"
                                               HeadersVisibility="Column"
                                               ItemsSource="{Binding Drawing_Data_List}"
@@ -316,7 +316,7 @@
 
                                             </DataGridTemplateColumn>
 
-                                            <DataGridTemplateColumn Width="50">
+                                            <DataGridTemplateColumn Width="auto">
                                                 <DataGridTemplateColumn.Header>
 
 
@@ -354,7 +354,7 @@
 
                                             </DataGridTemplateColumn>
 
-                                            <DataGridTemplateColumn Width="auto">
+                                            <!--<DataGridTemplateColumn Width="auto">
                                                 <DataGridTemplateColumn.Header>
                                                     <TextBlock Text="操作"
                                                                Margin="4"
@@ -393,7 +393,7 @@
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
 
-                                            </DataGridTemplateColumn>
+                                            </DataGridTemplateColumn>-->
 
                                             <DataGridTemplateColumn CanUserResize="False">
                                                 <DataGridTemplateColumn.Header>
@@ -1632,13 +1632,42 @@
 
                             </Grid>
 
+
                             <Grid Height="35" Margin="8">
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="80" />
                                     <ColumnDefinition Width=" *" />
-                                    <ColumnDefinition Width=" auto" />
+
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="创建ID号"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" x:Name="Create_Model_ID" Grid.Column=" 3"
+                                         Text="{Binding Halcon_Create_Shape_ModelXld_UI.Create_ID}"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="16"
+                                         IsReadOnly="False" />
+
+                            </Grid>
+
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
                                     <ColumnDefinition Width=" *" />
+
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="创建位置"
                                            HorizontalAlignment="Left"
@@ -1649,7 +1678,6 @@
 
 
                                 <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="ShapeModel_Name" Grid.Column=" 1"
-                                          Margin="0,0,6,0"
                                           VerticalContentAlignment="Center"
                                           BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                           BorderThickness="2"
@@ -1699,24 +1727,7 @@
                                     </ComboBoxItem>
                                 </ComboBox>
 
-                                <TextBlock Grid.Column=" 2"
-                                           Text="ID:"
-                                           HorizontalAlignment="Left"
-                                           VerticalAlignment="Center"
-                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                           FontSize="16"
-                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" x:Name="Create_Model_ID" Grid.Column=" 3"
-                                         Text="{Binding Halcon_Create_Shape_ModelXld_UI.Create_ID}"
-                                         Margin="0,0,6,0"
-                                         HorizontalContentAlignment="Center"
-                                         VerticalContentAlignment="Center"
-                                         Background="Transparent"
-                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                         BorderThickness="2"
-                                         FontSize="16"
-                                         IsReadOnly="False" />
 
                             </Grid>
 
@@ -3517,10 +3528,39 @@
                             <Grid Height="35" Margin="8">
 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="85" />
                                     <ColumnDefinition Width=" *" />
-                                    <ColumnDefinition Width=" auto" />
+
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="查找ID号"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+
+
+
+                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" x:Name="Find_Model_ID" Grid.Column=" 3"
+                                         Text="{Binding Halcon_Find_Shape_ModelXld_UI.FInd_ID}"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="16"
+                                         IsReadOnly="False" />
+
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="85" />
                                     <ColumnDefinition Width=" *" />
+
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="查找位置"
                                            HorizontalAlignment="Left"
@@ -3531,7 +3571,6 @@
 
 
                                 <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="Find_ShapeModel_Name" Grid.Column=" 1"
-                                          Margin="0,0,6,0"
                                           VerticalContentAlignment="Center"
                                           BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                           BorderThickness="2"
@@ -3582,24 +3621,7 @@
                                 </ComboBox>
 
 
-                                <TextBlock Grid.Column=" 2"
-                                           Text="ID:"
-                                           HorizontalAlignment="Left"
-                                           VerticalAlignment="Center"
-                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                           FontSize="16"
-                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" x:Name="Find_Model_ID" Grid.Column=" 3"
-                                         Text="{Binding Halcon_Find_Shape_ModelXld_UI.FInd_ID}"
-                                         Margin="0,0,6,0"
-                                         HorizontalContentAlignment="Center"
-                                         VerticalContentAlignment="Center"
-                                         Background="Transparent"
-                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                         BorderThickness="2"
-                                         FontSize="16"
-                                         IsReadOnly="False" />
 
                             </Grid>
 

@@ -1041,7 +1041,7 @@
                              ItemsSource="{Binding Find_Data_List.Vision_List}"
                              ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                              ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                             SelectedIndex="-1"
+                             SelectedIndex="1"
                              VirtualizingPanel.IsVirtualizing="True"
                              VirtualizingPanel.ScrollUnit="Pixel"
                              VirtualizingPanel.VirtualizationMode="Recycling">

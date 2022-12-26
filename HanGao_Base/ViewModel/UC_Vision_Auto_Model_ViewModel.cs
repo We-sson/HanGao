@@ -1,5 +1,6 @@
 ﻿using HanGao.View.User_Control.Vision_Control;
 using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
+using HanGao.Xml_Date.Xml_Write_Read;
 using static HanGao.ViewModel.User_Control_Log_ViewModel;
 
 
@@ -13,10 +14,10 @@ namespace HanGao.ViewModel
 
 
 
-            //读取存储文件参数
-            Vision_Data _Date = new Vision_Data();
-            Vision_Xml_Method.Read_Xml(ref _Date);
-            Local_Port_UI = _Date.Stat_Network_Port;
+            //读取存储参数文件
+            Vision_Auto_Cofig_Model _Date = new Vision_Auto_Cofig_Model();
+            Vision_Xml_Method.Read_Xml_File(ref _Date);
+            Vision_Auto_Cofig = _Date;
 
 
 
@@ -28,24 +29,18 @@ namespace HanGao.ViewModel
 
 
 
-
-
         /// <summary>
         /// 库卡通讯服务器属性
         /// </summary>
         public List<Socket_Receive> KUKA_Receive { set; get; } = new List<Socket_Receive>();
 
-        //public KUKA_Send_Receive_Xml KUKA_Xml { set; get; } = new KUKA_Send_Receive_Xml();
-
+  
         /// <summary>
         /// 电脑网口设备IP网址
         /// </summary>
         public ObservableCollection<string> Local_IP_UI { set; get; }
 
-        /// <summary>
-        ///默认开启网络端口号
-        /// </summary>
-        //public int IP_UI_Select { set; get; } = 1;
+
 
 
 
@@ -60,16 +55,40 @@ namespace HanGao.ViewModel
         public static Socket_Receive.ReceiveMessage_delegate<Calibration_Data_Receive, string> Static_KUKA_Receive_Find_String { set; get; }
 
 
+        /// <summary>
+        /// 静态属性更新通知事件
+        /// </summary>
+        public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
+
+
+        private static   Vision_Auto_Cofig_Model _Vision_Auto_Cofig { set; get; } = new Vision_Auto_Cofig_Model();
 
         /// <summary>
-        /// 服务其网络端口
+        /// 视觉自动参数属性
         /// </summary>
-        public int Local_Port_UI { set; get; } = 5000;
+        public static Vision_Auto_Cofig_Model Vision_Auto_Cofig
+        {
+
+            get
+            {
+                return _Vision_Auto_Cofig;
+            }
+            set
+            {
+                _Vision_Auto_Cofig = value;
+                //OnStaticPropertyChanged();
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Vision_Auto_Cofig)));
+
+            }
+        }
 
 
 
 
-        //服务器开始状态
+
+        /// <summary>
+        /// 服务器开始状态
+        /// </summary>
         public bool Receive_Start_Type { set; get; } = true;
 
 
@@ -96,6 +115,19 @@ namespace HanGao.ViewModel
             });
         }
 
+
+        public ICommand Save_Config_File_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+
+
+                Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
+
+
+            });
+        }
+
         /// <summary>
         /// 初始化服务器全部ip启动
         /// </summary>
@@ -113,7 +145,7 @@ namespace HanGao.ViewModel
                 foreach (var _Sever in Local_IP_UI)
                 {
 
-                    KUKA_Receive.Add(new Socket_Receive(_Sever, Local_Port_UI.ToString()) { KUKA_Receive_Calibration_String = Static_KUKA_Receive_Calibration_String, KUKA_Receive_Find_String = Static_KUKA_Receive_Find_String, Socket_ErrorInfo_delegate = User_Log_Add });
+                    KUKA_Receive.Add(new Socket_Receive(_Sever, Vision_Auto_Cofig.Stat_Network_Port.ToString()) { KUKA_Receive_Calibration_String = Static_KUKA_Receive_Calibration_String, KUKA_Receive_Find_String = Static_KUKA_Receive_Find_String, Socket_ErrorInfo_delegate = User_Log_Add });
 
                 }
 
@@ -121,7 +153,7 @@ namespace HanGao.ViewModel
 
                 //KUKA_Receive.Server_Strat(Local_IP_UI[IP_UI_Select].ToString(), Local_Port_UI.ToString());
                 Receive_Start_Type = false;
-                User_Log_Add("开启所有网络服务器设备端口:"+ Local_Port_UI .ToString());
+                User_Log_Add("开启所有网络服务器设备端口:"+ Vision_Auto_Cofig.Stat_Network_Port.ToString());
 
             }
 
