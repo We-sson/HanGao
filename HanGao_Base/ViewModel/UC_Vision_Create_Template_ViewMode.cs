@@ -57,6 +57,10 @@ namespace HanGao.ViewModel
                 Calibration_Data_Send _Send = new Calibration_Data_Send();
                 //UI显示接收信息内容
                 UC_Vision_Robot_Protocol_ViewModel.Receive_Socket_String = _RStr;
+
+                List<double>[] _Error_List_X = new List<double>[10];
+                List<double>[] _Error_List_Y = new List<double>[10];
+
                 int _Find_Data = 1;
                 int _Find_Shape = 1;
 
@@ -102,63 +106,106 @@ namespace HanGao.ViewModel
                                 Read_HWindow_ID(ref _Window, _S.Find_Model.Vision_Area);
 
 
-                                //获取图片
-                                if (Get_Image(ref _Image, Get_Image_Model, _Window, Image_Location_UI))
+                                for (int i = 0; i < Vision_Auto_Cofig.Find_Run_Number; i++)
                                 {
 
 
-                                    //识别图像特征
-                                    if ( Find_Model_Method(_Window, _ModelXld, _Image, Vision_Auto_Cofig.Find_TimeOut_Millisecond, _Mat2D))
+                                    //获取图片
+                                    if (Get_Image(ref _Image, Get_Image_Model, _Window, Image_Location_UI))
                                     {
 
 
-
-                                        //Halcon_SDK.Calibration_Results_Compute(Calibration_P, Robot_P, ref _Mat2D);
-
-
-
-
-                                        _Send.IsStatus = 1;
-                                        _Send.Message_Error = Calibration_Error_Message_Enum.No_Error.ToString();
+                                        //识别图像特征
+                                        if (Find_Model_Method(_Window, _ModelXld, _Image, Vision_Auto_Cofig.Find_TimeOut_Millisecond, _Mat2D))
+                                        {
 
 
 
-
-                                        _Send.Vision_Point.Pos_1.X = Halcon_Find_Shape_Out.Robot_Pos[0].X.ToString();
-                                        _Send.Vision_Point.Pos_1.Y = Halcon_Find_Shape_Out.Robot_Pos[0].Y.ToString();
-                                        _Send.Vision_Point.Pos_2.X = Halcon_Find_Shape_Out.Robot_Pos[1].X.ToString();
-                                        _Send.Vision_Point.Pos_2.Y = Halcon_Find_Shape_Out.Robot_Pos[1].Y.ToString();
-                                        _Send.Vision_Point.Pos_3.X = Halcon_Find_Shape_Out.Robot_Pos[2].X.ToString();
-                                        _Send.Vision_Point.Pos_3.Y = Halcon_Find_Shape_Out.Robot_Pos[2].Y.ToString();
-                                        _Send.Vision_Point.Pos_4.X = Halcon_Find_Shape_Out.Robot_Pos[3].X.ToString();
-                                        _Send.Vision_Point.Pos_4.Y = Halcon_Find_Shape_Out.Robot_Pos[3].Y.ToString();
+                                            //Halcon_SDK.Calibration_Results_Compute(Calibration_P, Robot_P, ref _Mat2D);
 
 
 
 
+                                            _Send.IsStatus = 1;
+                                            _Send.Message_Error = Calibration_Error_Message_Enum.No_Error.ToString();
+
+
+
+
+                                            _Send.Vision_Point.Pos_1.X = Halcon_Find_Shape_Out.Robot_Pos[0].X.ToString();
+                                            _Send.Vision_Point.Pos_1.Y = Halcon_Find_Shape_Out.Robot_Pos[0].Y.ToString();
+                                            _Send.Vision_Point.Pos_2.X = Halcon_Find_Shape_Out.Robot_Pos[1].X.ToString();
+                                            _Send.Vision_Point.Pos_2.Y = Halcon_Find_Shape_Out.Robot_Pos[1].Y.ToString();
+                                            _Send.Vision_Point.Pos_3.X = Halcon_Find_Shape_Out.Robot_Pos[2].X.ToString();
+                                            _Send.Vision_Point.Pos_3.Y = Halcon_Find_Shape_Out.Robot_Pos[2].Y.ToString();
+                                            _Send.Vision_Point.Pos_4.X = Halcon_Find_Shape_Out.Robot_Pos[3].X.ToString();
+                                            _Send.Vision_Point.Pos_4.Y = Halcon_Find_Shape_Out.Robot_Pos[3].Y.ToString();
+
+                                      
+                                                //添加计算误差组内
+                                            for (int _E = 0; i < 4; i++)
+                                            {
+                                                //_Error_List_X[_E] =new List<double> ( double.Parse(Halcon_Find_Shape_Out.Robot_Pos[_E].X.ToString()));
+                                                //_Error_List_Y[_E] = double.Parse(Halcon_Find_Shape_Out.Robot_Pos[_E].Y.ToString());
+
+
+                                            }
+
+                               
+
+                                        }
+                                        else
+                                        {
+
+                                            _Send.IsStatus = 0;
+                                            _Send.Message_Error = Calibration_Error_Message_Enum.Error_No_Can_Find_the_model.ToString();
+                                        }
 
 
                                     }
 
+                                    //double Calibration_Error_X_UI = double.Parse(Specimen_Error(_Error_List_X));
+                                    //double Calibration_Error_Y_UI = double.Parse(Specimen_Error(_Error_List_Y));
 
+                                    //if (Halcon_SDK.Specimen_Error)
+                                    //{
+
+                                    //}
 
                                     else
                                     {
 
                                         _Send.IsStatus = 0;
-                                        _Send.Message_Error = Calibration_Error_Message_Enum.Error_No_Can_Find_the_model.ToString();
+                                        _Send.Message_Error = Calibration_Error_Message_Enum.Error_No_Camera_GetImage.ToString();
+
+
                                     }
 
 
+
+
                                 }
-                                else
+
+                                if (_Error_List_X.Count>1 || _Error_List_Y.Count>1)
                                 {
+                                    double Calibration_Error_X_UI = double.Parse(Halcon_SDK.Specimen_Error(_Error_List_X));
+                                    double Calibration_Error_Y_UI = double.Parse(Halcon_SDK.Specimen_Error(_Error_List_Y));
 
-                                    _Send.IsStatus = 0;
-                                    _Send.Message_Error = Calibration_Error_Message_Enum.Error_No_Camera_GetImage.ToString();
+
+
+                                    if (Calibration_Error_X_UI< Vision_Auto_Cofig.Find_Allow_Error || Calibration_Error_Y_UI< Vision_Auto_Cofig.Find_Allow_Error)
+                                    {
+
+
+
+                                    }
+
+
 
 
                                 }
+
+
 
                             }
                             else
@@ -778,9 +825,9 @@ namespace HanGao.ViewModel
                     {
 
 
-                //查找模型
-                            Find_Model_Method(Features_Window.HWindow, _ModelID, _Image, Vision_Auto_Cofig.Find_TimeOut_Millisecond);
-       
+                        //查找模型
+                        Find_Model_Method(Features_Window.HWindow, _ModelID, _Image, Vision_Auto_Cofig.Find_TimeOut_Millisecond);
+
 
 
 
@@ -862,6 +909,8 @@ namespace HanGao.ViewModel
 
 
             Find_Text_Models_UI_IsEnable = false;
+
+
 
 
             //超时方法,退出线程
