@@ -1,5 +1,5 @@
-&ACCESS RVO
-&REL 227
+&ACCESS RVO1
+&REL 234
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\KRL
@@ -23,7 +23,10 @@ DECL EKI_STATUS RET
 ;ENDFOLD (INI)
 ;------------6-------
 
+
 EKRL_CONNECT()
+
+
 
 ;Bytes[]="hellow"
 ;halt
@@ -103,7 +106,7 @@ Find_Data_Model=N1_Sink_Data.Sink_Model
 
 CASE 2
 Work_Area[]="Work_2"
-Find_Data_Model=N1_Sink_Data.Sink_Model
+Find_Data_Model=N2_Sink_Data.Sink_Model
 CASE 3
 Work_Area[]="Work_3"
 
@@ -148,32 +151,34 @@ LP8=LastPos8
 LP9=LastPos9
 
 
-
 HanGao_Camera_Offset(#Find_Model ,Find_Area,Work_Number,LP1)
+HanGao_Camera_Offset(#Find_Model ,Find_Area,Work_Number,LP2)
+HanGao_Camera_Offset(#Find_Model ,Find_Area,Work_Number,LP3)
+HanGao_Camera_Offset(#Find_Model ,Find_Area,Work_Number,LP4)
 
 switch Find_Area
 
 CASE 1
 
-N45_OFFSET_POS=LP1
-N45_CIR_POS=LP2
-D45_Start_POS=LP3
-D45_End_POS=LP4
+N45_OFFSET_POS=LP2
+N45_CIR_POS=LP1
+D45_Start_POS=LP4
+D45_End_POS=LP3
 CASE 2
-N135_OFFSET_POS=LP1
-N135_CIR_POS=LP2
-D135_Start_POS=LP3
-D135_End_POS=LP4
+N135_OFFSET_POS=LP2
+N135_CIR_POS=LP1
+D135_Start_POS=LP4
+D135_End_POS=LP3
 CASE 3
-N225_OFFSET_POS=LP1
-N225_CIR_POS=LP2
-D225_Start_POS=LP3
-D225_End_POS=LP4
+N225_OFFSET_POS=LP2
+N225_CIR_POS=LP1
+D225_Start_POS=LP4
+D225_End_POS=LP3
 CASE 4
-N315_OFFSET_POS=LP1
-N315_CIR_POS=LP2
-D315_Start_POS=LP3
-D315_End_POS=LP4
+N315_OFFSET_POS=LP2
+N315_CIR_POS=LP1
+D315_Start_POS=LP4
+D315_End_POS=LP3
 ENDSWITCH
 
 
@@ -375,7 +380,7 @@ EKI_CHECK(RET,#Quit,EKRL_NAME[])
 RET=EKI_OPEN(EKRL_NAME[])
 EKI_CHECK(RET,#Quit,EKRL_NAME[])
 
-wait sec 2
+wait sec 0.2
 
 ;MSGNOTIFY("HanGao:Socket Connecting!")
 

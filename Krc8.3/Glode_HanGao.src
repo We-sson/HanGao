@@ -1,11 +1,12 @@
-&ACCESS RVO
-&REL 278
+&ACCESS RVO1
+&REL 289
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HK
 DEF Glode_HanGao( )
 
 ;# DATE:2021-1-4
+
 
 
 
@@ -419,7 +420,7 @@ Lin_Pos.C=0
 case #LeftRight_One
 
 Lin_Pos.X=D45_Start_POS.X
-Lin_Pos.Y=D45_Start_POS.X
+Lin_Pos.Y=D45_Start_POS.Y
 
 ;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
 ;Lin_Pos.Y=0
@@ -450,8 +451,12 @@ Lin_Pos.A=0
 Lin_Pos.B=0
 Lin_Pos.C=0
 case #LeftRight_One
-Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
-Lin_Pos.Y=0
+
+Lin_Pos.X=D45_Start_POS.X
+Lin_Pos.Y=D45_Start_POS.Y
+
+; Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
+; Lin_Pos.Y=0
 Lin_Pos.Z=0
 Lin_Pos.A=0
 Lin_Pos.B=0
@@ -485,7 +490,7 @@ Lin_Pos.X=D45_End_POS.X
 Lin_Pos.Y=D45_End_POS.Y
 
 ;Lin_Pos.X=Sink_Welding_Size.Sink_Size_Short_OnePos+Sink_Welding_Size.Sink_Size_Short_TwoPos
-Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_Side
+;Lin_Pos.Y=Sink_Welding_Size.Sink_Size_Short_Side
 Lin_Pos.Z=0.000
 Lin_Pos.A=0
 Lin_Pos.B=0
@@ -1046,10 +1051,16 @@ Q_X=(Camera_Calibration_Data.Sink_Size_Down_Distance+Camera_Calibration_Data.Sin
 SWITCH Vision_Model
 
 case #Calibration
-OFFSET_POS.X=Cam_45_POS.X+Q_X
-OFFSET_POS.Y=Cam_45_POS.Y+Q_Y
-OFFSET_POS.Z=Cam_45_POS.Z
 
+IF (ABS(Q_Y)>=20 ) OR (ABS(Q_X)>=20)THEN
+OFFSET_POS.X=Cam_45_POS.X-Q_X
+OFFSET_POS.Y=Cam_45_POS.Y-Q_Y
+OFFSET_POS.Z=Cam_45_POS.Z
+ELSE
+OFFSET_POS.X=Cam_45_POS.X
+OFFSET_POS.Y=Cam_45_POS.Y
+OFFSET_POS.Z=Cam_45_POS.Z
+ENDIF
 
 ENDSWITCH
 
@@ -1061,10 +1072,15 @@ Q_X=Camera_Calibration_Data.Sink_Size_Left_Distance-Sink_Size.Sink_Size_Left_Dis
 SWITCH Vision_Model
 
 case #Calibration
+IF (ABS(Q_Y)>=20 ) OR (ABS(Q_X)>=20)THEN
 OFFSET_POS.X=Cam_135_POS.X-Q_X
 OFFSET_POS.Y=Cam_135_POS.Y-Q_Y
 OFFSET_POS.Z=Cam_135_POS.Z
-
+ELSE
+OFFSET_POS.X=Cam_135_POS.X
+OFFSET_POS.Y=Cam_135_POS.Y
+OFFSET_POS.Z=Cam_135_POS.Z
+ENDIF
 
 ENDSWITCH
 
@@ -1077,10 +1093,16 @@ Q_X=Camera_Calibration_Data.Sink_Size_Down_Distance-Sink_Size.Sink_Size_Down_Dis
 SWITCH Vision_Model
 
 case #Calibration
+
+IF (ABS(Q_Y)>=20 ) OR (ABS(Q_X)>=20)THEN
 OFFSET_POS.X=Cam_225_POS.X-Q_X
 OFFSET_POS.Y=Cam_225_POS.Y-Q_Y
 OFFSET_POS.Z=Cam_225_POS.Z
-
+ELSE
+OFFSET_POS.X=Cam_225_POS.X
+OFFSET_POS.Y=Cam_225_POS.Y
+OFFSET_POS.Z=Cam_225_POS.Z
+ENDIF
 
 ENDSWITCH
 
@@ -1093,10 +1115,15 @@ Q_X=(Camera_Calibration_Data.Sink_Size_Down_Distance+Camera_Calibration_Data.Sin
 SWITCH Vision_Model
 
 case #Calibration
+IF (ABS(Q_Y)>=20 ) OR (ABS(Q_X)>=20)THEN
 OFFSET_POS.X=Cam_315_POS.X-Q_X
 OFFSET_POS.Y=Cam_315_POS.Y-Q_Y
 OFFSET_POS.Z=Cam_315_POS.Z
-
+ELSE
+OFFSET_POS.X=Cam_315_POS.X
+OFFSET_POS.Y=Cam_315_POS.Y
+OFFSET_POS.Z=Cam_315_POS.Z
+ENDIF
 
 ENDSWITCH
 
@@ -1107,9 +1134,10 @@ ENDSWITCH
 SWITCH Vision_Model
 
 case #Find_Model
-OFFSET_POS.X=OFFSET_POS.X+Q_X
-OFFSET_POS.Y=OFFSET_POS.Y+Q_Y
-
+IF (ABS(Q_Y)>=20 ) OR (ABS(Q_X)>=20)THEN
+OFFSET_POS.X=OFFSET_POS.X-Q_X
+OFFSET_POS.Y=OFFSET_POS.Y-Q_Y
+ENDIF
 ENDSWITCH
 
 
