@@ -13,7 +13,7 @@ namespace Soceket_KUKA
     public class Socket_Receive
     {
 
-        public Socket_Receive(string _IP,string _Port)
+        public Socket_Receive(string _IP, string _Port)
         {
 
 
@@ -25,10 +25,10 @@ namespace Soceket_KUKA
 
 
 
-        public     delegate  string  ReceiveMessage_delegate<T1,T2>(T1 _T,T2 _S);
+        public delegate string ReceiveMessage_delegate<T1, T2>(T1 _T, T2 _S);
 
-        public    ReceiveMessage_delegate<Calibration_Data_Receive,string> KUKA_Receive_Calibration_String { set; get; }
-        public   ReceiveMessage_delegate<Calibration_Data_Receive, string> KUKA_Receive_Find_String { set; get; }
+        public ReceiveMessage_delegate<Calibration_Data_Receive, string> KUKA_Receive_Calibration_String { set; get; }
+        public ReceiveMessage_delegate<Calibration_Data_Receive, string> KUKA_Receive_Find_String { set; get; }
 
 
 
@@ -36,12 +36,12 @@ namespace Soceket_KUKA
         /// <summary>
         /// 通讯连接错误委托
         /// </summary>
-        public   Socket_T_delegate<string> Socket_ErrorInfo_delegate { set; get; }
+        public Socket_T_delegate<string> Socket_ErrorInfo_delegate { set; get; }
 
 
 
 
-        public  Socket Socket_Sever { set; get; }
+        public Socket Socket_Sever { set; get; }
 
 
         private static byte[] buffer = new byte[1024 * 1024];
@@ -67,8 +67,8 @@ namespace Soceket_KUKA
 
             //异步接收客户端
             Socket_Sever.BeginAccept(new AsyncCallback(ClienAppcet), Socket_Sever);
-  
-          
+
+
 
 
         }
@@ -80,7 +80,7 @@ namespace Soceket_KUKA
         {
 
 
-            Socket_Sever.Shutdown( SocketShutdown.Both );
+            Socket_Sever.Shutdown(SocketShutdown.Both);
             Socket_Sever.Close();
 
 
@@ -92,7 +92,7 @@ namespace Soceket_KUKA
         /// 查找本机所有IP地址
         /// </summary>
         /// <returns></returns>
-        public static   bool  GetLocalIP(ref List<string> _IPAddress)
+        public static bool GetLocalIP(ref List<string> _IPAddress)
         {
 
             try
@@ -100,7 +100,7 @@ namespace Soceket_KUKA
                 IPAddress[] _ipArray;
                 _ipArray = Dns.GetHostAddresses(Dns.GetHostName());
 
-              _IPAddress = new List<string>();
+                _IPAddress = new List<string>();
                 foreach (var _ip in _ipArray)
                 {
                     if (_ip.AddressFamily == AddressFamily.InterNetwork)
@@ -112,16 +112,16 @@ namespace Soceket_KUKA
 
                 }
 
-                return true ;
+                return true;
             }
-            catch (Exception )
+            catch (Exception)
             {
 
-               return false ;
-      
+                return false;
+
             }
- 
-      
+
+
         }
 
 
@@ -129,7 +129,7 @@ namespace Soceket_KUKA
         /// 异步接收连接方法
         /// </summary>
         /// <param name="ar"></param>
-        private  void ClienAppcet(IAsyncResult ar)
+        private void ClienAppcet(IAsyncResult ar)
         {
             //每当连接进来的客户端数量增加时链接数量自增1
             ConnectNumber++;
@@ -141,10 +141,10 @@ namespace Soceket_KUKA
                 try
                 {
 
-                //得到接受进来的socket客户端
-                Socket client = ServerSocket.EndAccept(ar);
-                //开始异步接收客户端数据
-                client.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), client);
+                    //得到接受进来的socket客户端
+                    Socket client = ServerSocket.EndAccept(ar);
+                    //开始异步接收客户端数据
+                    client.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), client);
                 }
                 catch (Exception e)
                 {
@@ -174,8 +174,11 @@ namespace Soceket_KUKA
 
 
 
-
-        private  void ReceiveMessage(IAsyncResult ar)
+        /// <summary>
+        /// 异步消息接收
+        /// </summary>
+        /// <param name="ar"></param>
+        private void ReceiveMessage(IAsyncResult ar)
         {
             Socket client = ar.AsyncState as Socket; //客户端对象
             if (client != null)
@@ -191,10 +194,13 @@ namespace Soceket_KUKA
 
 
 
+                    if (message == "")
+                    {
+                    Socket_ErrorInfo_delegate("设备IP: "+clientipe.Address.ToString()+" 断开连接! ");
+                        return;
+                    }
+                    string _S = Vision_Model(message);
 
-                    string _S=Vision_Model(message);
-
-          
 
 
                     client.Send(Encoding.UTF8.GetBytes(_S));
@@ -221,28 +227,35 @@ namespace Soceket_KUKA
         /// </summary>
         /// <param name="_St"></param>
         /// <returns></returns>
-        public  string   Vision_Model(string _St)
+        public string Vision_Model(string _St)
         {
+            if (_St!="")
+            {
 
             Calibration_Data_Receive _Receive = KUKA_Send_Receive_Xml.String_Xml<Calibration_Data_Receive>(_St);
-            string _Str="";
-            switch ( _Receive.Model)
+            string _Str = "";
+            switch (_Receive.Model)
             //switch (  Enum.Parse(typeof( Vision_Model_Enum),    _Receive.Model))
             {
-                    case Vision_Model_Enum.Calibration_Point:
+                case Vision_Model_Enum.Calibration_Point:
 
-                    _Str= KUKA_Receive_Calibration_String(_Receive, _St);
+                    _Str = KUKA_Receive_Calibration_String(_Receive, _St);
 
                     break;
-                    case Vision_Model_Enum.Find_Model:
+                case Vision_Model_Enum.Find_Model:
 
 
-                    _Str= KUKA_Receive_Find_String(_Receive, _St);
+                    _Str = KUKA_Receive_Find_String(_Receive, _St);
                     break;
 
-                }
+            }
 
             return _Str;
+            }
+            else
+            {
+                return "";
+            }
 
         }
 

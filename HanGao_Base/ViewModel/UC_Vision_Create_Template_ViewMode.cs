@@ -811,7 +811,12 @@ namespace HanGao.ViewModel
             });
         }
 
-
+        /// <summary>
+        /// 线程运行超时强制停止
+        /// </summary>
+        /// <param name="_Action"></param>
+        /// <param name="_TimeOut"></param>
+        /// <returns></returns>
         public bool Theah_Run_TimeOut(Action _Action, int _TimeOut)
         {
 
