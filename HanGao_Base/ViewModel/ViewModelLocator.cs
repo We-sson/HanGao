@@ -66,6 +66,7 @@ namespace HanGao.ViewModelLocator
                     .AddScoped<UC_Vision_CameraSet_ViewModel>()
                     .AddScoped<UC_Vision_Auto_Model_ViewModel>()
                     .AddScoped<UC_Vision_Robot_Protocol_ViewModel>()
+                    .AddScoped<UC_Lines_Charts_VM>()
                     
                     .BuildServiceProvider());
 
@@ -105,6 +106,7 @@ namespace HanGao.ViewModelLocator
         public UC_Vision_CameraSet_ViewModel UC_Vision_CameraSet_ViewModel => Ioc.Default.GetService<UC_Vision_CameraSet_ViewModel>();
         public UC_Vision_Auto_Model_ViewModel UC_Vision_Auto_Model_ViewModel => Ioc.Default.GetService<UC_Vision_Auto_Model_ViewModel>();
         public UC_Vision_Robot_Protocol_ViewModel UC_Vision_Robot_Protocol_ViewModel => Ioc.Default.GetService<UC_Vision_Robot_Protocol_ViewModel>();
+        public UC_Lines_Charts_VM UC_Lines_Charts_VM => Ioc.Default.GetService<UC_Lines_Charts_VM>();
 
 
         

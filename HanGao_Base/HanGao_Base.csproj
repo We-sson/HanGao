@@ -201,6 +201,7 @@
     <Compile Include="ViewModel\Global_Using.cs" />
     <Compile Include="ViewModel\Messenger_Eunm\Messenger_Name.cs" />
     <Compile Include="ViewModel\UC_KUKA_State_VM.cs" />
+    <Compile Include="ViewModel\UC_Lines_Charts_VM.cs" />
     <Compile Include="ViewModel\UC_Point_Info_VM.cs" />
     <Compile Include="ViewModel\UC_ProgramEdit_ViewModel.cs" />
     <Compile Include="ViewModel\UC_Short_Side_VM.cs" />
@@ -248,6 +249,9 @@
     </Compile>
     <Compile Include="View\UserMessage\User_Message.xaml.cs">
       <DependentUpon>User_Message.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\User_Control\Live_Chart\UC_Lines_Charts.xaml.cs">
+      <DependentUpon>UC_Lines_Charts.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\User_Control\Pop_Ups\UC_SInk_Add.xaml.cs">
       <DependentUpon>UC_SInk_Add.xaml</DependentUpon>
@@ -420,6 +424,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\UserMessage\User_Message.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\User_Control\Live_Chart\UC_Lines_Charts.xaml">
+      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\User_Control\Pop_Ups\Style\Pop_Ups_Style.xaml">
@@ -604,8 +612,8 @@
     <PackageReference Include="Expression.Blend.Sdk.WPF">
       <Version>1.0.1</Version>
     </PackageReference>
-    <PackageReference Include="LiveCharts.Wpf">
-      <Version>0.9.7</Version>
+    <PackageReference Include="LiveChartsCore.SkiaSharpView.WPF">
+      <Version>2.0.0-beta.700</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection">
       <Version>7.0.0-rc.1.22426.10</Version>
@@ -622,7 +630,7 @@
     <PackageReference Include="Ookii.Dialogs.Wpf">
       <Version>5.0.1</Version>
     </PackageReference>
-    <PackageReference Include="PropertyChanged.Fody" Version="4.0.5" PrivateAssets="all">
+    <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" PrivateAssets="all">
     </PackageReference>
     <PackageReference Include="System.Drawing.Common">
       <Version>7.0.0-rc.1.22426.10</Version>

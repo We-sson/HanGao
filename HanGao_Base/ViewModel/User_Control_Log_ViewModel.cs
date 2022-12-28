@@ -65,14 +65,15 @@ namespace HanGao.ViewModel
 
             
 
-            lock (User_UI_Log)
-            {
-
+            //lock (User_UI_Log)
+            //{
+                Task.Run(() => {
        
 
             User_UI_Log.User_Log += User_UI_Log.User_Log_Number+" | " + DateTime.Now.ToShortTimeString().ToString() + "——" + Log + HttpUtility.HtmlDecode("&#x000A;");
 
-            }
+                });
+            //}
 
 
 
