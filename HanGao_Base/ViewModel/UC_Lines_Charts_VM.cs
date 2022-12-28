@@ -18,7 +18,7 @@ namespace HanGao.ViewModel
 
         }
 
-
+        //说明文档:https://lvcharts.com/docs/wpf/2.0.0-beta.700/Overview.Installation%20and%20first%20chart
 
 
 
