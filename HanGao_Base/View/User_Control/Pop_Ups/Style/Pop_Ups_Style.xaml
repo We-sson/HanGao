@@ -180,14 +180,14 @@
 
 
     <Style x:Key="TextBox_Style" TargetType="{x:Type TextBox}">
-        <Setter Property="Background" Value="{DynamicResource 全局_背景_白颜色}"  />
+        <Setter Property="Background" Value="{DynamicResource 全局_背景_白颜色}" />
         <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_灰颜色}" />
         <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_蓝颜色}" />
         <Setter Property="BorderThickness" Value="2" />
         <Setter Property="MaxLength" Value="8" />
         <Setter Property="FontSize" Value="18" />
-        
-          <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+
+        <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
         <Setter Property="Width" Value="auto" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="AllowDrop" Value="true" />
@@ -212,14 +212,14 @@
                             SnapsToDevicePixels="True">
 
 
-                        <Grid MinWidth="240" MinHeight="30"
+                        <Grid MinWidth="240"
+                              MinHeight="30"
                               Margin="2"
-                          
-                              ShowGridLines="False"  >
+                              ShowGridLines="False">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto" />
                                 <ColumnDefinition Width="1*" />
-                                <ColumnDefinition Width ="auto" />
+                                <ColumnDefinition Width="auto" />
                             </Grid.ColumnDefinitions>
 
 
@@ -227,17 +227,18 @@
 
                             <TextBlock Grid.Column="0"
                                        Text="{TemplateBinding Tag}"
-                                       Margin="5,3,3,3"               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                       Margin="5,3,3,3"
+                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                    
                                        FontFamily="{TemplateBinding FontFamily}"
                                        FontSize="{TemplateBinding FontSize}"
                                        Foreground="#293241" />
                             <ScrollViewer x:Name="PART_ContentHost" Grid.Column="1"
-                                       FontFamily="{DynamicResource     全局_文字_英文字体}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          Focusable="True"    FontSize="{TemplateBinding FontSize}"
+                                          Focusable="True"
+                                          FontFamily="{DynamicResource 全局_文字_英文字体}"
+                                          FontSize="{TemplateBinding FontSize}"
                                           HorizontalScrollBarVisibility="Hidden"
                                           VerticalScrollBarVisibility="Hidden" />
                             <TextBlock x:Name="Tb2" Grid.Column="2"
@@ -251,10 +252,11 @@
                                        Visibility="Visible" />
                             <TextBlock x:Name="Tb1" Grid.Column=" 2"
                                        Text="!"
-                                       HorizontalAlignment="{TemplateBinding  HorizontalContentAlignment}"
+                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                        FontSize="20"
                                        Foreground="{DynamicResource 全局_按钮_红颜色}"
-                                       Visibility="Collapsed" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                       Visibility="Collapsed" />
                         </Grid>
 
                     </Border>
@@ -281,9 +283,9 @@
                             <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource 全局_按钮_绿颜色}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="true">
-                        
+
                             <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource 全局_按钮_绿颜色}" />
-                     
+
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

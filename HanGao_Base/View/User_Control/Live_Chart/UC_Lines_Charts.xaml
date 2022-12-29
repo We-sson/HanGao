@@ -11,12 +11,17 @@
              mc:Ignorable="d">
 
 
-    <lvc:CartesianChart DrawMarginFrame="{Binding DrawMarginFrame}"
+    <lvc:CartesianChart AnimationsSpeed="00:00:00.300"
+                        DrawMarginFrame="{Binding DrawMarginFrame}"
                         LegendPosition="Bottom"
                         Sections="{Binding Sections}"
                         Series="{Binding Series}"
                         TooltipPosition="Hidden"
-                        ZoomMode="Both"
-                        ZoomingSpeed="0.5" />
+                        UpdaterThrottler="00:00:00.500"
+                        ZoomMode="Both" />
+    <!--
+        XAxes="{Binding xAxis, Mode=TwoWay}"
+        YAxes="{Binding yAxis}"
+    -->
 
 </UserControl>

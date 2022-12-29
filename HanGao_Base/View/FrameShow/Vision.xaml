@@ -1140,6 +1140,7 @@
                     <Border Background="{DynamicResource 全局_背景_白颜色}"
                             CornerRadius="5"
                             Effect="{DynamicResource 全局背景阴影}">
+
                         <Charts:UC_Lines_Charts />
                     </Border>
 
