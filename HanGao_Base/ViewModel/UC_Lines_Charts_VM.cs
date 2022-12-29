@@ -49,8 +49,8 @@ namespace HanGao.ViewModel
             {
 
 
-                xAxis.PropertyChanged += XAxis_PropertyChanged;
-                yAxis.PropertyChanged += XAxis_PropertyChanged;
+                //xAxis.PropertyChanged += XAxis_PropertyChanged;
+                //yAxis.PropertyChanged += XAxis_PropertyChanged;
                 for (int i = 0; i < 500; i++)
                 {
 
@@ -76,13 +76,21 @@ namespace HanGao.ViewModel
                     //Console.WriteLine(yAxis.DataBounds.Min);
                     //Console.WriteLine(yAxis.DataBounds.Max);
                     Console.WriteLine("----------------");
-                    Console.WriteLine(yAxis.MinLimit);
-                    Console.WriteLine(yAxis.MaxLimit);
-                    Console.WriteLine(yAxis.VisibleDataBounds.Min);
-                    Console.WriteLine(yAxis.VisibleDataBounds.Max);
-                    Console.WriteLine(xAxis.VisibleDataBounds.Min);
-                    Console.WriteLine(xAxis.VisibleDataBounds.Max);
-                    yAxis.Name = xAxis.Name+i;
+                    Console.WriteLine(yAxis[0].MinLimit);
+                    Console.WriteLine(yAxis[0].MaxLimit);
+                    Console.WriteLine(xAxis[0].MinLimit);
+                    Console.WriteLine(xAxis[0].MaxLimit);
+                    //Console.WriteLine(yAxis.VisibleDataBounds.Min);
+                    //Console.WriteLine(yAxis.VisibleDataBounds.Max);
+                    //Console.WriteLine(xAxis.VisibleDataBounds.Min);
+                    //Console.WriteLine(xAxis.VisibleDataBounds.Max);
+                    //yAxis.Name = xAxis.Name+i;
+                    var axis = xAxis[0];
+                    var ayis = yAxis[0];
+                    axis.MinLimit = null;
+                    axis.MaxLimit = null;
+                    ayis.MinLimit = null;
+                    ayis.MaxLimit = null;
                 }
 
             })))
@@ -91,25 +99,26 @@ namespace HanGao.ViewModel
        
         }
 
-        private void XAxis_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName is (nameof(xAxis.MaxLimit)) or (nameof(xAxis.MinLimit)))
-            {
-                // at this point the axis limits changed 
-                // the user is using the zooming or panning features 
-                // or the range was set explicitly in code 
+        //private void XAxis_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        //{
+        //    if (e.PropertyName is (nameof(xAxis.MaxLimit)) or (nameof(xAxis.MinLimit)))
+        //    {
+        //        // at this point the axis limits changed 
+        //        // the user is using the zooming or panning features 
+        //        // or the range was set explicitly in code 
 
-                var minXVisible = xAxis.MinLimit;
-                var maxXVisible = xAxis.MaxLimit;
-            }
+        //        var minXVisible = xAxis.MinLimit;
+        //        var maxXVisible = xAxis.MaxLimit;
+        //    }
 
-        }
+        //}
 
         //说明文档:https://lvcharts.com/docs/wpf/2.0.0-beta.700/Overview.Installation%20and%20first%20chart
 
 
-        public  Axis xAxis { set; get; } =new Axis() { MaxLimit =1 , MinLimit =1 };
-        public  Axis yAxis { set; get; } =new Axis () { MaxLimit = 1, MinLimit = 1 };
+        public  Axis[] xAxis { set; get; } = new[] { new Axis() };
+        public  Axis[] yAxis { set; get; } = new[] { new Axis() };
+        //public  Axis[] yAxis { set; get; } 
 
         public ObservableCollection<ISeries> Series { get; set; }
        = new ObservableCollection<ISeries>

@@ -18,10 +18,8 @@
                         Series="{Binding Series}"
                         TooltipPosition="Hidden"
                         UpdaterThrottler="00:00:00.500"
+                        XAxes="{Binding xAxis, Mode=TwoWay}"
+                        YAxes="{Binding yAxis}"
                         ZoomMode="Both" />
-    <!--
-        XAxes="{Binding xAxis, Mode=TwoWay}"
-        YAxes="{Binding yAxis}"
-    -->
 
 </UserControl>
