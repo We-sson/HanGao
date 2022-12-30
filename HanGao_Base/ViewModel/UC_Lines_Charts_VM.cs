@@ -27,7 +27,8 @@ namespace HanGao.ViewModel
                 LineSmoothness = 5,
                 GeometrySize = 0,
                 Values = Val1,
-                Fill = null
+                Fill = null,
+                Stroke = new SolidColorPaint(SKColors.BlueViolet) { StrokeThickness = 2 },
             };
             var L2 = new LineSeries<double>
             {
@@ -35,7 +36,8 @@ namespace HanGao.ViewModel
                 LineSmoothness = 5,
                 GeometrySize = 0,
                 Values = Val2,
-                Fill = null
+                Fill = null,
+                Stroke = new SolidColorPaint(SKColors.Green) { StrokeThickness = 2 },
             };
 
 
@@ -47,6 +49,7 @@ namespace HanGao.ViewModel
             //开启线保存匹配模型文件
             new Thread(new ThreadStart(new Action(() =>
             {
+                Random _R = new Random() { };
 
 
                 //xAxis.PropertyChanged += XAxis_PropertyChanged;
@@ -54,67 +57,43 @@ namespace HanGao.ViewModel
                 for (int i = 0; i < 500; i++)
                 {
 
-                    Thread.Sleep(500);
-                    for (int _i = 0; _i < 15; _i++)
-                    {
-                        Val1.Add(_i * 0.5);
-                        Val2.Add(_i * 0.1);
+                    Thread.Sleep(100);
+          
+                        
+                       
+                        Val1.Add(_R.NextDouble());
+                        Val2.Add(_R.NextDouble());
 
-
-                    }
-
-
-                    //Series[0].zoo,
-                    //Series[1].DataPadding = new LiveChartsCore.Drawing.LvcPoint(1, 1);
-
-                    //xAxis.MaxLimit = 1; xAxis.MinLimit = 1;
-                    //yAxis.MaxLimit = 1; yAxis.MinLimit = 1;
-                    //yAxis.MinZoomDelta = null;
-                    //xAxis.MinZoomDelta = null;
-                    //Console.WriteLine(xAxis.DataBounds.Min);
-                    //Console.WriteLine(xAxis.DataBounds.Max);
-                    //Console.WriteLine(yAxis.DataBounds.Min);
-                    //Console.WriteLine(yAxis.DataBounds.Max);
                     Console.WriteLine("----------------");
                     Console.WriteLine(yAxis[0].MinLimit);
                     Console.WriteLine(yAxis[0].MaxLimit);
                     Console.WriteLine(xAxis[0].MinLimit);
                     Console.WriteLine(xAxis[0].MaxLimit);
-                    //Console.WriteLine(yAxis.VisibleDataBounds.Min);
-                    //Console.WriteLine(yAxis.VisibleDataBounds.Max);
-                    //Console.WriteLine(xAxis.VisibleDataBounds.Min);
-                    //Console.WriteLine(xAxis.VisibleDataBounds.Max);
-                    //yAxis.Name = xAxis.Name+i;
+
                     var axis = xAxis[0];
                     var ayis = yAxis[0];
-                    axis.MinLimit = null;
-                    axis.MaxLimit = null;
+                    //axis.MinStep = 10;
                     ayis.MinLimit = null;
                     ayis.MaxLimit = null;
+                    axis.MaxLimit = Val1.Count;
+                    axis.MinLimit = Val1.Count - 50;
+
+                    //ayis.MaxLimit = 20;
                 }
 
             })))
             { IsBackground = true, }.Start();
 
-       
+
         }
 
-        //private void XAxis_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        //{
-        //    if (e.PropertyName is (nameof(xAxis.MaxLimit)) or (nameof(xAxis.MinLimit)))
-        //    {
-        //        // at this point the axis limits changed 
-        //        // the user is using the zooming or panning features 
-        //        // or the range was set explicitly in code 
 
-        //        var minXVisible = xAxis.MinLimit;
-        //        var maxXVisible = xAxis.MaxLimit;
-        //    }
-
-        //}
 
         //说明文档:https://lvcharts.com/docs/wpf/2.0.0-beta.700/Overview.Installation%20and%20first%20chart
 
+
+
+        //private double? XMinLimit;
 
         public  Axis[] xAxis { set; get; } = new[] { new Axis() };
         public  Axis[] yAxis { set; get; } = new[] { new Axis() };
@@ -175,7 +154,7 @@ namespace HanGao.ViewModel
                     // creates a section from 3 to 4 in the X axis
                     Yi = 5,
                     Yj = -5,
-                    Fill = new SolidColorPaint(new SKColor(255, 205, 210))
+                    Fill = new SolidColorPaint(new SKColor(255, 205, 200))
                 },
 
 

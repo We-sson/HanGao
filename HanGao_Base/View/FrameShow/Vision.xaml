@@ -1140,8 +1140,146 @@
                     <Border Background="{DynamicResource 全局_背景_白颜色}"
                             CornerRadius="5"
                             Effect="{DynamicResource 全局背景阴影}">
+                        <Grid>
 
-                        <Charts:UC_Lines_Charts />
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width=" auto" />
+                            </Grid.ColumnDefinitions>
+                            <Charts:UC_Lines_Charts x:Name="Charts" Margin="5" />
+
+                            <Grid Grid.Column=" 1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+
+                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Row=" 0"
+                                        Height="45"
+                                        Margin="4"
+                                        VerticalAlignment="Top"
+                                        Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                        FontSize="40">
+                                    <Image Height=" 30"
+                                           Margin="5,0,5,0"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Effect="{DynamicResource 全局背景阴影}"
+                                           Source="/Resources/UC_放大_1_ioc.png" />
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
+
+                                </Button>
+
+                                <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row=" 1"
+                                          IsChecked="{Binding DataContext.Series[0].IsVisible, ElementName=Charts}"
+                                          Margin="4"
+                                          HorizontalContentAlignment="Center"
+                                          VerticalContentAlignment="Center"
+                                          FontSize="40">
+                                    <TextBlock Text="F_45"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Effect="{DynamicResource 全局背景阴影}"
+                                               FontSize=" 16"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
+
+                                </CheckBox>
+
+
+                                <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row=" 2"
+                                          IsChecked="{Binding DataContext.Series[1].IsVisible, ElementName=Charts}"
+                                          Margin="4"
+                                          HorizontalContentAlignment="Center"
+                                          VerticalContentAlignment="Center"
+                                          FontSize="40">
+                                    <TextBlock Text="F_135"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Effect="{DynamicResource 全局背景阴影}"
+                                               FontSize=" 16"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
+
+                                </CheckBox>
+
+
+
+                                <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row=" 3"
+                                          IsChecked="{Binding DataContext.Series[2].IsVisible, ElementName=Charts}"
+                                          Margin="4"
+                                          HorizontalContentAlignment="Center"
+                                          VerticalContentAlignment="Center"
+                                          FontSize="40">
+                                    <TextBlock Text="F_225"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Effect="{DynamicResource 全局背景阴影}"
+                                               FontSize=" 16"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
+
+                                </CheckBox>
+
+
+                                <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row=" 4"
+                                          IsChecked="{Binding DataContext.Series[3].IsVisible, ElementName=Charts}"
+                                          Margin="4"
+                                          HorizontalContentAlignment="Center"
+                                          VerticalContentAlignment="Center"
+                                          FontSize="40">
+                                    <TextBlock Text="F_315"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Effect="{DynamicResource 全局背景阴影}"
+                                               FontSize=" 16"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
+
+                                </CheckBox>
+
+
+                            </Grid>
+
+                        </Grid>
                     </Border>
 
 

@@ -525,6 +525,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Resources\UC_放大_1_ioc.png" />
+    <Resource Include="Resources\UC_放大_ioc.png" />
     <Resource Include="Resources\Vision_刷新_ioc.png" />
     <Resource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
