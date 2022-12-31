@@ -11,13 +11,11 @@
              mc:Ignorable="d">
 
 
-    <lvc:CartesianChart AnimationsSpeed="00:00:00.300"
-                        DrawMarginFrame="{Binding DrawMarginFrame}"
+    <lvc:CartesianChart DrawMarginFrame="{Binding DrawMarginFrame}"
                         LegendPosition="Bottom"
                         Sections="{Binding Sections}"
                         Series="{Binding Series}"
                         TooltipPosition="Hidden"
-                        UpdaterThrottler="00:00:00.500"
                         XAxes="{Binding xAxis}"
                         YAxes="{Binding yAxis}"
                         ZoomMode="Both" />

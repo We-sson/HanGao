@@ -42,24 +42,30 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="80*" />
+            <ColumnDefinition Width="*" />
             <ColumnDefinition Width="330" />
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column=" 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition MaxHeight="300" />
             </Grid.RowDefinitions>
 
-            <Grid Grid.Row="0">
+            <Grid Grid.Row="0" Grid.Column=" 0"
+                  Grid.ColumnSpan=" 2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="70" />
 
                 </Grid.ColumnDefinitions>
 
-                <Grid Grid.Column=" 0" Margin="12,12,6,6">
+                <Grid Grid.Column=" 0" Margin="6,6,3,3">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="40" />
                         <RowDefinition />
@@ -959,7 +965,7 @@
 
                 </Grid>
 
-                <Grid Grid.Column=" 1" Margin="5,12,5,5">
+                <Grid Grid.Column=" 1" Margin="3,6,3,3">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
@@ -1130,325 +1136,390 @@
 
             </Grid>
 
-            <Grid Grid.Row=" 1">
+            <Grid Grid.Row=" 1" Grid.Column=" 1"
+                  Margin="3,3,3,6">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto" />
+
                 </Grid.ColumnDefinitions>
+                <UC_Working:User_Control_Log Grid.Column="0" />
 
-                <Grid Grid.Column=" 0" Margin="12,6,6,12">
-                    <Border Background="{DynamicResource 全局_背景_白颜色}"
-                            CornerRadius="5"
-                            Effect="{DynamicResource 全局背景阴影}">
-                        <Grid>
 
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width=" auto" />
-                            </Grid.ColumnDefinitions>
-                            <Charts:UC_Lines_Charts x:Name="Charts" Margin="5" />
 
-                            <Grid Grid.Column=" 1">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
+                <Border Grid.Column=" 1"
+                        Width=" 65"
+                        Margin="6,0,0,0"
+                        Background="{DynamicResource 全局_背景_白颜色}"
+                        CornerRadius=" 5"
+                        Effect="{DynamicResource 全局背景阴影}">
 
-                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Row=" 0"
-                                        Height="45"
-                                        Margin="4"
-                                        VerticalAlignment="Top"
-                                        Background="{DynamicResource 全局_按钮_蓝颜色}"
-                                        FontSize="40">
-                                    <Image Height=" 30"
-                                           Margin="5,0,5,0"
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+
+                        </Grid.RowDefinitions>
+
+
+
+                        <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" Grid.Row=" 0"
+                                     Name="Camera_Settings"
+                                     IsChecked="True"
+                                     Margin="4"
+                                     HorizontalContentAlignment="Center"
+                                     VerticalContentAlignment="Center"
+                                     Background="{DynamicResource 全局_按钮_灰颜色}"
+                                     GroupName="Vision_Function">
+                            <StackPanel Margin="0"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal">
+                                <Image Height=" 30"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Source="/Resources/Control_相机设置_ioc.png" />
+                                <!--<TextBlock Text="相机设置"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
-                                           Effect="{DynamicResource 全局背景阴影}"
-                                           Source="/Resources/UC_放大_1_ioc.png" />
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding}"
-                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                   PassEventArgsToCommand="True" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16" />-->
+                            </StackPanel>
 
+                        </RadioButton>
 
-                                </Button>
-
-                                <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row=" 1"
-                                          IsChecked="{Binding DataContext.Series[0].IsVisible, ElementName=Charts}"
-                                          Margin="4"
-                                          HorizontalContentAlignment="Center"
-                                          VerticalContentAlignment="Center"
-                                          FontSize="40">
-                                    <TextBlock Text="F_45"
+                        <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Point_Calibration" Grid.Row=" 1"
+                                     Margin="4"
+                                     HorizontalContentAlignment="Center"
+                                     VerticalContentAlignment="Center"
+                                     Background="{DynamicResource 全局_按钮_灰颜色}"
+                                     GroupName="Vision_Function">
+                            <StackPanel Margin="0"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal">
+                                <Image Height=" 30"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Source="/Resources/Control_九点标定_ioc.png" />
+                                <!--<TextBlock Text="九点标定"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
-                                               Effect="{DynamicResource 全局背景阴影}"
-                                               FontSize=" 16"
-                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding}"
-                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                   PassEventArgsToCommand="True" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
+                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                               FontSize="16" />-->
+                            </StackPanel>
 
+                        </RadioButton>
 
-                                </CheckBox>
-
-
-                                <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row=" 2"
-                                          IsChecked="{Binding DataContext.Series[1].IsVisible, ElementName=Charts}"
-                                          Margin="4"
-                                          HorizontalContentAlignment="Center"
-                                          VerticalContentAlignment="Center"
-                                          FontSize="40">
-                                    <TextBlock Text="F_135"
+                        <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Create_Model" Grid.Row=" 2"
+                                     Margin="4"
+                                     HorizontalContentAlignment="Center"
+                                     VerticalContentAlignment="Center"
+                                     Background="{DynamicResource 全局_按钮_灰颜色}"
+                                     GroupName="Vision_Function">
+                            <StackPanel Margin="0"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal">
+                                <Image Height=" 30"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Source="/Resources/Control_创建模型_ioc.png" />
+                                <!--<TextBlock Text="识别模型"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
-                                               Effect="{DynamicResource 全局背景阴影}"
-                                               FontSize=" 16"
-                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding}"
-                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                   PassEventArgsToCommand="True" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
+                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                               FontSize="16" />-->
+                            </StackPanel>
 
 
-                                </CheckBox>
+                        </RadioButton>
 
-
-
-                                <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row=" 3"
-                                          IsChecked="{Binding DataContext.Series[2].IsVisible, ElementName=Charts}"
-                                          Margin="4"
-                                          HorizontalContentAlignment="Center"
-                                          VerticalContentAlignment="Center"
-                                          FontSize="40">
-                                    <TextBlock Text="F_225"
+                        <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Robot_Model" Grid.Row=" 3"
+                                     Margin="4"
+                                     HorizontalContentAlignment="Center"
+                                     VerticalContentAlignment="Center"
+                                     Background="{DynamicResource 全局_按钮_灰颜色}"
+                                     GroupName="Vision_Function">
+                            <StackPanel Margin="0"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal">
+                                <Image Height=" 30"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Source="/Resources/Control_机器通讯_ioc.png" />
+                                <!--<TextBlock Text="机器通讯"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
-                                               Effect="{DynamicResource 全局背景阴影}"
-                                               FontSize=" 16"
-                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding}"
-                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                   PassEventArgsToCommand="True" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
+                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                               FontSize="16" />-->
+                            </StackPanel>
 
 
-                                </CheckBox>
+                        </RadioButton>
 
-
-                                <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row=" 4"
-                                          IsChecked="{Binding DataContext.Series[3].IsVisible, ElementName=Charts}"
-                                          Margin="4"
-                                          HorizontalContentAlignment="Center"
-                                          VerticalContentAlignment="Center"
-                                          FontSize="40">
-                                    <TextBlock Text="F_315"
+                        <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Auto_Model" Grid.Row=" 4"
+                                     Margin="4"
+                                     HorizontalContentAlignment="Center"
+                                     VerticalContentAlignment="Center"
+                                     Background="{DynamicResource 全局_按钮_灰颜色}"
+                                     GroupName="Vision_Function">
+                            <StackPanel Margin="0"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal">
+                                <Image Height=" 30"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Source="/Resources/Control_自动模式_ioc.png" />
+                                <!--<TextBlock Text="自动模式"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
-                                               Effect="{DynamicResource 全局背景阴影}"
-                                               FontSize=" 16"
-                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding}"
-                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                   PassEventArgsToCommand="True" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
+                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                               FontSize="16" />-->
+                            </StackPanel>
 
 
-                                </CheckBox>
+                        </RadioButton>
 
 
-                            </Grid>
-
-                        </Grid>
-                    </Border>
+                    </Grid>
 
 
 
 
+                </Border>
+            </Grid>
+
+            <Grid Margin="6,3,3,6">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Grid.Row" Value="1" />
+                        <Setter Property="Grid.Column" Value="0" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=图标放大按钮, Path=IsChecked}" Value="true">
+                                <Setter Property="Grid.Row" Value="0" />
+                                <Setter Property="Grid.Column" Value="0" />
+                                <Setter Property="Grid.ColumnSpan" Value="2" />
+                                <Setter Property="Grid.RowSpan" Value="2" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
 
 
-                </Grid>
 
-                <Grid Grid.Column=" 1" Margin="6,6,6,12">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="auto" />
+                <Border Background="{DynamicResource 全局_背景_白颜色}"
+                        CornerRadius="5"
+                        Effect="{DynamicResource 全局背景阴影}">
+                    <Grid>
 
-                    </Grid.ColumnDefinitions>
-                    <UC_Working:User_Control_Log Grid.Column="0" />
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width=" 90" />
+                        </Grid.ColumnDefinitions>
+                        <Charts:UC_Lines_Charts x:Name="Charts" Margin="5" />
 
-
-
-                    <Border Grid.Column=" 1"
-                            Width=" 60"
-                            Margin="12,0,0,0"
-                            Background="{DynamicResource 全局_背景_白颜色}"
-                            CornerRadius=" 5"
-                            Effect="{DynamicResource 全局背景阴影}">
-
-
-                        <Grid>
+                        <Grid Grid.Column=" 1"
+                              Height=" 280"
+                              VerticalAlignment="Top">
                             <Grid.RowDefinitions>
                                 <RowDefinition />
                                 <RowDefinition />
                                 <RowDefinition />
                                 <RowDefinition />
                                 <RowDefinition />
-
+                                <RowDefinition />
                             </Grid.RowDefinitions>
 
+                            <CheckBox Style="{DynamicResource CheckBoxStyle1}" x:Name="图标放大按钮" Grid.Row=" 0"
+                                      Margin="4"
+                                      HorizontalContentAlignment="Center"
+                                      VerticalContentAlignment="Center"
+                                      Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                      Effect="{DynamicResource 全局背景阴影}"
+                                      FontSize="40">
+                                <Image Height=" 28"
+                                       Margin="5,0,5,0"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Source="/Resources/UC_放大_1_ioc.png" />
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding}"
+                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                               PassEventArgsToCommand="True" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
 
 
-                            <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" Grid.Row=" 0"
-                                         Name="Camera_Settings"
-                                         IsChecked="True"
-                                         Margin="4"
-                                         HorizontalContentAlignment="Center"
-                                         VerticalContentAlignment="Center"
-                                         Background="{DynamicResource 全局_按钮_灰颜色}"
-                                         GroupName="Vision_Function">
-                                <StackPanel Margin="0"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Orientation="Horizontal">
-                                    <Image Height=" 30"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Source="/Resources/Control_相机设置_ioc.png" />
-                                    <!--<TextBlock Text="相机设置"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                           FontSize="16" />-->
-                                </StackPanel>
-
-                            </RadioButton>
-
-                            <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Point_Calibration" Grid.Row=" 1"
-                                         Margin="4"
-                                         HorizontalContentAlignment="Center"
-                                         VerticalContentAlignment="Center"
-                                         Background="{DynamicResource 全局_按钮_灰颜色}"
-                                         GroupName="Vision_Function">
-                                <StackPanel Margin="0"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Orientation="Horizontal">
-                                    <Image Height=" 30"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Source="/Resources/Control_九点标定_ioc.png" />
-                                    <!--<TextBlock Text="九点标定"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                               FontSize="16" />-->
-                                </StackPanel>
-
-                            </RadioButton>
-
-                            <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Create_Model" Grid.Row=" 2"
-                                         Margin="4"
-                                         HorizontalContentAlignment="Center"
-                                         VerticalContentAlignment="Center"
-                                         Background="{DynamicResource 全局_按钮_灰颜色}"
-                                         GroupName="Vision_Function">
-                                <StackPanel Margin="0"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Orientation="Horizontal">
-                                    <Image Height=" 30"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Source="/Resources/Control_创建模型_ioc.png" />
-                                    <!--<TextBlock Text="识别模型"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                               FontSize="16" />-->
-                                </StackPanel>
+                            </CheckBox>
 
 
-                            </RadioButton>
-
-                            <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Robot_Model" Grid.Row=" 3"
-                                         Margin="4"
-                                         HorizontalContentAlignment="Center"
-                                         VerticalContentAlignment="Center"
-                                         Background="{DynamicResource 全局_按钮_灰颜色}"
-                                         GroupName="Vision_Function">
-                                <StackPanel Margin="0"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Orientation="Horizontal">
-                                    <Image Height=" 30"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Source="/Resources/Control_机器通讯_ioc.png" />
-                                    <!--<TextBlock Text="机器通讯"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                               FontSize="16" />-->
-                                </StackPanel>
+                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Row=" 1"
+                                      Margin="4"
+                                      VerticalAlignment="Center"
+                                      VerticalContentAlignment="Center"
+                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                      BorderThickness="2"
+                                      IsDropDownOpen="False"
+                                      IsSynchronizedWithCurrentItem="True"
+                                      SelectedIndex="0">
 
 
-                            </RadioButton>
+                                <ComboBoxItem>
 
-                            <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Auto_Model" Grid.Row=" 4"
-                                         Margin="4"
-                                         HorizontalContentAlignment="Center"
-                                         VerticalContentAlignment="Center"
-                                         Background="{DynamicResource 全局_按钮_灰颜色}"
-                                         GroupName="Vision_Function">
-                                <StackPanel Margin="0"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Orientation="Horizontal">
-                                    <Image Height=" 30"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Source="/Resources/Control_自动模式_ioc.png" />
-                                    <!--<TextBlock Text="自动模式"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
+                                    <TextBlock Text="Work_1"
+                                               TextWrapping="Wrap"
+                                               Padding="0,4,0,4"
                                                FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                               FontSize="16" />-->
-                                </StackPanel>
+                                               FontSize="14"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                               TextTrimming="CharacterEllipsis" />
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+
+                                    <TextBlock Text="Work_2"
+                                               TextWrapping="Wrap"
+                                               Padding="0,4,0,4"
+                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                               FontSize="14"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                               TextTrimming="CharacterEllipsis" />
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+
+                                    <TextBlock Text="Work_3"
+                                               TextWrapping="Wrap"
+                                               Padding="0,4,0,4"
+                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                               FontSize="14"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                               TextTrimming="CharacterEllipsis" />
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+
+                                    <TextBlock Text="Work_4"
+                                               TextWrapping="Wrap"
+                                               Padding="0,4,0,4"
+                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                               FontSize="14"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                               TextTrimming="CharacterEllipsis" />
+                                </ComboBoxItem>
+                            </ComboBox>
 
 
-                            </RadioButton>
+                            <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row=" 2"
+                                      IsChecked="{Binding DataContext.Series[0].IsVisible, ElementName=Charts}"
+                                      Margin="4"
+                                      HorizontalContentAlignment="Center"
+                                      VerticalContentAlignment="Center"
+                                      FontSize="40">
+                                <TextBlock Text="F_45"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontSize=" 16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding}"
+                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                               PassEventArgsToCommand="True" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+
+
+                            </CheckBox>
+
+
+                            <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row=" 3"
+                                      IsChecked="{Binding DataContext.Series[1].IsVisible, ElementName=Charts}"
+                                      Margin="4"
+                                      HorizontalContentAlignment="Center"
+                                      VerticalContentAlignment="Center"
+                                      FontSize="40">
+                                <TextBlock Text="F_135"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontSize=" 16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding}"
+                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                               PassEventArgsToCommand="True" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+
+
+                            </CheckBox>
+
+
+
+                            <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row=" 4"
+                                      IsChecked="{Binding DataContext.Series[2].IsVisible, ElementName=Charts}"
+                                      Margin="4"
+                                      HorizontalContentAlignment="Center"
+                                      VerticalContentAlignment="Center"
+                                      FontSize="40">
+                                <TextBlock Text="F_225"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontSize=" 16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding}"
+                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                               PassEventArgsToCommand="True" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+
+
+                            </CheckBox>
+
+
+                            <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row=" 5"
+                                      IsChecked="{Binding DataContext.Series[3].IsVisible, ElementName=Charts}"
+                                      Margin="4"
+                                      HorizontalContentAlignment="Center"
+                                      VerticalContentAlignment="Center"
+                                      FontSize="40">
+                                <TextBlock Text="F_315"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontSize=" 16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding}"
+                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                               PassEventArgsToCommand="True" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+
+
+                            </CheckBox>
 
 
                         </Grid>
 
+                    </Grid>
+                </Border>
 
 
 
-                    </Border>
-                </Grid>
+
+
+
+
             </Grid>
-
 
 
         </Grid>
@@ -1456,19 +1527,19 @@
 
 
         <Vision_Control:UC_Vision_CameraSet Grid.Column=" 1"
-                                            Margin="6,12,6,12"
+                                            Margin="3,6,6,12"
                                             Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Camera_Settings}" />
         <Vision_Control:UC_Vision_Point_Calibration Grid.Column=" 1"
-                                                    Margin="6,12,6,12"
+                                                    Margin="3,6,6,12"
                                                     Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Point_Calibration}" />
         <Vision_Control:UC_Vision_Create_Template Grid.Column=" 1"
-                                                  Margin="6,12,6,12"
+                                                  Margin="3,6,6,12"
                                                   Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Create_Model}" />
         <Vision_Control:UC_Vision_Auto_Model Grid.Column=" 1"
-                                             Margin="6,12,6,12"
+                                             Margin="3,6,6,12"
                                              Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Auto_Model}" />
         <Vision_Control:UC_Vision_Robot_Protocol Grid.Column=" 1"
-                                                 Margin="6,12,6,12"
+                                                 Margin="3,6,6,12"
                                                  Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Robot_Model}" />
 
 
