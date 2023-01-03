@@ -66,38 +66,23 @@ namespace HanGao.ViewModel
 
 
 
-                            //Socket_Client_Setup.Write.Cycle_Write_Send(_Name, _Val);
 
                                 ObservableCollection<Socket_Models_List> _List = new ObservableCollection<Socket_Models_List>();
                                 int _ID = 0;
 
-                                //if (On_Read_List.Count!=0)
-                                //{
-                                //    _ID= On_Read_List.Max(_List => _List.Val_ID) + 1;
-                                //}
 
                                 _List.Add(new Socket_Models_List() { Val_Name = _Name,  Write_Value = _Val, Val_ID = _ID, });
 
-                                //Messenger.Send<ObservableCollection<Socket_Models_List>, string>(_List, nameof(Meg_Value_Eunm.One_List_Connect));
-
-                                //无连接停止发生
-                                //bool aa = Socket_Client_Setup.Write.Is_Connect_Client;
-                      
-                     
 
 
                             //获取加载区域数据
                             Xml_SInk_Craft _Craft = (Xml_SInk_Craft)S.User_Sink.Sink_Process.Sink_Craft.GetType().GetProperty(S.Working_Area_UI.Load_UI_Work.ToString()).GetValue(S.User_Sink.Sink_Process.Sink_Craft);
 
 
-                                //ObservableCollection<Socket_Models_List> _Craft_List = new ObservableCollection<Socket_Models_List>();
-                          
-
                                 ///循环工艺区域焊接参数
                                 foreach (var _Craft_List_Data in _Craft.GetType().GetProperties())
                             {
-                                //Xml_SInk_Craft_Model _TVal = (Xml_SInk_Craft_Model)_Craft_List_Data.GetValue(_Craft, null);
-      
+                         
                                 ///遍历工艺列表
                                 foreach (var _Direction in _Craft_List_Data.GetValue(_Craft).GetType().GetProperties())
                                 {
@@ -142,10 +127,6 @@ namespace HanGao.ViewModel
                                                             _Val = Craft_List.GetValue(_Craft_Data.Craft_Date[i]).ToString();
 
                                                         }
-
-                                                                //发送变量名和值
-                                                                //Socket_Client_Setup.Write.Cycle_Write_Send(_Name, _Val);
-
 
                                                                 _ID += 1;
                                                                 _List.Add(new Socket_Models_List() { Val_Name = _Name, Write_Value = _Val, Val_ID =_ID , });
@@ -201,6 +182,11 @@ namespace HanGao.ViewModel
 
 
 
+
+
+
+
+
         }
 
         public Working_Area_Data UC_Working_VM_N1 { get; set; } = new Working_Area_Data() {  Working_Area_UI =new Working_Area_UI_Model() {  Work_NO= Work_No_Enum.N1}  };
@@ -208,6 +194,27 @@ namespace HanGao.ViewModel
         public Working_Area_Data UC_Working_VM_N2 { get; set; } = new Working_Area_Data() { Working_Area_UI = new Working_Area_UI_Model() { Work_NO = Work_No_Enum.N2 } };
 
 
+
+
+        public void Calculation_Actual_Error (Find_Model_Receive _Find)
+        {
+
+
+            switch (Enum.Parse(typeof(Work_Name_Enum),  _Find.Work_Area))
+            {
+                case Work_Name_Enum.Work_1:
+
+
+                    break;
+                    case Work_Name_Enum.Work_2:
+
+
+                    break;
+            }
+
+
+
+        }
 
 
     }

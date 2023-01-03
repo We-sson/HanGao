@@ -286,6 +286,11 @@ namespace HanGao.ViewModel.Messenger_Eunm
             /// 相机参数文件读取
             /// </summary>
             Vision_Data_Xml_List,
+
+            /// <summary>
+            /// 视觉误差
+            /// </summary>
+            Vision_Error_Data
         }
 
 

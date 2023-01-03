@@ -58,25 +58,23 @@ namespace HanGao.ViewModel
                 //UI显示接收信息内容
                 UC_Vision_Robot_Protocol_ViewModel.Receive_Socket_String = _RStr;
 
+                Point3D Theoretical_Pos =new Point3D (0,0,0);
+
                 List<List<double>> _Error_List_X = new List<List<double>>();
                 List<List<double>> _Error_List_Y = new List<List<double>>();
 
-                int _Find_Data = 1;
-                int _Find_Shape = 1;
-
+    
                 ///读取型号保存的视觉参数号
-                List_Show.SinkModels.Where(_Find => _Find.Sink_Process.Sink_Model == int.Parse(_S.Find_Model.Find_Data)).FirstOrDefault(_Sink =>
+                Sink_Models Vision_Sink = List_Show.SinkModels.FirstOrDefault(_Find => _Find.Sink_Process.Sink_Model == int.Parse(_S.Find_Model.Find_Data));
+  
+                if (Vision_Sink!=null)
                 {
-                    _Find_Data = _Sink.Sink_Process.Vision_Find_ID;
-                    _Find_Shape = _Sink.Sink_Process.Vision_Find_Shape_ID;
+          
 
-                    return true;
-                });
-
-
+                    Calculation_Vision_Pos(ref Theoretical_Pos, Vision_Sink.Sink_Process, _S.Find_Model);
 
                 //获得识别参数文件
-                Vision_Xml_Models _Data_Xml = Find_Data_List.Vision_List.Where(_List => int.Parse(_List.ID) == _Find_Data).FirstOrDefault();
+                Vision_Xml_Models _Data_Xml = Find_Data_List.Vision_List.FirstOrDefault(_List => int.Parse(_List.ID) == Vision_Sink.Sink_Process.Vision_Find_ID);
 
 
                 if (_Data_Xml != null)
@@ -87,7 +85,7 @@ namespace HanGao.ViewModel
 
 
                     //读取模型文件
-                    if (Read_Shape_ModelXld(ref _ModelXld, _Data_Xml.Find_Shape_Data.Shape_Based_Model, (ShapeModel_Name_Enum)Enum.Parse(typeof(ShapeModel_Name_Enum), _S.Find_Model.Vision_Area), _Find_Shape))
+                    if (Read_Shape_ModelXld(ref _ModelXld, _Data_Xml.Find_Shape_Data.Shape_Based_Model, (ShapeModel_Name_Enum)Enum.Parse(typeof(ShapeModel_Name_Enum), _S.Find_Model.Vision_Area), Vision_Sink.Sink_Process.Vision_Find_Shape_ID))
                     {
 
 
@@ -130,15 +128,19 @@ namespace HanGao.ViewModel
                                             _Send.Vision_Point.Pos_3.Y = Halcon_Find_Shape_Out.Robot_Pos[2].Y.ToString();
                                             _Send.Vision_Point.Pos_4.X = Halcon_Find_Shape_Out.Robot_Pos[3].X.ToString();
                                             _Send.Vision_Point.Pos_4.Y = Halcon_Find_Shape_Out.Robot_Pos[3].Y.ToString();
-
-
-
-
                                             //修改状态
                                             _Send.IsStatus = 1;
                                             _Send.Message_Error = Calibration_Error_Message_Enum.No_Error.ToString();
 
-                                            break;
+                                           
+                                                Point3D _Result_Pos = (Point3D)(Halcon_Find_Shape_Out.Robot_Pos[1] - Theoretical_Pos);
+                                                Messenger.Send<Area_Error_Data_Model, string>(new Area_Error_Data_Model() {
+                                                    Error_Result= _Result_Pos , Vision_Area= (ShapeModel_Name_Enum)Enum.Parse(typeof(ShapeModel_Name_Enum), _S.Find_Model.Vision_Area), Work_Area= (Work_Name_Enum)Enum.Parse (typeof(ShapeModel_Name_Enum), _S.Find_Model.Work_Area)
+                                                }, nameof(Meg_Value_Eunm.Vision_Error_Data));
+
+
+
+                                                break;
 
                                         }
                                         else
@@ -199,7 +201,13 @@ namespace HanGao.ViewModel
                 else
                 {
                     _Send.IsStatus = 0;
-                    _Send.Message_Error = Calibration_Error_Message_Enum.Error_No_ID_Number.ToString();
+                    _Send.Message_Error = Calibration_Error_Message_Enum.Error_No_Find_ID_Number.ToString();
+                }
+                }
+                else
+                {
+                    _Send.IsStatus = 0;
+                    _Send.Message_Error = Calibration_Error_Message_Enum.Error_No_SinkInfo.ToString();
                 }
 
                 //属性转换xml流
@@ -330,14 +338,6 @@ namespace HanGao.ViewModel
 
 
 
-
-
-
-
-        //public Halcon_SDK SHalcon { set; get; } = new Halcon_SDK();
-
-
-
         /// <summary>
         /// 用户选择采集图片方式
         /// </summary>
@@ -353,12 +353,7 @@ namespace HanGao.ViewModel
         public string Image_Location_UI { set; get; } = Environment.CurrentDirectory;
 
 
-        /// <summary>
-        /// 生成匹配模型类型选项
-        /// </summary>
-        //public ObservableCollection<Shape_Model_Group_Model> Shape_Model_Group_UI { set; get; } = new ObservableCollection<Shape_Model_Group_Model>() { new Shape_Model_Group_Model() { Shape_Based_Model = Shape_Based_Model_Enum.shape_model }, new Shape_Model_Group_Model() { Shape_Based_Model = Shape_Based_Model_Enum.planar_deformable_model }, new Shape_Model_Group_Model() { Shape_Based_Model = Shape_Based_Model_Enum.local_deformable_model }, new Shape_Model_Group_Model() { Shape_Based_Model = Shape_Based_Model_Enum.Scale_model } };
-
-
+ 
 
         /// <summary>
         /// 创建模型存放位置
@@ -1087,7 +1082,38 @@ namespace HanGao.ViewModel
 
 
 
+        public bool  Calculation_Vision_Pos(ref Point3D _Actual_Pos, Xml_Sink_Model _Sink, Find_Model_Receive _Find)
+        {
 
+
+            switch (Enum.Parse (typeof (ShapeModel_Name_Enum), _Find.Vision_Area))
+            {
+                case ShapeModel_Name_Enum.F_45:
+                    _Actual_Pos.X = _Sink.Sink_Size_Down_Distance + _Sink.Sink_Size_Width;
+                    _Actual_Pos.Y = _Sink.Sink_Size_Left_Distance;
+
+                   return true;
+                case ShapeModel_Name_Enum.F_135:
+                    _Actual_Pos.X = _Sink.Sink_Size_Down_Distance;
+                    _Actual_Pos.Y = _Sink.Sink_Size_Left_Distance;
+
+                    return true;
+                case ShapeModel_Name_Enum.F_225:
+                    _Actual_Pos.X = _Sink.Sink_Size_Down_Distance;
+                    _Actual_Pos.Y = _Sink.Sink_Size_Left_Distance + _Sink.Sink_Size_Long;
+
+                    return true;
+                case ShapeModel_Name_Enum.F_315:
+                    _Actual_Pos.X = _Sink.Sink_Size_Down_Distance+_Sink.Sink_Size_Width;
+                    _Actual_Pos.Y = _Sink.Sink_Size_Left_Distance + _Sink.Sink_Size_Long;
+
+                    return true;
+            }
+
+            return false;
+
+
+        }
 
 
 
