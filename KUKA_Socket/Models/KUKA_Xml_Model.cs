@@ -169,7 +169,7 @@ namespace KUKA_Socket.Models
         Error_No_Can_Find_the_model,
         Error_No_Find_ID_Number,
         Error_No_SinkInfo,
-
+        Error_Find_Exceed_Error_Val
     }
 
 }

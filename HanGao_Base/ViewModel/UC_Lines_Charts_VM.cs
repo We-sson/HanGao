@@ -22,50 +22,31 @@ namespace HanGao.ViewModel
         public UC_Lines_Charts_VM()
         {
 
-            //UI模型特征接收表
+            //接收视觉误差值
             Messenger.Register<Area_Error_Data_Model, string>(this, nameof(Meg_Value_Eunm.Vision_Error_Data), (O, _E) =>
             {
-
-
+                //Area_XY_Error_List _Area = null;
+                Area_Error_Model _Work = null;
 
                 switch (_E.Work_Area)
                 {
                     case Work_Name_Enum.Work_1:
-                        _Work = (Area_Error_Model)Work_1_Error_List.GetType().GetProperties().FirstOrDefault(X => X.Name == _E.Vision_Area.ToString() + "_Error_List").GetValue(Work_1_Error_List);
 
-
+                        _Work = Work_1_Error_List;
+                        Revise_Vision_Error_Chart(ref _Work, _E);
+                        Work_1_Error_List = _Work;
 
                         break;
                     case Work_Name_Enum.Work_2:
-                        _Work = (Area_Error_Model)Work_2_Error_List.GetType().GetProperties().FirstOrDefault(X => X.Name == _E.Vision_Area.ToString() + "_Error_List").GetValue(Work_1_Error_List);
+                        _Work = Work_2_Error_List;
+                        Revise_Vision_Error_Chart(ref _Work, _E);
+                        Work_2_Error_List = _Work;
+
 
                         break;
                 }
 
-
-
-                if (_Work != null)
-                {
-
-                    Area_XY_Error_List _Area = (Area_XY_Error_List)_Work.GetType().GetProperties().FirstOrDefault(X => X.Name == _E.Vision_Area.ToString() + "_Error_List").GetValue(_Work);
-
-
-
-                    if (_Area != null)
-                    {
-
-
-
-                        _Area.X.Add(_E.Error_Result.X);
-                        _Area.Y.Add(_E.Error_Result.Y);
-                        xAxis[0].MaxLimit = _Area.X.Count;
-                        xAxis[0].MinLimit = _Area.X.Count - 10;
-                        yAxis[0].MaxLimit = MaxMin_Error_List(_Work).Max + 1;
-                        yAxis[0].MinLimit = MaxMin_Error_List(_Work).Min - 1;
-                    }
-
-                }
-
+    
 
             });
 
@@ -111,7 +92,7 @@ namespace HanGao.ViewModel
                 }
 
             })))
-            { IsBackground = true, }.Start();
+            { IsBackground = true, };
 
 
         }
@@ -120,10 +101,58 @@ namespace HanGao.ViewModel
 
         //说明文档:https://lvcharts.com/docs/wpf/2.0.0-beta.700/Overview.Installation%20and%20first%20chart
 
+        /// <summary>
+        /// 静态属性更新通知事件
+        /// </summary>
+        public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
 
-        public static Area_Error_Model Work_1_Error_List { set; get; } = new Area_Error_Model();
-        public static Area_Error_Model Work_2_Error_List { set; get; } = new Area_Error_Model();
 
+
+        /// <summary>
+        /// 工位1误差集合
+        /// </summary>
+        private  static Area_Error_Model _Work_1_Error_List { set; get; } = new Area_Error_Model();
+
+
+        public static Area_Error_Model Work_1_Error_List
+        {
+
+            get
+            {
+                return _Work_1_Error_List;
+            }
+            set
+            {
+                _Work_1_Error_List = value;
+                //OnStaticPropertyChanged();
+                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Work_1_Error_List)));
+
+            }
+        }
+
+
+
+        /// <summary>
+        /// 工位2误差集合
+        /// </summary>
+        private static Area_Error_Model _Work_2_Error_List { set; get; } = new Area_Error_Model();
+
+
+        public static Area_Error_Model Work_2_Error_List
+        {
+
+            get
+            {
+                return _Work_2_Error_List;
+            }
+            set
+            {
+                _Work_2_Error_List = value;
+                //OnStaticPropertyChanged();
+                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Work_2_Error_List)));
+
+            }
+        }
         /// <summary>
         /// 竖坐标样式
         /// </summary>
@@ -133,10 +162,14 @@ namespace HanGao.ViewModel
         /// </summary>
         public Axis[] yAxis { set; get; } = new[] { new Axis() };
 
-        private Area_Error_Model _Work;
 
 
-        //定义图表显示样式
+        //private Area_Error_Model _Work;
+
+
+        /// <summary>
+        /// 定义图表显示样式
+        /// </summary>
         public static ObservableCollection<ISeries> Series { get; set; }
        = new ObservableCollection<ISeries>
        {
@@ -230,7 +263,7 @@ namespace HanGao.ViewModel
                     // creates a section from 3 to 4 in the X axis
                     Yi = 5,
                     Yj = -5,
-                    Fill = new SolidColorPaint(new SKColor(255, 205, 200))
+                    Fill = new SolidColorPaint(new SKColor(118,186,153))
                 },
 
 
@@ -244,6 +277,47 @@ namespace HanGao.ViewModel
             Fill = null,
             Stroke = new SolidColorPaint(SKColors.Gray, 3)
         };
+
+
+
+        private bool f_45_UI_IsVisible = true;
+        /// <summary>
+        /// 图标显示隐藏控制
+        /// </summary>
+        public bool F_45_UI_IsVisible
+        {
+            get => f_45_UI_IsVisible;
+            set { SetProperty(ref f_45_UI_IsVisible, value); Series[0].IsVisible = Series[1].IsVisible = value; }
+        }
+
+        private bool f_135_UI_IsVisible = true;
+        /// <summary>
+        /// 图标显示隐藏控制
+        /// </summary>
+        public bool F_135_UI_IsVisible
+        {
+            get => f_135_UI_IsVisible;
+            set { SetProperty(ref f_135_UI_IsVisible, value); Series[2].IsVisible = Series[3].IsVisible = value; }
+        }
+        private bool f_225_UI_IsVisible = true;
+        /// <summary>
+        /// 图标显示隐藏控制
+        /// </summary>
+        public bool F_225_UI_IsVisible
+        {
+            get => f_225_UI_IsVisible;
+            set { SetProperty(ref f_225_UI_IsVisible, value); Series[4].IsVisible = Series[5].IsVisible = value; }
+        }
+        private bool f_315_UI_IsVisible = true;
+        /// <summary>
+        /// 图标显示隐藏控制
+        /// </summary>
+        public bool F_315_UI_IsVisible
+        {
+            get => f_315_UI_IsVisible;
+            set { SetProperty(ref f_315_UI_IsVisible, value); Series[6].IsVisible = Series[7].IsVisible = value; }
+        }
+
 
 
         /// <summary>
@@ -282,9 +356,43 @@ namespace HanGao.ViewModel
 
 
 
+        public void Revise_Vision_Error_Chart(ref Area_Error_Model  _Error_Chart, Area_Error_Data_Model _Error_Data)
+
+        {
+
+
+            //读取对应区域位置误差集合
+            Area_XY_Error_List _Area = (Area_XY_Error_List)_Error_Chart.GetType().GetProperties().FirstOrDefault(X => X.Name == _Error_Data.Vision_Area.ToString() + "_Error_List").GetValue(_Error_Chart);
+
+
+            if (_Area != null)
+            {
+
+                _Area.X.Add(_Error_Data.Error_Result.X);
+                _Area.Y.Add(_Error_Data.Error_Result.Y);
+            }
+            else
+            {
+                _Area.X.Add(0);
+                _Area.Y.Add(0);
+            }
+
+            //赋值回集合
+            _Error_Chart.GetType().GetProperties().FirstOrDefault(X => X.Name == _Error_Data.Vision_Area.ToString() + "_Error_List").SetValue(_Error_Chart, _Area);
 
 
 
+            xAxis[0].MaxLimit = _Area.X.Count;
+            xAxis[0].MinLimit = _Area.X.Count - 10;
+            yAxis[0].MaxLimit = MaxMin_Error_List(_Error_Chart).Max + 1;
+            yAxis[0].MinLimit = MaxMin_Error_List(_Error_Chart).Min - 1;
+
+
+
+
+
+
+        }
 
 
 
@@ -295,27 +403,28 @@ namespace HanGao.ViewModel
     /// <summary>
     /// 区域误差列表模型
     /// </summary>
+    [AddINotifyPropertyChangedInterface]
     public class Area_Error_Model
     {
 
-        public Area_XY_Error_List F_45_Error_List = new Area_XY_Error_List();
-        public Area_XY_Error_List F_135_Error_List = new Area_XY_Error_List();
-        public Area_XY_Error_List F_225_Error_List = new Area_XY_Error_List();
-        public Area_XY_Error_List F_315_Error_List = new Area_XY_Error_List { };
+        public Area_XY_Error_List F_45_Error_List { set; get; } = new Area_XY_Error_List();
+        public Area_XY_Error_List F_135_Error_List { set; get; } = new Area_XY_Error_List();
+        public Area_XY_Error_List F_225_Error_List { set; get; } = new Area_XY_Error_List();
+        public Area_XY_Error_List F_315_Error_List { set; get; } = new Area_XY_Error_List();
 
 
     }
 
-
+    [AddINotifyPropertyChangedInterface]
     public class Area_XY_Error_List
     {
-        public ObservableCollection<double> X = new ObservableCollection<double>();
-        public ObservableCollection<double> Y = new ObservableCollection<double>();
+        public ObservableCollection<double> X = new ObservableCollection<double>() { 0};
+        public ObservableCollection<double> Y = new ObservableCollection<double>() { 0};
 
     }
 
 
-
+    [AddINotifyPropertyChangedInterface]
     public class Area_MinMax_XY_Val_Model
     {
         public double Max { set; get; } = 0;

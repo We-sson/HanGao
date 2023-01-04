@@ -1416,7 +1416,7 @@
 
 
                             <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row=" 2"
-                                      IsChecked="{Binding DataContext.Series[0].IsVisible, ElementName=Charts}"
+                                      IsChecked="{Binding DataContext.F_45_UI_IsVisible, ElementName=Charts}"
                                       Margin="4"
                                       HorizontalContentAlignment="Center"
                                       VerticalContentAlignment="Center"
@@ -1439,7 +1439,7 @@
 
 
                             <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row=" 3"
-                                      IsChecked="{Binding DataContext.Series[1].IsVisible, ElementName=Charts}"
+                                      IsChecked="{Binding DataContext.F_135_UI_IsVisible, ElementName=Charts}"
                                       Margin="4"
                                       HorizontalContentAlignment="Center"
                                       VerticalContentAlignment="Center"
@@ -1463,7 +1463,7 @@
 
 
                             <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row=" 4"
-                                      IsChecked="{Binding DataContext.Series[2].IsVisible, ElementName=Charts}"
+                                IsChecked="{Binding DataContext.F_225_UI_IsVisible, ElementName=Charts}"
                                       Margin="4"
                                       HorizontalContentAlignment="Center"
                                       VerticalContentAlignment="Center"
@@ -1486,7 +1486,7 @@
 
 
                             <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row=" 5"
-                                      IsChecked="{Binding DataContext.Series[3].IsVisible, ElementName=Charts}"
+                                       IsChecked="{Binding DataContext.F_315_UI_IsVisible, ElementName=Charts}"
                                       Margin="4"
                                       HorizontalContentAlignment="Center"
                                       VerticalContentAlignment="Center"

@@ -58,151 +58,169 @@ namespace HanGao.ViewModel
                 //UI显示接收信息内容
                 UC_Vision_Robot_Protocol_ViewModel.Receive_Socket_String = _RStr;
 
-                Point3D Theoretical_Pos =new Point3D (0,0,0);
+                Point3D Theoretical_Pos = new Point3D(0, 0, 0);
 
                 List<List<double>> _Error_List_X = new List<List<double>>();
                 List<List<double>> _Error_List_Y = new List<List<double>>();
 
-    
+
                 ///读取型号保存的视觉参数号
                 Sink_Models Vision_Sink = List_Show.SinkModels.FirstOrDefault(_Find => _Find.Sink_Process.Sink_Model == int.Parse(_S.Find_Model.Find_Data));
-  
-                if (Vision_Sink!=null)
-                {
-          
 
+                if (Vision_Sink != null)
+                {
+
+                    //计算理论值
                     Calculation_Vision_Pos(ref Theoretical_Pos, Vision_Sink.Sink_Process, _S.Find_Model);
 
-                //获得识别参数文件
-                Vision_Xml_Models _Data_Xml = Find_Data_List.Vision_List.FirstOrDefault(_List => int.Parse(_List.ID) == Vision_Sink.Sink_Process.Vision_Find_ID);
+                    //获得识别参数文件
+                    Vision_Xml_Models _Data_Xml = Find_Data_List.Vision_List.FirstOrDefault(_List => int.Parse(_List.ID) == Vision_Sink.Sink_Process.Vision_Find_ID);
 
 
-                if (_Data_Xml != null)
-                {
-
-
-                    Messenger.Send<Vision_Xml_Models, string>(_Data_Xml, nameof(Meg_Value_Eunm.Vision_Data_Xml_List));
-
-
-                    //读取模型文件
-                    if (Read_Shape_ModelXld(ref _ModelXld, _Data_Xml.Find_Shape_Data.Shape_Based_Model, (ShapeModel_Name_Enum)Enum.Parse(typeof(ShapeModel_Name_Enum), _S.Find_Model.Vision_Area), Vision_Sink.Sink_Process.Vision_Find_Shape_ID))
+                    if (_Data_Xml != null)
                     {
 
 
+                        Messenger.Send<Vision_Xml_Models, string>(_Data_Xml, nameof(Meg_Value_Eunm.Vision_Data_Xml_List));
 
 
-                        //读取矩阵文件
-                        if (Halcon_SDK.Read_Mat2d_Method(ref _Mat2D, Directory.GetCurrentDirectory() + "\\Nine_Calibration\\" + _S.Find_Model.Vision_Area + "_" + _S.Find_Model.Work_Area))
+                        //读取模型文件
+                        if (Read_Shape_ModelXld(ref _ModelXld, _Data_Xml.Find_Shape_Data.Shape_Based_Model, (ShapeModel_Name_Enum)Enum.Parse(typeof(ShapeModel_Name_Enum), _S.Find_Model.Vision_Area), Vision_Sink.Sink_Process.Vision_Find_Shape_ID))
                         {
 
-                            //if (Shape_Model_Group_UI.Where(_List => _List.Shape_Based_Model == Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model).FirstOrDefault().IsRead  )
 
-                            //设置相机选择参数
-                            if (MVS_Camera.Set_Camrea_Parameters_List(_Data_Xml.Camera_Parameter_Data))
+
+
+                            //读取矩阵文件
+                            if (Halcon_SDK.Read_Mat2d_Method(ref _Mat2D, Directory.GetCurrentDirectory() + "\\Nine_Calibration\\" + _S.Find_Model.Vision_Area + "_" + _S.Find_Model.Work_Area))
                             {
 
-                                //提前窗口id
-                                Read_HWindow_ID(ref _Window, _S.Find_Model.Vision_Area);
+                                //if (Shape_Model_Group_UI.Where(_List => _List.Shape_Based_Model == Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model).FirstOrDefault().IsRead  )
 
-
-                                for (int i = 0; i < Vision_Auto_Cofig.Find_Run_Number; i++)
+                                //设置相机选择参数
+                                if (MVS_Camera.Set_Camrea_Parameters_List(_Data_Xml.Camera_Parameter_Data))
                                 {
 
+                                    //提前窗口id
+                                    Read_HWindow_ID(ref _Window, _S.Find_Model.Vision_Area);
 
-                                    //获取图片
-                                    if (Get_Image(ref _Image, Get_Image_Model, _Window, Image_Location_UI))
+
+                                    for (int i = 0; i < Vision_Auto_Cofig.Find_Run_Number; i++)
                                     {
 
 
-                                        //识别图像特征
-                                        if (Find_Model_Method(_Window, _ModelXld, _Image, Vision_Auto_Cofig.Find_TimeOut_Millisecond, _Mat2D))
+                                        //获取图片
+                                        if (Get_Image(ref _Image, Get_Image_Model, _Window, Image_Location_UI))
                                         {
 
 
-                                            //添加识别位置点
-                                            _Send.Vision_Point.Pos_1.X = Halcon_Find_Shape_Out.Robot_Pos[0].X.ToString();
-                                            _Send.Vision_Point.Pos_1.Y = Halcon_Find_Shape_Out.Robot_Pos[0].Y.ToString();
-                                            _Send.Vision_Point.Pos_2.X = Halcon_Find_Shape_Out.Robot_Pos[1].X.ToString();
-                                            _Send.Vision_Point.Pos_2.Y = Halcon_Find_Shape_Out.Robot_Pos[1].Y.ToString();
-                                            _Send.Vision_Point.Pos_3.X = Halcon_Find_Shape_Out.Robot_Pos[2].X.ToString();
-                                            _Send.Vision_Point.Pos_3.Y = Halcon_Find_Shape_Out.Robot_Pos[2].Y.ToString();
-                                            _Send.Vision_Point.Pos_4.X = Halcon_Find_Shape_Out.Robot_Pos[3].X.ToString();
-                                            _Send.Vision_Point.Pos_4.Y = Halcon_Find_Shape_Out.Robot_Pos[3].Y.ToString();
-                                            //修改状态
-                                            _Send.IsStatus = 1;
-                                            _Send.Message_Error = Calibration_Error_Message_Enum.No_Error.ToString();
+                                            //识别图像特征
+                                            if (Find_Model_Method(_Window, _ModelXld, _Image, Vision_Auto_Cofig.Find_TimeOut_Millisecond, _Mat2D))
+                                            {
 
-                                           
+
+                                                //添加识别位置点
+                                                _Send.Vision_Point.Pos_1.X = Halcon_Find_Shape_Out.Robot_Pos[0].X.ToString();
+                                                _Send.Vision_Point.Pos_1.Y = Halcon_Find_Shape_Out.Robot_Pos[0].Y.ToString();
+                                                _Send.Vision_Point.Pos_2.X = Halcon_Find_Shape_Out.Robot_Pos[1].X.ToString();
+                                                _Send.Vision_Point.Pos_2.Y = Halcon_Find_Shape_Out.Robot_Pos[1].Y.ToString();
+                                                _Send.Vision_Point.Pos_3.X = Halcon_Find_Shape_Out.Robot_Pos[2].X.ToString();
+                                                _Send.Vision_Point.Pos_3.Y = Halcon_Find_Shape_Out.Robot_Pos[2].Y.ToString();
+                                                _Send.Vision_Point.Pos_4.X = Halcon_Find_Shape_Out.Robot_Pos[3].X.ToString();
+                                                _Send.Vision_Point.Pos_4.Y = Halcon_Find_Shape_Out.Robot_Pos[3].Y.ToString();
+                                                //修改状态
                                                 Point3D _Result_Pos = (Point3D)(Halcon_Find_Shape_Out.Robot_Pos[1] - Theoretical_Pos);
-                                                Messenger.Send<Area_Error_Data_Model, string>(new Area_Error_Data_Model() {
-                                                    Error_Result= _Result_Pos , Vision_Area= (ShapeModel_Name_Enum)Enum.Parse(typeof(ShapeModel_Name_Enum), _S.Find_Model.Vision_Area), Work_Area= (Work_Name_Enum)Enum.Parse (typeof(ShapeModel_Name_Enum), _S.Find_Model.Work_Area)
-                                                }, nameof(Meg_Value_Eunm.Vision_Error_Data));
+                                                if (_Result_Pos.X < Vision_Auto_Cofig.Find_Allow_Error || _Result_Pos.Y < Vision_Auto_Cofig.Find_Allow_Error)
+                                                {
+
+                                                    _Send.IsStatus = 1;
+                                                    _Send.Message_Error = Calibration_Error_Message_Enum.No_Error.ToString() + "Vision_Error: X " + _Result_Pos.X + " Y " + _Result_Pos.Y;
+
+
+                                                    Task.Run(() =>
+                                                    {
+                                                        //计算误差发送到图表显示
+                                                        Messenger.Send<Area_Error_Data_Model, string>(new Area_Error_Data_Model()
+                                                    {
+                                                        Error_Result = _Result_Pos,
+                                                        Vision_Area = (ShapeModel_Name_Enum)Enum.Parse(typeof(ShapeModel_Name_Enum), _S.Find_Model.Vision_Area),
+                                                        Work_Area = (Work_Name_Enum)Enum.Parse(typeof(Work_Name_Enum), _S.Find_Model.Work_Area)
+                                                    }, nameof(Meg_Value_Eunm.Vision_Error_Data));
+                                                });
+                                }
+                                                else
+                                                {
+                                                    _Send.IsStatus = 0;
+                                                    _Send.Message_Error = Calibration_Error_Message_Enum.Error_Find_Exceed_Error_Val.ToString() + " Now: X " + _Result_Pos.X + " Y " + _Result_Pos.Y;
+
+
+                                                }
 
 
 
                                                 break;
 
+                                            }
+                                            else
+                                            {
+
+                                                _Send.IsStatus = 0;
+                                                _Send.Message_Error = Calibration_Error_Message_Enum.Error_No_Can_Find_the_model.ToString();
+                                            }
+
+
                                         }
+
+
+
                                         else
                                         {
 
                                             _Send.IsStatus = 0;
-                                            _Send.Message_Error = Calibration_Error_Message_Enum.Error_No_Can_Find_the_model.ToString();
+                                            _Send.Message_Error = Calibration_Error_Message_Enum.Error_No_Camera_GetImage.ToString();
+
+
                                         }
 
 
-                                    }
-
-                     
-
-                                    else
-                                    {
-
-                                        _Send.IsStatus = 0;
-                                        _Send.Message_Error = Calibration_Error_Message_Enum.Error_No_Camera_GetImage.ToString();
 
 
                                     }
+
+
 
 
 
 
                                 }
+                                else
+                                {
 
-
-
-
-
+                                    _Send.IsStatus = 0;
+                                    _Send.Message_Error = Calibration_Error_Message_Enum.Error_No_Camera_Set_Parameters.ToString();
+                                }
+                                //返回识别内容
 
                             }
                             else
                             {
-
                                 _Send.IsStatus = 0;
-                                _Send.Message_Error = Calibration_Error_Message_Enum.Error_No_Camera_Set_Parameters.ToString();
+                                _Send.Message_Error = Calibration_Error_Message_Enum.Error_No_Read_Math2D_File.ToString();
+
                             }
-                            //返回识别内容
 
                         }
                         else
                         {
                             _Send.IsStatus = 0;
-                            _Send.Message_Error = Calibration_Error_Message_Enum.Error_No_Read_Math2D_File.ToString();
-
+                            _Send.Message_Error = Calibration_Error_Message_Enum.Error_No_Read_Shape_Mode_File.ToString();
                         }
-
                     }
                     else
                     {
                         _Send.IsStatus = 0;
-                        _Send.Message_Error = Calibration_Error_Message_Enum.Error_No_Read_Shape_Mode_File.ToString();
+                        _Send.Message_Error = Calibration_Error_Message_Enum.Error_No_Find_ID_Number.ToString();
                     }
-                }
-                else
-                {
-                    _Send.IsStatus = 0;
-                    _Send.Message_Error = Calibration_Error_Message_Enum.Error_No_Find_ID_Number.ToString();
-                }
                 }
                 else
                 {
@@ -353,7 +371,7 @@ namespace HanGao.ViewModel
         public string Image_Location_UI { set; get; } = Environment.CurrentDirectory;
 
 
- 
+
 
         /// <summary>
         /// 创建模型存放位置
@@ -1026,7 +1044,7 @@ namespace HanGao.ViewModel
                         _Window.SetColor(nameof(KnownColor.Red).ToLower());
                         _Window.SetLineWidth(1);
                         _Window.SetPart(0, 0, -2, -2);
-            
+
 
 
 
@@ -1081,18 +1099,24 @@ namespace HanGao.ViewModel
 
 
 
-
-        public bool  Calculation_Vision_Pos(ref Point3D _Actual_Pos, Xml_Sink_Model _Sink, Find_Model_Receive _Find)
+        /// <summary>
+        ///计算水槽理论值
+        /// </summary>
+        /// <param name="_Actual_Pos"></param>
+        /// <param name="_Sink"></param>
+        /// <param name="_Find"></param>
+        /// <returns></returns>
+        public bool Calculation_Vision_Pos(ref Point3D _Actual_Pos, Xml_Sink_Model _Sink, Find_Model_Receive _Find)
         {
 
 
-            switch (Enum.Parse (typeof (ShapeModel_Name_Enum), _Find.Vision_Area))
+            switch (Enum.Parse(typeof(ShapeModel_Name_Enum), _Find.Vision_Area))
             {
                 case ShapeModel_Name_Enum.F_45:
                     _Actual_Pos.X = _Sink.Sink_Size_Down_Distance + _Sink.Sink_Size_Width;
                     _Actual_Pos.Y = _Sink.Sink_Size_Left_Distance;
 
-                   return true;
+                    return true;
                 case ShapeModel_Name_Enum.F_135:
                     _Actual_Pos.X = _Sink.Sink_Size_Down_Distance;
                     _Actual_Pos.Y = _Sink.Sink_Size_Left_Distance;
@@ -1104,7 +1128,7 @@ namespace HanGao.ViewModel
 
                     return true;
                 case ShapeModel_Name_Enum.F_315:
-                    _Actual_Pos.X = _Sink.Sink_Size_Down_Distance+_Sink.Sink_Size_Width;
+                    _Actual_Pos.X = _Sink.Sink_Size_Down_Distance + _Sink.Sink_Size_Width;
                     _Actual_Pos.Y = _Sink.Sink_Size_Left_Distance + _Sink.Sink_Size_Long;
 
                     return true;
