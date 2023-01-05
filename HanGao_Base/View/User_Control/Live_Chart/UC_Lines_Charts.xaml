@@ -15,7 +15,7 @@
                         LegendPosition="Bottom"
                         Sections="{Binding Sections}"
                         Series="{Binding Series}"
-                        TooltipPosition="Hidden"
+                        TooltipPosition="Center"
                         XAxes="{Binding xAxis}"
                         YAxes="{Binding yAxis}"
                         ZoomMode="Both" />

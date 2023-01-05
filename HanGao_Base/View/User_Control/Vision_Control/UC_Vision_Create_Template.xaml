@@ -1,4 +1,5 @@
-﻿<UserControl x:Class="HanGao.View.User_Control.Vision_Control.UC_Vision_Create_Template"
+﻿<UserControl x:Name="UC_Create"
+             x:Class="HanGao.View.User_Control.Vision_Control.UC_Vision_Create_Template"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Enum="clr-namespace:Halcon_SDK_DLL.WPF_Converter;assembly=Halcon_SDK_DLL"
@@ -89,7 +90,7 @@
                         <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 5 5" />
                         <StackPanel Orientation="Vertical">
 
-                            <Grid Height=" 34" Margin="8">
+                            <Grid Height=" 35" Margin="8">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width=" 80" />
                                     <ColumnDefinition />
@@ -112,7 +113,7 @@
                                           BorderThickness="2"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="{Binding Get_Image_Model, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:Get_Image_Model_Enum}}">
+                                          SelectedIndex="{Binding Get_Image_Model, ConverterParameter={x:Type Halcon_Enum:Get_Image_Model_Enum}, Converter={StaticResource Halcon_EnumConverter}}">
 
 
                                     <ComboBoxItem>
@@ -145,7 +146,7 @@
 
                                         <i:EventTrigger EventName="Click">
                                             <i:InvokeCommandAction Command="{Binding Image_CollectionMethod_Comm}"
-                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}"
                                                                    PassEventArgsToCommand="True" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
@@ -177,10 +178,10 @@
 
                                 <Border Grid.Column=" 1" BorderThickness="2">
                                     <Border.Style>
-                                        <Style TargetType="Border">
+                                        <Style TargetType="{x:Type Border}">
                                             <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding ElementName=ST2, Path=Text}" Value="">
+                                                <DataTrigger Binding="{Binding Text, ElementName=ST2}" Value="">
                                                     <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_红颜色}" />
                                                 </DataTrigger>
                                             </Style.Triggers>
@@ -213,19 +214,19 @@
                                                 HorizontalAlignment="Right"
                                                 Background="Transparent"
                                                 BorderThickness="0">
+                                            <i:Interaction.Triggers>
+
+                                                <i:EventTrigger EventName="Click">
+                                                    <i:InvokeCommandAction Command="{Binding Image_Location_Comm}"
+                                                                           CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}"
+                                                                           PassEventArgsToCommand="True" />
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
                                             <Image Height="24"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    Effect="{DynamicResource 全局背景阴影}"
                                                    Source="/Resources/Vision_文件夹_ioc.png" />
-                                            <i:Interaction.Triggers>
-
-                                                <i:EventTrigger EventName="Click">
-                                                    <i:InvokeCommandAction Command="{Binding Image_Location_Comm}"
-                                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                           PassEventArgsToCommand="True" />
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
                                         </Button>
 
 
@@ -394,6 +395,7 @@
 
                                             <DataGridTemplateColumn CanUserResize="False">
                                                 <DataGridTemplateColumn.Header>
+
                                                     <TextBlock Text="数据"
                                                                Margin="4"
                                                                HorizontalAlignment="Center"
@@ -401,6 +403,7 @@
                                                                FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                                FontSize="16"
                                                                Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
                                                 </DataGridTemplateColumn.Header>
                                                 <DataGridTemplateColumn.CellTemplate>
 
@@ -468,6 +471,45 @@
                             </Grid>
 
 
+                            <Grid Height=" 35" Margin="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=" 80" />
+
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+
+                                <TextBlock Grid.Column=" 0"
+                                           Text="特征操作"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+
+                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                        Margin="0,0,0,0"
+                                        Background="{DynamicResource 全局_按钮_红颜色}">
+                                    <i:Interaction.Triggers>
+
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding Create_Delete_Comm}"
+                                                                   CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
+                                    <TextBlock Text="清除全部特征"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                               FontSize="16"
+                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                </Button>
+
+                            </Grid>
 
 
 
@@ -619,7 +661,7 @@
                                           BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                           BorderThickness="2"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="{Binding Halcon_Create_Shape_ModelXld_UI.Shape_Based_Model, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:Shape_Based_Model_Enum}}">
+                                          SelectedIndex="{Binding Halcon_Create_Shape_ModelXld_UI.Shape_Based_Model, ConverterParameter={x:Type Halcon_Enum:Shape_Based_Model_Enum}, Converter={StaticResource Halcon_EnumConverter}}">
                                     <ComboBoxItem>
 
                                         <TextBlock Text="一般形状匹配参数"
@@ -707,10 +749,10 @@
                                          BorderThickness="2"
                                          FontSize="18">
                                     <TextBox.Style>
-                                        <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="TextBox">
-                                            <Setter Property="Text" Value="{Binding ElementName=NumLeves, Path=Value}" />
+                                        <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="{x:Type TextBox}">
+                                            <Setter Property="Text" Value="{Binding Value, ElementName=NumLeves}" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding ElementName=NumLeves, Path=Value}" Value="0">
+                                                <DataTrigger Binding="{Binding Value, ElementName=NumLeves}" Value="0">
                                                     <Setter Property="Text" Value="Auto" />
                                                 </DataTrigger>
                                             </Style.Triggers>
@@ -745,7 +787,7 @@
                                         Value="{Binding Halcon_Create_Shape_ModelXld_UI.AngleStart}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=AngleStart, Path=Value}"
+                                         Text="{Binding Value, ElementName=AngleStart}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -780,7 +822,7 @@
                                         Value="{Binding Halcon_Create_Shape_ModelXld_UI.AngleExtent}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=AngleExtent, Path=Value}"
+                                         Text="{Binding Value, ElementName=AngleExtent}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -823,10 +865,10 @@
                                          BorderThickness="2"
                                          FontSize="18">
                                     <TextBox.Style>
-                                        <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="TextBox">
-                                            <Setter Property="Text" Value="{Binding ElementName=AngleStep, Path=Value}" />
+                                        <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="{x:Type TextBox}">
+                                            <Setter Property="Text" Value="{Binding Value, ElementName=AngleStep}" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding ElementName=AngleStep, Path=Value}" Value="0">
+                                                <DataTrigger Binding="{Binding Value, ElementName=AngleStep}" Value="0">
                                                     <Setter Property="Text" Value="Auto" />
                                                 </DataTrigger>
                                             </Style.Triggers>
@@ -845,13 +887,13 @@
 
                             <Grid Height="35" Margin="8">
                                 <Grid.Style>
-                                    <Style TargetType="Grid">
+                                    <Style TargetType="{x:Type Grid}">
                                         <Setter Property="Visibility" Value="Collapsed" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ElementName=ShapeModel_UI, Path=SelectedIndex}" Value="1">
+                                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="1">
                                                 <Setter Property="Visibility" Value="Visible" />
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding ElementName=ShapeModel_UI, Path=SelectedIndex}" Value="2">
+                                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="2">
                                                 <Setter Property="Visibility" Value="Visible" />
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -880,7 +922,7 @@
                                         Value="{Binding Halcon_Create_Shape_ModelXld_UI.ScaleRMin}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=ScaleRMin, Path=Value}"
+                                         Text="{Binding Value, ElementName=ScaleRMin}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -892,13 +934,13 @@
 
                             <Grid Height="35" Margin="8">
                                 <Grid.Style>
-                                    <Style TargetType="Grid">
+                                    <Style TargetType="{x:Type Grid}">
                                         <Setter Property="Visibility" Value="Collapsed" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ElementName=ShapeModel_UI, Path=SelectedIndex}" Value="1">
+                                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="1">
                                                 <Setter Property="Visibility" Value="Visible" />
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding ElementName=ShapeModel_UI, Path=SelectedIndex}" Value="2">
+                                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="2">
                                                 <Setter Property="Visibility" Value="Visible" />
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -937,10 +979,10 @@
                                          BorderThickness="2"
                                          FontSize="18">
                                     <TextBox.Style>
-                                        <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="TextBox">
-                                            <Setter Property="Text" Value="{Binding ElementName=ScaleRStep, Path=Value}" />
+                                        <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="{x:Type TextBox}">
+                                            <Setter Property="Text" Value="{Binding Value, ElementName=ScaleRStep}" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding ElementName=ScaleRStep, Path=Value}" Value="0">
+                                                <DataTrigger Binding="{Binding Value, ElementName=ScaleRStep}" Value="0">
                                                     <Setter Property="Text" Value="Auto" />
                                                 </DataTrigger>
                                             </Style.Triggers>
@@ -951,13 +993,13 @@
 
                             <Grid Height="35" Margin="8">
                                 <Grid.Style>
-                                    <Style TargetType="Grid">
+                                    <Style TargetType="{x:Type Grid}">
                                         <Setter Property="Visibility" Value="Collapsed" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ElementName=ShapeModel_UI, Path=SelectedIndex}" Value="1">
+                                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="1">
                                                 <Setter Property="Visibility" Value="Visible" />
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding ElementName=ShapeModel_UI, Path=SelectedIndex}" Value="2">
+                                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="2">
                                                 <Setter Property="Visibility" Value="Visible" />
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -986,7 +1028,7 @@
                                         Value="{Binding Halcon_Create_Shape_ModelXld_UI.ScaleCMin}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=ScaleCMin, Path=Value}"
+                                         Text="{Binding Value, ElementName=ScaleCMin}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -998,10 +1040,10 @@
 
                             <Grid Height="35" Margin="8">
                                 <Grid.Style>
-                                    <Style TargetType="Grid">
+                                    <Style TargetType="{x:Type Grid}">
                                         <Setter Property="Visibility" Value="Collapsed" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ElementName=ShapeModel_UI, Path=SelectedIndex}" Value="3">
+                                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="3">
                                                 <Setter Property="Visibility" Value="Visible" />
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -1030,7 +1072,7 @@
                                         Value="{Binding Halcon_Create_Shape_ModelXld_UI.ScaleMin}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=ScaleMin, Path=Value}"
+                                         Text="{Binding Value, ElementName=ScaleMin}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -1042,10 +1084,10 @@
 
                             <Grid Height="35" Margin="8">
                                 <Grid.Style>
-                                    <Style TargetType="Grid">
+                                    <Style TargetType="{x:Type Grid}">
                                         <Setter Property="Visibility" Value="Collapsed" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ElementName=ShapeModel_UI, Path=SelectedIndex}" Value="3">
+                                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="3">
                                                 <Setter Property="Visibility" Value="Visible" />
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -1074,7 +1116,7 @@
                                         Value="{Binding Halcon_Create_Shape_ModelXld_UI.ScaleMax}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=ScaleMax, Path=Value}"
+                                         Text="{Binding Value, ElementName=ScaleMax}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -1089,13 +1131,13 @@
 
                             <Grid Height="35" Margin="8">
                                 <Grid.Style>
-                                    <Style TargetType="Grid">
+                                    <Style TargetType="{x:Type Grid}">
                                         <Setter Property="Visibility" Value="Collapsed" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ElementName=ShapeModel_UI, Path=SelectedIndex}" Value="1">
+                                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="1">
                                                 <Setter Property="Visibility" Value="Visible" />
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding ElementName=ShapeModel_UI, Path=SelectedIndex}" Value="2">
+                                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="2">
                                                 <Setter Property="Visibility" Value="Visible" />
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -1132,10 +1174,10 @@
                                          BorderThickness="2"
                                          FontSize="18">
                                     <TextBox.Style>
-                                        <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="TextBox">
-                                            <Setter Property="Text" Value="{Binding ElementName=ScaleCStep, Path=Value}" />
+                                        <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="{x:Type TextBox}">
+                                            <Setter Property="Text" Value="{Binding Value, ElementName=ScaleCStep}" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding ElementName=ScaleCStep, Path=Value}" Value="0">
+                                                <DataTrigger Binding="{Binding Value, ElementName=ScaleCStep}" Value="0">
                                                     <Setter Property="Text" Value="Auto" />
                                                 </DataTrigger>
                                             </Style.Triggers>
@@ -1146,10 +1188,10 @@
 
                             <Grid Height="35" Margin="8">
                                 <Grid.Style>
-                                    <Style TargetType="Grid">
+                                    <Style TargetType="{x:Type Grid}">
                                         <Setter Property="Visibility" Value="Collapsed" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ElementName=ShapeModel_UI, Path=SelectedIndex}" Value="3">
+                                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="3">
                                                 <Setter Property="Visibility" Value="Visible" />
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -1186,10 +1228,10 @@
                                          BorderThickness="2"
                                          FontSize="18">
                                     <TextBox.Style>
-                                        <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="TextBox">
-                                            <Setter Property="Text" Value="{Binding ElementName=ScaleStep, Path=Value}" />
+                                        <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="{x:Type TextBox}">
+                                            <Setter Property="Text" Value="{Binding Value, ElementName=ScaleStep}" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding ElementName=ScaleStep, Path=Value}" Value="0">
+                                                <DataTrigger Binding="{Binding Value, ElementName=ScaleStep}" Value="0">
                                                     <Setter Property="Text" Value="Auto" />
                                                 </DataTrigger>
                                             </Style.Triggers>
@@ -1204,10 +1246,10 @@
                                     CornerRadius="1"
                                     Opacity=" 0.5">
                                 <Border.Style>
-                                    <Style TargetType="Border">
+                                    <Style TargetType="{x:Type Border}">
                                         <Setter Property="Visibility" Value="Collapsed" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ElementName=ShapeModel_UI, Path=SelectedIndex}" Value="3">
+                                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="3">
                                                 <Setter Property="Visibility" Value="Visible" />
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -1238,7 +1280,7 @@
                                         Value="{Binding Halcon_Create_Shape_ModelXld_UI.MinContrast}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=MinContrast, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Text="{Binding Value, ElementName=MinContrast, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -1270,7 +1312,7 @@
                                           BorderThickness="2"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="{Binding Halcon_Create_Shape_ModelXld_UI.Optimization, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:Optimization_Enum}}">
+                                          SelectedIndex="{Binding Halcon_Create_Shape_ModelXld_UI.Optimization, ConverterParameter={x:Type Halcon_Enum:Optimization_Enum}, Converter={StaticResource Halcon_EnumConverter}}">
                                     <ComboBoxItem>
 
                                         <TextBlock Text="auto"
@@ -1364,7 +1406,7 @@
                                           BorderThickness="2"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="{Binding Halcon_Create_Shape_ModelXld_UI.Metric, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:Metric_Enum}}">
+                                          SelectedIndex="{Binding Halcon_Create_Shape_ModelXld_UI.Metric, ConverterParameter={x:Type Halcon_Enum:Metric_Enum}, Converter={StaticResource Halcon_EnumConverter}}">
                                     <ComboBoxItem>
 
                                         <TextBlock Text="ignore_color_polarity"
@@ -1416,13 +1458,13 @@
                                   Margin="8"
                                   Visibility="Collapsed">
                                 <Grid.Style>
-                                    <Style TargetType="Grid">
+                                    <Style TargetType="{x:Type Grid}">
                                         <Setter Property="Visibility" Value="Collapsed" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ElementName=ShapeModel_UI, Path=SelectedIndex}" Value="1">
+                                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="1">
                                                 <Setter Property="Visibility" Value="Visible" />
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding ElementName=ShapeModel_UI, Path=SelectedIndex}" Value="2">
+                                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="2">
                                                 <Setter Property="Visibility" Value="Visible" />
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -1478,13 +1520,13 @@
                                   Margin="8"
                                   Visibility="Collapsed">
                                 <Grid.Style>
-                                    <Style TargetType="Grid">
+                                    <Style TargetType="{x:Type Grid}">
                                         <Setter Property="Visibility" Value="Collapsed" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ElementName=ShapeModel_UI, Path=SelectedIndex}" Value="1">
+                                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="1">
                                                 <Setter Property="Visibility" Value="Visible" />
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding ElementName=ShapeModel_UI, Path=SelectedIndex}" Value="2">
+                                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="2">
                                                 <Setter Property="Visibility" Value="Visible" />
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -1570,10 +1612,10 @@
 
                                 <Border Grid.Column=" 1" BorderThickness="1.5">
                                     <Border.Style>
-                                        <Style TargetType="Border">
+                                        <Style TargetType="{x:Type Border}">
                                             <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding ElementName=ST1, Path=Text}" Value="">
+                                                <DataTrigger Binding="{Binding Text, ElementName=ST1}" Value="">
                                                     <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_红颜色}" />
                                                 </DataTrigger>
                                             </Style.Triggers>
@@ -1606,19 +1648,19 @@
                                                 HorizontalAlignment="Right"
                                                 Background="Transparent"
                                                 BorderThickness="0">
+                                            <i:Interaction.Triggers>
+
+                                                <i:EventTrigger EventName="Click">
+                                                    <i:InvokeCommandAction Command="{Binding ShapeModel_Location_Comm}"
+                                                                           CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}"
+                                                                           PassEventArgsToCommand="True" />
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
                                             <Image Height="24"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    Effect="{DynamicResource 全局背景阴影}"
                                                    Source="/Resources/Vision_文件夹_ioc.png" />
-                                            <i:Interaction.Triggers>
-
-                                                <i:EventTrigger EventName="Click">
-                                                    <i:InvokeCommandAction Command="{Binding ShapeModel_Location_Comm}"
-                                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                           PassEventArgsToCommand="True" />
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
                                         </Button>
 
 
@@ -1679,7 +1721,7 @@
                                           BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                           BorderThickness="2"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="{Binding Halcon_Create_Shape_ModelXld_UI.ShapeModel_Name, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:ShapeModel_Name_Enum}}">
+                                          SelectedIndex="{Binding Halcon_Create_Shape_ModelXld_UI.ShapeModel_Name, ConverterParameter={x:Type Halcon_Enum:ShapeModel_Name_Enum}, Converter={StaticResource Halcon_EnumConverter}}">
                                     <ComboBoxItem>
 
                                         <TextBlock Text="F_45"
@@ -1763,7 +1805,7 @@
                                                    Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                     </Button.Resources>
                                     <Button.Style>
-                                        <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
+                                        <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="{x:Type Button}">
                                             <Setter Property="Content" Value="{StaticResource T1}" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding Create_Shape_ModelXld_UI_IsEnable}" Value="true">
@@ -1876,19 +1918,21 @@
                                         VerticalAlignment="Top"
                                         Background="#ECECEC"
                                         FontSize="40">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding ShapeModel_File_Update_Comm}"
+                                                                   CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
+
                                     <Image Height=" 32"
                                            Margin="5,0,5,0"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Effect="{DynamicResource 全局背景阴影}"
                                            Source="/Resources/Vision_刷新_ioc.png" />
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding ShapeModel_File_Update_Comm}"
-                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                   PassEventArgsToCommand="True" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
 
 
                                 </Button>
@@ -1911,7 +1955,7 @@
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="SelectionChanged">
                                             <i:InvokeCommandAction Command="{Binding Shape_File_Select_Comm}"
-                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}"
                                                                    PassEventArgsToCommand="True" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
@@ -1947,7 +1991,7 @@
                                                     <Border Grid.Row="1" Grid.Column="0"
                                                             CornerRadius=" 0 0  0 4">
                                                         <Border.Style>
-                                                            <Style TargetType="Border">
+                                                            <Style TargetType="{x:Type Border}">
                                                                 <Setter Property="Background" Value="Transparent" />
                                                                 <Style.Triggers>
                                                                     <DataTrigger Binding="{Binding IsRead_F135}" Value="True">
@@ -1956,7 +2000,7 @@
                                                                     <MultiDataTrigger>
                                                                         <MultiDataTrigger.Conditions>
                                                                             <Condition Binding="{Binding IsRead_F135}" Value="True" />
-                                                                            <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" Value="true" />
+                                                                            <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}" Value="true" />
                                                                         </MultiDataTrigger.Conditions>
                                                                         <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
                                                                     </MultiDataTrigger>
@@ -1969,7 +2013,7 @@
                                                     <Border Grid.Row="1" Grid.Column="1"
                                                             CornerRadius=" 0 0  4 0">
                                                         <Border.Style>
-                                                            <Style TargetType="Border">
+                                                            <Style TargetType="{x:Type Border}">
                                                                 <Setter Property="Background" Value="Transparent" />
                                                                 <Style.Triggers>
                                                                     <DataTrigger Binding="{Binding IsRead_F225}" Value="True">
@@ -1978,7 +2022,7 @@
                                                                     <MultiDataTrigger>
                                                                         <MultiDataTrigger.Conditions>
                                                                             <Condition Binding="{Binding IsRead_F225}" Value="True" />
-                                                                            <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" Value="true" />
+                                                                            <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}" Value="true" />
                                                                         </MultiDataTrigger.Conditions>
                                                                         <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
                                                                     </MultiDataTrigger>
@@ -1990,7 +2034,7 @@
                                                     <Border Grid.Row="0" Grid.Column="0"
                                                             CornerRadius=" 4 0  0 0">
                                                         <Border.Style>
-                                                            <Style TargetType="Border">
+                                                            <Style TargetType="{x:Type Border}">
                                                                 <Setter Property="Background" Value="Transparent" />
                                                                 <Style.Triggers>
                                                                     <DataTrigger Binding="{Binding IsRead_F45}" Value="True">
@@ -1999,7 +2043,7 @@
                                                                     <MultiDataTrigger>
                                                                         <MultiDataTrigger.Conditions>
                                                                             <Condition Binding="{Binding IsRead_F45}" Value="True" />
-                                                                            <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" Value="true" />
+                                                                            <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}" Value="true" />
                                                                         </MultiDataTrigger.Conditions>
                                                                         <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
                                                                     </MultiDataTrigger>
@@ -2010,7 +2054,7 @@
                                                     <Border Grid.Row="0" Grid.Column="1"
                                                             CornerRadius=" 0 4  0 0">
                                                         <Border.Style>
-                                                            <Style TargetType="Border">
+                                                            <Style TargetType="{x:Type Border}">
                                                                 <Setter Property="Background" Value="Transparent" />
                                                                 <Style.Triggers>
                                                                     <DataTrigger Binding="{Binding IsRead_F315}" Value="True">
@@ -2019,7 +2063,7 @@
                                                                     <MultiDataTrigger>
                                                                         <MultiDataTrigger.Conditions>
                                                                             <Condition Binding="{Binding IsRead_F315}" Value="True" />
-                                                                            <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" Value="true" />
+                                                                            <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}" Value="true" />
                                                                         </MultiDataTrigger.Conditions>
                                                                         <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
                                                                     </MultiDataTrigger>
@@ -2096,7 +2140,7 @@
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="SelectionChanged">
                                             <i:InvokeCommandAction Command="{Binding ShapeModel_File_Show_Comm}"
-                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}"
                                                                    PassEventArgsToCommand="True" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
@@ -2194,7 +2238,7 @@
 
 
                     <Expander.Style>
-                        <Style BasedOn="{StaticResource Vision_Fence_Expander_Style}" TargetType="Expander">
+                        <Style BasedOn="{StaticResource Vision_Fence_Expander_Style}" TargetType="{x:Type Expander}">
 
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding Camera_Data_ID_UI}" Value="-1">
@@ -2239,14 +2283,14 @@
                                                FontSize="16"
                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                 </StackPanel>
-                                <TextBlock Text="{Binding Camera_Data_ID_UI, StringFormat=参数序号 : {0}}"
+                                <TextBlock Text="{Binding Camera_Data_ID_UI, StringFormat=参数序号 : \{0\}}"
                                            Margin="0,0,10,0"
                                            HorizontalAlignment="Right"
                                            VerticalAlignment="Center"
                                            FontFamily="{DynamicResource 全局_文字_数字字体}"
                                            FontSize="16">
                                     <TextBlock.Style>
-                                        <Style TargetType="TextBlock">
+                                        <Style TargetType="{x:Type TextBlock}">
                                             <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_白颜色}" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding Camera_Data_ID_UI}" Value="-1">
@@ -2292,7 +2336,7 @@
                                           BorderThickness="2"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="{Binding Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:Shape_Based_Model_Enum}}">
+                                          SelectedIndex="{Binding Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model, ConverterParameter={x:Type Halcon_Enum:Shape_Based_Model_Enum}, Converter={StaticResource Halcon_EnumConverter}}">
                                     <ComboBoxItem>
 
                                         <TextBlock Style="{DynamicResource ComboBox_TextBlok_Style}"
@@ -2496,7 +2540,7 @@
                                                 Value="{Binding Halcon_Find_Shape_ModelXld_UI.MedianRect_MaskWidth}" />
 
                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 1"
-                                                 Text="{Binding ElementName=MedianRect_MaskWidth, Path=Value}"
+                                                 Text="{Binding Value, ElementName=MedianRect_MaskWidth}"
                                                  Width=" 100"
                                                  Height=" 35"
                                                  HorizontalAlignment="Right"
@@ -2528,7 +2572,7 @@
                                                 Value="{Binding Halcon_Find_Shape_ModelXld_UI.MedianRect_MaskHeight}" />
 
                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 1"
-                                                 Text="{Binding ElementName=MedianRect_MaskHeight, Path=Value}"
+                                                 Text="{Binding Value, ElementName=MedianRect_MaskHeight}"
                                                  Width=" 100"
                                                  Height=" 35"
                                                  HorizontalAlignment="Right"
@@ -2645,7 +2689,7 @@
                                                 Value="{Binding Halcon_Find_Shape_ModelXld_UI.Emphasize_MaskWidth}" />
 
                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 1"
-                                                 Text="{Binding ElementName=Emphasize_MaskWidth, Path=Value}"
+                                                 Text="{Binding Value, ElementName=Emphasize_MaskWidth}"
                                                  Width=" 100"
                                                  Height=" 35"
                                                  HorizontalContentAlignment="Center"
@@ -2676,7 +2720,7 @@
                                                 Value="{Binding Halcon_Find_Shape_ModelXld_UI.Emphasize_MaskHeight}" />
 
                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 1"
-                                                 Text="{Binding ElementName=Emphasize_MaskHeight, Path=Value}"
+                                                 Text="{Binding Value, ElementName=Emphasize_MaskHeight}"
                                                  Width=" 100"
                                                  Height=" 35"
                                                  HorizontalAlignment="Right"
@@ -2707,7 +2751,7 @@
                                                 Value="{Binding Halcon_Find_Shape_ModelXld_UI.Emphasize_Factor}" />
 
                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 1"
-                                                 Text="{Binding ElementName=Emphasize_Factor, Path=Value}"
+                                                 Text="{Binding Value, ElementName=Emphasize_Factor}"
                                                  Width=" 100"
                                                  Height=" 35"
                                                  HorizontalAlignment="Right"
@@ -2757,7 +2801,7 @@
 
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=Find_AngleStart, Path=Value}"
+                                         Text="{Binding Value, ElementName=Find_AngleStart}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -2793,7 +2837,7 @@
                                         Value="{Binding Halcon_Find_Shape_ModelXld_UI.AngleExtent}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=Find_AngleExtent, Path=Value}"
+                                         Text="{Binding Value, ElementName=Find_AngleExtent}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -2817,11 +2861,11 @@
 
                             <Grid Height="35" Margin="8">
                                 <Grid.Style>
-                                    <Style TargetType="Grid">
+                                    <Style TargetType="{x:Type Grid}">
                                         <Setter Property="Visibility" Value="Collapsed" />
                                         <Style.Triggers>
 
-                                            <DataTrigger Binding="{Binding ElementName=Text_ShapeModel_UI, Path=SelectedIndex}" Value="1">
+                                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=Text_ShapeModel_UI}" Value="1">
                                                 <Setter Property="Visibility" Value="Visible" />
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -2855,7 +2899,7 @@
                                         Value="{Binding Halcon_Find_Shape_ModelXld_UI.ScaleRMin}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=Find_ScaleRMin, Path=Value}"
+                                         Text="{Binding Value, ElementName=Find_ScaleRMin}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -2867,11 +2911,11 @@
 
                             <Grid Height="35" Margin="8">
                                 <Grid.Style>
-                                    <Style TargetType="Grid">
+                                    <Style TargetType="{x:Type Grid}">
                                         <Setter Property="Visibility" Value="Collapsed" />
                                         <Style.Triggers>
 
-                                            <DataTrigger Binding="{Binding ElementName=Text_ShapeModel_UI, Path=SelectedIndex}" Value="1">
+                                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=Text_ShapeModel_UI}" Value="1">
                                                 <Setter Property="Visibility" Value="Visible" />
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -2901,7 +2945,7 @@
                                         Value="{Binding Halcon_Find_Shape_ModelXld_UI.ScaleRMax}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=Find_ScaleRMax, Path=Value}"
+                                         Text="{Binding Value, ElementName=Find_ScaleRMax}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -2913,11 +2957,11 @@
 
                             <Grid Height="35" Margin="8">
                                 <Grid.Style>
-                                    <Style TargetType="Grid">
+                                    <Style TargetType="{x:Type Grid}">
                                         <Setter Property="Visibility" Value="Collapsed" />
                                         <Style.Triggers>
 
-                                            <DataTrigger Binding="{Binding ElementName=Text_ShapeModel_UI, Path=SelectedIndex}" Value="1">
+                                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=Text_ShapeModel_UI}" Value="1">
                                                 <Setter Property="Visibility" Value="Visible" />
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -2947,7 +2991,7 @@
                                         Value="{Binding Halcon_Find_Shape_ModelXld_UI.ScaleCMin}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=Find_ScaleCMin, Path=Value}"
+                                         Text="{Binding Value, ElementName=Find_ScaleCMin}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -2959,11 +3003,11 @@
 
                             <Grid Height="35" Margin="8">
                                 <Grid.Style>
-                                    <Style TargetType="Grid">
+                                    <Style TargetType="{x:Type Grid}">
                                         <Setter Property="Visibility" Value="Collapsed" />
                                         <Style.Triggers>
 
-                                            <DataTrigger Binding="{Binding ElementName=Text_ShapeModel_UI, Path=SelectedIndex}" Value="1">
+                                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=Text_ShapeModel_UI}" Value="1">
                                                 <Setter Property="Visibility" Value="Visible" />
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -2993,7 +3037,7 @@
                                         Value="{Binding Halcon_Find_Shape_ModelXld_UI.ScaleCMax}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=Find_ScaleCMax, Path=Value}"
+                                         Text="{Binding Value, ElementName=Find_ScaleCMax}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -3009,11 +3053,11 @@
                                     CornerRadius="1"
                                     Opacity=" 0.5">
                                 <Border.Style>
-                                    <Style TargetType="Border">
+                                    <Style TargetType="{x:Type Border}">
                                         <Setter Property="Visibility" Value="Collapsed" />
                                         <Style.Triggers>
 
-                                            <DataTrigger Binding="{Binding ElementName=Text_ShapeModel_UI, Path=SelectedIndex}" Value="1">
+                                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=Text_ShapeModel_UI}" Value="1">
                                                 <Setter Property="Visibility" Value="Visible" />
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -3048,7 +3092,7 @@
                                         Value="{Binding Halcon_Find_Shape_ModelXld_UI.MinScore}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=Find_MinScore, Path=Value}"
+                                         Text="{Binding Value, ElementName=Find_MinScore}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -3084,7 +3128,7 @@
                                         Value="{Binding Halcon_Find_Shape_ModelXld_UI.NumMatches}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=Find_NumMatches, Path=Value}"
+                                         Text="{Binding Value, ElementName=Find_NumMatches}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -3120,7 +3164,7 @@
                                         Value="{Binding Halcon_Find_Shape_ModelXld_UI.MaxOverlap}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=Find_MaxOverlap, Path=Value}"
+                                         Text="{Binding Value, ElementName=Find_MaxOverlap}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -3132,11 +3176,11 @@
 
                             <Grid Height="35" Margin="8">
                                 <Grid.Style>
-                                    <Style TargetType="Grid">
+                                    <Style TargetType="{x:Type Grid}">
                                         <Setter Property="Visibility" Value="Collapsed" />
                                         <Style.Triggers>
 
-                                            <DataTrigger Binding="{Binding ElementName=Text_ShapeModel_UI, Path=SelectedIndex}" Value="0">
+                                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=Text_ShapeModel_UI}" Value="0">
                                                 <Setter Property="Visibility" Value="Visible" />
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -3163,7 +3207,7 @@
                                           BorderThickness="2"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="{Binding Halcon_Find_Shape_ModelXld_UI.SubPixel, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:Subpixel_Values_Enum}}">
+                                          SelectedIndex="{Binding Halcon_Find_Shape_ModelXld_UI.SubPixel, ConverterParameter={x:Type Halcon_Enum:Subpixel_Values_Enum}, Converter={StaticResource Halcon_EnumConverter}}">
                                     <ComboBoxItem>
 
                                         <TextBlock Text="none"
@@ -3248,7 +3292,7 @@
                                         Value="{Binding Halcon_Find_Shape_ModelXld_UI.NumLevels}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=Find_NumLevels, Path=Value}"
+                                         Text="{Binding Value, ElementName=Find_NumLevels}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -3284,7 +3328,7 @@
                                         Value="{Binding Halcon_Find_Shape_ModelXld_UI.Greediness}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=Find_Greediness, Path=Value}"
+                                         Text="{Binding Value, ElementName=Find_Greediness}"
                                          Width=" 100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -3572,7 +3616,7 @@
                                           BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                           BorderThickness="2"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="{Binding Halcon_Find_Shape_ModelXld_UI.ShapeModel_Name, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:ShapeModel_Name_Enum}}">
+                                          SelectedIndex="{Binding Halcon_Find_Shape_ModelXld_UI.ShapeModel_Name, ConverterParameter={x:Type Halcon_Enum:ShapeModel_Name_Enum}, Converter={StaticResource Halcon_EnumConverter}}">
                                     <ComboBoxItem>
 
                                         <TextBlock Text="F_45"
@@ -3662,7 +3706,7 @@
                                                    Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                     </Button.Resources>
                                     <Button.Style>
-                                        <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
+                                        <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="{x:Type Button}">
                                             <Setter Property="Content" Value="{StaticResource T1}" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding Find_Text_Models_UI_IsEnable}" Value="false">

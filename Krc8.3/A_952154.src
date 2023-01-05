@@ -1,5 +1,5 @@
 &ACCESS RVP
-&REL 457
+&REL 516
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HK
@@ -16,33 +16,26 @@ DEF A_952154( )
   ;ENDFOLD (USER INI)
 ;ENDFOLD (INI)
 
-loop
 
-;FOLD PTP Home Vel=100 % PDAT1;%{PE}
-;FOLD Parameters ;%{h}
-;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=Home; Kuka.BlendingEnabled=False; Kuka.MoveDataPtpName=PDAT1; Kuka.VelocityPtp=100; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
-;ENDFOLD
-$BWDSTART = FALSE
-PDAT_ACT = PPDAT1
-FDAT_ACT = FHome
-BAS(#PTP_PARAMS, 100.0)
-SET_CD_PARAMS (0)
-PTP XHome
-;ENDFOLD
 
+;FOLD PTP P11 Vel=20 % PDAT2 Tool[1]:LASERGUN Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VPTP,%P 1:PTP, 2:P11, 3:, 5:20, 7:PDAT2
+$BWDSTART=FALSE
+PDAT_ACT=PPDAT2
+FDAT_ACT=FP11
+BAS(#PTP_PARAMS,20)
+PTP XP11 
+;ENDFOLD
 ;halt
 
 
-;FOLD LIN P2 Vel=2 m/s CPDAT1 Tool[1]:Tool1 Base[0] ;%{PE}
-;FOLD Parameters ;%{h}
-;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=P2; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=2; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
-;ENDFOLD
-$BWDSTART = FALSE
-LDAT_ACT = LCPDAT1
-FDAT_ACT = FP2
-BAS(#CP_PARAMS, 2.0)
-SET_CD_PARAMS (0)
-LIN XP2
+
+
+;FOLD LIN P12 Vel=.1 m/s CPDAT10 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VLIN,%P 1:LIN, 2:P12, 3:, 5:.1, 7:CPDAT10
+$BWDSTART=FALSE
+LDAT_ACT=LCPDAT10
+FDAT_ACT=FP12
+BAS(#CP_PARAMS,.1)
+LIN XP12 
 ;ENDFOLD
 ;FOLD Vision.Number Calib_NO:1;%{PE}%MKUKATPUSER
 
@@ -54,16 +47,12 @@ Calibration_Point[1]=$POS_ACT
 
 ;ENDFOLD
 
-;FOLD LIN P3 Vel=2 m/s CPDAT2 Tool[1]:Tool1 Base[0] ;%{PE}
-;FOLD Parameters ;%{h}
-;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=P3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=2; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
-;ENDFOLD
-$BWDSTART = FALSE
-LDAT_ACT = LCPDAT2
-FDAT_ACT = FP3
-BAS(#CP_PARAMS, 2.0)
-SET_CD_PARAMS (0)
-LIN XP3
+;FOLD LIN P13 Vel=.1 m/s CPDAT11 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VLIN,%P 1:LIN, 2:P13, 3:, 5:.1, 7:CPDAT11
+$BWDSTART=FALSE
+LDAT_ACT=LCPDAT11
+FDAT_ACT=FP13
+BAS(#CP_PARAMS,.1)
+LIN XP13 
 ;ENDFOLD
 ;FOLD Vision.Number Calib_NO:2;%{PE}%MKUKATPUSER
 
@@ -75,16 +64,12 @@ Calibration_Point[2]=$POS_ACT
 
 ;ENDFOLD
 
-;FOLD LIN P4 Vel=2 m/s CPDAT3 Tool[1]:Tool1 Base[0] ;%{PE}
-;FOLD Parameters ;%{h}
-;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT3; Kuka.VelocityPath=2; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
-;ENDFOLD
-$BWDSTART = FALSE
-LDAT_ACT = LCPDAT3
-FDAT_ACT = FP4
-BAS(#CP_PARAMS, 2.0)
-SET_CD_PARAMS (0)
-LIN XP4
+;FOLD LIN P14 Vel=.1 m/s CPDAT12 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VLIN,%P 1:LIN, 2:P14, 3:, 5:.1, 7:CPDAT12
+$BWDSTART=FALSE
+LDAT_ACT=LCPDAT12
+FDAT_ACT=FP14
+BAS(#CP_PARAMS,.1)
+LIN XP14 
 ;ENDFOLD
 ;FOLD Vision.Number Calib_NO:3;%{PE}%MKUKATPUSER
 
@@ -96,16 +81,12 @@ Calibration_Point[3]=$POS_ACT
 
 ;ENDFOLD
 
-;FOLD LIN P5 Vel=2 m/s CPDAT4 Tool[1]:Tool1 Base[0] ;%{PE}
-;FOLD Parameters ;%{h}
-;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=P5; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT4; Kuka.VelocityPath=2; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
-;ENDFOLD
-$BWDSTART = FALSE
-LDAT_ACT = LCPDAT4
-FDAT_ACT = FP5
-BAS(#CP_PARAMS, 2.0)
-SET_CD_PARAMS (0)
-LIN XP5
+;FOLD LIN P15 Vel=.1 m/s CPDAT13 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VLIN,%P 1:LIN, 2:P15, 3:, 5:.1, 7:CPDAT13
+$BWDSTART=FALSE
+LDAT_ACT=LCPDAT13
+FDAT_ACT=FP15
+BAS(#CP_PARAMS,.1)
+LIN XP15 
 ;ENDFOLD
 ;FOLD Vision.Number Calib_NO:4;%{PE}%MKUKATPUSER
 
@@ -117,16 +98,12 @@ Calibration_Point[4]=$POS_ACT
 
 ;ENDFOLD
 
-;FOLD LIN P6 Vel=2 m/s CPDAT5 Tool[1]:Tool1 Base[0] ;%{PE}
-;FOLD Parameters ;%{h}
-;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=P6; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT5; Kuka.VelocityPath=2; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
-;ENDFOLD
-$BWDSTART = FALSE
-LDAT_ACT = LCPDAT5
-FDAT_ACT = FP6
-BAS(#CP_PARAMS, 2.0)
-SET_CD_PARAMS (0)
-LIN XP6
+;FOLD LIN P16 Vel=.1 m/s CPDAT14 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VLIN,%P 1:LIN, 2:P16, 3:, 5:.1, 7:CPDAT14
+$BWDSTART=FALSE
+LDAT_ACT=LCPDAT14
+FDAT_ACT=FP16
+BAS(#CP_PARAMS,.1)
+LIN XP16 
 ;ENDFOLD
 ;FOLD Vision.Number Calib_NO:5;%{PE}%MKUKATPUSER
 
@@ -138,16 +115,12 @@ Calibration_Point[5]=$POS_ACT
 
 ;ENDFOLD
 
-;FOLD LIN P7 Vel=2 m/s CPDAT6 Tool[1]:Tool1 Base[0] ;%{PE}
-;FOLD Parameters ;%{h}
-;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=P7; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT6; Kuka.VelocityPath=2; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
-;ENDFOLD
-$BWDSTART = FALSE
-LDAT_ACT = LCPDAT6
-FDAT_ACT = FP7
-BAS(#CP_PARAMS, 2.0)
-SET_CD_PARAMS (0)
-LIN XP7
+;FOLD LIN P17 Vel=.1 m/s CPDAT15 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VLIN,%P 1:LIN, 2:P17, 3:, 5:.1, 7:CPDAT15
+$BWDSTART=FALSE
+LDAT_ACT=LCPDAT15
+FDAT_ACT=FP17
+BAS(#CP_PARAMS,.1)
+LIN XP17 
 ;ENDFOLD
 ;FOLD Vision.Number Calib_NO:6;%{PE}%MKUKATPUSER
 
@@ -159,16 +132,12 @@ Calibration_Point[6]=$POS_ACT
 
 ;ENDFOLD
 
-;FOLD LIN P8 Vel=2 m/s CPDAT7 Tool[1]:Tool1 Base[0] ;%{PE}
-;FOLD Parameters ;%{h}
-;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=P8; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT7; Kuka.VelocityPath=2; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
-;ENDFOLD
-$BWDSTART = FALSE
-LDAT_ACT = LCPDAT7
-FDAT_ACT = FP8
-BAS(#CP_PARAMS, 2.0)
-SET_CD_PARAMS (0)
-LIN XP8
+;FOLD LIN P18 Vel=.1 m/s CPDAT16 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VLIN,%P 1:LIN, 2:P18, 3:, 5:.1, 7:CPDAT16
+$BWDSTART=FALSE
+LDAT_ACT=LCPDAT16
+FDAT_ACT=FP18
+BAS(#CP_PARAMS,.1)
+LIN XP18 
 ;ENDFOLD
 ;FOLD Vision.Number Calib_NO:7;%{PE}%MKUKATPUSER
 
@@ -180,16 +149,12 @@ Calibration_Point[7]=$POS_ACT
 
 ;ENDFOLD
 
-;FOLD LIN P9 Vel=2 m/s CPDAT8 Tool[1]:Tool1 Base[0] ;%{PE}
-;FOLD Parameters ;%{h}
-;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=P9; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT8; Kuka.VelocityPath=2; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
-;ENDFOLD
-$BWDSTART = FALSE
-LDAT_ACT = LCPDAT8
-FDAT_ACT = FP9
-BAS(#CP_PARAMS, 2.0)
-SET_CD_PARAMS (0)
-LIN XP9
+;FOLD LIN P19 Vel=.1 m/s CPDAT17 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VLIN,%P 1:LIN, 2:P19, 3:, 5:.1, 7:CPDAT17
+$BWDSTART=FALSE
+LDAT_ACT=LCPDAT17
+FDAT_ACT=FP19
+BAS(#CP_PARAMS,.1)
+LIN XP19 
 ;ENDFOLD
 ;FOLD Vision.Number Calib_NO:8;%{PE}%MKUKATPUSER
 
@@ -201,16 +166,12 @@ Calibration_Point[8]=$POS_ACT
 
 ;ENDFOLD
 
-;FOLD LIN P10 Vel=2 m/s CPDAT9 Tool[1]:Tool1 Base[0] ;%{PE}
-;FOLD Parameters ;%{h}
-;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=P10; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT9; Kuka.VelocityPath=2; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
-;ENDFOLD
-$BWDSTART = FALSE
-LDAT_ACT = LCPDAT9
-FDAT_ACT = FP10
-BAS(#CP_PARAMS, 2.0)
-SET_CD_PARAMS (0)
-LIN XP10
+;FOLD LIN P20 Vel=.1 m/s CPDAT19 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VLIN,%P 1:LIN, 2:P20, 3:, 5:.1, 7:CPDAT19
+$BWDSTART=FALSE
+LDAT_ACT=LCPDAT19
+FDAT_ACT=FP20
+BAS(#CP_PARAMS,.1)
+LIN XP20 
 ;ENDFOLD
 ;FOLD Vision.Number Calib_NO:9;%{PE}%MKUKATPUSER
 
@@ -221,16 +182,79 @@ Calibration_Point[9]=$POS_ACT
 
 
 ;ENDFOLD
-;halt
-;FOLD Vision.Calibration_Send Area:225, Work: 1;%{PE}%MKUKATPUSER
+halt
+;loop
+;FOLD LIN P21 Vel=.1 m/s CPDAT18 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VLIN,%P 1:LIN, 2:P21, 3:, 5:.1, 7:CPDAT18
+$BWDSTART=FALSE
+LDAT_ACT=LCPDAT18
+FDAT_ACT=FP21
+BAS(#CP_PARAMS,.1)
+LIN XP21 
+;ENDFOLD
+;FOLD Vision.Calibration_Send Area:45, Work:2;%{PE}%MKUKATPUSER
 
 
 EKRL_NAME[]="Xml_Vision_Model"
 EKRL_Connect()
-HanGao_Camera_Sink_Pos(3,1)
-EKRL_Calibration_Send(3,1)
+HanGao_Camera_Sink_Pos(1,2)
+EKRL_Calibration_Send(1,2)
+
+;ENDFOLD
+halt
+
+;FOLD LIN P22 Vel=.1 m/s CPDAT20 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VLIN,%P 1:LIN, 2:P22, 3:, 5:.1, 7:CPDAT20
+$BWDSTART=FALSE
+LDAT_ACT=LCPDAT20
+FDAT_ACT=FP22
+BAS(#CP_PARAMS,.1)
+LIN XP22 
+;ENDFOLD
+;FOLD Vision.Calibration_Send Area:135, Work:2;%{PE}%MKUKATPUSER
+
+
+EKRL_NAME[]="Xml_Vision_Model"
+EKRL_Connect()
+HanGao_Camera_Sink_Pos(2,2)
+EKRL_Calibration_Send(2,2)
 
 ;ENDFOLD
 wait sec 0.1
-endloop
+halt
+
+;FOLD LIN P23 Vel=.1 m/s CPDAT21 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VLIN,%P 1:LIN, 2:P23, 3:, 5:.1, 7:CPDAT21
+$BWDSTART=FALSE
+LDAT_ACT=LCPDAT21
+FDAT_ACT=FP23
+BAS(#CP_PARAMS,.1)
+LIN XP23 
+;ENDFOLD
+;FOLD Vision.Calibration_Send Area:225, Work:2;%{PE}%MKUKATPUSER
+
+
+EKRL_NAME[]="Xml_Vision_Model"
+EKRL_Connect()
+HanGao_Camera_Sink_Pos(3,2)
+EKRL_Calibration_Send(3,2)
+
+;ENDFOLD
+halt
+
+
+;FOLD LIN P24 Vel=.1 m/s CPDAT22 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VLIN,%P 1:LIN, 2:P24, 3:, 5:.1, 7:CPDAT22
+$BWDSTART=FALSE
+LDAT_ACT=LCPDAT22
+FDAT_ACT=FP24
+BAS(#CP_PARAMS,.1)
+LIN XP24 
+;ENDFOLD
+;FOLD Vision.Calibration_Send Area:315, Work:2;%{PE}%MKUKATPUSER
+
+
+EKRL_NAME[]="Xml_Vision_Model"
+EKRL_Connect()
+HanGao_Camera_Sink_Pos(4,2)
+EKRL_Calibration_Send(4,2)
+
+;ENDFOLD
+;endloop
 END

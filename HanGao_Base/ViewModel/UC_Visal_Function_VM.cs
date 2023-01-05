@@ -136,20 +136,6 @@ namespace HanGao.ViewModel
 
 
 
-        //private static ObservableCollection<Vision_Xml_Models> _Find_Data_UI { get; set; } = new ObservableCollection<Vision_Xml_Models>() { new Vision_Xml_Models() { ID = 0, Date_Last_Revise = DateTime.Now.ToString() } };
-        ///// <summary>
-        ///// 画画数据列表
-        ///// </summary>
-        //public static ObservableCollection<Vision_Xml_Models> Find_Data_UI
-        //{
-        //    get { return _Find_Data_UI; }
-        //    set
-        //    {
-        //        _Find_Data_UI = value;
-        //        StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(_Find_Data_UI)));
-        //    }
-        //}
-
 
 
 
@@ -764,6 +750,22 @@ namespace HanGao.ViewModel
 
 
 
+
+        public ICommand Charts_Switch_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>( (Sm) =>
+            {
+                ComboBox E = Sm.Source as ComboBox;
+
+                        
+
+                Messenger.Send<dynamic , string>((Work_Name_Enum)E.SelectedIndex, nameof(Meg_Value_Eunm.Charts_Switch_Work));
+
+
+
+
+            });
+        }
 
 
 

@@ -1,0 +1,144 @@
+;======================
+;For this "MyTech.kfd" you have to modify the file "smartHmi.User.config" (C:\KRC\User).
+;An Example how to do this see prepared node in "SmartHMI.User.Config-Nodes.xml"
+;======================
+
+
+DEFTP Laser_Function={ SOt false,Soc False }
+
+DECL PARAM PIN_NO={VALUE {NUMBER: AUTOLIMIT TRUE, min 1,max 4096,Step 1,default 1},shortname[] "Check.In= ", UNIT[] "", Shortcut[] "In" }
+DECL PARAM POUT1_NO={VALUE {NUMBER: AUTOLIMIT TRUE, min 1,max 4096,Step 1,default 1},shortname[] "OUT.1= ", UNIT[] "", Shortcut[] "OUt" }
+DECL PARAM POUT2_NO={VALUE {NUMBER: AUTOLIMIT TRUE, min 1,max 4096,Step 1,default 1},shortname[] "OUT.2= ", UNIT[] "", Shortcut[] "OUt" }
+Decl PARAM PTEXT={SHORTNAME[] "",VALUE {FREE: DEFAULT[] ""}, UNIT[] ""}
+DECL PARAM PINVAL={shortname[] "VAL= ", shortcut[] "", unit[] "", value { LIST : POS 1, _
+  ITEM[1] {ITEM:VALUE[] "TRUE"}, _
+  ITEM[2] {ITEM:VALUE[] "FALSE"}}}
+DECL PARAM POUT1VAL={shortname[] "VAL= ", shortcut[] "", unit[] "", value { LIST : POS 1, _
+  ITEM[1] {ITEM:VALUE[] "TRUE"}, _
+  ITEM[2] {ITEM:VALUE[] "FALSE"}}}
+DECL PARAM POUT2VAL={shortname[] "VAL= ", shortcut[] "", unit[] "", value { LIST : POS 1, _
+  ITEM[1] {ITEM:VALUE[] "TRUE"}, _
+  ITEM[2] {ITEM:VALUE[] "FALSE"}}}
+
+DECL PARAM Partition ={VALUE {STATIC: DEFAULT[] "--"}}
+
+DECL PARAM PENT1={shortname[] "IsActive:", shortcut[] "", unit[] "", value { LIST : POS 1, _
+  ITEM[1] {ITEM:VALUE[] " " ,disp[] "TRUE"}, _
+  ITEM[2] {ITEM:VALUE[] "/;" ,disp[] "FALSE"}}}
+DECL PARAM PENT2={shortname[] "IsActive:", shortcut[] "", unit[] "", value { LIST : POS 1, _
+  ITEM[1] {ITEM:VALUE[] " " ,disp[] "TRUE"}, _
+  ITEM[2] {ITEM:VALUE[] "/;" ,disp[] "FALSE"}}}
+
+DECL PARAM PTIME={VALUE {REAL: AUTOLIMIT TRUE, min 0.01,max 100.0,Step 0.1, default 0.1},shortname[] " Time= ", UNIT[] " sec", Shortcut[] "Time" }
+
+DECL PARAM PDIST={shortname[] " at ", shortcut[] "", unit[] "", value { LIST : POS 1, _
+  ITEM[1] {ITEM:VALUE[] "0", disp[] "START"}, _
+  ITEM[2] {ITEM:VALUE[] "1", disp[] "END"}}}
+
+DECL PARAM PINDELAY={VALUE {NUMBER: AUTOLIMIT TRUE, min 0,max 10000,Step 1,default 0},shortname[] "Delay= ", UNIT[] " ms", Shortcut[] "Delay" }
+DECL PARAM POUT1DELAY={VALUE {NUMBER: AUTOLIMIT TRUE, min 0,max 10000,Step 1,default 0},shortname[] "Delay= ", UNIT[] " ms", Shortcut[] "Delay" }
+DECL PARAM POUT2DELAY={VALUE {NUMBER: AUTOLIMIT TRUE, min 0,max 10000,Step 1,default 0},shortname[] "Delay= ", UNIT[] " ms", Shortcut[] "Delay" }
+DECL PARAM PINPATH={VALUE {NUMBER: AUTOLIMIT TRUE, min -1000,max 1000,Step 1,default 0},shortname[] "Path= ", UNIT[] "_mm", Shortcut[] "Path" }
+DECL PARAM POUT1PATH={VALUE {NUMBER: AUTOLIMIT TRUE, min -1000,max 1000,Step 1,default 0},shortname[] "Path= ", UNIT[] "_mm", Shortcut[] "Path" }
+DECL PARAM POUT2PATH={VALUE {NUMBER: AUTOLIMIT TRUE, min -1000,max 1000,Step 1,default 0},shortname[] "Path= ", UNIT[] "_mm", Shortcut[] "Path" }
+DECL PARAM PPRIO={VALUE {NUMBER: AUTOLIMIT TRUE, min 0,max 100,Step 1,default 20},shortname[] "PRIO= ", UNIT[] " ", Shortcut[] "PRIO" }
+
+
+
+
+DECL FOLD FOLDOUT[3]
+FOLDOUT[1]="%PENT1  TRIGGER WHEN  Path=%POUT1PATH  DELAY=0  DO $OUT[%POUT1_NO ]= %POUT1VAL "
+FOLDOUT[2]="%PENT2  TRIGGER WHEN  Path=%POUT2PATH  DELAY=0  DO $OUT[%POUT2_NO ]= %POUT2VAL "
+FOLDOUT[3]="TRIGGER WHEN  Path=0  DELAY=0  DO U_ERROR(%PIN_NO ,%PINVAL )  PRIO= 20  "
+
+
+defscript scOnAcceptOut
+
+;text
+
+endscript
+
+
+
+
+
+
+
+
+
+;-----------------------------------------
+
+DECL PARAM LSVEL={VALUE {REAL: AUTOLIMIT TRUE, min 0,max 2,Step 0.1,default 0.01},shortname[] "CP= ", UNIT[] "m/s", Shortcut[] "VEL" }
+DECL PARAM LSREL_X={VALUE {REAL: AUTOLIMIT TRUE, min -100,max 100,Step 0.1,default 0},shortname[] "X= ", UNIT[] "_mm", Shortcut[] "Distance" }
+DECL PARAM LSREL_Y={VALUE {REAL: AUTOLIMIT TRUE, min -100,max 100,Step 0.1,default 0},shortname[] "Y= ", UNIT[] "_mm", Shortcut[] "Distance" }
+DECL PARAM LSREL_Z={VALUE {REAL: AUTOLIMIT TRUE, min -100,max 100,Step 0.1,default 0},shortname[] "Z= ", UNIT[] "_mm", Shortcut[] "Distance" }
+
+
+DECL FOLD FOLDLSREL[4]
+FOLDLSREL[1]=" "
+FOLDLSREL[2]="  $Vel.CP= %LSVEL "
+FOLDLSREL[3]="  LIN_REL{X %LSREL_X ,Y %LSREL_Y ,Z %LSREL_Z }"
+FOLDLSREL[4]=" "
+
+defscript OnAcc_LS
+
+
+endscript
+
+;-----------------------------------------
+
+;-----------------------------------------
+
+DECL PARAM LSPOW={VALUE {REAL: AUTOLIMIT TRUE, min 0,max 1,Step 0.1,default 0.5},shortname[] "POW= ", UNIT[] "%", Shortcut[] "POW" }
+
+
+DECL FOLD FOLDLSON[4]
+FOLDLSPOW[1]=" "
+FOLDLSPOW[2]="  $ANOUT[1]= %LSPOW "
+FOLDLSPOW[3]="  LSON() "
+FOLDLSPOW[4]=" "
+
+DECL FOLD FOLDLSOFF[3]
+FOLDLSPOW[1]=" "
+FOLDLSPOW[2]="   LSOFF() "
+FOLDLSPOW[3]=" "
+
+
+
+
+
+;------------------------------------------
+
+
+
+
+
+;--------------------------------------------
+DECL PARAM Program_Name  = {SHORTNAME[] ": ",VALUE {FREE: DEFAULT[] "Program Name"}}
+DECL PARAM Program_Run={shortname[] "State:", shortcut[] "", unit[] "", value { LIST : POS 1, _
+  ITEM[1] {ITEM:VALUE[] " " ,disp[] " Run"}, _
+  ITEM[2] {ITEM:VALUE[] "/;" ,disp[] " NO"}}}
+
+DECL FOLD FOLDProgram[3]
+FOLDProgram[1]=" "
+FOLDProgram[2]="  %Program_Run  %Program_Name ()"
+FOLDProgram[3]=" "
+
+
+
+;--------------------------------------------
+
+;Decl InlineForm IN={FOLD[1] FOLDIN, PARAM[1] PIN_NO, PARAM[2] PSTATE, PARAM[3] PPATH, PARAM[4] PDELAY , PARAM[5] PPRIO , ONACCEPT scOnAcceptOut}
+Decl InlineForm OUT={FOLD[1] FOLDOUT,PARAM[1] PENT1 , PARAM[2] POUT1_NO, PARAM[3] POUT1VAL,PARAM[4] POUT1PATH  , PARAM[5] PENT2 , PARAM[6] POUT2_NO, PARAM[7] POUT2VAL,PARAM[8] POUT2PATH,  PARAM[9] PIN_NO , PARAM[10] PINVAL , ONACCEPT scOnAcceptOut}
+Decl InlineForm LSREL={FOLD[1] FOLDLSON , PARAM[1] LSVEL, PARAM[2] LSREL_X, PARAM[3] LSREL_Y , PARAM[4] LSREL_Z , ONACCEPT OnAcc_LS}
+
+Decl InlineForm LSON={FOLD[1] FOLDLSON, PARAM[1] LSPOW , ONACCEPT OnAcc_LS}
+Decl InlineForm LSOFF={FOLD[1] FOLDLSOFF , ONACCEPT OnAcc_LS}
+
+Decl InlineForm PName={FOLD[1] FOLDProgram , PARAM[1] Program_Name,  PARAM[2] Program_Run, ONACCEPT OnAcc_LS}
+
+
+ENDTP
+
+
+;checksum 49323745503 

@@ -1,7 +1,7 @@
 ﻿
 namespace HanGao.ViewModel.Messenger_Eunm
 {
-    public  class Messenger_Name
+    public class Messenger_Name
     {
 
 
@@ -16,7 +16,7 @@ namespace HanGao.ViewModel.Messenger_Eunm
             /// UI显示工作区
             /// </summary>
             UI_Work,
- 
+
 
             /// <summary>
             /// 水槽类型加载
@@ -108,7 +108,7 @@ namespace HanGao.ViewModel.Messenger_Eunm
             /// 水槽尺寸参数设置完成
             /// </summary>
             Sink_Size_Value_OK,
-            
+
             UI_Sink_Set,
 
             Clear_List,
@@ -237,23 +237,23 @@ namespace HanGao.ViewModel.Messenger_Eunm
 
             /// <summary>
             ///  水槽短边工艺区域点加载
-           /// </summary>
-           Sink_Short_Craft_Point_Load,
+            /// </summary>
+            Sink_Short_Craft_Point_Load,
 
-           /// <summary>
-           /// UI开始页面状态信息
-           /// </summary>
-         UI_Start_State_Info,
+            /// <summary>
+            /// UI开始页面状态信息
+            /// </summary>
+            UI_Start_State_Info,
 
 
-         /// <summary>
-         /// 实时窗口图像显示
-         /// </summary>
+            /// <summary>
+            /// 实时窗口图像显示
+            /// </summary>
             HWindow_Image_Show,
 
-           /// <summary>
-           /// 单帧图像显示
-           /// </summary>
+            /// <summary>
+            /// 单帧图像显示
+            /// </summary>
             Single_Image_Show,
 
             /// <summary>
@@ -290,7 +290,11 @@ namespace HanGao.ViewModel.Messenger_Eunm
             /// <summary>
             /// 视觉误差
             /// </summary>
-            Vision_Error_Data
+            Vision_Error_Data,
+            /// <summary>
+            /// 图标切换显示区域
+            /// </summary>
+            Charts_Switch_Work
         }
 
 

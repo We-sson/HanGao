@@ -1,5 +1,5 @@
-&ACCESS RVO1
-&REL 234
+&ACCESS RVO
+&REL 236
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\KRL
@@ -22,6 +22,7 @@ DECL EKI_STATUS RET
 
 ;ENDFOLD (INI)
 ;------------6-------
+
 
 
 EKRL_CONNECT()
@@ -128,6 +129,8 @@ Message_Wait("Find Model Data Sending",2)
 
 RET=EKI_GetBool(EKRL_NAME[],"KUKA_Send/@IsStatus" ,Calculation_Status)
 RET=EKI_GetString(EKRL_NAME[],"KUKA_Send/Message_Error" ,Message_Error[])
+
+SWRITE( Message_Show[] , _State , OPFFSET ,"Vision Find Model: %s"  ,Message_Error[] ) 
 IF  Calculation_Status THEN
 
 
@@ -182,14 +185,14 @@ D315_End_POS=LP3
 ENDSWITCH
 
 
-
+MSGNOTIFY(Message_Error[],"HanGao")
 else
 
-SWRITE( Message_Show[] , _State , OPFFSET ,"Find Model Error: %s"  ,Message_Error[] ) 
+
 
 MsgQuit(Message_Error[], "HanGao")
 halt
-
+return
 
 
 ENDIF

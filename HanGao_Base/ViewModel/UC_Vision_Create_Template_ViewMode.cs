@@ -128,13 +128,14 @@ namespace HanGao.ViewModel
                                                 _Send.Vision_Point.Pos_3.Y = Halcon_Find_Shape_Out.Robot_Pos[2].Y.ToString();
                                                 _Send.Vision_Point.Pos_4.X = Halcon_Find_Shape_Out.Robot_Pos[3].X.ToString();
                                                 _Send.Vision_Point.Pos_4.Y = Halcon_Find_Shape_Out.Robot_Pos[3].Y.ToString();
-                                                //修改状态
-                                                Point3D _Result_Pos = (Point3D)(Halcon_Find_Shape_Out.Robot_Pos[1] - Theoretical_Pos);
-                                                if (_Result_Pos.X < Vision_Auto_Cofig.Find_Allow_Error || _Result_Pos.Y < Vision_Auto_Cofig.Find_Allow_Error)
+                                                
+                                                //计算实际和理论误差
+                                                Point3D _Result_Pos = new Point3D() { X =Math.Round( Halcon_Find_Shape_Out.Robot_Pos[1].X - Theoretical_Pos.X,3), Y =Math.Round( Halcon_Find_Shape_Out.Robot_Pos[1].Y - Theoretical_Pos.Y,3), Z = Math.Round(Halcon_Find_Shape_Out.Robot_Pos[1].Z - Theoretical_Pos.Z, 3) };
+                                                if (Math.Abs( _Result_Pos.X )< Vision_Auto_Cofig.Find_Allow_Error && Math.Abs( _Result_Pos.Y )< Vision_Auto_Cofig.Find_Allow_Error)
                                                 {
 
                                                     _Send.IsStatus = 1;
-                                                    _Send.Message_Error = Calibration_Error_Message_Enum.No_Error.ToString() + "Vision_Error: X " + _Result_Pos.X + " Y " + _Result_Pos.Y;
+                                                    _Send.Message_Error = Calibration_Error_Message_Enum.No_Error.ToString() + "_Offset: X " + _Result_Pos.X + " Y " + _Result_Pos.Y;
 
 
                                                     Task.Run(() =>
@@ -781,7 +782,7 @@ namespace HanGao.ViewModel
         /// </summary>
         public ICommand Text_ShapeModel_Comm
         {
-            get => new AsyncRelayCommand<RoutedEventArgs>(async (Sm) =>
+            get => new RelayCommand<RoutedEventArgs>( (Sm) =>
             {
                 //Button Window_UserContol = Sm.Source as Button;
 
@@ -791,9 +792,8 @@ namespace HanGao.ViewModel
                 Pos_List_Model Out_Point = new Pos_List_Model();
 
 
-
-
-
+                Task.Run(() =>
+                { 
 
                 //读取模型文件
                 if (Read_Shape_ModelXld(ref _ModelID, Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model, Halcon_Find_Shape_ModelXld_UI.ShapeModel_Name, Halcon_Find_Shape_ModelXld_UI.FInd_ID))
@@ -813,13 +813,13 @@ namespace HanGao.ViewModel
 
                 }
 
+                });
 
-                //    User_Log_Add("所选的查找特征对象没有读取，请读取查找类型对象！");
+      
 
 
 
 
-                await Task.Delay(100);
 
             });
         }
@@ -834,26 +834,51 @@ namespace HanGao.ViewModel
         {
 
 
-            Thread _Th = new Thread(new ThreadStart(_Action))
-            { IsBackground = true, Name = "Run_TimeOut_Thread" };
-            _Th.Start();
+            //Thread _Th = new Thread(new ThreadStart(_Action))
+            //{ IsBackground = true, Name = "Run_TimeOut_Thread" };
+            ////_Th.Start();
+
+       
+
+            //IAsyncResult result = _Action.BeginInvoke(null, null);
+            //if (result.AsyncWaitHandle.WaitOne(_TimeOut))
+            //{
+            //    _Action.EndInvoke(result);
+            //    User_Log_Add("执行程序运行成功!");
+            //    return true;
+            //}
+            //else
+            //{
+            //    User_Log_Add("执行程序运行超时,强制退出!");
+            //    //_Th.Abort();
+          
+            //    _Action.EndInvoke(result);
+            //    return false;
+            //    //throw new TimeoutException();
+            //}
 
 
+            Thread threadToKill = null;
+            Action wrappedAction = () =>
+            { 
+                threadToKill = Thread.CurrentThread;
+                _Action();
+            };
 
-            IAsyncResult result = _Action.BeginInvoke(null, null);
+            IAsyncResult result = wrappedAction.BeginInvoke(null, null);
             if (result.AsyncWaitHandle.WaitOne(_TimeOut))
             {
-                _Action.EndInvoke(result);
+                wrappedAction.EndInvoke(result);
                 User_Log_Add("执行程序运行成功!");
-                return true;
+                   return true;
             }
             else
             {
+                threadToKill.Abort();
                 User_Log_Add("执行程序运行超时,强制退出!");
-                _Th.Abort();
                 return false;
-                //throw new TimeoutException();
             }
+
 
         }
 
@@ -901,6 +926,7 @@ namespace HanGao.ViewModel
                 {
 
                     //控件执行操作限制
+                    Console.WriteLine("开始线程");
 
 
 
@@ -1018,10 +1044,12 @@ namespace HanGao.ViewModel
                                 _Qx = 0; _Qy = 0;
                             }
 
+
                             hv_Text[i + 1] = "图像坐标_" + i + " X : " + _OX + " Y : " + _OY + " | 机器坐标_" + "X : " + _Qx + " Y : " + _Qy;
-                            Halcon_Find_Shape_Out.Robot_Pos.Add(new Point3D(_Qx, _Qy, 0));
+                            Halcon_Find_Shape_Out.Robot_Pos.Add(new Point3D(Math.Round(_Qx.D, 3), Math.Round(_Qy.D, 3), 0));
 
                             _Window.DispText(i + "号", "image", _OX + 50, _OY - 50, "black", "box", "true");
+                            Console.WriteLine(i + "号");
                             Halcon_Find_Shape_Out.Vision_Pos.Add(new Point3D(_OX, _OY, 0));
                         }
 
@@ -1030,6 +1058,7 @@ namespace HanGao.ViewModel
                         hv_Text = hv_Text.TupleConcat("夹角: " + Math.Round(_Angle.TupleDeg().D, 3));
 
                         Halcon_Find_Shape_Out.Text_Arr_UI = new List<string>(hv_Text.SArr);
+                   
                         Halcon_Find_Shape_Out.Right_Angle = Math.Round(_Angle.TupleDeg().D, 3);
 
 
@@ -1051,6 +1080,7 @@ namespace HanGao.ViewModel
 
 
                     }
+                    Console.WriteLine("结束线程");
 
                 }), _TheadTime);
 
@@ -1259,6 +1289,106 @@ namespace HanGao.ViewModel
 
 
 
+        /// <summary>
+        /// 画画对象删除
+        /// </summary>
+        public ICommand Create_Delete_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                Button _B = Sm.Source as Button;
+
+
+
+
+                Vision_Create_Model_Drawing_Model _Data = _B.DataContext as Vision_Create_Model_Drawing_Model;
+
+                //筛选需要删除的对象
+                //Vision_Create_Model_Drawing_Model _Drawing = UC_Vision_Create_Template_ViewMode.Drawing_Data_List.Where(_L => _L.Number == _Data.Number).Single();
+
+                //清除控件显示
+                HOperatorSet.ClearWindow(UC_Visal_Function_VM.Features_Window.HWindow);
+
+                //显示图像
+                //HOperatorSet.DispObj(UC_Visal_Function_VM.Load_Image, UC_Visal_Function_VM.Features_Window.HWindow);
+
+                //移除集合中的对象
+                UC_Vision_Create_Template_ViewMode.Drawing_Data_List.Clear();
+
+                User_Log_Add("清除全部XLD特征成功! ");
+
+                //重新显示没有移除的对象
+                //switch (_Drawing.Drawing_Type)
+                //{
+                //    case Drawing_Type_Enme.Draw_Lin:
+
+                //        foreach (var item in UC_Vision_Create_Template_ViewMode.Drawing_Data_List)
+                //        {
+
+                //            //设置显示图像颜色
+                //            HOperatorSet.SetColor(UC_Visal_Function_VM.Features_Window.HWindow, nameof(KnownColor.Red).ToLower());
+                //            HOperatorSet.SetLineWidth(UC_Visal_Function_VM.Features_Window.HWindow, 1);
+
+
+                //            if (item.Lin_Xld_Data.HPoint_Group.Count > 0)
+                //            {
+
+                //                foreach (var _Group in item.Lin_Xld_Data.HPoint_Group)
+                //                {
+                //                    HOperatorSet.DispObj(_Group, UC_Visal_Function_VM.Features_Window.HWindow);
+                //                }
+                //                HOperatorSet.DispObj(item.Lin_Xld_Data.Xld_Region, UC_Visal_Function_VM.Features_Window.HWindow);
+                //            }
+
+                //            //设置显示图像颜色
+                //            HOperatorSet.SetColor(UC_Visal_Function_VM.Features_Window.HWindow, nameof(KnownColor.Green).ToLower());
+                //            HOperatorSet.SetLineWidth(UC_Visal_Function_VM.Features_Window.HWindow, 3);
+                //        }
+
+                //        break;
+                //    case Drawing_Type_Enme.Draw_Cir:
+
+                //        foreach (var item in UC_Vision_Create_Template_ViewMode.Drawing_Data_List)
+                //        {
+                //            //设置显示图像颜色
+                //            HOperatorSet.SetColor(UC_Visal_Function_VM.Features_Window.HWindow, nameof(KnownColor.Red).ToLower());
+                //            HOperatorSet.SetLineWidth(UC_Visal_Function_VM.Features_Window.HWindow, 1);
+
+                //            if (item.Cir_Xld_Data.HPoint_Group.Count > 0)
+                //            {
+                //                foreach (var _Group in item.Cir_Xld_Data.HPoint_Group)
+                //                {
+                //                    HOperatorSet.DispObj(_Group, UC_Visal_Function_VM.Features_Window.HWindow);
+                //                }
+                //                HOperatorSet.DispObj(item.Cir_Xld_Data.Xld_Region, UC_Visal_Function_VM.Features_Window.HWindow);
+                //            }
+                //            //设置显示图像颜色
+                //            HOperatorSet.SetColor(UC_Visal_Function_VM.Features_Window.HWindow, nameof(KnownColor.Green).ToLower());
+                //            HOperatorSet.SetLineWidth(UC_Visal_Function_VM.Features_Window.HWindow, 3);
+                //        }
+
+
+                //        break;
+                //}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            });
+        }
+
+
+
 
     }
 
@@ -1284,105 +1414,6 @@ namespace HanGao.ViewModel
 
         public Cir_Contour_Xld_Model Cir_Xld_Data { set; get; } = new Cir_Contour_Xld_Model();
 
-
-
-
-        /// <summary>
-        /// 画画对象删除
-        /// </summary>
-        public ICommand Create_Delete_Comm
-        {
-            get => new AsyncRelayCommand<RoutedEventArgs>(async (Sm) =>
-            {
-                Button _B = Sm.Source as Button;
-
-                await Task.Delay(300);
-
-
-                Vision_Create_Model_Drawing_Model _Data = _B.DataContext as Vision_Create_Model_Drawing_Model;
-
-                //筛选需要删除的对象
-                Vision_Create_Model_Drawing_Model _Drawing = UC_Vision_Create_Template_ViewMode.Drawing_Data_List.Where(_L => _L.Number == _Data.Number).Single();
-
-                //清除控件显示
-                HOperatorSet.ClearWindow(UC_Visal_Function_VM.Features_Window.HWindow);
-
-                //显示图像
-                HOperatorSet.DispObj(UC_Visal_Function_VM.Load_Image, UC_Visal_Function_VM.Features_Window.HWindow);
-
-                //移除集合中的对象
-                UC_Vision_Create_Template_ViewMode.Drawing_Data_List.Remove(_Drawing);
-
-
-                //重新显示没有移除的对象
-                switch (_Drawing.Drawing_Type)
-                {
-                    case Drawing_Type_Enme.Draw_Lin:
-
-                        foreach (var item in UC_Vision_Create_Template_ViewMode.Drawing_Data_List)
-                        {
-
-                            //设置显示图像颜色
-                            HOperatorSet.SetColor(UC_Visal_Function_VM.Features_Window.HWindow, nameof(KnownColor.Red).ToLower());
-                            HOperatorSet.SetLineWidth(UC_Visal_Function_VM.Features_Window.HWindow, 1);
-
-
-                            if (item.Lin_Xld_Data.HPoint_Group.Count > 0)
-                            {
-
-                                foreach (var _Group in item.Lin_Xld_Data.HPoint_Group)
-                                {
-                                    HOperatorSet.DispObj(_Group, UC_Visal_Function_VM.Features_Window.HWindow);
-                                }
-                                HOperatorSet.DispObj(item.Lin_Xld_Data.Xld_Region, UC_Visal_Function_VM.Features_Window.HWindow);
-                            }
-
-                            //设置显示图像颜色
-                            HOperatorSet.SetColor(UC_Visal_Function_VM.Features_Window.HWindow, nameof(KnownColor.Green).ToLower());
-                            HOperatorSet.SetLineWidth(UC_Visal_Function_VM.Features_Window.HWindow, 3);
-                        }
-
-                        break;
-                    case Drawing_Type_Enme.Draw_Cir:
-
-                        foreach (var item in UC_Vision_Create_Template_ViewMode.Drawing_Data_List)
-                        {
-                            //设置显示图像颜色
-                            HOperatorSet.SetColor(UC_Visal_Function_VM.Features_Window.HWindow, nameof(KnownColor.Red).ToLower());
-                            HOperatorSet.SetLineWidth(UC_Visal_Function_VM.Features_Window.HWindow, 1);
-
-                            if (item.Cir_Xld_Data.HPoint_Group.Count > 0)
-                            {
-                                foreach (var _Group in item.Cir_Xld_Data.HPoint_Group)
-                                {
-                                    HOperatorSet.DispObj(_Group, UC_Visal_Function_VM.Features_Window.HWindow);
-                                }
-                                HOperatorSet.DispObj(item.Cir_Xld_Data.Xld_Region, UC_Visal_Function_VM.Features_Window.HWindow);
-                            }
-                            //设置显示图像颜色
-                            HOperatorSet.SetColor(UC_Visal_Function_VM.Features_Window.HWindow, nameof(KnownColor.Green).ToLower());
-                            HOperatorSet.SetLineWidth(UC_Visal_Function_VM.Features_Window.HWindow, 3);
-                        }
-
-
-                        break;
-                }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            });
-        }
 
 
 
