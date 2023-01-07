@@ -202,7 +202,7 @@ namespace HanGao.ViewModel
         private void ImageCallbackFunc(IntPtr pData, ref MV_FRAME_OUT_INFO_EX pFrameInfo, IntPtr pUser)
         {
 
-            WeakReferenceMessenger.Default.Send<HImage_Display_Model, string>(new HImage_Display_Model() { Image = SHalcon.Mvs_To_Halcon_Image(pFrameInfo.nWidth, pFrameInfo.nHeight, pData), Image_Show_Halcon = UC_Visal_Function_VM.Live_Window.HWindow }, nameof(Meg_Value_Eunm.HWindow_Image_Show));
+            Messenger.Send<HImage_Display_Model, string>(new HImage_Display_Model() { Image =Halcon_SDK. Mvs_To_Halcon_Image(pFrameInfo.nWidth, pFrameInfo.nHeight, pData), Image_Show_Halcon = UC_Visal_Function_VM.Live_Window.HWindow }, nameof(Meg_Value_Eunm.HWindow_Image_Show));
 
         }
 
@@ -585,7 +585,7 @@ namespace HanGao.ViewModel
 
             HObject _image = new HObject();
 
-
+            _Window.ClearWindow();
             switch (_Get_Model)
             {
                 case Get_Image_Model_Enum.相机采集:
@@ -602,6 +602,7 @@ namespace HanGao.ViewModel
                     {
 
                     HOperatorSet.ReadImage(out _image, _path);
+
                     _Window.DispObj(_image);
                         
                     }
@@ -632,33 +633,51 @@ namespace HanGao.ViewModel
         public static bool GetOneFrameTimeout(ref HObject Image ,HWindow _Window)
         {
 
-            //设置相机总参数
-            if (MVS_Camera.Set_Camrea_Parameters_List(Camera_Parameter_Val))
+
+
+
+
+            try
             {
 
+                //设置相机总参数
+                if (MVS_Camera.Set_Camrea_Parameters_List(Camera_Parameter_Val))
+                {
 
 
 
 
 
 
-                //获得一帧图片信息
-                MVS_Image_Mode _Image = MVS_Camera.GetOneFrameTimeout();
 
-                //转换Halcon图像变量
-                Image = SHalcon.Mvs_To_Halcon_Image(_Image.FrameEx_Info.ImageInfo.Width, _Image.FrameEx_Info.ImageInfo.Height, _Image.PData);
-                //发送显示图像位置
-                //WeakReferenceMessenger.Default.Send<HImage_Display_Model, string>(new HImage_Display_Model() { Image = Image, Image_Show_Halcon = _HWindow }, nameof(Meg_Value_Eunm.HWindow_Image_Show));
-                _Window.DispObj(Image);
+                    //获得一帧图片信息
+                    MVS_Image_Mode _Image = MVS_Camera.GetOneFrameTimeout();
 
-                return true;
+                    //转换Halcon图像变量
+                    Image =Halcon_SDK. Mvs_To_Halcon_Image(_Image.FrameEx_Info.ImageInfo.Width, _Image.FrameEx_Info.ImageInfo.Height, _Image.PData);
+                    //发送显示图像位置
+                    _Window.DispObj(Image);
+
+                    return true;
+                }
+                else
+                {
+
+                    User_Log_Add("相机设置参数错误，连接失败，请检查相机连接和参数！");
+                    return false;
+                }
+
             }
-            else
+            catch (Exception e)
             {
                 User_Log_Add("相机设置参数错误，连接失败，请检查相机连接和参数！");
+                User_Log_Add(e.Message);
 
                 return false;
+
             }
+
+
 
 
 

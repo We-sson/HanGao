@@ -35,8 +35,7 @@ namespace HanGao.Socket_KUKA
 
 
         #region 字段
-        private static int _ClientCount;
-        private static bool _IsRuning ;
+
 
         #endregion
 
@@ -45,44 +44,13 @@ namespace HanGao.Socket_KUKA
         /// <summary>
         /// 服务器启动状态
         /// </summary>
-        public static bool IsRuning
-        {
-            set
-            {
-                _IsRuning = value;
-                if (value)
-                {
-                    //WeakReferenceMessenger.Default.Send<dynamic ,string >(Visibility.Visible, nameof(Meg_Value_Eunm.Socket_Countion_Show));
-                    
-                }
-                else
-                {
+        public  bool IsRuning { set; get; }
 
-                    //WeakReferenceMessenger.Default.Send<dynamic ,string >(Visibility.Hidden, nameof(Meg_Value_Eunm.Socket_Countion_Show));
-                }
-
-
-            }
-            get
-            {
-                return _IsRuning;
-            }
-        }
         /// <summary>
         /// 客户端连接数量
         /// </summary>
-        public static int ClientCount
-        {
-            set
-            {
-                _ClientCount = value;
-                //WeakReferenceMessenger.Default.Send<dynamic ,string >(value, nameof(Meg_Value_Eunm.ClientCount));
-            }
-            get
-            {
-                return _ClientCount;
-            }
-        }
+        public  int ClientCount { set; get; }
+  
 
         public static  IPEndPoint Address { set; get; }
 

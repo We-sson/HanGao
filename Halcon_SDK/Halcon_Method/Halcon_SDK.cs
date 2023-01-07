@@ -239,7 +239,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_Height"></param>
         /// <param name="_pData"></param>
         /// <returns></returns>
-        public HImage Mvs_To_Halcon_Image(int _Width, int _Height, IntPtr _pData)
+        public static  HImage Mvs_To_Halcon_Image(int _Width, int _Height, IntPtr _pData)
         {
             HImage image = new HImage();
             //转换halcon图像格式

@@ -115,7 +115,7 @@ namespace HanGao.ViewModel
             if (Sm.ExtentHeight != ScrollViewer_Contrn)
             {
                 ScrollViewer_Contrn = Sm.ExtentHeight;
-                Sm.PageDown();
+                Sm.ScrollToEnd();
                 return;
 
 

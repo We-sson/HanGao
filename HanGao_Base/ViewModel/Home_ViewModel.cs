@@ -17,7 +17,6 @@ namespace HanGao.ViewModel
         {
 
             //注册消息接收
-            //WeakReferenceMessenger.Default.Register<double>("Open_Effect", Home_Var.Open_Effect);
 
 
             //Messenger.Register<dynamic, string, string>(this, nameof(Meg_Value_Eunm.Home_Visibility_Show), (O, S) =>

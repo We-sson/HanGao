@@ -32,6 +32,7 @@ namespace HanGao.ViewModel
             //halcon实时图像显示操作
             Messenger.Register<HImage_Display_Model, string>(this, nameof(Meg_Value_Eunm.HWindow_Image_Show), (O, _Mvs_Image) =>
             {
+
                 //显示图像到对应窗口
                 HOperatorSet.DispObj(_Mvs_Image.Image, _Mvs_Image.Image_Show_Halcon);
                 //保存功能窗口图像

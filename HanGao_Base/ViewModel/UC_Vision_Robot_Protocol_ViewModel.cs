@@ -583,12 +583,12 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 工具选定号数
         /// </summary>
-        [StringValue("$ACT_TOOL"), UserArea(User_Control_Working_Path_VM.Work_String_Name)]
+        [StringValue("$ACT_TOOL")]
         ACT_TOOL,
         /// <summary>
         /// 基坐标号数
         /// </summary>
-        [StringValue("$ACT_BASE"), UserArea(User_Control_Working_Path_VM.Work_String_Name)]
+        [StringValue("$ACT_BASE")]
         ACT_BASE,
 
 

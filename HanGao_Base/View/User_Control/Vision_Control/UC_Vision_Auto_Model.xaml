@@ -421,7 +421,7 @@
                                         HorizontalContentAlignment="Stretch"
                                         VerticalContentAlignment="Stretch"
                                         IsSnapToTickEnabled="True"
-                                        Maximum="10"
+                                        Maximum="20"
                                         Minimum=" 1"
                                         SmallChange="0.1"
                                         TickFrequency=" 0.1"

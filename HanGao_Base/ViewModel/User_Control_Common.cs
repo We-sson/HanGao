@@ -55,11 +55,11 @@ namespace HanGao.ViewModel
             //[StringValue("$"+nameof(MODE_OP)), UserArea(nameof(Meg_Value_Eunm.KUKA_State)), BingdingValue(nameof(KUKA_State_Models.KUKA_Mode_State), Value_Type.Enum, Binding_Type.OneWay)]
             //MODE_OP,
 
-            [StringValue("$POS_ACT"), UserArea(User_Control_Working_Path_VM.Work_String_Name)]
+            [StringValue("$POS_ACT")]
             POS_ACT,
-            [StringValue("$ACT_TOOL"), UserArea(User_Control_Working_Path_VM.Work_String_Name)]
+            [StringValue("$ACT_TOOL")]
             ACT_TOOL,
-            [StringValue("$ACT_BASE"), UserArea(User_Control_Working_Path_VM.Work_String_Name)]
+            [StringValue("$ACT_BASE")]
             ACT_BASE,
 
 
