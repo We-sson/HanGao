@@ -592,6 +592,7 @@ namespace HanGao.ViewModel
 
                     if (GetOneFrameTimeout(ref _image, _Window) ==false )
                     {
+                        User_Log_Add("相机读取错误，请检查设备！");
                         return false;
                     }
                    
@@ -615,9 +616,12 @@ namespace HanGao.ViewModel
                     break;
             }
             _Image = _image;
-            UC_Visal_Function_VM.Load_Image = _Image;
+
+            UC_Visal_Function_VM.Load_Image = _image;
             User_Log_Add(_Get_Model.ToString()+"图像读取成功！");
 
+            //清除
+            //_image.Dispose();
             return true;
 
         }
@@ -658,6 +662,10 @@ namespace HanGao.ViewModel
                     //发送显示图像位置
                     _Window.DispObj(Image);
 
+
+
+
+                    _Image = null;
                     return true;
                 }
                 else

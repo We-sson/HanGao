@@ -178,14 +178,14 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 保存读取图像属性
         /// </summary>
-        private static HObject _Load_Image;
+        private static HObject _Load_Image=new HObject ();
 
         public static HObject Load_Image
         {
             get { return _Load_Image; }
             set
             {
-
+                _Load_Image.Dispose();
                 _Load_Image = value;
 
             }

@@ -189,7 +189,7 @@ namespace Soceket_Connect
         /// <summary>
         /// 写入锁
         /// </summary>
-        private ReaderWriterLockSlim Write_Lock { set; get; } = new ReaderWriterLockSlim();
+        //private ReaderWriterLockSlim Write_Lock { set; get; } = new ReaderWriterLockSlim();
         /// <summary>
         /// 异步接受属性
         /// </summary>
@@ -725,7 +725,7 @@ namespace Soceket_Connect
 
                 lock (Socket_KUKA_Receive)
                 {
-                    Socket_KUKA_Receive = new Socket_Models_Receive();
+                    //Socket_KUKA_Receive = new Socket_Models_Receive();
                     Socket_Client_KUKA(Read_Write_Enum.One_Read);
 
 

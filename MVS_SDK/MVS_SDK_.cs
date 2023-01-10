@@ -278,6 +278,7 @@ namespace MVS_SDK
         {
             CIntValue stParam = new CIntValue();
 
+            Camera.ClearImageBuffer();
 
 
             StartGrabbing();
@@ -299,7 +300,7 @@ namespace MVS_SDK
             if (Set_Camera_Val(Camera_Parameters_Name_Enum.GetOneFrameTimeout, Camera.GetOneFrameTimeout(Frame_Image.pData_Buffer, (uint)stParam.CurValue, ref Frame_Image.FrameEx_Info, _Timeout)))
             {
                 StopGrabbing();
-
+                Camera.ClearImageBuffer();
                 return Frame_Image;
             }
 
