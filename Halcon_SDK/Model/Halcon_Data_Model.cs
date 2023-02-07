@@ -140,7 +140,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 查找耗时
             /// </summary>
-            public int Find_Time { set; get; } = 0;
+            public double  Find_Time { set; get; } = 0;
 
 
             //public List<Pos_List_Model> Pos_Lists { set; get; } = new List<Pos_List_Model>()
@@ -411,23 +411,23 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 增强图像功能使能
             /// </summary>
-            public bool Emphasize_Enable { set; get; } = true;
+            public bool Illuminate_Enable { set; get; } = true;
             /// <summary>
             /// 增强图像功能显示
             /// </summary>
-            public bool Emphasize_Disp { set; get; } = true;
+            public bool Illuminate_Disp { set; get; } = true;
             /// <summary>
             ///  增强图像的低通掩码的宽度。
             /// </summary>
-            public double Emphasize_MaskWidth { set; get; } = 10;
+            public double Illuminate_MaskWidth { set; get; } = 101;
             /// <summary>
             ///  增强图像的低通掩码的高度。
             /// </summary>
-            public double Emphasize_MaskHeight { set; get; } = 10;
+            public double Illuminate_MaskHeight { set; get; } = 101;
             /// <summary>
             /// 增强图像的对比强调的强度
             /// </summary>
-            public double Emphasize_Factor { set; get; } = 8;
+            public double Illuminate_Factor { set; get; } = 0.8;
 
             /// <summary>
             /// 矩形掩码的中值滤波器使能

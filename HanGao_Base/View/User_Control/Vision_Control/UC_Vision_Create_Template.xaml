@@ -2605,9 +2605,9 @@
                                     </Grid.RowDefinitions>
 
                                     <TextBlock Grid.Row=" 0"
-                                               Text="增强图像对比度"
+                                               Text="高频增强"
                                                TextWrapping="Wrap"
-                                               HorizontalAlignment="Center"
+                                               HorizontalAlignment="Left"
                                                VerticalAlignment="Center"
                                                FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                FontSize="16"
@@ -2652,7 +2652,7 @@
                                         </Grid.ColumnDefinitions>
                                         <CheckBox Style="{DynamicResource Button_List_Style}" x:Name="Emphasize_Enable" Grid.Column=" 0"
                                                   Content="使用"
-                                                  IsChecked="{Binding Halcon_Find_Shape_ModelXld_UI.Emphasize_Enable}"
+                                                  IsChecked="{Binding Halcon_Find_Shape_ModelXld_UI.Illuminate_Enable}"
                                                   Margin="4"
                                                   HorizontalAlignment="Center"
                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -2660,7 +2660,7 @@
                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                         <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Column=" 1"
                                                   Content="显示"
-                                                  IsChecked="{Binding Halcon_Find_Shape_ModelXld_UI.Emphasize_Disp}"
+                                                  IsChecked="{Binding Halcon_Find_Shape_ModelXld_UI.Illuminate_Disp}"
                                                   Margin="4"
                                                   HorizontalAlignment="Center"
                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -2682,11 +2682,11 @@
                                                 HorizontalContentAlignment="Stretch"
                                                 VerticalContentAlignment="Stretch"
                                                 IsSnapToTickEnabled="True"
-                                                Maximum="120"
+                                                Maximum="299"
                                                 Minimum="3"
                                                 SmallChange="1"
                                                 TickFrequency=" 1"
-                                                Value="{Binding Halcon_Find_Shape_ModelXld_UI.Emphasize_MaskWidth}" />
+                                                Value="{Binding Halcon_Find_Shape_ModelXld_UI.Illuminate_MaskWidth}" />
 
                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 1"
                                                  Text="{Binding Value, ElementName=Emphasize_MaskWidth}"
@@ -2713,11 +2713,11 @@
                                                 HorizontalContentAlignment="Stretch"
                                                 VerticalContentAlignment="Stretch"
                                                 IsSnapToTickEnabled="True"
-                                                Maximum="120"
+                                                Maximum="299"
                                                 Minimum="3"
                                                 SmallChange="1"
                                                 TickFrequency=" 1"
-                                                Value="{Binding Halcon_Find_Shape_ModelXld_UI.Emphasize_MaskHeight}" />
+                                                Value="{Binding Halcon_Find_Shape_ModelXld_UI.Illuminate_MaskHeight}" />
 
                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 1"
                                                  Text="{Binding Value, ElementName=Emphasize_MaskHeight}"
@@ -2744,11 +2744,11 @@
                                                 HorizontalContentAlignment="Stretch"
                                                 VerticalContentAlignment="Stretch"
                                                 IsSnapToTickEnabled="True"
-                                                Maximum="20"
+                                                Maximum="5"
                                                 Minimum="0"
                                                 SmallChange="0.1"
                                                 TickFrequency="0.1"
-                                                Value="{Binding Halcon_Find_Shape_ModelXld_UI.Emphasize_Factor}" />
+                                                Value="{Binding Halcon_Find_Shape_ModelXld_UI.Illuminate_Factor}" />
 
                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 1"
                                                  Text="{Binding Value, ElementName=Emphasize_Factor}"

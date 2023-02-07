@@ -1066,8 +1066,10 @@ ENDSWITCH
 
 CASE 2
 
-Q_Y=Camera_Calibration_Data.Sink_Size_Down_Distance-Sink_Size.Sink_Size_Down_Distance
-Q_X=Camera_Calibration_Data.Sink_Size_Left_Distance-Sink_Size.Sink_Size_Left_Distance
+
+Q_Y=Camera_Calibration_Data.Sink_Size_Left_Distance-Sink_Size.Sink_Size_Left_Distance
+Q_X=Camera_Calibration_Data.Sink_Size_Down_Distance-Sink_Size.Sink_Size_Down_Distance
+
 
 SWITCH Vision_Model
 

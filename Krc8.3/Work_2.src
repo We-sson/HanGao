@@ -1,5 +1,5 @@
 &ACCESS RVP
-&REL 208
+&REL 223
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HG
@@ -15,7 +15,7 @@ DEF Work_2( )
 
   ;ENDFOLD (USER INI)
 ;ENDFOLD (INI)
-
+;loop
 ;FOLD PTP Surround_Home Vel=10 % PDAT1 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VPTP,%P 1:PTP, 2:Surround_Home, 3:, 5:10, 7:PDAT1
 $BWDSTART=FALSE
 PDAT_ACT=PPDAT1
@@ -130,8 +130,8 @@ EKRL_Find_Model_Send(2,4)
 
 
 ;ENDFOLD
-
-halt
+;endloop
+;halt
 ;FOLD PTP Surround_Home Vel=10 % PDAT4 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VPTP,%P 1:PTP, 2:Surround_Home, 3:, 5:10, 7:PDAT4
 $BWDSTART=FALSE
 PDAT_ACT=PPDAT4
@@ -141,8 +141,8 @@ PTP XSurround_Home
 ;ENDFOLD
 ;FOLD Surround_LIN.S_LIN Point:L0_S1, Vel=.04m/s, Point: 90/%, Area:LO, LDAT:L0_L1, OFFSET_NO:1, Work: N_2;%{PE}%MKUKATPUSER
 
-; LIN L0_S1POS: X=375.714539, Y=63.4393921, Z=0, A=0, B=20, C=0
-; LIN Offset POS:X=0, Y=0, Z=0
+; LIN L0_S1POS: X=379.424103, Y=32.4240112, Z=0, A=0, B=20, C=0
+; LIN Offset POS:X=-.5, Y=0, Z=0
 HanGao_Surr_Calculate( 90, #L0, #L_LIN_POS , POL0_S1, , , L0_Welding_Craft[2,1].Welding_Offset  , , 1, 2 )
  
 FDAT_ACT=FL0_S1
@@ -151,8 +151,8 @@ BAS(#CP_PARAMS,L0_Welding_Craft[2,1].Welding_Speed )
 LIN POL0_S1 C_DIS C_DIS
 
 ;ENDFOLD
-;FOLD ANOUT AO01=.8 ;%{PE}%R 8.3.48,%MKUKATPBASIS,%CANA,%VANOUT_STAT,%P 2:CHANNEL_1, 4:.8
-$ANOUT[1]=.8
+;FOLD ANOUT AO01=.95 ;%{PE}%R 8.3.48,%MKUKATPBASIS,%CANA,%VANOUT_STAT,%P 2:CHANNEL_1, 4:.95
+$ANOUT[1]=.95
 ;ENDFOLD
 LSON()
 ;FOLD Surround_LIN.S_C_LIN Point:C45_S1, Vel=.04m/s, Area: C45, LDAT:C45_L1, Work: N_2;%{PE}%MKUKATPUSER
@@ -413,8 +413,8 @@ FDAT_ACT=FSurround_Home
 BAS(#PTP_PARAMS,10)
 PTP XSurround_Home 
 ;ENDFOLD
-
-halt
+if FALSE THEN
+;halt
 ;return
 ;FOLD Short_Craft.S_LIN Point:S2, Vel=.1m/s, Area: N45, Short_Pos: Safety, Point: 50/%, LDAT:L2, Work: N_2;%{PE}%MKUKATPUSER
 
@@ -634,7 +634,7 @@ LIN POS17 C_DIS C_DIS
 
 ;ENDFOLD
 LSOFF()
-
+endif
 
 ;FOLD PTP Surround_Home Vel=10 % PDAT3 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VPTP,%P 1:PTP, 2:Surround_Home, 3:, 5:10, 7:PDAT3
 $BWDSTART=FALSE

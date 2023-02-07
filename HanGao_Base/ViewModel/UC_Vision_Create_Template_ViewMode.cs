@@ -820,7 +820,7 @@ namespace HanGao.ViewModel
 
 
                             //查找模型
-                            Find_Model_Method(Features_Window.HWindow, _ModelID, _Image, Vision_Auto_Cofig.Find_TimeOut_Millisecond);
+                            Find_Model_Method(Features_Window.HWindow, _ModelID, _Image, 999999999);
 
 
 

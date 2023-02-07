@@ -1,0 +1,23 @@
+&ACCESS RVO2
+&REL 9
+&PARAM EDITMASK = *
+&PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
+&PARAM DISKPATH = KRC:\R1\Program\HG
+DEF A_ERROR( )
+
+
+
+END
+
+GLOBAL DEF U_ERROR(NO:IN, Val:IN )
+DECL INT NO
+DECL BOOL Val
+
+IF $IN[NO]==Val THEN
+BRAKE
+lsoff()
+Lin_REl{Z -100} #Tool
+ENDIF
+
+
+END

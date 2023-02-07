@@ -279,15 +279,22 @@ namespace Halcon_SDK_DLL
         {
 
             HObject _Image = new HObject();
-            //HObject _Image1, _Image2, _Image3, _Image3_1, _Image4, _Image5, _Image6, _Image7, _Image8;
+           
             HTuple _Area, _Row, _Column;
 
-            _Image = _Input_Image;
+
+
+
+
+            //图像最大灰度值分布在值范围0到255 中
+            HOperatorSet.ScaleImageMax(_Input_Image, out _Image);
+
+
             if (_Calibration_Data.MedianRect_Enable)
             {
 
                 //进行图像中值滤波器平滑
-                HOperatorSet.MedianImage(_Input_Image, out _Image, _Calibration_Data.MaskType_Model.ToString(), _Calibration_Data.Radius, _Calibration_Data.Margin_Model.ToString());
+                HOperatorSet.MedianImage(_Image, out _Image, _Calibration_Data.MaskType_Model.ToString(), _Calibration_Data.Radius, _Calibration_Data.Margin_Model.ToString());
                 if (_Calibration_Data.MedianRect_Disp)
                 {
                     _Window.DispObj(_Image);
@@ -295,8 +302,7 @@ namespace Halcon_SDK_DLL
 
             }
 
-            //图像最大灰度值分布在值范围0到255 中
-            HOperatorSet.ScaleImageMax(_Image, out _Image);
+ 
 
 
             if (_Calibration_Data.Emphasize_Enable)
@@ -809,6 +815,9 @@ namespace Halcon_SDK_DLL
                         _Find_Out = new Halcon_Find_Shape_Out_Parameter() { Row = hv_row.D, Column = hv_column.D, Angle = hv_angle.D, Score = hv_score.D, Find_Time = (DateTime.Now - RunTime).Milliseconds };
 
                         break;
+
+
+
                     case Shape_Based_Model_Enum.planar_deformable_model:
 
                         _Image1 = _Image;
@@ -837,22 +846,14 @@ namespace Halcon_SDK_DLL
                             }
                         }
 
-                        if (_Find_Property.ScaleImageMax_Enable)
-                        {
-                            //图像最大灰度值分布在值范围0到255 中
-                            HOperatorSet.ScaleImageMax(_Image1, out _Image1);
-                            if (_Find_Property.ScaleImageMax_Disp)
-                            {
-                                HOperatorSet.DispObj(_Image1, _HWindow);
-                            }
-                        }
+         
 
 
-                        if (_Find_Property.Emphasize_Enable)
+                        if (_Find_Property.Illuminate_Enable)
                         {
-                            //增强图像的对比度
-                            HOperatorSet.Emphasize(_Image1, out _Image1, _Find_Property.Emphasize_MaskWidth, _Find_Property.Emphasize_MaskHeight, _Find_Property.Emphasize_Factor);
-                            if (_Find_Property.Emphasize_Disp)
+                            //高频增强图像的对比度
+                            HOperatorSet.Illuminate(_Image1, out _Image1, _Find_Property.Illuminate_MaskWidth, _Find_Property.Illuminate_MaskHeight, _Find_Property.Illuminate_Factor);
+                            if (_Find_Property.Illuminate_Disp)
                             {
                                 HOperatorSet.DispObj(_Image1, _HWindow);
                             }
@@ -862,21 +863,21 @@ namespace Halcon_SDK_DLL
 
 
 
-
+                        //查找模型
                         HOperatorSet.FindPlanarUncalibDeformableModel(_Image1, _ModelXld,
                                                                                                    (new HTuple(_Find_Property.AngleStart)).TupleRad(), (new HTuple(_Find_Property.AngleExtent)).TupleRad(), _Find_Property.ScaleRMin, _Find_Property.ScaleRMax, _Find_Property.ScaleCMin, _Find_Property.ScaleCMax, _Find_Property.MinScore,
-                                                                                                   _Find_Property.NumMatches, _Find_Property.MaxOverlap, _Find_Property.NumLevels, _Find_Property.Greediness, "subpixel", "least_squares", out hv_HomMat2D, out hv_score);
+                                                                                                   _Find_Property.NumMatches, _Find_Property.MaxOverlap, _Find_Property.NumLevels, _Find_Property.Greediness, "subpixel", "least_squares_very_high", out hv_HomMat2D, out hv_score);
 
 
 
                         if (hv_score.Length != 0)
                         {
 
-                            _Find_Out = new Halcon_Find_Shape_Out_Parameter() { DispWiindow = _HWindow, HomMat2D = hv_HomMat2D, Score = hv_score.D, Find_Time = (DateTime.Now - RunTime).Milliseconds };
+                            _Find_Out = new Halcon_Find_Shape_Out_Parameter() { DispWiindow = _HWindow, HomMat2D = hv_HomMat2D, Score = hv_score.D, Find_Time = (DateTime.Now - RunTime).TotalMilliseconds };
                         }
                         else
                         {
-                            _Find_Out = new Halcon_Find_Shape_Out_Parameter() { DispWiindow = _HWindow, Score = 0, Find_Time = (DateTime.Now - RunTime).Milliseconds };
+                            _Find_Out = new Halcon_Find_Shape_Out_Parameter() { DispWiindow = _HWindow, Score = 0, Find_Time = (DateTime.Now - RunTime).TotalMilliseconds };
 
                         }
 
