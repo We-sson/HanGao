@@ -1,5 +1,5 @@
-&ACCESS RVP
-&REL 44
+&ACCESS RVO
+&REL 45
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 DEFDAT  A_Find

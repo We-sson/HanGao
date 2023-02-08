@@ -2,9 +2,11 @@
 using KUKA_Socket.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Xml.Linq;
 using static Soceket_Connect.Socket_Connect;
 
 namespace Soceket_KUKA
@@ -29,6 +31,7 @@ namespace Soceket_KUKA
 
         public ReceiveMessage_delegate<Calibration_Data_Receive, string> KUKA_Receive_Calibration_String { set; get; }
         public ReceiveMessage_delegate<Calibration_Data_Receive, string> KUKA_Receive_Find_String { set; get; }
+        public ReceiveMessage_delegate<Vision_Ini_Data_Receive, string> KUKA_Receive_Vision_Ini_String { set; get; }
 
 
 
@@ -196,7 +199,7 @@ namespace Soceket_KUKA
 
                     if (message == "")
                     {
-                    Socket_ErrorInfo_delegate("设备IP: "+clientipe.Address.ToString()+" 断开连接! ");
+                        Socket_ErrorInfo_delegate("设备IP: " + clientipe.Address.ToString() + " 断开连接! ");
                         return;
                     }
                     string _S = Vision_Model(message);
@@ -229,28 +232,43 @@ namespace Soceket_KUKA
         /// <returns></returns>
         public string Vision_Model(string _St)
         {
-            if (_St!="")
+            if (_St != "")
             {
 
-            Calibration_Data_Receive _Receive = KUKA_Send_Receive_Xml.String_Xml<Calibration_Data_Receive>(_St);
-            string _Str = "";
-            switch (_Receive.Model)
-            //switch (  Enum.Parse(typeof( Vision_Model_Enum),    _Receive.Model))
-            {
-                case Vision_Model_Enum.Calibration_Point:
+                //提取接收内容解析
+                XElement _KUKA_Receive= XElement.Parse(_St);
+                Vision_Model_Enum _Model = (Vision_Model_Enum)Enum.Parse(typeof(Vision_Model_Enum), _KUKA_Receive.Attribute("Model").Value.ToString());
 
-                    _Str = KUKA_Receive_Calibration_String(_Receive, _St);
+                string _Str = "";
+                //将对应的功能反序列化处理
+                switch (_Model)
+                {
+                    case Vision_Model_Enum.Calibration_Point:
+                        Calibration_Data_Receive _Calibration_Receive = KUKA_Send_Receive_Xml.String_Xml<Calibration_Data_Receive>(_St);
 
-                    break;
-                case Vision_Model_Enum.Find_Model:
+                        _Str = KUKA_Receive_Calibration_String(_Calibration_Receive, _St);
 
+                        break;
+                    case Vision_Model_Enum.Find_Model:
 
-                    _Str = KUKA_Receive_Find_String(_Receive, _St);
-                    break;
+                        Calibration_Data_Receive _Find_Receive = KUKA_Send_Receive_Xml.String_Xml<Calibration_Data_Receive>(_St);
 
-            }
+                        _Str = KUKA_Receive_Find_String(_Find_Receive, _St);
+                        break;
 
-            return _Str;
+                    case Vision_Model_Enum.Vision_Ini_Data:
+
+                        Vision_Ini_Data_Receive _Vision_Receive = KUKA_Send_Receive_Xml.String_Xml<Vision_Ini_Data_Receive>(_St);
+
+                        _Str = KUKA_Receive_Vision_Ini_String(_Vision_Receive, _St);
+
+                 
+
+                        break;
+
+                }
+
+                return _Str;
             }
             else
             {

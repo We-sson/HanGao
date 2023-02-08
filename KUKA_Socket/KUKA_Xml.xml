@@ -1,76 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Vision_Xml>
-	
-	
-		
-<Calibration_Data>
 
-	<KUKA_Receive>
-		
-		<Calibration_Model  Area="F_45" Work_Number="1">
-			<Calibration_Point>
-				<Pos_1 X="1765.000000" Y="0.000000" Z="1784.000000" A="0.000000" B="90.000000" C="0.000000"></Pos_1>
-				<Pos_2 X="1765.000000" Y="0.000000" Z="1784.000000" A="0.000000" B="90.000000" C="0.000000"></Pos_2>
-				<Pos_3 X="1765.000000" Y="0.000000" Z="1784.000000" A="0.000000" B="90.000000" C="0.000000"></Pos_3>
-				<Pos_4 X="1765.000000" Y="0.000000" Z="1784.000000" A="0.000000" B="90.000000" C="0.000000"></Pos_4>
-				<Pos_5 X="1765.000000" Y="0.000000" Z="1784.000000" A="0.000000" B="90.000000" C="0.000000"></Pos_5>
-				<Pos_6 X="1765.000000" Y="0.000000" Z="1784.000000" A="0.000000" B="90.000000" C="0.000000"></Pos_6>
-				<Pos_7 X="1765.000000" Y="0.000000" Z="1784.000000" A="0.000000" B="90.000000" C="0.000000"></Pos_7>
-				<Pos_8 X="1765.000000" Y="0.000000" Z="1784.000000" A="0.000000" B="90.000000" C="0.000000"></Pos_8>
-				<Pos_9 X="1765.000000" Y="0.000000" Z="1784.000000" A="0.000000" B="90.000000" C="0.000000"></Pos_9>
-			</Calibration_Point>
-			<Camera_Point>
-				<Pos X="1765.000000" Y="0.000000" Z="1784.000000" A="0.000000" B="90.000000" C="0.000000"></Pos>
-			</Camera_Point>
-		</Calibration_Model>
+
+	<!--视觉数据初始话接收发送格式-->
+	<KUKA_Receive Model="Ini_Data">
 	</KUKA_Receive>
 
-
-
-
-<KUKA_Send>
-	<Messer_Error>Find time timeout</Messer_Error>
-	<IsStatus>1</IsStatus>
-</KUKA_Send>
+	<KUKA_Send IsStatus="1">
+		<Message_Error>Find time timeout</Message_Error>
+		<Initialization_Data >
+			<Vision_Scope>20</Vision_Scope>
+		</Initialization_Data>
+	</KUKA_Send>
 	
 	
-	
-</Calibration_Data>
-
-
-	 <Find_Data>
-	
-		 
-		<!---->	 
-		 
-		 
-	<KUKA_Receive>
-		<Find_Model ID="1" Work="1" Area="N_45"></Find_Model>
-	</KUKA_Receive>
-	
-	
-	
-		
-	
-<KUKA_Send>
-	<Message_Error>Find time timeout</Message_Error>
-	<IsStatus>1</IsStatus>
-    <Calculation_Point >
-		<Pos_1  X="210.3" Y="825.3" Z="234.3" A="84.2" B="12.3" C="43.5"/>
-	    <Pos_2  X="210.3" Y="825.3" Z="234.3" A="84.2" B="12.3" C="43.5"/>
-		<Pos_3  X="210.3" Y="825.3" Z="234.3" A="84.2" B="12.3" C="43.5"/>
-		<Pos_4  X="210.3" Y="825.3" Z="234.3" A="84.2" B="12.3" C="43.5"/>
-	</Calculation_Point>
-</KUKA_Send>
-
-
-</Find_Data>
-
-
-
 
 	<KUKA_Receive Model="Calibration_Point">
-		<Calibration_Model Work_Area="Work_2" Vision_Area="F_45"></Calibration_Model>
+		<Calibration_Model Work_Area="Work_2" Vision_Area="F_45" Calibration_Mark="952154"></Calibration_Model>
 		<Find_Model Find_Data="" Work_Area="" Vision_Area=""></Find_Model>
 		<Vision_Point>
 			<Pos_1 X="414.928650" Y="3.290867" Z="-0.697027" A="0.441927" B="-0.041615" C="-0.070417"></Pos_1>
@@ -91,7 +37,7 @@
 
 
 	<KUKA_Receive Model="Calibration_Point">
-		<Calibration_Model Work_Area="Work_1" Vision_Area="F_225"></Calibration_Model>
+		<Calibration_Model Work_Area="Work_1" Vision_Area="F_225" Calibration_Mark="952154"></Calibration_Model>
 		<Find_Model Find_Data="" Work_Area="" Vision_Area=""></Find_Model>
 		<Vision_Point>
 			<Pos_1 X="1765.000000" Y="0.000026" Z="1783.999878" A="0.000000" B="90.000000" C="-0.000001"></Pos_1>

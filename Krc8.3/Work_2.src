@@ -1,5 +1,5 @@
 &ACCESS RVP
-&REL 223
+&REL 236
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HG
@@ -15,6 +15,16 @@ DEF Work_2( )
 
   ;ENDFOLD (USER INI)
 ;ENDFOLD (INI)
+
+;FOLD Vision.Vision_Ini ;%{PE}%MKUKATPUSER
+
+
+
+EKRL_Connect("Xml_Ini_Data")
+EKRL_Vision_Int_Data("Xml_Ini_Data")
+
+
+;ENDFOLD
 ;loop
 ;FOLD PTP Surround_Home Vel=10 % PDAT1 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VPTP,%P 1:PTP, 2:Surround_Home, 3:, 5:10, 7:PDAT1
 $BWDSTART=FALSE
@@ -42,9 +52,9 @@ LIN Xp2
 ;ENDFOLD
 ;FOLD Vision.Find_Model Work:2, Area:45;%{PE}%MKUKATPUSER
 
-EKRL_NAME[]="Xml_Vision_Model"
-EKRL_Connect()
-EKRL_Find_Model_Send(2,1)
+
+EKRL_Connect("Xml_Vision_Model")
+EKRL_Find_Model_Send("Xml_Vision_Model",2,1)
 
 
 
@@ -69,9 +79,9 @@ LIN Xp3
 ;ENDFOLD
 ;FOLD Vision.Find_Model Work:2, Area:135;%{PE}%MKUKATPUSER
 
-EKRL_NAME[]="Xml_Vision_Model"
-EKRL_Connect()
-EKRL_Find_Model_Send(2,2)
+
+EKRL_Connect("Xml_Vision_Model")
+EKRL_Find_Model_Send("Xml_Vision_Model",2,2)
 
 
 
@@ -96,9 +106,9 @@ LIN Xp4
 ;ENDFOLD
 ;FOLD Vision.Find_Model Work:2, Area:225;%{PE}%MKUKATPUSER
 
-EKRL_NAME[]="Xml_Vision_Model"
-EKRL_Connect()
-EKRL_Find_Model_Send(2,3)
+
+EKRL_Connect("Xml_Vision_Model")
+EKRL_Find_Model_Send("Xml_Vision_Model",2,3)
 
 
 
@@ -123,9 +133,9 @@ LIN Xp5
 ;ENDFOLD
 ;FOLD Vision.Find_Model Work:2, Area:315;%{PE}%MKUKATPUSER
 
-EKRL_NAME[]="Xml_Vision_Model"
-EKRL_Connect()
-EKRL_Find_Model_Send(2,4)
+
+EKRL_Connect("Xml_Vision_Model")
+EKRL_Find_Model_Send("Xml_Vision_Model",2,4)
 
 
 

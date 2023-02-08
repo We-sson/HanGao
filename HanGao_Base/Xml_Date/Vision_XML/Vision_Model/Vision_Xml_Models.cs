@@ -83,6 +83,12 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
         /// </summary>
         public double Find_Allow_Error { set; get; } = 5.0;
 
+        /// <summary>
+        /// 视觉检查有效区域范围值,,超过会偏移相机位置
+        /// </summary>
+        public int Vision_Scope { set; get; } = 20;
+
+
     }
 
 

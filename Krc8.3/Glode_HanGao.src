@@ -1,13 +1,11 @@
-&ACCESS RVO1
-&REL 289
+&ACCESS RVO
+&REL 296
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HK
 DEF Glode_HanGao( )
 
 ;# DATE:2021-1-4
-
-
 
 
 
@@ -1052,7 +1050,7 @@ SWITCH Vision_Model
 
 case #Calibration
 
-IF (ABS(Q_Y)>=20 ) OR (ABS(Q_X)>=20)THEN
+IF (ABS(Q_Y)>=Vision_Scope ) OR (ABS(Q_X)>=Vision_Scope)THEN
 OFFSET_POS.X=Cam_45_POS.X-Q_X
 OFFSET_POS.Y=Cam_45_POS.Y-Q_Y
 OFFSET_POS.Z=Cam_45_POS.Z
@@ -1074,7 +1072,7 @@ Q_X=Camera_Calibration_Data.Sink_Size_Down_Distance-Sink_Size.Sink_Size_Down_Dis
 SWITCH Vision_Model
 
 case #Calibration
-IF (ABS(Q_Y)>=20 ) OR (ABS(Q_X)>=20)THEN
+IF (ABS(Q_Y)>=Vision_Scope ) OR (ABS(Q_X)>=Vision_Scope)THEN
 OFFSET_POS.X=Cam_135_POS.X-Q_X
 OFFSET_POS.Y=Cam_135_POS.Y-Q_Y
 OFFSET_POS.Z=Cam_135_POS.Z
@@ -1096,7 +1094,7 @@ SWITCH Vision_Model
 
 case #Calibration
 
-IF (ABS(Q_Y)>=20 ) OR (ABS(Q_X)>=20)THEN
+IF (ABS(Q_Y)>=Vision_Scope ) OR (ABS(Q_X)>=Vision_Scope)THEN
 OFFSET_POS.X=Cam_225_POS.X-Q_X
 OFFSET_POS.Y=Cam_225_POS.Y-Q_Y
 OFFSET_POS.Z=Cam_225_POS.Z
@@ -1117,7 +1115,7 @@ Q_X=(Camera_Calibration_Data.Sink_Size_Down_Distance+Camera_Calibration_Data.Sin
 SWITCH Vision_Model
 
 case #Calibration
-IF (ABS(Q_Y)>=20 ) OR (ABS(Q_X)>=20)THEN
+IF (ABS(Q_Y)>=Vision_Scope ) OR (ABS(Q_X)>=Vision_Scope)THEN
 OFFSET_POS.X=Cam_315_POS.X-Q_X
 OFFSET_POS.Y=Cam_315_POS.Y-Q_Y
 OFFSET_POS.Z=Cam_315_POS.Z
@@ -1136,7 +1134,7 @@ ENDSWITCH
 SWITCH Vision_Model
 
 case #Find_Model
-IF (ABS(Q_Y)>=20 ) OR (ABS(Q_X)>=20)THEN
+IF (ABS(Q_Y)>=Vision_Scope ) OR (ABS(Q_X)>=Vision_Scope)THEN
 OFFSET_POS.X=OFFSET_POS.X-Q_X
 OFFSET_POS.Y=OFFSET_POS.Y-Q_Y
 ENDIF

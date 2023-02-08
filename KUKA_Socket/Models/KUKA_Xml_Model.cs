@@ -13,6 +13,44 @@ namespace KUKA_Socket.Models
 
 
 
+
+    /// <summary>
+    /// 标定查找接收协议格式
+    /// </summary>
+    [Serializable]
+    [XmlType("KUKA_Receive")]
+    public class Vision_Ini_Data_Receive
+    {
+
+        [XmlAttribute()]
+        public Vision_Model_Enum Model { set; get; }
+
+    }
+
+    /// <summary>
+    /// 相机标定发送协议格式
+    /// </summary>
+    [Serializable]
+    [XmlType("KUKA_Send")]
+    public class Vision_Ini_Data_Send
+    {
+
+        public string Message_Error { set; get; }
+        [XmlAttribute]
+        public int IsStatus { set; get; }
+
+
+        public Initialization_Data Initialization_Data { set; get; }=new Initialization_Data ();
+
+
+
+    }
+
+
+
+    /// <summary>
+    /// 标定查找接收协议格式
+    /// </summary>
     [Serializable]
     [XmlType("KUKA_Receive")]
     public class Calibration_Data_Receive
@@ -34,7 +72,9 @@ namespace KUKA_Socket.Models
 
     }
 
-
+    /// <summary>
+    /// 相机标定发送协议格式
+    /// </summary>
     [Serializable]
     [XmlType("KUKA_Send")]
     public class Calibration_Data_Send
@@ -55,7 +95,9 @@ namespace KUKA_Socket.Models
     }
 
 
-
+    /// <summary>
+    /// 相机标定接收协议格式
+    /// </summary>
     [Serializable]
     public class Calibration_Model_Receive
     {
@@ -66,9 +108,13 @@ namespace KUKA_Socket.Models
         [XmlAttribute]
         public string Work_Area { set; get; }
 
+        [XmlAttribute]
+        public string Calibration_Mark { set; get; }
 
     }
-
+    /// <summary>
+    /// 查找模型接收协议格式
+    /// </summary>
     [Serializable]
     public class Find_Model_Receive
     {
@@ -85,7 +131,9 @@ namespace KUKA_Socket.Models
 
 
 
-
+    /// <summary>
+    /// 标定点数据格式内容
+    /// </summary>
     [Serializable]
     public class Calibration_Point_Models
     {
@@ -102,6 +150,11 @@ namespace KUKA_Socket.Models
 
 
     }
+
+
+    /// <summary>
+    /// 标定相机点格式内容
+    /// </summary>
     [Serializable]
     public class Camera_Point_Models
     {
@@ -110,6 +163,10 @@ namespace KUKA_Socket.Models
         public Point_Models Pos_2 { set; get; }
     }
 
+
+    /// <summary>
+    /// 位置点各个方向格式内容
+    /// </summary>
     [Serializable]
     public class Point_Models
     {
@@ -127,21 +184,18 @@ namespace KUKA_Socket.Models
         public string C { set; get; } = "0";
 
 
+    }
 
+    /// <summary>
+    /// 初始化数据内容格式
+    /// </summary>
+    [Serializable]
+    public class Initialization_Data
+    {
+        public string Vision_Scope { set; get; }
 
     }
 
-
-    ///// <summary>
-    ///// 标定识别区域枚举
-    ///// </summary>
-    //public enum Calibration_Area_Enum
-    //{
-    //    F_45,
-    //    F_135,
-    //    F_225,
-    //    F_315
-    //}
 
 
     /// <summary>
@@ -149,9 +203,10 @@ namespace KUKA_Socket.Models
     /// </summary>
     public enum Vision_Model_Enum
     {
-
+   
         Calibration_Point,
         Find_Model,
+        Vision_Ini_Data,
     }
 
     /// <summary>
@@ -159,6 +214,7 @@ namespace KUKA_Socket.Models
     /// </summary>
     public enum Calibration_Error_Message_Enum
     {
+        Vision_Ini_Data_OK,
         No_Error,
         Find_time_timeout,
         Camera_Connection_Time_Out,

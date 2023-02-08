@@ -1,8 +1,8 @@
-&ACCESS RVO1
-&REL 236
+&ACCESS  RV
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\KRL
+&REL 243
 DEFDAT  hg_ekrl PUBLIC
 
 

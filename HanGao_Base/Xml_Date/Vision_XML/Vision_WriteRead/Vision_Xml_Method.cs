@@ -1,4 +1,5 @@
 ﻿
+using HanGao.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 using static HanGao.Model.SInk_UI_Models;
-using static HanGao.ViewModel.User_Control_Log_ViewModel;
+
 
 
 namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
@@ -35,6 +36,37 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
 
             switch (_Vale)
             {
+                case T1 _T when _T is Calibration_Data_Model:
+
+
+                    Calibration_Data_Model Calibration_Config = (Calibration_Data_Model)(object)_Vale as Calibration_Data_Model;
+
+
+                    GetXml_Path<Calibration_Data_Model>(ref _Path, Get_Xml_File_Enum.Folder_Path);
+                    if (!Directory.Exists(_Path)) { Directory.CreateDirectory(_Path); }
+                    //检查存放文件目录
+                    GetXml_Path<Calibration_Data_Model>(ref _Path, Get_Xml_File_Enum.File_Path);
+
+
+
+                    if (!File.Exists(_Path))
+                    {
+                        Calibration_Config = new Calibration_Data_Model();
+                        //初始化参数读取文件
+                        Save_Xml(Calibration_Config);
+
+                    }
+                    else
+                    {
+                        //读取文件
+                        if (Read_Xml(ref Calibration_Config))
+                        {
+
+                            _Vale = (T1)(object)Calibration_Config;
+                        }
+                    }
+
+                    break;
                 case T1 _T when _T is Vision_Data:
 
 
@@ -346,8 +378,29 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
         {
             _Path = "";
             Type T = typeof(T1);
+
+
             switch (typeof(T1))
             {
+                case Type _T when _T==typeof(Calibration_Data_Model):
+
+                    switch (Get_Xml_File)
+                    {
+                        case Get_Xml_File_Enum.Folder_Path:
+
+                            _Path = Environment.CurrentDirectory + "\\Nine_Calibration";
+                            break;
+                        case Get_Xml_File_Enum.File_Path:
+                            _Path = Environment.CurrentDirectory + "\\Nine_Calibration" + "\\Calibration_Data.Xml";
+
+                            break;
+                    }
+
+
+                    return true;
+
+
+
                 case Type _T when _T == typeof(Vision_Data):
 
                     switch (Get_Xml_File)

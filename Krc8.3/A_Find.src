@@ -1,5 +1,5 @@
-&ACCESS RVP
-&REL 44
+&ACCESS RVO
+&REL 45
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 DEF A_Find( )
@@ -25,9 +25,9 @@ PTP XP1
 ;ENDFOLD
 ;FOLD Vision.Find_Model Work:1, Area:45;%{PE}%MKUKATPUSER
 
-EKRL_NAME[]="Xml_Vision_Model"
-EKRL_Connect()
-EKRL_Find_Model_Send(1,1)
+
+EKRL_Connect("Xml_Vision_Model")
+EKRL_Find_Model_Send("Xml_Vision_Model",1,1)
 
 
 
@@ -41,9 +41,9 @@ PTP XP4
 ;ENDFOLD
 ;FOLD Vision.Find_Model Work:1, Area:45;%{PE}%MKUKATPUSER
 
-EKRL_NAME[]="Xml_Vision_Model"
-EKRL_Connect()
-EKRL_Find_Model_Send(1,1)
+
+EKRL_Connect("Xml_Vision_Model")
+EKRL_Find_Model_Send("Xml_Vision_Model",1,1)
 
 
 
@@ -57,9 +57,9 @@ PTP XP5
 ;ENDFOLD
 ;FOLD Vision.Find_Model Work:1, Area:45;%{PE}%MKUKATPUSER
 
-EKRL_NAME[]="Xml_Vision_Model"
-EKRL_Connect()
-EKRL_Find_Model_Send(1,1)
+
+EKRL_Connect("Xml_Vision_Model")
+EKRL_Find_Model_Send("Xml_Vision_Model",1,1)
 
 
 
@@ -73,9 +73,9 @@ PTP XP6
 ;ENDFOLD
 ;FOLD Vision.Find_Model Work:1, Area:45;%{PE}%MKUKATPUSER
 
-EKRL_NAME[]="Xml_Vision_Model"
-EKRL_Connect()
-EKRL_Find_Model_Send(1,1)
+
+EKRL_Connect("Xml_Vision_Model")
+EKRL_Find_Model_Send("Xml_Vision_Model",1,1)
 
 
 

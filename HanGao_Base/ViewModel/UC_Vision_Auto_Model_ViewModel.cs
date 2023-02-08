@@ -1,7 +1,7 @@
 ﻿using HanGao.View.User_Control.Vision_Control;
 using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
 using HanGao.Xml_Date.Xml_Write_Read;
-using static HanGao.ViewModel.User_Control_Log_ViewModel;
+
 
 
 namespace HanGao.ViewModel
@@ -16,15 +16,27 @@ namespace HanGao.ViewModel
 
             //读取存储参数文件
             Vision_Auto_Cofig_Model _Date = new Vision_Auto_Cofig_Model();
-            Vision_Xml_Method.Read_Xml_File(ref _Date);
+            Read_Xml_File(ref _Date);
             Vision_Auto_Cofig = _Date;
 
+            //视觉接收设置参数
+            Static_KUKA_Receive_Vision_Ini_String += (Vision_Ini_Data_Receive _S, string _RStr) =>
+            { 
+                UC_Vision_Robot_Protocol_ViewModel.Receive_Socket_String = _RStr;
 
+                Vision_Ini_Data_Send _Send = new Vision_Ini_Data_Send();
+
+
+                _Send.IsStatus = 1;
+                _Send.Initialization_Data.Vision_Scope = Vision_Auto_Cofig.Vision_Scope.ToString();
+                _Send.Message_Error = Calibration_Error_Message_Enum.Vision_Ini_Data_OK.ToString ();
+                //属性转换xml流
+                string _SendSteam = KUKA_Send_Receive_Xml.Property_Xml(_Send);
+                UC_Vision_Robot_Protocol_ViewModel.Send_Socket_String = _SendSteam;
+                return _SendSteam;
+            };
 
             Initialization_Sever_Start();
-
-
-
         }
 
 
@@ -53,7 +65,10 @@ namespace HanGao.ViewModel
         /// 静态委托处理查找模型特征
         /// </summary>
         public static Socket_Receive.ReceiveMessage_delegate<Calibration_Data_Receive, string> Static_KUKA_Receive_Find_String { set; get; }
-
+        /// <summary>
+        /// 静态委托处理查找模型特征
+        /// </summary>
+        public static Socket_Receive.ReceiveMessage_delegate<Vision_Ini_Data_Receive, string> Static_KUKA_Receive_Vision_Ini_String { set; get; }
 
         /// <summary>
         /// 静态属性更新通知事件
@@ -145,7 +160,11 @@ namespace HanGao.ViewModel
                 foreach (var _Sever in Local_IP_UI)
                 {
 
-                    KUKA_Receive.Add(new Socket_Receive(_Sever, Vision_Auto_Cofig.Stat_Network_Port.ToString()) { KUKA_Receive_Calibration_String = Static_KUKA_Receive_Calibration_String, KUKA_Receive_Find_String = Static_KUKA_Receive_Find_String, Socket_ErrorInfo_delegate = User_Log_Add });
+                    KUKA_Receive.Add(new Socket_Receive(_Sever, Vision_Auto_Cofig.Stat_Network_Port.ToString()) {
+                        KUKA_Receive_Calibration_String = Static_KUKA_Receive_Calibration_String, 
+                        KUKA_Receive_Find_String = Static_KUKA_Receive_Find_String, 
+                        KUKA_Receive_Vision_Ini_String=Static_KUKA_Receive_Vision_Ini_String,
+                        Socket_ErrorInfo_delegate = User_Log_Add });
 
                 }
 
@@ -181,4 +200,8 @@ namespace HanGao.ViewModel
 
 
     }
+
+
+
+
 }

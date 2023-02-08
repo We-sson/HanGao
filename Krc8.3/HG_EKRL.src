@@ -1,5 +1,5 @@
-&ACCESS RVO1
-&REL 236
+&ACCESS RVO
+&REL 243
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\KRL
@@ -25,6 +25,8 @@ DECL EKI_STATUS RET
 
 
 
+
+
 EKRL_CONNECT()
 
 
@@ -35,11 +37,40 @@ EKRL_CONNECT()
 ;EKRL_Close()
 END
 
+GLOBAL DEF EKRL_Vision_Int_Data(EKRL_NAME:IN)
+DECL CHAR Message_Error[1024],EKRL_NAME[]
+DECL EKI_STATUS RET
+DECL  BOOL IsStatus
+Message_Error[]=" "
+IsStatus=false
+
+RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/@Model","Vision_Ini_Data")
+RET = EKI_Send(EKRL_NAME[],"KUKA_Receive")
 
 
-GLOBAL DEF EKRL_Find_Model_Send(Work_Number:IN,Find_Area:IN)
+Message_Wait("Wait Vision Int Data!",2)
+
+
+RET=EKI_GetBool(EKRL_NAME[],"KUKA_Send/@IsStatus" ,IsStatus)
+RET=EKI_GetString(EKRL_NAME[],"KUKA_Send/Message_Error" ,Message_Error[])
+RET=EKI_GetINT(EKRL_NAME[],"KUKA_Send/Initialization_Data/Vision_Scope" ,Vision_Scope)
+
+IF  IsStatus THEN
+
+MSGNOTIFY(Message_Error[])
+
+else
+
+MsgQuit(Message_Error[], "HanGao")
+halt
+ENDIF
+
+
+END
+
+GLOBAL DEF EKRL_Find_Model_Send(EKRL_NAME:IN,Work_Number:IN,Find_Area:IN)
 DECL INT ID,Work,Find_Area,OPFFSET,Work_Number,Find_Data_Model
-DECL CHAR Find_Area_String[1024], Message_Error[1024],Message_Show[1024],Work_Area[1024]
+DECL CHAR Find_Area_String[1024], Message_Error[1024],Message_Show[1024],Work_Area[1024],EKRL_NAME[]
 DECL BOOL Calculation_Status
 DECL Frame LastPos1,LastPos2,LastPos3,LastPos4,LastPos5,LastPos6,LastPos7,LastPos8,LastPos9
 DECL E6POS LP1,LP2,LP3,LP4,LP5,LP6,LP7,LP8,LP9
@@ -227,12 +258,11 @@ END
 
 
 
-GLOBAL DEF EKRL_Calibration_Send(Area_Name:IN,Work_Area:IN)
+GLOBAL DEF EKRL_Calibration_Send(EKRL_NAME:IN,Area_Name:IN,Work_Area:IN)
 
-DECL INT Area_Name
-DECL CHAR Message_Error[1024],Work_Area_Name[1024]
+DECL INT Area_Name,Calibration_Mark,Work_Area
+DECL CHAR Message_Error[1024],Work_Area_Name[1024],EKRL_NAME[]
 DECL EKI_STATUS RET
-DECL INT Work_Area
 DECL BOOL Calibration_Status
 
 $Flag[2]=FALSE
@@ -257,10 +287,11 @@ CASE 1
 
 Work_Area_Name[]="Work_1"
 
+Calibration_Mark=N1_Sink_Data.Sink_Model
 
 CASE 2
 Work_Area_Name[]="Work_2"
-
+Calibration_Mark=N2_Sink_Data.Sink_Model
 CASE 3
 Work_Area_Name[]="Work_3"
 
@@ -331,7 +362,7 @@ ENDSWITCH
 
 RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/@Model","Calibration_Point")
 RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/Calibration_Model/@Work_Area", Work_Area_Name[])
-
+RET=EKI_SetInt(EKRL_NAME[],"KUKA_Receive/Calibration_Model/@Calibration_Mark", Calibration_Mark)
 
 
 
@@ -369,11 +400,11 @@ End
 
 
 
-GLOBAL DEF EKRL_Connect()
+GLOBAL DEF EKRL_Connect(EKRL_NAME:IN)
 DECL EKI_STATUS RET
 DECL INT Mess_INT
 DECL BOOL Mess_Del
-
+DECL CHAR EKRL_NAME[]
 ;EKRL_NAME[]="HanGaoEkrl"
 Mess_INT=-1
 RET=EKI_Init(EKRL_NAME[])
@@ -410,8 +441,8 @@ MSGNOTIFY("HanGao:Socket Connecting OK!")
 
 
 End
-GLOBAL DEF EKRL_Close()
-
+GLOBAL DEF EKRL_Close(EKRL_NAME:IN)
+DECL CHAR EKRL_NAME[]
 DECL EKI_STATUS RET
 RET=EKI_Close(EKRL_NAME[])
 RET=EKI_Clear(EKRL_NAME[])

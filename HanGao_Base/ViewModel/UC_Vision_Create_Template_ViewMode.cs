@@ -2,6 +2,7 @@
 using Ookii.Dialogs.Wpf;
 using System.Drawing;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Web.UI.Design;
 using System.Windows.Media.Media3D;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
@@ -9,7 +10,7 @@ using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static HanGao.ViewModel.UC_Visal_Function_VM;
 using static HanGao.ViewModel.UC_Vision_Auto_Model_ViewModel;
 using static HanGao.ViewModel.UC_Vision_CameraSet_ViewModel;
-using static HanGao.ViewModel.User_Control_Log_ViewModel;
+
 
 
 
@@ -59,7 +60,7 @@ namespace HanGao.ViewModel
                 //UI显示接收信息内容
                 UC_Vision_Robot_Protocol_ViewModel.Receive_Socket_String = _RStr;
 
-                Point3D Theoretical_Pos = new Point3D(0, 0, 0);
+                Point3D _Result_Pos = new Point3D(0, 0, 0);
 
                 List<List<double>> _Error_List_X = new List<List<double>>();
                 List<List<double>> _Error_List_Y = new List<List<double>>();
@@ -72,7 +73,7 @@ namespace HanGao.ViewModel
                 {
 
                     //计算理论值
-                    Calculation_Vision_Pos(ref Theoretical_Pos, Vision_Sink.Sink_Process, _S.Find_Model);
+                    // Calculation_Vision_Pos(ref Theoretical_Pos, Vision_Sink.Sink_Process, _S.Find_Model);
 
                     //获得识别参数文件
                     Vision_Xml_Models _Data_Xml = Find_Data_List.Vision_List.FirstOrDefault(_List => int.Parse(_List.ID) == Vision_Sink.Sink_Process.Vision_Find_ID);
@@ -133,7 +134,18 @@ namespace HanGao.ViewModel
                                                 _Send.Vision_Point.Pos_4.Y = Halcon_Find_Shape_Out.Robot_Pos[3].Y.ToString();
 
                                                 //计算实际和理论误差
-                                                Point3D _Result_Pos = new Point3D() { X = Math.Round(Halcon_Find_Shape_Out.Robot_Pos[1].X - Theoretical_Pos.X, 3), Y = Math.Round(Halcon_Find_Shape_Out.Robot_Pos[1].Y - Theoretical_Pos.Y, 3), Z = Math.Round(Halcon_Find_Shape_Out.Robot_Pos[1].Z - Theoretical_Pos.Z, 3) };
+
+
+                                                Calculation_Vision_Pos(ref _Result_Pos, new Point3D(Halcon_Find_Shape_Out.Robot_Pos[1].X, Halcon_Find_Shape_Out.Robot_Pos[1].Y, Halcon_Find_Shape_Out.Robot_Pos[1].Z), Vision_Sink.Sink_Process, _S.Find_Model);
+
+
+                                                //Point3D _Result_Pos = new Point3D() { 
+                                                //    X = Math.Round(Halcon_Find_Shape_Out.Robot_Pos[1].X - Theoretical_Pos.X, 3),
+                                                //    Y = Math.Round(Halcon_Find_Shape_Out.Robot_Pos[1].Y - Theoretical_Pos.Y, 3), 
+                                                //    Z = Math.Round(Halcon_Find_Shape_Out.Robot_Pos[1].Z - Theoretical_Pos.Z, 3) };
+
+
+
                                                 if (Math.Abs(_Result_Pos.X) < Vision_Auto_Cofig.Find_Allow_Error && Math.Abs(_Result_Pos.Y) < Vision_Auto_Cofig.Find_Allow_Error)
                                                 {
 
@@ -247,7 +259,7 @@ namespace HanGao.ViewModel
                 //清除对象内存
                 _Mat2D.Dispose();
                 _ModelXld.Dispose();
-               
+
                 _Image.Dispose();
                 return _SendSteam;
 
@@ -905,7 +917,7 @@ namespace HanGao.ViewModel
             HTuple hv_Text = new HTuple();
             HTuple _Qx = new HTuple();
             HTuple _Qy = new HTuple();
-            HObject Halcon_ModelXld=new HObject();
+            HObject Halcon_ModelXld = new HObject();
             bool _IsState = false;
 
 
@@ -939,7 +951,7 @@ namespace HanGao.ViewModel
 
 
 
-                          Halcon_SDK.ProjectiveTrans_Xld(ref  Halcon_ModelXld, Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model, _ModelID, Halcon_Find_Shape_Out.HomMat2D, _Window);
+                           Halcon_SDK.ProjectiveTrans_Xld(ref Halcon_ModelXld, Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model, _ModelID, Halcon_Find_Shape_Out.HomMat2D, _Window);
 
 
 
@@ -1072,33 +1084,33 @@ namespace HanGao.ViewModel
                    }), _TheadTime);
 
             }
-  
+
             catch (Exception e)
             {
                 User_Log_Add("识别特征错误,,错误信息:" + e.Message);
 
                 _IsState = false;
             }
-            finally 
+            finally
             {
 
 
                 //清除内存
                 Halcon_ModelXld.Dispose();
-                 IsOverlapping.Dispose();
-                 Row1 .Dispose();
-                 Column1.Dispose();
-                 C_P_Row.Dispose();
-                 C_P_Col.Dispose();
-                 L_RP1.Dispose();
-                     L_CP1.Dispose();
-                 L_RP2.Dispose();
-                 L_CP2.Dispose();
-                 L_RP3.Dispose();
-                 L_CP3.Dispose();
-                 hv_Text .Dispose();
-                 _Qx.Dispose();
-                 _Qy.Dispose();
+                IsOverlapping.Dispose();
+                Row1.Dispose();
+                Column1.Dispose();
+                C_P_Row.Dispose();
+                C_P_Col.Dispose();
+                L_RP1.Dispose();
+                L_CP1.Dispose();
+                L_RP2.Dispose();
+                L_CP2.Dispose();
+                L_RP3.Dispose();
+                L_CP3.Dispose();
+                hv_Text.Dispose();
+                _Qx.Dispose();
+                _Qy.Dispose();
             }
 
 
@@ -1153,35 +1165,110 @@ namespace HanGao.ViewModel
         /// <param name="_Sink"></param>
         /// <param name="_Find"></param>
         /// <returns></returns>
-        public bool Calculation_Vision_Pos(ref Point3D _Actual_Pos, Xml_Sink_Model _Sink, Find_Model_Receive _Find)
+        public bool Calculation_Vision_Pos(ref Point3D _Actual_Pos, Point3D _Results, Xml_Sink_Model _Sink, Find_Model_Receive _Find)
         {
+
+            //获得标定基准值
+            Calibration_Data_Model _Caib_Data = UC_Vision_Point_Calibration_ViewModel.Calibration_Data;
+            double Qx = 0, Qy = 0;
+
+
 
 
             switch (Enum.Parse(typeof(ShapeModel_Name_Enum), _Find.Vision_Area))
             {
                 case ShapeModel_Name_Enum.F_45:
-                    _Actual_Pos.X = _Sink.Sink_Size_Down_Distance + _Sink.Sink_Size_Width;
-                    _Actual_Pos.Y = _Sink.Sink_Size_Left_Distance;
 
-                    return true;
+                    Qx = (_Caib_Data.Calibration_Down_Distance + _Caib_Data.Calibration_Width) - (_Sink.Sink_Size_Down_Distance + _Sink.Sink_Size_Width);
+                    Qy = _Caib_Data.Calibration_Left_Distance - _Sink.Sink_Size_Left_Distance;
+
+
+
+                    if (Math.Abs(Qx) >= Vision_Auto_Cofig.Vision_Scope || Math.Abs(Qy) >= Vision_Auto_Cofig.Vision_Scope)
+                    {
+                        _Actual_Pos.X = _Results.X - (_Sink.Sink_Size_Down_Distance + _Sink.Sink_Size_Width) - Qx;
+                        _Actual_Pos.Y = _Results.Y - _Sink.Sink_Size_Left_Distance - Qy;
+
+                    }
+                    else
+                    {
+                        _Actual_Pos.X = _Results.X  - (_Sink.Sink_Size_Down_Distance + _Sink.Sink_Size_Width);
+                        _Actual_Pos.Y = _Results.Y - _Sink.Sink_Size_Left_Distance;
+                    }
+
+                    break;
                 case ShapeModel_Name_Enum.F_135:
-                    _Actual_Pos.X = _Sink.Sink_Size_Down_Distance;
-                    _Actual_Pos.Y = _Sink.Sink_Size_Left_Distance;
 
-                    return true;
+                    Qx = _Caib_Data.Calibration_Down_Distance - _Sink.Sink_Size_Down_Distance;
+                    Qy = _Caib_Data.Calibration_Left_Distance - _Sink.Sink_Size_Left_Distance;
+
+
+                    if (Math.Abs(Qx) >= Vision_Auto_Cofig.Vision_Scope || Math.Abs(Qy) >= Vision_Auto_Cofig.Vision_Scope)
+                    {
+
+
+                        _Actual_Pos.X = _Results.X -_Sink.Sink_Size_Down_Distance - Qx;
+                        _Actual_Pos.Y = _Results.Y- _Sink.Sink_Size_Left_Distance - Qy;
+
+                    }
+                    else
+                    {
+
+                        _Actual_Pos.X = _Results.X - _Sink.Sink_Size_Down_Distance;
+                        _Actual_Pos.Y = _Results.Y - _Sink.Sink_Size_Left_Distance;
+
+                    }
+
+                    break;
                 case ShapeModel_Name_Enum.F_225:
-                    _Actual_Pos.X = _Sink.Sink_Size_Down_Distance;
-                    _Actual_Pos.Y = _Sink.Sink_Size_Left_Distance + _Sink.Sink_Size_Long;
 
-                    return true;
+                    Qx = _Caib_Data.Calibration_Down_Distance - _Sink.Sink_Size_Down_Distance;
+                    Qy = (_Caib_Data.Calibration_Left_Distance + _Caib_Data.Calibration_Long) - (_Sink.Sink_Size_Left_Distance + _Sink.Sink_Size_Long);
+
+                    if (Math.Abs(Qx) >= Vision_Auto_Cofig.Vision_Scope || Math.Abs(Qy) >= Vision_Auto_Cofig.Vision_Scope)
+                    {
+                        _Actual_Pos.X = _Results.X - _Sink.Sink_Size_Down_Distance - Qx;
+                       double  a=  _Sink.Sink_Size_Left_Distance + _Sink.Sink_Size_Long ;
+                        _Actual_Pos.Y = _Results.Y - (_Sink.Sink_Size_Left_Distance + _Sink.Sink_Size_Long )- Qy;
+                    }
+                    else
+                    {
+
+                        _Actual_Pos.X = _Results.X - _Sink.Sink_Size_Down_Distance;
+                        _Actual_Pos.Y = _Results.Y- (_Sink.Sink_Size_Left_Distance + _Sink.Sink_Size_Long);
+                    }
+
+                    break;
                 case ShapeModel_Name_Enum.F_315:
-                    _Actual_Pos.X = _Sink.Sink_Size_Down_Distance + _Sink.Sink_Size_Width;
-                    _Actual_Pos.Y = _Sink.Sink_Size_Left_Distance + _Sink.Sink_Size_Long;
 
-                    return true;
+                    Qx = (_Caib_Data.Calibration_Down_Distance + _Caib_Data.Calibration_Width) - (_Sink.Sink_Size_Down_Distance + _Sink.Sink_Size_Width);
+                    Qy = (_Caib_Data.Calibration_Left_Distance + _Caib_Data.Calibration_Long) - (_Sink.Sink_Size_Left_Distance + _Sink.Sink_Size_Long);
+
+                    if (Math.Abs(Qx) >= Vision_Auto_Cofig.Vision_Scope || Math.Abs(Qy) >= Vision_Auto_Cofig.Vision_Scope)
+                    {
+                        _Actual_Pos.X = _Results.X - (_Sink.Sink_Size_Down_Distance + _Sink.Sink_Size_Width)-Qx;
+                        _Actual_Pos.Y = _Results.Y - (_Sink.Sink_Size_Left_Distance + _Sink.Sink_Size_Long)-Qy;
+
+                    }
+                    else
+                    {
+                        _Actual_Pos.X = _Results.X -( _Sink.Sink_Size_Down_Distance + _Sink.Sink_Size_Width);
+                        _Actual_Pos.Y = _Results.Y - (_Sink.Sink_Size_Left_Distance + _Sink.Sink_Size_Long);
+                    }
+
+
+
+
+
+                    break;
             }
 
-            return false;
+
+
+
+
+
+            return true;
 
 
         }

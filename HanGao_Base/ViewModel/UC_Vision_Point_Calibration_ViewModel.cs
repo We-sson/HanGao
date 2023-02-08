@@ -2,11 +2,13 @@
 using Halcon_SDK_DLL;
 using HalconDotNet;
 using HanGao.View.User_Control.Vision_Control;
+using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
 using KUKA_Socket.Models;
 using Microsoft.Win32;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Media.Media3D;
+using System.Xml.Serialization;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.UC_Visal_Function_VM;
 using static HanGao.ViewModel.UC_Vision_Auto_Model_ViewModel;
@@ -22,7 +24,7 @@ namespace HanGao.ViewModel
         public UC_Vision_Point_Calibration_ViewModel()
         {
             //创建存放模型文件
-            if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\Nine_Calibration")) { Directory.CreateDirectory(Environment.CurrentDirectory + "\\Nine_Calibration"); }
+            //if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\Nine_Calibration")) { Directory.CreateDirectory(Environment.CurrentDirectory + "\\Nine_Calibration"); }
 
 
 
@@ -52,25 +54,39 @@ namespace HanGao.ViewModel
 
 
                         //读取机器人对应模板点位置显示UI
-                        Calibration_Results_List[0].Robot_Points = new Point3D(double.Parse(_S.Vision_Point.Pos_1.X), double.Parse(_S.Vision_Point.Pos_1.Y),0);
-                        Calibration_Results_List[1].Robot_Points = new Point3D(double.Parse(_S.Vision_Point.Pos_2.X), double.Parse(_S.Vision_Point.Pos_2.Y),0);
-                        Calibration_Results_List[2].Robot_Points = new Point3D(double.Parse(_S.Vision_Point.Pos_3.X), double.Parse(_S.Vision_Point.Pos_3.Y),0);
-                        Calibration_Results_List[3].Robot_Points = new Point3D(double.Parse(_S.Vision_Point.Pos_4.X), double.Parse(_S.Vision_Point.Pos_4.Y),0);
-                        Calibration_Results_List[4].Robot_Points = new Point3D(double.Parse(_S.Vision_Point.Pos_5.X), double.Parse(_S.Vision_Point.Pos_5.Y),0);
-                        Calibration_Results_List[5].Robot_Points = new Point3D(double.Parse(_S.Vision_Point.Pos_6.X), double.Parse(_S.Vision_Point.Pos_6.Y),0);
-                        Calibration_Results_List[6].Robot_Points = new Point3D(double.Parse(_S.Vision_Point.Pos_7.X), double.Parse(_S.Vision_Point.Pos_7.Y),0);
-                        Calibration_Results_List[7].Robot_Points = new Point3D(double.Parse(_S.Vision_Point.Pos_8.X), double.Parse(_S.Vision_Point.Pos_8.Y),0);
-                        Calibration_Results_List[8].Robot_Points = new Point3D(double.Parse(_S.Vision_Point.Pos_9.X), double.Parse(_S.Vision_Point.Pos_9.Y),0);
+                        Calibration_Results_List[0].Robot_Points = new Point3D(double.Parse(_S.Vision_Point.Pos_1.X), double.Parse(_S.Vision_Point.Pos_1.Y), 0);
+                        Calibration_Results_List[1].Robot_Points = new Point3D(double.Parse(_S.Vision_Point.Pos_2.X), double.Parse(_S.Vision_Point.Pos_2.Y), 0);
+                        Calibration_Results_List[2].Robot_Points = new Point3D(double.Parse(_S.Vision_Point.Pos_3.X), double.Parse(_S.Vision_Point.Pos_3.Y), 0);
+                        Calibration_Results_List[3].Robot_Points = new Point3D(double.Parse(_S.Vision_Point.Pos_4.X), double.Parse(_S.Vision_Point.Pos_4.Y), 0);
+                        Calibration_Results_List[4].Robot_Points = new Point3D(double.Parse(_S.Vision_Point.Pos_5.X), double.Parse(_S.Vision_Point.Pos_5.Y), 0);
+                        Calibration_Results_List[5].Robot_Points = new Point3D(double.Parse(_S.Vision_Point.Pos_6.X), double.Parse(_S.Vision_Point.Pos_6.Y), 0);
+                        Calibration_Results_List[6].Robot_Points = new Point3D(double.Parse(_S.Vision_Point.Pos_7.X), double.Parse(_S.Vision_Point.Pos_7.Y), 0);
+                        Calibration_Results_List[7].Robot_Points = new Point3D(double.Parse(_S.Vision_Point.Pos_8.X), double.Parse(_S.Vision_Point.Pos_8.Y), 0);
+                        Calibration_Results_List[8].Robot_Points = new Point3D(double.Parse(_S.Vision_Point.Pos_9.X), double.Parse(_S.Vision_Point.Pos_9.Y), 0);
 
 
                         //标定位置和工装位置结果显示UI 
                         Calibration_Area_UI = _S.Calibration_Model.Vision_Area.ToString();
                         Calibration_Work_Area = _S.Calibration_Model.Work_Area;
 
+
+
+                        //读取标定基准数据保存
+                        List_Show.SinkModels.Where((_D) => _D.Sink_Process.Sink_Model == int.Parse (_S.Calibration_Model.Calibration_Mark)).FirstOrDefault((_L) => 
+                        {
+                            Calibration_Data.Calibration_Long = _L.Sink_Process.Sink_Size_Long;
+                            Calibration_Data.Calibration_Width = _L.Sink_Process.Sink_Size_Width;
+                            Calibration_Data.Calibration_Left_Distance = _L.Sink_Process.Sink_Size_Left_Distance;
+                            Calibration_Data.Calibration_Down_Distance = _L.Sink_Process.Sink_Size_Down_Distance;
+                            User_Log_Add("标定基准: "+ _S.Calibration_Model.Calibration_Mark);
+                            Save_Xml(Calibration_Data);
+                            return true;
+                        });
+
                         //集合视觉点和机器人位置点
                         foreach (var _Points in Calibration_Results_List)
                         {
-                            Calibration_P.Add(new Point3D(_Points.Calibration_Points.X, _Points.Calibration_Points.Y,0));
+                            Calibration_P.Add(new Point3D(_Points.Calibration_Points.X, _Points.Calibration_Points.Y, 0));
                             Robot_P.Add(new Point3D(_Points.Robot_Points.X, _Points.Robot_Points.Y, 0));
 
                         }
@@ -81,7 +97,7 @@ namespace HanGao.ViewModel
 
 
                         //保存矩阵方法
-                        Halcon_SDK.Save_Mat2d_Method(_Mat2D, Calibration_Save_Location_UI+ Calibration_Area_UI + "_" + Calibration_Work_Area);
+                        Halcon_SDK.Save_Mat2d_Method(_Mat2D, Calibration_Save_Location_UI + Calibration_Area_UI + "_" + Calibration_Work_Area);
 
 
 
@@ -116,7 +132,35 @@ namespace HanGao.ViewModel
 
             };
 
+
+
+            ///初始化读取文件
+            Initialization_Calibration_File();
+
         }
+
+
+
+        /// <summary>
+        /// 视觉参数内容列表
+        /// </summary>
+        private static Calibration_Data_Model _Calibration_Data { get; set; } = new Calibration_Data_Model();
+
+        public static Calibration_Data_Model Calibration_Data
+        {
+            get { return _Calibration_Data; }
+            set
+            {
+                _Calibration_Data = value;
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Calibration_Data)));
+            }
+        }
+
+        /// <summary>
+        /// 静态属性更新通知事件
+        /// </summary>
+        private static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
+
 
 
         /// <summary>
@@ -143,13 +187,6 @@ namespace HanGao.ViewModel
         public Halcon_Find_Calibration_Model Find_Calibration { set; get; } = new Halcon_Find_Calibration_Model();
 
 
-        /// <summary>
-        /// Halcon 属性
-        /// </summary>
-        //public Halcon_SDK SHalcon { set; get; } = new Halcon_SDK();
-
-
-
 
         /// <summary>
         /// 识别标定点数量
@@ -171,7 +208,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 标定误差显示UI
         /// </summary>
-        public Point3D Calibration_Error_UI { set; get; } = new Point3D(-1, -1,0);
+        public Point3D Calibration_Error_UI { set; get; } = new Point3D(-1, -1, 0);
 
 
 
@@ -233,7 +270,7 @@ namespace HanGao.ViewModel
                             double _Y = _Calibration_List[i - 1].Y;
 
                             //将图像坐标添加到集合中
-                            Calibration_Results_List.Add(new Calibration_Results_Model_UI() { Number = i, Calibration_Points = new Point3D(_X, _Y,0) });
+                            Calibration_Results_List.Add(new Calibration_Results_Model_UI() { Number = i, Calibration_Points = new Point3D(_X, _Y, 0) });
 
                         }
 
@@ -250,16 +287,6 @@ namespace HanGao.ViewModel
         }
 
 
-        public static void KUKA_Receive_Calibration(Calibration_Data_Receive _S, string _RStr)
-        {
-
-
-
-
-
-        }
-
-
 
         /// <summary>
         /// 模板图像获取方法
@@ -271,25 +298,6 @@ namespace HanGao.ViewModel
 
                 HTuple _Row = new HTuple();
                 HTuple _Column = new HTuple();
-
-
-                //初始化查找模型图像参数
-                //Find_Calibration = new Halcon_Find_Calibration_Model()
-                //{
-                //    Filtering_Model = Sm.Filtering_Model_UI.SelectedIndex,
-                //    MaskWidth = Sm.MaskWidth_UI.Value,
-                //    MaskHeight = Sm.MaskHeight_UI.Value,
-                //    MaskType_Model = ((MedianImage_MaskType_Enum)Sm.MaskType_Model_UI.SelectedIndex),
-                //    Radius = Sm.Radius_UI.Value,
-                //    Margin_Model = (MedianImage_Margin_Enum)Sm.Margin_Model_UI.SelectedIndex,
-                //    Emphasize_MaskWidth = Sm.Emphasize_MaskWidth_UI.Value,
-                //    Emphasize_MaskHeight = Sm.Emphasize_MaskHeight_UI.Value,
-                //    MinGray = Sm.MinGray_UI.Value,
-                //    MaxGray = Sm.MaxGray_UI.Value,
-                //    Factor = Sm.Factor_UI.Value,
-                //    Max_Area=Sm.Max_Area_UI.Value,
-                //    Min_Area=Sm.Min_Area_UI.Value,
-                //};
 
 
                 //查找图像中模板位置
@@ -374,7 +382,18 @@ namespace HanGao.ViewModel
 
 
 
+        /// <summary>
+        /// 文件初始化读取
+        /// </summary>
+        public void Initialization_Calibration_File()
+        {
 
+
+            Calibration_Data_Model _Date = new Calibration_Data_Model();
+            Read_Xml_File(ref _Date);
+            Calibration_Data = _Date;
+
+        }
 
     }
 
@@ -391,4 +410,23 @@ namespace HanGao.ViewModel
         public Point3D Robot_Points { get; set; }
 
     }
+
+    /// <summary>
+    /// 视觉坐标标定文件集合
+    /// </summary>
+    [Serializable]
+    [XmlType("Calibration_Data")]
+    public class Calibration_Data_Model
+    {
+        [XmlAttribute]
+        public int Calibration_Model { get; set; }
+        public double Calibration_Long { get; set; }
+        public double Calibration_Width { get; set; }
+        public double Calibration_Down_Distance { get; set; }
+        public double Calibration_Left_Distance { get; set; }
+
+
+    }
+
+
 }

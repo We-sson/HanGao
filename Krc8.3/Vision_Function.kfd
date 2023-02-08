@@ -54,17 +54,11 @@ DEFTP Vision={ SOt FALSE,Soc TRUE }
 
   DECL FOLD Data_Send_FOLD[5]
             Data_Send_FOLD[1]=""
-            Data_Send_FOLD[2]="EKRL_NAME[]=/"Xml_Vision_Model/""
-            Data_Send_FOLD[3]="EKRL_Connect()"
+            Data_Send_FOLD[2]=""
+            Data_Send_FOLD[3]="EKRL_Connect(/"Xml_Vision_Model/")"
             Data_Send_FOLD[4]="HanGao_Camera_Sink_Pos(%Area_Calib_lIST ,%Work_Area )"
-            Data_Send_FOLD[5]="EKRL_Calibration_Send(%Area_Calib_lIST ,%Work_Area )"
-            
-  DECL FOLD Find_Connect_FOLD[5]
-            Find_Connect_FOLD[1]="EKRL_NAME[]=/"Xml_Vision_Model/""
-            Find_Connect_FOLD[2]="EKRL_Connect()"
-            Find_Connect_FOLD[3]=""
-            Find_Connect_FOLD[4]=""
-            Find_Connect_FOLD[5]=""             
+            Data_Send_FOLD[5]="EKRL_Calibration_Send(/"Xml_Vision_Model/",%Area_Calib_lIST ,%Work_Area )"
+                      
             
             
   DECL FOLD Calibration_Connect_FOLD[5]
@@ -82,9 +76,9 @@ DEFTP Vision={ SOt FALSE,Soc TRUE }
             Pos_Number_FOLD[5]=""   
  
   DECL FOLD Find_Model_FOLD[5]
-            Find_Model_FOLD[1]="EKRL_NAME[]=/"Xml_Vision_Model/""
-            Find_Model_FOLD[2]="EKRL_Connect()"
-            Find_Model_FOLD[3]="EKRL_Find_Model_Send(%Work_Area ,%Area_Calib_lIST )"
+            Find_Model_FOLD[1]=""
+            Find_Model_FOLD[2]="EKRL_Connect(/"Xml_Vision_Model/")"
+            Find_Model_FOLD[3]="EKRL_Find_Model_Send(/"Xml_Vision_Model/",%Work_Area ,%Area_Calib_lIST )"
             Find_Model_FOLD[4]=""
             Find_Model_FOLD[5]=""  
             
@@ -97,12 +91,13 @@ DEFTP Vision={ SOt FALSE,Soc TRUE }
             
             
             
-   DECL FOLD Calculation_FOLD[5]
-            Calculation_FOLD[1]=""
-            Calculation_FOLD[2]=""
-            Calculation_FOLD[3]=""
-            Calculation_FOLD[4]=""
-            Calculation_FOLD[5]=""  
+   DECL FOLD Vision_Ini_FOLD[5]
+            Vision_Ini_FOLD[1]=""
+            Vision_Ini_FOLD[2]=""
+            Vision_Ini_FOLD[3]="EKRL_Connect(/"Xml_Ini_Data/")"
+            Vision_Ini_FOLD[4]="EKRL_Vision_Int_Data(/"Xml_Ini_Data/")"
+            Vision_Ini_FOLD[5]=""
+           
 
              
              
@@ -155,14 +150,14 @@ DEFTP Vision={ SOt FALSE,Soc TRUE }
 
 
  
-    DECL InlineForm Find_Connect={ FOLD[1] Find_Connect_FOLD  ,ONACCEPT Calibration_Ini}
-    DECL InlineForm Calibration_Connect={ FOLD[1] Calibration_Connect_FOLD,PARAM[1] Area_Calib_lIST ,PARAM[2] Work_Area,ONACCEPT Calibration_Ini}
-    DECL InlineForm Number={ FOLD[1] Pos_Number_FOLD,PARAM[1] Calib_NO }
+    ;DECL InlineForm Find_Connect={ FOLD[1] Find_Connect_FOLD  ,ONACCEPT Calibration_Ini}
+    ;DECL InlineForm Calibration_Connect={ FOLD[1] Calibration_Connect_FOLD,PARAM[1] Area_Calib_lIST ,PARAM[2] Work_Area,ONACCEPT Calibration_Ini}
+    DECL InlineForm Calibration_Point={ FOLD[1] Pos_Number_FOLD,PARAM[1] Calib_NO }
     DECL InlineForm Calibration_Send={ FOLD[1] Data_Send_FOLD,PARAM[1] Area_Calib_lIST , PARAM[2] Work_Area }
 
     DECL InlineForm Find_Model={ FOLD[1] Find_Model_FOLD ,PARAM[1] Work_Area,PARAM[2] Area_Calib_lIST}
     DECL  InlineForm Camera_Offset={FOLD[1] Camera_Offset_Fold,PARAM[1] Camera_Name,PARAM[2] Area_Calib_lIST,PARAM[3] Work_Area }
-    DECL  InlineForm Calculation_Offset={FOLD[1] Calculation_FOLD,PARAM[1] Work_Area}
+    DECL  InlineForm Vision_Ini={FOLD[1] Vision_Ini_FOLD}
 
 
 ENDTP

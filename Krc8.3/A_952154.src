@@ -1,5 +1,5 @@
-&ACCESS RVP
-&REL 516
+&ACCESS RVO
+&REL 520
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HK
@@ -29,6 +29,15 @@ PTP XP11
 
 
 
+;FOLD Vision.Vision_Ini ;%{PE}%MKUKATPUSER
+
+EKRL_NAME[]="Xml_ Ini_Data"
+EKRL_Connect()
+
+
+
+
+;ENDFOLD
 
 ;FOLD LIN P12 Vel=.1 m/s CPDAT10 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VLIN,%P 1:LIN, 2:P12, 3:, 5:.1, 7:CPDAT10
 $BWDSTART=FALSE
@@ -37,7 +46,7 @@ FDAT_ACT=FP12
 BAS(#CP_PARAMS,.1)
 LIN XP12 
 ;ENDFOLD
-;FOLD Vision.Number Calib_NO:1;%{PE}%MKUKATPUSER
+;FOLD Vision.Calibration_Point Calib_NO:1;%{PE}%MKUKATPUSER
 
 Calibration_Point[1]=$POS_ACT
 
@@ -194,10 +203,10 @@ LIN XP21
 ;FOLD Vision.Calibration_Send Area:45, Work:2;%{PE}%MKUKATPUSER
 
 
-EKRL_NAME[]="Xml_Vision_Model"
-EKRL_Connect()
+
+EKRL_Connect("Xml_Vision_Model")
 HanGao_Camera_Sink_Pos(1,2)
-EKRL_Calibration_Send(1,2)
+EKRL_Calibration_Send("Xml_Vision_Model",1,2)
 
 ;ENDFOLD
 halt
@@ -212,10 +221,10 @@ LIN XP22
 ;FOLD Vision.Calibration_Send Area:135, Work:2;%{PE}%MKUKATPUSER
 
 
-EKRL_NAME[]="Xml_Vision_Model"
-EKRL_Connect()
+
+EKRL_Connect("Xml_Vision_Model")
 HanGao_Camera_Sink_Pos(2,2)
-EKRL_Calibration_Send(2,2)
+EKRL_Calibration_Send("Xml_Vision_Model",2,2)
 
 ;ENDFOLD
 wait sec 0.1
@@ -231,10 +240,10 @@ LIN XP23
 ;FOLD Vision.Calibration_Send Area:225, Work:2;%{PE}%MKUKATPUSER
 
 
-EKRL_NAME[]="Xml_Vision_Model"
-EKRL_Connect()
+
+EKRL_Connect("Xml_Vision_Model")
 HanGao_Camera_Sink_Pos(3,2)
-EKRL_Calibration_Send(3,2)
+EKRL_Calibration_Send("Xml_Vision_Model",3,2)
 
 ;ENDFOLD
 halt
@@ -250,10 +259,10 @@ LIN XP24
 ;FOLD Vision.Calibration_Send Area:315, Work:2;%{PE}%MKUKATPUSER
 
 
-EKRL_NAME[]="Xml_Vision_Model"
-EKRL_Connect()
+
+EKRL_Connect("Xml_Vision_Model")
 HanGao_Camera_Sink_Pos(4,2)
-EKRL_Calibration_Send(4,2)
+EKRL_Calibration_Send("Xml_Vision_Model",4,2)
 
 ;ENDFOLD
 ;endloop

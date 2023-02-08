@@ -4,6 +4,7 @@ using System.Data.SqlTypes;
 using System.IO;
 using System.Text;
 using System.Xml;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace KUKA_Socket.Models
@@ -71,7 +72,9 @@ namespace KUKA_Socket.Models
             {
     
                 XmlSerializer xmlSerializer = new XmlSerializer(typeof(T1));
-       
+
+               
+
 
                 obj = (T1)xmlSerializer.Deserialize(xmlReader);
 
