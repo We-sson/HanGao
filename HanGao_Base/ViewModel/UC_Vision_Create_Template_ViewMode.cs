@@ -1264,7 +1264,9 @@ namespace HanGao.ViewModel
             }
 
 
-
+            //保留有效精度
+            _Actual_Pos.X = Math.Round(_Actual_Pos.X, 3);
+            _Actual_Pos.Y = Math.Round(_Actual_Pos.Y, 3);
 
 
 

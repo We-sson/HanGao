@@ -41,7 +41,7 @@
                           Margin="0,0,0,10"
                           HorizontalContentAlignment="Stretch"
                           VerticalContentAlignment="Stretch"
-                          IsExpanded="True">
+                          IsExpanded="False">
                     <Expander.Header>
                         <Border x:Name="Radio_1"
                                 Margin="0"
@@ -536,7 +536,7 @@
                           Margin="0,0,0,10"
                           HorizontalContentAlignment="Stretch"
                           VerticalContentAlignment="Stretch"
-                          IsExpanded="True">
+                          IsExpanded="False">
                     <Expander.Header>
                         <Border Margin="0" Background="{DynamicResource 全局_按钮_黑颜色}">
                             <Border.Style>
@@ -1837,7 +1837,7 @@
                           Margin="0,0,0,10"
                           HorizontalContentAlignment="Stretch"
                           VerticalContentAlignment="Stretch"
-                          IsExpanded="True">
+                          IsExpanded="False">
                     <Expander.Header>
                         <Border Margin="0" Background="{DynamicResource 全局_按钮_黑颜色}">
                             <Border.Style>
@@ -2793,7 +2793,7 @@
                                         VerticalContentAlignment="Stretch"
                                         IsSnapToTickEnabled="True"
                                         Maximum="360"
-                                        Minimum=" 0"
+                                        Minimum=" -360"
                                         SmallChange="0.1"
                                         TickFrequency=" 0.1"
                                         Value="{Binding Halcon_Find_Shape_ModelXld_UI.AngleStart}" />
