@@ -1,4 +1,4 @@
-&ACCESS RVO2
+&ACCESS RVO1
 &REL 9
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe

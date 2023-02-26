@@ -449,7 +449,7 @@
                                  HorizontalContentAlignment="Center"
                                  VerticalContentAlignment="Center"
                                  FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                 Tag="面板厚度=" />
+                                 Tag="盆胆厚度=" />
 
                         <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Panel"
                                  Uid="mm"
@@ -458,7 +458,7 @@
                                  HorizontalContentAlignment="Center"
                                  VerticalContentAlignment="Center"
                                  FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                 Tag="盆胆厚度=" />
+                                 Tag="面板厚度=" />
 
 
                         <TextBox Style="{DynamicResource TextBox_Style}" x:Name="Sink_Short"

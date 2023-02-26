@@ -1,5 +1,5 @@
-&ACCESS RVO
-&REL 520
+&ACCESS RVP
+&REL 534
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HK
@@ -31,10 +31,10 @@ PTP XP11
 
 ;FOLD Vision.Vision_Ini ;%{PE}%MKUKATPUSER
 
-EKRL_NAME[]="Xml_ Ini_Data"
-EKRL_Connect()
 
 
+EKRL_Connect("Xml_Ini_Data")
+EKRL_Vision_Int_Data("Xml_Ini_Data")
 
 
 ;ENDFOLD
@@ -63,7 +63,7 @@ FDAT_ACT=FP13
 BAS(#CP_PARAMS,.1)
 LIN XP13 
 ;ENDFOLD
-;FOLD Vision.Number Calib_NO:2;%{PE}%MKUKATPUSER
+;FOLD Vision.Calibration_Point Calib_NO:2;%{PE}%MKUKATPUSER
 
 Calibration_Point[2]=$POS_ACT
 
@@ -80,7 +80,7 @@ FDAT_ACT=FP14
 BAS(#CP_PARAMS,.1)
 LIN XP14 
 ;ENDFOLD
-;FOLD Vision.Number Calib_NO:3;%{PE}%MKUKATPUSER
+;FOLD Vision.Calibration_Point Calib_NO:3;%{PE}%MKUKATPUSER
 
 Calibration_Point[3]=$POS_ACT
 
@@ -97,7 +97,7 @@ FDAT_ACT=FP15
 BAS(#CP_PARAMS,.1)
 LIN XP15 
 ;ENDFOLD
-;FOLD Vision.Number Calib_NO:4;%{PE}%MKUKATPUSER
+;FOLD Vision.Calibration_Point Calib_NO:4;%{PE}%MKUKATPUSER
 
 Calibration_Point[4]=$POS_ACT
 
@@ -114,7 +114,7 @@ FDAT_ACT=FP16
 BAS(#CP_PARAMS,.1)
 LIN XP16 
 ;ENDFOLD
-;FOLD Vision.Number Calib_NO:5;%{PE}%MKUKATPUSER
+;FOLD Vision.Calibration_Point Calib_NO:5;%{PE}%MKUKATPUSER
 
 Calibration_Point[5]=$POS_ACT
 
@@ -131,7 +131,7 @@ FDAT_ACT=FP17
 BAS(#CP_PARAMS,.1)
 LIN XP17 
 ;ENDFOLD
-;FOLD Vision.Number Calib_NO:6;%{PE}%MKUKATPUSER
+;FOLD Vision.Calibration_Point Calib_NO:6;%{PE}%MKUKATPUSER
 
 Calibration_Point[6]=$POS_ACT
 
@@ -148,7 +148,7 @@ FDAT_ACT=FP18
 BAS(#CP_PARAMS,.1)
 LIN XP18 
 ;ENDFOLD
-;FOLD Vision.Number Calib_NO:7;%{PE}%MKUKATPUSER
+;FOLD Vision.Calibration_Point Calib_NO:7;%{PE}%MKUKATPUSER
 
 Calibration_Point[7]=$POS_ACT
 
@@ -165,7 +165,7 @@ FDAT_ACT=FP19
 BAS(#CP_PARAMS,.1)
 LIN XP19 
 ;ENDFOLD
-;FOLD Vision.Number Calib_NO:8;%{PE}%MKUKATPUSER
+;FOLD Vision.Calibration_Point Calib_NO:8;%{PE}%MKUKATPUSER
 
 Calibration_Point[8]=$POS_ACT
 
@@ -182,7 +182,7 @@ FDAT_ACT=FP20
 BAS(#CP_PARAMS,.1)
 LIN XP20 
 ;ENDFOLD
-;FOLD Vision.Number Calib_NO:9;%{PE}%MKUKATPUSER
+;FOLD Vision.Calibration_Point Calib_NO:9;%{PE}%MKUKATPUSER
 
 Calibration_Point[9]=$POS_ACT
 

@@ -1,5 +1,5 @@
 &ACCESS RVP
-&REL 236
+&REL 248
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HG
@@ -161,8 +161,8 @@ BAS(#CP_PARAMS,L0_Welding_Craft[2,1].Welding_Speed )
 LIN POL0_S1 C_DIS C_DIS
 
 ;ENDFOLD
-;FOLD ANOUT AO01=.95 ;%{PE}%R 8.3.48,%MKUKATPBASIS,%CANA,%VANOUT_STAT,%P 2:CHANNEL_1, 4:.95
-$ANOUT[1]=.95
+;FOLD ANOUT AO01=.65 ;%{PE}%R 8.3.48,%MKUKATPBASIS,%CANA,%VANOUT_STAT,%P 2:CHANNEL_1, 4:.65
+$ANOUT[1]=.65
 ;ENDFOLD
 LSON()
 ;FOLD Surround_LIN.S_C_LIN Point:C45_S1, Vel=.04m/s, Area: C45, LDAT:C45_L1, Work: N_2;%{PE}%MKUKATPUSER
@@ -423,7 +423,7 @@ FDAT_ACT=FSurround_Home
 BAS(#PTP_PARAMS,10)
 PTP XSurround_Home 
 ;ENDFOLD
-if FALSE THEN
+if true THEN
 ;halt
 ;return
 ;FOLD Short_Craft.S_LIN Point:S2, Vel=.1m/s, Area: N45, Short_Pos: Safety, Point: 50/%, LDAT:L2, Work: N_2;%{PE}%MKUKATPUSER
@@ -440,7 +440,7 @@ LIN POS2 C_DIS C_DIS
 ;ENDFOLD
 ;FOLD Short_Craft.S_LIN Point:S3, Vel=.1m/s, Area: N45, Short_Pos: Start, Point: 50/%, LDAT:L3, Work: N_2;%{PE}%MKUKATPUSER
 
-; LIN S3POS: X=364.543579, Y=6.21706629, Z=-150, A=0, B=0, C=0
+; LIN S3POS: X=0, Y=0, Z=0, A=0, B=0, C=0
 ; LIN Offset POS:X=0, Y=0, Z=0
 HanGao_Surr_Calculate( 50, #N45, #L_LIN_POS , POS3, , , N45_Short_Craft[2,2].Welding_Offset  , , 2, 2, N2_Sink_Data.Sink_Type)
  
