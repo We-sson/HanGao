@@ -425,11 +425,18 @@ namespace HanGao.ViewModel
             }
             else
             {
+
+
+                try
+                {
+
+
+
                 //读取文件夹内所有文件
                 DirectoryInfo _ShapeFile = new DirectoryInfo(Environment.CurrentDirectory + "\\ShapeModel");
                 //清空列表内容
                 Shape_File_UI_List.Clear();
-
+                 
                 //对每个文件文件名分解识别类型
                 foreach (FileInfo _File in _ShapeFile.GetFiles())
                 {
@@ -486,6 +493,7 @@ namespace HanGao.ViewModel
                     {
                         ///如果模型集合中没有就添加
                         Shape_File_UI_List.Add(_SFile);
+          
                         //排序模型集合
                         Shape_File_UI_List.OrderByDescending(_List => _List.File_ID);
                     }
@@ -495,7 +503,12 @@ namespace HanGao.ViewModel
 
                 }
 
-
+                }
+                catch (Exception e)
+                {
+                    User_Log_Add("模型文件读取错误，检查文件夹“ShapeModel”内的名称是否正常。错误信息：" + e.Message);
+           
+                }
 
 
             }
