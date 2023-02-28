@@ -3,6 +3,7 @@
 using CommunityToolkit.Mvvm.Messaging;
 using LiveChartsCore;
 using LiveChartsCore.Defaults;
+using LiveChartsCore.Measure;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using SkiaSharp;
@@ -90,14 +91,12 @@ namespace HanGao.ViewModel
 
             });
 
-            //开启线保存匹配模型文件
+            //图标测试添加数据
             new Thread(new ThreadStart(new Action(() =>
             {
                 Random _R = new Random() { };
 
 
-                //xAxis.PropertyChanged += XAxis_PropertyChanged;
-                //yAxis.PropertyChanged += XAxis_PropertyChanged;
                 for (int i = 0; i < 500; i++)
                 {
 
@@ -152,21 +151,6 @@ namespace HanGao.ViewModel
         public static    Area_Error_Model Work_1_Error_List { set; get; } = new Area_Error_Model();
 
 
-        //public static Area_Error_Model Work_1_Error_List
-        //{
-
-        //    get
-        //    {
-        //        return _Work_1_Error_List;
-        //    }
-        //    set
-        //    {
-        //        _Work_1_Error_List = value;
-        //        //OnStaticPropertyChanged();
-        //        StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Work_1_Error_List)));
-
-        //    }
-        //}
 
 
 
@@ -176,21 +160,6 @@ namespace HanGao.ViewModel
         public static    Area_Error_Model Work_2_Error_List { set; get; } = new Area_Error_Model();
 
 
-        //public static Area_Error_Model Work_2_Error_List
-        //{
-
-        //    get
-        //    {
-        //        return _Work_2_Error_List;
-        //    }
-        //    set
-        //    {
-        //        _Work_2_Error_List = value;
-        //        //OnStaticPropertyChanged();
-        //        StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Work_2_Error_List)));
-
-        //    }
-        //}
         /// <summary>
         /// 竖坐标样式
         /// </summary>
@@ -202,11 +171,27 @@ namespace HanGao.ViewModel
 
 
 
-        //private Area_Error_Model _Work;
+
+
+        public IEnumerable<ISeries> Robot_State_Series { get; set; }
+       = new GaugeBuilder()
+       .WithLabelsSize(20)
+       .WithLabelsPosition(PolarLabelsPosition.Start)
+       .WithLabelFormatter(point => $"{point.PrimaryValue} {point.Context.Series.Name}")
+       .WithInnerRadius(20)
+       .WithOffsetRadius(8)
+       .WithBackgroundInnerRadius(20)
+
+       .AddValue(30, "Vanessa")
+       .AddValue(50, "Charles")
+       .AddValue(70, "Ana")
+
+       .BuildSeries();
+
 
 
         /// <summary>
-        /// 定义图表显示样式
+        /// 定义视觉误差图表显示样式
         /// </summary>
         public  ObservableCollection<ISeries> Series { get; set; }
        = new ObservableCollection<ISeries>

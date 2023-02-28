@@ -816,7 +816,7 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             SnapsToDevicePixels="true">
                         <Border x:Name="splitBorder"
-                                Width="30"
+                                Width="24"
                                 Margin="0"
                                 HorizontalAlignment="Right"
                                 BorderBrush="Transparent"
