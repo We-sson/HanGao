@@ -72,8 +72,7 @@ namespace HanGao.ViewModel
                 if (Vision_Sink != null)
                 {
 
-                    //计算理论值
-                    // Calculation_Vision_Pos(ref Theoretical_Pos, Vision_Sink.Sink_Process, _S.Find_Model);
+        
 
                     //获得识别参数文件
                     Vision_Xml_Models _Data_Xml = Find_Data_List.Vision_List.FirstOrDefault(_List => int.Parse(_List.ID) == Vision_Sink.Sink_Process.Vision_Find_ID);
@@ -246,6 +245,9 @@ namespace HanGao.ViewModel
                     _Send.Message_Error = Calibration_Error_Message_Enum.Error_No_SinkInfo.ToString();
                 }
 
+
+
+
                 //属性转换xml流
                 string _SendSteam = KUKA_Send_Receive_Xml.Property_Xml(_Send);
                 UC_Vision_Robot_Protocol_ViewModel.Send_Socket_String = _SendSteam;
@@ -259,7 +261,6 @@ namespace HanGao.ViewModel
                 //清除对象内存
                 _Mat2D.Dispose();
                 _ModelXld.Dispose();
-
                 _Image.Dispose();
                 return _SendSteam;
 

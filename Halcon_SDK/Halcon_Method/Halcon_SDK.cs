@@ -10,7 +10,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Media.Media3D;
+using System.Windows.Shapes;
 using System.Xml.Linq;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
@@ -38,11 +40,63 @@ namespace Halcon_SDK_DLL
         public HSmartWindowControlWPF Halcon_UserContol { set; get; } = new HSmartWindowControlWPF() { };
 
 
+        /// <summary>
+        /// 样品图片保存后序号
+        /// </summary>
+        private static int Sample_Save_Image_Number { set; get; } = 1;
+
+
+
+        /// <summary>
+        /// 保存图像到当前文件
+        /// </summary>
+        /// <param name="_Image"></param>
+        /// <returns></returns>
+        public static bool Save_Image(HObject _Image)
+        {
+            try
+            {
+
+                string _Path = Environment.CurrentDirectory + "\\Sample_Image";
+                string _Name = "";
+
+                //检查存放文件目录
+                if (!Directory.Exists(_Path))
+                {
+                    //创建文件夹
+                    Directory.CreateDirectory(_Path);
+
+                }
+
+                DirectoryInfo root = new DirectoryInfo(_Path);
+                FileInfo Re;
+                do
+                {
+                     _Name = DateTime.Today.ToLongDateString() + "_" + (Sample_Save_Image_Number += 1).ToString();
+
+                    Re = root.GetFiles().Where(F => F.Name.Contains(_Name)).FirstOrDefault();
+
+
+                } while (Re!=null);
 
 
 
 
 
+
+
+
+                HOperatorSet.WriteImage(_Image, "tiff", 0, _Path + "\\" + _Name);
+                return true;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+
+            }
+        }
 
 
         /// <summary>
@@ -279,7 +333,7 @@ namespace Halcon_SDK_DLL
         {
 
             HObject _Image = new HObject();
-           
+
             HTuple _Area, _Row, _Column;
 
 
@@ -302,7 +356,7 @@ namespace Halcon_SDK_DLL
 
             }
 
- 
+
 
 
             if (_Calibration_Data.Emphasize_Enable)
@@ -491,7 +545,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_HomMat2D"></param>
         /// <param name="_Window"></param>
         /// <returns></returns>
-        public static void   ProjectiveTrans_Xld(ref HObject _ContoursProjTrans, Shape_Based_Model_Enum _Find_Enum, HTuple _ModelXld, HTuple _HomMat2D, HWindow _Window)
+        public static void ProjectiveTrans_Xld(ref HObject _ContoursProjTrans, Shape_Based_Model_Enum _Find_Enum, HTuple _ModelXld, HTuple _HomMat2D, HWindow _Window)
         {
 
 
@@ -530,7 +584,7 @@ namespace Halcon_SDK_DLL
 
             //清除临时内存
             _ModelConect.Dispose();
-     
+
 
         }
 
@@ -799,7 +853,7 @@ namespace Halcon_SDK_DLL
                 DateTime RunTime = DateTime.Now;
                 HObject _Image1 = new HObject();
                 HObject _Image2 = new HObject();
- 
+
                 Halcon_Find_Shape_Out_Parameter _Find_Out = new Halcon_Find_Shape_Out_Parameter();
 
 
@@ -846,7 +900,7 @@ namespace Halcon_SDK_DLL
                             }
                         }
 
-         
+
 
 
                         if (_Find_Property.Illuminate_Enable)

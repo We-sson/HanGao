@@ -620,8 +620,27 @@ namespace HanGao.ViewModel
             UC_Visal_Function_VM.Load_Image = _image;
             User_Log_Add(_Get_Model.ToString()+"图像读取成功！");
 
+
+
+            //保存图像当当前目录下
+            if (Global_Seting.IsVisual_image_saving)
+            {
+                if (Halcon_SDK.Save_Image(_image))
+                {
+                    User_Log_Add(_Get_Model.ToString() + "图像保存成功！");
+
+                }else
+                {
+                    User_Log_Add(_Get_Model.ToString() + "图像保存失败！");
+
+                }
+
+            }
+
+
+
             //清除
-            //_image.Dispose();
+       
             return true;
 
         }

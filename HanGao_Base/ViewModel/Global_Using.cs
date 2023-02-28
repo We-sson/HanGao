@@ -37,3 +37,6 @@ global using System.IO;
 global using HanGao.Xml_Date.Vision_XML.Vision_Model;
 global using static HanGao.ViewModel.User_Control_Log_ViewModel;
 global using static HanGao.Xml_Date.Vision_XML.Vision_WriteRead.Vision_Xml_Method;
+global using static HanGao.ViewModel.Global_Seting_Status;
+
+

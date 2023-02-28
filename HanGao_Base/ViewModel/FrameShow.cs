@@ -1,19 +1,7 @@
 ﻿
-using PropertyChanged;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using HanGao.View.FrameShow;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
-using CommunityToolkit.Mvvm.Input;
-using System.Threading.Tasks;
-using System.ComponentModel;
-using System;
-using System.Reflection;
+
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static Soceket_Connect.Socket_Connect;
-using static HanGao.ViewModel.UC_Vision_CameraSet_ViewModel;
 
 
 namespace HanGao.ViewModel

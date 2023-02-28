@@ -177,20 +177,52 @@
                                   HorizontalContentAlignment="Center"
                                   VerticalContentAlignment="Center"
                                   Background="{DynamicResource 全局_背景_白颜色}"
+                                  DataContext="{Binding Source={StaticResource Locator}, Path=Global_Seting}"
                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
                                   FontSize="16">
                                 <MenuItem Style="{DynamicResource MenuItem_Style}">
                                     <MenuItem.Header>
-                                        <TextBlock Text="视觉功能选项"
+                                        <TextBlock Text="功能设置"
                                                    VerticalAlignment="Center"
                                                    FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                    FontSize="16" />
                                     </MenuItem.Header>
                                     <MenuItem.Icon>
-                                        <Image Source="/Resources/Vision_图像自适应_ioc.png" />
+                                        <Image Source="/Resources/Vision_下拉选择_ioc.png" />
                                     </MenuItem.Icon>
-                                    <MenuItem Header="开启" />
-                                    <MenuItem Header="关闭" />
+
+                                    <MenuItem>
+                                        <MenuItem.Header>
+                                            <TextBlock Text="图像功能"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="14" />
+                                        </MenuItem.Header>
+                                        <MenuItem IsChecked="{Binding Global_Seting.IsVisual_image_saving}" IsCheckable="True">
+                                            <MenuItem.Header>
+                                                <TextBlock Text="保存拍照图片本地"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="14" />
+                                            </MenuItem.Header>
+                                        </MenuItem>
+                                    </MenuItem>
+                                    <MenuItem>
+                                        <MenuItem.Header>
+                                            <TextBlock Text="相机详细信息"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="14" />
+                                        </MenuItem.Header>
+                                        <i:Interaction.Triggers>
+
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding Camera_Info_Display_Comm}"
+                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                       PassEventArgsToCommand="True" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </MenuItem>
 
                                 </MenuItem>
                             </Menu>
@@ -213,16 +245,6 @@
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                Source="/Resources/Vision_图像自适应_ioc.png" />
-                                        <Menu Background="Transparent">
-                                            <MenuItem HorizontalAlignment="Center"
-                                                      VerticalAlignment="Center"
-                                                      HorizontalContentAlignment="Center"
-                                                      Header="视觉功能">
-                                                <MenuItem Header="开启" />
-                                                <MenuItem Header="开启" />
-
-                                            </MenuItem>
-                                        </Menu>
                                         <!--<TextBlock Text=" 图像自适应"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"

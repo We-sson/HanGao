@@ -198,6 +198,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\Global_Seting_Status.cs" />
     <Compile Include="ViewModel\Global_Using.cs" />
     <Compile Include="ViewModel\Messenger_Eunm\Messenger_Name.cs" />
     <Compile Include="ViewModel\UC_KUKA_State_VM.cs" />
