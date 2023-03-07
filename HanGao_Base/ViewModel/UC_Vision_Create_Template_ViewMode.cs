@@ -93,7 +93,7 @@ namespace HanGao.ViewModel
 
 
                             //读取矩阵文件
-                            if (Halcon_SDK.Read_Mat2d_Method(ref _Mat2D, Directory.GetCurrentDirectory() + "\\Nine_Calibration\\" + _S.Find_Model.Vision_Area + "_" + _S.Find_Model.Work_Area))
+                            if (Halcon_SDK.Read_Mat2d_Method(ref _Mat2D,  _S.Find_Model.Vision_Area , _S.Find_Model.Work_Area))
                             {
                                 Console.WriteLine("1:" + (DateTime.Now - _Run));
 

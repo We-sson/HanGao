@@ -133,7 +133,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_Mat2D"></param>
         /// <param name="_Name"></param>
         /// <param name="_Path"></param>
-        public static bool Read_Mat2d_Method(ref HTuple _Mat2D, string _Path)
+        public static bool Read_Mat2d_Method(ref HTuple _Mat2D, string Vision_Area, string Work_Area)
         {
 
 
@@ -147,6 +147,8 @@ namespace Halcon_SDK_DLL
                 HTuple _HomMatID = new HTuple();
 
                 //打开文件
+                string _Path = Directory.GetCurrentDirectory() + "\\Nine_Calibration\\" + Vision_Area + "_" + Work_Area;
+
 
                 HOperatorSet.OpenFile(_Path + ".mat", "input_binary", out _FileHandle);
 

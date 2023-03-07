@@ -43,6 +43,7 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
 
 
                     GetXml_Path<Calibration_Data_Model>(ref _Path, Get_Xml_File_Enum.Folder_Path);
+
                     if (!Directory.Exists(_Path)) { Directory.CreateDirectory(_Path); }
                     //检查存放文件目录
                     GetXml_Path<Calibration_Data_Model>(ref _Path, Get_Xml_File_Enum.File_Path);

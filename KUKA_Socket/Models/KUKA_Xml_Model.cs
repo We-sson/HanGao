@@ -204,7 +204,9 @@ namespace KUKA_Socket.Models
     public enum Vision_Model_Enum
     {
    
-        Calibration_Point,
+        Calibration_New,
+        Calibration_Text,
+        Calibration_Add,
         Find_Model,
         Vision_Ini_Data,
     }

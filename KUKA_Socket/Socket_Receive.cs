@@ -29,7 +29,15 @@ namespace Soceket_KUKA
 
         public delegate string ReceiveMessage_delegate<T1, T2>(T1 _T, T2 _S);
 
-        public ReceiveMessage_delegate<Calibration_Data_Receive, string> KUKA_Receive_Calibration_String { set; get; }
+
+
+        /// <summary>
+        /// 声明接收信息委托
+        /// </summary>
+        public ReceiveMessage_delegate<Calibration_Data_Receive, string> KUKA_Receive_Calibration_New_String { set; get; }
+        public ReceiveMessage_delegate<Calibration_Data_Receive, string> KUKA_Receive_Calibration_Add_String { set; get; }
+        public ReceiveMessage_delegate<Calibration_Data_Receive, string> KUKA_Receive_Calibration_Text_String { set; get; }
+
         public ReceiveMessage_delegate<Calibration_Data_Receive, string> KUKA_Receive_Find_String { set; get; }
         public ReceiveMessage_delegate<Vision_Ini_Data_Receive, string> KUKA_Receive_Vision_Ini_String { set; get; }
 
@@ -243,12 +251,19 @@ namespace Soceket_KUKA
                 //将对应的功能反序列化处理
                 switch (_Model)
                 {
-                    case Vision_Model_Enum.Calibration_Point:
-                        Calibration_Data_Receive _Calibration_Receive = KUKA_Send_Receive_Xml.String_Xml<Calibration_Data_Receive>(_St);
+                    case Vision_Model_Enum.Calibration_New:
+                        Calibration_Data_Receive _Calibration_New_Receive = KUKA_Send_Receive_Xml.String_Xml<Calibration_Data_Receive>(_St);
 
-                        _Str = KUKA_Receive_Calibration_String(_Calibration_Receive, _St);
+                        _Str = KUKA_Receive_Calibration_New_String(_Calibration_New_Receive, _St);
 
                         break;
+                    case Vision_Model_Enum.Calibration_Text:
+                        Calibration_Data_Receive _Calibration_Text_Receive = KUKA_Send_Receive_Xml.String_Xml<Calibration_Data_Receive>(_St);
+
+                        _Str = KUKA_Receive_Calibration_Text_String(_Calibration_Text_Receive, _St);
+
+                        break;
+
                     case Vision_Model_Enum.Find_Model:
 
                         Calibration_Data_Receive _Find_Receive = KUKA_Send_Receive_Xml.String_Xml<Calibration_Data_Receive>(_St);

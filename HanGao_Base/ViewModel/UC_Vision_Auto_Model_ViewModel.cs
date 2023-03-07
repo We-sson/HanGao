@@ -60,7 +60,15 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 静态委托接收处理相机标定事件
         /// </summary>
-        public static Socket_Receive.ReceiveMessage_delegate<Calibration_Data_Receive, string> Static_KUKA_Receive_Calibration_String { set; get; }
+        public static Socket_Receive.ReceiveMessage_delegate<Calibration_Data_Receive, string> Static_KUKA_Receive_Calibration_New_String { set; get; }
+        /// <summary>
+        /// 静态委托接收处理相机标定点添加事件
+        /// </summary>
+        public static Socket_Receive.ReceiveMessage_delegate<Calibration_Data_Receive, string> Static_KUKA_Receive_Calibration_Add_String { set; get; }
+        /// <summary>
+        /// 静态委托接收处理相机标定精度测试事件
+        /// </summary>
+        public static Socket_Receive.ReceiveMessage_delegate<Calibration_Data_Receive, string> Static_KUKA_Receive_Calibration_Text_String { set; get; }
         /// <summary>
         /// 静态委托处理查找模型特征
         /// </summary>
@@ -157,11 +165,15 @@ namespace HanGao.ViewModel
 
                 Local_IP_UI = new ObservableCollection<string>(_List) { };
 
+
+                ///启动服务器添加接收事件
                 foreach (var _Sever in Local_IP_UI)
                 {
 
                     KUKA_Receive.Add(new Socket_Receive(_Sever, Vision_Auto_Cofig.Stat_Network_Port.ToString()) {
-                        KUKA_Receive_Calibration_String = Static_KUKA_Receive_Calibration_String, 
+                        KUKA_Receive_Calibration_New_String = Static_KUKA_Receive_Calibration_New_String,
+                        KUKA_Receive_Calibration_Add_String=Static_KUKA_Receive_Calibration_Add_String,
+                        KUKA_Receive_Calibration_Text_String=Static_KUKA_Receive_Calibration_Text_String,
                         KUKA_Receive_Find_String = Static_KUKA_Receive_Find_String, 
                         KUKA_Receive_Vision_Ini_String=Static_KUKA_Receive_Vision_Ini_String,
                         Socket_ErrorInfo_delegate = User_Log_Add });
