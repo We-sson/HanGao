@@ -543,7 +543,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 最小面积
             /// </summary>
-            public double Min_Area { set; get; } = 5000;
+            public double Min_Area { set; get; } = 50000;
 
             /// <summary>
             /// 最大面积

@@ -964,7 +964,7 @@
                                         Minimum="0"
                                         SmallChange="1"
                                         TickFrequency=" 1"
-                                        Value="0" />
+                                        Value="{Binding Find_Calibration.MinGray}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding ElementName=MinGray_UI, Path=Value}"
@@ -1001,7 +1001,7 @@
                                         Minimum="0"
                                         SmallChange="1"
                                         TickFrequency=" 1"
-                                        Value="100" />
+                                        Value="{Binding Find_Calibration.MaxGray}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding ElementName=MaxGray_UI, Path=Value}"
@@ -1046,7 +1046,7 @@
                                         Minimum="5000"
                                         SmallChange="1"
                                         TickFrequency=" 1"
-                                        Value="5000" />
+                                        Value="{Binding Find_Calibration.Min_Area}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding ElementName=Min_Area_UI, Path=Value}"
@@ -1083,7 +1083,7 @@
                                         Minimum="5000"
                                         SmallChange="1"
                                         TickFrequency=" 1"
-                                        Value="120000" />
+                                        Value="{Binding Find_Calibration.Max_Area}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding ElementName=Max_Area_UI, Path=Value}"

@@ -7,6 +7,7 @@ using KUKA_Socket.Models;
 using Microsoft.Win32;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows.Documents;
 using System.Windows.Media.Media3D;
 using System.Xml.Serialization;
@@ -56,7 +57,7 @@ namespace HanGao.ViewModel
                     {
 
                         //清楚模板内容，查找图像模型
-                        if (Find_Calibration_Mod(Find_Calibration) == 9)
+                        if (Find_Calibration_Mod( _Image,Find_Calibration) == 9)
                         {
 
 
@@ -69,7 +70,7 @@ namespace HanGao.ViewModel
                             {
 
                                 HOperatorSet.AffineTransPoint2d(_Mat2D, Calibration_Results_List[i].Calibration_Points.X, Calibration_Results_List[i].Calibration_Points.Y, out HTuple _Rx, out HTuple _Ry);
-                                Calibration_Results_List[i].Robot_Points = new Point3D(_Rx, _Ry, 0);
+                                Calibration_Results_List[i].Robot_Points = new Point3D(Math.Round(_Rx.D,4) , Math.Round(_Ry.D, 4), 0);
 
                             }
 
@@ -103,14 +104,14 @@ namespace HanGao.ViewModel
 
                             //回传标定结果
                             _Send.IsStatus = 1;
-                            _Send.Message_Error = Calibration_Error_Message_Enum.No_Error.ToString() + ",Test calibration results!";
+                            _Send.Message_Error = Calibration_Error_Message_Enum.No_Error.ToString() + ",Test Calibration Results!";
 
 
                         }
                         else
                         {
                             _Send.IsStatus = 0;
-                            _Send.Message_Error = Calibration_Error_Message_Enum.Find_time_timeout.ToString();
+                            _Send.Message_Error = Calibration_Error_Message_Enum.Find_Calibration_Error.ToString();
        
 
                         }
@@ -120,7 +121,7 @@ namespace HanGao.ViewModel
                     else
                     {
                         _Send.IsStatus = 0;
-                        _Send.Message_Error = Calibration_Error_Message_Enum.Find_time_timeout.ToString();
+                        _Send.Message_Error = Calibration_Error_Message_Enum.Error_No_Camera_GetImage.ToString();
                  
 
                     }
@@ -166,7 +167,7 @@ namespace HanGao.ViewModel
             {
 
                 //清楚模板内容，查找图像模型
-                if (Find_Calibration_Mod(Find_Calibration) == 9)
+                if (Find_Calibration_Mod(_Image, Find_Calibration) == 9)
                 {
 
 
@@ -357,14 +358,13 @@ namespace HanGao.ViewModel
         /// 查找图片上的标定板位置
         /// </summary>
         /// <returns></returns>
-        public int Find_Calibration_Mod(Halcon_Find_Calibration_Model _Find_Model)
+        public int Find_Calibration_Mod(  HObject _Image, Halcon_Find_Calibration_Model _Find_Model)
         {
 
 
-            HObject _Image = new HObject();
+         
             List<Point3D> _Calibration_List = new List<Point3D>();
 
-            UC_Vision_CameraSet_ViewModel.Get_Image(ref _Image, _Find_Model.Get_Image_Model, Features_Window.HWindow, Image_Location_UI);
 
 
             //查找九点定位图像
@@ -379,6 +379,7 @@ namespace HanGao.ViewModel
 
                 Application.Current.Dispatcher.Invoke((Action)(() =>
                     {
+                        Calibration_Point_Number = 0;
                         //识别特征坐标存储列表
                         Calibration_Results_List.Clear();
                         for (int i = 1; i < _Number + 1; i++)
@@ -391,15 +392,17 @@ namespace HanGao.ViewModel
 
                         }
 
+                        //识别结果显示界面
+                        Calibration_Point_Number = _Calibration_List.Count();
+
                     }));
 
 
 
 
             }
-            Calibration_Point_Number = _Calibration_List.Count();
 
-            return Calibration_Point_Number;
+            return _Calibration_List.Count();
 
         }
 
@@ -415,10 +418,15 @@ namespace HanGao.ViewModel
 
                 HTuple _Row = new HTuple();
                 HTuple _Column = new HTuple();
+                HObject _Image=new HObject();
+                if (UC_Vision_CameraSet_ViewModel.Get_Image(ref _Image, Find_Calibration.Get_Image_Model, Features_Window.HWindow, Image_Location_UI)
+)
+                {
 
 
                 //查找图像中模板位置
-                Find_Calibration_Mod(Find_Calibration);
+                Find_Calibration_Mod(_Image, Find_Calibration);
+                }
 
                 await Task.Delay(100);
 

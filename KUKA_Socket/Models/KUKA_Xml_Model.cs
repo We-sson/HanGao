@@ -219,6 +219,7 @@ namespace KUKA_Socket.Models
         Vision_Ini_Data_OK,
         No_Error,
         Find_time_timeout,
+        Find_Calibration_Error,
         Camera_Connection_Time_Out,
         Error_No_Camera_GetImage,
         Error_No_Read_Shape_Mode_File,
