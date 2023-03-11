@@ -1,5 +1,5 @@
-&ACCESS RVO2
-&REL 244
+&ACCESS RVO1
+&REL 257
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\KRL
@@ -21,9 +21,7 @@ DECL EKI_STATUS RET
   ;ENDFOLD (USER INI)
 
 ;ENDFOLD (INI)
-;------------6-------
-
-
+;------------
 
 
 
@@ -44,6 +42,9 @@ DECL  BOOL IsStatus
 Message_Error[]=" "
 IsStatus=false
 
+EKRL_Connect(EKRL_NAME[])
+
+
 RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/@Model","Vision_Ini_Data")
 RET = EKI_Send(EKRL_NAME[],"KUKA_Receive")
 
@@ -54,6 +55,10 @@ Message_Wait("Wait Vision Int Data!",2)
 RET=EKI_GetBool(EKRL_NAME[],"KUKA_Send/@IsStatus" ,IsStatus)
 RET=EKI_GetString(EKRL_NAME[],"KUKA_Send/Message_Error" ,Message_Error[])
 RET=EKI_GetINT(EKRL_NAME[],"KUKA_Send/Initialization_Data/Vision_Scope" ,Vision_Scope)
+
+
+RET=EKI_Close(EKRL_NAME[])
+RET=EKI_Clear(EKRL_NAME[])
 
 IF  IsStatus THEN
 
@@ -108,6 +113,11 @@ LP9={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
 Find_Area_String[]=" "
 Message_Error[]=" "
 Message_Show[]=" "
+
+
+
+EKRL_Connect(EKRL_NAME[])
+
 
 switch Find_Area
 
@@ -259,27 +269,30 @@ END
 
 
 GLOBAL DEF EKRL_Calibration_Send(EKRL_NAME:IN,Area_Name:IN,Work_Area:IN)
-
 DECL INT Area_Name,Calibration_Mark,Work_Area
 DECL CHAR Message_Error[1024],Work_Area_Name[1024],EKRL_NAME[]
 DECL EKI_STATUS RET
 DECL BOOL Calibration_Status
-
+DECL Frame LastPos1,LastPos2,LastPos3,LastPos4,LastPos5,LastPos6,LastPos7,LastPos8,LastPos9
+;-----INI--------
 $Flag[2]=FALSE
 Calibration_Status=False
 $Flag[2]=false
 Message_Error[]=" "
 Work_Area_Name[]=" "
+LastPos1={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+LastPos2={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+LastPos3={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+LastPos4={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+LastPos5={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+LastPos6={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+LastPos7={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+LastPos8={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+LastPos9={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+;-----INI--------
 
-RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_1", Calibration_Point[1])
-RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_2", Calibration_Point[2])
-RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_3", Calibration_Point[3])
-RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_4", Calibration_Point[4])
-RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_5", Calibration_Point[5])
-RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_6", Calibration_Point[6])
-RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_7", Calibration_Point[7])
-RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_8", Calibration_Point[8])
-RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_9", Calibration_Point[9])
+EKRL_Connect(EKRL_NAME[])
+
 
 switch Work_Area
 
@@ -358,9 +371,39 @@ ENDSWITCH
 ENDSWITCH
 
 
+switch	Global_Calib_Model
 
 
-RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/@Model","Calibration_Point")
+case #New
+
+RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_1", Calibration_Point[1])
+RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_2", Calibration_Point[2])
+RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_3", Calibration_Point[3])
+RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_4", Calibration_Point[4])
+RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_5", Calibration_Point[5])
+RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_6", Calibration_Point[6])
+RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_7", Calibration_Point[7])
+RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_8", Calibration_Point[8])
+RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_9", Calibration_Point[9])
+
+RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/@Model","Calibration_New")
+
+
+case #Add
+
+RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/@Model","Calibration_Add")
+
+case #Text
+
+RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/@Model","Calibration_Text")
+
+
+
+
+endSwitch
+
+
+
 RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/Calibration_Model/@Work_Area", Work_Area_Name[])
 RET=EKI_SetInt(EKRL_NAME[],"KUKA_Receive/Calibration_Model/@Calibration_Mark", Calibration_Mark)
 
@@ -379,6 +422,38 @@ RET=EKI_GetString(EKRL_NAME[],"KUKA_Send/Message_Error" ,Message_Error[])
 
 
 IF  Calibration_Status THEN
+
+switch Global_Calib_Model
+
+case #Text
+
+
+RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_1" ,LastPos1)
+RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_2" ,LastPos2)
+RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_3" ,LastPos3)
+RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_4" ,LastPos4)
+RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_5" ,LastPos5)
+RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_6" ,LastPos6)
+RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_7" ,LastPos7)
+RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_8" ,LastPos8)
+RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_9" ,LastPos9)
+Calibration_Text[1]=LastPos1
+Calibration_Text[2]=LastPos2
+Calibration_Text[3]=LastPos3
+Calibration_Text[4]=LastPos4
+Calibration_Text[5]=LastPos5
+Calibration_Text[6]=LastPos6
+Calibration_Text[7]=LastPos7
+Calibration_Text[8]=LastPos8
+Calibration_Text[9]=LastPos9
+case #Add
+
+
+
+endSwitch
+
+
+
 
 MSGNOTIFY(Message_Error[])
 

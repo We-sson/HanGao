@@ -1,5 +1,5 @@
 &ACCESS RVO1
-&REL 296
+&REL 298
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HK
@@ -1147,7 +1147,29 @@ ENDSWITCH
 END
 
 
+GLOBAL DEF HanGao_Calibration_Point(Calibration_POS:OUT,Calib_NO:IN)
+DECL E6POS Calibration_POS
+DECL INT Calib_NO
 
+
+
+switch Global_Calib_Model
+
+Case #New
+
+Calibration_Point[Calib_NO]=Calibration_POS
+
+Case #Add
+
+
+Case #Text
+
+Calibration_POS.X=Calibration_Text[Calib_NO].X
+Calibration_POS.Y=Calibration_Text[Calib_NO].Y
+endswitch
+
+
+END
 
 GLOBAL DEF HanGao_Camera_Sink_Pos(Calibration:IN,Work_Camera:IN)
 DECL INT Calibration,Work_Camera

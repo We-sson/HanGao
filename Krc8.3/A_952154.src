@@ -1,5 +1,5 @@
 &ACCESS RVP
-&REL 534
+&REL 619
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HK
@@ -29,16 +29,26 @@ PTP XP11
 
 
 
-;FOLD Vision.Vision_Ini ;%{PE}%MKUKATPUSER
+;FOLD Vision.Calibration_Ini Model:Text;%{PE}%MKUKATPUSER
 
 
+Global_Calib_Model=#Text
 
-EKRL_Connect("Xml_Ini_Data")
-EKRL_Vision_Int_Data("Xml_Ini_Data")
+
 
 
 ;ENDFOLD
 
+halt
+;FOLD Vision.Calibration_Point Calib_NAME :p12, Calib_NO:1;%{PE}%MKUKATPUSER
+
+HanGao_Calibration_Point(Xp12,1)
+
+
+
+
+
+;ENDFOLD
 ;FOLD LIN P12 Vel=.1 m/s CPDAT10 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VLIN,%P 1:LIN, 2:P12, 3:, 5:.1, 7:CPDAT10
 $BWDSTART=FALSE
 LDAT_ACT=LCPDAT10
@@ -46,16 +56,16 @@ FDAT_ACT=FP12
 BAS(#CP_PARAMS,.1)
 LIN XP12 
 ;ENDFOLD
-;FOLD Vision.Calibration_Point Calib_NO:1;%{PE}%MKUKATPUSER
 
-Calibration_Point[1]=$POS_ACT
+;FOLD Vision.Calibration_Point Calib_NAME :p13, Calib_NO:2;%{PE}%MKUKATPUSER
+
+HanGao_Calibration_Point(Xp13,2)
 
 
 
 
 
 ;ENDFOLD
-
 ;FOLD LIN P13 Vel=.1 m/s CPDAT11 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VLIN,%P 1:LIN, 2:P13, 3:, 5:.1, 7:CPDAT11
 $BWDSTART=FALSE
 LDAT_ACT=LCPDAT11
@@ -63,16 +73,16 @@ FDAT_ACT=FP13
 BAS(#CP_PARAMS,.1)
 LIN XP13 
 ;ENDFOLD
-;FOLD Vision.Calibration_Point Calib_NO:2;%{PE}%MKUKATPUSER
 
-Calibration_Point[2]=$POS_ACT
+;FOLD Vision.Calibration_Point Calib_NAME :p14, Calib_NO:3;%{PE}%MKUKATPUSER
+
+HanGao_Calibration_Point(Xp14,3)
 
 
 
 
 
 ;ENDFOLD
-
 ;FOLD LIN P14 Vel=.1 m/s CPDAT12 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VLIN,%P 1:LIN, 2:P14, 3:, 5:.1, 7:CPDAT12
 $BWDSTART=FALSE
 LDAT_ACT=LCPDAT12
@@ -80,16 +90,16 @@ FDAT_ACT=FP14
 BAS(#CP_PARAMS,.1)
 LIN XP14 
 ;ENDFOLD
-;FOLD Vision.Calibration_Point Calib_NO:3;%{PE}%MKUKATPUSER
 
-Calibration_Point[3]=$POS_ACT
+;FOLD Vision.Calibration_Point Calib_NAME :p15, Calib_NO:4;%{PE}%MKUKATPUSER
+
+HanGao_Calibration_Point(Xp15,4)
 
 
 
 
 
 ;ENDFOLD
-
 ;FOLD LIN P15 Vel=.1 m/s CPDAT13 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VLIN,%P 1:LIN, 2:P15, 3:, 5:.1, 7:CPDAT13
 $BWDSTART=FALSE
 LDAT_ACT=LCPDAT13
@@ -97,16 +107,16 @@ FDAT_ACT=FP15
 BAS(#CP_PARAMS,.1)
 LIN XP15 
 ;ENDFOLD
-;FOLD Vision.Calibration_Point Calib_NO:4;%{PE}%MKUKATPUSER
 
-Calibration_Point[4]=$POS_ACT
+;FOLD Vision.Calibration_Point Calib_NAME :p16, Calib_NO:5;%{PE}%MKUKATPUSER
+
+HanGao_Calibration_Point(Xp16,5)
 
 
 
 
 
 ;ENDFOLD
-
 ;FOLD LIN P16 Vel=.1 m/s CPDAT14 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VLIN,%P 1:LIN, 2:P16, 3:, 5:.1, 7:CPDAT14
 $BWDSTART=FALSE
 LDAT_ACT=LCPDAT14
@@ -114,16 +124,16 @@ FDAT_ACT=FP16
 BAS(#CP_PARAMS,.1)
 LIN XP16 
 ;ENDFOLD
-;FOLD Vision.Calibration_Point Calib_NO:5;%{PE}%MKUKATPUSER
 
-Calibration_Point[5]=$POS_ACT
+;FOLD Vision.Calibration_Point Calib_NAME :p17, Calib_NO:6;%{PE}%MKUKATPUSER
+
+HanGao_Calibration_Point(Xp17,6)
 
 
 
 
 
 ;ENDFOLD
-
 ;FOLD LIN P17 Vel=.1 m/s CPDAT15 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VLIN,%P 1:LIN, 2:P17, 3:, 5:.1, 7:CPDAT15
 $BWDSTART=FALSE
 LDAT_ACT=LCPDAT15
@@ -131,16 +141,16 @@ FDAT_ACT=FP17
 BAS(#CP_PARAMS,.1)
 LIN XP17 
 ;ENDFOLD
-;FOLD Vision.Calibration_Point Calib_NO:6;%{PE}%MKUKATPUSER
 
-Calibration_Point[6]=$POS_ACT
+;FOLD Vision.Calibration_Point Calib_NAME :p18, Calib_NO:7;%{PE}%MKUKATPUSER
+
+HanGao_Calibration_Point(Xp18,7)
 
 
 
 
 
 ;ENDFOLD
-
 ;FOLD LIN P18 Vel=.1 m/s CPDAT16 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VLIN,%P 1:LIN, 2:P18, 3:, 5:.1, 7:CPDAT16
 $BWDSTART=FALSE
 LDAT_ACT=LCPDAT16
@@ -148,16 +158,16 @@ FDAT_ACT=FP18
 BAS(#CP_PARAMS,.1)
 LIN XP18 
 ;ENDFOLD
-;FOLD Vision.Calibration_Point Calib_NO:7;%{PE}%MKUKATPUSER
 
-Calibration_Point[7]=$POS_ACT
+;FOLD Vision.Calibration_Point Calib_NAME :p19, Calib_NO:8;%{PE}%MKUKATPUSER
+
+HanGao_Calibration_Point(Xp19,8)
 
 
 
 
 
 ;ENDFOLD
-
 ;FOLD LIN P19 Vel=.1 m/s CPDAT17 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VLIN,%P 1:LIN, 2:P19, 3:, 5:.1, 7:CPDAT17
 $BWDSTART=FALSE
 LDAT_ACT=LCPDAT17
@@ -165,31 +175,22 @@ FDAT_ACT=FP19
 BAS(#CP_PARAMS,.1)
 LIN XP19 
 ;ENDFOLD
-;FOLD Vision.Calibration_Point Calib_NO:8;%{PE}%MKUKATPUSER
 
-Calibration_Point[8]=$POS_ACT
+;FOLD Vision.Calibration_Point Calib_NAME :p20, Calib_NO:9;%{PE}%MKUKATPUSER
+
+HanGao_Calibration_Point(Xp20,9)
 
 
 
 
 
 ;ENDFOLD
-
 ;FOLD LIN P20 Vel=.1 m/s CPDAT19 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VLIN,%P 1:LIN, 2:P20, 3:, 5:.1, 7:CPDAT19
 $BWDSTART=FALSE
 LDAT_ACT=LCPDAT19
 FDAT_ACT=FP20
 BAS(#CP_PARAMS,.1)
 LIN XP20 
-;ENDFOLD
-;FOLD Vision.Calibration_Point Calib_NO:9;%{PE}%MKUKATPUSER
-
-Calibration_Point[9]=$POS_ACT
-
-
-
-
-
 ;ENDFOLD
 halt
 ;loop
@@ -204,8 +205,8 @@ LIN XP21
 
 
 
-EKRL_Connect("Xml_Vision_Model")
-HanGao_Camera_Sink_Pos(1,2)
+
+
 EKRL_Calibration_Send("Xml_Vision_Model",1,2)
 
 ;ENDFOLD
@@ -222,8 +223,8 @@ LIN XP22
 
 
 
-EKRL_Connect("Xml_Vision_Model")
-HanGao_Camera_Sink_Pos(2,2)
+
+
 EKRL_Calibration_Send("Xml_Vision_Model",2,2)
 
 ;ENDFOLD
@@ -241,8 +242,8 @@ LIN XP23
 
 
 
-EKRL_Connect("Xml_Vision_Model")
-HanGao_Camera_Sink_Pos(3,2)
+
+
 EKRL_Calibration_Send("Xml_Vision_Model",3,2)
 
 ;ENDFOLD
@@ -260,8 +261,8 @@ LIN XP24
 
 
 
-EKRL_Connect("Xml_Vision_Model")
-HanGao_Camera_Sink_Pos(4,2)
+
+
 EKRL_Calibration_Send("Xml_Vision_Model",4,2)
 
 ;ENDFOLD

@@ -16,7 +16,11 @@ DEFTP Vision={ SOt FALSE,Soc TRUE }
    ITEM[4] {ITEM: VALUE[] "4"  , DISP[] "315"}, _
    POS 1}}
    
-
+  DECL PARAM Calib_Model= {SHORTNAME[] "Model:" , VALUE {LIST: _
+   ITEM[1] {ITEM: VALUE[] "#New", DISP[] "New"},   _
+   ITEM[2] {ITEM: VALUE[] "#Add", DISP[] "Add"},   _
+   ITEM[3] {ITEM: VALUE[] "#Text", DISP[] "Text"},   _
+   POS 1}}
 
    
   DECL PARAM Work_Area= {SHORTNAME[] "Work:" , VALUE {LIST: _
@@ -39,7 +43,9 @@ DEFTP Vision={ SOt FALSE,Soc TRUE }
   
 
  DECL PARAM Camera_NAME = {SHORTNAME[] "Camera_NAME :", UNIT[] "" , VALUE {NAME: DEFAULT[] "P1"}}
-
+ DECL PARAM Calib_NAME = {SHORTNAME[] "Calib_NAME :", UNIT[] "" , VALUE {NAME: DEFAULT[] "P1"}}
+ 
+ 
   DECL PARAM Xml_Name= {SHORTNAME[] "Xml_Name: " , VALUE {LIST: _
    ITEM[1] {ITEM: VALUE[] "Xml_Calibration"   , DISP[] "Xml_Calibration"},   _
    ITEM[2] {ITEM: VALUE[] "Xml_Find_Model"   , DISP[] "Xml_Find_Model"},  _
@@ -55,21 +61,21 @@ DEFTP Vision={ SOt FALSE,Soc TRUE }
   DECL FOLD Data_Send_FOLD[5]
             Data_Send_FOLD[1]=""
             Data_Send_FOLD[2]=""
-            Data_Send_FOLD[3]="EKRL_Connect(/"Xml_Vision_Model/")"
-            Data_Send_FOLD[4]="HanGao_Camera_Sink_Pos(%Area_Calib_lIST ,%Work_Area )"
+            Data_Send_FOLD[3]=""
+            Data_Send_FOLD[4]=""
             Data_Send_FOLD[5]="EKRL_Calibration_Send(/"Xml_Vision_Model/",%Area_Calib_lIST ,%Work_Area )"
                       
             
             
-  DECL FOLD Calibration_Connect_FOLD[5]
-            Calibration_Connect_FOLD[1]=""
-            Calibration_Connect_FOLD[2]=""
-            Calibration_Connect_FOLD[3]=""
-            Calibration_Connect_FOLD[4]=""
-            Calibration_Connect_FOLD[5]=""          
+  DECL FOLD Calibration_Ini_FOLD[5]
+            Calibration_Ini_FOLD[1]=""
+            Calibration_Ini_FOLD[2]="Global_Calib_Model=%Calib_Model "
+            Calibration_Ini_FOLD[3]=""
+            Calibration_Ini_FOLD[4]=""
+            Calibration_Ini_FOLD[5]=""          
  
   DECL FOLD Pos_Number_FOLD[5]
-            Pos_Number_FOLD[1]="Calibration_Point[%Calib_NO ]=$POS_ACT"
+            Pos_Number_FOLD[1]="HanGao_Calibration_Point(X%Calib_NAME ,%Calib_NO )"
             Pos_Number_FOLD[2]=""
             Pos_Number_FOLD[3]=""
             Pos_Number_FOLD[4]=""
@@ -77,7 +83,7 @@ DEFTP Vision={ SOt FALSE,Soc TRUE }
  
   DECL FOLD Find_Model_FOLD[5]
             Find_Model_FOLD[1]=""
-            Find_Model_FOLD[2]="EKRL_Connect(/"Xml_Vision_Model/")"
+            Find_Model_FOLD[2]=""
             Find_Model_FOLD[3]="EKRL_Find_Model_Send(/"Xml_Vision_Model/",%Work_Area ,%Area_Calib_lIST )"
             Find_Model_FOLD[4]=""
             Find_Model_FOLD[5]=""  
@@ -94,7 +100,7 @@ DEFTP Vision={ SOt FALSE,Soc TRUE }
    DECL FOLD Vision_Ini_FOLD[5]
             Vision_Ini_FOLD[1]=""
             Vision_Ini_FOLD[2]=""
-            Vision_Ini_FOLD[3]="EKRL_Connect(/"Xml_Ini_Data/")"
+            Vision_Ini_FOLD[3]=""
             Vision_Ini_FOLD[4]="EKRL_Vision_Int_Data(/"Xml_Ini_Data/")"
             Vision_Ini_FOLD[5]=""
            
@@ -108,12 +114,16 @@ DEFTP Vision={ SOt FALSE,Soc TRUE }
 
 
 ;--------------------LIn_Program------------------------------
+DEFSCRIPT Calibration_Ini_Fun
+
+      SETVAR(FULLPATH[] "Global_Calib_Model", VALUE[] "%Calib_Model " )
+
+
+ENDSCRIPT
 
 
 
-
-
-   DEFSCRIPT Calibration_Ini
+   DEFSCRIPT Calibration_Fun
   
       SETVAR(FULLPATH[] "Calibration_Point[1] ", VALUE[] "{FRAME: X 0,Y 0,Z 0,A 0,B 0,C 0}" )
       SETVAR(FULLPATH[] "Calibration_Point[2] ", VALUE[] "{FRAME: X 0,Y 0,Z 0,A 0,B 0,C 0}" )
@@ -152,8 +162,10 @@ DEFTP Vision={ SOt FALSE,Soc TRUE }
  
     ;DECL InlineForm Find_Connect={ FOLD[1] Find_Connect_FOLD  ,ONACCEPT Calibration_Ini}
     ;DECL InlineForm Calibration_Connect={ FOLD[1] Calibration_Connect_FOLD,PARAM[1] Area_Calib_lIST ,PARAM[2] Work_Area,ONACCEPT Calibration_Ini}
-    DECL InlineForm Calibration_Point={ FOLD[1] Pos_Number_FOLD,PARAM[1] Calib_NO }
+    DECL InlineForm Calibration_Point={ FOLD[1] Pos_Number_FOLD,PARAM[1] Calib_NAME , PARAM[2] Calib_NO}
     DECL InlineForm Calibration_Send={ FOLD[1] Data_Send_FOLD,PARAM[1] Area_Calib_lIST , PARAM[2] Work_Area }
+    DECL InlineForm Calibration_Ini={ FOLD[1] Calibration_Ini_FOLD ,PARAM[1] Calib_Model,ONACCEPT Calibration_Ini_Fun}
+
 
     DECL InlineForm Find_Model={ FOLD[1] Find_Model_FOLD ,PARAM[1] Work_Area,PARAM[2] Area_Calib_lIST}
     DECL  InlineForm Camera_Offset={FOLD[1] Camera_Offset_Fold,PARAM[1] Camera_Name,PARAM[2] Area_Calib_lIST,PARAM[3] Work_Area }
