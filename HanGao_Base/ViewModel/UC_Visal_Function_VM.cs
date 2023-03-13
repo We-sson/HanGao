@@ -752,21 +752,7 @@ namespace HanGao.ViewModel
 
 
 
-        public ICommand Charts_Switch_Comm
-        {
-            get => new RelayCommand<RoutedEventArgs>( (Sm) =>
-            {
-                ComboBox E = Sm.Source as ComboBox;
 
-                        
-
-                Messenger.Send<dynamic , string>((Work_Name_Enum)E.SelectedIndex, nameof(Meg_Value_Eunm.Charts_Switch_Work));
-
-
-
-
-            });
-        }
 
 
 

@@ -1234,12 +1234,12 @@
 
 
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Camera_Settings" Grid.Row=" 0"
+                                     IsChecked="False"
                                      Margin="4"
                                      HorizontalContentAlignment="Stretch"
                                      VerticalContentAlignment="Stretch"
                                      Background="{DynamicResource 全局_按钮_灰颜色}"
-                                     GroupName="Vision_Function"
-                                     IsThreeState="True">
+                                     GroupName="Vision_Function">
                             <CheckBox Style="{DynamicResource Menu_CheckBoxStyle}"
                                       IsChecked="{Binding ElementName=Camera_Settings, Path=IsChecked}"
                                       HorizontalContentAlignment="Stretch"
@@ -1390,7 +1390,7 @@
                 <Border Background="{DynamicResource 全局_背景_白颜色}"
                         CornerRadius="8"
                         Effect="{DynamicResource 全局背景阴影}">
-                    <Grid>
+                    <Grid DataContext="{Binding Source={StaticResource Locator}, Path=UC_Lines_Charts_VM}">
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
@@ -1514,7 +1514,7 @@
                                   DataContext="{Binding Source={StaticResource Locator}, Path=Global_Seting}"
                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
                                   FontSize="16">
-                                <MenuItem Style="{DynamicResource MenuItem_Style}" Height=" 35">
+                                <MenuItem Style="{DynamicResource MenuItem_Style}" Height=" 34">
                                     <MenuItem.Header>
                                         <TextBlock Text="显示设置"
                                                    VerticalAlignment="Center"
@@ -1582,9 +1582,9 @@
                                 </StackPanel>
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Click">
-                                        <i:InvokeCommandAction Command="{Binding}"
-                                                               CommandParameter="{Binding}"
-                                                               PassEventArgsToCommand="False" />
+                                        <i:InvokeCommandAction Command="{Binding Error_Chart_Clearing_Comm}"
+                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                               PassEventArgsToCommand="True" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
 

@@ -6,6 +6,7 @@ using LiveChartsCore.Defaults;
 using LiveChartsCore.Measure;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
+using LiveChartsCore.SkiaSharpView.WPF;
 using SkiaSharp;
 using System;
 using System.Collections.ObjectModel;
@@ -14,6 +15,7 @@ using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Windows.Media.Media3D;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
+using static System.Windows.Forms.LinkLabel;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace HanGao.ViewModel
@@ -57,34 +59,7 @@ namespace HanGao.ViewModel
             //切换图标显示区域内容
             Messenger.Register<dynamic , string>(this, nameof(Meg_Value_Eunm.Charts_Switch_Work), (O, _E) =>
             {
-                switch ((Work_Name_Enum)_E)
-                {
-                    case Work_Name_Enum.Work_1:
-                        Series_X[0].Values = Work_1_Error_List.F_45_Error_List.X;
-                        Series_Y[1].Values = Work_1_Error_List.F_45_Error_List.Y;
-                        Series_X[2].Values = Work_1_Error_List.F_135_Error_List.X;
-                        Series_Y[3].Values = Work_1_Error_List.F_135_Error_List.Y;
-                        Series_X[4].Values = Work_1_Error_List.F_225_Error_List.X;
-                        Series_Y[5].Values = Work_1_Error_List.F_225_Error_List.Y;
-                        Series_X[6].Values = Work_1_Error_List.F_315_Error_List.X;
-                        Series_Y[7].Values = Work_1_Error_List.F_315_Error_List.Y;
-                        break;
-                    case Work_Name_Enum.Work_2:
-                        Series_X[0].Values = Work_2_Error_List.F_45_Error_List.X;
-                        Series_Y[1].Values = Work_2_Error_List.F_45_Error_List.Y;
-                        Series_X[2].Values = Work_2_Error_List.F_135_Error_List.X;
-                        Series_Y[3].Values = Work_2_Error_List.F_135_Error_List.Y;
-                        Series_X[4].Values = Work_2_Error_List.F_225_Error_List.X;
-                        Series_Y[5].Values = Work_2_Error_List.F_225_Error_List.Y;
-                        Series_X[6].Values = Work_2_Error_List.F_315_Error_List.X;
-                        Series_Y[7].Values = Work_2_Error_List.F_315_Error_List.Y;
-                        break;
-                    case Work_Name_Enum.Work_3:
-                        break;
-                    case Work_Name_Enum.Work_4:
-                        break;
-    
-                }
+
 
 
 
@@ -329,7 +304,7 @@ namespace HanGao.ViewModel
         public bool F_45_UI_IsVisible
         {
             get => f_45_UI_IsVisible;
-            set { SetProperty(ref f_45_UI_IsVisible, value); Series_X[0].IsVisible = Series_Y[1].IsVisible = value; }
+            set { SetProperty(ref f_45_UI_IsVisible, value); Series_X[0].IsVisible = Series_Y[0].IsVisible = value; }
         }
 
         private bool f_135_UI_IsVisible = true;
@@ -339,7 +314,7 @@ namespace HanGao.ViewModel
         public bool F_135_UI_IsVisible
         {
             get => f_135_UI_IsVisible;
-            set { SetProperty(ref f_135_UI_IsVisible, value); Series_X[2].IsVisible = Series_Y[3].IsVisible = value; }
+            set { SetProperty(ref f_135_UI_IsVisible, value); Series_X[1].IsVisible = Series_Y[1].IsVisible = value; }
         }
         private bool f_225_UI_IsVisible = true;
         /// <summary>
@@ -348,7 +323,7 @@ namespace HanGao.ViewModel
         public bool F_225_UI_IsVisible
         {
             get => f_225_UI_IsVisible;
-            set { SetProperty(ref f_225_UI_IsVisible, value); Series_X[4].IsVisible = Series_Y[5].IsVisible = value; }
+            set { SetProperty(ref f_225_UI_IsVisible, value); Series_X[2].IsVisible = Series_Y[2].IsVisible = value; }
         }
         private bool f_315_UI_IsVisible = true;
         /// <summary>
@@ -357,7 +332,7 @@ namespace HanGao.ViewModel
         public bool F_315_UI_IsVisible
         {
             get => f_315_UI_IsVisible;
-            set { SetProperty(ref f_315_UI_IsVisible, value); Series_X[6].IsVisible = Series_Y[7].IsVisible = value; }
+            set { SetProperty(ref f_315_UI_IsVisible, value); Series_X[3].IsVisible = Series_Y[3].IsVisible = value; }
         }
 
 
@@ -443,13 +418,103 @@ namespace HanGao.ViewModel
             xAxis[0].MinLimit = _Area.X.Count - 10;
             yAxis[0].MaxLimit = MaxMin_Error_List(_Error_Chart).Max + 1;
             yAxis[0].MinLimit = MaxMin_Error_List(_Error_Chart).Min - 1;
-
-
-
-
-
-
         }
+
+
+
+
+
+        /// <summary>
+        /// 误差图标全部清除数据
+        /// </summary>
+        public ICommand Error_Chart_Clearing_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+
+                //把参数类型转换控件
+                Button E = Sm.Source as Button;
+
+
+                //工作区域数据数据清除
+                Work_1_Error_List.F_45_Error_List.X.Clear();
+                Work_1_Error_List.F_135_Error_List.X.Clear();
+                Work_1_Error_List.F_225_Error_List.X.Clear();
+                Work_1_Error_List.F_315_Error_List.X.Clear();
+                Work_1_Error_List.F_45_Error_List.Y.Clear();
+                Work_1_Error_List.F_135_Error_List.Y.Clear();
+                Work_1_Error_List.F_225_Error_List.Y.Clear();
+                Work_1_Error_List.F_315_Error_List.Y.Clear();
+
+                Work_2_Error_List.F_45_Error_List.X.Clear();
+                Work_2_Error_List.F_135_Error_List.X.Clear();
+                Work_2_Error_List.F_225_Error_List.X.Clear();
+                Work_2_Error_List.F_315_Error_List.X.Clear();
+                Work_2_Error_List.F_45_Error_List.Y.Clear();
+                Work_2_Error_List.F_135_Error_List.Y.Clear();
+                Work_2_Error_List.F_225_Error_List.Y.Clear();
+                Work_2_Error_List.F_315_Error_List.Y.Clear();
+
+
+
+
+            });
+        }
+
+        /// <summary>
+        /// 图表区域显示设置
+        /// </summary>
+        public ICommand Charts_Switch_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                ComboBox E = Sm.Source as ComboBox;
+
+                switch ((Work_Name_Enum)E.SelectedIndex)
+                {
+                    case Work_Name_Enum.Work_1:
+                        Series_X[0].Values = Work_1_Error_List.F_45_Error_List.X;
+                        Series_X[1].Values= Work_1_Error_List.F_135_Error_List.X;
+                        Series_X[2].Values= Work_1_Error_List.F_225_Error_List.X;
+                        Series_X[3].Values= Work_1_Error_List.F_315_Error_List.X;
+
+                        Series_Y[0].Values= Work_1_Error_List.F_45_Error_List.Y;
+                        Series_Y[1].Values= Work_1_Error_List.F_135_Error_List.Y;
+                        Series_Y[2].Values= Work_1_Error_List.F_225_Error_List.Y;
+                        Series_Y[3].Values= Work_1_Error_List.F_315_Error_List.Y;
+
+
+
+
+
+                        break;
+                    case Work_Name_Enum.Work_2:
+
+                        Series_X[0].Values = Work_2_Error_List.F_45_Error_List.X;
+                        Series_X[1].Values = Work_2_Error_List.F_135_Error_List.X;
+                        Series_X[2].Values = Work_2_Error_List.F_225_Error_List.X;
+                        Series_X[3].Values = Work_2_Error_List.F_315_Error_List.X;
+
+                        Series_Y[0].Values = Work_2_Error_List.F_45_Error_List.Y;
+                        Series_Y[1].Values = Work_2_Error_List.F_135_Error_List.Y;
+                        Series_Y[2].Values = Work_2_Error_List.F_225_Error_List.Y;
+                        Series_Y[3].Values = Work_2_Error_List.F_315_Error_List.Y;
+
+
+                        break;
+                    case Work_Name_Enum.Work_3:
+                        break;
+                    case Work_Name_Enum.Work_4:
+                        break;
+
+                }
+
+
+            });
+        }
+
+
+
 
 
 
