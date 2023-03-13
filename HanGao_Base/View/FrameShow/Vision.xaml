@@ -1406,24 +1406,33 @@
                                 <RowDefinition Height="auto" />
                                 <RowDefinition Height="auto" />
                                 <RowDefinition Height=" auto" />
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
+                                <RowDefinition Height=" auto" />
+                                <RowDefinition Height=" auto" />
+                                <RowDefinition Height=" auto" />
+                                <RowDefinition Height=" auto" />
                             </Grid.RowDefinitions>
 
                             <CheckBox Style="{DynamicResource CheckBoxStyle1}" x:Name="图标放大按钮" Grid.Row=" 0"
-                                      Height="40"
+                                      Height="38"
                                       Margin="4"
-                                      HorizontalContentAlignment="Center"
-                                      VerticalContentAlignment="Center"
+                                      HorizontalContentAlignment="Stretch"
+                                      VerticalContentAlignment="Stretch"
                                       Background="{DynamicResource 全局_按钮_蓝颜色}"
-                                      Effect="{DynamicResource 全局背景阴影}"
-                                      FontSize="40">
-                                <Image Height=" 28"
-                                       Margin="5,0,5,0"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Source="/Resources/UC_放大_1_ioc.png" />
+                                      Effect="{DynamicResource 全局背景阴影}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Margin="6,6,2,6"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Source="/Resources/UC_放大_1_ioc.png" />
+                                    <TextBlock Text="放大图表"
+                                               Margin="0"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                               FontSize="12"
+                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                </StackPanel>
+
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Click">
                                         <i:InvokeCommandAction Command="{Binding}"
@@ -1434,6 +1443,7 @@
 
 
                             </CheckBox>
+
 
 
                             <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Row=" 1"
@@ -1498,20 +1508,19 @@
                             <Menu Style="{DynamicResource Menu_Style}" Grid.Row=" 2"
                                   Margin="4"
                                   Padding="2"
-                                  HorizontalAlignment="Center"
-                                  VerticalAlignment="Center"
-                                  HorizontalContentAlignment="Center"
-                                  VerticalContentAlignment="Center"
-                                  Background="{DynamicResource 全局_背景_白颜色}"
+                                  HorizontalContentAlignment="Stretch"
+                                  VerticalContentAlignment="Stretch"
+                                  Background="{DynamicResource 全局_按钮_蓝颜色}"
                                   DataContext="{Binding Source={StaticResource Locator}, Path=Global_Seting}"
                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
                                   FontSize="16">
-                                <MenuItem Style="{DynamicResource MenuItem_Style}">
+                                <MenuItem Style="{DynamicResource MenuItem_Style}" Height=" 35">
                                     <MenuItem.Header>
                                         <TextBlock Text="显示设置"
                                                    VerticalAlignment="Center"
                                                    FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                   FontSize="12" />
+                                                   FontSize="12"
+                                                   Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                     </MenuItem.Header>
                                     <MenuItem.Icon>
                                         <Image Source="/Resources/Vision_下拉选择_ioc.png" />
@@ -1553,32 +1562,96 @@
                                 </MenuItem>
                             </Menu>
 
-
-
-
-                            <!--<CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row=" 2"
-                                      IsChecked="{Binding DataContext.F_45_UI_IsVisible, ElementName=Charts}"
-                                      Margin="4"
-                                      HorizontalContentAlignment="Center"
-                                      VerticalContentAlignment="Center"
-                                      FontSize="40"
-                                      Visibility="Collapsed">
-                                <TextBlock Text="F_45"
+                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Row=" 3"
+                                    Height=" 35"
+                                    Margin="4"
+                                    Padding="4"
+                                    Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                    FontSize="40">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Height=" 25"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
-                                           FontSize=" 16"
-                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                           Source="/Resources/Vision_清除数据_ioc.png" />
+                                    <TextBlock Text="清空图表"
+                                               Margin="2"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                               FontSize="12"
+                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                </StackPanel>
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Click">
                                         <i:InvokeCommandAction Command="{Binding}"
-                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                               PassEventArgsToCommand="True" />
+                                                               CommandParameter="{Binding}"
+                                                               PassEventArgsToCommand="False" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
 
 
-                            </CheckBox>-->
+                            </Button>
 
+
+                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Row=" 4"
+                                    Height=" 35"
+                                    Margin="4"
+                                    Padding="4"
+                                    Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                    FontSize="40">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Height=" 23"
+                                           Margin="2"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Source="/Resources/Vision_保存图标_ioc.png" />
+                                    <TextBlock Text="保存误差"
+                                               Margin="2"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                               FontSize="12"
+                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                </StackPanel>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding}"
+                                                               CommandParameter="{Binding}"
+                                                               PassEventArgsToCommand="False" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+
+
+                            </Button>
+
+
+                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Row=" 5"
+                                    Height=" 35"
+                                    Margin="4"
+                                    Padding="4"
+                                    Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                    FontSize="40">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Height=" 23"
+                                           Margin="2"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Source="/Resources/Vision_读取文件_ioc.png" />
+                                    <TextBlock Text="读取误差"
+                                               Margin="2"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                               FontSize="12"
+                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                </StackPanel>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding}"
+                                                               CommandParameter="{Binding}"
+                                                               PassEventArgsToCommand="False" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+
+
+                            </Button>
 
 
 

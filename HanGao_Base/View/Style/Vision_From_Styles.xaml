@@ -372,8 +372,8 @@
                         Margin="-1,0,0,0"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Background="Transparent" 
-                        BorderBrush="Transparent" 
+                        Background="Transparent"
+                        BorderBrush="Transparent"
                         BorderThickness="1"
                         ClipToBounds="False"
                         Visibility="Hidden">
@@ -583,7 +583,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

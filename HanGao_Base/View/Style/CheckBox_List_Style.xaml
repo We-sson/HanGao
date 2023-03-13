@@ -6,7 +6,7 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Background" Value="{DynamicResource OptionMark.Static.Background}" />
         <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Effect" Value="{DynamicResource 全局背景阴影}" />
         <Setter Property="Template">
             <Setter.Value>
@@ -30,6 +30,8 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasContent" Value="true" />
                         <Trigger Property="IsMouseOver" Value="true">
+                            <!--<Setter Property="Opacity" Value="0.8" />-->
+
                             <Setter TargetName="templateRoot" Property="BorderThickness" Value="2" />
                             <Setter TargetName="templateRoot" Property="BorderBrush" Value="{DynamicResource 全局_按钮_灰颜色}" />
                         </Trigger>
