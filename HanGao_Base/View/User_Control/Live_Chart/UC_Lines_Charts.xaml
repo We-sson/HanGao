@@ -10,14 +10,29 @@
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_Lines_Charts_VM}"
              mc:Ignorable="d">
 
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
 
-    <lvc:CartesianChart DrawMarginFrame="{Binding DrawMarginFrame}"
-                        LegendPosition="Bottom"
-                        Sections="{Binding Sections}"
-                        Series="{Binding Series}"
-                        TooltipPosition="Center"
-                        XAxes="{Binding xAxis}"
-                        YAxes="{Binding yAxis}"
-                        ZoomMode="Both" />
-
+        <lvc:CartesianChart Grid.Row=" 0"
+                            DrawMarginFrame="{Binding DrawMarginFrame}"
+                            LegendPosition="Hidden"
+                            Sections="{Binding Sections}"
+                            Series="{Binding Series_X}"
+                            TooltipPosition="Center"
+                            XAxes="{Binding xAxis}"
+                            YAxes="{Binding yAxis}"
+                            ZoomMode="Both" />
+        <lvc:CartesianChart Grid.Row=" 1"
+                            DrawMarginFrame="{Binding DrawMarginFrame}"
+                            LegendPosition="Hidden"
+                            Sections="{Binding Sections}"
+                            Series="{Binding Series_Y}"
+                            TooltipPosition="Center"
+                            XAxes="{Binding xAxis}"
+                            YAxes="{Binding yAxis}"
+                            ZoomMode="Both" />
+    </Grid>
 </UserControl>

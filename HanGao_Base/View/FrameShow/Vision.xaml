@@ -43,7 +43,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="330" />
+            <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column=" 0">
@@ -1213,9 +1213,6 @@
 
                 </Grid.ColumnDefinitions>
                 <UC_Working:User_Control_Log Grid.Column="0" />
-
-
-
                 <Border Grid.Column=" 1"
                         Width=" 65"
                         Margin="6,0,0,0"
@@ -1236,122 +1233,129 @@
 
 
 
-                        <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" Grid.Row=" 0"
-                                     Name="Camera_Settings"
-                                     IsChecked="True"
+                        <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Camera_Settings" Grid.Row=" 0"
                                      Margin="4"
-                                     HorizontalContentAlignment="Center"
-                                     VerticalContentAlignment="Center"
+                                     HorizontalContentAlignment="Stretch"
+                                     VerticalContentAlignment="Stretch"
                                      Background="{DynamicResource 全局_按钮_灰颜色}"
-                                     GroupName="Vision_Function">
-                            <StackPanel Margin="0"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Orientation="Horizontal">
-                                <Image Height=" 30"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Source="/Resources/Control_相机设置_ioc.png" />
+                                     GroupName="Vision_Function"
+                                     IsThreeState="True">
+                            <CheckBox Style="{DynamicResource Menu_CheckBoxStyle}"
+                                      IsChecked="{Binding ElementName=Camera_Settings, Path=IsChecked}"
+                                      HorizontalContentAlignment="Stretch"
+                                      VerticalContentAlignment="Stretch"
+                                      Background="Transparent">
+
+
+
                                 <!--<TextBlock Text="相机设置"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16" />-->
-                            </StackPanel>
+                                <Image Height=" 30"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Source="/Resources/Control_相机设置_ioc.png" />
 
+                            </CheckBox>
                         </RadioButton>
 
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Point_Calibration" Grid.Row=" 1"
                                      Margin="4"
-                                     HorizontalContentAlignment="Center"
-                                     VerticalContentAlignment="Center"
+                                     HorizontalContentAlignment="Stretch"
+                                     VerticalContentAlignment="Stretch"
                                      Background="{DynamicResource 全局_按钮_灰颜色}"
                                      GroupName="Vision_Function">
-                            <StackPanel Margin="0"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Orientation="Horizontal">
-                                <Image Height=" 30"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Source="/Resources/Control_九点标定_ioc.png" />
+                            <CheckBox Style="{DynamicResource Menu_CheckBoxStyle}"
+                                      IsChecked="{Binding ElementName=Point_Calibration, Path=IsChecked}"
+                                      HorizontalContentAlignment="Stretch"
+                                      VerticalContentAlignment="Stretch"
+                                      Background="Transparent">
                                 <!--<TextBlock Text="九点标定"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                FontSize="16" />-->
-                            </StackPanel>
+                                <Image Height=" 30"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Source="/Resources/Control_九点标定_ioc.png" />
+                            </CheckBox>
 
                         </RadioButton>
 
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Create_Model" Grid.Row=" 2"
                                      Margin="4"
-                                     HorizontalContentAlignment="Center"
-                                     VerticalContentAlignment="Center"
+                                     HorizontalContentAlignment="Stretch"
+                                     VerticalContentAlignment="Stretch"
                                      Background="{DynamicResource 全局_按钮_灰颜色}"
                                      GroupName="Vision_Function">
-                            <StackPanel Margin="0"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Orientation="Horizontal">
-                                <Image Height=" 30"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Source="/Resources/Control_创建模型_ioc.png" />
+                            <CheckBox Style="{DynamicResource Menu_CheckBoxStyle}"
+                                      IsChecked="{Binding ElementName=Create_Model, Path=IsChecked}"
+                                      HorizontalContentAlignment="Stretch"
+                                      VerticalContentAlignment="Stretch"
+                                      Background="Transparent">
                                 <!--<TextBlock Text="识别模型"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                FontSize="16" />-->
-                            </StackPanel>
+                                <Image Height=" 30"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Source="/Resources/Control_创建模型_ioc.png" />
+                            </CheckBox>
 
 
                         </RadioButton>
 
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Robot_Model" Grid.Row=" 3"
                                      Margin="4"
-                                     HorizontalContentAlignment="Center"
-                                     VerticalContentAlignment="Center"
+                                     HorizontalContentAlignment="Stretch"
+                                     VerticalContentAlignment="Stretch"
                                      Background="{DynamicResource 全局_按钮_灰颜色}"
                                      GroupName="Vision_Function">
-                            <StackPanel Margin="0"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Orientation="Horizontal">
-                                <Image Height=" 30"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Source="/Resources/Control_机器通讯_ioc.png" />
+                            <CheckBox Style="{DynamicResource Menu_CheckBoxStyle}"
+                                      IsChecked="{Binding ElementName=Robot_Model, Path=IsChecked}"
+                                      HorizontalContentAlignment="Stretch"
+                                      VerticalContentAlignment="Stretch"
+                                      Background="Transparent">
                                 <!--<TextBlock Text="机器通讯"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                FontSize="16" />-->
-                            </StackPanel>
+                                <Image Height=" 30"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Source="/Resources/Control_机器通讯_ioc.png" />
+                            </CheckBox>
 
 
                         </RadioButton>
 
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Auto_Model" Grid.Row=" 4"
                                      Margin="4"
-                                     HorizontalContentAlignment="Center"
-                                     VerticalContentAlignment="Center"
+                                     HorizontalContentAlignment="Stretch"
+                                     VerticalContentAlignment="Stretch"
                                      Background="{DynamicResource 全局_按钮_灰颜色}"
                                      GroupName="Vision_Function">
-                            <StackPanel Margin="0"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Orientation="Horizontal">
-                                <Image Height=" 30"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Source="/Resources/Control_自动模式_ioc.png" />
+                            <CheckBox Style="{DynamicResource Menu_CheckBoxStyle}"
+                                      IsChecked="{Binding ElementName=Auto_Model, Path=IsChecked}"
+                                      HorizontalContentAlignment="Stretch"
+                                      VerticalContentAlignment="Stretch"
+                                      Background="Transparent">
                                 <!--<TextBlock Text="自动模式"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                FontSize="16" />-->
-                            </StackPanel>
+                                <Image Height=" 30"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Source="/Resources/Control_自动模式_ioc.png" />
+                            </CheckBox>
 
 
                         </RadioButton>
@@ -1390,7 +1394,7 @@
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
-                            <ColumnDefinition Width=" 90" />
+                            <ColumnDefinition Width=" 95" />
                         </Grid.ColumnDefinitions>
                         <Charts:UC_Lines_Charts x:Name="Charts" Margin="5" />
 
@@ -1409,7 +1413,7 @@
 
                             <CheckBox Style="{DynamicResource CheckBoxStyle1}" x:Name="图标放大按钮" Grid.Row=" 0"
                                       Height="40"
-                                      Margin="2"
+                                      Margin="4"
                                       HorizontalContentAlignment="Center"
                                       VerticalContentAlignment="Center"
                                       Background="{DynamicResource 全局_按钮_蓝颜色}"
@@ -1433,7 +1437,7 @@
 
 
                             <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Row=" 1"
-                                      Margin="2"
+                                      Margin="4"
                                       VerticalAlignment="Center"
                                       VerticalContentAlignment="Center"
                                       BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
@@ -1492,7 +1496,7 @@
                             </ComboBox>
 
                             <Menu Style="{DynamicResource Menu_Style}" Grid.Row=" 2"
-                                  Margin="2"
+                                  Margin="4"
                                   Padding="2"
                                   HorizontalAlignment="Center"
                                   VerticalAlignment="Center"
@@ -1600,23 +1604,17 @@
         </Grid>
 
 
+        <Grid x:Name="Vision_Menu" Grid.Column=" 1"
+              Margin="3,6,6,12">
 
-        <Vision_Control:UC_Vision_CameraSet Grid.Column=" 1"
-                                            Margin="3,6,6,12"
-                                            Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Camera_Settings}" />
-        <Vision_Control:UC_Vision_Point_Calibration Grid.Column=" 1"
-                                                    Margin="3,6,6,12"
-                                                    Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Point_Calibration}" />
-        <Vision_Control:UC_Vision_Create_Template Grid.Column=" 1"
-                                                  Margin="3,6,6,12"
-                                                  Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Create_Model}" />
-        <Vision_Control:UC_Vision_Auto_Model Grid.Column=" 1"
-                                             Margin="3,6,6,12"
-                                             Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Auto_Model}" />
-        <Vision_Control:UC_Vision_Robot_Protocol Grid.Column=" 1"
-                                                 Margin="3,6,6,12"
-                                                 Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Robot_Model}" />
 
+            <Vision_Control:UC_Vision_CameraSet Width="330" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Camera_Settings}" />
+            <Vision_Control:UC_Vision_Point_Calibration Width="330" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Point_Calibration}" />
+            <Vision_Control:UC_Vision_Create_Template Width="330" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Create_Model}" />
+            <Vision_Control:UC_Vision_Auto_Model Width="330" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Auto_Model}" />
+            <Vision_Control:UC_Vision_Robot_Protocol Width="330" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Robot_Model}" />
+
+        </Grid>
 
 
 

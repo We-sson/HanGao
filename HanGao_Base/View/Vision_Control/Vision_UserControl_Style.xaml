@@ -153,6 +153,8 @@
                             <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
 
                         </MultiTrigger>
+     
+
                         <Trigger Property="IsMouseOver" Value="true">
 
                             <!--<Setter Property="Background" TargetName="radioButtonBorder" Value="{StaticResource RadioButton.MouseOver.Background}"/>

@@ -60,24 +60,24 @@ namespace HanGao.ViewModel
                 switch ((Work_Name_Enum)_E)
                 {
                     case Work_Name_Enum.Work_1:
-                        Series[0].Values = Work_1_Error_List.F_45_Error_List.X;
-                        Series[1].Values = Work_1_Error_List.F_45_Error_List.Y;
-                        Series[2].Values = Work_1_Error_List.F_135_Error_List.X;
-                        Series[3].Values = Work_1_Error_List.F_135_Error_List.Y;
-                        Series[4].Values = Work_1_Error_List.F_225_Error_List.X;
-                        Series[5].Values = Work_1_Error_List.F_225_Error_List.Y;
-                        Series[6].Values = Work_1_Error_List.F_315_Error_List.X;
-                        Series[7].Values = Work_1_Error_List.F_315_Error_List.Y;
+                        Series_X[0].Values = Work_1_Error_List.F_45_Error_List.X;
+                        Series_Y[1].Values = Work_1_Error_List.F_45_Error_List.Y;
+                        Series_X[2].Values = Work_1_Error_List.F_135_Error_List.X;
+                        Series_Y[3].Values = Work_1_Error_List.F_135_Error_List.Y;
+                        Series_X[4].Values = Work_1_Error_List.F_225_Error_List.X;
+                        Series_Y[5].Values = Work_1_Error_List.F_225_Error_List.Y;
+                        Series_X[6].Values = Work_1_Error_List.F_315_Error_List.X;
+                        Series_Y[7].Values = Work_1_Error_List.F_315_Error_List.Y;
                         break;
                     case Work_Name_Enum.Work_2:
-                        Series[0].Values = Work_2_Error_List.F_45_Error_List.X;
-                        Series[1].Values = Work_2_Error_List.F_45_Error_List.Y;
-                        Series[2].Values = Work_2_Error_List.F_135_Error_List.X;
-                        Series[3].Values = Work_2_Error_List.F_135_Error_List.Y;
-                        Series[4].Values = Work_2_Error_List.F_225_Error_List.X;
-                        Series[5].Values = Work_2_Error_List.F_225_Error_List.Y;
-                        Series[6].Values = Work_2_Error_List.F_315_Error_List.X;
-                        Series[7].Values = Work_2_Error_List.F_315_Error_List.Y;
+                        Series_X[0].Values = Work_2_Error_List.F_45_Error_List.X;
+                        Series_Y[1].Values = Work_2_Error_List.F_45_Error_List.Y;
+                        Series_X[2].Values = Work_2_Error_List.F_135_Error_List.X;
+                        Series_Y[3].Values = Work_2_Error_List.F_135_Error_List.Y;
+                        Series_X[4].Values = Work_2_Error_List.F_225_Error_List.X;
+                        Series_Y[5].Values = Work_2_Error_List.F_225_Error_List.Y;
+                        Series_X[6].Values = Work_2_Error_List.F_315_Error_List.X;
+                        Series_Y[7].Values = Work_2_Error_List.F_315_Error_List.Y;
                         break;
                     case Work_Name_Enum.Work_3:
                         break;
@@ -114,22 +114,22 @@ namespace HanGao.ViewModel
                     Work_1_Error_List.F_315_Error_List.Y.Add(_R.NextDouble() * 1.2);
 
 
-                    Console.WriteLine("----------------");
-                    Console.WriteLine(yAxis[0].MinLimit);
-                    Console.WriteLine(yAxis[0].MaxLimit);
-                    Console.WriteLine(xAxis[0].MinLimit);
-                    Console.WriteLine(xAxis[0].MaxLimit);
+                    //Console.WriteLine("----------------");
+                    //Console.WriteLine(yAxis[0].MinLimit);
+                    //Console.WriteLine(yAxis[0].MaxLimit);
+                    //Console.WriteLine(xAxis[0].MinLimit);
+                    //Console.WriteLine(xAxis[0].MaxLimit);
 
-                    xAxis[0].MaxLimit = Work_1_Error_List.F_45_Error_List.X.Count;
-                    xAxis[0].MinLimit = Work_1_Error_List.F_45_Error_List.X.Count - 10;
-                    yAxis[0].MaxLimit = MaxMin_Error_List(Work_1_Error_List).Max + 1;
-                    yAxis[0].MinLimit = MaxMin_Error_List(Work_1_Error_List).Min - 1;
+                    //xAxis[0].MaxLimit = Work_1_Error_List.F_45_Error_List.X.Count;
+                    //xAxis[0].MinLimit = Work_1_Error_List.F_45_Error_List.X.Count - 10;
+                    //yAxis[0].MaxLimit = MaxMin_Error_List(Work_1_Error_List).Max + 1;
+                    //yAxis[0].MinLimit = MaxMin_Error_List(Work_1_Error_List).Min - 1;
 
 
                 }
 
             })))
-            { IsBackground = true, };
+            { IsBackground = true, }.Start();
 
 
         }
@@ -172,7 +172,9 @@ namespace HanGao.ViewModel
 
 
 
-
+        /// <summary>
+        /// 机器人状态显示
+        /// </summary>
         public IEnumerable<ISeries> Robot_State_Series { get; set; }
        = new GaugeBuilder()
        .WithLabelsSize(20)
@@ -191,9 +193,9 @@ namespace HanGao.ViewModel
 
 
         /// <summary>
-        /// 定义视觉误差图表显示样式
+        /// 定义X误差图表显示样式
         /// </summary>
-        public  ObservableCollection<ISeries> Series { get; set; }
+        public  ObservableCollection<ISeries> Series_X { get; set; }
        = new ObservableCollection<ISeries>
        {
              new LineSeries<double>
@@ -205,15 +207,7 @@ namespace HanGao.ViewModel
                 Fill = null,
 
             },
-             new LineSeries<double>
-            {
-                Name = "Er_45_Y",
-                LineSmoothness = 10,
-                GeometrySize = 5,
-                Values = Work_1_Error_List.F_45_Error_List.Y,
-                Fill = null,
 
-            },
           new LineSeries<double>
             {
                 Name = "Er_135_X",
@@ -223,15 +217,7 @@ namespace HanGao.ViewModel
                 Fill = null,
 
             },
-            new LineSeries<double>
-            {
-                Name = "Er_135_Y",
-                LineSmoothness = 10,
-                GeometrySize = 5,
-                Values = Work_1_Error_List.F_135_Error_List.Y,
-                Fill = null,
 
-            },
             new LineSeries<double>
             {
                 Name = "Er_225_X",
@@ -241,15 +227,7 @@ namespace HanGao.ViewModel
                 Fill = null,
 
             },
-            new LineSeries<double>
-            {
-                Name = "Er_225_Y",
-                LineSmoothness = 10,
-                GeometrySize = 5,
-                Values = Work_1_Error_List.F_225_Error_List.Y,
-                Fill = null,
 
-            },
              new LineSeries<double>
             {
                 Name = "Er_315_X",
@@ -259,6 +237,48 @@ namespace HanGao.ViewModel
                 Fill = null,
 
             },
+
+
+
+       };
+
+        /// <summary>
+        /// 定义Y误差图表显示样式
+        /// </summary>
+        public ObservableCollection<ISeries> Series_Y { get; set; }
+       = new ObservableCollection<ISeries>
+       {
+
+             new LineSeries<double>
+            {
+                Name = "Er_45_Y",
+                LineSmoothness = 10,
+                GeometrySize = 5,
+                Values = Work_1_Error_List.F_45_Error_List.Y,
+                Fill = null,
+
+            },
+
+            new LineSeries<double>
+            {
+                Name = "Er_135_Y",
+                LineSmoothness = 10,
+                GeometrySize = 5,
+                Values = Work_1_Error_List.F_135_Error_List.Y,
+                Fill = null,
+
+            },
+
+            new LineSeries<double>
+            {
+                Name = "Er_225_Y",
+                LineSmoothness = 10,
+                GeometrySize = 5,
+                Values = Work_1_Error_List.F_225_Error_List.Y,
+                Fill = null,
+
+            },
+
              new LineSeries<double>
             {
                 Name = "Er_315_Y",
@@ -274,7 +294,6 @@ namespace HanGao.ViewModel
 
 
 
-
         /// <summary>
         /// 显示范围
         /// </summary>
@@ -286,7 +305,7 @@ namespace HanGao.ViewModel
                     // creates a section from 3 to 4 in the X axis
                     Yi = 5,
                     Yj = -5,
-                    Fill = new SolidColorPaint(new SKColor(118,186,153))
+                    Fill = new SolidColorPaint(new SKColor(163,204,184))
                 },
 
 
@@ -310,7 +329,7 @@ namespace HanGao.ViewModel
         public bool F_45_UI_IsVisible
         {
             get => f_45_UI_IsVisible;
-            set { SetProperty(ref f_45_UI_IsVisible, value); Series[0].IsVisible = Series[1].IsVisible = value; }
+            set { SetProperty(ref f_45_UI_IsVisible, value); Series_X[0].IsVisible = Series_Y[1].IsVisible = value; }
         }
 
         private bool f_135_UI_IsVisible = true;
@@ -320,7 +339,7 @@ namespace HanGao.ViewModel
         public bool F_135_UI_IsVisible
         {
             get => f_135_UI_IsVisible;
-            set { SetProperty(ref f_135_UI_IsVisible, value); Series[2].IsVisible = Series[3].IsVisible = value; }
+            set { SetProperty(ref f_135_UI_IsVisible, value); Series_X[2].IsVisible = Series_Y[3].IsVisible = value; }
         }
         private bool f_225_UI_IsVisible = true;
         /// <summary>
@@ -329,7 +348,7 @@ namespace HanGao.ViewModel
         public bool F_225_UI_IsVisible
         {
             get => f_225_UI_IsVisible;
-            set { SetProperty(ref f_225_UI_IsVisible, value); Series[4].IsVisible = Series[5].IsVisible = value; }
+            set { SetProperty(ref f_225_UI_IsVisible, value); Series_X[4].IsVisible = Series_Y[5].IsVisible = value; }
         }
         private bool f_315_UI_IsVisible = true;
         /// <summary>
@@ -338,7 +357,7 @@ namespace HanGao.ViewModel
         public bool F_315_UI_IsVisible
         {
             get => f_315_UI_IsVisible;
-            set { SetProperty(ref f_315_UI_IsVisible, value); Series[6].IsVisible = Series[7].IsVisible = value; }
+            set { SetProperty(ref f_315_UI_IsVisible, value); Series_X[6].IsVisible = Series_Y[7].IsVisible = value; }
         }
 
 
