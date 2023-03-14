@@ -8,10 +8,10 @@
     <ROW Property="ARPCOMMENTS" Value="This installer database contains the logic and data required to install [|ProductName]." ValueLocId="*"/>
     <ROW Property="Manufacturer" Value="HanGao.CJ"/>
     <ROW Property="PIDTemplate" Value="&lt;###-###-###-###&gt;"/>
-    <ROW Property="ProductCode" Value="1033:{454B1787-5C41-4FD5-9B23-9AAC82F25D51} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{C425CBD7-F2A2-4CFC-9115-7BF109E9E383} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="HanGao_[|ProductVersion]"/>
-    <ROW Property="ProductVersion" Value="1.0.8470.29906" Type="32" TargetFile="HanGao.exe"/>
+    <ROW Property="ProductVersion" Value="1.0.8473.17412" Type="32" TargetFile="HanGao.exe"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{1BF847BB-6B9E-48B2-9971-A3E9C586A146}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="x64_Release:Windows 9x/ME" ValueLocId="-"/>
@@ -221,6 +221,7 @@
     <ROW Component="hdevenginecppxl.dll" ComponentId="{8AF0DB51-C0DC-4DA7-A71A-DD409A6F94EB}" Directory_="APPDIR" Attributes="256" KeyPath="hdevenginecppxl.dll"/>
     <ROW Component="hdevenginedotnet.dll" ComponentId="{33844A38-9D62-40E2-B9F8-09A70685C8B9}" Directory_="APPDIR" Attributes="0" KeyPath="hdevenginedotnet.dll"/>
     <ROW Component="hdevenginedotnetxl.dll" ComponentId="{4CA346A0-9573-45D7-B1C1-619AA7577547}" Directory_="APPDIR" Attributes="0" KeyPath="hdevenginedotnetxl.dll"/>
+    <ROW Component="libHarfBuzzSharp.dll" ComponentId="{8B49764F-75E1-4CCA-A4FF-1363DD4921CE}" Directory_="APPDIR" Attributes="256" KeyPath="libHarfBuzzSharp.dll"/>
     <ROW Component="libSkiaSharp.dll" ComponentId="{528C3CCA-3298-407F-8106-768C34FCD0F2}" Directory_="APPDIR" Attributes="0" KeyPath="libSkiaSharp.dll"/>
     <ROW Component="libiomp5md.dll" ComponentId="{BCFD8BA4-EB99-4B8D-88D4-35B3887772E0}" Directory_="APPDIR" Attributes="256" KeyPath="libiomp5md.dll"/>
     <ROW Component="mscorlib.dll" ComponentId="{2958B086-A41E-4CC3-9BAC-C2C5C87F034A}" Directory_="APPDIR" Attributes="0" KeyPath="mscorlib.dll"/>
@@ -244,7 +245,7 @@
     <ROW File="PresentationFramework.dll" Component_="PresentationFramework.dll" FileName="PRESEN~1.DLL|PresentationFramework.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\PresentationFramework.dll" SelfReg="false"/>
     <ROW File="Enum_Extension.dll" Component_="Enum_Extension.dll" FileName="ENUM_E~1.DLL|Enum_Extension.dll" Attributes="0" SourcePath="C:\Users\H\source\repos\HanGao\Enum_Extension\bin\Release\Enum_Extension.dll" SelfReg="false"/>
     <ROW File="System.Security.Cryptography.X509Certificates.dll" Component_="System.Security.Cryptography.X509Certificates.dll" FileName="SYSTEM~3.DLL|System.Security.Cryptography.X509Certificates.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\System.Security.Cryptography.X509Certificates.dll" SelfReg="false"/>
-    <ROW File="ClassLibrary.pdb" Component_="ClassLibrary.pdb" FileName="CLASSL~1.PDB|ClassLibrary.pdb" Attributes="0" SourcePath="C:\Users\H\source\repos\HanGao\MVS_SDK\bin\Debug\ClassLibrary.pdb" SelfReg="false"/>
+    <ROW File="ClassLibrary.pdb" Component_="ClassLibrary.pdb" FileName="CLASSL~1.PDB|ClassLibrary.pdb" Attributes="0" SourcePath="C:\Users\H\source\repos\HanGao\MVS_SDK\bin\Release\ClassLibrary.pdb" SelfReg="false"/>
     <ROW File="System.Net.Http.dll" Component_="System.Net.Http.dll" FileName="SYSTEM~4.DLL|System.Net.Http.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Net.Http.dll" SelfReg="false"/>
     <ROW File="System.Xml.Linq.dll" Component_="System.Xml.Linq.dll" FileName="SYSTEM~5.DLL|System.Xml.Linq.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Xml.Linq.dll" SelfReg="false"/>
     <ROW File="System.Runtime.CompilerServices.VisualC.dll" Component_="System.Runtime.CompilerServices.VisualC.dll" FileName="SYSTEM~6.DLL|System.Runtime.CompilerServices.VisualC.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\System.Runtime.CompilerServices.VisualC.dll" SelfReg="false"/>
@@ -341,7 +342,7 @@
     <ROW File="System.Linq.Parallel.dll" Component_="System.Linq.Parallel.dll" FileName="SYSTE~75.DLL|System.Linq.Parallel.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\System.Linq.Parallel.dll" SelfReg="false"/>
     <ROW File="System.Linq.Queryable.dll" Component_="System.Linq.Queryable.dll" FileName="SYSTE~76.DLL|System.Linq.Queryable.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\System.Linq.Queryable.dll" SelfReg="false"/>
     <ROW File="System.Net.Http.Rtc.dll" Component_="System.Net.Http.Rtc.dll" FileName="SYSTE~77.DLL|System.Net.Http.Rtc.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\System.Net.Http.Rtc.dll" SelfReg="false"/>
-    <ROW File="XML_ReadWrite.pdb" Component_="XML_ReadWrite.dll" FileName="XML_RE~1.PDB|XML_ReadWrite.pdb" Attributes="0" SourcePath="C:\Users\H\source\repos\HanGao\XML_ReadWrite\bin\Debug\XML_ReadWrite.pdb" SelfReg="false"/>
+    <ROW File="XML_ReadWrite.pdb" Component_="XML_ReadWrite.dll" FileName="XML_RE~1.PDB|XML_ReadWrite.pdb" Attributes="0" SourcePath="C:\Users\H\source\repos\HanGao\XML_ReadWrite\bin\Release\XML_ReadWrite.pdb" SelfReg="false"/>
     <ROW File="libiomp5md.dll" Component_="libiomp5md.dll" FileName="LIBIOM~1.DLL|libiomp5md.dll" Attributes="0" SourcePath="C:\Users\H\source\repos\HanGao\Halcon_SDK\bin\Release\libiomp5md.dll" SelfReg="false"/>
     <ROW File="System.Net.WebHeaderCollection.dll" Component_="System.Net.WebHeaderCollection.dll" FileName="SYSTE~78.DLL|System.Net.WebHeaderCollection.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\System.Net.WebHeaderCollection.dll" SelfReg="false"/>
     <ROW File="System.Net.NameResolution.dll" Component_="System.Net.NameResolution.dll" FileName="SYSTE~79.DLL|System.Net.NameResolution.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\System.Net.NameResolution.dll" SelfReg="false"/>
@@ -417,7 +418,7 @@
     <ROW File="System.ComponentModel.Annotations.dll" Component_="System.ComponentModel.Annotations.dll" FileName="SYST~124.DLL|System.ComponentModel.Annotations.dll" Attributes="0" SourcePath="C:\Users\H\.nuget\packages\system.componentmodel.annotations\5.0.0\lib\net461\System.ComponentModel.Annotations.dll" SelfReg="false"/>
     <ROW File="System.Diagnostics.DiagnosticSource.dll" Component_="System.Diagnostics.DiagnosticSource.dll" FileName="SYST~125.DLL|System.Diagnostics.DiagnosticSource.dll" Attributes="0" SourcePath="C:\Users\H\.nuget\packages\system.diagnostics.diagnosticsource\4.3.0\lib\net46\System.Diagnostics.DiagnosticSource.dll" SelfReg="false"/>
     <ROW File="System.Drawing.Common.dll" Component_="System.Drawing.Common.dll" FileName="SYST~126.DLL|System.Drawing.Common.dll" Attributes="0" SourcePath="C:\Users\H\.nuget\packages\system.drawing.common\7.0.0-rc.1.22426.10\lib\net462\System.Drawing.Common.dll" SelfReg="false"/>
-    <ROW File="Halcon_SDK_DLL.pdb" Component_="Halcon_SDK_DLL.dll" FileName="HALCON~1.PDB|Halcon_SDK_DLL.pdb" Attributes="0" SourcePath="C:\Users\H\source\repos\HanGao\Halcon_SDK\bin\Debug\Halcon_SDK_DLL.pdb" SelfReg="false"/>
+    <ROW File="Halcon_SDK_DLL.pdb" Component_="Halcon_SDK_DLL.dll" FileName="HALCON~1.PDB|Halcon_SDK_DLL.pdb" Attributes="0" SourcePath="C:\Users\H\source\repos\HanGao\Halcon_SDK\bin\Release\Halcon_SDK_DLL.pdb" SelfReg="false"/>
     <ROW File="System.Memory.dll" Component_="System.Memory.dll" FileName="SYST~127.DLL|System.Memory.dll" Attributes="0" SourcePath="C:\Users\H\.nuget\packages\system.memory\4.5.5\lib\net461\System.Memory.dll" SelfReg="false"/>
     <ROW File="System.Numerics.Vectors.dll" Component_="System.Numerics.Vectors.dll" FileName="SYST~128.DLL|System.Numerics.Vectors.dll" Attributes="0" SourcePath="C:\Users\H\.nuget\packages\system.numerics.vectors\4.5.0\lib\net46\System.Numerics.Vectors.dll" SelfReg="false"/>
     <ROW File="System.Runtime.CompilerServices.Unsafe.dll" Component_="System.Runtime.CompilerServices.Unsafe.dll" FileName="SYST~129.DLL|System.Runtime.CompilerServices.Unsafe.dll" Attributes="0" SourcePath="C:\Users\H\.nuget\packages\system.runtime.compilerservices.unsafe\7.0.0-preview.2.22152.2\lib\net462\System.Runtime.CompilerServices.Unsafe.dll" SelfReg="false"/>
@@ -429,9 +430,10 @@
     <ROW File="halcondotnetxl.dll" Component_="halcondotnetxl.dll" FileName="HALCON~7.DLL|halcondotnetxl.dll" Attributes="0" SourcePath="C:\Users\H\source\repos\HanGao\Halcon_SDK\bin\Release\halcondotnetxl.dll" SelfReg="false"/>
     <ROW File="libSkiaSharp.dll" Component_="libSkiaSharp.dll" FileName="LIBSKI~1.DLL|libSkiaSharp.dll" Attributes="0" SourcePath="C:\Users\H\source\repos\HanGao\HanGao_Base\bin\x64\Release\x64\libSkiaSharp.dll" SelfReg="false"/>
     <ROW File="libSkiaSharp.dylib" Component_="HanGao.exe.config" FileName="LIBSKI~1.DYL|libSkiaSharp.dylib" Attributes="0" SourcePath="C:\Users\H\source\repos\HanGao\HanGao_Base\bin\x64\Release\libSkiaSharp.dylib" SelfReg="false"/>
-    <ROW File="Enum_Extension.pdb" Component_="Enum_Extension.dll" FileName="ENUM_E~1.PDB|Enum_Extension.pdb" Attributes="0" SourcePath="C:\Users\H\source\repos\HanGao\Enum_Extension\bin\Debug\Enum_Extension.pdb" SelfReg="false"/>
-    <ROW File="KUKA_Socket.pdb" Component_="KUKA_Socket.dll" FileName="KUKA_S~1.PDB|KUKA_Socket.pdb" Attributes="0" SourcePath="C:\Users\H\source\repos\HanGao\KUKA_Socket\bin\Debug\KUKA_Socket.pdb" SelfReg="false"/>
-    <ROW File="Generic_Extension.pdb" Component_="Generic_Extension.dll" FileName="GENERI~1.PDB|Generic_Extension.pdb" Attributes="0" SourcePath="C:\Users\H\source\repos\HanGao\Generic_Extension\bin\Debug\Generic_Extension.pdb" SelfReg="false"/>
+    <ROW File="Enum_Extension.pdb" Component_="Enum_Extension.dll" FileName="ENUM_E~1.PDB|Enum_Extension.pdb" Attributes="0" SourcePath="C:\Users\H\source\repos\HanGao\Enum_Extension\bin\Release\Enum_Extension.pdb" SelfReg="false"/>
+    <ROW File="KUKA_Socket.pdb" Component_="KUKA_Socket.dll" FileName="KUKA_S~1.PDB|KUKA_Socket.pdb" Attributes="0" SourcePath="C:\Users\H\source\repos\HanGao\KUKA_Socket\bin\Release\KUKA_Socket.pdb" SelfReg="false"/>
+    <ROW File="Generic_Extension.pdb" Component_="Generic_Extension.dll" FileName="GENERI~1.PDB|Generic_Extension.pdb" Attributes="0" SourcePath="C:\Users\H\source\repos\HanGao\Generic_Extension\bin\Release\Generic_Extension.pdb" SelfReg="false"/>
+    <ROW File="libHarfBuzzSharp.dll" Component_="libHarfBuzzSharp.dll" FileName="LIBHAR~1.DLL|libHarfBuzzSharp.dll" Attributes="0" SourcePath="C:\Users\H\source\repos\HanGao\HanGao_Base\bin\x64\Release\arm64\libHarfBuzzSharp.dll" SelfReg="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BootstrOptComponent">
     <ROW BootstrOptKey="GlobalOptions" DownloadFolder="[AppDataFolder][|Manufacturer]\[|ProductName]\prerequisites" Options="2"/>
@@ -713,6 +715,7 @@
     <ROW Feature_="MainFeature" Component_="halcondotnetxl.dll"/>
     <ROW Feature_="MainFeature" Component_="SHORTCUTDIR"/>
     <ROW Feature_="MainFeature" Component_="libSkiaSharp.dll"/>
+    <ROW Feature_="MainFeature" Component_="libHarfBuzzSharp.dll"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstExSeqComponent">
     <ROW Action="AI_STORE_LOCATION" Condition="(Not Installed) OR REINSTALL" Sequence="1501"/>
@@ -750,6 +753,10 @@
     <ROW Shortcut="HanGao.exe_3" Directory_="DesktopFolder" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
     <ROW Shortcut="HanGao.exe_4" Directory_="SHORTCUTDIR" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
     <ROW Shortcut="HanGao.exe_5" Directory_="DesktopFolder" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="HanGao.exe_6" Directory_="SHORTCUTDIR" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="HanGao.exe_7" Directory_="DesktopFolder" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="HanGao.exe_8" Directory_="SHORTCUTDIR" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="HanGao.exe_9" Directory_="DesktopFolder" Name="HanGao.exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiThemeComponent">
     <ATTRIBUTE name="UsedTheme" value="classic"/>

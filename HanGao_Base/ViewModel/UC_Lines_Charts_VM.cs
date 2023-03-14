@@ -104,7 +104,7 @@ namespace HanGao.ViewModel
                 }
 
             })))
-            { IsBackground = true, }.Start();
+            { IsBackground = true, };
 
 
         }
@@ -437,23 +437,11 @@ namespace HanGao.ViewModel
 
 
                 //工作区域数据数据清除
-                Work_1_Error_List.F_45_Error_List.X.Clear();
-                Work_1_Error_List.F_135_Error_List.X.Clear();
-                Work_1_Error_List.F_225_Error_List.X.Clear();
-                Work_1_Error_List.F_315_Error_List.X.Clear();
-                Work_1_Error_List.F_45_Error_List.Y.Clear();
-                Work_1_Error_List.F_135_Error_List.Y.Clear();
-                Work_1_Error_List.F_225_Error_List.Y.Clear();
-                Work_1_Error_List.F_315_Error_List.Y.Clear();
+                Work_1_Error_List=    new Area_Error_Model();
+                Work_2_Error_List=    new Area_Error_Model();
 
-                Work_2_Error_List.F_45_Error_List.X.Clear();
-                Work_2_Error_List.F_135_Error_List.X.Clear();
-                Work_2_Error_List.F_225_Error_List.X.Clear();
-                Work_2_Error_List.F_315_Error_List.X.Clear();
-                Work_2_Error_List.F_45_Error_List.Y.Clear();
-                Work_2_Error_List.F_135_Error_List.Y.Clear();
-                Work_2_Error_List.F_225_Error_List.Y.Clear();
-                Work_2_Error_List.F_315_Error_List.Y.Clear();
+
+
 
 
 
@@ -543,8 +531,8 @@ namespace HanGao.ViewModel
     [AddINotifyPropertyChangedInterface]
     public class Area_XY_Error_List
     {
-        public ObservableCollection<double> X = new ObservableCollection<double>() { 0};
-        public ObservableCollection<double> Y = new ObservableCollection<double>() { 0};
+        public ObservableCollection<double> X = new ObservableCollection<double>() {0};
+        public ObservableCollection<double> Y = new ObservableCollection<double>() {0};
 
     }
 
