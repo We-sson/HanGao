@@ -11,26 +11,30 @@
              mc:Ignorable="d">
 
     <Grid>
-        <Grid.RowDefinitions>
+        <!--<Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
-        </Grid.RowDefinitions>
+        </Grid.RowDefinitions>-->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
 
-        <lvc:CartesianChart Grid.Row=" 0"
+        <lvc:CartesianChart Grid.Row=" 0" Grid.Column=" 0"
                             DrawMarginFrame="{Binding DrawMarginFrame}"
                             LegendPosition="Hidden"
                             Sections="{Binding Sections}"
                             Series="{Binding Series_X}"
-                            TooltipPosition="Center"
+                            TooltipPosition="Bottom"
                             XAxes="{Binding xAxis}"
                             YAxes="{Binding yAxis}"
                             ZoomMode="Both" />
-        <lvc:CartesianChart Grid.Row=" 1"
+        <lvc:CartesianChart Grid.Row=" 1" Grid.Column=" 1"
                             DrawMarginFrame="{Binding DrawMarginFrame}"
                             LegendPosition="Hidden"
                             Sections="{Binding Sections}"
                             Series="{Binding Series_Y}"
-                            TooltipPosition="Center"
+                            TooltipPosition="Left"
                             XAxes="{Binding xAxis}"
                             YAxes="{Binding yAxis}"
                             ZoomMode="Both" />

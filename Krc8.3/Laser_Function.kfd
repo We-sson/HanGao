@@ -22,6 +22,11 @@ DECL PARAM POUT2VAL={shortname[] "VAL= ", shortcut[] "", unit[] "", value { LIST
 
 DECL PARAM Partition ={VALUE {STATIC: DEFAULT[] "--"}}
 
+
+DECL PARAM IF_State={shortname[] "State:", shortcut[] "", unit[] "", value { LIST : POS 1, _
+  ITEM[1] {ITEM:VALUE[] "TRUE" ,disp[] "TRUE"}, _
+  ITEM[2] {ITEM:VALUE[] "FALSE" ,disp[] "FALSE"}}}
+
 DECL PARAM PENT1={shortname[] "IsActive:", shortcut[] "", unit[] "", value { LIST : POS 1, _
   ITEM[1] {ITEM:VALUE[] " " ,disp[] "TRUE"}, _
   ITEM[2] {ITEM:VALUE[] "/;" ,disp[] "FALSE"}}}
@@ -103,9 +108,15 @@ FOLDLSPOW[1]=" "
 FOLDLSPOW[2]="   LSOFF() "
 FOLDLSPOW[3]=" "
 
+DECL FOLD IF_Then_FOLD[3]
+IF_Then_FOLD[1]=" "
+IF_Then_FOLD[2]="   IF( %IF_State ) THEN "
+IF_Then_FOLD[3]=" "
 
-
-
+DECL FOLD IF_End_FOLD[3]
+IF_End_FOLD[1]=" "
+IF_End_FOLD[2]=" ENDIF "
+IF_End_FOLD[3]=" "
 
 ;------------------------------------------
 
@@ -136,8 +147,8 @@ FOLDProgram[3]=" "
 Decl InlineForm LSON={FOLD[1] FOLDLSON, PARAM[1] LSPOW , ONACCEPT OnAcc_LS}
 Decl InlineForm LSOFF={FOLD[1] FOLDLSOFF , ONACCEPT OnAcc_LS}
 Decl InlineForm PName={FOLD[1] FOLDProgram , PARAM[1] Program_Name,  PARAM[2] Program_Run, ONACCEPT OnAcc_LS}
-
-
+Decl InlineForm IF_Then={FOLD[1] IF_Then_FOLD ,PARAM[1] IF_State, ONACCEPT OnAcc_LS}
+Decl InlineForm IF_End={FOLD[1] IF_End_FOLD , ONACCEPT OnAcc_LS}
 ENDTP
 
 

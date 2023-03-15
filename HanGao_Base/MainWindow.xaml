@@ -16,11 +16,11 @@
         MinHeight="900"
         d:DesignHeight="900"
         d:DesignWidth="1440"
-        AllowsTransparency="True"
         Background="Gray"
         DataContext="{Binding FrameShow, Source={StaticResource Locator}}"
+        ResizeMode="CanMinimize"
         Topmost="False"
-        WindowStartupLocation="CenterScreen"
+        WindowStartupLocation="CenterOwner"
         WindowStyle="None"
         mc:Ignorable="d">
 
@@ -50,10 +50,7 @@
 
     <!--  拖动标题栏顶部范围  -->
     <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="15"
-                      CornerRadius="0"
-                      GlassFrameThickness="0"
-                      UseAeroCaptionButtons="True" />
+        <WindowChrome CaptionHeight="10" GlassFrameThickness="-1" />
     </WindowChrome.WindowChrome>
 
 
@@ -87,8 +84,23 @@
                 <ColumnDefinition Width="0.3*" />
             </Grid.ColumnDefinitions>
 
+
+
+
+
+            <TextBlock Grid.Row=" 0"
+                       Text="{Binding App_VerSion, StringFormat={}v{0:F0}}"
+                       Margin="0"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Bottom"
+                       Visibility="Visible" />
+
             <!--  首页_左上角_公司图标  -->
-            <Border Grid.Column="0" HorizontalAlignment="Stretch">
+            <Border Grid.Column="0"
+                    HorizontalAlignment="Stretch"
+                    Visibility="Hidden">
+
+
 
 
                 <TextBlock HorizontalAlignment="Center"
@@ -406,11 +418,7 @@
                         Content="{Binding User_Control_Show.User_UserControl, Source={StaticResource Locator}}"
                         d:IsHidden="True" />
 
-        <TextBlock Grid.Row=" 0"
-                   Text="{Binding App_VerSion, StringFormat={}v{0:F0}}"
-                   Margin="0"
-                   HorizontalAlignment="Left"
-                   VerticalAlignment="Top" />
+
 
 
     </Grid>

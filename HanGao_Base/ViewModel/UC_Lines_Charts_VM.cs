@@ -104,74 +104,11 @@ namespace HanGao.ViewModel
                 }
 
             })))
-            { IsBackground = true, };
+            { IsBackground = true, }.Start();
 
 
-        }
-
-
-
-        //说明文档:https://lvcharts.com/docs/wpf/2.0.0-beta.700/Overview.Installation%20and%20first%20chart
-
-        /// <summary>
-        /// 静态属性更新通知事件
-        /// </summary>
-        //public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
-
-
-
-        /// <summary>
-        /// 工位1误差集合
-        /// </summary>
-        public static    Area_Error_Model Work_1_Error_List { set; get; } = new Area_Error_Model();
-
-
-
-
-
-        /// <summary>
-        /// 工位2误差集合
-        /// </summary>
-        public static    Area_Error_Model Work_2_Error_List { set; get; } = new Area_Error_Model();
-
-
-        /// <summary>
-        /// 竖坐标样式
-        /// </summary>
-        public Axis[] xAxis { set; get; } = new[] { new Axis() };
-        /// <summary>
-        /// 横坐标样式
-        /// </summary>
-        public Axis[] yAxis { set; get; } = new[] { new Axis() };
-
-
-
-
-        /// <summary>
-        /// 机器人状态显示
-        /// </summary>
-        public IEnumerable<ISeries> Robot_State_Series { get; set; }
-       = new GaugeBuilder()
-       .WithLabelsSize(20)
-       .WithLabelsPosition(PolarLabelsPosition.Start)
-       .WithLabelFormatter(point => $"{point.PrimaryValue} {point.Context.Series.Name}")
-       .WithInnerRadius(20)
-       .WithOffsetRadius(8)
-       .WithBackgroundInnerRadius(20)
-
-       .AddValue(30, "Vanessa")
-       .AddValue(50, "Charles")
-       .AddValue(70, "Ana")
-
-       .BuildSeries();
-
-
-
-        /// <summary>
-        /// 定义X误差图表显示样式
-        /// </summary>
-        public  ObservableCollection<ISeries> Series_X { get; set; }
-       = new ObservableCollection<ISeries>
+            //误差图标初始化
+            Series_X = new ObservableCollection<ISeries>
        {
              new LineSeries<double>
             {
@@ -217,11 +154,7 @@ namespace HanGao.ViewModel
 
        };
 
-        /// <summary>
-        /// 定义Y误差图表显示样式
-        /// </summary>
-        public ObservableCollection<ISeries> Series_Y { get; set; }
-       = new ObservableCollection<ISeries>
+            Series_Y = new ObservableCollection<ISeries>
        {
 
              new LineSeries<double>
@@ -267,6 +200,77 @@ namespace HanGao.ViewModel
 
        };
 
+        }
+
+
+
+        //说明文档:https://lvcharts.com/docs/wpf/2.0.0-beta.700/Overview.Installation%20and%20first%20chart
+
+        /// <summary>
+        /// 静态属性更新通知事件
+        /// </summary>
+        //public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
+
+
+
+        /// <summary>
+        /// 工位1误差集合
+        /// </summary>
+        public      Area_Error_Model Work_1_Error_List { set; get; } = new Area_Error_Model();
+
+
+
+
+
+        /// <summary>
+        /// 工位2误差集合
+        /// </summary>
+        public      Area_Error_Model Work_2_Error_List { set; get; } = new Area_Error_Model();
+
+
+        /// <summary>
+        /// 竖坐标样式
+        /// </summary>
+        public Axis[] xAxis { set; get; } = new[] { new Axis() };
+        /// <summary>
+        /// 横坐标样式
+        /// </summary>
+        public Axis[] yAxis { set; get; } = new[] { new Axis() };
+
+
+
+
+        /// <summary>
+        /// 机器人状态显示
+        /// </summary>
+        public IEnumerable<ISeries> Robot_State_Series { get; set; }
+       = new GaugeBuilder()
+       .WithLabelsSize(20)
+       .WithLabelsPosition(PolarLabelsPosition.Start)
+       .WithLabelFormatter(point => $"{point.PrimaryValue} {point.Context.Series.Name}")
+       .WithInnerRadius(20)
+       .WithOffsetRadius(8)
+       .WithBackgroundInnerRadius(20)
+
+       .AddValue(30, "Vanessa")
+       .AddValue(50, "Charles")
+       .AddValue(70, "Ana")
+
+       .BuildSeries();
+
+
+
+        /// <summary>
+        /// 定义X误差图表显示样式
+        /// </summary>
+        public  ObservableCollection<ISeries> Series_X { get; set; }
+
+
+        /// <summary>
+        /// 定义Y误差图表显示样式
+        /// </summary>
+        public ObservableCollection<ISeries> Series_Y { get; set; }
+  
 
 
         /// <summary>
@@ -437,13 +441,48 @@ namespace HanGao.ViewModel
 
 
                 //工作区域数据数据清除
-                Work_1_Error_List=    new Area_Error_Model();
-                Work_2_Error_List=    new Area_Error_Model();
+                //Work_1_Error_List=    new Area_Error_Model();
+                //Work_2_Error_List=    new Area_Error_Model();
+
+    
 
 
+                Work_1_Error_List.F_45_Error_List.X.Clear();
+                Work_1_Error_List.F_45_Error_List.X.Add(0);
+                Work_1_Error_List.F_135_Error_List.X.Clear();
+                Work_1_Error_List.F_135_Error_List.X.Add(0);
+                Work_1_Error_List.F_225_Error_List.X.Clear();
+                Work_1_Error_List.F_225_Error_List.X.Add(0);
+                Work_1_Error_List.F_315_Error_List.X.Clear();
+                Work_1_Error_List.F_315_Error_List.X.Add(0);
+
+                Work_2_Error_List.F_45_Error_List.X.Clear();
+                Work_2_Error_List.F_45_Error_List.X.Add(0);
+                Work_2_Error_List.F_135_Error_List.X.Clear();
+                Work_2_Error_List.F_135_Error_List.X.Add(0);
+                Work_2_Error_List.F_225_Error_List.X.Clear();
+                Work_2_Error_List.F_225_Error_List.X.Add(0);
+                Work_2_Error_List.F_315_Error_List.X.Clear();
+                Work_2_Error_List.F_315_Error_List.X.Add(0);
 
 
+                Work_1_Error_List.F_45_Error_List.Y.Clear();
+                Work_1_Error_List.F_45_Error_List.Y.Add(0);
+                Work_1_Error_List.F_135_Error_List.Y.Clear();
+                Work_1_Error_List.F_135_Error_List.Y.Add(0);
+                Work_1_Error_List.F_225_Error_List.Y.Clear();
+                Work_1_Error_List.F_225_Error_List.Y.Add(0);
+                Work_1_Error_List.F_315_Error_List.Y.Clear();
+                Work_1_Error_List.F_315_Error_List.Y.Add(0);
 
+                Work_2_Error_List.F_45_Error_List.X.Clear();
+                Work_2_Error_List.F_45_Error_List.X.Add(0);
+                Work_2_Error_List.F_135_Error_List.X.Clear();
+                Work_2_Error_List.F_135_Error_List.X.Add(0);
+                Work_2_Error_List.F_225_Error_List.X.Clear();
+                Work_2_Error_List.F_225_Error_List.X.Add(0);
+                Work_2_Error_List.F_315_Error_List.X.Clear();
+                Work_2_Error_List.F_315_Error_List.X.Add(0);
 
 
             });
