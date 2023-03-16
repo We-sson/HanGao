@@ -50,7 +50,7 @@
 
     <!--  拖动标题栏顶部范围  -->
     <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="10" GlassFrameThickness="-1" />
+        <WindowChrome CaptionHeight="20" GlassFrameThickness="-1" />
     </WindowChrome.WindowChrome>
 
 
@@ -87,23 +87,17 @@
 
 
 
-
-            <TextBlock Grid.Row=" 0"
-                       Text="{Binding App_VerSion, StringFormat={}v{0:F0}}"
-                       Margin="0"
-                       HorizontalAlignment="Left"
-                       VerticalAlignment="Bottom"
-                       Visibility="Visible" />
-
             <!--  首页_左上角_公司图标  -->
             <Border Grid.Column="0"
                     HorizontalAlignment="Stretch"
-                    Visibility="Hidden">
+                    Background="{DynamicResource 全局_按钮_黄颜色}"
+                    Visibility="Visible">
 
 
 
 
-                <TextBlock HorizontalAlignment="Center"
+
+                <!--<TextBlock HorizontalAlignment="Center" Visibility="Hidden"
                            VerticalAlignment="Center"
                            FontFamily="{DynamicResource 全局_文字_英文字体}"
                            FontSize="35">
@@ -119,9 +113,9 @@
                             </Style.Triggers>
                         </Style>
                     </TextBlock.Style>
-                </TextBlock>
+                </TextBlock>-->
 
-                <Border.Style>
+                <!--<Border.Style>
                     <Style TargetType="Border">
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding UI_Socket_Type}" Value="Connect_Cancel">
@@ -132,8 +126,32 @@
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
-                </Border.Style>
+                </Border.Style>-->
             </Border>
+
+
+
+            <TextBlock Grid.Row=" 0"
+                       Text="{Binding App_VerSion, StringFormat={}版本号:v{0:F0}}"
+                       Margin="0"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Top"
+                       Opacity=" 0.6"
+                       Visibility="Visible" />
+
+
+
+            <Menu Grid.Row=" 0"
+                  VerticalAlignment="Bottom"
+                  Visibility="Hidden">
+                <MenuItem Header="文件(F)" InputGestureText="F">
+                    <MenuItem Header="用户数据全部打包" />
+                </MenuItem>
+                <MenuItem Header="[参数]" />
+
+
+            </Menu>
+
             <Grid Grid.Column="1"
                   HorizontalAlignment="Center"
                   VerticalAlignment="Stretch">
