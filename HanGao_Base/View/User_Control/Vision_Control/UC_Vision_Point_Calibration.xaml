@@ -303,9 +303,9 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width=" *" />
                                         </Grid.ColumnDefinitions>
-                                        <CheckBox Style="{DynamicResource Button_List_Style}" x:Name="MedianRect_Enable" Grid.Column=" 0"
+                                        <CheckBox Style="{DynamicResource Button_List_Style}" x:Name="Median_image_Enable" Grid.Column=" 0"
                                                   Content="使用"
-                                                  IsChecked="{Binding Find_Calibration.MedianRect_Enable}"
+                                                  IsChecked="{Binding Find_Calibration.Median_image_Enable}"
                                                   Margin="4"
                                                   HorizontalAlignment="Center"
                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -313,13 +313,13 @@
                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                         <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Column=" 1"
                                                   Content="显示"
-                                                  IsChecked="{Binding Find_Calibration.MedianRect_Disp}"
+                                                  IsChecked="{Binding Find_Calibration.Median_image_Disp}"
                                                   Margin="4"
                                                   HorizontalAlignment="Center"
                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                   FontSize="16"
                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                  IsEnabled="{Binding IsChecked, ElementName=MedianRect_Enable}" />
+                                                  IsEnabled="{Binding IsChecked, ElementName=Median_image_Enable}" />
 
                                     </Grid>
 
@@ -332,118 +332,12 @@
 
 
 
-                            <!--<Grid Height="35" Margin="8">
-                            -->
-                            <!--<Grid.Style>
-                                    <Style TargetType="Grid">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ElementName=Filtering_Model_UI, Path=SelectedIndex}" Value="0">
-                                                <Setter Property="Visibility" Value="Visible" />
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding ElementName=Filtering_Model_UI, Path=SelectedIndex}" Value="2">
-                                                <Setter Property="Visibility" Value="Visible" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Grid.Style>-->
-                            <!--
-
-
-
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width=" 80" />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width=" auto" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="掩码宽度"
-                                           HorizontalAlignment="Left"
-                                           VerticalAlignment="Center"
-                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                           FontSize="16"
-                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="MaskWidth_UI" Grid.Column=" 1"
-                                        Margin="5"
-                                        VerticalAlignment="Center"
-                                        HorizontalContentAlignment="Stretch"
-                                        VerticalContentAlignment="Stretch"
-                                        IsSnapToTickEnabled="True"
-                                        Maximum="101"
-                                        Minimum="3"
-                                        SmallChange="2"
-                                        TickFrequency=" 2"
-                                        Value="30" />
-
-                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=MaskWidth_UI, Path=Value}"
-                                         Width=" 100"
-                                         HorizontalContentAlignment="Center"
-                                         VerticalContentAlignment="Center"
-                                         Background="Transparent"
-                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                         BorderThickness="2"
-                                         FontSize="18" />
-                            </Grid>
-
-                            <Grid Height="35" Margin="8">
-                            -->
-                            <!--<Grid.Style>
-                                    <Style TargetType="Grid">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ElementName=Filtering_Model_UI, Path=SelectedIndex}" Value="0">
-                                                <Setter Property="Visibility" Value="Visible" />
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding ElementName=Filtering_Model_UI, Path=SelectedIndex}" Value="2">
-                                                <Setter Property="Visibility" Value="Visible" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Grid.Style>-->
-                            <!--
-
-
-
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width=" 80" />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width=" auto" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="掩码高度"
-                                           HorizontalAlignment="Left"
-                                           VerticalAlignment="Center"
-                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                           FontSize="16"
-                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="MaskHeight_UI" Grid.Column=" 1"
-                                        Margin="5"
-                                        VerticalAlignment="Center"
-                                        HorizontalContentAlignment="Stretch"
-                                        VerticalContentAlignment="Stretch"
-                                        IsSnapToTickEnabled="True"
-                                        Maximum="101"
-                                        Minimum="3"
-                                        SmallChange="2"
-                                        TickFrequency=" 2"
-                                        Value="30" />
-
-                                <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                         Text="{Binding ElementName=MaskHeight_UI, Path=Value}"
-                                         Width=" 100"
-                                         HorizontalContentAlignment="Center"
-                                         VerticalContentAlignment="Center"
-                                         Background="Transparent"
-                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                         BorderThickness="2"
-                                         FontSize="18" />
-                            </Grid>-->
-
                             <Grid Margin="8">
                                 <Grid.Style>
                                     <Style TargetType="Grid">
                                         <Setter Property="Visibility" Value="Collapsed" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ElementName=MedianRect_Enable, Path=IsChecked}" Value="true">
+                                            <DataTrigger Binding="{Binding ElementName=Median_image_Enable, Path=IsChecked}" Value="true">
                                                 <Setter Property="Visibility" Value="Visible" />
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -507,7 +401,7 @@
                                     <Style TargetType="Grid">
                                         <Setter Property="Visibility" Value="Collapsed" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ElementName=MedianRect_Enable, Path=IsChecked}" Value="true">
+                                            <DataTrigger Binding="{Binding ElementName=Median_image_Enable, Path=IsChecked}" Value="true">
                                                 <Setter Property="Visibility" Value="Visible" />
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -535,7 +429,7 @@
                                         Minimum="1"
                                         SmallChange="1"
                                         TickFrequency="1"
-                                        Value="2" />
+                                        Value="{Binding Find_Calibration.Median_image_Radius}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding ElementName=Radius_UI, Path=Value}"
@@ -554,7 +448,7 @@
                                     <Style TargetType="Grid">
                                         <Setter Property="Visibility" Value="Collapsed" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ElementName=MedianRect_Enable, Path=IsChecked}" Value="true">
+                                            <DataTrigger Binding="{Binding ElementName=Median_image_Enable, Path=IsChecked}" Value="true">
                                                 <Setter Property="Visibility" Value="Visible" />
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -648,7 +542,7 @@
 
 
 
-                                <TextBlock Text="增强对比"
+                                <TextBlock Text="边缘对比"
                                            TextWrapping="Wrap"
                                            Margin="0,4,0,0"
                                            VerticalAlignment="Center"
@@ -829,6 +723,8 @@
                                          BorderThickness="2"
                                          FontSize="18" />
                             </Grid>
+
+
                             <Border Height=" 2"
                                     Margin="8,4,8,4"
                                     Background="{DynamicResource 全局_按钮_黑颜色}"

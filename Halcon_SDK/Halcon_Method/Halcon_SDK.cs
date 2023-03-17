@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
@@ -346,12 +347,12 @@ namespace Halcon_SDK_DLL
             HOperatorSet.ScaleImageMax(_Input_Image, out _Image);
 
 
-            if (_Calibration_Data.MedianRect_Enable)
+            if (_Calibration_Data.Median_image_Enable)
             {
 
                 //进行图像中值滤波器平滑
-                HOperatorSet.MedianImage(_Image, out _Image, _Calibration_Data.MaskType_Model.ToString(), _Calibration_Data.Radius, _Calibration_Data.Margin_Model.ToString());
-                if (_Calibration_Data.MedianRect_Disp)
+                HOperatorSet.MedianImage(_Image, out _Image, _Calibration_Data.MaskType_Model.ToString(), _Calibration_Data.Median_image_Radius, _Calibration_Data.Margin_Model.ToString());
+                if (_Calibration_Data.Median_image_Disp)
                 {
                     _Window.DispObj(_Image);
                 }
@@ -876,8 +877,8 @@ namespace Halcon_SDK_DLL
 
                     case Shape_Based_Model_Enum.planar_deformable_model:
 
-                        _Image1 = _Image;
-                        HOperatorSet.DispObj(_Image1, _HWindow);
+                    
+                        HOperatorSet.DispObj(_Image, _HWindow);
 
 
                         if (_Find_Property.ScaleImageMax_Enable)
@@ -886,19 +887,33 @@ namespace Halcon_SDK_DLL
                             HOperatorSet.ScaleImageMax(_Image, out _Image1);
                             if (_Find_Property.ScaleImageMax_Disp)
                             {
-                                HOperatorSet.DispObj(_Image1, _HWindow);
+                                HOperatorSet.DispObj(_Image, _HWindow);
                             }
+                        }
+
+
+                        if (_Find_Property.Median_image_Enable)
+                        {
+
+                            //进行图像中值滤波器平滑
+                            HOperatorSet.MedianImage(_Image, out _Image, _Find_Property.MaskType_Model.ToString(), _Find_Property.Median_image_Radius, _Find_Property.Margin_Model.ToString());
+                            if (_Find_Property.Median_image_Disp)
+                            {
+                                HOperatorSet.DispObj(_Image, _HWindow);
+
+                            }
+
                         }
 
 
 
                         if (_Find_Property.MedianRect_Enable)
                         {
-                            //图像最大灰度值分布在值范围0到255 中
-                            HOperatorSet.MedianRect(_Image1, out _Image1, _Find_Property.MedianRect_MaskWidth, _Find_Property.MedianRect_MaskHeight);
+                            //进行图像中值滤波器平滑
+                            HOperatorSet.MedianRect(_Image, out _Image, _Find_Property.MedianRect_MaskWidth, _Find_Property.MedianRect_MaskHeight);
                             if (_Find_Property.MedianRect_Disp)
                             {
-                                HOperatorSet.DispObj(_Image1, _HWindow);
+                                HOperatorSet.DispObj(_Image, _HWindow);
                             }
                         }
 
@@ -908,21 +923,61 @@ namespace Halcon_SDK_DLL
                         if (_Find_Property.Illuminate_Enable)
                         {
                             //高频增强图像的对比度
-                            HOperatorSet.Illuminate(_Image1, out _Image1, _Find_Property.Illuminate_MaskWidth, _Find_Property.Illuminate_MaskHeight, _Find_Property.Illuminate_Factor);
+                            HOperatorSet.Illuminate(_Image, out _Image, _Find_Property.Illuminate_MaskWidth, _Find_Property.Illuminate_MaskHeight, _Find_Property.Illuminate_Factor);
                             if (_Find_Property.Illuminate_Disp)
                             {
-                                HOperatorSet.DispObj(_Image1, _HWindow);
+                                HOperatorSet.DispObj(_Image, _HWindow);
                             }
 
                         }
 
 
 
+                        if (_Find_Property.Emphasize_Enable)
+                        {
+                            //增强图像的对比度
+                            HOperatorSet.Emphasize(_Image, out _Image, _Find_Property.Emphasize_MaskWidth, _Find_Property.Emphasize_MaskHeight, _Find_Property.Emphasize_Factor);
+                            if (_Find_Property.Emphasize_Disp)
+                            {
+                                HOperatorSet.DispObj(_Image, _HWindow);
+
+
+                            }
+
+                        }
+
+                        if (_Find_Property.MedianRect_Enable)
+                        {
+                            //进行图像中值滤波器平滑
+                            HOperatorSet.MedianRect(_Image, out _Image, _Find_Property.MedianRect_MaskWidth, _Find_Property.MedianRect_MaskHeight);
+                            if (_Find_Property.MedianRect_Disp)
+                            {
+                                HOperatorSet.DispObj(_Image, _HWindow);
+                            }
+                        }
+
+
 
                         //查找模型
-                        HOperatorSet.FindPlanarUncalibDeformableModel(_Image1, _ModelXld,
-                                                                                                   (new HTuple(_Find_Property.AngleStart)).TupleRad(), (new HTuple(_Find_Property.AngleExtent)).TupleRad(), _Find_Property.ScaleRMin, _Find_Property.ScaleRMax, _Find_Property.ScaleCMin, _Find_Property.ScaleCMax, _Find_Property.MinScore,
-                                                                                                   _Find_Property.NumMatches, _Find_Property.MaxOverlap, _Find_Property.NumLevels, _Find_Property.Greediness, "subpixel", "least_squares_very_high", out hv_HomMat2D, out hv_score);
+                        HOperatorSet.FindPlanarUncalibDeformableModel
+                            (_Image, 
+                            _ModelXld,    
+                            (new HTuple(_Find_Property.AngleStart)).TupleRad(),
+                            (new HTuple(_Find_Property.AngleExtent)).TupleRad(), 
+                            _Find_Property.ScaleRMin,
+                            _Find_Property.ScaleRMax, 
+                            _Find_Property.ScaleCMin, 
+                            _Find_Property.ScaleCMax, 
+                            _Find_Property.MinScore,
+                            _Find_Property.NumMatches, 
+                            _Find_Property.MaxOverlap,
+                            _Find_Property.NumLevels, 
+                            _Find_Property.Greediness,
+                            ((new HTuple("subpixel")).TupleConcat("aniso_scale_change_restriction")).TupleConcat( "angle_change_restriction"), 
+                            ((new HTuple(_Find_Property.SubPixel.ToString())).TupleConcat(  _Find_Property.Aniso_scale_change_restriction)).TupleConcat(_Find_Property.Angle_change_restriction), 
+                            out hv_HomMat2D,
+                            out hv_score);
+                       
 
 
 

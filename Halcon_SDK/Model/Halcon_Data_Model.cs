@@ -401,6 +401,19 @@ namespace Halcon_SDK_DLL.Model
             public Subpixel_Values_Enum SubPixel { set; get; } = Subpixel_Values_Enum.least_squares;
 
             /// <summary>
+            /// 最大容许角度畸变 可以限制,作为默认值已设置3.14159/2，为 0，则根本不允许失真。
+            /// </summary>
+            public double Angle_change_restriction { set; get; } = 1.57;
+
+
+
+            /// <summary>
+            ///  可以限制各向异性缩放（较小的比例因子除以 更大的比例因子）。 此参数的值范围从默认值 0.0，其中 允许任意失真，到 1.0，其中不允许失真。 
+            /// </summary>
+            public double Aniso_scale_change_restriction { set; get; } = 0.3;
+
+
+            /// <summary>
             /// 最大灰度值功能使能
             /// </summary>
             public bool ScaleImageMax_Enable { set; get; } = true;
@@ -429,6 +442,60 @@ namespace Halcon_SDK_DLL.Model
             /// </summary>
             public double Illuminate_Factor { set; get; } = 0.8;
 
+
+            /// <summary>
+            /// 增强图像功能使能
+            /// </summary>
+            public bool Emphasize_Enable { set; get; } = true;
+            /// <summary>
+            /// 增强图像功能显示
+            /// </summary>
+            public bool Emphasize_Disp { set; get; } = true;
+            /// <summary>
+            ///  增强图像的低通掩码的宽度。
+            /// </summary>
+            public double Emphasize_MaskWidth { set; get; } = 15;
+            /// <summary>
+            ///  增强图像的低通掩码的高度。
+            /// </summary>
+            public double Emphasize_MaskHeight { set; get; } = 15;
+            /// <summary>
+            /// 增强图像的对比强调的强度
+            /// </summary>
+            public double Emphasize_Factor { set; get; } = 5;
+
+
+            /// <summary>
+            /// /计算带有矩形掩码的中值滤波器是使能
+            /// </summary>
+            public bool Median_image_Enable { set; get; } = true;
+
+            /// <summary>
+            /// 计算带有矩形掩码的中值滤波器显示
+            /// </summary>
+            public bool Median_image_Disp { set; get; } = true;
+
+
+            /// <summary>
+            /// 滤镜遮罩类型。默认值： “圆  值列表：“圆”, “正方形”值列表（对于计算设备）：“正方形”
+            /// </summary>
+            public MedianImage_MaskType_Enum MaskType_Model { set; get; } = MedianImage_MaskType_Enum.circle;
+
+            /// <summary>
+            /// 滤镜掩码的半径。默认值：1  值列表（用于计算设备）：1、2  建议值：1， 2， 3， 4， 5， 6， 7， 8， 9， 11， 15， 19， 25， 31， 39， 47， 59  典型值范围：1 ≤ radius ≤ 4095
+            /// </summary>
+            public double  Median_image_Radius { set; get; } = 5;
+            /// <summary>
+            /// 边境处理。默认值： “镜像”值列表（对于计算设备）：“镜像”建议值：“镜像”, “循环”, “续”, 0, 30, 60, 90, 120, 150, 180, 210, 240, 255
+            /// </summary>
+            public MedianImage_Margin_Enum Margin_Model { set; get; } = MedianImage_Margin_Enum.mirrored;
+
+
+
+
+
+
+
             /// <summary>
             /// 矩形掩码的中值滤波器使能
             /// </summary>
@@ -447,6 +514,8 @@ namespace Halcon_SDK_DLL.Model
             /// 矩形掩码的中值滤波器使能,滤镜掩码的高度。
             /// /// </summary>
             public double MedianRect_MaskHeight { set; get; } = 3;
+
+
 
 
         }
@@ -471,12 +540,12 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// /计算带有矩形掩码的中值滤波器是使能
             /// </summary>
-            public bool MedianRect_Enable { set; get; } = true;
+            public bool Median_image_Enable { set; get; } = true;
 
             /// <summary>
             /// 计算带有矩形掩码的中值滤波器显示
             /// </summary>
-            public bool MedianRect_Disp { set; get; } = true;
+            public bool Median_image_Disp { set; get; } = true;
 
 
             /// <summary>
@@ -487,7 +556,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 滤镜掩码的半径。默认值：1  值列表（用于计算设备）：1、2  建议值：1， 2， 3， 4， 5， 6， 7， 8， 9， 11， 15， 19， 25， 31， 39， 47， 59  典型值范围：1 ≤ radius ≤ 4095
             /// </summary>
-            public int Radius { set; get; } = 5;
+            public int Median_image_Radius { set; get; } = 5;
             /// <summary>
             /// 边境处理。默认值： “镜像”值列表（对于计算设备）：“镜像”建议值：“镜像”, “循环”, “续”, 0, 30, 60, 90, 120, 150, 180, 210, 240, 255
             /// </summary>
