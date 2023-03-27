@@ -42,42 +42,128 @@
 <l>count_obj (All_Reduced, Number)</l>
 <c></c>
 <c></c>
-<c as_id="matching" as_name="Matching 01" as_grp="[1,1,3]" as_ord="1">* </c>
-<c></c>
-<l>ModelIds:=[]</l>
-<c as_id="matching" as_name="Matching 01" as_grp="[1,1,4]" as_ord="2">* Matching 01: Create the correlation model</c>
-<l>for Index := 1 to Number by 1</l>
-<l>    select_obj (All_Reduced, ObjectSelected, Index)</l>
-<l>    reduce_domain (Image, ObjectSelected, ImageReduced)</l>
-<l>    create_ncc_model (ImageReduced, 'auto', rad(-5), rad(10), rad(0.01), 'use_polarity', ModelID)</l>
-<c>    </c>
-<l>    ModelIds := [ModelIds,ModelID]</l>
-<c>    </c>
-<c>    </c>
-<l>endfor</l>
 <c></c>
 <c></c>
-<c as_id="matching" as_name="Matching 01" as_grp="[1,5]" as_ord="1"></c>
-<c as_id="matching" as_name="Matching 01" as_grp="[1,5]" as_ord="2">* Matching 01: Get the reference position</c>
-<l>area_center (ModelRegion, ModelRegionArea, RefRow, RefColumn)</l>
-<c as_id="matching" as_name="Matching 01" as_grp="[1,5]" as_ord="4">* </c>
-<c as_id="matching" as_name="Matching 01" as_grp="[1,5]" as_ord="5">* Matching 01: Display the model region</c>
-<l as_id="matching" as_name="Matching 01" as_grp="[1,5]" as_ord="6">dev_display (Image)</l>
-<l as_id="matching" as_name="Matching 01" as_grp="[1,5]" as_ord="7">dev_set_color ('green')</l>
-<l as_id="matching" as_name="Matching 01" as_grp="[1,5]" as_ord="8">dev_set_draw ('margin')</l>
-<l as_id="matching" as_name="Matching 01" as_grp="[1,5]" as_ord="9">dev_display (ModelRegion)</l>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
 <l>read_object (Model_XLD, 'C:/Users/H/Desktop/Sample_Image/45_Xld.hobj')</l>
 <c></c>
 <c></c>
 <c></c>
 <c></c>
 <c></c>
-<l>vector_angle_to_rigid (RefRow, RefColumn, 0, 0, 0, 0, HomMat2D1)</l>
-<l>projective_trans_contour_xld (Model_XLD, TransContours, HomMat2D1)</l>
+<c></c>
+<c></c>
+<c></c>
+<c>*计算xld数量</c>
+<l>count_obj (Model_XLD, XLD_Number)</l>
+<l>gen_empty_obj (Region_Xld)</l>
+<l>*area_center_xld ( Model_XLD, Area1, Row1, Column1, PointOrder)</l>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<l>for X := 1 to XLD_Number by 1</l>
+<c>    </c>
+<c>    </c>
+<c></c>
+<c>     </c>
+<c>     </c>
+<c>*xld转换Region区域</c>
+<l>gen_polygons_xld (Model_XLD, Polygons, 'ramer', 0.1)</l>
+<l>select_obj (Polygons, Selected1, X)</l>
+<l>get_polygon_xld (Selected1, Row1, Col, Length, Phi)</l>
+<l>gen_region_polygon (Region, Row1, Col)</l>
+<c></c>
+<c></c>
+<l>concat_obj (Region_Xld, Region, Region_Xld)</l>
+<c></c>
+<c></c>
+<l>endfor</l>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c>*膨胀区域</c>
+<l>dilation_circle (Region_Xld, Region_Dilation, 20)</l>
+<c></c>
+<c>*合并对应所需区域</c>
+<l>gen_empty_obj (All_Reduced)</l>
+<l>select_obj (Region_Dilation, Region_1, 1)</l>
+<l>select_obj (Region_Dilation, Region_2, 2)</l>
+<l>select_obj (Region_Dilation, Region_3, 3)</l>
+<l>select_obj (Region_Dilation, Region_4, 4)</l>
+<l>select_obj (Region_Dilation, Region_5, 5)</l>
+<c></c>
+<c></c>
+<c>*</c>
+<l>union2 (Region_1, Region_2, Con_1)</l>
+<l>concat_obj (All_Reduced, Con_1, All_Reduced)</l>
+<l>union2 (Region_3, Region_2, Con_2)</l>
+<l>concat_obj (All_Reduced, Con_2, All_Reduced)</l>
+<l>union2 (Region_4, Region_5, Con_3)</l>
+<l>concat_obj (All_Reduced, Con_3, All_Reduced)</l>
+<c></c>
+<c></c>
+<l>count_obj (All_Reduced, Number)</l>
+<c></c>
+<l>ModelIds:=[]</l>
+<c as_id="matching" as_name="Matching 01" as_grp="[1,1,4]" as_ord="2">* Matching 01: Create the correlation model</c>
+<l>for Index := 1 to Number by 1</l>
+<l>    select_obj (All_Reduced, ObjectSelected, Index)</l>
+<l>    reduce_domain (Image, ObjectSelected, ImageReduced)</l>
+<l>    area_center (ObjectSelected, Area, RefRow, RefColumn)</l>
+<l>   *vector_angle_to_rigid (RefRow, RefColumn, 0, 0, 0, 0, HomMat2D)</l>
+<l>   *affine_trans_region (ObjectSelected, RegionAffineTrans, HomMat2D, 'nearest_neighbor')</l>
+<c>    </c>
+<c>    </c>
+<l>    create_ncc_model (ImageReduced, 'auto', rad(-5), rad(10), rad(0.01), 'use_polarity', ModelID)</l>
+<c>    </c>
+<c>   </c>
+<c>  </c>
+<l>     *set_ncc_model_origin (ModelID, RefRow, RefColumn)</l>
+<c>    </c>
+<c>    </c>
+<c> </c>
+<l>    ModelIds := [ModelIds,ModelID]</l>
+<c>    </c>
+<c>    </c>
+<l>endfor</l>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<l>*vector_angle_to_rigid (RefRow, RefColumn, 0, 0, 0, 0, HomMat2D1)</l>
+<l>*projective_trans_contour_xld (Model_XLD, TransContours, HomMat2D1)</l>
+<c></c>
+<c></c>
+<c></c>
+<c as_id="matching" as_name="Matching 01" as_grp="[1,5]" as_ord="1"></c>
+<c as_id="matching" as_name="Matching 01" as_grp="[1,5]" as_ord="2">* Matching 01: Get the reference position</c>
+<l>*area_center (ModelRegion, ModelRegionArea, RefRow, RefColumn)</l>
+<c as_id="matching" as_name="Matching 01" as_grp="[1,5]" as_ord="4">* </c>
+<c as_id="matching" as_name="Matching 01" as_grp="[1,5]" as_ord="5">* Matching 01: Display the model region</c>
+<l as_id="matching" as_name="Matching 01" as_grp="[1,5]" as_ord="6">dev_display (Image)</l>
+<l as_id="matching" as_name="Matching 01" as_grp="[1,5]" as_ord="7">dev_set_color ('green')</l>
+<l as_id="matching" as_name="Matching 01" as_grp="[1,5]" as_ord="8">dev_set_draw ('margin')</l>
+<l as_id="matching" as_name="Matching 01" as_grp="[1,5]" as_ord="9">*dev_display (ModelRegion)</l>
 <c></c>
 <l as_id="matching" as_name="Matching 01" as_grp="[1,5]" as_ord="10">* gen_cross_contour_xld (TransContours, RefRow, RefColumn, 50, 0.0)</l>
-<l as_id="matching" as_name="Matching 01" as_grp="[1,5]" as_ord="11">dev_display (TransContours)</l>
+<l as_id="matching" as_name="Matching 01" as_grp="[1,5]" as_ord="11">*dev_display (TransContours)</l>
 <l as_id="matching" as_name="Matching 01" as_grp="[1,5]" as_ord="12">stop ()</l>
+<c></c>
+<c></c>
 <c as_id="matching" as_name="Matching 01" as_grp="[2]" as_ord="1">* </c>
 <c as_id="matching" as_name="Matching 01" as_grp="[2]" as_ord="2">* Matching 01: END of generated code for model initialization</c>
 <c as_id="matching" as_name="Matching 01" as_grp="[3,1]" as_ord="1">* Matching 01:  * * * * * * * * * * * * * * * * * * * * * * *</c>
@@ -90,29 +176,62 @@
 <c as_id="matching" as_name="Matching 01" as_grp="[5]" as_ord="2">    * Matching 01: Obtain the test image</c>
 <l as_id="matching" as_name="Matching 01" as_grp="[5]" as_ord="3">    read_image (Image, TestImages[T])</l>
 <c>    </c>
+<l>       gen_empty_obj (ModelRegion_Results)</l>
 <c>    </c>
+<l>    for P := 0 to |ModelIds|-1 by 1</l>
+<c>        </c>
+<c>        </c>
+<l>        find_ncc_model (Image, ModelIds[P], rad(-15), rad(30), 0.7, 1, 1, 'true', 0, Row, Column, Angle, Score)</l>
+<c>    </c>
+<c>        </c>
+<c>        </c>
 <c as_id="matching" as_name="Matching 01" as_grp="[6]" as_ord="1">    * </c>
 <c as_id="matching" as_name="Matching 01" as_grp="[6]" as_ord="2">    * Matching 01: Find the model</c>
-<l>    find_ncc_models (Image, ModelIds, rad(-15), rad(30), 0.7, 3, 1, 'true', 0, Row, Column, Angle, Score,Model)</l>
-<c></c>
+<c>    </c>
 <c>    * </c>
 <c as_id="matching" as_name="Matching 01" as_grp="[7,1]" as_ord="2">    * Matching 01: Display the centers of the matches in the detected positions</c>
 <l as_id="matching" as_name="Matching 01" as_grp="[7,1]" as_ord="3">    dev_display (Image)</l>
-<l as_id="matching" as_name="Matching 01" as_grp="[7,2]" as_ord="1">    for I := 0 to |Score| - 1 by 1</l>
+<c>    </c>
+<c>    </c>
+<c></c>
+<c></c>
+<c>   </c>
+<l>    if (Score&gt;0)</l>
+<c>        </c>
+<c>        </c>
+<c>        </c>
+<c>  </c>
+<c>    </c>
+<l>    *dev_clear_obj (ModelRegion_Results)</l>
+<c> </c>
+<l as_id="matching" as_name="Matching 01" as_grp="[7,2]" as_ord="1">  *  for I := 0 to |Score|-1 by 1</l>
 <c as_id="matching" as_name="Matching 01" as_grp="[7,3]" as_ord="1">        * Matching 01: Display the center of the match</c>
 <l as_id="matching" as_name="Matching 01" as_grp="[7,3]" as_ord="2">*         gen_cross_contour_xld (TransContours, Row[I], Column[I], 20, Angle)</l>
 <l as_id="matching" as_name="Matching 01" as_grp="[7,3]" as_ord="3">        dev_set_color ('green')</l>
 <c>        </c>
+<c>     </c>
+<c>        </c>
+<l>        get_ncc_model_region (Results, ModelIds[P])</l>
+<c>      </c>
+<c>        </c>
+<c>        </c>
+<c>  </c>
+<c>       </c>
 <c>        </c>
 <c>        </c>
 <c>        </c>
 <c>        </c>
 <l>        get_hom_mat2d_from_matching_result (Row, Column, Angle, 1, 1, HomMat2D)</l>
+<l>        affine_trans_region (Results, RegionAffineTrans, HomMat2D, 'constant')</l>
+<c>   </c>
+<l>        skeleton (RegionAffineTrans, Skeleton)</l>
+<c></c>
+<l>        gen_contour_region_xld (Skeleton, Contours, 'border')</l>
 <c>        </c>
-<c as_id="matching" as_name="Matching 01" as_grp="[7,5]" as_ord="1">        </c>
+<l>        concat_obj (ModelRegion_Results, Skeleton, ModelRegion_Results)</l>
 <l>*         dev_display_ncc_matching_results (ModelID, 'red', Row, Column, Angle, 0)</l>
 <l as_id="matching" as_name="Matching 01" as_grp="[7,5]" as_ord="2">*         affine_trans_region (ModelRegion, RegionAffineTrans, HomMat2D, 'nearest_neighbor')</l>
-<l>        projective_trans_contour_xld (TransContours, ContoursProjTrans, HomMat2D)</l>
+<l>        *projective_trans_contour_xld (TransContours, ContoursProjTrans, HomMat2D)</l>
 <c>        </c>
 <c>        </c>
 <l>*         dev_display (RegionAffineTrans)</l>
@@ -120,7 +239,13 @@
 <c as_id="matching" as_name="Matching 01" as_grp="[7,6]" as_ord="2">        * Matching 01: the measure assistant with the code generation option</c>
 <c as_id="matching" as_name="Matching 01" as_grp="[7,6]" as_ord="3">        * Matching 01: 'Alignment Method' set to 'Affine Transformation'.</c>
 <l as_id="matching" as_name="Matching 01" as_grp="[7,7]" as_ord="1">*         stop ()</l>
-<l as_id="matching" as_name="Matching 01" as_grp="[7,8]" as_ord="1">    endfor</l>
+<c>        </c>
+<l>    else</l>
+<l>        stop()</l>
+<l>    endif    </l>
+<l>    endfor</l>
+<c>    </c>
+<l as_id="matching" as_name="Matching 01" as_grp="[7,8]" as_ord="1">  *  endfor</l>
 <c>    </c>
 <l as_id="matching" as_name="Matching 01" as_grp="[10]" as_ord="1">endfor</l>
 <c as_id="matching" as_name="Matching 01" as_grp="[11]" as_ord="1">* </c>
