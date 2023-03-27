@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="22.05.0.0">
+<procedure name="main">
+<interface/>
+<body>
+<c></c>
+<c>*------------------------</c>
+<c>    *读取模板</c>
+<c>    </c>
+<c>    *模板位置名称</c>
+<l>    Name:='135_1'</l>
+<c>    </c>
+<c>    </c>
+<l>    read_deformable_model (Name+'_ModelID_deformed.dfm', ModelID_deformed)</l>
+<l>    read_deformable_model (Name+'_ModelID1_deformed.dfm', ModelID1_deformed)</l>
+<c>    </c>
+<l>     *read_deformable_model ('1_F_'+Name+'_1.dfm', ModelID2_deformed)</l>
+<l>    * get_deformable_model_contours (ModelContours2, ModelID2_deformed, 1)</l>
+<l>  * read_shape_model ('C:/Users/zhiwei2.he/Desktop/图片/'+Name+'_ModelID_zoom.shm', ModelID_zoom)</l>
+<l>    read_shape_model (Name+'_ModelID_template.shm', ModelID_template)</l>
+<l>    read_shape_model (Name+'_ModelID_aniso.shm', ModelID_aniso)</l>
+<c>    </c>
+<c>    </c>
+<l>    get_shape_model_contours (ModelContours2, ModelID_aniso, 1)</l>
+<c></c>
+<l>    get_deformable_model_contours (ModelContours2, ModelID_deformed, 1)</l>
+<c>    </c>
+<l>    get_deformable_model_contours (ModelContours2, ModelID1_deformed, 1)</l>
+<c>    </c>
+<l>    get_shape_model_contours (ModelContours2, ModelID_aniso, 1)</l>
+<c>    </c>
+<l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[1,2]" as_ord="1">list_files ('C:/Users/H/Desktop/Sample_Image/135', ['files','follow_links'], ImageFiles)</l>
+<l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[1,3]" as_ord="1">tuple_regexp_select (ImageFiles, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImageFiles)</l>
+<c></c>
+<c></c>
+<l>dev_get_window (WindowHandle)</l>
+<c></c>
+<c></c>
+<c></c>
+<l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[2,2]" as_ord="1">for Index := 0 to |ImageFiles|-1 by 1</l>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<l>  read_image (Image, ImageFiles[Index])</l>
+<l>    dev_display (Image)</l>
+<l>    *lines_gauss (Image, Lines, 1.2, 2, 10, 'dark', 'false', 'parabolic', 'false')</l>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<c>    *连接线段之间</c>
+<l>    *union_adjacent_contours_xld (Lines, UnionContours, 50, 1, 'attr_keep')</l>
+<c>    </c>
+<l>     *  equ_histo_image (Image, ImageEquHisto)</l>
+<c></c>
+<c>    </c>
+<c>    </c>
+<c></c>
+<c>      </c>
+<c></c>
+<l>    *gen_rectangle1 (ROI_0, 0, 0, Height*0.8, Width*0.6)</l>
+<c>    </c>
+<l>    *reduce_domain (Image, ROI_0, ImageReduced)</l>
+<l>  *  median_image (ImageScaleMax, ImageMedian1, 'circle', 1, 'mirrored')</l>
+<c>    </c>
+<l>   * auto_threshold (ImageMedian1, Regions, 5)</l>
+<l>     *median_rect (Image, ImageMedian, 3, 3)</l>
+<l>   * scale_image_max (ImageMedian1, ImageScaleMax1)</l>
+<c>     </c>
+<l>    * sobel_amp (ImageMedian1, EdgeAmplitude, 'thin_max_abs_binomial', 2)</l>
+<c>     </c>
+<c>     </c>
+<c>     </c>
+<l>    * derivate_gauss (ImageMedian1, DerivGauss, 1.2, 'gradient')</l>
+<c>     </c>
+<l>     *var_threshold (DerivGauss, Region4, 15, 15, 0.2, 2, 'light')</l>
+<l> * edges_sub_pix (DerivGauss, Edges, 'canny', 3, 1, 5)</l>
+<c>     </c>
+<l> * gen_region_contour_xld (Edges, Region5, 'filled')</l>
+<c>  </c>
+<c>  </c>
+<l>   *  closing_circle (Region4, RegionClosing4, 4.5)</l>
+<l>  * opening_circle (RegionClosing4, RegionOpening3, 2.5)</l>
+<l>   *  background_seg (ImageMedian1, BackgroundRegions2)</l>
+<c>   </c>
+<c>   </c>
+<c>   </c>
+<c>     </c>
+<l>     *opening_rectangle1 (RegionClosing3, RegionOpening2, 2, 2)</l>
+<l>   *  fill_up (RegionClosing3, RegionFillUp)</l>
+<c>     </c>
+<l>   *  background_seg (RegionFillUp, BackgroundRegions1)</l>
+<c>     </c>
+<c>        </c>
+<l>    scale_image_max (Image, ImageScaleMax)</l>
+<c>    </c>
+<c>   </c>
+<c></c>
+<l>      median_image (ImageScaleMax, ImageMedian1, 'square', 1.5, 'continued')</l>
+<c> </c>
+<l>      emphasize (ImageMedian1, ImageEmphasize1, 20, 20, 1.5)</l>
+<c>      </c>
+<l>    *  gray_opening_rect (ImageEmphasize1, ImageOpening1, 14, 14)</l>
+<c>    </c>
+<l>      *gray_closing_rect (ImageOpening1, ImageClosing, 4, 4)</l>
+<c></c>
+<l>       *emphasize (ImageClosing, ImageEmphasize, 20, 20, 1.5)</l>
+<c>   </c>
+<l>   * median_image (ImageEmphasize, ImageMedian, 'square', 1, 'mirrored')</l>
+<c></c>
+<c></c>
+<c></c>
+<c>      </c>
+<l>set_shape_model_param (ModelID_aniso, 'timeout', 200000)</l>
+<l>  count_seconds (T1)</l>
+<l>   * dev_display (ImageMedian)</l>
+<l>     Score:=0</l>
+<c>**查找</c>
+<c>     </c>
+<c>    </c>
+<l>     find_planar_uncalib_deformable_model (ImageEmphasize1, ModelID_deformed, rad(-5), rad(10), 1, 1, 1, 1, 0.7, 1, 0.3, 2, 0.6, ['subpixel','aniso_scale_change_restriction','angle_change_restriction'], ['none',0.8,0.5], HomMat2D, Score)</l>
+<c>       </c>
+<l>  * find_local_deformable_model (ImageOpening, ImageRectified, VectorField, DeformedContours, ModelID1_deformed, rad(-2), rad(4), 1, 1, 1, 1, 0.6, 1, 0.5, 2, 0.8, ['image_rectified', 'vector_field', 'deformed_contours'], ['deformation_smoothness', 'expand_border', 'subpixel'], [3,50, 'least_squares'], Score, Row, Column)</l>
+<c></c>
+<l>      *gen_warped_mesh (VectorField, WarpedMesh, 19)</l>
+<c>   </c>
+<l>  *  find_shape_model (ImageClosing, ModelID_template, rad(-20), rad(40), 0.5, 1, 0, ['least_squares_very_high','max_deformation 20'], 1, 0.9, Row, Column, Angle, Score)</l>
+<l>    dev_display (Image)</l>
+<l>       *find_aniso_shape_model (ImageEmphasize, ModelID_aniso, rad(-2), rad(4), 0.5, 1.5, 0.5, 1.5, 0.5, 1, 0.5, ['least_squares','max_deformation 2'], 0, 0.5, Row, Column, Angle, ScaleR, ScaleC, Score)</l>
+<c>     </c>
+<l>       * find_scaled_shape_model (ImageEmphasize1, ModelID_aniso,  rad(-2), rad(4), 1, 1, 0.5, 1, 0.3, 'least_squares_high', 1, 0.5, Row3, Column3, Angle1, Scale, Score1)</l>
+<c>        </c>
+<c></c>
+<c>        </c>
+<c></c>
+<c></c>
+<c></c>
+<l>     if(Score&gt;=0)</l>
+<c>         </c>
+<c>         </c>
+<c>        </c>
+<l>  *get_hom_mat2d_from_matching_result (Row, Column, Angle, ScaleR, ScaleC, HomMat2D)</l>
+<l>   projective_trans_contour_xld (ModelContours2, ContoursProjTrans, HomMat2D)</l>
+<l>    endif</l>
+<c>     </c>
+<l>       count_seconds (T2)</l>
+<l>    T3:=T2-T1</l>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<l>     if (Score&gt;=0)</l>
+<c>         </c>
+<c>        </c>
+<l>  *  get_hom_mat2d_from_matching_result (Row, Column, Angle, ScaleR, ScaleC, HomMat2D)</l>
+<l>   * vector_angle_to_rigid (0, 0, Angle, Row, Column, Angle, HomMat2D)</l>
+<l>  * tuple_select_range (HomMat2D, 0, |HomMat2D|-1 , HomMatSelected)</l>
+<c>    </c>
+<c>    </c>
+<l>   * projective_trans_contour_xld (ModelContours, ContoursProjTrans, HomMat2D)</l>
+<c>   </c>
+<l>     dev_display (Image)</l>
+<c>     </c>
+<c> </c>
+<c></c>
+<l>    *dev_display_shape_matching_results (ModelID_deformed, 'red', Row, Column, Angle, 1, 1, 0)</l>
+<l>    *median_rect (ImageMedian, ImageMedian1, 2, 2)</l>
+<c>   </c>
+<l>   *ContoursProjTrans:=  DeformedContours</l>
+<c>   </c>
+<c>   </c>
+<l>      dev_display(ContoursProjTrans)</l>
+<c>     *选择第一段线段</c>
+<l>     select_obj (ContoursProjTrans, Line_1, 1)</l>
+<c>     *提取位置信息</c>
+<l>     get_contour_xld (Line_1, Row_1, Col_1)</l>
+<c>     </c>
+<c>     *选择圆弧位置</c>
+<l>      select_obj (ContoursProjTrans, Cir_1, 2)</l>
+<c>      </c>
+<l>      get_contour_xld (Cir_1, Row2, Col)</l>
+<c>      </c>
+<l>          P_Row:=|Row2|/2</l>
+<l>          P_Col:=|Col|/2</l>
+<c>      </c>
+<c>          </c>
+<c>        </c>
+<l>       gen_cross_contour_xld (Cross, Row2[P_Row], Col[P_Col], 100, 0.785398)</l>
+<c>      </c>
+<l>      dev_display(Cross)</l>
+<c>     </c>
+<c>          </c>
+<c>          </c>
+<c>       </c>
+<c>      *拟合圆弧</c>
+<l>     fit_circle_contour_xld (Cir_1, 'algebraic', -1, 0, 0, 3, 2, Row, Column, Radius, StartPhi, EndPhi, PointOrder)</l>
+<c>      </c>
+<c>     *选择第三段线段</c>
+<l>     select_obj (ContoursProjTrans, Line_3, 3)</l>
+<c>     *提取位置信息</c>
+<l>     get_contour_xld (Line_3, Row_3, Col_3)</l>
+<c>         </c>
+<c>   </c>
+<c>     </c>
+<c>     *计算直线角度</c>
+<l>     angle_ll (Row_1[1], Col_1[1], Row_1[0], Col_1[0], Row_3[0], Col_3[0],Row_3[1], Col_3[1], Angle)</l>
+<l>     Ang:=deg(Angle)</l>
+<c>    </c>
+<c>     *继续交点位置</c>
+<l>   intersection_lines (Row_1[1], Col_1[1], Row_1[0], Col_1[0], Row_3[0], Col_3[0],Row_3[1], Col_3[1], Row1, Column1, IsOverlapping)</l>
+<c>     </c>
+<l> gen_cross_contour_xld (Cross2, Row1, Column1, 100, rad(45))</l>
+<l>  *union_cotangential_contours_xld (ContoursProjTrans, UnionContours, 0, 'auto', rad(10), 100, 200, 20, 'attr_forget')</l>
+<l>      dev_display(Cross2)</l>
+<c>  </c>
+<c>*新建空模板</c>
+<l>gen_empty_obj (LLxld)</l>
+<c>   </c>
+<c>    </c>
+<c>  </c>
+<c></c>
+<c></c>
+<l>      select_obj (ContoursProjTrans, LL_1, 1)</l>
+<l>      get_contour_xld (LL_1, LRow1, LCol1)</l>
+<c>     </c>
+<c>      </c>
+<c>   </c>
+<l>      select_obj (ContoursProjTrans, LL_2, 4)</l>
+<l>      get_contour_xld (LL_2, LRow2, LCol2)</l>
+<c>      </c>
+<c>      </c>
+<l>      intersection_lines (LRow1[0], LCol1[0], LRow1[1], LCol1[1], LRow2[0], LCol2[0], LRow2[1], LCol2[1], Row_L1, Column_L1, IsOverlapping1)</l>
+<l>      gen_cross_contour_xld (Cross1, Row_L1, Column_L1, 100, rad(45))</l>
+<c>      </c>
+<l>      select_obj (ContoursProjTrans, LL_3, 5)</l>
+<l>      get_contour_xld (LL_3, LRow3, LCol3)</l>
+<c>      </c>
+<l>      intersection_lines (LRow2[0], LCol2[0], LRow2[1], LCol2[1], LRow3[0], LCol3[0], LRow3[1], LCol3[1], Row_L2, Column_L2, IsOverlapping1)</l>
+<c>      </c>
+<c>      </c>
+<l>      gen_cross_contour_xld (Cross3, Row_L2, Column_L2, 100, rad(45))</l>
+<l>      *union_adjacent_contours_xld (LLxld, UnionContours1, 200, 1, 'attr_keep')</l>
+<c>  </c>
+<c>     *显示夹角</c>
+<l>     disp_message (WindowHandle, Ang+' deg', 'window', Row, Column, 'red', 'true')</l>
+<c>     </c>
+<c>     *显示交点位置</c>
+<l>      *gen_cross_contour_xld (Cross, Row1, Column1, 100, rad(45))</l>
+<l>      disp_message (WindowHandle, 'X:'+Row1+' Y:'+Column1, 'window', Row1-100, Column1+100, 'red', 'true')</l>
+<c>     </c>
+<l>            disp_message (WindowHandle, T2-T1+'s', 'window', 0, 0, 'red', 'true')</l>
+<c>     </c>
+<c>     </c>
+<c>     </c>
+<c>     </c>
+<l>      dev_display(Image)</l>
+<l>      dev_display(ContoursProjTrans)</l>
+<l>      *stop()</l>
+<l>     endif</l>
+<c>     </c>
+<l>     wait_seconds (0.2)</l>
+<l>    *stop()</l>
+<l>   * set_planar_uncalib_deformable_model_metric (Image, ModelID_deformed, HomMatSelected, 'use_polarity')</l>
+<c></c>
+<c as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[2,4]" as_ord="1">    * Image Acquisition 01: Do something</c>
+<l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[3,1]" as_ord="1">endfor</l>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="gen_warped_mesh">
+<interface>
+<io>
+<par name="VectorField" base_type="iconic" dimension="0"/>
+</io>
+<oo>
+<par name="WarpedMesh" base_type="iconic" dimension="0"/>
+</oo>
+<ic>
+<par name="Step" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<c>* Generate a grid of the deformation from the VectorField</c>
+<c>* The step width is given by the parameter Step.</c>
+<c></c>
+<l>gen_empty_obj (WarpedMesh)</l>
+<l>count_obj (VectorField, Number)</l>
+<l>for Index := 1 to Number by 1</l>
+<l>    select_obj (VectorField, ObjectSelected, Index)</l>
+<l>    vector_field_to_real (ObjectSelected, DRow, DColumn)</l>
+<l>    get_image_size (VectorField, Width, Height)</l>
+<c>    * Horizontal lines</c>
+<l>    for ContR := 0.5 to Height[0] - 1 by Step</l>
+<l>        Column := [0.5:Width[0] - 1]</l>
+<l>        tuple_gen_const (Width[0] - 1, ContR, Row)</l>
+<l>        get_grayval_interpolated (DRow, Row, Column, 'bilinear', GrayRow)</l>
+<l>        get_grayval_interpolated (DColumn, Row, Column, 'bilinear', GrayColumn)</l>
+<l>        gen_contour_polygon_xld (Contour, GrayRow, GrayColumn)</l>
+<l>        concat_obj (WarpedMesh, Contour, WarpedMesh)</l>
+<l>    endfor</l>
+<c>    * Vertical lines</c>
+<l>    for ContC := 0.5 to Width[0] - 1 by Step</l>
+<l>        Row := [0.5:Height[0] - 1]</l>
+<l>        tuple_gen_const (Height[0] - 1, ContC, Column)</l>
+<l>        get_grayval_interpolated (DRow, Row, Column, 'bilinear', GrayRow)</l>
+<l>        get_grayval_interpolated (DColumn, Row, Column, 'bilinear', GrayColumn)</l>
+<l>        gen_contour_polygon_xld (Contour, GrayRow, GrayColumn)</l>
+<l>        concat_obj (WarpedMesh, Contour, WarpedMesh)</l>
+<l>    endfor</l>
+<l>endfor</l>
+<l>return ()</l>
+</body>
+<docu id="gen_warped_mesh">
+<parameters>
+<parameter id="Step"/>
+<parameter id="VectorField"/>
+<parameter id="WarpedMesh"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="Find_deform">
+<interface>
+<io>
+<par name="Image" base_type="iconic" dimension="0"/>
+</io>
+<ic>
+<par name="Xld_Model" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="Mat2D" base_type="ctrl" dimension="0"/>
+<par name="Score" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c></c>
+<c></c>
+<l>     find_planar_uncalib_deformable_model (Image, Xld_Model, rad(-2), rad(4), 1, 1, 1, 1, 0.7, 1, 0.5, 2, 0.4, ['subpixel','aniso_scale_change_restriction','angle_change_restriction'], ['least_squares',0.2,1.5], HomMat2D, Score1)</l>
+<c>       </c>
+<l>  * find_local_deformable_model (ImageOpening, ImageRectified, VectorField, DeformedContours, ModelID1_deformed, rad(-2), rad(4), 1, 1, 1, 1, 0.6, 1, 0.5, 2, 0.8, ['image_rectified', 'vector_field', 'deformed_contours'], ['deformation_smoothness', 'expand_border', 'subpixel'], [3,50, 'least_squares'], Score, Row, Column)</l>
+<c>  </c>
+<l>if (Score1 &gt;0) </l>
+<c>    </c>
+<l> Mat2D:=[Mat2D,HomMat2D]</l>
+<l>Score:=[Score,Score1]</l>
+<c>    </c>
+<l>else</l>
+<l>Mat2D:=[Mat2D,0]</l>
+<l>Score:=[Score,Score1]</l>
+<c>    </c>
+<l>endif</l>
+<c></c>
+<c></c>
+<c></c>
+<l>return ()</l>
+</body>
+<docu id="Find_deform">
+<parameters>
+<parameter id="Image">
+<sem_type>image</sem_type>
+<type_list>
+<item>byte</item>
+<item>int1</item>
+<item>int2</item>
+<item>uint2</item>
+<item>int4</item>
+<item>int8</item>
+<item>real</item>
+<item>cyclic</item>
+<item>direction</item>
+<item>complex</item>
+<item>vector_field</item>
+</type_list>
+</parameter>
+<parameter id="Mat2D">
+<sem_type>hom_mat2d</sem_type>
+</parameter>
+<parameter id="Score">
+<sem_type>real</sem_type>
+</parameter>
+<parameter id="Xld_Model">
+<description lang="zh_CN">Handle</description>
+<mixed_type>false</mixed_type>
+<sem_type>deformable_model</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>

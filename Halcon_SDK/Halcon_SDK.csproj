@@ -90,6 +90,10 @@
     <Content Include="halconxl.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Halcon样图测试\9点标定板样图\9点标定板.png" />
+    <Content Include="Halcon样图测试\9点标定板样图\Image_20221028151737871.bmp" />
+    <Content Include="Halcon样图测试\9点标定板样图\Image_20221028151747694.bmp" />
+    <Content Include="Halcon样图测试\9点标定板样图\Image_20221028151800086.bmp" />
     <Content Include="hcanvas.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -109,6 +113,53 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Halcon样图测试\10_F_135_1.dfm" />
+    <None Include="Halcon样图测试\10_F_225_1.dfm" />
+    <None Include="Halcon样图测试\10_F_315_1.dfm" />
+    <None Include="Halcon样图测试\10_F_45_1.dfm" />
+    <None Include="Halcon样图测试\135_1_ModelID1_deformed.dfm" />
+    <None Include="Halcon样图测试\135_1_ModelID_aniso.shm" />
+    <None Include="Halcon样图测试\135_1_ModelID_deformed.dfm" />
+    <None Include="Halcon样图测试\135_1_ModelID_template.shm" />
+    <None Include="Halcon样图测试\135_1_ModelID_zoom.shm" />
+    <None Include="Halcon样图测试\1_F_135_1.dfm" />
+    <None Include="Halcon样图测试\1_F_225_1.dfm" />
+    <None Include="Halcon样图测试\1_F_315_1.dfm" />
+    <None Include="Halcon样图测试\1_F_45_1.dfm" />
+    <None Include="Halcon样图测试\26-30-0.002.cpd" />
+    <None Include="Halcon样图测试\26-30-0.002.ps" />
+    <None Include="Halcon样图测试\26-30-0.0125.cpd" />
+    <None Include="Halcon样图测试\26-30-0.0125.ps" />
+    <None Include="Halcon样图测试\2D_135_ID.mat" />
+    <None Include="Halcon样图测试\2D_225_ID.mat" />
+    <None Include="Halcon样图测试\2D_315_ID.mat" />
+    <None Include="Halcon样图测试\2D_45_ID.mat" />
+    <None Include="Halcon样图测试\2_F_135_1.dfm" />
+    <None Include="Halcon样图测试\2_F_225_1.dfm" />
+    <None Include="Halcon样图测试\2_F_315_1.dfm" />
+    <None Include="Halcon样图测试\2_F_45_1.dfm" />
+    <None Include="Halcon样图测试\3_F_135_1.dfm" />
+    <None Include="Halcon样图测试\3_F_225_1.dfm" />
+    <None Include="Halcon样图测试\3_F_315_1.dfm" />
+    <None Include="Halcon样图测试\3_F_45_1.dfm" />
+    <None Include="Halcon样图测试\45_1_ModelID1_deformed.dfm" />
+    <None Include="Halcon样图测试\45_1_ModelID_aniso.shm" />
+    <None Include="Halcon样图测试\45_1_ModelID_deformed.dfm" />
+    <None Include="Halcon样图测试\45_1_ModelID_template.shm" />
+    <None Include="Halcon样图测试\45_1_ModelID_zoom.shm" />
+    <None Include="Halcon样图测试\45匹配.hdev" />
+    <None Include="Halcon样图测试\6_F_45_1.dfm" />
+    <None Include="Halcon样图测试\9-9-0.002-0.5.descr" />
+    <None Include="Halcon样图测试\9-9-0.002-0.5.ps" />
+    <None Include="Halcon样图测试\ncc匹配.hdev" />
+    <None Include="Halcon样图测试\xdl创建匹配.hdev" />
+    <None Include="Halcon样图测试\Xdl匹配.hdev" />
+    <None Include="Halcon样图测试\例子匹配.hdev" />
+    <None Include="Halcon样图测试\制作标定板.hdev" />
+    <None Include="Halcon样图测试\图片预处理转换.hdev" />
+    <None Include="Halcon样图测试\模板.dxf" />
+    <None Include="Halcon样图测试\相机校正变形.hdev" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
