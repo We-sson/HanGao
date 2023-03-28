@@ -11,7 +11,7 @@
 <c as_id="matching" as_name="Matching 01" as_grp="[1,1,1]" as_ord="1">* Matching 01: Obtain the model image</c>
 <c></c>
 <l>dev_get_window (WindowHandle)</l>
-<l as_id="matching" as_name="Matching 01" as_grp="[1,1,1]" as_ord="2">read_image (Image, 'C:/Users/H/Desktop/Sample_Image/45_Pre/1.tiff')</l>
+<l as_id="matching" as_name="Matching 01" as_grp="[1,1,1]" as_ord="2">read_image (Image, 'C:/Users/H/Desktop/Sample_Image/135_Pre/0.tiff')</l>
 <c as_id="matching" as_name="Matching 01" as_grp="[1,1,2]" as_ord="1">* </c>
 <c as_id="matching" as_name="Matching 01" as_grp="[1,1,2]" as_ord="2">* Matching 01: Build the ROI from basic regions</c>
 <c></c>
@@ -95,7 +95,7 @@
 <c></c>
 <c></c>
 <c>*膨胀区域</c>
-<l>dilation_circle (Region_Xld, Region_Dilation, 20)</l>
+<l>dilation_circle (Region_Xld, Region_Dilation, 25)</l>
 <c></c>
 <c>*合并对应所需区域</c>
 <l>gen_empty_obj (All_Reduced)</l>
@@ -211,18 +211,40 @@
 <c as_id="matching" as_name="Matching 01" as_grp="[3,1]" as_ord="2">* Matching 01: BEGIN of generated code for model application</c>
 <c as_id="matching" as_name="Matching 01" as_grp="[4]" as_ord="1">* </c>
 <c as_id="matching" as_name="Matching 01" as_grp="[4]" as_ord="2">* Matching 01: Loop over all specified test images</c>
-<l as_id="matching" as_name="Matching 01" as_grp="[4]" as_ord="3">TestImages := ['C:/Users/H/Desktop/Sample_Image/45_Pre/0.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/1.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/10.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/100.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/101.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/102.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/103.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/104.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/105.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/106.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/107.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/108.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/109.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/11.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/110.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/111.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/112.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/113.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/114.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/115.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/116.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/117.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/118.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/119.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/12.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/120.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/121.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/122.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/123.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/124.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/125.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/126.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/127.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/128.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/129.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/13.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/130.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/131.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/132.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/133.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/134.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/135.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/136.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/137.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/138.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/139.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/14.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/140.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/141.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/142.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/143.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/144.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/145.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/146.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/147.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/148.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/149.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/15.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/150.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/151.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/152.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/153.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/154.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/155.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/156.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/157.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/158.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/159.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/16.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/160.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/161.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/162.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/163.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/164.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/165.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/166.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/167.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/168.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/169.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/17.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/170.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/171.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/172.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/173.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/174.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/175.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/176.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/177.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/178.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/179.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/18.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/180.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/181.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/182.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/183.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/184.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/185.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/186.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/187.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/188.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/189.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/19.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/190.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/191.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/192.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/193.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/194.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/195.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/196.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/197.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/198.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/199.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/2.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/20.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/200.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/201.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/202.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/203.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/204.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/205.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/206.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/207.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/208.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/209.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/21.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/210.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/211.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/212.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/213.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/214.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/215.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/216.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/217.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/218.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/219.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/22.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/220.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/221.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/222.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/223.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/224.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/225.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/226.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/227.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/228.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/229.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/23.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/230.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/231.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/232.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/233.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/234.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/235.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/236.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/237.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/238.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/239.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/24.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/240.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/241.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/242.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/243.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/244.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/245.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/246.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/247.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/248.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/249.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/25.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/250.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/251.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/252.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/253.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/254.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/255.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/256.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/257.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/258.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/259.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/26.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/260.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/261.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/262.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/263.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/264.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/265.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/266.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/267.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/268.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/269.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/27.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/270.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/271.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/272.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/273.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/274.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/275.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/276.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/277.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/278.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/279.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/28.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/280.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/281.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/282.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/283.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/284.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/285.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/286.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/287.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/288.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/289.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/29.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/290.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/291.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/292.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/293.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/294.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/295.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/296.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/297.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/298.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/299.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/3.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/30.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/300.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/301.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/302.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/303.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/304.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/305.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/306.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/307.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/308.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/309.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/31.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/310.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/311.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/312.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/313.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/314.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/315.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/316.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/317.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/318.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/319.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/32.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/320.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/321.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/322.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/323.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/324.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/325.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/326.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/327.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/328.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/329.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/33.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/330.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/331.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/332.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/333.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/334.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/335.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/34.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/35.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/36.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/37.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/38.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/39.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/4.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/40.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/41.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/42.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/43.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/44.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/45.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/46.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/47.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/48.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/49.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/5.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/50.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/51.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/52.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/53.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/54.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/55.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/56.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/57.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/58.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/59.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/6.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/60.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/61.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/62.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/63.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/64.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/65.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/66.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/67.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/68.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/69.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/7.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/70.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/71.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/72.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/73.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/74.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/75.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/76.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/77.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/78.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/79.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/8.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/80.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/81.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/82.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/83.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/84.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/85.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/86.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/87.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/88.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/89.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/9.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/90.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/91.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/92.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/93.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/94.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/95.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/96.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/97.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/98.tiff','C:/Users/H/Desktop/Sample_Image/45_Pre/99.tiff']</l>
-<l as_id="matching" as_name="Matching 01" as_grp="[4]" as_ord="4">for T := 0 to 335 by 1</l>
-<c as_id="matching" as_name="Matching 01" as_grp="[5]" as_ord="1">    * </c>
-<c as_id="matching" as_name="Matching 01" as_grp="[5]" as_ord="2">    * Matching 01: Obtain the test image</c>
-<l as_id="matching" as_name="Matching 01" as_grp="[5]" as_ord="3">    read_image (Image, TestImages[T])</l>
+<c></c>
+<c></c>
+<c as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[1,1]" as_ord="1">* Image Acquisition 01: Code generated by Image Acquisition 01</c>
+<l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[1,2]" as_ord="1">list_files ('C:/Users/H/Desktop/Sample_Image/135', ['files','follow_links'], ImageFiles)</l>
+<l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[1,3]" as_ord="1">tuple_regexp_select (ImageFiles, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImageFiles)</l>
+<l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[2,2]" as_ord="1">for  T:= 0 to |ImageFiles| - 1 by 1</l>
+<l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[2,3]" as_ord="1">    read_image (Image, ImageFiles[217])</l>
+<c>    </c>
+<c>    </c>
+<c>    *预处理</c>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<l>    scale_image_max (Image, ImageScaleMax)</l>
+<c>    </c>
+<c>    </c>
+<l>    median_image (ImageScaleMax, ImageMedian1, 'square', 0.5, 'continued')</l>
+<c>    </c>
+<l>    emphasize (ImageMedian1, ImageEmphasize1, 18, 18, 3)</l>
+<c>    </c>
+<c>    </c>
+<l>    gray_opening_rect (ImageEmphasize1, ImageOpening1, 16, 16)</l>
+<c>    </c>
+<l>    gray_closing_rect (ImageOpening1, ImageClosing, 4, 4)</l>
+<c>    *</c>
+<c>    </c>
+<c>    *查找模型</c>
 <c>    </c>
 <l>    gen_empty_obj (ModelRegion_Results)</l>
 <l>    Find_Results:=[0,0,0]</l>
 <l>    for P := 0 to |ModelIds|-1 by 1</l>
 <c>        </c>
 <c>        </c>
-<l>        find_ncc_model (Image, ModelIds[P], rad(-5), rad(10), 0.75, 1, 1, 'false', 0, Row, Column, Angle, Score)</l>
+<l>        find_ncc_model (ImageOpening1, ModelIds[P], rad(-5), rad(5), 0.7, 1, 1, 'false', 0, Row, Column, Angle, Score)</l>
 <c>        </c>
 <c>        </c>
 <c>        </c>
@@ -285,13 +307,13 @@
 <c>            </c>
 <c>            </c>
 <c>            *骨架提取</c>
-<l>          *  skeleton (RegionAffineTrans, Skeleton)</l>
+<l>*             skeleton (RegionAffineTrans, Skeleton)</l>
 <c>            </c>
 <c>            *转换xld</c>
-<l>            *gen_contour_region_xld (Skeleton, Contours, 'center')</l>
+<l>*             gen_contour_region_xld (Skeleton, Contours, 'center')</l>
 <c>            </c>
 <c>            *添加集合</c>
-<l>           * concat_obj (ModelRegion_Results, Contours, ModelRegion_Results)</l>
+<l>*             concat_obj (ModelRegion_Results, Contours, ModelRegion_Results)</l>
 <c>            </c>
 <c>            </c>
 <c>            </c>
@@ -306,13 +328,13 @@
 <c>            </c>
 <l>*             dev_display (RegionAffineTrans)</l>
 <c as_id="matching" as_name="Matching 01" as_grp="[7,6]" as_ord="1">            </c>
-<c>           ** stop ()</c>
+<c>            ** stop ()</c>
 <c>            </c>
 <l>        else</l>
-<c>          </c>
+<c>            </c>
 <c>            </c>
 <c>            *其中有特征无法找到</c>
-<l>            *stop()</l>
+<l>*             stop()</l>
 <l>        endif   </l>
 <c>        </c>
 <c>        </c>
@@ -320,56 +342,56 @@
 <c>        </c>
 <l>    endfor</l>
 <c>    </c>
-<c>   </c>
+<c>    </c>
 <c>    </c>
 <l>    if(find(Find_Results,[1,1,1])==0)</l>
 <c>        </c>
-<c>      *提出需要计算的xld特征</c>
-<l>      select_obj (XLD_1_1_1, LL_1, 1)</l>
-<l>      get_contour_xld (LL_1, LRow1, LCol1)</l>
-<c>     </c>
-<l>      select_obj (XLD_3_3_3, LL_2, 1)</l>
-<l>      get_contour_xld (LL_2, LRow2, LCol2)</l>
-<c>      </c>
-<l>      select_obj (XLD_4_4_4, LL_3, 1)</l>
-<l>      get_contour_xld (LL_3, LRow3, LCol3)</l>
-<l>       select_obj (XLD_4_4_4, LL_4, 2)</l>
-<l>      get_contour_xld (LL_4, LRow4, LCol4)</l>
-<c>      </c>
-<c>      </c>
-<c>      </c>
-<c>      *计算交点位置</c>
-<l>      intersection_lines (LRow1[0], LCol1[0], LRow1[1], LCol1[1], LRow2[0], LCol2[0], LRow2[1], LCol2[1], Row_L1, Column_L1, IsOverlapping1)</l>
-<l>      gen_cross_contour_xld (Cross1, Row_L1, Column_L1, 100, rad(45))</l>
-<c></c>
-<c>      </c>
-<l>      intersection_lines (LRow2[0], LCol2[0], LRow2[1], LCol2[1], LRow3[0], LCol3[0], LRow3[1], LCol3[1], Row_L2, Column_L2, IsOverlapping1)</l>
-<l>      gen_cross_contour_xld (Cross2, Row_L2, Column_L2, 100, rad(45))</l>
-<c>    </c>
-<l>      intersection_lines (LRow4[0], LCol4[0], LRow4[1], LCol4[1], LRow3[0], LCol3[0], LRow3[1], LCol3[1], Row_L3, Column_L3, IsOverlapping1)</l>
-<l>      gen_cross_contour_xld (Cross2, Row_L3, Column_L3, 100, rad(45))</l>
-<c>    </c>
-<c>      </c>
-<c>     *计算直线角度</c>
-<l>     angle_ll (LRow1[1], LCol1[1], LRow1[0], LCol1[0], LRow2[0], LCol2[0],LRow2[1], LCol2[1], Angle)</l>
-<l>     Ang:=deg(Angle)</l>
-<l>     disp_message (WindowHandle, Ang+' deg', 'image', Row, Column, 'red', 'true')</l>
-<c>     </c>
-<c></c>
-<l>     *stop()</l>
+<c>        *提出需要计算的xld特征</c>
+<l>        select_obj (XLD_1_1_1, LL_1, 1)</l>
+<l>        get_contour_xld (LL_1, LRow1, LCol1)</l>
+<c>        </c>
+<l>        select_obj (XLD_3_3_3, LL_2, 1)</l>
+<l>        get_contour_xld (LL_2, LRow2, LCol2)</l>
+<c>        </c>
+<l>        select_obj (XLD_4_4_4, LL_3, 1)</l>
+<l>        get_contour_xld (LL_3, LRow3, LCol3)</l>
+<l>        select_obj (XLD_4_4_4, LL_4, 2)</l>
+<l>        get_contour_xld (LL_4, LRow4, LCol4)</l>
+<c>        </c>
+<c>        </c>
+<c>        </c>
+<c>        *计算交点位置</c>
+<l>        intersection_lines (LRow1[0], LCol1[0], LRow1[1], LCol1[1], LRow2[0], LCol2[0], LRow2[1], LCol2[1], Row_L1, Column_L1, IsOverlapping1)</l>
+<l>        gen_cross_contour_xld (Cross1, Row_L1, Column_L1, 100, rad(45))</l>
+<c>        </c>
+<c>        </c>
+<l>        intersection_lines (LRow2[0], LCol2[0], LRow2[1], LCol2[1], LRow3[0], LCol3[0], LRow3[1], LCol3[1], Row_L2, Column_L2, IsOverlapping1)</l>
+<l>        gen_cross_contour_xld (Cross2, Row_L2, Column_L2, 100, rad(45))</l>
+<c>        </c>
+<l>        intersection_lines (LRow4[0], LCol4[0], LRow4[1], LCol4[1], LRow3[0], LCol3[0], LRow3[1], LCol3[1], Row_L3, Column_L3, IsOverlapping1)</l>
+<l>        gen_cross_contour_xld (Cross2, Row_L3, Column_L3, 100, rad(45))</l>
+<c>        </c>
+<c>        </c>
+<c>        *计算直线角度</c>
+<l>        angle_ll (LRow1[1], LCol1[1], LRow1[0], LCol1[0], LRow2[0], LCol2[0],LRow2[1], LCol2[1], Angle)</l>
+<l>        Ang:=deg(Angle)</l>
+<l>        disp_message (WindowHandle, Ang+' deg', 'image', Row, Column, 'red', 'true')</l>
+<c>        </c>
+<c>        </c>
+<l>*         stop()</l>
 <c>        </c>
 <c>        </c>
 <l>    else</l>
 <c>        </c>
 <c>        </c>
-<c></c>
-<c>         *出现有特征无法检测</c>
+<c>        </c>
+<c>        *出现有特征无法检测</c>
 <l>        stop()</l>
 <l>    endif</l>
-<c></c>
 <c>    </c>
-<c></c>
-<c></c>
+<c>    </c>
+<c>    </c>
+<c>    </c>
 <c>    </c>
 <l as_id="matching" as_name="Matching 01" as_grp="[10]" as_ord="1">endfor</l>
 <c as_id="matching" as_name="Matching 01" as_grp="[11]" as_ord="1">* </c>
