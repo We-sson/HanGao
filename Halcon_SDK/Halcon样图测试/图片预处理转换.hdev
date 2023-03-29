@@ -17,7 +17,6 @@
 <c>    </c>
 <l>     scale_image_max (Image, ImageScaleMax)</l>
 <c>    </c>
-<c>   </c>
 <c></c>
 <l>      median_image (ImageScaleMax, ImageMedian1, 'square', 0.5, 'continued')</l>
 <c> </c>

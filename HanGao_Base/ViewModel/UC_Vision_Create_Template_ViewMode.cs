@@ -357,7 +357,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 一般形状模型匹配创建属性
         /// </summary>
-        public Create_Shape_Based_ModelXld Halcon_Create_Shape_ModelXld_UI { set; get; } = new Create_Shape_Based_ModelXld() { Shape_Based_Model = Shape_Based_Model_Enum.planar_deformable_model };
+        public Create_Shape_Based_ModelXld Halcon_Create_Shape_ModelXld_UI { set; get; } = new Create_Shape_Based_ModelXld();
 
 
 
@@ -848,23 +848,54 @@ namespace HanGao.ViewModel
                             //查找模型
                             Find_Model_Method(Features_Window.HWindow, _ModelID, _Image, 999999999);
 
-
-
-
                         }
 
                     }
 
                 });
 
+            });
+        }
 
 
+        /// <summary>
+        /// 测试匹配模型方法
+        /// </summary>
+        public ICommand Image_Pre_Processing_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                //Button Window_UserContol = Sm.Source as Button;
 
+      
+                HObject _Image = new HObject();
+          
 
+                Task.Run(() =>
+                {
 
+               
+                        //读取图片
+                        if (Get_Image(ref _Image, Get_Image_Model, Features_Window.HWindow, Image_Location_UI))
+                        {
+                        //图像预处理
+                        Halcon_SDK.Halcon_Image_Pre_Processing(ref _Image, Features_Window.HWindow, Halcon_Find_Shape_ModelXld_UI);
+                          
+                    
+                        }
+
+                
+
+                });
 
             });
         }
+
+
+
+
+
+
 
         /// <summary>
         /// 线程运行超时强制停止
@@ -1396,7 +1427,7 @@ namespace HanGao.ViewModel
 
                 Get_Image(ref _Image, Get_Image_Model, Features_Window.HWindow, Image_Location_UI);
 
-
+     
 
                 await Task.Delay(100);
 

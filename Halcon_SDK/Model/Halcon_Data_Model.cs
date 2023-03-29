@@ -225,7 +225,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 模板类型
             /// </summary>
-            public Shape_Based_Model_Enum Shape_Based_Model { set; get; } = Shape_Based_Model_Enum.planar_deformable_model;
+            public Shape_Based_Model_Enum Shape_Based_Model { set; get; } = Shape_Based_Model_Enum.Ncc_Model;
             
 
 
@@ -323,7 +323,10 @@ namespace Halcon_SDK_DLL.Model
             /// </summary>
             public string ScaleStep { set; get; } = "auto";
 
-
+            /// <summary>
+            /// 用圆形结构元素扩张区域。
+            /// </summary>
+            public double DilationCircle { set; get; } = 25;
 
         }
 
@@ -336,7 +339,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 模板类型
             /// </summary>
-            public Shape_Based_Model_Enum Shape_Based_Model { set; get; } = Shape_Based_Model_Enum.planar_deformable_model;
+            public Shape_Based_Model_Enum Shape_Based_Model { set; get; } = Shape_Based_Model_Enum.Ncc_Model;
 
 
             /// <summary>
@@ -516,6 +519,39 @@ namespace Halcon_SDK_DLL.Model
             public double MedianRect_MaskHeight { set; get; } = 3;
 
 
+            /// <summary>
+            /// 灰度开运算使能
+            /// </summary>
+            public bool GrayOpeningRect_Enable { set; get; } = true;
+            /// <summary>
+            /// 灰度开运算显示
+            /// </summary>
+            public bool GrayOpeningRect_Disp { set; get; } = true;
+            /// <summary>
+            /// 灰度开运算滤镜掩码的高度
+            /// </summary>
+            public int GrayOpeningRect_MaskHeight { set; get; } = 16;
+            /// <summary>
+            /// 灰度开运算滤镜掩码的宽度
+            /// </summary>
+            public int GrayOpeningRect_MaskWidth { set; get; } = 16;
+
+            /// <summary>
+            /// 灰度开运算使能
+            /// </summary>
+            public bool GrayClosingRect_Enable { set; get; } = true;
+            /// <summary>
+            /// 灰度开运算显示
+            /// </summary>
+            public bool GrayClosingRect_Disp { set; get; } = true;
+            /// <summary>
+            /// 灰度开运算滤镜掩码的高度
+            /// </summary>
+            public int GrayClosingRect_MaskHeight { set; get; } = 16;
+            /// <summary>
+            /// 灰度开运算滤镜掩码的宽度
+            /// </summary>
+            public int GrayClosingRect_MaskWidth { set; get; } = 16;
 
 
         }
@@ -748,7 +784,11 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 和比例缩放模板
         /// </summary>
-        Scale_model
+        Scale_model,
+        /// <summary>
+        /// 相关性匹配模板
+        /// </summary>
+        Ncc_Model,
     }
 
 
