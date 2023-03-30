@@ -52,6 +52,7 @@ namespace HanGao.ViewModel
 
                 HTuple _Mat2D = new HTuple();
                 HTuple _ModelXld = new HTuple();
+                HObject _ModelConnect = new HObject();
                 HTuple _ModelID = new HTuple();
                 HObject _Image = new HObject();
                 Pos_List_Model _Point_List = new Pos_List_Model();
@@ -86,7 +87,7 @@ namespace HanGao.ViewModel
 
 
                         //读取模型文件
-                        if (Read_Shape_ModelXld(ref _ModelXld, _Data_Xml.Find_Shape_Data.Shape_Based_Model, (ShapeModel_Name_Enum)Enum.Parse(typeof(ShapeModel_Name_Enum), _S.Find_Model.Vision_Area), Vision_Sink.Sink_Process.Vision_Find_Shape_ID))
+                        if (Read_Shape_ModelXld(ref _ModelXld,ref _ModelConnect, _Data_Xml.Find_Shape_Data.Shape_Based_Model, (ShapeModel_Name_Enum)Enum.Parse(typeof(ShapeModel_Name_Enum), _S.Find_Model.Vision_Area), Vision_Sink.Sink_Process.Vision_Find_Shape_ID))
                         {
 
 
@@ -582,7 +583,7 @@ namespace HanGao.ViewModel
                 ComboBox E = Sm.Source as ComboBox;
 
                 Shape_FileFull_UI_Model _Shape = (Shape_FileFull_UI_Model)E.SelectedValue as Shape_FileFull_UI_Model;
-                HTuple _ModelID = new HTuple();
+                HTuple _ModelID = new HTuple ();
                 HObject _ModelContours = new HObject();
 
                 if (_Shape != null)
@@ -591,10 +592,10 @@ namespace HanGao.ViewModel
 
 
 
-                    if (Halcon_SDK.Read_ModelsXLD_File(ref _ModelID, (Shape_Based_Model_Enum)int.Parse(_ShapeName[3].Split('.')[0]), _Shape.File_Directory))
+                    if (Halcon_SDK.Read_ModelsXLD_File(ref _ModelID,ref _ModelContours, (Shape_Based_Model_Enum)int.Parse(_ShapeName[3].Split('.')[0]), _Shape.File_Directory))
                     {
 
-                        Halcon_SDK.Get_ModelXld(ref _ModelContours, (Shape_Based_Model_Enum)int.Parse(_ShapeName[3].Split('.')[0]), _ModelID, 1);
+                        //Halcon_SDK.Get_ModelXld(ref _ModelContours, (Shape_Based_Model_Enum)int.Parse(_ShapeName[3].Split('.')[0]), _ModelID, 1);
 
                         Features_Window.HWindow.ClearWindow();
                         Features_Window.HWindow.DispObj(_ModelContours);
@@ -708,7 +709,7 @@ namespace HanGao.ViewModel
                         //限制操作
                         Create_Shape_ModelXld_UI_IsEnable = true;
                         ///保存创建模型
-                        Halcon_SDK.ShapeModel_SaveFile(ref _ID, ShapeModel_Location, Halcon_Create_Shape_ModelXld_UI, _ModelsXld);
+                        Halcon_SDK.ShapeModel_SaveFile(ref _ID, UC_Visal_Function_VM.Load_Image,ShapeModel_Location, Halcon_Create_Shape_ModelXld_UI, _ModelsXld);
 
                         User_Log_Add("创建区域：" + Halcon_Create_Shape_ModelXld_UI.ShapeModel_Name.ToString() + "，创建ID号：" + Halcon_Create_Shape_ModelXld_UI.Create_ID.ToString() + "，创建模型：" + Halcon_Create_Shape_ModelXld_UI.Shape_Based_Model.ToString() + " 特征成功！");
 
@@ -742,7 +743,7 @@ namespace HanGao.ViewModel
         /// </summary>
         /// <param name="_ModelID"></param>
         /// <returns></returns>
-        public bool Read_Shape_ModelXld(ref HTuple _ModelID, Shape_Based_Model_Enum _Model_Enum, ShapeModel_Name_Enum _Name, int _ID)
+        public bool Read_Shape_ModelXld(ref  HTuple  _ModelID,ref HObject _ModelContours, Shape_Based_Model_Enum _Model_Enum, ShapeModel_Name_Enum _Name, int _ID)
         {
 
 
@@ -751,13 +752,15 @@ namespace HanGao.ViewModel
 
             if (Halcon_SDK.Get_ModelXld_Path(ref _Path, ShapeModel_Location, _Model_Enum, _Name, _ID))
             {
+
                 if (File.Exists(_Path))
                 {
-                    if (!Halcon_SDK.Read_ModelsXLD_File(ref _ModelID, _Model_Enum, _Path))
+                    if (!Halcon_SDK.Read_ModelsXLD_File(ref _ModelID, ref _ModelContours, _Model_Enum, _Path))
                     {
                         User_Log_Add("读取模型文件错误,请检查文件可行性!");
 
                     }
+
 
 
                 }
@@ -832,13 +835,14 @@ namespace HanGao.ViewModel
                 HObject _Image = new HObject();
                 HObject _ModelXld = new HObject();
                 Pos_List_Model Out_Point = new Pos_List_Model();
+                HObject _ModelContours = new HObject();
 
 
                 Task.Run(() =>
                 {
 
                     //读取模型文件
-                    if (Read_Shape_ModelXld(ref _ModelID, Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model, Halcon_Find_Shape_ModelXld_UI.ShapeModel_Name, Halcon_Find_Shape_ModelXld_UI.FInd_ID))
+                    if (Read_Shape_ModelXld(ref _ModelID ,ref _ModelContours, Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model, Halcon_Find_Shape_ModelXld_UI.ShapeModel_Name, Halcon_Find_Shape_ModelXld_UI.FInd_ID))
                     {
                         //读取图片
                         if (Get_Image(ref _Image, Get_Image_Model, Features_Window.HWindow, Image_Location_UI))
@@ -963,6 +967,8 @@ namespace HanGao.ViewModel
             HTuple _Qx = new HTuple();
             HTuple _Qy = new HTuple();
             HObject Halcon_ModelXld = new HObject();
+
+
             bool _IsState = false;
 
 
@@ -1335,13 +1341,14 @@ namespace HanGao.ViewModel
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
-                HTuple _ModelXld = new HTuple();
+                HTuple  _ModelXld = new HTuple ();
                 HObject _ModelContours = new HObject();
 
 
-                if (Read_Shape_ModelXld(ref _ModelXld, Halcon_Create_Shape_ModelXld_UI.Shape_Based_Model, Halcon_Create_Shape_ModelXld_UI.ShapeModel_Name, Halcon_Create_Shape_ModelXld_UI.Create_ID))
+
+                if (Read_Shape_ModelXld(ref _ModelXld, ref _ModelContours, Halcon_Create_Shape_ModelXld_UI.Shape_Based_Model, Halcon_Create_Shape_ModelXld_UI.ShapeModel_Name, Halcon_Create_Shape_ModelXld_UI.Create_ID))
                 {
-                    Halcon_SDK.Get_ModelXld(ref _ModelContours, Halcon_Create_Shape_ModelXld_UI.Shape_Based_Model, _ModelXld, 1);
+                   // Halcon_SDK.Get_ModelXld(ref _ModelContours, Halcon_Create_Shape_ModelXld_UI.Shape_Based_Model, _ModelXld, 1);
 
                     Features_Window.HWindow.ClearWindow();
                     Features_Window.HWindow.DispObj(_ModelContours);

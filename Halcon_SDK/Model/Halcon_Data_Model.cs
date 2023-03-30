@@ -789,6 +789,10 @@ namespace Halcon_SDK_DLL.Model
         /// 相关性匹配模板
         /// </summary>
         Ncc_Model,
+        /// <summary>
+        /// Halcon通用保存格式
+        /// </summary>
+        Halcon_DXF
     }
 
 
