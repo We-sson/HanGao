@@ -1238,13 +1238,15 @@ namespace Halcon_SDK_DLL
 
                         case Shape_Based_Model_Enum.Ncc_Model:
 
-                        foreach (var _ModelXld in _ModelID)
-                        {
 
+                        bool[] Find_Results = new bool[3] {false ,false ,false  };
+
+                        for (int i = 0; i < _ModelID.Count; i++)
+                        {
 
                             HOperatorSet.FindNccModel
                                 (_Image,
-                                _ModelXld,
+                                _ModelID[i],
                                 (new HTuple(_Find_Property.AngleStart)).TupleRad(),
                                 (new HTuple(_Find_Property.AngleExtent)).TupleRad(),
                                 _Find_Property.MinScore,
@@ -1258,9 +1260,24 @@ namespace Halcon_SDK_DLL
                                 out hv_score
                                 );
 
+                            if (hv_score.Length !=0)
+                            {
 
+                            }else
+                            {
+
+                            }
 
                         }
+
+
+
+
+
+
+
+
+                      
 
 
 
