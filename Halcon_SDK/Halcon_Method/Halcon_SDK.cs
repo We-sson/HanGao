@@ -688,7 +688,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_path"></param>
         /// <param name="_Model_Enum"></param>
         /// <returns></returns>
-        public static bool Get_ModelXld_Path(ref string _path, string _Location, Shape_Based_Model_Enum _Model_Enum, ShapeModel_Name_Enum _Name, int _ID,int _Number=1)
+        public static bool Get_ModelXld_Path<T1>(ref T1 _path, string _Location, FilePath_Type_Model_Enum _FilePath_Type, Shape_Based_Model_Enum _Model_Enum, ShapeModel_Name_Enum _Name, int _ID,int _Number=1)
         {
 
             ////获得识别位置名称
@@ -696,44 +696,106 @@ namespace Halcon_SDK_DLL
             //string _Work = Work_Name.ToString();
 
 
+
+
+
+
+
+            switch (_FilePath_Type)
+            {
+                case FilePath_Type_Model_Enum.Get:
+
+
+                    DirectoryInfo _FileInfo = new DirectoryInfo(_Location);
+
+                    var aa = _FileInfo.GetFiles().Where((_W) =>
+                    {
+                        _W.Name.Contains(_ID.ToString() + "_" + _Name + "_" + ((int)_Model_Enum).ToString());
+
+                        return true;
+                    });
+
+
+                    List<string> _ModelIDS = new List<string>();
+
+                    //获取文件内名称
+                    foreach (FileInfo _FileName in _FileInfo.GetFiles())
+                    {
+
+                        if (_FileName.Name.Contains(_ID.ToString() + "_" + _Name + "_" + ((int)_Model_Enum).ToString()))
+                        {
+
+                            _ModelIDS.Add(_FileName.FullName);
+                        }
+
+
+                    }
+
+
+
+
+                    break;
+                case FilePath_Type_Model_Enum.Save:
+
+
+
+                  string  Save_Path = _Location + "\\" + _ID.ToString() + "_" + _Name + "_" + ((int)_Model_Enum).ToString();
+
+                    //路径添加格式
+                    switch (_Model_Enum)
+                    {
+                        case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.shape_model || _T == Shape_Based_Model_Enum.Scale_model:
+
+                            Save_Path += ".shm";
+
+                            break;
+
+                        case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.planar_deformable_model || _T == Shape_Based_Model_Enum.local_deformable_model:
+
+                            Save_Path += ".dfm";
+                            break;
+
+                        case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.Ncc_Model:
+
+                            Save_Path += "_" + _Number + ".ncm";
+                            break;
+                        case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.Halcon_DXF:
+
+                            Save_Path += "_" + (int)Shape_Based_Model_Enum.Ncc_Model + ".dxf";
+                            break;
+                    }
+
+
+                    _path = (T1)(object)Save_Path;
+
+
+                    break;
+          
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             if (_Location != "")
             {
 
-                DirectoryInfo _FileInfo= new DirectoryInfo(_Location);
 
 
-                //获取文件内名称
-                foreach (var _FileName in _FileInfo.GetFiles())
-                {
 
-                }
-
-
-                        _path = _Location + "\\" + _ID.ToString() + "_" + _Name + "_" + ((int)_Model_Enum).ToString();
-
-                //路径添加格式
-                switch (_Model_Enum)
-                {
-                    case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.shape_model || _T == Shape_Based_Model_Enum.Scale_model:
-
-                        _path += ".shm";
-
-                        break;
-
-                    case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.planar_deformable_model || _T == Shape_Based_Model_Enum.local_deformable_model:
-
-                        _path += ".dfm";
-                        break;
-
-                    case    Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.Ncc_Model:
-
-                        _path +="_"+ _Number +".ncm";
-                        break;
-                    case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.Halcon_DXF:
-
-                        _path += "_" + _Number + ".dxf";
-                        break;
-                }
                 return true;
             }
             else
@@ -774,7 +836,7 @@ namespace Halcon_SDK_DLL
             _ModelID.Dispose();
 
             //获得保存模型文件地址
-            Get_ModelXld_Path(ref _Path, _Location, _Create_Model.Shape_Based_Model, _Create_Model.ShapeModel_Name, _Create_Model.Create_ID);
+            Get_ModelXld_Path(ref _Path, _Location,  FilePath_Type_Model_Enum.Save,_Create_Model.Shape_Based_Model, _Create_Model.ShapeModel_Name, _Create_Model.Create_ID);
 
 
 
@@ -902,7 +964,9 @@ namespace Halcon_SDK_DLL
 
                         HOperatorSet.CreateNccModel(ImageRegion, _Create_Model.NumLevels, _Create_Model.AngleStart, _Create_Model.AngleExtent, _Create_Model.AngleStep, _Create_Model.Metric.ToString(), out  _ModelID);
 
-                        Get_ModelXld_Path(ref _Path, _Location, _Create_Model.Shape_Based_Model, _Create_Model.ShapeModel_Name, _Create_Model.Create_ID,i+1);
+
+
+                        Get_ModelXld_Path<string >(ref _Path, _Location, FilePath_Type_Model_Enum.Save , _Create_Model.Shape_Based_Model, _Create_Model.ShapeModel_Name, _Create_Model.Create_ID,i+1);
 
 
                         //保存模型文件
@@ -918,7 +982,7 @@ namespace Halcon_SDK_DLL
                         HOperatorSet.ProjectiveTransContourXld(All_XLD[i], out HObject XLD, HomMat2D);
 
                   
-                        Get_ModelXld_Path(ref _Path, _Location, Shape_Based_Model_Enum.Halcon_DXF, _Create_Model.ShapeModel_Name, _Create_Model.Create_ID,i+1);
+                        Get_ModelXld_Path<string >(ref _Path, _Location, FilePath_Type_Model_Enum.Save, Shape_Based_Model_Enum.Halcon_DXF, _Create_Model.ShapeModel_Name, _Create_Model.Create_ID,i+1);
                         //保存模板xld文件
                         HOperatorSet. WriteContourXldDxf(XLD, _Path);
                     
@@ -1069,7 +1133,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_ModelXld"></param>
         /// <param name="_Find_Property"></param>
         /// <returns></returns>
-        public static Halcon_Find_Shape_Out_Parameter Find_Deformable_Model(HWindow _HWindow, HObject _Image, HTuple _ModelXld, Find_Shape_Based_ModelXld _Find_Property)
+        public static Halcon_Find_Shape_Out_Parameter Find_Deformable_Model(HWindow _HWindow, HObject _Image, List<HTuple> _ModelID, Find_Shape_Based_ModelXld _Find_Property)
         {
 
 
@@ -1100,9 +1164,14 @@ namespace Halcon_SDK_DLL
                 {
                     case Shape_Based_Model_Enum.shape_model:
 
+                        foreach (var _ModelXld in _ModelID)
+                        {
+
+
                         HOperatorSet.FindShapeModel(_Image, _ModelXld, (new HTuple(_Find_Property.AngleStart)).TupleRad(), (new HTuple(_Find_Property.AngleExtent)).TupleRad(), _Find_Property.MinScore,
                         _Find_Property.NumMatches, _Find_Property.MaxOverlap, _Find_Property.SubPixel.ToString(), _Find_Property.NumLevels, _Find_Property.Greediness, out hv_row, out hv_column, out hv_angle, out hv_score);
 
+                        }
 
                         _Find_Out = new Halcon_Find_Shape_Out_Parameter() { Row = hv_row.D, Column = hv_column.D, Angle = hv_angle.D, Score = hv_score.D, Find_Time = (DateTime.Now - RunTime).Milliseconds };
 
@@ -1113,8 +1182,11 @@ namespace Halcon_SDK_DLL
                     case Shape_Based_Model_Enum.planar_deformable_model:
 
 
-                 
 
+                        foreach (var _ModelXld in _ModelID)
+                        {
+
+                      
                         //查找模型
                         HOperatorSet.FindPlanarUncalibDeformableModel
                             (_Image, 
@@ -1134,9 +1206,9 @@ namespace Halcon_SDK_DLL
                             ((new HTuple(_Find_Property.SubPixel.ToString())).TupleConcat(  _Find_Property.Aniso_scale_change_restriction)).TupleConcat(_Find_Property.Angle_change_restriction), 
                             out hv_HomMat2D,
                             out hv_score);
-                       
 
 
+                        }
 
                         if (hv_score.Length != 0)
                         {
@@ -1164,11 +1236,35 @@ namespace Halcon_SDK_DLL
                         break;
 
 
-                        case Shape_Based_Model_Enum.Ncc_Model: 
-                        
+                        case Shape_Based_Model_Enum.Ncc_Model:
 
-                        
-                        
+                        foreach (var _ModelXld in _ModelID)
+                        {
+
+
+                            HOperatorSet.FindNccModel
+                                (_Image,
+                                _ModelXld,
+                                (new HTuple(_Find_Property.AngleStart)).TupleRad(),
+                                (new HTuple(_Find_Property.AngleExtent)).TupleRad(),
+                                _Find_Property.MinScore,
+                                _Find_Property.NumMatches,
+                                _Find_Property.MaxOverlap,
+                                "true",
+                                _Find_Property.NumLevels,
+                                out hv_row,
+                                out hv_column,
+                                out hv_angle,
+                                out hv_score
+                                );
+
+
+
+                        }
+
+
+
+
                         break;
                 }
 

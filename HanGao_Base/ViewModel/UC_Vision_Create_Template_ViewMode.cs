@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using Ookii.Dialogs.Wpf;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -51,8 +52,8 @@ namespace HanGao.ViewModel
                 DateTime _Run = DateTime.Now;
 
                 HTuple _Mat2D = new HTuple();
-                HTuple _ModelXld = new HTuple();
-                HObject _ModelConnect = new HObject();
+               List< HTuple >_ModelXld = new List<HTuple>();
+                List<HObject >_ModelConnect = new List<HObject>();
                 HTuple _ModelID = new HTuple();
                 HObject _Image = new HObject();
                 Pos_List_Model _Point_List = new Pos_List_Model();
@@ -261,7 +262,7 @@ namespace HanGao.ViewModel
 
                 //清除对象内存
                 _Mat2D.Dispose();
-                _ModelXld.Dispose();
+                //_ModelXld.Dispose();
                 _Image.Dispose();
                 return _SendSteam;
 
@@ -743,31 +744,49 @@ namespace HanGao.ViewModel
         /// </summary>
         /// <param name="_ModelID"></param>
         /// <returns></returns>
-        public bool Read_Shape_ModelXld(ref  HTuple  _ModelID,ref HObject _ModelContours, Shape_Based_Model_Enum _Model_Enum, ShapeModel_Name_Enum _Name, int _ID)
+        public bool Read_Shape_ModelXld(ref  List<HTuple > _ModelID,ref  List<HObject> _ModelContours, Shape_Based_Model_Enum _Model_Enum, ShapeModel_Name_Enum _Name, int _ID)
         {
 
 
-            string _Path = "";
 
-
-            if (Halcon_SDK.Get_ModelXld_Path(ref _Path, ShapeModel_Location, _Model_Enum, _Name, _ID))
+            List<string> _PathList = new List<string>();
+            _ModelID = new List<HTuple>();
+            _ModelContours = new List<HObject>();
+            if (Halcon_SDK.Get_ModelXld_Path<List<string>>(ref _PathList, ShapeModel_Location, FilePath_Type_Model_Enum.Get, _Model_Enum, _Name, _ID))
             {
 
+
+
+                foreach (var _Path in _PathList)
+                {
+
+                 
                 if (File.Exists(_Path))
                 {
-                    if (!Halcon_SDK.Read_ModelsXLD_File(ref _ModelID, ref _ModelContours, _Model_Enum, _Path))
+                        HTuple L_ModelID=new HTuple ();
+                        HObject L_ModelContours = new HObject ();
+
+                        if (Halcon_SDK.Read_ModelsXLD_File(ref   L_ModelID, ref  L_ModelContours, _Model_Enum, _Path))
                     {
-                        User_Log_Add("读取模型文件错误,请检查文件可行性!");
+
+                            _ModelID.Add(L_ModelID);
+                            _ModelContours.Add(L_ModelContours);
+                        }
+                        else
+                        {
+                            User_Log_Add("读取模型文件错误,请检查文件可行性!");
+
+                        }
+
+
 
                     }
-
-
-
-                }
                 else
                 {
                     User_Log_Add("存放模型地址错误，请检查文件地址或选择存位置！");
                     return false;
+                }
+
                 }
 
                 return true;
@@ -831,11 +850,11 @@ namespace HanGao.ViewModel
             {
                 //Button Window_UserContol = Sm.Source as Button;
 
-                HTuple _ModelID = new HTuple();
-                HObject _Image = new HObject();
+               List< HTuple >_ModelID = new List<HTuple>();
+                List < HObject> _ModelContours = new List<HObject>();
                 HObject _ModelXld = new HObject();
                 Pos_List_Model Out_Point = new Pos_List_Model();
-                HObject _ModelContours = new HObject();
+                HObject _Image  = new HObject();
 
 
                 Task.Run(() =>
@@ -946,7 +965,7 @@ namespace HanGao.ViewModel
         /// <param name="_TheadTime">查找超时设置</param>
         /// <param name="_Math2D"></param>
         /// <returns></returns>
-        public bool Find_Model_Method(HWindow _Window, HTuple _ModelID, HObject _Iamge, int _TheadTime, HTuple _Math2D = null)
+        public bool Find_Model_Method(HWindow _Window, List<HTuple >_ModelID, HObject _Iamge, int _TheadTime, HTuple _Math2D = null)
         {
 
 
@@ -1341,8 +1360,8 @@ namespace HanGao.ViewModel
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
-                HTuple  _ModelXld = new HTuple ();
-                HObject _ModelContours = new HObject();
+               List<  HTuple >_ModelXld = new List<HTuple>();
+                List<HObject >_ModelContours = new List<HObject>();
 
 
 
@@ -1351,7 +1370,13 @@ namespace HanGao.ViewModel
                    // Halcon_SDK.Get_ModelXld(ref _ModelContours, Halcon_Create_Shape_ModelXld_UI.Shape_Based_Model, _ModelXld, 1);
 
                     Features_Window.HWindow.ClearWindow();
-                    Features_Window.HWindow.DispObj(_ModelContours);
+
+                    //显示全部模型图像
+                    foreach (var _Model in _ModelContours)
+                    {
+                        Features_Window.HWindow.DispObj(_Model);
+
+                    }
                 }
             });
         }

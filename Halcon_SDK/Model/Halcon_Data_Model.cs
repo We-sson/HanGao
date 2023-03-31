@@ -795,7 +795,20 @@ namespace Halcon_SDK_DLL.Model
         Halcon_DXF
     }
 
+    public enum FilePath_Type_Model_Enum
+    {
+        /// <summary>
+        /// 文件路径获取
+        /// </summary>
+        Get,
+        /// <summary>
+        /// 文件路径保存
+        /// </summary>
+        Save,
 
+
+
+    }
 
 
     /// <summary>
