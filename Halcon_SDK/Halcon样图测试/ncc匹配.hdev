@@ -56,9 +56,9 @@
 <c></c>
 <c></c>
 <c></c>
+<l>write_contour_xld_dxf (Model_XLD,'C:/Users/H/Desktop/Sample_Image/DXf_Xld.dxf')</l>
 <c></c>
-<c></c>
-<c></c>
+<l>read_contour_xld_dxf (Contours,'C:/Users/H/Desktop/Sample_Image/DXf_Xld.dxf' , [], [], DxfStatus)</l>
 <c></c>
 <c></c>
 <c>*计算xld数量</c>
@@ -221,8 +221,7 @@
 <c>    </c>
 <c>    </c>
 <c>    *预处理</c>
-<c>    </c>
-<c>    </c>
+<c> </c>
 <c>    </c>
 <l>    scale_image_max (Image, ImageScaleMax)</l>
 <c>    </c>
@@ -286,8 +285,9 @@
 <c>            </c>
 <c>            </c>
 <c>            *获得矩阵转换值</c>
+<l>          vector_angle_to_rigid (0, 0, 0, Row, Column, Angle, HomMat2D1)</l>
 <l>            get_hom_mat2d_from_matching_result (Row, Column, Angle, 1, 1, HomMat2D)</l>
-<l>            affine_trans_region (Results, RegionAffineTrans, HomMat2D, 'constant')</l>
+<l>            affine_trans_region (Results, RegionAffineTrans, HomMat2D1, 'constant')</l>
 <c>            </c>
 <c>            </c>
 <l>            switch (P)</l>

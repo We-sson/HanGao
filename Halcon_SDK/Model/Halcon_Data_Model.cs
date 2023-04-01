@@ -124,26 +124,25 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 模型实例的行坐标
             /// </summary>
-            public double Row { set; get; } = 0;
+            public List<double> Row { set; get; } = new List<double> ();
             /// <summary>
             /// 模型实例的列坐标
             /// </summary>
-            public double Column { set; get; } = 0;
+            public List<double> Column { set; get; } = new List<double>();
             /// <summary>
             /// 模型实例的旋转角度
             /// </summary>
-            public double Angle { set; get; } = 0;
+            public List<double> Angle { set; get; } = new List<double>();
             /// <summary>
             /// 模型和找到的实例相似值
             /// </summary>
-            public double Score { set; get; } = 0;
+            public List<double> Score { set; get; } = new List<double>();
             /// <summary>
             /// 查找耗时
             /// </summary>
-            public double  Find_Time { set; get; } = 0;
+            public double Find_Time { set; get; } =0;
 
 
-            //public List<Pos_List_Model> Pos_Lists { set; get; } = new List<Pos_List_Model>()
 
 
             /// <summary>
@@ -162,7 +161,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 找到的模型实例的分数
             /// </summary>
-            public HTuple HomMat2D { set; get; } = new HTuple();
+            public List<HTuple> HomMat2D { set; get; } = new List<HTuple>();
 
             /// <summary>
             /// 页面显示结过集合
@@ -176,19 +175,6 @@ namespace Halcon_SDK_DLL.Model
             public HWindow DispWiindow { set; get; } = new HWindow();
 
 
-            ///// <summary>
-            ///// 存放结果点
-            ///// </summary>
-            ///// <param name="_LV">视觉坐标</param>
-            ///// <param name="_LR">机器坐标</param>
-            //public void Set_Pos(List<Point3D> _LV, List<Point3D>  _LR)
-            //{
-            //    Pos_Lists.Clear();
-            //    for (int i = 0; i < _LV.Count; i++)
-            //    {
-            //        Pos_Lists.Add(new Pos_List_Model() { Vision_Pos = new Point3D(_LV[i].X, _LV[i].Y,0), Robot_Pos = new Point3D(_LR[i].X, _LR[i].Y, 0) });
-            //    }
-            //}
 
 
         }
