@@ -142,8 +142,10 @@ namespace Halcon_SDK_DLL.Model
             /// </summary>
             public double Find_Time { set; get; } =0;
 
-
-
+            /// <summary>
+            /// 查找模型结果
+            /// </summary>
+            public bool FInd_Results { set; get; } = false;
 
             /// <summary>
             /// 存储结果点

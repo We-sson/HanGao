@@ -11,7 +11,7 @@
 <c as_id="matching" as_name="Matching 01" as_grp="[1,1,1]" as_ord="1">* Matching 01: Obtain the model image</c>
 <c></c>
 <l>dev_get_window (WindowHandle)</l>
-<l as_id="matching" as_name="Matching 01" as_grp="[1,1,1]" as_ord="2">read_image (Image, 'C:/Users/H/Desktop/Sample_Image/315_Pre/0.tiff')</l>
+<l as_id="matching" as_name="Matching 01" as_grp="[1,1,1]" as_ord="2">read_image (Image, 'C:/Users/H/source/repos/HanGao/HanGao_Base/bin/x64/Debug/Sample_Image/315/2023年3月1日_5.tif')</l>
 <c as_id="matching" as_name="Matching 01" as_grp="[1,1,2]" as_ord="1">* </c>
 <c as_id="matching" as_name="Matching 01" as_grp="[1,1,2]" as_ord="2">* Matching 01: Build the ROI from basic regions</c>
 <c></c>
@@ -45,6 +45,7 @@
 <c></c>
 <c></c>
 <c></c>
+<l>dev_set_draw ('margin')</l>
 <c></c>
 <c></c>
 <c></c>
@@ -52,13 +53,25 @@
 <c></c>
 <c></c>
 <c></c>
-<l>read_object (Model_XLD, 'C:/Users/H/Desktop/Sample_Image/45_Xld.hobj')</l>
+<l>read_object (Model_XLD, 'C:/Users/H/Desktop/Sample_Image/315_Xld.hobj')</l>
 <c></c>
 <c></c>
 <c></c>
-<l>write_contour_xld_dxf (Model_XLD,'C:/Users/H/Desktop/Sample_Image/DXf_Xld.dxf')</l>
+<l>*write_contour_xld_dxf (Model_XLD,'C:/Users/H/Desktop/Sample_Image/DXf_Xld.dxf')</l>
 <c></c>
-<l>read_contour_xld_dxf (Contours,'C:/Users/H/Desktop/Sample_Image/DXf_Xld.dxf' , [], [], DxfStatus)</l>
+<c></c>
+<l>read_contour_xld_dxf (AXLD_1_1,'C:/Users/H/source/repos/HanGao/HanGao_Base/bin/x64/Debug/ShapeModel/11_F_45_4_0.ncm.dxf' , [], [], DxfStatus)</l>
+<c></c>
+<l>read_contour_xld_dxf (AXLD_2_2,'C:/Users/H/source/repos/HanGao/HanGao_Base/bin/x64/Debug/ShapeModel/11_F_45_4_1.ncm.dxf' , [], [], DxfStatus)</l>
+<c></c>
+<l>read_contour_xld_dxf (AXLD_3_3,'C:/Users/H/source/repos/HanGao/HanGao_Base/bin/x64/Debug/ShapeModel/11_F_45_4_2.ncm.dxf' , [], [], DxfStatus)</l>
+<c></c>
+<l> ModelIds := [ModelIds,ModelID]</l>
+<c></c>
+<l> read_ncc_model ('C:/Users/H/source/repos/HanGao/HanGao_Base/bin/x64/Debug/ShapeModel/11_F_45_4_0.ncm', ModelID)</l>
+<l> read_ncc_model ('C:/Users/H/source/repos/HanGao/HanGao_Base/bin/x64/Debug/ShapeModel/11_F_45_4_1.ncm', ModelID)</l>
+<l>  read_ncc_model ('C:/Users/H/source/repos/HanGao/HanGao_Base/bin/x64/Debug/ShapeModel/11_F_45_4_2.ncm', ModelID)</l>
+<c></c>
 <c></c>
 <c></c>
 <c>*计算xld数量</c>
@@ -99,6 +112,9 @@
 <c></c>
 <c>*合并对应所需区域</c>
 <l>gen_empty_obj (All_Reduced)</l>
+<l>gen_empty_obj (AReg_1)</l>
+<l>gen_empty_obj (AReg_2)</l>
+<l>gen_empty_obj (AReg_3)</l>
 <l>select_obj (Region_Dilation, Region_1, 1)</l>
 <l>select_obj (Region_Dilation, Region_2, 2)</l>
 <l>select_obj (Region_Dilation, Region_3, 3)</l>
@@ -106,6 +122,9 @@
 <l>select_obj (Region_Dilation, Region_5, 5)</l>
 <c></c>
 <l>gen_empty_obj (All_XLD)</l>
+<l>gen_empty_obj (AXLD_1)</l>
+<l>gen_empty_obj (AXLD_2)</l>
+<l>gen_empty_obj (AXLD_3)</l>
 <l>select_obj (Model_XLD, XLD_1, 1)</l>
 <l>select_obj (Model_XLD, XLD_2, 2)</l>
 <l>select_obj (Model_XLD, XLD_3, 3)</l>
@@ -115,40 +134,51 @@
 <c></c>
 <c></c>
 <c></c>
-<l>union2  (Region_1, Region_2,Region_1)</l>
 <c></c>
 <c></c>
-<l>concat_obj (XLD_1, XLD_2, XLD_1)</l>
-<l>concat_obj (All_Reduced, Region_1, All_Reduced)</l>
-<l>area_center (Region_1, Area, Row, Column)</l>
+<c></c>
+<c></c>
+<l>concat_obj (AXLD_1, XLD_1, AXLD_1)</l>
+<l>concat_obj (AXLD_1, XLD_2, AXLD_1)</l>
+<l>union2  (AReg_1, Region_1,AReg_1)</l>
+<l>union2  (AReg_1, Region_2,AReg_1)</l>
+<l>concat_obj (All_Reduced, AReg_1, All_Reduced)</l>
+<l>area_center (AReg_1, Area, Row, Column)</l>
 <l>vector_angle_to_rigid (Row, Column, 0, 0, 0, 0, HomMat2D)</l>
-<l>projective_trans_contour_xld (XLD_1, XLD_1_1, HomMat2D)</l>
+<l>projective_trans_contour_xld (AXLD_1, AXLD_1_1, HomMat2D)</l>
 <c></c>
 <l>* concat_obj (All_XLD, XLD_1_1, All_XLD)</l>
 <c></c>
-<l>union2 (Region_3, Region_2,Region_3)</l>
 <c></c>
 <c></c>
 <c></c>
 <c></c>
-<l>concat_obj (XLD_3, XLD_2, XLD_3)</l>
-<l>concat_obj (All_Reduced, Region_3, All_Reduced)</l>
-<l>area_center (Region_3, Area, Row, Column)</l>
+<c></c>
+<l>concat_obj (AXLD_2, XLD_2, AXLD_2)</l>
+<l>concat_obj (AXLD_2, XLD_3, AXLD_2)</l>
+<l>union2  (AReg_2, Region_2,AReg_2)</l>
+<l>union2  (AReg_2, Region_3,AReg_2)</l>
+<l>concat_obj (All_Reduced, AReg_2, All_Reduced)</l>
+<l>area_center (AReg_2, Area, Row, Column)</l>
 <l>vector_angle_to_rigid (Row, Column, 0, 0, 0, 0, HomMat2D)</l>
-<l>projective_trans_contour_xld (XLD_3, XLD_3_3, HomMat2D)</l>
+<l>projective_trans_contour_xld (AXLD_2, AXLD_2_2, HomMat2D)</l>
 <l>* concat_obj (All_XLD, XLD_3_3, All_XLD)</l>
 <c></c>
 <c></c>
-<l>union2 (Region_4, Region_5,Region_4)</l>
 <c></c>
 <c></c>
 <c></c>
 <c></c>
-<l>concat_obj (XLD_4, XLD_5, XLD_4)</l>
-<l>concat_obj (All_Reduced, Region_4, All_Reduced)</l>
-<l>area_center (Region_4, Area, Row, Column)</l>
+<l>concat_obj (AXLD_3, XLD_1, AXLD_3)</l>
+<l>concat_obj (AXLD_3, XLD_4, AXLD_3)</l>
+<l>concat_obj (AXLD_3, XLD_5, AXLD_3)</l>
+<l>union2  (AReg_3, Region_1,AReg_3)</l>
+<l>union2  (AReg_3, Region_4,AReg_3)</l>
+<l>union2  (AReg_3, Region_5,AReg_3)</l>
+<l>concat_obj (All_Reduced, AReg_3, All_Reduced)</l>
+<l>area_center (AReg_3, Area, Row, Column)</l>
 <l>vector_angle_to_rigid (Row, Column, 0, 0, 0, 0, HomMat2D)</l>
-<l>projective_trans_contour_xld (XLD_4, XLD_4_4, HomMat2D)</l>
+<l>projective_trans_contour_xld (AXLD_3, AXLD_3_3, HomMat2D)</l>
 <l>* concat_obj (All_XLD, XLD_4_4, All_XLD)</l>
 <c></c>
 <l>count_obj (All_Reduced, Number)</l>
@@ -159,14 +189,34 @@
 <l>ModelIds:=[]</l>
 <c as_id="matching" as_name="Matching 01" as_grp="[1,1,4]" as_ord="2">* Matching 01: Create the correlation model</c>
 <l>for Index := 1 to Number by 1</l>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<l>        scale_image_max (Image, ImageScaleMax)</l>
+<c>    </c>
+<c>    </c>
+<l>    median_image (ImageScaleMax, ImageMedian1, 'square', 0.5, 'continued')</l>
+<c>    </c>
+<l>    emphasize (ImageMedian1, ImageEmphasize1, 18, 18, 3)</l>
+<c>    </c>
+<c></c>
+<c>   </c>
+<l>    gray_opening_rect (ImageEmphasize1, ImageOpening1, 16, 16)</l>
+<c>    </c>
+<l>    gray_closing_rect (ImageOpening1, ImageClosing, 2, 2)</l>
+<c>    </c>
+<c>    </c>
+<c>    </c>
 <l>    select_obj (All_Reduced, ObjectSelected, Index)</l>
-<l>    reduce_domain (Image, ObjectSelected, ImageReduced)</l>
+<l>    reduce_domain (ImageClosing, ObjectSelected, ImageReduced)</l>
 <l>    area_center (ObjectSelected, Area, RefRow, RefColumn)</l>
 <l>*     vector_angle_to_rigid (RefRow, RefColumn, 0, 0, 0, 0, HomMat2D)</l>
 <l>*     affine_trans_region (ObjectSelected, RegionAffineTrans, HomMat2D, 'nearest_neighbor')</l>
 <c>    </c>
 <c>    </c>
 <l>    create_ncc_model (ImageReduced, 'auto', rad(-5), rad(10), rad(0.01), 'use_polarity', ModelID)</l>
+<c>   </c>
+<c></c>
 <c>    </c>
 <c>    </c>
 <c>    </c>
@@ -195,9 +245,7 @@
 <l>* area_center (ModelRegion, ModelRegionArea, RefRow, RefColumn)</l>
 <c as_id="matching" as_name="Matching 01" as_grp="[1,5]" as_ord="4">* </c>
 <c as_id="matching" as_name="Matching 01" as_grp="[1,5]" as_ord="5">* Matching 01: Display the model region</c>
-<l as_id="matching" as_name="Matching 01" as_grp="[1,5]" as_ord="6">dev_display (Image)</l>
-<l as_id="matching" as_name="Matching 01" as_grp="[1,5]" as_ord="7">dev_set_color ('green')</l>
-<l as_id="matching" as_name="Matching 01" as_grp="[1,5]" as_ord="8">dev_set_draw ('margin')</l>
+<c></c>
 <l as_id="matching" as_name="Matching 01" as_grp="[1,5]" as_ord="9">* dev_display (ModelRegion)</l>
 <c></c>
 <l as_id="matching" as_name="Matching 01" as_grp="[1,5]" as_ord="10">* gen_cross_contour_xld (TransContours, RefRow, RefColumn, 50, 0.0)</l>
@@ -214,7 +262,7 @@
 <c></c>
 <c></c>
 <c as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[1,1]" as_ord="1">* Image Acquisition 01: Code generated by Image Acquisition 01</c>
-<l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[1,2]" as_ord="1">list_files ('C:/Users/H/Desktop/Sample_Image/315', ['files','follow_links'], ImageFiles)</l>
+<l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[1,2]" as_ord="1">list_files ('C:/Users/H/source/repos/HanGao/HanGao_Base/bin/x64/Debug/Sample_Image/315', ['files','follow_links'], ImageFiles)</l>
 <l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[1,3]" as_ord="1">tuple_regexp_select (ImageFiles, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImageFiles)</l>
 <l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[2,2]" as_ord="1">for  T:= 0 to |ImageFiles| - 1 by 1</l>
 <l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[2,3]" as_ord="1">    read_image (Image, ImageFiles[T])</l>
@@ -234,7 +282,7 @@
 <c>   </c>
 <l>    gray_opening_rect (ImageEmphasize1, ImageOpening1, 16, 16)</l>
 <c>    </c>
-<l>    gray_closing_rect (ImageOpening1, ImageClosing, 4, 4)</l>
+<l>    gray_closing_rect (ImageOpening1, ImageClosing, 2, 2)</l>
 <c>    *</c>
 <c>    </c>
 <c>    *查找模型</c>
@@ -244,7 +292,10 @@
 <l>    for P := 0 to |ModelIds|-1 by 1</l>
 <c>        </c>
 <c>        </c>
-<l>        find_ncc_model (ImageOpening1, ModelIds[P], rad(-8), rad(16), 0.7, 1, 1, 'false', 0, Row, Column, Angle, Score)</l>
+<c>        </c>
+<c>    </c>
+<c>        </c>
+<l>        find_ncc_model (ImageOpening1, ModelIds[P], rad(-8), rad(16), 0.7, 1, 1, 'true', 0, Row, Column, Angle, Score)</l>
 <c>        </c>
 <c>        </c>
 <c>        </c>
@@ -285,27 +336,28 @@
 <c>            </c>
 <c>            </c>
 <c>            *获得矩阵转换值</c>
-<l>          vector_angle_to_rigid (0, 0, 0, Row, Column, Angle, HomMat2D1)</l>
-<l>            get_hom_mat2d_from_matching_result (Row, Column, Angle, 1, 1, HomMat2D)</l>
-<l>            affine_trans_region (Results, RegionAffineTrans, HomMat2D1, 'constant')</l>
+<l>          vector_angle_to_rigid (0, 0, 0, Row, Column, Angle, HomMat2D)</l>
+<l>           * get_hom_mat2d_from_matching_result (Row, Column, Angle, 1, 1, HomMat2D)</l>
+<l>            affine_trans_region (Results, RegionAffineTrans, HomMat2D, 'constant')</l>
 <c>            </c>
 <c>            </c>
 <l>            switch (P)</l>
 <c>                </c>
 <l>            case 0:</l>
-<l>                projective_trans_contour_xld (XLD_1_1, XLD_1_1_1, HomMat2D)</l>
+<l>                projective_trans_contour_xld (AXLD_1_1, XLD_1_1_1, HomMat2D)</l>
 <l>                break</l>
 <l>            case 1:</l>
-<l>                projective_trans_contour_xld (XLD_3_3, XLD_3_3_3, HomMat2D)</l>
+<l>                projective_trans_contour_xld (AXLD_2_2, XLD_3_3_3, HomMat2D)</l>
 <l>                break</l>
 <l>            case 2:</l>
-<l>                projective_trans_contour_xld (XLD_4_4, XLD_4_4_4, HomMat2D)</l>
+<l>                projective_trans_contour_xld (AXLD_3_3, XLD_4_4_4, HomMat2D)</l>
 <l>                break </l>
 <l>            endswitch</l>
 <c>            </c>
 <c>            </c>
 <c>            </c>
 <c>            </c>
+<c>         </c>
 <c>            </c>
 <c>            *骨架提取</c>
 <l>*             skeleton (RegionAffineTrans, Skeleton)</l>
@@ -329,7 +381,8 @@
 <c>            </c>
 <l>*             dev_display (RegionAffineTrans)</l>
 <c as_id="matching" as_name="Matching 01" as_grp="[7,6]" as_ord="1">            </c>
-<c>            ** stop ()</c>
+<l>             stop ()</l>
+<c>      </c>
 <c>            </c>
 <l>        else</l>
 <c>            </c>

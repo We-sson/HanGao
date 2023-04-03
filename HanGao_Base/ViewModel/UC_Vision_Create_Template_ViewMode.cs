@@ -584,28 +584,34 @@ namespace HanGao.ViewModel
                 ComboBox E = Sm.Source as ComboBox;
 
                 Shape_FileFull_UI_Model _Shape = (Shape_FileFull_UI_Model)E.SelectedValue as Shape_FileFull_UI_Model;
-                HTuple _ModelID = new HTuple ();
-                HObject _ModelContours = new HObject();
+                List<HTuple> _ModelID = new List<HTuple> ();
+                List<HObject >_ModelContours = new List<HObject>();
 
                 if (_Shape != null)
                 {
                     string[] _ShapeName = _Shape.File_Name.Split('_');
 
 
+                    //读取文件修改
+                    //if (Halcon_SDK.Read_ModelsXLD_File(ref _ModelID,ref _ModelContours, (Shape_Based_Model_Enum)int.Parse(_ShapeName[3].Split('.')[0]), _Shape.File_Directory))
+                    //{
 
-                    if (Halcon_SDK.Read_ModelsXLD_File(ref _ModelID,ref _ModelContours, (Shape_Based_Model_Enum)int.Parse(_ShapeName[3].Split('.')[0]), _Shape.File_Directory))
-                    {
+                    //    //Halcon_SDK.Get_ModelXld(ref _ModelContours, (Shape_Based_Model_Enum)int.Parse(_ShapeName[3].Split('.')[0]), _ModelID, 1);
 
-                        //Halcon_SDK.Get_ModelXld(ref _ModelContours, (Shape_Based_Model_Enum)int.Parse(_ShapeName[3].Split('.')[0]), _ModelID, 1);
+                    //    Features_Window.HWindow.ClearWindow();
 
-                        Features_Window.HWindow.ClearWindow();
-                        Features_Window.HWindow.DispObj(_ModelContours);
-                    }
-                    else
-                    {
-                        User_Log_Add("读取模型文件失败，请检查文件可读性！");
+                    //    foreach (var _Contours in _ModelContours)
+                    //    {
 
-                    }
+                    //    Features_Window.HWindow.DispObj(_Contours);
+                    //    }
+
+                    //}
+                    //else
+                    //{
+                    //    User_Log_Add("读取模型文件失败，请检查文件可读性！");
+
+                    //}
 
                 }
 
@@ -749,28 +755,27 @@ namespace HanGao.ViewModel
 
 
 
-            List<string> _PathList = new List<string>();
+            List<FileInfo> _PathList = new List<FileInfo>();
             //_ModelID = new List<HTuple>();
             //_Model_objects = new List<HObject>();
-            if (Halcon_SDK.Get_ModelXld_Path<List<string>>(ref _PathList, ShapeModel_Location, FilePath_Type_Model_Enum.Get, _Model_Enum, _Name, _ID))
+            if (Halcon_SDK.Get_ModelXld_Path<List<FileInfo>>(ref _PathList, ShapeModel_Location, FilePath_Type_Model_Enum.Get, _Model_Enum, _Name, _ID))
             {
 
 
 
-                foreach (var _Path in _PathList)
-                {
+    
 
                  
-                if (File.Exists(_Path))
-                {
-                        HTuple L_ModelID=new HTuple ();
-                        HObject L_ModelContours = new HObject ();
+                //if (File.Exists(_Path.FullName))
+                //{
+                        //HTuple L_ModelID=new HTuple ();
+                        //HObject L_ModelContours = new HObject ();
 
-                        if (Halcon_SDK.Read_ModelsXLD_File(ref   L_ModelID, ref  L_ModelContours, _Model_Enum, _Path))
+                        if (Halcon_SDK.Read_ModelsXLD_File(ref   _ModelID, ref _Model_objects, _Model_Enum, _PathList))
                     {
 
-                            _ModelID.Add(L_ModelID);
-                            _Model_objects.Add(L_ModelContours);
+                            //_ModelID.Add(L_ModelID);
+                            //_Model_objects.Add(L_ModelContours);
                         }
                         else
                         {
@@ -780,14 +785,14 @@ namespace HanGao.ViewModel
 
 
 
-                    }
-                else
-                {
-                    User_Log_Add("存放模型地址错误，请检查文件地址或选择存位置！");
-                    return false;
-                }
+                    //}
+                //else
+                //{
+                //    User_Log_Add("存放模型地址错误，请检查文件地址或选择存位置！");
+                //    return false;
+                //}
 
-                }
+                
 
                 return true;
             }
@@ -1014,7 +1019,7 @@ namespace HanGao.ViewModel
 
 
 
-                       if (Halcon_Find_Shape_Out.Score.Where((_W) =>_W!=0 ).Count()>=1)
+                       if (Halcon_Find_Shape_Out.FInd_Results)
                        {
 
 
@@ -1026,7 +1031,7 @@ namespace HanGao.ViewModel
 
 
 
-
+                           //选择出有需要的直线特征
 
                            HOperatorSet.SelectObj(_Model_objects[0], out HObject _Line_1, 1);
                            HOperatorSet.SelectObj(_Model_objects[1], out HObject _Cir_1, 2);
