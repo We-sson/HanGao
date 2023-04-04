@@ -1427,6 +1427,12 @@ namespace Halcon_SDK_DLL
                                 _Find_Out.Column.Add(hv_column);
                                 _Find_Out.Angle.Add(hv_angle);
                                 _Find_Out.Score.Add(hv_score);
+
+
+
+
+
+
                                 HOperatorSet.VectorAngleToRigid(0, 0, 0, hv_row, hv_column, hv_angle, out HTuple HMat2D);
                                 _Find_Out.HomMat2D.Add(HMat2D);
                             }
