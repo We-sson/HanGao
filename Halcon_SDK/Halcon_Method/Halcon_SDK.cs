@@ -1043,9 +1043,9 @@ namespace Halcon_SDK_DLL
                     //xld集合
                     List<HObject> All_XLD = new List<HObject>
                     {
-                        new HObject(_ModelsXLD.SelectObj(1)).ConcatObj(_ModelsXLD.SelectObj(2)),
+                        new HObject(_ModelsXLD.SelectObj(1)).ConcatObj(_ModelsXLD.SelectObj(5)),
                         new HObject(_ModelsXLD.SelectObj(3)).ConcatObj(_ModelsXLD.SelectObj(2)),
-                        new HObject(_ModelsXLD.SelectObj(4)).ConcatObj(_ModelsXLD.SelectObj(5).ConcatObj(_ModelsXLD.SelectObj(1))),
+                        new HObject(_ModelsXLD.SelectObj(4)).ConcatObj(_ModelsXLD.SelectObj(5).ConcatObj(_ModelsXLD.SelectObj(2))),
 
                     };
 
@@ -1053,9 +1053,9 @@ namespace Halcon_SDK_DLL
                     //区域集合
                     List<HObject> All_Region = new List<HObject>
                     {
-                        new HObject(Region.SelectObj(1).Union2(Region.SelectObj(2))),
+                        new HObject(Region.SelectObj(1).Union2(Region.SelectObj(5))),
                         new HObject(Region.SelectObj(3).Union2(Region.SelectObj(2))),
-                        new HObject(Region.SelectObj(4).Union2(Region.SelectObj(5)).Union2(Region.SelectObj(1))),
+                        new HObject(Region.SelectObj(4).Union2(Region.SelectObj(5)).Union2(Region.SelectObj(2))),
 
                     };
 
@@ -1066,10 +1066,18 @@ namespace Halcon_SDK_DLL
                         //抠图出
                         HOperatorSet.ReduceDomain(_Image, All_Region[i], out HObject ImageRegion);
 
-                        HOperatorSet.CreateNccModel(ImageRegion, _Create_Model.NumLevels, _Create_Model.AngleStart, _Create_Model.AngleExtent, _Create_Model.AngleStep, _Create_Model.Metric.ToString(), out _ModelID);
+
+                        //创建NCC模板
+                        HOperatorSet.CreateNccModel(ImageRegion,
+                            _Create_Model.NumLevels,
+                            _Create_Model.AngleStart, 
+                            _Create_Model.AngleExtent, 
+                            _Create_Model.AngleStep,
+                            _Create_Model.Metric.ToString(), 
+                            out _ModelID);
 
 
-
+                        //获得保存模板名称
                         Get_ModelXld_Path<string>(ref _Path, _Location, FilePath_Type_Model_Enum.Save, _Create_Model.Shape_Based_Model, _Create_Model.ShapeModel_Name, _Create_Model.Create_ID, i );
 
 
@@ -1434,6 +1442,13 @@ namespace Halcon_SDK_DLL
 
 
                         }
+
+
+
+
+
+
+
 
 
 

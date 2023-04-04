@@ -1017,6 +1017,7 @@ namespace HanGao.ViewModel
                        //查找图像模型
                        Halcon_Find_Shape_Out = Halcon_SDK.Find_Deformable_Model(_Window, _Iamge, _ModelID, Halcon_Find_Shape_ModelXld_UI);
 
+                       Halcon_SDK.ProjectiveTrans_Xld(ref _Model_objects, Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model, Halcon_Find_Shape_Out, _Window);
 
 
                        if (Halcon_Find_Shape_Out.FInd_Results)
@@ -1026,7 +1027,6 @@ namespace HanGao.ViewModel
 
 
 
-                           Halcon_SDK.ProjectiveTrans_Xld(ref _Model_objects, Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model, Halcon_Find_Shape_Out, _Window);
 
 
 
