@@ -429,10 +429,66 @@ namespace MVS_SDK_Base.Model
 
 
 
+        /// <summary>
+        /// 相机运行情况消息读取属性
+        /// </summary>
+        public class MPR_Status_Model
+        {
+
+            public MPR_Status_Model(MVE_Result_Enum _Status)
+            {
+                Result_Status = _Status;
+            }
+
+            /// <summary>
+            /// 运行错误状态
+            /// </summary>
+            public MVE_Result_Enum Result_Status { set; get; }
+
+
+            /// <summary>
+            /// 运行错误详细信息
+            /// </summary>
+            public string Result_Error_Info { set; get; } = "Null";
+
+            /// <summary>
+            /// 获得运行状态
+            /// </summary>
+            /// <returns></returns>
+            public bool GetResult()
+            {
+                if (Result_Status == MVE_Result_Enum.Run_OK) { return true; } else { return false; }
+            }
+
+
+            /// <summary>
+            /// 获得运行状态信息
+            /// </summary>
+            /// <param name="_Erroe"></param>
+            /// <returns></returns>
+            public string GetResult_Info()
+            {
+
+                return Result_Status.ToString() + "_" + Result_Error_Info;
+            }
+
+        }
 
 
 
+    }
 
+
+    /// <summary>
+    /// 相机错误消息返回
+    /// </summary>
+    public enum MVE_Result_Enum
+    {
+        Run_OK,
+        相机参数设置错误,
+        相机连接失败,
+        创建相机句柄失败,
+        打开相机失败,
     }
 
     /// <summary>

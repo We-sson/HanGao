@@ -42,10 +42,11 @@ namespace HanGao.ViewModel
                 //new Thread(new ThreadStart(new Action(() =>
                 //{
 
-                    Task.Run(() => { 
+                Task.Run(() =>
+                {
 
                     Initialization_Camera_Thread();
-                    });
+                });
                 //})))
                 //{ IsBackground = true, Name = "Initialization_Camera_Thread" }.Start();
 
@@ -104,7 +105,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 相机信息
         /// </summary>
-        public MVS_Camera_Info_Model Camera_Info { set; get; }=new MVS_Camera_Info_Model ();
+        public MVS_Camera_Info_Model Camera_Info { set; get; } = new MVS_Camera_Info_Model();
 
 
 
@@ -163,7 +164,7 @@ namespace HanGao.ViewModel
 
 
 
-                    if (Connect_Camera())
+                    if (Display_Status( Connect_Camera()).GetResult())
                     {
 
                         return;
@@ -202,7 +203,23 @@ namespace HanGao.ViewModel
         private void ImageCallbackFunc(IntPtr pData, ref MV_FRAME_OUT_INFO_EX pFrameInfo, IntPtr pUser)
         {
 
-            Messenger.Send<HImage_Display_Model, string>(new HImage_Display_Model() { Image =Halcon_SDK. Mvs_To_Halcon_Image(pFrameInfo.nWidth, pFrameInfo.nHeight, pData), Image_Show_Halcon = UC_Visal_Function_VM.Live_Window.HWindow }, nameof(Meg_Value_Eunm.HWindow_Image_Show));
+            HImage_Display_Model MVS_TOHalcon = new HImage_Display_Model();
+            HObject _Image = new HObject();
+
+            ///转换海康图像类型
+            if (Display_Status(Halcon_SDK.Mvs_To_Halcon_Image(ref _Image, pFrameInfo.nWidth, pFrameInfo.nHeight, pData)).GetResult())
+            {
+
+                //传送控件显示
+                Messenger.Send<HImage_Display_Model, string>(new HImage_Display_Model()
+                {
+                    Image = _Image,
+                    Image_Show_Halcon = UC_Visal_Function_VM.Live_Window.HWindow
+                }, nameof(Meg_Value_Eunm.HWindow_Image_Show));
+
+            }
+
+            _Image.Dispose();
 
         }
 
@@ -419,35 +436,36 @@ namespace HanGao.ViewModel
         /// 连接相机
         /// </summary>
         /// <returns></returns>
-        public bool Connect_Camera()
+        public MPR_Status_Model Connect_Camera()
         {
             //打开相机
-            if (MVS_Camera.Open_Camera())
+            if (Display_Status( MVS_Camera.Open_Camera()).GetResult())
             {
 
 
-                MVS_Camera_Info_Model _Info=new MVS_Camera_Info_Model ();
-                MVS_Camera. Get_Camrea_Info_Method(ref _Info);
+                MVS_Camera_Info_Model _Info = new MVS_Camera_Info_Model();
+                MVS_Camera.Get_Camrea_Info_Method(ref _Info);
                 Camera_Info = _Info;
-                Messenger.Send<MVS_Camera_Info_Model, string>(Camera_Info, nameof( Meg_Value_Eunm.MVS_Camera_Info_Show));
+                Messenger.Send<MVS_Camera_Info_Model, string>(Camera_Info, nameof(Meg_Value_Eunm.MVS_Camera_Info_Show));
                 //Message
 
                 //设置相机总参数
-                if (MVS_Camera.Set_Camrea_Parameters_List(Camera_Parameter_Val))
+                if (Display_Status( MVS_Camera.Set_Camrea_Parameters_List(Camera_Parameter_Val)).GetResult())
                 {
-                    return Camera_Connect_OK = true;
-
+                   Camera_Connect_OK = true;
+                    return new MPR_Status_Model(MVE_Result_Enum.Run_OK) { Result_Error_Info="相机设置参数成功！" };
                 }
                 else
                 {
+
                     User_Log_Add("相机设置参数错误，请检查参数！");
-                    return false;
+                    return new MPR_Status_Model( MVE_Result_Enum.相机连接失败);
                 }
 
 
             }
 
-            return false;
+            return new MPR_Status_Model(MVE_Result_Enum.Run_OK);
 
         }
 
@@ -532,9 +550,9 @@ namespace HanGao.ViewModel
 
                 HObject _Image = new HObject();
 
-                Get_Image( ref _Image, Get_Image_Model_Enum.相机采集, UC_Visal_Function_VM.Features_Window.HWindow);
+                Get_Image(ref _Image, Get_Image_Model_Enum.相机采集, UC_Visal_Function_VM.Features_Window.HWindow);
 
-            
+
 
 
                 await Task.Delay(50);
@@ -557,11 +575,11 @@ namespace HanGao.ViewModel
                 if ((bool)E.IsChecked)
                 {
 
-                MVS_Camera.Set_Camera_Val(Camera_Parameters_Name_Enum.LineInverter, MVS_Camera.Camera.SetBoolValue (nameof(Camera_Parameters_Name_Enum.LineInverter), true));
+                    MVS_Camera.Set_Camera_Val(Camera_Parameters_Name_Enum.LineInverter, MVS_Camera.Camera.SetBoolValue(nameof(Camera_Parameters_Name_Enum.LineInverter), true));
                 }
                 else
                 {
-                    MVS_Camera.Set_Camera_Val(Camera_Parameters_Name_Enum.LineInverter, MVS_Camera.Camera.SetBoolValue(nameof(Camera_Parameters_Name_Enum.LineInverter), false ));
+                    MVS_Camera.Set_Camera_Val(Camera_Parameters_Name_Enum.LineInverter, MVS_Camera.Camera.SetBoolValue(nameof(Camera_Parameters_Name_Enum.LineInverter), false));
 
                 }
 
@@ -580,68 +598,62 @@ namespace HanGao.ViewModel
         /// <param name="_Window"></param>
         /// <param name="_path"></param>
         /// <returns></returns>
-        public static bool Get_Image(ref HObject _Image , Get_Image_Model_Enum _Get_Model, HWindow _Window ,string _path="")
+        public static HPR_Status_Model Get_Image(ref HObject _Image, Get_Image_Model_Enum _Get_Model, HWindow _Window, string _path = "")
         {
 
             HObject _image = new HObject();
 
             _Window.ClearWindow();
+
             switch (_Get_Model)
             {
                 case Get_Image_Model_Enum.相机采集:
 
-                    if (GetOneFrameTimeout(ref _image, _Window) ==false )
+                    if (!Display_Status(GetOneFrameTimeout(ref _Image, _Window)).GetResult())
                     {
-                        User_Log_Add("相机读取错误，请检查设备！");
-                        return false;
+
+                        return new HPR_Status_Model ( HVE_Result_Enum.图像文件读取失败);
                     }
-                   
+
+
                     break;
                 case Get_Image_Model_Enum.图像采集:
 
-                    if (_path!="")
-                    {
 
-                    HOperatorSet.ReadImage(out _image, _path);
 
-                    _Window.DispObj(_image);
-                        
-                    }
-                    else
+
+
+                    if (!Display_Status(Halcon_SDK. HRead_Image(ref _Image, _path)).GetResult())
                     {
-                        User_Log_Add("图像读取地址错误，请检查路径！");
-                        return false ;
+                        return new HPR_Status_Model(HVE_Result_Enum.图像文件读取失败);
                     }
- 
+
                     break;
             }
-            _Image = _image;
 
+
+
+            //获得图像保存到内存，随时调用
+            _image = _Image;
             UC_Visal_Function_VM.Load_Image = _image;
-            User_Log_Add(_Get_Model.ToString()+"图像读取成功！");
 
+            _Window.DispObj(_Image);
 
 
             //保存图像当当前目录下
             if (Global_Seting.IsVisual_image_saving)
             {
-                if (Halcon_SDK.Save_Image(_image))
-                {
-                    User_Log_Add(_Get_Model.ToString() + "图像保存成功！");
 
-                }else
+                if (!Display_Status(Halcon_SDK.Save_Image(_Image)).GetResult())
                 {
-                    User_Log_Add(_Get_Model.ToString() + "图像保存失败！");
-
+                    return new HPR_Status_Model(HVE_Result_Enum.样品图像保存失败);
                 }
 
             }
 
 
 
-            //清除
-       
-            return true;
+            return new HPR_Status_Model(HVE_Result_Enum.Run_OK) ;
 
         }
 
@@ -653,57 +665,40 @@ namespace HanGao.ViewModel
         /// 获得一图像显示到指定窗口
         /// </summary>
         /// <param name="_HWindow"></param>
-        public static bool GetOneFrameTimeout(ref HObject Image ,HWindow _Window)
+        public static HPR_Status_Model GetOneFrameTimeout(ref HObject Image, HWindow _Window)
         {
 
 
 
-
-
-            try
+            //设置相机总参数
+            if (Display_Status(MVS_Camera.Set_Camrea_Parameters_List(Camera_Parameter_Val)).GetResult())
             {
 
-                //设置相机总参数
-                if (MVS_Camera.Set_Camrea_Parameters_List(Camera_Parameter_Val))
+
+                //获得一帧图片信息
+                MVS_Image_Mode _MVS_Image = MVS_Camera.GetOneFrameTimeout();
+                HObject _HImage = new HObject();
+
+
+                //转换Halcon图像变量
+                if (Display_Status(Halcon_SDK.Mvs_To_Halcon_Image(ref _HImage, _MVS_Image.FrameEx_Info.ImageInfo.Width, _MVS_Image.FrameEx_Info.ImageInfo.Height, _MVS_Image.PData)).GetResult())
                 {
 
 
-
-
-
-
-
-                    //获得一帧图片信息
-                    MVS_Image_Mode _Image = MVS_Camera.GetOneFrameTimeout();
-
-                    //转换Halcon图像变量
-                    Image =Halcon_SDK. Mvs_To_Halcon_Image(_Image.FrameEx_Info.ImageInfo.Width, _Image.FrameEx_Info.ImageInfo.Height, _Image.PData);
                     //发送显示图像位置
                     _Window.DispObj(Image);
 
-
-
-
-                    _Image = null;
-                    return true;
+                    return new HPR_Status_Model(HVE_Result_Enum.Run_OK);
                 }
                 else
                 {
-
-                    User_Log_Add("相机设置参数错误，连接失败，请检查相机连接和参数！");
-                    return false;
+                    return new HPR_Status_Model(HVE_Result_Enum.Halcon转换海康图像错误);
                 }
-
             }
-            catch (Exception e)
+            else
             {
-                User_Log_Add("相机设置参数错误，连接失败，请检查相机连接和参数！");
-                User_Log_Add(e.Message);
-
-                return false;
-
+                return new HPR_Status_Model(HVE_Result_Enum.相机采集失败);
             }
-
 
 
 
@@ -900,7 +895,7 @@ namespace HanGao.ViewModel
 
         public double DigitalShift { set; get; } = 0;
 
-        public double Gamma { set; get; }=0.5;
+        public double Gamma { set; get; } = 0.5;
 
         public int Sharpness { set; get; } = 10;
 
@@ -919,7 +914,7 @@ namespace HanGao.ViewModel
         /// </summary>
         public bool ROI_ReverseX { set; get; }
 
-        public ACQUISITION_MODE_Enum ACQUISITION_MODE { set; get; } = ACQUISITION_MODE_Enum.持续采集模式; 
+        public ACQUISITION_MODE_Enum ACQUISITION_MODE { set; get; } = ACQUISITION_MODE_Enum.持续采集模式;
     }
 
 

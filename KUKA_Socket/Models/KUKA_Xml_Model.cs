@@ -211,24 +211,6 @@ namespace KUKA_Socket.Models
         Vision_Ini_Data,
     }
 
-    /// <summary>
-    /// 标定错误消息返回
-    /// </summary>
-    public enum Calibration_Error_Message_Enum
-    {
-        Vision_Ini_Data_OK,
-        No_Error,
-        Find_time_timeout,
-        Find_Calibration_Error,
-        Camera_Connection_Time_Out,
-        Error_No_Camera_GetImage,
-        Error_No_Read_Shape_Mode_File,
-        Error_No_Read_Math2D_File,
-        Error_No_Camera_Set_Parameters,
-        Error_No_Can_Find_the_model,
-        Error_No_Find_ID_Number,
-        Error_No_SinkInfo,
-        Error_Find_Exceed_Error_Val
-    }
+
 
 }

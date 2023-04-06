@@ -381,7 +381,7 @@ namespace MVS_SDK
         /// 打开相机列表中的对应数好
         /// </summary>
         /// <param name="_Camera_Number"></param>
-        public bool Open_Camera()
+        public MPR_Status_Model Open_Camera()
         {
 
 
@@ -391,19 +391,19 @@ namespace MVS_SDK
             //创建相机
             if (Set_Camera_Val(Camera_Parameters_Name_Enum.CreateHandle, Camera.CreateHandle(ref CameraInfo)) != true)
             {
-                return false;
+                return new MPR_Status_Model ( MVE_Result_Enum.创建相机句柄失败);
             }
 
 
             //打开相机
             if (Set_Camera_Val(Camera_Parameters_Name_Enum.OpenDevice, Camera.OpenDevice()) != true)
             {
-                return false;
+                return new MPR_Status_Model(MVE_Result_Enum.打开相机失败);
             }
 
 
             //打开相机失败返回值
-            return true;
+            return new MPR_Status_Model(MVE_Result_Enum.Run_OK) { Result_Error_Info="相机打开成功！" };
 
 
         }
@@ -473,21 +473,36 @@ namespace MVS_SDK
         /// 设置总相机相机俩表
         /// </summary>
         /// <param name="_Camera_List"></param>
-        public   bool Set_Camrea_Parameters_List(MVS_Camera_Parameter_Model _Camera_List)
+        public MPR_Status_Model Set_Camrea_Parameters_List(MVS_Camera_Parameter_Model _Camera_List)
         {
 
+
+            try
+            {
+
+ 
             //遍历设置参数
             foreach (PropertyInfo _Type in _Camera_List.GetType().GetProperties())
             {
 
-                if (Set_Camera_Parameters_Val(_Type, _Type.Name, _Type.GetValue(_Camera_List)) != true)
+                if (!Set_Camera_Parameters_Val(_Type, _Type.Name, _Type.GetValue(_Camera_List)))
                 {
 
-                    return false;
+                    return  new MPR_Status_Model(MVE_Result_Enum.相机参数设置错误) { Result_Error_Info="_参数名："+_Type.Name };
                 }
             }
 
-            return true;
+            return new MPR_Status_Model(MVE_Result_Enum.Run_OK);
+
+            }
+
+
+            catch (Exception e)
+            {
+
+                return new MPR_Status_Model(MVE_Result_Enum.相机参数设置错误) { Result_Error_Info = e.Message };
+            }
+
 
         }
 

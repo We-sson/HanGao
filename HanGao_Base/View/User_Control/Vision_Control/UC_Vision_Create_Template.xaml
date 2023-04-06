@@ -862,10 +862,10 @@
                                         HorizontalContentAlignment="Stretch"
                                         VerticalContentAlignment="Stretch"
                                         IsSnapToTickEnabled="True"
-                                        Maximum="1.57"
-                                        Minimum="0"
+                                        Maximum="10"
+                                        Minimum="0.01"
                                         TickFrequency=" 0.01"
-                                        Value="{Binding Halcon_Create_Shape_ModelXld_UI.AngleStart, Converter={StaticResource Halcon_StringConverter}}" />
+                                        Value="{Binding Halcon_Create_Shape_ModelXld_UI.AngleStep}" />
 
                                 <TextBox Grid.Column=" 2"
                                          Width=" 100"

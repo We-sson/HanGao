@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Media.Media3D;
 
 namespace Halcon_SDK_DLL.Model
@@ -14,13 +15,6 @@ namespace Halcon_SDK_DLL.Model
 
     public class Halcon_Data_Model
     {
-
-
-
-        public Halcon_Data_Model()
-        {
-
-        }
 
 
 
@@ -114,8 +108,6 @@ namespace Halcon_SDK_DLL.Model
 
 
 
-
-
         /// <summary>
         /// 形状匹配查找模型结果参数
         /// </summary>
@@ -124,7 +116,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 模型实例的行坐标
             /// </summary>
-            public List<double> Row { set; get; } = new List<double> ();
+            public List<double> Row { set; get; } = new List<double>();
             /// <summary>
             /// 模型实例的列坐标
             /// </summary>
@@ -140,7 +132,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 查找耗时
             /// </summary>
-            public double Find_Time { set; get; } =0;
+            public double Find_Time { set; get; } = 0;
 
             /// <summary>
             /// 查找模型结果
@@ -202,9 +194,6 @@ namespace Halcon_SDK_DLL.Model
 
 
 
-
-
-
         /// <summary>
         /// 创建形状匹配模板总类型参数
         /// </summary>
@@ -214,7 +203,7 @@ namespace Halcon_SDK_DLL.Model
             /// 模板类型
             /// </summary>
             public Shape_Based_Model_Enum Shape_Based_Model { set; get; } = Shape_Based_Model_Enum.Ncc_Model;
-            
+
 
 
 
@@ -243,15 +232,15 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 图案的最小旋转。默认值：-0.39 建议值： -3.14， -1.57， -0.79， -0.39， -0.20， 0.0
             /// </summary>
-            public double AngleStart { set; get; } = 0;
+            public double AngleStart { set; get; } = -10;
             /// <summary>
             /// 旋转角度的范围。默认值：0.79,建议值：6.29、3.14、1.57、0.79、0.39
             /// </summary>
-            public double AngleExtent { set; get; } = 360;
+            public double AngleExtent { set; get; } = 20;
             /// <summary>
             /// 角度的步长（分辨率）。默认值： “自动”建议值：“自动”, 0.0175, 0.0349, 0.0524, 0.0698, 0.0873
             /// </summary>
-            public string AngleStep { set; get; } = "auto";
+            public double AngleStep { set; get; } = 0.01;
             /// <summary>
             /// 阵列在行方向上的最小比例。默认值：1.0,建议值：0.5、0.6、0.7、0.8、0.9、1.0
             /// </summary>
@@ -475,7 +464,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 滤镜掩码的半径。默认值：1  值列表（用于计算设备）：1、2  建议值：1， 2， 3， 4， 5， 6， 7， 8， 9， 11， 15， 19， 25， 31， 39， 47， 59  典型值范围：1 ≤ radius ≤ 4095
             /// </summary>
-            public double  Median_image_Radius { set; get; } = 5;
+            public double Median_image_Radius { set; get; } = 5;
             /// <summary>
             /// 边境处理。默认值： “镜像”值列表（对于计算设备）：“镜像”建议值：“镜像”, “循环”, “续”, 0, 30, 60, 90, 120, 150, 180, 210, 240, 255
             /// </summary>
@@ -642,16 +631,52 @@ namespace Halcon_SDK_DLL.Model
             /// 最大面积
             /// </summary>
             public double Max_Area { set; get; } = 2000000;
+        }
+    }
 
+
+
+    /// <summary>
+    /// 集合算子运行情况属性
+    /// </summary>
+    public class HPR_Status_Model
+    {
+        public HPR_Status_Model(HVE_Result_Enum _Status)
+        {
+            Result_Status = _Status;
+        }
+
+        /// <summary>
+        /// 运行错误状态
+        /// </summary>
+        public HVE_Result_Enum Result_Status { set; get; }
+
+
+        /// <summary>
+        /// 运行错误详细信息
+        /// </summary>
+        public string Result_Error_Info { set; get; } = "Null";
+
+        /// <summary>
+        /// 获得算法运行状态
+        /// </summary>
+        /// <returns></returns>
+        public bool GetResult()
+        {
+            if (Result_Status == HVE_Result_Enum.Run_OK) { return true; } else { return false; }
         }
 
 
+        /// <summary>
+        /// 获得算法运行状态信息
+        /// </summary>
+        /// <param name="_Erroe"></param>
+        /// <returns></returns>
+        public string GetResult_Info()
+        {
 
-
-
-
-
-
+            return Result_Status.ToString() + "_" + Result_Error_Info;
+        }
 
     }
 
@@ -673,14 +698,6 @@ namespace Halcon_SDK_DLL.Model
         /// 最大灰度值分布在值范围0到255 中。
         /// </summary>
         ScaleImageMax,
-
-
-
-
-    }
-
-    public enum Common_Filter_Name_Enum
-    {
 
 
 
@@ -869,5 +886,44 @@ namespace Halcon_SDK_DLL.Model
         图像采集,
         触发采集
 
+    }
+
+
+    /// <summary>
+    /// 标定错误消息返回
+    /// </summary>
+    public enum HVE_Result_Enum
+    {
+        Run_OK,
+        Vision_Ini_Data_OK,
+        Find_time_timeout,
+        Find_Calibration_Error,
+        Camera_Connection_Time_Out,
+        Error_No_Camera_GetImage,
+        Error_No_Read_Shape_Mode_File,
+        Error_No_Read_Math2D_File,
+        Error_No_Camera_Set_Parameters,
+        Error_No_Can_Find_the_model,
+        Error_No_Find_ID_Number,
+        Error_No_SinkInfo,
+        Error_Find_Exceed_Error_Val,
+        Error_Save_Math2D_File_Error,
+        Error_Match_Math2D_Error,
+        图像预处理错误,
+        Halcon转换海康图像错误,
+        相机采集失败,
+        图像文件读取失败,
+        读取图像文件格式错误,
+        图像保存失败,
+        样品图像保存失败,
+        文件路径提取失败,
+        创建匹配模型失败,
+        读取模型文件失败,
+        读取全部模型文件失败,
+        XLD对象映射失败,
+        读取矩阵文件失败,
+        保存矩阵文件失败,
+        计算实际误差失败,
+        标定查找9点位置区域失败,
     }
 }

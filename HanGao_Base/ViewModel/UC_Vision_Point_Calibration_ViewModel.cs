@@ -49,15 +49,15 @@ namespace HanGao.ViewModel
 
 
                 //读取矩阵文件
-                if (Halcon_SDK.Read_Mat2d_Method(ref _Mat2D, _S.Calibration_Model.Vision_Area, _S.Calibration_Model.Work_Area))
+                if (Display_Status(Halcon_SDK.Read_Mat2d_Method(ref _Mat2D, _S.Calibration_Model.Vision_Area, _S.Calibration_Model.Work_Area)).GetResult())
                 {
 
                     //从相机获取照片
-                    if (UC_Vision_CameraSet_ViewModel.Get_Image(ref _Image, Find_Calibration.Get_Image_Model, Features_Window.HWindow, Image_Location_UI))
+                    if (Display_Status(UC_Vision_CameraSet_ViewModel.Get_Image(ref _Image, Find_Calibration.Get_Image_Model, Features_Window.HWindow, Image_Location_UI)).GetResult())
                     {
 
                         //清楚模板内容，查找图像模型
-                        if (Find_Calibration_Mod( _Image,Find_Calibration) == 9)
+                        if (Find_Calibration_Mod(_Image, Find_Calibration) == 9)
                         {
 
 
@@ -70,7 +70,7 @@ namespace HanGao.ViewModel
                             {
 
                                 HOperatorSet.AffineTransPoint2d(_Mat2D, Calibration_Results_List[i].Calibration_Points.X, Calibration_Results_List[i].Calibration_Points.Y, out HTuple _Rx, out HTuple _Ry);
-                                Calibration_Results_List[i].Robot_Points = new Point3D(Math.Round(_Rx.D,4) , Math.Round(_Ry.D, 4), 0);
+                                Calibration_Results_List[i].Robot_Points = new Point3D(Math.Round(_Rx.D, 4), Math.Round(_Ry.D, 4), 0);
 
                             }
 
@@ -104,15 +104,15 @@ namespace HanGao.ViewModel
 
                             //回传标定结果
                             _Send.IsStatus = 1;
-                            _Send.Message_Error = Calibration_Error_Message_Enum.No_Error.ToString() + ",Test Calibration Results!";
+                            _Send.Message_Error = HVE_Result_Enum.Run_OK.ToString() + ",Test Calibration Results!";
 
 
                         }
                         else
                         {
                             _Send.IsStatus = 0;
-                            _Send.Message_Error = Calibration_Error_Message_Enum.Find_Calibration_Error.ToString();
-       
+                            _Send.Message_Error = HVE_Result_Enum.Find_Calibration_Error.ToString();
+
 
                         }
 
@@ -121,8 +121,8 @@ namespace HanGao.ViewModel
                     else
                     {
                         _Send.IsStatus = 0;
-                        _Send.Message_Error = Calibration_Error_Message_Enum.Error_No_Camera_GetImage.ToString();
-                 
+                        _Send.Message_Error = HVE_Result_Enum.Error_No_Camera_GetImage.ToString();
+
 
                     }
 
@@ -130,7 +130,7 @@ namespace HanGao.ViewModel
                 else
                 {
                     _Send.IsStatus = 0;
-                    _Send.Message_Error = Calibration_Error_Message_Enum.Error_No_Read_Math2D_File.ToString();
+                    _Send.Message_Error = HVE_Result_Enum.Error_No_Read_Math2D_File.ToString();
 
                 }
 
@@ -153,7 +153,7 @@ namespace HanGao.ViewModel
             HTuple _Mat2D = new HTuple();
             Calibration_Data_Send _Send = new();
             HObject _Image = new HObject();
-
+            Point3D _Calibration_Results_Point = new Point3D();
 
             //UI显示接收信息内容
             UC_Vision_Robot_Protocol_ViewModel.Receive_Socket_String = _RStr;
@@ -163,7 +163,7 @@ namespace HanGao.ViewModel
 
 
             //从相机获取照片
-            if (UC_Vision_CameraSet_ViewModel.Get_Image(ref _Image, Find_Calibration.Get_Image_Model, Features_Window.HWindow, Image_Location_UI))
+            if (Display_Status(UC_Vision_CameraSet_ViewModel.Get_Image(ref _Image, Find_Calibration.Get_Image_Model, Features_Window.HWindow, Image_Location_UI)).GetResult())
             {
 
                 //清楚模板内容，查找图像模型
@@ -209,30 +209,57 @@ namespace HanGao.ViewModel
 
                     }
 
-                    //计算标定误差
-                    Calibration_Error_UI = Halcon_SDK.Calibration_Results_Compute(Calibration_P, Robot_P, ref _Mat2D);
 
+                    if (Display_Status(Halcon_SDK.Calibration_Results_Compute(ref _Calibration_Results_Point, Calibration_P, Robot_P, ref _Mat2D)).GetResult())
+                    {
+                        Calibration_Error_UI = _Calibration_Results_Point;
+                    //计算标定误差
 
 
                     //保存矩阵方法
-                    Halcon_SDK.Save_Mat2d_Method(_Mat2D, Calibration_Save_Location_UI + Calibration_Area_UI + "_" + Calibration_Work_Area);
+                    if (Display_Status(Halcon_SDK.Save_Mat2d_Method(_Mat2D, Calibration_Save_Location_UI + Calibration_Area_UI + "_" + Calibration_Work_Area)).GetResult())
+                    {
 
 
 
-                    //回传标定结果
-                    _Send.IsStatus = 1;
-                    _Send.Message_Error = Calibration_Error_Message_Enum.No_Error.ToString() + ",Result Variance X : " + Calibration_Error_UI.X + ", Y : " + Calibration_Error_UI.Y;
+                        //回传标定结果
+                        _Send.IsStatus = 1;
+                        _Send.Message_Error = HVE_Result_Enum.Run_OK.ToString() + ",Result Variance X : " + Calibration_Error_UI.X + ", Y : " + Calibration_Error_UI.Y;
 
-                    //属性内容转换长文本
-                    string _Str = KUKA_Send_Receive_Xml.Property_Xml<Calibration_Data_Send>(_Send);
-                    //显示UI层
-                    UC_Vision_Robot_Protocol_ViewModel.Send_Socket_String = _Str;
-                    return _Str;
+                        //属性内容转换长文本
+                        string _Str = KUKA_Send_Receive_Xml.Property_Xml<Calibration_Data_Send>(_Send);
+                        //显示UI层
+                        UC_Vision_Robot_Protocol_ViewModel.Send_Socket_String = _Str;
+                        return _Str;
+
+
+                    }
+                    else
+                    {
+                        _Send.IsStatus = 0;
+                        _Send.Message_Error = HVE_Result_Enum.Error_Match_Math2D_Error.ToString();
+                        string _Str = KUKA_Send_Receive_Xml.Property_Xml<Calibration_Data_Send>(_Send);
+                        return _Str;
+                    }
+
+                    }
+                    else
+                    {
+                        _Send.IsStatus = 0;
+                        _Send.Message_Error = HVE_Result_Enum.Error_Save_Math2D_File_Error.ToString();
+                        string _Str = KUKA_Send_Receive_Xml.Property_Xml<Calibration_Data_Send>(_Send);
+                        return _Str;
+
+
+
+                    }
+
+
                 }
                 else
                 {
                     _Send.IsStatus = 0;
-                    _Send.Message_Error = Calibration_Error_Message_Enum.Find_time_timeout.ToString();
+                    _Send.Message_Error = HVE_Result_Enum.Find_time_timeout.ToString();
                     string _Str = KUKA_Send_Receive_Xml.Property_Xml<Calibration_Data_Send>(_Send);
                     return _Str;
                 }
@@ -242,7 +269,7 @@ namespace HanGao.ViewModel
             else
             {
                 _Send.IsStatus = 0;
-                _Send.Message_Error = Calibration_Error_Message_Enum.Find_time_timeout.ToString();
+                _Send.Message_Error = HVE_Result_Enum.Find_time_timeout.ToString();
                 string _Str = KUKA_Send_Receive_Xml.Property_Xml<Calibration_Data_Send>(_Send);
                 return _Str;
             }
@@ -358,18 +385,16 @@ namespace HanGao.ViewModel
         /// 查找图片上的标定板位置
         /// </summary>
         /// <returns></returns>
-        public int Find_Calibration_Mod(  HObject _Image, Halcon_Find_Calibration_Model _Find_Model)
+        public int Find_Calibration_Mod(HObject _Image, Halcon_Find_Calibration_Model _Find_Model)
         {
 
 
-         
+
             List<Point3D> _Calibration_List = new List<Point3D>();
-
-
 
             //查找九点定位图像
 
-            if (Halcon_SDK.Find_Calibration(ref _Calibration_List, Features_Window.HWindow, _Image, _Find_Model))
+            if (Display_Status( Halcon_SDK.Find_Calibration(ref _Calibration_List, Features_Window.HWindow, _Image, _Find_Model)).GetResult())
             {
 
 
@@ -418,14 +443,14 @@ namespace HanGao.ViewModel
 
                 HTuple _Row = new HTuple();
                 HTuple _Column = new HTuple();
-                HObject _Image=new HObject();
-                if (UC_Vision_CameraSet_ViewModel.Get_Image(ref _Image, Find_Calibration.Get_Image_Model, Features_Window.HWindow, Image_Location_UI)
+                HObject _Image = new HObject();
+                if (Display_Status(UC_Vision_CameraSet_ViewModel.Get_Image(ref _Image, Find_Calibration.Get_Image_Model, Features_Window.HWindow, Image_Location_UI)).GetResult()
 )
                 {
 
 
-                //查找图像中模板位置
-                Find_Calibration_Mod(_Image, Find_Calibration);
+                    //查找图像中模板位置
+                    Find_Calibration_Mod(_Image, Find_Calibration);
                 }
 
                 await Task.Delay(100);

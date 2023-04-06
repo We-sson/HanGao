@@ -1,6 +1,8 @@
 ﻿
 
 
+using static MVS_SDK_Base.Model.MVS_Model;
+
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
@@ -89,6 +91,45 @@ namespace HanGao.ViewModel
 
         }
 
+
+        /// <summary>
+        /// 获得算法状态显示UI
+        /// </summary>
+        /// <param name="_Result_Status"></param>
+        /// <returns></returns>
+        public static HPR_Status_Model Display_Status(HPR_Status_Model _Result_Status) 
+        {
+
+
+            ///判断算法状态是否成功，否者显示结果或错误状态
+            if (!_Result_Status.GetResult())
+            {
+                User_Log_Add(_Result_Status.GetResult_Info());
+            }
+
+
+            return _Result_Status;
+        }
+
+
+        /// <summary>
+        /// 获得海康算法状态显示UI
+        /// </summary>
+        /// <param name="_Result_Status"></param>
+        /// <returns></returns>
+        public static MPR_Status_Model Display_Status(MPR_Status_Model _Result_Status)
+        {
+
+
+            ///判断算法状态是否成功，否者显示结果或错误状态
+            if (!_Result_Status.GetResult())
+            {
+                User_Log_Add(_Result_Status.GetResult_Info());
+            }
+
+
+            return _Result_Status;
+        }
 
 
         /// <summary>

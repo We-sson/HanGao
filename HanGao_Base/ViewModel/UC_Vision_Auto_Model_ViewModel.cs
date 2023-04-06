@@ -29,7 +29,7 @@ namespace HanGao.ViewModel
 
                 _Send.IsStatus = 1;
                 _Send.Initialization_Data.Vision_Scope = Vision_Auto_Cofig.Vision_Scope.ToString();
-                _Send.Message_Error = Calibration_Error_Message_Enum.Vision_Ini_Data_OK.ToString ();
+                _Send.Message_Error = HVE_Result_Enum.Vision_Ini_Data_OK.ToString ();
                 //属性转换xml流
                 string _SendSteam = KUKA_Send_Receive_Xml.Property_Xml(_Send);
                 UC_Vision_Robot_Protocol_ViewModel.Send_Socket_String = _SendSteam;
