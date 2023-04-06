@@ -458,7 +458,7 @@ namespace HanGao.ViewModel
                 else
                 {
 
-                    User_Log_Add("相机设置参数错误，请检查参数！");
+                    //User_Log_Add("相机设置参数错误，请检查参数！");
                     return new MPR_Status_Model( MVE_Result_Enum.相机连接失败);
                 }
 
@@ -653,7 +653,7 @@ namespace HanGao.ViewModel
 
 
 
-            return new HPR_Status_Model(HVE_Result_Enum.Run_OK) ;
+            return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info="采集图像方法成功！"};
 
         }
 

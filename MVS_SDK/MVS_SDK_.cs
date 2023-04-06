@@ -1,5 +1,6 @@
 ﻿using Generic_Extension;
 using MvCamCtrl.NET;
+using MVS_SDK_Base;
 using MVS_SDK_Base.Model;
 using System;
 using System.Collections.Generic;

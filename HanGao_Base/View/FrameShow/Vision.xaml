@@ -888,7 +888,20 @@
                                                        SnapsToDevicePixels="True">
                             <Halcon:HSmartWindowControlWPF.ContextMenu>
                                 <ContextMenu>
-                                    <MenuItem x:Name="Draw_Lin" Header="添加直线特征点">
+
+                                    <MenuItem x:Name="Draw_Pos" Header="添加特征点">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding Add_Draw_Data_Comm}"
+                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                       PassEventArgsToCommand="True" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </MenuItem>
+
+
+
+                                    <!--<MenuItem x:Name="Draw_Lin" Header="添加直线特征点">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Click">
                                                 <i:InvokeCommandAction Command="{Binding Add_Draw_Data_Comm}"
@@ -905,9 +918,18 @@
                                                                        PassEventArgsToCommand="True" />
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
-                                    </MenuItem>
+                                    </MenuItem>-->
                                     <Separator />
-                                    <MenuItem x:Name="Draw_Ok" Header="完成组特征">
+                                    <MenuItem x:Name="Draw_Ok" Header="特征组合直线">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding Add_Draw_Ok_Comm}"
+                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                       PassEventArgsToCommand="True" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </MenuItem>
+                                    <MenuItem x:Name="Draw_Ok" Header="特征组合圆弧">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Click">
                                                 <i:InvokeCommandAction Command="{Binding Add_Draw_Ok_Comm}"

@@ -96,7 +96,6 @@ namespace Halcon_SDK_DLL.Model
             public HObject Cir_Xld_Region { set; get; } = new HObject();
             public HObject Xld_Region { set; get; } = new HObject();
 
-
             public HTuple Row { set; get; } = new HTuple();
             public HTuple Column { set; get; } = new HTuple();
             public HTuple Radius { set; get; } = new HTuple();

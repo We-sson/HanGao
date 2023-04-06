@@ -728,7 +728,7 @@ namespace HanGao.ViewModel
                                 if (Display_Status(Halcon_SDK.ShapeModel_SaveFile(ref _ID, _Image, ShapeModel_Location, Halcon_Create_Shape_ModelXld_UI, _ModelsXld)).GetResult())
                                 {
 
-                                    User_Log_Add("创建区域：" + Halcon_Create_Shape_ModelXld_UI.ShapeModel_Name.ToString() + "，创建ID号：" + Halcon_Create_Shape_ModelXld_UI.Create_ID.ToString() + "，创建模型：" + Halcon_Create_Shape_ModelXld_UI.Shape_Based_Model.ToString() + " 特征成功！");
+                                    User_Log_Add("创建区域：" + Halcon_Create_Shape_ModelXld_UI.ShapeModel_Name.ToString() + "，创建ID号：" + Halcon_Create_Shape_ModelXld_UI.Create_ID.ToString() + "，创建模型特征成功！");
                                 }
 
                             }
@@ -896,7 +896,7 @@ namespace HanGao.ViewModel
                     if (Display_Status(Get_Image(ref _Image, Get_Image_Model, Features_Window.HWindow, Image_Location_UI)).GetResult())
                     {
                         //图像预处理
-                        Halcon_SDK.Halcon_Image_Pre_Processing(ref _Image, Features_Window.HWindow, Halcon_Find_Shape_ModelXld_UI);
+                       Display_Status( Halcon_SDK.Halcon_Image_Pre_Processing(ref _Image, Features_Window.HWindow, Halcon_Find_Shape_ModelXld_UI));
 
 
                     }
@@ -1442,7 +1442,7 @@ namespace HanGao.ViewModel
             }
             else
             {
-                User_Log_Add("描绘创建模型图像特征小于3组特征，不能创建模型！");
+                //User_Log_Add("描绘创建模型图像特征小于3组特征，不能创建模型！");
                 return false;
             }
         }
@@ -1602,8 +1602,6 @@ namespace HanGao.ViewModel
         public Line_Contour_Xld_Model Lin_Xld_Data { set; get; } = new Line_Contour_Xld_Model();
 
         public Cir_Contour_Xld_Model Cir_Xld_Data { set; get; } = new Cir_Contour_Xld_Model();
-
-
 
 
 

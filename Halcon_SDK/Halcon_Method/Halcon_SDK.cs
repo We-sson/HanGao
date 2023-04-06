@@ -364,7 +364,7 @@ namespace Halcon_SDK_DLL
 
 
 
-                 return new HPR_Status_Model(HVE_Result_Enum.Run_OK);
+                 return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info="文件图像读取成功！"};
             }
             else
             {
@@ -1231,7 +1231,7 @@ namespace Halcon_SDK_DLL
 
 
 
-                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) {  };
+                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info="图像预处理完成！"  };
 
 
             }
@@ -1253,7 +1253,58 @@ namespace Halcon_SDK_DLL
 
 
 
+        /// <summary>
+        /// 将拟合好的特征对象合并一起
+        /// </summary>
+        /// <returns></returns>
+        public  bool Draw_ShapeModel_Group(ref HObject ho_ModelsXld, List<Vision_Create_Model_Drawing_Model>)
+        {
+            //赋值内存
+            HOperatorSet.GenEmptyObj(out ho_ModelsXld);
 
+
+            if (Drawing_Data_List.Count > 0)
+            {
+
+                //把全部拟合特征集合一起
+                foreach (Vision_Create_Model_Drawing_Model _Data in Drawing_Data_List)
+                {
+                    switch (_Data.Drawing_Type)
+                    {
+                        case Drawing_Type_Enme.Draw_Lin:
+                            HObject ExpTmpOutVar;
+                            HOperatorSet.ConcatObj(ho_ModelsXld, _Data.Lin_Xld_Data.Lin_Xld_Region, out ExpTmpOutVar);
+
+                            ho_ModelsXld.Dispose();
+                            ho_ModelsXld = ExpTmpOutVar;
+                            break;
+                        case Drawing_Type_Enme.Draw_Cir:
+
+                            HObject ExpTmpOutVar0;
+                            HOperatorSet.ConcatObj(ho_ModelsXld, _Data.Cir_Xld_Data.Cir_Xld_Region, out ExpTmpOutVar0);
+                            ho_ModelsXld.Dispose();
+                            ho_ModelsXld = ExpTmpOutVar0;
+
+                            break;
+                    }
+
+
+                }
+
+                HOperatorSet.ClearWindow(UC_Visal_Function_VM.Features_Window.HWindow);
+                HOperatorSet.DispObj(ho_ModelsXld, UC_Visal_Function_VM.Features_Window.HWindow);
+
+                //创建完成后清除特征
+                Drawing_Data_List.Clear();
+
+                return true;
+            }
+            else
+            {
+                //User_Log_Add("描绘创建模型图像特征小于3组特征，不能创建模型！");
+                return false;
+            }
+        }
 
 
 
