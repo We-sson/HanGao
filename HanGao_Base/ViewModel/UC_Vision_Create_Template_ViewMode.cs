@@ -706,50 +706,75 @@ namespace HanGao.ViewModel
                 HObject _Image = new HObject();
                 HTuple _ID = new HTuple();
 
-                if (Draw_ShapeModel_Group(ref _ModelsXld))
+
+                //判断集合是否有数据
+                if (Drawing_Data_List.Count>0)
                 {
 
-                    //开启线保存匹配模型文件
-                    new Thread(new ThreadStart(new Action(() =>
+                    List<HObject> _AllXLd = new List<HObject>();
+
+                   //合并全部xld数据
+                foreach (var _User_Xld in Drawing_Data_List)
+                {
+                        _AllXLd.Add(_User_Xld.User_XLD);
+                }
+
+                    if (Display_Status(Halcon_SDK.Group_All_XLD(ref _ModelsXld, Features_Window.HWindow, _AllXLd)).GetResult())
                     {
-                        //限制操作
-                        Create_Shape_ModelXld_UI_IsEnable = true;
 
-
-
-                        //读取图片
-                        if (Display_Status(Get_Image(ref _Image, Get_Image_Model, Features_Window.HWindow, Image_Location_UI)).GetResult())
+                        //开启线保存匹配模型文件
+                        new Thread(new ThreadStart(new Action(() =>
                         {
-                            //图像预处理
-                            if (Display_Status(Halcon_SDK.Halcon_Image_Pre_Processing(ref _Image, Features_Window.HWindow, Halcon_Find_Shape_ModelXld_UI)).GetResult())
-                            {
+                            //限制操作
+                            Create_Shape_ModelXld_UI_IsEnable = true;
 
-                                ///保存创建模型
-                                if (Display_Status(Halcon_SDK.ShapeModel_SaveFile(ref _ID, _Image, ShapeModel_Location, Halcon_Create_Shape_ModelXld_UI, _ModelsXld)).GetResult())
+
+
+                            //读取图片
+                            if (Display_Status(Get_Image(ref _Image, Get_Image_Model, Features_Window.HWindow, Image_Location_UI)).GetResult())
+                            {
+                                //图像预处理
+                                if (Display_Status(Halcon_SDK.Halcon_Image_Pre_Processing(ref _Image, Features_Window.HWindow, Halcon_Find_Shape_ModelXld_UI)).GetResult())
                                 {
 
-                                    User_Log_Add("创建区域：" + Halcon_Create_Shape_ModelXld_UI.ShapeModel_Name.ToString() + "，创建ID号：" + Halcon_Create_Shape_ModelXld_UI.Create_ID.ToString() + "，创建模型特征成功！");
+                                    ///保存创建模型
+                                    if (Display_Status(Halcon_SDK.ShapeModel_SaveFile(ref _ID, _Image, ShapeModel_Location, Halcon_Create_Shape_ModelXld_UI, _ModelsXld)).GetResult())
+                                    {
+
+                                        User_Log_Add("创建区域：" + Halcon_Create_Shape_ModelXld_UI.ShapeModel_Name.ToString() + "，创建ID号：" + Halcon_Create_Shape_ModelXld_UI.Create_ID.ToString() + "，创建模型特征成功！");
+                                    
+                                    
+                                    }
+
                                 }
+
 
                             }
 
+                            //解除操作
+                            Create_Shape_ModelXld_UI_IsEnable = false;
 
-                        }
+                        })))
+                        { IsBackground = true, Name = "Create_Shape_Thread" }.Start();
 
-                        //解除操作
-                        Create_Shape_ModelXld_UI_IsEnable = false;
 
-                    })))
-                    { IsBackground = true, Name = "Create_Shape_Thread" }.Start();
 
-                    //创建成功模型后删除所需画画对象
-                    //Drawing_Data_List.Clear();
+
+
+
+                    }
+
                 }
                 else
                 {
-                    User_Log_Add("创建模型特征失败，请检查参数设置！");
+
+                    User_Log_Add("创建模型特征失败，请继续添加XLD类型！");
+
 
                 }
+
+
+
 
                 await Task.Delay(100);
 
@@ -1398,54 +1423,68 @@ namespace HanGao.ViewModel
         /// 将拟合好的特征对象合并一起
         /// </summary>
         /// <returns></returns>
-        private bool Draw_ShapeModel_Group(ref HObject ho_ModelsXld)
-        {
-            //赋值内存
-            HOperatorSet.GenEmptyObj(out ho_ModelsXld);
+        //private bool Draw_ShapeModel_Group(ref HObject ho_ModelsXld)
+        //{
+        //    //赋值内存
+        //    HOperatorSet.GenEmptyObj(out ho_ModelsXld);
 
 
-            if (Drawing_Data_List.Count > 0)
-            {
-
-                //把全部拟合特征集合一起
-                foreach (Vision_Create_Model_Drawing_Model _Data in Drawing_Data_List)
-                {
-                    switch (_Data.Drawing_Type)
-                    {
-                        case Drawing_Type_Enme.Draw_Lin:
-                            HObject ExpTmpOutVar;
-                            HOperatorSet.ConcatObj(ho_ModelsXld, _Data.Lin_Xld_Data.Lin_Xld_Region, out ExpTmpOutVar);
-
-                            ho_ModelsXld.Dispose();
-                            ho_ModelsXld = ExpTmpOutVar;
-                            break;
-                        case Drawing_Type_Enme.Draw_Cir:
-
-                            HObject ExpTmpOutVar0;
-                            HOperatorSet.ConcatObj(ho_ModelsXld, _Data.Cir_Xld_Data.Cir_Xld_Region, out ExpTmpOutVar0);
-                            ho_ModelsXld.Dispose();
-                            ho_ModelsXld = ExpTmpOutVar0;
-
-                            break;
-                    }
 
 
-                }
 
-                HOperatorSet.ClearWindow(UC_Visal_Function_VM.Features_Window.HWindow);
-                HOperatorSet.DispObj(ho_ModelsXld, UC_Visal_Function_VM.Features_Window.HWindow);
 
-                //创建完成后清除特征
-                Drawing_Data_List.Clear();
 
-                return true;
-            }
-            else
-            {
-                //User_Log_Add("描绘创建模型图像特征小于3组特征，不能创建模型！");
-                return false;
-            }
-        }
+
+
+
+
+
+
+
+
+
+        //    if (Drawing_Data_List.Count > 0)
+        //    {
+
+        //        //把全部拟合特征集合一起
+        //        foreach (Vision_Create_Model_Drawing_Model _Data in Drawing_Data_List)
+        //        {
+        //            switch (_Data.Drawing_Type)
+        //            {
+        //                case Drawing_Type_Enme.Draw_Lin:
+        //                    HObject ExpTmpOutVar;
+        //                    HOperatorSet.ConcatObj(ho_ModelsXld, _Data.Lin_Xld_Data.Lin_Xld_Region, out ExpTmpOutVar);
+
+        //                    ho_ModelsXld.Dispose();
+        //                    ho_ModelsXld = ExpTmpOutVar;
+        //                    break;
+        //                case Drawing_Type_Enme.Draw_Cir:
+
+        //                    HObject ExpTmpOutVar0;
+        //                    HOperatorSet.ConcatObj(ho_ModelsXld, _Data.Cir_Xld_Data.Cir_Xld_Region, out ExpTmpOutVar0);
+        //                    ho_ModelsXld.Dispose();
+        //                    ho_ModelsXld = ExpTmpOutVar0;
+
+        //                    break;
+        //            }
+
+
+        //        }
+
+        //        HOperatorSet.ClearWindow(UC_Visal_Function_VM.Features_Window.HWindow);
+        //        HOperatorSet.DispObj(ho_ModelsXld, UC_Visal_Function_VM.Features_Window.HWindow);
+
+        //        //创建完成后清除特征
+        //        Drawing_Data_List.Clear();
+
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        //User_Log_Add("描绘创建模型图像特征小于3组特征，不能创建模型！");
+        //        return false;
+        //    }
+        //}
 
 
 
@@ -1492,85 +1531,14 @@ namespace HanGao.ViewModel
 
                 Vision_Create_Model_Drawing_Model _Data = _B.DataContext as Vision_Create_Model_Drawing_Model;
 
-                //筛选需要删除的对象
-                //Vision_Create_Model_Drawing_Model _Drawing = UC_Vision_Create_Template_ViewMode.Drawing_Data_List.Where(_L => _L.Number == _Data.Number).Single();
-
+          
                 //清除控件显示
                 HOperatorSet.ClearWindow(UC_Visal_Function_VM.Features_Window.HWindow);
-
-                //显示图像
-                //HOperatorSet.DispObj(UC_Visal_Function_VM.Load_Image, UC_Visal_Function_VM.Features_Window.HWindow);
 
                 //移除集合中的对象
                 UC_Vision_Create_Template_ViewMode.Drawing_Data_List.Clear();
 
                 User_Log_Add("清除全部XLD特征成功! ");
-
-                //重新显示没有移除的对象
-                //switch (_Drawing.Drawing_Type)
-                //{
-                //    case Drawing_Type_Enme.Draw_Lin:
-
-                //        foreach (var item in UC_Vision_Create_Template_ViewMode.Drawing_Data_List)
-                //        {
-
-                //            //设置显示图像颜色
-                //            HOperatorSet.SetColor(UC_Visal_Function_VM.Features_Window.HWindow, nameof(KnownColor.Red).ToLower());
-                //            HOperatorSet.SetLineWidth(UC_Visal_Function_VM.Features_Window.HWindow, 1);
-
-
-                //            if (item.Lin_Xld_Data.HPoint_Group.Count > 0)
-                //            {
-
-                //                foreach (var _Group in item.Lin_Xld_Data.HPoint_Group)
-                //                {
-                //                    HOperatorSet.DispObj(_Group, UC_Visal_Function_VM.Features_Window.HWindow);
-                //                }
-                //                HOperatorSet.DispObj(item.Lin_Xld_Data.Xld_Region, UC_Visal_Function_VM.Features_Window.HWindow);
-                //            }
-
-                //            //设置显示图像颜色
-                //            HOperatorSet.SetColor(UC_Visal_Function_VM.Features_Window.HWindow, nameof(KnownColor.Green).ToLower());
-                //            HOperatorSet.SetLineWidth(UC_Visal_Function_VM.Features_Window.HWindow, 3);
-                //        }
-
-                //        break;
-                //    case Drawing_Type_Enme.Draw_Cir:
-
-                //        foreach (var item in UC_Vision_Create_Template_ViewMode.Drawing_Data_List)
-                //        {
-                //            //设置显示图像颜色
-                //            HOperatorSet.SetColor(UC_Visal_Function_VM.Features_Window.HWindow, nameof(KnownColor.Red).ToLower());
-                //            HOperatorSet.SetLineWidth(UC_Visal_Function_VM.Features_Window.HWindow, 1);
-
-                //            if (item.Cir_Xld_Data.HPoint_Group.Count > 0)
-                //            {
-                //                foreach (var _Group in item.Cir_Xld_Data.HPoint_Group)
-                //                {
-                //                    HOperatorSet.DispObj(_Group, UC_Visal_Function_VM.Features_Window.HWindow);
-                //                }
-                //                HOperatorSet.DispObj(item.Cir_Xld_Data.Xld_Region, UC_Visal_Function_VM.Features_Window.HWindow);
-                //            }
-                //            //设置显示图像颜色
-                //            HOperatorSet.SetColor(UC_Visal_Function_VM.Features_Window.HWindow, nameof(KnownColor.Green).ToLower());
-                //            HOperatorSet.SetLineWidth(UC_Visal_Function_VM.Features_Window.HWindow, 3);
-                //        }
-
-
-                //        break;
-                //}
-
-
-
-
-
-
-
-
-
-
-
-
 
 
             });
@@ -1599,9 +1567,14 @@ namespace HanGao.ViewModel
 
         public ObservableCollection<Point3D> Drawing_Data { set; get; } = new ObservableCollection<Point3D>();
 
-        public Line_Contour_Xld_Model Lin_Xld_Data { set; get; } = new Line_Contour_Xld_Model();
 
-        public Cir_Contour_Xld_Model Cir_Xld_Data { set; get; } = new Cir_Contour_Xld_Model();
+        public HObject User_XLD { set; get; } = new HObject();
+
+
+
+        //public Line_Contour_Xld_Model Lin_Xld_Data { set; get; } = new Line_Contour_Xld_Model();
+
+        //public Cir_Contour_Xld_Model Cir_Xld_Data { set; get; } = new Cir_Contour_Xld_Model();
 
 
 

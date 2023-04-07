@@ -27,7 +27,7 @@ namespace HanGao.ViewModel
 
             Initialization_Vision_File();
 
-     
+
 
             //halcon实时图像显示操作
             Messenger.Register<HImage_Display_Model, string>(this, nameof(Meg_Value_Eunm.HWindow_Image_Show), (O, _Mvs_Image) =>
@@ -108,7 +108,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 静态属性更新通知事件
         /// </summary>
-       private static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
+        private static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
 
 
 
@@ -145,7 +145,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 保存添加模型点属性
         /// </summary>
-        public Vision_Create_Model_Drawing_Model User_Drawing_Data { set; get; }
+        public Vision_Create_Model_Drawing_Model User_Drawing_Data { set; get; } = new Vision_Create_Model_Drawing_Model();
 
 
 
@@ -178,7 +178,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 保存读取图像属性
         /// </summary>
-        private static HObject _Load_Image=new HObject ();
+        private static HObject _Load_Image = new HObject();
 
         public static HObject Load_Image
         {
@@ -198,7 +198,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 画画添加集合序号
         /// </summary>
-        private int Drawing_Lint_Bunber = 0;
+        //private int Drawing_Lint_Bunber = 0;
 
 
 
@@ -350,6 +350,7 @@ namespace HanGao.ViewModel
                     {
                         var a = e.Message;
                         Mouse_Pos_Gray = -1;
+                   
                     }
 
                 }
@@ -378,49 +379,25 @@ namespace HanGao.ViewModel
 
                 MenuItem _E = Sm.Source as MenuItem;
 
-                HOperatorSet.SetColor(Features_Window.HWindow, nameof(KnownColor.Red).ToLower());
-                HOperatorSet.SetLineWidth(UC_Visal_Function_VM.Features_Window.HWindow, 1);
-
-                HOperatorSet.GenEmptyObj(out HObject ho_Cross);
-
-                //生成十字架
-                HOperatorSet.GenCrossContourXld(out ho_Cross, Halcon_Position.X, Halcon_Position.Y, 50, (new HTuple(45)).TupleRad());
-
-                //显示十字架
-                HOperatorSet.DispXld(ho_Cross, Features_Window.HWindow);
 
 
-                //获取列表对象数量
+
+                HObject _Cross = new HObject();
 
 
-                //属性为空时创建属性
+                //生产十字架
 
-                if (User_Drawing_Data == null)
+                if (Display_Status(Halcon_SDK.Draw_Cross(ref _Cross, Features_Window.HWindow, Halcon_Position.X, Halcon_Position.Y)).GetResult())
                 {
 
-                    User_Drawing_Data = new Vision_Create_Model_Drawing_Model() { Number = Drawing_Lint_Bunber, Drawing_Type = (Drawing_Type_Enme)Enum.Parse(typeof(Drawing_Type_Enme), _E.Name), Drawing_Data = new ObservableCollection<Point3D>() };
-                    Drawing_Lint_Bunber++;
-                }
+                
 
 
-
+                //情况之前的数据
+                User_Drawing_Data.Drawing_Data.Clear();
                 //添加坐标点数据
                 User_Drawing_Data.Drawing_Data.Add(new Point3D(Math.Round(Halcon_Position.X, 3), Math.Round(Halcon_Position.Y, 3), 0));
 
-
-
-                //添加Halcon图像对象,用于后续删除对象
-                switch (User_Drawing_Data.Drawing_Type)
-                {
-                    case Drawing_Type_Enme.Draw_Lin:
-                        User_Drawing_Data.Lin_Xld_Data.HPoint_Group.Add(ho_Cross);
-
-                        break;
-                    case Drawing_Type_Enme.Draw_Cir:
-
-                        User_Drawing_Data.Cir_Xld_Data.HPoint_Group.Add(ho_Cross);
-
-                        break;
                 }
 
                 await Task.Delay(100);
@@ -428,150 +405,71 @@ namespace HanGao.ViewModel
         }
 
 
+
         /// <summary>
         /// 添加拟合特征点到UI集合
         /// </summary>
-        public ICommand Add_Draw_Ok_Comm
+        public ICommand Cir_Draw_Ok_Comm
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
 
                 MenuItem _E = Sm.Source as MenuItem;
-                //Button E = Sm.Source as Button
-                //MessageBox.Show(Halcon_Position.ToString());
-
-                //初始化坐标属性
-                HTuple RowLine = new();
-                HTuple ColLine = new();
-
-                HObject ho_Cont = new();
 
 
-                if (User_Drawing_Data == null)
+                HObject _Cir = new HObject();
+
+
+                if (Display_Status(Halcon_SDK.Draw_Group_Cir(ref _Cir, User_Drawing_Data.Drawing_Data.ToList(), Features_Window.HWindow)).GetResult())
                 {
-                    User_Log_Add("请添加直线或圆弧特征点，创建特征失败！");
-                    return;
-                }
 
-                switch (User_Drawing_Data.Drawing_Type)
-                {
-                    case Drawing_Type_Enme.Draw_Lin:
+                //拟合直线
+         
 
-                        if (User_Drawing_Data.Drawing_Data.Count <= 1)
-                        {
-                            User_Log_Add("描绘创建直线特征小于2组特征，不能创建模型！");
-                            User_Drawing_Data = null;
-                            return;
-                        }
-
-                        break;
-                    case Drawing_Type_Enme.Draw_Cir:
-                        if (User_Drawing_Data.Drawing_Data.Count <= 2)
-                        {
-                            User_Log_Add("描绘创建圆弧特征小于3组特征，不能创建模型！");
-                            User_Drawing_Data = null;
-                            return;
-                        }
-                        break;
-                }
-
-
-                //添加到Halcon类型数据
-                for (int i = 0; i < User_Drawing_Data.Drawing_Data.Count; i++)
-                {
-                    RowLine = RowLine.TupleConcat(User_Drawing_Data.Drawing_Data[i].X);
-                    ColLine = ColLine.TupleConcat(User_Drawing_Data.Drawing_Data[i].Y);
-
-                }
-                HOperatorSet.GenEmptyObj(out HObject ho_Contour1);
-                //根据描绘点生产线段
-                HOperatorSet.GenContourPolygonXld(out ho_Contour1, RowLine, ColLine);
-
-                //设置显示图像颜色
-                HOperatorSet.SetColor(Features_Window.HWindow, nameof(KnownColor.Red).ToLower());
-                HOperatorSet.SetLineWidth(Features_Window.HWindow, 1);
-                //把线段显示到控件窗口
-                HOperatorSet.DispXld(ho_Contour1, Features_Window.HWindow);
-
-
-                switch (User_Drawing_Data.Drawing_Type)
-                {
-                    case Drawing_Type_Enme.Draw_Lin:
-
-
-
-                        //拟合直线
-                        HOperatorSet.FitLineContourXld(ho_Contour1, "tukey", -1, 0, 5, 2, out HTuple hv_RowBegin,
-               out HTuple hv_ColBegin, out HTuple hv_RowEnd, out HTuple hv_ColEnd, out HTuple hv_Nr, out HTuple hv_Nc, out HTuple hv_Dist);
-                        //生成xld直线
-                        HOperatorSet.GenContourPolygonXld(out ho_Cont, hv_RowBegin.TupleConcat(hv_RowEnd),
-            hv_ColBegin.TupleConcat(hv_ColEnd));
-
-
-
-                        //添加拟合直线后参数
-                        User_Drawing_Data.Lin_Xld_Data.RowBegin = hv_RowBegin;
-                        User_Drawing_Data.Lin_Xld_Data.ColBegin = hv_ColBegin;
-                        User_Drawing_Data.Lin_Xld_Data.RowEnd = hv_RowEnd;
-                        User_Drawing_Data.Lin_Xld_Data.ColEnd = hv_ColEnd;
-                        User_Drawing_Data.Lin_Xld_Data.Dist = hv_Dist;
-                        User_Drawing_Data.Lin_Xld_Data.Nc = hv_Nc;
-                        User_Drawing_Data.Lin_Xld_Data.Nr = hv_Nr;
-                        User_Drawing_Data.Lin_Xld_Data.Lin_Xld_Region = ho_Cont;
-
-                        User_Drawing_Data.Lin_Xld_Data.Xld_Region = new HObject(ho_Contour1);
-                        break;
-                    case Drawing_Type_Enme.Draw_Cir:
-
-                        //拟合xld圆弧
-                        HOperatorSet.FitCircleContourXld(ho_Contour1, "atukey", -1, 2, 0, 5, 2, out HTuple hv_Row,
-   out HTuple hv_Column, out HTuple hv_Radius, out HTuple hv_StartPhi, out HTuple hv_EndPhi, out HTuple hv_PointOrder);
-                        //显示xld圆弧
-                        HOperatorSet.GenCircleContourXld(out ho_Cont, hv_Row, hv_Column, hv_Radius,
-                            hv_StartPhi, hv_EndPhi, hv_PointOrder, 0.5);
-
-                        //添加拟合圆弧后参数
-                        User_Drawing_Data.Cir_Xld_Data.Row = hv_Row;
-                        User_Drawing_Data.Cir_Xld_Data.Column = hv_Column;
-                        User_Drawing_Data.Cir_Xld_Data.Radius = hv_Radius;
-                        User_Drawing_Data.Cir_Xld_Data.StartPhi = hv_StartPhi;
-                        User_Drawing_Data.Cir_Xld_Data.EndPhi = hv_EndPhi;
-                        User_Drawing_Data.Cir_Xld_Data.PointOrder = hv_PointOrder;
-                        User_Drawing_Data.Cir_Xld_Data.Cir_Xld_Region = ho_Cont;
-
-                        User_Drawing_Data.Cir_Xld_Data.Xld_Region = new HObject(ho_Contour1);
-
-
-                        break;
+                //显示UI
+                User_Drawing_Data.User_XLD = _Cir;
+                User_Drawing_Data.Number++;
+                //添加显示集合
+                Drawing_Data_List.Add(User_Drawing_Data);
 
                 }
 
-
-                //设置显示图像颜色
-                HOperatorSet.SetColor(Features_Window.HWindow, nameof(KnownColor.Green).ToLower());
-                HOperatorSet.SetLineWidth(Features_Window.HWindow, 3);
-
-                //把线段显示到控件窗口
-                HOperatorSet.DispXld(ho_Cont, Features_Window.HWindow);
-
-                //设置显示图像颜色
-                HOperatorSet.SetColor(Features_Window.HWindow, nameof(KnownColor.Red).ToLower());
-                HOperatorSet.SetLineWidth(Features_Window.HWindow, 1);
+            });
+        }
 
 
 
 
 
-                //创建点增加到UI显示
-                UC_Vision_Create_Template_ViewMode.Drawing_Data_List.Add(User_Drawing_Data);
-                //Messenger.Send<Vision_Create_Model_Drawing_Model, string>(User_Drawing_Data, nameof(Meg_Value_Eunm.Add_Draw_Data));
+        /// <summary>
+        /// 添加拟合特征点到UI集合
+        /// </summary>
+        public ICommand Lin_Draw_Ok_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
 
-                User_Drawing_Data = null;
+                MenuItem _E = Sm.Source as MenuItem;
+
+                HObject _Lin = new HObject();
 
 
-                //MessageBox.Show("X:" + _E.Row.ToString() + " Y:" + _E.Column.ToString());
-                //全部控件显示居中
+                //拟合直线
+                if (Display_Status(Halcon_SDK.Draw_Group_Lin(ref _Lin, User_Drawing_Data.Drawing_Data.ToList(), Features_Window.HWindow)).GetResult())
+                {
 
+               
+
+                //显示UI
+                User_Drawing_Data.User_XLD = _Lin;
+                User_Drawing_Data.Number++;
+
+                //添加显示集合
+                Drawing_Data_List.Add(User_Drawing_Data);
+
+     
+
+                }
 
 
             });
@@ -657,7 +555,7 @@ namespace HanGao.ViewModel
             {
                 Button E = Sm.Source as Button;
 
-   
+
 
 
             });
@@ -676,7 +574,7 @@ namespace HanGao.ViewModel
 
 
                 Vision_Xml_Method.Save_Xml(Find_Data_List);
-              
+
 
 
 
@@ -695,15 +593,16 @@ namespace HanGao.ViewModel
                 Button E = Sm.Source as Button;
 
 
-                int _ID_Number = Find_Data_List.Vision_List.Max(_Max => int.Parse( _Max.ID)) + 1;
+                int _ID_Number = Find_Data_List.Vision_List.Max(_Max => int.Parse(_Max.ID)) + 1;
 
                 if (Find_Data_List.Vision_List.Count <= 99)
                 {
 
                     Find_Data_List.Vision_List.OrderByDescending(_De => _De.ID);
                     Find_Data_List.Vision_List.Add(new Vision_Xml_Models() { ID = _ID_Number.ToString(), Date_Last_Revise = DateTime.Now.ToString() });
-                User_Log_Add("参数" + _ID_Number + "号是参数已新建！");
-                }else
+                    User_Log_Add("参数" + _ID_Number + "号是参数已新建！");
+                }
+                else
                 {
                     User_Log_Add("参数超过存储限制,请删除无用参数号！");
 
@@ -717,12 +616,12 @@ namespace HanGao.ViewModel
         /// </summary>
         public ICommand Delete_Vision_Data_Comm
         {
-            get => new RelayCommand<object >((Sm) =>
+            get => new RelayCommand<object>((Sm) =>
             {
                 if (Sm != null)
                 {
 
-                        Vision_Xml_Models _Vision = (Vision_Xml_Models)Sm;
+                    Vision_Xml_Models _Vision = (Vision_Xml_Models)Sm;
 
                     if (int.Parse(_Vision.ID) != 0)
                     {

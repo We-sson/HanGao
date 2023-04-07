@@ -590,6 +590,7 @@ namespace HanGao.ViewModel
         }
 
 
+
         /// <summary>
         /// 根据采集方式获取图像
         /// </summary>

@@ -899,40 +899,20 @@
                                         </i:Interaction.Triggers>
                                     </MenuItem>
 
-
-
-                                    <!--<MenuItem x:Name="Draw_Lin" Header="添加直线特征点">
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="Click">
-                                                <i:InvokeCommandAction Command="{Binding Add_Draw_Data_Comm}"
-                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                       PassEventArgsToCommand="True" />
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
-                                    </MenuItem>
-                                    <MenuItem x:Name="Draw_Cir" Header="添加圆弧特征点">
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="Click">
-                                                <i:InvokeCommandAction Command="{Binding Add_Draw_Data_Comm}"
-                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                       PassEventArgsToCommand="True" />
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
-                                    </MenuItem>-->
                                     <Separator />
-                                    <MenuItem x:Name="Draw_Ok" Header="特征组合直线">
+                                    <MenuItem x:Name="Lin_Draw_Ok" Header="特征组合直线">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Click">
-                                                <i:InvokeCommandAction Command="{Binding Add_Draw_Ok_Comm}"
+                                                <i:InvokeCommandAction Command="{Binding Lin_Draw_Ok_Comm}"
                                                                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                        PassEventArgsToCommand="True" />
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </MenuItem>
-                                    <MenuItem x:Name="Draw_Ok" Header="特征组合圆弧">
+                                    <MenuItem x:Name="Cir_Draw_Ok" Header="特征组合圆弧">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Click">
-                                                <i:InvokeCommandAction Command="{Binding Add_Draw_Ok_Comm}"
+                                                <i:InvokeCommandAction Command="{Binding Cir_Draw_Ok_Comm}"
                                                                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                        PassEventArgsToCommand="True" />
                                             </i:EventTrigger>
