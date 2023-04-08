@@ -932,5 +932,8 @@ namespace Halcon_SDK_DLL.Model
         XLD数据集合不足1组以上,
         XLD数据集合创建失败,
         Halcon文件类型读取失败,
+        提取匹配结果的XLD模型数量与计算数量不匹配,
+        提取匹配结果的XLD模型失败,
+
     }
 }
