@@ -439,7 +439,7 @@ namespace HanGao.ViewModel
         public MPR_Status_Model Connect_Camera()
         {
             //打开相机
-            if (Display_Status( MVS_Camera.Open_Camera()).GetResult())
+            if (Display_Status(MVS_Camera.Open_Camera()).GetResult())
             {
 
 
@@ -450,22 +450,22 @@ namespace HanGao.ViewModel
                 //Message
 
                 //设置相机总参数
-                if (Display_Status( MVS_Camera.Set_Camrea_Parameters_List(Camera_Parameter_Val)).GetResult())
+                if (Display_Status(MVS_Camera.Set_Camrea_Parameters_List(Camera_Parameter_Val)).GetResult())
                 {
-                   Camera_Connect_OK = true;
-                    return new MPR_Status_Model(MVE_Result_Enum.Run_OK) { Result_Error_Info="相机设置参数成功！" };
+                    Camera_Connect_OK = true;
+                    return new MPR_Status_Model(MVE_Result_Enum.Run_OK) { Result_Error_Info = "相机设置参数成功！" };
                 }
                 else
                 {
 
                     //User_Log_Add("相机设置参数错误，请检查参数！");
-                    return new MPR_Status_Model( MVE_Result_Enum.相机连接失败);
+                    return new MPR_Status_Model(MVE_Result_Enum.相机连接失败);
                 }
 
 
             }
 
-            return new MPR_Status_Model(MVE_Result_Enum.Run_OK);
+            return new MPR_Status_Model(MVE_Result_Enum.Run_OK) {  Result_Error_Info= MVS_Camera.Camera+"相机连接成功！" };
 
         }
 
@@ -689,7 +689,7 @@ namespace HanGao.ViewModel
                     //发送显示图像位置
                     _Window.DispObj(Image);
 
-                    return new HPR_Status_Model(HVE_Result_Enum.Run_OK);
+                    return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info= MVS_Camera.Camera.ToString()+"相机图像采集成功！" };
                 }
                 else
                 {

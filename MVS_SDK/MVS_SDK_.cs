@@ -493,7 +493,7 @@ namespace MVS_SDK
                 }
             }
 
-            return new MPR_Status_Model(MVE_Result_Enum.Run_OK);
+            return new MPR_Status_Model(MVE_Result_Enum.Run_OK) { Result_Error_Info="相机参数全部设置成功！" };
 
             }
 

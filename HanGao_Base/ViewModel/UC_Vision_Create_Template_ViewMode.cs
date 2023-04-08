@@ -1,10 +1,13 @@
 ﻿using Microsoft.Win32;
 using Ookii.Dialogs.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Web.UI.Design;
+using System.Windows;
 using System.Windows.Media.Media3D;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
@@ -59,6 +62,7 @@ namespace HanGao.ViewModel
                 Pos_List_Model _Point_List = new Pos_List_Model();
                 HWindow _Window = new HWindow();
                 Calibration_Data_Send _Send = new Calibration_Data_Send();
+                Halcon_Find_Shape_Out_Parameter Halcon_Find_Shape_Out = new Halcon_Find_Shape_Out_Parameter();
                 //UI显示接收信息内容
                 UC_Vision_Robot_Protocol_ViewModel.Receive_Socket_String = _RStr;
 
@@ -88,12 +92,12 @@ namespace HanGao.ViewModel
 
 
                         //读取模型文件
-                        if (Display_Status( Read_Shape_ModelXld(ref _ModelXld, ref _Model_objects, _Data_Xml.Find_Shape_Data.Shape_Based_Model, (ShapeModel_Name_Enum)Enum.Parse(typeof(ShapeModel_Name_Enum), _S.Find_Model.Vision_Area), Vision_Sink.Sink_Process.Vision_Find_Shape_ID)).GetResult())
+                        if (Display_Status(Read_Shape_ModelXld(ref _ModelXld, ref _Model_objects, _Data_Xml.Find_Shape_Data.Shape_Based_Model, (ShapeModel_Name_Enum)Enum.Parse(typeof(ShapeModel_Name_Enum), _S.Find_Model.Vision_Area), Vision_Sink.Sink_Process.Vision_Find_Shape_ID)).GetResult())
                         {
 
 
                             //读取矩阵文件
-                            if (Display_Status( Halcon_SDK.Read_Mat2d_Method(ref _Mat2D, _S.Find_Model.Vision_Area, _S.Find_Model.Work_Area)).GetResult())
+                            if (Display_Status(Halcon_SDK.Read_Mat2d_Method(ref _Mat2D, _S.Find_Model.Vision_Area, _S.Find_Model.Work_Area)).GetResult())
                             {
                                 Console.WriteLine("1:" + (DateTime.Now - _Run));
 
@@ -117,7 +121,7 @@ namespace HanGao.ViewModel
                                             Console.WriteLine("2:" + (DateTime.Now - _Run));
 
                                             //识别图像特征
-                                            if (Find_Model_Method(_Window, _ModelXld, _Model_objects, _Image, Vision_Auto_Cofig.Find_TimeOut_Millisecond, _Mat2D))
+                                            if (Find_Model_Method(ref Halcon_Find_Shape_Out, _Window, _ModelXld, _Model_objects, _Image, Vision_Auto_Cofig.Find_TimeOut_Millisecond, _Mat2D))
                                             {
 
                                                 Console.WriteLine("3:" + (DateTime.Now - _Run));
@@ -178,6 +182,10 @@ namespace HanGao.ViewModel
 
 
                                             }
+                                          
+                                            
+                                            
+                                            
                                             else
                                             {
 
@@ -306,7 +314,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 模型文件UI显示集合
         /// </summary>
-        public ObservableCollection<FileInfo> Shape_FileFull_UI { set; get; } = new ObservableCollection<FileInfo>() {  };
+        public ObservableCollection<FileInfo> Shape_FileFull_UI { set; get; } = new ObservableCollection<FileInfo>() { };
 
 
         private static ObservableCollection<Vision_Create_Model_Drawing_Model> Drawing_Data_List_M { get; set; } = new ObservableCollection<Vision_Create_Model_Drawing_Model>();
@@ -332,7 +340,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 保存添加模型点属性
         /// </summary>
-        public static  Vision_Create_Model_Drawing_Model User_Drawing_Data { set; get; } = new Vision_Create_Model_Drawing_Model();
+        public static Vision_Create_Model_Drawing_Model User_Drawing_Data { set; get; } = new Vision_Create_Model_Drawing_Model();
 
 
         /// <summary>
@@ -387,7 +395,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 一般形状模型匹配查找结果属性
         /// </summary>
-        public Halcon_Find_Shape_Out_Parameter Halcon_Find_Shape_Out { set; get; } = new Halcon_Find_Shape_Out_Parameter();
+        //public Halcon_Find_Shape_Out_Parameter Halcon_Find_Shape_Out { set; get; } = new Halcon_Find_Shape_Out_Parameter();
 
 
 
@@ -570,7 +578,7 @@ namespace HanGao.ViewModel
                         {
                             //Shape_FileFull_UI.Add(new Shape_FileFull_UI_Model() { File_Name = _File.Name, File_Directory = _File.FullName });
                             Shape_FileFull_UI.Add(_File);
-                            
+
                         }
 
                     }
@@ -589,8 +597,8 @@ namespace HanGao.ViewModel
                 ComboBox E = Sm.Source as ComboBox;
 
                 FileInfo _Shape = (FileInfo)E.SelectedValue as FileInfo;
-               HTuple _ModelID = new  HTuple();
-               HObject _ModelContours =new  HObject ();
+                HTuple _ModelID = new HTuple();
+                HObject _ModelContours = new HObject();
 
                 if (_Shape != null)
                 {
@@ -599,22 +607,22 @@ namespace HanGao.ViewModel
                     //FileInfo _File = new FileInfo(_Shape.File_Directory);
 
 
-                    
 
-                    if (Display_Status(Halcon_SDK.Read_Halcon_Type_File(ref _ModelID, ref _ModelContours, _Shape )).GetResult())
+
+                    if (Display_Status(Halcon_SDK.Read_Halcon_Type_File(ref _ModelID, ref _ModelContours, _Shape)).GetResult())
                     {
                         Features_Window.HWindow.ClearWindow();
 
 
-               
 
-                            Features_Window.HWindow.DispObj(_ModelContours);
+
+                        Features_Window.HWindow.DispObj(_ModelContours);
 
 
 
 
                     }
-                    
+
 
 
                     //读取文件修改
@@ -735,16 +743,16 @@ namespace HanGao.ViewModel
 
 
                 //判断集合是否有数据
-                if (Drawing_Data_List.Count>0)
+                if (Drawing_Data_List.Count > 0)
                 {
 
                     List<HObject> _AllXLd = new List<HObject>();
 
-                   //合并全部xld数据
-                foreach (var _User_Xld in Drawing_Data_List)
-                {
+                    //合并全部xld数据
+                    foreach (var _User_Xld in Drawing_Data_List)
+                    {
                         _AllXLd.Add(_User_Xld.User_XLD);
-                }
+                    }
 
                     if (Display_Status(Halcon_SDK.Group_All_XLD(ref _ModelsXld, Features_Window.HWindow, _AllXLd)).GetResult())
                     {
@@ -769,8 +777,8 @@ namespace HanGao.ViewModel
                                     {
 
                                         User_Log_Add("创建区域：" + Halcon_Create_Shape_ModelXld_UI.ShapeModel_Name.ToString() + "，创建ID号：" + Halcon_Create_Shape_ModelXld_UI.Create_ID.ToString() + "，创建模型特征成功！");
-                                    
-                                    
+
+
                                     }
 
                                 }
@@ -832,17 +840,17 @@ namespace HanGao.ViewModel
 
 
                 Display_Status(Halcon_SDK.Read_ModelsXLD_File(ref _ModelID, ref _Model_objects, _Model_Enum, _PathList));
-           
 
 
 
 
-                return new HPR_Status_Model( HVE_Result_Enum.Run_OK) ;
+
+                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info= "读取模型文件方法成功！" };
             }
             else
             {
-               
-                return new HPR_Status_Model ( HVE_Result_Enum.读取全部模型文件失败);
+
+                return new HPR_Status_Model(HVE_Result_Enum.读取全部模型文件失败);
             }
 
 
@@ -902,20 +910,20 @@ namespace HanGao.ViewModel
                 HObject _ModelXld = new HObject();
                 Pos_List_Model Out_Point = new Pos_List_Model();
                 HObject _Image = new HObject();
-
+                Halcon_Find_Shape_Out_Parameter _Find_Result = new Halcon_Find_Shape_Out_Parameter();
 
                 Task.Run(() =>
                 {
 
                     //读取模型文件
-                    if (Display_Status( Read_Shape_ModelXld(ref _ModelID, ref _ModelContours, Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model, Halcon_Find_Shape_ModelXld_UI.ShapeModel_Name, Halcon_Find_Shape_ModelXld_UI.FInd_ID)).GetResult())
+                    if (Display_Status(Read_Shape_ModelXld(ref _ModelID, ref _ModelContours, Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model, Halcon_Find_Shape_ModelXld_UI.ShapeModel_Name, Halcon_Find_Shape_ModelXld_UI.FInd_ID)).GetResult())
                     {
                         //读取图片
-                        if (Display_Status( Get_Image(ref _Image, Get_Image_Model, Features_Window.HWindow, Image_Location_UI)).GetResult())
+                        if (Display_Status(Get_Image(ref _Image, Get_Image_Model, Features_Window.HWindow, Image_Location_UI)).GetResult())
                         {
 
                             //查找模型
-                            Find_Model_Method(Features_Window.HWindow, _ModelID, _ModelContours, _Image, 999999999);
+                            Find_Model_Method(ref _Find_Result, Features_Window.HWindow, _ModelID, _ModelContours, _Image, 999999999,null);
 
                         }
 
@@ -948,7 +956,7 @@ namespace HanGao.ViewModel
                     if (Display_Status(Get_Image(ref _Image, Get_Image_Model, Features_Window.HWindow, Image_Location_UI)).GetResult())
                     {
                         //图像预处理
-                       Display_Status( Halcon_SDK.Halcon_Image_Pre_Processing(ref _Image, Features_Window.HWindow, Halcon_Find_Shape_ModelXld_UI));
+                        Display_Status(Halcon_SDK.Halcon_Image_Pre_Processing(ref _Image, Features_Window.HWindow, Halcon_Find_Shape_ModelXld_UI));
 
 
                     }
@@ -972,7 +980,7 @@ namespace HanGao.ViewModel
         /// <param name="_Action"></param>
         /// <param name="_TimeOut"></param>
         /// <returns></returns>
-        public bool Theah_Run_TimeOut(Action _Action, int _TimeOut)
+        public bool Theah_Run_TimeOut<T1>(Action<T1> _Action, T1 _Vale, int _TimeOut)
         {
 
 
@@ -980,8 +988,10 @@ namespace HanGao.ViewModel
             Action wrappedAction = () =>
             {
                 threadToKill = Thread.CurrentThread;
-                _Action();
+                _Action(_Vale);
             };
+
+
 
             IAsyncResult result = wrappedAction.BeginInvoke(null, null);
             if (result.AsyncWaitHandle.WaitOne(_TimeOut))
@@ -1002,6 +1012,21 @@ namespace HanGao.ViewModel
 
 
 
+
+
+        private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+    
+
+
+
+
+
+
+
         /// <summary>
         /// 查找模型方法
         /// </summary>
@@ -1011,271 +1036,171 @@ namespace HanGao.ViewModel
         /// <param name="_TheadTime">查找超时设置</param>
         /// <param name="_Math2D"></param>
         /// <returns></returns>
-        public bool Find_Model_Method(HWindow _Window, List<HTuple> _ModelID, List<HObject> _Model_objects, HObject _Iamge, int _TheadTime, HTuple _Math2D = null)
+        public bool Find_Model_Method(ref Halcon_Find_Shape_Out_Parameter Halcon_Find_Shape_Out, HWindow _Window, List<HTuple> _ModelID, List<HObject> _Model_objects, HObject _Iamge, int _TheadTime, HTuple _Math2D)
         {
 
 
 
             //_Point_List = new Pos_List_Model();
-            HTuple IsOverlapping = new HTuple();
-            HTuple Row1 = new HTuple();
-            HTuple Column1 = new HTuple();
-            HTuple C_P_Row = new HTuple();
-            HTuple C_P_Col = new HTuple();
-            HTuple L_RP1 = new HTuple();
-            HTuple L_CP1 = new HTuple();
-            HTuple L_RP2 = new HTuple();
-            HTuple L_CP2 = new HTuple();
-            HTuple L_RP3 = new HTuple();
-            HTuple L_CP3 = new HTuple();
-            HTuple hv_Text = new HTuple();
-            HTuple _Qx = new HTuple();
-            HTuple _Qy = new HTuple();
-            HObject Halcon_ModelXld = new HObject();
-            HObject _Line_1 = new HObject();
-            HObject _Line_2 = new HObject();
-            HObject _Line_3 = new HObject();
-            HObject _Line_4 = new HObject();
-            HObject _Cir_1 = new HObject();
-
-            bool _IsState = false;
+            //HTuple IsOverlapping = new HTuple();
+            //HTuple Row1 = new HTuple();
+            //HTuple Column1 = new HTuple();
+            //HTuple C_P_Row = new HTuple();
+            //HTuple C_P_Col = new HTuple();
+            //HTuple L_RP1 = new HTuple();
+            //HTuple L_CP1 = new HTuple();
+            //HTuple L_RP2 = new HTuple();
+            //HTuple L_CP2 = new HTuple();
+            //HTuple L_RP3 = new HTuple();
+            //HTuple L_CP3 = new HTuple();
+            //HTuple hv_Text = new HTuple();
+            //HTuple _Qx = new HTuple();
+            //HTuple _Qy = new HTuple();
+            //HObject Halcon_ModelXld = new HObject();
+            //HObject _Line_1 = new HObject();
+            //HObject _Line_2 = new HObject();
+            //HObject _Line_3 = new HObject();
+            //HObject _Line_4 = new HObject();
+            //HObject _Cir_1 = new HObject();
+            //bool _IsState = false;
 
 
             Find_Text_Models_UI_IsEnable = false;
+            //Halcon_Find_Shape_Out = new Halcon_Find_Shape_Out_Parameter();
+
+            //try
+            //{
 
 
-            try
+            //超时方法,退出线程
+            //_IsState = Theah_Run_TimeOut(new Action(() =>
+            //   {
+
+            //控件执行操作限制
+            //Console.WriteLine("开始线程");
+
+
+
+
+
+
+            //查找图像模型
+
+            if (Display_Status(Halcon_SDK.Find_Deformable_Model(ref Halcon_Find_Shape_Out, _Window, _Iamge, _ModelID, Halcon_Find_Shape_ModelXld_UI)).GetResult())
             {
 
 
-                //超时方法,退出线程
-                _IsState = Theah_Run_TimeOut(new Action(() =>
-                   {
+                if (Display_Status(Halcon_SDK.ProjectiveTrans_Xld(ref _Model_objects, _ModelID, Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model, Halcon_Find_Shape_Out, _Window)).GetResult())
+                {
 
-                       //控件执行操作限制
-                       //Console.WriteLine("开始线程");
 
 
 
 
 
-                       //查找图像模型
-                       Halcon_Find_Shape_Out = Halcon_SDK.Find_Deformable_Model(_Window, _Iamge, _ModelID, Halcon_Find_Shape_ModelXld_UI);
+                    if (Display_Status(Halcon_SDK.Match_Model_XLD_Pos(ref Halcon_Find_Shape_Out, _Model_objects, Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model, _Window, _Math2D)).GetResult())
+                    {
 
-                       if (Display_Status(Halcon_SDK.ProjectiveTrans_Xld(ref _Model_objects, _ModelID, Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model, Halcon_Find_Shape_Out, _Window)).GetResult())
-                       {
 
 
 
 
+                        //控件执行操作限制解除
+                        //Halcon_Find_Shape_Out.Vision_Pos = _Point_List.Vision_Pos;
+                        //Halcon_Find_Shape_Out.Robot_Pos= _Point_List.Robot_Pos;
 
-                           if (Halcon_Find_Shape_Out.FInd_Results)
-                           {
 
+                        //床送结果到UI显示
+                        Messenger.Send<Halcon_Find_Shape_Out_Parameter, string>(Halcon_Find_Shape_Out, nameof(Meg_Value_Eunm.Find_Shape_Out));
+                        Find_Text_Models_UI_IsEnable = true;
+                        return true;
 
-                               if (Display_Status(Halcon_SDK.Get_Model_Match_XLD(ref _Line_1, ref _Cir_1, ref _Line_2, ref _Line_3, ref _Line_4, _Model_objects, Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model)).GetResult())
-                               {
+                    }
+                    else
+                    {
 
+                        //hv_Text = hv_Text.TupleConcat("识别用时 : " + Halcon_Find_Shape_Out.Find_Time + "毫秒，" + "图像分数 : 未知");
+                        //Halcon_Find_Shape_Out.Text_Arr_UI = new List<string>(hv_Text.SArr);
+                        //Halcon_Find_Shape_Out.Score = 0;
 
-                               //提取位置信息
 
+                        //床送结果到UI显示
+                        Messenger.Send<Halcon_Find_Shape_Out_Parameter, string>(Halcon_Find_Shape_Out, nameof(Meg_Value_Eunm.Find_Shape_Out));
+                        //控件执行操作限制解除
+                        Find_Text_Models_UI_IsEnable = true;
+                        return false;
 
-                               //提出XLD数据特征
-                               HOperatorSet.GetContourXld(_Line_1, out HTuple Row_1, out HTuple Col_1);
-                               HOperatorSet.GetContourXld(_Cir_1, out HTuple Row_2, out HTuple Col_2);
-                               HOperatorSet.GetContourXld(_Line_2, out HTuple Row_3, out HTuple Col_3);
-                               HOperatorSet.GetContourXld(_Line_3, out HTuple Row_4, out HTuple Col_4);
-                               HOperatorSet.GetContourXld(_Line_4, out HTuple Row_5, out HTuple Col_5);
+                    }
 
-                               //得到圆弧中间点
 
-                               C_P_Row = Row_2.TupleSelect((Row_2.TupleLength() / 2));
-                               C_P_Col = Col_2.TupleSelect((Col_2.TupleLength() / 2));
 
-                               Row1 = Row1.TupleConcat(C_P_Row);
-                               Column1 = Column1.TupleConcat(C_P_Col);
+                
+                }
 
-
-                               //计算直线角度
-                               HOperatorSet.AngleLl(Row_3.TupleSelect(1), Col_3.TupleSelect(1), Row_3.TupleSelect(0),
-                                                                   Col_3.TupleSelect(0), Row_1.TupleSelect(0), Col_1.TupleSelect(
-                                                                   0), Row_1.TupleSelect(1), Col_1.TupleSelect(1), out HTuple _Angle);
-
-                               //计算直线交点
-                               HOperatorSet.IntersectionLines(Row_1.TupleSelect(1), Col_1.TupleSelect(
-                                                                   1), Row_1.TupleSelect(0), Col_1.TupleSelect(0), Row_3.TupleSelect(
-                                                                    0), Col_3.TupleSelect(0), Row_3.TupleSelect(1), Col_3.TupleSelect(
-                                                                   1), out L_RP1, out L_CP1, out IsOverlapping);
-
-
-                               Row1 = Row1.TupleConcat(L_RP1);
-                               Column1 = Column1.TupleConcat(L_CP1);
-
-                               //计算直线交点
-                               HOperatorSet.IntersectionLines(Row_3.TupleSelect(1), Col_3.TupleSelect(
-                                                                   1), Row_3.TupleSelect(0), Col_3.TupleSelect(0), Row_4.TupleSelect(
-                                                                    0), Col_4.TupleSelect(0), Row_4.TupleSelect(1), Col_4.TupleSelect(
-                                                                   1), out L_RP2, out L_CP2, out IsOverlapping);
-
-                               Row1 = Row1.TupleConcat(L_RP2);
-                               Column1 = Column1.TupleConcat(L_CP2);
-
-                               //计算直线交点
-                               HOperatorSet.IntersectionLines(Row_4.TupleSelect(1), Col_4.TupleSelect(
-                                                                   1), Row_4.TupleSelect(0), Col_4.TupleSelect(0), Row_5.TupleSelect(
-                                                                    0), Col_5.TupleSelect(0), Row_5.TupleSelect(1), Col_5.TupleSelect(
-                                                                   1), out L_RP3, out L_CP3, out IsOverlapping);
-
-                               Row1 = Row1.TupleConcat(L_RP3);
-                               Column1 = Column1.TupleConcat(L_CP3);
-
-
-                               //生成十字架
-                               HOperatorSet.GenCrossContourXld(out HObject _Cross, Row1, Column1, 80, (new HTuple(45)).TupleRad());
-
-                               hv_Text = hv_Text.TupleConcat("识别用时 : " + Halcon_Find_Shape_Out.Find_Time + "毫秒.");
-
-                               foreach (var _Score in Halcon_Find_Shape_Out.Score)
-                               {
-                                   hv_Text = hv_Text.TupleConcat("图像分数 : " + Math.Round(_Score, 3));
-                               }
-
-
-
-
-
-                               //清空集合
-                               Halcon_Find_Shape_Out.Robot_Pos.Clear();
-                               Halcon_Find_Shape_Out.Vision_Pos.Clear();
-
-                               //转换图像坐标到机器坐标
-                               for (int i = 0; i < Row1.Length; i++)
-                               {
-                                   double _OX = Math.Round(Row1.TupleSelect(i).D, 3);
-                                   double _OY = Math.Round(Column1.TupleSelect(i).D, 3);
-
-                                   //没有矩阵数据跳过转换坐标
-                                   if (_Math2D != null)
-                                   {
-                                       HOperatorSet.AffineTransPoint2d(_Math2D, _OX, _OY, out _Qx, out _Qy);
-                                   }
-                                   else
-                                   {
-                                       _Qx = 0; _Qy = 0;
-                                   }
-
-
-                                   hv_Text[i + 1] = "图像坐标_" + i + " X : " + _OX + " Y : " + _OY + " | 机器坐标_" + "X : " + _Qx + " Y : " + _Qy;
-                                   Halcon_Find_Shape_Out.Robot_Pos.Add(new Point3D(Math.Round(_Qx.D, 3), Math.Round(_Qy.D, 3), 0));
-
-                                   _Window.DispText(i + "号", "image", _OX + 50, _OY - 50, "black", "box", "true");
-
-                                   Halcon_Find_Shape_Out.Vision_Pos.Add(new Point3D(_OX, _OY, 0));
-                               }
-
-
-
-                               hv_Text = hv_Text.TupleConcat("夹角: " + Math.Round(_Angle.TupleDeg().D, 3));
-
-                               Halcon_Find_Shape_Out.Text_Arr_UI = new List<string>(hv_Text.SArr);
-
-                               Halcon_Find_Shape_Out.Right_Angle = Math.Round(_Angle.TupleDeg().D, 3);
-
-
-
-
-                               //设置显示图像颜色
-                               _Window.SetColor(nameof(KnownColor.Green).ToLower());
-                               _Window.SetLineWidth(3);
-                               //显示十字架
-                               _Window.DispObj(_Cross);
-                               //设置显示图像颜色
-                               _Window.SetColor(nameof(KnownColor.Red).ToLower());
-                               _Window.SetLineWidth(1);
-                               _Window.SetPart(0, 0, -2, -2);
-
-
-
-                           }
-
-
-                       }
-                       //  Console.WriteLine("结束线程");
-                       }
-
-                   }), _TheadTime);
-
-            }
-
-            catch (Exception e)
-            {
-                User_Log_Add("识别特征错误,,错误信息:" + e.Message);
-
-                _IsState = false;
-            }
-            finally
-            {
-
-
-                //清除内存
-                Halcon_ModelXld.Dispose();
-                IsOverlapping.Dispose();
-                Row1.Dispose();
-                Column1.Dispose();
-                C_P_Row.Dispose();
-                C_P_Col.Dispose();
-                L_RP1.Dispose();
-                L_CP1.Dispose();
-                L_RP2.Dispose();
-                L_CP2.Dispose();
-                L_RP3.Dispose();
-                L_CP3.Dispose();
-                hv_Text.Dispose();
-                _Qx.Dispose();
-                _Qy.Dispose();
             }
 
 
 
-            if (Halcon_Find_Shape_Out.Score.Where((_W) => _W != 0).Count() > 1 && _IsState)
+            return false; 
 
-            {
+            //}), _TheadTime);
 
+            //}
 
+            //catch (Exception e)
+            //{
+            //    User_Log_Add("识别特征错误,,错误信息:" + e.Message);
 
-
-                User_Log_Add("特征图像识别成功");
-
-                //控件执行操作限制解除
-                Find_Text_Models_UI_IsEnable = true;
-                //Halcon_Find_Shape_Out.Vision_Pos = _Point_List.Vision_Pos;
-                //Halcon_Find_Shape_Out.Robot_Pos= _Point_List.Robot_Pos;
-                Halcon_Find_Shape_Out.DispWiindow = _Window;
-                //床送结果到UI显示
-                Messenger.Send<Halcon_Find_Shape_Out_Parameter, string>(Halcon_Find_Shape_Out, nameof(Meg_Value_Eunm.Find_Shape_Out));
-                Find_Text_Models_UI_IsEnable = true;
-
-                return true;
+            //    _IsState = false;
+            //}
+            //finally
+            //{
 
 
-            }
-            else
-            {
+            //    //清除内存
+            //    //Halcon_ModelXld.Dispose();
+            //    //IsOverlapping.Dispose();
+            //    //Row1.Dispose();
+            //    //Column1.Dispose();
+            //    //C_P_Row.Dispose();
+            //    //C_P_Col.Dispose();
+            //    //L_RP1.Dispose();
+            //    //L_CP1.Dispose();
+            //    //L_RP2.Dispose();
+            //    //L_CP2.Dispose();
+            //    //L_RP3.Dispose();
+            //    //L_CP3.Dispose();
+            //    //hv_Text.Dispose();
+            //    //_Qx.Dispose();
+            //    //_Qy.Dispose();
+            //}
 
-                User_Log_Add("特征图像中无法找到特征，请检查光照和环境因素！");
-                hv_Text = hv_Text.TupleConcat("识别用时 : " + Halcon_Find_Shape_Out.Find_Time + "毫秒，" + "图像分数 : 未知");
-                Halcon_Find_Shape_Out.Text_Arr_UI = new List<string>(hv_Text.SArr);
-                //Halcon_Find_Shape_Out.Score = 0;
-                //床送结果到UI显示
-                Messenger.Send<Halcon_Find_Shape_Out_Parameter, string>(Halcon_Find_Shape_Out, nameof(Meg_Value_Eunm.Find_Shape_Out));
-                //控件执行操作限制解除
-                Find_Text_Models_UI_IsEnable = true;
 
-                return false;
-            }
+
+            //if (Halcon_Find_Shape_Out.Score.Where((_W) => _W != 0).Count() > 1 && _IsState)
+
+            //{
+
+
+
+
+
+
+            //    return true;
+
+
+            //}
+            //else
+            //{
+
+
+
+            //    return false;
+            //}
 
 
         }
+
 
 
 
@@ -1523,7 +1448,7 @@ namespace HanGao.ViewModel
                 HObject _Image = new HObject();
 
 
-               Display_Status( Get_Image(ref _Image, Get_Image_Model, Features_Window.HWindow, Image_Location_UI));
+                Display_Status(Get_Image(ref _Image, Get_Image_Model, Features_Window.HWindow, Image_Location_UI));
 
 
 
@@ -1552,7 +1477,7 @@ namespace HanGao.ViewModel
 
                 //Vision_Create_Model_Drawing_Model _Data = _B.DataContext as Vision_Create_Model_Drawing_Model;
 
-          
+
                 //清除控件显示
                 HOperatorSet.ClearWindow(Features_Window.HWindow);
 
