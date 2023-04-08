@@ -1277,7 +1277,7 @@ namespace Halcon_SDK_DLL
                     foreach (var _P in _Point)
                     {
                         HOperatorSet.TupleConcat(_Row, _P.X, out _Row);
-                        HOperatorSet.TupleConcat(_Col, _P.X, out _Col);
+                        HOperatorSet.TupleConcat(_Col, _P.Y, out _Col);
                     }
 
                     HOperatorSet.GenContourPolygonXld(out HObject Cir_Contour, _Row, _Col);
@@ -1289,7 +1289,7 @@ namespace Halcon_SDK_DLL
 
                     //根据描绘点生产线段
                     //设置显示图像颜色
-                    HOperatorSet.SetColor(_Window, nameof(KnownColor.LightPink).ToLower());
+                    HOperatorSet.SetColor(_Window, nameof(KnownColor.Blue).ToLower());
                     HOperatorSet.SetLineWidth(_Window, 3);
 
                     //把线段显示到控件窗口
@@ -1405,7 +1405,7 @@ namespace Halcon_SDK_DLL
                     foreach (var _P in _Point)
                     {
                         HOperatorSet.TupleConcat(_Row, _P.X, out _Row);
-                        HOperatorSet.TupleConcat(_Col, _P.X, out _Col);
+                        HOperatorSet.TupleConcat(_Col, _P.Y, out _Col);
                     }
 
 

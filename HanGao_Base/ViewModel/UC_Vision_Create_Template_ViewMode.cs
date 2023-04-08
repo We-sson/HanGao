@@ -330,6 +330,12 @@ namespace HanGao.ViewModel
 
 
         /// <summary>
+        /// 保存添加模型点属性
+        /// </summary>
+        public static  Vision_Create_Model_Drawing_Model User_Drawing_Data { set; get; } = new Vision_Create_Model_Drawing_Model();
+
+
+        /// <summary>
         /// UI绑定查找模型区域名字
         /// </summary>
         public ShapeModel_Name_Enum Find_ShapeModel_Name { set; get; } = ShapeModel_Name_Enum.F_45;
@@ -1533,10 +1539,11 @@ namespace HanGao.ViewModel
 
           
                 //清除控件显示
-                HOperatorSet.ClearWindow(UC_Visal_Function_VM.Features_Window.HWindow);
+                HOperatorSet.ClearWindow(Features_Window.HWindow);
 
                 //移除集合中的对象
-                UC_Vision_Create_Template_ViewMode.Drawing_Data_List.Clear();
+                Drawing_Data_List = new ObservableCollection<Vision_Create_Model_Drawing_Model>();
+                User_Drawing_Data = new Vision_Create_Model_Drawing_Model();
 
                 User_Log_Add("清除全部XLD特征成功! ");
 
@@ -1560,8 +1567,12 @@ namespace HanGao.ViewModel
     [AddINotifyPropertyChangedInterface]
     public class Vision_Create_Model_Drawing_Model
     {
+        public Vision_Create_Model_Drawing_Model( )
+        {
 
-        public int Number { set; get; } = 0;
+        }
+
+        //public int Number { set; get; } = 0;
 
         public Drawing_Type_Enme Drawing_Type { set; get; } = new Drawing_Type_Enme();
 

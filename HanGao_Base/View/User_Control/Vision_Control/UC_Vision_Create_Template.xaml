@@ -260,7 +260,7 @@
                                               ColumnHeaderHeight="40"
                                               ColumnHeaderStyle="{DynamicResource Point_UI_DataGridColumnHeaderStyle}"
                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                              FrozenColumnCount="3"
+                                              FrozenColumnCount="2"
                                               GridLinesVisibility="Horizontal"
                                               HeadersVisibility="Column"
                                               ItemsSource="{Binding Drawing_Data_List}"
@@ -270,10 +270,7 @@
                                               SelectionUnit="CellOrRowHeader">
 
                                         <DataGrid.Columns>
-
-
-
-                                            <DataGridTemplateColumn Width="auto" IsReadOnly="True">
+                                            <!--<DataGridTemplateColumn Width="auto" IsReadOnly="True">
                                                 <DataGridTemplateColumn.Header>
                                                     <TextBlock Text="图号"
                                                                Margin="4"
@@ -292,7 +289,7 @@
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
 
-                                            </DataGridTemplateColumn>
+                                            </DataGridTemplateColumn>-->
 
                                             <DataGridTemplateColumn Width="auto">
                                                 <DataGridTemplateColumn.Header>
@@ -307,6 +304,7 @@
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Drawing_Type}"
+                                                                   Margin="4"
                                                                    HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center"
                                                                    FontSize="14" />
@@ -351,7 +349,7 @@
 
                                             </DataGridTemplateColumn>
 
-                                   
+
                                             <DataGridTemplateColumn CanUserResize="False">
                                                 <DataGridTemplateColumn.Header>
 

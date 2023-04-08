@@ -142,10 +142,7 @@ namespace HanGao.ViewModel
 
 
 
-        /// <summary>
-        /// 保存添加模型点属性
-        /// </summary>
-        public Vision_Create_Model_Drawing_Model User_Drawing_Data { set; get; } = new Vision_Create_Model_Drawing_Model();
+
 
 
 
@@ -350,7 +347,7 @@ namespace HanGao.ViewModel
                     {
                         var a = e.Message;
                         Mouse_Pos_Gray = -1;
-                   
+
                     }
 
                 }
@@ -390,13 +387,13 @@ namespace HanGao.ViewModel
                 if (Display_Status(Halcon_SDK.Draw_Cross(ref _Cross, Features_Window.HWindow, Halcon_Position.X, Halcon_Position.Y)).GetResult())
                 {
 
-                
 
 
-                //情况之前的数据
-                User_Drawing_Data.Drawing_Data.Clear();
-                //添加坐标点数据
-                User_Drawing_Data.Drawing_Data.Add(new Point3D(Math.Round(Halcon_Position.X, 3), Math.Round(Halcon_Position.Y, 3), 0));
+
+                    //情况之前的数据
+                    //User_Drawing_Data.Drawing_Data.Clear();
+                    //添加坐标点数据
+                    User_Drawing_Data.Drawing_Data.Add(new Point3D(Math.Round(Halcon_Position.X, 3), Math.Round(Halcon_Position.Y, 3), 0));
 
                 }
 
@@ -415,6 +412,7 @@ namespace HanGao.ViewModel
             {
 
                 MenuItem _E = Sm.Source as MenuItem;
+           
 
 
                 HObject _Cir = new HObject();
@@ -423,15 +421,19 @@ namespace HanGao.ViewModel
                 if (Display_Status(Halcon_SDK.Draw_Group_Cir(ref _Cir, User_Drawing_Data.Drawing_Data.ToList(), Features_Window.HWindow)).GetResult())
                 {
 
-                //拟合直线
-         
+                    //拟合直线
 
-                //显示UI
-                User_Drawing_Data.User_XLD = _Cir;
-                User_Drawing_Data.Number++;
-                //添加显示集合
-                Drawing_Data_List.Add(User_Drawing_Data);
 
+                    //显示UI
+                    User_Drawing_Data.User_XLD = _Cir;
+   
+                    User_Drawing_Data.Drawing_Type = Drawing_Type_Enme.Draw_Cir;
+                    //添加显示集合
+      
+                    Drawing_Data_List.Add(User_Drawing_Data);
+
+                    //情况之前的数据
+                    User_Drawing_Data = new Vision_Create_Model_Drawing_Model();
                 }
 
             });
@@ -452,22 +454,25 @@ namespace HanGao.ViewModel
                 MenuItem _E = Sm.Source as MenuItem;
 
                 HObject _Lin = new HObject();
+     
 
 
                 //拟合直线
                 if (Display_Status(Halcon_SDK.Draw_Group_Lin(ref _Lin, User_Drawing_Data.Drawing_Data.ToList(), Features_Window.HWindow)).GetResult())
                 {
 
+
+
+                    //显示UI
+                    User_Drawing_Data.User_XLD = _Lin;
+                    User_Drawing_Data.Drawing_Type = Drawing_Type_Enme.Draw_Lin;
+                    //添加显示集合
                
+                    Drawing_Data_List.Add(User_Drawing_Data);
 
-                //显示UI
-                User_Drawing_Data.User_XLD = _Lin;
-                User_Drawing_Data.Number++;
+                    //情况之前的数据
+                    User_Drawing_Data = new Vision_Create_Model_Drawing_Model();
 
-                //添加显示集合
-                Drawing_Data_List.Add(User_Drawing_Data);
-
-     
 
                 }
 
