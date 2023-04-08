@@ -55,55 +55,55 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 查找模型结果数据类型
         /// </summary>
-        public class Find_Planar_Out_Model
-        {
-            public double row { set; get; } = 0;
-            public double column { set; get; } = 0;
-            public double angle { set; get; } = 0;
-            public double score { set; get; } = 0;
+        //public class Find_Planar_Out_Model
+        //{
+        //    public double row { set; get; } = 0;
+        //    public double column { set; get; } = 0;
+        //    public double angle { set; get; } = 0;
+        //    public double score { set; get; } = 0;
 
 
-        }
+        //}
 
 
-        /// <summary>
-        /// Halcon  Xld直线参数属性
-        /// </summary>
-        public class Line_Contour_Xld_Model
-        {
+        ///// <summary>
+        ///// Halcon  Xld直线参数属性
+        ///// </summary>
+        //public class Line_Contour_Xld_Model
+        //{
 
 
-            public List<HObject> HPoint_Group { set; get; } = new List<HObject>();
-            public HObject Lin_Xld_Region { set; get; } = new HObject();
-            public HObject Xld_Region { set; get; } = new HObject();
+        //    public List<HObject> HPoint_Group { set; get; } = new List<HObject>();
+        //    public HObject Lin_Xld_Region { set; get; } = new HObject();
+        //    public HObject Xld_Region { set; get; } = new HObject();
 
-            public HTuple RowBegin { set; get; } = new HTuple();
-            public HTuple ColBegin { set; get; } = new HTuple();
-            public HTuple RowEnd { set; get; } = new HTuple();
-            public HTuple ColEnd { set; get; } = new HTuple();
-            public HTuple Nr { set; get; } = new HTuple();
-            public HTuple Nc { set; get; } = new HTuple();
-            public HTuple Dist { set; get; } = new HTuple();
+        //    public HTuple RowBegin { set; get; } = new HTuple();
+        //    public HTuple ColBegin { set; get; } = new HTuple();
+        //    public HTuple RowEnd { set; get; } = new HTuple();
+        //    public HTuple ColEnd { set; get; } = new HTuple();
+        //    public HTuple Nr { set; get; } = new HTuple();
+        //    public HTuple Nc { set; get; } = new HTuple();
+        //    public HTuple Dist { set; get; } = new HTuple();
 
-        }
+        //}
 
-        /// <summary>
-        /// Halcon  Xld圆弧参数属性
-        /// </summary>
-        public class Cir_Contour_Xld_Model
-        {
-            public List<HObject> HPoint_Group { set; get; } = new List<HObject>();
-            public HObject Cir_Xld_Region { set; get; } = new HObject();
-            public HObject Xld_Region { set; get; } = new HObject();
+        ///// <summary>
+        ///// Halcon  Xld圆弧参数属性
+        ///// </summary>
+        //public class Cir_Contour_Xld_Model
+        //{
+        //    public List<HObject> HPoint_Group { set; get; } = new List<HObject>();
+        //    public HObject Cir_Xld_Region { set; get; } = new HObject();
+        //    public HObject Xld_Region { set; get; } = new HObject();
 
-            public HTuple Row { set; get; } = new HTuple();
-            public HTuple Column { set; get; } = new HTuple();
-            public HTuple Radius { set; get; } = new HTuple();
-            public HTuple StartPhi { set; get; } = new HTuple();
-            public HTuple EndPhi { set; get; } = new HTuple();
-            public HTuple PointOrder { set; get; } = new HTuple();
+        //    public HTuple Row { set; get; } = new HTuple();
+        //    public HTuple Column { set; get; } = new HTuple();
+        //    public HTuple Radius { set; get; } = new HTuple();
+        //    public HTuple StartPhi { set; get; } = new HTuple();
+        //    public HTuple EndPhi { set; get; } = new HTuple();
+        //    public HTuple PointOrder { set; get; } = new HTuple();
 
-        }
+        //}
 
 
 
@@ -931,5 +931,6 @@ namespace Halcon_SDK_DLL.Model
         添加数据失败,
         XLD数据集合不足1组以上,
         XLD数据集合创建失败,
+        Halcon文件类型读取失败,
     }
 }

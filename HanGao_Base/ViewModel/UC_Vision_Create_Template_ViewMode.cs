@@ -306,7 +306,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 模型文件UI显示集合
         /// </summary>
-        public ObservableCollection<Shape_FileFull_UI_Model> Shape_FileFull_UI { set; get; } = new ObservableCollection<Shape_FileFull_UI_Model>() { new Shape_FileFull_UI_Model() { File_Name = "请选择需要加载模型文件 ! " } };
+        public ObservableCollection<FileInfo> Shape_FileFull_UI { set; get; } = new ObservableCollection<FileInfo>() {  };
 
 
         private static ObservableCollection<Vision_Create_Model_Drawing_Model> Drawing_Data_List_M { get; set; } = new ObservableCollection<Vision_Create_Model_Drawing_Model>();
@@ -568,8 +568,9 @@ namespace HanGao.ViewModel
                         //添加集合id号相同的名称
                         if (int.Parse(_File_Type[0]) == _Shape_Model.File_ID)
                         {
-                            Shape_FileFull_UI.Add(new Shape_FileFull_UI_Model() { File_Name = _File.Name, File_Directory = _File.FullName });
-
+                            //Shape_FileFull_UI.Add(new Shape_FileFull_UI_Model() { File_Name = _File.Name, File_Directory = _File.FullName });
+                            Shape_FileFull_UI.Add(_File);
+                            
                         }
 
                     }
@@ -587,13 +588,33 @@ namespace HanGao.ViewModel
             {
                 ComboBox E = Sm.Source as ComboBox;
 
-                Shape_FileFull_UI_Model _Shape = (Shape_FileFull_UI_Model)E.SelectedValue as Shape_FileFull_UI_Model;
-                List<HTuple> _ModelID = new List<HTuple>();
-                List<HObject> _ModelContours = new List<HObject>();
+                FileInfo _Shape = (FileInfo)E.SelectedValue as FileInfo;
+               HTuple _ModelID = new  HTuple();
+               HObject _ModelContours =new  HObject ();
 
                 if (_Shape != null)
                 {
-                    string[] _ShapeName = _Shape.File_Name.Split('_');
+                    string[] _ShapeName = _Shape.Name.Split('_');
+
+                    //FileInfo _File = new FileInfo(_Shape.File_Directory);
+
+
+                    
+
+                    if (Display_Status(Halcon_SDK.Read_Halcon_Type_File(ref _ModelID, ref _ModelContours, _Shape )).GetResult())
+                    {
+                        Features_Window.HWindow.ClearWindow();
+
+
+               
+
+                            Features_Window.HWindow.DispObj(_ModelContours);
+
+
+
+
+                    }
+                    
 
 
                     //读取文件修改
@@ -771,13 +792,13 @@ namespace HanGao.ViewModel
                     }
 
                 }
-                else
-                {
+                //else
+                //{
 
-                    User_Log_Add("创建模型特征失败，请继续添加XLD类型！");
+                //    User_Log_Add("创建模型特征失败，请继续添加XLD类型！");
 
 
-                }
+                //}
 
 
 
@@ -1535,7 +1556,7 @@ namespace HanGao.ViewModel
 
 
 
-                Vision_Create_Model_Drawing_Model _Data = _B.DataContext as Vision_Create_Model_Drawing_Model;
+                //Vision_Create_Model_Drawing_Model _Data = _B.DataContext as Vision_Create_Model_Drawing_Model;
 
           
                 //清除控件显示
@@ -1567,26 +1588,20 @@ namespace HanGao.ViewModel
     [AddINotifyPropertyChangedInterface]
     public class Vision_Create_Model_Drawing_Model
     {
-        public Vision_Create_Model_Drawing_Model( )
-        {
-
-        }
-
-        //public int Number { set; get; } = 0;
-
+        /// <summary>
+        ///绘图_类型
+        /// </summary>
         public Drawing_Type_Enme Drawing_Type { set; get; } = new Drawing_Type_Enme();
 
+        /// <summary>
+        /// 绘画数据
+        /// </summary>
         public ObservableCollection<Point3D> Drawing_Data { set; get; } = new ObservableCollection<Point3D>();
 
-
+        /// <summary>
+        /// 数据计算xld类型存放
+        /// </summary>
         public HObject User_XLD { set; get; } = new HObject();
-
-
-
-        //public Line_Contour_Xld_Model Lin_Xld_Data { set; get; } = new Line_Contour_Xld_Model();
-
-        //public Cir_Contour_Xld_Model Cir_Xld_Data { set; get; } = new Cir_Contour_Xld_Model();
-
 
 
     }
@@ -1594,25 +1609,25 @@ namespace HanGao.ViewModel
     /// <summary>
     /// 创建模型类型显示属性
     /// </summary>
-    [AddINotifyPropertyChangedInterface]
-    public class Shape_Model_Group_Model
-    {
-        /// <summary>
-        /// 模型是否可读取
-        /// </summary>
-        public bool IsRead { set; get; } = false;
+    //[AddINotifyPropertyChangedInterface]
+    //public class Shape_Model_Group_Model
+    //{
+    //    /// <summary>
+    //    /// 模型是否可读取
+    //    /// </summary>
+    //    public bool IsRead { set; get; } = false;
 
-        /// <summary>
-        /// 模型是否创建
-        /// </summary>
-        public bool IsEnable { set; get; } = true;
+    //    /// <summary>
+    //    /// 模型是否创建
+    //    /// </summary>
+    //    public bool IsEnable { set; get; } = true;
 
-        /// <summary>
-        /// 模型类型
-        /// </summary>
-        public Shape_Based_Model_Enum Shape_Based_Model { set; get; }
+    //    /// <summary>
+    //    /// 模型类型
+    //    /// </summary>
+    //    public Shape_Based_Model_Enum Shape_Based_Model { set; get; }
 
-    }
+    //}
 
     /// <summary>
     /// 模型文件参数属性
