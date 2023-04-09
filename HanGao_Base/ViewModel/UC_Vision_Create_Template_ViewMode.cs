@@ -52,8 +52,12 @@ namespace HanGao.ViewModel
             ///通讯接收查找指令
             Static_KUKA_Receive_Find_String += (Calibration_Data_Receive _S, string _RStr) =>
             {
-                DateTime _Run = DateTime.Now;
 
+
+
+
+
+                DateTime _Run = DateTime.Now;
                 HTuple _Mat2D = new HTuple();
                 List<HTuple> _ModelXld = new List<HTuple>();
                 List<HObject> _Model_objects = new List<HObject>();
@@ -912,7 +916,7 @@ namespace HanGao.ViewModel
                 HObject _Image = new HObject();
                 Halcon_Find_Shape_Out_Parameter _Find_Result = new Halcon_Find_Shape_Out_Parameter();
 
-                Task.Run(() =>
+                Task.Run(async () =>
                 {
 
                     //读取模型文件
@@ -922,8 +926,44 @@ namespace HanGao.ViewModel
                         if (Display_Status(Get_Image(ref _Image, Get_Image_Model, Features_Window.HWindow, Image_Location_UI)).GetResult())
                         {
 
+
+
+                         await      WaitAsync(new Task<bool>(() => { return Find_Model_Method(ref _Find_Result, Features_Window.HWindow, _ModelID, _ModelContours, _Image, 999999999, null); }), 5000);
+
+
+                            //var a = Task<bool>.Run(() =>
+                            //{
+
+                            // //return   Find_Model_Method(ref _Find_Result, Features_Window.HWindow, _ModelID, _ModelContours, _Image, 999999999, null);
+
+
+                            //    var  aa= Task<bool>.Run(() =>
+                            //    {
+
+                            //        return Find_Model_Method(ref _Find_Result, Features_Window.HWindow, _ModelID, _ModelContours, _Image, 999999999, null);
+
+
+                            //    });
+
+
+                            //    if (aa.Wait(1000)==false )
+                            //    {
+
+                            //        return true;
+                            //    }
+                            //    else
+                            //    {
+
+                            //        aa.Dispose();
+                            //        return false;
+                            //    }
+
+
+                            //});
+
+
                             //查找模型
-                            Find_Model_Method(ref _Find_Result, Features_Window.HWindow, _ModelID, _ModelContours, _Image, 999999999,null);
+                            //Find_Model_Method(ref _Find_Result, Features_Window.HWindow, _ModelID, _ModelContours, _Image, 999999999,null);
 
                         }
 
@@ -994,7 +1034,7 @@ namespace HanGao.ViewModel
 
 
             IAsyncResult result = wrappedAction.BeginInvoke(null, null);
-            if (result.AsyncWaitHandle.WaitOne(_TimeOut))
+            if (result.AsyncWaitHandle.  WaitOne(_TimeOut))
             {
                 wrappedAction.EndInvoke(result);
                 User_Log_Add("执行程序运行成功!");
@@ -1080,7 +1120,7 @@ namespace HanGao.ViewModel
             //Console.WriteLine("开始线程");
 
 
-
+             
 
 
 
@@ -1113,6 +1153,11 @@ namespace HanGao.ViewModel
                         //床送结果到UI显示
                         Messenger.Send<Halcon_Find_Shape_Out_Parameter, string>(Halcon_Find_Shape_Out, nameof(Meg_Value_Eunm.Find_Shape_Out));
                         Find_Text_Models_UI_IsEnable = true;
+
+
+
+
+
                         return true;
 
                     }
