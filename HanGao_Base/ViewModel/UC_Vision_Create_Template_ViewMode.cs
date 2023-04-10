@@ -124,8 +124,13 @@ namespace HanGao.ViewModel
 
                                             Console.WriteLine("2:" + (DateTime.Now - _Run));
 
-                                            //识别图像特征
-                                            if (Find_Model_Method(ref Halcon_Find_Shape_Out, _Window, _ModelXld, _Model_objects, _Image, Vision_Auto_Cofig.Find_TimeOut_Millisecond, _Mat2D))
+
+
+                                         if   ((Halcon_Find_Shape_Out = Find_Model_Method(_Window, _ModelXld, _Model_objects, _Image, Vision_Auto_Cofig.Find_TimeOut_Millisecond, _Mat2D)).FInd_Results)
+
+
+                                                //识别图像特征
+                                                //if (Find_Model_Method(ref Halcon_Find_Shape_Out, _Window, _ModelXld, _Model_objects, _Image, Vision_Auto_Cofig.Find_TimeOut_Millisecond, _Mat2D))
                                             {
 
                                                 Console.WriteLine("3:" + (DateTime.Now - _Run));
@@ -186,10 +191,10 @@ namespace HanGao.ViewModel
 
 
                                             }
-                                          
-                                            
-                                            
-                                            
+
+
+
+
                                             else
                                             {
 
@@ -849,7 +854,7 @@ namespace HanGao.ViewModel
 
 
 
-                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info= "读取模型文件方法成功！" };
+                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = "读取模型文件方法成功！" };
             }
             else
             {
@@ -916,7 +921,7 @@ namespace HanGao.ViewModel
                 HObject _Image = new HObject();
                 Halcon_Find_Shape_Out_Parameter _Find_Result = new Halcon_Find_Shape_Out_Parameter();
 
-                Task.Run(async () =>
+                Task.Run( () =>
                 {
 
                     //读取模型文件
@@ -928,7 +933,7 @@ namespace HanGao.ViewModel
 
 
 
-                         await      WaitAsync(new Task<bool>(() => { return Find_Model_Method(ref _Find_Result, Features_Window.HWindow, _ModelID, _ModelContours, _Image, 999999999, null); }), 5000);
+                            _Find_Result= Find_Model_Method(Features_Window.HWindow, _ModelID, _ModelContours, _Image, Vision_Auto_Cofig.Find_TimeOut_Millisecond, null); 
 
 
                             //var a = Task<bool>.Run(() =>
@@ -1020,7 +1025,7 @@ namespace HanGao.ViewModel
         /// <param name="_Action"></param>
         /// <param name="_TimeOut"></param>
         /// <returns></returns>
-        public bool Theah_Run_TimeOut<T1>(Action<T1> _Action, T1 _Vale, int _TimeOut)
+        public bool Theah_Run_TimeOut(Action _Action, int _TimeOut)
         {
 
 
@@ -1028,13 +1033,13 @@ namespace HanGao.ViewModel
             Action wrappedAction = () =>
             {
                 threadToKill = Thread.CurrentThread;
-                _Action(_Vale);
+                _Action();
             };
 
 
 
             IAsyncResult result = wrappedAction.BeginInvoke(null, null);
-            if (result.AsyncWaitHandle.  WaitOne(_TimeOut))
+            if (result.AsyncWaitHandle.WaitOne(_TimeOut))
             {
                 wrappedAction.EndInvoke(result);
                 User_Log_Add("执行程序运行成功!");
@@ -1059,7 +1064,7 @@ namespace HanGao.ViewModel
             throw new NotImplementedException();
         }
 
-    
+
 
 
 
@@ -1076,7 +1081,7 @@ namespace HanGao.ViewModel
         /// <param name="_TheadTime">查找超时设置</param>
         /// <param name="_Math2D"></param>
         /// <returns></returns>
-        public bool Find_Model_Method(ref Halcon_Find_Shape_Out_Parameter Halcon_Find_Shape_Out, HWindow _Window, List<HTuple> _ModelID, List<HObject> _Model_objects, HObject _Iamge, int _TheadTime, HTuple _Math2D)
+        public Halcon_Find_Shape_Out_Parameter Find_Model_Method(HWindow _Window, List<HTuple> _ModelID, List<HObject> _Model_objects, HObject _Iamge, int _TheadTime, HTuple _Math2D)
         {
 
 
@@ -1103,7 +1108,7 @@ namespace HanGao.ViewModel
             //HObject _Line_4 = new HObject();
             //HObject _Cir_1 = new HObject();
             //bool _IsState = false;
-
+            Halcon_Find_Shape_Out_Parameter Halcon_Find_Shape_Out = new Halcon_Find_Shape_Out_Parameter();
 
             Find_Text_Models_UI_IsEnable = false;
             //Halcon_Find_Shape_Out = new Halcon_Find_Shape_Out_Parameter();
@@ -1120,73 +1125,107 @@ namespace HanGao.ViewModel
             //Console.WriteLine("开始线程");
 
 
-             
 
+
+            //return Task.Run<Halcon_Find_Shape_Out_Parameter>(() =>
+
+            //  {
 
 
             //查找图像模型
 
-            if (Display_Status(Halcon_SDK.Find_Deformable_Model(ref Halcon_Find_Shape_Out, _Window, _Iamge, _ModelID, Halcon_Find_Shape_ModelXld_UI)).GetResult())
-            {
 
 
-                if (Display_Status(Halcon_SDK.ProjectiveTrans_Xld(ref _Model_objects, _ModelID, Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model, Halcon_Find_Shape_Out, _Window)).GetResult())
+            // WaitAsync(Task.Run<Task<HPR_Status_Model>>(() =>
+            //{
+
+            //Halcon_SDK.Find_Deformable_Model(ref Halcon_Find_Shape_Out, _Window, _Iamge, _ModelID, Halcon_Find_Shape_ModelXld_UI);
+
+            //}, 5000));
+
+
+            bool MatchState = Theah_Run_TimeOut(new Action(() =>
+                    {
+                        Display_Status(Halcon_SDK.Find_Deformable_Model(ref Halcon_Find_Shape_Out, _Window, _Iamge, _ModelID, Halcon_Find_Shape_ModelXld_UI));
+                    }
+                    ), _TheadTime);
+
+
+            //if (WaitAsync(new Task<bool>(()=> {return  Display_Status(Halcon_SDK.Find_Deformable_Model(ref Halcon_Find_Shape_Out, _Window, _Iamge, _ModelID, Halcon_Find_Shape_ModelXld_UI)).GetResult(); }) , _TheadTime).Result   )
+            //    {
+            if (MatchState && Halcon_Find_Shape_Out.FInd_Results)
                 {
 
+                    if (Display_Status(Halcon_SDK.ProjectiveTrans_Xld(ref _Model_objects, _ModelID, Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model, Halcon_Find_Shape_Out, _Window)).GetResult())
+                          {
 
 
 
 
 
-                    if (Display_Status(Halcon_SDK.Match_Model_XLD_Pos(ref Halcon_Find_Shape_Out, _Model_objects, Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model, _Window, _Math2D)).GetResult())
-                    {
+
+                              if (Display_Status(Halcon_SDK.Match_Model_XLD_Pos(ref Halcon_Find_Shape_Out, _Model_objects, Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model, _Window, _Math2D)).GetResult())
+                              {
 
 
 
 
 
-                        //控件执行操作限制解除
-                        //Halcon_Find_Shape_Out.Vision_Pos = _Point_List.Vision_Pos;
-                        //Halcon_Find_Shape_Out.Robot_Pos= _Point_List.Robot_Pos;
+                                  //控件执行操作限制解除
+                                  //Halcon_Find_Shape_Out.Vision_Pos = _Point_List.Vision_Pos;
+                                  //Halcon_Find_Shape_Out.Robot_Pos= _Point_List.Robot_Pos;
 
 
-                        //床送结果到UI显示
-                        Messenger.Send<Halcon_Find_Shape_Out_Parameter, string>(Halcon_Find_Shape_Out, nameof(Meg_Value_Eunm.Find_Shape_Out));
-                        Find_Text_Models_UI_IsEnable = true;
+                                  //床送结果到UI显示
+                                  Messenger.Send<Halcon_Find_Shape_Out_Parameter, string>(Halcon_Find_Shape_Out, nameof(Meg_Value_Eunm.Find_Shape_Out));
+                                  Find_Text_Models_UI_IsEnable = true;
+                                  return Halcon_Find_Shape_Out;
+
+                              }
+                              //else
+                              //{
+
+                              //    //hv_Text = hv_Text.TupleConcat("识别用时 : " + Halcon_Find_Shape_Out.Find_Time + "毫秒，" + "图像分数 : 未知");
+                              //    //Halcon_Find_Shape_Out.Text_Arr_UI = new List<string>(hv_Text.SArr);
+                              //    //Halcon_Find_Shape_Out.Score = 0;
 
 
+                              //    //床送结果到UI显示
+                              //    Messenger.Send<Halcon_Find_Shape_Out_Parameter, string>(Halcon_Find_Shape_Out, nameof(Meg_Value_Eunm.Find_Shape_Out));
+                              //    //控件执行操作限制解除
+                              //    Find_Text_Models_UI_IsEnable = true;
+                              //    return Halcon_Find_Shape_Out;
 
-
-
-                        return true;
-
-                    }
-                    else
-                    {
-
-                        //hv_Text = hv_Text.TupleConcat("识别用时 : " + Halcon_Find_Shape_Out.Find_Time + "毫秒，" + "图像分数 : 未知");
-                        //Halcon_Find_Shape_Out.Text_Arr_UI = new List<string>(hv_Text.SArr);
-                        //Halcon_Find_Shape_Out.Score = 0;
-
-
-                        //床送结果到UI显示
-                        Messenger.Send<Halcon_Find_Shape_Out_Parameter, string>(Halcon_Find_Shape_Out, nameof(Meg_Value_Eunm.Find_Shape_Out));
-                        //控件执行操作限制解除
-                        Find_Text_Models_UI_IsEnable = true;
-                        return false;
-
-                    }
+                              //}
 
 
 
-                
-                }
-
-            }
 
 
 
-            return false; 
+
+
+
+                          }
+
+                      }
+                 
+
+                          Find_Text_Models_UI_IsEnable = true;
+
+                          Messenger.Send<Halcon_Find_Shape_Out_Parameter, string>(Halcon_Find_Shape_Out, nameof(Meg_Value_Eunm.Find_Shape_Out));
+                          return Halcon_Find_Shape_Out;
+
+
+              
+             
+
+              //});
+
+
+
+
+
 
             //}), _TheadTime);
 

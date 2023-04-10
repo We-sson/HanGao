@@ -752,7 +752,7 @@ namespace Halcon_SDK_DLL
                     //区域显示边框
                     HOperatorSet.SetDraw(_Window, "margin");
                     HOperatorSet.SetColor(_Window, nameof(KnownColor.Green).ToLower());
-
+                    HOperatorSet.SetLineWidth(_Window, 3);
 
                     _Window.DispObj(_Image);
 
@@ -2105,6 +2105,7 @@ namespace Halcon_SDK_DLL
                             if (Find_Results.Where((_W) => _W == true).ToList().Count == 3)
                             {
                                 _Find_Out.FInd_Results = true;
+
                             }
                             else
                             {
@@ -2127,7 +2128,23 @@ namespace Halcon_SDK_DLL
                 _Image1.Dispose();
                 _Image2.Dispose();
 
+
+
+                if (_Find_Out.FInd_Results)
+                {
                 return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = _Find_Property.Shape_Based_Model + "匹配模型查找成功！" };
+
+                }else
+                {
+                    return new HPR_Status_Model(HVE_Result_Enum.查找模型匹配失败) { Result_Error_Info = _Find_Property.Shape_Based_Model +"模型"};
+
+                }
+
+
+
+
+
+
 
 
 

@@ -604,6 +604,9 @@ namespace HanGao.ViewModel
 
             HObject _image = new HObject();
 
+            HOperatorSet.GenEmptyObj(out _image);
+
+
             _Window.ClearWindow();
 
             switch (_Get_Model)
@@ -666,7 +669,7 @@ namespace HanGao.ViewModel
         /// 获得一图像显示到指定窗口
         /// </summary>
         /// <param name="_HWindow"></param>
-        public static HPR_Status_Model GetOneFrameTimeout(ref HObject Image, HWindow _Window)
+        public static HPR_Status_Model GetOneFrameTimeout(ref HObject _HImage, HWindow _Window)
         {
 
 
@@ -678,16 +681,14 @@ namespace HanGao.ViewModel
 
                 //获得一帧图片信息
                 MVS_Image_Mode _MVS_Image = MVS_Camera.GetOneFrameTimeout();
-                HObject _HImage = new HObject();
-
-
+            
                 //转换Halcon图像变量
                 if (Display_Status(Halcon_SDK.Mvs_To_Halcon_Image(ref _HImage, _MVS_Image.FrameEx_Info.ImageInfo.Width, _MVS_Image.FrameEx_Info.ImageInfo.Height, _MVS_Image.PData)).GetResult())
                 {
 
 
                     //发送显示图像位置
-                    _Window.DispObj(Image);
+                    _Window.DispObj(_HImage);
 
                     return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info= MVS_Camera.Camera.ToString()+"相机图像采集成功！" };
                 }

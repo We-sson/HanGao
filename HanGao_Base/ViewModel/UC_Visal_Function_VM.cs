@@ -362,23 +362,27 @@ namespace HanGao.ViewModel
             });
         }
 
-        public static async Task<TResult> WaitAsync<TResult>(Task<TResult> task, int timeout)
+        public static Task<TResult> WaitAsync<TResult>(Task<TResult> task, int timeout)
         {
 
+         
+
             task.Start();
+
             if ( task.Wait(timeout) == true)
             {
                 //指定时间内完成的处理
-                return await task;
+                return  task;
             }
             else
             {
                 //超时处理
-               
-
+             
+       
                 task.Dispose();
 
-                throw new TimeoutException("The operation has timed out.");
+                return default;
+                //throw new TimeoutException("The operation has timed out.");
             }
         }
 
