@@ -932,9 +932,13 @@ namespace HanGao.ViewModel
                         {
 
 
+                            //查找模型
+                            _Find_Result= Find_Model_Method(Features_Window.HWindow, _ModelID, _ModelContours, _Image, Vision_Auto_Cofig.Find_TimeOut_Millisecond, null);
 
-                            _Find_Result= Find_Model_Method(Features_Window.HWindow, _ModelID, _ModelContours, _Image, Vision_Auto_Cofig.Find_TimeOut_Millisecond, null); 
 
+                            _Find_Result.DispWiindow = Features_Window.HWindow;
+
+                            Messenger.Send<Halcon_Find_Shape_Out_Parameter, string>(_Find_Result, nameof(Meg_Value_Eunm.Find_Shape_Out));
 
                             //var a = Task<bool>.Run(() =>
                             //{
@@ -1109,6 +1113,7 @@ namespace HanGao.ViewModel
             //HObject _Cir_1 = new HObject();
             //bool _IsState = false;
             Halcon_Find_Shape_Out_Parameter Halcon_Find_Shape_Out = new Halcon_Find_Shape_Out_Parameter();
+            DateTime RunTime = DateTime.Now;
 
             Find_Text_Models_UI_IsEnable = false;
             //Halcon_Find_Shape_Out = new Halcon_Find_Shape_Out_Parameter();
@@ -1171,13 +1176,16 @@ namespace HanGao.ViewModel
 
 
 
-                                  //控件执行操作限制解除
-                                  //Halcon_Find_Shape_Out.Vision_Pos = _Point_List.Vision_Pos;
-                                  //Halcon_Find_Shape_Out.Robot_Pos= _Point_List.Robot_Pos;
+                        //控件执行操作限制解除
+                        //Halcon_Find_Shape_Out.Vision_Pos = _Point_List.Vision_Pos;
+                        //Halcon_Find_Shape_Out.Robot_Pos= _Point_List.Robot_Pos;
 
 
-                                  //床送结果到UI显示
-                                  Messenger.Send<Halcon_Find_Shape_Out_Parameter, string>(Halcon_Find_Shape_Out, nameof(Meg_Value_Eunm.Find_Shape_Out));
+                        //床送结果到UI显示
+                        Halcon_Find_Shape_Out.Find_Time = (DateTime.Now - RunTime).TotalMilliseconds;
+
+                        Messenger.Send<Halcon_Find_Shape_Out_Parameter, string>(Halcon_Find_Shape_Out, nameof(Meg_Value_Eunm.Find_Shape_Out));
+
                                   Find_Text_Models_UI_IsEnable = true;
                                   return Halcon_Find_Shape_Out;
 
@@ -1212,8 +1220,9 @@ namespace HanGao.ViewModel
                  
 
                           Find_Text_Models_UI_IsEnable = true;
+            Halcon_Find_Shape_Out.Find_Time = (DateTime.Now - RunTime).TotalMilliseconds;
 
-                          Messenger.Send<Halcon_Find_Shape_Out_Parameter, string>(Halcon_Find_Shape_Out, nameof(Meg_Value_Eunm.Find_Shape_Out));
+            Messenger.Send<Halcon_Find_Shape_Out_Parameter, string>(Halcon_Find_Shape_Out, nameof(Meg_Value_Eunm.Find_Shape_Out));
                           return Halcon_Find_Shape_Out;
 
 

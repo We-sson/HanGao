@@ -1176,7 +1176,7 @@ namespace Halcon_SDK_DLL
                         foreach (FileInfo _FileName in _FileInfo.GetFiles())
                         {
 
-                            if (_FileName.Name.Contains(_ID.ToString() + "_" + _Name + "_" + ((int)_Model_Enum).ToString()))
+                            if (_FileName.Name.Split('.')[0]==(_ID.ToString() + "_" + _Name + "_" + ((int)_Model_Enum).ToString()))
                             {
 
                                 _ModelIDS.Add(_FileName);
@@ -2083,13 +2083,14 @@ namespace Halcon_SDK_DLL
                                     _Find_Out.Column.Add(hv_column);
                                     _Find_Out.Angle.Add(hv_angle);
                                     _Find_Out.Score.Add(hv_score);
+                                    _Find_Out.Find_Time = (DateTime.Now - RunTime).TotalMilliseconds;
 
                                     HOperatorSet.VectorAngleToRigid(0, 0, 0, hv_column, hv_row, hv_angle, out HTuple HMat2D);
                                     _Find_Out.HomMat2D.Add(HMat2D);
                                 }
                                 else
                                 {
-
+                                    _Find_Out.Find_Time = (DateTime.Now - RunTime).TotalMilliseconds;
                                     Find_Results[i] = false;
                                     _Find_Out.Row.Add(0);
                                     _Find_Out.Column.Add(0);
