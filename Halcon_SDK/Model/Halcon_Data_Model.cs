@@ -633,7 +633,31 @@ namespace Halcon_SDK_DLL.Model
         }
     }
 
+    public class Match_Models_List_Model
+    {
 
+        public int Match_ID { set; get; }
+
+        public ShapeModel_Name_Enum Match_Area { set; get; }
+
+   
+
+        public Shape_Based_Model_Enum Match_Model { set; get; }
+
+        public Match_FileName_Type_Enum File_Type { set; get; }
+
+        public int Match_No { set; get; }
+
+        public HTuple Match_Handle { set; get; }
+
+        public HObject  Match_XLD_Handle { set; get; }
+
+        public string GetFileName()
+        {
+            return Match_ID  + (int)Match_Model + Match_No + "." + File_Type;
+        }
+
+    }
 
     /// <summary>
     /// 集合算子运行情况属性
@@ -763,8 +787,17 @@ namespace Halcon_SDK_DLL.Model
     }
 
 
+    /// <summary>
+    /// 匹配模型后缀类型
+    /// </summary>
+    public enum Match_FileName_Type_Enum
+    {
+        ncm,
+        dxf,
+        dfm,
+        shm
 
-
+    }
 
 
 

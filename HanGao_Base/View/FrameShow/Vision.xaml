@@ -524,7 +524,7 @@
                                     <Style TargetType="Border">
                                         <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Find_Results1_Window_Result.Score}" Value="0">
+                                            <DataTrigger Binding="{Binding Find_Results1_Window_Result.FInd_Results}" Value="false">
                                                 <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
                                             </DataTrigger>
                                         </Style.Triggers>

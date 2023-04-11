@@ -959,7 +959,13 @@ namespace Halcon_SDK_DLL
 
 
 
-
+        /// <summary>
+        /// 读取Halcon文件类型
+        /// </summary>
+        /// <param name="_Model"></param>
+        /// <param name="_ModelContours"></param>
+        /// <param name="_Path"></param>
+        /// <returns></returns>
         public static HPR_Status_Model Read_Halcon_Type_File(ref HTuple _Model, ref HObject _ModelContours, FileInfo _Path)
         {
 
@@ -1176,7 +1182,9 @@ namespace Halcon_SDK_DLL
                         foreach (FileInfo _FileName in _FileInfo.GetFiles())
                         {
 
-                            if (_FileName.Name.Split('.')[0]==(_ID.ToString() + "_" + _Name + "_" + ((int)_Model_Enum).ToString()))
+                            string[] NameList = _FileName.Name.Split('.')[0].Split('_');
+
+                            if (NameList[0] == _ID.ToString()  && NameList[2] == _Name.ToString().Split('_')[1]  && NameList[3] == ((int)_Model_Enum).ToString())
                             {
 
                                 _ModelIDS.Add(_FileName);
