@@ -1,5 +1,5 @@
 &ACCESS RVO1
-&REL 257
+&REL 258
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\KRL
@@ -22,8 +22,6 @@ DECL EKI_STATUS RET
 
 ;ENDFOLD (INI)
 ;------------
-
-
 
 EKRL_CONNECT()
 
@@ -387,6 +385,8 @@ RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_8", Calibration_Poin
 RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_9", Calibration_Point[9])
 
 RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/@Model","Calibration_New")
+
+
 
 
 case #Add
