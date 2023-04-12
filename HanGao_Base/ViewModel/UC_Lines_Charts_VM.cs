@@ -104,7 +104,7 @@ namespace HanGao.ViewModel
                 }
 
             })))
-            { IsBackground = true, };
+            { IsBackground = true, }.Start();
 
 
             //误差图标初始化
@@ -231,7 +231,13 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 竖坐标样式
         /// </summary>
-        public Axis[] xAxis { set; get; } = new[] { new Axis() };
+        public Axis[] X_xAxis { set; get; } = new[] { new Axis() { Name="X Error",Position=  AxisPosition.End} };
+
+        /// <summary>
+        /// 竖坐标样式
+        /// </summary>
+        public Axis[] Y_xAxis { set; get; } = new[] { new Axis() { Name = "Y Error", Position = AxisPosition.End } };
+
         /// <summary>
         /// 横坐标样式
         /// </summary>
@@ -282,8 +288,8 @@ namespace HanGao.ViewModel
                 new RectangularSection
                 {
                     // creates a section from 3 to 4 in the X axis
-                    Yi = 5,
-                    Yj = -5,
+                    Yi = 3,
+                    Yj = -3,
                     Fill = new SolidColorPaint(new SKColor(163,204,184))
                 },
 
@@ -348,6 +354,11 @@ namespace HanGao.ViewModel
         /// <returns></returns>
         public Area_MinMax_XY_Val_Model MaxMin_Error_List(Area_Error_Model _Area)
         {
+
+            if (true)
+            {
+
+            }
             List<double> _X_Max = new List<double>() {
                         _Area.F_45_Error_List.X.Max(),
                         _Area.F_45_Error_List.Y.Max(),
@@ -418,13 +429,61 @@ namespace HanGao.ViewModel
 
             Area_XY_Error_List _Area = (Area_XY_Error_List)_Error_Chart.GetType().GetProperties().FirstOrDefault(X => X.Name == _Error_Data.Vision_Area.ToString() + "_Error_List").GetValue(_Error_Chart);
 
-            xAxis[0].MaxLimit = _Area.X.Count;
-            xAxis[0].MinLimit = _Area.X.Count - 10;
+            X_xAxis[0].MaxLimit = _Area.X.Count;
+            Y_xAxis[0].MaxLimit = _Area.X.Count;
+            X_xAxis[0].MinLimit = _Area.X.Count - 5;
+            Y_xAxis[0].MinLimit = _Area.X.Count - 5;
             yAxis[0].MaxLimit = MaxMin_Error_List(_Error_Chart).Max + 1;
             yAxis[0].MinLimit = MaxMin_Error_List(_Error_Chart).Min - 1;
         }
 
 
+
+
+        /// <summary>
+        /// 表单数据清除
+        /// </summary>
+        public void  Live_Data_Clear()
+        {
+
+            Work_1_Error_List.F_45_Error_List.X.Clear();
+            Work_1_Error_List.F_45_Error_List.X.Add(0);
+            Work_1_Error_List.F_135_Error_List.X.Clear();
+            Work_1_Error_List.F_135_Error_List.X.Add(0);
+            Work_1_Error_List.F_225_Error_List.X.Clear();
+            Work_1_Error_List.F_225_Error_List.X.Add(0);
+            Work_1_Error_List.F_315_Error_List.X.Clear();
+            Work_1_Error_List.F_315_Error_List.X.Add(0);
+
+            Work_2_Error_List.F_45_Error_List.X.Clear();
+            Work_2_Error_List.F_45_Error_List.X.Add(0);
+            Work_2_Error_List.F_135_Error_List.X.Clear();
+            Work_2_Error_List.F_135_Error_List.X.Add(0);
+            Work_2_Error_List.F_225_Error_List.X.Clear();
+            Work_2_Error_List.F_225_Error_List.X.Add(0);
+            Work_2_Error_List.F_315_Error_List.X.Clear();
+            Work_2_Error_List.F_315_Error_List.X.Add(0);
+
+
+            Work_1_Error_List.F_45_Error_List.Y.Clear();
+            Work_1_Error_List.F_45_Error_List.Y.Add(0);
+            Work_1_Error_List.F_135_Error_List.Y.Clear();
+            Work_1_Error_List.F_135_Error_List.Y.Add(0);
+            Work_1_Error_List.F_225_Error_List.Y.Clear();
+            Work_1_Error_List.F_225_Error_List.Y.Add(0);
+            Work_1_Error_List.F_315_Error_List.Y.Clear();
+            Work_1_Error_List.F_315_Error_List.Y.Add(0);
+
+            Work_2_Error_List.F_45_Error_List.X.Clear();
+            Work_2_Error_List.F_45_Error_List.X.Add(0);
+            Work_2_Error_List.F_135_Error_List.X.Clear();
+            Work_2_Error_List.F_135_Error_List.X.Add(0);
+            Work_2_Error_List.F_225_Error_List.X.Clear();
+            Work_2_Error_List.F_225_Error_List.X.Add(0);
+            Work_2_Error_List.F_315_Error_List.X.Clear();
+            Work_2_Error_List.F_315_Error_List.X.Add(0);
+
+        }
 
 
 
@@ -444,45 +503,11 @@ namespace HanGao.ViewModel
                 //Work_1_Error_List=    new Area_Error_Model();
                 //Work_2_Error_List=    new Area_Error_Model();
 
-    
+
+                Live_Data_Clear();
 
 
-                Work_1_Error_List.F_45_Error_List.X.Clear();
-                Work_1_Error_List.F_45_Error_List.X.Add(0);
-                Work_1_Error_List.F_135_Error_List.X.Clear();
-                Work_1_Error_List.F_135_Error_List.X.Add(0);
-                Work_1_Error_List.F_225_Error_List.X.Clear();
-                Work_1_Error_List.F_225_Error_List.X.Add(0);
-                Work_1_Error_List.F_315_Error_List.X.Clear();
-                Work_1_Error_List.F_315_Error_List.X.Add(0);
 
-                Work_2_Error_List.F_45_Error_List.X.Clear();
-                Work_2_Error_List.F_45_Error_List.X.Add(0);
-                Work_2_Error_List.F_135_Error_List.X.Clear();
-                Work_2_Error_List.F_135_Error_List.X.Add(0);
-                Work_2_Error_List.F_225_Error_List.X.Clear();
-                Work_2_Error_List.F_225_Error_List.X.Add(0);
-                Work_2_Error_List.F_315_Error_List.X.Clear();
-                Work_2_Error_List.F_315_Error_List.X.Add(0);
-
-
-                Work_1_Error_List.F_45_Error_List.Y.Clear();
-                Work_1_Error_List.F_45_Error_List.Y.Add(0);
-                Work_1_Error_List.F_135_Error_List.Y.Clear();
-                Work_1_Error_List.F_135_Error_List.Y.Add(0);
-                Work_1_Error_List.F_225_Error_List.Y.Clear();
-                Work_1_Error_List.F_225_Error_List.Y.Add(0);
-                Work_1_Error_List.F_315_Error_List.Y.Clear();
-                Work_1_Error_List.F_315_Error_List.Y.Add(0);
-
-                Work_2_Error_List.F_45_Error_List.X.Clear();
-                Work_2_Error_List.F_45_Error_List.X.Add(0);
-                Work_2_Error_List.F_135_Error_List.X.Clear();
-                Work_2_Error_List.F_135_Error_List.X.Add(0);
-                Work_2_Error_List.F_225_Error_List.X.Clear();
-                Work_2_Error_List.F_225_Error_List.X.Add(0);
-                Work_2_Error_List.F_315_Error_List.X.Clear();
-                Work_2_Error_List.F_315_Error_List.X.Add(0);
 
 
             });

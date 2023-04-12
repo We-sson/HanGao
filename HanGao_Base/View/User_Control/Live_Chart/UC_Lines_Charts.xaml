@@ -26,7 +26,7 @@
                             Sections="{Binding Sections}"
                             Series="{Binding Series_X}"
                             TooltipPosition="Bottom"
-                            XAxes="{Binding xAxis}"
+                            XAxes="{Binding X_xAxis}"
                             YAxes="{Binding yAxis}"
                             ZoomMode="Both" />
         <lvc:CartesianChart Grid.Row=" 1" Grid.Column=" 1"
@@ -35,7 +35,7 @@
                             Sections="{Binding Sections}"
                             Series="{Binding Series_Y}"
                             TooltipPosition="Left"
-                            XAxes="{Binding xAxis}"
+                            XAxes="{Binding Y_xAxis}"
                             YAxes="{Binding yAxis}"
                             ZoomMode="Both" />
     </Grid>

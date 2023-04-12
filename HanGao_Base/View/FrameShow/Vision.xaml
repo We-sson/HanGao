@@ -480,7 +480,7 @@
                                         <Setter Property="Height" Value=" 25" />
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding IsMouseOver, ElementName=G1}" Value="true">
-                                                <Setter Property="Height" Value="100" />
+                                                <Setter Property="Height" Value="150" />
                                             </DataTrigger>
 
 
@@ -508,7 +508,7 @@
                                             <Setter Property="Height" Value=" 24" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsMouseOver, ElementName=G1}" Value="true">
-                                                    <Setter Property="Height" Value=" 100" />
+                                                    <Setter Property="Height" Value=" 150" />
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
@@ -672,7 +672,7 @@
                                         <Setter Property="Height" Value=" 25" />
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding IsMouseOver, ElementName=G3}" Value="true">
-                                                <Setter Property="Height" Value="100" />
+                                                <Setter Property="Height" Value="150" />
                                             </DataTrigger>
 
 
@@ -700,7 +700,7 @@
                                             <Setter Property="Height" Value=" 24" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsMouseOver, ElementName=G3}" Value="true">
-                                                    <Setter Property="Height" Value=" 100" />
+                                                    <Setter Property="Height" Value=" 150" />
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
@@ -766,7 +766,7 @@
                                         <Setter Property="Height" Value=" 25" />
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding IsMouseOver, ElementName=G4}" Value="true">
-                                                <Setter Property="Height" Value="100" />
+                                                <Setter Property="Height" Value="150" />
                                             </DataTrigger>
 
 
@@ -794,7 +794,7 @@
                                             <Setter Property="Height" Value=" 24" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsMouseOver, ElementName=G4}" Value="true">
-                                                    <Setter Property="Height" Value=" 100" />
+                                                    <Setter Property="Height" Value=" 150" />
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>

@@ -395,7 +395,8 @@ namespace Halcon_SDK_DLL
                         }
 
 
-                        hv_Text[i + 1] = "图像坐标_" + i + " X : " + _OX + " Y : " + _OY + " | 机器坐标_" + "X : " + _Qx + " Y : " + _Qy;
+                        hv_Text= hv_Text. TupleConcat("图像坐标_" + i + " X : " + _OX + " Y : " + _OY + " | 机器坐标_" + "X : " + _Qx + " Y : " + _Qy);
+
                         Halcon_Find_Shape_Out.Robot_Pos.Add(new Point3D(Math.Round(_Qx.D, 3), Math.Round(_Qy.D, 3), 0));
 
                         _Window.DispText(i + "号", "image", _OX + 50, _OY - 50, "black", "box", "true");
