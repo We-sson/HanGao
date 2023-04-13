@@ -24,7 +24,7 @@
                 CornerRadius="10">
 
 
-            <Grid Margin="20" VerticalAlignment="Top">
+            <Grid Margin="10" VerticalAlignment="Top">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
@@ -66,8 +66,8 @@
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                FontFamily="{DynamicResource 全局_文字_中文字体}"
-                               FontSize="16" />
-
+                               FontSize="18"
+                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                 </StackPanel>
 
 
@@ -106,7 +106,8 @@
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                FontFamily="{DynamicResource 全局_文字_中文字体}"
-                               FontSize="16" />
+                               FontSize="18"
+                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
 
 
@@ -168,7 +169,8 @@
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                FontFamily="{DynamicResource 全局_文字_中文字体}"
-                               FontSize="16" />
+                               FontSize="18"
+                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                 </StackPanel>
 
@@ -217,7 +219,8 @@
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                FontFamily="{DynamicResource 全局_文字_中文字体}"
-                               FontSize="16" />
+                               FontSize="18"
+                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                 </StackPanel>
 

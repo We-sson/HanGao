@@ -74,7 +74,7 @@ namespace HanGao.ViewModel
 
                         case Value_Name_enum.ANOUT_1:
 
-                            Weding_Power_Val.Value = ((int)(double.Parse(S.Val_Var) * 1000));
+                            Weding_Power_Val.Value = ((int)(double.Parse(S.Val_Var) * 100));
                             break;
 
                     }
@@ -130,7 +130,7 @@ namespace HanGao.ViewModel
                 }
 
             })))
-            { IsBackground = true, }.Start();
+            { IsBackground = true, };
 
 
             //误差图标初始化
@@ -299,7 +299,9 @@ namespace HanGao.ViewModel
         public GaugeBuilder Robot_Speed_Data { get; set; } =
         new GaugeBuilder()
         {
-            LabelsSize = 30,
+           
+        
+            LabelsSize = 25,
             InnerRadius = 55,
             BackgroundInnerRadius = 55,
             LabelsPosition = PolarLabelsPosition.ChartCenter,
@@ -311,7 +313,8 @@ namespace HanGao.ViewModel
         public GaugeBuilder Welding_Power_Data { get; set; } =
         new GaugeBuilder()
         {
-            LabelsSize = 30,
+
+            LabelsSize = 25,
             InnerRadius = 55,
             BackgroundInnerRadius = 55,
             LabelsPosition = PolarLabelsPosition.ChartCenter,

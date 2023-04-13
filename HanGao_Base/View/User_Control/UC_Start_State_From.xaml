@@ -288,15 +288,21 @@
 
 
                 <lvc:PieChart Grid.Row="1"
+                              MaxWidth="240"
+                              MaxHeight="200"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              HorizontalContentAlignment="Stretch"
+                              VerticalContentAlignment="Stretch"
                               InitialRotation="-225"
                               MaxAngle="270"
                               Series="{Binding Robot_Speed_Series}"
                               TooltipPosition="Hidden"
-                              Total="2" />
+                              Total="0.2" />
 
                 <TextBlock Grid.Row="0"
                            Text="机器人速度"
-                           Margin="6,6,6,6"
+                           Margin="6,12,6,6"
                            HorizontalAlignment="Center"
                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                            FontSize="20"
@@ -314,6 +320,12 @@
                 </Grid.RowDefinitions>
 
                 <lvc:PieChart Grid.Row="1"
+                              MaxWidth="240"
+                              MaxHeight="200"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              HorizontalContentAlignment="Center"
+                              VerticalContentAlignment="Center"
                               InitialRotation="-225"
                               MaxAngle="270"
                               Series="{Binding Welding_Power_Series}"
@@ -322,7 +334,7 @@
 
                 <TextBlock Grid.Row="0"
                            Text="焊接功率"
-                           Margin="6,6,6,6"
+                           Margin="6,12,6,6"
                            HorizontalAlignment="Center"
                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                            FontSize="20"
