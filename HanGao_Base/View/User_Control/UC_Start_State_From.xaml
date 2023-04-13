@@ -298,7 +298,7 @@
                               MaxAngle="270"
                               Series="{Binding Robot_Speed_Series}"
                               TooltipPosition="Hidden"
-                              Total="0.2" />
+                              Total="2" />
 
                 <TextBlock Grid.Row="0"
                            Text="机器人速度"

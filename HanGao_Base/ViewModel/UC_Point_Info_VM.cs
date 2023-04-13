@@ -87,8 +87,9 @@ namespace HanGao.ViewModel
             {
                 //把参数类型转换控件
 
+                XML_Write_Read.Sink_Date.Date_Last_Modify = DateTime.Now.ToString();
 
-                
+
                    Vision_Xml_Method.Save_Xml(XML_Write_Read.Sink_Date);
 
 
