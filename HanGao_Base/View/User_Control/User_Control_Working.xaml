@@ -69,8 +69,8 @@
 
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.6*" />
-                    <ColumnDefinition Width=" 0.8*" />
+                    <ColumnDefinition Width="*" />
+                    <!--<ColumnDefinition Width=" 0.8*" />-->
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Column="0"
@@ -78,7 +78,7 @@
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            FontFamily="{DynamicResource 全局_图标库}"
-                           FontSize="110"
+                           FontSize="150"
                            Foreground="{DynamicResource 全局_背景_白颜色}">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
@@ -99,7 +99,8 @@
 
                 <Grid Grid.Column="1"
                       Margin="10,10,10,10"
-                      ShowGridLines="False">
+                      ShowGridLines="False"
+                      Visibility="Collapsed">
                     <Border Background="{DynamicResource 全局_背景_白颜色}"
                             BorderBrush="Black"
                             BorderThickness="4">

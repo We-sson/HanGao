@@ -20,6 +20,9 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
+
+
+
         <lvc:CartesianChart Grid.Row=" 0" Grid.Column=" 0"
                             DrawMarginFrame="{Binding DrawMarginFrame}"
                             LegendPosition="Hidden"

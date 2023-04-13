@@ -46,10 +46,10 @@
                                 <Setter Property="Background" Value="{DynamicResource 全局_背景_白颜色}" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding KUKA_State.KUKA_Submit_State}" Value="P_ACTIVE">
-                                        <Setter Property="Background" Value="Green" />
+                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding KUKA_State.KUKA_Submit_State}" Value="P_STOP">
-                                        <Setter Property="Background" Value="Red" />
+                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>

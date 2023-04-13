@@ -294,7 +294,16 @@ namespace HanGao.ViewModel.Messenger_Eunm
             /// <summary>
             /// 图标切换显示区域
             /// </summary>
-            Charts_Switch_Work
+            Charts_Switch_Work,
+
+
+            /// <summary>
+            /// 界面UI更新机器人状态
+            /// </summary>
+            UI_Robot_Status
+
+
+
         }
 
 

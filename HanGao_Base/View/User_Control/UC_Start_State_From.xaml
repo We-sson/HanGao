@@ -18,15 +18,15 @@
 
 
 
-        <Grid>
+        <!--<Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
-            </Grid.ColumnDefinitions>
+            </Grid.ColumnDefinitions>-->
 
 
 
-            <Grid Grid.Column=" 1"
+        <!--<Grid Grid.Column=" 1"
                   Margin="0,0,0,0"
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Center"
@@ -268,17 +268,73 @@
 
 
 
+            </Grid>-->
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height=" auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+
+
+
+                <lvc:PieChart Grid.Row="1"
+                              InitialRotation="-225"
+                              MaxAngle="270"
+                              Series="{Binding Robot_Speed_Series}"
+                              TooltipPosition="Hidden"
+                              Total="2" />
+
+                <TextBlock Grid.Row="0"
+                           Text="机器人速度"
+                           Margin="6,6,6,6"
+                           HorizontalAlignment="Center"
+                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                           FontSize="20"
+                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
             </Grid>
 
 
+            <Grid Grid.Column="1">
 
-            <lvc:PieChart InitialRotation="45"
-                          MaxAngle="270"
-                          Series="{Binding Robot_State_Series}"
-                          TooltipPosition="Hidden"
-                          Total="100" />
 
+                <Grid.RowDefinitions>
+                    <RowDefinition Height=" auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <lvc:PieChart Grid.Row="1"
+                              InitialRotation="-225"
+                              MaxAngle="270"
+                              Series="{Binding Welding_Power_Series}"
+                              TooltipPosition="Hidden"
+                              Total="100" />
+
+                <TextBlock Grid.Row="0"
+                           Text="焊接功率"
+                           Margin="6,6,6,6"
+                           HorizontalAlignment="Center"
+                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                           FontSize="20"
+                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+            </Grid>
         </Grid>
+
+
+
+
+        <!--</Grid>-->
 
 
     </Border>
