@@ -130,7 +130,7 @@ namespace HanGao.ViewModel
                 }
 
             })))
-            { IsBackground = true, };
+            { IsBackground = true, }.Start();
 
 
             //误差图标初始化
@@ -343,7 +343,7 @@ namespace HanGao.ViewModel
 
 
         /// <summary>
-        /// 显示范围
+        /// 公差显示范围
         /// </summary>
         public RectangularSection[] Sections { get; set; }
            = new RectangularSection[]
@@ -364,7 +364,7 @@ namespace HanGao.ViewModel
         /// </summary>
         public DrawMarginFrame DrawMarginFrame => new DrawMarginFrame
         {
-            Fill = new SolidColorPaint(new SKColor(60, 60, 60)),
+            Fill = new SolidColorPaint(new SKColor(222, 219, 219)),
             Stroke = new SolidColorPaint(SKColors.Gray, 3) { StrokeThickness = 3 }
         };
 

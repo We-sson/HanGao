@@ -37,24 +37,42 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50" />
-            <ColumnDefinition Width="160" />
+            <ColumnDefinition Width="150" />
             <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="140" />
             <ColumnDefinition Width="200" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
+
+
+        <Border Grid.Row="0" Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Height=" 40"
+                Background="{DynamicResource 全局_按钮_蓝颜色}"
+                CornerRadius=" 5"
+                Effect="{DynamicResource 全局背景阴影}">
+
+            <TextBlock Text="{Binding UI_Craft_Date.Welding_Name, FallbackValue=原始坐标, Mode=OneWay, StringFormat=\{0\} 坐标}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="20"
+                       Foreground="{DynamicResource 全局_背景_白颜色}" />
+        </Border>
 
 
 
         <!--  表头  -->
 
-        <Border Grid.Row="0" Grid.Column="0"
-                Grid.ColumnSpan="4"
+        <Border Grid.Row="0" Grid.Column="3"
+                Grid.ColumnSpan="2"
                 Height=" 40"
                 Background="{DynamicResource 全局_按钮_黑颜色}"
                 CornerRadius=" 5"
                 Effect="{DynamicResource 全局背景阴影}">
+
+
+
             <Grid>
                 <Button Style="{DynamicResource ButtonStyle3}"
                         Width=" 28"
@@ -78,7 +96,7 @@
                                FontSize="20"
                                Foreground="{DynamicResource 全局_按钮_绿颜色}" />
                 </Button>
-                <TextBlock Text="{Binding UI_Craft_Date.Welding_Name, FallbackValue=位置设置, Mode=OneWay, StringFormat=\{0\} 位置设置}"
+                <TextBlock Text="{Binding UI_Craft_Date.Welding_Name, FallbackValue=坐标偏移, Mode=OneWay, StringFormat=\{0\} 坐标偏移}"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            FontSize="20"
@@ -112,7 +130,7 @@
 
         <!--  第一列  -->
         <TextBlock Grid.Row="1" Grid.Column="0"
-                   Text="X :"
+                   Text="X："
                    MinWidth="150"
                    Margin="10,0,10,0"
                    VerticalAlignment="Center"
@@ -120,35 +138,35 @@
                    Foreground="#434343" />
         <TextBlock Grid.Row="2" Grid.Column="0"
                    Grid.ColumnSpan="2"
-                   Text="Y :"
+                   Text="Y："
                    Margin="10,0,10,0"
                    VerticalAlignment="Center"
                    FontSize="22"
                    Foreground="#434343" />
         <TextBlock Grid.Row="3" Grid.Column="0"
                    Grid.ColumnSpan="2"
-                   Text="Z :"
+                   Text="Z："
                    Margin="10,0,10,0"
                    VerticalAlignment="Center"
                    FontSize="22"
                    Foreground="#434343" />
         <TextBlock Grid.Row="4" Grid.Column="0"
                    Grid.ColumnSpan="2"
-                   Text="A :"
+                   Text="A："
                    Margin="10,0,10,0"
                    VerticalAlignment="Center"
                    FontSize="22"
                    Foreground="#434343" />
         <TextBlock Grid.Row="5" Grid.Column="0"
                    Grid.ColumnSpan="2"
-                   Text="B :"
+                   Text="B："
                    Margin="10,0,10,0"
                    VerticalAlignment="Center"
                    FontSize="22"
                    Foreground="#434343" />
         <TextBlock Grid.Row="6" Grid.Column="0"
                    Grid.ColumnSpan="2"
-                   Text="C :"
+                   Text="C："
                    Margin="10,0,10,0"
                    VerticalAlignment="Center"
                    FontSize="22"
@@ -209,77 +227,147 @@
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    FontFamily="/Resources/#iconfont"
-                   FontSize="24"
+                   FontSize="20"
                    Foreground="#434343" />
         <TextBlock Grid.Row="2" Grid.Column="2"
                    Text="&#xE639;"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    FontFamily="/Resources/#iconfont"
-                   FontSize="24"
+                   FontSize="20"
                    Foreground="#434343" />
         <TextBlock Grid.Row="3" Grid.Column="2"
                    Text="&#xE639;"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    FontFamily="/Resources/#iconfont"
-                   FontSize="25"
+                   FontSize="20"
                    Foreground="#434343" />
         <TextBlock Grid.Row="4" Grid.Column="2"
                    Text="&#xE639;"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    FontFamily="/Resources/#iconfont"
-                   FontSize="25"
+                   FontSize="20"
                    Foreground="#434343" />
         <TextBlock Grid.Row="5" Grid.Column="2"
                    Text="&#xE639;"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    FontFamily="/Resources/#iconfont"
-                   FontSize="25"
+                   FontSize="20"
                    Foreground="#434343" />
         <TextBlock Grid.Row="6" Grid.Column="2"
                    Text="&#xE639;"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    FontFamily="/Resources/#iconfont"
-                   FontSize="25"
+                   FontSize="20"
                    Foreground="#434343" />
 
 
 
 
         <!--  第三列  -->
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="X" Grid.Row="1" Grid.Column="3"
-                 Text="{Binding UI_Craft_Date.Welding_Offset.X, FallbackValue=0.000, Mode=OneWay, StringFormat=\{0:N3\}}"
-                 Margin="10,11,10,10"
+        <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="S_X" Grid.Row="1" Grid.Column="3"
+                Margin="4"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="Stretch"
+                IsSnapToTickEnabled="True"
+                Maximum="5"
+                Minimum="-5"
+                TickFrequency="0.01"
+                Value="{Binding UI_Craft_Date.Welding_Offset.X}" />
+
+        <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="S_Y" Grid.Row="2" Grid.Column="3"
+                Margin="4"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="Stretch"
+                IsSnapToTickEnabled="True"
+                Maximum="5"
+                Minimum="-5"
+                TickFrequency="0.01"
+                Value="{Binding UI_Craft_Date.Welding_Offset.Y}" />
+
+        <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="S_Z" Grid.Row="3" Grid.Column="3"
+                Margin="4"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="Stretch"
+                IsSnapToTickEnabled="True"
+                Maximum="5"
+                Minimum="-5"
+                TickFrequency="0.01"
+                Value="{Binding UI_Craft_Date.Welding_Offset.Z}" />
+
+        <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="S_A" Grid.Row="4" Grid.Column="3"
+                Margin="4"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="Stretch"
+                IsSnapToTickEnabled="True"
+                Maximum="5"
+                Minimum="-5"
+                TickFrequency="0.01"
+                Value="{Binding UI_Craft_Date.Welding_Offset.A}" />
+
+        <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="S_B" Grid.Row="5" Grid.Column="3"
+                Margin="4"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="Stretch"
+                IsSnapToTickEnabled="True"
+                Maximum="5"
+                Minimum="-5"
+                TickFrequency="0.01"
+                Value="{Binding UI_Craft_Date.Welding_Offset.B}" />
+
+        <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="S_C" Grid.Row="6" Grid.Column="3"
+                Margin="4"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="Stretch"
+                IsSnapToTickEnabled="True"
+                Maximum="5"
+                Minimum="-5"
+                TickFrequency="0.01"
+                Value="{Binding UI_Craft_Date.Welding_Offset.C}" />
+
+
+
+
+        <!--  第四列  -->
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="X" Grid.Row="1" Grid.Column="4"
+                 Text="{Binding ElementName=S_X, Path=Value}"
+                 Margin="10"
                  HorizontalContentAlignment="Center"
                  MaxLines="7"
                  Tag="mm" />
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Y" Grid.Row="2" Grid.Column="3"
-                 Text="{Binding UI_Craft_Date.Welding_Offset.Y, FallbackValue=0.000, Mode=OneWay, StringFormat=\{0:N3\}}"
-                 Margin="10,11,10,10"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Y" Grid.Row="2" Grid.Column="4"
+                 Text="{Binding ElementName=S_Y, Path=Value}"
+                 Margin="10"
                  MaxLines="7"
                  Tag="mm" />
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Z" Grid.Row="3" Grid.Column="3"
-                 Text="{Binding UI_Craft_Date.Welding_Offset.Z, FallbackValue=0.000, Mode=OneWay, StringFormat=\{0:N3\}}"
-                 Margin="10,11,10,10"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Z" Grid.Row="3" Grid.Column="4"
+                 Text="{Binding ElementName=S_Z, Path=Value}"
+                 Margin="10"
                  MaxLines="7"
                  Tag="mm" />
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="A" Grid.Row="4" Grid.Column="3"
-                 Text="{Binding UI_Craft_Date.Welding_Offset.A, FallbackValue=0.000, Mode=OneWay, StringFormat=\{0:N3\}}"
-                 Margin="10,11,10,10"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="A" Grid.Row="4" Grid.Column="4"
+                 Text="{Binding ElementName=S_A, Path=Value}"
+                 Margin="10"
                  MaxLines="7"
                  Tag="mm" />
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="B" Grid.Row="5" Grid.Column="3"
-                 Text="{Binding UI_Craft_Date.Welding_Offset.B, FallbackValue=0.000, Mode=OneWay, StringFormat=\{0:N3\}}"
-                 Margin="10,11,10,10"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="B" Grid.Row="5" Grid.Column="4"
+                 Text="{Binding ElementName=S_B, Path=Value}"
+                 Margin="10"
                  MaxLines="7"
                  Tag="mm" />
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="C" Grid.Row="6" Grid.Column="3"
-                 Text="{Binding UI_Craft_Date.Welding_Offset.C, FallbackValue=0.000, Mode=OneWay, StringFormat=\{0:N3\}}"
-                 Margin="10,11,10,11"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="C" Grid.Row="6" Grid.Column="4"
+                 Text="{Binding ElementName=S_C, Path=Value}"
+                 Margin="10"
                  MaxLines="7"
                  Tag="mm" />
 
@@ -479,13 +567,23 @@
 
         <!--  功能区  -->
 
-
-
-
         <Border Grid.Row="7" Grid.Column="0"
-                Grid.ColumnSpan="4"
-                Height="40"
-                Margin="0,0,0,0"
+                Grid.ColumnSpan="2"
+                Height=" 40"
+                Background="{DynamicResource 全局_按钮_蓝颜色}"
+                CornerRadius=" 5"
+                Effect="{DynamicResource 全局背景阴影}">
+
+            <TextBlock Text="{Binding UI_Craft_Date.Welding_Name, FallbackValue=工艺参数名, Mode=OneWay, StringFormat=\{0\} 参数名}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="20"
+                       Foreground="{DynamicResource 全局_背景_白颜色}" />
+        </Border>
+
+
+        <Border Grid.Row="7" Grid.Column="3"
+                Grid.ColumnSpan="2"
                 Background="{DynamicResource 全局_按钮_黑颜色}"
                 CornerRadius=" 5"
                 Effect="{StaticResource 全局背景阴影}">
@@ -524,12 +622,16 @@
         </Border>
 
 
+
+
+
+
         <!--  第一列  -->
         <TextBlock Grid.Row="8" Grid.Column="0"
                    Grid.ColumnSpan="2"
                    Text="圆弧过渡:"
                    Margin="10,0,0,0"
-                   HorizontalAlignment="Left"
+                   HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    FontSize="20"
                    Foreground="{DynamicResource 全局_按钮_黑颜色}" />
@@ -537,7 +639,7 @@
                    Grid.ColumnSpan="2"
                    Text="加速度值:"
                    Margin="10,0,0,0"
-                   HorizontalAlignment="Left"
+                   HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    FontSize="20"
                    Foreground="{DynamicResource 全局_按钮_黑颜色}" />
@@ -545,7 +647,7 @@
                    Grid.ColumnSpan="2"
                    Text="行走速度:"
                    Margin="10,0,0,0"
-                   HorizontalAlignment="Left"
+                   HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    FontSize="20"
                    Foreground="{DynamicResource 全局_按钮_黑颜色}" />
@@ -553,7 +655,7 @@
                    Grid.ColumnSpan="2"
                    Text="焊接角度:"
                    Margin="10,0,0,0"
-                   HorizontalAlignment="Left"
+                   HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    FontSize="20"
                    Foreground="{DynamicResource 全局_按钮_黑颜色}" />
@@ -561,54 +663,114 @@
                    Grid.ColumnSpan="2"
                    Text="焊接功率:"
                    Margin="10,0,0,0"
-                   HorizontalAlignment="Left"
+                   HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    FontSize="20"
                    Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
+
+
+
+        <!--  第四列  -->
+        <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="S_CDIS" Grid.Row="8" Grid.Column="3"
+                Margin="4"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="Stretch"
+                IsSnapToTickEnabled="True"
+                Maximum="500"
+                Minimum="0"
+                TickFrequency="1"
+                Value="{Binding UI_Craft_Date.Welding_CDIS}" />
+
+        <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="S_ACC" Grid.Row="9" Grid.Column="3"
+                Margin="4"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="Stretch"
+                IsSnapToTickEnabled="True"
+                Maximum="100"
+                Minimum="0"
+                TickFrequency="1"
+                Value="{Binding UI_Craft_Date.Welding_ACC}" />
+
+        <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="S_Speed" Grid.Row="10" Grid.Column="3"
+                Margin="4"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="Stretch"
+                IsSnapToTickEnabled="True"
+                Maximum="2"
+                Minimum="0"
+                TickFrequency="0.001"
+                Value="{Binding UI_Craft_Date.Welding_Speed}" />
+
+        <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="S_Angle" Grid.Row="11" Grid.Column="3"
+                Margin="4"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="Stretch"
+                IsSnapToTickEnabled="True"
+                Maximum="30"
+                Minimum="-30"
+                TickFrequency="0.1"
+                Value="{Binding UI_Craft_Date.Welding_Angle}" />
+
+        <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="S_Power" Grid.Row="12" Grid.Column="3"
+                Margin="4"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="Stretch"
+                IsSnapToTickEnabled="True"
+                Maximum="100"
+                Minimum="0"
+                TickFrequency="1"
+                Value="{Binding UI_Craft_Date.Welding_Power}" />
+
         <!--  第二列  -->
 
 
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="CDIS" Grid.Row="8" Grid.Column="3"
-                 Text="{Binding UI_Craft_Date.Welding_CDIS, FallbackValue=0, Mode=OneWay, StringFormat=\{0\}}"
-                 Margin="10,10,10,11"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="CDIS" Grid.Row="8" Grid.Column="4"
+                 Text="{Binding ElementName=S_CDIS, Path=Value}"
+                 Margin="10"
                  Tag="mm" />
 
 
 
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="ACC" Grid.Row="9" Grid.Column="3"
-                 Text="{Binding UI_Craft_Date.Welding_ACC, FallbackValue=0, Mode=OneWay, StringFormat=\{0\}}"
-                 Margin="10,10,10,11"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="ACC" Grid.Row="9" Grid.Column="4"
+                 Text="{Binding ElementName=S_ACC, Path=Value}"
+                 Margin="10"
                  Tag="%" />
 
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Speed" Grid.Row="10" Grid.Column="3"
-                 Text="{Binding UI_Craft_Date.Welding_Speed, FallbackValue=0.000, Mode=OneWay, StringFormat=\{0:N3\}}"
-                 Margin="10,10,10,11"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Speed" Grid.Row="10" Grid.Column="4"
+                 Text="{Binding ElementName=S_Speed, Path=Value}"
+                 Margin="10"
                  Tag="m/s" />
 
 
 
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Angle" Grid.Row="11" Grid.Column="3"
-                 Text="{Binding UI_Craft_Date.Welding_Angle, Mode=OneWay, StringFormat=\{0:N3\}}"
-                 Margin="10,10,10,11"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Angle" Grid.Row="11" Grid.Column="4"
+                 Text="{Binding ElementName=S_Angle, Path=Value}"
+                 Margin="10"
                  Tag="°" />
 
 
 
 
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Power" Grid.Row="12" Grid.Column="3"
-                 Text="{Binding UI_Craft_Date.Welding_Power, FallbackValue=0, Mode=OneWay, StringFormat=\{0\}}"
-                 Margin="10,10,10,11"
+        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Power" Grid.Row="12" Grid.Column="4"
+                 Text="{Binding ElementName=S_Power, Path=Value}"
+                 Margin="10"
                  Tag="%" />
 
 
 
         <!--  功能按钮  -->
-        <Button Style="{DynamicResource ButtonStyle3}" Grid.Row="11" Grid.Column="4"
+        <Button Style="{DynamicResource ButtonStyle3}" Grid.Row="11" Grid.Column="5"
                 Grid.ColumnSpan="1"
                 Content="保存"
                 Width=" 120"
                 Height=" 50"
+                Margin="50,0,49,0"
                 VerticalAlignment="Center"
                 Background="{DynamicResource 全局_按钮_绿颜色}"
                 Effect="{DynamicResource 全局背景阴影}"
@@ -621,11 +783,12 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </Button>
-        <Button Style="{DynamicResource ButtonStyle3}" Grid.Row="11" Grid.Column="5"
+        <Button Style="{DynamicResource ButtonStyle3}" Grid.Row="12" Grid.Column="5"
                 Grid.ColumnSpan="1"
                 Content="取消"
                 Width=" 120"
                 Height=" 50"
+                Margin="50,0,49,0"
                 VerticalAlignment="Center"
                 Background="{DynamicResource 全局_按钮_红颜色}"
                 Effect="{DynamicResource 全局背景阴影}"
