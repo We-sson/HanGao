@@ -188,21 +188,22 @@
 
 
 
-   DECL FOLD Cir_FOLD[14] 
+   DECL FOLD Cir_FOLD[15] 
              Cir_FOLD[1]= "/; CIR MID POS:%CIR_MID_NAME  : X=%M_X , Y=%M_Y , Z=%M_Z , A=%M_A , B=%M_B , C=%M_C "
 			    Cir_FOLD[2]= "/; CIR END POS:%CIR_END_NAME  : X=%X , Y=%Y , Z=%Z , A=%A , B=%B , C=%C "
              Cir_FOLD[3]= "/; CIR_MID_OFFSET  : X=%C_X , Y=%C_Y , Z=%C_Z "
 			    Cir_FOLD[4]= "/; CIR_END_OFFSET  : X=%O_X , Y=%O_Y , Z=%O_Z "
              Cir_FOLD[5]= "HanGao_Surr_Calculate(  , #%Area_CIR_lIST , #C_CIR_POS ,  , PO%CIR_MID_NAME , PO%CIR_End_Name  , %Area_CIR_lIST _Welding_Craft[%Work_Area ,2].Welding_Offset  , %Area_CIR_lIST _Welding_Craft[%Work_Area , 3].Welding_Offset  ,  , %Work_Area )"
-             Cir_FOLD[6]= " "
-             Cir_FOLD[7]= "L%CIR_MID_NAME .VEL=%Area_CIR_lIST _Welding_Craft[%Work_Area ,3].Welding_Speed"
-             Cir_FOLD[8]= "L%CIR_MID_NAME .ACC=%Area_CIR_lIST _Welding_Craft[%Work_Area ,3].Welding_ACC"
-             Cir_FOLD[9]= "L%CIR_MID_NAME .APO_DIST=%Area_CIR_lIST _Welding_Craft[%Work_Area ,3].Welding_CDIS"
-             Cir_FOLD[10]= " "
-             Cir_FOLD[11]= "FDAT_ACT=F%CIR_END_NAME "
-             Cir_FOLD[12]= "LDAT_ACT=L%CIR_MID_NAME "
-             Cir_FOLD[13]= "BAS(#CP_PARAMS,%Area_CIR_lIST _Welding_Craft[%Work_Area ,3].Welding_Speed )"
-             Cir_FOLD[14]= "CIRC PO%CIR_MID_Name , PO%CIR_End_Name  C_DIS C_DIS"
+             Cir_FOLD[6]= "TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=%Area_CIR_lIST _Welding_Craft[%Work_Area ,3].Welding_Power//100 "
+             Cir_FOLD[7]= " "
+             Cir_FOLD[8]= "L%CIR_MID_NAME .VEL=%Area_CIR_lIST _Welding_Craft[%Work_Area ,3].Welding_Speed"
+             Cir_FOLD[9]= "L%CIR_MID_NAME .ACC=%Area_CIR_lIST _Welding_Craft[%Work_Area ,3].Welding_ACC"
+             Cir_FOLD[10]= "L%CIR_MID_NAME .APO_DIST=%Area_CIR_lIST _Welding_Craft[%Work_Area ,3].Welding_CDIS"
+             Cir_FOLD[11]= " "
+             Cir_FOLD[12]= "FDAT_ACT=F%CIR_END_NAME "
+             Cir_FOLD[13]= "LDAT_ACT=L%CIR_MID_NAME "
+             Cir_FOLD[14]= "BAS(#CP_PARAMS,%Area_CIR_lIST _Welding_Craft[%Work_Area ,3].Welding_Speed )"
+             Cir_FOLD[15]= "CIRC PO%CIR_MID_Name , PO%CIR_End_Name  C_DIS C_DIS"
 
              
              

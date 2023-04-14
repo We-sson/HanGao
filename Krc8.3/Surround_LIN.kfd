@@ -294,33 +294,35 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
  
  
  
-   DECL FOLD LIN_FOLD[12] 
+   DECL FOLD LIN_FOLD[13] 
              LIN_FOLD[1]= "/; LIN %MOVE_Name POS: X=%X , Y=%Y , Z=%Z , A=%A , B=%B , C=%C"
              LIN_FOLD[2]= "/; LIN Offset POS:X=%O_X , Y=%O_Y , Z=%O_Z "
              LIN_FOLD[3]= "HanGao_Surr_Calculate( %LIN_Position , #%Area_LIN_lIST , #L_LIN_POS , PO%MOVE_Name , , , %Area_LIN_lIST _Welding_Craft[%Work_Area ,%OFFSET_NO ].Welding_Offset  , , %OFFSET_NO , %Work_Area  )"
-             LIN_FOLD[4]= " "
-             LIN_FOLD[5]= "L%MOVE_LDAT .VEL=%Area_LIN_lIST _Welding_Craft[%Work_Area ,%OFFSET_NO ].Welding_Speed"
-             LIN_FOLD[6]= "L%MOVE_LDAT .ACC=%Area_LIN_lIST _Welding_Craft[%Work_Area ,%OFFSET_NO ].Welding_ACC"
-             LIN_FOLD[7]= "L%MOVE_LDAT .APO_DIST=%Area_LIN_lIST _Welding_Craft[%Work_Area ,%OFFSET_NO ].Welding_CDIS"
-             LIN_FOLD[8]= " "
-             LIN_FOLD[9]= "FDAT_ACT=F%MOVE_Name "
-             LIN_FOLD[10]= "LDAT_ACT=L%MOVE_LDAT "
-             LIN_FOLD[11]= "BAS(#CP_PARAMS,%Area_LIN_lIST _Welding_Craft[%Work_Area ,%OFFSET_NO ].Welding_Speed )"
-             LIN_FOLD[12]= "LIN PO%MOVE_Name  C_DIS C_DIS"
+             LIN_FOLD[4]= "TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=%Area_LIN_lIST _Welding_Craft[%Work_Area ,%OFFSET_NO ].Welding_Power//100 "
+             LIN_FOLD[5]= " "
+             LIN_FOLD[6]= "L%MOVE_LDAT .VEL=%Area_LIN_lIST _Welding_Craft[%Work_Area ,%OFFSET_NO ].Welding_Speed"
+             LIN_FOLD[7]= "L%MOVE_LDAT .ACC=%Area_LIN_lIST _Welding_Craft[%Work_Area ,%OFFSET_NO ].Welding_ACC"
+             LIN_FOLD[8]= "L%MOVE_LDAT .APO_DIST=%Area_LIN_lIST _Welding_Craft[%Work_Area ,%OFFSET_NO ].Welding_CDIS"
+             LIN_FOLD[9]= " "
+             LIN_FOLD[10]= "FDAT_ACT=F%MOVE_Name "
+             LIN_FOLD[11]= "LDAT_ACT=L%MOVE_LDAT "
+             LIN_FOLD[12]= "BAS(#CP_PARAMS,%Area_LIN_lIST _Welding_Craft[%Work_Area ,%OFFSET_NO ].Welding_Speed )"
+             LIN_FOLD[13]= "LIN PO%MOVE_Name  C_DIS C_DIS"
 
    DECL FOLD CIR_L_FOLD[12] 
              CIR_L_FOLD[1]= "/; CIR %MOVE_Name POS: X=%X , Y=%Y , Z=%Z , A=%A , B=%B , C=%C"
              CIR_L_FOLD[2]= "/; CIR Offset POS:X=%O_X , Y=%O_Y , Z=%O_Z "
              CIR_L_FOLD[3]= "HanGao_Surr_Calculate(  , #%Area_CIR_lIST , #C_LIN_POS , PO%MOVE_Name , , , %Area_CIR_lIST _Welding_Craft[%Work_Area ,1].Welding_Offset , ,  , %Work_Area )"
-             CIR_L_FOLD[4]= " "
-             CIR_L_FOLD[5]= "L%MOVE_LDAT .VEL=%Area_CIR_lIST _Welding_Craft[%Work_Area ,1].Welding_Speed"
-             CIR_L_FOLD[6]= "L%MOVE_LDAT .ACC=%Area_CIR_lIST _Welding_Craft[%Work_Area ,1].Welding_ACC"
-             CIR_L_FOLD[7]= "L%MOVE_LDAT .APO_DIST=%Area_CIR_lIST _Welding_Craft[%Work_Area ,1].Welding_CDIS"
-             CIR_L_FOLD[8]= " "
-             CIR_L_FOLD[9]= "FDAT_ACT=F%MOVE_Name"
-             CIR_L_FOLD[10]= "LDAT_ACT=L%MOVE_LDAT"
-             CIR_L_FOLD[11]= "BAS(#CP_PARAMS, %Area_CIR_lIST _Welding_Craft[%Work_Area ,1].Welding_Speed )"
-             CIR_L_FOLD[12]= "LIN PO%MOVE_Name  C_DIS C_DIS"  
+             CIR_L_FOLD[4]= "TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=%Area_CIR_lIST _Welding_Craft[%Work_Area ,1].Welding_Power//100 "
+             CIR_L_FOLD[5]= " "
+             CIR_L_FOLD[6]= "L%MOVE_LDAT .VEL=%Area_CIR_lIST _Welding_Craft[%Work_Area ,1].Welding_Speed"
+             CIR_L_FOLD[7]= "L%MOVE_LDAT .ACC=%Area_CIR_lIST _Welding_Craft[%Work_Area ,1].Welding_ACC"
+             CIR_L_FOLD[8]= "L%MOVE_LDAT .APO_DIST=%Area_CIR_lIST _Welding_Craft[%Work_Area ,1].Welding_CDIS"
+             CIR_L_FOLD[9]= " "
+             CIR_L_FOLD[10]= "FDAT_ACT=F%MOVE_Name"
+             CIR_L_FOLD[11]= "LDAT_ACT=L%MOVE_LDAT"
+             CIR_L_FOLD[12]= "BAS(#CP_PARAMS, %Area_CIR_lIST _Welding_Craft[%Work_Area ,1].Welding_Speed )"
+             CIR_L_FOLD[13]= "LIN PO%MOVE_Name  C_DIS C_DIS"  
              
              
              

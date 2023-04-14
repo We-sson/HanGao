@@ -89,14 +89,14 @@ endscript
 
 ;-----------------------------------------
 
-DECL PARAM LSPOW={VALUE {REAL: AUTOLIMIT TRUE, min 0,max 1,Step 0.1,default 0.5},shortname[] "POW= ", UNIT[] "%", Shortcut[] "POW" }
-DECL PARAM LSSec={VALUE {REAL: AUTOLIMIT TRUE, min 0,max 5,Step 0.1,default 0.2},shortname[] "Sec= ", UNIT[] "S", Shortcut[] "Sec" }
+DECL PARAM LSPOW={VALUE {REAL: AUTOLIMIT TRUE, min 0,max 100,Step 1,default 80},shortname[] "POW= ", UNIT[] " %", Shortcut[] "POW" }
+DECL PARAM LSSec={VALUE {REAL: AUTOLIMIT TRUE, min 0,max 5,Step 0.1,default 0.2},shortname[] "Sec= ", UNIT[] " S", Shortcut[] "Sec" }
 
 
 DECL FOLD FOLDLSON[4]
 FOLDLSPOW[1]=" "
-FOLDLSPOW[2]="  $ANOUT[1]= %LSPOW "
-FOLDLSPOW[3]="  LSON(%LSSec ) "
+FOLDLSPOW[2]=" "
+FOLDLSPOW[3]="  LSON(%LSPOW //100,%LSSec ) "
 FOLDLSPOW[4]=" "
 
 DECL FOLD FOLDLSOFF[3]
