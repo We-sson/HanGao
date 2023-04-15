@@ -130,7 +130,7 @@ namespace HanGao.ViewModel
                 }
 
             })))
-            { IsBackground = true, }.Start();
+            { IsBackground = true, };
 
 
             //误差图标初始化
