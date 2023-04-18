@@ -418,10 +418,19 @@ namespace HanGao.ViewModel
         public Area_MinMax_XY_Val_Model MaxMin_Error_List(Area_Error_Model _Area)
         {
 
-            if (true)
+            if (
+                
+                _Area.F_45_Error_List.X.Count>0 &&
+               _Area.F_45_Error_List.Y.Count > 0 &&
+                  _Area.F_135_Error_List.X.Count > 0 &&
+               _Area.F_135_Error_List.Y.Count > 0 &&
+                  _Area.F_225_Error_List.X.Count > 0 &&
+               _Area.F_225_Error_List.Y.Count > 0 &&
+                  _Area.F_315_Error_List.X.Count > 0 &&
+               _Area.F_315_Error_List.Y.Count > 0
+                )
             {
 
-            }
             List<double> _X_Max = new List<double>() {
                         _Area.F_45_Error_List.X.Max(),
                         _Area.F_45_Error_List.Y.Max(),
@@ -445,6 +454,11 @@ namespace HanGao.ViewModel
 
             return new Area_MinMax_XY_Val_Model() { Min = _X_Min.Min(), Max = _X_Max.Max() };
 
+            }
+            else
+            {
+                return new Area_MinMax_XY_Val_Model();
+            }
 
 
         }
@@ -510,41 +524,41 @@ namespace HanGao.ViewModel
         {
 
             Work_1_Error_List.F_45_Error_List.X.Clear();
-            Work_1_Error_List.F_45_Error_List.X.Add(0);
+            //Work_1_Error_List.F_45_Error_List.X.Add(0);
             Work_1_Error_List.F_135_Error_List.X.Clear();
-            Work_1_Error_List.F_135_Error_List.X.Add(0);
+            //Work_1_Error_List.F_135_Error_List.X.Add(0);
             Work_1_Error_List.F_225_Error_List.X.Clear();
-            Work_1_Error_List.F_225_Error_List.X.Add(0);
+            //Work_1_Error_List.F_225_Error_List.X.Add(0);
             Work_1_Error_List.F_315_Error_List.X.Clear();
-            Work_1_Error_List.F_315_Error_List.X.Add(0);
+            //Work_1_Error_List.F_315_Error_List.X.Add(0);
 
             Work_2_Error_List.F_45_Error_List.X.Clear();
-            Work_2_Error_List.F_45_Error_List.X.Add(0);
+            //Work_2_Error_List.F_45_Error_List.X.Add(0);
             Work_2_Error_List.F_135_Error_List.X.Clear();
-            Work_2_Error_List.F_135_Error_List.X.Add(0);
+            //Work_2_Error_List.F_135_Error_List.X.Add(0);
             Work_2_Error_List.F_225_Error_List.X.Clear();
-            Work_2_Error_List.F_225_Error_List.X.Add(0);
+            //Work_2_Error_List.F_225_Error_List.X.Add(0);
             Work_2_Error_List.F_315_Error_List.X.Clear();
-            Work_2_Error_List.F_315_Error_List.X.Add(0);
+            // Work_2_Error_List.F_315_Error_List.X.Add(0);
 
 
             Work_1_Error_List.F_45_Error_List.Y.Clear();
-            Work_1_Error_List.F_45_Error_List.Y.Add(0);
+            //Work_1_Error_List.F_45_Error_List.Y.Add(0);
             Work_1_Error_List.F_135_Error_List.Y.Clear();
-            Work_1_Error_List.F_135_Error_List.Y.Add(0);
+            //Work_1_Error_List.F_135_Error_List.Y.Add(0);
             Work_1_Error_List.F_225_Error_List.Y.Clear();
-            Work_1_Error_List.F_225_Error_List.Y.Add(0);
+            //Work_1_Error_List.F_225_Error_List.Y.Add(0);
             Work_1_Error_List.F_315_Error_List.Y.Clear();
-            Work_1_Error_List.F_315_Error_List.Y.Add(0);
+            //Work_1_Error_List.F_315_Error_List.Y.Add(0);
 
-            Work_2_Error_List.F_45_Error_List.X.Clear();
-            Work_2_Error_List.F_45_Error_List.X.Add(0);
-            Work_2_Error_List.F_135_Error_List.X.Clear();
-            Work_2_Error_List.F_135_Error_List.X.Add(0);
-            Work_2_Error_List.F_225_Error_List.X.Clear();
-            Work_2_Error_List.F_225_Error_List.X.Add(0);
-            Work_2_Error_List.F_315_Error_List.X.Clear();
-            Work_2_Error_List.F_315_Error_List.X.Add(0);
+            Work_2_Error_List.F_45_Error_List.Y.Clear();
+            //Work_2_Error_List.F_45_Error_List.X.Add(0);
+            Work_2_Error_List.F_135_Error_List.Y.Clear();
+            // Work_2_Error_List.F_135_Error_List.X.Add(0);
+            Work_2_Error_List.F_225_Error_List.Y.Clear();
+            // Work_2_Error_List.F_225_Error_List.X.Add(0);
+            Work_2_Error_List.F_315_Error_List.Y.Clear();
+            //Work_2_Error_List.F_315_Error_List.X.Add(0);
 
         }
 
@@ -640,6 +654,7 @@ namespace HanGao.ViewModel
     /// <summary>
     /// 区域误差列表模型
     /// </summary>
+    [Serializable]
     [AddINotifyPropertyChangedInterface]
     public class Area_Error_Model
     {
@@ -655,11 +670,12 @@ namespace HanGao.ViewModel
     /// <summary>
     /// 区域XY误差集合
     /// </summary>
+    [Serializable]
     [AddINotifyPropertyChangedInterface]
     public class Area_XY_Error_List
     {
-        public ObservableCollection<double> X = new ObservableCollection<double>() { 0 };
-        public ObservableCollection<double> Y = new ObservableCollection<double>() { 0 };
+        public ObservableCollection<double> X = new ObservableCollection<double>() {  };
+        public ObservableCollection<double> Y = new ObservableCollection<double>() {  };
 
     }
 

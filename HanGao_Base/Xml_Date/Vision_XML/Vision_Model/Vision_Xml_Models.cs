@@ -56,7 +56,7 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
         /// <summary>
         /// 连接库卡协议外的ip
         /// </summary>
-        public string Connect_KUKA_IP { set; get; } = "192.168.153.150";
+        public string Connect_KUKA_IP { set; get; } = "192.168.0.1";
 
         /// <summary>
         /// 连接库卡协议外的端口

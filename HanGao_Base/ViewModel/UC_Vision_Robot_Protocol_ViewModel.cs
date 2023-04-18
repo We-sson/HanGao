@@ -280,7 +280,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// UI IP显示
         /// </summary>
-        public string UI_IP { set; get; } = "192.168.153.150";
+        public string UI_IP { set; get; } = "192.168.0.1";
 
         /// <summary>
         /// UI 端口显示

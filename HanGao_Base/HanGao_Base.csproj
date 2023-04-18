@@ -310,6 +310,7 @@
     <Compile Include="View\User_Control\Vision_Control\UC_Vision_Robot_Protocol.xaml.cs">
       <DependentUpon>UC_Vision_Robot_Protocol.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Xml_Date\Lines_Charts_XML\Charts_Model\Lines_Charts_Models.cs" />
     <Compile Include="Xml_Date\Vision_XML\Vision_Model\Vision_Xml_Models.cs" />
     <Compile Include="Xml_Date\Vision_XML\Vision_WriteRead\Vision_Xml_Method.cs" />
     <Compile Include="Xml_Date\Xml_Models\Xml_Model.cs" />
