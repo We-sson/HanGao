@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿
+using Microsoft.Win32;
 using Ookii.Dialogs.Wpf;
 using System;
 using System.Collections.Generic;
@@ -110,9 +111,9 @@ namespace HanGao.ViewModel
                                 Console.WriteLine("2:" + (DateTime.Now - _Run));
 
 
-                                //设置相机选择参数
-                                if (Display_Status(MVS_Camera.Set_Camrea_Parameters_List(_Data_Xml.Camera_Parameter_Data)).GetResult())
-                                {
+                                ////设置相机选择参数
+                                //if (Display_Status(MVS_Camera.Set_Camrea_Parameters_List(_Data_Xml.Camera_Parameter_Data)).GetResult())
+                                //{
                                     Console.WriteLine("3:" + (DateTime.Now - _Run));
 
                                     //提前窗口id
@@ -231,13 +232,13 @@ namespace HanGao.ViewModel
 
 
 
-                                }
-                                else
-                                {
+                                //}
+                                //else
+                                //{
 
-                                    _Send.IsStatus = 0;
-                                    _Send.Message_Error = HVE_Result_Enum.Error_No_Camera_Set_Parameters.ToString();
-                                }
+                                //    _Send.IsStatus = 0;
+                                //    _Send.Message_Error = HVE_Result_Enum.Error_No_Camera_Set_Parameters.ToString();
+                                //}
                                 //返回识别内容
 
                             }

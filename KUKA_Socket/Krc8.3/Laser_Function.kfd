@@ -94,18 +94,26 @@ DECL PARAM LSSec={VALUE {REAL: AUTOLIMIT TRUE, min 0,max 5,Step 0.1,default 0.2}
 
 
 DECL FOLD FOLDLSON[4]
-FOLDLSPOW[1]=" "
-FOLDLSPOW[2]=" "
-FOLDLSPOW[3]="  LSON(%LSPOW ,%LSSec ) "
-FOLDLSPOW[4]=" "
+FOLDLSON[1]=" "
+FOLDLSON[2]=" "
+FOLDLSON[3]="  LSON(%LSPOW ,%LSSec ) "
+FOLDLSON[4]=" "
 
 DECL FOLD FOLDLSOFF[3]
-FOLDLSPOW[1]=" "
-FOLDLSPOW[2]="   LSOFF() "
-FOLDLSPOW[3]=" "
+FOLDLSOFF[1]=" "
+FOLDLSOFF[2]="   LSOFF() "
+FOLDLSOFF[3]=" "
 
 
+DECL FOLD IF_Then_FOLD[3]
+IF_Then_FOLD[1]=" "
+IF_Then_FOLD[2]="   IF( %IF_State ) THEN "
+IF_Then_FOLD[3]=" "
 
+DECL FOLD IF_End_FOLD[3]
+IF_End_FOLD[1]=" "
+IF_End_FOLD[2]=" ENDIF "
+IF_End_FOLD[3]=" "
 
 
 ;------------------------------------------
@@ -137,7 +145,8 @@ FOLDProgram[3]=" "
 Decl InlineForm LSON={FOLD[1] FOLDLSON, PARAM[1] LSPOW ,PARAM[2] LSSec , ONACCEPT OnAcc_LS}
 Decl InlineForm LSOFF={FOLD[1] FOLDLSOFF , ONACCEPT OnAcc_LS}
 Decl InlineForm PName={FOLD[1] FOLDProgram , PARAM[1] Program_Name,  PARAM[2] Program_Run, ONACCEPT OnAcc_LS}
-
+Decl InlineForm IF_Then={FOLD[1] IF_Then_FOLD ,PARAM[1] IF_State, ONACCEPT OnAcc_LS}
+Decl InlineForm IF_End={FOLD[1] IF_End_FOLD , ONACCEPT OnAcc_LS}
 
 ENDTP
 
