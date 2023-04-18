@@ -57,24 +57,24 @@ DECL GLOBAL E6POS N2_Cam_135_POS={X -42.3839874,Y 91.8151550,Z -80.0254822,A 0.4
 DECL GLOBAL E6POS N2_Cam_225_POS={X -39.7999954,Y 716.082336,Z -80.0293350,A 0.441926539,B -0.0416153781,C -0.0704161152,S 'B0010',T 'B00101011',E1 0.0,E2 0.0,E3 0.0,E4 0.0,E5 0.0,E6 0.0}
 DECL GLOBAL E6POS N2_Cam_315_POS={X 294.984924,Y 714.198059,Z -80.0293350,A 0.441925645,B -0.0416159667,C -0.0704158247,S 'B0010',T 'B00101011',E1 0.0,E2 0.0,E3 0.0,E4 0.0,E5 0.0,E6 0.0}
 
-DECL GLOBAL E6POS N45_OFFSET_POS={X 377.057,Y 18.4430,Z 0.0,A 0.0,B 0.0,C 0.0}
-DECL GLOBAL E6POS N135_OFFSET_POS={X 19.8380,Y 18.6930,Z 0.0,A 0.0,B 0.0,C 0.0}
-DECL GLOBAL E6POS N225_OFFSET_POS={X 19.4430,Y 659.915,Z 0.0,A 0.0,B 0.0,C 0.0}
-DECL GLOBAL E6POS N315_OFFSET_POS={X 376.553,Y 660.259,Z 0.0,A 0.0,B 0.0,C 0.0}
+DECL GLOBAL E6POS N45_OFFSET_POS={X 376.556,Y 19.1120,Z 0.0,A 0.0,B 0.0,C 0.0}
+DECL GLOBAL E6POS N135_OFFSET_POS={X 20.0940,Y 21.6580,Z 0.0,A 0.0,B 0.0,C 0.0}
+DECL GLOBAL E6POS N225_OFFSET_POS={X 23.9850,Y 663.056,Z 0.0,A 0.0,B 0.0,C 0.0}
+DECL GLOBAL E6POS N315_OFFSET_POS={X 380.577,Y 661.383,Z 0.0,A 0.0,B 0.0,C 0.0}
 
-DECL GLOBAL E6POS N45_CIR_POS={X 373.286,Y 22.0860,Z 0.0,A 0.0,B 0.0,C 0.0}
-DECL GLOBAL E6POS N135_CIR_POS={X 22.6400,Y 22.2890,Z 0.0,A 0.0,B 0.0,C 0.0}
-DECL GLOBAL E6POS N225_CIR_POS={X 23.4400,Y 656.415,Z 0.0,A 0.0,B 0.0,C 0.0}
-DECL GLOBAL E6POS N315_CIR_POS={X 373.474,Y 655.570,Z 0.0,A 0.0,B 0.0,C 0.0}
+DECL GLOBAL E6POS N45_CIR_POS={X 372.540,Y 22.7570,Z 0.0,A 0.0,B 0.0,C 0.0}
+DECL GLOBAL E6POS N135_CIR_POS={X 22.6620,Y 25.2540,Z 0.0,A 0.0,B 0.0,C 0.0}
+DECL GLOBAL E6POS N225_CIR_POS={X 28.3490,Y 659.556,Z 0.0,A 0.0,B 0.0,C 0.0}
+DECL GLOBAL E6POS N315_CIR_POS={X 377.618,Y 656.695,Z 0.0,A 0.0,B 0.0,C 0.0}
 
-DECL GLOBAL E6POS D45_Start_POS={X 364.011,Y -0.902000,Z 0.0,A 0.0,B 0.0,C 0.0}
-DECL GLOBAL E6POS D45_End_POS={X 363.973,Y 18.4740,Z 0.0,A 0.0,B 0.0,C 0.0}
-DECL GLOBAL E6POS D135_Start_POS={X 33.1820,Y -0.799000,Z 0.0,A 0.0,B 0.0,C 0.0}
-DECL GLOBAL E6POS D135_End_POS={X 33.1470,Y 18.6490,Z 0.0,A 0.0,B 0.0,C 0.0}
-DECL GLOBAL E6POS D225_Start_POS={X 32.7300,Y 679.199,Z 0.0,A 0.0,B 0.0,C 0.0}
-DECL GLOBAL E6POS D225_End_POS={X 32.6970,Y 659.887,Z 0.0,A 0.0,B 0.0,C 0.0}
-DECL GLOBAL E6POS D315_Start_POS={X 363.276,Y 679.261,Z 0.0,A 0.0,B 0.0,C 0.0}
-DECL GLOBAL E6POS D315_End_POS={X 363.166,Y 660.110,Z 0.0,A 0.0,B 0.0,C 0.0}
+DECL GLOBAL E6POS D45_Start_POS={X 363.300,Y -0.107000,Z 0.0,A 0.0,B 0.0,C 0.0}
+DECL GLOBAL E6POS D45_End_POS={X 363.265,Y 19.1460,Z 0.0,A 0.0,B 0.0,C 0.0}
+DECL GLOBAL E6POS D135_Start_POS={X 32.9960,Y 2.46600,Z 0.0,A 0.0,B 0.0,C 0.0}
+DECL GLOBAL E6POS D135_End_POS={X 32.9630,Y 21.6120,Z 0.0,A 0.0,B 0.0,C 0.0}
+DECL GLOBAL E6POS D225_Start_POS={X 37.4760,Y 682.101,Z 0.0,A 0.0,B 0.0,C 0.0}
+DECL GLOBAL E6POS D225_End_POS={X 37.4420,Y 663.027,Z 0.0,A 0.0,B 0.0,C 0.0}
+DECL GLOBAL E6POS D315_Start_POS={X 368.106,Y 679.998,Z 0.0,A 0.0,B 0.0,C 0.0}
+DECL GLOBAL E6POS D315_End_POS={X 367.988,Y 661.243,Z 0.0,A 0.0,B 0.0,C 0.0}
 
 
 DECL GLOBAL Surr_Welding_Craft_Type L0_Welding_Craft[2,10]
@@ -88,10 +88,10 @@ L0_Welding_Craft[1,7]={Welding_Name[] "S7",Welding_Pos {X 533.000,Y 463.600037,Z
 L0_Welding_Craft[1,8]={Welding_Name[] "S8",Welding_Pos {X 533.000,Y 463.600037,Z -2.05000,A 0.0,B -23.0000,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
 L0_Welding_Craft[1,9]={Welding_Name[] "S9",Welding_Pos {X 533.000,Y 463.600037,Z -2.05000,A 0.0,B -23.0000,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
 L0_Welding_Craft[1,10]={Welding_Name[] "S10",Welding_Pos {X 533.000,Y 338.000,Z -2.05000,A 0.0,B -23.0000,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
-L0_Welding_Craft[2,1]={Welding_Name[] "L0_S1",Welding_Pos {X 376.999054,Y 92.2246094,Z 1.00000,A 0.0,B 20.0000,C 0.0},Welding_Power 90.0000,Welding_Speed 0.200000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 50,Welding_Offset {X -0.500000,Y 0.0,Z 0.0}}
-L0_Welding_Craft[2,2]={Welding_Name[] "L0_S2",Welding_Pos {X 376.610962,Y 586.477356,Z 1.00000,A 0.0,B 20.0000,C 0.0},Welding_Power 90.0000,Welding_Speed 0.0300000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X -0.500000,Y 0.0,Z 0.0}}
-L0_Welding_Craft[2,3]={Welding_Name[] "L0_S3",Welding_Pos {X 376.805023,Y 339.350983,Z 1.00000,A 0.0,B 20.0000,C 0.0},Welding_Power 90.0000,Welding_Speed 0.0300000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X -0.500000,Y 0.0,Z 0.0}}
-L0_Welding_Craft[2,4]={Welding_Name[] "L0_S4",Welding_Pos {X 377.023315,Y 61.3338,Z 1.00000,A 0.0,B 20.0000,C 0.0},Welding_Power 90.0000,Welding_Speed 0.0250000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X -0.500000,Y 0.0,Z 0.0}}
+L0_Welding_Craft[2,1]={Welding_Name[] "L0_S1",Welding_Pos {X 377.018219,Y 92.9389,Z 1.00000,A 0.0,B 20.0000,C 0.0},Welding_Power 90.0000,Welding_Speed 0.200000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 50,Welding_Offset {X -0.500000,Y 0.0,Z 0.0}}
+L0_Welding_Craft[2,2]={Welding_Name[] "L0_S2",Welding_Pos {X 380.114777,Y 587.556091,Z 1.00000,A 0.0,B 20.0000,C 0.0},Welding_Power 90.0000,Welding_Speed 0.0300000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X -0.500000,Y 0.0,Z 0.0}}
+L0_Welding_Craft[2,3]={Welding_Name[] "L0_S3",Welding_Pos {X 378.566498,Y 340.247498,Z 1.00000,A 0.0,B 20.0000,C 0.0},Welding_Power 90.0000,Welding_Speed 0.0300000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X -0.500000,Y 0.0,Z 0.0}}
+L0_Welding_Craft[2,4]={Welding_Name[] "L0_S4",Welding_Pos {X 376.824677,Y 62.0253296,Z 1.00000,A 0.0,B 20.0000,C 0.0},Welding_Power 90.0000,Welding_Speed 0.0250000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X -0.500000,Y 0.0,Z 0.0}}
 L0_Welding_Craft[2,5]={Welding_Name[] "S1",Welding_Pos {X 400.000,Y 86.0000153,Z -3.00000,A 0.0,B 23.0000,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
 L0_Welding_Craft[2,6]={Welding_Name[] "S6",Welding_Pos {X 533.000,Y 463.600037,Z -2.05000,A 0.0,B -23.0000,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
 L0_Welding_Craft[2,7]={Welding_Name[] "S7",Welding_Pos {X 533.000,Y 463.600037,Z -2.05000,A 0.0,B -23.0000,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
@@ -105,9 +105,9 @@ DECL GLOBAL Surr_Welding_Craft_Type C45_Welding_Craft[2,3]
 C45_Welding_Craft[1,1]={Welding_Name[] "S3",Welding_Pos {X 120.000,Y 30.0000,Z 0.0,A 0.0,B 20.0000,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
 C45_Welding_Craft[1,2]={Welding_Name[] "PM2",Welding_Pos {X 117.070,Y 22.9300,Z 0.0,A 0.0,B 0.0,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0},Welding_Offset_CIR {C_X 0.0,C_Y 0.0,C_Z 0.0}}
 C45_Welding_Craft[1,3]={Welding_Name[] "PE2",Welding_Pos {X 110.000,Y 20.0000,Z 0.0,A 0.0,B 0.0,C 20.0000},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
-C45_Welding_Craft[2,1]={Welding_Name[] "C45_S1",Welding_Pos {X 377.047577,Y 30.4429932,Z 1.00000,A 0.0,B 20.0000,C 0.0},Welding_Power 90.0000,Welding_Speed 0.0250000,Welding_Angle 20.0000,Welding_CDIS 10,Welding_ACC 100,Welding_Offset {X -0.500000,Y 0.0,Z 0.0}}
-C45_Welding_Craft[2,2]={Welding_Name[] "PM3",Welding_Pos {X 373.286,Y 22.0860,Z 1.00000,A 0.0,B 0.0,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0300000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X -0.500000,Y 0.0,Z 0.0},Welding_Offset_CIR {C_X 0.0,C_Y 0.0,C_Z 0.0}}
-C45_Welding_Craft[2,3]={Welding_Name[] "PE3",Welding_Pos {X 365.057,Y 18.4513988,Z 1.00000,A 0.0,B 0.0,C 20.0000},Welding_Power 90.0000,Welding_Speed 0.01000000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.300000,Z 0.0}}
+C45_Welding_Craft[2,1]={Welding_Name[] "C45_S1",Welding_Pos {X 376.631134,Y 31.1117554,Z 1.00000,A 0.0,B 20.0000,C 0.0},Welding_Power 90.0000,Welding_Speed 0.0250000,Welding_Angle 20.0000,Welding_CDIS 1,Welding_ACC 100,Welding_Offset {X -0.500000,Y 0.0,Z 0.0}}
+C45_Welding_Craft[2,2]={Welding_Name[] "PM3",Welding_Pos {X 372.540,Y 22.7570,Z 1.00000,A 0.0,B 0.0,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0300000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X -0.500000,Y 0.0,Z 0.0},Welding_Offset_CIR {C_X 0.0,C_Y 0.0,C_Z 0.0}}
+C45_Welding_Craft[2,3]={Welding_Name[] "PE3",Welding_Pos {X 364.556305,Y 19.1977062,Z 1.00000,A 0.0,B 0.0,C 20.0000},Welding_Power 90.0000,Welding_Speed 0.01000000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.300000,Z 0.0}}
 
 
 DECL GLOBAL Surr_Welding_Craft_Type L90_Welding_Craft[2,10]
@@ -121,9 +121,9 @@ L90_Welding_Craft[1,7]={Welding_Name[] "S7",Welding_Pos {X 533.000,Y 463.600037,
 L90_Welding_Craft[1,8]={Welding_Name[] "S8",Welding_Pos {X 533.000,Y 463.600037,Z -2.05000,A 0.0,B -23.0000,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
 L90_Welding_Craft[1,9]={Welding_Name[] "S9",Welding_Pos {X 533.000,Y 463.600037,Z -2.05000,A 0.0,B -23.0000,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
 L90_Welding_Craft[1,10]={Welding_Name[] "S10",Welding_Pos {X 533.000,Y 338.000,Z -2.05000,A 0.0,B -23.0000,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
-L90_Welding_Craft[2,1]={Welding_Name[] "L90_S1",Welding_Pos {X 331.735107,Y 18.4747200,Z 1.00000,A 0.0,B 0.0,C 20.0000},Welding_Power 90.0000,Welding_Speed 0.0250000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.200000,Z 0.0}}
-L90_Welding_Craft[2,2]={Welding_Name[] "L90_S2",Welding_Pos {X 198.447510,Y 18.5680,Z 1.00000,A 0.0,B 0.0,C 20.0000},Welding_Power 90.0000,Welding_Speed 0.0250000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.200000,Z 0.0}}
-L90_Welding_Craft[2,3]={Welding_Name[] "L90_S3",Welding_Pos {X 65.1599426,Y 18.6612816,Z 1.00000,A 0.0,B 0.0,C 20.0000},Welding_Power 90.0000,Welding_Speed 0.0250000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.200000,Z 0.0}}
+L90_Welding_Craft[2,1]={Welding_Name[] "L90_S1",Welding_Pos {X 331.310059,Y 19.4351654,Z 1.00000,A 0.0,B 0.0,C 20.0000},Welding_Power 90.0000,Welding_Speed 0.0250000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.200000,Z 0.0}}
+L90_Welding_Craft[2,2]={Welding_Name[] "L90_S2",Welding_Pos {X 198.325,Y 20.3850,Z 1.00000,A 0.0,B 0.0,C 20.0000},Welding_Power 90.0000,Welding_Speed 0.0250000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.200000,Z 0.0}}
+L90_Welding_Craft[2,3]={Welding_Name[] "L90_S3",Welding_Pos {X 65.3399658,Y 21.3348351,Z 1.00000,A 0.0,B 0.0,C 20.0000},Welding_Power 90.0000,Welding_Speed 0.0250000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.200000,Z 0.0}}
 L90_Welding_Craft[2,4]={Welding_Name[] "S4",Welding_Pos {X 400.000,Y 86.0000153,Z -3.00000,A 0.0,B 23.0000,C 0.0},Welding_Power 90.0000,Welding_Speed 0.0400000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
 L90_Welding_Craft[2,5]={Welding_Name[] "S5",Welding_Pos {X 371.000,Y 0.0,Z -3.00000,A 0.0,B 0.0,C 23.0000},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
 L90_Welding_Craft[2,6]={Welding_Name[] "S6",Welding_Pos {X 533.000,Y 463.600037,Z -2.05000,A 0.0,B -23.0000,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
@@ -136,9 +136,9 @@ DECL GLOBAL Surr_Welding_Craft_Type C135_Welding_Craft[2,3]
 C135_Welding_Craft[1,1]={Welding_Name[] "S3",Welding_Pos {X 30.0000,Y 20.0000,Z 0.0,A 0.0,B 0.0,C 20.0000},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
 C135_Welding_Craft[1,2]={Welding_Name[] "PM3",Welding_Pos {X 22.9300,Y 22.9300,Z 0.0,A 0.0,B 0.0,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0},Welding_Offset_CIR {C_X 0.0,C_Y 0.0,C_Z 0.0}}
 C135_Welding_Craft[1,3]={Welding_Name[] "PE3",Welding_Pos {X 20.0000,Y 30.0000,Z 0.0,A 0.0,B -20.0000,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
-C135_Welding_Craft[2,1]={Welding_Name[] "C135_S1",Welding_Pos {X 31.8380127,Y 18.6846027,Z 1.00000,A 0.0,B 0.0,C 20.0000},Welding_Power 90.0000,Welding_Speed 0.0250000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
-C135_Welding_Craft[2,2]={Welding_Name[] "PM4",Welding_Pos {X 22.6400,Y 22.2890,Z 1.00000,A 0.0,B 0.0,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0},Welding_Offset_CIR {C_X 0.0,C_Y 0.0,C_Z 0.0}}
-C135_Welding_Craft[2,3]={Welding_Name[] "PE4",Welding_Pos {X 19.8306065,Y 30.6929989,Z 1.00000,A 0.0,B -20.0000,C 0.0},Welding_Power 90.0000,Welding_Speed 0.0120000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.500000,Y 0.0,Z -1.00000}}
+C135_Welding_Craft[2,1]={Welding_Name[] "C135_S1",Welding_Pos {X 32.0936890,Y 21.5722942,Z 1.00000,A 0.0,B 0.0,C 20.0000},Welding_Power 90.0000,Welding_Speed 0.0250000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
+C135_Welding_Craft[2,2]={Welding_Name[] "PM4",Welding_Pos {X 22.6620,Y 25.2540,Z 1.00000,A 0.0,B 0.0,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0},Welding_Offset_CIR {C_X 0.0,C_Y 0.0,C_Z 0.0}}
+C135_Welding_Craft[2,3]={Welding_Name[] "PE4",Welding_Pos {X 20.1667957,Y 33.6577797,Z 1.00000,A 0.0,B -20.0000,C 0.0},Welding_Power 90.0000,Welding_Speed 0.0120000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.500000,Y 0.0,Z -1.00000}}
 
 DECL GLOBAL Surr_Welding_Craft_Type L180_Welding_Craft[2,10]
 L180_Welding_Craft[1,1]={Welding_Name[] "S2",Welding_Pos {X 20.0000,Y 30.0000,Z 0.0,A 0.0,B -20.0000,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
@@ -151,9 +151,9 @@ L180_Welding_Craft[1,7]={Welding_Name[] "S7",Welding_Pos {X 533.000,Y 463.600037
 L180_Welding_Craft[1,8]={Welding_Name[] "S8",Welding_Pos {X 533.000,Y 463.600037,Z -2.05000,A 0.0,B -23.0000,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
 L180_Welding_Craft[1,9]={Welding_Name[] "S9",Welding_Pos {X 533.000,Y 463.600037,Z -2.05000,A 0.0,B -23.0000,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
 L180_Welding_Craft[1,10]={Welding_Name[] "S10",Welding_Pos {X 533.000,Y 338.000,Z -2.05000,A 0.0,B -23.0000,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
-L180_Welding_Craft[2,1]={Welding_Name[] "L180_S1",Welding_Pos {X 19.7925854,Y 92.4151917,Z 1.00000,A 0.0,B -20.0000,C 0.0},Welding_Power 90.0000,Welding_Speed 0.0250000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z -1.00000}}
-L180_Welding_Craft[2,2]={Welding_Name[] "L180_S2",Welding_Pos {X 19.6405,Y 339.304,Z 1.00000,A 0.0,B -20.0000,C 0.0},Welding_Power 90.0000,Welding_Speed 0.0300000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.300000,Y 0.0,Z -1.00000}}
-L180_Welding_Craft[2,3]={Welding_Name[] "L180_S3",Welding_Pos {X 19.4694042,Y 617.053894,Z 1.00000,A 0.0,B -20.0000,C 0.0},Welding_Power 90.0000,Welding_Speed 0.0300000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.300000,Y 0.0,Z -1.00000}}
+L180_Welding_Craft[2,1]={Welding_Name[] "L180_S1",Welding_Pos {X 20.5413361,Y 95.3976288,Z 1.00000,A 0.0,B -20.0000,C 0.0},Welding_Power 90.0000,Welding_Speed 0.0250000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z -1.00000}}
+L180_Welding_Craft[2,2]={Welding_Name[] "L180_S2",Welding_Pos {X 22.0395012,Y 342.357025,Z 1.00000,A 0.0,B -20.0000,C 0.0},Welding_Power 90.0000,Welding_Speed 0.0300000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.300000,Y 0.0,Z -1.00000}}
+L180_Welding_Craft[2,3]={Welding_Name[] "L180_S3",Welding_Pos {X 23.7249336,Y 620.186340,Z 1.00000,A 0.0,B -20.0000,C 0.0},Welding_Power 90.0000,Welding_Speed 0.0300000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.300000,Y 0.0,Z -1.00000}}
 L180_Welding_Craft[2,4]={Welding_Name[] "S4",Welding_Pos {X 400.000,Y 86.0000153,Z -3.00000,A 0.0,B 23.0000,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
 L180_Welding_Craft[2,5]={Welding_Name[] "S5",Welding_Pos {X 0.0,Y 371.000,Z -3.00000,A 0.0,B -23.0000,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
 L180_Welding_Craft[2,6]={Welding_Name[] "S6",Welding_Pos {X 533.000,Y 463.600037,Z -2.05000,A 0.0,B -23.0000,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
@@ -166,9 +166,9 @@ DECL GLOBAL Surr_Welding_Craft_Type C225_Welding_Craft[2,3]
 C225_Welding_Craft[1,1]={Welding_Name[] "S3",Welding_Pos {X 20.0000,Y 110.000,Z 0.0,A 0.0,B -20.0000,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
 C225_Welding_Craft[1,2]={Welding_Name[] "PM3",Welding_Pos {X 22.9300,Y 117.070,Z 0.0,A 0.0,B 0.0,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0},Welding_Offset_CIR {C_X 0.0,C_Y 0.0,C_Z 0.0}}
 C225_Welding_Craft[1,3]={Welding_Name[] "PE3",Welding_Pos {X 30.0000,Y 120.000,Z 0.0,A 0.0,B 0.0,C -20.0000},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
-C225_Welding_Craft[2,1]={Welding_Name[] "C225_S1",Welding_Pos {X 19.4503937,Y 647.915,Z 1.00000,A 0.0,B -20.0000,C 0.0},Welding_Power 90.0000,Welding_Speed 0.0300000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.500000,Y 0.0,Z -1.00000}}
-C225_Welding_Craft[2,2]={Welding_Name[] "PM5",Welding_Pos {X 23.4400,Y 656.415,Z 1.00000,A 0.0,B 0.0,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0300000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0},Welding_Offset_CIR {C_X 0.0,C_Y 0.0,C_Z 0.0}}
-C225_Welding_Craft[2,3]={Welding_Name[] "PE5",Welding_Pos {X 31.4429970,Y 659.926514,Z 1.00000,A 0.0,B 0.0,C -20.0000},Welding_Power 90.0000,Welding_Speed 0.0120000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.500000,Z 0.0}}
+C225_Welding_Craft[2,1]={Welding_Name[] "C225_S1",Welding_Pos {X 23.9122047,Y 651.056274,Z 1.00000,A 0.0,B -20.0000,C 0.0},Welding_Power 90.0000,Welding_Speed 0.0300000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.300000,Y 0.0,Z -1.00000}}
+C225_Welding_Craft[2,2]={Welding_Name[] "PM5",Welding_Pos {X 28.3490,Y 659.556,Z 1.00000,A 0.0,B 0.0,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0300000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.500000,Z 0.0},Welding_Offset_CIR {C_X 0.0,C_Y 0.0,C_Z 0.0}}
+C225_Welding_Craft[2,3]={Welding_Name[] "PE5",Welding_Pos {X 35.9848671,Y 662.999756,Z 1.00000,A 0.0,B 0.0,C -20.0000},Welding_Power 90.0000,Welding_Speed 0.0120000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.800000,Z 0.0}}
 
 DECL GLOBAL Surr_Welding_Craft_Type L270_Welding_Craft[2,10]
 L270_Welding_Craft[1,1]={Welding_Name[] "S2",Welding_Pos {X 110.000,Y 120.000,Z 0.0,A 0.0,B 0.0,C -20.0000},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
@@ -181,9 +181,9 @@ L270_Welding_Craft[1,7]={Welding_Name[] "S7",Welding_Pos {X 533.000,Y 463.600037
 L270_Welding_Craft[1,8]={Welding_Name[] "S8",Welding_Pos {X 533.000,Y 463.600037,Z -2.05000,A 0.0,B -23.0000,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
 L270_Welding_Craft[1,9]={Welding_Name[] "S9",Welding_Pos {X 533.000,Y 463.600037,Z -2.05000,A 0.0,B -23.0000,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
 L270_Welding_Craft[1,10]={Welding_Name[] "S10",Welding_Pos {X 533.000,Y 338.000,Z -2.05000,A 0.0,B -23.0000,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
-L270_Welding_Craft[2,1]={Welding_Name[] "L270_S1",Welding_Pos {X 64.7540,Y 659.958618,Z 1.00000,A 0.0,B 0.0,C -20.0000},Welding_Power 90.0000,Welding_Speed 0.0250000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
-L270_Welding_Craft[2,2]={Welding_Name[] "L270_S2",Welding_Pos {X 197.998,Y 660.087,Z 1.00000,A 0.0,B 0.0,C -20.0000},Welding_Power 90.0000,Welding_Speed 0.0300000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y -0.800000,Z 0.0}}
-L270_Welding_Craft[2,3]={Welding_Name[] "L270_S3",Welding_Pos {X 347.897491,Y 660.231384,Z 1.00000,A 0.0,B 0.0,C -20.0000},Welding_Power 90.0000,Welding_Speed 0.0300000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y -0.800000,Z 0.0}}
+L270_Welding_Craft[2,1]={Welding_Name[] "L270_S1",Welding_Pos {X 69.2440872,Y 662.843689,Z 1.00000,A 0.0,B 0.0,C -20.0000},Welding_Power 90.0000,Welding_Speed 0.0250000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
+L270_Welding_Craft[2,2]={Welding_Name[] "L270_S2",Welding_Pos {X 202.280975,Y 662.219482,Z 1.00000,A 0.0,B 0.0,C -20.0000},Welding_Power 90.0000,Welding_Speed 0.0300000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y -0.800000,Z 0.0}}
+L270_Welding_Craft[2,3]={Welding_Name[] "L270_S3",Welding_Pos {X 351.947479,Y 661.517273,Z 1.00000,A 0.0,B 0.0,C -20.0000},Welding_Power 90.0000,Welding_Speed 0.0300000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y -0.800000,Z 0.0}}
 L270_Welding_Craft[2,4]={Welding_Name[] "S4",Welding_Pos {X 400.000,Y 86.0000153,Z -3.00000,A 0.0,B 23.0000,C 0.0},Welding_Power 90.0000,Welding_Speed 0.0300000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
 L270_Welding_Craft[2,5]={Welding_Name[] "S12",Welding_Pos {X 28.9999981,Y 400.000,Z -3.00000,A 0.0,B 0.0,C -23.0000},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
 L270_Welding_Craft[2,6]={Welding_Name[] "S6",Welding_Pos {X 533.000,Y 463.600037,Z -2.05000,A 0.0,B -23.0000,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
@@ -196,9 +196,9 @@ DECL GLOBAL Surr_Welding_Craft_Type C315_Welding_Craft[2,3]
 C315_Welding_Craft[1,1]={Welding_Name[] "C315_S1",Welding_Pos {X 366.000,Y 656.000,Z 0.0,A 0.0,B 0.0,C -20.0000},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
 C315_Welding_Craft[1,2]={Welding_Name[] "PM3",Welding_Pos {X 373.071075,Y 653.071045,Z 0.0,A 0.0,B 0.0,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0},Welding_Offset_CIR {C_X 0.0,C_Y 0.0,C_Z 0.0}}
 C315_Welding_Craft[1,3]={Welding_Name[] "PE5",Welding_Pos {X 376.000,Y 646.000,Z 0.0,A 0.0,B 20.0000,C 0.0},Welding_Power 80.0000,Welding_Speed 0.0400000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
-C315_Welding_Craft[2,1]={Welding_Name[] "C315_S1",Welding_Pos {X 364.553,Y 660.247437,Z 1.00000,A 0.0,B 0.0,C -20.0000},Welding_Power 90.0000,Welding_Speed 0.0300000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y -0.500000,Z 0.0}}
-C315_Welding_Craft[2,2]={Welding_Name[] "PM7",Welding_Pos {X 373.474,Y 655.570,Z 1.00000,A 0.0,B 0.0,C 0.0},Welding_Power 90.0000,Welding_Speed 0.0400000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y -0.500000,Z 0.0},Welding_Offset_CIR {C_X 0.0,C_Y 0.0,C_Z 0.0}}
-C315_Welding_Craft[2,3]={Welding_Name[] "PE7",Welding_Pos {X 376.562439,Y 648.259,Z 1.00000,A 0.0,B 20.0000,C 0.0},Welding_Power 90.0000,Welding_Speed 0.0120000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
+C315_Welding_Craft[2,1]={Welding_Name[] "C315_S1",Welding_Pos {X 368.577087,Y 661.439270,Z 1.00000,A 0.0,B 0.0,C -20.0000},Welding_Power 90.0000,Welding_Speed 0.0300000,Welding_Angle -20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y -0.500000,Z 0.0}}
+C315_Welding_Craft[2,2]={Welding_Name[] "PM7",Welding_Pos {X 377.618,Y 656.695,Z 1.00000,A 0.0,B 0.0,C 0.0},Welding_Power 90.0000,Welding_Speed 0.0400000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X 0.0,Y -0.500000,Z 0.0},Welding_Offset_CIR {C_X 0.0,C_Y 0.0,C_Z 0.0}}
+C315_Welding_Craft[2,3]={Welding_Name[] "PE7",Welding_Pos {X 380.501862,Y 649.383240,Z 1.00000,A 0.0,B 20.0000,C 0.0},Welding_Power 90.0000,Welding_Speed 0.0120000,Welding_Angle 20.0000,Welding_CDIS 5,Welding_ACC 100,Welding_Offset {X -0.500000,Y 0.0,Z 0.0}}
 
 
 DECL GLOBAL Surr_Welding_Craft_Type N45_Short_Craft[2,5]
