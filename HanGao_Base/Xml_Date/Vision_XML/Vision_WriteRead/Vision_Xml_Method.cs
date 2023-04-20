@@ -3,6 +3,7 @@ using HanGao.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -357,6 +358,42 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
 
 
                     break;
+
+
+
+
+                case T1 _T when _T is Area_Error_Model:
+
+                    //Area_Error_Model _Error_Data = (Area_Error_Model)(object)_Vale as Area_Error_Model;
+
+                    //string _FilePath = Environment.CurrentDirectory + "\\Error_Data";
+                    //string _FileName = "";
+
+                    //int Sample_Save_Image_Number = 1;
+
+                    ////检查存放文件目录
+                    //if (!Directory.Exists(_Path))
+                    //{
+                    //    //创建文件夹
+                    //    Directory.CreateDirectory(_Path);
+
+                    //}
+
+                    //DirectoryInfo root = new DirectoryInfo(_Path);
+                    //FileInfo Re;
+                    //do
+                    //{
+                    //    _FilePath = DateTime.Today.ToLongDateString() + "_" + (Sample_Save_Image_Number += 1).ToString();
+
+                    //    Re = root.GetFiles().Where(F => F.Name.Contains(_FileName)).FirstOrDefault();
+
+
+                    //} while (Re != null);
+
+
+
+
+                    break;
             }
 
 
@@ -375,6 +412,8 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
         /// <typeparam name="T1"></typeparam>
         /// <param name="_Path"></param>
         /// <returns></returns>
+       
+
         public static bool GetXml_Path<T1>(ref string _Path, Get_Xml_File_Enum Get_Xml_File)
         {
             _Path = "";
@@ -453,6 +492,58 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
                             break;
                     }
                     return true;
+                case Type _T when _T == typeof(Area_Error_Model):
+
+                    switch (Get_Xml_File)
+                    {
+                        case Get_Xml_File_Enum.Folder_Path:
+
+                            _Path = Environment.CurrentDirectory + "\\Error_Data";
+
+                            break;
+                        case Get_Xml_File_Enum.File_Path:
+
+
+
+
+
+                            _Path = Environment.CurrentDirectory + "\\Error_Data";
+                            string _FileName = "";
+                            int Sample_Save_Image_Number = 0;
+
+
+  
+
+                                var aa= typeof(T1);
+
+
+                            //检查存放文件目录
+                            if (!Directory.Exists(_Path))
+                            {
+                                //创建文件夹
+                                Directory.CreateDirectory(_Path);
+
+                            }
+
+                            DirectoryInfo root = new DirectoryInfo(_Path);
+                            FileInfo Re;
+                            do
+                            {
+                                _FileName = DateTime.Today.ToLongDateString() + "_" + (Sample_Save_Image_Number += 1).ToString()+ ".xml";
+
+                                Re = root.GetFiles().Where(F => F.Name.Contains(_FileName)).FirstOrDefault();
+
+                                
+                            } while (Re != null);
+
+                            _Path += "\\"+_FileName;
+
+
+                            break;
+                    }
+                    return true;
+
+
             }
 
             return false;

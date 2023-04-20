@@ -101,7 +101,7 @@ namespace HanGao.ViewModel
                 for (int i = 0; i < 500; i++)
                 {
 
-                    Thread.Sleep(1000);
+                    Thread.Sleep(100);
 
 
 
@@ -113,7 +113,14 @@ namespace HanGao.ViewModel
                     Work_1_Error_List.F_225_Error_List.Y.Add(_R.NextDouble() * 0.4);
                     Work_1_Error_List.F_315_Error_List.X.Add(_R.NextDouble() * 1.2);
                     Work_1_Error_List.F_315_Error_List.Y.Add(_R.NextDouble() * 1.2);
-
+                    Work_2_Error_List.F_45_Error_List.X.Add(_R.NextDouble() * 0.2);
+                    Work_2_Error_List.F_45_Error_List.Y.Add(_R.NextDouble() * 0.2);
+                    Work_2_Error_List.F_135_Error_List.X.Add(_R.NextDouble() * 0.3);
+                    Work_2_Error_List.F_135_Error_List.Y.Add(_R.NextDouble() * 0.3);
+                    Work_2_Error_List.F_225_Error_List.X.Add(_R.NextDouble() * 0.4);
+                    Work_2_Error_List.F_225_Error_List.Y.Add(_R.NextDouble() * 0.4);
+                    Work_2_Error_List.F_315_Error_List.X.Add(_R.NextDouble() * 1.2);
+                    Work_2_Error_List.F_315_Error_List.Y.Add(_R.NextDouble() * 1.2);
 
                     //Console.WriteLine("----------------");
                     //Console.WriteLine(yAxis[0].MinLimit);
@@ -130,7 +137,7 @@ namespace HanGao.ViewModel
                 }
 
             })))
-            { IsBackground = true, };
+            { IsBackground = true, }.Start();
 
 
             //误差图标初始化
@@ -263,12 +270,12 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 竖坐标样式
         /// </summary>
-        public Axis[] X_xAxis { set; get; } = new[] { new Axis() { Name = "X Error", Position = AxisPosition.End } };
+        public Axis[] X_xAxis { set; get; } = new[] { new Axis() { Name = "X Error_Data", Position = AxisPosition.End } };
 
         /// <summary>
         /// 竖坐标样式
         /// </summary>
-        public Axis[] Y_xAxis { set; get; } = new[] { new Axis() { Name = "Y Error", Position = AxisPosition.End } };
+        public Axis[] Y_xAxis { set; get; } = new[] { new Axis() { Name = "Y Error_Data", Position = AxisPosition.End } };
 
         /// <summary>
         /// 横坐标样式
@@ -589,6 +596,32 @@ namespace HanGao.ViewModel
 
             });
         }
+
+
+        public ICommand Error_Chart_Save_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+
+                //把参数类型转换控件
+                Button E = Sm.Source as Button;
+
+
+                //工作区域数据数据清除
+                //Work_1_Error_List=    new Area_Error_Model();
+                //Work_2_Error_List=    new Area_Error_Model();
+
+
+                Save_Xml(Work_1_Error_List);
+                Save_Xml(Work_2_Error_List);
+
+
+
+
+
+            });
+        }
+
 
         /// <summary>
         /// 图表区域显示设置

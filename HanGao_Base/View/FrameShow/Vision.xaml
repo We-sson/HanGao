@@ -1615,9 +1615,9 @@
                                 </StackPanel>
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Click">
-                                        <i:InvokeCommandAction Command="{Binding}"
-                                                               CommandParameter="{Binding}"
-                                                               PassEventArgsToCommand="False" />
+                                        <i:InvokeCommandAction Command="{Binding Error_Chart_Save_Comm}"
+                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                               PassEventArgsToCommand="True" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
 

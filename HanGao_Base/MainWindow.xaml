@@ -90,11 +90,10 @@
             <!--  首页_左上角_公司图标  -->
             <Border Grid.Column="0"
                     HorizontalAlignment="Stretch"
-                    Background="{DynamicResource 全局_按钮_黄颜色}"
                     Visibility="Visible">
 
 
-
+                <Image Margin="15" Source="/Resources/悍高LOGO_ioc.png" />
 
 
                 <!--<TextBlock HorizontalAlignment="Center" Visibility="Hidden"
@@ -136,7 +135,8 @@
                        Margin="0"
                        HorizontalAlignment="Left"
                        VerticalAlignment="Top"
-                       Opacity=" 0.6"
+                       FontSize=" 10"
+                       Opacity=" 0.3"
                        Visibility="Visible" />
 
 
