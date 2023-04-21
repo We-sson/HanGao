@@ -33,21 +33,20 @@ namespace HanGao.ViewModel
             Messenger.Register<Area_Error_Data_Model, string>(this, nameof(Meg_Value_Eunm.Vision_Error_Data), (O, _E) =>
             {
 
-                Area_Error_Model _Work = null;
 
                 switch (_E.Work_Area)
                 {
                     case Work_Name_Enum.Work_1:
 
-                        _Work = Work_1_Error_List;
-                        Revise_Vision_Error_Chart(ref _Work, _E);
-                        Work_1_Error_List = _Work;
+                        //_Work = Work_1_Error_List;
+                        Work_1_Error_List= Revise_Vision_Error_Chart(Work_1_Error_List,_E);
+                        //Work_1_Error_List = _Work;
 
                         break;
                     case Work_Name_Enum.Work_2:
-                        _Work = Work_2_Error_List;
-                        Revise_Vision_Error_Chart(ref _Work, _E);
-                        Work_2_Error_List = _Work;
+                        //_Work = Work_2_Error_List;
+                        Work_2_Error_List= Revise_Vision_Error_Chart(Work_2_Error_List,_E);
+                        //Work_2_Error_List = _Work;
 
 
                         break;
@@ -101,26 +100,72 @@ namespace HanGao.ViewModel
                 for (int i = 0; i < 500; i++)
                 {
 
-                    Thread.Sleep(100);
+                    Thread.Sleep(500);
 
 
 
-                    Work_1_Error_List.F_45_Error_List.X.Add(_R.NextDouble() * 0.2);
-                    Work_1_Error_List.F_45_Error_List.Y.Add(_R.NextDouble() * 0.2);
-                    Work_1_Error_List.F_135_Error_List.X.Add(_R.NextDouble() * 0.3);
-                    Work_1_Error_List.F_135_Error_List.Y.Add(_R.NextDouble() * 0.3);
-                    Work_1_Error_List.F_225_Error_List.X.Add(_R.NextDouble() * 0.4);
-                    Work_1_Error_List.F_225_Error_List.Y.Add(_R.NextDouble() * 0.4);
-                    Work_1_Error_List.F_315_Error_List.X.Add(_R.NextDouble() * 1.2);
-                    Work_1_Error_List.F_315_Error_List.Y.Add(_R.NextDouble() * 1.2);
-                    Work_2_Error_List.F_45_Error_List.X.Add(_R.NextDouble() * 0.2);
-                    Work_2_Error_List.F_45_Error_List.Y.Add(_R.NextDouble() * 0.2);
-                    Work_2_Error_List.F_135_Error_List.X.Add(_R.NextDouble() * 0.3);
-                    Work_2_Error_List.F_135_Error_List.Y.Add(_R.NextDouble() * 0.3);
-                    Work_2_Error_List.F_225_Error_List.X.Add(_R.NextDouble() * 0.4);
-                    Work_2_Error_List.F_225_Error_List.Y.Add(_R.NextDouble() * 0.4);
-                    Work_2_Error_List.F_315_Error_List.X.Add(_R.NextDouble() * 1.2);
-                    Work_2_Error_List.F_315_Error_List.Y.Add(_R.NextDouble() * 1.2);
+
+
+
+
+                    Work_1_Error_List = Revise_Vision_Error_Chart(Work_1_Error_List, new Area_Error_Data_Model()
+                    {
+                        Vision_Area = ShapeModel_Name_Enum.F_45,
+                        Error_Result = new Point3D() { X = NextDouble(_R, -3, 3), Y = NextDouble(_R, -3, 3) }
+                    } );
+                    Work_1_Error_List = Revise_Vision_Error_Chart(Work_1_Error_List, new Area_Error_Data_Model()
+                    {
+                        Vision_Area = ShapeModel_Name_Enum.F_135,
+                        Error_Result = new Point3D() { X = NextDouble(_R, -3, 3), Y = NextDouble(_R, -3, 3) }
+                    });
+                    Work_1_Error_List = Revise_Vision_Error_Chart(Work_1_Error_List, new Area_Error_Data_Model()
+                    {
+                        Vision_Area = ShapeModel_Name_Enum.F_225,
+                        Error_Result = new Point3D() { X = NextDouble(_R, -3, 3), Y = NextDouble(_R, -3, 3) }
+                    }); 
+                    Work_1_Error_List = Revise_Vision_Error_Chart(Work_1_Error_List, new Area_Error_Data_Model()
+                    {
+                        Vision_Area = ShapeModel_Name_Enum.F_315,
+                        Error_Result = new Point3D() { X = NextDouble(_R, -3, 3), Y = NextDouble(_R, -3, 3) }
+                    });
+
+
+                    Work_2_Error_List = Revise_Vision_Error_Chart(Work_2_Error_List, new Area_Error_Data_Model()
+                    {
+                        Vision_Area = ShapeModel_Name_Enum.F_45,
+                        Error_Result = new Point3D() { X = NextDouble(_R, -3, 3), Y = NextDouble(_R, -3, 3) }
+                    });
+                    Work_2_Error_List = Revise_Vision_Error_Chart(Work_2_Error_List, new Area_Error_Data_Model()
+                    {
+                        Vision_Area = ShapeModel_Name_Enum.F_135,
+                        Error_Result = new Point3D() { X = NextDouble(_R, -3, 3), Y = NextDouble(_R, -3, 3) }
+                    });
+                    Work_2_Error_List = Revise_Vision_Error_Chart(Work_2_Error_List, new Area_Error_Data_Model()
+                    {
+                        Vision_Area = ShapeModel_Name_Enum.F_225,
+                        Error_Result = new Point3D() { X = NextDouble(_R, -3, 3), Y = NextDouble(_R, -3, 3) }
+                    });
+                    Work_2_Error_List = Revise_Vision_Error_Chart(Work_2_Error_List, new Area_Error_Data_Model()
+                    {
+                        Vision_Area = ShapeModel_Name_Enum.F_315,
+                        Error_Result = new Point3D() { X = NextDouble(_R, -3, 3), Y = NextDouble(_R, -3, 3) }
+                    });
+                    //Work_1_Error_List.F_45_Error_List.X.Add(NextDouble(_R, -3, 3));
+                    //Work_1_Error_List.F_45_Error_List.Y.Add(NextDouble(_R, -3, 3));
+                    //Work_1_Error_List.F_135_Error_List.X.Add(NextDouble(_R, -3, 3));
+                    //Work_1_Error_List.F_135_Error_List.Y.Add(NextDouble(_R, -3, 3));
+                    //Work_1_Error_List.F_225_Error_List.X.Add(NextDouble(_R, -3, 3));
+                    //Work_1_Error_List.F_225_Error_List.Y.Add(NextDouble(_R, -3, 3));
+                    //Work_1_Error_List.F_315_Error_List.X.Add(NextDouble(_R, -3, 3));
+                    //Work_1_Error_List.F_315_Error_List.Y.Add(NextDouble(_R, -3, 3));
+                    //Work_2_Error_List.F_45_Error_List.X.Add(NextDouble(_R, -3, 3));
+                    //Work_2_Error_List.F_45_Error_List.Y.Add(NextDouble(_R, -3, 3));
+                    //Work_2_Error_List.F_135_Error_List.X.Add(NextDouble(_R, -3, 3));
+                    //Work_2_Error_List.F_135_Error_List.Y.Add(NextDouble(_R, -3, 3));
+                    //Work_2_Error_List.F_225_Error_List.X.Add(NextDouble(_R, -3, 3));
+                    //Work_2_Error_List.F_225_Error_List.Y.Add(NextDouble(_R, -3, 3));
+                    //Work_2_Error_List.F_315_Error_List.X.Add(NextDouble(_R, -3, 3)  );
+                    //Work_2_Error_List.F_315_Error_List.Y.Add(NextDouble(_R, -3, 3));
 
                     //Console.WriteLine("----------------");
                     //Console.WriteLine(yAxis[0].MinLimit);
@@ -242,6 +287,9 @@ namespace HanGao.ViewModel
             Welding_Power_Series = new ObservableCollection<ISeries>(Welding_Power_Data.AddValue(Weding_Power_Val, "%").BuildSeries());
 
 
+
+           
+
             //初始化焊接功率UI显示样式
 
         }
@@ -251,14 +299,17 @@ namespace HanGao.ViewModel
         //说明文档:https://lvcharts.com/docs/wpf/2.0.0-beta.700/Overview.Installation%20and%20first%20chart
 
 
+        /// <summary>
+        /// 图标界面用户选择区域
+        /// </summary>
+        public Work_Name_Enum Chart_Select_Work { set; get; } = Work_Name_Enum.Work_1;
+
+
 
         /// <summary>
         /// 工位1误差集合
         /// </summary>
         public Area_Error_Model Work_1_Error_List { set; get; } = new Area_Error_Model();
-
-
-
 
 
         /// <summary>
@@ -306,8 +357,8 @@ namespace HanGao.ViewModel
         public GaugeBuilder Robot_Speed_Data { get; set; } =
         new GaugeBuilder()
         {
-           
-        
+
+
             LabelsSize = 25,
             InnerRadius = 55,
             BackgroundInnerRadius = 55,
@@ -417,6 +468,11 @@ namespace HanGao.ViewModel
 
 
 
+        public double NextDouble(Random ran, double minValue, double maxValue)
+        {
+            return ran.NextDouble() * (maxValue - minValue) + minValue;
+        }
+
         /// <summary>
         /// 计算全部最大最小误差值
         /// </summary>
@@ -426,19 +482,19 @@ namespace HanGao.ViewModel
         {
 
             if (
-                
-                _Area.F_45_Error_List.X.Count>0 &&
+
+               _Area.F_45_Error_List.X.Count > 0 &&
                _Area.F_45_Error_List.Y.Count > 0 &&
-                  _Area.F_135_Error_List.X.Count > 0 &&
+               _Area.F_135_Error_List.X.Count > 0 &&
                _Area.F_135_Error_List.Y.Count > 0 &&
-                  _Area.F_225_Error_List.X.Count > 0 &&
+               _Area.F_225_Error_List.X.Count > 0 &&
                _Area.F_225_Error_List.Y.Count > 0 &&
-                  _Area.F_315_Error_List.X.Count > 0 &&
+               _Area.F_315_Error_List.X.Count > 0 &&
                _Area.F_315_Error_List.Y.Count > 0
                 )
             {
 
-            List<double> _X_Max = new List<double>() {
+                List<double> _X_Max = new List<double>() {
                         _Area.F_45_Error_List.X.Max(),
                         _Area.F_45_Error_List.Y.Max(),
                         _Area.F_135_Error_List.X.Max(),
@@ -448,7 +504,7 @@ namespace HanGao.ViewModel
                         _Area.F_315_Error_List.X.Max(),
                         _Area.F_315_Error_List.Y.Max(),
                     };
-            List<double> _X_Min = new List<double>() {
+                List<double> _X_Min = new List<double>() {
                         _Area.F_45_Error_List.X.Min(),
                         _Area.F_45_Error_List.Y.Min(),
                         _Area.F_135_Error_List.X.Min(),
@@ -459,7 +515,7 @@ namespace HanGao.ViewModel
                         _Area.F_315_Error_List.Y.Min(),
                     };
 
-            return new Area_MinMax_XY_Val_Model() { Min = _X_Min.Min(), Max = _X_Max.Max() };
+                return new Area_MinMax_XY_Val_Model() { Min = _X_Min.Min(), Max = _X_Max.Max() };
 
             }
             else
@@ -476,8 +532,7 @@ namespace HanGao.ViewModel
         /// </summary>
         /// <param name="_Error_Chart"></param>
         /// <param name="_Error_Data"></param>
-        public void Revise_Vision_Error_Chart(ref Area_Error_Model _Error_Chart, Area_Error_Data_Model _Error_Data)
-
+        public Area_Error_Model Revise_Vision_Error_Chart(Area_Error_Model _Error_Chart, Area_Error_Data_Model _Error_Data)
         {
 
 
@@ -512,13 +567,30 @@ namespace HanGao.ViewModel
 
 
             Area_XY_Error_List _Area = (Area_XY_Error_List)_Error_Chart.GetType().GetProperties().FirstOrDefault(X => X.Name == _Error_Data.Vision_Area.ToString() + "_Error_List").GetValue(_Error_Chart);
-
+           
+            
+            //整理图表显示
             X_xAxis[0].MaxLimit = _Area.X.Count;
             Y_xAxis[0].MaxLimit = _Area.X.Count;
             X_xAxis[0].MinLimit = _Area.X.Count - 5;
             Y_xAxis[0].MinLimit = _Area.X.Count - 5;
             yAxis[0].MaxLimit = MaxMin_Error_List(_Error_Chart).Max + 1;
             yAxis[0].MinLimit = MaxMin_Error_List(_Error_Chart).Min - 1;
+
+
+            return _Error_Chart;
+
+        }
+
+
+        public void Chart_Data_Centering(Area_XY_Error_List _Chart_List)
+        {
+
+
+    
+
+
+
         }
 
 
@@ -584,8 +656,7 @@ namespace HanGao.ViewModel
 
 
                 //工作区域数据数据清除
-                //Work_1_Error_List=    new Area_Error_Model();
-                //Work_2_Error_List=    new Area_Error_Model();
+
 
 
                 Live_Data_Clear();
@@ -608,12 +679,27 @@ namespace HanGao.ViewModel
 
 
                 //工作区域数据数据清除
-                //Work_1_Error_List=    new Area_Error_Model();
-                //Work_2_Error_List=    new Area_Error_Model();
+
+                switch (Chart_Select_Work)
+                {
+                    case Work_Name_Enum.Work_1:
+                        Save_Xml(Work_1_Error_List);
+
+                        break;
+                    case Work_Name_Enum.Work_2:
+                        Save_Xml(Work_2_Error_List);
+
+                        break;
+                    case Work_Name_Enum.Work_3:
+
+                        break;
+                    case Work_Name_Enum.Work_4:
+
+                        break;
+
+                }
 
 
-                Save_Xml(Work_1_Error_List);
-                Save_Xml(Work_2_Error_List);
 
 
 
@@ -707,8 +793,29 @@ namespace HanGao.ViewModel
     [AddINotifyPropertyChangedInterface]
     public class Area_XY_Error_List
     {
-        public ObservableCollection<double> X = new ObservableCollection<double>() {  };
-        public ObservableCollection<double> Y = new ObservableCollection<double>() {  };
+        //public Area_XY_Error_List()
+        //{
+
+           
+        //    X.CollectionChanged += (s, e) =>
+        //    {
+        //        var a = typeof(Area_XY_Error_List);
+                
+        //    };
+        //    Y.CollectionChanged += ((s, e) =>
+        //    {
+
+
+        //    });
+        //}
+
+ 
+
+        public ObservableCollection<double> X = new ObservableCollection<double>() { };
+        public ObservableCollection<double> Y = new ObservableCollection<double>() { };
+
+        
+
 
     }
 

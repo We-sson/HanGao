@@ -506,7 +506,7 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
 
 
 
-
+                            //设置存放参数
                             _Path = Environment.CurrentDirectory + "\\Error_Data";
                             string _FileName = "";
                             int Sample_Save_Image_Number = 0;
@@ -514,7 +514,7 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
 
   
 
-                                var aa= typeof(T1);
+                                //var aa= typeof(T1);
 
 
                             //检查存放文件目录
@@ -536,6 +536,8 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
                                 
                             } while (Re != null);
 
+
+                            //合并路径
                             _Path += "\\"+_FileName;
 
 
