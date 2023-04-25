@@ -89,8 +89,8 @@ endscript
 
 ;-----------------------------------------
 
-DECL PARAM LSPOW={VALUE {REAL: AUTOLIMIT TRUE, min 0,max 100,Step 1,default 80},shortname[] "POW= ", UNIT[] " %", Shortcut[] "POW" }
-DECL PARAM LSSec={VALUE {REAL: AUTOLIMIT TRUE, min 0,max 5,Step 0.1,default 0.2},shortname[] "Sec= ", UNIT[] " S", Shortcut[] "Sec" }
+DECL PARAM LSPOW={VALUE {REAL: AUTOLIMIT TRUE, min 0,max 100,Step 1,default 80},shortname[] "Power=", UNIT[] "%%", Shortcut[] "POW" }
+DECL PARAM LSSec={VALUE {REAL: AUTOLIMIT TRUE, min 0,max 5,Step 0.1,default 0.2},shortname[] "Sec=", UNIT[] "sec", Shortcut[] "Sec" }
 
 
 DECL FOLD FOLDLSON[4]
@@ -151,4 +151,4 @@ Decl InlineForm IF_End={FOLD[1] IF_End_FOLD , ONACCEPT OnAcc_LS}
 ENDTP
 
 
-;checksum 49323745503 
+;checksum 50412157920 

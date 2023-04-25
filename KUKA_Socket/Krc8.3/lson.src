@@ -37,7 +37,7 @@ PULSE($OUT[5], TRUE,.5)
 
 WAIT SEC 0.2
 
-$ANOUT[1]=Power
+$ANOUT[1]=Power/100
 
 
 
