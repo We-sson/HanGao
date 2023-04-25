@@ -183,7 +183,7 @@
                                VerticalAlignment="Center"
                                FontFamily="/Resources/#iconfont"
                                FontSize="80"
-                               Foreground="#EEEEEE">
+                               Foreground="{DynamicResource 全局_背景_白颜色}">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
                                 <Style.Triggers>
@@ -207,9 +207,9 @@
                         <TextBlock Margin="0,10,0,0"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   FontFamily="DengXian Light"
+                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
                                    FontSize="35"
-                                   Foreground="#EEEEEE">
+                                   Foreground="{DynamicResource 全局_背景_白颜色}">
                             <TextBlock.Text>
                                 <MultiBinding StringFormat="{}{0}X{1}">
                                     <Binding Path="Sink_Process.Sink_Size_Long" />

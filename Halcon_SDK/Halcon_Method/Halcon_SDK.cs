@@ -1019,7 +1019,7 @@ namespace Halcon_SDK_DLL
 
 
 
-                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = _Path.Name + "，Halcon文件读取成功！" };
+                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = _Path.Name + "Halcon文件读取成功！" };
 
             }
             catch (Exception e)

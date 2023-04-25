@@ -698,7 +698,7 @@ namespace Halcon_SDK_DLL.Model
         public string GetResult_Info()
         {
 
-            return Result_Status.ToString() + "_" + Result_Error_Info;
+            return Result_Status.ToString() + "-" + Result_Error_Info;
         }
 
     }
