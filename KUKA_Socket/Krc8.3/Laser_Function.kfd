@@ -35,12 +35,12 @@ DECL PARAM PDIST={shortname[] " at ", shortcut[] "", unit[] "", value { LIST : P
   ITEM[1] {ITEM:VALUE[] "0", disp[] "START"}, _
   ITEM[2] {ITEM:VALUE[] "1", disp[] "END"}}}
 
-DECL PARAM PINDELAY={VALUE {NUMBER: AUTOLIMIT TRUE, min 0,max 10000,Step 1,default 0},shortname[] "Delay= ", UNIT[] " ms", Shortcut[] "Delay" }
-DECL PARAM POUT1DELAY={VALUE {NUMBER: AUTOLIMIT TRUE, min 0,max 10000,Step 1,default 0},shortname[] "Delay= ", UNIT[] " ms", Shortcut[] "Delay" }
-DECL PARAM POUT2DELAY={VALUE {NUMBER: AUTOLIMIT TRUE, min 0,max 10000,Step 1,default 0},shortname[] "Delay= ", UNIT[] " ms", Shortcut[] "Delay" }
-DECL PARAM PINPATH={VALUE {NUMBER: AUTOLIMIT TRUE, min -1000,max 1000,Step 1,default 0},shortname[] "Path= ", UNIT[] "_mm", Shortcut[] "Path" }
-DECL PARAM POUT1PATH={VALUE {NUMBER: AUTOLIMIT TRUE, min -1000,max 1000,Step 1,default 0},shortname[] "Path= ", UNIT[] "_mm", Shortcut[] "Path" }
-DECL PARAM POUT2PATH={VALUE {NUMBER: AUTOLIMIT TRUE, min -1000,max 1000,Step 1,default 0},shortname[] "Path= ", UNIT[] "_mm", Shortcut[] "Path" }
+DECL PARAM PINDELAY={VALUE {NUMBER: AUTOLIMIT TRUE, min 0,max 10000,Step 1,default 0},shortname[] "Delay= ", UNIT[] "ms", Shortcut[] "Delay" }
+DECL PARAM POUT1DELAY={VALUE {NUMBER: AUTOLIMIT TRUE, min 0,max 10000,Step 1,default 0},shortname[] "Delay= ", UNIT[] "ms", Shortcut[] "Delay" }
+DECL PARAM POUT2DELAY={VALUE {NUMBER: AUTOLIMIT TRUE, min 0,max 10000,Step 1,default 0},shortname[] "Delay= ", UNIT[] "ms", Shortcut[] "Delay" }
+DECL PARAM PINPATH={VALUE {NUMBER: AUTOLIMIT TRUE, min -1000,max 1000,Step 1,default 0},shortname[] "Path= ", UNIT[] "mm", Shortcut[] "Path" }
+DECL PARAM POUT1PATH={VALUE {NUMBER: AUTOLIMIT TRUE, min -1000,max 1000,Step 1,default 0},shortname[] "Path= ", UNIT[] "mm", Shortcut[] "Path" }
+DECL PARAM POUT2PATH={VALUE {NUMBER: AUTOLIMIT TRUE, min -1000,max 1000,Step 1,default 0},shortname[] "Path= ", UNIT[] "mm", Shortcut[] "Path" }
 DECL PARAM PPRIO={VALUE {NUMBER: AUTOLIMIT TRUE, min 0,max 100,Step 1,default 20},shortname[] "PRIO= ", UNIT[] " ", Shortcut[] "PRIO" }
 
 
@@ -69,9 +69,9 @@ endscript
 ;-----------------------------------------
 
 DECL PARAM LSVEL={VALUE {REAL: AUTOLIMIT TRUE, min 0,max 2,Step 0.1,default 0.01},shortname[] "CP= ", UNIT[] "m/s", Shortcut[] "VEL" }
-DECL PARAM LSREL_X={VALUE {REAL: AUTOLIMIT TRUE, min -100,max 100,Step 0.1,default 0},shortname[] "X= ", UNIT[] "_mm", Shortcut[] "Distance" }
-DECL PARAM LSREL_Y={VALUE {REAL: AUTOLIMIT TRUE, min -100,max 100,Step 0.1,default 0},shortname[] "Y= ", UNIT[] "_mm", Shortcut[] "Distance" }
-DECL PARAM LSREL_Z={VALUE {REAL: AUTOLIMIT TRUE, min -100,max 100,Step 0.1,default 0},shortname[] "Z= ", UNIT[] "_mm", Shortcut[] "Distance" }
+DECL PARAM LSREL_X={VALUE {REAL: AUTOLIMIT TRUE, min -100,max 100,Step 0.1,default 0},shortname[] "X= ", UNIT[] "mm", Shortcut[] "Distance" }
+DECL PARAM LSREL_Y={VALUE {REAL: AUTOLIMIT TRUE, min -100,max 100,Step 0.1,default 0},shortname[] "Y= ", UNIT[] "mm", Shortcut[] "Distance" }
+DECL PARAM LSREL_Z={VALUE {REAL: AUTOLIMIT TRUE, min -100,max 100,Step 0.1,default 0},shortname[] "Z= ", UNIT[] "mm", Shortcut[] "Distance" }
 
 
 DECL FOLD FOLDLSREL[4]
@@ -151,4 +151,4 @@ Decl InlineForm IF_End={FOLD[1] IF_End_FOLD , ONACCEPT OnAcc_LS}
 ENDTP
 
 
-;checksum 50412157920 
+;checksum 48584526345 

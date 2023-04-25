@@ -1,11 +1,12 @@
 &ACCESS RVO1
-&REL 298
+&REL 299
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HK
 DEF Glode_HanGao( )
 
 ;# DATE:2021-1-4
+
 
 
 
@@ -1394,6 +1395,20 @@ ENDIF
 
 END
 
+
+GLobAL DEF HanGao_DAT_ACT( Weld_Dat:IN,Weld_LDAT:IN)
+DECL Surr_Welding_Craft_Type Weld_DAT
+DECL LDAT Weld_LDAT
+
+
+TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=Weld_Dat.Welding_Power/100
+Weld_LDAT.VEL=Weld_Dat.Welding_Speed
+Weld_LDAT.ACC=Weld_Dat.Welding_ACC
+Weld_LDAT.APO_DIST=Weld_Dat.Welding_CDIS
+
+
+
+END
 
 
 GLOBAL DEF Global_Messages_Dlg( Messsage_All[]:IN , User_S:OUT)

@@ -187,20 +187,20 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
   DECL PARAM Vel = {SHORTNAME[] "Vel=", UNIT[] "m/s" , VALUE {REAL: MIN 0, MAX 3000, STEP 0.1, DEFAULT 0.02}}
 
   
-  DECL PARAM X={SHORTNAME[] "X:", UNIT[] "MM" , ENABLE[] FALSE , VALUE {REAL: MIN -3000, MAX 3000, STEP 0.1, DEFAULT 0}}
-  DECL PARAM Y={SHORTNAME[] "Y:", UNIT[] "MM" , ENABLE[] FALSE , VALUE {REAL: MIN -3000, MAX 3000, STEP 0.1, DEFAULT 0}}
-  DECL PARAM Z={SHORTNAME[] "Z:", UNIT[] "MM" , ENABLE[] FALSE , VALUE {REAL: MIN -3000, MAX 3000, STEP 0.1, DEFAULT 0}}
-  DECL PARAM A={SHORTNAME[] "A:", UNIT[] "MM" , ENABLE[] FALSE , VALUE {REAL: MIN -360, MAX 360, STEP 0.1, DEFAULT 0}}
-  DECL PARAM B={SHORTNAME[] "B:", UNIT[] "MM" , ENABLE[] FALSE , VALUE {REAL: MIN -360, MAX 360, STEP 0.1, DEFAULT 0}}
-  DECL PARAM C={SHORTNAME[] "C:", UNIT[] "MM" , ENABLE[] FALSE , VALUE {REAL: MIN -360, MAX 360, STEP 0.1, DEFAULT 0}}
+  DECL PARAM X={SHORTNAME[] "X:", UNIT[] "mm" , ENABLE[] FALSE , VALUE {REAL: MIN -3000, MAX 3000, STEP 0.1, DEFAULT 0}}
+  DECL PARAM Y={SHORTNAME[] "Y:", UNIT[] "mm" , ENABLE[] FALSE , VALUE {REAL: MIN -3000, MAX 3000, STEP 0.1, DEFAULT 0}}
+  DECL PARAM Z={SHORTNAME[] "Z:", UNIT[] "mm" , ENABLE[] FALSE , VALUE {REAL: MIN -3000, MAX 3000, STEP 0.1, DEFAULT 0}}
+  DECL PARAM A={SHORTNAME[] "A:", UNIT[] "mm" , ENABLE[] FALSE , VALUE {REAL: MIN -360, MAX 360, STEP 0.1, DEFAULT 0}}
+  DECL PARAM B={SHORTNAME[] "B:", UNIT[] "mm" , ENABLE[] FALSE , VALUE {REAL: MIN -360, MAX 360, STEP 0.1, DEFAULT 0}}
+  DECL PARAM C={SHORTNAME[] "C:", UNIT[] "mm" , ENABLE[] FALSE , VALUE {REAL: MIN -360, MAX 360, STEP 0.1, DEFAULT 0}}
 
-  Decl PARAM ACC =  {SHORTNAME[] "Acc" ,  VALUE {NUMBER:MIN 1, MAX 100, STEP 1, AUTOLIMIT TRUE, DEFAULT 100}, UNIT[] "%", SHORTCUT[] "Acc" }
+  Decl PARAM ACC =  {SHORTNAME[] "Acc" ,  VALUE {NUMBER:MIN 1, MAX 100, STEP 1, AUTOLIMIT TRUE, DEFAULT 100}, UNIT[] "%%", SHORTCUT[] "Acc" }
   Decl PARAM APO_DIST = {SHORTNAME[] "Cont" , VALUE {NUMBER:MIN 0, MAX 1000, STEP 1, AUTOLIMIT TRUE, DEFAULT 10}, UNIT[] "mm", SHORTCUT[] "Cont" }
   
   
-  DECL PARAM O_X = {SHORTNAME[] "Offset.X=", UNIT[] "MM", VALUE {REAL: MIN -100, MAX 100, STEP 0.1, DEFAULT 0}}
-  DECL PARAM O_Y = {SHORTNAME[] "Offset.Y=", UNIT[] "MM", VALUE {REAL: MIN -100, MAX 100, STEP 0.1, DEFAULT 0}}
-  DECL PARAM O_Z = {SHORTNAME[] "Offset.Z=", UNIT[] "MM", VALUE {REAL: MIN -100, MAX 100, STEP 0.1, DEFAULT 0}}
+  DECL PARAM O_X = {SHORTNAME[] "Offset.X=", UNIT[] "mm", VALUE {REAL: MIN -100, MAX 100, STEP 0.1, DEFAULT 0}}
+  DECL PARAM O_Y = {SHORTNAME[] "Offset.Y=", UNIT[] "mm", VALUE {REAL: MIN -100, MAX 100, STEP 0.1, DEFAULT 0}}
+  DECL PARAM O_Z = {SHORTNAME[] "Offset.Z=", UNIT[] "mm", VALUE {REAL: MIN -100, MAX 100, STEP 0.1, DEFAULT 0}}
 
 
   Decl PARAM PL_FDAT = {SHORTNAME[] "Lin Parametet Settings", VAR[] "FDAT", SHORTCUT[] "F", UNIT[] "", Value {FREE: DEFAULT[] "_"}}
@@ -243,18 +243,18 @@ DECL PARAM BASE_NO={shortname[] "Base:", shortcut[] "", unit[] "", value { LIST 
 
 
 
-  Decl PARAM LIN_Position = {SHORTNAME[] "Point: ", VALUE {NUMBER:MIN 0, MAX 100, STEP 1, AUTOLIMIT TRUE, DEFAULT 50 }, UNIT[] "/%" , SHORTCUT[]  "/%" }
+  Decl PARAM LIN_Position = {SHORTNAME[] "Point: ", VALUE {NUMBER:MIN 0, MAX 100, STEP 1, AUTOLIMIT TRUE, DEFAULT 50 }, UNIT[] "%%" , SHORTCUT[]  "%%" }
 
  
    DECL FOLD LIN_FOLD[13] 
              LIN_FOLD[1]= "/; LIN %MOVE_Name POS: X=%X , Y=%Y , Z=%Z , A=%A , B=%B , C=%C"
              LIN_FOLD[2]= "/; LIN Offset POS:X=%O_X , Y=%O_Y , Z=%O_Z "
              LIN_FOLD[3]= "HanGao_Surr_Calculate( %LIN_Position , #%Area_LIN_lIST , #L_LIN_POS , PO%MOVE_Name , , , %Area_LIN_lIST _Short_Craft[%Work_Area ,%Short_Pos ].Welding_Offset  , , %Short_Pos , %Work_Area , N%Work_Area _Sink_Data.Sink_Type)"
-             LIN_FOLD[4]= "TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=%Area_LIN_lIST _Short_Craft[%Work_Area ,%Short_Pos ].Welding_Power//100 "
-             LIN_FOLD[5]= " "
-             LIN_FOLD[6]= "L%MOVE_LDAT .VEL=%Area_LIN_lIST _Short_Craft[%Work_Area ,%Short_Pos ].Welding_Speed"
-             LIN_FOLD[7]= "L%MOVE_LDAT .ACC=%Area_LIN_lIST _Short_Craft[%Work_Area ,%Short_Pos ].Welding_ACC"
-             LIN_FOLD[8]= "L%MOVE_LDAT .APO_DIST=%Area_LIN_lIST _Short_Craft[%Work_Area ,%Short_Pos ].Welding_CDIS"
+             LIN_FOLD[4]= ""
+             LIN_FOLD[5]= "HanGao_DAT_ACT(%Area_LIN_lIST _Short_Craft[%Work_Area ,%Short_Pos ],L%MOVE_LDAT )"
+             LIN_FOLD[6]= ""
+             LIN_FOLD[7]= ""
+             LIN_FOLD[8]= ""
              LIN_FOLD[9]= " "
              LIN_FOLD[10]= "FDAT_ACT=F%MOVE_Name"
              LIN_FOLD[11]= "LDAT_ACT=L%MOVE_LDAT"  
@@ -423,4 +423,4 @@ ENDTP
 
 
 
-;checksum 57226205635 
+;checksum 52158726644 
