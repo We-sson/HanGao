@@ -1,8 +1,8 @@
-&ACCESS RVP
-&REL 89
+&ACCESS RVO
+&REL 91
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
-&PARAM DISKPATH = KRC:\R1\Program\T
+&PARAM DISKPATH = KRC:\R1\Program\HG
 DEF A_154( )
 ;FOLD INI;%{PE}
   ;FOLD BASISTECH INI
@@ -45,12 +45,10 @@ BAS(#PTP_PARAMS, 100.0)
 SET_CD_PARAMS (0)
 PTP XP3
 ;ENDFOLD
-;FOLD Vision.Find_Model ID:1, Work: 1, Area:45;%{PE}%MKUKATPUSER
+;FOLD Vision.Find_Model Work: 1, Area: 45 ;%{PE}
 
-EKRL_NAME[]="Xml_Vision_Model"
-EKRL_Connect()
-EKRL_Find_Model_Send(1,1,1)
 
+EKRL_Find_Model_Send("Xml_Vision_Model",1,1)
 
 
 ;ENDFOLD
@@ -67,12 +65,10 @@ BAS(#PTP_PARAMS, 100.0)
 SET_CD_PARAMS (0)
 PTP XP4
 ;ENDFOLD
-;FOLD Vision.Find_Model ID:1, Work: 1, Area:135;%{PE}%MKUKATPUSER
+;FOLD Vision.Find_Model Work: 1, Area: 45 ;%{PE}
 
-EKRL_NAME[]="Xml_Vision_Model"
-EKRL_Connect()
-EKRL_Find_Model_Send(1,1,2)
 
+EKRL_Find_Model_Send("Xml_Vision_Model",1,1)
 
 
 ;ENDFOLD
@@ -90,12 +86,10 @@ BAS(#PTP_PARAMS, 100.0)
 SET_CD_PARAMS (0)
 PTP XP5
 ;ENDFOLD
-;FOLD Vision.Find_Model ID:1, Work: 1, Area:225;%{PE}%MKUKATPUSER
+;FOLD Vision.Find_Model Work: 1, Area: 45 ;%{PE}
 
-EKRL_NAME[]="Xml_Vision_Model"
-EKRL_Connect()
-EKRL_Find_Model_Send(1,1,3)
 
+EKRL_Find_Model_Send("Xml_Vision_Model",1,1)
 
 
 ;ENDFOLD
@@ -113,20 +107,16 @@ BAS(#PTP_PARAMS, 100.0)
 SET_CD_PARAMS (0)
 PTP XP6
 ;ENDFOLD
-;FOLD Vision.Find_Model ID:1, Work: 1, Area:315;%{PE}%MKUKATPUSER
+;FOLD Vision.Find_Model Work: 1, Area: 45 ;%{PE}
 
-EKRL_NAME[]="Xml_Vision_Model"
-EKRL_Connect()
-EKRL_Find_Model_Send(1,1,4)
 
+EKRL_Find_Model_Send("Xml_Vision_Model",1,1)
 
 
 ;ENDFOLD
 halt
-;FOLD Vision.Camera_Offset Camera_NAME :P2, Area:45, Work: Work 1;%{PE}%MKUKATPUSER
-
- HanGao_Camera_Offset(1,1,XP2)
-
+;FOLD Vision.Camera_Offset Camera_NAME : P2, Area: 45, Work: 1 ;%{PE}
+ HanGao_Camera_Offset(#Calibration ,1,1,XP2)
 
 
 
@@ -144,12 +134,10 @@ SET_CD_PARAMS (0)
 PTP XP2
 ;ENDFOLD
 halt
-;FOLD Vision.Find_Model ID:1, Work: 1, Area:45;%{PE}%MKUKATPUSER
-
-EKRL_Find_Model_Send(1,1,1)
+;FOLD Vision.Find_Model Work: 1, Area: 45 ;%{PE}
 
 
-
+EKRL_Find_Model_Send("Xml_Vision_Model",1,1)
 
 
 ;ENDFOLD
