@@ -16,7 +16,7 @@ using static Soceket_Connect.Socket_Connect;
 namespace Soceket_Connect
 {
 
-    public class Socket_Connect
+    public class Socket_Connect : IDisposable
     {
 
 
@@ -1072,9 +1072,11 @@ namespace Soceket_Connect
 
         }
 
-
-
-
+        public void Dispose()
+        {
+            GC.Collect();
+            GC.SuppressFinalize(this);
+        }
     }
 
 

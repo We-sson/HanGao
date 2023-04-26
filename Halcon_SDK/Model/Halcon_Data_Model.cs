@@ -1,6 +1,7 @@
 ﻿using HalconDotNet;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -638,9 +639,11 @@ namespace Halcon_SDK_DLL.Model
 
         public int Match_ID { set; get; }
 
+
+        public FileInfo Match_File { set; get; }
+
         public ShapeModel_Name_Enum Match_Area { set; get; }
 
-   
 
         public Shape_Based_Model_Enum Match_Model { set; get; }
 
@@ -969,6 +972,7 @@ namespace Halcon_SDK_DLL.Model
         提取匹配结果的XLD模型失败,
         查找模型匹配失败,
         根据匹配模型结果计算交点信息失败,
+        匹配模型文件内存清除失败,
 
     }
 }

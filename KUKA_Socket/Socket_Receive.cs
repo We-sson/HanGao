@@ -12,7 +12,7 @@ using static Soceket_Connect.Socket_Connect;
 namespace Soceket_KUKA
 {
 
-    public class Socket_Receive
+    public class Socket_Receive : IDisposable
     {
 
         public Socket_Receive(string _IP, string _Port)
@@ -292,8 +292,10 @@ namespace Soceket_KUKA
 
         }
 
-
-
-
+        public void Dispose()
+        {
+            GC.Collect();
+            GC.SuppressFinalize(this);
+        }
     }
 }

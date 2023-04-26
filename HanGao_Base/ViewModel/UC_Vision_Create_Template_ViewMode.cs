@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Web.UI.Design;
@@ -312,19 +313,26 @@ namespace HanGao.ViewModel
 
 
 
-        public static ObservableCollection<Shape_File_UI_Model> _Shape_File_UI_List = new ObservableCollection<Shape_File_UI_Model>();
+        //public static ObservableCollection<Shape_File_UI_Model> _Shape_File_UI_List = new ObservableCollection<Shape_File_UI_Model>();
+        ///// <summary>
+        ///// 模型文件列表
+        ///// </summary>
+        //public  ObservableCollection<Shape_File_UI_Model> Shape_File_UI_List
+        //{
+        //    get { return _Shape_File_UI_List; }
+        //    set
+        //    {
+        //        _Shape_File_UI_List = value;
+        //        StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Shape_File_UI_List)));
+        //    }
+        //}
+
+
         /// <summary>
         /// 模型文件列表
         /// </summary>
-        public static ObservableCollection<Shape_File_UI_Model> Shape_File_UI_List
-        {
-            get { return _Shape_File_UI_List; }
-            set
-            {
-                _Shape_File_UI_List = value;
-                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Shape_File_UI_List)));
-            }
-        }
+        public ObservableCollection<Shape_File_UI_Model> Shape_File_UI_List { set; get; } = new ObservableCollection<Shape_File_UI_Model>();
+
 
         /// <summary>
         /// 模型文件UI显示集合
@@ -366,7 +374,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 模型存储列表
         /// </summary>
-        public static List<Match_Models_List_Model> Match_Models_List { set; get; } = new List<Match_Models_List_Model>();
+        public  List<Match_Models_List_Model> Match_Models_List { set; get; } = new List<Match_Models_List_Model>();
 
 
         /// <summary>
@@ -450,6 +458,49 @@ namespace HanGao.ViewModel
 
 
 
+        /// <summary>
+        /// 重新读取模型之前清除旧缓存..
+        /// </summary>
+        public void Free_Halcon_Model_Memory()
+        {
+            //清除UI显示内容
+            Application.Current.Dispatcher.Invoke(() => { 
+            
+            Shape_File_UI_List.Clear();
+            Shape_FileFull_UI.Clear();
+            });
+
+
+
+
+            Match_Models_List.ForEach(_M => {              Display_Status(Halcon_SDK.Clear_Model(_M));    });
+
+
+            //foreach (Match_Models_List_Model _match in )
+            //{
+
+
+
+
+
+            //}
+
+            Match_Models_List.Clear();
+
+
+          
+            // 手动调用Halcon的垃圾回收方法
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
+
+
+        }
+
+
+
+
+
 
         /// <summary>
         /// 初始化模型文件参数
@@ -476,8 +527,17 @@ namespace HanGao.ViewModel
                     //读取文件夹内所有文件
                     DirectoryInfo _ShapeFile = new DirectoryInfo(Environment.CurrentDirectory + "\\ShapeModel");
                     //清空列表内容
-                    Shape_File_UI_List.Clear();
-                    Match_Models_List.Clear();
+
+
+
+                    //清除UI显示内容
+                    Application.Current.Dispatcher.Invoke(() => {
+
+                        Shape_File_UI_List.Clear();
+                        Shape_FileFull_UI.Clear();
+                    });
+
+
                     //对每个文件文件名分解识别类型
 
                     Task.Run(() =>
@@ -516,6 +576,7 @@ namespace HanGao.ViewModel
                             {
                                 Match_ID = _FileID,
                                 Match_Area = _FIle_Area,
+                                Match_File= _File,
                                 File_Type = _File_Type,
                                 Match_Model = _File_Model,
                                 Match_No = _File_No,
@@ -523,8 +584,8 @@ namespace HanGao.ViewModel
                                 Match_XLD_Handle = Match_XDL
                             });
 
-
-
+                            //Match_Model.Dispose();
+                            //Match_XDL.Dispose();
 
 
 
@@ -611,8 +672,20 @@ namespace HanGao.ViewModel
             {
                 Button Window_UserContol = Sm.Source as Button;
 
-                Initialization_ShapeModel_File();
+                Task.Run(() =>
+                {
 
+   
+
+
+                Free_Halcon_Model_Memory();
+
+
+
+                    Initialization_ShapeModel_File();
+
+
+                });
             });
         }
 
@@ -631,25 +704,39 @@ namespace HanGao.ViewModel
                 if (_Shape_Model != null)
                 {
 
-                    DirectoryInfo _ShapeFile = new DirectoryInfo(Environment.CurrentDirectory + "\\ShapeModel");
+                    //DirectoryInfo _ShapeFile = new DirectoryInfo(Environment.CurrentDirectory + "\\ShapeModel");
+                    //Shape_FileFull_UI.Clear();
+
+
+                    ////对每个文件文件名分解识别类型
+                    //foreach (FileInfo _File in _ShapeFile.GetFiles())
+                    //{
+                    //    //文件名拆解
+                    //    string[] _File_Type = _File.Name.Split('_');
+
+                    //    //添加集合id号相同的名称
+                    //    if (int.Parse(_File_Type[0]) == _Shape_Model.File_ID)
+                    //    {
+                    //        //Shape_FileFull_UI.Add(new Shape_FileFull_UI_Model() { File_Name = _File.Name, File_Directory = _File.FullName });
+                    //        Shape_FileFull_UI.Add(_File);
+
+                    //    }
+
+                    //}
+
+
+                    //清空集合
                     Shape_FileFull_UI.Clear();
 
+                    //将同一模型序号提取
+                    Shape_FileFull_UI=new ObservableCollection<FileInfo> (Match_Models_List
+                                                                                                              .Where(_M => _M.Match_ID == _Shape_Model.File_ID)
+                                                                                                              .Select(_M => _M.Match_File).ToList());
 
-                    //对每个文件文件名分解识别类型
-                    foreach (FileInfo _File in _ShapeFile.GetFiles())
-                    {
-                        //文件名拆解
-                        string[] _File_Type = _File.Name.Split('_');
 
-                        //添加集合id号相同的名称
-                        if (int.Parse(_File_Type[0]) == _Shape_Model.File_ID)
-                        {
-                            //Shape_FileFull_UI.Add(new Shape_FileFull_UI_Model() { File_Name = _File.Name, File_Directory = _File.FullName });
-                            Shape_FileFull_UI.Add(_File);
 
-                        }
 
-                    }
+                
 
                 }
             });
@@ -677,14 +764,20 @@ namespace HanGao.ViewModel
 
 
 
-                    if (Display_Status(Halcon_SDK.Read_Halcon_Type_File(ref _ModelID, ref _ModelContours, _Shape)).GetResult())
-                    {
+
+                    //List<Match_Models_List_Model> _MID = Match_Models_List.Where(_X => _X.Match_ID == _ID && _X.Match_Model == _Model_Enum && _X.Match_Area == _Name && _X.File_Type == Match_FileName_Type_Enum.ncm).ToList();
+                    //List<Match_Models_List_Model> _MContent = Match_Models_List.Where(_X => _X.Match_ID == _ID && _X.Match_Model == _Model_Enum && _X.Match_Area == _Name && _X.File_Type == Match_FileName_Type_Enum.dxf).ToList();
+
+                    _ModelContours= Match_Models_List.Where(_M => _M.Match_File.Name == _Shape.Name).FirstOrDefault().Match_XLD_Handle;
+
+                    //if (Display_Status(Halcon_SDK.Read_Halcon_Type_File(ref _ModelID, ref _ModelContours, _Shape)).GetResult())
+                    //{
                         Features_Window.HWindow.ClearWindow();
 
 
                         Features_Window.HWindow.DispObj(_ModelContours);
 
-                    }
+                    //}
 
 
                 }

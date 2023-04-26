@@ -20,7 +20,7 @@ using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
 namespace Halcon_SDK_DLL
 {
-    public class Halcon_SDK
+    public class Halcon_SDK : IDisposable
     {
 
         public Halcon_SDK()
@@ -959,6 +959,69 @@ namespace Halcon_SDK_DLL
 
 
 
+        public static  HPR_Status_Model Clear_Model(   Match_Models_List_Model _Model)
+        {
+
+            try
+            {
+                HObject _X = new HObject();
+                HTuple _B = new HTuple();
+                _X = _Model.Match_XLD_Handle;
+                _B = _Model.Match_Handle;
+
+
+                //根据模型类型清除内存
+                switch (_Model.File_Type)
+            {
+                case Match_FileName_Type_Enum.ncm:
+
+                    HOperatorSet.ClearNccModel(_Model.Match_Handle);
+              
+
+                        break;
+                case Match_FileName_Type_Enum.dxf:
+
+    
+
+                    break;
+                case Match_FileName_Type_Enum.dfm:
+
+
+                    HOperatorSet.ClearDeformableModel(_Model.Match_Handle);
+             
+
+
+                        break;
+                case Match_FileName_Type_Enum.shm:
+
+                    HOperatorSet.ClearShapeModel(_Model.Match_Handle);
+          
+                        break;
+    
+            }
+
+       
+
+                //清除非托管内存
+                HOperatorSet.ClearHandle(_B);
+                HOperatorSet.ClearObj(_X);
+                //_Model.Match_Handle.Dispose();
+
+                //_Model.Match_XLD_Handle.Dispose();
+
+
+                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info= _Model .File_Type+ "模型文件清理成功！" };
+
+
+            }
+            catch (Exception e)
+            {
+                return new HPR_Status_Model (HVE_Result_Enum.匹配模型文件内存清除失败) { Result_Error_Info=e.Message };
+               
+            }
+        }
+
+
 
         /// <summary>
         /// 读取Halcon文件类型
@@ -974,17 +1037,24 @@ namespace Halcon_SDK_DLL
             try
             {
 
-
+         
 
                 string[] _Name = _Path.Name.Split('.');
-
-
+                _Model.Dispose();
+                _ModelContours.Dispose();
                 switch (_Name[1])
                 {
                     case "ncm":
 
-                        HOperatorSet.ReadNccModel(_Path.FullName, out _Model);
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            HOperatorSet.ReadNccModel(_Path.FullName, out _Model);
                         HOperatorSet.GetNccModelRegion(out _ModelContours, _Model);
+
+                            
+                        }
+
+            
 
                         break;
                     case "dxf":
@@ -1016,7 +1086,10 @@ namespace Halcon_SDK_DLL
                 }
 
 
-
+                //_ModelContours.Dispose();
+                //_Model.Dispose();
+                //_ModelContours = _Contours.CopyObj(1, -1);
+                //_Contours.Dispose();
 
 
                 return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = _Path.Name + "Halcon文件读取成功！" };
@@ -1038,113 +1111,113 @@ namespace Halcon_SDK_DLL
         /// <param name="_Read_Enum"></param>
         /// <param name="_Path"></param>
         /// <returns></returns>
-        public static HPR_Status_Model Read_ModelsXLD_File(ref List<HTuple> _ModelID, ref List<HObject> _ModelContours, Shape_Based_Model_Enum _Model_Based, List<FileInfo> _PathInfo)
-        {
+        //public static HPR_Status_Model Read_ModelsXLD_File(ref List<HTuple> _ModelID, ref List<HObject> _ModelContours, Shape_Based_Model_Enum _Model_Based, List<FileInfo> _PathInfo)
+        //{
 
 
 
 
-            //读取模型文件
-            //HTuple _ModelContours = new HTuple();
+        //    //读取模型文件
+        //    //HTuple _ModelContours = new HTuple();
 
-            HTuple _Model = new HTuple();
-            HObject Contours = new HObject();
-
-
-            try
-            {
-                foreach (FileInfo _Path in _PathInfo)
-                {
+        //    HTuple _Model = new HTuple();
+        //    HObject Contours = new HObject();
 
 
-                    switch (_Model_Based)
-                    {
-
-                        case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.shape_model || _T == Shape_Based_Model_Enum.Scale_model:
-
-                            //读取文件
-
-                            //HOperatorSet.ReadShapeModel(_Path.FullName, out HTuple _Model_Shape);
-                            //HOperatorSet.GetShapeModelContours(out HObject _Model_Shape_Contours, _Model_Shape, 1);
-
-                            Read_Halcon_Type_File(ref _Model, ref Contours, _Path);
-                            _ModelID.Add(_Model);
-                            _ModelContours.Add(Contours);
-
-                            break;
-                        case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.planar_deformable_model || _T == Shape_Based_Model_Enum.local_deformable_model:
-                            //读取文件
+        //    try
+        //    {
+        //        foreach (FileInfo _Path in _PathInfo)
+        //        {
 
 
-                            //HOperatorSet.ReadDeformableModel(_Path.FullName, out HTuple _Model_Deformable);
-                            //HOperatorSet.GetDeformableModelContours(out HObject _Model_Deformable_Contours, _Model_Deformable, 1);
+        //            switch (_Model_Based)
+        //            {
+
+        //                case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.shape_model || _T == Shape_Based_Model_Enum.Scale_model:
+
+        //                    //读取文件
+
+        //                    //HOperatorSet.ReadShapeModel(_Path.FullName, out HTuple _Model_Shape);
+        //                    //HOperatorSet.GetShapeModelContours(out HObject _Model_Shape_Contours, _Model_Shape, 1);
+
+        //                    Read_Halcon_Type_File(ref _Model, ref Contours, _Path);
+        //                    _ModelID.Add(_Model);
+        //                    _ModelContours.Add(Contours);
+
+        //                    break;
+        //                case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.planar_deformable_model || _T == Shape_Based_Model_Enum.local_deformable_model:
+        //                    //读取文件
 
 
-                            Read_Halcon_Type_File(ref _Model, ref Contours, _Path);
-
-                            _ModelID.Add(_Model);
-                            _ModelContours.Add(Contours);
-
-                            break;
-
-                        case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.Ncc_Model:
-                            //读取文件
+        //                    //HOperatorSet.ReadDeformableModel(_Path.FullName, out HTuple _Model_Deformable);
+        //                    //HOperatorSet.GetDeformableModelContours(out HObject _Model_Deformable_Contours, _Model_Deformable, 1);
 
 
-                            //Read_Halcon_Type_File(ref _Model, ref Contours, _Path);
+        //                    Read_Halcon_Type_File(ref _Model, ref Contours, _Path);
 
-                            //_ModelID.Add(_Model);
-                            //_ModelContours.Add(Contours);
+        //                    _ModelID.Add(_Model);
+        //                    _ModelContours.Add(Contours);
 
+        //                    break;
 
-                            if (_Path.Name.Contains(".dxf"))
-                            {
-
-                                //读取文件
-                                Read_Halcon_Type_File(ref _Model, ref Contours, _Path);
-
-                                _ModelContours.Add(Contours);
-
-                            }
-                            else
-                            {
-
-                                Read_Halcon_Type_File(ref _Model, ref Contours, _Path);
-
-                                //HOperatorSet.ReadNccModel(_Path.FullName, out HTuple _Model_Ncc);
-                                //HOperatorSet.GetNccModelRegion(out HObject _Model_Ncc_Contours, _Model_Ncc);
-                                _ModelID.Add(_Model);
-
-                            }
+        //                case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.Ncc_Model:
+        //                    //读取文件
 
 
-                            break;
-                        case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.Halcon_DXF:
+        //                    //Read_Halcon_Type_File(ref _Model, ref Contours, _Path);
+
+        //                    //_ModelID.Add(_Model);
+        //                    //_ModelContours.Add(Contours);
 
 
+        //                    if (_Path.Name.Contains(".dxf"))
+        //                    {
 
-                            //读取文件
-                            //HOperatorSet.ReadContourXldDxf(out _ModelContours, _Path, new HTuple(), new HTuple(), out _);
+        //                        //读取文件
+        //                        Read_Halcon_Type_File(ref _Model, ref Contours, _Path);
 
-                            break;
+        //                        _ModelContours.Add(Contours);
 
-                    }
+        //                    }
+        //                    else
+        //                    {
 
-                }
-                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info= _Model_Based+ "匹配模型文件读取成功！" };
-            }
-            catch (Exception e)
-            {
-                //throw;
-                return new HPR_Status_Model(HVE_Result_Enum.读取模型文件失败) { Result_Error_Info = e.Message };
+        //                        Read_Halcon_Type_File(ref _Model, ref Contours, _Path);
 
-            }
+        //                        //HOperatorSet.ReadNccModel(_Path.FullName, out HTuple _Model_Ncc);
+        //                        //HOperatorSet.GetNccModelRegion(out HObject _Model_Ncc_Contours, _Model_Ncc);
+        //                        _ModelID.Add(_Model);
+
+        //                    }
+
+
+        //                    break;
+        //                case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.Halcon_DXF:
 
 
 
+        //                    //读取文件
+        //                    //HOperatorSet.ReadContourXldDxf(out _ModelContours, _Path, new HTuple(), new HTuple(), out _);
+
+        //                    break;
+
+        //            }
+
+        //        }
+        //        return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info= _Model_Based+ "匹配模型文件读取成功！" };
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        //throw;
+        //        return new HPR_Status_Model(HVE_Result_Enum.读取模型文件失败) { Result_Error_Info = e.Message };
+
+        //    }
 
 
-        }
+
+
+
+        //}
 
 
         /// <summary>
@@ -2173,9 +2246,11 @@ namespace Halcon_SDK_DLL
 
 
 
-
-
-
+        public void Dispose()
+        {
+            GC.Collect();
+            GC.SuppressFinalize(this);
+        }
     }
 
 
