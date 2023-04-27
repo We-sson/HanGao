@@ -148,7 +148,7 @@ namespace HanGao.ViewModel
         private cbOutputExdelegate ImageCallback;
 
 
-        public static Halcon_SDK SHalcon { set; get; } = new Halcon_SDK();
+        //public static Halcon_SDK SHalcon { set; get; } = new Halcon_SDK();
 
 
 

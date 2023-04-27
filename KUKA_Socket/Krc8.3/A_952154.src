@@ -1,8 +1,8 @@
-&ACCESS RVO
-&REL 641
+&ACCESS RVP
+&REL 685
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
-&PARAM DISKPATH = KRC:\R1\Program\HK
+&PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
 DEF A_952154( )
 ;FOLD INI;%{PE}
   ;FOLD BASISTECH INI
@@ -29,21 +29,17 @@ PTP XP11
 
 
 
-;FOLD Vision.Calibration_Ini Model:New;%{PE}%MKUKATPUSER
+;FOLD Vision.Calibration_Ini Model: Text ;%{PE}
 
-
-Global_Calib_Model=#New
-
+Global_Calib_Model=#Text
 
 
 
 ;ENDFOLD
 
 halt
-;FOLD Vision.Calibration_Point Calib_NAME :p12, Calib_NO:1;%{PE}%MKUKATPUSER
-
+;FOLD Vision.Calibration_Point Calib_NAME : p12, Calib_NO: 1 ;%{PE}
 HanGao_Calibration_Point(Xp12,1)
-
 
 
 
@@ -194,10 +190,8 @@ LIN XP20
 ;ENDFOLD
 halt
 ;loop
-;FOLD Vision.Camera_Offset Camera_NAME :P21, Area:45, Work:2;%{PE}%MKUKATPUSER
-
- HanGao_Camera_Offset(#Calibration ,1,2,XP21)
-
+;FOLD Vision.Calibration_Camera_Pos Camera_NAME : P21, Area: 45, Work: 2 ;%{PE}
+HanGao_Camera_Sink_Pos(XP21,1,2)
 
 
 
@@ -210,17 +204,22 @@ FDAT_ACT=FP21
 BAS(#CP_PARAMS,.1)
 LIN XP21 
 ;ENDFOLD
-;FOLD Vision.Calibration_Send Area:45, Work:2;%{PE}%MKUKATPUSER
-
+;FOLD Vision.Calibration_Send Area: 45, Work: 2 ;%{PE}
 
 
 
 
 EKRL_Calibration_Send("Xml_Vision_Model",1,2)
-
 ;ENDFOLD
 halt
 
+;FOLD Vision.Calibration_Camera_Pos Camera_NAME : P22, Area: 135, Work: 2 ;%{PE}
+HanGao_Camera_Sink_Pos(XP22,2,2)
+
+
+
+
+;ENDFOLD
 ;FOLD LIN P22 Vel=.1 m/s CPDAT20 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VLIN,%P 1:LIN, 2:P22, 3:, 5:.1, 7:CPDAT20
 $BWDSTART=FALSE
 LDAT_ACT=LCPDAT20
@@ -240,6 +239,13 @@ EKRL_Calibration_Send("Xml_Vision_Model",2,2)
 wait sec 0.1
 halt
 
+;FOLD Vision.Calibration_Camera_Pos Camera_NAME : P23, Area: 225, Work: 2 ;%{PE}
+HanGao_Camera_Sink_Pos(XP23,3,2)
+
+
+
+
+;ENDFOLD
 ;FOLD LIN P23 Vel=.1 m/s CPDAT21 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VLIN,%P 1:LIN, 2:P23, 3:, 5:.1, 7:CPDAT21
 $BWDSTART=FALSE
 LDAT_ACT=LCPDAT21
@@ -259,6 +265,13 @@ EKRL_Calibration_Send("Xml_Vision_Model",3,2)
 halt
 
 
+;FOLD Vision.Calibration_Camera_Pos Camera_NAME : P24, Area: 315, Work: 2 ;%{PE}
+HanGao_Camera_Sink_Pos(XP24,4,2)
+
+
+
+
+;ENDFOLD
 ;FOLD LIN P24 Vel=.1 m/s CPDAT22 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VLIN,%P 1:LIN, 2:P24, 3:, 5:.1, 7:CPDAT22
 $BWDSTART=FALSE
 LDAT_ACT=LCPDAT22

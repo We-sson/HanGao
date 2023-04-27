@@ -1,8 +1,8 @@
-&ACCESS RV1
-&REL 350
+&ACCESS RVP
+&REL 398
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
-&PARAM DISKPATH = KRC:\R1\Program\HG
+&PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
 DEF Work_2( )
 ;FOLD INI;%{PE}
   ;FOLD BASISTECH INI
@@ -34,6 +34,7 @@ BAS(#PTP_PARAMS,20)
 PTP XSurround_Home 
 ;ENDFOLD
 
+
 ;FOLD Vision.Camera_Offset Camera_NAME :P2, Area:45, Work:2;%{PE}%MKUKATPUSER
 
  HanGao_Camera_Offset(#Calibration ,1,2,XP2)
@@ -43,12 +44,16 @@ PTP XSurround_Home
 
 
 ;ENDFOLD
-;FOLD LIN p2 Vel=.3 m/s CPDAT1 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VLIN,%P 1:LIN, 2:p2, 3:, 5:.3, 7:CPDAT1
-$BWDSTART=FALSE
-LDAT_ACT=LCPDAT1
-FDAT_ACT=Fp2
-BAS(#CP_PARAMS,.3)
-LIN Xp2 
+;FOLD LIN p2 Vel=0.3 m/s CPDAT1 Tool[2]:Work_Tool Base[2]:Work_2 ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=p2; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=0.3; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
+;ENDFOLD
+$BWDSTART = FALSE
+LDAT_ACT = LCPDAT1
+FDAT_ACT = Fp2
+BAS(#CP_PARAMS, 0.3)
+SET_CD_PARAMS (0)
+LIN Xp2
 ;ENDFOLD
 ;FOLD Vision.Find_Model Work:2, Area:45;%{PE}%MKUKATPUSER
 
@@ -70,12 +75,16 @@ EKRL_Find_Model_Send("Xml_Vision_Model",2,1)
 
 
 ;ENDFOLD
-;FOLD LIN p3 Vel=.3 m/s CPDAT2 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VLIN,%P 1:LIN, 2:p3, 3:, 5:.3, 7:CPDAT2
-$BWDSTART=FALSE
-LDAT_ACT=LCPDAT2
-FDAT_ACT=Fp3
-BAS(#CP_PARAMS,.3)
-LIN Xp3 
+;FOLD LIN p3 Vel=0.3 m/s CPDAT2 Tool[2]:Work_Tool Base[2]:Work_2 ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=p3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=0.3; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
+;ENDFOLD
+$BWDSTART = FALSE
+LDAT_ACT = LCPDAT2
+FDAT_ACT = Fp3
+BAS(#CP_PARAMS, 0.3)
+SET_CD_PARAMS (0)
+LIN Xp3
 ;ENDFOLD
 ;FOLD Vision.Find_Model Work:2, Area:135;%{PE}%MKUKATPUSER
 
@@ -97,12 +106,16 @@ EKRL_Find_Model_Send("Xml_Vision_Model",2,2)
 
 
 ;ENDFOLD
-;FOLD LIN p4 Vel=.3 m/s CPDAT3 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VLIN,%P 1:LIN, 2:p4, 3:, 5:.3, 7:CPDAT3
-$BWDSTART=FALSE
-LDAT_ACT=LCPDAT3
-FDAT_ACT=Fp4
-BAS(#CP_PARAMS,.3)
-LIN Xp4 
+;FOLD LIN p4 Vel=0.3 m/s CPDAT3 Tool[2]:Work_Tool Base[2]:Work_2 ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=p4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT3; Kuka.VelocityPath=0.3; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
+;ENDFOLD
+$BWDSTART = FALSE
+LDAT_ACT = LCPDAT3
+FDAT_ACT = Fp4
+BAS(#CP_PARAMS, 0.3)
+SET_CD_PARAMS (0)
+LIN Xp4
 ;ENDFOLD
 ;FOLD Vision.Find_Model Work:2, Area:225;%{PE}%MKUKATPUSER
 
@@ -124,12 +137,16 @@ EKRL_Find_Model_Send("Xml_Vision_Model",2,3)
 
 
 ;ENDFOLD
-;FOLD LIN p5 Vel=.3 m/s CPDAT4 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VLIN,%P 1:LIN, 2:p5, 3:, 5:.3, 7:CPDAT4
-$BWDSTART=FALSE
-LDAT_ACT=LCPDAT4
-FDAT_ACT=Fp5
-BAS(#CP_PARAMS,.3)
-LIN Xp5 
+;FOLD LIN p5 Vel=0.3 m/s CPDAT4 Tool[2]:Work_Tool Base[2]:Work_2 ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=p5; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT4; Kuka.VelocityPath=0.3; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
+;ENDFOLD
+$BWDSTART = FALSE
+LDAT_ACT = LCPDAT4
+FDAT_ACT = Fp5
+BAS(#CP_PARAMS, 0.3)
+SET_CD_PARAMS (0)
+LIN Xp5
 ;ENDFOLD
 ;FOLD Vision.Find_Model Work:2, Area:315;%{PE}%MKUKATPUSER
 
@@ -142,29 +159,31 @@ EKRL_Find_Model_Send("Xml_Vision_Model",2,4)
 ;ENDFOLD
 ;endloop
 ;halt
-;FOLD PTP Surround_Home Vel=10 % PDAT4 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VPTP,%P 1:PTP, 2:Surround_Home, 3:, 5:10, 7:PDAT4
-$BWDSTART=FALSE
-PDAT_ACT=PPDAT4
-FDAT_ACT=FSurround_Home
-BAS(#PTP_PARAMS,10)
-PTP XSurround_Home 
+;FOLD PTP Surround_Home Vel=10 % PDAT4 Tool[2]:Work_Tool Base[2]:Work_2 ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=Surround_Home; Kuka.BlendingEnabled=False; Kuka.MoveDataPtpName=PDAT4; Kuka.VelocityPtp=10; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
 ;ENDFOLD
-;FOLD Surround_LIN.S_LIN Point:L0_S1, Vel=.2m/s, Point: 90/%, Area:LO, LDAT:L0_L1, OFFSET_NO:1, Work: N_2;%{PE}%MKUKATPUSER
-
-; LIN L0_S1POS: X=0, Y=0, Z=0, A=0, B=0, C=0
-; LIN Offset POS:X=0, Y=0, Z=0
+$BWDSTART = FALSE
+PDAT_ACT = PPDAT4
+FDAT_ACT = FSurround_Home
+BAS(#PTP_PARAMS, 10.0)
+SET_CD_PARAMS (0)
+PTP XSurround_Home
+;ENDFOLD
+;FOLD Surround_LIN.S_LIN Point: L0_S1, Vel= 0.3 m/s, Point: 90 %, Area: LO, LDAT: L0_L1, OFFSET_NO: 1, Work: N_2 ;%{PE}
+; LIN L0_S1POS: X=379.498230, Y=93.8288574, Z=1.00000, A=0.0, B=-20.0000, C=0.0
+; LIN Offset POS:X=0.0, Y=0.0, Z=0.0
 HanGao_Surr_Calculate( 90, #L0, #L_LIN_POS , POL0_S1, , , L0_Welding_Craft[2,1].Welding_Offset  , , 1, 2 )
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=L0_Welding_Craft[2,1].Welding_Power/100 
- 
-LL0_L1.VEL=L0_Welding_Craft[2,1].Welding_Speed
-LL0_L1.ACC=L0_Welding_Craft[2,1].Welding_ACC
-LL0_L1.APO_DIST=L0_Welding_Craft[2,1].Welding_CDIS
- 
+
+HanGao_DAT_ACT(L0_Welding_Craft[2,1],LL0_L1)
+
+
+
+
 FDAT_ACT=FL0_S1
 LDAT_ACT=LL0_L1
 BAS(#CP_PARAMS,L0_Welding_Craft[2,1].Welding_Speed )
 LIN POL0_S1 C_DIS C_DIS
-
 ;ENDFOLD
 ;FOLD Laser_Function.LSON POW= 0 %, Sec= 0 S;%{PE}%MKUKATPUSER
 
@@ -174,22 +193,20 @@ LIN POL0_S1 C_DIS C_DIS
  
 
 ;ENDFOLD
-;FOLD Surround_LIN.S_C_LIN Point:C45_S1, Vel=.04m/s, Area: C45, LDAT:C45_L1, Work: N_2;%{PE}%MKUKATPUSER
-
-; CIR C45_S1POS: X=0, Y=0, Z=0, A=0, B=0, C=0
-; CIR Offset POS:X=0, Y=0, Z=0
+;FOLD Surround_LIN.S_C_LIN Point: C45_S1, Vel= 0.3 m/s, Area: C45, LDAT: C45_L1, Work: N_2 ;%{PE}
+; CIR C45_S1POS: X=406.498535, Y=35.6358643, Z=0.0, A=0.0, B=20.0000, C=0.0
+; CIR Offset POS:X=0.0, Y=0.0, Z=0.0
 HanGao_Surr_Calculate(  , #C45, #C_LIN_POS , POC45_S1, , , C45_Welding_Craft[2,1].Welding_Offset , ,  , 2)
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=C45_Welding_Craft[2,1].Welding_Power/100 
- 
-LC45_L1.VEL=C45_Welding_Craft[2,1].Welding_Speed
-LC45_L1.ACC=C45_Welding_Craft[2,1].Welding_ACC
-LC45_L1.APO_DIST=C45_Welding_Craft[2,1].Welding_CDIS
- 
+
+HanGao_DAT_ACT(C45_Welding_Craft[2,1],LC45_L1)
+
+
+
+
 FDAT_ACT=FC45_S1
 LDAT_ACT=LC45_L1
 BAS(#CP_PARAMS, C45_Welding_Craft[2,1].Welding_Speed )
 LIN POC45_S1 C_DIS C_DIS
-
 ;ENDFOLD
 ;FOLD Surround_CIR.S_C_CIR Point:PM3, PE3, Vel=.04m/s, Angle Area: C45, Work: N_2;%{PE}%MKUKATPUSER
 
@@ -210,317 +227,281 @@ BAS(#CP_PARAMS,C45_Welding_Craft[2,3].Welding_Speed )
 CIRC POPM3, POPE3 C_DIS C_DIS
 
 ;ENDFOLD
-;FOLD Surround_LIN.S_LIN Point:L90_S1, Vel=.04m/s, Point: 10/%, Area:L90, LDAT:L90_L1, OFFSET_NO:1, Work: N_2;%{PE}%MKUKATPUSER
-
-; LIN L90_S1POS: X=0, Y=0, Z=0, A=0, B=0, C=0
-; LIN Offset POS:X=-.5, Y=0, Z=0
+;FOLD Surround_LIN.S_LIN Point: L90_S1, Vel= 0.025 m/s, Point: 10 %, Area: L90, LDAT: L90_L1, OFFSET_NO: 1, Work: N_2 ;%{PE}
+; LIN L90_S1POS: X=330.358398, Y=17.8462887, Z=1.00000, A=0.0, B=0.0, C=20.0000
+; LIN Offset POS:X=0.0, Y=0.200000, Z=0.0
 HanGao_Surr_Calculate( 10, #L90, #L_LIN_POS , POL90_S1, , , L90_Welding_Craft[2,1].Welding_Offset  , , 1, 2 )
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=L90_Welding_Craft[2,1].Welding_Power/100 
- 
-LL90_L1.VEL=L90_Welding_Craft[2,1].Welding_Speed
-LL90_L1.ACC=L90_Welding_Craft[2,1].Welding_ACC
-LL90_L1.APO_DIST=L90_Welding_Craft[2,1].Welding_CDIS
- 
+
+HanGao_DAT_ACT(L90_Welding_Craft[2,1],LL90_L1)
+
+
+
+
 FDAT_ACT=FL90_S1
 LDAT_ACT=LL90_L1
 BAS(#CP_PARAMS,L90_Welding_Craft[2,1].Welding_Speed )
 LIN POL90_S1 C_DIS C_DIS
-
 ;ENDFOLD
-;FOLD Surround_LIN.S_LIN Point:L90_S2, Vel=.04m/s, Point: 50/%, Area:L90, LDAT:L90_L2, OFFSET_NO:2, Work: N_2;%{PE}%MKUKATPUSER
-
-; LIN L90_S2POS: X=0, Y=0, Z=0, A=0, B=0, C=0
-; LIN Offset POS:X=0, Y=.2, Z=0
+;FOLD Surround_LIN.S_LIN Point: L90_S2, Vel= 0.025 m/s, Point: 50 %, Area: L90, LDAT: L90_L2, OFFSET_NO: 2, Work: N_2 ;%{PE}
+; LIN L90_S2POS: X=0.0, Y=0.0, Z=0.0, A=0.0, B=0.0, C=0.0
+; LIN Offset POS:X=0.0, Y=0.200000, Z=0.0
 HanGao_Surr_Calculate( 50, #L90, #L_LIN_POS , POL90_S2, , , L90_Welding_Craft[2,2].Welding_Offset  , , 2, 2 )
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=L90_Welding_Craft[2,2].Welding_Power/100 
- 
-LL90_L2.VEL=L90_Welding_Craft[2,2].Welding_Speed
-LL90_L2.ACC=L90_Welding_Craft[2,2].Welding_ACC
-LL90_L2.APO_DIST=L90_Welding_Craft[2,2].Welding_CDIS
- 
+
+HanGao_DAT_ACT(L90_Welding_Craft[2,2],LL90_L2)
+
+
+
+
 FDAT_ACT=FL90_S2
 LDAT_ACT=LL90_L2
 BAS(#CP_PARAMS,L90_Welding_Craft[2,2].Welding_Speed )
 LIN POL90_S2 C_DIS C_DIS
-
 ;ENDFOLD
-;FOLD Surround_LIN.S_LIN Point:L90_S3, Vel=.04m/s, Point: 90/%, Area:L90, LDAT:L90_L3, OFFSET_NO:3, Work: N_2;%{PE}%MKUKATPUSER
-
-; LIN L90_S3POS: X=0, Y=0, Z=0, A=0, B=0, C=0
-; LIN Offset POS:X=0, Y=.2, Z=0
+;FOLD Surround_LIN.S_LIN Point: L90_S3, Vel= 0.025 m/s, Point: 90 %, Area: L90, LDAT: L90_L3, OFFSET_NO: 3, Work: N_2 ;%{PE}
+; LIN L90_S3POS: X=0.0, Y=0.0, Z=0.0, A=0.0, B=0.0, C=0.0
+; LIN Offset POS:X=0.0, Y=0.200000, Z=0.0
 HanGao_Surr_Calculate( 90, #L90, #L_LIN_POS , POL90_S3, , , L90_Welding_Craft[2,3].Welding_Offset  , , 3, 2 )
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=L90_Welding_Craft[2,3].Welding_Power/100 
- 
-LL90_L3.VEL=L90_Welding_Craft[2,3].Welding_Speed
-LL90_L3.ACC=L90_Welding_Craft[2,3].Welding_ACC
-LL90_L3.APO_DIST=L90_Welding_Craft[2,3].Welding_CDIS
- 
+
+HanGao_DAT_ACT(L90_Welding_Craft[2,3],LL90_L3)
+
+
+
+
 FDAT_ACT=FL90_S3
 LDAT_ACT=LL90_L3
 BAS(#CP_PARAMS,L90_Welding_Craft[2,3].Welding_Speed )
 LIN POL90_S3 C_DIS C_DIS
-
 ;ENDFOLD
-;FOLD Surround_LIN.S_C_LIN Point:C135_S1, Vel=.04m/s, Area: C135, LDAT:C135_L1, Work: N_2;%{PE}%MKUKATPUSER
-
-; CIR C135_S1POS: X=0, Y=0, Z=0, A=0, B=0, C=0
-; CIR Offset POS:X=0, Y=.2, Z=0
+;FOLD Surround_LIN.S_C_LIN Point: C135_S1, Vel= 0.2 m/s, Area: C135, LDAT: C135_L1, Work: N_2 ;%{PE}
+; CIR C135_S1POS: X=0.0, Y=0.0, Z=0.0, A=0.0, B=0.0, C=0.0
+; CIR Offset POS:X=-0.500000, Y=0.0, Z=0.0
 HanGao_Surr_Calculate(  , #C135, #C_LIN_POS , POC135_S1, , , C135_Welding_Craft[2,1].Welding_Offset , ,  , 2)
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=C135_Welding_Craft[2,1].Welding_Power/100 
- 
-LC135_L1.VEL=C135_Welding_Craft[2,1].Welding_Speed
-LC135_L1.ACC=C135_Welding_Craft[2,1].Welding_ACC
-LC135_L1.APO_DIST=C135_Welding_Craft[2,1].Welding_CDIS
- 
+
+HanGao_DAT_ACT(C135_Welding_Craft[2,1],LC135_L1)
+
+
+
+
 FDAT_ACT=FC135_S1
 LDAT_ACT=LC135_L1
 BAS(#CP_PARAMS, C135_Welding_Craft[2,1].Welding_Speed )
 LIN POC135_S1 C_DIS C_DIS
-
 ;ENDFOLD
-;FOLD Surround_CIR.S_C_CIR Point:PM4, PE4, Vel=.04m/s, Angle Area: C135, Work: N_2;%{PE}%MKUKATPUSER
-
-; CIR MID POS:PM4 : X=0, Y=0, Z=0, A=0, B=0, C=0
-; CIR END POS:PE4 : X=0, Y=0, Z=0, A=0, B=0, C=0
-; CIR_MID_OFFSET  : X=0, Y=0, Z=0
-; CIR_END_OFFSET  : X=0, Y=.3, Z=0
+;FOLD Surround_CIR.S_C_CIR Point: PM4, PE4, Vel= 0.012 m/s, Angle Area: C135, Work: N_2 ;%{PE}
+; CIR MID POS:PM4 : X=22.6620, Y=25.2540, Z=1.00000, A=0.0, B=0.0, C=0.0
+; CIR END POS:PE4 : X=20.6667957, Y=33.6577797, Z=0.0, A=0.0, B=-20.0000, C=0.0
+; CIR_MID_OFFSET  : X=0.0, Y=0.0, Z=0.0
+; CIR_END_OFFSET  : X=0.500000, Y=0.0, Z=-1.00000
 HanGao_Surr_Calculate(  , #C135, #C_CIR_POS ,  , POPM4, POPE4 , C135_Welding_Craft[2,2].Welding_Offset  , C135_Welding_Craft[2, 3].Welding_Offset  ,  , 2)
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=C135_Welding_Craft[2,3].Welding_Power/100 
- 
-LPM4.VEL=C135_Welding_Craft[2,3].Welding_Speed
-LPM4.ACC=C135_Welding_Craft[2,3].Welding_ACC
-LPM4.APO_DIST=C135_Welding_Craft[2,3].Welding_CDIS
- 
+
+HanGao_DAT_ACT(C135_Welding_Craft[2,3],LPM4)
+
+
+
+
 FDAT_ACT=FPE4
 LDAT_ACT=LPM4
 BAS(#CP_PARAMS,C135_Welding_Craft[2,3].Welding_Speed )
 CIRC POPM4, POPE4 C_DIS C_DIS
-
 ;ENDFOLD
-;FOLD Surround_LIN.S_LIN Point:L180_S1, Vel=.04m/s, Point: 10/%, Area:L180, LDAT:L180_L1, OFFSET_NO:1, Work: N_2;%{PE}%MKUKATPUSER
-
-; LIN L180_S1POS: X=0, Y=0, Z=0, A=0, B=0, C=0
-; LIN Offset POS:X=0, Y=.2, Z=0
+;FOLD Surround_LIN.S_LIN Point: L180_S1, Vel= 0.025 m/s, Point: 10 %, Area: L180, LDAT: L180_L1, OFFSET_NO: 1, Work: N_2 ;%{PE}
+; LIN L180_S1POS: X=20.5413361, Y=95.3976288, Z=0.0, A=0.0, B=-20.0000, C=0.0
+; LIN Offset POS:X=0.0, Y=0.0, Z=-1.00000
 HanGao_Surr_Calculate( 10, #L180, #L_LIN_POS , POL180_S1, , , L180_Welding_Craft[2,1].Welding_Offset  , , 1, 2 )
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=L180_Welding_Craft[2,1].Welding_Power/100 
- 
-LL180_L1.VEL=L180_Welding_Craft[2,1].Welding_Speed
-LL180_L1.ACC=L180_Welding_Craft[2,1].Welding_ACC
-LL180_L1.APO_DIST=L180_Welding_Craft[2,1].Welding_CDIS
- 
+
+HanGao_DAT_ACT(L180_Welding_Craft[2,1],LL180_L1)
+
+
+
+
 FDAT_ACT=FL180_S1
 LDAT_ACT=LL180_L1
 BAS(#CP_PARAMS,L180_Welding_Craft[2,1].Welding_Speed )
 LIN POL180_S1 C_DIS C_DIS
-
 ;ENDFOLD
-;FOLD Surround_LIN.S_LIN Point:L180_S2, Vel=.04m/s, Point: 50/%, Area:L180, LDAT:L180_L2, OFFSET_NO:2, Work: N_2;%{PE}%MKUKATPUSER
-
-; LIN L180_S2POS: X=0, Y=0, Z=0, A=0, B=0, C=0
-; LIN Offset POS:X=0, Y=0, Z=-1
+;FOLD Surround_LIN.S_LIN Point: L180_S2, Vel= 0.03 m/s, Point: 50 %, Area: L180, LDAT: L180_L2, OFFSET_NO: 2, Work: N_2 ;%{PE}
+; LIN L180_S2POS: X=22.3395, Y=342.357025, Z=0.0, A=0.0, B=-20.0000, C=0.0
+; LIN Offset POS:X=0.300000, Y=0.0, Z=-1.00000
 HanGao_Surr_Calculate( 50, #L180, #L_LIN_POS , POL180_S2, , , L180_Welding_Craft[2,2].Welding_Offset  , , 2, 2 )
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=L180_Welding_Craft[2,2].Welding_Power/100 
- 
-LL180_L2.VEL=L180_Welding_Craft[2,2].Welding_Speed
-LL180_L2.ACC=L180_Welding_Craft[2,2].Welding_ACC
-LL180_L2.APO_DIST=L180_Welding_Craft[2,2].Welding_CDIS
- 
+
+HanGao_DAT_ACT(L180_Welding_Craft[2,2],LL180_L2)
+
+
+
+
 FDAT_ACT=FL180_S2
 LDAT_ACT=LL180_L2
 BAS(#CP_PARAMS,L180_Welding_Craft[2,2].Welding_Speed )
 LIN POL180_S2 C_DIS C_DIS
-
 ;ENDFOLD
-;FOLD Surround_LIN.S_LIN Point:L180_S3, Vel=.04m/s, Point: 95/%, Area:L180, LDAT:L180_L3, OFFSET_NO:3, Work: N_2;%{PE}%MKUKATPUSER
-
-; LIN L180_S3POS: X=0, Y=0, Z=0, A=0, B=0, C=0
-; LIN Offset POS:X=.5, Y=0, Z=-1
+;FOLD Surround_LIN.S_LIN Point: L180_S3, Vel= 0.03 m/s, Point: 95 %, Area: L180, LDAT: L180_L3, OFFSET_NO: 3, Work: N_2 ;%{PE}
+; LIN L180_S3POS: X=24.0249329, Y=620.186340, Z=0.0, A=0.0, B=-20.0000, C=0.0
+; LIN Offset POS:X=0.300000, Y=0.0, Z=-1.00000
 HanGao_Surr_Calculate( 95, #L180, #L_LIN_POS , POL180_S3, , , L180_Welding_Craft[2,3].Welding_Offset  , , 3, 2 )
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=L180_Welding_Craft[2,3].Welding_Power/100 
- 
-LL180_L3.VEL=L180_Welding_Craft[2,3].Welding_Speed
-LL180_L3.ACC=L180_Welding_Craft[2,3].Welding_ACC
-LL180_L3.APO_DIST=L180_Welding_Craft[2,3].Welding_CDIS
- 
+
+HanGao_DAT_ACT(L180_Welding_Craft[2,3],LL180_L3)
+
+
+
+
 FDAT_ACT=FL180_S3
 LDAT_ACT=LL180_L3
 BAS(#CP_PARAMS,L180_Welding_Craft[2,3].Welding_Speed )
 LIN POL180_S3 C_DIS C_DIS
-
 ;ENDFOLD
-;FOLD Surround_LIN.S_C_LIN Point:C225_S1, Vel=.04m/s, Area: C225, LDAT:C225_L1, Work: N_2;%{PE}%MKUKATPUSER
-
-; CIR C225_S1POS: X=0, Y=0, Z=0, A=0, B=0, C=0
-; CIR Offset POS:X=.5, Y=0, Z=-1
+;FOLD Surround_LIN.S_C_LIN Point: C225_S1, Vel= 0.2 m/s, Area: C225, LDAT: C225_L1, Work: N_2 ;%{PE}
+; CIR C225_S1POS: X=24.2122040, Y=651.056274, Z=0.0, A=0.0, B=-20.0000, C=0.0
+; CIR Offset POS:X=-0.500000, Y=0.0, Z=0.0
 HanGao_Surr_Calculate(  , #C225, #C_LIN_POS , POC225_S1, , , C225_Welding_Craft[2,1].Welding_Offset , ,  , 2)
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=C225_Welding_Craft[2,1].Welding_Power/100 
- 
-LC225_L1.VEL=C225_Welding_Craft[2,1].Welding_Speed
-LC225_L1.ACC=C225_Welding_Craft[2,1].Welding_ACC
-LC225_L1.APO_DIST=C225_Welding_Craft[2,1].Welding_CDIS
- 
+
+HanGao_DAT_ACT(C225_Welding_Craft[2,1],LC225_L1)
+
+
+
+
 FDAT_ACT=FC225_S1
 LDAT_ACT=LC225_L1
 BAS(#CP_PARAMS, C225_Welding_Craft[2,1].Welding_Speed )
 LIN POC225_S1 C_DIS C_DIS
-
 ;ENDFOLD
-;FOLD Surround_CIR.S_C_CIR Point:PM5, PE5, Vel=.04m/s, Angle Area: C225, Work: N_2;%{PE}%MKUKATPUSER
-
-; CIR MID POS:PM5 : X=0, Y=0, Z=0, A=0, B=0, C=0
-; CIR END POS:PE5 : X=0, Y=0, Z=0, A=0, B=0, C=0
-; CIR_MID_OFFSET  : X=0, Y=0, Z=0
-; CIR_END_OFFSET  : X=.5, Y=0, Z=-1
+;FOLD Surround_CIR.S_C_CIR Point: PM5, PE5, Vel= 0.012 m/s, Angle Area: C225, Work: N_2 ;%{PE}
+; CIR MID POS:PM5 : X=28.3490, Y=660.056, Z=1.00000, A=0.0, B=0.0, C=0.0
+; CIR END POS:PE5 : X=35.9848671, Y=663.799744, Z=1.00000, A=0.0, B=0.0, C=-20.0000
+; CIR_MID_OFFSET  : X=0.0, Y=0.500000, Z=0.0
+; CIR_END_OFFSET  : X=0.0, Y=0.800000, Z=0.0
 HanGao_Surr_Calculate(  , #C225, #C_CIR_POS ,  , POPM5, POPE5 , C225_Welding_Craft[2,2].Welding_Offset  , C225_Welding_Craft[2, 3].Welding_Offset  ,  , 2)
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=C225_Welding_Craft[2,3].Welding_Power/100 
- 
-LPM5.VEL=C225_Welding_Craft[2,3].Welding_Speed
-LPM5.ACC=C225_Welding_Craft[2,3].Welding_ACC
-LPM5.APO_DIST=C225_Welding_Craft[2,3].Welding_CDIS
- 
+
+HanGao_DAT_ACT(C225_Welding_Craft[2,3],LPM5)
+
+
+
+
 FDAT_ACT=FPE5
 LDAT_ACT=LPM5
 BAS(#CP_PARAMS,C225_Welding_Craft[2,3].Welding_Speed )
 CIRC POPM5, POPE5 C_DIS C_DIS
-
 ;ENDFOLD
-;FOLD Surround_LIN.S_LIN Point:L270_S1, Vel=.04m/s, Point: 10/%, Area:L270, LDAT:l270_L1, OFFSET_NO:1, Work: N_2;%{PE}%MKUKATPUSER
-
-; LIN L270_S1POS: X=0, Y=0, Z=0, A=0, B=0, C=0
-; LIN Offset POS:X=0, Y=0, Z=-1
+;FOLD Surround_LIN.S_LIN Point: L270_S1, Vel= 0.025 m/s, Point: 10 %, Area: L270, LDAT: l270_L1, OFFSET_NO: 1, Work: N_2 ;%{PE}
+; LIN L270_S1POS: X=69.2440872, Y=662.843689, Z=1.00000, A=0.0, B=0.0, C=-20.0000
+; LIN Offset POS:X=0.0, Y=0.0, Z=0.0
 HanGao_Surr_Calculate( 10, #L270, #L_LIN_POS , POL270_S1, , , L270_Welding_Craft[2,1].Welding_Offset  , , 1, 2 )
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=L270_Welding_Craft[2,1].Welding_Power/100 
- 
-Ll270_L1.VEL=L270_Welding_Craft[2,1].Welding_Speed
-Ll270_L1.ACC=L270_Welding_Craft[2,1].Welding_ACC
-Ll270_L1.APO_DIST=L270_Welding_Craft[2,1].Welding_CDIS
- 
+
+HanGao_DAT_ACT(L270_Welding_Craft[2,1],Ll270_L1)
+
+
+
+
 FDAT_ACT=FL270_S1
 LDAT_ACT=Ll270_L1
 BAS(#CP_PARAMS,L270_Welding_Craft[2,1].Welding_Speed )
 LIN POL270_S1 C_DIS C_DIS
-
 ;ENDFOLD
-;FOLD Surround_LIN.S_LIN Point:L270_S2, Vel=.04m/s, Point: 50/%, Area:L270, LDAT:L270_L2, OFFSET_NO:2, Work: N_2;%{PE}%MKUKATPUSER
-
-; LIN L270_S2POS: X=0, Y=0, Z=0, A=0, B=0, C=0
-; LIN Offset POS:X=0, Y=0, Z=0
+;FOLD Surround_LIN.S_LIN Point: L270_S2, Vel= 0.03 m/s, Point: 50 %, Area: L270, LDAT: L270_L2, OFFSET_NO: 2, Work: N_2 ;%{PE}
+; LIN L270_S2POS: X=202.280975, Y=661.419495, Z=1.00000, A=0.0, B=0.0, C=-20.0000
+; LIN Offset POS:X=0.0, Y=-0.800000, Z=0.0
 HanGao_Surr_Calculate( 50, #L270, #L_LIN_POS , POL270_S2, , , L270_Welding_Craft[2,2].Welding_Offset  , , 2, 2 )
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=L270_Welding_Craft[2,2].Welding_Power/100 
- 
-LL270_L2.VEL=L270_Welding_Craft[2,2].Welding_Speed
-LL270_L2.ACC=L270_Welding_Craft[2,2].Welding_ACC
-LL270_L2.APO_DIST=L270_Welding_Craft[2,2].Welding_CDIS
- 
+
+HanGao_DAT_ACT(L270_Welding_Craft[2,2],LL270_L2)
+
+
+
+
 FDAT_ACT=FL270_S2
 LDAT_ACT=LL270_L2
 BAS(#CP_PARAMS,L270_Welding_Craft[2,2].Welding_Speed )
 LIN POL270_S2 C_DIS C_DIS
-
 ;ENDFOLD
-;FOLD Surround_LIN.S_LIN Point:L270_S3, Vel=.04m/s, Point: 95/%, Area:L270, LDAT:L270_L3, OFFSET_NO:3, Work: N_2;%{PE}%MKUKATPUSER
-
-; LIN L270_S3POS: X=0, Y=0, Z=0, A=0, B=0, C=0
-; LIN Offset POS:X=0, Y=-.8, Z=0
+;FOLD Surround_LIN.S_LIN Point: L270_S3, Vel= 0.03 m/s, Point: 95 %, Area: L270, LDAT: L270_L3, OFFSET_NO: 3, Work: N_2 ;%{PE}
+; LIN L270_S3POS: X=351.947479, Y=660.717285, Z=1.00000, A=0.0, B=0.0, C=-20.0000
+; LIN Offset POS:X=0.0, Y=-0.800000, Z=0.0
 HanGao_Surr_Calculate( 95, #L270, #L_LIN_POS , POL270_S3, , , L270_Welding_Craft[2,3].Welding_Offset  , , 3, 2 )
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=L270_Welding_Craft[2,3].Welding_Power/100 
- 
-LL270_L3.VEL=L270_Welding_Craft[2,3].Welding_Speed
-LL270_L3.ACC=L270_Welding_Craft[2,3].Welding_ACC
-LL270_L3.APO_DIST=L270_Welding_Craft[2,3].Welding_CDIS
- 
+
+HanGao_DAT_ACT(L270_Welding_Craft[2,3],LL270_L3)
+
+
+
+
 FDAT_ACT=FL270_S3
 LDAT_ACT=LL270_L3
 BAS(#CP_PARAMS,L270_Welding_Craft[2,3].Welding_Speed )
 LIN POL270_S3 C_DIS C_DIS
-
 ;ENDFOLD
-;FOLD Surround_LIN.S_C_LIN Point:C315_S1, Vel=.04m/s, Area: C315, LDAT:C315_L1, Work: N_2;%{PE}%MKUKATPUSER
-
-; CIR C315_S1POS: X=0, Y=0, Z=0, A=0, B=0, C=0
-; CIR Offset POS:X=0, Y=-.8, Z=0
+;FOLD Surround_LIN.S_C_LIN Point: C315_S1, Vel= 0.2 m/s, Area: C315, LDAT: C315_L1, Work: N_2 ;%{PE}
+; CIR C315_S1POS: X=368.577087, Y=660.939270, Z=1.00000, A=0.0, B=0.0, C=-20.0000
+; CIR Offset POS:X=-0.500000, Y=0.0, Z=0.0
 HanGao_Surr_Calculate(  , #C315, #C_LIN_POS , POC315_S1, , , C315_Welding_Craft[2,1].Welding_Offset , ,  , 2)
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=C315_Welding_Craft[2,1].Welding_Power/100 
- 
-LC315_L1.VEL=C315_Welding_Craft[2,1].Welding_Speed
-LC315_L1.ACC=C315_Welding_Craft[2,1].Welding_ACC
-LC315_L1.APO_DIST=C315_Welding_Craft[2,1].Welding_CDIS
- 
+
+HanGao_DAT_ACT(C315_Welding_Craft[2,1],LC315_L1)
+
+
+
+
 FDAT_ACT=FC315_S1
 LDAT_ACT=LC315_L1
 BAS(#CP_PARAMS, C315_Welding_Craft[2,1].Welding_Speed )
 LIN POC315_S1 C_DIS C_DIS
-
 ;ENDFOLD
-;FOLD Surround_CIR.S_C_CIR Point:PM7, PE7, Vel=.04m/s, Angle Area: C315, Work: N_2;%{PE}%MKUKATPUSER
-
-; CIR MID POS:PM7 : X=0, Y=0, Z=0, A=0, B=0, C=0
-; CIR END POS:PE7 : X=0, Y=0, Z=0, A=0, B=0, C=0
-; CIR_MID_OFFSET  : X=0, Y=0, Z=0
-; CIR_END_OFFSET  : X=0, Y=.5, Z=0
+;FOLD Surround_CIR.S_C_CIR Point: PM7, PE7, Vel= 0.012 m/s, Angle Area: C315, Work: N_2 ;%{PE}
+; CIR MID POS:PM7 : X=377.618, Y=656.195, Z=1.00000, A=0.0, B=0.0, C=0.0
+; CIR END POS:PE7 : X=380.001862, Y=649.383240, Z=1.00000, A=0.0, B=20.0000, C=0.0
+; CIR_MID_OFFSET  : X=0.0, Y=-0.500000, Z=0.0
+; CIR_END_OFFSET  : X=-0.500000, Y=0.0, Z=0.0
 HanGao_Surr_Calculate(  , #C315, #C_CIR_POS ,  , POPM7, POPE7 , C315_Welding_Craft[2,2].Welding_Offset  , C315_Welding_Craft[2, 3].Welding_Offset  ,  , 2)
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=C315_Welding_Craft[2,3].Welding_Power/100 
- 
-LPM7.VEL=C315_Welding_Craft[2,3].Welding_Speed
-LPM7.ACC=C315_Welding_Craft[2,3].Welding_ACC
-LPM7.APO_DIST=C315_Welding_Craft[2,3].Welding_CDIS
- 
+
+HanGao_DAT_ACT(C315_Welding_Craft[2,3],LPM7)
+
+
+
+
 FDAT_ACT=FPE7
 LDAT_ACT=LPM7
 BAS(#CP_PARAMS,C315_Welding_Craft[2,3].Welding_Speed )
 CIRC POPM7, POPE7 C_DIS C_DIS
-
 ;ENDFOLD
-;FOLD Surround_LIN.S_LIN Point:L0_S2, Vel=.04m/s, Point: 10/%, Area:LO, LDAT:L0_L2, OFFSET_NO:2, Work: N_2;%{PE}%MKUKATPUSER
-
-; LIN L0_S2POS: X=0, Y=0, Z=0, A=0, B=0, C=0
-; LIN Offset POS:X=0, Y=0, Z=0
+;FOLD Surround_LIN.S_LIN Point: L0_S2, Vel= 0.03 m/s, Point: 10 %, Area: LO, LDAT: L0_L2, OFFSET_NO: 2, Work: N_2 ;%{PE}
+; LIN L0_S2POS: X=379.614777, Y=587.556091, Z=1.00000, A=0.0, B=20.0000, C=0.0
+; LIN Offset POS:X=-0.500000, Y=0.0, Z=0.0
 HanGao_Surr_Calculate( 10, #L0, #L_LIN_POS , POL0_S2, , , L0_Welding_Craft[2,2].Welding_Offset  , , 2, 2 )
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=L0_Welding_Craft[2,2].Welding_Power/100 
- 
-LL0_L2.VEL=L0_Welding_Craft[2,2].Welding_Speed
-LL0_L2.ACC=L0_Welding_Craft[2,2].Welding_ACC
-LL0_L2.APO_DIST=L0_Welding_Craft[2,2].Welding_CDIS
- 
+
+HanGao_DAT_ACT(L0_Welding_Craft[2,2],LL0_L2)
+
+
+
+
 FDAT_ACT=FL0_S2
 LDAT_ACT=LL0_L2
 BAS(#CP_PARAMS,L0_Welding_Craft[2,2].Welding_Speed )
 LIN POL0_S2 C_DIS C_DIS
-
 ;ENDFOLD
-;FOLD Surround_LIN.S_LIN Point:L0_S3, Vel=.04m/s, Point: 50/%, Area:LO, LDAT:L0_L3, OFFSET_NO:3, Work: N_2;%{PE}%MKUKATPUSER
-
-; LIN L0_S3POS: X=0, Y=0, Z=0, A=0, B=0, C=0
-; LIN Offset POS:X=-.5, Y=0, Z=0
+;FOLD Surround_LIN.S_LIN Point: L0_S3, Vel= 0.03 m/s, Point: 50 %, Area: LO, LDAT: L0_L3, OFFSET_NO: 3, Work: N_2 ;%{PE}
+; LIN L0_S3POS: X=378.066498, Y=340.247498, Z=1.00000, A=0.0, B=20.0000, C=0.0
+; LIN Offset POS:X=-0.500000, Y=0.0, Z=0.0
 HanGao_Surr_Calculate( 50, #L0, #L_LIN_POS , POL0_S3, , , L0_Welding_Craft[2,3].Welding_Offset  , , 3, 2 )
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=L0_Welding_Craft[2,3].Welding_Power/100 
- 
-LL0_L3.VEL=L0_Welding_Craft[2,3].Welding_Speed
-LL0_L3.ACC=L0_Welding_Craft[2,3].Welding_ACC
-LL0_L3.APO_DIST=L0_Welding_Craft[2,3].Welding_CDIS
- 
+
+HanGao_DAT_ACT(L0_Welding_Craft[2,3],LL0_L3)
+
+
+
+
 FDAT_ACT=FL0_S3
 LDAT_ACT=LL0_L3
 BAS(#CP_PARAMS,L0_Welding_Craft[2,3].Welding_Speed )
 LIN POL0_S3 C_DIS C_DIS
-
 ;ENDFOLD
-;FOLD Surround_LIN.S_LIN Point:L0_S4, Vel=.04m/s, Point: 95/%, Area:LO, LDAT:L0_L4, OFFSET_NO:4, Work: N_2;%{PE}%MKUKATPUSER
-
-; LIN L0_S4POS: X=0, Y=0, Z=0, A=0, B=0, C=0
-; LIN Offset POS:X=-.5, Y=0, Z=0
+;FOLD Surround_LIN.S_LIN Point: L0_S4, Vel= 0.025 m/s, Point: 95 %, Area: LO, LDAT: L0_L4, OFFSET_NO: 4, Work: N_2 ;%{PE}
+; LIN L0_S4POS: X=376.324677, Y=62.0253296, Z=1.00000, A=0.0, B=20.0000, C=0.0
+; LIN Offset POS:X=-0.500000, Y=0.0, Z=0.0
 HanGao_Surr_Calculate( 95, #L0, #L_LIN_POS , POL0_S4, , , L0_Welding_Craft[2,4].Welding_Offset  , , 4, 2 )
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=L0_Welding_Craft[2,4].Welding_Power/100 
- 
-LL0_L4.VEL=L0_Welding_Craft[2,4].Welding_Speed
-LL0_L4.ACC=L0_Welding_Craft[2,4].Welding_ACC
-LL0_L4.APO_DIST=L0_Welding_Craft[2,4].Welding_CDIS
- 
+
+HanGao_DAT_ACT(L0_Welding_Craft[2,4],LL0_L4)
+
+
+
+
 FDAT_ACT=FL0_S4
 LDAT_ACT=LL0_L4
 BAS(#CP_PARAMS,L0_Welding_Craft[2,4].Welding_Speed )
 LIN POL0_S4 C_DIS C_DIS
-
 ;ENDFOLD
 ;FOLD Laser_Function.LSOFF ;%{PE}%MKUKATPUSER
 
@@ -541,39 +522,35 @@ PTP XSurround_Home
 if (false) THEN
 ;halt
 ;return
-;FOLD Short_Craft.S_LIN Point:S2, Vel=.1m/s, Area: N45, Short_Pos: Safety, Point: 50/%, LDAT:L2, Work: N_2;%{PE}%MKUKATPUSER
-
-; LIN S2POS: X=0, Y=0, Z=0, A=0, B=0, C=0
-; LIN Offset POS:X=0, Y=0, Z=0
+;FOLD Short_Craft.S_LIN Point: S2, Vel= 0.5 m/s, Area: N45, Short_Pos: Safety, Point: 50 %, LDAT: L2, Work: N_2 ;%{PE}
+; LIN S2POS: X=363.220, Y=-0.316000, Z=-150.000, A=0.0, B=0.0, C=0.0
+; LIN Offset POS:X=0.0, Y=0.0, Z=0.0
 HanGao_Surr_Calculate( 50, #N45, #L_LIN_POS , POS2, , , N45_Short_Craft[2,1].Welding_Offset  , , 1, 2, N2_Sink_Data.Sink_Type)
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=N45_Short_Craft[2,1].Welding_Power/100 
- 
-LL2.VEL=N45_Short_Craft[2,1].Welding_Speed
-LL2.ACC=N45_Short_Craft[2,1].Welding_ACC
-LL2.APO_DIST=N45_Short_Craft[2,1].Welding_CDIS
- 
+
+HanGao_DAT_ACT(N45_Short_Craft[2,1],LL2)
+
+
+
+
 FDAT_ACT=FS2
 LDAT_ACT=LL2
 BAS(#CP_PARAMS,N45_Short_Craft[2,1].Welding_Speed )
 LIN POS2 C_DIS C_DIS
-
 ;ENDFOLD
-;FOLD Short_Craft.S_LIN Point:S3, Vel=.1m/s, Area: N45, Short_Pos: Start, Point: 50/%, LDAT:L3, Work: N_2;%{PE}%MKUKATPUSER
-
-; LIN S3POS: X=363.22, Y=-.316, Z=-150, A=0, B=0, C=0
-; LIN Offset POS:X=0, Y=0, Z=0
+;FOLD Short_Craft.S_LIN Point: S3, Vel= 0.5 m/s, Area: N45, Short_Pos: Start, Point: 50 %, LDAT: L3, Work: N_2 ;%{PE}
+; LIN S3POS: X=363.220, Y=-0.316000, Z=0.0, A=0.0, B=0.0, C=0.0
+; LIN Offset POS:X=0.0, Y=0.0, Z=0.0
 HanGao_Surr_Calculate( 50, #N45, #L_LIN_POS , POS3, , , N45_Short_Craft[2,2].Welding_Offset  , , 2, 2, N2_Sink_Data.Sink_Type)
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=N45_Short_Craft[2,2].Welding_Power/100 
- 
-LL3.VEL=N45_Short_Craft[2,2].Welding_Speed
-LL3.ACC=N45_Short_Craft[2,2].Welding_ACC
-LL3.APO_DIST=N45_Short_Craft[2,2].Welding_CDIS
- 
+
+HanGao_DAT_ACT(N45_Short_Craft[2,2],LL3)
+
+
+
+
 FDAT_ACT=FS3
 LDAT_ACT=LL3
 BAS(#CP_PARAMS,N45_Short_Craft[2,2].Welding_Speed )
 LIN POS3 C_DIS C_DIS
-
 ;ENDFOLD
 ;FOLD Laser_Function.LSON POW= .5 %, Sec= 0 S;%{PE}%MKUKATPUSER
 
@@ -583,39 +560,35 @@ LIN POS3 C_DIS C_DIS
  
 
 ;ENDFOLD
-;FOLD Short_Craft.S_LIN Point:S4, Vel=.1m/s, Area: N45, Short_Pos: End, Point: 50/%, LDAT:L4, Work: N_2;%{PE}%MKUKATPUSER
-
-; LIN S4POS: X=363.22, Y=-.316, Z=0, A=0, B=0, C=0
-; LIN Offset POS:X=0, Y=0, Z=0
+;FOLD Short_Craft.S_LIN Point: S4, Vel= 0.01 m/s, Area: N45, Short_Pos: End, Point: 50 %, LDAT: L4, Work: N_2 ;%{PE}
+; LIN S4POS: X=363.395, Y=19.3140, Z=0.0, A=0.0, B=0.0, C=0.0
+; LIN Offset POS:X=0.0, Y=0.0, Z=0.0
 HanGao_Surr_Calculate( 50, #N45, #L_LIN_POS , POS4, , , N45_Short_Craft[2,3].Welding_Offset  , , 3, 2, N2_Sink_Data.Sink_Type)
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=N45_Short_Craft[2,3].Welding_Power/100 
- 
-LL4.VEL=N45_Short_Craft[2,3].Welding_Speed
-LL4.ACC=N45_Short_Craft[2,3].Welding_ACC
-LL4.APO_DIST=N45_Short_Craft[2,3].Welding_CDIS
- 
+
+HanGao_DAT_ACT(N45_Short_Craft[2,3],LL4)
+
+
+
+
 FDAT_ACT=FS4
 LDAT_ACT=LL4
 BAS(#CP_PARAMS,N45_Short_Craft[2,3].Welding_Speed )
 LIN POS4 C_DIS C_DIS
-
 ;ENDFOLD
-;FOLD Short_Craft.S_LIN Point:S5, Vel=.1m/s, Area: N45, Short_Pos: BackWelding, Point: 10/%, LDAT:L5, Work: N_2;%{PE}%MKUKATPUSER
-
-; LIN S5POS: X=363.395, Y=19.314, Z=0, A=0, B=0, C=0
-; LIN Offset POS:X=0, Y=0, Z=0
+;FOLD Short_Craft.S_LIN Point: S5, Vel= 0.5 m/s, Area: N45, Short_Pos: BackWelding, Point: 10 %, LDAT: L5, Work: N_2 ;%{PE}
+; LIN S5POS: X=363.323059, Y=11.2466183, Z=-150.000, A=0.0, B=0.0, C=0.0
+; LIN Offset POS:X=0.0, Y=0.0, Z=0.0
 HanGao_Surr_Calculate( 10, #N45, #L_LIN_POS , POS5, , , N45_Short_Craft[2,4].Welding_Offset  , , 4, 2, N2_Sink_Data.Sink_Type)
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=N45_Short_Craft[2,4].Welding_Power/100 
- 
-LL5.VEL=N45_Short_Craft[2,4].Welding_Speed
-LL5.ACC=N45_Short_Craft[2,4].Welding_ACC
-LL5.APO_DIST=N45_Short_Craft[2,4].Welding_CDIS
- 
+
+HanGao_DAT_ACT(N45_Short_Craft[2,4],LL5)
+
+
+
+
 FDAT_ACT=FS5
 LDAT_ACT=LL5
 BAS(#CP_PARAMS,N45_Short_Craft[2,4].Welding_Speed )
 LIN POS5 C_DIS C_DIS
-
 ;ENDFOLD
 ;FOLD Laser_Function.LSOFF ;%{PE}%MKUKATPUSER
 
@@ -626,39 +599,35 @@ LIN POS5 C_DIS C_DIS
 ;ENDFOLD
 
 
-;FOLD Short_Craft.S_LIN Point:S6, Vel=.1m/s, Area: N135, Short_Pos: Safety, Point: 50/%, LDAT:L6, Work: N_2;%{PE}%MKUKATPUSER
-
-; LIN S6POS: X=363.323059, Y=11.2466183, Z=-150, A=0, B=0, C=0
-; LIN Offset POS:X=0, Y=0, Z=0
+;FOLD Short_Craft.S_LIN Point: S6, Vel= 0.5 m/s, Area: N135, Short_Pos: Safety, Point: 50 %, LDAT: L6, Work: N_2 ;%{PE}
+; LIN S6POS: X=32.5260, Y=-0.971000, Z=-150.000, A=0.0, B=0.0, C=0.0
+; LIN Offset POS:X=0.0, Y=0.0, Z=0.0
 HanGao_Surr_Calculate( 50, #N135, #L_LIN_POS , POS6, , , N135_Short_Craft[2,1].Welding_Offset  , , 1, 2, N2_Sink_Data.Sink_Type)
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=N135_Short_Craft[2,1].Welding_Power/100 
- 
-LL6.VEL=N135_Short_Craft[2,1].Welding_Speed
-LL6.ACC=N135_Short_Craft[2,1].Welding_ACC
-LL6.APO_DIST=N135_Short_Craft[2,1].Welding_CDIS
- 
+
+HanGao_DAT_ACT(N135_Short_Craft[2,1],LL6)
+
+
+
+
 FDAT_ACT=FS6
 LDAT_ACT=LL6
 BAS(#CP_PARAMS,N135_Short_Craft[2,1].Welding_Speed )
 LIN POS6 C_DIS C_DIS
-
 ;ENDFOLD
-;FOLD Short_Craft.S_LIN Point:S7, Vel=.1m/s, Area: N135, Short_Pos: Start, Point: 50/%, LDAT:L7, Work: N_2;%{PE}%MKUKATPUSER
-
-; LIN S7POS: X=32.526, Y=-.971, Z=-150, A=0, B=0, C=0
-; LIN Offset POS:X=0, Y=0, Z=0
+;FOLD Short_Craft.S_LIN Point: S7, Vel= 0.5 m/s, Area: N135, Short_Pos: Start, Point: 50 %, LDAT: L7, Work: N_2 ;%{PE}
+; LIN S7POS: X=32.5260, Y=-0.971000, Z=0.0, A=0.0, B=0.0, C=0.0
+; LIN Offset POS:X=0.0, Y=0.0, Z=0.0
 HanGao_Surr_Calculate( 50, #N135, #L_LIN_POS , POS7, , , N135_Short_Craft[2,2].Welding_Offset  , , 2, 2, N2_Sink_Data.Sink_Type)
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=N135_Short_Craft[2,2].Welding_Power/100 
- 
-LL7.VEL=N135_Short_Craft[2,2].Welding_Speed
-LL7.ACC=N135_Short_Craft[2,2].Welding_ACC
-LL7.APO_DIST=N135_Short_Craft[2,2].Welding_CDIS
- 
+
+HanGao_DAT_ACT(N135_Short_Craft[2,2],LL7)
+
+
+
+
 FDAT_ACT=FS7
 LDAT_ACT=LL7
 BAS(#CP_PARAMS,N135_Short_Craft[2,2].Welding_Speed )
 LIN POS7 C_DIS C_DIS
-
 ;ENDFOLD
 ;FOLD Laser_Function.LSON POW= 60 %, Sec= 0 S;%{PE}%MKUKATPUSER
 
@@ -668,39 +637,35 @@ LIN POS7 C_DIS C_DIS
  
 
 ;ENDFOLD
-;FOLD Short_Craft.S_LIN Point:S8, Vel=.1m/s, Area: N135, Short_Pos: End, Point: 50/%, LDAT:L8, Work: N_2;%{PE}%MKUKATPUSER
-
-; LIN S8POS: X=32.526, Y=-.971, Z=0, A=0, B=0, C=0
-; LIN Offset POS:X=0, Y=0, Z=0
+;FOLD Short_Craft.S_LIN Point: S8, Vel= 0.01 m/s, Area: N135, Short_Pos: End, Point: 50 %, LDAT: L8, Work: N_2 ;%{PE}
+; LIN S8POS: X=32.3940, Y=18.1940, Z=0.0, A=0.0, B=0.0, C=0.0
+; LIN Offset POS:X=0.0, Y=0.0, Z=0.0
 HanGao_Surr_Calculate( 50, #N135, #L_LIN_POS , POS8, , , N135_Short_Craft[2,3].Welding_Offset  , , 3, 2, N2_Sink_Data.Sink_Type)
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=N135_Short_Craft[2,3].Welding_Power/100 
- 
-LL8.VEL=N135_Short_Craft[2,3].Welding_Speed
-LL8.ACC=N135_Short_Craft[2,3].Welding_ACC
-LL8.APO_DIST=N135_Short_Craft[2,3].Welding_CDIS
- 
+
+HanGao_DAT_ACT(N135_Short_Craft[2,3],LL8)
+
+
+
+
 FDAT_ACT=FS8
 LDAT_ACT=LL8
 BAS(#CP_PARAMS,N135_Short_Craft[2,3].Welding_Speed )
 LIN POS8 C_DIS C_DIS
-
 ;ENDFOLD
-;FOLD Short_Craft.S_LIN Point:S9, Vel=.1m/s, Area: N135, Short_Pos: BackWelding, Point: 50/%, LDAT:L9, Work: N_2;%{PE}%MKUKATPUSER
-
-; LIN S9POS: X=32.394, Y=18.194, Z=0, A=0, B=0, C=0
-; LIN Offset POS:X=0, Y=0, Z=0
+;FOLD Short_Craft.S_LIN Point: S9, Vel= 0.5 m/s, Area: N135, Short_Pos: BackWelding, Point: 50 %, LDAT: L9, Work: N_2 ;%{PE}
+; LIN S9POS: X=32.4600, Y=8.61150074, Z=-150.000, A=0.0, B=0.0, C=0.0
+; LIN Offset POS:X=0.0, Y=0.0, Z=0.0
 HanGao_Surr_Calculate( 50, #N135, #L_LIN_POS , POS9, , , N135_Short_Craft[2,4].Welding_Offset  , , 4, 2, N2_Sink_Data.Sink_Type)
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=N135_Short_Craft[2,4].Welding_Power/100 
- 
-LL9.VEL=N135_Short_Craft[2,4].Welding_Speed
-LL9.ACC=N135_Short_Craft[2,4].Welding_ACC
-LL9.APO_DIST=N135_Short_Craft[2,4].Welding_CDIS
- 
+
+HanGao_DAT_ACT(N135_Short_Craft[2,4],LL9)
+
+
+
+
 FDAT_ACT=FS9
 LDAT_ACT=LL9
 BAS(#CP_PARAMS,N135_Short_Craft[2,4].Welding_Speed )
 LIN POS9 C_DIS C_DIS
-
 ;ENDFOLD
 ;FOLD Laser_Function.LSOFF ;%{PE}%MKUKATPUSER
 
@@ -711,39 +676,35 @@ LIN POS9 C_DIS C_DIS
 ;ENDFOLD
 
 
-;FOLD Short_Craft.S_LIN Point:S10, Vel=.1m/s, Area: N225, Short_Pos: Safety, Point: 50/%, LDAT:L10, Work: N_2;%{PE}%MKUKATPUSER
-
-; LIN S10POS: X=32.46, Y=8.61150074, Z=-150, A=0, B=0, C=0
-; LIN Offset POS:X=0, Y=0, Z=0
+;FOLD Short_Craft.S_LIN Point: S10, Vel= 0.5 m/s, Area: N225, Short_Pos: Safety, Point: 50 %, LDAT: L10, Work: N_2 ;%{PE}
+; LIN S10POS: X=31.6330, Y=679.439, Z=-150.000, A=0.0, B=0.0, C=0.0
+; LIN Offset POS:X=0.0, Y=0.0, Z=0.0
 HanGao_Surr_Calculate( 50, #N225, #L_LIN_POS , POS10, , , N225_Short_Craft[2,1].Welding_Offset  , , 1, 2, N2_Sink_Data.Sink_Type)
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=N225_Short_Craft[2,1].Welding_Power/100 
- 
-LL10.VEL=N225_Short_Craft[2,1].Welding_Speed
-LL10.ACC=N225_Short_Craft[2,1].Welding_ACC
-LL10.APO_DIST=N225_Short_Craft[2,1].Welding_CDIS
- 
+
+HanGao_DAT_ACT(N225_Short_Craft[2,1],LL10)
+
+
+
+
 FDAT_ACT=FS10
 LDAT_ACT=LL10
 BAS(#CP_PARAMS,N225_Short_Craft[2,1].Welding_Speed )
 LIN POS10 C_DIS C_DIS
-
 ;ENDFOLD
-;FOLD Short_Craft.S_LIN Point:S11, Vel=.1m/s, Area: N225, Short_Pos: Start, Point: 50/%, LDAT:L11, Work: N_2;%{PE}%MKUKATPUSER
-
-; LIN S11POS: X=31.633, Y=679.439, Z=-150, A=0, B=0, C=0
-; LIN Offset POS:X=0, Y=0, Z=0
+;FOLD Short_Craft.S_LIN Point: S11, Vel= 0.5 m/s, Area: N225, Short_Pos: Start, Point: 50 %, LDAT: L11, Work: N_2 ;%{PE}
+; LIN S11POS: X=31.6330, Y=679.439, Z=0.0, A=0.0, B=0.0, C=0.0
+; LIN Offset POS:X=0.0, Y=0.0, Z=0.0
 HanGao_Surr_Calculate( 50, #N225, #L_LIN_POS , POS11, , , N225_Short_Craft[2,2].Welding_Offset  , , 2, 2, N2_Sink_Data.Sink_Type)
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=N225_Short_Craft[2,2].Welding_Power/100 
- 
-LL11.VEL=N225_Short_Craft[2,2].Welding_Speed
-LL11.ACC=N225_Short_Craft[2,2].Welding_ACC
-LL11.APO_DIST=N225_Short_Craft[2,2].Welding_CDIS
- 
+
+HanGao_DAT_ACT(N225_Short_Craft[2,2],LL11)
+
+
+
+
 FDAT_ACT=FS11
 LDAT_ACT=LL11
 BAS(#CP_PARAMS,N225_Short_Craft[2,2].Welding_Speed )
 LIN POS11 C_DIS C_DIS
-
 ;ENDFOLD
 ;FOLD Laser_Function.LSON POW= 60 %, Sec= 0 S;%{PE}%MKUKATPUSER
 
@@ -753,39 +714,35 @@ LIN POS11 C_DIS C_DIS
  
 
 ;ENDFOLD
-;FOLD Short_Craft.S_LIN Point:S12, Vel=.1m/s, Area: N225, Short_Pos: End, Point: 50/%, LDAT:L12, Work: N_2;%{PE}%MKUKATPUSER
-
-; LIN S12POS: X=31.633, Y=679.439, Z=0, A=0, B=0, C=0
-; LIN Offset POS:X=0, Y=0, Z=0
+;FOLD Short_Craft.S_LIN Point: S12, Vel= 0.01 m/s, Area: N225, Short_Pos: End, Point: 50 %, LDAT: L12, Work: N_2 ;%{PE}
+; LIN S12POS: X=31.8670, Y=660.025, Z=0.0, A=0.0, B=0.0, C=0.0
+; LIN Offset POS:X=0.0, Y=0.0, Z=0.0
 HanGao_Surr_Calculate( 50, #N225, #L_LIN_POS , POS12, , , N225_Short_Craft[2,3].Welding_Offset  , , 3, 2, N2_Sink_Data.Sink_Type)
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=N225_Short_Craft[2,3].Welding_Power/100 
- 
-LL12.VEL=N225_Short_Craft[2,3].Welding_Speed
-LL12.ACC=N225_Short_Craft[2,3].Welding_ACC
-LL12.APO_DIST=N225_Short_Craft[2,3].Welding_CDIS
- 
+
+HanGao_DAT_ACT(N225_Short_Craft[2,3],LL12)
+
+
+
+
 FDAT_ACT=FS12
 LDAT_ACT=LL12
 BAS(#CP_PARAMS,N225_Short_Craft[2,3].Welding_Speed )
 LIN POS12 C_DIS C_DIS
-
 ;ENDFOLD
-;FOLD Short_Craft.S_LIN Point:S13, Vel=.1m/s, Area: N225, Short_Pos: BackWelding, Point: 50/%, LDAT:L13, Work: N_2;%{PE}%MKUKATPUSER
-
-; LIN S13POS: X=31.867, Y=660.025, Z=0, A=0, B=0, C=0
-; LIN Offset POS:X=0, Y=0, Z=0
+;FOLD Short_Craft.S_LIN Point: S13, Vel= 0.5 m/s, Area: N225, Short_Pos: BackWelding, Point: 50 %, LDAT: L13, Work: N_2 ;%{PE}
+; LIN S13POS: X=31.7500, Y=669.732056, Z=-150.000, A=0.0, B=0.0, C=0.0
+; LIN Offset POS:X=0.0, Y=0.0, Z=0.0
 HanGao_Surr_Calculate( 50, #N225, #L_LIN_POS , POS13, , , N225_Short_Craft[2,4].Welding_Offset  , , 4, 2, N2_Sink_Data.Sink_Type)
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=N225_Short_Craft[2,4].Welding_Power/100 
- 
-LL13.VEL=N225_Short_Craft[2,4].Welding_Speed
-LL13.ACC=N225_Short_Craft[2,4].Welding_ACC
-LL13.APO_DIST=N225_Short_Craft[2,4].Welding_CDIS
- 
+
+HanGao_DAT_ACT(N225_Short_Craft[2,4],LL13)
+
+
+
+
 FDAT_ACT=FS13
 LDAT_ACT=LL13
 BAS(#CP_PARAMS,N225_Short_Craft[2,4].Welding_Speed )
 LIN POS13 C_DIS C_DIS
-
 ;ENDFOLD
 ;FOLD Laser_Function.LSOFF ;%{PE}%MKUKATPUSER
 
@@ -796,39 +753,35 @@ LIN POS13 C_DIS C_DIS
 ;ENDFOLD
 
 
-;FOLD Short_Craft.S_LIN Point:S14, Vel=.1m/s, Area: N315, Short_Pos: Safety, Point: 50/%, LDAT:L14, Work: N_2;%{PE}%MKUKATPUSER
-
-; LIN S14POS: X=31.75, Y=669.732056, Z=-150, A=0, B=0, C=0
-; LIN Offset POS:X=0, Y=0, Z=0
+;FOLD Short_Craft.S_LIN Point: S14, Vel= 0.5 m/s, Area: N315, Short_Pos: Safety, Point: 50 %, LDAT: L14, Work: N_2 ;%{PE}
+; LIN S14POS: X=362.986, Y=679.910, Z=-150.000, A=0.0, B=0.0, C=0.0
+; LIN Offset POS:X=0.0, Y=0.0, Z=0.0
 HanGao_Surr_Calculate( 50, #N315, #L_LIN_POS , POS14, , , N315_Short_Craft[2,1].Welding_Offset  , , 1, 2, N2_Sink_Data.Sink_Type)
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=N315_Short_Craft[2,1].Welding_Power/100 
- 
-LL14.VEL=N315_Short_Craft[2,1].Welding_Speed
-LL14.ACC=N315_Short_Craft[2,1].Welding_ACC
-LL14.APO_DIST=N315_Short_Craft[2,1].Welding_CDIS
- 
+
+HanGao_DAT_ACT(N315_Short_Craft[2,1],LL14)
+
+
+
+
 FDAT_ACT=FS14
 LDAT_ACT=LL14
 BAS(#CP_PARAMS,N315_Short_Craft[2,1].Welding_Speed )
 LIN POS14 C_DIS C_DIS
-
 ;ENDFOLD
-;FOLD Short_Craft.S_LIN Point:S15, Vel=.1m/s, Area: N315, Short_Pos: Start, Point: 50/%, LDAT:L15, Work: N_2;%{PE}%MKUKATPUSER
-
-; LIN S15POS: X=362.986, Y=679.91, Z=-150, A=0, B=0, C=0
-; LIN Offset POS:X=0, Y=0, Z=0
+;FOLD Short_Craft.S_LIN Point: S15, Vel= 0.5 m/s, Area: N315, Short_Pos: Start, Point: 50 %, LDAT: L15, Work: N_2 ;%{PE}
+; LIN S15POS: X=362.986, Y=679.910, Z=1.00000, A=0.0, B=0.0, C=0.0
+; LIN Offset POS:X=0.0, Y=0.0, Z=1.00000
 HanGao_Surr_Calculate( 50, #N315, #L_LIN_POS , POS15, , , N315_Short_Craft[2,2].Welding_Offset  , , 2, 2, N2_Sink_Data.Sink_Type)
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=N315_Short_Craft[2,2].Welding_Power/100 
- 
-LL15.VEL=N315_Short_Craft[2,2].Welding_Speed
-LL15.ACC=N315_Short_Craft[2,2].Welding_ACC
-LL15.APO_DIST=N315_Short_Craft[2,2].Welding_CDIS
- 
+
+HanGao_DAT_ACT(N315_Short_Craft[2,2],LL15)
+
+
+
+
 FDAT_ACT=FS15
 LDAT_ACT=LL15
 BAS(#CP_PARAMS,N315_Short_Craft[2,2].Welding_Speed )
 LIN POS15 C_DIS C_DIS
-
 ;ENDFOLD
 ;FOLD Laser_Function.LSON POW= 60 %, Sec= 0 S;%{PE}%MKUKATPUSER
 
@@ -838,39 +791,35 @@ LIN POS15 C_DIS C_DIS
  
 
 ;ENDFOLD
-;FOLD Short_Craft.S_LIN Point:S16, Vel=.1m/s, Area: N315, Short_Pos: End, Point: 50/%, LDAT:L16, Work: N_2;%{PE}%MKUKATPUSER
-
-; LIN S16POS: X=362.986, Y=679.91, Z=1, A=0, B=0, C=0
-; LIN Offset POS:X=0, Y=0, Z=1
+;FOLD Short_Craft.S_LIN Point: S16, Vel= 0.01 m/s, Area: N315, Short_Pos: End, Point: 50 %, LDAT: L16, Work: N_2 ;%{PE}
+; LIN S16POS: X=363.044, Y=660.468, Z=1.00000, A=0.0, B=0.0, C=0.0
+; LIN Offset POS:X=0.0, Y=0.0, Z=1.00000
 HanGao_Surr_Calculate( 50, #N315, #L_LIN_POS , POS16, , , N315_Short_Craft[2,3].Welding_Offset  , , 3, 2, N2_Sink_Data.Sink_Type)
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=N315_Short_Craft[2,3].Welding_Power/100 
- 
-LL16.VEL=N315_Short_Craft[2,3].Welding_Speed
-LL16.ACC=N315_Short_Craft[2,3].Welding_ACC
-LL16.APO_DIST=N315_Short_Craft[2,3].Welding_CDIS
- 
+
+HanGao_DAT_ACT(N315_Short_Craft[2,3],LL16)
+
+
+
+
 FDAT_ACT=FS16
 LDAT_ACT=LL16
 BAS(#CP_PARAMS,N315_Short_Craft[2,3].Welding_Speed )
 LIN POS16 C_DIS C_DIS
-
 ;ENDFOLD
-;FOLD Short_Craft.S_LIN Point:S17, Vel=.1m/s, Area: N315, Short_Pos: BackWelding, Point: 50/%, LDAT:L17, Work: N_2;%{PE}%MKUKATPUSER
-
-; LIN S17POS: X=363.044, Y=660.468, Z=1, A=0, B=0, C=0
-; LIN Offset POS:X=0, Y=0, Z=1
+;FOLD Short_Craft.S_LIN Point: S17, Vel= 0.5 m/s, Area: N315, Short_Pos: BackWelding, Point: 50 %, LDAT: L17, Work: N_2 ;%{PE}
+; LIN S17POS: X=363.015, Y=670.188965, Z=-150.000, A=0.0, B=0.0, C=0.0
+; LIN Offset POS:X=0.0, Y=0.0, Z=0.0
 HanGao_Surr_Calculate( 50, #N315, #L_LIN_POS , POS17, , , N315_Short_Craft[2,4].Welding_Offset  , , 4, 2, N2_Sink_Data.Sink_Type)
-TRIGGER WHEN PATH=0 DELAY=0 DO $ANOUT[1]=N315_Short_Craft[2,4].Welding_Power/100 
- 
-LL17.VEL=N315_Short_Craft[2,4].Welding_Speed
-LL17.ACC=N315_Short_Craft[2,4].Welding_ACC
-LL17.APO_DIST=N315_Short_Craft[2,4].Welding_CDIS
- 
+
+HanGao_DAT_ACT(N315_Short_Craft[2,4],LL17)
+
+
+
+
 FDAT_ACT=FS17
 LDAT_ACT=LL17
 BAS(#CP_PARAMS,N315_Short_Craft[2,4].Welding_Speed )
 LIN POS17 C_DIS C_DIS
-
 ;ENDFOLD
 ;FOLD Laser_Function.LSOFF ;%{PE}%MKUKATPUSER
 

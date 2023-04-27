@@ -47,7 +47,10 @@ namespace Halcon_SDK_DLL
         private static int Sample_Save_Image_Number { set; get; } = 1;
 
 
-
+        /// <summary>
+        /// 模型存储列表
+        /// </summary>
+        public static List<Match_Models_List_Model> Match_Models_List { set; get; } = new List<Match_Models_List_Model>();
         /// <summary>
         /// 保存图像到当前文件
         /// </summary>
@@ -265,7 +268,15 @@ namespace Halcon_SDK_DLL
 
 
 
-
+       /// <summary>
+       /// 继续xld交点位置
+       /// </summary>
+       /// <param name="Halcon_Find_Shape_Out"></param>
+       /// <param name="_ALL_ModelXLD"></param>
+       /// <param name="Matching_Model"></param>
+       /// <param name="_Window"></param>
+       /// <param name="_Math2D"></param>
+       /// <returns></returns>
         public static HPR_Status_Model Match_Model_XLD_Pos(ref Halcon_Find_Shape_Out_Parameter Halcon_Find_Shape_Out, List<HObject> _ALL_ModelXLD, Shape_Based_Model_Enum Matching_Model, HWindow _Window , HTuple _Math2D)
         {
 
@@ -968,7 +979,7 @@ namespace Halcon_SDK_DLL
                 HTuple _B = new HTuple();
                 _X = _Model.Match_XLD_Handle;
                 _B = _Model.Match_Handle;
-
+                
 
                 //根据模型类型清除内存
                 switch (_Model.File_Type)
@@ -1003,11 +1014,10 @@ namespace Halcon_SDK_DLL
        
 
                 //清除非托管内存
-                HOperatorSet.ClearHandle(_B);
-                HOperatorSet.ClearObj(_X);
-                //_Model.Match_Handle.Dispose();
-
-                //_Model.Match_XLD_Handle.Dispose();
+                //HOperatorSet.ClearHandle(_B);
+                //HOperatorSet.ClearObj(_X);
+                _Model.Match_Handle.Dispose();
+                _Model.Match_XLD_Handle.Dispose();
 
 
                 return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info= _Model .File_Type+ "模型文件清理成功！" };
@@ -2245,7 +2255,9 @@ namespace Halcon_SDK_DLL
 
 
 
-
+        /// <summary>
+        /// GC回收处理方法
+        /// </summary>
         public void Dispose()
         {
             GC.Collect();

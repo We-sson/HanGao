@@ -371,10 +371,7 @@ namespace HanGao.ViewModel
 
 
 
-        /// <summary>
-        /// 模型存储列表
-        /// </summary>
-        public  List<Match_Models_List_Model> Match_Models_List { set; get; } = new List<Match_Models_List_Model>();
+
 
 
         /// <summary>
@@ -461,7 +458,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 重新读取模型之前清除旧缓存..
         /// </summary>
-        public void Free_Halcon_Model_Memory()
+        public   void Free_Halcon_Model_Memory()
         {
             //清除UI显示内容
             Application.Current.Dispatcher.Invoke(() => { 
@@ -471,28 +468,23 @@ namespace HanGao.ViewModel
             });
 
 
+            foreach (var _M in Halcon_SDK. Match_Models_List
+)
+            {
+                Display_Status(Halcon_SDK.Clear_Model(_M));
 
 
-            Match_Models_List.ForEach(_M => {              Display_Status(Halcon_SDK.Clear_Model(_M));    });
+            }
 
-
-            //foreach (Match_Models_List_Model _match in )
-            //{
-
-
-
-
-
-            //}
-
-            Match_Models_List.Clear();
-
+            Halcon_SDK.Match_Models_List.Clear();
 
           
+            GC.AddMemoryPressure(2);
             // 手动调用Halcon的垃圾回收方法
-            GC.Collect();
+            GC.Collect(3);
             GC.WaitForPendingFinalizers();
-            GC.Collect();
+            GC.Collect(3);
+
 
 
         }
@@ -572,7 +564,7 @@ namespace HanGao.ViewModel
                             Display_Status(Halcon_SDK.Read_Halcon_Type_File(ref Match_Model, ref Match_XDL, _File));
 
                             //添加到集合内
-                            Match_Models_List.Add(new Match_Models_List_Model()
+                            Halcon_SDK.Match_Models_List.Add(new Match_Models_List_Model()
                             {
                                 Match_ID = _FileID,
                                 Match_Area = _FIle_Area,
@@ -729,7 +721,7 @@ namespace HanGao.ViewModel
                     Shape_FileFull_UI.Clear();
 
                     //将同一模型序号提取
-                    Shape_FileFull_UI=new ObservableCollection<FileInfo> (Match_Models_List
+                    Shape_FileFull_UI=new ObservableCollection<FileInfo> (Halcon_SDK.Match_Models_List
                                                                                                               .Where(_M => _M.Match_ID == _Shape_Model.File_ID)
                                                                                                               .Select(_M => _M.Match_File).ToList());
 
@@ -768,7 +760,7 @@ namespace HanGao.ViewModel
                     //List<Match_Models_List_Model> _MID = Match_Models_List.Where(_X => _X.Match_ID == _ID && _X.Match_Model == _Model_Enum && _X.Match_Area == _Name && _X.File_Type == Match_FileName_Type_Enum.ncm).ToList();
                     //List<Match_Models_List_Model> _MContent = Match_Models_List.Where(_X => _X.Match_ID == _ID && _X.Match_Model == _Model_Enum && _X.Match_Area == _Name && _X.File_Type == Match_FileName_Type_Enum.dxf).ToList();
 
-                    _ModelContours= Match_Models_List.Where(_M => _M.Match_File.Name == _Shape.Name).FirstOrDefault().Match_XLD_Handle;
+                    _ModelContours= Halcon_SDK.Match_Models_List.Where(_M => _M.Match_File.Name == _Shape.Name).FirstOrDefault().Match_XLD_Handle;
 
                     //if (Display_Status(Halcon_SDK.Read_Halcon_Type_File(ref _ModelID, ref _ModelContours, _Shape)).GetResult())
                     //{
@@ -973,7 +965,7 @@ namespace HanGao.ViewModel
                     case Shape_Based_Model_Enum.shape_model or Shape_Based_Model_Enum.planar_deformable_model or Shape_Based_Model_Enum.local_deformable_model or Shape_Based_Model_Enum.Scale_model:
 
                         //筛选所需要的模型数据
-                        List<Match_Models_List_Model> _SID = Match_Models_List.Where(_X => _X.Match_Model == _Model_Enum && _X.Match_Area == _Name).ToList();
+                        List<Match_Models_List_Model> _SID = Halcon_SDK.Match_Models_List.Where(_X => _X.Match_Model == _Model_Enum && _X.Match_Area == _Name).ToList();
 
                         foreach (var _List in _SID)
                         {
@@ -987,8 +979,8 @@ namespace HanGao.ViewModel
 
                         //筛选所需要的模型数据
 
-                        List<Match_Models_List_Model> _MID = Match_Models_List.Where(_X => _X.Match_ID == _ID && _X.Match_Model == _Model_Enum && _X.Match_Area == _Name && _X.File_Type == Match_FileName_Type_Enum.ncm).ToList();
-                        List<Match_Models_List_Model> _MContent = Match_Models_List.Where(_X => _X.Match_ID == _ID && _X.Match_Model == _Model_Enum && _X.Match_Area == _Name && _X.File_Type == Match_FileName_Type_Enum.dxf).ToList();
+                        List<Match_Models_List_Model> _MID = Halcon_SDK.Match_Models_List.Where(_X => _X.Match_ID == _ID && _X.Match_Model == _Model_Enum && _X.Match_Area == _Name && _X.File_Type == Match_FileName_Type_Enum.ncm).ToList();
+                        List<Match_Models_List_Model> _MContent = Halcon_SDK.Match_Models_List.Where(_X => _X.Match_ID == _ID && _X.Match_Model == _Model_Enum && _X.Match_Area == _Name && _X.File_Type == Match_FileName_Type_Enum.dxf).ToList();
 
 
 

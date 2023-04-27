@@ -1,8 +1,8 @@
-&ACCESS RVO1
-&REL 299
+&ACCESS RVO3
+&REL 306
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
-&PARAM DISKPATH = KRC:\R1\Program\HK
+&PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
 DEF Glode_HanGao( )
 
 ;# DATE:2021-1-4
@@ -1052,13 +1052,14 @@ SWITCH Vision_Model
 case #Calibration
 
 IF (ABS(Q_Y)>=Vision_Scope ) OR (ABS(Q_X)>=Vision_Scope)THEN
+
+OFFSET_POS=Cam_45_POS
 OFFSET_POS.X=Cam_45_POS.X-Q_X
 OFFSET_POS.Y=Cam_45_POS.Y-Q_Y
-OFFSET_POS.Z=Cam_45_POS.Z
+
 ELSE
-OFFSET_POS.X=Cam_45_POS.X
-OFFSET_POS.Y=Cam_45_POS.Y
-OFFSET_POS.Z=Cam_45_POS.Z
+OFFSET_POS=Cam_45_POS
+
 ENDIF
 
 ENDSWITCH
@@ -1074,13 +1075,12 @@ SWITCH Vision_Model
 
 case #Calibration
 IF (ABS(Q_Y)>=Vision_Scope ) OR (ABS(Q_X)>=Vision_Scope)THEN
+OFFSET_POS=Cam_135_POS
 OFFSET_POS.X=Cam_135_POS.X-Q_X
 OFFSET_POS.Y=Cam_135_POS.Y-Q_Y
-OFFSET_POS.Z=Cam_135_POS.Z
 ELSE
-OFFSET_POS.X=Cam_135_POS.X
-OFFSET_POS.Y=Cam_135_POS.Y
-OFFSET_POS.Z=Cam_135_POS.Z
+OFFSET_POS=Cam_135_POS
+
 ENDIF
 
 ENDSWITCH
@@ -1096,13 +1096,12 @@ SWITCH Vision_Model
 case #Calibration
 
 IF (ABS(Q_Y)>=Vision_Scope ) OR (ABS(Q_X)>=Vision_Scope)THEN
+OFFSET_POS=Cam_225_POS
 OFFSET_POS.X=Cam_225_POS.X-Q_X
 OFFSET_POS.Y=Cam_225_POS.Y-Q_Y
-OFFSET_POS.Z=Cam_225_POS.Z
 ELSE
-OFFSET_POS.X=Cam_225_POS.X
-OFFSET_POS.Y=Cam_225_POS.Y
-OFFSET_POS.Z=Cam_225_POS.Z
+OFFSET_POS=Cam_225_POS
+
 ENDIF
 
 ENDSWITCH
@@ -1117,13 +1116,12 @@ SWITCH Vision_Model
 
 case #Calibration
 IF (ABS(Q_Y)>=Vision_Scope ) OR (ABS(Q_X)>=Vision_Scope)THEN
+OFFSET_POS=Cam_315_POS
 OFFSET_POS.X=Cam_315_POS.X-Q_X
 OFFSET_POS.Y=Cam_315_POS.Y-Q_Y
-OFFSET_POS.Z=Cam_315_POS.Z
 ELSE
-OFFSET_POS.X=Cam_315_POS.X
-OFFSET_POS.Y=Cam_315_POS.Y
-OFFSET_POS.Z=Cam_315_POS.Z
+OFFSET_POS=Cam_315_POS
+
 ENDIF
 
 ENDSWITCH
@@ -1172,21 +1170,19 @@ endswitch
 
 END
 
-GLOBAL DEF HanGao_Camera_Sink_Pos(Calibration:IN,Work_Camera:IN)
+GLOBAL DEF HanGao_Camera_Sink_Pos( Calibration_POS:IN,Calibration:IN,Work_Camera:IN)
 DECL INT Calibration,Work_Camera
 DECL BOOL User_Revise
 DECL CHAR Meg_Str[1024]
 DECL Surround_Welding_Type Sink_Size
-
+DECL E6POS Calibration_POS
  Meg_Str[]="This operation will overwrite the original data, whether to confirm?"
  ;Global_Messages_Dlg( Meg_Str[] ,User_Revise)
-User_Revise=true
+User_Revise=FALSE
 
 
 
 
-
-IF User_Revise==TRUE THEN
 
 
 switch Work_Camera
@@ -1194,49 +1190,97 @@ switch Work_Camera
 CASE 1
 
 Sink_Size=N1_Sink_Data
-SWITCH Calibration
 
+
+SWITCH  Global_Calib_Model
+CASE #Text
+
+SWITCH Calibration
 CASE 1
-N1_Cam_45_POS=$POS_ACT
+Calibration_POS=N1_Cam_45_POS
 CASE 2
-N1_Cam_135_POS=$POS_ACT
+Calibration_POS=N1_Cam_135_POS
 CASE 3
-N1_Cam_225_POS=$POS_ACT
+Calibration_POS=N1_Cam_225_POS
 CASE 4
-N1_Cam_315_POS=$POS_ACT
+Calibration_POS=N1_Cam_315_POS
+ENDSWITCH
+
+
+CASE #New
+
+
+Global_Messages_Dlg( Meg_Str[] ,User_Revise)
+IF User_Revise==TRUE THEN
+
+SWITCH Calibration
+CASE 1
+N1_Cam_45_POS=Calibration_POS
+CASE 2
+N1_Cam_135_POS=Calibration_POS
+CASE 3
+N1_Cam_225_POS=Calibration_POS
+CASE 4
+N1_Cam_315_POS=Calibration_POS
+ENDSWITCH
+
+
+Camera_Calibration_Data=Sink_Size
+endif
+
+
 ENDSWITCH
 
 
 CASE 2
 
 Sink_Size=N2_Sink_Data
+SWITCH  Global_Calib_Model
+CASE #Text
+
 SWITCH Calibration
-
 CASE 1
-N2_Cam_45_POS=$POS_ACT
+Calibration_POS=N2_Cam_45_POS
 CASE 2
-N2_Cam_135_POS=$POS_ACT
+Calibration_POS=N2_Cam_135_POS
 CASE 3
-N2_Cam_225_POS=$POS_ACT
+Calibration_POS=N2_Cam_225_POS
 CASE 4
-N2_Cam_315_POS=$POS_ACT
+Calibration_POS=N2_Cam_315_POS
 ENDSWITCH
 
+
+CASE #New
+
+Global_Messages_Dlg( Meg_Str[] ,User_Revise)
+IF User_Revise==TRUE THEN
+
+SWITCH Calibration
+CASE 1
+N2_Cam_45_POS=Calibration_POS
+CASE 2
+N2_Cam_135_POS=Calibration_POS
+CASE 3
+N2_Cam_225_POS=Calibration_POS
+CASE 4
+N2_Cam_315_POS=Calibration_POS
 ENDSWITCH
-
-
 
 Camera_Calibration_Data=Sink_Size
 
-
-
-else 
-
-
-
-halt
-
 endif
+ENDSWITCH
+
+ENDSWITCH
+
+
+
+
+
+
+
+
+
 
 END
 

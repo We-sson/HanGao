@@ -651,9 +651,9 @@ namespace Halcon_SDK_DLL.Model
 
         public int Match_No { set; get; }
 
-        public HTuple Match_Handle { set; get; }
+        public  HTuple Match_Handle { set; get; } = new HTuple();
 
-        public HObject  Match_XLD_Handle { set; get; }
+        public   HObject  Match_XLD_Handle { set; get; }= new HObject();
 
         public string GetFileName()
         {

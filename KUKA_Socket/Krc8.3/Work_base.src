@@ -1,8 +1,8 @@
 &ACCESS RVP
-&REL 32
+&REL 34
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
-&PARAM DISKPATH = KRC:\R1\Program\HG
+&PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
 DEF Work_base( )
 ;FOLD INI;%{PE}
   ;FOLD BASISTECH INI
@@ -24,11 +24,9 @@ FDAT_ACT=FP_home
 BAS(#PTP_PARAMS,100)
 PTP XP_home 
 ;ENDFOLD
-;FOLD Surround_LIN.Cross_Pos Base:BASE:2, Direction:0, X_Dir_NAME :P1, P2, Y_Dir_NAME :P3, P4;%{PE}%MKUKATPUSER
+;FOLD Surround_LIN.Cross_Pos Base: BASE:2, Direction: 90, X_Dir_NAME : P1, P2, Y_Dir_NAME : P3, P4 ;%{PE}
 
-  
-HanGao_Base_Calculate( XP1, XP2, XP3, XP4, 2, #A0 )
-  
+HanGao_Base_Calculate( XP1, XP2, XP3, XP4, 2, #A90 )
 
 ;ENDFOLD
 halt

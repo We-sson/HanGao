@@ -360,7 +360,7 @@
         <!--  分割装饰栏  -->
         <Border Grid.Row="1"
                 Panel.ZIndex="-1"
-                Background="{DynamicResource 全局_按钮_灰颜色}" />
+                Background="{DynamicResource 全局_按钮_黑颜色}" />
 
 
 

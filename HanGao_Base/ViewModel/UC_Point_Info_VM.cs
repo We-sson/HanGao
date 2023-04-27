@@ -125,17 +125,17 @@ namespace HanGao.ViewModel
                 Xml_Craft_Date New_Set_Data = UI_Craft_Date;
 
                 
-                New_Set_Data.Welding_Offset.X = double.Parse(Sm.X.Text);
-                New_Set_Data.Welding_Offset.Y = double.Parse(Sm.Y.Text);
-                New_Set_Data.Welding_Offset.Z = double.Parse(Sm.Z.Text);
-                New_Set_Data.Welding_Offset.A = double.Parse(Sm.A.Text);
-                New_Set_Data.Welding_Offset.B = double.Parse(Sm.B.Text);
-                New_Set_Data.Welding_Offset.C = double.Parse(Sm.C.Text);
-                New_Set_Data.Welding_CDIS= int.Parse(Sm.CDIS.Text);
-                New_Set_Data.Welding_ACC = int.Parse(Sm.ACC.Text);
-                New_Set_Data.Welding_Speed = double.Parse(Sm.Speed.Text);
-                New_Set_Data.Welding_Angle = double .Parse(Sm.Angle.Text);
-                New_Set_Data.Welding_Power = int.Parse(Sm.Power.Text);
+                New_Set_Data.Welding_Offset.X = Sm.S_X.Value;
+                New_Set_Data.Welding_Offset.Y = Sm.S_Y.Value;
+                New_Set_Data.Welding_Offset.Z = Sm.S_Z.Value;
+                New_Set_Data.Welding_Offset.A = Sm.S_A.Value;
+                New_Set_Data.Welding_Offset.B = Sm.S_B.Value;
+                New_Set_Data.Welding_Offset.C = Sm.S_C.Value ;
+                New_Set_Data.Welding_CDIS= (int)Sm.S_CDIS.Value;
+                New_Set_Data.Welding_ACC = (int)Sm.S_ACC.Value ;
+                New_Set_Data.Welding_Speed = Sm.S_Speed.Value;
+                New_Set_Data.Welding_Angle = Sm.S_Angle.Value;
+                New_Set_Data.Welding_Power = (int)Sm.S_Power.Value;
 
 
 
