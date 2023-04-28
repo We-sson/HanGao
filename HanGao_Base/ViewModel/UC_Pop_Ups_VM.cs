@@ -123,8 +123,9 @@ namespace HanGao.ViewModel
                 FrameShow.ProgramEdit_Enabled = true;
                 FrameShow.Program_Edit_UI = true;
 
-
-
+                //切换类型清空旧数据
+                Messenger.Send<dynamic, string>(true, nameof(Meg_Value_Eunm.Surround_Direction_Rest));
+                Messenger.Send<dynamic, string>(true, nameof(Meg_Value_Eunm.Direction_Info_Rest));
 
                 //传送用户选择工艺
                 Messenger.Send<Sink_Models, string>(_Sink, nameof(Meg_Value_Eunm.Program_UI_Load));

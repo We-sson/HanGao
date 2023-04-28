@@ -18,6 +18,8 @@ namespace HanGao.ViewModel
             //清楚工艺列表显示
             Messenger.Register<dynamic, string>(this, nameof(Meg_Value_Eunm.Direction_Info_Rest), (O, S) =>
             {
+           
+
                 Surround_Offset_Point = new ObservableCollection<Xml_Craft_Date>();
 
             });
