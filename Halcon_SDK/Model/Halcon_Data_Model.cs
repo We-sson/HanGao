@@ -651,60 +651,16 @@ namespace Halcon_SDK_DLL.Model
 
         public int Match_No { set; get; }
 
-        public HNCCModel Match_Ncc { set; get; } = default;
+        public  HTuple Match_Handle { set; get; } = new HTuple();
 
-        public HXLDCont Match_XLD { set; get; } = default;
-
-        public HDeformableModel Match_Deformable { set; get; } = default;
-
-        public HShapeModel Match_Shape { set;get; } = default;
-
-        //public   HObject  Match_XLD_Handle { set; get; }= new HObject();
+        public   HObject  Match_XLD_Handle { set; get; }= new HObject();
 
         public string GetFileName()
         {
             return Match_ID  + (int)Match_Model + Match_No + "." + File_Type;
         }
 
-        public HObject  GetMatchContours()
-        {
-            HObject _Conect= new HObject();
-
-            switch (File_Type)
-            {
-                case Match_FileName_Type_Enum.ncm:
-
-                    _Conect= Match_Ncc.GetNccModelRegion();
-                    break;
-                case Match_FileName_Type_Enum.dxf:
-
-                    _Conect = Match_XLD;
-                    break;
-                case Match_FileName_Type_Enum.dfm:
-
-                    _Conect= Match_Deformable.GetDeformableModelContours(1);
-                    break;
-                case Match_FileName_Type_Enum.shm:
-                    _Conect= Match_Shape. GetShapeModelContours(1);
-                    break;
-           
-            }
-            return _Conect;
-
-        }
-
-
-
     }
-
-    public class Halcon_Handle<T>
-    {
-        public T Value { set; get; }
-
-
-    }
-
-
 
     /// <summary>
     /// 集合算子运行情况属性

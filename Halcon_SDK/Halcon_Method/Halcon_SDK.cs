@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
 using System.IO;
-using System.IO.MemoryMappedFiles;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -39,7 +38,7 @@ namespace Halcon_SDK_DLL
         /// <summary>
         /// Halcon控件属性
         /// </summary>
-        public HSmartWindowControlWPF Halcon_UserContol { set; get; } 
+        public HSmartWindowControlWPF Halcon_UserContol { set; get; } = new HSmartWindowControlWPF() { };
 
 
         /// <summary>
@@ -48,9 +47,10 @@ namespace Halcon_SDK_DLL
         private static int Sample_Save_Image_Number { set; get; } = 1;
 
 
-
-        public Match_Models_List_Model Match_Models { set; get; }=new Match_Models_List_Model();
-
+        /// <summary>
+        /// 模型存储列表
+        /// </summary>
+        public static List<Match_Models_List_Model> Match_Models_List { set; get; } = new List<Match_Models_List_Model>();
         /// <summary>
         /// 保存图像到当前文件
         /// </summary>
@@ -970,23 +970,23 @@ namespace Halcon_SDK_DLL
 
 
 
-        public static  HPR_Status_Model Clear_Model( ref  Match_Models_List_Model _Model)
+        public static  HPR_Status_Model Clear_Model(   Match_Models_List_Model _Model)
         {
 
             try
             {
                 HObject _X = new HObject();
                 HTuple _B = new HTuple();
-                _X = _Model.GetMatchContours();
-                //_B = _Model.Match_Handle;
-
+                _X = _Model.Match_XLD_Handle;
+                _B = _Model.Match_Handle;
+                
 
                 //根据模型类型清除内存
                 switch (_Model.File_Type)
             {
                 case Match_FileName_Type_Enum.ncm:
 
-                    //HOperatorSet.ClearNccModel(_Model.Match_Handle);
+                    HOperatorSet.ClearNccModel(_Model.Match_Handle);
               
 
                         break;
@@ -998,14 +998,14 @@ namespace Halcon_SDK_DLL
                 case Match_FileName_Type_Enum.dfm:
 
 
-                    //HOperatorSet.ClearDeformableModel(_Model.Match_Handle);
+                    HOperatorSet.ClearDeformableModel(_Model.Match_Handle);
              
 
 
                         break;
                 case Match_FileName_Type_Enum.shm:
 
-                    //HOperatorSet.ClearShapeModel(_Model.Match_Handle);
+                    HOperatorSet.ClearShapeModel(_Model.Match_Handle);
           
                         break;
     
@@ -1016,8 +1016,8 @@ namespace Halcon_SDK_DLL
                 //清除非托管内存
                 //HOperatorSet.ClearHandle(_B);
                 //HOperatorSet.ClearObj(_X);
-                //_Model.Match_Handle.Dispose();
-                //_Model.Match_XLD_Handle.Dispose();
+                _Model.Match_Handle.Dispose();
+                _Model.Match_XLD_Handle.Dispose();
 
 
                 return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info= _Model .File_Type+ "模型文件清理成功！" };
@@ -1031,77 +1031,6 @@ namespace Halcon_SDK_DLL
             }
         }
 
-        public  HPR_Status_Model Clear_Model_1()
-        {
-
-            try
-            {
-                HObject _X = new HObject();
-                HTuple _B = new HTuple();
-                _X = Match_Models.GetMatchContours();
-                //_B = Match_Models.Match_Handle.Value;
-
-
-                //根据模型类型清除内存
-                switch (Match_Models.File_Type)
-                {
-                    case Match_FileName_Type_Enum.ncm:
-
-                        Match_Models.Match_Ncc.Clone();
-                        Match_Models.Match_Ncc.ClearNccModel();
-                        Match_Models.Match_Ncc.Dispose();
-
-                        //HOperatorSet.ClearNccModel(Match_Models.Match_Handle);
-                        
-
-                        break;
-                    case Match_FileName_Type_Enum.dxf:
-                        Match_Models.Match_XLD.Clone();
-                        Match_Models.Match_XLD.Dispose();
-
-
-                        break;
-                    case Match_FileName_Type_Enum.dfm:
-
-                        Match_Models.Match_Deformable.Clone();
-                        Match_Models.Match_Deformable.ClearDeformableModel();
-                        Match_Models.Match_Deformable.Dispose();
-                        //HOperatorSet.ClearDeformableModel(Match_Models.Match_Handle);
-
-
-
-                        break;
-                    case Match_FileName_Type_Enum.shm:
-
-
-                        Match_Models.Match_Shape.Clone();
-                        Match_Models.Match_Shape .ClearShapeModel();
-                        Match_Models.Match_Shape.Dispose();
-                        //HOperatorSet.ClearShapeModel(Match_Models.Match_Handle);
-
-                        break;
-
-                }
-
-
-
-                //清除非托管内存
-                //HOperatorSet.ClearHandle(_B);
-                //HOperatorSet.ClearObj(_X);
-                //Match_Models.Match_Handle.Dispose();
-                //Match_Models.Match_XLD_Handle.Dispose();
-
-
-                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = Match_Models.File_Type + "模型文件清理成功！" };
-
-
-            }
-            catch (Exception e)
-            {
-                return new HPR_Status_Model(HVE_Result_Enum.匹配模型文件内存清除失败) { Result_Error_Info = e.Message };
-
-            }
-        }
 
 
         /// <summary>
@@ -1127,12 +1056,13 @@ namespace Halcon_SDK_DLL
                 {
                     case "ncm":
 
-               
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
                             HOperatorSet.ReadNccModel(_Path.FullName, out _Model);
                         HOperatorSet.GetNccModelRegion(out _ModelContours, _Model);
 
                             
-            
+                        }
 
             
 
@@ -1182,114 +1112,6 @@ namespace Halcon_SDK_DLL
             }
         }
 
-        public  HPR_Status_Model Read_Halcon_Type_File_1(FileInfo _Path)
-        {
-
-
-            try
-            {
-
-
-
-                string[] _Name = _Path.Name.Split('.');
-                //Match_Models.Match_Handle.Dispose();
-                //Match_Models.GetMatchContours().Dispose();
-                switch (_Name[1])
-                {
-                    case "ncm":
-
-                       
-                        Match_Models.Match_Ncc = new HNCCModel();
-
-
-                        Match_Models. Match_Ncc.ReadNccModel(_Path.FullName);
-
-
-                        //Match_Models.Match_XLD_Handle = _Ncc.GetNccModelRegion();
-                        // _Ncc.ReadNccModel(_Path.FullName);
-                        //_ModelContours = _Ncc.GetNccModelRegion( );
-
-                        //HOperatorSet.ReadNccModel(_Path.FullName, out Match_Models.Match_Handle);
-                        //HOperatorSet.GetNccModelRegion(out Match_Models.Match_XLD_Handle, Match_Models.Match_Handle);
-
-                        //_Model = _Ncc;
-
-                        ////Thread.Sleep(2000);
-                        //_Ncc.Clone();
-                        //_Ncc.ClearNccModel();
-                        //_Ncc.Dispose();
-                        //_Model.Clone();
-                        //_Model.Dispose ();
-                        //_ModelContours.Clone();
-                        //_ModelContours.Dispose();
-
-
-                        break;
-                    case "dxf":
-
-                        HXLDCont _XLD = new HXLDCont();
-
-
-                        Match_Models.Match_XLD= new HXLDCont();
-                        Match_Models.Match_XLD.ReadContourXldDxf(_Path.FullName, new HTuple(), new HTuple());
-
-                        //_XLD.ReadContourXldDxf(_Path.FullName, new HTuple(), new HTuple());
-                        //Match_Models.Match_Handle = _XLD.Key;
-                        //Match_Models.Match_XLD_Handle = _XLD;
-
-                        //读取文件
-                        //HOperatorSet.ReadContourXldDxf(out Match_Models.Match_XLD_Handle, _Path.FullName, new HTuple(), new HTuple(), out _);
-
-
-                        break;
-
-                    case "dfm":
-
-                        Match_Models.Match_Deformable = new HDeformableModel ();
-                        Match_Models.Match_Deformable.ReadDeformableModel(_Path.FullName);
-
-              
-                        //Match_Models.Match_XLD_Handle = _Deform.GetDeformableModelContours(1);
-
-                        //HOperatorSet.ReadDeformableModel(_Path.FullName, out Match_Models.Match_Handle);
-                        //HOperatorSet.GetDeformableModelContours(out Match_Models.Match_XLD_Handle, Match_Models.Match_Handle, 1);
-
-
-                        break;
-
-
-                    case "shm":
-
-                        Match_Models.Match_Shape = new HShapeModel();
-                        Match_Models.Match_Shape.ReadShapeModel(_Path.FullName);
-                   
-                        //Match_Models.Match_XLD_Handle = _Shape.GetShapeModelContours(1);
-
-                        //HOperatorSet.ReadShapeModel(_Path.FullName, out Match_Models.Match_Handle);
-                        //HOperatorSet.GetShapeModelContours(out Match_Models.Match_XLD_Handle, Match_Models.Match_Handle, 1);
-
-
-
-
-                        break;
-                }
-
-
-                //_ModelContours.Dispose();
-                //_Model.Dispose();
-                //_ModelContours = _Contours.CopyObj(1, -1);
-                //_Contours.Dispose();
-
-
-                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = _Path.Name + "Halcon文件读取成功！" };
-
-            }
-            catch (Exception e)
-            {
-
-                return new HPR_Status_Model(HVE_Result_Enum.Halcon文件类型读取失败) { Result_Error_Info = e.Message };
-            }
-        }
 
 
 
