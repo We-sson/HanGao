@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -47,10 +48,7 @@ namespace Halcon_SDK_DLL
         private static int Sample_Save_Image_Number { set; get; } = 1;
 
 
-        /// <summary>
-        /// 模型存储列表
-        /// </summary>
-        public static List<Match_Models_List_Model> Match_Models_List { set; get; } = new List<Match_Models_List_Model>();
+
         /// <summary>
         /// 保存图像到当前文件
         /// </summary>
@@ -1047,7 +1045,8 @@ namespace Halcon_SDK_DLL
             try
             {
 
-         
+                DateTime _Run = DateTime.Now;
+                Console.WriteLine("开始:" + (DateTime.Now - _Run));
 
                 string[] _Name = _Path.Name.Split('.');
                 _Model.Dispose();
@@ -1056,15 +1055,26 @@ namespace Halcon_SDK_DLL
                 {
                     case "ncm":
 
-                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
-                        {
-                            HOperatorSet.ReadNccModel(_Path.FullName, out _Model);
+
+                        //反序列化读取模型文件
+                        HOperatorSet.OpenFile(_Path.FullName, HFIle_Type_Enum.input_binary.ToString(), out HTuple _HFile);
+
+                        HOperatorSet.FreadSerializedItem(_HFile, out HTuple _Serialized);
+
+
+                        HOperatorSet.DeserializeNccModel(_Serialized, out _Model);
+
+                            //HOperatorSet.ReadNccModel(_Path.FullName, out _Model);
                         HOperatorSet.GetNccModelRegion(out _ModelContours, _Model);
 
-                            
-                        }
+                        HOperatorSet.CloseFile(_HFile);
 
-            
+
+                        //
+                        HOperatorSet.ClearSerializedItem(_Serialized);
+                        _HFile.Dispose();
+                        _Serialized.Dispose();
+
 
                         break;
                     case "dxf":
@@ -1101,6 +1111,7 @@ namespace Halcon_SDK_DLL
                 //_ModelContours = _Contours.CopyObj(1, -1);
                 //_Contours.Dispose();
 
+                Console.WriteLine("结束:" + (DateTime.Now - _Run));
 
                 return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = _Path.Name + "Halcon文件读取成功！" };
 
@@ -1397,6 +1408,9 @@ namespace Halcon_SDK_DLL
 
                             //保存模型文件
                             HOperatorSet.WriteShapeModel(_ModelID, _Path);
+
+
+
                         }
 
                         break;
@@ -1552,7 +1566,16 @@ namespace Halcon_SDK_DLL
                             {
 
                                 //保存模型文件
-                                HOperatorSet.WriteNccModel(_ModelID, _Path);
+                                //HOperatorSet.WriteNccModel(_ModelID, _Path);
+
+                                HOperatorSet.SerializeNccModel(_ModelID, out HTuple _Serializd);
+
+                                HOperatorSet.OpenFile(_Path, HFIle_Type_Enum.output_binary.ToString(), out HTuple _HFile);
+
+                                HOperatorSet.FwriteSerializedItem(_HFile, _Serializd);
+
+                                HOperatorSet.CloseFile(_HFile);
+
                             }
 
                             //计算区域中心未知

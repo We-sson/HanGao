@@ -923,6 +923,46 @@ namespace Halcon_SDK_DLL.Model
 
     }
 
+    public enum HFIle_Type_Enum
+    {
+        /// <summary>
+        /// 将打开已存在的输入文件以文本格式进行读取。
+        /// </summary>
+        input,
+        /// <summary>
+        /// 将打开一个新的输出文件以文本格式写入。
+        /// </summary>
+        output,
+        /// <summary>
+        /// 一个已经存在的输出文件被打开，在文件的最后以文本格式写入。
+        /// </summary>
+        append,
+        /// <summary>
+        /// 一个已经存在的输入文件被打开以读取二进制格式。
+        /// </summary>
+        input_binary,
+        /// <summary>
+        /// 一个新的输出文件被打开，用于写入二进制格式的文件。
+        /// </summary>
+        output_binary,
+        /// <summary>
+       /// 一个已经存在的输出文件被打开，在文件的最后以二进制格式写入。
+        /// 对于文本文件，传递给fileType的元组可以通过以下编码设置之一进行扩展：
+        /// </summary>
+        append_binary,
+        /// <summary>
+        /// 文件中的字符串是以UTF-8编码的。这是默认的，所以对于UTF-8编码的文件和所有只使用纯7位US-ASCII字符的文件，这个值可以省略。
+        /// </summary>
+        utf8_encoding,
+        /// <summary>
+        /// 文件中的字符串以本地8位编码进行编码，这取决于系统当前的locale设置。有效的编码定义，例如，在Windows下由1252（微软的Latin-1方言）或932（Shift-JIS）代码页定义，或在Linux下由en_US.utf8、de_DE.iso885915或ja_JP.sjis等区域性编码定义。
+        /// </summary>
+        locale_encoding,
+        ignore_encoding
+    }
+
+
+
 
     /// <summary>
     /// 标定错误消息返回
