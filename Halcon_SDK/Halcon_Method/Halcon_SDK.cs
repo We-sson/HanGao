@@ -1366,7 +1366,7 @@ namespace Halcon_SDK_DLL
         {
 
 
-
+            ///此版本修改序列化读取
 
             string _Path = "";
             _ModelID.Dispose();
