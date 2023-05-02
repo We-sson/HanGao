@@ -37,7 +37,7 @@ namespace HanGao.ViewModel
                 List<Point3D> Robot_P = new List<Point3D>();
                 HTuple _Mat2D = new HTuple();
                 Calibration_Data_Send _Send = new();
-                HObject _Image = new HObject();
+                HImage _Image = new HImage();
 
 
                 //UI显示接收信息内容
@@ -152,7 +152,7 @@ namespace HanGao.ViewModel
             List<Point3D> Robot_P = new List<Point3D>();
             HTuple _Mat2D = new HTuple();
             Calibration_Data_Send _Send = new();
-            HObject _Image = new HObject();
+            HImage _Image = new HImage();
             Point3D _Calibration_Results_Point = new Point3D();
 
             //UI显示接收信息内容
@@ -368,7 +368,7 @@ namespace HanGao.ViewModel
             {
 
 
-                HObject _Image = new HObject();
+                HImage _Image = new HImage();
 
                 UC_Vision_CameraSet_ViewModel.Get_Image(ref _Image, Find_Calibration.Get_Image_Model, Features_Window.HWindow, Image_Location_UI);
 
@@ -443,7 +443,7 @@ namespace HanGao.ViewModel
 
                 HTuple _Row = new HTuple();
                 HTuple _Column = new HTuple();
-                HObject _Image = new HObject();
+                HImage _Image = new HImage();
                 if (Display_Status(UC_Vision_CameraSet_ViewModel.Get_Image(ref _Image, Find_Calibration.Get_Image_Model, Features_Window.HWindow, Image_Location_UI)).GetResult()
 )
                 {

@@ -204,7 +204,7 @@ namespace HanGao.ViewModel
         {
 
             HImage_Display_Model MVS_TOHalcon = new HImage_Display_Model();
-            HObject _Image = new HObject();
+            HImage _Image = new HImage();
 
             ///转换海康图像类型
             if (Display_Status(Halcon_SDK.Mvs_To_Halcon_Image(ref _Image, pFrameInfo.nWidth, pFrameInfo.nHeight, pData)).GetResult())
@@ -548,7 +548,7 @@ namespace HanGao.ViewModel
 
                 Button E = Sm.Source as Button;
 
-                HObject _Image = new HObject();
+                HImage _Image = new HImage();
 
                 Get_Image(ref _Image, Get_Image_Model_Enum.相机采集, UC_Visal_Function_VM.Features_Window.HWindow);
 
@@ -599,14 +599,14 @@ namespace HanGao.ViewModel
         /// <param name="_Window"></param>
         /// <param name="_path"></param>
         /// <returns></returns>
-        public static HPR_Status_Model Get_Image(ref HObject _Image, Get_Image_Model_Enum _Get_Model, HWindow _Window, string _path = "")
+        public static HPR_Status_Model Get_Image(ref HImage _Image, Get_Image_Model_Enum _Get_Model, HWindow _Window, string _path = "")
         {
 
-            HObject _image = new HObject();
+            //HObject _image = new HObject();
 
-            HOperatorSet.GenEmptyObj(out _image);
+            //HOperatorSet.GenEmptyObj(out _Image);
 
-
+            _Image.Dispose();
             _Window.ClearWindow();
 
             switch (_Get_Model)
@@ -638,8 +638,9 @@ namespace HanGao.ViewModel
 
 
             //获得图像保存到内存，随时调用
-            _image = _Image;
-            UC_Visal_Function_VM.Load_Image = _image;
+            //_image = _Image;
+            
+            UC_Visal_Function_VM.Load_Image = _Image.CopyObj(1,-1);
 
             _Window.DispObj(_Image);
 
@@ -655,7 +656,8 @@ namespace HanGao.ViewModel
 
             }
 
-
+            //使用完清楚内存
+            //_Image.Dispose();
 
             return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info="采集图像方法成功！"};
 
@@ -669,7 +671,7 @@ namespace HanGao.ViewModel
         /// 获得一图像显示到指定窗口
         /// </summary>
         /// <param name="_HWindow"></param>
-        public static HPR_Status_Model GetOneFrameTimeout(ref HObject _HImage, HWindow _Window)
+        public static HPR_Status_Model GetOneFrameTimeout(ref HImage _HImage, HWindow _Window)
         {
 
 

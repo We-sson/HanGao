@@ -2604,8 +2604,8 @@
                                         IsSnapToTickEnabled="True"
                                         Maximum="120"
                                         Minimum="3"
-                                        SmallChange="1"
-                                        TickFrequency=" 1"
+                                        SmallChange="2"
+                                        TickFrequency=" 2"
                                         Value="{Binding Halcon_Find_Shape_ModelXld_UI.MedianRect_MaskWidth}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
@@ -2652,8 +2652,8 @@
                                         IsSnapToTickEnabled="True"
                                         Maximum="120"
                                         Minimum="3"
-                                        SmallChange="1"
-                                        TickFrequency=" 1"
+                                        SmallChange="2"
+                                        TickFrequency=" 2"
                                         Value="{Binding Halcon_Find_Shape_ModelXld_UI.MedianRect_MaskHeight}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
@@ -2822,9 +2822,9 @@
                                         VerticalContentAlignment="Stretch"
                                         IsSnapToTickEnabled="True"
                                         Maximum="100"
-                                        Minimum="0.5"
-                                        SmallChange="0.1"
-                                        TickFrequency="0.1"
+                                        Minimum="1"
+                                        SmallChange="1"
+                                        TickFrequency="1"
                                         Value="{Binding Halcon_Find_Shape_ModelXld_UI.Median_image_Radius}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
@@ -2994,8 +2994,8 @@
                                                 IsSnapToTickEnabled="True"
                                                 Maximum="299"
                                                 Minimum="3"
-                                                SmallChange="1"
-                                                TickFrequency=" 1"
+                                                SmallChange="2"
+                                                TickFrequency=" 2"
                                                 Value="{Binding Halcon_Find_Shape_ModelXld_UI.Illuminate_MaskWidth}" />
 
                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
@@ -3041,8 +3041,8 @@
                                                 IsSnapToTickEnabled="True"
                                                 Maximum="299"
                                                 Minimum="3"
-                                                SmallChange="1"
-                                                TickFrequency=" 1"
+                                                SmallChange="2"
+                                                TickFrequency=" 2"
                                                 Value="{Binding Halcon_Find_Shape_ModelXld_UI.Illuminate_MaskHeight}" />
 
                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
@@ -3088,8 +3088,8 @@
                                                 IsSnapToTickEnabled="True"
                                                 Maximum="5"
                                                 Minimum="0"
-                                                SmallChange="0.1"
-                                                TickFrequency="0.1"
+                                                SmallChange="0.01"
+                                                TickFrequency="0.01"
                                                 Value="{Binding Halcon_Find_Shape_ModelXld_UI.Illuminate_Factor}" />
 
                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"

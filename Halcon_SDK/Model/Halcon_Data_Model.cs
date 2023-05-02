@@ -412,11 +412,11 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             ///  增强图像的低通掩码的宽度。
             /// </summary>
-            public double Illuminate_MaskWidth { set; get; } = 101;
+            public int Illuminate_MaskWidth { set; get; } = 101;
             /// <summary>
             ///  增强图像的低通掩码的高度。
             /// </summary>
-            public double Illuminate_MaskHeight { set; get; } = 101;
+            public int Illuminate_MaskHeight { set; get; } = 101;
             /// <summary>
             /// 增强图像的对比强调的强度
             /// </summary>
@@ -434,11 +434,11 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             ///  增强图像的低通掩码的宽度。
             /// </summary>
-            public double Emphasize_MaskWidth { set; get; } = 15;
+            public int Emphasize_MaskWidth { set; get; } = 15;
             /// <summary>
             ///  增强图像的低通掩码的高度。
             /// </summary>
-            public double Emphasize_MaskHeight { set; get; } = 15;
+            public int Emphasize_MaskHeight { set; get; } = 15;
             /// <summary>
             /// 增强图像的对比强调的强度
             /// </summary>
@@ -464,7 +464,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 滤镜掩码的半径。默认值：1  值列表（用于计算设备）：1、2  建议值：1， 2， 3， 4， 5， 6， 7， 8， 9， 11， 15， 19， 25， 31， 39， 47， 59  典型值范围：1 ≤ radius ≤ 4095
             /// </summary>
-            public double Median_image_Radius { set; get; } = 5;
+            public int Median_image_Radius { set; get; } = 5;
             /// <summary>
             /// 边境处理。默认值： “镜像”值列表（对于计算设备）：“镜像”建议值：“镜像”, “循环”, “续”, 0, 30, 60, 90, 120, 150, 180, 210, 240, 255
             /// </summary>
@@ -489,11 +489,11 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 矩形掩码的中值滤波器使能,滤镜掩码的宽度。
             /// </summary>
-            public double MedianRect_MaskWidth { set; get; } = 3;
+            public int MedianRect_MaskWidth { set; get; } = 3;
             /// <summary>
             /// 矩形掩码的中值滤波器使能,滤镜掩码的高度。
             /// /// </summary>
-            public double MedianRect_MaskHeight { set; get; } = 3;
+            public int MedianRect_MaskHeight { set; get; } = 3;
 
 
             /// <summary>
