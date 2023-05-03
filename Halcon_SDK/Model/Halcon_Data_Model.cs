@@ -106,6 +106,70 @@ namespace Halcon_SDK_DLL.Model
 
         //}
 
+        /// <summary>
+        /// 形状匹配查找模型结果参数
+        /// </summary>
+        public class Find_Shape_Results_Model
+        {
+            /// <summary>
+            /// 模型实例的行坐标
+            /// </summary>
+            public double Row { set; get; } = new double();
+            /// <summary>
+            /// 模型实例的列坐标
+            /// </summary>
+            public double Column { set; get; } = new double();
+            /// <summary>
+            /// 模型实例的旋转角度
+            /// </summary>
+            public double Angle { set; get; } = new double();
+            /// <summary>
+            /// 模型和找到的实例相似值
+            /// </summary>
+            public double Score { set; get; } = new double();
+            /// <summary>
+            /// 查找耗时
+            /// </summary>
+            public double Find_Time { set; get; } = 0;
+
+            /// <summary>
+            /// 查找模型结果
+            /// </summary>
+            public bool FInd_Results { set; get; } = false;
+
+            /// <summary>
+            /// 存储结果点
+            /// </summary>
+            public List<Point3D> Vision_Pos { set; get; } = new List<Point3D>();
+
+            /// <summary>
+            /// 存储结果点
+            /// </summary>
+            public List<Point3D> Robot_Pos { set; get; } = new List<Point3D>();
+
+
+            public double Right_Angle { set; get; } = 0;
+
+            /// <summary>
+            /// 找到的模型实例的分数
+            /// </summary>
+            public HTuple HomMat2D { set; get; } = new HTuple();
+
+            /// <summary>
+            /// 页面显示结过集合
+            /// </summary>
+            public List<string> Text_Arr_UI { set; get; } = new List<string>() { };
+
+
+            /// <summary>
+            /// 显示结果界面
+            /// </summary>
+            public HWindow DispWiindow { set; get; } = new HWindow();
+
+
+
+
+        }
 
 
         /// <summary>
