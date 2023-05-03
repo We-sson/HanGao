@@ -3709,6 +3709,217 @@ namespace Halcon_SDK_DLL
         }
 
 
+        /// <summary>
+        /// 计算xld交点位置
+        /// </summary>
+        /// <param name="Halcon_Find_Shape_Out"></param>
+        /// <param name="_ALL_ModelXLD"></param>
+        /// <param name="Matching_Model"></param>
+        /// <param name="_Window"></param>
+        /// <param name="_Math2D"></param>
+        /// <returns></returns>
+        public static HPR_Status_Model Match_Model_XLD_Pos(ref Halcon_Find_Shape_Out_Parameter Halcon_Find_Shape_Out, List<HObject> _ALL_ModelXLD, Shape_Based_Model_Enum Matching_Model, HWindow _Window, HTuple _Math2D)
+        {
+
+            try
+            {
+
+
+
+
+                HTuple C_P_Row = new HTuple();
+                HTuple C_P_Col = new HTuple();
+                HTuple Row1 = new HTuple();
+                HTuple Column1 = new HTuple();
+                HTuple L_RP1 = new HTuple();
+                HTuple L_CP1 = new HTuple();
+                HTuple L_RP2 = new HTuple();
+                HTuple L_CP2 = new HTuple();
+                HTuple L_RP3 = new HTuple();
+                HTuple L_CP3 = new HTuple();
+                HTuple hv_Text = new HTuple();
+                HTuple IsOverlapping = new HTuple();
+
+                HTuple _Qx = new HTuple();
+                HTuple _Qy = new HTuple();
+                HObject _Line_1 = new HObject();
+                HObject _Line_2 = new HObject();
+                HObject _Line_3 = new HObject();
+                HObject _Line_4 = new HObject();
+                HObject _Cir_1 = new HObject();
+
+
+
+
+                //提取结果中的XLD特征
+                if (Get_Model_Match_XLD(ref _Line_1, ref _Cir_1, ref _Line_2, ref _Line_3, ref _Line_4, _ALL_ModelXLD, Matching_Model).GetResult())
+                {
+
+                    if (Halcon_Find_Shape_Out.FInd_Results)
+                    {
+
+                        //提出XLD数据特征
+                        HOperatorSet.GetContourXld(_Line_1, out HTuple Row_1, out HTuple Col_1);
+                        HOperatorSet.GetContourXld(_Cir_1, out HTuple Row_2, out HTuple Col_2);
+                        HOperatorSet.GetContourXld(_Line_2, out HTuple Row_3, out HTuple Col_3);
+                        HOperatorSet.GetContourXld(_Line_3, out HTuple Row_4, out HTuple Col_4);
+                        HOperatorSet.GetContourXld(_Line_4, out HTuple Row_5, out HTuple Col_5);
+
+                        //得到圆弧中间点
+
+                        C_P_Row = Row_2.TupleSelect((Row_2.TupleLength() / 2));
+                        C_P_Col = Col_2.TupleSelect((Col_2.TupleLength() / 2));
+
+                        Row1 = Row1.TupleConcat(C_P_Row);
+                        Column1 = Column1.TupleConcat(C_P_Col);
+
+
+                        //计算直线角度
+                        HOperatorSet.AngleLl(Row_3.TupleSelect(1), Col_3.TupleSelect(1), Row_3.TupleSelect(0),
+                                                            Col_3.TupleSelect(0), Row_1.TupleSelect(0), Col_1.TupleSelect(
+                                                            0), Row_1.TupleSelect(1), Col_1.TupleSelect(1), out HTuple _Angle);
+
+                        //计算直线交点
+                        HOperatorSet.IntersectionLines(Row_1.TupleSelect(1), Col_1.TupleSelect(
+                                                            1), Row_1.TupleSelect(0), Col_1.TupleSelect(0), Row_3.TupleSelect(
+                                                             0), Col_3.TupleSelect(0), Row_3.TupleSelect(1), Col_3.TupleSelect(
+                                                            1), out L_RP1, out L_CP1, out IsOverlapping);
+
+
+                        Row1 = Row1.TupleConcat(L_RP1);
+                        Column1 = Column1.TupleConcat(L_CP1);
+
+                        //计算直线交点
+                        HOperatorSet.IntersectionLines(Row_3.TupleSelect(1), Col_3.TupleSelect(
+                                                            1), Row_3.TupleSelect(0), Col_3.TupleSelect(0), Row_4.TupleSelect(
+                                                             0), Col_4.TupleSelect(0), Row_4.TupleSelect(1), Col_4.TupleSelect(
+                                                            1), out L_RP2, out L_CP2, out IsOverlapping);
+
+                        Row1 = Row1.TupleConcat(L_RP2);
+                        Column1 = Column1.TupleConcat(L_CP2);
+
+                        //计算直线交点
+                        HOperatorSet.IntersectionLines(Row_4.TupleSelect(1), Col_4.TupleSelect(
+                                                            1), Row_4.TupleSelect(0), Col_4.TupleSelect(0), Row_5.TupleSelect(
+                                                             0), Col_5.TupleSelect(0), Row_5.TupleSelect(1), Col_5.TupleSelect(
+                                                            1), out L_RP3, out L_CP3, out IsOverlapping);
+
+                        Row1 = Row1.TupleConcat(L_RP3);
+                        Column1 = Column1.TupleConcat(L_CP3);
+
+
+                        //生成十字架
+                        HOperatorSet.GenCrossContourXld(out HObject _Cross, Row1, Column1, 80, (new HTuple(45)).TupleRad());
+
+
+
+
+
+                        hv_Text = hv_Text.TupleConcat("识别用时 : " + Halcon_Find_Shape_Out.Find_Time + "毫秒.");
+
+                        foreach (var _Score in Halcon_Find_Shape_Out.Score)
+                        {
+                            hv_Text = hv_Text.TupleConcat("图像分数 : " + Math.Round(_Score, 3));
+                        }
+
+
+
+
+
+                        //清空集合
+                        Halcon_Find_Shape_Out.Robot_Pos.Clear();
+                        Halcon_Find_Shape_Out.Vision_Pos.Clear();
+
+                        //转换图像坐标到机器坐标
+                        for (int i = 0; i < Row1.Length; i++)
+                        {
+                            double _OX = Math.Round(Row1.TupleSelect(i).D, 3);
+                            double _OY = Math.Round(Column1.TupleSelect(i).D, 3);
+
+                            //没有矩阵数据跳过转换坐标
+                            if (_Math2D != null)
+                            {
+                                HOperatorSet.AffineTransPoint2d(_Math2D, _OX, _OY, out _Qx, out _Qy);
+                            }
+                            else
+                            {
+                                _Qx = 0; _Qy = 0;
+                            }
+
+
+                            hv_Text = hv_Text.TupleConcat("图像坐标_" + i + " X : " + _OX + " Y : " + _OY + " | 机器坐标_" + "X : " + _Qx + " Y : " + _Qy);
+
+                            Halcon_Find_Shape_Out.Robot_Pos.Add(new Point3D(Math.Round(_Qx.D, 3), Math.Round(_Qy.D, 3), 0));
+
+                            _Window.DispText(i + "号", "image", _OX + 50, _OY - 50, "black", "box", "true");
+
+                            Halcon_Find_Shape_Out.Vision_Pos.Add(new Point3D(_OX, _OY, 0));
+                        }
+
+
+
+                        hv_Text = hv_Text.TupleConcat("夹角: " + Math.Round(_Angle.TupleDeg().D, 3));
+
+                        Halcon_Find_Shape_Out.Text_Arr_UI = new List<string>(hv_Text.SArr);
+                        Halcon_Find_Shape_Out.Right_Angle = Math.Round(_Angle.TupleDeg().D, 3);
+
+                        Halcon_Find_Shape_Out.DispWiindow = _Window;
+
+
+                        //设置显示图像颜色
+                        _Window.SetColor(nameof(KnownColor.Green).ToLower());
+                        _Window.SetLineWidth(3);
+                        //显示十字架
+                        _Window.DispObj(_Cross);
+                        //设置显示图像颜色
+                        _Window.SetColor(nameof(KnownColor.Red).ToLower());
+                        _Window.SetLineWidth(1);
+                        _Window.SetPart(0, 0, -2, -2);
+
+
+
+
+                    }
+                    else
+                    {
+
+
+                        //查找失败处理
+                        hv_Text = hv_Text.TupleConcat("识别用时 : " + Halcon_Find_Shape_Out.Find_Time + "毫秒，" + "图像分数 : 未知");
+                        Halcon_Find_Shape_Out.Text_Arr_UI = new List<string>(hv_Text.SArr);
+                        Halcon_Find_Shape_Out.DispWiindow = _Window;
+
+
+                        return new HPR_Status_Model(HVE_Result_Enum.查找模型匹配失败);
+
+
+                    }
+
+
+                }
+                else
+                {
+
+                    return new HPR_Status_Model(HVE_Result_Enum.提取匹配结果的XLD模型失败);
+
+                }
+
+                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = "计算匹配模型结果交点信息成功！" };
+
+            }
+            catch (Exception e)
+            {
+
+                return new HPR_Status_Model(HVE_Result_Enum.根据匹配模型结果计算交点信息失败) { Result_Error_Info = e.Message };
+
+            }
+
+
+
+        }
+
+
+
 
         /// <summary>
         /// GC回收处理方法
