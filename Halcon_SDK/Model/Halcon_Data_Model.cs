@@ -114,19 +114,19 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 模型实例的行坐标
             /// </summary>
-            public double Row { set; get; } = new double();
+            public List<double> Row { set; get; } = new List< double>();
             /// <summary>
             /// 模型实例的列坐标
             /// </summary>
-            public double Column { set; get; } = new double();
+            public List<double >Column { set; get; } = new List<double>();
             /// <summary>
             /// 模型实例的旋转角度
             /// </summary>
-            public double Angle { set; get; } = new double();
+            public List<double >Angle { set; get; } = new List<double>();
             /// <summary>
             /// 模型和找到的实例相似值
             /// </summary>
-            public double Score { set; get; } = new double();
+            public List<double >Score { set; get; } = new List<double>();
             /// <summary>
             /// 查找耗时
             /// </summary>
@@ -135,7 +135,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 查找模型结果
             /// </summary>
-            public bool FInd_Results { set; get; } = false;
+            public  List<bool >FInd_Results { set; get; } = new List<bool> ();
 
             /// <summary>
             /// 存储结果点
@@ -148,73 +148,7 @@ namespace Halcon_SDK_DLL.Model
             public List<Point3D> Robot_Pos { set; get; } = new List<Point3D>();
 
 
-            public double Right_Angle { set; get; } = 0;
-
-            /// <summary>
-            /// 找到的模型实例的分数
-            /// </summary>
-            public HTuple HomMat2D { set; get; } = new HTuple();
-
-            /// <summary>
-            /// 页面显示结过集合
-            /// </summary>
-            public List<string> Text_Arr_UI { set; get; } = new List<string>() { };
-
-
-            /// <summary>
-            /// 显示结果界面
-            /// </summary>
-            public HWindow DispWiindow { set; get; } = new HWindow();
-
-
-
-
-        }
-
-
-        /// <summary>
-        /// 形状匹配查找模型结果参数
-        /// </summary>
-        public class Halcon_Find_Shape_Out_Parameter
-        {
-            /// <summary>
-            /// 模型实例的行坐标
-            /// </summary>
-            public List<double> Row { set; get; } = new List<double>();
-            /// <summary>
-            /// 模型实例的列坐标
-            /// </summary>
-            public List<double> Column { set; get; } = new List<double>();
-            /// <summary>
-            /// 模型实例的旋转角度
-            /// </summary>
-            public List<double> Angle { set; get; } = new List<double>();
-            /// <summary>
-            /// 模型和找到的实例相似值
-            /// </summary>
-            public List<double> Score { set; get; } = new List<double>();
-            /// <summary>
-            /// 查找耗时
-            /// </summary>
-            public double Find_Time { set; get; } = 0;
-
-            /// <summary>
-            /// 查找模型结果
-            /// </summary>
-            public bool FInd_Results { set; get; } = false;
-
-            /// <summary>
-            /// 存储结果点
-            /// </summary>
-            public List<Point3D> Vision_Pos { set; get; } = new List<Point3D>();
-
-            /// <summary>
-            /// 存储结果点
-            /// </summary>
-            public List<Point3D> Robot_Pos { set; get; } = new List<Point3D>();
-
-
-            public double Right_Angle { set; get; } = 0;
+            //public double Right_Angle { set; get; } = 0;
 
             /// <summary>
             /// 找到的模型实例的分数
@@ -237,6 +171,11 @@ namespace Halcon_SDK_DLL.Model
 
         }
 
+
+
+
+
+  
         public class Pos_List_Model
         {
 
@@ -1059,6 +998,7 @@ namespace Halcon_SDK_DLL.Model
         创建匹配模型失败,
         读取模型文件失败,
         读取全部模型文件失败,
+        Ncc匹配文件缺失,
         XLD对象映射失败,
         读取矩阵文件失败,
         保存矩阵文件失败,
@@ -1077,6 +1017,7 @@ namespace Halcon_SDK_DLL.Model
         查找模型匹配失败,
         根据匹配模型结果计算交点信息失败,
         匹配模型文件内存清除失败,
+        XLD匹配结果映射失败,
 
     }
 }

@@ -73,6 +73,12 @@
 <l>  read_ncc_model ('C:/Users/H/source/repos/HanGao/HanGao_Base/bin/x64/Debug/ShapeModel/11_F_45_4_2.ncm', ModelID)</l>
 <c></c>
 <c></c>
+<l>  open_file ('C:/Users/H/source/repos/HanGao/HanGao_Base/bin/x64/Debug/ShapeModel/4_F_45_4_0.ncm', 'input_binary', FileHandle)</l>
+<l>  fread_serialized_item (FileHandle, SerializedItemHandle)</l>
+<l>  deserialize_ncc_model (SerializedItemHandle, ModelID1)</l>
+<l>  get_ncc_model_region (ModelRegion, ModelID1)</l>
+<l>  close_file (FileHandle)</l>
+<l>  clear_serialized_item (SerializedItemHandle)</l>
 <c></c>
 <c>*计算xld数量</c>
 <l>count_obj (Model_XLD, XLD_Number)</l>

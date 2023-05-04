@@ -50,7 +50,7 @@ namespace HanGao.ViewModel
 
 
             //操作结果显示UI 
-            Messenger.Register<Halcon_Find_Shape_Out_Parameter, string>(this, nameof(Meg_Value_Eunm.Find_Shape_Out), (O, _Fout) =>
+            Messenger.Register<Find_Shape_Results_Model, string>(this, nameof(Meg_Value_Eunm.Find_Shape_Out), (O, _Fout) =>
             {
 
                 switch (_Fout.DispWiindow)
@@ -222,11 +222,11 @@ namespace HanGao.ViewModel
         public double Camera_FrameRate { set; get; } = 0;
 
 
-        public Halcon_Find_Shape_Out_Parameter Find_Features_Window_Result { set; get; } = new Halcon_Find_Shape_Out_Parameter();
-        public Halcon_Find_Shape_Out_Parameter Find_Results1_Window_Result { set; get; } = new Halcon_Find_Shape_Out_Parameter();
-        public Halcon_Find_Shape_Out_Parameter Find_Results2_Window_Result { set; get; } = new Halcon_Find_Shape_Out_Parameter();
-        public Halcon_Find_Shape_Out_Parameter Find_Results3_Window_Result { set; get; } = new Halcon_Find_Shape_Out_Parameter();
-        public Halcon_Find_Shape_Out_Parameter Find_Results4_Window_Result { set; get; } = new Halcon_Find_Shape_Out_Parameter();
+        public Find_Shape_Results_Model Find_Features_Window_Result { set; get; } = new Find_Shape_Results_Model();
+        public Find_Shape_Results_Model Find_Results1_Window_Result { set; get; } = new Find_Shape_Results_Model();
+        public Find_Shape_Results_Model Find_Results2_Window_Result { set; get; } = new Find_Shape_Results_Model();
+        public Find_Shape_Results_Model Find_Results3_Window_Result { set; get; } = new Find_Shape_Results_Model();
+        public Find_Shape_Results_Model Find_Results4_Window_Result { set; get; } = new Find_Shape_Results_Model();
 
 
         /// <summary>

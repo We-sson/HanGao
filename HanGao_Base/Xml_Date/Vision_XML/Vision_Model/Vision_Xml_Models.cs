@@ -38,9 +38,14 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
     [Serializable]
     public class Vision_Data
     {
-
+        /// <summary>
+        /// 视觉自动模式参数设置
+        /// </summary>
      public Vision_Auto_Cofig_Model Vision_Auto_Config { set; get; }=new Vision_Auto_Cofig_Model ();
 
+        /// <summary>
+        /// 相机设置参数列表
+        /// </summary>
       public ObservableCollection<Vision_Xml_Models> Vision_List { set; get; } =new ObservableCollection<Vision_Xml_Models>() {  };
 
 

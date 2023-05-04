@@ -7,6 +7,7 @@ using LiveChartsCore.Measure;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Drawing;
 using LiveChartsCore.SkiaSharpView.Painting;
+using LiveChartsCore.SkiaSharpView.VisualElements;
 using LiveChartsCore.SkiaSharpView.WPF;
 using SkiaSharp;
 using System;
@@ -321,12 +322,16 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 竖坐标样式
         /// </summary>
-        public Axis[] X_xAxis { set; get; } = new[] { new Axis() { Name = "X Error_Data", Position = AxisPosition.End } };
+        public Axis[] X_xAxis { set; get; } = new[] { new Axis() { } };
+
+
+        public LabelVisual X_Title { set; get; }=new LabelVisual() { Text = "X 方向误差", TextSize = 20, Paint = new SolidColorPaint { Color = SKColors.Black, SKTypeface = SKFontManager.Default.MatchCharacter('汉') } };
+        public LabelVisual Y_Title { set; get; }=new LabelVisual() { Text = "Y 方向误差", TextSize = 20, Paint = new SolidColorPaint { Color = SKColors.Black, SKTypeface = SKFontManager.Default.MatchCharacter('汉') } };
 
         /// <summary>
         /// 竖坐标样式
         /// </summary>
-        public Axis[] Y_xAxis { set; get; } = new[] { new Axis() { Name = "Y Error_Data", Position = AxisPosition.End } };
+        public Axis[] Y_xAxis { set; get; } = new[] { new Axis() {  } };
 
         /// <summary>
         /// 横坐标样式

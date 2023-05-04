@@ -24,6 +24,7 @@
 
 
         <lvc:CartesianChart Grid.Row=" 0" Grid.Column=" 0"
+                            Title="{Binding X_Title}"
                             DrawMarginFrame="{Binding DrawMarginFrame}"
                             LegendPosition="Hidden"
                             Sections="{Binding Sections}"
@@ -33,6 +34,7 @@
                             YAxes="{Binding yAxis}"
                             ZoomMode="Both" />
         <lvc:CartesianChart Grid.Row=" 1" Grid.Column=" 1"
+                            Title="{Binding Y_Title}"
                             DrawMarginFrame="{Binding DrawMarginFrame}"
                             LegendPosition="Hidden"
                             Sections="{Binding Sections}"
