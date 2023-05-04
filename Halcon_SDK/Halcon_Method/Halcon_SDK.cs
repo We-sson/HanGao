@@ -3901,7 +3901,7 @@ namespace Halcon_SDK_DLL
 
 
                         //添加图像识时间
-                        hv_Text = hv_Text.TupleConcat("识别用时 : " + _Find_Shape_Results.Find_Time + "毫秒.");
+                        hv_Text = hv_Text.TupleConcat("识别用时 : " + _Find_Shape_Results.Find_Time + "秒.");
 
          
 
