@@ -5,6 +5,7 @@ using Microsoft.Win32;
 using Ookii.Dialogs.Wpf;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Media.Media3D;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static HanGao.ViewModel.UC_Visal_Function_VM;
@@ -357,6 +358,13 @@ namespace HanGao.ViewModel
 
 
         /// <summary>
+        /// 读取模型文件按钮控制
+        /// </summary>
+        public bool Read_Models_File_UI_IsEnable { set; get; } = true    ;
+
+
+
+        /// <summary>
         /// 创建模型UI按钮使能
         /// </summary>
         public bool Create_Shape_ModelXld_UI_IsEnable { set; get; } = false;
@@ -474,7 +482,8 @@ namespace HanGao.ViewModel
             else
             {
 
-
+                //UI界面锁定操作
+                Read_Models_File_UI_IsEnable = true ;
                 try
                 {
 
@@ -614,6 +623,9 @@ namespace HanGao.ViewModel
                         Task.WaitAll(_Task_List.ToArray());
 
                         User_Log_Add("文件夹内模型文件全部读取完成！");
+
+           
+
                     });
 
 
@@ -623,6 +635,11 @@ namespace HanGao.ViewModel
                 {
                     User_Log_Add("模型文件读取错误，检查文件夹“ShapeModel”内的名称是否正常。错误信息：" + e.Message);
 
+                }
+                finally
+                {
+                    //UI界面释放操作
+                    Read_Models_File_UI_IsEnable = false;
                 }
 
 
@@ -647,7 +664,7 @@ namespace HanGao.ViewModel
                 {
 
 
-
+                    Read_Models_File_UI_IsEnable = true;
 
                     Free_Halcon_Model_Memory();
 
@@ -655,6 +672,9 @@ namespace HanGao.ViewModel
 
                     Initialization_ShapeModel_File();
 
+                    Task.Delay(1000);
+
+                    Read_Models_File_UI_IsEnable = false;
 
                 });
             });
@@ -927,6 +947,8 @@ namespace HanGao.ViewModel
             Halcon_Method _Halcon = new Halcon_Method();
             Find_Shape_Results_Model _Results = new Find_Shape_Results_Model();
             HObject _HO = new HObject();
+            HObject _HO1 = new HObject();
+            HObject _HO2 = new HObject();
             //设置显示窗口句柄
             _Results.DispWiindow = _Window;
            
@@ -965,9 +987,9 @@ namespace HanGao.ViewModel
                         if (_MID.Count == _MContent.Count)
                         {
 
+                         
                             for (int i = 0; i < _MID.Count; i++)
                             {
-
 
 
                                 //选出同一号模型
@@ -977,16 +999,18 @@ namespace HanGao.ViewModel
 
                                 if (_ModelID != null && _ModelContent != null)
                                 {
-                                    _HO = _ModelID.Model.Shape_ModelContours;
                                     DateTime _Run1 = DateTime.Now;
                                     Console.WriteLine("识别开始:" + (DateTime.Now - _Run1).TotalSeconds);
 
-                                    _ModelID.Model._HImage = _Image.CopyObj(1, -1);
-                                    _ModelID.Model.Shape_ModelContours = _ModelContent.Model.Shape_ModelContours.CopyObj(1, -1);
+                                    _ModelID.Model._HImage = _Image.Clone();
+                                    //_ModelID.Model.Shape_ModelContours.Dispose();
+                                    _ModelID.Model.Shape_ModelContours =_ModelContent.Model.Shape_ModelContours.Clone();
+                                    _HO = _ModelID.Model.Shape_ModelContours;
+                                    _HO1 = _ModelContent.Model.Shape_ModelContours;
 
                                     _ModelID.Model.Find_Deformable_Model(ref _Results, _Window, _Shpae_Parameters);
 
-                                    _HO = _ModelID.Model.Shape_ModelContours;
+                            
 
                                     Console.WriteLine("识别结束:" + (DateTime.Now - _Run1).TotalSeconds);
 
@@ -1009,11 +1033,26 @@ namespace HanGao.ViewModel
                             if (_Results.FInd_Results.Where(_W => _W == true).Count() == _Results.FInd_Results.Count)
                             {
 
-                                //显示结果
-                                _MID.ForEach(H => { HOperatorSet.DispObj(H.Model.Shape_ModelContours, _Window); });
+                            
+
+                                for (int i = 0; i < _MID.Count; i++)
+                                {
+
+
+                                    //选出同一号模型
+                                    Match_Models_List_Model _ModelID = _MID.Where(_M => _M.Match_No == i).FirstOrDefault();
+
+                                    HOperatorSet.DispObj(_ModelID.Model.Shape_ModelContours, _Window);
+                                    //显示结果
+                                    //_MID.ForEach(H => { HOperatorSet.DispObj(H.Model.Shape_ModelContours, _Window); });
+
+                               
+                                     _HO2 = _ModelID.Model.Shape_ModelContours;
+                                    _Halcon.All_XLd.Add( _ModelID.Model.Shape_ModelContours.Clone());
 
                                 //查找位置添加集合
-                                _MID.ForEach(_H => _Halcon.All_XLd.Add(_H.Model.Shape_ModelContours.CopyObj(1,-1)));
+                                //_MID.ForEach(_H => _Halcon.All_XLd.Add(_H.Model.Shape_ModelContours.CopyObj(1,-1)));
+                                }
                                 //计算位置结果
                                 _Halcon.Match_Model_XLD_Pos(ref _Results, _Shpae_Parameters.Shape_Based_Model, _Window, _Math2D);
 

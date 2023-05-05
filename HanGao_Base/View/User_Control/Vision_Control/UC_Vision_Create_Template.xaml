@@ -1972,6 +1972,8 @@
                     </Expander.Header>
                     <Grid>
                         <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 5 5" />
+
+
                         <StackPanel Orientation="Vertical">
 
 
@@ -2298,6 +2300,31 @@
 
 
                         </StackPanel>
+
+
+                        <Border Background="{DynamicResource 全局_背景_白颜色}"
+                                CornerRadius=" 0 0 5 5"
+                                Visibility="{Binding Read_Models_File_UI_IsEnable, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <StackPanel VerticalAlignment="Center" Orientation="Vertical">
+
+                                <TextBlock x:Name="Tb1"
+                                           Text="模型文件加载中...."
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Effect="{StaticResource 全局背景阴影}"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="20"
+                                           Foreground="{DynamicResource 全局_按钮_红颜色}" />
+
+                                <ProgressBar Style="{DynamicResource UC_ProgressBar_Style}"
+                                             Height="30"
+                                             Margin="10"
+                                             BorderThickness="0"
+                                             Effect="{DynamicResource 全局背景阴影}"
+                                             IsIndeterminate="True" />
+                            </StackPanel>
+                        </Border>
+
 
                     </Grid>
                 </Expander>

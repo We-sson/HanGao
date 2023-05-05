@@ -142,8 +142,8 @@ namespace HanGao.Xml_Date.Xml_Models
         /// <summary>
         /// Xml文件中不同工艺点，设置参数区别
         /// </summary>
-        [XmlIgnore]
-        public Distance_Type_Enum Distance_Type;
+        [XmlAttribute]
+        public Distance_Type_Enum Distance_Type { set; get; }
 
 
         /// <summary>

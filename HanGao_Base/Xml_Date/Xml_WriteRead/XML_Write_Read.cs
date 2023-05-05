@@ -237,7 +237,9 @@ namespace HanGao.Xml_Date.Xml_Write_Read
         public static Xml_Craft_Data GetXml_User_Data(Sink_Models _User_Model )
         {
 
-           
+
+            lock (Sink_Date.Sink_List)
+            {
 
             foreach (var _Sink_List in Sink_Date.Sink_List)
             {
@@ -259,6 +261,7 @@ namespace HanGao.Xml_Date.Xml_Write_Read
                     return Date_List;
                 }
 
+            }
             }
             return null;
 
@@ -313,7 +316,7 @@ namespace HanGao.Xml_Date.Xml_Write_Read
                     Date_List.Craft_Date[_Val.NO-1] = _Val;
 
                     Craft.GetType().GetProperty(_User_Model.User_Picking_Craft.User_Direction.ToString()).SetValue(Craft, Date_List);
-
+                    break;
                 }
                 
             }

@@ -3723,6 +3723,7 @@ namespace Halcon_SDK_DLL
 
                         //将xld对象矩阵映射到图像中
                         HOperatorSet.ProjectiveTransContourXld(Shape_ModelContours, out Shape_ModelContours, Mat2D);
+                         _ContoursProjTrans = Shape_ModelContours;
 
 
                         HOperatorSet.GetNccModelRegion(out  Ncc_Results, Shape_ID);

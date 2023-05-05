@@ -325,8 +325,8 @@ namespace HanGao.ViewModel
         public Axis[] X_xAxis { set; get; } = new[] { new Axis() { } };
 
 
-        public LabelVisual X_Title { set; get; }=new LabelVisual() { Text = "X 方向误差", TextSize = 20, Paint = new SolidColorPaint { Color = SKColors.Black, SKTypeface = SKFontManager.Default.MatchCharacter('汉') } };
-        public LabelVisual Y_Title { set; get; }=new LabelVisual() { Text = "Y 方向误差", TextSize = 20, Paint = new SolidColorPaint { Color = SKColors.Black, SKTypeface = SKFontManager.Default.MatchCharacter('汉') } };
+        public LabelVisual X_Title { set; get; }=new LabelVisual() { Text = "X 方向误差",Padding=new LiveChartsCore.Drawing.Padding (8) , TextSize = 20, Paint = new SolidColorPaint { Color = SKColors.Black, SKTypeface = SKFontManager.Default.MatchCharacter('汉') } };
+        public LabelVisual Y_Title { set; get; }=new LabelVisual() { Text = "Y 方向误差", Padding = new LiveChartsCore.Drawing.Padding(8),TextSize = 20, Paint = new SolidColorPaint { Color = SKColors.Black , SKTypeface = SKFontManager.Default.MatchCharacter('汉') } };
 
         /// <summary>
         /// 竖坐标样式
