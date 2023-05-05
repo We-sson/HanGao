@@ -608,7 +608,7 @@ namespace HanGao.ViewModel
 
             _Image.Dispose();
             _Window.ClearWindow();
-
+       
             switch (_Get_Model)
             {
                 case Get_Image_Model_Enum.相机采集:

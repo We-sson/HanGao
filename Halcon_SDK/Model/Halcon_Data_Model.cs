@@ -637,27 +637,54 @@ namespace Halcon_SDK_DLL.Model
         }
     }
 
+
+
     public class Match_Models_List_Model
     {
 
+        /// <summary>
+        /// 模型号
+        /// </summary>
         public int Match_ID { set; get; }
 
-
+        /// <summary>
+        /// 模型文件
+        /// </summary>
         public FileInfo Match_File { set; get; }
 
+
+        /// <summary>
+        /// 模型区域
+        /// </summary>
         public ShapeModel_Name_Enum Match_Area { set; get; }
 
-
+        /// <summary>
+        /// 模型匹配类型
+        /// </summary>
         public Shape_Based_Model_Enum Match_Model { set; get; }
 
+
+        /// <summary>
+        /// 模型文件格式类型
+        /// </summary>
         public Match_FileName_Type_Enum File_Type { set; get; }
 
+
+        /// <summary>
+        /// 模型文件号
+        /// </summary>
         public int Match_No { set; get; }
 
-        public  HTuple Match_Handle { set; get; } = new HTuple();
+        /// <summary>
+        /// 匹配模型预存类型
+        /// </summary>
+        public  Halcon_Method Model { set; get; }=new Halcon_Method ();
 
-        public   HObject  Match_XLD_Handle { set; get; }= new HObject();
 
+        /// <summary>
+        /// 获得模型文件名
+        /// </summary>
+        /// <returns></returns>
         public string GetFileName()
         {
             return Match_ID  + (int)Match_Model + Match_No + "." + File_Type;

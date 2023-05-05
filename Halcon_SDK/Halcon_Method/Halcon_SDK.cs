@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
@@ -3229,9 +3230,9 @@ namespace Halcon_SDK_DLL
                 HomMat2D.Dispose();
 
                 GC.Collect();
-                GC.SuppressFinalize(this);
-                GC.WaitForPendingFinalizers();
-                GC.Collect();
+                //GC.SuppressFinalize(this);
+                //GC.WaitForPendingFinalizers();
+                //GC.Collect();
             }
         }
 
@@ -3340,9 +3341,9 @@ namespace Halcon_SDK_DLL
                 _Serialized.Dispose();
 
                 GC.Collect();
-                GC.SuppressFinalize(this);
-                GC.WaitForPendingFinalizers();
-                GC.Collect();
+                //GC.SuppressFinalize(this);
+                //GC.WaitForPendingFinalizers();
+                //GC.Collect();
             }
         }
 
@@ -3366,36 +3367,20 @@ namespace Halcon_SDK_DLL
                 HTuple hv_angle = new HTuple();
                 HTuple hv_score = new HTuple();
                 HTuple hv_HomMat2D = new HTuple();
-                DateTime RunTime = DateTime.Now;
+                
 
             try
             {
-
-                //HObject _Image1 = new HObject();
-                //HObject _Image2 = new HObject();
-
-
-
-                //赋值显示窗口
-                //_Find_Out.DispWiindow = _HWindow;
-
 
 
                 //图像预处理
                 if (Halcon_Image_Pre_Processing(_HWindow, _Find_Property).GetResult())
                 {
 
-                 
-
-
-
+                    //根据匹配类型进行匹配
                     switch (_Find_Property.Shape_Based_Model)
                     {
                         case Shape_Based_Model_Enum.shape_model:
-
-                            //foreach (var _ModelXld in _ModelID)
-                            //{
-
 
                             HOperatorSet.FindShapeModel(_HImage,
                                 Shape_ID,
@@ -3515,7 +3500,8 @@ namespace Halcon_SDK_DLL
                             //}
 
                             //筛选所需要的模型数据
-
+                            DateTime _Run1 = DateTime.Now;
+                            Console.WriteLine("ncc开始:" + (DateTime.Now - _Run1).TotalSeconds);
 
 
 
@@ -3540,6 +3526,9 @@ namespace Halcon_SDK_DLL
                                 out hv_angle,
                                 out hv_score
                                 );
+
+
+                            Console.WriteLine("ncc结束:" + (DateTime.Now - _Run1).TotalSeconds);
 
                             //清楚模型
                             //HOperatorSet.ClearNccModel(Shape_ID);
@@ -3591,11 +3580,15 @@ namespace Halcon_SDK_DLL
                             break;
                     }
 
-               
+                    DateTime _Run = DateTime.Now;
+                    Console.WriteLine("xld放置开始:" + (DateTime.Now - _Run).TotalSeconds);
 
                     //偏移xld对象到结果位置
                     if (ProjectiveTrans_Xld(_Find_Property.Shape_Based_Model, hv_angle, hv_row, hv_column, hv_HomMat2D, _HWindow).GetResult())
                     {
+
+                        Console.WriteLine("xld放置结束:" + (DateTime.Now - _Run).TotalSeconds);
+
                         return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = _Find_Property.Shape_Based_Model + "查找XLD模型结果映射成功！" };
 
                     }
@@ -3604,7 +3597,7 @@ namespace Halcon_SDK_DLL
                         return new HPR_Status_Model(HVE_Result_Enum.XLD匹配结果映射失败) { Result_Error_Info = "计算结果有误,请检查!" };
 
                     }
-
+                  
 
                 }
 
@@ -3647,9 +3640,9 @@ namespace Halcon_SDK_DLL
                 hv_HomMat2D.Dispose();
 
                 GC.Collect();
-                GC.SuppressFinalize(this);
-                GC.WaitForPendingFinalizers();
-                GC.Collect();
+                //GC.SuppressFinalize(this);
+                //GC.WaitForPendingFinalizers();
+                //GC.Collect();
             }
 
 
@@ -3770,9 +3763,9 @@ namespace Halcon_SDK_DLL
                 Ncc_Results.Dispose();
 
                 GC.Collect();
-                GC.SuppressFinalize(this);
-                GC.WaitForPendingFinalizers();
-                GC.Collect();
+                //GC.SuppressFinalize(this);
+                //GC.WaitForPendingFinalizers();
+                //GC.Collect();
             }
 
 
@@ -3943,7 +3936,7 @@ namespace Halcon_SDK_DLL
 
                         hv_Text = hv_Text.TupleConcat("夹角: " + Math.Round(_Angle.TupleDeg().D, 3));
                         _Find_Shape_Results.Text_Arr_UI = new List<string>(hv_Text.SArr);
-                        _Find_Shape_Results.DispWiindow = _Window;
+                        //_Find_Shape_Results.DispWiindow = _Window;
 
 
 
@@ -3970,7 +3963,7 @@ namespace Halcon_SDK_DLL
                         //查找失败处理
                         hv_Text = hv_Text.TupleConcat("识别用时 : " + _Find_Shape_Results.Find_Time + "毫秒，" + "图像分数 : 未知");
                         _Find_Shape_Results.Text_Arr_UI = new List<string>(hv_Text.SArr);
-                        _Find_Shape_Results.DispWiindow = _Window;
+                        //_Find_Shape_Results.DispWiindow = _Window;
 
 
                         return new HPR_Status_Model(HVE_Result_Enum.查找模型匹配失败);
@@ -4034,9 +4027,9 @@ namespace Halcon_SDK_DLL
 
 
                 GC.Collect();
-                GC.SuppressFinalize(this);
-                GC.WaitForPendingFinalizers();
-                GC.Collect();
+                //GC.SuppressFinalize(this);
+                //GC.WaitForPendingFinalizers();
+                //GC.Collect();
             }
 
 

@@ -52,7 +52,7 @@ namespace HanGao.ViewModel
             //操作结果显示UI 
             Messenger.Register<Find_Shape_Results_Model, string>(this, nameof(Meg_Value_Eunm.Find_Shape_Out), (O, _Fout) =>
             {
-
+                //_Fout.DispWiindow.SetPart(0, 0, -2, -2);
                 switch (_Fout.DispWiindow)
                 {
                     case HWindow _T when _T == Features_Window.HWindow:
