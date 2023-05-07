@@ -110,6 +110,9 @@
   <PropertyGroup>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\软件图标.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="halcondotnet, Version=22.5.0.0, Culture=neutral, PublicKeyToken=4973bed59ddbf2b8, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -526,6 +529,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\软件图标.ico" />
     <Resource Include="Resources\悍高LOGO_ioc.png" />
     <Resource Include="Resources\Vision_读取文件_ioc.png" />
     <Resource Include="Resources\Vision_清除数据_ioc.png" />

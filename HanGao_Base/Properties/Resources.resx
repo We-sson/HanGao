@@ -172,4 +172,7 @@
   <data name="Vision_相机视角_ioc" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Vision_相机视角_ioc.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="软件图标" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\软件图标.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
