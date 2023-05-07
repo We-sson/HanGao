@@ -80,7 +80,8 @@
                         Margin="10,0,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        Background="Transparent">
+                        Background="Transparent"
+                        Visibility="Collapsed">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding Craft_Point_Info_SaveToVal_Comm}"
@@ -596,7 +597,8 @@
                         Margin="10,0,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        Background="Transparent">
+                        Background="Transparent"
+                        Visibility="Collapsed">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding Craft_Point_Info_SaveToVal_Comm}"
