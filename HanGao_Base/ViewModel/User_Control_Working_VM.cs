@@ -60,7 +60,7 @@ namespace HanGao.ViewModel
 
 
                                 //将水槽尺寸发生写入到选择的区域
-                                string _Name = @S.Working_Area_UI.Load_UI_Work.ToString() + "_Sink_Data";
+                                string _Name = @"N"+(int)S.Working_Area_UI.Load_UI_Work + "_Sink_Data";
                                 string _Val=@"{Surround_Welding_Type:"+nameof(Xml_Sink_Model.Sink_Size_Long)+" "+S.User_Sink.Sink_Process.Sink_Size_Long+","+nameof(Xml_Sink_Model.Sink_Size_Width)+" "+S.User_Sink.Sink_Process.Sink_Size_Width+","+nameof(Xml_Sink_Model.Sink_Size_R)+" "+S.User_Sink.Sink_Process.Sink_Size_R+","+nameof(Xml_Sink_Model.Sink_Size_Short_OnePos) +" "+S.User_Sink.Sink_Process.Sink_Size_Short_OnePos + ","+nameof(Xml_Sink_Model.Sink_Size_Short_TwoPos) +" "+S.User_Sink.Sink_Process.Sink_Size_Short_TwoPos + ","+nameof(Xml_Sink_Model.Sink_Size_Short_Side)+" "+S.User_Sink.Sink_Process.Sink_Size_Short_Side + "," + nameof(Xml_Sink_Model.Sink_Size_Pots_Thick)+" "+S.User_Sink.Sink_Process.Sink_Size_Pots_Thick+","+nameof(Xml_Sink_Model.Sink_Size_Panel_Thick)+" "+S.User_Sink.Sink_Process.Sink_Size_Panel_Thick+","+nameof(Xml_Sink_Model.Sink_Model)+" "+S.User_Sink.Sink_Process.Sink_Model+","+nameof(Xml_Sink_Model.Sink_Size_Left_Distance)+" "+S.User_Sink.Sink_Process.Sink_Size_Left_Distance+","+nameof(Xml_Sink_Model.Sink_Size_Down_Distance)+" "+S.User_Sink.Sink_Process.Sink_Size_Down_Distance+","+nameof(Xml_Sink_Model.Sink_Type)+" "+"#"+S.User_Sink.Sink_Process.Sink_Type.ToString()+"}";
                        
 
@@ -76,21 +76,23 @@ namespace HanGao.ViewModel
 
 
                             //获取加载区域数据
-                            Xml_SInk_Craft _Craft = (Xml_SInk_Craft)S.User_Sink.Sink_Process.Sink_Craft.GetType().GetProperty(S.Working_Area_UI.Load_UI_Work.ToString()).GetValue(S.User_Sink.Sink_Process.Sink_Craft);
+                            //Xml_SInk_Craft _Craft = (Xml_SInk_Craft)S.User_Sink.Sink_Process.Sink_Craft.GetType().GetProperty(S.Working_Area_UI.Load_UI_Work.ToString()).GetValue(S.User_Sink.Sink_Process.Sink_Craft);
+
+                                List<Xml_SInk_Craft >_Craft =  S.User_Sink.Sink_Process.Sink_Craft.Where ((_W=>_W.Work== S.Working_Area_UI.Load_UI_Work)).FirstOrDefault().SInk_Craft;
 
 
                                 ///循环工艺区域焊接参数
-                                foreach (var _Craft_List_Data in _Craft.GetType().GetProperties())
+                                foreach (var _Craft_List_Data in _Craft)
                             {
                          
                                 ///遍历工艺列表
-                                foreach (var _Direction in _Craft_List_Data.GetValue(_Craft).GetType().GetProperties())
+                                foreach (var _Craft_Data in _Craft_List_Data.Sink_Craft)
                                 {
 
 
 
                                         //反射获得工艺列表内容
-                                        Xml_Direction_Craft_Model _Craft_Data = (Xml_Direction_Craft_Model)_Direction.GetValue(_Craft_List_Data.GetValue(_Craft));
+                                        //Xml_Direction_Craft_Model _Craft_Data = (Xml_Direction_Craft_Model)_Direction.GetValue(_Craft_List_Data.GetValue(_Craft));
 
                                         //循环水槽围边工艺数
                                     for (int i = 0; i < _Craft_Data.Craft_Date.Count; i++)
@@ -114,7 +116,7 @@ namespace HanGao.ViewModel
                                                     case ReadWrite_Enum.Write:
 
                                                        //获取字符串kuka变量名
-                                                         _Name = _Direction.Name + "["+(int)S.Working_Area_UI.Load_UI_Work +","+(i+1)+ "]." +Craft_List.Name;
+                                                         _Name = _Craft_Data.Direction + "["+(int)S.Working_Area_UI.Load_UI_Work +","+(i+1)+ "]." +Craft_List.Name;
                                                  
                                                         //获取字符串kuka变量值
                                                         if ( Craft_List.Name is nameof(Xml_Craft_Date.Welding_Offset))
@@ -189,9 +191,9 @@ namespace HanGao.ViewModel
 
         }
 
-        public Working_Area_Data UC_Working_VM_N1 { get; set; } = new Working_Area_Data() {  Working_Area_UI =new Working_Area_UI_Model() {  Work_NO= Work_Name_Enum.Work_1}  };
+        public Working_Area_Data UC_Working_VM_Work_1 { get; set; } = new Working_Area_Data() {  Working_Area_UI =new Working_Area_UI_Model() {  Work_NO= Work_Name_Enum.Work_1}  };
 
-        public Working_Area_Data UC_Working_VM_N2 { get; set; } = new Working_Area_Data() { Working_Area_UI = new Working_Area_UI_Model() { Work_NO = Work_Name_Enum.Work_2 } };
+        public Working_Area_Data UC_Working_VM_Work_2 { get; set; } = new Working_Area_Data() { Working_Area_UI = new Working_Area_UI_Model() { Work_NO = Work_Name_Enum.Work_2 } };
 
 
 

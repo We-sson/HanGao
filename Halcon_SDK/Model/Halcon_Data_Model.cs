@@ -898,7 +898,7 @@ namespace Halcon_SDK_DLL.Model
     /// </summary>
     public enum Work_Name_Enum
     {
-        Work_1,
+        Work_1=1,
         Work_2,
         Work_3,
         Work_4
