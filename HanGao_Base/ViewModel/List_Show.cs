@@ -166,7 +166,7 @@ namespace HanGao.ViewModel
 
                     //转换用户选择的水槽选项
                     Sink_Models M = e.DataContext as Sink_Models;
-                    M.User_Picking_Craft.User_Work_Area = (Work_No_Enum)Enum.Parse(typeof(Work_No_Enum), e.Uid);
+                    M.User_Picking_Craft.User_Work_Area = (Work_Name_Enum)Enum.Parse(typeof(Work_Name_Enum), e.Uid);
 
 
                     //User_Control_Show.User_UserControl = new UC_Pop_Ups() {};
@@ -200,7 +200,7 @@ namespace HanGao.ViewModel
 
 
                 //读取用户加载水槽工作区
-                Work_No_Enum User_Area = (Work_No_Enum)Enum.Parse(typeof(Work_No_Enum), e.Uid);
+                Work_Name_Enum User_Area = (Work_Name_Enum)Enum.Parse(typeof(Work_Name_Enum), e.Uid);
 
 
                 //判断用户按钮触发条件

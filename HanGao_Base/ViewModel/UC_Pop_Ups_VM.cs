@@ -104,7 +104,9 @@ namespace HanGao.ViewModel
             });
         }
 
-
+        /// <summary>
+        /// 工艺界面导入
+        /// </summary>
         public ICommand Craft_UI_Comm
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>

@@ -30,9 +30,9 @@ namespace HanGao.ViewModel
             ///接收工艺参数属性显示对应UI控件
             Messenger.Register<Sink_Models, string>(this, nameof(Meg_Value_Eunm.Program_UI_Load), (O, S) =>
             {
-                Distance_UI = null;
+                Distance_UI = new UserControl() ;
                 //赋值选择工艺图形
-                Distance_UI = S.Sink_UI.Sink_Craft.First(X => X.Craft_Type == S.User_Picking_Craft.User_Welding_Craft ).Craft_UI_Direction;
+                Distance_UI = S.Sink_UI.Sink_Craft.Where(X => X.Craft_Type == S.User_Picking_Craft.User_Welding_Craft ).FirstOrDefault().Craft_UI_Direction;
 
                 User_Sink = S;
 

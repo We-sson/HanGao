@@ -43,7 +43,7 @@ namespace HanGao.ViewModel
                                    //User_Sink.User_Picking_Craft.User_Welding_Craft_ID = Point_NO;
 
 
-                                   Xml_Craft_Data Date = XML_Write_Read.GetXml_User_Data(User_Sink);
+                                   Xml_Direction_Craft_Model Date = XML_Write_Read.GetXml_User_Data(User_Sink);
 
                                    switch (Craft_Value.KUKA_Craft_Type)
                                    {
@@ -360,7 +360,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 围边方向工艺数据
         /// </summary>
-        public Xml_Craft_Data Date { get; set; } = new Xml_Craft_Data();
+        public Xml_Direction_Craft_Model Date { get; set; } = new Xml_Direction_Craft_Model();
 
 
         /// <summary>
@@ -475,7 +475,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 记录用户选择工位
         /// </summary>
-        public Work_No_Enum User_Work { set; get; }
+        public Work_Name_Enum User_Work { set; get; }
 
         /// <summary>
         /// 用户选择的方向枚举

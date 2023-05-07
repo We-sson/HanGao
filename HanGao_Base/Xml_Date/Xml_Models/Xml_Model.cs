@@ -54,21 +54,38 @@ namespace HanGao.Xml_Date.Xml_Models
         [XmlAttribute]
         public Sink_Type_Enum Sink_Type { get; set; }
 
+        [XmlElement]
+        public List<Xml_Work_Area> Sink_Craft { get; set; } = new List<Xml_Work_Area>();
 
-        public Xml_Sink_Work_Area Sink_Craft { get; set; } = new Xml_Sink_Work_Area() { };
 
 
     }
+
+
+    /// <summary>
+    /// 水槽作业区
+    /// </summary>
+    //[Serializable]
+    //public class Xml_Sink_Work_Area1
+    //{
+
+    //    public Xml_SInk_Craft N1 { get; set; } = new Xml_SInk_Craft() { };
+    //    public Xml_SInk_Craft N2 { get; set; } = new Xml_SInk_Craft() { };
+
+
+    //}
+
 
     /// <summary>
     /// 水槽作业区
     /// </summary>
     [Serializable]
-    public class Xml_Sink_Work_Area
+    public class Xml_Work_Area
     {
-
-        public Xml_SInk_Craft N1 { get; set; } = new Xml_SInk_Craft() { };
-        public Xml_SInk_Craft N2 { get; set; } = new Xml_SInk_Craft() { };
+        [XmlAttribute]
+        public Work_Name_Enum Work { get; set; }
+        [XmlElement]
+        public List<Xml_SInk_Craft> SInk_Craft { get; set; } = new List<Xml_SInk_Craft>() { };
 
 
     }
@@ -80,9 +97,25 @@ namespace HanGao.Xml_Date.Xml_Models
     [Serializable]
     public class Xml_SInk_Craft
     {
-        public Xml_SInk_Craft_Model Sink_Surround_Craft { set; get; } = new Xml_SInk_Craft_Model();
-        public Xml_Sink_ShortSize_Craft_Models Sink_ShortSide_Craft { get; set; } = new Xml_Sink_ShortSize_Craft_Models();
+        [XmlAttribute]
+        public Sink_Craft_Type_Enum Craft_Type { get; set; }
+        [XmlElement]
+        public List<Xml_Direction_Craft_Model> Sink_Craft { get; set; } = new List<Xml_Direction_Craft_Model>();
     }
+
+
+    /// <summary>
+    /// 水槽工艺
+    /// </summary>
+    [Serializable]
+    public class Xml_SInk_Craft_Type
+    {
+
+
+        public List<Xml_Direction_Craft_Model> Sink_Surround_Craft { set; get; } = new List<Xml_Direction_Craft_Model>();
+        public List<Xml_Direction_Craft_Model> Sink_ShortSide_Craft { get; set; } = new List<Xml_Direction_Craft_Model>();
+    }
+
 
 
 
@@ -90,53 +123,13 @@ namespace HanGao.Xml_Date.Xml_Models
     /// Xml文件，围边水槽工艺焊接部位
     /// </summary>
     [Serializable]
-    public class Xml_SInk_Craft_Model
+    public class Xml_Direction_Craft_Model
     {
 
+        [XmlAttribute]
+        public Direction_Enum Direction { set; get; }
 
-        public Xml_Craft_Data L0_Welding_Craft { get; set; } = new Xml_Craft_Data() { Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, Craft_Area_Type= Direction_Enum.L0_Welding_Craft, MaxArray = 10 };
-        public Xml_Craft_Data C45_Welding_Craft { get; set; } = new Xml_Craft_Data() { Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR,  Craft_Area_Type = Direction_Enum.C45_Welding_Craft, MaxArray = 3};
-        public Xml_Craft_Data L90_Welding_Craft { get; set; } = new Xml_Craft_Data() {Write_Mode = true, Distance_Type = Distance_Type_Enum.LIN, Craft_Area_Type = Direction_Enum.L90_Welding_Craft, MaxArray = 10 };
-        public Xml_Craft_Data C135_Welding_Craft { get; set; } = new Xml_Craft_Data() {Write_Mode = true,    Distance_Type = Distance_Type_Enum.CIR, Craft_Area_Type = Direction_Enum.C135_Welding_Craft, MaxArray = 3 };
-        public Xml_Craft_Data L180_Welding_Craft { get; set; } = new Xml_Craft_Data() {Write_Mode = true, Distance_Type = Distance_Type_Enum.LIN, Craft_Area_Type = Direction_Enum.L180_Welding_Craft, MaxArray = 10 };
-        public Xml_Craft_Data C225_Welding_Craft { get; set; } = new Xml_Craft_Data() {Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR,  Craft_Area_Type = Direction_Enum.C225_Welding_Craft, MaxArray = 3 };
-        public Xml_Craft_Data L270_Welding_Craft { get; set; } = new Xml_Craft_Data() {Write_Mode = true, Distance_Type = Distance_Type_Enum.LIN, Craft_Area_Type = Direction_Enum.L270_Welding_Craft, MaxArray = 10 };
-        public Xml_Craft_Data C315_Welding_Craft { get; set; } = new Xml_Craft_Data() {Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, Craft_Area_Type = Direction_Enum.C315_Welding_Craft, MaxArray = 3 };
-
-
-
-
-    }
-
-    /// <summary>
-    /// Xml文件，短边水槽工艺焊接部位
-    /// </summary>
-    [Serializable]
-    public class Xml_Sink_ShortSize_Craft_Models
-    {
-
-        public Xml_Craft_Data N45_Short_Craft { set; get; } = new Xml_Craft_Data() { Write_Mode = true, Craft_Area_Type = Direction_Enum.N45_Short_Craft, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5 };
-        public Xml_Craft_Data N135_Short_Craft { set; get; } = new Xml_Craft_Data() { Write_Mode = true, Craft_Area_Type = Direction_Enum.N135_Short_Craft, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5 };
-        public Xml_Craft_Data N225_Short_Craft { set; get; } = new Xml_Craft_Data() { Write_Mode = true, Craft_Area_Type = Direction_Enum.N225_Short_Craft, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5 };
-        public Xml_Craft_Data N315_Short_Craft { set; get; } = new Xml_Craft_Data() { Write_Mode = true, Craft_Area_Type = Direction_Enum.N315_Short_Craft, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5 };
-
-
-
-    }
-
-
-
-
-
-    /// <summary>
-    /// 围边焊接方向创建数据
-    /// </summary>
-    public class Xml_Craft_Data
-    {
-        public Xml_Craft_Data()
-        {
-          
-        }
+        //public Xml_Craft_Data Craft_Data { set; get; }
 
 
         /// <summary>
@@ -146,11 +139,11 @@ namespace HanGao.Xml_Date.Xml_Models
         public Distance_Type_Enum Distance_Type { set; get; }
 
 
-        /// <summary>
-        /// Xml工艺区域区分
-        /// </summary>
-        [XmlAttribute]
-        public Direction_Enum Craft_Area_Type { set; get; }
+        ///// <summary>
+        ///// Xml工艺区域区分
+        ///// </summary>
+        //[XmlAttribute]
+        //public Direction_Enum Craft_Area_Type { set; get; }
 
 
 
@@ -168,9 +161,6 @@ namespace HanGao.Xml_Date.Xml_Models
         public List<Xml_Craft_Date> Craft_Date { get; set; } = new List<Xml_Craft_Date>();
 
         private int _maxArray;
-
-
-
 
         /// <summary>
         /// 最大数组
@@ -191,33 +181,33 @@ namespace HanGao.Xml_Date.Xml_Models
                         case Distance_Type_Enum.LIN:
                             for (int i = 1; i < value + 1; i++)
                             {
-                                if (Craft_Area_Type >= Direction_Enum.L180_Welding_Craft)
+                                if (Direction >= Direction_Enum.L180_Welding_Craft)
                                 {
-                                    Craft_Date.Add(new Xml_Craft_Date() { NO = i, Craft_Type = Craft_Type_Enum.L_LIN_POS, Welding_Angle=-20 });
+                                    Craft_Date.Add(new Xml_Craft_Date() { NO = i, Craft_Type = Craft_Type_Enum.L_LIN_POS, Welding_Angle = -20 });
 
                                 }
                                 else
                                 {
-                                Craft_Date.Add(new Xml_Craft_Date() { NO = i, Craft_Type = Craft_Type_Enum.L_LIN_POS });
+                                    Craft_Date.Add(new Xml_Craft_Date() { NO = i, Craft_Type = Craft_Type_Enum.L_LIN_POS });
 
                                 }
                             }
                             break;
                         case Distance_Type_Enum.CIR:
 
-                            if (Craft_Area_Type == Direction_Enum.C135_Welding_Craft)
+                            if (Direction == Direction_Enum.C135_Welding_Craft)
                             {
                                 Craft_Date.Add(new Xml_Craft_Date() { NO = 1, Craft_Type = Craft_Type_Enum.C_LIN_POS, Welding_Angle = 20 });
                                 Craft_Date.Add(new Xml_Craft_Date() { NO = 2, Craft_Type = Craft_Type_Enum.C_CIR_POS, Welding_Angle = -20 });
                                 Craft_Date.Add(new Xml_Craft_Date() { NO = 3, Craft_Type = Craft_Type_Enum.C_CIR_POS, Welding_Angle = -20 });
                             }
-                            else if (Craft_Area_Type == Direction_Enum.C315_Welding_Craft)
+                            else if (Direction == Direction_Enum.C315_Welding_Craft)
                             {
                                 Craft_Date.Add(new Xml_Craft_Date() { NO = 1, Craft_Type = Craft_Type_Enum.C_LIN_POS, Welding_Angle = -20 });
                                 Craft_Date.Add(new Xml_Craft_Date() { NO = 2, Craft_Type = Craft_Type_Enum.C_CIR_POS, Welding_Angle = 20 });
                                 Craft_Date.Add(new Xml_Craft_Date() { NO = 3, Craft_Type = Craft_Type_Enum.C_CIR_POS, Welding_Angle = 20 });
                             }
-                            else if (Craft_Area_Type >= Direction_Enum.L180_Welding_Craft)
+                            else if (Direction >= Direction_Enum.L180_Welding_Craft)
                             {
                                 Craft_Date.Add(new Xml_Craft_Date() { NO = 1, Craft_Type = Craft_Type_Enum.C_LIN_POS, Welding_Angle = -20 });
                                 Craft_Date.Add(new Xml_Craft_Date() { NO = 2, Craft_Type = Craft_Type_Enum.C_CIR_POS, Welding_Angle = -20 });
@@ -229,12 +219,12 @@ namespace HanGao.Xml_Date.Xml_Models
                                 Craft_Date.Add(new Xml_Craft_Date() { NO = 2, Craft_Type = Craft_Type_Enum.C_CIR_POS });
                                 Craft_Date.Add(new Xml_Craft_Date() { NO = 3, Craft_Type = Craft_Type_Enum.C_CIR_POS });
                             }
-                
+
                             break;
                         case Distance_Type_Enum.Short:
                             for (int i = 1; i < value + 1; i++)
                             {
-                                if (i==3)
+                                if (i == 3)
                                 {
                                     Craft_Date.Add(new Xml_Craft_Date() { NO = i, Craft_Type = Craft_Type_Enum.L_LIN_POS, Welding_Angle = 0, Welding_CDIS = 0, Welding_Speed = 0.01 });
 
@@ -242,9 +232,9 @@ namespace HanGao.Xml_Date.Xml_Models
                                 else
                                 {
 
-                            Craft_Date.Add(new Xml_Craft_Date() { NO = i , Craft_Type = Craft_Type_Enum.L_LIN_POS, Welding_Angle=0, Welding_CDIS=0, Welding_Speed=0.5 });
+                                    Craft_Date.Add(new Xml_Craft_Date() { NO = i, Craft_Type = Craft_Type_Enum.L_LIN_POS, Welding_Angle = 0, Welding_CDIS = 0, Welding_Speed = 0.5 });
                                 }
-                          
+
                             }
 
                             break;
@@ -260,7 +250,67 @@ namespace HanGao.Xml_Date.Xml_Models
         }
 
 
+
+
     }
+
+
+
+    ///// <summary>
+    ///// Xml文件，围边水槽工艺焊接部位
+    ///// </summary>
+    //[Serializable]
+    //public class Xml_SInk_Craft_Model
+    //{
+
+
+    //    public Xml_Craft_Data L0_Welding_Craft { get; set; } = new Xml_Craft_Data() { Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, Craft_Area_Type= Direction_Enum.L0_Welding_Craft, MaxArray = 10 };
+    //    public Xml_Craft_Data C45_Welding_Craft { get; set; } = new Xml_Craft_Data() { Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR,  Craft_Area_Type = Direction_Enum.C45_Welding_Craft, MaxArray = 3};
+    //    public Xml_Craft_Data L90_Welding_Craft { get; set; } = new Xml_Craft_Data() {Write_Mode = true, Distance_Type = Distance_Type_Enum.LIN, Craft_Area_Type = Direction_Enum.L90_Welding_Craft, MaxArray = 10 };
+    //    public Xml_Craft_Data C135_Welding_Craft { get; set; } = new Xml_Craft_Data() {Write_Mode = true,    Distance_Type = Distance_Type_Enum.CIR, Craft_Area_Type = Direction_Enum.C135_Welding_Craft, MaxArray = 3 };
+    //    public Xml_Craft_Data L180_Welding_Craft { get; set; } = new Xml_Craft_Data() {Write_Mode = true, Distance_Type = Distance_Type_Enum.LIN, Craft_Area_Type = Direction_Enum.L180_Welding_Craft, MaxArray = 10 };
+    //    public Xml_Craft_Data C225_Welding_Craft { get; set; } = new Xml_Craft_Data() {Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR,  Craft_Area_Type = Direction_Enum.C225_Welding_Craft, MaxArray = 3 };
+    //    public Xml_Craft_Data L270_Welding_Craft { get; set; } = new Xml_Craft_Data() {Write_Mode = true, Distance_Type = Distance_Type_Enum.LIN, Craft_Area_Type = Direction_Enum.L270_Welding_Craft, MaxArray = 10 };
+    //    public Xml_Craft_Data C315_Welding_Craft { get; set; } = new Xml_Craft_Data() {Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, Craft_Area_Type = Direction_Enum.C315_Welding_Craft, MaxArray = 3 };
+
+
+
+
+    //}
+
+    /// <summary>
+    /// Xml文件，短边水槽工艺焊接部位
+    /// </summary>
+    //[Serializable]
+    //public class Xml_Sink_ShortSize_Craft_Models
+    //{
+
+    //    public Xml_Craft_Data N45_Short_Craft { set; get; } = new Xml_Craft_Data() { Write_Mode = true, Craft_Area_Type = Direction_Enum.N45_Short_Craft, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5 };
+    //    public Xml_Craft_Data N135_Short_Craft { set; get; } = new Xml_Craft_Data() { Write_Mode = true, Craft_Area_Type = Direction_Enum.N135_Short_Craft, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5 };
+    //    public Xml_Craft_Data N225_Short_Craft { set; get; } = new Xml_Craft_Data() { Write_Mode = true, Craft_Area_Type = Direction_Enum.N225_Short_Craft, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5 };
+    //    public Xml_Craft_Data N315_Short_Craft { set; get; } = new Xml_Craft_Data() { Write_Mode = true, Craft_Area_Type = Direction_Enum.N315_Short_Craft, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5 };
+
+
+
+    //}
+
+
+
+
+
+    /// <summary>
+    /// 围边焊接方向创建数据
+    /// </summary>
+    //public class Xml_Craft_Data
+    //{
+    //    public Xml_Craft_Data()
+    //    {
+
+    //    }
+
+
+
+    //}
 
     /// <summary>
     /// 围边工艺
@@ -302,6 +352,8 @@ namespace HanGao.Xml_Date.Xml_Models
         [XmlElement(ElementName = "Welding_Pos")]
         [ReadWriteAttribute(ReadWrite_Enum.Read)]
         public Welding_Pos_Date Welding_Pos { get; set; } = new Welding_Pos_Date() { };
+
+
 
     }
 
@@ -392,7 +444,37 @@ namespace HanGao.Xml_Date.Xml_Models
         Null
     }
 
+    /// <summary>
+    /// 围边方向枚举
+    /// </summary>
+    public enum Direction_Enum
+    {
+        Null,
+        L0_Welding_Craft,
+        C45_Welding_Craft,
+        L90_Welding_Craft,
+        C135_Welding_Craft,
+        L180_Welding_Craft,
+        C225_Welding_Craft,
+        L270_Welding_Craft,
+        C315_Welding_Craft,
+        N45_Short_Craft,
+        N135_Short_Craft,
+        N225_Short_Craft,
+        N315_Short_Craft,
+    }
 
+
+    /// <summary>
+    /// 工艺类型
+    /// </summary>
+    public enum Sink_Craft_Type_Enum
+    {
+        Null,
+        Sink_Surround_Craft,
+        Sink_ShortSide_Craft,
+
+    }
 
     /// <summary>
     /// XML文件中点的类别枚举

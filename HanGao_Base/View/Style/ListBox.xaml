@@ -274,7 +274,7 @@
 
 
 
-                            <CheckBox Uid="N1"
+                            <CheckBox Uid="Work_1"
                                       IsChecked="{Binding Sink_UI.List_IsChecked_1}"
                                       Width=" 30"
                                       Height="30"
@@ -311,7 +311,7 @@
                                        FontSize="18"
                                        Foreground="Gray" />
                             <Button Style="{DynamicResource ButtonStyle3}" Grid.Column="1"
-                                    Uid="N1"
+                                    Uid="Work_1"
                                     Width="36"
                                     Height="36"
                                     Margin="0"
@@ -340,7 +340,7 @@
                                     VerticalAlignment="Center"
                                     Orientation="Horizontal">
 
-                            <CheckBox Uid="N2"
+                            <CheckBox Uid="Work_2"
                                       IsChecked="{Binding Sink_UI.List_IsChecked_2}"
                                       Width=" 30"
                                       Height="30"
@@ -377,7 +377,7 @@
                                        FontSize="18"
                                        Foreground="Gray" />
                             <Button Style="{DynamicResource ButtonStyle3}" Grid.Column="1"
-                                    Uid="N2"
+                                    Uid="Work_2"
                                     Width="36"
                                     Height="36"
                                     Margin="0"

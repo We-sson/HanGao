@@ -87,12 +87,12 @@ namespace HanGao.ViewModel
                                 foreach (var _Direction in _Craft_List_Data.GetValue(_Craft).GetType().GetProperties())
                                 {
 
-                                
-        
-                                    //反射获得工艺列表内容
-                                    Xml_Craft_Data _Craft_Data = (Xml_Craft_Data)_Direction.GetValue(_Craft_List_Data.GetValue(_Craft));
 
-                                    //循环水槽围边工艺数
+
+                                        //反射获得工艺列表内容
+                                        Xml_Direction_Craft_Model _Craft_Data = (Xml_Direction_Craft_Model)_Direction.GetValue(_Craft_List_Data.GetValue(_Craft));
+
+                                        //循环水槽围边工艺数
                                     for (int i = 0; i < _Craft_Data.Craft_Date.Count; i++)
                                 {
                                     //遍历每个围边工艺属性中是否合适条件
@@ -189,9 +189,9 @@ namespace HanGao.ViewModel
 
         }
 
-        public Working_Area_Data UC_Working_VM_N1 { get; set; } = new Working_Area_Data() {  Working_Area_UI =new Working_Area_UI_Model() {  Work_NO= Work_No_Enum.N1}  };
+        public Working_Area_Data UC_Working_VM_N1 { get; set; } = new Working_Area_Data() {  Working_Area_UI =new Working_Area_UI_Model() {  Work_NO= Work_Name_Enum.Work_1}  };
 
-        public Working_Area_Data UC_Working_VM_N2 { get; set; } = new Working_Area_Data() { Working_Area_UI = new Working_Area_UI_Model() { Work_NO = Work_No_Enum.N2 } };
+        public Working_Area_Data UC_Working_VM_N2 { get; set; } = new Working_Area_Data() { Working_Area_UI = new Working_Area_UI_Model() { Work_NO = Work_Name_Enum.Work_2 } };
 
 
 

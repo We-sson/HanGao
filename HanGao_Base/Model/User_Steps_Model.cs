@@ -17,11 +17,11 @@ namespace HanGao.Model
         /// <summary>
         /// 用户选择工作区域
         /// </summary>
-        public Work_No_Enum User_Work_Area { set; get; }
+        public Work_Name_Enum User_Work_Area { set; get; }
         /// <summary>
         /// 用户选择工艺
         /// </summary>
-        public User_Craft_Enum User_Welding_Craft { set; get; }
+        public Sink_Craft_Type_Enum User_Welding_Craft { set; get; }
 
         /// <summary>
         /// 用户选择工艺区域
@@ -37,19 +37,15 @@ namespace HanGao.Model
         /// <summary>
         /// 工作区号数
         /// </summary>
-        public enum Work_No_Enum
-        {
-            N1 = 1,
-            N2
-        }
+        //public enum Work_No_Enum
+        //{
+        //    N1 = 1,
+        //    N2
+        //}
 
-        public enum User_Craft_Enum
-        {
-            Null,
-            Sink_Surround_Craft,
-            Sink_ShortSide_Craft,
 
-        }
+
+
 
 
         public enum Weld_Craft_Enum

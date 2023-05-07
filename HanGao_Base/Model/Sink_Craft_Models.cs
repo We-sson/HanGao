@@ -42,9 +42,9 @@ namespace HanGao.Model
         /// <summary>
         /// 工艺类型
         /// </summary>
-        private User_Craft_Enum _Craft_Type;
+        private Sink_Craft_Type_Enum _Craft_Type;
 
-        public User_Craft_Enum Craft_Type
+        public Sink_Craft_Type_Enum Craft_Type
         {
             get { return _Craft_Type; }
             set 

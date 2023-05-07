@@ -34,25 +34,7 @@ namespace HanGao.ViewModel
 
         }
 
-        /// <summary>
-        /// 围边方向枚举
-        /// </summary>
-        public enum Direction_Enum
-        {
-            Null,
-            L0_Welding_Craft,
-            C45_Welding_Craft,
-            L90_Welding_Craft,
-            C135_Welding_Craft,
-            L180_Welding_Craft,
-            C225_Welding_Craft,
-            L270_Welding_Craft,
-            C315_Welding_Craft,
-            N45_Short_Craft,
-            N135_Short_Craft,
-            N225_Short_Craft,
-            N315_Short_Craft,
-        }
+  
 
 
 
@@ -89,7 +71,7 @@ namespace HanGao.ViewModel
                         //发送用户选择区域
                     Messenger.Send<dynamic, string>(value, nameof(Meg_Value_Eunm.Sink_Surround_Craft_Point_Load));
                         //清空坐标参数显示
-                    Messenger.Send<Xml_Craft_Date, string>(default, nameof(Meg_Value_Eunm.Sink_Surround_Craft_Selected_Value));
+                    //Messenger.Send<Xml_Craft_Date, string>(default, nameof(Meg_Value_Eunm.Sink_Surround_Craft_Selected_Value));
 
 
                         Direction_State = false;
@@ -107,83 +89,108 @@ namespace HanGao.ViewModel
         }
 
 
-        private bool _L0_Checked ;
-     
+        private bool _L0_Checked = false;
+
         public bool L0_Checked
         {
             get { return _L0_Checked; }
-            set { _L0_Checked = value;
+            set
+            {
+                _L0_Checked = value;
                 SetProperty(ref _L0_Checked, value);
-                if (value) Surround_Direction_Type = Direction_Enum.L0_Welding_Craft;}
-        }
+                if (value) Surround_Direction_Type = Direction_Enum.L0_Welding_Craft;
+            }
+        } 
 
-        private bool _C45_Checked;
+        private bool _C45_Checked = false;
 
         public bool C45_Checked
         {
             get { return _C45_Checked; }
-            set { _C45_Checked = value;
+            set
+            {
                 SetProperty(ref _C45_Checked, value);
-                if (value) Surround_Direction_Type = Direction_Enum.C45_Welding_Craft; }
+                if (value) Surround_Direction_Type = Direction_Enum.C45_Welding_Craft; 
+                _C45_Checked = value;
+            }
         }
 
-        private bool _L90_Checked;
-                
+        private bool _L90_Checked = false;
+
         public bool L90_Checked
         {
             get { return _L90_Checked; }
-            set { _L90_Checked = value;
+            set 
+            {
                 SetProperty(ref _L90_Checked, value);
-
-                if (value) Surround_Direction_Type = Direction_Enum.L90_Welding_Craft; }
+                if (value) Surround_Direction_Type = Direction_Enum.L90_Welding_Craft;
+                _L90_Checked = value;
+            }
         }
 
-        private bool _C135_Checked;
+        private bool _C135_Checked = false;
 
         public bool C135_Checked
         {
             get { return _C135_Checked; }
-            set { _C135_Checked = value;
-                
-                SetProperty(ref _C135_Checked, value);
-                if (value) Surround_Direction_Type = Direction_Enum.C135_Welding_Craft; }
+            set 
+            {
+                 SetProperty(ref _C135_Checked, value);
+                if (value) Surround_Direction_Type = Direction_Enum.C135_Welding_Craft; 
+                _C135_Checked = value;
+            }
         }
 
-        private bool _L180_Checked;
+        private bool _L180_Checked = false;
 
         public bool L180_Checked
         {
             get { return _L180_Checked; }
-            set { _L180_Checked = value; 
+            set 
+            {
                 SetProperty(ref _L180_Checked, value);
-                if (value) Surround_Direction_Type = Direction_Enum.L180_Welding_Craft; }
+                if (value) Surround_Direction_Type = Direction_Enum.L180_Welding_Craft;
+                _L180_Checked = value; 
+            }
         }
 
-        private bool _C225_Checked;
+        private bool _C225_Checked = false;
 
         public bool C225_Checked
         {
             get { return _C225_Checked; }
-            set { _C225_Checked = value; SetProperty(ref _C225_Checked, value);
-                if (value) Surround_Direction_Type = Direction_Enum.C225_Welding_Craft; }
+            set 
+            {   
+                SetProperty(ref _C225_Checked, value);
+                if (value) Surround_Direction_Type = Direction_Enum.C225_Welding_Craft;
+                _C225_Checked = value; 
+            }
         }
 
-        private bool _L270_Checked;
+        private bool _L270_Checked = false;
 
         public bool L270_Checked
         {
             get { return _L270_Checked; }
-            set { _L270_Checked = value; SetProperty(ref _L270_Checked, value);
-                if (value) Surround_Direction_Type = Direction_Enum.L270_Welding_Craft; }
+            set
+            { 
+                SetProperty(ref _L270_Checked, value);
+                if (value) Surround_Direction_Type = Direction_Enum.L270_Welding_Craft;
+                _L270_Checked = value; 
+            }
         }
 
-        private bool _C315_Checked;
+        private bool _C315_Checked = false;
 
         public bool C315_Checked
         {
             get { return _C315_Checked; }
-            set { _C315_Checked = value; SetProperty(ref _C315_Checked, value);
-                if (value) Surround_Direction_Type = Direction_Enum.C315_Welding_Craft; }
+            set 
+            { 
+                if (value) Surround_Direction_Type = Direction_Enum.C315_Welding_Craft; 
+                SetProperty(ref _C315_Checked, value);
+                _C315_Checked = value; 
+            }
         }
 
 

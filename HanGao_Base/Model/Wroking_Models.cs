@@ -54,7 +54,7 @@ namespace HanGao.Model
         /// <summary>
         /// 加载工作区UI的区域
         /// </summary>
-        public Work_No_Enum Load_UI_Work { set; get; }
+        public Work_Name_Enum Load_UI_Work { set; get; }
 
        /// <summary>
        /// UI工作区显示
@@ -65,7 +65,7 @@ namespace HanGao.Model
         /// <summary>
         /// 工作区设置编号
         /// </summary>
-        public Work_No_Enum Work_NO { set; get; }
+        public Work_Name_Enum Work_NO { set; get; }
 
         /// <summary>
         /// 发送数据到机器人显示状态

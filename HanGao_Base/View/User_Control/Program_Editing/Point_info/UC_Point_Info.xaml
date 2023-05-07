@@ -53,7 +53,7 @@
                 CornerRadius=" 5"
                 Effect="{DynamicResource 全局背景阴影}">
 
-            <TextBlock Text="{Binding UI_Craft_Date.Welding_Name, FallbackValue=原始坐标, Mode=OneWay, StringFormat=\{0\} 坐标}"
+            <TextBlock Text="{Binding New_Set_Data.Welding_Name, FallbackValue=原始坐标, Mode=OneWay, StringFormat=\{0\} 坐标}"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
                        FontSize="20"
@@ -96,7 +96,7 @@
                                FontSize="20"
                                Foreground="{DynamicResource 全局_按钮_绿颜色}" />
                 </Button>
-                <TextBlock Text="{Binding UI_Craft_Date.Welding_Name, FallbackValue=坐标偏移, Mode=OneWay, StringFormat=\{0\} 坐标偏移}"
+                <TextBlock Text="{Binding New_Set_Data.Welding_Name, FallbackValue=坐标偏移, Mode=OneWay, StringFormat=\{0\} 坐标偏移}"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            FontSize="20"
@@ -175,42 +175,42 @@
 
         <!--  第二列  -->
         <TextBlock Grid.Row="1" Grid.Column="1"
-                   Text="{Binding UI_Craft_Date.Welding_Pos.X, FallbackValue=000.000 mm, Mode=OneWay, StringFormat=\{0:N3\} mm}"
+                   Text="{Binding New_Set_Data.Welding_Pos.X, FallbackValue=000.000 mm, Mode=OneWay, StringFormat=\{0:N3\} mm}"
                    Margin="0,0,10,0"
                    HorizontalAlignment="Right"
                    VerticalAlignment="Center"
                    FontSize="22"
                    Foreground="#434343" />
         <TextBlock Grid.Row="2" Grid.Column="1"
-                   Text="{Binding UI_Craft_Date.Welding_Pos.Y, FallbackValue=000.000 mm, Mode=OneWay, StringFormat=\{0:N3\} mm}"
+                   Text="{Binding New_Set_Data.Welding_Pos.Y, FallbackValue=000.000 mm, Mode=OneWay, StringFormat=\{0:N3\} mm}"
                    Margin="0,0,10,0"
                    HorizontalAlignment="Right"
                    VerticalAlignment="Center"
                    FontSize="22"
                    Foreground="#434343" />
         <TextBlock Grid.Row="3" Grid.Column="1"
-                   Text="{Binding UI_Craft_Date.Welding_Pos.Z, FallbackValue=000.000 mm, Mode=OneWay, StringFormat=\{0:N3\} mm}"
+                   Text="{Binding New_Set_Data.Welding_Pos.Z, FallbackValue=000.000 mm, Mode=OneWay, StringFormat=\{0:N3\} mm}"
                    Margin="0,0,10,0"
                    HorizontalAlignment="Right"
                    VerticalAlignment="Center"
                    FontSize="22"
                    Foreground="#434343" />
         <TextBlock Grid.Row="4" Grid.Column="1"
-                   Text="{Binding UI_Craft_Date.Welding_Pos.A, FallbackValue=000.000 mm, Mode=OneWay, StringFormat=\{0:N3\} mm}"
+                   Text="{Binding New_Set_Data.Welding_Pos.A, FallbackValue=000.000 mm, Mode=OneWay, StringFormat=\{0:N3\} mm}"
                    Margin="0,0,10,0"
                    HorizontalAlignment="Right"
                    VerticalAlignment="Center"
                    FontSize="22"
                    Foreground="#434343" />
         <TextBlock Grid.Row="5" Grid.Column="1"
-                   Text="{Binding UI_Craft_Date.Welding_Pos.B, FallbackValue=000.000 mm, Mode=OneWay, StringFormat=\{0:N3\} mm}"
+                   Text="{Binding New_Set_Data.Welding_Pos.B, FallbackValue=000.000 mm, Mode=OneWay, StringFormat=\{0:N3\} mm}"
                    Margin="0,0,10,0"
                    HorizontalAlignment="Right"
                    VerticalAlignment="Center"
                    FontSize="22"
                    Foreground="#434343" />
         <TextBlock Grid.Row="6" Grid.Column="1"
-                   Text="{Binding UI_Craft_Date.Welding_Pos.C, FallbackValue=000.000 mm, Mode=OneWay, StringFormat=\{0:N3\} mm}"
+                   Text="{Binding New_Set_Data.Welding_Pos.C, FallbackValue=000.000 mm, Mode=OneWay, StringFormat=\{0:N3\} mm}"
                    Margin="0,0,10,0"
                    HorizontalAlignment="Right"
                    VerticalAlignment="Center"
@@ -278,7 +278,7 @@
                 Maximum="5"
                 Minimum="-5"
                 TickFrequency="0.01"
-                Value="{Binding UI_Craft_Date.Welding_Offset.X}" />
+                Value="{Binding New_Set_Data.Welding_Offset.X}" />
 
         <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="S_Y" Grid.Row="2" Grid.Column="3"
                 Margin="4"
@@ -289,7 +289,7 @@
                 Maximum="5"
                 Minimum="-5"
                 TickFrequency="0.01"
-                Value="{Binding UI_Craft_Date.Welding_Offset.Y}" />
+                Value="{Binding New_Set_Data.Welding_Offset.Y}" />
 
         <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="S_Z" Grid.Row="3" Grid.Column="3"
                 Margin="4"
@@ -300,7 +300,7 @@
                 Maximum="5"
                 Minimum="-5"
                 TickFrequency="0.01"
-                Value="{Binding UI_Craft_Date.Welding_Offset.Z}" />
+                Value="{Binding New_Set_Data.Welding_Offset.Z}" />
 
         <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="S_A" Grid.Row="4" Grid.Column="3"
                 Margin="4"
@@ -311,7 +311,7 @@
                 Maximum="5"
                 Minimum="-5"
                 TickFrequency="0.01"
-                Value="{Binding UI_Craft_Date.Welding_Offset.A}" />
+                Value="{Binding New_Set_Data.Welding_Offset.A}" />
 
         <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="S_B" Grid.Row="5" Grid.Column="3"
                 Margin="4"
@@ -322,7 +322,7 @@
                 Maximum="5"
                 Minimum="-5"
                 TickFrequency="0.01"
-                Value="{Binding UI_Craft_Date.Welding_Offset.B}" />
+                Value="{Binding New_Set_Data.Welding_Offset.B}" />
 
         <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="S_C" Grid.Row="6" Grid.Column="3"
                 Margin="4"
@@ -333,7 +333,7 @@
                 Maximum="5"
                 Minimum="-5"
                 TickFrequency="0.01"
-                Value="{Binding UI_Craft_Date.Welding_Offset.C}" />
+                Value="{Binding New_Set_Data.Welding_Offset.C}" />
 
 
 
@@ -574,7 +574,7 @@
                 CornerRadius=" 5"
                 Effect="{DynamicResource 全局背景阴影}">
 
-            <TextBlock Text="{Binding UI_Craft_Date.Welding_Name, FallbackValue=工艺参数名, Mode=OneWay, StringFormat=\{0\} 参数名}"
+            <TextBlock Text="{Binding New_Set_Data.Welding_Name, FallbackValue=工艺参数名, Mode=OneWay, StringFormat=\{0\} 参数名}"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
                        FontSize="20"
@@ -681,7 +681,7 @@
                 Maximum="500"
                 Minimum="0"
                 TickFrequency="1"
-                Value="{Binding UI_Craft_Date.Welding_CDIS}" />
+                Value="{Binding New_Set_Data.Welding_CDIS}" />
 
         <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="S_ACC" Grid.Row="9" Grid.Column="3"
                 Margin="4"
@@ -692,7 +692,7 @@
                 Maximum="100"
                 Minimum="0"
                 TickFrequency="1"
-                Value="{Binding UI_Craft_Date.Welding_ACC}" />
+                Value="{Binding New_Set_Data.Welding_ACC}" />
 
         <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="S_Speed" Grid.Row="10" Grid.Column="3"
                 Margin="4"
@@ -703,7 +703,7 @@
                 Maximum="2"
                 Minimum="0"
                 TickFrequency="0.001"
-                Value="{Binding UI_Craft_Date.Welding_Speed}" />
+                Value="{Binding New_Set_Data.Welding_Speed}" />
 
         <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="S_Angle" Grid.Row="11" Grid.Column="3"
                 Margin="4"
@@ -714,7 +714,7 @@
                 Maximum="30"
                 Minimum="-30"
                 TickFrequency="0.1"
-                Value="{Binding UI_Craft_Date.Welding_Angle}" />
+                Value="{Binding New_Set_Data.Welding_Angle}" />
 
         <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="S_Power" Grid.Row="12" Grid.Column="3"
                 Margin="4"
@@ -725,7 +725,7 @@
                 Maximum="100"
                 Minimum="0"
                 TickFrequency="1"
-                Value="{Binding UI_Craft_Date.Welding_Power}" />
+                Value="{Binding New_Set_Data.Welding_Power}" />
 
         <!--  第二列  -->
 
