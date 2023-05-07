@@ -228,7 +228,7 @@ namespace HanGao.Xml_Date.Xml_Write_Read
         /// <summary>
         /// 寄存工艺属性
         /// </summary>
-        private static dynamic Craft;
+        private static dynamic Craft { set; get; }
         /// <summary>
         ///返回输入的Xml水槽数据
         /// </summary>
@@ -245,6 +245,9 @@ namespace HanGao.Xml_Date.Xml_Write_Read
             {
                 if (_Sink_List.Sink_Model == _User_Model.Sink_Process.Sink_Model)
                 {
+
+
+                      Craft = null;
 
                     Xml_SInk_Craft Area = (Xml_SInk_Craft)_Sink_List.Sink_Craft.GetType().GetProperty(_User_Model.User_Picking_Craft.User_Work_Area.ToString()).GetValue(_Sink_List.Sink_Craft);
 
@@ -266,6 +269,8 @@ namespace HanGao.Xml_Date.Xml_Write_Read
             return null;
 
         }
+
+
 
         /// <summary>
         ///设置对应的Xml水槽列表数据

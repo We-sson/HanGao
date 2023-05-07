@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using System.Xml.Linq;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 
 
@@ -85,11 +86,13 @@ namespace HanGao.ViewModel
                     Task.Run(() => { 
                     
                     Direction_State = true;
-
+                        //发送用户选择区域
                     Messenger.Send<dynamic, string>(value, nameof(Meg_Value_Eunm.Sink_Surround_Craft_Point_Load));
+                        //清空坐标参数显示
+                    Messenger.Send<Xml_Craft_Date, string>(default, nameof(Meg_Value_Eunm.Sink_Surround_Craft_Selected_Value));
 
-          
-                    Direction_State = false;
+
+                        Direction_State = false;
 
                     });
 
