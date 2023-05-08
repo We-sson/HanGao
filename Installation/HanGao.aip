@@ -12,7 +12,7 @@
     <ROW Property="ProductCode" Value="1033:{938A171F-1526-4F57-BBD8-9C7CB37E4746} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="HanGao_[|ProductVersion]"/>
-    <ROW Property="ProductVersion" Value="1.0.8527.39786" Type="32" TargetFile="HanGao.exe"/>
+    <ROW Property="ProductVersion" Value="1.0.8527.39818" Type="32" TargetFile="HanGao.exe"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{1BF847BB-6B9E-48B2-9971-A3E9C586A146}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="x64_Release:Windows 9x/ME" ValueLocId="-"/>

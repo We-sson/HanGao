@@ -673,7 +673,9 @@ namespace HanGao.ViewModel
             });
         }
 
-
+        /// <summary>
+        /// 错误参数保存方法
+        /// </summary>
         public ICommand Error_Chart_Save_Comm
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
@@ -721,9 +723,12 @@ namespace HanGao.ViewModel
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
+
                 ComboBox E = Sm.Source as ComboBox;
 
-                switch ((Work_Name_Enum)E.SelectedIndex)
+
+                //E.SelectedItem= Chart_Select_Work;
+                switch (Chart_Select_Work)
                 {
                     case Work_Name_Enum.Work_1:
                         Series_X[0].Values = Work_1_Error_List.F_45_Error_List.X;
@@ -756,8 +761,39 @@ namespace HanGao.ViewModel
 
                         break;
                     case Work_Name_Enum.Work_3:
+
+                        Series_X[0].Values = null;
+                        Series_X[1].Values = null;
+                        Series_X[2].Values = null;
+                        Series_X[3].Values = null;
+
+                        Series_Y[0].Values = null;
+                        Series_Y[1].Values = null;
+                        Series_Y[2].Values = null;
+                        Series_Y[3].Values = null;
                         break;
                     case Work_Name_Enum.Work_4:
+                        Series_X[0].Values = null;
+                        Series_X[1].Values = null;
+                        Series_X[2].Values = null;
+                        Series_X[3].Values = null;
+
+                        Series_Y[0].Values = null;
+                        Series_Y[1].Values = null;
+                        Series_Y[2].Values = null;
+                        Series_Y[3].Values = null;
+                        break;
+                        case Work_Name_Enum.Null:
+                        Series_X[0].Values = null;
+                        Series_X[1].Values = null;
+                        Series_X[2].Values = null;
+                        Series_X[3].Values = null;
+
+                        Series_Y[0].Values = null;
+                        Series_Y[1].Values = null;
+                        Series_Y[2].Values = null;
+                        Series_Y[3].Values = null;
+
                         break;
 
                 }

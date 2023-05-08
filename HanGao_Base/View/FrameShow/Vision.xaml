@@ -1466,7 +1466,16 @@
                                                                PassEventArgsToCommand="True" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
+                                <ComboBoxItem>
 
+                                    <TextBlock Text="Null"
+                                               TextWrapping="Wrap"
+                                               Padding="0,4,0,4"
+                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                               FontSize="14"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                               TextTrimming="CharacterEllipsis" />
+                                </ComboBoxItem>
                                 <ComboBoxItem>
 
                                     <TextBlock Text="Work_1"

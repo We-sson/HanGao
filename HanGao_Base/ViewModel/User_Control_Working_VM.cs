@@ -198,25 +198,25 @@ namespace HanGao.ViewModel
 
 
 
-        public void Calculation_Actual_Error (Find_Model_Receive _Find)
-        {
+        //public void Calculation_Actual_Error (Find_Model_Receive _Find)
+        //{
 
 
-            switch (Enum.Parse(typeof(Work_Name_Enum),  _Find.Work_Area))
-            {
-                case Work_Name_Enum.Work_1:
+        //    switch (Enum.Parse(typeof(Work_Name_Enum),  _Find.Work_Area))
+        //    {
+        //        case Work_Name_Enum.Work_1:
 
 
-                    break;
-                    case Work_Name_Enum.Work_2:
+        //            break;
+        //            case Work_Name_Enum.Work_2:
 
 
-                    break;
-            }
+        //            break;
+        //    }
 
 
 
-        }
+        //}
 
 
     }
