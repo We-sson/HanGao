@@ -537,7 +537,7 @@
                         <Trigger Property="IsChecked" Value="{x:Null}">
                             <!--<Setter Property="Opacity" TargetName="optionMark" Value="0.56"/>-->
                         </Trigger>
-                        
+
                         <Trigger Property="IsChecked" Value="true">
                             <Setter TargetName="border" Property="Background" Value="Green" />
                             <!--<Setter TargetName="border" Property="Effect" Value="{DynamicResource 全局背景阴影}" />-->
