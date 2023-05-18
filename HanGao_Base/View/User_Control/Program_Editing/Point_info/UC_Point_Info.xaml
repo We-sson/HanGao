@@ -338,15 +338,27 @@
                 Value="{Binding New_Set_Data.Welding_Offset.C}" />
 
 
-        <NumLib:NumericUpDown Style="{DynamicResource NumericUpDown_Style}"  Grid.Row="1" Grid.Column="5"  />
+
+
 
         <!--  第四列  -->
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="X" Grid.Row="1" Grid.Column="4"
+        <NumLib:DoubleUpDown Style="{DynamicResource DoubleUpDown_Style}" Grid.Row="1" Grid.Column="4"
+                             Margin="10"
+                             VerticalAlignment="Center"
+                             VerticalContentAlignment="Center"
+                             DisplayLength=" 5"
+                             FontSize=" 25"
+                             FormatString="F2"
+                             LargeStepSize="0.1"
+                             StepSize="0.1"
+                             Tag="mm"
+                             Value="{Binding ElementName=S_X, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <!--<TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="X" Grid.Row="1" Grid.Column="4"
                  Text="{Binding ElementName=S_X, Path=Value}"
                  Margin="10"
                  HorizontalContentAlignment="Center"
                  MaxLines="7"
-                 Tag="mm" />
+                 Tag="mm" />-->
         <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Y" Grid.Row="2" Grid.Column="4"
                  Text="{Binding ElementName=S_Y, Path=Value}"
                  Margin="10"
