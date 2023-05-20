@@ -840,7 +840,7 @@
                              DisplayLength="5"
                              FontSize=" 22"
                              FormatString="F2"
-                             LargeStepSize="0.1"
+                             LargeStepSize="0.01"
                              StepSize="0.1"
                              Tag="m/s"
                              Value="{Binding ElementName=S_Speed, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />

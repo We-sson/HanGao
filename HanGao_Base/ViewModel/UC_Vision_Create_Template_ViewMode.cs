@@ -199,7 +199,12 @@ namespace HanGao.ViewModel
 
                                         _Send.IsStatus = 0;
                                         _Send.Message_Error = HVE_Result_Enum.Error_No_Can_Find_the_model.ToString();
+                                    
                                     }
+
+
+
+
                                 }
                                 else
                                 {
@@ -210,12 +215,17 @@ namespace HanGao.ViewModel
 
 
 
-
                             }
 
 
-                            //多次图像识别错误保存图像
-                            Display_Status(Halcon_SDK.Save_Image(_Image)).GetResult();
+
+                                if (_Send.IsStatus==0)
+                                {
+                                    //多次图像识别错误保存图像
+                                    Display_Status(Halcon_SDK.Save_Image(_Image)).GetResult();
+                                }
+
+                      
 
                         }
                         else

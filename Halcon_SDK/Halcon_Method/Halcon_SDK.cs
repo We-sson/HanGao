@@ -74,10 +74,18 @@ namespace Halcon_SDK_DLL
                 //检查存放文件目录
                 if (!Directory.Exists(_Path))
                 {
+
                     //创建文件夹
                     Directory.CreateDirectory(_Path);
 
                 }
+
+                if (!Directory.Exists(_Path+="\\"+DateTime.Now.ToString("yyyy-MM-dd")))
+                {
+                    //创建文件夹
+                    Directory.CreateDirectory(_Path);
+                }
+
 
                 DirectoryInfo root = new DirectoryInfo(_Path);
                 FileInfo Re;
