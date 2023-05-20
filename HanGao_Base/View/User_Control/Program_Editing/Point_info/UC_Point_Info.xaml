@@ -347,7 +347,7 @@
                              VerticalAlignment="Center"
                              VerticalContentAlignment="Center"
                              DisplayLength=" 5"
-                             FontSize=" 25"
+                             FontSize=" 22"
                              FormatString="F2"
                              LargeStepSize="0.1"
                              StepSize="0.1"
@@ -359,31 +359,86 @@
                  HorizontalContentAlignment="Center"
                  MaxLines="7"
                  Tag="mm" />-->
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Y" Grid.Row="2" Grid.Column="4"
+        <NumLib:DoubleUpDown Style="{DynamicResource DoubleUpDown_Style}" Grid.Row="2" Grid.Column="4"
+                             Margin="10"
+                             VerticalAlignment="Center"
+                             VerticalContentAlignment="Center"
+                             DisplayLength=" 5"
+                             FontSize=" 22"
+                             FormatString="F2"
+                             LargeStepSize="0.1"
+                             StepSize="0.1"
+                             Tag="mm"
+                             Value="{Binding ElementName=S_Y, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <!--<TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Y" Grid.Row="2" Grid.Column="4"
                  Text="{Binding ElementName=S_Y, Path=Value}"
                  Margin="10"
                  MaxLines="7"
-                 Tag="mm" />
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Z" Grid.Row="3" Grid.Column="4"
+                 Tag="mm" />-->
+        <NumLib:DoubleUpDown Style="{DynamicResource DoubleUpDown_Style}" Grid.Row="3" Grid.Column="4"
+                             Margin="10"
+                             VerticalAlignment="Center"
+                             VerticalContentAlignment="Center"
+                             DisplayLength=" 5"
+                             FontSize=" 22"
+                             FormatString="F2"
+                             LargeStepSize="0.1"
+                             StepSize="0.1"
+                             Tag="mm"
+                             Value="{Binding ElementName=S_Z, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <!--<TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Z" Grid.Row="3" Grid.Column="4"
                  Text="{Binding ElementName=S_Z, Path=Value}"
                  Margin="10"
                  MaxLines="7"
-                 Tag="mm" />
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="A" Grid.Row="4" Grid.Column="4"
+                 Tag="mm" />-->
+        <NumLib:DoubleUpDown Style="{DynamicResource DoubleUpDown_Style}" Grid.Row="4" Grid.Column="4"
+                             Margin="10"
+                             VerticalAlignment="Center"
+                             VerticalContentAlignment="Center"
+                             DisplayLength=" 5"
+                             FontSize=" 22"
+                             FormatString="F2"
+                             LargeStepSize="0.1"
+                             StepSize="0.1"
+                             Tag="mm"
+                             Value="{Binding ElementName=S_A, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <!--<TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="A" Grid.Row="4" Grid.Column="4"
                  Text="{Binding ElementName=S_A, Path=Value}"
                  Margin="10"
                  MaxLines="7"
-                 Tag="mm" />
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="B" Grid.Row="5" Grid.Column="4"
+                 Tag="mm" />-->
+        <NumLib:DoubleUpDown Style="{DynamicResource DoubleUpDown_Style}" Grid.Row="5" Grid.Column="4"
+                             Margin="10"
+                             VerticalAlignment="Center"
+                             VerticalContentAlignment="Center"
+                             DisplayLength=" 5"
+                             FontSize=" 22"
+                             FormatString="F2"
+                             LargeStepSize="0.1"
+                             StepSize="0.1"
+                             Tag="mm"
+                             Value="{Binding ElementName=S_B, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <!--<TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="B" Grid.Row="5" Grid.Column="4"
                  Text="{Binding ElementName=S_B, Path=Value}"
                  Margin="10"
                  MaxLines="7"
-                 Tag="mm" />
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="C" Grid.Row="6" Grid.Column="4"
+                 Tag="mm" />-->
+        <NumLib:DoubleUpDown Style="{DynamicResource DoubleUpDown_Style}" Grid.Row="6" Grid.Column="4"
+                             Margin="10"
+                             VerticalAlignment="Center"
+                             VerticalContentAlignment="Center"
+                             DisplayLength=" 5"
+                             FontSize=" 22"
+                             FormatString="F2"
+                             LargeStepSize="0.1"
+                             StepSize="0.1"
+                             Tag="mm"
+                             Value="{Binding ElementName=S_C, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <!--<TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="C" Grid.Row="6" Grid.Column="4"
                  Text="{Binding ElementName=S_C, Path=Value}"
                  Margin="10"
                  MaxLines="7"
-                 Tag="mm" />
+                 Tag="mm" />-->
 
 
 
@@ -744,38 +799,93 @@
 
         <!--  第二列  -->
 
-
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="CDIS" Grid.Row="8" Grid.Column="4"
+        <NumLib:DoubleUpDown Style="{DynamicResource DoubleUpDown_Style}" Grid.Row="8" Grid.Column="4"
+                             Margin="10"
+                             VerticalAlignment="Center"
+                             VerticalContentAlignment="Center"
+                             DisplayLength=" 5"
+                             FontSize=" 22"
+                             FormatString="F2"
+                             LargeStepSize="1"
+                             StepSize="1"
+                             Tag="mm"
+                             Value="{Binding ElementName=S_CDIS, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <!--<TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="CDIS" Grid.Row="8" Grid.Column="4"
                  Text="{Binding ElementName=S_CDIS, Path=Value}"
                  Margin="10"
-                 Tag="mm" />
+                 Tag="mm" />-->
 
+        <NumLib:DoubleUpDown Style="{DynamicResource DoubleUpDown_Style}" Grid.Row="9" Grid.Column="4"
+                             Margin="10"
+                             VerticalAlignment="Center"
+                             VerticalContentAlignment="Center"
+                             DisplayLength=" 5"
+                             FontSize=" 22"
+                             FormatString="F2"
+                             LargeStepSize="1"
+                             StepSize="1"
+                             Tag="%"
+                             Value="{Binding ElementName=S_ACC, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="ACC" Grid.Row="9" Grid.Column="4"
+        <!--<TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="ACC" Grid.Row="9" Grid.Column="4"
                  Text="{Binding ElementName=S_ACC, Path=Value}"
                  Margin="10"
-                 Tag="%" />
+                 Tag="%" />-->
 
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Speed" Grid.Row="10" Grid.Column="4"
+
+        <NumLib:DoubleUpDown Style="{DynamicResource DoubleUpDown_Style}" Grid.Row="10" Grid.Column="4"
+                             Margin="10"
+                             VerticalAlignment="Center"
+                             VerticalContentAlignment="Center"
+                             DisplayLength="5"
+                             FontSize=" 22"
+                             FormatString="F2"
+                             LargeStepSize="0.1"
+                             StepSize="0.1"
+                             Tag="m/s"
+                             Value="{Binding ElementName=S_Speed, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+        <!--<TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Speed" Grid.Row="10" Grid.Column="4"
                  Text="{Binding ElementName=S_Speed, Path=Value}"
                  Margin="10"
-                 Tag="m/s" />
+                 Tag="m/s" />-->
+
+        <NumLib:DoubleUpDown Style="{DynamicResource DoubleUpDown_Style}" Grid.Row="11" Grid.Column="4"
+                             Margin="10"
+                             VerticalAlignment="Center"
+                             VerticalContentAlignment="Center"
+                             DisplayLength=" 5"
+                             FontSize=" 22"
+                             FormatString="F2"
+                             LargeStepSize="0.1"
+                             StepSize="0.1"
+                             Tag="°"
+                             Value="{Binding ElementName=S_Angle, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
 
-
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Angle" Grid.Row="11" Grid.Column="4"
+        <!--<TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Angle" Grid.Row="11" Grid.Column="4"
                  Text="{Binding ElementName=S_Angle, Path=Value}"
                  Margin="10"
-                 Tag="°" />
+                 Tag="°" />-->
 
 
+        <NumLib:DoubleUpDown Style="{DynamicResource DoubleUpDown_Style}" Grid.Row="12" Grid.Column="4"
+                             Margin="10"
+                             VerticalAlignment="Center"
+                             VerticalContentAlignment="Center"
+                             DisplayLength=" 5"
+                             FontSize=" 22"
+                             FormatString="F2"
+                             LargeStepSize="1"
+                             StepSize="1"
+                             Tag="%"
+                             Value="{Binding ElementName=S_Power, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
 
-        <TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Power" Grid.Row="12" Grid.Column="4"
+        <!--<TextBox Style="{DynamicResource InPut_TextBoxStyle}" x:Name="Power" Grid.Row="12" Grid.Column="4"
                  Text="{Binding ElementName=S_Power, Path=Value}"
                  Margin="10"
-                 Tag="%" />
+                 Tag="%" />-->
 
 
 

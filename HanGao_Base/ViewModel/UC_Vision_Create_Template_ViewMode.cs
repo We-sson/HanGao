@@ -206,7 +206,17 @@ namespace HanGao.ViewModel
                                     _Send.IsStatus = 0;
                                     _Send.Message_Error = HVE_Result_Enum.Error_No_Camera_GetImage.ToString();
                                 }
+
+
+
+
+
                             }
+
+
+                            //多次图像识别错误保存图像
+                            Display_Status(Halcon_SDK.Save_Image(_Image)).GetResult();
+
                         }
                         else
                         {

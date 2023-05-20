@@ -298,13 +298,13 @@
                             <Setter TargetName="PART_IncrementButton" Property="Visibility" Value="Visible" />
                             <Setter TargetName="PART_DecrementButton" Property="Visibility" Value="Visible" />
                             <Setter TargetName="Unit_Text" Property="Visibility" Value="Collapsed" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource     全局_按钮_蓝颜色}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_蓝颜色}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="true">
                             <Setter TargetName="PART_IncrementButton" Property="Visibility" Value="Visible" />
                             <Setter TargetName="PART_DecrementButton" Property="Visibility" Value="Visible" />
                             <Setter TargetName="Unit_Text" Property="Visibility" Value="Collapsed" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource  全局_按钮_蓝颜色}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_蓝颜色}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
