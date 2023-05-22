@@ -2,14 +2,14 @@
              x:Class="HanGao.View.UserMessage.User_Message"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:HanGao.View.UserMessage"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:local="clr-namespace:HanGao.View.UserMessage"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              d:DesignHeight="380"
              d:DesignWidth="450"
-             DataContext="{Binding Source={StaticResource Locator}, Path=User_Message_ViewModel}"
              Background="{x:Null}"
+             DataContext="{Binding Source={StaticResource Locator}, Path=User_Message_ViewModel}"
              mc:Ignorable="d">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -21,7 +21,7 @@
 
 
     <Grid x:Name="GD1">
-        <Border Background="Gray" Opacity=" 0.5" />
+        <Border Background="{DynamicResource 全局_按钮_灰颜色}" Opacity=" 0.5" />
 
 
         <Grid Style="{StaticResource Gd_Effect}" x:Name="grid"
@@ -35,7 +35,7 @@
 
 
             <Border Grid.RowSpan="3"
-                    Background="#f6f6f6"
+                    Background="{DynamicResource 全局_按钮_白颜色}"
                     CornerRadius="20" />
 
             <Grid Grid.Row="0" Margin="0,-30,0,0">
@@ -45,16 +45,16 @@
                            HorizontalAlignment="Center"
                            VerticalAlignment="Stretch"
                            Panel.ZIndex="10"
-                           Foreground="White"
                            FontFamily="/Resources/#iconfont"
-                           FontSize="70" />
+                           FontSize="70"
+                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
 
                 <Ellipse Width="100"
                          Height="100"
                          VerticalAlignment="Top"
-                         Fill="#f05454"
-                         StrokeThickness="5"
-                         Stroke="#f6f6f6f6" />
+                         Fill="{DynamicResource 全局_按钮_红颜色}"
+                         Stroke="{DynamicResource 全局_按钮_白颜色}"
+                         StrokeThickness="5" />
 
             </Grid>
             <Grid Grid.Row="0">
@@ -62,8 +62,8 @@
                            Margin="0,0,0,0"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Bottom"
-                           Foreground="#f05454"
-                           FontSize="40" />
+                           FontSize="40"
+                           Foreground="{DynamicResource 全局_按钮_红颜色}" />
             </Grid>
 
             <Grid Grid.Row="1">
@@ -73,11 +73,11 @@
                             Orientation="Horizontal">
                     <TextBlock Text=""
                                VerticalAlignment="Center"
-                               Foreground="Gray"
-                               FontSize="30" />
+                               FontSize="30"
+                               Foreground="Gray" />
                     <TextBlock Text="{Binding List_Show_Models.List_Show_Name, Mode=OneWay, FallbackValue=00000}"
-                               Foreground="#f05454"
-                               FontSize="40" />
+                               FontSize="40"
+                               Foreground="{DynamicResource 全局_按钮_红颜色}" />
                 </StackPanel>
 
 
@@ -97,7 +97,7 @@
                         Height="60"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Bottom"
-                        Background="#47aa57"
+                        Background="{DynamicResource 全局_按钮_绿颜色}"
                         FontSize="25">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
@@ -112,10 +112,10 @@
                     <TextBlock Text="确定" Background="{x:Null}">
                         <TextBlock.Style>
                             <Style TargetType="{x:Type TextBlock}">
-                                <Setter Property="Foreground" Value="White" />
+                                <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_白颜色}" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding ElementName=BT1, Path=IsPressed}" Value="True">
-                                        <Setter Property="Foreground" Value="Black" />
+                                        <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_黑颜色}" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -139,9 +139,9 @@
                         Height="60"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Bottom"
-                        Foreground="White"
-                        Background="#f05454"
-                        FontSize="25">
+                        Background="{DynamicResource 全局_按钮_红颜色}"
+                        FontSize="25"
+                        Foreground="{DynamicResource 全局_按钮_白颜色}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding Yes_No_Comm}"
@@ -155,10 +155,10 @@
                     <TextBlock Text="取消" Background="{x:Null}">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
-                                <Setter Property="Foreground" Value="White" />
+                                <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_白颜色}" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding ElementName=BT2, Path=IsPressed}" Value="True">
-                                        <Setter Property="Foreground" Value="Black" />
+                                        <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_黑颜色}" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>

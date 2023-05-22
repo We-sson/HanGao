@@ -164,6 +164,7 @@
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase">
       <Private>True</Private>
     </Reference>
@@ -173,6 +174,7 @@
     <Reference Include="PresentationFramework">
       <Private>False</Private>
     </Reference>
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -204,6 +206,7 @@
     <Compile Include="ViewModel\Global_Seting_Status.cs" />
     <Compile Include="ViewModel\Global_Using.cs" />
     <Compile Include="ViewModel\Messenger_Eunm\Messenger_Name.cs" />
+    <Compile Include="ViewModel\Other_Window_VM.cs" />
     <Compile Include="ViewModel\UC_KUKA_State_VM.cs" />
     <Compile Include="ViewModel\UC_Lines_Charts_VM.cs" />
     <Compile Include="ViewModel\UC_Point_Info_VM.cs" />

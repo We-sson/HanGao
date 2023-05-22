@@ -381,6 +381,8 @@
                 </Style>
             </Frameshow:Vision.Style>
         </Frameshow:Vision>
+
+
         <Frameshow:ProgramEdit Grid.Row="2">
             <Frameshow:ProgramEdit.Style>
                 <Style TargetType="{x:Type Frameshow:ProgramEdit}">
@@ -392,7 +394,6 @@
                     </Style.Triggers>
                 </Style>
             </Frameshow:ProgramEdit.Style>
-
         </Frameshow:ProgramEdit>
 
         <Frameshow:Other_Window Grid.Row="2">
