@@ -9,6 +9,7 @@
              MinWidth="800"
              MinHeight="450"
              DataContext="{Binding Source={StaticResource Locator}, Path=Other_Window_VM}"
+             RenderOptions.BitmapScalingMode="HighQuality"
              mc:Ignorable="d">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -21,9 +22,11 @@
           Background="Transparent"
           ShowGridLines="True">
         <WindowsFormsHost x:Name="OutWindow"
-                          Margin="20"
-                          Background="White">
-            <wf:Panel x:Name="Window" />
+                          Margin="10"
+                          Background="Transparent"
+                          RenderOptions.BitmapScalingMode="Unspecified">
+            <!--<wf:Panel x:Name="Window" />-->
+            <wf:Control x:Name="Window" />
         </WindowsFormsHost>
 
         <TextBlock Text="其他页面" FontSize="30" />

@@ -30,7 +30,7 @@ namespace HanGao.ViewModel
         public static extern bool MoveWindow(IntPtr hwnd, int x, int y, int cx, int cy, bool repaint);
 
         [DllImport("user32.dll")]
-       public static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
+        public static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
 
         private IntPtr OutWindow { get; set; } = IntPtr.Zero;
 
@@ -55,7 +55,7 @@ namespace HanGao.ViewModel
 
         }
 
-
+        private Process _App = new Process();
 
 
         /// <summary>
@@ -68,30 +68,46 @@ namespace HanGao.ViewModel
 
                 Other_Window _UserControl = Sm.Source as Other_Window;
 
-            
 
+
+                OutWindow = _UserControl.Window.Handle;
+                Task.Run(() =>
+                {
 
                 //是否嵌入成功标志，用作返回值
                 bool isEmbedSuccess = false;
 
-                Process _App = new Process
-                {
-                    StartInfo = new ProcessStartInfo(@"C:\Users\H\Desktop\Everything.ini")
-                };
-                _App.Start();
+                    ProcessStartInfo info = new ProcessStartInfo("C:/Users/H/Desktop/1.txt");
+                    info.UseShellExecute = true;
+                    info.WindowStyle = ProcessWindowStyle.Minimized;
 
-                _AppInPtr = _App.MainWindowHandle;
+                    _App = Process.Start(info);
 
-                OutWindow = _UserControl.Window.Handle;
+                //_App.StartInfo.FileName = "C:/Users/H/Desktop/Everything.exe";
 
-                if (_AppInPtr!=(IntPtr)0  && OutWindow!= (IntPtr)0)
+                //var aa = _App.Start();
+
+
+                    Task.Delay(1000);
+                _App.WaitForInputIdle();
+
+
+              
+                //var helper=new   WindowInteropHelper(OutWindow);
+
+                //var helper = new System.Windows.Interop.WindowInteropHelper(Application.Current.MainWindow);
+                //helper.Owner = _AppInPtr;
+
+                 _AppInPtr = _App.MainWindowHandle;
+
+                if (_AppInPtr != (IntPtr)0 && OutWindow != (IntPtr)0)
                 {
 
 
                     do
                     {
                         //isEmbedSuccess=Win32Api
-                 
+
                         isEmbedSuccess = SetParent(_AppInPtr, OutWindow) != 0;
                         ShowWindowAsync(_AppInPtr, 3);
 
@@ -105,11 +121,17 @@ namespace HanGao.ViewModel
 
                 }
 
-                _App.WaitForInputIdle();
-
+                });
 
             });
         }
+
+
+
+
+
+
+
 
 
 
