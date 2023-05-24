@@ -1,6 +1,9 @@
 ﻿
 using CommunityToolkit.Mvvm.Messaging;
 using HalconDotNet;
+using HanGao.View.UserMessage;
+using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
+using HanGao.Xml_Date.Xml_Write_Read;
 using Microsoft.Win32;
 using Newtonsoft.Json.Linq;
 using Ookii.Dialogs.Wpf;
@@ -226,7 +229,52 @@ namespace HanGao.ViewModel
                                 {
                                     //多次图像识别错误保存图像
                                     Display_Status(Halcon_SDK.Save_Image(_Image)).GetResult();
-                                }
+
+
+                                Application.Current.Dispatcher.Invoke(() => 
+                                {  
+                                    
+                                    
+                                    
+                                    
+                                    
+
+                                //弹窗显示用户选择
+                                Messenger.Send<UserControl, string>(new User_Message()
+                                {
+                                    DataContext = new User_Message_ViewModel()
+                                    {
+                                        Pop_Message = new Pop_Message_Models()
+                                        {
+
+                                            //List_Show_Bool = Visibility.Visible,
+                                            //List_Show_Name = Sm.Sink_Name.Text,
+                                            Message_title = "1:视觉检测连续查找失败!\r\n2:继续运行会使用上一次坐标信息!\r\n3:(注意此操作有一定风险，确保上一次识别坐标正确)",
+
+                                            //GetUser_Select = Val =>
+                                            //{
+                                            //    if (Val)
+                                            //    {
+
+                                            //        //_Send.IsStatus = 0;
+                                            //        //_Send.Message_Error = HVE_Result_Enum.Error_No_Read_Math2D_File.ToString();
+
+                                            //    }
+                                            //}
+                                        }
+                                    }
+                                }, nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
+
+
+
+
+
+                                    });
+
+
+
+
+                            }
 
                       
 

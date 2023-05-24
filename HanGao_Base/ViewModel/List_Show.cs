@@ -3,8 +3,6 @@ using HanGao.View.User_Control;
 using HanGao.View.UserMessage;
 using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
 using HanGao.Xml_Date.Xml_Write_Read;
-using static HanGao.Model.List_Show_Models;
-using static HanGao.Model.User_Steps_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 
 namespace HanGao.ViewModel
@@ -46,7 +44,7 @@ namespace HanGao.ViewModel
 
 
             //根据用户选择做出相应的动作
-            Messenger.Register<List_Show_Models, string>(this, nameof(Meg_Value_Eunm.List_IsCheck_Show), (O, _List) =>
+            Messenger.Register<Pop_Message_Models, string>(this, nameof(Meg_Value_Eunm.List_IsCheck_Show), (O, _List) =>
             {
 
 
@@ -220,12 +218,12 @@ namespace HanGao.ViewModel
                         {
                             DataContext = new User_Message_ViewModel()
                             {
-                                List_Show_Models = new List_Show_Models()
+                                Pop_Message = new Pop_Message_Models()
                                 {
-                                    List_Chick_NO = User_Area.ToString(),
-                                    List_Show_Bool = Visibility.Visible,
-                                    List_Show_Name = S.Sink_Process.Sink_Model.ToString(),
-                                    Message_title = Message_Type.是否确定替换该型号.ToString(),
+                                    //List_Chick_NO = User_Area.ToString(),
+                                    //List_Show_Bool = Visibility.Visible,
+                                    //List_Show_Name = S.Sink_Process.Sink_Model.ToString(),
+                                    Message_title = "工作区域："+ User_Area.ToString() + "，是否确定替换"+ S.Sink_Process.Sink_Model + "型号?",
                                     GetUser_Select = Val =>
                                     {
                                         if (Val)

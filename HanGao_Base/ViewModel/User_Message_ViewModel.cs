@@ -39,7 +39,7 @@ namespace HanGao.ViewModel
 
 
         //参数传递记录
-        public List_Show_Models List_Show_Models { set; get; } = new List_Show_Models();
+        public Pop_Message_Models Pop_Message { set; get; } = new Pop_Message_Models();
 
 
 
@@ -49,20 +49,20 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 弹窗加载事件命令
         /// </summary>
-        public ICommand User_Window_Comm
-        {
-            get => new RelayCommand<RoutedEventArgs>(User_Window_Co);
-        }
-        private void User_Window_Co(RoutedEventArgs S)
-        {
-            //User_Message e = S.Source as User_Message;
-            //User_Window = e;
-            //MessageBox.Show(User_Window.DialogResult.ToString());
-            //User_Message_View.User_Wrok_Trye = "1";
+        //public ICommand User_Window_Comm
+        //{
+        //    get => new RelayCommand<RoutedEventArgs>(User_Window_Co);
+        //}
+        //private void User_Window_Co(RoutedEventArgs S)
+        //{
+        //    //User_Message e = S.Source as User_Message;
+        //    //User_Window = e;
+        //    //MessageBox.Show(User_Window.DialogResult.ToString());
+        //    //User_Message_View.User_Wrok_Trye = "1";
 
 
 
-        }
+        //}
 
 
 
@@ -82,24 +82,21 @@ namespace HanGao.ViewModel
         {
             //把参数类型转换控件
             Button e = Sm.Source as Button;
-            //User_Message_ViewModel S = (User_Message_ViewModel)e.DataContext;
-
-
-
 
             //委托方法放回用户选择值
-            List_Show_Models.GetUser_Select(bool.Parse(e.Uid));
+            if (Pop_Message.GetUser_Select!=null)
+            {
+
+            Pop_Message.GetUser_Select(bool.Parse(e.Uid));
+            }
+
+
 
             //清空弹窗显示
              Messenger.Send<UserControl,string >(new UserControl(), nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
 
 
-            //记录用户选择的是或否
-            //List_Show_Models.User_Check = e.Uid.ToString();
-
-            //Messenger.Send<List_Show_Models,string >(List_Show_Models, nameof(Meg_Value_Eunm.List_IsCheck_Show) );
-
-
+        
 
 
         }

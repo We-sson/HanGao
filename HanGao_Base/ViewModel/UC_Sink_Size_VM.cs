@@ -4,7 +4,6 @@ using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static HanGao.Model.SInk_UI_Models;
 using HanGao.Xml_Date.Xml_Write_Read;
 using HanGao.View.UserMessage;
-using static HanGao.Model.List_Show_Models;
 using HanGao.View.User_Control.Pop_Ups;
 using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
 
@@ -198,12 +197,13 @@ namespace HanGao.ViewModel
                 {
                     DataContext = new User_Message_ViewModel()
                     {
-                        List_Show_Models = new List_Show_Models()
+                        Pop_Message = new Pop_Message_Models()
                         {
-                           
-                            List_Show_Bool = Visibility.Visible,
-                            List_Show_Name = Sm.Sink_Name.Text,
-                             Message_title= Message_Type.是否确定删除该型号.ToString(),
+
+                            //List_Show_Bool = Visibility.Visible,
+                            //List_Show_Name = Sm.Sink_Name.Text,
+                            Message_title = "是否确定删除" + Sm.Sink_Name.Text + "型号?",
+
                             GetUser_Select = Val =>
                             {
                                 if (Val)

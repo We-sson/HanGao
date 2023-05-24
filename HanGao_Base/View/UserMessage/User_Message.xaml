@@ -6,31 +6,31 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:HanGao.View.UserMessage"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             d:DesignHeight="380"
-             d:DesignWidth="450"
+             d:DesignHeight="1000"
+             d:DesignWidth="1455"
              Background="{x:Null}"
              DataContext="{Binding Source={StaticResource Locator}, Path=User_Message_ViewModel}"
              mc:Ignorable="d">
-    <i:Interaction.Triggers>
+    <!--<i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding User_Window_Comm}"
                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                    PassEventArgsToCommand="True" />
         </i:EventTrigger>
-    </i:Interaction.Triggers>
+    </i:Interaction.Triggers>-->
 
 
     <Grid x:Name="GD1">
-        <Border Background="{DynamicResource 全局_按钮_灰颜色}" Opacity=" 0.5" />
+        <Border Background="{DynamicResource 全局_按钮_黑颜色}" Opacity=" 0.8" />
 
 
         <Grid Style="{StaticResource Gd_Effect}" x:Name="grid"
-              MaxWidth="450"
-              MaxHeight="380">
+              Width="550"
+              Height="380">
             <Grid.RowDefinitions>
+                <RowDefinition Height="100" />
                 <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
+                <RowDefinition Height=" auto" />
             </Grid.RowDefinitions>
 
 
@@ -38,7 +38,7 @@
                     Background="{DynamicResource 全局_按钮_白颜色}"
                     CornerRadius="20" />
 
-            <Grid Grid.Row="0" Margin="0,-30,0,0">
+            <Grid Grid.Row="0" Margin="0,-50,0,0">
 
                 <TextBlock Text="&#xea76;"
                            Margin="0,10,0,0"
@@ -57,45 +57,51 @@
                          StrokeThickness="5" />
 
             </Grid>
-            <Grid Grid.Row="0">
-                <TextBlock Text="提示信息"
-                           Margin="0,0,0,0"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Bottom"
-                           FontSize="40"
-                           Foreground="{DynamicResource 全局_按钮_红颜色}" />
-            </Grid>
+
+            <TextBlock Grid.Row="0"
+                       Text="提示信息"
+                       Margin="0,0,0,0"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Bottom"
+                       FontSize="40"
+                       Foreground="{DynamicResource 全局_按钮_红颜色}"
+                       Visibility="Visible" />
+
 
             <Grid Grid.Row="1">
 
-                <StackPanel HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Orientation="Horizontal">
-                    <TextBlock Text=""
+
+                <!--<TextBlock Text=""
                                VerticalAlignment="Center"
                                FontSize="30"
-                               Foreground="Gray" />
-                    <TextBlock Text="{Binding List_Show_Models.List_Show_Name, Mode=OneWay, FallbackValue=00000}"
+                               Foreground="Gray" />-->
+                <!--<TextBlock Text="{Binding List_Show_Models.List_Show_Name, Mode=OneWay, FallbackValue=00000}"
                                FontSize="40"
-                               Foreground="{DynamicResource 全局_按钮_红颜色}" />
-                </StackPanel>
+                               Foreground="{DynamicResource 全局_按钮_红颜色}" />-->
+                <TextBlock Text="{Binding Pop_Message.Message_title, TargetNullValue=消息标题}"
+                           TextWrapping="Wrap"
+                           Margin="15"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="24"
+                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
 
 
             </Grid>
 
             <Grid Grid.Row="2" ShowGridLines="False">
-                <TextBlock Text="{Binding List_Show_Models.Message_title, TargetNullValue=消息标题, StringFormat={}{0}?}"
-                           Margin="0,-20,0,0"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Top"
-                           FontSize="35"
-                           Foreground="Black" />
 
-                <Button Style="{StaticResource Button_message}" x:Name="BT1"
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+
+                <Button Style="{StaticResource Button_message}" x:Name="BT1" Grid.Column=" 0"
                         Uid="True"
-                        Width="225"
                         Height="60"
-                        HorizontalAlignment="Left"
                         VerticalAlignment="Bottom"
                         Background="{DynamicResource 全局_按钮_绿颜色}"
                         FontSize="25">
@@ -133,11 +139,9 @@
 
 
 
-                <Button Style="{StaticResource Button_message}" x:Name="BT2"
+                <Button Style="{StaticResource Button_message}" x:Name="BT2" Grid.Column=" 1"
                         Uid="False"
-                        Width="225"
                         Height="60"
-                        HorizontalAlignment="Right"
                         VerticalAlignment="Bottom"
                         Background="{DynamicResource 全局_按钮_红颜色}"
                         FontSize="25"

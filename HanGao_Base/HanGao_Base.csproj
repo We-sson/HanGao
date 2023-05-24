@@ -185,7 +185,7 @@
     <Compile Include="Errorinfo\LogManager.cs" />
     <Compile Include="Model\Frame_Uri_Models.cs" />
     <Compile Include="Model\Home_Models.cs" />
-    <Compile Include="Model\List_Show_Models.cs" />
+    <Compile Include="Model\Pop_Message_Models.cs" />
     <Compile Include="Model\Sideber_Models.cs" />
     <Compile Include="Model\Sink_Craft_Models.cs" />
     <Compile Include="Model\Sink_Models.cs" />
