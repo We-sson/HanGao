@@ -1121,17 +1121,17 @@
                              ItemsSource="{Binding Find_Data_List.Vision_List}"
                              ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                              ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                             SelectedIndex="-1"
+                             SelectedIndex="{Binding UI_Find_Data_Number, Mode=TwoWay}"
                              VirtualizingPanel.IsVirtualizing="True"
                              VirtualizingPanel.ScrollUnit="Pixel"
                              VirtualizingPanel.VirtualizationMode="Recycling">
-                        <i:Interaction.Triggers>
+                        <!--<i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
                                 <i:InvokeCommandAction Command="{Binding Find_Data_Send_Comm}"
                                                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                        PassEventArgsToCommand="True" />
                             </i:EventTrigger>
-                        </i:Interaction.Triggers>
+                        </i:Interaction.Triggers>-->
 
 
                         <ListBox.ItemTemplate>

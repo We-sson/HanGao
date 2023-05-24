@@ -11,6 +11,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:usermessage="clr-namespace:HanGao.View.UserMessage"
         xmlns:viewmodel="clr-namespace:HanGao.ViewModel"
+        xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         Title="MainWindow"
         MinWidth="1440"
         MinHeight="900"
@@ -395,6 +396,7 @@
                 </Style>
             </Frameshow:ProgramEdit.Style>
         </Frameshow:ProgramEdit>
+
 
         <Frameshow:Other_Window Grid.Row="2">
             <Frameshow:Other_Window.Style>

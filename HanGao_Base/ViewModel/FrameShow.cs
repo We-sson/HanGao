@@ -1,5 +1,7 @@
 ﻿
 
+using HanGao.View.FrameShow;
+using System.Diagnostics;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static Soceket_Connect.Socket_Connect;
 
@@ -152,19 +154,17 @@ namespace HanGao.ViewModel
         }
 
 
-
         /// <summary>
         /// 软件启动初始化时间
         /// </summary>
         public ICommand Loaded_Window
         {
-            get => new AsyncRelayCommand<HanGao.MainWindow>(async (Sm, T) =>
+            get => new AsyncRelayCommand<MainWindow>(async (Sm, T) =>
             {
                 await Task.Delay(0);
 
 
-                Messenger.Send<dynamic , string>(true, nameof(Meg_Value_Eunm.Initialization_Camera));
-
+                //Messenger.Send<dynamic , string>(true, nameof(Meg_Value_Eunm.Initialization_Camera));
 
 
             });
@@ -175,7 +175,7 @@ namespace HanGao.ViewModel
         /// </summary>
         public ICommand Closed_Window
         {
-            get => new AsyncRelayCommand<HanGao.MainWindow>(async (Sm, T) =>
+            get => new AsyncRelayCommand<MainWindow>(async (Sm, T) =>
             {
                 await Task.Delay(0);
 

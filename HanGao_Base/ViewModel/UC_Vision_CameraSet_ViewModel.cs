@@ -45,7 +45,7 @@ namespace HanGao.ViewModel
                 Task.Run(() =>
                 {
 
-                    Initialization_Camera_Thread();
+                    //Initialization_Camera_Thread();
                 });
                 //})))
                 //{ IsBackground = true, Name = "Initialization_Camera_Thread" }.Start();
@@ -59,17 +59,28 @@ namespace HanGao.ViewModel
             //UI关闭,强制断开相机连接
             Messenger.Register<dynamic, string>(this, nameof(Meg_Value_Eunm.Close_Camera), (O, _S) =>
             {
+
+
                 Close_Camera();
 
             });
 
             //接收用户选择参数
-            Messenger.Register<Vision_Xml_Models, string>(this, nameof(Meg_Value_Eunm.Vision_Data_Xml_List), (O, _V) =>
+            Messenger.Register<object , string>(this, nameof(Meg_Value_Eunm.Vision_Data_Xml_List), (O, _V) =>
             {
-                Camera_Parameter_Val = _V.Camera_Parameter_Data;
-                Camera_Data_ID_UI = int.Parse(_V.ID);
+
+                Camera_Parameter_Val= UC_Visal_Function_VM.Find_Data_List.Vision_List.Where(_W=>(int.Parse( _W.ID)==(int)_V)).FirstOrDefault ().Camera_Parameter_Data;
+
+                //Camera_Parameter_Val = _Data.Camera_Parameter_Data;
+                Camera_Data_ID_UI = (int)_V;
+                User_Log_Add("相机参数" + Camera_Data_ID_UI + "号已加载到参数列表中！");
 
             });
+
+
+
+
+            Initialization_Camera_Thread();
 
 
 
@@ -109,7 +120,19 @@ namespace HanGao.ViewModel
 
 
 
-
+        //private static int _Camera_Data_ID_UI { get; set; } = -1;
+        /// <summary>
+        /// 当前相机参数号数
+        /// </summary>
+        public int Camera_Data_ID_UI { set; get; }
+        //{
+        //    get { return _Camera_Data_ID_UI; }
+        //    set
+        //    {
+        //        _Camera_Data_ID_UI = value;
+        //        StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Camera_Data_ID_UI)));
+        //    }
+        //}
 
 
         /// <summary>
@@ -119,19 +142,19 @@ namespace HanGao.ViewModel
 
 
 
-        private static int _Camera_Data_ID_UI { get; set; } = -1;
-        /// <summary>
-        /// 当前相机参数号数
-        /// </summary>
-        public static int Camera_Data_ID_UI
-        {
-            get { return _Camera_Data_ID_UI; }
-            set
-            {
-                _Camera_Data_ID_UI = value;
-                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Camera_Data_ID_UI)));
-            }
-        }
+        //private static int _Camera_Data_ID_UI { get; set; } = -1;
+        ///// <summary>
+        ///// 当前相机参数号数
+        ///// </summary>
+        //public static int Camera_Data_ID_UI
+        //{
+        //    get { return _Camera_Data_ID_UI; }
+        //    set
+        //    {
+        //        _Camera_Data_ID_UI = value;
+        //        StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Camera_Data_ID_UI)));
+        //    }
+        //}
 
 
 
@@ -157,24 +180,31 @@ namespace HanGao.ViewModel
         /// </summary>
         public void Initialization_Camera_Thread()
         {
-            for (int i = 0; i < 30; i++)
+
+
+            Task.Run(() =>
             {
-                if (Initialization_Camera())
+
+
+                for (int i = 0; i < 30; i++)
                 {
-
-
-
-                    if (Display_Status( Connect_Camera()).GetResult())
+                    if (Initialization_Camera())
                     {
 
-                        return;
+
+
+                        if (Display_Status(Connect_Camera()).GetResult())
+                        {
+
+                            return;
+                        }
+
                     }
-
+                    Thread.Sleep(1000);
+                    User_Log_Add("第" + i + "/30次重试连接相机！多次失败检查相机IP");
                 }
-                Thread.Sleep(1000);
-                User_Log_Add("第" + i + "/30次重试连接相机！多次失败检查相机IP");
-            }
 
+            });
         }
 
 
@@ -465,7 +495,7 @@ namespace HanGao.ViewModel
 
             }
 
-            return new MPR_Status_Model(MVE_Result_Enum.Run_OK) {  Result_Error_Info= MVS_Camera.Camera+"相机连接成功！" };
+            return new MPR_Status_Model(MVE_Result_Enum.Run_OK) { Result_Error_Info = MVS_Camera.Camera + "相机连接成功！" };
 
         }
 
@@ -608,7 +638,7 @@ namespace HanGao.ViewModel
 
             _Image.Dispose();
             _Window.ClearWindow();
-       
+
             switch (_Get_Model)
             {
                 case Get_Image_Model_Enum.相机采集:
@@ -616,7 +646,7 @@ namespace HanGao.ViewModel
                     if (!Display_Status(GetOneFrameTimeout(ref _Image, _Window)).GetResult())
                     {
 
-                        return new HPR_Status_Model ( HVE_Result_Enum.图像文件读取失败);
+                        return new HPR_Status_Model(HVE_Result_Enum.图像文件读取失败);
                     }
 
 
@@ -627,7 +657,7 @@ namespace HanGao.ViewModel
 
 
 
-                    if (!Display_Status(Halcon_SDK. HRead_Image(ref _Image, _path)).GetResult())
+                    if (!Display_Status(Halcon_SDK.HRead_Image(ref _Image, _path)).GetResult())
                     {
                         return new HPR_Status_Model(HVE_Result_Enum.图像文件读取失败);
                     }
@@ -639,8 +669,8 @@ namespace HanGao.ViewModel
 
             //获得图像保存到内存，随时调用
             //_image = _Image;
-            
-            UC_Visal_Function_VM.Load_Image = _Image.CopyObj(1,-1);
+
+            UC_Visal_Function_VM.Load_Image = _Image.CopyObj(1, -1);
 
             _Window.DispObj(_Image);
 
@@ -659,7 +689,7 @@ namespace HanGao.ViewModel
             //使用完清楚内存
             //_Image.Dispose();
 
-            return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info="采集图像方法成功！"};
+            return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = "采集图像方法成功！" };
 
         }
 
@@ -683,7 +713,7 @@ namespace HanGao.ViewModel
 
                 //获得一帧图片信息
                 MVS_Image_Mode _MVS_Image = MVS_Camera.GetOneFrameTimeout();
-            
+
                 //转换Halcon图像变量
                 if (Display_Status(Halcon_SDK.Mvs_To_Halcon_Image(ref _HImage, _MVS_Image.FrameEx_Info.ImageInfo.Width, _MVS_Image.FrameEx_Info.ImageInfo.Height, _MVS_Image.PData)).GetResult())
                 {
@@ -692,7 +722,7 @@ namespace HanGao.ViewModel
                     //发送显示图像位置
                     _Window.DispObj(_HImage);
 
-                    return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info= MVS_Camera.Camera.ToString()+"相机图像采集成功！" };
+                    return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = MVS_Camera.Camera.ToString() + "相机图像采集成功！" };
                 }
                 else
                 {

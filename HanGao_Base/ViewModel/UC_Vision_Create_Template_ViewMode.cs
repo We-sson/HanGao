@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Messaging;
 using HalconDotNet;
 using Microsoft.Win32;
+using Newtonsoft.Json.Linq;
 using Ookii.Dialogs.Wpf;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,11 +36,14 @@ namespace HanGao.ViewModel
             });
 
             //接收用户选择参数
-            Messenger.Register<Vision_Xml_Models, string>(this, nameof(Meg_Value_Eunm.Vision_Data_Xml_List), (O, _V) =>
+            Messenger.Register<object , string>(this, nameof(Meg_Value_Eunm.Vision_Data_Xml_List), (O, _V) =>
             {
-                Halcon_Find_Shape_ModelXld_UI = _V.Find_Shape_Data;
-                Camera_Data_ID_UI = int.Parse(_V.ID);
 
+                Halcon_Find_Shape_ModelXld_UI = Find_Data_List.Vision_List.Where(_W => (int.Parse(_W.ID) == (int)_V)).FirstOrDefault().Find_Shape_Data;
+
+                Vision_Data_ID_UI = (int)_V;
+
+                User_Log_Add("视觉参数" + Vision_Data_ID_UI + "号已加载到参数列表中！");
             });
 
             ///通讯错误信息回调显示
@@ -49,9 +53,6 @@ namespace HanGao.ViewModel
             ///通讯接收查找指令
             Static_KUKA_Receive_Find_String += (Calibration_Data_Receive _S, string _RStr) =>
             {
-
-
-
 
 
                 DateTime _Run = DateTime.Now;
@@ -94,7 +95,9 @@ namespace HanGao.ViewModel
                         _Data_Xml.Find_Shape_Data.ShapeModel_Name = (ShapeModel_Name_Enum)Enum.Parse(typeof(ShapeModel_Name_Enum), _S.Find_Model.Vision_Area);
 
 
-                        Messenger.Send<Vision_Xml_Models, string>(_Data_Xml, nameof(Meg_Value_Eunm.Vision_Data_Xml_List));
+                        //UI界面显示发送参数号 
+                        Messenger.Send<object, string>(Vision_Sink.Sink_Process.Vision_Find_ID, nameof(Meg_Value_Eunm.UI_Find_Data_Number));
+                        //Messenger.Send<object , string>(Vision_Sink.Sink_Process.Vision_Find_ID, nameof(Meg_Value_Eunm.Vision_Data_Xml_List));
 
 
                         //读取模型文件
@@ -280,21 +283,12 @@ namespace HanGao.ViewModel
         }
 
 
-        private static int _Camera_Data_ID_UI { get; set; } = -1;
+  
+
         /// <summary>
-        /// 当前相机参数号数
+        /// 当前视觉参数号数
         /// </summary>
-        public static int Camera_Data_ID_UI
-        {
-            get { return _Camera_Data_ID_UI; }
-            set
-            {
-                _Camera_Data_ID_UI = value;
-                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Camera_Data_ID_UI)));
-            }
-        }
-
-
+        public int Vision_Data_ID_UI { set; get; }
 
         //public static ObservableCollection<Shape_File_UI_Model> _Shape_File_UI_List = new ObservableCollection<Shape_File_UI_Model>();
         ///// <summary>

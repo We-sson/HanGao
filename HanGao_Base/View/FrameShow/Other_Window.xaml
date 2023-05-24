@@ -11,23 +11,25 @@
              DataContext="{Binding Source={StaticResource Locator}, Path=Other_Window_VM}"
              RenderOptions.BitmapScalingMode="HighQuality"
              mc:Ignorable="d">
-    <i:Interaction.Triggers>
+    <!--<i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding Loaded_RunApp_Command}"
                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                    PassEventArgsToCommand="True" />
         </i:EventTrigger>
-    </i:Interaction.Triggers>
+    </i:Interaction.Triggers>-->
     <Grid x:Name="G_Window"
           Background="Transparent"
           ShowGridLines="True">
-        <WindowsFormsHost x:Name="OutWindow"
+        <!--<WindowsFormsHost x:Name="OutWindow"
                           Margin="10"
                           Background="Transparent"
                           RenderOptions.BitmapScalingMode="Unspecified">
-            <!--<wf:Panel x:Name="Window" />-->
+        -->
+        <!--<wf:Panel x:Name="Window" />-->
+        <!--
             <wf:Control x:Name="Window" />
-        </WindowsFormsHost>
+        </WindowsFormsHost>-->
 
         <TextBlock Text="其他页面" FontSize="30" />
 

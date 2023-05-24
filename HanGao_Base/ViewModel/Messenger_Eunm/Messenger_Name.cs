@@ -300,8 +300,12 @@ namespace HanGao.ViewModel.Messenger_Eunm
             /// <summary>
             /// 界面UI更新机器人状态
             /// </summary>
-            UI_Robot_Status
+            UI_Robot_Status,
 
+            /// <summary>
+            /// 视觉查找数据页面UI序号
+            /// </summary>
+                UI_Find_Data_Number
 
 
         }

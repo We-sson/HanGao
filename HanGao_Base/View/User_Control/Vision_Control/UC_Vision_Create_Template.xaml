@@ -2342,7 +2342,7 @@
                         <Style BasedOn="{StaticResource Vision_Fence_Expander_Style}" TargetType="{x:Type Expander}">
 
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Camera_Data_ID_UI}" Value="-1">
+                                <DataTrigger Binding="{Binding Vision_Data_ID_UI}" Value="-1">
                                     <Setter Property="IsEnabled" Value="False" />
                                 </DataTrigger>
                             </Style.Triggers>
@@ -2384,7 +2384,7 @@
                                                FontSize="16"
                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                 </StackPanel>
-                                <TextBlock Text="{Binding Camera_Data_ID_UI, StringFormat=参数序号 : \{0\}}"
+                                <TextBlock Text="{Binding Vision_Data_ID_UI, StringFormat=参数序号 : \{0\}}"
                                            Margin="0,0,10,0"
                                            HorizontalAlignment="Right"
                                            VerticalAlignment="Center"
@@ -2394,7 +2394,7 @@
                                         <Style TargetType="{x:Type TextBlock}">
                                             <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_白颜色}" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Camera_Data_ID_UI}" Value="-1">
+                                                <DataTrigger Binding="{Binding Vision_Data_ID_UI}" Value="-1">
                                                     <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_黄颜色}" />
                                                 </DataTrigger>
                                             </Style.Triggers>

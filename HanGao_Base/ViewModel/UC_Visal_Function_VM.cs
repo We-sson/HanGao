@@ -5,6 +5,7 @@ using HanGao.Xml_Date.Vision_XML.Vision_Model;
 using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows.Media.Media3D;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
@@ -46,7 +47,14 @@ namespace HanGao.ViewModel
 
             });
 
+            //接收其他地方传送数据
+            Messenger.Register<object, string>(this, nameof(Meg_Value_Eunm.UI_Find_Data_Number), (O, _S) =>
+            {
 
+                UI_Find_Data_Number = (int)_S;
+
+
+            });
 
 
             //操作结果显示UI 
@@ -189,6 +197,25 @@ namespace HanGao.ViewModel
         }
 
 
+        private int _UI_Find_Data_Number = 0;
+
+        /// <summary>
+        /// 视觉查找参数序号
+        /// </summary>
+        public int UI_Find_Data_Number
+        {
+            get => _UI_Find_Data_Number;
+            set
+            {
+
+                //_UI_Find_Data_Number = value;
+                SetProperty(ref _UI_Find_Data_Number, value);
+                Messenger.Send<object, string>(value, nameof(Meg_Value_Eunm.Vision_Data_Xml_List));
+
+
+
+            }
+        }
 
 
 
@@ -363,20 +390,20 @@ namespace HanGao.ViewModel
         public static Task<TResult> WaitAsync<TResult>(Task<TResult> task, int timeout)
         {
 
-         
+
 
             task.Start();
 
-            if ( task.Wait(timeout) == true)
+            if (task.Wait(timeout) == true)
             {
                 //指定时间内完成的处理
-                return  task;
+                return task;
             }
             else
             {
                 //超时处理
-             
-       
+
+
                 task.Dispose();
 
                 return default;
@@ -432,7 +459,7 @@ namespace HanGao.ViewModel
             {
 
                 MenuItem _E = Sm.Source as MenuItem;
-           
+
 
 
                 HObject _Cir = new HObject();
@@ -446,10 +473,10 @@ namespace HanGao.ViewModel
 
                     //显示UI
                     User_Drawing_Data.User_XLD = _Cir;
-   
+
                     User_Drawing_Data.Drawing_Type = Drawing_Type_Enme.Draw_Cir;
                     //添加显示集合
-      
+
                     Drawing_Data_List.Add(User_Drawing_Data);
 
                     //情况之前的数据
@@ -474,7 +501,7 @@ namespace HanGao.ViewModel
                 MenuItem _E = Sm.Source as MenuItem;
 
                 HObject _Lin = new HObject();
-     
+
 
 
                 //拟合直线
@@ -487,7 +514,7 @@ namespace HanGao.ViewModel
                     User_Drawing_Data.User_XLD = _Lin;
                     User_Drawing_Data.Drawing_Type = Drawing_Type_Enme.Draw_Lin;
                     //添加显示集合
-               
+
                     Drawing_Data_List.Add(User_Drawing_Data);
 
                     //情况之前的数据
@@ -624,7 +651,7 @@ namespace HanGao.ViewModel
                 {
 
                     Find_Data_List.Vision_List.OrderByDescending(_De => _De.ID);
-                    Find_Data_List.Vision_List.Add(new Vision_Xml_Models() { ID = _ID_Number.ToString(), Date_Last_Revise = DateTime.Now.ToString() });
+                    Find_Data_List.Vision_List.Add(new Vision_Xml_Models() { ID = _ID_Number.ToString() });
                     User_Log_Add("参数" + _ID_Number + "号是参数已新建！");
                 }
                 else

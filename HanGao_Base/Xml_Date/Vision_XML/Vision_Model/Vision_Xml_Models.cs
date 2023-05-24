@@ -24,7 +24,7 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
         public string  ID { set; get; } = "0";
 
         [XmlAttribute("Date_Revise")]
-        public string Date_Last_Revise { get; set; }
+        public string Date_Last_Revise { get; set; } = DateTime.Now.ToString();
 
 
 
