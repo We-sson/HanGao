@@ -12,17 +12,17 @@
     <ROW Property="ProductCode" Value="1033:{938A171F-1526-4F57-BBD8-9C7CB37E4746} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="HanGao_[|ProductVersion]"/>
-    <ROW Property="ProductVersion" Value="1.0.8540.24966" Type="32" TargetFile="HanGao.exe"/>
+    <ROW Property="ProductVersion" Value="1.0.8544.28089" Type="32" TargetFile="HanGao.exe"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{1BF847BB-6B9E-48B2-9971-A3E9C586A146}"/>
-    <ROW Property="WindowsType9X" MultiBuildValue="x64_Release:Windows 9x/ME" ValueLocId="-"/>
-    <ROW Property="WindowsType9XDisplay" MultiBuildValue="x64_Release:Windows 9x/ME" ValueLocId="-"/>
-    <ROW Property="WindowsTypeNT40" MultiBuildValue="x64_Release:Windows NT 4.0" ValueLocId="-"/>
-    <ROW Property="WindowsTypeNT40Display" MultiBuildValue="x64_Release:Windows NT 4.0" ValueLocId="-"/>
-    <ROW Property="WindowsTypeNT50" MultiBuildValue="x64_Release:Windows 2000" ValueLocId="-"/>
-    <ROW Property="WindowsTypeNT50Display" MultiBuildValue="x64_Release:Windows 2000" ValueLocId="-"/>
-    <ROW Property="WindowsTypeNT5X" MultiBuildValue="x64_Release:Windows XP/2003" ValueLocId="-"/>
-    <ROW Property="WindowsTypeNT5XDisplay" MultiBuildValue="x64_Release:Windows XP/2003" ValueLocId="-"/>
+    <ROW Property="WindowsType9X" MultiBuildValue="x64_Release_1:Windows 9x/ME" ValueLocId="-"/>
+    <ROW Property="WindowsType9XDisplay" MultiBuildValue="x64_Release_1:Windows 9x/ME" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT40" MultiBuildValue="x64_Release_1:Windows NT 4.0" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT40Display" MultiBuildValue="x64_Release_1:Windows NT 4.0" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT50" MultiBuildValue="x64_Release_1:Windows 2000" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT50Display" MultiBuildValue="x64_Release_1:Windows 2000" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT5X" MultiBuildValue="x64_Release_1:Windows XP/2003" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT5XDisplay" MultiBuildValue="x64_Release_1:Windows XP/2003" ValueLocId="-"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiDirsComponent">
     <ROW Directory="APPDIR" Directory_Parent="TARGETDIR" DefaultDir="APPDIR:." IsPseudoRoot="1"/>
@@ -205,7 +205,9 @@
     <ROW Component="System.Xml.XmlSerializer.dll" ComponentId="{468E6829-855A-4872-B57D-03A37560B778}" Directory_="APPDIR" Attributes="0" KeyPath="System.Xml.XmlSerializer.dll"/>
     <ROW Component="System.Xml.dll" ComponentId="{1515B771-D869-4950-97E4-60F47A1F6821}" Directory_="APPDIR" Attributes="0" KeyPath="System.Xml.dll"/>
     <ROW Component="System.dll" ComponentId="{32E4A27A-9839-49DC-86BD-8B4A70386DBE}" Directory_="APPDIR" Attributes="0" KeyPath="System.dll"/>
+    <ROW Component="UIAutomationProvider.dll" ComponentId="{007D315A-232D-4C38-ADB4-21EB72D93AE9}" Directory_="APPDIR" Attributes="0" KeyPath="UIAutomationProvider.dll"/>
     <ROW Component="WindowsBase.dll" ComponentId="{4E2C260A-2466-44CF-B02E-77E54DD3DDD8}" Directory_="APPDIR" Attributes="0" KeyPath="WindowsBase.dll"/>
+    <ROW Component="WindowsFormsIntegration.dll" ComponentId="{848E3398-2317-456C-B5AC-7D993670ABD1}" Directory_="APPDIR" Attributes="0" KeyPath="WindowsFormsIntegration.dll"/>
     <ROW Component="XML_ReadWrite.pdb" ComponentId="{56BA17F3-7234-48D2-9B88-FFC4C2016BF6}" Directory_="APPDIR" Attributes="0" KeyPath="XML_ReadWrite.dll"/>
     <ROW Component="XamlFlair.WPF.dll" ComponentId="{4B2C237B-A20D-4D66-9143-C45D26F1DA11}" Directory_="APPDIR" Attributes="0" KeyPath="XamlFlair.WPF.dll"/>
     <ROW Component="halcon.dll" ComponentId="{D32782BC-5C83-4BAD-94D2-2639D180C277}" Directory_="APPDIR" Attributes="256" KeyPath="halcon.dll"/>
@@ -235,7 +237,7 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFilesComponent">
     <ROW File="HanGao.exe" Component_="HanGao.exe" FileName="HanGao.exe" Attributes="0" SourcePath="C:\Users\H\source\repos\HanGao\HanGao_Base\bin\x64\Release\HanGao.exe" SelfReg="false" DigSign="true"/>
-    <ROW File="System.Globalization.Calendars.dll" Component_="System.Globalization.Calendars.dll" FileName="SYSTEM~1.DLL|System.Globalization.Calendars.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\System.Globalization.Calendars.dll" SelfReg="false" MultiBuildNextFile="x64_Release:KUKA_Socket.dll"/>
+    <ROW File="System.Globalization.Calendars.dll" Component_="System.Globalization.Calendars.dll" FileName="SYSTEM~1.DLL|System.Globalization.Calendars.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\System.Globalization.Calendars.dll" SelfReg="false"/>
     <ROW File="KUKA_Socket.dll" Component_="KUKA_Socket.dll" FileName="KUKA_S~1.DLL|KUKA_Socket.dll" Attributes="0" SourcePath="C:\Users\H\source\repos\HanGao\KUKA_Socket\bin\Release\KUKA_Socket.dll" SelfReg="false"/>
     <ROW File="hdevenginecpp.dll" Component_="hdevenginecpp.dll" FileName="HDEVEN~1.DLL|hdevenginecpp.dll" Attributes="0" SourcePath="C:\Users\H\source\repos\HanGao\Halcon_SDK\bin\Release\hdevenginecpp.dll" SelfReg="false"/>
     <ROW File="Generic_Extension.dll" Component_="Generic_Extension.dll" FileName="GENERI~1.DLL|Generic_Extension.dll" Attributes="0" SourcePath="C:\Users\H\source\repos\HanGao\Generic_Extension\bin\Release\Generic_Extension.dll" SelfReg="false"/>
@@ -284,7 +286,7 @@
     <ROW File="System.Windows.Interactivity.resources.dll" Component_="System.Windows.Interactivity.resources.dll" FileName="SYSTE~22.DLL|System.Windows.Interactivity.resources.dll" Attributes="0" SourcePath="C:\Users\H\.nuget\packages\expression.blend.sdk.wpf\1.0.1\lib\net45\zh-Hant\System.Windows.Interactivity.resources.dll" SelfReg="false"/>
     <ROW File="System.Net.Primitives.dll" Component_="System.Net.Primitives.dll" FileName="SYSTE~23.DLL|System.Net.Primitives.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\System.Net.Primitives.dll" SelfReg="false"/>
     <ROW File="System.Drawing.dll" Component_="System.Drawing.dll" FileName="SYSTE~24.DLL|System.Drawing.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Drawing.dll" SelfReg="false"/>
-    <ROW File="libHarfBuzzSharp.dll" Component_="libHarfBuzzSharp.dll" FileName="LIBHAR~1.DLL|libHarfBuzzSharp.dll" Attributes="0" SourcePath="C:\Users\H\source\repos\HanGao\HanGao_Base\bin\x64\Release\x64\libHarfBuzzSharp.dll" SelfReg="false"/>
+    <ROW File="libHarfBuzzSharp.dll" Component_="libHarfBuzzSharp.dll" FileName="LIBHAR~1.DLL|libHarfBuzzSharp.dll" Attributes="0" SourcePath="C:\Users\H\source\repos\HanGao\HanGao_Base\bin\x64\Debug\x64\libHarfBuzzSharp.dll" SelfReg="false"/>
     <ROW File="System.IO.FileSystem.Watcher.dll" Component_="System.IO.FileSystem.Watcher.dll" FileName="SYSTE~25.DLL|System.IO.FileSystem.Watcher.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\System.IO.FileSystem.Watcher.dll" SelfReg="false"/>
     <ROW File="System.Data.dll" Component_="System.Data.dll" FileName="SYSTE~26.DLL|System.Data.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Data.dll" SelfReg="false"/>
     <ROW File="System.Design.dll" Component_="System.Design.dll" FileName="SYSTE~27.DLL|System.Design.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Design.dll" SelfReg="false"/>
@@ -436,12 +438,14 @@
     <ROW File="ClassLibrary.pdb" Component_="ClassLibrary.dll" FileName="CLASSL~1.PDB|ClassLibrary.pdb" Attributes="0" SourcePath="C:\Users\H\source\repos\HanGao\MVS_SDK\bin\Release\ClassLibrary.pdb" SelfReg="false"/>
     <ROW File="Enum_Extension.pdb" Component_="Enum_Extension.dll" FileName="ENUM_E~1.PDB|Enum_Extension.pdb" Attributes="0" SourcePath="C:\Users\H\source\repos\HanGao\Enum_Extension\bin\Release\Enum_Extension.pdb" SelfReg="false"/>
     <ROW File="Generic_Extension.pdb" Component_="Generic_Extension.dll" FileName="GENERI~1.PDB|Generic_Extension.pdb" Attributes="0" SourcePath="C:\Users\H\source\repos\HanGao\Generic_Extension\bin\Release\Generic_Extension.pdb" SelfReg="false"/>
+    <ROW File="WindowsFormsIntegration.dll" Component_="WindowsFormsIntegration.dll" FileName="WINDOW~2.DLL|WindowsFormsIntegration.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\WindowsFormsIntegration.dll" SelfReg="false"/>
+    <ROW File="UIAutomationProvider.dll" Component_="UIAutomationProvider.dll" FileName="UIAUTO~1.DLL|UIAutomationProvider.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\UIAutomationProvider.dll" SelfReg="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BootstrOptComponent">
     <ROW BootstrOptKey="GlobalOptions" DownloadFolder="[AppDataFolder][|Manufacturer]\[|ProductName]\prerequisites" Options="2"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
-    <ROW BuildKey="x64_Release" BuildName="x64_Release" BuildOrder="1" BuildType="0" PackageFolder="x64_ReleaseSetupFiles" PackageFileName="HanGao_[|ProductVersion]" Languages="en" InstallationType="1" CabsLocation="1" FirstMediaSize="50" FirstMediaSizeUnit="2" MediaSize="50" MediaSizeUnit="2" DiskLabelTemplate="Disk#" UseLargeSchema="true"/>
+    <ROW BuildKey="x64_Release_1" BuildName="x64_Release_1" BuildOrder="1" BuildType="0" PackageFolder="x64_Release_1SetupFiles" PackageFileName="HanGao_[|ProductVersion]" Languages="en" InstallationType="1" CabsLocation="1" FirstMediaSize="50" FirstMediaSizeUnit="2" MediaSize="50" MediaSizeUnit="2" DiskLabelTemplate="Disk#" UseLargeSchema="true"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
     <ROW Path="&lt;AI_DICTS&gt;ui.ail"/>
@@ -719,6 +723,8 @@
     <ROW Feature_="MainFeature" Component_="hdevenginecppxl.dll"/>
     <ROW Feature_="MainFeature" Component_="libiomp5md.dll"/>
     <ROW Feature_="MainFeature" Component_="SHORTCUTDIR"/>
+    <ROW Feature_="MainFeature" Component_="WindowsFormsIntegration.dll"/>
+    <ROW Feature_="MainFeature" Component_="UIAutomationProvider.dll"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiIconsComponent">
     <ROW Name="_.exe" SourcePath="C:\Users\H\source\repos\HanGao\HanGao_Base\Resources\软件图标.ico" Index="0"/>
@@ -743,18 +749,18 @@
     <ROW Action="AI_RESTORE_AI_SETUPEXEPATH" Condition="AI_SETUPEXEPATH_ORIGINAL" Sequence="101"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiLaunchConditionsComponent">
-    <ROW Condition="((VersionNT &lt;&gt; 501) AND (VersionNT &lt;&gt; 502))" Description="[ProductName] cannot be installed on [WindowsTypeNT5XDisplay]." DescriptionLocId="AI.LaunchCondition.NoNT5X" IsPredefined="true" Builds="x64_Release"/>
-    <ROW Condition="(VersionNT &lt;&gt; 400)" Description="[ProductName] cannot be installed on [WindowsTypeNT40Display]." DescriptionLocId="AI.LaunchCondition.NoNT40" IsPredefined="true" Builds="x64_Release"/>
-    <ROW Condition="(VersionNT &lt;&gt; 500)" Description="[ProductName] cannot be installed on [WindowsTypeNT50Display]." DescriptionLocId="AI.LaunchCondition.NoNT50" IsPredefined="true" Builds="x64_Release"/>
-    <ROW Condition="VersionNT" Description="[ProductName] cannot be installed on [WindowsType9XDisplay]." DescriptionLocId="AI.LaunchCondition.No9X" IsPredefined="true" Builds="x64_Release"/>
+    <ROW Condition="((VersionNT &lt;&gt; 501) AND (VersionNT &lt;&gt; 502))" Description="[ProductName] cannot be installed on [WindowsTypeNT5XDisplay]." DescriptionLocId="AI.LaunchCondition.NoNT5X" IsPredefined="true" Builds="x64_Release_1"/>
+    <ROW Condition="(VersionNT &lt;&gt; 400)" Description="[ProductName] cannot be installed on [WindowsTypeNT40Display]." DescriptionLocId="AI.LaunchCondition.NoNT40" IsPredefined="true" Builds="x64_Release_1"/>
+    <ROW Condition="(VersionNT &lt;&gt; 500)" Description="[ProductName] cannot be installed on [WindowsTypeNT50Display]." DescriptionLocId="AI.LaunchCondition.NoNT50" IsPredefined="true" Builds="x64_Release_1"/>
+    <ROW Condition="VersionNT" Description="[ProductName] cannot be installed on [WindowsType9XDisplay]." DescriptionLocId="AI.LaunchCondition.No9X" IsPredefined="true" Builds="x64_Release_1"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiRegsComponent">
     <ROW Registry="Path" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="Path" Value="[APPDIR]" Component_="ProductInformation"/>
     <ROW Registry="Version" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="Version" Value="[ProductVersion]" Component_="ProductInformation"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiShortsComponent">
-    <ROW Shortcut="HanGao_ProductVersion.exe" Directory_="SHORTCUTDIR" Name="HANGAO~1.EXE|HanGao_[|ProductVersion].exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao_[|ProductVersion].exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
     <ROW Shortcut="HanGao_ProductVersion.exe_1" Directory_="DesktopFolder" Name="HANGAO~1.EXE|HanGao_[|ProductVersion].exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao_[|ProductVersion].exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="HanGao_ProductVersion.exe_2" Directory_="SHORTCUTDIR" Name="HANGAO~2.EXE|HanGao_[|ProductVersion].exe" Component_="HanGao.exe" Target="[#HanGao.exe]" Description="HanGao_[|ProductVersion].exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiThemeComponent">
     <ATTRIBUTE name="UsedTheme" value="classic"/>
