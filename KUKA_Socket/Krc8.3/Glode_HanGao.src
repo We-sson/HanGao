@@ -1,14 +1,11 @@
-&ACCESS RVO3
-&REL 306
+&ACCESS RVO1
+&REL 360
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
 DEF Glode_HanGao( )
 
 ;# DATE:2021-1-4
-
-
-
 
 END
 
@@ -1170,7 +1167,7 @@ endswitch
 
 END
 
-GLOBAL DEF HanGao_Camera_Sink_Pos( Calibration_POS:IN,Calibration:IN,Work_Camera:IN)
+GLOBAL DEF HanGao_Camera_Sink_Pos( Calibration_POS:out,Calibration:IN,Work_Camera:IN)
 DECL INT Calibration,Work_Camera
 DECL BOOL User_Revise
 DECL CHAR Meg_Str[1024]

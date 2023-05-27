@@ -1,9 +1,8 @@
 &ACCESS RVP
-&REL 685
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
-DEF A_952154( )
+DEF Cablib_Work_2( )
 ;FOLD INI;%{PE}
   ;FOLD BASISTECH INI
     GLOBAL INTERRUPT DECL 3 WHEN $STOPMESS==TRUE DO IR_STOPM ( )
@@ -62,12 +61,16 @@ HanGao_Calibration_Point(Xp13,2)
 
 
 ;ENDFOLD
-;FOLD LIN P13 CONT Vel=.1 m/s CPDAT11 Tool[2]:Work_Tool Base[2]:B_2;%{PE}%R 8.3.48,%MKUKATPBASIS,%CMOVE,%VLIN,%P 1:LIN, 2:P13, 3:C_DIS C_DIS, 5:.1, 7:CPDAT11
-$BWDSTART=FALSE
-LDAT_ACT=LCPDAT11
-FDAT_ACT=FP13
-BAS(#CP_PARAMS,.1)
-LIN XP13 C_DIS C_DIS
+;FOLD LIN P13 Vel=0.1 m/s CPDAT11 Tool[2]:Work_Tool Base[2]:Work_2 ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=P13; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT11; Kuka.VelocityPath=0.1; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
+;ENDFOLD
+$BWDSTART = FALSE
+LDAT_ACT = LCPDAT11
+FDAT_ACT = FP13
+BAS(#CP_PARAMS, 0.1)
+SET_CD_PARAMS (0)
+LIN XP13
 ;ENDFOLD
 
 ;FOLD Vision.Calibration_Point Calib_NAME :p14, Calib_NO:3;%{PE}%MKUKATPUSER

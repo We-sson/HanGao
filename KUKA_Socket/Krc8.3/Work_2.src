@@ -1,5 +1,5 @@
-&ACCESS RVP
-&REL 398
+&ACCESS RVO1
+&REL 406
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
@@ -44,14 +44,14 @@ PTP XSurround_Home
 
 
 ;ENDFOLD
-;FOLD LIN p2 Vel=0.3 m/s CPDAT1 Tool[2]:Work_Tool Base[2]:Work_2 ;%{PE}
+;FOLD LIN p2 Vel=0.5 m/s CPDAT1 Tool[2]:Work_Tool Base[2]:Work_2 ;%{PE}
 ;FOLD Parameters ;%{h}
-;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=p2; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=0.3; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=p2; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
 ;ENDFOLD
 $BWDSTART = FALSE
 LDAT_ACT = LCPDAT1
 FDAT_ACT = Fp2
-BAS(#CP_PARAMS, 0.3)
+BAS(#CP_PARAMS, 0.5)
 SET_CD_PARAMS (0)
 LIN Xp2
 ;ENDFOLD
@@ -75,14 +75,14 @@ EKRL_Find_Model_Send("Xml_Vision_Model",2,1)
 
 
 ;ENDFOLD
-;FOLD LIN p3 Vel=0.3 m/s CPDAT2 Tool[2]:Work_Tool Base[2]:Work_2 ;%{PE}
+;FOLD LIN p3 Vel=0.5 m/s CPDAT2 Tool[2]:Work_Tool Base[2]:Work_2 ;%{PE}
 ;FOLD Parameters ;%{h}
-;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=p3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=0.3; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=p3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
 ;ENDFOLD
 $BWDSTART = FALSE
 LDAT_ACT = LCPDAT2
 FDAT_ACT = Fp3
-BAS(#CP_PARAMS, 0.3)
+BAS(#CP_PARAMS, 0.5)
 SET_CD_PARAMS (0)
 LIN Xp3
 ;ENDFOLD
@@ -106,14 +106,14 @@ EKRL_Find_Model_Send("Xml_Vision_Model",2,2)
 
 
 ;ENDFOLD
-;FOLD LIN p4 Vel=0.3 m/s CPDAT3 Tool[2]:Work_Tool Base[2]:Work_2 ;%{PE}
+;FOLD LIN p4 Vel=0.5 m/s CPDAT3 Tool[2]:Work_Tool Base[2]:Work_2 ;%{PE}
 ;FOLD Parameters ;%{h}
-;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=p4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT3; Kuka.VelocityPath=0.3; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=p4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT3; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
 ;ENDFOLD
 $BWDSTART = FALSE
 LDAT_ACT = LCPDAT3
 FDAT_ACT = Fp4
-BAS(#CP_PARAMS, 0.3)
+BAS(#CP_PARAMS, 0.5)
 SET_CD_PARAMS (0)
 LIN Xp4
 ;ENDFOLD
@@ -137,14 +137,14 @@ EKRL_Find_Model_Send("Xml_Vision_Model",2,3)
 
 
 ;ENDFOLD
-;FOLD LIN p5 Vel=0.3 m/s CPDAT4 Tool[2]:Work_Tool Base[2]:Work_2 ;%{PE}
+;FOLD LIN p5 Vel=0.5 m/s CPDAT4 Tool[2]:Work_Tool Base[2]:Work_2 ;%{PE}
 ;FOLD Parameters ;%{h}
-;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=p5; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT4; Kuka.VelocityPath=0.3; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=p5; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT4; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
 ;ENDFOLD
 $BWDSTART = FALSE
 LDAT_ACT = LCPDAT4
 FDAT_ACT = Fp5
-BAS(#CP_PARAMS, 0.3)
+BAS(#CP_PARAMS, 0.5)
 SET_CD_PARAMS (0)
 LIN Xp5
 ;ENDFOLD
@@ -488,10 +488,10 @@ LDAT_ACT=LL0_L3
 BAS(#CP_PARAMS,L0_Welding_Craft[2,3].Welding_Speed )
 LIN POL0_S3 C_DIS C_DIS
 ;ENDFOLD
-;FOLD Surround_LIN.S_LIN Point: L0_S4, Vel= 0.025 m/s, Point: 95 %, Area: LO, LDAT: L0_L4, OFFSET_NO: 4, Work: N_2 ;%{PE}
-; LIN L0_S4POS: X=376.324677, Y=62.0253296, Z=1.00000, A=0.0, B=20.0000, C=0.0
-; LIN Offset POS:X=-0.500000, Y=0.0, Z=0.0
-HanGao_Surr_Calculate( 95, #L0, #L_LIN_POS , POL0_S4, , , L0_Welding_Craft[2,4].Welding_Offset  , , 4, 2 )
+;FOLD Surround_LIN.S_LIN Point: L0_S4, Vel= 0.04 m/s, Point: 100 %, Area: LO, LDAT: L0_L4, OFFSET_NO: 4, Work: N_2 ;%{PE}
+; LIN L0_S4POS: X=375.599823, Y=62.1482544, Z=2.50000, A=0.0, B=20.0000, C=0.0
+; LIN Offset POS:X=-0.200000, Y=0.0, Z=1.00000
+HanGao_Surr_Calculate( 100, #L0, #L_LIN_POS , POL0_S4, , , L0_Welding_Craft[2,4].Welding_Offset  , , 4, 2 )
 
 HanGao_DAT_ACT(L0_Welding_Craft[2,4],LL0_L4)
 
