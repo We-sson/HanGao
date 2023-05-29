@@ -16,12 +16,9 @@
              d:DesignWidth="1440"
              DataContext="{Binding UC_Visal_Function_VM, Source={StaticResource Locator}}"
              mc:Ignorable="d">
-
     <UserControl.Resources>
-
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <Enum:Halcon_EnumConverter x:Key="EnumConverter" />
-
         <DataTemplate x:Key="Result_ListViewItemTemplate">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="{Binding}"
@@ -30,49 +27,34 @@
                            FontFamily="{DynamicResource 全局_文字_英文字体}"
                            FontSize="12"
                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
-
             </StackPanel>
         </DataTemplate>
-
-
-
-
     </UserControl.Resources>
-
-
-
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
-
         <Grid Grid.Column=" 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition MaxHeight="300" />
             </Grid.RowDefinitions>
-
             <Grid Grid.Row="0" Grid.Column=" 0"
                   Grid.ColumnSpan=" 2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="70" />
-
                 </Grid.ColumnDefinitions>
-
                 <Grid Grid.Column=" 0" Margin="6,6,3,3">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="40" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-
                     <Grid Grid.Row=" 0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto" />
@@ -83,7 +65,6 @@
                                 Grid.ColumnSpan=" 5"
                                 Background="{DynamicResource 全局_按钮_黄颜色}"
                                 CornerRadius="5 5 0 0" />
-
                         <!--  图像窗口按钮  -->
                         <Grid Grid.Column=" 0">
                             <Grid.ColumnDefinitions>
@@ -91,7 +72,6 @@
                                 <ColumnDefinition />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-
                             <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Live_Window_Button" Grid.Column=" 0"
                                          IsChecked="False"
                                          Margin="5"
@@ -113,11 +93,7 @@
                                                FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                FontSize="16" />
                                 </StackPanel>
-
-
-
                             </RadioButton>
-
                             <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Results_Window_Button" Grid.Column=" 1"
                                          IsChecked="False"
                                          Margin="5"
@@ -140,7 +116,6 @@
                                                FontSize="16" />
                                 </StackPanel>
                             </RadioButton>
-
                             <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Features_Window_Button" Grid.Column=" 2"
                                          IsChecked="True"
                                          Margin="5"
@@ -164,15 +139,12 @@
                                 </StackPanel>
                             </RadioButton>
                         </Grid>
-
-
                         <!--  图像功能按钮  -->
                         <Grid Grid.Column=" 1" HorizontalAlignment="Right">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-
                             <Menu Style="{DynamicResource Menu_Style}"
                                   Padding="4"
                                   VerticalAlignment="Center"
@@ -192,7 +164,6 @@
                                     <MenuItem.Icon>
                                         <Image Source="/Resources/Vision_下拉选择_ioc.png" />
                                     </MenuItem.Icon>
-
                                     <MenuItem>
                                         <MenuItem.Header>
                                             <TextBlock Text="图像功能"
@@ -217,7 +188,6 @@
                                                        FontSize="14" />
                                         </MenuItem.Header>
                                         <i:Interaction.Triggers>
-
                                             <i:EventTrigger EventName="Click">
                                                 <i:InvokeCommandAction Command="{Binding Camera_Info_Display_Comm}"
                                                                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
@@ -225,18 +195,11 @@
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </MenuItem>
-
                                 </MenuItem>
                             </Menu>
-
-
                             <StackPanel Margin="5"
                                         Orientation="Horizontal"
                                         Visibility="Collapsed">
-
-
-
-
                                 <Button Style="{DynamicResource Halcon_Window_Button}" Background="{DynamicResource 全局_背景_白颜色}">
                                     <StackPanel Margin="5"
                                                 HorizontalAlignment="Center"
@@ -254,7 +217,6 @@
                                                    FontSize="16" />-->
                                     </StackPanel>
                                     <!--<i:Interaction.Triggers>
-
                                         <i:EventTrigger EventName="Click">
                                             <i:InvokeCommandAction Command="{Binding Image_AutoSize_Comm}"
                                                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
@@ -262,11 +224,8 @@
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>-->
                                 </Button>
-
                             </StackPanel>
                         </Grid>
-
-
                         <!--  图像窗口信息  -->
                         <Grid Grid.Column=" 2">
                             <StackPanel Margin="5"
@@ -288,11 +247,6 @@
                             </StackPanel>
                         </Grid>
                     </Grid>
-
-
-
-
-
                     <Grid Grid.Row=" 1">
                         <Grid.Style>
                             <Style TargetType="Grid">
@@ -304,7 +258,6 @@
                                 </Style.Triggers>
                             </Style>
                         </Grid.Style>
-
                         <!--  窗口蒙版  -->
                         <Border x:Name="Mask"
                                 Background="{DynamicResource 全局_按钮_黑颜色}"
@@ -317,10 +270,6 @@
                                 <VisualBrush Visual="{Binding ElementName=Mask}" />
                             </ContentControl.OpacityMask>
                         </ContentControl>-->
-
-
-
-
                         <!--  相机图像  -->
                         <Halcon:HSmartWindowControlWPF x:Name="Live_Window"
                                                        HorizontalAlignment="Stretch"
@@ -329,34 +278,18 @@
                                                        VerticalContentAlignment="Center"
                                                        HDisableAutoResize="True"
                                                        SnapsToDevicePixels="True">
-
                             <i:Interaction.Triggers>
-
                                 <i:EventTrigger EventName="Loaded">
                                     <i:InvokeCommandAction Command="{Binding Loaded_Live_Camera_Comm}"
                                                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                            PassEventArgsToCommand="True" />
                                 </i:EventTrigger>
-
-
-
-
-
                             </i:Interaction.Triggers>
-
-
-
-
                             <Halcon:HSmartWindowControlWPF.OpacityMask>
                                 <VisualBrush Visual="{Binding ElementName=Mask}" />
                             </Halcon:HSmartWindowControlWPF.OpacityMask>
                         </Halcon:HSmartWindowControlWPF>
-
-
-
-
                     </Grid>
-
                     <Grid Grid.Row=" 1">
                         <Grid.Style>
                             <Style TargetType="Grid">
@@ -368,8 +301,6 @@
                                 </Style.Triggers>
                             </Style>
                         </Grid.Style>
-
-
                         <!--  结果窗口  -->
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
@@ -381,16 +312,10 @@
                             <RowDefinition Height="auto" />
                             <RowDefinition />
                         </Grid.RowDefinitions>
-
-
                         <Border Grid.Row=" 0" Grid.Column=" 0"
                                 Grid.RowSpan=" 3"
                                 Grid.ColumnSpan=" 3"
                                 Background="Transparent" />
-
-
-
-
                         <!--  Halcon 控件  -->
                         <Halcon:HSmartWindowControlWPF x:Name="Results_Window_1" Grid.Row=" 0" Grid.Column=" 0"
                                                        HorizontalAlignment="Stretch"
@@ -399,19 +324,13 @@
                                                        VerticalContentAlignment="Center"
                                                        SnapsToDevicePixels="True">
                             <i:Interaction.Triggers>
-
                                 <i:EventTrigger EventName="Loaded">
                                     <i:InvokeCommandAction Command="{Binding Loaded_Live_Camera_Comm}"
                                                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                            PassEventArgsToCommand="True" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
-
                         </Halcon:HSmartWindowControlWPF>
-
-
-
-
                         <Halcon:HSmartWindowControlWPF x:Name="Results_Window_2" Grid.Row=" 2" Grid.Column=" 0"
                                                        HorizontalAlignment="Stretch"
                                                        VerticalAlignment="Stretch"
@@ -419,7 +338,6 @@
                                                        VerticalContentAlignment="Center"
                                                        SnapsToDevicePixels="True">
                             <i:Interaction.Triggers>
-
                                 <i:EventTrigger EventName="Loaded">
                                     <i:InvokeCommandAction Command="{Binding Loaded_Live_Camera_Comm}"
                                                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
@@ -437,14 +355,12 @@
                                                        VerticalContentAlignment="Center"
                                                        SnapsToDevicePixels="True">
                             <i:Interaction.Triggers>
-
                                 <i:EventTrigger EventName="Loaded">
                                     <i:InvokeCommandAction Command="{Binding Loaded_Live_Camera_Comm}"
                                                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                            PassEventArgsToCommand="True" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
-
                         </Halcon:HSmartWindowControlWPF>
                         <Halcon:HSmartWindowControlWPF x:Name="Results_Window_3" Grid.Row=" 2" Grid.Column=" 2"
                                                        HorizontalAlignment="Stretch"
@@ -453,7 +369,6 @@
                                                        VerticalContentAlignment="Center"
                                                        SnapsToDevicePixels="True">
                             <i:Interaction.Triggers>
-
                                 <i:EventTrigger EventName="Loaded">
                                     <i:InvokeCommandAction Command="{Binding Loaded_Live_Camera_Comm}"
                                                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
@@ -464,11 +379,9 @@
                                 <VisualBrush Visual="{Binding ElementName=Mask1}" />
                             </Halcon:HSmartWindowControlWPF.OpacityMask>
                         </Halcon:HSmartWindowControlWPF>
-
                         <!--  图像坐标信息  -->
                         <Grid x:Name="G1" Grid.Row=" 0" Grid.Column=" 0"
                               VerticalAlignment="Bottom">
-
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="auto" />
@@ -484,8 +397,6 @@
                                             <DataTrigger Binding="{Binding IsMouseOver, ElementName=G1}" Value="true">
                                                 <Setter Property="Height" Value="150" />
                                             </DataTrigger>
-
-
                                         </Style.Triggers>
                                     </Style>
                                 </Border.Style>
@@ -493,7 +404,6 @@
                             <StackPanel Grid.Column=" 0"
                                         HorizontalAlignment="Left"
                                         Orientation="Horizontal">
-
                                 <ListView VerticalAlignment="Bottom"
                                           Background="Transparent"
                                           BorderBrush="Transparent"
@@ -502,9 +412,6 @@
                                           ItemTemplate="{DynamicResource Result_ListViewItemTemplate}"
                                           ItemsSource="{Binding Find_Results1_Window_Result.Text_Arr_UI}"
                                           ScrollViewer.VerticalScrollBarVisibility="Disabled">
-
-
-
                                     <ListView.Style>
                                         <Style TargetType="ListView">
                                             <Setter Property="Height" Value=" 24" />
@@ -516,7 +423,6 @@
                                         </Style>
                                     </ListView.Style>
                                 </ListView>
-
                             </StackPanel>
                             <Border Grid.Column=" 1"
                                     Height=" 25"
@@ -533,8 +439,6 @@
                                     </Style>
                                 </Border.Style>
                             </Border>
-
-
                             <StackPanel Grid.Column=" 1"
                                         Margin="5"
                                         HorizontalAlignment="Center"
@@ -562,7 +466,6 @@
                                 </TextBlock>
                             </StackPanel>
                         </Grid>
-
                         <Grid x:Name="G2" Grid.Row=" 0" Grid.Column=" 2"
                               VerticalAlignment="Bottom">
                             <Grid.ColumnDefinitions>
@@ -580,8 +483,6 @@
                                             <DataTrigger Binding="{Binding IsMouseOver, ElementName=G2}" Value="true">
                                                 <Setter Property="Height" Value="150" />
                                             </DataTrigger>
-
-
                                         </Style.Triggers>
                                     </Style>
                                 </Border.Style>
@@ -608,7 +509,6 @@
                                         </Style>
                                     </ListView.Style>
                                 </ListView>
-
                             </StackPanel>
                             <Border Grid.Column=" 1"
                                     Height=" 25"
@@ -624,7 +524,6 @@
                                         </Style.Triggers>
                                     </Style>
                                 </Border.Style>
-
                             </Border>
                             <StackPanel Grid.Column=" 1"
                                         Margin="5"
@@ -653,17 +552,12 @@
                                 </TextBlock>
                             </StackPanel>
                         </Grid>
-
-
-
-
                         <Grid x:Name="G3" Grid.Row=" 2" Grid.Column=" 0"
                               VerticalAlignment="Bottom">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="auto" />
                             </Grid.ColumnDefinitions>
-
                             <Border Grid.Column=" 0"
                                     VerticalAlignment="Bottom"
                                     Background="{DynamicResource 全局_按钮_黑颜色}"
@@ -676,13 +570,10 @@
                                             <DataTrigger Binding="{Binding IsMouseOver, ElementName=G3}" Value="true">
                                                 <Setter Property="Height" Value="150" />
                                             </DataTrigger>
-
-
                                         </Style.Triggers>
                                     </Style>
                                 </Border.Style>
                             </Border>
-
                             <StackPanel Grid.Column=" 0"
                                         HorizontalAlignment="Left"
                                         Orientation="Horizontal">
@@ -694,9 +585,6 @@
                                           ItemTemplate="{DynamicResource Result_ListViewItemTemplate}"
                                           ItemsSource="{Binding Find_Results2_Window_Result.Text_Arr_UI}"
                                           ScrollViewer.VerticalScrollBarVisibility="Disabled">
-
-
-
                                     <ListView.Style>
                                         <Style TargetType="ListView">
                                             <Setter Property="Height" Value=" 24" />
@@ -724,7 +612,6 @@
                                     </Style>
                                 </Border.Style>
                             </Border>
-
                             <StackPanel Grid.Column=" 1"
                                         Margin="5"
                                         HorizontalAlignment="Center"
@@ -752,13 +639,11 @@
                                 </TextBlock>
                             </StackPanel>
                         </Grid>
-
                         <Grid x:Name="G4" Grid.Row=" 2" Grid.Column=" 2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="auto" />
                             </Grid.ColumnDefinitions>
-
                             <Border Grid.Column=" 0"
                                     VerticalAlignment="Bottom"
                                     Background="{DynamicResource 全局_按钮_黑颜色}"
@@ -770,13 +655,10 @@
                                             <DataTrigger Binding="{Binding IsMouseOver, ElementName=G4}" Value="true">
                                                 <Setter Property="Height" Value="150" />
                                             </DataTrigger>
-
-
                                         </Style.Triggers>
                                     </Style>
                                 </Border.Style>
                             </Border>
-
                             <StackPanel Grid.Column=" 0"
                                         VerticalAlignment="Bottom"
                                         Orientation="Horizontal">
@@ -788,9 +670,6 @@
                                           ItemTemplate="{DynamicResource Result_ListViewItemTemplate}"
                                           ItemsSource="{Binding Find_Results3_Window_Result.Text_Arr_UI}"
                                           ScrollViewer.VerticalScrollBarVisibility="Disabled">
-
-
-
                                     <ListView.Style>
                                         <Style TargetType="ListView">
                                             <Setter Property="Height" Value=" 24" />
@@ -818,7 +697,6 @@
                                         </Style.Triggers>
                                     </Style>
                                 </Border.Style>
-
                             </Border>
                             <StackPanel Grid.Column=" 1"
                                         Margin="5"
@@ -847,11 +725,6 @@
                                 </TextBlock>
                             </StackPanel>
                         </Grid>
-
-
-
-
-
                         <!--  窗口分割条  -->
                         <Border Grid.Row=" 0" Grid.Column=" 1"
                                 Grid.RowSpan=" 3"
@@ -861,11 +734,7 @@
                                 Grid.ColumnSpan=" 3"
                                 Height=" 2"
                                 Background="{DynamicResource 全局_背景_白颜色}" />
-
-
-
                     </Grid>
-
                     <Grid Grid.Row=" 1">
                         <Grid.Style>
                             <Style TargetType="Grid">
@@ -877,11 +746,8 @@
                                 </Style.Triggers>
                             </Style>
                         </Grid.Style>
-
                         <!--  特征窗口  -->
-
                         <Border Background="Transparent" />
-
                         <Halcon:HSmartWindowControlWPF x:Name="Features_Window"
                                                        HorizontalAlignment="Stretch"
                                                        VerticalAlignment="Stretch"
@@ -890,7 +756,6 @@
                                                        SnapsToDevicePixels="True">
                             <Halcon:HSmartWindowControlWPF.ContextMenu>
                                 <ContextMenu>
-
                                     <MenuItem x:Name="Draw_Pos" Header="添加特征点">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Click">
@@ -900,7 +765,6 @@
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </MenuItem>
-
                                     <Separator />
                                     <MenuItem x:Name="Lin_Draw_Ok" Header="特征组合直线">
                                         <i:Interaction.Triggers>
@@ -920,37 +784,26 @@
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </MenuItem>
-
                                 </ContextMenu>
                             </Halcon:HSmartWindowControlWPF.ContextMenu>
-
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Loaded">
                                     <i:InvokeCommandAction Command="{Binding Loaded_Live_Camera_Comm}"
                                                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                            PassEventArgsToCommand="True" />
                                 </i:EventTrigger>
-
                                 <i:EventTrigger EventName="HMouseDown">
                                     <i:InvokeCommandAction Command="{Binding HMouseDown_Comm}"
                                                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                            PassEventArgsToCommand="True" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
-
-
-
-
-
                             <!--  //外观遮罩  -->
                             <Halcon:HSmartWindowControlWPF.OpacityMask>
                                 <VisualBrush Visual="{Binding ElementName=Mask}" />
                             </Halcon:HSmartWindowControlWPF.OpacityMask>
                         </Halcon:HSmartWindowControlWPF>
-
-
                         <Grid Grid.Row=" 2" Grid.Column=" 0">
-
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="auto" />
@@ -961,8 +814,6 @@
                                     Background="{DynamicResource 全局_按钮_黑颜色}"
                                     CornerRadius="0 0 0 10"
                                     Opacity=" 0.8">
-
-
                                 <StackPanel Grid.Column=" 0"
                                             Margin="10,0,0,0"
                                             HorizontalAlignment="Left"
@@ -979,8 +830,6 @@
                                                FontSize="12"
                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                 </StackPanel>
-
-
                             </Border>
                             <Border x:Name="G0" Grid.Column=" 1"
                                     MinWidth=" 200"
@@ -1001,10 +850,6 @@
                                         </Style.Triggers>
                                     </Style>
                                 </Border.Style>
-
-
-
-
                                 <ListView Grid.Column=" 1"
                                           VerticalAlignment="Bottom"
                                           Background="Transparent"
@@ -1014,9 +859,6 @@
                                           ItemTemplate="{DynamicResource Result_ListViewItemTemplate}"
                                           ItemsSource="{Binding Find_Features_Window_Result.Text_Arr_UI}"
                                           ScrollViewer.VerticalScrollBarVisibility="Disabled">
-
-
-
                                     <ListView.Style>
                                         <Style TargetType="ListView">
                                             <Setter Property="Height" Value=" 24" />
@@ -1029,15 +871,9 @@
                                     </ListView.Style>
                                 </ListView>
                             </Border>
-
-
                         </Grid>
                     </Grid>
-
-
-
                 </Grid>
-
                 <Grid Grid.Column=" 1" Margin="3,6,3,3">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />
@@ -1047,15 +883,11 @@
                         <RowDefinition Height="auto " />
                         <RowDefinition Height="auto " />
                     </Grid.RowDefinitions>
-
-
                     <Border Grid.Row=" 0"
                             Grid.RowSpan=" 8"
                             Background="{DynamicResource 全局_背景_白颜色}"
                             CornerRadius=" 5 "
                             Effect="{DynamicResource 全局背景阴影}" />
-
-
                     <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Row=" 0"
                             Height="50"
                             Margin="4"
@@ -1075,8 +907,6 @@
                                                        PassEventArgsToCommand="True" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
-
-
                     </Button>
                     <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Row=" 1"
                             Height="50"
@@ -1097,22 +927,13 @@
                                                        PassEventArgsToCommand="True" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
-
-
                     </Button>
-
-
                     <Border Grid.Row=" 2"
                             Height=" 2"
                             Margin="4,4,4,4"
                             Background="{DynamicResource 全局_按钮_黑颜色}"
                             CornerRadius="1"
                             Opacity=" 0.5" />
-
-
-
-
-
                     <ListBox Style="{DynamicResource Vision_Data_ListBoxStyle}" x:Name="Vision_List_UI" Grid.Row=" 3"
                              HorizontalContentAlignment="Center"
                              VerticalContentAlignment="Center"
@@ -1132,13 +953,8 @@
                                                        PassEventArgsToCommand="True" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>-->
-
-
                         <ListBox.ItemTemplate>
-
                             <DataTemplate>
-
-
                                 <Border Width=" 50"
                                         Height=" 45"
                                         CornerRadius="5">
@@ -1158,25 +974,15 @@
                                                FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                FontSize="22" />
                                 </Border>
-
-
-
-
                             </DataTemplate>
                         </ListBox.ItemTemplate>
-
-
-
                     </ListBox>
-
                     <Border Grid.Row=" 4"
                             Height=" 2"
                             Margin="4,4,4,4"
                             Background="{DynamicResource 全局_按钮_黑颜色}"
                             CornerRadius="1"
                             Opacity=" 0.5" />
-
-
                     <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Row=" 5"
                             Height="50"
                             Margin="4"
@@ -1195,26 +1001,14 @@
                                                        PassEventArgsToCommand="False" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
-
-
                     </Button>
-
-
-
                 </Grid>
-
-
-
-
-
             </Grid>
-
             <Grid Grid.Row=" 1" Grid.Column=" 1"
                   Margin="3,3,3,6">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="auto" />
-
                 </Grid.ColumnDefinitions>
                 <UC_Working:User_Control_Log Grid.Column="0" />
                 <Border Grid.Column=" 1"
@@ -1223,8 +1017,6 @@
                         Background="{DynamicResource 全局_背景_白颜色}"
                         CornerRadius=" 5"
                         Effect="{DynamicResource 全局背景阴影}">
-
-
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition />
@@ -1232,11 +1024,7 @@
                             <RowDefinition />
                             <RowDefinition />
                             <RowDefinition />
-
                         </Grid.RowDefinitions>
-
-
-
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Camera_Settings" Grid.Row=" 0"
                                      IsChecked="False"
                                      Margin="4"
@@ -1249,9 +1037,6 @@
                                       HorizontalContentAlignment="Stretch"
                                       VerticalContentAlignment="Stretch"
                                       Background="Transparent">
-
-
-
                                 <!--<TextBlock Text="相机设置"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
@@ -1261,10 +1046,8 @@
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Source="/Resources/Control_相机设置_ioc.png" />
-
                             </CheckBox>
                         </RadioButton>
-
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Point_Calibration" Grid.Row=" 1"
                                      Margin="4"
                                      HorizontalContentAlignment="Stretch"
@@ -1286,9 +1069,7 @@
                                        VerticalAlignment="Center"
                                        Source="/Resources/Control_九点标定_ioc.png" />
                             </CheckBox>
-
                         </RadioButton>
-
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Create_Model" Grid.Row=" 2"
                                      Margin="4"
                                      HorizontalContentAlignment="Stretch"
@@ -1310,10 +1091,7 @@
                                        VerticalAlignment="Center"
                                        Source="/Resources/Control_创建模型_ioc.png" />
                             </CheckBox>
-
-
                         </RadioButton>
-
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Robot_Model" Grid.Row=" 3"
                                      Margin="4"
                                      HorizontalContentAlignment="Stretch"
@@ -1335,10 +1113,7 @@
                                        VerticalAlignment="Center"
                                        Source="/Resources/Control_机器通讯_ioc.png" />
                             </CheckBox>
-
-
                         </RadioButton>
-
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Auto_Model" Grid.Row=" 4"
                                      Margin="4"
                                      HorizontalContentAlignment="Stretch"
@@ -1360,19 +1135,10 @@
                                        VerticalAlignment="Center"
                                        Source="/Resources/Control_自动模式_ioc.png" />
                             </CheckBox>
-
-
                         </RadioButton>
-
-
                     </Grid>
-
-
-
-
                 </Border>
             </Grid>
-
             <Grid Margin="6,3,3,6">
                 <Grid.Style>
                     <Style TargetType="Grid">
@@ -1388,20 +1154,15 @@
                         </Style.Triggers>
                     </Style>
                 </Grid.Style>
-
-
-
                 <Border Background="{DynamicResource 全局_背景_白颜色}"
                         CornerRadius="8"
                         Effect="{DynamicResource 全局背景阴影}">
                     <Grid DataContext="{Binding Source={StaticResource Locator}, Path=UC_Lines_Charts_VM}">
-
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition Width=" 95" />
                         </Grid.ColumnDefinitions>
                         <Charts:UC_Lines_Charts x:Name="Charts" Margin="5" />
-
                         <Grid Grid.Column=" 1"
                               Height=" 280"
                               Margin="0,20,0,0"
@@ -1415,7 +1176,6 @@
                                 <RowDefinition Height=" auto" />
                                 <RowDefinition Height=" auto" />
                             </Grid.RowDefinitions>
-
                             <CheckBox Style="{DynamicResource CheckBoxStyle1}" x:Name="图标放大按钮" Grid.Row=" 0"
                                       Height="38"
                                       Margin="4"
@@ -1436,7 +1196,6 @@
                                                FontSize="12"
                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                 </StackPanel>
-
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Click">
                                         <i:InvokeCommandAction Command="{Binding}"
@@ -1444,12 +1203,7 @@
                                                                PassEventArgsToCommand="True" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
-
-
                             </CheckBox>
-
-
-
                             <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Row=" 1"
                                       Margin="4"
                                       VerticalAlignment="Center"
@@ -1467,7 +1221,6 @@
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                                 <ComboBoxItem>
-
                                     <TextBlock Text="Null"
                                                TextWrapping="Wrap"
                                                Padding="0,4,0,4"
@@ -1477,7 +1230,6 @@
                                                TextTrimming="CharacterEllipsis" />
                                 </ComboBoxItem>
                                 <ComboBoxItem>
-
                                     <TextBlock Text="Work_1"
                                                TextWrapping="Wrap"
                                                Padding="0,4,0,4"
@@ -1487,7 +1239,6 @@
                                                TextTrimming="CharacterEllipsis" />
                                 </ComboBoxItem>
                                 <ComboBoxItem>
-
                                     <TextBlock Text="Work_2"
                                                TextWrapping="Wrap"
                                                Padding="0,4,0,4"
@@ -1497,7 +1248,6 @@
                                                TextTrimming="CharacterEllipsis" />
                                 </ComboBoxItem>
                                 <ComboBoxItem>
-
                                     <TextBlock Text="Work_3"
                                                TextWrapping="Wrap"
                                                Padding="0,4,0,4"
@@ -1507,7 +1257,6 @@
                                                TextTrimming="CharacterEllipsis" />
                                 </ComboBoxItem>
                                 <ComboBoxItem>
-
                                     <TextBlock Text="Work_4"
                                                TextWrapping="Wrap"
                                                Padding="0,4,0,4"
@@ -1517,7 +1266,6 @@
                                                TextTrimming="CharacterEllipsis" />
                                 </ComboBoxItem>
                             </ComboBox>
-
                             <Menu Style="{DynamicResource Menu_Style}" Grid.Row=" 2"
                                   Margin="4"
                                   Padding="2"
@@ -1538,8 +1286,6 @@
                                     <MenuItem.Icon>
                                         <Image Source="/Resources/Vision_下拉选择_ioc.png" />
                                     </MenuItem.Icon>
-
-
                                     <MenuItem IsChecked="{Binding DataContext.F_45_UI_IsVisible, ElementName=Charts}" IsCheckable="True">
                                         <MenuItem.Header>
                                             <TextBlock Text="F_45 区域"
@@ -1574,7 +1320,6 @@
                                     </MenuItem>
                                 </MenuItem>
                             </Menu>
-
                             <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Row=" 3"
                                     Height=" 35"
                                     Margin="4"
@@ -1600,11 +1345,7 @@
                                                                PassEventArgsToCommand="True" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
-
-
                             </Button>
-
-
                             <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Row=" 4"
                                     Height=" 35"
                                     Margin="4"
@@ -1631,11 +1372,7 @@
                                                                PassEventArgsToCommand="True" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
-
-
                             </Button>
-
-
                             <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Row=" 5"
                                     Height=" 35"
                                     Margin="4"
@@ -1662,50 +1399,19 @@
                                                                PassEventArgsToCommand="False" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
-
-
                             </Button>
-
-
-
-
-
-
-
-
                         </Grid>
-
                     </Grid>
                 </Border>
-
-
-
-
-
-
-
             </Grid>
-
-
         </Grid>
-
-
         <Grid x:Name="Vision_Menu" Grid.Column=" 1"
               Margin="3,6,6,12">
-
-
             <Vision_Control:UC_Vision_CameraSet Width="330" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Camera_Settings}" />
             <Vision_Control:UC_Vision_Point_Calibration Width="330" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Point_Calibration}" />
             <Vision_Control:UC_Vision_Create_Template Width="330" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Create_Model}" />
             <Vision_Control:UC_Vision_Auto_Model Width="330" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Auto_Model}" />
             <Vision_Control:UC_Vision_Robot_Protocol Width="330" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Robot_Model}" />
-
         </Grid>
-
-
-
-
-
-
     </Grid>
 </UserControl>

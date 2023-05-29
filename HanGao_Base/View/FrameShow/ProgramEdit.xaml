@@ -12,82 +12,40 @@
              d:DesignWidth="1440"
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_ProgramEdit_ViewModel}"
              mc:Ignorable="d">
-
     <Grid Background="Transparent">
-
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width=" 0.7*" />
             <ColumnDefinition />
-
         </Grid.ColumnDefinitions>
-
         <Grid Grid.Column="0">
-
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
             </Grid.RowDefinitions>
-
             <Border Grid.Row="0"
                     Margin="20,20,10,10"
                     Background="{DynamicResource 全局_背景_白颜色}"
                     CornerRadius="10"
                     Effect="{Binding Source={StaticResource 全局背景阴影}}">
-
-
-
                 <!--<Direction_UI:UC_Short_Side />-->
                 <ContentControl Content="{Binding Distance_UI}" />
-
-
-
             </Border>
-
             <Border Grid.Row="1"
                     Margin="20,10,10,20"
                     Background="{DynamicResource 全局_背景_白颜色}"
                     CornerRadius="10"
                     Effect="{Binding Source={StaticResource 全局背景阴影}}">
-
                 <Point_UI:UC_Surround_Point DataContext="{Binding Source={StaticResource Locator}, Path=UC_Surround_Point_VM}" />
-
             </Border>
-
-
-
         </Grid>
-
         <Grid Grid.Column="1">
-
-
-
             <Border Grid.Row="0"
                     Margin="10,20,20,20"
                     Background="{DynamicResource 全局_背景_白颜色}"
                     CornerRadius="10"
                     Effect="{Binding Source={StaticResource 全局背景阴影}}">
-
                 <Point_info:UC_Point_Info DataContext="{Binding UC_Point_Info_VM, Source={StaticResource Locator}}" />
-
-
-
             </Border>
-
-
-
-
-
-
         </Grid>
-
-
-
-
     </Grid>
-
-
-
-
-
-
 </UserControl>
