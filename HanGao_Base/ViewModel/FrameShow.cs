@@ -1,8 +1,4 @@
-﻿
-
-using HanGao.View.FrameShow;
-using System.Diagnostics;
-using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
+﻿using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static Soceket_Connect.Socket_Connect;
 
 
@@ -77,7 +73,7 @@ namespace HanGao.ViewModel
             {
 
                 _ProgramEdit_Enabled = value;
-                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(ProgramEdit_Enabled)));
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(ProgramEdit_Enabled)));
 
             }
         }
@@ -100,7 +96,7 @@ namespace HanGao.ViewModel
             set
             {
                 _Vision_Work_UI = value;
-                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Vision_Work_UI)));
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Vision_Work_UI)));
 
             }
         }
@@ -115,7 +111,7 @@ namespace HanGao.ViewModel
             set
             {
                 _Program_Edit_UI = value;
-                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Program_Edit_UI)));
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Program_Edit_UI)));
 
             }
         }
@@ -131,7 +127,7 @@ namespace HanGao.ViewModel
             {
 
                 _Other_Window_UI = value;
-                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Other_Window_UI)));
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Other_Window_UI)));
 
             }
         }
@@ -148,7 +144,7 @@ namespace HanGao.ViewModel
             set
             {
                 _Home_Console_UI = value;
-                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Home_Console_UI)));
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Home_Console_UI)));
 
             }
         }
@@ -159,10 +155,9 @@ namespace HanGao.ViewModel
         /// </summary>
         public ICommand Loaded_Window
         {
-            get => new AsyncRelayCommand<MainWindow>(async (Sm, T) =>
+            get => new RelayCommand<MainWindow>( (Sm) =>
             {
-                await Task.Delay(0);
-
+               
 
                 //Messenger.Send<dynamic , string>(true, nameof(Meg_Value_Eunm.Initialization_Camera));
 
@@ -175,11 +170,9 @@ namespace HanGao.ViewModel
         /// </summary>
         public ICommand Closed_Window
         {
-            get => new AsyncRelayCommand<MainWindow>(async (Sm, T) =>
+            get => new RelayCommand<MainWindow>((Sm) =>
             {
-                await Task.Delay(0);
-
-
+             
                 Messenger.Send<dynamic, string>(true, nameof(Meg_Value_Eunm.Close_Camera));
 
 
@@ -195,10 +188,9 @@ namespace HanGao.ViewModel
         /// </summary>
         public ICommand Min_Window
         {
-            get => new AsyncRelayCommand<Window>(async (Sm, T) =>
+            get => new RelayCommand<Window>( (Sm) =>
             {
-                await Task.Delay(0);
-
+              
                 //窗口最小化
                 Sm.WindowState = WindowState.Minimized;
             });
@@ -212,9 +204,9 @@ namespace HanGao.ViewModel
         /// </summary>
         public ICommand Max_Window
         {
-            get => new AsyncRelayCommand<Window>(async (Sm, T) =>
+            get => new RelayCommand<Window>( (Sm) =>
             {
-                await Task.Delay(0);
+           
 
                 //窗口最大化
                 Sm.WindowState = WindowState.Maximized;
@@ -236,14 +228,8 @@ namespace HanGao.ViewModel
         /// </summary>
         public ICommand Close_Window
         {
-            get => new AsyncRelayCommand<Window>(async (Sm, T) =>
+            get => new RelayCommand<Window>( (Sm) =>
             {
-                await Task.Delay(0);
-
-
-
-
-
 
                 //窗口关闭
                 Sm.Close();
