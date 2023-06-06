@@ -22,9 +22,20 @@ namespace HanGao.ViewModel
             //接收用户选择参数
             Messenger.Register<object, string>(this, nameof(Meg_Value_Eunm.Vision_Data_Xml_List), (O, _V) =>
             {
-                Halcon_Find_Shape_ModelXld_UI = Find_Data_List.Vision_List.Where(_W => (int.Parse(_W.ID) == (int)_V)).FirstOrDefault().Find_Shape_Data;
+                Vision_Xml_Models _Find = Find_Data_List.Vision_List.Where(_W => (int.Parse(_W.ID) == (int)_V)).FirstOrDefault();
+                if (_Find !=null)
+                {
+
+                    Halcon_Find_Shape_ModelXld_UI = _Find.Find_Shape_Data;
                 Vision_Data_ID_UI = (int)_V;
                 User_Log_Add("视觉参数" + Vision_Data_ID_UI + "号已加载到参数列表中！");
+                }
+                else
+                {
+                    Halcon_Find_Shape_ModelXld_UI = null;
+                    User_Log_Add("视觉参数" + Vision_Data_ID_UI + "号已加载失败！");
+
+                }
             });
             ///通讯错误信息回调显示
             //KUKA_Receive.Socket_ErrorInfo_delegate += User_Log_Add;

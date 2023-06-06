@@ -289,13 +289,13 @@ namespace MVS_SDK_Base.Model
             /// <summary>
             /// 图像的锐度，布尔类型——默认false；
             /// </summary>
-            [StringValue("设置使能/禁用伽马校正失败")]
-            public bool SharpnessEnable { set; get; } = true;
+            //[StringValue("设置使能/禁用伽马校正失败")]
+            //public bool SharpnessEnable { set; get; } = true;
             /// <summary>
             /// 图像的锐度，整数类型——默认10，最小0，最大100
             /// </summary>
-            [StringValue("设置图像的锐度失败")]
-            public int Sharpness { set; get; } = 10;
+            //[StringValue("设置图像的锐度失败")]
+            //public int Sharpness { set; get; } = 10;
 
             /// <summary>
             /// 水平翻转设备发送的图像。翻转后应用感兴趣区域，布尔类型——默认false
@@ -303,11 +303,11 @@ namespace MVS_SDK_Base.Model
             [StringValue("设置水平翻转设备发送的图像失败")]
             public bool ReverseX { set; get; } = false;
 
-            [StringValue("设置设备提供的图像宽度（像素）失败")]
-            public int Width { set; get; } = 3072;
+            //[StringValue("设置设备提供的图像宽度（像素）失败")]
+            //public int Width { set; get; } = 3072;
 
-            [StringValue("设置设备提供的图像的高度（像素）失败")]
-            public int Height { set; get; } = 2048;
+            //[StringValue("设置设备提供的图像的高度（像素）失败")]
+            //public int Height { set; get; } = 2048;
 
             [StringValue("设置从原点到AOI的垂直偏移（像素）失败")]
 
