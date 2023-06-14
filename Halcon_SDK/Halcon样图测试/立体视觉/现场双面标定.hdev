@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="22.11.1.0">
+<procedure name="main">
+<interface/>
+<body>
+<c></c>
+<l>read_cam_par ('C:/Users/zhiwei2.he/Documents/GitHub/HanGao/HanGao_Base/Halcon_SDK/Halcon样图测试/2023-6-14-L.cal', CameraParam_L)</l>
+<l>read_cam_par ('C:/Users/zhiwei2.he/Documents/GitHub/HanGao/HanGao_Base/Halcon_SDK/Halcon样图测试/2023-6-14-R.cal', CameraParam_R)</l>
+<l>read_pose ('C:/Users/zhiwei2.he/Documents/GitHub/HanGao/HanGao_Base/Halcon_SDK/Halcon样图测试/2023-6-14-L.dat', Pose_L)</l>
+<l>read_pose ('C:/Users/zhiwei2.he/Documents/GitHub/HanGao/HanGao_Base/Halcon_SDK/Halcon样图测试/2023-6-14-R.dat', Pose_R)</l>
+<c></c>
+<c>*设置离线图像存放的路径</c>
+<l>ImgPath := 'C:/Users/zhiwei2.he/Documents/GitHub/HanGao/HanGao_Base/Halcon_SDK/Halcon样图测试/立体视觉/Data/'</l>
+<l>list_image_files (ImgPath, 'default', [], AllCalibImageFiles)</l>
+<l>tuple_regexp_select (AllCalibImageFiles, 'Image_L_', ImageFiles_L)</l>
+<l>tuple_regexp_select (AllCalibImageFiles, 'Image_R_', ImageFiles_R)</l>
+<l>Index := 19</l>
+<c>*读取左边相机离线图像</c>
+<l>read_image (ImageL,ImageFiles_L[0])</l>
+<c></c>
+<c>*读取右边相机离线图像</c>
+<l>read_image (ImageR, ImageFiles_R[0])</l>
+<c></c>
+<c>*关闭已经打开的窗口</c>
+<l>dev_close_window ()</l>
+<c></c>
+<c>*关闭程序计数器,变量更新,图像更新窗口</c>
+<l>dev_update_off ()</l>
+<c></c>
+<c>*获取左边相机图像大小</c>
+<l>get_image_size (ImageL, WidthL, HeightL)</l>
+<c></c>
+<c>*创建左边的窗口</c>
+<l>dev_open_window (0, 0, WidthL/4, HeightL/4, 'black', WindowHandle1)</l>
+<c></c>
+<c>*设置区域填充模式为边缘模式</c>
+<l>dev_set_draw ('margin')</l>
+<c></c>
+<c>*设置输出对象的颜色为绿色</c>
+<l>dev_set_color ('green')</l>
+<c></c>
+<c>*设置字体信息</c>
+<l>set_display_font (WindowHandle1, 14, 'mono', 'true', 'false')</l>
+<c></c>
+<c>*获取右边相机图像大小</c>
+<l>get_image_size (ImageR, WidthR, HeightR)</l>
+<c></c>
+<c>*创建右边的窗口</c>
+<l>dev_open_window (0, WidthL + 12, WidthL/4, HeightL/4, 'black', WindowHandle2)</l>
+<c></c>
+<c>*设置区域填充模式为边缘模式</c>
+<l>dev_set_draw ('margin')</l>
+<c></c>
+<c>*设置输出对象的颜色为绿色</c>
+<l>dev_set_color ('green')</l>
+<c></c>
+<c></c>
+<c>* 校正文件</c>
+<l>CaltabFile := 'C:/Users/zhiwei2.he/Documents/GitHub/HanGao/HanGao_Base/Halcon_SDK/Halcon样图测试/26_30_0.0015_calplate.cpd'</l>
+<c></c>
+<c>*获取标定板中所有mark点的中心坐标</c>
+<l>caltab_points (CaltabFile, X, Y, Z)</l>
+<c></c>
+<c>* 设置左右两个相机的摄像机内部参数[Focus,Kappa,Sx，Sy,Cx，Cy,Whith，Height]</c>
+<l>StartCamParL := [0.012,0,2.4e-5,2.4e-5,WidthL / 2.0,HeightL / 2.0,WidthL,HeightL]</l>
+<l>StartCamParR := StartCamParL</l>
+<c>* Parameter settings for find_caltab and find_marks_and_pose</c>
+<l>*SizeGauss := 3</l>
+<l>*MarkThresh := 120</l>
+<l>*MinDiamMarks := 5</l>
+<l>*StartThresh := 128</l>
+<l>*DeltaThresh := 10</l>
+<l>*MinThresh := 18</l>
+<l>*Alpha := 0.9</l>
+<l>*MinContLength := 15</l>
+<l>*MaxDiamMarks := 100</l>
+<c>* Create the tuples in which the image coordinates of the</c>
+<c>* calibration marks and the initial poses will be accumulated</c>
+<l>RowsL := []</l>
+<l>ColsL := []</l>
+<l>StartPosesL := []</l>
+<l>RowsR := []</l>
+<l>ColsR := []</l>
+<l>StartPosesR := []</l>
+<c></c>
+<c></c>
+<l>create_calib_data ('calibration_object', 1, 1, CalibHandle)</l>
+<l>set_calib_data_cam_param (CalibHandle, 0, [], StartCamParL)</l>
+<l>set_calib_data_calib_object (CalibHandle, 0, CaltabFile)</l>
+<c>* Start the loop over the calibration images</c>
+<l>for Index := 1 to |ImageFiles_L| by 1</l>
+<c>    * 读取左面相机拍照的标定板图像</c>
+<l>    read_image (ImageL, ImageFiles_L[Index])</l>
+<c>    </c>
+<c>    * 读取右面相机拍照的标定板图像</c>
+<l>    read_image (ImageR, ImageFiles_R[Index])</l>
+<c>    </c>
+<c>    * 分割左面相机拍照的标定板图像标定板区域</c>
+<l>    *find_caltab (ImageL, CaltabL, CaltabFile, SizeGauss, MarkThresh, MinDiamMarks)</l>
+<c>    </c>
+<c>    * 分割右面相机拍照的标定板图像标定板区域</c>
+<l>   * find_caltab (ImageR, CaltabR, CaltabFile, SizeGauss, MarkThresh, MinDiamMarks)</l>
+<c>    </c>
+<c>    *激活左面的窗口</c>
+<l>    dev_set_window (WindowHandle1)</l>
+<c>    </c>
+<c>    *显示左面相机拍照的标定板图像</c>
+<l>    dev_display (ImageL)</l>
+<l>    find_calib_object (ImageL, CalibHandle, 0, 0, 0, 'sigma',  10)</l>
+<l>get_calib_data_observ_points (CalibHandle, 0, 0, 0, L_MarkRows, L_MarkColumns, L_Ind, CameraPose_L)</l>
+<c></c>
+<l>gen_cross_contour_xld (Cross, L_MarkRows, L_MarkColumns, 6, 0.785398)</l>
+<c></c>
+<c></c>
+<c>    </c>
+<c>    *提取左面相机拍照的标定板中MARK点坐标和摄像机外部参数</c>
+<l>   * find_marks_and_pose (ImageL, CaltabL, CaltabFile, StartCamParL, StartThresh, DeltaThresh, MinThresh, Alpha, MinContLength, MaxDiamMarks, RCoordL, CCoordL, StartPoseL)</l>
+<c>    </c>
+<c>    *显示左面图像中标定板三维模型</c>
+<l>   * disp_caltab (WindowHandle1, CaltabFile, StartCamParL, StartPoseL, 1)</l>
+<l>    disp_caltab (WindowHandle1, CaltabFile, CameraParam_L, CameraPose_L, 1)</l>
+<c>    *显示左面相机拍照的标定板图像标定板区域</c>
+<l>    *dev_display (CaltabL)</l>
+<c>    </c>
+<c>    *激活右面的窗口</c>
+<l>    dev_set_window (WindowHandle2)</l>
+<c>    </c>
+<c>    *显示右面相机拍照的标定板图像</c>
+<l>    dev_display (ImageR)</l>
+<c>    </c>
+<c>    *显示右面相机拍照的标定板图像标定板区域</c>
+<l>    *dev_display (CaltabR)</l>
+<c></c>
+<c></c>
+<c></c>
+<c>    *提取右面相机拍照的标定板中MARK点坐标和摄像机外部参数</c>
+<l>   * find_marks_and_pose (ImageR, CaltabR, CaltabFile, StartCamParR, StartThresh, DeltaThresh, MinThresh, Alpha, MinContLength, MaxDiamMarks, RCoordR, CCoordR, StartPoseR)</l>
+<c>    </c>
+<c>    *显示右面图像中标定板三维模型</c>
+<l>    *disp_caltab (WindowHandle2, CaltabFile, StartCamParR, StartPoseR, 1)</l>
+<l>     disp_caltab (WindowHandle2, CaltabFile, CameraParam_R, CameraPose_R, 1)</l>
+<c>    *将17张左面相机拍照图像的MARK点行坐标连接起来</c>
+<l>    RowsL := [RowsL,RCoordL]</l>
+<c>    </c>
+<c>    *将17张左面相机拍照图像的MARK点列坐标连接起来</c>
+<l>    ColsL := [ColsL,CCoordL]</l>
+<c>    </c>
+<c>    *将左面相机的摄像机外部参数连接起来</c>
+<l>    StartPosesL := [StartPosesL,StartPoseL]</l>
+<c>    </c>
+<c>    *将17张右面相机拍照图像的MARK点行坐标连接起来</c>
+<l>    RowsR := [RowsR,RCoordR]</l>
+<c>    </c>
+<c>    *将17张右面相机拍照图像的MARK点列坐标连接起来</c>
+<l>    ColsR := [ColsR,CCoordR]</l>
+<c>    </c>
+<c>    *将右面相机的摄像机外部参数连接起来</c>
+<l>    StartPosesR := [StartPosesR,StartPoseR]</l>
+<l>endfor</l>
+<c></c>
+<c></c>
+<c>* 执行双目标定</c>
+<l>binocular_calibration (X, Y, Z, RowsL, ColsL, RowsR, ColsR, StartCamParL, StartCamParR, StartPosesL, StartPosesR, 'all', CamParamL, CamParamR, NFinalPoseL, NFinalPoseR, cLPcR, Errors)</l>
+<c>* If required, save the results to disk:</c>
+<l>* write_cam_par (CamParamL, 'cam_left-125.dat')</l>
+<l>* write_cam_par (CamParamR, 'cam_right-125.dat')</l>
+<l>* write_pose (cLPcR, 'pos_right2left.dat')</l>
+<c></c>
+<c></c>
+<c>* 获取非标准外极线几何到标准外极线几何之间的变换关系</c>
+<l>gen_binocular_rectification_map (MapL, MapR, CamParamL, CamParamR, cLPcR, 1, 'geometric', 'bilinear', RectCamParL, RectCamParR, CamPoseRectL, CamPoseRectR, RectLPosRectR)</l>
+<c></c>
+<c>*读取左相机拍照的一张图</c>
+<l>read_image (ImageL, ImgPath + 'calib_l_01')</l>
+<c></c>
+<c></c>
+<c>*读取右相机拍照的一张图</c>
+<l>read_image (ImageR, ImgPath + 'calib_r_01')</l>
+<c></c>
+<c></c>
+<c>*根据上述变换关系，对左相机拍照图进行校正</c>
+<l>map_image (ImageL, MapL, ImageRectifiedL)</l>
+<c></c>
+<c>*根据上述变换关系，对右相机拍照图进行校正</c>
+<l>map_image (ImageR, MapR, ImageRectifiedR)</l>
+<c></c>
+<c></c>
+<c>显示最后的双目标定结果，得到标准外极线几何时的图像.</c>
+<l>check_epipolar_constraint (ImageRectifiedL, ImageRectifiedR, RectCamParL, RectCamParR, WindowHandle1, WindowHandle2, CaltabFile, EpipolarError)</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="check_epipolar_constraint">
+<interface>
+<io>
+<par name="ImageRectifiedL" base_type="iconic" dimension="0"/>
+<par name="ImageRectifiedR" base_type="iconic" dimension="0"/>
+</io>
+<ic>
+<par name="RectCamParL" base_type="ctrl" dimension="0"/>
+<par name="RectCamParR" base_type="ctrl" dimension="0"/>
+<par name="WindowHandle1" base_type="ctrl" dimension="0"/>
+<par name="WindowHandle2" base_type="ctrl" dimension="0"/>
+<par name="CaltabFile" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="EpipolarError" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c>* Check the epipolar constraint on the rectified images:</c>
+<c>*    (the differences of the features' row coordinates should be small)</c>
+<c>* Parameter settings for find_caltab and find_marks_and_pose</c>
+<l>SizeGauss := 3</l>
+<l>MarkThresh := 120</l>
+<l>MinDiamMarks := 5</l>
+<l>StartThresh := 128</l>
+<l>DeltaThresh := 10</l>
+<l>MinThresh := 18</l>
+<l>Alpha := 0.9</l>
+<l>MinContLength := 15</l>
+<l>MaxDiamMarks := 100</l>
+<c>* </c>
+<c>* Find the calibration points and the correspondences of these points in both images:</c>
+<l>find_caltab (ImageRectifiedL, CaltabL, CaltabFile, SizeGauss, MarkThresh, MinDiamMarks)</l>
+<l>find_marks_and_pose (ImageRectifiedL, CaltabL, CaltabFile, RectCamParL, StartThresh, DeltaThresh, MinThresh, Alpha, MinContLength, MaxDiamMarks, RCoordL, CCoordL, StartPoseL)</l>
+<l>find_caltab (ImageRectifiedR, CaltabR, CaltabFile, SizeGauss, MarkThresh, MinDiamMarks)</l>
+<l>find_marks_and_pose (ImageRectifiedR, CaltabR, CaltabFile, RectCamParR, StartThresh, DeltaThresh, MinThresh, Alpha, MinContLength, MaxDiamMarks, RCoordR, CCoordR, StartPoseR)</l>
+<l>EpipolarError := max(abs(RCoordR - RCoordL))</l>
+<c>* Visualize the rectified images and the result of the epipolar test:</c>
+<l>dev_set_window (WindowHandle1)</l>
+<l>dev_set_color ('yellow')</l>
+<l>dev_clear_window ()</l>
+<l>dev_set_part (0, 0, RectCamParL[7] - 1, RectCamParL[6] - 1)</l>
+<l>dev_display (ImageRectifiedL)</l>
+<l>for Index := 6 to 49 by 7</l>
+<c>    * Display the epipolar line of a certain point</c>
+<l>    gen_contour_polygon_xld (EpipolarLine, [round(RCoordL[Index]),round(RCoordL[Index])], [0,RectCamParL[6] - 1])</l>
+<l>    dev_display (EpipolarLine)</l>
+<l>endfor</l>
+<l>gen_cross_contour_xld (Cross, RCoordL, CCoordL, 6, 0)</l>
+<l>dev_display (Cross)</l>
+<l>String := 'Maximum measured error of the'</l>
+<l>String[1] := 'epipolar constraint: ' + EpipolarError$'.3f' + ' px'</l>
+<l>disp_message (WindowHandle1, String, 'window', 180, 12, 'white', 'false')</l>
+<l>dev_set_window (WindowHandle2)</l>
+<l>dev_set_color ('yellow')</l>
+<l>dev_clear_window ()</l>
+<l>dev_set_part (0, 0, RectCamParR[7] - 1, RectCamParR[6] - 1)</l>
+<l>dev_display (ImageRectifiedR)</l>
+<l>for Index := 6 to 49 by 7</l>
+<c>    * display the epipolar line of a certain point</c>
+<l>    gen_contour_polygon_xld (EpipolarLine, [round(RCoordL[Index]),round(RCoordL[Index])], [0,RectCamParL[6] - 1])</l>
+<l>    dev_display (EpipolarLine)</l>
+<l>endfor</l>
+<l>gen_cross_contour_xld (Cross, RCoordR, CCoordR, 6, 0)</l>
+<l>dev_display (Cross)</l>
+<l>return ()</l>
+</body>
+<docu id="check_epipolar_constraint">
+<parameters>
+<parameter id="CaltabFile"/>
+<parameter id="EpipolarError"/>
+<parameter id="ImageRectifiedL"/>
+<parameter id="ImageRectifiedR"/>
+<parameter id="RectCamParL"/>
+<parameter id="RectCamParR"/>
+<parameter id="WindowHandle1"/>
+<parameter id="WindowHandle2"/>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>

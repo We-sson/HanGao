@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="22.11.1.0">
+<procedure name="main">
+<interface/>
+<body>
+<c>*关闭图像窗口更新</c>
+<l>dev_update_window ('off')</l>
+<c></c>
+<c>*关闭变量更新</c>
+<l>dev_update_var ('off')</l>
+<c></c>
+<c>*关闭程序计数器更新</c>
+<l>dev_update_pc ('off')</l>
+<c></c>
+<c>*关闭窗口</c>
+<l>dev_close_window ()</l>
+<c></c>
+<c>*打开新窗口</c>
+<l>dev_open_window (0, 0, 672, 484, 'black', WindowHandle)</l>
+<c></c>
+<c>*设置字体显示信息</c>
+<l>set_display_font (WindowHandle, 16, 'mono', 'true', 'false')</l>
+<c></c>
+<c>*读取左面相机采集的图像</c>
+<l>read_image (ImageL, 'stereo/board/board_l_01')</l>
+<c></c>
+<c>*读取右面相机采集的图像</c>
+<l>read_image (ImageR, 'stereo/board/board_r_01')</l>
+<c></c>
+<c>*获取图像的大小</c>
+<l>get_image_size (ImageR, Width, Height)</l>
+<c></c>
+<c>*根据双目立体视觉标定获取到左右相机的摄像机内部参数和右相机相对左相机的位姿</c>
+<c>*左相机的摄像机内部参数</c>
+<l>CamParamL := [0.0130507774353,-665.817817207,1.4803417027e-5,1.48e-5,155.89225769,126.70664978,320,240]</l>
+<c>*右相机的摄像机内部参数</c>
+<l>CamParamR := [0.0131776504517,-731.860636733,1.47997569293e-5,1.48e-5,162.98210144,119.301040649,320,240]</l>
+<c>*右相机相对左相机的位姿</c>
+<l>RelPose := [0.153573364258,-0.00373362231255,0.0447351264954,0.174289124775,319.843388114,359.894955219,0]</l>
+<c></c>
+<c></c>
+<l>read_calib_data ('C:/Users/zhiwei2.he/Documents/GitHub/HanGao/HanGao_Base/Halcon_SDK/Halcon样图测试/立体视觉/Two_Cam_Calib.ccd', CalibDataID)</l>
+<l>get_calib_data (CalibDataID, 'camera', 0, 'params_labels', CamParams0)</l>
+<l>get_calib_data (CalibDataID, 'camera', 1, 'params', CamParams1)</l>
+<l>get_calib_data (CalibDataID, 'camera', 1, 'pose', RelCamPose)</l>
+<c></c>
+<c>*获取非标准外极限图像和标准外极限图像之间的变换矩阵(映射图像)</c>
+<l>gen_binocular_rectification_map (MapL, MapR, CamParamL, CamParamR, RelPose, 1, 'geometric', 'bilinear', RectCamParL, RectCamParR, CamPoseRectL, CamPoseRectR, RectLPosRectR)</l>
+<c></c>
+<c>*根据变换矩阵对左边相机进行图像校正</c>
+<l>map_image (ImageL, MapL, ImageRectifiedL)</l>
+<c></c>
+<c>*根据变换矩阵对右边相机进行图像校正</c>
+<l>map_image (ImageR, MapR, ImageRectifiedR)</l>
+<c></c>
+<l>binocular_disparity (ImageRectifiedL, ImageRectifiedR, Disparity, Score1, 'ncc', 17, 17, 5, 0, 60, 1, 0.1, 'none', 'none')</l>
+<c>*根据左右相机的校正图像计算深度信息</c>
+<l>binocular_distance_mg (ImageRectifiedL, ImageRectifiedR, Distance, Score, RectCamParL, RectCamParR, RectLPosRectR, 1, 10, 5, 0, 'false', 'default_parameters', 'accurate')</l>
+<c></c>
+<c>*清除窗口内容</c>
+<l>dev_clear_window ()</l>
+<c></c>
+<c>*显示距离图像</c>
+<l>dev_display (Distance)</l>
+<c></c>
+<c>*计算IC的高度</c>
+<l>gen_rectangle2 (IC, 107.276, 62.0363, rad(-25.6343), 7.64174, 6.41978)</l>
+<l>gen_rectangle2 (PCB, 101.986, 145.771, rad(4.75463), 7.97698, 6.76498)</l>
+<l>get_grayval (Distance, 107.276, 62.0363, IC_Grayval)</l>
+<l>get_grayval (Distance, 101.986, 145.771, PCB_Grayval)</l>
+<l>IC_Height:=(PCB_Grayval-IC_Grayval)*100</l>
+<c></c>
+<c>*显示结果</c>
+<l>dev_display (ImageRectifiedL)</l>
+<l>set_tposition (WindowHandle, 103, 54)</l>
+<l>write_string (WindowHandle, 'IC零件的高度是:'+IC_Height+'cm')</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>

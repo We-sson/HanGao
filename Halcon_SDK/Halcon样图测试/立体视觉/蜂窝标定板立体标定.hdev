@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="22.11.1.0">
+<procedure name="main">
+<interface/>
+<body>
+<c>* This example demonstrates how to calibrate a stereo camera</c>
+<c>* system with telecentric tilt lenses using the new</c>
+<c>* HALCON calibration plate.</c>
+<c>* </c>
+<l>dev_update_off ()</l>
+<l>dev_close_window ()</l>
+<c>* </c>
+<c>* Read image</c>
+<l>list_image_files ('C:/Users/zhiwei2.he/Documents/GitHub/HanGao/HanGao_Base/Halcon_SDK/Halcon样图测试/立体视觉/Data', 'default', [], AllCalibImageFiles)</l>
+<l>tuple_regexp_select (AllCalibImageFiles, 'Image_L', ImageFiles_L)</l>
+<l>tuple_regexp_select (AllCalibImageFiles, 'Image_R', ImageFiles_R)</l>
+<c></c>
+<l>read_image (Image, ImageFiles_L[0])</l>
+<l>get_image_size (Image, Width, Height)</l>
+<c>* </c>
+<c>* Initialize parameters for calibration data model</c>
+<l>NumCameras := 2</l>
+<l>NumCalibObjects := 1</l>
+<l>CalibSetup := 'calibration_object'</l>
+<l>DescrFile := 'C:/Users/zhiwei2.he/Documents/GitHub/HanGao/HanGao_Base/Halcon_SDK/Halcon样图测试/26_30_0.0015_calplate.cpd'</l>
+<c>* </c>
+<c>* Initialize initial camera parameters</c>
+<c>* 焦距</c>
+<l>Focus := 16</l>
+<c>* Pixel size</c>
+<l>Sx := 2.2e-6</l>
+<l>Sy := 5.2e-6</l>
+<c>* The tilt angles define the angles by which the lenses are tilted.</c>
+<l>*Tilt_Cam_0 := 8.5</l>
+<l>*Tilt_Cam_1 := 0.5</l>
+<c>* The rotation angle defines the orientation of the axis around</c>
+<c>* which the tilt is performed. It is the angle between the x-axis</c>
+<c>* of the sensor and the tilt axis of the lens.</c>
+<l>*Rot_Cam_0 := 270</l>
+<l>*Rot_Cam_1 := 90</l>
+<l>*Kappa := 0</l>
+<l>gen_cam_par_area_scan_division (Focus*0.0001, 0, 5.2e-06, 5.2e-06, 640, 512, 1280, 1024, InitialCamParam_Cam_0)</l>
+<l>gen_cam_par_area_scan_division (Focus*0.0001, 0, 5.2e-06, 5.2e-06, 640, 512, 1280, 1024, InitialCamParam_Cam_1)</l>
+<l>gen_cam_par_area_scan_tilt_bilateral_telecentric_division (Magnification, Kappa, Tilt_Cam_0, Rot_Cam_0, Sx, Sy, Width / 2, Height / 2, Width, Height, InitialCamParam_Cam_0)</l>
+<l>gen_cam_par_area_scan_tilt_bilateral_telecentric_division (Magnification, Kappa, Tilt_Cam_1, Rot_Cam_1, Sx, Sy, Width / 2, Height / 2, Width, Height, InitialCamParam_Cam_1)</l>
+<c>* While tilt lenses provide a region for in which the depth of field</c>
+<c>* overlaps in a large area for both cameras, the depth of field is</c>
+<c>* wedge-shaped, where the wedge of one camera has a small depth at</c>
+<c>* the left or right borders of the images.  This means that some marks</c>
+<c>* in the calibration sequence at the left or right borders may still</c>
+<c>* be slightly out of focus in this setup.  Therefore, we use a higher</c>
+<c>* Sigma to make sure that all marks are extracted.</c>
+<l>Sigma := 2.5</l>
+<c>* </c>
+<c>* Create calibration data model and descriptor file</c>
+<l>create_calib_data (CalibSetup, NumCameras, NumCalibObjects, CalibDataID)</l>
+<l>set_calib_data_calib_object (CalibDataID, 0, DescrFile)</l>
+<c>* </c>
+<c>* Set initial camera parameters</c>
+<l>set_calib_data_cam_param (CalibDataID, 0, [], InitialCamParam_Cam_0)</l>
+<l>set_calib_data_cam_param (CalibDataID, 1, [], InitialCamParam_Cam_1)</l>
+<c>* </c>
+<c>* Find and extract calibration marks</c>
+<l>open_windows_multi_view_setup (Height, Width, 0.4, WindowHandles)</l>
+<l>for Index := 1 to 8 by 1</l>
+<c>    * </c>
+<c>    * Read calibration images</c>
+<l>    read_image (Image0, 'stereo/telecentric_tilt/cam_0_calib_plate_' + Index$'02')</l>
+<l>    read_image (Image1, 'stereo/telecentric_tilt/cam_1_calib_plate_' + Index$'02')</l>
+<c>    * </c>
+<c>    * Find calibration plate</c>
+<l>    find_calib_object (Image0, CalibDataID, 0, 0, Index, 'sigma', Sigma)</l>
+<l>    find_calib_object (Image1, CalibDataID, 1, 0, Index, 'sigma', Sigma)</l>
+<c>    * </c>
+<c>    * Extract and display coordinates of the observed points</c>
+<l>    get_calib_data_observ_points (CalibDataID, 0, 0, Index, Row0, Column0, PointIndex0, Pose0)</l>
+<l>    get_calib_data_observ_points (CalibDataID, 1, 0, Index, Row1, Column1, PointIndex1, Pose1)</l>
+<l>    gen_cross_contour_xld (Cross0, Row0, Column0, 30, 0.785398)</l>
+<l>    gen_cross_contour_xld (Cross1, Row1, Column1, 30, 0.785398)</l>
+<l>    dev_set_window (WindowHandles[0])</l>
+<l>    dev_display (Image0)</l>
+<l>    dev_display (Cross0)</l>
+<l>    dev_set_window (WindowHandles[1])</l>
+<l>    dev_display (Image1)</l>
+<l>    dev_display (Cross1)</l>
+<l>    disp_message (WindowHandles[0], 'Camera 0  Image ' + Index, 'window', 12, 12, 'black', 'true')</l>
+<l>    disp_message (WindowHandles[1], 'Camera 1  Image ' + Index, 'window', 12, 12, 'black', 'true')</l>
+<l>endfor</l>
+<c>* </c>
+<c>* Calibrate the cameras</c>
+<l>calibrate_cameras (CalibDataID, Error)</l>
+<c>* </c>
+<c>* Get internal camera parameters and the corresponding labels</c>
+<l>get_calib_data (CalibDataID, 'camera', 0, 'params_labels', ParLabels)</l>
+<l>get_calib_data (CalibDataID, 'camera', 0, 'params', CamParams0)</l>
+<l>get_calib_data (CalibDataID, 'camera', 1, 'params', CamParams1)</l>
+<c>* Get camera poses</c>
+<l>get_calib_data (CalibDataID, 'camera', 0, 'pose_labels', PoseLabels)</l>
+<c>* Right camera is reference camera for calibration data model</c>
+<l>get_calib_data (CalibDataID, 'camera', 1, 'pose', RelCamPose)</l>
+<c>* </c>
+<c>* Display the results of the calibration</c>
+<l>Units := ['', '', '', '°', '°', 'm', 'm', 'px', 'px', 'px', 'px']</l>
+<l>FormatStringLabels := max(strlen(ParLabels))$'0' + 's'</l>
+<l>FormatStringParams := ''</l>
+<l>CamParTable0 := ParLabels$FormatStringLabels + ' = ' + CamParams0 + ' ' + Units</l>
+<l>CamParTable1 := ParLabels$FormatStringLabels + ' = ' + CamParams1 + ' ' + Units</l>
+<l>Text := 'The cameras are now calibrated and ready for'</l>
+<l>Text[1] := 'high accuracy metric measurements.'</l>
+<l>Text[2] := 'The final camera parameters of camera 0 are:'</l>
+<l>Text[3] := ' '</l>
+<c>* Display results for camera 0</c>
+<l>dev_set_window (WindowHandles[0])</l>
+<l>dev_clear_window ()</l>
+<l>Message := [Text,CamParTable0,' ','Back projection error = ' + Error$'.3f' + ' px']</l>
+<l>disp_message (WindowHandles[0], Message, 'window', 12, 12, 'black', 'true')</l>
+<c>* Display results for camera 1</c>
+<l>dev_set_window (WindowHandles[1])</l>
+<l>dev_clear_window ()</l>
+<l>Text[2] := 'The final camera parameters of camera 1 are:'</l>
+<l>Message := [Text,CamParTable1,' ','Back projection error = ' + Error$'.3f' + ' px']</l>
+<l>disp_message (WindowHandles[1], Message, 'window', 12, 12, 'black', 'true')</l>
+<l>disp_continue_message (WindowHandles[1], 'black', 'true')</l>
+<l>stop ()</l>
+<c>* </c>
+<c>* Read and process stereo image pairs acquired with</c>
+<c>* the calibrated stereo camera system</c>
+<c>* *************************************************</c>
+<c>* Set image files</c>
+<l>ImageFiles := ['stereo/telecentric_tilt/cam_0_cartridge', 'stereo/telecentric_tilt/cam_1_cartridge', 'stereo/telecentric_tilt/cam_0_tissue', 'stereo/telecentric_tilt/cam_1_tissue']</l>
+<c>* Initialize parameters for the determination of</c>
+<c>* the distance values</c>
+<l>GrayConstancy := 0.07</l>
+<l>GradientConstancy := 80</l>
+<l>Smoothness := 10</l>
+<l>InitialGuess := 0</l>
+<c>* </c>
+<c>* Rectify stereo image pairs and determine the corresponding</c>
+<c>* distance values to the camera system</c>
+<l>for Index := 0 to |ImageFiles| - 1 by 2</l>
+<c>    * Read the stereo image pair</c>
+<l>    read_image (Image0, ImageFiles[Index])</l>
+<l>    read_image (Image1, ImageFiles[Index + 1])</l>
+<l>    get_image_size (Image0, Width, Height)</l>
+<c>    * </c>
+<c>    * Rectify the stereo image pair using</c>
+<c>    * transformation maps</c>
+<l>    gen_binocular_rectification_map (Map1, Map2, CamParams0, CamParams1, RelCamPose, 1, 'viewing_direction', 'bilinear', CamParamRect0, CamParamRect1, CamPoseRect0, CamPoseRect1, RelPoseRect)</l>
+<l>    map_image (Image0, Map1, ImageRectified0)</l>
+<l>    map_image (Image1, Map2, ImageRectified1)</l>
+<l>    dev_set_window (WindowHandles[0])</l>
+<l>    dev_clear_window ()</l>
+<l>    dev_set_paint ('default')</l>
+<l>    dev_display (ImageRectified0)</l>
+<l>    dev_set_window (WindowHandles[1])</l>
+<l>    dev_clear_window ()</l>
+<l>    dev_set_paint ('default')</l>
+<l>    dev_display (ImageRectified1)</l>
+<l>    disp_message (WindowHandles[0], 'Rectified image pair ' + max([Index / 2 + 1,1]) + ' of ' + (|ImageFiles| / 2), 'window', 12, 12, 'black', 'true')</l>
+<l>    disp_continue_message (WindowHandles[1], 'black', 'true')</l>
+<l>    stop ()</l>
+<c>    * Ignore left part of image 0, as it is not visible in image 1</c>
+<l>    get_image_size (ImageRectified0, Width0Rect, Height0Rect)</l>
+<l>    gen_rectangle1 (ROIValid, 0, 100, Height0Rect - 1, Width0Rect - 1)</l>
+<c>    * </c>
+<c>    * Determine the distance image</c>
+<l>    binocular_distance_mg (ImageRectified0, ImageRectified1, DistanceImage, ScoreImage, CamParamRect0, CamParamRect1, RelPoseRect, GrayConstancy, GradientConstancy, Smoothness, InitialGuess, 'false', 'default_parameters', 'accurate')</l>
+<l>    reduce_domain (DistanceImage, ROIValid, DistanceImage)</l>
+<c>    * </c>
+<c>    * Correct the distance image for the tilt of the</c>
+<c>    * stereo camera system. First, define a region, which</c>
+<c>    * indicates the areas on the reference plane</c>
+<l>    gen_circle (RegionDefiningReferencePlane, 520, 677, 465)</l>
+<l>    tilt_correction (DistanceImage, RegionDefiningReferencePlane, DistanceImageCorrected)</l>
+<c>    * Delete outliers</c>
+<l>    mean_image (DistanceImageCorrected, DistanceImageCorrectedMean, 20, 20)</l>
+<l>    dyn_threshold (DistanceImageCorrected, DistanceImageCorrectedMean, Region, 5, 'light')</l>
+<l>    overpaint_region (DistanceImageCorrectedMean, Region, 255, 'fill')</l>
+<c>    * Display the distance image with tilt correction</c>
+<c>    * and deleted outliers</c>
+<l>    dev_set_window (WindowHandles[0])</l>
+<l>    dev_clear_window ()</l>
+<l>    dev_display (DistanceImageCorrectedMean)</l>
+<l>    disp_message (WindowHandles[0], 'Distance image', 'window', 12, 12, 'black', 'true')</l>
+<c>    * Display the distance image in 3D plot mode</c>
+<l>    compose2 (DistanceImageCorrectedMean, ImageRectified0, MultiChannelImage)</l>
+<l>    crop_domain (MultiChannelImage, ImagePart)</l>
+<l>    dev_set_window (WindowHandles[1])</l>
+<l>    dev_set_paint (['3d_plot', 'texture'])</l>
+<l>    dev_display (ImagePart)</l>
+<l>    if (Index &lt; |ImageFiles| - 2)</l>
+<l>        disp_continue_message (WindowHandles[1], 'black', 'true')</l>
+<l>    endif</l>
+<l>    stop ()</l>
+<l>endfor</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="open_windows_multi_view_setup">
+<interface>
+<ic>
+<par name="Height" base_type="ctrl" dimension="0"/>
+<par name="Width" base_type="ctrl" dimension="0"/>
+<par name="Scale" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="WindowHandles" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c>* This procedure opens four windows in order to display</c>
+<c>* the images of a multi-view stereo setup consisting</c>
+<c>* of four cameras</c>
+<c>* </c>
+<l>dev_open_window (0, 0, Width * Scale, Height * Scale, 'black', WindowHandle0)</l>
+<l>dev_set_draw ('margin')</l>
+<l>dev_set_line_width (2)</l>
+<l>dev_set_color ('forest green')</l>
+<l>set_display_font (WindowHandle0, 14, 'mono', 'true', 'false')</l>
+<c>* </c>
+<l>dev_open_window (0, (Width * Scale) + 8, Width * Scale, Height * Scale, 'black', WindowHandle1)</l>
+<l>dev_set_draw ('margin')</l>
+<l>dev_set_line_width (2)</l>
+<l>dev_set_color ('forest green')</l>
+<l>set_display_font (WindowHandle1, 14, 'mono', 'true', 'false')</l>
+<c>* </c>
+<l>WindowHandles := [WindowHandle0,WindowHandle1]</l>
+<l>return ()</l>
+</body>
+<docu id="open_windows_multi_view_setup">
+<parameters>
+<parameter id="Height">
+<default_type>integer</default_type>
+<sem_type>integer</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="Scale"/>
+<parameter id="Width">
+<default_type>integer</default_type>
+<sem_type>integer</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="WindowHandles">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<sem_type>window</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+</parameters>
+</docu>
+</procedure>
+<procedure name="tilt_correction">
+<interface>
+<io>
+<par name="DistanceImage" base_type="iconic" dimension="0"/>
+<par name="RegionDefiningReferencePlane" base_type="iconic" dimension="0"/>
+</io>
+<oo>
+<par name="DistanceImageCorrected" base_type="iconic" dimension="0"/>
+</oo>
+</interface>
+<body>
+<c>* Reduce the given region, which defines the reference plane</c>
+<c>* to the domain of the distance image</c>
+<l>get_domain (DistanceImage, Domain)</l>
+<l>intersection (RegionDefiningReferencePlane, Domain, RegionDefiningReferencePlane)</l>
+<c>* Determine the parameters of the reference plane</c>
+<l>fit_surface_first_order (RegionDefiningReferencePlane, DistanceImage, 'tukey', 5, 2, Alpha, Beta, Mean)</l>
+<l>moments_gray_plane (RegionDefiningReferencePlane, DistanceImage, MRow, MCol, Alpha, Beta, Mean)</l>
+<c>* Generate a distance image of the reference plane</c>
+<l>get_image_pointer1 (DistanceImage, Pointer, Type, Width, Height)</l>
+<l>area_center (RegionDefiningReferencePlane, Area, Row, Column)</l>
+<l>gen_image_surface_first_order (ReferencePlaneDistance, Type, Alpha, Beta, Mean, Row, Column, Width, Height)</l>
+<c>* Subtract the distance image of the reference plane</c>
+<c>* from the distance image of the object</c>
+<l>sub_image (DistanceImage, ReferencePlaneDistance, DistanceImageWithoutTilt, 1, 0)</l>
+<c>* Determine the scale factor for the reduction of the distance values</c>
+<l>CosGamma := 1.0 / sqrt(Alpha * Alpha + Beta * Beta + 1)</l>
+<c>* Reduce the distance values</c>
+<l>scale_image (DistanceImageWithoutTilt, DistanceImageCorrected, CosGamma, 0)</l>
+<l>return ()</l>
+</body>
+<docu id="tilt_correction">
+<short lang="en_US">Correction of a distance image according to a tilt of a reference object plane with respect to the rectified image plane.</short>
+<parameters>
+<parameter id="DistanceImage"/>
+<parameter id="DistanceImageCorrected"/>
+<parameter id="RegionDefiningReferencePlane"/>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>
