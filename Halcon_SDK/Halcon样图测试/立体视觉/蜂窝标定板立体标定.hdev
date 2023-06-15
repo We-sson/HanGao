@@ -11,6 +11,7 @@
 <l>dev_close_window ()</l>
 <c>* </c>
 <c>* Read image</c>
+<c>* 读取左右目图像</c>
 <l>list_image_files ('C:/Users/zhiwei2.he/Documents/GitHub/HanGao/HanGao_Base/Halcon_SDK/Halcon样图测试/立体视觉/Data', 'default', [], AllCalibImageFiles)</l>
 <l>tuple_regexp_select (AllCalibImageFiles, 'Image_L', ImageFiles_L)</l>
 <l>tuple_regexp_select (AllCalibImageFiles, 'Image_R', ImageFiles_R)</l>
@@ -27,9 +28,9 @@
 <c>* Initialize initial camera parameters</c>
 <c>* 焦距</c>
 <l>Focus := 16</l>
-<c>* Pixel size</c>
+<c>* 像素尺寸</c>
 <l>Sx := 2.2e-6</l>
-<l>Sy := 5.2e-6</l>
+<l>Sy := 2.2e-6</l>
 <c>* The tilt angles define the angles by which the lenses are tilted.</c>
 <l>*Tilt_Cam_0 := 8.5</l>
 <l>*Tilt_Cam_1 := 0.5</l>
@@ -39,10 +40,11 @@
 <l>*Rot_Cam_0 := 270</l>
 <l>*Rot_Cam_1 := 90</l>
 <l>*Kappa := 0</l>
-<l>gen_cam_par_area_scan_division (Focus*0.0001, 0, 5.2e-06, 5.2e-06, 640, 512, 1280, 1024, InitialCamParam_Cam_0)</l>
-<l>gen_cam_par_area_scan_division (Focus*0.0001, 0, 5.2e-06, 5.2e-06, 640, 512, 1280, 1024, InitialCamParam_Cam_1)</l>
-<l>gen_cam_par_area_scan_tilt_bilateral_telecentric_division (Magnification, Kappa, Tilt_Cam_0, Rot_Cam_0, Sx, Sy, Width / 2, Height / 2, Width, Height, InitialCamParam_Cam_0)</l>
-<l>gen_cam_par_area_scan_tilt_bilateral_telecentric_division (Magnification, Kappa, Tilt_Cam_1, Rot_Cam_1, Sx, Sy, Width / 2, Height / 2, Width, Height, InitialCamParam_Cam_1)</l>
+<c>* 设置面阵初始化相机</c>
+<l>gen_cam_par_area_scan_division (Focus*0.0001, 0, Sx, Sy, Width/2, Height/2, Width, Height, InitialCamParam_Cam_0)</l>
+<l>gen_cam_par_area_scan_division (Focus*0.0001, 0,  Sx, Sy, Width/2, Height/2, Width, Height, InitialCamParam_Cam_1)</l>
+<l>*gen_cam_par_area_scan_tilt_bilateral_telecentric_division (Magnification, Kappa, Tilt_Cam_0, Rot_Cam_0, Sx, Sy, Width / 2, Height / 2, Width, Height, InitialCamParam_Cam_0)</l>
+<l>*gen_cam_par_area_scan_tilt_bilateral_telecentric_division (Magnification, Kappa, Tilt_Cam_1, Rot_Cam_1, Sx, Sy, Width / 2, Height / 2, Width, Height, InitialCamParam_Cam_1)</l>
 <c>* While tilt lenses provide a region for in which the depth of field</c>
 <c>* overlaps in a large area for both cameras, the depth of field is</c>
 <c>* wedge-shaped, where the wedge of one camera has a small depth at</c>
@@ -50,29 +52,35 @@
 <c>* in the calibration sequence at the left or right borders may still</c>
 <c>* be slightly out of focus in this setup.  Therefore, we use a higher</c>
 <c>* Sigma to make sure that all marks are extracted.</c>
-<l>Sigma := 2.5</l>
+<l>Sigma := 4.0</l>
 <c>* </c>
 <c>* Create calibration data model and descriptor file</c>
+<c>* 创建双目标定对象 2个相机1个标定板</c>
 <l>create_calib_data (CalibSetup, NumCameras, NumCalibObjects, CalibDataID)</l>
 <l>set_calib_data_calib_object (CalibDataID, 0, DescrFile)</l>
 <c>* </c>
 <c>* Set initial camera parameters</c>
+<c>* 设置初始化相机参数</c>
 <l>set_calib_data_cam_param (CalibDataID, 0, [], InitialCamParam_Cam_0)</l>
 <l>set_calib_data_cam_param (CalibDataID, 1, [], InitialCamParam_Cam_1)</l>
 <c>* </c>
 <c>* Find and extract calibration marks</c>
-<l>open_windows_multi_view_setup (Height, Width, 0.4, WindowHandles)</l>
-<l>for Index := 1 to 8 by 1</l>
+<c>* 创建视图窗口</c>
+<l>open_windows_multi_view_setup (Height, Width, 0.3, WindowHandles)</l>
+<l>for Index := 1 to |ImageFiles_L|-1 by 1</l>
 <c>    * </c>
 <c>    * Read calibration images</c>
-<l>    read_image (Image0, 'stereo/telecentric_tilt/cam_0_calib_plate_' + Index$'02')</l>
-<l>    read_image (Image1, 'stereo/telecentric_tilt/cam_1_calib_plate_' + Index$'02')</l>
+<c>    * 读取左右图像</c>
+<l>    read_image (Image0, ImageFiles_L[Index])</l>
+<l>    read_image (Image1, ImageFiles_R[Index])</l>
 <c>    * </c>
 <c>    * Find calibration plate</c>
+<c>    * 查找标定板数据</c>
 <l>    find_calib_object (Image0, CalibDataID, 0, 0, Index, 'sigma', Sigma)</l>
 <l>    find_calib_object (Image1, CalibDataID, 1, 0, Index, 'sigma', Sigma)</l>
 <c>    * </c>
 <c>    * Extract and display coordinates of the observed points</c>
+<c>    * 提取并显示观测点的坐标</c>
 <l>    get_calib_data_observ_points (CalibDataID, 0, 0, Index, Row0, Column0, PointIndex0, Pose0)</l>
 <l>    get_calib_data_observ_points (CalibDataID, 1, 0, Index, Row1, Column1, PointIndex1, Pose1)</l>
 <l>    gen_cross_contour_xld (Cross0, Row0, Column0, 30, 0.785398)</l>
@@ -88,9 +96,11 @@
 <l>endfor</l>
 <c>* </c>
 <c>* Calibrate the cameras</c>
+<c>* 标定相机</c>
 <l>calibrate_cameras (CalibDataID, Error)</l>
 <c>* </c>
 <c>* Get internal camera parameters and the corresponding labels</c>
+<c>* 获得标定相机参数名显示结果</c>
 <l>get_calib_data (CalibDataID, 'camera', 0, 'params_labels', ParLabels)</l>
 <l>get_calib_data (CalibDataID, 'camera', 0, 'params', CamParams0)</l>
 <l>get_calib_data (CalibDataID, 'camera', 1, 'params', CamParams1)</l>
@@ -100,7 +110,7 @@
 <l>get_calib_data (CalibDataID, 'camera', 1, 'pose', RelCamPose)</l>
 <c>* </c>
 <c>* Display the results of the calibration</c>
-<l>Units := ['', '', '', '°', '°', 'm', 'm', 'px', 'px', 'px', 'px']</l>
+<l>Units := ['', 'mm', '1/㎡', 'μm', 'μm', 'px', 'px', 'px','px']</l>
 <l>FormatStringLabels := max(strlen(ParLabels))$'0' + 's'</l>
 <l>FormatStringParams := ''</l>
 <l>CamParTable0 := ParLabels$FormatStringLabels + ' = ' + CamParams0 + ' ' + Units</l>
@@ -122,12 +132,112 @@
 <l>disp_message (WindowHandles[1], Message, 'window', 12, 12, 'black', 'true')</l>
 <l>disp_continue_message (WindowHandles[1], 'black', 'true')</l>
 <l>stop ()</l>
+<c></c>
+<c></c>
+<l>for Index := 0 to |ImageFiles_L| - 1 by 2</l>
+<c>    * Read the stereo image pair</c>
+<l>    read_image (Image0, ImageFiles_L[Index])</l>
+<l>    read_image (Image1, ImageFiles_R[Index])</l>
+<l>    get_image_size (Image0, Width, Height)</l>
+<c>    * </c>
+<c>    * Rectify the stereo image pair using</c>
+<c>    * transformation maps</c>
+<c>    * 图像极线校正</c>
+<c>  </c>
+<l>    gen_binocular_rectification_map (Map1, Map2, CamParams0, CamParams1, RelCamPose, 1, 'viewing_direction', 'bilinear', CamParamRect0, CamParamRect1, CamPoseRect0, CamPoseRect1, RelPoseRect)</l>
+<l>    map_image (Image0, Map1, ImageRectified0)</l>
+<l>    map_image (Image1, Map2, ImageRectified1)</l>
+<l>    dev_set_window (WindowHandles[0])</l>
+<l>    dev_clear_window ()</l>
+<l>    dev_set_paint ('default')</l>
+<l>    dev_display (ImageRectified0)</l>
+<l>    dev_set_window (WindowHandles[1])</l>
+<l>    dev_clear_window ()</l>
+<l>    dev_set_paint ('default')</l>
+<l>    dev_display (ImageRectified1)</l>
+<l>    disp_message (WindowHandles[0], 'Rectified image pair ' + max([Index / 2 + 1,1]) + ' of ' + (|ImageFiles_L|), 'window', 12, 12, 'black', 'true')</l>
+<l>    disp_continue_message (WindowHandles[1], 'black', 'true')</l>
+<c>    </c>
+<l>    dev_set_window (WindowHandles[0])</l>
+<c>    * 获取图像区域</c>
+<l>    get_domain (ImageRectified0, Domain0)</l>
+<c>    </c>
+<c>    * 获得区域最大外矩形</c>
+<l>    smallest_rectangle1 (Domain0, Row11, Column11, Row2, Column2)</l>
+<c>    </c>
+<c>    * 根据标定相机图像获得采集大小</c>
+<l>    Row_D:=abs((CamParams0[8]-Row2)/2)</l>
+<l>    Column_D:=abs((CamParams0[7]-Column2)/2)</l>
+<c>    * 获得标定相机区域</c>
+<l>    gen_rectangle1 (Rectangle, Row_D, Column_D, CamParams0[8]+Row_D-1, CamParams0[7]+Column_D-1)</l>
+<c>    * 裁剪校正左右目图像</c>
+<l>    dev_set_window (WindowHandles[0])</l>
+<l>    reduce_domain (ImageRectified0, Rectangle, ImageReduced0)</l>
+<l>    dev_set_window (WindowHandles[1])</l>
+<l>    reduce_domain (ImageRectified1, Rectangle, ImageReduced1)</l>
+<c>    * 修改图像尺寸</c>
+<l>    dev_set_window (WindowHandles[0])</l>
+<l>    crop_domain (ImageReduced0, ImagePart0)</l>
+<l>    dev_set_window (WindowHandles[1])</l>
+<l>    crop_domain (ImageReduced1, ImagePart1)</l>
+<c>    </c>
+<c> </c>
+<c>    </c>
+<c>    </c>
+<c>  * 创建双目标定对象 2个相机1个标定板</c>
+<l>    create_calib_data (CalibSetup, NumCameras, NumCalibObjects, Find_CalibDataID)</l>
+<l>    set_calib_data_calib_object (Find_CalibDataID, 0, DescrFile)</l>
+<c>    * 设置初始化相机参数</c>
+<l>    set_calib_data_cam_param (Find_CalibDataID, 0, [], CamParams0)</l>
+<l>    set_calib_data_cam_param (Find_CalibDataID, 1, [], CamParams1)</l>
+<c>    * 查找标定板数据</c>
+<l>    find_calib_object (ImagePart0, Find_CalibDataID, 0, 0, Index, 'sigma', Sigma)</l>
+<l>    find_calib_object (ImagePart1, Find_CalibDataID, 1, 0, Index, 'sigma', Sigma)</l>
+<c>    * 提取并显示观测点的坐标</c>
+<l>    get_calib_data_observ_points (Find_CalibDataID, 0, 0, Index, Row0, Column0, PointIndex0, Pose0)</l>
+<l>    get_calib_data_observ_points (Find_CalibDataID, 1, 0, Index, Row1, Column1, PointIndex1, Pose1)</l>
+<l>    dev_set_window (WindowHandles[0])</l>
+<l>    gen_cross_contour_xld (Cross0, Row0, Column0, 30, 0.785398)</l>
+<l>    dev_set_window (WindowHandles[1])</l>
+<l>    gen_cross_contour_xld (Cross1, Row1, Column1, 30, 0.785398)</l>
+<c>    </c>
+<l>    Point:=min2(|PointIndex0|, |PointIndex1|)</l>
+<c>    </c>
+<l>    PRow0:=Row0[0:Point-1]</l>
+<l>    PRow1:=Row1[0:Point-1]</l>
+<l>   X:=[X, PRow0[I]-PRow1[I]]</l>
+<l>    for I := 0 to |Point| by 1</l>
+<l>        I:=61</l>
+<l>    dev_set_window (WindowHandles[0])</l>
+<c>    </c>
+<l>    gen_contour_polygon_xld (Line, [Row0[I],Row0[I]], [0,CamParams0[7] - 1])</l>
+<l>    gen_cross_contour_xld (Cross, Row0[I], Column0[I], 30, 0.785398)    </l>
+<c>        </c>
+<l>    dev_set_window (WindowHandles[1])</l>
+<l>    gen_contour_polygon_xld (Line, [Row1[I],Row1[I]], [0,CamParams0[7] - 1])</l>
+<l>    gen_cross_contour_xld (Cross, Row1[I], Column1[I], 30, 0.785398)    </l>
+<l>    endfor</l>
+<c>    </c>
+<l>    X:=PRow0-PRow1</l>
+<l>    EpipolarError := [mean(X),deviation(X)]</l>
+<c>    </c>
+<l>    stop ()</l>
+<c></c>
+<l>endfor</l>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<l>stop ()</l>
 <c>* </c>
 <c>* Read and process stereo image pairs acquired with</c>
 <c>* the calibrated stereo camera system</c>
 <c>* *************************************************</c>
 <c>* Set image files</c>
-<l>ImageFiles := ['stereo/telecentric_tilt/cam_0_cartridge', 'stereo/telecentric_tilt/cam_1_cartridge', 'stereo/telecentric_tilt/cam_0_tissue', 'stereo/telecentric_tilt/cam_1_tissue']</l>
+<l>tuple_regexp_select (AllCalibImageFiles, 'Image_TL', ImageFiles_TL)</l>
+<l>tuple_regexp_select (AllCalibImageFiles, 'Image_TR', ImageFiles_TR)</l>
+<l>*ImageFiles := ['stereo/telecentric_tilt/cam_0_cartridge', 'stereo/telecentric_tilt/cam_1_cartridge', 'stereo/telecentric_tilt/cam_0_tissue', 'stereo/telecentric_tilt/cam_1_tissue']</l>
 <c>* Initialize parameters for the determination of</c>
 <c>* the distance values</c>
 <l>GrayConstancy := 0.07</l>
@@ -137,15 +247,15 @@
 <c>* </c>
 <c>* Rectify stereo image pairs and determine the corresponding</c>
 <c>* distance values to the camera system</c>
-<l>for Index := 0 to |ImageFiles| - 1 by 2</l>
+<l>for Index := 0 to |ImageFiles_TL| - 1 by 2</l>
 <c>    * Read the stereo image pair</c>
-<l>    read_image (Image0, ImageFiles[Index])</l>
-<l>    read_image (Image1, ImageFiles[Index + 1])</l>
+<l>    read_image (Image0, ImageFiles_TL[Index])</l>
+<l>    read_image (Image1, ImageFiles_TR[Index])</l>
 <l>    get_image_size (Image0, Width, Height)</l>
 <c>    * </c>
 <c>    * Rectify the stereo image pair using</c>
 <c>    * transformation maps</c>
-<l>    gen_binocular_rectification_map (Map1, Map2, CamParams0, CamParams1, RelCamPose, 1, 'viewing_direction', 'bilinear', CamParamRect0, CamParamRect1, CamPoseRect0, CamPoseRect1, RelPoseRect)</l>
+<l>    *gen_binocular_rectification_map (Map1, Map2, CamParams0, CamParams1, RelCamPose, 1, 'viewing_direction', 'bilinear', CamParamRect0, CamParamRect1, CamPoseRect0, CamPoseRect1, RelPoseRect)</l>
 <l>    map_image (Image0, Map1, ImageRectified0)</l>
 <l>    map_image (Image1, Map2, ImageRectified1)</l>
 <l>    dev_set_window (WindowHandles[0])</l>
@@ -294,6 +404,110 @@
 <parameter id="DistanceImage"/>
 <parameter id="DistanceImageCorrected"/>
 <parameter id="RegionDefiningReferencePlane"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="check_epipolar_constraint">
+<interface>
+<io>
+<par name="ImagesRectL" base_type="iconic" dimension="0"/>
+<par name="ImagesRectR" base_type="iconic" dimension="0"/>
+</io>
+<ic>
+<par name="RectCamParL" base_type="ctrl" dimension="0"/>
+<par name="RectCamParR" base_type="ctrl" dimension="0"/>
+<par name="WindowHandle1" base_type="ctrl" dimension="0"/>
+<par name="WindowHandle2" base_type="ctrl" dimension="0"/>
+<par name="CaltabFile" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="EpipolarError" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c>* Check the epipolar constraint on the rectified images:</c>
+<c>*    (the differences of the features' row coordinates should be small)</c>
+<c>* Parameter settings for find_caltab and find_marks_and_pose</c>
+<l>SizeGauss := 3</l>
+<l>MarkThresh := 120</l>
+<l>MinDiamMarks := 5</l>
+<l>StartThresh := 128</l>
+<l>DeltaThresh := 10</l>
+<l>MinThresh := 18</l>
+<l>Alpha := 0.9</l>
+<l>MinContLength := 15</l>
+<l>MaxDiamMarks := 100</l>
+<l>X := []</l>
+<l>Rows := []</l>
+<l>Cols := []</l>
+<c></c>
+<l>count_obj (ImagesRectL, NumImages)</l>
+<l>if (NumImages &gt; 0)</l>
+<l>    RowsL := []</l>
+<l>    ColsL := []</l>
+<l>    RowsR := []</l>
+<l>    ColsR := []</l>
+<l>    for I := 1 to NumImages by 1</l>
+<l>        select_obj (ImagesRectL, ImageRectifiedL, I)</l>
+<l>        select_obj (ImagesRectR, ImageRectifiedR, I)</l>
+<c>        * Find the calibration points and the correspondences of these points in both images:</c>
+<l>        find_caltab (ImageRectifiedL, CaltabL, CaltabFile, SizeGauss, MarkThresh, MinDiamMarks)</l>
+<l>        find_marks_and_pose (ImageRectifiedL, CaltabL, CaltabFile, RectCamParL, StartThresh, DeltaThresh, MinThresh, Alpha, MinContLength, MaxDiamMarks, RCoordL, CCoordL, StartPoseL)</l>
+<l>        find_caltab (ImageRectifiedR, CaltabR, CaltabFile, SizeGauss, MarkThresh, MinDiamMarks)</l>
+<l>        find_marks_and_pose (ImageRectifiedR, CaltabR, CaltabFile, RectCamParR, StartThresh, DeltaThresh, MinThresh, Alpha, MinContLength, MaxDiamMarks, RCoordR, CCoordR, StartPoseR)</l>
+<l>        RowsL := [RowsL,RCoordL]</l>
+<l>        ColsL := [ColsL,CCoordL]</l>
+<l>        RowsR := [RowsR,RCoordR]</l>
+<l>        ColsR := [ColsR,CCoordR]</l>
+<l>    endfor</l>
+<l>    X := RowsR - RowsL</l>
+<l>    EpipolarError := [mean(X),deviation(X)]</l>
+<c>    * Visualize the rectified images and the result of the epipolar test:</c>
+<l>    dev_set_window (WindowHandle1)</l>
+<l>    dev_set_color ('yellow')</l>
+<l>    dev_clear_window ()</l>
+<l>get_cam_par_data (RectCamParL, 'image_width', ImageWidth)</l>
+<l>get_cam_par_data (RectCamParL, 'image_height', ImageHeight)</l>
+<l>    dev_set_part (0, 0, ImageHeight - 1, ImageWidth - 1)</l>
+<l>    select_obj (ImagesRectL, ImageRectifiedL, 1)</l>
+<l>    dev_display (ImageRectifiedL)</l>
+<l>    for I := 6 to 49 by 7</l>
+<c>        * Display the epipolar line of a certain point</c>
+<l>        gen_contour_polygon_xld (Line, [RowsL[I],RowsL[I]], [0,ImageWidth - 1])</l>
+<l>        gen_cross_contour_xld (Cross, RowsL[I], ColsL[I], 6, 0)</l>
+<l>        dev_display (Line)</l>
+<l>        dev_display (Cross)</l>
+<l>    endfor</l>
+<l>    Message[0] := 'Epipolar constraint error:'</l>
+<l>    Message[1] := 'mean: ' + EpipolarError[0]$'.4f' + ' pixels'</l>
+<l>    Message[2] := 'deviation: ' + EpipolarError[1]$'.3f' + ' pixels'</l>
+<l>disp_message (WindowHandle1, Message, 'window', 180, 12, 'white', 'false')</l>
+<l>    dev_set_window (WindowHandle2)</l>
+<l>    dev_set_color ('yellow')</l>
+<l>    dev_clear_window ()</l>
+<l>    dev_set_part (0, 0, ImageHeight - 1, ImageWidth - 1)</l>
+<l>    select_obj (ImagesRectR, ImageRectifiedR, 1)</l>
+<l>    dev_display (ImagesRectR)</l>
+<l>    for I := 6 to 49 by 7</l>
+<c>        * Display the epipolar line of a certain point</c>
+<l>        gen_contour_polygon_xld (Line, [RowsR[I],RowsR[I]], [0,ImageWidth - 1])</l>
+<l>        gen_cross_contour_xld (Cross, RowsR[I], ColsR[I], 6, 0)</l>
+<l>        dev_display (Line)</l>
+<l>        dev_display (Cross)</l>
+<l>    endfor</l>
+<l>endif</l>
+<l>return ()</l>
+</body>
+<docu id="check_epipolar_constraint">
+<parameters>
+<parameter id="CaltabFile"/>
+<parameter id="EpipolarError"/>
+<parameter id="ImagesRectL"/>
+<parameter id="ImagesRectR"/>
+<parameter id="RectCamParL"/>
+<parameter id="RectCamParR"/>
+<parameter id="WindowHandle1"/>
+<parameter id="WindowHandle2"/>
 </parameters>
 </docu>
 </procedure>
