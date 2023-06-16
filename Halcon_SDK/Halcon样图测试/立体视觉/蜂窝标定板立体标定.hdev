@@ -67,7 +67,14 @@
 <c>* Find and extract calibration marks</c>
 <c>* 创建视图窗口</c>
 <l>open_windows_multi_view_setup (Height, Width, 0.3, WindowHandles)</l>
-<l>for Index := 1 to |ImageFiles_L|-1 by 1</l>
+<l>caltab_points (DescrFile, X, Y, Z)</l>
+<l>CamLRow:=[]</l>
+<l>CamLCol:=[]</l>
+<l>CamRRow:=[]</l>
+<l>CamRCol:=[]</l>
+<c></c>
+<c></c>
+<l>for Index := 0 to |ImageFiles_L|-1 by 1</l>
 <c>    * </c>
 <c>    * Read calibration images</c>
 <c>    * 读取左右图像</c>
@@ -81,6 +88,7 @@
 <c>    * </c>
 <c>    * Extract and display coordinates of the observed points</c>
 <c>    * 提取并显示观测点的坐标</c>
+<c></c>
 <l>    get_calib_data_observ_points (CalibDataID, 0, 0, Index, Row0, Column0, PointIndex0, Pose0)</l>
 <l>    get_calib_data_observ_points (CalibDataID, 1, 0, Index, Row1, Column1, PointIndex1, Pose1)</l>
 <l>    gen_cross_contour_xld (Cross0, Row0, Column0, 30, 0.785398)</l>
@@ -91,13 +99,35 @@
 <l>    dev_set_window (WindowHandles[1])</l>
 <l>    dev_display (Image1)</l>
 <l>    dev_display (Cross1)</l>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<l>    tuple_new := (Row0 * 0) +0</l>
+<l>CamLRow:=[]</l>
+<l>CamLCol:=[]</l>
+<l>CamRRow:=[]</l>
+<l>CamRCol:=[]</l>
+<c>    </c>
+<c>    </c>
 <l>    disp_message (WindowHandles[0], 'Camera 0  Image ' + Index, 'window', 12, 12, 'black', 'true')</l>
 <l>    disp_message (WindowHandles[1], 'Camera 1  Image ' + Index, 'window', 12, 12, 'black', 'true')</l>
+<c></c>
 <l>endfor</l>
+<c></c>
+<c></c>
+<l>   Point:=min2(|PointIndex0|, |PointIndex1|)</l>
+<c>    </c>
+<l>    PRow0:=Row0[0:Point-1]</l>
+<l>    PRow1:=Row1[0:Point-1]</l>
+<c></c>
+<c></c>
 <c>* </c>
 <c>* Calibrate the cameras</c>
 <c>* 标定相机</c>
 <l>calibrate_cameras (CalibDataID, Error)</l>
+<c></c>
+<l>*binocular_calibration (Error, Error, Error, Error, Error, Error, Error, InitialCamParam_Cam_1, InitialCamParam_Cam_1, Error, Error, 'all', CamParam1, CamParam2, NFinalPose1, NFinalPose2, RelPose, Errors)</l>
+<c></c>
 <c>* </c>
 <c>* Get internal camera parameters and the corresponding labels</c>
 <c>* 获得标定相机参数名显示结果</c>
@@ -134,19 +164,23 @@
 <l>stop ()</l>
 <c></c>
 <c></c>
-<l>for Index := 0 to |ImageFiles_L| - 1 by 2</l>
+<l>for Index := 0 to |ImageFiles_TL| - 1 by 2</l>
 <c>    * Read the stereo image pair</c>
-<l>    read_image (Image0, ImageFiles_L[Index])</l>
-<l>    read_image (Image1, ImageFiles_R[Index])</l>
+<l>    read_image (Image0, ImageFiles_TL[Index])</l>
+<l>    read_image (Image1, ImageFiles_TR[Index])</l>
 <l>    get_image_size (Image0, Width, Height)</l>
 <c>    * </c>
 <c>    * Rectify the stereo image pair using</c>
 <c>    * transformation maps</c>
 <c>    * 图像极线校正</c>
 <c>  </c>
-<l>    gen_binocular_rectification_map (Map1, Map2, CamParams0, CamParams1, RelCamPose, 1, 'viewing_direction', 'bilinear', CamParamRect0, CamParamRect1, CamPoseRect0, CamPoseRect1, RelPoseRect)</l>
+<l>    gen_binocular_rectification_map (Map1, Map2, CamParams0, CamParams1, RelCamPose, 1, 'geometric', 'bilinear', CamParamRect0, CamParamRect1, CamPoseRect0, CamPoseRect1, RelPoseRect)</l>
 <l>    map_image (Image0, Map1, ImageRectified0)</l>
 <l>    map_image (Image1, Map2, ImageRectified1)</l>
+<l>    median_image (ImageRectified0, ImageR0, 'circle', 0.5, 'mirrored')</l>
+<l>    median_image (ImageRectified1, ImageR1, 'circle', 0.5, 'mirrored')</l>
+<l>    gray_opening_rect (ImageR0, ImageRe0, 20, 20)</l>
+<l>    gray_opening_rect (ImageR1, ImageRe1, 20, 20)</l>
 <l>    dev_set_window (WindowHandles[0])</l>
 <l>    dev_clear_window ()</l>
 <l>    dev_set_paint ('default')</l>
@@ -158,68 +192,40 @@
 <l>    disp_message (WindowHandles[0], 'Rectified image pair ' + max([Index / 2 + 1,1]) + ' of ' + (|ImageFiles_L|), 'window', 12, 12, 'black', 'true')</l>
 <l>    disp_continue_message (WindowHandles[1], 'black', 'true')</l>
 <c>    </c>
-<l>    dev_set_window (WindowHandles[0])</l>
-<c>    * 获取图像区域</c>
-<l>    get_domain (ImageRectified0, Domain0)</l>
 <c>    </c>
-<c>    * 获得区域最大外矩形</c>
-<l>    smallest_rectangle1 (Domain0, Row11, Column11, Row2, Column2)</l>
+<l>    for I:= 0 to 30 by 0.5</l>
+<l>        dev_clear_window ()</l>
+<c>      </c>
+<c></c>
 <c>    </c>
-<c>    * 根据标定相机图像获得采集大小</c>
-<l>    Row_D:=abs((CamParams0[8]-Row2)/2)</l>
-<l>    Column_D:=abs((CamParams0[7]-Column2)/2)</l>
-<c>    * 获得标定相机区域</c>
-<l>    gen_rectangle1 (Rectangle, Row_D, Column_D, CamParams0[8]+Row_D-1, CamParams0[7]+Column_D-1)</l>
-<c>    * 裁剪校正左右目图像</c>
-<l>    dev_set_window (WindowHandles[0])</l>
-<l>    reduce_domain (ImageRectified0, Rectangle, ImageReduced0)</l>
-<l>    dev_set_window (WindowHandles[1])</l>
-<l>    reduce_domain (ImageRectified1, Rectangle, ImageReduced1)</l>
-<c>    * 修改图像尺寸</c>
-<l>    dev_set_window (WindowHandles[0])</l>
-<l>    crop_domain (ImageReduced0, ImagePart0)</l>
-<l>    dev_set_window (WindowHandles[1])</l>
-<l>    crop_domain (ImageReduced1, ImagePart1)</l>
-<c>    </c>
-<c> </c>
-<c>    </c>
-<c>    </c>
-<c>  * 创建双目标定对象 2个相机1个标定板</c>
-<l>    create_calib_data (CalibSetup, NumCameras, NumCalibObjects, Find_CalibDataID)</l>
-<l>    set_calib_data_calib_object (Find_CalibDataID, 0, DescrFile)</l>
-<c>    * 设置初始化相机参数</c>
-<l>    set_calib_data_cam_param (Find_CalibDataID, 0, [], CamParams0)</l>
-<l>    set_calib_data_cam_param (Find_CalibDataID, 1, [], CamParams1)</l>
-<c>    * 查找标定板数据</c>
-<l>    find_calib_object (ImagePart0, Find_CalibDataID, 0, 0, Index, 'sigma', Sigma)</l>
-<l>    find_calib_object (ImagePart1, Find_CalibDataID, 1, 0, Index, 'sigma', Sigma)</l>
-<c>    * 提取并显示观测点的坐标</c>
-<l>    get_calib_data_observ_points (Find_CalibDataID, 0, 0, Index, Row0, Column0, PointIndex0, Pose0)</l>
-<l>    get_calib_data_observ_points (Find_CalibDataID, 1, 0, Index, Row1, Column1, PointIndex1, Pose1)</l>
-<l>    dev_set_window (WindowHandles[0])</l>
-<l>    gen_cross_contour_xld (Cross0, Row0, Column0, 30, 0.785398)</l>
-<l>    dev_set_window (WindowHandles[1])</l>
-<l>    gen_cross_contour_xld (Cross1, Row1, Column1, 30, 0.785398)</l>
-<c>    </c>
-<l>    Point:=min2(|PointIndex0|, |PointIndex1|)</l>
-<c>    </c>
-<l>    PRow0:=Row0[0:Point-1]</l>
-<l>    PRow1:=Row1[0:Point-1]</l>
-<l>   X:=[X, PRow0[I]-PRow1[I]]</l>
-<l>    for I := 0 to |Point| by 1</l>
-<l>        I:=61</l>
-<l>    dev_set_window (WindowHandles[0])</l>
-<c>    </c>
-<l>    gen_contour_polygon_xld (Line, [Row0[I],Row0[I]], [0,CamParams0[7] - 1])</l>
-<l>    gen_cross_contour_xld (Cross, Row0[I], Column0[I], 30, 0.785398)    </l>
-<c>        </c>
-<l>    dev_set_window (WindowHandles[1])</l>
-<l>    gen_contour_polygon_xld (Line, [Row1[I],Row1[I]], [0,CamParams0[7] - 1])</l>
-<l>    gen_cross_contour_xld (Cross, Row1[I], Column1[I], 30, 0.785398)    </l>
+<l>        binocular_disparity(ImageRe1, ImageRe0, DisparityImage, Score, \
+                      'ncc', 20, 20, 0, -50, 50, 3, 0, \
+                      'none', 'none')</l>
+<l>       binocular_distance_mg (ImageRe1, ImageRe0, DisparityImage,Score,\
+                              CamParamRect0, CamParamRect1, RelPoseRect, \
+                              0.02, 2, 0.1, 0, 'true', 'default_parameters', 'accurate')</l>
+<l>        binocular_distance (ImageRe1, ImageRe0, Distance, Score,\
+                            CamParamRect0, CamParamRect1, RelPoseRect, \
+                            'ncc', 11, 11, 0, 0, 30, 1, 0, 'none', 'none')</l>
+<l>       dev_display (DisparityImage)   </l>
+<l>              wait_seconds (0.5)</l>
+<c>           </c>
 <l>    endfor</l>
 <c>    </c>
-<l>    X:=PRow0-PRow1</l>
-<l>    EpipolarError := [mean(X),deviation(X)]</l>
+<c>    </c>
+<c>    * 计算视差</c>
+<c>* </c>
+<c>* 填充视差图中的缺陷</c>
+<l>get_domain (DisparityImage, RegionInpainting)</l>
+<l>complement (RegionInpainting, RegionInpainting)</l>
+<l>full_domain (DisparityImage, DisparityImage)</l>
+<l>harmonic_interpolation (DisparityImage, RegionInpainting, DisparityImage, 0.001)</l>
+<c></c>
+<c></c>
+<c>    </c>
+<l>    dev_set_window (WindowHandles[0])</l>
+<c></c>
+<c>    </c>
 <c>    </c>
 <l>    stop ()</l>
 <c></c>
@@ -255,7 +261,7 @@
 <c>    * </c>
 <c>    * Rectify the stereo image pair using</c>
 <c>    * transformation maps</c>
-<l>    *gen_binocular_rectification_map (Map1, Map2, CamParams0, CamParams1, RelCamPose, 1, 'viewing_direction', 'bilinear', CamParamRect0, CamParamRect1, CamPoseRect0, CamPoseRect1, RelPoseRect)</l>
+<l>    gen_binocular_rectification_map (Map1, Map2, CamParams0, CamParams1, RelCamPose, 1, 'viewing_direction', 'bilinear', CamParamRect0, CamParamRect1, CamPoseRect0, CamPoseRect1, RelPoseRect)</l>
 <l>    map_image (Image0, Map1, ImageRectified0)</l>
 <l>    map_image (Image1, Map2, ImageRectified1)</l>
 <l>    dev_set_window (WindowHandles[0])</l>
@@ -266,16 +272,19 @@
 <l>    dev_clear_window ()</l>
 <l>    dev_set_paint ('default')</l>
 <l>    dev_display (ImageRectified1)</l>
-<l>    disp_message (WindowHandles[0], 'Rectified image pair ' + max([Index / 2 + 1,1]) + ' of ' + (|ImageFiles| / 2), 'window', 12, 12, 'black', 'true')</l>
+<l>    disp_message (WindowHandles[0], 'Rectified image pair ' + max([Index / 2 + 1,1]) + ' of ' + (|ImageFiles_TL|), 'window', 12, 12, 'black', 'true')</l>
 <l>    disp_continue_message (WindowHandles[1], 'black', 'true')</l>
 <l>    stop ()</l>
+<c>    </c>
+<l>    binocular_disparity (ImageRectified0, ImageRectified1, Disparity, Score, 'ncc', 57, 57, 5, 0, 60, 1, 0.1, 'none', 'none')</l>
+<c>    </c>
 <c>    * Ignore left part of image 0, as it is not visible in image 1</c>
-<l>    get_image_size (ImageRectified0, Width0Rect, Height0Rect)</l>
-<l>    gen_rectangle1 (ROIValid, 0, 100, Height0Rect - 1, Width0Rect - 1)</l>
+<l>    *get_image_size (ImageRectified0, Width0Rect, Height0Rect)</l>
+<l>    *gen_rectangle1 (ROIValid, 0, 100, Height0Rect - 1, Width0Rect - 1)</l>
 <c>    * </c>
 <c>    * Determine the distance image</c>
 <l>    binocular_distance_mg (ImageRectified0, ImageRectified1, DistanceImage, ScoreImage, CamParamRect0, CamParamRect1, RelPoseRect, GrayConstancy, GradientConstancy, Smoothness, InitialGuess, 'false', 'default_parameters', 'accurate')</l>
-<l>    reduce_domain (DistanceImage, ROIValid, DistanceImage)</l>
+<l>   * reduce_domain (DistanceImage, ROIValid, DistanceImage)</l>
 <c>    * </c>
 <c>    * Correct the distance image for the tilt of the</c>
 <c>    * stereo camera system. First, define a region, which</c>
