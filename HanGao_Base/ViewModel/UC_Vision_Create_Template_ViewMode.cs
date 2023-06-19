@@ -815,21 +815,21 @@ namespace HanGao.ViewModel
         {
 
             //AsyncMethCaller Caller = new AsyncMethCaller(Theah_Run_TimeOut);
-            CancellationTokenSource source = new CancellationTokenSource();
-            Thread threadToKill = null;
-            Action wrappedAction = () =>
-            {
-                threadToKill = Thread.CurrentThread;
-                _Action();
-            };
+            //CancellationTokenSource source = new CancellationTokenSource();
+            //Thread threadToKill = null;
+            //Action wrappedAction = () =>
+            //{
+            //    threadToKill = Thread.CurrentThread;
+            //    _Action();
+            //};
 
-               var result=   Task.Run(() => wrappedAction.Invoke());
+               var result=   Task.Run(() => _Action.Invoke());
 
 
             //IAsyncResult result = wrappedAction.BeginInvoke(null, null);
             if (_TimeOut > 0)
             {
-                if (result.Wait(_TimeOut, source.))
+                if (result.Wait(_TimeOut))
                 {
 
                     //wrappedAction.EndInvoke(result);
@@ -839,22 +839,22 @@ namespace HanGao.ViewModel
                 else
                 {
                     User_Log_Add("执行程序运行超时,强制退出!");
-                    threadToKill.Abort();
+                    //threadToKill.Abort();
                     return false;
                 }
             }
             else
             {
-                if (result.AsyncWaitHandle.WaitOne())
+                if (result.Wait(_TimeOut))
                 {
                     User_Log_Add("执行程序运行成功!");
-                    wrappedAction.EndInvoke(result);
+                    //wrappedAction.EndInvoke(result);
                     return true;
                 }
                 else
                 {
                     User_Log_Add("执行程序运行超时,强制退出!");
-                    threadToKill.Abort();
+                    //threadToKill.Abort();
                     return false;
                 }
             }
