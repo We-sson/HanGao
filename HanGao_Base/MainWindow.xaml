@@ -2,7 +2,6 @@
         x:Class="HanGao.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:Converters="clr-namespace:Nicenis.Windows.Data.Converters;assembly=Nicenis"
         xmlns:Frameshow="clr-namespace:HanGao.View.FrameShow"
         xmlns:Sys="clr-namespace:System;assembly=mscorlib"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -43,7 +42,6 @@
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        <Converters:TruthyToVisibleConverter x:Key="TruthyToVisibleConverter" />
         <Storyboard x:Key="UI_Socket_Type_Stroy" />
     </Window.Resources>
 

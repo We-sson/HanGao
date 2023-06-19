@@ -1,64 +1,15 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{85285344-B1E3-4E96-8F9E-C9437C682B04}</ProjectGuid>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Halcon_SDK_DLL</RootNamespace>
     <AssemblyName>Halcon_SDK_DLL</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
     <LangvVersion>latestMajor</LangvVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWPF>true</UseWPF>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x64</PlatformTarget>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="halcondotnet, Version=22.5.0.0, Culture=neutral, PublicKeyToken=4973bed59ddbf2b8, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\halcondotnet.dll</HintPath>
-    </Reference>
-    <Reference Include="hdevenginedotnet">
-      <HintPath>DLL\Halcon\2022\hdevenginedotnet.dll</HintPath>
-    </Reference>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Halcon_Method\Halcon_SDK.cs" />
-    <Compile Include="Model\Halcon_Data_Model.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WPF_Converter\View_Converter.cs" />
-  </ItemGroup>
   <ItemGroup>
     <Content Include="halcon.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -114,52 +65,24 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Halcon样图测试\10_F_135_1.dfm" />
-    <None Include="Halcon样图测试\10_F_225_1.dfm" />
-    <None Include="Halcon样图测试\10_F_315_1.dfm" />
-    <None Include="Halcon样图测试\10_F_45_1.dfm" />
-    <None Include="Halcon样图测试\135_1_ModelID1_deformed.dfm" />
-    <None Include="Halcon样图测试\135_1_ModelID_aniso.shm" />
-    <None Include="Halcon样图测试\135_1_ModelID_deformed.dfm" />
-    <None Include="Halcon样图测试\135_1_ModelID_template.shm" />
-    <None Include="Halcon样图测试\135_1_ModelID_zoom.shm" />
-    <None Include="Halcon样图测试\1_F_135_1.dfm" />
-    <None Include="Halcon样图测试\1_F_225_1.dfm" />
-    <None Include="Halcon样图测试\1_F_315_1.dfm" />
-    <None Include="Halcon样图测试\1_F_45_1.dfm" />
     <None Include="Halcon样图测试\26-30-0.002.cpd" />
     <None Include="Halcon样图测试\26-30-0.002.ps" />
     <None Include="Halcon样图测试\26-30-0.0125.cpd" />
     <None Include="Halcon样图测试\26-30-0.0125.ps" />
-    <None Include="Halcon样图测试\2D_135_ID.mat" />
-    <None Include="Halcon样图测试\2D_225_ID.mat" />
-    <None Include="Halcon样图测试\2D_315_ID.mat" />
-    <None Include="Halcon样图测试\2D_45_ID.mat" />
-    <None Include="Halcon样图测试\2_F_135_1.dfm" />
-    <None Include="Halcon样图测试\2_F_225_1.dfm" />
-    <None Include="Halcon样图测试\2_F_315_1.dfm" />
-    <None Include="Halcon样图测试\2_F_45_1.dfm" />
-    <None Include="Halcon样图测试\3_F_135_1.dfm" />
-    <None Include="Halcon样图测试\3_F_225_1.dfm" />
-    <None Include="Halcon样图测试\3_F_315_1.dfm" />
-    <None Include="Halcon样图测试\3_F_45_1.dfm" />
-    <None Include="Halcon样图测试\45_1_ModelID1_deformed.dfm" />
-    <None Include="Halcon样图测试\45_1_ModelID_aniso.shm" />
-    <None Include="Halcon样图测试\45_1_ModelID_deformed.dfm" />
-    <None Include="Halcon样图测试\45_1_ModelID_template.shm" />
-    <None Include="Halcon样图测试\45_1_ModelID_zoom.shm" />
-    <None Include="Halcon样图测试\45匹配.hdev" />
-    <None Include="Halcon样图测试\6_F_45_1.dfm" />
     <None Include="Halcon样图测试\9-9-0.002-0.5.descr" />
     <None Include="Halcon样图测试\9-9-0.002-0.5.ps" />
-    <None Include="Halcon样图测试\ncc匹配.hdev" />
-    <None Include="Halcon样图测试\xdl创建匹配.hdev" />
-    <None Include="Halcon样图测试\Xdl匹配.hdev" />
-    <None Include="Halcon样图测试\例子匹配.hdev" />
-    <None Include="Halcon样图测试\制作标定板.hdev" />
-    <None Include="Halcon样图测试\图片预处理转换.hdev" />
     <None Include="Halcon样图测试\模板.dxf" />
-    <None Include="Halcon样图测试\相机校正变形.hdev" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="halcondotnet">
+      <HintPath>halcondotnet.dll</HintPath>
+    </Reference>
+    <Reference Include="hdevenginedotnet">
+      <HintPath>hdevenginedotnet.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>

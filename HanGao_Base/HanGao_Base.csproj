@@ -1,23 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1B2622B5-B29B-4EB1-981E-EF015A0AABE4}</ProjectGuid>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <OutputType>WinExe</OutputType>
     <RootNamespace>HanGao</RootNamespace>
     <AssemblyName>HanGao</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
     <LangVersion>latestMajor</LangVersion>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>false</Deterministic>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>C:\Users\H\Desktop\悍高\</PublishUrl>
     <Install>true</Install>
@@ -34,9 +22,10 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>HanGao.App</StartupObject>
@@ -57,55 +46,30 @@
     <TargetZone>LocalIntranet</TargetZone>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Debug</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
     <LangVersion>latestMajor</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
-    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <Optimize>false</Optimize>
     <DebugType>none</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
     <LangVersion>latestMajor</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>latestMajor</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <Optimize>false</Optimize>
     <DocumentationFile>
     </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
     <Optimize>false</Optimize>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>latestMajor</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <DebugSymbols>true</DebugSymbols>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
@@ -113,6 +77,7 @@
   <PropertyGroup>
     <ApplicationIcon>Resources\软件图标.ico</ApplicationIcon>
   </PropertyGroup>
+
   <ItemGroup>
     <Reference Include="halcondotnet, Version=22.5.0.0, Culture=neutral, PublicKeyToken=4973bed59ddbf2b8, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -125,432 +90,108 @@
     <Reference Include="MvCamCtrl.Net">
       <HintPath>..\MVS_SDK\MvCamCtrl.Net.dll</HintPath>
     </Reference>
-    <Reference Include="PresentationFramework.Aero2">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System">
+    <Reference Update="System">
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.ComponentModel.Composition">
+    <Reference Update="System.Data">
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Data">
+    <Reference Update="System.IO.Compression.FileSystem">
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.IO.Compression.FileSystem">
+    <Reference Update="System.Numerics">
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Numerics">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml">
+    <Reference Update="System.Xml">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="Microsoft.CSharp">
+    <Reference Update="System.Core">
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Core">
+    <Reference Update="System.Xml.Linq">
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Xml.Linq">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Data.DataSetExtensions">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="UIAutomationProvider" />
-    <Reference Include="WindowsBase">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="PresentationCore">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="PresentationFramework">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Compile Include="Errorinfo\IP_Text_Error.cs" />
-    <Compile Include="Errorinfo\LogManager.cs" />
-    <Compile Include="Model\Frame_Uri_Models.cs" />
-    <Compile Include="Model\Home_Models.cs" />
-    <Compile Include="Model\Pop_Message_Models.cs" />
-    <Compile Include="Model\Sideber_Models.cs" />
-    <Compile Include="Model\Sink_Craft_Models.cs" />
-    <Compile Include="Model\Sink_Models.cs" />
-    <Compile Include="Model\UC_Point_Info_Models.cs" />
-    <Compile Include="Model\UC_Sink_Add_Model.cs" />
-    <Compile Include="Model\UC_Surround_Point_Models.cs" />
-    <Compile Include="Model\User_Features.cs" />
-    <Compile Include="Model\User_Log_Models.cs" />
-    <Compile Include="Model\User_Message_Models.cs" />
-    <Compile Include="Model\User_Steps_Model.cs" />
-    <Compile Include="Model\User_Working_Path_Models.cs" />
-    <Compile Include="Model\Wroking_Models.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="ViewModel\Global_Seting_Status.cs" />
-    <Compile Include="ViewModel\Global_Using.cs" />
-    <Compile Include="ViewModel\Messenger_Eunm\Messenger_Name.cs" />
-    <Compile Include="ViewModel\Other_Window_VM.cs" />
-    <Compile Include="ViewModel\UC_KUKA_State_VM.cs" />
-    <Compile Include="ViewModel\UC_Lines_Charts_VM.cs" />
-    <Compile Include="ViewModel\UC_Point_Info_VM.cs" />
-    <Compile Include="ViewModel\UC_ProgramEdit_ViewModel.cs" />
-    <Compile Include="ViewModel\UC_Short_Side_VM.cs" />
-    <Compile Include="ViewModel\UC_Sink_Add_VM.cs" />
-    <Compile Include="ViewModel\UC_Sink_Craft_List_VM.cs" />
-    <Compile Include="ViewModel\FrameShow.cs" />
-    <Compile Include="ViewModel\Home_ViewModel.cs" />
-    <Compile Include="ViewModel\LIst_Reveice.cs" />
-    <Compile Include="ViewModel\List_Show.cs" />
-    <Compile Include="ViewModel\MainViewModel.cs" />
-    <Compile Include="ViewModel\UC_Pop_Ups_VM.cs" />
-    <Compile Include="ViewModel\UC_Sink_Size_VM.cs" />
-    <Compile Include="ViewModel\UC_Sink_Type_VM.cs" />
-    <Compile Include="ViewModel\UC_Start_State_From_VM.cs" />
-    <Compile Include="ViewModel\UC_Surround_Direction_VM.cs" />
-    <Compile Include="ViewModel\UC_Surround_Point_VM.cs" />
-    <Compile Include="ViewModel\UC_Visal_Function_VM.cs" />
-    <Compile Include="ViewModel\UC_Vision_Auto_Model_ViewModel.cs" />
-    <Compile Include="ViewModel\UC_Vision_CameraSet_ViewModel.cs" />
-    <Compile Include="ViewModel\UC_Vision_Create_Template_ViewMode.cs" />
-    <Compile Include="ViewModel\UC_Vision_Point_Calibration_ViewModel.cs" />
-    <Compile Include="ViewModel\UC_Vision_Robot_Protocol_ViewModel.cs" />
-    <Compile Include="ViewModel\UserControl_Socket_Write_ViewModel.cs" />
-    <Compile Include="ViewModel\User_Control_Common.cs" />
-    <Compile Include="ViewModel\User_Control_Log_ViewModel.cs" />
-    <Compile Include="ViewModel\User_Control_Working_VM.cs" />
-    <Compile Include="ViewModel\User_Message_Control_Show.cs" />
-    <Compile Include="ViewModel\User_Message_ViewModel.cs" />
-    <Compile Include="ViewModel\ViewModelLocator.cs" />
-    <Compile Include="View\Style\Word_list.xaml.cs">
-      <DependentUpon>Word_list.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\FrameShow\Vision.xaml.cs">
-      <DependentUpon>Vision.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\FrameShow\Other_Window.xaml.cs">
-      <DependentUpon>Other_Window.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\FrameShow\HomeOne.xaml.cs">
-      <DependentUpon>HomeOne.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\FrameShow\ProgramEdit.xaml.cs">
-      <DependentUpon>ProgramEdit.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\UserMessage\User_Message.xaml.cs">
-      <DependentUpon>User_Message.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\User_Control\Live_Chart\UC_Lines_Charts.xaml.cs">
-      <DependentUpon>UC_Lines_Charts.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\User_Control\Pop_Ups\UC_SInk_Add.xaml.cs">
-      <DependentUpon>UC_SInk_Add.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\User_Control\Pop_Ups\UC_Sink_Type.xaml.cs">
-      <DependentUpon>UC_Sink_Type.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\User_Control\Pop_Ups\UC_Sink_Size.xaml.cs">
-      <DependentUpon>UC_Sink_Size.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\User_Control\Pop_Ups\UC_Sink_Craft_List.xaml.cs">
-      <DependentUpon>UC_Sink_Craft_List.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\User_Control\Pop_Ups\UC_Wait_Loading.xaml.cs">
-      <DependentUpon>UC_Wait_Loading.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\User_Control\Program_Editing\Direction_UI\UC_Short_Side.xaml.cs">
-      <DependentUpon>UC_Short_Side.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\User_Control\Program_Editing\Direction_UI\UC_Surround_Direction.xaml.cs">
-      <DependentUpon>UC_Surround_Direction.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\User_Control\Program_Editing\Point_info\UC_Point_Info.xaml.cs">
-      <DependentUpon>UC_Point_Info.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\User_Control\Program_Editing\Point_UI\UC_Surround_Point.xaml.cs">
-      <DependentUpon>UC_Surround_Point.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\User_Control\UC_Start_State_From.xaml.cs">
-      <DependentUpon>UC_Start_State_From.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\User_Control\Pop_Ups\UC_Pop_Ups.xaml.cs">
-      <DependentUpon>UC_Pop_Ups.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\User_Control\User_Control_Log.xaml.cs">
-      <DependentUpon>User_Control_Log.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\User_Control\User_Control_Working.xaml.cs">
-      <DependentUpon>User_Control_Working.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\User_Control\User_Control_KUKA_State.xaml.cs">
-      <DependentUpon>User_Control_KUKA_State.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\User_Control\Vision_Control\UC_Vision_Create_Template.xaml.cs">
-      <DependentUpon>UC_Vision_Create_Template.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\User_Control\Vision_Control\UC_Vision_Auto_Model.xaml.cs">
-      <DependentUpon>UC_Vision_Auto_Model.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\User_Control\Vision_Control\UC_Vision_Point_Calibration.xaml.cs">
-      <DependentUpon>UC_Vision_Point_Calibration.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\User_Control\Vision_Control\UC_Vision_CameraSet.xaml.cs">
-      <DependentUpon>UC_Vision_CameraSet.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\User_Control\Vision_Control\UC_Vision_Robot_Protocol.xaml.cs">
-      <DependentUpon>UC_Vision_Robot_Protocol.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Xml_Date\Lines_Charts_XML\Charts_Model\Lines_Charts_Models.cs" />
-    <Compile Include="Xml_Date\Vision_XML\Vision_Model\Vision_Xml_Models.cs" />
-    <Compile Include="Xml_Date\Vision_XML\Vision_WriteRead\Vision_Xml_Method.cs" />
-    <Compile Include="Xml_Date\Xml_Models\Xml_Model.cs" />
-    <Compile Include="Xml_Date\Xml_WriteRead\XML_Write_Read.cs" />
-    <Page Include="View\Style\Button_message.xaml">
+    <Page Update="View\Style\Button_message.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Style\CheckBox_List_Style.xaml">
-      <SubType>Designer</SubType>
+    <Page Update="View\Style\Grid_function_Style.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Home.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="View\Effect_Resources\Global_Effect.xaml">
-      <SubType>Designer</SubType>
+    <Page Update="View\Style\Right_Function_Button.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Style\Global_Color_Style.xaml">
-      <SubType>Designer</SubType>
+    <Page Update="View\Style\Sidebar_Button_Style.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Style\ListBox.xaml">
-      <SubType>Designer</SubType>
+    <Page Update="View\Style\Socket_ListView_Style.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Style\ScrollViewer.xaml">
-      <SubType>Designer</SubType>
+    <Page Update="View\Style\Window_Button.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Style\Search_Style.xaml">
-      <SubType>Designer</SubType>
+    <Page Update="View\Style\Word_list.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Style\RadioButton_Style.xaml">
-      <SubType>Designer</SubType>
+    <Page Update="View\UserMessage\User_Message.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Style\Button_List.xaml">
-      <SubType>Designer</SubType>
+    <Page Update="View\User_Control\Pop_Ups\Style\Pop_Ups_Style.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Style\Grid_function_Style.xaml">
+    <Page Update="View\User_Control\Pop_Ups\UC_Sink_Type.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Style\Right_Function_Button.xaml">
+    <Page Update="View\User_Control\Pop_Ups\UC_Sink_Size.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Style\ScrollViewer_List.xaml">
-      <SubType>Designer</SubType>
+    <Page Update="View\User_Control\Pop_Ups\UC_Sink_Craft_List.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Style\Sidebar_Button_Style.xaml">
+    <Page Update="View\User_Control\Pop_Ups\UC_Wait_Loading.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Style\Socket_ListView_Style.xaml">
+    <Page Update="View\User_Control\Program_Editing\Direction_UI\UC_Short_Side.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Style\UC_Loading_Style.xaml">
-      <SubType>Designer</SubType>
+    <Page Update="View\User_Control\Program_Editing\Direction_UI\UC_Surround_Direction.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Style\Vision_From2_Style.xaml">
-      <SubType>Designer</SubType>
+    <Page Update="View\User_Control\Program_Editing\Point_info\UC_Point_Info.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Style\Vision_From_Styles.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Style\Window_Button.xaml">
+    <Page Update="View\User_Control\Program_Editing\Point_info\UC_Point_Style.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Style\Word_list.xaml">
+    <Page Update="View\User_Control\Program_Editing\Point_UI\Point_UI_Style.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Style\Title_Font_Size.xaml">
-      <SubType>Designer</SubType>
+    <Page Update="View\User_Control\Program_Editing\Point_UI\UC_Surround_Point.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Style\Title_button.xaml">
-      <SubType>Designer</SubType>
+    <Page Update="View\User_Control\Program_Editing\Program_Style.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\FrameShow\Vision.xaml">
-      <SubType>Designer</SubType>
+    <Page Update="View\User_Control\User_Control_Log.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\FrameShow\Other_Window.xaml">
-      <SubType>Designer</SubType>
+    <Page Update="View\User_Control\User_Control_Working.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\FrameShow\HomeOne.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\FrameShow\ProgramEdit.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\UserMessage\User_Message.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\User_Control\Live_Chart\UC_Lines_Charts.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\User_Control\Pop_Ups\Style\Pop_Ups_Style.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\User_Control\Pop_Ups\UC_SInk_Add.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\User_Control\Pop_Ups\UC_Sink_Type.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\User_Control\Pop_Ups\UC_Sink_Size.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\User_Control\Pop_Ups\UC_Sink_Craft_List.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\User_Control\Pop_Ups\UC_Wait_Loading.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\User_Control\Program_Editing\Direction_UI\UC_Short_Side.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\User_Control\Program_Editing\Direction_UI\UC_Surround_Direction.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\User_Control\Program_Editing\Point_info\UC_Point_Info.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\User_Control\Program_Editing\Point_info\UC_Point_Style.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\User_Control\Program_Editing\Point_UI\Point_UI_Style.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\User_Control\Program_Editing\Point_UI\UC_Surround_Point.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\User_Control\Program_Editing\Program_Style.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\User_Control\UC_Start_State_From.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\User_Control\Pop_Ups\UC_Pop_Ups.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\User_Control\User_Control_Log.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\User_Control\User_Control_Working.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\User_Control\User_Control_KUKA_State.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Style\Ver_ScrollBar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\User_Control\Vision_Control\UC_Vision_Create_Template.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\User_Control\Vision_Control\UC_Vision_Auto_Model.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\User_Control\Vision_Control\UC_Vision_Point_Calibration.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\User_Control\Vision_Control\UC_Vision_CameraSet.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\User_Control\Vision_Control\UC_Vision_Robot_Protocol.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Vision_Control\Vision_UserControl_Style.xaml">
-      <SubType>Designer</SubType>
+    <Page Update="View\User_Control\User_Control_KUKA_State.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <None Include="Resources\软件图标.ico" />
     <Resource Include="Resources\悍高LOGO_ioc.png" />
     <Resource Include="Resources\Vision_读取文件_ioc.png" />
     <Resource Include="Resources\Vision_清除数据_ioc.png" />
     <Resource Include="Resources\UC_放大_1_ioc.png" />
     <Resource Include="Resources\UC_放大_ioc.png" />
     <Resource Include="Resources\Vision_刷新_ioc.png" />
-    <Resource Include="Properties\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
+    <None Update="FodyWeavers.xsd">
       <SubType>Designer</SubType>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </Resource>
-    <None Include="FodyWeavers.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Properties\app.manifest" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Ps_UI\UI水槽.xmind" />
     <None Include="Ps_UI\单盆图标.ai" />
@@ -573,11 +214,7 @@
     <Content Include="Resources\hdevenginedotnetxl.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Settings.XamlStyler" />
     <Resource Include="Resources\iconfont.ttf" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8">
@@ -591,7 +228,12 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="System.ComponentModel.Composition" Version="7.0.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Vision_保存图标_ioc.png" />
     <Resource Include="Resources\Vision_删除_ioc.png" />
@@ -625,14 +267,8 @@
     <PackageReference Include="Dirkster.NumericUpDownLib">
       <Version>3.4.0</Version>
     </PackageReference>
-    <PackageReference Include="Expression.Blend.Sdk.WPF">
-      <Version>1.0.1</Version>
-    </PackageReference>
     <PackageReference Include="LiveChartsCore.SkiaSharpView.WPF">
       <Version>2.0.0-beta.700</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection">
-      <Version>7.0.0-rc.1.22426.10</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf">
       <Version>1.1.39</Version>
@@ -640,62 +276,32 @@
     <PackageReference Include="Nancy">
       <Version>2.0.0</Version>
     </PackageReference>
-    <PackageReference Include="Nicenis">
-      <Version>1.3.6</Version>
-    </PackageReference>
     <PackageReference Include="Ookii.Dialogs.Wpf">
       <Version>5.0.1</Version>
     </PackageReference>
-    <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" PrivateAssets="all">
-    </PackageReference>
-    <PackageReference Include="System.Drawing.Common">
-      <Version>7.0.0-rc.1.22426.10</Version>
-    </PackageReference>
-    <PackageReference Include="System.Drawing.Primitives">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe">
-      <Version>7.0.0-preview.2.22152.2</Version>
-    </PackageReference>
-    <PackageReference Include="System.Threading.Tasks.Extensions">
-      <Version>4.5.4</Version>
-    </PackageReference>
-    <PackageReference Include="Unnoficial.Microsoft.Expression.Drawing">
-      <Version>1.0.0</Version>
+    <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" PrivateAssets="All">
     </PackageReference>
     <PackageReference Include="XamlFlair.WPF">
       <Version>1.2.13</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Enum_Extension\KUKA_Val_Extension.csproj">
-      <Project>{5647b968-3330-4159-bc39-872f1b889a9b}</Project>
-      <Name>KUKA_Val_Extension</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Generic_Extension\Generic_Extension.csproj">
-      <Project>{1CFBC836-D70F-4C44-98D1-17D4778F883B}</Project>
-      <Name>Generic_Extension</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Halcon_SDK\Halcon_SDK.csproj">
-      <Project>{85285344-b1e3-4e96-8f9e-c9437c682b04}</Project>
-      <Name>Halcon_SDK</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\KUKA_Socket\KUKA_Socket.csproj">
-      <Project>{4e727e85-63ec-4664-abf6-211ed2457e48}</Project>
-      <Name>KUKA_Socket</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MVS_SDK\MVS_SDK.csproj">
-      <Project>{09bde038-3dbc-4fce-9d4d-ad4d8422c3e1}</Project>
-      <Name>MVS_SDK</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\Enum_Extension\KUKA_Val_Extension.csproj" />
+    <ProjectReference Include="..\Generic_Extension\Generic_Extension.csproj" />
+    <ProjectReference Include="..\Halcon_SDK\Halcon_SDK.csproj" />
+    <ProjectReference Include="..\KUKA_Socket\KUKA_Socket.csproj" />
+    <ProjectReference Include="..\MVS_SDK\MVS_SDK.csproj" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
-  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="View\User_Control\KUKA_Status.xaml.cs" />
+    <Compile Remove="View\User_Control\UserControl_Grid.xaml.cs" />
+    <Page Remove="View\User_Control\KUKA_Status.xaml" />
+    <Page Remove="View\User_Control\UserControl_Grid.xaml" />
+  </ItemGroup>
+  <PropertyGroup />
   <PropertyGroup>
     <PostBuildEvent>rd /s /q "de" "en" "es" "fr" "hu" "it" "ja" "ko" "pr-br" "ro" "pt-br" "ru" "sv" "zh-hans" "zh-hant" 
 </PostBuildEvent>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 </Project>

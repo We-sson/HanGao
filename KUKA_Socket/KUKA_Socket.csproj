@@ -1,76 +1,19 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\HanGao_Base\packages\PropertyChanged.Fody.3.4.1\build\PropertyChanged.Fody.props" Condition="Exists('..\HanGao_Base\packages\PropertyChanged.Fody.3.4.1\build\PropertyChanged.Fody.props')" />
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4E727E85-63EC-4664-ABF6-211ED2457E48}</ProjectGuid>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>KUKA_Socket</RootNamespace>
-    <AssemblyName>KUKA_Socket</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <PlatformTarget>x64</PlatformTarget>
+    <AssemblyTitle>KUKA_Socket</AssemblyTitle>
+    <Product>KUKA_Socket</Product>
+    <Copyright>Copyright ©  2022</Copyright>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x64</PlatformTarget>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="KUKA_Send_Receive_Xml.cs" />
-    <Compile Include="Models\KUKA_Xml_Model.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Models\Socket_Models.cs" />
-    <Compile Include="Socket_Connect.cs" />
-    <Compile Include="Socket_Receive.cs" />
-    <Compile Include="Socket_Sever.cs" />
-  </ItemGroup>
   <ItemGroup>
     <None Include="KUKA_KRL\8.3\EthernetKRL.kop" />
     <None Include="KUKA_KRL\8.5\EthernetKRL.kop" />
     <None Include="KUKA_KRL\8.6\EthernetKRL_3.1.kop" />
-    <None Include="KUKA_KRL\KUKA Router\Router.routes" />
-    <None Include="KUKA_KRL\KUKAVARPROXY 9.0\lib\Cross.oca" />
-    <None Include="KUKA_KRL\KUKAVARPROXY 9.0\lib\Cross3Krc.CIE" />
-    <None Include="KUKA_KRL\KUKAVARPROXY 9.0\lib\CSWSK32.oca" />
-    <None Include="KUKA_KRL\KUKAVARPROXY 9.0\README.md" />
-    <None Include="KUKA_KRL\KUKAVARPROXY 9.0\src\Cross.oca" />
-    <None Include="KUKA_KRL\KUKAVARPROXY 9.0\src\Cross3Krc.CIE" />
-    <None Include="KUKA_KRL\KUKAVARPROXY 9.0\src\CSWSK32.oca" />
-    <None Include="KUKA_KRL\KUKAVARPROXY 9.0\src\frmMain.frm" />
-    <None Include="KUKA_KRL\KUKAVARPROXY 9.0\src\frmMain.frx" />
-    <None Include="KUKA_KRL\KUKAVARPROXY 9.0\src\KukavarProxy.vbp" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="KUKA_KRL\KUKA Router\ProConOS.xml" />
@@ -95,13 +38,10 @@
     <Content Include="KUKA_KRL\KUKAVARPROXY 9.0\src\WBF_Time.dll" />
     <Content Include="KUKA_Xml.xml" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\HanGao_Base\packages\Fody.6.6.2\build\Fody.targets" Condition="Exists('..\HanGao_Base\packages\Fody.6.6.2\build\Fody.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\HanGao_Base\packages\Fody.6.6.2\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\HanGao_Base\packages\Fody.6.6.2\build\Fody.targets'))" />
-    <Error Condition="!Exists('..\HanGao_Base\packages\PropertyChanged.Fody.3.4.1\build\PropertyChanged.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\HanGao_Base\packages\PropertyChanged.Fody.3.4.1\build\PropertyChanged.Fody.props'))" />
-  </Target>
+  <ItemGroup>
+    <PackageReference Include="Fody" Version="6.6.2" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="PropertyChanged.Fody" Version="3.4.1" PrivateAssets="all" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+  </ItemGroup>
 </Project>

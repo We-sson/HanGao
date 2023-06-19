@@ -17,7 +17,6 @@ using HanGao.Errorinfo;
 using HanGao.ViewModel;
 using Microsoft.Extensions.DependencyInjection;
 
-
 namespace HanGao.ViewModelLocator
 {
 

@@ -1,10 +1,4 @@
-﻿using HanGao.Errorinfo;
-using HanGao.ViewModel;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Windows;
-
-namespace HanGao
+﻿namespace HanGao
 {
     /// <summary>
     /// App.xaml 的交互逻辑

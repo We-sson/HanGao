@@ -465,8 +465,7 @@ namespace HanGao.ViewModel
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
                 ListBox E = Sm.Source as ListBox;
-                Shape_File_UI_Model _Shape_Model = (Shape_File_UI_Model)E.SelectedValue as Shape_File_UI_Model;
-                if (_Shape_Model != null)
+                if ((Shape_File_UI_Model)E.SelectedValue is Shape_File_UI_Model _Shape_Model)
                 {
                     //清空集合
                     Shape_FileFull_UI.Clear();
@@ -485,9 +484,8 @@ namespace HanGao.ViewModel
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
                 ComboBox E = Sm.Source as ComboBox;
-                FileInfo _Shape = (FileInfo)E.SelectedValue as FileInfo;
                 Halcon_Method _Haclon = new Halcon_Method();
-                if (_Shape != null)
+                if ((FileInfo)E.SelectedValue is FileInfo _Shape)
                 {
                     string[] _ShapeName = _Shape.Name.Split('_');
                     //FileInfo _File = new FileInfo(_Shape.File_Directory);
@@ -532,6 +530,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 模板存储位置选择
         /// </summary>
+        [System.Runtime.Versioning.SupportedOSPlatform("windows")]
         public ICommand ShapeModel_Location_Comm
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
@@ -603,7 +602,7 @@ namespace HanGao.ViewModel
         /// </summary>
         /// <param name="_ModelID"></param>
         /// <returns></returns>
-        public Find_Shape_Results_Model Find_Shape_Model_Method(Find_Shape_Based_ModelXld _Shpae_Parameters, HImage _Image, HWindow _Window, HTuple _Math2D, int Find_Model_Number)
+        public static Find_Shape_Results_Model Find_Shape_Model_Method(Find_Shape_Based_ModelXld _Shpae_Parameters, HImage _Image, HWindow _Window, HTuple _Math2D, int Find_Model_Number)
         {
             //List<HObject> _Halcon_List = new List<HObject>();
             Halcon_Method _Halcon = new Halcon_Method();
@@ -747,8 +746,10 @@ namespace HanGao.ViewModel
                 //Halcon_Method _Halcon= new Halcon_Method();
                 //Pos_List_Model Out_Point = new Pos_List_Model();
                 HImage _Image = new HImage();
-                Find_Shape_Results_Model _Find_Result = new Find_Shape_Results_Model();
-                _Find_Result.DispWiindow = Features_Window.HWindow;
+                Find_Shape_Results_Model _Find_Result = new Find_Shape_Results_Model
+                {
+                    DispWiindow = Features_Window.HWindow
+                };
                 Task.Run(() =>
                 {
                     ////读取模型文件
@@ -793,28 +794,46 @@ namespace HanGao.ViewModel
                 await Task.Delay(50);
             });
         }
+
+
+
+        public delegate bool AsyncMethCaller(Action _Action,int _TimeOut);
+
+
+
+
+
+
         /// <summary>
         /// 线程运行超时强制停止
         /// </summary>
         /// <param name="_Action"></param>
         /// <param name="_TimeOut"></param>
         /// <returns></returns>
-        public bool Theah_Run_TimeOut(Action _Action, int _TimeOut)
+        public static bool Theah_Run_TimeOut(Action _Action, int _TimeOut)
         {
+
+            //AsyncMethCaller Caller = new AsyncMethCaller(Theah_Run_TimeOut);
+
             Thread threadToKill = null;
             Action wrappedAction = () =>
             {
                 threadToKill = Thread.CurrentThread;
                 _Action();
             };
-            IAsyncResult result = wrappedAction.BeginInvoke(null, null);
+
+               var result=   Task.Run(() => wrappedAction.Invoke());
+
+
+            //IAsyncResult result = wrappedAction.BeginInvoke(null, null);
             if (_TimeOut > 0)
             {
-                if (result.AsyncWaitHandle.WaitOne(_TimeOut))
+                if (result.Wait(_TimeOut))
                 {
-                    wrappedAction.EndInvoke(result);
+
+                    //wrappedAction.EndInvoke(result);
                     User_Log_Add("执行程序运行成功!");
-                    return true;
+                    return true ;
                 }
                 else
                 {
@@ -878,13 +897,25 @@ namespace HanGao.ViewModel
                     Messenger.Send<Find_Shape_Results_Model, string>(_Results, nameof(Meg_Value_Eunm.Find_Shape_Out));
                 }
                 _Window.SetPart(0, 0, -2, -2);
-                //UI按钮恢复
-                Find_Text_Models_UI_IsEnable = true;
+            
+                return _Results;
+            }
+            catch (Exception e)
+            {
+
+                User_Log_Add("查找模型异常！ 信息："+e.Message);
                 return _Results;
             }
             finally
             {
+                //UI按钮恢复
+                Find_Text_Models_UI_IsEnable = true;
+
+
             }
+
+      
+
         }
         /// <summary>
         ///计算水槽理论值
@@ -893,7 +924,7 @@ namespace HanGao.ViewModel
         /// <param name="_Sink"></param>
         /// <param name="_Find"></param>
         /// <returns></returns>
-        public bool Calculation_Vision_Pos(ref Point3D _Actual_Pos, Point3D _Results, Xml_Sink_Model _Sink, Find_Model_Receive _Find)
+        public static bool Calculation_Vision_Pos(ref Point3D _Actual_Pos, Point3D _Results, Xml_Sink_Model _Sink, Find_Model_Receive _Find)
         {
             //获得标定基准值
             Calibration_Data_Model _Caib_Data = UC_Vision_Point_Calibration_ViewModel.Calibration_Data;

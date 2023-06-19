@@ -126,7 +126,7 @@
                                       VerticalAlignment="Stretch">
 
 
-                                    <ed:Arc x:Name="PB_Power"
+                                    <!--<ed:Arc x:Name="PB_Power"
                                             Width="70"
                                             Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}"
                                             HorizontalAlignment="Stretch"
@@ -136,7 +136,7 @@
                                             EndAngle="{Binding Working_Area_UI.UI_Welding_Power, Mode=OneWay}"
                                             Fill="{DynamicResource 全局_按钮_绿颜色}"
                                             StartAngle="0"
-                                            Stretch="None" />
+                                            Stretch="None" />-->
 
                                     <TextBlock Text="{Binding Working_Area_UI.Welding_Power, Mode=OneWay, StringFormat={}{0}%}"
                                                HorizontalAlignment="Center"
@@ -166,7 +166,7 @@
                                       VerticalAlignment="Stretch">
 
 
-                                    <ed:Arc x:Name="PB_Speel"
+                                    <!--<ed:Arc x:Name="PB_Speel"
                                             Width="70"
                                             Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}"
                                             HorizontalAlignment="Stretch"
@@ -176,7 +176,7 @@
                                             EndAngle="{Binding Working_Area_UI.UI_Robot_Speed, Mode=OneWay}"
                                             Fill="{DynamicResource 全局_按钮_绿颜色}"
                                             StartAngle="0"
-                                            Stretch="None" />
+                                            Stretch="None" />-->
 
                                     <TextBlock Text="{Binding Working_Area_UI.Robot_Speed, Mode=OneWay, StringFormat={}{0:N2}m/s}"
                                                HorizontalAlignment="Center"
@@ -207,7 +207,7 @@
 
 
 
-                                    <ed:Arc x:Name="PB_Time"
+                                    <!--<ed:Arc x:Name="PB_Time"
                                             Width="70"
                                             Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}"
                                             HorizontalAlignment="Stretch"
@@ -217,7 +217,7 @@
                                             EndAngle="{Binding Working_Area_UI.UI_Welding_Time, Mode=OneWay}"
                                             Fill="{DynamicResource 全局_按钮_绿颜色}"
                                             StartAngle="0"
-                                            Stretch="None" />
+                                            Stretch="None" />-->
                                     <TextBlock Text="{Binding Working_Area_UI.Welding_Time, Mode=OneWay, StringFormat={}{0}S}"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"

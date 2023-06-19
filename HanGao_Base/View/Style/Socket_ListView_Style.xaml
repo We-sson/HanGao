@@ -15,12 +15,12 @@
                                 BorderThickness="{TemplateBinding BorderThickness}" />-->
 
 
-                        <ed:Arc ArcThickness="8"
+                        <!--<ed:Arc ArcThickness="8"
                                 ArcThicknessUnit="Pixel"
                                 EndAngle="{TemplateBinding Value}"
                                 Fill="Green"
                                 StartAngle="-180"
-                                Stretch="None" />
+                                Stretch="None" />-->
 
 
                         <!--<Rectangle x:Name="PART_Track"  Visibility="Collapsed"/>

@@ -138,7 +138,7 @@ namespace HanGao.ViewModel
         /// </summary>
         private void ImageCallbackFunc(IntPtr pData, ref MV_FRAME_OUT_INFO_EX pFrameInfo, IntPtr pUser)
         {
-            HImage_Display_Model MVS_TOHalcon = new HImage_Display_Model();
+            //HImage_Display_Model MVS_TOHalcon = new HImage_Display_Model();
             HImage _Image = new HImage();
             ///转换海康图像类型
             if (Display_Status(Halcon_SDK.Mvs_To_Halcon_Image(ref _Image, pFrameInfo.nWidth, pFrameInfo.nHeight, pData)).GetResult())

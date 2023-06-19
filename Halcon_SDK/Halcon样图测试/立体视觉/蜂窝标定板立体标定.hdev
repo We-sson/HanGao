@@ -66,7 +66,7 @@
 <c>* </c>
 <c>* Find and extract calibration marks</c>
 <c>* 创建视图窗口</c>
-<l>open_windows_multi_view_setup (Height, Width, 0.3, WindowHandles)</l>
+<l>open_windows_multi_view_setup (Height, Width, 0.2, WindowHandles)</l>
 <l>caltab_points (DescrFile, X, Y, Z)</l>
 <l>CamLRow:=[]</l>
 <l>CamLCol:=[]</l>
@@ -132,22 +132,23 @@
 <c>* Get internal camera parameters and the corresponding labels</c>
 <c>* 获得标定相机参数名显示结果</c>
 <l>get_calib_data (CalibDataID, 'camera', 0, 'params_labels', ParLabels)</l>
-<l>get_calib_data (CalibDataID, 'camera', 0, 'params', CamParams0)</l>
-<l>get_calib_data (CalibDataID, 'camera', 1, 'params', CamParams1)</l>
+<l>get_calib_data (CalibDataID, 'camera', 0, 'params', CamParamsL)</l>
+<l>get_calib_data (CalibDataID, 'camera', 1, 'params', CamParamsR)</l>
 <c>* Get camera poses</c>
 <l>get_calib_data (CalibDataID, 'camera', 0, 'pose_labels', PoseLabels)</l>
 <c>* Right camera is reference camera for calibration data model</c>
 <l>get_calib_data (CalibDataID, 'camera', 1, 'pose', RelCamPose)</l>
+<c></c>
 <c>* </c>
 <c>* Display the results of the calibration</c>
 <l>Units := ['', 'mm', '1/㎡', 'μm', 'μm', 'px', 'px', 'px','px']</l>
 <l>FormatStringLabels := max(strlen(ParLabels))$'0' + 's'</l>
 <l>FormatStringParams := ''</l>
-<l>CamParTable0 := ParLabels$FormatStringLabels + ' = ' + CamParams0 + ' ' + Units</l>
-<l>CamParTable1 := ParLabels$FormatStringLabels + ' = ' + CamParams1 + ' ' + Units</l>
+<l>CamParTable0 := ParLabels$FormatStringLabels + ' = ' + CamParamsL + ' ' + Units</l>
+<l>CamParTable1 := ParLabels$FormatStringLabels + ' = ' + CamParamsR + ' ' + Units</l>
 <l>Text := 'The cameras are now calibrated and ready for'</l>
 <l>Text[1] := 'high accuracy metric measurements.'</l>
-<l>Text[2] := 'The final camera parameters of camera 0 are:'</l>
+<l>Text[2] := 'The final camera parameters of camera L are:'</l>
 <l>Text[3] := ' '</l>
 <c>* Display results for camera 0</c>
 <l>dev_set_window (WindowHandles[0])</l>
@@ -157,11 +158,15 @@
 <c>* Display results for camera 1</c>
 <l>dev_set_window (WindowHandles[1])</l>
 <l>dev_clear_window ()</l>
-<l>Text[2] := 'The final camera parameters of camera 1 are:'</l>
+<l>Text[2] := 'The final camera parameters of camera R are:'</l>
 <l>Message := [Text,CamParTable1,' ','Back projection error = ' + Error$'.3f' + ' px']</l>
 <l>disp_message (WindowHandles[1], Message, 'window', 12, 12, 'black', 'true')</l>
 <l>disp_continue_message (WindowHandles[1], 'black', 'true')</l>
 <l>stop ()</l>
+<c></c>
+<c></c>
+<l>tuple_regexp_select (AllCalibImageFiles, 'Image_TL', ImageFiles_TL)</l>
+<l>tuple_regexp_select (AllCalibImageFiles, 'Image_TR', ImageFiles_TR)</l>
 <c></c>
 <c></c>
 <l>for Index := 0 to |ImageFiles_TL| - 1 by 2</l>
@@ -174,13 +179,13 @@
 <c>    * transformation maps</c>
 <c>    * 图像极线校正</c>
 <c>  </c>
-<l>    gen_binocular_rectification_map (Map1, Map2, CamParams0, CamParams1, RelCamPose, 1, 'geometric', 'bilinear', CamParamRect0, CamParamRect1, CamPoseRect0, CamPoseRect1, RelPoseRect)</l>
+<l>    gen_binocular_rectification_map (Map1, Map2, CamParamsL, CamParamsR, RelCamPose, 1, 'geometric', 'bilinear', CamParamRect0, CamParamRect1, CamPoseRect0, CamPoseRect1, RelPoseRect)</l>
 <l>    map_image (Image0, Map1, ImageRectified0)</l>
 <l>    map_image (Image1, Map2, ImageRectified1)</l>
-<l>    median_image (ImageRectified0, ImageR0, 'circle', 0.5, 'mirrored')</l>
-<l>    median_image (ImageRectified1, ImageR1, 'circle', 0.5, 'mirrored')</l>
-<l>    gray_opening_rect (ImageR0, ImageRe0, 20, 20)</l>
-<l>    gray_opening_rect (ImageR1, ImageRe1, 20, 20)</l>
+<l>    median_image (ImageRectified0, ImageL, 'circle', 2.5, 'mirrored')</l>
+<l>    median_image (ImageRectified1, ImageR, 'circle', 2.5, 'mirrored')</l>
+<l>    *gray_opening_rect (ImageR0, ImageRe0, 20, 20)</l>
+<l>    *gray_opening_rect (ImageR1, ImageRe1, 20, 20)</l>
 <l>    dev_set_window (WindowHandles[0])</l>
 <l>    dev_clear_window ()</l>
 <l>    dev_set_paint ('default')</l>
@@ -198,13 +203,20 @@
 <c>      </c>
 <c></c>
 <c>    </c>
-<l>        binocular_disparity(ImageRe1, ImageRe0, DisparityImage, Score, \
+<l>        binocular_disparity(ImageL, ImageR, DisparityImage, Score, \
                       'ncc', 20, 20, 0, -50, 50, 3, 0, \
                       'none', 'none')</l>
-<l>       binocular_distance_mg (ImageRe1, ImageRe0, DisparityImage,Score,\
+<l>        binocular_disparity_mg (DisparityImage, DisparityImage, Disparity1, Score1, 1, 30, 5, 0, 'false', 'default_parameters', RelCamPose)</l>
+<c>        </c>
+<l>        binocular_disparity_ms (Disparity1, Disparity1, Disparity2, Score2, -30, 30, 50, 50, [], RelCamPose)</l>
+<c>      </c>
+<c>        </c>
+<l>        binocular_distance_ms (Disparity2, Disparity2, Distance1, Score3, CamParamRect0, CamParamRect0, CamPoseRect0, -30, 30, 50, 50, [], RelCamPose)</l>
+<c>        </c>
+<l>       binocular_distance_mg (ImageL, ImageR, DisparityImage,Score,\
                               CamParamRect0, CamParamRect1, RelPoseRect, \
                               0.02, 2, 0.1, 0, 'true', 'default_parameters', 'accurate')</l>
-<l>        binocular_distance (ImageRe1, ImageRe0, Distance, Score,\
+<l>        binocular_distance (ImageL, ImageR, Distance, Score,\
                             CamParamRect0, CamParamRect1, RelPoseRect, \
                             'ncc', 11, 11, 0, 0, 30, 1, 0, 'none', 'none')</l>
 <l>       dev_display (DisparityImage)   </l>
@@ -241,8 +253,6 @@
 <c>* the calibrated stereo camera system</c>
 <c>* *************************************************</c>
 <c>* Set image files</c>
-<l>tuple_regexp_select (AllCalibImageFiles, 'Image_TL', ImageFiles_TL)</l>
-<l>tuple_regexp_select (AllCalibImageFiles, 'Image_TR', ImageFiles_TR)</l>
 <l>*ImageFiles := ['stereo/telecentric_tilt/cam_0_cartridge', 'stereo/telecentric_tilt/cam_1_cartridge', 'stereo/telecentric_tilt/cam_0_tissue', 'stereo/telecentric_tilt/cam_1_tissue']</l>
 <c>* Initialize parameters for the determination of</c>
 <c>* the distance values</c>
