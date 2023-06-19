@@ -179,7 +179,7 @@
 <c>    * transformation maps</c>
 <c>    * 图像极线校正</c>
 <c>  </c>
-<l>    gen_binocular_rectification_map (Map1, Map2, CamParamsL, CamParamsR, RelCamPose, 1, 'geometric', 'bilinear', CamParamRect0, CamParamRect1, CamPoseRect0, CamPoseRect1, RelPoseRect)</l>
+<l>    gen_binocular_rectification_map (Map1, Map2, CamParamsL[1:8], CamParamsR[1:8], RelCamPose, 0.5, 'viewing_direction', 'bilinear', CamParamRect_L, CamParamRect_R, CamPoseRect_L, CamPoseRect_R, RelPoseRect)</l>
 <l>    map_image (Image0, Map1, ImageRectified0)</l>
 <l>    map_image (Image1, Map2, ImageRectified1)</l>
 <l>    median_image (ImageRectified0, ImageL, 'circle', 2.5, 'mirrored')</l>
