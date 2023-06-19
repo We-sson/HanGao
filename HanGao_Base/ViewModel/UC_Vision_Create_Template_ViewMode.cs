@@ -1,6 +1,7 @@
 ﻿using HanGao.View.UserMessage;
 using Microsoft.Win32;
 using Ookii.Dialogs.Wpf;
+using System.Threading;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static HanGao.ViewModel.UC_Visal_Function_VM;
@@ -814,7 +815,7 @@ namespace HanGao.ViewModel
         {
 
             //AsyncMethCaller Caller = new AsyncMethCaller(Theah_Run_TimeOut);
-
+            CancellationTokenSource source = new CancellationTokenSource();
             Thread threadToKill = null;
             Action wrappedAction = () =>
             {
@@ -828,7 +829,7 @@ namespace HanGao.ViewModel
             //IAsyncResult result = wrappedAction.BeginInvoke(null, null);
             if (_TimeOut > 0)
             {
-                if (result.Wait(_TimeOut))
+                if (result.Wait(_TimeOut, source.))
                 {
 
                     //wrappedAction.EndInvoke(result);
