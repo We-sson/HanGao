@@ -1,0 +1,579 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="22.11.1.0">
+<procedure name="main">
+<interface/>
+<body>
+<c>*</c>
+<l>*ImageWidth := 1624</l>
+<l>*ImageHeight := 1234</l>
+<c></c>
+<l>*init_cameras (AcqHandleL, AcqHandleR)</l>
+<c></c>
+<c>* Read image</c>
+<c>* 读取左右目图像</c>
+<l>list_image_files ('/Data', 'default', [], AllCalibImageFiles)</l>
+<l>tuple_regexp_select (AllCalibImageFiles, 'Image_L', ImageFiles_L)</l>
+<l>tuple_regexp_select (AllCalibImageFiles, 'Image_R', ImageFiles_R)</l>
+<c></c>
+<l>read_image (Image, ImageFiles_L[0])</l>
+<l>get_image_size (Image, ImageWidth, ImageHeight)</l>
+<l>init_windows (ImageWidth, ImageHeight, WindowHandleL, WindowHandleR)</l>
+<c>* ** 1) Calibrate the stereo setup. ** *</c>
+<c>*</c>
+<c>* Create a HALCON calibration data model.</c>
+<c>* 焦距</c>
+<l>Focus := 16</l>
+<c>* 像素尺寸</c>
+<l>Sx := 2.2e-6</l>
+<l>Sy := 2.2e-6</l>
+<l>Sigma:=2</l>
+<l>create_calib_data ('calibration_object', 2, 1, CalibDataID)</l>
+<l>gen_cam_par_area_scan_division (Focus*0.0001, 0, Sx, Sy, ImageWidth/2, ImageHeight/2, ImageWidth, ImageHeight, CameraParam)</l>
+<l>set_calib_data_cam_param (CalibDataID, 'all', [], CameraParam)</l>
+<l>set_calib_data_calib_object (CalibDataID, 0, '26_30_0.0015_calplate.cpd')</l>
+<c>*</c>
+<l>*NumCalibImages := 10</l>
+<l>for Index := 1 to |ImageFiles_L|-1 by 1</l>
+<c>    </c>
+<c>   </c>
+<l>        *grab_image_async (ImageL, AcqHandleL, -1)</l>
+<l>       * grab_image_async (ImageR, AcqHandleR, -1)</l>
+<l>        read_image (ImageL, ImageFiles_L[Index])</l>
+<l>        read_image (ImageR, ImageFiles_R[Index])</l>
+<c>        *</c>
+<c>        * Left camera.</c>
+<l>        dev_set_window (WindowHandleL)</l>
+<l>        dev_display (ImageL)</l>
+<c>        *</c>
+<l>       * try</l>
+<l>            find_calib_object (ImageL, CalibDataID, 0, 0, Index, 'sigma', Sigma)</l>
+<l>            visualize_calib_marks (CalibDataID, 0, Index)</l>
+<l>       * catch (Exception)</l>
+<l>          *  dev_disp_text (Exception[2], 'window', 40, 'left', 'white', ['box_color', 'shadow'], ['red', 'false'])</l>
+<l>       * endtry</l>
+<l>        check_overexposure (ImageL)</l>
+<l>        dev_disp_text ('Left camera', 'window', 'top', 'left', 'black', [], [])</l>
+<l>        dev_disp_text ('Image ' + Index , 'window', 'bottom', 'left', 'black', [], [])</l>
+<l>        flush_buffer (WindowHandleL)</l>
+<c>        *</c>
+<c>        * Right camera.</c>
+<l>        dev_set_window (WindowHandleR)</l>
+<l>        dev_display (ImageR)</l>
+<c>        *</c>
+<l>       * try</l>
+<l>            find_calib_object (ImageR, CalibDataID, 1, 0, Index, 'sigma', Sigma)</l>
+<l>            visualize_calib_marks (CalibDataID, 1, Index)</l>
+<l>        *catch (Exception)</l>
+<l>         *   dev_disp_text (Exception[2], 'window', 40, 'left', 'white', ['box_color', 'shadow'], ['red', 'false'])</l>
+<l>       * endtry</l>
+<l>        check_overexposure (ImageR)</l>
+<l>        dev_disp_text ('Right camera', 'window', 'top', 'left', 'black', [], [])</l>
+<l>        flush_buffer (WindowHandleR)</l>
+<c>        *</c>
+<c>        * Store calibration data and continue</c>
+<c>        * when the mouse is clicked in a graphics window.</c>
+<l>        get_mouse_click_break (WindowHandleL, WindowHandleR, Break)</l>
+<c>    </c>
+<l>endfor</l>
+<c>*</c>
+<l>set_window_param (WindowHandleL, 'flush', 'true')</l>
+<l>set_window_param (WindowHandleR, 'flush', 'true')</l>
+<l>stop ()</l>
+<c>*</c>
+<l>calibrate_cameras (CalibDataID, Error)</l>
+<c>*</c>
+<c>* ** 2) Check the calibration results. ** *</c>
+<c>* </c>
+<l>dev_set_window (WindowHandleR)</l>
+<l>dev_display (ImageR)</l>
+<l>dev_set_window (WindowHandleL)</l>
+<l>dev_display (ImageL)</l>
+<l>dev_disp_text ('Root Mean Square Error: ' + Error $ '.3f' + ' px', 'window', 'top', 'left', 'black', [], [])</l>
+<l>dev_disp_text ('Press Run (F5) to continue', 'window', 'bottom', 'right', 'black', [], [])</l>
+<l>stop ()</l>
+<l>dev_set_window (WindowHandleR)</l>
+<l>dev_clear_window ()</l>
+<c>*</c>
+<l>get_calib_data (CalibDataID, 'model', 'general', 'camera_setup_model', CameraSetupModelID)</l>
+<c>*</c>
+<c>* Visualize the camera setup.</c>
+<l>gen_camera_setup_object_model_3d (CameraSetupModelID, 'auto', 0.6, ObjectModel3DCamera, ObjectModel3DCone)</l>
+<l>get_calib_data (CalibDataID, 'calib_obj_pose', [0,1], 'pose', PlanePose)</l>
+<l>gen_plane_object_model_3d (PlanePose, [-.3,-.3,.3,.3], [-.3,.3,.3,-.3], ObjectModel3DPlanePlane)</l>
+<l>GenParamName := ['alpha', 'color_0', 'color_1', 'color_4', 'color_6']</l>
+<l>GenParamValue := [0.75, 'gray', 'gray', 'gray', 'steel blue']</l>
+<l>visualize_object_model_3d (WindowHandleL, [ObjectModel3DCamera, ObjectModel3DCone, ObjectModel3DPlanePlane], [], [], GenParamName, GenParamValue, [], ['left', '', 'right', '', '', '', ''], [], PoseOut1)</l>
+<l>stop ()</l>
+<c>*</c>
+<c></c>
+<c>*检查图像极限误差</c>
+<l>for Index := 1 to |ImageFiles_L|-1 by 1</l>
+<c>    </c>
+<c>    </c>
+<l> read_image (ImageL, ImageFiles_L[Index])</l>
+<l>read_image (ImageR, ImageFiles_R[Index])</l>
+<l>dev_set_window (WindowHandleR)</l>
+<l>dev_display (ImageR)</l>
+<l>dev_set_window (WindowHandleL)</l>
+<l>dev_display (ImageL)</l>
+<l>check_epipolar_constraint_binocular (ImageL, ImageR, CameraSetupModelID, EpipolarErrorLocal, EpipolarErrorMean)</l>
+<c>*</c>
+<l>dev_disp_text ('Epipolar error (mean):  ' + EpipolarErrorMean $ '.3f' + ' px', 'window', 'top', 'left', 'black', [], [])</l>
+<l>*stop ()</l>
+<c></c>
+<l>endfor</l>
+<l>dev_clear_window ()</l>
+<c></c>
+<c>*</c>
+<c>* Acquire images to visualize epipolar lines.</c>
+<l>*Break := 0</l>
+<l>*while (Break != 1)</l>
+<l>*    grab_image (ImageL, AcqHandleL)</l>
+<l> *   grab_image (ImageR, AcqHandleR)</l>
+<c> *  </c>
+<l> *   dev_set_window (WindowHandleL)</l>
+<l> *   dev_display (ImageL)</l>
+<l> *   dev_set_window (WindowHandleR)</l>
+<l> *   dev_display (ImageR)</l>
+<c> *   *</c>
+<l> *   get_mouse_click_break (WindowHandleL, WindowHandleR, Break)</l>
+<l>*endwhile</l>
+<c>*</c>
+<l>dev_set_window (WindowHandleL)</l>
+<l>dev_display (ImageL)</l>
+<l>dev_disp_text ('Epipolar error (mean):  ' + EpipolarErrorMean $ '.3f' + ' px', 'window', 'top', 'left', 'black', [], [])</l>
+<l>dev_set_window (WindowHandleR)</l>
+<l>dev_display (ImageR)</l>
+<l>dev_disp_text ('Press Run (F5) to continue', 'window', 'bottom', 'right', 'black', [], [])</l>
+<l>stop ()</l>
+<c>*</c>
+<c>* Rectify the images.</c>
+<l>get_camera_setup_param (CameraSetupModelID, 0, 'params', CamParamL)</l>
+<l>get_camera_setup_param (CameraSetupModelID, 1, 'params', CamParamR)</l>
+<l>get_camera_setup_param (CameraSetupModelID, 1, 'pose', RelPose)</l>
+<l>gen_binocular_rectification_map (MapL, MapR, CamParamL, CamParamR, RelPose, 1, 'viewing_direction', 'bilinear', CamParamRectL, CamParamRectR, Cam1PoseRectL, Cam2PoseRectR, RelPoseRect)</l>
+<l>map_image (ImageL, MapL, ImageMappedL)</l>
+<l>map_image (ImageR, MapR, ImageMappedR)</l>
+<c>*</c>
+<l>dev_clear_window ()</l>
+<l>dev_set_window (WindowHandleL)</l>
+<l>dev_clear_window ()</l>
+<l>dev_display (ImageMappedL)</l>
+<l>dev_disp_text ('Epipolar error (mean):  ' + EpipolarErrorMean $ '.3f' + ' px', 'window', 'top', 'left', 'black', [], [])</l>
+<l>dev_set_window (WindowHandleR)</l>
+<l>dev_clear_window ()</l>
+<l>dev_display (ImageMappedR)</l>
+<l>dev_disp_text ('Press Run (F5) to continue', 'window', 'bottom', 'right', 'black', [], [])</l>
+<l>stop ()</l>
+<c>*</c>
+<c>* Write calibration data to disk.</c>
+<l>*write_calib_data (CalibDataID, 'calib_data.ccd')</l>
+<l>*write_camera_setup_model (CameraSetupModelID, 'camera_setup_model.csm')</l>
+<l>*stop ()</l>
+<c></c>
+<l>tuple_regexp_select (AllCalibImageFiles, 'Image_TL', ImageFiles_TL)</l>
+<l>tuple_regexp_select (AllCalibImageFiles, 'Image_TR', ImageFiles_TR)</l>
+<c></c>
+<c></c>
+<l>for Index := 1 to |ImageFiles_TL|-1 by 1</l>
+<l>    read_image (ImageL, ImageFiles_TL[Index])</l>
+<l>    read_image (ImageR, ImageFiles_TR[Index])</l>
+<l>    map_image (ImageL, MapL, ImageMappedL)</l>
+<l>    map_image (ImageR, MapR, ImageMappedR)</l>
+<l>    visualize_reconstruction_result (ImageMappedL, ImageMappedR, CamParamRectL, CamParamRectR, RelPoseRect, WindowHandleL, WindowHandleR)</l>
+<l>endfor</l>
+<c></c>
+<c>*</c>
+<c></c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="visualize_calib_object">
+<interface>
+<io>
+<par name="Image" base_type="iconic" dimension="0"/>
+</io>
+<ic>
+<par name="CalibDataID" base_type="ctrl" dimension="0"/>
+<par name="CameraIndex" base_type="ctrl" dimension="0"/>
+<par name="CalibObjPoseIndex" base_type="ctrl" dimension="0"/>
+<par name="WindowHandle" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<c></c>
+<l>return ()</l>
+</body>
+<docu id="visualize_calib_object">
+<parameters>
+<parameter id="CalibDataID"/>
+<parameter id="CalibObjPoseIndex"/>
+<parameter id="CameraIndex"/>
+<parameter id="Image"/>
+<parameter id="WindowHandle"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="dev_display_calib_images">
+<interface>
+<io>
+<par name="ImageL" base_type="iconic" dimension="0"/>
+<par name="ImageR" base_type="iconic" dimension="0"/>
+</io>
+<ic>
+<par name="Index" base_type="ctrl" dimension="0"/>
+<par name="NumCalibImages" base_type="ctrl" dimension="0"/>
+<par name="WindowHandleL" base_type="ctrl" dimension="0"/>
+<par name="WindowHandleR" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<l>threshold (ImageL, RegionOverexposedL, 254, 255)</l>
+<c></c>
+<c>*</c>
+<l>dev_set_window (WindowHandleL)</l>
+<l>dev_display (ImageL)</l>
+<c></c>
+<l>dev_set_draw ('fill')</l>
+<l>dev_set_color ('red')</l>
+<l>dev_display (RegionOverexposedL)</l>
+<c></c>
+<l>return ()</l>
+</body>
+<docu id="dev_display_calib_images">
+<parameters>
+<parameter id="ImageL"/>
+<parameter id="ImageR"/>
+<parameter id="Index"/>
+<parameter id="NumCalibImages"/>
+<parameter id="WindowHandleL"/>
+<parameter id="WindowHandleR"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="get_mouse_click_break">
+<interface>
+<ic>
+<par name="WindowHandleL" base_type="ctrl" dimension="0"/>
+<par name="WindowHandleR" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="Break" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>Break := 0</l>
+<l>dev_set_window (WindowHandleL)</l>
+<l>dev_disp_text ('Click to continue.', 'window', 'bottom', 'right', 'black', [], [])</l>
+<l>try</l>
+<l>    get_mposition (WindowHandleL, Row, Column, Button)</l>
+<l>    if (Button == 1)</l>
+<l>        dev_set_window (WindowHandleL)</l>
+<l>        dev_disp_text ('Calibration data stored, continuing...', 'window', 'center', 'center', 'black', [], [])</l>
+<l>        flush_buffer (WindowHandleL)</l>
+<l>        wait_seconds (1.5)</l>
+<l>        Break := 1</l>
+<l>    endif</l>
+<l>catch (Exception)</l>
+<l>endtry</l>
+<l>try</l>
+<l>    get_mposition (WindowHandleR, Row, Column, Button)</l>
+<l>    if (Button == 1)</l>
+<l>        dev_set_window (WindowHandleR)</l>
+<l>        dev_disp_text ('Calibration data stored, continuing...', 'window', 'center', 'center', 'black', [], [])</l>
+<l>        flush_buffer (WindowHandleR)</l>
+<l>        wait_seconds (1.5)</l>
+<l>        Break := 1</l>
+<l>    endif</l>
+<l>catch (Exception)</l>
+<l>endtry</l>
+<l>return ()</l>
+</body>
+<docu id="get_mouse_click_break">
+<parameters>
+<parameter id="Break"/>
+<parameter id="WindowHandleL"/>
+<parameter id="WindowHandleR"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="visualize_disparity_om3d">
+<interface>
+<io>
+<par name="DisparityMG" base_type="iconic" dimension="0"/>
+<par name="ImageMappedL" base_type="iconic" dimension="0"/>
+</io>
+<ic>
+<par name="CamParamRect1" base_type="ctrl" dimension="0"/>
+<par name="CamParamRect2" base_type="ctrl" dimension="0"/>
+<par name="RelPoseRect" base_type="ctrl" dimension="0"/>
+<par name="Title" base_type="ctrl" dimension="0"/>
+<par name="WindowHandleL" base_type="ctrl" dimension="0"/>
+<par name="Visualize3DPose" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="Visualize3DPoseOut" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>disparity_image_to_xyz (DisparityMG, X, Y, Z, CamParamRect1, CamParamRect2, RelPoseRect)</l>
+<l>xyz_attrib_to_object_model_3d (X, Y, Z, ImageMappedL, '&amp;gray', ObjectModel3D)</l>
+<l>visualize_object_model_3d (WindowHandleL, ObjectModel3D, [], Visualize3DPose, ['color_attrib'], ['&amp;gray'], Title, [], [], Visualize3DPoseOut)</l>
+<l>return ()</l>
+</body>
+<docu id="visualize_disparity_om3d">
+<parameters>
+<parameter id="CamParamRect1"/>
+<parameter id="CamParamRect2"/>
+<parameter id="DisparityMG"/>
+<parameter id="ImageMappedL"/>
+<parameter id="RelPoseRect"/>
+<parameter id="Title"/>
+<parameter id="Visualize3DPose"/>
+<parameter id="Visualize3DPoseOut"/>
+<parameter id="WindowHandleL"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="init_windows">
+<interface>
+<ic>
+<par name="ImageWidth" base_type="ctrl" dimension="0"/>
+<par name="ImageHeight" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="WindowHandleL" base_type="ctrl" dimension="0"/>
+<par name="WindowHandleR" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>dev_update_off ()</l>
+<l>dev_close_window ()</l>
+<c>*</c>
+<l>Scale := 0.2</l>
+<l>LineWidth := 2</l>
+<c>*</c>
+<l>dev_open_window (0, 0, ImageWidth*Scale, ImageHeight*Scale, 'black', WindowHandleL)</l>
+<l>dev_set_line_width (LineWidth)</l>
+<l>set_display_font (WindowHandleL, 16, 'mono', 'true', 'false')</l>
+<l>set_window_param (WindowHandleL, 'flush', 'false')</l>
+<c>*</c>
+<l>dev_open_window (0, ImageWidth*Scale + 10, ImageWidth*Scale, ImageHeight*Scale, 'black', WindowHandleR)</l>
+<l>dev_set_line_width (LineWidth)</l>
+<l>set_display_font (WindowHandleR, 16, 'mono', 'true', 'false')</l>
+<l>set_window_param (WindowHandleR, 'flush', 'false')</l>
+<l>return ()</l>
+</body>
+<docu id="init_windows">
+<parameters>
+<parameter id="ImageHeight"/>
+<parameter id="ImageWidth"/>
+<parameter id="WindowHandleL"/>
+<parameter id="WindowHandleR"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="init_cameras">
+<interface>
+<oc>
+<par name="AcqHandleL" base_type="ctrl" dimension="0"/>
+<par name="AcqHandleR" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[1,2,1]" as_ord="1">open_framegrabber ('USB3Vision', 0, 0, 0, 0, 0, 0, 'progressive', -1, 'rgb', -1, 'false', 'default', '2676015D905A_Basler_acA160020uc', 0, -1, AcqHandleL)</l>
+<l>open_framegrabber ('USB3Vision', 0, 0, 0, 0, 0, 0, 'progressive', -1, 'rgb', -1, 'false', 'default', '2676015D905F_Basler_acA160020uc', 0, -1, AcqHandleR)</l>
+<l>set_framegrabber_param (AcqHandleL, 'color_space', 'gray')</l>
+<l>set_framegrabber_param (AcqHandleR, 'color_space', 'gray')</l>
+<l>set_framegrabber_param (AcqHandleL, 'ExposureTime', 50000)</l>
+<l>set_framegrabber_param (AcqHandleR, 'ExposureTime', 50000)</l>
+<l>grab_image_start (AcqHandleL, -1)</l>
+<l>grab_image_start (AcqHandleR, -1)</l>
+<l>return ()</l>
+</body>
+<docu id="init_cameras">
+<parameters>
+<parameter id="AcqHandleL"/>
+<parameter id="AcqHandleR"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="check_overexposure">
+<interface>
+<io>
+<par name="Image" base_type="iconic" dimension="0"/>
+</io>
+</interface>
+<body>
+<l>threshold (Image, RegionOverexposed, 254, 255)</l>
+<l>dev_set_draw ('margin')</l>
+<l>dev_set_color ('#ff0000aa')</l>
+<l>dev_display (RegionOverexposed)</l>
+<c>*</c>
+<l>AreaOverexposed := 0</l>
+<l>region_features (RegionOverexposed, 'area', AreaOverexposed)</l>
+<c>* </c>
+<l>if (AreaOverexposed &gt; 0.001)</l>
+<l>    dev_disp_text ('Image is overexposed!', 'window', 'bottom', 'right', 'red', [], [])</l>
+<l>endif</l>
+<l>return ()</l>
+</body>
+<docu id="check_overexposure">
+<parameters>
+<parameter id="Image"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="visualize_calib_marks">
+<interface>
+<ic>
+<par name="CalibDataID" base_type="ctrl" dimension="0"/>
+<par name="CameraIndex" base_type="ctrl" dimension="0"/>
+<par name="CalibObjPoseIdx" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<l>get_calib_data_observ_contours (Contours, CalibDataID, 'marks', CameraIndex, 0, CalibObjPoseIdx)</l>
+<l>dev_set_color ('green')</l>
+<l>dev_display (Contours)</l>
+<l>return ()</l>
+</body>
+<docu id="visualize_calib_marks">
+<parameters>
+<parameter id="CalibDataID"/>
+<parameter id="CalibObjPoseIdx"/>
+<parameter id="CameraIndex"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="visualize_reconstruction_result">
+<interface>
+<io>
+<par name="ImageMappedL" base_type="iconic" dimension="0"/>
+<par name="ImageMappedR" base_type="iconic" dimension="0"/>
+</io>
+<ic>
+<par name="CamParamRectL" base_type="ctrl" dimension="0"/>
+<par name="CamParamRectR" base_type="ctrl" dimension="0"/>
+<par name="RelPoseRect" base_type="ctrl" dimension="0"/>
+<par name="WindowHandleL" base_type="ctrl" dimension="0"/>
+<par name="WindowHandleR" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<l>distance_to_disparity (CamParamRectL, CamParamRectR, RelPoseRect, 0.4, MinDisparity)</l>
+<l>distance_to_disparity (CamParamRectL, CamParamRectR, RelPoseRect, 0.8, MaxDisparity)</l>
+<l>binocular_disparity_ms (ImageMappedL, ImageMappedR, Disparity, Score, -50,50, 10, 50, 'method', 'fast')</l>
+<c></c>
+<l>   binocular_distance (ImageMappedL, ImageMappedR, Disparity, Score,\
+                           CamParamRectL, CamParamRectR, RelPoseRect, \
+                            'ncc', 18, 18, 1.0, -10, 10, 5, 0, 'none', 'interpolation')</l>
+<c>      </c>
+<c></c>
+<c></c>
+<l>dev_set_window (WindowHandleL)</l>
+<l>dev_clear_window ()</l>
+<l>dev_display (Disparity)</l>
+<l>dev_disp_text ('Disparity image', 'window', 'top', 'left', 'black', [], [])</l>
+<c>*</c>
+<l>disparity_image_to_xyz (Disparity, X, Y, Z, CamParamRectL, CamParamRectR, RelPoseRect)</l>
+<l>xyz_attrib_to_object_model_3d (X, Y, Z, ImageMappedL, '&amp;gray', ObjectModel3D)</l>
+<l>select_points_object_model_3d (ObjectModel3D, 'neighbor_distance 45', 0, 0.001, ObjectModel3DThresholded)</l>
+<l>visualize_object_model_3d (WindowHandleR, ObjectModel3DThresholded, [], [-0.0711891, -0.0252995, 3.54703, 356.656, 359.997, 1.04651, 0], ['color_attrib'], ['&amp;gray'], '3D object model, created from disparity image', [], [], Visualize3DPoseOut)</l>
+<l>return ()</l>
+</body>
+<docu id="visualize_reconstruction_result">
+<parameters>
+<parameter id="CamParamRectL"/>
+<parameter id="CamParamRectR"/>
+<parameter id="ImageMappedL"/>
+<parameter id="ImageMappedR"/>
+<parameter id="RelPoseRect"/>
+<parameter id="WindowHandleL"/>
+<parameter id="WindowHandleR"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="check_epipolar_constraint_binocular">
+<interface>
+<io>
+<par name="ImageL" base_type="iconic" dimension="0"/>
+<par name="ImageR" base_type="iconic" dimension="0"/>
+</io>
+<ic>
+<par name="CameraSetupModelID" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="EpipolarErrorLocal" base_type="ctrl" dimension="0"/>
+<par name="EpipolarErrorMean" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c>*</c>
+<l>Sigma:=2</l>
+<c>* Get camera parameters and poses.</c>
+<l>get_camera_setup_param (CameraSetupModelID, 0, 'params', CamPar0)</l>
+<l>get_camera_setup_param (CameraSetupModelID, 1, 'params', CamPar1)</l>
+<l>get_camera_setup_param (CameraSetupModelID, 0, 'pose', WPS_P_Cam0)</l>
+<l>get_camera_setup_param (CameraSetupModelID, 1, 'pose', WPS_P_Cam1)</l>
+<c>*</c>
+<c>* Verify the stereo setup by checking the epipolar constraint.</c>
+<c>* Transform image to a rectified binocular setup.</c>
+<l>pose_invert (WPS_P_Cam0, Cam0_P_WPS)</l>
+<l>pose_compose (Cam0_P_WPS, WPS_P_Cam1, Cam0_P_Cam1)</l>
+<l>gen_binocular_rectification_map (Map0, Map1, CamPar0, CamPar1, Cam0_P_Cam1, 1, 'viewing_direction', 'bilinear', CamParamRect0, CamParamRect1, CamPoseRect0, CamPoseRect1, RelPoseRect)</l>
+<c>*</c>
+<c>* Read a calibration image and rectify it.</c>
+<l>map_image (ImageL, Map0, ImageRectif0)</l>
+<l>map_image (ImageR, Map1, ImageRectif1)</l>
+<c>*</c>
+<c>* Find the marks of the calibration table in both images using the rectified setup parameters.</c>
+<l>create_calib_data ('calibration_object', 2, 1, CalibDataIDRect)</l>
+<l>set_calib_data_cam_param (CalibDataIDRect, 0, [], CamParamRect0)</l>
+<l>set_calib_data_cam_param (CalibDataIDRect, 1, [], CamParamRect1)</l>
+<l>set_calib_data_calib_object (CalibDataIDRect, 0, '26_30_0.0015_calplate.cpd')</l>
+<l>find_calib_object (ImageRectif0, CalibDataIDRect, 0, 0, 0, 'sigma', Sigma)</l>
+<l>get_calib_data_observ_points (CalibDataIDRect, 0, 0, 0, Row0, Column0, Index0, Pose)</l>
+<l>find_calib_object (ImageRectif1, CalibDataIDRect, 1, 0, 0, 'sigma', Sigma)</l>
+<l>get_calib_data_observ_points (CalibDataIDRect, 1, 0, 0, Row1, Column1, Index1, Pose)</l>
+<c>*</c>
+<l>tuple_intersection (Index0, Index1, IndexInter)</l>
+<l>Rows0 := []</l>
+<l>Rows1 := []</l>
+<l>for I := 0 to |IndexInter|-1 by 1</l>
+<l>    Rows0 := [Rows0, Row0[find(Index0, IndexInter[I])]]</l>
+<l>    Rows1 := [Rows1, Row1[find(Index1, IndexInter[I])]]</l>
+<l>endfor</l>
+<c>*</c>
+<l>EpipolarErrorLocal := abs(Rows0-Rows1)</l>
+<l>EpipolarErrorMean := mean(EpipolarErrorLocal)</l>
+<l>return ()</l>
+</body>
+<docu id="check_epipolar_constraint_binocular">
+<parameters>
+<parameter id="CameraSetupModelID">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<sem_type>camera_setup_model</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="EpipolarErrorLocal">
+<sem_type>real</sem_type>
+</parameter>
+<parameter id="EpipolarErrorMean">
+<sem_type>real</sem_type>
+</parameter>
+<parameter id="ImageL">
+<sem_type>image</sem_type>
+</parameter>
+<parameter id="ImageR">
+<sem_type>image</sem_type>
+</parameter>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>
