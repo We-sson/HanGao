@@ -17,14 +17,15 @@
 <l>get_calib_data (CalibDataID, 'calib_obj_pose', [0,1], 'pose', ReferencePose)</l>
 <l>set_camera_setup_param (CameraSetupModelID, 'general', 'coord_transf_pose', ReferencePose)</l>
 <c>*</c>
-<l>*Method := 'surface_pairwise'</l>
-<l> Method :='surface_fusion'</l>
+<l> Method := 'surface_pairwise'</l>
+<l> *Method :='surface_fusion'</l>
+<l> *Method:='points_3d'</l>
 <l>create_stereo_model (CameraSetupModelID, Method, [], [], StereoModelID)</l>
 <c>*</c>
 <l>set_stereo_model_image_pairs (StereoModelID, [0], [1])</l>
 <c>*</c>
 <l>estimate_bounding_box_3d_reconstruction (StereoModelID, 0.08, BoundingBox)</l>
-<l>BoundingBox[5] := BoundingBox[5] + 0.05</l>
+<l>BoundingBox[5] := BoundingBox[5] + 0.06</l>
 <l>set_stereo_model_param (StereoModelID, 'bounding_box', BoundingBox)</l>
 <c>*</c>
 <l>set_stereo_model_param (StereoModelID, 'persistence', 1)</l>
@@ -82,8 +83,8 @@
 <c>* Read image</c>
 <c>* 读取左右目图像</c>
 <l>list_image_files ('C:/Users/H/source/repos/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Data', 'default', [], AllCalibImageFiles)</l>
-<l>tuple_regexp_select (AllCalibImageFiles, 'Image_L', ImageFiles_L)</l>
-<l>tuple_regexp_select (AllCalibImageFiles, 'Image_R', ImageFiles_R)</l>
+<l>tuple_regexp_select (AllCalibImageFiles, 'Image_TL', ImageFiles_L)</l>
+<l>tuple_regexp_select (AllCalibImageFiles, 'Image_TR', ImageFiles_R)</l>
 <c></c>
 <c></c>
 <l>for I := 1 to |ImageFiles_L|-1 by 1</l>
