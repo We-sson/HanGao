@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.2" halcon_version="21.05.0.0">
+<hdevelop file_version="1.2" halcon_version="22.05.0.0">
 <procedure name="main">
 <interface/>
 <body>
 <c>*</c>
-<l>ImageWidth := 1624</l>
-<l>ImageHeight := 1234</l>
+<l>ImageWidth := 4024</l>
+<l>ImageHeight := 3036</l>
 <l>init_windows (ImageWidth, ImageHeight, WindowHandles)</l>
 <c>*</c>
-<l>read_camera_setup_model ('camera_setup_model.csm', CameraSetupModelID)</l>
+<l>read_camera_setup_model ('camera_model.csm', CameraSetupModelID)</l>
 <c>*</c>
 <c>* Get the pose of the first calibration plate,</c>
 <c>* which represents the ground plane.</c>
-<l>read_calib_data ('calib_data.ccd', CalibDataID)</l>
+<l>read_calib_data ('calib.ccd', CalibDataID)</l>
 <l>calibrate_cameras (CalibDataID, Error)</l>
-<l>get_calib_data (CalibDataID, 'calib_obj_pose', [0,0], 'pose', ReferencePose)</l>
+<l>get_calib_data (CalibDataID, 'calib_obj_pose', [0,1], 'pose', ReferencePose)</l>
 <l>set_camera_setup_param (CameraSetupModelID, 'general', 'coord_transf_pose', ReferencePose)</l>
 <c>*</c>
-<l>Method := 'surface_pairwise'</l>
-<l>* Method :='surface_fusion'</l>
+<l>*Method := 'surface_pairwise'</l>
+<l> Method :='surface_fusion'</l>
 <l>create_stereo_model (CameraSetupModelID, Method, [], [], StereoModelID)</l>
 <c>*</c>
 <l>set_stereo_model_image_pairs (StereoModelID, [0], [1])</l>
 <c>*</c>
 <l>estimate_bounding_box_3d_reconstruction (StereoModelID, 0.08, BoundingBox)</l>
-<l>BoundingBox[5] := BoundingBox[5] + 0.01</l>
+<l>BoundingBox[5] := BoundingBox[5] + 0.05</l>
 <l>set_stereo_model_param (StereoModelID, 'bounding_box', BoundingBox)</l>
 <c>*</c>
 <l>set_stereo_model_param (StereoModelID, 'persistence', 1)</l>
@@ -34,29 +34,34 @@
 <c>* Use the normalized cross correlation.</c>
 <l>set_stereo_model_param (StereoModelID, 'binocular_method', 'ncc')</l>
 <c>* Set the mask size.</c>
-<l>set_stereo_model_param (StereoModelID, 'binocular_mask_width', 25)</l>
-<l>set_stereo_model_param (StereoModelID, 'binocular_mask_height', 25)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_mask_width', 30)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_mask_height', 30)</l>
 <c>* Improve the robustness of the matching.</c>
 <l>set_stereo_model_param (StereoModelID, 'binocular_filter', 'left_right_check')</l>
 <c>* Calculate disparities with sub-pixel precision.</c>
 <l>set_stereo_model_param (StereoModelID, 'binocular_sub_disparity', 'interpolation')</l>
 <c>* Set the minmum disparity score.</c>
-<l>set_stereo_model_param (StereoModelID, 'binocular_score_thresh', 0.5)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_score_thresh', 0.3)</l>
+<c></c>
+<l>set_stereo_model_param (StereoModelID, 'binocular_num_levels', 1)</l>
 <c>*</c>
 <l>if (Method == 'surface_fusion')</l>
 <c>    * </c>
 <c>    * Set some fusion parameters.</c>
 <c>    *</c>
 <c>    * Set resolution to 0.6 mm.</c>
-<l>    Resolution := 0.0006</l>
+<l>    Resolution := 0.001</l>
 <c>    * Set surface tolerance depending on the resolution.</c>
-<l>    SurfaceTolerance := 2 * Resolution</l>
+<l>    SurfaceTolerance :=1* Resolution</l>
+<c>    </c>
+<l>    smoothing:=0.4</l>
 <c>    * For better visualization, triangulate the result.</c>
 <l>    set_stereo_model_param (StereoModelID, 'point_meshing', 'isosurface')</l>
 <c>    * Set the resolution.</c>
 <l>    set_stereo_model_param (StereoModelID, 'resolution', Resolution)</l>
 <c>    * Set the 'surface_tolerance' parameter.</c>
 <l>    set_stereo_model_param (StereoModelID, 'surface_tolerance', SurfaceTolerance)</l>
+<l>     set_stereo_model_param (StereoModelID, 'smoothing', smoothing)</l>
 <c>    * Color the result.</c>
 <l>    set_stereo_model_param (StereoModelID, 'color', 'median')</l>
 <l>endif</l>
@@ -64,34 +69,64 @@
 <l>gen_bounding_box_object_model_3d (StereoModelID, ObjectModel3DBoundingBox)</l>
 <l>get_camera_setup_param (CameraSetupModelID,0, 'params', CamParam)</l>
 <l>create_pose (0, 0, 1, 0, 0, 0, 'Rp+T', 'gba', 'point', Visualize3DPose)</l>
-<l>NumScenes := 4</l>
+<l>*NumScenes := 4</l>
 <c>*</c>
-<l>for ImageIndex := 1 to NumScenes by 1</l>
-<l>    read_image (ImageL, 'images/' + ImageIndex $ '02' + '_L')</l>
-<l>    read_image (ImageR, 'images/' + ImageIndex $ '02' + '_R')</l>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c>* Read image</c>
+<c>* 读取左右目图像</c>
+<l>list_image_files ('C:/Users/H/source/repos/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Data', 'default', [], AllCalibImageFiles)</l>
+<l>tuple_regexp_select (AllCalibImageFiles, 'Image_L', ImageFiles_L)</l>
+<l>tuple_regexp_select (AllCalibImageFiles, 'Image_R', ImageFiles_R)</l>
+<c></c>
+<c></c>
+<l>for I := 1 to |ImageFiles_L|-1 by 1</l>
+<l>    read_image (ImageL, ImageFiles_L[I])</l>
+<l>    read_image (ImageR, ImageFiles_R[I])</l>
+<l>mean_image (ImageR, ImageMean, 5, 5)</l>
 <c>    *</c>
 <l>    dev_set_window (WindowHandles[0])</l>
 <l>    dev_display (ImageL)</l>
 <l>    dev_set_window (WindowHandles[1])</l>
 <l>    dev_display (ImageR)</l>
 <l>    dev_disp_text ('Press Run (F5) to continue', 'window', 'bottom', 'right', 'black', [], [])</l>
-<l>    stop ()</l>
+<l>    *stop ()</l>
 <c>    *</c>
 <l>    concat_obj (ImageL, ImageR, Images)</l>
-<l>    reconstruct_surface_stereo (Images, StereoModelID, SceneObjectModel3D)    </l>
+<l>    reconstruct_surface_stereo (Images, StereoModelID, SceneObjectModel3D)   </l>
 <c>    *</c>
 <l>    get_stereo_model_object (DisparityImage, StereoModelID, [0,1], 'disparity_image')</l>
-<c>    *</c>
+<c>    </c>
+<l>    get_stereo_model_object (FromImage, StereoModelID, [0, 1], 'from_image_rect')</l>
+<l>    get_stereo_model_object (ToImage, StereoModelID, [0, 1], 'to_image_rect')</l>
 <l>    dev_set_window (WindowHandles[0])</l>
-<l>    dev_clear_window ()</l>
-<l>    dev_set_window (WindowHandles[1])</l>
-<l>    dev_clear_window ()</l>
-<l>    dev_display (DisparityImage)</l>
-<l>    dev_disp_text ('Disparity image', 'window', 'top', 'left', 'black', [], [])</l>
+<l>    concat_obj (FromImage, ToImage, RectifiedImages)</l>
+<l>    tile_images (RectifiedImages, TiledRectifiedImages, 2, 'horizontal')</l>
+<l>    get_image_size (TiledRectifiedImages, Width, Height)</l>
+<l>    gen_empty_obj (EpipolarLines)</l>
+<l>    for Row := 0 to Height by 200</l>
+<l>       gen_contour_polygon_xld (Line, [Row,Row], [0,Width - 1])</l>
+<l>       concat_obj (EpipolarLines, Line, EpipolarLines)</l>
+<l>    endfor</l>
+<l>    dev_display (TiledRectifiedImages)</l>
+<l>    dev_display (EpipolarLines)</l>
 <c>    *</c>
+<l>    *dev_set_window (WindowHandles[0])</l>
+<l>    *dev_clear_window ()</l>
+<l>    *dev_set_window (WindowHandles[1])</l>
+<l>    *dev_clear_window ()</l>
+<l>    *dev_display (DisparityImage)</l>
+<l>    dev_disp_text ('Disparity image', 'window', 'top', 'left', 'black', [], [])</l>
+<c>  </c>
 <l>    GenParamName := ['alpha_1', 'disp_pose_0']</l>
-<l>    GenParamValue :=  [0.1, 'true']</l>
-<l>    visualize_object_model_3d (WindowHandles[0], [SceneObjectModel3D, ObjectModel3DBoundingBox], CamParam, Visualize3DPose, ['color_0', GenParamName], ['light gray', GenParamValue], [], [], [], Visualize3DPose)</l>
+<l>    GenParamValue :=  [0.01, 'true']</l>
+<l>    visualize_object_model_3d (WindowHandles[1], [SceneObjectModel3D, ObjectModel3DBoundingBox], CamParam, Visualize3DPose, ['color_0', GenParamName], ['light gray', GenParamValue], [], [], [], Visualize3DPose)</l>
 <l>    if (Method == 'surface_fusion')</l>
 <l>        visualize_object_model_3d (WindowHandles[1], [SceneObjectModel3D, ObjectModel3DBoundingBox], CamParam, Visualize3DPose, ['color_attrib_0', GenParamName], ['red', GenParamValue], [], [], [], Visualize3DPose)</l>
 <l>    endif</l>
@@ -282,7 +317,7 @@
 <l>dev_update_off ()</l>
 <l>dev_close_window ()</l>
 <c>*</c>
-<l>Scale := 0.4</l>
+<l>Scale := 0.15</l>
 <l>LineWidth := 2</l>
 <c>*</c>
 <l>dev_open_window (0, 0, ImageWidth*Scale, ImageHeight*Scale, 'black', WindowHandle1)</l>

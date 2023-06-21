@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="22.05.0.0">
+<procedure name="main">
+<interface/>
+<body>
+<c>* This example shows the 3D reconstruction of several objects from</c>
+<c>* multiple cameras with the 'surface_fusion' method.</c>
+<c>* </c>
+<c>* The fusion method generates a closed surface and uses the</c>
+<c>* pairwise method to generate the input for the actual fusion algorithm.</c>
+<c>* Therefore, in any case the pairwise parameters have to be</c>
+<c>* configured as well.</c>
+<c>* </c>
+<c>* Load the input data and generate the stereo model.</c>
+<l>dev_close_window ()</l>
+<l>dev_update_off ()</l>
+<l>dev_open_window (0, 0, 512, 512, 'black', WindowHandle)</l>
+<l>dev_resize_window_fit_size (0, 0, 1024, 600, -1, -1)</l>
+<l>set_display_font (WindowHandle, 14, 'mono', 'true', 'false')</l>
+<l>Instructions := 'Rotate: Left button'</l>
+<l>Instructions[1] := 'Zoom:   Shift + left button'</l>
+<l>Instructions[2] := 'Move:   Ctrl  + left button'</l>
+<c>* </c>
+<c>* Display introduction.</c>
+<l>Message := 'This example reconstructs several 3D objects using the method \'surface_fusion\'.'</l>
+<l>Message[2] := ' '</l>
+<l>Message[3] := 'The \'surface_fusion\' method uses the results of the method \'surface_pairwise\' as'</l>
+<l>Message[4] := 'input for the fusion algorithm. Therefore, the pairwise parameters have to be'</l>
+<l>Message[5] := 'configured as well.'</l>
+<l>Message[6] := ' '</l>
+<l>Message[7] := 'For all reconstructions, the same parameter settings are used. '</l>
+<l>Message[8] := 'It is possible to tweak the parameters to optimally fit one particular object.'</l>
+<l>Message[9] := 'This will improve the reconstruction results even further.'</l>
+<l>dev_disp_text (Message, 'window', 12, 12, 'white', 'box', 'false')</l>
+<l>dev_disp_text ('Press Run (F5) to continue', 'window', 'bottom', 'right', 'black', [], [])</l>
+<l>stop ()</l>
+<c>* </c>
+<c>* For demonstration purposes, we use a relatively coarse resolution.</c>
+<c>* This reduces the runtime and returns results within a few seconds.</c>
+<c>* If you have more time, set this parameter to false to get a finer resolution.</c>
+<c>** </c>
+<c>* 出于演示的目的，我们使用了一个相对粗略的分辨率。</c>
+<c>* 这减少了运行时间并在几秒钟内返回结果。</c>
+<c>* 如果你有更多的时间，把这个参数设置为false，以获得更精细的分辨率。</c>
+<l>FastReconstruction := false</l>
+<c>* </c>
+<c>* Set some fusion parameters.</c>
+<l>if (FastReconstruction)</l>
+<c>    * Set resolution to 1.2 mm.</c>
+<l>    Resolution := 0.0012</l>
+<l>    Info := ', coarse resolution'</l>
+<l>else</l>
+<c>    * Set resolution to 0.6 mm.</c>
+<l>    Resolution := 0.0006</l>
+<l>    Info := ', fine resolution'</l>
+<l>endif</l>
+<c>* Set surface tolerance depending on the resolution.</c>
+<c>**根据分辨率设置表面公差。</c>
+<l>SurfaceTolerance := 2 * Resolution</l>
+<c>* </c>
+<c>* Read the camera setup model.</c>
+<l>read_camera_setup_model ('camera_model.csm', CameraSetupModelID)</l>
+<c>* </c>
+<c>* Get the number of used cameras.</c>
+<l>get_camera_setup_param (CameraSetupModelID, 'general', 'num_cameras', NumCameras)</l>
+<c>* </c>
+<c>* Create a multi-view stereo model using the 'surface_fusion' method and initialize it.</c>
+<c>* 使用'surface_fusion'方法创建一个多视图立体模型，并初始化它。</c>
+<l>create_stereo_model (CameraSetupModelID, 'surface_fusion', [], [], StereoModelID)</l>
+<c>* </c>
+<c>* Interpolation aliasing by binocular image rectification.</c>
+<c>** 通过双眼图像整顿实现插值混叠。</c>
+<l>set_stereo_model_param (StereoModelID, 'rectif_interpolation', 'bilinear')</l>
+<c>* Define camera pairs.</c>
+<c>* 设置图像模型</c>
+<l>set_stereo_model_image_pairs (StereoModelID, [0], [1])</l>
+<c>* </c>
+<c>* Set some parameters regarding the disparity method:</c>
+<c>* Use the 'binocular_disparity' method.</c>
+<l>set_stereo_model_param (StereoModelID, 'disparity_method', 'binocular')</l>
+<c>* Use the normalized cross correlation.</c>
+<l>set_stereo_model_param (StereoModelID, 'binocular_method', 'ncc')</l>
+<c>* Set the mask size.</c>
+<l>set_stereo_model_param (StereoModelID, 'binocular_mask_width', 11)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_mask_height', 11)</l>
+<c>* Improve the robustness of the matching.</c>
+<l>set_stereo_model_param (StereoModelID, 'binocular_filter', 'left_right_check')</l>
+<c>* Calculate disparities with sub-pixel precision.</c>
+<l>set_stereo_model_param (StereoModelID, 'binocular_sub_disparity', 'interpolation')</l>
+<c></c>
+<c>* Iterate over all used datasets.</c>
+<c></c>
+<c></c>
+<c></c>
+<l>NumObjects := 5</l>
+<c>* Read image</c>
+<c>* 读取左右目图像</c>
+<l>list_image_files ('C:/Users/H/source/repos/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Data', 'default', [], AllCalibImageFiles)</l>
+<l>tuple_regexp_select (AllCalibImageFiles, 'Image_L', ImageFiles_L)</l>
+<l>tuple_regexp_select (AllCalibImageFiles, 'Image_R', ImageFiles_R)</l>
+<c></c>
+<c></c>
+<l>for I := 1 to |ImageFiles_L|-1 by 1</l>
+<c>    * Read the input images.</c>
+<l>    read_image (ImageL, ImageFiles_L[I])</l>
+<l>    read_image (ImageR, ImageFiles_R[I])</l>
+<l>    concat_obj (ImageL, ImageR, Images)</l>
+<l>   * read_image (Images, '3d_machine_vision/multi_view/engine_part_cam_' + [0:2] + '_0' + I)</l>
+<l>    tile_images (Images, TiledImage, 2, 'vertical')</l>
+<c>    * First, we have to set a bounding box that specifies the dimensions in which the model will be reconstructed.</c>
+<l>    if (I == 1)</l>
+<l>        BoundingBox := [-0.134, -0.043, -0.005, -0.022, 0.067, 0.042]</l>
+<l>    elseif (I == 2)</l>
+<l>        BoundingBox := [-0.135, -0.039, -0.005, -0.02, 0.075, 0.035]</l>
+<l>    elseif (I == 3 or I == 4)</l>
+<l>        BoundingBox := [-0.14, -0.048, -0.005, -0.018, 0.088, 0.040]</l>
+<l>    elseif (I == 5)</l>
+<l>        BoundingBox := [-0.147, -0.077, -0.005, -0.02, 0.088, 0.04]</l>
+<l>    endif</l>
+<c>    </c>
+<l>    estimate_bounding_box_3d_reconstruction (StereoModelID, 0.1, BoundingBox)</l>
+<l>    set_stereo_model_param (StereoModelID, 'bounding_box', BoundingBox)</l>
+<c>    * </c>
+<c>    * Enable the persistence mode to get the pairwise reconstruction as well.</c>
+<l>    set_stereo_model_param (StereoModelID, 'persistence', 1)</l>
+<c>    * For better visibility, triangulate the result.</c>
+<l>    set_stereo_model_param (StereoModelID, 'point_meshing', 'isosurface')</l>
+<c>    * Set the resolution.</c>
+<l>    set_stereo_model_param (StereoModelID, 'resolution', Resolution)</l>
+<c>    * Set the 'surface_tolerance' parameter.</c>
+<l>    set_stereo_model_param (StereoModelID, 'surface_tolerance', SurfaceTolerance)</l>
+<c>    * Color the result.</c>
+<l>    set_stereo_model_param (StereoModelID, 'color', 'median')</l>
+<c>    * If 'FastReconstruction' is set to true, increase the smoothing.</c>
+<l>    if (FastReconstruction)</l>
+<l>        set_stereo_model_param (StereoModelID, 'smoothing', 1.5)</l>
+<l>    endif</l>
+<c>    * Display message.</c>
+<l>    dev_resize_window_fit_image (TiledImage, 0, 0, -1, -1)</l>
+<l>    get_part (WindowHandle, Row1, Column1, Row2, Column2)</l>
+<l>    dev_clear_window ()</l>
+<l>    dev_display (TiledImage)</l>
+<l>    Message := 'Reconstruct scene from 3 different views. Please wait...'</l>
+<l>    dev_disp_text (Message, 'window', 12, 12, 'black', [], [])</l>
+<c>    * </c>
+<c>    * Perform the reconstruction.</c>
+<l>    count_seconds (S1)</l>
+<l>    reconstruct_surface_stereo (Images, StereoModelID, OM3DFusion)</l>
+<l>    count_seconds (S2)</l>
+<c>    * Get the pairwise reconstruction.</c>
+<l>    get_stereo_model_object_model_3d (StereoModelID, 'm3d_pairwise', OM3DPairwise)</l>
+<l>    create_pose (0.026, -0.07, 1.9, 330, 345, 300, 'Rp+T', 'gba', 'point', VisPose)</l>
+<c>    * Display the pairwise result.</c>
+<l>    Title := 'Intermediate result (reconstructed using \'surface_pairwise\'' + Info + ') (' + I + '/' + NumObjects + ')'</l>
+<l>    visualize_object_model_3d (WindowHandle, OM3DPairwise, [], VisPose, ['color', 'point_size'], ['orange', 1], Title, [], Instructions, VisPose)</l>
+<c>    * Display the fusion result.</c>
+<l>    Title := 'Reconstructed object model using \'surface_fusion\'' + Info + ' (' + I + '/' + NumObjects + ')'</l>
+<l>    visualize_object_model_3d (WindowHandle, OM3DFusion, [], VisPose, [], [], Title, [], Instructions, VisPose)</l>
+<c>    * Display the colored and triangulated fusion result.</c>
+<l>    Title := 'Final result (colored and triangulated' + Info + ')  (' + I + '/' + NumObjects + ')\nReconstruction time: ' + (S2 - S1)$'.2' + ' s (Resolution ' + (Resolution * 1000) + ' mm)'</l>
+<l>    visualize_object_model_3d (WindowHandle, OM3DFusion, [], VisPose, 'color_attrib', 'red', Title, [], Instructions, VisPose)</l>
+<l>endfor</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>
