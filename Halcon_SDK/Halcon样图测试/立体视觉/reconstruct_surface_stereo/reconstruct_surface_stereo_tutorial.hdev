@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="21.05.0.0">
+<procedure name="main">
+<interface/>
+<body>
+<c>*</c>
+<l>ImageWidth := 1624</l>
+<l>ImageHeight := 1234</l>
+<l>init_windows (ImageWidth, ImageHeight, WindowHandles)</l>
+<c>*</c>
+<l>read_camera_setup_model ('camera_setup_model.csm', CameraSetupModelID)</l>
+<c>*</c>
+<c>* Get the pose of the first calibration plate,</c>
+<c>* which represents the ground plane.</c>
+<l>read_calib_data ('calib_data.ccd', CalibDataID)</l>
+<l>calibrate_cameras (CalibDataID, Error)</l>
+<l>get_calib_data (CalibDataID, 'calib_obj_pose', [0,0], 'pose', ReferencePose)</l>
+<l>set_camera_setup_param (CameraSetupModelID, 'general', 'coord_transf_pose', ReferencePose)</l>
+<c>*</c>
+<l>Method := 'surface_pairwise'</l>
+<l>* Method :='surface_fusion'</l>
+<l>create_stereo_model (CameraSetupModelID, Method, [], [], StereoModelID)</l>
+<c>*</c>
+<l>set_stereo_model_image_pairs (StereoModelID, [0], [1])</l>
+<c>*</c>
+<l>estimate_bounding_box_3d_reconstruction (StereoModelID, 0.08, BoundingBox)</l>
+<l>BoundingBox[5] := BoundingBox[5] + 0.01</l>
+<l>set_stereo_model_param (StereoModelID, 'bounding_box', BoundingBox)</l>
+<c>*</c>
+<l>set_stereo_model_param (StereoModelID, 'persistence', 1)</l>
+<c>* Set some parameters regarding the disparity method:</c>
+<c>* Use the 'binocular_disparity' method.</c>
+<l>set_stereo_model_param (StereoModelID, 'disparity_method', 'binocular')</l>
+<c>* Use the normalized cross correlation.</c>
+<l>set_stereo_model_param (StereoModelID, 'binocular_method', 'ncc')</l>
+<c>* Set the mask size.</c>
+<l>set_stereo_model_param (StereoModelID, 'binocular_mask_width', 25)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_mask_height', 25)</l>
+<c>* Improve the robustness of the matching.</c>
+<l>set_stereo_model_param (StereoModelID, 'binocular_filter', 'left_right_check')</l>
+<c>* Calculate disparities with sub-pixel precision.</c>
+<l>set_stereo_model_param (StereoModelID, 'binocular_sub_disparity', 'interpolation')</l>
+<c>* Set the minmum disparity score.</c>
+<l>set_stereo_model_param (StereoModelID, 'binocular_score_thresh', 0.5)</l>
+<c>*</c>
+<l>if (Method == 'surface_fusion')</l>
+<c>    * </c>
+<c>    * Set some fusion parameters.</c>
+<c>    *</c>
+<c>    * Set resolution to 0.6 mm.</c>
+<l>    Resolution := 0.0006</l>
+<c>    * Set surface tolerance depending on the resolution.</c>
+<l>    SurfaceTolerance := 2 * Resolution</l>
+<c>    * For better visualization, triangulate the result.</c>
+<l>    set_stereo_model_param (StereoModelID, 'point_meshing', 'isosurface')</l>
+<c>    * Set the resolution.</c>
+<l>    set_stereo_model_param (StereoModelID, 'resolution', Resolution)</l>
+<c>    * Set the 'surface_tolerance' parameter.</c>
+<l>    set_stereo_model_param (StereoModelID, 'surface_tolerance', SurfaceTolerance)</l>
+<c>    * Color the result.</c>
+<l>    set_stereo_model_param (StereoModelID, 'color', 'median')</l>
+<l>endif</l>
+<c>*</c>
+<l>gen_bounding_box_object_model_3d (StereoModelID, ObjectModel3DBoundingBox)</l>
+<l>get_camera_setup_param (CameraSetupModelID,0, 'params', CamParam)</l>
+<l>create_pose (0, 0, 1, 0, 0, 0, 'Rp+T', 'gba', 'point', Visualize3DPose)</l>
+<l>NumScenes := 4</l>
+<c>*</c>
+<l>for ImageIndex := 1 to NumScenes by 1</l>
+<l>    read_image (ImageL, 'images/' + ImageIndex $ '02' + '_L')</l>
+<l>    read_image (ImageR, 'images/' + ImageIndex $ '02' + '_R')</l>
+<c>    *</c>
+<l>    dev_set_window (WindowHandles[0])</l>
+<l>    dev_display (ImageL)</l>
+<l>    dev_set_window (WindowHandles[1])</l>
+<l>    dev_display (ImageR)</l>
+<l>    dev_disp_text ('Press Run (F5) to continue', 'window', 'bottom', 'right', 'black', [], [])</l>
+<l>    stop ()</l>
+<c>    *</c>
+<l>    concat_obj (ImageL, ImageR, Images)</l>
+<l>    reconstruct_surface_stereo (Images, StereoModelID, SceneObjectModel3D)    </l>
+<c>    *</c>
+<l>    get_stereo_model_object (DisparityImage, StereoModelID, [0,1], 'disparity_image')</l>
+<c>    *</c>
+<l>    dev_set_window (WindowHandles[0])</l>
+<l>    dev_clear_window ()</l>
+<l>    dev_set_window (WindowHandles[1])</l>
+<l>    dev_clear_window ()</l>
+<l>    dev_display (DisparityImage)</l>
+<l>    dev_disp_text ('Disparity image', 'window', 'top', 'left', 'black', [], [])</l>
+<c>    *</c>
+<l>    GenParamName := ['alpha_1', 'disp_pose_0']</l>
+<l>    GenParamValue :=  [0.1, 'true']</l>
+<l>    visualize_object_model_3d (WindowHandles[0], [SceneObjectModel3D, ObjectModel3DBoundingBox], CamParam, Visualize3DPose, ['color_0', GenParamName], ['light gray', GenParamValue], [], [], [], Visualize3DPose)</l>
+<l>    if (Method == 'surface_fusion')</l>
+<l>        visualize_object_model_3d (WindowHandles[1], [SceneObjectModel3D, ObjectModel3DBoundingBox], CamParam, Visualize3DPose, ['color_attrib_0', GenParamName], ['red', GenParamValue], [], [], [], Visualize3DPose)</l>
+<l>    endif</l>
+<l>endfor</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="find_and_visualize_calib_object">
+<interface>
+<io>
+<par name="Image" base_type="iconic" dimension="0"/>
+</io>
+<ic>
+<par name="CalibDataID" base_type="ctrl" dimension="0"/>
+<par name="CameraIndex" base_type="ctrl" dimension="0"/>
+<par name="CalibObjPoseIndex" base_type="ctrl" dimension="0"/>
+<par name="WindowHandle" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<l>try</l>
+<l>    find_calib_object (Image, CalibDataID, CameraIndex, 0, CalibObjPoseIndex, [], [])</l>
+<l>    get_calib_data_observ_contours (Contours, CalibDataID, 'marks', CameraIndex, 0, CalibObjPoseIndex)</l>
+<l>    dev_set_window (WindowHandle)</l>
+<l>    dev_set_color ('green')</l>
+<l>    dev_display (Contours)</l>
+<l>catch (Exception)</l>
+<l>    dev_set_window (WindowHandle)</l>
+<l>    dev_disp_text (Exception[2], 'window', 'top', 'left', 'white', ['box_color', 'shadow'], ['red', 'false'])</l>
+<l>endtry</l>
+<l>return ()</l>
+</body>
+<docu id="find_and_visualize_calib_object">
+<parameters>
+<parameter id="CalibDataID"/>
+<parameter id="CalibObjPoseIndex"/>
+<parameter id="CameraIndex"/>
+<parameter id="Image"/>
+<parameter id="WindowHandle"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="dev_display_calib_images">
+<interface>
+<io>
+<par name="ImageL" base_type="iconic" dimension="0"/>
+<par name="ImageR" base_type="iconic" dimension="0"/>
+</io>
+<ic>
+<par name="WindowHandleL" base_type="ctrl" dimension="0"/>
+<par name="WindowHandleR" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<l>threshold (ImageL, RegionOverexposedL, 254, 255)</l>
+<l>threshold (ImageR, RegionOverexposedR, 254, 255)</l>
+<c>*</c>
+<l>dev_set_window (WindowHandleL)</l>
+<l>dev_display (ImageL)</l>
+<l>dev_set_draw ('fill')</l>
+<l>dev_set_color ('red')</l>
+<l>dev_display (RegionOverexposedL)</l>
+<l>dev_set_window (WindowHandleR)</l>
+<l>dev_display (ImageR)</l>
+<l>dev_set_draw ('fill')</l>
+<l>dev_set_color ('red')</l>
+<l>dev_display (RegionOverexposedR)</l>
+<l>return ()</l>
+</body>
+<docu id="dev_display_calib_images">
+<parameters>
+<parameter id="ImageL"/>
+<parameter id="ImageR"/>
+<parameter id="WindowHandleL"/>
+<parameter id="WindowHandleR"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="visualize_disparity_om3d">
+<interface>
+<io>
+<par name="ImageDisparity" base_type="iconic" dimension="0"/>
+<par name="ImageMappedL" base_type="iconic" dimension="0"/>
+</io>
+<ic>
+<par name="CamParamRect1" base_type="ctrl" dimension="0"/>
+<par name="CamParamRect2" base_type="ctrl" dimension="0"/>
+<par name="RelPoseRect" base_type="ctrl" dimension="0"/>
+<par name="Title" base_type="ctrl" dimension="0"/>
+<par name="WindowHandle" base_type="ctrl" dimension="0"/>
+<par name="Visualize3DPose" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="Visualize3DPoseOut" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c></c>
+</body>
+<docu id="visualize_disparity_om3d">
+<parameters>
+<parameter id="CamParamRect1"/>
+<parameter id="CamParamRect2"/>
+<parameter id="ImageDisparity"/>
+<parameter id="ImageMappedL"/>
+<parameter id="RelPoseRect"/>
+<parameter id="Title"/>
+<parameter id="Visualize3DPose"/>
+<parameter id="Visualize3DPoseOut"/>
+<parameter id="WindowHandle"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="init_window">
+<interface>
+<ic>
+<par name="ImageWidth" base_type="ctrl" dimension="0"/>
+<par name="ImageHeight" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="WindowHandle" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>dev_update_off ()</l>
+<l>dev_close_window ()</l>
+<c>*</c>
+<l>Scale := 0.4</l>
+<l>LineWidth := 2</l>
+<c>*</c>
+<l>dev_open_window (0, 0, ImageWidth*Scale, ImageHeight*Scale, 'black', WindowHandle)</l>
+<l>dev_set_line_width (LineWidth)</l>
+<l>set_display_font (WindowHandle, 16, 'mono', 'true', 'false')</l>
+<l>* set_window_param (WindowHandle, 'flush', 'false')</l>
+<l>* dev_open_window (0, ImageWidth*Scale + 10, ImageWidth*Scale, ImageHeight*Scale, 'black', WindowHandleR)</l>
+<l>* dev_set_line_width (LineWidth)</l>
+<l>* set_display_font (WindowHandleR, 16, 'mono', 'true', 'false')</l>
+<l>* set_window_param (WindowHandleR, 'flush', 'false')</l>
+<l>return ()</l>
+</body>
+<docu id="init_window">
+<parameters>
+<parameter id="ImageHeight"/>
+<parameter id="ImageWidth"/>
+<parameter id="WindowHandle"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="init_cameras">
+<interface>
+<oc>
+<par name="AcqHandles" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>open_framegrabber ('USB3Vision', 0, 0, 0, 0, 0, 0, 'progressive', -1, 'default', -1, 'false', 'default', '1409000BFC1C_IDSImagingDevelopmentSystemsGmbH_U33250MLCHQ', 0, -1, AcqHandle1)</l>
+<l>open_framegrabber ('USB3Vision', 0, 0, 0, 0, 0, 0, 'progressive', -1, 'default', -1, 'false', 'default', '1409000BFC2A_IDSImagingDevelopmentSystemsGmbH_U33250MLCHQ', 0, -1, AcqHandle2)</l>
+<l>open_framegrabber ('USB3Vision', 0, 0, 0, 0, 0, 0, 'progressive', -1, 'default', -1, 'false', 'default', '1409000BFC31_IDSImagingDevelopmentSystemsGmbH_U33250MLCHQ', 0, -1, AcqHandle3)</l>
+<l>AcqHandles := [AcqHandle1, AcqHandle2, AcqHandle3]</l>
+<l>return ()</l>
+</body>
+<docu id="init_cameras">
+<parameters>
+<parameter id="AcqHandles">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<sem_type>framegrabber</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+</parameters>
+</docu>
+</procedure>
+<procedure name="init_windows">
+<interface>
+<ic>
+<par name="ImageWidth" base_type="ctrl" dimension="0"/>
+<par name="ImageHeight" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="WindowHandles" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>dev_update_off ()</l>
+<l>dev_close_window ()</l>
+<c>*</c>
+<l>Scale := 0.4</l>
+<l>LineWidth := 2</l>
+<c>*</c>
+<l>dev_open_window (0, 0, ImageWidth*Scale, ImageHeight*Scale, 'black', WindowHandle1)</l>
+<l>dev_set_line_width (LineWidth)</l>
+<l>set_display_font (WindowHandle1, 16, 'mono', 'true', 'false')</l>
+<c>*</c>
+<l>dev_open_window (0, ImageWidth*Scale + 10, ImageWidth*Scale, ImageHeight*Scale, 'black', WindowHandle2)</l>
+<l>dev_set_line_width (LineWidth)</l>
+<l>set_display_font (WindowHandle2, 16, 'mono', 'true', 'false')</l>
+<c>*</c>
+<l>WindowHandles := [WindowHandle1, WindowHandle2]</l>
+<l>return ()</l>
+</body>
+<docu id="init_windows">
+<parameters>
+<parameter id="ImageHeight"/>
+<parameter id="ImageWidth"/>
+<parameter id="WindowHandles">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<sem_type>window</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+</parameters>
+</docu>
+</procedure>
+<procedure name="get_mouse_click_break">
+<interface>
+<ic>
+<par name="WindowHandles" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="Break" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>Break := 0</l>
+<c></c>
+<l>for WindowIndex := 0 to |WindowHandles|-1 by 1</l>
+<l>    dev_set_window (WindowHandles[WindowIndex])</l>
+<l>    dev_disp_text ('Click to continue.', 'window', 'bottom', 'right', 'black', [], [])</l>
+<l>    try</l>
+<l>        get_mposition (WindowHandles[WindowIndex], Row, Column, Button)</l>
+<l>        if (Button == 1)</l>
+<l>            dev_set_window (WindowHandles[WindowIndex])</l>
+<l>            dev_disp_text ('Continuing...', 'window', 'center', 'center', 'black', [], [])</l>
+<l>            flush_buffer (WindowHandles[WindowIndex])</l>
+<l>            wait_seconds (0.5)</l>
+<l>            Break := 1</l>
+<l>        endif</l>
+<l>    catch (Exception)</l>
+<l>    endtry</l>
+<l>endfor</l>
+<l>return ()</l>
+</body>
+<docu id="get_mouse_click_break">
+<parameters>
+<parameter id="Break"/>
+<parameter id="WindowHandles"/>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>
