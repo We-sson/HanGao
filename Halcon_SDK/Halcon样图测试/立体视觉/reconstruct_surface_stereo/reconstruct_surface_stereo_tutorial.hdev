@@ -45,6 +45,11 @@
 <l>set_stereo_model_param (StereoModelID, 'binocular_score_thresh', 0.3)</l>
 <c></c>
 <l>set_stereo_model_param (StereoModelID, 'binocular_num_levels', 1)</l>
+<c></c>
+<c>*三维数据采样步距设置,影响精度和运算速度</c>
+<l>set_stereo_model_param (StereoModelID, 'sub_sampling_step', 5)</l>
+<c></c>
+<l>set_stereo_model_param (StereoModelID, 'rectif_sub_sampling', 1)</l>
 <c>*</c>
 <l>if (Method == 'surface_fusion')</l>
 <c>    * </c>
@@ -90,7 +95,8 @@
 <l>for I := 1 to |ImageFiles_L|-1 by 1</l>
 <l>    read_image (ImageL, ImageFiles_L[I])</l>
 <l>    read_image (ImageR, ImageFiles_R[I])</l>
-<l>mean_image (ImageR, ImageMean, 5, 5)</l>
+<l>   * mean_image (ImageL, ImageL, 5, 5)</l>
+<l>    *mean_image (ImageR, ImageR, 5, 5)</l>
 <c>    *</c>
 <l>    dev_set_window (WindowHandles[0])</l>
 <l>    dev_display (ImageL)</l>
@@ -98,11 +104,14 @@
 <l>    dev_display (ImageR)</l>
 <l>    dev_disp_text ('Press Run (F5) to continue', 'window', 'bottom', 'right', 'black', [], [])</l>
 <l>    *stop ()</l>
-<c>    *</c>
+<c>    *连接图像</c>
 <l>    concat_obj (ImageL, ImageR, Images)</l>
+<c></c>
+<c>    * 从校准的多视图立体图像重建表面。</c>
 <l>    reconstruct_surface_stereo (Images, StereoModelID, SceneObjectModel3D)   </l>
 <c>    *</c>
 <l>    get_stereo_model_object (DisparityImage, StereoModelID, [0,1], 'disparity_image')</l>
+<c>  </c>
 <c>    </c>
 <l>    get_stereo_model_object (FromImage, StereoModelID, [0, 1], 'from_image_rect')</l>
 <l>    get_stereo_model_object (ToImage, StereoModelID, [0, 1], 'to_image_rect')</l>
