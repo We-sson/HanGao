@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.2" halcon_version="22.11.1.0">
+<hdevelop file_version="1.2" halcon_version="22.05.0.0">
 <procedure name="main">
 <interface/>
 <body>
@@ -12,7 +12,7 @@
 <c>* </c>
 <c>* Read image</c>
 <c>* 读取左右目图像</c>
-<l>list_image_files ('C:/Users/zhiwei2.he/Documents/GitHub/HanGao/HanGao_Base/Halcon_SDK/Halcon样图测试/立体视觉/Data', 'default', [], AllCalibImageFiles)</l>
+<l>list_image_files ('/Data', 'default', [], AllCalibImageFiles)</l>
 <l>tuple_regexp_select (AllCalibImageFiles, 'Image_L', ImageFiles_L)</l>
 <l>tuple_regexp_select (AllCalibImageFiles, 'Image_R', ImageFiles_R)</l>
 <c></c>
@@ -23,7 +23,7 @@
 <l>NumCameras := 2</l>
 <l>NumCalibObjects := 1</l>
 <l>CalibSetup := 'calibration_object'</l>
-<l>DescrFile := 'C:/Users/zhiwei2.he/Documents/GitHub/HanGao/HanGao_Base/Halcon_SDK/Halcon样图测试/26_30_0.0015_calplate.cpd'</l>
+<l>DescrFile := '26_30_0.0015_calplate.cpd'</l>
 <c>* </c>
 <c>* Initialize initial camera parameters</c>
 <c>* 焦距</c>

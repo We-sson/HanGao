@@ -14,6 +14,7 @@
 <c>* which represents the ground plane.</c>
 <l>read_calib_data ('calib.ccd', CalibDataID)</l>
 <l>calibrate_cameras (CalibDataID, Error)</l>
+<l>get_calib_data (CalibDataID, 'camera', 0, 'params', Camera_Params_L)</l>
 <l>get_calib_data (CalibDataID, 'calib_obj_pose', [0,1], 'pose', ReferencePose)</l>
 <l>set_camera_setup_param (CameraSetupModelID, 'general', 'coord_transf_pose', ReferencePose)</l>
 <c>*</c>
@@ -42,7 +43,7 @@
 <c>* Calculate disparities with sub-pixel precision.</c>
 <l>set_stereo_model_param (StereoModelID, 'binocular_sub_disparity', 'interpolation')</l>
 <c>* Set the minmum disparity score.</c>
-<l>set_stereo_model_param (StereoModelID, 'binocular_score_thresh', 0.3)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_score_thresh', 0.35)</l>
 <c></c>
 <l>set_stereo_model_param (StereoModelID, 'binocular_num_levels', 1)</l>
 <c></c>
@@ -109,9 +110,35 @@
 <c></c>
 <c>    * 从校准的多视图立体图像重建表面。</c>
 <l>    reconstruct_surface_stereo (Images, StereoModelID, SceneObjectModel3D)   </l>
-<c>    *</c>
-<l>    get_stereo_model_object (DisparityImage, StereoModelID, [0,1], 'disparity_image')</l>
+<c>    </c>
+<c>    </c>
 <c>  </c>
+<c>    </c>
+<c>    * 根据点云集合距离平滑动作</c>
+<c>    * 参数:提出点云相邻距离值,值越大运算时间越久</c>
+<l>    NumNeighbors := 55</l>
+<l>    get_object_model_3d_params (SceneObjectModel3D, 'neighbor_distance ' + NumNeighbors, DistanceDistribution)</l>
+<c>    * 参数:排序后按百分比选择对应距离值</c>
+<l>    InlierRate := 95</l>
+<l>    Dis:=|DistanceDistribution| * InlierRate / 100</l>
+<l>    Dis_sort:= sort(DistanceDistribution)</l>
+<l>    Distance :=Dis_sort[Dis]</l>
+<c></c>
+<l>    get_object_model_3d_params (SceneObjectModel3D, 'num_points', NumPoints)</l>
+<c>    * 参数每个相邻集合点群体最小点云数.(消除散点云)</c>
+<l>    MinDis:=35</l>
+<l>    select_points_object_model_3d (SceneObjectModel3D, 'num_neighbors_fast '+Distance,MinDis , NumPoints, ObjectModel3DThresholded)</l>
+<c>    </c>
+<c>    </c>
+<l>    sample_object_model_3d (ObjectModel3DThresholded, 'fast', 0.05, [], [], SampledObjectModel3D)</l>
+<l>    prepare_object_model_3d (ObjectModel3DThresholded, 'segmentation', 'true', ['max_area_holes'], [8000])</l>
+<c>    </c>
+<l>    object_model_3d_to_xyz (X, Y, Z, SceneObjectModel3D, 'cartesian_faces', Camera_Params_L, [])</l>
+<l>    compose3 (X, Y, Z, MultiChannelImage)</l>
+<l>    get_stereo_model_object (DisparityImage, StereoModelID, [0,1], 'disparity_image')</l>
+<l>   get_stereo_model_object (scoreImage, StereoModelID, [0,1], 'score_image')</l>
+<c></c>
+<c>    </c>
 <c>    </c>
 <l>    get_stereo_model_object (FromImage, StereoModelID, [0, 1], 'from_image_rect')</l>
 <l>    get_stereo_model_object (ToImage, StereoModelID, [0, 1], 'to_image_rect')</l>
@@ -135,7 +162,7 @@
 <l>    dev_disp_text ('Disparity image', 'window', 'top', 'left', 'black', [], [])</l>
 <c>  </c>
 <l>    GenParamName := ['alpha_1', 'disp_pose_0']</l>
-<l>    GenParamValue :=  [0.01, 'true']</l>
+<l>    GenParamValue :=  [0.1, 'true']</l>
 <l>    visualize_object_model_3d (WindowHandles[1], [SceneObjectModel3D, ObjectModel3DBoundingBox], CamParam, Visualize3DPose, ['color_0', GenParamName], ['light gray', GenParamValue], [], [], [], Visualize3DPose)</l>
 <l>    if (Method == 'surface_fusion')</l>
 <l>        visualize_object_model_3d (WindowHandles[1], [SceneObjectModel3D, ObjectModel3DBoundingBox], CamParam, Visualize3DPose, ['color_attrib_0', GenParamName], ['red', GenParamValue], [], [], [], Visualize3DPose)</l>
@@ -389,6 +416,61 @@
 <parameters>
 <parameter id="Break"/>
 <parameter id="WindowHandles"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="estimate_camera_parameters">
+<interface>
+<ic>
+<par name="OM3DScene" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="CameraParam" base_type="ctrl" dimension="0"/>
+<par name="CameraPose" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c></c>
+<c>* This procedure estimates the camera parameters of a 3D sensor.</c>
+<c>* The camera parameters and the camera pose are found such that</c>
+<c>* the observed 3D points are projected onto their original 2D</c>
+<c>* image coordinates.</c>
+<c></c>
+<c>* Note that the 3D points must be distributed throughout the</c>
+<c>* relevant volume. If for example all 3D points lie on a single</c>
+<c>* plane, the calibration will be less accurate.</c>
+<c></c>
+<c>* The resulting camera parameters and pose can be used to project</c>
+<c>* matching results into the range images.</c>
+<c></c>
+<c>* Get 3D coordinates.</c>
+<l>get_object_model_3d_params (OM3DScene, 'point_coord_x', XCoords)</l>
+<l>get_object_model_3d_params (OM3DScene, 'point_coord_y', YCoords)</l>
+<l>get_object_model_3d_params (OM3DScene, 'point_coord_z', ZCoords)</l>
+<c>* Get 2D coordinates.</c>
+<l>get_object_model_3d_params (OM3DScene, 'mapping_row', Rows)</l>
+<l>get_object_model_3d_params (OM3DScene, 'mapping_col', Columns)</l>
+<c>* Start camera parameters.</c>
+<l>get_object_model_3d_params (OM3DScene, 'mapping_size', MappingSize)</l>
+<l>Width := MappingSize[0]</l>
+<l>Height := MappingSize[1]</l>
+<l>gen_cam_par_area_scan_division (0.012, 0, 5.2e-006, 5.2e-006, Width / 2, Height / 2, Width, Height, CameraParamStart)</l>
+<l>CameraPoseStart := [0, 0, 0, 0, 0, 0, 0]</l>
+<c>* Calibrate the sensor.</c>
+<l>create_calib_data ('calibration_object', 1, 1, CalibDataID)</l>
+<l>set_calib_data_calib_object (CalibDataID, 0, [XCoords,YCoords,ZCoords])</l>
+<l>set_calib_data_cam_param (CalibDataID, 0, 'area_scan_division', CameraParamStart)</l>
+<l>set_calib_data_observ_points (CalibDataID, 0, 0, 0, Rows, Columns, 'all', CameraPoseStart)</l>
+<l>calibrate_cameras (CalibDataID, Error)</l>
+<l>get_calib_data (CalibDataID, 'camera', 0, 'params', CameraParam)</l>
+<l>get_calib_data (CalibDataID, 'calib_obj_pose', [0, 0], 'pose', CameraPose)</l>
+<l>return ()</l>
+</body>
+<docu id="estimate_camera_parameters">
+<parameters>
+<parameter id="CameraParam"/>
+<parameter id="CameraPose"/>
+<parameter id="OM3DScene"/>
 </parameters>
 </docu>
 </procedure>
