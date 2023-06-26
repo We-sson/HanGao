@@ -36,21 +36,23 @@
 <c>* Use the normalized cross correlation.</c>
 <l>set_stereo_model_param (StereoModelID, 'binocular_method', 'ncc')</l>
 <c>* Set the mask size.</c>
-<l>set_stereo_model_param (StereoModelID, 'binocular_mask_width', 30)</l>
-<l>set_stereo_model_param (StereoModelID, 'binocular_mask_height', 30)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_mask_width', 51)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_mask_height', 51)</l>
 <c>* Improve the robustness of the matching.</c>
 <l>set_stereo_model_param (StereoModelID, 'binocular_filter', 'left_right_check')</l>
 <c>* Calculate disparities with sub-pixel precision.</c>
 <l>set_stereo_model_param (StereoModelID, 'binocular_sub_disparity', 'interpolation')</l>
 <c>* Set the minmum disparity score.</c>
-<l>set_stereo_model_param (StereoModelID, 'binocular_score_thresh', 0.35)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_score_thresh', 0.3)</l>
 <c></c>
-<l>set_stereo_model_param (StereoModelID, 'binocular_num_levels', 1)</l>
+<c></c>
+<l>set_stereo_model_param (StereoModelID, 'color', 'median')</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_num_levels', 2)</l>
 <c></c>
 <c>*三维数据采样步距设置,影响精度和运算速度</c>
-<l>set_stereo_model_param (StereoModelID, 'sub_sampling_step', 5)</l>
+<l>set_stereo_model_param (StereoModelID, 'sub_sampling_step', 10)</l>
 <c></c>
-<l>set_stereo_model_param (StereoModelID, 'rectif_sub_sampling', 1)</l>
+<l>set_stereo_model_param (StereoModelID, 'rectif_sub_sampling', 2)</l>
 <c>*</c>
 <l>if (Method == 'surface_fusion')</l>
 <c>    * </c>
@@ -112,28 +114,61 @@
 <l>    reconstruct_surface_stereo (Images, StereoModelID, SceneObjectModel3D)   </l>
 <c>    </c>
 <c>    </c>
-<c>  </c>
+<c>    </c>
+<l>    *connection_object_model_3d (SceneObjectModel3D, 'distance_3d', 0.001, ObjectModel3DConnected)</l>
+<l>    *select_object_model_3d (ObjectModel3DConnected, 'num_points', 'and', 50, 1e30, ObjectModel3DSelected)</l>
+<l>    *surface_normals_object_model_3d (ObjectModel3DSelected, 'xyz_mapping', [], [], ObjectModel3DNormals)</l>
+<c>    </c>
+<c>    </c>
+<l>    *segment_object_model_3d (ObjectModel3DNormals, [], [], ObjectModel3DOut)</l>
+<l>   * prepare_object_model_3d (ObjectModel3DNormals, 'segmentation', 'true', [], [])</l>
+<l>    *object_model_3d_to_xyz (X1, Y1, Z1, ObjectModel3DNormals, 'cartesian', CamParam, Visualize3DPose)</l>
+<l>    stop()</l>
+<l>   * object_model_3d_to_xyz (X, Y, Z, SceneObjectModel3D, 'from_xyz_map', [], [])</l>
+<l>    *select_points_object_model_3d (SceneObjectModel3D, 'num_neighbors_fast 0.000001', 0, 1, SceneReduced)</l>
+<c>    </c>
+<c>    </c>
 <c>    </c>
 <c>    * 根据点云集合距离平滑动作</c>
 <c>    * 参数:提出点云相邻距离值,值越大运算时间越久</c>
-<l>    NumNeighbors := 55</l>
+<l>    NumNeighbors := 45</l>
 <l>    get_object_model_3d_params (SceneObjectModel3D, 'neighbor_distance ' + NumNeighbors, DistanceDistribution)</l>
 <c>    * 参数:排序后按百分比选择对应距离值</c>
-<l>    InlierRate := 95</l>
+<l>    InlierRate := 90</l>
 <l>    Dis:=|DistanceDistribution| * InlierRate / 100</l>
 <l>    Dis_sort:= sort(DistanceDistribution)</l>
 <l>    Distance :=Dis_sort[Dis]</l>
 <c></c>
 <l>    get_object_model_3d_params (SceneObjectModel3D, 'num_points', NumPoints)</l>
 <c>    * 参数每个相邻集合点群体最小点云数.(消除散点云)</c>
-<l>    MinDis:=35</l>
-<l>    select_points_object_model_3d (SceneObjectModel3D, 'num_neighbors_fast '+Distance,MinDis , NumPoints, ObjectModel3DThresholded)</l>
+<l>    MinDis:=80</l>
+<l>    select_points_object_model_3d (SceneObjectModel3D, 'num_neighbors_fast '+0.01,MinDis , NumPoints, ObjectModel3DThresholded)</l>
 <c>    </c>
 <c>    </c>
-<l>    sample_object_model_3d (ObjectModel3DThresholded, 'fast', 0.05, [], [], SampledObjectModel3D)</l>
+<c>    *平滑点云</c>
+<l>    smooth_object_model_3d (ObjectModel3DThresholded, 'mls', ['mls_abs_sigma','mls_force_inwards'],[0.01,'false'] , SmoothObjectModel3D)</l>
+<c>    </c>
+<c>    </c>
+<c>    *重新采样点云数据,重置法线往Z方向</c>
+<l>    sample_object_model_3d (SmoothObjectModel3D, 'xyz_mapping', 0.001, [], [], SampledObjectModel3D)</l>
+<c>    </c>
+<c></c>
+<l>    object_model_3d_to_xyz (X, Y, Z, SampledObjectModel3D, 'from_xyz_map', [], [])</l>
+<c>    </c>
+<l>    gray_opening_rect (X, ImageOpening, 3, 3)</l>
+<c>    </c>
+<c>    </c>
+<l>    fill_up (X, FillUp_X)</l>
+<l>    fill_up (Y, FillUp_Y)</l>
+<l>    fill_up (Z, FillUp_Z)</l>
+<l>    *surface_normals_object_model_3d (ObjectModel3DThresholded, 'mls', ['mls_kNN'], [100], ObjectModel3DNormals)</l>
+<l>    xyz_to_object_model_3d (FillUp_X, FillUp_Y, FillUp_Z, ObjectModel3D)</l>
+<c>    </c>
 <l>    prepare_object_model_3d (ObjectModel3DThresholded, 'segmentation', 'true', ['max_area_holes'], [8000])</l>
 <c>    </c>
-<l>    object_model_3d_to_xyz (X, Y, Z, SceneObjectModel3D, 'cartesian_faces', Camera_Params_L, [])</l>
+<c>    </c>
+<c>    </c>
+<l>    object_model_3d_to_xyz (X, Y, Z, SceneObjectModel3D, 'from_xyz_map', [], [])</l>
 <l>    compose3 (X, Y, Z, MultiChannelImage)</l>
 <l>    get_stereo_model_object (DisparityImage, StereoModelID, [0,1], 'disparity_image')</l>
 <l>   get_stereo_model_object (scoreImage, StereoModelID, [0,1], 'score_image')</l>
