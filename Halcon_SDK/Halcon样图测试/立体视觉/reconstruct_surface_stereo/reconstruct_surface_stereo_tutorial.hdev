@@ -150,10 +150,13 @@
 <l>    *smooth_object_model_3d (ObjectModel3DThresholded, 'mls', ['mls_abs_sigma','mls_force_inwards'],[0.01,'false'] , SmoothObjectModel3D)</l>
 <c>    </c>
 <c>    </c>
-<c>    *重新采样点云数据,重置法线往Z方向</c>
-<l>    sample_object_model_3d (ObjectModel3DThresholded, 'accurate', 0.1, 'min_num_points', 0.5, SampledObjectModel3D)</l>
+<c>    *重新采样点云数据,重置法线往Z方向,减少点云密集成度</c>
+<l>    sample_object_model_3d (ObjectModel3DThresholded, 'accurate', 0.0001, 'min_num_points', 1, SampledObjectModel3D)</l>
 <c>    </c>
 <c></c>
+<l>    smooth_object_model_3d (SampledObjectModel3D, 'mls', ['mls_kNN','mls_force_inwards'], [100,'false'], SmoothObjectModel3D)</l>
+<c>    </c>
+<c>    </c>
 <l>    object_model_3d_to_xyz (X, Y, Z, SampledObjectModel3D, 'from_xyz_map', [], [])</l>
 <c>    </c>
 <c>   </c>
