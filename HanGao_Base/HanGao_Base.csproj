@@ -77,6 +77,12 @@
   <PropertyGroup>
     <ApplicationIcon>Resources\软件图标.ico</ApplicationIcon>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Ps_UI\**" />
+    <EmbeddedResource Remove="Ps_UI\**" />
+    <None Remove="Ps_UI\**" />
+    <Page Remove="Ps_UI\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <Reference Include="halcondotnet, Version=22.5.0.0, Culture=neutral, PublicKeyToken=4973bed59ddbf2b8, processorArchitecture=MSIL">
@@ -193,15 +199,6 @@
     <None Update="FodyWeavers.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Ps_UI\UI水槽.xmind" />
-    <None Include="Ps_UI\单盆图标.ai" />
-    <None Include="Ps_UI\双盆图标.ai" />
-    <None Include="Ps_UI\左右盆图标.ai" />
-    <None Include="Ps_UI\界面UI.xd" />
-    <None Include="Ps_UI\界面参考素材.ai" />
-    <None Include="Ps_UI\界面效果图.psd" />
-    <None Include="Ps_UI\界面效果图.xd" />
-    <None Include="Ps_UI\软件UI.xmind" />
     <Content Include="Resources\halcondotnet.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -248,9 +245,6 @@
     <Resource Include="Resources\UC_开始页面状态_1.png" />
     <Resource Include="Resources\UC_开始页面状态_3.png" />
     <Resource Include="FodyWeavers.xml" />
-    <Content Include="Ps_UI\单盆图标.svg" />
-    <Content Include="Ps_UI\双盆图标.svg" />
-    <Content Include="Ps_UI\左右盆图标.svg" />
     <Resource Include="Resources\Control_设备日志_ioc.png" />
     <Resource Include="Resources\Control_创建模型_ioc.png" />
     <Resource Include="Resources\Control_机器通讯_ioc.png" />
