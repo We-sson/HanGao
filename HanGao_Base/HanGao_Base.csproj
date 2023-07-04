@@ -85,13 +85,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="halcondotnet, Version=22.5.0.0, Culture=neutral, PublicKeyToken=4973bed59ddbf2b8, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Halcon_SDK\DLL\Halcon\2022\halcondotnet.dll</HintPath>
+    <Reference Include="halcondotnet">
+      <HintPath>..\Halcon_SDK\halcondotnet.dll</HintPath>
     </Reference>
-    <Reference Include="hdevenginedotnet, Version=22.5.0.0, Culture=neutral, PublicKeyToken=4973bed59ddbf2b8, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Halcon_SDK\DLL\Halcon\2022\hdevenginedotnet.dll</HintPath>
+    <Reference Include="hdevenginedotnet">
+      <HintPath>..\Halcon_SDK\hdevenginedotnet.dll</HintPath>
     </Reference>
     <Reference Include="MvCamCtrl.Net">
       <HintPath>..\MVS_SDK\MvCamCtrl.Net.dll</HintPath>
@@ -199,18 +197,6 @@
     <None Update="FodyWeavers.xsd">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="Resources\halcondotnet.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\halcondotnetxl.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\hdevenginedotnet.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\hdevenginedotnetxl.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Resource Include="Resources\iconfont.ttf" />
   </ItemGroup>
   <ItemGroup>
@@ -297,5 +283,11 @@
     <PostBuildEvent>rd /s /q "de" "en" "es" "fr" "hu" "it" "ja" "ko" "pr-br" "ro" "pt-br" "ru" "sv" "zh-hans" "zh-hant" 
 </PostBuildEvent>
     <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>embedded</DebugType>
   </PropertyGroup>
 </Project>
