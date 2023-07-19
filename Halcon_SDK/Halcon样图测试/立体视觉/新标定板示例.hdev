@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.2" halcon_version="22.11.1.0">
+<hdevelop file_version="1.2" halcon_version="23.05.0.0">
 <procedure name="main">
 <interface/>
 <body>
@@ -69,7 +69,7 @@
 <l>create_calib_data ('calibration_object', 2, 1, CalibDataID)</l>
 <l>set_calib_data_cam_param (CalibDataID, 0, [], StartCamParamBack)</l>
 <l>set_calib_data_cam_param (CalibDataID, 1, [], StartCamParamFront)</l>
-<l>CalibObjDescr :=  '26_30_0.0015_calplate.cpd'</l>
+<l>CalibObjDescr :=  '27_31_0.0015_calplate.cpd'</l>
 <l>set_calib_data_calib_object (CalibDataID, 0, CalibObjDescr)</l>
 <c>* As the two cameras are mounted rigidly and stationary and the</c>
 <c>* object is moved linearly in front of the cameras, only one</c>
