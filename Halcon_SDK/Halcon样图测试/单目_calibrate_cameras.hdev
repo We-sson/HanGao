@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="23.05.0.0">
+<procedure name="main">
+<interface/>
+<body>
+<c>* This example shows how to perform the basic calibration of a single</c>
+<c>* camera with multiple images of a calibration object.</c>
+<l>dev_update_off ()</l>
+<c>* </c>
+<c>* Initialize visualization</c>
+<l>list_image_files ('calib', 'default', [], AllCalibImageFiles)</l>
+<l>tuple_regexp_select (AllCalibImageFiles, 'calib_single_camera', ImageFiles)</l>
+<l>read_image (Image, ImageFiles[0])</l>
+<l>get_image_size (Image, Width, Height)</l>
+<c>* </c>
+<l>dev_close_window ()</l>
+<l>dev_open_window_fit_size (0, 0, Width, Height, 600, -1, WindowHandle)</l>
+<l>set_display_font (WindowHandle, 14, 'mono', 'true', 'false')</l>
+<l>get_window_extents (WindowHandle, Row, Column, WindowWidth, WindowHeight)</l>
+<l>dev_open_window (0, WindowWidth + 12, 1000 - WindowWidth, WindowHeight, 'white', WindowHandleConfig)</l>
+<l>set_display_font (WindowHandleConfig, 14, 'mono', 'true', 'false')</l>
+<c>* </c>
+<c>* Create the 3d object models that visualize the current configuration</c>
+<c>* of camera and calibration plate. This may take a moment.</c>
+<l>Message := 'Creating 3D object models for visualization...'</l>
+<l>disp_message (WindowHandle, Message, 'window', 12, 12, 'gray', 'false')</l>
+<l>create_models (MarksModel, PlateModel, CamModel, BaseModel)</l>
+<l>disp_message (WindowHandle, 'Ready.\nNow starting example...', 'window', 32, 12, 'gray', 'false')</l>
+<l>wait_seconds (.5)</l>
+<c>* </c>
+<c>* Part I</c>
+<c>* </c>
+<c>* Create and setup the calibration model</c>
+<c>* </c>
+<c>* First, create the calibration data structure</c>
+<l>create_calib_data ('calibration_object', 1, 1, CalibDataID)</l>
+<c>* Specify the used calibration plane using the name of the</c>
+<c>* description file</c>
+<l>CalPlateDescr := 'calplate_80mm.cpd'</l>
+<l>set_calib_data_calib_object (CalibDataID, 0, CalPlateDescr)</l>
+<c>* Set the initial camera parameters</c>
+<c>* focus: 0.008 (use the nominal focal length of the used lens)</c>
+<c>* kappa: 0 (parameter for the division model for the lens distortion)</c>
+<c>* sx, sy: 3.7 μm (nominal pixel size of the used sensor)</c>
+<c>* cx, cy: 646,482 (use center of the image as initial values</c>
+<c>*                   for the principal point)</c>
+<c>* ImageWidth, ImageHeight (width and height of the used images)</c>
+<l>gen_cam_par_area_scan_division (0.008, 0, 3.7e-006, 3.7e-006, 646, 482, 1292, 964, StartParam)</l>
+<l>set_calib_data_cam_param (CalibDataID, 0, [], StartParam)</l>
+<c>* </c>
+<c>* Part II</c>
+<c>* </c>
+<c>* Extract calibration marks from the calibration images</c>
+<c>* </c>
+<l>for Index := 0 to |ImageFiles| - 1 by 1</l>
+<l>    read_image (Image, ImageFiles[Index])</l>
+<c>    * Extract the calibration marks.</c>
+<l>    find_calib_object (Image, CalibDataID, 0, 0, Index, [], [])</l>
+<c>    * </c>
+<c>    * Visualize the extracted marks</c>
+<c>    * </c>
+<l>    get_calib_data_observ_pose (CalibDataID, 0, 0, Index, StartPose)</l>
+<l>    if (Index == 0)</l>
+<c>        * Just for visualization:</c>
+<c>        * Create a 3D model of the viewing volume based on the</c>
+<c>        * extracted pose in the first image.</c>
+<c>        * (Assume that in image 0 the calibration plate is placed</c>
+<c>        * on the base plate.)</c>
+<l>        create_pose (0.0, 0.0, StartPose[2] + 0.01, 0, 0, 0, 'Rp+T', 'gba', 'point', BasePoseWorld)</l>
+<l>        create_viewing_volume (StartParam, StartPose[2] + 0.001, VolumeModel)</l>
+<l>        CamWidth := 1000 - WindowWidth</l>
+<l>        CamHeight := WindowHeight</l>
+<l>        gen_cam_par_area_scan_division (0.016, 0, 2.2e-6, 2.2e-6, CamHeight / 2, CamWidth / 2, CamHeight, CamWidth, CamPar)</l>
+<c>        * setup the visualization scene</c>
+<l>        create_scene_3d (Scene)</l>
+<l>        add_scene_3d_camera (Scene, CamPar, CameraIndex)</l>
+<l>        create_pose (0.0, 0.0, 0.0, 0, 0, 0, 'Rp+T', 'gba', 'point', Origin)</l>
+<c>        * </c>
+<l>        add_scene_3d_instance (Scene, CamModel, Origin, InstanceCamera)</l>
+<l>        set_scene_3d_instance_param (Scene, InstanceCamera, 'color', 'blue')</l>
+<l>        set_scene_3d_instance_param (Scene, InstanceCamera, 'disp_pose', 'true')</l>
+<c>        * </c>
+<l>        add_scene_3d_instance (Scene, BaseModel, BasePoseWorld, InstanceBase)</l>
+<l>        set_scene_3d_instance_param (Scene, InstanceBase, 'color', 'gray')</l>
+<c>        * </c>
+<l>        add_scene_3d_instance (Scene, PlateModel, StartPose, InstancePlate)</l>
+<l>        set_scene_3d_instance_param (Scene, InstancePlate, 'color', 'black')</l>
+<c>        * </c>
+<l>        add_scene_3d_instance (Scene, MarksModel, StartPose, InstanceMarks)</l>
+<l>        set_scene_3d_instance_param (Scene, InstanceMarks, 'color', 'white')</l>
+<c>        * </c>
+<l>        add_scene_3d_instance (Scene, VolumeModel, Origin, InstanceVolume)</l>
+<l>        set_scene_3d_instance_param (Scene, InstanceVolume, 'color', 'yellow')</l>
+<l>        set_scene_3d_instance_param (Scene, InstanceVolume, 'alpha', 0.4)</l>
+<c>        * </c>
+<l>        set_scene_3d_to_world_pose (Scene, [-0.01, -0.07, 4.0, 306, 2.2, 330, 0])</l>
+<l>    endif</l>
+<c>    * Display the image and the centers of the calibration marks</c>
+<l>    get_calib_data_observ_contours (MarkContours, CalibDataID, 'marks', 0, 0, Index)</l>
+<l>    dev_set_window (WindowHandle)</l>
+<l>    dev_display (Image)</l>
+<l>    dev_set_colored (12)</l>
+<l>    dev_set_line_width (1)</l>
+<l>    dev_display (MarkContours)</l>
+<c>    * Visualize the configuration of camera and calibration target</c>
+<l>    set_scene_3d_instance_pose (Scene, InstancePlate, StartPose)</l>
+<l>    set_scene_3d_instance_pose (Scene, InstanceMarks, StartPose)</l>
+<l>    display_scene_3d (WindowHandleConfig, Scene, CameraIndex)</l>
+<l>    disp_message (WindowHandle, 'Extracted marks in image ' + Index, 'window', 12, 12, 'black', 'true')</l>
+<l>    disp_message (WindowHandleConfig, 'Simulated view of pose ' + Index, 'window', 12, 12, 'black', 'true')</l>
+<l>    disp_continue_message (WindowHandle, 'black', 'true')</l>
+<l>    stop ()</l>
+<l>endfor</l>
+<c>* </c>
+<c>* Part III</c>
+<c>* </c>
+<c>* Finally calibrate the camera</c>
+<c>* </c>
+<l>calibrate_cameras (CalibDataID, Error)</l>
+<l>get_calib_data (CalibDataID, 'camera', 0, 'params', CameraParametersCalibrated)</l>
+<l>get_calib_data (CalibDataID, 'camera', 0, 'params_labels', ParLabels)</l>
+<c>* </c>
+<c>* Display results</c>
+<l>dev_set_window (WindowHandle)</l>
+<l>dev_clear_window ()</l>
+<l>if (|ParLabels| == 13)</l>
+<l>    Units := ['', 'm', '', '', '', '', '', 'm', 'm', 'px', 'px', 'px', 'px']</l>
+<l>else</l>
+<l>    Units := ['', 'm', '', 'm', 'm', 'px', 'px', 'px', 'px']</l>
+<l>endif</l>
+<l>FormatStringLabels := max(strlen(ParLabels))$'0' + 's'</l>
+<l>FormatStringParams := ''</l>
+<l>CamParTable := ParLabels$FormatStringLabels + ' = ' + CameraParametersCalibrated + ' ' + Units</l>
+<l>Text := 'The camera is now calibrated and ready for'</l>
+<l>Text[1] := 'high-accuracy metric measurements.'</l>
+<l>Text[2] := 'The final camera parameters are:'</l>
+<l>Text[3] := ' '</l>
+<l>Message := [Text,CamParTable,' ','Back projection error = ' + Error$'.3f' + ' px']</l>
+<l>disp_message (WindowHandle, Message, 'window', 12, 12, 'black', 'true')</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="add_circle_offset">
+<interface>
+<ic>
+<par name="XOff" base_type="ctrl" dimension="0"/>
+<par name="YOff" base_type="ctrl" dimension="0"/>
+<par name="Radius" base_type="ctrl" dimension="0"/>
+<par name="PointX" base_type="ctrl" dimension="0"/>
+<par name="PointY" base_type="ctrl" dimension="0"/>
+<par name="PointZ" base_type="ctrl" dimension="0"/>
+<par name="PolySequence" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="PointXOut" base_type="ctrl" dimension="0"/>
+<par name="PointYOut" base_type="ctrl" dimension="0"/>
+<par name="PointZOut" base_type="ctrl" dimension="0"/>
+<par name="PolySequenceOut" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>PointXOut := PointX</l>
+<l>PointYOut := PointY</l>
+<l>PointZOut := PointZ</l>
+<l>PolySequenceOut := PolySequence</l>
+<l>gen_circle_contour_xld (ContCircle, XOff, YOff, Radius, 0, 6.28318, 'positive', 0.05 * Radius)</l>
+<l>get_contour_xld (ContCircle, Row, Col)</l>
+<l>Sequence := [|Row|,|PointX| + [0:1:|Row| - 1]]</l>
+<l>PointXOut := [PointXOut,Row]</l>
+<l>PointYOut := [PointYOut,Col]</l>
+<l>tuple_gen_const (|Row|, 0, Zeros)</l>
+<l>PointZOut := [PointZOut,Zeros]</l>
+<c>* </c>
+<l>PolySequenceOut := [PolySequenceOut,Sequence]</l>
+<c>* </c>
+<l>return ()</l>
+</body>
+<docu id="add_circle_offset">
+<parameters>
+<parameter id="PointX"/>
+<parameter id="PointXOut"/>
+<parameter id="PointY"/>
+<parameter id="PointYOut"/>
+<parameter id="PointZ"/>
+<parameter id="PointZOut"/>
+<parameter id="PolySequence"/>
+<parameter id="PolySequenceOut"/>
+<parameter id="Radius"/>
+<parameter id="XOff"/>
+<parameter id="YOff"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="create_caltab_object_model">
+<interface>
+<ic>
+<par name="XNum" base_type="ctrl" dimension="0"/>
+<par name="YNum" base_type="ctrl" dimension="0"/>
+<par name="MarkDist" base_type="ctrl" dimension="0"/>
+<par name="DiameterRatio" base_type="ctrl" dimension="0"/>
+<par name="FinderX" base_type="ctrl" dimension="0"/>
+<par name="FinderY" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="ObjectModel3D" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>gen_empty_object_model_3d (ObjectModel3D)</l>
+<l>PointX := []</l>
+<l>PointY := []</l>
+<l>PointZ := []</l>
+<l>PolySequence := []</l>
+<l>XOff := 0.0</l>
+<l>YOff := 0.0</l>
+<l>Radius := 0.5 * DiameterRatio * MarkDist</l>
+<l>Spacing := MarkDist</l>
+<l>NumX := XNum</l>
+<l>NumY := YNum</l>
+<c>* </c>
+<l>SpacingY := sqrt(0.75) * Spacing</l>
+<c>* </c>
+<l>OffsetX := (NumX / 2) * Spacing - 0.25 * Spacing</l>
+<l>OffsetY := (NumY / 2) * SpacingY</l>
+<c>* </c>
+<c>* coordinates of all finder pattern marks</c>
+<l>FX := [FinderX,FinderX + 1,FinderX,FinderX,FinderX + 1,FinderX + 1,FinderX - 1]</l>
+<l>FY := [FinderY,FinderY - 1,FinderY - 1,FinderY + 1,FinderY,FinderY + 1,FinderY]</l>
+<l>FX[5] := FX[5] - 1</l>
+<l>FX[10] := FX[10] - 1</l>
+<l>FX[15] := FX[15] - 1</l>
+<l>FX[25] := FX[25] - 1</l>
+<c>* </c>
+<l>Linear := XNum * FY + FX</l>
+<l>XSeq := [0:1:XNum - 1]</l>
+<l>YSeq := gen_tuple_const(XNum,0)</l>
+<l>AllX := []</l>
+<l>AllY := []</l>
+<l>for R := 0 to YNum - 1 by 1</l>
+<l>    AllX := [AllX,XSeq]</l>
+<l>    AllY := [AllY,YSeq + R]</l>
+<l>endfor</l>
+<l>RX := remove(AllX,Linear)</l>
+<l>RY := remove(AllY,Linear)</l>
+<c>* add all marks except the finder pattern marks</c>
+<l>for I := 0 to |RX| - 1 by 1</l>
+<l>    X := RX[I]</l>
+<l>    Y := RY[I]</l>
+<l>    if (Y % 2 == 1)</l>
+<l>        add_circle_offset (-OffsetX + (X - 0.25) * Spacing, -OffsetY + Y * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<l>    else</l>
+<l>        add_circle_offset (-OffsetX + (X + 0.25) * Spacing, -OffsetY + Y * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<l>    endif</l>
+<l>endfor</l>
+<c>* </c>
+<l>StartPhi := [rad(90),rad(180),rad(0),rad(0),rad(270)] - rad(45)</l>
+<l>EndPhi := [rad(180),rad(270),rad(0),rad(90),rad(360)] + rad(45)</l>
+<l>StartPhi[2] := EndPhi[2]</l>
+<c>* </c>
+<c>* </c>
+<c>* add first finder</c>
+<l>add_circle_with_hole_offset (-OffsetX + (FinderX[0] - 1 + 0.25) * Spacing, -OffsetY + (FinderY[0] - 1) * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<l>add_circle_with_hole_offset (-OffsetX + (FinderX[0] + 0.25) * Spacing, -OffsetY + (FinderY[0] - 1) * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<c>* </c>
+<l>add_circle_with_hole_offset (-OffsetX + (FinderX[0] - 1 - 0.25) * Spacing, -OffsetY + FinderY[0] * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<l>add_circle_with_hole_offset (-OffsetX + (FinderX[0] - 0.25) * Spacing, -OffsetY + FinderY[0] * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<l>add_circle_offset (-OffsetX + (FinderX[0] + 1 - 0.25) * Spacing, -OffsetY + FinderY[0] * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<c>* </c>
+<l>add_circle_with_hole_offset (-OffsetX + (FinderX[0] - 1 + 0.25) * Spacing, -OffsetY + (FinderY[0] + 1) * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<l>add_circle_with_hole_offset (-OffsetX + (FinderX[0] + 0.25) * Spacing, -OffsetY + (FinderY[0] + 1) * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<c>* </c>
+<c>* add scnd finder</c>
+<l>Fdx := 1</l>
+<l>add_circle_with_hole_offset (-OffsetX + (FinderX[Fdx] - 0.25) * Spacing, -OffsetY + (FinderY[Fdx] - 1) * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<l>add_circle_offset (-OffsetX + (FinderX[Fdx] + 1 - 0.25) * Spacing, -OffsetY + (FinderY[Fdx] - 1) * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<c>* </c>
+<l>add_circle_with_hole_offset (-OffsetX + (FinderX[Fdx] - 1 + 0.25) * Spacing, -OffsetY + FinderY[Fdx] * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<l>add_circle_offset (-OffsetX + (FinderX[Fdx] + 0.25) * Spacing, -OffsetY + FinderY[Fdx] * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<l>add_circle_with_hole_offset (-OffsetX + (FinderX[Fdx] + 1 + 0.25) * Spacing, -OffsetY + FinderY[Fdx] * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<c>* </c>
+<l>add_circle_with_hole_offset (-OffsetX + (FinderX[Fdx] - 0.25) * Spacing, -OffsetY + (FinderY[Fdx] + 1) * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<l>add_circle_offset (-OffsetX + (FinderX[Fdx] + 1 - 0.25) * Spacing, -OffsetY + (FinderY[Fdx] + 1) * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<c>* </c>
+<c>* </c>
+<c>* add third finder</c>
+<l>Fdx := 2</l>
+<l>add_circle_offset (-OffsetX + (FinderX[Fdx] - 0.25) * Spacing, -OffsetY + (FinderY[Fdx] - 1) * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<l>add_circle_offset (-OffsetX + (FinderX[Fdx] + 1 - 0.25) * Spacing, -OffsetY + (FinderY[Fdx] - 1) * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<c>* </c>
+<l>add_circle_with_hole_offset (-OffsetX + (FinderX[Fdx] - 1 + 0.25) * Spacing, -OffsetY + FinderY[Fdx] * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<l>add_circle_with_hole_offset (-OffsetX + (FinderX[Fdx] + 0.25) * Spacing, -OffsetY + FinderY[Fdx] * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<l>add_circle_with_hole_offset (-OffsetX + (FinderX[Fdx] + 1 + 0.25) * Spacing, -OffsetY + FinderY[Fdx] * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<c>* </c>
+<l>add_circle_offset (-OffsetX + (FinderX[Fdx] - 0.25) * Spacing, -OffsetY + (FinderY[Fdx] + 1) * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<l>add_circle_with_hole_offset (-OffsetX + (FinderX[Fdx] + 1 - 0.25) * Spacing, -OffsetY + (FinderY[Fdx] + 1) * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<c>* </c>
+<c>* </c>
+<c>* add fourth finder</c>
+<l>Fdx := 3</l>
+<l>add_circle_offset (-OffsetX + (FinderX[Fdx] - 0.25) * Spacing, -OffsetY + (FinderY[Fdx] - 1) * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<l>add_circle_offset (-OffsetX + (FinderX[Fdx] + 1 - 0.25) * Spacing, -OffsetY + (FinderY[Fdx] - 1) * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<c>* </c>
+<l>add_circle_with_hole_offset (-OffsetX + (FinderX[Fdx] - 1 + 0.25) * Spacing, -OffsetY + FinderY[Fdx] * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<l>add_circle_with_hole_offset (-OffsetX + (FinderX[Fdx] + 0.25) * Spacing, -OffsetY + FinderY[Fdx] * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<l>add_circle_with_hole_offset (-OffsetX + (FinderX[Fdx] + 1 + 0.25) * Spacing, -OffsetY + FinderY[Fdx] * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<c>* </c>
+<l>add_circle_with_hole_offset (-OffsetX + (FinderX[Fdx] - 0.25) * Spacing, -OffsetY + (FinderY[Fdx] + 1) * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<l>add_circle_offset (-OffsetX + (FinderX[Fdx] + 1 - 0.25) * Spacing, -OffsetY + (FinderY[Fdx] + 1) * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<c>* </c>
+<c>* </c>
+<c>* add fifth finder</c>
+<l>Fdx := 4</l>
+<l>add_circle_with_hole_offset (-OffsetX + (FinderX[Fdx] - 0.25) * Spacing, -OffsetY + (FinderY[Fdx] - 1) * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<l>add_circle_with_hole_offset (-OffsetX + (FinderX[Fdx] + 1 - 0.25) * Spacing, -OffsetY + (FinderY[Fdx] - 1) * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<c>* </c>
+<l>add_circle_with_hole_offset (-OffsetX + (FinderX[Fdx] - 1 + 0.25) * Spacing, -OffsetY + FinderY[Fdx] * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<l>add_circle_offset (-OffsetX + (FinderX[Fdx] + 0.25) * Spacing, -OffsetY + FinderY[Fdx] * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<l>add_circle_offset (-OffsetX + (FinderX[Fdx] + 1 + 0.25) * Spacing, -OffsetY + FinderY[Fdx] * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<c>* </c>
+<l>add_circle_with_hole_offset (-OffsetX + (FinderX[Fdx] - 0.25) * Spacing, -OffsetY + (FinderY[Fdx] + 1) * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<l>add_circle_offset (-OffsetX + (FinderX[Fdx] + 1 - 0.25) * Spacing, -OffsetY + (FinderY[Fdx] + 1) * SpacingY, Radius, PointX, PointY, PointZ, PolySequence, PointX, PointY, PointZ, PolySequence)</l>
+<c>* </c>
+<l>set_object_model_3d_attrib_mod (ObjectModel3D, ['point_coord_x', 'point_coord_y', 'point_coord_z'], [], [PointX,PointY,PointZ])</l>
+<l>set_object_model_3d_attrib_mod (ObjectModel3D, 'polygons', [], PolySequence)</l>
+<c>* </c>
+<l>return ()</l>
+</body>
+<docu id="create_caltab_object_model">
+<parameters>
+<parameter id="DiameterRatio"/>
+<parameter id="FinderX"/>
+<parameter id="FinderY"/>
+<parameter id="MarkDist"/>
+<parameter id="ObjectModel3D"/>
+<parameter id="XNum"/>
+<parameter id="YNum"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="add_circle_with_hole_offset">
+<interface>
+<ic>
+<par name="XOff" base_type="ctrl" dimension="0"/>
+<par name="YOff" base_type="ctrl" dimension="0"/>
+<par name="Radius" base_type="ctrl" dimension="0"/>
+<par name="PointX" base_type="ctrl" dimension="0"/>
+<par name="PointY" base_type="ctrl" dimension="0"/>
+<par name="PointZ" base_type="ctrl" dimension="0"/>
+<par name="PolySequence" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="PointXOut" base_type="ctrl" dimension="0"/>
+<par name="PointYOut" base_type="ctrl" dimension="0"/>
+<par name="PointZOut" base_type="ctrl" dimension="0"/>
+<par name="PolySequenceOut" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>PointXOut := PointX</l>
+<l>PointYOut := PointY</l>
+<l>PointZOut := PointZ</l>
+<l>PolySequenceOut := PolySequence</l>
+<l>* Radius := 1</l>
+<l>gen_circle_contour_xld (ContCircle, 0.0, 0.0, Radius, 0, 6.28318, 'positive', 0.05 * Radius)</l>
+<l>get_contour_xld (ContCircle, Row, Col)</l>
+<l>RowH := (1.0 / 3.0) * Row</l>
+<l>ColH := (1.0 / 3.0) * Col</l>
+<c>* disp_object_model_3d can only handle convex polygons, so we</c>
+<c>* have to triangulate this by hand</c>
+<l>Sequence := []</l>
+<l>Num := |Row|</l>
+<l>Off := |PointX|</l>
+<l>for Idx := 0 to Num - 2 by 1</l>
+<l>    Sequence := [Sequence,3,Off + Idx,Off + Idx + Num,Off + Idx + 1]</l>
+<l>    Sequence := [Sequence,3,Off + Idx + 1,Off + Idx + Num,Off + Idx + Num + 1]</l>
+<l>endfor</l>
+<l>Sequence := [Sequence,3,Off + Num - 1,Off + Num - 1 + Num,Off + 0]</l>
+<l>Sequence := [Sequence,3,Off + 0,Off + Num,Off + Num + Num - 1]</l>
+<c>* </c>
+<l>Row := [Row,RowH] + XOff</l>
+<l>Col := [Col,ColH] + YOff</l>
+<c>* </c>
+<l>PointXOut := [PointXOut,Row]</l>
+<l>PointYOut := [PointYOut,Col]</l>
+<l>tuple_gen_const (|Row|, 0, Zeros)</l>
+<l>PointZOut := [PointZOut,Zeros]</l>
+<c>* </c>
+<l>PolySequenceOut := [PolySequenceOut,Sequence]</l>
+<c>* </c>
+<l>return ()</l>
+</body>
+<docu id="add_circle_with_hole_offset">
+<parameters>
+<parameter id="PointX"/>
+<parameter id="PointXOut"/>
+<parameter id="PointY"/>
+<parameter id="PointYOut"/>
+<parameter id="PointZ"/>
+<parameter id="PointZOut"/>
+<parameter id="PolySequence"/>
+<parameter id="PolySequenceOut"/>
+<parameter id="Radius"/>
+<parameter id="XOff"/>
+<parameter id="YOff"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="create_viewing_volume">
+<interface>
+<ic>
+<par name="StartParam" base_type="ctrl" dimension="0"/>
+<par name="Dist" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="VolumeModel" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>get_cam_par_data (StartParam, 'focus', Focus)</l>
+<l>get_cam_par_data (StartParam, 'sx', Sx)</l>
+<l>get_cam_par_data (StartParam, 'sy', Sy)</l>
+<l>get_cam_par_data (StartParam, 'image_width', Width)</l>
+<l>get_cam_par_data (StartParam, 'image_height', Height)</l>
+<c>* </c>
+<l>SensorX := [0.5 * Width * Sx,-0.5 * Width * Sx,-0.5 * Width * Sx,0.5 * Width * Sx]</l>
+<l>SensorY := [-0.5 * Height * Sy,-0.5 * Height * Sy,0.5 * Height * Sy,0.5 * Height * Sy]</l>
+<l>SensorZ := [Focus,Focus,Focus,Focus]</l>
+<c>* </c>
+<l>Length := sqrt(SensorX * SensorX + SensorY * SensorY + SensorZ * SensorZ)</l>
+<c>* </c>
+<c>* SensorZ + Fac*SensorZ/Length = 0.25</c>
+<l>Factor := (Dist - SensorZ) * Length / SensorZ</l>
+<c>* </c>
+<l>FarX := SensorX + Factor * SensorX / Length</l>
+<l>FarY := SensorY + Factor * SensorY / Length</l>
+<l>FarZ := SensorZ + Factor * SensorZ / Length</l>
+<c>* </c>
+<l>gen_empty_object_model_3d (VolumeModel)</l>
+<l>PointX := [SensorX,FarX]</l>
+<l>PointY := [SensorY,FarY]</l>
+<l>PointZ := [SensorZ,FarZ]</l>
+<l>PolySequence := [3, 1, 0, 4, 3, 1, 4, 5, 3, 1, 5, 6, 3, 2, 1, 6, 3, 3, 2, 6, 3, 3, 6, 7, 3, 0, 3, 7, 3, 0, 7, 4]</l>
+<c>* </c>
+<l>set_object_model_3d_attrib_mod (VolumeModel, ['point_coord_x', 'point_coord_y', 'point_coord_z'], [], [PointX,PointY,PointZ])</l>
+<l>set_object_model_3d_attrib_mod (VolumeModel, 'polygons', [], PolySequence)</l>
+<l>return ()</l>
+</body>
+<docu id="create_viewing_volume">
+<parameters>
+<parameter id="Dist"/>
+<parameter id="StartParam"/>
+<parameter id="VolumeModel"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="create_models">
+<interface>
+<oc>
+<par name="MarksModel" base_type="ctrl" dimension="0"/>
+<par name="PlateModel" base_type="ctrl" dimension="0"/>
+<par name="CamModel" base_type="ctrl" dimension="0"/>
+<par name="BaseModel" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c>* Calibration target characteristics</c>
+<l>XNum := 31</l>
+<l>YNum := 27</l>
+<l>FinderX := [15, 6, 24, 6, 24]</l>
+<l>FinderY := [13, 6, 6, 20, 20]</l>
+<l>MarkDist := 0.00258065</l>
+<l>DiameterRatio := 0.5</l>
+<c>* </c>
+<c>* Create the model containing the calibration marks</c>
+<l>create_caltab_object_model (XNum, YNum, MarkDist, DiameterRatio, FinderX, FinderY, MarksModel)</l>
+<c>* </c>
+<c>* Create the model containing the calibration object (without marks)</c>
+<l>create_pose (0.0, 0.0, 0.0005, 0, 0, 0, 'Rp+T', 'gba', 'point', Pose)</l>
+<l>gen_box_object_model_3d (Pose, (XNum + 2) * MarkDist, (YNum + 2) * sqrt(0.75) * MarkDist, 0.00099, PlateModel)</l>
+<c>* </c>
+<l>create_pose (0.0, 0.0, 0.0005, 0, 0, 0, 'Rp+T', 'gba', 'point', Pose)</l>
+<c>* Create models for camera and base plane</c>
+<l>gen_box_object_model_3d (Pose, 0.02, 0.02, 0.03, CamModel)</l>
+<l>gen_box_object_model_3d (Pose, 0.15, 0.15, 0.001, BaseModel)</l>
+<l>return ()</l>
+</body>
+<docu id="create_models">
+<parameters>
+<parameter id="BaseModel"/>
+<parameter id="CamModel"/>
+<parameter id="MarksModel"/>
+<parameter id="PlateModel"/>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>
