@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.2" halcon_version="22.11.1.0">
+<hdevelop file_version="1.2" halcon_version="23.05.0.0">
 <procedure name="main">
 <interface/>
 <body>
@@ -30,7 +30,7 @@
 <l>create_calib_data ('calibration_object', 2, 1, CalibDataID)</l>
 <l>gen_cam_par_area_scan_division (Focus*0.0001, 0, Sx, Sy, ImageWidth/2, ImageHeight/2, ImageWidth, ImageHeight, CameraParam)</l>
 <l>set_calib_data_cam_param (CalibDataID, 'all', [], CameraParam)</l>
-<l>set_calib_data_calib_object (CalibDataID, 0, '26_30_0.0015_calplate.cpd')</l>
+<l>set_calib_data_calib_object (CalibDataID, 0, '27_31_0.0015_calplate.cpd')</l>
 <c>*</c>
 <l>*NumCalibImages := 10</l>
 <l>for Index := 1 to |ImageFiles_L|-1 by 1</l>
@@ -533,7 +533,7 @@
 <l>create_calib_data ('calibration_object', 2, 1, CalibDataIDRect)</l>
 <l>set_calib_data_cam_param (CalibDataIDRect, 0, [], CamParamRect0)</l>
 <l>set_calib_data_cam_param (CalibDataIDRect, 1, [], CamParamRect1)</l>
-<l>set_calib_data_calib_object (CalibDataIDRect, 0, '26_30_0.0015_calplate.cpd')</l>
+<l>set_calib_data_calib_object (CalibDataIDRect, 0, '27_31_0.0015_calplate.cpd')</l>
 <l>find_calib_object (ImageRectif0, CalibDataIDRect, 0, 0, 0, 'sigma', Sigma)</l>
 <l>get_calib_data_observ_points (CalibDataIDRect, 0, 0, 0, Row0, Column0, Index0, Pose)</l>
 <l>find_calib_object (ImageRectif1, CalibDataIDRect, 1, 0, 0, 'sigma', Sigma)</l>
