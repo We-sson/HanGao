@@ -1,0 +1,686 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="23.05.0.0">
+<procedure name="main">
+<interface/>
+<body>
+<c>* This example shows how to perform a quick and easy-to-use</c>
+<c>* approximate hand-eye calibration with a stationary 3D sensor.</c>
+<c>* </c>
+<l>dev_update_off ()</l>
+<c>* </c>
+<c>* ** Input **</c>
+<c>* </c>
+<l>SphereRadius := 0.02</l>
+<c>* </c>
+<c>* Define the working area of the 3D sensor.</c>
+<l>MinDistanceFromBackground := 0.01</l>
+<l>MinDistanceFromCamera := 0.3</l>
+<l>MaxDistanceFromCamera := 1</l>
+<c>* </c>
+<c>* Visualization parameters.</c>
+<l>WindowWidth := 800</l>
+<l>EstimateVisualizationPose := false</l>
+<l>ColorSnippetRGB := ['red', 'green', 'blue']</l>
+<l>ColorSphere := 'green'</l>
+<l>ColorBase := 'magenta'</l>
+<l>ColorCamera := 'cornflower blue'</l>
+<c>* </c>
+<l>PathData := '3d_machine_vision/hand_eye/stationary_cam_approx_sphere/'</l>
+<l>get_image_dir (ImageDir)</l>
+<c>* </c>
+<l>dev_close_window ()</l>
+<l>dev_open_window (0, 0, WindowWidth, WindowWidth * 0.75, 'black', WindowHandle)</l>
+<l>set_display_font (WindowHandle, 16, 'mono', 'true', 'false')</l>
+<c>* </c>
+<c>* Display introduction.</c>
+<l>dev_disp_intro_text ()</l>
+<l>stop ()</l>
+<c>* </c>
+<c>* Create model of the calibration sphere for surface-based matching.</c>
+<l>gen_sphere_object_model_3d ([0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0], SphereRadius, SphereOM3D)</l>
+<l>convex_hull_object_model_3d (SphereOM3D, SphereOM3D)</l>
+<l>create_surface_model (SphereOM3D, 0.03, [], [], SphereSurfaceModelID)</l>
+<c>* Visualize model for surface-based matching.</c>
+<l>get_surface_model_param (SphereSurfaceModelID, 'sampled_model', SampledModel)</l>
+<l>Title := 'Calibration sphere that will be used for surface-based matching.'</l>
+<l>Title[|Title|] := 'Radius: ' + SphereRadius</l>
+<l>visualize_object_model_3d (WindowHandle, [SampledModel,SphereOM3D], [], [], 'color', ColorSphere, Title, [], [], PoseOut)</l>
+<c>* </c>
+<c>* Define the offset of the robot gripper in regard to the robot tool.</c>
+<c>* See also the procedure</c>
+<l>* calibrate_robot_touching_point ('.\\', Offset_XYZ)</l>
+<c>* for more information and a way to calibrate this offset.</c>
+<c>* In this example, the gripper transmits its offset to the robot,</c>
+<c>* we only need to incorporate a Z-offset of -2 cm</c>
+<c>* because of the small suction cup we use.</c>
+<l>Offset_X := 0</l>
+<l>Offset_Y := 0</l>
+<l>Offset_Z := -0.02</l>
+<c>* Define poses.</c>
+<l>create_pose (Offset_X, Offset_Y, Offset_Z, 0, 0, 0, 'Rp+T', 'gba', 'point', Tool_P_Gripper)</l>
+<l>create_pose (0, 0, SphereRadius, 0, 0, 0, 'Rp+T', 'gba', 'point', Gripper_P_Obj)</l>
+<l>pose_compose (Tool_P_Gripper, Gripper_P_Obj, Tool_P_Obj)</l>
+<c>* </c>
+<c>* Acquire 3D data of the empty scene.</c>
+<l>read_image (XYZI, PathData + 'background_xyzi')</l>
+<l>select_obj (XYZI, XBG, 1)</l>
+<l>select_obj (XYZI, YBG, 2)</l>
+<l>select_obj (XYZI, ZBG, 3)</l>
+<l>select_obj (XYZI, IntensityBG, 4)</l>
+<c>* </c>
+<l>threshold (ZBG, Region, MinDistanceFromCamera, MaxDistanceFromCamera)</l>
+<l>reduce_domain (ZBG, Region, ZBG)</l>
+<l>xyz_attrib_to_object_model_3d (XBG, YBG, ZBG, IntensityBG, '&amp;gray', OM3DEmptyScene)</l>
+<c>* </c>
+<c>* Visualize the empty scene.</c>
+<l>dev_open_window_fit_image (IntensityBG, 0, WindowWidth + 10, WindowWidth, -1, WindowHandleIntensity)</l>
+<l>dev_display (IntensityBG)</l>
+<l>set_display_font (WindowHandleIntensity, 16, 'mono', 'true', 'false')</l>
+<l>dev_disp_text ('Rectified intensity image of one of the cameras\nof the stereo sensor', 'window', 'top', 'left', 'black', [], [])</l>
+<c>* </c>
+<l>if (EstimateVisualizationPose == true)</l>
+<l>    estimate_visualization_pose_object_model_3d (OM3DEmptyScene, WindowHandle, VisPose)</l>
+<l>else</l>
+<l>    create_pose (-0.354, -0.329, 9.775, 319, 20, 27, 'Rp+T', 'gba', 'point', VisPose)</l>
+<l>endif</l>
+<l>GenParamName := ['color_attrib', 'disp_pose']</l>
+<l>GenParamValue := ['&amp;gray', 'true']</l>
+<l>Title := 'Empty scene which we will use to filter out the background'</l>
+<l>visualize_object_model_3d (WindowHandle, OM3DEmptyScene, [], VisPose, GenParamName, GenParamValue, Title, [], [], VisPose)</l>
+<c>* </c>
+<c>* ** Calibration **</c>
+<c>* </c>
+<l>X_Robot := []</l>
+<l>Y_Robot := []</l>
+<l>Z_Robot := []</l>
+<l>X_Camera := []</l>
+<l>Y_Camera := []</l>
+<l>Z_Camera := []</l>
+<c>* </c>
+<l>CalibPoses := dict{}</l>
+<c>* </c>
+<l>NumCalibrationPoses := 8</l>
+<c>* </c>
+<c>* Estimate camera parameters to be able</c>
+<c>* to project the matches into the 3D images later.</c>
+<l>estimate_camera_parameters_from_object_model_3d (OM3DEmptyScene, CameraParam, CameraPose)</l>
+<c>* </c>
+<l>for I := 1 to NumCalibrationPoses by 1</l>
+<c>    * Read the pose of the robot tool relative to the robot base</c>
+<c>    * as returned by the robot.</c>
+<l>    read_pose (ImageDir + PathData + 'calib_base_p_tool_' + I$'02' + '.dat', Base_P_Tool)</l>
+<c>    * Read the images acquired by the 3D sensor.</c>
+<l>    read_xyz_intensity (X, Y, Z, Intensity, PathData + 'calib_xyzi_', I)</l>
+<c>    * </c>
+<c>    * Calculate the pose Base_P_Obj.</c>
+<l>    pose_compose (Base_P_Tool, Tool_P_Obj, Base_P_Obj)</l>
+<c>    * </c>
+<l>    filter_z (Z, ZBG, Z, ZOutVisualization, MinDistanceFromCamera, MaxDistanceFromCamera, MinDistanceFromBackground)</l>
+<l>    xyz_to_object_model_3d (X, Y, Z, SceneOM3D)</l>
+<c>    * </c>
+<l>    find_surface_model (SphereSurfaceModelID, SceneOM3D, 0.05, 0.2, 0, 'false', [], [], Cam_P_Obj, Score, SurfaceMatchingResultID)</l>
+<c>    * </c>
+<c>    * Visualize matching result.</c>
+<l>    xyz_attrib_to_object_model_3d (X, Y, ZOutVisualization, Intensity, '&amp;gray', SceneOM3DVisualization)</l>
+<c>    * </c>
+<l>    rigid_trans_object_model_3d (SphereOM3D, Cam_P_Obj, SphereOM3DRigidTrans)</l>
+<c>    * </c>
+<l>    project_object_model_3d (ModelContours, SphereOM3DRigidTrans, CameraParam, CameraPose, [], [])</l>
+<l>    dev_display_match_in_image (Intensity, ModelContours, WindowHandleIntensity, ColorSphere)</l>
+<c>    * </c>
+<l>    GenParamName := ['color_attrib_0', 'color_1', 'point_size', 'disp_pose']</l>
+<l>    GenParamValue := ['&amp;gray',ColorSphere,1, 'true']</l>
+<l>    Title := 'Scene ' + I + '/' + NumCalibrationPoses + ' with found calibration sphere.\nMake sure to distribute the calibration poses\nin the desired 3D working space.'</l>
+<l>    gen_info_text1 (Base_P_Obj, Cam_P_Obj, Info)</l>
+<l>    visualize_object_model_3d (WindowHandle, [SceneOM3DVisualization,SphereOM3DRigidTrans], [], VisPose, GenParamName, GenParamValue, Title, [], Info, VisPose)</l>
+<c>    * </c>
+<c>    * Collect the translation parts of the poses.</c>
+<l>    X_Robot := [X_Robot,Base_P_Obj[0]]</l>
+<l>    Y_Robot := [Y_Robot,Base_P_Obj[1]]</l>
+<l>    Z_Robot := [Z_Robot,Base_P_Obj[2]]</l>
+<l>    X_Camera := [X_Camera,Cam_P_Obj[0]]</l>
+<l>    Y_Camera := [Y_Camera,Cam_P_Obj[1]]</l>
+<l>    Z_Camera := [Z_Camera,Cam_P_Obj[2]]</l>
+<c>    * </c>
+<c>    * Collect poses for a check later.</c>
+<l>    CalibPoses.['base_p_obj_' + I] := Base_P_Obj</l>
+<l>    CalibPoses.['cam_p_obj_' + I] := Cam_P_Obj</l>
+<l>endfor</l>
+<c>* </c>
+<l>dev_set_window (WindowHandleIntensity)</l>
+<l>dev_close_window ()</l>
+<c>* </c>
+<c>* Compute the rigid transformation that maps the 3D points from</c>
+<c>* camera coordinates to robot base coordinates.</c>
+<l>vector_to_hom_mat3d ('rigid', X_Camera, Y_Camera, Z_Camera, X_Robot, Y_Robot, Z_Robot, Base_H_Cam)</l>
+<c>* </c>
+<c>* Save the hand-eye calibration result.</c>
+<l>write_tuple (Base_H_Cam, './Base_H_Cam.tup')</l>
+<c>* </c>
+<c>* ** Check the success and quality of the calibration **</c>
+<c>* </c>
+<c>* Visualize the calibration result.</c>
+<c>* </c>
+<c>* Robot base.</c>
+<l>gen_robot_tool_and_base_object_model_3d (0.005, 0.1, OM3DToolOrigin, OM3DBase)</l>
+<l>hom_mat3d_to_pose (Base_H_Cam, Base_P_Cam)</l>
+<l>pose_invert (Base_P_Cam, Cam_P_Base)</l>
+<l>rigid_trans_object_model_3d (OM3DBase, Cam_P_Base, OM3DBase)</l>
+<c>* </c>
+<c>* Camera.</c>
+<l>gen_camera_object_model_3d ([0, 0, 0, 0, 0, 0, 0], 0.08, OM3DCamera)</l>
+<c>* </c>
+<l>OM3D := [OM3DBase,OM3DCamera,OM3DEmptyScene]</l>
+<l>GenParamName := ['color_0', 'color_1', 'color_2', 'color_3', 'color_4', 'color_attrib_5', 'disp_pose', 'point_size']</l>
+<l>GenParamValue := [ColorSnippetRGB,ColorBase,ColorCamera,'&amp;gray', 'true', 1]</l>
+<l>Title := 'Calibration finished. Please check whether this visualization\ncorresponds well with your setup.'</l>
+<c>* </c>
+<l>Label := gen_tuple_const(|OM3D|,'')</l>
+<l>Label[0] := 'robot base'</l>
+<l>Label[4] := 'camera'</l>
+<l>gen_info_text2 (Base_P_Cam, Info)</l>
+<l>visualize_object_model_3d (WindowHandle, OM3D, [], VisPose, GenParamName, GenParamValue, Title, Label, Info, VisPose)</l>
+<c>* </c>
+<c>* Compare the movement of the calibration object</c>
+<c>* in the camera coordinate system and the movement of the tool</c>
+<c>* in the robot base coordinate system for the acquired calibration.</c>
+<c>* The respective distances should be consistent</c>
+<c>* for all calibration scenes.</c>
+<l>check_hand_eye_calibration_input_poses_translation (CalibPoses, 0.005, NumCalibrationPoses, Warnings)</l>
+<c>* </c>
+<c>* Visualize the 3D points in the following manner:</c>
+<c>* 1.) in camera coordinates,</c>
+<c>* 2.) transform the robot coordinates into camera coordinates,</c>
+<c>* 3.) visualize the 3D points.</c>
+<l>gen_marker_object_model_3d (X_Camera, Y_Camera, Z_Camera, 0, 0.002, 20, OM3DMarkerCam)</l>
+<l>gen_marker_object_model_3d (X_Robot, Y_Robot, Z_Robot, 45, 0.002, 20, OM3DMarkerRobot)</l>
+<c>* </c>
+<l>hom_mat3d_invert (Base_H_Cam, Cam_H_Base)</l>
+<l>affine_trans_point_3d (Cam_H_Base, X_Robot, Y_Robot, Z_Robot, X_Camera_Trans, Y_Camera_Trans, Z_Camera_Trans)</l>
+<c>* </c>
+<c>* Calculate difference of corresponding coordinates.</c>
+<l>X_diff := X_Camera_Trans - X_Camera</l>
+<l>Y_diff := Y_Camera_Trans - Y_Camera</l>
+<l>Z_diff := Z_Camera_Trans - Z_Camera</l>
+<l>PoseErr := sqrt(X_diff * X_diff + Y_diff * Y_diff + Z_diff * Z_diff)</l>
+<l>PoseErrMean := mean(PoseErr)</l>
+<l>PoseErrMax := max(PoseErr)</l>
+<c>* </c>
+<l>dev_open_window (0, WindowWidth + 10, 400, 600, 'black', WindowHandleText)</l>
+<l>set_display_font (WindowHandleText, 16, 'mono', 'true', 'false')</l>
+<l>Text := 'Mean error of poses: ' + (PoseErrMean * 1000)$'.2f' + ' mm'</l>
+<l>Text[|Text|] := 'Max error of poses: ' + (PoseErrMax * 1000)$'.2f' + ' mm'</l>
+<l>Text := [Text,[0:NumCalibrationPoses - 1] + ': ' + (PoseErr * 1000)$'.2f' + ' mm']</l>
+<l>Text := [Text,Warnings]</l>
+<l>dev_disp_text (Text, 'window', 'top', 'left', 'white', 'box', 'false')</l>
+<c>* </c>
+<l>affine_trans_object_model_3d (OM3DMarkerRobot, Cam_H_Base, OM3DMarkerRobot)</l>
+<c>* </c>
+<l>OM3DArrows := []</l>
+<l>for J := 0 to NumCalibrationPoses - 1 by 1</l>
+<l>    create_pose (X_Camera[J], Y_Camera[J], Z_Camera[J], 0, 0, 0, 'Rp+T', 'gba', 'point', ArrowStartPose)</l>
+<l>    create_pose (X_Camera_Trans[J], Y_Camera_Trans[J], Z_Camera_Trans[J], 0, 0, 0, 'Rp+T', 'gba', 'point', ArrowEndPose)</l>
+<l>    gen_arrow_object_model_3d (0.001, ArrowStartPose, ArrowEndPose, OM3DArrow)</l>
+<l>    OM3DArrows := [OM3DArrows,OM3DArrow]</l>
+<l>endfor</l>
+<c>* </c>
+<l>OM3D := [OM3DMarkerCam,OM3DMarkerRobot,OM3DBase,OM3DCamera,OM3DEmptyScene,OM3DArrows]</l>
+<l>GenParamName := ['color_' + [0:6],'color_attrib_7','point_size_' + [0:1],'disp_pose']</l>
+<l>GenParamValue := [ColorCamera,ColorBase,ColorSnippetRGB,ColorBase,ColorCamera,'&amp;gray', 10, 10, 'true']</l>
+<l>Title := 'Visualization of the poses as returned by the camera (blue)\nand the robot transposed with the calibration result (magenta),\nand the difference between them.'</l>
+<c>* </c>
+<l>Label := gen_tuple_const(|OM3D|,'')</l>
+<l>Label[2] := 'robot base'</l>
+<l>Label[6] := 'camera'</l>
+<l>Start := |OM3D| - NumCalibrationPoses</l>
+<l>End := |OM3D| - 1</l>
+<l>Label[Start:End] := [0:NumCalibrationPoses - 1]</l>
+<l>visualize_object_model_3d (WindowHandle, OM3D, [], VisPose, GenParamName, GenParamValue, Title, Label, [], VisPose)</l>
+<c>* </c>
+<l>dev_set_window (WindowHandleText)</l>
+<l>dev_close_window ()</l>
+<c>* </c>
+<c>* Perform a test approach with the robot.</c>
+<c>* </c>
+<l>dev_open_window_fit_image (Intensity, 0, WindowWidth + 10, WindowWidth, -1, WindowHandleIntensity)</l>
+<c>* </c>
+<l>NumScenes := 3</l>
+<l>for K := 1 to NumScenes by 1</l>
+<c>    * </c>
+<l>    read_xyz_intensity (X, Y, Z, Intensity, PathData + 'scene_xyzi_', K)</l>
+<c>    * </c>
+<l>    filter_z (Z, ZBG, Z, ZVisualization, MinDistanceFromCamera, MaxDistanceFromCamera, MinDistanceFromBackground)</l>
+<c>    * </c>
+<l>    xyz_to_object_model_3d (X, Y, Z, SceneOM3D)</l>
+<l>    find_surface_model (SphereSurfaceModelID, SceneOM3D, 0.05, 0.2, 0, 'false', [], [], Cam_P_Obj, Score, SurfaceMatchingResultID)</l>
+<c>    * </c>
+<l>    rigid_trans_object_model_3d (SphereOM3D, Cam_P_Obj, SphereOM3DRigidTrans)</l>
+<c>    * </c>
+<c>    * Visualize the found object.</c>
+<c>    * </c>
+<l>    xyz_attrib_to_object_model_3d (X, Y, ZVisualization, Intensity, '&amp;gray', SceneOM3DVisualization)</l>
+<c>    * </c>
+<l>    project_object_model_3d (ModelContours, SphereOM3DRigidTrans, CameraParam, CameraPose, [], [])</l>
+<l>    dev_display_match_in_image (Intensity, ModelContours, WindowHandleIntensity, ColorSphere)</l>
+<c>    * </c>
+<l>    OM3D := [SceneOM3DVisualization,SphereOM3DRigidTrans]</l>
+<l>    GenParamName := ['color_attrib_0', 'color_1', 'point_size', 'disp_pose']</l>
+<l>    GenParamValue := ['&amp;gray',ColorSphere,1, 'true']</l>
+<l>    Title := 'Now, we want to locate the sphere to be able to pick &amp; place it.'</l>
+<l>    Title[|Title|] := 'For this, we placed the sphere somewhere in the scene.'</l>
+<l>    Title[|Title|] := 'Scene ' + K + '/' + NumScenes</l>
+<l>    visualize_object_model_3d (WindowHandle, OM3D, [], VisPose, GenParamName, GenParamValue, Title, [], [], VisPose)</l>
+<c>    * </c>
+<c>    * Calculate the gripping pose in the robot base coordinate system.</c>
+<l>    Cam_P_Obj[3] := 0</l>
+<l>    Cam_P_Obj[4] := 0</l>
+<l>    Cam_P_Obj[5] := 0</l>
+<l>    pose_compose (Base_P_Cam, Cam_P_Obj, Base_P_Obj)</l>
+<l>    pose_invert (Tool_P_Obj, Obj_P_Tool)</l>
+<l>    pose_compose (Base_P_Obj, Obj_P_Tool, Base_P_Tool)</l>
+<c>    * </c>
+<c>    * Adapt gripping pose based on rotation of robot base relative to camera.</c>
+<c>    * Note that it is highly application- and object-specific</c>
+<c>    * how to best approach and grip the objects.</c>
+<l>    Base_P_Tool[4] := Base_P_Tool[4] - Base_P_Cam[4]</l>
+<l>    Base_P_Tool[5] := Base_P_Tool[5] - Base_P_Cam[5]</l>
+<c>    * </c>
+<c>    * To avoid tipping the object over, we approach the object from above.</c>
+<c>    * For a more sophisticated approach, check out the example</c>
+<c>    * pick_and_place_with_2d_matching_stationary_cam.hdev</c>
+<l>    Base_P_Tool_Approach := Base_P_Tool</l>
+<l>    Base_P_Tool_Approach[2] := Base_P_Tool_Approach[2] + 0.1</l>
+<c>    * </c>
+<c>    * Calculate poses to visualize gripper positions.</c>
+<l>    pose_compose (Cam_P_Base, Base_P_Tool, Cam_P_Tool)</l>
+<l>    rigid_trans_object_model_3d (OM3DToolOrigin, Cam_P_Tool, OM3DToolGrip)</l>
+<l>    pose_compose (Cam_P_Base, Base_P_Tool_Approach, Cam_P_Tool_Approach)</l>
+<l>    rigid_trans_object_model_3d (OM3DToolOrigin, Cam_P_Tool_Approach, OM3DToolGrip_Approach)</l>
+<c>    * </c>
+<c>    * Visualize result.</c>
+<l>    OM3D := [SceneOM3DVisualization,SphereOM3DRigidTrans,OM3DToolGrip,OM3DToolGrip_Approach,OM3DBase]</l>
+<l>    GenParamName := ['disp_pose', 'color_attrib_0','color_' + [1:11]]</l>
+<l>    GenParamValue := ['true', '&amp;gray',ColorSphere,ColorSnippetRGB,ColorSnippetRGB,ColorSnippetRGB,ColorBase]</l>
+<l>    Label := gen_tuple_const(|OM3D|,'')</l>
+<l>    Label[2] := 'tool position for gripping'</l>
+<l>    Label[5] := 'tool position for approaching'</l>
+<l>    Label[|Label| - 1] := 'robot base'</l>
+<l>    Title := 'Exemplary poses of the robot to approach and grasp the object'</l>
+<l>    visualize_object_model_3d (WindowHandle, OM3D, [], VisPose, GenParamName, GenParamValue, Title, Label, [], VisPose)</l>
+<l>endfor</l>
+<l>dev_disp_text ('      End of program      ', 'window', 'bottom', 'right', 'black', [], [])</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="check_hand_eye_calibration_input_poses_translation">
+<interface>
+<ic>
+<par name="CalibPoses" base_type="ctrl" dimension="0"/>
+<par name="TranslationTolerance" base_type="ctrl" dimension="0"/>
+<par name="NumCalibrationPoses" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="Warnings" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>if (|CalibPoses| != 1)</l>
+<l>    throw ('Wrong number of values of control parameter: 1')</l>
+<l>endif</l>
+<l>if (|TranslationTolerance| != 1)</l>
+<l>    throw ('Wrong number of values of control parameter: 2')</l>
+<l>endif</l>
+<l>if (TranslationTolerance &lt; 0)</l>
+<l>    throw ('Wrong value of control parameter: 2')</l>
+<l>endif</l>
+<c>* </c>
+<l>Warnings := []</l>
+<c>* </c>
+<l>for Index1 := 1 to NumCalibrationPoses - 1 by 1</l>
+<l>    pose_invert (CalibPoses.['cam_p_obj_' + Index1], Cal1PoseCam)</l>
+<l>    pose_invert (CalibPoses.['base_p_obj_' + Index1], Tool1PoseBase)</l>
+<c>    * </c>
+<l>    for Index2 := Index1 + 1 to NumCalibrationPoses by 1</l>
+<c>        * For two robot poses, ...</c>
+<c>        * ... compute the movement of the calibration object in the</c>
+<c>        * camera coordinate system.</c>
+<l>        pose_compose (Cal1PoseCam, CalibPoses.['cam_p_obj_' + Index2], Cal1PoseCal2)</l>
+<c>        * ... compute the movement of the tool in the robot base</c>
+<c>        * coordinate system.</c>
+<l>        pose_compose (Tool1PoseBase, CalibPoses.['base_p_obj_' + Index2], Tool1PoseTool2)</l>
+<c>        * </c>
+<l>        DistanceInCam := sqrt(Cal1PoseCal2[0] * Cal1PoseCal2[0] + Cal1PoseCal2[1] * Cal1PoseCal2[1] + Cal1PoseCal2[2] * Cal1PoseCal2[2])</l>
+<l>        DistanceInBase := sqrt(Tool1PoseTool2[0] * Tool1PoseTool2[0] + Tool1PoseTool2[1] * Tool1PoseTool2[1] + Tool1PoseTool2[2] * Tool1PoseTool2[2])</l>
+<l>        ErrorDistance := fabs(DistanceInCam - DistanceInBase)</l>
+<l>        if (ErrorDistance &gt; TranslationTolerance)</l>
+<l>            Message := 'Inconsistent pose pair (' + Index1$'2d' + ',' + Index2$'2d' + '), Translation distance: ' + ErrorDistance$'.4f'</l>
+<l>            Warnings := [Warnings,Message]</l>
+<l>        endif</l>
+<l>    endfor</l>
+<l>endfor</l>
+<c>* </c>
+<l>return ()</l>
+</body>
+<docu id="check_hand_eye_calibration_input_poses_translation">
+<parameters>
+<parameter id="CalibPoses">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>dict</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="NumCalibrationPoses">
+<default_type>integer</default_type>
+<multivalue>false</multivalue>
+<sem_type>number</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="TranslationTolerance">
+<default_type>real</default_type>
+<multivalue>false</multivalue>
+<sem_type>real</sem_type>
+<type_list>
+<item>real</item>
+</type_list>
+</parameter>
+<parameter id="Warnings">
+<default_type>string</default_type>
+<multivalue>false</multivalue>
+<sem_type>string</sem_type>
+<type_list>
+<item>string</item>
+</type_list>
+</parameter>
+</parameters>
+</docu>
+</procedure>
+<procedure name="dev_disp_intro_text">
+<interface/>
+<body>
+<l>Text := 'This example shows how to perform a quick and easy-to-use approximate'</l>
+<l>Text[|Text|] := 'hand-eye calibration with a stationary 3D sensor. For this approach,'</l>
+<l>Text[|Text|] := 'a primitive object is suited best as calibration object.'</l>
+<l>Text[|Text|] := 'In this case, we use a sphere - a ping pong ball to be exact.'</l>
+<l>Text[|Text|] := 'Spheres are easily available objects and well-suited for matching.\n'</l>
+<l>Text[|Text|] := 'For symmetrical objects like spheres,'</l>
+<l>Text[|Text|] := 'the rotational part of the pose is not defined unambiguously;'</l>
+<l>Text[|Text|] := 'the objects "looks the same" in different rotations.'</l>
+<l>Text[|Text|] := 'Thus, in this example, only the translational part'</l>
+<l>Text[|Text|] := 'of the calibration object poses is used.\n'</l>
+<l>Text[|Text|] := 'Here, we attach a calibration sphere to a robot\'s end effector,'</l>
+<l>Text[|Text|] := 'store the respective robot pose, and locate the sphere'</l>
+<l>Text[|Text|] := 'with surface-based matching. With these poses, we can estimate'</l>
+<l>Text[|Text|] := 'the translation between the robot base and the camera,'</l>
+<l>Text[|Text|] := 'allowing us to pick and place objects.'</l>
+<l>dev_disp_text (Text, 'window', 'top', 'left', 'white', 'box', 'false')</l>
+<l>dev_disp_text ('Press Run (F5) to continue', 'window', 'bottom', 'right', 'black', [], [])</l>
+<l>return ()</l>
+</body>
+<docu id="dev_disp_intro_text">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="gen_info_text2">
+<interface>
+<ic>
+<par name="Base_P_Cam" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="Info" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>Info := 'Position of camera relative to robot base:'</l>
+<l>Info[|Info|] := 'TransX: ' + Base_P_Cam[0]$'.3f' + ' m'</l>
+<l>Info[|Info|] := 'TransY: ' + Base_P_Cam[1]$'.3f' + ' m'</l>
+<l>Info[|Info|] := 'TransZ: ' + Base_P_Cam[2]$'.3f' + ' m'</l>
+<l>Info[|Info|] := 'RotX:   ' + Base_P_Cam[3]$'.1f' + '°'</l>
+<l>Info[|Info|] := 'RotY:   ' + Base_P_Cam[4]$'.1f' + '°'</l>
+<l>Info[|Info|] := 'RotZ:   ' + Base_P_Cam[5]$'.1f' + '°'</l>
+<l>return ()</l>
+</body>
+<docu id="gen_info_text2">
+<parameters>
+<parameter id="Base_P_Cam"/>
+<parameter id="Info"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="gen_info_text1">
+<interface>
+<ic>
+<par name="Base_P_Obj" base_type="ctrl" dimension="0"/>
+<par name="Cam_P_Obj" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="Info" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>Info := '        Base_P_Obj   Cam_P_Obj'</l>
+<l>Info[|Info|] := 'TransX:  ' + Base_P_Obj[0]$'+6.3f' + '      ' + Cam_P_Obj[0]$'+6.3f'</l>
+<l>Info[|Info|] := 'TransY:  ' + Base_P_Obj[1]$'+6.3f' + '      ' + Cam_P_Obj[1]$'+6.3f'</l>
+<l>Info[|Info|] := 'TransZ:  ' + Base_P_Obj[2]$'+6.3f' + '      ' + Cam_P_Obj[2]$'+6.3f'</l>
+<l>Info[|Info|] := 'RotX:  ' + Base_P_Obj[3]$'+6.1f' + '     ' + Cam_P_Obj[3]$'+6.1f'</l>
+<l>Info[|Info|] := 'RotY:  ' + Base_P_Obj[4]$'+6.1f' + '     ' + Cam_P_Obj[4]$'+6.1f'</l>
+<l>Info[|Info|] := 'RotZ:  ' + Base_P_Obj[5]$'+6.1f' + '     ' + Cam_P_Obj[5]$'+6.1f'</l>
+<l>Info[|Info|] := 'Type:     ' + Base_P_Obj[6] + '            ' + Cam_P_Obj[6]</l>
+<l>return ()</l>
+</body>
+<docu id="gen_info_text1">
+<parameters>
+<parameter id="Base_P_Obj"/>
+<parameter id="Cam_P_Obj"/>
+<parameter id="Info"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="dev_display_match_in_image">
+<interface>
+<io>
+<par name="Intensity" base_type="iconic" dimension="0"/>
+<par name="ModelContours" base_type="iconic" dimension="0"/>
+</io>
+<ic>
+<par name="WindowHandleIntensity" base_type="ctrl" dimension="0"/>
+<par name="ColorSphere" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<l>dev_set_window (WindowHandleIntensity)</l>
+<l>dev_set_line_width (3)</l>
+<l>dev_clear_window ()</l>
+<l>dev_display (Intensity)</l>
+<l>set_display_font (WindowHandleIntensity, 16, 'mono', 'true', 'false')</l>
+<l>dev_disp_text ('Match projected in intensity image', 'window', 'top', 'left', 'black', [], [])</l>
+<l>dev_set_color (ColorSphere)</l>
+<l>dev_display (ModelContours)</l>
+<l>return ()</l>
+</body>
+<docu id="dev_display_match_in_image">
+<parameters>
+<parameter id="ColorSphere"/>
+<parameter id="Intensity"/>
+<parameter id="ModelContours"/>
+<parameter id="WindowHandleIntensity"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="filter_z">
+<interface>
+<io>
+<par name="Z" base_type="iconic" dimension="0"/>
+<par name="ZBG" base_type="iconic" dimension="0"/>
+</io>
+<oo>
+<par name="ZOut" base_type="iconic" dimension="0"/>
+<par name="ZOutVisualization" base_type="iconic" dimension="0"/>
+</oo>
+<ic>
+<par name="MinDistanceFromCamera" base_type="ctrl" dimension="0"/>
+<par name="MaxDistanceFromCamera" base_type="ctrl" dimension="0"/>
+<par name="MinDistanceFromBackground" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<c>* </c>
+<c>* Filter out some clutter.</c>
+<l>regiongrowing (Z, Regions, 3, 3, 6, 2000)</l>
+<l>union1 (Regions, RegionUnion)</l>
+<l>reduce_domain (Z, RegionUnion, Z)</l>
+<c>* </c>
+<c>* Filter out min and max distances from camera.</c>
+<l>threshold (Z, Region, MinDistanceFromCamera, MaxDistanceFromCamera)</l>
+<l>reduce_domain (Z, Region, ZOutVisualization)</l>
+<c>* </c>
+<c>* Remove the background from the scene.</c>
+<l>abs_diff_image (ZOutVisualization, ZBG, ZDiff, 1)</l>
+<l>threshold (ZDiff, Region, MinDistanceFromBackground, 100)</l>
+<l>reduce_domain (ZOutVisualization, Region, ZOut)</l>
+<l>return ()</l>
+</body>
+<docu id="filter_z">
+<parameters>
+<parameter id="MaxDistanceFromCamera"/>
+<parameter id="MinDistanceFromBackground"/>
+<parameter id="MinDistanceFromCamera"/>
+<parameter id="Z"/>
+<parameter id="ZBG"/>
+<parameter id="ZOut"/>
+<parameter id="ZOutVisualization"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="read_xyz_intensity">
+<interface>
+<oo>
+<par name="X" base_type="iconic" dimension="0"/>
+<par name="Y" base_type="iconic" dimension="0"/>
+<par name="Z" base_type="iconic" dimension="0"/>
+<par name="Intensity" base_type="iconic" dimension="0"/>
+</oo>
+<ic>
+<par name="Path" base_type="ctrl" dimension="0"/>
+<par name="Index" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<l>read_image (XYZI, Path + Index$'02')</l>
+<l>select_obj (XYZI, X, 1)</l>
+<l>select_obj (XYZI, Y, 2)</l>
+<l>select_obj (XYZI, Z, 3)</l>
+<l>select_obj (XYZI, Intensity, 4)</l>
+<l>return ()</l>
+</body>
+<docu id="read_xyz_intensity">
+<parameters>
+<parameter id="Index">
+<default_type>integer</default_type>
+<sem_type>number</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="Intensity">
+<sem_type>image</sem_type>
+</parameter>
+<parameter id="Path">
+<default_type>string</default_type>
+<sem_type>string</sem_type>
+<type_list>
+<item>string</item>
+</type_list>
+</parameter>
+<parameter id="X">
+<sem_type>image</sem_type>
+</parameter>
+<parameter id="Y">
+<sem_type>image</sem_type>
+</parameter>
+<parameter id="Z">
+<sem_type>image</sem_type>
+</parameter>
+</parameters>
+</docu>
+</procedure>
+<procedure name="gen_marker_object_model_3d">
+<interface>
+<ic>
+<par name="X" base_type="ctrl" dimension="0"/>
+<par name="Y" base_type="ctrl" dimension="0"/>
+<par name="Z" base_type="ctrl" dimension="0"/>
+<par name="RotZ" base_type="ctrl" dimension="0"/>
+<par name="Size" base_type="ctrl" dimension="0"/>
+<par name="LengthFactor" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="OM3DMarker" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>OM3DMarker := []</l>
+<c>* </c>
+<l>for Index := 0 to |X| - 1 by 1</l>
+<l>    create_pose (X[Index], Y[Index], Z[Index], 0, 0, RotZ, 'Rp+T', 'gba', 'point', Pose)</l>
+<l>    create_pose (X[Index], Y[Index], Z[Index], 0, 90, RotZ, 'Rp+T', 'gba', 'point', Pose1)</l>
+<l>    create_pose (X[Index], Y[Index], Z[Index], 90, 90, RotZ, 'Rp+T', 'gba', 'point', Pose2)</l>
+<c>    * </c>
+<l>    gen_box_object_model_3d (Pose, Size * LengthFactor, Size, Size, ObjectModel3D)</l>
+<l>    gen_box_object_model_3d (Pose1, Size * LengthFactor, Size, Size, ObjectModel3D1)</l>
+<l>    gen_box_object_model_3d (Pose2, Size * LengthFactor, Size, Size, ObjectModel3D2)</l>
+<c>    * </c>
+<l>    triangulate_object_model_3d (ObjectModel3D, 'greedy', [], [], ObjectModel3D, Information)</l>
+<l>    triangulate_object_model_3d (ObjectModel3D1, 'greedy', [], [], ObjectModel3D1, Information)</l>
+<l>    triangulate_object_model_3d (ObjectModel3D2, 'greedy', [], [], ObjectModel3D2, Information)</l>
+<c>    * </c>
+<l>    OM3DMarker := [OM3DMarker,ObjectModel3D,ObjectModel3D1,ObjectModel3D2]</l>
+<l>endfor</l>
+<l>union_object_model_3d (OM3DMarker, 'points_surface', OM3DMarker)</l>
+<l>return ()</l>
+</body>
+<docu id="gen_marker_object_model_3d">
+<parameters>
+<parameter id="LengthFactor"/>
+<parameter id="OM3DMarker"/>
+<parameter id="RotZ"/>
+<parameter id="Size"/>
+<parameter id="X"/>
+<parameter id="Y"/>
+<parameter id="Z"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="get_image_dir">
+<interface>
+<oc>
+<par name="ImageDir" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>get_system ('image_dir', ImageDir)</l>
+<l>get_system ('operating_system', OperatingSystem)</l>
+<l>IsWindows := OperatingSystem{0:2} == 'Win'</l>
+<l>if (IsWindows)</l>
+<l>    Separator := ';'</l>
+<l>else</l>
+<l>    Separator := ':'</l>
+<l>endif</l>
+<l>tuple_split (ImageDir, Separator, ImageDir)</l>
+<l>ImageDir := ImageDir[0]</l>
+<l>ImageDir := regexp_replace(ImageDir,['\\\\+', 'replace_all'],'/') + '/'</l>
+<l>return ()</l>
+</body>
+<docu id="get_image_dir">
+<parameters>
+<parameter id="ImageDir"/>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>
