@@ -51,11 +51,13 @@
 <c>* 手眼校准后，提取计算出的变换</c>
 <c>* 提取并用于计算校准对象在摄像机坐标系中的姿态。</c>
 <c>* 摄像机坐标系中的姿态。</c>
+<c>* 获得本机安装Halocn目录</c>
+<l>get_system ('halcon_dir', HalconPath)</l>
 <l>dev_update_off ()</l>
 <c>* Directories with calibration images and data files</c>
 <c>* 包含校准图像和数据文件的目录</c>
-<l>ImageNameStart := 'D:/Halcon/2023/HALCON-23.05-Progress/examples/images/3d_machine_vision/hand_eye/movingcam_calib3cm_'</l>
-<l>DataNameStart := 'D:/Halcon/2023/HALCON-23.05-Progress/examples/solution_guide/3d_vision/hand_eye/movingcam_'</l>
+<l>ImageNameStart := HalconPath+'/examples/images/3d_machine_vision/hand_eye/movingcam_calib3cm_'</l>
+<l>DataNameStart := HalconPath+'/examples/solution_guide/3d_vision/hand_eye/movingcam_'</l>
 <l>NumImages := 14</l>
 <l>read_image (Image, ImageNameStart + '00')</l>
 <l>dev_close_window ()</l>
