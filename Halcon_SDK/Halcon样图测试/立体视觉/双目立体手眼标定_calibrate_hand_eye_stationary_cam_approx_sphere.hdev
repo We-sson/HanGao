@@ -37,10 +37,12 @@
 <l>stop ()</l>
 <c>* </c>
 <c>* Create model of the calibration sphere for surface-based matching.</c>
+<c>* 为基于表面的匹配创建校准球模型。</c>
 <l>gen_sphere_object_model_3d ([0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0], SphereRadius, SphereOM3D)</l>
 <l>convex_hull_object_model_3d (SphereOM3D, SphereOM3D)</l>
 <l>create_surface_model (SphereOM3D, 0.03, [], [], SphereSurfaceModelID)</l>
 <c>* Visualize model for surface-based matching.</c>
+<c>* 基于曲面匹配的可视化模型</c>
 <l>get_surface_model_param (SphereSurfaceModelID, 'sampled_model', SampledModel)</l>
 <l>Title := 'Calibration sphere that will be used for surface-based matching.'</l>
 <l>Title[|Title|] := 'Radius: ' + SphereRadius</l>
@@ -48,20 +50,29 @@
 <c>* </c>
 <c>* Define the offset of the robot gripper in regard to the robot tool.</c>
 <c>* See also the procedure</c>
-<l>* calibrate_robot_touching_point ('.\\', Offset_XYZ)</l>
+<l>* calibrate_robot_touching_point ('D:/Halcon/2023/HALCON-23.05-Progress/examples/hdevelop/Calibration/Hand-Eye', Offset_XYZ)</l>
 <c>* for more information and a way to calibrate this offset.</c>
 <c>* In this example, the gripper transmits its offset to the robot,</c>
 <c>* we only need to incorporate a Z-offset of -2 cm</c>
 <c>* because of the small suction cup we use.</c>
+<c>* 定义机器人抓手相对于机器人工具的偏移量。</c>
+<c>* 另请参阅程序</c>
+<l>* calibrate_robot_touching_point ('.\\', Offset_XYZ)</l>
+<c>* 以获取更多信息和校准偏移量的方法。</c>
+<c>* 在本例中，抓手将其偏移量传送给机器人、</c>
+<c>* 我们只需要加入一个 -2 厘米的 Z 偏移量。</c>
+<c>* 因为我们使用的吸盘很小。</c>
 <l>Offset_X := 0</l>
 <l>Offset_Y := 0</l>
 <l>Offset_Z := -0.02</l>
 <c>* Define poses.</c>
+<c>* 定义偏移值工具坐标</c>
 <l>create_pose (Offset_X, Offset_Y, Offset_Z, 0, 0, 0, 'Rp+T', 'gba', 'point', Tool_P_Gripper)</l>
 <l>create_pose (0, 0, SphereRadius, 0, 0, 0, 'Rp+T', 'gba', 'point', Gripper_P_Obj)</l>
 <l>pose_compose (Tool_P_Gripper, Gripper_P_Obj, Tool_P_Obj)</l>
 <c>* </c>
 <c>* Acquire 3D data of the empty scene.</c>
+<c>* 获取空场景的 3D 数据。</c>
 <l>read_image (XYZI, PathData + 'background_xyzi')</l>
 <l>select_obj (XYZI, XBG, 1)</l>
 <l>select_obj (XYZI, YBG, 2)</l>
@@ -103,6 +114,8 @@
 <c>* </c>
 <c>* Estimate camera parameters to be able</c>
 <c>* to project the matches into the 3D images later.</c>
+<c>* 估计相机参数，以便</c>
+<c>* 稍后将匹配图像投射到三维图像中。</c>
 <l>estimate_camera_parameters_from_object_model_3d (OM3DEmptyScene, CameraParam, CameraPose)</l>
 <c>* </c>
 <l>for I := 1 to NumCalibrationPoses by 1</l>
@@ -113,6 +126,7 @@
 <l>    read_xyz_intensity (X, Y, Z, Intensity, PathData + 'calib_xyzi_', I)</l>
 <c>    * </c>
 <c>    * Calculate the pose Base_P_Obj.</c>
+<c>    * 计算姿势 Base_P_Obj。</c>
 <l>    pose_compose (Base_P_Tool, Tool_P_Obj, Base_P_Obj)</l>
 <c>    * </c>
 <l>    filter_z (Z, ZBG, Z, ZOutVisualization, MinDistanceFromCamera, MaxDistanceFromCamera, MinDistanceFromBackground)</l>
@@ -121,6 +135,7 @@
 <l>    find_surface_model (SphereSurfaceModelID, SceneOM3D, 0.05, 0.2, 0, 'false', [], [], Cam_P_Obj, Score, SurfaceMatchingResultID)</l>
 <c>    * </c>
 <c>    * Visualize matching result.</c>
+<c>    * 可视化匹配结果。</c>
 <l>    xyz_attrib_to_object_model_3d (X, Y, ZOutVisualization, Intensity, '&amp;gray', SceneOM3DVisualization)</l>
 <c>    * </c>
 <l>    rigid_trans_object_model_3d (SphereOM3D, Cam_P_Obj, SphereOM3DRigidTrans)</l>
@@ -135,6 +150,7 @@
 <l>    visualize_object_model_3d (WindowHandle, [SceneOM3DVisualization,SphereOM3DRigidTrans], [], VisPose, GenParamName, GenParamValue, Title, [], Info, VisPose)</l>
 <c>    * </c>
 <c>    * Collect the translation parts of the poses.</c>
+<c>    * 收集姿势的翻译部分。</c>
 <l>    X_Robot := [X_Robot,Base_P_Obj[0]]</l>
 <l>    Y_Robot := [Y_Robot,Base_P_Obj[1]]</l>
 <l>    Z_Robot := [Z_Robot,Base_P_Obj[2]]</l>
@@ -143,6 +159,7 @@
 <l>    Z_Camera := [Z_Camera,Cam_P_Obj[2]]</l>
 <c>    * </c>
 <c>    * Collect poses for a check later.</c>
+<c>    * 收集姿势，以便日后检查。</c>
 <l>    CalibPoses.['base_p_obj_' + I] := Base_P_Obj</l>
 <l>    CalibPoses.['cam_p_obj_' + I] := Cam_P_Obj</l>
 <l>endfor</l>
@@ -152,9 +169,12 @@
 <c>* </c>
 <c>* Compute the rigid transformation that maps the 3D points from</c>
 <c>* camera coordinates to robot base coordinates.</c>
+<c>* 计算刚性变换，将三维点从</c>
+<c>* 摄像机坐标到机器人基座坐标的三维点映射。</c>
 <l>vector_to_hom_mat3d ('rigid', X_Camera, Y_Camera, Z_Camera, X_Robot, Y_Robot, Z_Robot, Base_H_Cam)</l>
 <c>* </c>
 <c>* Save the hand-eye calibration result.</c>
+<c>* 保存手眼校准结果。</c>
 <l>write_tuple (Base_H_Cam, './Base_H_Cam.tup')</l>
 <c>* </c>
 <c>* ** Check the success and quality of the calibration **</c>
