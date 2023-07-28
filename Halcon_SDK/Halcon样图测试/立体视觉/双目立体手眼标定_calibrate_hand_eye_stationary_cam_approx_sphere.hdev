@@ -180,6 +180,9 @@
 <c>* ** Check the success and quality of the calibration **</c>
 <c>* </c>
 <c>* Visualize the calibration result.</c>
+<c>** 检查校准的成功率和质量 **</c>
+<c>* </c>
+<c>* 可视化校准结果。</c>
 <c>* </c>
 <c>* Robot base.</c>
 <l>gen_robot_tool_and_base_object_model_3d (0.005, 0.1, OM3DToolOrigin, OM3DBase)</l>
@@ -206,12 +209,21 @@
 <c>* in the robot base coordinate system for the acquired calibration.</c>
 <c>* The respective distances should be consistent</c>
 <c>* for all calibration scenes.</c>
+<c>* 比较校准对象在摄像机坐标系中的移动和工具的移动</c>
+<c>* 在照相机坐标系中的运动和工具在机器人基本坐标系中的运动</c>
+<c>* 在机器人基本坐标系中的运动进行比较。</c>
+<c>* 各自的距离应一致</c>
+<c>* 在所有校准场景中都一致。</c>
 <l>check_hand_eye_calibration_input_poses_translation (CalibPoses, 0.005, NumCalibrationPoses, Warnings)</l>
 <c>* </c>
 <c>* Visualize the 3D points in the following manner:</c>
 <c>* 1.) in camera coordinates,</c>
 <c>* 2.) transform the robot coordinates into camera coordinates,</c>
 <c>* 3.) visualize the 3D points.</c>
+<c>* 以下列方式将 3D 点可视化：</c>
+<c>* 1.) 摄像机坐标、</c>
+<c>* 2.) 将机器人坐标转换为摄像机坐标、</c>
+<c>* 3.) 可视化三维点。</c>
 <l>gen_marker_object_model_3d (X_Camera, Y_Camera, Z_Camera, 0, 0.002, 20, OM3DMarkerCam)</l>
 <l>gen_marker_object_model_3d (X_Robot, Y_Robot, Z_Robot, 45, 0.002, 20, OM3DMarkerRobot)</l>
 <c>* </c>
@@ -261,6 +273,7 @@
 <l>dev_close_window ()</l>
 <c>* </c>
 <c>* Perform a test approach with the robot.</c>
+<c>* 机器人一起进行测试。</c>
 <c>* </c>
 <l>dev_open_window_fit_image (Intensity, 0, WindowWidth + 10, WindowWidth, -1, WindowHandleIntensity)</l>
 <c>* </c>
@@ -277,6 +290,7 @@
 <l>    rigid_trans_object_model_3d (SphereOM3D, Cam_P_Obj, SphereOM3DRigidTrans)</l>
 <c>    * </c>
 <c>    * Visualize the found object.</c>
+<c>    * 将找到的物体形象化。</c>
 <c>    * </c>
 <l>    xyz_attrib_to_object_model_3d (X, Y, ZVisualization, Intensity, '&amp;gray', SceneOM3DVisualization)</l>
 <c>    * </c>
@@ -292,6 +306,7 @@
 <l>    visualize_object_model_3d (WindowHandle, OM3D, [], VisPose, GenParamName, GenParamValue, Title, [], [], VisPose)</l>
 <c>    * </c>
 <c>    * Calculate the gripping pose in the robot base coordinate system.</c>
+<c>    * 在机器人基本坐标系中计算抓取姿势。</c>
 <l>    Cam_P_Obj[3] := 0</l>
 <l>    Cam_P_Obj[4] := 0</l>
 <l>    Cam_P_Obj[5] := 0</l>
@@ -302,16 +317,21 @@
 <c>    * Adapt gripping pose based on rotation of robot base relative to camera.</c>
 <c>    * Note that it is highly application- and object-specific</c>
 <c>    * how to best approach and grip the objects.</c>
+<c>    * 根据机器人基座相对于摄像头的旋转调整抓取姿势。</c>
+<c>    * 请注意，这与具体的应用和物体密切相关。</c>
+<c>    * 如何以最佳方式接近和抓取物体。</c>
 <l>    Base_P_Tool[4] := Base_P_Tool[4] - Base_P_Cam[4]</l>
 <l>    Base_P_Tool[5] := Base_P_Tool[5] - Base_P_Cam[5]</l>
 <c>    * </c>
 <c>    * To avoid tipping the object over, we approach the object from above.</c>
+<c>    * 为了避免物体倾倒，我们从上方接近物体。</c>
 <c>    * For a more sophisticated approach, check out the example</c>
 <c>    * pick_and_place_with_2d_matching_stationary_cam.hdev</c>
 <l>    Base_P_Tool_Approach := Base_P_Tool</l>
 <l>    Base_P_Tool_Approach[2] := Base_P_Tool_Approach[2] + 0.1</l>
 <c>    * </c>
 <c>    * Calculate poses to visualize gripper positions.</c>
+<c>    * 计算姿势，使抓手位置可视化。</c>
 <l>    pose_compose (Cam_P_Base, Base_P_Tool, Cam_P_Tool)</l>
 <l>    rigid_trans_object_model_3d (OM3DToolOrigin, Cam_P_Tool, OM3DToolGrip)</l>
 <l>    pose_compose (Cam_P_Base, Base_P_Tool_Approach, Cam_P_Tool_Approach)</l>
