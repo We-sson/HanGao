@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.2" halcon_version="22.05.0.0">
+<hdevelop file_version="1.2" halcon_version="23.05.0.0">
 <procedure name="main">
 <interface/>
 <body>
@@ -23,7 +23,7 @@
 <l>NumCameras := 2</l>
 <l>NumCalibObjects := 1</l>
 <l>CalibSetup := 'calibration_object'</l>
-<l>DescrFile := '26_30_0.0015_calplate.cpd'</l>
+<l>DescrFile := '27_31_0.0015_calplate.cpd'</l>
 <c>* </c>
 <c>* Initialize initial camera parameters</c>
 <c>* 焦距</c>
