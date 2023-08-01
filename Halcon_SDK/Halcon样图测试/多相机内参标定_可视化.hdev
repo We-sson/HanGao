@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="23.05.0.0">
+<procedure name="main">
+<interface/>
+<body>
+<c>* This program performs the calibration of a multi-view stereo</c>
+<c>* setup consisting of 4 identical cameras.</c>
+<c>* </c>
+<c>* Set some parameters</c>
+<c>* 该程序可对由 4 台相同摄像机组成的多视角立体摄像机进行校准。</c>
+<c>* 由 4 台相同的摄像机组成。</c>
+<c>* </c>
+<c>* 设置一些参数</c>
+<l>dev_update_off ()</l>
+<l>ImgPath := '3d_machine_vision/multi_view/'</l>
+<l>ImgPrefix := 'multi_view_calib_'</l>
+<l>FileName := ImgPath + ImgPrefix + 'cam_0_00'</l>
+<l>read_image (Image, FileName)</l>
+<l>get_image_size (Image, Width, Height)</l>
+<l>Scale := .5</l>
+<c>* </c>
+<c>* Calibration parameters</c>
+<c>* 校准参数</c>
+<l>CaltabDescr := 'caltab_100mm.descr'</l>
+<l>CaltabThickness := 0.0064</l>
+<l>NumCameras := 4</l>
+<l>NumCalibObjects := 1</l>
+<l>NumPoses := 20</l>
+<l>gen_cam_par_area_scan_polynomial (0.0085, 0.0, 0.0, 0.0, 0.0, 0.0, 6e-6, 6e-6, Width * .5, Height * .5, Width, Height, StartCamPar)</l>
+<c>* </c>
+<c>* Create camera calibration model and set parameters</c>
+<c>* 创建摄像机校准模型并设置参数</c>
+<l>create_calib_data ('calibration_object', NumCameras, NumCalibObjects, CalibDataID)</l>
+<c>* Set used camera type</c>
+<c>* 设置使用的摄像机类型</c>
+<l>set_calib_data_cam_param (CalibDataID, 'all', [], StartCamPar)</l>
+<c>* Set used calibration object</c>
+<c>* 设置使用过的校准对象</c>
+<l>set_calib_data_calib_object (CalibDataID, 0, CaltabDescr)</l>
+<c>* </c>
+<c>* Process the calibration images</c>
+<c>* 处理校准图像</c>
+<l>open_windows_multi_view_setup (Height, Width, Scale, WindowHandles)</l>
+<l>NumIgnoredImg := 0</l>
+<l>for PoseIndex := 0 to NumPoses - 1 by 1</l>
+<l>    for CameraIndex := 0 to NumCameras - 1 by 1</l>
+<l>        FileName := ImgPath + ImgPrefix + 'cam_' + CameraIndex + '_' + PoseIndex$'02'</l>
+<l>        read_image (Image, FileName)</l>
+<c>        * </c>
+<l>        set_system ('flush_graphic', 'false')</l>
+<l>        dev_set_window (WindowHandles[CameraIndex])</l>
+<l>        dev_display (Image)</l>
+<l>        Message := ['Camera ' + CameraIndex,'Pose # ' + PoseIndex]</l>
+<l>        Color := ['black', 'black']</l>
+<c>        * Extract observation data</c>
+<l>        ShowErrorMsg := false</l>
+<l>        try</l>
+<c>            * 找到校准表，提取标记并将其存储在校准数据模型中。</c>
+<c>            * 观测结果存储在校准数据模型中</c>
+<c>            * Find the calibration table, extract the marks and store the</c>
+<c>            * observation in the calibration data model</c>
+<l>            find_calib_object (Image, CalibDataID, CameraIndex, 0, PoseIndex, [], [])</l>
+<c>            * Read the caltab and the marks' contours found for visualization</c>
+<c>            * 读取校准表和找到的标记轮廓，以实现可视化</c>
+<l>            get_calib_data_observ_contours (Caltab, CalibDataID, 'caltab', CameraIndex, 0, PoseIndex)</l>
+<l>            get_calib_data_observ_contours (Marks, CalibDataID, 'marks', CameraIndex, 0, PoseIndex)</l>
+<l>            dev_display (Caltab)</l>
+<l>            dev_display (Marks)</l>
+<l>        catch (Exception)</l>
+<c>            * If the calibration table or marks were not identified,</c>
+<c>            * process the next image. Some missing data is</c>
+<c>            * not dramatic since the calibration is robust.</c>
+<c>             * 如果未识别校准表或标记、</c>
+<c>            * 处理下一个图像。有些数据丢失</c>
+<c>            * 因为校准是稳健的。</c>
+<l>            ShowErrorMsg := true</l>
+<l>            NumIgnoredImg := NumIgnoredImg + 1</l>
+<l>            if (Exception[0] == 8402)</l>
+<c>                * find_calib_object could not find the caltab</c>
+<c>                 * 查找 calib 对象无法找到 caltab</c>
+<l>                Message := [Message,'No calibration tab found!']</l>
+<l>                Color := [Color,'red']</l>
+<l>            elseif (Exception[0] == 8404)</l>
+<c>                * find_calib_object could not extract the marks</c>
+<c>                * 查找 calib 对象无法提取标记</c>
+<l>                Message := [Message,'Marks were not identified!']</l>
+<l>                Color := [Color,'red']</l>
+<l>            else</l>
+<c>                * Unknown error occurred</c>
+<l>                Message := [Message,'Unknown Exception!.']</l>
+<l>                Color := [Color,'red']</l>
+<l>            endif</l>
+<l>            Message := [Message,'This image will be ignored.']</l>
+<l>            Color := [Color,'red']</l>
+<l>        endtry</l>
+<l>        disp_message (WindowHandles[CameraIndex], Message, 'window', 12, 12, Color, 'true')</l>
+<l>        if (ShowErrorMsg)</l>
+<c>            * Show error status</c>
+<l>            enforce_visualization (WindowHandles)</l>
+<l>            disp_continue_message (WindowHandles[3], 'black', 'true')</l>
+<l>            stop ()</l>
+<l>        endif</l>
+<l>    endfor</l>
+<l>    enforce_visualization (WindowHandles)</l>
+<l>endfor</l>
+<c>* </c>
+<c>* Perform the calibration if the marks within more than 10</c>
+<c>* images per camera were extracted before</c>
+<c>* 如果每台照相机在提取图像之前有超过 10</c>
+<c>* 在提取每台相机的图像之前</c>
+<l>if ((NumPoses * NumCameras) - NumIgnoredImg &gt;= NumCameras * 10)</l>
+<l>    calibrate_cameras (CalibDataID, Error)</l>
+<l>else</l>
+<l>    Message := 'Too few marks were provided!'</l>
+<l>    Message[1] := 'Please adapt the parameters for'</l>
+<l>    Message[2] := 'extraction of the marks or provide'</l>
+<l>    Message[3] := 'more images with better quality.'</l>
+<l>    Color := ['red', 'black', 'black', 'black']</l>
+<l>    disp_message (WindowHandles[0], Message, 'window', 12, 12, Color, 'true')</l>
+<l>    return ()</l>
+<l>endif</l>
+<c>* </c>
+<c>* Create a camera setup model and define a suitable world</c>
+<c>* coordinate system</c>
+<c>* 创建摄像机设置模型并定义合适的世界</c>
+<c>* 坐标系</c>
+<l>get_calib_data (CalibDataID, 'model', 'general', 'camera_setup_model', CameraSetupModelID)</l>
+<c>* -&gt; The world coordinate system will be implicitly defined</c>
+<c>*    by the position of the calibration table in the</c>
+<c>*    calibration image with the pose index 0</c>
+<c>* -&gt; 世界坐标系将隐式定义</c>
+<c>* 由校准表在校准图像中的位置隐式定义。</c>
+<c>* 姿态索引为 0 的校准图像</c>
+<l>RefPoseIndex := 0</l>
+<l>get_calib_data (CalibDataID, 'model', 'general', 'reference_camera', RefCameraID)</l>
+<l>get_calib_data (CalibDataID, 'calib_obj_pose', [0,RefPoseIndex], 'pose', PoseCam0Indx0)</l>
+<l>set_origin_pose (PoseCam0Indx0, 0, 0, CaltabThickness, ReferencePose)</l>
+<c>* -&gt; Modify the reference coordinate system within the</c>
+<c>*    camera setup model and write the model to file</c>
+<c>* -&gt; 在摄像机设置模型中修改参考坐标系，并将模型写入文件。</c>
+<c>* 相机设置模型，并将模型写入文件</c>
+<l>set_camera_setup_param (CameraSetupModelID, 'general', 'coord_transf_pose', ReferencePose)</l>
+<l>file_exists ('four_camera_setup_model.csm', FileExists)</l>
+<l>if (not FileExists)</l>
+<l>    write_camera_setup_model (CameraSetupModelID, 'four_camera_setup_model.csm')</l>
+<l>endif</l>
+<c>* </c>
+<c>* Get the results of the calibration</c>
+<c>* -&gt; Camera parameters</c>
+<c>* 获取校准结果</c>
+<c>* 相机参数</c>
+<l>get_calib_data (CalibDataID, 'camera', 0, 'params_labels', ParLabels)</l>
+<l>get_camera_setup_param (CameraSetupModelID, 0, 'params', CamPar0)</l>
+<l>get_camera_setup_param (CameraSetupModelID, 1, 'params', CamPar1)</l>
+<l>get_camera_setup_param (CameraSetupModelID, 2, 'params', CamPar2)</l>
+<l>get_camera_setup_param (CameraSetupModelID, 3, 'params', CamPar3)</l>
+<c>* -&gt; Camera poses</c>
+<c>* -&gt; 相机姿势</c>
+<l>get_calib_data (CalibDataID, 'camera', 0, 'pose_labels', PoseLabels)</l>
+<l>get_camera_setup_param (CameraSetupModelID, 0, 'pose', CamPose0)</l>
+<l>get_camera_setup_param (CameraSetupModelID, 1, 'pose', CamPose1)</l>
+<l>get_camera_setup_param (CameraSetupModelID, 2, 'pose', CamPose2)</l>
+<l>get_camera_setup_param (CameraSetupModelID, 3, 'pose', CamPose3)</l>
+<c>* </c>
+<c>* Display the results</c>
+<c>* -&gt; First, display the camera parameters</c>
+<c>* 显示结果</c>
+<c>* -&gt; 首先，显示摄像机参数</c>
+<l>disp_camera_parameters_multi_view_4 (WindowHandles, ParLabels, CamPar0, CamPar1, CamPar2, CamPar3)</l>
+<l>disp_continue_message (WindowHandles[3], 'black', 'true')</l>
+<l>stop ()</l>
+<c>* -&gt; Now, display the poses</c>
+<l>disp_camera_poses_multi_view_4 (WindowHandles, PoseLabels, CamPose0, CamPose1, CamPose2, CamPose3)</l>
+<c>* </c>
+<c>* In the following, the determined poses are visualized.</c>
+<l>get_calib_data (CalibDataID, 'calib_obj', 0, 'x', X)</l>
+<l>get_calib_data (CalibDataID, 'calib_obj', 0, 'y', Y)</l>
+<l>get_calib_data (CalibDataID, 'calib_obj', 0, 'z', Z)</l>
+<l>gen_object_model_3d_from_points (X, Y, Z, OM3DCaltab)</l>
+<l>OM3DsCaltab := []</l>
+<l>for i := 1 to NumPoses - 1 by 1</l>
+<l>    get_calib_data (CalibDataID, 'calib_obj_pose', [0,i], 'pose', CaltabPose)</l>
+<l>    rigid_trans_object_model_3d (OM3DCaltab, CaltabPose, ObjectModel3DRigidTrans)</l>
+<l>    OM3DsCaltab := [OM3DsCaltab,ObjectModel3DRigidTrans]</l>
+<l>endfor</l>
+<l>get_calib_data (CalibDataID, 'model', 'general', 'camera_setup_model', CamSetupModel)</l>
+<l>gen_camera_setup_object_model_3d (CamSetupModel, 0.05, 'auto', ObjectModel3DCamera, ObjectModel3DCone)</l>
+<l>dev_inspect_ctrl ([ObjectModel3DCamera,ObjectModel3DCone,OM3DsCaltab])</l>
+<l>stop ()</l>
+<c>* </c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="enforce_visualization">
+<interface>
+<ic>
+<par name="WindowHandles" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<c>* This procedure enforces the visualization in the windows</c>
+<c>* specified within WindowHandles</c>
+<c>* </c>
+<l>set_system ('flush_graphic', 'true')</l>
+<l>for Index := 0 to |WindowHandles| - 1 by 1</l>
+<l>    write_string (WindowHandles[Index], '')</l>
+<l>endfor</l>
+<l>return ()</l>
+</body>
+<docu id="enforce_visualization">
+<parameters>
+<parameter id="WindowHandles"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="disp_camera_parameters_multi_view_4">
+<interface>
+<ic>
+<par name="WindowHandles" base_type="ctrl" dimension="0"/>
+<par name="ParLabels" base_type="ctrl" dimension="0"/>
+<par name="CamPar0" base_type="ctrl" dimension="0"/>
+<par name="CamPar1" base_type="ctrl" dimension="0"/>
+<par name="CamPar2" base_type="ctrl" dimension="0"/>
+<par name="CamPar3" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<c>* This procedure displays the camera parameters</c>
+<c>* of a multi-view camera setup consisting of</c>
+<c>* four cameras in four different windows</c>
+<c>* </c>
+<c>* Test if enough window handles were provided</c>
+<l>if (|WindowHandles| &lt; 4)</l>
+<l>    disp_message (WindowHandles[0], 'Not enough opened windows!', 'window', 12, 12, 'black', 'true')</l>
+<l>endif</l>
+<c>* </c>
+<c>* Get the type of the camera type (assuming that</c>
+<c>* they all are identical)</c>
+<l>get_cam_par_data (CamPar0, 'camera_type', CameraType)</l>
+<l>if (CameraType == 'area_scan_polynomial')</l>
+<c>    * 'area_scan_polynomial' camera model</c>
+<l>    Style := ['.2e', '.2e', '.2e', '.2e', '.2e', '.2e', '.1e', '.1e', '.2f', '.2f']</l>
+<l>    Unit := [' m', '', '', '', '', '', ' m', ' m', ' px', ' px']</l>
+<l>elseif (CameraType == 'area_scan_division')</l>
+<c>    * 'area_scan_division' camera model</c>
+<l>    Style := ['.2e', '.2f', '.1e', '.1e', '.2f', '.2f']</l>
+<l>    Unit := [' m', '', ' m', ' m', ' px', ' px']</l>
+<l>else</l>
+<l>    disp_message (WindowHandles[0], 'CamPar0 is not valid!', 'window', 12, 12, 'black', 'true')</l>
+<l>endif</l>
+<c>* </c>
+<c>* Display the results now</c>
+<l>Message0 := 'Parameters of Camera 0'</l>
+<l>Message1 := 'Parameters of Camera 1'</l>
+<l>Message2 := 'Parameters of Camera 2'</l>
+<l>Message3 := 'Parameters of Camera 3'</l>
+<l>for Index := 1 to |CamPar1| - 3 by 1</l>
+<l>    Message0 := [Message0,'  ' + ParLabels[Index] + ' = ' + CamPar0[Index]$Style[Index - 1] + Unit[Index - 1]]</l>
+<l>    Message1 := [Message1,'  ' + ParLabels[Index] + ' = ' + CamPar1[Index]$Style[Index - 1] + Unit[Index - 1]]</l>
+<l>    Message2 := [Message2,'  ' + ParLabels[Index] + ' = ' + CamPar2[Index]$Style[Index - 1] + Unit[Index - 1]]</l>
+<l>    Message3 := [Message3,'  ' + ParLabels[Index] + ' = ' + CamPar3[Index]$Style[Index - 1] + Unit[Index - 1]]</l>
+<l>endfor</l>
+<l>disp_message (WindowHandles[0], Message0, 'window', 12, 12, 'black', 'true')</l>
+<l>disp_message (WindowHandles[1], Message1, 'window', 12, 12, 'black', 'true')</l>
+<l>disp_message (WindowHandles[2], Message2, 'window', 12, 12, 'black', 'true')</l>
+<l>disp_message (WindowHandles[3], Message3, 'window', 12, 12, 'black', 'true')</l>
+<l>return ()</l>
+</body>
+<docu id="disp_camera_parameters_multi_view_4">
+<parameters>
+<parameter id="CamPar0"/>
+<parameter id="CamPar1"/>
+<parameter id="CamPar2"/>
+<parameter id="CamPar3"/>
+<parameter id="ParLabels"/>
+<parameter id="WindowHandles"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="disp_camera_poses_multi_view_4">
+<interface>
+<ic>
+<par name="WindowHandles" base_type="ctrl" dimension="0"/>
+<par name="PoseLabels" base_type="ctrl" dimension="0"/>
+<par name="CamPose0" base_type="ctrl" dimension="0"/>
+<par name="CamPose1" base_type="ctrl" dimension="0"/>
+<par name="CamPose2" base_type="ctrl" dimension="0"/>
+<par name="CamPose3" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<c>* This procedure displays the camera poses</c>
+<c>* of a multi-view camera setup consisting</c>
+<c>* of four cameras in four different windows</c>
+<c>* </c>
+<c>* Test if enough window handles were provided</c>
+<l>if (|WindowHandles| &lt; 4)</l>
+<l>    disp_message (WindowHandles[0], 'Not enough opened windows!', 'window', 12, 12, 'black', 'true')</l>
+<l>endif</l>
+<c>* </c>
+<c>* Display the results now</c>
+<l>Style := ['.2e', '.2e', '.2e', '.2f', '.2f', '.2f']</l>
+<l>Unit := [' m', ' m', ' m', '°', '°', '°']</l>
+<c>* </c>
+<l>for Index := 0 to 3 by 1</l>
+<l>    dev_set_window (WindowHandles[Index])</l>
+<l>    dev_clear_window ()</l>
+<l>endfor</l>
+<c>* </c>
+<l>Message0 := 'Pose of Camera 0'</l>
+<l>Message1 := 'Pose of Camera 1'</l>
+<l>Message2 := 'Pose of Camera 2'</l>
+<l>Message3 := 'Pose of Camera 3'</l>
+<l>for Index := 0 to |CamPose0| - 2 by 1</l>
+<l>    Message0 := [Message0,'  ' + PoseLabels[Index] + ' = ' + CamPose0[Index]$Style[Index] + Unit[Index]]</l>
+<l>    Message1 := [Message1,'  ' + PoseLabels[Index] + ' = ' + CamPose1[Index]$Style[Index] + Unit[Index]]</l>
+<l>    Message2 := [Message2,'  ' + PoseLabels[Index] + ' = ' + CamPose2[Index]$Style[Index] + Unit[Index]]</l>
+<l>    Message3 := [Message3,'  ' + PoseLabels[Index] + ' = ' + CamPose3[Index]$Style[Index] + Unit[Index]]</l>
+<l>endfor</l>
+<l>disp_message (WindowHandles[0], Message0, 'window', 12, 12, 'black', 'true')</l>
+<l>disp_message (WindowHandles[1], Message1, 'window', 12, 12, 'black', 'true')</l>
+<l>disp_message (WindowHandles[2], Message2, 'window', 12, 12, 'black', 'true')</l>
+<l>disp_message (WindowHandles[3], Message3, 'window', 12, 12, 'black', 'true')</l>
+<l>return ()</l>
+</body>
+<docu id="disp_camera_poses_multi_view_4">
+<parameters>
+<parameter id="CamPose0"/>
+<parameter id="CamPose1"/>
+<parameter id="CamPose2"/>
+<parameter id="CamPose3"/>
+<parameter id="PoseLabels"/>
+<parameter id="WindowHandles"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="open_windows_multi_view_setup">
+<interface>
+<ic>
+<par name="Height" base_type="ctrl" dimension="0"/>
+<par name="Width" base_type="ctrl" dimension="0"/>
+<par name="Scale" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="WindowHandles" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c>* This procedure opens four windows in order to display</c>
+<c>* the images of a multi-view stereo setup consisting</c>
+<c>* of four cameras</c>
+<c>* </c>
+<l>dev_open_window ((Height * Scale) + 10, (Width * Scale) + 10, Width * Scale, Height * Scale, 'black', WindowHandle3)</l>
+<l>dev_set_draw ('margin')</l>
+<l>dev_set_line_width (1)</l>
+<l>dev_set_color ('green')</l>
+<l>set_display_font (WindowHandle3, 14, 'mono', 'true', 'false')</l>
+<c>* </c>
+<l>dev_open_window ((Height * Scale) + 10, 0, Width * Scale, Height * Scale, 'black', WindowHandle2)</l>
+<l>dev_set_draw ('margin')</l>
+<l>dev_set_line_width (1)</l>
+<l>dev_set_color ('green')</l>
+<l>set_display_font (WindowHandle2, 14, 'mono', 'true', 'false')</l>
+<c>* </c>
+<l>dev_open_window (0, (Width * Scale) + 10, Width * Scale, Height * Scale, 'black', WindowHandle1)</l>
+<l>dev_set_draw ('margin')</l>
+<l>dev_set_line_width (1)</l>
+<l>dev_set_color ('green')</l>
+<l>set_display_font (WindowHandle1, 14, 'mono', 'true', 'false')</l>
+<c>* </c>
+<l>dev_open_window (0, 0, Width * Scale, Height * Scale, 'black', WindowHandle0)</l>
+<l>dev_set_draw ('margin')</l>
+<l>dev_set_line_width (1)</l>
+<l>dev_set_color ('green')</l>
+<l>set_display_font (WindowHandle0, 14, 'mono', 'true', 'false')</l>
+<l>WindowHandles := [WindowHandle0,WindowHandle1,WindowHandle2,WindowHandle3]</l>
+<l>return ()</l>
+</body>
+<docu id="open_windows_multi_view_setup">
+<parameters>
+<parameter id="Height"/>
+<parameter id="Scale"/>
+<parameter id="Width"/>
+<parameter id="WindowHandles"/>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>
