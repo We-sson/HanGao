@@ -1,0 +1,50 @@
+﻿<Window x:Class="HanGao.View.User_Control.Vision_Calibration.Camera_Parametric_Home"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Camera_UI="clr-namespace:HanGao.View.User_Control.Vision_Calibration.Camera_UserControl"
+        xmlns:UC_Working="clr-namespace:HanGao.View.User_Control"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:HanGao.View.User_Control.Vision_Calibration"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Title="相机内参标定工具"
+        Width="1400"
+        Height="900"
+        WindowStyle="SingleBorderWindow"
+        mc:Ignorable="d">
+    <Grid Background="{DynamicResource 全局_背景_白颜色}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <TabControl Grid.Row="0" Grid.Column=" 0"
+                    Margin="5"
+                    Background="Transparent"
+                    BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                    BorderThickness="3"
+                    TabStripPlacement="Top">
+            <TabItem Style="{DynamicResource Vision_TabItemStyle}"
+                     Padding="40,5,40,5"
+                     FontSize=" 20"
+                     Header="三维对象图" />
+            <TabItem Style="{DynamicResource Vision_TabItemStyle}"
+                     Padding="40,5,40,5"
+                     FontSize=" 20"
+                     Header="图像误差"
+                     IsSelected="True" />
+            <TabItem Style="{DynamicResource Vision_TabItemStyle}"
+                     Padding="40,5,40,5"
+                     FontSize=" 20"
+                     Header="相机窗口">
+                <Camera_UI:Camera_UserControl />
+            </TabItem>
+        </TabControl>
+
+
+
+    </Grid>
+</Window>

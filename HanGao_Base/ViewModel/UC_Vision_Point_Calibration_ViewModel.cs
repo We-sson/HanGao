@@ -1,5 +1,6 @@
 ﻿using Halcon_SDK_DLL;
 using HalconDotNet;
+using HanGao.View.User_Control.Vision_Calibration;
 using HanGao.View.User_Control.Vision_Control;
 using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
 using KUKA_Socket.Models;
@@ -346,6 +347,37 @@ namespace HanGao.ViewModel
                 Calibration_Save_Location_UI = Open_File_Location(Calibration_Save_Location_UI);
             });
         }
+
+
+        public ICommand Cameras_Parametric_Calibration_Window_Comm
+        {
+            get => new AsyncRelayCommand<RoutedEventArgs>(async (Sm) =>
+            {
+
+                foreach (Window window in Application.Current.Windows)
+                {
+                    if (window.GetType() == typeof(Camera_Parametric_Home))//使用窗体类进行匹配查找
+                    {
+                        User_Log_Add("相机内参标定工具窗口已经打开!");
+                        return;
+                    }
+               
+                   
+               
+
+
+                }
+
+                Camera_Parametric_Home Parametric_Window = new Camera_Parametric_Home();
+                Parametric_Window.Show();
+
+
+                await Task.Delay(100);
+            });
+        }
+
+
+
         /// <summary>
         /// 文件初始化读取
         /// </summary>

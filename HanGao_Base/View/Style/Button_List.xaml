@@ -132,23 +132,32 @@
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 
 
-
-                        <Ellipse Grid.Column="0"
+                        <Border Grid.Column="0"
+                                Name="Ep1"
+                                Width="24"
+                                Height="24"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                Background="Transparent"
+                                BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                                BorderThickness="2"
+                                CornerRadius=" 5" />
+                        <!--<Ellipse Grid.Column="0"
                                  Name="Ep1"
                                  Width="24"
                                  Height="24"
                                  HorizontalAlignment="Stretch"
                                  VerticalAlignment="Center"
-                                 Fill="{DynamicResource 全局_按钮_黄颜色}" />
+                                 Fill="{DynamicResource 全局_按钮_黄颜色}" />-->
 
-                        <Ellipse Grid.Column="0"
+                        <!--<Ellipse Grid.Column="0"
                                  Name="Ep2"
                                  Width="16"
                                  Height="16"
                                  HorizontalAlignment="Stretch"
                                  VerticalAlignment="Center"
                                  Fill="{DynamicResource 全局_按钮_绿颜色}"
-                                 Visibility="Collapsed" />
+                                 Visibility="Collapsed" />-->
 
 
                         <TextBlock x:Name="Tb1" Grid.Column="0"
@@ -195,7 +204,7 @@
 
                         <Trigger Property="IsChecked" Value="True">
 
-                            <Setter TargetName="Ep2" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="Ep1" Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
 
                         </Trigger>
 

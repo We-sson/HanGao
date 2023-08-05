@@ -47,6 +47,7 @@
     <SolidColorBrush x:Key="全局_按钮_黄颜色" Color="#FEDD6C" />
     <SolidColorBrush x:Key="全局_按钮_绿颜色" Color="#76BA99" />
     <SolidColorBrush x:Key="全局_按钮_灰颜色" Color="#bfbfbf" />
+    <SolidColorBrush x:Key="全局_按钮_深灰颜色" Color="#AAAAAA" />
     <SolidColorBrush x:Key="全局_按钮_黑颜色" Color="#434343" />
 
     <FontFamily x:Key="全局_文字_数字字体">DengXian</FontFamily>
