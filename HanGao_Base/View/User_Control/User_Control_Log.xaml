@@ -34,7 +34,8 @@
                 Background="{DynamicResource 全局_按钮_灰颜色}"
                 CornerRadius="6"
                 Effect="{DynamicResource 全局背景阴影}"
-                Opacity=" 0.8">
+                Opacity=" 0.8"
+                Visibility="Collapsed">
 
             <StackPanel Grid.Row="0"
                         Margin="10,2,0,2"

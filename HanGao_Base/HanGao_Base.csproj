@@ -275,8 +275,12 @@
   <ItemGroup>
     <Compile Remove="View\User_Control\KUKA_Status.xaml.cs" />
     <Compile Remove="View\User_Control\UserControl_Grid.xaml.cs" />
+    <None Remove="Resources\Vision_标定图标.png" />
     <Page Remove="View\User_Control\KUKA_Status.xaml" />
     <Page Remove="View\User_Control\UserControl_Grid.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Vision_标定图标.png" />
   </ItemGroup>
   <PropertyGroup />
   <PropertyGroup>

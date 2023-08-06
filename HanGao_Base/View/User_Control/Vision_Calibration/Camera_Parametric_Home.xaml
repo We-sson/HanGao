@@ -1,8 +1,9 @@
 ﻿<Window x:Class="HanGao.View.User_Control.Vision_Calibration.Camera_Parametric_Home"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:Camera_UI="clr-namespace:HanGao.View.User_Control.Vision_Calibration.Camera_UserControl"
+        xmlns:Camera_UI="clr-namespace:HanGao.View.User_Control.Vision_Calibration.Vison_UserControl"
         xmlns:UC_Working="clr-namespace:HanGao.View.User_Control"
+        xmlns:Vision_control="clr-namespace:HanGao.View.User_Control.Vision_Control"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:HanGao.View.User_Control.Vision_Calibration"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -14,36 +15,100 @@
     <Grid Background="{DynamicResource 全局_背景_白颜色}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
-            <ColumnDefinition />
+            <ColumnDefinition Width=" 380" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="0.8*" />
+            <RowDefinition Height=" 0.35*" />
         </Grid.RowDefinitions>
 
         <TabControl Grid.Row="0" Grid.Column=" 0"
                     Margin="5"
+                    Padding="0"
                     Background="Transparent"
                     BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
-                    BorderThickness="3"
+                    BorderThickness="4"
                     TabStripPlacement="Top">
             <TabItem Style="{DynamicResource Vision_TabItemStyle}"
                      Padding="40,5,40,5"
-                     FontSize=" 20"
-                     Header="三维对象图" />
-            <TabItem Style="{DynamicResource Vision_TabItemStyle}"
-                     Padding="40,5,40,5"
-                     FontSize=" 20"
-                     Header="图像误差"
-                     IsSelected="True" />
-            <TabItem Style="{DynamicResource Vision_TabItemStyle}"
-                     Padding="40,5,40,5"
-                     FontSize=" 20"
+                     FontSize=" 16"
                      Header="相机窗口">
                 <Camera_UI:Camera_UserControl />
             </TabItem>
+            <TabItem Style="{DynamicResource Vision_TabItemStyle}"
+                     Padding="40,5,40,5"
+                     FontSize=" 16"
+                     Header="三维对象图">
+                <Camera_UI:Model_3D_UserControl />
+            </TabItem>
+            <TabItem Style="{DynamicResource Vision_TabItemStyle}"
+                     Padding="40,5,40,5"
+                     FontSize=" 16"
+                     Header="图像误差"
+                     IsSelected="True" />
         </TabControl>
 
+        <TabControl Grid.Row="1" Grid.Column="0"
+                    Margin="5"
+                    Padding="0"
+                    Background="Transparent"
+                    BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                    BorderThickness="4"
+                    TabStripPlacement="Top">
+            <TabItem Style="{DynamicResource Vision_TabItemStyle}"
+                     Padding="40,5,40,5"
+                     FontSize=" 16"
+                     Header="相机列表">
+                <Camera_UI:Camera_List_UserControl />
+            </TabItem>
+            <TabItem Style="{DynamicResource Vision_TabItemStyle}"
+                     Padding="40,5,40,5"
+                     FontSize=" 16"
+                     Header="标定图像列表"
+                     IsSelected="True">
+                <Camera_UI:Calibration_Image_List />
+            </TabItem>
+            <TabItem Style="{DynamicResource Vision_TabItemStyle}"
+                     Padding="40,5,40,5"
+                     FontSize=" 16"
+                     Header="标定日志"
+                     IsSelected="True">
+                <UC_Working:User_Control_Log />
+            </TabItem>
+
+
+        </TabControl>
+
+        <TabControl Grid.Row="0" Grid.Column=" 1"
+                    Grid.RowSpan=" 2"
+                    Margin="5"
+                    Padding="0"
+                    Background="Transparent"
+                    BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                    BorderThickness="4"
+                    TabStripPlacement="Top">
+            <TabItem Style="{DynamicResource Vision_TabItemStyle}"
+                     Height="30"
+                     Padding="20,2,20,2"
+                     VerticalAlignment="Bottom"
+                     FontSize=" 16"
+                     Header="相机参数">
+                <Vision_control:UC_Vision_CameraSet Margin="5" />
+            </TabItem>
+            <TabItem Style="{DynamicResource Vision_TabItemStyle}"
+                     Padding="20,5,20,5"
+                     FontSize=" 16"
+                     Header="参数调节">
+                <Vision_control:UC_Vision_Camera_Parametric Margin="5" />
+            </TabItem>
+            <TabItem Style="{DynamicResource Vision_TabItemStyle}"
+                     Padding="20,5,20,5"
+                     FontSize=" 16"
+                     Header="标定结果"
+                     IsSelected="True">
+                <Vision_control:UC_Vision_Calibration_Results Margin="5" />
+            </TabItem>
+        </TabControl>
 
 
     </Grid>

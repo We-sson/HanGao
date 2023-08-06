@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HanGao.View.User_Control.Vision_Calibration.Camera_UserControl
+namespace HanGao.View.User_Control.Vision_Control
 {
     /// <summary>
-    /// Camera_UserControl.xaml 的交互逻辑
+    /// UC_Vision_Calibration_Plate.xaml 的交互逻辑
     /// </summary>
-    public partial class Camera_UserControl : UserControl
+    public partial class UC_Vision_Calibration_Plate : UserControl
     {
-        public Camera_UserControl()
+        public UC_Vision_Calibration_Plate()
         {
             InitializeComponent();
         }
