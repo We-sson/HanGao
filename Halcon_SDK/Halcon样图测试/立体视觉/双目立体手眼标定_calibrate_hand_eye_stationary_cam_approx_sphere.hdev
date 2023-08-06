@@ -231,6 +231,7 @@
 <l>affine_trans_point_3d (Cam_H_Base, X_Robot, Y_Robot, Z_Robot, X_Camera_Trans, Y_Camera_Trans, Z_Camera_Trans)</l>
 <c>* </c>
 <c>* Calculate difference of corresponding coordinates.</c>
+<c>* 计算相应坐标的差值。</c>
 <l>X_diff := X_Camera_Trans - X_Camera</l>
 <l>Y_diff := Y_Camera_Trans - Y_Camera</l>
 <l>Z_diff := Z_Camera_Trans - Z_Camera</l>
