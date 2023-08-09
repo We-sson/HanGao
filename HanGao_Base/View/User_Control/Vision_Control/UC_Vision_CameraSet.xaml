@@ -8,7 +8,7 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:HanGao.View.User_Control.Vision_Control"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             d:DesignHeight="817"
+             d:DesignHeight="1817"
              d:DesignWidth="332"
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_CameraSet_ViewModel}"
              mc:Ignorable="d">
@@ -30,11 +30,11 @@
     <Grid Effect="{DynamicResource 全局背景阴影}">
 
         <ScrollViewer Style="{DynamicResource Vision_Data_List_ScrollViewerStyle}" x:Name="scrollViewer"
+                      VerticalContentAlignment="Stretch"
                       Background="Transparent"
                       CanContentScroll="False"
                       PanningMode="Both"
-                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      VerticalScrollBarVisibility="Auto"
                       VirtualizingPanel.IsVirtualizing="True"
                       VirtualizingPanel.ScrollUnit="Pixel"
                       VirtualizingPanel.VirtualizationMode="Recycling">
@@ -81,33 +81,14 @@
                                                VerticalAlignment="Center"
                                                Source="/Resources/Control_相机设置_ioc.png" />
                                     </Border>
-                                    <TextBlock Text="Camera 参数设置"
+                                    <TextBlock Text="相机列表"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                FontSize="16"
                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                 </StackPanel>
-                                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                                    <!--<TextBlock Text="{Binding Camera_Data_ID_UI, StringFormat=参数序号 : {0}}"
-                                               Margin="0,0,10,0"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                               FontSize="16"
-                                               Visibility="Collapsed">
-                                        <TextBlock.Style>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_白颜色}" />
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Camera_Data_ID_UI}" Value="-1">
-                                                        <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_黄颜色}" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>-->
-                                </StackPanel>
+
 
                             </Grid>
 
@@ -117,11 +98,166 @@
                         <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 5 5" />
                         <StackPanel Orientation="Vertical">
 
+                            <Grid Margin="8">
+
+
+
+
+
+                                <DataGrid Grid.Column=" 0"
+                                          HorizontalContentAlignment="Stretch"
+                                          VerticalContentAlignment="Stretch"
+                                          AlternatingRowBackground="Gainsboro"
+                                          AlternationCount="2"
+                                          AutoGenerateColumns="False"
+                                          Background="Transparent"
+                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                          BorderThickness="2"
+                                          CanUserAddRows="False"
+                                          CanUserDeleteRows="False"
+                                          CanUserReorderColumns="False"
+                                          CanUserResizeColumns="False"
+                                          CanUserResizeRows="False"
+                                          CanUserSortColumns="False"
+                                          CellStyle="{DynamicResource Point_UI_DataGridCellStyle}"
+                                          ColumnHeaderHeight="40"
+                                          ColumnHeaderStyle="{DynamicResource Point_UI_DataGridColumnHeaderStyle}"
+                                          FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                          GridLinesVisibility="Horizontal"
+                                          HeadersVisibility="Column"
+                                          ItemsSource="{Binding MVS_Camera_Info_List}"
+                                          RowHeaderWidth="0"
+                                          RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
+                                          SelectionMode="Single"
+                                          SelectionUnit="CellOrRowHeader">
+
+                                    <DataGrid.Columns>
+
+
+                                        <DataGridTextColumn Binding="{Binding chModelName}" Header="型号" />
+                                        <DataGridTextColumn Binding="{Binding}" Header="序列号" />
+
+
+
+
+
+                                    </DataGrid.Columns>
+                                </DataGrid>
+
+
+
+                            </Grid>
+
+
+
+
+                            <Grid Margin="8">
+
+
+
+
+
+                                <DataGrid Grid.Column=" 0"
+                                          HorizontalContentAlignment="Stretch"
+                                          VerticalContentAlignment="Stretch"
+                                          AlternatingRowBackground="Gainsboro"
+                                          AlternationCount="2"
+                                          AutoGenerateColumns="False"
+                                          Background="Transparent"
+                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                          BorderThickness="2"
+                                          CanUserAddRows="False"
+                                          CanUserDeleteRows="False"
+                                          CanUserReorderColumns="False"
+                                          CanUserResizeColumns="False"
+                                          CanUserResizeRows="False"
+                                          CanUserSortColumns="False"
+                                          CellStyle="{DynamicResource Point_UI_DataGridCellStyle}"
+                                          ColumnHeaderHeight="40"
+                                          ColumnHeaderStyle="{DynamicResource Point_UI_DataGridColumnHeaderStyle}"
+                                          FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                          GridLinesVisibility="Horizontal"
+                                          HeadersVisibility="Column"
+                                          ItemsSource="{Binding}"
+                                          RowHeaderWidth="0"
+                                          RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
+                                          SelectionMode="Single"
+                                          SelectionUnit="CellOrRowHeader">
+
+                                    <DataGrid.Columns>
+
+
+
+                                        <DataGridTemplateColumn Width="150">
+                                            <DataGridTemplateColumn.Header>
+                                                <TextBlock Text="型号"
+                                                           Margin="4"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                           FontSize="16"
+                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            </DataGridTemplateColumn.Header>
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding}"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               FontSize="16" />
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+
+                                        </DataGridTemplateColumn>
+
+
+
+                                        <DataGridTemplateColumn Width="150">
+                                            <DataGridTemplateColumn.Header>
+                                                <TextBlock Text="序列号"
+                                                           Margin="4"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                           FontSize="16"
+                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            </DataGridTemplateColumn.Header>
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding}"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               FontSize="16" />
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+
+                                        </DataGridTemplateColumn>
+
+
+
+
+
+                                    </DataGrid.Columns>
+                                </DataGrid>
+
+
+
+                            </Grid>
+
+
                             <Grid Height=" 35" Margin="8">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
-                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
+
+
+                                <TextBlock Text="手动操作"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
                                 <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 0"
                                           VerticalContentAlignment="Center"
                                           BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
@@ -129,7 +265,8 @@
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
                                           ItemsSource="{Binding Camera_UI_List}"
-                                          SelectedIndex="{Binding Camera_UI_Select}">
+                                          SelectedIndex="{Binding Camera_UI_Select}"
+                                          Visibility="Collapsed">
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate>
 
@@ -147,9 +284,12 @@
                                     </ComboBox.ItemTemplate>
 
                                 </ComboBox>
+
+
+
+
                                 <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
-                                        Width="100"
-                                        Margin="6,0,0,0"
+                                        Margin="10,0,0,0"
                                         Background="{DynamicResource 全局_按钮_蓝颜色}">
                                     <TextBlock Text="查找相机"
                                                HorizontalAlignment="Center"
@@ -169,6 +309,9 @@
 
                                 </Button>
                             </Grid>
+
+
+
 
                             <Grid Margin="8">
 
@@ -254,6 +397,112 @@
                                 </Button>
 
                             </Grid>
+
+
+
+
+
+
+                            <Border Height=" 2"
+                                    Margin="8,4,8,4"
+                                    Background="{DynamicResource 全局_按钮_黑颜色}"
+                                    CornerRadius="1"
+                                    Opacity=" 0.5" />
+
+
+
+
+
+                        </StackPanel>
+
+                    </Grid>
+                </Expander>
+
+
+                <Expander Style="{DynamicResource Vision_Fence_Expander_Style}" x:Name="E2"
+                          Margin="0,0,0,10"
+                          HorizontalContentAlignment="Stretch"
+                          VerticalContentAlignment="Stretch"
+                          IsExpanded="True">
+                    <Expander.Header>
+                        <Border x:Name="Radio_2"
+                                Margin="0"
+                                Background="{DynamicResource 全局_按钮_黑颜色}">
+                            <Border.Style>
+                                <Style TargetType="{x:Type Border}">
+                                    <Setter Property="CornerRadius" Value="5" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsExpanded, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Expander}}}" Value="True">
+
+                                            <Setter Property="CornerRadius" Value="5 5 0 0" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+
+                            <Grid>
+
+
+                                <StackPanel Margin="10"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal">
+                                    <Border Margin="0,0,10,0"
+                                            Background="{DynamicResource 全局_按钮_灰颜色}"
+                                            CornerRadius=" 15">
+                                        <Image Height=" 24"
+                                               Margin="5"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Source="/Resources/Control_相机设置_ioc.png" />
+                                    </Border>
+                                    <TextBlock Text="MV-CU120-10GM参数设置"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                               FontSize="16"
+                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                </StackPanel>
+                                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                    <!--<TextBlock Text="{Binding Camera_Data_ID_UI, StringFormat=参数序号 : {0}}"
+                                               Margin="0,0,10,0"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                               FontSize="16"
+                                               Visibility="Collapsed">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_白颜色}" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Camera_Data_ID_UI}" Value="-1">
+                                                        <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_黄颜色}" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>-->
+                                </StackPanel>
+
+                            </Grid>
+
+                        </Border>
+                    </Expander.Header>
+                    <Grid>
+                        <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 5 5" />
+
+
+
+                        <StackPanel Orientation="Vertical">
+
+
+
+
+
+
+
+
+
                             <Border Height=" 2"
                                     Margin="8,4,8,4"
                                     Background="{DynamicResource 全局_按钮_黑颜色}"

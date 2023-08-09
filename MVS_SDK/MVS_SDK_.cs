@@ -55,18 +55,35 @@ namespace MVS_SDK
         /// 查找相机对象驱动
         /// </summary>
         /// <returns></returns>
-        public List<CCameraInfo> Find_Camera_Devices()
+        public static  List<CGigECameraInfo> Find_Camera_Devices()
         {
-
+            //初始化
             int nRet;
-
+            List<CCameraInfo> _CCamera_List=new List<CCameraInfo> ();
+            List<CGigECameraInfo> _CGigECamera_List = new List<CGigECameraInfo> ();
+            
             //获得设备枚举
-            nRet = CSystem.EnumDevices(CSystem.MV_GIGE_DEVICE, ref Camera_List);
+            nRet = CSystem.EnumDevices(CSystem.MV_GIGE_DEVICE, ref _CCamera_List);
 
             if (nRet == CErrorDefine.MV_OK)
             {
+                foreach (var CCamera in _CCamera_List)
+                {
+                //只支持GIGE相机
+                if (CCamera.nTLayerType == CSystem.MV_GIGE_DEVICE)
+                {
+                    //转换
+                    CGigECameraInfo _GEGI = CCamera as CGigECameraInfo;
 
-                return Camera_List;
+                        //将相机信息名称添加到UI列表上
+                        _CGigECamera_List.Add(_GEGI);
+
+
+                }
+                }
+
+
+                return _CGigECamera_List;
             }
             return null;
 

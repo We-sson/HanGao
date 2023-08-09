@@ -479,6 +479,11 @@ namespace MVS_SDK_Base.Model
     }
 
 
+
+ 
+
+
+
     /// <summary>
     /// 相机错误消息返回
     /// </summary>

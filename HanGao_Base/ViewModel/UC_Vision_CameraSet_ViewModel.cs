@@ -10,6 +10,24 @@ namespace HanGao.ViewModel
     {
         public UC_Vision_CameraSet_ViewModel()
         {
+
+
+
+            MVS_Camera_Info_List.
+                                      Add(
+                                   new CGigECameraInfo() { chSerialNumber = "DA0651573", chModelName = "MV-CU120-10GM" }
+                                  
+                );
+            MVS_Camera_Info_List.
+                                         Add(
+                                        
+                                           new CGigECameraInfo() { chSerialNumber = "DA0651573", chModelName = "MV-CU120-10GM" }
+                                       
+
+      );
+
+
+
             Dictionary<int, string> _E = new();
             //相机设置错误信息委托显示
             MVS_Camera.MVS_ErrorInfo_delegate += (string _Error) =>
@@ -17,18 +35,18 @@ namespace HanGao.ViewModel
                 User_Log_Add(_Error);
             };
             //UI启动初始话相机连接
-            Messenger.Register<dynamic, string>(this, nameof(Meg_Value_Eunm.Initialization_Camera), (O, _S) =>
-            {
-                ////使用多线程读取
-                //new Thread(new ThreadStart(new Action(() =>
-                //{
-                Task.Run(() =>
-                {
-                    //Initialization_Camera_Thread();
-                });
-                //})))
-                //{ IsBackground = true, Name = "Initialization_Camera_Thread" }.Start();
-            });
+            //Messenger.Register<dynamic, string>(this, nameof(Meg_Value_Eunm.Initialization_Camera), (O, _S) =>
+            //{
+            //    ////使用多线程读取
+            //    //new Thread(new ThreadStart(new Action(() =>
+            //    //{
+            //    Task.Run(() =>
+            //    {
+            //        //Initialization_Camera_Thread();
+            //    });
+            //    //})))
+            //    //{ IsBackground = true, Name = "Initialization_Camera_Thread" }.Start();
+            //});
 
             //UI关闭,强制断开相机连接
             Messenger.Register<dynamic, string>(this, nameof(Meg_Value_Eunm.Close_Camera), (O, _S) =>
@@ -46,7 +64,8 @@ namespace HanGao.ViewModel
                     Camera_Parameter_Val = _Find.Camera_Parameter_Data;
                     Camera_Data_ID_UI = (int)_V;
                     User_Log_Add("相机参数" + Camera_Data_ID_UI + "号已加载到参数列表中！");
-                }else
+                }
+                else
                 {
                     Camera_Parameter_Val = null;
                     User_Log_Add("相机参数" + Camera_Data_ID_UI + "号加载失败！");
@@ -65,6 +84,12 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 相机参数
         /// </summary>
+        /// 
+
+
+
+
+
         public static MVS_Camera_Parameter_Model Camera_Parameter_Val
         {
             get { return _Camera_Parameter_Val; }
@@ -74,31 +99,60 @@ namespace HanGao.ViewModel
                 StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Camera_Parameter_Val)));
             }
         }
+
+
+
+
         /// <summary>
         /// 相机信息
         /// </summary>
         public MVS_Camera_Info_Model Camera_Info { set; get; } = new MVS_Camera_Info_Model();
-        //private static int _Camera_Data_ID_UI { get; set; } = -1;
+
+
+
+
+
         /// <summary>
         /// 当前相机参数号数
         /// </summary>
         public int Camera_Data_ID_UI { set; get; }
-        //{
-        //    get { return _Camera_Data_ID_UI; }
-        //    set
-        //    {
-        //        _Camera_Data_ID_UI = value;
-        //        StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Camera_Data_ID_UI)));
-        //    }
-        //}
+
+
+
+
+
+
         /// <summary>
         /// UI相机显示参数
         /// </summary>
         public ObservableCollection<string> Camera_UI_List { set; get; } = new ObservableCollection<string>();
+
+
+
+
+        /// <summary>
+        /// 查找相机列表
+        /// </summary>
+        private  ObservableCollection<MVS_Camera_Info> _MVS_Camera_Info_List { set; get; } = new ObservableCollection<MVS_Camera_Info>();
+        public  ObservableCollection<CGigECameraInfo> MVS_Camera_Info_List { set; get; }=new ObservableCollection<CGigECameraInfo>() { };
+        //{
+        //    get { return _MVS_Camera_Info_List; }
+        //    set
+        //    {
+        //        _MVS_Camera_Info_List = value;
+        //        StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(MVS_Camera_Info_List)));
+        //    }
+        //}
+
         /// <summary>
         ///  用户选择相机对象
         /// </summary>
         public static MVS MVS_Camera { set; get; } = new MVS();
+
+
+
+
+
         /// <summary>
         /// 图像回调字段
         /// </summary>
@@ -330,19 +384,19 @@ namespace HanGao.ViewModel
         {
             get => new RelayCommand<UC_Vision_CameraSet>((E) =>
             {
-               
 
-                    //获得UI设置的参数
-                    Camera_Parameter_Val.ExposureTime = E.Camera_ExposureTime_UI.Value;
-                    Camera_Parameter_Val.Gain = E.Camera_Gain_UI.Value;
-                    Camera_Parameter_Val.DigitalShift = E.DigitalShift.Value;
-                    Camera_Parameter_Val.Gamma = E.Gamma.Value;
-                    //Camera_Parameter_Val.Sharpness = (int)E.Sharpness.Value;
-                    Camera_Parameter_Val.BlackLevel = (int)E.BlackLevel.Value;
-                    Camera_Parameter_Val.AcquisitionMode = (MV_CAM_ACQUISITION_MODE)E.AcquisitionMode.SelectedIndex;
-                    Connect_Camera();
-                    //连接成功后关闭UI操作
-           
+
+                //获得UI设置的参数
+                Camera_Parameter_Val.ExposureTime = E.Camera_ExposureTime_UI.Value;
+                Camera_Parameter_Val.Gain = E.Camera_Gain_UI.Value;
+                Camera_Parameter_Val.DigitalShift = E.DigitalShift.Value;
+                Camera_Parameter_Val.Gamma = E.Gamma.Value;
+                //Camera_Parameter_Val.Sharpness = (int)E.Sharpness.Value;
+                Camera_Parameter_Val.BlackLevel = (int)E.BlackLevel.Value;
+                Camera_Parameter_Val.AcquisitionMode = (MV_CAM_ACQUISITION_MODE)E.AcquisitionMode.SelectedIndex;
+                Connect_Camera();
+                //连接成功后关闭UI操作
+
 
             });
         }
@@ -481,7 +535,26 @@ namespace HanGao.ViewModel
                 Camera_UI_List.Clear();
             });
             //查找相机设备对象
-            int Camera_List_Number = MVS_Camera.Find_Camera_Devices().Count;
+            int Camera_List_Number = MVS.Find_Camera_Devices().Count;
+
+            //查询在线相机可用情况,添相机列表
+            //foreach (var _CCamer in MVS.Find_Camera_Devices())
+            //{
+
+            //    if (MVS_Camera_Info_List.Where(_M => _M.Camera_Info.chSerialNumber == _CCamer.chSerialNumber).FirstOrDefault() == null)
+            //    {
+
+            //        Application.Current.Dispatcher.Invoke(() =>
+            //        {
+            //            //清楚相机UI列表
+
+            //            MVS_Camera_Info_List.Add(new MVS_Camera_Info() { Camera_Info = _CCamer });
+            //        });
+            //    }
+
+            //}
+
+
             Application.Current.Dispatcher.Invoke(() =>
             {
                 //查询读取相机设备类型赋值到UI层
@@ -623,4 +696,22 @@ namespace HanGao.ViewModel
         public bool ROI_ReverseX { set; get; }
         public ACQUISITION_MODE_Enum ACQUISITION_MODE { set; get; } = ACQUISITION_MODE_Enum.持续采集模式;
     }
+
+
+
+    /// <summary>
+    /// 海康相机信息
+    /// </summary>
+    [AddINotifyPropertyChangedInterface]
+    public class MVS_Camera_Info
+    {
+
+        public CGigECameraInfo Camera_Info { set; get; } = new CGigECameraInfo();
+
+
+
+
+    }
+
+
 }
