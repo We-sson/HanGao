@@ -102,10 +102,6 @@ namespace HanGao.ViewModel
 
                 User_Log_Add(_Result_Status.GetResult_Info());
 
-            /////判断算法状态是否成功，否者显示结果或错误状态
-            //if (!_Result_Status.GetResult())
-            //{
-            //}
 
 
             return _Result_Status;
@@ -121,11 +117,6 @@ namespace HanGao.ViewModel
         {
 
                 User_Log_Add(_Result_Status.GetResult_Info());
-
-            /////判断算法状态是否成功，否者显示结果或错误状态
-            //if (!_Result_Status.GetResult())
-            //{
-            //}
 
 
             return _Result_Status;

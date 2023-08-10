@@ -360,7 +360,9 @@ namespace HanGao.ViewModel
 
 
 
-                MVS.Connect_Camera(Select_Camera);
+                if (Display_Status(MVS.Connect_Camera(Select_Camera)).GetResult())
+                {
+
 
                 //获得UI设置的参数
                 Select_Camera.Camera_Parameter.ExposureTime = E.Camera_ExposureTime_UI.Value;
@@ -371,6 +373,7 @@ namespace HanGao.ViewModel
                 Select_Camera.Camera_Parameter.BlackLevel = (int)E.BlackLevel.Value;
                 Select_Camera.Camera_Parameter.AcquisitionMode = (MV_CAM_ACQUISITION_MODE)E.AcquisitionMode.SelectedIndex;
 
+                } 
 
                 //连接成功后关闭UI操作
 

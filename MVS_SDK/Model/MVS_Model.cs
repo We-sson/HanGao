@@ -2,12 +2,7 @@
 using MvCamCtrl.NET;
 using MvCamCtrl.NET.CameraParams;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MVS_SDK_Base.Model
 {
@@ -191,7 +186,7 @@ namespace MVS_SDK_Base.Model
             /// 使能输出信号输出到所选线路
             /// </summary>
             [StringValue("设置使能输出信号输出到所选线路失败")]
-                    LineInverter
+            LineInverter
 
         }
 
@@ -205,87 +200,103 @@ namespace MVS_SDK_Base.Model
             /// 设备采集的采集模式、枚举类型值 ——默认持续采集模式，"MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS"
             /// </summary>
             [StringValue("设置相机触发模式失败")]
+            [Camera_ReadWrite(Camera_Parameter_RW_Type.Read)]
             public MV_CAM_ACQUISITION_MODE AcquisitionMode { set; get; } = MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS;
             /// <summary>
             /// 每个帧突发开始触发信号采集的帧数、整数类型——默认1，最大1023
             /// </summary>
             [StringValue("设置每个帧突发开始触发信号采集的帧数失败")]
+            [Camera_ReadWrite(Camera_Parameter_RW_Type.Read)]
             public int AcquisitionBurstFrameCount { set; get; } = 1;
             /// <summary>
             /// 控制抓取帧的采集频率、双精度类型——默认1，最小0.4，最大500
             /// </summary>
             [StringValue("设置控制抓取帧的采集频率失败")]
+            [Camera_ReadWrite(Camera_Parameter_RW_Type.Read)]
             public double AcquisitionFrameRate { set; get; } = 13.6;
             /// <summary>
             /// 曝光模式定时时的曝光时间
             /// </summary>
             [StringValue("设置曝光模式定时时的曝光时间失败")]
+            [Camera_ReadWrite(Camera_Parameter_RW_Type.Read)]
             public double ExposureTime { set; get; } = 30000;
             /// <summary>
             /// 设置定时曝光模式时的自动曝光模式，枚举类型——默认连续模式，"MV_CAM_EXPOSURE_AUTO_MODE.MV_EXPOSURE_AUTO_MODE_OFF"
             /// </summary>
             [StringValue("设置控制抓取帧的采集频率失败")]
+            [Camera_ReadWrite(Camera_Parameter_RW_Type.Read)]
             public MV_CAM_EXPOSURE_AUTO_MODE ExposureAuto { set; get; } = MV_CAM_EXPOSURE_AUTO_MODE.MV_EXPOSURE_AUTO_MODE_OFF;
             /// <summary>
             /// 设置曝光（或快门）的工作模式,枚举类型——默认定时模式，"MV_CAM_EXPOSURE_MODE.MV_EXPOSURE_MODE_TIMED"
             /// </summary>
             [StringValue("设置曝光（或快门）的工作模式失败")]
+            [Camera_ReadWrite(Camera_Parameter_RW_Type.Read)]
             public MV_CAM_EXPOSURE_MODE ExposureMode { set; get; } = MV_CAM_EXPOSURE_MODE.MV_EXPOSURE_MODE_TIMED;
             /// <summary>
             /// 控制所选触发器是否处于活动状态、枚举类型——默认Off，"MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_OFF"
             /// </summary>
             [StringValue("设置控制所选触发器是否处于活动状态失败")]
-
+            [Camera_ReadWrite(Camera_Parameter_RW_Type.Read)]
             public MV_CAM_TRIGGER_MODE TriggerMode { set; get; } = MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_OFF;
             /// <summary>
             /// 控制所选触发器是否处于活动状态，枚举类型——默认，"MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_LINE0"
             /// </summary>
             [StringValue("设置控制所选触发器是否处于活动状态")]
+            [Camera_ReadWrite(Camera_Parameter_RW_Type.Read)]
             public MV_CAM_TRIGGER_SOURCE TriggerActivation { set; get; } = MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_LINE0;
             /// <summary>
             /// 指定在激活触发接收之前要应用的延迟（以us为单位）
             /// </summary>
             [StringValue("设置指定在激活触发接收之前要应用的延迟失败")]
+            [Camera_ReadWrite(Camera_Parameter_RW_Type.Read)]
             public double TriggerDelay { set; get; } = 0.00;
             /// <summary>
             /// 设置自动增益控制（AGC）模式，枚举类型——默认，"MV_CAM_GAIN_MODE.MV_GAIN_MODE_OFF"
             /// </summary>
             [StringValue("设置自动增益控制（AGC）模式失败")]
+            [Camera_ReadWrite(Camera_Parameter_RW_Type.Read)]
             public MV_CAM_GAIN_MODE GainAuto { set; get; } = MV_CAM_GAIN_MODE.MV_GAIN_MODE_ONCE;
             /// <summary>
             /// 应用于图像的增益，单位为dB，Float类型，默认0.00
             /// </summary>
             [StringValue("设置图像的增益失败")]
+            [Camera_ReadWrite(Camera_Parameter_RW_Type.Read)]
             public double Gain { set; get; } = 10.00;
             /// <summary>
             /// 使能/禁用数字移位调节，布尔类型——默认false
             /// </summary>
             [StringValue("设置使能/禁用数字移位调节失败")]
+            [Camera_ReadWrite(Camera_Parameter_RW_Type.Read)]
             public bool DigitalShiftEnable { set; get; } = true;
             /// <summary>
             /// 设置选定的数字移位控制，Float类型——默认0
             /// </summary>
             [StringValue("设置数字移位控制失败")]
+            [Camera_ReadWrite(Camera_Parameter_RW_Type.Read)]
             public double DigitalShift { set; get; } = 0.00;
             /// <summary>
             /// 使能/禁用黑电平调整，布尔类型——默认true；
             /// </summary>
             [StringValue("设置使能/禁用黑电平调整失败")]
+            [Camera_ReadWrite(Camera_Parameter_RW_Type.Read)]
             public bool BlackLevelEnable { set; get; } = true;
             /// <summary>
             /// 模拟黑电平百分比，整数类型——默认200，最小0，最大4095
             /// </summary>
             [StringValue("设置模拟黑电平百分比失败")]
+            [Camera_ReadWrite(Camera_Parameter_RW_Type.Read)]
             public int BlackLevel { set; get; } = 100;
             /// <summary>
             /// 使能/禁用伽马校正，布尔类型——默认true；
             /// </summary>
             [StringValue("设置使能/禁用伽马校正失败")]
+            [Camera_ReadWrite(Camera_Parameter_RW_Type.Read)]
             public bool GammaEnable { set; get; } = true;
             /// <summary>
             /// 控制像素强度的伽马校正，双精度类型——默认0.5，最小0，最大4
             /// </summary>
             [StringValue("设置控制像素强度的伽马校正失败")]
+            [Camera_ReadWrite(Camera_Parameter_RW_Type.Read)]
             public double Gamma { set; get; } = 0.5;
             /// <summary>
             /// 图像的锐度，布尔类型——默认false；
@@ -302,6 +313,7 @@ namespace MVS_SDK_Base.Model
             /// 水平翻转设备发送的图像。翻转后应用感兴趣区域，布尔类型——默认false
             /// </summary>
             [StringValue("设置水平翻转设备发送的图像失败")]
+            [Camera_ReadWrite(Camera_Parameter_RW_Type.Read)]
             public bool ReverseX { set; get; } = false;
 
             //[StringValue("设置设备提供的图像宽度（像素）失败")]
@@ -311,40 +323,49 @@ namespace MVS_SDK_Base.Model
             //public int Height { set; get; } = 2048;
 
             [StringValue("设置从原点到AOI的垂直偏移（像素）失败")]
-
+            [Camera_ReadWrite(Camera_Parameter_RW_Type.Read)]
             public int OffsetX { set; get; } = 0;
 
             [StringValue("设置从原点到AOI的水平偏移（像素）失败")]
+            [Camera_ReadWrite(Camera_Parameter_RW_Type.Read)]
             public int OffsetY { set; get; } = 0;
 
             [StringValue("设置选择要配置的外部设备连接器的物理线（或管脚）失败")]
+            [Camera_ReadWrite(Camera_Parameter_RW_Type.Read)]
             public MV_CAM_LINESELECTOR_MODE LineSelector { set; get; } = MV_CAM_LINESELECTOR_MODE.Lin1;
 
             [StringValue("设置线路模式失败")]
+            [Camera_ReadWrite(Camera_Parameter_RW_Type.Read)]
             public MV_CAM_LINEMODE_MODE LineMode { set; get; } = MV_CAM_LINEMODE_MODE.Strobe;
 
             [StringValue("设置控制所选输入或输出线的信号反转失败")]
-            public bool LineStatus { set; get; } = false;
+            [Camera_ReadWrite(Camera_Parameter_RW_Type.Write)]
+            public bool LineInverter { set; get; } = false;
 
 
             [StringValue("设置使能输出信号输出到所选线路失败")]
-            public bool StrobeEnable { set; get; } = true ;
+            [Camera_ReadWrite(Camera_Parameter_RW_Type.Write)]
+            public bool StrobeEnable { set; get; } = true;
 
 
             /// <summary>
             /// 图像的最大宽度
             /// </summary>
             [StringValue("获得图像的最大宽度（以像素为单位）~失败!")]
+            [Camera_ReadWrite(Camera_Parameter_RW_Type.Read)]
             public int WidthMax { set; get; } = 0;
             /// <summary>
             /// 图像的最大高度
             /// </summary>
             [StringValue("获得图像的最大高度（以像素为单位）~失败!")]
+            [Camera_ReadWrite(Camera_Parameter_RW_Type.Read)]
+
             public int HeightMax { set; get; } = 0;
             /// <summary>
             /// 最大采集帧速率
             /// </summary>
             [StringValue("获得允许的最大采集帧速率的“绝对”值~失败!")]
+            [Camera_ReadWrite(Camera_Parameter_RW_Type.Read)]
             public double ResultingFrameRate { set; get; } = 0;
         }
 
@@ -361,7 +382,7 @@ namespace MVS_SDK_Base.Model
             /// 相机对象初始化
             /// </summary>
             /// <param name="_Camera"></param>
-            public MVS_Camera_Info_Model(CCameraInfo _Camera) 
+            public MVS_Camera_Info_Model(CCameraInfo _Camera)
             {
                 MVS_CameraInfo = _Camera;
                 //只支持GIGE相机
@@ -389,13 +410,13 @@ namespace MVS_SDK_Base.Model
             /// 当前IP 
             /// </summary>
             [StringValue("获得当前IP地址~失败!")]
-            public string  CurrentIp { set; get; } = "";
+            public string CurrentIp { set; get; } = "";
 
             /// <summary>
             /// 当前子网掩码
             /// </summary>
-            [StringValue("获得当前子网掩码~失败!")] 
-            public string  CurrentSubNetMask { set; get; } = "";
+            [StringValue("获得当前子网掩码~失败!")]
+            public string CurrentSubNetMask { set; get; } = "";
 
             /// <summary>
             /// 默认网关
@@ -418,7 +439,7 @@ namespace MVS_SDK_Base.Model
             [StringValue("获得相机型号~失败!")]
             public string ModelName { set; get; } = "";
 
-            [StringValue("获得相机版本~失败!")] 
+            [StringValue("获得相机版本~失败!")]
             public string DeviceVersion { set; get; } = "";
 
             [StringValue("获得相机厂商信息~失败!")]
@@ -439,7 +460,7 @@ namespace MVS_SDK_Base.Model
             /// <summary>
             /// 相机设备句柄,首次检测设置
             /// </summary>
-            public CCameraInfo MVS_CameraInfo ;
+            public CCameraInfo MVS_CameraInfo;
 
 
             /// <summary>
@@ -451,7 +472,7 @@ namespace MVS_SDK_Base.Model
             /// <summary>
             /// 相机内部参数
             /// </summary>
-             public   MVS_Camera_Parameter_Model Camera_Parameter { set; get; }=new MVS_Camera_Parameter_Model ();
+            public MVS_Camera_Parameter_Model Camera_Parameter { set; get; } = new MVS_Camera_Parameter_Model();
 
 
 
@@ -464,17 +485,18 @@ namespace MVS_SDK_Base.Model
             /// <summary>
             /// 相机原参数信息
             /// </summary>
-            public  CGigECameraInfo CGigECamera
+            public CGigECameraInfo CGigECamera
             {
                 get { return _CGigECamera; }
-                set { 
+                set
+                {
                     _CGigECamera = value;
 
 
                     DeviceVersion = _CGigECamera.chDeviceVersion;
-                    ModelName= _CGigECamera.chModelName;
+                    ModelName = _CGigECamera.chModelName;
                     ManufacturerSpecificInfo = _CGigECamera.chManufacturerSpecificInfo;
-                    SerialNumber= _CGigECamera.chSerialNumber;
+                    SerialNumber = _CGigECamera.chSerialNumber;
                     ManufacturerName = _CGigECamera.chManufacturerName;
 
 
@@ -609,10 +631,36 @@ namespace MVS_SDK_Base.Model
     }
 
 
+    /// <summary>
+    /// 相机属性读取写入标识方法
+    /// </summary>
+    [AttributeUsage(AttributeTargets.All, AllowMultiple = false, Inherited = false)]
+    public class Camera_ReadWriteAttribute : Attribute
+    {
+
+        public Camera_ReadWriteAttribute(Camera_Parameter_RW_Type _Enum)
+        {
+            ReadWrite_Type = _Enum;
+        }
+        public Camera_Parameter_RW_Type ReadWrite_Type;
+
+        public Camera_Parameter_RW_Type GetCamera_ReadWrite_Type()
+        {
+            return ReadWrite_Type;
+        }
+
+    }
 
 
-
-
+    /// <summary>
+    /// 相机参数读写标识
+    /// </summary>
+    public enum Camera_Parameter_RW_Type
+    {
+        Read,
+        Write,
+        ReadorWrite
+    }
 
     /// <summary>
     /// 相机错误消息返回
@@ -662,7 +710,7 @@ namespace MVS_SDK_Base.Model
     /// <summary>
     /// 相机设备类型
     /// </summary>
-    public  enum MV_CAM_DeviceType_Enum
+    public enum MV_CAM_DeviceType_Enum
     {
         普通设备,
         虚拟采集卡上的设备,
@@ -673,7 +721,7 @@ namespace MVS_SDK_Base.Model
     /// <summary>
     /// 相机当前状态
     /// </summary>
-    public  enum MV_CAM_Device_Status_Enum
+    public enum MV_CAM_Device_Status_Enum
     {
         /// <summary>
         /// 设备空闲
