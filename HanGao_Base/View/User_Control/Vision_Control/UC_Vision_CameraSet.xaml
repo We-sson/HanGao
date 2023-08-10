@@ -96,9 +96,65 @@
                     </Expander.Header>
                     <Grid>
                         <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 5 5" />
-                        <StackPanel Orientation="Vertical">
+                        <StackPanel Margin="5" Orientation="Vertical">
 
-                            <Grid Margin="8">
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column=" 0"
+                                            Margin="0,5,0,5"
+                                            Orientation="Horizontal">
+
+                                    <Border Width=" 23"
+                                            Height=" 23"
+                                            Margin="4"
+                                            Background="{DynamicResource 全局_按钮_绿颜色}"
+                                            BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                            BorderThickness="2"
+                                            CornerRadius=" 5" />
+                                    <Label Content="相机连接"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontSize=" 16" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column=" 1" Orientation="Horizontal">
+
+                                    <Border Width=" 23"
+                                            Height=" 23"
+                                            Margin="4"
+                                            Background="{DynamicResource 全局_按钮_红颜色}"
+                                            BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                            BorderThickness="2"
+                                            CornerRadius=" 5" />
+                                    <Label Content="相机占用"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontSize=" 16" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column=" 2" Orientation="Horizontal">
+
+                                    <Border Width=" 23"
+                                            Height=" 23"
+                                            Margin="4"
+                                            Background="{DynamicResource 全局_按钮_黄颜色}"
+                                            BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                            BorderThickness="2"
+                                            CornerRadius=" 5" />
+                                    <Label Content="相机空闲"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontSize=" 16" />
+                                </StackPanel>
+                            </Grid>
+
+
+                            <Grid>
 
 
 
@@ -107,8 +163,6 @@
                                 <DataGrid Grid.Column=" 0"
                                           HorizontalContentAlignment="Stretch"
                                           VerticalContentAlignment="Stretch"
-                                          AlternatingRowBackground="Gainsboro"
-                                          AlternationCount="2"
                                           AutoGenerateColumns="False"
                                           Background="Transparent"
                                           BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
@@ -123,72 +177,65 @@
                                           ColumnHeaderHeight="40"
                                           ColumnHeaderStyle="{DynamicResource Point_UI_DataGridColumnHeaderStyle}"
                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                          Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                           GridLinesVisibility="Horizontal"
                                           HeadersVisibility="Column"
                                           ItemsSource="{Binding MVS_Camera_Info_List}"
                                           RowHeaderWidth="0"
                                           RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
+                                          SelectedIndex="3"
+                                          SelectedValue="{Binding Select_Camera}"
                                           SelectionMode="Single"
-                                          SelectionUnit="CellOrRowHeader">
-
-                                    <DataGrid.Columns>
-
-
-                                        <DataGridTextColumn Binding="{Binding chModelName}" Header="型号" />
-                                        <DataGridTextColumn Binding="{Binding}" Header="序列号" />
-
-
-
-
-
-                                    </DataGrid.Columns>
-                                </DataGrid>
-
-
-
-                            </Grid>
-
-
-
-
-                            <Grid Margin="8">
-
-
-
-
-
-                                <DataGrid Grid.Column=" 0"
-                                          HorizontalContentAlignment="Stretch"
-                                          VerticalContentAlignment="Stretch"
-                                          AlternatingRowBackground="Gainsboro"
-                                          AlternationCount="2"
-                                          AutoGenerateColumns="False"
-                                          Background="Transparent"
-                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                          BorderThickness="2"
-                                          CanUserAddRows="False"
-                                          CanUserDeleteRows="False"
-                                          CanUserReorderColumns="False"
-                                          CanUserResizeColumns="False"
-                                          CanUserResizeRows="False"
-                                          CanUserSortColumns="False"
-                                          CellStyle="{DynamicResource Point_UI_DataGridCellStyle}"
-                                          ColumnHeaderHeight="40"
-                                          ColumnHeaderStyle="{DynamicResource Point_UI_DataGridColumnHeaderStyle}"
-                                          FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                          GridLinesVisibility="Horizontal"
-                                          HeadersVisibility="Column"
-                                          ItemsSource="{Binding}"
-                                          RowHeaderWidth="0"
-                                          RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
-                                          SelectionMode="Single"
-                                          SelectionUnit="CellOrRowHeader">
+                                          SelectionUnit="FullRow">
 
                                     <DataGrid.Columns>
 
 
 
-                                        <DataGridTemplateColumn Width="150">
+                                        <DataGridTemplateColumn Width="50">
+                                            <DataGridTemplateColumn.Header>
+                                                <TextBlock Text="状态"
+                                                           Margin="4"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                           FontSize="16"
+                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            </DataGridTemplateColumn.Header>
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+
+                                                    <Border Width=" 23"
+                                                            Height=" 23"
+                                                            Margin="4"
+                                                            BorderThickness="2"
+                                                            CornerRadius=" 5">
+                                                        <Border.Style>
+                                                            <Style TargetType="Border">
+                                                                <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
+                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_黄颜色}" />
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}}" Value="true">
+                                                                        <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_灰颜色}" />
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Camer_Status}" Value="{x:Static MVS_Enum:MV_CAM_Device_Status_Enum.Possess}">
+                                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Camer_Status}" Value="{x:Static MVS_Enum:MV_CAM_Device_Status_Enum.Connecting}">
+                                                                        <Setter Property="Background" Value="{DynamicResource 全局_背景_蓝颜色}" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Border.Style>
+                                                    </Border>
+
+
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+
+                                        </DataGridTemplateColumn>
+
+                                        <DataGridTemplateColumn Width="*">
                                             <DataGridTemplateColumn.Header>
                                                 <TextBlock Text="型号"
                                                            Margin="4"
@@ -200,7 +247,7 @@
                                             </DataGridTemplateColumn.Header>
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding}"
+                                                    <TextBlock Text="{Binding SerialNumber}"
                                                                HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
                                                                FontSize="16" />
@@ -211,10 +258,10 @@
 
 
 
-                                        <DataGridTemplateColumn Width="150">
+                                        <DataGridTemplateColumn Width="*">
                                             <DataGridTemplateColumn.Header>
                                                 <TextBlock Text="序列号"
-                                                           Margin="4"
+                                                           Margin="5"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -223,7 +270,8 @@
                                             </DataGridTemplateColumn.Header>
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding}"
+                                                    <TextBlock Text="{Binding ModelName}"
+                                                               Margin="4"
                                                                HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
                                                                FontSize="16" />
@@ -244,14 +292,14 @@
                             </Grid>
 
 
-                            <Grid Height=" 35" Margin="8">
+                            <Grid Height=" 35" Margin="0,5,0,5">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
 
 
-                                <TextBlock Text="手动操作"
+                                <TextBlock Text="手动查找刷新"
                                            HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -291,12 +339,6 @@
                                 <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
                                         Margin="10,0,0,0"
                                         Background="{DynamicResource 全局_按钮_蓝颜色}">
-                                    <TextBlock Text="查找相机"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                               FontSize="16"
-                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
 
 
                                     <i:Interaction.Triggers>
@@ -307,96 +349,19 @@
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
 
-                                </Button>
-                            </Grid>
-
-
-
-
-                            <Grid Margin="8">
-
-
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-
-                                </Grid.ColumnDefinitions>
-
-
-                                <Button x:Name="Connection_Camera" Grid.Column=" 0"
-                                        Height=" 38"
-                                        Margin="0,0,10,0"
-                                        HorizontalContentAlignment="Center"
-                                        VerticalContentAlignment="Center"
-                                        Background="{DynamicResource 全局_按钮_蓝颜色}"
-                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                        FontSize=" 26">
-                                    <Button.Style>
-                                        <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Camera_Connect_OK}" Value="True">
-                                                    <Setter Property="IsEnabled" Value="False" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Button.Style>
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                               FontSize="16"
-                                               Foreground="{DynamicResource 全局_按钮_白颜色}">
-                                        <TextBlock.Style>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="Text" Value="连接相机" />
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Camera_Connect_OK}" Value="True">
-                                                        <Setter Property="Text" Value="已连接相机" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
-
-
-
-                                    <i:Interaction.Triggers>
-
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding Connection_Camera_Comm}"
-                                                                   CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UC_Vision_CameraSet}}}"
-                                                                   PassEventArgsToCommand="True" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </Button>
-
-
-
-
-
-
-                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
-                                        Height=" 38"
-                                        Margin="10,0,0,0"
-                                        Background="{DynamicResource 全局_按钮_蓝颜色}">
-                                    <TextBlock Text="断开相机"
+                                    <TextBlock Text="查找相机"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                FontSize="16"
                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
 
-                                    <i:Interaction.Triggers>
-
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding Disconnection_Camera_Comm}"
-                                                                   CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UC_Vision_CameraSet}}}"
-                                                                   PassEventArgsToCommand="True" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
 
                                 </Button>
-
                             </Grid>
+
+
+
 
 
 
@@ -493,12 +458,97 @@
 
 
 
-                        <StackPanel Orientation="Vertical">
+                        <StackPanel Margin="5" Orientation="Vertical">
 
 
 
 
 
+
+                            <Grid Margin="8">
+
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+
+                                </Grid.ColumnDefinitions>
+
+
+                                <Button x:Name="Connection_Camera" Grid.Column=" 0"
+                                        Height=" 38"
+                                        Margin="0,0,10,0"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                        FontSize=" 26">
+                                    <Button.Style>
+                                        <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Camera_Connect_OK}" Value="True">
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                    <TextBlock HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                               FontSize="16"
+                                               Foreground="{DynamicResource 全局_按钮_白颜色}">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Text" Value="连接相机" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Camera_Connect_OK}" Value="True">
+                                                        <Setter Property="Text" Value="已连接相机" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+
+
+
+                                    <i:Interaction.Triggers>
+
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding Connection_Camera_Comm}"
+                                                                   CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UC_Vision_CameraSet}}}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+
+
+
+
+
+
+                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
+                                        Height=" 38"
+                                        Margin="10,0,0,0"
+                                        Background="{DynamicResource 全局_按钮_蓝颜色}">
+                                    <TextBlock Text="断开相机"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                               FontSize="16"
+                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+                                    <i:Interaction.Triggers>
+
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding Disconnection_Camera_Comm}"
+                                                                   CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UC_Vision_CameraSet}}}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
+                                </Button>
+
+                            </Grid>
 
 
 

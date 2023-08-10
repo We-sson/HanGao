@@ -4,6 +4,7 @@ using MvCamCtrl.NET.CameraParams;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -168,7 +169,7 @@ namespace MVS_SDK_Base.Model
             /// <summary>
             /// 检查相机设备是否可达。可达，返回true；不可达，返回false
             /// </summary>
-            [StringValue("选择相机设备被占用相机不可使用")]
+            //[StringValue("选择相机设备被占用相机不可使用")]
             IsDeviceAccessible,
             /// <summary>
             /// 获取最佳的packet size，该接口目前只支持GigE设备 ,成功，返回MV_OK；失败，返回错误码 
@@ -323,38 +324,13 @@ namespace MVS_SDK_Base.Model
             public MV_CAM_LINEMODE_MODE LineMode { set; get; } = MV_CAM_LINEMODE_MODE.Strobe;
 
             [StringValue("设置控制所选输入或输出线的信号反转失败")]
-            public bool LineInverter { set; get; } = false;
+            public bool LineStatus { set; get; } = false;
 
 
             [StringValue("设置使能输出信号输出到所选线路失败")]
             public bool StrobeEnable { set; get; } = true ;
 
-       
-        }
 
-
-
-
-        /// <summary>
-        /// 相机属性参数
-        /// </summary>
-        public class MVS_Camera_Info_Model
-        {
-            /// <summary>
-            /// 有关设备的制造商信息
-            /// </summary>
-            [StringValue("获得有关设备的制造商信息~失败!")]
-            public string DeviceManufacturerInfo { set; get; } = "";
-            /// <summary>
-            /// 设备的型号名称
-            /// </summary>
-            [StringValue("获得设备的型号名称~失败!")]
-            public string DeviceModelName { set; get; } = "";
-            /// <summary>
-            /// 设备序列号
-            /// </summary>
-            [StringValue("获得设备序列号。此字符串是设备的唯一标识符~失败!")]
-            public string DeviceSerialNumber { set; get; } = "";
             /// <summary>
             /// 图像的最大宽度
             /// </summary>
@@ -370,11 +346,165 @@ namespace MVS_SDK_Base.Model
             /// </summary>
             [StringValue("获得允许的最大采集帧速率的“绝对”值~失败!")]
             public double ResultingFrameRate { set; get; } = 0;
+        }
+
+
+
+
+        /// <summary>
+        /// 相机属性参数
+        /// </summary>
+        public class MVS_Camera_Info_Model
+        {
+
+            /// <summary>
+            /// 相机对象初始化
+            /// </summary>
+            /// <param name="_Camera"></param>
+            public MVS_Camera_Info_Model(CCameraInfo _Camera) 
+            {
+                MVS_CameraInfo = _Camera;
+                //只支持GIGE相机
+                if (_Camera.nTLayerType == CSystem.MV_GIGE_DEVICE)
+                {
+                    //转换
+                    CGigECamera = _Camera as CGigECameraInfo;
+                }
+            }
+            public MVS_Camera_Info_Model()
+            {
+
+
+
+            }
+
+
             /// <summary>
             /// 网络接口的当前IP地址
             /// </summary>
             [StringValue("获得给定网络接口的当前IP地址~失败!")]
             public int GevCurrentIPAddress { set; get; } = 0;
+
+            /// <summary>
+            /// 当前IP 
+            /// </summary>
+            [StringValue("获得当前IP地址~失败!")]
+            public string  CurrentIp { set; get; } = "";
+
+            /// <summary>
+            /// 当前子网掩码
+            /// </summary>
+            [StringValue("获得当前子网掩码~失败!")] 
+            public string  CurrentSubNetMask { set; get; } = "";
+
+            /// <summary>
+            /// 默认网关
+            /// </summary>
+            [StringValue("获得当前默认网关~失败!")]
+            public string DefultGateWay { set; get; } = "";
+
+            /// <summary>
+            /// 网卡IP 
+            /// </summary>
+            [StringValue("获得当前默认网关~失败!")]
+            public string NetExport { set; get; } = "";
+
+
+
+            [StringValue("获得相机厂商~失败!")]
+            public string ManufacturerName { set; get; } = "";
+
+
+            [StringValue("获得相机型号~失败!")]
+            public string ModelName { set; get; } = "";
+
+            [StringValue("获得相机版本~失败!")] 
+            public string DeviceVersion { set; get; } = "";
+
+            [StringValue("获得相机厂商信息~失败!")]
+            public string ManufacturerSpecificInfo { set; get; } = "";
+
+            [StringValue("获得相机序列号~失败!")]
+            public string SerialNumber { set; get; } = "";
+
+            [StringValue("获得相机设备主机ip ~失败!")]
+            public string HostIp { set; get; } = "";
+
+            [StringValue("获得相机类型 ~失败!")]
+            public MV_CAM_DeviceType_Enum DeviceType { set; get; }
+
+
+
+
+            /// <summary>
+            /// 相机设备句柄,首次检测设置
+            /// </summary>
+            public CCameraInfo MVS_CameraInfo ;
+
+
+            /// <summary>
+            ///  用户选择相机对象操作
+            /// </summary>
+            public CCamera Camera { set; get; } = new CCamera();
+
+
+            /// <summary>
+            /// 相机内部参数
+            /// </summary>
+             public   MVS_Camera_Parameter_Model Camera_Parameter { set; get; }=new MVS_Camera_Parameter_Model ();
+
+
+
+            /// <summary>
+            /// 相机设备当前状态
+            /// </summary>
+            public MV_CAM_Device_Status_Enum Camer_Status { set; get; } = MV_CAM_Device_Status_Enum.Null;
+
+            private CGigECameraInfo _CGigECamera;
+            /// <summary>
+            /// 相机原参数信息
+            /// </summary>
+            public  CGigECameraInfo CGigECamera
+            {
+                get { return _CGigECamera; }
+                set { 
+                    _CGigECamera = value;
+
+
+                    DeviceVersion = _CGigECamera.chDeviceVersion;
+                    ModelName= _CGigECamera.chModelName;
+                    ManufacturerSpecificInfo = _CGigECamera.chManufacturerSpecificInfo;
+                    SerialNumber= _CGigECamera.chSerialNumber;
+                    ManufacturerName = _CGigECamera.chManufacturerName;
+
+
+                    CurrentIp = IP_intTOString(_CGigECamera.nCurrentIp);
+                    CurrentSubNetMask = IP_intTOString(_CGigECamera.nCurrentSubNetMask);
+                    DefultGateWay = IP_intTOString(_CGigECamera.nDefultGateWay);
+                    NetExport = IP_intTOString(_CGigECamera.nNetExport);
+                    HostIp = IP_intTOString(_CGigECamera.nHostIp);
+                    DeviceType = (MV_CAM_DeviceType_Enum)_CGigECamera.nDeviceType;
+
+
+                }
+            }
+
+            /// <summary>
+            /// 整数IP地址转换字符串
+            /// </summary>
+            /// <param name="_Ipaddress"></param>
+            /// <returns></returns>
+            private string IP_intTOString(uint _Ipaddress)
+            {
+
+                string _IPString = ((_Ipaddress & 0xFF000000) >> 24).ToString() + "." + ((_Ipaddress & 0x00FF0000) >> 16).ToString() + "." + ((_Ipaddress & 0x0000FF00) >> 8).ToString() + "." + ((_Ipaddress & 0x000000FF)).ToString();
+
+
+                return _IPString;
+
+            }
+
+
         }
 
 
@@ -480,7 +610,7 @@ namespace MVS_SDK_Base.Model
 
 
 
- 
+
 
 
 
@@ -494,6 +624,9 @@ namespace MVS_SDK_Base.Model
         相机连接失败,
         创建相机句柄失败,
         打开相机失败,
+        获得相机参数设置错误,
+        关闭相机成功
+
     }
 
     /// <summary>
@@ -524,6 +657,36 @@ namespace MVS_SDK_Base.Model
     public enum MV_CAM_LINEMODE_MODE
     {
         Strobe = 8
+    }
+
+    /// <summary>
+    /// 相机设备类型
+    /// </summary>
+    public  enum MV_CAM_DeviceType_Enum
+    {
+        普通设备,
+        虚拟采集卡上的设备,
+        自研网卡上的设备
+    }
+
+
+    /// <summary>
+    /// 相机当前状态
+    /// </summary>
+    public  enum MV_CAM_Device_Status_Enum
+    {
+        /// <summary>
+        /// 设备空闲
+        /// </summary>
+        Null,
+        /// <summary>
+        /// 设备占用
+        /// </summary>
+        Possess,
+        /// <summary>
+        /// 设备连接中
+        /// </summary>
+        Connecting
     }
 
 }

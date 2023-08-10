@@ -63,14 +63,14 @@ namespace HanGao.ViewModel
             //相机信息显示UI 
             Messenger.Register<MVS_Camera_Info_Model, string>(this, nameof(Meg_Value_Eunm.MVS_Camera_Info_Show), (O, _M) =>
             {
-                Camera_IP_Address = ((_M.GevCurrentIPAddress & 0xFF000000) >> 24).ToString() + "." + ((_M.GevCurrentIPAddress & 0x00FF0000) >> 16).ToString() + "." + ((_M.GevCurrentIPAddress & 0x0000FF00) >> 8).ToString() + "." + ((_M.GevCurrentIPAddress & 0x000000FF)).ToString();
+                //Camera_IP_Address = ((_M.GevCurrentIPAddress & 0xFF000000) >> 24).ToString() + "." + ((_M.GevCurrentIPAddress & 0x00FF0000) >> 16).ToString() + "." + ((_M.GevCurrentIPAddress & 0x0000FF00) >> 8).ToString() + "." + ((_M.GevCurrentIPAddress & 0x000000FF)).ToString();
                 //IP地址提取方法  取对应位数移位
                 //var b = (_IntValue.CurValue) >> 24;
                 //var bb = (_IntValue.CurValue) >> 16;
                 //var bbb = (_IntValue.CurValue & 0x0000FF00) >> 8;
                 //var bbbb = _IntValue.CurValue & 0x000000FF;
-                Camera_Resolution = _M.HeightMax.ToString() + "x" + _M.WidthMax.ToString();
-                Camera_FrameRate = Math.Round(_M.ResultingFrameRate, 3);
+                //Camera_Resolution = _M.HeightMax.ToString() + "x" + _M.WidthMax.ToString();
+                //Camera_FrameRate = Math.Round(_M.ResultingFrameRate, 3);
             });
         }
         /// <summary>
