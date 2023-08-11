@@ -942,7 +942,8 @@
                              ItemsSource="{Binding Find_Data_List.Vision_List}"
                              ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                              ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                             SelectedIndex="{Binding UI_Find_Data_Number, Mode=TwoWay}"
+                             SelectedIndex="{Binding UI_Find_Data_Number}"
+                             SelectedValue="{Binding Select_Vision_Value}"
                              VirtualizingPanel.IsVirtualizing="True"
                              VirtualizingPanel.ScrollUnit="Pixel"
                              VirtualizingPanel.VirtualizationMode="Recycling">

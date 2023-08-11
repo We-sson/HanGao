@@ -17,45 +17,21 @@ namespace MVS_SDK
     public class MVS 
     {
 
-
-
-
-
         /// <summary>
         ///  用户选择相机对象
         /// </summary>
-        public CCamera Camera { set; get; } = new CCamera();
-
-
+        //public CCamera Camera { set; get; } = new CCamera();
 
         /// <summary>
         /// 
         /// </summary>
-        private CCameraInfo CameraInfo { set; get; } = new CCameraInfo();
-
-
-
-        /// <summary>
-        /// 泛型类型委托声明
-        /// </summary>
-        /// <param name="_Connect_State"></param>
-        public   delegate void MVS_T_delegate<T>(T _Tl);
-
-
-
-
-        /// <summary>
-        /// 相机设置错误委托属性
-        /// </summary>
-        public static  MVS_T_delegate<string> MVS_ErrorInfo_delegate { set; get; }
+        //private CCameraInfo CameraInfo { set; get; } = new CCameraInfo();
 
 
         /// <summary>
         /// 查找相机列表
         /// </summary>
-        public List<CCameraInfo> Camera_List = new List<CCameraInfo>();
-
-
+        //public List<CCameraInfo> Camera_List = new List<CCameraInfo>();
 
         /// <summary>
         /// 查找相机对象驱动
@@ -115,7 +91,7 @@ namespace MVS_SDK
                             //创建失败方法
                             if (CErrorDefine.MV_OK != Tint)
                             {
-                                MVS_ErrorInfo_delegate("参数 : " + _name + " | 数值 : " + _Ename.GetStringValue());
+                                MPR_Status_Model.MVS_ErrorInfo_delegate("参数 : " + _name + " | 数值 : " + _Ename.GetStringValue());
                                 return false;
                             }
 
@@ -124,7 +100,7 @@ namespace MVS_SDK
                             //创建失败方法
                             if (false == Tbool)
                             {
-                                MVS_ErrorInfo_delegate("参数 : " + _name + " | 数值 : " + _Ename.GetStringValue());
+                                MPR_Status_Model. MVS_ErrorInfo_delegate("参数 : " + _name + " | 数值 : " + _Ename.GetStringValue());
                                 return false;
                             }
 
@@ -153,7 +129,7 @@ namespace MVS_SDK
                             {
                                 var a = (StringValueAttribute)_Tname.GetCustomAttribute(typeof(StringValueAttribute));
 
-                                MVS_ErrorInfo_delegate("参数 : " + _Tname.Name + " | 数值 : " + _ErrorInfo.StringValue);
+                                MPR_Status_Model. MVS_ErrorInfo_delegate("参数 : " + _Tname.Name + " | 数值 : " + _ErrorInfo.StringValue);
                                 return false;
                             }
 
@@ -164,7 +140,7 @@ namespace MVS_SDK
                             {
                                 var a = (StringValueAttribute)_Tname.GetCustomAttribute(typeof(StringValueAttribute));
 
-                                MVS_ErrorInfo_delegate("参数 : " + _Tname.Name + " | 数值 : " + _ErrorInfo.StringValue);
+                                MPR_Status_Model. MVS_ErrorInfo_delegate("参数 : " + _Tname.Name + " | 数值 : " + _ErrorInfo.StringValue);
                                 return false;
                             }
 
@@ -187,7 +163,14 @@ namespace MVS_SDK
 
 
 
-
+        /// <summary>
+        /// 读取相机参数方法
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <param name="_name"></param>
+        /// <param name="_key"></param>
+        /// <returns></returns>
         public static  bool Get_Camera_Val<T1, T2>(T1 _name, T2 _key)
         {
 
@@ -206,7 +189,7 @@ namespace MVS_SDK
                     {
                         var a = (StringValueAttribute)_Tname.GetCustomAttribute(typeof(StringValueAttribute));
 
-                        MVS_ErrorInfo_delegate("参数 : " + _Tname.Name + " | 数值 : " + _ErrorInfo.StringValue);
+                            MPR_Status_Model. MVS_ErrorInfo_delegate("参数 : " + _Tname.Name + " | 数值 : " + _ErrorInfo.StringValue);
                         return false;
                     }
 
@@ -217,7 +200,7 @@ namespace MVS_SDK
                     {
                         var a = (StringValueAttribute)_Tname.GetCustomAttribute(typeof(StringValueAttribute));
 
-                        MVS_ErrorInfo_delegate("参数 : " + _Tname.Name + " | 数值 : " + _ErrorInfo.StringValue);
+                            MPR_Status_Model. MVS_ErrorInfo_delegate("参数 : " + _Tname.Name + " | 数值 : " + _ErrorInfo.StringValue);
                         return false;
                     }
 
@@ -239,16 +222,16 @@ namespace MVS_SDK
         /// 设置探测网络最佳包大小(只对GigE相机有效)
         /// </summary>
         /// <returns></returns>
-        public bool Set_Camera_GEGI_GevSCPSPacketSize()
+        public static  bool Set_Camera_GEGI_GevSCPSPacketSize(MVS_Camera_Info_Model _CameraInfo)
         {
 
 
 
 
-            if (CameraInfo.nTLayerType == CSystem.MV_GIGE_DEVICE)
+            if (_CameraInfo.MVS_CameraInfo.nTLayerType == CSystem.MV_GIGE_DEVICE)
             {
 
-                int nPacketSize = Camera.GIGE_GetOptimalPacketSize();
+                int nPacketSize = _CameraInfo.Camera.GIGE_GetOptimalPacketSize();
 
 
 
@@ -256,7 +239,7 @@ namespace MVS_SDK
                 if (nPacketSize > 0)
                 {
                     Set_Camera_Val(Camera_Parameters_Name_Enum.GIGE_GetOptimalPacketSize, CErrorDefine.MV_OK);
-                    Set_Camera_Val(Camera_Parameters_Name_Enum.GevSCPSPacketSize, Camera.SetIntValue(nameof(Camera_Parameters_Name_Enum.GevSCPSPacketSize), (uint)nPacketSize));
+                    Set_Camera_Val(Camera_Parameters_Name_Enum.GevSCPSPacketSize, _CameraInfo.Camera.SetIntValue(nameof(Camera_Parameters_Name_Enum.GevSCPSPacketSize), (uint)nPacketSize));
                 }
                 else
                 {
@@ -291,18 +274,18 @@ namespace MVS_SDK
         /// </summary>
         /// <param name="_Timeout"></param>
         /// <returns></returns>
-        public MVS_Image_Mode GetOneFrameTimeout(int _Timeout = 1000)
+        public static  MVS_Image_Mode GetOneFrameTimeout(MVS_Camera_Info_Model _CameraInfo, int _Timeout = 1000)
         {
             CIntValue stParam = new CIntValue();
 
-            Camera.ClearImageBuffer();
+            _CameraInfo.Camera.ClearImageBuffer();
 
 
-            StartGrabbing();
+            StartGrabbing(_CameraInfo);
             ////开始取流
 
             //获取图像缓存大小
-            Set_Camera_Val(Camera_Parameters_Name_Enum.PayloadSize, Camera.GetIntValue("PayloadSize", ref stParam));
+            Set_Camera_Val(Camera_Parameters_Name_Enum.PayloadSize, _CameraInfo.Camera.GetIntValue("PayloadSize", ref stParam));
 
             //创建帧图像信息
             MVS_Image_Mode Frame_Image = new MVS_Image_Mode
@@ -314,14 +297,14 @@ namespace MVS_SDK
 
 
             //抓取一张图片
-            if (Set_Camera_Val(Camera_Parameters_Name_Enum.GetOneFrameTimeout, Camera.GetOneFrameTimeout(Frame_Image.pData_Buffer, (uint)stParam.CurValue, ref Frame_Image.FrameEx_Info, _Timeout)))
+            if (Set_Camera_Val(Camera_Parameters_Name_Enum.GetOneFrameTimeout, _CameraInfo.Camera.GetOneFrameTimeout(Frame_Image.pData_Buffer, (uint)stParam.CurValue, ref Frame_Image.FrameEx_Info, _Timeout)))
             {
-                StopGrabbing();
-                Camera.ClearImageBuffer();
+                StopGrabbing(_CameraInfo);
+                _CameraInfo.Camera.ClearImageBuffer();
                 return Frame_Image;
             }
 
-            StopGrabbing();
+            StopGrabbing(_CameraInfo);
 
 
 
@@ -448,10 +431,10 @@ namespace MVS_SDK
         /// </summary>
         /// <param name="_delegate"></param>
         /// <returns></returns>
-        public bool RegisterImageCallBackEx(cbOutputExdelegate _delegate)
+        public static  bool RegisterImageCallBackEx(MVS_Camera_Info_Model _CameraInfo, cbOutputExdelegate _delegate)
         {
 
-            return Set_Camera_Val(Camera_Parameters_Name_Enum.RegisterImageCallBackEx, Camera.RegisterImageCallBackEx(_delegate, IntPtr.Zero));
+            return Set_Camera_Val(Camera_Parameters_Name_Enum.RegisterImageCallBackEx, _CameraInfo.Camera.RegisterImageCallBackEx(_delegate, IntPtr.Zero));
 
         }
 
@@ -460,10 +443,10 @@ namespace MVS_SDK
         /// 相机开始取流方法
         /// </summary>
         /// <returns></returns>
-        public bool StartGrabbing()
+        public static bool StartGrabbing(MVS_Camera_Info_Model _CameraInfo)
         {
 
-            return Set_Camera_Val(Camera_Parameters_Name_Enum.StartGrabbing, Camera.StartGrabbing());
+            return Set_Camera_Val(Camera_Parameters_Name_Enum.StartGrabbing, _CameraInfo.Camera.StartGrabbing());
 
         }
 
@@ -472,18 +455,48 @@ namespace MVS_SDK
         /// 相机停止取流
         /// </summary>
         /// <returns></returns>
-        public bool StopGrabbing()
+        public static  bool StopGrabbing(MVS_Camera_Info_Model _CameraInfo)
         {
 
-            if (Set_Camera_Val(Camera_Parameters_Name_Enum.StopGrabbing, Camera.StopGrabbing()) != true) { return false; }
+            if (Set_Camera_Val(Camera_Parameters_Name_Enum.StopGrabbing, _CameraInfo.Camera.StopGrabbing()) != true) { return false; }
 
             //清空回调
-            return Set_Camera_Val(Camera_Parameters_Name_Enum.RegisterImageCallBackEx, Camera.RegisterImageCallBackEx(null, IntPtr.Zero));
+            return Set_Camera_Val(Camera_Parameters_Name_Enum.RegisterImageCallBackEx, _CameraInfo.Camera.RegisterImageCallBackEx(null, IntPtr.Zero));
 
 
 
             //停止取流
 
+        }
+
+
+
+        /// <summary>
+        /// 获得海康算法状态显示UI
+        /// </summary>
+        /// <param name="_Result_Status"></param>
+        /// <returns></returns>
+        interface    Status_log
+        {
+
+            //User_Log_Add(_Result_Status.GetResult_Info());
+
+
+           
+        }
+
+        /// <summary>
+        /// 获得海康算法状态显示UI
+        /// </summary>
+        /// <param name="_Result_Status"></param>
+        /// <returns></returns>
+        public static MPR_Status_Model Display_Status(MPR_Status_Model _Result_Status)
+        {
+
+            //User_Log_Add(_Result_Status.GetResult_Info());
+
+
+            return _Result_Status;
         }
 
 
@@ -531,9 +544,10 @@ namespace MVS_SDK
         {
             //关闭相机
             _Select_Camera.Camera.CloseDevice();
+            _Select_Camera.Camera.DestroyHandle();
             _Select_Camera.Camer_Status = MV_CAM_Device_Status_Enum.Null;
 
-            return new MPR_Status_Model(MVE_Result_Enum.关闭相机成功);
+            return new MPR_Status_Model(MVE_Result_Enum.关闭相机成功) { Result_Error_Info= _Select_Camera.ModelName };
 
             //断开连接后可以再次连接相机
 
@@ -764,6 +778,89 @@ namespace MVS_SDK
 
 
     }
+
+
+    /// <summary>
+    /// 相机运行情况消息读取属性
+    /// </summary>
+    public class MPR_Status_Model
+    {
+
+        /// <summary>
+        /// 泛型类型委托声明
+        /// </summary>
+        /// <param name="_Connect_State"></param>
+        public delegate void MVS_T_delegate<T>(T _Tl);
+
+
+
+
+        /// <summary>
+        /// 相机设置错误委托属性
+        /// </summary>
+        public static MVS_T_delegate<string> MVS_ErrorInfo_delegate { set; get; }
+
+
+
+        public MPR_Status_Model(MVE_Result_Enum _Status)
+        {
+            Result_Status = _Status;
+
+            //if (_Status != MVE_Result_Enum.Run_OK)
+            //{
+
+            //}
+
+        }
+
+        /// <summary>
+        /// 运行错误状态
+        /// </summary>
+        public MVE_Result_Enum Result_Status { set; get; }
+
+
+
+        /// <summary>
+        /// 运行错误详细信息
+        /// </summary>
+        private string _Result_Error_Info;
+
+        public string Result_Error_Info
+        {
+            get { return _Result_Error_Info; }
+            set
+            {
+                _Result_Error_Info = value; 
+                MVS_ErrorInfo_delegate(GetResult_Info());
+
+            }
+        }
+
+
+
+        /// <summary>
+        /// 获得运行状态
+        /// </summary>
+        /// <returns></returns>
+        public bool GetResult()
+        {
+            if (Result_Status == MVE_Result_Enum.Run_OK) { return true; } else { return false; }
+        }
+
+
+        /// <summary>
+        /// 获得运行状态信息
+        /// </summary>
+        /// <param name="_Erroe"></param>
+        /// <returns></returns>
+        public string GetResult_Info()
+        {
+
+            return Result_Status.ToString() + "  " + Result_Error_Info;
+        }
+
+    }
+
 
 
 

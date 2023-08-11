@@ -31,7 +31,7 @@ namespace HanGao.ViewModel
 
             Dictionary<int, string> _E = new();
             //相机设置错误信息委托显示
-            MVS.MVS_ErrorInfo_delegate += (string _Error) =>
+            MPR_Status_Model.MVS_ErrorInfo_delegate += (string _Error) =>
             {
                 User_Log_Add(_Error);
             };
@@ -55,23 +55,25 @@ namespace HanGao.ViewModel
                 MVS.Close_Camera(Select_Camera);
             });
             //接收用户选择参数
-            Messenger.Register<object, string>(this, nameof(Meg_Value_Eunm.Vision_Data_Xml_List), (O, _V) =>
+            Messenger.Register<Vision_Xml_Models, string>(this, nameof(Meg_Value_Eunm.Vision_Data_Xml_List), (O, _V) =>
             {
 
 
-                Vision_Xml_Models _Find = UC_Visal_Function_VM.Find_Data_List.Vision_List.Where(_W => (int.Parse(_W.ID) == (int)_V)).FirstOrDefault();
-                if (_Find != null)
-                {
-                    Camera_Parameter_Val = _Find.Camera_Parameter_Data;
-                    Camera_Data_ID_UI = (int)_V;
-                    User_Log_Add("相机参数" + Camera_Data_ID_UI + "号已加载到参数列表中！");
-                }
-                else
-                {
-                    Camera_Parameter_Val = null;
-                    User_Log_Add("相机参数" + Camera_Data_ID_UI + "号加载失败！");
+                Select_Camera.Camera_Parameter = _V.Camera_Parameter_Data;
+                //Camera_Parameter_Val = _V.Camera_Parameter_Data;
+                //Vision_Xml_Models _Find = UC_Visal_Function_VM.Find_Data_List.Vision_List.Where(_W => (int.Parse(_W.ID) == (int)_V)).FirstOrDefault();
+                //if (_Find != null)
+                //{
+                //    Camera_Parameter_Val = _Find.Camera_Parameter_Data;
+                //    Camera_Data_ID_UI = (int)_V;
+                //    User_Log_Add("相机参数" + Camera_Data_ID_UI + "号已加载到参数列表中！");
+                //}
+                //else
+                //{
+                //    Camera_Parameter_Val = null;
+                //    User_Log_Add("相机参数" + Camera_Data_ID_UI + "号加载失败！");
 
-                }
+                //}
 
 
             });
@@ -93,15 +95,15 @@ namespace HanGao.ViewModel
 
 
 
-        public static MVS_Camera_Parameter_Model Camera_Parameter_Val
-        {
-            get { return _Camera_Parameter_Val; }
-            set
-            {
-                _Camera_Parameter_Val = value;
-                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Camera_Parameter_Val)));
-            }
-        }
+        //public static MVS_Camera_Parameter_Model Camera_Parameter_Val
+        //{
+        //    get { return _Camera_Parameter_Val; }
+        //    set
+        //    {
+        //        _Camera_Parameter_Val = value;
+        //        StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Camera_Parameter_Val)));
+        //    }
+        //}
 
 
 
@@ -118,7 +120,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 当前相机参数号数
         /// </summary>
-        public int Camera_Data_ID_UI { set; get; }
+        //public int Camera_Data_ID_UI { set; get; }
 
 
 
@@ -150,10 +152,10 @@ namespace HanGao.ViewModel
         /// <summary>
         ///  用户选择相机对象
         /// </summary>
-        public static MVS MVS_Camera { set; get; } = new MVS();
+        //public static MVS MVS_Camera { set; get; } = new MVS();
 
 
-
+      
 
 
         /// <summary>
@@ -227,11 +229,11 @@ namespace HanGao.ViewModel
                 if ((bool)E.IsChecked)
                 {
                     //设置GEGI网络包大小
-                    _State = MVS_Camera.Set_Camera_GEGI_GevSCPSPacketSize();
+                    _State = MVS.Set_Camera_GEGI_GevSCPSPacketSize(Select_Camera);
                     //创建抓图回调函数
-                    _State = MVS_Camera.RegisterImageCallBackEx(ImageCallback = new cbOutputExdelegate(ImageCallbackFunc));
+                    _State = MVS.RegisterImageCallBackEx(Select_Camera, ImageCallback = new cbOutputExdelegate(ImageCallbackFunc));
                     //开始取流
-                    _State = MVS_Camera.StartGrabbing();
+                    _State = MVS.StartGrabbing(Select_Camera);
                     if (_State != true)
                     {
                         E.IsChecked = false;
@@ -239,7 +241,7 @@ namespace HanGao.ViewModel
                 }
                 else if ((bool)E.IsChecked == false)
                 {
-                    _State = MVS_Camera.StopGrabbing();
+                    _State = MVS.StopGrabbing(Select_Camera);
                 }
             });
         }
@@ -265,7 +267,7 @@ namespace HanGao.ViewModel
                     MVS.Set_Camera_Val(Camera_Parameters_Name_Enum.ExposureAuto, Select_Camera.Camera.SetEnumValue(nameof(Camera_Parameters_Name_Enum.ExposureAuto), (uint)MV_CAM_EXPOSURE_AUTO_MODE.MV_EXPOSURE_AUTO_MODE_OFF));
                     //设置曝光时间
                     MVS.Set_Camera_Val(Camera_Parameters_Name_Enum.ExposureTime, Select_Camera.Camera.SetFloatValue(nameof(Camera_Parameters_Name_Enum.ExposureTime), (float)E.Value));
-                    Camera_Parameter_Val.ExposureTime = E.Value;
+                    //Select_Camera.Camera_Parameter.ExposureTime = E.Value;
                 }
 
 
@@ -292,7 +294,7 @@ namespace HanGao.ViewModel
                     MVS.Set_Camera_Val(Camera_Parameters_Name_Enum.GainAuto, Select_Camera.Camera.SetEnumValue(nameof(Camera_Parameters_Name_Enum.GainAuto), (uint)MV_CAM_GAIN_MODE.MV_GAIN_MODE_OFF));
                     //设置曝光时间
                     MVS.Set_Camera_Val(Camera_Parameters_Name_Enum.Gain, Select_Camera.Camera.SetFloatValue(nameof(Camera_Parameters_Name_Enum.Gain), (float)E.Value));
-                    Camera_Parameter_Val.Gain = E.Value;
+                    //Camera_Parameter_Val.Gain = E.Value;
                 }
 
 
@@ -309,7 +311,7 @@ namespace HanGao.ViewModel
 
 
                 MVS.Set_Camera_Val((Camera_Parameters_Name_Enum)Enum.Parse(typeof(Camera_Parameters_Name_Enum), E.Name), Select_Camera.Camera.SetFloatValue(E.Name, (float)E.Value));
-                Camera_Parameter_Val.GetType().GetProperty(E.Name).SetValue(Camera_Parameter_Val, E.Value);
+                //Camera_Parameter_Val.GetType().GetProperty(E.Name).SetValue(Camera_Parameter_Val, E.Value);
 
 
             });
@@ -326,7 +328,7 @@ namespace HanGao.ViewModel
 
 
                 MVS.Set_Camera_Val((Camera_Parameters_Name_Enum)Enum.Parse(typeof(Camera_Parameters_Name_Enum), E.Name), Select_Camera.Camera.SetIntValue(E.Name, (Int32)E.Value));
-                Camera_Parameter_Val.GetType().GetProperty(E.Name).SetValue(Camera_Parameter_Val, (Int32)E.Value);
+                Select_Camera.Camera_Parameter.GetType().GetProperty(E.Name).SetValue(Select_Camera.Camera_Parameter, (Int32)E.Value);
 
 
             });
@@ -341,8 +343,8 @@ namespace HanGao.ViewModel
                 ComboBox E = Sm.Source as ComboBox;
 
 
-                MVS.Set_Camera_Val(Camera_Parameters_Name_Enum.AcquisitionMode, Select_Camera.Camera.SetEnumValue(E.Name, (uint)(MV_CAM_ACQUISITION_MODE)Camera_Parameter_Val.AcquisitionMode));
-                Camera_Parameter_Val.GetType().GetProperty(E.Name).SetValue(Camera_Parameter_Val, Camera_Parameter_Val.AcquisitionMode);
+                MVS.Set_Camera_Val(Camera_Parameters_Name_Enum.AcquisitionMode, Select_Camera.Camera.SetEnumValue(E.Name, (uint)E.SelectedIndex));
+                Select_Camera.Camera_Parameter.GetType().GetProperty(E.Name).SetValue(Select_Camera.Camera_Parameter, E.SelectedIndex);
 
 
             });
@@ -364,14 +366,13 @@ namespace HanGao.ViewModel
                 {
 
 
-                //获得UI设置的参数
-                Select_Camera.Camera_Parameter.ExposureTime = E.Camera_ExposureTime_UI.Value;
-                Select_Camera.Camera_Parameter.Gain = E.Camera_Gain_UI.Value;
-                Select_Camera.Camera_Parameter.DigitalShift = E.DigitalShift.Value;
-                Select_Camera.Camera_Parameter.Gamma = E.Gamma.Value;
-                //Camera_Parameter_Val.Sharpness = (int)E.Sharpness.Value;
-                Select_Camera.Camera_Parameter.BlackLevel = (int)E.BlackLevel.Value;
-                Select_Camera.Camera_Parameter.AcquisitionMode = (MV_CAM_ACQUISITION_MODE)E.AcquisitionMode.SelectedIndex;
+                    //E.Camera_ExposureTime_UI.Value = Select_Camera.Camera_Parameter.ExposureTime;
+                    //E.Camera_Gain_UI.Value = Select_Camera.Camera_Parameter.Gain;
+                    //E.DigitalShift.Value = Select_Camera.Camera_Parameter.DigitalShift;
+                    //E.Gamma.Value = Select_Camera.Camera_Parameter.Gamma;
+                    //E.BlackLevel.Value = Select_Camera.Camera_Parameter.BlackLevel;
+                    //E.AcquisitionMode.SelectedIndex = (int)Select_Camera.Camera_Parameter.AcquisitionMode;
+                 //获得UI设置的参数
 
                 } 
 
@@ -480,19 +481,19 @@ namespace HanGao.ViewModel
         /// 获得一图像显示到指定窗口
         /// </summary>
         /// <param name="_HWindow"></param>
-        public  HPR_Status_Model GetOneFrameTimeout(ref HImage _HImage, HWindow _Window)
+        public  HPR_Status_Model GetOneFrameTimeout(ref HImage _HImage, HWindow _Window, MVS_Camera_Info_Model _CameraInfo)
         {
             //设置相机总参数
             if (Display_Status(MVS.Set_Camrea_Parameters_List(Select_Camera)).GetResult())
             {
                 //获得一帧图片信息
-                MVS_Image_Mode _MVS_Image = MVS_Camera.GetOneFrameTimeout();
+                MVS_Image_Mode _MVS_Image = MVS.GetOneFrameTimeout(_CameraInfo);
                 //转换Halcon图像变量
                 if (Display_Status(Halcon_SDK.Mvs_To_Halcon_Image(ref _HImage, _MVS_Image.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image.PData)).GetResult())
                 {
                     //发送显示图像位置
                     _Window.DispObj(_HImage);
-                    return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = MVS_Camera.Camera.ToString() + "相机图像采集成功！" };
+                    return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = _CameraInfo.Camera.ToString() + "相机图像采集成功！" };
                 }
                 else
                 {
@@ -589,7 +590,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 查找网络内相机
         /// </summary>
-        public ICommand Initialize_GIGE_Camera_Comm
+        public ICommand Set_Camera_Parameter_Comm
         {
             get => new RelayCommand<UC_Vision_CameraSet>((Sm) =>
             {
@@ -602,127 +603,127 @@ namespace HanGao.ViewModel
             });
         }
     }
-    /// <summary>
-    /// 海康相机Int参数类型UI显示模型
-    /// </summary>
-    public class MVS_Int_UI_Type
-    {
-        /// <summary>
-        /// 默认值
-        /// </summary>
-        public int Val { set; get; }
-        /// <summary>
-        /// 最大值
-        /// </summary>
-        public int Max { get; set; }
-        /// <summary>
-        /// 最小值
-        /// </summary>
-        public int Min { set; get; }
-    }
-    /// <summary>
-    /// 海康相机Float参数类型UI显示模型
-    /// </summary>
-    public class MVS_Float_UI_Type
-    {
-        /// <summary>
-        /// 默认值
-        /// </summary>
-        public double Val { set; get; }
-        /// <summary>
-        /// 最大值
-        /// </summary>
-        public double Max { get; set; }
-        /// <summary>
-        /// 最小值
-        /// </summary>
-        public double Min { set; get; }
-    }
-    /// <summary>
-    /// 海康相机Enum参数类型UI显示模型
-    /// </summary>
-    public class MVS_Enum_UI_Type
-    {
-        /// <summary>
-        /// 默认值
-        /// </summary>
-        public Enum Val { set; get; }
-        /// <summary>
-        /// 枚举类型
-        /// </summary>
-        public Enum EType { get; set; }
-    }
-    /// <summary>
-    /// 海康相机ROI参数，UI显示模型
-    /// </summary>
-    public class MVS_ROI_UI_Type
-    {
-        /// <summary>
-        /// 图像的最大宽度（以像素为单位）
-        /// </summary>
-        public int WidthMax { set; get; }
-        /// <summary>
-        /// 图像的最大高度（以像素为单位）
-        /// </summary>
-        public int HeightMax { set; get; }
-        /// <summary>
-        /// 设备提供的图像宽度（像素）
-        /// </summary>
-        public int Width { set; get; }
-        /// <summary>
-        /// 设备提供的图像的高度（像素）
-        /// </summary>
-        public int Height { set; get; }
-        /// <summary>
-        /// 从原点到AOI的垂直偏移（像素）,整数类型——默认0，最小0，最大3072
-        /// </summary>
-        public int OffsetX { set; get; }
-        /// <summary>
-        /// 从原点到AOI的水平偏移（像素）,整数类型——默认0，最小0，最大2048
-        /// </summary>
-        public int OffsetY { set; get; }
-        /// <summary>
-        /// 水平翻转设备发送的图像。翻转后应用感兴趣区域，布尔类型——默认False
-        /// </summary>
-        public bool ReverseX { set; get; }
-    }
-    /// <summary>
-    /// UI界面相机参数
-    /// </summary>
-    public class Camrea_Parameters_UI_Model
-    {
-        public double Exposure { set; get; } = 30000;
-        public double Gain { set; get; } = 10;
-        public double DigitalShift { set; get; } = 0;
-        public double Gamma { set; get; } = 0.5;
-        public int Sharpness { set; get; } = 10;
-        public int BlackLevel { set; get; } = 100;
-        public int ROI_Height_Max { set; get; } = 2048;
-        public int ROI_Width_Max { set; get; } = 3072;
-        public int ROI_Height_X { set; get; } = 0;
-        public int ROI_Width_Y { set; get; } = 0;
-        /// <summary>
-        /// 水平翻转设备发送的图像。翻转后应用感兴趣区域，布尔类型——默认False
-        /// </summary>
-        public bool ROI_ReverseX { set; get; }
-        public ACQUISITION_MODE_Enum ACQUISITION_MODE { set; get; } = ACQUISITION_MODE_Enum.持续采集模式;
-    }
+    ///// <summary>
+    ///// 海康相机Int参数类型UI显示模型
+    ///// </summary>
+    //public class MVS_Int_UI_Type
+    //{
+    //    /// <summary>
+    //    /// 默认值
+    //    /// </summary>
+    //    public int Val { set; get; }
+    //    /// <summary>
+    //    /// 最大值
+    //    /// </summary>
+    //    public int Max { get; set; }
+    //    /// <summary>
+    //    /// 最小值
+    //    /// </summary>
+    //    public int Min { set; get; }
+    //}
+    ///// <summary>
+    ///// 海康相机Float参数类型UI显示模型
+    ///// </summary>
+    //public class MVS_Float_UI_Type
+    //{
+    //    /// <summary>
+    //    /// 默认值
+    //    /// </summary>
+    //    public double Val { set; get; }
+    //    /// <summary>
+    //    /// 最大值
+    //    /// </summary>
+    //    public double Max { get; set; }
+    //    /// <summary>
+    //    /// 最小值
+    //    /// </summary>
+    //    public double Min { set; get; }
+    //}
+    ///// <summary>
+    ///// 海康相机Enum参数类型UI显示模型
+    ///// </summary>
+    //public class MVS_Enum_UI_Type
+    //{
+    //    /// <summary>
+    //    /// 默认值
+    //    /// </summary>
+    //    public Enum Val { set; get; }
+    //    /// <summary>
+    //    /// 枚举类型
+    //    /// </summary>
+    //    public Enum EType { get; set; }
+    //}
+    ///// <summary>
+    ///// 海康相机ROI参数，UI显示模型
+    ///// </summary>
+    //public class MVS_ROI_UI_Type
+    //{
+    //    /// <summary>
+    //    /// 图像的最大宽度（以像素为单位）
+    //    /// </summary>
+    //    public int WidthMax { set; get; }
+    //    /// <summary>
+    //    /// 图像的最大高度（以像素为单位）
+    //    /// </summary>
+    //    public int HeightMax { set; get; }
+    //    /// <summary>
+    //    /// 设备提供的图像宽度（像素）
+    //    /// </summary>
+    //    public int Width { set; get; }
+    //    /// <summary>
+    //    /// 设备提供的图像的高度（像素）
+    //    /// </summary>
+    //    public int Height { set; get; }
+    //    /// <summary>
+    //    /// 从原点到AOI的垂直偏移（像素）,整数类型——默认0，最小0，最大3072
+    //    /// </summary>
+    //    public int OffsetX { set; get; }
+    //    /// <summary>
+    //    /// 从原点到AOI的水平偏移（像素）,整数类型——默认0，最小0，最大2048
+    //    /// </summary>
+    //    public int OffsetY { set; get; }
+    //    /// <summary>
+    //    /// 水平翻转设备发送的图像。翻转后应用感兴趣区域，布尔类型——默认False
+    //    /// </summary>
+    //    public bool ReverseX { set; get; }
+    //}
+    ///// <summary>
+    ///// UI界面相机参数
+    ///// </summary>
+    //public class Camrea_Parameters_UI_Model
+    //{
+    //    public double Exposure { set; get; } = 30000;
+    //    public double Gain { set; get; } = 10;
+    //    public double DigitalShift { set; get; } = 0;
+    //    public double Gamma { set; get; } = 0.5;
+    //    public int Sharpness { set; get; } = 10;
+    //    public int BlackLevel { set; get; } = 100;
+    //    public int ROI_Height_Max { set; get; } = 2048;
+    //    public int ROI_Width_Max { set; get; } = 3072;
+    //    public int ROI_Height_X { set; get; } = 0;
+    //    public int ROI_Width_Y { set; get; } = 0;
+    //    /// <summary>
+    //    /// 水平翻转设备发送的图像。翻转后应用感兴趣区域，布尔类型——默认False
+    //    /// </summary>
+    //    public bool ROI_ReverseX { set; get; }
+    //    public ACQUISITION_MODE_Enum ACQUISITION_MODE { set; get; } = ACQUISITION_MODE_Enum.持续采集模式;
+    //}
 
 
 
     /// <summary>
     /// 海康相机信息
     /// </summary>
-    [AddINotifyPropertyChangedInterface]
-    public class MVS_Camera_Info
-    {
+    //[AddINotifyPropertyChangedInterface]
+    //public class MVS_Camera_Info
+    //{
 
-        public CGigECameraInfo Camera_Info { set; get; } = new CGigECameraInfo();
-
-
+    //    public CGigECameraInfo Camera_Info { set; get; } = new CGigECameraInfo();
 
 
-    }
+
+
+    //}
 
 
 }

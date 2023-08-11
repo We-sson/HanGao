@@ -509,6 +509,8 @@ namespace Halcon_SDK_DLL.Model
         public HPR_Status_Model(HVE_Result_Enum _Status)
         {
             Result_Status = _Status;
+
+
         }
         /// <summary>
         /// 运行错误状态

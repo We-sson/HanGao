@@ -128,20 +128,41 @@ namespace HanGao.ViewModel
                 _Load_Image = value;
             }
         }
-        private int _UI_Find_Data_Number = 0;
+        public  int UI_Find_Data_Number { set; get; } = 0;
         /// <summary>
         /// 视觉查找参数序号
         /// </summary>
-        public int UI_Find_Data_Number
+        //public int UI_Find_Data_Number
+        //{
+        //    get => _UI_Find_Data_Number;
+        //    set
+        //    {
+        //        //_UI_Find_Data_Number = value;
+        //        SetProperty(ref _UI_Find_Data_Number, value);
+        //        Messenger.Send<object, string>(value, nameof(Meg_Value_Eunm.Vision_Data_Xml_List));
+        //    }
+        //}
+
+        private Vision_Xml_Models _Select_Vision_Value;
+        //用户选中的参数值
+        public Vision_Xml_Models Select_Vision_Value
         {
-            get => _UI_Find_Data_Number;
-            set
+            get { return _Select_Vision_Value; }
+            set 
             {
-                //_UI_Find_Data_Number = value;
-                SetProperty(ref _UI_Find_Data_Number, value);
-                Messenger.Send<object, string>(value, nameof(Meg_Value_Eunm.Vision_Data_Xml_List));
+                _Select_Vision_Value = value;
+                SetProperty(ref _Select_Vision_Value, value);
+                if (value!=null)
+                {
+
+                Messenger.Send<Vision_Xml_Models, string>(value, nameof(Meg_Value_Eunm.Vision_Data_Xml_List));
+                }
+
             }
         }
+
+
+
         /// <summary>
         /// 鼠标当前位置
         /// </summary>
