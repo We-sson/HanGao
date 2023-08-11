@@ -592,26 +592,7 @@
                                                FontSize="16"
                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                 </StackPanel>
-                                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                                    <!--<TextBlock Text="{Binding Camera_Data_ID_UI, StringFormat=参数序号 : {0}}"
-                                               Margin="0,0,10,0"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                               FontSize="16"
-                                               Visibility="Collapsed">
-                                        <TextBlock.Style>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_白颜色}" />
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Camera_Data_ID_UI}" Value="-1">
-                                                        <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_黄颜色}" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>-->
-                                </StackPanel>
+                                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" />
 
                             </Grid>
 

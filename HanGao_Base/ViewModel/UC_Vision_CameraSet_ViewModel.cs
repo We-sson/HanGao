@@ -11,21 +11,22 @@ namespace HanGao.ViewModel
     {
         public UC_Vision_CameraSet_ViewModel()
         {
+        
 
 
+      //  MVS_Camera_Info_List.
+      //                            Add(
+      //                             new MVS_Camera_Info_Model() { SerialNumber = "DA0651550", ModelName = "MV-CU120-10GM" }
 
-            MVS_Camera_Info_List.
-                                      Add(
-                                   new MVS_Camera_Info_Model() { SerialNumber = "DA0651550", ModelName = "MV-CU120-10GM" }
+      //          );
+      //      MVS_Camera_Info_List.
+      //                                   Add(
 
-                );
-            MVS_Camera_Info_List.
-                                         Add(
-
-                                           new MVS_Camera_Info_Model() { SerialNumber = "DA0651550", ModelName = "MV-CU120-10GM" }
+      //                                     new MVS_Camera_Info_Model() { SerialNumber = "DA0651550", ModelName = "MV-CU120-10GM" 
+      //                                      }
 
 
-      );
+      //);
 
 
 
@@ -59,7 +60,7 @@ namespace HanGao.ViewModel
             {
 
 
-                Select_Camera.Camera_Parameter = _V.Camera_Parameter_Data;
+                Camera_Parameter_Val = _V.Camera_Parameter_Data;
                 //Camera_Parameter_Val = _V.Camera_Parameter_Data;
                 //Vision_Xml_Models _Find = UC_Visal_Function_VM.Find_Data_List.Vision_List.Where(_W => (int.Parse(_W.ID) == (int)_V)).FirstOrDefault();
                 //if (_Find != null)
@@ -85,25 +86,23 @@ namespace HanGao.ViewModel
         /// 静态属性更新通知事件
         /// </summary>
         public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
-        private static MVS_Camera_Parameter_Model _Camera_Parameter_Val { get; set; } = new MVS_Camera_Parameter_Model();
+
+
+
+        public static    MVS_Camera_Parameter_Model _Camera_Parameter_Val { get; set; } = new MVS_Camera_Parameter_Model();
         /// <summary>
         /// 相机参数
         /// </summary>
         /// 
-
-
-
-
-
-        //public static MVS_Camera_Parameter_Model Camera_Parameter_Val
-        //{
-        //    get { return _Camera_Parameter_Val; }
-        //    set
-        //    {
-        //        _Camera_Parameter_Val = value;
-        //        StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Camera_Parameter_Val)));
-        //    }
-        //}
+        public static MVS_Camera_Parameter_Model Camera_Parameter_Val
+        {
+            get { return _Camera_Parameter_Val; }
+            set
+            {
+                _Camera_Parameter_Val = value;
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Camera_Parameter_Val)));
+            }
+        }
 
 
 
@@ -111,9 +110,17 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 相机信息
         /// </summary>
-        public MVS_Camera_Info_Model Select_Camera { set; get; } = new MVS_Camera_Info_Model();
+        public static  MVS_Camera_Info_Model _Select_Camera { set; get; } = new MVS_Camera_Info_Model();
 
-
+        public static MVS_Camera_Info_Model Select_Camera
+        {
+            get { return _Select_Camera; }
+            set
+            {
+                _Select_Camera = value;
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Select_Camera)));
+            }
+        }
 
 
 
@@ -328,9 +335,9 @@ namespace HanGao.ViewModel
 
 
                 MVS.Set_Camera_Val((Camera_Parameters_Name_Enum)Enum.Parse(typeof(Camera_Parameters_Name_Enum), E.Name), Select_Camera.Camera.SetIntValue(E.Name, (Int32)E.Value));
-                Select_Camera.Camera_Parameter.GetType().GetProperty(E.Name).SetValue(Select_Camera.Camera_Parameter, (Int32)E.Value);
+                //Select_Camera.Camera_Parameter.GetType().GetProperty(E.Name).SetValue(Select_Camera.Camera_Parameter, (Int32)E.Value);
 
-
+              
             });
         }
         /// <summary>
@@ -344,7 +351,7 @@ namespace HanGao.ViewModel
 
 
                 MVS.Set_Camera_Val(Camera_Parameters_Name_Enum.AcquisitionMode, Select_Camera.Camera.SetEnumValue(E.Name, (uint)E.SelectedIndex));
-                Select_Camera.Camera_Parameter.GetType().GetProperty(E.Name).SetValue(Select_Camera.Camera_Parameter, E.SelectedIndex);
+                //Select_Camera.Camera_Parameter.GetType().GetProperty(E.Name).SetValue(Select_Camera.Camera_Parameter, E.SelectedIndex);
 
 
             });
@@ -449,10 +456,10 @@ namespace HanGao.ViewModel
             switch (_Get_Model)
             {
                 case Get_Image_Model_Enum.相机采集:
-                    //if (!Display_Status(GetOneFrameTimeout(ref _Image, _Window)).GetResult())
-                    //{
-                    //    return new HPR_Status_Model(HVE_Result_Enum.图像文件读取失败);
-                    //}
+                    if (!Display_Status(GetOneFrameTimeout(ref _Image, _Window, Camera_Parameter_Val)).GetResult())
+                    {
+                        return new HPR_Status_Model(HVE_Result_Enum.图像文件读取失败);
+                    }
                     break;
                 case Get_Image_Model_Enum.图像采集:
                     if (!Display_Status(Halcon_SDK.HRead_Image(ref _Image, _path)).GetResult())
@@ -481,19 +488,19 @@ namespace HanGao.ViewModel
         /// 获得一图像显示到指定窗口
         /// </summary>
         /// <param name="_HWindow"></param>
-        public  HPR_Status_Model GetOneFrameTimeout(ref HImage _HImage, HWindow _Window, MVS_Camera_Info_Model _CameraInfo)
+        public static   HPR_Status_Model GetOneFrameTimeout(ref HImage _HImage, HWindow _Window, MVS_Camera_Parameter_Model _Camera_Parameter)
         {
             //设置相机总参数
-            if (Display_Status(MVS.Set_Camrea_Parameters_List(Select_Camera)).GetResult())
+            if (Display_Status(MVS.Set_Camrea_Parameters_List(Select_Camera.Camera, Camera_Parameter_Val)).GetResult())
             {
                 //获得一帧图片信息
-                MVS_Image_Mode _MVS_Image = MVS.GetOneFrameTimeout(_CameraInfo);
+                MVS_Image_Mode _MVS_Image = MVS.GetOneFrameTimeout(Select_Camera);
                 //转换Halcon图像变量
                 if (Display_Status(Halcon_SDK.Mvs_To_Halcon_Image(ref _HImage, _MVS_Image.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image.PData)).GetResult())
                 {
                     //发送显示图像位置
                     _Window.DispObj(_HImage);
-                    return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = _CameraInfo.Camera.ToString() + "相机图像采集成功！" };
+                    return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = Select_Camera.Camera.ToString() + "相机图像采集成功！" };
                 }
                 else
                 {

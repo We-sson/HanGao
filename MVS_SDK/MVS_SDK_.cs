@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Reflection;
+using System.Reflection.Metadata;
 using System.Runtime.InteropServices;
 using System.Xml.Linq;
 using static MVS_SDK_Base.Model.MVS_Model;
@@ -515,8 +516,15 @@ namespace MVS_SDK
                 // Messenger.Send<MVS_Camera_Info_Model, string>(Camera_Info, nameof(Meg_Value_Eunm.MVS_Camera_Info_Show));
                 //Message
                 //设置相机总参数
-                if ( Get_Camrea_Parameters(_Select_Camera).GetResult())
+
+                MVS_Camera_Parameter_Model _Parameter = new MVS_Camera_Parameter_Model();
+
+                if ( Get_Camrea_Parameters(_Select_Camera.Camera,_Parameter).GetResult())
                 {
+                    //获得图像最大像素
+                    _Select_Camera.HeightMax = _Parameter.HeightMax;
+                    _Select_Camera.WidthMax = _Parameter.WidthMax;
+
                     //标记相机连接成功
                     _Select_Camera.Camer_Status = MV_CAM_Device_Status_Enum.Connecting;
                     return new MPR_Status_Model(MVE_Result_Enum.Run_OK);
@@ -557,7 +565,7 @@ namespace MVS_SDK
         /// 设置总相机相机俩表
         /// </summary>
         /// <param name="_Camera_List"></param>
-        public static  MPR_Status_Model Set_Camrea_Parameters_List(MVS_Camera_Info_Model _Camera_Info)
+        public static  MPR_Status_Model Set_Camrea_Parameters_List(CCamera _Camera, MVS_Camera_Parameter_Model _Parameter)
         {
 
 
@@ -566,10 +574,10 @@ namespace MVS_SDK
 
  
             //遍历设置参数
-            foreach (PropertyInfo _Type in _Camera_Info.Camera_Parameter.GetType().GetProperties())
+            foreach (PropertyInfo _Type in _Parameter.GetType().GetProperties())
             {
 
-                if (!Set_Camera_Parameters_Val(_Camera_Info.Camera, _Type, _Type.Name, _Type.GetValue(_Camera_Info.Camera_Parameter)))
+                if (!Set_Camera_Parameters_Val(_Camera, _Type, _Type.Name, _Type.GetValue(_Parameter)))
                 {
 
                     return  new MPR_Status_Model(MVE_Result_Enum.相机参数设置错误) { Result_Error_Info="_参数名："+_Type.Name };
@@ -596,10 +604,10 @@ namespace MVS_SDK
         /// </summary>
         /// <param name="_Info"></param>
         /// <returns></returns>
-        public static MPR_Status_Model Get_Camrea_Parameters( MVS_Camera_Info_Model _Info)
+        public static MPR_Status_Model Get_Camrea_Parameters(CCamera _Camera ,MVS_Camera_Parameter_Model _Parameter)
         {
 
-            foreach (PropertyInfo _Type in _Info.Camera_Parameter.GetType().GetProperties())
+            foreach (PropertyInfo _Type in _Parameter.GetType().GetProperties())
             {
 
                 object _Val=new ();
@@ -610,9 +618,9 @@ namespace MVS_SDK
                 if (_CameraRW_Type.GetCamera_ReadWrite_Type()== Camera_Parameter_RW_Type.Read )
                 {
                    
-                    if ( Get_Camera_Info_Val(_Info.Camera, _Type, _Type.Name, ref _Val).GetResult())
-                {
-                    _Type.SetValue(_Info.Camera_Parameter, _Val);
+                    if ( Get_Camera_Info_Val(_Camera, _Type, _Type.Name, ref _Val).GetResult())
+                    {
+                    _Type.SetValue(_Parameter, _Val);
                 }
            
                 }

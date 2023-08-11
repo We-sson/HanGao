@@ -434,23 +434,44 @@ namespace MVS_SDK_Base.Model
 
             [StringValue("获得相机型号~失败!")]
             public string ModelName { set; get; } = "";
-
+            /// <summary>
+            /// 相机版本
+            /// </summary>
             [StringValue("获得相机版本~失败!")]
             public string DeviceVersion { set; get; } = "";
 
+            /// <summary>
+            /// 相机厂家信息
+            /// </summary>
             [StringValue("获得相机厂商信息~失败!")]
             public string ManufacturerSpecificInfo { set; get; } = "";
-
+            /// <summary>
+            /// 相机唯一序列号
+            /// </summary>
             [StringValue("获得相机序列号~失败!")]
             public string SerialNumber { set; get; } = "";
-
+            /// <summary>
+            /// 使用者设备IP
+            /// </summary>
             [StringValue("获得相机设备主机ip ~失败!")]
             public string HostIp { set; get; } = "";
-
+            /// <summary>
+            /// 相机类型
+            /// </summary>
             [StringValue("获得相机类型 ~失败!")]
             public MV_CAM_DeviceType_Enum DeviceType { set; get; }
 
+            /// <summary>
+            /// 图像的最大宽度
+            /// </summary>
+            [StringValue("获得图像的最大宽度（以像素为单位）~失败!")]
+            public int WidthMax { set; get; } = 0;
+            /// <summary>
+            /// 图像的最大高度
+            /// </summary>
+            [StringValue("获得图像的最大高度（以像素为单位）~失败!")]
 
+            public int HeightMax { set; get; } = 0;
 
 
             /// <summary>
@@ -468,7 +489,7 @@ namespace MVS_SDK_Base.Model
             /// <summary>
             /// 相机内部参数
             /// </summary>
-            public MVS_Camera_Parameter_Model Camera_Parameter { set; get; } = new MVS_Camera_Parameter_Model();
+            //public MVS_Camera_Parameter_Model Camera_Parameter { set; get; } = new MVS_Camera_Parameter_Model();
 
 
 

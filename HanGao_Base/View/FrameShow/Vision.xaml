@@ -95,7 +95,7 @@
                                 </StackPanel>
                             </RadioButton>
                             <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Results_Window_Button" Grid.Column=" 1"
-                                         IsChecked="False"
+                                         IsChecked="True"
                                          Margin="5"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -117,7 +117,7 @@
                                 </StackPanel>
                             </RadioButton>
                             <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Features_Window_Button" Grid.Column=" 2"
-                                         IsChecked="True"
+                                         IsChecked="False"
                                          Margin="5"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -197,37 +197,67 @@
                                     </MenuItem>
                                 </MenuItem>
                             </Menu>
-                            <StackPanel Margin="5"
-                                        Orientation="Horizontal"
-                                        Visibility="Collapsed">
-                                <Button Style="{DynamicResource Halcon_Window_Button}" Background="{DynamicResource 全局_背景_白颜色}">
-                                    <StackPanel Margin="5"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Orientation="Horizontal">
-                                        <Image Height=" 20"
-                                               Margin="5,0,5,0"
+                            <Grid Grid.Column="1">
+                                <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="Window_Switch"
+                                              IsChecked="False"
+                                              Height=" 35"
+                                              Margin="4,0,4,0"
+                                              Padding="0"
+                                              Background="{DynamicResource 全局_背景_白颜色}"
+                                              BorderBrush="{DynamicResource 全局_背景_白颜色}"
+                                              BorderThickness="2">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column=" 0"
+                                               Content="&#xe627;"
+                                               Margin="0"
+                                               Padding="12,0,12,0"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
-                                               Source="/Resources/Vision_图像自适应_ioc.png" />
-                                        <!--<TextBlock Text=" 图像自适应"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                   FontSize="16" />-->
-                                    </StackPanel>
-                                    <!--<i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding Image_AutoSize_Comm}"
-                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                   PassEventArgsToCommand="True" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>-->
-                                </Button>
-                            </StackPanel>
+                                               FontFamily="/Resources/#iconfont"
+                                               FontSize=" 20">
+                                            <Label.Style>
+                                                <Style TargetType="Label">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Window_Switch}" Value="false">
+                                                            <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_蓝颜色}" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Label.Style>
+                                        </Label>
+
+                                        <Label Grid.Column=" 1"
+                                               Content="&#xe62d;"
+                                               Margin="0"
+                                               Padding="12,0,12,0"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontFamily="/Resources/#iconfont"
+                                               FontSize=" 20">
+                                            <Label.Style>
+                                                <Style TargetType="Label">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Window_Switch}" Value="true">
+                                                            <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_蓝颜色}" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Label.Style>
+                                        </Label>
+                                    </Grid>
+                                </ToggleButton>
+
+                            </Grid>
+
+
+
                         </Grid>
                         <!--  图像窗口信息  -->
-                        <Grid Grid.Column=" 2">
+                        <!--<Grid Grid.Column=" 2">
                             <StackPanel Margin="5"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
@@ -245,7 +275,7 @@
                                            FontFamily="{DynamicResource 全局_文字_数字字体}"
                                            FontSize="16" />
                             </StackPanel>
-                        </Grid>
+                        </Grid>-->
                     </Grid>
                     <Grid Grid.Row=" 1">
                         <Grid.Style>
@@ -317,414 +347,477 @@
                                 Grid.ColumnSpan=" 3"
                                 Background="Transparent" />
                         <!--  Halcon 控件  -->
-                        <Halcon:HSmartWindowControlWPF x:Name="Results_Window_1" Grid.Row=" 0" Grid.Column=" 0"
-                                                       HorizontalAlignment="Stretch"
-                                                       VerticalAlignment="Stretch"
-                                                       HorizontalContentAlignment="Center"
-                                                       VerticalContentAlignment="Center"
-                                                       SnapsToDevicePixels="True">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Loaded">
-                                    <i:InvokeCommandAction Command="{Binding Loaded_Live_Camera_Comm}"
-                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                           PassEventArgsToCommand="True" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </Halcon:HSmartWindowControlWPF>
-                        <Halcon:HSmartWindowControlWPF x:Name="Results_Window_2" Grid.Row=" 2" Grid.Column=" 0"
-                                                       HorizontalAlignment="Stretch"
-                                                       VerticalAlignment="Stretch"
-                                                       HorizontalContentAlignment="Center"
-                                                       VerticalContentAlignment="Center"
-                                                       SnapsToDevicePixels="True">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Loaded">
-                                    <i:InvokeCommandAction Command="{Binding Loaded_Live_Camera_Comm}"
-                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                           PassEventArgsToCommand="True" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                            <Halcon:HSmartWindowControlWPF.OpacityMask>
-                                <VisualBrush Visual="{Binding ElementName=Mask1}" />
-                            </Halcon:HSmartWindowControlWPF.OpacityMask>
-                        </Halcon:HSmartWindowControlWPF>
-                        <Halcon:HSmartWindowControlWPF x:Name="Results_Window_4" Grid.Row=" 0" Grid.Column=" 2"
-                                                       HorizontalAlignment="Stretch"
-                                                       VerticalAlignment="Stretch"
-                                                       HorizontalContentAlignment="Center"
-                                                       VerticalContentAlignment="Center"
-                                                       SnapsToDevicePixels="True">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Loaded">
-                                    <i:InvokeCommandAction Command="{Binding Loaded_Live_Camera_Comm}"
-                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                           PassEventArgsToCommand="True" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </Halcon:HSmartWindowControlWPF>
-                        <Halcon:HSmartWindowControlWPF x:Name="Results_Window_3" Grid.Row=" 2" Grid.Column=" 2"
-                                                       HorizontalAlignment="Stretch"
-                                                       VerticalAlignment="Stretch"
-                                                       HorizontalContentAlignment="Center"
-                                                       VerticalContentAlignment="Center"
-                                                       SnapsToDevicePixels="True">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Loaded">
-                                    <i:InvokeCommandAction Command="{Binding Loaded_Live_Camera_Comm}"
-                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                           PassEventArgsToCommand="True" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                            <Halcon:HSmartWindowControlWPF.OpacityMask>
-                                <VisualBrush Visual="{Binding ElementName=Mask1}" />
-                            </Halcon:HSmartWindowControlWPF.OpacityMask>
-                        </Halcon:HSmartWindowControlWPF>
-                        <!--  图像坐标信息  -->
-                        <Grid x:Name="G1" Grid.Row=" 0" Grid.Column=" 0"
-                              VerticalAlignment="Bottom">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="auto" />
-                            </Grid.ColumnDefinitions>
-                            <Border Grid.Column=" 0"
-                                    VerticalAlignment="Bottom"
-                                    Background="{DynamicResource 全局_按钮_黑颜色}"
-                                    Opacity=" 0.8">
-                                <Border.Style>
-                                    <Style TargetType="Border">
-                                        <Setter Property="Height" Value=" 25" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsMouseOver, ElementName=G1}" Value="true">
-                                                <Setter Property="Height" Value="150" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-                            </Border>
-                            <StackPanel Grid.Column=" 0"
-                                        HorizontalAlignment="Left"
-                                        Orientation="Horizontal">
-                                <ListView VerticalAlignment="Bottom"
-                                          Background="Transparent"
-                                          BorderBrush="Transparent"
-                                          BorderThickness="0"
-                                          ItemContainerStyle="{DynamicResource Vison_Data_ListBoxItemContainerStyle}"
-                                          ItemTemplate="{DynamicResource Result_ListViewItemTemplate}"
-                                          ItemsSource="{Binding Find_Results1_Window_Result.Text_Arr_UI}"
-                                          ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                                    <ListView.Style>
-                                        <Style TargetType="ListView">
-                                            <Setter Property="Height" Value=" 24" />
+
+                        <Grid Grid.Row=" 0" Grid.Column="0">
+                            <Grid.Style>
+                                <Style TargetType="Grid">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Window_Switch}" Value="true">
+                                            <Setter Property="Grid.RowSpan" Value="3" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
+
+                            <Halcon:HSmartWindowControlWPF x:Name="Results_Window_1"
+                                                           HorizontalAlignment="Stretch"
+                                                           VerticalAlignment="Stretch"
+                                                           HorizontalContentAlignment="Center"
+                                                           VerticalContentAlignment="Center"
+                                                           SnapsToDevicePixels="True">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Loaded">
+                                        <i:InvokeCommandAction Command="{Binding Loaded_Live_Camera_Comm}"
+                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                               PassEventArgsToCommand="True" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Halcon:HSmartWindowControlWPF>
+
+                            <Grid x:Name="G1" VerticalAlignment="Bottom">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column=" 0"
+                                        VerticalAlignment="Bottom"
+                                        Background="{DynamicResource 全局_按钮_黑颜色}"
+                                        Opacity=" 0.8">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Height" Value=" 25" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsMouseOver, ElementName=G1}" Value="true">
-                                                    <Setter Property="Height" Value=" 150" />
+                                                    <Setter Property="Height" Value="150" />
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </ListView.Style>
-                                </ListView>
-                            </StackPanel>
-                            <Border Grid.Column=" 1"
-                                    Height=" 25"
-                                    VerticalAlignment="Bottom"
-                                    Opacity=" 0.8">
-                                <Border.Style>
-                                    <Style TargetType="Border">
-                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Find_Results1_Window_Result.FInd_Results}" Value="false">
-                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-                            </Border>
-                            <StackPanel Grid.Column=" 1"
-                                        Margin="5"
-                                        HorizontalAlignment="Center"
+                                    </Border.Style>
+                                </Border>
+                                <StackPanel Grid.Column=" 0"
+                                            HorizontalAlignment="Left"
+                                            Orientation="Horizontal">
+                                    <ListView VerticalAlignment="Bottom"
+                                              Background="Transparent"
+                                              BorderBrush="Transparent"
+                                              BorderThickness="0"
+                                              ItemContainerStyle="{DynamicResource Vison_Data_ListBoxItemContainerStyle}"
+                                              ItemTemplate="{DynamicResource Result_ListViewItemTemplate}"
+                                              ItemsSource="{Binding Find_Results1_Window_Result.Text_Arr_UI}"
+                                              ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                        <ListView.Style>
+                                            <Style TargetType="ListView">
+                                                <Setter Property="Height" Value=" 24" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsMouseOver, ElementName=G1}" Value="true">
+                                                        <Setter Property="Height" Value=" 150" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ListView.Style>
+                                    </ListView>
+                                </StackPanel>
+                                <Border Grid.Column=" 1"
+                                        Height=" 25"
                                         VerticalAlignment="Bottom"
-                                        Orientation="Horizontal">
-                                <TextBlock Text="位置：F_45   "
-                                           VerticalAlignment="Center"
-                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                           FontSize="12"
-                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
-                                <TextBlock VerticalAlignment="Center"
-                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                           FontSize="12"
-                                           Foreground="{DynamicResource 全局_按钮_白颜色}">
-                                    <TextBlock.Style>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="Text" Value="结果 : PASS" />
+                                        Opacity=" 0.8">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding Find_Results1_Window_Result.FInd_Results}" Value="false">
-                                                    <Setter Property="Text" Value="结果 : NG" />
+                                                    <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
-                            </StackPanel>
+                                    </Border.Style>
+                                </Border>
+                                <StackPanel Grid.Column=" 1"
+                                            Margin="5"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Bottom"
+                                            Orientation="Horizontal">
+                                    <TextBlock Text="窗口_1   "
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                               FontSize="12"
+                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                    <TextBlock VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                               FontSize="12"
+                                               Foreground="{DynamicResource 全局_按钮_白颜色}">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Text" Value="结果 : PASS" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Find_Results1_Window_Result.FInd_Results}" Value="false">
+                                                        <Setter Property="Text" Value="结果 : NG" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </StackPanel>
+                            </Grid>
+
+
                         </Grid>
-                        <Grid x:Name="G2" Grid.Row=" 0" Grid.Column=" 2"
-                              VerticalAlignment="Bottom">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="auto" />
-                            </Grid.ColumnDefinitions>
-                            <Border Grid.Column=" 0"
-                                    VerticalAlignment="Bottom"
-                                    Background="{DynamicResource 全局_按钮_黑颜色}"
-                                    Opacity=" 0.8">
-                                <Border.Style>
-                                    <Style TargetType="Border">
-                                        <Setter Property="Height" Value=" 25" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsMouseOver, ElementName=G2}" Value="true">
-                                                <Setter Property="Height" Value="150" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-                            </Border>
-                            <StackPanel Grid.Column=" 0"
-                                        HorizontalAlignment="Left"
-                                        Orientation="Horizontal">
-                                <ListView VerticalAlignment="Bottom"
-                                          Background="Transparent"
-                                          BorderBrush="Transparent"
-                                          BorderThickness="0"
-                                          ItemContainerStyle="{DynamicResource Vison_Data_ListBoxItemContainerStyle}"
-                                          ItemTemplate="{DynamicResource Result_ListViewItemTemplate}"
-                                          ItemsSource="{Binding Find_Results4_Window_Result.Text_Arr_UI}"
-                                          ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                                    <ListView.Style>
-                                        <Style TargetType="ListView">
-                                            <Setter Property="Height" Value=" 24" />
+
+
+
+                        <Grid Grid.Row=" 2" Grid.Column=" 0">
+                            <Grid.Style>
+                                <Style TargetType="Grid">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Window_Switch}" Value="true">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
+                            <Halcon:HSmartWindowControlWPF x:Name="Results_Window_2" Grid.Row=" 2" Grid.Column=" 0"
+                                                           HorizontalAlignment="Stretch"
+                                                           VerticalAlignment="Stretch"
+                                                           HorizontalContentAlignment="Center"
+                                                           VerticalContentAlignment="Center"
+                                                           SnapsToDevicePixels="True">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Loaded">
+                                        <i:InvokeCommandAction Command="{Binding Loaded_Live_Camera_Comm}"
+                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                               PassEventArgsToCommand="True" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                                <Halcon:HSmartWindowControlWPF.OpacityMask>
+                                    <VisualBrush Visual="{Binding ElementName=Mask1}" />
+                                </Halcon:HSmartWindowControlWPF.OpacityMask>
+                            </Halcon:HSmartWindowControlWPF>
+                            <Grid x:Name="G2" VerticalAlignment="Bottom">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column=" 0"
+                                        VerticalAlignment="Bottom"
+                                        Background="{DynamicResource 全局_按钮_黑颜色}"
+                                        Opacity=" 0.8">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Height" Value=" 25" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsMouseOver, ElementName=G2}" Value="true">
                                                     <Setter Property="Height" Value="150" />
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </ListView.Style>
-                                </ListView>
-                            </StackPanel>
-                            <Border Grid.Column=" 1"
-                                    Height=" 25"
-                                    VerticalAlignment="Bottom"
-                                    Opacity=" 0.8">
-                                <Border.Style>
-                                    <Style TargetType="Border">
-                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Find_Results4_Window_Result.FInd_Results}" Value="false">
-                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-                            </Border>
-                            <StackPanel Grid.Column=" 1"
-                                        Margin="5"
-                                        HorizontalAlignment="Center"
+                                    </Border.Style>
+                                </Border>
+                                <StackPanel Grid.Column=" 0"
+                                            HorizontalAlignment="Left"
+                                            Orientation="Horizontal">
+                                    <ListView VerticalAlignment="Bottom"
+                                              Background="Transparent"
+                                              BorderBrush="Transparent"
+                                              BorderThickness="0"
+                                              ItemContainerStyle="{DynamicResource Vison_Data_ListBoxItemContainerStyle}"
+                                              ItemTemplate="{DynamicResource Result_ListViewItemTemplate}"
+                                              ItemsSource="{Binding Find_Results4_Window_Result.Text_Arr_UI}"
+                                              ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                        <ListView.Style>
+                                            <Style TargetType="ListView">
+                                                <Setter Property="Height" Value=" 24" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsMouseOver, ElementName=G2}" Value="true">
+                                                        <Setter Property="Height" Value="150" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ListView.Style>
+                                    </ListView>
+                                </StackPanel>
+                                <Border Grid.Column=" 1"
+                                        Height=" 25"
                                         VerticalAlignment="Bottom"
-                                        Orientation="Horizontal">
-                                <TextBlock Text="位置 : F_315 "
-                                           VerticalAlignment="Center"
-                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                           FontSize="12"
-                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
-                                <TextBlock VerticalAlignment="Center"
-                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                           FontSize="12"
-                                           Foreground="{DynamicResource 全局_按钮_白颜色}">
-                                    <TextBlock.Style>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="Text" Value="结果 : PASS" />
+                                        Opacity=" 0.8">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding Find_Results4_Window_Result.FInd_Results}" Value="false">
-                                                    <Setter Property="Text" Value="结果 : NG" />
+                                                    <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
-                            </StackPanel>
+                                    </Border.Style>
+                                </Border>
+                                <StackPanel Grid.Column=" 1"
+                                            Margin="5"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Bottom"
+                                            Orientation="Horizontal">
+                                    <TextBlock Text="窗口_4   "
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                               FontSize="12"
+                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                    <TextBlock VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                               FontSize="12"
+                                               Foreground="{DynamicResource 全局_按钮_白颜色}">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Text" Value="结果 : PASS" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Find_Results4_Window_Result.FInd_Results}" Value="false">
+                                                        <Setter Property="Text" Value="结果 : NG" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </StackPanel>
+                            </Grid>
+
                         </Grid>
-                        <Grid x:Name="G3" Grid.Row=" 2" Grid.Column=" 0"
-                              VerticalAlignment="Bottom">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="auto" />
-                            </Grid.ColumnDefinitions>
-                            <Border Grid.Column=" 0"
-                                    VerticalAlignment="Bottom"
-                                    Background="{DynamicResource 全局_按钮_黑颜色}"
-                                    CornerRadius=" 0 0 0 10"
-                                    Opacity=" 0.8">
-                                <Border.Style>
-                                    <Style TargetType="Border">
-                                        <Setter Property="Height" Value=" 25" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsMouseOver, ElementName=G3}" Value="true">
-                                                <Setter Property="Height" Value="150" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-                            </Border>
-                            <StackPanel Grid.Column=" 0"
-                                        HorizontalAlignment="Left"
-                                        Orientation="Horizontal">
-                                <ListView VerticalAlignment="Bottom"
-                                          Background="Transparent"
-                                          BorderBrush="Transparent"
-                                          BorderThickness="0"
-                                          ItemContainerStyle="{DynamicResource Vison_Data_ListBoxItemContainerStyle}"
-                                          ItemTemplate="{DynamicResource Result_ListViewItemTemplate}"
-                                          ItemsSource="{Binding Find_Results2_Window_Result.Text_Arr_UI}"
-                                          ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                                    <ListView.Style>
-                                        <Style TargetType="ListView">
-                                            <Setter Property="Height" Value=" 24" />
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsMouseOver, ElementName=G3}" Value="true">
-                                                    <Setter Property="Height" Value=" 150" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </ListView.Style>
-                                </ListView>
-                            </StackPanel>
-                            <Border Grid.Column=" 1"
-                                    Height=" 25"
-                                    VerticalAlignment="Bottom"
-                                    Opacity=" 0.8">
-                                <Border.Style>
-                                    <Style TargetType="Border">
-                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Find_Results2_Window_Result.FInd_Results}" Value="false">
-                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-                            </Border>
-                            <StackPanel Grid.Column=" 1"
-                                        Margin="5"
-                                        HorizontalAlignment="Center"
+
+
+                        <Grid Grid.Row="0" Grid.Column=" 2">
+                            <Grid.Style>
+                                <Style TargetType="Grid">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Window_Switch}" Value="true">
+                                            <Setter Property="Grid.RowSpan" Value="3" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
+                            <Halcon:HSmartWindowControlWPF x:Name="Results_Window_4" Grid.Row=" 0" Grid.Column=" 2"
+                                                           HorizontalAlignment="Stretch"
+                                                           VerticalAlignment="Stretch"
+                                                           HorizontalContentAlignment="Center"
+                                                           VerticalContentAlignment="Center"
+                                                           SnapsToDevicePixels="True">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Loaded">
+                                        <i:InvokeCommandAction Command="{Binding Loaded_Live_Camera_Comm}"
+                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                               PassEventArgsToCommand="True" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Halcon:HSmartWindowControlWPF>
+
+
+                            <Grid x:Name="G4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column=" 0"
                                         VerticalAlignment="Bottom"
-                                        Orientation="Horizontal">
-                                <TextBlock Text="位置 : F_135 "
-                                           VerticalAlignment="Center"
-                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                           FontSize="12"
-                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
-                                <TextBlock VerticalAlignment="Center"
-                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                           FontSize="12"
-                                           Foreground="{DynamicResource 全局_按钮_白颜色}">
-                                    <TextBlock.Style>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="Text" Value="结果 : PASS" />
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Find_Results2_Window_Result.FInd_Results}" Value="false">
-                                                    <Setter Property="Text" Value="结果 : NG" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
-                            </StackPanel>
-                        </Grid>
-                        <Grid x:Name="G4" Grid.Row=" 2" Grid.Column=" 2">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="auto" />
-                            </Grid.ColumnDefinitions>
-                            <Border Grid.Column=" 0"
-                                    VerticalAlignment="Bottom"
-                                    Background="{DynamicResource 全局_按钮_黑颜色}"
-                                    Opacity=" 0.8">
-                                <Border.Style>
-                                    <Style TargetType="Border">
-                                        <Setter Property="Height" Value=" 25" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsMouseOver, ElementName=G4}" Value="true">
-                                                <Setter Property="Height" Value="150" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-                            </Border>
-                            <StackPanel Grid.Column=" 0"
-                                        VerticalAlignment="Bottom"
-                                        Orientation="Horizontal">
-                                <ListView VerticalAlignment="Bottom"
-                                          Background="Transparent"
-                                          BorderBrush="Transparent"
-                                          BorderThickness="0"
-                                          ItemContainerStyle="{DynamicResource Vison_Data_ListBoxItemContainerStyle}"
-                                          ItemTemplate="{DynamicResource Result_ListViewItemTemplate}"
-                                          ItemsSource="{Binding Find_Results3_Window_Result.Text_Arr_UI}"
-                                          ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                                    <ListView.Style>
-                                        <Style TargetType="ListView">
-                                            <Setter Property="Height" Value=" 24" />
+                                        Background="{DynamicResource 全局_按钮_黑颜色}"
+                                        Opacity=" 0.8">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Height" Value=" 25" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsMouseOver, ElementName=G4}" Value="true">
-                                                    <Setter Property="Height" Value=" 150" />
+                                                    <Setter Property="Height" Value="150" />
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </ListView.Style>
-                                </ListView>
-                            </StackPanel>
-                            <Border Grid.Column="1"
-                                    Height=" 25"
-                                    VerticalAlignment="Bottom"
-                                    CornerRadius=" 0 0 10 0"
-                                    Opacity=" 0.8">
-                                <Border.Style>
-                                    <Style TargetType="Border">
-                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Find_Results3_Window_Result.FInd_Results}" Value="false">
-                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-                            </Border>
-                            <StackPanel Grid.Column=" 1"
-                                        Margin="5"
-                                        HorizontalAlignment="Center"
+                                    </Border.Style>
+                                </Border>
+                                <StackPanel Grid.Column=" 0"
+                                            VerticalAlignment="Bottom"
+                                            Orientation="Horizontal">
+                                    <ListView VerticalAlignment="Bottom"
+                                              Background="Transparent"
+                                              BorderBrush="Transparent"
+                                              BorderThickness="0"
+                                              ItemContainerStyle="{DynamicResource Vison_Data_ListBoxItemContainerStyle}"
+                                              ItemTemplate="{DynamicResource Result_ListViewItemTemplate}"
+                                              ItemsSource="{Binding Find_Results3_Window_Result.Text_Arr_UI}"
+                                              ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                        <ListView.Style>
+                                            <Style TargetType="ListView">
+                                                <Setter Property="Height" Value=" 24" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsMouseOver, ElementName=G4}" Value="true">
+                                                        <Setter Property="Height" Value=" 150" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ListView.Style>
+                                    </ListView>
+                                </StackPanel>
+                                <Border Grid.Column="1"
+                                        Height=" 25"
                                         VerticalAlignment="Bottom"
-                                        Orientation="Horizontal">
-                                <TextBlock Text="位置 : F_225 "
-                                           VerticalAlignment="Center"
-                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                           FontSize="12"
-                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
-                                <TextBlock VerticalAlignment="Center"
-                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                           FontSize="12"
-                                           Foreground="{DynamicResource 全局_按钮_白颜色}">
-                                    <TextBlock.Style>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="Text" Value="结果 : PASS" />
+                                        CornerRadius=" 0 0 10 0"
+                                        Opacity=" 0.8">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding Find_Results3_Window_Result.FInd_Results}" Value="false">
-                                                    <Setter Property="Text" Value="结果 : NG" />
+                                                    <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
-                            </StackPanel>
+                                    </Border.Style>
+                                </Border>
+                                <StackPanel Grid.Column=" 1"
+                                            Margin="5"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Bottom"
+                                            Orientation="Horizontal">
+                                    <TextBlock Text="窗口_3   "
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                               FontSize="12"
+                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                    <TextBlock VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                               FontSize="12"
+                                               Foreground="{DynamicResource 全局_按钮_白颜色}">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Text" Value="结果 : PASS" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Find_Results3_Window_Result.FInd_Results}" Value="false">
+                                                        <Setter Property="Text" Value="结果 : NG" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </StackPanel>
+                            </Grid>
+
                         </Grid>
+
+
+                        <Grid Grid.Row="2" Grid.Column="2">
+                            <Grid.Style>
+                                <Style TargetType="Grid">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Window_Switch}" Value="true">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
+                            <Halcon:HSmartWindowControlWPF x:Name="Results_Window_3" Grid.Row=" 2" Grid.Column=" 2"
+                                                           HorizontalAlignment="Stretch"
+                                                           VerticalAlignment="Stretch"
+                                                           HorizontalContentAlignment="Center"
+                                                           VerticalContentAlignment="Center"
+                                                           SnapsToDevicePixels="True">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Loaded">
+                                        <i:InvokeCommandAction Command="{Binding Loaded_Live_Camera_Comm}"
+                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                               PassEventArgsToCommand="True" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                                <Halcon:HSmartWindowControlWPF.OpacityMask>
+                                    <VisualBrush Visual="{Binding ElementName=Mask1}" />
+                                </Halcon:HSmartWindowControlWPF.OpacityMask>
+                            </Halcon:HSmartWindowControlWPF>
+
+                            <Grid x:Name="G3" VerticalAlignment="Bottom">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column=" 0"
+                                        VerticalAlignment="Bottom"
+                                        Background="{DynamicResource 全局_按钮_黑颜色}"
+                                        CornerRadius=" 0 0 0 10"
+                                        Opacity=" 0.8">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Height" Value=" 25" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsMouseOver, ElementName=G3}" Value="true">
+                                                    <Setter Property="Height" Value="150" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                </Border>
+                                <StackPanel Grid.Column=" 0"
+                                            HorizontalAlignment="Left"
+                                            Orientation="Horizontal">
+                                    <ListView VerticalAlignment="Bottom"
+                                              Background="Transparent"
+                                              BorderBrush="Transparent"
+                                              BorderThickness="0"
+                                              ItemContainerStyle="{DynamicResource Vison_Data_ListBoxItemContainerStyle}"
+                                              ItemTemplate="{DynamicResource Result_ListViewItemTemplate}"
+                                              ItemsSource="{Binding Find_Results2_Window_Result.Text_Arr_UI}"
+                                              ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                        <ListView.Style>
+                                            <Style TargetType="ListView">
+                                                <Setter Property="Height" Value=" 24" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsMouseOver, ElementName=G3}" Value="true">
+                                                        <Setter Property="Height" Value=" 150" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ListView.Style>
+                                    </ListView>
+                                </StackPanel>
+                                <Border Grid.Column=" 1"
+                                        Height=" 25"
+                                        VerticalAlignment="Bottom"
+                                        Opacity=" 0.8">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Find_Results2_Window_Result.FInd_Results}" Value="false">
+                                                    <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                </Border>
+                                <StackPanel Grid.Column=" 1"
+                                            Margin="5"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Bottom"
+                                            Orientation="Horizontal">
+                                    <TextBlock Text="窗口_2   "
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                               FontSize="12"
+                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                    <TextBlock VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                               FontSize="12"
+                                               Foreground="{DynamicResource 全局_按钮_白颜色}">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Text" Value="结果 : PASS" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Find_Results2_Window_Result.FInd_Results}" Value="false">
+                                                        <Setter Property="Text" Value="结果 : NG" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </StackPanel>
+                            </Grid>
+
+                        </Grid>
+                        <!--  图像坐标信息  -->
+
+
+
+
                         <!--  窗口分割条  -->
                         <Border Grid.Row=" 0" Grid.Column=" 1"
                                 Grid.RowSpan=" 3"
@@ -733,7 +826,17 @@
                         <Border Grid.Row=" 1" Grid.Column=" 0"
                                 Grid.ColumnSpan=" 3"
                                 Height=" 2"
-                                Background="{DynamicResource 全局_背景_白颜色}" />
+                                Background="{DynamicResource 全局_背景_白颜色}">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Window_Switch}" Value="true">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                        </Border>
                     </Grid>
                     <Grid Grid.Row=" 1">
                         <Grid.Style>

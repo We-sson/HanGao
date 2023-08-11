@@ -12,15 +12,6 @@
              d:DesignWidth="332"
              DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_CameraSet_ViewModel}"
              mc:Ignorable="d">
-    <UserControl.Style>
-        <Style TargetType="UserControl">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Camera_Data_ID_UI}" Value="-1">
-                    <Setter Property="IsEnabled" Value="False" />
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-    </UserControl.Style>
     <UserControl.Resources>
         <Enum:Halcon_StringConverter x:Key="Halcon_StringConverter" />
         <Enum:Halcon_EnumConverter x:Key="Halcon_EnumConverter" />
@@ -362,26 +353,7 @@
                                                FontSize="16"
                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                 </StackPanel>
-                                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                                    <!--<TextBlock Text="{Binding Camera_Data_ID_UI, StringFormat=参数序号 : {0}}"
-                                               Margin="0,0,10,0"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                               FontSize="16"
-                                               Visibility="Collapsed">
-                                        <TextBlock.Style>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_白颜色}" />
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Camera_Data_ID_UI}" Value="-1">
-                                                        <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_黄颜色}" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>-->
-                                </StackPanel>
+                                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" />
 
                             </Grid>
 
@@ -516,7 +488,7 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="{Binding Select_Camera.Camera_Parameter.ExposureTime, Mode=TwoWay}">
+                                        Value="{Binding Camera_Parameter_Val.ExposureTime, Mode=TwoWay}">
                                     <i:Interaction.Triggers>
 
                                         <i:EventTrigger EventName="PreviewMouseUp">
@@ -571,7 +543,7 @@
                                         Minimum="0"
                                         SmallChange="0.1"
                                         TickFrequency="0.01"
-                                        Value="{Binding Select_Camera.Camera_Parameter.Gain, Mode=TwoWay}">
+                                        Value="{Binding Camera_Parameter_Val.Gain, Mode=TwoWay}">
 
                                     <i:Interaction.Triggers>
 
@@ -617,7 +589,7 @@
                                         Minimum="-6"
                                         SmallChange="0.1"
                                         TickFrequency="0.1"
-                                        Value="{Binding Select_Camera.Camera_Parameter.DigitalShift, Mode=TwoWay}">
+                                        Value="{Binding Camera_Parameter_Val.DigitalShift, Mode=TwoWay}">
                                     <i:Interaction.Triggers>
 
                                         <i:EventTrigger EventName="PreviewMouseUp">
@@ -662,7 +634,7 @@
                                         Minimum="0"
                                         SmallChange="0.1"
                                         TickFrequency="0.1"
-                                        Value="{Binding Select_Camera.Camera_Parameter.Gamma, Mode=TwoWay}">
+                                        Value="{Binding Camera_Parameter_Val.Gamma, Mode=TwoWay}">
                                     <i:Interaction.Triggers>
 
                                         <i:EventTrigger EventName="PreviewMouseUp">
@@ -750,7 +722,7 @@
                                         Maximum="4095"
                                         Minimum="0"
                                         SmallChange="1"
-                                        Value="{Binding Select_Camera.Camera_Parameter.BlackLevel, Mode=TwoWay}">
+                                        Value="{Binding Camera_Parameter_Val.BlackLevel, Mode=TwoWay}">
                                     <i:Interaction.Triggers>
 
                                         <i:EventTrigger EventName="PreviewMouseUp">
@@ -799,7 +771,7 @@
                                           FontSize="20"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="{Binding Select_Camera.Camera_Parameter.AcquisitionMode, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type MVS:MV_CAM_ACQUISITION_MODE}}">
+                                          SelectedIndex="{Binding Camera_Parameter_Val.AcquisitionMode, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type MVS:MV_CAM_ACQUISITION_MODE}}">
 
                                     <ComboBoxItem>
 
@@ -875,7 +847,7 @@
 
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding Initialize_GIGE_Camera_Comm}"
+                                            <i:InvokeCommandAction Command="{Binding}"
                                                                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UC_Vision_CameraSet}}}"
                                                                    PassEventArgsToCommand="True" />
                                         </i:EventTrigger>
