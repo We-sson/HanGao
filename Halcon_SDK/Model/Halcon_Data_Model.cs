@@ -506,7 +506,21 @@ namespace Halcon_SDK_DLL.Model
     /// </summary>
     public class HPR_Status_Model
     {
-        public HPR_Status_Model(HVE_Result_Enum _Status)
+
+        /// <summary>
+        /// 泛型类型委托声明
+        /// </summary>
+        /// <param name="_Connect_State"></param>
+        public delegate void HVS_T_delegate<T>(T _Tl);
+
+        /// <summary>
+        /// 算法设置错误委托属性
+        /// </summary>
+        public  static  HVS_T_delegate<string> HVS_ErrorInfo_delegate { set; get; }
+
+
+
+        public   HPR_Status_Model(HVE_Result_Enum _Status)
         {
             Result_Status = _Status;
 
@@ -519,7 +533,18 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 运行错误详细信息
         /// </summary>
-        public string Result_Error_Info { set; get; } = "Null";
+        private string _Result_Error_Info;
+
+        public string Result_Error_Info
+        {
+            get { return _Result_Error_Info; }
+            set
+            {
+                _Result_Error_Info = value;
+                HVS_ErrorInfo_delegate(GetResult_Info());
+
+            }
+        }
         /// <summary>
         /// 获得算法运行状态
         /// </summary>

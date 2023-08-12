@@ -305,7 +305,8 @@ namespace HanGao.ViewModel.Messenger_Eunm
             /// <summary>
             /// 视觉查找数据页面UI序号
             /// </summary>
-                UI_Find_Data_Number
+            UI_Find_Data_Number
+
 
 
         }

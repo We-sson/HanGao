@@ -1,16 +1,8 @@
-﻿using Halcon_SDK_DLL;
-using HanGao.View.FrameShow;
-using HanGao.Xml_Date.Vision_XML.Vision_Model;
-using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
+﻿using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
 using System.Drawing;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Windows.Media.Media3D;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
-using static HanGao.ViewModel.UC_Vision_CameraSet_ViewModel;
 using static HanGao.ViewModel.UC_Vision_Create_Template_ViewMode;
-using static HanGao.ViewModel.User_Control_Log_ViewModel;
 using static MVS_SDK_Base.Model.MVS_Model;
 using Point = System.Windows.Point;
 namespace HanGao.ViewModel
@@ -72,6 +64,15 @@ namespace HanGao.ViewModel
                 //Camera_Resolution = _M.HeightMax.ToString() + "x" + _M.WidthMax.ToString();
                 //Camera_FrameRate = Math.Round(_M.ResultingFrameRate, 3);
             });
+
+
+
+            //算法设置错误信息委托显示
+            HPR_Status_Model.HVS_ErrorInfo_delegate += (string _Error) =>
+            {
+                User_Log_Add(_Error);
+            };
+
         }
         /// <summary>
         /// 静态属性更新通知事件

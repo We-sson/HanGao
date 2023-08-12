@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Enum="clr-namespace:Halcon_SDK_DLL.WPF_Converter;assembly=Halcon_SDK_DLL"
              xmlns:MVS="clr-namespace:MvCamCtrl.NET.CameraParams;assembly=MvCamCtrl.Net"
-             xmlns:MVS_Enum="clr-namespace:MVS_SDK_Base.Model;assembly=ClassLibrary"
+             xmlns:MVS_Enum="clr-namespace:MVS_SDK_Base.Model;assembly=MVS_SDK"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:HanGao.View.User_Control.Vision_Control"
@@ -539,7 +539,7 @@
                                         HorizontalContentAlignment="Stretch"
                                         VerticalContentAlignment="Stretch"
                                         IsSnapToTickEnabled="True"
-                                        Maximum="20"
+                                        Maximum="19"
                                         Minimum="0"
                                         SmallChange="0.1"
                                         TickFrequency="0.01"
@@ -899,7 +899,7 @@
                                     </i:Interaction.Triggers>
                                 </CheckBox>
 
-                                <CheckBox Style="{DynamicResource CheckBoxStyle1}" Grid.Column=" 1"
+                                <CheckBox Style="{DynamicResource CheckBoxStyle1}" x:Name="Live_Camera" Grid.Column=" 1"
                                           Width="90"
                                           Height=" 38"
                                           Margin="0,0,0,0"
@@ -932,12 +932,21 @@
 
 
 
-                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                <Button Grid.Column=" 2"
                                         Width="90"
                                         Height=" 38"
                                         Margin="0,0,0,0"
                                         HorizontalAlignment="Right"
                                         Background="{DynamicResource 全局_按钮_蓝颜色}">
+                                    <Button.Style>
+                                        <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ElementName=Live_Camera, Path=IsChecked}" Value="true">
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
                                     <TextBlock Text="采集一帧"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"

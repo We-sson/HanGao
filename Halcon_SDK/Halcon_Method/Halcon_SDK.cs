@@ -645,9 +645,7 @@ namespace Halcon_SDK_DLL
 
                 //HOperatorSet.GenImage1(out image, "byte", _Width, _Height, _pData);
 
-
-
-                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = "转化Halcon图像类型成功！" };
+                return new HPR_Status_Model(HVE_Result_Enum.Run_OK);
 
             }
             catch (Exception e)

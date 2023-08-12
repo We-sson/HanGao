@@ -1,12 +1,14 @@
 ﻿
 
 
+using CommunityToolkit.Mvvm.Messaging;
+using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static MVS_SDK_Base.Model.MVS_Model;
 
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class User_Control_Log_ViewModel : ObservableObject
+    public class User_Control_Log_ViewModel : ObservableRecipient
     {
 
 
@@ -26,7 +28,14 @@ namespace HanGao.ViewModel
 
 
 
+            //接收其他地方传送数据
+            Messenger.Register<object, string>(this, nameof(Meg_Value_Eunm.UI_Find_Data_Number), (O, _S) =>
+            {
+                
 
+
+
+            });
 
 
 
@@ -38,21 +47,21 @@ namespace HanGao.ViewModel
 
 
 
-        private static User_Log_Models _User_UI_Log = new User_Log_Models();
+        public   User_Log_Models User_UI_Log = new User_Log_Models();
         /// <summary>
         /// 显示状态信息输出
         /// </summary>
-        public  static User_Log_Models User_UI_Log
-        {
-            get
-            {
-                return _User_UI_Log;
-            }
-            set
-            {
-                _User_UI_Log = value;
-            }
-        }
+        //public   User_Log_Models User_UI_Log
+        //{
+        //    get
+        //    {
+        //        return _User_UI_Log;
+        //    }
+        //    set
+        //    {
+        //        _User_UI_Log = value;
+        //    }
+        //}
 
         /// <summary>
         /// 资源互锁
@@ -62,7 +71,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 全局使用输出方法
         /// </summary>
-        public static void User_Log_Add(string Log)
+        public  void User_Log_Add(string Log)
         {
 
             
@@ -72,7 +81,7 @@ namespace HanGao.ViewModel
                 Task.Run(() => {
        
 
-            User_UI_Log.User_Log += User_UI_Log.User_Log_Number+" | " + DateTime.Now.ToShortTimeString().ToString() + "——" + Log + HttpUtility.HtmlDecode("&#x000A;");
+            User_UI_Log.User_Log += User_UI_Log.User_Log_Number.ToString("D3")+" | " + DateTime.Now.ToShortTimeString().ToString() + "——" + Log + HttpUtility.HtmlDecode("&#x000A;");
 
                 });
             //}
@@ -100,6 +109,8 @@ namespace HanGao.ViewModel
         public static HPR_Status_Model Display_Status(HPR_Status_Model _Result_Status) 
         {
 
+
+       
                 User_Log_Add(_Result_Status.GetResult_Info());
 
 
@@ -113,14 +124,14 @@ namespace HanGao.ViewModel
         /// </summary>
         /// <param name="_Result_Status"></param>
         /// <returns></returns>
-        public static MPR_Status_Model Display_Status(MPR_Status_Model _Result_Status)
-        {
+        //public static MPR_Status_Model Display_Status(MPR_Status_Model _Result_Status)
+        //{
 
-                User_Log_Add(_Result_Status.GetResult_Info());
+        //        User_Log_Add(_Result_Status.GetResult_Info());
 
 
-            return _Result_Status;
-        }
+        //    return _Result_Status;
+        //}
 
 
         /// <summary>

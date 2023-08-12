@@ -213,7 +213,7 @@ namespace HanGao.ViewModel
             //HImage_Display_Model MVS_TOHalcon = new HImage_Display_Model();
             HImage _Image = new HImage();
             ///转换海康图像类型
-            if (Display_Status(Halcon_SDK.Mvs_To_Halcon_Image(ref _Image, pFrameInfo.nWidth, pFrameInfo.nHeight, pData)).GetResult())
+            if (Halcon_SDK.Mvs_To_Halcon_Image(ref _Image, pFrameInfo.nWidth, pFrameInfo.nHeight, pData).GetResult())
             {
                 //传送控件显示
                 Messenger.Send<HImage_Display_Model, string>(new HImage_Display_Model()
@@ -369,7 +369,7 @@ namespace HanGao.ViewModel
 
 
 
-                if (Display_Status(MVS.Connect_Camera(Select_Camera)).GetResult())
+                if (MVS.Connect_Camera(Select_Camera).GetResult())
                 {
 
 
@@ -491,7 +491,7 @@ namespace HanGao.ViewModel
         public static   HPR_Status_Model GetOneFrameTimeout(ref HImage _HImage, HWindow _Window, MVS_Camera_Parameter_Model _Camera_Parameter)
         {
             //设置相机总参数
-            if (Display_Status(MVS.Set_Camrea_Parameters_List(Select_Camera.Camera, Camera_Parameter_Val)).GetResult())
+            if (MVS.Set_Camrea_Parameters_List(Select_Camera.Camera, Camera_Parameter_Val).GetResult())
             {
                 //获得一帧图片信息
                 MVS_Image_Mode _MVS_Image = MVS.GetOneFrameTimeout(Select_Camera);
