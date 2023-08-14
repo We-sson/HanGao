@@ -307,11 +307,11 @@ namespace HanGao.ViewModel.Messenger_Eunm
             /// </summary>
             UI_Find_Data_Number,
 
-                UI_Log_Show_1,
+            UI_Log_Show_1,
 
 
 
-                UI_Log_Show_2,
+            UI_Log_Show_2,
 
         }
 
