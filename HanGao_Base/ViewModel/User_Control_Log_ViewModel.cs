@@ -2,6 +2,7 @@
 
 
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.VisualBasic.Logging;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static MVS_SDK_Base.Model.MVS_Model;
 
@@ -29,9 +30,11 @@ namespace HanGao.ViewModel
 
 
             //接收其他地方传送数据
-            Messenger.Register<object, string>(this, nameof(Meg_Value_Eunm.UI_Find_Data_Number), (O, _S) =>
+            Messenger.Register<string , string>(this, nameof(Meg_Value_Eunm.UI_Log_Show_1), (O, _S) =>
             {
-                
+
+
+                User_UI_Log.User_Log += User_UI_Log.User_Log_Number.ToString("D3") + " | " + DateTime.Now.ToShortTimeString().ToString() + "——" + _S + HttpUtility.HtmlDecode("&#x000A;");
 
 
 
@@ -71,7 +74,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 全局使用输出方法
         /// </summary>
-        public  void User_Log_Add(string Log)
+        public static   void User_Log_Add(string Log)
         {
 
             
@@ -81,7 +84,6 @@ namespace HanGao.ViewModel
                 Task.Run(() => {
        
 
-            User_UI_Log.User_Log += User_UI_Log.User_Log_Number.ToString("D3")+" | " + DateTime.Now.ToShortTimeString().ToString() + "——" + Log + HttpUtility.HtmlDecode("&#x000A;");
 
                 });
             //}

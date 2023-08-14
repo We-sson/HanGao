@@ -28,8 +28,8 @@ namespace HanGao.ViewModel
 
 
 
-                if (!UC_Start_State_From_VM.UI_Data.Sink_Load_Stata)
-                {
+                //if (!UC_Start_State_From_VM.UI_Data.Sink_Load_Stata)
+                //{
 
 
 
@@ -172,11 +172,11 @@ namespace HanGao.ViewModel
 
 
                 }
-                }
-                else
-                {
-                    User_Control_Log_ViewModel.User_Log_Add("设备加载条件不满足，禁止传输参数到机器人！");
-                }
+                //}
+                //else
+                //{
+                //    User_Control_Log_ViewModel.User_Log_Add("设备加载条件不满足，禁止传输参数到机器人！");
+                //}
             });
 
 
