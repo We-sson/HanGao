@@ -870,7 +870,7 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="35" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column=" 0"
+                                <TextBlock x:Name="T1" Grid.Column=" 0"
                                            Text="文件保存位置"
                                            HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
@@ -883,7 +883,7 @@
                                         <Style TargetType="{x:Type Border}">
                                             <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Text, ElementName=ST1}" Value="">
+                                                <DataTrigger Binding="{Binding Text, ElementName=T1}" Value="">
                                                     <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_红颜色}" />
                                                 </DataTrigger>
                                             </Style.Triggers>
@@ -1338,7 +1338,7 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="35" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column=" 0"
+                                <TextBlock x:Name="T2" Grid.Column=" 0"
                                            Text="文件保存位置"
                                            HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
@@ -1351,7 +1351,7 @@
                                         <Style TargetType="{x:Type Border}">
                                             <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Text, ElementName=ST1}" Value="">
+                                                <DataTrigger Binding="{Binding Text, ElementName=T1}" Value="">
                                                     <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_红颜色}" />
                                                 </DataTrigger>
                                             </Style.Triggers>

@@ -30,25 +30,13 @@ namespace HanGao.ViewModel
 
 
 
-            Dictionary<int, string> _E = new();
+            //Dictionary<int, string> _E = new();
             //相机设置错误信息委托显示
             MPR_Status_Model.MVS_ErrorInfo_delegate += (string _Error) =>
             {
-                User_Log_Add(_Error);
+                User_Log_Add(_Error, Log_Show_Window_Enum.Home);
             };
-            //UI启动初始话相机连接
-            //Messenger.Register<dynamic, string>(this, nameof(Meg_Value_Eunm.Initialization_Camera), (O, _S) =>
-            //{
-            //    ////使用多线程读取
-            //    //new Thread(new ThreadStart(new Action(() =>
-            //    //{
-            //    Task.Run(() =>
-            //    {
-            //        //Initialization_Camera_Thread();
-            //    });
-            //    //})))
-            //    //{ IsBackground = true, Name = "Initialization_Camera_Thread" }.Start();
-            //});
+
 
             //UI关闭,强制断开相机连接
             Messenger.Register<dynamic, string>(this, nameof(Meg_Value_Eunm.Close_Camera), (O, _S) =>
@@ -61,23 +49,14 @@ namespace HanGao.ViewModel
 
 
                 Camera_Parameter_Val = _V.Camera_Parameter_Data;
-                //Camera_Parameter_Val = _V.Camera_Parameter_Data;
-                //Vision_Xml_Models _Find = UC_Visal_Function_VM.Find_Data_List.Vision_List.Where(_W => (int.Parse(_W.ID) == (int)_V)).FirstOrDefault();
-                //if (_Find != null)
-                //{
-                //    Camera_Parameter_Val = _Find.Camera_Parameter_Data;
-                //    Camera_Data_ID_UI = (int)_V;
-                //    User_Log_Add("相机参数" + Camera_Data_ID_UI + "号已加载到参数列表中！");
-                //}
-                //else
-                //{
-                //    Camera_Parameter_Val = null;
-                //    User_Log_Add("相机参数" + Camera_Data_ID_UI + "号加载失败！");
+                User_Log_Add("相机参数" + _V.ID + "号已加载到参数列表中！", Log_Show_Window_Enum.Home);
 
-                //}
 
 
             });
+
+
+
 
 
             Initialization_Camera_Thread();
@@ -124,29 +103,12 @@ namespace HanGao.ViewModel
 
 
 
-        /// <summary>
-        /// 当前相机参数号数
-        /// </summary>
-        //public int Camera_Data_ID_UI { set; get; }
-
-
-
-
-
-
-        /// <summary>
-        /// UI相机显示参数
-        /// </summary>
-        //public ObservableCollection<string> Camera_UI_List { set; get; } = new ObservableCollection<string>();
-
-
-
 
         /// <summary>
         /// 查找相机列表
         /// </summary>
-        private static ObservableCollection<MVS_Camera_Info_Model> _MVS_Camera_Info_List { set; get; } = new ObservableCollection<MVS_Camera_Info_Model>();
-        public static ObservableCollection<MVS_Camera_Info_Model> MVS_Camera_Info_List
+        private static   ObservableCollection<MVS_Camera_Info_Model> _MVS_Camera_Info_List { set; get; } = new ObservableCollection<MVS_Camera_Info_Model>();
+        public static   ObservableCollection<MVS_Camera_Info_Model> MVS_Camera_Info_List
         {
             get { return _MVS_Camera_Info_List; }
             set
@@ -162,7 +124,6 @@ namespace HanGao.ViewModel
         //public static MVS MVS_Camera { set; get; } = new MVS();
 
 
-      
 
 
         /// <summary>
@@ -173,12 +134,11 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 初始化连接
         /// </summary>
-        public void Initialization_Camera_Thread()
+        public static  void Initialization_Camera_Thread()
         {
             Task.Run(() =>
             {
-                //for (int i = 0; i < 30; i++)
-                //{
+
 
                 while (true)
                 {
@@ -188,19 +148,12 @@ namespace HanGao.ViewModel
                     Thread.Sleep(1000);
                 }
 
-                        //if (Display_Status(Connect_Camera()).GetResult())
-                        //{
-                        //    return;
-                        //}
-               
-                    //User_Log_Add("第" + i + "/30次重试连接相机！多次失败检查相机IP");
-                //}
             });
         }
         /// <summary>
         /// 用户选择相机数
         /// </summary>
-        public int Camera_UI_Select { set; get; } = 0;
+        //public int Camera_UI_Select { set; get; } = 0;
         /// <summary>
         /// 相机连接成功
         /// </summary>
@@ -410,9 +363,9 @@ namespace HanGao.ViewModel
             {
                 Button E = Sm.Source as Button;
                 HImage _Image = new HImage();
+        
 
-
-                Get_Image(ref _Image, Get_Image_Model_Enum.相机采集, UC_Visal_Function_VM.Features_Window.HWindow);
+                Get_Image(ref _Image, Get_Image_Model_Enum.相机采集, Select_Camera.Show_Window);
 
 
             });
@@ -439,6 +392,61 @@ namespace HanGao.ViewModel
 
             });
         }
+
+
+        /// <summary>
+        /// 根据选项显示指定窗口
+        /// </summary>
+        /// <param name="_Window"></param>
+        /// <returns></returns>
+        public static  HWindow GetWindowHandle(Halcon_Window_Name _Window)
+        {
+            HWindow _W=new HWindow ();
+            switch (_Window)
+            {
+                case Halcon_Window_Name.Live_Window:
+                    _W = UC_Visal_Function_VM.Live_Window.HWindow;
+                    break;
+                case Halcon_Window_Name.Features_Window:
+                    _W = UC_Visal_Function_VM.Features_Window.HWindow;
+
+                    break;
+                case Halcon_Window_Name.Results_Window_1:
+                    _W = UC_Visal_Function_VM.Results_Window_1.HWindow;
+
+                    break;
+                case Halcon_Window_Name.Results_Window_2:
+                    _W = UC_Visal_Function_VM.Results_Window_2.HWindow;
+
+                    break;
+                case Halcon_Window_Name.Results_Window_3:
+                    _W = UC_Visal_Function_VM.Results_Window_3.HWindow;
+
+                    break;
+                case Halcon_Window_Name.Results_Window_4:
+                    _W = UC_Visal_Function_VM.Results_Window_4.HWindow;
+
+                    break;
+                case Halcon_Window_Name.Calibration_Window_1:
+                    _W = UC_Vision_Calibration_Camera_VM.Calibration_Window_1.HWindow;
+                    break;
+                case Halcon_Window_Name.Calibration_Window_2:
+                    _W = UC_Vision_Calibration_Camera_VM.Calibration_Window_2.HWindow;
+
+                    break;
+                case Halcon_Window_Name.Calibration_3D_Results:
+                    _W = UC_Vision_Calibration_Camera_VM.Calibration_3D_Results.HWindow;
+
+                    break;
+ 
+            }
+
+            _W.SetPart(0, 0, -2, -2);
+            return _W;
+
+        }
+
+
         /// <summary>
         /// 根据采集方式获取图像
         /// </summary>
@@ -447,12 +455,15 @@ namespace HanGao.ViewModel
         /// <param name="_Window"></param>
         /// <param name="_path"></param>
         /// <returns></returns>
-        public static   HPR_Status_Model Get_Image(ref HImage _Image, Get_Image_Model_Enum _Get_Model, HWindow _Window, string _path = "")
+        public static   HPR_Status_Model Get_Image(ref HImage _Image, Get_Image_Model_Enum _Get_Model, Halcon_Window_Name _HW, string _path = "")
         {
             //HObject _image = new HObject();
             //HOperatorSet.GenEmptyObj(out _Image);
             _Image.Dispose();
+
+           HWindow _Window = GetWindowHandle(_HW);
             _Window.ClearWindow();
+
             switch (_Get_Model)
             {
                 case Get_Image_Model_Enum.相机采集:
@@ -515,7 +526,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 查找相机状态
         /// </summary>
-        public static void Initialization_Camera()
+        public static   void Initialization_Camera()
         {
 
 
@@ -572,26 +583,6 @@ namespace HanGao.ViewModel
                 }
 
             }
-
-            //Application.Current.Dispatcher.Invoke(() =>
-            //{
-            //    //查询读取相机设备类型赋值到UI层
-            //    Camera_UI_List = new ObservableCollection<string>(MVS_Camera.Get_Camera_List_Name());
-            //});
-            ////查找到相关相机设备后，默认选择第一个相机
-            //if (Camera_List_Number != 0)
-            //{
-            //if (Camera_UI_List.Count == 0)
-            //{
-            //    User_Log_Add("无法查找到相机,检查相机IP和本地IP是否同网段!");
-            //    return false;
-            //}
-            //else
-            //{
-            //    //默认选择首相机
-            //    Camera_UI_Select = 0;
-            //    return MVS_Camera.Check_IsDeviceAccessible(Camera_UI_Select);
-            //}
 
         }
         /// <summary>

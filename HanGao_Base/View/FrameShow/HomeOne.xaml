@@ -147,7 +147,8 @@
                 </Grid>
                 <!--  设备状态显示区域  -->
                 <UC_Working:User_Control_Log Grid.Row="1" Grid.Column="1"
-                                             Margin="5" />
+                                             Margin="5"
+                                             DataContext="{Binding Source={StaticResource Locator}, Path=User_Log.UI_Home_Log}" />
                 <!--  工位2区域  -->
                 <UC_Working:User_Control_Working Grid.Row="0" Grid.Column="1"
                                                  Uid="1"

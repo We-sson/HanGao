@@ -10,6 +10,7 @@
         Title="相机内参标定工具"
         Width="1400"
         Height="900"
+        DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_Calibration_Camera_VM}"
         WindowStyle="SingleBorderWindow"
         mc:Ignorable="d">
     <Grid Background="{DynamicResource 全局_背景_白颜色}">
@@ -73,7 +74,7 @@
                      FontSize=" 16"
                      Header="标定日志"
                      IsSelected="True">
-                <UC_Working:User_Control_Log />
+                <UC_Working:User_Control_Log DataContext="{Binding Source={StaticResource Locator}, Path=User_Log.UI_Calibration_Log}" />
             </TabItem>
 
 
@@ -92,21 +93,22 @@
                      Padding="20,2,20,2"
                      VerticalAlignment="Bottom"
                      FontSize=" 16"
-                     Header="相机参数">
-                <Vision_control:UC_Vision_CameraSet Margin="5" />
+                     Header="相机参数"
+                     IsSelected="True">
+                <Vision_control:UC_Vision_CameraSet x:Name="Camera_Set" Margin="5" />
             </TabItem>
             <TabItem Style="{DynamicResource Vision_TabItemStyle}"
                      Padding="20,5,20,5"
                      FontSize=" 16"
                      Header="参数调节">
-                <Vision_control:UC_Vision_Camera_Parametric Margin="5" />
+                <Vision_control:UC_Vision_Camera_Parametric x:Name="Camera_Parametric" Margin="5" />
             </TabItem>
             <TabItem Style="{DynamicResource Vision_TabItemStyle}"
                      Padding="20,5,20,5"
                      FontSize=" 16"
                      Header="标定结果"
-                     IsSelected="True">
-                <Vision_control:UC_Vision_Calibration_Results Margin="5" />
+                     IsSelected="False">
+                <Vision_control:UC_Vision_Calibration_Results x:Name="Calibration_Results" Margin="5" />
             </TabItem>
         </TabControl>
 

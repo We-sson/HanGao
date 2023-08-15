@@ -804,34 +804,14 @@
                                                Margin="4,0,4,0"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
-                                               FontSize=" 14">
-                                            <Label.Style>
-                                                <Style TargetType="Label">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Window_Switch}" Value="false">
-                                                            <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_蓝颜色}" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Label.Style>
-                                        </Label>
+                                               FontSize=" 14" />
 
                                         <Label Grid.Column=" 1"
                                                Content="连续"
                                                Margin="4,0,4,0"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
-                                               FontSize=" 14">
-                                            <Label.Style>
-                                                <Style TargetType="Label">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Window_Switch}" Value="true">
-                                                            <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_蓝颜色}" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Label.Style>
-                                        </Label>
+                                               FontSize=" 14" />
                                     </Grid>
                                 </ToggleButton>
 
@@ -876,34 +856,14 @@
                                                Margin="4,0,4,0"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
-                                               FontSize=" 14">
-                                            <Label.Style>
-                                                <Style TargetType="Label">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Window_Switch}" Value="false">
-                                                            <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_蓝颜色}" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Label.Style>
-                                        </Label>
+                                               FontSize=" 14" />
 
                                         <Label Grid.Column=" 1"
                                                Content="隐藏"
                                                Margin="4,0,4,0"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
-                                               FontSize=" 14">
-                                            <Label.Style>
-                                                <Style TargetType="Label">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Window_Switch}" Value="true">
-                                                            <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_蓝颜色}" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Label.Style>
-                                        </Label>
+                                               FontSize=" 14" />
                                     </Grid>
                                 </ToggleButton>
 

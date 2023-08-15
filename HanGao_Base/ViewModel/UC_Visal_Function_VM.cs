@@ -1,4 +1,5 @@
 ﻿using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
+using MVS_SDK_Base.Model;
 using System.Drawing;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
@@ -53,24 +54,24 @@ namespace HanGao.ViewModel
                 }
             });
             //相机信息显示UI 
-            Messenger.Register<MVS_Camera_Info_Model, string>(this, nameof(Meg_Value_Eunm.MVS_Camera_Info_Show), (O, _M) =>
-            {
-                //Camera_IP_Address = ((_M.GevCurrentIPAddress & 0xFF000000) >> 24).ToString() + "." + ((_M.GevCurrentIPAddress & 0x00FF0000) >> 16).ToString() + "." + ((_M.GevCurrentIPAddress & 0x0000FF00) >> 8).ToString() + "." + ((_M.GevCurrentIPAddress & 0x000000FF)).ToString();
-                //IP地址提取方法  取对应位数移位
-                //var b = (_IntValue.CurValue) >> 24;
-                //var bb = (_IntValue.CurValue) >> 16;
-                //var bbb = (_IntValue.CurValue & 0x0000FF00) >> 8;
-                //var bbbb = _IntValue.CurValue & 0x000000FF;
-                //Camera_Resolution = _M.HeightMax.ToString() + "x" + _M.WidthMax.ToString();
-                //Camera_FrameRate = Math.Round(_M.ResultingFrameRate, 3);
-            });
+            //Messenger.Register<MVS_Camera_Info_Model, string>(this, nameof(Meg_Value_Eunm.MVS_Camera_Info_Show), (O, _M) =>
+            //{
+            //    //Camera_IP_Address = ((_M.GevCurrentIPAddress & 0xFF000000) >> 24).ToString() + "." + ((_M.GevCurrentIPAddress & 0x00FF0000) >> 16).ToString() + "." + ((_M.GevCurrentIPAddress & 0x0000FF00) >> 8).ToString() + "." + ((_M.GevCurrentIPAddress & 0x000000FF)).ToString();
+            //    //IP地址提取方法  取对应位数移位
+            //    //var b = (_IntValue.CurValue) >> 24;
+            //    //var bb = (_IntValue.CurValue) >> 16;
+            //    //var bbb = (_IntValue.CurValue & 0x0000FF00) >> 8;
+            //    //var bbbb = _IntValue.CurValue & 0x000000FF;
+            //    //Camera_Resolution = _M.HeightMax.ToString() + "x" + _M.WidthMax.ToString();
+            //    //Camera_FrameRate = Math.Round(_M.ResultingFrameRate, 3);
+            //});
 
 
 
             //算法设置错误信息委托显示
             HPR_Status_Model.HVS_ErrorInfo_delegate += (string _Error) =>
             {
-                User_Log_Add(_Error);
+                User_Log_Add(_Error, Log_Show_Window_Enum.Home);
             };
 
         }
@@ -192,46 +193,64 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 窗体加载赋值
         /// </summary>
-        public ICommand Loaded_Live_Camera_Comm
+        public ICommand Initialization_Camera_Window_Comm
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
                 HSmartWindowControlWPF Window_UserContol = Sm.Source as HSmartWindowControlWPF;
-                switch (Window_UserContol.Name)
-                {
-                    case string _N when Window_UserContol.Name == nameof(Halcon_Window_Name.Live_Window):
-                        //初始化halcon图像属性
-                        Live_Window = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
-                        break;
-                    case string _N when Window_UserContol.Name == nameof(Halcon_Window_Name.Features_Window):
-                        //加载halcon图像属性
-                        Features_Window = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
-                        break;
-                    case string _N when (Window_UserContol.Name == nameof(Halcon_Window_Name.Results_Window_1)):
-                        //加载halcon图像属性
-                        Results_Window_1 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
-                        break;
-                    case string _N when (Window_UserContol.Name == nameof(Halcon_Window_Name.Results_Window_2)):
-                        //加载halcon图像属性
-                        Results_Window_2 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
-                        break;
-                    case string _N when (Window_UserContol.Name == nameof(Halcon_Window_Name.Results_Window_3)):
-                        //加载halcon图像属性
-                        Results_Window_3 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
-                        break;
-                    case string _N when (Window_UserContol.Name == nameof(Halcon_Window_Name.Results_Window_4)):
-                        //加载halcon图像属性
-                        Results_Window_4 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
-                        break;
-                }
-                //设置halcon窗体大小
-                Window_UserContol.HalconWindow.SetWindowExtents(0, 0, (int)Window_UserContol.WindowSize.Width, (int)Window_UserContol.WindowSize.Height);
-                Window_UserContol.HalconWindow.SetColored(12);
-                Window_UserContol.HalconWindow.SetColor(nameof(KnownColor.Red).ToLower());
-                HTuple _Font = Window_UserContol.HalconWindow.QueryFont();
-                Window_UserContol.HalconWindow.SetFont(_Font.TupleSelect(0) + "-18");
+
+                HWindows_Initialization(Window_UserContol);
+
+
             });
         }
+
+
+        /// <summary>
+        /// Halcon窗口初始化
+        /// </summary>
+        /// <param name="Window_UserContol"></param>
+        public  static void HWindows_Initialization(HSmartWindowControlWPF Window_UserContol)
+        {
+
+
+            switch (Window_UserContol.Name)
+            {
+                case string _N when Window_UserContol.Name == nameof(Halcon_Window_Name.Live_Window):
+                    //初始化halcon图像属性
+                    Live_Window = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+                    break;
+                case string _N when Window_UserContol.Name == nameof(Halcon_Window_Name.Features_Window):
+                    //加载halcon图像属性
+                    Features_Window = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+                    break;
+                case string _N when (Window_UserContol.Name == nameof(Halcon_Window_Name.Results_Window_1)):
+                    //加载halcon图像属性
+                    Results_Window_1 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+                    break;
+                case string _N when (Window_UserContol.Name == nameof(Halcon_Window_Name.Results_Window_2)):
+                    //加载halcon图像属性
+                    Results_Window_2 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+                    break;
+                case string _N when (Window_UserContol.Name == nameof(Halcon_Window_Name.Results_Window_3)):
+                    //加载halcon图像属性
+                    Results_Window_3 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+                    break;
+                case string _N when (Window_UserContol.Name == nameof(Halcon_Window_Name.Results_Window_4)):
+                    //加载halcon图像属性
+                    Results_Window_4 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+                    break;
+            }
+            //设置halcon窗体大小
+            Window_UserContol.HalconWindow.SetWindowExtents(0, 0, (int)Window_UserContol.WindowSize.Width, (int)Window_UserContol.WindowSize.Height);
+            Window_UserContol.HalconWindow.SetColored(12);
+            Window_UserContol.HalconWindow.SetColor(nameof(KnownColor.Red).ToLower());
+            HTuple _Font = Window_UserContol.HalconWindow.QueryFont();
+            Window_UserContol.HalconWindow.SetFont(_Font.TupleSelect(0) + "-18");
+
+
+        }
+
         /// <summary>
         /// 读取Halcon控件鼠标图像位置
         /// </summary>
@@ -373,7 +392,7 @@ namespace HanGao.ViewModel
                 }
                 else
                 {
-                    User_Log_Add("参数" + _Vision_Model.ID + "号已加载到参数列表中！");
+                    User_Log_Add("参数" + _Vision_Model.ID + "号已加载到参数列表中！", Log_Show_Window_Enum.Home);
                     Messenger.Send<Vision_Xml_Models, string>(_Vision_Model, nameof(Meg_Value_Eunm.Vision_Data_Xml_List));
                 }
             });
@@ -421,11 +440,11 @@ namespace HanGao.ViewModel
                 {
                     Find_Data_List.Vision_List.OrderByDescending(_De => _De.ID);
                     Find_Data_List.Vision_List.Add(new Vision_Xml_Models() { ID = _ID_Number.ToString() });
-                    User_Log_Add("参数" + _ID_Number + "号是参数已新建！");
+                    User_Log_Add("参数" + _ID_Number + "号是参数已新建！", Log_Show_Window_Enum.Home);
                 }
                 else
                 {
-                    User_Log_Add("参数超过存储限制,请删除无用参数号！");
+                    User_Log_Add("参数超过存储限制,请删除无用参数号！", Log_Show_Window_Enum.Home);
                 }
             });
         }
@@ -443,18 +462,22 @@ namespace HanGao.ViewModel
                     {
                         Find_Data_List.Vision_List.Remove(_Vision);
                         Find_Data_List.Vision_List.OrderByDescending(_De => _De.ID);
-                        User_Log_Add("参数" + _Vision.ID + "号是参数已删除！请重新选择参数号");
+                        User_Log_Add("参数" + _Vision.ID + "号是参数已删除！请重新选择参数号", Log_Show_Window_Enum.Home);
                     }
                     else
                     {
-                        User_Log_Add("参数列表0号是默认参数，不能删除！");
+                        User_Log_Add("参数列表0号是默认参数，不能删除！", Log_Show_Window_Enum.Home);
                     }
                 }
                 else
                 {
-                    User_Log_Add("请选择参数号进行操作！");
+                    User_Log_Add("请选择参数号进行操作！", Log_Show_Window_Enum.Home);
                 }
             });
         }
+   
+    
     }
+
+
 }

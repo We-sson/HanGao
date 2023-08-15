@@ -47,7 +47,7 @@ namespace Soceket_KUKA
         /// <summary>
         /// 通讯连接错误委托
         /// </summary>
-        public Socket_T_delegate<string> Socket_ErrorInfo_delegate { set; get; }
+        public Socket_T_delegate<string > Socket_ErrorInfo_delegate { set; get; }
 
 
 

@@ -40,11 +40,6 @@ namespace HanGao.ViewModelLocator
                     .AddScoped<User_Control_Show>()
                     .AddScoped<Home_ViewModel>()
                     .AddScoped<IP_Text_Error>()
-                    //.AddScoped<User_Control_Working_Path_VM>()
-                    //.AddScoped<UserControl_Socket_Setup_ViewModel>()
-                    //.AddScoped<UserControl_Sideber_Show_ViewModel>()
-                    //.AddScoped<UserControl_Socket_Write_ViewModel>()
-                    //.AddScoped<UserControl_Socket_Var_Show_ViewModel>()
                     .AddScoped<UC_Pop_Ups_VM>()
                     .AddScoped<UC_Sink_Size_VM>()
                     .AddScoped<UC_Sink_Type_VM>()
@@ -68,7 +63,9 @@ namespace HanGao.ViewModelLocator
                     .AddScoped<UC_Lines_Charts_VM>()
                     .AddScoped<Global_Seting_Status>()
                     .AddScoped<Other_Window_VM>()
-                    
+                    .AddScoped<Vision_Calibration_Home_VM>()
+                    .AddScoped<UC_Vision_Calibration_Camera_VM>()
+
                     .BuildServiceProvider());
 
 
@@ -104,11 +101,12 @@ namespace HanGao.ViewModelLocator
         public UC_Vision_Auto_Model_ViewModel UC_Vision_Auto_Model_ViewModel => Ioc.Default.GetService<UC_Vision_Auto_Model_ViewModel>();
         public UC_Vision_Robot_Protocol_ViewModel UC_Vision_Robot_Protocol_ViewModel => Ioc.Default.GetService<UC_Vision_Robot_Protocol_ViewModel>();
         public UC_Lines_Charts_VM UC_Lines_Charts_VM => Ioc.Default.GetService<UC_Lines_Charts_VM>();
-
         public Global_Seting_Status Global_Seting => Ioc.Default.GetService<Global_Seting_Status>();
         public Other_Window_VM Other_Window_VM => Ioc.Default.GetService<Other_Window_VM>();
-
+        public Vision_Calibration_Home_VM Vision_Calibration_Home_VM => Ioc.Default.GetService<Vision_Calibration_Home_VM>();
+        public UC_Vision_Calibration_Camera_VM UC_Vision_Calibration_Camera_VM => Ioc.Default.GetService<UC_Vision_Calibration_Camera_VM>();
         
+
 
 
 

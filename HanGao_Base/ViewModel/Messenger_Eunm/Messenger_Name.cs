@@ -307,16 +307,22 @@ namespace HanGao.ViewModel.Messenger_Eunm
             /// </summary>
             UI_Find_Data_Number,
 
-            UI_Log_Show_1,
+            UI_Log_Home,
 
 
 
-            UI_Log_Show_2,
+            UI_Log_Calibration,
 
         }
 
-
-
+        /// <summary>
+        /// 当前窗口枚举
+        /// </summary>
+        public enum Current_Window_Enum
+        {
+            Vision,
+            Calibration,
+        }
 
 
 
@@ -329,6 +335,8 @@ namespace HanGao.ViewModel.Messenger_Eunm
             水槽尺寸调节,
             工艺参数调节
         }
+
+
 
 
 

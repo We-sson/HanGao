@@ -141,12 +141,12 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 循环读取TCP对象
         /// </summary>
-        public Socket_Connect Read { set; get; } = new Socket_Connect() { Socket_ErrorInfo_delegate = User_Log_Add };
-        public Socket_Connect Write { set; get; } = new Socket_Connect() { Socket_ErrorInfo_delegate = User_Log_Add };
+        public Socket_Connect Read { set; get; } = new Socket_Connect() { Socket_ErrorInfo_delegate = UI_Log_Show };
+        public Socket_Connect Write { set; get; } = new Socket_Connect() { Socket_ErrorInfo_delegate = UI_Log_Show };
         /// <summary>
         /// 单次TCP对象
         /// </summary>
-        public Socket_Connect One_Read { set; get; } = new Socket_Connect() { Socket_ErrorInfo_delegate = User_Log_Add };
+        public Socket_Connect One_Read { set; get; } = new Socket_Connect() { Socket_ErrorInfo_delegate = UI_Log_Show };
         /// <summary>
         /// UI IP显示
         /// </summary>
@@ -172,7 +172,7 @@ namespace HanGao.ViewModel
                     {
                         return;
                     }
-                User_Log_Add("第" + i + "/30次" + "连接:" + UI_IP + "第三方协议中....");
+                User_Log_Add("第" + i + "/30次" + "连接:" + UI_IP + "第三方协议中....", Log_Show_Window_Enum.Home);
             }
             });
         }
@@ -236,6 +236,13 @@ namespace HanGao.ViewModel
                 Read.Is_Connect_Client = false;
             });
         }
+
+        public static void UI_Log_Show(string _Log)
+        {
+            User_Log_Add(_Log, Log_Show_Window_Enum.Home);
+        }
+
+
     }
     [AddINotifyPropertyChangedInterface]
     public class Socket_Models_List

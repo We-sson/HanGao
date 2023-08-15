@@ -486,13 +486,10 @@ namespace MVS_SDK_Base.Model
             public CCamera Camera { set; get; } = new CCamera();
 
 
-            /// <summary>
-            /// 相机内部参数
-            /// </summary>
-            //public MVS_Camera_Parameter_Model Camera_Parameter { set; get; } = new MVS_Camera_Parameter_Model();
-
-
-
+          /// <summary>
+          /// 图像需要显示位置
+          /// </summary>
+            public Halcon_Window_Name Show_Window { set; get; } = Halcon_Window_Name.Features_Window;
 
 
             /// <summary>
@@ -711,4 +708,17 @@ namespace MVS_SDK_Base.Model
         Connecting
     }
 
+
+    public enum Halcon_Window_Name
+    {
+        Live_Window,
+        Features_Window,
+        Results_Window_1,
+        Results_Window_2,
+        Results_Window_3,
+        Results_Window_4,
+        Calibration_Window_1,
+        Calibration_Window_2,
+        Calibration_3D_Results,
+    }
 }

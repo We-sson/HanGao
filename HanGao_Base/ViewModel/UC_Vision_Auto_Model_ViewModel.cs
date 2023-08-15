@@ -176,7 +176,8 @@ namespace HanGao.ViewModel
                         KUKA_Receive_Calibration_Text_String=Static_KUKA_Receive_Calibration_Text_String,
                         KUKA_Receive_Find_String = Static_KUKA_Receive_Find_String, 
                         KUKA_Receive_Vision_Ini_String=Static_KUKA_Receive_Vision_Ini_String,
-                        Socket_ErrorInfo_delegate = User_Log_Add });
+                        Socket_ErrorInfo_delegate = Socket_Log_Show
+                    });
 
                 }
 
@@ -184,11 +185,20 @@ namespace HanGao.ViewModel
 
                 //KUKA_Receive.Server_Strat(Local_IP_UI[IP_UI_Select].ToString(), Local_Port_UI.ToString());
                 Receive_Start_Type = false;
-                User_Log_Add("开启所有网络服务器设备端口:"+ Vision_Auto_Cofig.Stat_Network_Port.ToString());
+                User_Log_Add("开启所有网络服务器设备端口:"+ Vision_Auto_Cofig.Stat_Network_Port.ToString(), Log_Show_Window_Enum.Home);
 
             }
 
         }
+
+
+
+        public static void Socket_Log_Show(string _log)
+        {
+            User_Log_Add(_log, Log_Show_Window_Enum.Home);
+        }
+
+
 
 
         /// <summary>
@@ -203,7 +213,7 @@ namespace HanGao.ViewModel
               
                 _Sock.Sever_End();
             }
-            User_Log_Add("停止所有服务器连接!");
+            User_Log_Add("停止所有服务器连接!", Log_Show_Window_Enum.Home);
 
 
         }

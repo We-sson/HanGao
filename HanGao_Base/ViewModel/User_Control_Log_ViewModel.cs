@@ -18,85 +18,65 @@ namespace HanGao.ViewModel
         {
 
 
-
-
-            //报错信息传递
-            //Socket_Client_Setup.Read.Socket_ErrorInfo_delegate += User_Log_Add;
-
-
-
-
-
-
-
             //接收其他地方传送数据
-            Messenger.Register<string , string>(this, nameof(Meg_Value_Eunm.UI_Log_Show_1), (O, _S) =>
+            StrongReferenceMessenger.Default.Register<string , string>(this, nameof(Meg_Value_Eunm.UI_Log_Home), (O, _S) =>
             {
 
 
-                User_UI_Log.User_Log += User_UI_Log.User_Log_Number.ToString("D3") + " | " + DateTime.Now.ToShortTimeString().ToString() + "——" + _S + HttpUtility.HtmlDecode("&#x000A;");
+                UI_Home_Log.User_Log = _S ;
 
 
 
             });
 
 
+            //接收其他地方传送数据
+            StrongReferenceMessenger.Default.Register<string, string>(this, nameof(Meg_Value_Eunm.UI_Log_Calibration), (O, _S) =>
+            {
+
+                UI_Calibration_Log.User_Log = _S;
+
+
+
+
+            });
 
 
         }
 
 
 
+        public User_Log_Models UI_Home_Log { set; get; } = new User_Log_Models() { Log_Show_Window= Model.Log_Show_Window_Enum.Home };
+        public User_Log_Models UI_Calibration_Log { set; get; } = new User_Log_Models() { Log_Show_Window= Model.Log_Show_Window_Enum.Calibration };
 
-
-
-        public   User_Log_Models User_UI_Log = new User_Log_Models();
-        /// <summary>
-        /// 显示状态信息输出
-        /// </summary>
-        //public   User_Log_Models User_UI_Log
-        //{
-        //    get
-        //    {
-        //        return _User_UI_Log;
-        //    }
-        //    set
-        //    {
-        //        _User_UI_Log = value;
-        //    }
-        //}
-
-        /// <summary>
-        /// 资源互锁
-        /// </summary>
-        public static Mutex Receive_Lock = new Mutex();
 
         /// <summary>
         /// 全局使用输出方法
         /// </summary>
-        public static   void User_Log_Add(string Log)
+        public static   void User_Log_Add(string Log, Log_Show_Window_Enum _ShowLog)
         {
 
-            
-
-            //lock (User_UI_Log)
-            //{
                 Task.Run(() => {
-       
+
+                    switch (_ShowLog)
+                    {
+                        case Log_Show_Window_Enum.Home:
+
+                            StrongReferenceMessenger.Default.Send<string, string>(Log, nameof(Meg_Value_Eunm.UI_Log_Home));
+                 
+
+                            break;
+                        case Log_Show_Window_Enum.Calibration:
+                            StrongReferenceMessenger.Default.Send<string, string>(Log, nameof(Meg_Value_Eunm.UI_Log_Calibration));
+
+
+                            break;
+                    }
+
+
 
 
                 });
-            //}
-
-
-
-
-
-            //LogManager.WriteProgramLog(Log);
-
-            //显示前增加时间戳 
-
-
 
 
 
@@ -113,7 +93,7 @@ namespace HanGao.ViewModel
 
 
        
-                User_Log_Add(_Result_Status.GetResult_Info());
+                User_Log_Add(_Result_Status.GetResult_Info(), Log_Show_Window_Enum.Home);
 
 
 
@@ -136,39 +116,12 @@ namespace HanGao.ViewModel
         //}
 
 
-        /// <summary>
-        /// 记录添加日志前高度值
-        /// </summary>
-        private double ScrollViewer_Contrn { get; set; } = 0;
 
-
-        /// <summary>
-        /// 添加消息时触发事件
-        /// </summary>
-        public ICommand Update_Log_Comm
-        {
-            get => new RelayCommand<ScrollViewer>(Update_Log);
-        }
-        /// <summary>
-        /// 添加消息时触发事件方法
-        /// </summary>
-        private void Update_Log(ScrollViewer Sm)
-        {
-
-
-            //如果原来的高度就不翻页
-            if (Sm.ExtentHeight != ScrollViewer_Contrn)
-            {
-                ScrollViewer_Contrn = Sm.ExtentHeight;
-                Sm.ScrollToEnd();
-                return;
-
-
-            }
-
-        }
 
 
 
     }
+
+
+
 }

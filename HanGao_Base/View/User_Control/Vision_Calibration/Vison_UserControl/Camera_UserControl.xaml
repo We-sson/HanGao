@@ -3,10 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Halcon="http://schemas.mvtec.com/halcondotnet"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:HanGao.View.User_Control.Vision_Calibration.Vison_UserControl"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              d:DesignHeight="512"
              d:DesignWidth="900"
+             DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_Calibration_Camera_VM}"
              mc:Ignorable="d">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -27,7 +29,7 @@
             <StackPanel Orientation="Horizontal">
 
 
-                <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="Window_Switch"
+                <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="Calibration_Switch"
                               IsChecked="False"
                               Margin="4,0,4,0"
                               Padding="0"
@@ -48,7 +50,7 @@
                             <Label.Style>
                                 <Style TargetType="Label">
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Window_Switch}" Value="false">
+                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Calibration_Switch}" Value="false">
                                             <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_蓝颜色}" />
                                         </DataTrigger>
                                     </Style.Triggers>
@@ -67,7 +69,7 @@
                             <Label.Style>
                                 <Style TargetType="Label">
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Window_Switch}" Value="true">
+                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Calibration_Switch}" Value="true">
                                             <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_蓝颜色}" />
                                         </DataTrigger>
                                     </Style.Triggers>
@@ -130,7 +132,7 @@
                         <Style TargetType="ColumnDefinition">
                             <Setter Property="Width" Value="1*" />
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsChecked, ElementName=Window_Switch}" Value="true">
+                                <DataTrigger Binding="{Binding IsChecked, ElementName=Calibration_Switch}" Value="true">
                                     <Setter Property="Width" Value="auto" />
                                 </DataTrigger>
                             </Style.Triggers>
@@ -139,10 +141,23 @@
                 </ColumnDefinition>
             </Grid.ColumnDefinitions>
 
-            <Halcon:HSmartWindowControlWPF Grid.Column=" 0"
-                                           Background="{DynamicResource 全局_按钮_黑颜色}"
-                                           HDisableAutoResize="True"
-                                           SnapsToDevicePixels="True" />
+
+
+            <Halcon:HSmartWindowControlWPF x:Name="Calibration_Window_1"
+                                           HorizontalAlignment="Stretch"
+                                           VerticalAlignment="Stretch"
+                                           HorizontalContentAlignment="Center"
+                                           VerticalContentAlignment="Center"
+                                           SnapsToDevicePixels="True">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Loaded">
+                        <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
+                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                               PassEventArgsToCommand="True" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Halcon:HSmartWindowControlWPF>
+
 
             <Border Grid.Column=" 1"
                     Width=" 3"
@@ -151,7 +166,7 @@
                 <Border.Style>
                     <Style TargetType="Border">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsChecked, ElementName=Window_Switch}" Value="true">
+                            <DataTrigger Binding="{Binding IsChecked, ElementName=Calibration_Switch}" Value="true">
                                 <Setter Property="Visibility" Value="Collapsed" />
                             </DataTrigger>
                         </Style.Triggers>
@@ -159,19 +174,29 @@
                 </Border.Style>
             </Border>
 
-            <Halcon:HSmartWindowControlWPF Grid.Column=" 2"
-                                           Background="{DynamicResource 全局_按钮_黑颜色}"
-                                           HDisableAutoResize="True"
+
+            <Halcon:HSmartWindowControlWPF x:Name="Calibration_Window_2" Grid.Column=" 2"
+                                           HorizontalAlignment="Stretch"
+                                           VerticalAlignment="Stretch"
+                                           HorizontalContentAlignment="Center"
+                                           VerticalContentAlignment="Center"
                                            SnapsToDevicePixels="True">
                 <Halcon:HSmartWindowControlWPF.Style>
                     <Style TargetType="Halcon:HSmartWindowControlWPF">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsChecked, ElementName=Window_Switch}" Value="true">
+                            <DataTrigger Binding="{Binding IsChecked, ElementName=Calibration_Switch}" Value="true">
                                 <Setter Property="Visibility" Value="Collapsed" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </Halcon:HSmartWindowControlWPF.Style>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Loaded">
+                        <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
+                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                               PassEventArgsToCommand="True" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
             </Halcon:HSmartWindowControlWPF>
 
 

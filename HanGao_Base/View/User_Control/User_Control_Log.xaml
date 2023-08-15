@@ -7,8 +7,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              d:DesignHeight="500"
              d:DesignWidth="600"
-             DataContext="{Binding Source={StaticResource Locator}, Path=User_Log}"
+             DataContext="{Binding Source={StaticResource Locator}, Path=User_Log.UI_Home_Log}"
              mc:Ignorable="d">
+
     <!--  设备状态显示区域  -->
     <Grid Grid.Row="1" Grid.Column="0">
 
@@ -76,7 +77,7 @@
 
 
             <TextBox Grid.Column=" 0"
-                     Text="{Binding User_UI_Log.User_Log}"
+                     Text="{Binding User_Log}"
                      TextWrapping="Wrap"
                      Margin="6,6,0,6"
                      HorizontalAlignment="Left"

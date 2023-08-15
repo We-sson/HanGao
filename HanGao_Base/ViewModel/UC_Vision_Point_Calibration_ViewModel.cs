@@ -5,6 +5,7 @@ using HanGao.View.User_Control.Vision_Control;
 using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
 using KUKA_Socket.Models;
 using Microsoft.Win32;
+using MVS_SDK_Base.Model;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -39,7 +40,7 @@ namespace HanGao.ViewModel
                 if (Display_Status(Halcon_SDK.Read_Mat2d_Method(ref _Mat2D, _S.Calibration_Model.Vision_Area, _S.Calibration_Model.Work_Area)).GetResult())
                 {
                     //从相机获取照片
-                    if (Display_Status(UC_Vision_CameraSet_ViewModel.Get_Image(ref _Image, Find_Calibration.Get_Image_Model, Features_Window.HWindow, Image_Location_UI)).GetResult())
+                    if (Display_Status(UC_Vision_CameraSet_ViewModel.Get_Image(ref _Image, Find_Calibration.Get_Image_Model,  MVS_SDK_Base.Model.Halcon_Window_Name.Features_Window, Image_Location_UI)).GetResult())
                     {
                         //清楚模板内容，查找图像模型
                         if (Find_Calibration_Mod(_Image, Find_Calibration) == 9)
@@ -107,7 +108,7 @@ namespace HanGao.ViewModel
             //UI显示接收信息内容
             UC_Vision_Robot_Protocol_ViewModel.Receive_Socket_String = _RStr;
             //从相机获取照片
-            if (Display_Status(UC_Vision_CameraSet_ViewModel.Get_Image(ref _Image, Find_Calibration.Get_Image_Model, Features_Window.HWindow, Image_Location_UI)).GetResult())
+            if (Display_Status(UC_Vision_CameraSet_ViewModel.Get_Image(ref _Image, Find_Calibration.Get_Image_Model, Halcon_Window_Name.Features_Window, Image_Location_UI)).GetResult())
             {
                 //清楚模板内容，查找图像模型
                 if (Find_Calibration_Mod(_Image, Find_Calibration) == 9)
@@ -132,7 +133,7 @@ namespace HanGao.ViewModel
                         Calibration_Data.Calibration_Width = _L.Sink_Process.Sink_Size_Width;
                         Calibration_Data.Calibration_Left_Distance = _L.Sink_Process.Sink_Size_Left_Distance;
                         Calibration_Data.Calibration_Down_Distance = _L.Sink_Process.Sink_Size_Down_Distance;
-                        User_Log_Add("标定基准: " + _S.Calibration_Model.Calibration_Mark);
+                        User_Log_Add("标定基准: " + _S.Calibration_Model.Calibration_Mark, Log_Show_Window_Enum.Home);
                         Save_Xml(Calibration_Data);
                         return true;
                     });
@@ -250,7 +251,7 @@ namespace HanGao.ViewModel
             get => new AsyncRelayCommand<UC_Vision_Point_Calibration>(async (Sm) =>
             {
                 HImage _Image = new HImage();
-                UC_Vision_CameraSet_ViewModel.Get_Image(ref _Image, Find_Calibration.Get_Image_Model, Features_Window.HWindow, Image_Location_UI);
+                UC_Vision_CameraSet_ViewModel.Get_Image(ref _Image, Find_Calibration.Get_Image_Model, Halcon_Window_Name.Features_Window, Image_Location_UI);
                 await Task.Delay(100);
             });
         }
@@ -294,7 +295,7 @@ namespace HanGao.ViewModel
                 HTuple _Row = new HTuple();
                 HTuple _Column = new HTuple();
                 HImage _Image = new HImage();
-                if (Display_Status(UC_Vision_CameraSet_ViewModel.Get_Image(ref _Image, Find_Calibration.Get_Image_Model, Features_Window.HWindow, Image_Location_UI)).GetResult()
+                if (Display_Status(UC_Vision_CameraSet_ViewModel.Get_Image(ref _Image, Find_Calibration.Get_Image_Model, Halcon_Window_Name.Features_Window, Image_Location_UI)).GetResult()
 )
                 {
                     //查找图像中模板位置
@@ -358,7 +359,7 @@ namespace HanGao.ViewModel
                 {
                     if (window.GetType() == typeof(Camera_Parametric_Home))//使用窗体类进行匹配查找
                     {
-                        User_Log_Add("相机内参标定工具窗口已经打开!");
+                        User_Log_Add("相机内参标定工具窗口已经打开!", Log_Show_Window_Enum.Home);
                         return;
                     }
                
@@ -368,7 +369,17 @@ namespace HanGao.ViewModel
 
                 }
 
-                Camera_Parametric_Home Parametric_Window = new Camera_Parametric_Home();
+                Camera_Parametric_Home Parametric_Window = 
+                new Camera_Parametric_Home( ) 
+                { 
+                    Camera_Set=new UC_Vision_CameraSet() 
+                    { 
+                        DataContext=new UC_Vision_CameraSet_ViewModel() 
+                        {   
+                        } }, DataContext=new Vision_Calibration_Home_VM() { }  };
+
+
+
                 Parametric_Window.Show();
 
 

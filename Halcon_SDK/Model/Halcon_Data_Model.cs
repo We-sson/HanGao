@@ -15,15 +15,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// Halcon窗口名称
         /// </summary>
-        public enum Halcon_Window_Name
-        {
-            Live_Window,
-            Features_Window,
-            Results_Window_1,
-            Results_Window_2,
-            Results_Window_3,
-            Results_Window_4
-        }
+
         public class HImage_Display_Model
         {
             /// <summary>
