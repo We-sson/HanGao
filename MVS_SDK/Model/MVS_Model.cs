@@ -364,6 +364,41 @@ namespace MVS_SDK_Base.Model
             public double ResultingFrameRate { set; get; } = 0;
         }
 
+        [AddINotifyPropertyChangedInterface]
+        public class Camera_Calibration_Info_Model
+        {
+            /// <summary>
+            /// 标定精度
+            /// </summary>
+            public double Calibrated_Accuracy { set; get; } = 0.456;
+
+
+
+            /// <summary>
+            /// 标定状态
+            /// </summary>
+            public Camera_Calibration_Type_Enum Camera_Calibration_State { set; get; } = Camera_Calibration_Type_Enum.None;
+
+
+
+
+
+            /// <summary>
+            /// 标定状态
+            /// </summary>
+            public enum Camera_Calibration_Type_Enum
+            {
+
+                None = 0,
+                Calibration_OK,
+                Calibration_Error
+            }
+
+
+
+
+        }
+
 
 
 
@@ -472,6 +507,14 @@ namespace MVS_SDK_Base.Model
             [StringValue("获得图像的最大高度（以像素为单位）~失败!")]
 
             public int HeightMax { set; get; } = 0;
+
+
+
+            /// <summary>
+            /// 相机标定属性
+            /// </summary>
+            public Camera_Calibration_Info_Model Camera_Calibration { set; get; }=new Camera_Calibration_Info_Model ();
+
 
 
             /// <summary>

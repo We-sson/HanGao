@@ -34,7 +34,7 @@
                   FontFamily="{DynamicResource 全局_文字_数字字体}"
                   GridLinesVisibility="Horizontal"
                   HeadersVisibility="Column"
-                  ItemsSource="{Binding Calibration_Results_List}"
+                  ItemsSource="{Binding}"
                   RowHeaderWidth="0"
                   RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
                   SelectionMode="Single"

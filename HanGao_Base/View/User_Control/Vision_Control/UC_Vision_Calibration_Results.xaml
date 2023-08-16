@@ -118,8 +118,7 @@
 
                                 <Button x:Name="Text_Models" Grid.Column=" 2"
                                         Margin="0,0,0,0"
-                                        Background="{DynamicResource 全局_按钮_蓝颜色}"
-                                        IsEnabled="{Binding Find_Text_Models_UI_IsEnable}">
+                                        Background="{DynamicResource 全局_按钮_蓝颜色}">
                                     <Button.Resources>
                                         <TextBlock x:Key="T1"
                                                    Text="数据标定"
@@ -136,7 +135,7 @@
                                                    FontSize="16"
                                                    Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                     </Button.Resources>
-                                    <Button.Style>
+                                    <!--<Button.Style>
                                         <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="{x:Type Button}">
                                             <Setter Property="Content" Value="{StaticResource T1}" />
                                             <Style.Triggers>
@@ -146,7 +145,7 @@
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </Button.Style>
+                                    </Button.Style>-->
                                     <i:Interaction.Triggers>
 
                                         <i:EventTrigger EventName="Click">
@@ -427,7 +426,7 @@
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                 <Border Grid.Column=" 1" BorderThickness="1.5">
-                                    <Border.Style>
+                                    <!--<Border.Style>
                                         <Style TargetType="Border">
                                             <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
                                             <Style.Triggers>
@@ -436,7 +435,7 @@
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </Border.Style>
+                                    </Border.Style>-->
 
 
                                     <Grid>
@@ -450,7 +449,6 @@
 
 
                                         <TextBox x:Name="ST2" Grid.Column=" 0"
-                                                 Text="{Binding Image_Location_UI}"
                                                  TextWrapping="Wrap"
                                                  Margin="6,6,0,6"
                                                  HorizontalAlignment="Left"
@@ -475,7 +473,7 @@
                                             <i:Interaction.Triggers>
 
                                                 <i:EventTrigger EventName="Click">
-                                                    <i:InvokeCommandAction Command="{Binding Image_Location_Comm}"
+                                                    <i:InvokeCommandAction Command="{Binding}"
                                                                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                            PassEventArgsToCommand="True" />
                                                 </i:EventTrigger>

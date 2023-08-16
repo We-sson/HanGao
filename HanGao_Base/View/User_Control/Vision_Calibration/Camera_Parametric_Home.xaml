@@ -33,7 +33,8 @@
             <TabItem Style="{DynamicResource Vision_TabItemStyle}"
                      Padding="40,5,40,5"
                      FontSize=" 16"
-                     Header="相机窗口">
+                     Header="相机窗口"
+                     IsSelected="True">
                 <Camera_UI:Camera_UserControl />
             </TabItem>
             <TabItem Style="{DynamicResource Vision_TabItemStyle}"
@@ -45,8 +46,7 @@
             <TabItem Style="{DynamicResource Vision_TabItemStyle}"
                      Padding="40,5,40,5"
                      FontSize=" 16"
-                     Header="图像误差"
-                     IsSelected="True" />
+                     Header="图像误差" />
         </TabControl>
 
         <TabControl Grid.Row="1" Grid.Column="0"
