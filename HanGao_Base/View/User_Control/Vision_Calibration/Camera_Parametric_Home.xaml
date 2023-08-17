@@ -59,14 +59,14 @@
             <TabItem Style="{DynamicResource Vision_TabItemStyle}"
                      Padding="40,5,40,5"
                      FontSize=" 16"
-                     Header="相机列表">
-                <Camera_UI:Camera_List_UserControl />
+                     Header="相机标定列表"
+                     IsSelected="True">
+                <Camera_UI:Camera_List_UserControl DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_CameraSet_ViewModel}" />
             </TabItem>
             <TabItem Style="{DynamicResource Vision_TabItemStyle}"
                      Padding="40,5,40,5"
                      FontSize=" 16"
-                     Header="标定图像列表"
-                     IsSelected="True">
+                     Header="标定图像列表">
                 <Camera_UI:Calibration_Image_List />
             </TabItem>
             <TabItem Style="{DynamicResource Vision_TabItemStyle}"

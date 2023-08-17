@@ -114,7 +114,7 @@ namespace HanGao.ViewModel
             set
             {
                 _MVS_Camera_Info_List = value;
-                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(MVS_Camera_Info_List)));
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(MVS_Camera_Info_List)));
             }
         }
 
@@ -362,10 +362,16 @@ namespace HanGao.ViewModel
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
                 Button E = Sm.Source as Button;
-                HImage _Image = new HImage();
-        
 
+                Task.Run(() => 
+                {
+                
+                HImage _Image = new HImage();
+                
                 Get_Image(ref _Image, Get_Image_Model_Enum.相机采集, Select_Camera.Show_Window);
+                });
+
+
 
 
             });

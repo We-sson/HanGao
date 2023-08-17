@@ -532,7 +532,14 @@ namespace MVS_SDK_Base.Model
           /// <summary>
           /// 图像需要显示位置
           /// </summary>
-            public Halcon_Window_Name Show_Window { set; get; } = Halcon_Window_Name.Features_Window;
+            private Halcon_Window_Name _Show_Window = Halcon_Window_Name.Features_Window;
+
+            public Halcon_Window_Name Show_Window
+            {
+                get { return _Show_Window ; }
+                set { _Show_Window = value; }
+            }
+
 
 
             /// <summary>

@@ -2,12 +2,12 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Enum="clr-namespace:Halcon_SDK_DLL.WPF_Converter;assembly=Halcon_SDK_DLL"
+             xmlns:Window_Enum="clr-namespace:MVS_SDK_Base.Model;assembly=MVS_SDK"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HanGao.View.User_Control.Vision_Calibration.Vison_UserControl"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              d:DesignHeight="200"
              d:DesignWidth="900"
-             DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_CameraSet_ViewModel}"
              mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -191,16 +191,18 @@
                         <DataTemplate>
                             <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="MaskType_Model_UI" Grid.Column=" 1"
                                       Height=" 35"
+                                      Margin="4"
                                       VerticalContentAlignment="Center"
                                       BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                       BorderThickness="2"
                                       FontSize="16"
                                       IsDropDownOpen="False"
                                       IsSynchronizedWithCurrentItem="True"
-                                      SelectedIndex="{Binding Show_Window, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type}}">
+                                      SelectedIndex="{Binding Show_Window, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Window_Enum:Halcon_Window_Name}}">
+
                                 <ComboBoxItem>
 
-                                    <TextBlock Text="圆形"
+                                    <TextBlock Text="实时窗口"
                                                TextWrapping="Wrap"
                                                Padding="0,4,0,4"
                                                HorizontalAlignment="Center"
@@ -212,7 +214,7 @@
                                 </ComboBoxItem>
                                 <ComboBoxItem>
 
-                                    <TextBlock Text="正方形"
+                                    <TextBlock Text="特征窗口"
                                                TextWrapping="Wrap"
                                                Padding="0,4,0,4"
                                                HorizontalAlignment="Left"
@@ -223,10 +225,99 @@
                                                TextTrimming="CharacterEllipsis" />
                                 </ComboBoxItem>
 
+                                <ComboBoxItem>
 
+                                    <TextBlock Text="结果窗口_1"
+                                               TextWrapping="Wrap"
+                                               Padding="0,4,0,4"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                               FontSize="16"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                               TextTrimming="CharacterEllipsis" />
+                                </ComboBoxItem>
+                                <ComboBoxItem>
 
+                                    <TextBlock Text="结果窗口_2"
+                                               TextWrapping="Wrap"
+                                               Padding="0,4,0,4"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                               FontSize="16"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                               TextTrimming="CharacterEllipsis" />
+                                </ComboBoxItem>
+
+                                <ComboBoxItem>
+
+                                    <TextBlock Text="结果窗口_3"
+                                               TextWrapping="Wrap"
+                                               Padding="0,4,0,4"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                               FontSize="16"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                               TextTrimming="CharacterEllipsis" />
+                                </ComboBoxItem>
+
+                                <ComboBoxItem>
+
+                                    <TextBlock Text="结果窗口_4"
+                                               TextWrapping="Wrap"
+                                               Padding="0,4,0,4"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                               FontSize="16"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                               TextTrimming="CharacterEllipsis" />
+                                </ComboBoxItem>
+
+                                <ComboBoxItem>
+
+                                    <TextBlock Text="标定窗口_1"
+                                               TextWrapping="Wrap"
+                                               Padding="0,4,0,4"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                               FontSize="16"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                               TextTrimming="CharacterEllipsis" />
+                                </ComboBoxItem>
+
+                                <ComboBoxItem>
+
+                                    <TextBlock Text="标定窗口_2"
+                                               TextWrapping="Wrap"
+                                               Padding="0,4,0,4"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                               FontSize="16"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                               TextTrimming="CharacterEllipsis" />
+                                </ComboBoxItem>
+
+                                <ComboBoxItem>
+
+                                    <TextBlock Text="三维窗口"
+                                               TextWrapping="Wrap"
+                                               Padding="0,4,0,4"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                               FontSize="16"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                               TextTrimming="CharacterEllipsis" />
+                                </ComboBoxItem>
 
                             </ComboBox>
+
+
 
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
