@@ -42,8 +42,7 @@ namespace HanGao.ViewModel
         /// <param name="Window_UserContol"></param>
         public static void HWindows_Initialization(HSmartWindowControlWPF Window_UserContol)
         {
-            Window_UserContol.ActualHeight = Window_UserContol.MinHeight;
-            Window_UserContol.ActualWidth  = Window_UserContol.MinWidth;
+
 
 
             switch (Window_UserContol.Name)
