@@ -8,7 +8,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              d:DesignHeight="512"
              d:DesignWidth="900"
-             DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_Calibration_Camera_VM}"
              mc:Ignorable="d">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -152,10 +151,8 @@
                                            VerticalContentAlignment="Center"
                                            SnapsToDevicePixels="True">
                 <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Loaded">
-                        <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
-                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                               PassEventArgsToCommand="True" />
+                    <i:EventTrigger EventName="Initialized">
+                        <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CommandParameter}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Halcon:HSmartWindowControlWPF>
@@ -195,7 +192,7 @@
                     </Style>
                 </Halcon:HSmartWindowControlWPF.Style>
                 <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Loaded">
+                    <i:EventTrigger EventName="Initialized">
                         <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                PassEventArgsToCommand="True" />

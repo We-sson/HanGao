@@ -172,7 +172,7 @@ namespace HanGao.ViewModel
                 Messenger.Send<HImage_Display_Model, string>(new HImage_Display_Model()
                 {
                     Image = _Image,
-                    Image_Show_Halcon = UC_Visal_Function_VM.Live_Window.HWindow
+                    Image_Show_Halcon = UC_Visal_Function_VM.Live_Window.HWindow  
                 }, nameof(Meg_Value_Eunm.HWindow_Image_Show));
             }
             _Image.Dispose();
@@ -434,14 +434,14 @@ namespace HanGao.ViewModel
 
                     break;
                 case Halcon_Window_Name.Calibration_Window_1:
-                    _W = UC_Vision_Calibration_Camera_VM.Calibration_Window_1.HWindow;
+                    _W = Vision_Calibration_Home_VM.Calibration_Window_1.HWindow;
                     break;
                 case Halcon_Window_Name.Calibration_Window_2:
-                    _W = UC_Vision_Calibration_Camera_VM.Calibration_Window_2.HWindow;
+                    _W = Vision_Calibration_Home_VM.Calibration_Window_2.HWindow;
 
                     break;
                 case Halcon_Window_Name.Calibration_3D_Results:
-                    _W = UC_Vision_Calibration_Camera_VM.Calibration_3D_Results.HWindow;
+                    _W = Vision_Calibration_Home_VM.Calibration_3D_Results.HWindow;
 
                     break;
  

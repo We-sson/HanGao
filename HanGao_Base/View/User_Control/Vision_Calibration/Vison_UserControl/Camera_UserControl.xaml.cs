@@ -10,5 +10,6 @@ namespace HanGao.View.User_Control.Vision_Calibration.Vison_UserControl
         {
             InitializeComponent();
         }
+
     }
 }

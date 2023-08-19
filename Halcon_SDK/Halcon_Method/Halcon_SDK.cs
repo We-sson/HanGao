@@ -27,7 +27,7 @@ namespace Halcon_SDK_DLL
         /// <summary>
         /// Halcon窗口句柄
         /// </summary>
-        public HWindow HWindow { set; get; }
+        public HWindow HWindow { set; get; } = new HWindow();
 
 
         /// <summary>

@@ -64,7 +64,7 @@ namespace HanGao.ViewModelLocator
                     .AddScoped<Global_Seting_Status>()
                     .AddScoped<Other_Window_VM>()
                     .AddScoped<Vision_Calibration_Home_VM>()
-                    .AddScoped<UC_Vision_Calibration_Camera_VM>()
+                  
 
                     .BuildServiceProvider());
 
@@ -104,7 +104,6 @@ namespace HanGao.ViewModelLocator
         public Global_Seting_Status Global_Seting => Ioc.Default.GetService<Global_Seting_Status>();
         public Other_Window_VM Other_Window_VM => Ioc.Default.GetService<Other_Window_VM>();
         public Vision_Calibration_Home_VM Vision_Calibration_Home_VM => Ioc.Default.GetService<Vision_Calibration_Home_VM>();
-        public UC_Vision_Calibration_Camera_VM UC_Vision_Calibration_Camera_VM => Ioc.Default.GetService<UC_Vision_Calibration_Camera_VM>();
         
 
 
