@@ -40,7 +40,7 @@ namespace HanGao.ViewModel
                 if (Display_Status(Halcon_SDK.Read_Mat2d_Method(ref _Mat2D, _S.Calibration_Model.Vision_Area, _S.Calibration_Model.Work_Area)).GetResult())
                 {
                     //从相机获取照片
-                    if (Display_Status(UC_Vision_CameraSet_ViewModel.Get_Image(ref _Image, Find_Calibration.Get_Image_Model,  MVS_SDK_Base.Model.Halcon_Window_Name.Features_Window, Image_Location_UI)).GetResult())
+                    if (Display_Status(UC_Vision_CameraSet_ViewModel.Get_Image(ref _Image, Find_Calibration.Get_Image_Model,  MVS_SDK_Base.Model.Window_Show_Name_Enum.Features_Window, Image_Location_UI)).GetResult())
                     {
                         //清楚模板内容，查找图像模型
                         if (Find_Calibration_Mod(_Image, Find_Calibration) == 9)
@@ -108,7 +108,7 @@ namespace HanGao.ViewModel
             //UI显示接收信息内容
             UC_Vision_Robot_Protocol_ViewModel.Receive_Socket_String = _RStr;
             //从相机获取照片
-            if (Display_Status(UC_Vision_CameraSet_ViewModel.Get_Image(ref _Image, Find_Calibration.Get_Image_Model, Halcon_Window_Name.Features_Window, Image_Location_UI)).GetResult())
+            if (Display_Status(UC_Vision_CameraSet_ViewModel.Get_Image(ref _Image, Find_Calibration.Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI)).GetResult())
             {
                 //清楚模板内容，查找图像模型
                 if (Find_Calibration_Mod(_Image, Find_Calibration) == 9)
@@ -251,7 +251,7 @@ namespace HanGao.ViewModel
             get => new AsyncRelayCommand<UC_Vision_Point_Calibration>(async (Sm) =>
             {
                 HImage _Image = new HImage();
-                UC_Vision_CameraSet_ViewModel.Get_Image(ref _Image, Find_Calibration.Get_Image_Model, Halcon_Window_Name.Features_Window, Image_Location_UI);
+                UC_Vision_CameraSet_ViewModel.Get_Image(ref _Image, Find_Calibration.Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
                 await Task.Delay(100);
             });
         }
@@ -295,7 +295,7 @@ namespace HanGao.ViewModel
                 HTuple _Row = new HTuple();
                 HTuple _Column = new HTuple();
                 HImage _Image = new HImage();
-                if (Display_Status(UC_Vision_CameraSet_ViewModel.Get_Image(ref _Image, Find_Calibration.Get_Image_Model, Halcon_Window_Name.Features_Window, Image_Location_UI)).GetResult()
+                if (Display_Status(UC_Vision_CameraSet_ViewModel.Get_Image(ref _Image, Find_Calibration.Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI)).GetResult()
 )
                 {
                     //查找图像中模板位置

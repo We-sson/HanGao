@@ -51,17 +51,17 @@ namespace HanGao.ViewModel
 
             switch (Window_UserContol.Name)
             {
-                case string _N when Window_UserContol.Name == nameof(Halcon_Window_Name.Calibration_Window_1):
+                case string _N when Window_UserContol.Name == nameof(Window_Show_Name_Enum.Calibration_Window_1):
                     //初始化halcon图像属性
 
                     Calibration_Window_1 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
 
                     break;
-                case string _N when Window_UserContol.Name == nameof(Halcon_Window_Name.Calibration_Window_2):
+                case string _N when Window_UserContol.Name == nameof(Window_Show_Name_Enum.Calibration_Window_2):
                     //加载halcon图像属性
                     Calibration_Window_2 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     break;
-                case string _N when (Window_UserContol.Name == nameof(Halcon_Window_Name.Calibration_3D_Results)):
+                case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Calibration_3D_Results)):
                     //加载halcon图像属性
                     Calibration_3D_Results = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     break;

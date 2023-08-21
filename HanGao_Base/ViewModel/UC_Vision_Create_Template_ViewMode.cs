@@ -577,7 +577,7 @@ namespace HanGao.ViewModel
                             //限制操作
                             Create_Shape_ModelXld_UI_IsEnable = true;
                             //读取图片
-                            if (Display_Status(Get_Image(ref _Image, Get_Image_Model, Halcon_Window_Name.Features_Window, Image_Location_UI)).GetResult())
+                            if (Display_Status(Get_Image(ref _Image, Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI)).GetResult())
                             {
                                 _Halcon._HImage = new HObject(_Image);
                                 //图像预处理
@@ -711,26 +711,26 @@ namespace HanGao.ViewModel
         /// </summary>
         /// <param name="_Window"></param>
         /// <param name="_Name_Enum"></param>
-        public static  Halcon_Window_Name  Read_HWindow_ID( string _Name_Enum)
+        public static  Window_Show_Name_Enum  Read_HWindow_ID( string _Name_Enum)
         {
 
-            Halcon_Window_Name _Window= Halcon_Window_Name.Features_Window;
+            Window_Show_Name_Enum _Window= Window_Show_Name_Enum.Features_Window;
 
             switch (Enum.Parse(typeof(ShapeModel_Name_Enum), _Name_Enum))
             {
                 case ShapeModel_Name_Enum.F_45:
-                    _Window = Halcon_Window_Name.Results_Window_1;
+                    _Window = Window_Show_Name_Enum.Results_Window_1;
 
                     break;
                 case ShapeModel_Name_Enum.F_135:
-                    _Window = Halcon_Window_Name.Results_Window_2;
+                    _Window = Window_Show_Name_Enum.Results_Window_2;
 
                     break;
                 case ShapeModel_Name_Enum.F_225:
-                    _Window = Halcon_Window_Name.Results_Window_3;
+                    _Window = Window_Show_Name_Enum.Results_Window_3;
                     break;
                 case ShapeModel_Name_Enum.F_315:
-                    _Window = Halcon_Window_Name.Results_Window_4;
+                    _Window = Window_Show_Name_Enum.Results_Window_4;
                     break;
             }
 
@@ -761,7 +761,7 @@ namespace HanGao.ViewModel
                     //if (Display_Status(Shape_ModelXld_ReadALLFile(ref _Halcon_List, Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model, Halcon_Find_Shape_ModelXld_UI.ShapeModel_Name, Halcon_Find_Shape_ModelXld_UI.FInd_ID)).GetResult())
                     //{
                     //读取图片
-                    if (Display_Status(Get_Image(ref _Image, Get_Image_Model, Halcon_Window_Name.Features_Window, Image_Location_UI)).GetResult())
+                    if (Display_Status(Get_Image(ref _Image, Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI)).GetResult())
                     {
                         //查找模型    Vision_Auto_Cofig.Find_TimeOut_Millisecond
                         _Find_Result = Find_Model_Method(Halcon_Find_Shape_ModelXld_UI, Features_Window.HWindow, _Image, Vision_Auto_Cofig.Find_TimeOut_Millisecond, null, Halcon_Find_Shape_ModelXld_UI.FInd_ID);
@@ -786,7 +786,7 @@ namespace HanGao.ViewModel
                 HImage _Image = new HImage();
                 Halcon_Method _Halcon = new Halcon_Method();
                 //读取图片
-                if (Display_Status(Get_Image(ref _Image, Get_Image_Model, Halcon_Window_Name.Features_Window, Image_Location_UI)).GetResult())
+                if (Display_Status(Get_Image(ref _Image, Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI)).GetResult())
                 {
                     _Halcon._HImage = new HObject(_Image);
                     //图像预处理
@@ -1008,7 +1008,7 @@ namespace HanGao.ViewModel
             {
                 ComboBox E = Sm.Source as ComboBox;
                 HImage _Image = new HImage();
-                Display_Status(Get_Image(ref _Image, Get_Image_Model, Halcon_Window_Name.Features_Window, Image_Location_UI));
+                Display_Status(Get_Image(ref _Image, Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI));
                 _Image.Dispose();
                 await Task.Delay(100);
             });

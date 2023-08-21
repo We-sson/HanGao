@@ -455,13 +455,17 @@
                      FontSize=" 16"
                      Header="相机参数"
                      IsSelected="True">
-                <Vision_control:UC_Vision_CameraSet x:Name="Camera_Set" Margin="5" />
+                <Vision_control:UC_Vision_CameraSet x:Name="Camera_Set"
+                                                    Margin="5"
+                                                    DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_CameraSet_ViewModel}" />
             </TabItem>
             <TabItem Style="{DynamicResource Vision_TabItemStyle}"
                      Padding="20,5,20,5"
                      FontSize=" 16"
                      Header="参数调节">
-                <Vision_control:UC_Vision_Camera_Parametric x:Name="Camera_Parametric" Margin="5" />
+                <Vision_control:UC_Vision_Camera_Parametric x:Name="Camera_Parametric"
+                                                            Margin="5"
+                                                            DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_Camera_Calibration}" />
             </TabItem>
             <TabItem Style="{DynamicResource Vision_TabItemStyle}"
                      Padding="20,5,20,5"

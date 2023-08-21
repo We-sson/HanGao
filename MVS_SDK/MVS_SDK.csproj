@@ -21,13 +21,14 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Generic_Extension\Generic_Extension.csproj" />
+    <ProjectReference Include="..\Halcon_SDK\Halcon_SDK.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="MvCamCtrl.Net.dll" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="PropertyChanged.Fody" Version="4.1.0"  PrivateAssets="All" />
+    <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" PrivateAssets="All" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
   </ItemGroup>
   <ProjectExtensions>

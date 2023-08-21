@@ -8,9 +8,9 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:HanGao.View.User_Control.Vision_Control"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_CameraSet_ViewModel}"
              d:DesignHeight="1817"
              d:DesignWidth="332"
-             DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_CameraSet_ViewModel}"
              mc:Ignorable="d">
     <UserControl.Resources>
         <Enum:Halcon_StringConverter x:Key="Halcon_StringConverter" />

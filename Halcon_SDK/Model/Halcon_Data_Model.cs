@@ -6,8 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media.Media3D;
+using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
+
 namespace Halcon_SDK_DLL.Model
 {
     public class Halcon_Data_Model
@@ -36,19 +39,19 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 模型实例的行坐标
             /// </summary>
-            public List<double> Row { set; get; } = new List< double>();
+            public List<double> Row { set; get; } = new List<double>();
             /// <summary>
             /// 模型实例的列坐标
             /// </summary>
-            public List<double >Column { set; get; } = new List<double>();
+            public List<double> Column { set; get; } = new List<double>();
             /// <summary>
             /// 模型实例的旋转角度
             /// </summary>
-            public List<double >Angle { set; get; } = new List<double>();
+            public List<double> Angle { set; get; } = new List<double>();
             /// <summary>
             /// 模型和找到的实例相似值
             /// </summary>
-            public List<double >Score { set; get; } = new List<double>();
+            public List<double> Score { set; get; } = new List<double>();
             /// <summary>
             /// 查找耗时
             /// </summary>
@@ -56,7 +59,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 查找模型结果
             /// </summary>
-            public  List<bool >FInd_Results { set; get; } = new List<bool> ();
+            public List<bool> FInd_Results { set; get; } = new List<bool>();
             /// <summary>
             /// 存储结果点
             /// </summary>
@@ -453,7 +456,137 @@ namespace Halcon_SDK_DLL.Model
             /// </summary>
             public double Max_Area { set; get; } = 2000000;
         }
+
+
+
+
+        /// <summary>
+        /// Halcon标定相机参数
+        /// </summary>
+        public class Halcon_Camera_Calibration_Parameters_Model
+        {
+
+            /// <summary>
+            /// 相机标定类型
+            /// </summary>
+            public Halocn_Camera_Calibration_Enum Camera_Calibration_Model { set; get; } = Halocn_Camera_Calibration_Enum.area_scan_polynomial;
+
+            /// <summary>
+            /// 单个像高度：微米
+            /// </summary>
+            public double One_Pixel_Height { set; get; } = 2.2;
+            /// <summary>
+            /// 单个像宽度：微米
+            /// </summary>
+            public double One_Pixel_Width { set; get; } = 2.2;
+
+            /// <summary>
+            /// 焦距：mm
+            /// </summary>
+            public double Focus { set; get; } = 16;
+
+            /// <summary>
+            /// 畸变系数：1/㎡
+            /// </summary>
+            public double Kappa { set; get; } = 0;
+
+            /// <summary>
+            /// 径向2阶：1/㎡
+            /// </summary>
+            public double K1 { set; get; } = 0;
+            /// <summary>
+            /// 径向4阶：1/㎡
+            /// </summary>
+            public double K2 { set; get; } = 0;
+            /// <summary>
+            /// 径向6阶：1/㎡
+            /// </summary>
+            public double K3 { set; get; } = 0;
+
+            /// <summary>
+            /// 切向2阶：1/㎡
+            /// </summary>
+            public double P1 { set; get; } = 0;
+            /// <summary>
+            /// 切向2阶：1/㎡
+            /// </summary>
+            public double P2 { set; get; } = 0;
+
+            /// <summary>
+            /// 中间高度度位置
+            /// </summary>
+            public double Middle_Height_Pos { set; get; } = 0;
+            /// <summary>
+            /// 中间宽度位置
+            /// </summary>
+            public double Middle_Width_Pos { set; get; } = 0;
+
+            /// <summary>
+            /// 最大高度像素
+            /// </summary>
+            public int Max_Height_Pos { set; get; } = 0;
+            /// <summary>
+            /// 最大宽度像素
+            /// </summary>
+            public int Max_Width_Pos { set; get; } = 0;
+        }
+
     }
+
+    /// <summary>
+    /// 相机标定属性模型
+    /// </summary>
+    public class Halcon_Camera_Calibration_Model
+    {
+
+
+
+
+        /// <summary>
+        /// 标定相机类型
+        /// </summary>
+        public Halcon_Camera_Calibration_Parameters_Model Calibration_Paramteters { set; get; } = new Halcon_Camera_Calibration_Parameters_Model();
+
+
+        /// <summary>
+        /// 标定板位置
+        /// </summary>
+        public FileInfo Halcon_CaltabDescr_Address { set; get; }
+        /// <summary>
+        /// 标定板厚度
+        /// </summary>
+        public double Halcon_CaltabThickness { set; get; } = 0;
+
+        /// <summary>
+        ///  标定相机数量 
+        /// </summary>
+        public int Haclon_Camera_number { set; get; } = 0;
+
+        /// <summary>
+        /// 标定板图像数量
+        /// </summary>
+        public int Haclon_Calibration_Image_number { get; } = 10;
+
+
+        /// <summary>
+        /// 标定板识别滤波
+        /// </summary>
+       public double Halcon_Calibretion_Sigma { set; get; }=0;
+
+        /// <summary>
+        /// 查找标定板模式：False-单帧模式
+        /// </summary>
+        public bool Halcon_Find_Calib_Model { set; get; } = false;  
+
+
+        /// <summary>
+        /// 查找标定板图像显示
+        /// </summary>
+        public bool Halcon_Calib_XLD_Show { set; get; } = true ;        
+    }
+
+
+
     public class Match_Models_List_Model
     {
         /// <summary>
@@ -483,14 +616,14 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 匹配模型预存类型
         /// </summary>
-        public  Halcon_Method Model { set; get; }=new Halcon_Method ();
+        public Halcon_Method Model { set; get; } = new Halcon_Method();
         /// <summary>
         /// 获得模型文件名
         /// </summary>
         /// <returns></returns>
         public string GetFileName()
         {
-            return Match_ID  + (int)Match_Model + Match_No + "." + File_Type;
+            return Match_ID + (int)Match_Model + Match_No + "." + File_Type;
         }
     }
     /// <summary>
@@ -508,11 +641,11 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 算法设置错误委托属性
         /// </summary>
-        public  static  HVS_T_delegate<string> HVS_ErrorInfo_delegate { set; get; }
+        public static HVS_T_delegate<string> HVS_ErrorInfo_delegate { set; get; }
 
 
 
-        public   HPR_Status_Model(HVE_Result_Enum _Status)
+        public HPR_Status_Model(HVE_Result_Enum _Status)
         {
             Result_Status = _Status;
 
@@ -555,6 +688,27 @@ namespace Halcon_SDK_DLL.Model
             return Result_Status.ToString() + "-" + Result_Error_Info;
         }
     }
+
+
+    /// <summary>
+    /// 相机标定
+    /// </summary>
+    public enum Halocn_Camera_Calibration_Enum
+    {
+        /// <summary>
+        /// 面扫相机_畸形式
+        /// </summary>
+        area_scan_division,
+        /// <summary>
+        /// 面扫相机_多项式
+        /// </summary>
+        area_scan_polynomial
+    }
+
+
+
+
+
     /// <summary>
     /// 查找模型位置预处理方法名称枚举
     /// </summary>
@@ -755,7 +909,7 @@ namespace Halcon_SDK_DLL.Model
         /// </summary>
         output_binary,
         /// <summary>
-       /// 一个已经存在的输出文件被打开，在文件的最后以二进制格式写入。
+        /// 一个已经存在的输出文件被打开，在文件的最后以二进制格式写入。
         /// 对于文本文件，传递给fileType的元组可以通过以下编码设置之一进行扩展：
         /// </summary>
         append_binary,

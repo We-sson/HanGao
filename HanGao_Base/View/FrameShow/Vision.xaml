@@ -1511,7 +1511,9 @@
         </Grid>
         <Grid x:Name="Vision_Menu" Grid.Column=" 1"
               Margin="3,6,6,12">
-            <Vision_Control:UC_Vision_CameraSet Width="330" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Camera_Settings}" />
+            <Vision_Control:UC_Vision_CameraSet Width="330"
+                                                DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_CameraSet_ViewModel}"
+                                                Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Camera_Settings}" />
             <Vision_Control:UC_Vision_Point_Calibration Width="330" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Point_Calibration}" />
             <Vision_Control:UC_Vision_Create_Template Width="330" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Create_Model}" />
             <Vision_Control:UC_Vision_Auto_Model Width="330" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Auto_Model}" />

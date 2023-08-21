@@ -4,6 +4,7 @@ using MvCamCtrl.NET.CameraParams;
 using PropertyChanged;
 using System;
 using System.Runtime.InteropServices;
+using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
 namespace MVS_SDK_Base.Model
 {
@@ -370,28 +371,38 @@ namespace MVS_SDK_Base.Model
             /// <summary>
             /// 标定精度
             /// </summary>
-            public double Calibrated_Accuracy { set; get; } = 0.456;
+            public double Calibrated_Accuracy { set; get; } = 0.00;
 
 
 
             /// <summary>
-            /// 标定状态
+            /// 标定结状态
             /// </summary>
-            public Camera_Calibration_Type_Enum Camera_Calibration_State { set; get; } = Camera_Calibration_Type_Enum.None;
+            public Camera_Calibration_Results_Type_Enum Camera_Calibration_State { set; get; } = Camera_Calibration_Results_Type_Enum.None;
 
 
+            /// <summary>
+            /// 相机标定操作
+            /// </summary>
+            public Camera_Calibration_Mobile_Type_Emun Camera_Calibration_Type { set; get; } = Camera_Calibration_Mobile_Type_Emun.UnCalibration;
+
+
+            /// <summary>
+            /// 相机标定参数
+            /// </summary>
+            public Halcon_Camera_Calibration_Parameters_Model Camera_Calibration_Paramteters { set; get; }=new Halcon_Camera_Calibration_Parameters_Model();
 
 
 
             /// <summary>
-            /// 标定状态
+            /// 标定结果状态
             /// </summary>
-            public enum Camera_Calibration_Type_Enum
+            public enum Camera_Calibration_Results_Type_Enum
             {
 
                 None = 0,
-                Calibration_OK,
-                Calibration_Error
+                Calibration_Results_OK,
+                Calibration_Results_Error
             }
 
 
@@ -517,6 +528,9 @@ namespace MVS_SDK_Base.Model
 
 
 
+
+
+
             /// <summary>
             /// 相机设备句柄,首次检测设置
             /// </summary>
@@ -529,17 +543,14 @@ namespace MVS_SDK_Base.Model
             public CCamera Camera { set; get; } = new CCamera();
 
 
-          /// <summary>
-          /// 图像需要显示位置
-          /// </summary>
-            private Halcon_Window_Name _Show_Window = Halcon_Window_Name.Features_Window;
+            /// <summary>
+            /// 图像需要显示位置
+            /// </summary>
+            public Window_Show_Name_Enum Show_Window { set; get; } = Window_Show_Name_Enum.Features_Window;
 
-            public Halcon_Window_Name Show_Window
-            {
-                get { return _Show_Window ; }
-                set { _Show_Window = value; }
-            }
 
+
+         
 
 
             /// <summary>
@@ -759,7 +770,7 @@ namespace MVS_SDK_Base.Model
     }
 
 
-    public enum Halcon_Window_Name
+    public enum Window_Show_Name_Enum
     {
         Live_Window,
         Features_Window,
@@ -770,5 +781,21 @@ namespace MVS_SDK_Base.Model
         Calibration_Window_1,
         Calibration_Window_2,
         Calibration_3D_Results,
+    }
+
+
+    /// <summary>
+    /// 相机标定状态
+    /// </summary>
+    public enum Camera_Calibration_Mobile_Type_Emun
+    {
+        /// <summary>
+        /// 不用校准
+        /// </summary>
+        UnCalibration,
+        /// <summary>
+        /// 开始校准
+        /// </summary>
+        Start_Calibration
     }
 }

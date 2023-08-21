@@ -216,27 +216,27 @@ namespace HanGao.ViewModel
 
             switch (Window_UserContol.Name)
             {
-                case string _N when Window_UserContol.Name == nameof(Halcon_Window_Name.Live_Window):
+                case string _N when Window_UserContol.Name == nameof(Window_Show_Name_Enum.Live_Window):
                     //初始化halcon图像属性
                     Live_Window = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     break;
-                case string _N when Window_UserContol.Name == nameof(Halcon_Window_Name.Features_Window):
+                case string _N when Window_UserContol.Name == nameof(Window_Show_Name_Enum.Features_Window):
                     //加载halcon图像属性
                     Features_Window = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     break;
-                case string _N when (Window_UserContol.Name == nameof(Halcon_Window_Name.Results_Window_1)):
+                case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_1)):
                     //加载halcon图像属性
                     Results_Window_1 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     break;
-                case string _N when (Window_UserContol.Name == nameof(Halcon_Window_Name.Results_Window_2)):
+                case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_2)):
                     //加载halcon图像属性
                     Results_Window_2 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     break;
-                case string _N when (Window_UserContol.Name == nameof(Halcon_Window_Name.Results_Window_3)):
+                case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_3)):
                     //加载halcon图像属性
                     Results_Window_3 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     break;
-                case string _N when (Window_UserContol.Name == nameof(Halcon_Window_Name.Results_Window_4)):
+                case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_4)):
                     //加载halcon图像属性
                     Results_Window_4 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     break;

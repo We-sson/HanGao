@@ -405,42 +405,42 @@ namespace HanGao.ViewModel
         /// </summary>
         /// <param name="_Window"></param>
         /// <returns></returns>
-        public static  HWindow GetWindowHandle(Halcon_Window_Name _Window)
+        public static  HWindow GetWindowHandle(Window_Show_Name_Enum _Window)
         {
             HWindow _W=new HWindow ();
             switch (_Window)
             {
-                case Halcon_Window_Name.Live_Window:
+                case Window_Show_Name_Enum.Live_Window:
                     _W = UC_Visal_Function_VM.Live_Window.HWindow;
                     break;
-                case Halcon_Window_Name.Features_Window:
+                case Window_Show_Name_Enum.Features_Window:
                     _W = UC_Visal_Function_VM.Features_Window.HWindow;
 
                     break;
-                case Halcon_Window_Name.Results_Window_1:
+                case Window_Show_Name_Enum.Results_Window_1:
                     _W = UC_Visal_Function_VM.Results_Window_1.HWindow;
 
                     break;
-                case Halcon_Window_Name.Results_Window_2:
+                case Window_Show_Name_Enum.Results_Window_2:
                     _W = UC_Visal_Function_VM.Results_Window_2.HWindow;
 
                     break;
-                case Halcon_Window_Name.Results_Window_3:
+                case Window_Show_Name_Enum.Results_Window_3:
                     _W = UC_Visal_Function_VM.Results_Window_3.HWindow;
 
                     break;
-                case Halcon_Window_Name.Results_Window_4:
+                case Window_Show_Name_Enum.Results_Window_4:
                     _W = UC_Visal_Function_VM.Results_Window_4.HWindow;
 
                     break;
-                case Halcon_Window_Name.Calibration_Window_1:
+                case Window_Show_Name_Enum.Calibration_Window_1:
                     _W = Vision_Calibration_Home_VM.Calibration_Window_1.HWindow;
                     break;
-                case Halcon_Window_Name.Calibration_Window_2:
+                case Window_Show_Name_Enum.Calibration_Window_2:
                     _W = Vision_Calibration_Home_VM.Calibration_Window_2.HWindow;
 
                     break;
-                case Halcon_Window_Name.Calibration_3D_Results:
+                case Window_Show_Name_Enum.Calibration_3D_Results:
                     _W = Vision_Calibration_Home_VM.Calibration_3D_Results.HWindow;
 
                     break;
@@ -461,7 +461,7 @@ namespace HanGao.ViewModel
         /// <param name="_Window"></param>
         /// <param name="_path"></param>
         /// <returns></returns>
-        public static   HPR_Status_Model Get_Image(ref HImage _Image, Get_Image_Model_Enum _Get_Model, Halcon_Window_Name _HW, string _path = "")
+        public static   HPR_Status_Model Get_Image(ref HImage _Image, Get_Image_Model_Enum _Get_Model, Window_Show_Name_Enum _HW, string _path = "")
         {
             //HObject _image = new HObject();
             //HOperatorSet.GenEmptyObj(out _Image);

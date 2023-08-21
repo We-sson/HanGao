@@ -6,6 +6,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HanGao.View.User_Control.Vision_Calibration.Vison_UserControl"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_CameraSet_ViewModel}"
              d:DesignHeight="200"
              d:DesignWidth="900"
              mc:Ignorable="d">
@@ -198,7 +199,7 @@
                                       FontSize="16"
                                       IsDropDownOpen="False"
                                       IsSynchronizedWithCurrentItem="True"
-                                      SelectedIndex="{Binding Show_Window, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Window_Enum:Halcon_Window_Name}}">
+                                      SelectedIndex="{Binding Show_Window, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Window_Enum:Window_Show_Name_Enum}}">
 
                                 <ComboBoxItem>
 
@@ -314,6 +315,68 @@
                                                Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                TextTrimming="CharacterEllipsis" />
                                 </ComboBoxItem>
+
+                            </ComboBox>
+
+
+
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Width="150">
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="标定操作"
+                                   Margin="4"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                   FontSize="16"
+                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
+                                      Height=" 35"
+                                      Margin="4"
+                                      VerticalContentAlignment="Center"
+                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                      BorderThickness="2"
+                                      FontSize="16"
+                                      IsDropDownOpen="False"
+                                      IsSynchronizedWithCurrentItem="True"
+                                      SelectedIndex="{Binding Camera_Calibration.Camera_Calibration_Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Window_Enum:Camera_Calibration_Mobile_Type_Emun}}">
+
+                                <ComboBoxItem>
+
+                                    <TextBlock Text="不用标定"
+                                               TextWrapping="Wrap"
+                                               Padding="0,4,0,4"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                               FontSize="16"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                               TextTrimming="CharacterEllipsis" />
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+
+                                    <TextBlock Text="开始标定"
+                                               TextWrapping="Wrap"
+                                               Padding="0,4,0,4"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                               FontSize="16"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                               TextTrimming="CharacterEllipsis" />
+                                </ComboBoxItem>
+
+
+
+
+
 
                             </ComboBox>
 
