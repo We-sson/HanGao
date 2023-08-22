@@ -7,6 +7,7 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:HanGao.View.User_Control.Vision_Control"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:openfile="clr-namespace:HanGao.View.User_Control.OpenFile"
              d:DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_Camera_Calibration}"
              d:DesignHeight="1017"
              d:DesignWidth="340"
@@ -37,6 +38,7 @@
                           Margin="0,0,0,10"
                           HorizontalContentAlignment="Stretch"
                           VerticalContentAlignment="Stretch"
+                          DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_CameraSet_ViewModel}"
                           IsExpanded="False">
                     <Expander.Header>
                         <Border x:Name="Radio_1"
@@ -112,11 +114,11 @@
                                           FontSize="20"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="{Binding Calibration_Parameters.Calibration_Paramteters.Camera_Calibration_Model, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:Halocn_Camera_Calibration_Enum}}">
+                                          SelectedIndex="{Binding Select_Calibration.Camera_Calibration.Camera_Calibration_Paramteters.Camera_Calibration_Model, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:Halocn_Camera_Calibration_Enum}}">
 
                                     <ComboBoxItem>
 
-                                        <TextBlock Text="面扫描(畸形式)"
+                                        <TextBlock Text="面扫描(普通式)"
                                                    TextWrapping="Wrap"
                                                    Padding="0,4,0,4"
                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -163,7 +165,7 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="{Binding Calibration_Parameters.Calibration_Paramteters.One_Pixel_Width}" />
+                                        Value="{Binding Select_Calibration.Camera_Calibration.Camera_Calibration_Paramteters.One_Pixel_Width}" />
 
                                 <TextBox Grid.Column=" 2"
                                          Text="{Binding ElementName=Calibration_Pixel_Width_UI, Path=Value}"
@@ -206,7 +208,7 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="{Binding Calibration_Parameters.Calibration_Paramteters.One_Pixel_Width}" />
+                                        Value="{Binding Select_Calibration.Camera_Calibration.Camera_Calibration_Paramteters.One_Pixel_Height}" />
 
                                 <TextBox Grid.Column=" 2"
                                          Text="{Binding ElementName=Calibration_Pixel_Height_UI, Path=Value}"
@@ -249,7 +251,7 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="{Binding Calibration_Parameters.Calibration_Paramteters.Focus}">
+                                        Value="{Binding Select_Calibration.Camera_Calibration.Camera_Calibration_Paramteters.Focus}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseUp">
                                             <i:InvokeCommandAction Command="{Binding}"
@@ -300,7 +302,7 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="{Binding Calibration_Parameters.Calibration_Paramteters.Kappa}" />
+                                        Value="{Binding Select_Calibration.Camera_Calibration.Camera_Calibration_Paramteters.Kappa}" />
 
                                 <TextBox Grid.Column=" 2"
                                          Text="{Binding ElementName=Camera_Kappa_UI, Path=Value}"
@@ -343,7 +345,7 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="{Binding Calibration_Parameters.Calibration_Paramteters.K1}" />
+                                        Value="{Binding Select_Calibration.Camera_Calibration.Camera_Calibration_Paramteters.K1}" />
 
                                 <TextBox Grid.Column=" 2"
                                          Text="{Binding ElementName=Calibration_K1_UI, Path=Value}"
@@ -386,7 +388,7 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="{Binding Calibration_Parameters.Calibration_Paramteters.K2}" />
+                                        Value="{Binding Select_Calibration.Camera_Calibration.Camera_Calibration_Paramteters.K2}" />
 
                                 <TextBox Grid.Column=" 2"
                                          Text="{Binding ElementName=Calibration_K2_UI, Path=Value}"
@@ -429,7 +431,7 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="{Binding Calibration_Parameters.Calibration_Paramteters.K3}" />
+                                        Value="{Binding Select_Calibration.Camera_Calibration.Camera_Calibration_Paramteters.K3}" />
 
                                 <TextBox Grid.Column=" 2"
                                          Text="{Binding ElementName=Calibration_K3_UI, Path=Value}"
@@ -472,7 +474,7 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="{Binding Calibration_Parameters.Calibration_Paramteters.P1}" />
+                                        Value="{Binding Select_Calibration.Camera_Calibration.Camera_Calibration_Paramteters.P1}" />
 
                                 <TextBox Grid.Column=" 2"
                                          Text="{Binding ElementName=Calibration_P1_UI, Path=Value}"
@@ -515,7 +517,7 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="{Binding Calibration_Parameters.Calibration_Paramteters.P2}" />
+                                        Value="{Binding Select_Calibration.Camera_Calibration.Camera_Calibration_Paramteters.P2}" />
 
                                 <TextBox Grid.Column=" 2"
                                          Text="{Binding ElementName=Calibration_P2_UI, Path=Value}"
@@ -558,7 +560,7 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="{Binding Calibration_Parameters.Calibration_Paramteters.Middle_Width_Pos}" />
+                                        Value="{Binding Select_Calibration.Camera_Calibration.Camera_Calibration_Paramteters.Middle_Width_Pos}" />
 
                                 <TextBox Grid.Column=" 2"
                                          Text="{Binding ElementName=Calibration_Middle_Width_UI, Path=Value}"
@@ -601,7 +603,7 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="{Binding Calibration_Parameters.Calibration_Paramteters.Middle_Height_Pos}" />
+                                        Value="{Binding Select_Calibration.Camera_Calibration.Camera_Calibration_Paramteters.Middle_Height_Pos}" />
 
                                 <TextBox Grid.Column=" 2"
                                          Text="{Binding ElementName=Calibration_Middle_Height_UI, Path=Value}"
@@ -644,7 +646,7 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="{Binding Calibration_Parameters.Calibration_Paramteters.Max_Width_Pos}" />
+                                        Value="{Binding Select_Calibration.Camera_Calibration.Camera_Calibration_Paramteters.Max_Width_Pos}" />
 
                                 <TextBox Grid.Column=" 2"
                                          Text="{Binding ElementName=Calibration_Max_Width_UI, Path=Value}"
@@ -689,7 +691,7 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="{Binding Calibration_Parameters.Calibration_Paramteters.Max_Height_Pos}" />
+                                        Value="{Binding Select_Calibration.Camera_Calibration.Camera_Calibration_Paramteters.Max_Height_Pos}" />
 
                                 <TextBox Grid.Column=" 2"
                                          Text="{Binding ElementName=Calibration_Max_Heigth_UI, Path=Value}"
@@ -835,7 +837,7 @@
 
 
                                         <TextBox x:Name="ST1" Grid.Column=" 0"
-                                                 Text="{Binding Calibration_Parameters.Halcon_CaltabDescr_Address.FullName}"
+                                                 Text="{Binding Halcon_Calibration_Setup.Halcon_CaltabDescr_Address.FullName}"
                                                  TextWrapping="Wrap"
                                                  Margin="6,6,0,6"
                                                  HorizontalAlignment="Left"
@@ -870,7 +872,7 @@
 
                                     </Grid>
                                 </Border>
-
+                                <openfile:UC_Open_File Grid.Column=" 1" File_Log="12346" />
                                 <Label Grid.Column=" 3"
                                        Content=""
                                        Margin="0"
@@ -906,7 +908,7 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="{Binding Calibration_Parameters.Halcon_CaltabThickness}" />
+                                        Value="{Binding Halcon_Calibration_Setup.Halcon_CaltabThickness}" />
 
                                 <TextBox Grid.Column=" 2"
                                          Text="{Binding ElementName=Calibration_Plate_Thicknesses_UI, Path=Value}"
@@ -949,7 +951,7 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="{Binding Calibration_Parameters.Halcon_Calibretion_Sigma}" />
+                                        Value="{Binding Halcon_Calibration_Setup.Halcon_Calibretion_Sigma}" />
 
                                 <TextBox Grid.Column=" 2"
                                          Text="{Binding ElementName=Calibration_Filter_UI, Path=Value}"
@@ -986,7 +988,7 @@
 
 
                                 <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="Calibration_Find_Model" Grid.Column=" 2"
-                                              IsChecked="{Binding Calibration_Parameters.Halcon_Find_Calib_Model}"
+                                              IsChecked="{Binding Halcon_Calibration_Setup.Halcon_Find_Calib_Model}"
                                               Width=" 100"
                                               Padding="0"
                                               BorderThickness="2">
@@ -1038,7 +1040,7 @@
 
 
                                 <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="Calibration_XLD_Show" Grid.Column=" 2"
-                                              IsChecked="{Binding Calibration_Parameters.Halcon_Calib_XLD_Show}"
+                                              IsChecked="{Binding Halcon_Calibration_Setup.Halcon_Calib_XLD_Show}"
                                               Width=" 100"
                                               Padding="0"
                                               BorderThickness="2">
@@ -1133,7 +1135,7 @@
                                         <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="{x:Type Button}">
                                             <Setter Property="Content" Value="{StaticResource T1}" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Find_Text_Models_UI_IsEnable}" Value="false">
+                                                <DataTrigger Binding="{Binding}" Value="false">
                                                     <Setter Property="IsEnabled" Value="False" />
                                                     <Setter Property="Content" Value="{StaticResource T2}" />
                                                 </DataTrigger>

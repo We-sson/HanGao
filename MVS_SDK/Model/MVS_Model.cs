@@ -1,4 +1,5 @@
 ﻿using Generic_Extension;
+using Halcon_SDK_DLL.Model;
 using MvCamCtrl.NET;
 using MvCamCtrl.NET.CameraParams;
 using PropertyChanged;
@@ -374,7 +375,7 @@ namespace MVS_SDK_Base.Model
             public double Calibrated_Accuracy { set; get; } = 0.00;
 
 
-
+  
             /// <summary>
             /// 标定结状态
             /// </summary>
@@ -384,26 +385,16 @@ namespace MVS_SDK_Base.Model
             /// <summary>
             /// 相机标定操作
             /// </summary>
-            public Camera_Calibration_Mobile_Type_Emun Camera_Calibration_Type { set; get; } = Camera_Calibration_Mobile_Type_Emun.UnCalibration;
+            public Camera_Calibration_Mobile_Type_Emun Camera_Calibration_Setup { set; get; } = Camera_Calibration_Mobile_Type_Emun.UnCalibration;
 
 
             /// <summary>
             /// 相机标定参数
             /// </summary>
-            public Halcon_Camera_Calibration_Parameters_Model Camera_Calibration_Paramteters { set; get; }=new Halcon_Camera_Calibration_Parameters_Model();
+            public Halcon_Camera_Calibration_Parameters_Model Camera_Calibration_Paramteters { set; get; } = new Halcon_Camera_Calibration_Parameters_Model();
 
 
 
-            /// <summary>
-            /// 标定结果状态
-            /// </summary>
-            public enum Camera_Calibration_Results_Type_Enum
-            {
-
-                None = 0,
-                Calibration_Results_OK,
-                Calibration_Results_Error
-            }
 
 
 
@@ -798,4 +789,16 @@ namespace MVS_SDK_Base.Model
         /// </summary>
         Start_Calibration
     }
+
+    /// <summary>
+    /// 标定结果状态
+    /// </summary>
+    public enum Camera_Calibration_Results_Type_Enum
+    {
+
+        None = 0,
+        Calibration_Results_OK,
+        Calibration_Results_Error
+    }
+
 }

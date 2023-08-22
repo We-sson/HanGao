@@ -100,7 +100,20 @@ namespace HanGao.ViewModel
                 StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Select_Camera)));
             }
         }
+        /// <summary>
+        /// 相机信息
+        /// </summary>
+        public static MVS_Camera_Info_Model _Select_Calibration { set; get; } = new MVS_Camera_Info_Model();
 
+        public static MVS_Camera_Info_Model Select_Calibration
+        {
+            get { return _Select_Calibration; }
+            set
+            {
+                _Select_Calibration = value;
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Select_Calibration)));
+            }
+        }
 
 
 

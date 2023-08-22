@@ -14,6 +14,7 @@
 
 using CommunityToolkit.Mvvm.DependencyInjection;
 using HanGao.Errorinfo;
+using HanGao.View.User_Control.OpenFile.ViewModel;
 using HanGao.ViewModel;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -65,6 +66,7 @@ namespace HanGao.ViewModelLocator
                     .AddScoped<Other_Window_VM>()
                     .AddScoped<Vision_Calibration_Home_VM>()
                     .AddScoped<UC_Vision_Camera_Calibration>()
+                    .AddScoped<UC_Open_File_VM>()
                   
 
                     .BuildServiceProvider());
@@ -106,6 +108,7 @@ namespace HanGao.ViewModelLocator
         public Other_Window_VM Other_Window_VM => Ioc.Default.GetService<Other_Window_VM>();
         public Vision_Calibration_Home_VM Vision_Calibration_Home_VM => Ioc.Default.GetService<Vision_Calibration_Home_VM>();
         public UC_Vision_Camera_Calibration UC_Vision_Camera_Calibration => Ioc.Default.GetService<UC_Vision_Camera_Calibration>();
+        public UC_Open_File_VM UC_Open_File_VM => Ioc.Default.GetService<UC_Open_File_VM>();
         
 
 

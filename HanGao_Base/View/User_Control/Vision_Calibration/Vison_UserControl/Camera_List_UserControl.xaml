@@ -40,7 +40,8 @@
                   ItemsSource="{Binding MVS_Camera_Info_List}"
                   RowHeaderWidth="0"
                   RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
-                  SelectedIndex="3"
+                  SelectedIndex="0"
+                  SelectedValue="{Binding Select_Calibration}"
                   SelectionMode="Single"
                   SelectionUnit="FullRow">
 
@@ -346,7 +347,7 @@
                                       FontSize="16"
                                       IsDropDownOpen="False"
                                       IsSynchronizedWithCurrentItem="True"
-                                      SelectedIndex="{Binding Camera_Calibration.Camera_Calibration_Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Window_Enum:Camera_Calibration_Mobile_Type_Emun}}">
+                                      SelectedIndex="{Binding Camera_Calibration.Camera_Calibration_Setup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Window_Enum:Camera_Calibration_Mobile_Type_Emun}}">
 
                                 <ComboBoxItem>
 

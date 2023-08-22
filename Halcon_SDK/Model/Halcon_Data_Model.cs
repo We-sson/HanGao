@@ -545,7 +545,13 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 标定相机类型
         /// </summary>
-        public Halcon_Camera_Calibration_Parameters_Model Calibration_Paramteters { set; get; } = new Halcon_Camera_Calibration_Parameters_Model();
+        //public Halcon_Camera_Calibration_Parameters_Model Calibration_Paramteters { set; get; } = new Halcon_Camera_Calibration_Parameters_Model();
+
+
+        /// <summary>
+        /// 相机标定类型
+        /// </summary>
+        public Halcon_Calibration_Setup_Model_Enum Calibration_Setup_Model { set; get; } = Halcon_Calibration_Setup_Model_Enum.calibration_object;
 
 
         /// <summary>
@@ -567,6 +573,11 @@ namespace Halcon_SDK_DLL.Model
         /// </summary>
         public int Haclon_Calibration_Image_number { get; } = 10;
 
+
+        /// <summary>
+        /// 标定板默认数量：1
+        /// </summary>
+        public int Haclon_Calibration_number { get; } = 1;
 
         /// <summary>
         /// 标定板识别滤波
@@ -703,6 +714,19 @@ namespace Halcon_SDK_DLL.Model
         /// 面扫相机_多项式
         /// </summary>
         area_scan_polynomial
+    }
+
+
+    /// <summary>
+    /// Halcon 标定模式枚举
+    /// </summary>
+    public enum Halcon_Calibration_Setup_Model_Enum
+    {
+        calibration_object,
+        hand_eye_moving_cam,
+        hand_eye_scara_moving_cam,
+        hand_eye_scara_stationary_cam,
+        hand_eye_stationary_cam
     }
 
 
