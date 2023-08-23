@@ -5,8 +5,9 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:HanGao.View.User_Control.OpenFile"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             Name="U1"
              d:DesignHeight="81"
-             d:DesignWidth="200" 
+             d:DesignWidth="200"
              mc:Ignorable="d">
 
     <Grid>
@@ -31,7 +32,7 @@
 
 
                 <TextBox x:Name="ST1" Grid.Column=" 0"
-                         Text="{Binding File_Log, FallbackValue=请选择文件/文件夹}"
+                         Text="{Binding ElementName=U1, Path=File_Log, FallbackValue=请选择文件/文件夹}"
                          TextWrapping="Wrap"
                          Margin="6,6,0,6"
                          HorizontalAlignment="Left"
@@ -51,7 +52,7 @@
                     <i:Interaction.Triggers>
 
                         <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding ShapeModel_Location_Comm}"
+                            <i:InvokeCommandAction Command="{Binding ElementName=U1, Path=ShapeModel_Location_Comm}"
                                                    CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}"
                                                    PassEventArgsToCommand="True" />
                         </i:EventTrigger>

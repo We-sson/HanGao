@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Enum="clr-namespace:Halcon_SDK_DLL.WPF_Converter;assembly=Halcon_SDK_DLL"
              xmlns:Halcon_Enum="clr-namespace:Halcon_SDK_DLL.Model;assembly=Halcon_SDK_DLL"
+             xmlns:Openfile="clr-namespace:HanGao.View.User_Control.OpenFile"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:HanGao.View.User_Control.Vision_Control"
@@ -176,7 +177,7 @@
                                     CornerRadius="1"
                                     Opacity=" 0.5" />
 
-                            <Grid Height=" 35" Margin="8">
+                            <!--<Grid Height=" 35" Margin="8">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width=" 90" />
                                     <ColumnDefinition />
@@ -288,6 +289,9 @@
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
+
+
+
                                 <Border Grid.Column=" 1" BorderThickness="1.5">
                                     <Border.Style>
                                         <Style TargetType="Border">
@@ -357,7 +361,7 @@
                                     Margin="8,4,8,4"
                                     Background="{DynamicResource 全局_按钮_黑颜色}"
                                     CornerRadius="1"
-                                    Opacity=" 0.5" />
+                                    Opacity=" 0.5" />-->
 
 
                             <Grid Margin="8">
@@ -1495,9 +1499,16 @@
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-                                <Border Grid.Column=" 1"
+                                <Openfile:UC_Open_File Grid.Column=" 1"
+                                                       File_Log="{Binding Calibration_Save_Location_UI}"
+                                                       File_Model="Folder" />
+
+                                <!--<Border Grid.Column=" 1"
                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                         BorderThickness="1.5">
+
+
+
 
                                     <Grid>
                                         <Grid.ColumnDefinitions>
@@ -1546,7 +1557,7 @@
 
 
                                     </Grid>
-                                </Border>
+                                </Border>-->
 
 
 

@@ -12,7 +12,7 @@ namespace HanGao.View.User_Control.OpenFile
         {
             InitializeComponent();
 
-            DataContext= this;
+       
         }
 
 
