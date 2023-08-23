@@ -557,7 +557,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 标定板位置
         /// </summary>
-        public FileInfo Halcon_CaltabDescr_Address { set; get; }
+        public string Halcon_CaltabDescr_Address { set; get; }
         /// <summary>
         /// 标定板厚度
         /// </summary>

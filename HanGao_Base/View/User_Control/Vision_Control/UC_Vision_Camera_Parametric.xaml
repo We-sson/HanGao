@@ -877,7 +877,7 @@
 
                                 <Openfile:UC_Open_File Grid.Column=" 1"
                                                        File_Filter="标定板文件 (*.cpd*)|*.cpd*"
-                                                       File_Log="{Binding Halcon_Calibration_Setup.Halcon_CaltabDescr_Address}"
+                                                       File_Log="{Binding Halcon_Calibration_Setup.Halcon_CaltabDescr_Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                        File_Model="File" />
 
                                 <Label Grid.Column=" 3"
@@ -970,7 +970,7 @@
                                          BorderThickness="2"
                                          FontSize="18" />
                                 <Label Grid.Column=" 3"
-                                       Content="μm"
+                                       Content=""
                                        Margin="0"
                                        Padding="0"
                                        HorizontalContentAlignment="Center"
@@ -1056,14 +1056,14 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-                                        <Label Grid.Column=" 0"
+                                        <Label Grid.Column=" 1"
                                                Content="隐藏"
                                                Margin="4,0,4,0"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                FontSize=" 14" />
 
-                                        <Label Grid.Column=" 1"
+                                        <Label Grid.Column=" 0"
                                                Content="显示"
                                                Margin="4,0,4,0"
                                                HorizontalAlignment="Center"
