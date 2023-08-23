@@ -42,23 +42,7 @@ namespace HanGao.View.User_Control.OpenFile.ViewModel
         }
 
 
-        //依赖属性
-
-
-        public string  File_Log
-        {
-            get { return (string )GetValue(File_LogProperty); }
-            set { SetValue(File_LogProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for File_Log.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty File_LogProperty =
-            DependencyProperty.Register("File_Log", typeof(string), typeof(UC_Open_File_VM), new PropertyMetadata(""));
-
-
-
-
-
+        public string File_Log { set; get; }
 
 
 

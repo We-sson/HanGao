@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Enum="clr-namespace:Halcon_SDK_DLL.WPF_Converter;assembly=Halcon_SDK_DLL"
              xmlns:Halcon_Enum="clr-namespace:Halcon_SDK_DLL.Model;assembly=Halcon_SDK_DLL"
+             xmlns:Openfile="clr-namespace:HanGao.View.User_Control.OpenFile"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:HanGao.ViewModel"
@@ -177,7 +178,14 @@
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-                                <Border Grid.Column=" 1" BorderThickness="2">
+
+                                <Openfile:UC_Open_File Grid.Column=" 1"
+                                                       DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_Create_Template_ViewMode}"
+                                                       File_Filter="图片文件|*.jpg;*.gif;*.bmp;*.png;*.tif;*.tiff;*.gif;*.bmp;*.jpg;*.jpeg;*.jp2;*.png;*.pcx;*.pgm;*.ppm;*.pbm;*.xwd;*.ima;*.hobj;"
+                                                       File_Log="{Binding Image_Location_UI, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                       File_Model="File" />
+
+                                <!--<Border Grid.Column=" 1" BorderThickness="2">
                                     <Border.Style>
                                         <Style TargetType="{x:Type Border}">
                                             <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
@@ -232,7 +240,7 @@
 
 
                                     </Grid>
-                                </Border>
+                                </Border>-->
 
 
 
@@ -1684,7 +1692,12 @@
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-                                <Border Grid.Column=" 1" BorderThickness="1.5">
+                                <Openfile:UC_Open_File Grid.Column=" 1"
+                                                       File_Filter="图片文件|*.jpg;*.gif;*.bmp;*.png;*.tif;*.tiff;*.gif;*.bmp;*.jpg;*.jpeg;*.jp2;*.png;*.pcx;*.pgm;*.ppm;*.pbm;*.xwd;*.ima;*.hobj;"
+                                                       File_Log="{Binding ShapeModel_Location, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                       File_Model="Folder" />
+
+                                <!--<Border Grid.Column=" 1" BorderThickness="1.5">
                                     <Border.Style>
                                         <Style TargetType="{x:Type Border}">
                                             <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
@@ -1739,7 +1752,7 @@
 
 
                                     </Grid>
-                                </Border>
+                                </Border>-->
 
 
 

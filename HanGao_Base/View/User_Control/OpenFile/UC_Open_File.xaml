@@ -6,9 +6,9 @@
              xmlns:local="clr-namespace:HanGao.View.User_Control.OpenFile"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              d:DesignHeight="81"
-             d:DesignWidth="200"
-             DataContext="{Binding Source={StaticResource Locator}, Path=UC_Open_File_VM}"
+             d:DesignWidth="200" 
              mc:Ignorable="d">
+
     <Grid>
         <Border Grid.Column=" 1" BorderThickness="1.5">
             <Border.Style>
@@ -31,7 +31,7 @@
 
 
                 <TextBox x:Name="ST1" Grid.Column=" 0"
-                         Text="{Binding ShapeModel_Location}"
+                         Text="{Binding File_Log, FallbackValue=请选择文件/文件夹}"
                          TextWrapping="Wrap"
                          Margin="6,6,0,6"
                          HorizontalAlignment="Left"

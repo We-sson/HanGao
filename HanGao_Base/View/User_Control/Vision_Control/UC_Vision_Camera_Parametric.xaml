@@ -3,11 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Enum_Converter="clr-namespace:Halcon_SDK_DLL.WPF_Converter;assembly=Halcon_SDK_DLL"
              xmlns:Halcon_Enum="clr-namespace:Halcon_SDK_DLL.Model;assembly=Halcon_SDK_DLL"
+             xmlns:Openfile="clr-namespace:HanGao.View.User_Control.OpenFile"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:HanGao.View.User_Control.Vision_Control"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:openfile="clr-namespace:HanGao.View.User_Control.OpenFile"
              d:DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_Camera_Calibration}"
              d:DesignHeight="1017"
              d:DesignWidth="340"
@@ -20,10 +20,11 @@
     <Grid Effect="{DynamicResource 全局背景阴影}">
 
         <ScrollViewer Style="{DynamicResource Vision_Data_List_ScrollViewerStyle}" x:Name="scrollViewer"
+                      HorizontalContentAlignment="Stretch"
+                      VerticalContentAlignment="Stretch"
                       Background="Transparent"
                       CanContentScroll="False"
                       PanningMode="Both"
-                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
                       ScrollViewer.VerticalScrollBarVisibility="Auto"
                       VirtualizingPanel.IsVirtualizing="True"
                       VirtualizingPanel.ScrollUnit="Pixel"
@@ -816,7 +817,7 @@
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-                                <Border Grid.Column=" 1" BorderThickness="1.5">
+                                <!--<Border Grid.Column=" 1" BorderThickness="1.5">
                                     <Border.Style>
                                         <Style TargetType="{x:Type Border}">
                                             <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
@@ -871,8 +872,14 @@
 
 
                                     </Grid>
-                                </Border>
-                                <openfile:UC_Open_File Grid.Column=" 1" File_Log="12346" />
+                                </Border>-->
+
+
+                                <Openfile:UC_Open_File Grid.Column=" 1"
+                                                       File_Filter="标定板文件 (*.cpd*)|*.cpd*"
+                                                       File_Log="{Binding Halcon_Calibration_Setup.Halcon_CaltabDescr_Address}"
+                                                       File_Model="File" />
+
                                 <Label Grid.Column=" 3"
                                        Content=""
                                        Margin="0"
