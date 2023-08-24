@@ -70,35 +70,102 @@ namespace HanGao.ViewModel
         {
             ///读取标定相机数量
             int _camer_number = Set_Camera_Calibration_Par(UC_Vision_CameraSet_ViewModel.MVS_Camera_Info_List);
+            bool _CameraLive = false;
 
             if (_camer_number > 0)
             {
 
+                foreach (var _camer in UC_Vision_CameraSet_ViewModel.MVS_Camera_Info_List)
+                {
+                    if (_camer.Camera_Calibration.Camera_Calibration_Setup == MVS_SDK_Base.Model.Camera_Calibration_Mobile_Type_Emun.Start_Calibration)
+                    {
+                        //相机连接后继续
+                        if (_camer.Camer_Status == MVS_SDK_Base.Model.MV_CAM_Device_Status_Enum.Connecting)
+                        {
+
+                            //设置相机总参数
+                            if (MVS.Set_Camrea_Parameters_List(_camer.Camera, UC_Vision_CameraSet_ViewModel.Camera_Parameter_Val).GetResult())
+                            {
+
+                                _CameraLive = MVS.StartGrabbing(_camer);
+
+
+
+                                Task.Run(() =>
+                                {
+                                    while (true)
+                                    {
+
+                                    //获得一帧图片信息
+                                    MVS_Image_Mode _MVS_Image = MVS.GetOneFrameTimeout(_camer);
+                                        HImage _HImage = new HImage();
+                                        HWindow _Window = UC_Vision_CameraSet_ViewModel.GetWindowHandle(_camer.Show_Window);
+                                        if (Display_Status(Halcon_SDK.Mvs_To_Halcon_Image(ref _HImage, _MVS_Image.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image.PData)).GetResult())
+                                        {
+                                            //发送显示图像位置
+                                            _Window.DispObj(_HImage);
+                                        }
+
+                                    }
+
+                                });
+
+
+                            }
+
+                        }
+                    }
+
+
+
+                };
 
             }
-
-
         }
 
-
-        private static int Set_Camera_Calibration_Par(ObservableCollection<MVS_Camera_Info_Model> _camerLits)
+            /// <summary>
+            /// 创初始化标定对象
+            /// </summary>
+            /// <param name="_camerLits"></param>
+            /// <returns></returns>
+            public static int Set_Camera_Calibration_Par(ObservableCollection<MVS_Camera_Info_Model> _camerLits)
         {
-            int _camera_number = 2;
-            Halcon_CalibSetup_ID = new HCalibData(Halcon_Calibration_Setup.Calibration_Setup_Model.ToString(), _camera_number, 1);
-            //设置校准对象描述文件
-            Halcon_CalibSetup_ID.SetCalibDataCalibObject(Halcon_Calibration_Setup.Haclon_Calibration_number, Halcon_Calibration_Setup.Halcon_CaltabDescr_Address);
 
+            HTuple _Halcon_CalibSetup_ID=new HTuple ();
+
+            int _camera_number = _camerLits.Where((_w)=>_w.Camera_Calibration.Camera_Calibration_Setup== MVS_SDK_Base.Model.Camera_Calibration_Mobile_Type_Emun.Start_Calibration).ToList().Count;
+            
+            Halcon_CalibSetup_ID.Dispose();
+
+            //初始化标定相机数量
+            Halcon_CalibSetup_ID = new HCalibData(Halcon_Calibration_Setup.Calibration_Setup_Model.ToString(), _camera_number, 1);
+
+            //设置校准对象描述文件
+            Halcon_CalibSetup_ID.SetCalibDataCalibObject(0, Halcon_Calibration_Setup.Halcon_CaltabDescr_Address);
+
+            int _number = 0;
             //设置使用的摄像机类型
             foreach (var _camera in _camerLits)
             {
                 if (_camera.Camera_Calibration.Camera_Calibration_Setup == MVS_SDK_Base.Model.Camera_Calibration_Mobile_Type_Emun.Start_Calibration)
                 {
-                    HCamPar _CamPar = new HCamPar();
-                    //设置标定数据参数
-                    _CamPar.SetCalibDataCamParam(Halcon_CalibSetup_ID, _camera_number, Halcon_Calibration_SDK.Halcon_Get_Camera_Area_Scan(_camera.Camera_Calibration.Camera_Calibration_Paramteters));
-                  //设置标定相机内参初始化
-                    Halcon_CalibSetup_ID.SetCalibDataCamParam(_camera_number, new HTuple(), _CamPar);
-                    _camera_number++;
+                    HCamPar _CamPar = new HCamPar(Halcon_Calibration_SDK.Halcon_Get_Camera_Area_Scan(_camera.Camera_Calibration.Camera_Calibration_Paramteters));
+
+
+                  
+                    ////设置标定相机内参初始化,俩种方法
+                    Halcon_CalibSetup_ID.SetCalibDataCamParam(
+                        _number,
+                        new HTuple(),
+                       _CamPar);
+
+                    HOperatorSet.SetCalibDataCamParam(
+                        Halcon_CalibSetup_ID,
+                        _number, 
+                        new HTuple(),
+                        Halcon_Calibration_SDK.Halcon_Get_Camera_Area_Scan(_camera.Camera_Calibration.Camera_Calibration_Paramteters));
+
+                    _number++;
 
 
                 }

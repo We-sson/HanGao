@@ -1,4 +1,5 @@
 ﻿using HanGao.View.User_Control.Vision_Control;
+using MvCamCtrl.NET;
 using MVS_SDK_Base.Model;
 using System.Net;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
@@ -201,12 +202,16 @@ namespace HanGao.ViewModel
                 bool _State = false;
                 if ((bool)E.IsChecked)
                 {
+
+
                     //设置GEGI网络包大小
                     _State = MVS.Set_Camera_GEGI_GevSCPSPacketSize(Select_Camera);
                     //创建抓图回调函数
                     _State = MVS.RegisterImageCallBackEx(Select_Camera, ImageCallback = new cbOutputExdelegate(ImageCallbackFunc));
                     //开始取流
                     _State = MVS.StartGrabbing(Select_Camera);
+
+
                     if (_State != true)
                     {
                         E.IsChecked = false;
@@ -523,8 +528,12 @@ namespace HanGao.ViewModel
             //设置相机总参数
             if (MVS.Set_Camrea_Parameters_List(Select_Camera.Camera, Camera_Parameter_Val).GetResult())
             {
+                MVS.StartGrabbing(Select_Camera);
+
                 //获得一帧图片信息
                 MVS_Image_Mode _MVS_Image = MVS.GetOneFrameTimeout(Select_Camera);
+
+                MVS. StopGrabbing(Select_Camera);
                 //转换Halcon图像变量
                 if (Display_Status(Halcon_SDK.Mvs_To_Halcon_Image(ref _HImage, _MVS_Image.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image.PData)).GetResult())
                 {

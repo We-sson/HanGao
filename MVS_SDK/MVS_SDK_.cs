@@ -219,6 +219,12 @@ namespace MVS_SDK
         }
 
 
+
+
+
+
+
+
         /// <summary>
         /// 设置探测网络最佳包大小(只对GigE相机有效)
         /// </summary>
@@ -282,7 +288,7 @@ namespace MVS_SDK
             _CameraInfo.Camera.ClearImageBuffer();
 
 
-            StartGrabbing(_CameraInfo);
+       
             ////开始取流
 
             //获取图像缓存大小
@@ -300,12 +306,12 @@ namespace MVS_SDK
             //抓取一张图片
             if (Set_Camera_Val(Camera_Parameters_Name_Enum.GetOneFrameTimeout, _CameraInfo.Camera.GetOneFrameTimeout(Frame_Image.pData_Buffer, (uint)stParam.CurValue, ref Frame_Image.FrameEx_Info, _Timeout)))
             {
-                StopGrabbing(_CameraInfo);
+                //StopGrabbing(_CameraInfo);
                 _CameraInfo.Camera.ClearImageBuffer();
                 return Frame_Image;
             }
 
-            StopGrabbing(_CameraInfo);
+          
 
 
 
@@ -448,6 +454,15 @@ namespace MVS_SDK
         {
 
             return Set_Camera_Val(Camera_Parameters_Name_Enum.StartGrabbing, _CameraInfo.Camera.StartGrabbing());
+
+        }
+
+        public static bool FreeImageBuffer(MVS_Camera_Info_Model _CameraInfo)
+        {
+            CFrameout _Frame = new CFrameout();
+            _CameraInfo.Camera.FreeImageBuffer(ref _Frame);
+          
+            return true;
 
         }
 

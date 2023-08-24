@@ -44,7 +44,9 @@
                   SelectedValue="{Binding Select_Calibration}"
                   SelectionMode="Single"
                   SelectionUnit="FullRow">
-
+            <DataGrid.Resources>
+                <Style BasedOn="{StaticResource Right_ScrollBarStyle}" TargetType="ScrollBar" />
+            </DataGrid.Resources>
             <DataGrid.Columns>
 
 
