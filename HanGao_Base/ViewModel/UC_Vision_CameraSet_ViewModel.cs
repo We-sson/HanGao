@@ -465,7 +465,7 @@ namespace HanGao.ViewModel
  
             }
 
-            _W.SetPart(0, 0, -2, -2);
+            //_W.SetPart(0, 0, -2, -2);
             return _W;
 
         }

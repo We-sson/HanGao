@@ -115,7 +115,7 @@
                             </ToggleButton>
 
                             <ToggleButton Style="{DynamicResource Function_ToggleButtonStyle}"
-                                          IsChecked="True"
+                                          IsChecked="{Binding Halcon_ShowMaxGray}"
                                           Margin="4,0,4,0"
                                           Padding="0,0,0,0"
                                           FontSize=" 16">
@@ -134,7 +134,7 @@
                             </ToggleButton>
 
                             <ToggleButton Style="{DynamicResource Function_ToggleButtonStyle}"
-                                          IsChecked="True"
+                                          IsChecked="{Binding Halcon_ShowMinGray}"
                                           Margin="4,0,4,0"
                                           Padding="0,0,0,0"
                                           FontSize=" 16">

@@ -36,8 +36,45 @@ namespace HanGao.ViewModel
         public static Halcon_SDK Calibration_3D_Results { set; get; }
 
 
+    
+
+    
+
+        /// <summary>
+        /// 静态属性更新通知事件
+        /// </summary>
+        public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
 
 
+        public static bool _Halcon_ShowMaxGray { get; set; } = false;
+        /// <summary>
+        /// 标定控件显示最大灰度参数
+        /// </summary>
+        public static bool Halcon_ShowMaxGray
+        {
+            get { return _Halcon_ShowMaxGray; }
+            set
+            {
+                _Halcon_ShowMaxGray = value;
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Halcon_ShowMaxGray)));
+            }
+        }
+
+
+
+        public static bool _Halcon_ShowMinGray { get; set; } = false;
+        /// <summary>
+        /// 标定控件显示最小灰度参数
+        /// </summary>
+        public static bool Halcon_ShowMinGray
+        {
+            get { return _Halcon_ShowMinGray; }
+            set
+            {
+                _Halcon_ShowMinGray = value;
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Halcon_ShowMinGray)));
+            }
+        }
 
 
         /// <summary>

@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,6 +48,11 @@ namespace HanGao.ViewModel
 
 
 
+
+
+
+
+
         /// <summary>
         /// Halcon标定参数设置句柄
         /// </summary>
@@ -57,13 +63,18 @@ namespace HanGao.ViewModel
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
-                Button Window_UserContol = Sm.Source as Button;
+                CheckBox  Window_UserContol = Sm.Source as CheckBox;
 
                 Halcon_Calibration_Start(Halcon_Calibration_Setup);
 
 
             });
         }
+
+
+
+
+
 
 
         public static void Halcon_Calibration_Start(Halcon_Camera_Calibration_Model _Parameters)
@@ -96,14 +107,39 @@ namespace HanGao.ViewModel
                                     while (true)
                                     {
 
+
+
+
+
+
                                     //获得一帧图片信息
-                                    MVS_Image_Mode _MVS_Image = MVS.GetOneFrameTimeout(_camer);
+                                        MVS_Image_Mode _MVS_Image = MVS.GetOneFrameTimeout(_camer);
                                         HImage _HImage = new HImage();
                                         HWindow _Window = UC_Vision_CameraSet_ViewModel.GetWindowHandle(_camer.Show_Window);
                                         if (Display_Status(Halcon_SDK.Mvs_To_Halcon_Image(ref _HImage, _MVS_Image.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image.PData)).GetResult())
                                         {
+                                        
                                             //发送显示图像位置
                                             _Window.DispObj(_HImage);
+
+                                            if (Vision_Calibration_Home_VM.Halcon_ShowMaxGray)
+                                            {
+                                                HRegion _Region=new HRegion ();
+                                                HOperatorSet.SetDraw(_Window, "fill");
+                                                HOperatorSet.SetColor(_Window, nameof(KnownColor.Red).ToLower());
+                                                Halcon_SDK.ShowMaxGray_Image(ref _Region, _HImage);
+                                                _Window.DispObj(_Region);
+                                            }
+                                            if (Vision_Calibration_Home_VM.Halcon_ShowMinGray)
+                                            {
+                                                HRegion _Region = new HRegion();
+                                                HOperatorSet.SetDraw(_Window, "fill");
+                                                HOperatorSet.SetColor(_Window, nameof(KnownColor.Blue).ToLower());
+                                                Halcon_SDK.ShowMinGray_Image(ref _Region, _HImage);
+                                                _Window.DispObj(_Region);
+                                            }
+
+                                            Halcon_CalibSetup_ID.FindCalibObject(_HImage,)
                                         }
 
                                     }

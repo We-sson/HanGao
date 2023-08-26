@@ -677,6 +677,7 @@ namespace Halcon_SDK_DLL.Model
             set
             {
                 _Result_Error_Info = value;
+
                 HVS_ErrorInfo_delegate(GetResult_Info());
 
             }
@@ -696,7 +697,7 @@ namespace Halcon_SDK_DLL.Model
         /// <returns></returns>
         public string GetResult_Info()
         {
-            return Result_Status.ToString() + "-" + Result_Error_Info;
+            return Result_Status.ToString() + " " + Result_Error_Info;
         }
     }
 
@@ -998,5 +999,8 @@ namespace Halcon_SDK_DLL.Model
         根据匹配模型结果计算交点信息失败,
         匹配模型文件内存清除失败,
         XLD匹配结果映射失败,
+        显示最大灰度失败,
+        显示最小灰度失败,
+
     }
 }
