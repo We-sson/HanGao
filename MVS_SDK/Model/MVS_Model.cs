@@ -385,8 +385,12 @@ namespace MVS_SDK_Base.Model
             /// <summary>
             /// 相机标定操作
             /// </summary>
-            public Camera_Calibration_Mobile_Type_Emun Camera_Calibration_Setup { set; get; } = Camera_Calibration_Mobile_Type_Emun.UnCalibration;
+            public Camera_Calibration_Mobile_Type_Enum Camera_Calibration_Setup { set; get; } = Camera_Calibration_Mobile_Type_Enum.UnCalibration;
 
+            /// <summary>
+            /// 相机标定主副相机
+            /// </summary>
+            public Camera_Calibration_MainOrSubroutine_Type_Enum Camera_Calibration_MainOrSubroutine_Type { set; get; } = Camera_Calibration_MainOrSubroutine_Type_Enum.None;
 
             /// <summary>
             /// 相机标定参数
@@ -778,7 +782,7 @@ namespace MVS_SDK_Base.Model
     /// <summary>
     /// 相机标定状态
     /// </summary>
-    public enum Camera_Calibration_Mobile_Type_Emun
+    public enum Camera_Calibration_Mobile_Type_Enum
     {
         /// <summary>
         /// 不用校准
@@ -790,6 +794,28 @@ namespace MVS_SDK_Base.Model
         Start_Calibration
     }
 
+
+    /// <summary>
+    /// 标定选择相机主副关系
+    /// </summary>
+    public  enum Camera_Calibration_MainOrSubroutine_Type_Enum
+    {
+        /// <summary>
+        /// 不标定时为空
+        /// </summary>
+        None=-1,
+        /// <summary>
+        /// 标定主相机
+        /// </summary>
+        Main,
+        /// <summary>
+        /// 标定副相机
+        /// </summary>
+        Subroutine
+
+
+
+    }
     /// <summary>
     /// 标定结果状态
     /// </summary>

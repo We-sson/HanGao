@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static MVS_SDK_Base.Model.MVS_Model;
+using static System.Windows.Forms.AxHost;
 
 namespace HanGao.ViewModel
 {
@@ -63,17 +64,57 @@ namespace HanGao.ViewModel
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
-                CheckBox  Window_UserContol = Sm.Source as CheckBox;
+                CheckBox  E = Sm.Source as CheckBox;
 
                 Halcon_Calibration_Start(Halcon_Calibration_Setup);
+                if ((bool)E.IsChecked)
+                {
 
+
+      
+                    //if (_State != true)
+                    //{
+                    //    E.IsChecked = false;
+                    //}
+                }
+                else if ((bool)E.IsChecked == false)
+                {
+                  Halcon_Calibration_End(Halcon_Calibration_Setup);
+                }
 
             });
         }
 
 
 
+        public static void Halcon_Calibration_End(Halcon_Camera_Calibration_Model _Parameters)
+        {
+            foreach (var _camer in UC_Vision_CameraSet_ViewModel.MVS_Camera_Info_List)
+            {
+                if (_camer.Camera_Calibration.Camera_Calibration_Setup == MVS_SDK_Base.Model.Camera_Calibration_Mobile_Type_Enum.Start_Calibration)
+                {
+                    //相机连接后继续
+                    if (_camer.Camer_Status == MVS_SDK_Base.Model.MV_CAM_Device_Status_Enum.Connecting)
+                    {
 
+                        //设置相机总参数
+                        if (MVS.Set_Camrea_Parameters_List(_camer.Camera, UC_Vision_CameraSet_ViewModel.Camera_Parameter_Val).GetResult())
+                        {
+
+                           MVS.StopGrabbing(_camer);
+
+
+                        }
+
+                    }
+                }
+
+
+
+            };
+
+
+        }
 
 
 
@@ -88,7 +129,7 @@ namespace HanGao.ViewModel
 
                 foreach (var _camer in UC_Vision_CameraSet_ViewModel.MVS_Camera_Info_List)
                 {
-                    if (_camer.Camera_Calibration.Camera_Calibration_Setup == MVS_SDK_Base.Model.Camera_Calibration_Mobile_Type_Emun.Start_Calibration)
+                    if (_camer.Camera_Calibration.Camera_Calibration_Setup == MVS_SDK_Base.Model.Camera_Calibration_Mobile_Type_Enum.Start_Calibration)
                     {
                         //相机连接后继续
                         if (_camer.Camer_Status == MVS_SDK_Base.Model.MV_CAM_Device_Status_Enum.Connecting)
@@ -104,6 +145,11 @@ namespace HanGao.ViewModel
 
                                 Task.Run(() =>
                                 {
+
+
+                                    int Find_Image_Index = 0;
+                                    HXLDCont _CalibXLD = new HXLDCont();
+
                                     while (true)
                                     {
 
@@ -139,8 +185,22 @@ namespace HanGao.ViewModel
                                                 _Window.DispObj(_Region);
                                             }
 
-                                            Halcon_CalibSetup_ID.FindCalibObject(_HImage,)
-                                        }
+                                            try
+                                            {
+                                            Halcon_CalibSetup_ID.FindCalibObject(_HImage, (int)_camer.Camera_Calibration.Camera_Calibration_MainOrSubroutine_Type, 0, Find_Image_Index, new HTuple("sigma"), Halcon_Calibration_Setup.Halcon_Calibretion_Sigma);
+                                            _CalibXLD= Halcon_CalibSetup_ID.GetCalibDataObservContours("marks", (int)_camer.Camera_Calibration.Camera_Calibration_MainOrSubroutine_Type, 0, Find_Image_Index);
+                                             _Window.DispObj(_CalibXLD);
+
+                                            }
+                                            catch (Exception e)
+                                            {
+                                                User_Log_Add(e.Message, Log_Show_Window_Enum.Calibration);
+
+
+                                            }
+
+
+                                            }
 
                                     }
 
@@ -169,7 +229,7 @@ namespace HanGao.ViewModel
 
             HTuple _Halcon_CalibSetup_ID=new HTuple ();
 
-            int _camera_number = _camerLits.Where((_w)=>_w.Camera_Calibration.Camera_Calibration_Setup== MVS_SDK_Base.Model.Camera_Calibration_Mobile_Type_Emun.Start_Calibration).ToList().Count;
+            int _camera_number = _camerLits.Where((_w)=>_w.Camera_Calibration.Camera_Calibration_Setup== MVS_SDK_Base.Model.Camera_Calibration_Mobile_Type_Enum.Start_Calibration).ToList().Count;
             
             Halcon_CalibSetup_ID.Dispose();
 
@@ -183,7 +243,7 @@ namespace HanGao.ViewModel
             //设置使用的摄像机类型
             foreach (var _camera in _camerLits)
             {
-                if (_camera.Camera_Calibration.Camera_Calibration_Setup == MVS_SDK_Base.Model.Camera_Calibration_Mobile_Type_Emun.Start_Calibration)
+                if (_camera.Camera_Calibration.Camera_Calibration_Setup == MVS_SDK_Base.Model.Camera_Calibration_Mobile_Type_Enum.Start_Calibration)
                 {
                     HCamPar _CamPar = new HCamPar(Halcon_Calibration_SDK.Halcon_Get_Camera_Area_Scan(_camera.Camera_Calibration.Camera_Calibration_Paramteters));
 
