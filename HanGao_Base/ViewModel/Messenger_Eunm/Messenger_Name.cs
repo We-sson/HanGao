@@ -313,6 +313,11 @@ namespace HanGao.ViewModel.Messenger_Eunm
 
             UI_Log_Calibration,
 
+            /// <summary>
+            /// 显示控件
+            /// </summary>
+            DisplayHObject,
+
         }
 
         /// <summary>

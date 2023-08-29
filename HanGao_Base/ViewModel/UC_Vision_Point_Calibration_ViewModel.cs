@@ -40,7 +40,7 @@ namespace HanGao.ViewModel
                 if (Display_Status(Halcon_SDK.Read_Mat2d_Method(ref _Mat2D, _S.Calibration_Model.Vision_Area, _S.Calibration_Model.Work_Area)).GetResult())
                 {
                     //从相机获取照片
-                    if (Display_Status(UC_Vision_CameraSet_ViewModel.Get_Image(ref _Image, Find_Calibration.Get_Image_Model,  MVS_SDK_Base.Model.Window_Show_Name_Enum.Features_Window, Image_Location_UI)).GetResult())
+                    if (Display_Status(UC_Vision_CameraSet_ViewModel.Get_Image(ref _Image, Find_Calibration.Get_Image_Model,  Window_Show_Name_Enum.Features_Window, Image_Location_UI)).GetResult())
                     {
                         //清楚模板内容，查找图像模型
                         if (Find_Calibration_Mod(_Image, Find_Calibration) == 9)

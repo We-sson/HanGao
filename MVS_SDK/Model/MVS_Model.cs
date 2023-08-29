@@ -765,18 +765,8 @@ namespace MVS_SDK_Base.Model
     }
 
 
-    public enum Window_Show_Name_Enum
-    {
-        Live_Window,
-        Features_Window,
-        Results_Window_1,
-        Results_Window_2,
-        Results_Window_3,
-        Results_Window_4,
-        Calibration_Window_1,
-        Calibration_Window_2,
-        Calibration_3D_Results,
-    }
+
+
 
 
     /// <summary>

@@ -1,5 +1,6 @@
 ﻿using Halcon_SDK_DLL.Model;
 using HalconDotNet;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -15,6 +16,7 @@ using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
 namespace Halcon_SDK_DLL
 {
+    [AddINotifyPropertyChangedInterface]
     public class Halcon_SDK : IDisposable
     {
 
@@ -36,6 +38,8 @@ namespace Halcon_SDK_DLL
         public HSmartWindowControlWPF Halcon_UserContol { set; get; }
 
 
+
+
         /// <summary>
         /// 样品图片保存后序号
         /// </summary>
@@ -46,11 +50,20 @@ namespace Halcon_SDK_DLL
        /// </summary>
         public static Match_Models_List_Model Match_Models { set; get; }
 
+        /// <summary>
+        /// 设置显示参数
+        /// </summary>
+        public DisplayDrawColor_Model SetDisplay { set; get; } = new DisplayDrawColor_Model();
+
 
         /// <summary>
-        /// 图像
+        /// 绑定图像
         /// </summary>
-        //public HImage _Image = new HImage();
+        public HObject DisplayImage { set; get; }
+        /// <summary>
+        /// 绑定区域显示
+        /// </summary>
+        public HObject DisplayRegion { set; get; }
 
 
         /// <summary>
@@ -2274,7 +2287,7 @@ namespace Halcon_SDK_DLL
 
 
 
-
+    [AddINotifyPropertyChangedInterface]
     public class Halcon_Method : IDisposable
     {
         /// <summary>

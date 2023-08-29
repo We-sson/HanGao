@@ -1,6 +1,8 @@
 ﻿using HalconDotNet;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -13,12 +15,49 @@ using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
 namespace Halcon_SDK_DLL.Model
 {
+    [AddINotifyPropertyChangedInterface]
     public class Halcon_Data_Model
     {
+        [AddINotifyPropertyChangedInterface]
+        /// <summary>
+        /// 窗口显示内容模型
+        /// </summary>
+        public class DisplayHObject_Model
+        {
+            public HObject Display { set; get; } = new HObject();
+
+            public Window_Show_Name_Enum Show_Window { set; get; } = Window_Show_Name_Enum.Features_Window;
+
+            public Display_HObject_Type_Enum Display_Type { set; get; } = Display_HObject_Type_Enum.Image;
+
+            public DisplayDrawColor_Model SetDisplay { set; get; } = new DisplayDrawColor_Model();
+        }
+
+
+        
+      /// <summary>
+      /// 设置显示窗口颜色
+      /// </summary>
+      [AddINotifyPropertyChangedInterface]
+        public class DisplayDrawColor_Model
+        {
+            public DisplaySetDraw_Enum SetDraw { set; get; } = DisplaySetDraw_Enum.fill;
+
+
+            private string  _SetColor= KnownColor.Red.ToString().ToLower();
+
+            public string  SetColor
+            {
+                get { return _SetColor; }
+                set {  _SetColor = value.ToLower(); }
+            }
+
+        }
+
+
         /// <summary>
         /// Halcon窗口名称
         /// </summary>
-
         public class HImage_Display_Model
         {
             /// <summary>
@@ -1002,5 +1041,45 @@ namespace Halcon_SDK_DLL.Model
         显示最大灰度失败,
         显示最小灰度失败,
 
+    }
+
+
+
+
+    /// <summary>
+    /// 显示类型
+    /// </summary>
+    public enum Display_HObject_Type_Enum
+    {
+        Image,
+        Region,
+ 
+        SetDrawColor,
+         
+
+    }
+    /// <summary>
+    /// 窗口显示变量
+    /// </summary>
+    public enum Window_Show_Name_Enum
+    {
+        Live_Window,
+        Features_Window,
+        Results_Window_1,
+        Results_Window_2,
+        Results_Window_3,
+        Results_Window_4,
+        Calibration_Window_1,
+        Calibration_Window_2,
+        Calibration_3D_Results,
+    }
+
+    /// <summary>
+    /// 区域显示设置枚举
+    /// </summary>
+    public enum DisplaySetDraw_Enum
+    {
+        fill,
+        margin
     }
 }

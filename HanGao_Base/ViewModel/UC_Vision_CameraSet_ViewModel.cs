@@ -423,50 +423,50 @@ namespace HanGao.ViewModel
         /// </summary>
         /// <param name="_Window"></param>
         /// <returns></returns>
-        public static  HWindow GetWindowHandle(Window_Show_Name_Enum _Window)
+        public static Halcon_SDK GetWindowHandle(Window_Show_Name_Enum _Window)
         {
-            HWindow _W=new HWindow ();
+            
             switch (_Window)
             {
                 case Window_Show_Name_Enum.Live_Window:
-                    _W = UC_Visal_Function_VM.Live_Window.HWindow;
-                    break;
+                    return   UC_Visal_Function_VM.Live_Window;
+                  
                 case Window_Show_Name_Enum.Features_Window:
-                    _W = UC_Visal_Function_VM.Features_Window.HWindow;
+                    return  UC_Visal_Function_VM.Features_Window;
 
-                    break;
+                
                 case Window_Show_Name_Enum.Results_Window_1:
-                    _W = UC_Visal_Function_VM.Results_Window_1.HWindow;
+                    return  UC_Visal_Function_VM.Results_Window_1;
 
-                    break;
+          
                 case Window_Show_Name_Enum.Results_Window_2:
-                    _W = UC_Visal_Function_VM.Results_Window_2.HWindow;
+                    return UC_Visal_Function_VM.Results_Window_2;
 
-                    break;
+       
                 case Window_Show_Name_Enum.Results_Window_3:
-                    _W = UC_Visal_Function_VM.Results_Window_3.HWindow;
-
-                    break;
+                    return UC_Visal_Function_VM.Results_Window_3;
                 case Window_Show_Name_Enum.Results_Window_4:
-                    _W = UC_Visal_Function_VM.Results_Window_4.HWindow;
+                    return UC_Visal_Function_VM.Results_Window_4;
+                //case Window_Show_Name_Enum.Calibration_Window_1:
 
-                    break;
-                case Window_Show_Name_Enum.Calibration_Window_1:
-                    _W = Vision_Calibration_Home_VM.Calibration_Window_1.HWindow;
-                    break;
-                case Window_Show_Name_Enum.Calibration_Window_2:
-                    _W = Vision_Calibration_Home_VM.Calibration_Window_2.HWindow;
 
-                    break;
-                case Window_Show_Name_Enum.Calibration_3D_Results:
-                    _W = Vision_Calibration_Home_VM.Calibration_3D_Results.HWindow;
 
-                    break;
+                //    return Vision_Calibration_Home_VM.Calibration_Window_1;
+
+                //case Window_Show_Name_Enum.Calibration_Window_2:
+                //    return Vision_Calibration_Home_VM.Calibration_Window_2;
+
+   
+                //case Window_Show_Name_Enum.Calibration_3D_Results:
+                //    return Vision_Calibration_Home_VM.Calibration_3D_Results;
+
+        
  
             }
 
+            return null;
             //_W.SetPart(0, 0, -2, -2);
-            return _W;
+        
 
         }
 
@@ -485,13 +485,13 @@ namespace HanGao.ViewModel
             //HOperatorSet.GenEmptyObj(out _Image);
             _Image.Dispose();
 
-           HWindow _Window = GetWindowHandle(_HW);
-            _Window.ClearWindow();
+            Halcon_SDK _Window = GetWindowHandle(_HW);
+            _Window.HWindow.ClearWindow();
 
             switch (_Get_Model)
             {
                 case Get_Image_Model_Enum.相机采集:
-                    if (!Display_Status(GetOneFrameTimeout(ref _Image, _Window, Camera_Parameter_Val)).GetResult())
+                    if (!Display_Status(GetOneFrameTimeout(ref _Image, _Window.HWindow, Camera_Parameter_Val)).GetResult())
                     {
                         return new HPR_Status_Model(HVE_Result_Enum.图像文件读取失败);
                     }
@@ -506,7 +506,7 @@ namespace HanGao.ViewModel
             //获得图像保存到内存，随时调用
             //_image = _Image;
             UC_Visal_Function_VM.Load_Image = _Image.CopyObj(1, -1);
-            _Window.DispObj(_Image);
+            _Window.DisplayImage=_Image;
             //保存图像当当前目录下
             if (Global_Seting.IsVisual_image_saving)
             {

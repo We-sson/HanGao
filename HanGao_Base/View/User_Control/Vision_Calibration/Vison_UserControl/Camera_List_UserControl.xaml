@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="HanGao.View.User_Control.Vision_Calibration.Vison_UserControl.Camera_List_UserControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Display="clr-namespace:Halcon_SDK_DLL.Model;assembly=Halcon_SDK_DLL"
              xmlns:Enum="clr-namespace:Halcon_SDK_DLL.WPF_Converter;assembly=Halcon_SDK_DLL"
              xmlns:Window_Enum="clr-namespace:MVS_SDK_Base.Model;assembly=MVS_SDK"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -265,7 +266,7 @@
                                       FontSize="16"
                                       IsDropDownOpen="False"
                                       IsSynchronizedWithCurrentItem="True"
-                                      SelectedIndex="{Binding Show_Window, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Window_Enum:Window_Show_Name_Enum}}">
+                                      SelectedIndex="{Binding Show_Window, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Display:Window_Show_Name_Enum}}">
 
                                 <ComboBoxItem>
 

@@ -114,43 +114,70 @@
                                 </Grid>
                             </ToggleButton>
 
-                            <ToggleButton Style="{DynamicResource Function_ToggleButtonStyle}"
-                                          IsChecked="{Binding Halcon_ShowMaxGray}"
-                                          Margin="4,0,4,0"
-                                          Padding="0,0,0,0"
-                                          FontSize=" 16">
+                            <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}"
+                                         IsChecked="{Binding Halcon_ShowMaxGray}"
+                                         Margin="0,0,0,0"
+                                         Padding="0,0,0,0"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         FontSize=" 16"
+                                         GroupName="DisplayShow">
                                 <StackPanel Orientation="Horizontal">
                                     <Label Content="&#xe636;"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            FontFamily="/Resources/#iconfont"
                                            FontSize=" 20"
-                                           Foreground="{DynamicResource 全局_按钮_红颜色}" />
-                                    <Label Content="过曝提示"
+                                           Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
+                                    <Label Content="过曝显示"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            FontSize=" 14" />
                                 </StackPanel>
-                            </ToggleButton>
+                            </RadioButton>
 
-                            <ToggleButton Style="{DynamicResource Function_ToggleButtonStyle}"
-                                          IsChecked="{Binding Halcon_ShowMinGray}"
-                                          Margin="4,0,4,0"
-                                          Padding="0,0,0,0"
-                                          FontSize=" 16">
+                            <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}"
+                                         IsChecked="{Binding Halcon_ShowMinGray}"
+                                         Margin="0,0,0,0"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         FontSize=" 16"
+                                         GroupName="DisplayShow">
                                 <StackPanel Orientation="Horizontal">
                                     <Label Content="&#xe636;"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            FontFamily="/Resources/#iconfont"
                                            FontSize=" 20"
-                                           Foreground="{DynamicResource 全局_按钮_红颜色}" />
-                                    <Label Content="过暗提示"
+                                           Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
+                                    <Label Content="过暗显示"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            FontSize=" 14" />
                                 </StackPanel>
-                            </ToggleButton>
+                            </RadioButton>
+
+                            <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}"
+                                         IsChecked="{Binding Halcon_ShowHObject}"
+                                         Margin="0,0,0,0"
+                                         Padding="0,0,0,0"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         FontSize=" 16"
+                                         GroupName="DisplayShow">
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="&#xe637;"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="/Resources/#iconfont"
+                                           FontSize=" 20"
+                                           Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
+                                    <Label Content="轮廓显示"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontSize=" 14" />
+                                </StackPanel>
+                            </RadioButton>
 
                         </StackPanel>
                     </Border>
@@ -185,14 +212,19 @@
                                                        VerticalAlignment="Stretch"
                                                        HorizontalContentAlignment="Center"
                                                        VerticalContentAlignment="Center"
+                                                       HDisableAutoResize="True"
                                                        SnapsToDevicePixels="True">
-                            <i:Interaction.Triggers>
+                            <Halcon:HIconicDisplayObjectWPF HColor="{Binding Calibration_Window_1.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
+                                                            HDraw="{Binding Calibration_Window_1.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
+                                                            IconicObject="{Binding Calibration_Window_1.DisplayRegion}" />
+                            <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Calibration_Window_1.DisplayImage}" />
+                            <!--<i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Loaded">
                                     <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
                                                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                            PassEventArgsToCommand="True" />
                                 </i:EventTrigger>
-                            </i:Interaction.Triggers>
+                            </i:Interaction.Triggers>-->
                         </Halcon:HSmartWindowControlWPF>
 
 
@@ -219,7 +251,13 @@
                                                        VerticalAlignment="Stretch"
                                                        HorizontalContentAlignment="Center"
                                                        VerticalContentAlignment="Center"
+                                                       HDisableAutoResize="True"
                                                        SnapsToDevicePixels="True">
+                            <Halcon:HIconicDisplayObjectWPF HColor="{Binding Calibration_Window_2.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
+                                                            HDraw="{Binding Calibration_Window_2.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
+                                                            IconicObject="{Binding Calibration_Window_2.DisplayRegion}" />
+                            <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Calibration_Window_2.DisplayImage}" />
+
                             <Halcon:HSmartWindowControlWPF.Style>
                                 <Style TargetType="Halcon:HSmartWindowControlWPF">
                                     <Style.Triggers>
@@ -229,13 +267,13 @@
                                     </Style.Triggers>
                                 </Style>
                             </Halcon:HSmartWindowControlWPF.Style>
-                            <i:Interaction.Triggers>
+                            <!--<i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Loaded">
                                     <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
                                                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                            PassEventArgsToCommand="True" />
                                 </i:EventTrigger>
-                            </i:Interaction.Triggers>
+                            </i:Interaction.Triggers>-->
                         </Halcon:HSmartWindowControlWPF>
 
 
@@ -386,7 +424,13 @@
                                                    VerticalAlignment="Stretch"
                                                    HorizontalContentAlignment="Center"
                                                    VerticalContentAlignment="Center"
+                                                   HDisableAutoResize="False"
                                                    SnapsToDevicePixels="True">
+                        <Halcon:HIconicDisplayObjectWPF HColor="{Binding Calibration_3D_Results.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
+                                                        HDraw="{Binding Calibration_3D_Results.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
+                                                        IconicObject="{Binding Calibration_3D_Results.DisplayRegion}" />
+                        <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Calibration_3D_Results.DisplayImage}" />
+
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Loaded">
                                 <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"

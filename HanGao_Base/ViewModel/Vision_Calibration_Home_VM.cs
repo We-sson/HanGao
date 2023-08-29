@@ -5,40 +5,55 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class Vision_Calibration_Home_VM: ObservableRecipient
+    public class Vision_Calibration_Home_VM : ObservableRecipient
     {
 
 
         public Vision_Calibration_Home_VM()
         {
 
+            //UI关闭,强制断开相机连接
+            Messenger.Register<DisplayHObject_Model, string>(this, nameof(Meg_Value_Eunm.DisplayHObject), (O, _S) =>
+            {
+
+
+                SetWindowDisoplay(_S);
+
+
+            });
+
+
 
         }
 
 
 
+
+
+
+
+
+
         /// <summary>
         /// 实施相机视角控件
         /// </summary>
-        public static Halcon_SDK Calibration_Window_1 { set; get; }
+        public Halcon_SDK Calibration_Window_1 { set; get; } = new Halcon_SDK();
+
+
         /// <summary>
         /// 实施相机视角控件
         /// </summary>
-        public static Halcon_SDK Calibration_Window_2 { set; get; }
-        /// <summary>
-        /// 实施相机视角控件
-        /// </summary>
-        public static Halcon_SDK Calibration_3D_Results { set; get; }
+        public Halcon_SDK Calibration_Window_2 { set; get; } = new Halcon_SDK();
+
+        public Halcon_SDK Calibration_3D_Results { set; get; } = new Halcon_SDK();
 
 
-    
-
-    
 
         /// <summary>
         /// 静态属性更新通知事件
@@ -75,13 +90,27 @@ namespace HanGao.ViewModel
                 StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Halcon_ShowMinGray)));
             }
         }
+         
+        public static bool _Halcon_ShowHObject { get; set; } = true ;
+        /// <summary>
+        /// 标定控件显示最小灰度参数
+        /// </summary>
+        public static bool Halcon_ShowHObject
+        {
+            get { return _Halcon_ShowHObject; }
+            set
+            {
+                _Halcon_ShowHObject = value;
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Halcon_ShowHObject)));
+            }
+        }
 
 
         /// <summary>
         /// Halcon窗口初始化
         /// </summary>
         /// <param name="Window_UserContol"></param>
-        public static void HWindows_Initialization(HSmartWindowControlWPF Window_UserContol)
+        public void HWindows_Initialization(HSmartWindowControlWPF Window_UserContol)
         {
 
 
@@ -147,7 +176,7 @@ namespace HanGao.ViewModel
                     Window_UserContol.SelectedIndex = index;
                     Window_UserContol.UpdateLayout();
                     //HWindows_Initialization((HSmartWindowControlWPF)Window_UserContol.Items[index]);
-                 
+
                 }
                 // Reset to first tab
                 Window_UserContol.SelectedIndex = 0;
@@ -164,6 +193,78 @@ namespace HanGao.ViewModel
             });
         }
 
+
+        /// <summary>
+        /// 设置窗口显示对象
+        /// </summary>
+        /// <param name="_S"></param>
+        public void SetWindowDisoplay(DisplayHObject_Model _S)
+        {
+
+            switch (_S.Show_Window)
+            {
+
+                case Window_Show_Name_Enum.Calibration_Window_1:
+
+                    switch (_S.Display_Type)
+                    {
+                        case Display_HObject_Type_Enum.Image:
+                            Calibration_Window_1.DisplayImage = _S.Display;
+                            break;
+                        case Display_HObject_Type_Enum.Region:
+                            Calibration_Window_1.DisplayRegion = _S.Display;
+
+                            break;
+              
+                        case Display_HObject_Type_Enum.SetDrawColor:
+                            Calibration_Window_1.SetDisplay = _S.SetDisplay;
+
+                            break;
+                    }
+
+                    break;
+                case Window_Show_Name_Enum.Calibration_Window_2:
+
+                    switch (_S.Display_Type)
+                    {
+                        case Display_HObject_Type_Enum.Image:
+                            Calibration_Window_2.DisplayImage = _S.Display;
+
+                            break;
+                        case Display_HObject_Type_Enum.Region:
+                            Calibration_Window_2.DisplayRegion = _S.Display;
+
+                            break;
+                 
+                        case Display_HObject_Type_Enum.SetDrawColor:
+                            Calibration_Window_2.SetDisplay = _S.SetDisplay;
+
+                            break;
+                    }
+                    break;
+                case Window_Show_Name_Enum.Calibration_3D_Results:
+
+                    switch (_S.Display_Type)
+                    {
+                        case Display_HObject_Type_Enum.Image:
+                            Calibration_3D_Results.DisplayImage = _S.Display;
+
+                            break;
+                        case Display_HObject_Type_Enum.Region:
+                            Calibration_3D_Results.DisplayRegion = _S.Display;
+
+                            break;
+                        case Display_HObject_Type_Enum.SetDrawColor:
+                            Calibration_3D_Results.SetDisplay = _S.SetDisplay;
+
+                            break;
+                    }
+                    break;
+
+            }
+
+
+        }
 
     }
 }
