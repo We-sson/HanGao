@@ -172,7 +172,7 @@
                             <Setter Property="Fill" TargetName="optionMark" Value="{StaticResource RadioButton.Pressed.Glyph}"/>-->
                         </Trigger>
                         <Trigger Property="IsChecked" Value="true">
-                            <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource 全局_背景_白颜色}" />
+                            <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource 全局_按钮_深灰颜色}" />
                             <Setter TargetName="radioButtonBorder" Property="Effect" Value="{DynamicResource 全局背景阴影}" />
 
                             <!--<Setter Property="Opacity" TargetName="optionMark" Value="1"/>-->

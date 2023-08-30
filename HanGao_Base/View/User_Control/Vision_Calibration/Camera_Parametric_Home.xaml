@@ -214,10 +214,12 @@
                                                        VerticalContentAlignment="Center"
                                                        HDisableAutoResize="True"
                                                        SnapsToDevicePixels="True">
+                            <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Calibration_Window_1.DisplayImage}" />
                             <Halcon:HIconicDisplayObjectWPF HColor="{Binding Calibration_Window_1.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
                                                             HDraw="{Binding Calibration_Window_1.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
                                                             IconicObject="{Binding Calibration_Window_1.DisplayRegion}" />
-                            <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Calibration_Window_1.DisplayImage}" />
+
+
                             <!--<i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Loaded">
                                     <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
@@ -253,10 +255,10 @@
                                                        VerticalContentAlignment="Center"
                                                        HDisableAutoResize="True"
                                                        SnapsToDevicePixels="True">
+                            <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Calibration_Window_2.DisplayImage}" />
                             <Halcon:HIconicDisplayObjectWPF HColor="{Binding Calibration_Window_2.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
                                                             HDraw="{Binding Calibration_Window_2.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
                                                             IconicObject="{Binding Calibration_Window_2.DisplayRegion}" />
-                            <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Calibration_Window_2.DisplayImage}" />
 
                             <Halcon:HSmartWindowControlWPF.Style>
                                 <Style TargetType="Halcon:HSmartWindowControlWPF">
@@ -426,10 +428,10 @@
                                                    VerticalContentAlignment="Center"
                                                    HDisableAutoResize="False"
                                                    SnapsToDevicePixels="True">
+                        <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Calibration_3D_Results.DisplayImage}" />
                         <Halcon:HIconicDisplayObjectWPF HColor="{Binding Calibration_3D_Results.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
                                                         HDraw="{Binding Calibration_3D_Results.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
                                                         IconicObject="{Binding Calibration_3D_Results.DisplayRegion}" />
-                        <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Calibration_3D_Results.DisplayImage}" />
 
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Loaded">

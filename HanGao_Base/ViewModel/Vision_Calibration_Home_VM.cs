@@ -201,6 +201,8 @@ namespace HanGao.ViewModel
         public void SetWindowDisoplay(DisplayHObject_Model _S)
         {
 
+            HOperatorSet.SetSystem("flush_graphic", "false");
+
             switch (_S.Show_Window)
             {
 
@@ -209,6 +211,8 @@ namespace HanGao.ViewModel
                     switch (_S.Display_Type)
                     {
                         case Display_HObject_Type_Enum.Image:
+
+
                             Calibration_Window_1.DisplayImage = _S.Display;
                             break;
                         case Display_HObject_Type_Enum.Region:
@@ -263,7 +267,7 @@ namespace HanGao.ViewModel
 
             }
 
-
+            HOperatorSet.SetSystem("flush_graphic", "true");
         }
 
     }

@@ -159,7 +159,6 @@ namespace HanGao.ViewModel
 
 
 
-
                                         //获得一帧图片信息
                                         MVS_Image_Mode _MVS_Image = MVS.GetOneFrameTimeout(_camer);
                                         HImage _HImage = new HImage();
@@ -186,10 +185,7 @@ namespace HanGao.ViewModel
                                                 SetDisplayHObject(_Region, Display_HObject_Type_Enum.Region, _camer.Show_Window);
 
                                             }
-                                            else
-                                            {
-                                                SetDisplayHObject(new HObject(), Display_HObject_Type_Enum.Region, _camer.Show_Window);
-                                            }
+                                   
 
                                             if (Vision_Calibration_Home_VM.Halcon_ShowMinGray)
                                             {
@@ -201,29 +197,24 @@ namespace HanGao.ViewModel
                                                 SetDisplayHObject(_Region, Display_HObject_Type_Enum.Region, _camer.Show_Window);
 
                                             }
-                                            else
-                                            {
-                                                SetDisplayHObject(new HObject(), Display_HObject_Type_Enum.Region, _camer.Show_Window);
-                                            }
-
+                                       
                                             try
                                             {
                                                 if (Vision_Calibration_Home_VM.Halcon_ShowHObject)
                                                 {
 
                                                     HXLDCont _CalibXLD = new HXLDCont();
+                                                    //查找标定板
                                                     Halcon_CalibSetup_ID.FindCalibObject(_HImage, (int)_camer.Camera_Calibration.Camera_Calibration_MainOrSubroutine_Type, 0, Find_Image_Index, new HTuple("sigma"), Halcon_Calibration_Setup.Halcon_Calibretion_Sigma);
-                                                     _CalibXLD = Halcon_CalibSetup_ID.GetCalibDataObservContours("marks", (int)_camer.Camera_Calibration.Camera_Calibration_MainOrSubroutine_Type, 0, Find_Image_Index);
+                                                     //读取标定板轮廓
+                                                    _CalibXLD = Halcon_CalibSetup_ID.GetCalibDataObservContours("marks", (int)_camer.Camera_Calibration.Camera_Calibration_MainOrSubroutine_Type, 0, Find_Image_Index);
                                               
                                                 SetHDrawColor(KnownColor.Green.ToString(), DisplaySetDraw_Enum.fill, _camer.Show_Window);
 
                                                 SetDisplayHObject(_CalibXLD, Display_HObject_Type_Enum.Region, _camer.Show_Window);
 
                                                 }
-                                                else
-                                                {
-                                                    SetDisplayHObject(new HObject (), Display_HObject_Type_Enum.Region, _camer.Show_Window);
-                                                }
+                                        
 
                                             }
                                             catch (Exception e)
@@ -235,6 +226,8 @@ namespace HanGao.ViewModel
 
 
                                         }
+
+
 
                                     }
 
