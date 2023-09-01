@@ -473,7 +473,7 @@
                      Padding="40,5,40,5"
                      FontSize=" 16"
                      Header="标定图像列表">
-                <Camera_UI:Calibration_Image_List />
+                <Camera_UI:Calibration_Image_List DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_Calibration_Image_VM}" />
             </TabItem>
             <TabItem Style="{DynamicResource Vision_TabItemStyle}"
                      Padding="40,5,40,5"

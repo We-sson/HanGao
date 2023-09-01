@@ -410,7 +410,7 @@ namespace MVS_SDK
 
 
             //打开相机失败返回值
-            return new MPR_Status_Model(MVE_Result_Enum.Run_OK) { Result_Error_Info = _CameraInfo.SerialNumber + "相机打开成功！" };
+            return new MPR_Status_Model(MVE_Result_Enum.Run_OK) { Result_Error_Info = _CameraInfo.Camera_Info.SerialNumber + "相机打开成功！" };
 
 
         }
@@ -537,8 +537,8 @@ namespace MVS_SDK
                 if (Get_Camrea_Parameters(_Select_Camera.Camera, _Parameter).GetResult())
                 {
                     //获得图像最大像素
-                    _Select_Camera.HeightMax = _Parameter.HeightMax;
-                    _Select_Camera.WidthMax = _Parameter.WidthMax;
+                    _Select_Camera.Camera_Info.HeightMax = _Parameter.HeightMax;
+                    _Select_Camera.Camera_Info.WidthMax = _Parameter.WidthMax;
                     _Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.Max_Width_Pos = _Parameter.WidthMax;
                     _Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.Max_Height_Pos = _Parameter.HeightMax;
                     _Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.Middle_Width_Pos= _Parameter.WidthMax*0.5;
@@ -573,7 +573,7 @@ namespace MVS_SDK
             _Select_Camera.Camera.DestroyHandle();
             _Select_Camera.Camer_Status = MV_CAM_Device_Status_Enum.Null;
 
-            return new MPR_Status_Model(MVE_Result_Enum.关闭相机成功) { Result_Error_Info = _Select_Camera.ModelName };
+            return new MPR_Status_Model(MVE_Result_Enum.关闭相机成功) { Result_Error_Info = _Select_Camera.Camera_Info.ModelName };
 
             //断开连接后可以再次连接相机
 

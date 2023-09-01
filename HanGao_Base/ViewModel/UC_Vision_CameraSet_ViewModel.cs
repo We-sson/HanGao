@@ -581,7 +581,7 @@ namespace HanGao.ViewModel
                     //将相机信息名称添加到UI列表上
                     //_CGigECamera_List.Add(_GEGI);
 
-                    if (MVS_Camera_Info_List.Where(_M => _M.SerialNumber == _GEGI.chSerialNumber).FirstOrDefault() == null)
+                    if (MVS_Camera_Info_List.Where(_M => _M.Camera_Info.SerialNumber == _GEGI.chSerialNumber).FirstOrDefault() == null)
                     {
 
                         Application.Current.Dispatcher.Invoke(() =>

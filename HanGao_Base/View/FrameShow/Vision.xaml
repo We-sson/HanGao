@@ -367,7 +367,7 @@
                                                            SnapsToDevicePixels="True">
                                 <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Results_Window_1.DisplayImage}" />
                                 <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Results_Window_1.DisplayRegion}" />
-                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Results_Window_1.DisplayXDL}" />
+                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Results_Window_1.DisplayXLD}" />
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Loaded">
                                         <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
@@ -486,7 +486,7 @@
                                                            SnapsToDevicePixels="True">
                                 <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Results_Window_2.DisplayImage}" />
                                 <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Results_Window_2.DisplayRegion}" />
-                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Results_Window_2.DisplayXDL}" />
+                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Results_Window_2.DisplayXLD}" />
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Loaded">
                                         <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
@@ -605,7 +605,7 @@
                                                            SnapsToDevicePixels="True">
                                 <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Results_Window_4.DisplayImage}" />
                                 <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Results_Window_4.DisplayRegion}" />
-                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Results_Window_4.DisplayXDL}" />
+                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Results_Window_4.DisplayXLD}" />
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Loaded">
                                         <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
@@ -724,7 +724,7 @@
                                                            SnapsToDevicePixels="True">
                                 <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Results_Window_3.DisplayImage}" />
                                 <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Results_Window_3.DisplayRegion}" />
-                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Results_Window_3.DisplayXDL}" />
+                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Results_Window_3.DisplayXLD}" />
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Loaded">
                                         <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"

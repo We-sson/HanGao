@@ -1099,7 +1099,7 @@
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
 
-                                <CheckBox Style="{DynamicResource CheckBoxStyle1}" Grid.Column=" 1"
+                                <CheckBox Style="{DynamicResource CheckBoxStyle1}" x:Name="C1" Grid.Column=" 1"
                                           Margin="4,0,4,0"
                                           Background="{DynamicResource 全局_按钮_蓝颜色}">
                                     <TextBlock Text="采集开始"
@@ -1131,7 +1131,7 @@
                                                    FontSize="16"
                                                    Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                         <TextBlock x:Key="T2"
-                                                   Text="查找标定板中......"
+                                                   Text="请采集图像..."
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -1142,19 +1142,22 @@
                                         <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="{x:Type Button}">
                                             <Setter Property="Content" Value="{StaticResource T1}" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding}" Value="false">
+                                                <DataTrigger Binding="{Binding ElementName=C1, Path=IsChecked}" Value="false">
                                                     <Setter Property="IsEnabled" Value="False" />
                                                     <Setter Property="Content" Value="{StaticResource T2}" />
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
                                     </Button.Style>
-                                    <i:Interaction.Triggers>
 
+                                    <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding}" PassEventArgsToCommand="True" />
+                                            <i:InvokeCommandAction Command="{Binding Calibration_Image_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
+
                                 </Button>
                             </Grid>
 

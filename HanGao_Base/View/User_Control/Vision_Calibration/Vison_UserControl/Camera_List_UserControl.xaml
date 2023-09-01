@@ -179,7 +179,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
 
-                            <TextBlock Text="{Binding SerialNumber}"
+                            <TextBlock Text="{Binding Camera_Info.SerialNumber}"
                                        Padding="2"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
@@ -203,7 +203,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
 
-                            <TextBlock Text="{Binding ModelName}"
+                            <TextBlock Text="{Binding Camera_Info.ModelName}"
                                        Padding="2"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
@@ -233,8 +233,8 @@
                                        FontSize="16">
                                 <TextBlock.Text>
                                     <MultiBinding StringFormat="{}{0} X {1}">
-                                        <Binding Path="WidthMax" />
-                                        <Binding Path="HeightMax" />
+                                        <Binding Path="Camera_Info.WidthMax" />
+                                        <Binding Path="Camera_Info.HeightMax" />
                                     </MultiBinding>
                                 </TextBlock.Text>
                             </TextBlock>

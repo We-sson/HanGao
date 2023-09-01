@@ -238,7 +238,7 @@
                                             </DataGridTemplateColumn.Header>
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding SerialNumber}"
+                                                    <TextBlock Text="{Binding Camera_Info.SerialNumber}"
                                                                HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
                                                                FontSize="16" />
@@ -261,7 +261,7 @@
                                             </DataGridTemplateColumn.Header>
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding ModelName}"
+                                                    <TextBlock Text="{Binding Camera_Info.ModelName}"
                                                                Margin="4"
                                                                HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"

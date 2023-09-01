@@ -5,6 +5,7 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:HanGao.View.User_Control.Vision_Calibration.Vison_UserControl"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_Calibration_Image_VM}"
              d:DesignHeight="200"
              d:DesignWidth="900"
              mc:Ignorable="d">
@@ -15,9 +16,11 @@
             <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
 
-        <DataGrid Grid.Column=" 0"
-                  AlternatingRowBackground="Gainsboro"
-                  AlternationCount="2"
+
+
+
+        <DataGrid HorizontalContentAlignment="Stretch"
+                  VerticalContentAlignment="Stretch"
                   AutoGenerateColumns="False"
                   Background="Transparent"
                   BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
@@ -31,14 +34,19 @@
                   CellStyle="{DynamicResource Point_UI_DataGridCellStyle}"
                   ColumnHeaderHeight="40"
                   ColumnHeaderStyle="{DynamicResource Point_UI_DataGridColumnHeaderStyle}"
+                  ColumnWidth=" 40"
                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                  Foreground="{DynamicResource 全局_按钮_黑颜色}"
                   GridLinesVisibility="Horizontal"
                   HeadersVisibility="Column"
-                  ItemsSource="{Binding}"
+                  ItemsSource="{Binding Calibration_Image_List}"
                   RowHeaderWidth="0"
                   RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  SelectedIndex="0"
                   SelectionMode="Single"
-                  SelectionUnit="CellOrRowHeader">
+                  SelectionUnit="FullRow">
+            <DataGrid.Resources />
 
             <DataGrid.Columns>
 
@@ -48,15 +56,14 @@
                     <DataGridTemplateColumn.Header>
                         <TextBlock Text="图号"
                                    Margin="4"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
                                    FontSize="16"
                                    Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Number}"
+                            <TextBlock Text="{Binding Image_No}"
+                                       Margin="10"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        FontSize="16" />
@@ -72,6 +79,75 @@
 
 
 
+                        <TextBlock Text="Camera_0"
+                                   Margin="4"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                   FontSize="16"
+                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Camera_0.Carme_Name}"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="16" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Width="100">
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="标定状态"
+                                   Margin="4"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                   FontSize="16"
+                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+
+                            <TextBlock Text="{Binding Camera_0.Calibration_State}"
+                                       Padding="2"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="16" />
+
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Width="100">
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="误差"
+                                   Margin="4"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                   FontSize="16"
+                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+
+                            <TextBlock Text="{Binding Camera_0.Calibration_Accuracy}"
+                                       Padding="2"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="16" />
+
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Width="*">
+                    <DataGridTemplateColumn.Header>
                         <TextBlock Text="Camera_1"
                                    Margin="4"
                                    HorizontalAlignment="Center"
@@ -82,24 +158,13 @@
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-                                <TextBlock Grid.Row=" 0"
-                                           Text="X"
-                                           Padding="2"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="16" />
-                                <TextBlock Grid.Row=" 1"
-                                           Text="Y"
-                                           Padding="2"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="16" />
-                            </Grid>
+
+                            <TextBlock Text="{Binding Camera_1.Carme_Name}"
+                                       Padding="2"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="16" />
+
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
 
@@ -117,105 +182,13 @@
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <StackPanel>
-                                <TextBlock Text="{Binding Calibration_Points.X}"
-                                           Padding="2"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="16" />
-                                <TextBlock Text="{Binding Calibration_Points.Y}"
-                                           Padding="2"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="16" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
 
-                </DataGridTemplateColumn>
+                            <TextBlock Text="{Binding Camera_1.Calibration_State}"
+                                       Padding="2"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="16" />
 
-                <DataGridTemplateColumn Width="100">
-                    <DataGridTemplateColumn.Header>
-                        <TextBlock Text="误差"
-                                   Margin="4"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                   FontSize="16"
-                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                    </DataGridTemplateColumn.Header>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <TextBlock Text="{Binding Robot_Points.X}"
-                                           Padding="2"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="16" />
-                                <TextBlock Text="{Binding Robot_Points.Y}"
-                                           Padding="2"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="16" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-
-                </DataGridTemplateColumn>
-
-                <DataGridTemplateColumn Width="*">
-                    <DataGridTemplateColumn.Header>
-                        <TextBlock Text="Camera_2"
-                                   Margin="4"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                   FontSize="16"
-                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                    </DataGridTemplateColumn.Header>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <TextBlock Text="{Binding Robot_Points.X}"
-                                           Padding="2"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="16" />
-                                <TextBlock Text="{Binding Robot_Points.Y}"
-                                           Padding="2"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="16" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-
-                </DataGridTemplateColumn>
-
-                <DataGridTemplateColumn Width="100">
-                    <DataGridTemplateColumn.Header>
-                        <TextBlock Text="标定状态"
-                                   Margin="4"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                   FontSize="16"
-                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                    </DataGridTemplateColumn.Header>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <TextBlock Text="{Binding Robot_Points.X}"
-                                           Padding="2"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="16" />
-                                <TextBlock Text="{Binding Robot_Points.Y}"
-                                           Padding="2"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="16" />
-                            </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
 
@@ -232,18 +205,13 @@
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <StackPanel>
-                                <TextBlock Text="{Binding Robot_Points.X}"
-                                           Padding="2"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="16" />
-                                <TextBlock Text="{Binding Robot_Points.Y}"
-                                           Padding="2"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="16" />
-                            </StackPanel>
+
+                            <TextBlock Text="{Binding Camera_1.Calibration_Accuracy}"
+                                       Padding="2"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="16" />
+
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
 

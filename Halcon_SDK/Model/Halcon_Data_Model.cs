@@ -740,6 +740,63 @@ namespace Halcon_SDK_DLL.Model
         }
     }
 
+    [AddINotifyPropertyChangedInterface]
+    public class Calibration_Image_List_Model
+    {
+        /// <summary>
+        /// 标定图像序号
+        /// </summary>
+        public int Image_No { set; get; } = 0;
+
+        /// <summary>
+        /// 主相机
+        /// </summary>
+        public Calibration_Image_Camera_Model Camera_0{ set; get; } = new Calibration_Image_Camera_Model() {   };
+        /// <summary>
+        /// 副相机
+        /// </summary>
+        public Calibration_Image_Camera_Model Camera_1{ set; get; } = new Calibration_Image_Camera_Model() {   };
+
+
+        public int Camera_No { set; get; } = 0;
+
+
+    }
+
+    [AddINotifyPropertyChangedInterface]
+    public class Calibration_Image_Camera_Model
+    {
+        
+
+       
+
+        /// <summary>
+        /// 标定精度
+        /// </summary>
+        public double Calibration_Accuracy { set; get; } = 0;
+
+
+        /// <summary>
+        /// 标定图像
+        /// </summary>
+        public HObject Calibration_Image { set; get; } = new HObject();
+
+
+        //相机名称图像的
+        public string Carme_Name{ set; get; }
+
+        /// <summary>
+        /// 标定状态
+        /// </summary>
+        public string Calibration_State { set; get; }
+
+
+
+
+    }
+
+
+
 
     /// <summary>
     /// 相机标定
@@ -755,6 +812,7 @@ namespace Halcon_SDK_DLL.Model
         /// </summary>
         area_scan_polynomial
     }
+
 
 
     /// <summary>

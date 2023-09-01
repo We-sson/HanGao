@@ -53,7 +53,7 @@ namespace HanGao.ViewModel
 
 
 
-
+        public bool Get_Calibration_Image_State { set; get; } = false;
 
 
 
@@ -64,6 +64,80 @@ namespace HanGao.ViewModel
         public static HCalibData Halcon_CalibSetup_ID { set; get; } = new HCalibData() { };
 
 
+
+
+        public ICommand Calibration_Image_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                Button E = Sm.Source as Button;
+
+
+
+
+
+                foreach (var _camer in UC_Vision_CameraSet_ViewModel.MVS_Camera_Info_List)
+                {
+
+
+                    if (_camer.Camera_Calibration.Camera_Calibration_Setup == MVS_SDK_Base.Model.Camera_Calibration_Mobile_Type_Enum.Start_Calibration)
+                    {
+                        //相机连接后继续
+                        if (_camer.Camer_Status == MVS_SDK_Base.Model.MV_CAM_Device_Status_Enum.Connecting)
+                        {
+
+                            //获得一帧图片信息
+                            MVS_Image_Mode _MVS_Image = MVS.GetOneFrameTimeout(_camer);
+                            HImage _HImage = new HImage();
+
+
+                            //Halcon_SDK _Window = UC_Vision_CameraSet_ViewModel.GetWindowHandle(_camer.Show_Window);
+
+
+                            if (Display_Status(Halcon_SDK.Mvs_To_Halcon_Image(ref _HImage, _MVS_Image.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image.PData)).GetResult())
+                            {
+                                Calibration_Image_List_Model _Image = new Calibration_Image_List_Model() { };
+
+                                _Image.Image_No = UC_Vision_Calibration_Image_VM.Calibration_Image_No;
+                                _Image.Camera_No = (int)_camer.Camera_Calibration.Camera_Calibration_MainOrSubroutine_Type;
+                              
+                                switch ((int)_camer.Camera_Calibration.Camera_Calibration_MainOrSubroutine_Type)
+                                {
+                                    case (int)MVS_SDK_Base.Model.Camera_Calibration_MainOrSubroutine_Type_Enum.Main:
+                                        _Image.Camera_0.Calibration_Image = _HImage.CopyObj(1, -2);
+                                        _Image.Camera_0.Carme_Name= _camer.Camera_Info.SerialNumber.ToString();
+                                        break;
+                                    case (int)MVS_SDK_Base.Model.Camera_Calibration_MainOrSubroutine_Type_Enum.Subroutine:
+                                        _Image.Camera_1.Calibration_Image = _HImage.CopyObj(1, -2);
+                                        _Image.Camera_1.Carme_Name = _camer.Camera_Info.SerialNumber.ToString();
+
+                                        break;
+                       
+                                }
+
+
+                                Messenger.Send<Calibration_Image_List_Model, string>(_Image, nameof(Meg_Value_Eunm.Calibration_Image_ADD));
+
+                            }
+
+                        }
+                    }
+
+
+                }
+                                UC_Vision_Calibration_Image_VM.Calibration_Image_No++;
+
+
+
+
+
+            });
+        }
+
+
+        /// <summary>
+        /// 相机标定采集开始
+        /// </summary>
         public ICommand Camera_Calibration_Start_Comm
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
@@ -152,7 +226,7 @@ namespace HanGao.ViewModel
 
 
                                     int Find_Image_Index = 0;
-                                    
+                                    //bool Get_Calibration_Image = false;
 
                                     while (true)
                                     {
@@ -173,18 +247,18 @@ namespace HanGao.ViewModel
                                         {
 
                                             //发送显示图像位置
-                                           
+
                                             SetDisplayHObject(_HImage, Display_HObject_Type_Enum.Image, _camer.Show_Window);
 
                                             if (Vision_Calibration_Home_VM.Halcon_ShowMaxGray)
                                             {
                                                 HRegion _Region = new HRegion();
-                                           
+
 
 
 
                                                 _Region = _HImage.Threshold(new HTuple(254), new HTuple(255));
-                                                SetHDrawColor(KnownColor.Red.ToString(), DisplaySetDraw_Enum.fill,  _camer.Show_Window);
+                                                SetHDrawColor(KnownColor.Red.ToString(), DisplaySetDraw_Enum.fill, _camer.Show_Window);
                                                 SetDisplayHObject(_Region, Display_HObject_Type_Enum.Region, _camer.Show_Window);
                                                 SetDisplayHObject(new HObject(), Display_HObject_Type_Enum.XLD, _camer.Show_Window);
 
@@ -194,58 +268,66 @@ namespace HanGao.ViewModel
                                             if (Vision_Calibration_Home_VM.Halcon_ShowMinGray)
                                             {
                                                 HRegion _Region = new HRegion();
-                                      
-                                                _Region = _HImage.Threshold(new HTuple (0), new HTuple (1));
-                                           
+
+                                                _Region = _HImage.Threshold(new HTuple(0), new HTuple(1));
+
                                                 SetHDrawColor(KnownColor.Blue.ToString(), DisplaySetDraw_Enum.fill, _camer.Show_Window);
                                                 SetDisplayHObject(_Region, Display_HObject_Type_Enum.Region, _camer.Show_Window);
-                                                SetDisplayHObject(new HObject (), Display_HObject_Type_Enum.XLD, _camer.Show_Window);
+                                                SetDisplayHObject(new HObject(), Display_HObject_Type_Enum.XLD, _camer.Show_Window);
 
                                             }
-                                       
+
                                             try
                                             {
                                                 if (Vision_Calibration_Home_VM.Halcon_ShowHObject)
                                                 {
 
                                                     HXLDCont _CalibXLD = new HXLDCont();
-                                                    HObject _CalibCoord=new HObject();
+                                                    HObject _CalibCoord = new HObject();
                                                     HTuple hv_Row = new HTuple();
                                                     HTuple hv_Column = new HTuple();
                                                     HTuple hv_I = new HTuple();
                                                     HTuple hv_Pose = new HTuple();
-                                            
+
                                                     //查找标定板
                                                     Halcon_CalibSetup_ID.FindCalibObject(_HImage, (int)_camer.Camera_Calibration.Camera_Calibration_MainOrSubroutine_Type, 0, Find_Image_Index, new HTuple("sigma"), Halcon_Calibration_Setup.Halcon_Calibretion_Sigma);
-                                                     //读取标定板轮廓
+                                                    //读取标定板轮廓
                                                     _CalibXLD = Halcon_CalibSetup_ID.GetCalibDataObservContours("marks", (int)_camer.Camera_Calibration.Camera_Calibration_MainOrSubroutine_Type, 0, Find_Image_Index);
 
                                                     //获得标定板位置信息
-                                                    Halcon_CalibSetup_ID.GetCalibDataObservPoints((int)_camer.Camera_Calibration.Camera_Calibration_MainOrSubroutine_Type, 0, UC_Vision_Calibration_Image_VM.Calibration_Image_No, out hv_Row, out hv_Column, out hv_I, out hv_Pose);
+                                                    Halcon_CalibSetup_ID.GetCalibDataObservPoints((int)_camer.Camera_Calibration.Camera_Calibration_MainOrSubroutine_Type, 0, 0, out hv_Row, out hv_Column, out hv_I, out hv_Pose);
                                                     //读取初始化相机内参
-                                                   HTuple _CamerPar= Halcon_CalibSetup_ID.GetCalibData("camera", (int)_camer.Camera_Calibration.Camera_Calibration_MainOrSubroutine_Type, "init_params");
-                                                   //显示标定板三维坐标位置
+                                                    HTuple _CamerPar = Halcon_CalibSetup_ID.GetCalibData("camera", (int)_camer.Camera_Calibration.Camera_Calibration_MainOrSubroutine_Type, "init_params");
+                                                    //显示标定板三维坐标位置
                                                     Halcon_SDK.Disp_3d_coord(ref _CalibCoord, _CamerPar, hv_Pose, new HTuple(0.02));
 
-                                                     //设置标定板轮廓颜色
-                                                    SetHDrawColor(KnownColor.Green .ToString(), DisplaySetDraw_Enum.fill, _camer.Show_Window);
-                                                   //发生窗口显示
+                                                    //设置标定板轮廓颜色
+                                                    SetHDrawColor(KnownColor.Green.ToString(), DisplaySetDraw_Enum.fill, _camer.Show_Window);
+                                                    //发生窗口显示
                                                     SetDisplayHObject(_CalibXLD, Display_HObject_Type_Enum.Region, _camer.Show_Window);
                                                     SetDisplayHObject(_CalibCoord, Display_HObject_Type_Enum.XLD, _camer.Show_Window);
 
 
                                                 }
-                                        
+
 
                                             }
                                             catch (Exception e)
                                             {
                                                 User_Log_Add(e.Message, Log_Show_Window_Enum.Calibration);
-                                                SetDisplayHObject(new HObject (), Display_HObject_Type_Enum.Region, _camer.Show_Window);
-                                                SetDisplayHObject(new HObject (), Display_HObject_Type_Enum.XLD, _camer.Show_Window);
+                                                SetDisplayHObject(new HObject(), Display_HObject_Type_Enum.Region, _camer.Show_Window);
+                                                SetDisplayHObject(new HObject(), Display_HObject_Type_Enum.XLD, _camer.Show_Window);
 
 
                                             }
+
+
+
+                                      
+
+                                   
+
+
 
 
                                         }
@@ -334,7 +416,7 @@ namespace HanGao.ViewModel
         public void SetHDrawColor(string HColor, DisplaySetDraw_Enum HDraw, Window_Show_Name_Enum _Window)
         {
             Messenger.Send<DisplayHObject_Model, string>(new DisplayHObject_Model()
-            { SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw }, Display_Type =  Display_HObject_Type_Enum.SetDrawColor, Show_Window = _Window }, nameof(Meg_Value_Eunm.DisplayHObject));
+            { SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw }, Display_Type = Display_HObject_Type_Enum.SetDrawColor, Show_Window = _Window }, nameof(Meg_Value_Eunm.DisplayHObject));
 
         }
 

@@ -406,35 +406,12 @@ namespace MVS_SDK_Base.Model
         }
 
 
-
-
         /// <summary>
-        /// 相机属性参数
+        /// 读取相机信息模型
         /// </summary>
         [AddINotifyPropertyChangedInterface]
-        public class MVS_Camera_Info_Model
+        public class Get_Camera_Info_Model 
         {
-
-            /// <summary>
-            /// 相机对象初始化
-            /// </summary>
-            /// <param name="_Camera"></param>
-            public MVS_Camera_Info_Model(CCameraInfo _Camera)
-            {
-                MVS_CameraInfo = _Camera;
-                //只支持GIGE相机
-                if (_Camera.nTLayerType == CSystem.MV_GIGE_DEVICE)
-                {
-                    //转换
-                    CGigECamera = _Camera as CGigECameraInfo;
-                }
-            }
-            public MVS_Camera_Info_Model()
-            {
-
-
-
-            }
 
 
             /// <summary>
@@ -515,6 +492,42 @@ namespace MVS_SDK_Base.Model
             public int HeightMax { set; get; } = 0;
 
 
+        }
+
+
+
+        /// <summary>
+        /// 相机属性参数
+        /// </summary>
+        [AddINotifyPropertyChangedInterface]
+        public class MVS_Camera_Info_Model
+        {
+
+            /// <summary>
+            /// 相机对象初始化
+            /// </summary>
+            /// <param name="_Camera"></param>
+            public MVS_Camera_Info_Model(CCameraInfo _Camera)
+            {
+                MVS_CameraInfo = _Camera;
+                //只支持GIGE相机
+                if (_Camera.nTLayerType == CSystem.MV_GIGE_DEVICE)
+                {
+                    //转换
+                    CGigECamera = _Camera as CGigECameraInfo;
+                }
+            }
+            public MVS_Camera_Info_Model()
+            {
+
+
+
+            }
+
+            /// <summary>
+            /// 读取相机信息
+            /// </summary>
+            public Get_Camera_Info_Model Camera_Info { set; get; }=new Get_Camera_Info_Model();
 
             /// <summary>
             /// 相机标定属性
@@ -565,19 +578,19 @@ namespace MVS_SDK_Base.Model
                     _CGigECamera = value;
 
 
-                    DeviceVersion = _CGigECamera.chDeviceVersion;
-                    ModelName = _CGigECamera.chModelName;
-                    ManufacturerSpecificInfo = _CGigECamera.chManufacturerSpecificInfo;
-                    SerialNumber = _CGigECamera.chSerialNumber;
-                    ManufacturerName = _CGigECamera.chManufacturerName;
+                    Camera_Info.DeviceVersion = _CGigECamera.chDeviceVersion;
+                    Camera_Info.ModelName = _CGigECamera.chModelName;
+                    Camera_Info.ManufacturerSpecificInfo = _CGigECamera.chManufacturerSpecificInfo;
+                    Camera_Info.SerialNumber = _CGigECamera.chSerialNumber;
+                    Camera_Info.ManufacturerName = _CGigECamera.chManufacturerName;
 
 
-                    CurrentIp = IP_intTOString(_CGigECamera.nCurrentIp);
-                    CurrentSubNetMask = IP_intTOString(_CGigECamera.nCurrentSubNetMask);
-                    DefultGateWay = IP_intTOString(_CGigECamera.nDefultGateWay);
-                    NetExport = IP_intTOString(_CGigECamera.nNetExport);
-                    HostIp = IP_intTOString(_CGigECamera.nHostIp);
-                    DeviceType = (MV_CAM_DeviceType_Enum)_CGigECamera.nDeviceType;
+                    Camera_Info.CurrentIp = IP_intTOString(_CGigECamera.nCurrentIp);
+                    Camera_Info.CurrentSubNetMask = IP_intTOString(_CGigECamera.nCurrentSubNetMask);
+                    Camera_Info.DefultGateWay = IP_intTOString(_CGigECamera.nDefultGateWay);
+                    Camera_Info.NetExport = IP_intTOString(_CGigECamera.nNetExport);
+                    Camera_Info.HostIp = IP_intTOString(_CGigECamera.nHostIp);
+                    Camera_Info.DeviceType = (MV_CAM_DeviceType_Enum)_CGigECamera.nDeviceType;
 
 
                 }

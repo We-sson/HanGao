@@ -307,10 +307,15 @@ namespace HanGao.ViewModel.Messenger_Eunm
             /// </summary>
             UI_Find_Data_Number,
 
+            /// <summary>
+            /// 日志消息主窗口显示
+            /// </summary>
             UI_Log_Home,
 
 
-
+            /// <summary>
+            /// 日志消息标定窗口显示
+            /// </summary>
             UI_Log_Calibration,
 
             /// <summary>
@@ -318,6 +323,11 @@ namespace HanGao.ViewModel.Messenger_Eunm
             /// </summary>
             DisplayHObject,
 
+
+            /// <summary>
+            /// 标定图像添加
+            /// </summary>
+            Calibration_Image_ADD
         }
 
         /// <summary>
