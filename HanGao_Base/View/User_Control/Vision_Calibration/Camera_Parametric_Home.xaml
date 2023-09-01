@@ -218,7 +218,7 @@
                             <Halcon:HIconicDisplayObjectWPF HColor="{Binding Calibration_Window_1.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
                                                             HDraw="{Binding Calibration_Window_1.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
                                                             IconicObject="{Binding Calibration_Window_1.DisplayRegion}" />
-
+                            <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Calibration_Window_1.DisplayXLD}" />
 
                             <!--<i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Loaded">
@@ -259,7 +259,7 @@
                             <Halcon:HIconicDisplayObjectWPF HColor="{Binding Calibration_Window_2.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
                                                             HDraw="{Binding Calibration_Window_2.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
                                                             IconicObject="{Binding Calibration_Window_2.DisplayRegion}" />
-
+                            <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Calibration_Window_2.DisplayXLD}" />
                             <Halcon:HSmartWindowControlWPF.Style>
                                 <Style TargetType="Halcon:HSmartWindowControlWPF">
                                     <Style.Triggers>
@@ -432,7 +432,7 @@
                         <Halcon:HIconicDisplayObjectWPF HColor="{Binding Calibration_3D_Results.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
                                                         HDraw="{Binding Calibration_3D_Results.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
                                                         IconicObject="{Binding Calibration_3D_Results.DisplayRegion}" />
-
+                        <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Calibration_3D_Results.DisplayXLD}" />
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Loaded">
                                 <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"

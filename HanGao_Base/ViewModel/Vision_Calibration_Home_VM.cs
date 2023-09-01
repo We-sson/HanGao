@@ -219,7 +219,13 @@ namespace HanGao.ViewModel
                             Calibration_Window_1.DisplayRegion = _S.Display;
 
                             break;
-              
+
+                        case Display_HObject_Type_Enum.XLD:
+
+                            Calibration_Window_1.DisplayXLD = _S.Display;
+
+                            break;
+
                         case Display_HObject_Type_Enum.SetDrawColor:
                             Calibration_Window_1.SetDisplay = _S.SetDisplay;
 
@@ -239,7 +245,11 @@ namespace HanGao.ViewModel
                             Calibration_Window_2.DisplayRegion = _S.Display;
 
                             break;
-                 
+                        case Display_HObject_Type_Enum.XLD:
+
+                            Calibration_Window_2.DisplayXLD = _S.Display;
+
+                            break;
                         case Display_HObject_Type_Enum.SetDrawColor:
                             Calibration_Window_2.SetDisplay = _S.SetDisplay;
 
@@ -256,6 +266,11 @@ namespace HanGao.ViewModel
                             break;
                         case Display_HObject_Type_Enum.Region:
                             Calibration_3D_Results.DisplayRegion = _S.Display;
+
+                            break;
+                        case Display_HObject_Type_Enum.XLD:
+
+                            Calibration_3D_Results.DisplayXLD = _S.Display;
 
                             break;
                         case Display_HObject_Type_Enum.SetDrawColor:

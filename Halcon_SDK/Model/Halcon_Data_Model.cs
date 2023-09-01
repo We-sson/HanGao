@@ -34,22 +34,22 @@ namespace Halcon_SDK_DLL.Model
         }
 
 
-        
-      /// <summary>
-      /// 设置显示窗口颜色
-      /// </summary>
-      [AddINotifyPropertyChangedInterface]
+
+        /// <summary>
+        /// 设置显示窗口颜色
+        /// </summary>
+        [AddINotifyPropertyChangedInterface]
         public class DisplayDrawColor_Model
         {
             public DisplaySetDraw_Enum SetDraw { set; get; } = DisplaySetDraw_Enum.fill;
 
 
-            private string  _SetColor= KnownColor.Red.ToString().ToLower();
+            private string _SetColor = KnownColor.Red.ToString().ToLower();
 
-            public string  SetColor
+            public string SetColor
             {
                 get { return _SetColor; }
-                set {  _SetColor = value.ToLower(); }
+                set { _SetColor = value.ToLower(); }
             }
 
         }
@@ -621,18 +621,18 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 标定板识别滤波
         /// </summary>
-       public double Halcon_Calibretion_Sigma { set; get; }=0;
+        public double Halcon_Calibretion_Sigma { set; get; } = 0;
 
         /// <summary>
         /// 查找标定板模式：False-单帧模式
         /// </summary>
-        public bool Halcon_Find_Calib_Model { set; get; } = false;  
+        public bool Halcon_Find_Calib_Model { set; get; } = false;
 
 
         /// <summary>
         /// 查找标定板图像显示
         /// </summary>
-        public bool Halcon_Calib_XLD_Show { set; get; } = true ;        
+        public bool Halcon_Calib_XLD_Show { set; get; } = true;
     }
 
 
@@ -1053,9 +1053,9 @@ namespace Halcon_SDK_DLL.Model
     {
         Image,
         Region,
- 
+        XLD,
         SetDrawColor,
-         
+
 
     }
     /// <summary>
