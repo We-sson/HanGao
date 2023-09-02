@@ -227,7 +227,7 @@ namespace MVS_SDK_Base.Model
             /// 设置曝光（或快门）的工作模式,枚举类型——默认定时模式，"MV_CAM_EXPOSURE_MODE.MV_EXPOSURE_MODE_TIMED"
             /// </summary>
             [StringValue("设置曝光（或快门）的工作模式失败")]
-            [Camera_ReadWrite(Camera_Parameter_RW_Type.Write )]
+            [Camera_ReadWrite(Camera_Parameter_RW_Type.Write)]
             public MV_CAM_EXPOSURE_MODE ExposureMode { set; get; } = MV_CAM_EXPOSURE_MODE.MV_EXPOSURE_MODE_TIMED;
             /// <summary>
             /// 控制所选触发器是否处于活动状态、枚举类型——默认Off，"MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_OFF"
@@ -445,11 +445,15 @@ namespace MVS_SDK_Base.Model
             public string NetExport { set; get; } = "";
 
 
-
+            /// <summary>
+            /// 相机厂商
+            /// </summary>
             [StringValue("获得相机厂商~失败!")]
             public string ManufacturerName { set; get; } = "";
 
-
+            /// <summary>
+            /// 相机型号
+            /// </summary>
             [StringValue("获得相机型号~失败!")]
             public string ModelName { set; get; } = "";
             /// <summary>

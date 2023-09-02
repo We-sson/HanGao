@@ -19,7 +19,7 @@ namespace HanGao.ViewModel
         {
 
             //UI关闭,强制断开相机连接
-            Messenger.Register<DisplayHObject_Model, string>(this, nameof(Meg_Value_Eunm.DisplayHObject), (O, _S) =>
+            StrongReferenceMessenger.Default.Register<DisplayHObject_Model, string>(this, nameof(Meg_Value_Eunm.DisplayHObject), (O, _S) =>
             {
 
 

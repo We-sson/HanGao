@@ -1,14 +1,17 @@
 ﻿
 
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
+using static HanGao.ViewModel.UC_Vision_Camera_Calibration;
+using static HanGao.ViewModel.UC_Vision_CameraSet_ViewModel;
+using static MVS_SDK_Base.Model.MVS_Model;
 
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public  class UC_Vision_Calibration_Image_VM: ObservableRecipient
+    public class UC_Vision_Calibration_Image_VM : ObservableRecipient
     {
 
-        public UC_Vision_Calibration_Image_VM() 
+        public UC_Vision_Calibration_Image_VM()
         {
 
 
@@ -20,20 +23,19 @@ namespace HanGao.ViewModel
                 HObject _1 = S.Camera_1.Calibration_Image;
 
 
-  
+
                 //判断过图像号数
                 if (Calibration_Image_List.Where((_W) => _W.Image_No == S.Image_No).FirstOrDefault() == null)
                 {
 
-                    Calibration_Image_List.Add(S);
-
+                    Application.Current.Dispatcher.Invoke(() => { Calibration_Image_List.Add(S); });
                 }
                 else
                 {
 
                     foreach (var _calibration in Calibration_Image_List)
                     {
-                        if (_calibration.Image_No==S.Image_No)
+                        if (_calibration.Image_No == S.Image_No)
                         {
 
                             switch (S.Camera_No)
@@ -41,11 +43,11 @@ namespace HanGao.ViewModel
                                 case 0:
 
                                     _calibration.Camera_0.Calibration_Image = S.Camera_0.Calibration_Image;
-                                    _calibration.Camera_0.Carme_Name= S.Camera_0.Carme_Name;
-                                    break; 
+                                    _calibration.Camera_0.Carme_Name = S.Camera_0.Carme_Name;
+                                    break;
                                 case 1:
                                     _calibration.Camera_1.Calibration_Image = S.Camera_1.Calibration_Image;
-                                    _calibration.Camera_1.Carme_Name= S.Camera_1.Carme_Name;
+                                    _calibration.Camera_1.Carme_Name = S.Camera_1.Carme_Name;
                                     break;
                             }
 
@@ -64,6 +66,12 @@ namespace HanGao.ViewModel
         }
 
 
+
+        public Calibration_Image_List_Model Calibretion_List_Selected { set; get; }
+
+
+
+
         /// <summary>
         /// 静态属性更新通知事件
         /// </summary>
@@ -71,7 +79,7 @@ namespace HanGao.ViewModel
 
 
 
-        private  static int _Calibration_Image_No{ get; set; } = 0;
+        private static int _Calibration_Image_No { get; set; } = 0;
         /// <summary>
         /// 全局标定设置参数
         /// </summary>
@@ -101,6 +109,66 @@ namespace HanGao.ViewModel
                 StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Calibration_Image_List)));
             }
         }
+
+
+        /// <summary>
+        /// 标定图像保存列表动作
+        /// </summary>
+        public ICommand Calibration_Image_Selected_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                DataGrid E = Sm.Source as DataGrid;
+
+
+
+                Task.Run(() =>
+                {
+                    Calibration_Image_List_Model _Selected=null;
+                    Application.Current.Dispatcher.Invoke(() => { _Selected = E.SelectedItem as Calibration_Image_List_Model; });
+
+                    
+
+                    if (_Selected != null)
+                    {
+                        HObject _HImage = new HObject();
+                        //读取对应相机列表属性
+                        MVS_Camera_Info_Model _camer_0 = MVS_Camera_Info_List.Where((_W) => _W.Camera_Info.SerialNumber == _Selected.Camera_0.Carme_Name).FirstOrDefault();
+                        MVS_Camera_Info_Model _camer_1 = MVS_Camera_Info_List.Where((_W) => _W.Camera_Info.SerialNumber == _Selected.Camera_1.Carme_Name).FirstOrDefault();
+
+                        if (_camer_0 != null)
+                        {
+                            //情况旧图像，显示选中图像
+                            _HImage = _Selected.Camera_0.Calibration_Image;
+                            SetDisplayHObject(_Selected.Camera_0.Calibration_Image, Display_HObject_Type_Enum.Image, _camer_0.Show_Window);
+                            SetDisplayHObject(new HObject(), Display_HObject_Type_Enum.XLD, _camer_0.Show_Window);
+                            SetDisplayHObject(new HObject(), Display_HObject_Type_Enum.Region, _camer_0.Show_Window);
+
+                        }
+                        if (_camer_1 != null)
+                        {
+                            //情况旧图像，显示选中图像
+                            _HImage = _Selected.Camera_1.Calibration_Image;
+                            SetDisplayHObject(_Selected.Camera_1.Calibration_Image, Display_HObject_Type_Enum.Image, _camer_1.Show_Window);
+                            SetDisplayHObject(new HObject(), Display_HObject_Type_Enum.Region, _camer_1.Show_Window);
+                            SetDisplayHObject(new HObject(), Display_HObject_Type_Enum.XLD, _camer_1.Show_Window);
+
+
+                        }
+
+
+
+
+
+                    }
+                });
+
+
+
+            });
+        }
+
+
 
     }
 }

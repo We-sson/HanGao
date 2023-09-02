@@ -76,6 +76,9 @@ namespace Halcon_SDK_DLL
 
 
 
+
+
+
         void IDisposable.Dispose()
         {
 

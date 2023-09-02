@@ -43,11 +43,22 @@
                   RowHeaderWidth="0"
                   RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
                   ScrollViewer.VerticalScrollBarVisibility="Auto"
-                  SelectedIndex="0"
+                  SelectedIndex="-1"
+                  SelectedValue="{Binding Calibretion_List_Selected}"
                   SelectionMode="Single"
                   SelectionUnit="FullRow">
-            <DataGrid.Resources />
 
+
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding Calibration_Image_Selected_Comm}"
+                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                           PassEventArgsToCommand="True" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <DataGrid.Resources>
+                <Style BasedOn="{StaticResource Right_ScrollBarStyle}" TargetType="ScrollBar" />
+            </DataGrid.Resources>
             <DataGrid.Columns>
 
 

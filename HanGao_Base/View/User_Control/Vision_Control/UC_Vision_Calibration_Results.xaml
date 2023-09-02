@@ -157,7 +157,7 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="2.2">
+                                        Value="0">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseUp">
                                             <i:InvokeCommandAction Command="{Binding}"
@@ -208,7 +208,7 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="2.2">
+                                        Value="0">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseUp">
                                             <i:InvokeCommandAction Command="{Binding}"
@@ -259,7 +259,7 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="16">
+                                        Value="0">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseUp">
                                             <i:InvokeCommandAction Command="{Binding}"
@@ -310,7 +310,7 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="1616">
+                                        Value="0">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseUp">
                                             <i:InvokeCommandAction Command="{Binding}"
@@ -361,7 +361,7 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="1024">
+                                        Value="0">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseUp">
                                             <i:InvokeCommandAction Command="{Binding}"

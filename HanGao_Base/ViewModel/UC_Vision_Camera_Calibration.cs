@@ -53,7 +53,7 @@ namespace HanGao.ViewModel
 
 
 
-        public bool Get_Calibration_Image_State { set; get; } = false;
+        public bool Get_Calibration_State { set; get; } = true ;
 
 
 
@@ -65,7 +65,9 @@ namespace HanGao.ViewModel
 
 
 
-
+        /// <summary>
+        /// 标定图像保存列表动作
+        /// </summary>
         public ICommand Calibration_Image_Comm
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
@@ -74,7 +76,10 @@ namespace HanGao.ViewModel
 
 
 
-
+                Task.Run(() => 
+                {
+                
+                
 
                 foreach (var _camer in UC_Vision_CameraSet_ViewModel.MVS_Camera_Info_List)
                 {
@@ -128,6 +133,7 @@ namespace HanGao.ViewModel
                                 UC_Vision_Calibration_Image_VM.Calibration_Image_No++;
 
 
+                });
 
 
 
@@ -144,10 +150,10 @@ namespace HanGao.ViewModel
             {
                 CheckBox E = Sm.Source as CheckBox;
 
-                Halcon_Calibration_Start(Halcon_Calibration_Setup);
                 if ((bool)E.IsChecked)
                 {
 
+                Halcon_Calibration_Start(Halcon_Calibration_Setup);
 
 
                     //if (_State != true)
@@ -165,8 +171,9 @@ namespace HanGao.ViewModel
 
 
 
-        public static void Halcon_Calibration_End(Halcon_Camera_Calibration_Model _Parameters)
+        public  void Halcon_Calibration_End(Halcon_Camera_Calibration_Model _Parameters)
         {
+            Get_Calibration_State = false;
             foreach (var _camer in UC_Vision_CameraSet_ViewModel.MVS_Camera_Info_List)
             {
                 if (_camer.Camera_Calibration.Camera_Calibration_Setup == MVS_SDK_Base.Model.Camera_Calibration_Mobile_Type_Enum.Start_Calibration)
@@ -176,13 +183,13 @@ namespace HanGao.ViewModel
                     {
 
                         //设置相机总参数
-                        if (MVS.Set_Camrea_Parameters_List(_camer.Camera, UC_Vision_CameraSet_ViewModel.Camera_Parameter_Val).GetResult())
-                        {
+                        //if (MVS.Set_Camrea_Parameters_List(_camer.Camera, UC_Vision_CameraSet_ViewModel.Camera_Parameter_Val).GetResult())
+                        //{
 
                             MVS.StopGrabbing(_camer);
 
 
-                        }
+                        //}
 
                     }
                 }
@@ -191,6 +198,7 @@ namespace HanGao.ViewModel
 
             };
 
+          
 
         }
 
@@ -202,6 +210,8 @@ namespace HanGao.ViewModel
             int _camer_number = Set_Camera_Calibration_Par(UC_Vision_CameraSet_ViewModel.MVS_Camera_Info_List);
             bool _CameraLive = false;
 
+
+            Get_Calibration_State = true;
             if (_camer_number > 0)
             {
 
@@ -228,20 +238,20 @@ namespace HanGao.ViewModel
                                     int Find_Image_Index = 0;
                                     //bool Get_Calibration_Image = false;
 
-                                    while (true)
+                                    while (Get_Calibration_State)
                                     {
 
 
 
 
 
+                                        HImage _HImage = new HImage();
                                         //获得一帧图片信息
                                         MVS_Image_Mode _MVS_Image = MVS.GetOneFrameTimeout(_camer);
-                                        HImage _HImage = new HImage();
 
 
-                                        //Halcon_SDK _Window = UC_Vision_CameraSet_ViewModel.GetWindowHandle(_camer.Show_Window);
-
+                                        if (_MVS_Image!=null)
+                                        {
 
                                         if (Display_Status(Halcon_SDK.Mvs_To_Halcon_Image(ref _HImage, _MVS_Image.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image.PData)).GetResult())
                                         {
@@ -333,6 +343,7 @@ namespace HanGao.ViewModel
                                         }
 
 
+                                        }
 
                                     }
 
@@ -407,15 +418,15 @@ namespace HanGao.ViewModel
 
 
 
-        public void SetDisplayHObject(HObject _Dispaly, Display_HObject_Type_Enum _Type, Window_Show_Name_Enum _Window)
+        public static  void SetDisplayHObject(HObject _Dispaly, Display_HObject_Type_Enum _Type, Window_Show_Name_Enum _Window)
         {
-            Messenger.Send<DisplayHObject_Model, string>(new DisplayHObject_Model()
+            StrongReferenceMessenger.Default.Send<DisplayHObject_Model, string>(new DisplayHObject_Model()
             { Display = _Dispaly, Display_Type = _Type, Show_Window = _Window }, nameof(Meg_Value_Eunm.DisplayHObject));
 
         }
-        public void SetHDrawColor(string HColor, DisplaySetDraw_Enum HDraw, Window_Show_Name_Enum _Window)
+        public static  void SetHDrawColor(string HColor, DisplaySetDraw_Enum HDraw, Window_Show_Name_Enum _Window)
         {
-            Messenger.Send<DisplayHObject_Model, string>(new DisplayHObject_Model()
+            StrongReferenceMessenger.Default.Send<DisplayHObject_Model, string>(new DisplayHObject_Model()
             { SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw }, Display_Type = Display_HObject_Type_Enum.SetDrawColor, Show_Window = _Window }, nameof(Meg_Value_Eunm.DisplayHObject));
 
         }
