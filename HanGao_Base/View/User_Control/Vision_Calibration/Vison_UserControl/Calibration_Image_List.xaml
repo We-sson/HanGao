@@ -256,6 +256,59 @@
 
             </Button>
 
+
+            <Menu Style="{DynamicResource Menu_Style}"
+                  Margin="4"
+                  Padding="4"
+                  VerticalAlignment="Center"
+                  HorizontalContentAlignment="Center"
+                  VerticalContentAlignment="Center"
+                  Background="{DynamicResource 全局_按钮_黑颜色}"
+                  FontFamily="{DynamicResource 全局_文字_数字字体}"
+                  FontSize="16">
+                <MenuItem>
+                    <MenuItem.Header>
+                        <TextBlock Text="功能设置"
+                                   VerticalAlignment="Center"
+                                   FontSize="16" />
+                    </MenuItem.Header>
+                    <MenuItem.Icon>
+                        <Image Source="/Resources/Vision_下拉选择_ioc.png" />
+                    </MenuItem.Icon>
+                    <MenuItem>
+                        <MenuItem.Header>
+                            <TextBlock Text="图像功能"
+                                       VerticalAlignment="Center"
+                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                       FontSize="14" />
+                        </MenuItem.Header>
+                        <MenuItem IsCheckable="True">
+                            <MenuItem.Header>
+                                <TextBlock Text="保存拍照图片本地"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="14" />
+                            </MenuItem.Header>
+                        </MenuItem>
+                    </MenuItem>
+                    <MenuItem Style="{DynamicResource MenuItem_Style}">
+                        <MenuItem.Header>
+                            <TextBlock Text="相机详细信息"
+                                       VerticalAlignment="Center"
+                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                       FontSize="14" />
+                        </MenuItem.Header>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding}"
+                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                       PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </MenuItem>
+                </MenuItem>
+            </Menu>
+
             <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
                     Width="90"
                     Height=" 38"

@@ -150,11 +150,11 @@
                                   VerticalAlignment="Center"
                                   HorizontalContentAlignment="Center"
                                   VerticalContentAlignment="Center"
-                                  Background="{DynamicResource 全局_背景_白颜色}"
+                                  Background="{DynamicResource 全局_按钮_黑颜色}"
                                   DataContext="{Binding Source={StaticResource Locator}, Path=Global_Seting}"
                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
                                   FontSize="16">
-                                <MenuItem Style="{DynamicResource MenuItem_Style}">
+                                <MenuItem>
                                     <MenuItem.Header>
                                         <TextBlock Text="功能设置"
                                                    VerticalAlignment="Center"
