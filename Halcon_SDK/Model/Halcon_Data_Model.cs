@@ -782,6 +782,7 @@ namespace Halcon_SDK_DLL.Model
         public HObject Calibration_Image { set; get; } = new HObject();
 
 
+
         //相机名称图像的
         public string Carme_Name{ set; get; }
 
