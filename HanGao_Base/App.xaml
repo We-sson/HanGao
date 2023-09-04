@@ -39,6 +39,7 @@
                 <ResourceDictionary Source="View\Style\Global_Color_Style.xaml" />
                 <ResourceDictionary Source="View\Style\Vision_From2_Style.xaml" />
                 <ResourceDictionary Source=" View\User_Control\Vision_Calibration\Style\Vision_Calibration_Style.xaml" />
+                <ResourceDictionary Source=" View\User_Control\Vision_Calibration\Style\Vision_Menu_Style.xaml" />
 
 
 

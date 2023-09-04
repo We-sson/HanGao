@@ -13,7 +13,7 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
-            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="130" />
         </Grid.ColumnDefinitions>
 
 
@@ -233,67 +233,48 @@
         </DataGrid>
 
         <StackPanel Grid.Column=" 1" Orientation="Vertical">
-            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
-                    Width="90"
-                    Height=" 38"
-                    Margin="5"
-                    HorizontalAlignment="Right"
-                    Background="{DynamicResource 全局_按钮_黑颜色}">
-                <TextBlock Text="加载图像"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           FontFamily="{DynamicResource 全局_文字_中文字体}"
-                           FontSize="16"
-                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
-
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <i:InvokeCommandAction Command="{Binding}"
-                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                               PassEventArgsToCommand="True" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-
-            </Button>
 
 
             <Menu Style="{DynamicResource Menu_Style}"
-                  Margin="4"
-                  Padding="4"
+                  Margin="5"
+                  HorizontalAlignment="Right"
                   VerticalAlignment="Center"
-                  HorizontalContentAlignment="Center"
-                  VerticalContentAlignment="Center"
                   Background="{DynamicResource 全局_按钮_黑颜色}"
                   FontFamily="{DynamicResource 全局_文字_数字字体}"
                   FontSize="16">
-                <MenuItem>
+
+
+                <MenuItem Height="auto"
+                          Margin="6"
+                          Padding="6,0,0,0">
+
                     <MenuItem.Header>
-                        <TextBlock Text="功能设置"
+                        <TextBlock Text="加载图像"
+                                   HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    FontSize="16" />
                     </MenuItem.Header>
                     <MenuItem.Icon>
                         <Image Source="/Resources/Vision_下拉选择_ioc.png" />
                     </MenuItem.Icon>
-                    <MenuItem>
+                    <MenuItem Foreground="{DynamicResource 全局_按钮_黑颜色}">
                         <MenuItem.Header>
-                            <TextBlock Text="图像功能"
+                            <TextBlock Text="相机_0 图像"
                                        VerticalAlignment="Center"
                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                        FontSize="14" />
                         </MenuItem.Header>
-                        <MenuItem IsCheckable="True">
-                            <MenuItem.Header>
-                                <TextBlock Text="保存拍照图片本地"
-                                           VerticalAlignment="Center"
-                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                           FontSize="14" />
-                            </MenuItem.Header>
-                        </MenuItem>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding}"
+                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                       PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
                     </MenuItem>
-                    <MenuItem Style="{DynamicResource MenuItem_Style}">
+                    <MenuItem Foreground="{DynamicResource 全局_按钮_黑颜色}">
                         <MenuItem.Header>
-                            <TextBlock Text="相机详细信息"
+                            <TextBlock Text="相机_1 图像"
                                        VerticalAlignment="Center"
                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                        FontSize="14" />
@@ -307,13 +288,18 @@
                         </i:Interaction.Triggers>
                     </MenuItem>
                 </MenuItem>
+
             </Menu>
 
+
+
+
             <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
-                    Width="90"
-                    Height=" 38"
+                    Width="110"
+                    Height="38"
                     Margin="5"
                     HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
                     Background="{DynamicResource 全局_按钮_黑颜色}">
                 <TextBlock Text="移除图像"
                            HorizontalAlignment="Center"
@@ -333,7 +319,7 @@
             </Button>
 
             <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
-                    Width="90"
+                    Width="110"
                     Height=" 38"
                     Margin="5"
                     HorizontalAlignment="Right"
@@ -356,7 +342,7 @@
             </Button>
 
             <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
-                    Width="90"
+                    Width="110"
                     Height=" 38"
                     Margin="5"
                     HorizontalAlignment="Right"
@@ -377,6 +363,7 @@
                 </i:Interaction.Triggers>
 
             </Button>
+
 
         </StackPanel>
 
