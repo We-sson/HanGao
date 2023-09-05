@@ -29,12 +29,12 @@ namespace HanGao.ViewModel
                 //判断过图像号数
                 if (Calibration_Image_List.Where((_W) => _W.Image_No == S.Image_No).FirstOrDefault() == null)
                 {
-
+                    //没有新建
                     Application.Current.Dispatcher.Invoke(() => { Calibration_Image_List.Add(S); });
                 }
                 else
                 {
-
+                    //循环查找对应相机号
                     foreach (var _calibration in Calibration_Image_List)
                     {
                         if (_calibration.Image_No == S.Image_No)
@@ -147,12 +147,6 @@ namespace HanGao.ViewModel
                             Display_HObiet((HImage)_Selected.Camera_0.Calibration_Image, _Selected.Camera_0.Calibration_Region, null, KnownColor.Green.ToString(), _camer_0.Show_Window);
                             Display_HObiet(null, null, _Selected.Camera_0.Calibration_XLD, null, _camer_0.Show_Window);
 
-
-
-                            //SetDisplayHObject(_Selected.Camera_0.Calibration_Image, Display_HObject_Type_Enum.Image, _camer_0.Show_Window);
-                            //SetDisplayHObject(new HObject(), Display_HObject_Type_Enum.XLD, _camer_0.Show_Window);
-                            //SetDisplayHObject(new HObject(), Display_HObject_Type_Enum.Region, _camer_0.Show_Window);
-
                         }
                         if (_camer_1 != null)
                         {
@@ -185,8 +179,11 @@ namespace HanGao.ViewModel
 
                 Task.Run(() =>
                 {
+
                     if (Calibretion_Image_Selected != null)
                     {
+
+                        //删除选中图像
                         Application.Current.Dispatcher.Invoke(() => { Calibration_Image_List.Remove(Calibretion_Image_Selected); });
 
 
