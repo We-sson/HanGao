@@ -518,7 +518,9 @@
                      FontSize=" 16"
                      Header="标定结果"
                      IsSelected="False">
-                <Vision_control:UC_Vision_Calibration_Results x:Name="Calibration_Results" Margin="5" />
+                <Vision_control:UC_Vision_Calibration_Results x:Name="Calibration_Results"
+                                                              Margin="5"
+                                                              DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_Calibration_Results_VM}" />
             </TabItem>
         </TabControl>
 

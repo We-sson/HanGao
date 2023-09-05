@@ -6,6 +6,7 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:HanGao.View.User_Control.Vision_Control"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_Calibration_Results_VM}"
              d:DesignHeight="2000"
              d:DesignWidth="340"
              mc:Ignorable="d">
@@ -110,7 +111,9 @@
                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding}" PassEventArgsToCommand="True" />
+                                            <i:InvokeCommandAction Command="{Binding Camera_Calibration_Start_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </Button>

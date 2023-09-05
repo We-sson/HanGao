@@ -909,6 +909,168 @@ namespace Halcon_SDK_DLL
 
 
         /// <summary>
+        /// 根据用户点击位置生产十字数据
+        /// </summary>
+        /// <param name="_Corss"></param>
+        /// <param name="_Window"></param>
+        /// <param name="_Row"></param>
+        /// <param name="_Col"></param>
+        /// <returns></returns>
+        public static HPR_Status_Model Draw_Cross(ref HObject _Corss, HWindow _Window, HTuple _Row, HTuple _Col)
+        {
+
+
+            try
+            {
+
+
+
+                //设置显示样式h
+                HOperatorSet.SetColor(_Window, nameof(KnownColor.Red).ToLower());
+                HOperatorSet.SetLineWidth(_Window, 1);
+
+                //生成十字架
+                HOperatorSet.GenCrossContourXld(out _Corss, _Row, _Col, 50, (new HTuple(45)).TupleRad());
+                //显示十字架
+                HOperatorSet.DispXld(_Corss, _Window);
+
+
+
+
+
+
+
+                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = "X：" + _Row + "，Y：" + _Col + ",添加数据成功！" };
+
+            }
+            catch (Exception e)
+            {
+
+                return new HPR_Status_Model(HVE_Result_Enum.添加数据失败) { Result_Error_Info = e.Message };
+
+            }
+        }
+
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// GC回收处理方法
+        /// </summary>
+        public void Dispose()
+        {
+
+
+            //_Image.Dispose();
+            GC.Collect();
+            GC.SuppressFinalize(this);
+        }
+    }
+
+
+
+
+
+    [AddINotifyPropertyChangedInterface]
+    public class Halcon_Method : IDisposable
+    {
+        /// <summary>
+        /// 处理图像
+        /// </summary>
+        public HObject _HImage = new HObject();
+
+
+        /// <summary>
+        /// xld对象组
+        /// </summary>
+        public List<HObject> All_XLd = new List<HObject>();
+
+
+        /// <summary>
+        /// xld集合对象
+        /// </summary>
+        public HObject _ModelsXld = new HObject();
+
+        /// <summary>
+        /// 模型ID
+        /// </summary>
+        public HTuple Shape_ID = new HTuple();
+
+
+        /// <summary>
+        /// 模型显示
+        /// </summary>
+        public HObject Shape_ModelContours = new HObject();
+
+
+        /// <summary>
+        /// 模型文件集合
+        /// </summary>
+        public List<FileInfo> _ModelIDS { set; get; } = new List<FileInfo>();
+
+
+
+        /// <summary>
+        /// 模型保存地址
+        /// </summary>
+        public string Shape_Save_Path { set; get; } = "";
+
+
+
+        /// <summary>
+        /// 显示标定板位置和坐标系
+        /// </summary>
+        /// <param name="_CalibXLD"></param>
+        /// <param name="_CalibCoord"></param>
+        /// <param name="_CalibSetup_ID"></param>
+        /// <param name="_HImage"></param>
+        /// <param name="_CameraID"></param>
+        /// <param name="_CalibID"></param>
+        public static HPR_Status_Model FindCalib_3DCoord(ref HXLDCont _CalibXLD, ref HObject _CalibCoord, HCalibData _CalibSetup_ID, HImage _HImage, int _CameraID, int _CalibID, double _SigmaVal)
+        {
+
+            HTuple hv_Row = new HTuple();
+            HTuple hv_Column = new HTuple();
+            HTuple hv_I = new HTuple();
+            HTuple hv_Pose = new HTuple();
+
+            try
+            {
+
+                //查找标定板
+                _CalibSetup_ID.FindCalibObject(_HImage, _CameraID, _CalibID, 0, new HTuple("sigma"), _SigmaVal);
+                //读取标定板轮廓
+                _CalibXLD = _CalibSetup_ID.GetCalibDataObservContours("marks", _CameraID, _CalibID, 0);
+
+                //获得标定板位置信息
+                _CalibSetup_ID.GetCalibDataObservPoints(_CameraID, _CalibID, 0, out hv_Row, out hv_Column, out hv_I, out hv_Pose);
+                //读取初始化相机内参
+                HTuple _CamerPar = _CalibSetup_ID.GetCalibData("camera", _CameraID, "init_params");
+                //显示标定板三维坐标位置
+               Disp_3d_coord(ref _CalibCoord, _CamerPar, hv_Pose, new HTuple(0.02));
+
+                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = "标定" };
+
+
+            }
+            catch (Exception e)
+            {
+
+                return new HPR_Status_Model(HVE_Result_Enum.标定板图像识别错误) { Result_Error_Info = e.Message };
+            }
+
+
+
+
+        }
+
+
+        /// <summary>
         /// 显示三维坐标系的坐标轴 
         /// </summary>
         /// <param name="hv_WindowHandle"></param>
@@ -2467,120 +2629,6 @@ namespace Halcon_SDK_DLL
                 throw HDevExpDefaultException;
             }
         }
-
-
-        /// <summary>
-        /// 根据用户点击位置生产十字数据
-        /// </summary>
-        /// <param name="_Corss"></param>
-        /// <param name="_Window"></param>
-        /// <param name="_Row"></param>
-        /// <param name="_Col"></param>
-        /// <returns></returns>
-        public static HPR_Status_Model Draw_Cross(ref HObject _Corss, HWindow _Window, HTuple _Row, HTuple _Col)
-        {
-
-
-            try
-            {
-
-
-
-                //设置显示样式h
-                HOperatorSet.SetColor(_Window, nameof(KnownColor.Red).ToLower());
-                HOperatorSet.SetLineWidth(_Window, 1);
-
-                //生成十字架
-                HOperatorSet.GenCrossContourXld(out _Corss, _Row, _Col, 50, (new HTuple(45)).TupleRad());
-                //显示十字架
-                HOperatorSet.DispXld(_Corss, _Window);
-
-
-
-
-
-
-
-                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = "X：" + _Row + "，Y：" + _Col + ",添加数据成功！" };
-
-            }
-            catch (Exception e)
-            {
-
-                return new HPR_Status_Model(HVE_Result_Enum.添加数据失败) { Result_Error_Info = e.Message };
-
-            }
-        }
-
-
-
-
-
-
-
-
-
-        /// <summary>
-        /// GC回收处理方法
-        /// </summary>
-        public void Dispose()
-        {
-
-
-            //_Image.Dispose();
-            GC.Collect();
-            GC.SuppressFinalize(this);
-        }
-    }
-
-
-
-
-
-    [AddINotifyPropertyChangedInterface]
-    public class Halcon_Method : IDisposable
-    {
-        /// <summary>
-        /// 处理图像
-        /// </summary>
-        public HObject _HImage = new HObject();
-
-
-        /// <summary>
-        /// xld对象组
-        /// </summary>
-        public List<HObject> All_XLd = new List<HObject>();
-
-
-        /// <summary>
-        /// xld集合对象
-        /// </summary>
-        public HObject _ModelsXld = new HObject();
-
-        /// <summary>
-        /// 模型ID
-        /// </summary>
-        public HTuple Shape_ID = new HTuple();
-
-
-        /// <summary>
-        /// 模型显示
-        /// </summary>
-        public HObject Shape_ModelContours = new HObject();
-
-
-        /// <summary>
-        /// 模型文件集合
-        /// </summary>
-        public List<FileInfo> _ModelIDS { set; get; } = new List<FileInfo>();
-
-
-
-        /// <summary>
-        /// 模型保存地址
-        /// </summary>
-        public string Shape_Save_Path { set; get; } = "";
-
 
 
 
@@ -4153,6 +4201,72 @@ namespace Halcon_SDK_DLL
                 return new HPR_Status_Model(HVE_Result_Enum.提取匹配结果的XLD模型失败) { Result_Error_Info = e.Message };
             }
         }
+
+
+
+        /// <summary>
+        /// 获得图片最大灰度
+        /// </summary>
+        /// <param name="_Region"></param>
+        /// <param name="_HImage"></param>
+        /// <returns></returns>
+        public static HPR_Status_Model Get_Image_MaxThreshold(ref HRegion _Region, HImage _HImage)
+        {
+
+            try
+            {
+            _Region= _HImage.Threshold(new HTuple(254), new HTuple(255));
+                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = "提取过曝区域成功！" };
+
+            }
+            catch (Exception e)
+            {
+
+                return new HPR_Status_Model(HVE_Result_Enum.显示最大灰度失败) { Result_Error_Info = e.Message };
+
+            }
+
+
+        }
+
+
+        /// <summary>
+        /// 获得图片最小灰度
+        /// </summary>
+        /// <param name="_Region"></param>
+        /// <param name="_HImage"></param>
+        /// <returns></returns>
+        public static HPR_Status_Model Get_Image_MinThreshold(ref HRegion _Region, HImage _HImage)
+        {
+
+            try
+            {
+                _Region = _HImage.Threshold(new HTuple(0), new HTuple(1));
+                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = "提取过暗区域成功！" };
+
+            }
+            catch (Exception e)
+            {
+
+                return new HPR_Status_Model(HVE_Result_Enum.显示最小灰度失败) { Result_Error_Info = e.Message };
+
+            }
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         /// <summary>
         /// GC回收处理方法

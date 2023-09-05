@@ -67,6 +67,7 @@ namespace HanGao.ViewModelLocator
                     .AddScoped<Vision_Calibration_Home_VM>()
                     .AddScoped<UC_Vision_Camera_Calibration>()
                     .AddScoped<UC_Vision_Calibration_Image_VM>()
+                    .AddScoped<UC_Vision_Calibration_Results_VM>()
                     
 
 
@@ -110,8 +111,9 @@ namespace HanGao.ViewModelLocator
         public Vision_Calibration_Home_VM Vision_Calibration_Home_VM => Ioc.Default.GetService<Vision_Calibration_Home_VM>();
         public UC_Vision_Camera_Calibration UC_Vision_Camera_Calibration => Ioc.Default.GetService<UC_Vision_Camera_Calibration>();
         public UC_Vision_Calibration_Image_VM UC_Vision_Calibration_Image_VM => Ioc.Default.GetService<UC_Vision_Calibration_Image_VM>();
-        
+        public UC_Vision_Calibration_Results_VM UC_Vision_Calibration_Results_VM => Ioc.Default.GetService<UC_Vision_Calibration_Results_VM>();
 
+        
 
 
 

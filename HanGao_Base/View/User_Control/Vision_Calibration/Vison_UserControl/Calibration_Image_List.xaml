@@ -44,7 +44,7 @@
                   RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
                   ScrollViewer.VerticalScrollBarVisibility="Auto"
                   SelectedIndex="-1"
-                  SelectedValue="{Binding Calibretion_List_Selected}"
+                  SelectedValue="{Binding Calibretion_Image_Selected}"
                   SelectionMode="Single"
                   SelectionUnit="FullRow">
 
@@ -85,7 +85,7 @@
 
 
 
-                <DataGridTemplateColumn Width="*">
+                <DataGridTemplateColumn Width="100">
                     <DataGridTemplateColumn.Header>
 
 
@@ -109,7 +109,7 @@
 
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Width="100">
+                <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.Header>
                         <TextBlock Text="标定状态"
                                    Margin="4"
@@ -157,7 +157,7 @@
 
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Width="*">
+                <DataGridTemplateColumn Width="100">
                     <DataGridTemplateColumn.Header>
                         <TextBlock Text="Camera_1"
                                    Margin="4"
@@ -181,7 +181,7 @@
 
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Width="100">
+                <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.Header>
                         <TextBlock Text="标定状态"
                                    Margin="4"
@@ -310,7 +310,7 @@
 
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
-                        <i:InvokeCommandAction Command="{Binding}"
+                        <i:InvokeCommandAction Command="{Binding Calibration_Image_Removing_Comm}"
                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                PassEventArgsToCommand="True" />
                     </i:EventTrigger>

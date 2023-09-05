@@ -779,7 +779,18 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 标定图像
         /// </summary>
-        public HObject Calibration_Image { set; get; } = new HObject();
+        public HObject Calibration_Image { set; get; } = null;
+
+
+        /// <summary>
+        /// 标定板特征
+        /// </summary>
+        public HObject Calibration_Region { set; get; } = new HObject();
+
+        /// <summary>
+        /// 标定板坐标系
+        /// </summary>
+        public HObject Calibration_XLD { set; get; } = new HObject();
 
 
 
@@ -1099,7 +1110,7 @@ namespace Halcon_SDK_DLL.Model
         XLD匹配结果映射失败,
         显示最大灰度失败,
         显示最小灰度失败,
-
+        标定板图像识别错误,
     }
 
 

@@ -830,8 +830,11 @@ namespace MVS_SDK_Base.Model
     {
 
         None = 0,
-        Calibration_Results_OK,
-        Calibration_Results_Error
+        标定图像已保存,
+        标定图像识别成功,
+        标定图像识别失败
     }
+
+
 
 }

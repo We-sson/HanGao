@@ -1,5 +1,7 @@
 ﻿
 
+using HanGao.View.User_Control.Vision_Calibration.Vison_UserControl;
+using System.Drawing;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static HanGao.ViewModel.UC_Vision_Camera_Calibration;
 using static HanGao.ViewModel.UC_Vision_CameraSet_ViewModel;
@@ -41,13 +43,11 @@ namespace HanGao.ViewModel
                             switch (S.Camera_No)
                             {
                                 case 0:
-
-                                    _calibration.Camera_0.Calibration_Image = S.Camera_0.Calibration_Image;
-                                    _calibration.Camera_0.Carme_Name = S.Camera_0.Carme_Name;
+                                    _calibration.Camera_0 = S.Camera_0;
                                     break;
                                 case 1:
-                                    _calibration.Camera_1.Calibration_Image = S.Camera_1.Calibration_Image;
-                                    _calibration.Camera_1.Carme_Name = S.Camera_1.Carme_Name;
+                                    _calibration.Camera_1 = S.Camera_1;
+                             
                                     break;
                             }
 
@@ -66,8 +66,10 @@ namespace HanGao.ViewModel
         }
 
 
-
-        public Calibration_Image_List_Model Calibretion_List_Selected { set; get; }
+        /// <summary>
+        /// 标定图像选定
+        /// </summary>
+        public Calibration_Image_List_Model Calibretion_Image_Selected { set; get; }
 
 
 
@@ -124,10 +126,10 @@ namespace HanGao.ViewModel
 
                 Task.Run(() =>
                 {
-                    Calibration_Image_List_Model _Selected=null;
+                    Calibration_Image_List_Model _Selected = null;
                     Application.Current.Dispatcher.Invoke(() => { _Selected = E.SelectedItem as Calibration_Image_List_Model; });
 
-                    
+
 
                     if (_Selected != null)
                     {
@@ -138,28 +140,30 @@ namespace HanGao.ViewModel
 
                         if (_camer_0 != null)
                         {
-                            //情况旧图像，显示选中图像
+                            //清楚旧图像，显示选中图像
                             _HImage = _Selected.Camera_0.Calibration_Image;
-                            SetDisplayHObject(_Selected.Camera_0.Calibration_Image, Display_HObject_Type_Enum.Image, _camer_0.Show_Window);
-                            SetDisplayHObject(new HObject(), Display_HObject_Type_Enum.XLD, _camer_0.Show_Window);
-                            SetDisplayHObject(new HObject(), Display_HObject_Type_Enum.Region, _camer_0.Show_Window);
+
+                            Display_HObiet((HImage)_Selected.Camera_0.Calibration_Image, null, null, null, _camer_0.Show_Window);
+                            Display_HObiet((HImage)_Selected.Camera_0.Calibration_Image, _Selected.Camera_0.Calibration_Region, null, KnownColor.Green.ToString(), _camer_0.Show_Window);
+                            Display_HObiet(null, null, _Selected.Camera_0.Calibration_XLD, null, _camer_0.Show_Window);
+
+
+
+                            //SetDisplayHObject(_Selected.Camera_0.Calibration_Image, Display_HObject_Type_Enum.Image, _camer_0.Show_Window);
+                            //SetDisplayHObject(new HObject(), Display_HObject_Type_Enum.XLD, _camer_0.Show_Window);
+                            //SetDisplayHObject(new HObject(), Display_HObject_Type_Enum.Region, _camer_0.Show_Window);
 
                         }
                         if (_camer_1 != null)
                         {
                             //情况旧图像，显示选中图像
                             _HImage = _Selected.Camera_1.Calibration_Image;
-                            SetDisplayHObject(_Selected.Camera_1.Calibration_Image, Display_HObject_Type_Enum.Image, _camer_1.Show_Window);
-                            SetDisplayHObject(new HObject(), Display_HObject_Type_Enum.Region, _camer_1.Show_Window);
-                            SetDisplayHObject(new HObject(), Display_HObject_Type_Enum.XLD, _camer_1.Show_Window);
+                            Display_HObiet((HImage)_Selected.Camera_1.Calibration_Image, null, null, null, _camer_1.Show_Window);
+                            Display_HObiet((HImage)_Selected.Camera_1.Calibration_Image, _Selected.Camera_1.Calibration_Region, null, KnownColor.Green.ToString(), _camer_1.Show_Window);
+                            Display_HObiet(null, null, _Selected.Camera_1.Calibration_XLD, null, _camer_1.Show_Window);
 
 
                         }
-
-
-
-
-
                     }
                 });
 
@@ -167,6 +171,38 @@ namespace HanGao.ViewModel
 
             });
         }
+
+        /// <summary>
+        /// 标定图像保存列表动作
+        /// </summary>
+        public ICommand Calibration_Image_Removing_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                Button E = Sm.Source as Button;
+
+
+
+                Task.Run(() =>
+                {
+                    if (Calibretion_Image_Selected != null)
+                    {
+                        Application.Current.Dispatcher.Invoke(() => { Calibration_Image_List.Remove(Calibretion_Image_Selected); });
+
+
+                    }
+
+                });
+
+
+
+            });
+        }
+
+
+
+
+
 
 
 
