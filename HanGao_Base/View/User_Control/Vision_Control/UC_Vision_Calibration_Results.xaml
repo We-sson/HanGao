@@ -111,7 +111,7 @@
                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding Camera_Calibration_Start_Comm}"
+                                            <i:InvokeCommandAction Command="{Binding Camera_Calibration_Checks_Comm}"
                                                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                    PassEventArgsToCommand="True" />
                                         </i:EventTrigger>
@@ -131,7 +131,7 @@
                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding}" PassEventArgsToCommand="True" />
+                                            <i:InvokeCommandAction Command="{Binding Camera_Calibration_Data_Comm}" PassEventArgsToCommand="True" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </Button>
