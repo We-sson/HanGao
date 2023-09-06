@@ -1031,7 +1031,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_HImage"></param>
         /// <param name="_CameraID"></param>
         /// <param name="_CalibID"></param>
-        public static HPR_Status_Model FindCalib_3DCoord(ref HXLDCont _CalibXLD, ref HObject _CalibCoord, HCalibData _CalibSetup_ID, HImage _HImage, int _CameraID, int _CalibID, double _SigmaVal)
+        public static HPR_Status_Model FindCalib_3DCoord(ref HXLDCont _CalibXLD, ref HObject _CalibCoord,ref HCalibData _CalibSetup_ID, HImage _HImage, int _CameraID, int _CalibID, double _SigmaVal,int _CalobPosNO=0)
         {
 
             HTuple hv_Row = new HTuple();
@@ -1043,12 +1043,12 @@ namespace Halcon_SDK_DLL
             {
 
                 //查找标定板
-                _CalibSetup_ID.FindCalibObject(_HImage, _CameraID, _CalibID, 0, new HTuple("sigma"), _SigmaVal);
+                _CalibSetup_ID.FindCalibObject(_HImage, _CameraID, _CalibID, _CalobPosNO, new HTuple("sigma"), _SigmaVal);
                 //读取标定板轮廓
-                _CalibXLD = _CalibSetup_ID.GetCalibDataObservContours("marks", _CameraID, _CalibID, 0);
+                _CalibXLD = _CalibSetup_ID.GetCalibDataObservContours("marks", _CameraID, _CalibID, _CalobPosNO);
 
                 //获得标定板位置信息
-                _CalibSetup_ID.GetCalibDataObservPoints(_CameraID, _CalibID, 0, out hv_Row, out hv_Column, out hv_I, out hv_Pose);
+                _CalibSetup_ID.GetCalibDataObservPoints(_CameraID, _CalibID, _CalobPosNO, out hv_Row, out hv_Column, out hv_I, out hv_Pose);
                 //读取初始化相机内参
                 HTuple _CamerPar = _CalibSetup_ID.GetCalibData("camera", _CameraID, "init_params");
                 //显示标定板三维坐标位置

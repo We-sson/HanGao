@@ -637,6 +637,8 @@ namespace Halcon_SDK_DLL.Model
 
 
 
+
+
     public class Match_Models_List_Model
     {
         /// <summary>
@@ -740,6 +742,10 @@ namespace Halcon_SDK_DLL.Model
         }
     }
 
+
+    /// <summary>
+    /// 标定图像集合模型参数
+    /// </summary>
     [AddINotifyPropertyChangedInterface]
     public class Calibration_Image_List_Model
     {
@@ -751,11 +757,11 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 主相机
         /// </summary>
-        public Calibration_Image_Camera_Model Camera_0{ set; get; } = new Calibration_Image_Camera_Model() {   };
+        public Calibration_Image_Camera_Model Camera_0 { set; get; } = new Calibration_Image_Camera_Model() { };
         /// <summary>
         /// 副相机
         /// </summary>
-        public Calibration_Image_Camera_Model Camera_1{ set; get; } = new Calibration_Image_Camera_Model() {   };
+        public Calibration_Image_Camera_Model Camera_1 { set; get; } = new Calibration_Image_Camera_Model() { };
 
 
         public int Camera_No { set; get; } = 0;
@@ -763,12 +769,38 @@ namespace Halcon_SDK_DLL.Model
 
     }
 
+    /// <summary>
+    /// 相机标定误差模型
+    /// </summary>
+    [AddINotifyPropertyChangedInterface]
+    public class Calibration_Camera_Results_Model
+    {
+
+        public double Error_Pixel { set; get; } = 0;
+
+
+        public double RMS_Translational { set; get; } = 0;
+
+        public double RMS_Rotational { set; get; } = 0;
+
+        public double Maximum_Translational { set; get; } = 0;
+
+        public double Maximum_Rotational { set; get; } = 0;
+
+        public string Calibration_Results_Save_File { set; get; } = "";
+    }
+
+
+
+
+
+
     [AddINotifyPropertyChangedInterface]
     public class Calibration_Image_Camera_Model
     {
-        
 
-       
+
+
 
         /// <summary>
         /// 标定精度
@@ -795,7 +827,7 @@ namespace Halcon_SDK_DLL.Model
 
 
         //相机名称图像的
-        public string Carme_Name{ set; get; }
+        public string Carme_Name { set; get; }
 
         /// <summary>
         /// 标定状态

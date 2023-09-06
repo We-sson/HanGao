@@ -312,7 +312,7 @@ namespace HanGao.ViewModel
                                                             HXLDCont _CalibXLD = new HXLDCont();
 
 
-                                                            if (Halcon_Method.FindCalib_3DCoord(ref _CalibXLD, ref _CalibCoord, _CalibSetup_ID, _HImage, (int)_camer.Camera_Calibration.Camera_Calibration_MainOrSubroutine_Type, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma).GetResult())
+                                                            if (Halcon_Method.FindCalib_3DCoord(ref _CalibXLD, ref _CalibCoord, ref _CalibSetup_ID, _HImage, (int)_camer.Camera_Calibration.Camera_Calibration_MainOrSubroutine_Type, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma).GetResult())
                                                             {
 
 

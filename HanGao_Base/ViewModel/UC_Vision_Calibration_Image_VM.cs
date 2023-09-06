@@ -198,6 +198,39 @@ namespace HanGao.ViewModel
 
 
 
+        
+
+        /// <summary>
+        /// 标定图像保存列表动作
+        /// </summary>
+        public ICommand Calibration_Image_AllRemoving_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                Button E = Sm.Source as Button;
+
+
+
+                Task.Run(() =>
+                {
+
+                    if (Calibretion_Image_Selected != null)
+                    {
+
+                        //删除选中图像
+                        Application.Current.Dispatcher.Invoke(() => { 
+                            Calibration_Image_List.Clear(); 
+                        });
+
+
+                    }
+
+                });
+
+
+
+            });
+        }
 
 
 

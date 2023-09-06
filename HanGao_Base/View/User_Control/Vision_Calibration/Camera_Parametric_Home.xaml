@@ -417,7 +417,6 @@
 
 
 
-
                     <Halcon:HSmartWindowControlWPF x:Name="Calibration_3D_Results" Grid.Row=" 1" Grid.Column=" 0"
                                                    Grid.ColumnSpan=" 2"
                                                    MinWidth="400"

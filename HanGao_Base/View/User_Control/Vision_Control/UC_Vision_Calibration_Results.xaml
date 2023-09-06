@@ -131,7 +131,9 @@
                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding Camera_Calibration_Data_Comm}" PassEventArgsToCommand="True" />
+                                            <i:InvokeCommandAction Command="{Binding Camera_Calibration_Data_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </Button>
@@ -160,7 +162,7 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="0">
+                                        Value="{Binding Calibration_Camera_Results.Error_Pixel}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseUp">
                                             <i:InvokeCommandAction Command="{Binding}"
@@ -211,7 +213,7 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="0">
+                                        Value="{Binding Calibration_Camera_Results.RMS_Translational}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseUp">
                                             <i:InvokeCommandAction Command="{Binding}"
@@ -262,7 +264,7 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="0">
+                                        Value="{Binding Calibration_Camera_Results.RMS_Rotational}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseUp">
                                             <i:InvokeCommandAction Command="{Binding}"
@@ -313,7 +315,7 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="0">
+                                        Value="{Binding Calibration_Camera_Results.Maximum_Translational}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseUp">
                                             <i:InvokeCommandAction Command="{Binding}"
@@ -364,7 +366,7 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="0">
+                                        Value="{Binding Calibration_Camera_Results.Maximum_Rotational}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseUp">
                                             <i:InvokeCommandAction Command="{Binding}"
@@ -384,7 +386,7 @@
                                          BorderThickness="2"
                                          FontSize="18" />
                                 <Label Grid.Column=" 3"
-                                       Content="Pixel"
+                                       Content="度"
                                        Margin="0"
                                        Padding="0"
                                        HorizontalContentAlignment="Center"
@@ -409,7 +411,7 @@
 
 
                                 <Openfile:UC_Open_File Grid.Column=" 1"
-                                                       File_Log="{Binding}"
+                                                       File_Log="{Binding Calibration_Camera_Results.Calibration_Results_Save_File}"
                                                        File_Model="Folder" />
 
                                 <!--<Border Grid.Column=" 1" BorderThickness="1.5">
@@ -610,7 +612,8 @@
                                          Background="Transparent"
                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                          BorderThickness="2"
-                                         FontSize="18" />
+                                         FontSize="18"
+                                         IsReadOnly="True" />
                                 <Label Grid.Column=" 3"
                                        Content="μm"
                                        Margin="0"
