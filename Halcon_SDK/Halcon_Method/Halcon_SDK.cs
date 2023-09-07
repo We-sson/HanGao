@@ -2453,6 +2453,1833 @@ namespace Halcon_SDK_DLL
         }
 
 
+
+
+
+       private  HTuple gIsSinglePose;
+        private HTuple gTerminationButtonLabel;
+        private HTuple gInfoDecor;
+        private HTuple gInfoPos;
+        private HTuple gTitlePos;
+        private HTuple gTitleDecor;
+        private HTuple gAlphaDeselected;
+        private HTuple gDispObjOffset;
+        private HTuple gLabelsDecor;
+        private HTuple gUsesOpenGL;
+
+
+
+        // Chapter: Graphics / Output
+        // Short Description: Display 3D object models 
+        private  static  void visualize_object_model_3d(HTuple hv_WindowHandle, HTuple hv_ObjectModel3D,
+            HTuple hv_CamParam, HTuple hv_PoseIn, HTuple hv_GenParamName, HTuple hv_GenParamValue,
+            HTuple hv_Title, HTuple hv_Label, HTuple hv_Information, out HTuple hv_PoseOut)
+        {
+
+
+
+            // Local iconic variables 
+            // 本地标志性变量 
+            HObject ho_Image = null, ho_ImageDump = null;
+
+            // Local control variables 
+            // 本地控制变量 
+            HTuple ExpTmpLocalVar_gDispObjOffset = new HTuple();
+            HTuple ExpTmpLocalVar_gLabelsDecor = new HTuple(), ExpTmpLocalVar_gInfoDecor = new HTuple();
+            HTuple ExpTmpLocalVar_gInfoPos = new HTuple(), ExpTmpLocalVar_gTitlePos = new HTuple();
+            HTuple ExpTmpLocalVar_gTitleDecor = new HTuple(), ExpTmpLocalVar_gTerminationButtonLabel = new HTuple();
+            HTuple ExpTmpLocalVar_gAlphaDeselected = new HTuple();
+            HTuple ExpTmpLocalVar_gIsSinglePose = new HTuple(), ExpTmpLocalVar_gUsesOpenGL = new HTuple();
+            HTuple hv_Scene3DTest = new HTuple(), hv_Scene3D = new HTuple();
+            HTuple hv_WindowHandleBuffer = new HTuple(), hv_TrackballSize = new HTuple();
+            HTuple hv_VirtualTrackball = new HTuple(), hv_MouseMapping = new HTuple();
+            HTuple hv_WaitForButtonRelease = new HTuple(), hv_MaxNumModels = new HTuple();
+            HTuple hv_WindowCenteredRotation = new HTuple(), hv_NumModels = new HTuple();
+            HTuple hv_SelectedObject = new HTuple(), hv_ClipRegion = new HTuple();
+            HTuple hv_CPLength = new HTuple(), hv_RowNotUsed = new HTuple();
+            HTuple hv_ColumnNotUsed = new HTuple(), hv_Width = new HTuple();
+            HTuple hv_Height = new HTuple(), hv_WPRow1 = new HTuple();
+            HTuple hv_WPColumn1 = new HTuple(), hv_WPRow2 = new HTuple();
+            HTuple hv_WPColumn2 = new HTuple(), hv_CamParamValue = new HTuple();
+            HTuple hv_CamWidth = new HTuple(), hv_CamHeight = new HTuple();
+            HTuple hv_Scale = new HTuple(), hv_Indices = new HTuple();
+            HTuple hv_DispBackground = new HTuple(), hv_Mask = new HTuple();
+            HTuple hv_Center = new HTuple(), hv_PoseEstimated = new HTuple();
+            HTuple hv_Poses = new HTuple(), hv_HomMat3Ds = new HTuple();
+            HTuple hv_Sequence = new HTuple(), hv_Font = new HTuple();
+            HTuple hv_Exception = new HTuple(), hv_OpenGLInfo = new HTuple();
+            HTuple hv_DummyObjectModel3D = new HTuple(), hv_CameraIndexTest = new HTuple();
+            HTuple hv_PoseTest = new HTuple(), hv_InstanceIndexTest = new HTuple();
+            HTuple hv_MinImageSize = new HTuple(), hv_TrackballRadiusPixel = new HTuple();
+            HTuple hv_Ascent = new HTuple(), hv_Descent = new HTuple();
+            HTuple hv_TextWidth = new HTuple(), hv_TextHeight = new HTuple();
+            HTuple hv_NumChannels = new HTuple(), hv_ColorImage = new HTuple();
+            HTuple hv_CameraIndex = new HTuple(), hv_AllInstances = new HTuple();
+            HTuple hv_SetLight = new HTuple(), hv_LightParam = new HTuple();
+            HTuple hv_LightPosition = new HTuple(), hv_LightKind = new HTuple();
+            HTuple hv_LightIndex = new HTuple(), hv_PersistenceParamName = new HTuple();
+            HTuple hv_PersistenceParamValue = new HTuple(), hv_AlphaOrig = new HTuple();
+            HTuple hv_I = new HTuple(), hv_ParamName = new HTuple();
+            HTuple hv_ParamValue = new HTuple(), hv_ParamNameTrunk = new HTuple();
+            HTuple hv_Instance = new HTuple(), hv_HomMat3D = new HTuple();
+            HTuple hv_Qx = new HTuple(), hv_Qy = new HTuple(), hv_Qz = new HTuple();
+            HTuple hv_TBCenter = new HTuple(), hv_TBSize = new HTuple();
+            HTuple hv_ButtonHold = new HTuple(), hv_VisualizeTB = new HTuple();
+            HTuple hv_MaxIndex = new HTuple(), hv_TrackballCenterRow = new HTuple();
+            HTuple hv_TrackballCenterCol = new HTuple(), hv_GraphEvent = new HTuple();
+            HTuple hv_Exit = new HTuple(), hv_GraphButtonRow = new HTuple();
+            HTuple hv_GraphButtonColumn = new HTuple(), hv_GraphButton = new HTuple();
+            HTuple hv_ButtonReleased = new HTuple(), hv_e = new HTuple();
+            HTuple hv_CamParam_COPY_INP_TMP = new HTuple(hv_CamParam);
+            HTuple hv_GenParamName_COPY_INP_TMP = new HTuple(hv_GenParamName);
+            HTuple hv_GenParamValue_COPY_INP_TMP = new HTuple(hv_GenParamValue);
+            HTuple hv_Label_COPY_INP_TMP = new HTuple(hv_Label);
+            HTuple hv_PoseIn_COPY_INP_TMP = new HTuple(hv_PoseIn);
+
+            // Initialize local and output iconic variables 
+            HOperatorSet.GenEmptyObj(out ho_Image);
+            HOperatorSet.GenEmptyObj(out ho_ImageDump);
+            hv_PoseOut = new HTuple();
+            try
+            {
+                //The procedure visualize_object_model_3d can be used to display
+                //one or more 3d object models and to interactively modify
+                //the object poses by using the mouse.
+                //
+                //The pose can be modified by moving the mouse while
+                //pressing a mouse button. The default settings are:
+                //
+                // Rotate: Left mouse button
+                // Zoom: Shift + Left mouse button (or Center mouse button)
+                // Pan: Ctrl + Left mouse button
+                //
+                //Furthermore, it is possible to select and deselect objects,
+                //to decrease the mouse sensitivity, and to toggle the
+                //inspection mode (see the description of the generic parameter
+                //'inspection_mode' below):
+                //
+                // (De-)select object(s): Right mouse button
+                // Low mouse sensitivity: Alt + mouse button
+                // Toggle inspection mode: Ctrl + Alt + Left mouse button
+                //
+                //In GenParamName and GenParamValue all generic Parameters
+                //of disp_object_model_3d are supported.
+                //
+                //**********************************************************
+                //Define global variables
+                //**********************************************************
+                //
+                //global def tuple gDispObjOffset
+                //global def tuple gLabelsDecor
+                //global def tuple gInfoDecor
+                //global def tuple gInfoPos
+                //global def tuple gTitlePos
+                //global def tuple gTitleDecor
+                //global def tuple gTerminationButtonLabel
+                //global def tuple gAlphaDeselected
+                //global def tuple gIsSinglePose
+                //global def tuple gUsesOpenGL
+                //
+                //**********************************************************
+                //Initialize Handles to enable correct handling in error case
+                //**********************************************************
+                //存储过程 visualize_object_model_3d 可用于显示
+                //显示一个或多个三维物体模型，并通过鼠标交互式地修改
+                //使用鼠标交互式修改对象的姿态。
+                //
+                //通过移动鼠标，同时按下鼠标键，可以修改姿势。
+                //按下鼠标键即可修改姿势。默认设置为
+                //
+                // 旋转： 鼠标左键
+                // 缩放：Shift + 鼠标左键（或鼠标中键）
+                // 平移 Ctrl + 鼠标左键
+                //
+                //此外，还可以选择和取消选择对象、
+                //降低鼠标灵敏度，以及切换
+                //检查模式（参见下面通用参数
+                //检查模式）：
+                //
+                // 取消）选择对象： 鼠标右键
+                // 低鼠标灵敏度： Alt + 鼠标按钮
+                // 切换检查模式： Ctrl + Alt + 鼠标左键
+                //
+                //在 GenParamName 和 GenParamValue 中，支持 disp_object_model_3d 的所有通用参数。
+                //都支持。
+                //
+                //**********************************************************
+                //定义全局变量
+                //**********************************************************
+                //定义全局变量 
+                //global def tuple gDispObjOffset
+                //全局后备元组 gLabelsDecor
+                //全局后备元组 gInfoDecor
+                //全局变量元组 gInfoPos
+                //全局变量元组 gTitlePos
+                //全局变量元组 gTitleDecor
+                //全局后备元组 gTerminationButtonLabel
+                //全局变量元组 gAlphaDeselected
+                //全局变量元组 gIsSinglePose
+                //global def tuple gUsesOpenGL
+                //
+                //**********************************************************
+                //初始化句柄，以便在出错时正确处理
+                //**********************************************************
+                hv_Scene3DTest.Dispose();
+                hv_Scene3DTest = new HTuple();
+                hv_Scene3D.Dispose();
+                hv_Scene3D = new HTuple();
+                hv_WindowHandleBuffer.Dispose();
+                hv_WindowHandleBuffer = new HTuple();
+
+                //**********************************************************
+                //Some user defines that may be adapted if desired
+                //**********************************************************
+                //
+                //TrackballSize defines the diameter of the trackball in
+                //the image with respect to the smaller image dimension.
+
+                //**********************************************************
+                //一些用户定义，可根据需要进行调整
+                //**********************************************************
+                //
+                //轨迹球尺寸（TrackballSize）定义了图像中轨迹球的直径。
+                //图像中轨迹球的直径。
+                hv_TrackballSize.Dispose();
+                hv_TrackballSize = 0.8;
+                //
+                //VirtualTrackball defines the type of virtual trackball that
+                //shall be used ('shoemake' or 'bell').
+                //虚拟轨迹球定义了应使用的虚拟轨迹球类型（"鞋模 "或 "铃铛"）。
+                //应使用的虚拟轨迹球类型（"鞋形 "或 "钟形"）。
+                hv_VirtualTrackball.Dispose();
+                hv_VirtualTrackball = "shoemake";
+                //VirtualTrackball := 'bell'
+                //
+                //Functionality of mouse buttons
+                //    1: Left mouse button
+                //    2: Middle mouse button
+                //    4: Right mouse button
+                //    5: Left+Right mouse button
+                //  8+x: Shift + mouse button
+                // 16+x: Ctrl + mouse button
+                // 48+x: Ctrl + Alt + mouse button
+                //in the order [Translate, Rotate, Scale, ScaleAlternative1, ScaleAlternative2, SelectObjects, ToggleSelectionMode]
+                //VirtualTrackball := 'bell' （虚拟轨迹球）。
+                //
+                //鼠标按钮的功能
+                // 1: 鼠标左键
+                // 2: 鼠标中键
+                // 4: 鼠标右键
+                // 5: 鼠标左键+右键
+                // 8+x: Shift + 鼠标按钮
+                // 16+x: Ctrl + 鼠标按钮
+                // 48+x: Ctrl + Alt + 鼠标按钮
+                // 按照 [平移、旋转、缩放、ScaleAlternative1、ScaleAlternative2、选择对象、切换选择模式] 的顺序操作
+                hv_MouseMapping.Dispose();
+                hv_MouseMapping = new HTuple();
+                hv_MouseMapping[0] = 17;
+                hv_MouseMapping[1] = 1;
+                hv_MouseMapping[2] = 2;
+                hv_MouseMapping[3] = 5;
+                hv_MouseMapping[4] = 9;
+                hv_MouseMapping[5] = 4;
+                hv_MouseMapping[6] = 49;
+                //
+                //The labels of the objects appear next to their projected
+                //center. With gDispObjOffset a fixed offset is added
+                // 对象的标签会显示在其投影的旁边。
+                //中心。使用 gDispObjOffset 时，会增加一个固定偏移量。
+                //                  R,  C
+                ExpTmpLocalVar_gDispObjOffset = new HTuple();
+                ExpTmpLocalVar_gDispObjOffset[0] = -30;
+                ExpTmpLocalVar_gDispObjOffset[1] = 0;
+                ExpSetGlobalVar_gDispObjOffset(ExpTmpLocalVar_gDispObjOffset);
+                //
+                //Customize the decoration of the different text elements
+                //              Color,   Box
+                ExpTmpLocalVar_gInfoDecor = new HTuple();
+                ExpTmpLocalVar_gInfoDecor[0] = "white";
+                ExpTmpLocalVar_gInfoDecor[1] = "false";
+                ExpSetGlobalVar_gInfoDecor(ExpTmpLocalVar_gInfoDecor);
+                ExpTmpLocalVar_gLabelsDecor = new HTuple();
+                ExpTmpLocalVar_gLabelsDecor[0] = "white";
+                ExpTmpLocalVar_gLabelsDecor[1] = "false";
+                ExpSetGlobalVar_gLabelsDecor(ExpTmpLocalVar_gLabelsDecor);
+                ExpTmpLocalVar_gTitleDecor = new HTuple();
+                ExpTmpLocalVar_gTitleDecor[0] = "black";
+                ExpTmpLocalVar_gTitleDecor[1] = "true";
+                ExpSetGlobalVar_gTitleDecor(ExpTmpLocalVar_gTitleDecor);
+                //
+                //Customize the position of some text elements
+                //  gInfoPos has one of the values
+                //  {'UpperLeft', 'LowerLeft', 'UpperRight'}
+                ExpTmpLocalVar_gInfoPos = "LowerLeft";
+                ExpSetGlobalVar_gInfoPos(ExpTmpLocalVar_gInfoPos);
+                //  gTitlePos has one of the values
+                //  {'UpperLeft', 'UpperCenter', 'UpperRight'}
+                ExpTmpLocalVar_gTitlePos = "UpperLeft";
+                ExpSetGlobalVar_gTitlePos(ExpTmpLocalVar_gTitlePos);
+                //Alpha value (=1-transparency) that is used for visualizing
+                //the objects that are not selected
+                ExpTmpLocalVar_gAlphaDeselected = 0.3;
+                ExpSetGlobalVar_gAlphaDeselected(ExpTmpLocalVar_gAlphaDeselected);
+                //Customize the label of the continue button
+                ExpTmpLocalVar_gTerminationButtonLabel = " Continue ";
+                ExpSetGlobalVar_gTerminationButtonLabel(ExpTmpLocalVar_gTerminationButtonLabel);
+                //Define if the continue button responds to a single click event or
+                //if it responds only if the mouse button is released while being placed
+                //over the continue button.
+                //'true':  Wait until the continue button has been released.
+                //         This should be used to avoid unwanted continuations of
+                //         subsequent calls of visualize_object_model_3d, which can
+                //         otherwise occur if the mouse button remains pressed while the
+                //         next visualization is active.
+                //'false': Continue the execution already if the continue button is
+                //         pressed. This option allows a fast forwarding through
+                //         subsequent calls of visualize_object_model_3d.
+                hv_WaitForButtonRelease.Dispose();
+                hv_WaitForButtonRelease = "true";
+                //Number of 3D Object models that can be selected and handled individually.
+                //If there are more models passed then this number, some calculations
+                //are performed differently and the individual selection and handling
+                //of models is not supported anymore. Note that the value of MaxNumModels
+                //can be overwritten with the generic parameter max_num_selectable_models.
+                hv_MaxNumModels.Dispose();
+                hv_MaxNumModels = 1000;
+                //Defines the default for the initial state of the rotation center:
+                //(1) The rotation center is fixed in the center of the image and lies
+                //    on the surface of the object.
+                //(2) The rotation center lies in the center of the object.
+                hv_WindowCenteredRotation.Dispose();
+                hv_WindowCenteredRotation = 2;
+                //
+                //**********************************************************
+                //
+                //Initialize some values
+                hv_NumModels.Dispose();
+                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                {
+                    hv_NumModels = new HTuple(hv_ObjectModel3D.TupleLength()
+                        );
+                }
+                hv_SelectedObject.Dispose();
+                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                {
+                    hv_SelectedObject = HTuple.TupleGenConst(
+                        hv_NumModels, 1);
+                }
+                //
+                //Apply some system settings
+                // dev_get_preferences(...); only in hdevelop
+                // dev_set_preferences(...); only in hdevelop
+                // dev_get_preferences(...); only in hdevelop
+                // dev_set_preferences(...); only in hdevelop
+                hv_ClipRegion.Dispose();
+                HOperatorSet.GetSystem("clip_region", out hv_ClipRegion);
+                HOperatorSet.SetSystem("clip_region", "false");
+                dev_update_off();
+                //
+                //Check if GenParamName matches GenParamValue
+                if ((int)(new HTuple((new HTuple(hv_GenParamName_COPY_INP_TMP.TupleLength()
+                    )).TupleNotEqual(new HTuple(hv_GenParamValue_COPY_INP_TMP.TupleLength()
+                    )))) != 0)
+                {
+                    throw new HalconException("Number of generic parameters does not match number of generic parameter values");
+                }
+                //
+                try
+                {
+                    //
+                    //Refactor camera parameters to fit to window size
+                    //
+                    hv_CPLength.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_CPLength = new HTuple(hv_CamParam_COPY_INP_TMP.TupleLength()
+                            );
+                    }
+                    hv_RowNotUsed.Dispose(); hv_ColumnNotUsed.Dispose(); hv_Width.Dispose(); hv_Height.Dispose();
+                    HOperatorSet.GetWindowExtents(hv_WindowHandle, out hv_RowNotUsed, out hv_ColumnNotUsed,
+                        out hv_Width, out hv_Height);
+                    hv_WPRow1.Dispose(); hv_WPColumn1.Dispose(); hv_WPRow2.Dispose(); hv_WPColumn2.Dispose();
+                    HOperatorSet.GetPart(hv_WindowHandle, out hv_WPRow1, out hv_WPColumn1, out hv_WPRow2,
+                        out hv_WPColumn2);
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        HOperatorSet.SetPart(hv_WindowHandle, 0, 0, hv_Height - 1, hv_Width - 1);
+                    }
+                    if ((int)(new HTuple(hv_CPLength.TupleEqual(0))) != 0)
+                    {
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            hv_CamParam_COPY_INP_TMP.Dispose();
+                            gen_cam_par_area_scan_division(0.06, 0, 8.5e-6, 8.5e-6, hv_Width / 2, hv_Height / 2,
+                                hv_Width, hv_Height, out hv_CamParam_COPY_INP_TMP);
+                        }
+                    }
+                    else
+                    {
+                        hv_CamParamValue.Dispose();
+                        get_cam_par_data(hv_CamParam_COPY_INP_TMP, (((((new HTuple("sx")).TupleConcat(
+                            "sy")).TupleConcat("cx")).TupleConcat("cy")).TupleConcat("image_width")).TupleConcat(
+                            "image_height"), out hv_CamParamValue);
+                        hv_CamWidth.Dispose();
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            hv_CamWidth = ((hv_CamParamValue.TupleSelect(
+                                4))).TupleReal();
+                        }
+                        hv_CamHeight.Dispose();
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            hv_CamHeight = ((hv_CamParamValue.TupleSelect(
+                                5))).TupleReal();
+                        }
+                        hv_Scale.Dispose();
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            hv_Scale = ((((hv_Width / hv_CamWidth)).TupleConcat(
+                                hv_Height / hv_CamHeight))).TupleMin();
+                        }
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            HTuple ExpTmpOutVar_0;
+                            set_cam_par_data(hv_CamParam_COPY_INP_TMP, "sx", (hv_CamParamValue.TupleSelect(
+                                0)) / hv_Scale, out ExpTmpOutVar_0);
+                            hv_CamParam_COPY_INP_TMP.Dispose();
+                            hv_CamParam_COPY_INP_TMP = ExpTmpOutVar_0;
+                        }
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            HTuple ExpTmpOutVar_0;
+                            set_cam_par_data(hv_CamParam_COPY_INP_TMP, "sy", (hv_CamParamValue.TupleSelect(
+                                1)) / hv_Scale, out ExpTmpOutVar_0);
+                            hv_CamParam_COPY_INP_TMP.Dispose();
+                            hv_CamParam_COPY_INP_TMP = ExpTmpOutVar_0;
+                        }
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            HTuple ExpTmpOutVar_0;
+                            set_cam_par_data(hv_CamParam_COPY_INP_TMP, "cx", (hv_CamParamValue.TupleSelect(
+                                2)) * hv_Scale, out ExpTmpOutVar_0);
+                            hv_CamParam_COPY_INP_TMP.Dispose();
+                            hv_CamParam_COPY_INP_TMP = ExpTmpOutVar_0;
+                        }
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            HTuple ExpTmpOutVar_0;
+                            set_cam_par_data(hv_CamParam_COPY_INP_TMP, "cy", (hv_CamParamValue.TupleSelect(
+                                3)) * hv_Scale, out ExpTmpOutVar_0);
+                            hv_CamParam_COPY_INP_TMP.Dispose();
+                            hv_CamParam_COPY_INP_TMP = ExpTmpOutVar_0;
+                        }
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            HTuple ExpTmpOutVar_0;
+                            set_cam_par_data(hv_CamParam_COPY_INP_TMP, "image_width", (((hv_CamParamValue.TupleSelect(
+                                4)) * hv_Scale)).TupleInt(), out ExpTmpOutVar_0);
+                            hv_CamParam_COPY_INP_TMP.Dispose();
+                            hv_CamParam_COPY_INP_TMP = ExpTmpOutVar_0;
+                        }
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            HTuple ExpTmpOutVar_0;
+                            set_cam_par_data(hv_CamParam_COPY_INP_TMP, "image_height", (((hv_CamParamValue.TupleSelect(
+                                5)) * hv_Scale)).TupleInt(), out ExpTmpOutVar_0);
+                            hv_CamParam_COPY_INP_TMP.Dispose();
+                            hv_CamParam_COPY_INP_TMP = ExpTmpOutVar_0;
+                        }
+                    }
+                    //
+                    //Check the generic parameters for max_num_selectable_models
+                    //(Note that the default is set above to MaxNumModels := 1000)
+                    hv_Indices.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_Indices = hv_GenParamName_COPY_INP_TMP.TupleFind(
+                            "max_num_selectable_models");
+                    }
+                    if ((int)((new HTuple(hv_Indices.TupleNotEqual(-1))).TupleAnd(new HTuple(hv_Indices.TupleNotEqual(
+                        new HTuple())))) != 0)
+                    {
+                        if ((int)(((hv_GenParamValue_COPY_INP_TMP.TupleSelect(hv_Indices.TupleSelect(
+                            0)))).TupleIsNumber()) != 0)
+                        {
+                            if ((int)(new HTuple(((((((hv_GenParamValue_COPY_INP_TMP.TupleSelect(
+                                hv_Indices.TupleSelect(0)))).TupleNumber())).TupleInt())).TupleLess(
+                                1))) != 0)
+                            {
+                                //Wrong parameter value: Only integer values greater than 0 are allowed
+                                throw new HalconException("Wrong value for parameter 'max_num_selectable_models' (must be an integer value greater than 0)");
+                            }
+                        }
+                        else
+                        {
+                            //Wrong parameter value: Only integer values greater than 0 are allowed
+                            throw new HalconException("Wrong value for parameter 'max_num_selectable_models' (must be an integer value greater than 0)");
+                        }
+                        hv_MaxNumModels.Dispose();
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            hv_MaxNumModels = ((((hv_GenParamValue_COPY_INP_TMP.TupleSelect(
+                                hv_Indices.TupleSelect(0)))).TupleNumber())).TupleInt();
+                        }
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            {
+                                HTuple
+                                  ExpTmpLocalVar_GenParamName = hv_GenParamName_COPY_INP_TMP.TupleRemove(
+                                    hv_Indices);
+                                hv_GenParamName_COPY_INP_TMP.Dispose();
+                                hv_GenParamName_COPY_INP_TMP = ExpTmpLocalVar_GenParamName;
+                            }
+                        }
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            {
+                                HTuple
+                                  ExpTmpLocalVar_GenParamValue = hv_GenParamValue_COPY_INP_TMP.TupleRemove(
+                                    hv_Indices);
+                                hv_GenParamValue_COPY_INP_TMP.Dispose();
+                                hv_GenParamValue_COPY_INP_TMP = ExpTmpLocalVar_GenParamValue;
+                            }
+                        }
+                    }
+                    //
+                    //Check the generic parameters for window_centered_rotation
+                    //(Note that the default is set above to WindowCenteredRotation := 2)
+                    hv_Indices.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_Indices = hv_GenParamName_COPY_INP_TMP.TupleFind(
+                            "inspection_mode");
+                    }
+                    if ((int)((new HTuple(hv_Indices.TupleNotEqual(-1))).TupleAnd(new HTuple(hv_Indices.TupleNotEqual(
+                        new HTuple())))) != 0)
+                    {
+                        if ((int)(new HTuple(((hv_GenParamValue_COPY_INP_TMP.TupleSelect(hv_Indices.TupleSelect(
+                            0)))).TupleEqual("surface"))) != 0)
+                        {
+                            hv_WindowCenteredRotation.Dispose();
+                            hv_WindowCenteredRotation = 1;
+                        }
+                        else if ((int)(new HTuple(((hv_GenParamValue_COPY_INP_TMP.TupleSelect(
+                            hv_Indices.TupleSelect(0)))).TupleEqual("standard"))) != 0)
+                        {
+                            hv_WindowCenteredRotation.Dispose();
+                            hv_WindowCenteredRotation = 2;
+                        }
+                        else
+                        {
+                            //Wrong parameter value, use default value
+                        }
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            {
+                                HTuple
+                                  ExpTmpLocalVar_GenParamName = hv_GenParamName_COPY_INP_TMP.TupleRemove(
+                                    hv_Indices);
+                                hv_GenParamName_COPY_INP_TMP.Dispose();
+                                hv_GenParamName_COPY_INP_TMP = ExpTmpLocalVar_GenParamName;
+                            }
+                        }
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            {
+                                HTuple
+                                  ExpTmpLocalVar_GenParamValue = hv_GenParamValue_COPY_INP_TMP.TupleRemove(
+                                    hv_Indices);
+                                hv_GenParamValue_COPY_INP_TMP.Dispose();
+                                hv_GenParamValue_COPY_INP_TMP = ExpTmpLocalVar_GenParamValue;
+                            }
+                        }
+                    }
+                    //
+                    //Check the generic parameters for disp_background
+                    //(The former parameter name 'use_background' is still supported
+                    // for compatibility reasons)
+                    hv_DispBackground.Dispose();
+                    hv_DispBackground = "false";
+                    if ((int)(new HTuple((new HTuple(hv_GenParamName_COPY_INP_TMP.TupleLength()
+                        )).TupleGreater(0))) != 0)
+                    {
+                        hv_Mask.Dispose();
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            hv_Mask = ((hv_GenParamName_COPY_INP_TMP.TupleEqualElem(
+                                "disp_background"))).TupleOr(hv_GenParamName_COPY_INP_TMP.TupleEqualElem(
+                                "use_background"));
+                        }
+                        hv_Indices.Dispose();
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            hv_Indices = hv_Mask.TupleFind(
+                                1);
+                        }
+                    }
+                    else
+                    {
+                        hv_Indices.Dispose();
+                        hv_Indices = -1;
+                    }
+                    if ((int)((new HTuple(hv_Indices.TupleNotEqual(-1))).TupleAnd(new HTuple(hv_Indices.TupleNotEqual(
+                        new HTuple())))) != 0)
+                    {
+                        hv_DispBackground.Dispose();
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            hv_DispBackground = hv_GenParamValue_COPY_INP_TMP.TupleSelect(
+                                hv_Indices.TupleSelect(0));
+                        }
+                        if ((int)((new HTuple(hv_DispBackground.TupleNotEqual("true"))).TupleAnd(
+                            new HTuple(hv_DispBackground.TupleNotEqual("false")))) != 0)
+                        {
+                            //Wrong parameter value: Only 'true' and 'false' are allowed
+                            throw new HalconException("Wrong value for parameter 'disp_background' (must be either 'true' or 'false')");
+                        }
+                        //Note that the background is handled explicitly in this procedure
+                        //and therefore, the parameter is removed from the list of
+                        //parameters and disp_background is always set to true (see below)
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            {
+                                HTuple
+                                  ExpTmpLocalVar_GenParamName = hv_GenParamName_COPY_INP_TMP.TupleRemove(
+                                    hv_Indices);
+                                hv_GenParamName_COPY_INP_TMP.Dispose();
+                                hv_GenParamName_COPY_INP_TMP = ExpTmpLocalVar_GenParamName;
+                            }
+                        }
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            {
+                                HTuple
+                                  ExpTmpLocalVar_GenParamValue = hv_GenParamValue_COPY_INP_TMP.TupleRemove(
+                                    hv_Indices);
+                                hv_GenParamValue_COPY_INP_TMP.Dispose();
+                                hv_GenParamValue_COPY_INP_TMP = ExpTmpLocalVar_GenParamValue;
+                            }
+                        }
+                    }
+                    //
+                    //Read and check the parameter Label for each object
+                    if ((int)(new HTuple((new HTuple(hv_Label_COPY_INP_TMP.TupleLength())).TupleEqual(
+                        0))) != 0)
+                    {
+                        //no labels set -> leave as []
+                    }
+                    else if ((int)(new HTuple((new HTuple(hv_Label_COPY_INP_TMP.TupleLength()
+                        )).TupleEqual(1))) != 0)
+                    {
+                        //a single label set for all models
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            {
+                                HTuple
+                                  ExpTmpLocalVar_Label = HTuple.TupleGenConst(
+                                    hv_NumModels, hv_Label_COPY_INP_TMP);
+                                hv_Label_COPY_INP_TMP.Dispose();
+                                hv_Label_COPY_INP_TMP = ExpTmpLocalVar_Label;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if ((int)(new HTuple((new HTuple(hv_Label_COPY_INP_TMP.TupleLength())).TupleNotEqual(
+                            hv_NumModels))) != 0)
+                        {
+                            //Number of elements in Label does not match
+                            //the number of object models.
+                            throw new HalconException(((new HTuple(new HTuple("Number of elements in Label (") + (new HTuple(hv_Label_COPY_INP_TMP.TupleLength()
+                                ))) + ") does not match the number of object models(") + hv_NumModels) + ").");
+                        }
+                    }
+                    //Convert labels into strings
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        {
+                            HTuple
+                              ExpTmpLocalVar_Label = "" + hv_Label_COPY_INP_TMP;
+                            hv_Label_COPY_INP_TMP.Dispose();
+                            hv_Label_COPY_INP_TMP = ExpTmpLocalVar_Label;
+                        }
+                    }
+                    //
+                    //Read and check the parameter PoseIn for each object
+                    hv_Center.Dispose();
+                    get_object_models_center(hv_ObjectModel3D, out hv_Center);
+                    if ((int)(new HTuple(hv_Center.TupleEqual(new HTuple()))) != 0)
+                    {
+                        hv_Center.Dispose();
+                        hv_Center = new HTuple();
+                        hv_Center[0] = 0;
+                        hv_Center[1] = 0;
+                        hv_Center[2] = 0;
+                    }
+                    if ((int)(new HTuple((new HTuple(hv_PoseIn_COPY_INP_TMP.TupleLength())).TupleEqual(
+                        0))) != 0)
+                    {
+                        //If no pose was specified by the caller, automatically calculate
+                        //a pose that is appropriate for the visualization.
+                        //Set the initial model reference pose. The orientation is parallel
+                        //to the object coordinate system, the position is at the center
+                        //of gravity of all models.
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            hv_PoseIn_COPY_INP_TMP.Dispose();
+                            HOperatorSet.CreatePose(-(hv_Center.TupleSelect(0)), -(hv_Center.TupleSelect(
+                                1)), -(hv_Center.TupleSelect(2)), 0, 0, 0, "Rp+T", "gba", "point",
+                                out hv_PoseIn_COPY_INP_TMP);
+                        }
+                        hv_PoseEstimated.Dispose();
+                        determine_optimum_pose_distance(hv_ObjectModel3D, hv_CamParam_COPY_INP_TMP,
+                            0.9, hv_PoseIn_COPY_INP_TMP, out hv_PoseEstimated);
+                        hv_Poses.Dispose();
+                        hv_Poses = new HTuple();
+                        hv_HomMat3Ds.Dispose();
+                        hv_HomMat3Ds = new HTuple();
+                        hv_Sequence.Dispose();
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            hv_Sequence = HTuple.TupleGenSequence(
+                                0, (hv_NumModels * 7) - 1, 1);
+                        }
+                        hv_Poses.Dispose();
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            hv_Poses = hv_PoseEstimated.TupleSelect(
+                                hv_Sequence % 7);
+                        }
+                        ExpTmpLocalVar_gIsSinglePose = 1;
+                        ExpSetGlobalVar_gIsSinglePose(ExpTmpLocalVar_gIsSinglePose);
+                    }
+                    else if ((int)(new HTuple((new HTuple(hv_PoseIn_COPY_INP_TMP.TupleLength()
+                        )).TupleEqual(7))) != 0)
+                    {
+                        hv_Poses.Dispose();
+                        hv_Poses = new HTuple();
+                        hv_HomMat3Ds.Dispose();
+                        hv_HomMat3Ds = new HTuple();
+                        hv_Sequence.Dispose();
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            hv_Sequence = HTuple.TupleGenSequence(
+                                0, (hv_NumModels * 7) - 1, 1);
+                        }
+                        hv_Poses.Dispose();
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            hv_Poses = hv_PoseIn_COPY_INP_TMP.TupleSelect(
+                                hv_Sequence % 7);
+                        }
+                        ExpTmpLocalVar_gIsSinglePose = 1;
+                        ExpSetGlobalVar_gIsSinglePose(ExpTmpLocalVar_gIsSinglePose);
+                    }
+                    else
+                    {
+                        if ((int)(new HTuple((new HTuple(hv_PoseIn_COPY_INP_TMP.TupleLength())).TupleNotEqual(
+                            (new HTuple(hv_ObjectModel3D.TupleLength())) * 7))) != 0)
+                        {
+                            //Wrong number of values of input control parameter 'PoseIn'
+                            throw new HalconException("Wrong number of values of input control parameter 'PoseIn'.");
+                        }
+                        else
+                        {
+                            hv_Poses.Dispose();
+                            hv_Poses = new HTuple(hv_PoseIn_COPY_INP_TMP);
+                        }
+                        ExpTmpLocalVar_gIsSinglePose = 0;
+                        ExpSetGlobalVar_gIsSinglePose(ExpTmpLocalVar_gIsSinglePose);
+                    }
+                    //
+                    //Open (invisible) buffer window to avoid flickering
+                    hv_WindowHandleBuffer.Dispose();
+                    HOperatorSet.OpenWindow(0, 0, hv_Width, hv_Height, 0, "buffer", "", out hv_WindowHandleBuffer);
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        HOperatorSet.SetPart(hv_WindowHandleBuffer, 0, 0, hv_Height - 1, hv_Width - 1);
+                    }
+                    hv_Font.Dispose();
+                    HOperatorSet.GetFont(hv_WindowHandle, out hv_Font);
+                    try
+                    {
+                        HOperatorSet.SetFont(hv_WindowHandleBuffer, hv_Font);
+                    }
+                    // catch (Exception) 
+                    catch (HalconException HDevExpDefaultException2)
+                    {
+                        HDevExpDefaultException2.ToHTuple(out hv_Exception);
+                    }
+                    //
+                    // Is OpenGL available and should it be used?
+                    ExpTmpLocalVar_gUsesOpenGL = "true";
+                    ExpSetGlobalVar_gUsesOpenGL(ExpTmpLocalVar_gUsesOpenGL);
+                    hv_Indices.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_Indices = hv_GenParamName_COPY_INP_TMP.TupleFind(
+                            "opengl");
+                    }
+                    if ((int)((new HTuple(hv_Indices.TupleNotEqual(-1))).TupleAnd(new HTuple(hv_Indices.TupleNotEqual(
+                        new HTuple())))) != 0)
+                    {
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            ExpTmpLocalVar_gUsesOpenGL = hv_GenParamValue_COPY_INP_TMP.TupleSelect(
+                                hv_Indices.TupleSelect(0));
+                        }
+                        ExpSetGlobalVar_gUsesOpenGL(ExpTmpLocalVar_gUsesOpenGL);
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            {
+                                HTuple
+                                  ExpTmpLocalVar_GenParamName = hv_GenParamName_COPY_INP_TMP.TupleRemove(
+                                    hv_Indices);
+                                hv_GenParamName_COPY_INP_TMP.Dispose();
+                                hv_GenParamName_COPY_INP_TMP = ExpTmpLocalVar_GenParamName;
+                            }
+                        }
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            {
+                                HTuple
+                                  ExpTmpLocalVar_GenParamValue = hv_GenParamValue_COPY_INP_TMP.TupleRemove(
+                                    hv_Indices);
+                                hv_GenParamValue_COPY_INP_TMP.Dispose();
+                                hv_GenParamValue_COPY_INP_TMP = ExpTmpLocalVar_GenParamValue;
+                            }
+                        }
+                        if ((int)((new HTuple(ExpGetGlobalVar_gUsesOpenGL().TupleNotEqual("true"))).TupleAnd(
+                            new HTuple(ExpGetGlobalVar_gUsesOpenGL().TupleNotEqual("false")))) != 0)
+                        {
+                            //Wrong parameter value: Only 'true' and 'false' are allowed
+                            throw new HalconException("Wrong value for parameter 'opengl' (must be either 'true' or 'false')");
+                        }
+                    }
+                    if ((int)(new HTuple(ExpGetGlobalVar_gUsesOpenGL().TupleEqual("true"))) != 0)
+                    {
+                        hv_OpenGLInfo.Dispose();
+                        HOperatorSet.GetSystem("opengl_info", out hv_OpenGLInfo);
+                        if ((int)(new HTuple(hv_OpenGLInfo.TupleEqual("No OpenGL support included."))) != 0)
+                        {
+                            ExpTmpLocalVar_gUsesOpenGL = "false";
+                            ExpSetGlobalVar_gUsesOpenGL(ExpTmpLocalVar_gUsesOpenGL);
+                        }
+                        else
+                        {
+                            hv_DummyObjectModel3D.Dispose();
+                            HOperatorSet.GenObjectModel3dFromPoints(0, 0, 0, out hv_DummyObjectModel3D);
+                            hv_Scene3DTest.Dispose();
+                            HOperatorSet.CreateScene3d(out hv_Scene3DTest);
+                            hv_CameraIndexTest.Dispose();
+                            HOperatorSet.AddScene3dCamera(hv_Scene3DTest, hv_CamParam_COPY_INP_TMP,
+                                out hv_CameraIndexTest);
+                            hv_PoseTest.Dispose();
+                            determine_optimum_pose_distance(hv_DummyObjectModel3D, hv_CamParam_COPY_INP_TMP,
+                                0.9, ((((((new HTuple(0)).TupleConcat(0)).TupleConcat(0)).TupleConcat(
+                                0)).TupleConcat(0)).TupleConcat(0)).TupleConcat(0), out hv_PoseTest);
+                            hv_InstanceIndexTest.Dispose();
+                            HOperatorSet.AddScene3dInstance(hv_Scene3DTest, hv_DummyObjectModel3D,
+                                hv_PoseTest, out hv_InstanceIndexTest);
+                            try
+                            {
+                                HOperatorSet.DisplayScene3d(hv_WindowHandleBuffer, hv_Scene3DTest,
+                                    hv_InstanceIndexTest);
+                            }
+                            // catch (Exception) 
+                            catch (HalconException HDevExpDefaultException2)
+                            {
+                                HDevExpDefaultException2.ToHTuple(out hv_Exception);
+                                ExpTmpLocalVar_gUsesOpenGL = "false";
+                                ExpSetGlobalVar_gUsesOpenGL(ExpTmpLocalVar_gUsesOpenGL);
+                            }
+                            HOperatorSet.ClearScene3d(hv_Scene3DTest);
+                            hv_Scene3DTest.Dispose();
+                            hv_Scene3DTest = new HTuple();
+                            HOperatorSet.ClearObjectModel3d(hv_DummyObjectModel3D);
+                        }
+                    }
+                    //
+                    //Compute the trackball
+                    hv_MinImageSize.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_MinImageSize = ((hv_Width.TupleConcat(
+                            hv_Height))).TupleMin();
+                    }
+                    hv_TrackballRadiusPixel.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_TrackballRadiusPixel = (hv_TrackballSize * hv_MinImageSize) / 2.0;
+                    }
+                    //
+                    //Measure the text extents for the continue button in the
+                    //graphics window
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_Ascent.Dispose(); hv_Descent.Dispose(); hv_TextWidth.Dispose(); hv_TextHeight.Dispose();
+                        HOperatorSet.GetStringExtents(hv_WindowHandleBuffer, ExpGetGlobalVar_gTerminationButtonLabel() + "  ",
+                            out hv_Ascent, out hv_Descent, out hv_TextWidth, out hv_TextHeight);
+                    }
+                    //
+                    //Store background image
+                    if ((int)(new HTuple(hv_DispBackground.TupleEqual("false"))) != 0)
+                    {
+                        HOperatorSet.ClearWindow(hv_WindowHandle);
+                    }
+                    ho_Image.Dispose();
+                    HOperatorSet.DumpWindowImage(out ho_Image, hv_WindowHandle);
+                    //Special treatment for color background images necessary
+                    hv_NumChannels.Dispose();
+                    HOperatorSet.CountChannels(ho_Image, out hv_NumChannels);
+                    hv_ColorImage.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_ColorImage = new HTuple(hv_NumChannels.TupleEqual(
+                            3));
+                    }
+                    //
+                    hv_Scene3D.Dispose();
+                    HOperatorSet.CreateScene3d(out hv_Scene3D);
+                    hv_CameraIndex.Dispose();
+                    HOperatorSet.AddScene3dCamera(hv_Scene3D, hv_CamParam_COPY_INP_TMP, out hv_CameraIndex);
+                    hv_AllInstances.Dispose();
+                    HOperatorSet.AddScene3dInstance(hv_Scene3D, hv_ObjectModel3D, hv_Poses, out hv_AllInstances);
+                    //Always set 'disp_background' to true,  because it is handled explicitly
+                    //in this procedure (see above)
+                    HOperatorSet.SetScene3dParam(hv_Scene3D, "disp_background", "true");
+                    //Check if we have to set light specific parameters
+                    hv_SetLight.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_SetLight = new HTuple(hv_GenParamName_COPY_INP_TMP.TupleRegexpTest(
+                            "light_"));
+                    }
+                    if ((int)(hv_SetLight) != 0)
+                    {
+                        //set position of light source
+                        hv_Indices.Dispose();
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            hv_Indices = hv_GenParamName_COPY_INP_TMP.TupleFind(
+                                "light_position");
+                        }
+                        if ((int)((new HTuple(hv_Indices.TupleNotEqual(-1))).TupleAnd(new HTuple(hv_Indices.TupleNotEqual(
+                            new HTuple())))) != 0)
+                        {
+                            //If multiple light positions are given, use the last one
+                            hv_LightParam.Dispose();
+                            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                            {
+                                hv_LightParam = ((((hv_GenParamValue_COPY_INP_TMP.TupleSelect(
+                                    hv_Indices.TupleSelect((new HTuple(hv_Indices.TupleLength())) - 1)))).TupleSplit(
+                                    new HTuple(", ")))).TupleNumber();
+                            }
+                            if ((int)(new HTuple((new HTuple(hv_LightParam.TupleLength())).TupleNotEqual(
+                                4))) != 0)
+                            {
+                                throw new HalconException("light_position must be given as a string that contains four space separated floating point numbers");
+                            }
+                            hv_LightPosition.Dispose();
+                            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                            {
+                                hv_LightPosition = hv_LightParam.TupleSelectRange(
+                                    0, 2);
+                            }
+                            hv_LightKind.Dispose();
+                            hv_LightKind = "point_light";
+                            if ((int)(new HTuple(((hv_LightParam.TupleSelect(3))).TupleEqual(0))) != 0)
+                            {
+                                hv_LightKind.Dispose();
+                                hv_LightKind = "directional_light";
+                            }
+                            //Currently, only one light source is supported
+                            HOperatorSet.RemoveScene3dLight(hv_Scene3D, 0);
+                            hv_LightIndex.Dispose();
+                            HOperatorSet.AddScene3dLight(hv_Scene3D, hv_LightPosition, hv_LightKind,
+                                out hv_LightIndex);
+                            {
+                                HTuple ExpTmpOutVar_0;
+                                HOperatorSet.TupleRemove(hv_GenParamName_COPY_INP_TMP, hv_Indices, out ExpTmpOutVar_0);
+                                hv_GenParamName_COPY_INP_TMP.Dispose();
+                                hv_GenParamName_COPY_INP_TMP = ExpTmpOutVar_0;
+                            }
+                            {
+                                HTuple ExpTmpOutVar_0;
+                                HOperatorSet.TupleRemove(hv_GenParamValue_COPY_INP_TMP, hv_Indices, out ExpTmpOutVar_0);
+                                hv_GenParamValue_COPY_INP_TMP.Dispose();
+                                hv_GenParamValue_COPY_INP_TMP = ExpTmpOutVar_0;
+                            }
+                        }
+                        //set ambient part of light source
+                        hv_Indices.Dispose();
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            hv_Indices = hv_GenParamName_COPY_INP_TMP.TupleFind(
+                                "light_ambient");
+                        }
+                        if ((int)((new HTuple(hv_Indices.TupleNotEqual(-1))).TupleAnd(new HTuple(hv_Indices.TupleNotEqual(
+                            new HTuple())))) != 0)
+                        {
+                            //If the ambient part is set multiple times, use the last setting
+                            hv_LightParam.Dispose();
+                            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                            {
+                                hv_LightParam = ((((hv_GenParamValue_COPY_INP_TMP.TupleSelect(
+                                    hv_Indices.TupleSelect((new HTuple(hv_Indices.TupleLength())) - 1)))).TupleSplit(
+                                    new HTuple(", ")))).TupleNumber();
+                            }
+                            if ((int)(new HTuple((new HTuple(hv_LightParam.TupleLength())).TupleLess(
+                                3))) != 0)
+                            {
+                                throw new HalconException("light_ambient must be given as a string that contains three space separated floating point numbers");
+                            }
+                            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                            {
+                                HOperatorSet.SetScene3dLightParam(hv_Scene3D, 0, "ambient", hv_LightParam.TupleSelectRange(
+                                    0, 2));
+                            }
+                            {
+                                HTuple ExpTmpOutVar_0;
+                                HOperatorSet.TupleRemove(hv_GenParamName_COPY_INP_TMP, hv_Indices, out ExpTmpOutVar_0);
+                                hv_GenParamName_COPY_INP_TMP.Dispose();
+                                hv_GenParamName_COPY_INP_TMP = ExpTmpOutVar_0;
+                            }
+                            {
+                                HTuple ExpTmpOutVar_0;
+                                HOperatorSet.TupleRemove(hv_GenParamValue_COPY_INP_TMP, hv_Indices, out ExpTmpOutVar_0);
+                                hv_GenParamValue_COPY_INP_TMP.Dispose();
+                                hv_GenParamValue_COPY_INP_TMP = ExpTmpOutVar_0;
+                            }
+                        }
+                        //Set diffuse part of light source
+                        hv_Indices.Dispose();
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            hv_Indices = hv_GenParamName_COPY_INP_TMP.TupleFind(
+                                "light_diffuse");
+                        }
+                        if ((int)((new HTuple(hv_Indices.TupleNotEqual(-1))).TupleAnd(new HTuple(hv_Indices.TupleNotEqual(
+                            new HTuple())))) != 0)
+                        {
+                            //If the diffuse part is set multiple times, use the last setting
+                            hv_LightParam.Dispose();
+                            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                            {
+                                hv_LightParam = ((((hv_GenParamValue_COPY_INP_TMP.TupleSelect(
+                                    hv_Indices.TupleSelect((new HTuple(hv_Indices.TupleLength())) - 1)))).TupleSplit(
+                                    new HTuple(", ")))).TupleNumber();
+                            }
+                            if ((int)(new HTuple((new HTuple(hv_LightParam.TupleLength())).TupleLess(
+                                3))) != 0)
+                            {
+                                throw new HalconException("light_diffuse must be given as a string that contains three space separated floating point numbers");
+                            }
+                            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                            {
+                                HOperatorSet.SetScene3dLightParam(hv_Scene3D, 0, "diffuse", hv_LightParam.TupleSelectRange(
+                                    0, 2));
+                            }
+                            {
+                                HTuple ExpTmpOutVar_0;
+                                HOperatorSet.TupleRemove(hv_GenParamName_COPY_INP_TMP, hv_Indices, out ExpTmpOutVar_0);
+                                hv_GenParamName_COPY_INP_TMP.Dispose();
+                                hv_GenParamName_COPY_INP_TMP = ExpTmpOutVar_0;
+                            }
+                            {
+                                HTuple ExpTmpOutVar_0;
+                                HOperatorSet.TupleRemove(hv_GenParamValue_COPY_INP_TMP, hv_Indices, out ExpTmpOutVar_0);
+                                hv_GenParamValue_COPY_INP_TMP.Dispose();
+                                hv_GenParamValue_COPY_INP_TMP = ExpTmpOutVar_0;
+                            }
+                        }
+                    }
+                    //
+                    //Handle persistence parameters separately because persistence will
+                    //only be activated immediately before leaving the visualization
+                    //procedure
+                    hv_PersistenceParamName.Dispose();
+                    hv_PersistenceParamName = new HTuple();
+                    hv_PersistenceParamValue.Dispose();
+                    hv_PersistenceParamValue = new HTuple();
+                    //Set position of light source
+                    hv_Indices.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_Indices = hv_GenParamName_COPY_INP_TMP.TupleFind(
+                            "object_index_persistence");
+                    }
+                    if ((int)((new HTuple(hv_Indices.TupleNotEqual(-1))).TupleAnd(new HTuple(hv_Indices.TupleNotEqual(
+                        new HTuple())))) != 0)
+                    {
+                        if ((int)(new HTuple(((hv_GenParamValue_COPY_INP_TMP.TupleSelect(hv_Indices.TupleSelect(
+                            (new HTuple(hv_Indices.TupleLength())) - 1)))).TupleEqual("true"))) != 0)
+                        {
+                            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                            {
+                                {
+                                    HTuple
+                                      ExpTmpLocalVar_PersistenceParamName = hv_PersistenceParamName.TupleConcat(
+                                        "object_index_persistence");
+                                    hv_PersistenceParamName.Dispose();
+                                    hv_PersistenceParamName = ExpTmpLocalVar_PersistenceParamName;
+                                }
+                            }
+                            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                            {
+                                {
+                                    HTuple
+                                      ExpTmpLocalVar_PersistenceParamValue = hv_PersistenceParamValue.TupleConcat(
+                                        "true");
+                                    hv_PersistenceParamValue.Dispose();
+                                    hv_PersistenceParamValue = ExpTmpLocalVar_PersistenceParamValue;
+                                }
+                            }
+                        }
+                        else if ((int)(new HTuple(((hv_GenParamValue_COPY_INP_TMP.TupleSelect(
+                            hv_Indices.TupleSelect((new HTuple(hv_Indices.TupleLength())) - 1)))).TupleEqual(
+                            "false"))) != 0)
+                        {
+                        }
+                        else
+                        {
+                            throw new HalconException("Wrong value for parameter 'object_index_persistence' (must be either 'true' or 'false')");
+                        }
+                        {
+                            HTuple ExpTmpOutVar_0;
+                            HOperatorSet.TupleRemove(hv_GenParamName_COPY_INP_TMP, hv_Indices, out ExpTmpOutVar_0);
+                            hv_GenParamName_COPY_INP_TMP.Dispose();
+                            hv_GenParamName_COPY_INP_TMP = ExpTmpOutVar_0;
+                        }
+                        {
+                            HTuple ExpTmpOutVar_0;
+                            HOperatorSet.TupleRemove(hv_GenParamValue_COPY_INP_TMP, hv_Indices, out ExpTmpOutVar_0);
+                            hv_GenParamValue_COPY_INP_TMP.Dispose();
+                            hv_GenParamValue_COPY_INP_TMP = ExpTmpOutVar_0;
+                        }
+                    }
+                    hv_Indices.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_Indices = hv_GenParamName_COPY_INP_TMP.TupleFind(
+                            "depth_persistence");
+                    }
+                    if ((int)((new HTuple(hv_Indices.TupleNotEqual(-1))).TupleAnd(new HTuple(hv_Indices.TupleNotEqual(
+                        new HTuple())))) != 0)
+                    {
+                        if ((int)(new HTuple(((hv_GenParamValue_COPY_INP_TMP.TupleSelect(hv_Indices.TupleSelect(
+                            (new HTuple(hv_Indices.TupleLength())) - 1)))).TupleEqual("true"))) != 0)
+                        {
+                            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                            {
+                                {
+                                    HTuple
+                                      ExpTmpLocalVar_PersistenceParamName = hv_PersistenceParamName.TupleConcat(
+                                        "depth_persistence");
+                                    hv_PersistenceParamName.Dispose();
+                                    hv_PersistenceParamName = ExpTmpLocalVar_PersistenceParamName;
+                                }
+                            }
+                            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                            {
+                                {
+                                    HTuple
+                                      ExpTmpLocalVar_PersistenceParamValue = hv_PersistenceParamValue.TupleConcat(
+                                        "true");
+                                    hv_PersistenceParamValue.Dispose();
+                                    hv_PersistenceParamValue = ExpTmpLocalVar_PersistenceParamValue;
+                                }
+                            }
+                        }
+                        else if ((int)(new HTuple(((hv_GenParamValue_COPY_INP_TMP.TupleSelect(
+                            hv_Indices.TupleSelect((new HTuple(hv_Indices.TupleLength())) - 1)))).TupleEqual(
+                            "false"))) != 0)
+                        {
+                        }
+                        else
+                        {
+                            throw new HalconException("Wrong value for parameter 'depth_persistence' (must be either 'true' or 'false')");
+                        }
+                        {
+                            HTuple ExpTmpOutVar_0;
+                            HOperatorSet.TupleRemove(hv_GenParamName_COPY_INP_TMP, hv_Indices, out ExpTmpOutVar_0);
+                            hv_GenParamName_COPY_INP_TMP.Dispose();
+                            hv_GenParamName_COPY_INP_TMP = ExpTmpOutVar_0;
+                        }
+                        {
+                            HTuple ExpTmpOutVar_0;
+                            HOperatorSet.TupleRemove(hv_GenParamValue_COPY_INP_TMP, hv_Indices, out ExpTmpOutVar_0);
+                            hv_GenParamValue_COPY_INP_TMP.Dispose();
+                            hv_GenParamValue_COPY_INP_TMP = ExpTmpOutVar_0;
+                        }
+                    }
+                    //
+                    //Parse the generic parameters
+                    //- First, all parameters that are understood by set_scene_3d_instance_param
+                    hv_AlphaOrig.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_AlphaOrig = HTuple.TupleGenConst(
+                            hv_NumModels, 1);
+                    }
+                    for (hv_I = 0; (int)hv_I <= (int)((new HTuple(hv_GenParamName_COPY_INP_TMP.TupleLength()
+                        )) - 1); hv_I = (int)hv_I + 1)
+                    {
+                        hv_ParamName.Dispose();
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            hv_ParamName = hv_GenParamName_COPY_INP_TMP.TupleSelect(
+                                hv_I);
+                        }
+                        hv_ParamValue.Dispose();
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            hv_ParamValue = hv_GenParamValue_COPY_INP_TMP.TupleSelect(
+                                hv_I);
+                        }
+                        //Check if this parameter is understood by set_scene_3d_param
+                        if ((int)(new HTuple(hv_ParamName.TupleEqual("alpha"))) != 0)
+                        {
+                            hv_AlphaOrig.Dispose();
+                            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                            {
+                                hv_AlphaOrig = HTuple.TupleGenConst(
+                                    hv_NumModels, hv_ParamValue);
+                            }
+                        }
+                        try
+                        {
+                            HOperatorSet.SetScene3dParam(hv_Scene3D, hv_ParamName, hv_ParamValue);
+                            continue;
+                        }
+                        // catch (Exception) 
+                        catch (HalconException HDevExpDefaultException2)
+                        {
+                            HDevExpDefaultException2.ToHTuple(out hv_Exception);
+                            if ((int)((new HTuple(((hv_Exception.TupleSelect(0))).TupleEqual(1203))).TupleOr(
+                                new HTuple(((hv_Exception.TupleSelect(0))).TupleEqual(1303)))) != 0)
+                            {
+                                if ((int)((new HTuple((new HTuple((new HTuple(hv_ParamName.TupleEqual(
+                                    "color_attrib"))).TupleOr(new HTuple(hv_ParamName.TupleEqual("red_channel_attrib"))))).TupleOr(
+                                    new HTuple(hv_ParamName.TupleEqual("green_channel_attrib"))))).TupleOr(
+                                    new HTuple(hv_ParamName.TupleEqual("blue_channel_attrib")))) != 0)
+                                {
+                                    throw new HalconException(((((("Wrong type or value for parameter " + hv_ParamName) + ": ") + hv_ParamValue) + ". ") + hv_ParamValue) + " may not be attached to the points of the 3D object model. Compare the parameter AttachExtAttribTo of set_object_model_3d_attrib.");
+                                }
+                                else
+                                {
+                                    throw new HalconException((("Wrong type or value for parameter " + hv_ParamName) + ": ") + hv_ParamValue);
+                                }
+                            }
+                        }
+                        //Check if it is a parameter that is valid for only one instance
+                        //and therefore can be set only with set_scene_3d_instance_param
+                        hv_ParamNameTrunk.Dispose();
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            hv_ParamNameTrunk = hv_ParamName.TupleRegexpReplace(
+                                "_\\d+$", "");
+                        }
+                        if ((int)(new HTuple(hv_ParamName.TupleEqual(hv_ParamNameTrunk))) != 0)
+                        {
+                            hv_Instance.Dispose();
+                            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                            {
+                                hv_Instance = HTuple.TupleGenSequence(
+                                    0, hv_NumModels - 1, 1);
+                            }
+                        }
+                        else
+                        {
+                            hv_Instance.Dispose();
+                            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                            {
+                                hv_Instance = ((hv_ParamName.TupleRegexpReplace(
+                                    ("^" + hv_ParamNameTrunk) + "_(\\d+)$", "$1"))).TupleNumber();
+                            }
+                            if ((int)((new HTuple(hv_Instance.TupleLess(0))).TupleOr(new HTuple(hv_Instance.TupleGreater(
+                                hv_NumModels - 1)))) != 0)
+                            {
+                                throw new HalconException(("Parameter " + hv_ParamName) + " refers to a non existing 3D object model");
+                            }
+                        }
+                        try
+                        {
+                            HOperatorSet.SetScene3dInstanceParam(hv_Scene3D, hv_Instance, hv_ParamNameTrunk,
+                                hv_ParamValue);
+                        }
+                        // catch (Exception) 
+                        catch (HalconException HDevExpDefaultException2)
+                        {
+                            HDevExpDefaultException2.ToHTuple(out hv_Exception);
+                            if ((int)((new HTuple(((hv_Exception.TupleSelect(0))).TupleEqual(1204))).TupleOr(
+                                new HTuple(((hv_Exception.TupleSelect(0))).TupleEqual(1304)))) != 0)
+                            {
+                                if ((int)((new HTuple((new HTuple((new HTuple(hv_ParamNameTrunk.TupleEqual(
+                                    "color_attrib"))).TupleOr(new HTuple(hv_ParamNameTrunk.TupleEqual(
+                                    "red_channel_attrib"))))).TupleOr(new HTuple(hv_ParamNameTrunk.TupleEqual(
+                                    "green_channel_attrib"))))).TupleOr(new HTuple(hv_ParamNameTrunk.TupleEqual(
+                                    "blue_channel_attrib")))) != 0)
+                                {
+                                    throw new HalconException(((((("Wrong type or value for parameter " + hv_ParamName) + ": ") + hv_ParamValue) + ". ") + hv_ParamValue) + " may not be attached to the points of the 3D object model. Compare the parameter AttachExtAttribTo of set_object_model_3d_attrib.");
+                                }
+                                else
+                                {
+                                    throw new HalconException((("Wrong type or value for parameter " + hv_ParamName) + ": ") + hv_ParamValue);
+                                }
+                            }
+                            else if ((int)((new HTuple(((hv_Exception.TupleSelect(0))).TupleEqual(
+                                1203))).TupleOr(new HTuple(((hv_Exception.TupleSelect(0))).TupleEqual(
+                                1303)))) != 0)
+                            {
+                                throw new HalconException("Wrong parameter name " + hv_ParamName);
+                            }
+                            else
+                            {
+                                throw new HalconException(hv_Exception);
+                            }
+                        }
+                        if ((int)(new HTuple(hv_ParamNameTrunk.TupleEqual("alpha"))) != 0)
+                        {
+                            if (hv_AlphaOrig == null)
+                                hv_AlphaOrig = new HTuple();
+                            hv_AlphaOrig[hv_Instance] = hv_ParamValue;
+                        }
+                    }
+                    //
+                    //Start the visualization loop
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_HomMat3D.Dispose();
+                        HOperatorSet.PoseToHomMat3d(hv_Poses.TupleSelectRange(0, 6), out hv_HomMat3D);
+                    }
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_Qx.Dispose(); hv_Qy.Dispose(); hv_Qz.Dispose();
+                        HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_Center.TupleSelect(0), hv_Center.TupleSelect(
+                            1), hv_Center.TupleSelect(2), out hv_Qx, out hv_Qy, out hv_Qz);
+                    }
+                    hv_TBCenter.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_TBCenter = new HTuple();
+                        hv_TBCenter = hv_TBCenter.TupleConcat(hv_Qx, hv_Qy, hv_Qz);
+                    }
+                    hv_TBSize.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_TBSize = (0.5 + ((0.5 * (hv_SelectedObject.TupleSum()
+                            )) / hv_NumModels)) * hv_TrackballRadiusPixel;
+                    }
+                    hv_ButtonHold.Dispose();
+                    hv_ButtonHold = 0;
+                    while ((int)(1) != 0)
+                    {
+                        hv_VisualizeTB.Dispose();
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            hv_VisualizeTB = new HTuple(((hv_SelectedObject.TupleMax()
+                                )).TupleNotEqual(0));
+                        }
+                        hv_MaxIndex.Dispose();
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            hv_MaxIndex = ((((new HTuple(hv_ObjectModel3D.TupleLength()
+                                )).TupleConcat(hv_MaxNumModels))).TupleMin()) - 1;
+                        }
+                        //Set trackball fixed in the center of the window
+                        hv_TrackballCenterRow.Dispose();
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            hv_TrackballCenterRow = hv_Height / 2;
+                        }
+                        hv_TrackballCenterCol.Dispose();
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            hv_TrackballCenterCol = hv_Width / 2;
+                        }
+                        if ((int)(new HTuple(hv_WindowCenteredRotation.TupleEqual(1))) != 0)
+                        {
+                            try
+                            {
+                                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                                {
+                                    hv_TBCenter.Dispose(); hv_TBSize.Dispose();
+                                    get_trackball_center_fixed(hv_SelectedObject.TupleSelectRange(0, hv_MaxIndex),
+                                        hv_TrackballCenterRow, hv_TrackballCenterCol, hv_TrackballRadiusPixel,
+                                        hv_Scene3D, hv_ObjectModel3D.TupleSelectRange(0, hv_MaxIndex), hv_Poses.TupleSelectRange(
+                                        0, ((hv_MaxIndex + 1) * 7) - 1), hv_WindowHandleBuffer, hv_CamParam_COPY_INP_TMP,
+                                        hv_GenParamName_COPY_INP_TMP, hv_GenParamValue_COPY_INP_TMP, out hv_TBCenter,
+                                        out hv_TBSize);
+                                }
+                            }
+                            // catch (Exception) 
+                            catch (HalconException HDevExpDefaultException2)
+                            {
+                                HDevExpDefaultException2.ToHTuple(out hv_Exception);
+                                disp_message(hv_WindowHandle, "Surface inspection mode is not available.",
+                                    "image", 5, 20, "red", "true");
+                                hv_WindowCenteredRotation.Dispose();
+                                hv_WindowCenteredRotation = 2;
+                                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                                {
+                                    hv_TBCenter.Dispose(); hv_TBSize.Dispose();
+                                    get_trackball_center(hv_SelectedObject.TupleSelectRange(0, hv_MaxIndex),
+                                        hv_TrackballRadiusPixel, hv_ObjectModel3D.TupleSelectRange(0, hv_MaxIndex),
+                                        hv_Poses.TupleSelectRange(0, ((hv_MaxIndex + 1) * 7) - 1), out hv_TBCenter,
+                                        out hv_TBSize);
+                                }
+                                HOperatorSet.WaitSeconds(1);
+                            }
+                        }
+                        else
+                        {
+                            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                            {
+                                hv_TBCenter.Dispose(); hv_TBSize.Dispose();
+                                get_trackball_center(hv_SelectedObject.TupleSelectRange(0, hv_MaxIndex),
+                                    hv_TrackballRadiusPixel, hv_ObjectModel3D.TupleSelectRange(0, hv_MaxIndex),
+                                    hv_Poses.TupleSelectRange(0, ((hv_MaxIndex + 1) * 7) - 1), out hv_TBCenter,
+                                    out hv_TBSize);
+                            }
+                        }
+                        dump_image_output(ho_Image, hv_WindowHandleBuffer, hv_Scene3D, hv_AlphaOrig,
+                            hv_ObjectModel3D, hv_GenParamName_COPY_INP_TMP, hv_GenParamValue_COPY_INP_TMP,
+                            hv_CamParam_COPY_INP_TMP, hv_Poses, hv_ColorImage, hv_Title, hv_Information,
+                            hv_Label_COPY_INP_TMP, hv_VisualizeTB, "true", hv_TrackballCenterRow,
+                            hv_TrackballCenterCol, hv_TBSize, hv_SelectedObject, hv_WindowCenteredRotation,
+                            hv_TBCenter);
+                        ho_ImageDump.Dispose();
+                        HOperatorSet.DumpWindowImage(out ho_ImageDump, hv_WindowHandleBuffer);
+                        HDevWindowStack.SetActive(hv_WindowHandle);
+                        if (HDevWindowStack.IsOpen())
+                        {
+                            HOperatorSet.DispObj(ho_ImageDump, HDevWindowStack.GetActive());
+                        }
+                        //
+                        //Check for mouse events
+                        hv_GraphEvent.Dispose();
+                        hv_GraphEvent = 0;
+                        hv_Exit.Dispose();
+                        hv_Exit = 0;
+                        while ((int)(1) != 0)
+                        {
+                            //
+                            //Check graphic event
+                            try
+                            {
+                                hv_GraphButtonRow.Dispose(); hv_GraphButtonColumn.Dispose(); hv_GraphButton.Dispose();
+                                HOperatorSet.GetMpositionSubPix(hv_WindowHandle, out hv_GraphButtonRow,
+                                    out hv_GraphButtonColumn, out hv_GraphButton);
+                                if ((int)(new HTuple(hv_GraphButton.TupleNotEqual(0))) != 0)
+                                {
+                                    if ((int)((new HTuple((new HTuple((new HTuple(hv_GraphButtonRow.TupleGreater(
+                                        (hv_Height - hv_TextHeight) - 25))).TupleAnd(new HTuple(hv_GraphButtonRow.TupleLess(
+                                        hv_Height))))).TupleAnd(new HTuple(hv_GraphButtonColumn.TupleGreater(
+                                        (hv_Width - hv_TextWidth) - 15))))).TupleAnd(new HTuple(hv_GraphButtonColumn.TupleLess(
+                                        hv_Width)))) != 0)
+                                    {
+                                        //Wait until the continue button has been released
+                                        if ((int)(new HTuple(hv_WaitForButtonRelease.TupleEqual("true"))) != 0)
+                                        {
+                                            while ((int)(1) != 0)
+                                            {
+                                                hv_GraphButtonRow.Dispose(); hv_GraphButtonColumn.Dispose(); hv_GraphButton.Dispose();
+                                                HOperatorSet.GetMpositionSubPix(hv_WindowHandle, out hv_GraphButtonRow,
+                                                    out hv_GraphButtonColumn, out hv_GraphButton);
+                                                if ((int)((new HTuple(hv_GraphButton.TupleEqual(0))).TupleOr(
+                                                    new HTuple(hv_GraphButton.TupleEqual(new HTuple())))) != 0)
+                                                {
+                                                    if ((int)((new HTuple((new HTuple((new HTuple(hv_GraphButtonRow.TupleGreater(
+                                                        (hv_Height - hv_TextHeight) - 25))).TupleAnd(new HTuple(hv_GraphButtonRow.TupleLess(
+                                                        hv_Height))))).TupleAnd(new HTuple(hv_GraphButtonColumn.TupleGreater(
+                                                        (hv_Width - hv_TextWidth) - 15))))).TupleAnd(new HTuple(hv_GraphButtonColumn.TupleLess(
+                                                        hv_Width)))) != 0)
+                                                    {
+                                                        hv_ButtonReleased.Dispose();
+                                                        hv_ButtonReleased = 1;
+                                                    }
+                                                    else
+                                                    {
+                                                        hv_ButtonReleased.Dispose();
+                                                        hv_ButtonReleased = 0;
+                                                    }
+                                                    //
+                                                    break;
+                                                }
+                                                //Keep waiting until mouse button is released or moved out of the window
+                                            }
+                                        }
+                                        else
+                                        {
+                                            hv_ButtonReleased.Dispose();
+                                            hv_ButtonReleased = 1;
+                                        }
+                                        //Exit the visualization loop
+                                        if ((int)(hv_ButtonReleased) != 0)
+                                        {
+                                            hv_Exit.Dispose();
+                                            hv_Exit = 1;
+                                            break;
+                                        }
+                                    }
+                                    hv_GraphEvent.Dispose();
+                                    hv_GraphEvent = 1;
+                                    break;
+                                }
+                                else
+                                {
+                                    hv_ButtonHold.Dispose();
+                                    hv_ButtonHold = 0;
+                                }
+                            }
+                            // catch (Exception) 
+                            catch (HalconException HDevExpDefaultException2)
+                            {
+                                HDevExpDefaultException2.ToHTuple(out hv_Exception);
+                                //Keep waiting
+                            }
+                        }
+                        if ((int)(hv_GraphEvent) != 0)
+                        {
+                            {
+                                HTuple ExpTmpOutVar_0; HTuple ExpTmpOutVar_1; HTuple ExpTmpOutVar_2; HTuple ExpTmpOutVar_3;
+                                analyze_graph_event(ho_Image, hv_MouseMapping, hv_GraphButton, hv_GraphButtonRow,
+                                    hv_GraphButtonColumn, hv_WindowHandle, hv_WindowHandleBuffer, hv_VirtualTrackball,
+                                    hv_TrackballSize, hv_SelectedObject, hv_Scene3D, hv_AlphaOrig, hv_ObjectModel3D,
+                                    hv_CamParam_COPY_INP_TMP, hv_Label_COPY_INP_TMP, hv_Title, hv_Information,
+                                    hv_GenParamName_COPY_INP_TMP, hv_GenParamValue_COPY_INP_TMP, hv_Poses,
+                                    hv_ButtonHold, hv_TBCenter, hv_TBSize, hv_WindowCenteredRotation,
+                                    hv_MaxNumModels, out ExpTmpOutVar_0, out ExpTmpOutVar_1, out ExpTmpOutVar_2,
+                                    out ExpTmpOutVar_3);
+                                hv_Poses.Dispose();
+                                hv_Poses = ExpTmpOutVar_0;
+                                hv_SelectedObject.Dispose();
+                                hv_SelectedObject = ExpTmpOutVar_1;
+                                hv_ButtonHold.Dispose();
+                                hv_ButtonHold = ExpTmpOutVar_2;
+                                hv_WindowCenteredRotation.Dispose();
+                                hv_WindowCenteredRotation = ExpTmpOutVar_3;
+                            }
+                        }
+                        if ((int)(hv_Exit) != 0)
+                        {
+                            break;
+                        }
+                    }
+                    //
+                    //Display final state with persistence, if requested
+                    //Note that disp_object_model_3d must be used instead of the 3D scene
+                    if ((int)(new HTuple((new HTuple(hv_PersistenceParamName.TupleLength())).TupleGreater(
+                        0))) != 0)
+                    {
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            HOperatorSet.DispObjectModel3d(hv_WindowHandle, hv_ObjectModel3D, hv_CamParam_COPY_INP_TMP,
+                                hv_Poses, ((new HTuple("disp_background")).TupleConcat("alpha")).TupleConcat(
+                                hv_PersistenceParamName), ((new HTuple("true")).TupleConcat(0.0)).TupleConcat(
+                                hv_PersistenceParamValue));
+                        }
+                    }
+                    //
+                    //Compute the output pose
+                    if ((int)(ExpGetGlobalVar_gIsSinglePose()) != 0)
+                    {
+                        hv_PoseOut.Dispose();
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            hv_PoseOut = hv_Poses.TupleSelectRange(
+                                0, 6);
+                        }
+                    }
+                    else
+                    {
+                        hv_PoseOut.Dispose();
+                        hv_PoseOut = new HTuple(hv_Poses);
+                    }
+                    //
+                    //Clean up.
+                    HOperatorSet.SetSystem("clip_region", hv_ClipRegion);
+                    // dev_set_preferences(...); only in hdevelop
+                    // dev_set_preferences(...); only in hdevelop
+                    dump_image_output(ho_Image, hv_WindowHandleBuffer, hv_Scene3D, hv_AlphaOrig,
+                        hv_ObjectModel3D, hv_GenParamName_COPY_INP_TMP, hv_GenParamValue_COPY_INP_TMP,
+                        hv_CamParam_COPY_INP_TMP, hv_Poses, hv_ColorImage, hv_Title, new HTuple(),
+                        hv_Label_COPY_INP_TMP, 0, "false", hv_TrackballCenterRow, hv_TrackballCenterCol,
+                        hv_TBSize, hv_SelectedObject, hv_WindowCenteredRotation, hv_TBCenter);
+                    ho_ImageDump.Dispose();
+                    HOperatorSet.DumpWindowImage(out ho_ImageDump, hv_WindowHandleBuffer);
+                    HDevWindowStack.SetActive(hv_WindowHandle);
+                    if (HDevWindowStack.IsOpen())
+                    {
+                        HOperatorSet.DispObj(ho_ImageDump, HDevWindowStack.GetActive());
+                    }
+                    HOperatorSet.CloseWindow(hv_WindowHandleBuffer);
+                    HOperatorSet.SetPart(hv_WindowHandle, hv_WPRow1, hv_WPColumn1, hv_WPRow2,
+                        hv_WPColumn2);
+                    HOperatorSet.ClearScene3d(hv_Scene3D);
+                    hv_Scene3D.Dispose();
+                    hv_Scene3D = new HTuple();
+                }
+                // catch (Exception) 
+                catch (HalconException HDevExpDefaultException1)
+                {
+                    HDevExpDefaultException1.ToHTuple(out hv_Exception);
+                    try
+                    {
+                        //Try to clean up as much as possible.
+                        if ((int)(new HTuple((new HTuple(0)).TupleLess(new HTuple(hv_Scene3DTest.TupleLength()
+                            )))) != 0)
+                        {
+                            HOperatorSet.ClearScene3d(hv_Scene3DTest);
+                            hv_Scene3DTest.Dispose();
+                            hv_Scene3DTest = new HTuple();
+                        }
+                        if ((int)(new HTuple((new HTuple(0)).TupleLess(new HTuple(hv_Scene3D.TupleLength()
+                            )))) != 0)
+                        {
+                            HOperatorSet.ClearScene3d(hv_Scene3D);
+                            hv_Scene3D.Dispose();
+                            hv_Scene3D = new HTuple();
+                        }
+                        if ((int)(new HTuple((new HTuple(0)).TupleLess(new HTuple(hv_WindowHandleBuffer.TupleLength()
+                            )))) != 0)
+                        {
+                            HOperatorSet.CloseWindow(hv_WindowHandleBuffer);
+                            hv_WindowHandleBuffer.Dispose();
+                            hv_WindowHandleBuffer = new HTuple();
+                        }
+                    }
+                    // catch (e) 
+                    catch (HalconException HDevExpDefaultException2)
+                    {
+                        HDevExpDefaultException2.ToHTuple(out hv_e);
+                        //Suppress all further exceptions to return the original exception.
+                    }
+                    try
+                    {
+                        //Restore system settings.
+                        HOperatorSet.SetSystem("clip_region", hv_ClipRegion);
+                        // dev_set_preferences(...); only in hdevelop
+                        // dev_set_preferences(...); only in hdevelop
+                    }
+                    // catch (e) 
+                    catch (HalconException HDevExpDefaultException2)
+                    {
+                        HDevExpDefaultException2.ToHTuple(out hv_e);
+                        //Suppress all further exceptions to return the original exception.
+                    }
+                    //
+                    throw new HalconException(hv_Exception);
+                }
+                ho_Image.Dispose();
+                ho_ImageDump.Dispose();
+
+                hv_CamParam_COPY_INP_TMP.Dispose();
+                hv_GenParamName_COPY_INP_TMP.Dispose();
+                hv_GenParamValue_COPY_INP_TMP.Dispose();
+                hv_Label_COPY_INP_TMP.Dispose();
+                hv_PoseIn_COPY_INP_TMP.Dispose();
+                hv_Scene3DTest.Dispose();
+                hv_Scene3D.Dispose();
+                hv_WindowHandleBuffer.Dispose();
+                hv_TrackballSize.Dispose();
+                hv_VirtualTrackball.Dispose();
+                hv_MouseMapping.Dispose();
+                hv_WaitForButtonRelease.Dispose();
+                hv_MaxNumModels.Dispose();
+                hv_WindowCenteredRotation.Dispose();
+                hv_NumModels.Dispose();
+                hv_SelectedObject.Dispose();
+                hv_ClipRegion.Dispose();
+                hv_CPLength.Dispose();
+                hv_RowNotUsed.Dispose();
+                hv_ColumnNotUsed.Dispose();
+                hv_Width.Dispose();
+                hv_Height.Dispose();
+                hv_WPRow1.Dispose();
+                hv_WPColumn1.Dispose();
+                hv_WPRow2.Dispose();
+                hv_WPColumn2.Dispose();
+                hv_CamParamValue.Dispose();
+                hv_CamWidth.Dispose();
+                hv_CamHeight.Dispose();
+                hv_Scale.Dispose();
+                hv_Indices.Dispose();
+                hv_DispBackground.Dispose();
+                hv_Mask.Dispose();
+                hv_Center.Dispose();
+                hv_PoseEstimated.Dispose();
+                hv_Poses.Dispose();
+                hv_HomMat3Ds.Dispose();
+                hv_Sequence.Dispose();
+                hv_Font.Dispose();
+                hv_Exception.Dispose();
+                hv_OpenGLInfo.Dispose();
+                hv_DummyObjectModel3D.Dispose();
+                hv_CameraIndexTest.Dispose();
+                hv_PoseTest.Dispose();
+                hv_InstanceIndexTest.Dispose();
+                hv_MinImageSize.Dispose();
+                hv_TrackballRadiusPixel.Dispose();
+                hv_Ascent.Dispose();
+                hv_Descent.Dispose();
+                hv_TextWidth.Dispose();
+                hv_TextHeight.Dispose();
+                hv_NumChannels.Dispose();
+                hv_ColorImage.Dispose();
+                hv_CameraIndex.Dispose();
+                hv_AllInstances.Dispose();
+                hv_SetLight.Dispose();
+                hv_LightParam.Dispose();
+                hv_LightPosition.Dispose();
+                hv_LightKind.Dispose();
+                hv_LightIndex.Dispose();
+                hv_PersistenceParamName.Dispose();
+                hv_PersistenceParamValue.Dispose();
+                hv_AlphaOrig.Dispose();
+                hv_I.Dispose();
+                hv_ParamName.Dispose();
+                hv_ParamValue.Dispose();
+                hv_ParamNameTrunk.Dispose();
+                hv_Instance.Dispose();
+                hv_HomMat3D.Dispose();
+                hv_Qx.Dispose();
+                hv_Qy.Dispose();
+                hv_Qz.Dispose();
+                hv_TBCenter.Dispose();
+                hv_TBSize.Dispose();
+                hv_ButtonHold.Dispose();
+                hv_VisualizeTB.Dispose();
+                hv_MaxIndex.Dispose();
+                hv_TrackballCenterRow.Dispose();
+                hv_TrackballCenterCol.Dispose();
+                hv_GraphEvent.Dispose();
+                hv_Exit.Dispose();
+                hv_GraphButtonRow.Dispose();
+                hv_GraphButtonColumn.Dispose();
+                hv_GraphButton.Dispose();
+                hv_ButtonReleased.Dispose();
+                hv_e.Dispose();
+
+                return;
+            }
+            catch (HalconException HDevExpDefaultException)
+            {
+                ho_Image.Dispose();
+                ho_ImageDump.Dispose();
+
+                hv_CamParam_COPY_INP_TMP.Dispose();
+                hv_GenParamName_COPY_INP_TMP.Dispose();
+                hv_GenParamValue_COPY_INP_TMP.Dispose();
+                hv_Label_COPY_INP_TMP.Dispose();
+                hv_PoseIn_COPY_INP_TMP.Dispose();
+                hv_Scene3DTest.Dispose();
+                hv_Scene3D.Dispose();
+                hv_WindowHandleBuffer.Dispose();
+                hv_TrackballSize.Dispose();
+                hv_VirtualTrackball.Dispose();
+                hv_MouseMapping.Dispose();
+                hv_WaitForButtonRelease.Dispose();
+                hv_MaxNumModels.Dispose();
+                hv_WindowCenteredRotation.Dispose();
+                hv_NumModels.Dispose();
+                hv_SelectedObject.Dispose();
+                hv_ClipRegion.Dispose();
+                hv_CPLength.Dispose();
+                hv_RowNotUsed.Dispose();
+                hv_ColumnNotUsed.Dispose();
+                hv_Width.Dispose();
+                hv_Height.Dispose();
+                hv_WPRow1.Dispose();
+                hv_WPColumn1.Dispose();
+                hv_WPRow2.Dispose();
+                hv_WPColumn2.Dispose();
+                hv_CamParamValue.Dispose();
+                hv_CamWidth.Dispose();
+                hv_CamHeight.Dispose();
+                hv_Scale.Dispose();
+                hv_Indices.Dispose();
+                hv_DispBackground.Dispose();
+                hv_Mask.Dispose();
+                hv_Center.Dispose();
+                hv_PoseEstimated.Dispose();
+                hv_Poses.Dispose();
+                hv_HomMat3Ds.Dispose();
+                hv_Sequence.Dispose();
+                hv_Font.Dispose();
+                hv_Exception.Dispose();
+                hv_OpenGLInfo.Dispose();
+                hv_DummyObjectModel3D.Dispose();
+                hv_CameraIndexTest.Dispose();
+                hv_PoseTest.Dispose();
+                hv_InstanceIndexTest.Dispose();
+                hv_MinImageSize.Dispose();
+                hv_TrackballRadiusPixel.Dispose();
+                hv_Ascent.Dispose();
+                hv_Descent.Dispose();
+                hv_TextWidth.Dispose();
+                hv_TextHeight.Dispose();
+                hv_NumChannels.Dispose();
+                hv_ColorImage.Dispose();
+                hv_CameraIndex.Dispose();
+                hv_AllInstances.Dispose();
+                hv_SetLight.Dispose();
+                hv_LightParam.Dispose();
+                hv_LightPosition.Dispose();
+                hv_LightKind.Dispose();
+                hv_LightIndex.Dispose();
+                hv_PersistenceParamName.Dispose();
+                hv_PersistenceParamValue.Dispose();
+                hv_AlphaOrig.Dispose();
+                hv_I.Dispose();
+                hv_ParamName.Dispose();
+                hv_ParamValue.Dispose();
+                hv_ParamNameTrunk.Dispose();
+                hv_Instance.Dispose();
+                hv_HomMat3D.Dispose();
+                hv_Qx.Dispose();
+                hv_Qy.Dispose();
+                hv_Qz.Dispose();
+                hv_TBCenter.Dispose();
+                hv_TBSize.Dispose();
+                hv_ButtonHold.Dispose();
+                hv_VisualizeTB.Dispose();
+                hv_MaxIndex.Dispose();
+                hv_TrackballCenterRow.Dispose();
+                hv_TrackballCenterCol.Dispose();
+                hv_GraphEvent.Dispose();
+                hv_Exit.Dispose();
+                hv_GraphButtonRow.Dispose();
+                hv_GraphButtonColumn.Dispose();
+                hv_GraphButton.Dispose();
+                hv_ButtonReleased.Dispose();
+                hv_e.Dispose();
+
+                throw HDevExpDefaultException;
+            }
+        }
+
+
+       private static  void ExpSetGlobalVar_gDispObjOffset(HTuple val)
+        {
+            if (gDispObjOffset != val)
+            {
+                if (gDispObjOffset != null)
+                    gDispObjOffset.Dispose();
+                gDispObjOffset = val;
+            }
+        }
+
+
+
+
+
+
+
+
+
+
         /// <summary>
         /// 创建箭头形状的 XLD 轮廓
         /// </summary>

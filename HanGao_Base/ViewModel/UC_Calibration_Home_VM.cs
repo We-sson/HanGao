@@ -51,7 +51,12 @@ namespace HanGao.ViewModel
         /// </summary>
         public Halcon_SDK Calibration_Window_2 { set; get; } = new Halcon_SDK();
 
+
+
+
         public Halcon_SDK Calibration_3D_Results { set; get; } = new Halcon_SDK();
+
+
 
 
 
@@ -284,6 +289,21 @@ namespace HanGao.ViewModel
 
             HOperatorSet.SetSystem("flush_graphic", "true");
         }
+
+
+
+        public void Display_3DModel_Window()
+        {
+
+            Task.Run(() => 
+            {
+ 
+
+            });
+
+
+        }
+
 
     }
 }
