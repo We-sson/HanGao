@@ -6754,6 +6754,7 @@ namespace Halcon_SDK_DLL
 
         // Chapter: Graphics / Output
         // Short Description: Render 3D object models in a buffer window. 
+        //简要说明 在缓冲窗口中渲染 3D 物体模型。
         private static void Dump_image_output(HObject ho_BackgroundImage, HTuple hv_WindowHandleBuffer,
             HTuple hv_Scene3D, HTuple hv_AlphaOrig, HTuple hv_ObjectModel3DID, HTuple hv_GenParamName,
             HTuple hv_GenParamValue, HTuple hv_CamParam, HTuple hv_Poses, HTuple hv_ColorImage,
@@ -6925,6 +6926,7 @@ namespace Halcon_SDK_DLL
                         )) - 1); hv_Index = (int)hv_Index + 1)
                     {
                         //Project the center point of the current model
+                        //投影当前模型的中心点
                         hv_Pose.Dispose();
 
                         hv_Pose = hv_Poses.TupleSelectRange(
@@ -6956,6 +6958,7 @@ namespace Halcon_SDK_DLL
                             if ((int)(new HTuple(hv_Label.TupleNotEqual(""))) != 0)
                             {
                                 //Work around the fact that get_string_extents() does not handle newlines as we want
+                                //解决 get_string_extents() 不能按照我们的要求处理换行符的问题
                                 hv_Sublabels.Dispose();
                                 HOperatorSet.TupleSplit(hv_Label, "\n", out hv_Sublabels);
 
@@ -7001,11 +7004,14 @@ namespace Halcon_SDK_DLL
                             HDevExpDefaultException1.ToHTuple(out hv_Exception);
                             //The 3D object model might not have a center because it is empty
                             //-> do not display any label
+                            //三维对象模型可能没有中心，因为它是空的
+                            //-> 不显示任何标签
                         }
                     }
                 }
                 //
                 //Visualize the trackball if desired
+                //如果需要，可视化轨迹球
                 if ((int)(hv_VisualizeTrackball) != 0)
                 {
                     HOperatorSet.SetLineWidth(hv_WindowHandleBuffer, 1);
@@ -7018,6 +7024,7 @@ namespace Halcon_SDK_DLL
                 }
                 //
                 //Visualize the rotation center if desired
+                //如果需要，可视化旋转中心
                 if ((int)((new HTuple(hv_VisualizeRotationCenter.TupleNotEqual(0))).TupleAnd(
                     new HTuple((new HTuple(hv_RotationCenter_COPY_INP_TMP.TupleLength())).TupleEqual(
                     3)))) != 0)
@@ -7067,7 +7074,8 @@ namespace Halcon_SDK_DLL
                 Disp_title_and_information(hv_WindowHandleBuffer, hv_Title, hv_Information);
                 //
                 //Display the 'Exit' button
-                if ((int)(new HTuple(hv_DisplayContinueButton.TupleEqual("true"))) != 0)
+               // 显示 "退出 "按钮
+               if ((int)(new HTuple(hv_DisplayContinueButton.TupleEqual("true"))) != 0)
                 {
                     Disp_continue_button(hv_WindowHandleBuffer);
                 }

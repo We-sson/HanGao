@@ -159,6 +159,8 @@ namespace HanGao.ViewModel
 
                             }
 
+                            //标定相机后赋值到全局调用
+                            Halcon_CalibSetup_ID = _CalibSetup_ID;
 
                             Calibration_Camera_Results.Error_Pixel= _CalibSetup_ID.CalibrateCameras();
 

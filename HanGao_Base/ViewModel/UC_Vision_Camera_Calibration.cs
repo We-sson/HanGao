@@ -54,7 +54,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// Halcon标定参数设置句柄
         /// </summary>
-        //public  HCalibData Halcon_CalibSetup_ID { set; get; } = new HCalibData() { };
+        //public HCalibData Halcon_CalibSetup_ID { set; get; } = new HCalibData() { };
 
 
 
