@@ -58,6 +58,7 @@ namespace HanGao.ViewModel
 
 
 
+        public HTuple Pose_Out_3D_Results { set; get; } = new HTuple();
 
 
         /// <summary>
@@ -292,12 +293,18 @@ namespace HanGao.ViewModel
 
 
 
-        public void Display_3DModel_Window()
+        public void Display_3DModel_Window(HTuple _ObjectModel3D, HTuple _CamParam, HTuple _PoseIn,
+                                                                       HTuple _GenParamName, HTuple _GenParamValue,
+                                                                        HTuple _Title, HTuple _Label, HTuple _Information)
         {
 
             Task.Run(() => 
             {
- 
+
+                HTuple _PosOut;
+                Halcon_Example.Visualize_object_model_3d(Calibration_3D_Results.HWindow, _ObjectModel3D, _CamParam, _PoseIn, _GenParamName, _GenParamValue, _Title, _Label, _Information, out _PosOut);
+
+
 
             });
 

@@ -4328,7 +4328,7 @@ namespace Halcon_SDK_DLL
 
         // Chapter: Graphics / Output
         // Short Description: Display 3D object models 
-        public static void visualize_object_model_3d(HTuple hv_WindowHandle, HTuple hv_ObjectModel3D,
+        public static void Visualize_object_model_3d(HTuple hv_WindowHandle, HTuple hv_ObjectModel3D,
             HTuple hv_CamParam, HTuple hv_PoseIn, HTuple hv_GenParamName, HTuple hv_GenParamValue,
             HTuple hv_Title, HTuple hv_Label, HTuple hv_Information, out HTuple hv_PoseOut)
         {
@@ -6177,7 +6177,7 @@ namespace Halcon_SDK_DLL
 
         // Chapter: Calibration / Camera Parameters
         // Short Description: Set the value of a specified camera parameter in the camera parameter tuple. 
-        public static void Set_cam_par_data(HTuple hv_CameraParamIn, HTuple hv_ParamName, HTuple hv_ParamValue,
+        private  static void Set_cam_par_data(HTuple hv_CameraParamIn, HTuple hv_ParamName, HTuple hv_ParamValue,
             out HTuple hv_CameraParamOut)
         {
 

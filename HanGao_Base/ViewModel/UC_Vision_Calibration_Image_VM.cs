@@ -153,14 +153,18 @@ namespace HanGao.ViewModel
                             HTuple _calib_X;
                             HTuple _calib_Y;
                             HTuple _calib_Z;
+                            HTuple _calibObj_Pos;
                             HObjectModel3D _Calib_3D = new HObjectModel3D();
-
+                            
                             _calib_X= Halcon_CalibSetup_ID.GetCalibData("calib_obj", _Selected.Image_No,"x");
                             _calib_Y= Halcon_CalibSetup_ID.GetCalibData("calib_obj", _Selected.Image_No,"y");
                             _calib_Z= Halcon_CalibSetup_ID.GetCalibData("calib_obj", _Selected.Image_No,"z");
 
                             _Calib_3D.GenObjectModel3dFromPoints(_calib_X, _calib_Y, _calib_Z);
 
+                            _calibObj_Pos= Halcon_CalibSetup_ID.GetCalibData("calib_obj_pose",_Selected.Image_No,"pose" );
+                           
+                            _Calib_3D.RigidTransObjectModel3d(new HPose(_calibObj_Pos));
 
 
 
