@@ -175,6 +175,9 @@ namespace HanGao.ViewModel
                            
                             _Calib_3D.RigidTransObjectModel3d(new HPose(_calibObj_Pos));
 
+
+
+
                             SetDisplay3DModel(new Halcon_Data_Model.Display3DModel_Model() { _ObjectModel3D = _Calib_3D });
 
                               
