@@ -23,7 +23,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// Halcon标定参数设置句柄
         /// </summary>
-        public static HCalibData Halcon_CalibSetup_ID { set; get; } = new HCalibData() { };
+        public static HCalibData Halcon_CalibSetup_ID { set; get; } = null;
 
 
 
@@ -113,7 +113,11 @@ namespace HanGao.ViewModel
                 Task.Run(() =>
                 {
 
+                    try
+                    {
 
+        
+         
 
                     //判断报错标定图像大于指定数量
                     if (Calibration_Image_List.Count > 10)
@@ -121,61 +125,70 @@ namespace HanGao.ViewModel
 
                         HCalibData _CalibSetup_ID = new HCalibData();
 
-             
-                        //初始化标定数据
-                        if (Set_Camera_Calibration_Par(ref _CalibSetup_ID, UC_Vision_CameraSet_ViewModel.MVS_Camera_Info_List) > 0)
-                        {
 
-                            foreach (var _Calib in Calibration_Image_List)
+                            //初始化标定数据
+                            if (Set_Camera_Calibration_Par(ref _CalibSetup_ID, UC_Vision_CameraSet_ViewModel.MVS_Camera_Info_List) > 0)
                             {
 
-                                HObject _CalibCoord = new HObject();
-                                HXLDCont _CalibXLD = new HXLDCont();
-
-
-                               
-                                //判断相机0是否存在图像
-                                if (_Calib.Camera_0.Calibration_Image != null)
+                                foreach (var _Calib in Calibration_Image_List)
                                 {
 
-                                    HObject _Imge = _Calib.Camera_0.Calibration_Image;
-                                    //查找标定图像中标定板位置和坐标
-                                    Halcon_Method.FindCalib_3DCoord(ref _CalibXLD, ref _CalibCoord, ref _CalibSetup_ID, (HImage)_Calib.Camera_0.Calibration_Image,0, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma, _Calib.Image_No);
-                         
+                                    HObject _CalibCoord = new HObject();
+                                    HXLDCont _CalibXLD = new HXLDCont();
+
+
+
+                                    //判断相机0是否存在图像
+                                    if (_Calib.Camera_0.Calibration_Image != null)
+                                    {
+
+                                        HObject _Imge = _Calib.Camera_0.Calibration_Image;
+                                        //查找标定图像中标定板位置和坐标
+                                        Halcon_Method.FindCalib_3DCoord(ref _CalibXLD, ref _CalibCoord, ref _CalibSetup_ID, (HImage)_Calib.Camera_0.Calibration_Image, 0, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma, _Calib.Image_No);
+
+                                    }
+
+                                    if (_Calib.Camera_1.Calibration_Image != null)
+                                    {
+                                        HObject _Imge = _Calib.Camera_1.Calibration_Image;
+
+                                        //查找标定图像中标定板位置和坐标
+                                        Halcon_Method.FindCalib_3DCoord(ref _CalibXLD, ref _CalibCoord, ref _CalibSetup_ID, (HImage)_Calib.Camera_1.Calibration_Image, 1, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma, _Calib.Image_No);
+
+                                    }
+
+
+
+
+
                                 }
 
-                                if (_Calib.Camera_1.Calibration_Image != null)
-                                {
-                                    HObject _Imge = _Calib.Camera_1.Calibration_Image;
+                                //标定相机后赋值到全局调用
+                                Halcon_CalibSetup_ID = _CalibSetup_ID;
 
-                                    //查找标定图像中标定板位置和坐标
-                                    Halcon_Method.FindCalib_3DCoord(ref _CalibXLD, ref _CalibCoord,ref _CalibSetup_ID, (HImage)_Calib.Camera_1.Calibration_Image, 1, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma, _Calib.Image_No);
-                    
-                                }
-
-
-
-
+                                Calibration_Camera_Results.Error_Pixel = _CalibSetup_ID.CalibrateCameras();
 
                             }
-
-                            //标定相机后赋值到全局调用
-                            Halcon_CalibSetup_ID = _CalibSetup_ID;
-
-                            Calibration_Camera_Results.Error_Pixel= _CalibSetup_ID.CalibrateCameras();
-
-
+                           
 
 
                         }
 
-                    }
                     else
                     {
 
                         User_Log_Add("标定图像必须大于10张", Log_Show_Window_Enum.Calibration);
 
                     }
+
+                    }
+                    catch (Exception e)
+                    {
+
+                        User_Log_Add(e.Message, Log_Show_Window_Enum.Calibration);
+
+                    }
+
 
                 });
 

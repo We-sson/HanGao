@@ -36,6 +36,25 @@ namespace Halcon_SDK_DLL.Model
 
 
         /// <summary>
+        /// 三维模型显示属性模型
+        /// </summary>
+        public class Display3DModel_Model
+        {
+
+
+            public HTuple _ObjectModel3D { set; get; } = new HTuple();
+            public HTuple _CamParam { set; get; } = new HTuple();
+
+            public HTuple _PoseIn { set; get; } = new HTuple();
+            public HTuple _GenParamName { set; get; } = new HTuple();
+            public HTuple _GenParamValue { set; get; } = new HTuple();
+            public HTuple _Title { set; get; } = new HTuple();
+            public HTuple _Label { set; get; } = new HTuple();
+            public HTuple _Information { set; get; } = new HTuple();
+
+        }
+
+        /// <summary>
         /// 设置显示窗口颜色
         /// </summary>
         [AddINotifyPropertyChangedInterface]

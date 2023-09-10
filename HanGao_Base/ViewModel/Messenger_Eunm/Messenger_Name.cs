@@ -323,6 +323,10 @@ namespace HanGao.ViewModel.Messenger_Eunm
             /// </summary>
             DisplayHObject,
 
+            /// <summary>
+            /// 显示三维模型
+            /// </summary>
+            Display_3DModel,
 
             /// <summary>
             /// 标定图像添加

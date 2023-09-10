@@ -473,7 +473,7 @@ namespace HanGao.ViewModel
         /// <param name="_XLD"></param>
         /// <param name="_DrawColor"></param>
         /// <param name="_Show"></param>
-        public static void Display_HObiet(HImage _HImage, HObject _Region, HObject _XLD, string _DrawColor, Window_Show_Name_Enum _Show)
+        public static void Display_HObiet(HObject _HImage, HObject _Region, HObject _XLD, string _DrawColor, Window_Show_Name_Enum _Show)
         {
             if (_DrawColor != null)
             {
@@ -520,6 +520,15 @@ namespace HanGao.ViewModel
         }
 
 
+
+        public static void SetDisplay3DModel(Display3DModel_Model _3DModel)
+        {
+
+
+            StrongReferenceMessenger.Default.Send<Display3DModel_Model, string>(_3DModel, nameof(Meg_Value_Eunm.Display_3DModel));
+
+
+        }
 
 
     }

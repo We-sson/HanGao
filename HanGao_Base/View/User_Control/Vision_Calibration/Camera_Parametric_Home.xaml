@@ -15,6 +15,13 @@
         DataContext="{Binding Source={StaticResource Locator}, Path=Vision_Calibration_Home_VM}"
         WindowStyle="SingleBorderWindow"
         mc:Ignorable="d">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding Initialization_Halcon_Window_Comm}"
+                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                   PassEventArgsToCommand="True" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Grid Background="{DynamicResource 全局_背景_白颜色}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -427,18 +434,16 @@
                                                    VerticalContentAlignment="Center"
                                                    HDisableAutoResize="False"
                                                    SnapsToDevicePixels="True">
+                        <!--<i:Interaction.Triggers>
+                            <i:EventTrigger EventName="HInitWindow">
+                                <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}" PassEventArgsToCommand="False" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>-->
                         <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Calibration_3D_Results.DisplayImage}" />
                         <Halcon:HIconicDisplayObjectWPF HColor="{Binding Calibration_3D_Results.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
                                                         HDraw="{Binding Calibration_3D_Results.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
                                                         IconicObject="{Binding Calibration_3D_Results.DisplayRegion}" />
                         <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Calibration_3D_Results.DisplayXLD}" />
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Loaded">
-                                <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
-                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                       PassEventArgsToCommand="True" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
                     </Halcon:HSmartWindowControlWPF>
 
 
