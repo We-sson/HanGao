@@ -189,12 +189,171 @@ namespace HanGao.ViewModel
                 Camera_Parametric_Home Window_UserContol = Sm.Source as Camera_Parametric_Home;
 
 
-                    Calibration_3D_Results = new Halcon_SDK() { HWindow = Window_UserContol.Calibration_3D_Results.HalconWindow, Halcon_UserContol = Window_UserContol.Calibration_3D_Results };
+                Calibration_3D_Results = new Halcon_SDK() { HWindow = Window_UserContol.Calibration_3D_Results.HalconWindow, Halcon_UserContol = Window_UserContol.Calibration_3D_Results };
                 Calibration_Window_1 = new Halcon_SDK() { HWindow = Window_UserContol.Calibration_Window_1.HalconWindow, Halcon_UserContol = Window_UserContol.Calibration_Window_1 };
                 Calibration_Window_2 = new Halcon_SDK() { HWindow = Window_UserContol.Calibration_Window_2.HalconWindow, Halcon_UserContol = Window_UserContol.Calibration_Window_2 };
 
 
                 //HWindows_Initialization(Window_UserContol);
+
+                Task.Run(() =>
+                {
+
+
+
+
+             Halcon_Examples_Method _Show=new Halcon_Examples_Method ();
+
+
+
+            // Local iconic variables 
+
+            HObject ho_ContCircle;
+
+            // Local control variables 
+
+            HTuple hv_WindowHandle = new HTuple(), hv_PoseIn = new HTuple();
+            HTuple hv_Row = new HTuple(), hv_Column = new HTuple();
+            HTuple hv_X = new HTuple(), hv_Y = new HTuple(), hv_ObjectModel3DPlane1 = new HTuple();
+            HTuple hv_ObjectModel3DPlane2 = new HTuple(), hv_ObjectModel3DSphere1 = new HTuple();
+            HTuple hv_ObjectModel3DSphere2 = new HTuple(), hv_ObjectModel3DCylinder = new HTuple();
+            HTuple hv_ObjectModel3DBox = new HTuple(), hv_Instructions = new HTuple();
+            HTuple hv_ObjectModels = new HTuple(), hv_Labels = new HTuple();
+            HTuple hv_VisParamName = new HTuple(), hv_VisParamValue = new HTuple();
+            HTuple hv_PoseOut = new HTuple();
+            // Initialize local and output iconic variables 
+            HOperatorSet.GenEmptyObj(out ho_ContCircle);
+                try
+                {
+                    //This example program shows how to use the operators
+                    //gen_plane_object_model_3d, gen_sphere_object_model_3d_center
+                    //gen_sphere_object_model_3d, gen_cylinder_object_model_3d, and
+                    //gen_box_object_model_3d in HALCON. In this example, a plane,
+                    //two spheres, a cylinder, and a box are set with different poses.
+                    //The generated primitives of the 3D object models are visualized.
+                    //
+                    //Initialize program.
+                    //dev_update_off();
+                    if (HDevWindowStack.IsOpen())
+                    {
+                        HOperatorSet.CloseWindow(HDevWindowStack.Pop());
+                    }
+                    HOperatorSet.SetWindowAttr("background_color", "black");
+                    //HOperatorSet.OpenWindow(0, 0, 640, 480, 0, "visible", "", out hv_WindowHandle);
+                    //HDevWindowStack.Push(hv_WindowHandle);
+                    //_Show.Set_display_font(hv_WindowHandle, 16, "mono", "true", "false");
+                    hv_PoseIn.Dispose();
+                    HOperatorSet.CreatePose(0.1, 1.5, 88, 106, 337, 224, "Rp+T", "gba", "point",
+                        out hv_PoseIn);
+                    ho_ContCircle.Dispose();
+                    HOperatorSet.GenCircleContourXld(out ho_ContCircle, 200, 200, 100, 0, 6.28318,
+                        "positive", 120);
+                    hv_Row.Dispose(); hv_Column.Dispose();
+                    HOperatorSet.GetContourXld(ho_ContCircle, out hv_Row, out hv_Column);
+                    hv_X.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_X = ((3 * hv_Row) / (((hv_Row.TupleConcat(
+                            hv_Column))).TupleMax())) - 2;
+                    }
+                    hv_Y.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_Y = ((3 * hv_Column) / (((hv_Row.TupleConcat(
+                            hv_Column))).TupleMax())) - 2;
+                    }
+                    //
+                    //Create an infinite plane.
+                    hv_ObjectModel3DPlane1.Dispose();
+                    HOperatorSet.GenPlaneObjectModel3d(((((((new HTuple(0)).TupleConcat(0)).TupleConcat(
+                        0)).TupleConcat(0)).TupleConcat(0)).TupleConcat(0)).TupleConcat(0), new HTuple(),
+                        new HTuple(), out hv_ObjectModel3DPlane1);
+                    //Create a limited plane.
+                    hv_ObjectModel3DPlane2.Dispose();
+                    HOperatorSet.GenPlaneObjectModel3d(((((((new HTuple(1)).TupleConcat(1)).TupleConcat(
+                        1)).TupleConcat(0)).TupleConcat(50)).TupleConcat(30)).TupleConcat(0), hv_X,
+                        hv_Y, out hv_ObjectModel3DPlane2);
+                    //Create a sphere using pose.
+                    hv_ObjectModel3DSphere1.Dispose();
+                    HOperatorSet.GenSphereObjectModel3d(((((((new HTuple(0)).TupleConcat(0)).TupleConcat(
+                        3)).TupleConcat(0)).TupleConcat(0)).TupleConcat(0)).TupleConcat(0), 0.5,
+                        out hv_ObjectModel3DSphere1);
+                    //Create a sphere and position.
+                    hv_ObjectModel3DSphere2.Dispose();
+                    HOperatorSet.GenSphereObjectModel3dCenter(-1, 0, 1, 1, out hv_ObjectModel3DSphere2);
+                    //Create a cylinder.
+                    hv_ObjectModel3DCylinder.Dispose();
+                    HOperatorSet.GenCylinderObjectModel3d(((((((new HTuple(1)).TupleConcat(-1)).TupleConcat(
+                        2)).TupleConcat(0)).TupleConcat(0)).TupleConcat(60)).TupleConcat(0), 0.5,
+                        -1, 1, out hv_ObjectModel3DCylinder);
+                    //Create a box.
+                    hv_ObjectModel3DBox.Dispose();
+                    HOperatorSet.GenBoxObjectModel3d(((((((new HTuple(-1)).TupleConcat(2)).TupleConcat(
+                        1)).TupleConcat(0)).TupleConcat(0)).TupleConcat(90)).TupleConcat(0), 1,
+                        2, 1, out hv_ObjectModel3DBox);
+                    //
+                    //Display the generated primitives.
+                    if (hv_Instructions == null)
+                        hv_Instructions = new HTuple();
+                    hv_Instructions[0] = "Rotate: Left button";
+                    if (hv_Instructions == null)
+                        hv_Instructions = new HTuple();
+                    hv_Instructions[1] = "Zoom:   Shift + left button";
+                    if (hv_Instructions == null)
+                        hv_Instructions = new HTuple();
+                    hv_Instructions[2] = "Move:   Ctrl  + left button";
+                    hv_ObjectModels.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_ObjectModels = new HTuple();
+                        hv_ObjectModels = hv_ObjectModels.TupleConcat(hv_ObjectModel3DPlane1, hv_ObjectModel3DCylinder, hv_ObjectModel3DSphere1, hv_ObjectModel3DSphere2, hv_ObjectModel3DPlane2, hv_ObjectModel3DBox);
+                    }
+                    hv_Labels.Dispose();
+                    hv_Labels = new HTuple();
+                    hv_Labels[0] = "Plane1";
+                    hv_Labels[1] = "Cylinder";
+                    hv_Labels[2] = "Sphere1";
+                    hv_Labels[3] = "Sphere2";
+                    hv_Labels[4] = "Plane2";
+                    hv_Labels[5] = "Box";
+                    hv_VisParamName.Dispose();
+                    hv_VisParamName = new HTuple();
+                    hv_VisParamName[0] = "disp_pose_3";
+                    hv_VisParamName[1] = "color_0";
+                    hv_VisParamName[2] = "color_1";
+                    hv_VisParamName[3] = "color_2";
+                    hv_VisParamName[4] = "color_3";
+                    hv_VisParamName[5] = "color_4";
+                    hv_VisParamName[6] = "color_5";
+                    hv_VisParamName[7] = "alpha_0";
+                    hv_VisParamValue.Dispose();
+                    hv_VisParamValue = new HTuple();
+                    hv_VisParamValue[0] = "true";
+                    hv_VisParamValue[1] = "green";
+                    hv_VisParamValue[2] = "cyan";
+                    hv_VisParamValue[3] = "yellow";
+                    hv_VisParamValue[4] = "magenta";
+                    hv_VisParamValue[5] = "blue";
+                    hv_VisParamValue[6] = "white";
+                    hv_VisParamValue[7] = 0.5;
+                    hv_PoseOut.Dispose();
+
+                    _Show.Visualize_object_model_3d(Window_UserContol.Calibration_3D_Results.HalconWindow, hv_ObjectModels, new HTuple(), hv_PoseIn,
+                    hv_VisParamName, hv_VisParamValue, new HTuple(), hv_Labels, hv_Instructions,
+                    out hv_PoseOut);
+
+                }
+                    catch (Exception e)
+                    {
+
+                        User_Log_Add(e.Message, Log_Show_Window_Enum.Calibration);
+
+                    }
+
+
+
+                });
+
 
 
             });

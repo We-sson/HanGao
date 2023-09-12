@@ -433,17 +433,20 @@
                                                    HorizontalContentAlignment="Center"
                                                    VerticalContentAlignment="Center"
                                                    HDisableAutoResize="False"
+                                                   HMoveContent="False"
+                                             
                                                    SnapsToDevicePixels="True">
+                        <!--<Halcon:HObjectModel3D  />-->
                         <!--<i:Interaction.Triggers>
                             <i:EventTrigger EventName="HInitWindow">
                                 <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}" PassEventArgsToCommand="False" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>-->
-                        <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Calibration_3D_Results.DisplayImage}" />
+                        <!--<Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Calibration_3D_Results.DisplayImage}" />
                         <Halcon:HIconicDisplayObjectWPF HColor="{Binding Calibration_3D_Results.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
                                                         HDraw="{Binding Calibration_3D_Results.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
                                                         IconicObject="{Binding Calibration_3D_Results.DisplayRegion}" />
-                        <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Calibration_3D_Results.DisplayXLD}" />
+                        <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Calibration_3D_Results.DisplayXLD}" />-->
                     </Halcon:HSmartWindowControlWPF>
 
 
