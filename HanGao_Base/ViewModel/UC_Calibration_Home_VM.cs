@@ -189,7 +189,7 @@ namespace HanGao.ViewModel
                 Camera_Parametric_Home Window_UserContol = Sm.Source as Camera_Parametric_Home;
 
 
-                Calibration_3D_Results = new Halcon_SDK() { HWindow = Window_UserContol.Calibration_3D_Results.HalconWindow, Halcon_UserContol = Window_UserContol.Calibration_3D_Results };
+                //Calibration_3D_Results = new Halcon_SDK() { HWindow = Window_UserContol.Calibration_3D_Results.HalconWindow, Halcon_UserContol = Window_UserContol.Calibration_3D_Results };
                 Calibration_Window_1 = new Halcon_SDK() { HWindow = Window_UserContol.Calibration_Window_1.HalconWindow, Halcon_UserContol = Window_UserContol.Calibration_Window_1 };
                 Calibration_Window_2 = new Halcon_SDK() { HWindow = Window_UserContol.Calibration_Window_2.HalconWindow, Halcon_UserContol = Window_UserContol.Calibration_Window_2 };
 
@@ -338,9 +338,9 @@ namespace HanGao.ViewModel
                     hv_VisParamValue[7] = 0.5;
                     hv_PoseOut.Dispose();
 
-                    _Show.Visualize_object_model_3d(Window_UserContol.Calibration_3D_Results.HalconWindow, hv_ObjectModels, new HTuple(), hv_PoseIn,
-                    hv_VisParamName, hv_VisParamValue, new HTuple(), hv_Labels, hv_Instructions,
-                    out hv_PoseOut);
+                    //_Show.Visualize_object_model_3d(Window_UserContol.Calibration_3D_Results.HalconWindow, hv_ObjectModels, new HTuple(), hv_PoseIn,
+                    //hv_VisParamName, hv_VisParamValue, new HTuple(), hv_Labels, hv_Instructions,
+                    //out hv_PoseOut);
 
                 }
                     catch (Exception e)

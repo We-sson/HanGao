@@ -5,6 +5,7 @@
         xmlns:Halcon="http://schemas.mvtec.com/halcondotnet"
         xmlns:UC_Working="clr-namespace:HanGao.View.User_Control"
         xmlns:Vision_control="clr-namespace:HanGao.View.User_Control.Vision_Control"
+        xmlns:Vtk="clr-namespace:Kitware.VTK;assembly=Kitware.VTK"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:HanGao.View.User_Control.Vision_Calibration"
@@ -420,11 +421,13 @@
 
 
 
+                    <WindowsFormsHost Grid.Row=" 1" Grid.Column=" 0"
+                                      Grid.ColumnSpan=" 2">
+                        <Vtk:RenderWindowControl x:Name="Calibration_3D_Results" />
+                    </WindowsFormsHost>
 
 
-
-
-                    <Halcon:HSmartWindowControlWPF x:Name="Calibration_3D_Results" Grid.Row=" 1" Grid.Column=" 0"
+                    <!--<Halcon:HSmartWindowControlWPF x:Name="Calibration_3D_Results" Grid.Row=" 1" Grid.Column=" 0"
                                                    Grid.ColumnSpan=" 2"
                                                    MinWidth="400"
                                                    MinHeight="400"
@@ -434,20 +437,22 @@
                                                    VerticalContentAlignment="Center"
                                                    HDisableAutoResize="False"
                                                    HMoveContent="False"
-                                             
+
                                                    SnapsToDevicePixels="True">
-                        <!--<Halcon:HObjectModel3D  />-->
-                        <!--<i:Interaction.Triggers>
+                    -->
+                    <!--<Halcon:HObjectModel3D  />-->
+                    <!--<i:Interaction.Triggers>
                             <i:EventTrigger EventName="HInitWindow">
                                 <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}" PassEventArgsToCommand="False" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>-->
-                        <!--<Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Calibration_3D_Results.DisplayImage}" />
+                    <!--<Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Calibration_3D_Results.DisplayImage}" />
                         <Halcon:HIconicDisplayObjectWPF HColor="{Binding Calibration_3D_Results.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
                                                         HDraw="{Binding Calibration_3D_Results.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
                                                         IconicObject="{Binding Calibration_3D_Results.DisplayRegion}" />
                         <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Calibration_3D_Results.DisplayXLD}" />-->
-                    </Halcon:HSmartWindowControlWPF>
+                    <!--
+                    </Halcon:HSmartWindowControlWPF>-->
 
 
 
