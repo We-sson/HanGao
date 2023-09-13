@@ -17,7 +17,10 @@
     <DebugType>embedded</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="lib\halconc.dll" />
+    <Compile Remove="lib\**" />
+    <EmbeddedResource Remove="lib\**" />
+    <None Remove="lib\**" />
+    <Page Remove="lib\**" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Halcon样图测试\9点标定板样图\9点标定板.png" />
@@ -58,14 +61,5 @@
     <None Update="hcanvas.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="lib\halcon.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="lib\hcanvas.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="lib\" />
   </ItemGroup>
 </Project>
