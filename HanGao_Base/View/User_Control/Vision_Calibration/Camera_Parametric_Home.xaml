@@ -4,8 +4,8 @@
         xmlns:Camera_UI="clr-namespace:HanGao.View.User_Control.Vision_Calibration.Vison_UserControl"
         xmlns:Halcon="http://schemas.mvtec.com/halcondotnet"
         xmlns:UC_Working="clr-namespace:HanGao.View.User_Control"
+        xmlns:VTK="clr-namespace:Kitware.VTK;assembly=Kitware.VTK"
         xmlns:Vision_control="clr-namespace:HanGao.View.User_Control.Vision_Control"
-        xmlns:Vtk="clr-namespace:Kitware.VTK;assembly=Kitware.VTK"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:HanGao.View.User_Control.Vision_Calibration"
@@ -423,7 +423,8 @@
 
                     <WindowsFormsHost Grid.Row=" 1" Grid.Column=" 0"
                                       Grid.ColumnSpan=" 2">
-                        <Vtk:RenderWindowControl x:Name="Calibration_3D_Results" />
+                        <!--<Vtk:RenderWindowControl />-->
+                        <VTK:RenderWindowControl x:Name="Calibration_3D_Results" />
                     </WindowsFormsHost>
 
 

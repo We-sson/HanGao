@@ -24,17 +24,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Kitware.mummy.Runtime">
-      <HintPath>Kitware.mummy.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Kitware.VTK">
-      <HintPath>Kitware.VTK.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="concrt140.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Kitware.mummy.Runtime.dll">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="Kitware.mummy.Runtime.Unmanaged.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -71,6 +65,9 @@
     </None>
     <None Update="Kitware.VTK.DICOM.Unmanaged.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Kitware.VTK.dll">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="Kitware.VTK.DomainsChemistry.Unmanaged.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
