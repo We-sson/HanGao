@@ -91,6 +91,12 @@
     <Reference Include="hdevenginedotnet">
       <HintPath>..\Halcon_SDK\hdevenginedotnet.dll</HintPath>
     </Reference>
+    <Reference Include="Kitware.mummy.Runtime">
+      <HintPath>..\VTK_3DLibrary\Kitware.mummy.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Kitware.VTK">
+      <HintPath>..\VTK_3DLibrary\Kitware.VTK.dll</HintPath>
+    </Reference>
     <Reference Include="MvCamCtrl.Net">
       <HintPath>..\MVS_SDK\MvCamCtrl.Net.dll</HintPath>
     </Reference>
@@ -218,7 +224,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
-    <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
+    <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" PrivateAssets="All" />
     <PackageReference Include="System.ComponentModel.Composition" Version="7.0.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
   </ItemGroup>
