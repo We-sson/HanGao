@@ -33,7 +33,7 @@
             <RowDefinition Height=" 0.35*" />
         </Grid.RowDefinitions>
 
-        <TabControl Grid.Row="0" Grid.Column=" 0"
+        <TabControl x:Name="Tab_Window" Grid.Row="0" Grid.Column=" 0"
                     Margin="5"
                     Padding="0"
                     Background="Transparent"
@@ -41,13 +41,13 @@
                     BorderThickness="4"
                     SelectedIndex="0"
                     TabStripPlacement="Top">
-            <i:Interaction.Triggers>
+            <!--<i:Interaction.Triggers>
                 <i:EventTrigger EventName="Loaded">
                     <i:InvokeCommandAction Command="{Binding Initialization_Halcon_UserControl_Comm}"
                                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                            PassEventArgsToCommand="True" />
                 </i:EventTrigger>
-            </i:Interaction.Triggers>
+            </i:Interaction.Triggers>-->
 
             <TabItem Style="{DynamicResource Vision_TabItemStyle}"
                      Padding="40,5,40,5"

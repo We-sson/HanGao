@@ -1,4 +1,6 @@
-﻿using HanGao.View.User_Control.Vision_Calibration;
+﻿using HalconDotNet;
+using HanGao.View.User_Control.Vision_Calibration;
+using HanGao.View.User_Control.Vision_Calibration.Vison_UserControl;
 using Kitware.VTK;
 using MVS_SDK_Base.Model;
 using System;
@@ -7,6 +9,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 
@@ -110,8 +113,8 @@ namespace HanGao.ViewModel
                 StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Halcon_ShowMinGray)));
             }
         }
-         
-        public static bool _Halcon_ShowHObject { get; set; } = true ;
+
+        public static bool _Halcon_ShowHObject { get; set; } = true;
         /// <summary>
         /// 标定控件显示最小灰度参数
         /// </summary>
@@ -187,7 +190,45 @@ namespace HanGao.ViewModel
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
+
                 Camera_Parametric_Home Window_UserContol = Sm.Source as Camera_Parametric_Home;
+
+
+
+
+                Task.Run(() =>
+                {
+
+
+
+                    //激活控件显示
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+
+                        Window_UserContol.Tab_Window.BeginInit();
+                        for (int index = 0; index < Window_UserContol.Tab_Window.Items.Count; index++)
+                        {
+
+
+
+                            Window_UserContol.Tab_Window.SelectedIndex = index;
+                            Window_UserContol.UpdateLayout();
+
+
+                            //HWindows_Initialization((HSmartWindowControlWPF)Window_UserContol.Items[index]);
+                            Task.Delay(500);
+                        }
+                        // Reset to first tab
+                        Window_UserContol.Tab_Window.SelectedIndex = 0;
+                        Window_UserContol.Tab_Window.EndInit();
+
+                    });
+           
+
+
+
+
+
 
 
                 //Calibration_3D_Results = new Halcon_SDK() { HWindow = Window_UserContol.Calibration_3D_Results.HalconWindow, Halcon_UserContol = Window_UserContol.Calibration_3D_Results };
@@ -197,29 +238,176 @@ namespace HanGao.ViewModel
 
                 //HWindows_Initialization(Window_UserContol);
 
-                Task.Run(() =>
-                {
+           
 
 
 
 
                     // Create a simple cube. A pipeline is created.
+                    // 创建一个简单的立方体。创建一个管道。
                     vtkCubeSource cube = vtkCubeSource.New();
 
                     vtkPolyDataMapper mapper = vtkPolyDataMapper.New();
                     mapper.SetInputConnection(cube.GetOutputPort());
 
                     // The actor links the data pipeline to the rendering subsystem
+                    // 角色将数据管道与渲染子系统连接起来
                     vtkActor actor = vtkActor.New();
                     actor.SetMapper(mapper);
 
                     // Create components of the rendering subsystem
-                    //
+                    // // 创建渲染子系统的组件
                     vtkRenderer renderer = Window_UserContol.Calibration_3D_Results.RenderWindow.GetRenderers().GetFirstRenderer();
                     renderer.SetBackground(.2, .3, .4);
 
                     // Add the actors to the renderer, set the window size
+                    // 将演员添加到呈现器，设置窗口大小
                     renderer.AddActor(actor);
+
+
+
+                    // Local iconic variables 
+
+                    HObject ho_ContCircle;
+
+                    // Local control variables 
+
+                    HTuple hv_WindowHandle = new HTuple(), hv_PoseIn = new HTuple();
+                    HTuple hv_Row = new HTuple(), hv_Column = new HTuple();
+                    HTuple hv_X = new HTuple(), hv_Y = new HTuple(), hv_ObjectModel3DPlane1 = new HTuple();
+                    HTuple hv_ObjectModel3DPlane2 = new HTuple(), hv_ObjectModel3DSphere1 = new HTuple();
+                    HTuple hv_ObjectModel3DSphere2 = new HTuple(), hv_ObjectModel3DCylinder = new HTuple();
+                    HTuple hv_ObjectModel3DBox = new HTuple(), hv_Instructions = new HTuple();
+                    HTuple hv_ObjectModels = new HTuple(), hv_Labels = new HTuple();
+                    HTuple hv_VisParamName = new HTuple(), hv_VisParamValue = new HTuple();
+                    HTuple hv_PoseOut = new HTuple();
+                    // Initialize local and output iconic variables 
+                    HOperatorSet.GenEmptyObj(out ho_ContCircle);
+
+                    HOperatorSet.CreatePose(0.1, 1.5, 88, 106, 337, 224, "Rp+T", "gba", "point",
+       out hv_PoseIn);
+                    ho_ContCircle.Dispose();
+                    HOperatorSet.GenCircleContourXld(out ho_ContCircle, 200, 200, 100, 0, 6.28318,
+                        "positive", 120);
+                    hv_Row.Dispose(); hv_Column.Dispose();
+                    HOperatorSet.GetContourXld(ho_ContCircle, out hv_Row, out hv_Column);
+                    hv_X.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_X = ((3 * hv_Row) / (((hv_Row.TupleConcat(
+                            hv_Column))).TupleMax())) - 2;
+                    }
+                    hv_Y.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_Y = ((3 * hv_Column) / (((hv_Row.TupleConcat(
+                            hv_Column))).TupleMax())) - 2;
+                    }
+                    //
+                    //Create an infinite plane.
+                    hv_ObjectModel3DPlane1.Dispose();
+                    HOperatorSet.GenPlaneObjectModel3d(((((((new HTuple(0)).TupleConcat(0)).TupleConcat(
+                        0)).TupleConcat(0)).TupleConcat(0)).TupleConcat(0)).TupleConcat(0), new HTuple(),
+                        new HTuple(), out hv_ObjectModel3DPlane1);
+                    //Create a limited plane.
+                    hv_ObjectModel3DPlane2.Dispose();
+                    HOperatorSet.GenPlaneObjectModel3d(((((((new HTuple(1)).TupleConcat(1)).TupleConcat(
+                        1)).TupleConcat(0)).TupleConcat(50)).TupleConcat(30)).TupleConcat(0), hv_X,
+                        hv_Y, out hv_ObjectModel3DPlane2);
+                    //Create a sphere using pose.
+                    hv_ObjectModel3DSphere1.Dispose();
+                    HOperatorSet.GenSphereObjectModel3d(((((((new HTuple(0)).TupleConcat(0)).TupleConcat(
+                        3)).TupleConcat(0)).TupleConcat(0)).TupleConcat(0)).TupleConcat(0), 0.5,
+                        out hv_ObjectModel3DSphere1);
+                    //Create a sphere and position.
+                    hv_ObjectModel3DSphere2.Dispose();
+                    HOperatorSet.GenSphereObjectModel3dCenter(-1, 0, 1, 1, out hv_ObjectModel3DSphere2);
+                    //Create a cylinder.
+                    hv_ObjectModel3DCylinder.Dispose();
+                    HOperatorSet.GenCylinderObjectModel3d(((((((new HTuple(1)).TupleConcat(-1)).TupleConcat(
+                        2)).TupleConcat(0)).TupleConcat(0)).TupleConcat(60)).TupleConcat(0), 0.5,
+                        -1, 1, out hv_ObjectModel3DCylinder);
+                    //Create a box.
+                    hv_ObjectModel3DBox.Dispose();
+                    HOperatorSet.GenBoxObjectModel3d(((((((new HTuple(-1)).TupleConcat(2)).TupleConcat(
+                        1)).TupleConcat(0)).TupleConcat(0)).TupleConcat(90)).TupleConcat(0), 1,
+                        2, 1, out hv_ObjectModel3DBox);
+                    //
+                    //Display the generated primitives.
+                    if (hv_Instructions == null)
+                        hv_Instructions = new HTuple();
+                    hv_Instructions[0] = "Rotate: Left button";
+                    if (hv_Instructions == null)
+                        hv_Instructions = new HTuple();
+                    hv_Instructions[1] = "Zoom:   Shift + left button";
+                    if (hv_Instructions == null)
+                        hv_Instructions = new HTuple();
+                    hv_Instructions[2] = "Move:   Ctrl  + left button";
+                    hv_ObjectModels.Dispose();
+
+                    hv_ObjectModels = new HTuple();
+                    hv_ObjectModels = hv_ObjectModels.TupleConcat(hv_ObjectModel3DPlane1, hv_ObjectModel3DCylinder, hv_ObjectModel3DSphere1, hv_ObjectModel3DSphere2, hv_ObjectModel3DPlane2, hv_ObjectModel3DBox);
+
+
+
+
+                    HTuple hv_x = new HTuple();
+                    HTuple hv_y = new HTuple();
+                    HTuple hv_z = new HTuple();
+                    HTuple hv_num = new HTuple();
+
+
+                    HOperatorSet.WriteObjectModel3d(hv_ObjectModels, "ply", "_", new HTuple(), new HTuple());
+
+
+
+                    using (MemoryStream memStream = new MemoryStream())
+                    {
+
+
+
+
+                    };
+
+                    HOperatorSet.GetObjectModel3dParams(hv_ObjectModels, "point_coord_x", out hv_x);
+                    HOperatorSet.GetObjectModel3dParams(hv_ObjectModels, "point_coord_y", out hv_y);
+                    HOperatorSet.GetObjectModel3dParams(hv_ObjectModels, "point_coord_z", out hv_z);
+                    HOperatorSet.GetObjectModel3dParams(hv_ObjectModels, "num_points", out hv_num);
+
+                    int num = hv_num[0].I;
+                    vtkPoints points = new vtkPoints();
+
+                    for (int i = 1; i < num; i++)
+                    {
+                        points.InsertPoint(i, hv_x.DArr[i], hv_y.DArr[i], hv_z.DArr[i]);
+                    }
+
+
+
+                    vtkPolyData polydata = vtkPolyData.New();
+
+                    polydata.SetPoints(points);
+
+                    //vtkVertexGlyphFilter glyphFilter = vtkVertexGlyphFilter.New();
+                    //glyphFilter.SetInputConnection(polydata.GetPointData());
+
+                    //mapper.SetInputConnection(glyphFilter.GetOutputPort());
+                    vtkActor actor1 = vtkActor.New();
+                    //actor1.SetMapper(mapper);
+                    actor1.GetProperty().SetPointSize(hv_num);
+                    //actor.GetProperty().SetColor(r, g, b);
+                    renderer.AddActor(actor1);
+
+
+
+
+
+
+
+
+
+
+
 
 
                 });
@@ -240,18 +428,35 @@ namespace HanGao.ViewModel
             {
                 TabControl Window_UserContol = Sm.Source as TabControl;
 
-                Window_UserContol.BeginInit();
-                for (int index = 0; index < Window_UserContol.Items.Count; index++)
+
+                Task.Run(() =>
                 {
-                    Window_UserContol.SelectedIndex = index;
-                    Window_UserContol.UpdateLayout();
-                    //HWindows_Initialization((HSmartWindowControlWPF)Window_UserContol.Items[index]);
 
-                }
-                // Reset to first tab
-                Window_UserContol.SelectedIndex = 0;
-                Window_UserContol.EndInit();
 
+
+
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+
+                        Window_UserContol.BeginInit();
+                        for (int index = 0; index < Window_UserContol.Items.Count; index++)
+                        {
+
+
+
+                            Window_UserContol.SelectedIndex = index;
+                            Window_UserContol.UpdateLayout();
+
+
+                            //HWindows_Initialization((HSmartWindowControlWPF)Window_UserContol.Items[index]);
+                            Task.Delay(500);
+                        }
+                        // Reset to first tab
+                        Window_UserContol.SelectedIndex = 0;
+                        Window_UserContol.EndInit();
+
+                    });
+                });
 
 
                 //Window_UserContol.Height = Window_UserContol.ActualHeight;
@@ -360,7 +565,7 @@ namespace HanGao.ViewModel
         public void Display_3DModel_Window(Display3DModel_Model _3DModel)
         {
 
-            Task.Run(() => 
+            Task.Run(() =>
             {
 
                 HTuple _PosOut;
