@@ -528,8 +528,8 @@ namespace HanGao.ViewModel
             Task.Run(() =>
             {
 
-                HTuple _PosOut;
-                Halcon_Example.Visualize_object_model_3d(Calibration_3D_Results.HWindow, _3DModel._ObjectModel3D, _3DModel._CamParam, _3DModel._PoseIn, _3DModel._GenParamName, _3DModel._GenParamValue, _3DModel._Title, _3DModel._Label, _3DModel._Information, out _PosOut);
+                //HTuple _PosOut;
+                //Halcon_Examples.Visualize_object_model_3d(Calibration_3D_Results.HWindow, _3DModel._ObjectModel3D, _3DModel._CamParam, _3DModel._PoseIn, _3DModel._GenParamName, _3DModel._GenParamValue, _3DModel._Title, _3DModel._Label, _3DModel._Information, out _PosOut);
 
 
 

@@ -29,13 +29,13 @@ public partial class Halcon_Examples
     private void Calibration_3D_Results_HMouseWheel(object sender, HSmartWindowControlWPF.HMouseEventArgsWPF e)
     {
 
-
+        hv_GraphButton = 2;
 
 
     }
 
 
-
+    HTuple hv_GraphButton = new HTuple();
 
     HTuple  gDispObjOffset;
   HTuple  gLabelsDecor;
@@ -950,6 +950,7 @@ public partial class Halcon_Examples
       }
       else if ((int)(hv_IsButtonDist) != 0)
       {
+
         //Change the Z distance
         hv_MRow1.Dispose();
         hv_MRow1 = new HTuple(hv_Row_COPY_INP_TMP);
@@ -1119,7 +1120,9 @@ public partial class Halcon_Examples
             //Keep waiting
           }
         }
-      }
+     
+            
+            }
       else if ((int)(hv_IsButtonRot) != 0)
       {
         //Rotate the object
@@ -4293,7 +4296,7 @@ public partial class Halcon_Examples
     HTuple hv_MaxIndex = new HTuple(), hv_TrackballCenterRow = new HTuple();
     HTuple hv_TrackballCenterCol = new HTuple(), hv_GraphEvent = new HTuple();
     HTuple hv_Exit = new HTuple(), hv_GraphButtonRow = new HTuple();
-    HTuple hv_GraphButtonColumn = new HTuple(), hv_GraphButton = new HTuple();
+    HTuple hv_GraphButtonColumn = new HTuple();
     HTuple hv_ButtonReleased = new HTuple(), hv_e = new HTuple();
     HTuple   hv_CamParam_COPY_INP_TMP = new HTuple(hv_CamParam);
     HTuple   hv_GenParamName_COPY_INP_TMP = new HTuple(hv_GenParamName);
@@ -5567,6 +5570,7 @@ public partial class Halcon_Examples
             hv_GraphButtonRow.Dispose();hv_GraphButtonColumn.Dispose();hv_GraphButton.Dispose();
             HOperatorSet.GetMpositionSubPix(hv_WindowHandle, out hv_GraphButtonRow, 
                 out hv_GraphButtonColumn, out hv_GraphButton);
+
             if ((int)(new HTuple(hv_GraphButton.TupleNotEqual(0))) != 0)
             {
               if ((int)((new HTuple((new HTuple((new HTuple(hv_GraphButtonRow.TupleGreater(
