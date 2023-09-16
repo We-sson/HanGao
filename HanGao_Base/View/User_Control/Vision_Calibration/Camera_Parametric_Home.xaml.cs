@@ -24,7 +24,10 @@ namespace HanGao.View.User_Control.Vision_Calibration
             InitializeComponent();
         }
 
+        private void Calibration_3D_Results_HMouseWheel(object sender, HSmartWindowControlWPF.HMouseEventArgsWPF e)
+        {
 
+        }
 
 
     }

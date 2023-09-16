@@ -12,8 +12,17 @@
 
 using HalconDotNet;
 
-public  partial    class Halcon_Examples_Method
+public partial class Halcon_Examples
 {
+    public Halcon_Examples(HWindow _HWindow)
+    {
+        ///使用系统多线程
+        HOperatorSet.SetSystem("use_window_thread", "true");
+        HDevWindowStack.Push(_HWindow);
+        HDevWindowStack.SetActive(_HWindow);
+    }
+
+
   HTuple  gDispObjOffset;
   HTuple  gLabelsDecor;
   HTuple  gInfoDecor;
@@ -167,7 +176,7 @@ public  partial    class Halcon_Examples_Method
   // Procedures 
   // Chapter: Graphics / Output
   // Short Description: Reflect the pose change that was introduced by the user by moving the mouse 
-  private void Analyze_graph_event (HObject ho_BackgroundImage, HTuple hv_MouseMapping, 
+  private void analyze_graph_event (HObject ho_BackgroundImage, HTuple hv_MouseMapping, 
       HTuple hv_Button, HTuple hv_Row, HTuple hv_Column, HTuple hv_WindowHandle, HTuple hv_WindowHandleBuffer, 
       HTuple hv_VirtualTrackball, HTuple hv_TrackballSize, HTuple hv_SelectedObjectIn, 
       HTuple hv_Scene3D, HTuple hv_AlphaOrig, HTuple hv_ObjectModel3DID, HTuple hv_CamParam, 
@@ -499,7 +508,6 @@ public  partial    class Halcon_Examples_Method
       try
       {
         HOperatorSet.SetScene3dParam(hv_Scene3D, "object_index_persistence", "true");
-
         HOperatorSet.DisplayScene3d(hv_WindowHandleBuffer, hv_Scene3D, 0);
         hv_ModelIndex.Dispose();
         HOperatorSet.GetDisplayScene3dInfo(hv_WindowHandleBuffer, hv_Scene3D, hv_Row_COPY_INP_TMP, 
@@ -630,9 +638,9 @@ public  partial    class Halcon_Examples_Method
           );
       }
       hv_Width.Dispose();
-      Get_cam_par_data(hv_CamParam, "image_width", out hv_Width);
+      get_cam_par_data(hv_CamParam, "image_width", out hv_Width);
       hv_Height.Dispose();
-      Get_cam_par_data(hv_CamParam, "image_height", out hv_Height);
+      get_cam_par_data(hv_CamParam, "image_height", out hv_Height);
       hv_MinImageSize.Dispose();
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
@@ -661,7 +669,7 @@ public  partial    class Halcon_Examples_Method
         if ((int)(new HTuple(hv_WindowCenteredRotationOut.TupleEqual(1))) != 0)
         {
           hv_TBCenter_COPY_INP_TMP.Dispose();hv_TBSize_COPY_INP_TMP.Dispose();
-          Get_trackball_center_fixed(hv_SelectedObjectIn, hv_TrackballCenterRow, 
+          get_trackball_center_fixed(hv_SelectedObjectIn, hv_TrackballCenterRow, 
               hv_TrackballCenterCol, hv_TrackballRadiusPixel, hv_Scene3D, hv_ObjectModel3DID, 
               hv_PosesIn_COPY_INP_TMP, hv_WindowHandleBuffer, hv_CamParam, hv_GenParamName, 
               hv_GenParamValue, out hv_TBCenter_COPY_INP_TMP, out hv_TBSize_COPY_INP_TMP);
@@ -669,7 +677,7 @@ public  partial    class Halcon_Examples_Method
         else
         {
           hv_TBCenter_COPY_INP_TMP.Dispose();hv_TBSize_COPY_INP_TMP.Dispose();
-          Get_trackball_center(hv_SelectedObjectIn, hv_TrackballRadiusPixel, hv_ObjectModel3DID, 
+          get_trackball_center(hv_SelectedObjectIn, hv_TrackballRadiusPixel, hv_ObjectModel3DID, 
               hv_PosesIn_COPY_INP_TMP, out hv_TBCenter_COPY_INP_TMP, out hv_TBSize_COPY_INP_TMP);
         }
       }
@@ -896,7 +904,7 @@ public  partial    class Halcon_Examples_Method
             }
             using (HDevDisposeHelper dh = new HDevDisposeHelper())
             {
-            Dump_image_output(ho_BackgroundImage, hv_WindowHandleBuffer, hv_Scene3D, 
+            dump_image_output(ho_BackgroundImage, hv_WindowHandleBuffer, hv_Scene3D, 
                 hv_AlphaOrig, hv_ObjectModel3DID, hv_GenParamName, hv_GenParamValue, 
                 hv_CamParam, hv_PosesOut, hv_ColorImage, hv_Title, hv_Information, 
                 hv_Labels, hv_VisualizeTB, "true", hv_TrackballCenterRow, hv_TrackballCenterCol, 
@@ -906,10 +914,10 @@ public  partial    class Halcon_Examples_Method
             ho_ImageDump.Dispose();
             HOperatorSet.DumpWindowImage(out ho_ImageDump, hv_WindowHandleBuffer);
             HDevWindowStack.SetActive(hv_WindowHandle);
-            //if (HDevWindowStack.IsOpen())
-            //{
+            if (HDevWindowStack.IsOpen())
+            {
               HOperatorSet.DispObj(ho_ImageDump, HDevWindowStack.GetActive());
-            //}
+            }
             //
             hv_MRow1.Dispose();
             hv_MRow1 = new HTuple(hv_Row_COPY_INP_TMP);
@@ -1071,19 +1079,19 @@ public  partial    class Halcon_Examples_Method
                   0,hv_NumModels-1,1), hv_PosesOut);
               }
             }
-            Dump_image_output(ho_BackgroundImage, hv_WindowHandleBuffer, hv_Scene3D, 
+            dump_image_output(ho_BackgroundImage, hv_WindowHandleBuffer, hv_Scene3D, 
                 hv_AlphaOrig, hv_ObjectModel3DID, hv_GenParamName, hv_GenParamValue, 
                 hv_CamParam, hv_PosesOut, hv_ColorImage, hv_Title, hv_Information, 
-                hv_Labels, hv_VisualizeTB, "true", hv_TrackballCenterRow, hv_TrackballCenterCol, 
+                hv_Labels, hv_VisualizeTB, "false", hv_TrackballCenterRow, hv_TrackballCenterCol, 
                 hv_TBSize_COPY_INP_TMP, hv_SelectedObjectOut, hv_WindowCenteredRotationOut, 
                 hv_TBCenter_COPY_INP_TMP);
             ho_ImageDump.Dispose();
             HOperatorSet.DumpWindowImage(out ho_ImageDump, hv_WindowHandleBuffer);
             HDevWindowStack.SetActive(hv_WindowHandle);
-            //if (HDevWindowStack.IsOpen())
-            //{
-              HOperatorSet.DispObj(ho_ImageDump, hv_WindowHandle);
-            //}
+            if (HDevWindowStack.IsOpen())
+            {
+              HOperatorSet.DispObj(ho_ImageDump, HDevWindowStack.GetActive());
+            }
             //
             hv_MRow1.Dispose();
             hv_MRow1 = new HTuple(hv_Row_COPY_INP_TMP);
@@ -1146,7 +1154,7 @@ public  partial    class Halcon_Examples_Method
             //Compute the quaternion rotation that corresponds to the mouse
             //movement
             hv_RelQuaternion.Dispose();
-            Trackball(hv_MX1, hv_MY1, hv_MX2, hv_MY2, hv_VirtualTrackball, hv_TrackballSize, 
+            trackball(hv_MX1, hv_MY1, hv_MX2, hv_MY2, hv_VirtualTrackball, hv_TrackballSize, 
                 hv_SensFactor, out hv_RelQuaternion);
             //Transform the quaternion to a rotation matrix
             hv_HomMat3DRotRel.Dispose();
@@ -1287,7 +1295,7 @@ public  partial    class Halcon_Examples_Method
                   0,hv_NumModels-1,1), hv_PosesOut);
               }
             }
-            Dump_image_output(ho_BackgroundImage, hv_WindowHandleBuffer, hv_Scene3D, 
+            dump_image_output(ho_BackgroundImage, hv_WindowHandleBuffer, hv_Scene3D, 
                 hv_AlphaOrig, hv_ObjectModel3DID, hv_GenParamName, hv_GenParamValue, 
                 hv_CamParam, hv_PosesOut, hv_ColorImage, hv_Title, hv_Information, 
                 hv_Labels, hv_VisualizeTB, "true", hv_TrackballCenterRow, hv_TrackballCenterCol, 
@@ -1296,10 +1304,10 @@ public  partial    class Halcon_Examples_Method
             ho_ImageDump.Dispose();
             HOperatorSet.DumpWindowImage(out ho_ImageDump, hv_WindowHandleBuffer);
             HDevWindowStack.SetActive(hv_WindowHandle);
-            //if (HDevWindowStack.IsOpen())
-            //{
-              HOperatorSet.DispObj(ho_ImageDump, hv_WindowHandle);
-            //}
+            if (HDevWindowStack.IsOpen())
+            {
+              HOperatorSet.DispObj(ho_ImageDump, HDevWindowStack.GetActive());
+            }
             //
             hv_MRow1.Dispose();
             hv_MRow1 = new HTuple(hv_Row_COPY_INP_TMP);
@@ -1392,7 +1400,7 @@ public  partial    class Halcon_Examples_Method
   }
 
   // Chapter: Graphics / Parameters
-  public void Color_string_to_rgb (HTuple hv_Color, out HTuple hv_RGB)
+  public void color_string_to_rgb (HTuple hv_Color, out HTuple hv_RGB)
   {
 
 
@@ -1453,7 +1461,7 @@ public  partial    class Halcon_Examples_Method
 
   // Chapter: Graphics / Output
   // Short Description: Determine the optimum distance of the object to obtain a reasonable visualization 
-  public void Determine_optimum_pose_distance (HTuple hv_ObjectModel3DID, HTuple hv_CamParam, 
+  public void determine_optimum_pose_distance (HTuple hv_ObjectModel3DID, HTuple hv_CamParam, 
       HTuple hv_ImageCoverage, HTuple hv_PoseIn, out HTuple hv_PoseOut)
   {
 
@@ -1675,9 +1683,9 @@ public  partial    class Halcon_Examples_Method
         ;
     }
     hv_Cx.Dispose();
-    Get_cam_par_data(hv_CamParam, "cx", out hv_Cx);
+    get_cam_par_data(hv_CamParam, "cx", out hv_Cx);
     hv_Cy.Dispose();
-    Get_cam_par_data(hv_CamParam, "cy", out hv_Cy);
+    get_cam_par_data(hv_CamParam, "cy", out hv_Cy);
     hv_DR.Dispose();
     using (HDevDisposeHelper dh = new HDevDisposeHelper())
     {
@@ -1774,9 +1782,9 @@ public  partial    class Halcon_Examples_Method
     }
     //
     hv_ImageWidth.Dispose();
-    Get_cam_par_data(hv_CamParam, "image_width", out hv_ImageWidth);
+    get_cam_par_data(hv_CamParam, "image_width", out hv_ImageWidth);
     hv_ImageHeight.Dispose();
-    Get_cam_par_data(hv_CamParam, "image_height", out hv_ImageHeight);
+    get_cam_par_data(hv_CamParam, "image_height", out hv_ImageHeight);
     hv_MinImageSize.Dispose();
     using (HDevDisposeHelper dh = new HDevDisposeHelper())
     {
@@ -1865,7 +1873,7 @@ public  partial    class Halcon_Examples_Method
 
   // Chapter: Graphics / Output
   // Short Description: Display a continue button. 
-  public void Disp_continue_button (HTuple hv_WindowHandle)
+  public void disp_continue_button (HTuple hv_WindowHandle)
   {
 
 
@@ -1914,7 +1922,7 @@ public  partial    class Halcon_Examples_Method
     }
     using (HDevDisposeHelper dh = new HDevDisposeHelper())
     {
-    Disp_text_button(hv_WindowHandle, hv_ContinueMessage, "window", (hv_Height-hv_TextHeight)-22, 
+    disp_text_button(hv_WindowHandle, hv_ContinueMessage, "window", (hv_Height-hv_TextHeight)-22, 
         (hv_Width-hv_TextWidth)-12, "black", "#f28f26");
     }
 
@@ -1934,7 +1942,7 @@ public  partial    class Halcon_Examples_Method
 
   // Chapter: Graphics / Output
   // Short Description: Replace disp_object_model_3d if there is no OpenGL available. 
-  public void Disp_object_model_no_opengl (out HObject ho_ModelContours, HTuple hv_ObjectModel3DID, 
+  public void disp_object_model_no_opengl (out HObject ho_ModelContours, HTuple hv_ObjectModel3DID, 
       HTuple hv_GenParamName, HTuple hv_GenParamValue, HTuple hv_WindowHandleBuffer, 
       HTuple hv_CamParam, HTuple hv_PosesOut)
   {
@@ -2018,12 +2026,12 @@ public  partial    class Halcon_Examples_Method
         HOperatorSet.ClearWindow(hv_WindowHandleBuffer);
       }
     }
-    Set_display_font(hv_WindowHandleBuffer, 11, "mono", "false", "false");
+    set_display_font(hv_WindowHandleBuffer, 11, "mono", "false", "false");
     hv_ImageWidth.Dispose();
-    Get_cam_par_data(hv_CamParam, "image_width", out hv_ImageWidth);
+    get_cam_par_data(hv_CamParam, "image_width", out hv_ImageWidth);
     using (HDevDisposeHelper dh = new HDevDisposeHelper())
     {
-    Disp_message(hv_WindowHandleBuffer, "OpenGL missing!", "image", 5, hv_ImageWidth-130, 
+    disp_message(hv_WindowHandleBuffer, "OpenGL missing!", "image", 5, hv_ImageWidth-130, 
         "red", "false");
     }
     HOperatorSet.SetFont(hv_WindowHandleBuffer, hv_Font);
@@ -2429,7 +2437,7 @@ public  partial    class Halcon_Examples_Method
 
   // Chapter: Graphics / Text
   // Short Description: Display a text message. 
-  public void Disp_text_button (HTuple hv_WindowHandle, HTuple hv_String, HTuple hv_CoordSystem, 
+  public void disp_text_button (HTuple hv_WindowHandle, HTuple hv_String, HTuple hv_CoordSystem, 
       HTuple hv_Row, HTuple hv_Column, HTuple hv_TextColor, HTuple hv_ButtonColor)
   {
 
@@ -2525,7 +2533,7 @@ public  partial    class Halcon_Examples_Method
     try
     {
       hv_RGB.Dispose();
-      Color_string_to_rgb(hv_ButtonColor, out hv_RGB);
+      color_string_to_rgb(hv_ButtonColor, out hv_RGB);
     }
     // catch (Exception) 
     catch (HalconException HDevExpDefaultException1)
@@ -2787,7 +2795,7 @@ public  partial    class Halcon_Examples_Method
   }
 
   // Chapter: Graphics / Output
-  private void Disp_title_and_information (HTuple hv_WindowHandle, HTuple hv_Title, 
+  private void disp_title_and_information (HTuple hv_WindowHandle, HTuple hv_Title, 
       HTuple hv_Information)
   {
 
@@ -2845,7 +2853,7 @@ public  partial    class Halcon_Examples_Method
       else if ((int)(new HTuple(ExpGetGlobalVar_gTitlePos().TupleEqual("UpperCenter"))) != 0)
       {
         hv_TextWidth.Dispose();
-        Max_line_width(hv_WindowHandle, hv_Title_COPY_INP_TMP, out hv_TextWidth);
+        max_line_width(hv_WindowHandle, hv_Title_COPY_INP_TMP, out hv_TextWidth);
         hv_Column.Dispose();
         using (HDevDisposeHelper dh = new HDevDisposeHelper())
         {
@@ -2860,13 +2868,13 @@ public  partial    class Halcon_Examples_Method
           using (HDevDisposeHelper dh = new HDevDisposeHelper())
           {
           hv_TextWidth.Dispose();
-          Max_line_width(hv_WindowHandle, hv_Title_COPY_INP_TMP+"  ", out hv_TextWidth);
+          max_line_width(hv_WindowHandle, hv_Title_COPY_INP_TMP+"  ", out hv_TextWidth);
           }
         }
         else
         {
           hv_TextWidth.Dispose();
-          Max_line_width(hv_WindowHandle, hv_Title_COPY_INP_TMP, out hv_TextWidth);
+          max_line_width(hv_WindowHandle, hv_Title_COPY_INP_TMP, out hv_TextWidth);
         }
         hv_Column.Dispose();
         using (HDevDisposeHelper dh = new HDevDisposeHelper())
@@ -2881,7 +2889,7 @@ public  partial    class Halcon_Examples_Method
       }
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
-      Disp_message(hv_WindowHandle, hv_Title_COPY_INP_TMP, "window", hv_Row, hv_Column, 
+      disp_message(hv_WindowHandle, hv_Title_COPY_INP_TMP, "window", hv_Row, hv_Column, 
           ExpGetGlobalVar_gTitleDecor().TupleSelect(0), ExpGetGlobalVar_gTitleDecor().TupleSelect(
           1));
       }
@@ -2919,13 +2927,13 @@ public  partial    class Halcon_Examples_Method
           using (HDevDisposeHelper dh = new HDevDisposeHelper())
           {
           hv_TextWidth.Dispose();
-          Max_line_width(hv_WindowHandle, hv_Information_COPY_INP_TMP+"  ", out hv_TextWidth);
+          max_line_width(hv_WindowHandle, hv_Information_COPY_INP_TMP+"  ", out hv_TextWidth);
           }
         }
         else
         {
           hv_TextWidth.Dispose();
-          Max_line_width(hv_WindowHandle, hv_Information_COPY_INP_TMP, out hv_TextWidth);
+          max_line_width(hv_WindowHandle, hv_Information_COPY_INP_TMP, out hv_TextWidth);
         }
         hv_Row.Dispose();
         hv_Row = 12;
@@ -2956,7 +2964,7 @@ public  partial    class Halcon_Examples_Method
       }
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
-      Disp_message(hv_WindowHandle, hv_Information_COPY_INP_TMP, "window", hv_Row, 
+      disp_message(hv_WindowHandle, hv_Information_COPY_INP_TMP, "window", hv_Row, 
           hv_Column, ExpGetGlobalVar_gInfoDecor().TupleSelect(0), ExpGetGlobalVar_gInfoDecor().TupleSelect(
           1));
       }
@@ -2984,7 +2992,7 @@ public  partial    class Halcon_Examples_Method
 
   // Chapter: Graphics / Output
   // Short Description: Render 3D object models in a buffer window. 
-  public void Dump_image_output (HObject ho_BackgroundImage, HTuple hv_WindowHandleBuffer, 
+  public void dump_image_output (HObject ho_BackgroundImage, HTuple hv_WindowHandleBuffer, 
       HTuple hv_Scene3D, HTuple hv_AlphaOrig, HTuple hv_ObjectModel3DID, HTuple hv_GenParamName, 
       HTuple hv_GenParamValue, HTuple hv_CamParam, HTuple hv_Poses, HTuple hv_ColorImage, 
       HTuple hv_Title, HTuple hv_Information, HTuple hv_Labels, HTuple hv_VisualizeTrackball, 
@@ -3073,7 +3081,7 @@ public  partial    class Halcon_Examples_Method
       {
         //* NO OpenGL, use fallback
         ho_ModelContours.Dispose();
-        Disp_object_model_no_opengl(out ho_ModelContours, hv_ObjectModel3DID, hv_GenParamName, 
+        disp_object_model_no_opengl(out ho_ModelContours, hv_ObjectModel3DID, hv_GenParamName, 
             hv_GenParamValue, hv_WindowHandleBuffer, hv_CamParam, hv_Poses);
       }
     }
@@ -3132,7 +3140,7 @@ public  partial    class Halcon_Examples_Method
         using (HDevDisposeHelper dh = new HDevDisposeHelper())
         {
         ho_ModelContours.Dispose();
-        Disp_object_model_no_opengl(out ho_ModelContours, hv_ObjectModel3DID, hv_GenParamName.TupleConcat(
+        disp_object_model_no_opengl(out ho_ModelContours, hv_ObjectModel3DID, hv_GenParamName.TupleConcat(
             hv_DeselectedName), hv_GenParamValue.TupleConcat(hv_DeselectedValue), 
             hv_WindowHandleBuffer, hv_CamParam, hv_Poses);
         }
@@ -3234,7 +3242,7 @@ public  partial    class Halcon_Examples_Method
             }
             using (HDevDisposeHelper dh = new HDevDisposeHelper())
             {
-            Disp_message(hv_WindowHandleBuffer, hv_Label, "window", (hv_CenterRow-(hv_TextHeight/2))+(ExpGetGlobalVar_gDispObjOffset().TupleSelect(
+            disp_message(hv_WindowHandleBuffer, hv_Label, "window", (hv_CenterRow-(hv_TextHeight/2))+(ExpGetGlobalVar_gDispObjOffset().TupleSelect(
                 0)), (hv_CenterCol-(hv_TextWidth/2))+(ExpGetGlobalVar_gDispObjOffset().TupleSelect(
                 1)), new HTuple(), ExpGetGlobalVar_gLabelsDecor().TupleSelect(1));
             }
@@ -3313,12 +3321,12 @@ public  partial    class Halcon_Examples_Method
     }
     //
     //Display title
-    Disp_title_and_information(hv_WindowHandleBuffer, hv_Title, hv_Information);
+    disp_title_and_information(hv_WindowHandleBuffer, hv_Title, hv_Information);
     //
     //Display the 'Exit' button
     if ((int)(new HTuple(hv_DisplayContinueButton.TupleEqual("true"))) != 0)
     {
-      Disp_continue_button(hv_WindowHandleBuffer);
+      disp_continue_button(hv_WindowHandleBuffer);
     }
     //
     ho_ModelContours.Dispose();
@@ -3359,7 +3367,7 @@ public  partial    class Halcon_Examples_Method
 
   // Chapter: Graphics / Output
   // Short Description: Compute the center of all given 3D object models. 
-  public void Get_object_models_center (HTuple hv_ObjectModel3DID, out HTuple hv_Center)
+  public void get_object_models_center (HTuple hv_ObjectModel3DID, out HTuple hv_Center)
   {
 
 
@@ -3529,7 +3537,7 @@ public  partial    class Halcon_Examples_Method
 
   // Chapter: Graphics / Output
   // Short Description: Get the center of the virtual trackback that is used to move the camera. 
-  private void Get_trackball_center (HTuple hv_SelectedObject, HTuple hv_TrackballRadiusPixel, 
+  private void get_trackball_center (HTuple hv_SelectedObject, HTuple hv_TrackballRadiusPixel, 
       HTuple hv_ObjectModel3D, HTuple hv_Poses, out HTuple hv_TBCenter, out HTuple hv_TBSize)
   {
 
@@ -3744,7 +3752,7 @@ public  partial    class Halcon_Examples_Method
 
   // Chapter: Graphics / Output
   // Short Description: Get the center of the virtual trackback that is used to move the camera (version for inspection_mode = 'surface'). 
-  private void Get_trackball_center_fixed (HTuple hv_SelectedObject, HTuple hv_TrackballCenterRow, 
+  private void get_trackball_center_fixed (HTuple hv_SelectedObject, HTuple hv_TrackballCenterRow, 
       HTuple hv_TrackballCenterCol, HTuple hv_TrackballRadiusPixel, HTuple hv_Scene3D, 
       HTuple hv_ObjectModel3DID, HTuple hv_Poses, HTuple hv_WindowHandleBuffer, HTuple hv_CamParam, 
       HTuple hv_GenParamName, HTuple hv_GenParamValue, out HTuple hv_TBCenter, out HTuple hv_TBSize)
@@ -3780,9 +3788,9 @@ public  partial    class Halcon_Examples_Method
         );
     }
     hv_Width.Dispose();
-    Get_cam_par_data(hv_CamParam, "image_width", out hv_Width);
+    get_cam_par_data(hv_CamParam, "image_width", out hv_Width);
     hv_Height.Dispose();
-    Get_cam_par_data(hv_CamParam, "image_height", out hv_Height);
+    get_cam_par_data(hv_CamParam, "image_height", out hv_Height);
     //
     //Project the selected objects
     hv_SelectPose.Dispose();
@@ -3902,7 +3910,7 @@ public  partial    class Halcon_Examples_Method
 
   // Chapter: Graphics / Output
   // Short Description: Get string extends of several lines. 
-  private void Max_line_width (HTuple hv_WindowHandle, HTuple hv_Lines, out HTuple hv_MaxWidth)
+  private void max_line_width (HTuple hv_WindowHandle, HTuple hv_Lines, out HTuple hv_MaxWidth)
   {
 
 
@@ -3950,7 +3958,7 @@ public  partial    class Halcon_Examples_Method
 
   // Chapter: Graphics / Output
   // Short Description: Project an image point onto the trackball 
-  private void Project_point_on_trackball (HTuple hv_X, HTuple hv_Y, HTuple hv_VirtualTrackball, 
+  private void project_point_on_trackball (HTuple hv_X, HTuple hv_Y, HTuple hv_VirtualTrackball, 
       HTuple hv_TrackballSize, out HTuple hv_V)
   {
 
@@ -4055,7 +4063,7 @@ public  partial    class Halcon_Examples_Method
 
   // Chapter: Graphics / Output
   // Short Description: Compute the 3D rotation from the mouse movement 
-  private void Trackball (HTuple hv_MX1, HTuple hv_MY1, HTuple hv_MX2, HTuple hv_MY2, 
+  private void trackball (HTuple hv_MX1, HTuple hv_MY1, HTuple hv_MX2, HTuple hv_MY2, 
       HTuple hv_VirtualTrackball, HTuple hv_TrackballSize, HTuple hv_SensFactor, out HTuple hv_QuatRotation)
   {
 
@@ -4096,14 +4104,14 @@ public  partial    class Halcon_Examples_Method
     }
     //Project the image point onto the trackball
     hv_P1.Dispose();
-    Project_point_on_trackball(hv_MX1, hv_MY1, hv_VirtualTrackball, hv_TrackballSize, 
+    project_point_on_trackball(hv_MX1, hv_MY1, hv_VirtualTrackball, hv_TrackballSize, 
         out hv_P1);
     hv_P2.Dispose();
-    Project_point_on_trackball(hv_MX2, hv_MY2, hv_VirtualTrackball, hv_TrackballSize, 
+    project_point_on_trackball(hv_MX2, hv_MY2, hv_VirtualTrackball, hv_TrackballSize, 
         out hv_P2);
     //The cross product of the projected points defines the rotation axis
     hv_RotAxis.Dispose();
-    Tuple_vector_cross_product(hv_P1, hv_P2, out hv_RotAxis);
+    tuple_vector_cross_product(hv_P1, hv_P2, out hv_RotAxis);
     //Compute the rotation angle
     hv_D.Dispose();
     using (HDevDisposeHelper dh = new HDevDisposeHelper())
@@ -4170,7 +4178,7 @@ public  partial    class Halcon_Examples_Method
 
   // Chapter: Tuple / Arithmetic
   // Short Description: Calculate the cross product of two vectors of length 3. 
-  public void Tuple_vector_cross_product (HTuple hv_V1, HTuple hv_V2, out HTuple hv_VC)
+  public void tuple_vector_cross_product (HTuple hv_V1, HTuple hv_V2, out HTuple hv_VC)
   {
 
 
@@ -4402,7 +4410,7 @@ public  partial    class Halcon_Examples_Method
     ExpTmpLocalVar_gAlphaDeselected = 0.3;
     ExpSetGlobalVar_gAlphaDeselected(ExpTmpLocalVar_gAlphaDeselected);
     //Customize the label of the continue button
-    ExpTmpLocalVar_gTerminationButtonLabel = " Contion ";
+    ExpTmpLocalVar_gTerminationButtonLabel = " Continue ";
     ExpSetGlobalVar_gTerminationButtonLabel(ExpTmpLocalVar_gTerminationButtonLabel);
     //Define if the continue button responds to a single click event or
     //if it responds only if the mouse button is released while being placed
@@ -4455,7 +4463,7 @@ public  partial    class Halcon_Examples_Method
     hv_ClipRegion.Dispose();
     HOperatorSet.GetSystem("clip_region", out hv_ClipRegion);
     HOperatorSet.SetSystem("clip_region", "false");
-  
+    //dev_update_off();
     //
     //Check if GenParamName matches GenParamValue
     if ((int)(new HTuple((new HTuple(hv_GenParamName_COPY_INP_TMP.TupleLength())).TupleNotEqual(
@@ -4490,14 +4498,14 @@ public  partial    class Halcon_Examples_Method
         using (HDevDisposeHelper dh = new HDevDisposeHelper())
         {
         hv_CamParam_COPY_INP_TMP.Dispose();
-        Gen_cam_par_area_scan_division(0.06, 0, 8.5e-6, 8.5e-6, hv_Width/2, hv_Height/2, 
+        gen_cam_par_area_scan_division(0.06, 0, 8.5e-6, 8.5e-6, hv_Width/2, hv_Height/2, 
             hv_Width, hv_Height, out hv_CamParam_COPY_INP_TMP);
         }
       }
       else
       {
         hv_CamParamValue.Dispose();
-        Get_cam_par_data(hv_CamParam_COPY_INP_TMP, (((((new HTuple("sx")).TupleConcat(
+        get_cam_par_data(hv_CamParam_COPY_INP_TMP, (((((new HTuple("sx")).TupleConcat(
             "sy")).TupleConcat("cx")).TupleConcat("cy")).TupleConcat("image_width")).TupleConcat(
             "image_height"), out hv_CamParamValue);
         hv_CamWidth.Dispose();
@@ -4521,7 +4529,7 @@ public  partial    class Halcon_Examples_Method
         using (HDevDisposeHelper dh = new HDevDisposeHelper())
         {
         HTuple ExpTmpOutVar_0;
-        Set_cam_par_data(hv_CamParam_COPY_INP_TMP, "sx", (hv_CamParamValue.TupleSelect(
+        set_cam_par_data(hv_CamParam_COPY_INP_TMP, "sx", (hv_CamParamValue.TupleSelect(
             0))/hv_Scale, out ExpTmpOutVar_0);
         hv_CamParam_COPY_INP_TMP.Dispose();
         hv_CamParam_COPY_INP_TMP = ExpTmpOutVar_0;
@@ -4529,7 +4537,7 @@ public  partial    class Halcon_Examples_Method
         using (HDevDisposeHelper dh = new HDevDisposeHelper())
         {
         HTuple ExpTmpOutVar_0;
-        Set_cam_par_data(hv_CamParam_COPY_INP_TMP, "sy", (hv_CamParamValue.TupleSelect(
+        set_cam_par_data(hv_CamParam_COPY_INP_TMP, "sy", (hv_CamParamValue.TupleSelect(
             1))/hv_Scale, out ExpTmpOutVar_0);
         hv_CamParam_COPY_INP_TMP.Dispose();
         hv_CamParam_COPY_INP_TMP = ExpTmpOutVar_0;
@@ -4537,7 +4545,7 @@ public  partial    class Halcon_Examples_Method
         using (HDevDisposeHelper dh = new HDevDisposeHelper())
         {
         HTuple ExpTmpOutVar_0;
-        Set_cam_par_data(hv_CamParam_COPY_INP_TMP, "cx", (hv_CamParamValue.TupleSelect(
+        set_cam_par_data(hv_CamParam_COPY_INP_TMP, "cx", (hv_CamParamValue.TupleSelect(
             2))*hv_Scale, out ExpTmpOutVar_0);
         hv_CamParam_COPY_INP_TMP.Dispose();
         hv_CamParam_COPY_INP_TMP = ExpTmpOutVar_0;
@@ -4545,7 +4553,7 @@ public  partial    class Halcon_Examples_Method
         using (HDevDisposeHelper dh = new HDevDisposeHelper())
         {
         HTuple ExpTmpOutVar_0;
-        Set_cam_par_data(hv_CamParam_COPY_INP_TMP, "cy", (hv_CamParamValue.TupleSelect(
+        set_cam_par_data(hv_CamParam_COPY_INP_TMP, "cy", (hv_CamParamValue.TupleSelect(
             3))*hv_Scale, out ExpTmpOutVar_0);
         hv_CamParam_COPY_INP_TMP.Dispose();
         hv_CamParam_COPY_INP_TMP = ExpTmpOutVar_0;
@@ -4553,7 +4561,7 @@ public  partial    class Halcon_Examples_Method
         using (HDevDisposeHelper dh = new HDevDisposeHelper())
         {
         HTuple ExpTmpOutVar_0;
-        Set_cam_par_data(hv_CamParam_COPY_INP_TMP, "image_width", (((hv_CamParamValue.TupleSelect(
+        set_cam_par_data(hv_CamParam_COPY_INP_TMP, "image_width", (((hv_CamParamValue.TupleSelect(
             4))*hv_Scale)).TupleInt(), out ExpTmpOutVar_0);
         hv_CamParam_COPY_INP_TMP.Dispose();
         hv_CamParam_COPY_INP_TMP = ExpTmpOutVar_0;
@@ -4561,7 +4569,7 @@ public  partial    class Halcon_Examples_Method
         using (HDevDisposeHelper dh = new HDevDisposeHelper())
         {
         HTuple ExpTmpOutVar_0;
-        Set_cam_par_data(hv_CamParam_COPY_INP_TMP, "image_height", (((hv_CamParamValue.TupleSelect(
+        set_cam_par_data(hv_CamParam_COPY_INP_TMP, "image_height", (((hv_CamParamValue.TupleSelect(
             5))*hv_Scale)).TupleInt(), out ExpTmpOutVar_0);
         hv_CamParam_COPY_INP_TMP.Dispose();
         hv_CamParam_COPY_INP_TMP = ExpTmpOutVar_0;
@@ -4783,7 +4791,7 @@ public  partial    class Halcon_Examples_Method
       //
       //Read and check the parameter PoseIn for each object
       hv_Center.Dispose();
-      Get_object_models_center(hv_ObjectModel3D, out hv_Center);
+      get_object_models_center(hv_ObjectModel3D, out hv_Center);
       if ((int)(new HTuple(hv_Center.TupleEqual(new HTuple()))) != 0)
       {
         hv_Center.Dispose();
@@ -4807,7 +4815,7 @@ public  partial    class Halcon_Examples_Method
             1)), -(hv_Center.TupleSelect(2)), 0, 0, 0, "Rp+T", "gba", "point", out hv_PoseIn_COPY_INP_TMP);
         }
         hv_PoseEstimated.Dispose();
-        Determine_optimum_pose_distance(hv_ObjectModel3D, hv_CamParam_COPY_INP_TMP, 
+        determine_optimum_pose_distance(hv_ObjectModel3D, hv_CamParam_COPY_INP_TMP, 
             0.9, hv_PoseIn_COPY_INP_TMP, out hv_PoseEstimated);
         hv_Poses.Dispose();
         hv_Poses = new HTuple();
@@ -4950,7 +4958,7 @@ public  partial    class Halcon_Examples_Method
           HOperatorSet.AddScene3dCamera(hv_Scene3DTest, hv_CamParam_COPY_INP_TMP, 
               out hv_CameraIndexTest);
           hv_PoseTest.Dispose();
-          Determine_optimum_pose_distance(hv_DummyObjectModel3D, hv_CamParam_COPY_INP_TMP, 
+          determine_optimum_pose_distance(hv_DummyObjectModel3D, hv_CamParam_COPY_INP_TMP, 
               0.9, ((((((new HTuple(0)).TupleConcat(0)).TupleConcat(0)).TupleConcat(
               0)).TupleConcat(0)).TupleConcat(0)).TupleConcat(0), out hv_PoseTest);
           hv_InstanceIndexTest.Dispose();
@@ -4992,7 +5000,7 @@ public  partial    class Halcon_Examples_Method
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
       hv_Ascent.Dispose();hv_Descent.Dispose();hv_TextWidth.Dispose();hv_TextHeight.Dispose();
-      HOperatorSet.GetStringExtents(hv_WindowHandleBuffer, ExpGetGlobalVar_gTerminationButtonLabel()+"", 
+      HOperatorSet.GetStringExtents(hv_WindowHandleBuffer, ExpGetGlobalVar_gTerminationButtonLabel()+"  ", 
           out hv_Ascent, out hv_Descent, out hv_TextWidth, out hv_TextHeight);
       }
       //
@@ -5479,7 +5487,7 @@ public  partial    class Halcon_Examples_Method
             using (HDevDisposeHelper dh = new HDevDisposeHelper())
             {
             hv_TBCenter.Dispose();hv_TBSize.Dispose();
-            Get_trackball_center_fixed(hv_SelectedObject.TupleSelectRange(0,hv_MaxIndex), 
+            get_trackball_center_fixed(hv_SelectedObject.TupleSelectRange(0,hv_MaxIndex), 
                 hv_TrackballCenterRow, hv_TrackballCenterCol, hv_TrackballRadiusPixel, 
                 hv_Scene3D, hv_ObjectModel3D.TupleSelectRange(0,hv_MaxIndex), hv_Poses.TupleSelectRange(
                 0,((hv_MaxIndex+1)*7)-1), hv_WindowHandleBuffer, hv_CamParam_COPY_INP_TMP, 
@@ -5491,14 +5499,14 @@ public  partial    class Halcon_Examples_Method
           catch (HalconException HDevExpDefaultException2)
           {
             HDevExpDefaultException2.ToHTuple(out hv_Exception);
-            Disp_message(hv_WindowHandle, "Surface inspection mode is not available.", 
+            disp_message(hv_WindowHandle, "Surface inspection mode is not available.", 
                 "image", 5, 20, "red", "true");
             hv_WindowCenteredRotation.Dispose();
             hv_WindowCenteredRotation = 2;
             using (HDevDisposeHelper dh = new HDevDisposeHelper())
             {
             hv_TBCenter.Dispose();hv_TBSize.Dispose();
-            Get_trackball_center(hv_SelectedObject.TupleSelectRange(0,hv_MaxIndex), 
+            get_trackball_center(hv_SelectedObject.TupleSelectRange(0,hv_MaxIndex), 
                 hv_TrackballRadiusPixel, hv_ObjectModel3D.TupleSelectRange(0,hv_MaxIndex), 
                 hv_Poses.TupleSelectRange(0,((hv_MaxIndex+1)*7)-1), out hv_TBCenter, 
                 out hv_TBSize);
@@ -5511,13 +5519,13 @@ public  partial    class Halcon_Examples_Method
           using (HDevDisposeHelper dh = new HDevDisposeHelper())
           {
           hv_TBCenter.Dispose();hv_TBSize.Dispose();
-          Get_trackball_center(hv_SelectedObject.TupleSelectRange(0,hv_MaxIndex), 
+          get_trackball_center(hv_SelectedObject.TupleSelectRange(0,hv_MaxIndex), 
               hv_TrackballRadiusPixel, hv_ObjectModel3D.TupleSelectRange(0,hv_MaxIndex), 
               hv_Poses.TupleSelectRange(0,((hv_MaxIndex+1)*7)-1), out hv_TBCenter, 
               out hv_TBSize);
           }
         }
-        Dump_image_output(ho_Image, hv_WindowHandleBuffer, hv_Scene3D, hv_AlphaOrig, 
+        dump_image_output(ho_Image, hv_WindowHandleBuffer, hv_Scene3D, hv_AlphaOrig, 
             hv_ObjectModel3D, hv_GenParamName_COPY_INP_TMP, hv_GenParamValue_COPY_INP_TMP, 
             hv_CamParam_COPY_INP_TMP, hv_Poses, hv_ColorImage, hv_Title, hv_Information, 
             hv_Label_COPY_INP_TMP, hv_VisualizeTB, "true", hv_TrackballCenterRow, 
@@ -5526,10 +5534,10 @@ public  partial    class Halcon_Examples_Method
         ho_ImageDump.Dispose();
         HOperatorSet.DumpWindowImage(out ho_ImageDump, hv_WindowHandleBuffer);
         HDevWindowStack.SetActive(hv_WindowHandle);
-        //if (HDevWindowStack.IsOpen())
-        //{
-          HOperatorSet.DispObj(ho_ImageDump, hv_WindowHandle);
-        //}
+        if (HDevWindowStack.IsOpen())
+        {
+          HOperatorSet.DispObj(ho_ImageDump, HDevWindowStack.GetActive());
+        }
         //
         //Check for mouse events
         hv_GraphEvent.Dispose();
@@ -5618,7 +5626,7 @@ public  partial    class Halcon_Examples_Method
         {
           {
           HTuple ExpTmpOutVar_0;HTuple ExpTmpOutVar_1;HTuple ExpTmpOutVar_2;HTuple ExpTmpOutVar_3;
-          Analyze_graph_event(ho_Image, hv_MouseMapping, hv_GraphButton, hv_GraphButtonRow, 
+          analyze_graph_event(ho_Image, hv_MouseMapping, hv_GraphButton, hv_GraphButtonRow, 
               hv_GraphButtonColumn, hv_WindowHandle, hv_WindowHandleBuffer, hv_VirtualTrackball, 
               hv_TrackballSize, hv_SelectedObject, hv_Scene3D, hv_AlphaOrig, hv_ObjectModel3D, 
               hv_CamParam_COPY_INP_TMP, hv_Label_COPY_INP_TMP, hv_Title, hv_Information, 
@@ -5675,7 +5683,7 @@ public  partial    class Halcon_Examples_Method
       HOperatorSet.SetSystem("clip_region", hv_ClipRegion);
       // dev_set_preferences(...); only in hdevelop
       // dev_set_preferences(...); only in hdevelop
-      Dump_image_output(ho_Image, hv_WindowHandleBuffer, hv_Scene3D, hv_AlphaOrig, 
+      dump_image_output(ho_Image, hv_WindowHandleBuffer, hv_Scene3D, hv_AlphaOrig, 
           hv_ObjectModel3D, hv_GenParamName_COPY_INP_TMP, hv_GenParamValue_COPY_INP_TMP, 
           hv_CamParam_COPY_INP_TMP, hv_Poses, hv_ColorImage, hv_Title, new HTuple(), 
           hv_Label_COPY_INP_TMP, 0, "false", hv_TrackballCenterRow, hv_TrackballCenterCol, 
@@ -5683,10 +5691,10 @@ public  partial    class Halcon_Examples_Method
       ho_ImageDump.Dispose();
       HOperatorSet.DumpWindowImage(out ho_ImageDump, hv_WindowHandleBuffer);
       HDevWindowStack.SetActive(hv_WindowHandle);
-      //if (HDevWindowStack.IsOpen())
-      //{
-        HOperatorSet.DispObj(ho_ImageDump, hv_WindowHandle);
-      //}
+      if (HDevWindowStack.IsOpen())
+      {
+        HOperatorSet.DispObj(ho_ImageDump, HDevWindowStack.GetActive());
+      }
       HOperatorSet.CloseWindow(hv_WindowHandleBuffer);
       HOperatorSet.SetPart(hv_WindowHandle, hv_WPRow1, hv_WPColumn1, hv_WPRow2, hv_WPColumn2);
       HOperatorSet.ClearScene3d(hv_Scene3D);

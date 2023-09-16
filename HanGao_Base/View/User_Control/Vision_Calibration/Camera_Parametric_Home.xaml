@@ -421,14 +421,10 @@
 
 
 
-                    <WindowsFormsHost Grid.Row=" 1" Grid.Column=" 0"
-                                      Grid.ColumnSpan=" 2">
-                        <!--<Vtk:RenderWindowControl />-->
-                        <VTK:RenderWindowControl x:Name="Calibration_3D_Results" />
-                    </WindowsFormsHost>
 
 
-                    <!--<Halcon:HSmartWindowControlWPF x:Name="Calibration_3D_Results" Grid.Row=" 1" Grid.Column=" 0"
+
+                    <Halcon:HSmartWindowControlWPF x:Name="Calibration_3D_Results" Grid.Row=" 1" Grid.Column=" 0"
                                                    Grid.ColumnSpan=" 2"
                                                    MinWidth="400"
                                                    MinHeight="400"
@@ -436,24 +432,27 @@
                                                    VerticalAlignment="Stretch"
                                                    HorizontalContentAlignment="Center"
                                                    VerticalContentAlignment="Center"
-                                                   HDisableAutoResize="False"
+                                                   HDisableAutoResize="True"
+                                                   HDoubleClickToFitContent="False"
+                                                   HKeepAspectRatio="True"
+                                                   HMouseWheel="Calibration_3D_Results_HMouseWheel"
                                                    HMoveContent="False"
-
+                                                   HZoomContent="Off"
                                                    SnapsToDevicePixels="True">
-                    -->
-                    <!--<Halcon:HObjectModel3D  />-->
-                    <!--<i:Interaction.Triggers>
+
+
+                        <!--<i:Interaction.Triggers>
                             <i:EventTrigger EventName="HInitWindow">
                                 <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}" PassEventArgsToCommand="False" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>-->
-                    <!--<Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Calibration_3D_Results.DisplayImage}" />
+                        <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Calibration_3D_Results.DisplayImage}" />
                         <Halcon:HIconicDisplayObjectWPF HColor="{Binding Calibration_3D_Results.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
                                                         HDraw="{Binding Calibration_3D_Results.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
                                                         IconicObject="{Binding Calibration_3D_Results.DisplayRegion}" />
-                        <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Calibration_3D_Results.DisplayXLD}" />-->
-                    <!--
-                    </Halcon:HSmartWindowControlWPF>-->
+                        <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Calibration_3D_Results.DisplayXLD}" />
+
+                    </Halcon:HSmartWindowControlWPF>
 
 
 
@@ -465,7 +464,14 @@
             <TabItem Style="{DynamicResource Vision_TabItemStyle}"
                      Padding="40,5,40,5"
                      FontSize=" 16"
-                     Header="图像误差" />
+                     Header="图像误差">
+
+                <WindowsFormsHost Grid.Row=" 1" Grid.Column=" 0"
+                                  Grid.ColumnSpan=" 2">
+                    <!--<Vtk:RenderWindowControl />-->
+                    <VTK:RenderWindowControl x:Name="Model_3D_Display" />
+                </WindowsFormsHost>
+            </TabItem>
         </TabControl>
 
         <TabControl Grid.Row="1" Grid.Column="0"

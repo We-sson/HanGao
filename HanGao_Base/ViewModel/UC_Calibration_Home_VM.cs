@@ -231,7 +231,7 @@ namespace HanGao.ViewModel
 
 
 
-                //Calibration_3D_Results = new Halcon_SDK() { HWindow = Window_UserContol.Calibration_3D_Results.HalconWindow, Halcon_UserContol = Window_UserContol.Calibration_3D_Results };
+                Calibration_3D_Results = new Halcon_SDK() { HWindow = Window_UserContol.Calibration_3D_Results.HalconWindow, Halcon_UserContol = Window_UserContol.Calibration_3D_Results };
                 Calibration_Window_1 = new Halcon_SDK() { HWindow = Window_UserContol.Calibration_Window_1.HalconWindow, Halcon_UserContol = Window_UserContol.Calibration_Window_1 };
                 Calibration_Window_2 = new Halcon_SDK() { HWindow = Window_UserContol.Calibration_Window_2.HalconWindow, Halcon_UserContol = Window_UserContol.Calibration_Window_2 };
 
@@ -257,7 +257,7 @@ namespace HanGao.ViewModel
 
                     // Create components of the rendering subsystem
                     // // 创建渲染子系统的组件
-                    vtkRenderer renderer = Window_UserContol.Calibration_3D_Results.RenderWindow.GetRenderers().GetFirstRenderer();
+                    vtkRenderer renderer = Window_UserContol.Model_3D_Display.RenderWindow.GetRenderers().GetFirstRenderer();
                     renderer.SetBackground(.2, .3, .4);
 
                     // Add the actors to the renderer, set the window size
@@ -272,7 +272,7 @@ namespace HanGao.ViewModel
 
                     // Local control variables 
 
-                    HTuple hv_WindowHandle = new HTuple(), hv_PoseIn = new HTuple();
+                   HTuple hv_PoseIn = new HTuple();
                     HTuple hv_Row = new HTuple(), hv_Column = new HTuple();
                     HTuple hv_X = new HTuple(), hv_Y = new HTuple(), hv_ObjectModel3DPlane1 = new HTuple();
                     HTuple hv_ObjectModel3DPlane2 = new HTuple(), hv_ObjectModel3DSphere1 = new HTuple();
@@ -349,59 +349,19 @@ namespace HanGao.ViewModel
                     hv_ObjectModels = hv_ObjectModels.TupleConcat(hv_ObjectModel3DPlane1, hv_ObjectModel3DCylinder, hv_ObjectModel3DSphere1, hv_ObjectModel3DSphere2, hv_ObjectModel3DPlane2, hv_ObjectModel3DBox);
 
 
-
-
-                    HTuple hv_x = new HTuple();
-                    HTuple hv_y = new HTuple();
-                    HTuple hv_z = new HTuple();
-                    HTuple hv_num = new HTuple();
-
-
-                    HOperatorSet.WriteObjectModel3d(hv_ObjectModels, "ply", "_", new HTuple(), new HTuple());
-
-
-
-                    using (MemoryStream memStream = new MemoryStream())
+                    Task.Run(() =>
                     {
 
 
+                    Halcon_Examples HExamples = new Halcon_Examples(Calibration_3D_Results.HWindow);
+
+                     
+                        HExamples.Visualize_object_model_3d(Calibration_3D_Results.HWindow, hv_ObjectModels, new HTuple(), hv_PoseIn,
+          hv_VisParamName, hv_VisParamValue, new HTuple(), hv_Labels, hv_Instructions,
+          out hv_PoseOut);
 
 
-                    };
-
-                    HOperatorSet.GetObjectModel3dParams(hv_ObjectModels, "point_coord_x", out hv_x);
-                    HOperatorSet.GetObjectModel3dParams(hv_ObjectModels, "point_coord_y", out hv_y);
-                    HOperatorSet.GetObjectModel3dParams(hv_ObjectModels, "point_coord_z", out hv_z);
-                    HOperatorSet.GetObjectModel3dParams(hv_ObjectModels, "num_points", out hv_num);
-
-                    int num = hv_num[0].I;
-                    vtkPoints points = new vtkPoints();
-
-                    for (int i = 1; i < num; i++)
-                    {
-                        points.InsertPoint(i, hv_x.DArr[i], hv_y.DArr[i], hv_z.DArr[i]);
-                    }
-
-
-
-                    vtkPolyData polydata = vtkPolyData.New();
-
-                    polydata.SetPoints(points);
-
-                    //vtkVertexGlyphFilter glyphFilter = vtkVertexGlyphFilter.New();
-                    //glyphFilter.SetInputConnection(polydata.GetPointData());
-
-                    //mapper.SetInputConnection(glyphFilter.GetOutputPort());
-                    vtkActor actor1 = vtkActor.New();
-                    //actor1.SetMapper(mapper);
-                    actor1.GetProperty().SetPointSize(hv_num);
-                    //actor.GetProperty().SetColor(r, g, b);
-                    renderer.AddActor(actor1);
-
-
-
-
-
+                    });
 
 
 

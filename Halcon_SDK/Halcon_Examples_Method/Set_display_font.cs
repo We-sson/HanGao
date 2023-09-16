@@ -12,11 +12,11 @@
 
 using HalconDotNet;
 
-public  partial   class Halcon_Examples_Method
+public partial class Halcon_Examples
 {
   // Chapter: Graphics / Text
   // Short Description: Set font independent of OS 
-  public   void Set_display_font (HTuple hv_WindowHandle, HTuple hv_Size, HTuple hv_Font, 
+  public void set_display_font (HTuple hv_WindowHandle, HTuple hv_Size, HTuple hv_Font, 
       HTuple hv_Bold, HTuple hv_Slant)
   {
 
