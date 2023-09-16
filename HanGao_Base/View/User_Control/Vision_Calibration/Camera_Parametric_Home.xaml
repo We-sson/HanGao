@@ -435,7 +435,6 @@
                                                    HDisableAutoResize="True"
                                                    HDoubleClickToFitContent="False"
                                                    HKeepAspectRatio="True"
-                                                   HMouseWheel="Calibration_3D_Results_HMouseWheel"
                                                    HMoveContent="False"
                                                    HZoomContent="Off"
                                                    SnapsToDevicePixels="True">

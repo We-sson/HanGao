@@ -10,20 +10,34 @@
 //
 
 
+using Halcon_SDK_DLL;
 using HalconDotNet;
 
 public partial class Halcon_Examples
 {
-    public Halcon_Examples(HWindow _HWindow)
+    public Halcon_Examples(Halcon_SDK _HWindow)
     {
         ///使用系统多线程
         HOperatorSet.SetSystem("use_window_thread", "true");
-        HDevWindowStack.Push(_HWindow);
-        HDevWindowStack.SetActive(_HWindow);
+        HDevWindowStack.Push(_HWindow.HWindow);
+        HDevWindowStack.SetActive(_HWindow.HWindow);
+        _HWindow.Halcon_UserContol.HMouseWheel += Calibration_3D_Results_HMouseWheel;
+
     }
 
 
-  HTuple  gDispObjOffset;
+    private void Calibration_3D_Results_HMouseWheel(object sender, HSmartWindowControlWPF.HMouseEventArgsWPF e)
+    {
+
+
+
+
+    }
+
+
+
+
+    HTuple  gDispObjOffset;
   HTuple  gLabelsDecor;
   HTuple  gInfoDecor;
   HTuple  gInfoPos;

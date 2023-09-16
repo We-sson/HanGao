@@ -353,7 +353,7 @@ namespace HanGao.ViewModel
                     {
 
 
-                    Halcon_Examples HExamples = new Halcon_Examples(Calibration_3D_Results.HWindow);
+                    Halcon_Examples HExamples = new Halcon_Examples(Calibration_3D_Results);
 
                      
                         HExamples.Visualize_object_model_3d(Calibration_3D_Results.HWindow, hv_ObjectModels, new HTuple(), hv_PoseIn,
