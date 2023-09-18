@@ -40,12 +40,28 @@ namespace Halcon_SDK_DLL.Model
         /// </summary>
         public class Display3DModel_Model
         {
+            public Display3DModel_Model()
+            {
 
+            }
+            public Display3DModel_Model(HTuple objectModel3D)
+            {
+                _ObjectModel3D = objectModel3D;
+                _CamParam = new HTuple();
+                _PoseIn = new HTuple();
+                _PoseOut = new HTuple();
+                _GenParamName = new HTuple();
+                _GenParamValue = new HTuple();
+                _Title = new HTuple();
+                _Label = new HTuple();
+                _Information = new HTuple();
+            }
 
             public HTuple _ObjectModel3D { set; get; } = new HTuple();
             public HTuple _CamParam { set; get; } = new HTuple();
 
             public HTuple _PoseIn { set; get; } = new HTuple();
+            public HTuple _PoseOut { set; get; } = new HTuple();
             public HTuple _GenParamName { set; get; } = new HTuple();
             public HTuple _GenParamValue { set; get; } = new HTuple();
             public HTuple _Title { set; get; } = new HTuple();

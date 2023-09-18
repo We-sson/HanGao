@@ -39,7 +39,7 @@ namespace HanGao.ViewModel
             StrongReferenceMessenger.Default.Register<Display3DModel_Model, string>(this, nameof(Meg_Value_Eunm.Display_3DModel), (O, _S) =>
             {
 
-
+                
                 Display_3DModel_Window(_S);
 
 
@@ -71,11 +71,20 @@ namespace HanGao.ViewModel
 
 
 
-        public Halcon_SDK Calibration_3D_Results { set; get; } = new Halcon_SDK();
+        public static Halcon_SDK Calibration_3D_Results { set; get; } = new Halcon_SDK();
 
 
 
         public HTuple Pose_Out_3D_Results { set; get; } = new HTuple();
+
+
+        public Task DisPlay_Task { set; get; } = new Task(() => Display_3D_Task(new Display3DModel_Model ()));
+
+
+
+
+
+
 
 
         /// <summary>
@@ -223,7 +232,6 @@ namespace HanGao.ViewModel
                         Window_UserContol.Tab_Window.EndInit();
 
                     });
-           
 
 
 
@@ -231,14 +239,15 @@ namespace HanGao.ViewModel
 
 
 
-                Calibration_3D_Results = new Halcon_SDK() { HWindow = Window_UserContol.Calibration_3D_Results.HalconWindow, Halcon_UserContol = Window_UserContol.Calibration_3D_Results };
-                Calibration_Window_1 = new Halcon_SDK() { HWindow = Window_UserContol.Calibration_Window_1.HalconWindow, Halcon_UserContol = Window_UserContol.Calibration_Window_1 };
-                Calibration_Window_2 = new Halcon_SDK() { HWindow = Window_UserContol.Calibration_Window_2.HalconWindow, Halcon_UserContol = Window_UserContol.Calibration_Window_2 };
+
+                    Calibration_3D_Results = new Halcon_SDK() { HWindow = Window_UserContol.Calibration_3D_Results.HalconWindow, Halcon_UserContol = Window_UserContol.Calibration_3D_Results };
+                    Calibration_Window_1 = new Halcon_SDK() { HWindow = Window_UserContol.Calibration_Window_1.HalconWindow, Halcon_UserContol = Window_UserContol.Calibration_Window_1 };
+                    Calibration_Window_2 = new Halcon_SDK() { HWindow = Window_UserContol.Calibration_Window_2.HalconWindow, Halcon_UserContol = Window_UserContol.Calibration_Window_2 };
 
 
-                //HWindows_Initialization(Window_UserContol);
+                    //HWindows_Initialization(Window_UserContol);
 
-           
+
 
 
 
@@ -272,7 +281,7 @@ namespace HanGao.ViewModel
 
                     // Local control variables 
 
-                   HTuple hv_PoseIn = new HTuple();
+                    HTuple hv_PoseIn = new HTuple();
                     HTuple hv_Row = new HTuple(), hv_Column = new HTuple();
                     HTuple hv_X = new HTuple(), hv_Y = new HTuple(), hv_ObjectModel3DPlane1 = new HTuple();
                     HTuple hv_ObjectModel3DPlane2 = new HTuple(), hv_ObjectModel3DSphere1 = new HTuple();
@@ -349,23 +358,11 @@ namespace HanGao.ViewModel
                     hv_ObjectModels = hv_ObjectModels.TupleConcat(hv_ObjectModel3DPlane1, hv_ObjectModel3DCylinder, hv_ObjectModel3DSphere1, hv_ObjectModel3DSphere2, hv_ObjectModel3DPlane2, hv_ObjectModel3DBox);
 
 
-                    Task.Run(() =>
-                    {
-
-
-                    Halcon_Examples HExamples = new Halcon_Examples(Calibration_3D_Results);
-
-                     
-                        HExamples.Visualize_object_model_3d(Calibration_3D_Results.HWindow, hv_ObjectModels, new HTuple(), hv_PoseIn,
-          hv_VisParamName, hv_VisParamValue, new HTuple(), hv_Labels, hv_Instructions,
-          out hv_PoseOut);
-
-
-                    });
 
 
 
 
+                    Display_3DModel_Window(new Display3DModel_Model(hv_ObjectModels));
 
 
 
@@ -522,18 +519,49 @@ namespace HanGao.ViewModel
 
 
 
+
+        private static  void Display_3D_Task(Display3DModel_Model _3DModel)
+        {
+            HTuple _PoseOut = new HTuple();
+
+            Halcon_Examples HExamples = new Halcon_Examples(Calibration_3D_Results);
+
+            HExamples.Visualize_object_model_3d(Calibration_3D_Results.HWindow,
+                                                                                _3DModel._ObjectModel3D,
+                                                                                new HTuple(),
+                                                                                _3DModel._PoseIn,
+                                                                                _3DModel._GenParamName,
+                                                                                _3DModel._GenParamValue,
+                                                                                new HTuple(),
+                                                                                new HTuple(),
+                                                                                new HTuple(),
+                                                                                out _PoseOut);
+        }
+
+
+        /// <summary>
+        /// 三维模型显示
+        /// </summary>
+        /// <param name="_3DModel"></param>
         public void Display_3DModel_Window(Display3DModel_Model _3DModel)
         {
 
-            Task.Run(() =>
+
+            if (DisPlay_Task.Status != TaskStatus.Running)
             {
 
-                //HTuple _PosOut;
-                //Halcon_Examples.Visualize_object_model_3d(Calibration_3D_Results.HWindow, _3DModel._ObjectModel3D, _3DModel._CamParam, _3DModel._PoseIn, _3DModel._GenParamName, _3DModel._GenParamValue, _3DModel._Title, _3DModel._Label, _3DModel._Information, out _PosOut);
+                DisPlay_Task = new Task(() => Display_3D_Task(_3DModel));
+
+                DisPlay_Task.Start();
+
+            }
+            else
+            {
 
 
 
-            });
+            }
+
 
 
         }

@@ -34,7 +34,7 @@ public partial class Halcon_Examples
 
     }
 
-
+    //Êó±ê×´Ì¬
     HTuple hv_GraphButton = new HTuple();
 
     HTuple  gDispObjOffset;
@@ -921,7 +921,7 @@ public partial class Halcon_Examples
             dump_image_output(ho_BackgroundImage, hv_WindowHandleBuffer, hv_Scene3D, 
                 hv_AlphaOrig, hv_ObjectModel3DID, hv_GenParamName, hv_GenParamValue, 
                 hv_CamParam, hv_PosesOut, hv_ColorImage, hv_Title, hv_Information, 
-                hv_Labels, hv_VisualizeTB, "true", hv_TrackballCenterRow, hv_TrackballCenterCol, 
+                hv_Labels, hv_VisualizeTB, "false", hv_TrackballCenterRow, hv_TrackballCenterCol, 
                 hv_TBSize_COPY_INP_TMP, hv_SelectedObjectOut, new HTuple(hv_WindowCenteredRotationOut.TupleEqual(
                 1)), hv_TBCenter_COPY_INP_TMP);
             }
@@ -1315,7 +1315,7 @@ public partial class Halcon_Examples
             dump_image_output(ho_BackgroundImage, hv_WindowHandleBuffer, hv_Scene3D, 
                 hv_AlphaOrig, hv_ObjectModel3DID, hv_GenParamName, hv_GenParamValue, 
                 hv_CamParam, hv_PosesOut, hv_ColorImage, hv_Title, hv_Information, 
-                hv_Labels, hv_VisualizeTB, "true", hv_TrackballCenterRow, hv_TrackballCenterCol, 
+                hv_Labels, hv_VisualizeTB, "false", hv_TrackballCenterRow, hv_TrackballCenterCol, 
                 hv_TBSize_COPY_INP_TMP, hv_SelectedObjectOut, hv_WindowCenteredRotationOut, 
                 hv_TBCenter_COPY_INP_TMP);
             ho_ImageDump.Dispose();
@@ -3343,6 +3343,7 @@ public partial class Halcon_Examples
     //Display the 'Exit' button
     if ((int)(new HTuple(hv_DisplayContinueButton.TupleEqual("true"))) != 0)
     {
+         
       disp_continue_button(hv_WindowHandleBuffer);
     }
     //
@@ -5545,7 +5546,7 @@ public partial class Halcon_Examples
         dump_image_output(ho_Image, hv_WindowHandleBuffer, hv_Scene3D, hv_AlphaOrig, 
             hv_ObjectModel3D, hv_GenParamName_COPY_INP_TMP, hv_GenParamValue_COPY_INP_TMP, 
             hv_CamParam_COPY_INP_TMP, hv_Poses, hv_ColorImage, hv_Title, hv_Information, 
-            hv_Label_COPY_INP_TMP, hv_VisualizeTB, "true", hv_TrackballCenterRow, 
+            hv_Label_COPY_INP_TMP, hv_VisualizeTB, "false", hv_TrackballCenterRow, 
             hv_TrackballCenterCol, hv_TBSize, hv_SelectedObject, hv_WindowCenteredRotation, 
             hv_TBCenter);
         ho_ImageDump.Dispose();
