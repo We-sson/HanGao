@@ -78,10 +78,10 @@ namespace HanGao.ViewModel
         public HTuple Pose_Out_3D_Results { set; get; } = new HTuple();
 
 
-        public Task DisPlay_Task { set; get; } = new Task(() => Display_3D_Task(new Display3DModel_Model ()));
+        public static  Task DisPlay_Task { set; get; } = new Task(() => Display_3D_Task(new Display3DModel_Model ()));
 
 
-
+        public static Halcon_Examples HExamples { set; get; } 
 
 
 
@@ -524,8 +524,6 @@ namespace HanGao.ViewModel
         {
             HTuple _PoseOut = new HTuple();
 
-            Halcon_Examples HExamples = new Halcon_Examples(Calibration_3D_Results);
-
             HExamples.Visualize_object_model_3d(Calibration_3D_Results.HWindow,
                                                                                 _3DModel._ObjectModel3D,
                                                                                 new HTuple(),
@@ -547,8 +545,12 @@ namespace HanGao.ViewModel
         {
 
 
+
+
+
             if (DisPlay_Task.Status != TaskStatus.Running)
             {
+                HExamples = new Halcon_Examples(Calibration_3D_Results);
 
                 DisPlay_Task = new Task(() => Display_3D_Task(_3DModel));
 
@@ -557,6 +559,14 @@ namespace HanGao.ViewModel
             }
             else
             {
+
+                HExamples.Exit_Display();
+
+                DisPlay_Task.Wait();
+
+                DisPlay_Task = new Task(() => Display_3D_Task(_3DModel));
+
+                DisPlay_Task.Start();
 
 
 

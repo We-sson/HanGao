@@ -24,7 +24,10 @@ public partial class Halcon_Examples
         _HWindow.Halcon_UserContol.HMouseWheel += Calibration_3D_Results_HMouseWheel;
 
     }
+    public Halcon_Examples()
+    {
 
+    }
 
     private void Calibration_3D_Results_HMouseWheel(object sender, HSmartWindowControlWPF.HMouseEventArgsWPF e)
     {
@@ -33,11 +36,21 @@ public partial class Halcon_Examples
 
 
     }
+    public void Exit_Display()
+    {
+        hv_Exit = new HTuple(1);
+    }
 
-    //鼠标状态
-    HTuple hv_GraphButton = new HTuple();
 
-    HTuple  gDispObjOffset;
+    /// <summary>
+    /// 鼠标状态
+    /// </summary>
+   HTuple hv_GraphButton = new HTuple();
+    /// <summary>
+    /// 退出事件
+    /// </summary>
+   HTuple hv_Exit = new HTuple(0);
+   HTuple  gDispObjOffset;
   HTuple  gLabelsDecor;
   HTuple  gInfoDecor;
   HTuple  gInfoPos;
@@ -4296,7 +4309,7 @@ public partial class Halcon_Examples
     HTuple hv_ButtonHold = new HTuple(), hv_VisualizeTB = new HTuple();
     HTuple hv_MaxIndex = new HTuple(), hv_TrackballCenterRow = new HTuple();
     HTuple hv_TrackballCenterCol = new HTuple(), hv_GraphEvent = new HTuple();
-    HTuple hv_Exit = new HTuple(), hv_GraphButtonRow = new HTuple();
+    HTuple hv_GraphButtonRow = new HTuple();
     HTuple hv_GraphButtonColumn = new HTuple();
     HTuple hv_ButtonReleased = new HTuple(), hv_e = new HTuple();
     HTuple   hv_CamParam_COPY_INP_TMP = new HTuple(hv_CamParam);
@@ -5626,13 +5639,16 @@ public partial class Halcon_Examples
               }
               hv_GraphEvent.Dispose();
               hv_GraphEvent = 1;
+
               break;
             }
             else
             {
               hv_ButtonHold.Dispose();
               hv_ButtonHold = 0;
-            }
+             hv_GraphEvent = 0;
+                            HSystem.WaitSeconds(0.1);
+             }
           }
           // catch (Exception) 
           catch (HalconException HDevExpDefaultException2)
