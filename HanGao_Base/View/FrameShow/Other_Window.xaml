@@ -1,6 +1,8 @@
 ﻿<UserControl x:Class="HanGao.View.FrameShow.Other_Window"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Enum="clr-namespace:Halcon_SDK_DLL.WPF_Converter;assembly=Halcon_SDK_DLL"
+             xmlns:ValType="clr-namespace:TCP_Modbus;assembly=TCP_Modbus"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:HanGao.View.FrameShow"
@@ -8,31 +10,383 @@
              xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
              MinWidth="800"
              MinHeight="450"
-             DataContext="{Binding Source={StaticResource Locator}, Path=Other_Window_VM}"
+             DataContext="{Binding Source={StaticResource Locator}, Path=UC_PLC_HMI_VM}"
              RenderOptions.BitmapScalingMode="HighQuality"
              mc:Ignorable="d">
-    <!--<i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding Loaded_RunApp_Command}"
-                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                   PassEventArgsToCommand="True" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>-->
+    <UserControl.Resources>
+        <Enum:Halcon_StringConverter x:Key="Halcon_StringConverter" />
+        <Enum:Halcon_EnumConverter x:Key="Halcon_EnumConverter" />
+    </UserControl.Resources>
     <Grid x:Name="G_Window"
           Background="Transparent"
           ShowGridLines="True">
-        <!--<WindowsFormsHost x:Name="OutWindow"
-                          Margin="10"
-                          Background="Transparent"
-                          RenderOptions.BitmapScalingMode="Unspecified">
-        -->
-        <!--<wf:Panel x:Name="Window" />-->
-        <!--
-            <wf:Control x:Name="Window" />
-        </WindowsFormsHost>-->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
 
-        <TextBlock Text="其他页面" FontSize="30" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
 
+        </Grid.RowDefinitions>
+
+
+        <Grid Grid.Row=" 0" Grid.Column=" 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height=" auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height=" auto" />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row=" 0" Grid.Column=" 0"
+                        Margin="5"
+                        Orientation="Horizontal">
+
+
+                <TextBlock Text="IP地址:"
+                           VerticalAlignment="Center"
+                           FontSize=" 20" />
+
+
+
+
+
+                <TextBox Style="{DynamicResource Vision_TextBoxStyle}"
+                         Text="{Binding Modbus_UI.IPAdress}"
+                         Width=" 100"
+                         HorizontalContentAlignment="Center"
+                         VerticalContentAlignment="Center"
+                         Background="Transparent"
+                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                         BorderThickness="2"
+                         FontSize="18" />
+
+
+
+
+            </StackPanel>
+
+            <StackPanel Grid.Row=" 0" Grid.Column=" 1"
+                        Margin="5"
+                        Orientation="Horizontal">
+
+
+                <TextBlock Text="IP端口:"
+                           VerticalAlignment="Center"
+                           FontSize=" 20" />
+
+
+
+
+
+                <TextBox Style="{DynamicResource Vision_TextBoxStyle}"
+                         Text="{Binding Modbus_UI.Port}"
+                         Width=" 100"
+                         HorizontalContentAlignment="Center"
+                         VerticalContentAlignment="Center"
+                         Background="Transparent"
+                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                         BorderThickness="2"
+                         FontSize="18" />
+
+
+
+
+            </StackPanel>
+
+            <Button Grid.Row=" 0" Grid.Column=" 2"
+                    Width="100"
+                    Margin="0,0,0,0"
+                    HorizontalAlignment="Right">
+
+                <TextBlock Text="连接设备"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                           FontSize="16"
+                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                <Button.Style>
+                    <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
+                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_蓝颜色}" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Modbus_UI.Connected}" Value="true">
+
+                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <i:Interaction.Triggers>
+
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding Modbus_Connect_Comm}"
+                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                               PassEventArgsToCommand="True" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+
+            <StackPanel Grid.Row=" 1" Grid.Column=" 0"
+                        Margin="5"
+                        Orientation="Horizontal">
+                <TextBlock Text="值类型:"
+                           VerticalAlignment="Center"
+                           FontSize=" 20" />
+
+                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="AcquisitionMode"
+                          Height=" 35"
+                          MinWidth=" 120"
+                          HorizontalContentAlignment="Left"
+                          VerticalContentAlignment="Center"
+                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                          BorderThickness="2"
+                          FontSize="20"
+                          IsDropDownOpen="False"
+                          IsSynchronizedWithCurrentItem="True"
+                          SelectedIndex="{Binding Modbus_UI.VariableType, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type ValType:Modbus_Val_Type_Enum}}">
+                    <ComboBoxItem>
+
+                        <TextBlock Text="Real"
+                                   TextWrapping="Wrap"
+                                   Padding="0,4,0,4"
+                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                   FontSize="14"
+                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                   TextTrimming="CharacterEllipsis" />
+                    </ComboBoxItem>
+
+                    <ComboBoxItem>
+
+                        <TextBlock Text="String"
+                                   TextWrapping="Wrap"
+                                   Padding="0,4,0,4"
+                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                   FontSize="14"
+                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                   TextTrimming="CharacterEllipsis" />
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+
+                        <TextBlock Text="Int16"
+                                   TextWrapping="Wrap"
+                                   Padding="0,4,0,4"
+                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                   FontSize="14"
+                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                   TextTrimming="CharacterEllipsis" />
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+
+                        <TextBlock Text="Bool"
+                                   TextWrapping="Wrap"
+                                   Padding="0,4,0,4"
+                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                   FontSize="14"
+                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                   TextTrimming="CharacterEllipsis" />
+                    </ComboBoxItem>
+
+
+
+                </ComboBox>
+
+            </StackPanel>
+
+            <StackPanel Grid.Row=" 1" Grid.Column=" 1"
+                        Margin="5"
+                        Orientation="Horizontal">
+
+
+                <TextBlock Text="设备地址:"
+                           VerticalAlignment="Center"
+                           FontSize=" 20" />
+
+
+
+
+
+                <TextBox Style="{DynamicResource Vision_TextBoxStyle}"
+                         Text="{Binding Modbus_UI.SlaveID}"
+                         Width=" 100"
+                         Height=" 35"
+                         HorizontalContentAlignment="Center"
+                         VerticalContentAlignment="Center"
+                         Background="Transparent"
+                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                         BorderThickness="2"
+                         FontSize="18" />
+
+
+
+
+            </StackPanel>
+
+            <StackPanel Grid.Row=" 2" Grid.Column=" 0"
+                        Margin="5"
+                        Orientation="Horizontal">
+
+
+                <TextBlock Text="变量地址:"
+                           VerticalAlignment="Center"
+                           FontSize=" 20" />
+
+
+
+
+
+                <TextBox Style="{DynamicResource Vision_TextBoxStyle}"
+                         Text="{Binding Modbus_UI.WriteAddress}"
+                         Width=" 100"
+                         HorizontalContentAlignment="Center"
+                         VerticalContentAlignment="Center"
+                         Background="Transparent"
+                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                         BorderThickness="2"
+                         FontSize="18" />
+
+
+
+
+            </StackPanel>
+
+            <StackPanel Grid.Row=" 2" Grid.Column=" 1"
+                        Margin="5"
+                        Orientation="Horizontal">
+
+
+                <TextBlock Text="变量值:"
+                           VerticalAlignment="Center"
+                           FontSize=" 20" />
+
+
+
+
+
+                <TextBox Style="{DynamicResource Vision_TextBoxStyle}"
+                         Text="{Binding Modbus_UI.WriteValue}"
+                         Width=" 100"
+                         HorizontalContentAlignment="Center"
+                         VerticalContentAlignment="Center"
+                         Background="Transparent"
+                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                         BorderThickness="2"
+                         FontSize="18" />
+
+
+
+
+            </StackPanel>
+
+            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Row=" 2" Grid.Column=" 2"
+                    Width="100"
+                    Margin="0,0,0,0"
+                    HorizontalAlignment="Right"
+                    Background="{DynamicResource 全局_按钮_蓝颜色}">
+
+                <TextBlock Text="写入变量"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                           FontSize="16"
+                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+                <i:Interaction.Triggers>
+
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding Modbus_Write_Comm}"
+                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                               PassEventArgsToCommand="True" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+
+            <StackPanel Grid.Row=" 3" Grid.Column=" 0"
+                        Margin="5"
+                        Orientation="Horizontal">
+
+
+                <TextBlock Text="变量地址:"
+                           VerticalAlignment="Center"
+                           FontSize=" 20" />
+
+
+
+
+
+                <TextBox Style="{DynamicResource Vision_TextBoxStyle}"
+                         Text="{Binding Modbus_UI.ReadAddress}"
+                         Width=" 100"
+                         HorizontalContentAlignment="Center"
+                         VerticalContentAlignment="Center"
+                         Background="Transparent"
+                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                         BorderThickness="2"
+                         FontSize="18" />
+
+
+
+
+            </StackPanel>
+
+            <StackPanel Grid.Row=" 3" Grid.Column=" 1"
+                        Margin="5"
+                        Orientation="Horizontal">
+
+
+                <TextBlock Text="变量值:"
+                           VerticalAlignment="Center"
+                           FontSize=" 20" />
+
+
+
+
+
+                <TextBox Style="{DynamicResource Vision_TextBoxStyle}"
+                         Text="{Binding Modbus_UI.ReadValue}"
+                         Width=" 100"
+                         HorizontalContentAlignment="Center"
+                         VerticalContentAlignment="Center"
+                         Background="Transparent"
+                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                         BorderThickness="2"
+                         FontSize="18" />
+
+
+
+
+            </StackPanel>
+
+            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Row=" 3" Grid.Column=" 2"
+                    Width="100"
+                    Margin="0,0,0,0"
+                    HorizontalAlignment="Right"
+                    Background="{DynamicResource 全局_按钮_蓝颜色}">
+
+                <TextBlock Text="读取变量"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                           FontSize="16"
+                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+                <i:Interaction.Triggers>
+
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding Modbus_Read_Comm}"
+                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                               PassEventArgsToCommand="True" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+
+
+        </Grid>
 
     </Grid>
 </UserControl>
