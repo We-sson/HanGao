@@ -90,7 +90,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         //HTuple hv_GenParamName_COPY_INP_TMP = new HTuple(hv_GenParamName);
         //HTuple hv_GenParamValue_COPY_INP_TMP = new HTuple(hv_GenParamValue);
         //HTuple hv_Label_COPY_INP_TMP = new HTuple(hv_Label);
-        //HTuple hv_PoseIn_COPY_INP_TMP = new HTuple(hv_PoseIn);
+        HTuple hv_PoseIn_COPY_INP_TMP = new HTuple();
 
 
 
@@ -131,7 +131,9 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         HTuple hv_ObjectModel3D = new HTuple();
         HTuple hv_NumModels = new HTuple();
 
-
+        /// <summary>
+        /// 窗口显示可视化
+        /// </summary>
         public void Display_Window_Ini()
         {
             hv_RowNotUsed.Dispose(); hv_ColumnNotUsed.Dispose(); hv_Width.Dispose(); hv_Height.Dispose();
@@ -148,6 +150,47 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
         }
+
+        //计算模型合适位置
+        public void Get_All_3DModel_Pose()
+        {
+            ///
+            get_object_models_center(hv_ObjectModel3D, out hv_Center);
+
+            HOperatorSet.CreatePose(-(hv_Center.TupleSelect(0)), -(hv_Center.TupleSelect(1)),
+                -(hv_Center.TupleSelect(2)), 0, 0, 0, "Rp+T", "gba", "point", out hv_PoseIn_COPY_INP_TMP);
+
+
+            determine_optimum_pose_distance(hv_ObjectModel3D, hv_CamParam_COPY_INP_TMP,
+                0.9, hv_PoseIn_COPY_INP_TMP, out hv_PoseEstimated);
+
+            hv_Sequence = HTuple.TupleGenSequence(0, (hv_NumModels * 7) - 1, 1);
+
+            hv_Poses = hv_PoseEstimated.TupleSelect(hv_Sequence % 7);
+
+
+        }
+
+
+        public void Create_All_3DModel()
+        {
+            HOperatorSet.CreateScene3d(out hv_Scene3D);
+            HOperatorSet.AddScene3dCamera(hv_Scene3D, hv_CamParam_COPY_INP_TMP, out hv_CameraIndex);
+            HOperatorSet.AddScene3dInstance(hv_Scene3D, hv_ObjectModel3D, hv_Poses, out hv_AllInstances);
+            HOperatorSet.SetScene3dParam(hv_Scene3D, "disp_background", "true");
+
+
+
+            HOperatorSet.PoseToHomMat3d(hv_Poses.TupleSelectRange(0, 6), out hv_HomMat3D);
+            HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_Center.TupleSelect(0), hv_Center.TupleSelect(1), hv_Center.TupleSelect(2), out hv_Qx, out hv_Qy, out hv_Qz);
+            hv_TBCenter = hv_TBCenter.TupleConcat(hv_Qx, hv_Qy, hv_Qz);
+            hv_TBSize = (0.5 + ((0.5 * (hv_SelectedObject.TupleSum())) / hv_NumModels)) * hv_TrackballRadiusPixel;
+
+
+        }
+
+
+
 
 
 
@@ -166,6 +209,590 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
         }
 
+
+
+
+        // Chapter: Graphics / Output
+        // Short Description: Compute the center of all given 3D object models. 
+        public void get_object_models_center(HTuple hv_ObjectModel3DID, out HTuple hv_Center)
+        {
+
+
+
+            // Local iconic variables 
+
+            // Local control variables 
+
+            HTuple hv_Diameters = new HTuple(), hv_Index = new HTuple();
+            HTuple hv_Diameter = new HTuple(), hv_C = new HTuple();
+            HTuple hv_Exception = new HTuple(), hv_MD = new HTuple();
+            HTuple hv_Weight = new HTuple(), hv_SumW = new HTuple();
+            HTuple hv_ObjectModel3DIDSelected = new HTuple(), hv_InvSum = new HTuple();
+            // Initialize local and output iconic variables 
+            hv_Center = new HTuple();
+            //Compute the mean of all model centers (weighted by the diameter of the object models)
+            hv_Diameters.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_Diameters = HTuple.TupleGenConst(
+                    new HTuple(hv_ObjectModel3DID.TupleLength()), 0.0);
+            }
+            for (hv_Index = 0; (int)hv_Index <= (int)((new HTuple(hv_ObjectModel3DID.TupleLength()
+                )) - 1); hv_Index = (int)hv_Index + 1)
+            {
+                try
+                {
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_Diameter.Dispose();
+                        HOperatorSet.GetObjectModel3dParams(hv_ObjectModel3DID.TupleSelect(hv_Index),
+                            "diameter_axis_aligned_bounding_box", out hv_Diameter);
+                    }
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_C.Dispose();
+                        HOperatorSet.GetObjectModel3dParams(hv_ObjectModel3DID.TupleSelect(hv_Index),
+                            "center", out hv_C);
+                    }
+                    if (hv_Diameters == null)
+                        hv_Diameters = new HTuple();
+                    hv_Diameters[hv_Index] = hv_Diameter;
+                }
+                // catch (Exception) 
+                catch (HalconException HDevExpDefaultException1)
+                {
+                    HDevExpDefaultException1.ToHTuple(out hv_Exception);
+                    //Object model is empty, has no center etc. -> ignore it by leaving its diameter at zero
+                }
+            }
+
+            if ((int)(new HTuple(((hv_Diameters.TupleSum())).TupleGreater(0))) != 0)
+            {
+                //Normalize Diameter to use it as weights for a weighted mean of the individual centers
+                hv_MD.Dispose();
+                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                {
+                    hv_MD = ((hv_Diameters.TupleSelectMask(
+                        hv_Diameters.TupleGreaterElem(0)))).TupleMean();
+                }
+                if ((int)(new HTuple(hv_MD.TupleGreater(1e-10))) != 0)
+                {
+                    hv_Weight.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_Weight = hv_Diameters / hv_MD;
+                    }
+                }
+                else
+                {
+                    hv_Weight.Dispose();
+                    hv_Weight = new HTuple(hv_Diameters);
+                }
+                hv_SumW.Dispose();
+                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                {
+                    hv_SumW = hv_Weight.TupleSum()
+                        ;
+                }
+                if ((int)(new HTuple(hv_SumW.TupleLess(1e-10))) != 0)
+                {
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        {
+                            HTuple
+                              ExpTmpLocalVar_Weight = HTuple.TupleGenConst(
+                                new HTuple(hv_Weight.TupleLength()), 1.0);
+                            hv_Weight.Dispose();
+                            hv_Weight = ExpTmpLocalVar_Weight;
+                        }
+                    }
+                    hv_SumW.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_SumW = hv_Weight.TupleSum()
+                            ;
+                    }
+                }
+                hv_Center.Dispose();
+                hv_Center = new HTuple();
+                hv_Center[0] = 0;
+                hv_Center[1] = 0;
+                hv_Center[2] = 0;
+                for (hv_Index = 0; (int)hv_Index <= (int)((new HTuple(hv_ObjectModel3DID.TupleLength()
+                    )) - 1); hv_Index = (int)hv_Index + 1)
+                {
+                    if ((int)(new HTuple(((hv_Diameters.TupleSelect(hv_Index))).TupleGreater(
+                        0))) != 0)
+                    {
+                        hv_ObjectModel3DIDSelected.Dispose();
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            hv_ObjectModel3DIDSelected = hv_ObjectModel3DID.TupleSelect(
+                                hv_Index);
+                        }
+                        hv_C.Dispose();
+                        HOperatorSet.GetObjectModel3dParams(hv_ObjectModel3DIDSelected, "center",
+                            out hv_C);
+                        if (hv_Center == null)
+                            hv_Center = new HTuple();
+                        hv_Center[0] = (hv_Center.TupleSelect(0)) + ((hv_C.TupleSelect(0)) * (hv_Weight.TupleSelect(
+                            hv_Index)));
+                        if (hv_Center == null)
+                            hv_Center = new HTuple();
+                        hv_Center[1] = (hv_Center.TupleSelect(1)) + ((hv_C.TupleSelect(1)) * (hv_Weight.TupleSelect(
+                            hv_Index)));
+                        if (hv_Center == null)
+                            hv_Center = new HTuple();
+                        hv_Center[2] = (hv_Center.TupleSelect(2)) + ((hv_C.TupleSelect(2)) * (hv_Weight.TupleSelect(
+                            hv_Index)));
+                    }
+                }
+                hv_InvSum.Dispose();
+                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                {
+                    hv_InvSum = 1.0 / hv_SumW;
+                }
+                if (hv_Center == null)
+                    hv_Center = new HTuple();
+                hv_Center[0] = (hv_Center.TupleSelect(0)) * hv_InvSum;
+                if (hv_Center == null)
+                    hv_Center = new HTuple();
+                hv_Center[1] = (hv_Center.TupleSelect(1)) * hv_InvSum;
+                if (hv_Center == null)
+                    hv_Center = new HTuple();
+                hv_Center[2] = (hv_Center.TupleSelect(2)) * hv_InvSum;
+            }
+            else
+            {
+                hv_Center.Dispose();
+                hv_Center = new HTuple();
+            }
+
+            hv_Diameters.Dispose();
+            hv_Index.Dispose();
+            hv_Diameter.Dispose();
+            hv_C.Dispose();
+            hv_Exception.Dispose();
+            hv_MD.Dispose();
+            hv_Weight.Dispose();
+            hv_SumW.Dispose();
+            hv_ObjectModel3DIDSelected.Dispose();
+            hv_InvSum.Dispose();
+
+            return;
+        }
+
+        // Chapter: Graphics / Output
+        // Short Description: Determine the optimum distance of the object to obtain a reasonable visualization 
+        public void determine_optimum_pose_distance(HTuple hv_ObjectModel3DID, HTuple hv_CamParam,
+            HTuple hv_ImageCoverage, HTuple hv_PoseIn, out HTuple hv_PoseOut)
+        {
+
+
+
+            // Local iconic variables 
+
+            // Local control variables 
+
+            HTuple hv_Rows = new HTuple(), hv_Cols = new HTuple();
+            HTuple hv_MinMinZ = new HTuple(), hv_BB = new HTuple();
+            HTuple hv_Index = new HTuple(), hv_CurrBB = new HTuple();
+            HTuple hv_Exception = new HTuple(), hv_Seq = new HTuple();
+            HTuple hv_DXMax = new HTuple(), hv_DYMax = new HTuple();
+            HTuple hv_DZMax = new HTuple(), hv_Diameter = new HTuple();
+            HTuple hv_ZAdd = new HTuple(), hv_BBX0 = new HTuple();
+            HTuple hv_BBX1 = new HTuple(), hv_BBY0 = new HTuple();
+            HTuple hv_BBY1 = new HTuple(), hv_BBZ0 = new HTuple();
+            HTuple hv_BBZ1 = new HTuple(), hv_X = new HTuple(), hv_Y = new HTuple();
+            HTuple hv_Z = new HTuple(), hv_HomMat3DIn = new HTuple();
+            HTuple hv_QX_In = new HTuple(), hv_QY_In = new HTuple();
+            HTuple hv_QZ_In = new HTuple(), hv_PoseInter = new HTuple();
+            HTuple hv_HomMat3D = new HTuple(), hv_QX = new HTuple();
+            HTuple hv_QY = new HTuple(), hv_QZ = new HTuple(), hv_Cx = new HTuple();
+            HTuple hv_Cy = new HTuple(), hv_DR = new HTuple(), hv_DC = new HTuple();
+            HTuple hv_MaxDist = new HTuple(), hv_HomMat3DRotate = new HTuple();
+            HTuple hv_ImageWidth = new HTuple(), hv_ImageHeight = new HTuple();
+            HTuple hv_MinImageSize = new HTuple(), hv_Zs = new HTuple();
+            HTuple hv_ZDiff = new HTuple(), hv_ScaleZ = new HTuple();
+            HTuple hv_ZNew = new HTuple();
+            // Initialize local and output iconic variables 
+            hv_PoseOut = new HTuple();
+            //Determine the optimum distance of the object to obtain
+            //a reasonable visualization
+            //
+            hv_Rows.Dispose();
+            hv_Rows = new HTuple();
+            hv_Cols.Dispose();
+            hv_Cols = new HTuple();
+            hv_MinMinZ.Dispose();
+            hv_MinMinZ = 1e30;
+            hv_BB.Dispose();
+            hv_BB = new HTuple();
+            for (hv_Index = 0; (int)hv_Index <= (int)((new HTuple(hv_ObjectModel3DID.TupleLength()
+                )) - 1); hv_Index = (int)hv_Index + 1)
+            {
+                try
+                {
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_CurrBB.Dispose();
+                        HOperatorSet.GetObjectModel3dParams(hv_ObjectModel3DID.TupleSelect(hv_Index),
+                            "bounding_box1", out hv_CurrBB);
+                    }
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        {
+                            HTuple
+                              ExpTmpLocalVar_BB = hv_BB.TupleConcat(
+                                hv_CurrBB);
+                            hv_BB.Dispose();
+                            hv_BB = ExpTmpLocalVar_BB;
+                        }
+                    }
+                }
+                // catch (Exception) 
+                catch (HalconException HDevExpDefaultException1)
+                {
+                    HDevExpDefaultException1.ToHTuple(out hv_Exception);
+                    //3D object model is empty / has no bounding box -> ignore it
+                }
+            }
+            if ((int)(new HTuple(((((((hv_BB.TupleAbs())).TupleConcat(0))).TupleSum())).TupleEqual(
+                0.0))) != 0)
+            {
+                hv_BB.Dispose();
+                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                {
+                    hv_BB = new HTuple();
+                    hv_BB = hv_BB.TupleConcat(-((new HTuple(HTuple.TupleRand(
+                        3) * 1e-20)).TupleAbs()));
+                    hv_BB = hv_BB.TupleConcat((new HTuple(HTuple.TupleRand(
+                        3) * 1e-20)).TupleAbs());
+                }
+            }
+            //Calculate diameter over all objects to be visualized
+            hv_Seq.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_Seq = HTuple.TupleGenSequence(
+                    0, (new HTuple(hv_BB.TupleLength())) - 1, 6);
+            }
+            hv_DXMax.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_DXMax = (((hv_BB.TupleSelect(
+                    hv_Seq + 3))).TupleMax()) - (((hv_BB.TupleSelect(hv_Seq))).TupleMin());
+            }
+            hv_DYMax.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_DYMax = (((hv_BB.TupleSelect(
+                    hv_Seq + 4))).TupleMax()) - (((hv_BB.TupleSelect(hv_Seq + 1))).TupleMin());
+            }
+            hv_DZMax.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_DZMax = (((hv_BB.TupleSelect(
+                    hv_Seq + 5))).TupleMax()) - (((hv_BB.TupleSelect(hv_Seq + 2))).TupleMin());
+            }
+            hv_Diameter.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_Diameter = ((((hv_DXMax * hv_DXMax) + (hv_DYMax * hv_DYMax)) + (hv_DZMax * hv_DZMax))).TupleSqrt()
+                    ;
+            }
+            //Allow the visualization of single points or extremely small objects
+            hv_ZAdd.Dispose();
+            hv_ZAdd = 0.0;
+            if ((int)(new HTuple(((hv_Diameter.TupleMax())).TupleLess(1e-10))) != 0)
+            {
+                hv_ZAdd.Dispose();
+                hv_ZAdd = 0.01;
+            }
+            //Set extremely small diameters to 1e-10 to avoid CZ == 0.0, which would lead
+            //to projection errors
+            if ((int)(new HTuple(((hv_Diameter.TupleMin())).TupleLess(1e-10))) != 0)
+            {
+                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                {
+                    {
+                        HTuple
+                          ExpTmpLocalVar_Diameter = hv_Diameter - (((((((hv_Diameter - 1e-10)).TupleSgn()
+                            ) - 1)).TupleSgn()) * 1e-10);
+                        hv_Diameter.Dispose();
+                        hv_Diameter = ExpTmpLocalVar_Diameter;
+                    }
+                }
+            }
+            //Move all points in front of the camera
+            hv_BBX0.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_BBX0 = hv_BB.TupleSelect(
+                    hv_Seq + 0);
+            }
+            hv_BBX1.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_BBX1 = hv_BB.TupleSelect(
+                    hv_Seq + 3);
+            }
+            hv_BBY0.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_BBY0 = hv_BB.TupleSelect(
+                    hv_Seq + 1);
+            }
+            hv_BBY1.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_BBY1 = hv_BB.TupleSelect(
+                    hv_Seq + 4);
+            }
+            hv_BBZ0.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_BBZ0 = hv_BB.TupleSelect(
+                    hv_Seq + 2);
+            }
+            hv_BBZ1.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_BBZ1 = hv_BB.TupleSelect(
+                    hv_Seq + 5);
+            }
+            hv_X.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_X = new HTuple();
+                hv_X = hv_X.TupleConcat(hv_BBX0, hv_BBX0, hv_BBX0, hv_BBX0, hv_BBX1, hv_BBX1, hv_BBX1, hv_BBX1);
+            }
+            hv_Y.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_Y = new HTuple();
+                hv_Y = hv_Y.TupleConcat(hv_BBY0, hv_BBY0, hv_BBY1, hv_BBY1, hv_BBY0, hv_BBY0, hv_BBY1, hv_BBY1);
+            }
+            hv_Z.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_Z = new HTuple();
+                hv_Z = hv_Z.TupleConcat(hv_BBZ0, hv_BBZ1, hv_BBZ0, hv_BBZ1, hv_BBZ0, hv_BBZ1, hv_BBZ0, hv_BBZ1);
+            }
+            hv_HomMat3DIn.Dispose();
+            HOperatorSet.PoseToHomMat3d(hv_PoseIn, out hv_HomMat3DIn);
+            hv_QX_In.Dispose(); hv_QY_In.Dispose(); hv_QZ_In.Dispose();
+            HOperatorSet.AffineTransPoint3d(hv_HomMat3DIn, hv_X, hv_Y, hv_Z, out hv_QX_In,
+                out hv_QY_In, out hv_QZ_In);
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_PoseInter.Dispose();
+                HOperatorSet.PoseCompose(((((new HTuple(0)).TupleConcat(0)).TupleConcat((-(hv_QZ_In.TupleMin()
+                    )) + (2 * (hv_Diameter.TupleMax()))))).TupleConcat((((new HTuple(0)).TupleConcat(
+                    0)).TupleConcat(0)).TupleConcat(0)), hv_PoseIn, out hv_PoseInter);
+            }
+            hv_HomMat3D.Dispose();
+            HOperatorSet.PoseToHomMat3d(hv_PoseInter, out hv_HomMat3D);
+            //Determine the maximum extension of the projection
+            hv_QX.Dispose(); hv_QY.Dispose(); hv_QZ.Dispose();
+            HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_X, hv_Y, hv_Z, out hv_QX, out hv_QY,
+                out hv_QZ);
+            hv_Rows.Dispose(); hv_Cols.Dispose();
+            HOperatorSet.Project3dPoint(hv_QX, hv_QY, hv_QZ, hv_CamParam, out hv_Rows, out hv_Cols);
+            hv_MinMinZ.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_MinMinZ = hv_QZ.TupleMin()
+                    ;
+            }
+            hv_Cx.Dispose();
+            get_cam_par_data(hv_CamParam, "cx", out hv_Cx);
+            hv_Cy.Dispose();
+            get_cam_par_data(hv_CamParam, "cy", out hv_Cy);
+            hv_DR.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_DR = hv_Rows - hv_Cy;
+            }
+            hv_DC.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_DC = hv_Cols - hv_Cx;
+            }
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                {
+                    HTuple
+                      ExpTmpLocalVar_DR = (hv_DR.TupleMax()
+                        ) - (hv_DR.TupleMin());
+                    hv_DR.Dispose();
+                    hv_DR = ExpTmpLocalVar_DR;
+                }
+            }
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                {
+                    HTuple
+                      ExpTmpLocalVar_DC = (hv_DC.TupleMax()
+                        ) - (hv_DC.TupleMin());
+                    hv_DC.Dispose();
+                    hv_DC = ExpTmpLocalVar_DC;
+                }
+            }
+            hv_MaxDist.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_MaxDist = (((hv_DR * hv_DR) + (hv_DC * hv_DC))).TupleSqrt()
+                    ;
+            }
+            //
+            if ((int)(new HTuple(hv_MaxDist.TupleLess(1e-10))) != 0)
+            {
+                //If the object has no extension in the above projection (looking along
+                //a line), we determine the extension of the object in a rotated view
+                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                {
+                    hv_HomMat3DRotate.Dispose();
+                    HOperatorSet.HomMat3dRotateLocal(hv_HomMat3D, (new HTuple(90)).TupleRad(),
+                        "x", out hv_HomMat3DRotate);
+                }
+                hv_QX.Dispose(); hv_QY.Dispose(); hv_QZ.Dispose();
+                HOperatorSet.AffineTransPoint3d(hv_HomMat3DRotate, hv_X, hv_Y, hv_Z, out hv_QX,
+                    out hv_QY, out hv_QZ);
+                hv_Rows.Dispose(); hv_Cols.Dispose();
+                HOperatorSet.Project3dPoint(hv_QX, hv_QY, hv_QZ, hv_CamParam, out hv_Rows,
+                    out hv_Cols);
+                hv_DR.Dispose();
+                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                {
+                    hv_DR = hv_Rows - hv_Cy;
+                }
+                hv_DC.Dispose();
+                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                {
+                    hv_DC = hv_Cols - hv_Cx;
+                }
+                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                {
+                    {
+                        HTuple
+                          ExpTmpLocalVar_DR = (hv_DR.TupleMax()
+                            ) - (hv_DR.TupleMin());
+                        hv_DR.Dispose();
+                        hv_DR = ExpTmpLocalVar_DR;
+                    }
+                }
+                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                {
+                    {
+                        HTuple
+                          ExpTmpLocalVar_DC = (hv_DC.TupleMax()
+                            ) - (hv_DC.TupleMin());
+                        hv_DC.Dispose();
+                        hv_DC = ExpTmpLocalVar_DC;
+                    }
+                }
+                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                {
+                    {
+                        HTuple
+                          ExpTmpLocalVar_MaxDist = ((hv_MaxDist.TupleConcat(
+                            (((hv_DR * hv_DR) + (hv_DC * hv_DC))).TupleSqrt()))).TupleMax();
+                        hv_MaxDist.Dispose();
+                        hv_MaxDist = ExpTmpLocalVar_MaxDist;
+                    }
+                }
+            }
+            //
+            hv_ImageWidth.Dispose();
+            get_cam_par_data(hv_CamParam, "image_width", out hv_ImageWidth);
+            hv_ImageHeight.Dispose();
+            get_cam_par_data(hv_CamParam, "image_height", out hv_ImageHeight);
+            hv_MinImageSize.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_MinImageSize = ((hv_ImageWidth.TupleConcat(
+                    hv_ImageHeight))).TupleMin();
+            }
+            //
+            hv_Z.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_Z = hv_PoseInter.TupleSelect(
+                    2);
+            }
+            hv_Zs.Dispose();
+            hv_Zs = new HTuple(hv_MinMinZ);
+            hv_ZDiff.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_ZDiff = hv_Z - hv_Zs;
+            }
+            hv_ScaleZ.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_ScaleZ = hv_MaxDist / (((0.5 * hv_MinImageSize) * hv_ImageCoverage) * 2.0);
+            }
+            hv_ZNew.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_ZNew = ((hv_ScaleZ * hv_Zs) + hv_ZDiff) + hv_ZAdd;
+            }
+            hv_PoseOut.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_PoseOut = hv_PoseInter.TupleReplace(
+                    2, hv_ZNew);
+            }
+            //
+
+            hv_Rows.Dispose();
+            hv_Cols.Dispose();
+            hv_MinMinZ.Dispose();
+            hv_BB.Dispose();
+            hv_Index.Dispose();
+            hv_CurrBB.Dispose();
+            hv_Exception.Dispose();
+            hv_Seq.Dispose();
+            hv_DXMax.Dispose();
+            hv_DYMax.Dispose();
+            hv_DZMax.Dispose();
+            hv_Diameter.Dispose();
+            hv_ZAdd.Dispose();
+            hv_BBX0.Dispose();
+            hv_BBX1.Dispose();
+            hv_BBY0.Dispose();
+            hv_BBY1.Dispose();
+            hv_BBZ0.Dispose();
+            hv_BBZ1.Dispose();
+            hv_X.Dispose();
+            hv_Y.Dispose();
+            hv_Z.Dispose();
+            hv_HomMat3DIn.Dispose();
+            hv_QX_In.Dispose();
+            hv_QY_In.Dispose();
+            hv_QZ_In.Dispose();
+            hv_PoseInter.Dispose();
+            hv_HomMat3D.Dispose();
+            hv_QX.Dispose();
+            hv_QY.Dispose();
+            hv_QZ.Dispose();
+            hv_Cx.Dispose();
+            hv_Cy.Dispose();
+            hv_DR.Dispose();
+            hv_DC.Dispose();
+            hv_MaxDist.Dispose();
+            hv_HomMat3DRotate.Dispose();
+            hv_ImageWidth.Dispose();
+            hv_ImageHeight.Dispose();
+            hv_MinImageSize.Dispose();
+            hv_Zs.Dispose();
+            hv_ZDiff.Dispose();
+            hv_ScaleZ.Dispose();
+            hv_ZNew.Dispose();
+
+            return;
+        }
 
 
         // Procedures 
