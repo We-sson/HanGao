@@ -1,4 +1,5 @@
-﻿using HalconDotNet;
+﻿using Halcon_SDK_DLL.Halcon_Examples_Method;
+using HalconDotNet;
 using HanGao.View.User_Control.Vision_Calibration;
 using HanGao.View.User_Control.Vision_Calibration.Vison_UserControl;
 using Kitware.VTK;
@@ -360,9 +361,13 @@ namespace HanGao.ViewModel
 
 
 
+                    H3D_Model_Display _3DModelDisplay = new H3D_Model_Display(Calibration_3D_Results);
 
 
-                    Display_3DModel_Window(new Display3DModel_Model(hv_ObjectModels));
+                    _3DModelDisplay.Model_3D = hv_ObjectModels;
+                    _3DModelDisplay.DisoPlay();
+
+                    //Display_3DModel_Window(new Display3DModel_Model(hv_ObjectModels));
 
 
 

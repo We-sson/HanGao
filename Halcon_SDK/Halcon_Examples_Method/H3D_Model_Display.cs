@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
 namespace Halcon_SDK_DLL.Halcon_Examples_Method
 {
@@ -19,175 +20,57 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             HDevWindowStack.SetActive(_HWindow.HWindow);
             _HWindow.Halcon_UserContol.HMouseWheel += Calibration_3D_Results_HMouseWheel;
             _HWindow.Halcon_UserContol.HMouseDown += Calibration_3D_Results_HMouseDown;
-
+            _Window = _HWindow;
         }
 
         public H3D_Model_Display()
         {
 
-            hv_NumModels = new HTuple(hv_ObjectModel3D.TupleLength());
 
 
         }
 
-        // Local iconic variables 
 
-        HObject ho_Image = null, ho_ImageDump = null;
-
-        // Local control variables 
-
-        HTuple ExpTmpLocalVar_gDispObjOffset = new HTuple();
-        HTuple ExpTmpLocalVar_gLabelsDecor = new HTuple(), ExpTmpLocalVar_gInfoDecor = new HTuple();
-        HTuple ExpTmpLocalVar_gInfoPos = new HTuple(), ExpTmpLocalVar_gTitlePos = new HTuple();
-        HTuple ExpTmpLocalVar_gTitleDecor = new HTuple(), ExpTmpLocalVar_gTerminationButtonLabel = new HTuple();
-        HTuple ExpTmpLocalVar_gAlphaDeselected = new HTuple();
-        HTuple ExpTmpLocalVar_gIsSinglePose = new HTuple(), ExpTmpLocalVar_gUsesOpenGL = new HTuple();
-        HTuple hv_Scene3DTest = new HTuple(), hv_Scene3D = new HTuple();
-        HTuple hv_WindowHandleBuffer = new HTuple();
-        //HTuple hv_TrackballSize = new HTuple();
-        //HTuple hv_VirtualTrackball = new HTuple(), 
-        HTuple hv_MouseMapping = new HTuple();
-        //HTuple hv_WaitForButtonRelease = new HTuple(),
-        //HTuple hv_MaxNumModels = new HTuple();
-        //HTuple hv_WindowCenteredRotation = new HTuple(), 
-        //HTuple hv_NumModels = new HTuple();
-        HTuple hv_SelectedObject = new HTuple(), hv_ClipRegion = new HTuple();
-        HTuple hv_CPLength = new HTuple(), hv_RowNotUsed = new HTuple();
-        HTuple hv_ColumnNotUsed = new HTuple(), hv_Width = new HTuple();
-        HTuple hv_Height = new HTuple(), hv_WPRow1 = new HTuple();
-        HTuple hv_WPColumn1 = new HTuple(), hv_WPRow2 = new HTuple();
-        HTuple hv_WPColumn2 = new HTuple(), hv_CamParamValue = new HTuple();
-        HTuple hv_CamWidth = new HTuple(), hv_CamHeight = new HTuple();
-        HTuple hv_Scale = new HTuple(), hv_Indices = new HTuple();
-        HTuple hv_DispBackground = new HTuple(), hv_Mask = new HTuple();
-        HTuple hv_Center = new HTuple(), hv_PoseEstimated = new HTuple();
-        HTuple hv_Poses = new HTuple(), hv_HomMat3Ds = new HTuple();
-        HTuple hv_Sequence = new HTuple(), hv_Font = new HTuple();
-        HTuple hv_Exception = new HTuple(), hv_OpenGLInfo = new HTuple();
-        HTuple hv_DummyObjectModel3D = new HTuple(), hv_CameraIndexTest = new HTuple();
-        HTuple hv_PoseTest = new HTuple(), hv_InstanceIndexTest = new HTuple();
-        HTuple hv_MinImageSize = new HTuple(), hv_TrackballRadiusPixel = new HTuple();
-        HTuple hv_Ascent = new HTuple(), hv_Descent = new HTuple();
-        HTuple hv_TextWidth = new HTuple(), hv_TextHeight = new HTuple();
-        HTuple hv_NumChannels = new HTuple(), hv_ColorImage = new HTuple();
-        HTuple hv_CameraIndex = new HTuple(), hv_AllInstances = new HTuple();
-        HTuple hv_SetLight = new HTuple(), hv_LightParam = new HTuple();
-        HTuple hv_LightPosition = new HTuple(), hv_LightKind = new HTuple();
-        HTuple hv_LightIndex = new HTuple(), hv_PersistenceParamName = new HTuple();
-        HTuple hv_PersistenceParamValue = new HTuple(), hv_AlphaOrig = new HTuple();
-        HTuple hv_I = new HTuple(), hv_ParamName = new HTuple();
-        HTuple hv_ParamValue = new HTuple(), hv_ParamNameTrunk = new HTuple();
-        HTuple hv_Instance = new HTuple(), hv_HomMat3D = new HTuple();
-        HTuple hv_Qx = new HTuple(), hv_Qy = new HTuple(), hv_Qz = new HTuple();
-        HTuple hv_TBCenter = new HTuple(), hv_TBSize = new HTuple();
-        HTuple hv_ButtonHold = new HTuple(), hv_VisualizeTB = new HTuple();
-        HTuple hv_MaxIndex = new HTuple(), hv_TrackballCenterRow = new HTuple();
-        HTuple hv_TrackballCenterCol = new HTuple(), hv_GraphEvent = new HTuple();
-        HTuple hv_GraphButtonRow = new HTuple();
-        HTuple hv_GraphButtonColumn = new HTuple();
-        HTuple hv_ButtonReleased = new HTuple(), hv_e = new HTuple();
-        HTuple hv_CamParam_COPY_INP_TMP = new HTuple();
-        //HTuple hv_GenParamName_COPY_INP_TMP = new HTuple(hv_GenParamName);
-        //HTuple hv_GenParamValue_COPY_INP_TMP = new HTuple(hv_GenParamValue);
-        //HTuple hv_Label_COPY_INP_TMP = new HTuple(hv_Label);
-        HTuple hv_PoseIn_COPY_INP_TMP = new HTuple();
+        public HTuple Model_3D { set; get; }
 
 
 
-
-        //HOperatorSet.GenEmptyObj(out  ho_Image);
-        //HOperatorSet.GenEmptyObj(out ho_ImageDump);
-
-        /// <summary>
-        /// 鼠标状态
-        /// </summary>
-        HTuple hv_GraphButton = new HTuple(0);
-        /// <summary>
-        /// 退出事件
-        /// </summary>
-        HTuple hv_Exit = new HTuple(0);
-        HTuple hv_TrackballSize = new HTuple(0.8);
-        HTuple gDispObjOffset = new HTuple(-30).TupleConcat(0);
-        HTuple hv_VirtualTrackball = new HTuple("shoemake");
-        HTuple gLabelsDecor = new HTuple("white").TupleConcat("false");
-        HTuple gInfoDecor = new HTuple("white").TupleConcat("false");
-        HTuple gInfoPos = new HTuple("LowerLeft");
-        HTuple gTitlePos = new HTuple("UpperLeft");
-        HTuple gTitleDecor = new HTuple("black").TupleConcat("true");
-        HTuple gTerminationButtonLabel = new HTuple("Continue");
-        HTuple hv_WaitForButtonRelease = new HTuple("true");
-        HTuple gAlphaDeselected = new HTuple(0.3);
-        HTuple hv_MaxNumModels = new HTuple(1000);
-        HTuple hv_WindowCenteredRotation = new HTuple(2);
-        HTuple gIsSinglePose;
-        HTuple gUsesOpenGL;
-        HTuple hv_WindowHandle;
+        public Halcon_SDK _Window { set; get; }
 
 
-
-
-
-        HTuple hv_PoseOut = new HTuple();
-        HTuple hv_ObjectModel3D = new HTuple();
-        HTuple hv_NumModels = new HTuple();
-
-        /// <summary>
-        /// 窗口显示可视化
-        /// </summary>
-        public void Display_Window_Ini()
+        public  void DisoPlay()
         {
-            hv_RowNotUsed.Dispose(); hv_ColumnNotUsed.Dispose(); hv_Width.Dispose(); hv_Height.Dispose();
-            HOperatorSet.GetWindowExtents(hv_WindowHandle, out hv_RowNotUsed, out hv_ColumnNotUsed,
-                out hv_Width, out hv_Height);
-            hv_WPRow1.Dispose(); hv_WPColumn1.Dispose(); hv_WPRow2.Dispose(); hv_WPColumn2.Dispose();
-            HOperatorSet.GetPart(hv_WindowHandle, out hv_WPRow1, out hv_WPColumn1, out hv_WPRow2,
-                out hv_WPColumn2);
 
-            HOperatorSet.SetPart(hv_WindowHandle, 0, 0, hv_Height - 1, hv_Width - 1);
+            Task.Run(() => 
+            {
+                Halcon_Camera_Calibration_Parameters_Model _Pra = new Halcon_Camera_Calibration_Parameters_Model() { Camera_Calibration_Model = Model.Halocn_Camera_Calibration_Enum.area_scan_division };
+               
+                HCamPar _CamPar = new HCamPar(Halcon_Calibration_SDK.Halcon_Get_Camera_Area_Scan(_Pra));
+                HPose _PosIn = new HPose();
 
-            gen_cam_par_area_scan_division(0.06, 0, 8.5e-6, 8.5e-6, hv_Width / 2, hv_Height / 2, hv_Width, hv_Height, out hv_CamParam_COPY_INP_TMP);
+                while (true)
+                {
+
+                    _PosIn.PoseCompose(new HPose(0, 0, 0, 1, 1, 1, "Rp+T", "gba", "point"));
+
+
+                HOperatorSet.DispObjectModel3d(_Window.HWindow, Model_3D, _CamPar, new HTuple(), new HTuple(), new HTuple());
+
+                //Model_3D.DispObjectModel3d(_Window.HWindow, _CamPar, new HPose(), new HTuple(), new HTuple());
+                Task.Delay(5);
+                }
+
+
+            });
 
 
 
         }
 
-        //计算模型合适位置
-        public void Get_All_3DModel_Pose()
-        {
-            ///
-            get_object_models_center(hv_ObjectModel3D, out hv_Center);
-
-            HOperatorSet.CreatePose(-(hv_Center.TupleSelect(0)), -(hv_Center.TupleSelect(1)),
-                -(hv_Center.TupleSelect(2)), 0, 0, 0, "Rp+T", "gba", "point", out hv_PoseIn_COPY_INP_TMP);
-
-
-            determine_optimum_pose_distance(hv_ObjectModel3D, hv_CamParam_COPY_INP_TMP,
-                0.9, hv_PoseIn_COPY_INP_TMP, out hv_PoseEstimated);
-
-            hv_Sequence = HTuple.TupleGenSequence(0, (hv_NumModels * 7) - 1, 1);
-
-            hv_Poses = hv_PoseEstimated.TupleSelect(hv_Sequence % 7);
-
-
-        }
-
-
-        public void Create_All_3DModel()
-        {
-            HOperatorSet.CreateScene3d(out hv_Scene3D);
-            HOperatorSet.AddScene3dCamera(hv_Scene3D, hv_CamParam_COPY_INP_TMP, out hv_CameraIndex);
-            HOperatorSet.AddScene3dInstance(hv_Scene3D, hv_ObjectModel3D, hv_Poses, out hv_AllInstances);
-            HOperatorSet.SetScene3dParam(hv_Scene3D, "disp_background", "true");
 
 
 
-            HOperatorSet.PoseToHomMat3d(hv_Poses.TupleSelectRange(0, 6), out hv_HomMat3D);
-            HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_Center.TupleSelect(0), hv_Center.TupleSelect(1), hv_Center.TupleSelect(2), out hv_Qx, out hv_Qy, out hv_Qz);
-            hv_TBCenter = hv_TBCenter.TupleConcat(hv_Qx, hv_Qy, hv_Qz);
-            hv_TBSize = (0.5 + ((0.5 * (hv_SelectedObject.TupleSum())) / hv_NumModels)) * hv_TrackballRadiusPixel;
 
-
-        }
 
 
 
@@ -2035,7 +1918,164 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             return;
         }
 
+        // Chapter: Graphics / Output
+        // Short Description: Display 3D object models 
+ 
 
+        /// <summary>
+        /// 鼠标状态
+        /// </summary>
+        HTuple hv_GraphButton = new HTuple();
+        /// <summary>
+        /// 退出事件
+        /// </summary>
+        HTuple hv_Exit = new HTuple(0);
+        HTuple gDispObjOffset;
+        HTuple gLabelsDecor;
+        HTuple gInfoDecor;
+        HTuple gInfoPos;
+        HTuple gTitlePos;
+        HTuple gTitleDecor;
+        HTuple gTerminationButtonLabel;
+        HTuple gAlphaDeselected;
+        HTuple gIsSinglePose;
+        HTuple gUsesOpenGL;
+
+        void ExpSetGlobalVar_gDispObjOffset(HTuple val)
+        {
+            if (gDispObjOffset != val)
+            {
+                if (gDispObjOffset != null)
+                    gDispObjOffset.Dispose();
+                gDispObjOffset = val;
+            }
+        }
+
+        HTuple ExpGetGlobalVar_gLabelsDecor()
+        {
+            return gLabelsDecor;
+        }
+        void ExpSetGlobalVar_gLabelsDecor(HTuple val)
+        {
+            if (gLabelsDecor != val)
+            {
+                if (gLabelsDecor != null)
+                    gLabelsDecor.Dispose();
+                gLabelsDecor = val;
+            }
+        }
+
+        HTuple ExpGetGlobalVar_gInfoDecor()
+        {
+            return gInfoDecor;
+        }
+        void ExpSetGlobalVar_gInfoDecor(HTuple val)
+        {
+            if (gInfoDecor != val)
+            {
+                if (gInfoDecor != null)
+                    gInfoDecor.Dispose();
+                gInfoDecor = val;
+            }
+        }
+
+        HTuple ExpGetGlobalVar_gInfoPos()
+        {
+            return gInfoPos;
+        }
+        void ExpSetGlobalVar_gInfoPos(HTuple val)
+        {
+            if (gInfoPos != val)
+            {
+                if (gInfoPos != null)
+                    gInfoPos.Dispose();
+                gInfoPos = val;
+            }
+        }
+
+        HTuple ExpGetGlobalVar_gTitlePos()
+        {
+            return gTitlePos;
+        }
+        void ExpSetGlobalVar_gTitlePos(HTuple val)
+        {
+            if (gTitlePos != val)
+            {
+                if (gTitlePos != null)
+                    gTitlePos.Dispose();
+                gTitlePos = val;
+            }
+        }
+
+        HTuple ExpGetGlobalVar_gTitleDecor()
+        {
+            return gTitleDecor;
+        }
+        void ExpSetGlobalVar_gTitleDecor(HTuple val)
+        {
+            if (gTitleDecor != val)
+            {
+                if (gTitleDecor != null)
+                    gTitleDecor.Dispose();
+                gTitleDecor = val;
+            }
+        }
+
+        HTuple ExpGetGlobalVar_gTerminationButtonLabel()
+        {
+            return gTerminationButtonLabel;
+        }
+        void ExpSetGlobalVar_gTerminationButtonLabel(HTuple val)
+        {
+            if (gTerminationButtonLabel != val)
+            {
+                if (gTerminationButtonLabel != null)
+                    gTerminationButtonLabel.Dispose();
+                gTerminationButtonLabel = val;
+            }
+        }
+
+        HTuple ExpGetGlobalVar_gAlphaDeselected()
+        {
+            return gAlphaDeselected;
+        }
+        void ExpSetGlobalVar_gAlphaDeselected(HTuple val)
+        {
+            if (gAlphaDeselected != val)
+            {
+                if (gAlphaDeselected != null)
+                    gAlphaDeselected.Dispose();
+                gAlphaDeselected = val;
+            }
+        }
+
+        HTuple ExpGetGlobalVar_gIsSinglePose()
+        {
+            return gIsSinglePose;
+        }
+        void ExpSetGlobalVar_gIsSinglePose(HTuple val)
+        {
+            if (gIsSinglePose != val)
+            {
+                if (gIsSinglePose != null)
+                    gIsSinglePose.Dispose();
+                gIsSinglePose = val;
+            }
+        }
+
+        HTuple ExpGetGlobalVar_gUsesOpenGL()
+        {
+            return gUsesOpenGL;
+        }
+        void ExpSetGlobalVar_gUsesOpenGL(HTuple val)
+        {
+            if (gUsesOpenGL != val)
+            {
+                if (gUsesOpenGL != null)
+                    gUsesOpenGL.Dispose();
+                gUsesOpenGL = val;
+            }
+        }
 
     }
 }

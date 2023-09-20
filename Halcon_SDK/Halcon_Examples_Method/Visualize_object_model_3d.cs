@@ -32,13 +32,13 @@ public partial class Halcon_Examples
     private void Calibration_3D_Results_HMouseWheel(object sender, HSmartWindowControlWPF.HMouseEventArgsWPF e)
     {
 
-        hv_GraphButton = 2;
+        //hv_GraphButton = 2;
 
 
     }
     public void Exit_Display()
     {
-        hv_Exit = new HTuple(1);
+        //hv_Exit = new HTuple(1);
     }
 
 

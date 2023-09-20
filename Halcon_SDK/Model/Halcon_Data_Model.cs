@@ -589,20 +589,20 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 中间高度度位置
             /// </summary>
-            public double Middle_Height_Pos { set; get; } = 0;
+            public double Middle_Height_Pos { set; get; } = 250;
             /// <summary>
             /// 中间宽度位置
             /// </summary>
-            public double Middle_Width_Pos { set; get; } = 0;
+            public double Middle_Width_Pos { set; get; } = 250;
 
             /// <summary>
             /// 最大高度像素
             /// </summary>
-            public int Max_Height_Pos { set; get; } = 0;
+            public int Max_Height_Pos { set; get; } = 500;
             /// <summary>
             /// 最大宽度像素
             /// </summary>
-            public int Max_Width_Pos { set; get; } = 0;
+            public int Max_Width_Pos { set; get; } = 500;
         }
 
     }
