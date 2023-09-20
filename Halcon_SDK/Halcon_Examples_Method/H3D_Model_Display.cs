@@ -48,13 +48,14 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 HCamPar _CamPar = new HCamPar(Halcon_Calibration_SDK.Halcon_Get_Camera_Area_Scan(_Pra));
                 HPose _PosIn = new HPose();
 
+                    _PosIn.CreatePose(0, 0, 0, 1, 1, 1, "Rp+T", "gba", "point");
                 while (true)
                 {
 
                     _PosIn.PoseCompose(new HPose(0, 0, 0, 1, 1, 1, "Rp+T", "gba", "point"));
 
 
-                HOperatorSet.DispObjectModel3d(_Window.HWindow, Model_3D, _CamPar, new HTuple(), new HTuple(), new HTuple());
+                    HOperatorSet.DispObjectModel3d(_Window.HWindow, Model_3D, _CamPar, _PosIn, new HTuple(), new HTuple());
 
                 //Model_3D.DispObjectModel3d(_Window.HWindow, _CamPar, new HPose(), new HTuple(), new HTuple());
                 Task.Delay(5);
