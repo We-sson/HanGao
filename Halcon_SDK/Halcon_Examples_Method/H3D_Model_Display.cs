@@ -22,8 +22,11 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             HDevWindowStack.SetActive(_HWindow.HWindow);
             _HWindow.Halcon_UserContol.HMouseWheel += Calibration_3D_Results_HMouseWheel;
             _HWindow.Halcon_UserContol.HMouseDown += Calibration_3D_Results_HMouseDown;
+            _HWindow.Halcon_UserContol.HMouseMove += Calibration_3D_Results_HMouseMove;
             _Window = _HWindow;
         }
+
+
 
         public H3D_Model_Display()
         {
@@ -72,10 +75,13 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
 
+        private void Calibration_3D_Results_HMouseMove(object sender, HSmartWindowControlWPF.HMouseEventArgsWPF e)
+        {
 
 
 
 
+        }
 
 
 
@@ -88,6 +94,11 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
         private void Calibration_3D_Results_HMouseWheel(object sender, HSmartWindowControlWPF.HMouseEventArgsWPF e)
         {
+
+
+
+
+
 
 
 
@@ -699,6 +710,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 else if ((int)(hv_IsButtonDist) != 0)
                 {
                     //Change the Z distance
+                    //缩放动作
                     hv_MRow1.Dispose();
                     hv_MRow1 = new HTuple(hv_Row_COPY_INP_TMP);
                     while ((int)(hv_IsButtonDist) != 0)
