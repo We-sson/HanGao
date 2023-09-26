@@ -205,6 +205,9 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         out hv_HomMat3DOut);
                     //hv_PoseOut.Dispose();
                     HOperatorSet.HomMat3dToPose(hv_HomMat3DOut, out hv_PoseOut);
+
+
+
                     HOperatorSet.SetScene3dInstancePose(hv_Scene3D, hv_Index, hv_PoseOut);
                     //}
                     //else
