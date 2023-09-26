@@ -60,6 +60,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
         private HTuple hv_CamParam = new HTuple();
 
+        /// <summary>
+        /// 缩放数据
+        /// </summary>
+        private HTuple hv_TranslateZ = new HTuple(0);
 
 
 
@@ -123,7 +127,6 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             try
             {
 
-                HTuple hv_TranslateZ = new HTuple();
                 //HTuple hv_PoseIn = new HTuple();
                 //HTuple hv_Index = new HTuple();
                 HTuple hv_HomMat3DIn = new HTuple();
@@ -172,11 +175,11 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 //HTuple step_val169 = 1;
                 if (e.Delta > 0)
                 {
-                    hv_TranslateZ = 0.1;
+                    hv_TranslateZ += 0.1;
                 }
                 else
                 {
-                    hv_TranslateZ = -0.1;
+                    hv_TranslateZ += -0.1;
 
                 }
 
@@ -284,6 +287,9 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 //    }
                 //}
 
+                HOperatorSet.ClearWindow(hv_WindowHandleBuffer);
+
+
                 HOperatorSet.DisplayScene3d(hv_WindowHandleBuffer, hv_Scene3D, 0);
 
 
@@ -295,7 +301,12 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 //hv_TBCenter_COPY_INP_TMP);
                 //ho_ImageDump.Dispose();
                 HOperatorSet.DumpWindowImage(out ho_ImageDump, hv_WindowHandleBuffer);
-                HOperatorSet.DispObj(ho_ImageDump, hv_WindowHandle);
+
+
+
+                //HOperatorSet.DispObj(ho_ImageDump, hv_WindowHandle);
+
+                HOperatorSet.DispObjectModel3d(hv_WindowHandle, hv_ObjectModel3D, hv_CamParam, hv_PoseOut, new HTuple(), new HTuple());
 
             }
             //
