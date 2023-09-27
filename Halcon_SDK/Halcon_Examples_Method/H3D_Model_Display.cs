@@ -132,7 +132,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 HTuple hv_HomMat3DIn = new HTuple();
                 HTuple hv_HomMat3DOut = new HTuple();
                 HTuple hv_PoseOut = new HTuple();
-
+                HTuple hv_PoseMatch = new HTuple();
 
                 hv_NumModels = new HTuple(hv_ObjectModel3D.TupleLength());
                 //hv_Row_COPY_INP_TMP.Dispose(); hv_Column_COPY_INP_TMP.Dispose(); hv_ButtonLoop.Dispose();
@@ -175,17 +175,17 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 //HTuple step_val169 = 1;
                 if (e.Delta > 0)
                 {
-                    hv_TranslateZ += 0.1;
+                    hv_TranslateZ += 0.5;
                 }
                 else
                 {
-                    hv_TranslateZ += -0.1;
+                    hv_TranslateZ += -0.5;
 
                 }
 
                 ///遍历所以模型数量
-                for (int hv_Index = 0; hv_Index < hv_NumModels - 1; hv_Index++)
-                {
+                //for (int hv_Index = 0; hv_Index < hv_NumModels - 1; hv_Index++)
+                //{
                     //for (hv_Index = 0; hv_Index.Continue(end_val169, step_val169); hv_Index = hv_Index.TupleAdd(1))
                     //{
                     //hv_PoseIn.Dispose();
@@ -199,16 +199,22 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     //{
                     //Transform the whole scene or selected object only
                     //hv_HomMat3DIn.Dispose();
-                    HOperatorSet.PoseToHomMat3d(hv_PoseIn, out hv_HomMat3DIn);
+                    //HOperatorSet.PoseToHomMat3d(hv_PoseIn, out hv_HomMat3DIn);
                     //hv_HomMat3DOut.Dispose();
-                    HOperatorSet.HomMat3dTranslate(hv_HomMat3DIn, 0, 0, hv_TranslateZ,
-                        out hv_HomMat3DOut);
-                    //hv_PoseOut.Dispose();
-                    HOperatorSet.HomMat3dToPose(hv_HomMat3DOut, out hv_PoseOut);
 
+                //滚轮每次增加缩放次数
+                    HOperatorSet.CreatePose(0, 0, hv_TranslateZ, 0, 0, 0, "Rp+T", "gba", "point", out hv_PoseMatch);
 
+                    HOperatorSet.PoseCompose(hv_PoseIn, hv_PoseMatch, out hv_PoseOut);
 
-                    HOperatorSet.SetScene3dInstancePose(hv_Scene3D, hv_Index, hv_PoseOut);
+                //HOperatorSet.HomMat3dTranslate(hv_HomMat3DIn, 0, 0, hv_TranslateZ,
+                //    out hv_HomMat3DOut);
+                //hv_PoseOut.Dispose();
+                //HOperatorSet.HomMat3dToPose(hv_HomMat3DOut, out hv_PoseOut);
+
+                //设置模型显示位置
+                HOperatorSet.SetScene3dToWorldPose(hv_Scene3D, hv_PoseOut);
+                    //HOperatorSet.SetScene3dInstancePose(hv_Scene3D, hv_Index, hv_PoseOut);
                     //}
                     //else
                     //{
@@ -226,7 +232,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     //        hv_PosesOut = hv_PosesOut.TupleConcat(hv_PoseOut);
                     //    }
                     //}
-                }
+                //}
                 //}
                 //else
                 //{
@@ -293,7 +299,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 HOperatorSet.ClearWindow(hv_WindowHandleBuffer);
 
 
-                HOperatorSet.DisplayScene3d(hv_WindowHandleBuffer, hv_Scene3D, 0);
+                //HOperatorSet.DisplayScene3d(hv_WindowHandleBuffer, hv_Scene3D, 0);
 
 
                 //dump_image_output(ho_BackgroundImage, hv_WindowHandleBuffer, hv_Scene3D,
