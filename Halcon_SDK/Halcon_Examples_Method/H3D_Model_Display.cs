@@ -23,7 +23,8 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             _HWindow.Halcon_UserContol.HMouseWheel += Calibration_3D_Results_HMouseWheel;
             _HWindow.Halcon_UserContol.HMouseDown += Calibration_3D_Results_HMouseDown;
             _HWindow.Halcon_UserContol.HMouseMove += Calibration_3D_Results_HMouseMove;
-            _Window = _HWindow;
+            _HWindow.Halcon_UserContol.HMouseUp += Calibration_3D_HMouseUp;
+          _Window = _HWindow;
             hv_WindowHandle = _HWindow.HWindow;
 
 
@@ -40,6 +41,8 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         }
 
 
+        private HSmartWindowControlWPF.HMouseEventArgsWPF hv_HMouseDowm;
+
         /// <summary>
         /// 背景图
         /// </summary>
@@ -54,6 +57,9 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         private HTuple hv_Scene3D = new HTuple();
         public HTuple hv_PosesOut = new HTuple();
 
+
+        private HTuple hv_PoseOut = new HTuple();
+
         public HTuple hv_PoseIn = new HTuple();
 
         private HTuple hv_WindowHandleBuffer = new HTuple();
@@ -64,7 +70,27 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// 缩放数据
         /// </summary>
         private HTuple hv_TranslateZ = new HTuple(0);
+        /// <summary>
+        ///  //shall be used ('shoemake' or 'bell').
+        /// </summary>
+        private HTuple hv_VirtualTrackball = new HTuple("shoemake");
 
+        /// <summary>
+        ///     TrackballSize defines the diameter of the trackball in
+        ///     the image with respect to the smaller image dimension.
+        ///      轨迹球尺寸定义了图像中轨迹球的直径。
+         ///     图像中的轨迹球直径。
+        /// </summary>
+        private HTuple hv_TrackballSize = new HTuple(0.8);
+
+        private bool hv_Button_Hold; 
+
+        /// <summary>
+        ///  可视化旋转速度比
+        /// </summary>
+        private HTuple hv_SensFactor = new HTuple(0.8);
+
+        
 
 
         public Halcon_SDK _Window { set; get; }
@@ -106,7 +132,59 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         {
 
 
+            if (hv_Button_Hold)
+            {
 
+            HTuple hv_RelQuaternion;
+            HTuple hv_HomMat3DRotRel;
+            HTuple hv_HomMat3D;
+             HTuple hv_QuaternionPos;
+            var hv_Image_Width = _Window.Halcon_UserContol.ActualWidth;
+            var hv_Image_Height = _Window.Halcon_UserContol.ActualHeight;
+
+            var hv_MinImageSize = Math.Min(hv_Image_Width, hv_Image_Height);
+
+            double hv_MX1 = (hv_Image_Height / 2 - hv_HMouseDowm.Column) / (0.5 * hv_MinImageSize);
+            double hv_MY1 = (hv_Image_Width / 2 - hv_HMouseDowm.Row) / (0.5 * hv_MinImageSize);
+            double hv_MX2 = (hv_Image_Height / 2 - e.Column) / (0.5 * hv_MinImageSize);
+            double hv_MY2 = (hv_Image_Width / 2 - e.Row) / (0.5 * hv_MinImageSize);
+
+            trackball(hv_MX1, hv_MY1, hv_MX2, hv_MY2, hv_VirtualTrackball, hv_TrackballSize,
+             hv_SensFactor, out hv_RelQuaternion);
+
+
+
+
+
+            HOperatorSet.QuatToHomMat3d(hv_RelQuaternion, out hv_HomMat3DRotRel);
+
+                HOperatorSet.PoseToHomMat3d(hv_PoseIn, out  hv_HomMat3D);
+                HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_Center.TupleSelect(0), hv_Center.TupleSelect(1), hv_Center.TupleSelect(2), out hv_Qx, out hv_Qy, out hv_Qz);
+
+                HOperatorSet.PoseToHomMat3d(hv_PoseIn, out hv_HomMat3DIn);
+
+
+
+                HOperatorSet.QuatToPose(hv_RelQuaternion, out hv_QuaternionPos);
+
+
+            HOperatorSet.PoseCompose(hv_PoseIn, hv_QuaternionPos, out hv_PoseOut);
+
+                //HOperatorSet.HomMat3dTranslate(hv_HomMat3DIn, 0, 0, hv_TranslateZ,
+                //    out hv_HomMat3DOut);
+                //hv_PoseOut.Dispose();
+                //HOperatorSet.HomMat3dToPose(hv_HomMat3DOut, out hv_PoseOut);
+
+                //设置模型显示位置
+                HOperatorSet.SetScene3dToWorldPose(hv_Scene3D, hv_PoseOut);
+
+                //保存移动后位置
+                hv_PoseIn = hv_PoseOut;
+
+                //渲染画面显示
+                HOperatorSet.DispObjectModel3d(hv_WindowHandle, hv_ObjectModel3D, hv_CamParam, hv_PoseOut, new HTuple(), new HTuple());
+
+            }
 
         }
 
@@ -115,9 +193,16 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         private void Calibration_3D_Results_HMouseDown(object sender, HSmartWindowControlWPF.HMouseEventArgsWPF e)
         {
 
-
+            hv_HMouseDowm = e;
+            hv_Button_Hold = true;
 
         }
+        private void Calibration_3D_HMouseUp(object sender, HSmartWindowControlWPF.HMouseEventArgsWPF e)
+        {
+            hv_Button_Hold = false;
+        }
+
+
 
         private void Calibration_3D_Results_HMouseWheel(object sender, HSmartWindowControlWPF.HMouseEventArgsWPF e)
         {
@@ -131,7 +216,6 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 //HTuple hv_Index = new HTuple();
                 HTuple hv_HomMat3DIn = new HTuple();
                 HTuple hv_HomMat3DOut = new HTuple();
-                HTuple hv_PoseOut = new HTuple();
                 HTuple hv_PoseMatch = new HTuple();
 
                 hv_NumModels = new HTuple(hv_ObjectModel3D.TupleLength());
@@ -175,11 +259,11 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 //HTuple step_val169 = 1;
                 if (e.Delta > 0)
                 {
-                    hv_TranslateZ += 0.5;
+                    hv_TranslateZ = 0.5;
                 }
                 else
                 {
-                    hv_TranslateZ += -0.5;
+                    hv_TranslateZ = -0.5;
 
                 }
 
@@ -214,6 +298,8 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
                 //设置模型显示位置
                 HOperatorSet.SetScene3dToWorldPose(hv_Scene3D, hv_PoseOut);
+
+                hv_PoseIn = hv_PoseOut;
                     //HOperatorSet.SetScene3dInstancePose(hv_Scene3D, hv_Index, hv_PoseOut);
                     //}
                     //else
@@ -232,69 +318,69 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     //        hv_PosesOut = hv_PosesOut.TupleConcat(hv_PoseOut);
                     //    }
                     //}
-                //}
-                //}
-                //else
-                //{
-                //    hv_Indices.Dispose();
-                //    HOperatorSet.TupleFind(hv_SelectedObjectOut, 1, out hv_Indices);
-                //    hv_PoseIn.Dispose();
-                //    using (HDevDisposeHelper dh = new HDevDisposeHelper())
-                //    {
-                //        hv_PoseIn = hv_PosesIn_COPY_INP_TMP.TupleSelectRange(
-                //            (hv_Indices.TupleSelect(0)) * 7, ((hv_Indices.TupleSelect(0)) * 7) + 6);
-                //    }
-                //    hv_HomMat3DIn.Dispose();
-                //    HOperatorSet.PoseToHomMat3d(hv_PoseIn, out hv_HomMat3DIn);
-                //    hv_HomMat3DOut.Dispose();
-                //    HOperatorSet.HomMat3dTranslate(hv_HomMat3DIn, 0, 0, hv_TranslateZ,
-                //        out hv_HomMat3DOut);
-                //    hv_PoseOut.Dispose();
-                //    HOperatorSet.HomMat3dToPose(hv_HomMat3DOut, out hv_PoseOut);
-                //    hv_Sequence.Dispose();
-                //    using (HDevDisposeHelper dh = new HDevDisposeHelper())
-                //    {
-                //        hv_Sequence = HTuple.TupleGenSequence(
-                //            0, (hv_NumModels * 7) - 1, 1);
-                //    }
-                //    hv_Mod.Dispose();
-                //    HOperatorSet.TupleMod(hv_Sequence, 7, out hv_Mod);
-                //    hv_SequenceReal.Dispose();
-                //    using (HDevDisposeHelper dh = new HDevDisposeHelper())
-                //    {
-                //        hv_SequenceReal = HTuple.TupleGenSequence(
-                //            0, hv_NumModels - (1.0 / 7.0), 1.0 / 7.0);
-                //    }
-                //    hv_Sequence2Int.Dispose();
-                //    using (HDevDisposeHelper dh = new HDevDisposeHelper())
-                //    {
-                //        hv_Sequence2Int = hv_SequenceReal.TupleInt()
-                //            ;
-                //    }
-                //    hv_Selected.Dispose();
-                //    HOperatorSet.TupleSelect(hv_SelectedObjectOut, hv_Sequence2Int, out hv_Selected);
-                //    hv_InvSelected.Dispose();
-                //    using (HDevDisposeHelper dh = new HDevDisposeHelper())
-                //    {
-                //        hv_InvSelected = 1 - hv_Selected;
-                //    }
-                //    hv_PosesOut.Dispose();
-                //    HOperatorSet.TupleSelect(hv_PoseOut, hv_Mod, out hv_PosesOut);
-                //    using (HDevDisposeHelper dh = new HDevDisposeHelper())
-                //    {
-                //        {
-                //            HTuple
-                //              ExpTmpLocalVar_PosesOut = (hv_PosesOut * hv_Selected) + (hv_PosesIn_COPY_INP_TMP * hv_InvSelected);
-                //            hv_PosesOut.Dispose();
-                //            hv_PosesOut = ExpTmpLocalVar_PosesOut;
-                //        }
-                //    }
-                //    using (HDevDisposeHelper dh = new HDevDisposeHelper())
-                //    {
-                //        HOperatorSet.SetScene3dInstancePose(hv_Scene3D, HTuple.TupleGenSequence(
-                //            0, hv_NumModels - 1, 1), hv_PosesOut);
-                //    }
-                //}
+                    //}
+                    //}
+                    //else
+                    //{
+                    //    hv_Indices.Dispose();
+                    //    HOperatorSet.TupleFind(hv_SelectedObjectOut, 1, out hv_Indices);
+                    //    hv_PoseIn.Dispose();
+                    //    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    //    {
+                    //        hv_PoseIn = hv_PosesIn_COPY_INP_TMP.TupleSelectRange(
+                    //            (hv_Indices.TupleSelect(0)) * 7, ((hv_Indices.TupleSelect(0)) * 7) + 6);
+                    //    }
+                    //    hv_HomMat3DIn.Dispose();
+                    //    HOperatorSet.PoseToHomMat3d(hv_PoseIn, out hv_HomMat3DIn);
+                    //    hv_HomMat3DOut.Dispose();
+                    //    HOperatorSet.HomMat3dTranslate(hv_HomMat3DIn, 0, 0, hv_TranslateZ,
+                    //        out hv_HomMat3DOut);
+                    //    hv_PoseOut.Dispose();
+                    //    HOperatorSet.HomMat3dToPose(hv_HomMat3DOut, out hv_PoseOut);
+                    //    hv_Sequence.Dispose();
+                    //    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    //    {
+                    //        hv_Sequence = HTuple.TupleGenSequence(
+                    //            0, (hv_NumModels * 7) - 1, 1);
+                    //    }
+                    //    hv_Mod.Dispose();
+                    //    HOperatorSet.TupleMod(hv_Sequence, 7, out hv_Mod);
+                    //    hv_SequenceReal.Dispose();
+                    //    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    //    {
+                    //        hv_SequenceReal = HTuple.TupleGenSequence(
+                    //            0, hv_NumModels - (1.0 / 7.0), 1.0 / 7.0);
+                    //    }
+                    //    hv_Sequence2Int.Dispose();
+                    //    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    //    {
+                    //        hv_Sequence2Int = hv_SequenceReal.TupleInt()
+                    //            ;
+                    //    }
+                    //    hv_Selected.Dispose();
+                    //    HOperatorSet.TupleSelect(hv_SelectedObjectOut, hv_Sequence2Int, out hv_Selected);
+                    //    hv_InvSelected.Dispose();
+                    //    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    //    {
+                    //        hv_InvSelected = 1 - hv_Selected;
+                    //    }
+                    //    hv_PosesOut.Dispose();
+                    //    HOperatorSet.TupleSelect(hv_PoseOut, hv_Mod, out hv_PosesOut);
+                    //    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    //    {
+                    //        {
+                    //            HTuple
+                    //              ExpTmpLocalVar_PosesOut = (hv_PosesOut * hv_Selected) + (hv_PosesIn_COPY_INP_TMP * hv_InvSelected);
+                    //            hv_PosesOut.Dispose();
+                    //            hv_PosesOut = ExpTmpLocalVar_PosesOut;
+                    //        }
+                    //    }
+                    //    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    //    {
+                    //        HOperatorSet.SetScene3dInstancePose(hv_Scene3D, HTuple.TupleGenSequence(
+                    //            0, hv_NumModels - 1, 1), hv_PosesOut);
+                    //    }
+                    //}
 
                 HOperatorSet.ClearWindow(hv_WindowHandleBuffer);
 
@@ -387,8 +473,8 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             if (hv_PoseIn.TupleLength() == 0)
             {
                 HOperatorSet.CreatePose(-(hv_Center.TupleSelect(0)), -(hv_Center.TupleSelect(1)), -(hv_Center.TupleSelect(2)), 0, 0, 0, "Rp+T", "gba", "point", out hv_PoseIn);
-
-
+                determine_optimum_pose_distance(hv_ObjectModel3D, hv_CamParam, 0.9, hv_PoseIn, out HTuple hv_PoseEstimated);
+                hv_PoseIn = hv_PoseEstimated;
             }
 
 
