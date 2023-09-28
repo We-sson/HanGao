@@ -24,8 +24,8 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             _HWindow.Halcon_UserContol.HMouseDown += Calibration_3D_Results_HMouseDown;
             _HWindow.Halcon_UserContol.HMouseMove += Calibration_3D_Results_HMouseMove;
             _HWindow.Halcon_UserContol.HMouseUp += Calibration_3D_HMouseUp;
-
-            _Window = _HWindow;
+            _HWindow.Halcon_UserContol.SizeChanged += Calibration_3D_SizeChanged;
+           _Window = _HWindow;
             hv_WindowHandle = _HWindow.HWindow;
 
 
@@ -147,7 +147,29 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
         public Halcon_SDK _Window { set; get; }
 
+        private void Calibration_3D_SizeChanged(object sender, System.Windows.SizeChangedEventArgs e)
+        {
 
+            HTuple hv_RowNotUsed;
+            HTuple hv_ColumnNotUsed;
+            HTuple hv_Width;
+            HTuple hv_Height;
+            HTuple hv_WPRow1;
+            HTuple hv_WPColumn1;
+            HTuple hv_WPRow2;
+            HTuple hv_WPColumn2;
+
+            //获得窗口信息
+            HOperatorSet.GetWindowExtents(hv_WindowHandle, out hv_RowNotUsed, out hv_ColumnNotUsed, out hv_Width, out hv_Height);
+            HOperatorSet.GetPart(hv_WindowHandle, out hv_WPRow1, out hv_WPColumn1, out hv_WPRow2, out hv_WPColumn2);
+            HOperatorSet.SetPart(hv_WindowHandle, 0, 0, hv_Height - 1, hv_Width - 1);
+
+ 
+
+            HOperatorSet.DispObjectModel3d(hv_WindowHandle, hv_ObjectModel3D, hv_CamParam, hv_PoseIn, new HTuple(), new HTuple());
+
+
+        }
 
         /// <summary>
         /// 鼠标左移动事件
@@ -322,8 +344,6 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             HTuple hv_MRow2 = new HTuple();
 
 
-
-
             try
             {
 
@@ -414,14 +434,23 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             HTuple hv_Height = new HTuple();
             HTuple hv_Width = new HTuple();
+            HTuple hv_RowNotUsed = new HTuple();
+            HTuple hv_ColumnNotUsed = new HTuple();
+            HTuple hv_WPRow1 = new HTuple();
+            HTuple hv_WPColumn1 = new HTuple();
+            HTuple hv_WPRow2 = new HTuple();
+            HTuple hv_WPColumn2 = new HTuple();
+            
             try
             {
 
+                //获得窗口信息
+                HOperatorSet.GetWindowExtents(hv_WindowHandle, out hv_RowNotUsed, out hv_ColumnNotUsed, out hv_Width, out hv_Height);
+                HOperatorSet.GetPart(hv_WindowHandle, out hv_WPRow1, out hv_WPColumn1, out hv_WPRow2, out hv_WPColumn2);
+                HOperatorSet.SetPart(hv_WindowHandle, 0, 0, hv_Height - 1, hv_Width - 1);
 
-
-                get_cam_par_data(hv_CamParam, "image_width", out hv_Width);
-
-                get_cam_par_data(hv_CamParam, "image_height", out hv_Height);
+                //get_cam_par_data(hv_CamParam, "image_width", out hv_Width);
+                //get_cam_par_data(hv_CamParam, "image_height", out hv_Height);
 
                 hv_MinImageSize = ((hv_Width.TupleConcat(hv_Height))).TupleMin();
 
@@ -529,6 +558,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             HOperatorSet.GenObjectModel3dFromPoints(0, 0, 0, out hv_DummyObjectModel3D);
             HOperatorSet.CreateScene3d(out hv_Scene3DTest);
             HOperatorSet.AddScene3dCamera(hv_Scene3DTest, hv_CamParam, out hv_CameraIndexTest);
+           
             determine_optimum_pose_distance(hv_DummyObjectModel3D, hv_CamParam, 0.9, ((((((new HTuple(0)).TupleConcat(0)).TupleConcat(0)).TupleConcat(
        0)).TupleConcat(0)).TupleConcat(0)).TupleConcat(0), out hv_PoseTest);
             HOperatorSet.AddScene3dInstance(hv_Scene3DTest, hv_DummyObjectModel3D, hv_PoseTest, out hv_InstanceIndexTest);
