@@ -432,7 +432,7 @@
                                                    VerticalAlignment="Stretch"
                                                    HorizontalContentAlignment="Center"
                                                    VerticalContentAlignment="Center"
-                                                   HDisableAutoResize="True"
+                                                   HDisableAutoResize="False"
                                                    HDoubleClickToFitContent="False"
                                                    HKeepAspectRatio="True"
                                                    HMoveContent="False"

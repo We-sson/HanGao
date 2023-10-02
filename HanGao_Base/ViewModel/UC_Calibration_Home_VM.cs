@@ -356,25 +356,28 @@ namespace HanGao.ViewModel
                     hv_ObjectModels.Dispose();
 
                     hv_ObjectModels = new HTuple();
-                    hv_ObjectModels = hv_ObjectModels.TupleConcat(hv_ObjectModel3DPlane1, hv_ObjectModel3DCylinder, hv_ObjectModel3DSphere1, hv_ObjectModel3DSphere2, hv_ObjectModel3DPlane2, hv_ObjectModel3DBox);
+                    hv_ObjectModels = hv_ObjectModels.TupleConcat( hv_ObjectModel3DCylinder, hv_ObjectModel3DSphere1, hv_ObjectModel3DSphere2, hv_ObjectModel3DPlane2, hv_ObjectModel3DBox);
 
 
 
 
-                    //H3D_Model_Display _3DModelDisplay = new H3D_Model_Display(Calibration_3D_Results);
+                    Halcon_Examples _3DModelDisplay = new Halcon_Examples(Calibration_3D_Results);
+                        HTuple _PosOUT;
 
                     Task.Run(() => 
                     {
 
-                        H3D_Model_Display Display = new H3D_Model_Display(Calibration_3D_Results);
-                    HTuple _PosOUT;
+                        //    H3D_Model_Display Display = new H3D_Model_Display(Calibration_3D_Results);
 
-                        Display.hv_ObjectModel3D = hv_ObjectModels;
+                        //    Display.hv_ObjectModel3D = hv_ObjectModels;
 
-                        Display.Display_Ini();
-                        //Display.visualize_object_model_3d(new HTuple(), new HTuple(), new HTuple(), new HTuple(), new HTuple(), out _PosOUT);
+                        //    Display.Display_Ini();
 
-                        //_3DModelDisplay.DisoPlay(hv_ObjectModels);
+
+                        _3DModelDisplay.Visualize_object_model_3d(Calibration_3D_Results.HWindow, hv_ObjectModels, new HTuple(), new HTuple(), new HTuple(), new HTuple(), new HTuple(), new HTuple(), new HTuple(),out _PosOUT);
+                
+
+                 
 
                         //Display_3DModel_Window(new Display3DModel_Model(hv_ObjectModels));
 
