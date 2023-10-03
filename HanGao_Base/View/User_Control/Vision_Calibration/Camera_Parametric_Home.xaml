@@ -434,7 +434,7 @@
                                                    VerticalContentAlignment="Center"
                                                    HDisableAutoResize="False"
                                                    HDoubleClickToFitContent="False"
-                                                   HKeepAspectRatio="True"
+                                                   HKeepAspectRatio="False"
                                                    HMoveContent="False"
                                                    HZoomContent="Off"
                                                    SnapsToDevicePixels="True">
