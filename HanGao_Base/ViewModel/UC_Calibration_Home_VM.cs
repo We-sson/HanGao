@@ -361,27 +361,27 @@ namespace HanGao.ViewModel
 
 
 
-                    //Halcon_Examples _3DModelDisplay = new Halcon_Examples(Calibration_3D_Results);
+                    Halcon_Examples _3DModelDisplay = new Halcon_Examples(Calibration_3D_Results);
                     HTuple _PosOUT;
 
-                    H3D_Model_Display Display = new H3D_Model_Display(Calibration_3D_Results);
+                    //H3D_Model_Display Display = new H3D_Model_Display(Calibration_3D_Results);
 
-                    Display.hv_ObjectModel3D = hv_ObjectModels;
+                    //Display.hv_ObjectModel3D = hv_ObjectModels;
 
-                    Display.Display_Ini();
-                    //Task.Run(() =>
-                    //{
-
-
-
-                    //    _3DModelDisplay.Visualize_object_model_3d(Calibration_3D_Results.HWindow, hv_ObjectModels, new HTuple(), new HTuple(), new HTuple(), new HTuple(), new HTuple(), new HTuple(), new HTuple(), out _PosOUT);
+                    //Display.Display_Ini();
+                    Task.Run(() =>
+                    {
 
 
 
+                        _3DModelDisplay.Visualize_object_model_3d(Calibration_3D_Results.HWindow, hv_ObjectModels, new HTuple(), new HTuple(), new HTuple(), new HTuple(), new HTuple(), new HTuple(), new HTuple(), out _PosOUT);
 
-                    //    Display_3DModel_Window(new Display3DModel_Model(hv_ObjectModels));
 
-                    //});
+
+
+                        //Display_3DModel_Window(new Display3DModel_Model(hv_ObjectModels));
+
+                    });
 
 
 
