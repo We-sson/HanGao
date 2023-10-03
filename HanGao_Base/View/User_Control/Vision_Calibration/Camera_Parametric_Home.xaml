@@ -12,7 +12,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Title="相机内参标定工具"
         Width="1400"
-        Height="900"
+        Height="1200"
         DataContext="{Binding Source={StaticResource Locator}, Path=Vision_Calibration_Home_VM}"
         WindowStyle="SingleBorderWindow"
         mc:Ignorable="d">

@@ -344,16 +344,16 @@ namespace HanGao.ViewModel
                         2, 1, out hv_ObjectModel3DBox);
                     //
                     //Display the generated primitives.
-                    if (hv_Instructions == null)
-                        hv_Instructions = new HTuple();
-                    hv_Instructions[0] = "Rotate: Left button";
-                    if (hv_Instructions == null)
-                        hv_Instructions = new HTuple();
-                    hv_Instructions[1] = "Zoom:   Shift + left button";
-                    if (hv_Instructions == null)
-                        hv_Instructions = new HTuple();
-                    hv_Instructions[2] = "Move:   Ctrl  + left button";
-                    hv_ObjectModels.Dispose();
+                    //if (hv_Instructions == null)
+                    //    hv_Instructions = new HTuple();
+                    //hv_Instructions[0] = "Rotate: Left button";
+                    //if (hv_Instructions == null)
+                    //    hv_Instructions = new HTuple();
+                    //hv_Instructions[1] = "Zoom:   Shift + left button";
+                    //if (hv_Instructions == null)
+                    //    hv_Instructions = new HTuple();
+                    //hv_Instructions[2] = "Move:   Ctrl  + left button";
+                    //hv_ObjectModels.Dispose();
 
                     hv_ObjectModels = new HTuple();
                     hv_ObjectModels = hv_ObjectModels.TupleConcat( hv_ObjectModel3DCylinder, hv_ObjectModel3DSphere1, hv_ObjectModel3DSphere2, hv_ObjectModel3DPlane2, hv_ObjectModel3DBox);

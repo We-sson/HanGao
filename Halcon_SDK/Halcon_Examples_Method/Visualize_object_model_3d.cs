@@ -22,7 +22,7 @@ public partial class Halcon_Examples
         HDevWindowStack.Push(_HWindow.HWindow);
         HDevWindowStack.SetActive(_HWindow.HWindow);
         _HWindow.Halcon_UserContol.HMouseWheel += Calibration_3D_Results_HMouseWheel;
-        _HWindow.HWindow.SetWindowParam("background_color", "#334C66");
+        //_HWindow.HWindow.SetWindowParam("background_color", "#334C66");
     }
     public Halcon_Examples()
     {

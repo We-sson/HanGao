@@ -3,10 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
+using System.Windows.Shapes;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
 namespace Halcon_SDK_DLL.Halcon_Examples_Method
@@ -26,10 +30,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             HDevWindowStack.Push(hv_WindowHandle);
             HDevWindowStack.SetActive(hv_WindowHandle);
             _HWindow.HWindow.SetWindowParam("background_color", "#334C66");
-            _HWindow.Halcon_UserContol.HMouseWheel += Calibration_3D_Results_HMouseWheel;
-            _HWindow.Halcon_UserContol.HMouseDown += Calibration_3D_Results_HMouseDown;
-            _HWindow.Halcon_UserContol.HMouseMove += Calibration_3D_Results_HMouseMove;
-            _HWindow.Halcon_UserContol.HMouseUp += Calibration_3D_HMouseUp;
+            _HWindow.Halcon_UserContol.MouseWheel += Calibration_3D_Results_MouseWheel;
+            _HWindow.Halcon_UserContol.MouseDown += Calibration_3D_Results_MouseDown;
+            _HWindow.Halcon_UserContol.MouseMove += Calibration_3D_Results_MouseMove; ;
+            //_HWindow.Halcon_UserContol.MouseLeftButtonUp += Calibration_3D_MouseUp;
             _HWindow.Halcon_UserContol.SizeChanged += Calibration_3D_SizeChanged;
 
 
@@ -46,10 +50,16 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
         }
 
+
+
+
+
+
+
         /// <summary>
         /// 左键鼠标按下位置
         /// </summary>
-        private HSmartWindowControlWPF.HMouseEventArgsWPF hv_HMouseDowm;
+        private Point hv_HMouseDowm;
 
         /// <summary>
         /// 缓存图像
@@ -131,7 +141,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// </summary>
         private HTuple hv_TrackballSize = new HTuple(0.8);
 
-        private bool hv_Button_Hold=false;
+        /// <summary>
+        /// 鼠标按下状态
+        /// </summary>
+        private bool hv_Button_Hold = false;
 
         /// <summary>
         ///  可视化旋转速度比
@@ -154,15 +167,15 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <summary>
         /// 三维场景相机序号
         /// </summary>
-        private HTuple hv_CameraIndex=new HTuple ();
+        private HTuple hv_CameraIndex = new HTuple();
         /// <summary>
         /// 三维场景模型序号
         /// </summary>
-        private HTuple hv_AllInstances=new HTuple ();
+        private HTuple hv_AllInstances = new HTuple();
 
         public Halcon_SDK _Window { set; get; }
 
-        private void Calibration_3D_SizeChanged(object sender, System.Windows.SizeChangedEventArgs e)
+        private void Calibration_3D_SizeChanged(object sender, SizeChangedEventArgs e)
         {
 
 
@@ -180,18 +193,33 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
 
-      
+                HSmartWindowControlWPF _HWindow = e.Source as HSmartWindowControlWPF;
+
 
                 //HOperatorSet.DispImage(_Image, hv_WindowHandle);
-                Event_Int(e.NewSize.Width,e.NewSize.Height );
+
+
+
+                set_cam_par_data(hv_CamParam, "cx", e.NewSize.Width / 2, out hv_CamParam);
+                set_cam_par_data(hv_CamParam, "cy", e.NewSize.Height / 2, out hv_CamParam);
+                set_cam_par_data(hv_CamParam, "image_width", e.NewSize.Width, out hv_CamParam);
+                set_cam_par_data(hv_CamParam, "image_height", e.NewSize.Height, out hv_CamParam);
+
+
+                HOperatorSet.RemoveScene3dCamera(hv_Scene3D, hv_CameraIndex);
+                HOperatorSet.AddScene3dCamera(hv_Scene3D, hv_CamParam, out hv_CameraIndex);
+
+                Event_Int(_HWindow.ActualWidth, _HWindow.ActualHeight);
+
 
                 //渲染图像
-                HOperatorSet.ClearWindow(hv_WindowHandle);
+
                 HOperatorSet.ClearWindow(hv_WindowHandleBuffer);
-                HOperatorSet.DispObjectModel3d(hv_WindowHandleBuffer, hv_ObjectModel3D, hv_CamParam, hv_PoseOut, new HTuple(), new HTuple());
+                HOperatorSet.DisplayScene3d(hv_WindowHandleBuffer, hv_Scene3D, 0);
+                //HOperatorSet.DispObjectModel3d(hv_WindowHandleBuffer, hv_ObjectModel3D, hv_CamParam, hv_PoseOut, new HTuple(), new HTuple());
                 HOperatorSet.DumpWindowImage(out ho_ImageDump, hv_WindowHandleBuffer);
-                HOperatorSet.DispImage(ho_ImageDump, hv_WindowHandle);
-                
+                HOperatorSet.DispColor(ho_ImageDump, hv_WindowHandle);
+
             }
             catch (HalconException He)
             {
@@ -222,17 +250,21 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Calibration_3D_Results_HMouseMove(object sender, HSmartWindowControlWPF.HMouseEventArgsWPF e)
+        private void Calibration_3D_Results_MouseMove(object sender, MouseEventArgs e)
         {
 
 
-            if (hv_Button_Hold && e.Button == System.Windows.Input.MouseButton.Left && e != hv_HMouseDowm)
+
+            if (e.LeftButton == MouseButtonState.Pressed &&  (Math.Abs(hv_HMouseDowm.X-e.GetPosition(e.Source as FrameworkElement).X)>1.5   || (Math.Abs(hv_HMouseDowm.Y - e.GetPosition(e.Source as FrameworkElement).Y) > 1.5)))
             {
 
-                lock (hv_WindowHandle)
+                //e.Handled = true;
+                lock (hv_Scene3D)
                 {
+
+
                     var star = DateTime.Now;
-                    Debug.WriteLine(e.X + "," + e.Y + ",进入");
+                    Debug.WriteLine((int)e.GetPosition(e.Source as FrameworkElement).X + "," + (int)e.GetPosition(e.Source as FrameworkElement).Y + ",进入");
 
                     //局部变量初始化
                     HTuple hv_RelQuaternion = new HTuple();
@@ -243,7 +275,6 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     HTuple hv_MCol1 = new HTuple();
                     HTuple hv_MRow2 = new HTuple();
                     HTuple hv_MCol2 = new HTuple();
-
                     HTuple hv_MX1 = new HTuple();
                     HTuple hv_MY1 = new HTuple();
                     HTuple hv_MX2 = new HTuple();
@@ -253,19 +284,16 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     {
 
 
-
-
-
                         //旋转速度(默认)
-                        hv_SensFactor = 0.8;
+                        hv_SensFactor = 4;
 
 
                         //获得鼠标点击位置和移动位置
-                        hv_MRow1 = new HTuple(hv_HMouseDowm.Row);
-                        hv_MCol1 = new HTuple(hv_HMouseDowm.Column);
-                        hv_MRow2 = new HTuple(e.Row);
-                        hv_MCol2 = new HTuple(e.Column);
-                        //Transform the pixel coordinates to relative image coordinates
+                        hv_MRow1 = new HTuple(hv_HMouseDowm.Y);
+                        hv_MCol1 = new HTuple(hv_HMouseDowm.X);
+                        hv_MRow2 = new HTuple(e.GetPosition(_Window.Halcon_UserContol).Y);
+                        hv_MCol2 = new HTuple(e.GetPosition(_Window.Halcon_UserContol).X);
+
 
                         //计算四元组坐标
                         hv_MX1 = (hv_TrackballCenterCol - hv_MCol1) / (0.5 * hv_MinImageSize);
@@ -273,11 +301,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         hv_MX2 = (hv_TrackballCenterCol - hv_MCol2) / (0.5 * hv_MinImageSize);
                         hv_MY2 = (hv_TrackballCenterRow - hv_MRow2) / (0.5 * hv_MinImageSize);
 
-                        //Compute the quaternion rotation that corresponds to the mouse
-                        //movement
+
                         //计算模型中心与鼠标移动相对应的四元数旋转
                         trackball(hv_MX1, hv_MY1, hv_MX2, hv_MY2, hv_VirtualTrackball, hv_TrackballSize, hv_SensFactor, out hv_RelQuaternion);
-                        //Transform the quaternion to a rotation matrix
+
                         //将四元数转换为旋转矩阵
                         HOperatorSet.QuatToHomMat3d(hv_RelQuaternion, out hv_HomMat3DRotRel);
 
@@ -286,31 +313,28 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
                         {
+                            ///偏移坐标到中心位置
                             HTuple ExpTmpOutVar_0;
                             HOperatorSet.HomMat3dTranslate(hv_HomMat3DIn, -(hv_TBCenter.TupleSelect(0)), -(hv_TBCenter.TupleSelect(1)), -(hv_TBCenter.TupleSelect(2)), out ExpTmpOutVar_0);
-                            hv_HomMat3DIn.Dispose();
+
                             hv_HomMat3DIn = ExpTmpOutVar_0;
                         }
                         {
+                            ///旋转角度
                             HTuple ExpTmpOutVar_0;
                             HOperatorSet.HomMat3dCompose(hv_HomMat3DRotRel, hv_HomMat3DIn, out ExpTmpOutVar_0);
-                            hv_HomMat3DIn.Dispose();
                             hv_HomMat3DIn = ExpTmpOutVar_0;
                         }
 
-                        {
-                            hv_HomMat3DOut.Dispose();
-                            HOperatorSet.HomMat3dTranslate(hv_HomMat3DIn, hv_TBCenter.TupleSelect(0), hv_TBCenter.TupleSelect(1), hv_TBCenter.TupleSelect(2), out hv_HomMat3DOut);
-                        }
+                        //旋转完成后移动会原点
+                        HOperatorSet.HomMat3dTranslate(hv_HomMat3DIn, hv_TBCenter.TupleSelect(0), hv_TBCenter.TupleSelect(1), hv_TBCenter.TupleSelect(2), out hv_HomMat3DOut);
+
 
                         HOperatorSet.HomMat3dToPose(hv_HomMat3DOut, out hv_PoseOut);
 
 
 
                         //设置模型显示位置
-                        //HOperatorSet.SetScene3dToWorldPose(hv_Scene3D, hv_PoseOut);
-
-
                         for (int hv_i = 0; hv_i < hv_NumModels; hv_i++)
                         {
 
@@ -318,28 +342,42 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
                         }
 
-                        //HOperatorSet.SetScene3dCameraPose(hv_Scene3D, 0, hv_PoseOut);
+
 
 
                         //保存移动后位置
                         hv_PoseIn = hv_PoseOut;
-                        hv_HMouseDowm = e;
+                        hv_HMouseDowm = e.GetPosition(_Window.Halcon_UserContol);
+
+                        //使用异步显示减少卡顿
+                        Task.Run(() =>
+                        {
 
 
+                            //清楚缓存窗口图像
+                            HOperatorSet.ClearWindow(hv_WindowHandleBuffer);
+                            //HOperatorSet.DispObjectModel3d(hv_WindowHandleBuffer, hv_ObjectModel3D, hv_CamParam, hv_PoseOut, new HTuple(), new HTuple());
+                            //渲染画面显示
+                            
+                            HOperatorSet.DisplayScene3d(hv_WindowHandleBuffer, hv_Scene3D, 0);
+                            HOperatorSet.DumpWindowImage(out ho_ImageDump, hv_WindowHandleBuffer);
+                            //Task.Delay(10);
+                            HOperatorSet.DispColor(ho_ImageDump, hv_WindowHandle);
+                     
 
-                        //渲染画面显示
-                        HOperatorSet.ClearWindow(hv_WindowHandle);
-                        HOperatorSet.ClearWindow(hv_WindowHandleBuffer);
-                        //HOperatorSet.DispObjectModel3d(hv_WindowHandleBuffer, hv_ObjectModel3D, hv_CamParam, hv_PoseOut, new HTuple(), new HTuple());
-                        HOperatorSet.DisplayScene3d(hv_WindowHandleBuffer, hv_Scene3D, 0);
-                        HOperatorSet.DumpWindowImage(out ho_ImageDump, hv_WindowHandleBuffer);
-                        HOperatorSet.DispImage(ho_ImageDump, hv_WindowHandle);
+                            Application.Current.Dispatcher.Invoke(new Action(() => {
+                            Debug.WriteLine(e.GetPosition(e.Source as FrameworkElement).X + "," + e.GetPosition(e.Source as FrameworkElement).Y + ",渲染" + (star - DateTime.Now));
+                             
+                            }));
                       
-                        Debug.WriteLine(e.X + "," + e.Y + ",渲染"+ (star-DateTime.Now));
+                        
+                        });
 
 
 
-                        //HOperatorSet.DisplayScene3d(hv_WindowHandle, hv_Scene3D, 0);
+
+
+
 
                     }
                     catch (HalconException He)
@@ -363,12 +401,13 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         hv_MX2.Dispose();
                         hv_MY2.Dispose();
 
-                        Debug.WriteLine(e.X + "," + e.Y + ",退出");
-
+                        Debug.WriteLine(e.GetPosition(e.Source as FrameworkElement).X + "," + e.GetPosition(e.Source as FrameworkElement).Y + ",退出");
+                        //e.Handled = false;
                     }
 
-                }
 
+
+                }
 
 
             }
@@ -381,31 +420,22 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Calibration_3D_Results_HMouseDown(object sender, HSmartWindowControlWPF.HMouseEventArgsWPF e)
+        private void Calibration_3D_Results_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.Button == System.Windows.Input.MouseButton.Left)
-            {
 
-                hv_HMouseDowm = e;
-                Event_Int();
-                hv_Button_Hold = true;
-                //旋转前计算旋转中心位置
+            if (e.ButtonState == MouseButtonState.Pressed && e.ChangedButton == MouseButton.Left)
+            {
+                HSmartWindowControlWPF _HWindow = e.Source as HSmartWindowControlWPF;
+
+                //旋转前记录旋转中心位置
+                hv_HMouseDowm = e.GetPosition(_Window.Halcon_UserContol);
+                Event_Int(_HWindow.ActualWidth, _HWindow.ActualHeight);
+
+
             }
 
         }
 
-        /// <summary>
-        /// 鼠标左键起来关闭鼠标跟踪
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Calibration_3D_HMouseUp(object sender, HSmartWindowControlWPF.HMouseEventArgsWPF e)
-        {
-            if (e.Button == System.Windows.Input.MouseButton.Left)
-            {
-                hv_Button_Hold = false;
-            }
-        }
 
 
         /// <summary>
@@ -413,7 +443,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Calibration_3D_Results_HMouseWheel(object sender, HSmartWindowControlWPF.HMouseEventArgsWPF e)
+        private void Calibration_3D_Results_MouseWheel(object sender, MouseWheelEventArgs e)
         {
 
 
@@ -430,9 +460,11 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             {
 
 
+                HSmartWindowControlWPF _HWindow = e.Source as HSmartWindowControlWPF;
+
 
                 //缩放前获得图像中心位置
-                Event_Int();
+                Event_Int(_HWindow.ActualWidth, _HWindow.ActualHeight);
 
                 //缩放像素方向
                 if (e.Delta > 0)
@@ -463,42 +495,40 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 //中心位置Z高度增加移动距离
                 hv_TBCenter[2] = (hv_TBCenter.TupleSelect(2)) + hv_TranslateZ;
 
-
-
-
-
-
+                //位置转换矩阵坐标
                 HOperatorSet.PoseToHomMat3d(hv_PoseIn, out hv_HomMat3DIn);
 
                 //偏移实际距离
                 HOperatorSet.HomMat3dTranslate(hv_HomMat3DIn, 0, 0, hv_TranslateZ, out hv_HomMat3DOut);
 
+                //矩阵坐标转换笛卡尔坐标
                 HOperatorSet.HomMat3dToPose(hv_HomMat3DOut, out hv_PoseOut);
 
 
                 //设置模型显示位置
-                //HOperatorSet.SetScene3dToWorldPose(hv_Scene3D, hv_PoseOut);
+                for (int hv_i = 0; hv_i < hv_NumModels; hv_i++)
+                {
 
-                //for (int hv_i = 0; hv_i < hv_NumModels; hv_i++)
-                //{
+                    HOperatorSet.SetScene3dInstancePose(hv_Scene3D, hv_i, hv_PoseOut);
 
-                //    HOperatorSet.SetScene3dInstancePose(hv_Scene3D, hv_i, hv_PoseOut);
-
-                //}
-                //HOperatorSet.SetScene3dCameraPose(hv_Scene3D, 0, hv_PoseIn);
+                }
 
 
 
-                //hv_PoseOut = hv_PoseIn;
+
+                //保存计算后坐标
                 hv_PoseIn = hv_PoseOut;
 
-                //渲染图像
-                HOperatorSet.ClearWindow(hv_WindowHandle);
-                HOperatorSet.ClearWindow(hv_WindowHandleBuffer);
-                HOperatorSet.DispObjectModel3d(hv_WindowHandleBuffer, hv_ObjectModel3D, hv_CamParam, hv_PoseOut, new HTuple(), new HTuple());
-                HOperatorSet.DumpWindowImage(out ho_ImageDump, hv_WindowHandleBuffer);
-                HOperatorSet.DispImage(ho_ImageDump, hv_WindowHandle);
-                //HOperatorSet.DisplayScene3d(hv_WindowHandle, hv_Scene3D, 0);
+                Task.Run(() =>
+                {
+
+                    //渲染图像
+                    HOperatorSet.ClearWindow(hv_WindowHandleBuffer);
+                    HOperatorSet.DisplayScene3d(hv_WindowHandleBuffer, hv_Scene3D, 0);
+                    HOperatorSet.DumpWindowImage(out ho_ImageDump, hv_WindowHandleBuffer);
+                    HOperatorSet.DispColor(ho_ImageDump, hv_WindowHandle);
+
+                });
 
 
             }
@@ -526,17 +556,16 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         }
 
 
-        
+
 
 
         /// <summary>
         /// 旋转事件触发前初始化数据
         /// </summary>
-        private void Event_Int()
+        private void Event_Int(HTuple hv_Width, HTuple hv_Height)
         {
 
-            HTuple hv_Height = new HTuple();
-            HTuple hv_Width = new HTuple();
+
             HTuple hv_RowNotUsed = new HTuple();
             HTuple hv_ColumnNotUsed = new HTuple();
             HTuple hv_WPRow1 = new HTuple();
@@ -547,70 +576,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             try
             {
 
-
-
-
-                //获得窗口信息
-                HOperatorSet.GetWindowExtents(hv_WindowHandle, out hv_RowNotUsed, out hv_ColumnNotUsed, out hv_Width, out hv_Height);
-
-                HOperatorSet.GetPart(hv_WindowHandle, out hv_WPRow1, out hv_WPColumn1, out hv_WPRow2, out hv_WPColumn2);
-                HOperatorSet.SetPart(hv_WindowHandleBuffer, 0, 0, hv_Height - 1, hv_Width - 1);
-                HOperatorSet.SetPart(hv_WindowHandle, 0, 0, hv_Height - 1, hv_Width - 1);
-
-                //设置缓存窗口大小
-                HOperatorSet.SetWindowExtents(hv_WindowHandleBuffer, 0, 0, hv_Width, hv_Height);
-
-                set_cam_par_data(hv_CamParam, "cx", hv_Width/2, out hv_CamParam);
-                set_cam_par_data(hv_CamParam, "cy", hv_Height/2, out hv_CamParam);
-                set_cam_par_data(hv_CamParam, "image_width", hv_Width, out hv_CamParam);
-                set_cam_par_data(hv_CamParam, "image_height", hv_Height, out hv_CamParam);
-         
-
-        
-
-                hv_MinImageSize = ((hv_Width.TupleConcat(hv_Height))).TupleMin();
-
-                hv_TrackballRadiusPixel = (hv_TrackballSize * hv_MinImageSize) / 2.0;
-
-                hv_TrackballCenterRow = hv_Height / 2;
-
-                hv_TrackballCenterCol = hv_Width / 2;
-
-                //计算中间位置大小
-                get_trackball_center(hv_SelectedObject, hv_TrackballRadiusPixel, hv_ObjectModel3D, hv_PoseIn, out hv_TBCenter, out hv_TBSize);
-
-            }
-            catch (HalconException e)
-            {
-
-                //报错输出
-
-            }
-            finally
-            {
-                hv_Height.Dispose();
-                hv_Width.Dispose();
-            }
-
-        }
-
-
-        private void Event_Int(HTuple hv_Width,HTuple hv_Height)
-        {
-
-        
-            HTuple hv_RowNotUsed = new HTuple();
-            HTuple hv_ColumnNotUsed = new HTuple();
-            HTuple hv_WPRow1 = new HTuple();
-            HTuple hv_WPColumn1 = new HTuple();
-            HTuple hv_WPRow2 = new HTuple();
-            HTuple hv_WPColumn2 = new HTuple();
-
-            try
-            {
-
-
-
+               
 
                 //获得窗口信息
                 //HOperatorSet.GetWindowExtents(hv_WindowHandle, out hv_RowNotUsed, out hv_ColumnNotUsed, out hv_Width, out hv_Height);
@@ -621,12 +587,6 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
                 //设置缓存窗口大小
                 HOperatorSet.SetWindowExtents(hv_WindowHandleBuffer, 0, 0, hv_Width, hv_Height);
-
-                set_cam_par_data(hv_CamParam, "cx", hv_Width / 2, out hv_CamParam);
-                set_cam_par_data(hv_CamParam, "cy", hv_Height / 2, out hv_CamParam);
-                set_cam_par_data(hv_CamParam, "image_width", hv_Width, out hv_CamParam);
-                set_cam_par_data(hv_CamParam, "image_height", hv_Height, out hv_CamParam);
-
 
 
 
@@ -662,8 +622,8 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             HTuple hv_RowNotUsed;
             HTuple hv_ColumnNotUsed;
-            HTuple hv_Width;
-            HTuple hv_Height;
+            HTuple hv_Width=new HTuple (_Window.Halcon_UserContol.ActualWidth);
+            HTuple hv_Height=new HTuple (_Window.Halcon_UserContol .ActualHeight);
             HTuple hv_WPRow1;
             HTuple hv_WPColumn1;
             HTuple hv_WPRow2;
@@ -684,9 +644,15 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             hv_NumModels = hv_ObjectModel3D.TupleLength();
             hv_SelectedObject = HTuple.TupleGenConst(hv_NumModels, 1);
 
+
+
             //获得窗口信息
-            HOperatorSet.GetWindowExtents(hv_WindowHandle, out hv_RowNotUsed, out hv_ColumnNotUsed, out hv_Width, out hv_Height);
-            HOperatorSet.GetPart(hv_WindowHandle, out hv_WPRow1, out hv_WPColumn1, out hv_WPRow2,out hv_WPColumn2);
+            //HOperatorSet.GetWindowExtents(hv_WindowHandle, out hv_RowNotUsed, out hv_ColumnNotUsed, out hv_Width, out hv_Height);
+
+
+
+
+            HOperatorSet.GetPart(hv_WindowHandle, out hv_WPRow1, out hv_WPColumn1, out hv_WPRow2, out hv_WPColumn2);
             HOperatorSet.SetPart(hv_WindowHandle, 0, 0, hv_Height - 1, hv_Width - 1);
 
 
@@ -726,7 +692,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             }
 
 
-         
+
             //打开缓存窗口
             HOperatorSet.OpenWindow(0, 0, hv_Width, hv_Height, 0, "buffer", "", out hv_WindowHandleBuffer);
             HOperatorSet.SetPart(hv_WindowHandleBuffer, 0, 0, hv_Height - 1, hv_Width - 1);
@@ -734,16 +700,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
             //计算轨迹球
-            hv_MinImageSize = ((hv_Width.TupleConcat( hv_Height))).TupleMin();
+            hv_MinImageSize = ((hv_Width.TupleConcat(hv_Height))).TupleMin();
             hv_TrackballRadiusPixel = (hv_TrackballSize * hv_MinImageSize) / 2.0;
 
 
-            //获得当前窗口画面
-            //HOperatorSet.DumpWindowImage(out ho_Image, hv_WindowHandle);
-
-            //打开缓存窗口
-            //HOperatorSet.OpenWindow(0, 0, hv_Width, hv_Height, 0, "buffer", "", out hv_WindowHandleBuffer);
-            //HOperatorSet.SetPart(hv_WindowHandleBuffer, 0, 0, hv_Height - 1, hv_Width - 1);
             //检查OpenGL显示是否支持,更新驱动
             HOperatorSet.GetSystem("opengl_info", out hv_OpenGLInfo);
             if ((int)(new HTuple(hv_OpenGLInfo.TupleEqual("No OpenGL support included."))) != 0)
@@ -752,30 +712,13 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             }
 
-            //测试显示缓存窗口
-
-            //     HOperatorSet.GenObjectModel3dFromPoints(0, 0, 0, out hv_DummyObjectModel3D);
-            //     HOperatorSet.CreateScene3d(out hv_Scene3DTest);
-            //     HOperatorSet.AddScene3dCamera(hv_Scene3DTest, hv_CamParam, out hv_CameraIndexTest);
-
-            //     determine_optimum_pose_distance(hv_DummyObjectModel3D, hv_CamParam, 0.9, ((((((new HTuple(0)).TupleConcat(0)).TupleConcat(0)).TupleConcat(
-            //0)).TupleConcat(0)).TupleConcat(0)).TupleConcat(0), out hv_PoseTest);
-            //     HOperatorSet.AddScene3dInstance(hv_Scene3DTest, hv_DummyObjectModel3D, hv_PoseTest, out hv_InstanceIndexTest);
-            //     HOperatorSet.DisplayScene3d(hv_WindowHandle, hv_Scene3DTest, hv_InstanceIndexTest);
-
-            //     HOperatorSet.ClearScene3d(hv_Scene3DTest);
-            //     HOperatorSet.ClearObjectModel3d(hv_DummyObjectModel3D);
-
-            //获得当前窗口图像显示
-            //HOperatorSet.DumpWindowImage(out ho_Image, hv_WindowHandle);
 
             //创建显示三维模型
             HOperatorSet.CreateScene3d(out hv_Scene3D);
             HOperatorSet.AddScene3dCamera(hv_Scene3D, hv_CamParam, out hv_CameraIndex);
             HOperatorSet.AddScene3dInstance(hv_Scene3D, hv_ObjectModel3D, hv_PoseIn, out hv_AllInstances);
-            HOperatorSet.SetScene3dParam(hv_Scene3D, "disp_background", "true");
-            //HOperatorSet.SetScene3dCameraPose(hv_Scene3D, 0, hv_PoseIn);
-
+            HOperatorSet.SetScene3dParam(hv_Scene3D, "disp_background", "false");
+            HOperatorSet.SetScene3dParam(hv_Scene3D, "colored", 6);
 
 
             //计算模型图像居中坐标转换模型坐标和旋转球中心
@@ -787,25 +730,22 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             hv_PoseOut = hv_PoseIn;
 
-         
 
-            //Event_Int();
 
 
             //渲染初图像
-            HOperatorSet.ClearWindow(hv_WindowHandle);
+            //HOperatorSet.ClearWindow(hv_WindowHandle);
             HOperatorSet.ClearWindow(hv_WindowHandleBuffer);
 
 
-            //HOperatorSet.DisplayScene3d(hv_WindowHandle, hv_Scene3D, 0);
+
 
             //渲染图像
             //HOperatorSet.DispObjectModel3d(hv_WindowHandleBuffer, hv_ObjectModel3D, hv_CamParam, hv_PoseIn, new HTuple(), new HTuple());
             HOperatorSet.DisplayScene3d(hv_WindowHandleBuffer, hv_Scene3D, 0);
-
             HOperatorSet.DumpWindowImage(out ho_ImageDump, hv_WindowHandleBuffer);
             HDevWindowStack.SetActive(hv_WindowHandle);
-            HOperatorSet.DispImage(ho_ImageDump, hv_WindowHandle);
+            HOperatorSet.DispColor(ho_ImageDump, hv_WindowHandle);
 
 
 
