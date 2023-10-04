@@ -39,6 +39,8 @@ namespace HanGao.ViewModel
             });
 
 
+            ///可视化错误输出显示
+            HDisplay_3D.H3D_Display_Error_delegate += (_E) => { User_Log_Add(_E, Log_Show_Window_Enum.Calibration);     };
 
         }
 
@@ -79,7 +81,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 三维可视乎属性
         /// </summary>
-        public H3D_Model_Display HDisplay_3D { set; get; }
+        public H3D_Model_Display HDisplay_3D { set; get; } = new H3D_Model_Display();
 
 
         /// <summary>

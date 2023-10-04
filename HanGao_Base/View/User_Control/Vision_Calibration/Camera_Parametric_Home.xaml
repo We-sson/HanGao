@@ -324,7 +324,7 @@
                             <StackPanel Margin="4,0,4,0" Orientation="Horizontal">
 
 
-                                <TextBlock Text="图像曝光"
+                                <TextBlock Text="图像透明度"
                                            Margin="4,0,4,0"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
@@ -391,7 +391,7 @@
                                            FontFamily="/Resources/#iconfont"
                                            FontSize=" 18"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                    <Label Content="文字显示"
+                                    <Label Content="模型编号"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                 </StackPanel>
@@ -410,7 +410,7 @@
                                            FontFamily="/Resources/#iconfont"
                                            FontSize=" 18"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                    <Label Content="窗口自适应"
+                                    <Label Content="模型自适应"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                 </StackPanel>
@@ -459,24 +459,24 @@
 
                     <Border Grid.Row=" 2" Grid.Column=" 0"
                             Grid.ColumnSpan=" 2"
-                            Height=" 40"
+                            Height=" 35"
                             Padding="3"
                             Background="{DynamicResource 全局_背景_白颜色}">
                         <Grid>
-                            <Label HorizontalAlignment="Left"
-                                   VerticalAlignment="Center"
-                                   FontSize="18">
-                                <Label.Content>
-                                    <MultiBinding StringFormat="可视化坐标 : X : {0:N3}, Y : {1:N3} , Z : {2:N3} , A : {3:N3} , B : {4:N3} , C : {5:N3}">
-                                        <Binding Path="HDisplay_3D.hv_PoseIn.OArr[0]" />
-                                        <Binding Path="HDisplay_3D.hv_PoseIn.OArr[1]" />
-                                        <Binding Path="HDisplay_3D.hv_PoseIn.OArr[2]" />
-                                        <Binding Path="HDisplay_3D.hv_PoseIn.OArr[3]" />
-                                        <Binding Path="HDisplay_3D.hv_PoseIn.OArr[4]" />
-                                        <Binding Path="HDisplay_3D.hv_PoseIn.OArr[5]" />
+                            <TextBlock HorizontalAlignment="Left"
+                                       VerticalAlignment="Center"
+                                       FontSize="16">
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="可视化坐标 : X: {0:N3}, Y: {1:N3} , Z: {2:N3} , A: {3:N3} , B: {4:N3} , C: {5:N3}">
+                                        <Binding Path="HDisplay_3D.UI_PoseIn_Tr.X" TargetNullValue="0" />
+                                        <Binding Path="HDisplay_3D.UI_PoseIn_Tr.Y" />
+                                        <Binding Path="HDisplay_3D.UI_PoseIn_Tr.Z" />
+                                        <Binding Path="HDisplay_3D.UI_PoseIn_Ro.X" />
+                                        <Binding Path="HDisplay_3D.UI_PoseIn_Ro.Y" />
+                                        <Binding Path="HDisplay_3D.UI_PoseIn_Ro.Z" />
                                     </MultiBinding>
-                                </Label.Content>
-                            </Label>
+                                </TextBlock.Text>
+                            </TextBlock>
                         </Grid>
                     </Border>
 
