@@ -362,7 +362,7 @@ namespace HanGao.ViewModel
 
                    
 
-                    HDisplay_3D.hv_ObjectModel3D = hv_ObjectModels;
+                    //HDisplay_3D.hv_ObjectModel3D = hv_ObjectModels;
 
                     HDisplay_3D.Display_Ini();
                     //Task.Run(() =>

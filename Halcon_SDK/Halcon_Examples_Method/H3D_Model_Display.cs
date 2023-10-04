@@ -2,6 +2,7 @@
 using PropertyChanged;
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -127,7 +128,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <summary>
         /// 可视化显示模型
         /// </summary>
-        public HObjectModel3D[] hv_ObjectModel3D { set; get; } 
+        public HObjectModel3D[] hv_ObjectModel3D { set; get; }
 
 
         /// <summary>
@@ -145,7 +146,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <summary>
         /// 内部位置计算输出
         /// </summary>
-        private HPose[] hv_PoseOut = new HPose();
+        private HPose[] hv_PoseOut;
 
 
 
@@ -283,17 +284,17 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
                 //HOperatorSet.DispImage(_Image, hv_WindowHandle);
 
+                hv_CamParam = gen_cam_par_area_scan_division(0.06, 0, 8.5e-6, 8.5e-6, e.NewSize.Width / 2, e.NewSize.Height / 2, e.NewSize.Width, e.NewSize.Height);
 
+                //set_cam_par_data(hv_CamParam, "cx", e.NewSize.Width / 2, out hv_CamParam);
+                //set_cam_par_data(hv_CamParam, "cy", e.NewSize.Height / 2, out hv_CamParam);
+                //set_cam_par_data(hv_CamParam, "image_width", e.NewSize.Width, out hv_CamParam);
+                //set_cam_par_data(hv_CamParam, "image_height", e.NewSize.Height, out hv_CamParam);
+                //HOperatorSet.RemoveScene3dCamera(hv_Scene3D, hv_CameraIndex);
+                //HOperatorSet.AddScene3dCamera(hv_Scene3D, hv_CamParam, out hv_CameraIndex);
 
-                set_cam_par_data(hv_CamParam, "cx", e.NewSize.Width / 2, out hv_CamParam);
-                set_cam_par_data(hv_CamParam, "cy", e.NewSize.Height / 2, out hv_CamParam);
-                set_cam_par_data(hv_CamParam, "image_width", e.NewSize.Width, out hv_CamParam);
-                set_cam_par_data(hv_CamParam, "image_height", e.NewSize.Height, out hv_CamParam);
-
-
-                HOperatorSet.RemoveScene3dCamera(hv_Scene3D, hv_CameraIndex);
-                HOperatorSet.AddScene3dCamera(hv_Scene3D, hv_CamParam, out hv_CameraIndex);
-
+                hv_Scene3D.RemoveScene3dCamera(hv_CameraIndex);
+                hv_CameraIndex= hv_Scene3D.AddScene3dCamera(hv_CamParam);
                 Event_Int(_HWindow.ActualWidth, _HWindow.ActualHeight);
 
 
@@ -347,14 +348,14 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 {
 
 
-                    var star = DateTime.Now;
-                    Debug.WriteLine((int)e.GetPosition(e.Source as FrameworkElement).X + "," + (int)e.GetPosition(e.Source as FrameworkElement).Y + ",进入");
+                    //var star = DateTime.Now;
+                    //Debug.WriteLine((int)e.GetPosition(e.Source as FrameworkElement).X + "," + (int)e.GetPosition(e.Source as FrameworkElement).Y + ",进入");
 
                     //局部变量初始化
-                    HTuple hv_RelQuaternion = new HTuple();
-                    HTuple hv_HomMat3DRotRel = new HTuple();
-                    HTuple hv_HomMat3DIn = new HTuple();
-                    HTuple hv_HomMat3DOut = new HTuple(); ;
+                    HQuaternion hv_RelQuaternion = new HQuaternion();
+                    HHomMat3D hv_HomMat3DRotRel = new HHomMat3D();
+                    HHomMat3D hv_HomMat3DIn = new HHomMat3D();
+                    HHomMat3D hv_HomMat3DOut = new HHomMat3D(); ;
                     HTuple hv_MRow1 = new HTuple();
                     HTuple hv_MCol1 = new HTuple();
                     HTuple hv_MRow2 = new HTuple();
@@ -387,50 +388,57 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
                         //计算模型中心与鼠标移动相对应的四元数旋转
-                        trackball(hv_MX1, hv_MY1, hv_MX2, hv_MY2, hv_VirtualTrackball, hv_TrackballSize, hv_SensFactor, out hv_RelQuaternion);
+                        hv_RelQuaternion = trackball(hv_MX1, hv_MY1, hv_MX2, hv_MY2, hv_VirtualTrackball, hv_TrackballSize, hv_SensFactor);
+
+
 
                         //将四元数转换为旋转矩阵
-                        HOperatorSet.QuatToHomMat3d(hv_RelQuaternion, out hv_HomMat3DRotRel);
+                        //HOperatorSet.QuatToHomMat3d(hv_RelQuaternion, out hv_HomMat3DRotRel);
+                        hv_HomMat3DRotRel = hv_RelQuaternion.QuatToHomMat3d();
+
 
                         //将当前视角坐标转换矩阵
-                        HOperatorSet.PoseToHomMat3d(hv_PoseIn, out hv_HomMat3DIn);
-
+                        //HOperatorSet.PoseToHomMat3d(hv_PoseIn, out hv_HomMat3DIn);
+                        hv_HomMat3DIn = hv_PoseIn.PoseToHomMat3d();
 
                         {
                             ///偏移坐标到中心位置
-                            HTuple ExpTmpOutVar_0;
-                            HOperatorSet.HomMat3dTranslate(hv_HomMat3DIn, -(hv_TBCenter.TupleSelect(0)), -(hv_TBCenter.TupleSelect(1)), -(hv_TBCenter.TupleSelect(2)), out ExpTmpOutVar_0);
+                            //HTuple ExpTmpOutVar_0;
+                            //HOperatorSet.HomMat3dTranslate(hv_HomMat3DIn, -(hv_TBCenter.TupleSelect(0)), -(hv_TBCenter.TupleSelect(1)), -(hv_TBCenter.TupleSelect(2)), out ExpTmpOutVar_0);
+                            hv_HomMat3DIn = hv_HomMat3DIn.HomMat3dTranslate(-(hv_TBCenter.TupleSelect(0)), -(hv_TBCenter.TupleSelect(1)), -(hv_TBCenter.TupleSelect(2)));
 
-                            hv_HomMat3DIn = ExpTmpOutVar_0;
+                            //hv_HomMat3DIn = ExpTmpOutVar_0;
                         }
                         {
                             ///旋转角度
-                            HTuple ExpTmpOutVar_0;
-                            HOperatorSet.HomMat3dCompose(hv_HomMat3DRotRel, hv_HomMat3DIn, out ExpTmpOutVar_0);
-                            hv_HomMat3DIn = ExpTmpOutVar_0;
+                            //HTuple ExpTmpOutVar_0;
+                            //HOperatorSet.HomMat3dCompose(hv_HomMat3DRotRel, hv_HomMat3DIn, out ExpTmpOutVar_0);
+                            hv_HomMat3DIn = hv_HomMat3DRotRel.HomMat3dCompose(hv_HomMat3DIn);
+
+                            //hv_HomMat3DIn = ExpTmpOutVar_0;
                         }
 
                         //旋转完成后移动会原点
-                        HOperatorSet.HomMat3dTranslate(hv_HomMat3DIn, hv_TBCenter.TupleSelect(0), hv_TBCenter.TupleSelect(1), hv_TBCenter.TupleSelect(2), out hv_HomMat3DOut);
-
+                        //HOperatorSet.HomMat3dTranslate(hv_HomMat3DIn, hv_TBCenter.TupleSelect(0), hv_TBCenter.TupleSelect(1), hv_TBCenter.TupleSelect(2), out hv_HomMat3DOut);
+                        hv_HomMat3DOut = hv_HomMat3DIn.HomMat3dTranslate(hv_TBCenter.TupleSelect(0), hv_TBCenter.TupleSelect(1), hv_TBCenter.TupleSelect(2));
                         //矩阵转换坐标
-                        HOperatorSet.HomMat3dToPose(hv_HomMat3DOut, out hv_PoseOut);
-
+                        //HOperatorSet.HomMat3dToPose(hv_HomMat3DOut, out hv_PoseOut);
+                        hv_PoseIn = hv_HomMat3DOut.HomMat3dToPose();
 
 
                         //设置模型显示位置
                         for (int hv_i = 0; hv_i < hv_NumModels; hv_i++)
                         {
 
-                            HOperatorSet.SetScene3dInstancePose(hv_Scene3D, hv_i, hv_PoseOut);
-
+                            //HOperatorSet.SetScene3dInstancePose(hv_Scene3D, hv_i, hv_PoseOut);
+                            hv_Scene3D.SetScene3dInstancePose(hv_i, hv_PoseIn);
                         }
 
 
 
 
                         //保存移动后位置
-                        hv_PoseIn = hv_PoseOut;
+                        //hv_PoseIn = hv_PoseOut;
                         hv_HMouseDowm = e.GetPosition(_Window.Halcon_UserContol);
 
 
@@ -444,10 +452,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     }
                     finally
                     {
-                        hv_RelQuaternion.Dispose();
-                        hv_HomMat3DRotRel.Dispose();
-                        hv_HomMat3DIn.Dispose();
-                        hv_HomMat3DOut.Dispose();
+                        //hv_RelQuaternion.Dispose();
+                        //hv_HomMat3DRotRel.Dispose();
+                        //hv_HomMat3DIn.Dispose();
+                        //hv_HomMat3DOut.Dispose();
                         hv_MRow1.Dispose();
                         hv_MCol1.Dispose();
                         hv_MRow2.Dispose();
@@ -493,8 +501,8 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     //局部变量初始化
                     HTuple hv_RelQuaternion = new HTuple();
                     HTuple hv_HomMat3DRotRel = new HTuple();
-                    HTuple hv_HomMat3DIn = new HTuple();
-                    HTuple hv_HomMat3DOut = new HTuple(); ;
+                    HHomMat3D hv_HomMat3DIn = new HHomMat3D();
+                    HHomMat3D hv_HomMat3DOut = new HHomMat3D(); ;
                     HTuple hv_MRow1 = new HTuple();
                     HTuple hv_MCol1 = new HTuple();
                     HTuple hv_MRow2 = new HTuple();
@@ -530,41 +538,43 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         hv_MCol2 = new HTuple(hv_MCol1 + ((e.GetPosition(_Window.Halcon_UserContol).X - hv_MCol1) * hv_SensFactor));
 
                         //计算与图像中鼠标点对应的视线
-                        HOperatorSet.GetLineOfSight(hv_MRow1, hv_MCol1, hv_CamParam, out hv_PX, out hv_PY, out hv_PZ, out hv_QX1, out hv_QY1, out hv_QZ1);
-                        HOperatorSet.GetLineOfSight(hv_MRow2, hv_MCol2, hv_CamParam, out hv_PX, out hv_PY, out hv_PZ, out hv_QX2, out hv_QY2, out hv_QZ2);
+                        //HOperatorSet.GetLineOfSight(hv_MRow1, hv_MCol1, hv_CamParam, out hv_PX, out hv_PY, out hv_PZ, out hv_QX1, out hv_QY1, out hv_QZ1);
+                        //HOperatorSet.GetLineOfSight(hv_MRow2, hv_MCol2, hv_CamParam, out hv_PX, out hv_PY, out hv_PZ, out hv_QX2, out hv_QY2, out hv_QZ2);
 
+                        hv_CamParam.GetLineOfSight(hv_MRow1, hv_MCol1, out hv_PX, out hv_PY, out hv_PZ, out hv_QX1, out hv_QY1, out hv_QZ1);
+                        hv_CamParam.GetLineOfSight(hv_MRow2, hv_MCol2, out hv_PX, out hv_PY, out hv_PZ, out hv_QX2, out hv_QY2, out hv_QZ2);
                         //计算实际距离
                         hv_Len = ((((hv_QX1 * hv_QX1) + (hv_QY1 * hv_QY1)) + (hv_QZ1 * hv_QZ1))).TupleSqrt()
                ;
                         hv_Dist = (((((hv_TBCenter.TupleSelect(0)) * (hv_TBCenter.TupleSelect(0))) + ((hv_TBCenter.TupleSelect(1)) * (hv_TBCenter.TupleSelect(1)))) + ((hv_TBCenter.TupleSelect(2)) * (hv_TBCenter.TupleSelect(2))))).TupleSqrt();
 
                         hv_Translate = ((((((hv_QX2 - hv_QX1)).TupleConcat(hv_QY2 - hv_QY1))).TupleConcat(hv_QZ2 - hv_QZ1)) * hv_Dist) / hv_Len;
- 
+
                         //将当前视角坐标转换矩阵
-                        HOperatorSet.PoseToHomMat3d(hv_PoseIn, out hv_HomMat3DIn);
-
+                        //HOperatorSet.PoseToHomMat3d(hv_PoseIn, out hv_HomMat3DIn);
+                        hv_HomMat3DIn = hv_PoseIn.PoseToHomMat3d();
                         //平移距离
-                        HOperatorSet.HomMat3dTranslate(hv_HomMat3DIn, hv_Translate.TupleSelect(0), hv_Translate.TupleSelect(1), hv_Translate.TupleSelect(2), out hv_HomMat3DOut);
-
+                        //HOperatorSet.HomMat3dTranslate(hv_HomMat3DIn, hv_Translate.TupleSelect(0), hv_Translate.TupleSelect(1), hv_Translate.TupleSelect(2), out hv_HomMat3DOut);
+                        hv_HomMat3DOut = hv_HomMat3DIn.HomMat3dTranslate(hv_Translate.TupleSelect(0), hv_Translate.TupleSelect(1), hv_Translate.TupleSelect(2));
 
                         //矩阵转换坐标
-                        HOperatorSet.HomMat3dToPose(hv_HomMat3DOut, out hv_PoseOut);
-
+                        //HOperatorSet.HomMat3dToPose(hv_HomMat3DOut, out hv_PoseOut);
+                        hv_PoseIn = hv_HomMat3DOut.HomMat3dToPose();
 
 
                         //设置模型显示位置
                         for (int hv_i = 0; hv_i < hv_NumModels; hv_i++)
                         {
 
-                            HOperatorSet.SetScene3dInstancePose(hv_Scene3D, hv_i, hv_PoseOut);
-
+                            //HOperatorSet.SetScene3dInstancePose(hv_Scene3D, hv_i, hv_PoseOut);
+                            hv_Scene3D.SetScene3dInstancePose(hv_i, hv_PoseIn);
                         }
 
 
 
 
                         //保存移动后位置
-                        hv_PoseIn = hv_PoseOut;
+                        //hv_PoseIn = hv_PoseOut;
                         hv_HMouseDowm = e.GetPosition(_Window.Halcon_UserContol);
 
 
@@ -580,8 +590,8 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     {
                         hv_RelQuaternion.Dispose();
                         hv_HomMat3DRotRel.Dispose();
-                        hv_HomMat3DIn.Dispose();
-                        hv_HomMat3DOut.Dispose();
+                        //hv_HomMat3DIn.Dispose();
+                        //hv_HomMat3DOut.Dispose();
                         hv_MRow1.Dispose();
                         hv_MCol1.Dispose();
                         hv_MRow2.Dispose();
@@ -681,8 +691,8 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         {
 
 
-            HTuple hv_HomMat3DIn = new HTuple();
-            HTuple hv_HomMat3DOut = new HTuple();
+            HHomMat3D hv_HomMat3DIn = new HHomMat3D();
+            HHomMat3D hv_HomMat3DOut = new HHomMat3D();
             HTuple hv_PoseMatch = new HTuple();
             HTuple hv_DRow = new HTuple();
             HTuple hv_Dist = new HTuple();
@@ -731,28 +741,32 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 hv_TBCenter[2] = (hv_TBCenter.TupleSelect(2)) + hv_TranslateZ;
 
                 //位置转换矩阵坐标
-                HOperatorSet.PoseToHomMat3d(hv_PoseIn, out hv_HomMat3DIn);
+                //HOperatorSet.PoseToHomMat3d(hv_PoseIn, out hv_HomMat3DIn);
+                hv_HomMat3DIn = hv_PoseIn.PoseToHomMat3d();
+
 
                 //偏移实际距离
-                HOperatorSet.HomMat3dTranslate(hv_HomMat3DIn, 0, 0, hv_TranslateZ, out hv_HomMat3DOut);
+                //HOperatorSet.HomMat3dTranslate(hv_HomMat3DIn, 0, 0, hv_TranslateZ, out hv_HomMat3DOut);
+                hv_HomMat3DOut = hv_HomMat3DIn.HomMat3dTranslate(0, 0, hv_TranslateZ);
+
 
                 //矩阵坐标转换笛卡尔坐标
-                HOperatorSet.HomMat3dToPose(hv_HomMat3DOut, out hv_PoseOut);
-
+                //HOperatorSet.HomMat3dToPose(hv_HomMat3DOut, out hv_PoseOut);
+                hv_PoseIn = hv_HomMat3DOut.HomMat3dToPose();
 
                 //设置模型显示位置
                 for (int hv_i = 0; hv_i < hv_NumModels; hv_i++)
                 {
 
-                    HOperatorSet.SetScene3dInstancePose(hv_Scene3D, hv_i, hv_PoseOut);
-
+                    //HOperatorSet.SetScene3dInstancePose(hv_Scene3D, hv_i, hv_PoseOut);
+                    hv_Scene3D.SetScene3dInstancePose(hv_i, hv_PoseIn);
                 }
 
 
 
 
                 //保存计算后坐标
-                hv_PoseIn = hv_PoseOut;
+                //hv_PoseIn = hv_PoseOut;
 
 
             }
@@ -765,8 +779,8 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             finally
             {
 
-                hv_HomMat3DIn.Dispose();
-                hv_HomMat3DOut.Dispose();
+                //hv_HomMat3DIn.Dispose();
+                //hv_HomMat3DOut.Dispose();
                 hv_PoseMatch.Dispose();
                 hv_DRow.Dispose();
                 hv_Dist.Dispose();
@@ -873,34 +887,36 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             try
             {
 
+           
 
-
-                //读取显示模型数量
+                //读取显示模型数量,如果为空创建空对象
+                if (hv_ObjectModel3D==null)
+                {
+                    HObjectModel3D _Models3D= new HObjectModel3D();
+                    _Models3D.GenEmptyObjectModel3d();
+                    hv_ObjectModel3D =new HObjectModel3D[] { _Models3D };
+                }
                 hv_NumModels = hv_ObjectModel3D.Length;
                 hv_SelectedObject = HTuple.TupleGenConst(hv_NumModels, 1);
                 hv_PoseOut = new HPose[hv_NumModels];
 
-                //模型可视化位姿
-                for (int i = 0; i < hv_NumModels; i++)
-                {
-                    hv_PoseOut[i] = hv_PoseIn;
-                }
+
 
                 //获得窗口信息
                 //HOperatorSet.GetWindowExtents(hv_WindowHandle, out hv_RowNotUsed, out hv_ColumnNotUsed, out hv_Width, out hv_Height);
                 //设置窗口尺寸
                 //HOperatorSet.GetPart(hv_WindowHandle, out hv_WPRow1, out hv_WPColumn1, out hv_WPRow2, out hv_WPColumn2);
                 //HOperatorSet.SetPart(hv_WindowHandle, 0, 0, hv_Height - 1, hv_Width - 1);
-                _Window.HWindow.SetPart(new HTuple (0), new HTuple (0), hv_Height - 1, hv_Width - 1);
+                _Window.HWindow.SetPart(new HTuple(0), new HTuple(0), hv_Height - 1, hv_Width - 1);
 
 
 
 
 
                 //初始化相机参数
-                if (hv_CamParam== new HCamPar ())
+                if (hv_CamParam == new HCamPar())
                 {
-                    hv_CamParam= gen_cam_par_area_scan_division(0.06, 0, 8.5e-6, 8.5e-6, hv_Width / 2, hv_Height / 2,hv_Width, hv_Height);
+                    hv_CamParam = gen_cam_par_area_scan_division(0.06, 0, 8.5e-6, 8.5e-6, hv_Width / 2, hv_Height / 2, hv_Width, hv_Height);
                 }
 
 
@@ -919,12 +935,12 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 }
 
                 //处理输入位置
-                if (hv_PoseIn== new HPose ())
+                if (hv_PoseIn == new HPose())
                 {
-                    hv_PoseOut.CreatePose(-(hv_Center.TupleSelect(0)), -(hv_Center.TupleSelect(1)), -(hv_Center.TupleSelect(2)), 0, 0, 0, "Rp+T", "gba", "point");
+                    hv_PoseIn.CreatePose(-(hv_Center.TupleSelect(0)), -(hv_Center.TupleSelect(1)), -(hv_Center.TupleSelect(2)), 0, 0, 0, "Rp+T", "gba", "point");
                     //HOperatorSet.CreatePose(-(hv_Center.TupleSelect(0)), -(hv_Center.TupleSelect(1)), -(hv_Center.TupleSelect(2)), 0, 0, 0, "Rp+T", "gba", "point", out hv_PoseOut);
-                    determine_optimum_pose_distance(hv_ObjectModel3D, hv_CamParam, 0.9, hv_PoseOut, out HTuple hv_PoseEstimated);
-                    hv_PoseOut = new HPose( hv_PoseEstimated);
+                    determine_optimum_pose_distance(hv_ObjectModel3D, hv_CamParam, 0.9, hv_PoseIn, out HTuple hv_PoseEstimated);
+                    hv_PoseIn = new HPose(hv_PoseEstimated);
 
                 }
 
@@ -935,7 +951,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 //HOperatorSet.SetPart(hv_WindowHandleBuffer, 0, 0, hv_Height - 1, hv_Width - 1);
                 //HOperatorSet.SetWindowParam(hv_WindowHandleBuffer, "background_color", "#334C66");
                 hv_WindowHandleBuffer.OpenWindow(0, 0, hv_Width, hv_Height, 0, "buffer", "");
-                hv_WindowHandleBuffer.SetPart(new HTuple(0), new HTuple (0), hv_Height - 1, hv_Width - 1);
+                hv_WindowHandleBuffer.SetPart(new HTuple(0), new HTuple(0), hv_Height - 1, hv_Width - 1);
                 hv_WindowHandleBuffer.SetWindowParam("background_color", "#334C66");
 
 
@@ -952,6 +968,11 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
                 }
 
+                //模型可视化位姿
+                for (int i = 0; i < hv_NumModels; i++)
+                {
+                    hv_PoseOut[i] = hv_PoseIn;
+                }
 
                 //创建显示三维模型
                 //HOperatorSet.CreateScene3d(out hv_Scene3D);
@@ -961,7 +982,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 //HOperatorSet.SetScene3dParam(hv_Scene3D, "colored", 6);
 
                 hv_Scene3D.CreateScene3d();
-                hv_CameraIndex= hv_Scene3D.AddScene3dCamera(hv_CamParam);
+                hv_CameraIndex = hv_Scene3D.AddScene3dCamera(hv_CamParam);
                 hv_AllInstances = hv_Scene3D.AddScene3dInstance(hv_ObjectModel3D, hv_PoseOut);
                 hv_Scene3D.SetScene3dParam("disp_background", "false");
                 hv_Scene3D.SetScene3dParam("colored", 6);
@@ -970,17 +991,17 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 //计算模型图像居中坐标转换模型坐标和旋转球中心
                 //HOperatorSet.PoseToHomMat3d(hv_PoseOut, out hv_HomMat3D);
                 //HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_Center.TupleSelect(0), hv_Center.TupleSelect(1), hv_Center.TupleSelect(2), out hv_Qx, out hv_Qy, out hv_Qz);
-                
-                hv_HomMat3D = hv_PoseOut.PoseToHomMat3d();
-                hv_Qx= hv_HomMat3D.AffineTransPoint3d(hv_Center.TupleSelect(0), hv_Center.TupleSelect(1), hv_Center.TupleSelect(2), out hv_Qy, out hv_Qz);
+
+                hv_HomMat3D = hv_PoseIn.PoseToHomMat3d();
+                hv_Qx = hv_HomMat3D.AffineTransPoint3d(hv_Center.TupleSelect(0), hv_Center.TupleSelect(1), hv_Center.TupleSelect(2), out hv_Qy, out hv_Qz);
 
 
-                  hv_TBCenter = hv_TBCenter.TupleConcat(hv_Qx, hv_Qy, hv_Qz);
+                hv_TBCenter = hv_TBCenter.TupleConcat(hv_Qx, hv_Qy, hv_Qz);
                 hv_TBSize = (0.5 + ((0.5 * (hv_SelectedObject.TupleSum())) / hv_NumModels)) * hv_TrackballRadiusPixel;
 
 
                 //保存计算坐标
-                hv_PoseIn = hv_PoseOut;
+                hv_PoseIn = hv_PoseOut[0];
 
 
                 //显示更新三维图像
@@ -1003,7 +1024,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 hv_WPColumn1.Dispose();
                 hv_WPRow2.Dispose();
                 hv_WPColumn2.Dispose();
-                hv_HomMat3D.Dispose();
+
                 hv_Qx.Dispose();
                 hv_Qy.Dispose();
                 hv_Qz.Dispose();
@@ -2653,8 +2674,8 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <param name="hv_TrackballSize"></param>
         /// <param name="hv_SensFactor"></param>
         /// <param name="hv_QuatRotation"></param>
-        private void trackball(HTuple hv_MX1, HTuple hv_MY1, HTuple hv_MX2, HTuple hv_MY2,
-            HTuple hv_VirtualTrackball, HTuple hv_TrackballSize, HTuple hv_SensFactor, out HTuple hv_QuatRotation)
+        private HQuaternion trackball(HTuple hv_MX1, HTuple hv_MY1, HTuple hv_MX2, HTuple hv_MY2,
+            HTuple hv_VirtualTrackball, HTuple hv_TrackballSize, HTuple hv_SensFactor)
         {
 
 
@@ -2668,7 +2689,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             HTuple hv_T = new HTuple(), hv_RotAngle = new HTuple();
             HTuple hv_Len = new HTuple();
             // Initialize local and output iconic variables 
-            hv_QuatRotation = new HTuple();
+            HTuple hv_QuatRotation = new HTuple();
             //
             //Compute the 3D rotation from the mouse movement
             //根据鼠标移动计算 3D 旋转
@@ -2690,7 +2711,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 hv_RotAngle.Dispose();
                 hv_Len.Dispose();
 
-                return;
+                return new HQuaternion(hv_QuatRotation);
             }
             //Project the image point onto the trackball
             //将图像点投射到轨迹球上
@@ -2764,7 +2785,8 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             hv_RotAngle.Dispose();
             hv_Len.Dispose();
 
-            return;
+            return new HQuaternion(hv_QuatRotation);
+
         }
 
         // Chapter: Tuple / Arithmetic
@@ -2847,7 +2869,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             }
 
 
-            return new HCamPar (hv_CameraParam);
+            return new HCamPar(hv_CameraParam);
         }
 
         /// <summary>
