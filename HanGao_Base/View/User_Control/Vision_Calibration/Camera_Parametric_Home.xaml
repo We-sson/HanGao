@@ -310,6 +310,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />
                         <RowDefinition />
+                        <RowDefinition Height=" auto" />
                     </Grid.RowDefinitions>
 
                     <Border Grid.Row=" 0" Grid.Column=" 0"
@@ -456,7 +457,28 @@
 
 
 
-
+                    <Border Grid.Row=" 2" Grid.Column=" 0"
+                            Grid.ColumnSpan=" 2"
+                            Height=" 40"
+                            Padding="3"
+                            Background="{DynamicResource 全局_背景_白颜色}">
+                        <Grid>
+                            <Label HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   FontSize="18">
+                                <Label.Content>
+                                    <MultiBinding StringFormat="可视化坐标 : X : {0:N3}, Y : {1:N3} , Z : {2:N3} , A : {3:N3} , B : {4:N3} , C : {5:N3}">
+                                        <Binding Path="HDisplay_3D.hv_PoseIn.OArr[0]" />
+                                        <Binding Path="HDisplay_3D.hv_PoseIn.OArr[1]" />
+                                        <Binding Path="HDisplay_3D.hv_PoseIn.OArr[2]" />
+                                        <Binding Path="HDisplay_3D.hv_PoseIn.OArr[3]" />
+                                        <Binding Path="HDisplay_3D.hv_PoseIn.OArr[4]" />
+                                        <Binding Path="HDisplay_3D.hv_PoseIn.OArr[5]" />
+                                    </MultiBinding>
+                                </Label.Content>
+                            </Label>
+                        </Grid>
+                    </Border>
 
                 </Grid>
             </TabItem>

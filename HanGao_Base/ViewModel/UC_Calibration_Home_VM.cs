@@ -1,16 +1,8 @@
 ﻿using Halcon_SDK_DLL.Halcon_Examples_Method;
 using HalconDotNet;
 using HanGao.View.User_Control.Vision_Calibration;
-using HanGao.View.User_Control.Vision_Calibration.Vison_UserControl;
 using Kitware.VTK;
-using MVS_SDK_Base.Model;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 
@@ -82,10 +74,12 @@ namespace HanGao.ViewModel
         public static  Task DisPlay_Task { set; get; } = new Task(() => Display_3D_Task(new Display3DModel_Model ()));
 
 
-        public static Halcon_Examples HExamples { set; get; } 
+        public static Halcon_Examples HExamples { set; get; }
 
-
-
+        /// <summary>
+        /// 三维可视乎属性
+        /// </summary>
+        public H3D_Model_Display HDisplay_3D { set; get; }
 
 
         /// <summary>
@@ -362,13 +356,13 @@ namespace HanGao.ViewModel
 
 
                     //Halcon_Examples _3DModelDisplay = new Halcon_Examples(Calibration_3D_Results);
-                    HTuple _PosOUT;
+                    //HTuple _PosOUT;
 
-                    H3D_Model_Display Display = new H3D_Model_Display(Calibration_3D_Results);
+                    HDisplay_3D = new H3D_Model_Display(Calibration_3D_Results);
 
-                    Display.hv_ObjectModel3D = hv_ObjectModels;
+                    HDisplay_3D.hv_ObjectModel3D = hv_ObjectModels;
 
-                    Display.Display_Ini();
+                    HDisplay_3D.Display_Ini();
                     //Task.Run(() =>
                     //{
 

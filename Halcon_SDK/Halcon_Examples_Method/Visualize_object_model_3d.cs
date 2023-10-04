@@ -21,21 +21,21 @@ public partial class Halcon_Examples
         HOperatorSet.SetSystem("use_window_thread", "true");
         HDevWindowStack.Push(_HWindow.HWindow);
         HDevWindowStack.SetActive(_HWindow.HWindow);
-        _HWindow.Halcon_UserContol.HMouseWheel += Calibration_3D_Results_HMouseWheel;
-        //_HWindow.HWindow.SetWindowParam("background_color", "#334C66");
+        //_HWindow.Halcon_UserContol.HMouseWheel += Calibration_3D_Results_HMouseWheel;
+        _HWindow.HWindow.SetWindowParam("background_color", "#334C66");
     }
     public Halcon_Examples()
     {
 
     }
 
-    private void Calibration_3D_Results_HMouseWheel(object sender, HSmartWindowControlWPF.HMouseEventArgsWPF e)
-    {
+    //private void Calibration_3D_Results_HMouseWheel(object sender, HSmartWindowControlWPF.HMouseEventArgsWPF e)
+    //{
 
-        //hv_GraphButton = 2;
+    //    //hv_GraphButton = 2;
 
 
-    }
+    //}
     public void Exit_Display()
     {
         //hv_Exit = new HTuple(1);
