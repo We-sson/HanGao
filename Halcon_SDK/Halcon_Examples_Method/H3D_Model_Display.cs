@@ -27,9 +27,9 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             HDevWindowStack.SetActive(hv_WindowHandle);
             //设置背景颜色
             _HWindow.HWindow.SetWindowParam("background_color", "#334C66");
+            //设置事件
             _HWindow.Halcon_UserContol.MouseWheel += Calibration_3D_Results_MouseWheel;
             _HWindow.Halcon_UserContol.MouseDown += Calibration_3D_Results_MouseDown;
-
             _HWindow.Halcon_UserContol.MouseUp += Calibration_3D_Results_MouseUp; ;
             _HWindow.Halcon_UserContol.SizeChanged += Calibration_3D_SizeChanged;
 
@@ -62,11 +62,11 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         public H3D_Display_T_delegate<string> H3D_Display_Error_delegate { set; get; }
 
 
-        private HTuple _hv_PoseIn = new HTuple();
+        private HPose _hv_PoseIn = new HPose();
         /// <summary>
         /// 当前可视化显示位置
         /// </summary>
-        public HTuple hv_PoseIn
+        public HPose hv_PoseIn
         {
             get { return _hv_PoseIn; }
             set
@@ -99,7 +99,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <summary>
         /// 可视化场景相机属性
         /// </summary>
-        public HTuple hv_CamParam = new HTuple();
+        public HCamPar hv_CamParam = new HCamPar();
 
         #endregion
         #region  本地属性
@@ -127,7 +127,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <summary>
         /// 可视化显示模型
         /// </summary>
-        public HTuple hv_ObjectModel3D { set; get; } = new HTuple();
+        public HObjectModel3D[] hv_ObjectModel3D { set; get; } 
 
 
         /// <summary>
@@ -139,13 +139,13 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <summary>
         /// 用于可视化场景属性
         /// </summary>
-        private HTuple hv_Scene3D = new HTuple();
+        private HScene3D hv_Scene3D = new HScene3D();
 
 
         /// <summary>
         /// 内部位置计算输出
         /// </summary>
-        private HTuple hv_PoseOut = new HTuple();
+        private HPose[] hv_PoseOut = new HPose();
 
 
 
@@ -153,7 +153,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <summary>
         /// 缓冲窗口
         /// </summary>
-        private HTuple hv_WindowHandleBuffer = new HTuple();
+        private HWindow hv_WindowHandleBuffer = new HWindow();
         /// <summary>
         /// 多个模型选中状态(兼容变量)
         /// </summary>
@@ -858,7 +858,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             HTuple hv_WPColumn1 = new HTuple();
             HTuple hv_WPRow2 = new HTuple();
             HTuple hv_WPColumn2 = new HTuple();
-            HTuple hv_HomMat3D = new HTuple();
+            HHomMat3D hv_HomMat3D = new HHomMat3D();
             HTuple hv_Qx = new HTuple();
             HTuple hv_Qy = new HTuple();
             HTuple hv_Qz = new HTuple();
@@ -875,28 +875,32 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
 
-
-                hv_NumModels = hv_ObjectModel3D.TupleLength();
+                //读取显示模型数量
+                hv_NumModels = hv_ObjectModel3D.Length;
                 hv_SelectedObject = HTuple.TupleGenConst(hv_NumModels, 1);
+                hv_PoseOut = new HPose[hv_NumModels];
 
-
+                //模型可视化位姿
+                for (int i = 0; i < hv_NumModels; i++)
+                {
+                    hv_PoseOut[i] = hv_PoseIn;
+                }
 
                 //获得窗口信息
                 //HOperatorSet.GetWindowExtents(hv_WindowHandle, out hv_RowNotUsed, out hv_ColumnNotUsed, out hv_Width, out hv_Height);
                 //设置窗口尺寸
-                HOperatorSet.GetPart(hv_WindowHandle, out hv_WPRow1, out hv_WPColumn1, out hv_WPRow2, out hv_WPColumn2);
-                HOperatorSet.SetPart(hv_WindowHandle, 0, 0, hv_Height - 1, hv_Width - 1);
-
+                //HOperatorSet.GetPart(hv_WindowHandle, out hv_WPRow1, out hv_WPColumn1, out hv_WPRow2, out hv_WPColumn2);
+                //HOperatorSet.SetPart(hv_WindowHandle, 0, 0, hv_Height - 1, hv_Width - 1);
+                _Window.HWindow.SetPart(new HTuple (0), new HTuple (0), hv_Height - 1, hv_Width - 1);
 
 
 
 
 
                 //初始化相机参数
-                if (hv_CamParam.TupleLength() == 0)
+                if (hv_CamParam== new HCamPar ())
                 {
-                    gen_cam_par_area_scan_division(0.06, 0, 8.5e-6, 8.5e-6, hv_Width / 2, hv_Height / 2,
-                                          hv_Width, hv_Height, out hv_CamParam);
+                    hv_CamParam= gen_cam_par_area_scan_division(0.06, 0, 8.5e-6, 8.5e-6, hv_Width / 2, hv_Height / 2,hv_Width, hv_Height);
                 }
 
 
@@ -915,20 +919,24 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 }
 
                 //处理输入位置
-                if (hv_PoseIn.TupleLength() == 0)
+                if (hv_PoseIn== new HPose ())
                 {
-                    HOperatorSet.CreatePose(-(hv_Center.TupleSelect(0)), -(hv_Center.TupleSelect(1)), -(hv_Center.TupleSelect(2)), 0, 0, 0, "Rp+T", "gba", "point", out hv_PoseOut);
+                    hv_PoseOut.CreatePose(-(hv_Center.TupleSelect(0)), -(hv_Center.TupleSelect(1)), -(hv_Center.TupleSelect(2)), 0, 0, 0, "Rp+T", "gba", "point");
+                    //HOperatorSet.CreatePose(-(hv_Center.TupleSelect(0)), -(hv_Center.TupleSelect(1)), -(hv_Center.TupleSelect(2)), 0, 0, 0, "Rp+T", "gba", "point", out hv_PoseOut);
                     determine_optimum_pose_distance(hv_ObjectModel3D, hv_CamParam, 0.9, hv_PoseOut, out HTuple hv_PoseEstimated);
-                    hv_PoseOut = hv_PoseEstimated;
+                    hv_PoseOut = new HPose( hv_PoseEstimated);
 
                 }
 
 
 
                 //打开缓存窗口
-                HOperatorSet.OpenWindow(0, 0, hv_Width, hv_Height, 0, "buffer", "", out hv_WindowHandleBuffer);
-                HOperatorSet.SetPart(hv_WindowHandleBuffer, 0, 0, hv_Height - 1, hv_Width - 1);
-                HOperatorSet.SetWindowParam(hv_WindowHandleBuffer, "background_color", "#334C66");
+                //HOperatorSet.OpenWindow(0, 0, hv_Width, hv_Height, 0, "buffer", "", out hv_WindowHandleBuffer);
+                //HOperatorSet.SetPart(hv_WindowHandleBuffer, 0, 0, hv_Height - 1, hv_Width - 1);
+                //HOperatorSet.SetWindowParam(hv_WindowHandleBuffer, "background_color", "#334C66");
+                hv_WindowHandleBuffer.OpenWindow(0, 0, hv_Width, hv_Height, 0, "buffer", "");
+                hv_WindowHandleBuffer.SetPart(new HTuple(0), new HTuple (0), hv_Height - 1, hv_Width - 1);
+                hv_WindowHandleBuffer.SetWindowParam("background_color", "#334C66");
 
 
                 //计算轨迹球
@@ -946,17 +954,28 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
                 //创建显示三维模型
-                HOperatorSet.CreateScene3d(out hv_Scene3D);
-                HOperatorSet.AddScene3dCamera(hv_Scene3D, hv_CamParam, out hv_CameraIndex);
-                HOperatorSet.AddScene3dInstance(hv_Scene3D, hv_ObjectModel3D, hv_PoseOut, out hv_AllInstances);
-                HOperatorSet.SetScene3dParam(hv_Scene3D, "disp_background", "false");
-                HOperatorSet.SetScene3dParam(hv_Scene3D, "colored", 6);
+                //HOperatorSet.CreateScene3d(out hv_Scene3D);
+                //HOperatorSet.AddScene3dCamera(hv_Scene3D, hv_CamParam, out hv_CameraIndex);
+                //HOperatorSet.AddScene3dInstance(hv_Scene3D, hv_ObjectModel3D, hv_PoseOut, out hv_AllInstances);
+                //HOperatorSet.SetScene3dParam(hv_Scene3D, "disp_background", "false");
+                //HOperatorSet.SetScene3dParam(hv_Scene3D, "colored", 6);
+
+                hv_Scene3D.CreateScene3d();
+                hv_CameraIndex= hv_Scene3D.AddScene3dCamera(hv_CamParam);
+                hv_AllInstances = hv_Scene3D.AddScene3dInstance(hv_ObjectModel3D, hv_PoseOut);
+                hv_Scene3D.SetScene3dParam("disp_background", "false");
+                hv_Scene3D.SetScene3dParam("colored", 6);
 
 
                 //计算模型图像居中坐标转换模型坐标和旋转球中心
-                HOperatorSet.PoseToHomMat3d(hv_PoseOut, out hv_HomMat3D);
-                HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_Center.TupleSelect(0), hv_Center.TupleSelect(1), hv_Center.TupleSelect(2), out hv_Qx, out hv_Qy, out hv_Qz);
-                hv_TBCenter = hv_TBCenter.TupleConcat(hv_Qx, hv_Qy, hv_Qz);
+                //HOperatorSet.PoseToHomMat3d(hv_PoseOut, out hv_HomMat3D);
+                //HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_Center.TupleSelect(0), hv_Center.TupleSelect(1), hv_Center.TupleSelect(2), out hv_Qx, out hv_Qy, out hv_Qz);
+                
+                hv_HomMat3D = hv_PoseOut.PoseToHomMat3d();
+                hv_Qx= hv_HomMat3D.AffineTransPoint3d(hv_Center.TupleSelect(0), hv_Center.TupleSelect(1), hv_Center.TupleSelect(2), out hv_Qy, out hv_Qz);
+
+
+                  hv_TBCenter = hv_TBCenter.TupleConcat(hv_Qx, hv_Qy, hv_Qz);
                 hv_TBSize = (0.5 + ((0.5 * (hv_SelectedObject.TupleSum())) / hv_NumModels)) * hv_TrackballRadiusPixel;
 
 
@@ -2806,20 +2825,20 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <param name="hv_ImageWidth"></param>
         /// <param name="hv_ImageHeight"></param>
         /// <param name="hv_CameraParam"></param>
-        private void gen_cam_par_area_scan_division(HTuple hv_Focus, HTuple hv_Kappa, HTuple hv_Sx,
-            HTuple hv_Sy, HTuple hv_Cx, HTuple hv_Cy, HTuple hv_ImageWidth, HTuple hv_ImageHeight,
-            out HTuple hv_CameraParam)
+        private HCamPar gen_cam_par_area_scan_division(HTuple hv_Focus, HTuple hv_Kappa, HTuple hv_Sx,
+            HTuple hv_Sy, HTuple hv_Cx, HTuple hv_Cy, HTuple hv_ImageWidth, HTuple hv_ImageHeight
+            )
         {
 
 
 
             // Local iconic variables 
             // Initialize local and output iconic variables 
-            hv_CameraParam = new HTuple();
+            HTuple hv_CameraParam = new HTuple();
             //Generate a camera parameter tuple for an area scan camera
             //with distortions modeled by the division model.
             //
-            hv_CameraParam.Dispose();
+            //hv_CameraParam.Dispose();
             using (HDevDisposeHelper dh = new HDevDisposeHelper())
             {
                 hv_CameraParam = new HTuple();
@@ -2828,7 +2847,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             }
 
 
-            return;
+            return new HCamPar (hv_CameraParam);
         }
 
         /// <summary>

@@ -236,13 +236,13 @@ namespace HanGao.ViewModel
 
 
 
-
+                    //初始化控件属性
                     Calibration_3D_Results = new Halcon_SDK() { HWindow = Window_UserContol.Calibration_3D_Results.HalconWindow, Halcon_UserContol = Window_UserContol.Calibration_3D_Results };
                     Calibration_Window_1 = new Halcon_SDK() { HWindow = Window_UserContol.Calibration_Window_1.HalconWindow, Halcon_UserContol = Window_UserContol.Calibration_Window_1 };
                     Calibration_Window_2 = new Halcon_SDK() { HWindow = Window_UserContol.Calibration_Window_2.HalconWindow, Halcon_UserContol = Window_UserContol.Calibration_Window_2 };
 
-
-                    //HWindows_Initialization(Window_UserContol);
+                    //可视化显示
+                    HDisplay_3D = new H3D_Model_Display(Calibration_3D_Results);
 
 
 
@@ -360,7 +360,7 @@ namespace HanGao.ViewModel
                     //Halcon_Examples _3DModelDisplay = new Halcon_Examples(Calibration_3D_Results);
                     //HTuple _PosOUT;
 
-                    HDisplay_3D = new H3D_Model_Display(Calibration_3D_Results);
+                   
 
                     HDisplay_3D.hv_ObjectModel3D = hv_ObjectModels;
 
