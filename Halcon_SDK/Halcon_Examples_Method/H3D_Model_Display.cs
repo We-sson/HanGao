@@ -104,7 +104,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <summary>
         /// 可视化场景相机属性
         /// </summary>
-        public HCamPar hv_CamParam { set; get}
+        public HCamPar hv_CamParam { set; get; }
 
         #endregion
         #region  本地属性
