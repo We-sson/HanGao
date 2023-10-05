@@ -1,6 +1,7 @@
 ﻿using HalconDotNet;
 using PropertyChanged;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -63,7 +64,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         public H3D_Display_T_delegate<string> H3D_Display_Error_delegate { set; get; }
 
 
-        private HPose _hv_PoseIn = new HPose();
+   
+
+
+        private HPose _hv_PoseIn ;
         /// <summary>
         /// 当前可视化显示位置
         /// </summary>
@@ -100,7 +104,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <summary>
         /// 可视化场景相机属性
         /// </summary>
-        public HCamPar hv_CamParam = new HCamPar();
+        public HCamPar hv_CamParam { set; get}
 
         #endregion
         #region  本地属性
@@ -115,20 +119,20 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <summary>
         /// 缓存图像
         /// </summary>
-        private HObject ho_ImageDump = new HObject();
+        private HImage ho_ImageDump = new HImage();
 
 
         /// <summary>
         /// 控件显示句柄
         /// </summary>
-        private HTuple hv_WindowHandle = new HTuple();
+        private HWindow hv_WindowHandle = new HWindow();
 
 
 
         /// <summary>
         /// 可视化显示模型
         /// </summary>
-        public HObjectModel3D[] hv_ObjectModel3D { set; get; }
+        public List<HObjectModel3D> hv_ObjectModel3D { set; get; } = new List<HObjectModel3D>();
 
 
         /// <summary>
@@ -140,7 +144,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <summary>
         /// 用于可视化场景属性
         /// </summary>
-        private HScene3D hv_Scene3D = new HScene3D();
+        private HScene3D hv_Scene3D { set; get; } = new HScene3D();
 
 
         /// <summary>
@@ -295,7 +299,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
                 hv_Scene3D.RemoveScene3dCamera(hv_CameraIndex);
                 hv_CameraIndex= hv_Scene3D.AddScene3dCamera(hv_CamParam);
-                Event_Int(_HWindow.ActualWidth, _HWindow.ActualHeight);
+                Event_Int((int)_HWindow.ActualWidth,(int) _HWindow.ActualHeight);
 
 
                 //修改渲染尺寸后释放显示线程
@@ -306,7 +310,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             }
             catch (HalconException _He)
             {
-                H3D_Display_Error_delegate("窗口尺寸修改更新失败! 原因:" + _He.GetErrorMessage());
+                H3D_Display_Error_delegate?.Invoke("窗口尺寸修改更新失败! 原因:" + _He.GetErrorMessage());
 
             }
             finally
@@ -446,7 +450,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     }
                     catch (HalconException _he)
                     {
-                        H3D_Display_Error_delegate("三维旋转计算失败! 原因:" + _he.GetErrorMessage());
+                        H3D_Display_Error_delegate?.Invoke("三维旋转计算失败! 原因:" + _he.GetErrorMessage());
 
 
                     }
@@ -582,7 +586,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     }
                     catch (HalconException _he)
                     {
-                        H3D_Display_Error_delegate("三维旋转计算失败! 原因:" + _he.GetErrorMessage());
+                        H3D_Display_Error_delegate?.Invoke("三维旋转计算失败! 原因:" + _he.GetErrorMessage());
 
 
                     }
@@ -639,7 +643,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
                 //旋转前记录旋转中心位置
                 hv_HMouseDowm = e.GetPosition(_Window.Halcon_UserContol);
-                Event_Int(_HWindow.ActualWidth, _HWindow.ActualHeight);
+                Event_Int((int)_HWindow.ActualWidth, (int)_HWindow.ActualHeight);
 
                 if (e.LeftButton == MouseButtonState.Pressed)
                 {
@@ -709,7 +713,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
                 //缩放前获得图像中心位置
-                Event_Int(_HWindow.ActualWidth, _HWindow.ActualHeight);
+                Event_Int((int)_HWindow.ActualWidth, (int)_HWindow.ActualHeight);
 
                 //缩放像素方向
                 if (e.Delta > 0)
@@ -772,7 +776,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             }
             catch (HalconException _he)
             {
-                H3D_Display_Error_delegate("三维缩放计算失败! 原因:" + _he.GetErrorMessage());
+                H3D_Display_Error_delegate?.Invoke("三维缩放计算失败! 原因:" + _he.GetErrorMessage());
 
 
             }
@@ -802,7 +806,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <summary>
         /// 旋转事件触发前初始化数据
         /// </summary>
-        private void Event_Int(HTuple hv_Width, HTuple hv_Height)
+        private void Event_Int(int hv_Width, int hv_Height)
         {
 
 
@@ -821,15 +825,19 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 //获得窗口信息
                 //HOperatorSet.GetWindowExtents(hv_WindowHandle, out hv_RowNotUsed, out hv_ColumnNotUsed, out hv_Width, out hv_Height);
 
-                HOperatorSet.GetPart(hv_WindowHandle, out hv_WPRow1, out hv_WPColumn1, out hv_WPRow2, out hv_WPColumn2);
-                HOperatorSet.SetPart(hv_WindowHandleBuffer, 0, 0, hv_Height - 1, hv_Width - 1);
-                HOperatorSet.SetPart(hv_WindowHandle, 0, 0, hv_Height - 1, hv_Width - 1);
+                //HOperatorSet.GetPart(hv_WindowHandle, out hv_WPRow1, out hv_WPColumn1, out hv_WPRow2, out hv_WPColumn2);
+                //HOperatorSet.SetPart(hv_WindowHandleBuffer, 0, 0, hv_Height - 1, hv_Width - 1);
+                //HOperatorSet.SetPart(hv_WindowHandle, 0, 0, hv_Height - 1, hv_Width - 1);
+
+                hv_WindowHandle.GetPart(out hv_WPRow1, out hv_WPColumn1, out hv_WPRow2, out hv_WPColumn2);
+                hv_WindowHandle.SetPart(0,0, hv_Height - 1, hv_Width - 1);
+                hv_WindowHandleBuffer.SetPart(0, 0, hv_Height - 1, hv_Width - 1);
 
                 //设置缓存窗口大小
-                HOperatorSet.SetWindowExtents(hv_WindowHandleBuffer, 0, 0, hv_Width, hv_Height);
-
+                //HOperatorSet.SetWindowExtents(hv_WindowHandleBuffer, 0, 0, hv_Width, hv_Height);
+                hv_WindowHandleBuffer.SetWindowExtents(0, 0, hv_Width, hv_Height);
                 //计算轨迹球尺寸大小
-                hv_MinImageSize = ((hv_Width.TupleConcat(hv_Height))).TupleMin();
+                hv_MinImageSize = Math.Min(hv_Width, hv_Height);
 
                 hv_TrackballRadiusPixel = (hv_TrackballSize * hv_MinImageSize) / 2.0;
 
@@ -838,20 +846,20 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 hv_TrackballCenterCol = hv_Width / 2;
 
                 //计算中间位置大小
-                get_trackball_center(hv_SelectedObject, hv_TrackballRadiusPixel, hv_ObjectModel3D, hv_PoseIn, out hv_TBCenter, out hv_TBSize);
+                get_trackball_center(hv_SelectedObject, hv_TrackballRadiusPixel, hv_ObjectModel3D.ToArray(), hv_PoseIn, out hv_TBCenter, out hv_TBSize);
 
             }
             catch (HalconException _he)
             {
 
                 //报错输出
-                H3D_Display_Error_delegate("窗口尺寸更新失败! 原因:" + _he.GetErrorMessage());
+                H3D_Display_Error_delegate?.Invoke("窗口尺寸更新失败! 原因:" + _he.GetErrorMessage());
 
             }
             finally
             {
-                hv_Height.Dispose();
-                hv_Width.Dispose();
+                //hv_Height.Dispose();
+                //hv_Width.Dispose();
                 hv_WPRow1.Dispose();
                 hv_WPColumn1.Dispose();
                 hv_WPRow2.Dispose();
@@ -866,8 +874,8 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             //HTuple hv_RowNotUsed;
             //HTuple hv_ColumnNotUsed;
-            HTuple hv_Width = new HTuple(_Window.Halcon_UserContol.ActualWidth);
-            HTuple hv_Height = new HTuple(_Window.Halcon_UserContol.ActualHeight);
+            HTuple hv_Width = new HTuple((int)_Window.Halcon_UserContol.ActualWidth);
+            HTuple hv_Height = new HTuple((int)_Window.Halcon_UserContol.ActualHeight);
             HTuple hv_WPRow1 = new HTuple();
             HTuple hv_WPColumn1 = new HTuple();
             HTuple hv_WPRow2 = new HTuple();
@@ -894,9 +902,9 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 {
                     HObjectModel3D _Models3D= new HObjectModel3D();
                     _Models3D.GenEmptyObjectModel3d();
-                    hv_ObjectModel3D =new HObjectModel3D[] { _Models3D };
+                    hv_ObjectModel3D.Add(  _Models3D );
                 }
-                hv_NumModels = hv_ObjectModel3D.Length;
+                hv_NumModels = hv_ObjectModel3D.Count;
                 hv_SelectedObject = HTuple.TupleGenConst(hv_NumModels, 1);
                 hv_PoseOut = new HPose[hv_NumModels];
 
@@ -914,7 +922,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
                 //初始化相机参数
-                if (hv_CamParam == new HCamPar())
+                if (hv_CamParam ==null)
                 {
                     hv_CamParam = gen_cam_par_area_scan_division(0.06, 0, 8.5e-6, 8.5e-6, hv_Width / 2, hv_Height / 2, hv_Width, hv_Height);
                 }
@@ -923,23 +931,27 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
                 //计算对象合适大小
-                get_object_models_center(hv_ObjectModel3D, out hv_Center);
+                get_object_models_center(hv_ObjectModel3D.ToArray(), out hv_Center);
+
 
                 if ((int)(new HTuple(hv_Center.TupleEqual(new HTuple()))) != 0)
                 {
 
+
                     hv_Center = new HTuple();
                     hv_Center[0] = 0;
                     hv_Center[1] = 0;
-                    hv_Center[2] = 0;
+                    hv_Center[2] = 80;
+                    hv_PoseIn = new HPose(-(hv_Center.TupleSelect(0)), -(hv_Center.TupleSelect(1)), -(hv_Center.TupleSelect(2)), 0, 0, 0, "Rp+T", "gba", "point");
                 }
-
+              
                 //处理输入位置
-                if (hv_PoseIn == new HPose())
+                if (hv_PoseIn==null)
                 {
-                    hv_PoseIn.CreatePose(-(hv_Center.TupleSelect(0)), -(hv_Center.TupleSelect(1)), -(hv_Center.TupleSelect(2)), 0, 0, 0, "Rp+T", "gba", "point");
+                    hv_PoseIn = new HPose(-(hv_Center.TupleSelect(0)), -(hv_Center.TupleSelect(1)), -(hv_Center.TupleSelect(2)), 0, 0, 0, "Rp+T", "gba", "point");
+                    //hv_PoseIn.CreatePose(-(hv_Center.TupleSelect(0)), -(hv_Center.TupleSelect(1)), -(hv_Center.TupleSelect(2)), 0, 0, 0, "Rp+T", "gba", "point");
                     //HOperatorSet.CreatePose(-(hv_Center.TupleSelect(0)), -(hv_Center.TupleSelect(1)), -(hv_Center.TupleSelect(2)), 0, 0, 0, "Rp+T", "gba", "point", out hv_PoseOut);
-                    determine_optimum_pose_distance(hv_ObjectModel3D, hv_CamParam, 0.9, hv_PoseIn, out HTuple hv_PoseEstimated);
+                    determine_optimum_pose_distance(hv_ObjectModel3D.ToArray(), hv_CamParam, 0.9, hv_PoseIn, out HTuple hv_PoseEstimated);
                     hv_PoseIn = new HPose(hv_PoseEstimated);
 
                 }
@@ -950,7 +962,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 //HOperatorSet.OpenWindow(0, 0, hv_Width, hv_Height, 0, "buffer", "", out hv_WindowHandleBuffer);
                 //HOperatorSet.SetPart(hv_WindowHandleBuffer, 0, 0, hv_Height - 1, hv_Width - 1);
                 //HOperatorSet.SetWindowParam(hv_WindowHandleBuffer, "background_color", "#334C66");
-                hv_WindowHandleBuffer.OpenWindow(0, 0, hv_Width, hv_Height, 0, "buffer", "");
+                hv_WindowHandleBuffer.OpenWindow(0, 0, hv_Width, hv_Height, "", "buffer", "");
                 hv_WindowHandleBuffer.SetPart(new HTuple(0), new HTuple(0), hv_Height - 1, hv_Width - 1);
                 hv_WindowHandleBuffer.SetWindowParam("background_color", "#334C66");
 
@@ -983,7 +995,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
                 hv_Scene3D.CreateScene3d();
                 hv_CameraIndex = hv_Scene3D.AddScene3dCamera(hv_CamParam);
-                hv_AllInstances = hv_Scene3D.AddScene3dInstance(hv_ObjectModel3D, hv_PoseOut);
+                hv_AllInstances = hv_Scene3D.AddScene3dInstance(hv_ObjectModel3D.ToArray(), hv_PoseOut);
                 hv_Scene3D.SetScene3dParam("disp_background", "false");
                 hv_Scene3D.SetScene3dParam("colored", 6);
 
@@ -1011,7 +1023,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             }
             catch (HalconException _he)
             {
-                H3D_Display_Error_delegate("可视化窗口初始化失败! 原因:" + _he.GetErrorMessage());
+                H3D_Display_Error_delegate?.Invoke("可视化窗口初始化失败! 原因:" + _he.GetErrorMessage());
 
                 //错误消息输出
             }
@@ -1065,15 +1077,22 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
                         //渲染初图像
                         //HOperatorSet.ClearWindow(hv_WindowHandle);
-                        HOperatorSet.ClearWindow(hv_WindowHandleBuffer);
+                        //HOperatorSet.ClearWindow(hv_WindowHandleBuffer);
+                        hv_WindowHandleBuffer.ClearWindow();
                         //渲染图像
                         //HOperatorSet.DispObjectModel3d(hv_WindowHandleBuffer, hv_ObjectModel3D, hv_CamParam, hv_PoseIn, new HTuple(), new HTuple());
-                        HOperatorSet.DisplayScene3d(hv_WindowHandleBuffer, hv_Scene3D, 0);
-                        HOperatorSet.DumpWindowImage(out ho_ImageDump, hv_WindowHandleBuffer);
-                        HDevWindowStack.SetActive(hv_WindowHandle);
-                        HOperatorSet.DispColor(ho_ImageDump, hv_WindowHandle);
+                        
+                        //HOperatorSet.DisplayScene3d(hv_WindowHandleBuffer, hv_Scene3D, 0);
+                        //HOperatorSet.DumpWindowImage(out ho_ImageDump, hv_WindowHandleBuffer);
+                        //HDevWindowStack.SetActive(hv_WindowHandle);
+                        //HOperatorSet.DispColor(ho_ImageDump, hv_WindowHandle);
+
+                        hv_Scene3D.DisplayScene3d(hv_WindowHandleBuffer, hv_CameraIndex);
+                        ho_ImageDump= hv_WindowHandleBuffer.DumpWindowImage();
+                        hv_WindowHandle.DispColor(ho_ImageDump);
                         //限制刷新帧率缓解处理时间 每秒24帧
                         HOperatorSet.WaitSeconds(0.04);
+
 
 
                     } while (While_ResetEvent.WaitOne());
@@ -1083,7 +1102,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 }
                 catch (HalconException _he)
                 {
-                    H3D_Display_Error_delegate("三维可视化渲染失败! 原因:" + _he.GetErrorMessage());
+                    H3D_Display_Error_delegate?.Invoke("三维可视化渲染失败! 原因:" + _he.GetErrorMessage());
 
 
                 }

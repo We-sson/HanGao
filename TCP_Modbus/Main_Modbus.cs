@@ -132,7 +132,7 @@ namespace TCP_Modbus
                 }
 
             }
-            catch (Exception e)
+            catch (Exception )
             {
 
 
@@ -200,7 +200,7 @@ namespace TCP_Modbus
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }

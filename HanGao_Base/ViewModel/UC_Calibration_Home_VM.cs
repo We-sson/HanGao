@@ -280,10 +280,12 @@ namespace HanGao.ViewModel
 
                     HTuple hv_PoseIn = new HTuple();
                     HTuple hv_Row = new HTuple(), hv_Column = new HTuple();
-                    HTuple hv_X = new HTuple(), hv_Y = new HTuple(), hv_ObjectModel3DPlane1 = new HTuple();
-                    HTuple hv_ObjectModel3DPlane2 = new HTuple(), hv_ObjectModel3DSphere1 = new HTuple();
-                    HTuple hv_ObjectModel3DSphere2 = new HTuple(), hv_ObjectModel3DCylinder = new HTuple();
-                    HTuple hv_ObjectModel3DBox = new HTuple(), hv_Instructions = new HTuple();
+                    HTuple hv_X = new HTuple(), hv_Y = new HTuple();
+                    HObjectModel3D hv_ObjectModel3DPlane1 = new HObjectModel3D();
+                    HObjectModel3D hv_ObjectModel3DPlane2 = new HObjectModel3D(), hv_ObjectModel3DSphere1 = new HObjectModel3D();
+                    HObjectModel3D hv_ObjectModel3DSphere2 = new HObjectModel3D(), hv_ObjectModel3DCylinder = new HObjectModel3D();
+                    HObjectModel3D hv_ObjectModel3DBox = new HObjectModel3D();
+                    HTuple hv_Instructions = new HTuple();
                     HTuple hv_ObjectModels = new HTuple(), hv_Labels = new HTuple();
                     HTuple hv_VisParamName = new HTuple(), hv_VisParamValue = new HTuple();
                     HTuple hv_PoseOut = new HTuple();
@@ -311,33 +313,67 @@ namespace HanGao.ViewModel
                     }
                     //
                     //Create an infinite plane.
-                    hv_ObjectModel3DPlane1.Dispose();
-                    HOperatorSet.GenPlaneObjectModel3d(((((((new HTuple(0)).TupleConcat(0)).TupleConcat(
-                        0)).TupleConcat(0)).TupleConcat(0)).TupleConcat(0)).TupleConcat(0), new HTuple(),
-                        new HTuple(), out hv_ObjectModel3DPlane1);
+                    //hv_ObjectModel3DPlane1.Dispose();
+                    //HOperatorSet.GenPlaneObjectModel3d(((((((new HTuple(0)).TupleConcat(0)).TupleConcat(
+                    //    0)).TupleConcat(0)).TupleConcat(0)).TupleConcat(0)).TupleConcat(0), new HTuple(),
+                    //    new HTuple(), out hv_ObjectModel3DPlane1);
+
+                    HDisplay_3D.hv_ObjectModel3D.Clear();
+
+
+                    hv_ObjectModel3DPlane1.GenPlaneObjectModel3d(new HPose(0, 0, 0, 0, 0, 0, "Rp+T", "gba", "point"),new HTuple (),new HTuple ());
+
+                    //HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DPlane1);
+
                     //Create a limited plane.
-                    hv_ObjectModel3DPlane2.Dispose();
-                    HOperatorSet.GenPlaneObjectModel3d(((((((new HTuple(1)).TupleConcat(1)).TupleConcat(
-                        1)).TupleConcat(0)).TupleConcat(50)).TupleConcat(30)).TupleConcat(0), hv_X,
-                        hv_Y, out hv_ObjectModel3DPlane2);
+                    //hv_ObjectModel3DPlane2.Dispose();
+                    //HOperatorSet.GenPlaneObjectModel3d(((((((new HTuple(1)).TupleConcat(1)).TupleConcat(
+                    //    1)).TupleConcat(0)).TupleConcat(50)).TupleConcat(30)).TupleConcat(0), hv_X,
+                    //    hv_Y, out hv_ObjectModel3DPlane2);
+
+                    hv_ObjectModel3DPlane2.GenPlaneObjectModel3d(new HPose(1, 1, 1, 0, 50, 30, "Rp+T", "gba", "point"), hv_X, hv_Y);
+
+                    HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DPlane2);
+
+
                     //Create a sphere using pose.
-                    hv_ObjectModel3DSphere1.Dispose();
-                    HOperatorSet.GenSphereObjectModel3d(((((((new HTuple(0)).TupleConcat(0)).TupleConcat(
-                        3)).TupleConcat(0)).TupleConcat(0)).TupleConcat(0)).TupleConcat(0), 0.5,
-                        out hv_ObjectModel3DSphere1);
+                    //hv_ObjectModel3DSphere1.Dispose();
+                    //HOperatorSet.GenSphereObjectModel3d(((((((new HTuple(0)).TupleConcat(0)).TupleConcat(
+                    //    3)).TupleConcat(0)).TupleConcat(0)).TupleConcat(0)).TupleConcat(0), 0.5,
+                    //    out hv_ObjectModel3DSphere1);
+
+                    hv_ObjectModel3DSphere1.GenSphereObjectModel3d(new HPose(1, 1, 1, 0, 50, 30, "Rp+T", "gba", "point"), 0.5);
+
+                    HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DSphere1);
+
                     //Create a sphere and position.
-                    hv_ObjectModel3DSphere2.Dispose();
-                    HOperatorSet.GenSphereObjectModel3dCenter(-1, 0, 1, 1, out hv_ObjectModel3DSphere2);
+                    //hv_ObjectModel3DSphere2.Dispose();
+                    //HOperatorSet.GenSphereObjectModel3dCenter(-1, 0, 1, 1, out hv_ObjectModel3DSphere2);
+
+
+                    hv_ObjectModel3DSphere2.GenSphereObjectModel3dCenter(-1, 0, 1, 1);
+                    HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DSphere2);
+
                     //Create a cylinder.
-                    hv_ObjectModel3DCylinder.Dispose();
-                    HOperatorSet.GenCylinderObjectModel3d(((((((new HTuple(1)).TupleConcat(-1)).TupleConcat(
-                        2)).TupleConcat(0)).TupleConcat(0)).TupleConcat(60)).TupleConcat(0), 0.5,
-                        -1, 1, out hv_ObjectModel3DCylinder);
+                    //hv_ObjectModel3DCylinder.Dispose();
+                    //HOperatorSet.GenCylinderObjectModel3d(((((((new HTuple(1)).TupleConcat(-1)).TupleConcat(
+                    //    2)).TupleConcat(0)).TupleConcat(0)).TupleConcat(60)).TupleConcat(0), 0.5,
+                    //    -1, 1, out hv_ObjectModel3DCylinder);
+
+                    hv_ObjectModel3DCylinder.GenCylinderObjectModel3d(new HPose(1, 1, 1, 0, 50, 30, "Rp+T", "gba", "point"), 0.5, -1, 1);
+
+                    HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DCylinder);
+
+
                     //Create a box.
-                    hv_ObjectModel3DBox.Dispose();
-                    HOperatorSet.GenBoxObjectModel3d(((((((new HTuple(-1)).TupleConcat(2)).TupleConcat(
-                        1)).TupleConcat(0)).TupleConcat(0)).TupleConcat(90)).TupleConcat(0), 1,
-                        2, 1, out hv_ObjectModel3DBox);
+                    //hv_ObjectModel3DBox.Dispose();
+                    //HOperatorSet.GenBoxObjectModel3d(((((((new HTuple(-1)).TupleConcat(2)).TupleConcat(
+                    //    1)).TupleConcat(0)).TupleConcat(0)).TupleConcat(90)).TupleConcat(0), 1,
+                    //    2, 1, out hv_ObjectModel3DBox);
+
+                    hv_ObjectModel3DBox.GenBoxObjectModel3d(new HPose(-1, 2, 1, 0, 90, 0, "Rp+T", "gba", "point"), 1, 2, 1);
+                    HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DBox);
+
                     //
                     //Display the generated primitives.
                     //if (hv_Instructions == null)
@@ -351,18 +387,18 @@ namespace HanGao.ViewModel
                     //hv_Instructions[2] = "Move:   Ctrl  + left button";
                     //hv_ObjectModels.Dispose();
 
-                    hv_ObjectModels = new HTuple();
-                    hv_ObjectModels = hv_ObjectModels.TupleConcat( hv_ObjectModel3DCylinder, hv_ObjectModel3DSphere1, hv_ObjectModel3DSphere2, hv_ObjectModel3DPlane2, hv_ObjectModel3DBox);
+                    //hv_ObjectModels = new HTuple();
+                    //hv_ObjectModels = hv_ObjectModels.TupleConcat( hv_ObjectModel3DCylinder, hv_ObjectModel3DSphere1, hv_ObjectModel3DSphere2, hv_ObjectModel3DPlane2, hv_ObjectModel3DBox);
 
-
+         
 
 
                     //Halcon_Examples _3DModelDisplay = new Halcon_Examples(Calibration_3D_Results);
                     //HTuple _PosOUT;
 
-                   
 
-                    //HDisplay_3D.hv_ObjectModel3D = hv_ObjectModels;
+
+                    //HDisplay_3D.hv_ObjectModel3D .Add(hv_ObjectModel3DCylinder, hv_ObjectModel3DSphere1, hv_ObjectModel3DSphere2, hv_ObjectModel3DPlane2, hv_ObjectModel3DBox);
 
                     HDisplay_3D.Display_Ini();
                     //Task.Run(() =>
