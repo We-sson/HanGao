@@ -3,6 +3,7 @@ using HalconDotNet;
 using HanGao.View.User_Control.Vision_Calibration;
 using Kitware.VTK;
 using System.Drawing;
+using System.Windows.Controls.Primitives;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 
@@ -38,9 +39,9 @@ namespace HanGao.ViewModel
 
             });
 
+         
 
-            ///可视化错误输出显示
-            HDisplay_3D.H3D_Display_Error_delegate += (_E) => { User_Log_Add(_E, Log_Show_Window_Enum.Calibration);     };
+
 
         }
 
@@ -81,7 +82,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 三维可视乎属性
         /// </summary>
-        public H3D_Model_Display HDisplay_3D { set; get; } = new H3D_Model_Display();
+        public H3D_Model_Display HDisplay_3D { set; get; } = new H3D_Model_Display() {   };
 
 
         /// <summary>
@@ -390,7 +391,7 @@ namespace HanGao.ViewModel
                     //hv_ObjectModels = new HTuple();
                     //hv_ObjectModels = hv_ObjectModels.TupleConcat( hv_ObjectModel3DCylinder, hv_ObjectModel3DSphere1, hv_ObjectModel3DSphere2, hv_ObjectModel3DPlane2, hv_ObjectModel3DBox);
 
-         
+
 
 
                     //Halcon_Examples _3DModelDisplay = new Halcon_Examples(Calibration_3D_Results);
@@ -399,7 +400,11 @@ namespace HanGao.ViewModel
 
 
                     //HDisplay_3D.hv_ObjectModel3D .Add(hv_ObjectModel3DCylinder, hv_ObjectModel3DSphere1, hv_ObjectModel3DSphere2, hv_ObjectModel3DPlane2, hv_ObjectModel3DBox);
-
+                    ///可视化错误输出显示
+                    HDisplay_3D.H3D_Display_Message_delegate += (_E) =>
+                    {
+                        User_Log_Add(_E, Log_Show_Window_Enum.Calibration);
+                    };
                     HDisplay_3D.Display_Ini();
                     //Task.Run(() =>
                     //{
@@ -474,6 +479,24 @@ namespace HanGao.ViewModel
 
             });
         }
+
+        /// <summary>
+        /// 初始化窗口控件
+        /// </summary>
+        public ICommand Set_Scene3D_Disp_Pose_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                ToggleButton _UserContol = Sm.Source as ToggleButton;
+
+                HDisplay_3D.Scene3D_Instance.Disp_pose = true;
+
+
+
+
+            });
+        }
+
 
 
         /// <summary>

@@ -65,7 +65,7 @@ namespace HanGao.Model
 
 
 
-        private string _User_Log="系统初始化完成！";
+        private string _User_Log="系统初始化完成！"+ HttpUtility.HtmlDecode("&#x000A;");
         /// <summary>
         /// 显示状态信息添加时间戳
         /// </summary>

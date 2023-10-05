@@ -86,7 +86,8 @@
                      BorderThickness="0"
                      FontFamily="{DynamicResource 全局_文字_数字字体}"
                      FontSize="16"
-                     Foreground="{DynamicResource 全局_按钮_黑颜色}">
+                     Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                     IsReadOnly="True">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="TextChanged">
                         <i:InvokeCommandAction Command="{Binding Update_Log_Comm}"

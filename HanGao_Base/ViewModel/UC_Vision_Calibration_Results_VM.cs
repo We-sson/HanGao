@@ -27,7 +27,9 @@ namespace HanGao.ViewModel
 
 
 
-
+        /// <summary>
+        /// 相机标定结果 
+        /// </summary>
         public Calibration_Camera_Results_Model Calibration_Camera_Results { set; get; }=new Calibration_Camera_Results_Model () { };
 
 

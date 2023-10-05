@@ -2,7 +2,9 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Camera_UI="clr-namespace:HanGao.View.User_Control.Vision_Calibration.Vison_UserControl"
+        xmlns:Enum="clr-namespace:Halcon_SDK_DLL.WPF_Converter;assembly=Halcon_SDK_DLL"
         xmlns:Halcon="http://schemas.mvtec.com/halcondotnet"
+        xmlns:SceneEnum="clr-namespace:Halcon_SDK_DLL.Model;assembly=Halcon_SDK_DLL"
         xmlns:UC_Working="clr-namespace:HanGao.View.User_Control"
         xmlns:VTK="clr-namespace:Kitware.VTK;assembly=Kitware.VTK"
         xmlns:Vision_control="clr-namespace:HanGao.View.User_Control.Vision_Control"
@@ -16,6 +18,11 @@
         DataContext="{Binding Source={StaticResource Locator}, Path=Vision_Calibration_Home_VM}"
         WindowStyle="SingleBorderWindow"
         mc:Ignorable="d">
+    <Window.Resources>
+        <Enum:Halcon_StringConverter x:Key="Halcon_StringConverter" />
+        <Enum:Halcon_EnumConverter x:Key="Halcon_EnumConverter" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Window.Resources>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding Initialization_Halcon_Window_Comm}"
@@ -323,8 +330,73 @@
 
                             <StackPanel Margin="4,0,4,0" Orientation="Horizontal">
 
+                                <TextBlock Text="显示方式"
+                                           Margin="4,0,4,0"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="ShapeModel_UI" Grid.Column=" 1"
+                                          VerticalContentAlignment="Center"
+                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                          BorderThickness="2"
+                                          IsSynchronizedWithCurrentItem="True"
+                                          SelectedIndex="{Binding HDisplay_3D.Scene3D_Instance.Attribute, ConverterParameter={x:Type SceneEnum:Attribute_Val_Enum}, Converter={StaticResource Halcon_EnumConverter}}">
+                                    <ComboBoxItem>
+                                        <TextBlock Text="自动"
+                                                   TextWrapping="Wrap"
+                                                   Padding="10,5,10,5"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem>
 
-                                <TextBlock Text="图像透明度"
+                                        <TextBlock Text="面"
+                                                   TextWrapping="Wrap"
+                                                   Padding="10,5,10,5"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem>
+
+                                        <TextBlock Text="原始"
+                                                   TextWrapping="Wrap"
+                                                   Padding="10,5,10,5"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem>
+
+                                        <TextBlock Text="点云"
+                                                   TextWrapping="Wrap"
+                                                   Padding="10,5,10,5"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem>
+
+                                        <TextBlock Style="{DynamicResource ComboBox_TextBlok_Style}"
+                                                   Text="线段"
+                                                   TextWrapping="Wrap"
+                                                   Padding="10,5,10,5"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                </ComboBox>
+
+
+                                <TextBlock Text="透明度"
                                            Margin="4,0,4,0"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
@@ -332,9 +404,20 @@
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Scene3D_Alpha" Grid.Column=" 1"
+                                        Width=" 50"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="1"
+                                        Minimum="0.01"
+                                        TickFrequency=" 0.01"
+                                        Value="{Binding HDisplay_3D.Scene3D_Param.Alpha, UpdateSourceTrigger=PropertyChanged}" />
 
                                 <TextBox Grid.Column=" 2"
-                                         Text=" 0.8"
+                                         Text="{Binding ElementName=Scene3D_Alpha, Path=Value, StringFormat={}{0:F2}}"
                                          Width="80"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -345,7 +428,7 @@
                             </StackPanel>
 
                             <ToggleButton Style="{DynamicResource Function_ToggleButtonStyle}"
-                                          IsChecked="True"
+                                          IsChecked="{Binding HDisplay_3D.Scene3D_Instance.Disp_pose}"
                                           Margin="4,0,4,0"
                                           Padding="0,0,0,0"
                                           FontSize=" 16">
@@ -360,6 +443,12 @@
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                 </StackPanel>
+
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Checked">
+                                        <i:InvokeCommandAction Command="{Binding Set_Scene3D_Disp_Pose_Comm}" PassEventArgsToCommand="True" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
                             </ToggleButton>
 
                             <ToggleButton Style="{DynamicResource Function_ToggleButtonStyle}"

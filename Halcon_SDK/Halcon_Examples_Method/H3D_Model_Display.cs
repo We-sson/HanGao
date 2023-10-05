@@ -1,9 +1,11 @@
-﻿using HalconDotNet;
+﻿using Halcon_SDK_DLL.Model;
+using HalconDotNet;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -45,6 +47,8 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
 
+
+
         }
 
 
@@ -61,13 +65,13 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <summary>
         /// 三维可视化设置错误委托属性
         /// </summary>
-        public H3D_Display_T_delegate<string> H3D_Display_Error_delegate { set; get; }
+        public H3D_Display_T_delegate<string> H3D_Display_Message_delegate { set; get; }
 
 
-   
 
 
-        private HPose _hv_PoseIn ;
+
+        private HPose _hv_PoseIn;
         /// <summary>
         /// 当前可视化显示位置
         /// </summary>
@@ -105,6 +109,19 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// 可视化场景相机属性
         /// </summary>
         public HCamPar hv_CamParam { set; get; }
+
+
+        /// <summary>
+        /// 三维模型场景参数
+        /// </summary>
+        public Halcon_Scene3D_Param_Model Scene3D_Param { set; get; } = new Halcon_Scene3D_Param_Model();
+
+        /// <summary>
+        /// 三维模型显示属性
+        /// </summary>
+        public Halcon_Scene3D_Instance_Model Scene3D_Instance { set; get; } = new Halcon_Scene3D_Instance_Model();
+
+
 
         #endregion
         #region  本地属性
@@ -298,8 +315,8 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 //HOperatorSet.AddScene3dCamera(hv_Scene3D, hv_CamParam, out hv_CameraIndex);
 
                 hv_Scene3D.RemoveScene3dCamera(hv_CameraIndex);
-                hv_CameraIndex= hv_Scene3D.AddScene3dCamera(hv_CamParam);
-                Event_Int((int)_HWindow.ActualWidth,(int) _HWindow.ActualHeight);
+                hv_CameraIndex = hv_Scene3D.AddScene3dCamera(hv_CamParam);
+                Event_Int((int)_HWindow.ActualWidth, (int)_HWindow.ActualHeight);
 
 
                 //修改渲染尺寸后释放显示线程
@@ -310,7 +327,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             }
             catch (HalconException _He)
             {
-                H3D_Display_Error_delegate?.Invoke("窗口尺寸修改更新失败! 原因:" + _He.GetErrorMessage());
+                H3D_Display_Message_delegate?.Invoke("窗口尺寸修改更新失败! 原因:" + _He.GetErrorMessage());
 
             }
             finally
@@ -450,7 +467,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     }
                     catch (HalconException _he)
                     {
-                        H3D_Display_Error_delegate?.Invoke("三维旋转计算失败! 原因:" + _he.GetErrorMessage());
+                        H3D_Display_Message_delegate?.Invoke("三维旋转计算失败! 原因:" + _he.GetErrorMessage());
 
 
                     }
@@ -586,7 +603,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     }
                     catch (HalconException _he)
                     {
-                        H3D_Display_Error_delegate?.Invoke("三维旋转计算失败! 原因:" + _he.GetErrorMessage());
+                        H3D_Display_Message_delegate?.Invoke("三维旋转计算失败! 原因:" + _he.GetErrorMessage());
 
 
                     }
@@ -776,7 +793,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             }
             catch (HalconException _he)
             {
-                H3D_Display_Error_delegate?.Invoke("三维缩放计算失败! 原因:" + _he.GetErrorMessage());
+                H3D_Display_Message_delegate?.Invoke("三维缩放计算失败! 原因:" + _he.GetErrorMessage());
 
 
             }
@@ -801,6 +818,13 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
         #endregion
+
+
+        #region 本地处理方法
+
+
+
+
 
 
         /// <summary>
@@ -830,7 +854,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 //HOperatorSet.SetPart(hv_WindowHandle, 0, 0, hv_Height - 1, hv_Width - 1);
 
                 hv_WindowHandle.GetPart(out hv_WPRow1, out hv_WPColumn1, out hv_WPRow2, out hv_WPColumn2);
-                hv_WindowHandle.SetPart(0,0, hv_Height - 1, hv_Width - 1);
+                hv_WindowHandle.SetPart(0, 0, hv_Height - 1, hv_Width - 1);
                 hv_WindowHandleBuffer.SetPart(0, 0, hv_Height - 1, hv_Width - 1);
 
                 //设置缓存窗口大小
@@ -853,7 +877,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             {
 
                 //报错输出
-                H3D_Display_Error_delegate?.Invoke("窗口尺寸更新失败! 原因:" + _he.GetErrorMessage());
+                H3D_Display_Message_delegate?.Invoke("窗口尺寸更新失败! 原因:" + _he.GetErrorMessage());
 
             }
             finally
@@ -895,14 +919,14 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             try
             {
 
-           
+
 
                 //读取显示模型数量,如果为空创建空对象
-                if (hv_ObjectModel3D==null)
+                if (hv_ObjectModel3D == null)
                 {
-                    HObjectModel3D _Models3D= new HObjectModel3D();
+                    HObjectModel3D _Models3D = new HObjectModel3D();
                     _Models3D.GenEmptyObjectModel3d();
-                    hv_ObjectModel3D.Add(  _Models3D );
+                    hv_ObjectModel3D.Add(_Models3D);
                 }
                 hv_NumModels = hv_ObjectModel3D.Count;
                 hv_SelectedObject = HTuple.TupleGenConst(hv_NumModels, 1);
@@ -922,7 +946,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
                 //初始化相机参数
-                if (hv_CamParam ==null)
+                if (hv_CamParam == null)
                 {
                     hv_CamParam = gen_cam_par_area_scan_division(0.06, 0, 8.5e-6, 8.5e-6, hv_Width / 2, hv_Height / 2, hv_Width, hv_Height);
                 }
@@ -944,9 +968,9 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     hv_Center[2] = 80;
                     hv_PoseIn = new HPose(-(hv_Center.TupleSelect(0)), -(hv_Center.TupleSelect(1)), -(hv_Center.TupleSelect(2)), 0, 0, 0, "Rp+T", "gba", "point");
                 }
-              
+
                 //处理输入位置
-                if (hv_PoseIn==null)
+                if (hv_PoseIn == null)
                 {
                     hv_PoseIn = new HPose(-(hv_Center.TupleSelect(0)), -(hv_Center.TupleSelect(1)), -(hv_Center.TupleSelect(2)), 0, 0, 0, "Rp+T", "gba", "point");
                     //hv_PoseIn.CreatePose(-(hv_Center.TupleSelect(0)), -(hv_Center.TupleSelect(1)), -(hv_Center.TupleSelect(2)), 0, 0, 0, "Rp+T", "gba", "point");
@@ -996,8 +1020,8 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 hv_Scene3D.CreateScene3d();
                 hv_CameraIndex = hv_Scene3D.AddScene3dCamera(hv_CamParam);
                 hv_AllInstances = hv_Scene3D.AddScene3dInstance(hv_ObjectModel3D.ToArray(), hv_PoseOut);
-                hv_Scene3D.SetScene3dParam("disp_background", "false");
-                hv_Scene3D.SetScene3dParam("colored", 6);
+                Set_Scene3D_Param(hv_Scene3D, Scene3D_Param);
+                Set_Scene3D_Instance_Param(hv_Scene3D, Scene3D_Instance);
 
 
                 //计算模型图像居中坐标转换模型坐标和旋转球中心
@@ -1019,11 +1043,11 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 //显示更新三维图像
                 DispScene3d();
 
-
+                H3D_Display_Message_delegate?.Invoke("可视化系统初始完成!");
             }
             catch (HalconException _he)
             {
-                H3D_Display_Error_delegate?.Invoke("可视化窗口初始化失败! 原因:" + _he.GetErrorMessage());
+                H3D_Display_Message_delegate?.Invoke("可视化窗口初始化失败! 原因:" + _he.GetErrorMessage());
 
                 //错误消息输出
             }
@@ -1081,17 +1105,17 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         hv_WindowHandleBuffer.ClearWindow();
                         //渲染图像
                         //HOperatorSet.DispObjectModel3d(hv_WindowHandleBuffer, hv_ObjectModel3D, hv_CamParam, hv_PoseIn, new HTuple(), new HTuple());
-                        
+
                         //HOperatorSet.DisplayScene3d(hv_WindowHandleBuffer, hv_Scene3D, 0);
                         //HOperatorSet.DumpWindowImage(out ho_ImageDump, hv_WindowHandleBuffer);
                         //HDevWindowStack.SetActive(hv_WindowHandle);
                         //HOperatorSet.DispColor(ho_ImageDump, hv_WindowHandle);
 
                         hv_Scene3D.DisplayScene3d(hv_WindowHandleBuffer, hv_CameraIndex);
-                        ho_ImageDump= hv_WindowHandleBuffer.DumpWindowImage();
+                        ho_ImageDump = hv_WindowHandleBuffer.DumpWindowImage();
                         hv_WindowHandle.DispColor(ho_ImageDump);
                         //限制刷新帧率缓解处理时间 每秒24帧
-                        HOperatorSet.WaitSeconds(0.04);
+                        HOperatorSet.WaitSeconds(0.02);
 
 
 
@@ -1102,8 +1126,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 }
                 catch (HalconException _he)
                 {
-                    H3D_Display_Error_delegate?.Invoke("三维可视化渲染失败! 原因:" + _he.GetErrorMessage());
-
+                    H3D_Display_Message_delegate?.Invoke("三维可视化渲染失败! 原因:" + _he.GetErrorMessage());
 
                 }
 
@@ -1111,8 +1134,120 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         }
 
 
+        #endregion
+
+        #region 公开处理方法
 
 
+
+
+        public void Set_Scene3D_Instance_Param(HScene3D _Scene3D, Halcon_Scene3D_Instance_Model _Param)
+        {
+
+            object _Par_Val = null;
+
+            //遍历三维模型属性设置
+            foreach (PropertyInfo _Val in _Param.GetType().GetProperties())
+            {
+
+                _Par_Val = null;
+                switch (_Val.PropertyType)
+                {
+                    case Type _T when _T == typeof(double):
+                        _Par_Val = (double)_Val.GetValue(_Param);
+
+                        break;
+
+                    case Type _T when _T == typeof(int):
+                        _Par_Val = (int)_Val.GetValue(_Param);
+
+                        break;
+
+                    default:
+                        _Par_Val = _Val.GetValue(_Param)?.ToString().ToLower();
+                        break;
+                }
+
+                if (_Par_Val != null)
+                {
+                    ///设置三维场景全部模型参数
+                    for (int i = 0; i < hv_NumModels; i++)
+                    {
+                        _Scene3D.SetScene3dInstanceParam(i, _Val.Name.ToLower(), new HTuple(_Par_Val));
+                    }
+
+                    H3D_Display_Message_delegate?.Invoke("设置三维模型参数" + _Val.Name.ToLower() + "：" + _Par_Val + " 成功！");
+
+                }
+
+
+            }
+
+
+
+        }
+
+
+        /// <summary>
+        /// 设置三维场景参数
+        /// </summary>
+        /// <param name="_Scene3D"></param>
+        /// <param name="_Param"></param>
+        public void Set_Scene3D_Param(HScene3D _Scene3D, Halcon_Scene3D_Param_Model _Param)
+        {
+            object _Par_Val = null;
+
+            ///遍历属性参数设置
+            foreach (PropertyInfo _Val in _Param.GetType().GetProperties())
+            {
+                _Par_Val = null;
+                switch (_Val.PropertyType)
+                {
+                    case Type _T when _T == typeof(double):
+
+
+                        _Par_Val = (double)_Val.GetValue(_Param);
+
+                        break;
+
+                    case Type _T when _T == typeof(int):
+
+
+                        _Par_Val = (int)_Val.GetValue(_Param);
+
+                        break;
+
+                    default:
+
+
+                        _Par_Val = _Val.GetValue(_Param)?.ToString().ToLower();
+
+
+
+                        break;
+                }
+
+
+
+                if (_Par_Val != null)
+                {
+                    _Scene3D.SetScene3dParam(_Val.Name.ToLower(), new HTuple(_Par_Val));
+
+                    H3D_Display_Message_delegate?.Invoke("设置三维场景参数" + _Val.Name.ToLower() + "：" + _Par_Val + " 成功！");
+
+                }
+
+            }
+
+
+
+        }
+
+
+
+        #endregion
+
+        #region 官方示例方法
 
 
         // Chapter: Graphics / Parameters
@@ -4022,15 +4157,15 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             return;
         }
 
-        /// <summary>
-        /// 简要说明 设置摄像机参数元组中指定摄像机参数的值。
-        /// 设置相机标定参数
-        /// </summary>
-        /// <param name="hv_CameraParamIn"></param>
-        /// <param name="hv_ParamName"></param>
-        /// <param name="hv_ParamValue"></param>
-        /// <param name="hv_CameraParamOut"></param>
-        /// <exception cref="HalconException"></exception>
+        ///// <summary>
+        ///// 简要说明 设置摄像机参数元组中指定摄像机参数的值。
+        ///// 设置相机标定参数
+        ///// </summary>
+        ///// <param name="hv_CameraParamIn"></param>
+        ///// <param name="hv_ParamName"></param>
+        ///// <param name="hv_ParamValue"></param>
+        ///// <param name="hv_CameraParamOut"></param>
+        ///// <exception cref="HalconException"></exception>
         private void set_cam_par_data(HTuple hv_CameraParamIn, HTuple hv_ParamName, HTuple hv_ParamValue,
             out HTuple hv_CameraParamOut)
         {
@@ -4122,8 +4257,8 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             return;
         }
 
-        // Chapter: Graphics / Text
-        // Short Description: Write one or multiple text messages. 
+        //// Chapter: Graphics / Text
+        //// Short Description: Write one or multiple text messages. 
         private void disp_message(HTuple hv_WindowHandle, HTuple hv_String, HTuple hv_CoordSystem,
             HTuple hv_Row, HTuple hv_Column, HTuple hv_Color, HTuple hv_Box)
         {
@@ -4355,7 +4490,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             return;
         }
 
-
+        #endregion
 
     }
 }
