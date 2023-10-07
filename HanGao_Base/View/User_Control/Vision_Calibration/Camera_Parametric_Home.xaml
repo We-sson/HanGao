@@ -457,7 +457,7 @@
                                           Padding="0,0,0,0"
                                           FontSize=" 16">
                                 <StackPanel Orientation="Horizontal">
-                                    <Label Content="&#xe629;"
+                                    <Label Content="&#xe63b;"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            FontFamily="/Resources/#iconfont"
@@ -474,7 +474,7 @@
                                           Padding="0,0,0,0"
                                           FontSize=" 16">
                                 <StackPanel Orientation="Horizontal">
-                                    <Label Content="&#xe630;"
+                                    <Label Content="&#xe63d;"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            FontFamily="/Resources/#iconfont"
@@ -493,13 +493,13 @@
                                           Padding="0,0,0,0"
                                           FontSize=" 16">
                                 <StackPanel Orientation="Horizontal">
-                                    <Label Content="&#xe62e;"
+                                    <Label Content="&#xe629;"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            FontFamily="/Resources/#iconfont"
                                            FontSize=" 18"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                    <Label Content="模型自适应"
+                                    <Label Content="模型编号"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                 </StackPanel>

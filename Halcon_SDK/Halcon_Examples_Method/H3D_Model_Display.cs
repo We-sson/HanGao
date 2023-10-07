@@ -63,6 +63,9 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             };
 
+            //初始化显示
+            Display_Ini();
+
         }
 
 
