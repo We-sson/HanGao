@@ -39,8 +39,8 @@ namespace HanGao.ViewModel
 
             });
 
-         
 
+     
 
 
         }
@@ -480,22 +480,7 @@ namespace HanGao.ViewModel
             });
         }
 
-        /// <summary>
-        /// 初始化窗口控件
-        /// </summary>
-        public ICommand Set_Scene3D_Disp_Pose_Comm
-        {
-            get => new RelayCommand<RoutedEventArgs>((Sm) =>
-            {
-                ToggleButton _UserContol = Sm.Source as ToggleButton;
-
-                HDisplay_3D.Scene3D_Instance.Disp_pose = true;
-
-
-
-
-            });
-        }
+ 
 
 
 

@@ -38,6 +38,31 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             _HWindow.Halcon_UserContol.SizeChanged += Calibration_3D_SizeChanged;
 
 
+
+            Scene3D_Param.PropertyChanged += (e, o) =>
+            {
+                //属性修改设置显示
+                Set_Scene3D_Param(hv_Scene3D, (Halcon_Scene3D_Param_Model)e);
+                //通知显示更新画面
+                While_ResetEvent.Set();
+                While_ResetEvent.Reset();
+
+
+            };
+
+
+            Scene3D_Instance.PropertyChanged += (e, o) =>
+            {
+
+                //属性修改设置显示
+                Set_Scene3D_Instance_Param(hv_Scene3D, (Halcon_Scene3D_Instance_Model)e);
+                //通知显示更新画面
+                While_ResetEvent.Set();
+                While_ResetEvent.Reset();
+
+
+            };
+
         }
 
 
@@ -114,13 +139,34 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <summary>
         /// 三维模型场景参数
         /// </summary>
-        public Halcon_Scene3D_Param_Model Scene3D_Param { set; get; } = new Halcon_Scene3D_Param_Model();
+        private Halcon_Scene3D_Param_Model _Scene3D_Param = new Halcon_Scene3D_Param_Model();
+
+        public Halcon_Scene3D_Param_Model Scene3D_Param
+        {
+            get { return _Scene3D_Param; }
+            set
+            {
+                _Scene3D_Param = value;
+                Set_Scene3D_Param(hv_Scene3D, value);
+            }
+        }
+
+
 
         /// <summary>
         /// 三维模型显示属性
         /// </summary>
-        public Halcon_Scene3D_Instance_Model Scene3D_Instance { set; get; } = new Halcon_Scene3D_Instance_Model();
+        private Halcon_Scene3D_Instance_Model _Scene3D_Instance = new Halcon_Scene3D_Instance_Model();
 
+        public Halcon_Scene3D_Instance_Model Scene3D_Instance
+        {
+            get { return _Scene3D_Instance; }
+            set
+            {
+                _Scene3D_Instance = value;
+
+            }
+        }
 
 
         #endregion
@@ -512,8 +558,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             if (e.RightButton == MouseButtonState.Pressed && (Math.Abs(hv_HMouseDowm.X - e.GetPosition(e.Source as FrameworkElement).X) > 0.5 || (Math.Abs(hv_HMouseDowm.Y - e.GetPosition(e.Source as FrameworkElement).Y) > 0.5)))
             {
-                //释放渲染线程
-                While_ResetEvent.Set();
+       
 
                 //e.Handled = true;
                 lock (hv_PoseIn)
@@ -598,7 +643,8 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         //hv_PoseIn = hv_PoseOut;
                         hv_HMouseDowm = e.GetPosition(_Window.Halcon_UserContol);
 
-
+                        //释放渲染线程
+                        While_ResetEvent.Set();
 
                     }
                     catch (HalconException _he)
@@ -723,8 +769,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             try
             {
-                //释放渲染线程
-                While_ResetEvent.Set();
+         
 
                 HSmartWindowControlWPF _HWindow = e.Source as HSmartWindowControlWPF;
 
@@ -786,8 +831,9 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
 
-                //保存计算后坐标
-                //hv_PoseIn = hv_PoseOut;
+                //释放渲染线程
+                While_ResetEvent.Set();
+                
 
 
             }
@@ -1176,13 +1222,13 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         _Scene3D.SetScene3dInstanceParam(i, _Val.Name.ToLower(), new HTuple(_Par_Val));
                     }
 
-                    H3D_Display_Message_delegate?.Invoke("设置三维模型参数" + _Val.Name.ToLower() + "：" + _Par_Val + " 成功！");
 
                 }
 
 
             }
 
+            H3D_Display_Message_delegate?.Invoke("设置三维模型参数成功！");
 
 
         }

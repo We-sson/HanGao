@@ -444,15 +444,15 @@
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                 </StackPanel>
 
-                                <i:Interaction.Triggers>
+                                <!--<i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Checked">
                                         <i:InvokeCommandAction Command="{Binding Set_Scene3D_Disp_Pose_Comm}" PassEventArgsToCommand="True" />
                                     </i:EventTrigger>
-                                </i:Interaction.Triggers>
+                                </i:Interaction.Triggers>-->
                             </ToggleButton>
 
                             <ToggleButton Style="{DynamicResource Function_ToggleButtonStyle}"
-                                          IsChecked="False"
+                                          IsChecked="{Binding HDisplay_3D.Scene3D_Instance.Disp_normals}"
                                           Margin="4,0,4,0"
                                           Padding="0,0,0,0"
                                           FontSize=" 16">
@@ -463,13 +463,13 @@
                                            FontFamily="/Resources/#iconfont"
                                            FontSize=" 18"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                    <Label Content="模型ID"
+                                    <Label Content="模型法线"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                 </StackPanel>
                             </ToggleButton>
                             <ToggleButton Style="{DynamicResource Function_ToggleButtonStyle}"
-                                          IsChecked="False"
+                                          IsChecked="{Binding HDisplay_3D.Scene3D_Instance.Disp_lines}"
                                           Margin="4,0,4,0"
                                           Padding="0,0,0,0"
                                           FontSize=" 16">
@@ -480,7 +480,7 @@
                                            FontFamily="/Resources/#iconfont"
                                            FontSize=" 18"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                    <Label Content="模型编号"
+                                    <Label Content="模型轮廓"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                 </StackPanel>

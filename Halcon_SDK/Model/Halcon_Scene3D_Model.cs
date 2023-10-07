@@ -1,15 +1,18 @@
 ﻿using PropertyChanged;
-
+using System.ComponentModel;
 
 namespace Halcon_SDK_DLL.Model
 {
-    [AddINotifyPropertyChangedInterface]
-    public class Halcon_Scene3D_Param_Model
+
+    public class Halcon_Scene3D_Param_Model : INotifyPropertyChanged
     {
         public Halcon_Scene3D_Param_Model()
         {
 
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
 
         /// <summary>
         /// 模型透明度
@@ -48,21 +51,22 @@ namespace Halcon_SDK_DLL.Model
         public bool Compatibility_mode_enable { set; get; } = false;
     }
 
-    [AddINotifyPropertyChangedInterface]
-    public class Halcon_Scene3D_Instance_Model
+
+    public class Halcon_Scene3D_Instance_Model : INotifyPropertyChanged
     {
-        public  Halcon_Scene3D_Instance_Model()
+        public Halcon_Scene3D_Instance_Model()
         {
 
         }
-
-
+#pragma warning  disable CS0067
+        public event PropertyChangedEventHandler PropertyChanged;
+#pragma warning disable  CS0067
 
 
         /// <summary>
         /// 3D 物体模型的可见性。如果设置为 "false"，则不显示该实例。
         /// </summary>
-        public bool Visible { set; get; }=true ;
+        public bool Visible { set; get; } = true;
 
         /// <summary>
         /// 明确选择 3D 物体模型的可视化方式。
@@ -83,7 +87,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 标志，表示是否要可视化 3D 物体模型的表面法线。
         /// </summary>
-        public bool Disp_normals { set; get; }=false ;
+        public bool Disp_normals { set; get; } = false;
 
         /// <summary>
         /// 如果 "disp_lines "设置为 "true"，线条的颜色。可用操作符 query_color 查询可用的颜色。此外，还可以将颜色指定为 RGB 三元组，形式为 "#rrggbb"，其中 "rr"、"gg "和 "bb "均为十六进制数。
@@ -105,7 +109,6 @@ namespace Halcon_SDK_DLL.Model
         /// 以像素为单位设置点的直径。
         /// </summary>
         public double Point_size { set; get; } = 3.5;
-
 
     }
 
@@ -141,9 +144,9 @@ namespace Halcon_SDK_DLL.Model
 
     public enum Colored_Number_Enum
     {
-        _3_=3,
-        _6_=6,
-        _12_=12
+        _3_ = 3,
+        _6_ = 6,
+        _12_ = 12
     }
 
     /// <summary>
@@ -158,7 +161,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 渲染质量高
         /// </summary>
-       high
+        high
     }
 
 }
