@@ -67,20 +67,37 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             hv_ObjectModel3D.CollectionChanged += (e, o) =>
             {
 
+
+
                 switch (o.Action)
                 {
                     case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
 
+                        foreach (HObjectModel3D _model in (ObservableCollection<HObjectModel3D>)e)
+                        {
+
+                        hv_AllInstances = hv_Scene3D.AddScene3dInstance(_model, hv_PoseIn);
+
+                        }
 
 
                         break;
                     case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
+
                         break;
                     case System.Collections.Specialized.NotifyCollectionChangedAction.Replace:
                         break;
                     case System.Collections.Specialized.NotifyCollectionChangedAction.Move:
                         break;
                     case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
+
+                        foreach (HObjectModel3D _model in (ObservableCollection<HObjectModel3D>)e)
+                        {
+
+                            hv_AllInstances = hv_Scene3D.RemoveScene3dInstance(_model, hv_PoseIn);
+
+                        }
+
                         break;
                 }
 
@@ -88,9 +105,12 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             };
 
+            Task.Run(() => 
+            {
 
             //初始化显示
             Display_Ini();
+            });
 
         }
 
@@ -125,7 +145,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
 
-        private HPose _hv_PoseIn;
+        private HPose _hv_PoseIn=new HPose(0, 0, 0, 0, 0, 0, "Rp+T", "gba", "point");
         /// <summary>
         /// 当前可视化显示位置
         /// </summary>
@@ -331,7 +351,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <summary>
         /// 三维场景模型序号
         /// </summary>
-        private HTuple hv_AllInstances = new HTuple();
+        private int hv_AllInstances { set; get; } = 0;
 
 
 
