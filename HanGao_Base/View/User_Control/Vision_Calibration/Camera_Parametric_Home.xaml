@@ -32,7 +32,8 @@
     </i:Interaction.Triggers>
     <Grid Background="{DynamicResource 全局_背景_白颜色}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
+            <ColumnDefinition Width="9*" />
+            <ColumnDefinition Width="59*"/>
             <ColumnDefinition Width=" 380" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -41,13 +42,13 @@
         </Grid.RowDefinitions>
 
         <TabControl x:Name="Tab_Window" Grid.Row="0" Grid.Column=" 0"
-                    Margin="5"
+                    Margin="5,5,5,5"
                     Padding="0"
                     Background="Transparent"
                     BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
                     BorderThickness="4"
                     SelectedIndex="0"
-                    TabStripPlacement="Top">
+                    TabStripPlacement="Top" Grid.ColumnSpan="2">
             <!--<i:Interaction.Triggers>
                 <i:EventTrigger EventName="Loaded">
                     <i:InvokeCommandAction Command="{Binding Initialization_Halcon_UserControl_Comm}"
@@ -535,11 +536,11 @@
                                 <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}" PassEventArgsToCommand="False" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>-->
-                        <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Calibration_3D_Results.DisplayImage}" />
+                        <!--<Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Calibration_3D_Results.DisplayImage}" />
                         <Halcon:HIconicDisplayObjectWPF HColor="{Binding Calibration_3D_Results.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
                                                         HDraw="{Binding Calibration_3D_Results.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
                                                         IconicObject="{Binding Calibration_3D_Results.DisplayRegion}" />
-                        <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Calibration_3D_Results.DisplayXLD}" />
+                        <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Calibration_3D_Results.DisplayXLD}" />-->
 
                     </Halcon:HSmartWindowControlWPF>
 
@@ -585,12 +586,12 @@
         </TabControl>
 
         <TabControl Grid.Row="1" Grid.Column="0"
-                    Margin="5"
+                    Margin="5,5,5,5"
                     Padding="0"
                     Background="Transparent"
                     BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
                     BorderThickness="4"
-                    TabStripPlacement="Top">
+                    TabStripPlacement="Top" Grid.ColumnSpan="2">
             <TabItem Style="{DynamicResource Vision_TabItemStyle}"
                      Padding="40,5,40,5"
                      FontSize=" 16"
@@ -615,9 +616,9 @@
 
         </TabControl>
 
-        <TabControl Grid.Row="0" Grid.Column=" 1"
+        <TabControl Grid.Row="0" Grid.Column="2"
                     Grid.RowSpan=" 2"
-                    Margin="5"
+                    Margin="5,5,5,5"
                     Padding="0"
                     Background="Transparent"
                     BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"

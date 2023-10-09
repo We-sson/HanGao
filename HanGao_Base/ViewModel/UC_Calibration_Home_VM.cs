@@ -33,7 +33,7 @@ namespace HanGao.ViewModel
             StrongReferenceMessenger.Default.Register<Display3DModel_Model, string>(this, nameof(Meg_Value_Eunm.Display_3DModel), (O, _S) =>
             {
 
-                
+
                 Display_3DModel_Window(_S);
 
 
@@ -73,7 +73,7 @@ namespace HanGao.ViewModel
         public HTuple Pose_Out_3D_Results { set; get; } = new HTuple();
 
 
-        public static  Task DisPlay_Task { set; get; } = new Task(() => Display_3D_Task(new Display3DModel_Model ()));
+        public static Task DisPlay_Task { set; get; } = new Task(() => Display_3D_Task(new Display3DModel_Model()));
 
 
         public static Halcon_Examples HExamples { set; get; }
@@ -81,7 +81,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 三维可视乎属性
         /// </summary>
-        public H3D_Model_Display HDisplay_3D { set; get; } = new H3D_Model_Display() {   };
+        public H3D_Model_Display HDisplay_3D { set; get; }
 
 
         /// <summary>
@@ -202,33 +202,31 @@ namespace HanGao.ViewModel
 
 
 
-                Task.Run(() =>
+                //Task.Run(() =>
+                //{
+
+
+
+                //激活控件显示
+                //Application.Current.Dispatcher.Invoke(() =>
+                //{
+
+                Window_UserContol.Tab_Window.BeginInit();
+                for (int index = 0; index < Window_UserContol.Tab_Window.Items.Count; index++)
                 {
 
 
 
-                    //激活控件显示
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-
-                        Window_UserContol.Tab_Window.BeginInit();
-                        for (int index = 0; index < Window_UserContol.Tab_Window.Items.Count; index++)
-                        {
+                    Window_UserContol.Tab_Window.SelectedIndex = index;
+                    Window_UserContol.UpdateLayout();
 
 
-
-                            Window_UserContol.Tab_Window.SelectedIndex = index;
-                            Window_UserContol.UpdateLayout();
-
-
-                            //HWindows_Initialization((HSmartWindowControlWPF)Window_UserContol.Items[index]);
-                            Task.Delay(500);
-                        }
-                        // Reset to first tab
-                        Window_UserContol.Tab_Window.SelectedIndex = 0;
-                        Window_UserContol.Tab_Window.EndInit();
-
-                    });
+                    //HWindows_Initialization((HSmartWindowControlWPF)Window_UserContol.Items[index]);
+                    Task.Delay(500);
+                }
+                // Reset to first tab
+                Window_UserContol.Tab_Window.SelectedIndex = 0;
+                Window_UserContol.Tab_Window.EndInit();
 
 
 
@@ -236,124 +234,126 @@ namespace HanGao.ViewModel
 
 
 
-                    //初始化控件属性
-                    Calibration_3D_Results = new Halcon_SDK() { HWindow = Window_UserContol.Calibration_3D_Results.HalconWindow, Halcon_UserContol = Window_UserContol.Calibration_3D_Results };
-                    Calibration_Window_1 = new Halcon_SDK() { HWindow = Window_UserContol.Calibration_Window_1.HalconWindow, Halcon_UserContol = Window_UserContol.Calibration_Window_1 };
-                    Calibration_Window_2 = new Halcon_SDK() { HWindow = Window_UserContol.Calibration_Window_2.HalconWindow, Halcon_UserContol = Window_UserContol.Calibration_Window_2 };
-
-                    //可视化显示
-                    HDisplay_3D = new H3D_Model_Display(Calibration_3D_Results);
-
-                    //设置消息显示委托
-                    HDisplay_3D.H3D_Display_Message_delegate += (_E) =>
-                    {
-                        User_Log_Add(_E, Log_Show_Window_Enum.Calibration);
-                    };
 
 
+                //初始化控件属性
+                Calibration_Window_1 = new Halcon_SDK() { HWindow = Window_UserContol.Calibration_Window_1.HalconWindow, Halcon_UserContol = Window_UserContol.Calibration_Window_1 };
+                Calibration_Window_2 = new Halcon_SDK() { HWindow = Window_UserContol.Calibration_Window_2.HalconWindow, Halcon_UserContol = Window_UserContol.Calibration_Window_2 };
+                Calibration_3D_Results = new Halcon_SDK() { HWindow = Window_UserContol.Calibration_3D_Results.HalconWindow, Halcon_UserContol = Window_UserContol.Calibration_3D_Results };
+
+                //可视化显示
+                HDisplay_3D = new H3D_Model_Display(Calibration_3D_Results);
+
+                //设置消息显示委托
+                HDisplay_3D.H3D_Display_Message_delegate += (_E) =>
+                {
+                    User_Log_Add(_E, Log_Show_Window_Enum.Calibration);
+                };
 
 
-
-                    // Create a simple cube. A pipeline is created.
-                    // 创建一个简单的立方体。创建一个管道。
-                    vtkCubeSource cube = vtkCubeSource.New();
-
-                    vtkPolyDataMapper mapper = vtkPolyDataMapper.New();
-                    mapper.SetInputConnection(cube.GetOutputPort());
-
-                    // The actor links the data pipeline to the rendering subsystem
-                    // 角色将数据管道与渲染子系统连接起来
-                    vtkActor actor = vtkActor.New();
-                    actor.SetMapper(mapper);
-
-                    // Create components of the rendering subsystem
-                    // // 创建渲染子系统的组件
-                    vtkRenderer renderer = Window_UserContol.Model_3D_Display.RenderWindow.GetRenderers().GetFirstRenderer();
-                    renderer.SetBackground(.2, .3, .4);
-
-                    // Add the actors to the renderer, set the window size
-                    // 将演员添加到呈现器，设置窗口大小
-                    renderer.AddActor(actor);
+                //});
 
 
+                // Create a simple cube. A pipeline is created.
+                // 创建一个简单的立方体。创建一个管道。
+                vtkCubeSource cube = vtkCubeSource.New();
 
-                    // Local iconic variables 
+                vtkPolyDataMapper mapper = vtkPolyDataMapper.New();
+                mapper.SetInputConnection(cube.GetOutputPort());
 
-                    HObject ho_ContCircle;
+                // The actor links the data pipeline to the rendering subsystem
+                // 角色将数据管道与渲染子系统连接起来
+                vtkActor actor = vtkActor.New();
+                actor.SetMapper(mapper);
 
-                    // Local control variables 
+                // Create components of the rendering subsystem
+                // // 创建渲染子系统的组件
+                vtkRenderer renderer = Window_UserContol.Model_3D_Display.RenderWindow.GetRenderers().GetFirstRenderer();
+                renderer.SetBackground(.2, .3, .4);
 
-                    HTuple hv_PoseIn = new HTuple();
-                    HTuple hv_Row = new HTuple(), hv_Column = new HTuple();
-                    HTuple hv_X = new HTuple(), hv_Y = new HTuple();
-                    HObjectModel3D hv_ObjectModel3DPlane1 = new HObjectModel3D();
-                    HObjectModel3D hv_ObjectModel3DPlane2 = new HObjectModel3D(), hv_ObjectModel3DSphere1 = new HObjectModel3D();
-                    HObjectModel3D hv_ObjectModel3DSphere2 = new HObjectModel3D(), hv_ObjectModel3DCylinder = new HObjectModel3D();
-                    HObjectModel3D hv_ObjectModel3DBox = new HObjectModel3D();
-                    HTuple hv_Instructions = new HTuple();
-                    HTuple hv_ObjectModels = new HTuple(), hv_Labels = new HTuple();
-                    HTuple hv_VisParamName = new HTuple(), hv_VisParamValue = new HTuple();
-                    HTuple hv_PoseOut = new HTuple();
-                    // Initialize local and output iconic variables 
-                    HOperatorSet.GenEmptyObj(out ho_ContCircle);
-
-                    HOperatorSet.CreatePose(0.1, 1.5, 88, 106, 337, 224, "Rp+T", "gba", "point",
-       out hv_PoseIn);
-                    ho_ContCircle.Dispose();
-                    HOperatorSet.GenCircleContourXld(out ho_ContCircle, 200, 200, 100, 0, 6.28318,
-                        "positive", 120);
-                    hv_Row.Dispose(); hv_Column.Dispose();
-                    HOperatorSet.GetContourXld(ho_ContCircle, out hv_Row, out hv_Column);
-                    hv_X.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
-                    {
-                        hv_X = ((3 * hv_Row) / (((hv_Row.TupleConcat(
-                            hv_Column))).TupleMax())) - 2;
-                    }
-                    hv_Y.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
-                    {
-                        hv_Y = ((3 * hv_Column) / (((hv_Row.TupleConcat(
-                            hv_Column))).TupleMax())) - 2;
-                    }
-                 
-
-                    //HDisplay_3D.hv_ObjectModel3D.Clear();
-
-
-                    //hv_ObjectModel3DPlane1.GenPlaneObjectModel3d(new HPose(0, 0, 0, 0, 0, 0, "Rp+T", "gba", "point"),new HTuple (),new HTuple ());
-
-      
-                    //hv_ObjectModel3DPlane2.GenPlaneObjectModel3d(new HPose(1, 1, 1, 0, 50, 30, "Rp+T", "gba", "point"), hv_X, hv_Y);
-
-                    //HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DPlane2);
+                // Add the actors to the renderer, set the window size
+                // 将演员添加到呈现器，设置窗口大小
+                renderer.AddActor(actor);
 
 
 
-                    //hv_ObjectModel3DSphere1.GenSphereObjectModel3d(new HPose(1, 1, 1, 0, 50, 30, "Rp+T", "gba", "point"), 0.5);
+                //             // Local iconic variables 
 
-                    //HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DSphere1);
+                //             HObject ho_ContCircle;
 
-            
+                //             // Local control variables 
+
+                //             HTuple hv_PoseIn = new HTuple();
+                //             HTuple hv_Row = new HTuple(), hv_Column = new HTuple();
+                //             HTuple hv_X = new HTuple(), hv_Y = new HTuple();
+                HObjectModel3D hv_ObjectModel3DPlane1 = new HObjectModel3D();
+                HObjectModel3D hv_ObjectModel3DPlane2 = new HObjectModel3D(), hv_ObjectModel3DSphere1 = new HObjectModel3D();
+                HObjectModel3D hv_ObjectModel3DSphere2 = new HObjectModel3D(), hv_ObjectModel3DCylinder = new HObjectModel3D();
+                HObjectModel3D hv_ObjectModel3DBox = new HObjectModel3D();
+                //             HTuple hv_Instructions = new HTuple();
+                //             HTuple hv_ObjectModels = new HTuple(), hv_Labels = new HTuple();
+                //             HTuple hv_VisParamName = new HTuple(), hv_VisParamValue = new HTuple();
+                //             HTuple hv_PoseOut = new HTuple();
+                //             // Initialize local and output iconic variables 
+                //             HOperatorSet.GenEmptyObj(out ho_ContCircle);
+
+                //             HOperatorSet.CreatePose(0.1, 1.5, 88, 106, 337, 224, "Rp+T", "gba", "point",
+                //out hv_PoseIn);
+                //             ho_ContCircle.Dispose();
+                //             HOperatorSet.GenCircleContourXld(out ho_ContCircle, 200, 200, 100, 0, 6.28318,
+                //                 "positive", 120);
+                //             hv_Row.Dispose(); hv_Column.Dispose();
+                //             HOperatorSet.GetContourXld(ho_ContCircle, out hv_Row, out hv_Column);
+                //             hv_X.Dispose();
+                //             using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                //             {
+                //                 hv_X = ((3 * hv_Row) / (((hv_Row.TupleConcat(
+                //                     hv_Column))).TupleMax())) - 2;
+                //             }
+                //             hv_Y.Dispose();
+                //             using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                //             {
+                //                 hv_Y = ((3 * hv_Column) / (((hv_Row.TupleConcat(
+                //                     hv_Column))).TupleMax())) - 2;
+                //             }
 
 
-                    //hv_ObjectModel3DSphere2.GenSphereObjectModel3dCenter(-1, 0, 1, 1);
-                    //HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DSphere2);
-
-             
-
-                    //hv_ObjectModel3DCylinder.GenCylinderObjectModel3d(new HPose(1, 1, 1, 0, 50, 30, "Rp+T", "gba", "point"), 0.5, -1, 1);
-
-                    //HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DCylinder);
+                HDisplay_3D.hv_ObjectModel3D.Clear();
 
 
-       
-
-                    //hv_ObjectModel3DBox.GenBoxObjectModel3d(new HPose(-1, 2, 1, 0, 90, 0, "Rp+T", "gba", "point"), 1, 2, 1);
-                    //HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DBox);
+                //hv_ObjectModel3DPlane1.GenPlaneObjectModel3d(new HPose(0, 0, 0, 0, 0, 0, "Rp+T", "gba", "point"),new HTuple (),new HTuple ());
 
 
-                });
+                //hv_ObjectModel3DPlane2.GenPlaneObjectModel3d(new HPose(1, 1, 1, 0, 50, 30, "Rp+T", "gba", "point"), hv_X, hv_Y);
+
+                //HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DPlane2);
+
+
+
+                //hv_ObjectModel3DSphere1.GenSphereObjectModel3d(new HPose(1, 1, 1, 0, 50, 30, "Rp+T", "gba", "point"), 0.5);
+
+                //HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DSphere1);
+
+
+
+
+                //hv_ObjectModel3DSphere2.GenSphereObjectModel3dCenter(-1, 0, 1, 1);
+                //HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DSphere2);
+
+
+
+                hv_ObjectModel3DCylinder.GenCylinderObjectModel3d(new HPose(1, 1, 1, 0, 50, 30, "Rp+T", "gba", "point"), 0.5, -1, 1);
+
+                HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DCylinder);
+
+
+
+
+                hv_ObjectModel3DBox.GenBoxObjectModel3d(new HPose(-1, 2, 1, 0, 90, 0, "Rp+T", "gba", "point"), 1, 2, 1);
+                HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DBox);
+
+
+                //});
 
 
 
@@ -411,7 +411,7 @@ namespace HanGao.ViewModel
             });
         }
 
- 
+
 
 
 
@@ -509,7 +509,7 @@ namespace HanGao.ViewModel
 
 
 
-        private static  void Display_3D_Task(Display3DModel_Model _3DModel)
+        private static void Display_3D_Task(Display3DModel_Model _3DModel)
         {
             HTuple _PoseOut = new HTuple();
 

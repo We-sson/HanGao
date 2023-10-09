@@ -3,6 +3,7 @@ using HalconDotNet;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
@@ -62,6 +63,31 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
             };
+
+            hv_ObjectModel3D.CollectionChanged += (e, o) =>
+            {
+
+                switch (o.Action)
+                {
+                    case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
+
+
+
+                        break;
+                    case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
+                        break;
+                    case System.Collections.Specialized.NotifyCollectionChangedAction.Replace:
+                        break;
+                    case System.Collections.Specialized.NotifyCollectionChangedAction.Move:
+                        break;
+                    case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
+                        break;
+                }
+
+
+
+            };
+
 
             //初始化显示
             Display_Ini();
@@ -198,7 +224,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <summary>
         /// 可视化显示模型
         /// </summary>
-        public List<HObjectModel3D> hv_ObjectModel3D { set; get; } = new List<HObjectModel3D>();
+        public ObservableCollection<HObjectModel3D> hv_ObjectModel3D { set; get; } = new ObservableCollection<HObjectModel3D>();
 
 
         /// <summary>
@@ -971,7 +997,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
                 //读取显示模型数量,如果为空创建空对象
-                if (hv_ObjectModel3D == null)
+                if (hv_ObjectModel3D.Count == 0)
                 {
                     HObjectModel3D _Models3D = new HObjectModel3D();
                     _Models3D.GenEmptyObjectModel3d();
