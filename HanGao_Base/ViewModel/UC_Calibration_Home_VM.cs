@@ -330,19 +330,19 @@ namespace HanGao.ViewModel
 
 
 
-                //hv_ObjectModel3DSphere1.GenSphereObjectModel3d(new HPose(1, 1, 1, 0, 50, 30, "Rp+T", "gba", "point"), 0.5);
+                hv_ObjectModel3DSphere1.GenSphereObjectModel3d(new HPose(0, 0, 3, 0, 0, 0, "Rp+T", "gba", "point"), 0.5);
 
-                //HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DSphere1);
-
-
-
-
-                //hv_ObjectModel3DSphere2.GenSphereObjectModel3dCenter(-1, 0, 1, 1);
-                //HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DSphere2);
+                HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DSphere1);
 
 
 
-                hv_ObjectModel3DCylinder.GenCylinderObjectModel3d(new HPose(1, 1, 1, 0, 50, 30, "Rp+T", "gba", "point"), 0.5, -1, 1);
+
+                hv_ObjectModel3DSphere2.GenSphereObjectModel3dCenter(-1, 0, 1, 1);
+                HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DSphere2);
+
+
+
+                hv_ObjectModel3DCylinder.GenCylinderObjectModel3d(new HPose(-1, -1, 2, 0, 60, 0, "Rp+T", "gba", "point"), 0.5, -1, 1);
 
                 HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DCylinder);
 
