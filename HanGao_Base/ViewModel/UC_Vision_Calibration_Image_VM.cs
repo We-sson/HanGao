@@ -175,6 +175,11 @@ namespace HanGao.ViewModel
 
                                 _Calib_3D.RigidTransObjectModel3d(new HPose(_calibObj_Pos));
 
+
+
+
+
+
                                 HTuple _HCamera= Halcon_CalibSetup_ID.GetCalibData("model", "general", "camera_setup_model");
                                 HCameraSetupModel _HCam = new HCameraSetupModel(_HCamera.H);
 
