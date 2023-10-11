@@ -44,29 +44,29 @@ namespace Halcon_SDK_DLL.Model
             {
 
             }
-            public Display3DModel_Model(HTuple objectModel3D)
+            public Display3DModel_Model(HObjectModel3D objectModel3D)
             {
                 _ObjectModel3D = objectModel3D;
-                _CamParam = new HTuple();
-                _PoseIn = new HTuple();
-                _PoseOut = new HTuple();
-                _GenParamName = new HTuple();
-                _GenParamValue = new HTuple();
-                _Title = new HTuple();
-                _Label = new HTuple();
-                _Information = new HTuple();
+                //_CamParam = new HTuple();
+                //_PoseIn = new HTuple();
+                //_PoseOut = new HTuple();
+                //_GenParamName = new HTuple();
+                //_GenParamValue = new HTuple();
+                //_Title = new HTuple();
+                //_Label = new HTuple();
+                //_Information = new HTuple();
             }
 
-            public HTuple _ObjectModel3D { set; get; } = new HTuple();
-            public HTuple _CamParam { set; get; } = new HTuple();
+            public HObjectModel3D _ObjectModel3D { set; get; } = new HObjectModel3D();
+            //public HTuple _CamParam { set; get; } = new HTuple();
 
             public HTuple _PoseIn { set; get; } = new HTuple();
-            public HTuple _PoseOut { set; get; } = new HTuple();
-            public HTuple _GenParamName { set; get; } = new HTuple();
-            public HTuple _GenParamValue { set; get; } = new HTuple();
-            public HTuple _Title { set; get; } = new HTuple();
-            public HTuple _Label { set; get; } = new HTuple();
-            public HTuple _Information { set; get; } = new HTuple();
+            //public HTuple _PoseOut { set; get; } = new HTuple();
+            //public HTuple _GenParamName { set; get; } = new HTuple();
+            //public HTuple _GenParamValue { set; get; } = new HTuple();
+            //public HTuple _Title { set; get; } = new HTuple();
+            //public HTuple _Label { set; get; } = new HTuple();
+            //public HTuple _Information { set; get; } = new HTuple();
 
         }
 
@@ -656,7 +656,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 标定板识别滤波
         /// </summary>
-        public double Halcon_Calibretion_Sigma { set; get; } = 0;
+        public double Halcon_Calibretion_Sigma { set; get; } = 1;
 
         /// <summary>
         /// 查找标定板模式：False-单帧模式
@@ -867,7 +867,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 标定状态
         /// </summary>
-        public string Calibration_State { set; get; }
+        public string Calibration_State { set; get; } = "None";
 
 
 

@@ -73,7 +73,7 @@ namespace HanGao.ViewModel
         public HTuple Pose_Out_3D_Results { set; get; } = new HTuple();
 
 
-        public static Task DisPlay_Task { set; get; } = new Task(() => Display_3D_Task(new Display3DModel_Model()));
+        //public static Task DisPlay_Task { set; get; } = new Task(() => Display_3D_Task(new Display3DModel_Model()));
 
 
         public static Halcon_Examples HExamples { set; get; }
@@ -318,7 +318,7 @@ namespace HanGao.ViewModel
                 //             }
 
 
-                HDisplay_3D.hv_ObjectModel3D.Clear();
+                //HDisplay_3D.hv_ObjectModel3D.Clear();
 
 
                 //hv_ObjectModel3DPlane1.GenPlaneObjectModel3d(new HPose(0, 0, 0, 0, 0, 0, "Rp+T", "gba", "point"),new HTuple (),new HTuple ());
@@ -330,27 +330,27 @@ namespace HanGao.ViewModel
 
 
 
-                hv_ObjectModel3DSphere1.GenSphereObjectModel3d(new HPose(0, 0, 3, 0, 0, 0, "Rp+T", "gba", "point"), 0.5);
+                //hv_ObjectModel3DSphere1.GenSphereObjectModel3d(new HPose(0, 0, 3, 0, 0, 0, "Rp+T", "gba", "point"), 0.5);
 
-                HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DSphere1);
-
-
-
-
-                hv_ObjectModel3DSphere2.GenSphereObjectModel3dCenter(-1, 0, 1, 1);
-                HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DSphere2);
-
-
-
-                hv_ObjectModel3DCylinder.GenCylinderObjectModel3d(new HPose(-1, -1, 2, 0, 60, 0, "Rp+T", "gba", "point"), 0.5, -1, 1);
-
-                HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DCylinder);
+                //HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DSphere1);
 
 
 
 
-                hv_ObjectModel3DBox.GenBoxObjectModel3d(new HPose(-1, 2, 1, 0, 90, 0, "Rp+T", "gba", "point"), 1, 2, 1);
-                HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DBox);
+                //hv_ObjectModel3DSphere2.GenSphereObjectModel3dCenter(-1, 0, 1, 1);
+                //HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DSphere2);
+
+
+
+                //hv_ObjectModel3DCylinder.GenCylinderObjectModel3d(new HPose(-1, -1, 2, 0, 60, 0, "Rp+T", "gba", "point"), 0.5, -1, 1);
+
+                //HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DCylinder);
+
+
+
+
+                //hv_ObjectModel3DBox.GenBoxObjectModel3d(new HPose(-1, 2, 1, 0, 90, 0, "Rp+T", "gba", "point"), 1, 2, 1);
+                //HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DBox);
 
 
                 //});
@@ -509,21 +509,21 @@ namespace HanGao.ViewModel
 
 
 
-        private static void Display_3D_Task(Display3DModel_Model _3DModel)
-        {
-            HTuple _PoseOut = new HTuple();
+        //private static void Display_3D_Task(Display3DModel_Model _3DModel)
+        //{
+        //    HTuple _PoseOut = new HTuple();
 
-            HExamples.Visualize_object_model_3d(Calibration_3D_Results.HWindow,
-                                                                                _3DModel._ObjectModel3D,
-                                                                                new HTuple(),
-                                                                                _3DModel._PoseIn,
-                                                                                _3DModel._GenParamName,
-                                                                                _3DModel._GenParamValue,
-                                                                                new HTuple(),
-                                                                                new HTuple(),
-                                                                                new HTuple(),
-                                                                                out _PoseOut);
-        }
+        //    HExamples.Visualize_object_model_3d(Calibration_3D_Results.HWindow,
+        //                                                                        _3DModel._ObjectModel3D,
+        //                                                                        new HTuple(),
+        //                                                                        _3DModel._PoseIn,
+        //                                                                        _3DModel._GenParamName,
+        //                                                                        _3DModel._GenParamValue,
+        //                                                                        new HTuple(),
+        //                                                                        new HTuple(),
+        //                                                                        new HTuple(),
+        //                                                                        out _PoseOut);
+        //}
 
 
         /// <summary>
@@ -536,30 +536,9 @@ namespace HanGao.ViewModel
 
 
 
+            HDisplay_3D.hv_ObjectModel3D .Clear();
 
-            if (DisPlay_Task.Status != TaskStatus.Running)
-            {
-                HExamples = new Halcon_Examples(Calibration_3D_Results);
-
-                DisPlay_Task = new Task(() => Display_3D_Task(_3DModel));
-
-                DisPlay_Task.Start();
-
-            }
-            else
-            {
-
-                HExamples.Exit_Display();
-
-                DisPlay_Task.Wait();
-
-                DisPlay_Task = new Task(() => Display_3D_Task(_3DModel));
-
-                DisPlay_Task.Start();
-
-
-
-            }
+            HDisplay_3D.hv_ObjectModel3D.Add(_3DModel._ObjectModel3D);
 
 
 

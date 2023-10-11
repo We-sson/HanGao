@@ -1,5 +1,6 @@
 ﻿
 
+using HalconDotNet;
 using HanGao.View.User_Control.Vision_Calibration.Vison_UserControl;
 using System.Drawing;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
@@ -174,8 +175,8 @@ namespace HanGao.ViewModel
 
                                 _Calib_3D.RigidTransObjectModel3d(new HPose(_calibObj_Pos));
 
-
-
+                                HTuple _HCamera= Halcon_CalibSetup_ID.GetCalibData("model", "general", "camera_setup_model");
+                                HCameraSetupModel _HCam = new HCameraSetupModel(_HCamera.H);
 
                                 SetDisplay3DModel(new Halcon_Data_Model.Display3DModel_Model(_Calib_3D));
 

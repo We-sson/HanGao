@@ -173,7 +173,7 @@
                                 </Slider>
 
                                 <TextBox Grid.Column=" 2"
-                                         Text="{Binding ElementName=Calibration_Mean_Error_UI, Path=Value}"
+                                         Text="{Binding ElementName=Calibration_Mean_Error_UI, Path=Value, StringFormat={}{0:N3}}"
                                          Width="100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"

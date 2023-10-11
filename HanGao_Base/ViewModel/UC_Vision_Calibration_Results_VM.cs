@@ -53,6 +53,16 @@ namespace HanGao.ViewModel
                     //初始化标定数据
                     if (Set_Camera_Calibration_Par(ref _CalibSetup_ID, 1) > 0)
                     {
+
+
+
+                        //清理标定数据状态
+                        foreach (var _type in Calibration_Image_List)
+                        {
+                            _type.Camera_0.Calibration_State = Camera_Calibration_Results_Type_Enum.None.ToString();
+                            _type.Camera_1.Calibration_State = Camera_Calibration_Results_Type_Enum.None.ToString();
+                        }
+
                         //遍历标定保存图像
                         foreach (var _Calib in Calibration_Image_List)
                         {
