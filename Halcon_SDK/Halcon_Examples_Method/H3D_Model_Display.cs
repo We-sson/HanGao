@@ -72,59 +72,68 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             hv_ObjectModel3D.CollectionChanged += (e, o) =>
             {
-
-                //类型转换
-                ObservableCollection<HObjectModel3D> _List_Model = e as ObservableCollection<HObjectModel3D>;
-
-                switch (o.Action)
+                lock (hv_ObjectModel3D)
                 {
-                    case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
 
-                        //添加位置
-                        hv_AllInstances = hv_Scene3D.AddScene3dInstance(_List_Model.Last(), new HPose(0, 0, 0, 0, 0, 0, "Rp+T", "gba", "point"));
+                    //类型转换
+                    ObservableCollection<HObjectModel3D> _List_Model = e as ObservableCollection<HObjectModel3D>;
 
-                        hv_Center = get_object_models_center();
-                        hv_PoseIn = determine_optimum_pose_distance(_List_Model.ToArray(), hv_CamParam, 0.9, new HPose(-(hv_Center.TupleSelect(0)), -(hv_Center.TupleSelect(1)), -(hv_Center.TupleSelect(2)), hv_PoseIn[3], hv_PoseIn[4], hv_PoseIn[5], "Rp+T", "gba", "point"));
+                    switch (o.Action)
+                    {
+                        case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
+
+                            //添加位置
+                            hv_AllInstances = hv_Scene3D.AddScene3dInstance(_List_Model.Last(), new HPose(0, 0, 0, 0, 0, 0, "Rp+T", "gba", "point"));
+
+                            H3D_Display_Message_delegate?.Invoke("增加" + hv_AllInstances + "号模型 !");
+
+                            hv_Center = get_object_models_center();
+                            hv_PoseIn = determine_optimum_pose_distance(_List_Model.ToArray(), hv_CamParam, 0.9, new HPose(-(hv_Center.TupleSelect(0)), -(hv_Center.TupleSelect(1)), -(hv_Center.TupleSelect(2)), hv_PoseIn[3], hv_PoseIn[4], hv_PoseIn[5], "Rp+T", "gba", "point"));
 
 
-                        for (int i = 0; i < hv_ObjectModel3D.Count; i++)
-                        {
-                            hv_Scene3D.SetScene3dInstancePose(i, hv_PoseIn);
-                        }
-
-                        Event_Int((int)_Window.Halcon_UserContol.ActualWidth, (int)_Window.Halcon_UserContol.ActualHeight);
+                            for (int i = 0; i < hv_ObjectModel3D.Count; i++)
+                            {
+                                hv_Scene3D.SetScene3dInstancePose(i, hv_PoseIn);
 
 
+                            }
 
-                        break;
-                    case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
-
-                        break;
-                    case System.Collections.Specialized.NotifyCollectionChangedAction.Replace:
-                        break;
-                    case System.Collections.Specialized.NotifyCollectionChangedAction.Move:
-                        break;
-                    case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
+                            Event_Int((int)_Window.Halcon_UserContol.ActualWidth, (int)_Window.Halcon_UserContol.ActualHeight);
 
 
 
-                        for (int i = 0; i <= hv_AllInstances; i++)
-                        {
+                            break;
+                        case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
 
-                            hv_Scene3D.RemoveScene3dInstance(i);
+                            break;
+                        case System.Collections.Specialized.NotifyCollectionChangedAction.Replace:
+                            break;
+                        case System.Collections.Specialized.NotifyCollectionChangedAction.Move:
+                            break;
+                        case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
 
-                        }
 
-                        // Event_Int((int)_Window.Halcon_UserContol.ActualWidth, (int)_Window.Halcon_UserContol.ActualHeight);
 
-                        break;
+                            for (int i = 0; i <= hv_AllInstances; i++)
+                            {
+
+                                hv_Scene3D.RemoveScene3dInstance(i);
+
+                                H3D_Display_Message_delegate?.Invoke("移除" + i + "号模型 !");
+
+                            }
+
+                            // Event_Int((int)_Window.Halcon_UserContol.ActualWidth, (int)_Window.Halcon_UserContol.ActualHeight);
+
+                            break;
+                    }
+
+
+                    //HOperatorSet.WaitSeconds(0.5);
+                    While_ResetEvent.Set();
+                    HOperatorSet.WaitSeconds(0.5);
+                    While_ResetEvent.Reset();
                 }
-
-
-                //HOperatorSet.WaitSeconds(0.5);
-                While_ResetEvent.Set();
-                HOperatorSet.WaitSeconds(0.5);
-                While_ResetEvent.Reset();
 
             };
 
@@ -282,7 +291,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <summary>
         /// 内部位置计算输出
         /// </summary>
-        private HPose[] hv_PoseOut;
+        //private HPose[] hv_PoseOut;
 
 
 

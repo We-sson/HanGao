@@ -173,7 +173,7 @@ namespace HanGao.ViewModel
 
                                 _calibObj_Pos = Halcon_CalibSetup_ID.GetCalibData("calib_obj_pose", (new HTuple(0)).TupleConcat(_Selected.Image_No), new HTuple("pose"));
 
-                                _Calib_3D.RigidTransObjectModel3d(new HPose(_calibObj_Pos));
+                                _Calib_3D= _Calib_3D.RigidTransObjectModel3d(new HPose(_calibObj_Pos));
 
 
 
