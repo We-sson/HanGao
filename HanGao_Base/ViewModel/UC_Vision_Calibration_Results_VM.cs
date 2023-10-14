@@ -158,6 +158,8 @@ namespace HanGao.ViewModel
                                         //查找标定图像中标定板位置和坐标
                                         Halcon_Method.FindCalib_3DCoord(ref _CalibXLD, ref _CalibCoord, ref _CalibSetup_ID, (HImage)_Calib.Camera_0.Calibration_Image, 0, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma, _Calib.Image_No);
 
+
+
                                     }
 
                                     if (_Calib.Camera_1.Calibration_Image != null)
