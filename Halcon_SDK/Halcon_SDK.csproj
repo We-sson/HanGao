@@ -23,6 +23,9 @@
     <Page Remove="lib\**" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="Halcon样图测试\多相机内参标定_可视化.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Halcon样图测试\9点标定板样图\9点标定板.png" />
     <Content Include="Halcon样图测试\9点标定板样图\Image_20221028151737871.bmp" />
     <Content Include="Halcon样图测试\9点标定板样图\Image_20221028151747694.bmp" />

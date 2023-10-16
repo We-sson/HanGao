@@ -1339,7 +1339,11 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
 
-
+        /// <summary>
+        /// 设置三维场景的属性方法
+        /// </summary>
+        /// <param name="_Scene3D"></param>
+        /// <param name="_Param"></param>
         public void Set_Scene3D_Instance_Param(HScene3D _Scene3D, Halcon_Scene3D_Instance_Model _Param)
         {
 

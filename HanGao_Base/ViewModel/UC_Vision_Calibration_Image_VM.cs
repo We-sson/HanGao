@@ -161,6 +161,7 @@ namespace HanGao.ViewModel
                                 HTuple _calibObj_Pos;
                                 HTuple _Camera_Param;
                                 HTuple _Camera_Param_txt;
+                                HTuple _Camera_Param_Pos;
                                 HObjectModel3D _Calib_3D = new HObjectModel3D();
 
 
@@ -189,6 +190,10 @@ namespace HanGao.ViewModel
                                 _Camera_Param= _HCam.GetCameraSetupParam(0, "params");
                                 _Camera_Param_txt = Halcon_CalibSetup_ID.GetCalibData("camera",0, "params_labels");
                                 _Camera_Param_txt = Halcon_CalibSetup_ID.GetCalibData("camera",0, "init_params");
+
+
+
+                                _Camera_Param_Pos= _HCam.GetCameraSetupParam(0, "pose");
 
 
 
