@@ -1,7 +1,7 @@
 
 
 using HalconDotNet;
-
+using System.Collections.Generic;
 
 public class Reconstruction_3d
 
@@ -10,8 +10,7 @@ public class Reconstruction_3d
     // Procedures 
     // Chapter: 3D Object Model / Creation
     // Short Description: Generate a symbolic 3D object model of a camera. 
-    public HObjectModel3D gen_camera_object_model_3d(HCameraSetupModel hv_CameraSetupModel, HTuple hv_CamIndex,
-        HTuple hv_CameraSize)
+    public  HObjectModel3D gen_camera_object_model_3d(HCameraSetupModel hv_CameraSetupModel, HTuple hv_CamIndex, HTuple hv_CameraSize)
     {
 
 
@@ -129,9 +128,9 @@ public class Reconstruction_3d
             hv_OM3DLense= hv_ObjectModel3DLense.RigidTransObjectModel3d(new HPose(hv_CamPose));
             //HOperatorSet.RigidTransObjectModel3d(hv_ObjectModel3DLense, hv_CamPose, out hv_OM3DLense);
 
-            HObjectModel3D[] _hv_OME3D=new HObjectModel3D[] { hv_OM3DSensor, hv_OM3DLense };
+           HObjectModel3D[] _hv_OME3D=new HObjectModel3D[] { hv_OM3DSensor, hv_OM3DLense };
+
              //new HObjectModel3D().UnionObjectModel3d(_hv_OME3D, "points_surface");
-            return new HObjectModel3D().UnionObjectModel3d(_hv_OME3D, "points_surface");
             //
             //Clean up.
             HOperatorSet.ClearObjectModel3d(hv_ObjectModel3DInit);
@@ -139,6 +138,7 @@ public class Reconstruction_3d
             HOperatorSet.ClearObjectModel3d(hv_ObjectModel3DInitTiltedBack);
             HOperatorSet.ClearObjectModel3d(hv_ObjectModel3DLense);
 
+            return _hv_OME3D[0].UnionObjectModel3d( "points_surface");
 
 
         }
@@ -158,15 +158,15 @@ public class Reconstruction_3d
             hv_Type.Dispose();
             hv_Tilt.Dispose();
             hv_Rot.Dispose();
-            hv_HomMat3DIdentity.Dispose();
-            hv_HomMat3DRotate.Dispose();
-            hv_SensorToLenseRotation.Dispose();
+            //hv_HomMat3DIdentity.Dispose();
+            //hv_HomMat3DRotate.Dispose();
+            //hv_SensorToLenseRotation.Dispose();
             hv_ObjectModel3DInitTilted.Dispose();
             hv_BoundingBox.Dispose();
             hv_PX.Dispose();
             hv_PY.Dispose();
             hv_QZ.Dispose();
-            hv_PoseBack.Dispose();
+            //hv_PoseBack.Dispose();
             hv_ObjectModel3DInitTiltedBack.Dispose();
             hv_CamPose.Dispose();
             hv_OM3DSensor.Dispose();
@@ -379,8 +379,7 @@ public class Reconstruction_3d
                 }
             }
             hv_ObjectModel3DCameraTmp.Dispose();
-            gen_camera_object_model_3d(hv_CameraSetupModelID, hv_CurrentCamera, hv_CameraSize_COPY_INP_TMP,
-                out hv_ObjectModel3DCameraTmp);
+            //hv_ObjectModel3DCameraTmp= gen_camera_object_model_3d(hv_CameraSetupModelID, hv_CurrentCamera, hv_CameraSize_COPY_INP_TMP);
             using (HDevDisposeHelper dh = new HDevDisposeHelper())
             {
                 {

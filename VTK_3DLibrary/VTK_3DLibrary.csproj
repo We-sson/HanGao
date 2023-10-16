@@ -21,9 +21,16 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Kitware.mummy.Runtime" Version="9.2.2023" />
-    <PackageReference Include="Kitware.VTK" Version="9.2.2023" />
     <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Kitware.mummy.Runtime">
+      <HintPath>..\HanGao_Base\VTK_3D_Lib\Kitware.mummy.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Kitware.VTK">
+      <HintPath>..\HanGao_Base\VTK_3D_Lib\Kitware.VTK.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

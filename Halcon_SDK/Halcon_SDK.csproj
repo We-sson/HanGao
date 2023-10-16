@@ -32,15 +32,6 @@
     <Content Include="Halcon样图测试\9点标定板样图\Image_20221028151800086.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Halcon样图测试\26-30-0.002.cpd" />
-    <None Include="Halcon样图测试\26-30-0.002.ps" />
-    <None Include="Halcon样图测试\26-30-0.0125.cpd" />
-    <None Include="Halcon样图测试\26-30-0.0125.ps" />
-    <None Include="Halcon样图测试\9-9-0.002-0.5.descr" />
-    <None Include="Halcon样图测试\9-9-0.002-0.5.ps" />
-    <None Include="Halcon样图测试\模板.dxf" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Fody" Version="6.8.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

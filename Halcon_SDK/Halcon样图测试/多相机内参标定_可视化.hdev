@@ -185,6 +185,9 @@
 <l>endfor</l>
 <l>get_calib_data (CalibDataID, 'model', 'general', 'camera_setup_model', CamSetupModel)</l>
 <l>gen_camera_setup_object_model_3d (CamSetupModel, 0.05, 'auto', ObjectModel3DCamera, ObjectModel3DCone)</l>
+<c></c>
+<c>*////</c>
+<l>union_object_model_3d ([ObjectModel3DCamera,ObjectModel3DCone], 'points_surface', UnionObjectModel3D)</l>
 <l>dev_inspect_ctrl ([ObjectModel3DCamera,ObjectModel3DCone,OM3DsCaltab])</l>
 <l>stop ()</l>
 <c>* </c>

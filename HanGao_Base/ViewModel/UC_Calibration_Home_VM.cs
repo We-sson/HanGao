@@ -211,6 +211,11 @@ namespace HanGao.ViewModel
                 //Application.Current.Dispatcher.Invoke(() =>
                 //{
 
+                try
+                {
+
+          
+
                 Window_UserContol.Tab_Window.BeginInit();
                 for (int index = 0; index < Window_UserContol.Tab_Window.Items.Count; index++)
                 {
@@ -231,7 +236,12 @@ namespace HanGao.ViewModel
 
 
 
+                }
+                catch (Exception _e)
+                {
 
+                    throw;
+                }
 
 
 
@@ -538,7 +548,11 @@ namespace HanGao.ViewModel
 
             HDisplay_3D.hv_ObjectModel3D .Clear();
 
+
+
+
             HDisplay_3D.hv_ObjectModel3D.Add(_3DModel._ObjectModel3D);
+ 
 
 
 

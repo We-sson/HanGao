@@ -163,7 +163,7 @@ namespace HanGao.ViewModel
                                 HTuple _Camera_Param_txt;
                                 HTuple _Camera_Param_Pos;
                                 HObjectModel3D _Calib_3D = new HObjectModel3D();
-
+                                HObjectModel3D _Camera_Model = new HObjectModel3D();
 
 
 
@@ -195,7 +195,9 @@ namespace HanGao.ViewModel
 
                                 _Camera_Param_Pos= _HCam.GetCameraSetupParam(0, "pose");
 
+                                Reconstruction_3d _hvCamera_model=new Reconstruction_3d ();
 
+                                _Camera_Model= _hvCamera_model.gen_camera_object_model_3d(_HCam, 0, 1);
 
                                 SetDisplay3DModel(new Halcon_Data_Model.Display3DModel_Model(_Calib_3D));
 
