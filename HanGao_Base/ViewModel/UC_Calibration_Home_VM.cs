@@ -544,14 +544,21 @@ namespace HanGao.ViewModel
         {
 
 
+            lock (HDisplay_3D)
+            {
 
 
             HDisplay_3D.hv_ObjectModel3D .Clear();
 
 
+            foreach (var _model in _3DModel._ObjectModel3D)
+            {
+                HDisplay_3D.hv_ObjectModel3D.Add(_model);
+            }
 
+            
+            }
 
-            HDisplay_3D.hv_ObjectModel3D.Add(_3DModel._ObjectModel3D);
  
 
 

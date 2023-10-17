@@ -123,7 +123,15 @@ namespace HanGao.ViewModel
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
                 DataGrid E = Sm.Source as DataGrid;
-
+                HTuple _calib_X;
+                HTuple _calib_Y;
+                HTuple _calib_Z;
+                HTuple _calibObj_Pos;
+                HTuple _Camera_Param;
+                HTuple _Camera_Param_txt;
+                HTuple _Camera_Param_Pos;
+                HObjectModel3D _Calib_3D = new HObjectModel3D();
+                List<HObjectModel3D> _Camera_Model = new List<HObjectModel3D>();
 
 
                 Task.Run(() =>
@@ -150,27 +158,22 @@ namespace HanGao.ViewModel
                                 //清楚旧图像，显示选中图像
                                 _HImage = _Selected.Camera_0.Calibration_Image;
 
+
+                                ///显示选中图像
                                 Display_HObiet(_Selected.Camera_0.Calibration_Image, null, null, null, _camer_0.Show_Window);
                                 Display_HObiet(_Selected.Camera_0.Calibration_Image, _Selected.Camera_0.Calibration_Region, null, KnownColor.Green.ToString(), _camer_0.Show_Window);
                                 Display_HObiet(null, null, _Selected.Camera_0.Calibration_XLD, null, _camer_0.Show_Window);
 
 
-                                HTuple _calib_X;
-                                HTuple _calib_Y;
-                                HTuple _calib_Z;
-                                HTuple _calibObj_Pos;
-                                HTuple _Camera_Param;
-                                HTuple _Camera_Param_txt;
-                                HTuple _Camera_Param_Pos;
-                                HObjectModel3D _Calib_3D = new HObjectModel3D();
-                                HObjectModel3D _Camera_Model = new HObjectModel3D();
 
 
+                                HOperatorSet.GetContourXld(_Selected.Camera_0.Calibration_XLD, out _calib_X, out _calib_Y);
+                                _calib_Z = HTuple.TupleGenConst(_calib_X.Length, 0);
 
 
-                                _calib_X = Halcon_CalibSetup_ID.GetCalibData("calib_obj", 0, "x");
-                                _calib_Y = Halcon_CalibSetup_ID.GetCalibData("calib_obj", 0, "y");
-                                _calib_Z = Halcon_CalibSetup_ID.GetCalibData("calib_obj", 0, "z");
+                                //_calib_X = Halcon_CalibSetup_ID.GetCalibData("calib_obj", 0, "x");
+                                //_calib_Y = Halcon_CalibSetup_ID.GetCalibData("calib_obj", 0, "y");
+                                //_calib_Z = Halcon_CalibSetup_ID.GetCalibData("calib_obj", 0, "z");
 
                                 _Calib_3D.GenObjectModel3dFromPoints(_calib_X, _calib_Y, _calib_Z);
 
@@ -181,13 +184,15 @@ namespace HanGao.ViewModel
                                 _Calib_3D = _Calib_3D.RigidTransObjectModel3d(new HPose(_calibObj_Pos));
 
 
-
+                                HObjectModel3D _XLD = new HObjectModel3D();
 
 
 
                                 HTuple _HCamera= Halcon_CalibSetup_ID.GetCalibData("model", "general", "camera_setup_model");
                                 HCameraSetupModel _HCam = new HCameraSetupModel(_HCamera.H);
                                 _Camera_Param= _HCam.GetCameraSetupParam(0, "params");
+
+
                                 _Camera_Param_txt = Halcon_CalibSetup_ID.GetCalibData("camera",0, "params_labels");
                                 _Camera_Param_txt = Halcon_CalibSetup_ID.GetCalibData("camera",0, "init_params");
 
@@ -195,11 +200,15 @@ namespace HanGao.ViewModel
 
                                 _Camera_Param_Pos= _HCam.GetCameraSetupParam(0, "pose");
 
-                                Reconstruction_3d _hvCamera_model=new Reconstruction_3d ();
+                                _Camera_Model= Reconstruction_3d.gen_camera_object_model_3d(_HCam, 0, 0.05);
 
-                                _Camera_Model= _hvCamera_model.gen_camera_object_model_3d(_HCam, 0, 1);
+                                //_Camera_Model= _Camera_Model.RigidTransObjectModel3d(new HPose(_Camera_Param_Pos));
 
-                                SetDisplay3DModel(new Halcon_Data_Model.Display3DModel_Model(_Calib_3D));
+                                //_Camera_Model.Add(_Calib_3D);
+                             
+                               //HObjectModel3D _AllModel3D= HObjectModel3D.UnionObjectModel3d(new HObjectModel3D[] { _Calib_3D, _Camera_Model }, "points_surface");
+
+                                SetDisplay3DModel(new Halcon_Data_Model.Display3DModel_Model(new List<HObjectModel3D>() { _Calib_3D, _Camera_Model[0], _Camera_Model[1] } ));
 
                                 //SetDisplay3DModel(new Halcon_Data_Model.Display3DModel_Model() { _ObjectModel3D = _Calib_3D });
 

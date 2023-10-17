@@ -44,7 +44,7 @@ namespace Halcon_SDK_DLL.Model
             {
 
             }
-            public Display3DModel_Model(HObjectModel3D objectModel3D)
+            public Display3DModel_Model(List<HObjectModel3D> objectModel3D)
             {
                 _ObjectModel3D = objectModel3D;
                 //_CamParam = new HTuple();
@@ -57,7 +57,7 @@ namespace Halcon_SDK_DLL.Model
                 //_Information = new HTuple();
             }
 
-            public HObjectModel3D _ObjectModel3D { set; get; } = new HObjectModel3D();
+            public List<HObjectModel3D> _ObjectModel3D { set; get; } = new List<HObjectModel3D>();
             //public HTuple _CamParam { set; get; } = new HTuple();
 
             public HTuple _PoseIn { set; get; } = new HTuple();

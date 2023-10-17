@@ -56,7 +56,11 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             {
 
                 //属性修改设置显示
+                if (hv_ObjectModel3D.Count>0)
+                {
+
                 Set_Scene3D_Instance_Param(hv_Scene3D, (Halcon_Scene3D_Instance_Model)e);
+                }
                 //通知显示更新画面
                 While_ResetEvent.Set();
                 While_ResetEvent.Reset();
@@ -72,7 +76,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             hv_ObjectModel3D.CollectionChanged += (e, o) =>
             {
-                lock (hv_ObjectModel3D)
+                lock (e)
                 {
 
                     //类型转换
@@ -83,9 +87,19 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
 
                             //添加位置
-                            hv_AllInstances = hv_Scene3D.AddScene3dInstance(_List_Model.Last(), hv_PoseIn);
+                            try
+                            {
 
-                            H3D_Display_Message_delegate?.Invoke("增加" + hv_AllInstances + "号模型 !");
+                            hv_AllInstances = hv_Scene3D.AddScene3dInstance(_List_Model.Last(), hv_PoseIn);
+                            }
+                            catch (Exception)
+                            {
+                                H3D_Display_Message_delegate?.Invoke("增加" + hv_AllInstances + "号模型失败 !");
+                                break;
+
+                            }
+
+                            H3D_Display_Message_delegate?.Invoke("增加" + hv_AllInstances + "号模型成功 !");
                             //继续中心位置
                             //hv_Center = get_object_models_center();
                             //hv_PoseIn = determine_optimum_pose_distance(_List_Model.ToArray(), hv_CamParam, 0.9, new HPose(-(hv_Center.TupleSelect(0)), -(hv_Center.TupleSelect(1)), -(hv_Center.TupleSelect(2)), hv_PoseIn[3], hv_PoseIn[4], hv_PoseIn[5], "Rp+T", "gba", "point"));
@@ -122,10 +136,19 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
                             for (int i = 0; i <= hv_AllInstances; i++)
                             {
-
+                                try
+                                {
                                 hv_Scene3D.RemoveScene3dInstance(i);
 
-                                H3D_Display_Message_delegate?.Invoke("移除" + i + "号模型 !");
+                                }
+                                catch (Exception)
+                                {
+                                    H3D_Display_Message_delegate?.Invoke("移除" + i + "号模型失败!");
+
+                                    break;
+                                }
+
+                                H3D_Display_Message_delegate?.Invoke("移除" + i + "号模型成功!");
 
                             }
 
@@ -137,7 +160,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
                     //HOperatorSet.WaitSeconds(0.5);
                     While_ResetEvent.Set();
-                    HOperatorSet.WaitSeconds(0.5);
+                    HOperatorSet.WaitSeconds(0.05);
                     While_ResetEvent.Reset();
                 }
 
@@ -1374,9 +1397,21 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 if (_Par_Val != null)
                 {
                     ///设置三维场景全部模型参数
-                    for (int i = 0; i < hv_NumModels; i++)
+                    for (int i = 0; i <= hv_AllInstances; i++)
                     {
+
+
+                        try
+                        {
+
                         _Scene3D.SetScene3dInstanceParam(i, _Val.Name.ToLower(), new HTuple(_Par_Val));
+                        }
+                        catch (Exception)
+                        {
+                            H3D_Display_Message_delegate?.Invoke("设置"+ _Val.Name+"值失败！");
+                            break;
+
+                        }
                     }
 
 

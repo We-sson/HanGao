@@ -10,7 +10,7 @@ public class Reconstruction_3d
     // Procedures 
     // Chapter: 3D Object Model / Creation
     // Short Description: Generate a symbolic 3D object model of a camera. 
-    public  HObjectModel3D gen_camera_object_model_3d(HCameraSetupModel hv_CameraSetupModel, HTuple hv_CamIndex, HTuple hv_CameraSize)
+    public static   List<HObjectModel3D> gen_camera_object_model_3d(HCameraSetupModel hv_CameraSetupModel, HTuple hv_CamIndex, HTuple hv_CameraSize)
     {
 
 
@@ -43,7 +43,8 @@ public class Reconstruction_3d
         HObjectModel3D hv_OM3DSensor = new HObjectModel3D();
         HObjectModel3D hv_OM3DCam = new HObjectModel3D();
         HObjectModel3D hv_OM3DLense = new HObjectModel3D();
-        
+         HObjectModel3D _hv_OME3D=new HObjectModel3D ();
+
         HHomMat3D hv_HomMat3DIdentity = new HHomMat3D();
         HHomMat3D hv_HomMat3DRotate = new HHomMat3D();
         HPose hv_SensorToLenseRotation = new HPose();
@@ -104,33 +105,32 @@ public class Reconstruction_3d
 
 
             //HOperatorSet.RigidTransObjectModel3d(hv_ObjectModel3DInit, hv_SensorToLenseRotation, out hv_ObjectModel3DInitTilted);
-            hv_ObjectModel3DInitTilted= hv_ObjectModel3DInit.RigidTransObjectModel3d(hv_SensorToLenseRotation);
+            hv_ObjectModel3DInitTilted = hv_ObjectModel3DInit.RigidTransObjectModel3d(hv_SensorToLenseRotation);
 
 
             //Move the sensor to a convenient position behind the lens.
-            hv_BoundingBox= hv_ObjectModel3DInitTilted.GetObjectModel3dParams("bounding_box1");
+            hv_BoundingBox = hv_ObjectModel3DInitTilted.GetObjectModel3dParams("bounding_box1");
             //HOperatorSet.GetObjectModel3dParams(hv_ObjectModel3DInitTilted, "bounding_box1",out hv_BoundingBox);
 
-            hv_PX= hv_HomMat3DRotate.AffineTransPoint3d(0.0, 0.0, 0.5 * hv_CameraSize, out hv_PY, out hv_QZ);
+            hv_PX = hv_HomMat3DRotate.AffineTransPoint3d(0.0, 0.0, 0.5 * hv_CameraSize, out hv_PY, out hv_QZ);
             //HOperatorSet.AffineTransPoint3d(hv_HomMat3DRotate, 0.0, 0.0, 0.5 * hv_CameraSize, out hv_PX, out hv_PY, out hv_QZ);
 
             hv_PoseBack.CreatePose(-hv_PX, -hv_PY, (-(hv_BoundingBox.TupleSelect(5))) - (hv_CylinderLength / 2.0), 0, 0, 0, "Rp+T", "gba", "point");
             //HOperatorSet.CreatePose(-hv_PX, -hv_PY, (-(hv_BoundingBox.TupleSelect(5))) - (hv_CylinderLength / 2.0),0, 0, 0, "Rp+T", "gba", "point", out hv_PoseBack);
 
-            hv_ObjectModel3DInitTiltedBack=hv_ObjectModel3DInitTilted.RigidTransObjectModel3d(hv_PoseBack);
+            hv_ObjectModel3DInitTiltedBack = hv_ObjectModel3DInitTilted.RigidTransObjectModel3d(hv_PoseBack);
             //HOperatorSet.RigidTransObjectModel3d(hv_ObjectModel3DInitTilted, hv_PoseBack, out hv_ObjectModel3DInitTiltedBack);
             //
             //Move to the position of the camera in world coordinates.
             hv_CamPose = hv_CameraSetupModel.GetCameraSetupParam(hv_CamIndex, "pose");
             //HOperatorSet.GetCameraSetupParam(hv_CameraSetupModel, hv_CamIndex, "pose", out hv_CamPose);
             //HOperatorSet.RigidTransObjectModel3d(hv_ObjectModel3DInitTiltedBack, hv_CamPose, out hv_OM3DSensor);
-            hv_OM3DSensor= hv_ObjectModel3DInitTiltedBack.RigidTransObjectModel3d(new HPose (hv_CamPose));
-            hv_OM3DLense= hv_ObjectModel3DLense.RigidTransObjectModel3d(new HPose(hv_CamPose));
+            hv_OM3DSensor = hv_ObjectModel3DInitTiltedBack.RigidTransObjectModel3d(new HPose(hv_CamPose));
+            hv_OM3DLense = hv_ObjectModel3DLense.RigidTransObjectModel3d(new HPose(hv_CamPose));
             //HOperatorSet.RigidTransObjectModel3d(hv_ObjectModel3DLense, hv_CamPose, out hv_OM3DLense);
 
-           HObjectModel3D[] _hv_OME3D=new HObjectModel3D[] { hv_OM3DSensor, hv_OM3DLense };
-
-             //new HObjectModel3D().UnionObjectModel3d(_hv_OME3D, "points_surface");
+             //HOperatorSet.UnionObjectModel3d(new HObjectModel3D[] { hv_OM3DSensor, hv_OM3DLense }, "points_surface",out HTuple _hv3D);
+            //_hv_OME3D = new HObjectModel3D(_hv3D.H);
             //
             //Clean up.
             HOperatorSet.ClearObjectModel3d(hv_ObjectModel3DInit);
@@ -138,7 +138,7 @@ public class Reconstruction_3d
             HOperatorSet.ClearObjectModel3d(hv_ObjectModel3DInitTiltedBack);
             HOperatorSet.ClearObjectModel3d(hv_ObjectModel3DLense);
 
-            return _hv_OME3D[0].UnionObjectModel3d( "points_surface");
+            return new List<HObjectModel3D> { hv_OM3DSensor, hv_OM3DLense };
 
 
         }
@@ -169,8 +169,8 @@ public class Reconstruction_3d
             //hv_PoseBack.Dispose();
             hv_ObjectModel3DInitTiltedBack.Dispose();
             hv_CamPose.Dispose();
-            hv_OM3DSensor.Dispose();
-            hv_OM3DLense.Dispose();
+            //hv_OM3DSensor.Dispose();
+            //hv_OM3DLense.Dispose();
 
         }
     }
@@ -1035,7 +1035,7 @@ public class Reconstruction_3d
 
     // Chapter: Calibration / Camera Parameters
     // Short Description: Get the value of a specified camera parameter from the camera parameter tuple. 
-    private void get_cam_par_data(HTuple hv_CameraParam, HTuple hv_ParamName, out HTuple hv_ParamValue)
+    private static  void get_cam_par_data(HTuple hv_CameraParam, HTuple hv_ParamName, out HTuple hv_ParamValue)
     {
 
 
@@ -1120,7 +1120,7 @@ public class Reconstruction_3d
 
     // Chapter: Calibration / Camera Parameters
     // Short Description: Get the names of the parameters in a camera parameter tuple. 
-    private void get_cam_par_names(HTuple hv_CameraParam, out HTuple hv_CameraType,
+    private static  void get_cam_par_names(HTuple hv_CameraParam, out HTuple hv_CameraType,
         out HTuple hv_ParamNames)
     {
 
