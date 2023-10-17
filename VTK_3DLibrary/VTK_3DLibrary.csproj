@@ -26,10 +26,10 @@
 
   <ItemGroup>
     <Reference Include="Kitware.mummy.Runtime">
-      <HintPath>..\HanGao_Base\VTK_3D_Lib\Kitware.mummy.Runtime.dll</HintPath>
+      <HintPath>..\HanGao_Base\VTK_DLL\Kitware.mummy.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Kitware.VTK">
-      <HintPath>..\HanGao_Base\VTK_3D_Lib\Kitware.VTK.dll</HintPath>
+      <HintPath>..\HanGao_Base\VTK_DLL\Kitware.VTK.dll</HintPath>
     </Reference>
   </ItemGroup>
 

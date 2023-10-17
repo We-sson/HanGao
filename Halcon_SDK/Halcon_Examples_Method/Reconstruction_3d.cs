@@ -142,7 +142,7 @@ public class Reconstruction_3d
 
 
         }
-        catch (HalconException _he)
+        catch (HalconException )
         {
 
             return null;
@@ -1835,7 +1835,7 @@ public class Reconstruction_3d
                     break;
                 default:
                     throw new HalconException("Wrong number of values in CameraParam.");
-                    break;
+                
             }
         }
         else

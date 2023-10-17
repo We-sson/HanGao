@@ -96,10 +96,10 @@
       <HintPath>..\Halcon_SDK\hdevenginedotnet.dll</HintPath>
     </Reference>
     <Reference Include="Kitware.mummy.Runtime">
-      <HintPath>VTK_3D_Lib\Kitware.mummy.Runtime.dll</HintPath>
+      <HintPath>..\VTK_3DLibrary\DLL\Kitware.mummy.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Kitware.VTK">
-      <HintPath>VTK_3D_Lib\Kitware.VTK.dll</HintPath>
+      <HintPath>..\VTK_3DLibrary\DLL\Kitware.VTK.dll</HintPath>
     </Reference>
     <Reference Include="MvCamCtrl.Net">
       <HintPath>..\MVS_SDK\MvCamCtrl.Net.dll</HintPath>
