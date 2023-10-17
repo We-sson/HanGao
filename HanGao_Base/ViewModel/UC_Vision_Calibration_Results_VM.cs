@@ -79,21 +79,37 @@ namespace HanGao.ViewModel
                                 if (_Calib.Camera_0.Calibration_Image != null)
                                 {
                                     //查找标定图像中标定板位置和坐标
-                                    Halcon_Method.FindCalib_3DCoord(ref _CalibXLD, ref _CalibCoord, ref _CalibSetup_ID, (HImage)_Calib.Camera_0.Calibration_Image, 0, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma);
+                                    if (Halcon_Method.FindCalib_3DCoord(ref _CalibXLD, ref _CalibCoord, ref _CalibSetup_ID, (HImage)_Calib.Camera_0.Calibration_Image, 0, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma).GetResult())
+                                    {
+
                                     _Calib.Camera_0.Calibration_Region = _CalibXLD.CopyObj(1, -1);
                                     _Calib.Camera_0.Calibration_XLD = _CalibCoord.CopyObj(1, -1);
                                     _Calib.Camera_0.Calibration_State = Camera_Calibration_Results_Type_Enum.标定图像识别成功.ToString();
                                     _Calib.Image_No = _ImageNO;
+                                    }
+                                    else
+                                    {
+                                        _Calib.Camera_0.Calibration_State = Camera_Calibration_Results_Type_Enum.标定图像识别失败.ToString ();
+                                        _Calib.Image_No = _ImageNO;
+                                    }
                                 }
 
                                 if (_Calib.Camera_1.Calibration_Image != null)
                                 {
-                                    //查找标定图像中标定板位置和坐标
-                                    Halcon_Method.FindCalib_3DCoord(ref _CalibXLD, ref _CalibCoord, ref _CalibSetup_ID, (HImage)_Calib.Camera_1.Calibration_Image, 0, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma);
-                                    _Calib.Camera_1.Calibration_Region = _CalibXLD.CopyObj(1, -1);
-                                    _Calib.Camera_1.Calibration_XLD = _CalibCoord.CopyObj(1, -1);
-                                    _Calib.Camera_1.Calibration_State = Camera_Calibration_Results_Type_Enum.标定图像识别成功.ToString();
-                                    _Calib.Image_No = _ImageNO;
+                                    if (Halcon_Method.FindCalib_3DCoord(ref _CalibXLD, ref _CalibCoord, ref _CalibSetup_ID, (HImage)_Calib.Camera_0.Calibration_Image, 0, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma).GetResult())
+                                    {
+                                        //查找标定图像中标定板位置和坐标
+                                        Halcon_Method.FindCalib_3DCoord(ref _CalibXLD, ref _CalibCoord, ref _CalibSetup_ID, (HImage)_Calib.Camera_1.Calibration_Image, 0, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma);
+                                        _Calib.Camera_1.Calibration_Region = _CalibXLD.CopyObj(1, -1);
+                                        _Calib.Camera_1.Calibration_XLD = _CalibCoord.CopyObj(1, -1);
+                                        _Calib.Camera_1.Calibration_State = Camera_Calibration_Results_Type_Enum.标定图像识别成功.ToString();
+                                        _Calib.Image_No = _ImageNO;
+                                    }
+                                    else
+                                    {
+                                        _Calib.Camera_1.Calibration_State = Camera_Calibration_Results_Type_Enum.标定图像识别失败.ToString();
+                                        _Calib.Image_No = _ImageNO;
+                                    }
                                 }
 
 

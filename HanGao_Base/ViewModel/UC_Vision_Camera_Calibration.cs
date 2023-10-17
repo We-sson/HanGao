@@ -139,29 +139,12 @@ namespace HanGao.ViewModel
 
                         if (Display_Status(Halcon_SDK.Mvs_To_Halcon_Image(ref _HImage, _MVS_Image.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image.PData)).GetResult())
                         {
-                            Calibration_Image_List_Model _Image = new Calibration_Image_List_Model() { };
+                            //Calibration_Image_List_Model _Image = new Calibration_Image_List_Model() { };
 
-                            _Image.Image_No = UC_Vision_Calibration_Image_VM.Calibration_Image_No;
-                            _Image.Camera_No = (int)_camer.Camera_Calibration.Camera_Calibration_MainOrSubroutine_Type;
+                            //_Image.Image_No = UC_Vision_Calibration_Image_VM.Calibration_Image_No;
+                            //_Image.Camera_No = (int)_camer.Camera_Calibration.Camera_Calibration_MainOrSubroutine_Type;
 
-                            switch ((int)_camer.Camera_Calibration.Camera_Calibration_MainOrSubroutine_Type)
-                            {
-                                case (int)Camera_Calibration_MainOrSubroutine_Type_Enum.Main:
-                                    _Image.Camera_0.Calibration_Image = _HImage.CopyObj(1, -2);
-                                    _Image.Camera_0.Carme_Name = _camer.Camera_Info.SerialNumber.ToString();
-                                    _Image.Camera_0.Calibration_State = Camera_Calibration_Results_Type_Enum.标定图像已保存.ToString();
-                                    break;
-                                case (int)Camera_Calibration_MainOrSubroutine_Type_Enum.Subroutine:
-                                    _Image.Camera_1.Calibration_Image = _HImage.CopyObj(1, -2);
-                                    _Image.Camera_1.Carme_Name = _camer.Camera_Info.SerialNumber.ToString();
-                                    _Image.Camera_1.Calibration_State = Camera_Calibration_Results_Type_Enum.标定图像已保存.ToString();
-
-                                    break;
-
-                            }
-
-
-                            Messenger.Send<Calibration_Image_List_Model, string>(_Image, nameof(Meg_Value_Eunm.Calibration_Image_ADD));
+                            Calibration_Load_Image(_HImage, _camer.Camera_Calibration.Camera_Calibration_MainOrSubroutine_Type, _camer.Camera_Info.SerialNumber.ToString());
 
                         }
 
@@ -170,10 +153,47 @@ namespace HanGao.ViewModel
 
 
             }
-            UC_Vision_Calibration_Image_VM.Calibration_Image_No++;
 
 
         }
+
+        /// <summary>
+        /// 添加标定图像方法
+        /// </summary>
+        /// <param name="_HImage"></param>
+        /// <param name="_Camera_Calibration_Type"></param>
+        /// <param name="_Carme_Name"></param>
+        public static    void Calibration_Load_Image(HImage _HImage, Camera_Calibration_MainOrSubroutine_Type_Enum _Camera_Calibration_Type,string _Carme_Name)
+        {
+            Calibration_Image_List_Model _Image = new Calibration_Image_List_Model() { };
+            //设置图像号数
+            _Image.Image_No = UC_Vision_Calibration_Image_VM.Calibration_Image_No;
+
+            //根据写入图像号数设置对应图像
+            switch ((int)_Camera_Calibration_Type)
+            {
+                case (int)Camera_Calibration_MainOrSubroutine_Type_Enum.Main:
+                    _Image.Camera_0.Calibration_Image = _HImage.CopyObj(1, -2);
+                    _Image.Camera_0.Carme_Name = _Carme_Name;
+                    _Image.Camera_0.Calibration_State = Camera_Calibration_Results_Type_Enum.标定图像已加载.ToString();
+                    break;
+                case (int)Camera_Calibration_MainOrSubroutine_Type_Enum.Subroutine:
+                    _Image.Camera_1.Calibration_Image = _HImage.CopyObj(1, -2);
+                    _Image.Camera_1.Carme_Name = _Carme_Name;
+                    _Image.Camera_1.Calibration_State = Camera_Calibration_Results_Type_Enum.标定图像已加载.ToString();
+
+                    break;
+
+            }
+
+            //发送设置好的图像到标定图像集合中
+            StrongReferenceMessenger.Default.Send<Calibration_Image_List_Model, string>(_Image, nameof(Meg_Value_Eunm.Calibration_Image_ADD));
+
+            //增加图像号数
+            UC_Vision_Calibration_Image_VM.Calibration_Image_No++;
+
+        }
+
 
 
         public void Halcon_Calibration_End(Halcon_Camera_Calibration_Model _Parameters)

@@ -106,12 +106,12 @@ namespace HanGao.ViewModel
                 User_Sink.User_Picking_Craft.User_Direction = (Direction_Enum)Enum.Parse(typeof(Direction_Enum), S);
             });
             //接收修改参数属性
-            Messenger.Register<dynamic, string>(this, nameof(Meg_Value_Eunm.Sink_Surround_Craft_Point_Load), (O, S) =>
+            Messenger.Register<Enum, string>(this, nameof(Meg_Value_Eunm.Sink_Surround_Craft_Point_Load), (O, S) =>
            {
                //UI界面显示加载,禁止再次操作
                //Messenger.Send<dynamic, string>(UI_Type_Enum.Reading, nameof(Meg_Value_Eunm.Surround_Direction_State));
                //获得用户选择区域
-               User_Sink.User_Picking_Craft.User_Direction = S;
+               User_Sink.User_Picking_Craft.User_Direction =(Direction_Enum) S;
                ObservableCollection<Socket_Models_List> _List = new ObservableCollection<Socket_Models_List>();
                int _ID = 0;
                ///获取用户选择步骤的Xml数据集合
@@ -141,7 +141,7 @@ namespace HanGao.ViewModel
                                            Val_ID = _ID,
                                            Send_Area = nameof(Meg_Value_Eunm.Read_Robot_Surround_Craft_Data),
                                            UserObject = new KUKA_Craft_Value()
-                                           { Craft_Point_NO = Date.Craft_Date[i].NO, KUKA_Craft_Type = Craft_List.Name, KUKA_Point_Type = Date.Craft_Date[i].Craft_Type, User_Direction = S, User_Work = User_Sink.User_Picking_Craft.User_Work_Area },
+                                           { Craft_Point_NO = Date.Craft_Date[i].NO, KUKA_Craft_Type = Craft_List.Name, KUKA_Point_Type = Date.Craft_Date[i].Craft_Type, User_Direction =(Direction_Enum) S, User_Work = User_Sink.User_Picking_Craft.User_Work_Area },
                                            //User_Picking_Craft = User_Sink.User_Picking_Craft,
                                        });
                                        break;

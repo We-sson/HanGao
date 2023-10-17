@@ -72,7 +72,7 @@ namespace HanGao.ViewModel
                 FrameworkElement e = Sm.Source as FrameworkElement;
 
 
-                Messenger.Send<dynamic , string>((Direction_Enum)Enum.Parse(typeof(Direction_Enum), e.Name), nameof(Meg_Value_Eunm.Sink_Surround_Craft_Point_Load));
+                Messenger.Send<Enum, string>((Direction_Enum)Enum.Parse(typeof(Direction_Enum), e.Name), nameof(Meg_Value_Eunm.Sink_Surround_Craft_Point_Load));
 
             });
         }

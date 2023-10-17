@@ -217,7 +217,8 @@ namespace HanGao.ViewModel
           
 
                 Window_UserContol.Tab_Window.BeginInit();
-                for (int index = 0; index < Window_UserContol.Tab_Window.Items.Count; index++)
+                for (int index = 0; 
+                    index < Window_UserContol.Tab_Window.Items.Count; index++)
                 {
 
 

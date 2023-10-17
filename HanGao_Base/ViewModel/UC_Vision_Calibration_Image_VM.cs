@@ -2,11 +2,15 @@
 
 using HalconDotNet;
 using HanGao.View.User_Control.Vision_Calibration.Vison_UserControl;
+using MVS_SDK_Base.Model;
+using Ookii.Dialogs.Wpf;
 using System.Drawing;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static HanGao.ViewModel.UC_Vision_Calibration_Results_VM;
 using static HanGao.ViewModel.UC_Vision_Camera_Calibration;
 using static HanGao.ViewModel.UC_Vision_CameraSet_ViewModel;
+
+
 using static MVS_SDK_Base.Model.MVS_Model;
 
 namespace HanGao.ViewModel
@@ -22,7 +26,7 @@ namespace HanGao.ViewModel
 
 
             //清楚工艺列表显示
-            Messenger.Register<Calibration_Image_List_Model, string>(this, nameof(Meg_Value_Eunm.Calibration_Image_ADD), (O, S) =>
+            StrongReferenceMessenger.Default.Register<Calibration_Image_List_Model, string>(this, nameof(Meg_Value_Eunm.Calibration_Image_ADD), (O, S) =>
             {
                 HObject _1 = S.Camera_1.Calibration_Image;
 
@@ -118,7 +122,59 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 标定图像保存列表动作
         /// </summary>
-        public ICommand Calibration_Image_Selected_Comm
+        public ICommand Calibration_Image_FileLoad_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                MenuItem E = Sm.Source as MenuItem;
+
+
+
+                VistaOpenFileDialog _OpenFile = new VistaOpenFileDialog()
+                {
+
+                    Filter = "图片文件|*.jpg;*.gif;*.bmp;*.png;*.tif;*.tiff;*.gif;*.bmp;*.jpg;*.jpeg;*.jp2;*.png;*.pcx;*.pgm;*.ppm;*.pbm;*.xwd;*.ima;*.hobj;",
+                    Multiselect= true,
+
+                    InitialDirectory = Directory.GetCurrentDirectory(),
+                };
+                if ((bool)_OpenFile.ShowDialog())
+                {
+                    //异步写入图像
+                    Task.Run(() =>
+                    {
+
+
+                        for (int i = 0; i < _OpenFile.FileNames.Length; i++)
+                    {
+
+                    HImage _HImage = new HImage();
+                            //读取文件图像
+                        _HImage.ReadImage(_OpenFile.FileNames[i]);
+                    Application.Current.Dispatcher.Invoke(() => 
+                    {
+                    
+                        //加载图像文件到标定集合内
+                            Calibration_Load_Image(_HImage, Enum.Parse<Camera_Calibration_MainOrSubroutine_Type_Enum>(E.Name), E.Name);
+                    });
+                    }
+                        //File_Log = _OpenFile.FileName;
+
+                    });
+                }
+
+
+            });
+        }
+
+
+
+
+
+    /// <summary>
+    /// 标定图像保存列表动作
+    /// </summary>
+    public ICommand Calibration_Image_Selected_Comm
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {

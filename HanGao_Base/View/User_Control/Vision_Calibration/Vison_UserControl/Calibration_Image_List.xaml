@@ -257,7 +257,7 @@
                     <MenuItem.Icon>
                         <Image Source="/Resources/Vision_下拉选择_ioc.png" />
                     </MenuItem.Icon>
-                    <MenuItem Foreground="{DynamicResource 全局_按钮_黑颜色}">
+                    <MenuItem x:Name="Main" Foreground="{DynamicResource 全局_按钮_黑颜色}">
                         <MenuItem.Header>
                             <TextBlock Text="相机_0 图像"
                                        VerticalAlignment="Center"
@@ -266,13 +266,13 @@
                         </MenuItem.Header>
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction Command="{Binding}"
+                                <i:InvokeCommandAction Command="{Binding Calibration_Image_FileLoad_Comm}"
                                                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                        PassEventArgsToCommand="True" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </MenuItem>
-                    <MenuItem Foreground="{DynamicResource 全局_按钮_黑颜色}">
+                    <MenuItem x:Name="Subroutine" Foreground="{DynamicResource 全局_按钮_黑颜色}">
                         <MenuItem.Header>
                             <TextBlock Text="相机_1 图像"
                                        VerticalAlignment="Center"
@@ -281,7 +281,7 @@
                         </MenuItem.Header>
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction Command="{Binding}"
+                                <i:InvokeCommandAction Command="{Binding Calibration_Image_FileLoad_Comm}"
                                                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                        PassEventArgsToCommand="True" />
                             </i:EventTrigger>
