@@ -1054,7 +1054,7 @@ namespace Halcon_SDK_DLL
                 //显示标定板三维坐标位置
                 Halcon_Example.Disp_3d_coord(ref _CalibCoord, _CamerPar, hv_Pose, new HTuple(0.02));
 
-                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = "标定" };
+                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) {  };
 
 
             }

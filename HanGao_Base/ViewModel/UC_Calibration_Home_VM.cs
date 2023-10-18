@@ -238,10 +238,11 @@ namespace HanGao.ViewModel
 
 
                 }
-                catch (Exception _e)
+                catch (Exception _e )
                 {
 
-                    throw;
+                    User_Log_Add("内参标定窗口初始化失败！原因："+_e, Log_Show_Window_Enum.Calibration);
+
                 }
 
 

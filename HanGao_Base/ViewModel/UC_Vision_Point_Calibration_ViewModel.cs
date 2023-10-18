@@ -369,7 +369,7 @@ namespace HanGao.ViewModel
 
                 }
 
-                Camera_Parametric_Home Parametric_Window = 
+                Camera_Parametric_Home Parametric_Window =
                 new Camera_Parametric_Home()
                 {
                     //Camera_Set = new UC_Vision_CameraSet()
@@ -379,10 +379,10 @@ namespace HanGao.ViewModel
 
                     //    //}
                     //},
-                    //DataContext = new Vision_Calibration_Home_VM()
-                    //{
+                    DataContext = new Vision_Calibration_Home_VM()
+                    {
 
-                    //},
+                    },
                     //Calibration_3D_Results = new HSmartWindowControlWPF() { },
                     //Calibration_Window_1 = new HSmartWindowControlWPF() { },
                     //Calibration_Window_2 = new HSmartWindowControlWPF() { }

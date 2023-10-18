@@ -89,7 +89,6 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="90" />
                                     <ColumnDefinition Width=" *" />
-
                                     <ColumnDefinition Width=" *" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="标定操作"
@@ -100,15 +99,39 @@
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
 
-                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
+                                <Button Grid.Column=" 1"
                                         Margin="4,0,4,0"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
                                         Background="{DynamicResource 全局_按钮_蓝颜色}">
-                                    <TextBlock Text="检测数据"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                               FontSize="16"
-                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                    <Button.Resources>
+                                        <TextBlock x:Key="Check_Txt"
+                                                   Text="检测数据"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                   FontSize="16"
+                                                   Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                        <ProgressBar x:Key="Checks_PBar"
+                                                     Margin="4"
+                                                     BorderThickness="0"
+                                                     Maximum=" 100"
+                                                     Minimum=" 0"
+                                                     Value="{Binding Calibration_Checks_State_Val, UpdateSourceTrigger=PropertyChanged}" />
+                                    </Button.Resources>
+                                    <Button.Style>
+                                        <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
+                                            <Setter Property="Content" Value="{StaticResource Check_Txt}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Calibration_Checks_State}" Value="true">
+                                                    <Setter Property="Content" Value="{StaticResource Checks_PBar}" />
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+
+
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
                                             <i:InvokeCommandAction Command="{Binding Camera_Calibration_Checks_Comm}"
@@ -120,75 +143,11 @@
 
 
 
-                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
-                                        Margin="4,0,4,0"
-                                        Background="{DynamicResource 全局_按钮_蓝颜色}">
-                                    <TextBlock Text="标定数据"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                               FontSize="16"
-                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding Camera_Calibration_Data_Comm}"
-                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                   PassEventArgsToCommand="True" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </Button>
+
+
                             </Grid>
 
-                            <Grid Height="35" Margin="8">
 
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width=" 90" />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width=" auto" />
-                                    <ColumnDefinition Width=" 35" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="平均误差"
-                                           HorizontalAlignment="Left"
-                                           VerticalAlignment="Center"
-                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                           FontSize="16"
-                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_Mean_Error_UI" Grid.Column=" 1"
-                                        Margin="5"
-                                        VerticalAlignment="Center"
-                                        HorizontalContentAlignment="Stretch"
-                                        VerticalContentAlignment="Stretch"
-                                        IsSnapToTickEnabled="True"
-                                        Maximum="50000"
-                                        Minimum="0"
-                                        SmallChange="10"
-                                        Value="{Binding Calibration_Camera_Results.Error_Pixel}">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="PreviewMouseUp">
-                                            <i:InvokeCommandAction Command="{Binding}"
-                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                   PassEventArgsToCommand="True" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </Slider>
-
-                                <TextBox Grid.Column=" 2"
-                                         Text="{Binding ElementName=Calibration_Mean_Error_UI, Path=Value, StringFormat={}{0:N3}}"
-                                         Width="100"
-                                         HorizontalContentAlignment="Center"
-                                         VerticalContentAlignment="Center"
-                                         Background="Transparent"
-                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                         BorderThickness="2"
-                                         FontSize="18" />
-                                <Label Grid.Column=" 3"
-                                       Content="Pixel"
-                                       Margin="0"
-                                       Padding="0"
-                                       HorizontalContentAlignment="Center"
-                                       VerticalContentAlignment="Center"
-                                       FontSize=" 14" />
-                            </Grid>
 
                             <Grid Height="35" Margin="8">
 
@@ -589,6 +548,57 @@
                         <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 5 5" />
                         <StackPanel Orientation="Vertical">
 
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=" 90" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                    <ColumnDefinition Width=" 35" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="平均误差"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_Camera_0_Error_UI" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="50000"
+                                        Minimum="0"
+                                        SmallChange="10"
+                                        Value="{Binding Calibration_Camera_0_Results_Error_Val}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PreviewMouseUp">
+                                            <i:InvokeCommandAction Command="{Binding}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Slider>
+
+                                <TextBox Grid.Column=" 2"
+                                         Text="{Binding ElementName=Calibration_Camera_0_Error_UI, Path=Value, StringFormat={}{0:N3}}"
+                                         Width="100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                                <Label Grid.Column=" 3"
+                                       Content="Pixel"
+                                       Margin="0"
+                                       Padding="0"
+                                       HorizontalContentAlignment="Center"
+                                       VerticalContentAlignment="Center"
+                                       FontSize=" 14" />
+                            </Grid>
+
 
                             <Grid Height="35" Margin="8">
 
@@ -945,12 +955,57 @@
 
                                     <ColumnDefinition Width=" *" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="文件操作"
+                                <TextBlock Text="功能操作"
                                            HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+                                <Button x:Name="Camera_0" Grid.Column=" 1"
+                                        Margin="4,0,4,0"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        Background="{DynamicResource 全局_按钮_蓝颜色}">
+                                    <Button.Resources>
+                                        <ProgressBar x:Key="Calibration_PBar"
+                                                     Margin="4"
+                                                     BorderThickness="0"
+                                                     Maximum=" 100"
+                                                     Minimum=" 0"
+                                                     Value="{Binding Calibration_Results_State_Val, UpdateSourceTrigger=PropertyChanged}" />
+
+                                        <TextBlock x:Key="Calibration_Results_Txt"
+                                                   Text="标定数据"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                   FontSize="16"
+                                                   Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                    </Button.Resources>
+
+                                    <Button.Style>
+                                        <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
+                                            <Setter Property="Content" Value="{StaticResource Calibration_Results_Txt}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Calibration_Results_State}" Value="true">
+                                                    <Setter Property="Content" Value="{StaticResource Calibration_PBar}" />
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding Camera_Calibration_Data_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+
 
 
                                 <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
@@ -1062,6 +1117,57 @@
                         <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 5 5" />
                         <StackPanel Orientation="Vertical">
 
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=" 90" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                    <ColumnDefinition Width=" 35" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="平均误差"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_Camera_1_Error_UI" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="50000"
+                                        Minimum="0"
+                                        SmallChange="10"
+                                        Value="{Binding Calibration_Camera_1_Results_Error_Val}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PreviewMouseUp">
+                                            <i:InvokeCommandAction Command="{Binding}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Slider>
+
+                                <TextBox Grid.Column=" 2"
+                                         Text="{Binding ElementName=Calibration_Camera_1_Error_UI, Path=Value, StringFormat={}{0:N3}}"
+                                         Width="100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                                <Label Grid.Column=" 3"
+                                       Content="Pixel"
+                                       Margin="0"
+                                       Padding="0"
+                                       HorizontalContentAlignment="Center"
+                                       VerticalContentAlignment="Center"
+                                       FontSize=" 14" />
+                            </Grid>
 
                             <Grid Height="35" Margin="8">
 
@@ -1417,13 +1523,56 @@
 
                                     <ColumnDefinition Width=" *" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="文件操作"
+                                <TextBlock Text="功能操作"
                                            HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
+
+                                <Button x:Name="Camera_1" Grid.Column=" 1"
+                                        Margin="4,0,4,0"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        Background="{DynamicResource 全局_按钮_蓝颜色}">
+                                    <Button.Resources>
+                                        <ProgressBar x:Key="Calibration_PBar"
+                                                     Margin="4"
+                                                     BorderThickness="0"
+                                                     Maximum=" 100"
+                                                     Minimum=" 0"
+                                                     Value="{Binding Calibration_Results_State_Val, UpdateSourceTrigger=PropertyChanged}" />
+
+                                        <TextBlock x:Key="Calibration_Results_Txt"
+                                                   Text="标定数据"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                   FontSize="16"
+                                                   Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                    </Button.Resources>
+
+                                    <Button.Style>
+                                        <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
+                                            <Setter Property="Content" Value="{StaticResource Calibration_Results_Txt}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Calibration_Results_State}" Value="true">
+                                                    <Setter Property="Content" Value="{StaticResource Calibration_PBar}" />
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding Camera_Calibration_Data_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
 
                                 <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
                                         Margin="4,0,4,0"

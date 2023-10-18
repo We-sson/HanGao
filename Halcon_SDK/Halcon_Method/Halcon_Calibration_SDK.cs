@@ -35,8 +35,8 @@ namespace Halcon_SDK_DLL
                           _Param.Kappa,
                           _Param.One_Pixel_Width,
                           _Param.One_Pixel_Height,
-                          _Param.Max_Width_Pos *0.5,
-                          _Param.Max_Height_Pos *0.5,
+                          _Param.Max_Width_Pos * 0.5,
+                          _Param.Max_Height_Pos * 0.5,
                           _Param.Max_Width_Pos,
                           _Param.Max_Height_Pos
      );
@@ -44,16 +44,16 @@ namespace Halcon_SDK_DLL
                 case Model.Halocn_Camera_Calibration_Enum.area_scan_polynomial:
 
                     _CameraParam = _CameraParam.TupleConcat(
-                        _Param.Focus/1000,
+                        _Param.Focus / 1000,
                         _Param.K1,
                         _Param.K2,
                         _Param.K3,
                         _Param.P1,
                         _Param.P2,
-                        _Param.One_Pixel_Width/1000000,
-                        _Param.One_Pixel_Height/1000000,
-                        _Param.Max_Width_Pos *0.5,
-                        _Param.Max_Height_Pos *0.5,
+                        _Param.One_Pixel_Width / 1000000,
+                        _Param.One_Pixel_Height / 1000000,
+                        _Param.Max_Width_Pos * 0.5,
+                        _Param.Max_Height_Pos * 0.5,
                         _Param.Max_Width_Pos,
                         _Param.Max_Height_Pos
                         );
@@ -84,5 +84,25 @@ namespace Halcon_SDK_DLL
 
 
         }
+
+
     }
+
+
+    /// <summary>
+    /// 标定加载类型枚举
+    /// </summary>
+    public enum Calibration_Load_Type
+    {
+        None,
+        All_Camera,
+        Camera_0,
+        Camera_1,
+
+
+
+    }
+
+
+
 }

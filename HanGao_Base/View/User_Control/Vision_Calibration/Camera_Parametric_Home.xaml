@@ -15,7 +15,7 @@
         Title="相机内参标定工具"
         Width="1400"
         Height="1200"
-        DataContext="{Binding Source={StaticResource Locator}, Path=Vision_Calibration_Home_VM}"
+        d:DataContext="{Binding Source={StaticResource Locator}, Path=Vision_Calibration_Home_VM}"
         WindowStyle="SingleBorderWindow"
         mc:Ignorable="d">
     <Window.Resources>
@@ -33,7 +33,7 @@
     <Grid Background="{DynamicResource 全局_背景_白颜色}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="9*" />
-            <ColumnDefinition Width="59*"/>
+            <ColumnDefinition Width="59*" />
             <ColumnDefinition Width=" 380" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -42,13 +42,14 @@
         </Grid.RowDefinitions>
 
         <TabControl x:Name="Tab_Window" Grid.Row="0" Grid.Column=" 0"
+                    Grid.ColumnSpan="2"
                     Margin="5,5,5,5"
                     Padding="0"
                     Background="Transparent"
                     BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
                     BorderThickness="4"
                     SelectedIndex="0"
-                    TabStripPlacement="Top" Grid.ColumnSpan="2">
+                    TabStripPlacement="Top">
             <!--<i:Interaction.Triggers>
                 <i:EventTrigger EventName="Loaded">
                     <i:InvokeCommandAction Command="{Binding Initialization_Halcon_UserControl_Comm}"
@@ -586,12 +587,13 @@
         </TabControl>
 
         <TabControl Grid.Row="1" Grid.Column="0"
+                    Grid.ColumnSpan="2"
                     Margin="5,5,5,5"
                     Padding="0"
                     Background="Transparent"
                     BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
                     BorderThickness="4"
-                    TabStripPlacement="Top" Grid.ColumnSpan="2">
+                    TabStripPlacement="Top">
             <TabItem Style="{DynamicResource Vision_TabItemStyle}"
                      Padding="40,5,40,5"
                      FontSize=" 16"

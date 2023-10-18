@@ -844,7 +844,7 @@ public partial class HDevelopExport
         break;
       default:
         throw new HalconException("Wrong number of values in CameraParam.");
-        break;
+    
       }
     }
     else
