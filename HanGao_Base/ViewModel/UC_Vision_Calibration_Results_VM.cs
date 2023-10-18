@@ -248,6 +248,8 @@ namespace HanGao.ViewModel
                                     //标定相机后赋值到全局调用
                                     Halcon_CalibSetup_ID = _CalibSetup_ID;
 
+
+                                //计算标定误差
                                 double Results_Error_Val = _CalibSetup_ID.CalibrateCameras();
 
                                 //Calibration_Camera_Results.Error_Pixel = _CalibSetup_ID.CalibrateCameras();
@@ -259,7 +261,15 @@ namespace HanGao.ViewModel
 
 
 
-                                            break;
+                                        //读取标定内参进行保存
+                                        HTuple _HCamera = Halcon_CalibSetup_ID.GetCalibData("model", "general", "camera_setup_model");
+                                        HCameraSetupModel _HCam = new HCameraSetupModel(_HCamera.H);
+                                      //
+                                         HTuple  _Camera_Param = _HCam.GetCameraSetupParam(0, "params");
+
+
+
+                                        break;
                                         case Calibration_Load_Type.Camera_1:
                                             Calibration_Camera_1_Results_Error_Val= Results_Error_Val;
                                             break;

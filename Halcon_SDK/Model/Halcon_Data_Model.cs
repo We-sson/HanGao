@@ -825,11 +825,13 @@ namespace Halcon_SDK_DLL.Model
         public string Calibration_Results_Save_File { set; get; } = "";
     }
 
-    public class Calibration_Camera_Results_Model
+    public class Calibration_Camera_Data_Results_Model
     {
-
+        public double Camera_Result_Error_Val { set; get; } = 0;
 
         public Halcon_Camera_Calibration_Parameters_Model Camera_Result_Pama { set; get; } = new Halcon_Camera_Calibration_Parameters_Model();
+    
+
     }
 
 

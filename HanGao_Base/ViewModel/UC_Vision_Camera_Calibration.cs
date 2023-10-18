@@ -48,8 +48,9 @@ namespace HanGao.ViewModel
 
         public bool Get_Calibration_State { set; get; } = true;
 
-        public static  int Calibration_Image_0_No = 0;
-        public static  int Calibration_Image_1_No = 0;
+        public static  int Calibration_Image_0_No { set;get } = 0;
+
+        public static  int Calibration_Image_1_No { set;get } = 0;
 
 
         /// <summary>
