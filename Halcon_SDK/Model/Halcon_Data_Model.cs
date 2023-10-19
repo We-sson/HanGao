@@ -4,12 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Media.Media3D;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
@@ -537,6 +531,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// Halcon标定相机参数
         /// </summary>
+        [AddINotifyPropertyChangedInterface]
         public class Halcon_Camera_Calibration_Parameters_Model
         {
 
@@ -548,11 +543,11 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 单个像高度：微米
             /// </summary>
-            public double One_Pixel_Height { set; get; } = 2.2;
+            public double Sy { set; get; } = 2.2;
             /// <summary>
             /// 单个像宽度：微米
             /// </summary>
-            public double One_Pixel_Width { set; get; } = 2.2;
+            public double Sx { set; get; } = 2.2;
 
             /// <summary>
             /// 焦距：mm
@@ -586,23 +581,27 @@ namespace Halcon_SDK_DLL.Model
             /// </summary>
             public double P2 { set; get; } = 0;
 
+
+
+
+
             /// <summary>
             /// 中间高度度位置
             /// </summary>
-            public double Middle_Height_Pos { set; get; } = 250;
+            public double Cy { set; get; } = 250;
             /// <summary>
             /// 中间宽度位置
             /// </summary>
-            public double Middle_Width_Pos { set; get; } = 250;
+            public double Cx { set; get; } = 250;
 
             /// <summary>
             /// 最大高度像素
             /// </summary>
-            public int Max_Height_Pos { set; get; } = 500;
+            public int Image_Width { set; get; } = 500;
             /// <summary>
             /// 最大宽度像素
             /// </summary>
-            public int Max_Width_Pos { set; get; } = 500;
+            public int Image_Height { set; get; } = 500;
         }
 
     }
@@ -825,12 +824,45 @@ namespace Halcon_SDK_DLL.Model
         public string Calibration_Results_Save_File { set; get; } = "";
     }
 
+
+
+
+
+
+    /// <summary>
+    /// 标定相机集合类型
+    /// </summary>
+    public class Caliration_AllCamera_Results_Model
+    {
+
+        public Calibration_Camera_Data_Results_Model Camera_0_Results { set; get; } = new Calibration_Camera_Data_Results_Model();
+
+        public Calibration_Camera_Data_Results_Model Camera_1_Results { set; get; } = new Calibration_Camera_Data_Results_Model();
+
+    }
+
+
+
+
+
+    [AddINotifyPropertyChangedInterface]
     public class Calibration_Camera_Data_Results_Model
     {
-        public double Camera_Result_Error_Val { set; get; } = 0;
+        /// <summary>
+        /// 标定结果像素误差
+        /// </summary>
+        public double Result_Error_Val { set; get; } = 0;
 
+        /// <summary>
+        /// 标定结果保存位置
+        /// </summary>
+        public string Result_File_Address { set; get; } = Directory.GetCurrentDirectory() + "\\Calibration_File";
+
+        /// <summary>
+        /// 相机标定参数
+        /// </summary>
         public Halcon_Camera_Calibration_Parameters_Model Camera_Result_Pama { set; get; } = new Halcon_Camera_Calibration_Parameters_Model();
-    
+
 
     }
 

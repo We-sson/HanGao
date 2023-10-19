@@ -33,15 +33,15 @@ namespace HanGao.ViewModel
 
 
                 //判断过图像号数
-                if (Calibration_Image_List.Where((_W) => _W.Image_No == S.Image_No).FirstOrDefault() == null)
+                if (Calibration_List.Where((_W) => _W.Image_No == S.Image_No).FirstOrDefault() == null)
                 {
                     //没有新建
-                    Application.Current.Dispatcher.Invoke(() => { Calibration_Image_List.Add(S); });
+                    Application.Current.Dispatcher.Invoke(() => { Calibration_List.Add(S); });
                 }
                 else
                 {
                     //循环查找对应相机号
-                    foreach (var _calibration in Calibration_Image_List)
+                    foreach (var _calibration in Calibration_List)
                     {
                         if (_calibration.Image_No == S.Image_No)
                         {
@@ -104,17 +104,17 @@ namespace HanGao.ViewModel
 
 
 
-        private static ObservableCollection<Calibration_Image_List_Model> _Calibration_Image_List { get; set; } = new ObservableCollection<Calibration_Image_List_Model>();
+        private static ObservableCollection<Calibration_Image_List_Model> _Calibration_List { get; set; } = new ObservableCollection<Calibration_Image_List_Model>();
         /// <summary>
         /// 全局标定设置参数
         /// </summary>
-        public static ObservableCollection<Calibration_Image_List_Model> Calibration_Image_List
+        public static ObservableCollection<Calibration_Image_List_Model> Calibration_List
         {
-            get { return _Calibration_Image_List; }
+            get { return _Calibration_List; }
             set
             {
-                _Calibration_Image_List = value;
-                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Calibration_Image_List)));
+                _Calibration_List = value;
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Calibration_List)));
             }
         }
 
@@ -212,7 +212,7 @@ namespace HanGao.ViewModel
 
                                 //清楚旧图像，显示选中图像
                                 _HImage = _Selected.Camera_0.Calibration_Image;
-                                Window_Show_Name_Enum _ShowDisply=  Window_Show_Name_Enum.Results_Window_1;
+                                Window_Show_Name_Enum _ShowDisply=  Window_Show_Name_Enum.Calibration_Window_1;
                                 //检查是否使用相机采集显示
                                 MVS_Camera_Info_Model _camer_0 = MVS_Camera_Info_List.Where((_W) => _W.Camera_Info.SerialNumber == _Selected.Camera_0.Carme_Name).FirstOrDefault();
                                 if (_camer_0 != null)
@@ -283,7 +283,7 @@ namespace HanGao.ViewModel
                         {
                             //情况旧图像，显示选中图像
                             _HImage = _Selected.Camera_1.Calibration_Image;
-                            Window_Show_Name_Enum _ShowDisply = Window_Show_Name_Enum.Results_Window_2;
+                            Window_Show_Name_Enum _ShowDisply = Window_Show_Name_Enum.Calibration_Window_2;
 
                             MVS_Camera_Info_Model _camer_1 = MVS_Camera_Info_List.Where((_W) => _W.Camera_Info.SerialNumber == _Selected.Camera_0.Carme_Name).FirstOrDefault();
                             if (_camer_1 != null)
@@ -324,7 +324,7 @@ namespace HanGao.ViewModel
                     {
 
                         //删除选中图像
-                        Application.Current.Dispatcher.Invoke(() => { Calibration_Image_List.Remove(Calibretion_Image_Selected); });
+                        Application.Current.Dispatcher.Invoke(() => { Calibration_List.Remove(Calibretion_Image_Selected); });
 
 
                     }
@@ -359,7 +359,7 @@ namespace HanGao.ViewModel
                         //删除选中图像
                         Application.Current.Dispatcher.Invoke(() =>
                         {
-                            Calibration_Image_List.Clear();
+                            Calibration_List.Clear();
 
                             Calibration_Image_0_No = 0;
                             Calibration_Image_1_No = 0;

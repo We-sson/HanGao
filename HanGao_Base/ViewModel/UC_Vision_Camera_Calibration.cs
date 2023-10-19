@@ -2,6 +2,7 @@
 using System.Drawing;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
+using static HanGao.ViewModel.UC_Vision_Calibration_Image_VM;
 using static HanGao.ViewModel.UC_Vision_CameraSet_ViewModel;
 using static MVS_SDK_Base.Model.MVS_Model;
 
@@ -48,9 +49,9 @@ namespace HanGao.ViewModel
 
         public bool Get_Calibration_State { set; get; } = true;
 
-        public static  int Calibration_Image_0_No { set;get } = 0;
+        public static int Calibration_Image_0_No { set; get; } = 0;
 
-        public static  int Calibration_Image_1_No { set;get } = 0;
+        public static int Calibration_Image_1_No { set; get; } = 0;
 
 
         /// <summary>
@@ -165,7 +166,7 @@ namespace HanGao.ViewModel
         /// <param name="_HImage"></param>
         /// <param name="_Camera_Calibration_Type"></param>
         /// <param name="_Carme_Name"></param>
-        public static    void Calibration_Load_Image(HImage _HImage, Camera_Calibration_MainOrSubroutine_Type_Enum _Camera_Calibration_Type,string _Carme_Name)
+        public static void Calibration_Load_Image(HImage _HImage, Camera_Calibration_MainOrSubroutine_Type_Enum _Camera_Calibration_Type, string _Carme_Name)
         {
             Calibration_Image_List_Model _Image = new Calibration_Image_List_Model() { };
             //设置图像号数
@@ -258,15 +259,15 @@ namespace HanGao.ViewModel
             Get_Calibration_State = true;
 
 
-            if (Set_Camera_Calibration_Par(ref _CalibSetup_ID,  Calibration_Load_Type.All_Camera) > 0)
+            if (Set_Camera_Calibration_Par(ref _CalibSetup_ID, Calibration_Load_Type.All_Camera) > 0)
             {
 
-                foreach (var _camer in UC_Vision_CameraSet_ViewModel.MVS_Camera_Info_List)
+                foreach (var _camer in MVS_Camera_Info_List)
                 {
-                    if (_camer.Camera_Calibration.Camera_Calibration_Setup == MVS_SDK_Base.Model.Camera_Calibration_Mobile_Type_Enum.Start_Calibration)
+                    if (_camer.Camera_Calibration.Camera_Calibration_Setup == Camera_Calibration_Mobile_Type_Enum.Start_Calibration)
                     {
                         //相机连接后继续
-                        if (_camer.Camer_Status == MVS_SDK_Base.Model.MV_CAM_Device_Status_Enum.Connecting)
+                        if (_camer.Camer_Status == MV_CAM_Device_Status_Enum.Connecting)
                         {
 
                             //设置相机总参数
@@ -394,45 +395,142 @@ namespace HanGao.ViewModel
         }
 
         /// <summary>
-        /// 创初始化标定对象
+        /// 相机图像标定结果
         /// </summary>
-        /// <param name="_camerLits"></param>
-        /// <returns></returns>
-        //public static int Set_Camera_Calibration_Par(ref HCalibData _CalibSetup_ID, int _camera_number)
-        //{
+        public bool Calibration_Checks_State { set; get; } = false;
+        /// <summary>
+        /// 相机图像标定过程值
+        /// </summary>
+        public int Calibration_Checks_State_Val { set; get; } = 50;
+
+
+        /// <summary>
+        /// 检测测试标定图像数据集识别情况
+        /// </summary>
+        public ICommand Camera_Calibration_Checks_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                Button E = Sm.Source as Button;
+
+                Task.Run(() =>
+                {
+
+                    HCalibData _CalibSetup_ID = new HCalibData();
+                    Calibration_Image_No = 0;
+                    Calibration_Checks_State = true;
+                    int Calib_Cam_Number = 0;
+
+                    try
+                    {
+
+
+                        //清理标定数据状态
+                        //foreach (var _type in Calibration_List)
+                        //{
+                        //    _type.Camera_0.Calibration_State = Camera_Calibration_Results_Type_Enum.None.ToString();
+                        //    _type.Camera_1.Calibration_State = Camera_Calibration_Results_Type_Enum.None.ToString();
+                        //}
+
+
+
+                        //创建识别标定类
+                        if (Set_Camera_Calibration_Par(ref _CalibSetup_ID, Calibration_Load_Type.Camera_0) > 0)
+                        {
+
+
+
+                        //遍历标定保存图像
+                        foreach (var _Calib in Calibration_List)
+                        {
+
+
+                            HObject _CalibCoord = new HObject();
+                            HXLDCont _CalibXLD = new HXLDCont();
+
+                            ////判断相机图像是否存在
+                            //if (_Calib.Camera_0.Calibration_Image != null || _Calib.Camera_1.Calibration_Image != null)
+                            //{
+
+                                //判断相机0是否存在图像
+                                if (_Calib.Camera_0.Calibration_Image != null)
+                                {
+                                    //查找标定图像中标定板位置和坐标
+                                    if (Halcon_Method.FindCalib_3DCoord(ref _CalibXLD, ref _CalibCoord, ref _CalibSetup_ID, (HImage)_Calib.Camera_0.Calibration_Image, 0, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma).GetResult())
+                                    {
+
+                                        _Calib.Camera_0.Calibration_Region = _CalibXLD.CopyObj(1, -1);
+                                        _Calib.Camera_0.Calibration_XLD = _CalibCoord.CopyObj(1, -1);
+                                        _Calib.Camera_0.Calibration_State = Camera_Calibration_Results_Type_Enum.标定图像识别测试成功.ToString();
+                                        _Calib.Image_No = Calibration_Image_No;
+                                    }
+                                    else
+                                    {
+                                        _Calib.Camera_0.Calibration_State = Camera_Calibration_Results_Type_Enum.标定图像识别失败.ToString();
+                                        _Calib.Image_No = Calibration_Image_No;
+                                    }
+
+                                }
+
+                                if (_Calib.Camera_1.Calibration_Image != null)
+                                {
+                                    if (Halcon_Method.FindCalib_3DCoord(ref _CalibXLD, ref _CalibCoord, ref _CalibSetup_ID, (HImage)_Calib.Camera_1.Calibration_Image, 0, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma).GetResult())
+                                    {
+                                        //查找标定图像中标定板位置和坐标
+                                        _Calib.Camera_1.Calibration_Region = _CalibXLD.CopyObj(1, -1);
+                                        _Calib.Camera_1.Calibration_XLD = _CalibCoord.CopyObj(1, -1);
+                                        _Calib.Camera_1.Calibration_State = Camera_Calibration_Results_Type_Enum.标定图像识别测试成功.ToString();
+                                        _Calib.Image_No = Calibration_Image_No;
+                                    }
+                                    else
+                                    {
+                                        _Calib.Camera_1.Calibration_State = Camera_Calibration_Results_Type_Enum.标定图像识别失败.ToString();
+                                        _Calib.Image_No = Calibration_Image_No;
+                                    }
+                                }
+
+
+                                //同时整理图像列表序号
+                                Calibration_Image_No++;
+                                //计算识别进度
+                                Calibration_Checks_State_Val = (100 / Calibration_List.Count) * Calibration_Image_No;
+
+                            //}
+
+                        }
+
+                        }
+                        else
+                        {
+                            User_Log_Add("标定左右相机图像不对称，请检查图像列表 !", Log_Show_Window_Enum.Calibration);
+
+                        }
+
+
+
+                    }
+                    catch (Exception)
+                    {
+
+                        User_Log_Add("有标定图像检测失败,请移除失败图像 !", Log_Show_Window_Enum.Calibration);
+
+                    }
+                    finally
+                    {
+                        Calibration_Checks_State_Val = 100;
+                        Calibration_Checks_State = false;
+                    }
+
+
+
+                });
+
+            });
+        }
 
 
 
 
-        //    _CalibSetup_ID.Dispose();
-
-        //    //初始化标定相机数量
-        //    _CalibSetup_ID = new HCalibData(Halcon_Calibration_Setup.Calibration_Setup_Model.ToString(), _camera_number, 1);
-
-        //    //设置校准对象描述文件
-        //    _CalibSetup_ID.SetCalibDataCalibObject(0, Halcon_Calibration_Setup.Halcon_CaltabDescr_Address);
-
-        //    int _number = 0;
-        //    //设置使用的摄像机类型
-
-        //    HCamPar _CamPar = new HCamPar(Halcon_Calibration_SDK.Halcon_Get_Camera_Area_Scan(Select_Calibration.Camera_Calibration.Camera_Calibration_Paramteters));
-
-
-
-        //    ////设置标定相机内参初始化,俩种方法
-        //    _CalibSetup_ID.SetCalibDataCamParam(
-        //        _number,
-        //        new HTuple(),
-        //       _CamPar);
-
-        //    //HOperatorSet.SetCalibDataCamParam(
-        //    //    Halcon_CalibSetup_ID,
-        //    //    _number,
-        //    //    new HTuple(),
-        //    //    Halcon_Calibration_SDK.Halcon_Get_Camera_Area_Scan(_camera.Camera_Calibration.Camera_Calibration_Paramteters));
-
-        //    return _camera_number;
-        //}
 
         /// <summary>
         /// 创初始化标定对象
@@ -444,19 +542,19 @@ namespace HanGao.ViewModel
 
 
 
-      
+
             _CalibSetup_ID.Dispose();
             int _camera_number = 0;
 
 
-   
+
 
 
             switch (_CType)
             {
                 case Calibration_Load_Type.All_Camera:
 
-                     _camera_number = MVS_Camera_Info_List.Where((_w) => _w.Camera_Calibration.Camera_Calibration_Setup == MVS_SDK_Base.Model.Camera_Calibration_Mobile_Type_Enum.Start_Calibration).ToList().Count;
+                    _camera_number = MVS_Camera_Info_List.Where((_w) => _w.Camera_Calibration.Camera_Calibration_Setup == MVS_SDK_Base.Model.Camera_Calibration_Mobile_Type_Enum.Start_Calibration).ToList().Count;
 
                     //初始化标定相机数量
                     _CalibSetup_ID = new HCalibData(Halcon_Calibration_Setup.Calibration_Setup_Model.ToString(), _camera_number, 1);
@@ -468,46 +566,46 @@ namespace HanGao.ViewModel
 
                     //设置使用的摄像机类型
                     foreach (var _camera in MVS_Camera_Info_List)
-            {
-                if (_camera.Camera_Calibration.Camera_Calibration_Setup == MVS_SDK_Base.Model.Camera_Calibration_Mobile_Type_Enum.Start_Calibration)
-                {
-                    HCamPar Camera_CamPar = new HCamPar(Halcon_Calibration_SDK.Halcon_Get_Camera_Area_Scan(_camera.Camera_Calibration.Camera_Calibration_Paramteters));
+                    {
+                        if (_camera.Camera_Calibration.Camera_Calibration_Setup == MVS_SDK_Base.Model.Camera_Calibration_Mobile_Type_Enum.Start_Calibration)
+                        {
+                            HCamPar Camera_CamPar = new HCamPar(Halcon_Calibration_SDK.Get_Cailbration_Camera_Param(_camera.Camera_Calibration.Camera_Calibration_Paramteters));
 
-                    ////设置标定相机内参初始化,俩种方法
-                    _CalibSetup_ID.SetCalibDataCamParam(_number,new HTuple(),Camera_CamPar);
+                            ////设置标定相机内参初始化,俩种方法
+                            _CalibSetup_ID.SetCalibDataCamParam(_number, new HTuple(), Camera_CamPar);
 
-                    //HOperatorSet.SetCalibDataCamParam(
-                    //    Halcon_CalibSetup_ID,
-                    //    _number,
-                    //    new HTuple(),
-                    //    Halcon_Calibration_SDK.Halcon_Get_Camera_Area_Scan(_camera.Camera_Calibration.Camera_Calibration_Paramteters));
+                            //HOperatorSet.SetCalibDataCamParam(
+                            //    Halcon_CalibSetup_ID,
+                            //    _number,
+                            //    new HTuple(),
+                            //    Halcon_Calibration_SDK.Halcon_Get_Camera_Area_Scan(_camera.Camera_Calibration.Camera_Calibration_Paramteters));
 
-                    _number++;
+                            _number++;
 
 
-                }
-            }
+                        }
+                    }
 
 
                     break;
                 case Calibration_Load_Type.Camera_0 or Calibration_Load_Type.Camera_1:
 
-                     //文件标定方式一个位
+                    //文件标定方式一个位
                     _camera_number = 1;
-                     _CalibSetup_ID = new HCalibData(Halcon_Calibration_Setup.Calibration_Setup_Model.ToString(), _camera_number, 1);
+                    _CalibSetup_ID = new HCalibData(Halcon_Calibration_Setup.Calibration_Setup_Model.ToString(), _camera_number, 1);
 
                     //设置校准对象描述文件
                     _CalibSetup_ID.SetCalibDataCalibObject(0, Halcon_Calibration_Setup.Halcon_CaltabDescr_Address);
 
-                  
+
                     //设置使用的摄像机类型
 
                     //获取初始化相机内参
-                    HCamPar File_CamPar = new HCamPar(Halcon_Calibration_SDK.Halcon_Get_Camera_Area_Scan(Select_Calibration.Camera_Calibration.Camera_Calibration_Paramteters));
+                    HCamPar File_CamPar = new HCamPar(Halcon_Calibration_SDK.Get_Cailbration_Camera_Param(Select_Calibration.Camera_Calibration.Camera_Calibration_Paramteters));
 
                     ////设置标定相机内参初始化,俩种方法
-                    _CalibSetup_ID.SetCalibDataCamParam(0,new HTuple(), File_CamPar);
-                  
+                    _CalibSetup_ID.SetCalibDataCamParam(0, new HTuple(), File_CamPar);
+
 
 
 

@@ -39,7 +39,7 @@
                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
                   GridLinesVisibility="Horizontal"
                   HeadersVisibility="Column"
-                  ItemsSource="{Binding Calibration_Image_List}"
+                  ItemsSource="{Binding Calibration_List}"
                   RowHeaderWidth="0"
                   RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
                   ScrollViewer.VerticalScrollBarVisibility="Auto"
