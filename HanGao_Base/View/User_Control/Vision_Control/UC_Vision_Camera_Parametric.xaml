@@ -1030,10 +1030,10 @@
                                        FontSize=" 14" />
                             </Grid>
 
-                            
-                            
-                            
-                            
+
+
+
+
                             <Grid Height="35" Margin="8">
 
                                 <Grid.ColumnDefinitions>
@@ -1109,6 +1109,7 @@
                                     <ColumnDefinition Width=" *" />
 
                                     <ColumnDefinition Width=" *" />
+                                    <ColumnDefinition Width=" 35" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="识别操作"
                                            HorizontalAlignment="Left"
@@ -1178,6 +1179,16 @@
                                     </i:Interaction.Triggers>
 
                                 </Button>
+
+
+
+                                <Label Grid.Column=" 3"
+                                       Content=""
+                                       Margin="0"
+                                       Padding="0"
+                                       HorizontalContentAlignment="Center"
+                                       VerticalContentAlignment="Center"
+                                       FontSize=" 14" />
                             </Grid>
 
                             <Border Height=" 2"

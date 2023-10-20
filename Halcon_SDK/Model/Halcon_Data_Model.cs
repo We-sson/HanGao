@@ -832,6 +832,7 @@ namespace Halcon_SDK_DLL.Model
     /// <summary>
     /// 标定相机集合类型
     /// </summary>
+    [AddINotifyPropertyChangedInterface]
     public class Caliration_AllCamera_Results_Model
     {
 
@@ -862,6 +863,9 @@ namespace Halcon_SDK_DLL.Model
         /// 相机标定参数
         /// </summary>
         public Halcon_Camera_Calibration_Parameters_Model Camera_Result_Pama { set; get; } = new Halcon_Camera_Calibration_Parameters_Model();
+
+
+    
 
 
     }
