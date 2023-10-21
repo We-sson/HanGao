@@ -105,7 +105,7 @@ namespace HanGao.ViewModel
 
                                 User_Log_Add("进行双相机标定!", Log_Show_Window_Enum.Calibration);
 
-                                All_Camera_Results= Cailbration_Camera_Method(All_Camera_Results, _Load_Type);
+                                All_Camera_Results = Cailbration_Camera_Method(All_Camera_Results, Calibration_Load_Type.All_Camera);
 
                             }
                             else
@@ -114,7 +114,7 @@ namespace HanGao.ViewModel
                                 if (Calibration_List.Where((_w) => _w.Camera_0.Calibration_Image != null).ToList().Count > 10 || Calibration_List.Where((_w) => _w.Camera_1.Calibration_Image != null).ToList().Count > 10)
                                 {
 
-                                    All_Camera_Results= Cailbration_Camera_Method(All_Camera_Results, _Load_Type);
+                                    All_Camera_Results = Cailbration_Camera_Method(All_Camera_Results, _Load_Type);
 
                                 }
                                 else
@@ -182,7 +182,7 @@ namespace HanGao.ViewModel
 
 
 
-        public static Caliration_AllCamera_Results_Model Cailbration_Camera_Method( Caliration_AllCamera_Results_Model _All_Camera_Results, Calibration_Load_Type _Calib_Load_Type)
+        public static Caliration_AllCamera_Results_Model Cailbration_Camera_Method(Caliration_AllCamera_Results_Model _All_Camera_Results, Calibration_Load_Type _Calib_Load_Type)
         {
 
 
@@ -220,27 +220,37 @@ namespace HanGao.ViewModel
                             HObject _Imge_0 = new HObject();
                             HObject _CalibCoord_0 = new HObject();
                             HObject _CalibCoord_1 = new HObject();
-
-
-
+                         
                             _Imge_0 = Calibration_List[i].Camera_0.Calibration_Image;
                             _Imge_1 = Calibration_List[i].Camera_1.Calibration_Image;
 
                             //计算标定板信息
-                            Halcon_Method.FindCalib_3DCoord(ref _CalibXLD_0, ref _CalibCoord_0, ref _CalibSetup_ID, (HImage)_Imge_0, 0, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma, Calibration_List[i].Image_No);
-                            Halcon_Method.FindCalib_3DCoord(ref _CalibXLD_1, ref _CalibCoord_1, ref _CalibSetup_ID, (HImage)_Imge_1, 1, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma, Calibration_List[i].Image_No);
+                            if (Halcon_Method.FindCalib_3DCoord(ref _CalibXLD_0, ref _CalibCoord_0, ref _CalibSetup_ID, (HImage)_Imge_0, 0, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma, Calibration_List[i].Image_No).GetResult())
+                            {
+                            
+
+                                Calibration_List[i].Camera_0.Calibration_State = Camera_Calibration_Results_Type_Enum.标定计算成功.ToString();
+                                Calibration_List[i].Camera_0.Calibration_Region = _CalibXLD_0.CopyObj(1, -1);
+                                Calibration_List[i].Camera_0.Calibration_XLD = _CalibCoord_0.CopyObj(1, -1);
+               
+
+                                //获得信息
+                            }
 
 
-                            Calibration_List[i].Camera_0.Calibration_State = Camera_Calibration_Results_Type_Enum.标定计算成功.ToString();
-                            Calibration_List[i].Camera_0.Calibration_Region = _CalibXLD_0.CopyObj(1, -1);
-                            Calibration_List[i].Camera_0.Calibration_XLD = _CalibCoord_0.CopyObj(1, -1);
+
+                            if (Halcon_Method.FindCalib_3DCoord(ref _CalibXLD_1, ref _CalibCoord_1, ref _CalibSetup_ID, (HImage)_Imge_1, 1, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma, Calibration_List[i].Image_No).GetResult())
+                            {
 
 
 
-                            Calibration_List[i].Camera_1.Calibration_State = Camera_Calibration_Results_Type_Enum.标定计算成功.ToString();
-                            Calibration_List[i].Camera_1.Calibration_Region = _CalibXLD_1.CopyObj(1, -1);
-                            Calibration_List[i].Camera_1.Calibration_XLD = _CalibCoord_1.CopyObj(1, -1);
 
+                                Calibration_List[i].Camera_1.Calibration_State = Camera_Calibration_Results_Type_Enum.标定计算成功.ToString();
+                                Calibration_List[i].Camera_1.Calibration_Region = _CalibXLD_1.CopyObj(1, -1);
+                                Calibration_List[i].Camera_1.Calibration_XLD = _CalibCoord_1.CopyObj(1, -1);
+                           
+
+                            }
 
 
                             //_Calib.Image_No
@@ -295,7 +305,7 @@ namespace HanGao.ViewModel
                             HXLDCont _CalibXLD = new HXLDCont();
                             HObject _Imge = new HObject();
                             HObject _CalibCoord = new HObject();
-
+                            List<HObjectModel3D> _CarmeraModel = new List<HObjectModel3D>();
                             //判断相机是否存在图像
                             switch (_Calib_Load_Type)
                             {
@@ -313,34 +323,47 @@ namespace HanGao.ViewModel
                                     break;
                             }
 
-                            if (_Imge !=null)
+                            if (_Imge != null)
                             {
 
-                            //计算标定板信息
-                            Halcon_Method.FindCalib_3DCoord(ref _CalibXLD, ref _CalibCoord, ref _CalibSetup_ID, (HImage)_Imge, 0, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma, Calibration_List[i].Image_No);
+                                //计算标定板信息
 
 
-                            switch (_Calib_Load_Type)
-                            {
 
-                                case Calibration_Load_Type.Camera_0:
-
-
-                                    Calibration_List[i].Camera_0.Calibration_State = Camera_Calibration_Results_Type_Enum.标定计算成功.ToString();
-                                    Calibration_List[i].Camera_0.Calibration_Region = _CalibXLD.CopyObj(1, -1);
-                                    Calibration_List[i].Camera_0.Calibration_XLD = _CalibCoord.CopyObj(1, -1);
-
-                                    break;
-                                case Calibration_Load_Type.Camera_1:
+                                if (Halcon_Method.FindCalib_3DCoord(ref _CalibXLD, ref _CalibCoord, ref _CalibSetup_ID, (HImage)_Imge, 0, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma, Calibration_List[i].Image_No).GetResult())
+                                {
 
 
-                                    Calibration_List[i].Camera_1.Calibration_State = Camera_Calibration_Results_Type_Enum.标定计算成功.ToString();
-                                    Calibration_List[i].Camera_1.Calibration_Region = _CalibXLD.CopyObj(1, -1);
-                                    Calibration_List[i].Camera_1.Calibration_XLD = _CalibCoord.CopyObj(1, -1);
 
-                                    break;
-                            }
 
+
+
+                           
+
+
+                                    switch (_Calib_Load_Type)
+                                    {
+
+                                        case Calibration_Load_Type.Camera_0:
+
+
+                                            Calibration_List[i].Camera_0.Calibration_State = Camera_Calibration_Results_Type_Enum.标定计算成功.ToString();
+                                            Calibration_List[i].Camera_0.Calibration_Region = _CalibXLD.CopyObj(1, -1);
+                                            Calibration_List[i].Camera_0.Calibration_XLD = _CalibCoord.CopyObj(1, -1);
+                                     
+                                            break;
+                                        case Calibration_Load_Type.Camera_1:
+
+
+                                            Calibration_List[i].Camera_1.Calibration_State = Camera_Calibration_Results_Type_Enum.标定计算成功.ToString();
+                                            Calibration_List[i].Camera_1.Calibration_Region = _CalibXLD.CopyObj(1, -1);
+                                            Calibration_List[i].Camera_1.Calibration_XLD = _CalibCoord.CopyObj(1, -1);
+                          
+
+                                            break;
+                                    }
+
+                                }
 
 
                             }
@@ -376,11 +399,19 @@ namespace HanGao.ViewModel
             Halcon_CalibSetup_ID = _CalibSetup_ID;
 
 
+
+
             return Calibration_Results(_All_Camera_Results, _CalibSetup_ID, _Calib_Load_Type);
 
         }
 
-
+        /// <summary>
+        /// 标定获得相机内参结果
+        /// </summary>
+        /// <param name="_All_Camera_Results"></param>
+        /// <param name="_CalibSetup_ID"></param>
+        /// <param name="_Calib_Load_Type"></param>
+        /// <returns></returns>
         public static Caliration_AllCamera_Results_Model Calibration_Results(Caliration_AllCamera_Results_Model _All_Camera_Results, HCalibData _CalibSetup_ID, Calibration_Load_Type _Calib_Load_Type)
         {
 
@@ -389,7 +420,7 @@ namespace HanGao.ViewModel
             //计算标定误差
             double Results_Error_Val = _CalibSetup_ID.CalibrateCameras();
 
-
+        
 
 
 
@@ -410,6 +441,20 @@ namespace HanGao.ViewModel
                         Result_Error_Val = Results_Error_Val,
                         Camera_Result_Pama = Set_Cailbration_Camera_Param(_CalibSetup_ID, 1)
                     };
+
+                    foreach (var _H3DModel in Calibration_List)
+                    {
+
+
+                        _H3DModel.Camera_0.Calibration_3D_Model = Get_Calibration_Camera_3DModel(_CalibSetup_ID, _H3DModel.Image_No,0);
+
+                        _H3DModel.Camera_1.Calibration_3D_Model = Get_Calibration_Camera_3DModel(_CalibSetup_ID, _H3DModel.Image_No,1);
+
+
+                    }
+                    //获得信息
+
+
                     break;
 
 
@@ -422,7 +467,14 @@ namespace HanGao.ViewModel
                         Camera_Result_Pama = Set_Cailbration_Camera_Param(_CalibSetup_ID, 0)
                     };
 
+                    foreach (var _H3DModel in Calibration_List)
+                    {
 
+
+                        _H3DModel.Camera_0.Calibration_3D_Model = Get_Calibration_Camera_3DModel(_CalibSetup_ID, _H3DModel.Image_No, 0);
+
+   
+                    }
 
 
                     break;
@@ -432,6 +484,16 @@ namespace HanGao.ViewModel
                         Result_Error_Val = Results_Error_Val,
                         Camera_Result_Pama = Set_Cailbration_Camera_Param(_CalibSetup_ID, 0)
                     };
+
+
+                    foreach (var _H3DModel in Calibration_List)
+                    {
+
+
+                        _H3DModel.Camera_1.Calibration_3D_Model = Get_Calibration_Camera_3DModel(_CalibSetup_ID, _H3DModel.Image_No, 0);
+
+
+                    }
                     break;
 
 

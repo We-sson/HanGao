@@ -903,6 +903,10 @@ namespace Halcon_SDK_DLL.Model
         public HObject Calibration_XLD { set; get; } = new HObject();
 
 
+        /// <summary>
+        /// 标定模型
+        /// </summary>
+        public List<HObjectModel3D> Calibration_3D_Model { set; get; } = new List<HObjectModel3D>();
 
         //相机名称图像的
         public string Carme_Name { set; get; }

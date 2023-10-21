@@ -74,6 +74,9 @@ namespace HanGao.ViewModel
                 User_Log_Add(_Error, Log_Show_Window_Enum.Home);
             };
 
+
+
+
         }
         /// <summary>
         /// 静态属性更新通知事件

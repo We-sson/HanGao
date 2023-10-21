@@ -1,8 +1,4 @@
-﻿
-
-using HalconDotNet;
-using HanGao.View.User_Control.Vision_Calibration.Vison_UserControl;
-using MVS_SDK_Base.Model;
+﻿using MVS_SDK_Base.Model;
 using Ookii.Dialogs.Wpf;
 using System.Drawing;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
@@ -182,12 +178,12 @@ namespace HanGao.ViewModel
                 HTuple _calib_X;
                 HTuple _calib_Y;
                 HTuple _calib_Z;
-                          HTuple _calibObj_Pos;
+                HTuple _calibObj_Pos;
                 HTuple _Camera_Param;
                 HTuple _Camera_Param_txt;
                 HTuple _Camera_Param_Pos;
                 HObjectModel3D _Calib_3D = new HObjectModel3D();
-     
+
                 List<HObjectModel3D> _Camera_Model = new List<HObjectModel3D>();
 
 
@@ -212,7 +208,7 @@ namespace HanGao.ViewModel
 
                                 //清楚旧图像，显示选中图像
                                 _HImage = _Selected.Camera_0.Calibration_Image;
-                                Window_Show_Name_Enum _ShowDisply=  Window_Show_Name_Enum.Calibration_Window_1;
+                                Window_Show_Name_Enum _ShowDisply = Window_Show_Name_Enum.Calibration_Window_1;
                                 //检查是否使用相机采集显示
                                 MVS_Camera_Info_Model _camer_0 = MVS_Camera_Info_List.Where((_W) => _W.Camera_Info.SerialNumber == _Selected.Camera_0.Carme_Name).FirstOrDefault();
                                 if (_camer_0 != null)
@@ -226,49 +222,37 @@ namespace HanGao.ViewModel
 
 
 
+                            }
+                            catch (Exception e)
+                            {
 
-                            
-                                //标定后才能显示
+                                User_Log_Add(e.Message, Log_Show_Window_Enum.Calibration);
 
-                                _calib_X = Halcon_CalibSetup_ID.GetCalibData("calib_obj", 0, "x");
-                                _calib_Y = Halcon_CalibSetup_ID.GetCalibData("calib_obj", 0, "y");
-                                _calib_Z = Halcon_CalibSetup_ID.GetCalibData("calib_obj", 0, "z");
+                            }
 
-                                _Calib_3D.GenObjectModel3dFromPoints(_calib_X, _calib_Y, _calib_Z);
-                         
-                                _calibObj_Pos = Halcon_CalibSetup_ID.GetCalibData("calib_obj_pose", (new HTuple(0)).TupleConcat(_Selected.Image_No), new HTuple("pose"));
-
-                                //_calibObj_Pos= Halcon_CalibSetup_ID.GetCalibDataObservPose(0, 0, _Selected.Image_No);
-
-                                _Calib_3D = _Calib_3D.RigidTransObjectModel3d(new HPose(_calibObj_Pos));
-                         
-
-                                HTuple _HCamera = Halcon_CalibSetup_ID.GetCalibData("model", "general", "camera_setup_model");
-                                HCameraSetupModel _HCam = new HCameraSetupModel(_HCamera.H);
-                                _Camera_Param = _HCam.GetCameraSetupParam(0, "params");
-
-
-                                _Camera_Param_txt = Halcon_CalibSetup_ID.GetCalibData("camera", 0, "params_labels");
-                                _Camera_Param_txt = Halcon_CalibSetup_ID.GetCalibData("camera", 0, "init_params");
+                        }
 
 
 
-                                _Camera_Param_Pos = _HCam.GetCameraSetupParam(0, "pose");
+                        if (_Selected.Camera_1.Calibration_Image != null)
+                        {
 
-                                _Camera_Model = Reconstruction_3d.gen_camera_object_model_3d(_HCam, 0, 0.05);
+                            try
+                            {
+                                //情况旧图像，显示选中图像
+                                _HImage = _Selected.Camera_1.Calibration_Image;
+                            Window_Show_Name_Enum _ShowDisply = Window_Show_Name_Enum.Calibration_Window_2;
 
-                                //_Camera_Model= _Camera_Model.RigidTransObjectModel3d(new HPose(_Camera_Param_Pos));
-
-                                //_Camera_Model.Add(_Calib_3D);
-
-                                //HObjectModel3D _AllModel3D= HObjectModel3D.UnionObjectModel3d(new HObjectModel3D[] { _Calib_3D, _Camera_Model }, "points_surface");
-
-                                SetDisplay3DModel(new Halcon_Data_Model.Display3DModel_Model(new List<HObjectModel3D>() {  _Calib_3D, _Camera_Model[0], _Camera_Model[1] }));
-
-                                //SetDisplay3DModel(new Halcon_Data_Model.Display3DModel_Model() { _ObjectModel3D = _Calib_3D });
+                            MVS_Camera_Info_Model _camer_1 = MVS_Camera_Info_List.Where((_W) => _W.Camera_Info.SerialNumber == _Selected.Camera_1.Carme_Name).FirstOrDefault();
+                            if (_camer_1 != null)
+                            {
+                                _ShowDisply = _camer_1.Show_Window;
+                            }
 
 
-
+                            Display_HObiet((HImage)_Selected.Camera_1.Calibration_Image, null, null, null, _ShowDisply);
+                            Display_HObiet((HImage)_Selected.Camera_1.Calibration_Image, _Selected.Camera_1.Calibration_Region, null, KnownColor.Green.ToString(), _ShowDisply);
+                            Display_HObiet(null, null, _Selected.Camera_1.Calibration_XLD, null, _ShowDisply);
 
                             }
                             catch (Exception e)
@@ -279,26 +263,25 @@ namespace HanGao.ViewModel
                             }
 
                         }
-                        if (_Selected.Camera_1.Calibration_Image != null)
+
+
+                        if (_Selected.Camera_1.Calibration_3D_Model.Count!=0  || _Selected.Camera_0.Calibration_3D_Model.Count != 0)
                         {
-                            //情况旧图像，显示选中图像
-                            _HImage = _Selected.Camera_1.Calibration_Image;
-                            Window_Show_Name_Enum _ShowDisply = Window_Show_Name_Enum.Calibration_Window_2;
-
-                            MVS_Camera_Info_Model _camer_1 = MVS_Camera_Info_List.Where((_W) => _W.Camera_Info.SerialNumber == _Selected.Camera_0.Carme_Name).FirstOrDefault();
-                            if (_camer_1 != null)
-                            {
-                                _ShowDisply = _camer_1.Show_Window;
-                            }
+                            _Camera_Model.AddRange(_Selected.Camera_0.Calibration_3D_Model);
+                            _Camera_Model.AddRange(_Selected.Camera_1.Calibration_3D_Model);
 
 
-                            Display_HObiet((HImage)_Selected.Camera_1.Calibration_Image, null, null, null, _camer_1.Show_Window);
-                            Display_HObiet((HImage)_Selected.Camera_1.Calibration_Image, _Selected.Camera_1.Calibration_Region, null, KnownColor.Green.ToString(), _camer_1.Show_Window);
-                            Display_HObiet(null, null, _Selected.Camera_1.Calibration_XLD, null, _camer_1.Show_Window);
+                            SetDisplay3DModel(new Halcon_Data_Model.Display3DModel_Model(_Camera_Model));
 
 
                         }
+
+
+
+
+
                     }
+
                 });
 
 
@@ -354,16 +337,16 @@ namespace HanGao.ViewModel
                 Task.Run(() =>
                 {
 
-                 
 
-                        //删除选中图像
-                        Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            Calibration_List.Clear();
 
-                            Calibration_Image_0_No = 0;
-                            Calibration_Image_1_No = 0;
-                        });
+                    //删除选中图像
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        Calibration_List.Clear();
+
+                        Calibration_Image_0_No = 0;
+                        Calibration_Image_1_No = 0;
+                    });
 
 
 

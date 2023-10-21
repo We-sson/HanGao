@@ -1324,6 +1324,7 @@
                                         <ProgressBar x:Key="Calibration_PBar"
                                                      Margin="4"
                                                      BorderThickness="0"
+                                                     IsIndeterminate="True"
                                                      Maximum=" 100"
                                                      Minimum=" 0"
                                                      Value="{Binding Calibration_Results_State_Val, UpdateSourceTrigger=PropertyChanged}" />
@@ -2282,6 +2283,7 @@
                                         <ProgressBar x:Key="Calibration_PBar"
                                                      Margin="4"
                                                      BorderThickness="0"
+                                                     IsIndeterminate="True"
                                                      Maximum=" 100"
                                                      Minimum=" 0"
                                                      Value="{Binding Calibration_Results_State_Val, UpdateSourceTrigger=PropertyChanged}" />
