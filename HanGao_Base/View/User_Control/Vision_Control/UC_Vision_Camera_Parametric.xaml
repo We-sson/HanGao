@@ -258,7 +258,7 @@
                                         HorizontalContentAlignment="Stretch"
                                         VerticalContentAlignment="Stretch"
                                         IsSnapToTickEnabled="True"
-                                        Maximum="50000"
+                                        Maximum="999999999"
                                         Minimum="-999999999"
                                         SmallChange="10"
                                         Value="{Binding Camera_Calibration_Paramteters_0.K1}" />
@@ -301,8 +301,8 @@
                                         HorizontalContentAlignment="Stretch"
                                         VerticalContentAlignment="Stretch"
                                         IsSnapToTickEnabled="True"
-                                        Maximum="50000"
-                                        Minimum="0"
+                                        Maximum="999999999"
+                                        Minimum="-999999999"
                                         SmallChange="10"
                                         Value="{Binding Camera_Calibration_Paramteters_0.K2}" />
 
@@ -344,8 +344,8 @@
                                         HorizontalContentAlignment="Stretch"
                                         VerticalContentAlignment="Stretch"
                                         IsSnapToTickEnabled="True"
-                                        Maximum="50000"
-                                        Minimum="0"
+                                        Maximum="999999999"
+                                        Minimum="-999999999"
                                         SmallChange="10"
                                         Value="{Binding Camera_Calibration_Paramteters_0.K3}" />
 
@@ -387,8 +387,8 @@
                                         HorizontalContentAlignment="Stretch"
                                         VerticalContentAlignment="Stretch"
                                         IsSnapToTickEnabled="True"
-                                        Maximum="50000"
-                                        Minimum="0"
+                                        Maximum="999999999"
+                                        Minimum="-999999999"
                                         SmallChange="10"
                                         Value="{Binding Camera_Calibration_Paramteters_0 .P1}" />
 
@@ -430,8 +430,8 @@
                                         HorizontalContentAlignment="Stretch"
                                         VerticalContentAlignment="Stretch"
                                         IsSnapToTickEnabled="True"
-                                        Maximum="50000"
-                                        Minimum="0"
+                                        Maximum="999999999"
+                                        Minimum="-999999999"
                                         SmallChange="10"
                                         Value="{Binding Camera_Calibration_Paramteters_0.P2}" />
 
@@ -651,7 +651,7 @@
                                         Value="{Binding Camera_Calibration_Paramteters_0.Image_Width}" />
 
                                 <TextBox Grid.Column=" 2"
-                                         Text="{Binding ElementName=Calibration_Max_Width_UI_0, Path=Value, StringFormat={}{0:F4}}"
+                                         Text="{Binding ElementName=Calibration_Max_Width_UI_0, Path=Value}"
                                          Width="100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -694,7 +694,7 @@
                                         Value="{Binding Camera_Calibration_Paramteters_0.Image_Height}" />
 
                                 <TextBox Grid.Column=" 2"
-                                         Text="{Binding ElementName=Calibration_Max_Heigth_UI_0, Path=Value, StringFormat={}{0:F4}}"
+                                         Text="{Binding ElementName=Calibration_Max_Heigth_UI_0, Path=Value}"
                                          Width="100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -1342,7 +1342,7 @@
                                         Value="{Binding Camera_Calibration_Paramteters_1.Image_Width}" />
 
                                 <TextBox Grid.Column=" 2"
-                                         Text="{Binding ElementName=Calibration_Max_Width_UI_1, Path=Value, StringFormat={}{0:F4}}"
+                                         Text="{Binding ElementName=Calibration_Max_Width_UI_1, Path=Value}"
                                          Width="100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -1385,7 +1385,7 @@
                                         Value="{Binding Camera_Calibration_Paramteters_1.Image_Height}" />
 
                                 <TextBox Grid.Column=" 2"
-                                         Text="{Binding ElementName=Calibration_Max_Heigth_UI_1, Path=Value, StringFormat={}{0:F4}}"
+                                         Text="{Binding ElementName=Calibration_Max_Heigth_UI_1, Path=Value}"
                                          Width="100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"

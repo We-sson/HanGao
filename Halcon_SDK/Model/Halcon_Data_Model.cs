@@ -535,6 +535,27 @@ namespace Halcon_SDK_DLL.Model
         public class Halcon_Camera_Calibration_Parameters_Model
         {
 
+            public Halcon_Camera_Calibration_Parameters_Model()
+            {
+
+            }
+
+            public Halcon_Camera_Calibration_Parameters_Model(Halcon_Camera_Calibration_Parameters_Model _Parameters_Model)
+            {
+                Sy = _Parameters_Model.Sy;
+                Sx= _Parameters_Model.Sx;
+                Focus= _Parameters_Model.Focus;
+                Kappa= _Parameters_Model.Kappa;
+                K1= _Parameters_Model.K1;
+                K2= _Parameters_Model.K2;
+                K3= _Parameters_Model.K3;
+                P1= _Parameters_Model.P1;
+                P2= _Parameters_Model.P2;
+                Cy= _Parameters_Model.Cy;
+                Cx= _Parameters_Model.Cx;
+                Image_Height = _Parameters_Model.Image_Height;
+                Image_Width= _Parameters_Model.Image_Width;
+            }
             /// <summary>
             /// 相机标定类型
             /// </summary>

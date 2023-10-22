@@ -5,6 +5,9 @@ using System.Net;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static MVS_SDK_Base.Model.MVS_Model;
+using static HanGao.ViewModel.UC_Vision_Camera_Calibration
+;
+
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
@@ -649,13 +652,19 @@ namespace HanGao.ViewModel
                 //把参数类型转换控件
                 //Initialization_Camera();
 
+                MVS_Camera_Info_Model _Select_Camera= _ComboxBox.DataContext as MVS_Camera_Info_Model;
+
                 switch ((Camera_Calibration_MainOrSubroutine_Type_Enum)_ComboxBox.SelectedIndex)
                 {
                     case Camera_Calibration_MainOrSubroutine_Type_Enum.Main:
-
-
+                        Camera_Calibration_Paramteters_0 = new Halcon_Camera_Calibration_Parameters_Model(_Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters);
+                   
                         break;
                     case Camera_Calibration_MainOrSubroutine_Type_Enum.Subroutine:
+
+
+                        Camera_Calibration_Paramteters_1 = new Halcon_Camera_Calibration_Parameters_Model(_Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters);
+
 
                         break;
                 }

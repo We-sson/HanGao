@@ -189,15 +189,15 @@ namespace Halcon_SDK_DLL
 
                 HTuple _HCamera = _HCalibData.GetCalibData("model", "general", "camera_setup_model");
                 HCameraSetupModel _HCam = new HCameraSetupModel(_HCamera.H);
-                _Camera_Param = _HCam.GetCameraSetupParam(0, "params");
+                _Camera_Param = _HCam.GetCameraSetupParam(_Camera_No, "params");
 
 
-                _Camera_Param_txt = _HCalibData.GetCalibData("camera", 0, "params_labels");
-                _Camera_Param_txt = _HCalibData.GetCalibData("camera", 0, "init_params");
+                _Camera_Param_txt = _HCalibData.GetCalibData("camera", _Camera_No, "params_labels");
+                _Camera_Param_txt = _HCalibData.GetCalibData("camera", _Camera_No, "init_params");
 
 
 
-                _Camera_Param_Pos = _HCam.GetCameraSetupParam(0, "pose");
+                _Camera_Param_Pos = _HCam.GetCameraSetupParam(_Camera_No, "pose");
 
                 List<HObjectModel3D> _Camera_Model = Reconstruction_3d.gen_camera_object_model_3d(_HCam, 0, 0.05);
 

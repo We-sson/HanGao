@@ -1,4 +1,5 @@
 ﻿using MVS_SDK_Base.Model;
+using System.Windows.Media.Media3D;
 using static Halcon_SDK_DLL.Halcon_Calibration_SDK;
 using static HanGao.ViewModel.UC_Vision_Calibration_Image_VM;
 using static HanGao.ViewModel.UC_Vision_Camera_Calibration;
@@ -576,7 +577,7 @@ namespace HanGao.ViewModel
 
 
                     break;
-                case Calibration_Load_Type_Enum.Camera_0 or Calibration_Load_Type_Enum.Camera_1:
+                case Calibration_Load_Type_Enum.Camera_0 :
 
                     //文件标定方式一个位
                     _camera_number = 1;
@@ -589,16 +590,40 @@ namespace HanGao.ViewModel
                     //设置使用的摄像机类型
 
                     //获取初始化相机内参
-                    HCamPar File_CamPar = new HCamPar(Halcon_Calibration_SDK.Get_Cailbration_Camera_Param(Select_Calibration.Camera_Calibration.Camera_Calibration_Paramteters));
+                    HCamPar _CamPar_0 = new HCamPar(Halcon_Calibration_SDK.Get_Cailbration_Camera_Param(Camera_Calibration_Paramteters_0));
 
                     ////设置标定相机内参初始化,俩种方法
-                    _CalibSetup_ID.SetCalibDataCamParam(0, new HTuple(), File_CamPar);
+                    _CalibSetup_ID.SetCalibDataCamParam(0, new HTuple(), _CamPar_0);
+                    break;
+
+                case Calibration_Load_Type_Enum.Camera_1:
 
 
+                    //文件标定方式一个位
+                    _camera_number = 1;
+                    _CalibSetup_ID = new HCalibData(Halcon_Calibration_Setup.Calibration_Setup_Model.ToString(), _camera_number, 1);
+
+                    //设置校准对象描述文件
+                    _CalibSetup_ID.SetCalibDataCalibObject(0, Halcon_Calibration_Setup.Halcon_CaltabDescr_Address);
 
 
+                    //设置使用的摄像机类型
+                    {
+
+                    //获取初始化相机内参
+                    HCamPar _CamPar_1 = new HCamPar(Halcon_Calibration_SDK.Get_Cailbration_Camera_Param(Camera_Calibration_Paramteters_1));
+
+                    ////设置标定相机内参初始化,俩种方法
+                    _CalibSetup_ID.SetCalibDataCamParam(0, new HTuple(), _CamPar_1);
+
+                    }
 
                     break;
+
+
+
+                    
+
 
             }
 
