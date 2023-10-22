@@ -150,7 +150,13 @@ namespace Halcon_SDK_DLL
 
 
 
-
+        /// <summary>
+        /// 获得标定的相机三维模型
+        /// </summary>
+        /// <param name="_HCalibData"></param>
+        /// <param name="_Image_No"></param>
+        /// <param name="_Camera_No"></param>
+        /// <returns></returns>
         public static List<HObjectModel3D> Get_Calibration_Camera_3DModel(HCalibData _HCalibData, int _Image_No,int _Camera_No=0)
         {
             HTuple _calib_X;
@@ -229,17 +235,24 @@ namespace Halcon_SDK_DLL
     /// <summary>
     /// 标定加载类型枚举
     /// </summary>
-    public enum Calibration_Load_Type
+    public enum Calibration_Load_Type_Enum
     {
         None,
         All_Camera,
         Camera_0,
         Camera_1,
 
-
-
     }
 
+
+    /// <summary>
+    /// 标定加载图像方式
+    /// </summary>
+    public enum Calibration_Load_Method_Enum
+    {
+        File,
+        Camera_Online
+    }
 
 
 }

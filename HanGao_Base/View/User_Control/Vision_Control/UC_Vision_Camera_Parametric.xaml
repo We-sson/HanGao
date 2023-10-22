@@ -39,7 +39,6 @@
                           Margin="0,0,0,10"
                           HorizontalContentAlignment="Stretch"
                           VerticalContentAlignment="Stretch"
-                          DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_CameraSet_ViewModel}"
                           IsExpanded="False">
                     <Expander.Header>
                         <Border x:Name="Radio_1"
@@ -73,7 +72,7 @@
                                                VerticalAlignment="Center"
                                                Source="/Resources/Vision_标定图标.png" />
                                     </Border>
-                                    <TextBlock Text="相机内参设置"
+                                    <TextBlock Text="Camera 0 内参初始化"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -107,7 +106,7 @@
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="CameraCalibrationModel" Grid.Column=" 1"
+                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="CameraCalibrationModel_0" Grid.Column=" 1"
                                           HorizontalContentAlignment="Left"
                                           VerticalContentAlignment="Center"
                                           BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
@@ -115,7 +114,7 @@
                                           FontSize="20"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="{Binding Select_Calibration.Camera_Calibration.Camera_Calibration_Paramteters.Camera_Calibration_Model, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:Halocn_Camera_Calibration_Enum}}">
+                                          SelectedIndex="{Binding Camera_Calibration_Paramteters_0.Camera_Calibration_Model, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:Halocn_Camera_Calibration_Enum}}">
 
                                     <ComboBoxItem>
 
@@ -159,7 +158,7 @@
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_Focus_UI" Grid.Column=" 1"
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_Focus_UI_0" Grid.Column=" 1"
                                         Margin="5"
                                         VerticalAlignment="Center"
                                         HorizontalContentAlignment="Stretch"
@@ -168,18 +167,18 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="{Binding Select_Calibration.Camera_Calibration.Camera_Calibration_Paramteters.Focus}">
-                                    <i:Interaction.Triggers>
+                                        Value="{Binding Camera_Calibration_Paramteters_0.Focus}">
+                                    <!--<i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseUp">
                                             <i:InvokeCommandAction Command="{Binding}"
                                                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                    PassEventArgsToCommand="True" />
                                         </i:EventTrigger>
-                                    </i:Interaction.Triggers>
+                                    </i:Interaction.Triggers>-->
                                 </Slider>
 
                                 <TextBox Grid.Column=" 2"
-                                         Text="{Binding ElementName=Calibration_Focus_UI, Path=Value}"
+                                         Text="{Binding ElementName=Calibration_Focus_UI_0, Path=Value, StringFormat={}{0:F4}}"
                                          Width="100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -210,19 +209,19 @@
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Camera_Kappa_UI" Grid.Column=" 1"
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Camera_Kappa_UI_0" Grid.Column=" 1"
                                         Margin="5"
                                         VerticalAlignment="Center"
                                         HorizontalContentAlignment="Stretch"
                                         VerticalContentAlignment="Stretch"
                                         IsSnapToTickEnabled="True"
-                                        Maximum="50000"
-                                        Minimum="0"
+                                        Maximum="999999999"
+                                        Minimum="-999999999"
                                         SmallChange="10"
-                                        Value="{Binding Select_Calibration.Camera_Calibration.Camera_Calibration_Paramteters.Kappa}" />
+                                        Value="{Binding Camera_Calibration_Paramteters_0.Kappa}" />
 
                                 <TextBox Grid.Column=" 2"
-                                         Text="{Binding ElementName=Camera_Kappa_UI, Path=Value}"
+                                         Text="{Binding ElementName=Camera_Kappa_UI_0, Path=Value, StringFormat={}{0:F4}}"
                                          Width="100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -253,19 +252,19 @@
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_K1_UI" Grid.Column=" 1"
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_K1_UI_0" Grid.Column=" 1"
                                         Margin="5"
                                         VerticalAlignment="Center"
                                         HorizontalContentAlignment="Stretch"
                                         VerticalContentAlignment="Stretch"
                                         IsSnapToTickEnabled="True"
                                         Maximum="50000"
-                                        Minimum="0"
+                                        Minimum="-999999999"
                                         SmallChange="10"
-                                        Value="{Binding Select_Calibration.Camera_Calibration.Camera_Calibration_Paramteters.K1}" />
+                                        Value="{Binding Camera_Calibration_Paramteters_0.K1}" />
 
                                 <TextBox Grid.Column=" 2"
-                                         Text="{Binding ElementName=Calibration_K1_UI, Path=Value}"
+                                         Text="{Binding ElementName=Calibration_K1_UI_0, Path=Value, StringFormat={}{0:F4}}"
                                          Width="100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -296,7 +295,7 @@
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_K2_UI" Grid.Column=" 1"
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_K2_UI_0" Grid.Column=" 1"
                                         Margin="5"
                                         VerticalAlignment="Center"
                                         HorizontalContentAlignment="Stretch"
@@ -305,10 +304,10 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="{Binding Select_Calibration.Camera_Calibration.Camera_Calibration_Paramteters.K2}" />
+                                        Value="{Binding Camera_Calibration_Paramteters_0.K2}" />
 
                                 <TextBox Grid.Column=" 2"
-                                         Text="{Binding ElementName=Calibration_K2_UI, Path=Value}"
+                                         Text="{Binding ElementName=Calibration_K2_UI_0, Path=Value, StringFormat={}{0:F4}}"
                                          Width="100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -339,7 +338,7 @@
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_K3_UI" Grid.Column=" 1"
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_K3_UI_0" Grid.Column=" 1"
                                         Margin="5"
                                         VerticalAlignment="Center"
                                         HorizontalContentAlignment="Stretch"
@@ -348,10 +347,10 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="{Binding Select_Calibration.Camera_Calibration.Camera_Calibration_Paramteters.K3}" />
+                                        Value="{Binding Camera_Calibration_Paramteters_0.K3}" />
 
                                 <TextBox Grid.Column=" 2"
-                                         Text="{Binding ElementName=Calibration_K3_UI, Path=Value}"
+                                         Text="{Binding ElementName=Calibration_K3_UI_0, Path=Value, StringFormat={}{0:F4}}"
                                          Width="100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -382,7 +381,7 @@
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_P1_UI" Grid.Column=" 1"
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_P1_UI_0" Grid.Column=" 1"
                                         Margin="5"
                                         VerticalAlignment="Center"
                                         HorizontalContentAlignment="Stretch"
@@ -391,10 +390,10 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="{Binding Select_Calibration.Camera_Calibration.Camera_Calibration_Paramteters.P1}" />
+                                        Value="{Binding Camera_Calibration_Paramteters_0 .P1}" />
 
                                 <TextBox Grid.Column=" 2"
-                                         Text="{Binding ElementName=Calibration_P1_UI, Path=Value}"
+                                         Text="{Binding ElementName=Calibration_P1_UI_0, Path=Value, StringFormat={}{0:F4}}"
                                          Width="100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -425,7 +424,7 @@
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_P2_UI" Grid.Column=" 1"
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_P2_UI_0" Grid.Column=" 1"
                                         Margin="5"
                                         VerticalAlignment="Center"
                                         HorizontalContentAlignment="Stretch"
@@ -434,10 +433,10 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="{Binding Select_Calibration.Camera_Calibration.Camera_Calibration_Paramteters.P2}" />
+                                        Value="{Binding Camera_Calibration_Paramteters_0.P2}" />
 
                                 <TextBox Grid.Column=" 2"
-                                         Text="{Binding ElementName=Calibration_P2_UI, Path=Value}"
+                                         Text="{Binding ElementName=Calibration_P2_UI_0, Path=Value, StringFormat={}{0:F4}}"
                                          Width="100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -468,7 +467,7 @@
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_Pixel_Width_UI" Grid.Column=" 1"
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_Pixel_Width_UI_0" Grid.Column=" 1"
                                         Margin="5"
                                         VerticalAlignment="Center"
                                         HorizontalContentAlignment="Stretch"
@@ -477,10 +476,10 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="{Binding Select_Calibration.Camera_Calibration.Camera_Calibration_Paramteters.Sx}" />
+                                        Value="{Binding Camera_Calibration_Paramteters_0.Sx}" />
 
                                 <TextBox Grid.Column=" 2"
-                                         Text="{Binding ElementName=Calibration_Pixel_Width_UI, Path=Value}"
+                                         Text="{Binding ElementName=Calibration_Pixel_Width_UI_0, Path=Value, StringFormat={}{0:F4}}"
                                          Width="100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -511,7 +510,7 @@
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_Pixel_Height_UI" Grid.Column=" 1"
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_Pixel_Height_UI_0" Grid.Column=" 1"
                                         Margin="5"
                                         VerticalAlignment="Center"
                                         HorizontalContentAlignment="Stretch"
@@ -520,10 +519,10 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="{Binding Select_Calibration.Camera_Calibration.Camera_Calibration_Paramteters.Sy}" />
+                                        Value="{Binding Camera_Calibration_Paramteters_0.Sy}" />
 
                                 <TextBox Grid.Column=" 2"
-                                         Text="{Binding ElementName=Calibration_Pixel_Height_UI, Path=Value}"
+                                         Text="{Binding ElementName=Calibration_Pixel_Height_UI_0, Path=Value, StringFormat={}{0:F4}}"
                                          Width="100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -554,7 +553,7 @@
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_Middle_Width_UI" Grid.Column=" 1"
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_Middle_Width_UI_0" Grid.Column=" 1"
                                         Margin="5"
                                         VerticalAlignment="Center"
                                         HorizontalContentAlignment="Stretch"
@@ -563,10 +562,10 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="{Binding Select_Calibration.Camera_Calibration.Camera_Calibration_Paramteters.Cx}" />
+                                        Value="{Binding Camera_Calibration_Paramteters_0.Cx}" />
 
                                 <TextBox Grid.Column=" 2"
-                                         Text="{Binding ElementName=Calibration_Middle_Width_UI, Path=Value}"
+                                         Text="{Binding ElementName=Calibration_Middle_Width_UI_0, Path=Value, StringFormat={}{0:F4}}"
                                          Width="100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -597,7 +596,7 @@
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_Middle_Height_UI" Grid.Column=" 1"
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_Middle_Height_UI_0" Grid.Column=" 1"
                                         Margin="5"
                                         VerticalAlignment="Center"
                                         HorizontalContentAlignment="Stretch"
@@ -606,10 +605,10 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="{Binding Select_Calibration.Camera_Calibration.Camera_Calibration_Paramteters.Cy}" />
+                                        Value="{Binding Camera_Calibration_Paramteters_0.Cy}" />
 
                                 <TextBox Grid.Column=" 2"
-                                         Text="{Binding ElementName=Calibration_Middle_Height_UI, Path=Value}"
+                                         Text="{Binding ElementName=Calibration_Middle_Height_UI_0, Path=Value, StringFormat={}{0:F4}}"
                                          Width="100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -640,7 +639,7 @@
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_Max_Width_UI" Grid.Column=" 1"
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_Max_Width_UI_0" Grid.Column=" 1"
                                         Margin="5"
                                         VerticalAlignment="Center"
                                         HorizontalContentAlignment="Stretch"
@@ -649,10 +648,10 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="{Binding Select_Calibration.Camera_Calibration.Camera_Calibration_Paramteters.Image_Width}" />
+                                        Value="{Binding Camera_Calibration_Paramteters_0.Image_Width}" />
 
                                 <TextBox Grid.Column=" 2"
-                                         Text="{Binding ElementName=Calibration_Max_Width_UI, Path=Value}"
+                                         Text="{Binding ElementName=Calibration_Max_Width_UI_0, Path=Value, StringFormat={}{0:F4}}"
                                          Width="100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -683,7 +682,7 @@
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_Max_Heigth_UI" Grid.Column=" 1"
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_Max_Heigth_UI_0" Grid.Column=" 1"
                                         Margin="5"
                                         VerticalAlignment="Center"
                                         HorizontalContentAlignment="Stretch"
@@ -692,10 +691,10 @@
                                         Maximum="50000"
                                         Minimum="0"
                                         SmallChange="10"
-                                        Value="{Binding Select_Calibration.Camera_Calibration.Camera_Calibration_Paramteters.Image_Height}" />
+                                        Value="{Binding Camera_Calibration_Paramteters_0.Image_Height}" />
 
                                 <TextBox Grid.Column=" 2"
-                                         Text="{Binding ElementName=Calibration_Max_Heigth_UI, Path=Value}"
+                                         Text="{Binding ElementName=Calibration_Max_Heigth_UI_0, Path=Value, StringFormat={}{0:F4}}"
                                          Width="100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -732,9 +731,702 @@
                           Margin="0,0,0,10"
                           HorizontalContentAlignment="Stretch"
                           VerticalContentAlignment="Stretch"
-                          IsExpanded="True">
+                          IsExpanded="False">
                     <Expander.Header>
                         <Border x:Name="Radio_2"
+                                Margin="0"
+                                Background="{DynamicResource 全局_按钮_黑颜色}">
+                            <Border.Style>
+                                <Style TargetType="{x:Type Border}">
+                                    <Setter Property="CornerRadius" Value="5" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsExpanded, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Expander}}}" Value="True">
+
+                                            <Setter Property="CornerRadius" Value="5 5 0 0" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+
+                            <Grid>
+
+
+                                <StackPanel Margin="10"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal">
+                                    <Border Margin="0,0,10,0"
+                                            Background="{DynamicResource 全局_按钮_灰颜色}"
+                                            CornerRadius=" 15">
+                                        <Image Height=" 24"
+                                               Margin="5"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Source="/Resources/Vision_标定图标.png" />
+                                    </Border>
+                                    <TextBlock Text="Camera 1 内参初始化"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                               FontSize="16"
+                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                </StackPanel>
+
+
+                            </Grid>
+
+                        </Border>
+                    </Expander.Header>
+                    <Grid>
+                        <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 5 5" />
+                        <StackPanel Orientation="Vertical">
+
+
+
+
+
+                            <Grid Height=" 35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="90" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column=" 0"
+                                           Text="采集方式"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="CameraCalibrationModel_1" Grid.Column=" 1"
+                                          HorizontalContentAlignment="Left"
+                                          VerticalContentAlignment="Center"
+                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                          BorderThickness="2"
+                                          FontSize="20"
+                                          IsDropDownOpen="False"
+                                          IsSynchronizedWithCurrentItem="True"
+                                          SelectedIndex="{Binding Camera_Calibration_Paramteters_1.Camera_Calibration_Model, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:Halocn_Camera_Calibration_Enum}}">
+
+                                    <ComboBoxItem>
+
+                                        <TextBlock Text="面扫描(普通式)"
+                                                   TextWrapping="Wrap"
+                                                   Padding="0,4,0,4"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem>
+
+                                        <TextBlock Text="面扫描(多项式)"
+                                                   TextWrapping="Wrap"
+                                                   Padding="0,4,0,4"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+
+
+                                </ComboBox>
+
+
+                            </Grid>
+
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=" 90" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                    <ColumnDefinition Width=" 35" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="焦距"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_Focus_UI_1" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="50000"
+                                        Minimum="0"
+                                        SmallChange="10"
+                                        Value="{Binding Camera_Calibration_Paramteters_1.Focus}">
+                                    <!--<i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PreviewMouseUp">
+                                            <i:InvokeCommandAction Command="{Binding}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>-->
+                                </Slider>
+
+                                <TextBox Grid.Column=" 2"
+                                         Text="{Binding ElementName=Calibration_Focus_UI_1, Path=Value, StringFormat={}{0:F4}}"
+                                         Width="100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                                <Label Grid.Column=" 3"
+                                       Content="mm"
+                                       Margin="0"
+                                       Padding="0"
+                                       HorizontalContentAlignment="Center"
+                                       VerticalContentAlignment="Center"
+                                       FontSize=" 14" />
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=" 90" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                    <ColumnDefinition Width=" 35" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Kappa"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Camera_Kappa_UI_1" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="999999999"
+                                        Minimum="-999999999"
+                                        SmallChange="10"
+                                        Value="{Binding Camera_Calibration_Paramteters_1.Kappa}" />
+
+                                <TextBox Grid.Column=" 2"
+                                         Text="{Binding ElementName=Camera_Kappa_UI_1, Path=Value, StringFormat={}{0:F4}}"
+                                         Width="100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                                <Label Grid.Column=" 3"
+                                       Content="1/㎡"
+                                       Margin="0"
+                                       Padding="0"
+                                       HorizontalContentAlignment="Center"
+                                       VerticalContentAlignment="Center"
+                                       FontSize=" 14" />
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=" 90" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                    <ColumnDefinition Width=" 35" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="K1"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_K1_UI_1" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="999999999"
+                                        Minimum="-999999999"
+                                        SmallChange="10"
+                                        Value="{Binding Camera_Calibration_Paramteters_1.K1}" />
+
+                                <TextBox Grid.Column=" 2"
+                                         Text="{Binding ElementName=Calibration_K1_UI_1, Path=Value, StringFormat={}{0:F4}}"
+                                         Width="100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                                <Label Grid.Column=" 3"
+                                       Content="1/㎡"
+                                       Margin="0"
+                                       Padding="0"
+                                       HorizontalContentAlignment="Center"
+                                       VerticalContentAlignment="Center"
+                                       FontSize=" 14" />
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=" 90" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                    <ColumnDefinition Width=" 35" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="K2"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_K2_UI_1" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="999999999"
+                                        Minimum="-999999999"
+                                        SmallChange="10"
+                                        Value="{Binding Camera_Calibration_Paramteters_1.K2}" />
+
+                                <TextBox Grid.Column=" 2"
+                                         Text="{Binding ElementName=Calibration_K2_UI_1, Path=Value, StringFormat={}{0:F4}}"
+                                         Width="100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                                <Label Grid.Column=" 3"
+                                       Content="1/㎡"
+                                       Margin="0"
+                                       Padding="0"
+                                       HorizontalContentAlignment="Center"
+                                       VerticalContentAlignment="Center"
+                                       FontSize=" 14" />
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=" 90" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                    <ColumnDefinition Width=" 35" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="K3"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_K3_UI_1" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="999999999"
+                                        Minimum="-999999999"
+                                        SmallChange="10"
+                                        Value="{Binding Camera_Calibration_Paramteters_1.K3}" />
+
+                                <TextBox Grid.Column=" 2"
+                                         Text="{Binding ElementName=Calibration_K3_UI_1, Path=Value, StringFormat={}{0:F4}}"
+                                         Width="100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                                <Label Grid.Column=" 3"
+                                       Content="1/㎡"
+                                       Margin="0"
+                                       Padding="0"
+                                       HorizontalContentAlignment="Center"
+                                       VerticalContentAlignment="Center"
+                                       FontSize=" 14" />
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=" 90" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                    <ColumnDefinition Width=" 35" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="P1"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_P1_UI_1" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="999999999"
+                                        Minimum="-999999999"
+                                        SmallChange="10"
+                                        Value="{Binding Camera_Calibration_Paramteters_1 .P1}" />
+
+                                <TextBox Grid.Column=" 2"
+                                         Text="{Binding ElementName=Calibration_P1_UI_1, Path=Value, StringFormat={}{0:F4}}"
+                                         Width="100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                                <Label Grid.Column=" 3"
+                                       Content="1/㎡"
+                                       Margin="0"
+                                       Padding="0"
+                                       HorizontalContentAlignment="Center"
+                                       VerticalContentAlignment="Center"
+                                       FontSize=" 14" />
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=" 90" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                    <ColumnDefinition Width=" 35" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="P2"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_P2_UI_1" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="999999999"
+                                        Minimum="-999999999"
+                                        SmallChange="10"
+                                        Value="{Binding Camera_Calibration_Paramteters_1.P2}" />
+
+                                <TextBox Grid.Column=" 2"
+                                         Text="{Binding ElementName=Calibration_P2_UI_1, Path=Value, StringFormat={}{0:F4}}"
+                                         Width="100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                                <Label Grid.Column=" 3"
+                                       Content="1/㎡"
+                                       Margin="0"
+                                       Padding="0"
+                                       HorizontalContentAlignment="Center"
+                                       VerticalContentAlignment="Center"
+                                       FontSize=" 14" />
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=" 90" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                    <ColumnDefinition Width=" 35" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="单个像素宽"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_Pixel_Width_UI_1" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="50000"
+                                        Minimum="0"
+                                        SmallChange="10"
+                                        Value="{Binding Camera_Calibration_Paramteters_1.Sx}" />
+
+                                <TextBox Grid.Column=" 2"
+                                         Text="{Binding ElementName=Calibration_Pixel_Width_UI_1, Path=Value, StringFormat={}{0:F4}}"
+                                         Width="100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                                <Label Grid.Column=" 3"
+                                       Content="μm"
+                                       Margin="0"
+                                       Padding="0"
+                                       HorizontalContentAlignment="Center"
+                                       VerticalContentAlignment="Center"
+                                       FontSize=" 14" />
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=" 90" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                    <ColumnDefinition Width=" 35" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="单个像素高"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_Pixel_Height_UI_1" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="50000"
+                                        Minimum="0"
+                                        SmallChange="10"
+                                        Value="{Binding Camera_Calibration_Paramteters_1.Sy}" />
+
+                                <TextBox Grid.Column=" 2"
+                                         Text="{Binding ElementName=Calibration_Pixel_Height_UI_1, Path=Value, StringFormat={}{0:F4}}"
+                                         Width="100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                                <Label Grid.Column=" 3"
+                                       Content="μm"
+                                       Margin="0"
+                                       Padding="0"
+                                       HorizontalContentAlignment="Center"
+                                       VerticalContentAlignment="Center"
+                                       FontSize=" 14" />
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=" 90" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                    <ColumnDefinition Width=" 35" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="中心宽位置"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_Middle_Width_UI_1" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="50000"
+                                        Minimum="0"
+                                        SmallChange="10"
+                                        Value="{Binding Camera_Calibration_Paramteters_1.Cx}" />
+
+                                <TextBox Grid.Column=" 2"
+                                         Text="{Binding ElementName=Calibration_Middle_Width_UI_1, Path=Value, StringFormat={}{0:F4}}"
+                                         Width="100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                                <Label Grid.Column=" 3"
+                                       Content="Pixel"
+                                       Margin="0"
+                                       Padding="0"
+                                       HorizontalContentAlignment="Center"
+                                       VerticalContentAlignment="Center"
+                                       FontSize=" 14" />
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=" 90" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                    <ColumnDefinition Width=" 35" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="中心高位置"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_Middle_Height_UI_1" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="50000"
+                                        Minimum="0"
+                                        SmallChange="10"
+                                        Value="{Binding Camera_Calibration_Paramteters_1.Cy}" />
+
+                                <TextBox Grid.Column=" 2"
+                                         Text="{Binding ElementName=Calibration_Middle_Height_UI_1, Path=Value, StringFormat={}{0:F4}}"
+                                         Width="100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                                <Label Grid.Column=" 3"
+                                       Content="Pixel"
+                                       Margin="0"
+                                       Padding="0"
+                                       HorizontalContentAlignment="Center"
+                                       VerticalContentAlignment="Center"
+                                       FontSize=" 14" />
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=" 90" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                    <ColumnDefinition Width=" 35" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="最大宽度"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_Max_Width_UI_1" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="50000"
+                                        Minimum="0"
+                                        SmallChange="10"
+                                        Value="{Binding Camera_Calibration_Paramteters_1.Image_Width}" />
+
+                                <TextBox Grid.Column=" 2"
+                                         Text="{Binding ElementName=Calibration_Max_Width_UI_1, Path=Value, StringFormat={}{0:F4}}"
+                                         Width="100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                                <Label Grid.Column=" 3"
+                                       Content="Pixel"
+                                       Margin="0"
+                                       Padding="0"
+                                       HorizontalContentAlignment="Center"
+                                       VerticalContentAlignment="Center"
+                                       FontSize=" 14" />
+                            </Grid>
+
+                            <Grid Height="35" Margin="8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=" 90" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                    <ColumnDefinition Width=" 35" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="最大高度"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_Max_Heigth_UI_1" Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="50000"
+                                        Minimum="0"
+                                        SmallChange="10"
+                                        Value="{Binding Camera_Calibration_Paramteters_1.Image_Height}" />
+
+                                <TextBox Grid.Column=" 2"
+                                         Text="{Binding ElementName=Calibration_Max_Heigth_UI_1, Path=Value, StringFormat={}{0:F4}}"
+                                         Width="100"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="18" />
+                                <Label Grid.Column=" 3"
+                                       Content="Pixel"
+                                       Margin="0"
+                                       Padding="0"
+                                       HorizontalContentAlignment="Center"
+                                       VerticalContentAlignment="Center"
+                                       FontSize=" 14" />
+                            </Grid>
+
+
+                            <Border Height=" 2"
+                                    Margin="8,4,8,4"
+                                    Background="{DynamicResource 全局_按钮_黑颜色}"
+                                    CornerRadius="1"
+                                    Opacity=" 0.5" />
+
+
+
+
+
+                        </StackPanel>
+
+                    </Grid>
+                </Expander>
+
+
+
+                <Expander Style="{DynamicResource Vision_Fence_Expander_Style}" x:Name="E3"
+                          Margin="0,0,0,10"
+                          HorizontalContentAlignment="Stretch"
+                          VerticalContentAlignment="Stretch"
+                          IsExpanded="True">
+                    <Expander.Header>
+                        <Border x:Name="Radio_3"
                                 Margin="0"
                                 Background="{DynamicResource 全局_按钮_黑颜色}">
                             <Border.Style>

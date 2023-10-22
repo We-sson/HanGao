@@ -48,6 +48,35 @@ namespace HanGao.ViewModel
             }
         }
 
+        private  static Halcon_Camera_Calibration_Parameters_Model _Camera_Calibration_Paramteters_0 { get; set; } = new Halcon_Camera_Calibration_Parameters_Model();
+        /// <summary>
+        /// 全局标定相机设置参数
+        /// </summary>
+        public static Halcon_Camera_Calibration_Parameters_Model Camera_Calibration_Paramteters_0
+        {
+            get { return _Camera_Calibration_Paramteters_0; }
+            set
+            {
+                _Camera_Calibration_Paramteters_0 = value;
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Camera_Calibration_Paramteters_0)));
+            }
+        }
+
+
+        private static Halcon_Camera_Calibration_Parameters_Model _Camera_Calibration_Paramteters_1 { get; set; } = new Halcon_Camera_Calibration_Parameters_Model();
+        /// <summary>
+        /// 全局标定相机设置参数
+        /// </summary>
+        public static Halcon_Camera_Calibration_Parameters_Model Camera_Calibration_Paramteters_1
+        {
+            get { return _Camera_Calibration_Paramteters_1; }
+            set
+            {
+                _Camera_Calibration_Paramteters_1 = value;
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Camera_Calibration_Paramteters_1)));
+            }
+        }
+
 
 
         public bool Get_Calibration_State { set; get; } = true;
@@ -262,7 +291,7 @@ namespace HanGao.ViewModel
             Get_Calibration_State = true;
 
 
-            if (Set_Camera_Calibration_Par(ref _CalibSetup_ID, Calibration_Load_Type.All_Camera) > 0)
+            if (Set_Camera_Calibration_Par(ref _CalibSetup_ID, Calibration_Load_Type_Enum.All_Camera) > 0)
             {
 
                 foreach (var _camer in MVS_Camera_Info_List)
@@ -422,7 +451,7 @@ namespace HanGao.ViewModel
                     HCalibData _CalibSetup_ID = new HCalibData();
                     Calibration_Image_No = 0;
                     Calibration_Checks_State = true;
-                    int Calib_Cam_Number = 0;
+                    //int Calib_Cam_Number = 0;
 
                     try
                     {
@@ -438,7 +467,7 @@ namespace HanGao.ViewModel
 
 
                         //创建识别标定类
-                        if (Set_Camera_Calibration_Par(ref _CalibSetup_ID, Calibration_Load_Type.Camera_0) > 0)
+                        if (Set_Camera_Calibration_Par(ref _CalibSetup_ID, Calibration_Load_Type_Enum.Camera_0) > 0)
                         {
 
 

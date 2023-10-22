@@ -330,6 +330,11 @@ namespace HanGao.ViewModel
 
 
 
+
+
+
+
+
         /// <summary>
         /// 连接相机命令
         /// </summary>
@@ -628,128 +633,41 @@ namespace HanGao.ViewModel
 
             });
         }
+
+
+
+        /// <summary>
+        /// 查找网络内相机
+        /// </summary>
+        public ICommand Set_Camera_Calibration_Parameter_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+
+                ComboBox _ComboxBox = Sm.Source as ComboBox;
+
+                //把参数类型转换控件
+                //Initialization_Camera();
+
+                switch ((Camera_Calibration_MainOrSubroutine_Type_Enum)_ComboxBox.SelectedIndex)
+                {
+                    case Camera_Calibration_MainOrSubroutine_Type_Enum.Main:
+
+
+                        break;
+                    case Camera_Calibration_MainOrSubroutine_Type_Enum.Subroutine:
+
+                        break;
+                }
+
+
+
+            });
+        }
+
     }
-    ///// <summary>
-    ///// 海康相机Int参数类型UI显示模型
-    ///// </summary>
-    //public class MVS_Int_UI_Type
-    //{
-    //    /// <summary>
-    //    /// 默认值
-    //    /// </summary>
-    //    public int Val { set; get; }
-    //    /// <summary>
-    //    /// 最大值
-    //    /// </summary>
-    //    public int Max { get; set; }
-    //    /// <summary>
-    //    /// 最小值
-    //    /// </summary>
-    //    public int Min { set; get; }
-    //}
-    ///// <summary>
-    ///// 海康相机Float参数类型UI显示模型
-    ///// </summary>
-    //public class MVS_Float_UI_Type
-    //{
-    //    /// <summary>
-    //    /// 默认值
-    //    /// </summary>
-    //    public double Val { set; get; }
-    //    /// <summary>
-    //    /// 最大值
-    //    /// </summary>
-    //    public double Max { get; set; }
-    //    /// <summary>
-    //    /// 最小值
-    //    /// </summary>
-    //    public double Min { set; get; }
-    //}
-    ///// <summary>
-    ///// 海康相机Enum参数类型UI显示模型
-    ///// </summary>
-    //public class MVS_Enum_UI_Type
-    //{
-    //    /// <summary>
-    //    /// 默认值
-    //    /// </summary>
-    //    public Enum Val { set; get; }
-    //    /// <summary>
-    //    /// 枚举类型
-    //    /// </summary>
-    //    public Enum EType { get; set; }
-    //}
-    ///// <summary>
-    ///// 海康相机ROI参数，UI显示模型
-    ///// </summary>
-    //public class MVS_ROI_UI_Type
-    //{
-    //    /// <summary>
-    //    /// 图像的最大宽度（以像素为单位）
-    //    /// </summary>
-    //    public int WidthMax { set; get; }
-    //    /// <summary>
-    //    /// 图像的最大高度（以像素为单位）
-    //    /// </summary>
-    //    public int HeightMax { set; get; }
-    //    /// <summary>
-    //    /// 设备提供的图像宽度（像素）
-    //    /// </summary>
-    //    public int Width { set; get; }
-    //    /// <summary>
-    //    /// 设备提供的图像的高度（像素）
-    //    /// </summary>
-    //    public int Height { set; get; }
-    //    /// <summary>
-    //    /// 从原点到AOI的垂直偏移（像素）,整数类型——默认0，最小0，最大3072
-    //    /// </summary>
-    //    public int OffsetX { set; get; }
-    //    /// <summary>
-    //    /// 从原点到AOI的水平偏移（像素）,整数类型——默认0，最小0，最大2048
-    //    /// </summary>
-    //    public int OffsetY { set; get; }
-    //    /// <summary>
-    //    /// 水平翻转设备发送的图像。翻转后应用感兴趣区域，布尔类型——默认False
-    //    /// </summary>
-    //    public bool ReverseX { set; get; }
-    //}
-    ///// <summary>
-    ///// UI界面相机参数
-    ///// </summary>
-    //public class Camrea_Parameters_UI_Model
-    //{
-    //    public double Exposure { set; get; } = 30000;
-    //    public double Gain { set; get; } = 10;
-    //    public double DigitalShift { set; get; } = 0;
-    //    public double Gamma { set; get; } = 0.5;
-    //    public int Sharpness { set; get; } = 10;
-    //    public int BlackLevel { set; get; } = 100;
-    //    public int ROI_Height_Max { set; get; } = 2048;
-    //    public int ROI_Width_Max { set; get; } = 3072;
-    //    public int ROI_Height_X { set; get; } = 0;
-    //    public int ROI_Width_Y { set; get; } = 0;
-    //    /// <summary>
-    //    /// 水平翻转设备发送的图像。翻转后应用感兴趣区域，布尔类型——默认False
-    //    /// </summary>
-    //    public bool ROI_ReverseX { set; get; }
-    //    public ACQUISITION_MODE_Enum ACQUISITION_MODE { set; get; } = ACQUISITION_MODE_Enum.持续采集模式;
-    //}
 
 
-
-    /// <summary>
-    /// 海康相机信息
-    /// </summary>
-    //[AddINotifyPropertyChangedInterface]
-    //public class MVS_Camera_Info
-    //{
-
-    //    public CGigECameraInfo Camera_Info { set; get; } = new CGigECameraInfo();
-
-
-
-
-    //}
 
 
 }

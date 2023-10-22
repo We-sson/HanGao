@@ -85,14 +85,14 @@ namespace HanGao.ViewModel
 
 
                         HCalibData _CalibSetup_ID = new HCalibData();
-                        Calibration_Load_Type _Load_Type = Calibration_Load_Type.None;
+                        Calibration_Load_Type_Enum _Load_Type = Calibration_Load_Type_Enum.None;
 
                         //获得相机标定内参
                         //Caliration_AllCamera_Results_Model _All_Camera_Results = All_Camera_Results;
                         //UI线程委托
                         Application.Current.Dispatcher.Invoke(() =>
                         {
-                            _Load_Type = Enum.Parse<Calibration_Load_Type>(E.Name);
+                            _Load_Type = Enum.Parse<Calibration_Load_Type_Enum>(E.Name);
                         });
 
 
@@ -105,7 +105,7 @@ namespace HanGao.ViewModel
 
                                 User_Log_Add("进行双相机标定!", Log_Show_Window_Enum.Calibration);
 
-                                All_Camera_Results = Cailbration_Camera_Method(All_Camera_Results, Calibration_Load_Type.All_Camera);
+                                All_Camera_Results = Cailbration_Camera_Method(All_Camera_Results, Calibration_Load_Type_Enum.All_Camera);
 
                             }
                             else
@@ -182,7 +182,7 @@ namespace HanGao.ViewModel
 
 
 
-        public static Caliration_AllCamera_Results_Model Cailbration_Camera_Method(Caliration_AllCamera_Results_Model _All_Camera_Results, Calibration_Load_Type _Calib_Load_Type)
+        public static Caliration_AllCamera_Results_Model Cailbration_Camera_Method(Caliration_AllCamera_Results_Model _All_Camera_Results, Calibration_Load_Type_Enum _Calib_Load_Type)
         {
 
 
@@ -195,11 +195,11 @@ namespace HanGao.ViewModel
 
             switch (_Calib_Load_Type)
             {
-                case Calibration_Load_Type.None:
+                case Calibration_Load_Type_Enum.None:
 
 
                     break;
-                case Calibration_Load_Type.All_Camera:
+                case Calibration_Load_Type_Enum.All_Camera:
 
 
 
@@ -287,7 +287,7 @@ namespace HanGao.ViewModel
 
 
                     break;
-                case Calibration_Load_Type.Camera_0 or Calibration_Load_Type.Camera_1:
+                case Calibration_Load_Type_Enum.Camera_0 or Calibration_Load_Type_Enum.Camera_1:
 
 
 
@@ -310,13 +310,13 @@ namespace HanGao.ViewModel
                             switch (_Calib_Load_Type)
                             {
 
-                                case Calibration_Load_Type.Camera_0:
+                                case Calibration_Load_Type_Enum.Camera_0:
 
                                     _Imge = Calibration_List[i].Camera_0.Calibration_Image;
 
 
                                     break;
-                                case Calibration_Load_Type.Camera_1:
+                                case Calibration_Load_Type_Enum.Camera_1:
 
                                     _Imge = Calibration_List[i].Camera_1.Calibration_Image;
 
@@ -344,7 +344,7 @@ namespace HanGao.ViewModel
                                     switch (_Calib_Load_Type)
                                     {
 
-                                        case Calibration_Load_Type.Camera_0:
+                                        case Calibration_Load_Type_Enum.Camera_0:
 
 
                                             Calibration_List[i].Camera_0.Calibration_State = Camera_Calibration_Results_Type_Enum.标定计算成功.ToString();
@@ -352,7 +352,7 @@ namespace HanGao.ViewModel
                                             Calibration_List[i].Camera_0.Calibration_XLD = _CalibCoord.CopyObj(1, -1);
                                      
                                             break;
-                                        case Calibration_Load_Type.Camera_1:
+                                        case Calibration_Load_Type_Enum.Camera_1:
 
 
                                             Calibration_List[i].Camera_1.Calibration_State = Camera_Calibration_Results_Type_Enum.标定计算成功.ToString();
@@ -412,7 +412,7 @@ namespace HanGao.ViewModel
         /// <param name="_CalibSetup_ID"></param>
         /// <param name="_Calib_Load_Type"></param>
         /// <returns></returns>
-        public static Caliration_AllCamera_Results_Model Calibration_Results(Caliration_AllCamera_Results_Model _All_Camera_Results, HCalibData _CalibSetup_ID, Calibration_Load_Type _Calib_Load_Type)
+        public static Caliration_AllCamera_Results_Model Calibration_Results(Caliration_AllCamera_Results_Model _All_Camera_Results, HCalibData _CalibSetup_ID, Calibration_Load_Type_Enum _Calib_Load_Type)
         {
 
 
@@ -428,7 +428,7 @@ namespace HanGao.ViewModel
             switch (_Calib_Load_Type)
             {
 
-                case Calibration_Load_Type.All_Camera:
+                case Calibration_Load_Type_Enum.All_Camera:
 
 
                     _All_Camera_Results.Camera_0_Results = new Calibration_Camera_Data_Results_Model()
@@ -458,7 +458,7 @@ namespace HanGao.ViewModel
                     break;
 
 
-                case Calibration_Load_Type.Camera_0:
+                case Calibration_Load_Type_Enum.Camera_0:
 
 
                     _All_Camera_Results.Camera_0_Results = new Calibration_Camera_Data_Results_Model()
@@ -478,7 +478,7 @@ namespace HanGao.ViewModel
 
 
                     break;
-                case Calibration_Load_Type.Camera_1:
+                case Calibration_Load_Type_Enum.Camera_1:
                     _All_Camera_Results.Camera_1_Results = new Calibration_Camera_Data_Results_Model()
                     {
                         Result_Error_Val = Results_Error_Val,
@@ -514,7 +514,7 @@ namespace HanGao.ViewModel
         /// </summary>
         /// <param name="_camerLits"></param>
         /// <returns></returns>
-        public static int Set_Camera_Calibration_Par(ref HCalibData _CalibSetup_ID, Calibration_Load_Type _CType)
+        public static int Set_Camera_Calibration_Par(ref HCalibData _CalibSetup_ID, Calibration_Load_Type_Enum _CType)
         {
 
 
@@ -529,11 +529,14 @@ namespace HanGao.ViewModel
 
             switch (_CType)
             {
-                case Calibration_Load_Type.All_Camera:
+                case Calibration_Load_Type_Enum.All_Camera:
 
-
+                    //使用双相机标定
+                    _camera_number = 2;
                     //读取标定相机数量
-                    _camera_number = MVS_Camera_Info_List.Where((_w) => _w.Camera_Calibration.Camera_Calibration_Setup == Camera_Calibration_Mobile_Type_Enum.Start_Calibration).ToList().Count;
+                    //_camera_number = MVS_Camera_Info_List.Where((_w) => _w.Camera_Calibration.Camera_Calibration_Setup == Camera_Calibration_Mobile_Type_Enum.Start_Calibration).ToList().Count;
+
+
 
                     //初始化标定相机数量
                     _CalibSetup_ID = new HCalibData(Halcon_Calibration_Setup.Calibration_Setup_Model.ToString(), _camera_number, 1);
@@ -541,33 +544,39 @@ namespace HanGao.ViewModel
                     _CalibSetup_ID.SetCalibDataCalibObject(0, Halcon_Calibration_Setup.Halcon_CaltabDescr_Address);
 
 
-                    int _number = 0;
+                    //int _number = 0;
+
+
 
                     //设置使用的摄像机类型
-                    foreach (var _camera in MVS_Camera_Info_List)
-                    {
-                        if (_camera.Camera_Calibration.Camera_Calibration_Setup == Camera_Calibration_Mobile_Type_Enum.Start_Calibration)
-                        {
-                            HCamPar Camera_CamPar = new HCamPar(Halcon_Calibration_SDK.Get_Cailbration_Camera_Param(_camera.Camera_Calibration.Camera_Calibration_Paramteters));
+                    //foreach (var _camera in MVS_Camera_Info_List)
+                    //{
+                    //    if (_camera.Camera_Calibration.Camera_Calibration_Setup == Camera_Calibration_Mobile_Type_Enum.Start_Calibration)
+                    //    {
+                           //创建相机参数
+                            HCamPar Camera_CamPar_0 = new HCamPar(Halcon_Calibration_SDK.Get_Cailbration_Camera_Param(Camera_Calibration_Paramteters_0));
 
-                            ////设置标定相机内参初始化,俩种方法
-                            _CalibSetup_ID.SetCalibDataCamParam(_number, new HTuple(), Camera_CamPar);
+                            HCamPar Camera_CamPar_1 = new HCamPar(Halcon_Calibration_SDK.Get_Cailbration_Camera_Param(Camera_Calibration_Paramteters_1));
 
-                            //HOperatorSet.SetCalibDataCamParam(
-                            //    Halcon_CalibSetup_ID,
-                            //    _number,
-                            //    new HTuple(),
-                            //    Halcon_Calibration_SDK.Halcon_Get_Camera_Area_Scan(_camera.Camera_Calibration.Camera_Calibration_Paramteters));
+                    ////设置标定相机内参初始化,俩种方法
+                    _CalibSetup_ID.SetCalibDataCamParam(0, new HTuple(), Camera_CamPar_0);
+                    _CalibSetup_ID.SetCalibDataCamParam(1, new HTuple(), Camera_CamPar_1);
 
-                            _number++;
+                    //HOperatorSet.SetCalibDataCamParam(
+                    //    Halcon_CalibSetup_ID,
+                    //    _number,
+                    //    new HTuple(),
+                    //    Halcon_Calibration_SDK.Halcon_Get_Camera_Area_Scan(_camera.Camera_Calibration.Camera_Calibration_Paramteters));
+
+                    //_number++;
 
 
-                        }
-                    }
+                    //    }
+                    //}
 
 
                     break;
-                case Calibration_Load_Type.Camera_0 or Calibration_Load_Type.Camera_1:
+                case Calibration_Load_Type_Enum.Camera_0 or Calibration_Load_Type_Enum.Camera_1:
 
                     //文件标定方式一个位
                     _camera_number = 1;

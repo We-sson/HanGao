@@ -175,13 +175,13 @@ namespace HanGao.ViewModel
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
                 DataGrid E = Sm.Source as DataGrid;
-                HTuple _calib_X;
-                HTuple _calib_Y;
-                HTuple _calib_Z;
-                HTuple _calibObj_Pos;
-                HTuple _Camera_Param;
-                HTuple _Camera_Param_txt;
-                HTuple _Camera_Param_Pos;
+                //HTuple _calib_X;
+                //HTuple _calib_Y;
+                //HTuple _calib_Z;
+                //HTuple _calibObj_Pos;
+                //HTuple _Camera_Param;
+                //HTuple _Camera_Param_txt;
+                //HTuple _Camera_Param_Pos;
                 HObjectModel3D _Calib_3D = new HObjectModel3D();
 
                 List<HObjectModel3D> _Camera_Model = new List<HObjectModel3D>();

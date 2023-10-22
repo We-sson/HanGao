@@ -5,6 +5,7 @@
              xmlns:Enum="clr-namespace:Halcon_SDK_DLL.WPF_Converter;assembly=Halcon_SDK_DLL"
              xmlns:Window_Enum="clr-namespace:MVS_SDK_Base.Model;assembly=MVS_SDK"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:HanGao.View.User_Control.Vision_Calibration.Vison_UserControl"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              d:DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_CameraSet_ViewModel}"
@@ -41,7 +42,7 @@
                   ItemsSource="{Binding MVS_Camera_Info_List}"
                   RowHeaderWidth="0"
                   RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
-                  SelectedIndex="0"
+                  SelectedIndex="-1"
                   SelectedValue="{Binding Select_Calibration}"
                   SelectionMode="Single"
                   SelectionUnit="FullRow">
@@ -75,10 +76,17 @@
                                       IsDropDownOpen="False"
                                       IsSynchronizedWithCurrentItem="True"
                                       SelectedIndex="{Binding Camera_Calibration.Camera_Calibration_MainOrSubroutine_Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Window_Enum:Camera_Calibration_MainOrSubroutine_Type_Enum}}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding DataContext.Set_Camera_Calibration_Parameter_Comm, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
+                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                               PassEventArgsToCommand="True" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
 
                                 <ComboBoxItem>
 
-                                    <TextBlock Text="主"
+                                    <TextBlock Text="Camera 0"
                                                TextWrapping="Wrap"
                                                Padding="0,4,0,4"
                                                HorizontalAlignment="Center"
@@ -90,7 +98,7 @@
                                 </ComboBoxItem>
                                 <ComboBoxItem>
 
-                                    <TextBlock Text="副"
+                                    <TextBlock Text="Camera 1"
                                                TextWrapping="Wrap"
                                                Padding="0,4,0,4"
                                                HorizontalAlignment="Left"
