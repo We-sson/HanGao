@@ -108,7 +108,7 @@ namespace HanGao.ViewModel
         /// </summary>
         /// <param name="_Result_Status"></param>
         /// <returns></returns>
-        public static HPR_Status_Model Display_Status(HPR_Status_Model _Result_Status) 
+        public static HPR_Status_Model<dynamic > Display_Status(HPR_Status_Model<dynamic > _Result_Status) 
         {
 
 

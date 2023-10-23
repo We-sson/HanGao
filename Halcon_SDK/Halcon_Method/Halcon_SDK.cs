@@ -76,7 +76,7 @@ namespace Halcon_SDK_DLL
         /// </summary>
         /// <param name="_Image"></param>
         /// <returns></returns>
-        public static HPR_Status_Model Save_Image(HObject _Image)
+        public static HPR_Status_Model<bool> Save_Image(HObject _Image)
         {
             try
             {
@@ -116,13 +116,13 @@ namespace Halcon_SDK_DLL
                 HOperatorSet.WriteImage(_Image, "tiff", 0, _Path + "\\" + _Name);
 
 
-                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = "图像保存成功！" };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "图像保存成功！" };
 
             }
             catch (Exception e)
             {
 
-                return new HPR_Status_Model(HVE_Result_Enum.图像保存失败) { Result_Error_Info = e.Message };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.图像保存失败) { Result_Error_Info = e.Message };
 
             }
         }
@@ -136,7 +136,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_HomMat2D">需要保存矩阵对象</param>
         /// <param name="_Name">保存名字</param>
         /// <param name="_Path">保存地址</param>
-        public static HPR_Status_Model Save_Mat2d_Method(HTuple _HomMat2D, string _Path)
+        public static HPR_Status_Model<bool> Save_Mat2d_Method(HTuple _HomMat2D, string _Path)
         {
             HTuple _HomMatID = new HTuple();
             HTuple _FileHandle = new HTuple();
@@ -158,12 +158,12 @@ namespace Halcon_SDK_DLL
                 //关闭文件
                 HOperatorSet.CloseFile(_FileHandle);
 
-                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = "保存矩阵文件成功！" };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "保存矩阵文件成功！" };
             }
             catch (Exception e)
             {
 
-                return new HPR_Status_Model(HVE_Result_Enum.保存矩阵文件失败) { Result_Error_Info = e.Message };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.保存矩阵文件失败) { Result_Error_Info = e.Message };
             }
 
 
@@ -176,7 +176,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_Mat2D"></param>
         /// <param name="_Name"></param>
         /// <param name="_Path"></param>
-        public static HPR_Status_Model Read_Mat2d_Method(ref HTuple _Mat2D, string Vision_Area, string Work_Area)
+        public static HPR_Status_Model<bool> Read_Mat2d_Method(ref HTuple _Mat2D, string Vision_Area, string Work_Area)
         {
 
 
@@ -203,11 +203,11 @@ namespace Halcon_SDK_DLL
                 //关闭文件
                 HOperatorSet.CloseFile(_FileHandle);
 
-                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = "读取矩阵文件成功！" };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "读取矩阵文件成功！" };
             }
             catch (Exception e)
             {
-                return new HPR_Status_Model(HVE_Result_Enum.读取矩阵文件失败) { Result_Error_Info = e.Message };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.读取矩阵文件失败) { Result_Error_Info = e.Message };
 
             }
 
@@ -221,7 +221,7 @@ namespace Halcon_SDK_DLL
         /// <param name="Calibration"></param>
         /// <param name="Robot"></param>
         /// <returns></returns>
-        public static HPR_Status_Model Calibration_Results_Compute(ref Point3D _Results, List<Point3D> Calibration, List<Point3D> Robot, ref HTuple HomMat2D)
+        public static HPR_Status_Model<bool> Calibration_Results_Compute(ref Point3D _Results, List<Point3D> Calibration, List<Point3D> Robot, ref HTuple HomMat2D)
         {
             //初始化坐标属性
             HTuple Calibration_RowLine = new HTuple();
@@ -285,11 +285,11 @@ namespace Halcon_SDK_DLL
 
                 _Results = new Point3D(Calibration_Error_X_UI, Calibration_Error_Y_UI, 0);
 
-                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = "实际偏差：X " + Calibration_Error_X_UI + ",Y " + Calibration_Error_Y_UI };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "实际偏差：X " + Calibration_Error_X_UI + ",Y " + Calibration_Error_Y_UI };
             }
             catch (Exception e)
             {
-                return new HPR_Status_Model(HVE_Result_Enum.计算实际误差失败) { Result_Error_Info = e.Message };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.计算实际误差失败) { Result_Error_Info = e.Message };
             }
 
 
@@ -343,7 +343,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_Region"></param>
         /// <param name="imgee"></param>
         /// <returns></returns>
-        public static HPR_Status_Model ShowMaxGray_Image(ref HRegion _Region, HImage imgee)
+        public static HPR_Status_Model<bool> ShowMaxGray_Image(ref HRegion _Region, HImage imgee)
         {
             try
             {
@@ -352,12 +352,12 @@ namespace Halcon_SDK_DLL
                 _Region = imgee.Threshold(new HTuple(254), new HTuple(255));
 
 
-                return new HPR_Status_Model(HVE_Result_Enum.Run_OK);
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK);
             }
             catch (Exception e)
             {
 
-                return new HPR_Status_Model(HVE_Result_Enum.显示最大灰度失败) { Result_Error_Info = e.Message };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.显示最大灰度失败) { Result_Error_Info = e.Message };
 
 
             }
@@ -371,7 +371,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_Region"></param>
         /// <param name="imgee"></param>
         /// <returns></returns>
-        public static HPR_Status_Model ShowMinGray_Image(ref HRegion _Region, HImage imgee)
+        public static HPR_Status_Model<bool> ShowMinGray_Image(ref HRegion _Region, HImage imgee)
         {
             try
             {
@@ -380,12 +380,12 @@ namespace Halcon_SDK_DLL
                 _Region = imgee.Threshold(new HTuple(0), new HTuple(1));
 
 
-                return new HPR_Status_Model(HVE_Result_Enum.Run_OK);
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK);
             }
             catch (Exception e)
             {
 
-                return new HPR_Status_Model(HVE_Result_Enum.显示最大灰度失败) { Result_Error_Info = e.Message };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.显示最大灰度失败) { Result_Error_Info = e.Message };
 
 
             }
@@ -402,7 +402,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_Height"></param>
         /// <param name="_pData"></param>
         /// <returns></returns>
-        public static HPR_Status_Model Mvs_To_Halcon_Image(ref HImage image, int _Width, int _Height, IntPtr _pData)
+        public static HPR_Status_Model<bool> Mvs_To_Halcon_Image(ref HImage image, int _Width, int _Height, IntPtr _pData)
         {
 
             try
@@ -414,13 +414,13 @@ namespace Halcon_SDK_DLL
 
                 //HOperatorSet.GenImage1(out image, "byte", _Width, _Height, _pData);
 
-                return new HPR_Status_Model(HVE_Result_Enum.Run_OK);
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK);
 
             }
             catch (Exception e)
             {
 
-                return new HPR_Status_Model(HVE_Result_Enum.Halcon转换海康图像错误) { Result_Error_Info = e.Message };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.Halcon转换海康图像错误) { Result_Error_Info = e.Message };
 
             }
 
@@ -436,7 +436,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_Image"></param>
         /// <param name="_Path"></param>
         /// <returns></returns>
-        public static HPR_Status_Model HRead_Image(ref HImage _Image, string _Path)
+        public static HPR_Status_Model<bool> HRead_Image(ref HImage _Image, string _Path)
         {
 
             try
@@ -450,11 +450,11 @@ namespace Halcon_SDK_DLL
 
 
 
-                    return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = "文件图像读取成功！" };
+                    return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "文件图像读取成功！" };
                 }
                 else
                 {
-                    return new HPR_Status_Model(HVE_Result_Enum.读取图像文件格式错误);
+                    return new HPR_Status_Model<bool>(HVE_Result_Enum.读取图像文件格式错误);
                 }
 
 
@@ -462,7 +462,7 @@ namespace Halcon_SDK_DLL
             catch (Exception e)
             {
 
-                return new HPR_Status_Model(HVE_Result_Enum.读取图像文件格式错误) { Result_Error_Info = e.Message };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.读取图像文件格式错误) { Result_Error_Info = e.Message };
 
             }
 
@@ -479,7 +479,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_Filtering_Model"></param>
         /// <param name="_Calibration_Data"></param>
         /// <returns></returns>
-        public static HPR_Status_Model Find_Calibration(ref List<Point3D> _Calibration_Point, HWindow _Window, HObject _Input_Image, Halcon_Find_Calibration_Model _Calibration_Data)
+        public static HPR_Status_Model<bool> Find_Calibration(ref List<Point3D> _Calibration_Point, HWindow _Window, HObject _Input_Image, Halcon_Find_Calibration_Model _Calibration_Data)
         {
 
             HObject _Image = new HObject();
@@ -613,19 +613,19 @@ namespace Halcon_SDK_DLL
                 else
                 {
 
-                    return new HPR_Status_Model(HVE_Result_Enum.标定查找9点位置区域失败);
+                    return new HPR_Status_Model<bool>(HVE_Result_Enum.标定查找9点位置区域失败);
                 }
 
 
 
 
 
-                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = "查找9点标定区域成功！" };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "查找9点标定区域成功！" };
 
             }
             catch (Exception e)
             {
-                return new HPR_Status_Model(HVE_Result_Enum.标定查找9点位置区域失败) { Result_Error_Info = e.Message };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.标定查找9点位置区域失败) { Result_Error_Info = e.Message };
 
             }
 
@@ -644,7 +644,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_path"></param>
         /// <param name="_Model_Enum"></param>
         /// <returns></returns>
-        public static HPR_Status_Model Get_ModelXld_Path<T1>(ref T1 _path, string _Location, FilePath_Type_Model_Enum _FilePath_Type, Shape_Based_Model_Enum _Model_Enum, ShapeModel_Name_Enum _Name, int _ID, int _Number = 0)
+        public static HPR_Status_Model<bool> Get_ModelXld_Path<T1>(ref T1 _path, string _Location, FilePath_Type_Model_Enum _FilePath_Type, Shape_Based_Model_Enum _Model_Enum, ShapeModel_Name_Enum _Name, int _ID, int _Number = 0)
         {
 
             ////获得识别位置名称
@@ -748,12 +748,12 @@ namespace Halcon_SDK_DLL
 
 
 
-                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = "文件路径读取成功！" };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "文件路径读取成功！" };
             }
             else
             {
                 //User_Log_Add("读取模型文件地址错误，请检查设置！");
-                return new HPR_Status_Model(HVE_Result_Enum.文件路径提取失败) { Result_Error_Info = Save_Path };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.文件路径提取失败) { Result_Error_Info = Save_Path };
 
             }
 
@@ -766,7 +766,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_Cir"></param>
         /// <param name="_Point"></param>
         /// <returns></returns>
-        public static HPR_Status_Model Draw_Group_Cir(ref HObject _Cir, List<Point3D> _Point, HWindow _Window)
+        public static HPR_Status_Model<bool> Draw_Group_Cir(ref HObject _Cir, List<Point3D> _Point, HWindow _Window)
         {
 
 
@@ -807,7 +807,7 @@ namespace Halcon_SDK_DLL
                 else
                 {
 
-                    return new HPR_Status_Model(HVE_Result_Enum.添加的圆弧类型不足3点数据_重新添加);
+                    return new HPR_Status_Model<bool>(HVE_Result_Enum.添加的圆弧类型不足3点数据_重新添加);
 
                 }
 
@@ -816,14 +816,14 @@ namespace Halcon_SDK_DLL
 
 
 
-                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = "添加圆弧类型特征成功！" };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "添加圆弧类型特征成功！" };
 
 
 
             }
             catch (Exception e)
             {
-                return new HPR_Status_Model(HVE_Result_Enum.添加圆弧类型失败) { Result_Error_Info = e.Message };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.添加圆弧类型失败) { Result_Error_Info = e.Message };
 
             }
         }
@@ -841,7 +841,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_Lin"></param>
         /// <param name="_Point"></param>
         /// <returns></returns>
-        public static HPR_Status_Model Draw_Group_Lin(ref HObject _Lin, List<Point3D> _Point, HWindow _Window)
+        public static HPR_Status_Model<bool> Draw_Group_Lin(ref HObject _Lin, List<Point3D> _Point, HWindow _Window)
         {
 
 
@@ -885,18 +885,18 @@ namespace Halcon_SDK_DLL
                 else
                 {
 
-                    return new HPR_Status_Model(HVE_Result_Enum.添加的直线类型不足2点数据_重新添加);
+                    return new HPR_Status_Model<bool>(HVE_Result_Enum.添加的直线类型不足2点数据_重新添加);
 
                 }
 
 
-                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = "添加直线类型特征成功！" };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "添加直线类型特征成功！" };
 
             }
             catch (Exception e)
             {
 
-                return new HPR_Status_Model(HVE_Result_Enum.添加直线类型失败) { Result_Error_Info = e.Message };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.添加直线类型失败) { Result_Error_Info = e.Message };
 
             }
 
@@ -916,7 +916,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_Row"></param>
         /// <param name="_Col"></param>
         /// <returns></returns>
-        public static HPR_Status_Model Draw_Cross(ref HObject _Corss, HWindow _Window, HTuple _Row, HTuple _Col)
+        public static HPR_Status_Model<bool> Draw_Cross(ref HObject _Corss, HWindow _Window, HTuple _Row, HTuple _Col)
         {
 
 
@@ -940,13 +940,13 @@ namespace Halcon_SDK_DLL
 
 
 
-                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = "X：" + _Row + "，Y：" + _Col + ",添加数据成功！" };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "X：" + _Row + "，Y：" + _Col + ",添加数据成功！" };
 
             }
             catch (Exception e)
             {
 
-                return new HPR_Status_Model(HVE_Result_Enum.添加数据失败) { Result_Error_Info = e.Message };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.添加数据失败) { Result_Error_Info = e.Message };
 
             }
         }
@@ -1031,7 +1031,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_HImage"></param>
         /// <param name="_CameraID"></param>
         /// <param name="_CalibID"></param>
-        public static HPR_Status_Model FindCalib_3DCoord(ref HXLDCont _CalibXLD, ref HObject _CalibCoord, ref HCalibData _CalibSetup_ID, HImage _HImage, int _CameraID, int _CalibID, double _SigmaVal, int _CalobPosNO = 0)
+        public static void FindCalib_3DCoord(ref HXLDCont _CalibXLD, ref HObject _CalibCoord, ref HCalibData _CalibSetup_ID, HImage _HImage, int _CameraID, int _CalibID, double _SigmaVal, int _CalobPosNO = 0)
         {
 
             HTuple hv_Row = new HTuple();
@@ -1054,14 +1054,16 @@ namespace Halcon_SDK_DLL
                 //显示标定板三维坐标位置
                 Halcon_Example.Disp_3d_coord(ref _CalibCoord, _CamerPar, hv_Pose, new HTuple(0.02));
 
-                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) {  };
+                //return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) {  };
 
 
             }
-            catch (Exception e)
+            catch (HalconException e)
             {
-
-                return new HPR_Status_Model(HVE_Result_Enum.标定板图像识别错误) { Result_Error_Info = e.Message };
+                //错误清空
+                _CalibXLD.Dispose();
+                _CalibCoord.Dispose();
+                throw new HalconException(HVE_Result_Enum.标定板图像识别错误.ToString() + e.Message);
             }
 
 
@@ -1079,7 +1081,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_HWindow"></param>
         /// <param name="_Find_Property"></param>
         /// <returns></returns>
-        public HPR_Status_Model Halcon_Image_Pre_Processing(HWindow _HWindow, Find_Shape_Based_ModelXld _Find_Property)
+        public HPR_Status_Model<bool> Halcon_Image_Pre_Processing(HWindow _HWindow, Find_Shape_Based_ModelXld _Find_Property)
         {
 
             HObject _Image = new HObject(_HImage);
@@ -1195,14 +1197,14 @@ namespace Halcon_SDK_DLL
                 //_HImage.Dispose();
                 GC.Collect();
 
-                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = "图像预处理完成！" };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "图像预处理完成！" };
 
 
             }
             catch (Exception e)
             {
 
-                return new HPR_Status_Model(HVE_Result_Enum.图像预处理错误) { Result_Error_Info = e.Message };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.图像预处理错误) { Result_Error_Info = e.Message };
 
 
             }
@@ -1222,7 +1224,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_Window"></param>
         /// <param name="_XLD_List"></param>
         /// <returns></returns>
-        public HPR_Status_Model Group_All_XLD(HWindow _Window, List<HObject> _XLD_List)
+        public HPR_Status_Model<bool> Group_All_XLD(HWindow _Window, List<HObject> _XLD_List)
         {
 
 
@@ -1252,11 +1254,11 @@ namespace Halcon_SDK_DLL
                     //把线段显示到控件窗口
                     HOperatorSet.DispXld(_ModelsXld, _Window);
 
-                    return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = "XLD类型全部集合成功！" };
+                    return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "XLD类型全部集合成功！" };
                 }
                 else
                 {
-                    return new HPR_Status_Model(HVE_Result_Enum.XLD数据集合不足1组以上);
+                    return new HPR_Status_Model<bool>(HVE_Result_Enum.XLD数据集合不足1组以上);
 
                 }
 
@@ -1264,7 +1266,7 @@ namespace Halcon_SDK_DLL
             catch (Exception e)
             {
 
-                return new HPR_Status_Model(HVE_Result_Enum.XLD数据集合创建失败) { Result_Error_Info = e.Message };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.XLD数据集合创建失败) { Result_Error_Info = e.Message };
             }
             finally
             {
@@ -1279,7 +1281,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_path"></param>
         /// <param name="_Model_Enum"></param>
         /// <returns></returns>
-        public HPR_Status_Model SetGet_ModelXld_Path(string _Location, FilePath_Type_Model_Enum _FilePath_Type, Shape_Based_Model_Enum _Model_Enum, ShapeModel_Name_Enum _Name, int _ID, int _Number = 0)
+        public HPR_Status_Model<bool> SetGet_ModelXld_Path(string _Location, FilePath_Type_Model_Enum _FilePath_Type, Shape_Based_Model_Enum _Model_Enum, ShapeModel_Name_Enum _Name, int _ID, int _Number = 0)
         {
 
             ////获得识别位置名称
@@ -1364,12 +1366,12 @@ namespace Halcon_SDK_DLL
 
 
 
-                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = "文件路径读取成功！" };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "文件路径读取成功！" };
             }
             else
             {
                 //User_Log_Add("读取模型文件地址错误，请检查设置！");
-                return new HPR_Status_Model(HVE_Result_Enum.文件路径提取失败) { Result_Error_Info = Shape_Save_Path };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.文件路径提取失败) { Result_Error_Info = Shape_Save_Path };
 
             }
 
@@ -1386,7 +1388,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_ModelsXLD"></param>
         /// <param name="_Path"></param>
         /// <returns></returns>
-        public HPR_Status_Model ShapeModel_SaveFile(string _Location, Create_Shape_Based_ModelXld _Create_Model)
+        public HPR_Status_Model<bool> ShapeModel_SaveFile(string _Location, Create_Shape_Based_ModelXld _Create_Model)
         {
 
 
@@ -1697,13 +1699,13 @@ namespace Halcon_SDK_DLL
 
                 }
 
-                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = _Create_Model.Shape_Based_Model.ToString() + "模型创建成功！" };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = _Create_Model.Shape_Based_Model.ToString() + "模型创建成功！" };
 
             }
             catch (Exception e)
             {
 
-                return new HPR_Status_Model(HVE_Result_Enum.创建匹配模型失败) { Result_Error_Info = e.Message };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.创建匹配模型失败) { Result_Error_Info = e.Message };
 
             }
             finally
@@ -1761,7 +1763,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_ModelContours"></param>
         /// <param name="_Path"></param>
         /// <returns></returns>
-        public HPR_Status_Model ShapeModel_ReadFile(FileInfo _Path)
+        public HPR_Status_Model<bool> ShapeModel_ReadFile(FileInfo _Path)
         {
 
             HTuple _Serialized = new HTuple();
@@ -1841,13 +1843,13 @@ namespace Halcon_SDK_DLL
                 Console.WriteLine("结束:" + (DateTime.Now - _Run).TotalSeconds);
 
 
-                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = _Path.Name + "Halcon文件读取成功！" };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = _Path.Name + "Halcon文件读取成功！" };
 
             }
             catch (Exception e)
             {
 
-                return new HPR_Status_Model(HVE_Result_Enum.Halcon文件类型读取失败) { Result_Error_Info = e.Message };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.Halcon文件类型读取失败) { Result_Error_Info = e.Message };
             }
             finally
             {
@@ -1872,7 +1874,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_ModelXld"></param>
         /// <param name="_Find_Property"></param>
         /// <returns></returns>
-        public HPR_Status_Model Find_Deformable_Model(ref Find_Shape_Results_Model _Find_Out, HWindow _HWindow, Find_Shape_Based_ModelXld _Find_Property)
+        public HPR_Status_Model<bool> Find_Deformable_Model(ref Find_Shape_Results_Model _Find_Out, HWindow _HWindow, Find_Shape_Based_ModelXld _Find_Property)
         {
 
             //HTuple HMat2D = new HTuple();
@@ -2103,12 +2105,12 @@ namespace Halcon_SDK_DLL
 
                         Console.WriteLine("xld放置结束:" + (DateTime.Now - _Run).TotalSeconds);
 
-                        return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = _Find_Property.Shape_Based_Model + "查找XLD模型结果映射成功！" };
+                        return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = _Find_Property.Shape_Based_Model + "查找XLD模型结果映射成功！" };
 
                     }
                     else
                     {
-                        return new HPR_Status_Model(HVE_Result_Enum.XLD匹配结果映射失败) { Result_Error_Info = "计算结果有误,请检查!" };
+                        return new HPR_Status_Model<bool>(HVE_Result_Enum.XLD匹配结果映射失败) { Result_Error_Info = "计算结果有误,请检查!" };
 
                     }
 
@@ -2121,7 +2123,7 @@ namespace Halcon_SDK_DLL
 
                 //if (_Find_Out.FInd_Results)
                 //{
-                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = _Find_Property.Shape_Based_Model + "匹配模型查找成功！" };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = _Find_Property.Shape_Based_Model + "匹配模型查找成功！" };
 
                 //}
                 //else
@@ -2142,7 +2144,7 @@ namespace Halcon_SDK_DLL
             catch (Exception e)
             {
 
-                return new HPR_Status_Model(HVE_Result_Enum.查找模型匹配失败) { Result_Error_Info = e.Message };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.查找模型匹配失败) { Result_Error_Info = e.Message };
             }
             finally
             {
@@ -2172,7 +2174,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_HomMat2D"></param>
         /// <param name="_Window"></param>
         /// <returns></returns>
-        private HPR_Status_Model ProjectiveTrans_Xld(Shape_Based_Model_Enum _Find_Enum, HTuple Angle, HTuple Row, HTuple Column, HTuple HomMat2D, HWindow _Window)
+        private HPR_Status_Model<bool> ProjectiveTrans_Xld(Shape_Based_Model_Enum _Find_Enum, HTuple Angle, HTuple Row, HTuple Column, HTuple HomMat2D, HWindow _Window)
         {
 
 
@@ -2263,12 +2265,12 @@ namespace Halcon_SDK_DLL
                 //}
 
 
-                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = "根据结果矩阵偏移XLD对象成功！" };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "根据结果矩阵偏移XLD对象成功！" };
             }
             catch (Exception e)
             {
 
-                return new HPR_Status_Model(HVE_Result_Enum.XLD对象映射失败) { Result_Error_Info = e.Message };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.XLD对象映射失败) { Result_Error_Info = e.Message };
             }
             finally
             {
@@ -2299,7 +2301,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_Window"></param>
         /// <param name="_Math2D"></param>
         /// <returns></returns>
-        public HPR_Status_Model Match_Model_XLD_Pos(ref Find_Shape_Results_Model _Find_Shape_Results, Shape_Based_Model_Enum Matching_Model, HWindow _Window, HTuple _Math2D)
+        public HPR_Status_Model<bool> Match_Model_XLD_Pos(ref Find_Shape_Results_Model _Find_Shape_Results, Shape_Based_Model_Enum Matching_Model, HWindow _Window, HTuple _Math2D)
         {
 
 
@@ -2481,7 +2483,7 @@ namespace Halcon_SDK_DLL
                         //_Find_Shape_Results.DispWiindow = _Window;
 
 
-                        return new HPR_Status_Model(HVE_Result_Enum.查找模型匹配失败);
+                        return new HPR_Status_Model<bool>(HVE_Result_Enum.查找模型匹配失败);
 
 
                     }
@@ -2491,17 +2493,17 @@ namespace Halcon_SDK_DLL
                 else
                 {
 
-                    return new HPR_Status_Model(HVE_Result_Enum.提取匹配结果的XLD模型失败);
+                    return new HPR_Status_Model<bool>(HVE_Result_Enum.提取匹配结果的XLD模型失败);
 
                 }
 
-                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = "计算匹配模型结果交点信息成功！" };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "计算匹配模型结果交点信息成功！" };
 
             }
             catch (Exception e)
             {
 
-                return new HPR_Status_Model(HVE_Result_Enum.根据匹配模型结果计算交点信息失败) { Result_Error_Info = e.Message };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.根据匹配模型结果计算交点信息失败) { Result_Error_Info = e.Message };
 
             }
             finally
@@ -2570,7 +2572,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_ALL_ModelXLD"></param>
         /// <param name="Matching_Model"></param>
         /// <returns></returns>
-        public HPR_Status_Model Get_Model_Match_XLD(ref HObject _Lin_1, ref HObject _Cir_1, ref HObject _Lin_2, ref HObject _Lin_3, ref HObject _Lin_4, Shape_Based_Model_Enum Matching_Model)
+        public HPR_Status_Model<bool> Get_Model_Match_XLD(ref HObject _Lin_1, ref HObject _Cir_1, ref HObject _Lin_2, ref HObject _Lin_3, ref HObject _Lin_4, Shape_Based_Model_Enum Matching_Model)
         {
 
 
@@ -2621,7 +2623,7 @@ namespace Halcon_SDK_DLL
                         }
                         else
                         {
-                            return new HPR_Status_Model(HVE_Result_Enum.提取匹配结果的XLD模型数量与计算数量不匹配);
+                            return new HPR_Status_Model<bool>(HVE_Result_Enum.提取匹配结果的XLD模型数量与计算数量不匹配);
                         }
 
 
@@ -2634,12 +2636,12 @@ namespace Halcon_SDK_DLL
 
 
 
-                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = "提取计算特征XLD成功！" };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "提取计算特征XLD成功！" };
 
             }
             catch (Exception e)
             {
-                return new HPR_Status_Model(HVE_Result_Enum.提取匹配结果的XLD模型失败) { Result_Error_Info = e.Message };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.提取匹配结果的XLD模型失败) { Result_Error_Info = e.Message };
             }
         }
 
@@ -2651,19 +2653,19 @@ namespace Halcon_SDK_DLL
         /// <param name="_Region"></param>
         /// <param name="_HImage"></param>
         /// <returns></returns>
-        public static HPR_Status_Model Get_Image_MaxThreshold(ref HRegion _Region, HImage _HImage)
+        public static HPR_Status_Model<bool> Get_Image_MaxThreshold(ref HRegion _Region, HImage _HImage)
         {
 
             try
             {
                 _Region = _HImage.Threshold(new HTuple(254), new HTuple(255));
-                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = "提取过曝区域成功！" };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "提取过曝区域成功！" };
 
             }
             catch (Exception e)
             {
 
-                return new HPR_Status_Model(HVE_Result_Enum.显示最大灰度失败) { Result_Error_Info = e.Message };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.显示最大灰度失败) { Result_Error_Info = e.Message };
 
             }
 
@@ -2677,19 +2679,19 @@ namespace Halcon_SDK_DLL
         /// <param name="_Region"></param>
         /// <param name="_HImage"></param>
         /// <returns></returns>
-        public static HPR_Status_Model Get_Image_MinThreshold(ref HRegion _Region, HImage _HImage)
+        public static HPR_Status_Model<bool> Get_Image_MinThreshold(ref HRegion _Region, HImage _HImage)
         {
 
             try
             {
                 _Region = _HImage.Threshold(new HTuple(0), new HTuple(1));
-                return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = "提取过暗区域成功！" };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "提取过暗区域成功！" };
 
             }
             catch (Exception e)
             {
 
-                return new HPR_Status_Model(HVE_Result_Enum.显示最小灰度失败) { Result_Error_Info = e.Message };
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.显示最小灰度失败) { Result_Error_Info = e.Message };
 
             }
 

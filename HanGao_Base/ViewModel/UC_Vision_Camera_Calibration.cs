@@ -377,17 +377,15 @@ namespace HanGao.ViewModel
                                                             HObject _CalibCoord = new HObject();
                                                             HXLDCont _CalibXLD = new HXLDCont();
 
-
-                                                            if (Halcon_Method.FindCalib_3DCoord(ref _CalibXLD, ref _CalibCoord, ref _CalibSetup_ID, _HImage, (int)_camer.Camera_Calibration.Camera_Calibration_MainOrSubroutine_Type, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma).GetResult())
-                                                            {
-
-
+                                                            //查找标定板
+                                                            FindCalib_3DCoord(ref _CalibXLD, ref _CalibCoord, ref _CalibSetup_ID, _HImage, (int)_camer.Camera_Calibration.Camera_Calibration_MainOrSubroutine_Type, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma);
+           
 
                                                                 //HRegion _Coord = new HRegion(_CalibCoord);
-
+                                                                //显示标定板特征
                                                                 Display_HObiet(null, _CalibXLD, null, KnownColor.Green.ToString(), _camer.Show_Window);
                                                                 Display_HObiet(null, null, _CalibCoord, null, _camer.Show_Window);
-                                                            }
+                                                        
 
 
                                                         }
@@ -488,7 +486,9 @@ namespace HanGao.ViewModel
                                 if (_Calib.Camera_0.Calibration_Image != null)
                                 {
                                     //查找标定图像中标定板位置和坐标
-                                    if (Halcon_Method.FindCalib_3DCoord(ref _CalibXLD, ref _CalibCoord, ref _CalibSetup_ID, (HImage)_Calib.Camera_0.Calibration_Image, 0, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma).GetResult())
+                                    FindCalib_3DCoord(ref _CalibXLD, ref _CalibCoord, ref _CalibSetup_ID, (HImage)_Calib.Camera_0.Calibration_Image, 0, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma);
+
+                                    if (_CalibXLD !=null && _CalibCoord!=null)
                                     {
 
                                         _Calib.Camera_0.Calibration_Region = _CalibXLD.CopyObj(1, -1);
@@ -502,11 +502,17 @@ namespace HanGao.ViewModel
                                         _Calib.Image_No = Calibration_Image_No;
                                     }
 
+
+
                                 }
 
                                 if (_Calib.Camera_1.Calibration_Image != null)
                                 {
-                                    if (Halcon_Method.FindCalib_3DCoord(ref _CalibXLD, ref _CalibCoord, ref _CalibSetup_ID, (HImage)_Calib.Camera_1.Calibration_Image, 0, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma).GetResult())
+                                    FindCalib_3DCoord(ref _CalibXLD, ref _CalibCoord, ref _CalibSetup_ID, (HImage)_Calib.Camera_1.Calibration_Image, 0, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma);
+
+
+
+                                    if (_CalibXLD != null && _CalibCoord != null)
                                     {
                                         //查找标定图像中标定板位置和坐标
                                         _Calib.Camera_1.Calibration_Region = _CalibXLD.CopyObj(1, -1);
@@ -541,10 +547,10 @@ namespace HanGao.ViewModel
 
 
                     }
-                    catch (Exception)
+                    catch (Exception _e)
                     {
 
-                        User_Log_Add("有标定图像检测失败,请移除失败图像 !", Log_Show_Window_Enum.Calibration);
+                        User_Log_Add("有标定图像检测失败,请移除失败图像 ! 原因："+_e.Message, Log_Show_Window_Enum.Calibration);
 
                     }
                     finally

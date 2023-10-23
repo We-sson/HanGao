@@ -2,6 +2,7 @@
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Windows.Media.Media3D;
@@ -543,18 +544,18 @@ namespace Halcon_SDK_DLL.Model
             public Halcon_Camera_Calibration_Parameters_Model(Halcon_Camera_Calibration_Parameters_Model _Parameters_Model)
             {
                 Sy = _Parameters_Model.Sy;
-                Sx= _Parameters_Model.Sx;
-                Focus= _Parameters_Model.Focus;
-                Kappa= _Parameters_Model.Kappa;
-                K1= _Parameters_Model.K1;
-                K2= _Parameters_Model.K2;
-                K3= _Parameters_Model.K3;
-                P1= _Parameters_Model.P1;
-                P2= _Parameters_Model.P2;
-                Cy= _Parameters_Model.Cy;
-                Cx= _Parameters_Model.Cx;
+                Sx = _Parameters_Model.Sx;
+                Focus = _Parameters_Model.Focus;
+                Kappa = _Parameters_Model.Kappa;
+                K1 = _Parameters_Model.K1;
+                K2 = _Parameters_Model.K2;
+                K3 = _Parameters_Model.K3;
+                P1 = _Parameters_Model.P1;
+                P2 = _Parameters_Model.P2;
+                Cy = _Parameters_Model.Cy;
+                Cx = _Parameters_Model.Cx;
                 Image_Height = _Parameters_Model.Image_Height;
-                Image_Width= _Parameters_Model.Image_Width;
+                Image_Width = _Parameters_Model.Image_Width;
             }
             /// <summary>
             /// 相机标定类型
@@ -736,8 +737,12 @@ namespace Halcon_SDK_DLL.Model
     /// <summary>
     /// 集合算子运行情况属性
     /// </summary>
-    public class HPR_Status_Model
+    [AddINotifyPropertyChangedInterface]
+    public class HPR_Status_Model<T1>
     {
+
+      
+
 
         /// <summary>
         /// 泛型类型委托声明
@@ -752,20 +757,29 @@ namespace Halcon_SDK_DLL.Model
 
 
 
+
+
         public HPR_Status_Model(HVE_Result_Enum _Status)
         {
             Result_Status = _Status;
 
 
         }
+
+        public HPR_Status_Model()
+        {
+           
+        }
+
         /// <summary>
         /// 运行错误状态
         /// </summary>
-        public HVE_Result_Enum Result_Status { set; get; }
+        public HVE_Result_Enum Result_Status { set; get; } = HVE_Result_Enum.Run_OK;
         /// <summary>
         /// 运行错误详细信息
         /// </summary>
         private string _Result_Error_Info;
+
 
         public string Result_Error_Info
         {
@@ -778,13 +792,31 @@ namespace Halcon_SDK_DLL.Model
 
             }
         }
+
+
+
+
+        /// <summary>
+        /// 结果值
+        /// </summary>
+        public T1 ResultVal { set; get; }
+
         /// <summary>
         /// 获得算法运行状态
         /// </summary>
         /// <returns></returns>
         public bool GetResult()
         {
-            if (Result_Status == HVE_Result_Enum.Run_OK) { return true; } else { return false; }
+            if (Result_Status == HVE_Result_Enum.Run_OK)
+            {
+                return true;
+            }
+            else
+            {
+
+
+                return false;
+            }
         }
         /// <summary>
         /// 获得算法运行状态信息
@@ -793,6 +825,8 @@ namespace Halcon_SDK_DLL.Model
         /// <returns></returns>
         public string GetResult_Info()
         {
+
+
             return Result_Status.ToString() + " " + Result_Error_Info;
         }
     }
@@ -886,7 +920,7 @@ namespace Halcon_SDK_DLL.Model
         public Halcon_Camera_Calibration_Parameters_Model Camera_Result_Pama { set; get; } = new Halcon_Camera_Calibration_Parameters_Model();
 
 
-    
+
 
 
     }
@@ -1246,6 +1280,11 @@ namespace Halcon_SDK_DLL.Model
         显示最大灰度失败,
         显示最小灰度失败,
         标定板图像识别错误,
+        标定图像获得相机模型错误,
+        创建标定对象错误,
+        获得标定结果失败,
+        设置相机初始内参错误,
+        获得相机内参参数错误,
     }
 
 

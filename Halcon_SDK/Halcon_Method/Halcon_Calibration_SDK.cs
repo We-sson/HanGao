@@ -8,18 +8,16 @@ using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 namespace Halcon_SDK_DLL
 {
 
-
-
-
-
-
-
-    public class Halcon_Calibration_SDK 
+    public class Halcon_Calibration_SDK
     {
         public Halcon_Calibration_SDK()
-        
+
         {
+            
+
+
         }
+
 
 
 
@@ -32,6 +30,12 @@ namespace Halcon_SDK_DLL
         {
 
             HTuple _CameraParam = new HTuple();
+
+
+            try
+            {
+
+        
 
             _CameraParam[0] = _Param.Camera_Calibration_Model.ToString();
 
@@ -70,6 +74,13 @@ namespace Halcon_SDK_DLL
 
             return _CameraParam;
 
+
+            }
+            catch (Exception _e)
+            {
+
+                throw new Exception (HVE_Result_Enum.设置相机初始内参错误.ToString ()+" 原因："+_e.Message);
+            }
         }
 
 
@@ -86,7 +97,10 @@ namespace Halcon_SDK_DLL
         public static Halcon_Camera_Calibration_Parameters_Model Set_Cailbration_Camera_Param(HCalibData _CalibData, int _CameraID)
         {
 
+            try
+            {
 
+     
 
             //读取标定内参进行保存
             HTuple _HCamera = _CalibData.GetCalibData("model", "general", "camera_setup_model");
@@ -143,6 +157,13 @@ namespace Halcon_SDK_DLL
 
             return _Param;
 
+
+            }
+            catch (Exception _e)
+            {
+
+                throw new Exception(HVE_Result_Enum.获得相机内参参数错误.ToString() + " 原因：" + _e.Message);
+            }
         }
 
 
@@ -157,8 +178,9 @@ namespace Halcon_SDK_DLL
         /// <param name="_Image_No"></param>
         /// <param name="_Camera_No"></param>
         /// <returns></returns>
-        public static List<HObjectModel3D> Get_Calibration_Camera_3DModel(HCalibData _HCalibData, int _Image_No,int _Camera_No=0)
+        public static List<HObjectModel3D> Get_Calibration_Camera_3DModel( HCalibData _HCalibData, int _Image_No, int _Camera_No = 0)
         {
+
             HTuple _calib_X;
             HTuple _calib_Y;
             HTuple _calib_Z;
@@ -167,24 +189,26 @@ namespace Halcon_SDK_DLL
             HTuple _calibObj_Pos;
             HTuple _Camera_Param;
             HTuple _Camera_Param_txt;
+            HTuple _Camera_Param_Ini;
             HTuple _Camera_Param_Pos;
-            List<HObjectModel3D> _AllModel =new  List<HObjectModel3D>();
+            List<HObjectModel3D> _AllModel = new List<HObjectModel3D>();
             //标定后才能显示
 
             try
             {
-             
-                  _calib_X = _HCalibData.GetCalibData("calib_obj", 0, "x");
+
+                _calib_X = _HCalibData.GetCalibData("calib_obj", 0, "x");
                 _calib_Y = _HCalibData.GetCalibData("calib_obj", 0, "y");
                 _calib_Z = _HCalibData.GetCalibData("calib_obj", 0, "z");
 
                 _Calib_3D.GenObjectModel3dFromPoints(_calib_X, _calib_Y, _calib_Z);
 
-                _calibObj_Pos = _HCalibData.GetCalibData("calib_obj_pose", (new HTuple(_Camera_No)).TupleConcat(_Image_No), new HTuple("pose"));
+                _calibObj_Pos = _HCalibData.GetCalibData("calib_obj_pose", (new HTuple(0)).TupleConcat(_Image_No), new HTuple("pose"));
 
                 //_calibObj_Pos= Halcon_CalibSetup_ID.GetCalibDataObservPose(0, 0, _Selected.Image_No);
 
                 _Calib_3D = _Calib_3D.RigidTransObjectModel3d(new HPose(_calibObj_Pos));
+
                 _AllModel.Add(_Calib_3D);
 
                 HTuple _HCamera = _HCalibData.GetCalibData("model", "general", "camera_setup_model");
@@ -193,28 +217,29 @@ namespace Halcon_SDK_DLL
 
 
                 _Camera_Param_txt = _HCalibData.GetCalibData("camera", _Camera_No, "params_labels");
-                _Camera_Param_txt = _HCalibData.GetCalibData("camera", _Camera_No, "init_params");
+                _Camera_Param_Ini = _HCalibData.GetCalibData("camera", _Camera_No, "init_params");
 
 
 
                 _Camera_Param_Pos = _HCam.GetCameraSetupParam(_Camera_No, "pose");
 
-                List<HObjectModel3D> _Camera_Model = Reconstruction_3d.gen_camera_object_model_3d(_HCam, 0, 0.05);
+                List<HObjectModel3D> _Camera_Model = Reconstruction_3d.gen_camera_object_model_3d(_HCam, _Camera_No, 0.05);
 
                 _AllModel.AddRange(_Camera_Model);
 
 
 
-                return _AllModel ;
+                return  _AllModel ;
 
             }
-            catch (HalconException)
+            catch (Exception _he)
             {
 
 
 
 
-                return _AllModel;
+                throw new Exception(HVE_Result_Enum.标定图像获得相机模型错误.ToString() + " 原因：" + _he.Message);
+
 
 
             }
@@ -226,7 +251,7 @@ namespace Halcon_SDK_DLL
 
 
 
-  
+
 
 
     }

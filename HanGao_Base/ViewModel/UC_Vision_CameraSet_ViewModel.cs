@@ -487,7 +487,7 @@ namespace HanGao.ViewModel
         /// <param name="_Window"></param>
         /// <param name="_path"></param>
         /// <returns></returns>
-        public static   HPR_Status_Model Get_Image(ref HImage _Image, Get_Image_Model_Enum _Get_Model, Window_Show_Name_Enum _HW, string _path = "")
+        public static   HPR_Status_Model<bool> Get_Image(ref HImage _Image, Get_Image_Model_Enum _Get_Model, Window_Show_Name_Enum _HW, string _path = "")
         {
             //HObject _image = new HObject();
             //HOperatorSet.GenEmptyObj(out _Image);
@@ -501,13 +501,13 @@ namespace HanGao.ViewModel
                 case Get_Image_Model_Enum.相机采集:
                     if (!Display_Status(GetOneFrameTimeout(ref _Image, _Window.HWindow, Camera_Parameter_Val)).GetResult())
                     {
-                        return new HPR_Status_Model(HVE_Result_Enum.图像文件读取失败);
+                        return new HPR_Status_Model<bool>(HVE_Result_Enum.图像文件读取失败);
                     }
                     break;
                 case Get_Image_Model_Enum.图像采集:
                     if (!Display_Status(Halcon_SDK.HRead_Image(ref _Image, _path)).GetResult())
                     {
-                        return new HPR_Status_Model(HVE_Result_Enum.图像文件读取失败);
+                        return new HPR_Status_Model<bool>(HVE_Result_Enum.图像文件读取失败);
                     }
                     break;
             }
@@ -520,18 +520,18 @@ namespace HanGao.ViewModel
             {
                 if (!Display_Status(Halcon_SDK.Save_Image(_Image)).GetResult())
                 {
-                    return new HPR_Status_Model(HVE_Result_Enum.样品图像保存失败);
+                    return new HPR_Status_Model<bool>(HVE_Result_Enum.样品图像保存失败);
                 }
             }
             //使用完清楚内存
             //_Image.Dispose();
-            return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = "采集图像方法成功！" };
+            return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "采集图像方法成功！" };
         }
         /// <summary>
         /// 获得一图像显示到指定窗口
         /// </summary>
         /// <param name="_HWindow"></param>
-        public static   HPR_Status_Model GetOneFrameTimeout(ref HImage _HImage, HWindow _Window, MVS_Camera_Parameter_Model _Camera_Parameter)
+        public static   HPR_Status_Model<bool> GetOneFrameTimeout(ref HImage _HImage, HWindow _Window, MVS_Camera_Parameter_Model _Camera_Parameter)
         {
             //设置相机总参数
             if (MVS.Set_Camrea_Parameters_List(Select_Camera.Camera, Camera_Parameter_Val).GetResult())
@@ -547,16 +547,16 @@ namespace HanGao.ViewModel
                 {
                     //发送显示图像位置
                     _Window.DispObj(_HImage);
-                    return new HPR_Status_Model(HVE_Result_Enum.Run_OK) { Result_Error_Info = Select_Camera.Camera.ToString() + "相机图像采集成功！" };
+                    return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = Select_Camera.Camera.ToString() + "相机图像采集成功！" };
                 }
                 else
                 {
-                    return new HPR_Status_Model(HVE_Result_Enum.Halcon转换海康图像错误);
+                    return new HPR_Status_Model<bool>(HVE_Result_Enum.Halcon转换海康图像错误);
                 }
             }
             else
             {
-                return new HPR_Status_Model(HVE_Result_Enum.相机采集失败);
+                return new HPR_Status_Model<bool>(HVE_Result_Enum.相机采集失败);
             }
         }
         /// <summary>

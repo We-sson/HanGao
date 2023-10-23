@@ -86,9 +86,9 @@ namespace HanGao.ViewModel
         /// </summary>
         /// <param name="_Result_Status"></param>
         /// <returns></returns>
-        public static HPR_Status_Model Display_Status(HPR_Status_Model _Result_Status) 
+        public static HPR_Status_Model<bool > Display_Status(HPR_Status_Model<bool > _Result_Status) 
         {
-
+             
 
        
                 User_Log_Add(_Result_Status.GetResult_Info(), Log_Show_Window_Enum.Home);

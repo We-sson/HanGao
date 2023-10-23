@@ -1,4 +1,5 @@
-﻿using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
+﻿using Halcon_SDK_DLL.Model;
+using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
 using MVS_SDK_Base.Model;
 using System.Drawing;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
@@ -69,7 +70,7 @@ namespace HanGao.ViewModel
 
 
             //算法设置错误信息委托显示
-            HPR_Status_Model.HVS_ErrorInfo_delegate += (string _Error) =>
+            HPR_Status_Model<dynamic>.HVS_ErrorInfo_delegate += (string _Error) =>
             {
                 User_Log_Add(_Error, Log_Show_Window_Enum.Home);
             };

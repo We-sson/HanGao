@@ -969,7 +969,7 @@
                                         Value="{Binding All_Camera_Results.Camera_0_Results.Camera_Result_Pama.Sx}" />
 
                                 <TextBox Grid.Column=" 2"
-                                         Text="{Binding ElementName=Calibration_Pixel_Width_UI, Path=Value}"
+                                         Text="{Binding ElementName=Calibration_Pixel_Width_UI, Path=Value, StringFormat={}{0:F4}}"
                                          Width="100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -1928,7 +1928,7 @@
                                         Value="{Binding All_Camera_Results.Camera_1_Results.Camera_Result_Pama.Sx}" />
 
                                 <TextBox Grid.Column=" 2"
-                                         Text="{Binding ElementName=Calibration_Pixel_Width_UI_1, Path=Value}"
+                                         Text="{Binding ElementName=Calibration_Pixel_Width_UI_1, Path=Value, StringFormat={}{0:F4}}"
                                          Width="100"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
