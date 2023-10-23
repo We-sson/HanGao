@@ -836,6 +836,8 @@ namespace MVS_SDK_Base.Model
         标定计算成功,
         标定计算失败,
         标定模型生成成功,
+        标定模型生成失败,
+
     }
 
 

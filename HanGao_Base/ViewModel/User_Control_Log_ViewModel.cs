@@ -53,6 +53,8 @@ namespace HanGao.ViewModel
         public static   void User_Log_Add(string Log, Log_Show_Window_Enum _ShowLog)
         {
 
+
+
                 Task.Run(() => {
 
                     switch (_ShowLog)
@@ -75,6 +77,43 @@ namespace HanGao.ViewModel
 
 
                 });
+
+        }
+
+
+        /// <summary>
+        /// 全局使用输出方法
+        /// </summary>
+        public static void User_Log_Add(string Log, Log_Show_Window_Enum _ShowLog , MessageBoxImage _MessType)
+        {
+
+          
+
+
+            Task.Run(() => {
+
+                switch (_ShowLog)
+                {
+                    case Log_Show_Window_Enum.Home:
+
+                        StrongReferenceMessenger.Default.Send<string, string>(Log, nameof(Meg_Value_Eunm.UI_Log_Home));
+
+
+                        break;
+                    case Log_Show_Window_Enum.Calibration:
+                        StrongReferenceMessenger.Default.Send<string, string>(Log, nameof(Meg_Value_Eunm.UI_Log_Calibration));
+
+
+
+                        break;
+                }
+
+
+
+
+            });
+
+
 
 
 

@@ -549,8 +549,10 @@ namespace HanGao.ViewModel
                     }
                     catch (Exception _e)
                     {
+                        MessageBox.Show(_e.Message, "标定提示", MessageBoxButton.OK, MessageBoxImage.Question);
 
-                        User_Log_Add("有标定图像检测失败,请移除失败图像 ! 原因："+_e.Message, Log_Show_Window_Enum.Calibration);
+
+                        User_Log_Add("有标定图像检测失败,请移除失败图像 ! 原因："+_e.Message, Log_Show_Window_Enum.Calibration, MessageBoxImage.Error);
 
                     }
                     finally

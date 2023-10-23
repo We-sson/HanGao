@@ -2,6 +2,8 @@
 using HalconDotNet;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using Throw;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
 
@@ -13,7 +15,7 @@ namespace Halcon_SDK_DLL
         public Halcon_Calibration_SDK()
 
         {
-            
+
 
 
         }
@@ -35,51 +37,51 @@ namespace Halcon_SDK_DLL
             try
             {
 
-        
 
-            _CameraParam[0] = _Param.Camera_Calibration_Model.ToString();
 
-            switch (_Param.Camera_Calibration_Model)
-            {
-                case Model.Halocn_Camera_Calibration_Enum.area_scan_division:
-                    _CameraParam = _CameraParam.TupleConcat(
-                          _Param.Focus / 1000,
-                          _Param.Kappa,
-                          _Param.Sx / 1000000,
-                          _Param.Sy / 1000000,
-                          _Param.Image_Width * 0.5,
-                          _Param.Image_Height * 0.5,
-                          _Param.Image_Width,
-                          _Param.Image_Height
-     );
-                    break;
-                case Model.Halocn_Camera_Calibration_Enum.area_scan_polynomial:
+                _CameraParam[0] = _Param.Camera_Calibration_Model.ToString();
 
-                    _CameraParam = _CameraParam.TupleConcat(
-                        _Param.Focus / 1000,
-                        _Param.K1,
-                        _Param.K2,
-                        _Param.K3,
-                        _Param.P1,
-                        _Param.P2,
-                        _Param.Sx / 1000000,
-                        _Param.Sy / 1000000,
-                        _Param.Image_Width * 0.5,
-                        _Param.Image_Height * 0.5,
-                        _Param.Image_Width,
-                        _Param.Image_Height
-                        );
-                    break;
-            }
+                switch (_Param.Camera_Calibration_Model)
+                {
+                    case Model.Halocn_Camera_Calibration_Enum.area_scan_division:
+                        _CameraParam = _CameraParam.TupleConcat(
+                              _Param.Focus / 1000,
+                              _Param.Kappa,
+                              _Param.Sx / 1000000,
+                              _Param.Sy / 1000000,
+                              _Param.Image_Width * 0.5,
+                              _Param.Image_Height * 0.5,
+                              _Param.Image_Width,
+                              _Param.Image_Height
+         );
+                        break;
+                    case Model.Halocn_Camera_Calibration_Enum.area_scan_polynomial:
 
-            return _CameraParam;
+                        _CameraParam = _CameraParam.TupleConcat(
+                            _Param.Focus / 1000,
+                            _Param.K1,
+                            _Param.K2,
+                            _Param.K3,
+                            _Param.P1,
+                            _Param.P2,
+                            _Param.Sx / 1000000,
+                            _Param.Sy / 1000000,
+                            _Param.Image_Width * 0.5,
+                            _Param.Image_Height * 0.5,
+                            _Param.Image_Width,
+                            _Param.Image_Height
+                            );
+                        break;
+                }
+
+                return _CameraParam;
 
 
             }
             catch (Exception _e)
             {
 
-                throw new Exception (HVE_Result_Enum.设置相机初始内参错误.ToString ()+" 原因："+_e.Message);
+                throw new Exception(HVE_Result_Enum.设置相机初始内参错误.ToString() + " 原因：" + _e.Message);
             }
         }
 
@@ -100,62 +102,64 @@ namespace Halcon_SDK_DLL
             try
             {
 
-     
-
-            //读取标定内参进行保存
-            HTuple _HCamera = _CalibData.GetCalibData("model", "general", "camera_setup_model");
 
 
-            HTuple _Camera_Param_Labels = _CalibData.GetCalibData("camera", _CameraID, "params_labels");
+                //读取标定内参进行保存
+                HTuple _HCamera = _CalibData.GetCalibData("model", "general", "camera_setup_model");
+
+
+                HTuple _Camera_Param_Labels = _CalibData.GetCalibData("camera", _CameraID, "params_labels");
 
 
 
-            HCameraSetupModel _HCam = new HCameraSetupModel(_HCamera.H);
-            //
-            HTuple _Camera_Param = _HCam.GetCameraSetupParam(_CameraID, "params");
+                HCameraSetupModel _HCam = new HCameraSetupModel(_HCamera.H);
+                //
+                HTuple _Camera_Param = _HCam.GetCameraSetupParam(_CameraID, "params");
 
-            //HTuple _Camera_Param_Labels = _HCam.GetCameraSetupParam(_CameraID, "params_labels");
-
-
-            Halcon_Camera_Calibration_Parameters_Model _Param = new Halcon_Camera_Calibration_Parameters_Model();
+                //HTuple _Camera_Param_Labels = _HCam.GetCameraSetupParam(_CameraID, "params_labels");
 
 
-            switch (Enum.Parse<Halocn_Camera_Calibration_Enum>(_Camera_Param.TupleSelect(0)))
-            {
-                case Halocn_Camera_Calibration_Enum.area_scan_division:
-                    _Param.Camera_Calibration_Model = Halocn_Camera_Calibration_Enum.area_scan_division;
-                    _Param.Focus = _Camera_Param.TupleSelect(1) * 1000;
-                    _Param.Kappa = _Camera_Param.TupleSelect(2);
-                    _Param.Sx = _Camera_Param.TupleSelect(3) * 1000000;
-                    _Param.Sy = _Camera_Param.TupleSelect(4) * 1000000;
-                    _Param.Cx = _Camera_Param.TupleSelect(5);
-                    _Param.Cy = _Camera_Param.TupleSelect(6);
-                    _Param.Image_Width = _Camera_Param.TupleSelect(7);
-                    _Param.Image_Height = _Camera_Param.TupleSelect(8);
+                Halcon_Camera_Calibration_Parameters_Model _Param = new Halcon_Camera_Calibration_Parameters_Model();
 
 
-                    break;
+                switch (Enum.Parse<Halocn_Camera_Calibration_Enum>(_Camera_Param.TupleSelect(0)))
+                {
+                    case Halocn_Camera_Calibration_Enum.area_scan_division:
+                        _Param.Camera_Calibration_Model = Halocn_Camera_Calibration_Enum.area_scan_division;
+                        _Param.Focus = _Camera_Param.TupleSelect(1) * 1000;
+                        _Param.Kappa = _Camera_Param.TupleSelect(2);
+                        _Param.Sx = _Camera_Param.TupleSelect(3) * 1000000;
+                        _Param.Sy = _Camera_Param.TupleSelect(4) * 1000000;
+                        _Param.Cx = _Camera_Param.TupleSelect(5);
+                        _Param.Cy = _Camera_Param.TupleSelect(6);
+                        _Param.Image_Width = _Camera_Param.TupleSelect(7);
+                        _Param.Image_Height = _Camera_Param.TupleSelect(8);
+                        _Param.HCamPar = new HCamPar(_Camera_Param);
+
+                        break;
 
 
-                case Halocn_Camera_Calibration_Enum.area_scan_polynomial:
-                    _Param.Camera_Calibration_Model = Halocn_Camera_Calibration_Enum.area_scan_polynomial;
-                    _Param.Focus = _Camera_Param.TupleSelect(1) * 1000;
-                    _Param.K1 = _Camera_Param.TupleSelect(2);
-                    _Param.K2 = _Camera_Param.TupleSelect(3);
-                    _Param.K3 = _Camera_Param.TupleSelect(4);
-                    _Param.P1 = _Camera_Param.TupleSelect(5);
-                    _Param.P2 = _Camera_Param.TupleSelect(6);
-                    _Param.Sx = _Camera_Param.TupleSelect(7) * 1000000;
-                    _Param.Sy = _Camera_Param.TupleSelect(8) * 1000000;
-                    _Param.Cx = _Camera_Param.TupleSelect(9);
-                    _Param.Cy = _Camera_Param.TupleSelect(10);
-                    _Param.Image_Width = _Camera_Param.TupleSelect(11);
-                    _Param.Image_Height = _Camera_Param.TupleSelect(12);
-                    break;
+                    case Halocn_Camera_Calibration_Enum.area_scan_polynomial:
+                        _Param.Camera_Calibration_Model = Halocn_Camera_Calibration_Enum.area_scan_polynomial;
+                        _Param.Focus = _Camera_Param.TupleSelect(1) * 1000;
+                        _Param.K1 = _Camera_Param.TupleSelect(2);
+                        _Param.K2 = _Camera_Param.TupleSelect(3);
+                        _Param.K3 = _Camera_Param.TupleSelect(4);
+                        _Param.P1 = _Camera_Param.TupleSelect(5);
+                        _Param.P2 = _Camera_Param.TupleSelect(6);
+                        _Param.Sx = _Camera_Param.TupleSelect(7) * 1000000;
+                        _Param.Sy = _Camera_Param.TupleSelect(8) * 1000000;
+                        _Param.Cx = _Camera_Param.TupleSelect(9);
+                        _Param.Cy = _Camera_Param.TupleSelect(10);
+                        _Param.Image_Width = _Camera_Param.TupleSelect(11);
+                        _Param.Image_Height = _Camera_Param.TupleSelect(12);
+                        _Param.HCamPar = new HCamPar(_Camera_Param);
 
-            }
+                        break;
 
-            return _Param;
+                }
+
+                return _Param;
 
 
             }
@@ -178,7 +182,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_Image_No"></param>
         /// <param name="_Camera_No"></param>
         /// <returns></returns>
-        public static List<HObjectModel3D> Get_Calibration_Camera_3DModel( HCalibData _HCalibData, int _Image_No, int _Camera_No = 0)
+        public static List<HObjectModel3D> Get_Calibration_Camera_3DModel(HCalibData _HCalibData, int _Image_No, int _Camera_No = 0)
         {
 
             HTuple _calib_X;
@@ -229,14 +233,14 @@ namespace Halcon_SDK_DLL
 
 
 
-                return  _AllModel ;
+                return _AllModel;
 
             }
             catch (Exception _he)
             {
 
-
-
+                //错误清楚
+                _AllModel.Clear();
 
                 throw new Exception(HVE_Result_Enum.标定图像获得相机模型错误.ToString() + " 原因：" + _he.Message);
 
@@ -248,9 +252,84 @@ namespace Halcon_SDK_DLL
 
 
 
+        /// <summary>
+        /// 通用标定文件夹文件检查
+        /// </summary>
+        /// <param name="_address"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public static bool Calibration_Results_Checked_File(ref string _address,  string name)
+        {
+
+            try
+            {
+
+
+                 _address = Environment.CurrentDirectory + "\\Calibration_File";
+
+
+                ////检查文件夹，创建
+                if (!Directory.Exists(_address)) Directory.CreateDirectory(_address);
+
+                //添加名称
+                _address += "\\" + name;
+
+                if (File.Exists(_address += ".dat")) return true; return false;
+
+            }
+            catch (Exception _e)
+            {
+
+                _address = null;
+                throw new Exception(HVE_Result_Enum.取消覆盖保存相机标定文件.ToString()+" 原因："+_e.Message);
+            }
+
+
+        }
 
 
 
+        /// <summary>
+        /// 相机内参数据文件保存
+        /// </summary>
+        /// <param name="_address"></param>
+        /// <param name="_HCamera"></param>
+        /// <exception cref="Exception"></exception>
+        public static void Save_Calibration_Results_File(string _address, HCamPar _HCamera)
+        {
+
+
+            try
+            {
+                _address.ThrowIfNull();
+
+
+                if (_HCamera != null)
+                {
+
+                    _HCamera.WriteCamPar(_address);
+                }
+                else
+                {
+                    throw new Exception(HVE_Result_Enum.未进行相机标定无法保存.ToString());
+
+                }
+
+
+
+
+
+            }
+            catch (Exception _e)
+            {
+
+                throw new Exception(HVE_Result_Enum.保存相机标定文件错误 + " 原因：" + _e.Message);
+            }
+
+
+
+        }
 
 
 
@@ -279,5 +358,13 @@ namespace Halcon_SDK_DLL
         Camera_Online
     }
 
+    /// <summary>
+    /// 标定文件保存旋转
+    /// </summary>
+    public enum Calibration_File_Name_Enum
+    {
+        Camera_0_Save,
+        Camera_1_Save,
+    }
 
 }

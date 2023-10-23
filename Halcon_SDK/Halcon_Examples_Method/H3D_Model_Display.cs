@@ -1046,9 +1046,13 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 //hv_SelectedObject = HTuple.TupleGenConst(hv_NumModels, 1);
                 //hv_PoseIn = determine_optimum_pose_distance(hv_ObjectModel3D.ToArray(), hv_CamParam, 0.9, hv_PoseIn);
 
+                if (hv_ObjectModel3D.Count>0)
+                {
+
                 //计算当前模型的中间位置大小
                 get_trackball_center(hv_TrackballRadiusPixel, hv_ObjectModel3D.ToArray(), hv_PoseIn, out hv_TBCenter, out hv_TBSize);
 
+                }
 
 
                 //计算对象合适大小

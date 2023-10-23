@@ -1,4 +1,5 @@
-﻿using MVS_SDK_Base.Model;
+﻿using Microsoft.VisualBasic.Logging;
+using MVS_SDK_Base.Model;
 using static Halcon_SDK_DLL.Halcon_Calibration_SDK;
 using static HanGao.ViewModel.UC_Vision_Calibration_Image_VM;
 using static HanGao.ViewModel.UC_Vision_Camera_Calibration;
@@ -161,7 +162,10 @@ namespace HanGao.ViewModel
                     catch (Exception e)
                     {
 
-                        User_Log_Add(e.Message, Log_Show_Window_Enum.Calibration);
+                        MessageBox.Show(e.Message, "信息提示", MessageBoxButton.OK, MessageBoxImage.Error);
+
+
+                        User_Log_Add(e.Message, Log_Show_Window_Enum.Calibration, MessageBoxImage.Error);
 
                     }
 
@@ -181,6 +185,100 @@ namespace HanGao.ViewModel
         }
 
 
+        /// <summary>
+        /// 检测标定图像数据集识别情况
+        /// </summary>
+        public ICommand Calibration_Results_Save_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                Button E = Sm.Source as Button;
+
+                string Save_File = null;
+
+                try
+                {
+
+
+
+
+                    switch (Enum.Parse<Calibration_File_Name_Enum>(E.Name))
+                    {
+                        case Calibration_File_Name_Enum.Camera_0_Save:
+
+
+                            if (Calibration_Results_Checked_File(ref Save_File, All_Camera_Results.Camera_0_Results.Calibration_Name))
+                            {
+
+                                if (MessageBox.Show("相机标定文件：" + All_Camera_Results.Camera_0_Results.Calibration_Name + " 已存在，是否覆盖？", "标定提示", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.OK)
+                                {
+
+                                    Save_Calibration_Results_File(Save_File, All_Camera_Results.Camera_0_Results.Camera_Result_Pama.HCamPar);
+                                }
+
+
+                            }
+                            else
+                            {
+                                Save_Calibration_Results_File(Save_File, All_Camera_Results.Camera_0_Results.Camera_Result_Pama.HCamPar);
+                                MessageBox.Show("相机标定文件：" + All_Camera_Results.Camera_0_Results.Calibration_Name + " 已保存！", "标定提示", MessageBoxButton.OK, MessageBoxImage.Question);
+
+                            }
+
+
+
+
+
+                            break;
+                        case Calibration_File_Name_Enum.Camera_1_Save:
+
+
+
+                            if (Calibration_Results_Checked_File(ref Save_File, All_Camera_Results.Camera_1_Results.Calibration_Name))
+                            {
+
+                                if (MessageBox.Show("相机标定文件：" + All_Camera_Results.Camera_1_Results.Calibration_Name + " 已存在，是否覆盖？", "标定提示", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.OK)
+                                {
+
+                                    Save_Calibration_Results_File(Save_File, All_Camera_Results.Camera_1_Results.Camera_Result_Pama.HCamPar);
+                                }
+
+
+                            }
+                            else
+                            {
+                                Save_Calibration_Results_File(Save_File, All_Camera_Results.Camera_1_Results.Camera_Result_Pama.HCamPar);
+                                MessageBox.Show("相机标定文件：" + All_Camera_Results.Camera_1_Results.Calibration_Name + " 已保存！", "标定提示", MessageBoxButton.OK, MessageBoxImage.Question);
+
+                            }
+
+
+                            break;
+
+                    }
+
+
+
+
+
+
+                }
+                catch (Exception _e)
+                {
+
+                    MessageBox.Show(_e.Message , "标定提示", MessageBoxButton.OK, MessageBoxImage.Question);
+
+                    User_Log_Add(_e.Message, Log_Show_Window_Enum.Calibration, MessageBoxImage.Error);
+
+                }
+
+            });
+        }
+
+
+
+
+
 
 
 
@@ -192,10 +290,6 @@ namespace HanGao.ViewModel
         /// <returns></returns>
         public static Caliration_AllCamera_Results_Model Cailbration_Camera_Method(Caliration_AllCamera_Results_Model _All_Camera_Results, Calibration_Load_Type_Enum _Calib_Load_Type)
         {
-
-
-
-
 
 
             HCalibData _CalibSetup_ID = new HCalibData();
@@ -300,7 +394,7 @@ namespace HanGao.ViewModel
 
                             User_Log_Add("标定图像初始化识别！", Log_Show_Window_Enum.Calibration);
 
-                            
+
 
                             return _All_Camera_Results;
                         }
@@ -426,11 +520,16 @@ namespace HanGao.ViewModel
                 //标定相机后赋值到全局调用
                 Halcon_CalibSetup_ID = _CalibSetup_ID;
 
+
+
+
+
                 return Calibration_Results(_All_Camera_Results, _CalibSetup_ID, _Calib_Load_Type);
 
             }
             catch (Exception _he)
             {
+                MessageBox.Show(_he.Message, "标定提示", MessageBoxButton.OK, MessageBoxImage.Question);
 
                 throw new Exception(_he.Message);
 
@@ -465,36 +564,63 @@ namespace HanGao.ViewModel
 
                     case Calibration_Load_Type_Enum.All_Camera:
 
-
+                        //获得标定相机内参
                         _All_Camera_Results.Camera_0_Results = new Calibration_Camera_Data_Results_Model()
                         {
                             Result_Error_Val = Results_Error_Val,
-                            Camera_Result_Pama = Set_Cailbration_Camera_Param(_CalibSetup_ID, 0)
+                            Camera_Result_Pama = Set_Cailbration_Camera_Param(_CalibSetup_ID, 0),
+                            Calibration_Name = Calibration_List[0].Camera_0.Carme_Name,
+
+
                         };
                         _All_Camera_Results.Camera_1_Results = new Calibration_Camera_Data_Results_Model()
                         {
                             Result_Error_Val = Results_Error_Val,
-                            Camera_Result_Pama = Set_Cailbration_Camera_Param(_CalibSetup_ID, 1)
+                            Camera_Result_Pama = Set_Cailbration_Camera_Param(_CalibSetup_ID, 1),
+                            Calibration_Name = Calibration_List[0].Camera_1.Carme_Name,
+
                         };
 
                         foreach (var _H3DModel in Calibration_List)
                         {
 
 
-                            if (true)
+                            //生产相机模型
+                            if ((_H3DModel.Camera_0.Calibration_3D_Model = Get_Calibration_Camera_3DModel(_CalibSetup_ID, _H3DModel.Image_No, 0)).Count > 0)
                             {
 
 
                                 _H3DModel.Camera_0.Calibration_3D_Model = Get_Calibration_Camera_3DModel(_CalibSetup_ID, _H3DModel.Image_No, 0);
 
                                 _H3DModel.Camera_0.Calibration_State = Camera_Calibration_Results_Type_Enum.标定模型生成成功.ToString();
+
                             }
-                            _H3DModel.Camera_1.Calibration_3D_Model = Get_Calibration_Camera_3DModel(_CalibSetup_ID, _H3DModel.Image_No, 1);
-                            _H3DModel.Camera_1.Calibration_State = Camera_Calibration_Results_Type_Enum.标定模型生成成功.ToString();
+                            else
+                            {
+                                _H3DModel.Camera_0.Calibration_State = Camera_Calibration_Results_Type_Enum.标定模型生成失败.ToString();
+
+                            }
+
+                            if ((_H3DModel.Camera_1.Calibration_3D_Model = Get_Calibration_Camera_3DModel(_CalibSetup_ID, _H3DModel.Image_No, 1)).Count > 0)
+                            {
+
+                                _H3DModel.Camera_1.Calibration_State = Camera_Calibration_Results_Type_Enum.标定模型生成成功.ToString();
+                            }
+                            else
+                            {
+                                _H3DModel.Camera_1.Calibration_State = Camera_Calibration_Results_Type_Enum.标定模型生成失败.ToString();
+
+                            }
+
+
 
 
                         }
                         //获得信息
+
+
+
+
 
 
                         break;
@@ -506,14 +632,25 @@ namespace HanGao.ViewModel
                         _All_Camera_Results.Camera_0_Results = new Calibration_Camera_Data_Results_Model()
                         {
                             Result_Error_Val = Results_Error_Val,
-                            Camera_Result_Pama = Set_Cailbration_Camera_Param(_CalibSetup_ID, 0)
+                            Camera_Result_Pama = Set_Cailbration_Camera_Param(_CalibSetup_ID, 0),
+                            Calibration_Name = Calibration_List[0].Camera_0.Carme_Name,
+
                         };
 
                         foreach (var _H3DModel in Calibration_List)
                         {
 
+                            if ((_H3DModel.Camera_0.Calibration_3D_Model = Get_Calibration_Camera_3DModel(_CalibSetup_ID, _H3DModel.Image_No, 0)).Count > 0)
+                            {
+                                _H3DModel.Camera_0.Calibration_State = Camera_Calibration_Results_Type_Enum.标定模型生成成功.ToString();
 
-                            _H3DModel.Camera_0.Calibration_3D_Model = Get_Calibration_Camera_3DModel(_CalibSetup_ID, _H3DModel.Image_No, 0);
+                            }
+                            else
+                            {
+                                _H3DModel.Camera_0.Calibration_State = Camera_Calibration_Results_Type_Enum.标定模型生成失败.ToString();
+
+                            }
+
 
 
                         }
@@ -524,7 +661,9 @@ namespace HanGao.ViewModel
                         _All_Camera_Results.Camera_1_Results = new Calibration_Camera_Data_Results_Model()
                         {
                             Result_Error_Val = Results_Error_Val,
-                            Camera_Result_Pama = Set_Cailbration_Camera_Param(_CalibSetup_ID, 0)
+                            Camera_Result_Pama = Set_Cailbration_Camera_Param(_CalibSetup_ID, 0),
+                            Calibration_Name = Calibration_List[0].Camera_1.Carme_Name,
+
                         };
 
 
@@ -532,14 +671,28 @@ namespace HanGao.ViewModel
                         {
 
 
-                            _H3DModel.Camera_1.Calibration_3D_Model = Get_Calibration_Camera_3DModel(_CalibSetup_ID, _H3DModel.Image_No, 0);
 
 
+                            if ((_H3DModel.Camera_1.Calibration_3D_Model = Get_Calibration_Camera_3DModel(_CalibSetup_ID, _H3DModel.Image_No, 0)).Count > 0)
+                            {
+
+                                _H3DModel.Camera_1.Calibration_State = Camera_Calibration_Results_Type_Enum.标定模型生成成功.ToString();
+                            }
+                            else
+                            {
+                                _H3DModel.Camera_1.Calibration_State = Camera_Calibration_Results_Type_Enum.标定模型生成失败.ToString();
+
+                            }
                         }
                         break;
 
 
                 }
+
+
+
+
+
 
                 return _All_Camera_Results;
 
@@ -688,6 +841,8 @@ namespace HanGao.ViewModel
             }
             catch (Exception _he)
             {
+
+
 
                 throw new Exception(HVE_Result_Enum.创建标定对象错误.ToString() + _he.Message);
             }

@@ -1349,23 +1349,6 @@ namespace Halcon_SDK_DLL
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "文件路径读取成功！" };
             }
             else

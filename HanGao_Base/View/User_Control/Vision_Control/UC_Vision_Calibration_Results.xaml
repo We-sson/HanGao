@@ -36,7 +36,7 @@
                           Margin="0,0,0,10"
                           HorizontalContentAlignment="Stretch"
                           VerticalContentAlignment="Stretch"
-                          IsExpanded="True">
+                          IsExpanded="False">
                     <Expander.Header>
                         <Border x:Name="Radio_1"
                                 Margin="0"
@@ -1361,7 +1361,7 @@
 
 
 
-                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                <Button Style="{DynamicResource Halcon_Window_Button}" x:Name="Camera_0_Save" Grid.Column=" 2"
                                         Margin="4,0,4,0"
                                         Background="{DynamicResource 全局_按钮_蓝颜色}">
                                     <TextBlock Text="保存文件"
@@ -1372,7 +1372,9 @@
                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding}" PassEventArgsToCommand="True" />
+                                            <i:InvokeCommandAction Command="{Binding Calibration_Results_Save_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </Button>
@@ -2320,7 +2322,7 @@
 
 
 
-                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                <Button Style="{DynamicResource Halcon_Window_Button}" x:Name="Camera_1_Save" Grid.Column=" 2"
                                         Margin="4,0,4,0"
                                         Background="{DynamicResource 全局_按钮_蓝颜色}">
                                     <TextBlock Text="保存文件"
@@ -2331,7 +2333,9 @@
                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding}" PassEventArgsToCommand="True" />
+                                            <i:InvokeCommandAction Command="{Binding Calibration_Results_Save_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </Button>

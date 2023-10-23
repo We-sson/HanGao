@@ -2,7 +2,6 @@
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Windows.Media.Media3D;
@@ -541,6 +540,13 @@ namespace Halcon_SDK_DLL.Model
 
             }
 
+
+            /// <summary>
+            /// 标定内参参数变量
+            /// </summary>
+            public HCamPar HCamPar { set; get; } = new HCamPar();
+
+
             public Halcon_Camera_Calibration_Parameters_Model(Halcon_Camera_Calibration_Parameters_Model _Parameters_Model)
             {
                 Sy = _Parameters_Model.Sy;
@@ -741,7 +747,7 @@ namespace Halcon_SDK_DLL.Model
     public class HPR_Status_Model<T1>
     {
 
-      
+
 
 
         /// <summary>
@@ -768,7 +774,7 @@ namespace Halcon_SDK_DLL.Model
 
         public HPR_Status_Model()
         {
-           
+
         }
 
         /// <summary>
@@ -918,6 +924,11 @@ namespace Halcon_SDK_DLL.Model
         /// 相机标定参数
         /// </summary>
         public Halcon_Camera_Calibration_Parameters_Model Camera_Result_Pama { set; get; } = new Halcon_Camera_Calibration_Parameters_Model();
+
+        /// <summary>
+        /// 标定文件者名称
+        /// </summary>
+        public string Calibration_Name { set; get; }
 
 
 
@@ -1285,6 +1296,9 @@ namespace Halcon_SDK_DLL.Model
         获得标定结果失败,
         设置相机初始内参错误,
         获得相机内参参数错误,
+        保存相机标定文件错误,
+        取消覆盖保存相机标定文件,
+        未进行相机标定无法保存,
     }
 
 
