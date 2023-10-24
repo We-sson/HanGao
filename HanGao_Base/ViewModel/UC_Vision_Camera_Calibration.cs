@@ -1,13 +1,12 @@
 ﻿using MVS_SDK_Base.Model;
 using System.Drawing;
+using static Halcon_SDK_DLL.Halcon_Method;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static HanGao.ViewModel.UC_Vision_Calibration_Image_VM;
-using static HanGao.ViewModel.UC_Vision_CameraSet_ViewModel;
 using static HanGao.ViewModel.UC_Vision_Calibration_Results_VM;
-
+using static HanGao.ViewModel.UC_Vision_CameraSet_ViewModel;
 using static MVS_SDK_Base.Model.MVS_Model;
-using static Halcon_SDK_DLL.Halcon_Method;
 
 
 namespace HanGao.ViewModel
@@ -48,7 +47,7 @@ namespace HanGao.ViewModel
             }
         }
 
-        private  static Halcon_Camera_Calibration_Parameters_Model _Camera_Calibration_Paramteters_0 { get; set; } = new Halcon_Camera_Calibration_Parameters_Model();
+        private static Halcon_Camera_Calibration_Parameters_Model _Camera_Calibration_Paramteters_0 { get; set; } = new Halcon_Camera_Calibration_Parameters_Model();
         /// <summary>
         /// 全局标定相机设置参数
         /// </summary>
@@ -128,21 +127,41 @@ namespace HanGao.ViewModel
             {
                 CheckBox E = Sm.Source as CheckBox;
 
-                if ((bool)E.IsChecked)
+                try
                 {
 
-                    Halcon_Calibration_Start(Halcon_Calibration_Setup);
 
 
-                    //if (_State != true)
-                    //{
-                    //    E.IsChecked = false;
-                    //}
+
+
+                    if ((bool)E.IsChecked)
+                    {
+
+                        Halcon_Calibration_Start(Halcon_Calibration_Setup);
+
+
+                        //if (_State != true)
+                        //{
+                        //    E.IsChecked = false;
+                        //}
+                    }
+                    else if ((bool)E.IsChecked == false)
+                    {
+                        Halcon_Calibration_End(Halcon_Calibration_Setup);
+                    }
+
                 }
-                else if ((bool)E.IsChecked == false)
+                catch (Exception _e)
                 {
-                    Halcon_Calibration_End(Halcon_Calibration_Setup);
+
+
+                    E.IsChecked = false;
+
+                    User_Log_Add("相机开启失败！"+_e.Message, Log_Show_Window_Enum.Calibration, MessageBoxImage.Error);
+
                 }
+
+
 
             });
         }
@@ -303,7 +322,7 @@ namespace HanGao.ViewModel
                         {
 
                             //设置相机总参数
-                            if (MVS.Set_Camrea_Parameters_List(_camer.Camera, UC_Vision_CameraSet_ViewModel.Camera_Parameter_Val).GetResult())
+                            if (MVS.Set_Camrea_Parameters_List(_camer.Camera, Camera_Parameter_Val).GetResult())
                             {
 
                                 if (MVS.StartGrabbing(_camer))
@@ -379,13 +398,13 @@ namespace HanGao.ViewModel
 
                                                             //查找标定板
                                                             FindCalib_3DCoord(ref _CalibXLD, ref _CalibCoord, ref _CalibSetup_ID, _HImage, (int)_camer.Camera_Calibration.Camera_Calibration_MainOrSubroutine_Type, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma);
-           
 
-                                                                //HRegion _Coord = new HRegion(_CalibCoord);
-                                                                //显示标定板特征
-                                                                Display_HObiet(null, _CalibXLD, null, KnownColor.Green.ToString(), _camer.Show_Window);
-                                                                Display_HObiet(null, null, _CalibCoord, null, _camer.Show_Window);
-                                                        
+
+                                                            //HRegion _Coord = new HRegion(_CalibCoord);
+                                                            //显示标定板特征
+                                                            Display_HObiet(null, _CalibXLD, null, KnownColor.Green.ToString(), _camer.Show_Window);
+                                                            Display_HObiet(null, null, _CalibCoord, null, _camer.Show_Window);
+
 
 
                                                         }
@@ -468,19 +487,21 @@ namespace HanGao.ViewModel
                         if (Set_Camera_Calibration_Par(ref _CalibSetup_ID, Calibration_Load_Type_Enum.Camera_0) > 0)
                         {
 
+                            if (Calibration_List.Where((_w)=>_w.Camera_0.Calibration_Image!=null).ToList().Count>=10 || (Calibration_List.Where((_w) => _w.Camera_1.Calibration_Image != null).ToList().Count >= 10))
+                            {
 
 
-                        //遍历标定保存图像
-                        foreach (var _Calib in Calibration_List)
-                        {
+                            //遍历标定保存图像
+                            foreach (var _Calib in Calibration_List)
+                            {
 
 
-                            HObject _CalibCoord = new HObject();
-                            HXLDCont _CalibXLD = new HXLDCont();
+                                HObject _CalibCoord = new HObject();
+                                HXLDCont _CalibXLD = new HXLDCont();
 
-                            ////判断相机图像是否存在
-                            //if (_Calib.Camera_0.Calibration_Image != null || _Calib.Camera_1.Calibration_Image != null)
-                            //{
+                                ////判断相机图像是否存在
+                                //if (_Calib.Camera_0.Calibration_Image != null || _Calib.Camera_1.Calibration_Image != null)
+                                //{
 
                                 //判断相机0是否存在图像
                                 if (_Calib.Camera_0.Calibration_Image != null)
@@ -488,7 +509,7 @@ namespace HanGao.ViewModel
                                     //查找标定图像中标定板位置和坐标
                                     FindCalib_3DCoord(ref _CalibXLD, ref _CalibCoord, ref _CalibSetup_ID, (HImage)_Calib.Camera_0.Calibration_Image, 0, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma);
 
-                                    if (_CalibXLD !=null && _CalibCoord!=null)
+                                    if (_CalibXLD != null && _CalibCoord != null)
                                     {
 
                                         _Calib.Camera_0.Calibration_Region = _CalibXLD.CopyObj(1, -1);
@@ -533,26 +554,35 @@ namespace HanGao.ViewModel
                                 //计算识别进度
                                 Calibration_Checks_State_Val = (100 / Calibration_List.Count) * Calibration_Image_No;
 
-                            //}
+                                //}
 
-                        }
+                            }
 
-                        }
-                        else
-                        {
-                            User_Log_Add("标定左右相机图像不对称，请检查图像列表 !", Log_Show_Window_Enum.Calibration);
 
+                                User_Log_Add(Calibration_Image_No+"张标定图像检测完成。请把识别失败图像移除后标定！" , Log_Show_Window_Enum.Calibration, MessageBoxImage.Information);
+
+
+                            }
+                            else
+                            {
+
+
+                                throw new Exception("标定图像数量必须大于10张，确保计算精度！");
+                            }
                         }
+                
 
 
 
                     }
                     catch (Exception _e)
                     {
-                        MessageBox.Show(_e.Message, "标定提示", MessageBoxButton.OK, MessageBoxImage.Question);
 
 
-                        User_Log_Add("有标定图像检测失败,请移除失败图像 ! 原因："+_e.Message, Log_Show_Window_Enum.Calibration, MessageBoxImage.Error);
+
+
+
+                        User_Log_Add("有标定图像检测失败 ! 原因：" + _e.Message, Log_Show_Window_Enum.Calibration, MessageBoxImage.Error);
 
                     }
                     finally
@@ -572,7 +602,7 @@ namespace HanGao.ViewModel
 
 
 
-  
+
 
 
 

@@ -1230,7 +1230,7 @@
 
 
                                 <Openfile:UC_Open_File Grid.Column=" 1"
-                                                       File_Log="{Binding All_Camera_Results.Camera_0_Results.Result_File_Address}"
+                                                       File_Log="{Binding All_Camera_Results.Camera_0_Results.Result_Fold_Address}"
                                                        File_Model="Folder" />
                                 <!--<Border Grid.Column=" 1" BorderThickness="1.5">
                                     <Border.Style>
@@ -2191,7 +2191,7 @@
 
 
                                 <Openfile:UC_Open_File Grid.Column=" 1"
-                                                       File_Log="{Binding All_Camera_Results.Camera_1_Results.Result_File_Address}"
+                                                       File_Log="{Binding All_Camera_Results.Camera_1_Results.Result_Fold_Address}"
                                                        File_Model="Folder" />
                                 <!--<Border Grid.Column=" 1" BorderThickness="1.5">
                                     <Border.Style>

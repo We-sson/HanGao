@@ -92,6 +92,10 @@ namespace HanGao.ViewModel
 
             Task.Run(() => {
 
+
+
+
+
                 switch (_ShowLog)
                 {
                     case Log_Show_Window_Enum.Home:
@@ -109,6 +113,7 @@ namespace HanGao.ViewModel
                 }
 
 
+                Application.Current.Dispatcher.Invoke(() => { MessageBox.Show(Log, "操作提示！", MessageBoxButton.OK, _MessType); });
 
 
             });

@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Net;
 using System.Windows.Media.Media3D;
+using System.Xml.Linq;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
 namespace Halcon_SDK_DLL.Model
@@ -916,9 +918,9 @@ namespace Halcon_SDK_DLL.Model
         public double Result_Error_Val { set; get; } = 0;
 
         /// <summary>
-        /// 标定结果保存位置
+        /// 标定结果保存文件夹
         /// </summary>
-        public string Result_File_Address { set; get; } = Directory.GetCurrentDirectory() + "\\Calibration_File";
+        public string Result_Fold_Address { set; get; } = Directory.GetCurrentDirectory() + "\\Calibration_File";
 
         /// <summary>
         /// 相机标定参数
@@ -931,6 +933,30 @@ namespace Halcon_SDK_DLL.Model
         public string Calibration_Name { set; get; }
 
 
+        /// <summary>
+        /// 保存文件地址
+        /// </summary>
+        public string Save_File_Address { set; get; }
+
+
+
+        /// <summary>
+        /// 检查保存文件是否存在？
+        /// </summary>
+        /// <returns></returns>
+        public bool Checked_SaveFile()
+        {
+
+            
+            ////检查文件夹，创建
+            if (!Directory.Exists(Result_Fold_Address)) Directory.CreateDirectory(Result_Fold_Address);
+
+            //添加名称
+            Save_File_Address = Result_Fold_Address + "\\" + Calibration_Name;
+
+            if (File.Exists(Save_File_Address += ".dat")) return true; return false;
+
+        }
 
 
 
@@ -1292,7 +1318,7 @@ namespace Halcon_SDK_DLL.Model
         显示最小灰度失败,
         标定板图像识别错误,
         标定图像获得相机模型错误,
-        创建标定对象错误,
+        创建标定相机错误,
         获得标定结果失败,
         设置相机初始内参错误,
         获得相机内参参数错误,

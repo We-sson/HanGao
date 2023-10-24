@@ -1063,7 +1063,7 @@ namespace Halcon_SDK_DLL
                 //错误清空
                 _CalibXLD.Dispose();
                 _CalibCoord.Dispose();
-                throw new HalconException(HVE_Result_Enum.标定板图像识别错误.ToString() + e.Message);
+                throw new HalconException(HVE_Result_Enum.标定板图像识别错误.ToString() +" 原因："+ e.Message);
             }
 
 

@@ -152,8 +152,15 @@ namespace HanGao.ViewModel
 
                                 //加载图像文件到标定集合内
                                 Calibration_Load_Image(_HImage, Enum.Parse<Camera_Calibration_MainOrSubroutine_Type_Enum>(E.Name), E.Name);
+
+
                             });
                         }
+
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            User_Log_Add(E.Name +"标定列表，"+ _OpenFile.FileNames.Length + "张标定图像加载完成！", Log_Show_Window_Enum.Calibration, MessageBoxImage.Information);
+                        });
                         //File_Log = _OpenFile.FileName;
 
                     });
@@ -348,6 +355,7 @@ namespace HanGao.ViewModel
                         Calibration_Image_1_No = 0;
                     });
 
+                    User_Log_Add("标定列表图像全部移除！", Log_Show_Window_Enum.Calibration, MessageBoxImage.Information);
 
 
                 });

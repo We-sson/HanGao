@@ -259,14 +259,14 @@ namespace Halcon_SDK_DLL
         /// <param name="name"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public static bool Calibration_Results_Checked_File(ref string _address,  string name)
+        public static bool Calibration_Results_Checked_File( string _address,  string name)
         {
 
             try
             {
 
-
-                 _address = Environment.CurrentDirectory + "\\Calibration_File";
+                _address.ThrowIfNull("相机标定内参保存文件地址为空！");
+                 //_address = Environment.CurrentDirectory + "\\Calibration_File";
 
 
                 ////检查文件夹，创建
@@ -281,7 +281,7 @@ namespace Halcon_SDK_DLL
             catch (Exception _e)
             {
 
-                _address = null;
+               
                 throw new Exception(HVE_Result_Enum.取消覆盖保存相机标定文件.ToString()+" 原因："+_e.Message);
             }
 
