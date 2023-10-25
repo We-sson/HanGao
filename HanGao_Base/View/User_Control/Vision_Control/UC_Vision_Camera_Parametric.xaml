@@ -1730,8 +1730,8 @@
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width=" 90" />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width=" auto" />
+                                    <ColumnDefinition Width=" *" />
+                                    <ColumnDefinition Width=" *" />
                                     <ColumnDefinition Width=" 35" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="测试标定"
@@ -1742,14 +1742,58 @@
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
 
-                                <Button Grid.Column=" 1"
+                                <Button x:Name="Camera_0_Checked" Grid.Column=" 1"
                                         Margin="4,0,4,0"
                                         HorizontalContentAlignment="Stretch"
                                         VerticalContentAlignment="Stretch"
-                                        Background="{DynamicResource 全局_按钮_蓝颜色}">
+                                        Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                        Tag="Camera_0">
                                     <Button.Resources>
                                         <TextBlock x:Key="Check_Txt"
-                                                   Text="检测数据"
+                                                   Text="相机 0 检测"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="{DynamicResource 全局_文字_英文字体}"
+                                                   FontSize="16"
+                                                   Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                        <ProgressBar x:Key="Checks_PBar"
+                                                     Margin="4"
+                                                     BorderThickness="0"
+                                                     Maximum=" 100"
+                                                     Minimum=" 0"
+                                                     Value="{Binding Calibration_Checks_0_State_Val, UpdateSourceTrigger=PropertyChanged}" />
+                                    </Button.Resources>
+                                    <Button.Style>
+                                        <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
+                                            <Setter Property="Content" Value="{StaticResource Check_Txt}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Calibration_Checks_0_State}" Value="true">
+                                                    <Setter Property="Content" Value="{StaticResource Checks_PBar}" />
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+
+
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding Camera_Calibration_Checks_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+
+                                <Button x:Name="Camera_1_Checked" Grid.Column=" 2"
+                                        Margin="4,0,4,0"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                        Tag="Camera_1">
+                                    <Button.Resources>
+                                        <TextBlock x:Key="Check_Txt"
+                                                   Text="相机 1 检测"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -1760,13 +1804,13 @@
                                                      BorderThickness="0"
                                                      Maximum=" 100"
                                                      Minimum=" 0"
-                                                     Value="{Binding Calibration_Checks_State_Val, UpdateSourceTrigger=PropertyChanged}" />
+                                                     Value="{Binding Calibration_Checks_1_State_Val, UpdateSourceTrigger=PropertyChanged}" />
                                     </Button.Resources>
                                     <Button.Style>
                                         <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
                                             <Setter Property="Content" Value="{StaticResource Check_Txt}" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Calibration_Checks_State}" Value="true">
+                                                <DataTrigger Binding="{Binding Calibration_Checks_1_State}" Value="true">
                                                     <Setter Property="Content" Value="{StaticResource Checks_PBar}" />
                                                     <Setter Property="IsEnabled" Value="False" />
                                                 </DataTrigger>

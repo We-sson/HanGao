@@ -402,7 +402,40 @@ namespace Halcon_SDK_DLL
         /// <param name="_Height"></param>
         /// <param name="_pData"></param>
         /// <returns></returns>
-        public static HPR_Status_Model<bool> Mvs_To_Halcon_Image(ref HImage image, int _Width, int _Height, IntPtr _pData)
+        //public static HPR_Status_Model<bool> Mvs_To_Halcon_Image(ref HImage image, int _Width, int _Height, IntPtr _pData)
+        //{
+
+        //    try
+        //    {
+
+        //        image.Dispose();
+        //        //转换halcon图像格式
+        //        image.GenImage1("byte", _Width, _Height, _pData);
+
+        //        //HOperatorSet.GenImage1(out image, "byte", _Width, _Height, _pData);
+
+        //        return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK);
+
+        //    }
+        //    catch (Exception e)
+        //    {
+
+        //        return new HPR_Status_Model<bool>(HVE_Result_Enum.Halcon转换海康图像错误) { Result_Error_Info = e.Message };
+
+        //    }
+
+
+
+        //}
+
+        /// <summary>
+        /// 海康获取图像指针转换Halcon图像
+        /// </summary>
+        /// <param name="_Width"></param>
+        /// <param name="_Height"></param>
+        /// <param name="_pData"></param>
+        /// <returns></returns>
+        public static bool Mvs_To_Halcon_Image(ref HImage image, int _Width, int _Height, IntPtr _pData)
         {
 
             try
@@ -414,13 +447,16 @@ namespace Halcon_SDK_DLL
 
                 //HOperatorSet.GenImage1(out image, "byte", _Width, _Height, _pData);
 
-                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK);
+                return true;
 
             }
             catch (Exception e)
             {
 
-                return new HPR_Status_Model<bool>(HVE_Result_Enum.Halcon转换海康图像错误) { Result_Error_Info = e.Message };
+
+                throw new Exception("获取图像指针转换失败！" + "原因：" + e.Message);
+               
+
 
             }
 

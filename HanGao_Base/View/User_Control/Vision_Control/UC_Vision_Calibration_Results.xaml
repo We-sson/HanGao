@@ -1342,7 +1342,7 @@
                                         <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
                                             <Setter Property="Content" Value="{StaticResource Calibration_Results_Txt}" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Calibration_Results_State}" Value="true">
+                                                <DataTrigger Binding="{Binding Calibration_Results_0_State}" Value="true">
                                                     <Setter Property="Content" Value="{StaticResource Calibration_PBar}" />
                                                     <Setter Property="IsEnabled" Value="False" />
                                                 </DataTrigger>
@@ -2193,62 +2193,7 @@
                                 <Openfile:UC_Open_File Grid.Column=" 1"
                                                        File_Log="{Binding All_Camera_Results.Camera_1_Results.Result_Fold_Address}"
                                                        File_Model="Folder" />
-                                <!--<Border Grid.Column=" 1" BorderThickness="1.5">
-                                    <Border.Style>
-                                        <Style TargetType="{x:Type Border}">
-                                            <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Text, ElementName=T1}" Value="">
-                                                    <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_红颜色}" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Border.Style>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition />
-                                            <ColumnDefinition Width="auto" />
-                                        </Grid.ColumnDefinitions>
 
-
-
-
-                                        <TextBox x:Name="Camera_1_Save_address" Grid.Column=" 0"
-                                                 Text="D:\MVS\MVS\...."
-                                                 TextWrapping="Wrap"
-                                                 Margin="6,6,0,6"
-                                                 HorizontalAlignment="Left"
-                                                 VerticalAlignment="Center"
-                                                 Background="Transparent"
-                                                 BorderThickness="0"
-                                                 FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                 FontSize="16"
-                                                 Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
-
-                                        <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
-                                                Margin="8,4,8,4"
-                                                HorizontalAlignment="Right"
-                                                Background="Transparent"
-                                                BorderThickness="0">
-                                            <i:Interaction.Triggers>
-
-                                                <i:EventTrigger EventName="Click">
-                                                    <i:InvokeCommandAction Command="{Binding}"
-                                                                           CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}"
-                                                                           PassEventArgsToCommand="True" />
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
-                                            <Image Height="24"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Effect="{DynamicResource 全局背景阴影}"
-                                                   Source="/Resources/Vision_文件夹_ioc.png" />
-                                        </Button>
-
-
-                                    </Grid>
-                                </Border>-->
 
                                 <Label Grid.Column=" 3"
                                        Content=""
@@ -2303,7 +2248,7 @@
                                         <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
                                             <Setter Property="Content" Value="{StaticResource Calibration_Results_Txt}" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Calibration_Results_State}" Value="true">
+                                                <DataTrigger Binding="{Binding Calibration_Results_1_State}" Value="true">
                                                     <Setter Property="Content" Value="{StaticResource Calibration_PBar}" />
                                                     <Setter Property="IsEnabled" Value="False" />
                                                 </DataTrigger>

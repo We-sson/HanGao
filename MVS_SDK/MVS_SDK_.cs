@@ -38,11 +38,12 @@ namespace MVS_SDK
         /// 查找相机对象驱动
         /// </summary>
         /// <returns></returns>
-        public static List<CCameraInfo> Find_Camera_Devices()
+        public static List<CGigECameraInfo> Find_Camera_Devices()
         {
             //初始化
             int nRet;
             List<CCameraInfo> _CCamera_List = new List<CCameraInfo>();
+            List<CGigECameraInfo> CGCamera_List = new List<CGigECameraInfo>();
             //List<CGigECameraInfo> _CGigECamera_List = new List<CGigECameraInfo> ();
 
             //获得设备枚举
@@ -50,15 +51,25 @@ namespace MVS_SDK
 
             if (nRet == CErrorDefine.MV_OK)
             {
+                CGCamera_List.Clear();
+                foreach (var _CCamer in _CCamera_List)
+                {
 
+                if (_CCamer.nTLayerType == CSystem.MV_GIGE_DEVICE)
+                {
 
+                        CGigECameraInfo _GEGI = _CCamer as CGigECameraInfo;
+                        CGCamera_List.Add(_GEGI);
+                    }
 
-                return _CCamera_List;
+                }
+
+                    return CGCamera_List;
             }
             else
             {
 
-                return null;
+                return CGCamera_List;
             }
 
 
@@ -583,7 +594,7 @@ namespace MVS_SDK
         /// 设置总相机相机俩表
         /// </summary>
         /// <param name="_Camera_List"></param>
-        public static MPR_Status_Model Set_Camrea_Parameters_List(CCamera _Camera, MVS_Camera_Parameter_Model _Parameter)
+        public static bool  Set_Camrea_Parameters_List(CCamera _Camera, MVS_Camera_Parameter_Model _Parameter)
         {
 
             try
@@ -599,20 +610,22 @@ namespace MVS_SDK
                         if (!Set_Camera_Parameters_Val(_Camera, _Type, _Type.Name, _Type.GetValue(_Parameter)))
                         {
 
-                            return new MPR_Status_Model(MVE_Result_Enum.相机参数设置错误) { Result_Error_Info = "_参数名：" + _Type.Name };
+                            //return new MPR_Status_Model(MVE_Result_Enum.相机参数设置错误) { Result_Error_Info = "_参数名：" + _Type.Name };
+                            throw new Exception(MVE_Result_Enum.相机参数设置错误 + "_参数名：" + _Type.Name);
                         }
                     }
                 }
 
-                return new MPR_Status_Model(MVE_Result_Enum.Run_OK) { Result_Error_Info = "相机参数全部设置成功！" };
 
+                //return new MPR_Status_Model(MVE_Result_Enum.Run_OK) { Result_Error_Info = "相机参数全部设置成功！" };
+                return true;
             }
 
 
             catch (Exception e)
             {
-
-                return new MPR_Status_Model(MVE_Result_Enum.相机参数设置错误) { Result_Error_Info = e.Message };
+                throw new Exception(MVE_Result_Enum.相机参数设置错误 + " 原因：" + e.Message);
+                //return new MPR_Status_Model(MVE_Result_Enum.相机参数设置错误) { Result_Error_Info = e.Message };
             }
 
 

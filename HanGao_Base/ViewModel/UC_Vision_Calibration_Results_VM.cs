@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualBasic.Logging;
-using MVS_SDK_Base.Model;
+﻿using MVS_SDK_Base.Model;
 using Throw;
 using static Halcon_SDK_DLL.Halcon_Calibration_SDK;
 using static HanGao.ViewModel.UC_Vision_Calibration_Image_VM;
@@ -55,7 +54,8 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 相机图像标定结果
         /// </summary>
-        public bool Calibration_Results_State { set; get; } = false;
+        public bool Calibration_Results_0_State { set; get; } = false;
+        public bool Calibration_Results_1_State { set; get; } = false;
         /// <summary>
         /// 相机图像标定过程值
         /// </summary>
@@ -95,8 +95,8 @@ namespace HanGao.ViewModel
 
 
 
-                        Calibration_Results_State = true;
-                        Calibration_Results_State_Val = 0;
+                        //Calibration_Results_State = true;
+                        //Calibration_Results_State_Val = 0;
 
 
 
@@ -111,54 +111,105 @@ namespace HanGao.ViewModel
                             _Load_Type = Enum.Parse<Calibration_Load_Type_Enum>(E.Name);
                         });
 
-
-                        //判断报错标定图像大于指定数量
-                        if (Calibration_List.Count > 10)
+                        if (Calibration_List.Count > 0)
                         {
+
+                            //判断报错标定图像大于指定数量
 
                             if (Calibration_List.Where((_w) => _w.Camera_0.Calibration_Image != null).ToList().Count == Calibration_List.Where((_w) => _w.Camera_1.Calibration_Image != null).ToList().Count)
                             {
 
                                 User_Log_Add("进行双相机标定！", Log_Show_Window_Enum.Calibration);
+                                Calibration_Results_0_State = true;
+                                Calibration_Results_1_State = true;
 
 
                                 All_Camera_Results = Cailbration_Camera_Method(All_Camera_Results, Calibration_Load_Type_Enum.All_Camera);
-                                User_Log_Add("双相机标定完成，标定误差："+ All_Camera_Results.Camera_0_Results.Result_Error_Val, Log_Show_Window_Enum.Calibration, MessageBoxImage.Question);
+                                User_Log_Add("双相机标定完成，标定误差：" + All_Camera_Results.Camera_0_Results.Result_Error_Val, Log_Show_Window_Enum.Calibration, MessageBoxImage.Question);
 
                             }
                             else
                             {
+
+
+
                                 //检查标定图像集合数量数量是否合理
                                 if (Calibration_List.Where((_w) => _w.Camera_0.Calibration_Image != null).ToList().Count > 10 || Calibration_List.Where((_w) => _w.Camera_1.Calibration_Image != null).ToList().Count > 10)
                                 {
-                                    User_Log_Add("进行相机："+ _Load_Type .ToString()+ " 标定！", Log_Show_Window_Enum.Calibration);
+
+                                    switch (_Load_Type)
+                                    {
+
+                                        case Calibration_Load_Type_Enum.Camera_0:
+
+
+                                            if (Calibration_List.Where((_w) => _w.Camera_0.Calibration_Image != null).ToList().Count > 10)
+                                            {
+                                                User_Log_Add("进行相机：" + _Load_Type.ToString() + " 标定！", Log_Show_Window_Enum.Calibration);
+
+                                                Calibration_Results_0_State = true;
+
+
+                                            }
+                                            else
+                                            {
+                                                throw new Exception(_Load_Type.ToString() + " : 标定图像必须大于10张！");
+
+                                            }
+
+                                            break;
+                                        case Calibration_Load_Type_Enum.Camera_1:
+
+
+
+                                            if (Calibration_List.Where((_w) => _w.Camera_1.Calibration_Image != null).ToList().Count > 10)
+                                            {
+                                                User_Log_Add("进行相机：" + _Load_Type.ToString() + " 标定！", Log_Show_Window_Enum.Calibration);
+
+                                                Calibration_Results_1_State = true;
+
+
+                                            }
+                                            else
+                                            {
+                                                throw new Exception(_Load_Type.ToString() + " : 标定图像必须大于10张！");
+
+                                            }
+
+                                            break;
+
+                                    }
+
+
 
 
                                     All_Camera_Results = Cailbration_Camera_Method(All_Camera_Results, _Load_Type);
 
-                                    User_Log_Add("相机："+_Load_Type.ToString ()+" 标定完成！", Log_Show_Window_Enum.Calibration, MessageBoxImage.Question);
+                                    User_Log_Add("相机：" + _Load_Type.ToString() + " 标定完成！", Log_Show_Window_Enum.Calibration, MessageBoxImage.Question);
 
 
                                 }
                                 else
                                 {
-                                    User_Log_Add(_Load_Type + " : 标定有效图像列表必须大于10张", Log_Show_Window_Enum.Calibration);
+
+
+                                    throw new Exception(_Load_Type.ToString() + " : 标定图像必须大于10张！");
+
 
                                 }
 
                             }
 
 
-
-
                         }
                         else
                         {
-                            User_Log_Add("标定图像必须大于10张！", Log_Show_Window_Enum.Calibration, MessageBoxImage.Error);
-
-                      
+                            throw new Exception(_Load_Type.ToString() + " : 标定图像必须大于10张！");
 
                         }
+
+
+
 
 
                         ////赋值回程序
@@ -182,7 +233,8 @@ namespace HanGao.ViewModel
 
                         //复位标定数据状态
                         Calibration_Results_State_Val = 100;
-                        Calibration_Results_State = false;
+                        Calibration_Results_0_State = false;
+                        Calibration_Results_1_State = false;
                     }
 
 
@@ -212,29 +264,29 @@ namespace HanGao.ViewModel
                         case Calibration_File_Name_Enum.Camera_0_Save:
 
 
-                            if (All_Camera_Results.Camera_0_Results.Result_Error_Val>0)
+                            if (All_Camera_Results.Camera_0_Results.Result_Error_Val > 0)
                             {
 
 
-                            if (All_Camera_Results.Camera_0_Results.Checked_SaveFile())
-                            {
+                                if (All_Camera_Results.Camera_0_Results.Checked_SaveFile())
+                                {
 
-                                if (MessageBox.Show("相机标定文件：" + All_Camera_Results.Camera_0_Results.Calibration_Name + " 已存在，是否覆盖？", "标定提示", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.OK)
+                                    if (MessageBox.Show("相机标定文件：" + All_Camera_Results.Camera_0_Results.Calibration_Name + " 已存在，是否覆盖？", "标定提示", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.OK)
+                                    {
+
+                                        Save_Calibration_Results_File(All_Camera_Results.Camera_0_Results.Save_File_Address, All_Camera_Results.Camera_0_Results.Camera_Result_Pama.HCamPar);
+                                    }
+
+
+                                }
+                                else
                                 {
 
                                     Save_Calibration_Results_File(All_Camera_Results.Camera_0_Results.Save_File_Address, All_Camera_Results.Camera_0_Results.Camera_Result_Pama.HCamPar);
+
+                                    User_Log_Add("相机标定文件：" + All_Camera_Results.Camera_0_Results.Calibration_Name + " 已保存！", Log_Show_Window_Enum.Calibration, MessageBoxImage.Question);
+
                                 }
-
-
-                            }
-                            else
-                            {
-
-                                Save_Calibration_Results_File(All_Camera_Results.Camera_0_Results.Save_File_Address, All_Camera_Results.Camera_0_Results.Camera_Result_Pama.HCamPar);
-
-                                User_Log_Add("相机标定文件：" + All_Camera_Results.Camera_0_Results.Calibration_Name + " 已保存！", Log_Show_Window_Enum.Calibration, MessageBoxImage.Question);
-
-                            }
 
 
                             }
@@ -252,25 +304,25 @@ namespace HanGao.ViewModel
                             {
 
 
-                            if (All_Camera_Results.Camera_1_Results.Checked_SaveFile())
-                            {
-
-                                if (MessageBox.Show("相机标定文件：" + All_Camera_Results.Camera_1_Results.Calibration_Name + " 已存在，是否覆盖？", "标定提示", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.OK)
+                                if (All_Camera_Results.Camera_1_Results.Checked_SaveFile())
                                 {
 
-                                    Save_Calibration_Results_File(All_Camera_Results.Camera_1_Results.Save_File_Address, All_Camera_Results.Camera_1_Results.Camera_Result_Pama.HCamPar);
+                                    if (MessageBox.Show("相机标定文件：" + All_Camera_Results.Camera_1_Results.Calibration_Name + " 已存在，是否覆盖？", "标定提示", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.OK)
+                                    {
+
+                                        Save_Calibration_Results_File(All_Camera_Results.Camera_1_Results.Save_File_Address, All_Camera_Results.Camera_1_Results.Camera_Result_Pama.HCamPar);
+                                    }
+
+
                                 }
+                                else
+                                {
+                                    Save_Calibration_Results_File(All_Camera_Results.Camera_1_Results.Save_File_Address, All_Camera_Results.Camera_1_Results.Camera_Result_Pama.HCamPar);
 
 
-                            }
-                            else
-                            {
-                                Save_Calibration_Results_File(All_Camera_Results.Camera_1_Results.Save_File_Address, All_Camera_Results.Camera_1_Results.Camera_Result_Pama.HCamPar);
+                                    User_Log_Add("相机标定文件：" + All_Camera_Results.Camera_1_Results.Calibration_Name + " 已保存！", Log_Show_Window_Enum.Calibration, MessageBoxImage.Question);
 
-
-                                User_Log_Add("相机标定文件：" + All_Camera_Results.Camera_1_Results.Calibration_Name + " 已保存！", Log_Show_Window_Enum.Calibration, MessageBoxImage.Question);
-
-                            }
+                                }
 
                             }
                             else
@@ -460,7 +512,6 @@ namespace HanGao.ViewModel
 
                                         _Imge = Calibration_List[i].Camera_0.Calibration_Image;
 
-
                                         break;
                                     case Calibration_Load_Type_Enum.Camera_1:
 
@@ -538,7 +589,7 @@ namespace HanGao.ViewModel
                             }
 
                         }
-                      
+
 
 
 
@@ -719,7 +770,7 @@ namespace HanGao.ViewModel
 
 
 
-               
+
 
 
                 return _All_Camera_Results;
@@ -768,7 +819,7 @@ namespace HanGao.ViewModel
                         //使用双相机标定
                         _camera_number = 2;
                         //读取标定相机数量
-         
+
                         //初始化标定相机数量
                         _CalibSetup_ID = new HCalibData(Halcon_Calibration_Setup.Calibration_Setup_Model.ToString(), _camera_number, 1);
                         //设置校准对象描述文件
@@ -777,7 +828,7 @@ namespace HanGao.ViewModel
 
 
                         //设置使用的摄像机类型
-                 
+
                         //创建相机参数
                         HCamPar Camera_CamPar_0 = new HCamPar(Get_Cailbration_Camera_Param(Camera_Calibration_Paramteters_0));
 
@@ -848,9 +899,9 @@ namespace HanGao.ViewModel
             {
 
 
-            
 
-                throw new Exception(HVE_Result_Enum.创建标定相机错误.ToString() +"！" +_he.Message);
+
+                throw new Exception(HVE_Result_Enum.创建标定相机错误.ToString() + "！" + _he.Message);
             }
 
         }
