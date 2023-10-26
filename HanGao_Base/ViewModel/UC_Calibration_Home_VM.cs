@@ -70,13 +70,13 @@ namespace HanGao.ViewModel
 
 
 
-        public HTuple Pose_Out_3D_Results { set; get; } = new HTuple();
+        //public HTuple Pose_Out_3D_Results { set; get; } = new HTuple();
 
 
         //public static Task DisPlay_Task { set; get; } = new Task(() => Display_3D_Task(new Display3DModel_Model()));
 
 
-        public static Halcon_Examples HExamples { set; get; }
+        //public static Halcon_Examples HExamples { set; get; }
 
         /// <summary>
         /// 三维可视乎属性
@@ -255,6 +255,8 @@ namespace HanGao.ViewModel
 
                 //可视化显示
                 HDisplay_3D = new H3D_Model_Display(Calibration_3D_Results);
+
+
 
                 //设置消息显示委托
                 HDisplay_3D.H3D_Display_Message_delegate += (_E) =>
