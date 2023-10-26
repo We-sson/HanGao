@@ -1,9 +1,11 @@
 ﻿using Generic_Extension;
 using Halcon_SDK_DLL.Model;
+using HalconDotNet;
 using MvCamCtrl.NET;
 using MvCamCtrl.NET.CameraParams;
 using PropertyChanged;
 using System;
+using System.IO;
 using System.Runtime.InteropServices;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
@@ -209,8 +211,8 @@ namespace MVS_SDK_Base.Model
             /// 每个帧突发开始触发信号采集的帧数、整数类型——默认1，最大1023
             /// </summary>
             [StringValue("设置每个帧突发开始触发信号采集的帧数失败")]
-            [Camera_ReadWrite(Camera_Parameter_RW_Type.Write )]
-            public bool  AcquisitionFrameRateEnable { set; get; } = true ;
+            [Camera_ReadWrite(Camera_Parameter_RW_Type.Write)]
+            public bool AcquisitionFrameRateEnable { set; get; } = true;
             /// <summary>
             /// 曝光模式定时时的曝光时间
             /// </summary>
@@ -375,11 +377,11 @@ namespace MVS_SDK_Base.Model
             public double Calibrated_Accuracy { set; get; } = 0.00;
 
 
-  
+
             /// <summary>
             /// 标定结状态
             /// </summary>
-            public Camera_Calibration_Results_Type_Enum Camera_Calibration_State { set; get; } = Camera_Calibration_Results_Type_Enum.None;
+            public Camera_Calibration_File_Type_Enum Camera_Calibration_State { set; get; } = Camera_Calibration_File_Type_Enum.无;
 
 
             /// <summary>
@@ -410,7 +412,7 @@ namespace MVS_SDK_Base.Model
         /// 读取相机信息模型
         /// </summary>
         [AddINotifyPropertyChangedInterface]
-        public class Get_Camera_Info_Model 
+        public class Get_Camera_Info_Model
         {
 
 
@@ -520,6 +522,10 @@ namespace MVS_SDK_Base.Model
                     //转换
                     CGigECamera = _Camera as CGigECameraInfo;
                 }
+
+                Get_HCamPar_File();
+
+
             }
             public MVS_Camera_Info_Model()
             {
@@ -531,12 +537,12 @@ namespace MVS_SDK_Base.Model
             /// <summary>
             /// 读取相机信息
             /// </summary>
-            public Get_Camera_Info_Model Camera_Info { set; get; }=new Get_Camera_Info_Model();
+            public Get_Camera_Info_Model Camera_Info { set; get; } = new Get_Camera_Info_Model();
 
             /// <summary>
             /// 相机标定属性
             /// </summary>
-            public Camera_Calibration_Info_Model Camera_Calibration { set; get; }=new Camera_Calibration_Info_Model ();
+            public Camera_Calibration_Info_Model Camera_Calibration { set; get; } = new Camera_Calibration_Info_Model();
 
 
 
@@ -562,7 +568,7 @@ namespace MVS_SDK_Base.Model
 
 
 
-         
+
 
 
             /// <summary>
@@ -616,6 +622,47 @@ namespace MVS_SDK_Base.Model
             }
 
 
+            ///// <summary>
+            ///// 相机对应内参
+            ///// </summary>
+            //public HCamPar HCamera_Param { set; get; } = new HCamPar();
+
+
+            public  bool Get_HCamPar_File()
+            {
+                try
+                {
+
+                    string _File = Directory.GetCurrentDirectory() + "\\Calibration_File\\" + Camera_Info.SerialNumber + ".dat";
+
+                    if (File.Exists(_File))
+                    {
+
+                       
+                        HCamPar _CamP=  new HCamPar();
+                        _CamP.ReadCamPar(_File);
+                        Camera_Calibration.Camera_Calibration_Paramteters = new Halcon_Camera_Calibration_Parameters_Model(_CamP);
+                        Camera_Calibration.Camera_Calibration_State = Camera_Calibration_File_Type_Enum.内参标定;
+
+
+                        return true;
+
+                    }
+
+
+
+                    //throw new Exception(Camera_Info.SerialNumber + "：相机没有内参信息，请把内参文件存放在："+_File);
+                    return false;
+
+
+                }
+                catch (Exception _e)
+                {
+
+                    throw new Exception(Camera_Info.SerialNumber + "：相机内参读取失败！原因：" + _e.Message);
+                }
+
+            }
         }
 
 
@@ -805,12 +852,12 @@ namespace MVS_SDK_Base.Model
     /// <summary>
     /// 标定选择相机主副关系
     /// </summary>
-    public  enum Camera_Calibration_MainOrSubroutine_Type_Enum
+    public enum Camera_Calibration_MainOrSubroutine_Type_Enum
     {
         /// <summary>
         /// 不标定时为空
         /// </summary>
-        None=-1,
+        None = -1,
         /// <summary>
         /// 标定主相机
         /// </summary>
@@ -841,5 +888,14 @@ namespace MVS_SDK_Base.Model
     }
 
 
+    /// <summary>
+    /// 相机标定文件类别枚举
+    /// </summary>
+    public enum Camera_Calibration_File_Type_Enum
+    {
+        无,
+        内参标定,
+        双目标定,
+    }
 
 }

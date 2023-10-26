@@ -114,51 +114,15 @@ namespace Halcon_SDK_DLL
 
                 HCameraSetupModel _HCam = new HCameraSetupModel(_HCamera.H);
                 //
-                HTuple _Camera_Param = _HCam.GetCameraSetupParam(_CameraID, "params");
+                HCamPar _Camera_Param =new HCamPar (  _HCam.GetCameraSetupParam(_CameraID, "params"));
 
                 //HTuple _Camera_Param_Labels = _HCam.GetCameraSetupParam(_CameraID, "params_labels");
 
 
-                Halcon_Camera_Calibration_Parameters_Model _Param = new Halcon_Camera_Calibration_Parameters_Model();
+                Halcon_Camera_Calibration_Parameters_Model _Param = new Halcon_Camera_Calibration_Parameters_Model(_Camera_Param);
 
 
-                switch (Enum.Parse<Halocn_Camera_Calibration_Enum>(_Camera_Param.TupleSelect(0)))
-                {
-                    case Halocn_Camera_Calibration_Enum.area_scan_division:
-                        _Param.Camera_Calibration_Model = Halocn_Camera_Calibration_Enum.area_scan_division;
-                        _Param.Focus = _Camera_Param.TupleSelect(1) * 1000;
-                        _Param.Kappa = _Camera_Param.TupleSelect(2);
-                        _Param.Sx = _Camera_Param.TupleSelect(3) * 1000000;
-                        _Param.Sy = _Camera_Param.TupleSelect(4) * 1000000;
-                        _Param.Cx = _Camera_Param.TupleSelect(5);
-                        _Param.Cy = _Camera_Param.TupleSelect(6);
-                        _Param.Image_Width = _Camera_Param.TupleSelect(7);
-                        _Param.Image_Height = _Camera_Param.TupleSelect(8);
-                        _Param.HCamPar = new HCamPar(_Camera_Param);
-
-                        break;
-
-
-                    case Halocn_Camera_Calibration_Enum.area_scan_polynomial:
-                        _Param.Camera_Calibration_Model = Halocn_Camera_Calibration_Enum.area_scan_polynomial;
-                        _Param.Focus = _Camera_Param.TupleSelect(1) * 1000;
-                        _Param.K1 = _Camera_Param.TupleSelect(2);
-                        _Param.K2 = _Camera_Param.TupleSelect(3);
-                        _Param.K3 = _Camera_Param.TupleSelect(4);
-                        _Param.P1 = _Camera_Param.TupleSelect(5);
-                        _Param.P2 = _Camera_Param.TupleSelect(6);
-                        _Param.Sx = _Camera_Param.TupleSelect(7) * 1000000;
-                        _Param.Sy = _Camera_Param.TupleSelect(8) * 1000000;
-                        _Param.Cx = _Camera_Param.TupleSelect(9);
-                        _Param.Cy = _Camera_Param.TupleSelect(10);
-                        _Param.Image_Width = _Camera_Param.TupleSelect(11);
-                        _Param.Image_Height = _Camera_Param.TupleSelect(12);
-                        _Param.HCamPar = new HCamPar(_Camera_Param);
-
-                        break;
-
-                }
-
+            
                 return _Param;
 
 

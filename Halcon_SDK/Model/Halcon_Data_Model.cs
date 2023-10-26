@@ -4,9 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Net;
 using System.Windows.Media.Media3D;
-using System.Xml.Linq;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
 namespace Halcon_SDK_DLL.Model
@@ -541,13 +539,75 @@ namespace Halcon_SDK_DLL.Model
             {
 
             }
+            public Halcon_Camera_Calibration_Parameters_Model(HCamPar hCamPar)
+            {
+                HCamPar = hCamPar;
+
+
+                switch (Enum.Parse<Halocn_Camera_Calibration_Enum>(hCamPar[0]))
+                {
+                    case Halocn_Camera_Calibration_Enum.area_scan_division:
+                        Camera_Calibration_Model = Halocn_Camera_Calibration_Enum.area_scan_division;
+                        Focus = hCamPar[1] * 1000;
+                        Kappa = hCamPar[2];
+                        Sx = hCamPar[3] * 1000000;
+                        Sy = hCamPar[4] * 1000000;
+                        Cx = hCamPar[5];
+                        Cy = hCamPar[6];
+                        Image_Width = hCamPar[7];
+                        Image_Height = hCamPar[8];
+
+                        break;
+
+
+                    case Halocn_Camera_Calibration_Enum.area_scan_polynomial:
+                        Camera_Calibration_Model = Halocn_Camera_Calibration_Enum.area_scan_polynomial;
+                        Focus = hCamPar[1] * 1000;
+                       K1 = hCamPar[2];
+                        K2 = hCamPar[3];
+                        K3 = hCamPar[4];
+                        P1 = hCamPar[5];
+                        P2 = hCamPar[6];
+                        Sx = hCamPar[7] * 1000000;
+                        Sy = hCamPar[8] * 1000000;
+                        Cx = hCamPar[9];
+                        Cy = hCamPar[10];
+                        Image_Width = hCamPar[11];
+                        Image_Height = hCamPar[12];
+
+                        break;
+
+                }
+
+
+                //Camera_Calibration_Model = hCamPar[0];
+                //Sy = sy;
+                //Sx = sx;
+                //Focus = focus;
+                //Kappa = kappa;
+                //K1 = k1;
+                //K2 = k2;
+                //K3 = k3;
+                //P1 = p1;
+                //P2 = p2;
+                //Cy = cy;
+                //Cx = cx;
+                //Image_Width = image_Width;
+                //Image_Height = image_Height;
+            }
+
 
 
             /// <summary>
             /// 标定内参参数变量
             /// </summary>
-            public HCamPar HCamPar { set; get; } = new HCamPar();
+            private HCamPar _HCamPar = new HCamPar();
 
+            public HCamPar HCamPar
+            {
+                get { return _HCamPar; }
+                set { _HCamPar = value; }
+            }
 
             public Halcon_Camera_Calibration_Parameters_Model(Halcon_Camera_Calibration_Parameters_Model _Parameters_Model)
             {
@@ -796,8 +856,8 @@ namespace Halcon_SDK_DLL.Model
             {
                 _Result_Error_Info = value;
 
-                HVS_ErrorInfo_delegate(GetResult_Info());
 
+                HVS_ErrorInfo_delegate?.Invoke(GetResult_Info());
             }
         }
 
@@ -947,7 +1007,7 @@ namespace Halcon_SDK_DLL.Model
         public bool Checked_SaveFile()
         {
 
-            
+
             ////检查文件夹，创建
             if (!Directory.Exists(Result_Fold_Address)) Directory.CreateDirectory(Result_Fold_Address);
 

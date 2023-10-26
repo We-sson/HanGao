@@ -550,10 +550,15 @@ namespace MVS_SDK
                     //获得图像最大像素
                     _Select_Camera.Camera_Info.HeightMax = _Parameter.HeightMax;
                     _Select_Camera.Camera_Info.WidthMax = _Parameter.WidthMax;
+
+                    if (_Select_Camera.Camera_Calibration.Camera_Calibration_State== Camera_Calibration_File_Type_Enum.无)
+                    {
                     _Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.Image_Width = _Parameter.WidthMax;
                     _Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.Image_Height = _Parameter.HeightMax;
                     _Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.Cx= _Parameter.WidthMax*0.5;
                     _Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.Cy= _Parameter.HeightMax*0.5;
+                    }
+
                     //标记相机连接成功
                     _Select_Camera.Camer_Status = MV_CAM_Device_Status_Enum.Connecting;
                     return new MPR_Status_Model(MVE_Result_Enum.Run_OK);

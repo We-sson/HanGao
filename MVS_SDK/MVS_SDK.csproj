@@ -11,6 +11,9 @@
     <RootNamespace>MVS_SDK_Base</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="halcondotnet">
+      <HintPath>..\Halcon_SDK\halcondotnet.dll</HintPath>
+    </Reference>
     <Reference Include="MvCamCtrl.Net, Version=4.0.0.4, Culture=neutral, PublicKeyToken=52fddfb3f94be800, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\MvCamCtrl.Net.dll</HintPath>
@@ -32,7 +35,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="PropertyChanged.Fody" Version="4.1.0"  PrivateAssets="All" />
+    <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" PrivateAssets="All" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
   </ItemGroup>
   <ProjectExtensions>

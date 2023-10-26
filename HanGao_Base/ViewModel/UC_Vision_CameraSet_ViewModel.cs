@@ -58,11 +58,7 @@ namespace HanGao.ViewModel
             });
 
 
-            ECameraInfo_List.CollectionChanged += (e, o) =>
-            {
-
-
-            };
+    
 
 
             Initialization_Camera_Thread();
@@ -137,12 +133,6 @@ namespace HanGao.ViewModel
             }
         }
 
-        /// <summary>
-        ///  用户选择相机对象
-        /// </summary>
-        //public static MVS MVS_Camera { set; get; } = new MVS();
-
-        private static ObservableCollection<CGigECameraInfo> ECameraInfo_List { set; get; } = new ObservableCollection<CGigECameraInfo>();
 
 
         /// <summary>
@@ -238,10 +228,19 @@ namespace HanGao.ViewModel
                         {
                             E.IsChecked = false;
                         }
+
+
+                        User_Log_Add("开启实时相机图像成功！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+
+
                     }
                     else if ((bool)E.IsChecked == false)
                     {
                         _State = MVS.StopGrabbing(Select_Camera);
+
+                        User_Log_Add("关闭实时相机图像！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+
+
                     }
 
                 }
@@ -249,7 +248,7 @@ namespace HanGao.ViewModel
                 {
 
                     E.IsChecked = false;
-                    User_Log_Add("开启实时相机失败！" + _e.Message, Log_Show_Window_Enum.Calibration, MessageBoxImage.Error);
+                    User_Log_Add("开启实时相机失败！原因：" + _e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
 
                 }
 
@@ -422,9 +421,24 @@ namespace HanGao.ViewModel
                 Task.Run(() =>
                 {
 
+                    try
+                    {
+
+
                     HImage _Image = new HImage();
 
                     Get_Image(ref _Image, Get_Image_Model_Enum.相机采集, Select_Camera.Show_Window);
+
+                    User_Log_Add(Select_Camera.Camera_Info.SerialNumber.ToString() + "相机采集图像成功到窗口："+ Select_Camera.Show_Window, Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+
+                    }
+                    catch (Exception _e)
+                    {
+
+                    User_Log_Add(Select_Camera.Camera.ToString() + "相机采集图像失败！原因："+_e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+
+                    }
+
                 });
 
 
@@ -579,7 +593,7 @@ namespace HanGao.ViewModel
                     _Window.DispObj(_HImage);
 
 
-                    User_Log_Add(Select_Camera.Camera.ToString() + "相机图像采集成功！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+                    //User_Log_Add(Select_Camera.Camera.ToString() + "相机图像采集成功！", Log_Show_Window_Enum.Home);
 
 
                     return true;
@@ -720,6 +734,7 @@ namespace HanGao.ViewModel
                 {
                     case Camera_Calibration_MainOrSubroutine_Type_Enum.Main:
                         Camera_Calibration_Paramteters_0 = new Halcon_Camera_Calibration_Parameters_Model(_Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters);
+
 
                         break;
                     case Camera_Calibration_MainOrSubroutine_Type_Enum.Subroutine:

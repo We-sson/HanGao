@@ -496,7 +496,7 @@
                                                VerticalAlignment="Center"
                                                Source="/Resources/Vision_标定图标.png" />
                                     </Border>
-                                    <TextBlock Text="相机_1内参结果"
+                                    <TextBlock Text="相机 0 内参结果"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -1436,7 +1436,7 @@
                                                VerticalAlignment="Center"
                                                Source="/Resources/Vision_标定图标.png" />
                                     </Border>
-                                    <TextBlock Text="相机_2内参结果"
+                                    <TextBlock Text="相机 1 内参结果"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                FontFamily="{DynamicResource 全局_文字_数字字体}"
