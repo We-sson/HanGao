@@ -520,26 +520,6 @@ namespace HanGao.ViewModel
             HOperatorSet.SetSystem("flush_graphic", "true");
         }
 
-
-
-
-        //private static void Display_3D_Task(Display3DModel_Model _3DModel)
-        //{
-        //    HTuple _PoseOut = new HTuple();
-
-        //    HExamples.Visualize_object_model_3d(Calibration_3D_Results.HWindow,
-        //                                                                        _3DModel._ObjectModel3D,
-        //                                                                        new HTuple(),
-        //                                                                        _3DModel._PoseIn,
-        //                                                                        _3DModel._GenParamName,
-        //                                                                        _3DModel._GenParamValue,
-        //                                                                        new HTuple(),
-        //                                                                        new HTuple(),
-        //                                                                        new HTuple(),
-        //                                                                        out _PoseOut);
-        //}
-
-
         /// <summary>
         /// 三维模型显示
         /// </summary>
