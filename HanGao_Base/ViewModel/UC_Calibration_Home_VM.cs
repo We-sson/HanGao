@@ -1,4 +1,5 @@
-﻿using Halcon_SDK_DLL.Halcon_Examples_Method;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Halcon_SDK_DLL.Halcon_Examples_Method;
 using HalconDotNet;
 using HanGao.View.User_Control.Vision_Calibration;
 using Kitware.VTK;
@@ -39,7 +40,7 @@ namespace HanGao.ViewModel
 
             });
 
-
+      
 
 
         }
@@ -66,7 +67,7 @@ namespace HanGao.ViewModel
 
 
 
-        public static Halcon_SDK Calibration_3D_Results { set; get; } = new Halcon_SDK();
+        public  Halcon_SDK Calibration_3D_Results { set; get; } = new Halcon_SDK();
 
 
 
@@ -189,6 +190,31 @@ namespace HanGao.ViewModel
             });
         }
 
+
+        /// <summary>
+        /// 初始化窗口控件
+        /// </summary>
+        public ICommand Closed_Window_Dsipos_Comm
+        {
+            get => new RelayCommand<EventArgs>((Sm) =>
+            {
+                //HSmartWindowControlWPF Window_UserContol = Sm.Source as HSmartWindowControlWPF;
+
+
+                StrongReferenceMessenger.Default.Unregister<Display3DModel_Model, string>(this, nameof(Meg_Value_Eunm.Display_3DModel));
+                StrongReferenceMessenger.Default.Unregister<DisplayHObject_Model, string>(this, nameof(Meg_Value_Eunm.DisplayHObject));
+
+
+               HDisplay_3D.Dispose();
+                Calibration_Window_1.Dispose();
+                Calibration_Window_2.Dispose();
+                Calibration_3D_Results.Dispose();
+
+            });
+        }
+
+
+
         /// <summary>
         /// 初始化Halcon窗口控件
         /// </summary>
@@ -283,6 +309,7 @@ namespace HanGao.ViewModel
                 // Create components of the rendering subsystem
                 // // 创建渲染子系统的组件
                 vtkRenderer renderer = Window_UserContol.Model_3D_Display.RenderWindow.GetRenderers().GetFirstRenderer();
+            
                 renderer.SetBackground(.2, .3, .4);
 
                 // Add the actors to the renderer, set the window size

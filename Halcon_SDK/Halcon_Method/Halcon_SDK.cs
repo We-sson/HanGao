@@ -48,7 +48,7 @@ namespace Halcon_SDK_DLL
         /// <summary>
         /// 当前匹配文件存档
         /// </summary>
-        public static Match_Models_List_Model Match_Models { set; get; }
+        //public static Match_Models_List_Model Match_Models { set; get; }
 
         /// <summary>
         /// 设置显示参数
@@ -165,6 +165,11 @@ namespace Halcon_SDK_DLL
 
                 return new HPR_Status_Model<bool>(HVE_Result_Enum.保存矩阵文件失败) { Result_Error_Info = e.Message };
             }
+            finally
+            {
+                _HomMatID.Dispose();
+                _FileHandle.Dispose();
+            }
 
 
         }
@@ -179,15 +184,15 @@ namespace Halcon_SDK_DLL
         public static HPR_Status_Model<bool> Read_Mat2d_Method(ref HTuple _Mat2D, string Vision_Area, string Work_Area)
         {
 
+                HTuple _FileHandle = new HTuple();
+
+                HTuple _HomMatID = new HTuple();
 
 
             try
             {
 
 
-                HTuple _FileHandle = new HTuple();
-
-                HTuple _HomMatID = new HTuple();
 
                 //打开文件
                 string _Path = Directory.GetCurrentDirectory() + "\\Nine_Calibration\\" + Vision_Area + "_" + Work_Area;
@@ -209,6 +214,11 @@ namespace Halcon_SDK_DLL
             {
                 return new HPR_Status_Model<bool>(HVE_Result_Enum.读取矩阵文件失败) { Result_Error_Info = e.Message };
 
+            }
+            finally
+            {
+                _FileHandle.Dispose();
+                _HomMatID.Dispose();
             }
 
 
@@ -290,6 +300,15 @@ namespace Halcon_SDK_DLL
             catch (Exception e)
             {
                 return new HPR_Status_Model<bool>(HVE_Result_Enum.计算实际误差失败) { Result_Error_Info = e.Message };
+            }
+            finally
+            {
+                Calibration_RowLine.Dispose();
+                Calibration_ColLine.Dispose();
+                Robot_RowLine.Dispose();
+                Robot_ColLine.Dispose();
+                _Qx.Dispose();
+                _Qy.Dispose();
             }
 
 
@@ -395,39 +414,7 @@ namespace Halcon_SDK_DLL
 
 
 
-        /// <summary>
-        /// 海康获取图像指针转换Halcon图像
-        /// </summary>
-        /// <param name="_Width"></param>
-        /// <param name="_Height"></param>
-        /// <param name="_pData"></param>
-        /// <returns></returns>
-        //public static HPR_Status_Model<bool> Mvs_To_Halcon_Image(ref HImage image, int _Width, int _Height, IntPtr _pData)
-        //{
-
-        //    try
-        //    {
-
-        //        image.Dispose();
-        //        //转换halcon图像格式
-        //        image.GenImage1("byte", _Width, _Height, _pData);
-
-        //        //HOperatorSet.GenImage1(out image, "byte", _Width, _Height, _pData);
-
-        //        return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK);
-
-        //    }
-        //    catch (Exception e)
-        //    {
-
-        //        return new HPR_Status_Model<bool>(HVE_Result_Enum.Halcon转换海康图像错误) { Result_Error_Info = e.Message };
-
-        //    }
-
-
-
-        //}
-
+ 
         /// <summary>
         /// 海康获取图像指针转换Halcon图像
         /// </summary>
@@ -664,6 +651,10 @@ namespace Halcon_SDK_DLL
                 return new HPR_Status_Model<bool>(HVE_Result_Enum.标定查找9点位置区域失败) { Result_Error_Info = e.Message };
 
             }
+            finally
+            {
+                _Image.Dispose();
+            }
 
         }
 
@@ -862,6 +853,11 @@ namespace Halcon_SDK_DLL
                 return new HPR_Status_Model<bool>(HVE_Result_Enum.添加圆弧类型失败) { Result_Error_Info = e.Message };
 
             }
+            finally
+            {
+                _Row.Dispose();
+                _Col.Dispose();
+            }
         }
 
 
@@ -935,6 +931,11 @@ namespace Halcon_SDK_DLL
                 return new HPR_Status_Model<bool>(HVE_Result_Enum.添加直线类型失败) { Result_Error_Info = e.Message };
 
             }
+            finally
+            {
+                _Row.Dispose();
+                _Col.Dispose();
+            }
 
 
 
@@ -1005,6 +1006,12 @@ namespace Halcon_SDK_DLL
             //_Image.Dispose();
             GC.Collect();
             GC.SuppressFinalize(this);
+
+            HWindow.Dispose();
+            Halcon_UserContol.Dispose();
+            DisplayImage?.Dispose();
+            DisplayRegion?.Dispose();
+            DisplayXLD?.Dispose();
         }
     }
 
@@ -1100,6 +1107,13 @@ namespace Halcon_SDK_DLL
                 _CalibXLD.Dispose();
                 _CalibCoord.Dispose();
                 throw new HalconException(HVE_Result_Enum.标定板图像识别错误.ToString() +" 原因："+ e.Message);
+            }
+            finally
+            {
+                hv_Row.Dispose();
+                hv_Column.Dispose();
+                hv_I.Dispose();
+                hv_Pose.Dispose();
             }
 
 
@@ -1243,6 +1257,10 @@ namespace Halcon_SDK_DLL
                 return new HPR_Status_Model<bool>(HVE_Result_Enum.图像预处理错误) { Result_Error_Info = e.Message };
 
 
+            }
+            finally
+            {
+                _Image.Dispose();
             }
 
 
@@ -2803,31 +2821,7 @@ namespace Halcon_SDK_DLL
                 //检查 Pose 是否为正确的姿势元组。
                 if ((int)(new HTuple((new HTuple(hv_Pose.TupleLength())).TupleNotEqual(7))) != 0)
                 {
-                    ho_Arrows.Dispose();
-
-                    hv_CameraType.Dispose();
-                    hv_IsTelecentric.Dispose();
-                    hv_TransWorld2Cam.Dispose();
-                    hv_OrigCamX.Dispose();
-                    hv_OrigCamY.Dispose();
-                    hv_OrigCamZ.Dispose();
-                    hv_Row0.Dispose();
-                    hv_Column0.Dispose();
-                    hv_X.Dispose();
-                    hv_Y.Dispose();
-                    hv_Z.Dispose();
-                    hv_RowAxX.Dispose();
-                    hv_ColumnAxX.Dispose();
-                    hv_RowAxY.Dispose();
-                    hv_ColumnAxY.Dispose();
-                    hv_RowAxZ.Dispose();
-                    hv_ColumnAxZ.Dispose();
-                    hv_Distance.Dispose();
-                    hv_HeadLength.Dispose();
-                    hv_Red.Dispose();
-                    hv_Green.Dispose();
-                    hv_Blue.Dispose();
-
+ 
                     return;
                 }
                 hv_CameraType.Dispose();
@@ -2846,30 +2840,7 @@ namespace Halcon_SDK_DLL
                     //用于投影式摄像机：
                     //不能投射 Z 位置为零的姿势
                     //这将导致除以零的错误）。
-                    ho_Arrows.Dispose();
 
-                    hv_CameraType.Dispose();
-                    hv_IsTelecentric.Dispose();
-                    hv_TransWorld2Cam.Dispose();
-                    hv_OrigCamX.Dispose();
-                    hv_OrigCamY.Dispose();
-                    hv_OrigCamZ.Dispose();
-                    hv_Row0.Dispose();
-                    hv_Column0.Dispose();
-                    hv_X.Dispose();
-                    hv_Y.Dispose();
-                    hv_Z.Dispose();
-                    hv_RowAxX.Dispose();
-                    hv_ColumnAxX.Dispose();
-                    hv_RowAxY.Dispose();
-                    hv_ColumnAxY.Dispose();
-                    hv_RowAxZ.Dispose();
-                    hv_ColumnAxZ.Dispose();
-                    hv_Distance.Dispose();
-                    hv_HeadLength.Dispose();
-                    hv_Red.Dispose();
-                    hv_Green.Dispose();
-                    hv_Blue.Dispose();
 
                     return;
                 }
@@ -2958,35 +2929,19 @@ namespace Halcon_SDK_DLL
                 //HOperatorSet.SetRgb(hv_WindowHandle, hv_Red, hv_Green, hv_Blue);
                 //ho_Arrows.Dispose();
 
-                hv_CameraType.Dispose();
-                hv_IsTelecentric.Dispose();
-                hv_TransWorld2Cam.Dispose();
-                hv_OrigCamX.Dispose();
-                hv_OrigCamY.Dispose();
-                hv_OrigCamZ.Dispose();
-                hv_Row0.Dispose();
-                hv_Column0.Dispose();
-                hv_X.Dispose();
-                hv_Y.Dispose();
-                hv_Z.Dispose();
-                hv_RowAxX.Dispose();
-                hv_ColumnAxX.Dispose();
-                hv_RowAxY.Dispose();
-                hv_ColumnAxY.Dispose();
-                hv_RowAxZ.Dispose();
-                hv_ColumnAxZ.Dispose();
-                hv_Distance.Dispose();
-                hv_HeadLength.Dispose();
-                hv_Red.Dispose();
-                hv_Green.Dispose();
-                hv_Blue.Dispose();
+
 
                 return;
             }
-            catch (HalconException)
+            catch (HalconException _e)
             {
-                ho_Arrows.Dispose();
 
+                new Exception("计算中心坐标失败！原因：" + _e.Message);
+                //throw HDevExpDefaultException;
+            }
+            finally
+            {
+                
                 hv_CameraType.Dispose();
                 hv_IsTelecentric.Dispose();
                 hv_TransWorld2Cam.Dispose();
@@ -3009,8 +2964,7 @@ namespace Halcon_SDK_DLL
                 hv_Red.Dispose();
                 hv_Green.Dispose();
                 hv_Blue.Dispose();
-
-                //throw HDevExpDefaultException;
+            
             }
         }
 
@@ -3159,22 +3113,17 @@ namespace Halcon_SDK_DLL
                         ho_Arrow = ExpTmpOutVar_0;
                     }
                 }
-                ho_TempArrow.Dispose();
 
-                hv_Length.Dispose();
-                hv_ZeroLengthIndices.Dispose();
-                hv_DR.Dispose();
-                hv_DC.Dispose();
-                hv_HalfHeadWidth.Dispose();
-                hv_RowP1.Dispose();
-                hv_ColP1.Dispose();
-                hv_RowP2.Dispose();
-                hv_ColP2.Dispose();
-                hv_Index.Dispose();
 
                 return;
             }
-            catch (HalconException)
+            catch (HalconException _e)
+            {
+
+                new Exception("三维坐标系生产错误！原因：" + _e.Message);
+                //throw HDevExpDefaultException;
+            }
+            finally
             {
                 ho_TempArrow.Dispose();
 
@@ -3188,8 +3137,6 @@ namespace Halcon_SDK_DLL
                 hv_RowP2.Dispose();
                 hv_ColP2.Dispose();
                 hv_Index.Dispose();
-
-                //throw HDevExpDefaultException;
             }
         }
 
@@ -3277,24 +3224,23 @@ namespace Halcon_SDK_DLL
                     }
                 }
 
-                hv_CameraType.Dispose();
-                hv_CameraParamNames.Dispose();
-                hv_Index.Dispose();
-                hv_ParamNameInd.Dispose();
-                hv_I.Dispose();
+          
 
                 return;
             }
-            catch (HalconException)
+            catch (HalconException _e)
             {
 
+                new Exception("获得相机参数失败！原因：" + _e.Message);
+                //throw HDevExpDefaultException;
+            }
+            finally
+            {
                 hv_CameraType.Dispose();
                 hv_CameraParamNames.Dispose();
                 hv_Index.Dispose();
                 hv_ParamNameInd.Dispose();
                 hv_I.Dispose();
-
-                //throw HDevExpDefaultException;
             }
         }
 
@@ -3874,31 +3820,6 @@ namespace Halcon_SDK_DLL
                             throw new HalconException(("Unknown camera type '" + hv_CameraType) + "' passed in CameraParam.");
                         }
 
-                        hv_CameraParamAreaScanDivision.Dispose();
-                        hv_CameraParamAreaScanPolynomial.Dispose();
-                        hv_CameraParamAreaScanTelecentricDivision.Dispose();
-                        hv_CameraParamAreaScanTelecentricPolynomial.Dispose();
-                        hv_CameraParamAreaScanTiltDivision.Dispose();
-                        hv_CameraParamAreaScanTiltPolynomial.Dispose();
-                        hv_CameraParamAreaScanImageSideTelecentricTiltDivision.Dispose();
-                        hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial.Dispose();
-                        hv_CameraParamAreaScanBilateralTelecentricTiltDivision.Dispose();
-                        hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial.Dispose();
-                        hv_CameraParamAreaScanObjectSideTelecentricTiltDivision.Dispose();
-                        hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial.Dispose();
-                        hv_CameraParamAreaScanHypercentricDivision.Dispose();
-                        hv_CameraParamAreaScanHypercentricPolynomial.Dispose();
-                        hv_CameraParamLinesScanDivision.Dispose();
-                        hv_CameraParamLinesScanPolynomial.Dispose();
-                        hv_CameraParamLinesScanTelecentricDivision.Dispose();
-                        hv_CameraParamLinesScanTelecentricPolynomial.Dispose();
-                        hv_CameraParamAreaScanTiltDivisionLegacy.Dispose();
-                        hv_CameraParamAreaScanTiltPolynomialLegacy.Dispose();
-                        hv_CameraParamAreaScanTelecentricDivisionLegacy.Dispose();
-                        hv_CameraParamAreaScanTelecentricPolynomialLegacy.Dispose();
-                        hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy.Dispose();
-                        hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy.Dispose();
-
                         return;
                     }
                 }
@@ -4271,34 +4192,18 @@ namespace Halcon_SDK_DLL
                     }
                 }
 
-                hv_CameraParamAreaScanDivision.Dispose();
-                hv_CameraParamAreaScanPolynomial.Dispose();
-                hv_CameraParamAreaScanTelecentricDivision.Dispose();
-                hv_CameraParamAreaScanTelecentricPolynomial.Dispose();
-                hv_CameraParamAreaScanTiltDivision.Dispose();
-                hv_CameraParamAreaScanTiltPolynomial.Dispose();
-                hv_CameraParamAreaScanImageSideTelecentricTiltDivision.Dispose();
-                hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial.Dispose();
-                hv_CameraParamAreaScanBilateralTelecentricTiltDivision.Dispose();
-                hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial.Dispose();
-                hv_CameraParamAreaScanObjectSideTelecentricTiltDivision.Dispose();
-                hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial.Dispose();
-                hv_CameraParamAreaScanHypercentricDivision.Dispose();
-                hv_CameraParamAreaScanHypercentricPolynomial.Dispose();
-                hv_CameraParamLinesScanDivision.Dispose();
-                hv_CameraParamLinesScanPolynomial.Dispose();
-                hv_CameraParamLinesScanTelecentricDivision.Dispose();
-                hv_CameraParamLinesScanTelecentricPolynomial.Dispose();
-                hv_CameraParamAreaScanTiltDivisionLegacy.Dispose();
-                hv_CameraParamAreaScanTiltPolynomialLegacy.Dispose();
-                hv_CameraParamAreaScanTelecentricDivisionLegacy.Dispose();
-                hv_CameraParamAreaScanTelecentricPolynomialLegacy.Dispose();
-                hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy.Dispose();
-                hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy.Dispose();
+
 
                 return;
             }
-            catch (HalconException)
+            catch (HalconException _e)
+            {
+
+                new Exception("获得相机参数名称错误！原因：" + _e.Message);
+
+                //throw HDevExpDefaultException;
+            }
+            finally
             {
 
                 hv_CameraParamAreaScanDivision.Dispose();
@@ -4325,16 +4230,10 @@ namespace Halcon_SDK_DLL
                 hv_CameraParamAreaScanTelecentricPolynomialLegacy.Dispose();
                 hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy.Dispose();
                 hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy.Dispose();
-
-                //throw HDevExpDefaultException;
             }
         }
 
-
-
-
-
-
+  
     }
 
 }

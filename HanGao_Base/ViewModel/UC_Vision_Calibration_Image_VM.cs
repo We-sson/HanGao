@@ -1,4 +1,5 @@
-﻿using MVS_SDK_Base.Model;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using MVS_SDK_Base.Model;
 using Ookii.Dialogs.Wpf;
 using System.Drawing;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
@@ -153,7 +154,7 @@ namespace HanGao.ViewModel
                                 //加载图像文件到标定集合内
                                 Calibration_Load_Image(_HImage, Enum.Parse<Camera_Calibration_MainOrSubroutine_Type_Enum>(E.Name), E.Name);
 
-
+                              
                             });
                         }
 
@@ -349,6 +350,14 @@ namespace HanGao.ViewModel
                     //删除选中图像
                     Application.Current.Dispatcher.Invoke(() =>
                     {
+                        foreach (var _Model in Calibration_List)
+                        {
+
+                            _Model.Camera_0.Dispose();
+                            _Model.Camera_1.Dispose();
+
+                        }
+
                         Calibration_List.Clear();
 
                         Calibration_Image_0_No = 0;

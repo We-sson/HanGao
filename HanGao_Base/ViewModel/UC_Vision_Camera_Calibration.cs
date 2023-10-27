@@ -85,10 +85,18 @@ namespace HanGao.ViewModel
         public static int Calibration_Image_1_No { set; get; } = 0;
 
 
+
         /// <summary>
-        /// Halcon标定参数设置句柄
+        /// 相机图像标定结果
         /// </summary>
-        //public HCalibData Halcon_CalibSetup_ID { set; get; } = new HCalibData() { };
+        public bool Calibration_Checks_0_State { set; get; } = false;
+        public bool Calibration_Checks_1_State { set; get; } = false;
+        /// <summary>
+        /// 相机图像标定过程值
+        /// </summary>
+        public int Calibration_Checks_0_State_Val { set; get; } = 0;
+        public int Calibration_Checks_1_State_Val { set; get; } = 0;
+     
 
 
 
@@ -258,13 +266,19 @@ namespace HanGao.ViewModel
             //发送设置好的图像到标定图像集合中
             StrongReferenceMessenger.Default.Send<Calibration_Image_List_Model, string>(_Image, nameof(Meg_Value_Eunm.Calibration_Image_ADD));
 
+
+            _HImage.Dispose();
+
             //增加图像号数
             //UC_Vision_Calibration_Image_VM.Calibration_Image_No++;
 
         }
 
 
-
+        /// <summary>
+        /// 实时相机标定停止
+        /// </summary>
+        /// <param name="_Parameters"></param>
         public void Halcon_Calibration_End(Halcon_Camera_Calibration_Model _Parameters)
         {
             Get_Calibration_State = false;
@@ -428,16 +442,7 @@ namespace HanGao.ViewModel
             }
         }
 
-        /// <summary>
-        /// 相机图像标定结果
-        /// </summary>
-        public bool Calibration_Checks_0_State { set; get; } = false;
-        public bool Calibration_Checks_1_State { set; get; } = false;
-        /// <summary>
-        /// 相机图像标定过程值
-        /// </summary>
-        public int Calibration_Checks_0_State_Val { set; get; } = 0;
-        public int Calibration_Checks_1_State_Val { set; get; } = 0;
+      
 
 
 
@@ -637,6 +642,7 @@ namespace HanGao.ViewModel
 
 
 
+ 
 
 
 
@@ -682,13 +688,24 @@ namespace HanGao.ViewModel
 
 
 
-
+        /// <summary>
+        /// 设置显示图像
+        /// </summary>
+        /// <param name="_Dispaly"></param>
+        /// <param name="_Type"></param>
+        /// <param name="_Window"></param>
         public static void SetDisplayHObject(HObject _Dispaly, Display_HObject_Type_Enum _Type, Window_Show_Name_Enum _Window)
         {
             StrongReferenceMessenger.Default.Send<DisplayHObject_Model, string>(new DisplayHObject_Model()
             { Display = _Dispaly, Display_Type = _Type, Show_Window = _Window }, nameof(Meg_Value_Eunm.DisplayHObject));
 
         }
+        /// <summary>
+        /// 设置窗口颜色
+        /// </summary>
+        /// <param name="HColor"></param>
+        /// <param name="HDraw"></param>
+        /// <param name="_Window"></param>
         public static void SetHDrawColor(string HColor, DisplaySetDraw_Enum HDraw, Window_Show_Name_Enum _Window)
         {
             StrongReferenceMessenger.Default.Send<DisplayHObject_Model, string>(new DisplayHObject_Model()
@@ -697,7 +714,10 @@ namespace HanGao.ViewModel
         }
 
 
-
+        /// <summary>
+        /// 设置窗口三维模型
+        /// </summary>
+        /// <param name="_3DModel"></param>
         public static void SetDisplay3DModel(Display3DModel_Model _3DModel)
         {
 

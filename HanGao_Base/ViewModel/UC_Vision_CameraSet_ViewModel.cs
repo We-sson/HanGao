@@ -16,20 +16,6 @@ namespace HanGao.ViewModel
 
 
 
-            //  MVS_Camera_Info_List.
-            //                            Add(
-            //                             new MVS_Camera_Info_Model() { SerialNumber = "DA0651550", ModelName = "MV-CU120-10GM" }
-
-            //          );
-            //      MVS_Camera_Info_List.
-            //                                   Add(
-
-            //                                     new MVS_Camera_Info_Model() { SerialNumber = "DA0651550", ModelName = "MV-CU120-10GM" 
-            //                                      }
-
-
-            //);
-
 
 
             //Dictionary<int, string> _E = new();
@@ -171,6 +157,10 @@ namespace HanGao.ViewModel
 
             });
         }
+
+
+
+
         /// <summary>
         /// 用户选择相机数
         /// </summary>

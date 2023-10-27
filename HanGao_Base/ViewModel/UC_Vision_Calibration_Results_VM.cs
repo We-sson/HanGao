@@ -1,6 +1,7 @@
 ﻿using MVS_SDK_Base.Model;
 using Throw;
 using static Halcon_SDK_DLL.Halcon_Calibration_SDK;
+using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static HanGao.ViewModel.UC_Vision_Calibration_Image_VM;
 using static HanGao.ViewModel.UC_Vision_Camera_Calibration;
 
@@ -907,6 +908,23 @@ namespace HanGao.ViewModel
         }
 
 
+
+
+
+        /// <summary>
+        /// 关闭窗口清理内存
+        /// </summary>
+        public ICommand Closed_Window_Comm
+        {
+            get => new RelayCommand<EventArgs>((Sm) =>
+            {
+
+                Halcon_CalibSetup_ID = null;
+
+
+
+            });
+        }
 
     }
 }

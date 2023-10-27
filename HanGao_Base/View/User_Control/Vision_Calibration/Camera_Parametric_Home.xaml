@@ -18,6 +18,7 @@
         d:DataContext="{Binding Source={StaticResource Locator}, Path=Vision_Calibration_Home_VM}"
         WindowStyle="SingleBorderWindow"
         mc:Ignorable="d">
+
     <Window.Resources>
         <Enum:Halcon_StringConverter x:Key="Halcon_StringConverter" />
         <Enum:Halcon_EnumConverter x:Key="Halcon_EnumConverter" />
@@ -26,6 +27,11 @@
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding Initialization_Halcon_Window_Comm}"
+                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                   PassEventArgsToCommand="True" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Closed">
+            <i:InvokeCommandAction Command="{Binding Closed_Window_Dsipos_Comm}"
                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                    PassEventArgsToCommand="True" />
         </i:EventTrigger>

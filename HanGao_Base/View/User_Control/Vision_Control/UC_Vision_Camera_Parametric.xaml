@@ -12,6 +12,14 @@
              d:DesignHeight="1017"
              d:DesignWidth="340"
              mc:Ignorable="d">
+
+    <!--<i:Interaction.Triggers>
+        <i:EventTrigger EventName="Unloaded">
+            <i:InvokeCommandAction Command="{Binding Closed_Window_Comm}"
+                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                   PassEventArgsToCommand="True" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>-->
     <UserControl.Resources>
         <Enum_Converter:Halcon_EnumConverter x:Key="Halcon_EnumConverter" />
     </UserControl.Resources>
