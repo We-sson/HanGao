@@ -7,6 +7,8 @@ using System.Drawing;
 using System.Windows.Controls.Primitives;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
+using static HanGao.ViewModel.UC_Vision_Calibration_Image_VM;
+
 
 namespace HanGao.ViewModel
 {
@@ -65,7 +67,7 @@ namespace HanGao.ViewModel
         public Halcon_SDK Calibration_Window_2 { set; get; } = new Halcon_SDK();
 
 
-
+        public RenderWindowControl VTKModel { set; get; } = new RenderWindowControl();
 
         public  Halcon_SDK Calibration_3D_Results { set; get; } = new Halcon_SDK();
 
@@ -205,6 +207,14 @@ namespace HanGao.ViewModel
                 StrongReferenceMessenger.Default.Unregister<DisplayHObject_Model, string>(this, nameof(Meg_Value_Eunm.DisplayHObject));
 
 
+                foreach (var _model in Calibration_List)
+                {
+                    _model.Camera_0.Dispose();
+                    _model.Camera_1.Dispose();
+                }
+
+
+                VTKModel.Dispose();
                HDisplay_3D.Dispose();
                 Calibration_Window_1.Dispose();
                 Calibration_Window_2.Dispose();
@@ -308,7 +318,8 @@ namespace HanGao.ViewModel
 
                 // Create components of the rendering subsystem
                 // // 创建渲染子系统的组件
-                vtkRenderer renderer = Window_UserContol.Model_3D_Display.RenderWindow.GetRenderers().GetFirstRenderer();
+                VTKModel = Window_UserContol.Model_3D_Display;
+                vtkRenderer renderer = VTKModel.RenderWindow.GetRenderers().GetFirstRenderer();
             
                 renderer.SetBackground(.2, .3, .4);
 

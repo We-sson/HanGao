@@ -1070,7 +1070,9 @@ namespace Halcon_SDK_DLL.Model
 
 
 
-
+        /// <summary>
+        /// 清理模型内存
+        /// </summary>
         public void Dispose()
         {
             Calibration_Image?.Dispose();
@@ -1082,7 +1084,9 @@ namespace Halcon_SDK_DLL.Model
                 _model.ClearObjectModel3d();
                 _model.Dispose();
             }
-          
+            Calibration_3D_Model.Clear();
+
+
         }
     }
 

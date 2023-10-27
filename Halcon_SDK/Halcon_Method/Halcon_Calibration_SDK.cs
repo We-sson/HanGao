@@ -132,6 +132,10 @@ namespace Halcon_SDK_DLL
 
                 throw new Exception(HVE_Result_Enum.获得相机内参参数错误.ToString() + " 原因：" + _e.Message);
             }
+            finally
+            {
+               
+            }
         }
 
 

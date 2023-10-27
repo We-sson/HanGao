@@ -587,7 +587,9 @@
                 <WindowsFormsHost Grid.Row=" 1" Grid.Column=" 0"
                                   Grid.ColumnSpan=" 2">
                     <!--<Vtk:RenderWindowControl />-->
-                    <VTK:RenderWindowControl x:Name="Model_3D_Display" />
+                    <VTK:RenderWindowControl x:Name="Model_3D_Display"     >
+                        
+                    </VTK:RenderWindowControl>
                 </WindowsFormsHost>
             </TabItem>
         </TabControl>

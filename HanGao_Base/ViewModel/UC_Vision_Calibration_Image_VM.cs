@@ -350,6 +350,11 @@ namespace HanGao.ViewModel
                     //删除选中图像
                     Application.Current.Dispatcher.Invoke(() =>
                     {
+
+                        //清空三维可视化
+                        SetDisplay3DModel(new Halcon_Data_Model.Display3DModel_Model());
+
+
                         foreach (var _Model in Calibration_List)
                         {
 

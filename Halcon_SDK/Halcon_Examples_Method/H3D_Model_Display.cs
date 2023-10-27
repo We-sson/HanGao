@@ -959,8 +959,8 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             finally
             {
 
-                //hv_HomMat3DIn.Dispose();
-                //hv_HomMat3DOut.Dispose();
+                hv_HomMat3DIn.Clone();
+                hv_HomMat3DOut.Clone();
                 hv_PoseMatch.Dispose();
                 hv_DRow.Dispose();
                 hv_Dist.Dispose();
@@ -1074,6 +1074,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             {
                 //hv_Height.Dispose();
                 //hv_Width.Dispose();
+                hv_Qx.Dispose();
+                hv_Qy.Dispose();
+                hv_Qz.Dispose();
+                hv_HomMat3D.Clone();
                 hv_WPRow1.Dispose();
                 hv_WPColumn1.Dispose();
                 hv_WPRow2.Dispose();
@@ -2479,8 +2483,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <param name="hv_Poses"></param>
         /// <param name="hv_TBCenter"></param>
         /// <param name="hv_TBSize"></param>
-        private void get_trackball_center(HTuple hv_TrackballRadiusPixel,
-            HTuple hv_ObjectModel3D, HTuple hv_Poses, out HTuple hv_TBCenter, out HTuple hv_TBSize)
+        private void get_trackball_center(HTuple hv_TrackballRadiusPixel,HTuple hv_ObjectModel3D, HTuple hv_Poses, out HTuple hv_TBCenter, out HTuple hv_TBSize)
         {
 
 
@@ -2497,6 +2500,14 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             HTuple hv_HomMat3D = new HTuple(), hv_TBCenterCamX = new HTuple();
             HTuple hv_TBCenterCamY = new HTuple(), hv_TBCenterCamZ = new HTuple();
             HTuple hv_InvSum = new HTuple();
+
+
+            try
+            {
+
+    
+
+
             // Initialize local and output iconic variables 
             hv_TBCenter = new HTuple();
             hv_TBSize = new HTuple();
@@ -2611,6 +2622,20 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             }
 
 
+            }
+            catch (Exception _e)
+            {
+                throw new Exception("计算模型中心位置错误！原因：" + _e.Message);
+              
+            }
+            finally
+            {
+
+
+
+
+
+
             hv_Diameter.Dispose();
 
             hv_Center.Dispose();
@@ -2626,6 +2651,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             hv_TBCenterCamZ.Dispose();
             hv_InvSum.Dispose();
 
+            }
 
         }
 

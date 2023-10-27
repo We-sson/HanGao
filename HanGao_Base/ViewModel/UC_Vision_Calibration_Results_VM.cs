@@ -1,4 +1,5 @@
-﻿using MVS_SDK_Base.Model;
+﻿using HalconDotNet;
+using MVS_SDK_Base.Model;
 using Throw;
 using static Halcon_SDK_DLL.Halcon_Calibration_SDK;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
@@ -425,7 +426,8 @@ namespace HanGao.ViewModel
 
 
                                 //获得信息
-
+                                _CalibXLD_0.Dispose();
+                                _CalibCoord_0.Dispose();
 
 
 
@@ -448,7 +450,8 @@ namespace HanGao.ViewModel
 
                                 }
 
-
+                                _CalibXLD_1.Dispose();
+                                _CalibCoord_1.Dispose();
 
                                 //_Calib.Image_No
                                 //Calibration_Image_List.Count
@@ -575,7 +578,8 @@ namespace HanGao.ViewModel
 
                                     }
 
-
+                                    _CalibXLD.Dispose();
+                                    _CalibCoord.Dispose();
                                 }
                                 else
                                 {
@@ -786,6 +790,10 @@ namespace HanGao.ViewModel
 
                 throw new Exception(HVE_Result_Enum.获得标定结果失败.ToString() + _he.Message);
             }
+            finally
+            {
+                _CalibSetup_ID.ClearCalibData();
+            }
 
 
         }
@@ -919,7 +927,7 @@ namespace HanGao.ViewModel
             get => new RelayCommand<EventArgs>((Sm) =>
             {
 
-                Halcon_CalibSetup_ID = null;
+           
 
 
 

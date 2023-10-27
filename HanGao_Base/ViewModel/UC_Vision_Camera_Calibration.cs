@@ -538,6 +538,7 @@ namespace HanGao.ViewModel
                                             _Calib.Camera_0.Calibration_XLD = _CalibCoord.CopyObj(1, -1);
                                             _Calib.Camera_0.Calibration_State = Camera_Calibration_Results_Type_Enum.标定图像识别测试成功.ToString();
                                             _Calib.Image_No = Calibration_Image_No;
+
                                         }
                                         else
                                         {
@@ -546,6 +547,8 @@ namespace HanGao.ViewModel
                                         }
                                         //计算识别进度
 
+                                        _CalibXLD.Dispose();
+                                        _CalibCoord.Dispose();
                                         Calibration_Checks_0_State_Val = (100 / Calibration_List.Count) * Calibration_Image_No;
 
                                     }
@@ -568,8 +571,7 @@ namespace HanGao.ViewModel
                                             _Calib.Camera_1.Calibration_State = Camera_Calibration_Results_Type_Enum.标定图像识别测试成功.ToString();
                                             _Calib.Image_No = Calibration_Image_No;
 
-
-
+                                     
                                         }
                                         else
                                         {
@@ -577,7 +579,8 @@ namespace HanGao.ViewModel
                                             _Calib.Image_No = Calibration_Image_No;
                                         }
                                         //计算识别进度
-
+                                        _CalibXLD.Dispose();
+                                        _CalibCoord.Dispose();
                                         Calibration_Checks_1_State_Val = (100 / Calibration_List.Count) * Calibration_Image_No;
 
                                     }
@@ -625,7 +628,7 @@ namespace HanGao.ViewModel
                     }
                     finally
                     {
-
+                        _CalibSetup_ID.ClearCalibData();
                         Calibration_Checks_0_State_Val = 100;
                         Calibration_Checks_1_State_Val = 100;
                         Calibration_Checks_0_State = false;
