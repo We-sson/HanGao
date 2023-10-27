@@ -1079,6 +1079,7 @@ namespace Halcon_SDK_DLL.Model
             Calibration_Region?.Dispose();
             Calibration_XLD?.Dispose();
 
+
             foreach (var _model in Calibration_3D_Model)
             {
                 _model.ClearObjectModel3d();

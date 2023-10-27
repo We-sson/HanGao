@@ -245,7 +245,7 @@ namespace HanGao.ViewModel
                 case (int)Camera_Calibration_MainOrSubroutine_Type_Enum.Main:
                     _Image.Image_No = Calibration_Image_0_No;
                     _Image.Camera_No = 0;
-                    _Image.Camera_0.Calibration_Image = _HImage.CopyObj(1, -2);
+                    _Image.Camera_0.Calibration_Image = _HImage;
                     _Image.Camera_0.Carme_Name = _Carme_Name;
                     _Image.Camera_0.Calibration_State = Camera_Calibration_Results_Type_Enum.标定图像已加载.ToString();
                     Calibration_Image_0_No++;
@@ -254,7 +254,7 @@ namespace HanGao.ViewModel
                 case (int)Camera_Calibration_MainOrSubroutine_Type_Enum.Subroutine:
                     _Image.Image_No = Calibration_Image_1_No;
                     _Image.Camera_No = 1;
-                    _Image.Camera_1.Calibration_Image = _HImage.CopyObj(1, -2);
+                    _Image.Camera_1.Calibration_Image = _HImage;
                     _Image.Camera_1.Carme_Name = _Carme_Name;
                     _Image.Camera_1.Calibration_State = Camera_Calibration_Results_Type_Enum.标定图像已加载.ToString();
                     Calibration_Image_1_No++;
@@ -267,7 +267,7 @@ namespace HanGao.ViewModel
             StrongReferenceMessenger.Default.Send<Calibration_Image_List_Model, string>(_Image, nameof(Meg_Value_Eunm.Calibration_Image_ADD));
 
 
-            _HImage.Dispose();
+            //_HImage.Dispose();
 
             //增加图像号数
             //UC_Vision_Calibration_Image_VM.Calibration_Image_No++;
