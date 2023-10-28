@@ -2,6 +2,7 @@
 using HalconDotNet;
 using HanGao.View.User_Control.Vision_Calibration;
 using HanGao.View.User_Control.Vision_Control;
+using HanGao.View.User_Control.Vision_hand_eye_Calibration;
 using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
 using KUKA_Socket.Models;
 using Microsoft.Win32;
@@ -350,6 +351,12 @@ namespace HanGao.ViewModel
         }
 
 
+
+
+
+        /// <summary>
+        /// 相机内参工具开启
+        /// </summary>
         public ICommand Cameras_Parametric_Calibration_Window_Comm
         {
             get => new AsyncRelayCommand<RoutedEventArgs>(async (Sm) =>
@@ -400,9 +407,45 @@ namespace HanGao.ViewModel
             });
         }
 
-        private void Calibration_3D_Results_HInitWindow(object sender, EventArgs e)
+
+        /// <summary>
+        /// 相机手眼工具开启
+        /// </summary>
+        public ICommand Cameras_HandEye_Calibration_Window_Comm
         {
-            throw new NotImplementedException();
+            get => new RelayCommand<RoutedEventArgs>( (Sm) =>
+            {
+
+                foreach (Window window in Application.Current.Windows)
+                {
+                    if (window.GetType() == typeof(Vision_hand_eye_Calibration_Window))//使用窗体类进行匹配查找
+                    {
+                        User_Log_Add("相机内参标定工具窗口已经打开!", Log_Show_Window_Enum.Home);
+                        return;
+                    }
+
+                }
+
+               
+  
+
+                Vision_hand_eye_Calibration_Window HandEye_Window =
+                new Vision_hand_eye_Calibration_Window()
+                {
+         
+                    //DataContext = new Vision_Calibration_Home_VM()
+                    //{
+
+                    //},
+      
+                };
+
+
+                HandEye_Window.Show();
+
+               
+                //await Task.Delay(100);
+            });
         }
 
 

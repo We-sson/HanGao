@@ -155,7 +155,7 @@
                                     <i:Interaction.Triggers>
 
                                         <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding Cameras_Parametric_Calibration_Window_Comm}"
+                                            <i:InvokeCommandAction Command="{Binding Cameras_HandEye_Calibration_Window_Comm}"
                                                                    CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}"
                                                                    PassEventArgsToCommand="True" />
                                         </i:EventTrigger>
