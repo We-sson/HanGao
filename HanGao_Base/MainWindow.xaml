@@ -92,8 +92,13 @@
                     Visibility="Visible">
 
 
-                <Image Margin="15" Source="/Resources/悍高LOGO_ioc.png" />
-
+                <!--<Image Margin="15" Source="/Resources/悍高LOGO_ioc.png" />-->
+                <TextBlock Text="&#xe641;"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontFamily="{DynamicResource 全局_图标库}"
+                           FontSize="26"
+                           Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
 
                 <!--<TextBlock HorizontalAlignment="Center" Visibility="Hidden"
                            VerticalAlignment="Center"

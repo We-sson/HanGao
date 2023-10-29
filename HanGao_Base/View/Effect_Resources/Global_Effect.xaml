@@ -58,9 +58,9 @@
 
 
     <DropShadowEffect x:Key="全局背景阴影"
-                      BlurRadius="12"
+                      BlurRadius="15"
                       Direction="-90"
-                      Opacity="0.2"
+                      Opacity="0.3"
                       ShadowDepth="2" />
 
     <DropShadowEffect x:Key="全局红色背景"

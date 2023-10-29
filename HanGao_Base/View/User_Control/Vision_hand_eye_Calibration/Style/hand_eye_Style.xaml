@@ -26,10 +26,11 @@
                             <RowDefinition x:Name="RowDefinition1" Height="*" />
                         </Grid.RowDefinitions>
                         <TabPanel x:Name="headerPanel" Grid.Row="0" Grid.Column="0"
-                                  Margin="2,2,2,0"   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"    
+                                  Margin="2,2,2,0"
+                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                   Panel.ZIndex="1"
                                   Background="Transparent"
-                                  IsItemsHost="True"  
+                                  IsItemsHost="True"
                                   KeyboardNavigation.TabIndex="1" />
                         <Border x:Name="contentPanel" Grid.Row="1" Grid.Column="0"
                                 Background="{TemplateBinding Background}"

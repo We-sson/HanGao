@@ -161,7 +161,7 @@
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
 
-                                    <TextBlock Text="2\3维标定"
+                                    <TextBlock Text="手眼标定"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                FontFamily="{DynamicResource 全局_文字_中文字体}"
