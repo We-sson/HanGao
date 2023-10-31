@@ -61,12 +61,12 @@
                     <Border Grid.Row=" 0" Grid.Column="0"
                             MinWidth=" 280"
                             Margin="10"
+                            Padding="1"
                             Background="{DynamicResource 全局_背景_白颜色}"
                             CornerRadius=" 10"
                             Effect="{DynamicResource 全局背景阴影}">
 
                         <ScrollViewer Style="{DynamicResource Vision_Data_List_ScrollViewerStyle}" x:Name="scrollViewer"
-                                      Margin="8"
                                       HorizontalContentAlignment="Stretch"
                                       VerticalContentAlignment="Stretch"
                                       Background="Transparent"
@@ -784,7 +784,7 @@
                     <Border Grid.Row=" 0" Grid.Column="1"
                             MinWidth=" 280"
                             Margin="10"
-                            Padding="8"
+                            Padding="1"
                             Background="{DynamicResource 全局_背景_白颜色}"
                             CornerRadius=" 10"
                             Effect="{DynamicResource 全局背景阴影}">
@@ -1965,7 +1965,7 @@
                     <Border Grid.Row=" 0" Grid.Column="3"
                             MinWidth=" 280"
                             Margin="10"
-                            Padding="8"
+                            Padding="1"
                             Background="{DynamicResource 全局_背景_白颜色}"
                             CornerRadius=" 10"
                             Effect="{DynamicResource 全局背景阴影}">
@@ -3393,7 +3393,17 @@
                      Padding="100,10,100,5"
                      Background="Transparent"
                      FontSize=" 22"
-                     Header="图像采集计算" />
+                     Header="图像采集计算">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                </Grid>
+
+
+
+            </TabItem>
         </TabControl>
 
     </Grid>
