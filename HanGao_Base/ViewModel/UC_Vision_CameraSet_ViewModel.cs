@@ -2,7 +2,7 @@
 using MVS_SDK_Base.Model;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
-using static HanGao.ViewModel.UC_Vision_Camera_Calibration
+using static HanGao.ViewModel.UC_Vision_Camera_Calibration_VM
 ;
 using static MVS_SDK_Base.Model.MVS_Model;
 

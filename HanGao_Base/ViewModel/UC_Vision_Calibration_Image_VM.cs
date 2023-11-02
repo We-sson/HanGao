@@ -4,7 +4,7 @@ using Ookii.Dialogs.Wpf;
 using System.Drawing;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static HanGao.ViewModel.UC_Vision_Calibration_Results_VM;
-using static HanGao.ViewModel.UC_Vision_Camera_Calibration;
+using static HanGao.ViewModel.UC_Vision_Camera_Calibration_VM;
 using static HanGao.ViewModel.UC_Vision_CameraSet_ViewModel;
 
 

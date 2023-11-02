@@ -4,7 +4,7 @@ using Throw;
 using static Halcon_SDK_DLL.Halcon_Calibration_SDK;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static HanGao.ViewModel.UC_Vision_Calibration_Image_VM;
-using static HanGao.ViewModel.UC_Vision_Camera_Calibration;
+using static HanGao.ViewModel.UC_Vision_Camera_Calibration_VM;
 
 namespace HanGao.ViewModel
 {

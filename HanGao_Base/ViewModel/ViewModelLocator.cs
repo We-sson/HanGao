@@ -65,13 +65,14 @@ namespace HanGao.ViewModelLocator
                     .AddScoped<Global_Seting_Status>()
                     .AddScoped<Other_Window_VM>()
                     .AddScoped<Vision_Calibration_Home_VM>()
-                    .AddScoped<UC_Vision_Camera_Calibration>()
+                    .AddScoped<UC_Vision_Camera_Calibration_VM>()
                     .AddScoped<UC_Vision_Calibration_Image_VM>()
                     .AddScoped<UC_Vision_Calibration_Results_VM>()
                     .AddScoped<UC_PLC_HMI_VM>()
-
-
+                    .AddScoped<Vision_hand_eye_Calibration_VM>()
                     
+
+
 
                     .BuildServiceProvider());
 
@@ -111,10 +112,11 @@ namespace HanGao.ViewModelLocator
         public Global_Seting_Status Global_Seting => Ioc.Default.GetService<Global_Seting_Status>();
         public Other_Window_VM Other_Window_VM => Ioc.Default.GetService<Other_Window_VM>();
         public Vision_Calibration_Home_VM Vision_Calibration_Home_VM => Ioc.Default.GetService<Vision_Calibration_Home_VM>();
-        public UC_Vision_Camera_Calibration UC_Vision_Camera_Calibration => Ioc.Default.GetService<UC_Vision_Camera_Calibration>();
+        public UC_Vision_Camera_Calibration_VM UC_Vision_Camera_Calibration => Ioc.Default.GetService<UC_Vision_Camera_Calibration_VM>();
         public UC_Vision_Calibration_Image_VM UC_Vision_Calibration_Image_VM => Ioc.Default.GetService<UC_Vision_Calibration_Image_VM>();
         public UC_Vision_Calibration_Results_VM UC_Vision_Calibration_Results_VM => Ioc.Default.GetService<UC_Vision_Calibration_Results_VM>();
         public UC_PLC_HMI_VM UC_PLC_HMI_VM => Ioc.Default.GetService<UC_PLC_HMI_VM>();
+        public Vision_hand_eye_Calibration_VM Vision_hand_eye_Calibration_VM => Ioc.Default.GetService<Vision_hand_eye_Calibration_VM>();
         
 
 

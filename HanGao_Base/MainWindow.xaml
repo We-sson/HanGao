@@ -97,7 +97,7 @@
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            FontFamily="{DynamicResource 全局_图标库}"
-                           FontSize="26"
+                           FontSize="32"
                            Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
 
                 <!--<TextBlock HorizontalAlignment="Center" Visibility="Hidden"

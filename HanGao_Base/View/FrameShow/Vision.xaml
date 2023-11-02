@@ -426,7 +426,7 @@
                                         Opacity=" 0.8">
                                     <Border.Style>
                                         <Style TargetType="Border">
-                                            <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                            <Setter Property="Background" Value="{DynamicResource 全局_按钮_深绿颜色}" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding Find_Results1_Window_Result.FInd_Results}" Value="false">
                                                     <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
@@ -547,7 +547,7 @@
                                         Opacity=" 0.8">
                                     <Border.Style>
                                         <Style TargetType="Border">
-                                            <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                            <Setter Property="Background" Value="{DynamicResource 全局_按钮_深绿颜色}" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding Find_Results4_Window_Result.FInd_Results}" Value="false">
                                                     <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
@@ -662,11 +662,11 @@
                                 <Border Grid.Column="1"
                                         Height=" 25"
                                         VerticalAlignment="Bottom"
-                                        CornerRadius=" 0 0 10 0"
+                                        CornerRadius=" 0 0 0 0"
                                         Opacity=" 0.8">
                                     <Border.Style>
                                         <Style TargetType="Border">
-                                            <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                            <Setter Property="Background" Value="{DynamicResource 全局_按钮_深绿颜色}" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding Find_Results3_Window_Result.FInd_Results}" Value="false">
                                                     <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
@@ -787,7 +787,7 @@
                                         Opacity=" 0.8">
                                     <Border.Style>
                                         <Style TargetType="Border">
-                                            <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                            <Setter Property="Background" Value="{DynamicResource 全局_按钮_深绿颜色}" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding Find_Results2_Window_Result.FInd_Results}" Value="false">
                                                     <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />

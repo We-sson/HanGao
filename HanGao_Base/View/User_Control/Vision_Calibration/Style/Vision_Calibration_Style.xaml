@@ -72,7 +72,7 @@
                             <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{StaticResource Button.Disabled.Foreground}" />-->
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource 全局_按钮_深绿颜色}" />
                             <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{DynamicResource 全局_按钮_白颜色}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -356,7 +356,7 @@
                             <Setter Property="Margin" Value="0" />
                             <Setter TargetName="innerBorder" Property="Opacity" Value="1" />
                             <Setter TargetName="innerBorder" Property="Effect" Value="{DynamicResource 全局背景阴影}" />
-                            <Setter TargetName="innerBorder" Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                            <Setter TargetName="innerBorder" Property="Background" Value="{DynamicResource 全局_按钮_深绿颜色}" />
                             <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{DynamicResource 全局_按钮_白颜色}" />
                             <!--<Setter TargetName="innerBorder" Property="BorderThickness" Value="1,1,1,0" />
                             <Setter TargetName="mainBorder" Property="BorderThickness" Value="1,1,1,0" />-->

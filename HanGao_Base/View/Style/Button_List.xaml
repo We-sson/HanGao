@@ -81,18 +81,15 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+
     <Style x:Key="Button_List_Style" TargetType="{x:Type CheckBox}">
-
         <Setter Property="BorderThickness" Value="0" />
-
         <Setter Property="Margin" Value="0" />
         <Setter Property="FontSize" Value="24" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-
-
-
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
@@ -104,16 +101,10 @@
                                               ShadowDepth="0"
                                               Color="#B2B1B9" />
                         </Grid.Effect>
-
-
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width=" auto" />
                             <ColumnDefinition Width=" auto" />
                         </Grid.ColumnDefinitions>
-
-
-
-
                         <Border x:Name="border"
                                 Grid.ColumnSpan="3"
                                 Background="{TemplateBinding Background}"
@@ -140,7 +131,7 @@
                                 VerticalAlignment="Center"
                                 Background="Transparent"
                                 BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
-                                BorderThickness="2"
+                                BorderThickness="2.5"
                                 CornerRadius=" 5" />
                         <!--<Ellipse Grid.Column="0"
                                  Name="Ep1"
@@ -173,48 +164,18 @@
                                    Visibility="Collapsed" />
 
                     </Grid>
-
-
-
                     <ControlTemplate.Triggers>
-
-
-
-
                         <!--  鼠标停留元素上方事件  -->
-
                         <!--<Trigger Property="IsMouseOver" Value="true" />-->
-
-
-
-
-
-
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter Property="Opacity" Value="0.8" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter TargetName="Gd1" Property="Opacity" Value="0.5" />
-
                         </Trigger>
-
-
-
-
-
                         <Trigger Property="IsChecked" Value="True">
-
                             <Setter TargetName="Ep1" Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
-
                         </Trigger>
-
-
-
-
-
-
-
-
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
