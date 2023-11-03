@@ -1749,13 +1749,7 @@
                                 <Grid>
                                     <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 15 5" />
                                     <StackPanel Orientation="Vertical">
-
-
-
-
-
                                         <Grid Height=" 35" Margin="8">
-
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="90" />
                                                 <ColumnDefinition />
