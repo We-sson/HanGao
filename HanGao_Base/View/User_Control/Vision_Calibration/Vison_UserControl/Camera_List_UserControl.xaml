@@ -70,6 +70,7 @@
                                       Height=" 35"
                                       Margin="4"
                                       VerticalContentAlignment="Center"
+                                      Background="Transparent"
                                       BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                       BorderThickness="2"
                                       FontSize="16"

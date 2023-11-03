@@ -1,7 +1,10 @@
 ﻿<Window x:Class="HanGao.View.User_Control.Vision_hand_eye_Calibration.Vision_hand_eye_Calibration_Window"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Enum_Converter="clr-namespace:Halcon_SDK_DLL.WPF_Converter;assembly=Halcon_SDK_DLL"
         xmlns:Halcon="http://schemas.mvtec.com/halcondotnet"
+        xmlns:Halcon_Enum="clr-namespace:Halcon_SDK_DLL.Model;assembly=Halcon_SDK_DLL"
+        xmlns:MVS_Enum="clr-namespace:MVS_SDK_Base.Model;assembly=MVS_SDK"
         xmlns:Openfile="clr-namespace:HanGao.View.User_Control.OpenFile"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
@@ -9,11 +12,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Title="视觉手眼标定工具"
         MinWidth=" 1350"
-        d:DataContext="{Binding Source={StaticResource Locator}, Path=Vision_hand_eye_Calibration_VM}"
         d:Height="1080"
         d:Width="1920"
         Background="{DynamicResource 全局_背景_白颜色}"
+        DataContext="{Binding Source={StaticResource Locator}, Path=Vision_hand_eye_Calibration_VM}"
         mc:Ignorable="d">
+    <Window.Resources>
+        <Enum_Converter:Halcon_EnumConverter x:Key="Halcon_EnumConverter" />
+    </Window.Resources>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding Initialization_HandEye_Window_Comm}"
+                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                   PassEventArgsToCommand="True" />
+        </i:EventTrigger>
+        <!--<i:EventTrigger EventName="Closed">
+            <i:InvokeCommandAction Command="{Binding Closed_Window_Dsipos_Comm}"
+                                  CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                  PassEventArgsToCommand="True" />
+        </i:EventTrigger>-->
+    </i:Interaction.Triggers>
+
     <Grid>
 
         <TextBlock Text="&#xe640;"
@@ -129,9 +149,6 @@
                                     <StackPanel Orientation="Vertical">
 
 
-
-
-
                                         <Grid Height=" 35" Margin="8">
 
                                             <Grid.ColumnDefinitions>
@@ -145,6 +162,96 @@
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="Camera_0" Grid.Column=" 1"
+                                                      HorizontalContentAlignment="Left"
+                                                      VerticalContentAlignment="Center"
+                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                      BorderThickness="2"
+                                                      FontSize="20"
+                                                      IsDropDownOpen="False"
+                                                      IsSynchronizedWithCurrentItem="True"
+                                                      ItemsSource="{Binding Camera_Calibration_Info_List}"
+                                                      SelectedIndex=" -1"
+                                                      SelectedValue="{Binding Camera_0_Select_Val}">
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="SelectionChanged">
+                                                        <i:InvokeCommandAction Command="{Binding Selected_Camera_Paramer_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+
+
+
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+
+                                                            <Border Width=" 23"
+                                                                    Height=" 23"
+                                                                    Margin="10,4,4,4"
+                                                                    BorderThickness="2"
+                                                                    CornerRadius=" 5">
+                                                                <Border.Style>
+                                                                    <Style TargetType="Border">
+                                                                        <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
+                                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_黄颜色}" />
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding Camer_Status, Mode=TwoWay}" Value="{x:Static MVS_Enum:MV_CAM_Device_Status_Enum.Possess}">
+                                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding Camer_Status, Mode=TwoWay}" Value="{x:Static MVS_Enum:MV_CAM_Device_Status_Enum.Connecting}">
+                                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}}" Value="true">
+                                                                                <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_灰颜色}" />
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Border.Style>
+                                                            </Border>
+
+                                                            <TextBlock Text="{Binding Camera_Info.SerialNumber}"
+                                                                       TextWrapping="Wrap"
+                                                                       Margin="10,0,0,0"
+                                                                       Padding="0,4,0,4"
+                                                                       HorizontalAlignment="Center"
+                                                                       VerticalAlignment="Center"
+                                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                       FontSize="16 "
+                                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                       IsEnabled="True"
+                                                                       TextTrimming="CharacterEllipsis" />
+                                                        </StackPanel>
+
+
+
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+
+
+
+
+
+                                            </ComboBox>
+
+
+                                        </Grid>
+
+
+                                        <Grid Height=" 35" Margin="8">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="90" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column=" 0"
+                                                       Text="相机类型"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                             <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="CameraCalibrationModel_0" Grid.Column=" 1"
                                                       HorizontalContentAlignment="Left"
                                                       VerticalContentAlignment="Center"
@@ -152,7 +259,9 @@
                                                       BorderThickness="2"
                                                       FontSize="20"
                                                       IsDropDownOpen="False"
-                                                      IsSynchronizedWithCurrentItem="True">
+                                                      IsEnabled="False"
+                                                      IsSynchronizedWithCurrentItem="True"
+                                                      SelectedIndex="{Binding Camera_Calibration_0.Camera_Calibration_Paramteters.Camera_Calibration_Model, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:Halocn_Camera_Calibration_Enum}}">
 
                                                 <ComboBoxItem>
 
@@ -182,6 +291,7 @@
                                         </Grid>
 
 
+
                                         <Grid Height="35" Margin="8">
 
                                             <Grid.ColumnDefinitions>
@@ -205,15 +315,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Calibration_Paramteters_0.Focus}">
-                                                <!--<i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="PreviewMouseUp">
-                                            <i:InvokeCommandAction Command="{Binding}"
-                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                   PassEventArgsToCommand="True" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>-->
-                                            </Slider>
+                                                    Value="{Binding Camera_Calibration_0.Camera_Calibration_Paramteters.Focus}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Focus_UI_0, Path=Value, StringFormat={}{0:F4}}"
@@ -256,7 +358,7 @@
                                                     Maximum="999999999"
                                                     Minimum="-999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Calibration_Paramteters_0.Kappa}" />
+                                                    Value="{Binding Camera_Calibration_0.Camera_Calibration_Paramteters.Kappa}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Camera_Kappa_UI_0, Path=Value, StringFormat={}{0:F4}}"
@@ -299,7 +401,7 @@
                                                     Maximum="999999999"
                                                     Minimum="-999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Calibration_Paramteters_0.K1}" />
+                                                    Value="{Binding Camera_Calibration_0.Camera_Calibration_Paramteters.K1}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_K1_UI_0, Path=Value, StringFormat={}{0:F4}}"
@@ -342,7 +444,7 @@
                                                     Maximum="999999999"
                                                     Minimum="-999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Calibration_Paramteters_0.K2}" />
+                                                    Value="{Binding Camera_Calibration_0.Camera_Calibration_Paramteters.K2}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_K2_UI_0, Path=Value, StringFormat={}{0:F4}}"
@@ -385,7 +487,7 @@
                                                     Maximum="999999999"
                                                     Minimum="-999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Calibration_Paramteters_0.K3}" />
+                                                    Value="{Binding Camera_Calibration_0.Camera_Calibration_Paramteters.K3}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_K3_UI_0, Path=Value, StringFormat={}{0:F4}}"
@@ -428,7 +530,7 @@
                                                     Maximum="999999999"
                                                     Minimum="-999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Calibration_Paramteters_0 .P1}" />
+                                                    Value="{Binding Camera_Calibration_0.Camera_Calibration_Paramteters .P1}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_P1_UI_0, Path=Value, StringFormat={}{0:F4}}"
@@ -471,7 +573,7 @@
                                                     Maximum="999999999"
                                                     Minimum="-999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Calibration_Paramteters_0.P2}" />
+                                                    Value="{Binding Camera_Calibration_0.Camera_Calibration_Paramteters.P2}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_P2_UI_0, Path=Value, StringFormat={}{0:F4}}"
@@ -514,7 +616,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Calibration_Paramteters_0.Sx}" />
+                                                    Value="{Binding Camera_Calibration_0.Camera_Calibration_Paramteters.Sx}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Pixel_Width_UI_0, Path=Value, StringFormat={}{0:F4}}"
@@ -557,7 +659,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Calibration_Paramteters_0.Sy}" />
+                                                    Value="{Binding Camera_Calibration_0.Camera_Calibration_Paramteters.Sy}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Pixel_Height_UI_0, Path=Value, StringFormat={}{0:F4}}"
@@ -600,7 +702,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Calibration_Paramteters_0.Cx}" />
+                                                    Value="{Binding Camera_Calibration_0.Camera_Calibration_Paramteters.Cx}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Middle_Width_UI_0, Path=Value, StringFormat={}{0:F4}}"
@@ -643,7 +745,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Calibration_Paramteters_0.Cy}" />
+                                                    Value="{Binding Camera_Calibration_0.Camera_Calibration_Paramteters.Cy}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Middle_Height_UI_0, Path=Value, StringFormat={}{0:F4}}"
@@ -686,7 +788,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Calibration_Paramteters_0.Image_Width}" />
+                                                    Value="{Binding Camera_Calibration_0.Camera_Calibration_Paramteters.Image_Width}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Max_Width_UI_0, Path=Value}"
@@ -729,7 +831,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Calibration_Paramteters_0.Image_Height}" />
+                                                    Value="{Binding Camera_Calibration_0.Camera_Calibration_Paramteters.Image_Height}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Max_Heigth_UI_0, Path=Value}"
@@ -844,7 +946,93 @@
                                     <StackPanel Orientation="Vertical">
 
 
+                                        <Grid Height=" 35" Margin="8">
 
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="90" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column=" 0"
+                                                       Text="相机选择"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="Camera_1" Grid.Column=" 1"
+                                                      HorizontalContentAlignment="Left"
+                                                      VerticalContentAlignment="Center"
+                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                      BorderThickness="2"
+                                                      FontSize="20"
+                                                      IsDropDownOpen="False"
+                                                      ItemsSource="{Binding Camera_Calibration_Info_List}"
+                                                      SelectedIndex=" -1"
+                                                      SelectedValue="{Binding Camera_1_Select_Val}">
+
+
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="SelectionChanged">
+                                                        <i:InvokeCommandAction Command="{Binding Selected_Camera_Paramer_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+
+
+
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+
+                                                            <Border Width=" 23"
+                                                                    Height=" 23"
+                                                                    Margin="10,4,4,4"
+                                                                    BorderThickness="2"
+                                                                    CornerRadius=" 5">
+                                                                <Border.Style>
+                                                                    <Style TargetType="Border">
+                                                                        <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
+                                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_黄颜色}" />
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding Camer_Status, Mode=TwoWay}" Value="{x:Static MVS_Enum:MV_CAM_Device_Status_Enum.Possess}">
+                                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding Camer_Status, Mode=TwoWay}" Value="{x:Static MVS_Enum:MV_CAM_Device_Status_Enum.Connecting}">
+                                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}}" Value="true">
+                                                                                <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_灰颜色}" />
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Border.Style>
+                                                            </Border>
+
+                                                            <TextBlock Text="{Binding Camera_Info.SerialNumber}"
+                                                                       TextWrapping="Wrap"
+                                                                       Margin="10,0,0,0"
+                                                                       Padding="0,4,0,4"
+                                                                       HorizontalAlignment="Center"
+                                                                       VerticalAlignment="Center"
+                                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                       FontSize="16 "
+                                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                       IsEnabled="True"
+                                                                       TextTrimming="CharacterEllipsis" />
+                                                        </StackPanel>
+
+
+
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+
+
+
+                                            </ComboBox>
+
+
+                                        </Grid>
 
 
                                         <Grid Height=" 35" Margin="8">
@@ -867,7 +1055,9 @@
                                                       BorderThickness="2"
                                                       FontSize="20"
                                                       IsDropDownOpen="False"
-                                                      IsSynchronizedWithCurrentItem="True">
+                                                      IsEnabled="False"
+                                                      IsSynchronizedWithCurrentItem="True"
+                                                      SelectedIndex="{Binding Camera_Calibration_1.Camera_Calibration_Paramteters.Camera_Calibration_Model, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:Halocn_Camera_Calibration_Enum}}">
 
                                                 <ComboBoxItem>
 
@@ -920,7 +1110,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Calibration_Paramteters_0.Focus}">
+                                                    Value="{Binding Camera_Calibration_1.Camera_Calibration_Paramteters.Focus}">
                                                 <!--<i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseUp">
                                             <i:InvokeCommandAction Command="{Binding}"
@@ -971,7 +1161,7 @@
                                                     Maximum="999999999"
                                                     Minimum="-999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Calibration_Paramteters_1.Kappa}" />
+                                                    Value="{Binding Camera_Calibration_1.Camera_Calibration_Paramteters.Kappa}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Camera_Kappa_UI_1, Path=Value, StringFormat={}{0:F4}}"
@@ -1014,7 +1204,7 @@
                                                     Maximum="999999999"
                                                     Minimum="-999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Calibration_Paramteters_1.K1}" />
+                                                    Value="{Binding Camera_Calibration_1.Camera_Calibration_Paramteters.K1}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_K1_UI_1, Path=Value, StringFormat={}{0:F4}}"
@@ -1057,7 +1247,7 @@
                                                     Maximum="999999999"
                                                     Minimum="-999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Calibration_Paramteters_1.K2}" />
+                                                    Value="{Binding Camera_Calibration_1.Camera_Calibration_Paramteters.K2}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_K2_UI_1, Path=Value, StringFormat={}{0:F4}}"
@@ -1100,7 +1290,7 @@
                                                     Maximum="999999999"
                                                     Minimum="-999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Calibration_Paramteters_1.K3}" />
+                                                    Value="{Binding Camera_Calibration_1.Camera_Calibration_Paramteters.K3}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_K3_UI_1, Path=Value, StringFormat={}{0:F4}}"
@@ -1143,7 +1333,7 @@
                                                     Maximum="999999999"
                                                     Minimum="-999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Calibration_Paramteters_1 .P1}" />
+                                                    Value="{Binding Camera_Calibration_1.Camera_Calibration_Paramteters .P1}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_P1_UI_1, Path=Value, StringFormat={}{0:F4}}"
@@ -1186,7 +1376,7 @@
                                                     Maximum="999999999"
                                                     Minimum="-999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Calibration_Paramteters_1.P2}" />
+                                                    Value="{Binding Camera_Calibration_1.Camera_Calibration_Paramteters.P2}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_P2_UI_1, Path=Value, StringFormat={}{0:F4}}"
@@ -1229,7 +1419,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Calibration_Paramteters_1.Sx}" />
+                                                    Value="{Binding Camera_Calibration_1.Camera_Calibration_Paramteters.Sx}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Pixel_Width_UI_1, Path=Value, StringFormat={}{0:F4}}"
@@ -1272,7 +1462,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Calibration_Paramteters_0.Sy}" />
+                                                    Value="{Binding Camera_Calibration_1.Camera_Calibration_Paramteters.Sy}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Pixel_Height_UI_1, Path=Value, StringFormat={}{0:F4}}"
@@ -1315,7 +1505,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Calibration_Paramteters_1.Cx}" />
+                                                    Value="{Binding Camera_Calibration_1.Camera_Calibration_Paramteters.Cx}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Middle_Width_UI_1, Path=Value, StringFormat={}{0:F4}}"
@@ -1358,7 +1548,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Calibration_Paramteters_1.Cy}" />
+                                                    Value="{Binding Camera_Calibration_1.Camera_Calibration_Paramteters.Cy}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Middle_Height_UI_1, Path=Value, StringFormat={}{0:F4}}"
@@ -1401,7 +1591,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Calibration_Paramteters_1.Image_Width}" />
+                                                    Value="{Binding Camera_Calibration_1.Camera_Calibration_Paramteters.Image_Width}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Max_Width_UI_1, Path=Value}"
@@ -1444,7 +1634,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Calibration_Paramteters_1.Image_Height}" />
+                                                    Value="{Binding Camera_Calibration_1.Camera_Calibration_Paramteters.Image_Height}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Max_Heigth_UI_1, Path=Value}"
@@ -1702,11 +1892,10 @@
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
 
+
                                             <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
-                                                    Width="110"
-                                                    HorizontalAlignment="Right"
                                                     Background="{DynamicResource 全局_背景_蓝颜色}">
-                                                <TextBlock Text="通讯连接"
+                                                <TextBlock Text="通讯测试"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -1715,7 +1904,7 @@
 
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding Calibration_Image_Removing_Comm}"
+                                                        <i:InvokeCommandAction Command="{Binding}"
                                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
@@ -1777,12 +1966,12 @@
                                                     <RowDefinition Height="auto" />
                                                 </Grid.RowDefinitions>
 
-                                                <TextBlock Grid.Row=" 0" Grid.Column=" 0"
-                                                           Grid.ColumnSpan=" 2"
+                                                <TextBlock Grid.Row=" 0" Grid.Column=" 1"
+                                                           Grid.ColumnSpan=" 1"
                                                            Text="机器人当前位置"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
-                                                           FontSize="20" />
+                                                           FontSize="16" />
                                                 <Border Grid.Row=" 1" Grid.Column=" 0"
                                                         Grid.ColumnSpan="2"
                                                         Height=" 3"
@@ -1792,12 +1981,12 @@
                                                            Text="X："
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
-                                                           FontSize="20" />
+                                                           FontSize="16" />
                                                 <TextBlock Grid.Row=" 2" Grid.Column=" 1"
                                                            Text="1234.1234"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
-                                                           FontSize="20" />
+                                                           FontSize="16" />
                                                 <Border Grid.Row=" 3" Grid.Column=" 0"
                                                         Grid.ColumnSpan="2"
                                                         Height=" 3"
@@ -1806,12 +1995,12 @@
                                                            Text="Y："
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
-                                                           FontSize="20" />
+                                                           FontSize="16" />
                                                 <TextBlock Grid.Row=" 4" Grid.Column=" 1"
                                                            Text="1234.1234"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
-                                                           FontSize="20" />
+                                                           FontSize="16" />
 
                                                 <Border Grid.Row=" 5" Grid.Column=" 0"
                                                         Grid.ColumnSpan="2"
@@ -1821,12 +2010,12 @@
                                                            Text="Z："
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
-                                                           FontSize="20" />
+                                                           FontSize="16" />
                                                 <TextBlock Grid.Row=" 6" Grid.Column=" 1"
                                                            Text="1234.1234"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
-                                                           FontSize="20" />
+                                                           FontSize="16" />
                                                 <Border Grid.Row=" 7" Grid.Column=" 0"
                                                         Grid.ColumnSpan="2"
                                                         Height=" 3"
@@ -1835,12 +2024,12 @@
                                                            Text="A："
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
-                                                           FontSize="20" />
+                                                           FontSize="16" />
                                                 <TextBlock Grid.Row=" 8" Grid.Column=" 1"
                                                            Text="368.368"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
-                                                           FontSize="20" />
+                                                           FontSize="16" />
                                                 <Border Grid.Row=" 9" Grid.Column=" 0"
                                                         Grid.ColumnSpan="2"
                                                         Height=" 3"
@@ -1849,12 +2038,12 @@
                                                            Text="B："
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
-                                                           FontSize="20" />
+                                                           FontSize="16" />
                                                 <TextBlock Grid.Row=" 10" Grid.Column=" 1"
                                                            Text="368.368"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
-                                                           FontSize="20" />
+                                                           FontSize="16" />
                                                 <Border Grid.Row="11" Grid.Column=" 0"
                                                         Grid.ColumnSpan="2"
                                                         Height=" 3"
@@ -1863,12 +2052,12 @@
                                                            Text="C："
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
-                                                           FontSize="20" />
+                                                           FontSize="16" />
                                                 <TextBlock Grid.Row=" 12" Grid.Column="1"
                                                            Text="368.368"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
-                                                           FontSize="20" />
+                                                           FontSize="16" />
                                             </Grid>
 
 
@@ -2033,7 +2222,7 @@
                                     <StackPanel Orientation="Vertical">
 
 
-                                        <Grid Margin="8">
+                                        <Grid Height=" 100" Margin="8">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="90" />
@@ -2050,8 +2239,9 @@
 
 
                                             <Openfile:UC_Open_File Grid.Column=" 1"
-                                                                   File_Log="{Binding All_Camera_Results.Camera_0_Results.Result_Fold_Address}"
-                                                                   File_Model="Folder" />
+                                                                   File_Filter="标定板文件 (*.cpd*)|*.cpd*"
+                                                                   File_Log="{Binding}"
+                                                                   File_Model="File" />
 
 
                                             <Label Grid.Column=" 3"

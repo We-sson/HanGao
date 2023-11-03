@@ -420,24 +420,24 @@ namespace HanGao.ViewModel
                 {
                     if (window.GetType() == typeof(Vision_hand_eye_Calibration_Window))//使用窗体类进行匹配查找
                     {
-                        User_Log_Add("相机内参标定工具窗口已经打开!", Log_Show_Window_Enum.Home);
+                        User_Log_Add("相机内参标定工具窗口已经打开!", Log_Show_Window_Enum.Home, MessageBoxImage.Error);
                         return;
                     }
 
                 }
 
-               
-  
+
+
 
                 Vision_hand_eye_Calibration_Window HandEye_Window =
                 new Vision_hand_eye_Calibration_Window()
                 {
-         
-                    //DataContext = new Vision_Calibration_Home_VM()
-                    //{
 
+                    //DataContext = new Vision_hand_eye_Calibration_VM()
+                    //{
+                        
                     //},
-      
+
                 };
 
 

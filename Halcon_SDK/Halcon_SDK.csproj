@@ -51,7 +51,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Update="Calibration_File\CalTabFile\27_31_0.0015_calplate.cpd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Calibration_File\CalTabFile\27_31_0.0015_calplate.ps">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Calibration_File\CalTabFile\27_31_0.002_calplate.cpd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Calibration_File\CalTabFile\27_31_0.002_calplate.ps">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
     <None Update="halcon.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Halcon样图测试\立体视觉\27_31_0.0015_calplate.cpd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="hcanvas.dll">
