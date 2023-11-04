@@ -6,7 +6,7 @@
 		<INTERNAL>
 			<IP>192.168.0.2</IP>
          <PORT>54600</PORT>
-			
+			<ENVIRONMENT>Submit</ENVIRONMENT>
 			<ALIVE Set_Flag="2" Ping="1"/>
 		</INTERNAL>
 	</CONFIGURATION>
