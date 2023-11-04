@@ -1,0 +1,30 @@
+<ETHERNETKRL>
+	<CONFIGURATION>
+		<EXTERNAL>
+			<TYPE>Client</TYPE>
+		</EXTERNAL>
+		<INTERNAL>
+			<IP>192.168.0.2</IP>
+         <PORT>54600</PORT>
+			
+			<ALIVE Set_Flag="2" Ping="1"/>
+		</INTERNAL>
+	</CONFIGURATION>
+	<RECEIVE>
+		<XML>
+			<ELEMENT Tag="KUKA_Send/@IsStatus" Type="BOOL" /> 
+         <ELEMENT Tag="KUKA_Send/Message_Error" Type="STRING"/>
+		</XML>
+	</RECEIVE>
+	<SEND>
+		<XML>
+			<ELEMENT Tag="KUKA_Receive/@Model" Type="STRING"/>
+         <ELEMENT Tag="KUKA_Receive/Actual_Point/@X" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Actual_Point/@Y" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Actual_Point/@Z" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Actual_Point/@A" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Actual_Point/@B" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Actual_Point/@C" Type="REAL"/>
+		</XML>
+	</SEND>
+</ETHERNETKRL>

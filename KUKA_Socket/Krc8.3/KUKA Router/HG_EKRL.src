@@ -1,0 +1,102 @@
+&ACCESS RVP
+&REL 141
+&PARAM EDITMASK = *
+&PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
+DEF HG_EKRL( )
+;fold DECL
+DECL INT TTTT
+DECL CHAR Bytes[32]
+DECL EKI_STATUS RET
+;endfold
+;FOLD INI;%{PE}
+  ;FOLD BASISTECH INI
+    GLOBAL INTERRUPT DECL 3 WHEN $STOPMESS==TRUE DO IR_STOPM ( )
+    INTERRUPT ON 3 
+    BAS (#INITMOV,0 )
+  ;ENDFOLD (BASISTECH INI)
+  ;FOLD USER INI
+    ;Make your modifications here
+
+  ;ENDFOLD (USER INI)
+
+;ENDFOLD (INI)
+
+
+EKRL_CONNECT()
+
+;Bytes[]="hellow"
+;halt
+
+;EKRL_Close()
+END
+GLOBAL DEF EKRL_Connect()
+DECL EKI_STATUS RET
+DECL INT Mess_INT
+DECL BOOL Mess_Del
+EKRL_NAME[]="HanGaoEkrl"
+Mess_INT=-1
+RET=EKI_Init(EKRL_NAME[])
+EKI_CHECK(RET,#Quit,EKRL_NAME[])
+
+;HALT
+RET=EKI_OPEN(EKRL_NAME[])
+EKI_CHECK(RET,#Quit,EKRL_NAME[])
+
+WAIT SEC 2
+
+;MSGNOTIFY("HanGao:Socket Connecting!")
+
+REPEAT
+;halt
+IF NOT Exists_KrlMsg(Mess_INT) THEN
+Msg_Wait("Socket Connecting",false,Mess_INT)
+;halt
+ENDIF
+IF NOT $FLAG[Flag_Number]  THEN
+RET=EKI_open(EKRL_NAME[])
+wait sec 2
+;HALT
+ENDIF
+
+UNTIL  $Flag[Flag_Number]
+Mess_Del=Clear_KrlMsg(Mess_INT)
+MSGNOTIFY("HanGao:Socket Connecting OK!")
+
+
+End
+GLOBAL DEF EKRL_Close()
+
+DECL EKI_STATUS RET
+RET=EKI_Close(EKRL_NAME[])
+RET=EKI_Clear(EKRL_NAME[])
+
+END
+
+
+
+GLOBAL  DEF  Msg_Wait(mess[]:IN,Wait_ON:IN,MSG_INT:OUT)
+DECL INT Msg_INT
+DECL BOOL Msg_Clear,Msg_Exit,Wait_ON
+DECL CHAR mess[]
+DECL KRLMSG_T MYMESSAGE
+DECL KRLMSGPAR_T Parameter[3]
+DECL KRLMSGOPT_T Option
+Msg_INT=-1
+Msg_Clear=false
+Msg_Exit=false
+mymessage.Msg_txt[]=mess[]
+MYMESSAGE.Modul[]="HanGao"
+MYMESSAGE.Nr=1
+Parameter[1]={Par_Type #EMPTY}
+Parameter[2]={Par_Type #EMPTY}
+Parameter[3]={Par_Type #EMPTY}
+MSG_INT=SET_KRLMSG(#WAITING,MYMESSAGE,Parameter[],Option)
+
+REPEAT
+wait sec 0.012
+IF $FLAG[Flag_Number] THEN
+Msg_Clear=Clear_KrlMsg(Msg_INT)
+ENDIF
+Msg_Exit=Exists_KrlMsg(Msg_INT)
+UNTIL NOT(Msg_Exit) OR Msg_Clear OR NOT(WAIT_ON)
+END
