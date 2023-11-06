@@ -1,12 +1,16 @@
-&ACCESS RVO1
-&REL 360
+&ACCESS RVO
+&REL 366
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
 DEFDAT  GLODE_HANGAO PUBLIC
 
-
-
+GLOBAL  BOOL EKI_Server_Ini
+GLOBAL  BOOL EKI_Server_Open
+GLOBAL  BOOL EKI_Server_Connect
+GLOBAL  BOOL EKI_Server_Receive
+GLOBAL  BOOL EKI_Server_Send
+GLOBAL  BOOL EKI_Server_Reset 
 
 ;--------DECL_Enum---------------
 GLOBAL ENUM Sink_Type_Enum UpDown_One,LeftRight_One,LeftRight_Two,Null

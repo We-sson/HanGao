@@ -1,0 +1,122 @@
+&ACCESS RVP
+&REL 53
+&PARAM SensorITMASK = *
+&PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
+&PARAM DISKPATH = KRC:\R1\Program
+DEF XmlServer11( )
+;FOLD Declaration
+DECL EKI_STATUS RET
+
+DECL CHAR Message_Error[1024]
+DECL  BOOL IsStatus
+;ENDFOLD (Declaration)
+;FOLD INI
+  ;FOLD BASISTECH INI
+  BAS (#INITMOV,0 )
+  ;ENDFOLD (BASISTECH INI)
+  ;FOLD USER INI
+    ;Make your modifications here
+
+  ;ENDFOLD (USER INI)
+;ENDFOLD (INI)
+    IsStatus=false
+    Message_Error[]=" "
+    EKI_Server_Ini=false
+    EKI_Server_Open=false
+    EKI_Server_Connect=false
+    EKI_Server_Receive=false
+    EKI_Server_Send=false
+    EKI_Server_Reset=false
+
+if NOT EKI_Server_Ini THEN
+RET=EKI_Init("Xml_Ini_Server")
+if RET.Msg_No==0 then
+EKI_Server_Ini=true
+else
+RET=EKI_Clear("Xml_Ini_Server")
+RET=EKI_Init("Xml_Ini_Server")
+EKI_Server_Ini=true
+endif
+endif
+
+loop
+
+
+IF EKI_Server_Ini And NOT EKI_Server_Open then
+RET=EKI_Open("Xml_Ini_Server")
+
+if (RET.Msg_No==0) AND RET.Connected THEN
+
+EKI_Server_Open=true
+else
+RET=EKI_Close("Xml_Ini_Server")
+RET=EKI_Open("Xml_Ini_Server")
+EKI_Server_Open=true
+endif
+
+endif
+
+IF EKI_Server_Ini And  EKI_Server_Open AND $FLAG[2] then
+;Send DATE Type
+EKI_Server_Connect=true
+;halt
+endif
+
+IF EKI_Server_Ini And  EKI_Server_Open AND NOT $FLAG[2] then
+;Send DATE Type
+EKI_Server_Connect=false
+;halt
+endif
+
+
+IF EKI_Server_Ini And  EKI_Server_Open AND $FLAG[2] AND  $FLAG[3] then
+;Send DATE Type
+EKI_Server_Receive=true
+halt
+endif
+
+
+IF EKI_Server_Ini And  EKI_Server_Open AND EKI_Server_Connect AND EKI_Server_Receive  then
+
+RET=EKI_GetBool("Xml_Ini_Server","KUKA_Send/@IsStatus" ,IsStatus)
+RET=EKI_GetString("Xml_Ini_Server","KUKA_Send/Message_Error" ,Message_Error[])
+
+IF  IsStatus THEN
+
+MSGNOTIFY(Message_Error[])
+
+RET=EKI_SetString("Xml_Ini_Server","KUKA_Receive/@Model","EKI_Server_Text")
+RET=EKI_SetFrame("Xml_Ini_Server","KUKA_Receive/Actual_Point", $POS_ACT)
+
+RET = EKI_Send("Xml_Ini_Server","KUKA_Receive")
+
+EKI_Server_Send=true
+else
+
+MsgQuit(Message_Error[], "HanGao")
+
+
+
+ENDIF
+
+$FLAG[3]=false
+EKI_Server_Send=false
+EKI_Server_Receive=false
+
+
+ENDIF
+
+
+IF EKI_Server_Ini And NOT EKI_Server_Open AND  NOT $FLAG[2]  then
+;Send DATE Type
+EKI_Server_Connect=false
+EKI_Server_Receive=false
+EKI_Server_Send=false
+
+endif
+
+
+
+endloop
+RET=EKI_Clear("Xml_Ini_Server")
+END
