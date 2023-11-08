@@ -1,8 +1,7 @@
 &ACCESS RVP
-&REL 91
+&REL 100
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
-&PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
 DEF A_154( )
 ;FOLD INI;%{PE}
   ;FOLD BASISTECH INI
@@ -32,6 +31,15 @@ PTP XP1
 
 
 
+;FOLD Vision.HandEye_Calib_Ini Model:START;%{PE}%MKUKATPUSER
+
+
+Gb_HandEye_Calib_Model=#Cali_START
+
+
+
+
+;ENDFOLD
 
 
 ;FOLD PTP P3 Vel=100 % PDAT3 Tool[1]:Tool1 Base[0];%{PE}
@@ -45,10 +53,12 @@ BAS(#PTP_PARAMS, 100.0)
 SET_CD_PARAMS (0)
 PTP XP3
 ;ENDFOLD
-;FOLD Vision.Find_Model Work: 1, Area: 45 ;%{PE}
+;FOLD Vision.HandEye_Calib_Point ID:0;%{PE}%MKUKATPUSER
 
 
-EKRL_Find_Model_Send("Xml_Vision_Model",1,1)
+
+EKRL_HandEye_Point("Xml_HandEye_Calib" ,0)
+
 
 
 ;ENDFOLD
@@ -65,10 +75,12 @@ BAS(#PTP_PARAMS, 100.0)
 SET_CD_PARAMS (0)
 PTP XP4
 ;ENDFOLD
-;FOLD Vision.Find_Model Work: 1, Area: 45 ;%{PE}
+;FOLD Vision.HandEye_Calib_Point ID:1;%{PE}%MKUKATPUSER
 
 
-EKRL_Find_Model_Send("Xml_Vision_Model",1,1)
+
+
+
 
 
 ;ENDFOLD
@@ -86,10 +98,12 @@ BAS(#PTP_PARAMS, 100.0)
 SET_CD_PARAMS (0)
 PTP XP5
 ;ENDFOLD
-;FOLD Vision.Find_Model Work: 1, Area: 45 ;%{PE}
+;FOLD Vision.HandEye_Calib_Point ID:2;%{PE}%MKUKATPUSER
 
 
-EKRL_Find_Model_Send("Xml_Vision_Model",1,1)
+
+
+
 
 
 ;ENDFOLD

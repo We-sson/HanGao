@@ -1,0 +1,28 @@
+<ETHERNETKRL>
+	<CONFIGURATION>
+		<EXTERNAL>
+		   <IP>192.168.153.153</IP>
+			<PORT>5000</PORT>
+		</EXTERNAL>
+		<INTERNAL>
+			<ALIVE Set_Flag="1"/>
+		</INTERNAL>
+	</CONFIGURATION>
+	<RECEIVE>
+		<XML>
+			<ELEMENT Tag="KUKA_Send/@IsStatus" Type="BOOL"  Set_Flag="2" /> 
+         <ELEMENT Tag="KUKA_Send/Message_Error" Type="STRING"/>
+		</XML>
+	</RECEIVE>
+	<SEND>
+		<XML>
+			<ELEMENT Tag="KUKA_Receive/@Model" Type="STRING"/>
+         <ELEMENT Tag="KUKA_Receive/Actual_Point/@X" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Actual_Point/@Y" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Actual_Point/@Z" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Actual_Point/@A" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Actual_Point/@B" Type="REAL"/>
+         <ELEMENT Tag="KUKA_Receive/Actual_Point/@C" Type="REAL"/>
+		</XML>
+	</SEND>
+</ETHERNETKRL>

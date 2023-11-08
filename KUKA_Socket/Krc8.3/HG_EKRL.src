@@ -1,5 +1,5 @@
-&ACCESS RVO
-&REL 266
+&ACCESS RVO1
+&REL 270
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
@@ -23,8 +23,8 @@ DECL EKI_STATUS RET
 ;ENDFOLD (INI)
 ;------------
 
-EKRL_CONNECT()
 
+EKRL_CONNECT()
 
 
 ;Bytes[]="hellow"
@@ -34,26 +34,43 @@ EKRL_CONNECT()
 END
 
 
-GLOBAL DEF EKRL_Int_Server_Data(EKRL_NAME:IN)
+GLOBAL DEF EKRL_HandEye_Point(EKRL_NAME:IN,HandEye_ID:IN)
+DECL CHAR Message_Error[1024],EKRL_NAME[]
 DECL EKI_STATUS RET
-DECL INT Mess_INT
-DECL BOOL Mess_Del
-DECL CHAR EKRL_NAME[]
-;EKRL_NAME[]="HanGaoEkrl"
-Mess_INT=-1
-RET=EKI_Init(EKRL_NAME[])
-EKI_CHECK(RET,#Quit,EKRL_NAME[])
-
-;HALT
-RET=EKI_OPEN(EKRL_NAME[])
-EKI_CHECK(RET,#Quit,EKRL_NAME[])
-
-wait sec 0.2
+DECL  BOOL IsStatus
+DECL INT HandEye_ID
+Message_Error[]=" "
+IsStatus=false
 
 
+EKRL_Connect(EKRL_NAME[])
 
+RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/@Model","HandEye_Calib_Date")
+RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Actual_Point", $POS_ACT)
+RET = EKI_Send(EKRL_NAME[],"KUKA_Receive")
+
+Message_Wait("Wait Camera Calib!",2)
+
+RET=EKI_GetBool(EKRL_NAME[],"KUKA_Send/@IsStatus" ,IsStatus)
+RET=EKI_GetString(EKRL_NAME[],"KUKA_Send/Message_Error" ,Message_Error[])
+
+RET=EKI_Close(EKRL_NAME[])
+RET=EKI_Clear(EKRL_NAME[])
+
+IF  IsStatus THEN
+
+MSGNOTIFY(Message_Error[])
+
+else
+
+MsgQuit(Message_Error[], "HanGao")
+halt
+ENDIF
 
 END
+
+
+
 
 GLOBAL DEF EKRL_Vision_Int_Data(EKRL_NAME:IN)
 DECL CHAR Message_Error[1024],EKRL_NAME[]

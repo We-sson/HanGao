@@ -22,6 +22,11 @@ DEFTP Vision={ SOt FALSE,Soc TRUE }
    ITEM[3] {ITEM: VALUE[] "#Text", DISP[] "Text"},   _
    POS 1}}
 
+  DECL PARAM HandEye_Model= {SHORTNAME[] "Model:" , VALUE {LIST: _
+   ITEM[1] {ITEM: VALUE[] "#Cali_START", DISP[] "START"},   _
+   ITEM[2] {ITEM: VALUE[] "#Cali_END", DISP[] "END"},   _
+   POS 1}}
+   
    
   DECL PARAM Work_Area= {SHORTNAME[] "Work:" , VALUE {LIST: _
    ITEM[1] {ITEM: VALUE[] "1"   , DISP[] "1"},   _
@@ -55,6 +60,7 @@ DEFTP Vision={ SOt FALSE,Soc TRUE }
 
   Decl PARAM Find_ID =  {SHORTNAME[] "ID:" ,  VALUE {NUMBER:MIN 1, MAX 100, STEP 1, AUTOLIMIT TRUE, DEFAULT 1}, UNIT[] "", SHORTCUT[] "" }
 
+  Decl PARAM HandEye_ID =  {SHORTNAME[] "ID:" ,  VALUE {NUMBER:MIN 0, MAX 999, STEP 1, AUTOLIMIT TRUE, DEFAULT 0}, UNIT[] "", SHORTCUT[] "" }
 
 
 
@@ -94,8 +100,6 @@ DEFTP Vision={ SOt FALSE,Soc TRUE }
  
  
  
- 
- 
   DECL FOLD Find_Model_FOLD[5]
             Find_Model_FOLD[1]=""
             Find_Model_FOLD[2]=""
@@ -120,7 +124,21 @@ DEFTP Vision={ SOt FALSE,Soc TRUE }
             Vision_Ini_FOLD[5]=""
            
 
+  DECL FOLD HandEye_Calib_Ini_FOLD[5]
+            HandEye_Calib_Ini_FOLD[1]=""
+            HandEye_Calib_Ini_FOLD[2]="Gb_HandEye_Calib_Model=%HandEye_Model "
+            HandEye_Calib_Ini_FOLD[3]=""
+            HandEye_Calib_Ini_FOLD[4]=""
+            HandEye_Calib_Ini_FOLD[5]=""  
              
+             
+             
+  DECL FOLD HandEye_Calib_Point_FOLD[5]
+            HandEye_Calib_Point_FOLD[1]=""
+            HandEye_Calib_Point_FOLD[2]=""
+            HandEye_Calib_Point_FOLD[3]="EKRL_HandEye_Point(/"Xml_HandEye_Calib/" ,%HandEye_ID )"
+            HandEye_Calib_Point_FOLD[4]=""
+            HandEye_Calib_Point_FOLD[5]=""               
              
 ;-----------------LIN_DECL------------------------
 
@@ -177,13 +195,17 @@ ENDSCRIPT
  
     ;DECL InlineForm Find_Connect={ FOLD[1] Find_Connect_FOLD  ,ONACCEPT Calibration_Ini}
     ;DECL InlineForm Calibration_Connect={ FOLD[1] Calibration_Connect_FOLD,PARAM[1] Area_Calib_lIST ,PARAM[2] Work_Area,ONACCEPT Calibration_Ini}
-    DECL InlineForm Calibration_Point={ FOLD[1] Pos_Number_FOLD,PARAM[1] Calib_NAME , PARAM[2] Calib_NO}
-    DECL InlineForm Calibration_Camera_Pos={ FOLD[1] Calibration_Camera_Pos_FOLD,PARAM[1] Camera_Name , PARAM[2] Area_Calib_lIST,PARAM[3] Work_Area}
-    DECL InlineForm Calibration_Send={ FOLD[1] Data_Send_FOLD,PARAM[1] Area_Calib_lIST , PARAM[2] Work_Area }
-    DECL InlineForm Calibration_Ini={ FOLD[1] Calibration_Ini_FOLD ,PARAM[1] Calib_Model,ONACCEPT Calibration_Ini_Fun}
+    DECL  InlineForm Calibration_Point={ FOLD[1] Pos_Number_FOLD,PARAM[1] Calib_NAME , PARAM[2] Calib_NO}
+    DECL  InlineForm Calibration_Camera_Pos={ FOLD[1] Calibration_Camera_Pos_FOLD,PARAM[1] Camera_Name , PARAM[2] Area_Calib_lIST,PARAM[3] Work_Area}
+    DECL  InlineForm Calibration_Send={ FOLD[1] Data_Send_FOLD,PARAM[1] Area_Calib_lIST , PARAM[2] Work_Area }
+    DECL  InlineForm Calibration_Ini={ FOLD[1] Calibration_Ini_FOLD ,PARAM[1] Calib_Model,ONACCEPT Calibration_Ini_Fun}
 
-
-    DECL InlineForm Find_Model={ FOLD[1] Find_Model_FOLD ,PARAM[1] Work_Area,PARAM[2] Area_Calib_lIST}
+    DECL  InlineForm HandEye_Calib_Ini={ FOLD[1] HandEye_Calib_Ini_FOLD, PARAM[1] HandEye_Model}
+    
+    DECL  InlineForm HandEye_Calib_Point={ FOLD[1] HandEye_Calib_Point_FOLD, PARAM[1] HandEye_ID}
+ 
+ 
+    DECL  InlineForm Find_Model={ FOLD[1] Find_Model_FOLD ,PARAM[1] Work_Area,PARAM[2] Area_Calib_lIST}
     DECL  InlineForm Camera_Offset={FOLD[1] Camera_Offset_Fold,PARAM[1] Camera_Name,PARAM[2] Area_Calib_lIST,PARAM[3] Work_Area }
     DECL  InlineForm Vision_Ini={FOLD[1] Vision_Ini_FOLD}
 

@@ -245,7 +245,7 @@ namespace Soceket_KUKA
 
                 //提取接收内容解析
                 XElement _KUKA_Receive= XElement.Parse(_St);
-                Vision_Model_Enum _Model = (Vision_Model_Enum)Enum.Parse(typeof(Vision_Model_Enum), _KUKA_Receive.Attribute("Model").Value.ToString());
+                Vision_Model_Enum _Model = Enum.Parse<Vision_Model_Enum>( _KUKA_Receive.Attribute("Model").Value.ToString());
 
                 string _Str = "";
                 //将对应的功能反序列化处理
