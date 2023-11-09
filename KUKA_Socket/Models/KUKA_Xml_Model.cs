@@ -14,6 +14,10 @@ namespace KUKA_Socket.Models
 
 
 
+
+
+
+
     /// <summary>
     /// 标定查找接收协议格式
     /// </summary>
@@ -47,6 +51,43 @@ namespace KUKA_Socket.Models
     }
 
 
+    /// <summary>
+    /// 手眼相机标定发送协议格式
+    /// </summary>
+    [Serializable]
+    [XmlType("KUKA_Send")]
+    public class KUKA_HandEye_Calibration_Send
+    {
+        /// <summary>
+        /// 标定消息错误
+        /// </summary>
+        public string Message_Error { set; get; }
+        /// <summary>
+        /// 标定状态
+        /// </summary>
+        [XmlAttribute]
+        public int IsStatus { set; get; }
+
+    }
+
+    /// <summary>
+    /// 手眼相机标定接收协议格式
+    /// </summary>
+    [Serializable]
+    [XmlType("KUKA_Receive")]
+    public class KUKA_HandEye_Calibration_Receive
+    {
+
+        /// <summary>
+        /// 接收模式
+        /// </summary>
+        public Vision_Model_Enum Model { set; get; }
+
+        [XmlAttribute]
+        public Point_Models Actual_Point { set; get; }
+
+    }
+
 
     /// <summary>
     /// 标定查找接收协议格式
@@ -79,9 +120,6 @@ namespace KUKA_Socket.Models
     [XmlType("KUKA_Send")]
     public class Calibration_Data_Send
     {
-
-
-
 
         public string Message_Error { set; get; }
         [XmlAttribute]
@@ -209,8 +247,18 @@ namespace KUKA_Socket.Models
         Calibration_Add,
         Find_Model,
         Vision_Ini_Data,
+        HandEye_Calib_Date,
     }
 
+    /// <summary>
+    /// 通讯机器人协议枚举
+    /// </summary>
+    public enum Socket_Robot_Protocols_Enum
+    {
+        KUKA,
+        ABB,
+        川崎
 
+    }
 
 }

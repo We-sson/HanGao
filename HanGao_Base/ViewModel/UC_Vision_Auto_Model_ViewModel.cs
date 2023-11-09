@@ -1,4 +1,5 @@
 ﻿using HanGao.View.User_Control.Vision_Control;
+using HanGao.View.User_Control.Vision_hand_eye_Calibration;
 using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
 using HanGao.Xml_Date.Xml_Write_Read;
 
@@ -120,7 +121,7 @@ namespace HanGao.ViewModel
         /// </summary>
         public ICommand Server_End_Comm
         {
-            get => new RelayCommand<UC_Vision_Auto_Model>((Sm) =>
+            get => new RelayCommand<Vision_hand_eye_Calibration_Window>((Sm) =>
             {
                 if (Receive_Start_Type)
                 {

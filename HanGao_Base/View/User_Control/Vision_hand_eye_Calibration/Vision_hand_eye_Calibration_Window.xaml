@@ -10,6 +10,7 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:HanGao.View.User_Control.Vision_hand_eye_Calibration"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         Title="视觉手眼标定工具"
         MinWidth=" 1350"
         d:Height="1080"
@@ -19,6 +20,14 @@
         mc:Ignorable="d">
     <Window.Resources>
         <Enum_Converter:Halcon_EnumConverter x:Key="Halcon_EnumConverter" />
+
+        <ObjectDataProvider x:Key="EnumDataSource"
+                            MethodName="GetValues"
+                            ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="HorizontalAlignment" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
     </Window.Resources>
 
     <i:Interaction.Triggers>
@@ -1769,28 +1778,23 @@
                                                       BorderThickness="2"
                                                       FontSize="20"
                                                       IsDropDownOpen="False"
-                                                      IsSynchronizedWithCurrentItem="True">
+                                                      IsSynchronizedWithCurrentItem="True"
+                                                      ItemsSource="{Binding Source={StaticResource EnumDataSource}}"
+                                                      SelectedValue="{Binding HandEye_Socket_Robot}">
 
-                                                <ComboBoxItem>
+                                                <DataTemplate>
 
-                                                    <TextBlock Text="KUKA"
+                                                    <TextBlock Text="{Binding}"
                                                                TextWrapping="Wrap"
                                                                Padding="0,4,0,4"
                                                                FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="14"
+                                                               FontSize="16"
                                                                Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
-                                                <ComboBoxItem>
 
-                                                    <TextBlock Text="ABB"
-                                                               TextWrapping="Wrap"
-                                                               Padding="0,4,0,4"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="14"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
+
+
+                                                </DataTemplate>
 
 
                                             </ComboBox>
@@ -1821,7 +1825,6 @@
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                             <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
-                                                      Margin="5,0,5,0"
                                                       VerticalContentAlignment="Center"
                                                       BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                       BorderThickness="2"
@@ -1832,6 +1835,7 @@
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
 
+
                                                         <TextBlock Text="{Binding}"
                                                                    TextWrapping="Wrap"
                                                                    Padding="0,4,0,4"
@@ -1839,7 +1843,6 @@
                                                                    FontSize="16"
                                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                    TextTrimming="CharacterEllipsis" />
-
 
 
                                                     </DataTemplate>
@@ -1872,8 +1875,9 @@
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
+
                                             <TextBox Grid.Column=" 1"
-                                                     Text="5400"
+                                                     Text="{Binding HandEye_Socket_Port}"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
                                                      Background="Transparent"
@@ -1906,8 +1910,18 @@
 
 
 
-                                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
-                                                    Background="{DynamicResource 全局_背景_蓝颜色}">
+                                            <Button Grid.Column=" 1">
+                                                <Button.Style>
+                                                    <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
+                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_灰颜色}" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding HandEye_Socket_Server_Type}" Value="false">
+                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+
                                                 <TextBlock Text="服务器开启"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
@@ -1917,7 +1931,7 @@
 
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding}"
+                                                        <i:InvokeCommandAction Command="{Binding HandEye_Server_Void_Comm}"
                                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>

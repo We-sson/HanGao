@@ -1,4 +1,5 @@
 ﻿
+using HanGao.View.User_Control.Vision_Control;
 using HanGao.View.User_Control.Vision_hand_eye_Calibration;
 using static HanGao.ViewModel.UC_Vision_CameraSet_ViewModel;
 using static MVS_SDK_Base.Model.MVS_Model;
@@ -19,7 +20,89 @@ namespace HanGao.ViewModel
             Camera_Calibration_Info_List = new ObservableCollection<MVS_Camera_Info_Model>(MVS_Camera_Info_List);
 
 
+#if DEBUG
 
+
+            HandEye_Calib_Sever_Start();
+#endif
+        }
+
+
+        /// <summary>
+        /// 电脑网口设备IP网址
+        /// </summary>
+        public ObservableCollection<string> Local_IP_UI { set; get; } = new ObservableCollection<string>();
+
+        /// <summary>
+        /// 库卡通讯服务器属性
+        /// </summary>
+        public List<Socket_Receive> HandEye_Receive_List { set; get; } = new List<Socket_Receive>();
+
+        /// <summary>
+        /// 手眼标定通讯协议机器人
+        /// </summary>
+        public Socket_Robot_Protocols_Enum HandEye_Socket_Robot { set; get; }
+        /// <summary>
+        /// 手眼标定通讯端口
+        /// </summary>
+        public int HandEye_Socket_Port { set; get; } = 5400;
+
+
+        /// <summary>
+        /// 手眼标定服务器启动状态
+        /// </summary>
+        public bool HandEye_Socket_Server_Type { set; get; } = true ;
+        /// <summary>
+        /// 初始化服务器全部ip启动
+        /// </summary>
+        public void HandEye_Calib_Sever_Start()
+        {
+
+
+            List<string> _List = new List<string>();
+            if (Socket_Receive.GetLocalIP(ref _List))
+            {
+
+
+                Local_IP_UI = new ObservableCollection<string>(_List) { };
+
+
+                ///启动服务器添加接收事件
+                foreach (var _Sever in Local_IP_UI)
+                {
+
+                    HandEye_Receive_List.Add(new Socket_Receive(_Sever, HandEye_Socket_Port.ToString())
+                    {
+                        Socket_Robot = HandEye_Socket_Robot,
+                        KUKA_HandEye_Calibration_String = HandEye_Calib_Socket_Receive,
+                        Socket_ErrorInfo_delegate = Socket_Log_Show
+                    }); ; 
+
+                }
+
+
+
+                //KUKA_Receive.Server_Strat(Local_IP_UI[IP_UI_Select].ToString(), Local_Port_UI.ToString());
+                HandEye_Socket_Server_Type = false;
+                User_Log_Add("开启手眼标定服务器端口:" + HandEye_Socket_Port, Log_Show_Window_Enum.Home, MessageBoxImage.Question );
+
+            }
+
+        }
+
+        /// <summary>
+        /// 初始化服务器全部停止
+        /// </summary>
+        public void HandEye_Calib_Sever_Stop()
+        {
+
+            foreach (var _Sock in HandEye_Receive_List)
+            {
+
+
+                _Sock.Sever_End();
+            }
+            User_Log_Add("停止手眼标定服务器!", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
 
 
         }
@@ -27,7 +110,55 @@ namespace HanGao.ViewModel
 
 
 
+        public string HandEye_Calib_Socket_Receive(KUKA_HandEye_Calibration_Receive _S, string _RStr)
+        {
 
+
+
+
+
+
+            return "";
+        }
+
+        /// <summary>
+        /// 通讯日志显示
+        /// </summary>
+        /// <param name="_log"></param>
+        public  void Socket_Log_Show(string _log)
+        {
+            User_Log_Add(_log, Log_Show_Window_Enum.Home);
+        }
+
+        /// <summary>
+        ///服务器启动停止按钮
+        /// </summary>
+        public ICommand HandEye_Server_Void_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                Button E = Sm.Source as Button;
+
+
+                if (HandEye_Socket_Server_Type)
+                {
+
+                    HandEye_Calib_Sever_Start();
+                    HandEye_Socket_Server_Type = false;
+
+                }
+                else
+                {
+                    HandEye_Calib_Sever_Stop();
+                    HandEye_Socket_Server_Type = true;
+                }
+
+            });
+        }
+
+        /// <summary>
+        /// 初始化窗口方法
+        /// </summary>
         public ICommand Initialization_HandEye_Window_Comm
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>

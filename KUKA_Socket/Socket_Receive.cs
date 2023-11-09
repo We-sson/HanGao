@@ -26,10 +26,20 @@ namespace Soceket_KUKA
         }
 
 
-
+        /// <summary>
+        /// 接收委托类型声明
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <param name="_T"></param>
+        /// <param name="_S"></param>
+        /// <returns></returns>
         public delegate string ReceiveMessage_delegate<T1, T2>(T1 _T, T2 _S);
 
-
+        /// <summary>
+        /// 机器人通讯
+        /// </summary>
+        public Socket_Robot_Protocols_Enum Socket_Robot { set; get; }
 
         /// <summary>
         /// 声明接收信息委托
@@ -41,7 +51,9 @@ namespace Soceket_KUKA
         public ReceiveMessage_delegate<Calibration_Data_Receive, string> KUKA_Receive_Find_String { set; get; }
         public ReceiveMessage_delegate<Vision_Ini_Data_Receive, string> KUKA_Receive_Vision_Ini_String { set; get; }
 
+        public ReceiveMessage_delegate<KUKA_HandEye_Calibration_Receive, string> KUKA_HandEye_Calibration_String { set; get; }
 
+        
 
 
         /// <summary>
@@ -52,6 +64,9 @@ namespace Soceket_KUKA
 
 
 
+        /// <summary>
+        /// 通讯服务器
+        /// </summary>
         public Socket Socket_Sever { set; get; }
 
 
@@ -198,25 +213,42 @@ namespace Soceket_KUKA
                 try
                 {
                     int length = client.EndReceive(ar);
-
+                    string _S = string.Empty;
                     string message = Encoding.UTF8.GetString(buffer, 0, length);
                     //WriteLine(clientipe + " ：" + message, ConsoleColor.White);
                     //每当服务器收到消息就会给客户端返回一个Server received data
 
-
+               
 
                     if (message == "")
                     {
                         Socket_ErrorInfo_delegate("设备IP: " + clientipe.Address.ToString() + " 断开连接! ");
                         return;
                     }
-                    string _S = Vision_Model(message);
 
+                    switch (Socket_Robot)
+                    {
+                        case Socket_Robot_Protocols_Enum.KUKA:
+                             _S = Vision_Model(message);
 
+                            break;
+                        case Socket_Robot_Protocols_Enum.ABB:
+                            break;
+                        case Socket_Robot_Protocols_Enum.川崎:
+                            break;
+                    }
+
+                    if (_S!=string.Empty)
+                    {
 
                     client.Send(Encoding.UTF8.GetBytes(_S));
                     //通过递归不停的接收该客户端的消息
                     client.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), client);
+                    }
+                    else
+                    {
+                        throw new Exception("现有通讯协议无法解析，请联系开发者！");
+                    }
                 }
                 catch (Exception e)
                 {
@@ -280,6 +312,15 @@ namespace Soceket_KUKA
                  
 
                         break;
+
+                    case Vision_Model_Enum.HandEye_Calib_Date:
+
+                        KUKA_HandEye_Calibration_Receive _HandEye_Receive = KUKA_Send_Receive_Xml.String_Xml<KUKA_HandEye_Calibration_Receive>(_St);
+                       
+                        _Str= KUKA_HandEye_Calibration_String(_HandEye_Receive, _St);
+
+                        break;
+
 
                 }
 
