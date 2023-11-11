@@ -1,7 +1,8 @@
 &ACCESS RVP
-&REL 100
+&REL 107
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
+&PARAM DISKPATH = KRC:\R1\Program\HK
 DEF A_154( )
 ;FOLD INI;%{PE}
   ;FOLD BASISTECH INI
@@ -31,16 +32,16 @@ PTP XP1
 
 
 
+
 ;FOLD Vision.HandEye_Calib_Ini Model:START;%{PE}%MKUKATPUSER
 
 
-Gb_HandEye_Calib_Model=#Cali_START
+EKRL_HandEye_Point("Xml_HandEye_Calib",-1,#Calibration_Start)
 
 
 
 
 ;ENDFOLD
-
 
 ;FOLD PTP P3 Vel=100 % PDAT3 Tool[1]:Tool1 Base[0];%{PE}
 ;FOLD Parameters ;%{h}
@@ -79,7 +80,7 @@ PTP XP4
 
 
 
-
+EKRL_HandEye_Point("Xml_HandEye_Calib" ,1)
 
 
 
@@ -102,7 +103,7 @@ PTP XP5
 
 
 
-
+EKRL_HandEye_Point("Xml_HandEye_Calib" ,2)
 
 
 

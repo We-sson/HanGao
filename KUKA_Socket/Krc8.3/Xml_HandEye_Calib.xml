@@ -1,8 +1,8 @@
 <ETHERNETKRL>
 	<CONFIGURATION>
 		<EXTERNAL>
-		   <IP>192.168.153.153</IP>
-			<PORT>5000</PORT>
+		   <IP>192.168.0.1</IP>
+			<PORT>5400</PORT>
 		</EXTERNAL>
 		<INTERNAL>
 			<ALIVE Set_Flag="1"/>
@@ -17,6 +17,7 @@
 	<SEND>
 		<XML>
 			<ELEMENT Tag="KUKA_Receive/@Model" Type="STRING"/>
+         <ELEMENT Tag="KUKA_Receive/@Calibration_Model" Type="STRING"/>
          <ELEMENT Tag="KUKA_Receive/Actual_Point/@X" Type="REAL"/>
          <ELEMENT Tag="KUKA_Receive/Actual_Point/@Y" Type="REAL"/>
          <ELEMENT Tag="KUKA_Receive/Actual_Point/@Z" Type="REAL"/>

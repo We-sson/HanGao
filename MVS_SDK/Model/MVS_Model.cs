@@ -201,6 +201,41 @@ namespace MVS_SDK_Base.Model
         [Serializable]
         public class MVS_Camera_Parameter_Model
         {
+            public MVS_Camera_Parameter_Model(MVS_Camera_Parameter_Model _Param)
+            {
+                AcquisitionMode = _Param.AcquisitionMode;
+                AcquisitionFrameRateEnable = _Param.AcquisitionFrameRateEnable;
+                ExposureTime = _Param. ExposureTime;
+                ExposureAuto = _Param.ExposureAuto;
+                ExposureMode = _Param.ExposureMode;
+                TriggerMode = _Param.TriggerMode;
+                TriggerActivation = _Param.TriggerActivation;
+                TriggerDelay = _Param.TriggerDelay;
+                GainAuto = _Param. GainAuto;
+                Gain = _Param.Gain;
+                DigitalShiftEnable = _Param.DigitalShiftEnable;
+                DigitalShift = _Param.DigitalShift;
+                BlackLevelEnable = _Param.BlackLevelEnable;
+                BlackLevel = _Param.BlackLevel;
+                GammaEnable = _Param.GammaEnable;
+                Gamma = _Param.Gamma;
+                ReverseX = _Param.ReverseX;
+                OffsetX = _Param.OffsetX;
+                OffsetY = _Param.OffsetY;
+                LineSelector = _Param.LineSelector;
+                LineMode = _Param.LineMode;
+                LineInverter = _Param.LineInverter;
+                StrobeEnable = _Param.StrobeEnable;
+                WidthMax = _Param.WidthMax;
+                HeightMax = _Param.HeightMax;
+                ResultingFrameRate = _Param.ResultingFrameRate;
+            }
+
+            public MVS_Camera_Parameter_Model()
+            {
+
+            }
+
             /// <summary>
             /// 设备采集的采集模式、枚举类型值 ——默认持续采集模式，"MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS"
             /// </summary>
@@ -367,7 +402,9 @@ namespace MVS_SDK_Base.Model
             [Camera_ReadWrite(Camera_Parameter_RW_Type.Read)]
             public double ResultingFrameRate { set; get; } = 0;
         }
-
+        /// <summary>
+        /// 相机标定类型
+        /// </summary>
         [AddINotifyPropertyChangedInterface]
         public class Camera_Calibration_Info_Model
         {
@@ -400,10 +437,7 @@ namespace MVS_SDK_Base.Model
             public Halcon_Camera_Calibration_Parameters_Model Camera_Calibration_Paramteters { set; get; } = new Halcon_Camera_Calibration_Parameters_Model();
 
 
-
-
-
-
+  
 
         }
 

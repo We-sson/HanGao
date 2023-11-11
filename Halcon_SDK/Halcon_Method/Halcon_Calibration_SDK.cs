@@ -316,6 +316,27 @@ namespace Halcon_SDK_DLL
 
     }
 
+    /// <summary>
+    /// 标定加载类型枚举
+    /// </summary>
+    public enum Camera_Connect_Control_Type_Enum
+    {
+        /// <summary>
+        /// 双目相机
+        /// </summary>
+        双目相机,
+        /// <summary>
+        /// 相机0
+        /// </summary>
+        Camera_0,
+        /// <summary>
+        /// 相机1
+        /// </summary>
+        Camera_1,
+
+    }
+
+
 
     /// <summary>
     /// 标定加载图像方式

@@ -433,10 +433,10 @@ namespace HanGao.ViewModel
                 new Vision_hand_eye_Calibration_Window()
                 {
 
-                    //DataContext = new Vision_hand_eye_Calibration_VM()
-                    //{
-                        
-                    //},
+                    DataContext = new Vision_hand_eye_Calibration_VM()
+                    {
+
+                    },
 
                 };
 

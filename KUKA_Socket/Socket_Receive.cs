@@ -105,10 +105,18 @@ namespace Soceket_KUKA
         public void Sever_End()
         {
 
+            try
+            {
 
             Socket_Sever.Shutdown(SocketShutdown.Both);
             Socket_Sever.Close();
+            }
+            catch (Exception)
+            {
 
+            Socket_Sever.Dispose();
+              
+            }
 
         }
 

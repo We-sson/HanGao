@@ -76,4 +76,41 @@ namespace Halcon_SDK_DLL.WPF_Converter
 
         }
     }
+
+    public class Radio_CheckedToEnumConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value.ToString()== parameter.ToString())
+            {
+            return true;
+
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+
+           
+
+
+            if (Boolean.Parse(value.ToString()))
+            {
+                
+
+                return (Enum)Enum.Parse(targetType, parameter.ToString());
+
+            }
+            else
+            {
+                return null;
+            }
+         
+
+        }
+    }
+
 }

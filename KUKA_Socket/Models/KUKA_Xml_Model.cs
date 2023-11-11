@@ -81,9 +81,11 @@ namespace KUKA_Socket.Models
         /// <summary>
         /// 接收模式
         /// </summary>
-        public Vision_Model_Enum Model { set; get; }
-
         [XmlAttribute]
+        public Vision_Model_Enum Model { set; get; }
+        [XmlAttribute]
+        public HandEye_Calibration_Type_Enum Calibration_Model { set; get; }
+
         public Point_Models Actual_Point { set; get; }
 
     }
@@ -105,10 +107,7 @@ namespace KUKA_Socket.Models
 
         public Camera_Point_Models Camera_Point { set; get; }
 
-
-
-
-        [XmlAttribute()]
+        [XmlAttribute]
         public Vision_Model_Enum Model { set; get; }
 
     }
@@ -260,5 +259,19 @@ namespace KUKA_Socket.Models
         川崎
 
     }
+
+
+    /// <summary>
+    /// 手眼标定过程状态枚举
+    /// </summary>
+    public enum HandEye_Calibration_Type_Enum
+    {
+        Calibration_Start,
+        Calibration_Progress,
+        Calibration_End
+
+
+    }
+
 
 }

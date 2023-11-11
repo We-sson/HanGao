@@ -676,7 +676,7 @@ namespace MVS_SDK
         /// <param name="_Val_Type"></param>
         /// <param name="_name"></param>
         /// <param name="_val"></param>
-        public static bool Set_Camera_Parameters_Val(CCamera _Camera, PropertyInfo _Val_Type, string _name, object _val)
+        private  static bool Set_Camera_Parameters_Val(CCamera _Camera, PropertyInfo _Val_Type, string _name, object _val)
         {
             //初始化设置相机状态
             bool _Parameters_Type = false;

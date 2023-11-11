@@ -1,5 +1,5 @@
-&ACCESS RVO1
-&REL 270
+&ACCESS RVO
+&REL 276
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
@@ -22,8 +22,6 @@ DECL EKI_STATUS RET
 
 ;ENDFOLD (INI)
 ;------------
-
-
 EKRL_CONNECT()
 
 
@@ -34,17 +32,34 @@ EKRL_CONNECT()
 END
 
 
-GLOBAL DEF EKRL_HandEye_Point(EKRL_NAME:IN,HandEye_ID:IN)
-DECL CHAR Message_Error[1024],EKRL_NAME[]
+GLOBAL DEF EKRL_HandEye_Point(EKRL_NAME:IN,HandEye_ID:IN,HandEye_Type:IN)
+DECL CHAR Message_Error[1024],EKRL_NAME[],HandEye_Type_String[1024]
 DECL EKI_STATUS RET
+DECL HandEye_Calib_Model_Enum HandEye_Type
 DECL  BOOL IsStatus
-DECL INT HandEye_ID
+DECL INT HandEye_ID,OPFFSET
+DECL State_t _State
 Message_Error[]=" "
 IsStatus=false
+OPFFSET=0
+
+
+;SWRITE( HandEye_Type_String[] , _State , OPFFSET , "%x" , HandEye_Type) 
+
+switch HandEye_Type
+case #Calibration_Start
+HandEye_Type_String[]="Calibration_Start"
+case #Calibration_Progress
+HandEye_Type_String[]="Calibration_Progress"
+case #Calibration_End
+HandEye_Type_String[]="Calibration_End"
+endswitch
 
 
 EKRL_Connect(EKRL_NAME[])
 
+
+RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/@Calibration_Model",HandEye_Type_String[])
 RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/@Model","HandEye_Calib_Date")
 RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Actual_Point", $POS_ACT)
 RET = EKI_Send(EKRL_NAME[],"KUKA_Receive")
@@ -66,6 +81,7 @@ else
 MsgQuit(Message_Error[], "HanGao")
 halt
 ENDIF
+
 
 END
 
