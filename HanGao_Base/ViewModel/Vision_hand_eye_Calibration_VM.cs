@@ -49,11 +49,7 @@ namespace HanGao.ViewModel
         public MVS_Camera_Info_Model Camera_1_Select_Val { set; get; }
 
 
-        public bool Halcon_ShowMinGray { set; get; } = false;
 
-        public  bool Halcon_ShowHObject { get; set; } = true;
-
-        public  bool Halcon_ShowMaxGray { get; set; } = false;
 
 
         /// <summary>
@@ -107,6 +103,9 @@ namespace HanGao.ViewModel
         /// </summary>
         public Halcon_Camera_Calibration_Model HandEye_Camera_Parameters { get; set; } = new Halcon_Camera_Calibration_Model() { Calibration_Setup_Model = Halcon_Calibration_Setup_Model_Enum.hand_eye_moving_cam };
 
+
+
+        public Halcon_Calibration_SDK HandEye_Check { set; get; } = new Halcon_Calibration_SDK();
 
 
         /// <summary>
@@ -620,7 +619,7 @@ namespace HanGao.ViewModel
                 try
                 {
 
-                    Halcon_Calibration_SDK HandEye_Check = new Halcon_Calibration_SDK();
+                   
 
 
 
@@ -666,87 +665,36 @@ namespace HanGao.ViewModel
 
                     MVS_Image_Mode _MVS_Image = MVS.GetOneFrameTimeout(_Select_Camera);
 
-                    if (_Image != null)
-                    {
 
-
-                        if (_Results._CalibXLD != null && _Results._CalibCoord != null)
-                        {
+                      
+                  
                                 //发送到图像显示
                                 if (Halcon_SDK.Mvs_To_Halcon_Image(ref _Image, _MVS_Image.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image.PData))
                                 {
 
                                     Display_HObject(_Image, null, null, null, _Select_Camera.Show_Window);
 
-                                    if (Halcon_ShowMaxGray)
-                                    {
-                                        HRegion _Region = new HRegion();
-
-                                        if (Halcon_Method.Get_Image_MaxThreshold(ref _Region, _Image).GetResult())
-                                        {
-
-                                            Display_HObject(null, _Region, new HObject(), KnownColor.Red.ToString(), _Select_Camera.Show_Window);
-
-                                        }
-
-                                    }
-                                    if (Halcon_ShowMinGray)
-                                    {
-                                        HRegion _Region = new HRegion();
-                                        if (Halcon_Method.Get_Image_MinThreshold(ref _Region, _Image).GetResult())
-                                        {
-
-
-                                            Display_HObject(null, _Region, new HObject(), KnownColor.Blue.ToString(), _Select_Camera.Show_Window);
-
-                                        }
-
-                                    }
-
-                                    try
-                                    {
-                                        if (Vision_Calibration_Home_VM.Halcon_ShowHObject)
-                                        {
-
-
-                                            _Results = HandEye_Check.Find_Calib3D_Points(_Image, HandEye_Camera_Parameters);
-
-                                            //查找标定板
-                                            if (_Results._CalibCoord!=null  && _Results._CalibXLD!=null)
-                                            {
-
-
-                                                //HRegion _Coord = new HRegion(_CalibCoord);
-                                                //显示标定板特征
-                                                Display_HObject(null, _Results._CalibXLD, null, KnownColor.Green.ToString(), _Select_Camera.Show_Window);
-                                                Display_HObject(null, null, _Results._CalibCoord, null, _Select_Camera.Show_Window);
-                                            }
-
-                                        }
-
-
-                                    }
-                                    catch (Exception e)
-                                    {
-                                        ///UI显示标定状态
-                                        User_Log_Add(e.Message, Log_Show_Window_Enum.Calibration);
-                                        Display_HObject(_Image, new HObject(), new HObject(), null, _Select_Camera.Show_Window);
-
-                                    }
 
 
 
 
+                            FindCalibObject_Results _Results= HandEye_Check.Find_CalibObject_Features(_Image, HandEye_Camera_Parameters);
 
 
-                                }
 
-                            }
+                         
+
+                              Display_HObject(null, null, _Results._CalibCoord, null, _Select_Camera.Show_Window);
+
 
                         }
-                 
-                    
-                    
+
+
+
+
+
+
+
                     });
 
                 }

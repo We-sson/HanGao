@@ -4,6 +4,7 @@ using HalconDotNet;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using Throw;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
@@ -24,6 +25,25 @@ namespace Halcon_SDK_DLL
 
 
         public HCalibData HCalibData { set; get; } = new HCalibData();
+
+
+
+        /// <summary>
+        /// 显示最暗区域
+        /// </summary>
+        public bool ShowMinGray { set; get; } = false;
+
+        /// <summary>
+        /// 显示识别对象
+        /// </summary>
+        public bool ShowHObject { get; set; } = true;
+
+
+        /// <summary>
+        /// 显示最亮区域
+        /// </summary>
+        public bool ShowMaxGray { get; set; } = false;
+
 
 
 
@@ -67,10 +87,84 @@ namespace Halcon_SDK_DLL
 
 
 
-        public FindCalibObject_Results Find_Calib3D_Points(HImage _HImage, Halcon_Camera_Calibration_Model _CalibParam, int _CalibPos_No = 0)
+        public FindCalibObject_Results Find_CalibObject_Features(HImage _Image, Halcon_Camera_Calibration_Model _Calibration_Param)
         {
+
             FindCalibObject_Results _Results = new FindCalibObject_Results();
-           
+
+
+            if (ShowMaxGray)
+            {
+                HRegion _Region = new HRegion();
+
+                if (Halcon_Method.Get_Image_MaxThreshold(ref _Region, _Image).GetResult())
+                {
+                    _Results.MaxGray = _Region;
+                    _Results._DrawColor = KnownColor.Red.ToString();
+                    //Display_HObject(null, _Region, new HObject(), KnownColor.Red.ToString());
+
+                }
+
+            }
+            if (ShowMinGray)
+            {
+                HRegion _Region = new HRegion();
+                if (Halcon_Method.Get_Image_MinThreshold(ref _Region, _Image).GetResult())
+                {
+                    _Results.MaxGray = _Region;
+                    _Results._DrawColor = KnownColor.Blue.ToString();
+
+                    //Display_HObject(null, _Region, new HObject(), KnownColor.Blue.ToString());
+
+                }
+
+            }
+
+            try
+            {
+                if (ShowHObject)
+                {
+
+
+                   Find_Calib3D_Points(ref _Results, _Image, _Calibration_Param);
+
+                    //查找标定板
+                    if (_Results._CalibCoord != null && _Results._CalibXLD != null)
+                    {
+
+                        //HRegion _Coord = new HRegion(_CalibCoord);
+                        //显示标定板特征
+                        //Display_HObject(null, _Results._CalibXLD, null, KnownColor.Green.ToString(), _Select_Camera.Show_Window);
+                        //Display_HObject(null, null, _Results._CalibCoord, null, _Select_Camera.Show_Window);
+                    }
+
+                }
+
+
+            }
+            catch (Exception e)
+            {
+
+                ///UI显示标定状态
+                //User_Log_Add(e.Message, Log_Show_Window_Enum.Calibration);
+                //Display_HObject(_Image, new HObject(), new HObject(), null, _Select_Camera.Show_Window);
+
+            }
+
+
+
+            return _Results;
+
+
+        }
+
+
+
+
+        public void Find_Calib3D_Points(ref FindCalibObject_Results _Results, HImage _HImage, Halcon_Camera_Calibration_Model _CalibParam, int _CalibPos_No = 0)
+        {
+            //FindCalibObject_Results _Results = new FindCalibObject_Results();
+
             HTuple _CamerPar = new HTuple();
 
             try
@@ -83,13 +177,14 @@ namespace Halcon_SDK_DLL
 
 
                 //获得标定板位置
-                HCalibData.GetCalibDataObservPoints(0, 0, _CalibPos_No, out _Results.hv_Row, out _Results. hv_Column, out _Results.hv_I, out _Results.hv_Pose);
+                HCalibData.GetCalibDataObservPoints(0, 0, _CalibPos_No, out _Results.hv_Row, out _Results.hv_Column, out _Results.hv_I, out _Results.hv_Pose);
 
-                 _CamerPar = HCalibData.GetCalibData("camera", 0, "init_params");
+                _CamerPar = HCalibData.GetCalibData("camera", 0, "init_params");
 
-                 _Results.ho_Arrows= Halcon_Example.Disp_3d_coord( _CamerPar, _Results.hv_Pose, new HTuple(0.02));
+                _Results.ho_Arrows = Halcon_Example.Disp_3d_coord(_CamerPar, _Results.hv_Pose, new HTuple(0.02));
 
-
+                ///设置显示颜色
+                _Results._DrawColor = KnownColor.Green.ToString();
 
             }
             catch (Exception _e)
@@ -99,7 +194,7 @@ namespace Halcon_SDK_DLL
 
             }
 
-            return _Results;
+
 
         }
 

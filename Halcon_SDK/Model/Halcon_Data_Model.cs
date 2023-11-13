@@ -563,7 +563,7 @@ namespace Halcon_SDK_DLL.Model
                     case Halocn_Camera_Calibration_Enum.area_scan_polynomial:
                         Camera_Calibration_Model = Halocn_Camera_Calibration_Enum.area_scan_polynomial;
                         Focus = hCamPar[1] * 1000;
-                       K1 = hCamPar[2];
+                        K1 = hCamPar[2];
                         K2 = hCamPar[3];
                         K3 = hCamPar[4];
                         P1 = hCamPar[5];
@@ -700,16 +700,23 @@ namespace Halcon_SDK_DLL.Model
     /// <summary>
     /// 图像查找标定板结果类型
     /// </summary>
-    public class FindCalibObject_Results: IDisposable
+    public class FindCalibObject_Results : IDisposable
     {
 
 
         public HXLDCont _CalibXLD { set; get; } = new HXLDCont();
         public HObject _CalibCoord { set; get; } = new HObject();
 
-       public  HObject ho_Arrows = new HObject(); 
+        public HObject ho_Arrows = new HObject();
 
-        public HTuple hv_Row  = new HTuple();
+        public HRegion MaxGray = new HRegion();
+
+        public string _DrawColor = KnownColor.Blue.ToString();
+
+        public HRegion MinGray = new HRegion();
+
+
+        public HTuple hv_Row = new HTuple();
         public HTuple hv_Column = new HTuple();
         public HTuple hv_I = new HTuple();
         public HTuple hv_Pose = new HTuple();
@@ -718,7 +725,8 @@ namespace Halcon_SDK_DLL.Model
 
         public void Dispose()
         {
-
+            MaxGray.Dispose();
+            MinGray.Dispose();
             _CalibXLD.Dispose();
             _CalibCoord.Dispose();
             ho_Arrows.Dispose();
