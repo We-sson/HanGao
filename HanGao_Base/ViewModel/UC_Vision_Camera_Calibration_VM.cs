@@ -370,6 +370,7 @@ namespace HanGao.ViewModel
                                                         {
 
                                                             Display_HObiet(null, _Region, new HObject(), KnownColor.Red.ToString(), _camer.Show_Window);
+
                                                         }
 
                                                     }

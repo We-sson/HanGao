@@ -24,11 +24,20 @@
     <Window.Resources>
         <Enum_Converter:Halcon_EnumConverter x:Key="Halcon_EnumConverter" />
         <Enum_Converter:Radio_CheckedToEnumConverter x:Key="Radio_CheckedToEnum" />
+        <Enum_Converter:EnumDescriptionConverter x:Key="Enum_DescriptionConverter" />
         <ObjectDataProvider x:Key="Robot_Enum"
                             MethodName="GetValues"
                             ObjectType="{x:Type sys:Enum}">
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="Robot:Socket_Robot_Protocols_Enum" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+
+        <ObjectDataProvider x:Key="HandEye_Optimization_Enum"
+                            MethodName="GetValues"
+                            ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="EnumModel:HandEye_Optimization_Method_Enum" />
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
     </Window.Resources>
@@ -83,7 +92,7 @@
 
 
 
-                <Grid Margin="10">
+                <Grid Margin="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
@@ -1783,12 +1792,11 @@
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Binding Source={StaticResource Robot_Enum}}"
-                                                      SelectedIndex="{Binding HandEye_Socket_Robot, ConverterParameter={x:Type Robot:Socket_Robot_Protocols_Enum}, Converter={StaticResource Halcon_EnumConverter}}"
                                                       SelectedValue="{Binding HandEye_Socket_Robot}">
 
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
-                                                        <TextBlock Text="{Binding}"
+                                                        <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
                                                                    TextWrapping="Wrap"
                                                                    Padding="0,4,0,4"
                                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -2283,7 +2291,7 @@
 
                                             <Openfile:UC_Open_File Grid.Column=" 1"
                                                                    File_Filter="标定板文件 (*.cpd*)|*.cpd*"
-                                                                   File_Log="{Binding}"
+                                                                   File_Log="{Binding HandEye_Camera_Parameters.Halcon_CaltabDescr_Address}"
                                                                    File_Model="File" />
 
 
@@ -2295,6 +2303,189 @@
                                                    VerticalContentAlignment="Center"
                                                    FontSize=" 14" />
 
+                                        </Grid>
+
+
+                                        <Grid Height=" 35" Margin="8">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="90" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" 35" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column=" 0"
+                                                       Text="校准模式"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
+                                                      HorizontalContentAlignment="Center"
+                                                      VerticalContentAlignment="Center"
+                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                      BorderThickness="2"
+                                                      FontSize="16"
+                                                      IsDropDownOpen="False"
+                                                      IsSynchronizedWithCurrentItem="True"
+                                                      ItemsSource="{Binding Source={StaticResource HandEye_Optimization_Enum}}"
+                                                      SelectedValue="{Binding HandEye_Camera_Parameters.HandEye_Optimization_Method}">
+
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
+                                                                   TextWrapping="Wrap"
+                                                                   Padding="0,4,0,4"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="14"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                   TextTrimming="CharacterEllipsis" />
+
+
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+
+                                            </ComboBox>
+
+                                        </Grid>
+
+
+
+                                        <Grid Height="35" Margin="8">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 90" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" auto" />
+                                                <ColumnDefinition Width=" 35" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="标定板厚度"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_Plate_Thicknesses_UI" Grid.Column=" 1"
+                                                    Margin="5"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    VerticalContentAlignment="Stretch"
+                                                    IsSnapToTickEnabled="True"
+                                                    Maximum="50000"
+                                                    Minimum="0"
+                                                    SmallChange="10"
+                                                    Value="{Binding HandEye_Camera_Parameters.Halcon_CaltabThickness}" />
+
+                                            <TextBox Grid.Column=" 2"
+                                                     Text="{Binding ElementName=Calibration_Plate_Thicknesses_UI, Path=Value}"
+                                                     Width="100"
+                                                     HorizontalContentAlignment="Center"
+                                                     VerticalContentAlignment="Center"
+                                                     Background="Transparent"
+                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                     BorderThickness="2"
+                                                     FontSize="18" />
+                                            <Label Grid.Column=" 3"
+                                                   Content="mm"
+                                                   Margin="0"
+                                                   Padding="0"
+                                                   HorizontalContentAlignment="Center"
+                                                   VerticalContentAlignment="Center"
+                                                   FontSize=" 14" />
+                                        </Grid>
+
+                                        <Grid Height="35" Margin="8">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 90" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" auto" />
+                                                <ColumnDefinition Width=" 35" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="识别滤波"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_Filter_UI" Grid.Column=" 1"
+                                                    Margin="5"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    VerticalContentAlignment="Stretch"
+                                                    IsSnapToTickEnabled="True"
+                                                    Maximum="50000"
+                                                    Minimum="0"
+                                                    SmallChange="10"
+                                                    Value="{Binding HandEye_Camera_Parameters.Halcon_Calibretion_Sigma}" />
+
+                                            <TextBox Grid.Column=" 2"
+                                                     Text="{Binding ElementName=Calibration_Filter_UI, Path=Value}"
+                                                     Width="100"
+                                                     HorizontalContentAlignment="Center"
+                                                     VerticalContentAlignment="Center"
+                                                     Background="Transparent"
+                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                     BorderThickness="2"
+                                                     FontSize="18" />
+                                            <Label Grid.Column=" 3"
+                                                   Content=""
+                                                   Margin="0"
+                                                   Padding="0"
+                                                   HorizontalContentAlignment="Center"
+                                                   VerticalContentAlignment="Center"
+                                                   FontSize=" 14" />
+                                        </Grid>
+
+                                        <Grid Height="35" Margin="8">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 90" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" auto" />
+                                                <ColumnDefinition Width=" 35" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="识别模式"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+                                            <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="Calibration_Find_Model" Grid.Column=" 2"
+                                                          IsChecked="{Binding HandEye_Camera_Parameters.Halcon_Find_Calib_Model}"
+                                                          Width=" 100"
+                                                          Padding="0"
+                                                          BorderThickness="2">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label Grid.Column=" 0"
+                                                           Content="单帧"
+                                                           Margin="4,0,4,0"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontSize=" 14" />
+
+                                                    <Label Grid.Column=" 1"
+                                                           Content="连续"
+                                                           Margin="4,0,4,0"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontSize=" 14" />
+                                                </Grid>
+                                            </ToggleButton>
+
+
+                                            <Label Grid.Column=" 3"
+                                                   Content=""
+                                                   Margin="0"
+                                                   Padding="0"
+                                                   HorizontalContentAlignment="Center"
+                                                   VerticalContentAlignment="Center"
+                                                   FontSize=" 14" />
                                         </Grid>
 
 
@@ -2328,7 +2519,7 @@
                      Background="Transparent"
                      FontSize=" 22"
                      Header="相机测试">
-                <Grid Margin="10">
+                <Grid Margin="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition Width="380" />
@@ -2389,13 +2580,12 @@
                                             Height=" 40"
                                             Padding="3"
                                             Background="{DynamicResource 全局_背景_白颜色}">
-                                        <StackPanel Orientation="Horizontal">
+                                        <StackPanel Margin="0,0,0,0" Orientation="Horizontal">
 
 
-
-                                            <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}"
+                                            <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}"
                                                          IsChecked="{Binding Halcon_ShowMaxGray}"
-                                                         Margin="0,0,0,0"
+                                                         Margin="5,0,5,0"
                                                          Padding="0,0,0,0"
                                                          HorizontalAlignment="Center"
                                                          VerticalAlignment="Center"
@@ -2415,9 +2605,9 @@
                                                 </StackPanel>
                                             </RadioButton>
 
-                                            <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}"
+                                            <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}"
                                                          IsChecked="{Binding Halcon_ShowMinGray}"
-                                                         Margin="0,0,0,0"
+                                                         Margin="5,0,5,0"
                                                          HorizontalAlignment="Center"
                                                          VerticalAlignment="Center"
                                                          FontSize=" 16"
@@ -2436,15 +2626,16 @@
                                                 </StackPanel>
                                             </RadioButton>
 
-                                            <RadioButton Style="{DynamicResource Title_Style}"
+                                            <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}"
                                                          IsChecked="{Binding Halcon_ShowHObject}"
-                                                         Margin="0,0,0,0"
-                                                         Padding="0,0,0,0"
-                                                         HorizontalAlignment="Center"
-                                                         VerticalAlignment="Center"
+                                                         Margin="5,0,5,0"
+                                                         Padding="0"
+                                                         HorizontalContentAlignment="Center"
+                                                         VerticalContentAlignment="Center"
                                                          FontSize=" 16"
                                                          GroupName="DisplayShow">
                                                 <StackPanel Orientation="Horizontal">
+
                                                     <Label Content="&#xe637;"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
@@ -3292,7 +3483,7 @@
                                                         <i:Interaction.Triggers>
 
                                                             <i:EventTrigger EventName="Click">
-                                                                <i:InvokeCommandAction Command="{Binding Single_Camera_Comm}"
+                                                                <i:InvokeCommandAction Command="{Binding HandEye_Check_OneImage_Comm}"
                                                                                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                        PassEventArgsToCommand="True" />
                                                             </i:EventTrigger>
@@ -3395,12 +3586,12 @@
                                             Padding="3"
                                             Background="{DynamicResource 全局_背景_白颜色}"
                                             CornerRadius=" 10 0 0 0">
-                                        <StackPanel Margin="10,0,0,0" Orientation="Horizontal">
+                                        <StackPanel Margin="0,0,0,0" Orientation="Horizontal">
 
 
                                             <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}"
-                                                         IsChecked="True"
-                                                         Margin="0,0,0,0"
+                                                         IsChecked="{Binding Halcon_ShowMaxGray}"
+                                                         Margin="5,0,5,0"
                                                          Padding="0,0,0,0"
                                                          HorizontalAlignment="Center"
                                                          VerticalAlignment="Center"
@@ -3421,8 +3612,8 @@
                                             </RadioButton>
 
                                             <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}"
-                                                         IsChecked="True"
-                                                         Margin="0,0,0,0"
+                                                         IsChecked="{Binding Halcon_ShowMinGray}"
+                                                         Margin="5,0,5,0"
                                                          HorizontalAlignment="Center"
                                                          VerticalAlignment="Center"
                                                          FontSize=" 16"
@@ -3442,8 +3633,8 @@
                                             </RadioButton>
 
                                             <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}"
-                                                         IsChecked="True"
-                                                         Margin="5,0,0,0"
+                                                         IsChecked="{Binding Halcon_ShowHObject}"
+                                                         Margin="5,0,5,0"
                                                          Padding="0"
                                                          HorizontalContentAlignment="Center"
                                                          VerticalContentAlignment="Center"

@@ -66,6 +66,13 @@ namespace Halcon_SDK_DLL
         public HObject DisplayRegion { set; get; }
 
         public HObject DisplayXLD { set; get; }
+
+
+
+
+
+
+
         /// <summary>
         /// 模型存储列表
         /// </summary>
@@ -1095,7 +1102,7 @@ namespace Halcon_SDK_DLL
                 //读取初始化相机内参
                 HTuple _CamerPar = _CalibSetup_ID.GetCalibData("camera", _CameraID, "init_params");
                 //显示标定板三维坐标位置
-                Halcon_Example.Disp_3d_coord(ref _CalibCoord, _CamerPar, hv_Pose, new HTuple(0.02));
+                 _CalibCoord=Halcon_Example.Disp_3d_coord( _CamerPar, hv_Pose, new HTuple(0.02));
 
                 //return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) {  };
 
@@ -2783,14 +2790,14 @@ namespace Halcon_SDK_DLL
         /// <param name="hv_CamParam"></param>
         /// <param name="hv_Pose"></param>
         /// <param name="hv_CoordAxesLength"></param>
-        public static void Disp_3d_coord(ref HObject ho_Arrows, HTuple hv_CamParam, HTuple hv_Pose, HTuple hv_CoordAxesLength)
+        public static HObject Disp_3d_coord( HTuple hv_CamParam, HTuple hv_Pose, HTuple hv_CoordAxesLength)
         {
 
 
 
             // Local iconic variables 
 
-            //HObject ho_Arrows;
+            HObject ho_Arrows;
 
             // Local control variables 
 
@@ -2822,7 +2829,7 @@ namespace Halcon_SDK_DLL
                 if ((int)(new HTuple((new HTuple(hv_Pose.TupleLength())).TupleNotEqual(7))) != 0)
                 {
  
-                    return;
+                    return ho_Arrows;
                 }
                 hv_CameraType.Dispose();
                 Get_cam_par_data(hv_CamParam, "camera_type", out hv_CameraType);
@@ -2841,8 +2848,8 @@ namespace Halcon_SDK_DLL
                     //不能投射 Z 位置为零的姿势
                     //这将导致除以零的错误）。
 
-
-                    return;
+                    
+                    return ho_Arrows;
                 }
                 //Convert to pose to a transformation matrix
                 //将姿势转换为变换矩阵
@@ -2884,8 +2891,7 @@ namespace Halcon_SDK_DLL
 
                 hv_HeadLength.Dispose();
 
-                hv_HeadLength = (((((((hv_Distance.TupleMax()
-                    ) / 12.0)).TupleConcat(5.0))).TupleMax())).TupleInt();
+                hv_HeadLength = (((((((hv_Distance.TupleMax()) / 12.0)).TupleConcat(5.0))).TupleMax())).TupleInt();
 
 
                 ho_Arrows.Dispose();
@@ -2931,12 +2937,15 @@ namespace Halcon_SDK_DLL
 
 
 
-                return;
+                return ho_Arrows;
             }
-            catch (HalconException _e)
+            catch (Exception _e)
             {
 
-                new Exception("计算中心坐标失败！原因：" + _e.Message);
+                throw new Exception("计算中心坐标失败！原因：" + _e.Message);
+
+             
+
                 //throw HDevExpDefaultException;
             }
             finally

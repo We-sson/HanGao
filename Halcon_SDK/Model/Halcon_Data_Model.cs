@@ -696,6 +696,43 @@ namespace Halcon_SDK_DLL.Model
 
     }
 
+
+    /// <summary>
+    /// 图像查找标定板结果类型
+    /// </summary>
+    public class FindCalibObject_Results: IDisposable
+    {
+
+
+        public HXLDCont _CalibXLD { set; get; } = new HXLDCont();
+        public HObject _CalibCoord { set; get; } = new HObject();
+
+       public  HObject ho_Arrows = new HObject(); 
+
+        public HTuple hv_Row  = new HTuple();
+        public HTuple hv_Column = new HTuple();
+        public HTuple hv_I = new HTuple();
+        public HTuple hv_Pose = new HTuple();
+
+
+
+        public void Dispose()
+        {
+
+            _CalibXLD.Dispose();
+            _CalibCoord.Dispose();
+            ho_Arrows.Dispose();
+            hv_Row.Dispose();
+            hv_Column.Dispose();
+            hv_I.Dispose();
+            hv_Pose.Dispose();
+            GC.SuppressFinalize(this);
+        }
+    }
+
+
+
+
     /// <summary>
     /// 相机标定属性模型
     /// </summary>
@@ -715,6 +752,12 @@ namespace Halcon_SDK_DLL.Model
         /// 相机标定类型
         /// </summary>
         public Halcon_Calibration_Setup_Model_Enum Calibration_Setup_Model { set; get; } = Halcon_Calibration_Setup_Model_Enum.calibration_object;
+
+
+        /// <summary>
+        /// 手眼标定校正模式
+        /// </summary>
+        public HandEye_Optimization_Method_Enum HandEye_Optimization_Method { set; get; } = HandEye_Optimization_Method_Enum.nonlinear;
 
 
         /// <summary>
@@ -1434,6 +1477,11 @@ namespace Halcon_SDK_DLL.Model
         Calibration_Window_1,
         Calibration_Window_2,
         Calibration_3D_Results,
+        HandEye_Window_1,
+        HandEye_Window_2,
+        HandEye_Results_Window_1,
+        HandEye_Results_Window_2,
+        HandEye_3DResults
     }
 
     /// <summary>

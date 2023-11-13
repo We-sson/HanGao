@@ -43,6 +43,9 @@
     <PackageReference Include="Throw" Version="1.4.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Generic_Extension\Generic_Extension.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="halcondotnet">
       <HintPath>halcondotnet.dll</HintPath>
     </Reference>

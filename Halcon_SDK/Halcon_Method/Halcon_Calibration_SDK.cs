@@ -1,7 +1,9 @@
-﻿using Halcon_SDK_DLL.Model;
+﻿using Generic_Extension;
+using Halcon_SDK_DLL.Model;
 using HalconDotNet;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using Throw;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
@@ -19,6 +21,89 @@ namespace Halcon_SDK_DLL
 
 
         }
+
+
+        public HCalibData HCalibData { set; get; } = new HCalibData();
+
+
+
+        public void Creation_HandEye_Calibration(Halcon_Camera_Calibration_Model _HandEye_Param, Camera_Connect_Control_Type_Enum _Camera_Connect, HCamPar _CamPar)
+        {
+            try
+            {
+
+
+
+                switch (_Camera_Connect)
+                {
+                    case Camera_Connect_Control_Type_Enum.双目相机:
+
+                        //功能未开发
+                        break;
+                    case Camera_Connect_Control_Type_Enum.Camera_0 or Camera_Connect_Control_Type_Enum.Camera_1:
+
+                        ///创建标定属性
+                        HCalibData = new HCalibData(_HandEye_Param.Calibration_Setup_Model.ToString(), 1, 1);
+
+                        ///设置标定文件
+                        HCalibData.SetCalibDataCalibObject(0, _HandEye_Param.Halcon_CaltabDescr_Address);
+
+                        HCalibData.SetCalibDataCamParam(0, new HTuple(), _CamPar);
+
+
+                        break;
+
+                }
+
+            }
+            catch (Exception _e)
+            {
+
+                throw new Exception("手眼标定流程创建失败！" + " 原因：" + _e.Message);
+
+            }
+
+        }
+
+
+
+        public FindCalibObject_Results Find_Calib3D_Points(HImage _HImage, Halcon_Camera_Calibration_Model _CalibParam, int _CalibPos_No = 0)
+        {
+            FindCalibObject_Results _Results = new FindCalibObject_Results();
+           
+            HTuple _CamerPar = new HTuple();
+
+            try
+            {
+                //查找标定板
+                HCalibData.FindCalibObject(_HImage, 0, 0, _CalibPos_No, new HTuple("sigma"), _CalibParam.Halcon_Calibretion_Sigma);
+
+                //获得标定板识别轮廓
+                _Results._CalibXLD = HCalibData.GetCalibDataObservContours("marks", 0, 0, _CalibPos_No);
+
+
+                //获得标定板位置
+                HCalibData.GetCalibDataObservPoints(0, 0, _CalibPos_No, out _Results.hv_Row, out _Results. hv_Column, out _Results.hv_I, out _Results.hv_Pose);
+
+                 _CamerPar = HCalibData.GetCalibData("camera", 0, "init_params");
+
+                 _Results.ho_Arrows= Halcon_Example.Disp_3d_coord( _CamerPar, _Results.hv_Pose, new HTuple(0.02));
+
+
+
+            }
+            catch (Exception _e)
+            {
+
+                throw new Exception("手眼标定查找标定板位置失败！" + " 原因：" + _e.Message);
+
+            }
+
+            return _Results;
+
+        }
+
+
 
 
 
@@ -114,7 +199,7 @@ namespace Halcon_SDK_DLL
 
                 HCameraSetupModel _HCam = new HCameraSetupModel(_HCamera.H);
                 //
-                HCamPar _Camera_Param =new HCamPar (  _HCam.GetCameraSetupParam(_CameraID, "params"));
+                HCamPar _Camera_Param = new HCamPar(_HCam.GetCameraSetupParam(_CameraID, "params"));
 
                 //HTuple _Camera_Param_Labels = _HCam.GetCameraSetupParam(_CameraID, "params_labels");
 
@@ -122,7 +207,7 @@ namespace Halcon_SDK_DLL
                 Halcon_Camera_Calibration_Parameters_Model _Param = new Halcon_Camera_Calibration_Parameters_Model(_Camera_Param);
 
 
-            
+
                 return _Param;
 
 
@@ -134,7 +219,7 @@ namespace Halcon_SDK_DLL
             }
             finally
             {
-               
+
             }
         }
 
@@ -227,14 +312,14 @@ namespace Halcon_SDK_DLL
         /// <param name="name"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public static bool Calibration_Results_Checked_File( string _address,  string name)
+        public static bool Calibration_Results_Checked_File(string _address, string name)
         {
 
             try
             {
 
                 _address.ThrowIfNull("相机标定内参保存文件地址为空！");
-                 //_address = Environment.CurrentDirectory + "\\Calibration_File";
+                //_address = Environment.CurrentDirectory + "\\Calibration_File";
 
 
                 ////检查文件夹，创建
@@ -249,8 +334,8 @@ namespace Halcon_SDK_DLL
             catch (Exception _e)
             {
 
-               
-                throw new Exception(HVE_Result_Enum.取消覆盖保存相机标定文件.ToString()+" 原因："+_e.Message);
+
+                throw new Exception(HVE_Result_Enum.取消覆盖保存相机标定文件.ToString() + " 原因：" + _e.Message);
             }
 
 
@@ -355,5 +440,29 @@ namespace Halcon_SDK_DLL
         Camera_0_Save,
         Camera_1_Save,
     }
+
+    /// <summary>
+    /// 手眼标定查找优化方法
+    /// </summary>
+    [TypeConverter(typeof(EnumDescriptionTypeConverter))]
+    public enum HandEye_Optimization_Method_Enum
+    {
+        /// <summary>
+        /// 线性
+        /// </summary>
+        [Description("线性")]
+        linear,
+        /// <summary>
+        /// 非线性
+        /// </summary>
+        [Description("非线性")]
+        nonlinear,
+        /// <summary>
+        /// 随机性
+        /// </summary>
+        [Description("随机性")]
+        stochastic
+    }
+
 
 }
