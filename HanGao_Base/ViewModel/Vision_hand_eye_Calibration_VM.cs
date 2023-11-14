@@ -823,6 +823,10 @@ namespace HanGao.ViewModel
 
                                 break;
                             case HandEye_Calibration_Model_Enum.Robot_Model:
+                                if (Camera_0_Select_Val.Camer_Status!= MVS_SDK_Base.Model.MV_CAM_Device_Status_Enum.Connecting)
+                                {
+                                    MVS.Connect_Camera(Camera_1_Select_Val);
+                                }
                                 Camera_0_Select_Val.Show_Window = Window_Show_Name_Enum.HandEye_Results_Window_1;
 
                                 break;

@@ -88,6 +88,8 @@ namespace KUKA_Socket.Models
 
         public Point_Models Actual_Point { set; get; }
 
+
+
     }
 
 

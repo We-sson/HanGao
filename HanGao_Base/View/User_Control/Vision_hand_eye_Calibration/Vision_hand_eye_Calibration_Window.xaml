@@ -88,7 +88,7 @@
                      Padding="100,0,100,0"
                      Background="Transparent"
                      FontSize=" 22"
-                     Header="设备参数">
+                     Header="① 设备参数">
 
 
 
@@ -2496,7 +2496,7 @@
                      Padding="100,0,100,0"
                      Background="Transparent"
                      FontSize=" 22"
-                     Header="相机测试">
+                     Header="② 相机测试">
                 <Grid Margin="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -3465,7 +3465,7 @@
                      Padding="100,10,100,5"
                      Background="Transparent"
                      FontSize=" 22"
-                     Header="图像采集计算">
+                     Header="③ 图像采集计算">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition />
