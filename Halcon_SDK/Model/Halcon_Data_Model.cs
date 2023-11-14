@@ -700,20 +700,20 @@ namespace Halcon_SDK_DLL.Model
     /// <summary>
     /// 图像查找标定板结果类型
     /// </summary>
+    [AddINotifyPropertyChangedInterface]
     public class FindCalibObject_Results : IDisposable
     {
 
 
-        public HXLDCont _CalibXLD { set; get; } = new HXLDCont();
-        public HObject _CalibCoord { set; get; } = new HObject();
+        public HObject _Image { set; get; } = new HObject();
+        public HObject _CalibXLD { set; get; } = new HObject();
+        public HObject _CalibRegion { set; get; } = new HObject();
 
-        public HObject ho_Arrows = new HObject();
 
-        public HRegion MaxGray = new HRegion();
 
-        public string _DrawColor = KnownColor.Blue.ToString();
+        //public HRegion ShowGray { set; get; } = new HRegion();
 
-        public HRegion MinGray = new HRegion();
+        public string _DrawColor { set; get; } = KnownColor.Blue.ToString();
 
 
         public HTuple hv_Row = new HTuple();
@@ -725,11 +725,11 @@ namespace Halcon_SDK_DLL.Model
 
         public void Dispose()
         {
-            MaxGray.Dispose();
-            MinGray.Dispose();
+            //ShowGray.Dispose();
+
             _CalibXLD.Dispose();
-            _CalibCoord.Dispose();
-            ho_Arrows.Dispose();
+            //_CalibCoord.Dispose();
+
             hv_Row.Dispose();
             hv_Column.Dispose();
             hv_I.Dispose();
@@ -744,6 +744,7 @@ namespace Halcon_SDK_DLL.Model
     /// <summary>
     /// 相机标定属性模型
     /// </summary>
+    [AddINotifyPropertyChangedInterface]
     public class Halcon_Camera_Calibration_Model
     {
 
@@ -804,10 +805,6 @@ namespace Halcon_SDK_DLL.Model
         public bool Halcon_Find_Calib_Model { set; get; } = false;
 
 
-        /// <summary>
-        /// 查找标定板图像显示
-        /// </summary>
-        public bool Halcon_Calib_XLD_Show { set; get; } = true;
     }
 
 
@@ -976,6 +973,35 @@ namespace Halcon_SDK_DLL.Model
 
 
     }
+
+    /// <summary>
+    /// 手眼标定机器人机器人参数模型
+    /// </summary>
+    public class HandEye_Robot_Pos_Model
+    {
+
+        /// <summary>
+        /// 标定图像序号
+        /// </summary>
+        public int Robot_No { set; get; } = 0;
+
+
+        public Point3D Moving { set; get; } = new Point3D(0, 0, 0);
+        public Point3D Rotating { set; get; } = new Point3D(0, 0, 0);
+
+        /// <summary>
+        /// 标定状态
+        /// </summary>
+        public string Calibration_State { set; get; } = "None";
+
+
+
+    }
+
+
+
+
+
 
     /// <summary>
     /// 相机标定误差模型

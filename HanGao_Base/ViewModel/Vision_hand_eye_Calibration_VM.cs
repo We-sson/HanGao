@@ -1,6 +1,6 @@
 ﻿using Halcon_SDK_DLL.Halcon_Examples_Method;
 using HanGao.View.User_Control.Vision_hand_eye_Calibration;
-using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Controls.Primitives;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.UC_Vision_CameraSet_ViewModel;
@@ -49,8 +49,29 @@ namespace HanGao.ViewModel
         public MVS_Camera_Info_Model Camera_1_Select_Val { set; get; }
 
 
+        /// <summary>
+        /// 手眼标定图像列表
+        /// </summary>
+        public ObservableCollection<Calibration_Image_List_Model> HandEye_Calibration_List { set; get; } = new ObservableCollection<Calibration_Image_List_Model>();
 
 
+        /// <summary>
+        /// 手眼标定机器人信息
+        /// </summary>
+        public ObservableCollection<HandEye_Robot_Pos_Model> HandEye_Robot_PosList { set; get; } = new ObservableCollection<HandEye_Robot_Pos_Model>();
+
+
+        public int HandEye_Calibretion_Selected_No { set; get; } = -1;
+
+        /// <summary>
+        /// 标定图像选定
+        /// </summary>
+        public Calibration_Image_List_Model HandEye_Calibretion_Image_Selected { set; get; }
+
+        /// <summary>
+        /// 机器人选择信息
+        /// </summary>
+        public HandEye_Robot_Pos_Model HandEye_Calibretion_Robot_info { set; get; }
 
         /// <summary>
         /// 可用相机列表
@@ -177,13 +198,115 @@ namespace HanGao.ViewModel
         /// <returns></returns>
         public string HandEye_Calib_Socket_Receive(KUKA_HandEye_Calibration_Receive _S, string _RStr)
         {
+            string _Str = string.Empty;
+            MVS_Camera_Info_Model _Select_Camera = new MVS_Camera_Info_Model();
+            FindCalibObject_Results _Results = new FindCalibObject_Results();
+            HandEye_Robot_Pos_Model _RobotInfo = new HandEye_Robot_Pos_Model();
+            KUKA_HandEye_Calibration_Send _HandEye_Send = new KUKA_HandEye_Calibration_Send();
+            switch (_S.Calibration_Model)
+            {
+                case HandEye_Calibration_Type_Enum.Calibration_Start:
+
+
+
+
+                    ///设置单帧模式
+                    HandEye_Camera_Parameters.Halcon_Find_Calib_Model = false;
+
+
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+
+
+
+                        ///清除列表旧的数据
+                        HandEye_Calibration_List.Clear();
+                        HandEye_Robot_PosList.Clear();
+
+                    });
+
+
+                    _HandEye_Send.IsStatus = 1;
+                    _HandEye_Send.Message_Error = "Hand-eye Calibration Ini OK！";
+
+                    _Str = KUKA_Send_Receive_Xml.Property_Xml<KUKA_HandEye_Calibration_Send>(_HandEye_Send);
+
+
+                    break;
+                case HandEye_Calibration_Type_Enum.Calibration_Progress:
+
+                    _Results = HandEye_Find_Calibration(HandEye_Calibration_Model_Enum.Robot_Model);
+
+                    if (_Results._CalibRegion != null && _Results._CalibXLD != null)
+                    {
+
+                        Calibration_Image_List_Model _Image = new Calibration_Image_List_Model();
+
+                        switch (Camera_Connect_Control_Type)
+                        {
+                            case Camera_Connect_Control_Type_Enum.双目相机:
+                                break;
+                            case Camera_Connect_Control_Type_Enum.Camera_0:
+                                _Image.Camera_No = 0;
+                                _Image.Camera_0.Calibration_Image = _Results._Image;
+                                _Image.Camera_0.Calibration_Region = _Results._CalibRegion;
+                                _Image.Camera_0.Calibration_XLD = _Results._CalibXLD;
+                                _Image.Image_No++;
+                                break;
+                            case Camera_Connect_Control_Type_Enum.Camera_1:
+                                _Image.Camera_No = 1;
+                                _Image.Camera_1.Calibration_Image = _Results._Image;
+                                _Image.Camera_1.Calibration_Region = _Results._CalibRegion;
+                                _Image.Camera_1.Calibration_XLD = _Results._CalibXLD;
+                                _Image.Image_No++;
+
+                                break;
+
+                        }
+
+                        _RobotInfo.Robot_No++;
+                        _RobotInfo.Moving = new Point3D(double.Parse(_S.Actual_Point.X), double.Parse(_S.Actual_Point.Y), double.Parse(_S.Actual_Point.Z));
+                        _RobotInfo.Rotating = new Point3D(double.Parse(_S.Actual_Point.A), double.Parse(_S.Actual_Point.B), double.Parse(_S.Actual_Point.C));
+
+
+
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            HandEye_Calibration_List.Add(_Image);
+
+                            HandEye_Robot_PosList.Add(_RobotInfo);
+                        });
+
+                        _HandEye_Send.IsStatus = 1;
+                        _HandEye_Send.Message_Error = "查找标定板位置成功！";
+
+                         _Str = KUKA_Send_Receive_Xml.Property_Xml<KUKA_HandEye_Calibration_Send>(_HandEye_Send);
+
+                  
+
+                    }
+
+
+
+
+
+                    break;
+                case HandEye_Calibration_Type_Enum.Calibration_End:
+
+
+
+
+                    break;
+
+            }
 
 
 
 
 
 
-            return "";
+
+            return _Str;
         }
 
 
@@ -336,7 +459,7 @@ namespace HanGao.ViewModel
                                     if (_M.Camera_Info.SerialNumber != Camera_1_Select_Val?.Camera_Info.SerialNumber)
                                     {
 
-                                        Camera_Calibration_0 = new Camera_Calibration_Info_Model() { Camera_Calibration_Paramteters = new Halcon_Data_Model.Halcon_Camera_Calibration_Parameters_Model(_M.Camera_Calibration.Camera_Calibration_Paramteters) };
+                                        Camera_Calibration_0 = new Camera_Calibration_Info_Model() { Camera_Calibration_Paramteters = new Halcon_Data_Model.Halcon_Camera_Calibration_Parameters_Model(_M.Camera_Calibration.Camera_Calibration_Paramteters.HCamPar) };
 
                                     }
                                     else
@@ -352,7 +475,9 @@ namespace HanGao.ViewModel
 
                                     if (_M.Camera_Info.SerialNumber != Camera_0_Select_Val?.Camera_Info.SerialNumber)
                                     {
-                                        Camera_Calibration_1 = new Camera_Calibration_Info_Model() { Camera_Calibration_Paramteters = new Halcon_Data_Model.Halcon_Camera_Calibration_Parameters_Model(_M.Camera_Calibration.Camera_Calibration_Paramteters) };
+                                        Camera_Calibration_1 = new Camera_Calibration_Info_Model() { Camera_Calibration_Paramteters = new Halcon_Data_Model.Halcon_Camera_Calibration_Parameters_Model(_M.Camera_Calibration.Camera_Calibration_Paramteters.HCamPar) };
+
+
                                     }
                                     else
                                     {
@@ -438,6 +563,7 @@ namespace HanGao.ViewModel
 
                                 MVS.Connect_Camera(Camera_0_Select_Val);
                                 MVS.Get_Camrea_Parameters(Camera_0_Select_Val.Camera, Camera_Parameter_Val);
+                                Camera_0_Select_Val.Camer_Status = MVS_SDK_Base.Model.MV_CAM_Device_Status_Enum.Connecting;
                             }
                             else
                             {
@@ -450,6 +576,8 @@ namespace HanGao.ViewModel
                             {
                                 MVS.Connect_Camera(Camera_1_Select_Val);
                                 MVS.Get_Camrea_Parameters(Camera_1_Select_Val.Camera, Camera_Parameter_Val);
+                                Camera_1_Select_Val.Camer_Status = MVS_SDK_Base.Model.MV_CAM_Device_Status_Enum.Connecting;
+
                             }
                             else
                             {
@@ -510,11 +638,12 @@ namespace HanGao.ViewModel
                             break;
                         case Camera_Connect_Control_Type_Enum.Camera_0:
                             MVS.Close_Camera(Camera_0_Select_Val);
-
+                            Camera_0_Select_Val.Camer_Status = MVS_SDK_Base.Model.MV_CAM_Device_Status_Enum.Null;
 
                             break;
                         case Camera_Connect_Control_Type_Enum.Camera_1:
                             MVS.Close_Camera(Camera_1_Select_Val);
+                            Camera_1_Select_Val.Camer_Status = MVS_SDK_Base.Model.MV_CAM_Device_Status_Enum.Null;
 
 
                             break;
@@ -606,145 +735,240 @@ namespace HanGao.ViewModel
 
 
         /// <summary>
-        /// 断开相机命令
+        /// 手眼标定检查一帧图像方法
         /// </summary>
         public ICommand HandEye_Check_OneImage_Comm
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
                 Button E = Sm.Source as Button;
-                HCamPar _CamPar = new HCamPar();
-                FindCalibObject_Results _Results = new FindCalibObject_Results();
-                MVS_Camera_Info_Model _Select_Camera = new MVS_Camera_Info_Model();
-                try
+
+                Task.Run(() =>
                 {
 
-                   
+                    ///单帧模式
+                    HandEye_Camera_Parameters.Halcon_Find_Calib_Model = false;
+
+                    HandEye_Find_Calibration(HandEye_Calibration_Model_Enum.Checked_Model);
+
+                });
+            });
+        }
 
 
+        /// <summary>
+        ///手眼标定检查实时方法
+        /// </summary>
+        public ICommand HandEye_Check_LiveImage_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                CheckBox E = Sm.Source as CheckBox;
 
-                    switch (Camera_Connect_Control_Type)
+                ///单帧模式
+
+
+                if ((bool)(E.IsChecked == true))
+                {
+
+                    Task.Run(() =>
                     {
-                        case Camera_Connect_Control_Type_Enum.双目相机:
 
-                            //功能未开发
+                        HandEye_Camera_Parameters.Halcon_Find_Calib_Model = true;
 
-                            break;
-                        case Camera_Connect_Control_Type_Enum.Camera_0:
-                            //设置相机采集参数
-                            _CamPar = Camera_Calibration_0.Camera_Calibration_Paramteters.HCamPar;
-                            Camera_0_Select_Val.Show_Window = Window_Show_Name_Enum.HandEye_Window_1;
-                            _Select_Camera = Camera_0_Select_Val;
+                        HandEye_Find_Calibration(HandEye_Calibration_Model_Enum.Checked_Model);
+                    });
+
+                }
 
 
-                            break;
-                        case Camera_Connect_Control_Type_Enum.Camera_1:
-                            //设置相机采集参数
-                            _CamPar = Camera_Calibration_1.Camera_Calibration_Paramteters.HCamPar;
-                            Camera_0_Select_Val.Show_Window = Window_Show_Name_Enum.HandEye_Window_2;
-                            _Select_Camera = Camera_1_Select_Val;
 
-                            break;
-                    }
+
+
+            });
+        }
+
+        /// <summary>
+        /// 手眼标定检查方法
+        /// </summary>
+        public FindCalibObject_Results HandEye_Find_Calibration(HandEye_Calibration_Model_Enum _HandEyeModel)
+        {
+
+            HCamPar _CamPar = new HCamPar();
+            FindCalibObject_Results _Results = new FindCalibObject_Results();
+            MVS_Camera_Info_Model _Select_Camera = new MVS_Camera_Info_Model();
+            try
+            {
+
+
+
+
+
+                switch (Camera_Connect_Control_Type)
+                {
+                    case Camera_Connect_Control_Type_Enum.双目相机:
+
+                        //功能未开发
+
+                        break;
+                    case Camera_Connect_Control_Type_Enum.Camera_0:
+                        //设置相机采集参数
+                        _CamPar = Camera_Calibration_0.Camera_Calibration_Paramteters.HCamPar;
+
+
+                        switch (_HandEyeModel)
+                        {
+                            case HandEye_Calibration_Model_Enum.Checked_Model:
+                                Camera_0_Select_Val.Show_Window = Window_Show_Name_Enum.HandEye_Window_1;
+
+                                break;
+                            case HandEye_Calibration_Model_Enum.Robot_Model:
+                                Camera_0_Select_Val.Show_Window = Window_Show_Name_Enum.HandEye_Results_Window_1;
+
+                                break;
+                        }
+
+
+
+                        _Select_Camera = Camera_0_Select_Val;
+
+
+                        break;
+                    case Camera_Connect_Control_Type_Enum.Camera_1:
+                        //设置相机采集参数
+                        _CamPar = Camera_Calibration_1.Camera_Calibration_Paramteters.HCamPar;
+
+
+
+                        switch (_HandEyeModel)
+                        {
+                            case HandEye_Calibration_Model_Enum.Checked_Model:
+                                Camera_1_Select_Val.Show_Window = Window_Show_Name_Enum.HandEye_Window_2;
+
+                                break;
+                            case HandEye_Calibration_Model_Enum.Robot_Model:
+                                Camera_1_Select_Val.Show_Window = Window_Show_Name_Enum.HandEye_Results_Window_2;
+
+                                break;
+                        }
+
+
+                        _Select_Camera = Camera_1_Select_Val;
+
+                        break;
+                }
+
+
+
+                try
+                {
 
 
                     //根据选择得相机开始取流图像
                     MVS.Set_Camrea_Parameters_List(_Select_Camera.Camera, Camera_Parameter_Val);
                     MVS.StartGrabbing(_Select_Camera);
 
-
-
                     HandEye_Check.Creation_HandEye_Calibration(HandEye_Camera_Parameters, Camera_Connect_Control_Type, _CamPar);
 
 
-                    Task.Run(() =>
+                    do
                     {
 
 
-                    HImage _Image = new HImage();
 
-                    MVS_Image_Mode _MVS_Image = MVS.GetOneFrameTimeout(_Select_Camera);
+                        HImage _Image = new HImage();
 
+                        MVS_Image_Mode _MVS_Image = MVS.GetOneFrameTimeout(_Select_Camera);
 
-                      
-                  
-                                //发送到图像显示
-                                if (Halcon_SDK.Mvs_To_Halcon_Image(ref _Image, _MVS_Image.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image.PData))
-                                {
+                        //发送到图像显示
+                        if (Halcon_SDK.Mvs_To_Halcon_Image(ref _Image, _MVS_Image.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image.PData))
+                        {
 
-                                    Display_HObject(_Image, null, null, null, _Select_Camera.Show_Window);
+                            _Results = HandEye_Check.Find_CalibObject_Features(_Image, HandEye_Camera_Parameters);
 
-
-
-
-
-                            FindCalibObject_Results _Results= HandEye_Check.Find_CalibObject_Features(_Image, HandEye_Camera_Parameters);
-
-
-
-                         
-
-                              Display_HObject(null, null, _Results._CalibCoord, null, _Select_Camera.Show_Window);
-
+                            _Results._Image = _Image;
+                            Display_HObject(_Image, _Results._CalibRegion, null, _Results._DrawColor, _Select_Camera.Show_Window);
+                            Display_HObject(null, null, _Results._CalibXLD, null, _Select_Camera.Show_Window);
 
                         }
 
 
+                        //根据循环模式读取
+                    } while (HandEye_Camera_Parameters.Halcon_Find_Calib_Model);
 
 
+                    return _Results;
 
 
-
-                    });
 
                 }
                 catch (Exception _e)
                 {
 
                     User_Log_Add(_e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                    return _Results;
 
                 }
-            });
+
+
+            }
+            catch (Exception _e)
+            {
+
+                User_Log_Add(_e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                return _Results;
+
+            }
+            finally
+            {
+
+                HandEye_Check.Clear_HandEye_Calibration();
+
+                MVS.StopGrabbing(_Select_Camera);
+            }
+
+
         }
 
 
 
- /// <summary>
- /// 设置窗口控件显示对象
- /// </summary>
- /// <param name="_HImage"></param>
- /// <param name="_Region"></param>
- /// <param name="_XLD"></param>
- /// <param name="_DrawColor"></param>
- /// <param name="_Show"></param>
-    public  void Display_HObject(HObject _HImage, HObject _Region, HObject _XLD, string _DrawColor, Window_Show_Name_Enum _Show)
-    {
-        if (_DrawColor != null)
+
+        /// <summary>
+        /// 设置窗口控件显示对象
+        /// </summary>
+        /// <param name="_HImage"></param>
+        /// <param name="_Region"></param>
+        /// <param name="_XLD"></param>
+        /// <param name="_DrawColor"></param>
+        /// <param name="_Show"></param>
+        public void Display_HObject(HObject _HImage, HObject _Region, HObject _XLD, string _DrawColor, Window_Show_Name_Enum _Show)
         {
+            if (_DrawColor != null)
+            {
                 SetHDrawColor(_DrawColor, DisplaySetDraw_Enum.fill, _Show);
             }
 
 
-        if (_HImage != null)
-        {
+            if (_HImage != null)
+            {
                 SetWindowDisoplay(_HImage, Display_HObject_Type_Enum.Image, _Show);
 
-        }
-        if (_Region != null)
-        {
+            }
+            if (_Region != null)
+            {
 
                 SetWindowDisoplay(_Region, Display_HObject_Type_Enum.Region, _Show);
-        }
+            }
 
-        if (_XLD != null)
-        {
+            if (_XLD != null)
+            {
 
                 SetWindowDisoplay(_XLD, Display_HObject_Type_Enum.XLD, _Show);
+            }
+
+
+
         }
-
-
-
-    }
 
 
 
@@ -759,7 +983,7 @@ namespace HanGao.ViewModel
             //根据窗口枚举属性设置
             switch (_Window)
             {
-   
+
                 case Window_Show_Name_Enum.HandEye_Window_1:
                     HandEye_Window_1.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
                     break;
@@ -779,7 +1003,7 @@ namespace HanGao.ViewModel
                     HandEye_3DResults.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
 
                     break;
-      
+
             }
 
         }
@@ -794,28 +1018,28 @@ namespace HanGao.ViewModel
         public void SetWindowDisoplay(HObject _Dispaly, Display_HObject_Type_Enum _Type, Window_Show_Name_Enum _Window)
         {
 
-        HOperatorSet.SetSystem("flush_graphic", "false");
-        Halcon_SDK _WindowDisplay = new Halcon_SDK();
+            HOperatorSet.SetSystem("flush_graphic", "false");
+            Halcon_SDK _WindowDisplay = new Halcon_SDK();
 
             //根据窗口枚举属性设置
-        switch (_Window)
-        {
+            switch (_Window)
+            {
 
-            case Window_Show_Name_Enum.HandEye_Window_1:
+                case Window_Show_Name_Enum.HandEye_Window_1:
 
                     _WindowDisplay = HandEye_Window_1;
 
-                break;
-            case Window_Show_Name_Enum.HandEye_Window_2:
+                    break;
+                case Window_Show_Name_Enum.HandEye_Window_2:
 
                     _WindowDisplay = HandEye_Window_2;
 
                     break;
-            case Window_Show_Name_Enum.HandEye_Results_Window_1:
+                case Window_Show_Name_Enum.HandEye_Results_Window_1:
                     _WindowDisplay = HandEye_Results_Window_1;
 
 
-                break;
+                    break;
                 case Window_Show_Name_Enum.HandEye_Results_Window_2:
 
                     _WindowDisplay = HandEye_Results_Window_2;
@@ -847,7 +1071,7 @@ namespace HanGao.ViewModel
 
                 case Display_HObject_Type_Enum.SetDrawColor:
                     //_WindowDisplay.SetDisplay = _Dispaly;
-         
+
                     break;
             }
 
@@ -855,7 +1079,7 @@ namespace HanGao.ViewModel
 
 
             HOperatorSet.SetSystem("flush_graphic", "true");
-    }
+        }
 
 
         /// <summary>

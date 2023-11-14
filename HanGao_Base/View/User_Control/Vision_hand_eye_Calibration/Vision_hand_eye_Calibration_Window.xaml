@@ -224,9 +224,7 @@
                                                                             <DataTrigger Binding="{Binding Camer_Status, Mode=TwoWay}" Value="{x:Static MVS_Enum:MV_CAM_Device_Status_Enum.Connecting}">
                                                                                 <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
                                                                             </DataTrigger>
-                                                                            <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}}" Value="true">
-                                                                                <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_灰颜色}" />
-                                                                            </DataTrigger>
+
                                                                         </Style.Triggers>
                                                                     </Style>
                                                                 </Border.Style>
@@ -1926,17 +1924,7 @@
                                                            HorizontalAlignment="Center"
                                                            HorizontalContentAlignment="Center"
                                                            VerticalContentAlignment="Center"
-                                                           FontSize=" 16">
-                                                        <Label.Style>
-                                                            <Style TargetType="Label">
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding IsChecked, ElementName=Calibration_Switch}" Value="false">
-                                                                        <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_蓝颜色}" />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </Label.Style>
-                                                    </Label>
+                                                           FontSize=" 16" />
 
                                                     <Label Grid.Column=" 1"
                                                            Content="关闭"
@@ -1944,17 +1932,7 @@
                                                            HorizontalAlignment="Center"
                                                            HorizontalContentAlignment="Center"
                                                            VerticalContentAlignment="Center"
-                                                           FontSize=" 16">
-                                                        <Label.Style>
-                                                            <Style TargetType="Label">
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding IsChecked, ElementName=Calibration_Switch}" Value="true">
-                                                                        <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_蓝颜色}" />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </Label.Style>
-                                                    </Label>
+                                                           FontSize=" 16" />
                                                 </Grid>
 
                                                 <i:Interaction.Triggers>
@@ -2291,7 +2269,7 @@
 
                                             <Openfile:UC_Open_File Grid.Column=" 1"
                                                                    File_Filter="标定板文件 (*.cpd*)|*.cpd*"
-                                                                   File_Log="{Binding HandEye_Camera_Parameters.Halcon_CaltabDescr_Address}"
+                                                                   File_Log="{Binding HandEye_Camera_Parameters.Halcon_CaltabDescr_Address, Mode=TwoWay}"
                                                                    File_Model="File" />
 
 
@@ -2584,7 +2562,7 @@
 
 
                                             <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}"
-                                                         IsChecked="{Binding Halcon_ShowMaxGray}"
+                                                         IsChecked="{Binding HandEye_Check.ShowMaxGray, Mode=TwoWay}"
                                                          Margin="5,0,5,0"
                                                          Padding="0,0,0,0"
                                                          HorizontalAlignment="Center"
@@ -2606,7 +2584,7 @@
                                             </RadioButton>
 
                                             <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}"
-                                                         IsChecked="{Binding Halcon_ShowMinGray}"
+                                                         IsChecked="{Binding HandEye_Check.ShowMinGray, Mode=TwoWay}"
                                                          Margin="5,0,5,0"
                                                          HorizontalAlignment="Center"
                                                          VerticalAlignment="Center"
@@ -2627,7 +2605,7 @@
                                             </RadioButton>
 
                                             <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}"
-                                                         IsChecked="{Binding Halcon_ShowHObject}"
+                                                         IsChecked="{Binding HandEye_Check.ShowHObject, Mode=TwoWay}"
                                                          Margin="5,0,5,0"
                                                          Padding="0"
                                                          HorizontalContentAlignment="Center"
@@ -2659,18 +2637,7 @@
 
                                             <ColumnDefinition Width=" auto" />
 
-                                            <ColumnDefinition>
-                                                <ColumnDefinition.Style>
-                                                    <Style TargetType="ColumnDefinition">
-                                                        <Setter Property="Width" Value="1*" />
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Calibration_Switch}" Value="true">
-                                                                <Setter Property="Width" Value="auto" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </ColumnDefinition.Style>
-                                            </ColumnDefinition>
+                                            <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
 
 
@@ -2703,17 +2670,7 @@
                                         <Border Grid.Column=" 1"
                                                 Width=" 3"
                                                 HorizontalAlignment="Stretch"
-                                                Background="{DynamicResource 全局_按钮_深灰颜色}">
-                                            <Border.Style>
-                                                <Style TargetType="Border">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Calibration_Switch}" Value="true">
-                                                            <Setter Property="Visibility" Value="Collapsed" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Border.Style>
-                                        </Border>
+                                                Background="{DynamicResource 全局_按钮_深灰颜色}" />
 
 
                                         <Halcon:HSmartWindowControlWPF x:Name="HandEye_Window_2" Grid.Column=" 2"
@@ -2730,15 +2687,7 @@
                                                                             HDraw="{Binding HandEye_Window_2.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
                                                                             IconicObject="{Binding HandEye_Window_2.DisplayRegion}" />
                                             <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding HandEye_Window_2.DisplayXLD}" />
-                                            <Halcon:HSmartWindowControlWPF.Style>
-                                                <Style TargetType="Halcon:HSmartWindowControlWPF">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Calibration_Switch}" Value="true">
-                                                            <Setter Property="Visibility" Value="Collapsed" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Halcon:HSmartWindowControlWPF.Style>
+
                                             <!--<i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Loaded">
                                     <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
@@ -2916,7 +2865,7 @@
                                                     </Grid.ColumnDefinitions>
 
 
-                                                    <Button x:Name="Connection_Camera" Grid.Column=" 1"
+                                                    <Button Style="{DynamicResource Halcon_Window_Button}" x:Name="Connection_Camera" Grid.Column=" 1"
                                                             Height=" 35"
                                                             Margin="0,0,10,0"
                                                             HorizontalContentAlignment="Center"
@@ -2924,15 +2873,7 @@
                                                             Background="{DynamicResource 全局_按钮_蓝颜色}"
                                                             FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                             FontSize=" 26">
-                                                        <Button.Style>
-                                                            <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding Camera_Connect_OK}" Value="True">
-                                                                        <Setter Property="IsEnabled" Value="False" />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </Button.Style>
+
                                                         <TextBlock HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center"
                                                                    FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -3421,7 +3362,7 @@
                                                         <i:Interaction.Triggers>
 
                                                             <i:EventTrigger EventName="Click">
-                                                                <i:InvokeCommandAction Command="{Binding Camera_Flash_Open_Comm}"
+                                                                <i:InvokeCommandAction Command="{Binding}"
                                                                                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                        PassEventArgsToCommand="True" />
                                                             </i:EventTrigger>
@@ -3429,6 +3370,7 @@
                                                     </CheckBox>
 
                                                     <CheckBox Style="{DynamicResource CheckBoxStyle1}" x:Name="Live_Camera" Grid.Column=" 1"
+                                                              IsChecked="{Binding HandEye_Camera_Parameters.Halcon_Find_Calib_Model}"
                                                               Height=" 38"
                                                               Margin="0,0,10,0"
                                                               HorizontalContentAlignment="Center"
@@ -3448,7 +3390,7 @@
                                                         <i:Interaction.Triggers>
 
                                                             <i:EventTrigger EventName="Click">
-                                                                <i:InvokeCommandAction Command="{Binding Live_Camera_Comm}"
+                                                                <i:InvokeCommandAction Command="{Binding HandEye_Check_LiveImage_Comm}"
                                                                                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                        PassEventArgsToCommand="True" />
                                                             </i:EventTrigger>
@@ -3590,7 +3532,7 @@
 
 
                                             <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}"
-                                                         IsChecked="{Binding Halcon_ShowMaxGray}"
+                                                         IsChecked="{Binding HandEye_Check.ShowMaxGray, Mode=TwoWay}"
                                                          Margin="5,0,5,0"
                                                          Padding="0,0,0,0"
                                                          HorizontalAlignment="Center"
@@ -3612,7 +3554,7 @@
                                             </RadioButton>
 
                                             <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}"
-                                                         IsChecked="{Binding Halcon_ShowMinGray}"
+                                                         IsChecked="{Binding HandEye_Check.ShowMinGray, Mode=TwoWay}"
                                                          Margin="5,0,5,0"
                                                          HorizontalAlignment="Center"
                                                          VerticalAlignment="Center"
@@ -3633,7 +3575,7 @@
                                             </RadioButton>
 
                                             <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}"
-                                                         IsChecked="{Binding Halcon_ShowHObject}"
+                                                         IsChecked="{Binding HandEye_Check.ShowHObject, Mode=TwoWay}"
                                                          Margin="5,0,5,0"
                                                          Padding="0"
                                                          HorizontalContentAlignment="Center"
@@ -3665,18 +3607,7 @@
 
                                             <ColumnDefinition Width=" auto" />
 
-                                            <ColumnDefinition>
-                                                <ColumnDefinition.Style>
-                                                    <Style TargetType="ColumnDefinition">
-                                                        <Setter Property="Width" Value="1*" />
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Calibration_Switch}" Value="true">
-                                                                <Setter Property="Width" Value="auto" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </ColumnDefinition.Style>
-                                            </ColumnDefinition>
+                                            <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
 
 
@@ -3709,17 +3640,7 @@
                                         <Border Grid.Column=" 1"
                                                 Width=" 3"
                                                 HorizontalAlignment="Stretch"
-                                                Background="{DynamicResource 全局_按钮_深灰颜色}">
-                                            <Border.Style>
-                                                <Style TargetType="Border">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Calibration_Switch}" Value="true">
-                                                            <Setter Property="Visibility" Value="Collapsed" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Border.Style>
-                                        </Border>
+                                                Background="{DynamicResource 全局_按钮_深灰颜色}" />
 
 
                                         <Halcon:HSmartWindowControlWPF x:Name="HandEye_Results_Window_2" Grid.Column=" 2"
@@ -3736,15 +3657,7 @@
                                                                             HDraw="{Binding HandEye_Results_Window_2.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
                                                                             IconicObject="{Binding HandEye_Results_Window_2.DisplayRegion}" />
                                             <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding HandEye_Results_Window_2.DisplayXLD}" />
-                                            <Halcon:HSmartWindowControlWPF.Style>
-                                                <Style TargetType="Halcon:HSmartWindowControlWPF">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Calibration_Switch}" Value="true">
-                                                            <Setter Property="Visibility" Value="Collapsed" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Halcon:HSmartWindowControlWPF.Style>
+
                                             <!--<i:Interaction.Triggers>
      <i:EventTrigger EventName="Loaded">
          <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
@@ -3876,7 +3789,7 @@
                                                         Value="{Binding HDisplay_3D.Scene3D_Param.Alpha, UpdateSourceTrigger=PropertyChanged}" />
 
                                                 <TextBox Grid.Column=" 2"
-                                                         Text="{Binding ElementName=Scene3D_Alpha, Path=Value, StringFormat={}{0:F2}}"
+                                                         Text="{Binding ElementName=Scene3D_Alpha_1, Path=Value, StringFormat={}{0:F2}}"
                                                          Width="80"
                                                          HorizontalContentAlignment="Center"
                                                          VerticalContentAlignment="Center"
@@ -4087,11 +4000,11 @@
                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                       GridLinesVisibility="Horizontal"
                                       HeadersVisibility="Column"
-                                      ItemsSource="{Binding MVS_Camera_Info_List}"
+                                      ItemsSource="{Binding HandEye_Calibration_List}"
                                       RowHeaderWidth="0"
                                       RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
-                                      SelectedIndex="-1"
-                                      SelectedValue="{Binding Select_Calibration}"
+                                      SelectedIndex="{Binding HandEye_Calibretion_Selected_No}"
+                                      SelectedValue="{Binding HandEye_Calibretion_Image_Selected}"
                                       SelectionMode="Single"
                                       SelectionUnit="FullRow">
                                 <DataGrid.Resources>
@@ -4237,11 +4150,11 @@
                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                       GridLinesVisibility="Horizontal"
                                       HeadersVisibility="Column"
-                                      ItemsSource="{Binding MVS_Camera_Info_List}"
+                                      ItemsSource="{Binding HandEye_Calibration_List}"
                                       RowHeaderWidth="0"
                                       RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
-                                      SelectedIndex="-1"
-                                      SelectedValue="{Binding Select_Calibration}"
+                                      SelectedIndex="{Binding HandEye_Calibretion_Selected_No}"
+                                      SelectedValue="{Binding HandEye_Calibretion_Image_Selected}"
                                       SelectionMode="Single"
                                       SelectionUnit="FullRow">
                                 <DataGrid.Resources>
@@ -4369,11 +4282,10 @@
                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                       GridLinesVisibility="Horizontal"
                                       HeadersVisibility="Column"
-                                      ItemsSource="{Binding MVS_Camera_Info_List}"
+                                      ItemsSource="{Binding HandEye_Robot_PosList}"
                                       RowHeaderWidth="0"
                                       RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
-                                      SelectedIndex="-1"
-                                      SelectedValue="{Binding Select_Calibration}"
+                                      SelectedIndex="{Binding HandEye_Calibretion_Selected_No}"
                                       SelectionMode="Single"
                                       SelectionUnit="FullRow">
                                 <DataGrid.Resources>
@@ -4580,7 +4492,7 @@
 
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Click">
-                                        <i:InvokeCommandAction Command="{Binding Calibration_Image_Removing_Comm}"
+                                        <i:InvokeCommandAction Command="{Binding}"
                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                PassEventArgsToCommand="True" />
                                     </i:EventTrigger>
@@ -4602,7 +4514,7 @@
 
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Click">
-                                        <i:InvokeCommandAction Command="{Binding Calibration_Image_Removing_Comm}"
+                                        <i:InvokeCommandAction Command="{Binding}"
                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                PassEventArgsToCommand="True" />
                                     </i:EventTrigger>
@@ -4624,7 +4536,7 @@
 
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Click">
-                                        <i:InvokeCommandAction Command="{Binding Calibration_Image_Removing_Comm}"
+                                        <i:InvokeCommandAction Command="{Binding}"
                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                PassEventArgsToCommand="True" />
                                     </i:EventTrigger>
@@ -4645,7 +4557,7 @@
 
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Click">
-                                        <i:InvokeCommandAction Command="{Binding Calibration_Image_Removing_Comm}"
+                                        <i:InvokeCommandAction Command="{Binding}"
                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                PassEventArgsToCommand="True" />
                                     </i:EventTrigger>

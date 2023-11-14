@@ -1,6 +1,7 @@
 ﻿using Generic_Extension;
 using Halcon_SDK_DLL.Model;
 using HalconDotNet;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,7 +13,7 @@ using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
 namespace Halcon_SDK_DLL
 {
-
+    [AddINotifyPropertyChangedInterface]
     public class Halcon_Calibration_SDK
     {
         public Halcon_Calibration_SDK()
@@ -70,6 +71,7 @@ namespace Halcon_SDK_DLL
 
                         HCalibData.SetCalibDataCamParam(0, new HTuple(), _CamPar);
 
+                        HCalibData.SetCalibData("model", "general", "optimization_method", _HandEye_Param.HandEye_Optimization_Method.ToString());
 
                         break;
 
@@ -87,6 +89,18 @@ namespace Halcon_SDK_DLL
 
 
 
+        public void Clear_HandEye_Calibration()
+        {
+
+
+            HCalibData.Clone();
+            HCalibData.ClearCalibData();
+
+
+        }
+
+
+
         public FindCalibObject_Results Find_CalibObject_Features(HImage _Image, Halcon_Camera_Calibration_Model _Calibration_Param)
         {
 
@@ -99,7 +113,7 @@ namespace Halcon_SDK_DLL
 
                 if (Halcon_Method.Get_Image_MaxThreshold(ref _Region, _Image).GetResult())
                 {
-                    _Results.MaxGray = _Region;
+                    _Results._CalibRegion = _Region;
                     _Results._DrawColor = KnownColor.Red.ToString();
                     //Display_HObject(null, _Region, new HObject(), KnownColor.Red.ToString());
 
@@ -111,7 +125,7 @@ namespace Halcon_SDK_DLL
                 HRegion _Region = new HRegion();
                 if (Halcon_Method.Get_Image_MinThreshold(ref _Region, _Image).GetResult())
                 {
-                    _Results.MaxGray = _Region;
+                    _Results._CalibRegion = _Region;
                     _Results._DrawColor = KnownColor.Blue.ToString();
 
                     //Display_HObject(null, _Region, new HObject(), KnownColor.Blue.ToString());
@@ -129,7 +143,7 @@ namespace Halcon_SDK_DLL
                    Find_Calib3D_Points(ref _Results, _Image, _Calibration_Param);
 
                     //查找标定板
-                    if (_Results._CalibCoord != null && _Results._CalibXLD != null)
+                    if (_Results._CalibRegion != null && _Results._CalibXLD != null)
                     {
 
                         //HRegion _Coord = new HRegion(_CalibCoord);
@@ -142,8 +156,11 @@ namespace Halcon_SDK_DLL
 
 
             }
-            catch (Exception e)
+            catch (Exception )
             {
+
+
+
 
                 ///UI显示标定状态
                 //User_Log_Add(e.Message, Log_Show_Window_Enum.Calibration);
@@ -173,7 +190,7 @@ namespace Halcon_SDK_DLL
                 HCalibData.FindCalibObject(_HImage, 0, 0, _CalibPos_No, new HTuple("sigma"), _CalibParam.Halcon_Calibretion_Sigma);
 
                 //获得标定板识别轮廓
-                _Results._CalibXLD = HCalibData.GetCalibDataObservContours("marks", 0, 0, _CalibPos_No);
+                _Results._CalibRegion = HCalibData.GetCalibDataObservContours("marks", 0, 0, _CalibPos_No);
 
 
                 //获得标定板位置
@@ -181,7 +198,7 @@ namespace Halcon_SDK_DLL
 
                 _CamerPar = HCalibData.GetCalibData("camera", 0, "init_params");
 
-                _Results.ho_Arrows = Halcon_Example.Disp_3d_coord(_CamerPar, _Results.hv_Pose, new HTuple(0.02));
+                _Results._CalibXLD = Halcon_Example.Disp_3d_coord(_CamerPar, _Results.hv_Pose, new HTuple(0.02));
 
                 ///设置显示颜色
                 _Results._DrawColor = KnownColor.Green.ToString();
@@ -516,6 +533,20 @@ namespace Halcon_SDK_DLL
 
     }
 
+    /// <summary>
+    /// 手眼标定模式枚举
+    /// </summary>
+    public enum HandEye_Calibration_Model_Enum
+    {
+        /// <summary>
+        /// 测试检查模式
+        /// </summary>
+        Checked_Model,
+        /// <summary>
+        /// 机器人查找模式
+        /// </summary>
+        Robot_Model,
+    }
 
 
     /// <summary>

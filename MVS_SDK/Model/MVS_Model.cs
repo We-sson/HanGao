@@ -580,7 +580,7 @@ namespace MVS_SDK_Base.Model
 
 
 
-
+          
 
 
             /// <summary>
@@ -675,6 +675,7 @@ namespace MVS_SDK_Base.Model
                        
                         HCamPar _CamP=  new HCamPar();
                         _CamP.ReadCamPar(_File);
+                       
                         Camera_Calibration.Camera_Calibration_Paramteters = new Halcon_Camera_Calibration_Parameters_Model(_CamP);
                         Camera_Calibration.Camera_Calibration_State = Camera_Calibration_File_Type_Enum.内参标定;
 
