@@ -1020,9 +1020,7 @@
                                                                             <DataTrigger Binding="{Binding Camer_Status, Mode=TwoWay}" Value="{x:Static MVS_Enum:MV_CAM_Device_Status_Enum.Connecting}">
                                                                                 <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
                                                                             </DataTrigger>
-                                                                            <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}}" Value="true">
-                                                                                <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_灰颜色}" />
-                                                                            </DataTrigger>
+
                                                                         </Style.Triggers>
                                                                     </Style>
                                                                 </Border.Style>
@@ -2720,7 +2718,7 @@
 
                     <Border Grid.Row=" 0" Grid.Column="3"
                             MinWidth=" 280"
-                            Margin="10,0,0,0"
+                            Margin="5,10,10,10"
                             Padding="8"
                             Background="{DynamicResource 全局_按钮_深灰颜色}"
                             CornerRadius=" 10"
@@ -2865,32 +2863,55 @@
                                                     </Grid.ColumnDefinitions>
 
 
-                                                    <Button Style="{DynamicResource Halcon_Window_Button}" x:Name="Connection_Camera" Grid.Column=" 1"
+                                                    <Button x:Name="Connection_Camera" Grid.Column=" 1"
                                                             Height=" 35"
                                                             Margin="0,0,10,0"
                                                             HorizontalContentAlignment="Center"
                                                             VerticalContentAlignment="Center"
-                                                            Background="{DynamicResource 全局_按钮_蓝颜色}"
                                                             FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                            FontSize=" 26">
+                                                            FontSize=" 16"
+                                                            Foreground="{DynamicResource 全局_按钮_白颜色}">
 
-                                                        <TextBlock HorizontalAlignment="Center"
-                                                                   VerticalAlignment="Center"
-                                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                                   FontSize="16"
-                                                                   Foreground="{DynamicResource 全局_按钮_白颜色}">
-                                                            <TextBlock.Style>
-                                                                <Style TargetType="TextBlock">
-                                                                    <Setter Property="Text" Value="连接相机" />
-                                                                    <Style.Triggers>
-                                                                        <DataTrigger Binding="{Binding Camera_Connect_OK}" Value="True">
-                                                                            <Setter Property="Text" Value="已连接相机" />
-                                                                        </DataTrigger>
-                                                                    </Style.Triggers>
-                                                                </Style>
-                                                            </TextBlock.Style>
-                                                        </TextBlock>
 
+                                                        <Button.Style>
+                                                            <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
+                                                                <Setter Property="Content" Value="连接相机" />
+                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_蓝颜色}" />
+                                                                <Style.Triggers>
+
+
+                                                                    <MultiDataTrigger>
+
+                                                                        <MultiDataTrigger.Conditions>
+                                                                            <Condition Binding="{Binding Camera_Connect_Control_Type}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_0}" />
+                                                                            <Condition Binding="{Binding Camera_0_Select_Val.Camer_Status}" Value="{x:Static MVS_Enum:MV_CAM_Device_Status_Enum.Connecting}" />
+                                                                        </MultiDataTrigger.Conditions>
+                                                                        <MultiDataTrigger.Setters>
+
+                                                                            <Setter Property="Content" Value="已连接相机" />
+                                                                            <Setter Property="Background" Value="{DynamicResource 全局_按钮_深绿颜色}" />
+                                                                        </MultiDataTrigger.Setters>
+
+
+                                                                    </MultiDataTrigger>
+                                                                    <MultiDataTrigger>
+                                                                        <MultiDataTrigger.Conditions>
+                                                                            <Condition Binding="{Binding Camera_Connect_Control_Type}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_1}" />
+                                                                            <Condition Binding="{Binding Camera_1_Select_Val.Camer_Status}" Value="{x:Static MVS_Enum:MV_CAM_Device_Status_Enum.Connecting}" />
+                                                                        </MultiDataTrigger.Conditions>
+                                                                        <MultiDataTrigger.Setters>
+
+                                                                            <Setter Property="Content" Value="已连接相机" />
+                                                                            <Setter Property="Background" Value="{DynamicResource 全局_按钮_深绿颜色}" />
+                                                                        </MultiDataTrigger.Setters>
+
+                                                                    </MultiDataTrigger>
+
+                                                                </Style.Triggers>
+                                                            </Style>
+
+
+                                                        </Button.Style>
 
 
                                                         <i:Interaction.Triggers>
@@ -3316,7 +3337,7 @@
 
 
                                                     <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
-                                                            Background="{DynamicResource 全局_按钮_深绿颜色}">
+                                                            Background="{DynamicResource 全局_按钮_深黄颜色}">
 
 
                                                         <i:Interaction.Triggers>
@@ -3331,8 +3352,7 @@
                                                                    HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center"
                                                                    FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                                   FontSize="16"
-                                                                   Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                                                   FontSize="16" />
 
 
                                                     </Button>
@@ -3483,8 +3503,7 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
                                     <ColumnDefinition />
-
-                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="1.2*" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height=" 40" />
@@ -3956,9 +3975,9 @@
                     <Grid Grid.Row=" 1">
 
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
+                            <ColumnDefinition Width="0.6*" />
+                            <ColumnDefinition Width=" 0.5*" />
+                            <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="auto " />
                         </Grid.ColumnDefinitions>
 
@@ -3972,13 +3991,39 @@
                                     Height=" 35"
                                     Background="{DynamicResource 全局_按钮_蓝颜色}"
                                     CornerRadius=" 10 10 0 0 ">
+                                <Grid>
 
-                                <TextBlock Grid.Row=" 0" Grid.Column=" 0"
-                                           Text="相机窗口 0 图像"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="14"
-                                           Foreground="{DynamicResource 全局_背景_白颜色}" />
+                                    <TextBlock Grid.Row=" 0" Grid.Column=" 0"
+                                               Text="相机窗口 0 图像"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontSize="14"
+                                               Foreground="{DynamicResource 全局_背景_白颜色}" />
+                                    <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                            Width="30"
+                                            Margin="0,5,10,0"
+                                            HorizontalAlignment="Right"
+                                            Background="{DynamicResource 全局_按钮_灰颜色}">
+                                        <TextBlock Text="&#xe672;"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="{DynamicResource 全局_图标库}"
+                                                   FontSize="16"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding}"
+                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                       PassEventArgsToCommand="True" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+
+                                    </Button>
+
+
+
+                                </Grid>
                             </Border>
                             <DataGrid Grid.Row=" 1"
                                       HorizontalContentAlignment="Stretch"
@@ -4002,6 +4047,7 @@
                                       HeadersVisibility="Column"
                                       ItemsSource="{Binding HandEye_Calibration_List}"
                                       RowHeaderWidth="0"
+                                      RowHeight="30"
                                       RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
                                       SelectedIndex="{Binding HandEye_Calibretion_Selected_No}"
                                       SelectedValue="{Binding HandEye_Calibretion_Image_Selected}"
@@ -4011,7 +4057,7 @@
                                     <Style BasedOn="{StaticResource Right_ScrollBarStyle}" TargetType="ScrollBar" />
                                 </DataGrid.Resources>
                                 <DataGrid.Columns>
-                                    <DataGridTemplateColumn Width="80">
+                                    <DataGridTemplateColumn Width="50">
                                         <DataGridTemplateColumn.Header>
                                             <TextBlock Text="序号"
                                                        Margin="4"
@@ -4023,7 +4069,7 @@
                                         </DataGridTemplateColumn.Header>
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding Camera_Calibration.Camera_Calibration_State}"
+                                                <TextBlock Text="{Binding Image_No}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -4045,7 +4091,7 @@
                                         </DataGridTemplateColumn.Header>
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding Camera_Calibration.Camera_Calibration_State}"
+                                                <TextBlock Text="{Binding Camera_0.Carme_Name}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -4073,7 +4119,7 @@
                                             <DataTemplate>
 
                                                 <TextBlock Grid.Row=" 0"
-                                                           Text="{Binding Camera_Calibration.Calibrated_Accuracy}"
+                                                           Text="{Binding Camera_0.Calibration_State}"
                                                            Padding="2"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
@@ -4097,7 +4143,7 @@
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
 
-                                                <TextBlock Text="{Binding Camera_Info.SerialNumber}"
+                                                <TextBlock Text="{Binding Camera_0.Calibration_Accuracy}"
                                                            Padding="2"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
@@ -4122,13 +4168,39 @@
                                     Height=" 35"
                                     Background="{DynamicResource 全局_按钮_蓝颜色}"
                                     CornerRadius=" 10 10 0 0 ">
+                                <Grid>
 
-                                <TextBlock Grid.Row=" 0" Grid.Column=" 0"
-                                           Text="相机窗口 1 图像"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="14"
-                                           Foreground="{DynamicResource 全局_背景_白颜色}" />
+                                    <TextBlock Grid.Row=" 0" Grid.Column=" 0"
+                                               Text="相机窗口 1 图像"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontSize="14"
+                                               Foreground="{DynamicResource 全局_背景_白颜色}" />
+
+                                    <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                            Width="30"
+                                            Margin="0,5,10,0"
+                                            HorizontalAlignment="Right"
+                                            Background="{DynamicResource 全局_按钮_灰颜色}">
+                                        <TextBlock Text="&#xe672;"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="{DynamicResource 全局_图标库}"
+                                                   FontSize="16"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding}"
+                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                       PassEventArgsToCommand="True" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+
+                                    </Button>
+
+
+                                </Grid>
                             </Border>
                             <DataGrid Grid.Row=" 1"
                                       HorizontalContentAlignment="Stretch"
@@ -4152,6 +4224,7 @@
                                       HeadersVisibility="Column"
                                       ItemsSource="{Binding HandEye_Calibration_List}"
                                       RowHeaderWidth="0"
+                                      RowHeight="30"
                                       RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
                                       SelectedIndex="{Binding HandEye_Calibretion_Selected_No}"
                                       SelectedValue="{Binding HandEye_Calibretion_Image_Selected}"
@@ -4176,7 +4249,7 @@
                                         </DataGridTemplateColumn.Header>
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding Camera_Calibration.Camera_Calibration_State}"
+                                                <TextBlock Text="{Binding Camera_1.Carme_Name}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -4204,7 +4277,7 @@
                                             <DataTemplate>
 
                                                 <TextBlock Grid.Row=" 0"
-                                                           Text="{Binding Camera_Calibration.Calibrated_Accuracy}"
+                                                           Text="{Binding Camera_1.Calibration_State}"
                                                            Padding="2"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
@@ -4228,7 +4301,7 @@
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
 
-                                                <TextBlock Text="{Binding Camera_Info.SerialNumber}"
+                                                <TextBlock Text="{Binding Camera_1.Calibration_Accuracy}"
                                                            Padding="2"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
@@ -4262,7 +4335,7 @@
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_背景_白颜色}" />
                             </Border>
-                            <DataGrid Grid.Row=" 1"
+                            <DataGrid x:Name="dataGrid" Grid.Row=" 1"
                                       HorizontalContentAlignment="Stretch"
                                       VerticalContentAlignment="Stretch"
                                       AutoGenerateColumns="False"
@@ -4284,6 +4357,7 @@
                                       HeadersVisibility="Column"
                                       ItemsSource="{Binding HandEye_Robot_PosList}"
                                       RowHeaderWidth="0"
+                                      RowHeight="30"
                                       RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
                                       SelectedIndex="{Binding HandEye_Calibretion_Selected_No}"
                                       SelectionMode="Single"
@@ -4292,7 +4366,7 @@
                                     <Style BasedOn="{StaticResource Right_ScrollBarStyle}" TargetType="ScrollBar" />
                                 </DataGrid.Resources>
                                 <DataGrid.Columns>
-                                    <DataGridTemplateColumn Width="50">
+                                    <DataGridTemplateColumn Width="50" IsReadOnly="False">
                                         <DataGridTemplateColumn.Header>
                                             <TextBlock Text="序号"
                                                        Margin="4"
@@ -4304,7 +4378,7 @@
                                         </DataGridTemplateColumn.Header>
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding Camera_Calibration.Camera_Calibration_State}"
+                                                <TextBlock Text="{Binding Robot_No}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -4326,10 +4400,15 @@
                                         </DataGridTemplateColumn.Header>
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding Camera_Calibration.Camera_Calibration_State}"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           FontSize="16" />
+                                                <TextBox Text="{Binding Moving.X}"
+                                                         HorizontalAlignment="Stretch"
+                                                         VerticalAlignment="Stretch"
+                                                         HorizontalContentAlignment="Center"
+                                                         VerticalContentAlignment="Center"
+                                                         Background="Transparent"
+                                                         BorderThickness="0"
+                                                         FontSize="14"
+                                                         Foreground="Red" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
 
@@ -4347,10 +4426,15 @@
                                         </DataGridTemplateColumn.Header>
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding Camera_Calibration.Camera_Calibration_State}"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           FontSize="16" />
+
+                                                <TextBox Text="{Binding Moving.Y}"
+                                                         HorizontalAlignment="Stretch"
+                                                         VerticalAlignment="Stretch"
+                                                         HorizontalContentAlignment="Center"
+                                                         VerticalContentAlignment="Center"
+                                                         Background="Transparent"
+                                                         BorderThickness="0"
+                                                         FontSize="16" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
 
@@ -4369,10 +4453,15 @@
                                         </DataGridTemplateColumn.Header>
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding Camera_Calibration.Camera_Calibration_State}"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           FontSize="16" />
+
+                                                <TextBox Text="{Binding Moving.Z}"
+                                                         HorizontalAlignment="Stretch"
+                                                         VerticalAlignment="Stretch"
+                                                         HorizontalContentAlignment="Center"
+                                                         VerticalContentAlignment="Center"
+                                                         Background="Transparent"
+                                                         BorderThickness="0"
+                                                         FontSize="16" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
 
@@ -4390,10 +4479,15 @@
                                         </DataGridTemplateColumn.Header>
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding Camera_Calibration.Camera_Calibration_State}"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           FontSize="16" />
+
+                                                <TextBox Text="{Binding Rotating.X}"
+                                                         HorizontalAlignment="Stretch"
+                                                         VerticalAlignment="Stretch"
+                                                         HorizontalContentAlignment="Center"
+                                                         VerticalContentAlignment="Center"
+                                                         Background="Transparent"
+                                                         BorderThickness="0"
+                                                         FontSize="16" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
 
@@ -4411,10 +4505,15 @@
                                         </DataGridTemplateColumn.Header>
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding Camera_Calibration.Camera_Calibration_State}"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           FontSize="16" />
+
+                                                <TextBox Text="{Binding Rotating.Y}"
+                                                         HorizontalAlignment="Stretch"
+                                                         VerticalAlignment="Stretch"
+                                                         HorizontalContentAlignment="Center"
+                                                         VerticalContentAlignment="Center"
+                                                         Background="Transparent"
+                                                         BorderThickness="0"
+                                                         FontSize="16" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
 
@@ -4432,10 +4531,15 @@
                                         </DataGridTemplateColumn.Header>
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding Camera_Calibration.Camera_Calibration_State}"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           FontSize="16" />
+
+                                                <TextBox Text="{Binding Rotating.Z}"
+                                                         HorizontalAlignment="Stretch"
+                                                         VerticalAlignment="Stretch"
+                                                         HorizontalContentAlignment="Center"
+                                                         VerticalContentAlignment="Center"
+                                                         Background="Transparent"
+                                                         BorderThickness="0"
+                                                         FontSize="16" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
 
@@ -4458,7 +4562,7 @@
                                             <DataTemplate>
 
                                                 <TextBlock Grid.Row=" 0"
-                                                           Text="{Binding Camera_Calibration.Calibrated_Accuracy}"
+                                                           Text="{Binding Calibration_State}"
                                                            Padding="2"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"

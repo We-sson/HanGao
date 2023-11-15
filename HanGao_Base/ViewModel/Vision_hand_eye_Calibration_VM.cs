@@ -42,11 +42,11 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 用户标定选择相机0
         /// </summary>
-        public MVS_Camera_Info_Model Camera_0_Select_Val { set; get; }
+        public MVS_Camera_Info_Model Camera_0_Select_Val { set; get; } = new MVS_Camera_Info_Model();
         /// <summary>
         /// 用户标定选择相机1
         /// </summary>
-        public MVS_Camera_Info_Model Camera_1_Select_Val { set; get; }
+        public MVS_Camera_Info_Model Camera_1_Select_Val { set; get; } = new MVS_Camera_Info_Model();
 
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 手眼标定机器人信息
         /// </summary>
-        public ObservableCollection<HandEye_Robot_Pos_Model> HandEye_Robot_PosList { set; get; } = new ObservableCollection<HandEye_Robot_Pos_Model>();
+        public ObservableCollection<HandEye_Robot_Pos_Model> HandEye_Robot_PosList { set; get; } = new ObservableCollection<HandEye_Robot_Pos_Model>() { new HandEye_Robot_Pos_Model() { Moving =new Point3D (123.123,123.123,123.123) } };
 
 
         public int HandEye_Calibretion_Selected_No { set; get; } = -1;
@@ -251,22 +251,22 @@ namespace HanGao.ViewModel
                                 _Image.Camera_0.Calibration_Image = _Results._Image;
                                 _Image.Camera_0.Calibration_Region = _Results._CalibRegion;
                                 _Image.Camera_0.Calibration_XLD = _Results._CalibXLD;
-                                _Image.Image_No++;
+                                _Image.Image_No= HandEye_Calibration_List.Count;
                                 break;
                             case Camera_Connect_Control_Type_Enum.Camera_1:
                                 _Image.Camera_No = 1;
                                 _Image.Camera_1.Calibration_Image = _Results._Image;
                                 _Image.Camera_1.Calibration_Region = _Results._CalibRegion;
                                 _Image.Camera_1.Calibration_XLD = _Results._CalibXLD;
-                                _Image.Image_No++;
+                                _Image.Image_No= HandEye_Calibration_List.Count;
 
                                 break;
 
                         }
 
-                        _RobotInfo.Robot_No++;
-                        _RobotInfo.Moving = new Point3D(double.Parse(_S.Actual_Point.X), double.Parse(_S.Actual_Point.Y), double.Parse(_S.Actual_Point.Z));
-                        _RobotInfo.Rotating = new Point3D(double.Parse(_S.Actual_Point.A), double.Parse(_S.Actual_Point.B), double.Parse(_S.Actual_Point.C));
+                        _RobotInfo.Robot_No= HandEye_Robot_PosList.Count;
+                        _RobotInfo.Moving = new Point3D(Math.Round( double.Parse(_S.Actual_Point.X),3), Math.Round(double.Parse(_S.Actual_Point.Y), 3), Math.Round(double.Parse(_S.Actual_Point.Z), 3));
+                        _RobotInfo.Rotating = new Point3D(Math.Round(double.Parse(_S.Actual_Point.A),3), Math.Round(double.Parse(_S.Actual_Point.B), 3), Math.Round(double.Parse(_S.Actual_Point.C), 3));
 
 
 
@@ -278,7 +278,7 @@ namespace HanGao.ViewModel
                         });
 
                         _HandEye_Send.IsStatus = 1;
-                        _HandEye_Send.Message_Error = "查找标定板位置成功！";
+                        _HandEye_Send.Message_Error = "Hand-eye Calibration to Find OK！";
 
                          _Str = KUKA_Send_Receive_Xml.Property_Xml<KUKA_HandEye_Calibration_Send>(_HandEye_Send);
 
@@ -825,7 +825,7 @@ namespace HanGao.ViewModel
                             case HandEye_Calibration_Model_Enum.Robot_Model:
                                 if (Camera_0_Select_Val.Camer_Status!= MVS_SDK_Base.Model.MV_CAM_Device_Status_Enum.Connecting)
                                 {
-                                    MVS.Connect_Camera(Camera_1_Select_Val);
+                                    MVS.Connect_Camera(Camera_0_Select_Val);
                                 }
                                 Camera_0_Select_Val.Show_Window = Window_Show_Name_Enum.HandEye_Results_Window_1;
 
@@ -851,6 +851,10 @@ namespace HanGao.ViewModel
 
                                 break;
                             case HandEye_Calibration_Model_Enum.Robot_Model:
+                                if (Camera_1_Select_Val.Camer_Status != MVS_SDK_Base.Model.MV_CAM_Device_Status_Enum.Connecting)
+                                {
+                                    MVS.Connect_Camera(Camera_1_Select_Val);
+                                }
                                 Camera_1_Select_Val.Show_Window = Window_Show_Name_Enum.HandEye_Results_Window_2;
 
                                 break;

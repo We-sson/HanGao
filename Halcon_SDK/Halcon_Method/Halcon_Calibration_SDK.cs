@@ -32,7 +32,7 @@ namespace Halcon_SDK_DLL
         /// <summary>
         /// 显示最暗区域
         /// </summary>
-        public bool ShowMinGray { set; get; } = false;
+        public bool ShowMinGray { set; get; } 
 
         /// <summary>
         /// 显示识别对象
@@ -43,7 +43,7 @@ namespace Halcon_SDK_DLL
         /// <summary>
         /// 显示最亮区域
         /// </summary>
-        public bool ShowMaxGray { get; set; } = false;
+        public bool ShowMaxGray { get; set; } 
 
 
 
