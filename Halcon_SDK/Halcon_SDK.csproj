@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Generic_Extension\Generic_Extension.csproj" />
+    <ProjectReference Include="..\KUKA_Socket\KUKA_Socket.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="halcondotnet">

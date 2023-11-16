@@ -1,7 +1,10 @@
 ﻿using HalconDotNet;
+using KUKA_Socket.Models;
 using PropertyChanged;
+using Soceket_KUKA;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Drawing;
 using System.IO;
 using System.Windows.Media.Media3D;
@@ -772,7 +775,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 标定板位置
         /// </summary>
-        public string Halcon_CaltabDescr_Address { set; get; }
+        public string Halcon_CaltabDescr_Address { set; get; } = "";
         /// <summary>
         /// 标定板厚度
         /// </summary>
@@ -803,6 +806,47 @@ namespace Halcon_SDK_DLL.Model
         /// 查找标定板模式：False-单帧模式
         /// </summary>
         public bool Halcon_Find_Calib_Model { set; get; } = false;
+
+
+    }
+
+
+
+    /// <summary>
+    /// 手眼标定机器人通讯参数模型
+    /// </summary>
+    [AddINotifyPropertyChangedInterface]
+    public class HandEye_Socket_Robot_Parameters_Model
+    {
+
+
+
+        /// <summary>
+        /// 电脑网口设备IP网址
+        /// </summary>
+        public ObservableCollection<string> Local_IP_UI { set; get; } = new ObservableCollection<string>();
+
+        /// <summary>
+        /// 通讯服务器属性
+        /// </summary>
+        public List<Socket_Receive> HandEye_Receive_List { set; get; } = new List<Socket_Receive>();
+
+        /// <summary>
+        /// 手眼标定通讯协议机器人
+        /// </summary>
+        public Socket_Robot_Protocols_Enum HandEye_Socket_Robot { set; get; } = Socket_Robot_Protocols_Enum.KUKA;
+        /// <summary>
+        /// 手眼标定通讯端口
+        /// </summary>
+        public int HandEye_Socket_Port { set; get; } = 5400;
+
+        /// <summary>
+        /// 通讯设备图像来源设置
+        /// </summary>
+        public HaneEye_Calibration_Diver_Model_Enum HaneEye_Socket_Diver_Model { get; set; } = HaneEye_Calibration_Diver_Model_Enum.Online;
+
+
+
 
 
     }
@@ -1526,4 +1570,24 @@ namespace Halcon_SDK_DLL.Model
         fill,
         margin
     }
+
+
+    /// <summary>
+    /// 手眼标定设备模型状态枚举
+    /// </summary>
+    public enum HaneEye_Calibration_Diver_Model_Enum
+    {
+        /// <summary>
+        /// 在线模型
+        /// </summary>
+        Online,
+        /// <summary>
+        /// 本地模式
+        /// </summary>
+        Local
+
+
+    }
+
+
 }

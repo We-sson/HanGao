@@ -170,11 +170,80 @@
                                     <StackPanel Orientation="Vertical">
 
 
+                                        <Grid Height="35" Margin="8">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 90" />
+
+                                                <ColumnDefinition Width=" *" />
+
+                                                <ColumnDefinition Width=" 35" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="设备模式"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+
+                                            <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="Camera_0_Diver" Grid.Column=" 1"
+                                                          IsChecked="{Binding Camera_Calibration_0.HaneEye_Calibration_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:HaneEye_Calibration_Diver_Model_Enum.Online}}"
+                                                          HorizontalContentAlignment="Stretch"
+                                                          VerticalContentAlignment="Center"
+                                                          Tag="Camera_0">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label Grid.Column=" 0"
+                                                           Content="在线设备"
+                                                           Padding="0,0,0,0"
+                                                           HorizontalAlignment="Center"
+                                                           HorizontalContentAlignment="Center"
+                                                           VerticalContentAlignment="Center"
+                                                           FontSize=" 14" />
+
+                                                    <Label Grid.Column=" 1"
+                                                           Content="本地模式"
+                                                           Padding="0,0,0,0"
+                                                           HorizontalAlignment="Center"
+                                                           HorizontalContentAlignment="Center"
+                                                           VerticalContentAlignment="Center"
+                                                           FontSize=" 14" />
+                                                </Grid>
+
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="Unchecked">
+                                                        <i:InvokeCommandAction Command="{Binding HandEye_Diver_Model_Select_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+
+                                            </ToggleButton>
+
+
+                                            <Label Grid.Column=" 3"
+                                                   Content=""
+                                                   Margin="0"
+                                                   Padding="0"
+                                                   HorizontalContentAlignment="Center"
+                                                   VerticalContentAlignment="Center"
+                                                   FontSize=" 14" />
+
+
+                                        </Grid>
+
+
                                         <Grid Height=" 35" Margin="8">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="90" />
                                                 <ColumnDefinition />
+                                                <ColumnDefinition Width=" 35" />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Grid.Column=" 0"
                                                        Text="相机选择"
@@ -183,17 +252,26 @@
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="Camera_0" Grid.Column=" 1"
+                                            <ComboBox x:Name="Camera_0" Grid.Column=" 1"
                                                       HorizontalContentAlignment="Left"
                                                       VerticalContentAlignment="Center"
-                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                      BorderThickness="2"
                                                       FontSize="20"
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Binding Camera_Calibration_Info_List}"
                                                       SelectedIndex=" -1"
                                                       SelectedValue="{Binding Camera_0_Select_Val}">
+                                                <ComboBox.Style>
+                                                    <Style BasedOn="{StaticResource Data_ComboBoxStyle}" TargetType="ComboBox">
+                                                        <Setter Property="IsEnabled" Value="True" />
+                                                        <Style.Triggers>
+
+                                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_0_Diver}" Value="false">
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ComboBox.Style>
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="SelectionChanged">
                                                         <i:InvokeCommandAction Command="{Binding Selected_Camera_Paramer_Comm}"
@@ -255,6 +333,7 @@
                                             </ComboBox>
 
 
+
                                         </Grid>
 
 
@@ -263,6 +342,7 @@
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="90" />
                                                 <ColumnDefinition />
+                                                <ColumnDefinition Width=" 35" />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Grid.Column=" 0"
                                                        Text="相机类型"
@@ -271,16 +351,25 @@
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="CameraCalibrationModel_0" Grid.Column=" 1"
+                                            <ComboBox x:Name="CameraCalibrationModel_0" Grid.Column=" 1"
                                                       HorizontalContentAlignment="Left"
                                                       VerticalContentAlignment="Center"
                                                       BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                       BorderThickness="2"
                                                       FontSize="20"
                                                       IsDropDownOpen="False"
-                                                      IsEnabled="False"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       SelectedIndex="{Binding Camera_Calibration_0.Camera_Calibration_Paramteters.Camera_Calibration_Model, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:Halocn_Camera_Calibration_Enum}}">
+                                                <ComboBox.Style>
+                                                    <Style BasedOn="{StaticResource Data_ComboBoxStyle}" TargetType="ComboBox">
+                                                        <Setter Property="IsEnabled" Value="False" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_0_Diver}" Value="false">
+                                                                <Setter Property="IsEnabled" Value="True" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ComboBox.Style>
 
                                                 <ComboBoxItem>
 
@@ -964,12 +1053,81 @@
                                     <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 5 5" />
                                     <StackPanel Orientation="Vertical">
 
+                                        <Grid Height="35" Margin="8">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 90" />
+
+                                                <ColumnDefinition Width=" *" />
+
+                                                <ColumnDefinition Width=" 35" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="设备模式"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+
+                                            <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="Camera_1_Diver" Grid.Column=" 1"
+                                                          IsChecked="{Binding Camera_Calibration_1.HaneEye_Calibration_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:HaneEye_Calibration_Diver_Model_Enum.Online}}"
+                                                          Padding="0"
+                                                          HorizontalContentAlignment="Stretch"
+                                                          VerticalContentAlignment="Center"
+                                                          BorderThickness="2"
+                                                          Tag="Camera_1">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label Grid.Column=" 0"
+                                                           Content="在线设备"
+                                                           Padding="0,0,0,0"
+                                                           HorizontalAlignment="Center"
+                                                           HorizontalContentAlignment="Center"
+                                                           VerticalContentAlignment="Center"
+                                                           FontSize=" 14" />
+
+                                                    <Label Grid.Column=" 1"
+                                                           Content="本地模式"
+                                                           Padding="0,0,0,0"
+                                                           HorizontalAlignment="Center"
+                                                           HorizontalContentAlignment="Center"
+                                                           VerticalContentAlignment="Center"
+                                                           FontSize=" 14" />
+                                                </Grid>
+
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="Unchecked">
+                                                        <i:InvokeCommandAction Command="{Binding HandEye_Diver_Model_Select_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+
+                                            </ToggleButton>
+
+
+                                            <Label Grid.Column=" 3"
+                                                   Content=""
+                                                   Margin="0"
+                                                   Padding="0"
+                                                   HorizontalContentAlignment="Center"
+                                                   VerticalContentAlignment="Center"
+                                                   FontSize=" 14" />
+
+
+                                        </Grid>
 
                                         <Grid Height=" 35" Margin="8">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="90" />
                                                 <ColumnDefinition />
+                                                <ColumnDefinition Width=" 35" />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Grid.Column=" 0"
                                                        Text="相机选择"
@@ -978,17 +1136,26 @@
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="Camera_1" Grid.Column=" 1"
+                                            <ComboBox x:Name="Camera_1" Grid.Column=" 1"
                                                       HorizontalContentAlignment="Left"
                                                       VerticalContentAlignment="Center"
-                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                       BorderThickness="2"
                                                       FontSize="20"
                                                       IsDropDownOpen="False"
                                                       ItemsSource="{Binding Camera_Calibration_Info_List}"
                                                       SelectedIndex=" -1"
                                                       SelectedValue="{Binding Camera_1_Select_Val}">
+                                                <ComboBox.Style>
+                                                    <Style BasedOn="{StaticResource Data_ComboBoxStyle}" TargetType="ComboBox">
+                                                        <Setter Property="IsEnabled" Value="True" />
+                                                        <Style.Triggers>
 
+                                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_1_Diver}" Value="false">
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ComboBox.Style>
 
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="SelectionChanged">
@@ -1057,6 +1224,7 @@
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="90" />
                                                 <ColumnDefinition />
+                                                <ColumnDefinition Width=" 35" />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Grid.Column=" 0"
                                                        Text="相机选择"
@@ -1065,17 +1233,24 @@
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="CameraCalibrationModel_1" Grid.Column=" 1"
+                                            <ComboBox x:Name="CameraCalibrationModel_1" Grid.Column=" 1"
                                                       HorizontalContentAlignment="Left"
                                                       VerticalContentAlignment="Center"
-                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                      BorderThickness="2"
                                                       FontSize="20"
                                                       IsDropDownOpen="False"
-                                                      IsEnabled="False"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       SelectedIndex="{Binding Camera_Calibration_1.Camera_Calibration_Paramteters.Camera_Calibration_Model, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:Halocn_Camera_Calibration_Enum}}">
+                                                <ComboBox.Style>
+                                                    <Style BasedOn="{StaticResource Data_ComboBoxStyle}" TargetType="ComboBox">
+                                                        <Setter Property="IsEnabled" Value="False" />
+                                                        <Style.Triggers>
 
+                                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_1_Diver}" Value="false">
+                                                                <Setter Property="IsEnabled" Value="True" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ComboBox.Style>
                                                 <ComboBoxItem>
 
                                                     <TextBlock Text="面扫描(普通式)"
@@ -1766,11 +1941,72 @@
                                 <Grid>
                                     <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 15 5" />
                                     <StackPanel Orientation="Vertical">
+
+                                        <Grid Height="35" Margin="8">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 90" />
+
+                                                <ColumnDefinition Width=" *" />
+
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="设备模式"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                            <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="Robot_Diver" Grid.Column=" 1"
+                                                          IsChecked="{Binding HandEye_Socket_Robot_Parameters.HaneEye_Socket_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:HaneEye_Calibration_Diver_Model_Enum.Online}}"
+                                                          Padding="0"
+                                                          HorizontalContentAlignment="Stretch"
+                                                          VerticalContentAlignment="Center"
+                                                          BorderThickness="2"
+                                                          Tag="Camera_1">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label Grid.Column=" 0"
+                                                           Content="在线设备"
+                                                           Padding="0,0,0,0"
+                                                           HorizontalAlignment="Center"
+                                                           HorizontalContentAlignment="Center"
+                                                           VerticalContentAlignment="Center"
+                                                           FontSize=" 14" />
+
+                                                    <Label Grid.Column=" 1"
+                                                           Content="本地模式"
+                                                           Padding="0,0,0,0"
+                                                           HorizontalAlignment="Center"
+                                                           HorizontalContentAlignment="Center"
+                                                           VerticalContentAlignment="Center"
+                                                           FontSize=" 14" />
+                                                </Grid>
+
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="Unchecked">
+                                                        <i:InvokeCommandAction Command="{Binding HandEye_Server_Drives_Switch_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+
+                                            </ToggleButton>
+
+
+
+
+                                        </Grid>
+
+
                                         <Grid Height=" 35" Margin="8">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="90" />
                                                 <ColumnDefinition />
-
+                                                <ColumnDefinition Width=" auto" />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Grid.Column=" 0"
                                                        Text="设备选择"
@@ -1779,17 +2015,25 @@
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
+                                            <ComboBox Grid.Column=" 1"
                                                       HorizontalContentAlignment="Center"
                                                       VerticalContentAlignment="Center"
-                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                      BorderThickness="2"
                                                       FontSize="16"
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Binding Source={StaticResource Robot_Enum}}"
-                                                      SelectedValue="{Binding HandEye_Socket_Robot}">
+                                                      SelectedValue="{Binding HandEye_Socket_Robot_Parameters.HandEye_Socket_Robot}">
+                                                <ComboBox.Style>
+                                                    <Style BasedOn="{StaticResource Data_ComboBoxStyle}" TargetType="ComboBox">
+                                                        <Setter Property="IsEnabled" Value="True" />
+                                                        <Style.Triggers>
 
+                                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Robot_Diver}" Value="false">
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ComboBox.Style>
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
@@ -1805,6 +2049,7 @@
                                                 </ComboBox.ItemTemplate>
 
                                             </ComboBox>
+
 
                                         </Grid>
 
@@ -1824,15 +2069,25 @@
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
+                                            <ComboBox Grid.Column=" 1"
                                                       HorizontalContentAlignment="Center"
                                                       VerticalContentAlignment="Center"
-                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                      BorderThickness="2"
                                                       FontSize="24"
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
-                                                      ItemsSource="{Binding Local_IP_UI, Mode=TwoWay}">
+                                                      ItemsSource="{Binding HandEye_Socket_Robot_Parameters.Local_IP_UI, Mode=TwoWay}">
+                                                <ComboBox.Style>
+                                                    <Style BasedOn="{StaticResource Data_ComboBoxStyle}" TargetType="ComboBox">
+                                                        <Setter Property="IsEnabled" Value="True" />
+                                                        <Style.Triggers>
+
+                                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Robot_Diver}" Value="false">
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ComboBox.Style>
+
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
 
@@ -1872,29 +2127,33 @@
 
 
                                             <TextBox Grid.Column=" 1"
-                                                     Text="{Binding HandEye_Socket_Port}"
+                                                     Text="{Binding HandEye_Socket_Robot_Parameters.HandEye_Socket_Port}"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="16" />
-                                            <Label Grid.Column=" 2"
-                                                   Content=""
-                                                   Margin="0"
-                                                   Padding="0"
-                                                   HorizontalContentAlignment="Center"
-                                                   VerticalContentAlignment="Center"
-                                                   FontSize=" 14" />
+                                                     FontSize="16">
+                                                <TextBox.Style>
+                                                    <Style TargetType="TextBox">
+                                                        <Setter Property="IsEnabled" Value="True" />
+                                                        <Style.Triggers>
+
+                                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Robot_Diver}" Value="false">
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBox.Style>
+                                            </TextBox>
+
                                         </Grid>
 
                                         <Grid Height="35" Margin="8">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
-
                                                 <ColumnDefinition Width=" *" />
-
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Text="服务器状态"
                                                        HorizontalAlignment="Left"
@@ -1905,12 +2164,26 @@
 
 
 
-                                            <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="Server_Switch" Grid.Column=" 1"
+                                            <ToggleButton x:Name="Robot_Server_State" Grid.Column=" 1"
                                                           IsChecked="False"
                                                           Padding="0"
                                                           HorizontalContentAlignment="Stretch"
                                                           VerticalContentAlignment="Center"
                                                           BorderThickness="2">
+
+                                                <ToggleButton.Style>
+                                                    <Style BasedOn="{StaticResource Window_ToggleButtonStyle}" TargetType="ToggleButton">
+                                                        <Setter Property="IsEnabled" Value="True" />
+                                                        <Style.Triggers>
+
+                                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Robot_Diver}" Value="false">
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ToggleButton.Style>
+
+
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="*" />
@@ -1940,6 +2213,9 @@
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
+
+
+
 
                                             </ToggleButton>
 
@@ -2298,7 +2574,6 @@
                                             <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
                                                       HorizontalContentAlignment="Center"
                                                       VerticalContentAlignment="Center"
-                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                       BorderThickness="2"
                                                       FontSize="16"
                                                       IsDropDownOpen="False"
@@ -3486,6 +3761,7 @@
                      Background="Transparent"
                      FontSize=" 22"
                      Header="③ 图像采集计算">
+
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition />
@@ -3730,8 +4006,6 @@
                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                                 <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="ShapeModel_UI_1" Grid.Column=" 1"
                                                           VerticalContentAlignment="Center"
-                                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                          BorderThickness="2"
                                                           IsSynchronizedWithCurrentItem="True"
                                                           SelectedIndex="{Binding HDisplay_3D.Scene3D_Instance.Attribute, ConverterParameter={x:Type Halcon_Enum:Attribute_Val_Enum}, Converter={StaticResource Halcon_EnumConverter}}">
                                                     <ComboBoxItem>
@@ -4361,7 +4635,7 @@
                                       RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
                                       SelectedIndex="{Binding HandEye_Calibretion_Selected_No}"
                                       SelectionMode="Single"
-                                      SelectionUnit="FullRow">
+                                      SelectionUnit="Cell">
                                 <DataGrid.Resources>
                                     <Style BasedOn="{StaticResource Right_ScrollBarStyle}" TargetType="ScrollBar" />
                                 </DataGrid.Resources>
@@ -4378,10 +4652,10 @@
                                         </DataGridTemplateColumn.Header>
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding Robot_No}"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           FontSize="16" />
+                                                <Label Content="{Binding Robot_No}"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       FontSize="16" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
 
@@ -4407,8 +4681,7 @@
                                                          VerticalContentAlignment="Center"
                                                          Background="Transparent"
                                                          BorderThickness="0"
-                                                         FontSize="14"
-                                                         Foreground="Red" />
+                                                         FontSize="16" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
 
@@ -4561,12 +4834,11 @@
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
 
-                                                <TextBlock Grid.Row=" 0"
-                                                           Text="{Binding Calibration_State}"
-                                                           Padding="2"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           FontSize="16" />
+                                                <Label Content="{Binding Calibration_State}"
+                                                       Padding="2"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       FontSize="16" />
 
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>

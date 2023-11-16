@@ -437,7 +437,11 @@ namespace MVS_SDK_Base.Model
             public Halcon_Camera_Calibration_Parameters_Model Camera_Calibration_Paramteters { set; get; } = new Halcon_Camera_Calibration_Parameters_Model();
 
 
-  
+            /// <summary>
+            /// 设备图像来源设置
+            /// </summary>
+            public HaneEye_Calibration_Diver_Model_Enum HaneEye_Calibration_Diver_Model { get; set; } = HaneEye_Calibration_Diver_Model_Enum.Online;
+
 
         }
 

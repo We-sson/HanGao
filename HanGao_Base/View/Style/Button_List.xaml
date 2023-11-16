@@ -131,7 +131,7 @@
                                 VerticalAlignment="Center"
                                 Background="Transparent"
                                 BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
-                                BorderThickness="2.5"
+                                BorderThickness="2"
                                 CornerRadius=" 5" />
                         <!--<Ellipse Grid.Column="0"
                                  Name="Ep1"

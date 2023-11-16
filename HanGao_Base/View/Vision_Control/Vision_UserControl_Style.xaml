@@ -870,7 +870,8 @@
                             <Setter TargetName="splitBorder" Property="BorderBrush" Value="{DynamicResource ComboBox.Static.Editable.Button.Border}" />-->
                         </MultiDataTrigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="arrow" Property="Fill" Value="{DynamicResource ComboBox.MouseOver.Glyph}" />
+                            <!--<Setter TargetName="arrow" Property="Fill" Value="{DynamicResource ComboBox.MouseOver.Glyph}" />-->
+                            <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_蓝颜色}" />
                         </Trigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
@@ -1122,10 +1123,10 @@
     <!--  下拉选项总样式  -->
     <Style x:Key="Data_ComboBoxStyle" TargetType="{x:Type ComboBox}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
-        <Setter Property="Background" Value="{DynamicResource ComboBox.Static.Background}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ComboBox.Static.Border}" />
+        <Setter Property="Background" Value="{DynamicResource 全局_背景_白颜色}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderThickness" Value="2" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="Padding" Value="5,0,5,0" />
@@ -1138,6 +1139,9 @@
                 <Setter Property="IsTabStop" Value="false" />
                 <Setter Property="Padding" Value="0" />
                 <Setter Property="Template" Value="{StaticResource ComboBoxEditableTemplate}" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_蓝颜色}" />
             </Trigger>
         </Style.Triggers>
     </Style>
