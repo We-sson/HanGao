@@ -1,5 +1,6 @@
 ﻿using Halcon_SDK_DLL.Halcon_Examples_Method;
 using HanGao.View.User_Control.Vision_hand_eye_Calibration;
+using MVS_SDK_Base.Model;
 using Ookii.Dialogs.Wpf;
 using System.Windows.Controls.Primitives;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
@@ -351,6 +352,73 @@ namespace HanGao.ViewModel
 
             });
         }
+
+        /// <summary>
+        ///服务器启动停止按钮
+        /// </summary>
+        public ICommand HandEye_Local_Image_Mode_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                Button  E = Sm.Source as Button;
+
+                VistaOpenFileDialog _OpenFile = new VistaOpenFileDialog()
+                {
+
+                    Filter = "图片文件|*.jpg;*.gif;*.bmp;*.png;*.tif;*.tiff;*.gif;*.bmp;*.jpg;*.jpeg;*.jp2;*.png;*.pcx;*.pgm;*.ppm;*.pbm;*.xwd;*.ima;*.hobj;",
+                    Multiselect = true,
+                    InitialDirectory = Directory.GetCurrentDirectory(),
+                };
+                if ((bool)_OpenFile.ShowDialog())
+                {
+                    //异步写入图像
+                    Task.Run(() =>
+                    {
+
+
+                        for (int i = 0; i < _OpenFile.FileNames.Length; i++)
+                        {
+
+                            HImage _HImage = new HImage();
+                            //读取文件图像
+                            _HImage.ReadImage(_OpenFile.FileNames[i]);
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+
+                                ////加载图像文件到标定集合内
+                                //Calibration_Load_Image(_HImage, Enum.Parse<Camera_Calibration_MainOrSubroutine_Type_Enum>(E.Name), E.Name);
+
+                                switch (Enum.Parse<Camera_Connect_Control_Type_Enum>((string)E.Tag))
+                                {
+                                    case Camera_Connect_Control_Type_Enum.Camera_0:
+
+
+
+                                        break;
+                                    case Camera_Connect_Control_Type_Enum.Camera_1:
+
+
+
+                                        break;
+                                }
+
+                            });
+                        }
+
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            User_Log_Add(E.Name + "标定列表，" + _OpenFile.FileNames.Length + "张标定图像加载完成！", Log_Show_Window_Enum.Calibration, MessageBoxImage.Information);
+                        });
+                        //File_Log = _OpenFile.FileName;
+
+                    });
+                }
+
+            });
+        }
+
+
+
 
 
         /// <summary>
