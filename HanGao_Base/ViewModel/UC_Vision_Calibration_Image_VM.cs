@@ -45,10 +45,10 @@ namespace HanGao.ViewModel
 
                             switch (S.Camera_No)
                             {
-                                case 0:
+                                case Camera_Connect_Control_Type_Enum.Camera_0:
                                     _calibration.Camera_0 = S.Camera_0;
                                     break;
-                                case 1:
+                                case Camera_Connect_Control_Type_Enum.Camera_1:
                                     _calibration.Camera_1 = S.Camera_1;
 
                                     break;

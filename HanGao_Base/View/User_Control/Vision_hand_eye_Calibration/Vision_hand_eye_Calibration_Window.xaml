@@ -3765,7 +3765,7 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition />
-                        <RowDefinition Height="0.5*" />
+                        <RowDefinition Height="350" />
                     </Grid.RowDefinitions>
 
                     <Grid Grid.Row=" 0">
@@ -4344,10 +4344,10 @@
                                         </DataGridTemplateColumn.Header>
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding Image_No}"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           FontSize="16" />
+                                                <Label Content="{Binding Image_No}"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       FontSize="14" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
 
@@ -4366,10 +4366,10 @@
                                         </DataGridTemplateColumn.Header>
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding Camera_0.Carme_Name}"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           FontSize="16" />
+                                                <Label Content="{Binding Camera_0.Carme_Name}"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       FontSize="14" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
 
@@ -4393,12 +4393,12 @@
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
 
-                                                <TextBlock Grid.Row=" 0"
-                                                           Text="{Binding Camera_0.Calibration_State}"
-                                                           Padding="2"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           FontSize="16" />
+                                                <Label Grid.Row=" 0"
+                                                       Content="{Binding Camera_0.Calibration_State}"
+                                                       Padding="2"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       FontSize="14" />
 
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
@@ -4418,11 +4418,11 @@
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
 
-                                                <TextBlock Text="{Binding Camera_0.Calibration_Accuracy}"
-                                                           Padding="2"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           FontSize="16" />
+                                                <Label Content="{Binding Camera_0.Calibration_Accuracy}"
+                                                       Padding="2"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       FontSize="14" />
 
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
@@ -4525,10 +4525,10 @@
                                         </DataGridTemplateColumn.Header>
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding Camera_1.Carme_Name}"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           FontSize="16" />
+                                                <Label Content="{Binding Camera_1.Carme_Name}"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       FontSize="14" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
 
@@ -4552,12 +4552,12 @@
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
 
-                                                <TextBlock Grid.Row=" 0"
-                                                           Text="{Binding Camera_1.Calibration_State}"
-                                                           Padding="2"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           FontSize="16" />
+                                                <Label Grid.Row=" 0"
+                                                       Content="{Binding Camera_1.Calibration_State}"
+                                                       Padding="2"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       FontSize="14" />
 
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
@@ -4577,11 +4577,11 @@
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
 
-                                                <TextBlock Text="{Binding Camera_1.Calibration_Accuracy}"
-                                                           Padding="2"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           FontSize="16" />
+                                                <Label Content="{Binding Camera_1.Calibration_Accuracy}"
+                                                       Padding="2"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       FontSize="14" />
 
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
@@ -4636,8 +4636,9 @@
                                       RowHeight="30"
                                       RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
                                       SelectedIndex="{Binding HandEye_Calibretion_Selected_No}"
+                                      SelectedValue="{Binding HandEye_Robot_Pos_Selected}"
                                       SelectionMode="Single"
-                                      SelectionUnit="Cell">
+                                      SelectionUnit="FullRow">
                                 <DataGrid.Resources>
                                     <Style BasedOn="{StaticResource Right_ScrollBarStyle}" TargetType="ScrollBar" />
                                 </DataGrid.Resources>
@@ -4657,7 +4658,7 @@
                                                 <Label Content="{Binding Robot_No}"
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
-                                                       FontSize="16" />
+                                                       FontSize="14" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
 
@@ -4676,14 +4677,14 @@
                                         </DataGridTemplateColumn.Header>
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBox Text="{Binding Moving.X}"
+                                                <TextBox Text="{Binding Robot_Point.X}"
                                                          HorizontalAlignment="Stretch"
                                                          VerticalAlignment="Stretch"
                                                          HorizontalContentAlignment="Center"
                                                          VerticalContentAlignment="Center"
                                                          Background="Transparent"
                                                          BorderThickness="0"
-                                                         FontSize="16" />
+                                                         FontSize="14" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
 
@@ -4702,14 +4703,14 @@
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
 
-                                                <TextBox Text="{Binding Moving.Y}"
+                                                <TextBox Text="{Binding Robot_Point.Y}"
                                                          HorizontalAlignment="Stretch"
                                                          VerticalAlignment="Stretch"
                                                          HorizontalContentAlignment="Center"
                                                          VerticalContentAlignment="Center"
                                                          Background="Transparent"
                                                          BorderThickness="0"
-                                                         FontSize="16" />
+                                                         FontSize="14" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
 
@@ -4729,14 +4730,14 @@
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
 
-                                                <TextBox Text="{Binding Moving.Z}"
+                                                <TextBox Text="{Binding Robot_Point.Z}"
                                                          HorizontalAlignment="Stretch"
                                                          VerticalAlignment="Stretch"
                                                          HorizontalContentAlignment="Center"
                                                          VerticalContentAlignment="Center"
                                                          Background="Transparent"
                                                          BorderThickness="0"
-                                                         FontSize="16" />
+                                                         FontSize="14" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
 
@@ -4755,14 +4756,14 @@
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
 
-                                                <TextBox Text="{Binding Rotating.X}"
+                                                <TextBox Text="{Binding Robot_Point.A}"
                                                          HorizontalAlignment="Stretch"
                                                          VerticalAlignment="Stretch"
                                                          HorizontalContentAlignment="Center"
                                                          VerticalContentAlignment="Center"
                                                          Background="Transparent"
                                                          BorderThickness="0"
-                                                         FontSize="16" />
+                                                         FontSize="14" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
 
@@ -4781,14 +4782,14 @@
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
 
-                                                <TextBox Text="{Binding Rotating.Y}"
+                                                <TextBox Text="{Binding Robot_Point.B}"
                                                          HorizontalAlignment="Stretch"
                                                          VerticalAlignment="Stretch"
                                                          HorizontalContentAlignment="Center"
                                                          VerticalContentAlignment="Center"
                                                          Background="Transparent"
                                                          BorderThickness="0"
-                                                         FontSize="16" />
+                                                         FontSize="14" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
 
@@ -4807,14 +4808,14 @@
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
 
-                                                <TextBox Text="{Binding Rotating.Z}"
+                                                <TextBox Text="{Binding Robot_Point.C}"
                                                          HorizontalAlignment="Stretch"
                                                          VerticalAlignment="Stretch"
                                                          HorizontalContentAlignment="Center"
                                                          VerticalContentAlignment="Center"
                                                          Background="Transparent"
                                                          BorderThickness="0"
-                                                         FontSize="16" />
+                                                         FontSize="14" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
 
@@ -4840,7 +4841,7 @@
                                                        Padding="2"
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
-                                                       FontSize="16" />
+                                                       FontSize="14" />
 
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
@@ -4861,7 +4862,7 @@
                                     Height="38"
                                     Margin="5"
                                     Background="{DynamicResource 全局_按钮_黑颜色}">
-                                <TextBlock Text="计算标定"
+                                <TextBlock Text="手眼标定"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -4892,7 +4893,7 @@
 
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Click">
-                                        <i:InvokeCommandAction Command="{Binding}"
+                                        <i:InvokeCommandAction Command="{Binding HandEye_List_Delete_Comm}"
                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                PassEventArgsToCommand="True" />
                                     </i:EventTrigger>
@@ -4905,7 +4906,7 @@
                                     Height="38"
                                     Margin="5"
                                     Background="{DynamicResource 全局_按钮_黑颜色}">
-                                <TextBlock Text="移除图像"
+                                <TextBlock Text="移除全部"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -4914,7 +4915,7 @@
 
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Click">
-                                        <i:InvokeCommandAction Command="{Binding}"
+                                        <i:InvokeCommandAction Command="{Binding HandEye_List_AllDelete_Comm}"
                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                PassEventArgsToCommand="True" />
                                     </i:EventTrigger>
@@ -4926,7 +4927,7 @@
                                     Height="38"
                                     Margin="5"
                                     Background="{DynamicResource 全局_按钮_黑颜色}">
-                                <TextBlock Text="移除图像"
+                                <TextBlock Text="保存图像"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
