@@ -248,6 +248,7 @@ namespace HanGao.ViewModel
 
                     _Results = HandEye_Find_Calibration(HandEye_Calibration_Model_Enum.Robot_Model);
 
+
                     if (_Results._CalibRegion != null && _Results._CalibXLD != null)
                     {
 

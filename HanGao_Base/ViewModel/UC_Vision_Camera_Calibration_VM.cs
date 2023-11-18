@@ -1,6 +1,6 @@
 ﻿using MVS_SDK_Base.Model;
 using System.Drawing;
-using static Halcon_SDK_DLL.Halcon_Method;
+
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static HanGao.ViewModel.UC_Vision_Calibration_Image_VM;
