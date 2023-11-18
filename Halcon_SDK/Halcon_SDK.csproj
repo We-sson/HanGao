@@ -24,6 +24,10 @@
     <Page Remove="lib\**" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="Halcon_Examples_Method\Camera_parameters.cs" />
+    <Compile Remove="Halcon_Examples_Method\Disp_message.cs" />
+    <Compile Remove="Halcon_Examples_Method\Set_display_font.cs" />
+    <Compile Remove="Halcon_Examples_Method\Visualize_object_model_3d.cs" />
     <Compile Remove="Halcon样图测试\多相机内参标定_可视化.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1027,7 +1027,7 @@ namespace Halcon_SDK_DLL
 
 
     [AddINotifyPropertyChangedInterface]
-    public class Halcon_Method : IDisposable
+    public class Halcon_Method_Model : IDisposable
     {
         /// <summary>
         /// 处理图像

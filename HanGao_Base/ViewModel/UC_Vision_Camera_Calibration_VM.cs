@@ -366,7 +366,7 @@ namespace HanGao.ViewModel
                                                     if (Vision_Calibration_Home_VM.Halcon_ShowMaxGray)
                                                     {
                                                         HRegion _Region = new HRegion();
-                                                        if (Halcon_Method.Get_Image_MaxThreshold(ref _Region, _HImage).GetResult())
+                                                        if (Halcon_Method_Model.Get_Image_MaxThreshold(ref _Region, _HImage).GetResult())
                                                         {
 
                                                             Display_HObiet(null, _Region, new HObject(), KnownColor.Red.ToString(), _camer.Show_Window);
@@ -379,7 +379,7 @@ namespace HanGao.ViewModel
                                                     if (Vision_Calibration_Home_VM.Halcon_ShowMinGray)
                                                     {
                                                         HRegion _Region = new HRegion();
-                                                        if (Halcon_Method.Get_Image_MinThreshold(ref _Region, _HImage).GetResult())
+                                                        if (Halcon_Method_Model.Get_Image_MinThreshold(ref _Region, _HImage).GetResult())
                                                         {
 
 
@@ -399,7 +399,7 @@ namespace HanGao.ViewModel
                                                             HXLDCont _CalibXLD = new HXLDCont();
 
                                                             //查找标定板
-                                                            FindCalib_3DCoord(ref _CalibXLD, ref _CalibCoord, ref _CalibSetup_ID, _HImage, (int)_camer.Camera_Calibration.Camera_Calibration_MainOrSubroutine_Type, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma);
+                                                            Halcon_Method_Model. FindCalib_3DCoord(ref _CalibXLD, ref _CalibCoord, ref _CalibSetup_ID, _HImage, (int)_camer.Camera_Calibration.Camera_Calibration_MainOrSubroutine_Type, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma);
 
 
                                                             //HRegion _Coord = new HRegion(_CalibCoord);
@@ -530,7 +530,7 @@ namespace HanGao.ViewModel
                                     if (_Calib.Camera_0.Calibration_Image != null)
                                     {
                                         //查找标定图像中标定板位置和坐标
-                                        FindCalib_3DCoord(ref _CalibXLD, ref _CalibCoord, ref _CalibSetup_ID, (HImage)_Calib.Camera_0.Calibration_Image, 0, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma);
+                                        Halcon_Method_Model. FindCalib_3DCoord(ref _CalibXLD, ref _CalibCoord, ref _CalibSetup_ID, (HImage)_Calib.Camera_0.Calibration_Image, 0, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma);
 
                                         if (_CalibXLD != null && _CalibCoord != null)
                                         {
@@ -560,7 +560,7 @@ namespace HanGao.ViewModel
 
                                     if (_Calib.Camera_1.Calibration_Image != null)
                                     {
-                                        FindCalib_3DCoord(ref _CalibXLD, ref _CalibCoord, ref _CalibSetup_ID, (HImage)_Calib.Camera_1.Calibration_Image, 0, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma);
+                                        Halcon_Method_Model.FindCalib_3DCoord(ref _CalibXLD, ref _CalibCoord, ref _CalibSetup_ID, (HImage)_Calib.Camera_1.Calibration_Image, 0, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma);
 
 
 

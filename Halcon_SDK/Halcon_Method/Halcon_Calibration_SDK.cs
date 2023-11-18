@@ -24,6 +24,12 @@ namespace Halcon_SDK_DLL
 
         }
 
+        public Halcon_Calibration_SDK(Halcon_Camera_Calibration_Model _HandEye_Param, Camera_Connect_Control_Type_Enum _Camera_Connect, HCamPar _CamPar)
+        {
+
+            Creation_HandEye_Calibration(_HandEye_Param, _Camera_Connect, _CamPar);
+        }
+
 
         public HCalibData HCalibData { set; get; } = new HCalibData();
 
@@ -32,7 +38,7 @@ namespace Halcon_SDK_DLL
         /// <summary>
         /// 显示最暗区域
         /// </summary>
-        public bool ShowMinGray { set; get; } 
+        public bool ShowMinGray { set; get; }
 
         /// <summary>
         /// 显示识别对象
@@ -43,7 +49,7 @@ namespace Halcon_SDK_DLL
         /// <summary>
         /// 显示最亮区域
         /// </summary>
-        public bool ShowMaxGray { get; set; } 
+        public bool ShowMaxGray { get; set; }
 
 
 
@@ -99,19 +105,49 @@ namespace Halcon_SDK_DLL
 
         }
 
+        public void HandEye_Calibration_Results(List<HImage> _ImageList, Halcon_Camera_Calibration_Model _CalibParam)
+        {
 
 
-        public FindCalibObject_Results Find_CalibObject_Features(HImage _Image, Halcon_Camera_Calibration_Model _Calibration_Param)
+
+            for (int i = 0; i < _ImageList.Count; i++)
+            {
+
+
+                FindCalibObject_Results _Res = new FindCalibObject_Results();
+
+                _Res = Find_Calib3D_Points(_ImageList[i], _CalibParam, i);
+
+
+
+            }
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+        public FindCalibObject_Results Check_CalibObject_Features(HImage _Image, Halcon_Camera_Calibration_Model _Calibration_Param)
         {
 
             FindCalibObject_Results _Results = new FindCalibObject_Results();
+
+
+            HCalibData _HCalibData=new HCalibData ();
 
 
             if (ShowMaxGray)
             {
                 HRegion _Region = new HRegion();
 
-                if (Halcon_Method.Get_Image_MaxThreshold(ref _Region, _Image).GetResult())
+                if (Halcon_Method_Model.Get_Image_MaxThreshold(ref _Region, _Image).GetResult())
                 {
                     _Results._CalibRegion = _Region;
                     _Results._DrawColor = KnownColor.Red.ToString();
@@ -123,7 +159,7 @@ namespace Halcon_SDK_DLL
             if (ShowMinGray)
             {
                 HRegion _Region = new HRegion();
-                if (Halcon_Method.Get_Image_MinThreshold(ref _Region, _Image).GetResult())
+                if (Halcon_Method_Model.Get_Image_MinThreshold(ref _Region, _Image).GetResult())
                 {
                     _Results._CalibRegion = _Region;
                     _Results._DrawColor = KnownColor.Blue.ToString();
@@ -140,7 +176,7 @@ namespace Halcon_SDK_DLL
                 {
 
 
-                   Find_Calib3D_Points(ref _Results, _Image, _Calibration_Param);
+                    _Results = Find_Calib3D_Points(_Image, _Calibration_Param);
 
                     //查找标定板
                     if (_Results._CalibRegion != null && _Results._CalibXLD != null)
@@ -156,7 +192,7 @@ namespace Halcon_SDK_DLL
 
 
             }
-            catch (Exception )
+            catch (Exception)
             {
 
 
@@ -178,9 +214,9 @@ namespace Halcon_SDK_DLL
 
 
 
-        public void Find_Calib3D_Points(ref FindCalibObject_Results _Results, HImage _HImage, Halcon_Camera_Calibration_Model _CalibParam, int _CalibPos_No = 0)
+        public FindCalibObject_Results Find_Calib3D_Points(HImage _HImage, Halcon_Camera_Calibration_Model _CalibParam, int _CalibPos_No = 0)
         {
-            //FindCalibObject_Results _Results = new FindCalibObject_Results();
+            FindCalibObject_Results _Results = new FindCalibObject_Results();
 
             HTuple _CamerPar = new HTuple();
 
@@ -203,6 +239,8 @@ namespace Halcon_SDK_DLL
                 ///设置显示颜色
                 _Results._DrawColor = KnownColor.Green.ToString();
 
+
+                return _Results;
             }
             catch (Exception _e)
             {
@@ -392,7 +430,10 @@ namespace Halcon_SDK_DLL
 
                 _Camera_Param_Pos = _HCam.GetCameraSetupParam(_Camera_No, "pose");
 
-                List<HObjectModel3D> _Camera_Model = Reconstruction_3d.gen_camera_object_model_3d(_HCam, _Camera_No, 0.05);
+                Reconstruction_3d _Camer3D = new Reconstruction_3d();
+
+
+                List<HObjectModel3D> _Camera_Model = _Camer3D.gen_camera_object_model_3d(_HCam, _Camera_No, 0.05);
 
                 _AllModel.AddRange(_Camera_Model);
 

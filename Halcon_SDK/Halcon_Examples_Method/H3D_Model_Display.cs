@@ -2,9 +2,7 @@
 using HalconDotNet;
 using PropertyChanged;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -18,7 +16,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 {
 
     [AddINotifyPropertyChangedInterface]
-    public class H3D_Model_Display:IDisposable
+    public class H3D_Model_Display : IDisposable
     {
 
 
@@ -47,28 +45,19 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 //通知显示更新画面
                 While_ResetEvent.Set();
                 While_ResetEvent.Reset();
-
-
             };
-
-
             Scene3D_Instance.PropertyChanged += (e, o) =>
-            {
+           {
+               //属性修改设置显示
+               if (hv_ObjectModel3D.Count > 0)
+               {
 
-                //属性修改设置显示
-                if (hv_ObjectModel3D.Count>0)
-                {
-
-                Set_Scene3D_Instance_Param(hv_Scene3D, (Halcon_Scene3D_Instance_Model)e);
-                }
-                //通知显示更新画面
-                While_ResetEvent.Set();
-                While_ResetEvent.Reset();
-
-
-            };
-
-
+                   Set_Scene3D_Instance_Param(hv_Scene3D, (Halcon_Scene3D_Instance_Model)e);
+               }
+               //通知显示更新画面
+               While_ResetEvent.Set();
+               While_ResetEvent.Reset();
+           };
 
             //初始化显示
             Display_Ini();
@@ -90,7 +79,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                             try
                             {
 
-                            hv_AllInstances = hv_Scene3D.AddScene3dInstance(_List_Model.Last(), hv_PoseIn);
+                                hv_AllInstances = hv_Scene3D.AddScene3dInstance(_List_Model.Last(), hv_PoseIn);
                             }
                             catch (Exception)
                             {
@@ -138,7 +127,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                             {
                                 try
                                 {
-                                hv_Scene3D.RemoveScene3dInstance(i);
+                                    hv_Scene3D.RemoveScene3dInstance(i);
 
                                 }
                                 catch (Exception)
@@ -166,24 +155,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             };
 
-
-
-
-
         }
-
-
-
-        public H3D_Model_Display()
-        {
-
-
-
-
-
-        }
-
-
 
         #region  公开属性
 
@@ -1046,11 +1018,11 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 //hv_SelectedObject = HTuple.TupleGenConst(hv_NumModels, 1);
                 //hv_PoseIn = determine_optimum_pose_distance(hv_ObjectModel3D.ToArray(), hv_CamParam, 0.9, hv_PoseIn);
 
-                if (hv_ObjectModel3D.Count>0)
+                if (hv_ObjectModel3D.Count > 0)
                 {
 
-                //计算当前模型的中间位置大小
-                get_trackball_center(hv_TrackballRadiusPixel, hv_ObjectModel3D.ToArray(), hv_PoseIn, out hv_TBCenter, out hv_TBSize);
+                    //计算当前模型的中间位置大小
+                    get_trackball_center(hv_TrackballRadiusPixel, hv_ObjectModel3D.ToArray(), hv_PoseIn, out hv_TBCenter, out hv_TBSize);
 
                 }
                 else
@@ -1120,9 +1092,9 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
                 //获得窗口信息
-          
+
                 //设置窗口尺寸
- 
+
                 _Window.HWindow.SetPart(new HTuple(0), new HTuple(0), hv_Height - 1, hv_Width - 1);
 
 
@@ -1246,7 +1218,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 hv_PoseIn = determine_optimum_pose_distance(hv_ObjectModel3D.ToArray(), hv_CamParam, 0.9, hv_PoseIn);
                 //hv_PoseIn = new HPose(hv_PoseEstimated);
             }
-      
+
         }
 
 
@@ -1278,7 +1250,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
                         //渲染初图像
-    
+
                         hv_WindowHandleBuffer.ClearWindow();
                         //渲染图像
                         hv_Scene3D.DisplayScene3d(hv_WindowHandleBuffer, hv_CameraIndex);
@@ -1367,11 +1339,11 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         try
                         {
 
-                        _Scene3D.SetScene3dInstanceParam(i, _Val.Name.ToLower(), new HTuple(_Par_Val));
+                            _Scene3D.SetScene3dInstanceParam(i, _Val.Name.ToLower(), new HTuple(_Par_Val));
                         }
                         catch (Exception)
                         {
-                            H3D_Display_Message_delegate?.Invoke("设置"+ _Val.Name+"值失败！");
+                            H3D_Display_Message_delegate?.Invoke("设置" + _Val.Name + "值失败！");
                             break;
 
                         }
@@ -2349,109 +2321,109 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             {
 
 
-            hv_Center = new HTuple();
-            hv_Center[0] = 0;
-            hv_Center[1] = 0;
-            hv_Center[2] = 0;
+                hv_Center = new HTuple();
+                hv_Center[0] = 0;
+                hv_Center[1] = 0;
+                hv_Center[2] = 0;
 
 
-        
-
-            hv_Diameters = HTuple.TupleGenConst(new HTuple(hv_ObjectModel3D.Count), 0.0);
-
-            for (int hv_Index = 0; hv_Index < hv_ObjectModel3D.Count; hv_Index++)
-            {
-
-                try
-                {
-
-                    HOperatorSet.GetObjectModel3dParams(hv_ObjectModel3D[hv_Index], "diameter_axis_aligned_bounding_box", out hv_Diameter);
-                    HOperatorSet.GetObjectModel3dParams(hv_ObjectModel3D[hv_Index], "center", out hv_C);
-                    hv_Diameters[hv_Index] = hv_Diameter;
-                }
-                // catch (Exception) 
-                catch (HalconException HDevExpDefaultException1)
-                {
-                    HDevExpDefaultException1.ToHTuple(out hv_Exception);
-                    //Object model is empty, has no center etc. -> ignore it by leaving its diameter at zero
-                }
-            }
 
 
-            if ((int)(new HTuple(((hv_Diameters.TupleSum())).TupleGreater(0))) != 0)
-            {
-                //Normalize Diameter to use it as weights for a weighted mean of the individual centers
-                //对直径进行归一化处理，将其用作各个中心加权平均值的权重
-                hv_MD = ((hv_Diameters.TupleSelectMask(hv_Diameters.TupleGreaterElem(0)))).TupleMean();
-                if ((int)(new HTuple(hv_MD.TupleGreater(1e-10))) != 0)
-                {
-
-                    hv_Weight = hv_Diameters / hv_MD;
-
-                }
-                else
-                {
-
-                    hv_Weight = new HTuple(hv_Diameters);
-                }
-
-                hv_SumW = hv_Weight.TupleSum();
-
-                if ((int)(new HTuple(hv_SumW.TupleLess(1e-10))) != 0)
-                {
-
-
-                    hv_Weight = HTuple.TupleGenConst(new HTuple(hv_Weight.TupleLength()), 1.0);
-
-
-                    hv_SumW = hv_Weight.TupleSum();
-
-                }
-
-                //hv_Center = new HTuple();
-                //hv_Center[0] = 0;
-                //hv_Center[1] = 0;
-                //hv_Center[2] = 0;
+                hv_Diameters = HTuple.TupleGenConst(new HTuple(hv_ObjectModel3D.Count), 0.0);
 
                 for (int hv_Index = 0; hv_Index < hv_ObjectModel3D.Count; hv_Index++)
                 {
 
-                    if ((int)(new HTuple(((hv_Diameters.TupleSelect(hv_Index))).TupleGreater(0))) != 0)
+                    try
                     {
 
+                        HOperatorSet.GetObjectModel3dParams(hv_ObjectModel3D[hv_Index], "diameter_axis_aligned_bounding_box", out hv_Diameter);
                         HOperatorSet.GetObjectModel3dParams(hv_ObjectModel3D[hv_Index], "center", out hv_C);
-
-                        hv_Center[0] = (hv_Center.TupleSelect(0)) + ((hv_C.TupleSelect(0)) * (hv_Weight.TupleSelect(hv_Index)));
-
-                        hv_Center[1] = (hv_Center.TupleSelect(1)) + ((hv_C.TupleSelect(1)) * (hv_Weight.TupleSelect(hv_Index)));
-
-                        hv_Center[2] = (hv_Center.TupleSelect(2)) + ((hv_C.TupleSelect(2)) * (hv_Weight.TupleSelect(hv_Index)));
+                        hv_Diameters[hv_Index] = hv_Diameter;
+                    }
+                    // catch (Exception) 
+                    catch (HalconException HDevExpDefaultException1)
+                    {
+                        HDevExpDefaultException1.ToHTuple(out hv_Exception);
+                        //Object model is empty, has no center etc. -> ignore it by leaving its diameter at zero
                     }
                 }
 
 
-                hv_InvSum = 1.0 / hv_SumW;
+                if ((int)(new HTuple(((hv_Diameters.TupleSum())).TupleGreater(0))) != 0)
+                {
+                    //Normalize Diameter to use it as weights for a weighted mean of the individual centers
+                    //对直径进行归一化处理，将其用作各个中心加权平均值的权重
+                    hv_MD = ((hv_Diameters.TupleSelectMask(hv_Diameters.TupleGreaterElem(0)))).TupleMean();
+                    if ((int)(new HTuple(hv_MD.TupleGreater(1e-10))) != 0)
+                    {
+
+                        hv_Weight = hv_Diameters / hv_MD;
+
+                    }
+                    else
+                    {
+
+                        hv_Weight = new HTuple(hv_Diameters);
+                    }
+
+                    hv_SumW = hv_Weight.TupleSum();
+
+                    if ((int)(new HTuple(hv_SumW.TupleLess(1e-10))) != 0)
+                    {
 
 
-                hv_Center[0] = (hv_Center.TupleSelect(0)) * hv_InvSum;
+                        hv_Weight = HTuple.TupleGenConst(new HTuple(hv_Weight.TupleLength()), 1.0);
 
-                hv_Center[1] = (hv_Center.TupleSelect(1)) * hv_InvSum;
 
-                hv_Center[2] = (hv_Center.TupleSelect(2)) * hv_InvSum;
+                        hv_SumW = hv_Weight.TupleSum();
 
-                return hv_Center;
-            }
-            else
-            {
+                    }
 
-                return hv_Center;
-            }
+                    //hv_Center = new HTuple();
+                    //hv_Center[0] = 0;
+                    //hv_Center[1] = 0;
+                    //hv_Center[2] = 0;
+
+                    for (int hv_Index = 0; hv_Index < hv_ObjectModel3D.Count; hv_Index++)
+                    {
+
+                        if ((int)(new HTuple(((hv_Diameters.TupleSelect(hv_Index))).TupleGreater(0))) != 0)
+                        {
+
+                            HOperatorSet.GetObjectModel3dParams(hv_ObjectModel3D[hv_Index], "center", out hv_C);
+
+                            hv_Center[0] = (hv_Center.TupleSelect(0)) + ((hv_C.TupleSelect(0)) * (hv_Weight.TupleSelect(hv_Index)));
+
+                            hv_Center[1] = (hv_Center.TupleSelect(1)) + ((hv_C.TupleSelect(1)) * (hv_Weight.TupleSelect(hv_Index)));
+
+                            hv_Center[2] = (hv_Center.TupleSelect(2)) + ((hv_C.TupleSelect(2)) * (hv_Weight.TupleSelect(hv_Index)));
+                        }
+                    }
+
+
+                    hv_InvSum = 1.0 / hv_SumW;
+
+
+                    hv_Center[0] = (hv_Center.TupleSelect(0)) * hv_InvSum;
+
+                    hv_Center[1] = (hv_Center.TupleSelect(1)) * hv_InvSum;
+
+                    hv_Center[2] = (hv_Center.TupleSelect(2)) * hv_InvSum;
+
+                    return hv_Center;
+                }
+                else
+                {
+
+                    return hv_Center;
+                }
 
             }
             catch (HalconException _he)
             {
 
-                H3D_Display_Message_delegate?.Invoke("计算模型中心失败! 原因:"+_he.Message);
+                H3D_Display_Message_delegate?.Invoke("计算模型中心失败! 原因:" + _he.Message);
 
                 return hv_Center;
 
@@ -2459,14 +2431,14 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             finally
             {
 
-            hv_Diameters.Dispose();
-            hv_Diameter.Dispose();
-            hv_C.Dispose();
-            hv_Exception.Dispose();
-            hv_MD.Dispose();
-            hv_Weight.Dispose();
-            hv_SumW.Dispose();
-            hv_InvSum.Dispose();
+                hv_Diameters.Dispose();
+                hv_Diameter.Dispose();
+                hv_C.Dispose();
+                hv_Exception.Dispose();
+                hv_MD.Dispose();
+                hv_Weight.Dispose();
+                hv_SumW.Dispose();
+                hv_InvSum.Dispose();
             }
 
 
@@ -2483,7 +2455,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <param name="hv_Poses"></param>
         /// <param name="hv_TBCenter"></param>
         /// <param name="hv_TBSize"></param>
-        private void get_trackball_center(HTuple hv_TrackballRadiusPixel,HTuple hv_ObjectModel3D, HTuple hv_Poses, out HTuple hv_TBCenter, out HTuple hv_TBSize)
+        private void get_trackball_center(HTuple hv_TrackballRadiusPixel, HTuple hv_ObjectModel3D, HTuple hv_Poses, out HTuple hv_TBCenter, out HTuple hv_TBSize)
         {
 
 
@@ -2505,128 +2477,128 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             try
             {
 
-    
 
 
-            // Initialize local and output iconic variables 
-            hv_TBCenter = new HTuple();
-            hv_TBSize = new HTuple();
 
-            hv_SelectedObject = HTuple.TupleGenConst(hv_ObjectModel3D.Length, 1);
+                // Initialize local and output iconic variables 
+                hv_TBCenter = new HTuple();
+                hv_TBSize = new HTuple();
 
-            //
+                hv_SelectedObject = HTuple.TupleGenConst(hv_ObjectModel3D.Length, 1);
 
-            hv_NumModels = new HTuple(hv_ObjectModel3D.TupleLength());
+                //
 
-            hv_TBCenter[0] = 0;
-            hv_TBCenter[1] = 0;
-            hv_TBCenter[2] = 0;
+                hv_NumModels = new HTuple(hv_ObjectModel3D.TupleLength());
+
+                hv_TBCenter[0] = 0;
+                hv_TBCenter[1] = 0;
+                hv_TBCenter[2] = 0;
 
 
-            hv_Diameter = HTuple.TupleGenConst(new HTuple(hv_ObjectModel3D.TupleLength()), 0.0);
+                hv_Diameter = HTuple.TupleGenConst(new HTuple(hv_ObjectModel3D.TupleLength()), 0.0);
 
-            for (int hv_Index = 0; hv_Index < hv_NumModels - 1; hv_Index++)
-            {
-
-                try
+                for (int hv_Index = 0; hv_Index < hv_NumModels - 1; hv_Index++)
                 {
+
+                    try
+                    {
+
+                        HOperatorSet.GetObjectModel3dParams(hv_ObjectModel3D.TupleSelect(hv_Index), "center", out hv_Center);
+
+                        HOperatorSet.GetObjectModel3dParams(hv_ObjectModel3D.TupleSelect(hv_Index), "diameter_axis_aligned_bounding_box", out hv_CurrDiameter);
+
+                        hv_Diameter[hv_Index] = hv_CurrDiameter;
+                    }
+                    // catch (Exception) 
+                    catch (HalconException HDevExpDefaultException1)
+                    {
+                        HDevExpDefaultException1.ToHTuple(out hv_Exception);
+                        //3D object model is empty or otherwise malformed -> ignore
+                    }
+                }
+                //Normalize Diameter to use it as weights for a weighted mean of the individual centers
+                hv_MD.Dispose();
+
+                hv_MD = hv_Diameter.TupleMean();
+                if ((int)(new HTuple(hv_MD.TupleGreater(1e-10))) != 0)
+                {
+                    hv_Weight = hv_Diameter / hv_MD;
+
+                }
+                else
+                {
+
+                    hv_Weight = new HTuple(hv_Diameter);
+                }
+
+                hv_SumW = ((hv_Weight.TupleSelectMask(((hv_SelectedObject.TupleSgn())).TupleAbs()))).TupleSum();
+
+                if ((int)(new HTuple(hv_SumW.TupleLess(1e-10))) != 0)
+                {
+                    hv_Weight = HTuple.TupleGenConst(new HTuple(hv_Weight.TupleLength()), 1.0);
+                    hv_SumW = ((hv_Weight.TupleSelectMask(((hv_SelectedObject.TupleSgn())).TupleAbs()))).TupleSum();
+
+                }
+                if ((int)(new HTuple(hv_SumW.TupleLess(1e-10))) != 0)
+                {
+                    hv_SumW.Dispose();
+                    hv_SumW = 1.0;
+                }
+                HTuple end_val30 = hv_NumModels - 1;
+                HTuple step_val30 = 1;
+
+                for (int hv_Index = 0; hv_Index < hv_NumModels; hv_Index++)
+                {
+
+
+                    hv_PoseSelected = hv_Poses;
+
+                    HOperatorSet.PoseToHomMat3d(hv_PoseSelected, out hv_HomMat3D);
 
                     HOperatorSet.GetObjectModel3dParams(hv_ObjectModel3D.TupleSelect(hv_Index), "center", out hv_Center);
 
-                    HOperatorSet.GetObjectModel3dParams(hv_ObjectModel3D.TupleSelect(hv_Index), "diameter_axis_aligned_bounding_box", out hv_CurrDiameter);
 
-                    hv_Diameter[hv_Index] = hv_CurrDiameter;
+                    HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_Center.TupleSelect(0), hv_Center.TupleSelect(1), hv_Center.TupleSelect(2),
+                        out hv_TBCenterCamX, out hv_TBCenterCamY, out hv_TBCenterCamZ);
+
+
+                    hv_TBCenter[0] = (hv_TBCenter.TupleSelect(0)) + (hv_TBCenterCamX * (hv_Weight.TupleSelect(hv_Index)));
+
+                    hv_TBCenter[1] = (hv_TBCenter.TupleSelect(1)) + (hv_TBCenterCamY * (hv_Weight.TupleSelect(hv_Index)));
+
+                    hv_TBCenter[2] = (hv_TBCenter.TupleSelect(2)) + (hv_TBCenterCamZ * (hv_Weight.TupleSelect(hv_Index)));
+
                 }
-                // catch (Exception) 
-                catch (HalconException HDevExpDefaultException1)
+                if ((int)(new HTuple(((hv_SelectedObject.TupleMax())).TupleNotEqual(0))) != 0)
                 {
-                    HDevExpDefaultException1.ToHTuple(out hv_Exception);
-                    //3D object model is empty or otherwise malformed -> ignore
+
+                    hv_InvSum = 1.0 / hv_SumW;
+
+
+                    hv_TBCenter[0] = (hv_TBCenter.TupleSelect(0)) * hv_InvSum;
+
+                    hv_TBCenter[1] = (hv_TBCenter.TupleSelect(1)) * hv_InvSum;
+
+                    hv_TBCenter[2] = (hv_TBCenter.TupleSelect(2)) * hv_InvSum;
+
+                    hv_TBSize = (0.5 + ((0.5 * (hv_SelectedObject.TupleSum()
+                        )) / hv_NumModels)) * hv_TrackballRadiusPixel;
+
                 }
-            }
-            //Normalize Diameter to use it as weights for a weighted mean of the individual centers
-            hv_MD.Dispose();
-
-            hv_MD = hv_Diameter.TupleMean();
-            if ((int)(new HTuple(hv_MD.TupleGreater(1e-10))) != 0)
-            {
-                hv_Weight = hv_Diameter / hv_MD;
-
-            }
-            else
-            {
-
-                hv_Weight = new HTuple(hv_Diameter);
-            }
-
-            hv_SumW = ((hv_Weight.TupleSelectMask(((hv_SelectedObject.TupleSgn())).TupleAbs()))).TupleSum();
-
-            if ((int)(new HTuple(hv_SumW.TupleLess(1e-10))) != 0)
-            {
-                hv_Weight = HTuple.TupleGenConst(new HTuple(hv_Weight.TupleLength()), 1.0);
-                hv_SumW = ((hv_Weight.TupleSelectMask(((hv_SelectedObject.TupleSgn())).TupleAbs()))).TupleSum();
-
-            }
-            if ((int)(new HTuple(hv_SumW.TupleLess(1e-10))) != 0)
-            {
-                hv_SumW.Dispose();
-                hv_SumW = 1.0;
-            }
-            HTuple end_val30 = hv_NumModels - 1;
-            HTuple step_val30 = 1;
-
-            for (int hv_Index = 0; hv_Index < hv_NumModels; hv_Index++)
-            {
-
-
-                hv_PoseSelected = hv_Poses;
-
-                HOperatorSet.PoseToHomMat3d(hv_PoseSelected, out hv_HomMat3D);
-
-                HOperatorSet.GetObjectModel3dParams(hv_ObjectModel3D.TupleSelect(hv_Index), "center", out hv_Center);
-
-
-                HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_Center.TupleSelect(0), hv_Center.TupleSelect(1), hv_Center.TupleSelect(2),
-                    out hv_TBCenterCamX, out hv_TBCenterCamY, out hv_TBCenterCamZ);
-
-
-                hv_TBCenter[0] = (hv_TBCenter.TupleSelect(0)) + (hv_TBCenterCamX * (hv_Weight.TupleSelect(hv_Index)));
-
-                hv_TBCenter[1] = (hv_TBCenter.TupleSelect(1)) + (hv_TBCenterCamY * (hv_Weight.TupleSelect(hv_Index)));
-
-                hv_TBCenter[2] = (hv_TBCenter.TupleSelect(2)) + (hv_TBCenterCamZ * (hv_Weight.TupleSelect(hv_Index)));
-
-            }
-            if ((int)(new HTuple(((hv_SelectedObject.TupleMax())).TupleNotEqual(0))) != 0)
-            {
-
-                hv_InvSum = 1.0 / hv_SumW;
-
-
-                hv_TBCenter[0] = (hv_TBCenter.TupleSelect(0)) * hv_InvSum;
-
-                hv_TBCenter[1] = (hv_TBCenter.TupleSelect(1)) * hv_InvSum;
-
-                hv_TBCenter[2] = (hv_TBCenter.TupleSelect(2)) * hv_InvSum;
-
-                hv_TBSize = (0.5 + ((0.5 * (hv_SelectedObject.TupleSum()
-                    )) / hv_NumModels)) * hv_TrackballRadiusPixel;
-
-            }
-            else
-            {
-                hv_TBCenter.Dispose();
-                hv_TBCenter = new HTuple();
-                hv_TBSize.Dispose();
-                hv_TBSize = 0;
-            }
+                else
+                {
+                    hv_TBCenter.Dispose();
+                    hv_TBCenter = new HTuple();
+                    hv_TBSize.Dispose();
+                    hv_TBSize = 0;
+                }
 
 
             }
             catch (Exception _e)
             {
                 throw new Exception("计算模型中心位置错误！原因：" + _e.Message);
-              
+
             }
             finally
             {
@@ -2636,20 +2608,20 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
 
-            hv_Diameter.Dispose();
+                hv_Diameter.Dispose();
 
-            hv_Center.Dispose();
-            hv_CurrDiameter.Dispose();
-            hv_Exception.Dispose();
-            hv_MD.Dispose();
-            hv_Weight.Dispose();
-            hv_SumW.Dispose();
-            hv_PoseSelected.Dispose();
-            hv_HomMat3D.Dispose();
-            hv_TBCenterCamX.Dispose();
-            hv_TBCenterCamY.Dispose();
-            hv_TBCenterCamZ.Dispose();
-            hv_InvSum.Dispose();
+                hv_Center.Dispose();
+                hv_CurrDiameter.Dispose();
+                hv_Exception.Dispose();
+                hv_MD.Dispose();
+                hv_Weight.Dispose();
+                hv_SumW.Dispose();
+                hv_PoseSelected.Dispose();
+                hv_HomMat3D.Dispose();
+                hv_TBCenterCamX.Dispose();
+                hv_TBCenterCamY.Dispose();
+                hv_TBCenterCamZ.Dispose();
+                hv_InvSum.Dispose();
 
             }
 
@@ -4667,7 +4639,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             ///退出渲染
             hv_Disply_Keep = true;
             _Window.Dispose();
-            
+
 
 
         }

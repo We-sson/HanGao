@@ -362,7 +362,7 @@ namespace HanGao.ViewModel
                         {
                             _Task_List.Add(Task.Factory.StartNew(() =>
                             {
-                                Halcon_Method _Halcon = new Halcon_Method();
+                                Halcon_Method_Model _Halcon = new Halcon_Method_Model();
                                 //文件名拆解
                                 string[] _File_Info = _File.Name.Split('_');
                                 //获得文件模型序号
@@ -486,7 +486,7 @@ namespace HanGao.ViewModel
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
                 ComboBox E = Sm.Source as ComboBox;
-                Halcon_Method _Haclon = new Halcon_Method();
+                Halcon_Method_Model _Haclon = new Halcon_Method_Model   ();
                 if ((FileInfo)E.SelectedValue is FileInfo _Shape)
                 {
                     string[] _ShapeName = _Shape.Name.Split('_');
@@ -560,7 +560,7 @@ namespace HanGao.ViewModel
             {
                 //Button Window_UserContol = Sm.Source as Button;
                 HImage _Image = new HImage();
-                Halcon_Method _Halcon = new Halcon_Method();
+                Halcon_Method_Model _Halcon = new Halcon_Method_Model();
                 Task.Run(() =>
                 {
                     //判断集合是否有数据
@@ -607,7 +607,7 @@ namespace HanGao.ViewModel
         public static Find_Shape_Results_Model Find_Shape_Model_Method(Find_Shape_Based_ModelXld _Shpae_Parameters, HImage _Image, HWindow _Window, HTuple _Math2D, int Find_Model_Number)
         {
             //List<HObject> _Halcon_List = new List<HObject>();
-            Halcon_Method _Halcon = new Halcon_Method();
+            Halcon_Method_Model _Halcon = new Halcon_Method_Model();
             Find_Shape_Results_Model _Results = new Find_Shape_Results_Model();
             HObject _HO = new HObject();
             HObject _HO1 = new HObject();
@@ -784,7 +784,7 @@ namespace HanGao.ViewModel
                 //Task.Run(() =>
                 //{
                 HImage _Image = new HImage();
-                Halcon_Method _Halcon = new Halcon_Method();
+                Halcon_Method_Model _Halcon = new Halcon_Method_Model();
                 //读取图片
                 if (Display_Status(Get_Image(ref _Image, Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI)).GetResult())
                 {

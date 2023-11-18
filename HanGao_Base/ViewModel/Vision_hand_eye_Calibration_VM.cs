@@ -211,6 +211,8 @@ namespace HanGao.ViewModel
             FindCalibObject_Results _Results = new FindCalibObject_Results();
             HandEye_Robot_Pos_Model _RobotInfo = new HandEye_Robot_Pos_Model();
             KUKA_HandEye_Calibration_Send _HandEye_Send = new KUKA_HandEye_Calibration_Send();
+            Reconstruction_3d _HandEye_3DModel = new Reconstruction_3d();
+            HPose _RobotBase = new HPose();
             switch (_S.Calibration_Model)
             {
                 case HandEye_Calibration_Type_Enum.Calibration_Start:
@@ -248,6 +250,25 @@ namespace HanGao.ViewModel
 
                     _Results = HandEye_Find_Calibration(HandEye_Calibration_Model_Enum.Robot_Model);
 
+                    _RobotBase.CreatePose(double.Parse(_S.Actual_Point.X), double.Parse(_S.Actual_Point.Y), double.Parse(_S.Actual_Point.Z), double.Parse(_S.Actual_Point.A), double.Parse(_S.Actual_Point.B), double.Parse(_S.Actual_Point.C), "Rp+T", "gba", "point");
+
+
+
+
+                  List <HObjectModel3D> _RobotBase3D=  _HandEye_3DModel.gen_robot_tool_and_base_object_model_3d(0.005, 0.05);
+
+
+                    ///机器人TCP模型偏移
+                    _RobotBase3D[1].RigidTransObjectModel3d(_RobotBase);
+                    
+
+
+                    SetDisplay3DModel(new Display3DModel_Model() { _ObjectModel3D = _RobotBase3D });
+
+
+                    HandEye_Check.HCalibData.SetCalibData("tool", HandEye_Calibration_List.Count, "tool_in_base_pose", _RobotBase);
+
+
 
                     if (_Results._CalibRegion != null && _Results._CalibXLD != null)
                     {
@@ -264,6 +285,11 @@ namespace HanGao.ViewModel
                             Calibration_Region =_Results._CalibRegion,
                             Calibration_XLD = _Results._CalibXLD,
                         });
+
+
+
+
+
 
 
                         _RobotInfo.Robot_No = HandEye_Robot_PosList.Count;
@@ -1142,6 +1168,11 @@ namespace HanGao.ViewModel
                             case HandEye_Calibration_Model_Enum.Checked_Model:
                                 Camera_1_Select_Val.Show_Window = Window_Show_Name_Enum.HandEye_Window_2;
 
+
+
+
+
+
                                 break;
                             case HandEye_Calibration_Model_Enum.Robot_Model:
                                 if (Camera_1_Select_Val.Camer_Status != MVS_SDK_Base.Model.MV_CAM_Device_Status_Enum.Connecting)
@@ -1149,6 +1180,17 @@ namespace HanGao.ViewModel
                                     MVS.Connect_Camera(Camera_1_Select_Val);
                                 }
                                 Camera_1_Select_Val.Show_Window = Window_Show_Name_Enum.HandEye_Results_Window_2;
+
+
+
+
+
+
+
+
+
+
+
 
                                 break;
                         }
@@ -1185,7 +1227,7 @@ namespace HanGao.ViewModel
                         if (Halcon_SDK.Mvs_To_Halcon_Image(ref _Image, _MVS_Image.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image.PData))
                         {
 
-                            _Results = HandEye_Check.Find_CalibObject_Features(_Image, HandEye_Camera_Parameters);
+                            _Results = HandEye_Check.Check_CalibObject_Features(_Image, HandEye_Camera_Parameters);
 
                             _Results._Image = _Image;
                             Display_HObject(_Image, _Results._CalibRegion, null, _Results._DrawColor, _Select_Camera.Show_Window);

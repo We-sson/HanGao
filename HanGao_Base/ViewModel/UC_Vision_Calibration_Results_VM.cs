@@ -409,7 +409,7 @@ namespace HanGao.ViewModel
                                 _Imge_1 = Calibration_List[i].Camera_1.Calibration_Image;
 
                                 //计算标定板信息
-                                Halcon_Method.FindCalib_3DCoord(ref _CalibXLD_0, ref _CalibCoord_0, ref _CalibSetup_ID, (HImage)_Imge_0, 0, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma, Calibration_List[i].Image_No);
+                                Halcon_Method_Model.FindCalib_3DCoord(ref _CalibXLD_0, ref _CalibCoord_0, ref _CalibSetup_ID, (HImage)_Imge_0, 0, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma, Calibration_List[i].Image_No);
 
                                 if (_CalibXLD_0 != null && _CalibCoord_0 != null)
                                 {
@@ -431,7 +431,7 @@ namespace HanGao.ViewModel
 
 
 
-                                Halcon_Method.FindCalib_3DCoord(ref _CalibXLD_1, ref _CalibCoord_1, ref _CalibSetup_ID, (HImage)_Imge_1, 1, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma, Calibration_List[i].Image_No);
+                                Halcon_Method_Model.FindCalib_3DCoord(ref _CalibXLD_1, ref _CalibCoord_1, ref _CalibSetup_ID, (HImage)_Imge_1, 1, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma, Calibration_List[i].Image_No);
 
 
 
@@ -528,7 +528,7 @@ namespace HanGao.ViewModel
                                 {
 
                                     //计算标定板信息
-                                    Halcon_Method.FindCalib_3DCoord(ref _CalibXLD, ref _CalibCoord, ref _CalibSetup_ID, (HImage)_Imge, 0, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma, Calibration_List[i].Image_No);
+                                    Halcon_Method_Model.FindCalib_3DCoord(ref _CalibXLD, ref _CalibCoord, ref _CalibSetup_ID, (HImage)_Imge, 0, 0, Halcon_Calibration_Setup.Halcon_Calibretion_Sigma, Calibration_List[i].Image_No);
                                     //判断对象是否识别成功
                                     if (_CalibXLD != null && _CalibCoord != null)
                                     {

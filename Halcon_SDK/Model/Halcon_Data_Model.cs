@@ -884,7 +884,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 匹配模型预存类型
         /// </summary>
-        public Halcon_Method Model { set; get; } = new Halcon_Method();
+        public Halcon_Method_Model Model { set; get; } = new Halcon_Method_Model();
         /// <summary>
         /// 获得模型文件名
         /// </summary>
