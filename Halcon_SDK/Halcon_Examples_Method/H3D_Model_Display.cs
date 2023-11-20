@@ -90,24 +90,9 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
                             H3D_Display_Message_delegate?.Invoke("增加" + hv_AllInstances + "号模型成功 !");
                             //继续中心位置
-                            //hv_Center = get_object_models_center();
-                            //hv_PoseIn = determine_optimum_pose_distance(_List_Model.ToArray(), hv_CamParam, 0.9, new HPose(-(hv_Center.TupleSelect(0)), -(hv_Center.TupleSelect(1)), -(hv_Center.TupleSelect(2)), hv_PoseIn[3], hv_PoseIn[4], hv_PoseIn[5], "Rp+T", "gba", "point"));
-
-                            //设置可视化位置
-                            //for (int i = 0; i < hv_ObjectModel3D.Count; i++)
-                            //{
-                            //    hv_Scene3D.SetScene3dInstancePose(i, hv_PoseIn);
-
-
-                            //}
-
 
                             //设置显示属性
                             Set_Scene3D_Instance_Param(hv_Scene3D, Scene3D_Instance);
-
-
-                            //显示渲染
-                            //Event_Int((int)_Window.Halcon_UserContol.ActualWidth, (int)_Window.Halcon_UserContol.ActualHeight);
 
 
 
@@ -2466,6 +2451,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             HTuple hv_Diameter = new HTuple();
             HTuple hv_Center = new HTuple();
+            HTuple hv_NumPoint = new HTuple();
             HTuple hv_CurrDiameter = new HTuple(), hv_Exception = new HTuple();
             HTuple hv_MD = new HTuple(), hv_Weight = new HTuple();
             HTuple hv_SumW = new HTuple(), hv_PoseSelected = new HTuple();
@@ -2497,11 +2483,15 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
                 hv_Diameter = HTuple.TupleGenConst(new HTuple(hv_ObjectModel3D.TupleLength()), 0.0);
 
-                for (int hv_Index = 0; hv_Index < hv_NumModels - 1; hv_Index++)
+                for (int hv_Index = 0; hv_Index < hv_NumModels ; hv_Index++)
                 {
 
+          
                     try
                     {
+
+                        HOperatorSet.GetObjectModel3dParams(hv_ObjectModel3D.TupleSelect(hv_Index), "num_points", out hv_NumPoint);
+
 
                         HOperatorSet.GetObjectModel3dParams(hv_ObjectModel3D.TupleSelect(hv_Index), "center", out hv_Center);
 
@@ -2515,6 +2505,9 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         HDevExpDefaultException1.ToHTuple(out hv_Exception);
                         //3D object model is empty or otherwise malformed -> ignore
                     }
+
+
+
                 }
                 //Normalize Diameter to use it as weights for a weighted mean of the individual centers
                 hv_MD.Dispose();

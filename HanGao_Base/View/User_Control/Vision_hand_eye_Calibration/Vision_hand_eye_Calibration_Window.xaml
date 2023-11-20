@@ -2841,7 +2841,7 @@
                                                          HorizontalAlignment="Center"
                                                          VerticalAlignment="Center"
                                                          FontSize=" 16"
-                                                         GroupName="DisplayShow">
+                                                         GroupName="Text_DisplayShow">
                                                 <StackPanel Orientation="Horizontal">
                                                     <Label Content="&#xe636;"
                                                            HorizontalAlignment="Center"
@@ -2862,7 +2862,7 @@
                                                          HorizontalAlignment="Center"
                                                          VerticalAlignment="Center"
                                                          FontSize=" 16"
-                                                         GroupName="DisplayShow">
+                                                         GroupName="Text_DisplayShow">
                                                 <StackPanel Orientation="Horizontal">
                                                     <Label Content="&#xe636;"
                                                            HorizontalAlignment="Center"
@@ -2884,7 +2884,7 @@
                                                          HorizontalContentAlignment="Center"
                                                          VerticalContentAlignment="Center"
                                                          FontSize=" 16"
-                                                         GroupName="DisplayShow">
+                                                         GroupName="Text_DisplayShow">
                                                 <StackPanel Orientation="Horizontal">
 
                                                     <Label Content="&#xe637;"
@@ -3103,17 +3103,17 @@
 
                                                             <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 0"
                                                                          Content="Camera_0"
-                                                                         IsChecked="{Binding Camera_Connect_Control_Type, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_0}}"
+                                                                         IsChecked="{Binding HandEye_Check.Camera_Connect_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_0}}"
                                                                          FontSize=" 14"
                                                                          GroupName="Camera_Control" />
                                                             <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 1"
                                                                          Content="Camera_1"
-                                                                         IsChecked="{Binding Camera_Connect_Control_Type, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_1}}"
+                                                                         IsChecked="{Binding HandEye_Check.Camera_Connect_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_1}}"
                                                                          FontSize="14"
                                                                          GroupName="Camera_Control" />
                                                             <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 2"
                                                                          Content="双目相机"
-                                                                         IsChecked="{Binding Camera_Connect_Control_Type, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static EnumModel:Camera_Connect_Control_Type_Enum.双目相机}}"
+                                                                         IsChecked="{Binding HandEye_Check.Camera_Connect_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static EnumModel:Camera_Connect_Control_Type_Enum.双目相机}}"
                                                                          FontSize="14"
                                                                          GroupName="Camera_Control" />
                                                         </Grid>
@@ -3158,7 +3158,7 @@
                                                                     <MultiDataTrigger>
 
                                                                         <MultiDataTrigger.Conditions>
-                                                                            <Condition Binding="{Binding Camera_Connect_Control_Type}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_0}" />
+                                                                            <Condition Binding="{Binding HandEye_Check.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_0}" />
                                                                             <Condition Binding="{Binding Camera_0_Select_Val.Camer_Status}" Value="{x:Static MVS_Enum:MV_CAM_Device_Status_Enum.Connecting}" />
                                                                         </MultiDataTrigger.Conditions>
                                                                         <MultiDataTrigger.Setters>
@@ -3171,7 +3171,7 @@
                                                                     </MultiDataTrigger>
                                                                     <MultiDataTrigger>
                                                                         <MultiDataTrigger.Conditions>
-                                                                            <Condition Binding="{Binding Camera_Connect_Control_Type}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_1}" />
+                                                                            <Condition Binding="{Binding HandEye_Check.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_1}" />
                                                                             <Condition Binding="{Binding Camera_1_Select_Val.Camer_Status}" Value="{x:Static MVS_Enum:MV_CAM_Device_Status_Enum.Connecting}" />
                                                                         </MultiDataTrigger.Conditions>
                                                                         <MultiDataTrigger.Setters>

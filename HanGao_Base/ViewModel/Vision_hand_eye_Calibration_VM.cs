@@ -111,10 +111,6 @@ namespace HanGao.ViewModel
 
 
 
-        /// <summary>
-        /// 控制相机枚举属性
-        /// </summary>
-        public Camera_Connect_Control_Type_Enum Camera_Connect_Control_Type { set; get; } = Camera_Connect_Control_Type_Enum.Camera_0;
 
 
         /// <summary>
@@ -250,23 +246,38 @@ namespace HanGao.ViewModel
 
                     _Results = HandEye_Find_Calibration(HandEye_Calibration_Model_Enum.Robot_Model);
 
+
+
+
                     _RobotBase.CreatePose(double.Parse(_S.Actual_Point.X), double.Parse(_S.Actual_Point.Y), double.Parse(_S.Actual_Point.Z), double.Parse(_S.Actual_Point.A), double.Parse(_S.Actual_Point.B), double.Parse(_S.Actual_Point.C), "Rp+T", "gba", "point");
 
 
 
 
-                  List <HObjectModel3D> _RobotBase3D=  _HandEye_3DModel.gen_robot_tool_and_base_object_model_3d(0.005, 0.05);
+
+                    List<HObjectModel3D> _RobotTcp3D = _HandEye_3DModel.gen_robot_tool_and_base_object_model_3d(0.005, 0.05, Reconstruction_3d.Get_Robot_tool_base_Type_Enum.Robot_Tool);
 
 
-                    ///机器人TCP模型偏移
-                    _RobotBase3D[1].RigidTransObjectModel3d(_RobotBase);
-                    
+
+                    ///偏移模式到TCP坐标坐标
+                    for (int _N = 0; _N < _RobotTcp3D.Count; _N++)
+                    {
+                        _RobotTcp3D[_N] = _RobotTcp3D[_N].RigidTransObjectModel3d(_RobotBase);
+                    }
 
 
-                    SetDisplay3DModel(new Display3DModel_Model() { _ObjectModel3D = _RobotBase3D });
+                    //生产机器人坐标模型
+                    List<HObjectModel3D> _RobotBase3D = _HandEye_3DModel.gen_robot_tool_and_base_object_model_3d(0.005, 0.05, Reconstruction_3d.Get_Robot_tool_base_Type_Enum.Robot_Base);
 
 
-                    HandEye_Check.HCalibData.SetCalibData("tool", HandEye_Calibration_List.Count, "tool_in_base_pose", _RobotBase);
+
+                    _RobotTcp3D.AddRange(_RobotBase3D);
+
+
+
+                    SetDisplay3DModel(new Display3DModel_Model() { _ObjectModel3D = _RobotTcp3D });
+
+
 
 
 
@@ -275,7 +286,7 @@ namespace HanGao.ViewModel
 
                         Calibration_Image_List_Model _Image = new Calibration_Image_List_Model()
                         {
-                            Camera_No = Camera_Connect_Control_Type,
+                            Camera_No = HandEye_Check.Camera_Connect_Model,
                             Image_No = HandEye_Calibration_List.Count,
                              
                         };
@@ -329,6 +340,10 @@ namespace HanGao.ViewModel
                     break;
                 case HandEye_Calibration_Type_Enum.Calibration_End:
 
+                   
+
+                  
+
 
 
 
@@ -346,7 +361,7 @@ namespace HanGao.ViewModel
         }
 
 
-
+      
 
 
 
@@ -861,14 +876,14 @@ namespace HanGao.ViewModel
 
 
 
-                    switch (Camera_Connect_Control_Type)
+                    switch (HandEye_Check.Camera_Connect_Model)
                     {
                         case Camera_Connect_Control_Type_Enum.双目相机:
 
                             // MVS.Connect_Camera(Camera_0_Select_Val);
                             //   MVS.Connect_Camera(Camera_1_Select_Val);
                             //双目功能代开发
-                            User_Log_Add(Camera_Connect_Control_Type + "：双目相机未开发！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+                            User_Log_Add(HandEye_Check.Camera_Connect_Model + "：双目相机未开发！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
 
                             return;
 
@@ -886,7 +901,7 @@ namespace HanGao.ViewModel
                             }
                             else
                             {
-                                User_Log_Add(Camera_Connect_Control_Type + "：相机设备未选择！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+                                User_Log_Add(HandEye_Check.Camera_Connect_Model + "：相机设备未选择！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
                                 return;
                             }
                             break;
@@ -900,7 +915,7 @@ namespace HanGao.ViewModel
                             }
                             else
                             {
-                                User_Log_Add(Camera_Connect_Control_Type + "：相机设备未选择！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+                                User_Log_Add(HandEye_Check.Camera_Connect_Model + "：相机设备未选择！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
                                 return;
 
                             }
@@ -910,7 +925,7 @@ namespace HanGao.ViewModel
 
 
 
-                    User_Log_Add(Camera_Connect_Control_Type + "：相机连接成功！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+                    User_Log_Add(HandEye_Check.Camera_Connect_Model + "：相机连接成功！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
 
 
                 }
@@ -934,7 +949,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 断开相机命令
         /// </summary>
-        public ICommand Disconnection_Camera_Comm
+        public ICommand Disconnection_Camera_Comm   
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
@@ -945,7 +960,7 @@ namespace HanGao.ViewModel
                 {
 
 
-                    switch (Camera_Connect_Control_Type)
+                    switch (HandEye_Check.Camera_Connect_Model)
                     {
                         case Camera_Connect_Control_Type_Enum.双目相机:
 
@@ -969,7 +984,7 @@ namespace HanGao.ViewModel
 
                     }
 
-                    User_Log_Add(Camera_Connect_Control_Type + "：相机断开成功！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+                    User_Log_Add(HandEye_Check.Camera_Connect_Model + "：相机断开成功！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
 
 
                 }
@@ -994,7 +1009,7 @@ namespace HanGao.ViewModel
                 try
                 {
 
-                    switch (Camera_Connect_Control_Type)
+                    switch (HandEye_Check.Camera_Connect_Model)
                     {
                         case Camera_Connect_Control_Type_Enum.双目相机:
 
@@ -1014,7 +1029,7 @@ namespace HanGao.ViewModel
                             }
                             else
                             {
-                                User_Log_Add(Camera_Connect_Control_Type + "：相机未连接！", Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                                User_Log_Add(HandEye_Check.Camera_Connect_Model + "：相机未连接！", Log_Show_Window_Enum.Home, MessageBoxImage.Error);
                                 return;
                             }
 
@@ -1028,7 +1043,7 @@ namespace HanGao.ViewModel
                             }
                             else
                             {
-                                User_Log_Add(Camera_Connect_Control_Type + "：相机未连接！", Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                                User_Log_Add(HandEye_Check.Camera_Connect_Model + "：相机未连接！", Log_Show_Window_Enum.Home, MessageBoxImage.Error);
                                 return;
 
                             }
@@ -1038,7 +1053,7 @@ namespace HanGao.ViewModel
 
                     }
 
-                    User_Log_Add(Camera_Connect_Control_Type + "：相机参数写入成功！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+                    User_Log_Add(HandEye_Check.Camera_Connect_Model + "：相机参数写入成功！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
 
                 }
                 catch (Exception _e)
@@ -1107,13 +1122,18 @@ namespace HanGao.ViewModel
             });
         }
 
+
+
+
+
+
         /// <summary>
         /// 手眼标定检查方法
         /// </summary>
         public FindCalibObject_Results HandEye_Find_Calibration(HandEye_Calibration_Model_Enum _HandEyeModel)
         {
 
-            HCamPar _CamPar = new HCamPar();
+           
             FindCalibObject_Results _Results = new FindCalibObject_Results();
             MVS_Camera_Info_Model _Select_Camera = new MVS_Camera_Info_Model();
             try
@@ -1123,7 +1143,7 @@ namespace HanGao.ViewModel
 
 
 
-                switch (Camera_Connect_Control_Type)
+                switch (HandEye_Check.Camera_Connect_Model)
                 {
                     case Camera_Connect_Control_Type_Enum.双目相机:
 
@@ -1132,7 +1152,7 @@ namespace HanGao.ViewModel
                         break;
                     case Camera_Connect_Control_Type_Enum.Camera_0:
                         //设置相机采集参数
-                        _CamPar = Camera_Calibration_0.Camera_Calibration_Paramteters.HCamPar;
+                        HandEye_Check.HCamParData = Camera_Calibration_0.Camera_Calibration_Paramteters.HCamPar;
 
 
                         switch (_HandEyeModel)
@@ -1159,7 +1179,7 @@ namespace HanGao.ViewModel
                         break;
                     case Camera_Connect_Control_Type_Enum.Camera_1:
                         //设置相机采集参数
-                        _CamPar = Camera_Calibration_1.Camera_Calibration_Paramteters.HCamPar;
+                        HandEye_Check.HCamParData = Camera_Calibration_1.Camera_Calibration_Paramteters.HCamPar;
 
 
 
@@ -1207,11 +1227,12 @@ namespace HanGao.ViewModel
                 {
 
 
+
                     //根据选择得相机开始取流图像
                     MVS.Set_Camrea_Parameters_List(_Select_Camera.Camera, Camera_Parameter_Val);
                     MVS.StartGrabbing(_Select_Camera);
 
-                    HandEye_Check.Creation_HandEye_Calibration(HandEye_Camera_Parameters, Camera_Connect_Control_Type, _CamPar);
+                    //HandEye_Check.Creation_HandEye_Calibration(HandEye_Camera_Parameters, Camera_Connect_Control_Type, _CamPar);
 
 
                     do
@@ -1438,6 +1459,12 @@ namespace HanGao.ViewModel
 
                 HDisplay_3D.hv_ObjectModel3D.Clear();
 
+                //设置可视化视角
+                if (_3DModel._PoseIn!=null)
+                {
+                HDisplay_3D.hv_PoseIn = _3DModel._PoseIn;
+
+                }
 
                 foreach (var _model in _3DModel._ObjectModel3D)
                 {

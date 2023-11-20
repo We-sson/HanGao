@@ -35,6 +35,8 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 三维模型显示属性模型
         /// </summary>
+        /// 
+        [AddINotifyPropertyChangedInterface]
         public class Display3DModel_Model
         {
             public Display3DModel_Model()
@@ -57,7 +59,7 @@ namespace Halcon_SDK_DLL.Model
             public List<HObjectModel3D> _ObjectModel3D { set; get; } = new List<HObjectModel3D>();
             //public HTuple _CamParam { set; get; } = new HTuple();
 
-            public HTuple _PoseIn { set; get; } = new HTuple();
+            public HPose _PoseIn { set; get; } 
             //public HTuple _PoseOut { set; get; } = new HTuple();
             //public HTuple _GenParamName { set; get; } = new HTuple();
             //public HTuple _GenParamValue { set; get; } = new HTuple();
