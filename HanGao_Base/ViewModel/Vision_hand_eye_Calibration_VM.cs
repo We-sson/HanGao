@@ -209,6 +209,7 @@ namespace HanGao.ViewModel
             KUKA_HandEye_Calibration_Send _HandEye_Send = new KUKA_HandEye_Calibration_Send();
             Reconstruction_3d _HandEye_3DModel = new Reconstruction_3d();
             HPose _RobotBase = new HPose();
+            List<HObjectModel3D> _Calib_Rotob_Model = new List<HObjectModel3D>();
             switch (_S.Calibration_Model)
             {
                 case HandEye_Calibration_Type_Enum.Calibration_Start:
@@ -243,43 +244,25 @@ namespace HanGao.ViewModel
 
 
 
-
+                   ///查找标定板结果
                     _Results = HandEye_Find_Calibration(HandEye_Calibration_Model_Enum.Robot_Model);
 
 
 
-
-                    _RobotBase.CreatePose(double.Parse(_S.Actual_Point.X), double.Parse(_S.Actual_Point.Y), double.Parse(_S.Actual_Point.Z), double.Parse(_S.Actual_Point.A), double.Parse(_S.Actual_Point.B), double.Parse(_S.Actual_Point.C), "Rp+T", "gba", "point");
-
-
+                    ///创建机器人位置
+                    _RobotBase.CreatePose(double.Parse(_S.Actual_Point.X)/1000, double.Parse(_S.Actual_Point.Y)/1000, double.Parse(_S.Actual_Point.Z) / 1000, double.Parse(_S.Actual_Point.A), double.Parse(_S.Actual_Point.B), double.Parse(_S.Actual_Point.C), "Rp+T", "gba", "point");
 
 
-
-                    List<HObjectModel3D> _RobotTcp3D = _HandEye_3DModel.gen_robot_tool_and_base_object_model_3d(0.005, 0.05, Reconstruction_3d.Get_Robot_tool_base_Type_Enum.Robot_Tool);
-
-
-
-                    ///偏移模式到TCP坐标坐标
-                    for (int _N = 0; _N < _RobotTcp3D.Count; _N++)
-                    {
-                        _RobotTcp3D[_N] = _RobotTcp3D[_N].RigidTransObjectModel3d(_RobotBase);
-                    }
+                    //创建机器人坐标模型
+                    _Calib_Rotob_Model=_HandEye_3DModel.GenRobotTcp_Point_Model(_RobotBase);
 
 
-                    //生产机器人坐标模型
-                    List<HObjectModel3D> _RobotBase3D = _HandEye_3DModel.gen_robot_tool_and_base_object_model_3d(0.005, 0.05, Reconstruction_3d.Get_Robot_tool_base_Type_Enum.Robot_Base);
+                    //显示到三维窗口
+                    SetDisplay3DModel(new Display3DModel_Model() { _ObjectModel3D = _Calib_Rotob_Model });
 
 
 
-                    _RobotTcp3D.AddRange(_RobotBase3D);
-
-
-
-                    SetDisplay3DModel(new Display3DModel_Model() { _ObjectModel3D = _RobotTcp3D });
-
-
-
-
+                    ///识别生产添加到标定列表
 
                     if (_Results._CalibRegion != null && _Results._CalibXLD != null)
                     {
@@ -295,6 +278,8 @@ namespace HanGao.ViewModel
                             Calibration_Image = _Results._Image,
                             Calibration_Region =_Results._CalibRegion,
                             Calibration_XLD = _Results._CalibXLD,
+                             Calibration_3D_Model= _Calib_Rotob_Model,
+                              Calibration_State="识别标定中..."
                         });
 
 
@@ -302,7 +287,7 @@ namespace HanGao.ViewModel
 
 
 
-
+                        _RobotInfo.Calibration_State = "生产TCP模型...";
                         _RobotInfo.Robot_No = HandEye_Robot_PosList.Count;
                         _RobotInfo.Robot_Point = new Robot_Point_Model()
                         {
@@ -340,9 +325,28 @@ namespace HanGao.ViewModel
                     break;
                 case HandEye_Calibration_Type_Enum.Calibration_End:
 
-                   
 
-                  
+                    if (HandEye_Calibration_List.Count!= HandEye_Robot_PosList.Count)
+                    {
+
+                    }else
+                    {
+
+
+
+
+
+                        _HandEye_Send.IsStatus = 0;
+                        _HandEye_Send.Message_Error = "Hand-eye Calibration to Results Error！,Please check the PC situation. ";
+                        _Str = KUKA_Send_Receive_Xml.Property_Xml<KUKA_HandEye_Calibration_Send>(_HandEye_Send);
+
+
+                    }
+
+
+
+
+
 
 
 
@@ -1083,7 +1087,15 @@ namespace HanGao.ViewModel
                     ///单帧模式
                     HandEye_Camera_Parameters.Halcon_Find_Calib_Model = false;
 
+
+
+                    ///查找标定板结果
                     HandEye_Find_Calibration(HandEye_Calibration_Model_Enum.Checked_Model);
+
+         
+
+
+
 
                 });
             });
@@ -1139,10 +1151,6 @@ namespace HanGao.ViewModel
             try
             {
 
-
-
-
-
                 switch (HandEye_Check.Camera_Connect_Model)
                 {
                     case Camera_Connect_Control_Type_Enum.双目相机:
@@ -1189,10 +1197,6 @@ namespace HanGao.ViewModel
                                 Camera_1_Select_Val.Show_Window = Window_Show_Name_Enum.HandEye_Window_2;
 
 
-
-
-
-
                                 break;
                             case HandEye_Calibration_Model_Enum.Robot_Model:
                                 if (Camera_1_Select_Val.Camer_Status != MVS_SDK_Base.Model.MV_CAM_Device_Status_Enum.Connecting)
@@ -1200,15 +1204,6 @@ namespace HanGao.ViewModel
                                     MVS.Connect_Camera(Camera_1_Select_Val);
                                 }
                                 Camera_1_Select_Val.Show_Window = Window_Show_Name_Enum.HandEye_Results_Window_2;
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1294,6 +1289,18 @@ namespace HanGao.ViewModel
 
         }
 
+
+        public FindCalibObject_Results HandEye_Results_Calibration()
+        {
+
+
+
+
+
+
+
+
+        }
 
 
 

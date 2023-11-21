@@ -91,8 +91,9 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                             H3D_Display_Message_delegate?.Invoke("增加" + hv_AllInstances + "号模型成功 !");
                             //继续中心位置
 
-                            //设置显示属性
+                            //更新显示属性
                             Set_Scene3D_Instance_Param(hv_Scene3D, Scene3D_Instance);
+                            Set_Scene3D_Param(hv_Scene3D, Scene3D_Param);
 
 
 
@@ -2483,10 +2484,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
                 hv_Diameter = HTuple.TupleGenConst(new HTuple(hv_ObjectModel3D.TupleLength()), 0.0);
 
-                for (int hv_Index = 0; hv_Index < hv_NumModels ; hv_Index++)
+                for (int hv_Index = 0; hv_Index < hv_NumModels; hv_Index++)
                 {
 
-          
+
                     try
                     {
 

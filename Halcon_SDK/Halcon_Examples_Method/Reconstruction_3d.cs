@@ -2158,7 +2158,7 @@ public class Reconstruction_3d
 
     // Chapter: 3D Object Model / Creation
     // Short Description: Generate base and tool 3D models of the robot. 
-    public List<HObjectModel3D> gen_robot_tool_and_base_object_model_3d(HTuple hv_ArrowThickness,
+    private  List<HObjectModel3D> gen_robot_tool_and_base_object_model_3d(HTuple hv_ArrowThickness,
         HTuple hv_ArrowLength, Get_Robot_tool_base_Type_Enum _Get_Type)
     {
 
@@ -2166,17 +2166,27 @@ public class Reconstruction_3d
 
         // Local iconic variables 
         List<HObjectModel3D> _3DResults = new List<HObjectModel3D>();
+        HObjectModel3D hv_OM3DToolXOrigin = new HObjectModel3D();
+        HObjectModel3D hv_OM3DToolYOrigin = new HObjectModel3D();
+        HObjectModel3D hv_OM3DToolZOrigin = new HObjectModel3D();
+        List<HObjectModel3D> hv_OM3DToolOrigin = new List<HObjectModel3D>();
+        HObjectModel3D hv_OM3DBaseX = new HObjectModel3D();
+        HObjectModel3D hv_OM3DBaseY = new HObjectModel3D();
+        HObjectModel3D hv_OM3DBaseZ = new HObjectModel3D();
+        HObjectModel3D hv_OM3DBasePlate = new HObjectModel3D();
+        List<HObjectModel3D> hv_OM3DBase = new List<HObjectModel3D>();
+
         // Local control variables 
 
-        HTuple hv_IdentityPose = new HTuple(), hv_TransXPose = new HTuple();
-        HTuple hv_OM3DToolXOrigin = new HTuple(), hv_TransYPose = new HTuple();
-        HTuple hv_OM3DToolYOrigin = new HTuple(), hv_TransZPose = new HTuple();
-        HTuple hv_OM3DToolZOrigin = new HTuple(), hv_FactorVisBase = new HTuple();
-        HTuple hv_OM3DBasePlate = new HTuple(), hv_OM3DBaseX = new HTuple();
-        HTuple hv_OM3DBaseY = new HTuple(), hv_OM3DBaseZ = new HTuple();
+        HPose hv_IdentityPose = new HPose();
+        HPose hv_TransXPose = new HPose();
+        HPose hv_TransYPose = new HPose();
+        HPose hv_TransZPose = new HPose();
+        HTuple hv_FactorVisBase = new HTuple();
+
         // Initialize local and output iconic variables 
-        HTuple hv_OM3DToolOrigin = new HTuple();
-        HTuple hv_OM3DBase = new HTuple();
+
+
         try
         {
 
@@ -2191,106 +2201,64 @@ public class Reconstruction_3d
             {
                 throw new HalconException("ArrowLength should be > 0");
             }
-            hv_IdentityPose.Dispose();
-            HOperatorSet.CreatePose(0, 0, 0, 0, 0, 0, "Rp+T", "gba", "point", out hv_IdentityPose);
 
+            //HOperatorSet.CreatePose(0, 0, 0, 0, 0, 0, "Rp+T", "gba", "point", out hv_IdentityPose);
+            hv_IdentityPose.CreatePose(0, 0, 0, 0, 0, 0, "Rp+T", "gba", "point");
 
             switch (_Get_Type)
             {
                 case Get_Robot_tool_base_Type_Enum.Robot_Tool:
 
-
-
-
-
-
-
-
                     //
                     //3D model for the tool.
-                    hv_TransXPose.Dispose();
-                    HOperatorSet.CreatePose(hv_ArrowLength, 0, 0, 0, 0, 0, "Rp+T", "gba", "point",
-                        out hv_TransXPose);
-                    hv_OM3DToolXOrigin.Dispose();
+                    hv_TransXPose.CreatePose(hv_ArrowLength, 0, 0, 0, 0, 0, "Rp+T", "gba", "point");
+                    //HOperatorSet.CreatePose(hv_ArrowLength, 0, 0, 0, 0, 0, "Rp+T", "gba", "point",out hv_TransXPose);
+
                     hv_OM3DToolXOrigin = gen_arrow_object_model_3d(hv_ArrowThickness, hv_IdentityPose, hv_TransXPose);
-                    hv_TransYPose.Dispose();
-                    HOperatorSet.CreatePose(0, hv_ArrowLength, 0, 0, 0, 0, "Rp+T", "gba", "point",
-                        out hv_TransYPose);
-                    hv_OM3DToolYOrigin.Dispose();
-                    hv_OM3DToolYOrigin= gen_arrow_object_model_3d(hv_ArrowThickness, hv_IdentityPose, hv_TransYPose);
-                    hv_TransZPose.Dispose();
-                    HOperatorSet.CreatePose(0, 0, hv_ArrowLength, 0, 0, 0, "Rp+T", "gba", "point",
-                        out hv_TransZPose);
-                    hv_OM3DToolZOrigin.Dispose();
-                    hv_OM3DToolZOrigin= gen_arrow_object_model_3d(hv_ArrowThickness, hv_IdentityPose, hv_TransZPose);
-                    hv_OM3DToolOrigin.Dispose();
 
+                    //HOperatorSet.CreatePose(0, hv_ArrowLength, 0, 0, 0, 0, "Rp+T", "gba", "point",out hv_TransYPose);
+                    hv_TransYPose.CreatePose(0, hv_ArrowLength, 0, 0, 0, 0, "Rp+T", "gba", "point");
 
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
-                    {
-                        hv_OM3DToolOrigin = new HObjectModel3D();
-                        hv_OM3DToolOrigin = hv_OM3DToolOrigin.TupleConcat(hv_OM3DToolXOrigin, hv_OM3DToolYOrigin, hv_OM3DToolZOrigin);
-                    }
+                    hv_OM3DToolYOrigin = gen_arrow_object_model_3d(hv_ArrowThickness, hv_IdentityPose, hv_TransYPose);
 
-                    for (int i = 0; i < hv_OM3DToolOrigin.Length; i++)
-                    {
-                        _3DResults.Add(new HObjectModel3D(hv_OM3DToolOrigin.TupleSelect(i).H));
-                    }
+                    hv_TransZPose.CreatePose(0, 0, hv_ArrowLength, 0, 0, 0, "Rp+T", "gba", "point");
+                    //HOperatorSet.CreatePose(0, 0, hv_ArrowLength, 0, 0, 0, "Rp+T", "gba", "point",out hv_TransZPose);
 
+                    hv_OM3DToolZOrigin = gen_arrow_object_model_3d(hv_ArrowThickness, hv_IdentityPose, hv_TransZPose);
+
+                    _3DResults = new List<HObjectModel3D>() { hv_OM3DToolXOrigin, hv_OM3DToolYOrigin, hv_OM3DToolZOrigin };
 
                     break;
-
-
-
                 case Get_Robot_tool_base_Type_Enum.Robot_Base:
-
 
                     //
                     //3D model for the base.
-                    hv_FactorVisBase.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
-                    {
-                        hv_FactorVisBase = hv_ArrowThickness * 10;
-                    }
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
-                    {
-                        hv_OM3DBasePlate.Dispose();
-                        HOperatorSet.GenBoxObjectModel3d(hv_IdentityPose, hv_FactorVisBase * 1.5, hv_FactorVisBase * 1.5,
-                            hv_FactorVisBase / 12.0, out hv_OM3DBasePlate);
-                    }
-                    hv_TransXPose.Dispose();
-                    HOperatorSet.CreatePose(hv_ArrowLength, 0, 0, 0, 0, 0, "Rp+T", "gba", "point",
-                        out hv_TransXPose);
-                    hv_OM3DBaseX.Dispose();
-                    hv_OM3DBaseX= gen_arrow_object_model_3d(hv_ArrowThickness, hv_IdentityPose, hv_TransXPose);
-                    hv_TransYPose.Dispose();
-                    HOperatorSet.CreatePose(0, hv_ArrowLength, 0, 0, 0, 0, "Rp+T", "gba", "point",
-                        out hv_TransYPose);
-                    hv_OM3DBaseY.Dispose();
-                    hv_OM3DBaseY= gen_arrow_object_model_3d(hv_ArrowThickness, hv_IdentityPose, hv_TransYPose);
-                    hv_TransZPose.Dispose();
-                    HOperatorSet.CreatePose(0, 0, hv_ArrowLength, 0, 0, 0, "Rp+T", "gba", "point",
-                        out hv_TransZPose);
-                    hv_OM3DBaseZ.Dispose();
-                    hv_OM3DBaseZ= gen_arrow_object_model_3d(hv_ArrowThickness, hv_IdentityPose, hv_TransZPose);
-                    hv_OM3DBase.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
-                    {
-                        hv_OM3DBase = new HTuple();
-                        hv_OM3DBase = hv_OM3DBase.TupleConcat(hv_OM3DBaseX, hv_OM3DBaseY, hv_OM3DBaseZ, hv_OM3DBasePlate);
-                    }
 
-                    for (int i = 0; i < hv_OM3DBase.Length; i++)
-                    {
-                        _3DResults.Add(new HObjectModel3D(hv_OM3DBase.TupleSelect(i).H));
-                    }
+                    hv_FactorVisBase = hv_ArrowThickness * 10;
 
+                    hv_OM3DBasePlate.GenBoxObjectModel3d(hv_IdentityPose, hv_FactorVisBase * 1.5, hv_FactorVisBase * 1.5, hv_FactorVisBase / 12.0);
+                    //HOperatorSet.GenBoxObjectModel3d(hv_IdentityPose, hv_FactorVisBase * 1.5, hv_FactorVisBase * 1.5, hv_FactorVisBase / 12.0, out hv_OM3DBasePlate);
+
+                    hv_TransXPose.CreatePose(hv_ArrowLength, 0, 0, 0, 0, 0, "Rp+T", "gba", "point");
+                    //HOperatorSet.CreatePose(hv_ArrowLength, 0, 0, 0, 0, 0, "Rp+T", "gba", "point",out hv_TransXPose);
+
+                    hv_OM3DBaseX = gen_arrow_object_model_3d(hv_ArrowThickness, hv_IdentityPose, hv_TransXPose);
+
+                    hv_TransYPose.CreatePose(0, hv_ArrowLength, 0, 0, 0, 0, "Rp+T", "gba", "point");
+                    //HOperatorSet.CreatePose(0, hv_ArrowLength, 0, 0, 0, 0, "Rp+T", "gba", "point",out hv_TransYPose);
+                    hv_OM3DBaseY = gen_arrow_object_model_3d(hv_ArrowThickness, hv_IdentityPose, hv_TransYPose);
+
+
+                    hv_TransZPose.CreatePose(0, 0, hv_ArrowLength, 0, 0, 0, "Rp+T", "gba", "point");
+                    //HOperatorSet.CreatePose(0, 0, hv_ArrowLength, 0, 0, 0, "Rp+T", "gba", "point",out hv_TransZPose);
+
+                    hv_OM3DBaseZ = gen_arrow_object_model_3d(hv_ArrowThickness, hv_IdentityPose, hv_TransZPose);
+
+                    _3DResults = new List<HObjectModel3D>() { hv_OM3DBaseX, hv_OM3DBaseY, hv_OM3DBaseZ, hv_OM3DBasePlate };
 
                     break;
 
             }
-
-
 
             return _3DResults;
         }
@@ -2319,28 +2287,36 @@ public class Reconstruction_3d
     }
 
     // Chapter: 3D Object Model / Creation
-    public HObjectModel3D gen_arrow_object_model_3d(HTuple hv_ArrowThickness, HTuple hv_ArrowStart,
+    private  HObjectModel3D gen_arrow_object_model_3d(HTuple hv_ArrowThickness, HTuple hv_ArrowStart,
         HTuple hv_ArrowEnd)
     {
 
 
 
         // Local iconic variables 
-        HTuple hv_OM3DArrow = new HTuple();
+        //HTuple hv_OM3DArrow = new HTuple();
+        HObjectModel3D hv_OM3DArrow = new HObjectModel3D();
+        HObjectModel3D hv_OM3DArrowTmp = new HObjectModel3D();
+        HObjectModel3D hv_OM3DConeTmp = new HObjectModel3D();
+        HObjectModel3D hv_OM3DCone = new HObjectModel3D();
+        HObjectModel3D hv_OM3DCylinder = new HObjectModel3D();
+        HObjectModel3D hv_OM3DCylinderTmp = new HObjectModel3D();
         // Local control variables 
 
         HTuple hv_DirectionVector = new HTuple(), hv_ArrowLength = new HTuple();
         HTuple hv_ConeRadius = new HTuple(), hv_ConeLength = new HTuple();
         HTuple hv_CylinderLength = new HTuple(), hv_pi = new HTuple();
         HTuple hv_X = new HTuple(), hv_Y = new HTuple(), hv_Z = new HTuple();
-        HTuple hv_Index = new HTuple(), hv_OM3DConeTmp = new HTuple();
-        HTuple hv_OM3DCone = new HTuple(), hv_ZZero = new HTuple();
-        HTuple hv_ZTop = new HTuple(), hv_OM3DCylinderTmp = new HTuple();
-        HTuple hv_OM3DCylinder = new HTuple(), hv_OM3DArrowTmp = new HTuple();
+        HTuple hv_Index = new HTuple();
+        HTuple hv_ZZero = new HTuple();
+        HTuple hv_ZTop = new HTuple();
+
         HTuple hv_Scale = new HTuple(), hv_OriginX = new HTuple();
         HTuple hv_OriginY = new HTuple(), hv_OriginZ = new HTuple();
         HTuple hv_TargetX = new HTuple(), hv_TargetY = new HTuple();
-        HTuple hv_TargetZ = new HTuple(), hv_HomMat3D = new HTuple();
+        HTuple hv_TargetZ = new HTuple();
+
+        HHomMat3D hv_HomMat3D = new HHomMat3D();
         // Initialize local and output iconic variables 
         try
         {
@@ -2430,10 +2406,12 @@ public class Reconstruction_3d
                     }
                 }
             }
-            hv_OM3DConeTmp.Dispose();
-            HOperatorSet.GenObjectModel3dFromPoints(hv_X, hv_Y, hv_Z, out hv_OM3DConeTmp);
-            hv_OM3DCone.Dispose();
-            HOperatorSet.ConvexHullObjectModel3d(hv_OM3DConeTmp, out hv_OM3DCone);
+
+
+            hv_OM3DConeTmp.GenObjectModel3dFromPoints(hv_X, hv_Y, hv_Z);
+            //HOperatorSet.GenObjectModel3dFromPoints(hv_X, hv_Y, hv_Z, out hv_OM3DConeTmp);
+            hv_OM3DCone = hv_OM3DConeTmp.ConvexHullObjectModel3d();
+            //HOperatorSet.ConvexHullObjectModel3d(hv_OM3DConeTmp, out hv_OM3DCone);
             //HOperatorSet.ClearObjectModel3d(hv_OM3DConeTmp);
             //
             //Create cylinder.
@@ -2477,26 +2455,20 @@ public class Reconstruction_3d
                 HOperatorSet.TupleGenConst(new HTuple(hv_Y.TupleLength()), hv_CylinderLength,
                     out hv_ZTop);
             }
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
-            {
-                hv_OM3DCylinderTmp.Dispose();
-                HOperatorSet.GenObjectModel3dFromPoints(hv_X.TupleConcat(hv_X), hv_Y.TupleConcat(
-                    hv_Y), hv_ZZero.TupleConcat(hv_ZTop), out hv_OM3DCylinderTmp);
-            }
-            hv_OM3DCylinder.Dispose();
-            HOperatorSet.ConvexHullObjectModel3d(hv_OM3DCylinderTmp, out hv_OM3DCylinder);
+
+            hv_OM3DCylinderTmp.GenObjectModel3dFromPoints(hv_X.TupleConcat(hv_X), hv_Y.TupleConcat(
+                hv_Y), hv_ZZero.TupleConcat(hv_ZTop));
+            //HOperatorSet.GenObjectModel3dFromPoints(hv_X.TupleConcat(hv_X), hv_Y.TupleConcat(
+            //    hv_Y), hv_ZZero.TupleConcat(hv_ZTop), out hv_OM3DCylinderTmp);
+            hv_OM3DCylinder = hv_OM3DCylinderTmp.ConvexHullObjectModel3d();
+            //HOperatorSet.ConvexHullObjectModel3d(hv_OM3DCylinderTmp, out hv_OM3DCylinder);
             //HOperatorSet.ClearObjectModel3d(hv_OM3DCylinderTmp);
             //
             //Union cone and cylinder Create arrow.
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
-            {
-                hv_OM3DArrowTmp.Dispose();
 
+            hv_OM3DArrowTmp = HObjectModel3D.UnionObjectModel3d(new List<HObjectModel3D>() { hv_OM3DCone, hv_OM3DCylinder }.ToArray(), "points_surface");
+            //HOperatorSet.UnionObjectModel3d(hv_OM3DCone.TupleConcat(hv_OM3DCylinder), "points_surface",out hv_OM3DArrowTmp);
 
-
-                HOperatorSet.UnionObjectModel3d(hv_OM3DCone.TupleConcat(hv_OM3DCylinder), "points_surface",
-                    out hv_OM3DArrowTmp);
-            }
             //HOperatorSet.ClearObjectModel3d(hv_OM3DCone);
             //HOperatorSet.ClearObjectModel3d(hv_OM3DCylinder);
             hv_Scale.Dispose();
@@ -2554,22 +2526,26 @@ public class Reconstruction_3d
                 hv_TargetZ = hv_TargetZ.TupleConcat(hv_ArrowEnd.TupleSelect(
                     2));
             }
-            hv_HomMat3D.Dispose();
-            HOperatorSet.VectorToHomMat3d("rigid", hv_OriginX, hv_OriginY, hv_OriginZ,
-                hv_TargetX, hv_TargetY, hv_TargetZ, out hv_HomMat3D);
-            hv_OM3DArrow.Dispose();
-            HOperatorSet.AffineTransObjectModel3d(hv_OM3DArrowTmp, hv_HomMat3D, out hv_OM3DArrow);
 
+
+            hv_HomMat3D.VectorToHomMat3d("rigid", hv_OriginX, hv_OriginY, hv_OriginZ, hv_TargetX, hv_TargetY, hv_TargetZ);
+            //HOperatorSet.VectorToHomMat3d("rigid", hv_OriginX, hv_OriginY, hv_OriginZ,
+            //    hv_TargetX, hv_TargetY, hv_TargetZ, out hv_HomMat3D);
+            //hv_OM3DArrow.Dispose();
+
+
+            //HOperatorSet.AffineTransObjectModel3d(hv_OM3DArrowTmp, hv_HomMat3D, out hv_OM3DArrow);
+            hv_OM3DArrow = hv_OM3DArrowTmp.AffineTransObjectModel3d(hv_HomMat3D);
             //HOperatorSet.ClearObjectModel3d(hv_OM3DArrowTmp);
 
 
 
-            return   new HObjectModel3D (hv_OM3DArrow.H);
+            return hv_OM3DArrow;
         }
         catch (HalconException HDevExpDefaultException)
         {
 
- 
+
 
             throw HDevExpDefaultException;
         }
@@ -2585,12 +2561,12 @@ public class Reconstruction_3d
             hv_Y.Dispose();
             hv_Z.Dispose();
             hv_Index.Dispose();
-            hv_OM3DConeTmp.Dispose();
-            hv_OM3DCone.Dispose();
+            //hv_OM3DConeTmp.Dispose();
+            //hv_OM3DCone.Dispose();
             hv_ZZero.Dispose();
             hv_ZTop.Dispose();
-            hv_OM3DCylinderTmp.Dispose();
-            hv_OM3DCylinder.Dispose();
+            //hv_OM3DCylinderTmp.Dispose();
+            //hv_OM3DCylinder.Dispose();
             //hv_OM3DArrowTmp.Dispose();
             hv_Scale.Dispose();
             hv_OriginX.Dispose();
@@ -2599,10 +2575,43 @@ public class Reconstruction_3d
             hv_TargetX.Dispose();
             hv_TargetY.Dispose();
             hv_TargetZ.Dispose();
-            hv_HomMat3D.Dispose();
+            //hv_HomMat3D.Dispose();
         }
     }
 
+
+    /// <summary>
+    /// 获得机器人TCP位置和基坐标模型
+    /// </summary>
+    /// <param name="_RobotTcpPos"></param>
+    /// <returns></returns>
+    public List<HObjectModel3D> GenRobotTcp_Point_Model(HPose _RobotTcpPos)
+    {
+
+     
+
+
+        List<HObjectModel3D> _RobotTcp3D = gen_robot_tool_and_base_object_model_3d(0.005, 0.1, Reconstruction_3d.Get_Robot_tool_base_Type_Enum.Robot_Tool);
+
+
+        /// 偏移模式到TCP坐标坐标
+        for (int _N = 0; _N < _RobotTcp3D.Count; _N++)
+        {
+            _RobotTcp3D[_N] = _RobotTcp3D[_N].RigidTransObjectModel3d(_RobotTcpPos);
+        }
+
+
+        ////生产机器人坐标模型
+        List<HObjectModel3D> _RobotBase3D = gen_robot_tool_and_base_object_model_3d(0.005, 0.1, Reconstruction_3d.Get_Robot_tool_base_Type_Enum.Robot_Base);
+       
+        
+        _RobotBase3D.AddRange(_RobotTcp3D);
+
+
+
+
+        return _RobotBase3D;
+    }
 
 
     /// <summary>

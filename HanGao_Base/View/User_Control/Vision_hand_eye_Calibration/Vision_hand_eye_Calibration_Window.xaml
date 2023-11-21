@@ -4005,6 +4005,8 @@
                                                            FontSize="14"
                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                                 <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="ShapeModel_UI_1" Grid.Column=" 1"
+                                                          Width=" 80"
+                                                          HorizontalContentAlignment="Center"
                                                           VerticalContentAlignment="Center"
                                                           IsSynchronizedWithCurrentItem="True"
                                                           SelectedIndex="{Binding HDisplay_3D.Scene3D_Instance.Attribute, ConverterParameter={x:Type Halcon_Enum:Attribute_Val_Enum}, Converter={StaticResource Halcon_EnumConverter}}">
@@ -4214,7 +4216,7 @@
 
 
                                     <Border Grid.Row=" 0" Grid.Column=" 0"
-                                            Grid.RowSpan=" 2"
+                                            Grid.RowSpan=" 3"
                                             Width=" 3"
                                             Background="{DynamicResource 全局_按钮_深灰颜色}" />
 

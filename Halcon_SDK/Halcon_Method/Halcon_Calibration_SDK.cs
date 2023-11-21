@@ -70,7 +70,11 @@ namespace Halcon_SDK_DLL
 
 
 
-
+        /// <summary>
+        /// 创建手眼标定方法
+        /// </summary>
+        /// <param name="_HandEye_Param"></param>
+        /// <exception cref="Exception"></exception>
         public void Creation_HandEye_Calibration(Halcon_Camera_Calibration_Model _HandEye_Param)
         {
             try
@@ -157,33 +161,18 @@ namespace Halcon_SDK_DLL
                     Reconstruction_3d _HandEye_3DModel = new Reconstruction_3d();
 
 
+
                     //_Res = Find_Calib3D_Points(_ImageList[i], _CalibParam, i);
                     Find_Calibration_Workflows(ref _Res, _ImageList[i], _CalibParam, i);
 
                     if (_Res._CalibXLD != null && _Res._CalibRegion != null)
                     {
+
                         //生产机器人坐标模型
-                        List<HObjectModel3D> _RobotTcp3D = _HandEye_3DModel.gen_robot_tool_and_base_object_model_3d(0.005, 0.05, Reconstruction_3d.Get_Robot_tool_base_Type_Enum.Robot_Tool);
-
-
-
-                        ///偏移模式到TCP坐标坐标
-                        for (int _N = 0; _N < _RobotTcp3D.Count; _N++)
-                        {
-                            _RobotTcp3D[_N] = _RobotTcp3D[_N].RigidTransObjectModel3d(_PosList[i]);
-                        }
-
-
+                        List<HObjectModel3D> _RobotTcp3D = _HandEye_3DModel.GenRobotTcp_Point_Model(_PosList[i]);
 
                         ///标定设置TCP拍照位置
                         HCalibData.SetCalibData("tool", i, "tool_in_base_pose", _PosList[i]);
-
-                        //生产机器人坐标模型
-                        List<HObjectModel3D> _RobotBase3D = _HandEye_3DModel.gen_robot_tool_and_base_object_model_3d(0.005, 0.05, Reconstruction_3d.Get_Robot_tool_base_Type_Enum.Robot_Base);
-
-
-
-                        _RobotTcp3D.AddRange(_RobotBase3D);
 
 
                         Calibration_Image_Camera_Model _Calib_Res = new Calibration_Image_Camera_Model()
