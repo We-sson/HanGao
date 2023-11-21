@@ -2614,6 +2614,1292 @@ public class Reconstruction_3d
     }
 
 
+
+
+    // Chapter: Calibration / Hand-Eye
+    //
+    // Short Description: Check the input poses of the hand-eye calibration for consistency. 
+    public void check_hand_eye_calibration_input_poses(HTuple hv_CalibDataID, HTuple hv_RotationTolerance,
+        HTuple hv_TranslationTolerance, out HTuple hv_Warnings)
+    {
+
+
+
+        // Local iconic variables 
+
+        // Local control variables 
+
+        HTuple hv_MinLargeRotationFraction = new HTuple();
+        HTuple hv_MinLargeAnglesFraction = new HTuple(), hv_StdDevFactor = new HTuple();
+        HTuple hv_Type = new HTuple(), hv_Exception = new HTuple();
+        HTuple hv_IsHandEyeScara = new HTuple(), hv_IsHandEyeArticulated = new HTuple();
+        HTuple hv_NumCameras = new HTuple(), hv_NumCalibObjs = new HTuple();
+        HTuple hv_I1 = new HTuple(), hv_PosesIdx = new HTuple();
+        HTuple hv_RefCalibDataID = new HTuple(), hv_UseTemporaryCopy = new HTuple();
+        HTuple hv_CamPoseCal = new HTuple(), hv_SerializedItemHandle = new HTuple();
+        HTuple hv_TmpCalibDataID = new HTuple(), hv_Error = new HTuple();
+        HTuple hv_Index = new HTuple(), hv_CamDualQuatCal = new HTuple();
+        HTuple hv_BasePoseTool = new HTuple(), hv_BaseDualQuatTool = new HTuple();
+        HTuple hv_NumCalibrationPoses = new HTuple(), hv_LX2s = new HTuple();
+        HTuple hv_LY2s = new HTuple(), hv_LZ2s = new HTuple();
+        HTuple hv_TranslationToleranceSquared = new HTuple(), hv_RotationToleranceSquared = new HTuple();
+        HTuple hv_Index1 = new HTuple(), hv_CamDualQuatCal1 = new HTuple();
+        HTuple hv_Cal1DualQuatCam = new HTuple(), hv_BaseDualQuatTool1 = new HTuple();
+        HTuple hv_Tool1DualQuatBase = new HTuple(), hv_Index2 = new HTuple();
+        HTuple hv_CamDualQuatCal2 = new HTuple(), hv_DualQuat1 = new HTuple();
+        HTuple hv_BaseDualQuatTool2 = new HTuple(), hv_DualQuat2 = new HTuple();
+        HTuple hv_LX1 = new HTuple(), hv_LY1 = new HTuple(), hv_LZ1 = new HTuple();
+        HTuple hv_MX1 = new HTuple(), hv_MY1 = new HTuple(), hv_MZ1 = new HTuple();
+        HTuple hv_Rot1 = new HTuple(), hv_Trans1 = new HTuple();
+        HTuple hv_LX2 = new HTuple(), hv_LY2 = new HTuple(), hv_LZ2 = new HTuple();
+        HTuple hv_MX2 = new HTuple(), hv_MY2 = new HTuple(), hv_MZ2 = new HTuple();
+        HTuple hv_Rot2 = new HTuple(), hv_Trans2 = new HTuple();
+        HTuple hv_MeanRot = new HTuple(), hv_MeanTrans = new HTuple();
+        HTuple hv_SinTheta2 = new HTuple(), hv_CosTheta2 = new HTuple();
+        HTuple hv_SinTheta2Squared = new HTuple(), hv_CosTheta2Squared = new HTuple();
+        HTuple hv_ErrorRot = new HTuple(), hv_StdDevQ0 = new HTuple();
+        HTuple hv_ToleranceDualQuat0 = new HTuple(), hv_ErrorDualQuat0 = new HTuple();
+        HTuple hv_StdDevQ4 = new HTuple(), hv_ToleranceDualQuat4 = new HTuple();
+        HTuple hv_ErrorDualQuat4 = new HTuple(), hv_Message = new HTuple();
+        HTuple hv_NumPairs = new HTuple(), hv_NumPairsMax = new HTuple();
+        HTuple hv_LargeRotationFraction = new HTuple(), hv_NumPairPairs = new HTuple();
+        HTuple hv_NumPairPairsMax = new HTuple(), hv_Angles = new HTuple();
+        HTuple hv_Idx = new HTuple(), hv_LXA = new HTuple(), hv_LYA = new HTuple();
+        HTuple hv_LZA = new HTuple(), hv_LXB = new HTuple(), hv_LYB = new HTuple();
+        HTuple hv_LZB = new HTuple(), hv_ScalarProduct = new HTuple();
+        HTuple hv_LargeAngles = new HTuple(), hv_LargeAnglesFraction = new HTuple();
+
+        HTupleVector hvec_CamDualQuatsCal = new HTupleVector(1);
+        HTupleVector hvec_BaseDualQuatsTool = new HTupleVector(1);
+        // Initialize local and output iconic variables 
+        hv_Warnings = new HTuple();
+        try
+        {
+            //This procedure checks the hand-eye calibration input poses that are stored in
+            //the calibration data model CalibDataID for consistency.
+
+            //本程序检查存储在校准数据模型 CalibDataID 中的手眼校准输入姿势是否一致。
+            //校准数据模型 CalibDataID 中的手眼校准输入姿势是否一致。
+
+            //For this check, it is necessary to know the accuracy of the input poses.
+            //Therefore, the RotationTolerance and TranslationTolerance must be
+            //specified that approximately describe the error in the rotation and in the
+            //translation part of the input poses, respectively. The rotation tolerance must
+            //be passed in RotationTolerance in radians. The translation tolerance must be
+            //passed in TranslationTolerance in the same unit in which the input poses were
+            //given, i.e., typically in meters. Therefore, the more accurate the
+            //input poses are, the lower the values for RotationTolerance and
+            //TranslationTolerance should be chosen. If the accuracy of the robot's tool
+            //poses is different from the accuracy of the calibration object poses, the
+            //tolerance values of the poses with the lower accuracy (i.e., the higher
+            //tolerance values) should be passed.
+
+            //要进行这项检查，必须知道输入姿势的精确度。
+            //因此，必须指定 "旋转容差"（RotationTolerance）和 "平移容差"（TranslationTolerance）。
+            //因此，必须指定 "旋转容差"（RotationTolerance）和 "平移容差"（TranslationTolerance）。
+            //输入姿势的平移部分的误差。旋转容差必须
+            //必须以弧度为单位在 RotationTolerance 中传递。平移误差必须
+            //必须在 TranslationTolerance（平移容差）中以与输入姿势相同的单位传递。
+            //通常以米为单位。因此
+            //输入姿势越精确，旋转容差和平移容差的值就应该越小。
+            //因此，输入姿势越精确，旋转容差和平移容差的值就越小。如果机器人工具
+            //姿势的精度与标定对象姿势的精度不同，则
+            //如果机器人的工具位置精度与标定对象位置精度不同，则应使用精度较低的位置的公差值（即较高的公差值）。
+            //容差值）。
+
+            //Typically, check_hand_eye_calibration_input_poses is called after all
+            //calibration poses have been set in the calibration data model and before the
+            //hand eye calibration is performed. The procedure checks all pairs of robot
+            //tool poses and compares them to the corresponding pair of calibration object
+            //poses. For each inconsistent pose pair, a string is returned in Warnings that
+            //indicates the inconsistent pose pair. For larger values for RotationTolerance
+            //or TranslationTolerance, i.e., for less accurate input poses, fewer warnings
+            //will be generated because the check is more tolerant, and vice versa. The
+            //procedure is also helpful if the errors that are returned by the hand-eye
+            //calibration are larger than expected to identify potentially erroneous poses.
+            //Note that it is not possible to check the consistency of a single pose but
+            //only of pose pairs. Nevertheless, if a certain pose occurs multiple times in
+            //different warning messages, it is likely that the pose is erroneous.
+            //Erroneous poses that result in inconsistent pose pairs should removed
+            //from the calibration data model by using remove_calib_data_observ and
+            //remove_calib_data before performing the hand-eye calibration.
+            //
+            //通常情况下，check_hand_eye_calibration_input_poses 会在标定数据模型中的所有标定姿态都已设置完毕之后调用。
+            //校准数据模型中设置了校准姿势后，在执行
+            //执行手眼校准之前调用。该过程检查所有机器人
+            //工具姿势，并与相应的校准对象姿势对进行比较。
+            //姿势。对于每一对不一致的姿势，都会在警告中返回一个字符串。
+            //表示不一致的姿势对。如果旋转公差（RotationTolerance）* 或平移公差（TranslationTolerance
+            //或 TranslationTolerance 的值越大，即输入姿势越不精确，产生的警告就越少。
+            //会产生较少的警告，因为检查的容忍度更高，反之亦然。反之亦然。
+            //如果手眼校准返回的误差比预期的要大，该程序也会有帮助。
+            //如果手眼校准返回的误差比预期的要大，该程序也能帮助识别潜在的错误姿势。
+            //注意，无法检查单个姿势的一致性，只能检查姿势对的一致性。
+            //只能检查姿势对的一致性。尽管如此，如果某个姿势多次出现在
+            //不同的警告信息中出现多次，则该姿势很可能是错误的。
+            //导致不一致姿势对的错误姿势应从标定数据模型中删除。
+            //从标定数据模型中删除，方法是使用 remove_calib_data_observ 和
+            //在进行手眼校准之前，应使用 remove_calib_data_observ 和 remove_calib_data 删除校准数据模型中的错误姿势。
+
+            //check_hand_eye_calibration_input_poses also checks whether enough calibration
+            //pose pairs are passed with a significant relative rotation angle, which
+            //is necessary for a robust hand-eye calibration.
+
+            //check_hand_eye_calibration_input_poses 也会检查是否有足够的校准姿态对被传入。
+            //姿势对。
+            //这是进行稳健的手眼校准所必需的。
+            //
+            //check_hand_eye_calibration_input_poses also verifies that the correct
+            //calibration model was chosen in create_calib_data. If a model of type
+            //'hand_eye_stationary_cam' or 'hand_eye_moving_cam' was chosen, the calibration
+            //of an articulated robot is assumed. For 'hand_eye_scara_stationary_cam' or
+            //'hand_eye_scara_moving_cam', the calibration of a SCARA robot is assumed.
+            //Therefore, if all input poses for an articulated robot are parallel or if some
+            //robot poses for a SCARA robot are tilted, a corresponding message is returned
+            //in Warnings. Furthermore, if the number of tilted input poses for articulated
+            //robots is below a certain value, a corresponding message in Warnings indicates
+            //that the accuracy of the result of the hand-eye calibration might be low.
+            //
+            //check_hand_eye_calibration_input_poses 还可验证在 create_calib_data 中选择的校准模型是否正确。
+            //校准模型。如果模型类型为
+            //如果选择的是 "hand_eye_stationary_cam "或 "hand_eye_moving_cam "类型的模型，则将校准
+            //则假定校准的是关节型机器人。对于 "hand_eye_scara_stationary_cam "或
+            //则假定校准的是 SCARA 机器人。
+            //因此，如果关节型机器人的所有输入姿势都是平行的，或者 SCARA 机器人的某些姿势
+            //如果 SCARA 机器人的某些姿势倾斜，则会在 "警告 "中返回相应信息。
+            //在警告中。此外，如果铰接式机器人的倾斜输入姿势数量低于某一特定值，则会在 "警告 "中返回相应的信息。
+            //机器人的倾斜输入姿势数量低于一定值时，警告中的相应信息会显示
+            //手眼校准结果的准确性可能较低。
+
+            //If no problems have been detected in the input poses, an empty tuple is
+            //returned in Warnings.
+            //如果在输入姿势中没有检测到任何问题，则会在
+            //返回警告。
+            //
+            //
+            //Define the minimum fraction of pose pairs with a rotation angle exceeding
+            //2*RotationTolerance.
+            //定义旋转角度超过 2*RotationTolerance* 的姿势对的最小分数。
+            //2*RotationTolerance（旋转容差）.
+            hv_MinLargeRotationFraction.Dispose();
+            hv_MinLargeRotationFraction = 0.1;
+            //Define the minimum fraction of screw axes pairs with an angle exceeding
+            //2*RotationTolerance for articulated robots.
+            //定义角度超过
+            //2*RotationTolerance 的最小螺钉轴对分数。
+            hv_MinLargeAnglesFraction.Dispose();
+            hv_MinLargeAnglesFraction = 0.1;
+            //Factor that is used to multiply the standard deviations to obtain an error
+            //threshold.
+            //用于乘以标准偏差的系数，以获得误差
+            //阈值。
+            hv_StdDevFactor.Dispose();
+            hv_StdDevFactor = 3.0;
+            //
+            //Check input control parameters.
+            //检查输入控制参数。
+            if ((int)(new HTuple((new HTuple(hv_CalibDataID.TupleLength())).TupleNotEqual(
+                1))) != 0)
+            {
+                throw new HalconException("Wrong number of values of control parameter: 1");
+            }
+            if ((int)(new HTuple((new HTuple(hv_RotationTolerance.TupleLength())).TupleNotEqual(
+                1))) != 0)
+            {
+                throw new HalconException("Wrong number of values of control parameter: 2");
+            }
+            if ((int)(new HTuple((new HTuple(hv_TranslationTolerance.TupleLength())).TupleNotEqual(
+                1))) != 0)
+            {
+                throw new HalconException("Wrong number of values of control parameter: 3");
+            }
+            try
+            {
+                hv_Type.Dispose();
+                HOperatorSet.GetCalibData(hv_CalibDataID, "model", "general", "type", out hv_Type);
+            }
+            // catch (Exception) 
+            catch (HalconException HDevExpDefaultException1)
+            {
+                HDevExpDefaultException1.ToHTuple(out hv_Exception);
+                throw new HalconException("Wrong value of control parameter: 1");
+            }
+            if ((int)(new HTuple(hv_RotationTolerance.TupleLess(0))) != 0)
+            {
+                throw new HalconException("Wrong value of control parameter: 2");
+            }
+            if ((int)(new HTuple(hv_TranslationTolerance.TupleLess(0))) != 0)
+            {
+                throw new HalconException("Wrong value of control parameter: 3");
+            }
+            //
+            //Read out the calibration data model.
+            //读出校准数据模型。
+            hv_IsHandEyeScara.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_IsHandEyeScara = (new HTuple(hv_Type.TupleEqual(
+                    "hand_eye_scara_stationary_cam"))).TupleOr(new HTuple(hv_Type.TupleEqual(
+                    "hand_eye_scara_moving_cam")));
+            }
+            hv_IsHandEyeArticulated.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_IsHandEyeArticulated = (new HTuple(hv_Type.TupleEqual(
+                    "hand_eye_stationary_cam"))).TupleOr(new HTuple(hv_Type.TupleEqual("hand_eye_moving_cam")));
+            }
+            //This procedure only works for hand-eye calibration applications.
+            //此程序仅适用于手眼校准应用。
+            if ((int)((new HTuple(hv_IsHandEyeScara.TupleNot())).TupleAnd(hv_IsHandEyeArticulated.TupleNot()
+                )) != 0)
+            {
+                throw new HalconException("check_hand_eye_calibration_input_poses only works for hand-eye calibrations");
+            }
+            hv_NumCameras.Dispose();
+            HOperatorSet.GetCalibData(hv_CalibDataID, "model", "general", "num_cameras",
+                out hv_NumCameras);
+            hv_NumCalibObjs.Dispose();
+            HOperatorSet.GetCalibData(hv_CalibDataID, "model", "general", "num_calib_objs",
+                out hv_NumCalibObjs);
+            //
+            //Get all valid calibration pose indices.
+            //获取所有有效的校准姿势指数。
+            hv_I1.Dispose(); hv_PosesIdx.Dispose();
+            HOperatorSet.QueryCalibDataObservIndices(hv_CalibDataID, "camera", 0, out hv_I1,
+                out hv_PosesIdx);
+            hv_RefCalibDataID.Dispose();
+            hv_RefCalibDataID = new HTuple(hv_CalibDataID);
+            hv_UseTemporaryCopy.Dispose();
+            hv_UseTemporaryCopy = 0;
+            //If necessary, calibrate the interior camera parameters.
+            //如有必要，校准内部摄像机参数。
+            if ((int)(hv_IsHandEyeArticulated) != 0)
+            {
+                //For articulated (non-SCARA) robots, we have to check whether the camera
+                //is already calibrated. Otherwise, the queried poses might not be very
+                //accurate.
+                //对于铰接式（非SCARA）机器人，我们必须检查摄像机是否
+                //是否已经校准。否则，查询到的姿势可能不太准确。
+                //准确性。
+                try
+                {
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_CamPoseCal.Dispose();
+                        HOperatorSet.GetCalibData(hv_CalibDataID, "calib_obj_pose", (new HTuple(0)).TupleConcat(
+                            hv_PosesIdx.TupleSelect(0)), "pose", out hv_CamPoseCal);
+                    }
+                }
+                // catch (Exception) 
+                catch (HalconException HDevExpDefaultException1)
+                {
+                    HDevExpDefaultException1.ToHTuple(out hv_Exception);
+                    if ((int)((new HTuple(hv_NumCameras.TupleNotEqual(0))).TupleAnd(new HTuple(hv_NumCalibObjs.TupleNotEqual(
+                        0)))) != 0)
+                    {
+                        //If the interior camera parameters are not calibrated yet, perform
+                        //the camera calibration by using a temporary copy of the calibration
+                        //data model.
+                        //如果尚未校准内部摄像机参数，请使用临时校准副本执行摄像机校准。
+                        //使用校准数据模型的临时副本进行摄像机校准。
+                        //数据模型。
+                        hv_SerializedItemHandle.Dispose();
+                        HOperatorSet.SerializeCalibData(hv_CalibDataID, out hv_SerializedItemHandle);
+                        hv_TmpCalibDataID.Dispose();
+                        HOperatorSet.DeserializeCalibData(hv_SerializedItemHandle, out hv_TmpCalibDataID);
+                        HOperatorSet.ClearSerializedItem(hv_SerializedItemHandle);
+                        hv_RefCalibDataID.Dispose();
+                        hv_RefCalibDataID = new HTuple(hv_TmpCalibDataID);
+                        hv_UseTemporaryCopy.Dispose();
+                        hv_UseTemporaryCopy = 1;
+                        hv_Error.Dispose();
+                        HOperatorSet.CalibrateCameras(hv_TmpCalibDataID, out hv_Error);
+                    }
+                }
+            }
+            //Query all robot tool and calibration object poses.
+            //查询所有机器人工具和校准对象的姿势。
+            for (hv_Index = 0; (int)hv_Index <= (int)((new HTuple(hv_PosesIdx.TupleLength()
+                )) - 1); hv_Index = (int)hv_Index + 1)
+            {
+                try
+                {
+                    //For an articulated robot with a camera and a calibration object,
+                    //a calibrated poses should always be available.
+                    //对于带有摄像头和校准对象的关节机器人而言、
+                    //应始终有一个校准姿势。
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_CamPoseCal.Dispose();
+                        HOperatorSet.GetCalibData(hv_RefCalibDataID, "calib_obj_pose", (new HTuple(0)).TupleConcat(
+                            hv_PosesIdx.TupleSelect(hv_Index)), "pose", out hv_CamPoseCal);
+                    }
+                }
+                // catch (Exception) 
+                catch (HalconException HDevExpDefaultException1)
+                {
+                    HDevExpDefaultException1.ToHTuple(out hv_Exception);
+                    //For a SCARA robot or for an articulated robots with a general
+                    //sensor and no calibration object, directly use the observed poses.
+                    //对于 SCARA 机器人或带有普通传感器但没有校准对象的关节型机器人，可直接使用观察到的姿势。
+                    //传感器且没有校准对象的关节型机器人，可直接使用观察到的姿势。
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_CamPoseCal.Dispose();
+                        HOperatorSet.GetCalibDataObservPose(hv_RefCalibDataID, 0, 0, hv_PosesIdx.TupleSelect(
+                            hv_Index), out hv_CamPoseCal);
+                    }
+                }
+                //将校准对象的姿势转换为二元四元数。
+                //Transform the calibration object poses to dual quaternions.
+                hv_CamDualQuatCal.Dispose();
+                HOperatorSet.PoseToDualQuat(hv_CamPoseCal, out hv_CamDualQuatCal);
+                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                {
+                    hvec_CamDualQuatsCal[hv_Index] = dh.Add(new HTupleVector(hv_CamDualQuatCal));
+                }
+                //Transform the robot tool pose to dual quaternions.
+                //将机器人工具姿势转换为双四元数。
+                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                {
+                    hv_BasePoseTool.Dispose();
+                    HOperatorSet.GetCalibData(hv_RefCalibDataID, "tool", hv_PosesIdx.TupleSelect(
+                        hv_Index), "tool_in_base_pose", out hv_BasePoseTool);
+                }
+                hv_BaseDualQuatTool.Dispose();
+                HOperatorSet.PoseToDualQuat(hv_BasePoseTool, out hv_BaseDualQuatTool);
+                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                {
+                    hvec_BaseDualQuatsTool[hv_Index] = dh.Add(new HTupleVector(hv_BaseDualQuatTool));
+                }
+            }
+            hv_NumCalibrationPoses.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_NumCalibrationPoses = new HTuple(hv_PosesIdx.TupleLength()
+                    );
+            }
+            if ((int)(hv_UseTemporaryCopy) != 0)
+            {
+                HOperatorSet.ClearCalibData(hv_TmpCalibDataID);
+            }
+            //
+            //In the first test, check the poses for consistency. The principle of
+            //the hand-eye calibration is that the movement of the robot from time
+            //i to time j is represented by the relative pose of the calibration
+            //object from i to j in the camera coordinate system and also by the
+            //relative pose of the robot tool from i to j in the robot base
+            //coordinate system. Because both relative poses represent the same 3D
+            //rigid transformation, but only seen from two different coordinate
+            //systems, their screw axes differ but their screw angle and their
+            //screw translation should be identical. This knowledge can be used to
+            //check the consistency of the input poses. Furthermore, remember the
+            //screw axes for all robot movements to later check whether the
+            //correct calibration model (SCARA or articulated) was selected by the
+            //user.
+            //在第一次测试中，检查姿势是否一致。手眼校准的原则是
+            //手眼校准的原理是，机器人从时间
+            //在摄像机坐标系中，从 i 到 j 的校准对象的相对姿态，以及从 i 到 j 的校准对象的相对姿态，代表了机器人从 i 到 j 的运动。
+            //物体在摄像机坐标系中从 i 到 j 的相对姿态，以及机器人工具在摄像机坐标系中从 i 到 j 的相对姿态。
+            //在机器人底座*坐标系中，机器人工具从 i 到 j 的相对位置
+            //坐标系中机器人工具从 i 到 j 的相对姿态。因为这两个相对姿态代表相同的三维
+            //刚性变换，但只是从两个不同的坐标系中看到的。
+            //轴不同，但螺杆角度和螺杆平移应该相同。
+            //螺杆平移应该是相同的。这一知识可用于
+            //检查输入姿势的一致性。此外，请记住
+            //此外，记住所有机器人运动的螺杆轴，以便日后检查校准模型（SCAR）是否正确。
+            //校准模型（SCARA 或关节式）是否正确。
+            //用户。
+            hv_Warnings.Dispose();
+            hv_Warnings = new HTuple();
+            hv_LX2s.Dispose();
+            hv_LX2s = new HTuple();
+            hv_LY2s.Dispose();
+            hv_LY2s = new HTuple();
+            hv_LZ2s.Dispose();
+            hv_LZ2s = new HTuple();
+            hv_TranslationToleranceSquared.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_TranslationToleranceSquared = hv_TranslationTolerance * hv_TranslationTolerance;
+            }
+            hv_RotationToleranceSquared.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_RotationToleranceSquared = hv_RotationTolerance * hv_RotationTolerance;
+            }
+            HTuple end_val249 = hv_NumCalibrationPoses - 2;
+            HTuple step_val249 = 1;
+            for (hv_Index1 = 0; hv_Index1.Continue(end_val249, step_val249); hv_Index1 = hv_Index1.TupleAdd(step_val249))
+            {
+                hv_CamDualQuatCal1.Dispose();
+                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                {
+                    hv_CamDualQuatCal1 = new HTuple(hvec_CamDualQuatsCal[hv_Index1].T);
+                }
+                hv_Cal1DualQuatCam.Dispose();
+                HOperatorSet.DualQuatConjugate(hv_CamDualQuatCal1, out hv_Cal1DualQuatCam);
+                hv_BaseDualQuatTool1.Dispose();
+                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                {
+                    hv_BaseDualQuatTool1 = new HTuple(hvec_BaseDualQuatsTool[hv_Index1].T);
+                }
+                hv_Tool1DualQuatBase.Dispose();
+                HOperatorSet.DualQuatConjugate(hv_BaseDualQuatTool1, out hv_Tool1DualQuatBase);
+                HTuple end_val254 = hv_NumCalibrationPoses - 1;
+                HTuple step_val254 = 1;
+                for (hv_Index2 = hv_Index1 + 1; hv_Index2.Continue(end_val254, step_val254); hv_Index2 = hv_Index2.TupleAdd(step_val254))
+                {
+                    //For two robot poses, ...
+                    //... compute the movement of the calibration object in the
+                    //camera coordinate system.
+                    //对于两个机器人姿势，...
+                    //计算校准对象在
+                    //摄像机坐标系中的运动。
+                    hv_CamDualQuatCal2.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_CamDualQuatCal2 = new HTuple(hvec_CamDualQuatsCal[hv_Index2].T);
+                    }
+                    hv_DualQuat1.Dispose();
+                    HOperatorSet.DualQuatCompose(hv_Cal1DualQuatCam, hv_CamDualQuatCal2, out hv_DualQuat1);
+                    //
+                    //... compute the movement of the tool in the robot base
+                    //coordinate system.
+                    //... 计算工具在机器人底座 * 坐标系中的运动
+                    //坐标系。
+                    hv_BaseDualQuatTool2.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_BaseDualQuatTool2 = new HTuple(hvec_BaseDualQuatsTool[hv_Index2].T);
+                    }
+                    hv_DualQuat2.Dispose();
+                    HOperatorSet.DualQuatCompose(hv_Tool1DualQuatBase, hv_BaseDualQuatTool2,
+                        out hv_DualQuat2);
+                    //
+                    //Check whether the two movements are consistent. If the two
+                    //movements are consistent, the scalar parts of the corresponding
+                    //dual quaternions should be equal. For the equality check, we
+                    //have to take the accuracy of the input poses into account, which
+                    //are given by RotationTolerance and TranslationTolerance.
+                    //检查两个动作是否一致。如果两个
+                    //运动是一致的，那么相应的
+                    //对偶四元数的标量部分应该相等。为了进行相等检查，我们
+                    //必须考虑到输入姿势的精确度。
+                    //由 "旋转容差"（RotationTolerance）和 "平移容差"（TranslationTolerance）给出。
+                    hv_LX1.Dispose(); hv_LY1.Dispose(); hv_LZ1.Dispose(); hv_MX1.Dispose(); hv_MY1.Dispose(); hv_MZ1.Dispose(); hv_Rot1.Dispose(); hv_Trans1.Dispose();
+                    HOperatorSet.DualQuatToScrew(hv_DualQuat1, "moment", out hv_LX1, out hv_LY1,
+                        out hv_LZ1, out hv_MX1, out hv_MY1, out hv_MZ1, out hv_Rot1, out hv_Trans1);
+                    hv_LX2.Dispose(); hv_LY2.Dispose(); hv_LZ2.Dispose(); hv_MX2.Dispose(); hv_MY2.Dispose(); hv_MZ2.Dispose(); hv_Rot2.Dispose(); hv_Trans2.Dispose();
+                    HOperatorSet.DualQuatToScrew(hv_DualQuat2, "moment", out hv_LX2, out hv_LY2,
+                        out hv_LZ2, out hv_MX2, out hv_MY2, out hv_MZ2, out hv_Rot2, out hv_Trans2);
+                    while ((int)(new HTuple(hv_Rot1.TupleGreater((new HTuple(180.0)).TupleRad()
+                        ))) != 0)
+                    {
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            {
+                                HTuple
+                                  ExpTmpLocalVar_Rot1 = hv_Rot1 - ((new HTuple(360.0)).TupleRad()
+                                    );
+                                hv_Rot1.Dispose();
+                                hv_Rot1 = ExpTmpLocalVar_Rot1;
+                            }
+                        }
+                    }
+                    while ((int)(new HTuple(hv_Rot2.TupleGreater((new HTuple(180.0)).TupleRad()
+                        ))) != 0)
+                    {
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            {
+                                HTuple
+                                  ExpTmpLocalVar_Rot2 = hv_Rot2 - ((new HTuple(360.0)).TupleRad()
+                                    );
+                                hv_Rot2.Dispose();
+                                hv_Rot2 = ExpTmpLocalVar_Rot2;
+                            }
+                        }
+                    }
+                    //
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        {
+                            HTuple
+                              ExpTmpLocalVar_Rot1 = hv_Rot1.TupleFabs()
+                                ;
+                            hv_Rot1.Dispose();
+                            hv_Rot1 = ExpTmpLocalVar_Rot1;
+                        }
+                    }
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        {
+                            HTuple
+                              ExpTmpLocalVar_Trans1 = hv_Trans1.TupleFabs()
+                                ;
+                            hv_Trans1.Dispose();
+                            hv_Trans1 = ExpTmpLocalVar_Trans1;
+                        }
+                    }
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        {
+                            HTuple
+                              ExpTmpLocalVar_Rot2 = hv_Rot2.TupleFabs()
+                                ;
+                            hv_Rot2.Dispose();
+                            hv_Rot2 = ExpTmpLocalVar_Rot2;
+                        }
+                    }
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        {
+                            HTuple
+                              ExpTmpLocalVar_Trans2 = hv_Trans2.TupleFabs()
+                                ;
+                            hv_Trans2.Dispose();
+                            hv_Trans2 = ExpTmpLocalVar_Trans2;
+                        }
+                    }
+                    hv_MeanRot.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_MeanRot = 0.5 * (hv_Rot1 + hv_Rot2);
+                    }
+                    hv_MeanTrans.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_MeanTrans = 0.5 * (hv_Trans1 + hv_Trans2);
+                    }
+                    hv_SinTheta2.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_SinTheta2 = ((0.5 * hv_MeanRot)).TupleSin()
+                            ;
+                    }
+                    hv_CosTheta2.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_CosTheta2 = ((0.5 * hv_MeanRot)).TupleCos()
+                            ;
+                    }
+                    hv_SinTheta2Squared.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_SinTheta2Squared = hv_SinTheta2 * hv_SinTheta2;
+                    }
+                    hv_CosTheta2Squared.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_CosTheta2Squared = hv_CosTheta2 * hv_CosTheta2;
+                    }
+                    //
+                    //1. Check the scalar part of the real part of the dual quaternion,
+                    //which encodes the rotation component of the screw:
+                    //  q[0] = cos(theta/2)
+                    //Here, theta is the screw rotation angle.
+                    //检查二元四元数实数部分的标量部分、
+                    //其编码为螺杆的旋转分量：
+                    //q[0] = cos(theta/2)
+                    //这里，θ 是螺杆旋转角度。
+                    hv_ErrorRot.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_ErrorRot = ((hv_Rot1 - hv_Rot2)).TupleFabs()
+                            ;
+                    }
+                    while ((int)(new HTuple(hv_ErrorRot.TupleGreater((new HTuple(180.0)).TupleRad()
+                        ))) != 0)
+                    {
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            {
+                                HTuple
+                                  ExpTmpLocalVar_ErrorRot = hv_ErrorRot - ((new HTuple(360.0)).TupleRad()
+                                    );
+                                hv_ErrorRot.Dispose();
+                                hv_ErrorRot = ExpTmpLocalVar_ErrorRot;
+                            }
+                        }
+                    }
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        {
+                            HTuple
+                              ExpTmpLocalVar_ErrorRot = hv_ErrorRot.TupleFabs()
+                                ;
+                            hv_ErrorRot.Dispose();
+                            hv_ErrorRot = ExpTmpLocalVar_ErrorRot;
+                        }
+                    }
+                    //Compute the standard deviation of the scalar part of the real part
+                    //by applying the law of error propagation.
+                    //计算实部标量部分的标准偏差
+                    //应用误差传播定律。
+                    hv_StdDevQ0.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_StdDevQ0 = (0.5 * hv_SinTheta2) * hv_RotationTolerance;
+                    }
+                    //Multiply the standard deviation by a factor to increase the certainty.
+                    //将标准偏差乘以一个系数，以提高确定性。
+                    hv_ToleranceDualQuat0.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_ToleranceDualQuat0 = hv_StdDevFactor * hv_StdDevQ0;
+                    }
+                    hv_ErrorDualQuat0.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_ErrorDualQuat0 = (((((hv_DualQuat2.TupleSelect(
+                            0))).TupleFabs()) - (((hv_DualQuat1.TupleSelect(0))).TupleFabs()))).TupleFabs()
+                            ;
+                    }
+                    //
+                    //2. Check the scalar part of the dual part of the dual quaternion,
+                    //which encodes translation and rotation components of the screw:
+                    //  q[4] = -d/2*sin(theta/2)
+                    //Here, d is the screw translation.
+                    //
+                    //Compute the standard deviation of the scalar part of the dual part
+                    //by applying the law of error propagation.
+                    //2. 检查对偶四元数对偶部分的标量部分、
+                    //该部分对螺杆的平移和旋转分量进行编码：
+                    //q[4] = -d/2*sin(theta/2)
+                    //这里，d 是螺杆平移。
+                    //
+                    //计算对偶部分标量部分的标准偏差
+                    //应用误差传播定律。
+                    hv_StdDevQ4.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_StdDevQ4 = ((((0.25 * hv_SinTheta2Squared) * hv_TranslationToleranceSquared) + ((((0.0625 * hv_MeanTrans) * hv_MeanTrans) * hv_CosTheta2Squared) * hv_RotationToleranceSquared))).TupleSqrt()
+                            ;
+                    }
+                    //Multiply the standard deviation by a factor to increase the certainty.
+                    //将标准偏差乘以一个系数，以提高确定性。
+                    hv_ToleranceDualQuat4.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_ToleranceDualQuat4 = hv_StdDevFactor * hv_StdDevQ4;
+                    }
+                    hv_ErrorDualQuat4.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_ErrorDualQuat4 = (((((hv_DualQuat2.TupleSelect(
+                            4))).TupleFabs()) - (((hv_DualQuat1.TupleSelect(4))).TupleFabs()))).TupleFabs()
+                            ;
+                    }
+                    //If one of the two errors exceeds the computed thresholds, return
+                    //a warning for the current pose pair.
+                    //如果两个错误中的一个超过了计算阈值，则返回
+                    //当前姿势对的警告。
+                    if ((int)((new HTuple(hv_ErrorDualQuat0.TupleGreater(hv_ToleranceDualQuat0))).TupleOr(
+                        new HTuple(hv_ErrorDualQuat4.TupleGreater(hv_ToleranceDualQuat4)))) != 0)
+                    {
+                        hv_Message.Dispose();
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            hv_Message = ((("Inconsistent pose pair (" + (((hv_PosesIdx.TupleSelect(
+                                hv_Index1))).TupleString("2d"))) + new HTuple(",")) + (((hv_PosesIdx.TupleSelect(
+                                hv_Index2))).TupleString("2d"))) + ")";
+                        }
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            {
+                                HTuple
+                                  ExpTmpLocalVar_Warnings = hv_Warnings.TupleConcat(
+                                    hv_Message);
+                                hv_Warnings.Dispose();
+                                hv_Warnings = ExpTmpLocalVar_Warnings;
+                            }
+                        }
+                    }
+                    //
+                    //Remember the screw axes (of the robot tool movements) for screws
+                    //with a significant rotation part. For movements without rotation
+                    //the direction of the screw axis is determined by the translation
+                    //part only. Hence, the direction of the screw axis cannot be used
+                    //to decide whether an articulated or a SCARA robot is used.
+                    //记住螺钉的螺纹轴（机器人工具运动的螺纹轴）。
+                    //有明显的旋转部分。对于无旋转的运动
+                    //丝杠轴的方向由平移部分决定。
+                    //仅由平移部分决定。因此，螺杆轴的方向不能用于
+                    //决定使用关节型机器人还是 SCARA 机器人。
+                    if ((int)(new HTuple(hv_Rot2.TupleGreater(hv_StdDevFactor * hv_RotationTolerance))) != 0)
+                    {
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            {
+                                HTuple
+                                  ExpTmpLocalVar_LX2s = hv_LX2s.TupleConcat(
+                                    hv_LX2);
+                                hv_LX2s.Dispose();
+                                hv_LX2s = ExpTmpLocalVar_LX2s;
+                            }
+                        }
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            {
+                                HTuple
+                                  ExpTmpLocalVar_LY2s = hv_LY2s.TupleConcat(
+                                    hv_LY2);
+                                hv_LY2s.Dispose();
+                                hv_LY2s = ExpTmpLocalVar_LY2s;
+                            }
+                        }
+                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        {
+                            {
+                                HTuple
+                                  ExpTmpLocalVar_LZ2s = hv_LZ2s.TupleConcat(
+                                    hv_LZ2);
+                                hv_LZ2s.Dispose();
+                                hv_LZ2s = ExpTmpLocalVar_LZ2s;
+                            }
+                        }
+                    }
+                }
+            }
+            //
+            //In the second test, we check whether enough calibration poses with a
+            //significant rotation part are available for calibration.
+            //在第二项测试中，我们将检查是否有足够的具有
+            //有足够的校准姿势。
+            hv_NumPairs.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_NumPairs = new HTuple(hv_LX2s.TupleLength()
+                    );
+            }
+            hv_NumPairsMax.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_NumPairsMax = (hv_NumCalibrationPoses * (hv_NumCalibrationPoses - 1)) / 2;
+            }
+            if ((int)(new HTuple(hv_NumPairs.TupleLess(2))) != 0)
+            {
+                hv_Message.Dispose();
+                hv_Message = "There are not enough rotated calibration poses available.";
+                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                {
+                    {
+                        HTuple
+                          ExpTmpLocalVar_Warnings = hv_Warnings.TupleConcat(
+                            hv_Message);
+                        hv_Warnings.Dispose();
+                        hv_Warnings = ExpTmpLocalVar_Warnings;
+                    }
+                }
+                //In this case, we can skip further test.
+                //在这种情况下，我们可以跳过进一步的测试。
+
+                hv_MinLargeRotationFraction.Dispose();
+                hv_MinLargeAnglesFraction.Dispose();
+                hv_StdDevFactor.Dispose();
+                hv_Type.Dispose();
+                hv_Exception.Dispose();
+                hv_IsHandEyeScara.Dispose();
+                hv_IsHandEyeArticulated.Dispose();
+                hv_NumCameras.Dispose();
+                hv_NumCalibObjs.Dispose();
+                hv_I1.Dispose();
+                hv_PosesIdx.Dispose();
+                hv_RefCalibDataID.Dispose();
+                hv_UseTemporaryCopy.Dispose();
+                hv_CamPoseCal.Dispose();
+                hv_SerializedItemHandle.Dispose();
+                hv_TmpCalibDataID.Dispose();
+                hv_Error.Dispose();
+                hv_Index.Dispose();
+                hv_CamDualQuatCal.Dispose();
+                hv_BasePoseTool.Dispose();
+                hv_BaseDualQuatTool.Dispose();
+                hv_NumCalibrationPoses.Dispose();
+                hv_LX2s.Dispose();
+                hv_LY2s.Dispose();
+                hv_LZ2s.Dispose();
+                hv_TranslationToleranceSquared.Dispose();
+                hv_RotationToleranceSquared.Dispose();
+                hv_Index1.Dispose();
+                hv_CamDualQuatCal1.Dispose();
+                hv_Cal1DualQuatCam.Dispose();
+                hv_BaseDualQuatTool1.Dispose();
+                hv_Tool1DualQuatBase.Dispose();
+                hv_Index2.Dispose();
+                hv_CamDualQuatCal2.Dispose();
+                hv_DualQuat1.Dispose();
+                hv_BaseDualQuatTool2.Dispose();
+                hv_DualQuat2.Dispose();
+                hv_LX1.Dispose();
+                hv_LY1.Dispose();
+                hv_LZ1.Dispose();
+                hv_MX1.Dispose();
+                hv_MY1.Dispose();
+                hv_MZ1.Dispose();
+                hv_Rot1.Dispose();
+                hv_Trans1.Dispose();
+                hv_LX2.Dispose();
+                hv_LY2.Dispose();
+                hv_LZ2.Dispose();
+                hv_MX2.Dispose();
+                hv_MY2.Dispose();
+                hv_MZ2.Dispose();
+                hv_Rot2.Dispose();
+                hv_Trans2.Dispose();
+                hv_MeanRot.Dispose();
+                hv_MeanTrans.Dispose();
+                hv_SinTheta2.Dispose();
+                hv_CosTheta2.Dispose();
+                hv_SinTheta2Squared.Dispose();
+                hv_CosTheta2Squared.Dispose();
+                hv_ErrorRot.Dispose();
+                hv_StdDevQ0.Dispose();
+                hv_ToleranceDualQuat0.Dispose();
+                hv_ErrorDualQuat0.Dispose();
+                hv_StdDevQ4.Dispose();
+                hv_ToleranceDualQuat4.Dispose();
+                hv_ErrorDualQuat4.Dispose();
+                hv_Message.Dispose();
+                hv_NumPairs.Dispose();
+                hv_NumPairsMax.Dispose();
+                hv_LargeRotationFraction.Dispose();
+                hv_NumPairPairs.Dispose();
+                hv_NumPairPairsMax.Dispose();
+                hv_Angles.Dispose();
+                hv_Idx.Dispose();
+                hv_LXA.Dispose();
+                hv_LYA.Dispose();
+                hv_LZA.Dispose();
+                hv_LXB.Dispose();
+                hv_LYB.Dispose();
+                hv_LZB.Dispose();
+                hv_ScalarProduct.Dispose();
+                hv_LargeAngles.Dispose();
+                hv_LargeAnglesFraction.Dispose();
+                hvec_CamDualQuatsCal.Dispose();
+                hvec_BaseDualQuatsTool.Dispose();
+
+                return;
+            }
+            hv_LargeRotationFraction.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_LargeRotationFraction = (hv_NumPairs.TupleReal()
+                    ) / hv_NumPairsMax;
+            }
+            if ((int)((new HTuple(hv_NumPairs.TupleLess(4))).TupleOr(new HTuple(hv_LargeRotationFraction.TupleLess(
+                hv_MinLargeRotationFraction)))) != 0)
+            {
+                hv_Message.Dispose();
+                hv_Message = new HTuple("Only few rotated robot poses available, which might result in a reduced accuracy of the calibration results.");
+                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                {
+                    {
+                        HTuple
+                          ExpTmpLocalVar_Warnings = hv_Warnings.TupleConcat(
+                            hv_Message);
+                        hv_Warnings.Dispose();
+                        hv_Warnings = ExpTmpLocalVar_Warnings;
+                    }
+                }
+            }
+            //
+            //In the third test, we compute the angle between the screw axes with
+            //a significant rotation part. For SCARA robots, this angle must be 0 in
+            //all cases. For articulated robots, for a significant fraction of robot
+            //poses, this angle should exceed a certain threshold. For this test, we
+            //use the robot tool poses as they are assumed to be more accurate than the
+            //calibration object poses.
+            //在第三项测试中，我们计算螺杆轴线之间的夹角。
+            //的角度。对于 SCARA 机械手，该角度在任何情况下都必须为 0。
+            //所有情况下都必须为 0。对于铰接式机器人，在相当一部分机器人
+            //姿势时，该角度应超过一定的阈值。在此测试中，我们
+            //使用机器人工具姿势，因为我们认为它们比
+            //校准对象姿势。
+            hv_NumPairPairs.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_NumPairPairs = (hv_NumPairs * (hv_NumPairs - 1)) / 2;
+            }
+            hv_NumPairPairsMax.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_NumPairPairsMax = (hv_NumPairsMax * (hv_NumPairsMax - 1)) / 2;
+            }
+            hv_Angles.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_Angles = HTuple.TupleGenConst(
+                    hv_NumPairPairs, 0);
+            }
+            hv_Idx.Dispose();
+            hv_Idx = 0;
+            HTuple end_val405 = hv_NumPairs - 2;
+            HTuple step_val405 = 1;
+            for (hv_Index1 = 0; hv_Index1.Continue(end_val405, step_val405); hv_Index1 = hv_Index1.TupleAdd(step_val405))
+            {
+                hv_LXA.Dispose();
+                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                {
+                    hv_LXA = hv_LX2s.TupleSelect(
+                        hv_Index1);
+                }
+                hv_LYA.Dispose();
+                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                {
+                    hv_LYA = hv_LY2s.TupleSelect(
+                        hv_Index1);
+                }
+                hv_LZA.Dispose();
+                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                {
+                    hv_LZA = hv_LZ2s.TupleSelect(
+                        hv_Index1);
+                }
+                HTuple end_val409 = hv_NumPairs - 1;
+                HTuple step_val409 = 1;
+                for (hv_Index2 = hv_Index1 + 1; hv_Index2.Continue(end_val409, step_val409); hv_Index2 = hv_Index2.TupleAdd(step_val409))
+                {
+                    hv_LXB.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_LXB = hv_LX2s.TupleSelect(
+                            hv_Index2);
+                    }
+                    hv_LYB.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_LYB = hv_LY2s.TupleSelect(
+                            hv_Index2);
+                    }
+                    hv_LZB.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_LZB = hv_LZ2s.TupleSelect(
+                            hv_Index2);
+                    }
+                    //Compute the scalar product, i.e. the cosine of the screw
+                    //axes. To obtain valid values, crop the cosine to the
+                    //interval [-1,1].
+                    //计算标量积，即螺线的余弦值。
+                    //轴的余弦。为获得有效值，请将余弦值裁剪到
+                    //区间 [-1,1]。
+                    hv_ScalarProduct.Dispose();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        hv_ScalarProduct = ((((((((((hv_LXA * hv_LXB) + (hv_LYA * hv_LYB)) + (hv_LZA * hv_LZB))).TupleConcat(
+                            1))).TupleMin())).TupleConcat(-1))).TupleMax();
+                    }
+                    //Compute the angle between the axes in the range [0,pi/2].
+                    //计算 [0,pi/2] 范围内各坐标轴之间的夹角。
+                    if (hv_Angles == null)
+                        hv_Angles = new HTuple();
+                    hv_Angles[hv_Idx] = ((hv_ScalarProduct.TupleFabs())).TupleAcos();
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        {
+                            HTuple
+                              ExpTmpLocalVar_Idx = hv_Idx + 1;
+                            hv_Idx.Dispose();
+                            hv_Idx = ExpTmpLocalVar_Idx;
+                        }
+                    }
+                }
+            }
+            //Large angles should significantly exceed the RotationTolerance.
+            //大角度应大大超过旋转公差。
+            hv_LargeAngles.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_LargeAngles = ((hv_Angles.TupleGreaterElem(
+                    hv_StdDevFactor * hv_RotationTolerance))).TupleSum();
+            }
+            //Calculate the fraction of pairs of movements, i.e., pairs of pose
+            //pairs, that have a large angle between their corresponding screw
+            //axes.
+            //计算成对运动的分数，即成对姿势
+            //对应的螺旋轴之间有较大角度的运动对的分数。
+            //轴之间存在较大角度的动作对的比例。
+            hv_LargeAnglesFraction.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_LargeAnglesFraction = (hv_LargeAngles.TupleReal()
+                    ) / hv_NumPairPairsMax;
+            }
+            //For SCARA robots, all screw axes should be parallel, i.e., no
+            //two screw axes should have a large angle.
+            //对于 SCARA 机械手，所有螺杆轴都应平行，即没有
+            //两个螺杆轴的夹角不能太大。
+            if ((int)(hv_IsHandEyeScara.TupleAnd(new HTuple(hv_LargeAngles.TupleGreater(
+                0)))) != 0)
+            {
+                hv_Message.Dispose();
+                hv_Message = new HTuple("The robot poses indicate that this might be an articulated robot, although a SCARA robot was selected in the calibration data model.");
+                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                {
+                    {
+                        HTuple
+                          ExpTmpLocalVar_Warnings = hv_Warnings.TupleConcat(
+                            hv_Message);
+                        hv_Warnings.Dispose();
+                        hv_Warnings = ExpTmpLocalVar_Warnings;
+                    }
+                }
+            }
+            //For articulated robots, the screw axes should have a large
+            //angles.
+            //对于铰接式机器人，螺杆轴应具有较大的*角度。
+            //角度。
+            if ((int)(hv_IsHandEyeArticulated) != 0)
+            {
+                if ((int)(new HTuple(hv_LargeAngles.TupleEqual(0))) != 0)
+                {
+                    //If there is no pair of movements with a large angle between
+                    //their corresponding screw axes, this might be a SCARA robot.
+                    //如果没有一对运动之间的夹角很大
+                    //则可能是 SCARA 机械手。
+                    hv_Message.Dispose();
+                    hv_Message = new HTuple("The robot poses indicate that this might be a SCARA robot (no tilted robot poses available), although an articulated robot was selected in the calibration data model.");
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        {
+                            HTuple
+                              ExpTmpLocalVar_Warnings = hv_Warnings.TupleConcat(
+                                hv_Message);
+                            hv_Warnings.Dispose();
+                            hv_Warnings = ExpTmpLocalVar_Warnings;
+                        }
+                    }
+                }
+                else if ((int)(new HTuple(hv_LargeAngles.TupleLess(3))) != 0)
+                {
+                    //If there are at most 2 movements with a large angle between
+                    //their corresponding screw axes, the calibration might be
+                    //unstable.
+                    //如果最多有 2 个机芯的相应螺杆轴之间的夹角很大
+                    //则校准可能不稳定。
+                    //不稳定。
+                    hv_Message.Dispose();
+                    hv_Message = "Not enough tilted robot poses available for an accurate calibration of an articulated robot.";
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        {
+                            HTuple
+                              ExpTmpLocalVar_Warnings = hv_Warnings.TupleConcat(
+                                hv_Message);
+                            hv_Warnings.Dispose();
+                            hv_Warnings = ExpTmpLocalVar_Warnings;
+                        }
+                    }
+                }
+                else if ((int)(new HTuple(hv_LargeAnglesFraction.TupleLess(hv_MinLargeAnglesFraction))) != 0)
+                {
+                    //If there is only a low fraction of pairs of movements with
+                    //a large angle between their corresponding screw axes, the
+                    //accuracy of the calibration might be low.
+                    //如果只有一小部分运动对的相应螺杆轴线之间的夹角较大
+                    //相应螺杆轴之间的夹角较大，则校准精度可能较低。
+                    //校准精度可能会很低。
+                    hv_Message.Dispose();
+                    hv_Message = new HTuple("Only few tilted robot poses available, which might result in a reduced accuracy of the calibration results.");
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        {
+                            HTuple
+                              ExpTmpLocalVar_Warnings = hv_Warnings.TupleConcat(
+                                hv_Message);
+                            hv_Warnings.Dispose();
+                            hv_Warnings = ExpTmpLocalVar_Warnings;
+                        }
+                    }
+                }
+            }
+
+            hv_MinLargeRotationFraction.Dispose();
+            hv_MinLargeAnglesFraction.Dispose();
+            hv_StdDevFactor.Dispose();
+            hv_Type.Dispose();
+            hv_Exception.Dispose();
+            hv_IsHandEyeScara.Dispose();
+            hv_IsHandEyeArticulated.Dispose();
+            hv_NumCameras.Dispose();
+            hv_NumCalibObjs.Dispose();
+            hv_I1.Dispose();
+            hv_PosesIdx.Dispose();
+            hv_RefCalibDataID.Dispose();
+            hv_UseTemporaryCopy.Dispose();
+            hv_CamPoseCal.Dispose();
+            hv_SerializedItemHandle.Dispose();
+            hv_TmpCalibDataID.Dispose();
+            hv_Error.Dispose();
+            hv_Index.Dispose();
+            hv_CamDualQuatCal.Dispose();
+            hv_BasePoseTool.Dispose();
+            hv_BaseDualQuatTool.Dispose();
+            hv_NumCalibrationPoses.Dispose();
+            hv_LX2s.Dispose();
+            hv_LY2s.Dispose();
+            hv_LZ2s.Dispose();
+            hv_TranslationToleranceSquared.Dispose();
+            hv_RotationToleranceSquared.Dispose();
+            hv_Index1.Dispose();
+            hv_CamDualQuatCal1.Dispose();
+            hv_Cal1DualQuatCam.Dispose();
+            hv_BaseDualQuatTool1.Dispose();
+            hv_Tool1DualQuatBase.Dispose();
+            hv_Index2.Dispose();
+            hv_CamDualQuatCal2.Dispose();
+            hv_DualQuat1.Dispose();
+            hv_BaseDualQuatTool2.Dispose();
+            hv_DualQuat2.Dispose();
+            hv_LX1.Dispose();
+            hv_LY1.Dispose();
+            hv_LZ1.Dispose();
+            hv_MX1.Dispose();
+            hv_MY1.Dispose();
+            hv_MZ1.Dispose();
+            hv_Rot1.Dispose();
+            hv_Trans1.Dispose();
+            hv_LX2.Dispose();
+            hv_LY2.Dispose();
+            hv_LZ2.Dispose();
+            hv_MX2.Dispose();
+            hv_MY2.Dispose();
+            hv_MZ2.Dispose();
+            hv_Rot2.Dispose();
+            hv_Trans2.Dispose();
+            hv_MeanRot.Dispose();
+            hv_MeanTrans.Dispose();
+            hv_SinTheta2.Dispose();
+            hv_CosTheta2.Dispose();
+            hv_SinTheta2Squared.Dispose();
+            hv_CosTheta2Squared.Dispose();
+            hv_ErrorRot.Dispose();
+            hv_StdDevQ0.Dispose();
+            hv_ToleranceDualQuat0.Dispose();
+            hv_ErrorDualQuat0.Dispose();
+            hv_StdDevQ4.Dispose();
+            hv_ToleranceDualQuat4.Dispose();
+            hv_ErrorDualQuat4.Dispose();
+            hv_Message.Dispose();
+            hv_NumPairs.Dispose();
+            hv_NumPairsMax.Dispose();
+            hv_LargeRotationFraction.Dispose();
+            hv_NumPairPairs.Dispose();
+            hv_NumPairPairsMax.Dispose();
+            hv_Angles.Dispose();
+            hv_Idx.Dispose();
+            hv_LXA.Dispose();
+            hv_LYA.Dispose();
+            hv_LZA.Dispose();
+            hv_LXB.Dispose();
+            hv_LYB.Dispose();
+            hv_LZB.Dispose();
+            hv_ScalarProduct.Dispose();
+            hv_LargeAngles.Dispose();
+            hv_LargeAnglesFraction.Dispose();
+            hvec_CamDualQuatsCal.Dispose();
+            hvec_BaseDualQuatsTool.Dispose();
+
+            return;
+        }
+        catch (HalconException HDevExpDefaultException)
+        {
+
+            hv_MinLargeRotationFraction.Dispose();
+            hv_MinLargeAnglesFraction.Dispose();
+            hv_StdDevFactor.Dispose();
+            hv_Type.Dispose();
+            hv_Exception.Dispose();
+            hv_IsHandEyeScara.Dispose();
+            hv_IsHandEyeArticulated.Dispose();
+            hv_NumCameras.Dispose();
+            hv_NumCalibObjs.Dispose();
+            hv_I1.Dispose();
+            hv_PosesIdx.Dispose();
+            hv_RefCalibDataID.Dispose();
+            hv_UseTemporaryCopy.Dispose();
+            hv_CamPoseCal.Dispose();
+            hv_SerializedItemHandle.Dispose();
+            hv_TmpCalibDataID.Dispose();
+            hv_Error.Dispose();
+            hv_Index.Dispose();
+            hv_CamDualQuatCal.Dispose();
+            hv_BasePoseTool.Dispose();
+            hv_BaseDualQuatTool.Dispose();
+            hv_NumCalibrationPoses.Dispose();
+            hv_LX2s.Dispose();
+            hv_LY2s.Dispose();
+            hv_LZ2s.Dispose();
+            hv_TranslationToleranceSquared.Dispose();
+            hv_RotationToleranceSquared.Dispose();
+            hv_Index1.Dispose();
+            hv_CamDualQuatCal1.Dispose();
+            hv_Cal1DualQuatCam.Dispose();
+            hv_BaseDualQuatTool1.Dispose();
+            hv_Tool1DualQuatBase.Dispose();
+            hv_Index2.Dispose();
+            hv_CamDualQuatCal2.Dispose();
+            hv_DualQuat1.Dispose();
+            hv_BaseDualQuatTool2.Dispose();
+            hv_DualQuat2.Dispose();
+            hv_LX1.Dispose();
+            hv_LY1.Dispose();
+            hv_LZ1.Dispose();
+            hv_MX1.Dispose();
+            hv_MY1.Dispose();
+            hv_MZ1.Dispose();
+            hv_Rot1.Dispose();
+            hv_Trans1.Dispose();
+            hv_LX2.Dispose();
+            hv_LY2.Dispose();
+            hv_LZ2.Dispose();
+            hv_MX2.Dispose();
+            hv_MY2.Dispose();
+            hv_MZ2.Dispose();
+            hv_Rot2.Dispose();
+            hv_Trans2.Dispose();
+            hv_MeanRot.Dispose();
+            hv_MeanTrans.Dispose();
+            hv_SinTheta2.Dispose();
+            hv_CosTheta2.Dispose();
+            hv_SinTheta2Squared.Dispose();
+            hv_CosTheta2Squared.Dispose();
+            hv_ErrorRot.Dispose();
+            hv_StdDevQ0.Dispose();
+            hv_ToleranceDualQuat0.Dispose();
+            hv_ErrorDualQuat0.Dispose();
+            hv_StdDevQ4.Dispose();
+            hv_ToleranceDualQuat4.Dispose();
+            hv_ErrorDualQuat4.Dispose();
+            hv_Message.Dispose();
+            hv_NumPairs.Dispose();
+            hv_NumPairsMax.Dispose();
+            hv_LargeRotationFraction.Dispose();
+            hv_NumPairPairs.Dispose();
+            hv_NumPairPairsMax.Dispose();
+            hv_Angles.Dispose();
+            hv_Idx.Dispose();
+            hv_LXA.Dispose();
+            hv_LYA.Dispose();
+            hv_LZA.Dispose();
+            hv_LXB.Dispose();
+            hv_LYB.Dispose();
+            hv_LZB.Dispose();
+            hv_ScalarProduct.Dispose();
+            hv_LargeAngles.Dispose();
+            hv_LargeAnglesFraction.Dispose();
+            hvec_CamDualQuatsCal.Dispose();
+            hvec_BaseDualQuatsTool.Dispose();
+
+            throw HDevExpDefaultException;
+        }
+    }
+
+
+
     /// <summary>
     /// 获得机器人
     /// </summary>
