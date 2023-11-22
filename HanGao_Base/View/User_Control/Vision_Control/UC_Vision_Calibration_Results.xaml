@@ -98,28 +98,6 @@
 
 
 
-                            <Grid Height="35" Margin="8">
-
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="90" />
-                                    <ColumnDefinition Width=" *" />
-                                    <ColumnDefinition Width=" *" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="标定操作"
-                                           HorizontalAlignment="Left"
-                                           VerticalAlignment="Center"
-                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                           FontSize="16"
-                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
-
-
-
-
-
-
-
-                            </Grid>
 
 
 
@@ -407,43 +385,6 @@
 
                                     </Grid>
                                 </Border>-->
-
-
-
-                            </Grid>
-
-                            <Grid Height="35" Margin="8">
-
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="90" />
-                                    <ColumnDefinition Width=" *" />
-
-                                    <ColumnDefinition Width=" *" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="文件操作"
-                                           HorizontalAlignment="Left"
-                                           VerticalAlignment="Center"
-                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                           FontSize="16"
-                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
-
-                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
-                                        Margin="4,0,4,0"
-                                        Background="{DynamicResource 全局_按钮_蓝颜色}">
-                                    <TextBlock Text="保存文件"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                               FontSize="16"
-                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding}" PassEventArgsToCommand="True" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </Button>
-
 
 
 

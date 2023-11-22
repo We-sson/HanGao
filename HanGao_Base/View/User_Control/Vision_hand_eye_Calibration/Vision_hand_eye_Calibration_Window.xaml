@@ -75,7 +75,7 @@
                     BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
                     BorderThickness="0,4,0,0"
                     SelectedIndex="0"
-                    TabStripPlacement="Top">
+                    TabStripPlacement="Top" HorizontalContentAlignment="Center">
             <!--<i:Interaction.Triggers>
                 <i:EventTrigger EventName="Loaded">
                     <i:InvokeCommandAction Command="{Binding Initialization_Halcon_UserControl_Comm}"

@@ -131,6 +131,7 @@ namespace Halcon_SDK_DLL
         public List<Calibration_Image_Camera_Model> HandEye_Calibration_Results(List<HImage> _ImageList, List<HPose> _PosList, Halcon_Camera_Calibration_Model _CalibParam)
         {
             List<Calibration_Image_Camera_Model> _ResList = new List<Calibration_Image_Camera_Model>();
+            Reconstruction_3d _HandEye_3DModel = new Reconstruction_3d();
 
 
 
@@ -158,7 +159,6 @@ namespace Halcon_SDK_DLL
 
 
                     FindCalibObject_Results _Res = new FindCalibObject_Results();
-                    Reconstruction_3d _HandEye_3DModel = new Reconstruction_3d();
 
 
 
@@ -192,7 +192,12 @@ namespace Halcon_SDK_DLL
                 }
 
                 //检查全部数据输入准确性，做出修改
-                //check_hand_eye_calibration_input_poses(CalibDataID, 0.05, 0.005, Warnings)
+                _HandEye_3DModel.check_hand_eye_calibration_input_poses(HCalibData, 0.05, 0.005, out HTuple _Warnings);
+
+
+                //实机测试，取图和坐标系
+
+        
 
 
                 Clear_HandEye_Calibration();

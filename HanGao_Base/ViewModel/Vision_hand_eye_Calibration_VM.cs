@@ -329,6 +329,22 @@ namespace HanGao.ViewModel
                     if (HandEye_Calibration_List.Count!= HandEye_Robot_PosList.Count)
                     {
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     }else
                     {
 
@@ -1292,12 +1308,12 @@ namespace HanGao.ViewModel
 
         public FindCalibObject_Results HandEye_Results_Calibration()
         {
+            ///预留
 
 
 
 
-
-
+            return new FindCalibObject_Results();
 
 
         }

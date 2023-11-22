@@ -591,7 +591,7 @@
                     <Border x:Name="rectangle"
                             Width="{TemplateBinding Width}"
                             Height="{TemplateBinding Height}"
-                            Background="{DynamicResource 全局_按钮_灰颜色}"
+                            Background="{DynamicResource 全局_按钮_黑颜色}"
                             CornerRadius=" 5"
                             SnapsToDevicePixels="True" />
 
