@@ -411,14 +411,14 @@ namespace MVS_SDK_Base.Model
             /// <summary>
             /// 标定精度
             /// </summary>
-            public double Calibrated_Accuracy { set; get; } = 0.00;
+            public double Calibrated_Accuracy { set; get; } 
 
 
 
             /// <summary>
             /// 标定结状态
             /// </summary>
-            public Camera_Calibration_File_Type_Enum Camera_Calibration_State { set; get; } = Camera_Calibration_File_Type_Enum.无;
+            public Camera_Calibration_File_Type_Enum Camera_Calibration_State { set; get; } = Camera_Calibration_File_Type_Enum.无标定;
 
 
             /// <summary>
@@ -932,7 +932,7 @@ namespace MVS_SDK_Base.Model
     /// </summary>
     public enum Camera_Calibration_File_Type_Enum
     {
-        无,
+        无标定,
         内参标定,
         双目标定,
     }

@@ -33,6 +33,8 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
 
+
+
         <ObjectDataProvider x:Key="HandEye_Optimization_Enum"
                             MethodName="GetValues"
                             ObjectType="{x:Type sys:Enum}">
@@ -71,11 +73,12 @@
                     Grid.ColumnSpan="2"
                     Margin="0,0,0,0"
                     Padding="0"
+                    HorizontalContentAlignment="Center"
                     Background="Transparent"
                     BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
                     BorderThickness="0,4,0,0"
                     SelectedIndex="0"
-                    TabStripPlacement="Top" HorizontalContentAlignment="Center">
+                    TabStripPlacement="Top">
             <!--<i:Interaction.Triggers>
                 <i:EventTrigger EventName="Loaded">
                     <i:InvokeCommandAction Command="{Binding Initialization_Halcon_UserControl_Comm}"
@@ -3648,21 +3651,13 @@
 
                                                     <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row="0" Grid.Column=" 0"
                                                               Content="闪光灯"
+                                                              IsChecked="{Binding Camera_Parameter_Val.LineInverter}"
                                                               Margin="0"
                                                               HorizontalAlignment="Left"
                                                               VerticalAlignment="Center"
                                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                               FontSize="16"
-                                                              Foreground="{DynamicResource 全局_按钮_黑颜色}">
-                                                        <i:Interaction.Triggers>
-
-                                                            <i:EventTrigger EventName="Click">
-                                                                <i:InvokeCommandAction Command="{Binding}"
-                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                                       PassEventArgsToCommand="True" />
-                                                            </i:EventTrigger>
-                                                        </i:Interaction.Triggers>
-                                                    </CheckBox>
+                                                              Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                                     <CheckBox Style="{DynamicResource CheckBoxStyle1}" x:Name="Live_Camera" Grid.Column=" 1"
                                                               IsChecked="{Binding HandEye_Camera_Parameters.Halcon_Find_Calib_Model}"

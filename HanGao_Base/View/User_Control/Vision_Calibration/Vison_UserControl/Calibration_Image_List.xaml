@@ -253,7 +253,7 @@
 
 
                 <MenuItem Height="auto"
-                          Margin="6"
+                          Margin="6" 
                           Padding="6,0,0,0">
 
                     <MenuItem.Header>

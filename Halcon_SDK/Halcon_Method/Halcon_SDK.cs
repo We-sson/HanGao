@@ -1014,16 +1014,213 @@ namespace Halcon_SDK_DLL
             GC.Collect();
             GC.SuppressFinalize(this);
 
-            HWindow.Dispose();
-            Halcon_UserContol.Dispose();
+            HWindow?.Dispose();
+            Halcon_UserContol?.Dispose();
             DisplayImage?.Dispose();
             DisplayRegion?.Dispose();
             DisplayXLD?.Dispose();
         }
     }
 
+    [AddINotifyPropertyChangedInterface]
+
+    public class Halcon_Window_Display_Model : IDisposable
+    {
 
 
+
+        public Halcon_SDK HandEye_Window_1 { set; get; } = new Halcon_SDK();
+        public Halcon_SDK HandEye_Window_2 { set; get; } = new Halcon_SDK();
+        public Halcon_SDK HandEye_Results_Window_1 { set; get; } = new Halcon_SDK();
+        public Halcon_SDK HandEye_Results_Window_2 { set; get; } = new Halcon_SDK();
+        public Halcon_SDK HandEye_3DResults { set; get; } = new Halcon_SDK();
+
+        /// <summary>
+        /// 可视化三维显示模型
+        /// </summary>
+        public Halcon_SDK Calibration_3D_Results { set; get; } = new Halcon_SDK();
+        /// <summary>
+        /// 实施相机视角控件
+        /// </summary>
+        public Halcon_SDK Calibration_Window_1 { set; get; } = new Halcon_SDK();
+
+
+        /// <summary>
+        /// 实施相机视角控件
+        /// </summary>
+        public Halcon_SDK Calibration_Window_2 { set; get; } = new Halcon_SDK();
+
+
+
+        /// <summary>
+        /// 设置窗口控件显示对象
+        /// </summary>
+        /// <param name="_HImage"></param>
+        /// <param name="_Region"></param>
+        /// <param name="_XLD"></param>
+        /// <param name="_DrawColor"></param>
+        /// <param name="_Show"></param>
+        public void Display_HObject(HObject _HImage, HObject _Region, HObject _XLD, string _DrawColor, Window_Show_Name_Enum _Show)
+        {
+            if (_DrawColor != null)
+            {
+                SetHDrawColor(_DrawColor, DisplaySetDraw_Enum.fill, _Show);
+            }
+
+
+            if (_HImage != null)
+            {
+                SetWindowDisoplay(_HImage, Display_HObject_Type_Enum.Image, _Show);
+
+            }
+            if (_Region != null)
+            {
+
+                SetWindowDisoplay(_Region, Display_HObject_Type_Enum.Region, _Show);
+            }
+
+            if (_XLD != null)
+            {
+
+                SetWindowDisoplay(_XLD, Display_HObject_Type_Enum.XLD, _Show);
+            }
+
+
+
+        }
+
+
+
+        /// <summary>
+        /// 设置窗口显示颜色
+        /// </summary>
+        /// <param name="HColor"></param>
+        /// <param name="HDraw"></param>
+        /// <param name="_Window"></param>
+        public void SetHDrawColor(string HColor, DisplaySetDraw_Enum HDraw, Window_Show_Name_Enum _Window)
+        {
+            //根据窗口枚举属性设置
+            switch (_Window)
+            {
+
+                case Window_Show_Name_Enum.HandEye_Window_1:
+                    HandEye_Window_1.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
+                    break;
+                case Window_Show_Name_Enum.HandEye_Window_2:
+                    HandEye_Window_2.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
+
+                    break;
+                case Window_Show_Name_Enum.HandEye_Results_Window_1:
+                    HandEye_Results_Window_1.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
+
+                    break;
+                case Window_Show_Name_Enum.HandEye_Results_Window_2:
+                    HandEye_Results_Window_2.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
+
+                    break;
+                case Window_Show_Name_Enum.HandEye_3DResults:
+                    HandEye_3DResults.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
+
+                    break;
+
+            }
+
+        }
+
+
+
+
+        /// <summary>
+        /// 设置窗口显示对象
+        /// </summary>
+        /// <param name="_S"></param>
+        public void SetWindowDisoplay(HObject _Dispaly, Display_HObject_Type_Enum _Type, Window_Show_Name_Enum _Window)
+        {
+
+            HOperatorSet.SetSystem("flush_graphic", "false");
+            Halcon_SDK _WindowDisplay = new Halcon_SDK();
+
+            //根据窗口枚举属性设置
+            switch (_Window)
+            {
+
+                case Window_Show_Name_Enum.HandEye_Window_1:
+
+                    _WindowDisplay = HandEye_Window_1;
+
+                    break;
+                case Window_Show_Name_Enum.HandEye_Window_2:
+
+                    _WindowDisplay = HandEye_Window_2;
+
+                    break;
+                case Window_Show_Name_Enum.HandEye_Results_Window_1:
+                    _WindowDisplay = HandEye_Results_Window_1;
+
+
+                    break;
+                case Window_Show_Name_Enum.HandEye_Results_Window_2:
+
+                    _WindowDisplay = HandEye_Results_Window_2;
+
+                    break;
+
+            }
+
+
+
+            //根据显示类型设置
+            switch (_Type)
+            {
+                case Display_HObject_Type_Enum.Image:
+
+
+                    _WindowDisplay.DisplayImage = _Dispaly;
+                    break;
+                case Display_HObject_Type_Enum.Region:
+                    _WindowDisplay.DisplayRegion = _Dispaly;
+
+                    break;
+
+                case Display_HObject_Type_Enum.XLD:
+
+                    _WindowDisplay.DisplayXLD = _Dispaly;
+
+                    break;
+
+                case Display_HObject_Type_Enum.SetDrawColor:
+                    //_WindowDisplay.SetDisplay = _Dispaly;
+
+                    break;
+            }
+
+
+
+
+            HOperatorSet.SetSystem("flush_graphic", "true");
+        }
+
+
+
+
+
+        public void Dispose()
+        {
+
+            //_Image.Dispose();
+            GC.Collect();
+            GC.SuppressFinalize(this);
+
+            HandEye_Window_1?.Dispose();
+            HandEye_Window_2?.Dispose();
+            HandEye_Results_Window_1?.Dispose();
+            HandEye_Results_Window_2?.Dispose();
+            HandEye_3DResults?.Dispose();
+            Calibration_3D_Results?.Dispose();
+            Calibration_Window_1?.Dispose();
+            Calibration_Window_2?.Dispose();
+        }
+    }
 
 
     [AddINotifyPropertyChangedInterface]

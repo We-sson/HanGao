@@ -363,8 +363,8 @@ namespace HanGao.ViewModel
 
                                                     Display_HObiet(_HImage, null, null, null, _camer.Show_Window);
 
-                                                    if (Vision_Calibration_Home_VM.Halcon_ShowMaxGray)
-                                                    {
+                                                    //if (Vision_Calibration_Home_VM.Halcon_Camera_Calibra.ShowMaxGray)
+                                                    //{
                                                         HRegion _Region = new HRegion();
                                                         if (Halcon_Method_Model.Get_Image_MaxThreshold(ref _Region, _HImage).GetResult())
                                                         {
@@ -373,12 +373,12 @@ namespace HanGao.ViewModel
 
                                                         }
 
-                                                    }
+                                                    //}
 
 
-                                                    if (Vision_Calibration_Home_VM.Halcon_ShowMinGray)
-                                                    {
-                                                        HRegion _Region = new HRegion();
+                                                    //if (Vision_Calibration_Home_VM.Halcon_ShowMinGray)
+                                                    //{
+                                                        //HRegion _Region = new HRegion();
                                                         if (Halcon_Method_Model.Get_Image_MinThreshold(ref _Region, _HImage).GetResult())
                                                         {
 
@@ -387,12 +387,12 @@ namespace HanGao.ViewModel
 
                                                         }
 
-                                                    }
+                                                    //}
 
                                                     try
                                                     {
-                                                        if (Vision_Calibration_Home_VM.Halcon_ShowHObject)
-                                                        {
+                                                        //if (Vision_Calibration_Home_VM.Halcon_ShowHObject)
+                                                        //{
 
 
                                                             HObject _CalibCoord = new HObject();
@@ -407,7 +407,7 @@ namespace HanGao.ViewModel
                                                             Display_HObiet(null, _CalibXLD, null, KnownColor.Green.ToString(), _camer.Show_Window);
                                                             Display_HObiet(null, null, _CalibCoord, null, _camer.Show_Window);
 
-                                                        }
+                                                        //}
 
 
                                                     }

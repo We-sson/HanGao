@@ -92,11 +92,14 @@ namespace HanGao.ViewModel
 
 
 
-        public Halcon_SDK HandEye_Window_1 { set; get; } = new Halcon_SDK();
-        public Halcon_SDK HandEye_Window_2 { set; get; } = new Halcon_SDK();
-        public Halcon_SDK HandEye_Results_Window_1 { set; get; } = new Halcon_SDK();
-        public Halcon_SDK HandEye_Results_Window_2 { set; get; } = new Halcon_SDK();
-        public Halcon_SDK HandEye_3DResults { set; get; } = new Halcon_SDK();
+
+        /// <summary>
+        /// Halcon 控件显示属性
+        /// </summary>
+        public Halcon_Window_Display_Model Halcon_Window_Display { set; get; } = new Halcon_Window_Display_Model();
+
+
+
 
         public H3D_Model_Display HDisplay_3D { set; get; }
 
@@ -123,11 +126,15 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 手眼标定参数
         /// </summary>
-        public Halcon_Camera_Calibration_Model HandEye_Camera_Parameters { get; set; } = new Halcon_Camera_Calibration_Model() { Calibration_Setup_Model = Halcon_Calibration_Setup_Model_Enum.hand_eye_moving_cam };
+        public   Halcon_Camera_Calibration_Model HandEye_Camera_Parameters { get; set; } = new Halcon_Camera_Calibration_Model() { Calibration_Setup_Model = Halcon_Calibration_Setup_Model_Enum.hand_eye_moving_cam };
 
 
-
+        /// <summary>
+        /// 手眼标定方法属性
+        /// </summary>
         public Halcon_Calibration_SDK HandEye_Check { set; get; } = new Halcon_Calibration_SDK();
+
+
 
 
         /// <summary>
@@ -258,7 +265,7 @@ namespace HanGao.ViewModel
 
 
                     //显示到三维窗口
-                    SetDisplay3DModel(new Display3DModel_Model() { _ObjectModel3D = _Calib_Rotob_Model });
+                    HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model() { _ObjectModel3D = _Calib_Rotob_Model });
 
 
 
@@ -757,15 +764,16 @@ namespace HanGao.ViewModel
 
 
                 //初始化控件属性
-                HandEye_Window_1 = new Halcon_SDK() { HWindow = E.HandEye_Window_1.HalconWindow, Halcon_UserContol = E.HandEye_Window_1 };
-                HandEye_Window_2 = new Halcon_SDK() { HWindow = E.HandEye_Window_2.HalconWindow, Halcon_UserContol = E.HandEye_Window_2 };
-                HandEye_Results_Window_1 = new Halcon_SDK() { HWindow = E.HandEye_Results_Window_1.HalconWindow, Halcon_UserContol = E.HandEye_Results_Window_1 };
-                HandEye_Results_Window_2 = new Halcon_SDK() { HWindow = E.HandEye_Results_Window_2.HalconWindow, Halcon_UserContol = E.HandEye_Results_Window_2 };
+                Halcon_Window_Display.HandEye_Window_1 = new Halcon_SDK() { HWindow = E.HandEye_Window_1.HalconWindow, Halcon_UserContol = E.HandEye_Window_1 };
+                Halcon_Window_Display.HandEye_Window_2 = new Halcon_SDK() { HWindow = E.HandEye_Window_2.HalconWindow, Halcon_UserContol = E.HandEye_Window_2 };
+                Halcon_Window_Display.HandEye_Results_Window_1 = new Halcon_SDK() { HWindow = E.HandEye_Results_Window_1.HalconWindow, Halcon_UserContol = E.HandEye_Results_Window_1 };
+                Halcon_Window_Display.HandEye_Results_Window_2 = new Halcon_SDK() { HWindow = E.HandEye_Results_Window_2.HalconWindow, Halcon_UserContol = E.HandEye_Results_Window_2 };
 
-                HandEye_3DResults = new Halcon_SDK() { HWindow = E.HandEye_3DResults.HalconWindow, Halcon_UserContol = E.HandEye_3DResults };
+                Halcon_Window_Display.HandEye_3DResults = new Halcon_SDK() { HWindow = E.HandEye_3DResults.HalconWindow, Halcon_UserContol = E.HandEye_3DResults };
+
 
                 //可视化显示
-                HDisplay_3D = new H3D_Model_Display(HandEye_3DResults);
+                HDisplay_3D = new H3D_Model_Display(Halcon_Window_Display.HandEye_3DResults);
 
 
 
@@ -799,7 +807,7 @@ namespace HanGao.ViewModel
 
 
                         ///判断相机设备是否有内参数据
-                        if (_M.Camera_Calibration.Camera_Calibration_State != MVS_SDK_Base.Model.Camera_Calibration_File_Type_Enum.无)
+                        if (_M.Camera_Calibration.Camera_Calibration_State != MVS_SDK_Base.Model.Camera_Calibration_File_Type_Enum.无标定)
                         {
 
 
@@ -1262,8 +1270,8 @@ namespace HanGao.ViewModel
                             _Results = HandEye_Check.Check_CalibObject_Features(_Image, HandEye_Camera_Parameters);
 
                             _Results._Image = _Image;
-                            Display_HObject(_Image, _Results._CalibRegion, null, _Results._DrawColor, _Select_Camera.Show_Window);
-                            Display_HObject(null, null, _Results._CalibXLD, null, _Select_Camera.Show_Window);
+                            Halcon_Window_Display.Display_HObject(_Image, _Results._CalibRegion, null, _Results._DrawColor, _Select_Camera.Show_Window);
+                            Halcon_Window_Display. Display_HObject(null, null, _Results._CalibXLD, null, _Select_Camera.Show_Window);
 
                         }
 
@@ -1320,184 +1328,6 @@ namespace HanGao.ViewModel
 
 
 
-        /// <summary>
-        /// 设置窗口控件显示对象
-        /// </summary>
-        /// <param name="_HImage"></param>
-        /// <param name="_Region"></param>
-        /// <param name="_XLD"></param>
-        /// <param name="_DrawColor"></param>
-        /// <param name="_Show"></param>
-        public void Display_HObject(HObject _HImage, HObject _Region, HObject _XLD, string _DrawColor, Window_Show_Name_Enum _Show)
-        {
-            if (_DrawColor != null)
-            {
-                SetHDrawColor(_DrawColor, DisplaySetDraw_Enum.fill, _Show);
-            }
-
-
-            if (_HImage != null)
-            {
-                SetWindowDisoplay(_HImage, Display_HObject_Type_Enum.Image, _Show);
-
-            }
-            if (_Region != null)
-            {
-
-                SetWindowDisoplay(_Region, Display_HObject_Type_Enum.Region, _Show);
-            }
-
-            if (_XLD != null)
-            {
-
-                SetWindowDisoplay(_XLD, Display_HObject_Type_Enum.XLD, _Show);
-            }
-
-
-
-        }
-
-
-
-        /// <summary>
-        /// 设置窗口显示颜色
-        /// </summary>
-        /// <param name="HColor"></param>
-        /// <param name="HDraw"></param>
-        /// <param name="_Window"></param>
-        public void SetHDrawColor(string HColor, DisplaySetDraw_Enum HDraw, Window_Show_Name_Enum _Window)
-        {
-            //根据窗口枚举属性设置
-            switch (_Window)
-            {
-
-                case Window_Show_Name_Enum.HandEye_Window_1:
-                    HandEye_Window_1.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
-                    break;
-                case Window_Show_Name_Enum.HandEye_Window_2:
-                    HandEye_Window_2.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
-
-                    break;
-                case Window_Show_Name_Enum.HandEye_Results_Window_1:
-                    HandEye_Results_Window_1.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
-
-                    break;
-                case Window_Show_Name_Enum.HandEye_Results_Window_2:
-                    HandEye_Results_Window_2.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
-
-                    break;
-                case Window_Show_Name_Enum.HandEye_3DResults:
-                    HandEye_3DResults.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
-
-                    break;
-
-            }
-
-        }
-
-
-
-
-        /// <summary>
-        /// 设置窗口显示对象
-        /// </summary>
-        /// <param name="_S"></param>
-        public void SetWindowDisoplay(HObject _Dispaly, Display_HObject_Type_Enum _Type, Window_Show_Name_Enum _Window)
-        {
-
-            HOperatorSet.SetSystem("flush_graphic", "false");
-            Halcon_SDK _WindowDisplay = new Halcon_SDK();
-
-            //根据窗口枚举属性设置
-            switch (_Window)
-            {
-
-                case Window_Show_Name_Enum.HandEye_Window_1:
-
-                    _WindowDisplay = HandEye_Window_1;
-
-                    break;
-                case Window_Show_Name_Enum.HandEye_Window_2:
-
-                    _WindowDisplay = HandEye_Window_2;
-
-                    break;
-                case Window_Show_Name_Enum.HandEye_Results_Window_1:
-                    _WindowDisplay = HandEye_Results_Window_1;
-
-
-                    break;
-                case Window_Show_Name_Enum.HandEye_Results_Window_2:
-
-                    _WindowDisplay = HandEye_Results_Window_2;
-
-                    break;
-
-            }
-
-
-
-            //根据显示类型设置
-            switch (_Type)
-            {
-                case Display_HObject_Type_Enum.Image:
-
-
-                    _WindowDisplay.DisplayImage = _Dispaly;
-                    break;
-                case Display_HObject_Type_Enum.Region:
-                    _WindowDisplay.DisplayRegion = _Dispaly;
-
-                    break;
-
-                case Display_HObject_Type_Enum.XLD:
-
-                    _WindowDisplay.DisplayXLD = _Dispaly;
-
-                    break;
-
-                case Display_HObject_Type_Enum.SetDrawColor:
-                    //_WindowDisplay.SetDisplay = _Dispaly;
-
-                    break;
-            }
-
-
-
-
-            HOperatorSet.SetSystem("flush_graphic", "true");
-        }
-
-
-        /// <summary>
-        /// 设置三维显示到窗口控件方法
-        /// </summary>
-        /// <param name="_3DModel"></param>
-        public void SetDisplay3DModel(Display3DModel_Model _3DModel)
-        {
-
-            lock (HDisplay_3D)
-            {
-
-
-                HDisplay_3D.hv_ObjectModel3D.Clear();
-
-                //设置可视化视角
-                if (_3DModel._PoseIn!=null)
-                {
-                HDisplay_3D.hv_PoseIn = _3DModel._PoseIn;
-
-                }
-
-                foreach (var _model in _3DModel._ObjectModel3D)
-                {
-                    HDisplay_3D.hv_ObjectModel3D.Add(_model);
-                }
-
-
-            }
-
-        }
 
 
     }

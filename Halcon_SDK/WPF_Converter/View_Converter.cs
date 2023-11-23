@@ -117,8 +117,13 @@ namespace Halcon_SDK_DLL.WPF_Converter
     /// </summary>
     public class EnumDescriptionConverter : IValueConverter
     {
-        public  string GetEnumDescription(Enum enumObj)
+
+        public  string GetEnumDescription(object  enumObj)
         {
+            try
+            {
+
+        
             FieldInfo fieldInfo = enumObj.GetType().GetField(enumObj.ToString());
 
             object[] attribArray = fieldInfo.GetCustomAttributes(false);
@@ -132,12 +137,20 @@ namespace Halcon_SDK_DLL.WPF_Converter
                 DescriptionAttribute attrib = attribArray[0] as DescriptionAttribute;
                 return attrib.Description;
             }
+            }
+            catch (Exception)
+            {
+                return enumObj?.ToString();
+
+
+            }
         }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            Enum myEnum = (Enum)value;
-            string description = GetEnumDescription(myEnum);
+            //Enum _Enum = value as Enum;
+            //Enum myEnum = (Enum)value;
+            string description = GetEnumDescription(value);
             return description;
         }
 

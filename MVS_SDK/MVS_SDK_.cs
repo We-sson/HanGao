@@ -551,7 +551,7 @@ namespace MVS_SDK
                     _Select_Camera.Camera_Info.HeightMax = _Parameter.HeightMax;
                     _Select_Camera.Camera_Info.WidthMax = _Parameter.WidthMax;
 
-                    if (_Select_Camera.Camera_Calibration.Camera_Calibration_State== Camera_Calibration_File_Type_Enum.无)
+                    if (_Select_Camera.Camera_Calibration.Camera_Calibration_State== Camera_Calibration_File_Type_Enum.无标定)
                     {
                     _Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.Image_Width = _Parameter.WidthMax;
                     _Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.Image_Height = _Parameter.HeightMax;

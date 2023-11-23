@@ -5,6 +5,7 @@ using Soceket_KUKA;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Windows.Media.Media3D;
@@ -1314,10 +1315,12 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 面扫相机_畸形式
         /// </summary>
+        [Description("面扫描_普通式")]
         area_scan_division,
         /// <summary>
         /// 面扫相机_多项式
         /// </summary>
+        [Description("面扫描_多项式")]
         area_scan_polynomial
     }
 

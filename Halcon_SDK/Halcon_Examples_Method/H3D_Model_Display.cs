@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Media3D;
-
+using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
 namespace Halcon_SDK_DLL.Halcon_Examples_Method
 {
@@ -1282,6 +1282,35 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         #region 公开处理方法
 
 
+        /// <summary>
+        /// 设置三维显示到窗口控件方法
+        /// </summary>
+        /// <param name="_3DModel"></param>
+        public void SetDisplay3DModel(Display3DModel_Model _3DModel)
+        {
+
+            lock (this)
+            {
+
+
+                hv_ObjectModel3D.Clear();
+
+                //设置可视化视角
+                if (_3DModel._PoseIn != null)
+                {
+                    hv_PoseIn = _3DModel._PoseIn;
+
+                }
+
+                foreach (var _model in _3DModel._ObjectModel3D)
+                {
+                    hv_ObjectModel3D.Add(_model);
+                }
+
+
+            }
+
+        }
 
         /// <summary>
         /// 设置三维场景的属性方法

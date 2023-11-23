@@ -731,7 +731,7 @@ namespace Halcon_SDK_DLL
     /// <summary>
     /// 手眼标定查找优化方法
     /// </summary>
-    [TypeConverter(typeof(EnumDescriptionTypeConverter))]
+    //[TypeConverter(typeof(EnumDescriptionTypeConverter))]
     public enum HandEye_Optimization_Method_Enum
     {
         /// <summary>
