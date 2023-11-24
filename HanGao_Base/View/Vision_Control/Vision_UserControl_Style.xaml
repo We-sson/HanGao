@@ -479,6 +479,7 @@
                                           FontWeight="{TemplateBinding FontWeight}"
                                           Foreground="{TemplateBinding Foreground}"
                                           Visibility="Visible" />
+
                             <ContentPresenter x:Name="ExpandSite"
                                               Margin="{TemplateBinding Padding}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -486,6 +487,7 @@
                                               DockPanel.Dock="Bottom"
                                               Focusable="false"
                                               Visibility="Collapsed" />
+
                         </DockPanel>
                     </Border>
                     <ControlTemplate.Triggers>

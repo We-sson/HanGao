@@ -1,7 +1,10 @@
 ﻿using Halcon_SDK_DLL.Halcon_Examples_Method;
 using HanGao.View.User_Control.Vision_Calibration;
 using Kitware.VTK;
+using MVS_SDK_Base.Model;
+using Ookii.Dialogs.Wpf;
 using System.Drawing;
+using System.Windows.Controls.Primitives;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static HanGao.ViewModel.UC_Vision_Calibration_Image_VM;
@@ -128,8 +131,10 @@ namespace HanGao.ViewModel
         /// </summary>
         public MVS_Camera_Parameter_Model Camera_Parameter_Val { set; get; } = new MVS_Camera_Parameter_Model();
 
-
-
+        /// <summary>
+        /// 相机标定界面选择项
+        /// </summary>
+        public int UI_Camera_Calibration_SelectedIndex { set; get; } = -1;
 
 
         /// <summary>
@@ -815,6 +820,153 @@ namespace HanGao.ViewModel
 
             });
         }
+
+
+        /// <summary>
+        /// 选择相机设备参数导入
+        /// </summary>
+        public ICommand Selected_Camera_Paramer_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                ComboBox E = Sm.Source as ComboBox;
+
+
+
+
+                try
+                {
+
+
+                    if (E.SelectedValue != null)
+                    {
+
+                        MVS_Camera_Info_Model _M = E.SelectedValue as MVS_Camera_Info_Model;
+
+
+                        /////判断相机设备是否有内参数据
+                        //if (_M.Camera_Calibration.Camera_Calibration_State != MVS_SDK_Base.Model.Camera_Calibration_File_Type_Enum.无标定)
+                        //{
+
+
+                            //对应选择控件不同操作
+                            switch (Enum.Parse<Camera_Connect_Control_Type_Enum>(E.Tag.ToString()))
+                            {
+
+                                case Camera_Connect_Control_Type_Enum.Camera_0:
+
+                                    //判断相机选择是否唯一
+                                        if (_M.Camera_Info.SerialNumber != Camera_1_Select_Val?.Camera_Info.SerialNumber  )
+                                    {
+
+                                    if (_M.Camera_Calibration.Camera_Calibration_State!= Camera_Calibration_File_Type_Enum.无标定 )
+                                    {
+
+
+                                        Camera_Calibration_0 = new Camera_Calibration_Info_Model() { Camera_Calibration_Paramteters = new Halcon_Camera_Calibration_Parameters_Model(_M.Camera_Calibration.Camera_Calibration_Paramteters.HCamPar) };
+                                    }
+                                 
+
+                                    }
+                                    else
+                                    {
+
+                                        throw new Exception("选择" + _M.Camera_Info.SerialNumber + " 相机设备与 Camera 1 的设备相同，请重新选择相机设备!");
+                                    }
+
+                                    break;
+                                case Camera_Connect_Control_Type_Enum.Camera_1:
+
+                                    //判断相机选择是否唯一
+
+                                    if (_M.Camera_Info.SerialNumber != Camera_0_Select_Val?.Camera_Info.SerialNumber)
+                                    {
+                                        Camera_Calibration_1 = new Camera_Calibration_Info_Model() { Camera_Calibration_Paramteters = new Halcon_Camera_Calibration_Parameters_Model(_M.Camera_Calibration.Camera_Calibration_Paramteters.HCamPar) };
+
+
+                                    }
+                                    else
+                                    {
+
+                                        throw new Exception("选择 " + _M.Camera_Info.SerialNumber + " 相机设备与 Camera 0 的选择相同，请重新选择相机设备!");
+                                    }
+
+                                    break;
+
+                            }
+                        //}
+                        //else
+                        //{
+                        //    throw new Exception(_M.Camera_Info.SerialNumber + "：相机内参没标定，请标定后再操作!");
+
+                        //}
+                    }
+
+                }
+                catch (Exception _e)
+                {
+                    //取消选择,清理数据显示
+                    E.SelectedIndex = -1;
+                    switch (Enum.Parse<Camera_Connect_Control_Type_Enum>(E.Tag.ToString()))
+                    {
+
+                        case Camera_Connect_Control_Type_Enum.Camera_0:
+
+
+                            Camera_Calibration_0 = new Camera_Calibration_Info_Model();
+
+                            break;
+                        case Camera_Connect_Control_Type_Enum.Camera_1:
+
+                            Camera_Calibration_1 = new Camera_Calibration_Info_Model();
+
+
+
+                            break;
+
+                    }
+
+                    User_Log_Add(_e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+
+
+                }
+            });
+        }
+
+        /// <summary>
+        ///  相机设备切换模式
+        /// </summary>
+        public ICommand Camera_Diver_Model_Select_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                 ToggleButton E = Sm.Source as ToggleButton;
+
+   
+                ///本地模式下清空选择项目
+                switch (Enum.Parse<Camera_Connect_Control_Type_Enum>((string)E.Tag))
+                {
+                    case Camera_Connect_Control_Type_Enum.Camera_0:
+
+                        Camera_Calibration_0=new Camera_Calibration_Info_Model() { HaneEye_Calibration_Diver_Model = HaneEye_Calibration_Diver_Model_Enum.Local};
+                        Camera_0_Select_Val = null;
+                         break;
+                    case Camera_Connect_Control_Type_Enum.Camera_1:
+
+                    Camera_Calibration_1= new Camera_Calibration_Info_Model() { HaneEye_Calibration_Diver_Model = HaneEye_Calibration_Diver_Model_Enum.Local };
+                        Camera_1_Select_Val = null;
+
+
+                        break;
+                }
+
+                User_Log_Add((string)E.Tag + "：已切换本地模式，请手动输入！", Log_Show_Window_Enum.Home, MessageBoxImage.Exclamation);
+
+
+
+            });
+        }
+
 
 
 

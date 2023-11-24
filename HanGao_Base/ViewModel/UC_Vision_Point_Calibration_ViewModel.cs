@@ -1,23 +1,11 @@
-﻿using Halcon_SDK_DLL;
-using HalconDotNet;
-using HanGao.View.User_Control.Vision_Calibration;
+﻿using HanGao.View.User_Control.Vision_Calibration;
 using HanGao.View.User_Control.Vision_Control;
 using HanGao.View.User_Control.Vision_hand_eye_Calibration;
-using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
-using KUKA_Socket.Models;
 using Microsoft.Win32;
-using MVS_SDK_Base.Model;
-using System.Collections.Generic;
-using System.IO;
-using System.Text.RegularExpressions;
-using System.Windows.Documents;
-using System.Windows.Media.Media3D;
 using System.Xml.Serialization;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
-using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static HanGao.ViewModel.UC_Visal_Function_VM;
 using static HanGao.ViewModel.UC_Vision_Auto_Model_ViewModel;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
@@ -41,7 +29,7 @@ namespace HanGao.ViewModel
                 if (Display_Status(Halcon_SDK.Read_Mat2d_Method(ref _Mat2D, _S.Calibration_Model.Vision_Area, _S.Calibration_Model.Work_Area)).GetResult())
                 {
                     //从相机获取照片
-                    if (Display_Status(UC_Vision_CameraSet_ViewModel.Get_Image(ref _Image, Find_Calibration.Get_Image_Model,  Window_Show_Name_Enum.Features_Window, Image_Location_UI)).GetResult())
+                    if (Display_Status(UC_Vision_CameraSet_ViewModel.Get_Image(ref _Image, Find_Calibration.Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI)).GetResult())
                     {
                         //清楚模板内容，查找图像模型
                         if (Find_Calibration_Mod(_Image, Find_Calibration) == 9)
@@ -147,26 +135,26 @@ namespace HanGao.ViewModel
                     if (Display_Status(Halcon_SDK.Calibration_Results_Compute(ref _Calibration_Results_Point, Calibration_P, Robot_P, ref _Mat2D)).GetResult())
                     {
                         Calibration_Error_UI = _Calibration_Results_Point;
-                    //计算标定误差
-                    //保存矩阵方法
-                    if (Display_Status(Halcon_SDK.Save_Mat2d_Method(_Mat2D, Calibration_Save_Location_UI + Calibration_Area_UI + "_" + Calibration_Work_Area)).GetResult())
-                    {
-                        //回传标定结果
-                        _Send.IsStatus = 1;
-                        _Send.Message_Error = HVE_Result_Enum.Run_OK.ToString() + ",Result Variance X : " + Calibration_Error_UI.X + ", Y : " + Calibration_Error_UI.Y;
-                        //属性内容转换长文本
-                        string _Str = KUKA_Send_Receive_Xml.Property_Xml<Calibration_Data_Send>(_Send);
-                        //显示UI层
-                        UC_Vision_Robot_Protocol_ViewModel.Send_Socket_String = _Str;
-                        return _Str;
-                    }
-                    else
-                    {
-                        _Send.IsStatus = 0;
-                        _Send.Message_Error = HVE_Result_Enum.Error_Match_Math2D_Error.ToString();
-                        string _Str = KUKA_Send_Receive_Xml.Property_Xml<Calibration_Data_Send>(_Send);
-                        return _Str;
-                    }
+                        //计算标定误差
+                        //保存矩阵方法
+                        if (Display_Status(Halcon_SDK.Save_Mat2d_Method(_Mat2D, Calibration_Save_Location_UI + Calibration_Area_UI + "_" + Calibration_Work_Area)).GetResult())
+                        {
+                            //回传标定结果
+                            _Send.IsStatus = 1;
+                            _Send.Message_Error = HVE_Result_Enum.Run_OK.ToString() + ",Result Variance X : " + Calibration_Error_UI.X + ", Y : " + Calibration_Error_UI.Y;
+                            //属性内容转换长文本
+                            string _Str = KUKA_Send_Receive_Xml.Property_Xml<Calibration_Data_Send>(_Send);
+                            //显示UI层
+                            UC_Vision_Robot_Protocol_ViewModel.Send_Socket_String = _Str;
+                            return _Str;
+                        }
+                        else
+                        {
+                            _Send.IsStatus = 0;
+                            _Send.Message_Error = HVE_Result_Enum.Error_Match_Math2D_Error.ToString();
+                            string _Str = KUKA_Send_Receive_Xml.Property_Xml<Calibration_Data_Send>(_Send);
+                            return _Str;
+                        }
                     }
                     else
                     {
@@ -264,7 +252,7 @@ namespace HanGao.ViewModel
         {
             List<Point3D> _Calibration_List = new List<Point3D>();
             //查找九点定位图像
-            if (Display_Status( Halcon_SDK.Find_Calibration(ref _Calibration_List, Features_Window.HWindow, _Image, _Find_Model)).GetResult())
+            if (Display_Status(Halcon_SDK.Find_Calibration(ref _Calibration_List, Features_Window.HWindow, _Image, _Find_Model)).GetResult())
             {
                 //控件显示识别特征数量
                 int _Number = _Calibration_List.Count();
@@ -366,12 +354,12 @@ namespace HanGao.ViewModel
                 {
                     if (window.GetType() == typeof(Camera_Parametric_Home))//使用窗体类进行匹配查找
                     {
-                        User_Log_Add("相机内参标定工具窗口已经打开!", Log_Show_Window_Enum.Home);
+                        User_Log_Add("相机内参标定工具窗口已经打开!", Log_Show_Window_Enum.Home, MessageBoxImage.Error);
                         return;
                     }
-               
-                   
-               
+
+
+
 
 
                 }
@@ -379,27 +367,15 @@ namespace HanGao.ViewModel
                 Camera_Parametric_Home Parametric_Window =
                 new Camera_Parametric_Home()
                 {
-                    //Camera_Set = new UC_Vision_CameraSet()
-                    //{
-                    //    //DataContext = new UC_Vision_CameraSet_ViewModel()
-                    //    //{
 
-                    //    //}
-                    //},
                     DataContext = new Vision_Calibration_Home_VM()
                     {
 
                     },
-                    //Calibration_3D_Results = new HSmartWindowControlWPF() { },
-                    //Calibration_Window_1 = new HSmartWindowControlWPF() { },
-                    //Calibration_Window_2 = new HSmartWindowControlWPF() { }
+
                 };
 
-                //Parametric_Window.Calibration_3D_Results.HInitWindow += Calibration_3D_Results_HInitWindow;
-   
-                //HWindows_Initialization(Parametric_Window.Calibration_3D_Results);
-                //HWindows_Initialization(Parametric_Window.Calibration_Window_1);
-                //HWindows_Initialization(Parametric_Window.Calibration_Window_2);
+
                 Parametric_Window.Show();
 
 
@@ -413,7 +389,7 @@ namespace HanGao.ViewModel
         /// </summary>
         public ICommand Cameras_HandEye_Calibration_Window_Comm
         {
-            get => new RelayCommand<RoutedEventArgs>( (Sm) =>
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
 
                 foreach (Window window in Application.Current.Windows)
@@ -443,7 +419,7 @@ namespace HanGao.ViewModel
 
                 HandEye_Window.Show();
 
-               
+
                 //await Task.Delay(100);
             });
         }

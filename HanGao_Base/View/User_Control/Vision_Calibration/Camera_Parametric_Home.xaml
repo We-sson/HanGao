@@ -271,11 +271,11 @@
                                                        VerticalContentAlignment="Center"
                                                        HDisableAutoResize="True"
                                                        SnapsToDevicePixels="True">
-                            <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Calibration_Window_1.DisplayImage}" />
-                            <Halcon:HIconicDisplayObjectWPF HColor="{Binding Calibration_Window_1.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
-                                                            HDraw="{Binding Calibration_Window_1.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
-                                                            IconicObject="{Binding Calibration_Window_1.DisplayRegion}" />
-                            <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Calibration_Window_1.DisplayXLD}" />
+                            <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.Calibration_Window_1.DisplayImage}" />
+                            <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.Calibration_Window_1.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
+                                                            HDraw="{Binding Halcon_Window_Display.Calibration_Window_1.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
+                                                            IconicObject="{Binding Halcon_Window_Display.Calibration_Window_1.DisplayRegion}" />
+                            <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.Calibration_Window_1.DisplayXLD}" />
 
                             <!--<i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Loaded">
@@ -312,11 +312,11 @@
                                                        VerticalContentAlignment="Center"
                                                        HDisableAutoResize="True"
                                                        SnapsToDevicePixels="True">
-                            <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Calibration_Window_2.DisplayImage}" />
-                            <Halcon:HIconicDisplayObjectWPF HColor="{Binding Calibration_Window_2.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
-                                                            HDraw="{Binding Calibration_Window_2.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
-                                                            IconicObject="{Binding Calibration_Window_2.DisplayRegion}" />
-                            <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Calibration_Window_2.DisplayXLD}" />
+                            <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.Calibration_Window_2.DisplayImage}" />
+                            <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.Calibration_Window_2.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
+                                                            HDraw="{Binding Halcon_Window_Display.Calibration_Window_2.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
+                                                            IconicObject="{Binding Halcon_Window_Display.Calibration_Window_2.DisplayRegion}" />
+                            <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.Calibration_Window_2.DisplayXLD}" />
                             <Halcon:HSmartWindowControlWPF.Style>
                                 <Style TargetType="Halcon:HSmartWindowControlWPF">
                                     <Style.Triggers>
@@ -1041,19 +1041,126 @@
             <TabItem Style="{DynamicResource Vision_TabItemStyle}"
                      Padding="40,5,40,5"
                      FontSize=" 16"
-                     Header="标定图像列表">
+                     Header="标定图像列表"
+                     IsSelected="True">
 
                 <Grid>
 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
+                        <ColumnDefinition />
                         <ColumnDefinition Width="130" />
                     </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height=" auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+
+                    <Border Grid.Row=" 0" Grid.Column="0"
+                            Grid.ColumnSpan=" 2"
+                            Height=" 40"
+                            Margin="0"
+                            Background="{DynamicResource 全局_按钮_蓝颜色}"
+                            CornerRadius=" 0">
+
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+
+
+                            <Grid Grid.Column=" 0">
+
+                                <TextBlock Text="Camera 0 图像"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                           FontSize="20"
+                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+                                <Button Style="{DynamicResource Halcon_Window_Button}"
+                                        Width="30"
+                                        Height=" 30"
+                                        Margin="0,0,20,0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Background="{DynamicResource 全局_按钮_灰颜色}"
+                                        Tag="Camera_0">
+                                    <TextBlock Text="&#xe672;"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_图标库}"
+                                               FontSize="16"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding HandEye_Local_Image_Mode_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
+                                </Button>
 
 
 
 
-                    <DataGrid HorizontalContentAlignment="Stretch"
+                            </Grid>
+
+
+                            <Grid Grid.Column=" 1">
+
+
+                                <TextBlock Grid.Column=" 1"
+                                           Text="Canera 1 图像"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                           FontSize="20"
+                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+
+
+                                <Button Style="{DynamicResource Halcon_Window_Button}"
+                                        Width="30"
+                                        Height=" 30"
+                                        Margin="0,0,20,0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Background="{DynamicResource 全局_按钮_灰颜色}"
+                                        Tag="Camera_1">
+                                    <TextBlock Text="&#xe672;"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_图标库}"
+                                               FontSize="16"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding HandEye_Local_Image_Mode_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
+                                </Button>
+
+
+
+                            </Grid>
+
+                        </Grid>
+
+                    </Border>
+
+                    <DataGrid Grid.Row=" 1"
+                              HorizontalContentAlignment="Stretch"
                               VerticalContentAlignment="Stretch"
                               AutoGenerateColumns="False"
                               Background="Transparent"
@@ -1077,7 +1184,7 @@
                               RowHeaderWidth="0"
                               RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
                               ScrollViewer.VerticalScrollBarVisibility="Auto"
-                              SelectedIndex="-1"
+                              SelectedIndex="{Binding UI_Camera_Calibration_SelectedIndex}"
                               SelectedValue="{Binding Calibretion_Image_Selected}"
                               SelectionMode="Single"
                               SelectionUnit="FullRow">
@@ -1124,7 +1231,7 @@
 
 
 
-                                    <TextBlock Text="Camera_0"
+                                    <TextBlock Text="名称"
                                                Margin="4"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
@@ -1191,9 +1298,59 @@
 
                             </DataGridTemplateColumn>
 
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+
+                    <DataGrid Grid.Row=" 1" Grid.Column=" 1"
+                              HorizontalContentAlignment="Stretch"
+                              VerticalContentAlignment="Stretch"
+                              AutoGenerateColumns="False"
+                              Background="Transparent"
+                              BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                              BorderThickness="0,0,3,0"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              CanUserReorderColumns="False"
+                              CanUserResizeColumns="False"
+                              CanUserResizeRows="False"
+                              CanUserSortColumns="False"
+                              CellStyle="{DynamicResource Point_UI_DataGridCellStyle}"
+                              ColumnHeaderHeight="40"
+                              ColumnHeaderStyle="{DynamicResource Point_UI_DataGridColumnHeaderStyle}"
+                              ColumnWidth=" 40"
+                              FontFamily="{DynamicResource 全局_文字_数字字体}"
+                              Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                              GridLinesVisibility="Horizontal"
+                              HeadersVisibility="Column"
+                              ItemsSource="{Binding Camera_Calibration_Image_List}"
+                              RowHeaderWidth="0"
+                              RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
+                              ScrollViewer.VerticalScrollBarVisibility="Auto"
+                              SelectedIndex="{Binding UI_Camera_Calibration_SelectedIndex}"
+                              SelectedValue="{Binding Calibretion_Image_Selected}"
+                              SelectionMode="Single"
+                              SelectionUnit="FullRow">
+
+
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding Calibration_Image_Selected_Comm}"
+                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                       PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <DataGrid.Resources>
+                            <Style BasedOn="{StaticResource Right_ScrollBarStyle}" TargetType="ScrollBar" />
+
+                        </DataGrid.Resources>
+                        <DataGrid.Columns>
+
+
                             <DataGridTemplateColumn Width="100">
                                 <DataGridTemplateColumn.Header>
-                                    <TextBlock Text="Camera_1"
+                                    <TextBlock Text="名称"
                                                Margin="4"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
@@ -1266,10 +1423,20 @@
                         </DataGrid.Columns>
                     </DataGrid>
 
-                    <StackPanel Grid.Column=" 1" Orientation="Vertical">
 
 
-                        <Menu Style="{DynamicResource Menu_Style}"
+
+
+
+
+
+                    <StackPanel Grid.Row=" 0" Grid.Column=" 2"
+                                Grid.RowSpan=" 2"
+                                HorizontalAlignment="Center"
+                                Orientation="Vertical">
+
+
+                        <!--<Menu Style="{DynamicResource Menu_Style}"
                               Margin="5"
                               HorizontalAlignment="Right"
                               VerticalAlignment="Center"
@@ -1323,7 +1490,7 @@
                                 </MenuItem>
                             </MenuItem>
 
-                        </Menu>
+                        </Menu>-->
 
 
 
@@ -1408,8 +1575,7 @@
             <TabItem Style="{DynamicResource Vision_TabItemStyle}"
                      Padding="40,5,40,5"
                      FontSize=" 16"
-                     Header="标定日志"
-                     IsSelected="True">
+                     Header="标定日志">
                 <UC_Working:User_Control_Log DataContext="{Binding Source={StaticResource Locator}, Path=User_Log.UI_Calibration_Log}" />
             </TabItem>
 
@@ -1661,7 +1827,7 @@
                                       Margin="0,0,0,10"
                                       HorizontalContentAlignment="Stretch"
                                       VerticalContentAlignment="Stretch"
-                                      IsExpanded="False">
+                                      IsExpanded="True">
                                 <Expander.Header>
                                     <Border x:Name="Radio_1"
                                             Margin="0"
@@ -1760,7 +1926,7 @@
 
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="Unchecked">
-                                                        <i:InvokeCommandAction Command="{Binding HandEye_Diver_Model_Select_Comm}"
+                                                        <i:InvokeCommandAction Command="{Binding Camera_Diver_Model_Select_Comm}"
                                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
@@ -1802,11 +1968,10 @@
                                                       HorizontalContentAlignment="Left"
                                                       VerticalContentAlignment="Center"
                                                       FontSize="16"
-                                                      IsDropDownOpen="False"
-                                                      IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Binding Camera_Calibration_Info_List}"
                                                       SelectedIndex=" -1"
-                                                      SelectedValue="{Binding Camera_0_Select_Val}">
+                                                      SelectedValue="{Binding Camera_0_Select_Val}"
+                                                      Tag="Camera_0">
                                                 <ComboBox.Style>
                                                     <Style BasedOn="{StaticResource Data_ComboBoxStyle}" TargetType="ComboBox">
                                                         <Setter Property="IsEnabled" Value="True" />
@@ -1910,7 +2075,18 @@
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
                                                      FontSize="16"
-                                                     IsReadOnly="True" />
+                                                     IsReadOnly="True">
+                                                <TextBox.Style>
+                                                    <Style TargetType="TextBox">
+                                                        <Setter Property="IsEnabled" Value="True" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_0_Diver}" Value="false">
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBox.Style>
+                                            </TextBox>
                                             <Label Grid.Column=" 3"
                                                    Content=""
                                                    Margin="0"
@@ -1951,6 +2127,16 @@
                                                         <Binding FallbackValue="...." Path="Camera_0_Select_Val.Camera_Info.HeightMax" />
                                                     </MultiBinding>
                                                 </TextBox.Text>
+                                                <TextBox.Style>
+                                                    <Style TargetType="TextBox">
+                                                        <Setter Property="IsEnabled" Value="True" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_0_Diver}" Value="false">
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBox.Style>
                                             </TextBox>
                                             <Label Grid.Column=" 3"
                                                    Content=""
@@ -1980,14 +2166,33 @@
 
 
                                             <TextBox Grid.Column=" 1"
-                                                     Text="{Binding Camera_Calibration_0.Camera_Calibration_State}"
+                                                     Text="{Binding Camera_0_Select_Val.Camera_Calibration.Camera_Calibration_State}"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
-                                                     Background="{DynamicResource 全局_按钮_黄颜色}"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
                                                      FontSize="16"
-                                                     IsReadOnly="True" />
+                                                     IsReadOnly="True">
+                                                <TextBox.Style>
+                                                    <Style TargetType="TextBox">
+                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_黄颜色}" />
+
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_0_Diver}" Value="false">
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Camera_0_Select_Val.Camera_Calibration.Camera_Calibration_State}" Value="{x:Static MVS_Enum:Camera_Calibration_File_Type_Enum.内参标定}">
+                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Camera_0_Select_Val.Camera_Calibration.Camera_Calibration_State}" Value="{x:Static MVS_Enum:Camera_Calibration_File_Type_Enum.双目标定}">
+                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBox.Style>
+                                            </TextBox>
                                             <Label Grid.Column=" 3"
                                                    Content=""
                                                    Margin="0"
@@ -2014,14 +2219,34 @@
 
 
                                             <TextBox Grid.Column=" 1"
-                                                     Text="{Binding Camera_Calibration_0.Calibrated_Accuracy, FallbackValue=....}"
+                                                     Text="{Binding Camera_0_Select_Val.Camera_Calibration.Calibrated_Accuracy, FallbackValue=....}"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
-                                                     Background="{DynamicResource 全局_按钮_黄颜色}"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
                                                      FontSize="16"
-                                                     IsReadOnly="True" />
+                                                     IsReadOnly="True">
+                                                <TextBox.Style>
+                                                    <Style TargetType="TextBox">
+
+                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_0_Diver}" Value="false">
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Camera_0_Select_Val.Camera_Calibration.Calibrated_Accuracy}" Value="0">
+                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_黄颜色}" />
+
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Camera_0_Select_Val.Camera_Calibration.Calibrated_Accuracy}" Value="{x:Null}">
+                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_黄颜色}" />
+
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBox.Style>
+                                            </TextBox>
                                             <Label Grid.Column=" 3"
                                                    Content="mm"
                                                    Margin="0"
@@ -2531,7 +2756,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Calibration_Paramteters_0.Cy}" />
+                                                    Value="{Binding Camera_Calibration_0.Camera_Calibration_Paramteters.Cy}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Middle_Height_UI_0, Path=Value, StringFormat={}{0:F4}}"
@@ -2617,7 +2842,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Calibration_Paramteters_0.Image_Height}" />
+                                                    Value="{Binding Camera_Calibration_0.Camera_Calibration_Paramteters.Image_Height}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Max_Heigth_UI_0, Path=Value}"
@@ -2657,7 +2882,7 @@
                                       Margin="0,0,0,10"
                                       HorizontalContentAlignment="Stretch"
                                       VerticalContentAlignment="Stretch"
-                                      IsExpanded="False">
+                                      IsExpanded="True">
                                 <Expander.Header>
                                     <Border x:Name="Radio_2"
                                             Margin="0"
@@ -2755,7 +2980,7 @@
 
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="Unchecked">
-                                                        <i:InvokeCommandAction Command="{Binding HandEye_Diver_Model_Select_Comm}"
+                                                        <i:InvokeCommandAction Command="{Binding Camera_Diver_Model_Select_Comm}"
                                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
@@ -2794,22 +3019,24 @@
                                                       HorizontalContentAlignment="Left"
                                                       VerticalContentAlignment="Center"
                                                       FontSize="16"
-                                                      IsDropDownOpen="False"
-                                                      IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Binding Camera_Calibration_Info_List}"
                                                       SelectedIndex=" -1"
-                                                      SelectedValue="{Binding Camera_1_Select_Val}">
+                                                      SelectedValue="{Binding Camera_1_Select_Val}"
+                                                      Tag="Camera_1">
                                                 <ComboBox.Style>
                                                     <Style BasedOn="{StaticResource Data_ComboBoxStyle}" TargetType="ComboBox">
                                                         <Setter Property="IsEnabled" Value="True" />
                                                         <Style.Triggers>
 
-                                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_0_Diver}" Value="false">
+                                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_1_Diver}" Value="false">
                                                                 <Setter Property="IsEnabled" Value="False" />
                                                             </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
                                                 </ComboBox.Style>
+
+
+
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="SelectionChanged">
                                                         <i:InvokeCommandAction Command="{Binding Selected_Camera_Paramer_Comm}"
@@ -2902,7 +3129,18 @@
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
                                                      FontSize="16"
-                                                     IsReadOnly="True" />
+                                                     IsReadOnly="True">
+                                                <TextBox.Style>
+                                                    <Style TargetType="TextBox">
+                                                        <Setter Property="IsEnabled" Value="True" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_1_Diver}" Value="false">
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBox.Style>
+                                            </TextBox>
                                             <Label Grid.Column=" 3"
                                                    Content=""
                                                    Margin="0"
@@ -2937,6 +3175,16 @@
                                                      BorderThickness="2"
                                                      FontSize="16"
                                                      IsReadOnly="True">
+                                                <TextBox.Style>
+                                                    <Style TargetType="TextBox">
+                                                        <Setter Property="IsEnabled" Value="True" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_1_Diver}" Value="false">
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBox.Style>
                                                 <TextBox.Text>
                                                     <MultiBinding StringFormat="{}{0} X {1}">
                                                         <Binding FallbackValue="...." Path="Camera_1_Select_Val.Camera_Info.WidthMax" />
@@ -2972,14 +3220,33 @@
 
 
                                             <TextBox Grid.Column=" 1"
-                                                     Text="{Binding Camera_Calibration_1.Camera_Calibration_State}"
+                                                     Text="{Binding Camera_1_Select_Val.Camera_Calibration.Camera_Calibration_State}"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
-                                                     Background="{DynamicResource 全局_按钮_黄颜色}"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
                                                      FontSize="16"
-                                                     IsReadOnly="True" />
+                                                     IsReadOnly="True">
+                                                <TextBox.Style>
+                                                    <Style TargetType="TextBox">
+                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_黄颜色}" />
+
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_1_Diver}" Value="false">
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Camera_1_Select_Val.Camera_Calibration.Camera_Calibration_State}" Value="{x:Static MVS_Enum:Camera_Calibration_File_Type_Enum.内参标定}">
+                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Camera_1_Select_Val.Camera_Calibration.Camera_Calibration_State}" Value="{x:Static MVS_Enum:Camera_Calibration_File_Type_Enum.双目标定}">
+                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBox.Style>
+                                            </TextBox>
                                             <Label Grid.Column=" 3"
                                                    Content=""
                                                    Margin="0"
@@ -3006,14 +3273,34 @@
 
 
                                             <TextBox Grid.Column=" 1"
-                                                     Text="{Binding Camera_Calibration_1.Calibrated_Accuracy, FallbackValue=....}"
+                                                     Text="{Binding Camera_1_Select_Val.Camera_Calibration.Calibrated_Accuracy, FallbackValue=....}"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
-                                                     Background="{DynamicResource 全局_按钮_黄颜色}"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
                                                      FontSize="16"
-                                                     IsReadOnly="True" />
+                                                     IsReadOnly="True">
+                                                <TextBox.Style>
+                                                    <Style TargetType="TextBox">
+
+                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_1_Diver}" Value="false">
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Camera_1_Select_Val.Camera_Calibration.Calibrated_Accuracy}" Value="0">
+                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_黄颜色}" />
+
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Camera_1_Select_Val.Camera_Calibration.Calibrated_Accuracy}" Value="{x:Null}">
+                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_黄颜色}" />
+
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBox.Style>
+                                            </TextBox>
                                             <Label Grid.Column=" 3"
                                                    Content="mm"
                                                    Margin="0"
@@ -3854,7 +4141,7 @@
                                                             <MultiDataTrigger>
 
                                                                 <MultiDataTrigger.Conditions>
-                                                                    <Condition Binding="{Binding HandEye_Check.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_0}" />
+                                                                    <Condition Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_0}" />
                                                                     <Condition Binding="{Binding Camera_0_Select_Val.Camer_Status}" Value="{x:Static MVS_Enum:MV_CAM_Device_Status_Enum.Connecting}" />
                                                                 </MultiDataTrigger.Conditions>
                                                                 <MultiDataTrigger.Setters>
@@ -3867,7 +4154,7 @@
                                                             </MultiDataTrigger>
                                                             <MultiDataTrigger>
                                                                 <MultiDataTrigger.Conditions>
-                                                                    <Condition Binding="{Binding HandEye_Check.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_1}" />
+                                                                    <Condition Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_1}" />
                                                                     <Condition Binding="{Binding Camera_1_Select_Val.Camer_Status}" Value="{x:Static MVS_Enum:MV_CAM_Device_Status_Enum.Connecting}" />
                                                                 </MultiDataTrigger.Conditions>
                                                                 <MultiDataTrigger.Setters>
@@ -4292,7 +4579,7 @@
 
                                         <Grid Height=" 35" Margin="0,5,0,5">
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" 90" />
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
 
@@ -4336,7 +4623,7 @@
 
 
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" 90" />
                                                 <ColumnDefinition />
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
@@ -4353,7 +4640,7 @@
                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                             <CheckBox Style="{DynamicResource CheckBoxStyle1}" x:Name="Live_Camera" Grid.Column=" 1"
-                                                      IsChecked="{Binding HandEye_Camera_Parameters.Halcon_Find_Calib_Model}"
+                                                      IsChecked="{Binding Camera_Interna_Parameters.Halcon_Find_Calib_Model}"
                                                       Height=" 38"
                                                       Margin="0,0,10,0"
                                                       HorizontalContentAlignment="Center"
@@ -5261,7 +5548,7 @@
                                                                  IsIndeterminate="True"
                                                                  Maximum=" 100"
                                                                  Minimum=" 0"
-                                                                 Value="{Binding Calibration_Results_State_Val, UpdateSourceTrigger=PropertyChanged}" />
+                                                                 Value="{Binding Camera_0_Results.Result_Error_Val, UpdateSourceTrigger=PropertyChanged}" />
 
                                                     <TextBlock x:Key="Calibration_Results_Txt"
                                                                Text="标定数据"
@@ -6152,7 +6439,7 @@
                                                                  IsIndeterminate="True"
                                                                  Maximum=" 100"
                                                                  Minimum=" 0"
-                                                                 Value="{Binding Calibration_Results_State_Val, UpdateSourceTrigger=PropertyChanged}" />
+                                                                 Value="{Binding Camera_1_Results.Result_Error_Val, UpdateSourceTrigger=PropertyChanged}" />
 
                                                     <TextBlock x:Key="Calibration_Results_Txt"
                                                                Text="标定数据"
