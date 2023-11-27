@@ -790,6 +790,8 @@ namespace HanGao.ViewModel
         }
 
 
+
+
         public void Camera_Calibration_ImageList_Data(Camera_Connect_Control_Type_Enum _Camera_Enum)
         {
 
@@ -816,7 +818,38 @@ namespace HanGao.ViewModel
                         ///进行标定
                         List<Calibration_Image_Camera_Model> _Calib_Res= Halcon_Camera_Calibra.Camera_Cailbration_Results(ref _Results, _ImageList, Camera_Interna_Parameters);
 
+
+                        //相机设备0 结果
                         Camera_0_Results = _Results;
+
+
+                        ///清空旧的数据
+                        Camera_Calibration_Image_List.Clear();
+
+
+                        ///导入已经标定的新数据
+                        foreach (Calibration_Image_Camera_Model _Image_List in _Calib_Res)
+                        {
+
+
+                        //标定列表集合模型
+                        Calibration_Image_List_Model _Calib_Iamge = new Calibration_Image_List_Model()
+                        {
+                            Camera_No = Halcon_Camera_Calibra.Camera_Connect_Model,
+                            Image_No = Camera_Calibration_Image_List.Count
+                        };
+
+                        _Calib_Iamge.Set_Parameter_Val(_Image_List);
+
+                        ///添加到列表
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+
+                            Camera_Calibration_Image_List.Add(_Calib_Iamge);
+
+                        });
+
+                        }
 
                     }
                     else

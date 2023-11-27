@@ -162,17 +162,10 @@ namespace Halcon_SDK_DLL
 
             try
             {
-
-            if (_ImageList.Count <10)
-            {
-                throw new Exception("相机内参标定图像小于10张！");
-
-            }
-
-
+                ///创建标定
                 Creation_HandEye_Calibration(_CalibParam);
 
-
+                //遍历图片
                 for (int i = 0; i < _ImageList.Count; i++)
                 {
 

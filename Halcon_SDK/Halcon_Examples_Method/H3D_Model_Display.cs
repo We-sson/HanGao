@@ -133,10 +133,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     }
 
 
-                    //HOperatorSet.WaitSeconds(0.5);
-                    While_ResetEvent.Set();
-                    HOperatorSet.WaitSeconds(0.05);
-                    While_ResetEvent.Reset();
+                    ////HOperatorSet.WaitSeconds(0.5);
+                    //While_ResetEvent.Set();
+                    //HOperatorSet.WaitSeconds(0.05);
+                    //While_ResetEvent.Reset();
                 }
 
             };
@@ -1307,6 +1307,11 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     hv_ObjectModel3D.Add(_model);
                 }
 
+
+                //HOperatorSet.WaitSeconds(0.5);
+                While_ResetEvent.Set();
+                HOperatorSet.WaitSeconds(0.05);
+                While_ResetEvent.Reset();
 
             }
 
