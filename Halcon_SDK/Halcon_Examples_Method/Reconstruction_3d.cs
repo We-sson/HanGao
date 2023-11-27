@@ -1,5 +1,6 @@
 
 
+using Halcon_SDK_DLL.Model;
 using HalconDotNet;
 using System;
 using System.Collections.Generic;
@@ -3896,6 +3897,86 @@ public class Reconstruction_3d
 
             throw HDevExpDefaultException;
         }
+    }
+
+
+
+    /// <summary>
+    /// 获得标定的相机三维模型
+    /// </summary>
+    /// <param name="_HCalibData"></param>
+    /// <param name="_Image_No"></param>
+    /// <param name="_Camera_No"></param>
+    /// <returns></returns>
+    public List<HObjectModel3D> Get_Calibration_Camera_3DModel(HCalibData _HCalibData, int _Image_No, int _Camera_No = 0)
+    {
+
+        HTuple _calib_X;
+        HTuple _calib_Y;
+        HTuple _calib_Z;
+        HObjectModel3D _Calib_3D = new HObjectModel3D();
+
+        HTuple _calibObj_Pos;
+        HTuple _Camera_Param;
+        HTuple _Camera_Param_txt;
+        HTuple _Camera_Param_Ini;
+        HTuple _Camera_Param_Pos;
+        List<HObjectModel3D> _AllModel = new List<HObjectModel3D>();
+        //标定后才能显示
+
+        try
+        {
+
+            _calib_X = _HCalibData.GetCalibData("calib_obj", 0, "x");
+            _calib_Y = _HCalibData.GetCalibData("calib_obj", 0, "y");
+            _calib_Z = _HCalibData.GetCalibData("calib_obj", 0, "z");
+
+            _Calib_3D.GenObjectModel3dFromPoints(_calib_X, _calib_Y, _calib_Z);
+
+            _calibObj_Pos = _HCalibData.GetCalibData("calib_obj_pose", (new HTuple(0)).TupleConcat(_Image_No), new HTuple("pose"));
+
+            //_calibObj_Pos= Halcon_CalibSetup_ID.GetCalibDataObservPose(0, 0, _Selected.Image_No);
+
+            _Calib_3D = _Calib_3D.RigidTransObjectModel3d(new HPose(_calibObj_Pos));
+
+            _AllModel.Add(_Calib_3D);
+
+            HTuple _HCamera = _HCalibData.GetCalibData("model", "general", "camera_setup_model");
+            HCameraSetupModel _HCam = new HCameraSetupModel(_HCamera.H);
+            _Camera_Param = _HCam.GetCameraSetupParam(_Camera_No, "params");
+
+
+            _Camera_Param_txt = _HCalibData.GetCalibData("camera", _Camera_No, "params_labels");
+            _Camera_Param_Ini = _HCalibData.GetCalibData("camera", _Camera_No, "init_params");
+
+
+
+            _Camera_Param_Pos = _HCam.GetCameraSetupParam(_Camera_No, "pose");
+
+            Reconstruction_3d _Camer3D = new Reconstruction_3d();
+
+
+            List<HObjectModel3D> _Camera_Model = _Camer3D.gen_camera_object_model_3d(_HCam, _Camera_No, 0.05);
+
+            _AllModel.AddRange(_Camera_Model);
+
+
+
+            return _AllModel;
+
+        }
+        catch (Exception _he)
+        {
+
+            //错误清楚
+            _AllModel.Clear();
+
+            throw new Exception(HVE_Result_Enum.标定图像获得相机模型错误.ToString() + " 原因：" + _he.Message);
+
+
+
+        }
+
     }
 
 

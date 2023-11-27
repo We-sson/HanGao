@@ -107,8 +107,9 @@
                     <Border Grid.Row=" 0" Grid.Column="0"
                             MinWidth=" 280"
                             Margin="10"
-                            Padding="4"
                             Background="{DynamicResource 全局_背景_白颜色}"
+                            BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                            BorderThickness="3"
                             CornerRadius=" 10"
                             Effect="{DynamicResource 全局背景阴影}">
 
@@ -157,6 +158,7 @@
 
 
                             <ScrollViewer Style="{DynamicResource Vision_Data_List_ScrollViewerStyle}" x:Name="scrollViewer" Grid.Row=" 1" Grid.Column="0"
+                                          Margin="3"
                                           HorizontalContentAlignment="Stretch"
                                           VerticalContentAlignment="Stretch"
                                           Background="Transparent"
@@ -991,8 +993,9 @@
                     <Border Grid.Row=" 0" Grid.Column="1"
                             MinWidth=" 280"
                             Margin="10"
-                            Padding="4"
                             Background="{DynamicResource 全局_背景_白颜色}"
+                            BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                            BorderThickness="3"
                             CornerRadius=" 10"
                             Effect="{DynamicResource 全局背景阴影}">
 
@@ -1042,6 +1045,7 @@
 
 
                             <ScrollViewer Style="{DynamicResource Vision_Data_List_ScrollViewerStyle}" x:Name="scrollViewer_1" Grid.Row=" 1" Grid.Column="0"
+                                          Margin="3"
                                           HorizontalContentAlignment="Stretch"
                                           VerticalContentAlignment="Stretch"
                                           Background="Transparent"
@@ -1877,8 +1881,9 @@
                     <Border Grid.Row=" 0" Grid.Column="2"
                             MinWidth=" 280"
                             Margin="10"
-                            Padding="4"
                             Background="{DynamicResource 全局_背景_白颜色}"
+                            BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                            BorderThickness="3"
                             CornerRadius=" 10"
                             Effect="{DynamicResource 全局背景阴影}">
 
@@ -1932,6 +1937,7 @@
                             </Border>
 
                             <ScrollViewer Style="{DynamicResource Vision_Data_List_ScrollViewerStyle}" x:Name="scrollViewer_2" Grid.Row=" 1" Grid.Column="0"
+                                          Margin="3"
                                           HorizontalContentAlignment="Stretch"
                                           VerticalContentAlignment="Stretch"
                                           Background="Transparent"
@@ -2456,8 +2462,9 @@
                     <Border Grid.Row=" 0" Grid.Column="3"
                             MinWidth=" 280"
                             Margin="10"
-                            Padding="4"
                             Background="{DynamicResource 全局_背景_白颜色}"
+                            BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                            BorderThickness="3"
                             CornerRadius=" 10"
                             Effect="{DynamicResource 全局背景阴影}">
 
@@ -2512,6 +2519,7 @@
 
 
                             <ScrollViewer Style="{DynamicResource Vision_Data_List_ScrollViewerStyle}" x:Name="scrollViewer_3" Grid.Row=" 1" Grid.Column="0"
+                                          Margin="3"
                                           HorizontalContentAlignment="Stretch"
                                           VerticalContentAlignment="Stretch"
                                           Background="Transparent"
@@ -2927,11 +2935,11 @@
                                                                        VerticalContentAlignment="Center"
                                                                        HDisableAutoResize="True"
                                                                        SnapsToDevicePixels="True">
-                                            <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding HandEye_Window_1.DisplayImage}" />
-                                            <Halcon:HIconicDisplayObjectWPF HColor="{Binding HandEye_Window_1.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
-                                                                            HDraw="{Binding HandEye_Window_1.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
-                                                                            IconicObject="{Binding HandEye_Window_1.DisplayRegion}" />
-                                            <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding HandEye_Window_1.DisplayXLD}" />
+                                            <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.HandEye_Window_1.DisplayImage}" />
+                                            <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.HandEye_Window_1.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
+                                                                            HDraw="{Binding Halcon_Window_Display.HandEye_Window_1.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
+                                                                            IconicObject="{Binding Halcon_Window_Display.HandEye_Window_1.DisplayRegion}" />
+                                            <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.HandEye_Window_1.DisplayXLD}" />
 
                                             <!--<i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Loaded">
@@ -2958,11 +2966,11 @@
                                                                        VerticalContentAlignment="Center"
                                                                        HDisableAutoResize="True"
                                                                        SnapsToDevicePixels="True">
-                                            <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding HandEye_Window_2.DisplayImage}" />
-                                            <Halcon:HIconicDisplayObjectWPF HColor="{Binding HandEye_Window_2.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
-                                                                            HDraw="{Binding HandEye_Window_2.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
-                                                                            IconicObject="{Binding HandEye_Window_2.DisplayRegion}" />
-                                            <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding HandEye_Window_2.DisplayXLD}" />
+                                            <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.HandEye_Window_2.DisplayImage}" />
+                                            <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.HandEye_Window_2.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
+                                                                            HDraw="{Binding Halcon_Window_Display.HandEye_Window_2.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
+                                                                            IconicObject="{Binding Halcon_Window_Display.HandEye_Window_2.DisplayRegion}" />
+                                            <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.HandEye_Window_2.DisplayXLD}" />
 
                                             <!--<i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Loaded">
@@ -2996,9 +3004,10 @@
 
                     <Border Grid.Row=" 0" Grid.Column="3"
                             MinWidth=" 280"
-                            Margin="5,10,10,10"
-                            Padding="8"
+                            Margin="0,10,10,10"
                             Background="{DynamicResource 全局_按钮_深灰颜色}"
+                            BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                            BorderThickness="3"
                             CornerRadius=" 10"
                             Effect="{DynamicResource 全局背景阴影}">
 
@@ -3024,7 +3033,7 @@
                                         Height=" 50"
                                         Margin="0"
                                         Background="{DynamicResource 全局_按钮_蓝颜色}"
-                                        CornerRadius="5 5 5 5">
+                                        CornerRadius="5 5  0 0 ">
 
 
                                     <Grid>
@@ -3064,7 +3073,7 @@
 
 
                                 <Grid Grid.Row=" 1" Grid.Column="0">
-                                    <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 5 5" />
+                                    <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 10 10" />
                                     <StackPanel Margin="5" Orientation="Vertical">
 
 
@@ -3765,7 +3774,7 @@
 
                     <Grid Grid.Row=" 0">
                         <Border Margin="10"
-                                Padding="5,0,5,5"
+                                Padding="3,0,3,3"
                                 Background="{DynamicResource 全局_按钮_蓝颜色}"
                                 CornerRadius=" 10 10 0 0">
 
@@ -3817,7 +3826,7 @@
                                             Height=" 40"
                                             Padding="3"
                                             Background="{DynamicResource 全局_背景_白颜色}"
-                                            CornerRadius=" 10 0 0 0">
+                                            CornerRadius=" 0 0 0 0">
                                         <StackPanel Margin="0,0,0,0" Orientation="Horizontal">
 
 
@@ -3911,11 +3920,11 @@
                                                                        VerticalContentAlignment="Center"
                                                                        HDisableAutoResize="True"
                                                                        SnapsToDevicePixels="True">
-                                            <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding HandEye_Results_Window_1.DisplayImage}" />
-                                            <Halcon:HIconicDisplayObjectWPF HColor="{Binding HandEye_Results_Window_1.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
-                                                                            HDraw="{Binding HandEye_Results_Window_1.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
-                                                                            IconicObject="{Binding HandEye_Results_Window_1.DisplayRegion}" />
-                                            <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding HandEye_Results_Window_1.DisplayXLD}" />
+                                            <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.HandEye_Results_Window_1.DisplayImage}" />
+                                            <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.HandEye_Results_Window_1.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
+                                                                            HDraw="{Binding Halcon_Window_Display.HandEye_Results_Window_1.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
+                                                                            IconicObject="{Binding Halcon_Window_Display.HandEye_Results_Window_1.DisplayRegion}" />
+                                            <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.HandEye_Results_Window_1.DisplayXLD}" />
 
                                             <!--<i:Interaction.Triggers>
      <i:EventTrigger EventName="Loaded">
@@ -3942,11 +3951,11 @@
                                                                        VerticalContentAlignment="Center"
                                                                        HDisableAutoResize="True"
                                                                        SnapsToDevicePixels="True">
-                                            <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding HandEye_Results_Window_2.DisplayImage}" />
-                                            <Halcon:HIconicDisplayObjectWPF HColor="{Binding HandEye_Results_Window_2.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
-                                                                            HDraw="{Binding HandEye_Results_Window_2.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
-                                                                            IconicObject="{Binding HandEye_Results_Window_2.DisplayRegion}" />
-                                            <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding HandEye_Results_Window_2.DisplayXLD}" />
+                                            <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.HandEye_Results_Window_2.DisplayImage}" />
+                                            <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.HandEye_Results_Window_2.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
+                                                                            HDraw="{Binding Halcon_Window_Display.HandEye_Results_Window_2.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
+                                                                            IconicObject="{Binding Halcon_Window_Display.HandEye_Results_Window_2.DisplayRegion}" />
+                                            <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.HandEye_Results_Window_2.DisplayXLD}" />
 
                                             <!--<i:Interaction.Triggers>
      <i:EventTrigger EventName="Loaded">
@@ -3986,7 +3995,7 @@
                                             Height=" 40"
                                             Padding="5"
                                             Background="{DynamicResource 全局_背景_白颜色}"
-                                            CornerRadius=" 0 10 0 0">
+                                            CornerRadius=" 0 0 0 0">
                                         <StackPanel Orientation="Horizontal">
 
 
@@ -4201,11 +4210,11 @@
                                                 <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}" PassEventArgsToCommand="False" />
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>-->
-                                        <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding HandEye_3DResults.DisplayImage}" />
-                                        <Halcon:HIconicDisplayObjectWPF HColor="{Binding HandEye_3DResults.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
-                                                                        HDraw="{Binding HandEye_3DResults.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
-                                                                        IconicObject="{Binding HandEye_3DResults.DisplayRegion}" />
-                                        <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding HandEye_3DResults.DisplayXLD}" />
+                                        <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.HandEye_3DResults.DisplayImage}" />
+                                        <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.HandEye_3DResults.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
+                                                                        HDraw="{Binding Halcon_Window_Display.HandEye_3DResults.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
+                                                                        IconicObject="{Binding Halcon_Window_Display.HandEye_3DResults.DisplayRegion}" />
+                                        <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.HandEye_3DResults.DisplayXLD}" />
 
                                     </Halcon:HSmartWindowControlWPF>
 
@@ -4271,7 +4280,8 @@
                                                FontSize="14"
                                                Foreground="{DynamicResource 全局_背景_白颜色}" />
                                     <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
-                                            Width="30"
+                                            Width="25"
+                                            Height=" 25"
                                             Margin="0,5,10,0"
                                             HorizontalAlignment="Right"
                                             Background="{DynamicResource 全局_按钮_灰颜色}"
@@ -4303,7 +4313,7 @@
                                       AutoGenerateColumns="False"
                                       Background="{DynamicResource 全局_背景_白颜色}"
                                       BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
-                                      BorderThickness="5"
+                                      BorderThickness="3"
                                       CanUserAddRows="False"
                                       CanUserDeleteRows="False"
                                       CanUserReorderColumns="False"
@@ -4450,7 +4460,8 @@
                                                Foreground="{DynamicResource 全局_背景_白颜色}" />
 
                                     <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
-                                            Width="30"
+                                            Width="25"
+                                            Height=" 25"
                                             Margin="0,5,10,0"
                                             HorizontalAlignment="Right"
                                             Background="{DynamicResource 全局_按钮_灰颜色}"
@@ -4481,7 +4492,7 @@
                                       AutoGenerateColumns="False"
                                       Background="{DynamicResource 全局_背景_白颜色}"
                                       BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
-                                      BorderThickness="5"
+                                      BorderThickness="3"
                                       CanUserAddRows="False"
                                       CanUserDeleteRows="False"
                                       CanUserReorderColumns="False"
@@ -4614,7 +4625,7 @@
                                       AutoGenerateColumns="False"
                                       Background="{DynamicResource 全局_背景_白颜色}"
                                       BorderBrush="{DynamicResource 全局_按钮_深绿颜色}"
-                                      BorderThickness="5"
+                                      BorderThickness="3"
                                       CanUserAddRows="False"
                                       CanUserDeleteRows="False"
                                       CanUserReorderColumns="False"

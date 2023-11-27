@@ -230,12 +230,13 @@
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
                                 <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true" />
-                                <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top" />
+                                <!--<Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top" />-->
                             </MultiDataTrigger.Conditions>
+                            <Setter TargetName="innerBorder" Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
                             <!--<Setter TargetName="mainBorder" Property="Background" Value="{StaticResource TabItem.MouseOver.Background}" />
                             <Setter TargetName="mainBorder" Property="BorderBrush" Value="{StaticResource TabItem.MouseOver.Border}" />-->
-                            <!--<Setter TargetName="innerBorder" Property="BorderThickness" Value="1,1,1,0" />
-                            <Setter TargetName="mainBorder" Property="BorderThickness" Value="1,1,1,0" />-->
+                            <Setter TargetName="innerBorder" Property="BorderThickness" Value="3,3,3,0" />
+                            <!--<Setter TargetName="mainBorder" Property="BorderThickness" Value="1,1,1,0" />-->
                             <!--<Setter Property="Opacity"  Value="0.9"/>-->
                         </MultiDataTrigger>
                         <MultiDataTrigger>

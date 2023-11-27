@@ -6,10 +6,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-using System.Windows.Documents;
-using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
@@ -191,9 +187,9 @@ namespace Halcon_SDK_DLL
         public static HPR_Status_Model<bool> Read_Mat2d_Method(ref HTuple _Mat2D, string Vision_Area, string Work_Area)
         {
 
-                HTuple _FileHandle = new HTuple();
+            HTuple _FileHandle = new HTuple();
 
-                HTuple _HomMatID = new HTuple();
+            HTuple _HomMatID = new HTuple();
 
 
             try
@@ -421,7 +417,7 @@ namespace Halcon_SDK_DLL
 
 
 
- 
+
         /// <summary>
         /// 海康获取图像指针转换Halcon图像
         /// </summary>
@@ -449,7 +445,7 @@ namespace Halcon_SDK_DLL
 
 
                 throw new Exception("获取图像指针转换失败！" + "原因：" + e.Message);
-               
+
 
 
             }
@@ -1035,6 +1031,35 @@ namespace Halcon_SDK_DLL
         public Halcon_SDK HandEye_Results_Window_2 { set; get; } = new Halcon_SDK();
         public Halcon_SDK HandEye_3DResults { set; get; } = new Halcon_SDK();
 
+
+        /// <summary>
+        /// 实施相机视角控件
+        /// </summary>
+        public Halcon_SDK Live_Window { set; get; } = new Halcon_SDK();
+        /// <summary>
+        /// 实施相机视角控件
+        /// </summary>
+        public Halcon_SDK Features_Window { set; get; } = new Halcon_SDK();
+        /// <summary>
+        /// 实施相机视角控件
+        /// </summary>
+        public Halcon_SDK Results_Window_1 { set; get; } = new Halcon_SDK();
+        /// <summary>
+        /// 实施相机视角控件
+        /// </summary>
+        public Halcon_SDK Results_Window_2 { set; get; } = new Halcon_SDK();
+        /// <summary>
+        /// 实施相机视角控件
+        /// </summary>
+        public Halcon_SDK Results_Window_3 { set; get; } = new Halcon_SDK();
+        /// <summary>
+        /// 实施相机视角控件
+        /// </summary>
+        public Halcon_SDK Results_Window_4 { set; get; } = new Halcon_SDK();
+
+
+
+
         /// <summary>
         /// 可视化三维显示模型
         /// </summary>
@@ -1122,8 +1147,35 @@ namespace Halcon_SDK_DLL
                     HandEye_3DResults.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
 
                     break;
-
+                case Window_Show_Name_Enum.Live_Window:
+                    Live_Window.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
+                    break;
+                case Window_Show_Name_Enum.Features_Window:
+                    Features_Window.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
+                    break;
+                case Window_Show_Name_Enum.Results_Window_1:
+                    Results_Window_1.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
+                    break;
+                case Window_Show_Name_Enum.Results_Window_2:
+                    Results_Window_2.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
+                    break;
+                case Window_Show_Name_Enum.Results_Window_3:
+                    Results_Window_3.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
+                    break;
+                case Window_Show_Name_Enum.Results_Window_4:
+                    Results_Window_4.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
+                    break;
+                case Window_Show_Name_Enum.Calibration_Window_1:
+                    Calibration_Window_1.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
+                    break;
+                case Window_Show_Name_Enum.Calibration_Window_2:
+                    Calibration_Window_2.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
+                    break;
+                case Window_Show_Name_Enum.Calibration_3D_Results:
+                    Calibration_3D_Results.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
+                    break;
             }
+
 
         }
 
@@ -1145,28 +1197,48 @@ namespace Halcon_SDK_DLL
             {
 
                 case Window_Show_Name_Enum.HandEye_Window_1:
-
                     _WindowDisplay = HandEye_Window_1;
-
                     break;
                 case Window_Show_Name_Enum.HandEye_Window_2:
-
                     _WindowDisplay = HandEye_Window_2;
-
                     break;
                 case Window_Show_Name_Enum.HandEye_Results_Window_1:
                     _WindowDisplay = HandEye_Results_Window_1;
-
-
                     break;
                 case Window_Show_Name_Enum.HandEye_Results_Window_2:
-
                     _WindowDisplay = HandEye_Results_Window_2;
-
                     break;
-
+                case Window_Show_Name_Enum.Live_Window:
+                    _WindowDisplay = Live_Window;
+                    break;
+                case Window_Show_Name_Enum.Features_Window:
+                    _WindowDisplay = Features_Window;
+                    break;
+                case Window_Show_Name_Enum.Results_Window_1:
+                    _WindowDisplay = Results_Window_1;
+                    break;
+                case Window_Show_Name_Enum.Results_Window_2:
+                    _WindowDisplay = Results_Window_2;
+                    break;
+                case Window_Show_Name_Enum.Results_Window_3:
+                    _WindowDisplay = Results_Window_3;
+                    break;
+                case Window_Show_Name_Enum.Results_Window_4:
+                    _WindowDisplay = Results_Window_4;
+                    break;
+                case Window_Show_Name_Enum.Calibration_Window_1:
+                    _WindowDisplay = Calibration_Window_1;
+                    break;
+                case Window_Show_Name_Enum.Calibration_Window_2:
+                    _WindowDisplay = Calibration_Window_2;
+                    break;
+                case Window_Show_Name_Enum.Calibration_3D_Results:
+                    _WindowDisplay = Calibration_3D_Results;
+                    break;
+                case Window_Show_Name_Enum.HandEye_3DResults:
+                    _WindowDisplay = HandEye_3DResults;
+                    break;
             }
-
 
 
             //根据显示类型设置
@@ -1193,9 +1265,6 @@ namespace Halcon_SDK_DLL
 
                     break;
             }
-
-
-
 
             HOperatorSet.SetSystem("flush_graphic", "true");
         }
@@ -1299,7 +1368,7 @@ namespace Halcon_SDK_DLL
                 //读取初始化相机内参
                 HTuple _CamerPar = _CalibSetup_ID.GetCalibData("camera", _CameraID, "init_params");
                 //显示标定板三维坐标位置
-                 _CalibCoord=Halcon_Example.Disp_3d_coord( _CamerPar, hv_Pose, new HTuple(0.02));
+                _CalibCoord = Halcon_Example.Disp_3d_coord(_CamerPar, hv_Pose, new HTuple(0.02));
 
                 //return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) {  };
 
@@ -1310,7 +1379,7 @@ namespace Halcon_SDK_DLL
                 //错误清空
                 _CalibXLD.Dispose();
                 _CalibCoord.Dispose();
-                throw new HalconException(HVE_Result_Enum.标定板图像识别错误.ToString() +" 原因："+ e.Message);
+                throw new HalconException(HVE_Result_Enum.标定板图像识别错误.ToString() + " 原因：" + e.Message);
             }
             finally
             {
@@ -2987,7 +3056,7 @@ namespace Halcon_SDK_DLL
         /// <param name="hv_CamParam"></param>
         /// <param name="hv_Pose"></param>
         /// <param name="hv_CoordAxesLength"></param>
-        public static HObject Disp_3d_coord( HTuple hv_CamParam, HTuple hv_Pose, HTuple hv_CoordAxesLength)
+        public static HObject Disp_3d_coord(HTuple hv_CamParam, HTuple hv_Pose, HTuple hv_CoordAxesLength)
         {
 
 
@@ -3025,7 +3094,7 @@ namespace Halcon_SDK_DLL
                 //检查 Pose 是否为正确的姿势元组。
                 if ((int)(new HTuple((new HTuple(hv_Pose.TupleLength())).TupleNotEqual(7))) != 0)
                 {
- 
+
                     return ho_Arrows;
                 }
                 hv_CameraType.Dispose();
@@ -3045,7 +3114,7 @@ namespace Halcon_SDK_DLL
                     //不能投射 Z 位置为零的姿势
                     //这将导致除以零的错误）。
 
-                    
+
                     return ho_Arrows;
                 }
                 //Convert to pose to a transformation matrix
@@ -3141,13 +3210,13 @@ namespace Halcon_SDK_DLL
 
                 throw new Exception("计算中心坐标失败！原因：" + _e.Message);
 
-             
+
 
                 //throw HDevExpDefaultException;
             }
             finally
             {
-                
+
                 hv_CameraType.Dispose();
                 hv_IsTelecentric.Dispose();
                 hv_TransWorld2Cam.Dispose();
@@ -3170,7 +3239,7 @@ namespace Halcon_SDK_DLL
                 hv_Red.Dispose();
                 hv_Green.Dispose();
                 hv_Blue.Dispose();
-            
+
             }
         }
 
@@ -3430,7 +3499,7 @@ namespace Halcon_SDK_DLL
                     }
                 }
 
-          
+
 
                 return;
             }
@@ -4439,7 +4508,7 @@ namespace Halcon_SDK_DLL
             }
         }
 
-  
+
     }
 
 }

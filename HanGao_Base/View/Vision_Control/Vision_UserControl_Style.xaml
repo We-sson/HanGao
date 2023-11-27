@@ -77,7 +77,7 @@
                             <!--<Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>-->
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_灰颜色}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
                             <Setter Property="BorderThickness" Value="2" />
                             <!--<Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
                             <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>-->
@@ -149,7 +149,7 @@
                                 <Condition Property="IsMouseOver" Value="true" />
                                 <Condition Property="IsChecked" Value="false" />
                             </MultiTrigger.Conditions>
-                            <Setter Property="BorderThickness" Value="1.5" />
+                            <Setter Property="BorderThickness" Value="2" />
                             <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
 
                         </MultiTrigger>
@@ -173,7 +173,7 @@
                         </Trigger>
                         <Trigger Property="IsChecked" Value="true">
                             <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource 全局_按钮_深灰颜色}" />
-                            <Setter TargetName="radioButtonBorder" Property="Effect" Value="{DynamicResource 全局背景阴影}" />
+                            <!--<Setter TargetName="radioButtonBorder" Property="Effect" Value="{DynamicResource 全局背景阴影}" />-->
 
                             <!--<Setter Property="Opacity" TargetName="optionMark" Value="1"/>-->
                         </Trigger>

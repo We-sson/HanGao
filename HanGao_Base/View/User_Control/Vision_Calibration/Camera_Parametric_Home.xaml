@@ -87,7 +87,7 @@
                     VerticalContentAlignment="Center"
                     Background="Transparent"
                     BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
-                    BorderThickness="4"
+                    BorderThickness="3"
                     SelectedIndex="0"
                     TabStripPlacement="Top">
             <!--<i:Interaction.Triggers>
@@ -632,12 +632,12 @@
 
         <TabControl Style="{DynamicResource TabControl_Style}" Grid.Row="1" Grid.Column="0"
                     Grid.ColumnSpan="2"
-                    Margin="5,5,5,5"
+                    Margin="5,0,5,5"
                     Padding="0"
                     HorizontalContentAlignment="Left"
                     Background="Transparent"
                     BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
-                    BorderThickness="4"
+                    BorderThickness="3"
                     TabStripPlacement="Top">
             <!--<TabItem Style="{DynamicResource Vision_TabItemStyle}"
                      Padding="40,5,40,5"
@@ -1039,7 +1039,7 @@
 
             </TabItem>-->
             <TabItem Style="{DynamicResource Vision_TabItemStyle}"
-                     Padding="40,5,40,5"
+                     Padding="40,8,40,8"
                      FontSize=" 16"
                      Header="标定图像列表"
                      IsSelected="True">
@@ -1099,7 +1099,7 @@
 
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding HandEye_Local_Image_Mode_Comm}"
+                                            <i:InvokeCommandAction Command="{Binding}"
                                                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                    PassEventArgsToCommand="True" />
                                         </i:EventTrigger>
@@ -1143,7 +1143,7 @@
 
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding HandEye_Local_Image_Mode_Comm}"
+                                            <i:InvokeCommandAction Command="{Binding}"
                                                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                    PassEventArgsToCommand="True" />
                                         </i:EventTrigger>
@@ -1159,7 +1159,7 @@
 
                     </Border>
 
-                    <DataGrid Grid.Row=" 1"
+                    <DataGrid Grid.Row=" 1" Grid.Column=" 0"
                               HorizontalContentAlignment="Stretch"
                               VerticalContentAlignment="Stretch"
                               AutoGenerateColumns="False"
@@ -1175,7 +1175,7 @@
                               CellStyle="{DynamicResource Point_UI_DataGridCellStyle}"
                               ColumnHeaderHeight="40"
                               ColumnHeaderStyle="{DynamicResource Point_UI_DataGridColumnHeaderStyle}"
-                              ColumnWidth=" 40"
+                              ColumnWidth=" 50"
                               FontFamily="{DynamicResource 全局_文字_数字字体}"
                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
                               GridLinesVisibility="Horizontal"
@@ -1302,7 +1302,6 @@
                         </DataGrid.Columns>
                     </DataGrid>
 
-
                     <DataGrid Grid.Row=" 1" Grid.Column=" 1"
                               HorizontalContentAlignment="Stretch"
                               VerticalContentAlignment="Stretch"
@@ -1319,7 +1318,7 @@
                               CellStyle="{DynamicResource Point_UI_DataGridCellStyle}"
                               ColumnHeaderHeight="40"
                               ColumnHeaderStyle="{DynamicResource Point_UI_DataGridColumnHeaderStyle}"
-                              ColumnWidth=" 40"
+                              ColumnWidth=" 50"
                               FontFamily="{DynamicResource 全局_文字_数字字体}"
                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
                               GridLinesVisibility="Horizontal"
@@ -1343,34 +1342,33 @@
                         </i:Interaction.Triggers>
                         <DataGrid.Resources>
                             <Style BasedOn="{StaticResource Right_ScrollBarStyle}" TargetType="ScrollBar" />
-
                         </DataGrid.Resources>
                         <DataGrid.Columns>
+
 
 
                             <DataGridTemplateColumn Width="100">
                                 <DataGridTemplateColumn.Header>
                                     <TextBlock Text="名称"
                                                Margin="4"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
                                                FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                FontSize="16"
                                                Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-
                                         <TextBlock Text="{Binding Camera_1.Carme_Name}"
-                                                   Padding="2"
+                                                   Margin="10"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    FontSize="16" />
-
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
 
                             </DataGridTemplateColumn>
+
+
+
 
                             <DataGridTemplateColumn Width="*">
                                 <DataGridTemplateColumn.Header>
@@ -1395,6 +1393,7 @@
                                 </DataGridTemplateColumn.CellTemplate>
 
                             </DataGridTemplateColumn>
+
                             <DataGridTemplateColumn Width="100">
                                 <DataGridTemplateColumn.Header>
                                     <TextBlock Text="误差"
@@ -1422,6 +1421,7 @@
 
                         </DataGrid.Columns>
                     </DataGrid>
+
 
 
 
@@ -1493,6 +1493,29 @@
                         </Menu>-->
 
 
+                        <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                Width="110"
+                                Height="38"
+                                Margin="5"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Background="{DynamicResource 全局_按钮_深绿颜色}">
+                            <TextBlock Text="保存图像"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                       FontSize="16"
+                                       Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding}"
+                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                           PassEventArgsToCommand="True" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+
+                        </Button>
 
 
                         <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
@@ -1501,7 +1524,7 @@
                                 Margin="5"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Center"
-                                Background="{DynamicResource 全局_按钮_黑颜色}">
+                                Background="{DynamicResource 全局_按钮_蓝颜色}">
                             <TextBlock Text="移除图像"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
@@ -1511,7 +1534,7 @@
 
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding Calibration_Image_Removing_Comm}"
+                                    <i:InvokeCommandAction Command="{Binding}"
                                                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                            PassEventArgsToCommand="True" />
                                 </i:EventTrigger>
@@ -1524,7 +1547,7 @@
                                 Height=" 38"
                                 Margin="5"
                                 HorizontalAlignment="Right"
-                                Background="{DynamicResource 全局_按钮_黑颜色}">
+                                Background="{DynamicResource 全局_按钮_蓝颜色}">
                             <TextBlock Text="移除所有"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
@@ -1534,7 +1557,7 @@
 
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding Calibration_Image_AllRemoving_Comm}"
+                                    <i:InvokeCommandAction Command="{Binding}"
                                                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                            PassEventArgsToCommand="True" />
                                 </i:EventTrigger>
@@ -1547,8 +1570,8 @@
                                 Height=" 38"
                                 Margin="5"
                                 HorizontalAlignment="Right"
-                                Background="{DynamicResource 全局_按钮_黑颜色}">
-                            <TextBlock Text="保存所有"
+                                Background="{DynamicResource 全局_按钮_蓝颜色}">
+                            <TextBlock Text="本地保存"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -1573,7 +1596,7 @@
                 <!--<Camera_UI:Calibration_Image_List DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_Calibration_Image_VM}" />-->
             </TabItem>
             <TabItem Style="{DynamicResource Vision_TabItemStyle}"
-                     Padding="40,5,40,5"
+                     Padding="40,8,40,8"
                      FontSize=" 16"
                      Header="标定日志">
                 <UC_Working:User_Control_Log DataContext="{Binding Source={StaticResource Locator}, Path=User_Log.UI_Calibration_Log}" />
@@ -1588,7 +1611,7 @@
                     Padding="0"
                     Background="Transparent"
                     BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
-                    BorderThickness="4"
+                    BorderThickness="3"
                     TabStripPlacement="Top">
             <TabItem Style="{DynamicResource Vision_TabItemStyle}"
                      Padding="25,8,25,7"
@@ -1683,7 +1706,10 @@
                                     </Border>
                                 </Expander.Header>
                                 <Grid>
-                                    <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 5 5" />
+                                    <Border Background="{DynamicResource 全局_背景_白颜色}"
+                                            BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                                            BorderThickness="3"
+                                            CornerRadius=" 0 0 5 5" />
                                     <StackPanel Orientation="Vertical">
 
 
@@ -1807,11 +1833,7 @@
 
 
 
-                                        <Border Height=" 2"
-                                                Margin="8,4,8,4"
-                                                Background="{DynamicResource 全局_按钮_黑颜色}"
-                                                CornerRadius="1"
-                                                Opacity=" 0.5" />
+
 
 
 
@@ -1874,7 +1896,10 @@
                                     </Border>
                                 </Expander.Header>
                                 <Grid>
-                                    <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 5 5" />
+                                    <Border Background="{DynamicResource 全局_背景_白颜色}"
+                                            BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                                            BorderThickness="3"
+                                            CornerRadius=" 0 0 5 5" />
                                     <StackPanel Orientation="Vertical">
 
 
@@ -2863,12 +2888,6 @@
                                         </Grid>
 
 
-                                        <Border Height=" 2"
-                                                Margin="8,4,8,4"
-                                                Background="{DynamicResource 全局_按钮_黑颜色}"
-                                                CornerRadius="1"
-                                                Opacity=" 0.5" />
-
 
 
 
@@ -2928,7 +2947,10 @@
                                     </Border>
                                 </Expander.Header>
                                 <Grid>
-                                    <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 5 5" />
+                                    <Border Background="{DynamicResource 全局_背景_白颜色}"
+                                            BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                                            BorderThickness="3"
+                                            CornerRadius=" 0 0 5 5" />
                                     <StackPanel Orientation="Vertical">
 
                                         <Grid Height="35" Margin="8">
@@ -3931,11 +3953,6 @@
                                         </Grid>
 
 
-                                        <Border Height=" 2"
-                                                Margin="8,4,8,4"
-                                                Background="{DynamicResource 全局_按钮_黑颜色}"
-                                                CornerRadius="1"
-                                                Opacity=" 0.5" />
 
 
 
@@ -4001,7 +4018,7 @@
                         </Grid.RowDefinitions>
 
                         <Border Grid.Row=" 0" Grid.Column="0"
-                                Height=" 50"
+                                Height=" 55"
                                 Margin="0"
                                 Background="{DynamicResource 全局_按钮_蓝颜色}"
                                 CornerRadius="5 5 0 0">
@@ -4044,7 +4061,10 @@
 
 
                         <Grid Grid.Row=" 1" Grid.Column="0">
-                            <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 5 5" />
+                            <Border Background="{DynamicResource 全局_背景_白颜色}"
+                                    BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                                    BorderThickness="3"
+                                    CornerRadius=" 0 0 5 5" />
                             <StackPanel Margin="5" Orientation="Vertical">
 
 
@@ -4533,7 +4553,7 @@
                                                                Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                TextTrimming="CharacterEllipsis" />
                                                 </ComboBoxItem>
-                                                <ComboBoxItem>
+                                                <ComboBoxItem IsEnabled="False">
 
                                                     <TextBlock Text="多帧模式"
                                                                TextWrapping="Wrap"
@@ -4541,6 +4561,8 @@
                                                                FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                                FontSize="14"
                                                                Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                               IsEnabled="False"
+                                                               Opacity="0.5"
                                                                TextTrimming="CharacterEllipsis" />
                                                 </ComboBoxItem>
                                                 <ComboBoxItem>
@@ -4660,7 +4682,7 @@
                                                 <i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding HandEye_Check_LiveImage_Comm}"
+                                                        <i:InvokeCommandAction Command="{Binding Camera_Check_LiveImage_Comm}"
                                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
@@ -4678,14 +4700,15 @@
                                                     Background="{DynamicResource 全局_按钮_蓝颜色}">
                                                 <Button.Style>
                                                     <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
-                                                        <Style.Triggers>
+                                                        <Setter Property="IsEnabled" Value="True" />
+                                                        <!--<Style.Triggers>
                                                             <DataTrigger Binding="{Binding ElementName=Live_Camera, Path=IsChecked}" Value="true">
-                                                                <Setter Property="IsEnabled" Value="False" />
+                                                                <Setter Property="IsEnabled" Value="True" />
                                                             </DataTrigger>
-                                                        </Style.Triggers>
+                                                        </Style.Triggers>-->
                                                     </Style>
                                                 </Button.Style>
-                                                <TextBlock Text="检测一帧"
+                                                <TextBlock Text="采集当帧"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -4804,7 +4827,10 @@
                                     </Border>
                                 </Expander.Header>
                                 <Grid>
-                                    <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 5 5" />
+                                    <Border Background="{DynamicResource 全局_背景_白颜色}"
+                                            BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                                            BorderThickness="3"
+                                            CornerRadius=" 0 0 5 5" />
                                     <StackPanel Orientation="Vertical">
 
                                         <Grid Height="35" Margin="8">
@@ -5536,11 +5562,12 @@
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
 
-                                            <Button x:Name="Camera_2" Grid.Column=" 1"
+                                            <Button Grid.Column=" 1"
                                                     Margin="4,0,4,0"
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
-                                                    Background="{DynamicResource 全局_按钮_蓝颜色}">
+                                                    Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                                    Tag="Camera_0">
                                                 <Button.Resources>
                                                     <ProgressBar x:Key="Calibration_PBar"
                                                                  Margin="4"
@@ -5548,7 +5575,7 @@
                                                                  IsIndeterminate="True"
                                                                  Maximum=" 100"
                                                                  Minimum=" 0"
-                                                                 Value="{Binding Camera_0_Results.Result_Error_Val, UpdateSourceTrigger=PropertyChanged}" />
+                                                                 Value="{Binding Camera_0_Results.Result_Error_Val}" />
 
                                                     <TextBlock x:Key="Calibration_Results_Txt"
                                                                Text="标定数据"
@@ -5573,7 +5600,7 @@
 
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding Camera_Calibration_Data_Comm}"
+                                                        <i:InvokeCommandAction Command="{Binding Camera_Calibration_ImageList_Comm}"
                                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
@@ -5593,7 +5620,7 @@
                                                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding Calibration_Results_Save_Comm}"
+                                                        <i:InvokeCommandAction Command="{Binding}"
                                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
@@ -5606,11 +5633,7 @@
                                         </Grid>
 
 
-                                        <Border Height=" 2"
-                                                Margin="8,4,8,4"
-                                                Background="{DynamicResource 全局_按钮_黑颜色}"
-                                                CornerRadius="1"
-                                                Opacity=" 0.5" />
+
 
 
 
@@ -5690,7 +5713,10 @@
                                     </Border>
                                 </Expander.Header>
                                 <Grid>
-                                    <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 5 5" />
+                                    <Border Background="{DynamicResource 全局_背景_白颜色}"
+                                            BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                                            BorderThickness="3"
+                                            CornerRadius=" 0 0 5 5" />
 
 
                                     <StackPanel Orientation="Vertical">
@@ -6431,7 +6457,8 @@
                                                     Margin="4,0,4,0"
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
-                                                    Background="{DynamicResource 全局_按钮_蓝颜色}">
+                                                    Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                                    Tag="Camera_1">
                                                 <Button.Resources>
                                                     <ProgressBar x:Key="Calibration_PBar"
                                                                  Margin="4"
@@ -6439,7 +6466,7 @@
                                                                  IsIndeterminate="True"
                                                                  Maximum=" 100"
                                                                  Minimum=" 0"
-                                                                 Value="{Binding Camera_1_Results.Result_Error_Val, UpdateSourceTrigger=PropertyChanged}" />
+                                                                 Value="{Binding Camera_1_Results.Result_Error_Val}" />
 
                                                     <TextBlock x:Key="Calibration_Results_Txt"
                                                                Text="标定数据"
@@ -6464,7 +6491,7 @@
 
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding Camera_Calibration_Data_Comm}"
+                                                        <i:InvokeCommandAction Command="{Binding Camera_Calibration_ImageList_Comm}"
                                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
@@ -6484,7 +6511,7 @@
                                                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding Calibration_Results_Save_Comm}"
+                                                        <i:InvokeCommandAction Command="{Binding}"
                                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
@@ -6497,11 +6524,7 @@
                                         </Grid>
 
 
-                                        <Border Height=" 2"
-                                                Margin="8,4,8,4"
-                                                Background="{DynamicResource 全局_按钮_黑颜色}"
-                                                CornerRadius="1"
-                                                Opacity=" 0.5" />
+
 
 
 

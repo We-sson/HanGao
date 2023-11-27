@@ -1,5 +1,4 @@
-﻿using Generic_Extension;
-using Halcon_SDK_DLL.Model;
+﻿using Halcon_SDK_DLL.Model;
 using HalconDotNet;
 using PropertyChanged;
 using System;
@@ -7,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.Windows.Media.Media3D;
 using Throw;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
@@ -28,7 +28,7 @@ namespace Halcon_SDK_DLL
         public Halcon_Calibration_SDK(Camera_Connect_Control_Type_Enum _Type, HCamPar _CamPar)
         {
             Camera_Connect_Model = _Type;
-            HCamParData = _CamPar;
+            Camera_Calibration_Paramteters = new Halcon_Camera_Calibration_Parameters_Model(_CamPar);
 
         }
 
@@ -61,12 +61,15 @@ namespace Halcon_SDK_DLL
         public Camera_Connect_Control_Type_Enum Camera_Connect_Model { set; get; } = Camera_Connect_Control_Type_Enum.Camera_0;
 
 
+        ///// <summary>
+        ///// 标定初始参数
+        ///// </summary>
+        //public HCamPar HCamParData { set; get; } = new HCamPar();
+
         /// <summary>
-        /// 标定初始参数
+        /// 相机标定参数
         /// </summary>
-        public HCamPar HCamParData { set; get; } = new HCamPar();
-
-
+        public Halcon_Camera_Calibration_Parameters_Model Camera_Calibration_Paramteters { set; get; } = new Halcon_Camera_Calibration_Parameters_Model();
 
 
 
@@ -75,7 +78,7 @@ namespace Halcon_SDK_DLL
         /// </summary>
         /// <param name="_HandEye_Param"></param>
         /// <exception cref="Exception"></exception>
-        public void Creation_HandEye_Calibration(Halcon_Camera_Calibration_Model _HandEye_Param)
+        private  void Creation_HandEye_Calibration(Halcon_Camera_Calibration_Model _HandEye_Param)
         {
             try
             {
@@ -96,9 +99,31 @@ namespace Halcon_SDK_DLL
                         ///设置标定文件
                         HCalibData.SetCalibDataCalibObject(0, _HandEye_Param.Halcon_CaltabDescr_Address);
 
-                        HCalibData.SetCalibDataCamParam(0, new HTuple(), HCamParData);
+                        HCalibData.SetCalibDataCamParam(0, new HTuple(), Camera_Calibration_Paramteters.HCamPar);
 
-                        HCalibData.SetCalibData("model", "general", "optimization_method", _HandEye_Param.HandEye_Optimization_Method.ToString());
+                        
+
+                        //对应标定方法设置参数
+                        switch (_HandEye_Param.Calibration_Setup_Model)
+                        {
+                            case Halcon_Calibration_Setup_Model_Enum.calibration_object:
+
+
+
+                                break;
+                            case Halcon_Calibration_Setup_Model_Enum.hand_eye_moving_cam:
+
+                                HCalibData.SetCalibData("model", "general", "optimization_method", _HandEye_Param.HandEye_Optimization_Method.ToString());
+                                break;
+                            case Halcon_Calibration_Setup_Model_Enum.hand_eye_scara_moving_cam:
+                                break;
+                            case Halcon_Calibration_Setup_Model_Enum.hand_eye_scara_stationary_cam:
+                                break;
+                            case Halcon_Calibration_Setup_Model_Enum.hand_eye_stationary_cam:
+                                break;
+
+                        }
+
 
                         break;
 
@@ -116,12 +141,106 @@ namespace Halcon_SDK_DLL
 
 
 
-        public void Clear_HandEye_Calibration()
+        private  void Clear_HandEye_Calibration()
         {
 
 
             //HCalibData.Clone();
             HCalibData.ClearCalibData();
+
+
+        }
+
+
+
+
+
+        public List<Calibration_Image_Camera_Model>  Camera_Cailbration_Results(ref Calibration_Camera_Data_Results_Model _Results, List<HObject > _ImageList, Halcon_Camera_Calibration_Model _CalibParam)
+        {
+            List<Calibration_Image_Camera_Model> _ResList = new List<Calibration_Image_Camera_Model>();
+            Reconstruction_3d _HandEye_3DModel = new Reconstruction_3d();
+
+            try
+            {
+
+            if (_ImageList.Count <10)
+            {
+                throw new Exception("相机内参标定图像小于10张！");
+
+            }
+
+
+                Creation_HandEye_Calibration(_CalibParam);
+
+
+                for (int i = 0; i < _ImageList.Count; i++)
+                {
+
+
+                    FindCalibObject_Results _Res = new FindCalibObject_Results();
+
+
+
+                    //_Res = Find_Calib3D_Points(_ImageList[i], _CalibParam, i);
+                    Find_Calibration_Workflows(ref _Res, _ImageList[i], _CalibParam, i);
+
+                    if (_Res._CalibXLD != null && _Res._CalibRegion != null)
+                    {
+
+                   
+
+
+                        Calibration_Image_Camera_Model _Calib_Res = new Calibration_Image_Camera_Model()
+                        {
+                         
+                            Calibration_Image = _Res._Image,
+                            Calibration_Region = _Res._CalibRegion,
+                            Calibration_XLD = _Res._CalibXLD,
+                            Calibration_State = "手眼识别成功！",
+                            
+                             
+                        };
+
+                        _ResList.Add(_Calib_Res);
+
+                    }
+
+                }
+
+                //继续相机标定误差
+                _Results.Result_Error_Val = HCalibData.CalibrateCameras();
+
+                //获得标定后内参值
+                _Results.Camera_Result_Pama.HCamPar =  new HCamPar(new HCameraSetupModel(HCalibData.GetCalibData("model", "general", "camera_setup_model").H).GetCameraSetupParam(0, "params"));
+
+                ///遍历设置相机三维模型
+                for (int i = 0; i < _ResList.Count; i++)
+                {
+
+                //生产机器人坐标模型
+                List<HObjectModel3D> _RobotTcp3D = _HandEye_3DModel.Get_Calibration_Camera_3DModel(HCalibData, i);
+
+                    _ResList[i].Calibration_3D_Model = _RobotTcp3D;
+                }
+
+
+
+
+                Clear_HandEye_Calibration();
+
+                return _ResList;
+
+
+
+
+
+            }
+            catch (Exception _e)
+            {
+
+                throw new Exception("相机内参标定失败！" + " 原因：" + _e.Message);
+
+            }
 
 
         }
@@ -197,7 +316,7 @@ namespace Halcon_SDK_DLL
 
                 //实机测试，取图和坐标系
 
-        
+
 
 
                 Clear_HandEye_Calibration();
@@ -226,7 +345,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_Image"></param>
         /// <param name="_Calibration_Param"></param>
         /// <param name="_CalibPos_No"></param>
-        private void Find_Calibration_Workflows(ref FindCalibObject_Results _Results, HImage _Image, Halcon_Camera_Calibration_Model _Calibration_Param, int _CalibPos_No = 0)
+        private void Find_Calibration_Workflows(ref FindCalibObject_Results _Results, HObject _Image, Halcon_Camera_Calibration_Model _Calibration_Param, int _CalibPos_No = 0)
         {
 
             try
@@ -236,7 +355,7 @@ namespace Halcon_SDK_DLL
                 {
                     HRegion _Region = new HRegion();
 
-                    if (Halcon_Method_Model.Get_Image_MaxThreshold(ref _Region, _Image).GetResult())
+                    if (Halcon_Method_Model.Get_Image_MaxThreshold(ref _Region, (HImage)_Image).GetResult())
                     {
                         _Results._CalibRegion = _Region;
                         _Results._DrawColor = KnownColor.Red.ToString();
@@ -248,7 +367,7 @@ namespace Halcon_SDK_DLL
                 if (ShowMinGray)
                 {
                     HRegion _Region = new HRegion();
-                    if (Halcon_Method_Model.Get_Image_MinThreshold(ref _Region, _Image).GetResult())
+                    if (Halcon_Method_Model.Get_Image_MinThreshold(ref _Region, (HImage)_Image).GetResult())
                     {
                         _Results._CalibRegion = _Region;
                         _Results._DrawColor = KnownColor.Blue.ToString();
@@ -264,7 +383,7 @@ namespace Halcon_SDK_DLL
                 {
 
 
-                    Find_Calib3D_Points(ref _Results, _Image, _Calibration_Param, _CalibPos_No);
+                    Find_Calib3D_Points(ref _Results, (HImage)_Image, _Calibration_Param, _CalibPos_No);
 
                     //查找标定板
                     if (_Results._CalibRegion != null && _Results._CalibXLD != null)
@@ -330,7 +449,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_CalibParam"></param>
         /// <param name="_CalibPos_No"></param>
         /// <exception cref="Exception"></exception>
-        public void Find_Calib3D_Points(ref FindCalibObject_Results _Results, HImage _HImage, Halcon_Camera_Calibration_Model _CalibParam, int _CalibPos_No = 0)
+        private  void Find_Calib3D_Points(ref FindCalibObject_Results _Results, HImage _HImage, Halcon_Camera_Calibration_Model _CalibParam, int _CalibPos_No = 0)
         {
 
 
@@ -505,7 +624,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_Image_No"></param>
         /// <param name="_Camera_No"></param>
         /// <returns></returns>
-        public static List<HObjectModel3D> Get_Calibration_Camera_3DModel(HCalibData _HCalibData, int _Image_No, int _Camera_No = 0)
+        private  List<HObjectModel3D> Get_Calibration_Camera_3DModel(HCalibData _HCalibData, int _Image_No, int _Camera_No = 0)
         {
 
             HTuple _calib_X;

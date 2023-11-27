@@ -63,7 +63,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 模型位置单位：M
             /// </summary>
-            public HPose _PoseIn { set; get; } 
+            public HPose _PoseIn { set; get; }
             //public HTuple _PoseOut { set; get; } = new HTuple();
             //public HTuple _GenParamName { set; get; } = new HTuple();
             //public HTuple _GenParamValue { set; get; } = new HTuple();
@@ -551,6 +551,30 @@ namespace Halcon_SDK_DLL.Model
             public Halcon_Camera_Calibration_Parameters_Model(HCamPar hCamPar)
             {
                 HCamPar = hCamPar;
+            }
+
+            public Halcon_Camera_Calibration_Parameters_Model(Halcon_Camera_Calibration_Parameters_Model _Parameters_Model)
+            {
+                Sy = _Parameters_Model.Sy;
+                Sx = _Parameters_Model.Sx;
+                Focus = _Parameters_Model.Focus;
+                Kappa = _Parameters_Model.Kappa;
+                K1 = _Parameters_Model.K1;
+                K2 = _Parameters_Model.K2;
+                K3 = _Parameters_Model.K3;
+                P1 = _Parameters_Model.P1;
+                P2 = _Parameters_Model.P2;
+                Cy = _Parameters_Model.Cy;
+                Cx = _Parameters_Model.Cx;
+                Image_Height = _Parameters_Model.Image_Height;
+                Image_Width = _Parameters_Model.Image_Width;
+            }
+
+
+
+            private void Set_HCamPar(HCamPar hCamPar)
+            {
+                //HCamPar = hCamPar;
 
 
                 switch (Enum.Parse<Halocn_Camera_Calibration_Enum>(hCamPar[0]))
@@ -587,24 +611,58 @@ namespace Halcon_SDK_DLL.Model
                         break;
 
                 }
-
-
-                //Camera_Calibration_Model = hCamPar[0];
-                //Sy = sy;
-                //Sx = sx;
-                //Focus = focus;
-                //Kappa = kappa;
-                //K1 = k1;
-                //K2 = k2;
-                //K3 = k3;
-                //P1 = p1;
-                //P2 = p2;
-                //Cy = cy;
-                //Cx = cx;
-                //Image_Width = image_Width;
-                //Image_Height = image_Height;
             }
 
+
+            public HCamPar Get_HCamPar()
+            {
+
+                HCamPar hCamPar = new HCamPar();
+
+
+                switch (Camera_Calibration_Model)
+                {
+                    case Halocn_Camera_Calibration_Enum.area_scan_division:
+
+                        hCamPar[0] = Camera_Calibration_Model.ToString();
+                        hCamPar[1] = Focus / 1000;
+                        hCamPar[2] = Kappa;
+                        hCamPar[3] = Sx / 1000000;
+                        hCamPar[4] = Sy / 1000000;
+                        hCamPar[5] = Cx;
+                        hCamPar[6] = Cy;
+                        hCamPar[7] = Image_Width;
+                        hCamPar[8] = Image_Height;
+
+                        break;
+
+
+                    case Halocn_Camera_Calibration_Enum.area_scan_polynomial:
+
+                        hCamPar[0] = Camera_Calibration_Model.ToString();
+                        hCamPar[1] = Focus / 1000;
+                        hCamPar[2] = K1;
+                        hCamPar[3] = K2;
+                        hCamPar[4] = K3;
+                        hCamPar[5] = P1;
+                        hCamPar[6] = P2;
+                        hCamPar[7] = Sx / 1000000;
+                        hCamPar[8] = Sy / 1000000;
+                        hCamPar[9] = Cx;
+                        hCamPar[10] = Cy;
+                        hCamPar[11] = Image_Width;
+                        hCamPar[12] = Image_Height;
+
+                        break;
+
+                }
+
+
+                return hCamPar;
+
+
+
+            }
 
 
             /// <summary>
@@ -614,26 +672,20 @@ namespace Halcon_SDK_DLL.Model
 
             public HCamPar HCamPar
             {
-                get { return _HCamPar; }
-                set { _HCamPar = value; }
+                get 
+                {
+                      _HCamPar = Get_HCamPar(); 
+                    return      _HCamPar;
+                }
+                set 
+                {
+
+                    Set_HCamPar(value);
+                    //_HCamPar = value; 
+
+                }
             }
 
-            public Halcon_Camera_Calibration_Parameters_Model(Halcon_Camera_Calibration_Parameters_Model _Parameters_Model)
-            {
-                Sy = _Parameters_Model.Sy;
-                Sx = _Parameters_Model.Sx;
-                Focus = _Parameters_Model.Focus;
-                Kappa = _Parameters_Model.Kappa;
-                K1 = _Parameters_Model.K1;
-                K2 = _Parameters_Model.K2;
-                K3 = _Parameters_Model.K3;
-                P1 = _Parameters_Model.P1;
-                P2 = _Parameters_Model.P2;
-                Cy = _Parameters_Model.Cy;
-                Cx = _Parameters_Model.Cx;
-                Image_Height = _Parameters_Model.Image_Height;
-                Image_Width = _Parameters_Model.Image_Width;
-            }
             /// <summary>
             /// 相机标定类型
             /// </summary>
@@ -712,7 +764,29 @@ namespace Halcon_SDK_DLL.Model
     [AddINotifyPropertyChangedInterface]
     public class FindCalibObject_Results : IDisposable
     {
+        public FindCalibObject_Results()
+        {
 
+        }
+
+        /// <summary>
+        /// 拷贝变量
+        /// </summary>
+        /// <param name="_Results"></param>
+        public FindCalibObject_Results(FindCalibObject_Results _Results)
+        {
+            _Image = _Results._Image;
+            _CalibXLD= _Results._CalibXLD;
+            _CalibRegion= _Results._CalibRegion;
+            _DrawColor= _Results._DrawColor;
+            hv_Row = _Results.hv_Row;
+            hv_Column= _Results.hv_Column;
+            hv_I= _Results.hv_I;
+            hv_Pose= _Results.hv_Pose;
+
+
+
+        }
 
         public HObject _Image { set; get; } = new HObject();
         public HObject _CalibXLD { set; get; } = new HObject();
@@ -1012,11 +1086,11 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 主相机
         /// </summary>
-        public Calibration_Image_Camera_Model Camera_0 { set; get; } 
+        public Calibration_Image_Camera_Model Camera_0 { set; get; } = new Calibration_Image_Camera_Model();
         /// <summary>
         /// 副相机
         /// </summary>
-        public Calibration_Image_Camera_Model Camera_1 { set; get; } 
+        public Calibration_Image_Camera_Model Camera_1 { set; get; } = new Calibration_Image_Camera_Model();
 
 
         public Camera_Connect_Control_Type_Enum Camera_No { set; get; } = Camera_Connect_Control_Type_Enum.Camera_0;
@@ -1034,11 +1108,11 @@ namespace Halcon_SDK_DLL.Model
                     Camera_1.Calibration_Image = _Image;
 
                     break;
-    
+
             }
         }
 
-        public  void Set_Features_Results(HObject _Region, HObject  _XLD)
+        public void Set_Features_Results(HObject _Region, HObject _XLD)
         {
             switch (Camera_No)
             {
@@ -1047,8 +1121,8 @@ namespace Halcon_SDK_DLL.Model
                     break;
                 case Camera_Connect_Control_Type_Enum.Camera_0:
 
-                    Camera_0.Calibration_Region=  _Region;
-                    Camera_0.Calibration_XLD= _XLD;
+                    Camera_0.Calibration_Region = _Region;
+                    Camera_0.Calibration_XLD = _XLD;
 
                     break;
                 case Camera_Connect_Control_Type_Enum.Camera_1:
@@ -1070,7 +1144,7 @@ namespace Halcon_SDK_DLL.Model
 
                     break;
                 case Camera_Connect_Control_Type_Enum.Camera_0:
-             
+
                     Camera_0 = _Model;
 
                     break;
@@ -1078,7 +1152,7 @@ namespace Halcon_SDK_DLL.Model
                     Camera_1 = _Model;
 
                     break;
-            
+
             }
 
 
@@ -1106,19 +1180,19 @@ namespace Halcon_SDK_DLL.Model
 
 
         public Robot_Point_Model Robot_Point { set; get; } = new Robot_Point_Model();
-     
+
 
         /// <summary>
         /// 标定状态
         /// </summary>
         public string Calibration_State { set; get; } = "";
 
-    
+
 
     }
 
     [AddINotifyPropertyChangedInterface]
-        public class Robot_Point_Model
+    public class Robot_Point_Model
     {
 
 
@@ -1181,6 +1255,23 @@ namespace Halcon_SDK_DLL.Model
     [AddINotifyPropertyChangedInterface]
     public class Calibration_Camera_Data_Results_Model
     {
+
+        public Calibration_Camera_Data_Results_Model(Calibration_Camera_Data_Results_Model _Results_Model)
+        {
+            Result_Error_Val = _Results_Model.Result_Error_Val ;
+            Result_Fold_Address = _Results_Model.Result_Fold_Address;
+            Camera_Result_Pama = _Results_Model.Camera_Result_Pama;
+            Calibration_Name = _Results_Model.Calibration_Name;
+            Save_File_Address = _Results_Model.Save_File_Address;
+        }
+
+        public Calibration_Camera_Data_Results_Model()
+        {
+
+        }
+
+
+
         /// <summary>
         /// 标定结果像素误差
         /// </summary>
@@ -1226,6 +1317,9 @@ namespace Halcon_SDK_DLL.Model
             if (File.Exists(Save_File_Address += ".dat")) return true; return false;
 
         }
+
+
+
 
 
 

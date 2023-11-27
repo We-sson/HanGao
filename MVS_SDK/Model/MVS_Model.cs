@@ -207,7 +207,7 @@ namespace MVS_SDK_Base.Model
                 AcquisitionFrameRateEnable = _Param.AcquisitionFrameRateEnable;
                 ExposureTime = _Param. ExposureTime;
                 ExposureAuto = _Param.ExposureAuto;
-                ExposureMode = _Param.ExposureMode;
+                //ExposureMode = _Param.ExposureMode;
                 TriggerMode = _Param.TriggerMode;
                 TriggerActivation = _Param.TriggerActivation;
                 TriggerDelay = _Param.TriggerDelay;
@@ -220,8 +220,8 @@ namespace MVS_SDK_Base.Model
                 GammaEnable = _Param.GammaEnable;
                 Gamma = _Param.Gamma;
                 ReverseX = _Param.ReverseX;
-                OffsetX = _Param.OffsetX;
-                OffsetY = _Param.OffsetY;
+                //OffsetX = _Param.OffsetX;
+                //OffsetY = _Param.OffsetY;
                 LineSelector = _Param.LineSelector;
                 LineMode = _Param.LineMode;
                 LineInverter = _Param.LineInverter;
@@ -263,9 +263,12 @@ namespace MVS_SDK_Base.Model
             /// <summary>
             /// 设置曝光（或快门）的工作模式,枚举类型——默认定时模式，"MV_CAM_EXPOSURE_MODE.MV_EXPOSURE_MODE_TIMED"
             /// </summary>
-            [StringValue("设置曝光（或快门）的工作模式失败")]
-            [Camera_ReadWrite(Camera_Parameter_RW_Type.Write)]
-            public MV_CAM_EXPOSURE_MODE ExposureMode { set; get; } = MV_CAM_EXPOSURE_MODE.MV_EXPOSURE_MODE_TIMED;
+            //[StringValue("设置曝光（或快门）的工作模式失败")]
+            //[Camera_ReadWrite(Camera_Parameter_RW_Type.Write)]
+            //public MV_CAM_EXPOSURE_MODE ExposureMode { set; get; } = MV_CAM_EXPOSURE_MODE.MV_EXPOSURE_MODE_TIMED;
+            
+            
+            
             /// <summary>
             /// 控制所选触发器是否处于活动状态、枚举类型——默认Off，"MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_OFF"
             /// </summary>
@@ -356,13 +359,13 @@ namespace MVS_SDK_Base.Model
             //[StringValue("设置设备提供的图像的高度（像素）失败")]
             //public int Height { set; get; } = 2048;
 
-            [StringValue("设置从原点到AOI的垂直偏移（像素）失败")]
-            [Camera_ReadWrite(Camera_Parameter_RW_Type.Write)]
-            public int OffsetX { set; get; } = 0;
+            //[StringValue("设置从原点到AOI的垂直偏移（像素）失败")]
+            //[Camera_ReadWrite(Camera_Parameter_RW_Type.Write)]
+            //public int OffsetX { set; get; } = 0;
 
-            [StringValue("设置从原点到AOI的水平偏移（像素）失败")]
-            [Camera_ReadWrite(Camera_Parameter_RW_Type.Write)]
-            public int OffsetY { set; get; } = 0;
+            //[StringValue("设置从原点到AOI的水平偏移（像素）失败")]
+            //[Camera_ReadWrite(Camera_Parameter_RW_Type.Write)]
+            //public int OffsetY { set; get; } = 0;
 
             [StringValue("设置选择要配置的外部设备连接器的物理线（或管脚）失败")]
             [Camera_ReadWrite(Camera_Parameter_RW_Type.Write)]

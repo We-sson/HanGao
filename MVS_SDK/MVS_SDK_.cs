@@ -616,7 +616,7 @@ namespace MVS_SDK
                         {
 
                             //return new MPR_Status_Model(MVE_Result_Enum.相机参数设置错误) { Result_Error_Info = "_参数名：" + _Type.Name };
-                            throw new Exception(MVE_Result_Enum.相机参数设置错误 + "_参数名：" + _Type.Name);
+                             throw new Exception(MVE_Result_Enum.相机参数设置错误 + "_参数名：" + _Type.Name);
                         }
                     }
                 }

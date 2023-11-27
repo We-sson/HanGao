@@ -1184,7 +1184,7 @@ namespace HanGao.ViewModel
                         break;
                     case Camera_Connect_Control_Type_Enum.Camera_0:
                         //设置相机采集参数
-                        HandEye_Check.HCamParData = Camera_Calibration_0.Camera_Calibration_Paramteters.HCamPar;
+                        HandEye_Check.Camera_Calibration_Paramteters = Camera_Calibration_0.Camera_Calibration_Paramteters;
 
 
                         switch (_HandEyeModel)
@@ -1211,7 +1211,7 @@ namespace HanGao.ViewModel
                         break;
                     case Camera_Connect_Control_Type_Enum.Camera_1:
                         //设置相机采集参数
-                        HandEye_Check.HCamParData = Camera_Calibration_1.Camera_Calibration_Paramteters.HCamPar;
+                        HandEye_Check.Camera_Calibration_Paramteters = Camera_Calibration_1.Camera_Calibration_Paramteters;
 
 
 
@@ -1305,7 +1305,7 @@ namespace HanGao.ViewModel
             finally
             {
 
-                HandEye_Check.Clear_HandEye_Calibration();
+                //HandEye_Check.Clear_HandEye_Calibration();
 
                 MVS.StopGrabbing(_Select_Camera);
             }

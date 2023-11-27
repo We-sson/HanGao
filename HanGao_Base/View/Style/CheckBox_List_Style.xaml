@@ -33,7 +33,7 @@
                             <!--<Setter Property="Opacity" Value="0.8" />-->
 
                             <Setter TargetName="templateRoot" Property="BorderThickness" Value="2" />
-                            <Setter TargetName="templateRoot" Property="BorderBrush" Value="{DynamicResource 全局_按钮_灰颜色}" />
+                            <Setter TargetName="templateRoot" Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter Property="Opacity" Value="0.5" />

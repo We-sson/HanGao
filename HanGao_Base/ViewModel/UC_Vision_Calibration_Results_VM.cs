@@ -670,31 +670,31 @@ namespace HanGao.ViewModel
 
 
                             //生产相机模型
-                            if ((_H3DModel.Camera_0.Calibration_3D_Model = Get_Calibration_Camera_3DModel(_CalibSetup_ID, _H3DModel.Image_No, 0)).Count > 0)
-                            {
+                            //if ((_H3DModel.Camera_0.Calibration_3D_Model = Get_Calibration_Camera_3DModel(_CalibSetup_ID, _H3DModel.Image_No, 0)).Count > 0)
+                            //{
 
 
-                                _H3DModel.Camera_0.Calibration_3D_Model = Get_Calibration_Camera_3DModel(_CalibSetup_ID, _H3DModel.Image_No, 0);
+                            //    _H3DModel.Camera_0.Calibration_3D_Model = Get_Calibration_Camera_3DModel(_CalibSetup_ID, _H3DModel.Image_No, 0);
 
-                                _H3DModel.Camera_0.Calibration_State = Camera_Calibration_Results_Type_Enum.标定模型生成成功.ToString();
+                            //    _H3DModel.Camera_0.Calibration_State = Camera_Calibration_Results_Type_Enum.标定模型生成成功.ToString();
 
-                            }
-                            else
-                            {
-                                _H3DModel.Camera_0.Calibration_State = Camera_Calibration_Results_Type_Enum.标定模型生成失败.ToString();
+                            //}
+                            //else
+                            //{
+                            //    _H3DModel.Camera_0.Calibration_State = Camera_Calibration_Results_Type_Enum.标定模型生成失败.ToString();
 
-                            }
+                            //}
 
-                            if ((_H3DModel.Camera_1.Calibration_3D_Model = Get_Calibration_Camera_3DModel(_CalibSetup_ID, _H3DModel.Image_No, 1)).Count > 0)
-                            {
+                            //if ((_H3DModel.Camera_1.Calibration_3D_Model = Get_Calibration_Camera_3DModel(_CalibSetup_ID, _H3DModel.Image_No, 1)).Count > 0)
+                            //{
 
-                                _H3DModel.Camera_1.Calibration_State = Camera_Calibration_Results_Type_Enum.标定模型生成成功.ToString();
-                            }
-                            else
-                            {
-                                _H3DModel.Camera_1.Calibration_State = Camera_Calibration_Results_Type_Enum.标定模型生成失败.ToString();
+                            //    _H3DModel.Camera_1.Calibration_State = Camera_Calibration_Results_Type_Enum.标定模型生成成功.ToString();
+                            //}
+                            //else
+                            //{
+                            //    _H3DModel.Camera_1.Calibration_State = Camera_Calibration_Results_Type_Enum.标定模型生成失败.ToString();
 
-                            }
+                            //}
 
 
 
@@ -724,16 +724,16 @@ namespace HanGao.ViewModel
                         foreach (var _H3DModel in Calibration_List)
                         {
 
-                            if ((_H3DModel.Camera_0.Calibration_3D_Model = Get_Calibration_Camera_3DModel(_CalibSetup_ID, _H3DModel.Image_No, 0)).Count > 0)
-                            {
-                                _H3DModel.Camera_0.Calibration_State = Camera_Calibration_Results_Type_Enum.标定模型生成成功.ToString();
+                            //if ((_H3DModel.Camera_0.Calibration_3D_Model = Get_Calibration_Camera_3DModel(_CalibSetup_ID, _H3DModel.Image_No, 0)).Count > 0)
+                            //{
+                            //    _H3DModel.Camera_0.Calibration_State = Camera_Calibration_Results_Type_Enum.标定模型生成成功.ToString();
 
-                            }
-                            else
-                            {
-                                _H3DModel.Camera_0.Calibration_State = Camera_Calibration_Results_Type_Enum.标定模型生成失败.ToString();
+                            //}
+                            //else
+                            //{
+                            //    _H3DModel.Camera_0.Calibration_State = Camera_Calibration_Results_Type_Enum.标定模型生成失败.ToString();
 
-                            }
+                            //}
 
 
 
@@ -757,16 +757,16 @@ namespace HanGao.ViewModel
 
 
 
-                            if ((_H3DModel.Camera_1.Calibration_3D_Model = Get_Calibration_Camera_3DModel(_CalibSetup_ID, _H3DModel.Image_No, 0)).Count > 0)
-                            {
+                            //if ((_H3DModel.Camera_1.Calibration_3D_Model = Get_Calibration_Camera_3DModel(_CalibSetup_ID, _H3DModel.Image_No, 0)).Count > 0)
+                            //{
 
-                                _H3DModel.Camera_1.Calibration_State = Camera_Calibration_Results_Type_Enum.标定模型生成成功.ToString();
-                            }
-                            else
-                            {
-                                _H3DModel.Camera_1.Calibration_State = Camera_Calibration_Results_Type_Enum.标定模型生成失败.ToString();
+                            //    _H3DModel.Camera_1.Calibration_State = Camera_Calibration_Results_Type_Enum.标定模型生成成功.ToString();
+                            //}
+                            //else
+                            //{
+                            //    _H3DModel.Camera_1.Calibration_State = Camera_Calibration_Results_Type_Enum.标定模型生成失败.ToString();
 
-                            }
+                            //}
                         }
                         break;
 

@@ -289,12 +289,12 @@
                             </Style>
                         </Grid.Style>
                         <!--  窗口蒙版  -->
-                        <Border x:Name="Mask"
+                        <!--<Border x:Name="Mask"
                                 Background="{DynamicResource 全局_按钮_黑颜色}"
                                 CornerRadius="0 0 10 10 " />
                         <Border x:Name="Mask1"
                                 Background="{DynamicResource 全局_按钮_黑颜色}"
-                                CornerRadius="0 0 20 20 " />
+                                CornerRadius="0 0 0 0 " />-->
                         <!--<ContentControl x:Name="Live_Window" Content="{Binding Live_Window}">
                             <ContentControl.OpacityMask>
                                 <VisualBrush Visual="{Binding ElementName=Mask}" />
@@ -315,9 +315,9 @@
                                                            PassEventArgsToCommand="True" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
-                            <Halcon:HSmartWindowControlWPF.OpacityMask>
+                            <!--<Halcon:HSmartWindowControlWPF.OpacityMask>
                                 <VisualBrush Visual="{Binding ElementName=Mask}" />
-                            </Halcon:HSmartWindowControlWPF.OpacityMask>
+                            </Halcon:HSmartWindowControlWPF.OpacityMask>-->
                         </Halcon:HSmartWindowControlWPF>
                     </Grid>
                     <Grid Grid.Row=" 1">
@@ -494,9 +494,9 @@
                                                                PassEventArgsToCommand="True" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
-                                <Halcon:HSmartWindowControlWPF.OpacityMask>
+                                <!--<Halcon:HSmartWindowControlWPF.OpacityMask>
                                     <VisualBrush Visual="{Binding ElementName=Mask1}" />
-                                </Halcon:HSmartWindowControlWPF.OpacityMask>
+                                </Halcon:HSmartWindowControlWPF.OpacityMask>-->
                             </Halcon:HSmartWindowControlWPF>
                             <Grid x:Name="G2" VerticalAlignment="Bottom">
                                 <Grid.ColumnDefinitions>
@@ -732,9 +732,9 @@
                                                                PassEventArgsToCommand="True" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
-                                <Halcon:HSmartWindowControlWPF.OpacityMask>
+                                <!--<Halcon:HSmartWindowControlWPF.OpacityMask>
                                     <VisualBrush Visual="{Binding ElementName=Mask1}" />
-                                </Halcon:HSmartWindowControlWPF.OpacityMask>
+                                </Halcon:HSmartWindowControlWPF.OpacityMask>-->
                             </Halcon:HSmartWindowControlWPF>
 
                             <Grid x:Name="G3" VerticalAlignment="Bottom">
@@ -914,9 +914,9 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                             <!--  //外观遮罩  -->
-                            <Halcon:HSmartWindowControlWPF.OpacityMask>
+                            <!--<Halcon:HSmartWindowControlWPF.OpacityMask>
                                 <VisualBrush Visual="{Binding ElementName=Mask}" />
-                            </Halcon:HSmartWindowControlWPF.OpacityMask>
+                            </Halcon:HSmartWindowControlWPF.OpacityMask>-->
                         </Halcon:HSmartWindowControlWPF>
                         <Grid Grid.Row=" 2" Grid.Column=" 0">
                             <Grid.ColumnDefinitions>
