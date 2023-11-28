@@ -2,8 +2,7 @@
 using MVS_SDK_Base.Model;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
-using static HanGao.ViewModel.UC_Vision_Camera_Calibration_VM
-;
+
 using static MVS_SDK_Base.Model.MVS_Model;
 
 namespace HanGao.ViewModel
@@ -365,21 +364,30 @@ namespace HanGao.ViewModel
             get => new RelayCommand<UC_Vision_CameraSet>((E) =>
             {
 
-
-
-                if (MVS.Connect_Camera(Select_Camera).GetResult())
+                try
                 {
 
+         
+                MVS.Connect_Camera(Select_Camera);
 
-                    //E.Camera_ExposureTime_UI.Value = Select_Camera.Camera_Parameter.ExposureTime;
-                    //E.Camera_Gain_UI.Value = Select_Camera.Camera_Parameter.Gain;
-                    //E.DigitalShift.Value = Select_Camera.Camera_Parameter.DigitalShift;
-                    //E.Gamma.Value = Select_Camera.Camera_Parameter.Gamma;
-                    //E.BlackLevel.Value = Select_Camera.Camera_Parameter.BlackLevel;
-                    //E.AcquisitionMode.SelectedIndex = (int)Select_Camera.Camera_Parameter.AcquisitionMode;
-                    //获得UI设置的参数
 
                 }
+                catch (Exception _e)
+                {
+
+                    User_Log_Add( "相机连接失败！原因："+_e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+
+                }
+
+                //E.Camera_ExposureTime_UI.Value = Select_Camera.Camera_Parameter.ExposureTime;
+                //E.Camera_Gain_UI.Value = Select_Camera.Camera_Parameter.Gain;
+                //E.DigitalShift.Value = Select_Camera.Camera_Parameter.DigitalShift;
+                //E.Gamma.Value = Select_Camera.Camera_Parameter.Gamma;
+                //E.BlackLevel.Value = Select_Camera.Camera_Parameter.BlackLevel;
+                //E.AcquisitionMode.SelectedIndex = (int)Select_Camera.Camera_Parameter.AcquisitionMode;
+                //获得UI设置的参数
+
+
 
                 //连接成功后关闭UI操作
 
@@ -687,59 +695,59 @@ namespace HanGao.ViewModel
             }
 
         }
-        /// <summary>
-        /// 查找网络内相机
-        /// </summary>
-        public ICommand Set_Camera_Parameter_Comm
-        {
-            get => new RelayCommand<UC_Vision_CameraSet>((Sm) =>
-            {
+        ///// <summary>
+        ///// 查找网络内相机
+        ///// </summary>
+        //public ICommand Set_Camera_Parameter_Comm
+        //{
+        //    get => new RelayCommand<UC_Vision_CameraSet>((Sm) =>
+        //    {
 
 
-                //把参数类型转换控件
-                //Initialization_Camera();
+        //        //把参数类型转换控件
+        //        //Initialization_Camera();
 
 
-            });
-        }
-
-
-
-        /// <summary>
-        /// 查找网络内相机
-        /// </summary>
-        public ICommand Set_Camera_Calibration_Parameter_Comm
-        {
-            get => new RelayCommand<RoutedEventArgs>((Sm) =>
-            {
-
-                ComboBox _ComboxBox = Sm.Source as ComboBox;
-
-                //把参数类型转换控件
-                //Initialization_Camera();
-
-                MVS_Camera_Info_Model _Select_Camera = _ComboxBox.DataContext as MVS_Camera_Info_Model;
-
-                switch ((Camera_Calibration_MainOrSubroutine_Type_Enum)_ComboxBox.SelectedIndex)
-                {
-                    case Camera_Calibration_MainOrSubroutine_Type_Enum.Main:
-                        Camera_Calibration_Paramteters_0 = new Halcon_Camera_Calibration_Parameters_Model(_Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters);
-
-
-                        break;
-                    case Camera_Calibration_MainOrSubroutine_Type_Enum.Subroutine:
-
-
-                        Camera_Calibration_Paramteters_1 = new Halcon_Camera_Calibration_Parameters_Model(_Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters);
-
-
-                        break;
-                }
+        //    });
+        //}
 
 
 
-            });
-        }
+        ///// <summary>
+        ///// 查找网络内相机
+        ///// </summary>
+        //public ICommand Set_Camera_Calibration_Parameter_Comm
+        //{
+        //    get => new RelayCommand<RoutedEventArgs>((Sm) =>
+        //    {
+
+        //        ComboBox _ComboxBox = Sm.Source as ComboBox;
+
+        //        //把参数类型转换控件
+        //        //Initialization_Camera();
+
+        //        MVS_Camera_Info_Model _Select_Camera = _ComboxBox.DataContext as MVS_Camera_Info_Model;
+
+        //        switch ((Camera_Calibration_MainOrSubroutine_Type_Enum)_ComboxBox.SelectedIndex)
+        //        {
+        //            case Camera_Calibration_MainOrSubroutine_Type_Enum.Main:
+        //                //Camera_Calibration_Paramteters_0 = new Halcon_Camera_Calibration_Parameters_Model(_Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters);
+
+
+        //                break;
+        //            case Camera_Calibration_MainOrSubroutine_Type_Enum.Subroutine:
+
+
+        //                //Camera_Calibration_Paramteters_1 = new Halcon_Camera_Calibration_Parameters_Model(_Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters);
+
+
+        //                break;
+        //        }
+
+
+
+        //    });
+        //}
 
     }
 

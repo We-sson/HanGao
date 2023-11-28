@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "HanGao_Base": {
+      "commandName": "Project",
+      "remoteDebugEnabled": true,
+      "authenticationMode": "None",
+      "remoteDebugMachine": "BG021420"
+    }
+  }
+}

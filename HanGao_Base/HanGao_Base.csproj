@@ -293,11 +293,24 @@
     <ProjectReference Include="..\VTK_3DLibrary\VTK_3DLibrary.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="ViewModel\UC_Vision_Calibration_Image_VM.cs" />
+    <Compile Remove="ViewModel\UC_Vision_Calibration_Results_VM.cs" />
+    <Compile Remove="ViewModel\UC_Vision_Camera_Calibration_VM.cs" />
     <Compile Remove="View\User_Control\KUKA_Status.xaml.cs" />
     <Compile Remove="View\User_Control\UserControl_Grid.xaml.cs" />
+    <Compile Remove="View\User_Control\Vision_Calibration\Vison_UserControl\Calibration_Image_List.xaml.cs" />
+    <Compile Remove="View\User_Control\Vision_Calibration\Vison_UserControl\Camera_List_UserControl.xaml.cs" />
+    <Compile Remove="View\User_Control\Vision_Calibration\Vison_UserControl\Model_3D_UserControl.xaml.cs" />
+    <Compile Remove="View\User_Control\Vision_Control\UC_Vision_Calibration_Results.xaml.cs" />
+    <Compile Remove="View\User_Control\Vision_Control\UC_Vision_Camera_Parametric.xaml.cs" />
     <None Remove="Resources\Vision_标定图标.png" />
     <Page Remove="View\User_Control\KUKA_Status.xaml" />
     <Page Remove="View\User_Control\UserControl_Grid.xaml" />
+    <Page Remove="View\User_Control\Vision_Calibration\Vison_UserControl\Calibration_Image_List.xaml" />
+    <Page Remove="View\User_Control\Vision_Calibration\Vison_UserControl\Camera_List_UserControl.xaml" />
+    <Page Remove="View\User_Control\Vision_Calibration\Vison_UserControl\Model_3D_UserControl.xaml" />
+    <Page Remove="View\User_Control\Vision_Control\UC_Vision_Calibration_Results.xaml" />
+    <Page Remove="View\User_Control\Vision_Control\UC_Vision_Camera_Parametric.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Vision_标定图标.png" />
@@ -308,6 +321,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="View\User_Control\Vision_Calibration\Vison_UserControl\" />
   </ItemGroup>
   <PropertyGroup />
   <PropertyGroup>

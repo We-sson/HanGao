@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.Windows;
 using System.Windows.Media.Media3D;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
@@ -672,12 +673,12 @@ namespace Halcon_SDK_DLL.Model
 
             public HCamPar HCamPar
             {
-                get 
+                get
                 {
-                      _HCamPar = Get_HCamPar(); 
-                    return      _HCamPar;
+                    _HCamPar = Get_HCamPar();
+                    return _HCamPar;
                 }
-                set 
+                set
                 {
 
                     Set_HCamPar(value);
@@ -776,13 +777,13 @@ namespace Halcon_SDK_DLL.Model
         public FindCalibObject_Results(FindCalibObject_Results _Results)
         {
             _Image = _Results._Image;
-            _CalibXLD= _Results._CalibXLD;
-            _CalibRegion= _Results._CalibRegion;
-            _DrawColor= _Results._DrawColor;
+            _CalibXLD = _Results._CalibXLD;
+            _CalibRegion = _Results._CalibRegion;
+            _DrawColor = _Results._DrawColor;
             hv_Row = _Results.hv_Row;
-            hv_Column= _Results.hv_Column;
-            hv_I= _Results.hv_I;
-            hv_Pose= _Results.hv_Pose;
+            hv_Column = _Results.hv_Column;
+            hv_I = _Results.hv_I;
+            hv_Pose = _Results.hv_Pose;
 
 
 
@@ -1076,7 +1077,7 @@ namespace Halcon_SDK_DLL.Model
     /// 标定图像集合模型参数
     /// </summary>
     [AddINotifyPropertyChangedInterface]
-    public class Calibration_Image_List_Model
+    public class Calibration_Image_List_Model : IDisposable
     {
         /// <summary>
         /// 标定图像序号
@@ -1160,7 +1161,15 @@ namespace Halcon_SDK_DLL.Model
 
         }
 
+        public void Dispose()
+        {
+            Camera_0?.Dispose();
 
+            Camera_1?.Dispose();
+
+            GC.Collect();
+            GC.SuppressFinalize(this);
+        }
     }
 
     /// <summary>
@@ -1176,10 +1185,7 @@ namespace Halcon_SDK_DLL.Model
         public int Robot_No { set; get; } = 0;
 
 
-
-
-
-        public Robot_Point_Model Robot_Point { set; get; } = new Robot_Point_Model();
+        public Point_Model Robot_Point { set; get; } = new Point_Model();
 
 
         /// <summary>
@@ -1188,11 +1194,28 @@ namespace Halcon_SDK_DLL.Model
         public string Calibration_State { set; get; } = "";
 
 
-
     }
 
     [AddINotifyPropertyChangedInterface]
-    public class Robot_Point_Model
+    public class Calibration_Plate_Pos_Model
+    {
+        /// <summary>
+        /// 标定图像序号
+        /// </summary>
+        public int Calibration_No { set; get; } = 0;
+
+
+        public Point_Model Plate_Point { set; get; } = new Point_Model();
+
+        /// <summary>
+        /// 标定状态
+        /// </summary>
+        public string Calibration_State { set; get; } = "";
+    }
+
+
+    [AddINotifyPropertyChangedInterface]
+    public class Point_Model
     {
 
 
@@ -1258,7 +1281,7 @@ namespace Halcon_SDK_DLL.Model
 
         public Calibration_Camera_Data_Results_Model(Calibration_Camera_Data_Results_Model _Results_Model)
         {
-            Result_Error_Val = _Results_Model.Result_Error_Val ;
+            Result_Error_Val = _Results_Model.Result_Error_Val;
             Result_Fold_Address = _Results_Model.Result_Fold_Address;
             Camera_Result_Pama = _Results_Model.Camera_Result_Pama;
             Calibration_Name = _Results_Model.Calibration_Name;
@@ -1314,11 +1337,49 @@ namespace Halcon_SDK_DLL.Model
             //添加名称
             Save_File_Address = Result_Fold_Address + "\\" + Calibration_Name;
 
-            if (File.Exists(Save_File_Address += ".dat")) return true; return false;
+            if (File.Exists(Save_File_Address += ".dat"))
+            {
+                if (MessageBox.Show("相机标定文件：" + Calibration_Name + " 已存在，是否覆盖？", "标定提示", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.OK) return false; return true;
+
+            }
+            else
+            {
+                return false;
+            }
 
         }
 
+        /// <summary>
+        /// 保存相机参数
+        /// </summary>
+        /// <exception cref="Exception"></exception>
+        public void Save_Camera_Parameters()
+        {
 
+            if (Camera_Result_Pama.HCamPar != null)
+            {
+
+                if (!Checked_SaveFile())
+                {
+
+                    Camera_Result_Pama.HCamPar.WriteCamPar(Save_File_Address);
+
+                }
+
+
+
+            }
+            else
+            {
+                throw new Exception("未进行相机标定，无法保存！");
+
+            }
+
+
+
+
+
+        }
 
 
 
@@ -1329,7 +1390,7 @@ namespace Halcon_SDK_DLL.Model
 
 
     [AddINotifyPropertyChangedInterface]
-    public class Calibration_Image_Camera_Model
+    public class Calibration_Image_Camera_Model : IDisposable
     {
 
         public Calibration_Image_Camera_Model()
@@ -1367,6 +1428,13 @@ namespace Halcon_SDK_DLL.Model
         /// </summary>
         public List<HObjectModel3D> Calibration_3D_Model { set; get; } = new List<HObjectModel3D>();
 
+
+        /// <summary>
+        /// 标定板位置
+        /// </summary>
+        public Point_Model Calibration_Plate_Pos { set; get; } = new Point_Model();
+
+
         //相机名称图像的
         public string Carme_Name { set; get; }
 
@@ -1376,12 +1444,26 @@ namespace Halcon_SDK_DLL.Model
         public string Calibration_State { set; get; } = "";
 
 
+        public Point_Model Set_Calibration_Plate_Pos(HTuple _Pos)
+        {
+            Calibration_Plate_Pos.X = _Pos.TupleSelect(0) * 1000;
+            Calibration_Plate_Pos.Y = _Pos.TupleSelect(1) * 1000;
+            Calibration_Plate_Pos.Z = _Pos.TupleSelect(2) * 1000;
+            Calibration_Plate_Pos.A = _Pos.TupleSelect(3);
+            Calibration_Plate_Pos.B = _Pos.TupleSelect(4);
+            Calibration_Plate_Pos.C = _Pos.TupleSelect(5);
+
+
+            return Calibration_Plate_Pos;
+        }
 
         /// <summary>
         /// 清理模型内存
         /// </summary>
         public void Dispose()
         {
+
+
             Calibration_Image?.Dispose();
             Calibration_Region?.Dispose();
             Calibration_XLD?.Dispose();
@@ -1394,6 +1476,8 @@ namespace Halcon_SDK_DLL.Model
             }
             Calibration_3D_Model.Clear();
 
+            GC.Collect();
+            GC.SuppressFinalize(this);
 
         }
     }

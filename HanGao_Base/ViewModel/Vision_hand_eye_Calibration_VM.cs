@@ -296,7 +296,7 @@ namespace HanGao.ViewModel
 
                         _RobotInfo.Calibration_State = "生产TCP模型...";
                         _RobotInfo.Robot_No = HandEye_Robot_PosList.Count;
-                        _RobotInfo.Robot_Point = new Robot_Point_Model()
+                        _RobotInfo.Robot_Point = new Point_Model()
                         {
                             X = Math.Round(double.Parse(_S.Actual_Point.X), 3),
                             Y = Math.Round(double.Parse(_S.Actual_Point.Y), 3),

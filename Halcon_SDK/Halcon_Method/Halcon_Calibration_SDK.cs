@@ -189,11 +189,11 @@ namespace Halcon_SDK_DLL
                             Calibration_Image = _Res._Image,
                             Calibration_Region = _Res._CalibRegion,
                             Calibration_XLD = _Res._CalibXLD,
-                            Calibration_State = "手眼识别成功！",
+                            Calibration_State = "相机内参标定成功！",
                             
                              
                         };
-
+                        _Calib_Res.Set_Calibration_Plate_Pos(_Res.hv_Pose);
                         _ResList.Add(_Calib_Res);
 
                     }
