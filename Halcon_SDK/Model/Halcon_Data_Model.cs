@@ -570,6 +570,8 @@ namespace Halcon_SDK_DLL.Model
                 Image_Height = _Parameters_Model.Image_Height;
                 Image_Width = _Parameters_Model.Image_Width;
             }
+     
+
 
 
 
@@ -856,7 +858,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 标定板位置
         /// </summary>
-        public string Halcon_CaltabDescr_Address { set; get; } = "";
+        public string Halcon_CaltabDescr_Address { set; get; }
         /// <summary>
         /// 标定板厚度
         /// </summary>
@@ -1293,6 +1295,10 @@ namespace Halcon_SDK_DLL.Model
 
         }
 
+        /// <summary>
+        /// 相机标定流程状态
+        /// </summary>
+        public Camera_Calinration_Process_Enum Camera_Calinration_Process_Type { set; get; } = Camera_Calinration_Process_Enum.Uncalibrated;
 
 
         /// <summary>
@@ -1860,6 +1866,16 @@ namespace Halcon_SDK_DLL.Model
 
 
     }
+
+    /// <summary>
+    /// 相机内参标定状态，用来判断保存文件
+    /// </summary>
+    public enum Camera_Calinration_Process_Enum
+    {
+        Uncalibrated,
+        Calibrated,
+    }
+
 
 
 }
