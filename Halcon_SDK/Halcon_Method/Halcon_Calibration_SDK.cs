@@ -162,7 +162,7 @@ namespace Halcon_SDK_DLL
 
 
 
-        public Calibration_Camera_Data_Results_Model Camera_Cailbration_Results(ObservableCollection<Calibration_Image_List_Model> _ImageList, Halcon_Camera_Calibration_Model _CalibParam)
+        public Calibration_Camera_Data_Results_Model Camera_Cailbration_Results(ObservableCollection<Calibration_Image_List_Model> _ImageList, Halcon_Camera_Calibration_Model _CalibParam, Camera_Connect_Control_Type_Enum _Selected_Camera)
         {
             Calibration_Camera_Data_Results_Model _Results = new Calibration_Camera_Data_Results_Model();
             Reconstruction_3d _Camera_3DModel = new Reconstruction_3d();
@@ -181,7 +181,7 @@ namespace Halcon_SDK_DLL
 
                     Calibration_Image_Camera_Model _Selected_camera = new Calibration_Image_Camera_Model(); ;
 
-                    switch (Camera_Connect_Model)
+                    switch (_Selected_Camera)
                     {
                         case Camera_Connect_Control_Type_Enum.双目相机:
 
@@ -256,7 +256,7 @@ namespace Halcon_SDK_DLL
                     List<HObjectModel3D> _Camera3D = _Camera_3DModel.Get_Calibration_Camera_3DModel(HCalibData, i);
 
                     //设置对应
-                    switch (Camera_Connect_Model)
+                    switch (_Selected_Camera)
                     {
                         case Camera_Connect_Control_Type_Enum.双目相机:
 
@@ -281,6 +281,9 @@ namespace Halcon_SDK_DLL
             }
             catch (Exception _e)
             {
+
+           
+
 
                 throw new Exception("相机内参标定失败！" + " 原因：" + _e.Message);
 
@@ -394,7 +397,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_Calibration_Param"></param>
         /// <param name="_CalibPos_No"></param>
         private void Find_Calibration_Workflows(ref FindCalibObject_Results _Results, HObject _Image, Halcon_Camera_Calibration_Model _Calibration_Param, int _CalibPos_No = 0)
-        {
+        { 
             Halcon_Method_Model _Halcon_method = new Halcon_Method_Model();
             try
             {

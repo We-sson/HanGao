@@ -981,7 +981,7 @@ namespace HanGao.ViewModel
 
 
                                 Camera_Calibration_Image_List.Clear();
-                          
+
 
                             });
 
@@ -1414,13 +1414,13 @@ namespace HanGao.ViewModel
 
             _Calib_Iamge.Set_Parameter_Val(_Calib_Model);
 
-            
+
             ///添加到列表
             Application.Current.Dispatcher.Invoke(() =>
             {
 
                 Camera_Calibration_Image_List.Add(_Calib_Iamge);
-       
+
             });
 
         }
@@ -1434,7 +1434,7 @@ namespace HanGao.ViewModel
         public void Camera_Calibration_ImageList_Data(Camera_Connect_Control_Type_Enum _Selected_Type)
         {
 
-            Calibration_Camera_Data_Results_Model _Selected_Results = new Calibration_Camera_Data_Results_Model(); 
+            Calibration_Camera_Data_Results_Model _Selected_Results = new Calibration_Camera_Data_Results_Model();
 
             //对应标定钱检测可标定状态
             switch (_Selected_Type)
@@ -1453,7 +1453,22 @@ namespace HanGao.ViewModel
                     {
                         Camera_0_Results.Camera_Calinration_Process_Type = Camera_Calinration_Process_Enum.Calibration;
                         ///进行标定得到结果
-                        _Selected_Results = Camera_0_Results = Halcon_Camera_Calibra.Camera_Cailbration_Results(Camera_Calibration_Image_List, Camera_Interna_Parameters);
+
+                        try
+                        {
+                            ///拷贝设备相机标定的内参初始值
+                            Halcon_Camera_Calibra.Camera_Calibration_Paramteters = new Halcon_Camera_Calibration_Parameters_Model (Camera_Calibration_0.Camera_Calibration_Paramteters);
+
+                            _Selected_Results = Camera_0_Results = Halcon_Camera_Calibra.Camera_Cailbration_Results(Camera_Calibration_Image_List, Camera_Interna_Parameters, _Selected_Type);
+                        }
+                        catch (Exception _e)
+                        {
+
+                            Camera_0_Results.Camera_Calinration_Process_Type = Camera_Calinration_Process_Enum.Uncalibrated;
+
+                            throw new Exception(_e.Message);
+
+                        }
 
 
                     }
@@ -1461,7 +1476,6 @@ namespace HanGao.ViewModel
                     {
 
                         throw new Exception(_Selected_Type + "：标定图像少于10张！");
-
 
                     }
 
@@ -1474,7 +1488,22 @@ namespace HanGao.ViewModel
                     {
                         Camera_1_Results.Camera_Calinration_Process_Type = Camera_Calinration_Process_Enum.Calibration;
 
-                        _Selected_Results = Camera_1_Results = Halcon_Camera_Calibra.Camera_Cailbration_Results(Camera_Calibration_Image_List, Camera_Interna_Parameters);
+                        try
+                        {
+                            ///拷贝设备相机标定的内参初始值
+
+                            Halcon_Camera_Calibra.Camera_Calibration_Paramteters = new Halcon_Camera_Calibration_Parameters_Model (Camera_Calibration_1.Camera_Calibration_Paramteters);
+
+                            _Selected_Results = Camera_1_Results = Halcon_Camera_Calibra.Camera_Cailbration_Results(Camera_Calibration_Image_List, Camera_Interna_Parameters, _Selected_Type);
+                        }
+                        catch (Exception _e)
+                        {
+
+                            Camera_1_Results.Camera_Calinration_Process_Type = Camera_Calinration_Process_Enum.Uncalibrated;
+                            throw new Exception(_e.Message);
+
+                        }
+
 
 
                     }
@@ -1493,6 +1522,9 @@ namespace HanGao.ViewModel
             {
                 case Camera_Calinration_Process_Enum.Uncalibrated:
 
+
+
+
                     throw new Exception(_Selected_Type + "：相机内参标定失败，请在图像列表删除图像检测异常....！");
 
 
@@ -1505,7 +1537,7 @@ namespace HanGao.ViewModel
 
 
 
-                    User_Log_Add(_Selected_Type + "：设备标定误差" + _Selected_Results.Result_Error_Val, Log_Show_Window_Enum.Calibration, MessageBoxImage.Exclamation);
+                    User_Log_Add(_Selected_Type + "：设备标定误差" + _Selected_Results.Result_Error_Val, Log_Show_Window_Enum.Calibration, MessageBoxImage.Information);
 
 
                     break;

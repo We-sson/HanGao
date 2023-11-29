@@ -1202,6 +1202,7 @@
                         <DataGrid.Resources>
                             <Style BasedOn="{StaticResource Right_ScrollBarStyle}" TargetType="ScrollBar" />
                         </DataGrid.Resources>
+
                         <DataGrid.Columns>
 
 
@@ -1219,7 +1220,8 @@
                                         <TextBlock Text="{Binding Image_No}"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   FontSize="16" />
+                                                   FontSize="16"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
 
@@ -1245,7 +1247,8 @@
                                         <TextBlock Text="{Binding Camera_0.Carme_Name}"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   FontSize="16" />
+                                                   FontSize="16"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
 
@@ -1263,13 +1266,27 @@
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
+                                        <Border>
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Camera_0.Calibration_State}" Value="{x:Static Halcon_Enum:Camera_Calibration_Image_State_Enum.Image_UnSuccessful}">
+                                                            <Setter Property="Background" Value="{DynamicResource 全局_按钮_青红颜色}" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Camera_0.Calibration_State}" Value="{x:Static Halcon_Enum:Camera_Calibration_Image_State_Enum.Image_Successful}">
+                                                            <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            <TextBlock Text="{Binding Camera_0.Calibration_State, Converter={StaticResource Enum_DescriptionConverter}}"
+                                                       Padding="2"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-                                        <TextBlock Text="{Binding Camera_0.Calibration_State, Converter={StaticResource Enum_DescriptionConverter}}"
-                                                   Padding="2"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   FontSize="16" />
-
+                                        </Border>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
 
@@ -1292,7 +1309,8 @@
                                                    Padding="2"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   FontSize="16" />
+                                                   FontSize="16"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -1345,6 +1363,7 @@
                         <DataGrid.Resources>
                             <Style BasedOn="{StaticResource Right_ScrollBarStyle}" TargetType="ScrollBar" />
                         </DataGrid.Resources>
+
                         <DataGrid.Columns>
 
 
@@ -1362,7 +1381,8 @@
                                         <TextBlock Text="{Binding Camera_1.Carme_Name}"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   FontSize="16" />
+                                                   FontSize="16"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
 
@@ -1373,6 +1393,7 @@
 
                             <DataGridTemplateColumn Width="*">
                                 <DataGridTemplateColumn.Header>
+
                                     <TextBlock Text="标定状态"
                                                Margin="4"
                                                HorizontalAlignment="Center"
@@ -1384,11 +1405,26 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
 
-                                        <TextBlock Text="{Binding Camera_1.Calibration_State}"
-                                                   Padding="2"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   FontSize="16" />
+                                        <Border>
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Camera_1.Calibration_State}" Value="{x:Static Halcon_Enum:Camera_Calibration_Image_State_Enum.Image_UnSuccessful}">
+                                                            <Setter Property="Background" Value="{DynamicResource 全局_按钮_青红颜色}" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Camera_1.Calibration_State}" Value="{x:Static Halcon_Enum:Camera_Calibration_Image_State_Enum.Image_Successful}">
+                                                            <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            <TextBlock Text="{Binding Camera_1.Calibration_State, Converter={StaticResource Enum_DescriptionConverter}}"
+                                                       Padding="2"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                        </Border>
 
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -1412,7 +1448,8 @@
                                                    Padding="2"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   FontSize="16" />
+                                                   FontSize="16"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -2473,59 +2510,6 @@
                                                    FontSize=" 14" />
                                         </Grid>
 
-                                        <Grid Height="35" Margin="8">
-
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width=" 90" />
-                                                <ColumnDefinition Width=" *" />
-                                                <ColumnDefinition Width=" 35" />
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock Text="标定精度"
-                                                       HorizontalAlignment="Left"
-                                                       VerticalAlignment="Center"
-                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                       FontSize="16"
-                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
-
-
-                                            <TextBox Grid.Column=" 1"
-                                                     Text="{Binding Camera_0_Select_Val.Camera_Calibration.Calibrated_Accuracy, FallbackValue=....}"
-                                                     HorizontalContentAlignment="Center"
-                                                     VerticalContentAlignment="Center"
-                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                     BorderThickness="2"
-                                                     FontSize="16"
-                                                     IsReadOnly="True">
-                                                <TextBox.Style>
-                                                    <Style TargetType="TextBox">
-
-                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
-
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_0_Diver}" Value="false">
-                                                                <Setter Property="IsEnabled" Value="False" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding Camera_0_Select_Val.Camera_Calibration.Calibrated_Accuracy}" Value="0">
-                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_黄颜色}" />
-
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding Camera_0_Select_Val.Camera_Calibration.Calibrated_Accuracy}" Value="{x:Null}">
-                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_黄颜色}" />
-
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBox.Style>
-                                            </TextBox>
-                                            <Label Grid.Column=" 3"
-                                                   Content="mm"
-                                                   Margin="0"
-                                                   Padding="0"
-                                                   HorizontalContentAlignment="Center"
-                                                   VerticalContentAlignment="Center"
-                                                   FontSize=" 14" />
-                                        </Grid>
 
 
 
@@ -3524,59 +3508,6 @@
                                                    FontSize=" 14" />
                                         </Grid>
 
-                                        <Grid Height="35" Margin="8">
-
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width=" 90" />
-                                                <ColumnDefinition Width=" *" />
-                                                <ColumnDefinition Width=" 35" />
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock Text="标定精度"
-                                                       HorizontalAlignment="Left"
-                                                       VerticalAlignment="Center"
-                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                       FontSize="16"
-                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
-
-
-                                            <TextBox Grid.Column=" 1"
-                                                     Text="{Binding Camera_1_Select_Val.Camera_Calibration.Calibrated_Accuracy, FallbackValue=....}"
-                                                     HorizontalContentAlignment="Center"
-                                                     VerticalContentAlignment="Center"
-                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                     BorderThickness="2"
-                                                     FontSize="16"
-                                                     IsReadOnly="True">
-                                                <TextBox.Style>
-                                                    <Style TargetType="TextBox">
-
-                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
-
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_1_Diver}" Value="false">
-                                                                <Setter Property="IsEnabled" Value="False" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding Camera_1_Select_Val.Camera_Calibration.Calibrated_Accuracy}" Value="0">
-                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_黄颜色}" />
-
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding Camera_1_Select_Val.Camera_Calibration.Calibrated_Accuracy}" Value="{x:Null}">
-                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_黄颜色}" />
-
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBox.Style>
-                                            </TextBox>
-                                            <Label Grid.Column=" 3"
-                                                   Content="mm"
-                                                   Margin="0"
-                                                   Padding="0"
-                                                   HorizontalContentAlignment="Center"
-                                                   VerticalContentAlignment="Center"
-                                                   FontSize=" 14" />
-                                        </Grid>
 
 
 
@@ -5028,7 +4959,7 @@
                                       Margin="0,0,0,10"
                                       HorizontalContentAlignment="Stretch"
                                       VerticalContentAlignment="Stretch"
-                                      IsExpanded="False">
+                                      IsExpanded="True">
                                 <Expander.Header>
                                     <Border Margin="0" Background="{DynamicResource 全局_按钮_蓝颜色}">
                                         <Border.Style>

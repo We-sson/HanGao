@@ -413,8 +413,8 @@ namespace MVS_SDK_Base.Model
         {
             /// <summary>
             /// 标定精度
-            /// </summary>
-            public double Calibrated_Accuracy { set; get; } 
+            ///// </summary>
+            //public double Calibrated_Accuracy { set; get; } 
 
 
 
