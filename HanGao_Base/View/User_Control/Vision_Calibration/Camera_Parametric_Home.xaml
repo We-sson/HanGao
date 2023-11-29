@@ -1264,7 +1264,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
 
-                                        <TextBlock Text="{Binding Camera_0.Calibration_State}"
+                                        <TextBlock Text="{Binding Camera_0.Calibration_State, Converter={StaticResource Enum_DescriptionConverter}}"
                                                    Padding="2"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
@@ -1581,7 +1581,7 @@
                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
                               GridLinesVisibility="Horizontal"
                               HeadersVisibility="Column"
-                              ItemsSource="{Binding Calibration_Plate_Pos_List}"
+                              ItemsSource="{Binding Camera_Calibration_Image_List}"
                               RowHeaderWidth="0"
                               RowHeight="40"
                               RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
@@ -1614,7 +1614,7 @@
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding Calibration_No}"
+                                        <TextBox Text="{Binding Image_No}"
                                                  HorizontalAlignment="Stretch"
                                                  VerticalAlignment="Stretch"
                                                  HorizontalContentAlignment="Center"
@@ -1640,7 +1640,7 @@
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding Plate_Point.X, StringFormat={}{0:F4}}"
+                                        <TextBox Text="{Binding Calibration_Plate_Pos.X, StringFormat={}{0:F4}}"
                                                  HorizontalAlignment="Stretch"
                                                  VerticalAlignment="Stretch"
                                                  HorizontalContentAlignment="Center"
@@ -1667,7 +1667,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
 
-                                        <TextBox Text="{Binding Plate_Point.Y, StringFormat={}{0:F4}}"
+                                        <TextBox Text="{Binding Calibration_Plate_Pos.Y, StringFormat={}{0:F4}}"
                                                  HorizontalAlignment="Stretch"
                                                  VerticalAlignment="Stretch"
                                                  HorizontalContentAlignment="Center"
@@ -1695,7 +1695,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
 
-                                        <TextBox Text="{Binding Plate_Point.Z, StringFormat={}{0:F4}}"
+                                        <TextBox Text="{Binding Calibration_Plate_Pos.Z, StringFormat={}{0:F4}}"
                                                  HorizontalAlignment="Stretch"
                                                  VerticalAlignment="Stretch"
                                                  HorizontalContentAlignment="Center"
@@ -1722,7 +1722,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
 
-                                        <TextBox Text="{Binding Plate_Point.A, StringFormat={}{0:F4}}"
+                                        <TextBox Text="{Binding Calibration_Plate_Pos.A, StringFormat={}{0:F4}}"
                                                  HorizontalAlignment="Stretch"
                                                  VerticalAlignment="Stretch"
                                                  HorizontalContentAlignment="Center"
@@ -1749,7 +1749,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
 
-                                        <TextBox Text="{Binding Plate_Point.B, StringFormat={}{0:F4}}"
+                                        <TextBox Text="{Binding Calibration_Plate_Pos.B, StringFormat={}{0:F4}}"
                                                  HorizontalAlignment="Stretch"
                                                  VerticalAlignment="Stretch"
                                                  HorizontalContentAlignment="Center"
@@ -1776,7 +1776,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
 
-                                        <TextBox Text="{Binding Plate_Point.C, StringFormat={}{0:F4}}"
+                                        <TextBox Text="{Binding Calibration_Plate_Pos.C, StringFormat={}{0:F4}}"
                                                  HorizontalAlignment="Stretch"
                                                  VerticalAlignment="Stretch"
                                                  HorizontalContentAlignment="Center"
@@ -5820,8 +5820,7 @@
                                                                  BorderThickness="0"
                                                                  IsIndeterminate="True"
                                                                  Maximum=" 100"
-                                                                 Minimum=" 0"
-                                                                 Value="{Binding Camera_0_Results.Result_Error_Val}" />
+                                                                 Minimum=" 0" />
 
                                                     <TextBlock x:Key="Calibration_Results_Txt"
                                                                Text="标定数据"
@@ -5836,7 +5835,7 @@
                                                     <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
                                                         <Setter Property="Content" Value="{StaticResource Calibration_Results_Txt}" />
                                                         <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Calibration_Results_0_State}" Value="true">
+                                                            <DataTrigger Binding="{Binding Camera_0_Results.Camera_Calinration_Process_Type}" Value="{x:Static Halcon_Enum:Camera_Calinration_Process_Enum.Calibration}">
                                                                 <Setter Property="Content" Value="{StaticResource Calibration_PBar}" />
                                                                 <Setter Property="IsEnabled" Value="False" />
                                                             </DataTrigger>
@@ -6712,8 +6711,7 @@
                                                                  BorderThickness="0"
                                                                  IsIndeterminate="True"
                                                                  Maximum=" 100"
-                                                                 Minimum=" 0"
-                                                                 Value="{Binding Camera_1_Results.Result_Error_Val}" />
+                                                                 Minimum=" 0" />
 
                                                     <TextBlock x:Key="Calibration_Results_Txt"
                                                                Text="标定数据"
@@ -6728,7 +6726,7 @@
                                                     <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
                                                         <Setter Property="Content" Value="{StaticResource Calibration_Results_Txt}" />
                                                         <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Calibration_Results_1_State}" Value="true">
+                                                            <DataTrigger Binding="{Binding Camera_1_Results.Camera_Calinration_Process_Type}" Value="{x:Static Halcon_Enum:Camera_Calinration_Process_Enum.Calibration}">
                                                                 <Setter Property="Content" Value="{StaticResource Calibration_PBar}" />
                                                                 <Setter Property="IsEnabled" Value="False" />
                                                             </DataTrigger>

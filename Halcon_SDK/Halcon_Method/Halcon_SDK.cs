@@ -2963,19 +2963,27 @@ namespace Halcon_SDK_DLL
         /// <param name="_Region"></param>
         /// <param name="_HImage"></param>
         /// <returns></returns>
-        public static HPR_Status_Model<bool> Get_Image_MaxThreshold(ref HRegion _Region, HImage _HImage)
+        public HRegion Get_Image_MaxThreshold(HImage _HImage)
         {
 
             try
             {
-                _Region = _HImage.Threshold(new HTuple(254), new HTuple(255));
-                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "提取过曝区域成功！" };
+                HRegion _Region = new HRegion();
+
+                if (_HImage != null)
+                {
+
+                    _Region = _HImage.Threshold(new HTuple(254), new HTuple(255));
+                }
+     
+                return _Region;
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
-                return new HPR_Status_Model<bool>(HVE_Result_Enum.显示最大灰度失败) { Result_Error_Info = e.Message };
+                throw new Exception("显示最大灰度失败！");
+
 
             }
 
@@ -2989,19 +2997,27 @@ namespace Halcon_SDK_DLL
         /// <param name="_Region"></param>
         /// <param name="_HImage"></param>
         /// <returns></returns>
-        public static HPR_Status_Model<bool> Get_Image_MinThreshold(ref HRegion _Region, HImage _HImage)
+        public HRegion Get_Image_MinThreshold( HImage _HImage)
         {
 
             try
             {
-                _Region = _HImage.Threshold(new HTuple(0), new HTuple(1));
-                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "提取过暗区域成功！" };
+
+                HRegion _Region = new HRegion();
+
+                if (_HImage != null)
+                {
+
+                    _Region = _HImage.Threshold(new HTuple(0), new HTuple(1));
+                }
+                return _Region;
+
 
             }
-            catch (Exception e)
+            catch (Exception )
             {
 
-                return new HPR_Status_Model<bool>(HVE_Result_Enum.显示最小灰度失败) { Result_Error_Info = e.Message };
+                throw new Exception("显示最小灰度失败！");
 
             }
 

@@ -1096,6 +1096,35 @@ namespace Halcon_SDK_DLL.Model
         public Calibration_Image_Camera_Model Camera_1 { set; get; } = new Calibration_Image_Camera_Model();
 
 
+
+        /// <summary>
+        /// 标定板位置
+        /// </summary>
+        public Point_Model Calibration_Plate_Pos { set; get; } = new Point_Model();
+
+
+        public Point_Model Set_Calibration_Plate_Pos(HTuple _Pos)
+        {
+            if (_Pos != null)
+            {
+
+                Calibration_Plate_Pos.X = _Pos.TupleSelect(0) * 1000;
+                Calibration_Plate_Pos.Y = _Pos.TupleSelect(1) * 1000;
+                Calibration_Plate_Pos.Z = _Pos.TupleSelect(2) * 1000;
+                Calibration_Plate_Pos.A = _Pos.TupleSelect(3);
+                Calibration_Plate_Pos.B = _Pos.TupleSelect(4);
+                Calibration_Plate_Pos.C = _Pos.TupleSelect(5);
+
+
+                return Calibration_Plate_Pos;
+            }
+            else
+            {
+                return Calibration_Plate_Pos;
+
+            }
+        }
+
         public Camera_Connect_Control_Type_Enum Camera_No { set; get; } = Camera_Connect_Control_Type_Enum.Camera_0;
 
         public void Set_HImage(HObject _Image)
@@ -1435,10 +1464,6 @@ namespace Halcon_SDK_DLL.Model
         public List<HObjectModel3D> Calibration_3D_Model { set; get; } = new List<HObjectModel3D>();
 
 
-        /// <summary>
-        /// 标定板位置
-        /// </summary>
-        public Point_Model Calibration_Plate_Pos { set; get; } = new Point_Model();
 
 
         //相机名称图像的
@@ -1447,21 +1472,10 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 标定状态
         /// </summary>
-        public string Calibration_State { set; get; } = "";
+        public Camera_Calibration_Image_State_Enum Calibration_State { set; get; } = Camera_Calibration_Image_State_Enum.None;
 
 
-        public Point_Model Set_Calibration_Plate_Pos(HTuple _Pos)
-        {
-            Calibration_Plate_Pos.X = _Pos.TupleSelect(0) * 1000;
-            Calibration_Plate_Pos.Y = _Pos.TupleSelect(1) * 1000;
-            Calibration_Plate_Pos.Z = _Pos.TupleSelect(2) * 1000;
-            Calibration_Plate_Pos.A = _Pos.TupleSelect(3);
-            Calibration_Plate_Pos.B = _Pos.TupleSelect(4);
-            Calibration_Plate_Pos.C = _Pos.TupleSelect(5);
 
-
-            return Calibration_Plate_Pos;
-        }
 
         /// <summary>
         /// 清理模型内存
@@ -1872,10 +1886,37 @@ namespace Halcon_SDK_DLL.Model
     /// </summary>
     public enum Camera_Calinration_Process_Enum
     {
+        /// <summary>
+        /// 未标定
+        /// </summary>
         Uncalibrated,
-        Calibrated,
+        Calibration,
+        /// <summary>
+        /// 标定成功
+        /// </summary>
+        Calibration_Successful
     }
 
+
+    /// <summary>
+    /// 图像标定检测状态
+    /// </summary>
+   public enum Camera_Calibration_Image_State_Enum
+    {
+        [Description("...")]
+        None,
+        [Description("图像加载...")]
+        Image_Loading,
+        [Description("图像检测中...")]
+        Image_Detection,
+
+        [Description("图像检测成功...")]
+        Image_Successful,
+        [Description("图像检测异常...")]
+        Image_UnSuccessful,
+
+
+    }
 
 
 }

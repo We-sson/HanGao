@@ -271,7 +271,7 @@ namespace HanGao.ViewModel
 
                     ///识别生产添加到标定列表
 
-                    if (_Results._CalibRegion != null && _Results._CalibXLD != null)
+                    if (_Results._CalibRegion.IsInitialized() && _Results._CalibXLD.IsInitialized())
                     {
 
                         Calibration_Image_List_Model _Image = new Calibration_Image_List_Model()
@@ -286,7 +286,7 @@ namespace HanGao.ViewModel
                             Calibration_Region =_Results._CalibRegion,
                             Calibration_XLD = _Results._CalibXLD,
                              Calibration_3D_Model= _Calib_Rotob_Model,
-                              Calibration_State="识别标定中..."
+                              Calibration_State= Camera_Calibration_Image_State_Enum.Image_Successful
                         });
 
 
@@ -540,7 +540,7 @@ namespace HanGao.ViewModel
                                     _Image = new Calibration_Image_List_Model() { Image_No = i, Camera_No = Enum.Parse<Camera_Connect_Control_Type_Enum>((string)E.Tag) };
 
 
-                                    _Image.Set_Parameter_Val(new Calibration_Image_Camera_Model() { Carme_Name="本地模式", Calibration_Image= _HImage,Calibration_State = "加载图像..." });
+                                    _Image.Set_Parameter_Val(new Calibration_Image_Camera_Model() { Carme_Name="本地模式", Calibration_Image= _HImage,Calibration_State = Camera_Calibration_Image_State_Enum.Image_Loading });
                         
                           
                                     HandEye_Calibration_List.Add(_Image);
@@ -560,7 +560,7 @@ namespace HanGao.ViewModel
                                 else
                                 {
                                     _Image.Camera_No = Enum.Parse<Camera_Connect_Control_Type_Enum>((string)E.Tag);
-                                    _Image.Set_Parameter_Val(new Calibration_Image_Camera_Model() { Carme_Name = "本地模式", Calibration_Image = _HImage, Calibration_State="加载图像..." });
+                                    _Image.Set_Parameter_Val(new Calibration_Image_Camera_Model() { Carme_Name = "本地模式", Calibration_Image = _HImage, Calibration_State=Camera_Calibration_Image_State_Enum.Image_Loading });
 
 
 
