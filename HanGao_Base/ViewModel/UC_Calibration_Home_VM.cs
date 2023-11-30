@@ -141,43 +141,7 @@ namespace HanGao.ViewModel
         public int UI_Camera_Calibration_SelectedIndex { set; get; } = -1;
 
 
-        /// <summary>
-        /// Halcon窗口初始化
-        /// </summary>
-        /// <param name="Window_UserContol"></param>
-        public void HWindows_Initialization(HSmartWindowControlWPF Window_UserContol)
-        {
 
-
-
-            switch (Window_UserContol.Name)
-            {
-                case string _N when Window_UserContol.Name == nameof(Window_Show_Name_Enum.Calibration_Window_1):
-                    //初始化halcon图像属性
-
-                    Halcon_Window_Display.Calibration_Window_1 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
-
-                    break;
-                case string _N when Window_UserContol.Name == nameof(Window_Show_Name_Enum.Calibration_Window_2):
-                    //加载halcon图像属性
-                    Halcon_Window_Display.Calibration_Window_2 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
-                    break;
-                case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Calibration_3D_Results)):
-                    //加载halcon图像属性
-                    Halcon_Window_Display.Calibration_3D_Results = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
-                    break;
-            }
-
-
-            //设置halcon窗体大小
-            Window_UserContol.HalconWindow.SetWindowExtents(0, 0, (int)Window_UserContol.WindowSize.Width, (int)Window_UserContol.WindowSize.Height);
-            Window_UserContol.HalconWindow.SetColored(12);
-            Window_UserContol.HalconWindow.SetColor(nameof(KnownColor.Red).ToLower());
-            HTuple _Font = Window_UserContol.HalconWindow.QueryFont();
-            Window_UserContol.HalconWindow.SetFont(_Font.TupleSelect(0) + "-18");
-
-
-        }
 
         /// <summary>
         /// 初始化窗口控件
@@ -186,10 +150,12 @@ namespace HanGao.ViewModel
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
+
                 HSmartWindowControlWPF Window_UserContol = Sm.Source as HSmartWindowControlWPF;
 
 
-                HWindows_Initialization(Window_UserContol);
+                //弃用
+                //HWindows_Initialization(Window_UserContol);
 
 
             });
@@ -283,122 +249,6 @@ namespace HanGao.ViewModel
 
                 //可视化显示
                 HDisplay_3D = new H3D_Model_Display(Halcon_Window_Display.Calibration_3D_Results);
-
-
-
-                //设置消息显示委托
-                //HDisplay_3D.H3D_Display_Message_delegate += (_E) =>
-                //{
-                //    User_Log_Add(_E, Log_Show_Window_Enum.Calibration);
-                //};
-
-
-                //});
-
-
-                // Create a simple cube. A pipeline is created.
-                // 创建一个简单的立方体。创建一个管道。
-                //vtkCubeSource cube = vtkCubeSource.New();
-
-                //vtkPolyDataMapper mapper = vtkPolyDataMapper.New();
-                //mapper.SetInputConnection(cube.GetOutputPort());
-
-                //// The actor links the data pipeline to the rendering subsystem
-                //// 角色将数据管道与渲染子系统连接起来
-                //vtkActor actor = vtkActor.New();
-                //actor.SetMapper(mapper);
-
-                // Create components of the rendering subsystem
-                // // 创建渲染子系统的组件
-                //VTKModel = Window_UserContol.Model_3D_Display;
-                //vtkRenderer renderer = VTKModel.RenderWindow.GetRenderers().GetFirstRenderer();
-
-                //renderer.SetBackground(.2, .3, .4);
-
-                //// Add the actors to the renderer, set the window size
-                //// 将演员添加到呈现器，设置窗口大小
-                //renderer.AddActor(actor);
-
-
-
-                //             // Local iconic variables 
-
-                //             HObject ho_ContCircle;
-
-                //             // Local control variables 
-
-                //             HTuple hv_PoseIn = new HTuple();
-                //             HTuple hv_Row = new HTuple(), hv_Column = new HTuple();
-                //             HTuple hv_X = new HTuple(), hv_Y = new HTuple();
-                //HObjectModel3D hv_ObjectModel3DPlane1 = new HObjectModel3D();
-                //HObjectModel3D hv_ObjectModel3DPlane2 = new HObjectModel3D(), hv_ObjectModel3DSphere1 = new HObjectModel3D();
-                //HObjectModel3D hv_ObjectModel3DSphere2 = new HObjectModel3D(), hv_ObjectModel3DCylinder = new HObjectModel3D();
-                //HObjectModel3D hv_ObjectModel3DBox = new HObjectModel3D();
-                //             HTuple hv_Instructions = new HTuple();
-                //             HTuple hv_ObjectModels = new HTuple(), hv_Labels = new HTuple();
-                //             HTuple hv_VisParamName = new HTuple(), hv_VisParamValue = new HTuple();
-                //             HTuple hv_PoseOut = new HTuple();
-                //             // Initialize local and output iconic variables 
-                //             HOperatorSet.GenEmptyObj(out ho_ContCircle);
-
-                //             HOperatorSet.CreatePose(0.1, 1.5, 88, 106, 337, 224, "Rp+T", "gba", "point",
-                //out hv_PoseIn);
-                //             ho_ContCircle.Dispose();
-                //             HOperatorSet.GenCircleContourXld(out ho_ContCircle, 200, 200, 100, 0, 6.28318,
-                //                 "positive", 120);
-                //             hv_Row.Dispose(); hv_Column.Dispose();
-                //             HOperatorSet.GetContourXld(ho_ContCircle, out hv_Row, out hv_Column);
-                //             hv_X.Dispose();
-                //             using (HDevDisposeHelper dh = new HDevDisposeHelper())
-                //             {
-                //                 hv_X = ((3 * hv_Row) / (((hv_Row.TupleConcat(
-                //                     hv_Column))).TupleMax())) - 2;
-                //             }
-                //             hv_Y.Dispose();
-                //             using (HDevDisposeHelper dh = new HDevDisposeHelper())
-                //             {
-                //                 hv_Y = ((3 * hv_Column) / (((hv_Row.TupleConcat(
-                //                     hv_Column))).TupleMax())) - 2;
-                //             }
-
-
-                //HDisplay_3D.hv_ObjectModel3D.Clear();
-
-
-                //hv_ObjectModel3DPlane1.GenPlaneObjectModel3d(new HPose(0, 0, 0, 0, 0, 0, "Rp+T", "gba", "point"),new HTuple (),new HTuple ());
-
-
-                //hv_ObjectModel3DPlane2.GenPlaneObjectModel3d(new HPose(1, 1, 1, 0, 50, 30, "Rp+T", "gba", "point"), hv_X, hv_Y);
-
-                //HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DPlane2);
-
-
-
-                //hv_ObjectModel3DSphere1.GenSphereObjectModel3d(new HPose(0, 0, 3, 0, 0, 0, "Rp+T", "gba", "point"), 0.5);
-
-                //HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DSphere1);
-
-
-
-
-                //hv_ObjectModel3DSphere2.GenSphereObjectModel3dCenter(-1, 0, 1, 1);
-                //HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DSphere2);
-
-
-
-                //hv_ObjectModel3DCylinder.GenCylinderObjectModel3d(new HPose(-1, -1, 2, 0, 60, 0, "Rp+T", "gba", "point"), 0.5, -1, 1);
-
-                //HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DCylinder);
-
-
-
-
-                //hv_ObjectModel3DBox.GenBoxObjectModel3d(new HPose(-1, 2, 1, 0, 90, 0, "Rp+T", "gba", "point"), 1, 2, 1);
-                //HDisplay_3D.hv_ObjectModel3D.Add(hv_ObjectModel3DBox);
-
-
-                //});
-
 
 
             });
@@ -813,7 +663,7 @@ namespace HanGao.ViewModel
 
 
         /// <summary>
-        /// 标定图像保存列表动作
+        /// 标定图像加载列表动作
         /// </summary>
         public ICommand Calibration_Image_FileLoad_Comm
         {
@@ -853,9 +703,7 @@ namespace HanGao.ViewModel
 
                             for (int i = 0; i < _OpenFile.FileNames.Length; i++)
                             {
-                                Calibration_Image_Camera_Model _Image = new Calibration_Image_Camera_Model();
-
-
+                                //Calibration_Image_Camera_Model _Image = new Calibration_Image_Camera_Model();
 
 
                                 HImage _HImage = new HImage();
@@ -900,6 +748,7 @@ namespace HanGao.ViewModel
 
 
 
+                int _Select_int = UI_Camera_Calibration_SelectedIndex;
 
 
                 Task.Run(() =>
@@ -910,7 +759,7 @@ namespace HanGao.ViewModel
                         Calibretion_Image_Selected.ThrowIfNull("请选择需要删除的图像选项！");
 
                         //删除选中图像
-                        Application.Current.Dispatcher.Invoke(() => { Camera_Calibration_Image_List.Remove(Calibretion_Image_Selected); });
+                        Application.Current.Dispatcher.Invoke(() => { Camera_Calibration_Image_List.Remove(Calibretion_Image_Selected); UI_Camera_Calibration_SelectedIndex = _Select_int - 1;  });
 
                         //更新图像序号
                         int _listNum = 0;
@@ -1554,7 +1403,7 @@ namespace HanGao.ViewModel
 
 
 
-            FindCalibObject_Results _Results = new FindCalibObject_Results();
+            //FindCalibObject_Results _Results = new FindCalibObject_Results();
             MVS_Camera_Info_Model _Select_Camera = new MVS_Camera_Info_Model();
             try
             {
@@ -1630,7 +1479,8 @@ namespace HanGao.ViewModel
                                 Camer_Check_LiveImage = Halcon_Camera_Calibra.Check_CalibObject_Features(_Image, Camera_Interna_Parameters);
                                 Camer_Check_LiveImage._Image = _Image;
 
-                                Halcon_Window_Display.Display_HObject(_Image, Camer_Check_LiveImage._CalibRegion, null, Camer_Check_LiveImage._DrawColor, _Select_Camera.Show_Window);
+                                //显示画面结果
+                                Halcon_Window_Display.Display_HObject(Camer_Check_LiveImage._Image, Camer_Check_LiveImage._CalibRegion, null, Camer_Check_LiveImage._DrawColor, _Select_Camera.Show_Window);
                                 Halcon_Window_Display.Display_HObject(null, null, Camer_Check_LiveImage._CalibXLD, null, _Select_Camera.Show_Window);
 
                             }

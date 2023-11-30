@@ -2062,12 +2062,12 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
 
                 }
 
-                User_Log_Add("保存文件成功: " + _Path, ViewModel.Log_Show_Window_Enum.Home);
+                User_Log_Add("保存文件成功: " + _Path, Log_Show_Window_Enum.Home);
 
             }
             else
             {
-                User_Log_Add("保存文件失败: " + _Path, ViewModel.Log_Show_Window_Enum.Home);
+                User_Log_Add("保存文件失败: " + _Path, Log_Show_Window_Enum.Home);
 
 
             }
@@ -2095,7 +2095,7 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
                 using var reader = new StreamReader(_Path);
 
 
-                User_Log_Add("读取文件成功: " + _Path, ViewModel.Log_Show_Window_Enum.Home);
+                User_Log_Add("读取文件成功: " + _Path, Log_Show_Window_Enum.Home);
 
 
 
@@ -2105,7 +2105,7 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
             }
             else
             {
-                User_Log_Add("读取文件失败: " + _Path, ViewModel.Log_Show_Window_Enum.Home);
+                User_Log_Add("读取文件失败: " + _Path, Log_Show_Window_Enum.Home);
 
                 _Val = default;
 

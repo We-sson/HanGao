@@ -118,6 +118,8 @@ namespace HanGao.Model
     public enum Log_Show_Window_Enum
     {
         Home,
-        Calibration
+        Calibration,
+        HandEye
+
     }
 }

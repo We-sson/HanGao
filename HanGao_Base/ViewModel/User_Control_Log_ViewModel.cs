@@ -46,6 +46,7 @@ namespace HanGao.ViewModel
         public User_Log_Models UI_Home_Log { set; get; } = new User_Log_Models() { Log_Show_Window= Model.Log_Show_Window_Enum.Home };
         public User_Log_Models UI_Calibration_Log { set; get; } = new User_Log_Models() { Log_Show_Window= Model.Log_Show_Window_Enum.Calibration };
 
+        public User_Log_Models UI_HandEye_Log { set; get; } = new User_Log_Models() { Log_Show_Window = Model.Log_Show_Window_Enum.HandEye };
 
         /// <summary>
         /// 全局使用输出方法

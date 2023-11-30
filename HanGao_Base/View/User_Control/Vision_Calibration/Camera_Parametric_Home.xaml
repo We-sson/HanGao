@@ -275,14 +275,6 @@
                                                             HDraw="{Binding Halcon_Window_Display.Calibration_Window_1.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
                                                             IconicObject="{Binding Halcon_Window_Display.Calibration_Window_1.DisplayRegion}" />
                             <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.Calibration_Window_1.DisplayXLD}" />
-
-                            <!--<i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Loaded">
-                                    <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
-                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                           PassEventArgsToCommand="True" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>-->
                         </Halcon:HSmartWindowControlWPF>
 
 
@@ -325,13 +317,7 @@
                                     </Style.Triggers>
                                 </Style>
                             </Halcon:HSmartWindowControlWPF.Style>
-                            <!--<i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Loaded">
-                                    <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
-                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                           PassEventArgsToCommand="True" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>-->
+
                         </Halcon:HSmartWindowControlWPF>
 
 
@@ -571,18 +557,11 @@
                                                    HMoveContent="False"
                                                    HZoomContent="Off"
                                                    SnapsToDevicePixels="True">
-
-
-                        <!--<i:Interaction.Triggers>
-                            <i:EventTrigger EventName="HInitWindow">
-                                <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}" PassEventArgsToCommand="False" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>-->
-                        <!--<Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Calibration_3D_Results.DisplayImage}" />
-                        <Halcon:HIconicDisplayObjectWPF HColor="{Binding Calibration_3D_Results.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
-                                                        HDraw="{Binding Calibration_3D_Results.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
-                                                        IconicObject="{Binding Calibration_3D_Results.DisplayRegion}" />
-                        <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Calibration_3D_Results.DisplayXLD}" />-->
+                        <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.HandEye_3DResults.DisplayImage}" />
+                        <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.HandEye_3DResults.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
+                                                        HDraw="{Binding Halcon_Window_Display.HandEye_3DResults.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
+                                                        IconicObject="{Binding Halcon_Window_Display.HandEye_3DResults.DisplayRegion}" />
+                        <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.HandEye_3DResults.DisplayXLD}" />
 
                     </Halcon:HSmartWindowControlWPF>
 

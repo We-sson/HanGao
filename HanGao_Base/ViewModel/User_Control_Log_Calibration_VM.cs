@@ -174,13 +174,5 @@ namespace HanGao.ViewModel
 
     }
 
-    /// <summary>
-    /// 日志调试显示窗口
-    /// </summary>
-    public enum Log_Show_Window_Enum
-    {
-        Home,
-        Calibration
-    }
 
 }

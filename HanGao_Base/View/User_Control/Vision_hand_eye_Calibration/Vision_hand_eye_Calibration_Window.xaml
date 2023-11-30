@@ -9,6 +9,7 @@
         xmlns:MVS_Enum="clr-namespace:MVS_SDK_Base.Model;assembly=MVS_SDK"
         xmlns:Openfile="clr-namespace:HanGao.View.User_Control.OpenFile"
         xmlns:Robot="clr-namespace:KUKA_Socket.Models;assembly=KUKA_Socket"
+        xmlns:UC_Working="clr-namespace:HanGao.View.User_Control"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:HanGao.View.User_Control.Vision_hand_eye_Calibration"
@@ -50,11 +51,12 @@
                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                    PassEventArgsToCommand="True" />
         </i:EventTrigger>
-        <!--<i:EventTrigger EventName="Closed">
-            <i:InvokeCommandAction Command="{Binding Closed_Window_Dsipos_Comm}"
-                                  CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                  PassEventArgsToCommand="True" />
-        </i:EventTrigger>-->
+
+        <i:EventTrigger EventName="Closed">
+            <i:InvokeCommandAction Command="{Binding Closed_HandEye_Window_Dsipos_Comm}"
+                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                   PassEventArgsToCommand="True" />
+        </i:EventTrigger>
     </i:Interaction.Triggers>
 
     <Grid>
@@ -106,7 +108,7 @@
 
                     <Border Grid.Row=" 0" Grid.Column="0"
                             MinWidth=" 280"
-                            Margin="10"
+                            Margin="5"
                             Background="{DynamicResource 全局_背景_白颜色}"
                             BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
                             BorderThickness="3"
@@ -992,7 +994,7 @@
 
                     <Border Grid.Row=" 0" Grid.Column="1"
                             MinWidth=" 280"
-                            Margin="10"
+                            Margin="5"
                             Background="{DynamicResource 全局_背景_白颜色}"
                             BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
                             BorderThickness="3"
@@ -1880,7 +1882,7 @@
 
                     <Border Grid.Row=" 0" Grid.Column="2"
                             MinWidth=" 280"
-                            Margin="10"
+                            Margin="5"
                             Background="{DynamicResource 全局_背景_白颜色}"
                             BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
                             BorderThickness="3"
@@ -2461,7 +2463,7 @@
 
                     <Border Grid.Row=" 0" Grid.Column="3"
                             MinWidth=" 280"
-                            Margin="10"
+                            Margin="5"
                             Background="{DynamicResource 全局_背景_白颜色}"
                             BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
                             BorderThickness="3"
@@ -2698,6 +2700,9 @@
                                                    FontSize=" 14" />
                                         </Grid>
 
+
+
+
                                         <Grid Height="35" Margin="8">
 
                                             <Grid.ColumnDefinitions>
@@ -2706,43 +2711,34 @@
                                                 <ColumnDefinition Width=" auto" />
                                                 <ColumnDefinition Width=" 35" />
                                             </Grid.ColumnDefinitions>
-                                            <TextBlock Text="识别模式"
+                                            <TextBlock Text="旋转容差"
                                                        HorizontalAlignment="Left"
                                                        VerticalAlignment="Center"
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_Check_Rotation_UI" Grid.Column=" 1"
+                                                    Margin="5"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    VerticalContentAlignment="Stretch"
+                                                    IsSnapToTickEnabled="True"
+                                                    Maximum="50000"
+                                                    Minimum="0"
+                                                    SmallChange="10"
+                                                    Value="{Binding HandEye_Camera_Parameters.HandEye_Calibration_Check_Rotation}" />
 
-
-                                            <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="Calibration_Find_Model" Grid.Column=" 2"
-                                                          IsChecked="{Binding HandEye_Camera_Parameters.Halcon_Find_Calib_Model}"
-                                                          Width=" 100"
-                                                          Padding="0"
-                                                          BorderThickness="2">
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="*" />
-                                                        <ColumnDefinition Width="*" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <Label Grid.Column=" 0"
-                                                           Content="单帧"
-                                                           Margin="4,0,4,0"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           FontSize=" 14" />
-
-                                                    <Label Grid.Column=" 1"
-                                                           Content="连续"
-                                                           Margin="4,0,4,0"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           FontSize=" 14" />
-                                                </Grid>
-                                            </ToggleButton>
-
-
+                                            <TextBox Grid.Column=" 2"
+                                                     Text="{Binding ElementName=Calibration_Check_Rotation_UI, Path=Value}"
+                                                     Width="100"
+                                                     HorizontalContentAlignment="Center"
+                                                     VerticalContentAlignment="Center"
+                                                     Background="Transparent"
+                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                     BorderThickness="2"
+                                                     FontSize="18" />
                                             <Label Grid.Column=" 3"
-                                                   Content=""
+                                                   Content="度"
                                                    Margin="0"
                                                    Padding="0"
                                                    HorizontalContentAlignment="Center"
@@ -2751,9 +2747,48 @@
                                         </Grid>
 
 
+                                        <Grid Height="35" Margin="8">
 
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 90" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" auto" />
+                                                <ColumnDefinition Width=" 35" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="平移容差"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_Check_Translation_UI" Grid.Column=" 1"
+                                                    Margin="5"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    VerticalContentAlignment="Stretch"
+                                                    IsSnapToTickEnabled="True"
+                                                    Maximum="50000"
+                                                    Minimum="0"
+                                                    SmallChange="10"
+                                                    Value="{Binding HandEye_Camera_Parameters.HandEye_Calibration_Check_Translation}" />
 
-
+                                            <TextBox Grid.Column=" 2"
+                                                     Text="{Binding ElementName=Calibration_Check_Translation_UI, Path=Value}"
+                                                     Width="100"
+                                                     HorizontalContentAlignment="Center"
+                                                     VerticalContentAlignment="Center"
+                                                     Background="Transparent"
+                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                     BorderThickness="2"
+                                                     FontSize="18" />
+                                            <Label Grid.Column=" 3"
+                                                   Content="mm"
+                                                   Margin="0"
+                                                   Padding="0"
+                                                   HorizontalContentAlignment="Center"
+                                                   VerticalContentAlignment="Center"
+                                                   FontSize=" 14" />
+                                        </Grid>
 
 
 
@@ -2793,7 +2828,7 @@
 
                         <Border Grid.Row=" 1" Grid.Column=" 0"
                                 Grid.RowSpan=" 2"
-                                Margin="10"
+                                Margin="5"
                                 Padding="5,0,5,5"
                                 Background="{DynamicResource 全局_按钮_蓝颜色}"
                                 CornerRadius=" 10 10 0 0">
@@ -2941,13 +2976,7 @@
                                                                             IconicObject="{Binding Halcon_Window_Display.HandEye_Window_1.DisplayRegion}" />
                                             <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.HandEye_Window_1.DisplayXLD}" />
 
-                                            <!--<i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Loaded">
-                                    <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
-                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                           PassEventArgsToCommand="True" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>-->
+
                                         </Halcon:HSmartWindowControlWPF>
 
 
@@ -2972,13 +3001,7 @@
                                                                             IconicObject="{Binding Halcon_Window_Display.HandEye_Window_2.DisplayRegion}" />
                                             <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.HandEye_Window_2.DisplayXLD}" />
 
-                                            <!--<i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Loaded">
-                                    <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
-                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                           PassEventArgsToCommand="True" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>-->
+
                                         </Halcon:HSmartWindowControlWPF>
 
 
@@ -3004,7 +3027,7 @@
 
                     <Border Grid.Row=" 0" Grid.Column="3"
                             MinWidth=" 280"
-                            Margin="0,10,10,10"
+                            Margin="0,5,5,5"
                             Background="{DynamicResource 全局_按钮_深灰颜色}"
                             BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
                             BorderThickness="3"
@@ -3926,13 +3949,7 @@
                                                                             IconicObject="{Binding Halcon_Window_Display.HandEye_Results_Window_1.DisplayRegion}" />
                                             <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.HandEye_Results_Window_1.DisplayXLD}" />
 
-                                            <!--<i:Interaction.Triggers>
-     <i:EventTrigger EventName="Loaded">
-         <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
-                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                PassEventArgsToCommand="True" />
-     </i:EventTrigger>
- </i:Interaction.Triggers>-->
+
                                         </Halcon:HSmartWindowControlWPF>
 
 
@@ -3957,13 +3974,7 @@
                                                                             IconicObject="{Binding Halcon_Window_Display.HandEye_Results_Window_2.DisplayRegion}" />
                                             <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.HandEye_Results_Window_2.DisplayXLD}" />
 
-                                            <!--<i:Interaction.Triggers>
-     <i:EventTrigger EventName="Loaded">
-         <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
-                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                PassEventArgsToCommand="True" />
-     </i:EventTrigger>
- </i:Interaction.Triggers>-->
+
                                         </Halcon:HSmartWindowControlWPF>
 
 
@@ -4203,13 +4214,6 @@
                                                                    HMoveContent="False"
                                                                    HZoomContent="Off"
                                                                    SnapsToDevicePixels="True">
-
-
-                                        <!--<i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="HInitWindow">
-                                                <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}" PassEventArgsToCommand="False" />
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>-->
                                         <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.HandEye_3DResults.DisplayImage}" />
                                         <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.HandEye_3DResults.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
                                                                         HDraw="{Binding Halcon_Window_Display.HandEye_3DResults.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
@@ -4262,7 +4266,7 @@
                         </Grid.ColumnDefinitions>
 
 
-                        <Grid Grid.Column="0" Margin="10,0,10,10">
+                        <Grid Grid.Column="0" Margin="5,0,5,5">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height=" auto " />
                                 <RowDefinition />
@@ -4401,7 +4405,7 @@
                                             <DataTemplate>
 
                                                 <Label Grid.Row=" 0"
-                                                       Content="{Binding Camera_0.Calibration_State}"
+                                                       Content="{Binding Camera_0.Calibration_State, Converter={StaticResource Enum_DescriptionConverter}}"
                                                        Padding="2"
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
@@ -4441,7 +4445,7 @@
                                 </DataGrid.Columns>
                             </DataGrid>
                         </Grid>
-                        <Grid Grid.Column="1" Margin="0,0,0,10">
+                        <Grid Grid.Column="1" Margin="0,0,0,5">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height=" auto " />
                                 <RowDefinition />
@@ -4561,7 +4565,7 @@
                                             <DataTemplate>
 
                                                 <Label Grid.Row=" 0"
-                                                       Content="{Binding Camera_1.Calibration_State}"
+                                                       Content="{Binding Camera_1.Calibration_State, Converter={StaticResource Enum_DescriptionConverter}}"
                                                        Padding="2"
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
@@ -4602,11 +4606,7 @@
                             </DataGrid>
                         </Grid>
 
-                        <Grid Grid.Column="2" Margin="10,0,0,10">
-
-
-
-
+                        <Grid Grid.Column="2" Margin="5,0,0,5">
 
                             <TabControl Style="{DynamicResource TabControl_Style}" Grid.Row="0" Grid.Column="0"
                                         Grid.ColumnSpan="2"
@@ -4630,17 +4630,6 @@
                                             <RowDefinition Height=" auto" />
                                             <RowDefinition />
                                         </Grid.RowDefinitions>
-
-
-
-
-
-
-
-
-
-
-
 
                                         <DataGrid Grid.Row=" 1"
                                                   HorizontalContentAlignment="Stretch"
@@ -5171,14 +5160,19 @@
                                     <!--<Camera_UI:Calibration_Image_List DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_Calibration_Image_VM}" />-->
                                 </TabItem>
 
+                                <TabItem Style="{DynamicResource Vision_TabItemStyle}"
+                                         Padding="40,8,40,8"
+                                         FontSize=" 16"
+                                         Header="标定日志">
+                                    <UC_Working:User_Control_Log DataContext="{Binding Source={StaticResource Locator}, Path=User_Log.UI_Calibration_Log}" />
+
+
+
+                                </TabItem>
+
 
 
                             </TabControl>
-
-
-
-
-
 
 
 
