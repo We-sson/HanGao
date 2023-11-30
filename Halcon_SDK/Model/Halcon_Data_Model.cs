@@ -1103,68 +1103,58 @@ namespace Halcon_SDK_DLL.Model
         public Point_Model Calibration_Plate_Pos { set; get; } = new Point_Model();
 
 
-        public Point_Model Set_Calibration_Plate_Pos(HTuple _Pos)
-        {
-            if (_Pos != null)
-            {
 
-                Calibration_Plate_Pos.X = _Pos.TupleSelect(0) * 1000;
-                Calibration_Plate_Pos.Y = _Pos.TupleSelect(1) * 1000;
-                Calibration_Plate_Pos.Z = _Pos.TupleSelect(2) * 1000;
-                Calibration_Plate_Pos.A = _Pos.TupleSelect(3);
-                Calibration_Plate_Pos.B = _Pos.TupleSelect(4);
-                Calibration_Plate_Pos.C = _Pos.TupleSelect(5);
+        public Point_Model HandEye_Robot_Pos { set; get; } = new Point_Model();
 
 
-                return Calibration_Plate_Pos;
-            }
-            else
-            {
-                return Calibration_Plate_Pos;
 
-            }
-        }
 
+
+
+        /// <summary>
+        /// 相机控制类型
+        /// </summary>
         public Camera_Connect_Control_Type_Enum Camera_No { set; get; } = Camera_Connect_Control_Type_Enum.Camera_0;
 
-        public void Set_HImage(HObject _Image)
-        {
-            switch (Camera_No)
-            {
-                case Camera_Connect_Control_Type_Enum.双目相机:
-                    break;
-                case Camera_Connect_Control_Type_Enum.Camera_0:
-                    Camera_0.Calibration_Image = _Image;
-                    break;
-                case Camera_Connect_Control_Type_Enum.Camera_1:
-                    Camera_1.Calibration_Image = _Image;
 
-                    break;
+        //public void Set_HImage(HObject _Image)
+        //{
+        //    switch (Camera_No)
+        //    {
+        //        case Camera_Connect_Control_Type_Enum.双目相机:
+        //            break;
+        //        case Camera_Connect_Control_Type_Enum.Camera_0:
+        //            Camera_0.Calibration_Image = _Image;
+        //            break;
+        //        case Camera_Connect_Control_Type_Enum.Camera_1:
+        //            Camera_1.Calibration_Image = _Image;
 
-            }
-        }
+        //            break;
 
-        public void Set_Features_Results(HObject _Region, HObject _XLD)
-        {
-            switch (Camera_No)
-            {
-                case Camera_Connect_Control_Type_Enum.双目相机:
+        //    }
+        //}
 
-                    break;
-                case Camera_Connect_Control_Type_Enum.Camera_0:
+        //public void Set_Features_Results(HObject _Region, HObject _XLD)
+        //{
+        //    switch (Camera_No)
+        //    {
+        //        case Camera_Connect_Control_Type_Enum.双目相机:
 
-                    Camera_0.Calibration_Region = _Region;
-                    Camera_0.Calibration_XLD = _XLD;
+        //            break;
+        //        case Camera_Connect_Control_Type_Enum.Camera_0:
 
-                    break;
-                case Camera_Connect_Control_Type_Enum.Camera_1:
-                    Camera_1.Calibration_Region = _Region;
-                    Camera_1.Calibration_XLD = _XLD;
+        //            Camera_0.Calibration_Region = _Region;
+        //            Camera_0.Calibration_XLD = _XLD;
 
-                    break;
+        //            break;
+        //        case Camera_Connect_Control_Type_Enum.Camera_1:
+        //            Camera_1.Calibration_Region = _Region;
+        //            Camera_1.Calibration_XLD = _XLD;
 
-            }
-        }
+        //            break;
+
+        //    }
+        //}
 
 
         public void Set_Parameter_Val(Calibration_Image_Camera_Model _Model)
@@ -1203,29 +1193,7 @@ namespace Halcon_SDK_DLL.Model
         }
     }
 
-    /// <summary>
-    /// 手眼标定机器人机器人参数模型
-    /// </summary>
-    [AddINotifyPropertyChangedInterface]
-    public class HandEye_Robot_Pos_Model
-    {
 
-        /// <summary>
-        /// 标定图像序号
-        /// </summary>
-        public int Robot_No { set; get; } = 0;
-
-
-        public Point_Model Robot_Point { set; get; } = new Point_Model();
-
-
-        /// <summary>
-        /// 标定状态
-        /// </summary>
-        public string Calibration_State { set; get; } = "";
-
-
-    }
 
     [AddINotifyPropertyChangedInterface]
     public class Calibration_Plate_Pos_Model
@@ -1248,7 +1216,14 @@ namespace Halcon_SDK_DLL.Model
     [AddINotifyPropertyChangedInterface]
     public class Point_Model
     {
+        public Point_Model(HTuple _Pos)
+        {
+            Set_Point(_Pos);
+        }
+        public Point_Model()
+        {
 
+        }
 
         public double X { set; get; } = 0;
         public double Y { set; get; } = 0;
@@ -1256,6 +1231,23 @@ namespace Halcon_SDK_DLL.Model
         public double A { set; get; } = 0;
         public double B { set; get; } = 0;
         public double C { set; get; } = 0;
+
+
+        public void Set_Point(HTuple _Pos)
+        {
+            if (_Pos != null)
+            {
+                X = _Pos.TupleSelect(0) * 1000;
+                Y = _Pos.TupleSelect(1) * 1000;
+                Z = _Pos.TupleSelect(2) * 1000;
+                A = _Pos.TupleSelect(3);
+                B = _Pos.TupleSelect(4);
+                C = _Pos.TupleSelect(5);
+
+            }
+        }
+
+
     }
 
 

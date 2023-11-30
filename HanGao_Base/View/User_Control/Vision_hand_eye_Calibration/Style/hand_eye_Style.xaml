@@ -9,6 +9,7 @@
         <Setter Property="Background" Value="{StaticResource TabItem.Selected.Background}" />
         <Setter Property="BorderBrush" Value="{StaticResource TabItem.Selected.Border}" />
         <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Effect" Value="{DynamicResource 全局背景阴影}" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
         <Setter Property="Template">
             <Setter.Value>

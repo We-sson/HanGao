@@ -3073,7 +3073,7 @@
 
 
                                 <Grid Grid.Row=" 1" Grid.Column="0">
-                                    <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 10 10" />
+                                    <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 8 8" />
                                     <StackPanel Margin="5" Orientation="Vertical">
 
 
@@ -3773,7 +3773,7 @@
                     </Grid.RowDefinitions>
 
                     <Grid Grid.Row=" 0">
-                        <Border Margin="10"
+                        <Border Margin="5"
                                 Padding="3,0,3,3"
                                 Background="{DynamicResource 全局_按钮_蓝颜色}"
                                 CornerRadius=" 10 10 0 0">
@@ -4255,7 +4255,7 @@
                     <Grid Grid.Row=" 1">
 
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.6*" />
+                            <ColumnDefinition Width="0.55*" />
                             <ColumnDefinition Width=" 0.5*" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="auto " />
@@ -4268,7 +4268,7 @@
                                 <RowDefinition />
                             </Grid.RowDefinitions>
                             <Border Grid.Row=" 0"
-                                    Height=" 35"
+                                    Height=" 40"
                                     Background="{DynamicResource 全局_按钮_蓝颜色}"
                                     CornerRadius=" 10 10 0 0 ">
                                 <Grid>
@@ -4277,7 +4277,7 @@
                                                Text="相机窗口 0 图像"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
-                                               FontSize="14"
+                                               FontSize=" 16"
                                                Foreground="{DynamicResource 全局_背景_白颜色}" />
                                     <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
                                             Width="25"
@@ -4447,7 +4447,7 @@
                                 <RowDefinition />
                             </Grid.RowDefinitions>
                             <Border Grid.Row=" 0"
-                                    Height=" 35"
+                                    Height=" 40"
                                     Background="{DynamicResource 全局_按钮_蓝颜色}"
                                     CornerRadius=" 10 10 0 0 ">
                                 <Grid>
@@ -4456,7 +4456,7 @@
                                                Text="相机窗口 1 图像"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
-                                               FontSize="14"
+                                               FontSize=" 16"
                                                Foreground="{DynamicResource 全局_背景_白颜色}" />
 
                                     <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
@@ -4603,270 +4603,589 @@
                         </Grid>
 
                         <Grid Grid.Column="2" Margin="10,0,0,10">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height=" auto " />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                            <Border Grid.Row=" 0"
-                                    Height=" 35"
-                                    Background="{DynamicResource 全局_按钮_深绿颜色}"
-                                    CornerRadius=" 10 10 0 0 ">
-
-                                <TextBlock Grid.Row=" 0" Grid.Column=" 0"
-                                           Text="KUKA 机器人位置信息"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="16"
-                                           Foreground="{DynamicResource 全局_背景_白颜色}" />
-                            </Border>
-                            <DataGrid x:Name="dataGrid" Grid.Row=" 1"
-                                      HorizontalContentAlignment="Stretch"
-                                      VerticalContentAlignment="Stretch"
-                                      AutoGenerateColumns="False"
-                                      Background="{DynamicResource 全局_背景_白颜色}"
-                                      BorderBrush="{DynamicResource 全局_按钮_深绿颜色}"
-                                      BorderThickness="3"
-                                      CanUserAddRows="False"
-                                      CanUserDeleteRows="False"
-                                      CanUserReorderColumns="False"
-                                      CanUserResizeColumns="False"
-                                      CanUserResizeRows="False"
-                                      CanUserSortColumns="False"
-                                      CellStyle="{DynamicResource Point_UI_DataGridCellStyle}"
-                                      ColumnHeaderHeight="40"
-                                      ColumnHeaderStyle="{DynamicResource Point_UI_DataGridColumnHeaderStyle}"
-                                      FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                      Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                      GridLinesVisibility="Horizontal"
-                                      HeadersVisibility="Column"
-                                      ItemsSource="{Binding HandEye_Robot_PosList}"
-                                      RowHeaderWidth="0"
-                                      RowHeight="30"
-                                      RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
-                                      SelectedIndex="{Binding HandEye_Calibretion_Selected_No}"
-                                      SelectedValue="{Binding HandEye_Robot_Pos_Selected}"
-                                      SelectionMode="Single"
-                                      SelectionUnit="FullRow">
-                                <DataGrid.Resources>
-                                    <Style BasedOn="{StaticResource Right_ScrollBarStyle}" TargetType="ScrollBar" />
-                                </DataGrid.Resources>
-                                <DataGrid.Columns>
-                                    <DataGridTemplateColumn Width="50" IsReadOnly="False">
-                                        <DataGridTemplateColumn.Header>
-                                            <TextBlock Text="序号"
-                                                       Margin="4"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"
-                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                       FontSize="16"
-                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                        </DataGridTemplateColumn.Header>
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <Label Content="{Binding Robot_No}"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"
-                                                       FontSize="14" />
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-
-                                    </DataGridTemplateColumn>
-
-
-                                    <DataGridTemplateColumn Width="*">
-                                        <DataGridTemplateColumn.Header>
-                                            <TextBlock Text="X"
-                                                       Margin="4"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"
-                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                       FontSize="16"
-                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                        </DataGridTemplateColumn.Header>
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBox Text="{Binding Robot_Point.X}"
-                                                         HorizontalAlignment="Stretch"
-                                                         VerticalAlignment="Stretch"
-                                                         HorizontalContentAlignment="Center"
-                                                         VerticalContentAlignment="Center"
-                                                         Background="Transparent"
-                                                         BorderThickness="0"
-                                                         FontSize="14" />
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-
-                                    </DataGridTemplateColumn>
-
-                                    <DataGridTemplateColumn Width="*">
-                                        <DataGridTemplateColumn.Header>
-                                            <TextBlock Text="Y"
-                                                       Margin="4"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"
-                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                       FontSize="16"
-                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                        </DataGridTemplateColumn.Header>
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-
-                                                <TextBox Text="{Binding Robot_Point.Y}"
-                                                         HorizontalAlignment="Stretch"
-                                                         VerticalAlignment="Stretch"
-                                                         HorizontalContentAlignment="Center"
-                                                         VerticalContentAlignment="Center"
-                                                         Background="Transparent"
-                                                         BorderThickness="0"
-                                                         FontSize="14" />
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-
-                                    </DataGridTemplateColumn>
-
-
-                                    <DataGridTemplateColumn Width="*">
-                                        <DataGridTemplateColumn.Header>
-                                            <TextBlock Text="Z"
-                                                       Margin="4"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"
-                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                       FontSize="16"
-                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                        </DataGridTemplateColumn.Header>
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-
-                                                <TextBox Text="{Binding Robot_Point.Z}"
-                                                         HorizontalAlignment="Stretch"
-                                                         VerticalAlignment="Stretch"
-                                                         HorizontalContentAlignment="Center"
-                                                         VerticalContentAlignment="Center"
-                                                         Background="Transparent"
-                                                         BorderThickness="0"
-                                                         FontSize="14" />
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-
-                                    </DataGridTemplateColumn>
-
-                                    <DataGridTemplateColumn Width="*">
-                                        <DataGridTemplateColumn.Header>
-                                            <TextBlock Text="A"
-                                                       Margin="4"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"
-                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                       FontSize="16"
-                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                        </DataGridTemplateColumn.Header>
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-
-                                                <TextBox Text="{Binding Robot_Point.A}"
-                                                         HorizontalAlignment="Stretch"
-                                                         VerticalAlignment="Stretch"
-                                                         HorizontalContentAlignment="Center"
-                                                         VerticalContentAlignment="Center"
-                                                         Background="Transparent"
-                                                         BorderThickness="0"
-                                                         FontSize="14" />
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-
-                                    </DataGridTemplateColumn>
-
-                                    <DataGridTemplateColumn Width="*">
-                                        <DataGridTemplateColumn.Header>
-                                            <TextBlock Text="B"
-                                                       Margin="4"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"
-                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                       FontSize="16"
-                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                        </DataGridTemplateColumn.Header>
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-
-                                                <TextBox Text="{Binding Robot_Point.B}"
-                                                         HorizontalAlignment="Stretch"
-                                                         VerticalAlignment="Stretch"
-                                                         HorizontalContentAlignment="Center"
-                                                         VerticalContentAlignment="Center"
-                                                         Background="Transparent"
-                                                         BorderThickness="0"
-                                                         FontSize="14" />
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-
-                                    </DataGridTemplateColumn>
-
-                                    <DataGridTemplateColumn Width="*">
-                                        <DataGridTemplateColumn.Header>
-                                            <TextBlock Text="C"
-                                                       Margin="4"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"
-                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                       FontSize="16"
-                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                        </DataGridTemplateColumn.Header>
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-
-                                                <TextBox Text="{Binding Robot_Point.C}"
-                                                         HorizontalAlignment="Stretch"
-                                                         VerticalAlignment="Stretch"
-                                                         HorizontalContentAlignment="Center"
-                                                         VerticalContentAlignment="Center"
-                                                         Background="Transparent"
-                                                         BorderThickness="0"
-                                                         FontSize="14" />
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-
-                                    </DataGridTemplateColumn>
-
-                                    <DataGridTemplateColumn Width="80">
-                                        <DataGridTemplateColumn.Header>
-
-
-
-                                            <TextBlock Text="标定状态"
-                                                       Margin="4"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"
-                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                       FontSize="16"
-                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                        </DataGridTemplateColumn.Header>
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-
-                                                <Label Content="{Binding Calibration_State}"
-                                                       Padding="2"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"
-                                                       FontSize="14" />
-
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-
-                                    </DataGridTemplateColumn>
 
 
 
 
 
-                                </DataGrid.Columns>
-                            </DataGrid>
+                            <TabControl Style="{DynamicResource TabControl_Style}" Grid.Row="0" Grid.Column="0"
+                                        Grid.ColumnSpan="2"
+                                        Padding="0"
+                                        HorizontalContentAlignment="Left"
+                                        Background="Transparent"
+                                        BorderBrush="{DynamicResource 全局_按钮_深绿颜色}"
+                                        BorderThickness="3"
+                                        TabStripPlacement="Top">
+
+                                <TabItem Style="{DynamicResource Vision_TabItemStyle}"
+                                         Padding="40,8,40,8"
+                                         FontSize=" 16"
+                                         Header="标定板数据列表"
+                                         IsSelected="True">
+
+                                    <Grid>
+
+
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height=" auto" />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+
+
+
+
+
+
+
+
+
+
+
+
+                                        <DataGrid Grid.Row=" 1"
+                                                  HorizontalContentAlignment="Stretch"
+                                                  VerticalContentAlignment="Stretch"
+                                                  AutoGenerateColumns="False"
+                                                  Background="{DynamicResource 全局_背景_白颜色}"
+                                                  BorderBrush="{DynamicResource 全局_按钮_深绿颜色}"
+                                                  BorderThickness="0"
+                                                  CanUserAddRows="False"
+                                                  CanUserDeleteRows="False"
+                                                  CanUserReorderColumns="False"
+                                                  CanUserResizeColumns="False"
+                                                  CanUserResizeRows="False"
+                                                  CanUserSortColumns="False"
+                                                  CellStyle="{DynamicResource Point_UI_DataGridCellStyle}"
+                                                  ColumnHeaderHeight="40"
+                                                  ColumnHeaderStyle="{DynamicResource Point_UI_DataGridColumnHeaderStyle}"
+                                                  FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                  Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                  GridLinesVisibility="Horizontal"
+                                                  HeadersVisibility="Column"
+                                                  ItemsSource="{Binding HandEye_Robot_PosList}"
+                                                  RowHeaderWidth="0"
+                                                  RowHeight="30"
+                                                  RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
+                                                  SelectedIndex="{Binding HandEye_Calibretion_Selected_No}"
+                                                  SelectedValue="{Binding HandEye_Robot_Pos_Selected}"
+                                                  SelectionMode="Single"
+                                                  SelectionUnit="FullRow">
+                                            <DataGrid.Resources>
+                                                <Style BasedOn="{StaticResource Right_ScrollBarStyle}" TargetType="ScrollBar" />
+                                            </DataGrid.Resources>
+                                            <DataGrid.Columns>
+                                                <DataGridTemplateColumn Width="50" IsReadOnly="False">
+                                                    <DataGridTemplateColumn.Header>
+                                                        <TextBlock Text="序号"
+                                                                   Margin="4"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="16"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                    </DataGridTemplateColumn.Header>
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Label Content="{Binding Robot_No}"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontSize="14" />
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+
+                                                </DataGridTemplateColumn>
+
+
+                                                <DataGridTemplateColumn Width="*">
+                                                    <DataGridTemplateColumn.Header>
+                                                        <TextBlock Text="X"
+                                                                   Margin="4"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="16"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                    </DataGridTemplateColumn.Header>
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBox Text="{Binding Robot_Point.X}"
+                                                                     HorizontalAlignment="Stretch"
+                                                                     VerticalAlignment="Stretch"
+                                                                     HorizontalContentAlignment="Center"
+                                                                     VerticalContentAlignment="Center"
+                                                                     Background="Transparent"
+                                                                     BorderThickness="0"
+                                                                     FontSize="14" />
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+
+                                                </DataGridTemplateColumn>
+
+                                                <DataGridTemplateColumn Width="*">
+                                                    <DataGridTemplateColumn.Header>
+                                                        <TextBlock Text="Y"
+                                                                   Margin="4"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="16"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                    </DataGridTemplateColumn.Header>
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+
+                                                            <TextBox Text="{Binding Robot_Point.Y}"
+                                                                     HorizontalAlignment="Stretch"
+                                                                     VerticalAlignment="Stretch"
+                                                                     HorizontalContentAlignment="Center"
+                                                                     VerticalContentAlignment="Center"
+                                                                     Background="Transparent"
+                                                                     BorderThickness="0"
+                                                                     FontSize="14" />
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+
+                                                </DataGridTemplateColumn>
+
+
+                                                <DataGridTemplateColumn Width="*">
+                                                    <DataGridTemplateColumn.Header>
+                                                        <TextBlock Text="Z"
+                                                                   Margin="4"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="16"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                    </DataGridTemplateColumn.Header>
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+
+                                                            <TextBox Text="{Binding Robot_Point.Z}"
+                                                                     HorizontalAlignment="Stretch"
+                                                                     VerticalAlignment="Stretch"
+                                                                     HorizontalContentAlignment="Center"
+                                                                     VerticalContentAlignment="Center"
+                                                                     Background="Transparent"
+                                                                     BorderThickness="0"
+                                                                     FontSize="14" />
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+
+                                                </DataGridTemplateColumn>
+
+                                                <DataGridTemplateColumn Width="*">
+                                                    <DataGridTemplateColumn.Header>
+                                                        <TextBlock Text="A"
+                                                                   Margin="4"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="16"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                    </DataGridTemplateColumn.Header>
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+
+                                                            <TextBox Text="{Binding Robot_Point.A}"
+                                                                     HorizontalAlignment="Stretch"
+                                                                     VerticalAlignment="Stretch"
+                                                                     HorizontalContentAlignment="Center"
+                                                                     VerticalContentAlignment="Center"
+                                                                     Background="Transparent"
+                                                                     BorderThickness="0"
+                                                                     FontSize="14" />
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+
+                                                </DataGridTemplateColumn>
+
+                                                <DataGridTemplateColumn Width="*">
+                                                    <DataGridTemplateColumn.Header>
+                                                        <TextBlock Text="B"
+                                                                   Margin="4"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="16"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                    </DataGridTemplateColumn.Header>
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+
+                                                            <TextBox Text="{Binding Robot_Point.B}"
+                                                                     HorizontalAlignment="Stretch"
+                                                                     VerticalAlignment="Stretch"
+                                                                     HorizontalContentAlignment="Center"
+                                                                     VerticalContentAlignment="Center"
+                                                                     Background="Transparent"
+                                                                     BorderThickness="0"
+                                                                     FontSize="14" />
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+
+                                                </DataGridTemplateColumn>
+
+                                                <DataGridTemplateColumn Width="*">
+                                                    <DataGridTemplateColumn.Header>
+                                                        <TextBlock Text="C"
+                                                                   Margin="4"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="16"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                    </DataGridTemplateColumn.Header>
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+
+                                                            <TextBox Text="{Binding Robot_Point.C}"
+                                                                     HorizontalAlignment="Stretch"
+                                                                     VerticalAlignment="Stretch"
+                                                                     HorizontalContentAlignment="Center"
+                                                                     VerticalContentAlignment="Center"
+                                                                     Background="Transparent"
+                                                                     BorderThickness="0"
+                                                                     FontSize="14" />
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+
+                                                </DataGridTemplateColumn>
+
+                                                <!--<DataGridTemplateColumn Width="80">
+                      <DataGridTemplateColumn.Header>
+
+
+
+                          <TextBlock Text="标定状态"
+                                     Margin="4"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Center"
+                                     FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                     FontSize="16"
+                                     Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                      </DataGridTemplateColumn.Header>
+                      <DataGridTemplateColumn.CellTemplate>
+                          <DataTemplate>
+
+                              <Label Content="{Binding Calibration_State}"
+                                     Padding="2"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Center"
+                                     FontSize="14" />
+
+                          </DataTemplate>
+                      </DataGridTemplateColumn.CellTemplate>
+
+                  </DataGridTemplateColumn>-->
+
+
+
+
+
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+
+
+
+
+
+
+
+
+                                    </Grid>
+
+                                    <!--<Camera_UI:Calibration_Image_List DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_Calibration_Image_VM}" />-->
+                                </TabItem>
+
+                                <TabItem Style="{DynamicResource Vision_TabItemStyle}"
+                                         Padding="40,8,40,8"
+                                         FontSize=" 16"
+                                         Header="机器人数据列表"
+                                         IsSelected="True">
+
+                                    <Grid>
+
+
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height=" auto" />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+
+
+
+                                        <DataGrid Grid.Row=" 1" Grid.Column=" 1"
+                                                  HorizontalContentAlignment="Stretch"
+                                                  VerticalContentAlignment="Stretch"
+                                                  AutoGenerateColumns="False"
+                                                  Background="{DynamicResource 全局_背景_白颜色}"
+                                                  BorderBrush="{DynamicResource 全局_按钮_深绿颜色}"
+                                                  BorderThickness="0"
+                                                  CanUserAddRows="False"
+                                                  CanUserDeleteRows="False"
+                                                  CanUserReorderColumns="False"
+                                                  CanUserResizeColumns="False"
+                                                  CanUserResizeRows="False"
+                                                  CanUserSortColumns="False"
+                                                  CellStyle="{DynamicResource Point_UI_DataGridCellStyle}"
+                                                  ColumnHeaderHeight="40"
+                                                  ColumnHeaderStyle="{DynamicResource Point_UI_DataGridColumnHeaderStyle}"
+                                                  FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                  Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                  GridLinesVisibility="Horizontal"
+                                                  HeadersVisibility="Column"
+                                                  ItemsSource="{Binding HandEye_Robot_PosList}"
+                                                  RowHeaderWidth="0"
+                                                  RowHeight="30"
+                                                  RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
+                                                  SelectedIndex="{Binding HandEye_Calibretion_Selected_No}"
+                                                  SelectedValue="{Binding HandEye_Robot_Pos_Selected}"
+                                                  SelectionMode="Single"
+                                                  SelectionUnit="FullRow">
+                                            <DataGrid.Resources>
+                                                <Style BasedOn="{StaticResource Right_ScrollBarStyle}" TargetType="ScrollBar" />
+                                            </DataGrid.Resources>
+                                            <DataGrid.Columns>
+                                                <DataGridTemplateColumn Width="50" IsReadOnly="False">
+                                                    <DataGridTemplateColumn.Header>
+                                                        <TextBlock Text="序号"
+                                                                   Margin="4"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="16"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                    </DataGridTemplateColumn.Header>
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Label Content="{Binding Robot_No}"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontSize="14" />
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+
+                                                </DataGridTemplateColumn>
+
+
+                                                <DataGridTemplateColumn Width="*">
+                                                    <DataGridTemplateColumn.Header>
+                                                        <TextBlock Text="X"
+                                                                   Margin="4"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="16"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                    </DataGridTemplateColumn.Header>
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBox Text="{Binding Robot_Point.X}"
+                                                                     HorizontalAlignment="Stretch"
+                                                                     VerticalAlignment="Stretch"
+                                                                     HorizontalContentAlignment="Center"
+                                                                     VerticalContentAlignment="Center"
+                                                                     Background="Transparent"
+                                                                     BorderThickness="0"
+                                                                     FontSize="14" />
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+
+                                                </DataGridTemplateColumn>
+
+                                                <DataGridTemplateColumn Width="*">
+                                                    <DataGridTemplateColumn.Header>
+                                                        <TextBlock Text="Y"
+                                                                   Margin="4"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="16"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                    </DataGridTemplateColumn.Header>
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+
+                                                            <TextBox Text="{Binding Robot_Point.Y}"
+                                                                     HorizontalAlignment="Stretch"
+                                                                     VerticalAlignment="Stretch"
+                                                                     HorizontalContentAlignment="Center"
+                                                                     VerticalContentAlignment="Center"
+                                                                     Background="Transparent"
+                                                                     BorderThickness="0"
+                                                                     FontSize="14" />
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+
+                                                </DataGridTemplateColumn>
+
+
+                                                <DataGridTemplateColumn Width="*">
+                                                    <DataGridTemplateColumn.Header>
+                                                        <TextBlock Text="Z"
+                                                                   Margin="4"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="16"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                    </DataGridTemplateColumn.Header>
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+
+                                                            <TextBox Text="{Binding Robot_Point.Z}"
+                                                                     HorizontalAlignment="Stretch"
+                                                                     VerticalAlignment="Stretch"
+                                                                     HorizontalContentAlignment="Center"
+                                                                     VerticalContentAlignment="Center"
+                                                                     Background="Transparent"
+                                                                     BorderThickness="0"
+                                                                     FontSize="14" />
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+
+                                                </DataGridTemplateColumn>
+
+                                                <DataGridTemplateColumn Width="*">
+                                                    <DataGridTemplateColumn.Header>
+                                                        <TextBlock Text="A"
+                                                                   Margin="4"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="16"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                    </DataGridTemplateColumn.Header>
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+
+                                                            <TextBox Text="{Binding Robot_Point.A}"
+                                                                     HorizontalAlignment="Stretch"
+                                                                     VerticalAlignment="Stretch"
+                                                                     HorizontalContentAlignment="Center"
+                                                                     VerticalContentAlignment="Center"
+                                                                     Background="Transparent"
+                                                                     BorderThickness="0"
+                                                                     FontSize="14" />
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+
+                                                </DataGridTemplateColumn>
+
+                                                <DataGridTemplateColumn Width="*">
+                                                    <DataGridTemplateColumn.Header>
+                                                        <TextBlock Text="B"
+                                                                   Margin="4"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="16"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                    </DataGridTemplateColumn.Header>
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+
+                                                            <TextBox Text="{Binding Robot_Point.B}"
+                                                                     HorizontalAlignment="Stretch"
+                                                                     VerticalAlignment="Stretch"
+                                                                     HorizontalContentAlignment="Center"
+                                                                     VerticalContentAlignment="Center"
+                                                                     Background="Transparent"
+                                                                     BorderThickness="0"
+                                                                     FontSize="14" />
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+
+                                                </DataGridTemplateColumn>
+
+                                                <DataGridTemplateColumn Width="*">
+                                                    <DataGridTemplateColumn.Header>
+                                                        <TextBlock Text="C"
+                                                                   Margin="4"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="16"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                    </DataGridTemplateColumn.Header>
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+
+                                                            <TextBox Text="{Binding Robot_Point.C}"
+                                                                     HorizontalAlignment="Stretch"
+                                                                     VerticalAlignment="Stretch"
+                                                                     HorizontalContentAlignment="Center"
+                                                                     VerticalContentAlignment="Center"
+                                                                     Background="Transparent"
+                                                                     BorderThickness="0"
+                                                                     FontSize="14" />
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+
+                                                </DataGridTemplateColumn>
+
+                                                <!--<DataGridTemplateColumn Width="80">
+    <DataGridTemplateColumn.Header>
+
+
+
+        <TextBlock Text="标定状态"
+                   Margin="4"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                   FontSize="16"
+                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+    </DataGridTemplateColumn.Header>
+    <DataGridTemplateColumn.CellTemplate>
+        <DataTemplate>
+
+            <Label Content="{Binding Calibration_State}"
+                   Padding="2"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="14" />
+
+        </DataTemplate>
+    </DataGridTemplateColumn.CellTemplate>
+
+</DataGridTemplateColumn>-->
+
+
+
+
+
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+
+
+
+
+
+
+
+
+
+                                    </Grid>
+
+                                    <!--<Camera_UI:Calibration_Image_List DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_Calibration_Image_VM}" />-->
+                                </TabItem>
+
+
+
+                            </TabControl>
+
+
+
+
+
+
+
 
 
                         </Grid>
 
-                        <StackPanel Grid.Column=" 3">
+                        <StackPanel Grid.Column=" 3" Margin="5,0,5,0">
                             <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
                                     Width="110"
                                     Height="38"

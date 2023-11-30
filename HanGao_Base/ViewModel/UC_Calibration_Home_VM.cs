@@ -4,12 +4,14 @@ using Kitware.VTK;
 using MVS_SDK_Base.Model;
 using Ookii.Dialogs.Wpf;
 using System.Drawing;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using Throw;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
 using static HanGao.ViewModel.UC_Vision_CameraSet_ViewModel;
 using static MVS_SDK_Base.Model.MVS_Model;
+using static System.ComponentModel.Design.ObjectSelectorEditor;
 
 
 namespace HanGao.ViewModel
@@ -42,16 +44,8 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 第三方三维模型库
         /// </summary>
-        public RenderWindowControl VTKModel { set; get; } = new RenderWindowControl();
+        //public RenderWindowControl VTKModel { set; get; } = new RenderWindowControl();
 
-
-        //public HTuple Pose_Out_3D_Results { set; get; } = new HTuple();
-
-
-        //public static Task DisPlay_Task { set; get; } = new Task(() => Display_3D_Task(new Display3DModel_Model()));
-
-
-        //public static Halcon_Examples HExamples { set; get; }
 
         /// <summary>
         /// 三维可视乎属性
@@ -225,7 +219,7 @@ namespace HanGao.ViewModel
                 }
 
 
-                VTKModel.Dispose();
+                //VTKModel.Dispose();
                 HDisplay_3D.Dispose();
                 Halcon_Window_Display.Dispose();
 
@@ -1172,17 +1166,16 @@ namespace HanGao.ViewModel
 
 
                                 HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(_Camera_Model));
-
-
                             }
-
-
-
-
-
                         }
-
                     });
+
+
+                    ///移动目标到选择行聚焦
+                    if (E != null && E.SelectedItem != null && E.SelectedIndex >= 0)
+                    {
+                        E.ScrollIntoView(E.SelectedItem);
+                    }
 
                 }
                 catch (Exception _e)

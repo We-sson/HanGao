@@ -216,7 +216,7 @@ namespace Halcon_SDK_DLL
 
                         _Selected_camera.Calibration_State = Camera_Calibration_Image_State_Enum.Image_Successful;
                         //设备对应设备标定板坐标参数
-                        _ImageList[i].Set_Calibration_Plate_Pos(_Res.hv_Pose);
+                        _ImageList[i].Calibration_Plate_Pos.Set_Point(_Res.hv_Pose);
 
 
                         _Checked_imageNum++;
@@ -225,7 +225,7 @@ namespace Halcon_SDK_DLL
                     {
 
                         _Selected_camera.Calibration_State = Camera_Calibration_Image_State_Enum.Image_UnSuccessful;
-                        _ImageList[i].Set_Calibration_Plate_Pos(null);
+                        _ImageList[i].Calibration_Plate_Pos.Set_Point(null);
 
                     }
 

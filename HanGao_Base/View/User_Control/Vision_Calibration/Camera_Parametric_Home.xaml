@@ -1164,7 +1164,7 @@
                               HorizontalContentAlignment="Stretch"
                               VerticalContentAlignment="Stretch"
                               AutoGenerateColumns="False"
-                              Background="Transparent"
+                              Background="{DynamicResource 全局_背景_白颜色}"
                               BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
                               BorderThickness="0,0,3,0"
                               CanUserAddRows="False"
@@ -1325,7 +1325,7 @@
                               HorizontalContentAlignment="Stretch"
                               VerticalContentAlignment="Stretch"
                               AutoGenerateColumns="False"
-                              Background="Transparent"
+                              Background="{DynamicResource 全局_背景_白颜色}"
                               BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
                               BorderThickness="0,0,3,0"
                               CanUserAddRows="False"
@@ -1568,41 +1568,16 @@
                     </Grid.RowDefinitions>
 
 
-                    <Border Grid.Row=" 0" Grid.Column="0"
-                            Height=" 40"
-                            Margin="0"
-                            Background="{DynamicResource 全局_按钮_深绿颜色}"
-                            CornerRadius=" 0">
 
 
 
 
-
-                        <Grid Grid.Column=" 0">
-
-                            <TextBlock Text="标定板坐标"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                       FontSize="20"
-                                       Foreground="{DynamicResource 全局_按钮_白颜色}" />
-
-
-
-
-
-                        </Grid>
-
-
-
-
-                    </Border>
 
                     <DataGrid Grid.Row=" 1" Grid.Column=" 0"
                               HorizontalContentAlignment="Stretch"
                               VerticalContentAlignment="Stretch"
                               AutoGenerateColumns="False"
-                              Background="Transparent"
+                              Background="{DynamicResource 全局_背景_白颜色}"
                               BorderBrush="{DynamicResource 全局_按钮_深绿颜色}"
                               BorderThickness="0,0,0,0"
                               CanUserAddRows="False"
@@ -1827,7 +1802,7 @@
 
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Width="80">
+                            <!--<DataGridTemplateColumn Width="80">
                                 <DataGridTemplateColumn.Header>
 
 
@@ -1852,7 +1827,7 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
 
-                            </DataGridTemplateColumn>
+                            </DataGridTemplateColumn>-->
 
 
 
