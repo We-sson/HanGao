@@ -1,6 +1,7 @@
 ﻿using Halcon_SDK_DLL.Halcon_Examples_Method;
 using HanGao.View.User_Control.Vision_hand_eye_Calibration;
 using Ookii.Dialogs.Wpf;
+using System.Drawing;
 using System.Windows.Controls.Primitives;
 using Throw;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
@@ -582,7 +583,7 @@ namespace HanGao.ViewModel
                             _HImage.ReadImage(_OpenFile.FileNames[i]);
 
                             //加载图像到标定列表
-                            Cailbration_Load_Image(_camerEnum, _HImage, null, null,null);
+                            Cailbration_Load_Image(_camerEnum, _HImage, null, null,new Point_Model ());
 
                         }
 
@@ -642,6 +643,60 @@ namespace HanGao.ViewModel
         //    return _Image;
 
         //}
+
+
+
+        /// <summary>
+        /// 标定图像保存列表动作
+        /// </summary>
+        public ICommand Calibration_Image_Selected_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                DataGrid E = Sm.Source as DataGrid;
+                HObjectModel3D _Calib_3D = new HObjectModel3D();
+
+                List<HObjectModel3D> _Camera_Model = new List<HObjectModel3D>();
+
+                try
+                {
+
+
+
+                    Task.Run(() =>
+                    {
+                        Calibration_Image_List_Model _Selected = null;
+
+
+
+                        Application.Current.Dispatcher.Invoke(() => {
+                            _Selected = E.SelectedItem as Calibration_Image_List_Model; 
+
+
+
+                        ///移动目标到选择行聚焦
+                        if (E != null && E.SelectedItem != null && E.SelectedIndex >= 0)
+                        {
+                            E.ScrollIntoView(E.SelectedItem);
+                        }
+
+                        });
+
+                    });
+
+                }
+                catch (Exception _e)
+                {
+                    User_Log_Add(_e.Message, Log_Show_Window_Enum.Calibration, MessageBoxImage.Error);
+
+                }
+
+
+            });
+        }
+
+
+
 
 
         /// <summary>
@@ -1120,7 +1175,8 @@ namespace HanGao.ViewModel
 
                     }
 
-                    throw new Exception(Halcon_HandEye_Calibra.Camera_Connect_Model + "：相机未选择！");
+                    User_Log_Add(Halcon_HandEye_Calibra.Camera_Connect_Model + "：相机断开成功！", Log_Show_Window_Enum.Calibration, MessageBoxImage.Question);
+
 
 
                 }
@@ -1224,35 +1280,18 @@ namespace HanGao.ViewModel
 
 
                     ///单帧模式
-                    HandEye_Camera_Parameters.Halcon_Find_Calib_Model = false;
+                    //HandEye_Camera_Parameters.Halcon_Find_Calib_Model = false;
 
                     if (HandEye_Camera_Parameters.Halcon_Find_Calib_Model)
                     {
 
-                        string _cameraName = string.Empty;
-
-
-                        switch (Halcon_HandEye_Calibra.Camera_Connect_Model)
-                        {
-                            case Camera_Connect_Control_Type_Enum.双目相机:
-
-                                //等待开发
-                                break;
-                            case Camera_Connect_Control_Type_Enum.Camera_0:
-                                _cameraName = Camera_0_Select_Val?.Camera_Info.SerialNumber;
-                                break;
-                            case Camera_Connect_Control_Type_Enum.Camera_1:
-                                _cameraName = Camera_1_Select_Val.Camera_Info.SerialNumber;
-
-                                break;
-
-                        }
+                  
 
 
 
 
                         ///加载图像到标定列表
-                        Cailbration_Load_Image(Halcon_HandEye_Calibra.Camera_Connect_Model, HandEye_Check_LiveImage._Image, HandEye_Check_LiveImage._CalibXLD, HandEye_Check_LiveImage._CalibRegion,null);
+                        Cailbration_Load_Image(Halcon_HandEye_Calibra.Camera_Connect_Model, HandEye_Check_LiveImage._Image, HandEye_Check_LiveImage._CalibXLD, HandEye_Check_LiveImage._CalibRegion,new Point_Model ());
                         //单个图像
 
 

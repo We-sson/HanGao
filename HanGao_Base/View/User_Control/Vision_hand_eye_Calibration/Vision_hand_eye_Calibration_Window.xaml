@@ -2881,7 +2881,7 @@
 
 
                                             <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}"
-                                                         IsChecked="{Binding HandEye_Check.ShowMaxGray, Mode=TwoWay}"
+                                                         IsChecked="{Binding Halcon_HandEye_Calibra.ShowMaxGray, Mode=TwoWay}"
                                                          Margin="5,0,5,0"
                                                          Padding="0,0,0,0"
                                                          HorizontalAlignment="Center"
@@ -2903,7 +2903,7 @@
                                             </RadioButton>
 
                                             <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}"
-                                                         IsChecked="{Binding HandEye_Check.ShowMinGray, Mode=TwoWay}"
+                                                         IsChecked="{Binding Halcon_HandEye_Calibra.ShowMinGray, Mode=TwoWay}"
                                                          Margin="5,0,5,0"
                                                          HorizontalAlignment="Center"
                                                          VerticalAlignment="Center"
@@ -2924,7 +2924,7 @@
                                             </RadioButton>
 
                                             <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}"
-                                                         IsChecked="{Binding HandEye_Check.ShowHObject, Mode=TwoWay}"
+                                                         IsChecked="{Binding Halcon_HandEye_Calibra.ShowHObject, Mode=TwoWay}"
                                                          Margin="5,0,5,0"
                                                          Padding="0"
                                                          HorizontalContentAlignment="Center"
@@ -3138,17 +3138,17 @@
 
                                                             <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 0"
                                                                          Content="Camera_0"
-                                                                         IsChecked="{Binding HandEye_Check.Camera_Connect_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_0}}"
+                                                                         IsChecked="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_0}}"
                                                                          FontSize=" 14"
                                                                          GroupName="Camera_Control" />
                                                             <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 1"
                                                                          Content="Camera_1"
-                                                                         IsChecked="{Binding HandEye_Check.Camera_Connect_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_1}}"
+                                                                         IsChecked="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_1}}"
                                                                          FontSize="14"
                                                                          GroupName="Camera_Control" />
                                                             <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 2"
                                                                          Content="双目相机"
-                                                                         IsChecked="{Binding HandEye_Check.Camera_Connect_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static EnumModel:Camera_Connect_Control_Type_Enum.双目相机}}"
+                                                                         IsChecked="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static EnumModel:Camera_Connect_Control_Type_Enum.双目相机}}"
                                                                          FontSize="14"
                                                                          GroupName="Camera_Control" />
                                                         </Grid>
@@ -3193,7 +3193,7 @@
                                                                     <MultiDataTrigger>
 
                                                                         <MultiDataTrigger.Conditions>
-                                                                            <Condition Binding="{Binding HandEye_Check.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_0}" />
+                                                                            <Condition Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_0}" />
                                                                             <Condition Binding="{Binding Camera_0_Select_Val.Camer_Status}" Value="{x:Static MVS_Enum:MV_CAM_Device_Status_Enum.Connecting}" />
                                                                         </MultiDataTrigger.Conditions>
                                                                         <MultiDataTrigger.Setters>
@@ -3206,7 +3206,7 @@
                                                                     </MultiDataTrigger>
                                                                     <MultiDataTrigger>
                                                                         <MultiDataTrigger.Conditions>
-                                                                            <Condition Binding="{Binding HandEye_Check.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_1}" />
+                                                                            <Condition Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_1}" />
                                                                             <Condition Binding="{Binding Camera_1_Select_Val.Camer_Status}" Value="{x:Static MVS_Enum:MV_CAM_Device_Status_Enum.Connecting}" />
                                                                         </MultiDataTrigger.Conditions>
                                                                         <MultiDataTrigger.Setters>
@@ -3724,19 +3724,12 @@
 
 
 
-                                                    <Button x:Name="Camera_OneImage" Grid.Column=" 2"
+                                                    <Button Style="{DynamicResource Halcon_Window_Button}" x:Name="Camera_OneImage" Grid.Column=" 2"
                                                             Height=" 38"
                                                             Margin="10,0,0,0"
                                                             Background="{DynamicResource 全局_按钮_蓝颜色}">
-                                                        <Button.Style>
-                                                            <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding ElementName=Live_Camera, Path=IsChecked}" Value="true">
-                                                                        <Setter Property="IsEnabled" Value="False" />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </Button.Style>
+
+
                                                         <TextBlock Text="检测一帧"
                                                                    HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center"
@@ -3854,7 +3847,7 @@
 
 
                                             <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}"
-                                                         IsChecked="{Binding HandEye_Check.ShowMaxGray, Mode=TwoWay}"
+                                                         IsChecked="{Binding Halcon_HandEye_Calibra.ShowMaxGray, Mode=TwoWay}"
                                                          Margin="5,0,5,0"
                                                          Padding="0,0,0,0"
                                                          HorizontalAlignment="Center"
@@ -3876,7 +3869,7 @@
                                             </RadioButton>
 
                                             <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}"
-                                                         IsChecked="{Binding HandEye_Check.ShowMinGray, Mode=TwoWay}"
+                                                         IsChecked="{Binding Halcon_HandEye_Calibra.ShowMinGray, Mode=TwoWay}"
                                                          Margin="5,0,5,0"
                                                          HorizontalAlignment="Center"
                                                          VerticalAlignment="Center"
@@ -3897,7 +3890,7 @@
                                             </RadioButton>
 
                                             <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}"
-                                                         IsChecked="{Binding HandEye_Check.ShowHObject, Mode=TwoWay}"
+                                                         IsChecked="{Binding Halcon_HandEye_Calibra.ShowHObject, Mode=TwoWay}"
                                                          Margin="5,0,5,0"
                                                          Padding="0"
                                                          HorizontalContentAlignment="Center"
@@ -4342,6 +4335,15 @@
                                 <DataGrid.Resources>
                                     <Style BasedOn="{StaticResource Right_ScrollBarStyle}" TargetType="ScrollBar" />
                                 </DataGrid.Resources>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding Calibration_Image_Selected_Comm}"
+                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                               PassEventArgsToCommand="True" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+
+
                                 <DataGrid.Columns>
                                     <DataGridTemplateColumn Width="50">
                                         <DataGridTemplateColumn.Header>
@@ -4403,14 +4405,27 @@
                                         </DataGridTemplateColumn.Header>
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
+                                                <Border>
+                                                    <Border.Style>
+                                                        <Style TargetType="Border">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Camera_0.Calibration_State}" Value="{x:Static Halcon_Enum:Camera_Calibration_Image_State_Enum.Image_UnSuccessful}">
+                                                                    <Setter Property="Background" Value="{DynamicResource 全局_按钮_青红颜色}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Camera_0.Calibration_State}" Value="{x:Static Halcon_Enum:Camera_Calibration_Image_State_Enum.Image_Successful}">
+                                                                    <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Border.Style>
+                                                    <Label Grid.Row=" 0"
+                                                           Content="{Binding Camera_0.Calibration_State, Converter={StaticResource Enum_DescriptionConverter}}"
+                                                           Padding="2"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="14" />
 
-                                                <Label Grid.Row=" 0"
-                                                       Content="{Binding Camera_0.Calibration_State, Converter={StaticResource Enum_DescriptionConverter}}"
-                                                       Padding="2"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"
-                                                       FontSize="14" />
-
+                                                </Border>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
 
@@ -4521,6 +4536,14 @@
                                 <DataGrid.Resources>
                                     <Style BasedOn="{StaticResource Right_ScrollBarStyle}" TargetType="ScrollBar" />
                                 </DataGrid.Resources>
+
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding Calibration_Image_Selected_Comm}"
+                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                               PassEventArgsToCommand="True" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
                                 <DataGrid.Columns>
 
 
@@ -4563,13 +4586,26 @@
                                         </DataGridTemplateColumn.Header>
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-
-                                                <Label Grid.Row=" 0"
-                                                       Content="{Binding Camera_1.Calibration_State, Converter={StaticResource Enum_DescriptionConverter}}"
-                                                       Padding="2"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"
-                                                       FontSize="14" />
+                                                <Border>
+                                                    <Border.Style>
+                                                        <Style TargetType="Border">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Camera_1.Calibration_State}" Value="{x:Static Halcon_Enum:Camera_Calibration_Image_State_Enum.Image_UnSuccessful}">
+                                                                    <Setter Property="Background" Value="{DynamicResource 全局_按钮_青红颜色}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Camera_1.Calibration_State}" Value="{x:Static Halcon_Enum:Camera_Calibration_Image_State_Enum.Image_Successful}">
+                                                                    <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Border.Style>
+                                                    <Label Grid.Row=" 0"
+                                                           Content="{Binding Camera_1.Calibration_State, Converter={StaticResource Enum_DescriptionConverter}}"
+                                                           Padding="2"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="14" />
+                                                </Border>
 
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
@@ -4621,7 +4657,7 @@
                                          Padding="40,8,40,8"
                                          FontSize=" 16"
                                          Header="标定板数据列表"
-                                         IsSelected="True">
+                                         IsSelected="False">
 
                                     <Grid>
 
@@ -4651,17 +4687,25 @@
                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                   GridLinesVisibility="Horizontal"
                                                   HeadersVisibility="Column"
-                                                  ItemsSource="{Binding HandEye_Robot_PosList}"
+                                                  ItemsSource="{Binding HandEye_Calibration_List}"
                                                   RowHeaderWidth="0"
                                                   RowHeight="30"
                                                   RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
                                                   SelectedIndex="{Binding HandEye_Calibretion_Selected_No}"
-                                                  SelectedValue="{Binding HandEye_Robot_Pos_Selected}"
+                                                  SelectedValue="{Binding HandEye_Calibretion_Image_Selected}"
                                                   SelectionMode="Single"
                                                   SelectionUnit="FullRow">
                                             <DataGrid.Resources>
                                                 <Style BasedOn="{StaticResource Right_ScrollBarStyle}" TargetType="ScrollBar" />
                                             </DataGrid.Resources>
+
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="SelectionChanged">
+                                                    <i:InvokeCommandAction Command="{Binding Calibration_Image_Selected_Comm}"
+                                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                           PassEventArgsToCommand="True" />
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
                                             <DataGrid.Columns>
                                                 <DataGridTemplateColumn Width="50" IsReadOnly="False">
                                                     <DataGridTemplateColumn.Header>
@@ -4675,7 +4719,7 @@
                                                     </DataGridTemplateColumn.Header>
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
-                                                            <Label Content="{Binding Robot_No}"
+                                                            <Label Content="{Binding Image_No}"
                                                                    HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center"
                                                                    FontSize="14" />
@@ -4697,14 +4741,15 @@
                                                     </DataGridTemplateColumn.Header>
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
-                                                            <TextBox Text="{Binding Robot_Point.X}"
+                                                            <TextBox Text="{Binding Calibration_Plate_Pos.X, StringFormat={}{0:F4}}"
                                                                      HorizontalAlignment="Stretch"
                                                                      VerticalAlignment="Stretch"
                                                                      HorizontalContentAlignment="Center"
                                                                      VerticalContentAlignment="Center"
                                                                      Background="Transparent"
                                                                      BorderThickness="0"
-                                                                     FontSize="14" />
+                                                                     FontSize="14"
+                                                                     IsReadOnly="True" />
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellTemplate>
 
@@ -4723,14 +4768,15 @@
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
 
-                                                            <TextBox Text="{Binding Robot_Point.Y}"
+                                                            <TextBox Text="{Binding Calibration_Plate_Pos.Y, StringFormat={}{0:F4}}"
                                                                      HorizontalAlignment="Stretch"
                                                                      VerticalAlignment="Stretch"
                                                                      HorizontalContentAlignment="Center"
                                                                      VerticalContentAlignment="Center"
                                                                      Background="Transparent"
                                                                      BorderThickness="0"
-                                                                     FontSize="14" />
+                                                                     FontSize="14"
+                                                                     IsReadOnly="True" />
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellTemplate>
 
@@ -4750,14 +4796,15 @@
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
 
-                                                            <TextBox Text="{Binding Robot_Point.Z}"
+                                                            <TextBox Text="{Binding Calibration_Plate_Pos.Z, StringFormat={}{0:F4}}"
                                                                      HorizontalAlignment="Stretch"
                                                                      VerticalAlignment="Stretch"
                                                                      HorizontalContentAlignment="Center"
                                                                      VerticalContentAlignment="Center"
                                                                      Background="Transparent"
                                                                      BorderThickness="0"
-                                                                     FontSize="14" />
+                                                                     FontSize="14"
+                                                                     IsReadOnly="True" />
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellTemplate>
 
@@ -4776,14 +4823,15 @@
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
 
-                                                            <TextBox Text="{Binding Robot_Point.A}"
+                                                            <TextBox Text="{Binding Calibration_Plate_Pos.A, StringFormat={}{0:F4}}"
                                                                      HorizontalAlignment="Stretch"
                                                                      VerticalAlignment="Stretch"
                                                                      HorizontalContentAlignment="Center"
                                                                      VerticalContentAlignment="Center"
                                                                      Background="Transparent"
                                                                      BorderThickness="0"
-                                                                     FontSize="14" />
+                                                                     FontSize="14"
+                                                                     IsReadOnly="True" />
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellTemplate>
 
@@ -4802,14 +4850,15 @@
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
 
-                                                            <TextBox Text="{Binding Robot_Point.B}"
+                                                            <TextBox Text="{Binding Calibration_Plate_Pos.B, StringFormat={}{0:F4}}"
                                                                      HorizontalAlignment="Stretch"
                                                                      VerticalAlignment="Stretch"
                                                                      HorizontalContentAlignment="Center"
                                                                      VerticalContentAlignment="Center"
                                                                      Background="Transparent"
                                                                      BorderThickness="0"
-                                                                     FontSize="14" />
+                                                                     FontSize="14"
+                                                                     IsReadOnly="True" />
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellTemplate>
 
@@ -4828,60 +4877,22 @@
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
 
-                                                            <TextBox Text="{Binding Robot_Point.C}"
+                                                            <TextBox Text="{Binding Calibration_Plate_Pos.C, StringFormat={}{0:F4}}"
                                                                      HorizontalAlignment="Stretch"
                                                                      VerticalAlignment="Stretch"
                                                                      HorizontalContentAlignment="Center"
                                                                      VerticalContentAlignment="Center"
                                                                      Background="Transparent"
                                                                      BorderThickness="0"
-                                                                     FontSize="14" />
+                                                                     FontSize="14"
+                                                                     IsReadOnly="True" />
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellTemplate>
 
                                                 </DataGridTemplateColumn>
 
-                                                <!--<DataGridTemplateColumn Width="80">
-                      <DataGridTemplateColumn.Header>
-
-
-
-                          <TextBlock Text="标定状态"
-                                     Margin="4"
-                                     HorizontalAlignment="Center"
-                                     VerticalAlignment="Center"
-                                     FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                     FontSize="16"
-                                     Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                      </DataGridTemplateColumn.Header>
-                      <DataGridTemplateColumn.CellTemplate>
-                          <DataTemplate>
-
-                              <Label Content="{Binding Calibration_State}"
-                                     Padding="2"
-                                     HorizontalAlignment="Center"
-                                     VerticalAlignment="Center"
-                                     FontSize="14" />
-
-                          </DataTemplate>
-                      </DataGridTemplateColumn.CellTemplate>
-
-                  </DataGridTemplateColumn>-->
-
-
-
-
-
                                             </DataGrid.Columns>
                                         </DataGrid>
-
-
-
-
-
-
-
-
                                     </Grid>
 
                                     <!--<Camera_UI:Calibration_Image_List DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_Calibration_Image_VM}" />-->
@@ -4923,17 +4934,25 @@
                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                   GridLinesVisibility="Horizontal"
                                                   HeadersVisibility="Column"
-                                                  ItemsSource="{Binding HandEye_Robot_PosList}"
+                                                  ItemsSource="{Binding HandEye_Calibration_List}"
                                                   RowHeaderWidth="0"
                                                   RowHeight="30"
                                                   RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
                                                   SelectedIndex="{Binding HandEye_Calibretion_Selected_No}"
-                                                  SelectedValue="{Binding HandEye_Robot_Pos_Selected}"
+                                                  SelectedValue="{Binding HandEye_Calibretion_Image_Selected}"
                                                   SelectionMode="Single"
                                                   SelectionUnit="FullRow">
                                             <DataGrid.Resources>
                                                 <Style BasedOn="{StaticResource Right_ScrollBarStyle}" TargetType="ScrollBar" />
                                             </DataGrid.Resources>
+
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="SelectionChanged">
+                                                    <i:InvokeCommandAction Command="{Binding Calibration_Image_Selected_Comm}"
+                                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                           PassEventArgsToCommand="True" />
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
                                             <DataGrid.Columns>
                                                 <DataGridTemplateColumn Width="50" IsReadOnly="False">
                                                     <DataGridTemplateColumn.Header>
@@ -4947,7 +4966,7 @@
                                                     </DataGridTemplateColumn.Header>
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
-                                                            <Label Content="{Binding Robot_No}"
+                                                            <Label Content="{Binding Image_No}"
                                                                    HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center"
                                                                    FontSize="14" />
@@ -4969,7 +4988,7 @@
                                                     </DataGridTemplateColumn.Header>
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
-                                                            <TextBox Text="{Binding Robot_Point.X}"
+                                                            <TextBox Text="{Binding HandEye_Robot_Pos.X, StringFormat={}{0:F4}}"
                                                                      HorizontalAlignment="Stretch"
                                                                      VerticalAlignment="Stretch"
                                                                      HorizontalContentAlignment="Center"
@@ -4995,7 +5014,7 @@
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
 
-                                                            <TextBox Text="{Binding Robot_Point.Y}"
+                                                            <TextBox Text="{Binding HandEye_Robot_Pos.Y, StringFormat={}{0:F4}}"
                                                                      HorizontalAlignment="Stretch"
                                                                      VerticalAlignment="Stretch"
                                                                      HorizontalContentAlignment="Center"
@@ -5022,7 +5041,7 @@
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
 
-                                                            <TextBox Text="{Binding Robot_Point.Z}"
+                                                            <TextBox Text="{Binding HandEye_Robot_Pos.Z, StringFormat={}{0:F4}}"
                                                                      HorizontalAlignment="Stretch"
                                                                      VerticalAlignment="Stretch"
                                                                      HorizontalContentAlignment="Center"
@@ -5048,7 +5067,7 @@
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
 
-                                                            <TextBox Text="{Binding Robot_Point.A}"
+                                                            <TextBox Text="{Binding HandEye_Robot_Pos.A, StringFormat={}{0:F4}}"
                                                                      HorizontalAlignment="Stretch"
                                                                      VerticalAlignment="Stretch"
                                                                      HorizontalContentAlignment="Center"
@@ -5074,7 +5093,7 @@
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
 
-                                                            <TextBox Text="{Binding Robot_Point.B}"
+                                                            <TextBox Text="{Binding HandEye_Robot_Pos.B, StringFormat={}{0:F4}}"
                                                                      HorizontalAlignment="Stretch"
                                                                      VerticalAlignment="Stretch"
                                                                      HorizontalContentAlignment="Center"
@@ -5100,7 +5119,7 @@
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
 
-                                                            <TextBox Text="{Binding Robot_Point.C}"
+                                                            <TextBox Text="{Binding HandEye_Robot_Pos.C, StringFormat={}{0:F4}}"
                                                                      HorizontalAlignment="Stretch"
                                                                      VerticalAlignment="Stretch"
                                                                      HorizontalContentAlignment="Center"
@@ -5112,37 +5131,6 @@
                                                     </DataGridTemplateColumn.CellTemplate>
 
                                                 </DataGridTemplateColumn>
-
-                                                <!--<DataGridTemplateColumn Width="80">
-    <DataGridTemplateColumn.Header>
-
-
-
-        <TextBlock Text="标定状态"
-                   Margin="4"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                   FontSize="16"
-                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-    </DataGridTemplateColumn.Header>
-    <DataGridTemplateColumn.CellTemplate>
-        <DataTemplate>
-
-            <Label Content="{Binding Calibration_State}"
-                   Padding="2"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   FontSize="14" />
-
-        </DataTemplate>
-    </DataGridTemplateColumn.CellTemplate>
-
-</DataGridTemplateColumn>-->
-
-
-
-
 
                                             </DataGrid.Columns>
                                         </DataGrid>
