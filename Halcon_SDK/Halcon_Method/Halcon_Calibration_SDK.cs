@@ -427,9 +427,25 @@ namespace Halcon_SDK_DLL
 
 
                 }
-                //实机测试，取图和坐标系
+
+                HTuple _HandEyeVal = new HTuple();
+                HTuple _CamCalibError = new HTuple();
+                HTuple _CamParam = new HTuple();
+                HTuple _ToolInCamPose = new HTuple();
+                HTuple _CalObjInBasePose = new HTuple();
+                //标定手眼
+                _HandEyeVal = HCalibData.CalibrateHandEye();
 
 
+                //获得相机标定内参
+                _CamCalibError= HCalibData.GetCalibData( "model", "general", "camera_calib_error");
+
+                //内参变量名
+                _CamParam = HCalibData.GetCalibData( "camera", 0, "params");
+
+                _ToolInCamPose= HCalibData.GetCalibData( "camera", 0, "tool_in_cam_pose");
+
+                _CalObjInBasePose= HCalibData.GetCalibData( "calib_obj", 0, "obj_in_base_pose");
 
 
                 Clear_HandEye_Calibration();
