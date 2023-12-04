@@ -2617,9 +2617,14 @@ public class Reconstruction_3d
 
 
 
-    // Chapter: Calibration / Hand-Eye
-    //
-    // Short Description: Check the input poses of the hand-eye calibration for consistency. 
+
+    /// <summary>
+    /// 检测手眼标定坐标方法
+    /// </summary>
+    /// <param name="hv_CalibDataID"></param>
+    /// <param name="hv_RotationTolerance"></param>
+    /// <param name="hv_TranslationTolerance">平移误差:单位M</param>
+    /// <param name="hv_Warnings"></param>
     public void check_hand_eye_calibration_input_poses(HTuple hv_CalibDataID, HTuple hv_RotationTolerance,
         HTuple hv_TranslationTolerance, out HTuple hv_Warnings)
     {

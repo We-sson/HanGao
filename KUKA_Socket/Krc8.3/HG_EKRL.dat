@@ -1,9 +1,10 @@
-&ACCESS RVO1
-&REL 276
+&ACCESS RVO
+&REL 279
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
 DEFDAT  HG_EKRL PUBLIC
+
 
 
 DECL INT SUCCESS
@@ -11,7 +12,7 @@ DECL INT SUCCESS
 GLOBAL ENUM Find_Model_Enum F_45,F_135,F_225,F_315
 GLOBAL ENUM Calib_Model_Enum New,Add,Text
 GLOBAL ENUM HandEye_Calib_Model_Enum Calibration_Start,Calibration_Progress,Calibration_End
-DECL GLOBAL HandEye_Calib_Model_Enum Gb_HandEye_Calib_Model
+DECL GLOBAL HandEye_Calib_Model_Enum Gb_HandEye_Calib_Model=#Calibration_Start
 DECL GLOBAL Calib_Model_Enum Global_Calib_Model=#New
 
 

@@ -554,28 +554,11 @@ namespace HanGao.ViewModel
 
                         if (Camera_Interna_Parameters.Halcon_Find_Calib_Model)
                         {
-                            string _cameraName = string.Empty;
-
-
-                            switch (Halcon_Camera_Calibra.Camera_Connect_Model)
-                            {
-                                case Camera_Connect_Control_Type_Enum.双目相机:
-
-                                    //等待开发
-                                    break;
-                                case Camera_Connect_Control_Type_Enum.Camera_0:
-                                    _cameraName = Camera_0_Select_Val?.Camera_Info.SerialNumber;
-                                    break;
-                                case Camera_Connect_Control_Type_Enum.Camera_1:
-                                    _cameraName = Camera_1_Select_Val.Camera_Info.SerialNumber;
-
-                                    break;
-
-                            }
+                        
 
 
                             ///加载图像到标定列表
-                            Cailbration_Load_Image(Halcon_Camera_Calibra.Camera_Connect_Model, Camer_Check_LiveImage._Image, Camer_Check_LiveImage._CalibXLD, Camer_Check_LiveImage._CalibRegion, _cameraName);
+                            Cailbration_Load_Image(Halcon_Camera_Calibra.Camera_Connect_Model, Camer_Check_LiveImage._Image, Camer_Check_LiveImage._CalibXLD, Camer_Check_LiveImage._CalibRegion);
                             //单个图像
 
 
@@ -711,7 +694,7 @@ namespace HanGao.ViewModel
                                 _HImage.ReadImage(_OpenFile.FileNames[i]);
 
 
-                                Cailbration_Load_Image(_camerEnum, _HImage, null, null, "本地加载");
+                                Cailbration_Load_Image(_camerEnum, _HImage, null, null);
 
 
                             }
@@ -1233,8 +1216,29 @@ namespace HanGao.ViewModel
         /// <param name="_CalibXLD"></param>
         /// <param name="_CalibRegion"></param>
         /// <param name="_Name"></param>
-        public void Cailbration_Load_Image(Camera_Connect_Control_Type_Enum _Camera_Enum, HObject _Image, HObject _CalibXLD, HObject _CalibRegion, string _Name)
+        public void Cailbration_Load_Image(Camera_Connect_Control_Type_Enum _Camera_Enum, HObject _Image, HObject _CalibXLD, HObject _CalibRegion)
         {
+
+
+            string _cameraName = string.Empty;
+
+
+            switch (Halcon_Camera_Calibra.Camera_Connect_Model)
+            {
+                case Camera_Connect_Control_Type_Enum.双目相机:
+
+                    //等待开发
+                    break;
+                case Camera_Connect_Control_Type_Enum.Camera_0:
+                    _cameraName = Camera_0_Select_Val?.Camera_Info.SerialNumber;
+                    break;
+                case Camera_Connect_Control_Type_Enum.Camera_1:
+                    _cameraName = Camera_1_Select_Val.Camera_Info.SerialNumber;
+
+                    break;
+
+            }
+
 
             //单个图像
             Calibration_Image_Camera_Model _Calib_Model = new Calibration_Image_Camera_Model()
@@ -1243,7 +1247,7 @@ namespace HanGao.ViewModel
                 Calibration_XLD = _CalibXLD,
                 Calibration_Region = _CalibRegion,
                 Calibration_State = Camera_Calibration_Image_State_Enum.Image_Loading,
-                Carme_Name = _Name
+                Carme_Name = _cameraName
 
             };
 
@@ -1457,6 +1461,7 @@ namespace HanGao.ViewModel
                 {
 
                     //根据选择得相机开始取流图像
+                    MVS.StopGrabbing(_Select_Camera);
                     MVS.Set_Camrea_Parameters_List(_Select_Camera.Camera, Camera_Parameter_Val);
                     MVS.StartGrabbing(_Select_Camera);
 

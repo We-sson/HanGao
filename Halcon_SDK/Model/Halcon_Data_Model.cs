@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
@@ -896,7 +897,7 @@ namespace Halcon_SDK_DLL.Model
         /// </summary>
         public double HandEye_Calibration_Check_Rotation { set; get; } = 0.05;
         /// <summary>
-        /// 手眼标定的平移容差：单位m
+        /// 手眼标定的平移容差：单位mm
         /// </summary>
         public double HandEye_Calibration_Check_Translation { set; get; } = 5;
 
@@ -1107,6 +1108,9 @@ namespace Halcon_SDK_DLL.Model
 
 
 
+
+
+
         /// <summary>
         /// 标定板位置
         /// </summary>
@@ -1235,6 +1239,8 @@ namespace Halcon_SDK_DLL.Model
 
         }
 
+
+
         public double X { set; get; } = 0;
         public double Y { set; get; } = 0;
         public double Z { set; get; } = 0;
@@ -1243,8 +1249,15 @@ namespace Halcon_SDK_DLL.Model
         public double C { set; get; } = 0;
 
 
+        
+
+
         public void Set_Point(HTuple _Pos)
         {
+
+            //需要Halcon坐标转换统一方向
+
+
             if (_Pos != null)
             {
                 X = _Pos.TupleSelect(0) * 1000;
@@ -1255,6 +1268,39 @@ namespace Halcon_SDK_DLL.Model
                 C = _Pos.TupleSelect(5);
 
             }
+        }
+
+        public HPose Get_HPos(Socket_Robot_Protocols_Enum _Robot)
+        {
+
+            HPose _Pos=new HPose ();
+
+
+
+            switch (_Robot)
+            {
+                case Socket_Robot_Protocols_Enum.KUKA:
+
+
+            _Pos.CreatePose(X / 1000, Y / 1000,Z/ 1000, A, B, C, "Rp+T", "gba", "point");
+                 
+                    break;
+                case Socket_Robot_Protocols_Enum.ABB:
+
+                    //需要四元数转换
+                    break;
+                case Socket_Robot_Protocols_Enum.川崎:
+                    break;
+   
+            }
+
+
+
+            //HTuple _Pos=new HTuple();
+
+
+            return _Pos;
+
         }
 
 

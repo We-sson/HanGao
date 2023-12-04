@@ -1,5 +1,5 @@
-&ACCESS RVO1
-&REL 276
+&ACCESS RVO
+&REL 279
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
@@ -25,6 +25,8 @@ DECL EKI_STATUS RET
 EKRL_CONNECT()
 
 
+
+
 ;Bytes[]="hellow"
 ;halt
 
@@ -32,7 +34,7 @@ EKRL_CONNECT()
 END
 
 
-GLOBAL DEF EKRL_HandEye_Point(EKRL_NAME:IN,HandEye_ID:IN,HandEye_Type:IN)
+GLOBAL DEF EKRL_HandEye_Point(EKRL_NAME:IN,HandEye_Type:IN)
 DECL CHAR Message_Error[1024],EKRL_NAME[],HandEye_Type_String[1024]
 DECL EKI_STATUS RET
 DECL HandEye_Calib_Model_Enum HandEye_Type

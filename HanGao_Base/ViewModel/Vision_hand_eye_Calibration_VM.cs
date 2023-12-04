@@ -1477,12 +1477,11 @@ namespace HanGao.ViewModel
 
                                 break;
                             case HandEye_Calibration_Model_Enum.Robot_Model:
-
-                                if (Camera_0_Select_Val.Camer_Status != MVS_SDK_Base.Model.MV_CAM_Device_Status_Enum.Connecting)
-                                {
-                                    MVS.Connect_Camera(Camera_0_Select_Val);
-                                }
                                 Camera_0_Select_Val.Show_Window = Window_Show_Name_Enum.HandEye_Results_Window_1;
+
+
+                                //机器人通讯识别模式单帧模式
+                                HandEye_Camera_Parameters.Halcon_Find_Calib_Model = false;
 
                                 break;
                         }
@@ -1508,17 +1507,22 @@ namespace HanGao.ViewModel
                         switch (_HandEyeModel)
                         {
                             case HandEye_Calibration_Model_Enum.Checked_Model:
+
+                             
+
                                 Camera_1_Select_Val.Show_Window = Window_Show_Name_Enum.HandEye_Window_2;
 
 
                                 break;
                             case HandEye_Calibration_Model_Enum.Robot_Model:
-                                if (Camera_1_Select_Val.Camer_Status != MVS_SDK_Base.Model.MV_CAM_Device_Status_Enum.Connecting)
-                                {
-                                    MVS.Connect_Camera(Camera_1_Select_Val);
-                                }
                                 Camera_1_Select_Val.Show_Window = Window_Show_Name_Enum.HandEye_Results_Window_2;
 
+
+            
+
+
+                                //机器人通讯识别模式单帧模式
+                                HandEye_Camera_Parameters.Halcon_Find_Calib_Model = false;
                                 break;
                         }
 
@@ -1534,8 +1538,16 @@ namespace HanGao.ViewModel
                 {
 
 
+                    if (_Select_Camera.Camer_Status != MVS_SDK_Base.Model.MV_CAM_Device_Status_Enum.Connecting)
+                    {
+                        MVS.Connect_Camera(_Select_Camera);
+
+                    }
+
+
 
                     //根据选择得相机开始取流图像
+                    MVS.StopGrabbing(_Select_Camera);
                     MVS.Set_Camrea_Parameters_List(_Select_Camera.Camera, Camera_Parameter_Val);
                     MVS.StartGrabbing(_Select_Camera);
 
