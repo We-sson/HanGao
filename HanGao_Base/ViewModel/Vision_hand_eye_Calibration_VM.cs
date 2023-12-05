@@ -70,6 +70,12 @@ namespace HanGao.ViewModel
         public Calibration_Camera_Data_Results_Model HandEye_Camera_1_Results { set; get; } = new Calibration_Camera_Data_Results_Model();
 
         /// <summary>
+        /// 手眼标定坐标结果
+        /// </summary>
+        public Calibration_Camera_Data_Results_Model HandEye_Results_Pos { set; get; } = new Calibration_Camera_Data_Results_Model();
+
+
+        /// <summary>
         /// 用户标定选择相机0
         /// </summary>
         public MVS_Camera_Info_Model Camera_0_Select_Val { set; get; }

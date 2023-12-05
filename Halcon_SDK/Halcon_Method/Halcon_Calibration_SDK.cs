@@ -154,7 +154,9 @@ namespace Halcon_SDK_DLL
         }
 
 
-
+        /// <summary>
+        /// 清理手眼标定
+        /// </summary>
         private void Clear_HandEye_Calibration()
         {
 
@@ -336,12 +338,13 @@ namespace Halcon_SDK_DLL
 
                 //}
 
+                //创建手眼标定
                 Creation_HandEye_Calibration(_CalibParam);
 
 
 
 
-
+                //遍历图像列表检查图像
                 for (int i = 0; i < _ImageList.Count; i++)
                 {
 
@@ -349,6 +352,8 @@ namespace Halcon_SDK_DLL
 
                     Calibration_Image_Camera_Model _Selected_camera = new Calibration_Image_Camera_Model(); ;
 
+
+                    //根据选择相机对象获取标定数据
                     switch (_Selected_Camera)
                     {
                         case Camera_Connect_Control_Type_Enum.双目相机:
@@ -440,12 +445,15 @@ namespace Halcon_SDK_DLL
                 //获得相机标定内参
                 _CamCalibError= HCalibData.GetCalibData( "model", "general", "camera_calib_error");
 
-                //内参变量名
+                //获得内参数据
                 _CamParam = HCalibData.GetCalibData( "camera", 0, "params");
 
                 _ToolInCamPose= HCalibData.GetCalibData( "camera", 0, "tool_in_cam_pose");
 
                 _CalObjInBasePose= HCalibData.GetCalibData( "calib_obj", 0, "obj_in_base_pose");
+
+                //可以进行保存
+                //Write_Pos
 
 
                 Clear_HandEye_Calibration();

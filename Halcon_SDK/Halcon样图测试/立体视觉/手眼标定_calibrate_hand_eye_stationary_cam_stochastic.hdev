@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="23.11.0.0">
+<procedure name="main">
+<interface/>
+<body>
+<c>* This example explains the optimization method 'stochastic'</c>
+<c>* for hand-eye calibration. This method models the uncertainty</c>
+<c>* of all measured observations including the robot poses. The</c>
+<c>* resulting hand-eye poses and camera parameters are calibrated</c>
+<c>* robustly, i. e. they take this uncertainty into account.</c>
+<c>* The estimated standard deviations of the input tool poses and</c>
+<c>* corrected tool poses are returned as additional output</c>
+<c>* values. Hand-eye poses and camera parameters are refined</c>
+<c>* simultaneously for articulated robots.</c>
+<c>* </c>
+<c>* The estimation will be better the more poses are used.</c>
+<c>* It is recommended to use at least 25 poses.</c>
+<c>* </c>
+<c>* While this example demonstrates the case of an articulated</c>
+<c>* robot with a stationary camera, the optimization method</c>
+<c>* 'stochastic' can be used analogously for SCARA robots and</c>
+<c>* moving cameras in the respective standard workflow. However,</c>
+<c>* the method is only available for use with a camera and a</c>
+<c>* calibration plate, not for use with a 3D sensor.</c>
+<c>* 本例解释了用于手眼校准的 "随机 "优化方法。</c>
+<c>* 用于手眼校准。该方法模拟了</c>
+<c>* 包括机器人姿势在内的所有测量观测数据的不确定性。结果</c>
+<c>* 结果的手眼姿势和摄像机参数经过校准</c>
+<c>* 即它们考虑到了这种不确定性。</c>
+<c>* 输入工具姿势的估计标准偏差和</c>
+<c>* 校正后的工具姿势将作为附加输出值返回。</c>
+<c>* 值。对于铰接式机器人，手眼姿态和摄像头参数会同时进行细化。</c>
+<c>* 对铰接式机器人同时进行。</c>
+<c>* </c>
+<c>* 使用的姿势越多，估算效果越好。</c>
+<c>* 建议至少使用 25 个姿势。</c>
+<c>* </c>
+<c>* 本示例演示的是带固定摄像头的铰接式机器人的情况。</c>
+<c>* 虽然本示例演示的是带有固定摄像头的铰接式机器人，但优化方法</c>
+<c>* 随机 "优化方法可类比用于 SCARA 机器人和</c>
+<c>* 在相应的标准工作流程中，移动摄像机也可使用 "随机 "优化方法。不过</c>
+<c>* 该方法仅适用于照相机和</c>
+<c>* 校准板，不能与 3D 传感器一起使用。</c>
+<c>* </c>
+<l>ImageNameStart := '3d_machine_vision/hand_eye/stationary_cam_stochastic/calib_'</l>
+<c>* Load the calibration plate description file.</c>
+<c>* 加载校准板描述文件。</c>
+<l>CalibObjDescr := 'stationary_cam_stochastic/calplate.cpd'</l>
+<c>* Set the initial values for the internal camera parameters.</c>
+<c>* 设置摄像机内部参数的初始值。</c>
+<l>gen_cam_par_area_scan_division (0.016, 0, 4.485e-06, 4.485e-06, 480, 400, 960, 800, StartCamParam)</l>
+<c>* </c>
+<c>* Open window.</c>
+<l>read_image (Image, ImageNameStart + '00')</l>
+<l>get_image_size (Image, Width, Height)</l>
+<l>dev_close_window ()</l>
+<l>dev_open_window_fit_image (Image, 0, 0, 640, 640, WindowHandle)</l>
+<l>dev_set_line_width (2)</l>
+<l>set_display_font (WindowHandle, 14, 'mono', 'true', 'false')</l>
+<l>dev_update_off ()</l>
+<l>dev_disp_init ()</l>
+<l>stop ()</l>
+<c>* </c>
+<c>* 1. Acquire calibration images and corresponding robot poses</c>
+<c>* </c>
+<c>* Create a new calibration model.</c>
+<c>* </c>
+<c>* 获取校准图像和相应的机器人姿势</c>
+<c>* </c>
+<c>* 创建新的校准模型。</c>
+<l>create_calib_data ('hand_eye_stationary_cam', 1, 1, CalibDataID)</l>
+<c>* Set the optimization method.</c>
+<c>* 设置优化方法。</c>
+<l>set_calib_data (CalibDataID, 'model', 'general', 'optimization_method', 'stochastic')</l>
+<c>* Set the camera parameters in the calibration model.</c>
+<c>* 在校准模型中设置摄像机参数。</c>
+<l>set_calib_data_cam_param (CalibDataID, 0, [], StartCamParam)</l>
+<c>* Set the calibration plate in the calibration model.</c>
+<c>* 在校准模型中设置校准板。</c>
+<l>set_calib_data_calib_object (CalibDataID, 0, CalibObjDescr)</l>
+<l>for Index := 0 to 28 by 1</l>
+<c>    * Read the calibration image.</c>
+<c>    * 读取校准图像。</c>
+<l>    read_image (CalibImage, ImageNameStart + Index$'02')</l>
+<c>    * Read the corresponding robot pose (pose of the tool in the</c>
+<c>    * robot base coordinate system).</c>
+<c>    * 读取相应的机器人姿态（工具在</c>
+<c>    * 机器人基本坐标系）。</c>
+<l>    read_pose ('stationary_cam_stochastic/tool_in_base_pose_' + Index$'02d' + '.dat', ToolInBasePose)</l>
+<c>    * Set the robot pose in the calibration model.</c>
+<c>    * 在校准模型中设置机器人姿态。</c>
+<l>    set_calib_data (CalibDataID, 'tool', Index, 'tool_in_base_pose', ToolInBasePose)</l>
+<c>    * Determine the pose of the calibration plate in the camera</c>
+<c>    * coordinate system and set the pose in the calibration model.</c>
+<c>    * 确定校准板在摄像机*坐标系中的姿态，并在校准模型中设置姿态。</c>
+<c>    * 坐标系中的姿态，并在校准模型中设置该姿态。</c>
+<l>    find_calib_object (CalibImage, CalibDataID, 0, 0, Index, [], [])</l>
+<c>    * </c>
+<l>    dev_clear_window ()</l>
+<l>    dev_display (CalibImage)</l>
+<l>    get_calib_data_observ_pose (CalibDataID, 0, 0, Index, ObjInCameraPose)</l>
+<l>    disp_caltab (WindowHandle, CalibObjDescr, StartCamParam, ObjInCameraPose, 1)</l>
+<l>    dev_disp_text ('Calibration image ' + (Index + 1) + ' of 29', 'window', 'top', 'left', 'black', [], [])</l>
+<l>    wait_seconds (0.2)</l>
+<l>endfor</l>
+<l>dev_disp_text ('Press Run (F5) to continue', 'window', 'bottom', 'right', 'black', [], [])</l>
+<l>stop ()</l>
+<c>* </c>
+<c>* 2. Check the input poses for consistency</c>
+<c>* 2. 检查输入姿势是否一致</c>
+<l>dev_clear_window ()</l>
+<l>dev_disp_text ('Checking the input poses for consistency...', 'window', 'top', 'left', 'white', 'box', 'false')</l>
+<l>check_hand_eye_calibration_input_poses (CalibDataID, 0.05, 0.005, Warnings)</l>
+<l>if (|Warnings| != 0)</l>
+<c>    * There were problems detected in the input poses. Inspect Warnings and</c>
+<c>    * remove erroneous poses with remove_calib_data and remove_calib_data_observ.</c>
+<c>    * 检测到输入姿势有问题。检查警告和</c>
+<c>    * 使用 remove_calib_data 和 remove_calib_data_observ 删除错误的姿势。</c>
+<l>    dev_inspect_ctrl (Warnings)</l>
+<l>    stop ()</l>
+<l>endif</l>
+<c>* </c>
+<c>* 3. Perform the hand-eye calibration</c>
+<c>* 3. 进行手眼校准</c>
+<l>dev_clear_window ()</l>
+<l>dev_disp_text ('Performing hand-eye calibration...', 'window', 'top', 'left', 'white', 'box', 'false')</l>
+<c>* Hand-eye poses and camera parameters are refined</c>
+<c>* simultaneously.</c>
+<c>* 手眼姿势和相机参数同时得到完善。</c>
+<c>* 同时</c>
+<l>calibrate_hand_eye (CalibDataID, HEErrors)</l>
+<c>* Get the result of the calibration.</c>
+<c>* 获取校准结果。</c>
+<l>get_calib_data (CalibDataID, 'camera', 0, 'params', CamParam)</l>
+<l>get_calib_data (CalibDataID, 'camera', 0, 'base_in_cam_pose', BaseInCamPose)</l>
+<l>get_calib_data (CalibDataID, 'calib_obj', 0, 'obj_in_tool_pose', ObjInToolPose)</l>
+<c>* Get the estimated standard deviations for</c>
+<c>* translation/rotation of the input tool poses.</c>
+<c>* 获取</c>
+<c>* 输入工具姿势的平移/旋转。</c>
+<l>get_calib_data (CalibDataID, 'tool', 'general', 'tool_translation_deviation', ToolTranslationDeviation)</l>
+<l>get_calib_data (CalibDataID, 'tool', 'general', 'tool_rotation_deviation', ToolRotationDeviation)</l>
+<c>* Query the errors of the camera calibration, i.e., the distance</c>
+<c>* (in pixels) between extracted image coordinates and back</c>
+<c>* projected calibration mark centers:</c>
+<c>* - directly from calibration plate to the camera</c>
+<c>* 查询摄像机校准的误差，即</c>
+<c>* 以像素为单位）之间的距离。</c>
+<c>* 投影校准标记中心之间的距离（以像素为单位）：</c>
+<c>* 直接从校准板到相机</c>
+<l>get_calib_data (CalibDataID, 'model', 'general', 'camera_calib_error', CamCalibError)</l>
+<c>* - via the pose chain from calibration plate to robot base to</c>
+<c>*   corrected tool to camera</c>
+<c>* 通过姿势链，从校准板到机器人基座，再到</c>
+<c>* 校正工具到摄像头</c>
+<l>get_calib_data (CalibDataID, 'model', 'general', 'camera_calib_error_corrected_tool', CamCalibErrorCorrectedTool)</l>
+<c>* Query the errors of the hand-eye calibration with corrected</c>
+<c>* tool poses.</c>
+<c>* 查询修正后的手眼校准误差</c>
+<c>* 工具姿势。</c>
+<l>get_calib_data (CalibDataID, 'model', 'general', 'hand_eye_calib_error_corrected_tool', HEErrorsCorrectedTool)</l>
+<l>try</l>
+<c>    * Store the camera parameters to file.</c>
+<l>    write_cam_par (CamParam, 'final_campar.dat')</l>
+<c>    * Save the hand-eye calibration results to file.</c>
+<l>    write_pose (BaseInCamPose, 'final_pose_cam_base.dat')</l>
+<l>    write_pose (ObjInToolPose, 'final_pose_tool_calplate.dat')</l>
+<l>catch (Exception)</l>
+<c>    * Do nothing.</c>
+<l>endtry</l>
+<c>* Display calibration errors of the hand-eye calibration.</c>
+<l>disp_results (WindowHandle, CamCalibError, CamCalibErrorCorrectedTool, HEErrors, HEErrorsCorrectedTool)</l>
+<l>dev_disp_text ('Press Run (F5) to continue', 'window', 'bottom', 'right', 'black', [], [])</l>
+<l>stop ()</l>
+<c>* </c>
+<c>* 4. Visualize results</c>
+<c>* The back projection of the calibration marks via the resulting</c>
+<c>* pose chain using the corrected tool poses typically achieves</c>
+<c>* high accuracy, similar to the direct back projection of the</c>
+<c>* marks from the calibration plate to the camera.</c>
+<c>* </c>
+<l>dev_close_window ()</l>
+<l>dev_disp_description (ToolTranslationDeviation, ToolRotationDeviation, WindowDict, PartRow1, PartColumn1, PartRow2, PartColumn2)</l>
+<c>* Get the result of the calibration using the method 'nonlinear'</c>
+<c>* which does not take uncertainty of observations into account.</c>
+<l>get_results_nonlinear_calibration (CalibDataID, CamParamNonlinear, BaseInCamPoseNonlinear, ObjInToolPoseNonlinear)</l>
+<c>* For the given camera, get the corresponding pose indices.</c>
+<l>query_calib_data_observ_indices (CalibDataID, 'camera', 0, CalibObjIdx, PoseIds)</l>
+<c>* Compute the pose of the calibration object in the camera</c>
+<c>* coordinate system via the robot chain and visualize it.</c>
+<l>for I := 0 to 28 by 1</l>
+<l>    read_image (Image, ImageNameStart + PoseIds[I]$'02')</l>
+<c>    * Get the pose of the tool in robot base coordinates used as</c>
+<c>    * input for the calibration.</c>
+<l>    get_calib_data (CalibDataID, 'tool', PoseIds[I], 'tool_in_base_pose', ToolInBasePose)</l>
+<c>    * Get the corrected pose of the tool.</c>
+<l>    get_calib_data (CalibDataID, 'tool', PoseIds[I], 'tool_in_base_pose_corrected', ToolInBasePoseCorr)</l>
+<c>    * </c>
+<c>    * Compute the pose of the calibration plate object in the</c>
+<c>    * camera coordinate system:</c>
+<c>    * - for the optimization method 'nonlinear'</c>
+<l>    calc_calplate_pose_stationarycam (ObjInToolPoseNonlinear, BaseInCamPoseNonlinear, ToolInBasePose, CalObjInCamPoseNonlinear)</l>
+<l>    disp_caltab_part (Image, WindowDict.Nonlinear, PartRow1, PartColumn1, PartRow2, PartColumn2, CamParamNonlinear, CalibObjDescr, CalObjInCamPoseNonlinear)</l>
+<l>    dev_disp_text ('\'nonlinear\'', 'window', 'top', 'left', 'black', [], [])</l>
+<l>    dev_disp_text ('Image ' + (I + 1) + ' of ' + 29, 'window', 'top', 'right', 'black', [], [])</l>
+<c>    * </c>
+<c>    * - for the optimization method 'stochastic'</c>
+<l>    calc_calplate_pose_stationarycam (ObjInToolPose, BaseInCamPose, ToolInBasePose, CalObjInCamPose)</l>
+<l>    disp_caltab_part (Image, WindowDict.Stochastic, PartRow1, PartColumn1, PartRow2, PartColumn2, CamParam, CalibObjDescr, CalObjInCamPose)</l>
+<l>    dev_disp_text ('\'stochastic\'', 'window', 'top', 'left', 'black', [], [])</l>
+<c>    * </c>
+<c>    * - for the optimization method 'stochastic' using the</c>
+<c>    *   corrected pose of the tool in robot base coordinates</c>
+<l>    calc_calplate_pose_stationarycam (ObjInToolPose, BaseInCamPose, ToolInBasePoseCorr, CalObjInCamPoseCorr)</l>
+<l>    disp_caltab_part (Image, WindowDict.StochasticCorrectedTool, PartRow1, PartColumn1, PartRow2, PartColumn2, CamParam, CalibObjDescr, CalObjInCamPoseCorr)</l>
+<l>    dev_disp_text ('\'stochastic\' using corrected tool poses', 'window', 'top', 'left', 'black', [], [])</l>
+<c>    * </c>
+<l>    stop ()</l>
+<l>endfor</l>
+<l>dev_close_window_dict (WindowDict)</l>
+<c>* </c>
+<c>* After the hand-eye calibration, the computed pose</c>
+<c>* BaseInCamPose can be used in robotic grasping applications.</c>
+<c>* To grasp an object with the robot, typically, its pose</c>
+<c>* with respect to the camera is determined (which</c>
+<c>* is simulated here by setting the object's pose to the</c>
+<c>* pose of the calibration object).</c>
+<l>ObjInCamPose := CalObjInCamPose</l>
+<c>* If the tool coordinate system is placed at the gripper</c>
+<c>* and an object detected at ObjInCamPose shall be grasped,</c>
+<c>* the pose of the detected object relative</c>
+<c>* to the robot base coordinate system has to be computed.</c>
+<l>pose_invert (BaseInCamPose, CamInBasePose)</l>
+<l>pose_compose (CamInBasePose, ObjInCamPose, ObjInBasePose)</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="disp_results">
+<interface>
+<ic>
+<par name="WindowHandle" base_type="ctrl" dimension="0"/>
+<par name="CamCalibError" base_type="ctrl" dimension="0"/>
+<par name="CamCalibErrorCorrectedTool" base_type="ctrl" dimension="0"/>
+<par name="Errors" base_type="ctrl" dimension="0"/>
+<par name="ErrorsCorrectedTool" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<l>dev_clear_window ()</l>
+<l>dev_disp_text ('Quality of the results:', 'window', 12, 12, 'white', 'box', 'false')</l>
+<c></c>
+<l>dev_disp_text ('Back projection error of the camera calibration:', 'window', 52, 12, 'white', 'box', 'false')</l>
+<l>DispErrors := '                                                      | [Pixel]  |'</l>
+<l>DispErrors[|DispErrors|] := '|-----------------------------------------------------+----------|'</l>
+<l>DispErrors[|DispErrors|] := '| from calibration plate to camera, directly          | ' + CamCalibError$'6.4f' + '   |'</l>
+<l>DispErrors[|DispErrors|] := '| via the robot pose chain using corrected tool poses | ' + CamCalibErrorCorrectedTool$'6.4f' + '   |'</l>
+<l>dev_disp_text (DispErrors, 'window', 82, 40, 'white', 'box', 'false')</l>
+<c></c>
+<l>dev_disp_text ('Errors of the hand-eye calibration (RMS, Maximum):', 'window', 172, 12, 'white', 'box', 'false')</l>
+<l>DispErrors := '  Tool poses |   Translation [mm] |   Rotation [°]   |'</l>
+<l>DispErrors[|DispErrors|] := '|------------+--------------------+------------------|'</l>
+<l>DispErrors[|DispErrors|] := '| Input      |   ' + (Errors[0] * 1e3)$'6.4f' + ', ' + (Errors[2] * 1e3)$'6.4f' + '   |   ' + Errors[1]$'6.4f' + ', ' + Errors[3]$'6.4f' + ' |'</l>
+<l>DispErrors[|DispErrors|] := '| Corrected  |   ' + (ErrorsCorrectedTool[0] * 1e3)$'6.4f' + ', ' + (ErrorsCorrectedTool[2] * 1e3)$'6.4f' + '   |   ' + ErrorsCorrectedTool[1]$'6.4f' + ', ' + ErrorsCorrectedTool[3]$'6.4f' + ' |'</l>
+<l>dev_disp_text (DispErrors, 'window', 202, 40, 'white', 'box', 'false')</l>
+<c></c>
+<l>return ()</l>
+<c></c>
+</body>
+<docu id="disp_results">
+<parameters>
+<parameter id="CamCalibError"/>
+<parameter id="CamCalibErrorCorrectedTool"/>
+<parameter id="Errors"/>
+<parameter id="ErrorsCorrectedTool"/>
+<parameter id="WindowHandle"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="calc_calplate_pose_stationarycam">
+<interface>
+<ic>
+<par name="CalObjInToolPose" base_type="ctrl" dimension="0"/>
+<par name="BaseInCamPose" base_type="ctrl" dimension="0"/>
+<par name="ToolInBasePose" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="CalObjInCamPose" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c>* CalObjInCamPose = cam_H_calplate = cam_H_base * base_H_tool * tool_H_calplate</c>
+<c>*                                  = BaseInCamPose*ToolInBasePose*CalObjInToolPose</c>
+<l>pose_compose (BaseInCamPose, ToolInBasePose, ToolInCamPose)</l>
+<l>pose_compose (ToolInCamPose, CalObjInToolPose, CalObjInCamPose)</l>
+<l>return ()</l>
+</body>
+<docu id="calc_calplate_pose_stationarycam">
+<short lang="en_US">compute cam_H_calplate from hand-eye calibration results</short>
+<parameters>
+<parameter id="BaseInCamPose"/>
+<parameter id="CalObjInCamPose"/>
+<parameter id="CalObjInToolPose"/>
+<parameter id="ToolInBasePose"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="get_results_nonlinear_calibration">
+<interface>
+<ic>
+<par name="CalibDataID" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="CamParamNonlinear" base_type="ctrl" dimension="0"/>
+<par name="BaseInCamPoseNonlinear" base_type="ctrl" dimension="0"/>
+<par name="ObjInToolPoseNonlinear" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c>* Get the results of the calibration using the optimization method 'nonlinear'</c>
+<l>serialize_calib_data (CalibDataID, SerializedItemHandle)</l>
+<l>deserialize_calib_data (SerializedItemHandle, CalibDataIDCopy)</l>
+<l>set_calib_data (CalibDataIDCopy, 'model', 'general', 'optimization_method', 'nonlinear')</l>
+<l>calibrate_hand_eye (CalibDataIDCopy, HEErrorsNonlinear)</l>
+<l>get_calib_data (CalibDataIDCopy, 'camera', 0, 'params', CamParamNonlinear)</l>
+<l>get_calib_data (CalibDataIDCopy, 'camera', 0, 'base_in_cam_pose', BaseInCamPoseNonlinear)</l>
+<l>get_calib_data (CalibDataIDCopy, 'calib_obj', 0, 'obj_in_tool_pose', ObjInToolPoseNonlinear)</l>
+<l>return ()</l>
+</body>
+<docu id="get_results_nonlinear_calibration">
+<parameters>
+<parameter id="BaseInCamPoseNonlinear"/>
+<parameter id="CalibDataID"/>
+<parameter id="CamParamNonlinear"/>
+<parameter id="ObjInToolPoseNonlinear"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="dev_disp_description">
+<interface>
+<ic>
+<par name="ToolTranslationDeviation" base_type="ctrl" dimension="0"/>
+<par name="ToolRotationDeviation" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="WindowDict" base_type="ctrl" dimension="0"/>
+<par name="PartRow1" base_type="ctrl" dimension="0"/>
+<par name="PartColumn1" base_type="ctrl" dimension="0"/>
+<par name="PartRow2" base_type="ctrl" dimension="0"/>
+<par name="PartColumn2" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c>* Image part to display:</c>
+<l>PartRow1 := 350</l>
+<l>PartColumn1 := 430</l>
+<l>PartRow2 := 450</l>
+<l>PartColumn2 := 530</l>
+<c>* </c>
+<l>WindowDict := dict{}</l>
+<l>WidthPart := PartColumn2 - PartColumn1 + 1</l>
+<l>HeightPart := PartRow2 - PartRow1 + 1</l>
+<l>dev_open_window_fit_size (0, 0, WidthPart, HeightPart, [400, 500], [400, 500], WindowDict.Nonlinear)</l>
+<l>dev_set_line_width (2)</l>
+<l>get_window_extents (WindowDict.Nonlinear, Row, Column, Width, Height)</l>
+<l>dev_open_window (0, Width + 8, Width, Height, 'black', WindowDict.Stochastic)</l>
+<l>dev_set_line_width (2)</l>
+<l>dev_open_window (0, 2 * (Width + 8), Width, Height, 'black', WindowDict.StochasticCorrectedTool)</l>
+<l>dev_set_line_width (2)</l>
+<l>set_display_font (WindowDict.Nonlinear, 14, 'mono', 'true', 'false')</l>
+<l>set_display_font (WindowDict.Stochastic, 14, 'mono', 'true', 'false')</l>
+<l>set_display_font (WindowDict.StochasticCorrectedTool, 14, 'mono', 'true', 'false')</l>
+<c>* </c>
+<l>dev_open_window (Height + 80, 0, 3 * Width + 2 * 8, Height * 0.75, 'black', WindowDict.Description)</l>
+<l>set_display_font (WindowDict.Description, 14, 'mono', 'true', 'false')</l>
+<c></c>
+<l>Text := 'The optimization method \'stochastic\' takes the uncertainty of input robot tool poses into account. It typically yields'</l>
+<l>Text[|Text|] := 'more robust results than \'nonlinear\', while the hand-eye error computed by using the noisy input poses remains comparable.'</l>
+<l>Text[|Text|] := ''</l>
+<l>Text[|Text|] := 'In the above graphics windows, the calibration marks are projected into the calibration images via the resulting pose chain,'</l>
+<l>Text[|Text|] := 'consisting of the hand-eye poses and the tool poses. The pose chains in the left and the center image use the input tool poses.'</l>
+<l>Text[|Text|] := 'In the right image, the corrected tool poses assumed by the algorithm are used. The resulting back projection of the'</l>
+<l>Text[|Text|] := 'calibration marks achieves an accuracy similar to the direct back projection of the marks from the calibration plate to the camera.'</l>
+<l>Text[|Text|] := ''</l>
+<l>Text[|Text|] := 'Estimated standard deviations of the input robot tool poses: Translation ' + (ToolTranslationDeviation * 1e3)$'5.3f' + ' mm, Rotation ' + ToolRotationDeviation$'5.3f' + ' °'</l>
+<l>Text[|Text|] := ''</l>
+<l>Text[|Text|] := 'The estimation will be better the more poses are used. It is recommended to use at least 25 poses.'</l>
+<l>dev_disp_text (Text, 'window', 12, 12, 'white', 'box', 'false')</l>
+<l>dev_disp_text ('Press Run (F5) to continue', 'window', 'bottom', 'right', 'black', [], [])</l>
+<c></c>
+<l>return ()</l>
+<c></c>
+</body>
+<docu id="dev_disp_description">
+<parameters>
+<parameter id="PartColumn1"/>
+<parameter id="PartColumn2"/>
+<parameter id="PartRow1"/>
+<parameter id="PartRow2"/>
+<parameter id="ToolRotationDeviation"/>
+<parameter id="ToolTranslationDeviation"/>
+<parameter id="WindowDict"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="disp_caltab_part">
+<interface>
+<io>
+<par name="Image" base_type="iconic" dimension="0"/>
+</io>
+<ic>
+<par name="WindowHandle" base_type="ctrl" dimension="0"/>
+<par name="PartRow1" base_type="ctrl" dimension="0"/>
+<par name="PartColumn1" base_type="ctrl" dimension="0"/>
+<par name="PartRow2" base_type="ctrl" dimension="0"/>
+<par name="PartColumn2" base_type="ctrl" dimension="0"/>
+<par name="CamParam" base_type="ctrl" dimension="0"/>
+<par name="CalibObjDescr" base_type="ctrl" dimension="0"/>
+<par name="CalObjInCamPose" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<l>dev_set_window (WindowHandle)</l>
+<l>dev_clear_window ()</l>
+<l>dev_set_part (PartRow1, PartColumn1, PartRow2, PartColumn2)</l>
+<l>dev_display (Image)</l>
+<l>disp_caltab (WindowHandle, CalibObjDescr, CamParam, CalObjInCamPose, 1)</l>
+<l>return ()</l>
+</body>
+<docu id="disp_caltab_part">
+<parameters>
+<parameter id="CalObjInCamPose"/>
+<parameter id="CalibObjDescr"/>
+<parameter id="CamParam"/>
+<parameter id="Image"/>
+<parameter id="PartColumn1"/>
+<parameter id="PartColumn2"/>
+<parameter id="PartRow1"/>
+<parameter id="PartRow2"/>
+<parameter id="WindowHandle"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="dev_disp_init">
+<interface/>
+<body>
+<l>Text := 'This example explains the optimization method \'stochastic\''</l>
+<l>Text[|Text|] := 'for hand-eye calibration. It models the uncertainty of all'</l>
+<l>Text[|Text|] := 'measured observations including the robot poses. The'</l>
+<l>Text[|Text|] := 'resulting hand-eye poses and camera parameters are calibrated'</l>
+<l>Text[|Text|] := 'more robustly, i. e. they take this uncertainty into account.'</l>
+<l>Text[|Text|] := 'The estimated standard deviations of the input tool poses and'</l>
+<l>Text[|Text|] := 'corrected tool poses are returned as additional output'</l>
+<l>Text[|Text|] := 'values. Hand-eye poses and camera parameters are refined'</l>
+<l>Text[|Text|] := 'simultaneously for articulated robots.'</l>
+<l>Text[|Text|] := ''</l>
+<l>Text[|Text|] := 'The estimation will be better the more poses are used.'</l>
+<l>Text[|Text|] := 'However, it is recommended to use at least 25 poses.'</l>
+<l>Text[|Text|] := ''</l>
+<l>Text[|Text|] := 'While this example demonstrates the case of an articulated'</l>
+<l>Text[|Text|] := 'robot with a stationary camera, the optimization method'</l>
+<l>Text[|Text|] := '\'stochastic\' can be used analogously for SCARA robots and'</l>
+<l>Text[|Text|] := 'moving cameras in the respective standard workflow. However,'</l>
+<l>Text[|Text|] := 'the method is only available for use with a camera and a'</l>
+<l>Text[|Text|] := 'calibration plate, not for use with a 3D sensor.'</l>
+<l>dev_disp_text (Text, 'window', 12, 12, 'white', 'box', 'false')</l>
+<c></c>
+<l>dev_disp_text ('Press Run (F5) to continue', 'window', 'bottom', 'right', 'black', [], [])</l>
+<l>return ()</l>
+<c></c>
+</body>
+<docu id="dev_disp_init">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>

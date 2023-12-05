@@ -5017,7 +5017,7 @@
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Grid.Column=" 0"
-                                                       Text="采集方式"
+                                                       Text="内参类型"
                                                        HorizontalAlignment="Left"
                                                        VerticalAlignment="Center"
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -5913,7 +5913,7 @@
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Grid.Column=" 0"
-                                                       Text="采集方式"
+                                                       Text="内参类型"
                                                        HorizontalAlignment="Left"
                                                        VerticalAlignment="Center"
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"

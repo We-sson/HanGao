@@ -856,6 +856,13 @@ namespace Halcon_SDK_DLL.Model
         public HandEye_Optimization_Method_Enum HandEye_Optimization_Method { set; get; } = HandEye_Optimization_Method_Enum.nonlinear;
 
 
+
+        /// <summary>
+        /// 标定结果保存文件夹
+        /// </summary>
+        public string HandEye_Result_Fold_Address { set; get; } = Directory.GetCurrentDirectory() + "\\Calibration_File";
+
+
         /// <summary>
         /// 标定板位置
         /// </summary>
@@ -1315,11 +1322,8 @@ namespace Halcon_SDK_DLL.Model
     /// 相机标定误差模型
     /// </summary>
     [AddINotifyPropertyChangedInterface]
-    public class Calibration_Camera_Results_Model
+    public class HandEye_RMS_Max_Error_Model
     {
-
-        public double Error_Pixel { set; get; } = 0;
-
 
         public double RMS_Translational { set; get; } = 0;
 
@@ -1329,7 +1333,6 @@ namespace Halcon_SDK_DLL.Model
 
         public double Maximum_Rotational { set; get; } = 0;
 
-        public string Calibration_Results_Save_File { set; get; } = "";
     }
 
 
@@ -1403,6 +1406,45 @@ namespace Halcon_SDK_DLL.Model
         /// 保存文件地址
         /// </summary>
         public string Save_File_Address { set; get; }
+
+
+
+        /// <summary>
+        /// 手眼校准成功后，将返回使用校正工具姿势的完整变换链的姿势误差
+        /// </summary>
+        public HandEye_RMS_Max_Error_Model HandEye_Tool_in_Pase_Pose_Corrected_Error { set; get; } = new HandEye_RMS_Max_Error_Model();
+
+
+
+        /// <summary>
+        /// 校准标记中心反投影到摄像机图像的均方根误差（RMSE），通过使用校正工具姿势的姿势链
+        /// </summary>
+        public HandEye_RMS_Max_Error_Model HandEye_Camera_Calib_Error_Corrected_Tool { set; get; } = new HandEye_RMS_Max_Error_Model();
+
+
+        /// <summary>
+        /// 摄像机系统优化后投影的均方根误差（RMSE）。通常情况下，在执行手眼校准（calibrate_hand_eye）后会查询此误差，在此过程中会对摄像机系统进行内部校准，但不会返回摄像机校准的误差
+        /// </summary>
+        public HandEye_RMS_Max_Error_Model HandEye_Calib_Error { set; get; } = new HandEye_RMS_Max_Error_Model();
+
+
+        /// <summary>
+        /// 以机器人基准坐标表示的机器人工具输入位置的标准平移偏差
+        /// </summary>
+        public double HandEye_Tool_Translation_Deviation { set; get; } = 0;
+
+        /// <summary>
+        /// 以机器人基准坐标表示的机器人工具输入位置的标准旋转偏差
+        /// </summary>
+        public double HandEye_Tool_Rotational_Deviation { set; get; } = 0;
+
+
+
+
+        public Point_Model HandEye_Cam_In_Tool_pos { set; get; } = new Point_Model();
+
+
+        public Point_Model HandEye_Cam_In_Base_pos { set; get; } = new Point_Model();
 
 
 
