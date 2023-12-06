@@ -1383,7 +1383,7 @@ namespace HanGao.ViewModel
 
 
 
-                    User_Log_Add(_Selected_Type + "：设备标定误差" + _Selected_Results.Result_Error_Val, Log_Show_Window_Enum.Calibration, MessageBoxImage.Information);
+                    User_Log_Add(_Selected_Type + "：设备标定误差" + _Selected_Results.Camera_Calib_Error, Log_Show_Window_Enum.Calibration, MessageBoxImage.Information);
 
 
                     break;

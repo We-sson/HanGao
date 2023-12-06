@@ -96,7 +96,7 @@
             </i:Interaction.Triggers>-->
 
             <TabItem Style="{DynamicResource Vision_TabItemStyle}"
-                     Padding="100,0,100,0"
+                     Padding="50,8,50,8"
                      Background="Transparent"
                      FontSize=" 22"
                      Header="① 设备参数">
@@ -2872,7 +2872,7 @@
                 </Grid>
             </TabItem>
             <TabItem Style="{DynamicResource Vision_TabItemStyle}"
-                     Padding="100,0,100,0"
+                     Padding="50,8,50,8"
                      Background="Transparent"
                      FontSize=" 22"
                      Header="② 相机测试">
@@ -3837,7 +3837,7 @@
 
             </TabItem>
             <TabItem Style="{DynamicResource Vision_TabItemStyle}"
-                     Padding="100,10,100,5"
+                     Padding="50,8,50,8"
                      Background="Transparent"
                      FontSize=" 22"
                      Header="③ 图像采集计算">
@@ -5329,7 +5329,7 @@
             </TabItem>
 
             <TabItem Style="{DynamicResource Vision_TabItemStyle}"
-                     Padding="100,10,100,5"
+                     Padding="50,8,50,8"
                      Background="Transparent"
                      FontSize=" 22"
                      Header="④ 手眼标定结果">
@@ -5438,7 +5438,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Camera_0_Results.Result_Error_Val}" />
+                                                    Value="{Binding HandEye_Camera_0_Results.Camera_Calib_Error}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_Camera_0_Error_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -6097,7 +6097,7 @@
                                         </Grid>
 
 
-                                        <Grid Margin="8">
+                                        <Grid Height=" 100" Margin="8">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="90" />
@@ -6180,7 +6180,7 @@
 
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding Camera_Calibration_ImageList_Comm}"
+                                                        <i:InvokeCommandAction Command="{Binding}"
                                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
@@ -6201,7 +6201,7 @@
                                                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding Camera_Calibration_Results_Save_Comm}"
+                                                        <i:InvokeCommandAction Command="{Binding}"
                                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
@@ -6330,7 +6330,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Camera_1_Results.Result_Error_Val}" />
+                                                    Value="{Binding HandEye_Camera_1_Results.Camera_Calib_Error}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_Camera_1_Error_UI, Path=Value, StringFormat={}{0:N3}}"
@@ -6975,7 +6975,7 @@
                                         </Grid>
 
 
-                                        <Grid Margin="8">
+                                        <Grid Height=" 100" Margin="8">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="90" />
@@ -7059,7 +7059,7 @@
 
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding Camera_Calibration_ImageList_Comm}"
+                                                        <i:InvokeCommandAction Command="{Binding}"
                                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
@@ -7080,7 +7080,7 @@
                                                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding Camera_Calibration_Results_Save_Comm}"
+                                                        <i:InvokeCommandAction Command="{Binding}"
                                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
@@ -7187,7 +7187,6 @@
                                     <StackPanel Orientation="Vertical">
 
 
-
                                         <Grid Height="35" Margin="8">
 
                                             <Grid.ColumnDefinitions>
@@ -7211,7 +7210,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Results_Pos.HandEye_RMSE_Translation_Error}" />
+                                                    Value="{Binding HandEye_Results_Pos.HandEye_Tool_Translation_Deviation}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_Tool_Translation_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -7230,6 +7229,8 @@
                                                    VerticalContentAlignment="Center"
                                                    FontSize=" 14" />
                                         </Grid>
+
+
 
 
                                         <Grid Height="35" Margin="8">
@@ -7255,7 +7256,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Results_Pos.HandEye_RMSE_Translation_Error}" />
+                                                    Value="{Binding HandEye_Results_Pos.HandEye_Tool_Rotational_Deviation}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_Tool_Rotational_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -7276,6 +7277,25 @@
                                         </Grid>
 
 
+                                        <Border Height=" 3"
+                                                Margin="8,4,8,4"
+                                                Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                                CornerRadius="1" />
+
+                                        <Grid Height="35" Margin="4">
+
+
+                                            <TextBlock Text="手眼标定转换链的位姿误差"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="18"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                        </Grid>
+
+
+
                                         <Grid Height="35" Margin="8">
 
                                             <Grid.ColumnDefinitions>
@@ -7284,7 +7304,7 @@
                                                 <ColumnDefinition Width=" auto" />
                                                 <ColumnDefinition Width=" 35" />
                                             </Grid.ColumnDefinitions>
-                                            <TextBlock Text="平移方根误差"
+                                            <TextBlock Text="方根平移误差"
                                                        HorizontalAlignment="Left"
                                                        VerticalAlignment="Center"
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -7299,7 +7319,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Results_Pos.HandEye_RMSE_Translation_Error}" />
+                                                    Value="{Binding HandEye_Results_Pos.HandEye_Calib_Error.RMS_Translational}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_RMSE_Translation_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -7327,7 +7347,7 @@
                                                 <ColumnDefinition Width=" auto" />
                                                 <ColumnDefinition Width=" 35" />
                                             </Grid.ColumnDefinitions>
-                                            <TextBlock Text="旋转方根误差"
+                                            <TextBlock Text="方根旋转误差"
                                                        HorizontalAlignment="Left"
                                                        VerticalAlignment="Center"
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -7342,7 +7362,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Results_Pos.HandEye_RMSE_Rotational_Error}" />
+                                                    Value="{Binding HandEye_Results_Pos.HandEye_Calib_Error.RMS_Rotational}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_RMSE_Rotational_Error_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -7385,7 +7405,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Results_Pos.HandEye_Max_Translation_Error}" />
+                                                    Value="{Binding HandEye_Results_Pos.HandEye_Calib_Error.Maximum_Translational}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_Max_Translation_Error_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -7428,7 +7448,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Results_Pos.HandEye_Max_Rotational_Error}" />
+                                                    Value="{Binding HandEye_Results_Pos.HandEye_Calib_Error.Maximum_Rotational}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_Max_Rotational_Error_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -7448,12 +7468,204 @@
                                                    FontSize=" 14" />
                                         </Grid>
 
+                                        <Border Height=" 3"
+                                                Margin="8,4,8,4"
+                                                Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                                CornerRadius="1" />
 
+
+
+                                        <Grid Height="35" Margin="4">
+
+
+                                            <TextBlock Text="校正工具姿势的完整变换链的姿势误差"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="18"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                        </Grid>
+
+
+
+                                        <Grid Height="35" Margin="8">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 90" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" auto" />
+                                                <ColumnDefinition Width=" 35" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="方根平移误差"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="14"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="HandEye_Corrected_RMSE_Translation_UI" Grid.Column=" 1"
+                                                    Margin="5"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    VerticalContentAlignment="Stretch"
+                                                    IsSnapToTickEnabled="True"
+                                                    Maximum="50000"
+                                                    Minimum="0"
+                                                    SmallChange="10"
+                                                    Value="{Binding HandEye_Results_Pos.HandEye_Calib_Error_Corrected_Tool.RMS_Translational}" />
+
+                                            <TextBox Grid.Column=" 2"
+                                                     Text="{Binding ElementName=HandEye_Corrected_RMSE_Translation_UI, Path=Value, StringFormat={}{0:F4}}"
+                                                     Width="100"
+                                                     HorizontalContentAlignment="Center"
+                                                     VerticalContentAlignment="Center"
+                                                     Background="Transparent"
+                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                     BorderThickness="2"
+                                                     FontSize="18" />
+                                            <Label Grid.Column=" 3"
+                                                   Content="mm"
+                                                   Margin="0"
+                                                   Padding="0"
+                                                   HorizontalContentAlignment="Center"
+                                                   VerticalContentAlignment="Center"
+                                                   FontSize=" 14" />
+                                        </Grid>
+
+                                        <Grid Height="35" Margin="8">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 90" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" auto" />
+                                                <ColumnDefinition Width=" 35" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="方根旋转误差"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="14"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="HandEye_Corrected_RMSE_Rotational_Error_UI" Grid.Column=" 1"
+                                                    Margin="5"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    VerticalContentAlignment="Stretch"
+                                                    IsSnapToTickEnabled="True"
+                                                    Maximum="50000"
+                                                    Minimum="0"
+                                                    SmallChange="10"
+                                                    Value="{Binding HandEye_Results_Pos.HandEye_Calib_Error_Corrected_Tool.RMS_Rotational}" />
+
+                                            <TextBox Grid.Column=" 2"
+                                                     Text="{Binding ElementName=HandEye_Corrected_RMSE_Rotational_Error_UI, Path=Value, StringFormat={}{0:F4}}"
+                                                     Width="100"
+                                                     HorizontalContentAlignment="Center"
+                                                     VerticalContentAlignment="Center"
+                                                     Background="Transparent"
+                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                     BorderThickness="2"
+                                                     FontSize="18" />
+                                            <Label Grid.Column=" 3"
+                                                   Content="mm"
+                                                   Margin="0"
+                                                   Padding="0"
+                                                   HorizontalContentAlignment="Center"
+                                                   VerticalContentAlignment="Center"
+                                                   FontSize=" 14" />
+                                        </Grid>
+
+                                        <Grid Height="35" Margin="8">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 90" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" auto" />
+                                                <ColumnDefinition Width=" 35" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="最大平移误差"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="14"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="HandEye_Corrected_Max_Translation_Error_UI" Grid.Column=" 1"
+                                                    Margin="5"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    VerticalContentAlignment="Stretch"
+                                                    IsSnapToTickEnabled="True"
+                                                    Maximum="50000"
+                                                    Minimum="0"
+                                                    SmallChange="10"
+                                                    Value="{Binding HandEye_Results_Pos.HandEye_Calib_Error_Corrected_Tool.Maximum_Translational}" />
+
+                                            <TextBox Grid.Column=" 2"
+                                                     Text="{Binding ElementName=HandEye_Corrected_Max_Translation_Error_UI, Path=Value, StringFormat={}{0:F4}}"
+                                                     Width="100"
+                                                     HorizontalContentAlignment="Center"
+                                                     VerticalContentAlignment="Center"
+                                                     Background="Transparent"
+                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                     BorderThickness="2"
+                                                     FontSize="18" />
+                                            <Label Grid.Column=" 3"
+                                                   Content="mm"
+                                                   Margin="0"
+                                                   Padding="0"
+                                                   HorizontalContentAlignment="Center"
+                                                   VerticalContentAlignment="Center"
+                                                   FontSize=" 14" />
+                                        </Grid>
+
+                                        <Grid Height="35" Margin="8">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 90" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" auto" />
+                                                <ColumnDefinition Width=" 35" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="最大旋转误差"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="14"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="HandEye_Corrected_Max_Rotational_Error_UI" Grid.Column=" 1"
+                                                    Margin="5"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    VerticalContentAlignment="Stretch"
+                                                    IsSnapToTickEnabled="True"
+                                                    Maximum="50000"
+                                                    Minimum="0"
+                                                    SmallChange="10"
+                                                    Value="{Binding HandEye_Results_Pos.HandEye_Calib_Error_Corrected_Tool.Maximum_Rotational}" />
+
+                                            <TextBox Grid.Column=" 2"
+                                                     Text="{Binding ElementName=HandEye_Corrected_Max_Rotational_Error_UI, Path=Value, StringFormat={}{0:F4}}"
+                                                     Width="100"
+                                                     HorizontalContentAlignment="Center"
+                                                     VerticalContentAlignment="Center"
+                                                     Background="Transparent"
+                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                     BorderThickness="2"
+                                                     FontSize="18" />
+                                            <Label Grid.Column=" 3"
+                                                   Content="mm"
+                                                   Margin="0"
+                                                   Padding="0"
+                                                   HorizontalContentAlignment="Center"
+                                                   VerticalContentAlignment="Center"
+                                                   FontSize=" 14" />
+                                        </Grid>
 
                                         <Border Height=" 3"
                                                 Margin="8,4,8,4"
                                                 Background="{DynamicResource 全局_按钮_蓝颜色}"
                                                 CornerRadius="1" />
+
 
                                         <Border Grid.Column=" 0"
                                                 Margin="8"
@@ -7465,6 +7677,7 @@
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width=" 50" />
                                                     <ColumnDefinition />
+                                                    <ColumnDefinition Width=" 80" />
                                                 </Grid.ColumnDefinitions>
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height=" 35" />
@@ -7485,12 +7698,18 @@
 
                                                 <TextBlock Grid.Row=" 0" Grid.Column=" 0"
                                                            Grid.ColumnSpan=" 2"
-                                                           Text="相机在工具的位置"
+                                                           Text="工具在相机的位置"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="16" />
+
+                                                <TextBlock Grid.Row=" 0" Grid.Column=" 2"
+                                                           Text="误差"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <Border Grid.Row=" 1" Grid.Column=" 0"
-                                                        Grid.ColumnSpan="2"
+                                                        Grid.ColumnSpan="3"
                                                         Height=" 3"
                                                         Background="{DynamicResource 全局_按钮_深灰颜色}" />
 
@@ -7500,12 +7719,19 @@
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 2" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.Cam_In_Tool_pos.X}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.X}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
+
+                                                <TextBlock Grid.Row=" 2" Grid.Column=" 2"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.X}"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="16" />
+
                                                 <Border Grid.Row=" 3" Grid.Column=" 0"
-                                                        Grid.ColumnSpan="2"
+                                                        Grid.ColumnSpan="3"
                                                         Height=" 3"
                                                         Background="{DynamicResource 全局_按钮_深灰颜色}" />
                                                 <TextBlock Grid.Row=" 4" Grid.Column=" 0"
@@ -7514,13 +7740,18 @@
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 4" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.Cam_In_Tool_pos.Y}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.Y}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
 
+                                                <TextBlock Grid.Row=" 4" Grid.Column=" 2"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.Y}"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="16" />
                                                 <Border Grid.Row=" 5" Grid.Column=" 0"
-                                                        Grid.ColumnSpan="2"
+                                                        Grid.ColumnSpan="3"
                                                         Height=" 3"
                                                         Background="{DynamicResource 全局_按钮_深灰颜色}" />
                                                 <TextBlock Grid.Row=" 6" Grid.Column=" 0"
@@ -7529,12 +7760,18 @@
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 6" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.Cam_In_Tool_pos.Z}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.Z}"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="16" />
+
+                                                <TextBlock Grid.Row=" 6" Grid.Column=" 2"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.Z}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <Border Grid.Row=" 7" Grid.Column=" 0"
-                                                        Grid.ColumnSpan="2"
+                                                        Grid.ColumnSpan="3"
                                                         Height=" 3"
                                                         Background="{DynamicResource 全局_按钮_深灰颜色}" />
                                                 <TextBlock Grid.Row=" 8" Grid.Column=" 0"
@@ -7543,12 +7780,18 @@
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 8" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.Cam_In_Tool_pos.A}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.A}"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="16" />
+
+                                                <TextBlock Grid.Row=" 8" Grid.Column=" 2"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.A}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <Border Grid.Row=" 9" Grid.Column=" 0"
-                                                        Grid.ColumnSpan="2"
+                                                        Grid.ColumnSpan="3"
                                                         Height=" 3"
                                                         Background="{DynamicResource 全局_按钮_深灰颜色}" />
                                                 <TextBlock Grid.Row=" 10" Grid.Column=" 0"
@@ -7557,12 +7800,18 @@
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 10" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.Cam_In_Tool_pos.B}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.B}"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="16" />
+
+                                                <TextBlock Grid.Row=" 10" Grid.Column=" 2"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.B}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <Border Grid.Row="11" Grid.Column=" 0"
-                                                        Grid.ColumnSpan="2"
+                                                        Grid.ColumnSpan="3"
                                                         Height=" 3"
                                                         Background="{DynamicResource 全局_按钮_深灰颜色}" />
                                                 <TextBlock Grid.Row=" 12" Grid.Column=" 0"
@@ -7571,7 +7820,13 @@
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 12" Grid.Column="1"
-                                                           Text="{Binding HandEye_Results_Pos.Cam_In_Tool_pos.C}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.C}"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="16" />
+
+                                                <TextBlock Grid.Row=" 12" Grid.Column=" 2"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.C}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -7579,7 +7834,6 @@
 
 
                                         </Border>
-
                                         <Border Grid.Column=" 0"
                                                 Margin="8"
                                                 BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
@@ -7590,6 +7844,7 @@
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width=" 50" />
                                                     <ColumnDefinition />
+                                                    <ColumnDefinition Width=" 80" />
                                                 </Grid.ColumnDefinitions>
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height=" 35" />
@@ -7610,12 +7865,18 @@
 
                                                 <TextBlock Grid.Row=" 0" Grid.Column=" 0"
                                                            Grid.ColumnSpan=" 2"
-                                                           Text="相机在基坐标的位置"
+                                                           Text="标定板在基坐标的位置"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="16" />
+
+                                                <TextBlock Grid.Row=" 0" Grid.Column=" 2"
+                                                           Text="误差"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <Border Grid.Row=" 1" Grid.Column=" 0"
-                                                        Grid.ColumnSpan="2"
+                                                        Grid.ColumnSpan="3"
                                                         Height=" 3"
                                                         Background="{DynamicResource 全局_按钮_深灰颜色}" />
 
@@ -7625,12 +7886,19 @@
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 2" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.Cam_In_Base_pos.X}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.X}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
+
+                                                <TextBlock Grid.Row=" 2" Grid.Column=" 2"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.X}"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="16" />
+
                                                 <Border Grid.Row=" 3" Grid.Column=" 0"
-                                                        Grid.ColumnSpan="2"
+                                                        Grid.ColumnSpan="3"
                                                         Height=" 3"
                                                         Background="{DynamicResource 全局_按钮_深灰颜色}" />
                                                 <TextBlock Grid.Row=" 4" Grid.Column=" 0"
@@ -7639,13 +7907,18 @@
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 4" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.Cam_In_Base_pos.Y}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.Y}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
 
+                                                <TextBlock Grid.Row=" 4" Grid.Column=" 2"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.Y}"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="16" />
                                                 <Border Grid.Row=" 5" Grid.Column=" 0"
-                                                        Grid.ColumnSpan="2"
+                                                        Grid.ColumnSpan="3"
                                                         Height=" 3"
                                                         Background="{DynamicResource 全局_按钮_深灰颜色}" />
                                                 <TextBlock Grid.Row=" 6" Grid.Column=" 0"
@@ -7654,12 +7927,18 @@
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 6" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.Cam_In_Base_pos.Z}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.Z}"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="16" />
+
+                                                <TextBlock Grid.Row=" 6" Grid.Column=" 2"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.Z}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <Border Grid.Row=" 7" Grid.Column=" 0"
-                                                        Grid.ColumnSpan="2"
+                                                        Grid.ColumnSpan="3"
                                                         Height=" 3"
                                                         Background="{DynamicResource 全局_按钮_深灰颜色}" />
                                                 <TextBlock Grid.Row=" 8" Grid.Column=" 0"
@@ -7668,12 +7947,18 @@
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 8" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.Cam_In_Base_pos.A}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.A}"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="16" />
+
+                                                <TextBlock Grid.Row=" 8" Grid.Column=" 2"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.A}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <Border Grid.Row=" 9" Grid.Column=" 0"
-                                                        Grid.ColumnSpan="2"
+                                                        Grid.ColumnSpan="3"
                                                         Height=" 3"
                                                         Background="{DynamicResource 全局_按钮_深灰颜色}" />
                                                 <TextBlock Grid.Row=" 10" Grid.Column=" 0"
@@ -7682,12 +7967,18 @@
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 10" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.Cam_In_Base_pos.B}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.B}"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="16" />
+
+                                                <TextBlock Grid.Row=" 10" Grid.Column=" 2"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.B}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <Border Grid.Row="11" Grid.Column=" 0"
-                                                        Grid.ColumnSpan="2"
+                                                        Grid.ColumnSpan="3"
                                                         Height=" 3"
                                                         Background="{DynamicResource 全局_按钮_深灰颜色}" />
                                                 <TextBlock Grid.Row=" 12" Grid.Column=" 0"
@@ -7696,7 +7987,13 @@
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 12" Grid.Column="1"
-                                                           Text="{Binding HandEye_Results_Pos.Cam_In_Base_pos.C}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.C}"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="16" />
+
+                                                <TextBlock Grid.Row=" 12" Grid.Column=" 2"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.C}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />

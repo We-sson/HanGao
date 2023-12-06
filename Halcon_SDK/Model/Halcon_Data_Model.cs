@@ -1363,7 +1363,7 @@ namespace Halcon_SDK_DLL.Model
 
         public Calibration_Camera_Data_Results_Model(Calibration_Camera_Data_Results_Model _Results_Model)
         {
-            Result_Error_Val = _Results_Model.Result_Error_Val;
+            Camera_Calib_Error = _Results_Model.Camera_Calib_Error;
             Result_Fold_Address = _Results_Model.Result_Fold_Address;
             Camera_Result_Pama = _Results_Model.Camera_Result_Pama;
             Calibration_Name = _Results_Model.Calibration_Name;
@@ -1381,10 +1381,9 @@ namespace Halcon_SDK_DLL.Model
         public Camera_Calinration_Process_Enum Camera_Calinration_Process_Type { set; get; } = Camera_Calinration_Process_Enum.Uncalibrated;
 
 
-        /// <summary>
-        /// 标定结果像素误差
-        /// </summary>
-        public double Result_Error_Val { set; get; } = 0;
+
+
+
 
         /// <summary>
         /// 标定结果保存文件夹
@@ -1415,17 +1414,22 @@ namespace Halcon_SDK_DLL.Model
         public HandEye_RMS_Max_Error_Model HandEye_Tool_in_Pase_Pose_Corrected_Error { set; get; } = new HandEye_RMS_Max_Error_Model();
 
 
+        /// <summary>
+        /// 手眼校准成功后，将返回使用校正工具姿势的完整变换链的姿势误差。
+        /// </summary>
+        public HandEye_RMS_Max_Error_Model HandEye_Calib_Error_Corrected_Tool { set; get; } = new HandEye_RMS_Max_Error_Model();
 
         /// <summary>
         /// 校准标记中心反投影到摄像机图像的均方根误差（RMSE），通过使用校正工具姿势的姿势链
         /// </summary>
-        public HandEye_RMS_Max_Error_Model HandEye_Camera_Calib_Error_Corrected_Tool { set; get; } = new HandEye_RMS_Max_Error_Model();
+        public HandEye_RMS_Max_Error_Model Camera_Calib_Error_Corrected_Tool { set; get; } = new HandEye_RMS_Max_Error_Model();
 
 
         /// <summary>
         /// 摄像机系统优化后投影的均方根误差（RMSE）。通常情况下，在执行手眼校准（calibrate_hand_eye）后会查询此误差，在此过程中会对摄像机系统进行内部校准，但不会返回摄像机校准的误差
         /// </summary>
         public HandEye_RMS_Max_Error_Model HandEye_Calib_Error { set; get; } = new HandEye_RMS_Max_Error_Model();
+
 
 
         /// <summary>
@@ -1439,12 +1443,42 @@ namespace Halcon_SDK_DLL.Model
         public double HandEye_Tool_Rotational_Deviation { set; get; } = 0;
 
 
+        /// <summary>
+        /// 标定结果像素误差:单位像素
+        /// </summary>
+        public double Camera_Calib_Error { set; get; } = 0;
+
+        /// <summary>
+        ///  使用校正工具姿势的完整转换链的姿态误差
+        /// </summary>
+        //public double Camera_Calib_Error_Corrected_Tool { set; get; } = 0;
 
 
-        public Point_Model HandEye_Cam_In_Tool_pos { set; get; } = new Point_Model();
+        /// <summary>
+        /// 机器人工具在相机坐标系中的姿态
+        /// </summary>
+        public Point_Model HandEye_Tool_in_Cam_Pos { set; get; } = new Point_Model();
+
+        /// <summary>
+        /// 相机坐标系中机器人工具的姿态的标准偏差
+        /// </summary>
+        public Point_Model HandEye_Tool_in_Cam_Pose_Deviations { set; get; } = new Point_Model();
 
 
-        public Point_Model HandEye_Cam_In_Base_pos { set; get; } = new Point_Model();
+        /// <summary>
+        /// 相机在机器人基坐标中的姿态
+        /// </summary>
+        public Point_Model HandEye_Cam_In_Base_Pos { set; get; } = new Point_Model();
+
+
+
+
+        public Point_Model HandEye_Obj_In_Base_Pose { set; get; } = new Point_Model();
+
+
+
+        public Point_Model HandEye_Obj_In_Base_Pose_Deviations { set; get; } = new Point_Model();
+
 
 
 

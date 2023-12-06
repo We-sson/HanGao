@@ -121,21 +121,10 @@ namespace HanGao.ViewModel
         public int HandEye_Calibretion_Selected_No { set; get; } = -1;
 
 
-
-   
-
         /// <summary>
         /// 可用相机列表
         /// </summary>
         public  ObservableCollection<MVS_Camera_Info_Model> Camera_Calibration_Info_List { set; get; } = MVS_Camera_Info_List;
-
-
-
-
-
-
-
-
 
 
         /// <summary>
@@ -144,18 +133,10 @@ namespace HanGao.ViewModel
         public HandEye_Socket_Robot_Parameters_Model HandEye_Socket_Robot_Parameters { set; get; } = new HandEye_Socket_Robot_Parameters_Model() { };
 
 
-
-
-
-
         /// <summary>
         /// 相机触发参数属性
         /// </summary>
         public MVS_Camera_Parameter_Model Camera_Parameter_Val { set; get; } = new MVS_Camera_Parameter_Model();
-
-
-
-
 
 
         /// <summary>
@@ -199,6 +180,7 @@ namespace HanGao.ViewModel
             }
 
         }
+
 
         /// <summary>
         /// 初始化服务器全部停止

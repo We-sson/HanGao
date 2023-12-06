@@ -4988,7 +4988,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_0_Results.Result_Error_Val}" />
+                                                    Value="{Binding Camera_0_Results.Camera_Calib_Error}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Camera_0_Error_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -5876,7 +5876,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_1_Results.Result_Error_Val}">
+                                                    Value="{Binding Camera_1_Results.Camera_Calib_Error}">
                                                 <!--<i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseUp">
                                             <i:InvokeCommandAction Command="{Binding}"

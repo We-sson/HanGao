@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.2" halcon_version="23.05.0.0">
+<hdevelop file_version="1.2" halcon_version="23.11.0.0">
 <procedure name="main">
 <interface/>
 <body>
@@ -103,11 +103,14 @@
 <c>* Set the calibration object</c>
 <c>* 设置校准对象</c>
 <l>set_calib_data_calib_object (CalibDataID, 0, CalTabFile)</l>
+<c></c>
+<c></c>
 <c>* Start the loop over the calibration images</c>
 <c>* Set the optimization method to be used</c>
 <c>* 开始循环校准图像</c>
 <c>* 设置要使用的优化方法</c>
-<l>set_calib_data (CalibDataID, 'model', 'general', 'optimization_method', 'nonlinear')</l>
+<l>*set_calib_data (CalibDataID, 'model', 'general', 'optimization_method', 'nonlinear')</l>
+<l>set_calib_data (CalibDataID, 'model', 'general', 'optimization_method', 'stochastic')</l>
 <l>disp_message (WindowHandle, 'The calibration data model was created', 'window', 12, 12, 'black', 'true')</l>
 <l>disp_continue_message (WindowHandle, 'black', 'true')</l>
 <l>stop ()</l>

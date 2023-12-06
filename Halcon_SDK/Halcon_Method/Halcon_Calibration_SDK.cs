@@ -264,7 +264,7 @@ namespace Halcon_SDK_DLL
                 }
 
                 //继续相机标定误差
-                _Results.Result_Error_Val = HCalibData.CalibrateCameras();
+                _Results.Camera_Calib_Error = HCalibData.CalibrateCameras();
                 _Results.Camera_Calinration_Process_Type = Camera_Calinration_Process_Enum.Calibration_Successful;
 
                 //获得标定后内参值
@@ -440,6 +440,28 @@ namespace Halcon_SDK_DLL
                 HTuple _CalObjInBasePose = new HTuple();
                 //标定手眼
                 _HandEyeVal = HCalibData.CalibrateHandEye();
+
+
+
+
+                switch (_CalibParam.HandEye_Optimization_Method)
+                {
+                    case HandEye_Optimization_Method_Enum.linear:
+
+
+                        break;
+                    case HandEye_Optimization_Method_Enum.nonlinear:
+
+
+
+                        break;
+                    case HandEye_Optimization_Method_Enum.stochastic:
+
+
+
+                        break;
+         
+                }
 
 
                 //获得相机标定内参
