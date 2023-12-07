@@ -438,6 +438,14 @@ namespace Halcon_SDK_DLL
                 HTuple _CamParam = new HTuple();
                 HTuple _ToolInCamPose = new HTuple();
                 HTuple _CalObjInBasePose = new HTuple();
+                HTuple tool_in_cam_pose_deviations = new HTuple();
+                HTuple obj_in_base_pose_deviations = new HTuple();
+                HTuple camera_calib_error_corrected_tool = new HTuple();
+                HTuple hand_eye_calib_error_corrected_tool = new HTuple();
+                HTuple tool_translation_deviation = new HTuple();
+                HTuple tool_rotation_deviation = new HTuple();
+                
+
                 //标定手眼
                 _HandEyeVal = HCalibData.CalibrateHandEye();
 
@@ -467,15 +475,37 @@ namespace Halcon_SDK_DLL
                 //获得相机标定内参
                 _CamCalibError= HCalibData.GetCalibData( "model", "general", "camera_calib_error");
 
+                camera_calib_error_corrected_tool = HCalibData.GetCalibData("model", "general", "camera_calib_error_corrected_tool");
+
+
+                hand_eye_calib_error_corrected_tool= HCalibData.GetCalibData("model", "general", "hand_eye_calib_error_corrected_tool");
+
+
                 //获得内参数据
                 _CamParam = HCalibData.GetCalibData( "camera", 0, "params");
 
                 _ToolInCamPose= HCalibData.GetCalibData( "camera", 0, "tool_in_cam_pose");
 
+                tool_in_cam_pose_deviations = HCalibData.GetCalibData("camera", 0, "tool_in_cam_pose_deviations");
+
+
                 _CalObjInBasePose= HCalibData.GetCalibData( "calib_obj", 0, "obj_in_base_pose");
+
+                obj_in_base_pose_deviations = HCalibData.GetCalibData("calib_obj", 0, "obj_in_base_pose_deviations");
+
+                tool_translation_deviation= HCalibData.GetCalibData("tool", "general", "tool_translation_deviation");
+
+                tool_rotation_deviation = HCalibData.GetCalibData("tool", "general", "tool_rotation_deviation");
+
+
+
 
                 //可以进行保存
                 //Write_Pos
+
+
+
+
 
 
                 Clear_HandEye_Calibration();
