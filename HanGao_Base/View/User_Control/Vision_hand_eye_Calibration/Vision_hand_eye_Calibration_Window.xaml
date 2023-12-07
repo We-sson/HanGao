@@ -4450,7 +4450,7 @@
 
 
 
-                                    <DataGridTemplateColumn Width="80">
+                                    <DataGridTemplateColumn Width="120">
                                         <DataGridTemplateColumn.Header>
 
 
@@ -4631,7 +4631,7 @@
 
 
 
-                                    <DataGridTemplateColumn Width="80">
+                                    <DataGridTemplateColumn Width="120">
                                         <DataGridTemplateColumn.Header>
 
 
@@ -8169,7 +8169,7 @@
                                                     <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
                                                         <Setter Property="Content" Value="{StaticResource Calibration_Results_Txt}" />
                                                         <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Camera_0_Results.Camera_Calinration_Process_Type}" Value="{x:Static Halcon_Enum:Camera_Calinration_Process_Enum.Calibration}">
+                                                            <DataTrigger Binding="{Binding HandEye_Camera_0_Results.Camera_Calinration_Process_Type}" Value="{x:Static Halcon_Enum:Camera_Calinration_Process_Enum.Calibration}">
                                                                 <Setter Property="Content" Value="{StaticResource Calibration_PBar}" />
                                                                 <Setter Property="IsEnabled" Value="False" />
                                                             </DataTrigger>

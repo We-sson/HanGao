@@ -320,8 +320,10 @@ namespace HanGao.ViewModel
 
 
 
-                    //进行标定业务
+                        //进行标定业务
 
+
+                        Calibration_Camera_Data_Results_Model _RE= Halcon_HandEye_Calibra.HandEye_Calibration_Results(HandEye_Calibration_List, HandEye_Camera_Parameters, Halcon_HandEye_Calibra.Camera_Connect_Model);
 
                     _HandEye_Send.IsStatus = 0;
                     _HandEye_Send.Message_Error = "Hand-eye Calibration to Results Error！,Please check the PC situation. ";

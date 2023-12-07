@@ -253,7 +253,7 @@ namespace MVS_SDK_Base.Model
             /// </summary>
             [StringValue("设置曝光模式定时时的曝光时间失败")]
             [Camera_ReadWrite(Camera_Parameter_RW_Type.Write)]
-            public double ExposureTime { set; get; } = 30000;
+            public double ExposureTime { set; get; } = 20000;
             /// <summary>
             /// 设置定时曝光模式时的自动曝光模式，枚举类型——默认连续模式，"MV_CAM_EXPOSURE_AUTO_MODE.MV_EXPOSURE_AUTO_MODE_OFF"
             /// </summary>
@@ -322,7 +322,7 @@ namespace MVS_SDK_Base.Model
             /// </summary>
             [StringValue("设置模拟黑电平百分比失败")]
             [Camera_ReadWrite(Camera_Parameter_RW_Type.Write)]
-            public int BlackLevel { set; get; } = 100;
+            public int BlackLevel { set; get; } = 200;
             /// <summary>
             /// 使能/禁用伽马校正，布尔类型——默认true；
             /// </summary>
@@ -334,7 +334,7 @@ namespace MVS_SDK_Base.Model
             /// </summary>
             [StringValue("设置控制像素强度的伽马校正失败")]
             [Camera_ReadWrite(Camera_Parameter_RW_Type.Write)]
-            public double Gamma { set; get; } = 0.5;
+            public double Gamma { set; get; } = 0.75;
             /// <summary>
             /// 图像的锐度，布尔类型——默认false；
             /// </summary>

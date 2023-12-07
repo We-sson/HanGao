@@ -207,9 +207,10 @@ namespace Halcon_SDK_DLL
                     {
                         case Camera_Connect_Control_Type_Enum.双目相机:
 
+                            throw new Exception("双目手眼标定未开发！");
 
 
-                            break;
+                    
                         case Camera_Connect_Control_Type_Enum.Camera_0:
                             _Selected_camera = _ImageList[i].Camera_0;
 
@@ -358,9 +359,10 @@ namespace Halcon_SDK_DLL
                     {
                         case Camera_Connect_Control_Type_Enum.双目相机:
 
+                            throw new Exception("双目手眼标定未开发！");
 
 
-                            break;
+                  
                         case Camera_Connect_Control_Type_Enum.Camera_0:
                             _Selected_camera = _ImageList[i].Camera_0;
 
@@ -422,7 +424,7 @@ namespace Halcon_SDK_DLL
 
 
                 //检查全部数据输入准确性，做出修改
-                _HandEye_3DModel.check_hand_eye_calibration_input_poses(HCalibData, _CalibParam.HandEye_Calibration_Check_Rotation, _CalibParam.HandEye_Calibration_Check_Translation/1000, out HTuple _Warnings);
+                _HandEye_3DModel.check_hand_eye_calibration_input_poses(HCalibData,  Math.rad  _CalibParam.HandEye_Calibration_Check_Rotation, _CalibParam.HandEye_Calibration_Check_Translation/1000, out HTuple _Warnings);
 
 
                 if (_Warnings.Length>0)

@@ -853,7 +853,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 手眼标定校正模式
         /// </summary>
-        public HandEye_Optimization_Method_Enum HandEye_Optimization_Method { set; get; } = HandEye_Optimization_Method_Enum.nonlinear;
+        public HandEye_Optimization_Method_Enum HandEye_Optimization_Method { set; get; } = HandEye_Optimization_Method_Enum.stochastic;
 
 
 
@@ -906,7 +906,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 手眼标定的平移容差：单位mm
         /// </summary>
-        public double HandEye_Calibration_Check_Translation { set; get; } = 5;
+        public double HandEye_Calibration_Check_Translation { set; get; } = 10;
 
 
     }
