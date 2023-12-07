@@ -902,7 +902,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 手眼标定的旋转容差：单位度
         /// </summary>
-        public double HandEye_Calibration_Check_Rotation { set; get; } = 0.05;
+        public double HandEye_Calibration_Check_Rotation { set; get; } = 5;
         /// <summary>
         /// 手眼标定的平移容差：单位mm
         /// </summary>

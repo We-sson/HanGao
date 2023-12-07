@@ -424,7 +424,7 @@ namespace Halcon_SDK_DLL
 
 
                 //检查全部数据输入准确性，做出修改
-                _HandEye_3DModel.check_hand_eye_calibration_input_poses(HCalibData,  Math.rad  _CalibParam.HandEye_Calibration_Check_Rotation, _CalibParam.HandEye_Calibration_Check_Translation/1000, out HTuple _Warnings);
+                _HandEye_3DModel.check_hand_eye_calibration_input_poses(HCalibData,  new HTuple (_CalibParam.HandEye_Calibration_Check_Rotation).TupleRad()  , _CalibParam.HandEye_Calibration_Check_Translation/1000, out HTuple _Warnings);
 
 
                 if (_Warnings.Length>0)

@@ -4722,12 +4722,10 @@
                                     <Grid>
 
 
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height=" auto" />
-                                            <RowDefinition />
-                                        </Grid.RowDefinitions>
 
-                                        <DataGrid Grid.Row=" 1"
+
+
+                                        <DataGrid Grid.Column=" 0"
                                                   HorizontalContentAlignment="Stretch"
                                                   VerticalContentAlignment="Stretch"
                                                   AutoGenerateColumns="False"
@@ -4961,20 +4959,18 @@
                                 <TabItem Style="{DynamicResource Vision_TabItemStyle}"
                                          Padding="40,8,40,8"
                                          FontSize=" 16"
-                                         Header="机器人数据列表"
+                                         Header="机器人坐标列表"
                                          IsSelected="True">
+
 
                                     <Grid>
 
 
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height=" auto" />
-                                            <RowDefinition />
-                                        </Grid.RowDefinitions>
 
 
 
-                                        <DataGrid Grid.Row=" 1" Grid.Column=" 1"
+
+                                        <DataGrid Grid.Column=" 0"
                                                   HorizontalContentAlignment="Stretch"
                                                   VerticalContentAlignment="Stretch"
                                                   AutoGenerateColumns="False"
@@ -5227,7 +5223,7 @@
 
                         </Grid>
 
-                        <StackPanel Grid.Column=" 3" Margin="5,0,5,0">
+                        <StackPanel Grid.Column=" 3" Margin="5,40,5,0">
                             <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
                                     Width="110"
                                     Height="38"
@@ -5255,7 +5251,7 @@
                                     Height="38"
                                     Margin="5"
                                     Background="{DynamicResource 全局_按钮_黑颜色}">
-                                <TextBlock Text="移除图像"
+                                <TextBlock Text="移除数据"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -5298,7 +5294,30 @@
                                     Height="38"
                                     Margin="5"
                                     Background="{DynamicResource 全局_按钮_黑颜色}">
-                                <TextBlock Text="保存图像"
+                                <TextBlock Text="保存数据"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding}"
+                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                               PassEventArgsToCommand="True" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+
+                            </Button>
+
+
+                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                    Width="110"
+                                    Height="38"
+                                    Margin="5"
+                                    Background="{DynamicResource 全局_按钮_黑颜色}">
+                                <TextBlock Text="保存机器数据"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"

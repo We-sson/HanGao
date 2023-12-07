@@ -533,6 +533,64 @@ namespace HanGao.ViewModel
         }
 
 
+
+
+
+        /// <summary>
+        ///标定图像全部删除列表动作
+        /// </summary>
+        public ICommand HandEye_Robot_Data_Save_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                Button E = Sm.Source as Button;
+
+
+                try
+                {
+
+
+                    //删除选中图像
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+
+                        //清空三维可视化
+                        HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model());
+
+                        ///清理数据
+                        foreach (var _Model in HandEye_Calibration_List)
+                        {
+
+                            _Model.Dispose();
+
+                        }
+
+
+                        HandEye_Calibration_List.Clear();
+
+
+                    });
+
+                    User_Log_Add("标定列表图像全部移除！", Log_Show_Window_Enum.HandEye, MessageBoxImage.Information);
+
+
+
+
+
+
+                }
+                catch (Exception _e)
+                {
+
+                    User_Log_Add(_e.Message, Log_Show_Window_Enum.HandEye, MessageBoxImage.Error);
+
+                }
+
+
+            });
+        }
+
+
         /// <summary>
         ///标定图像加载列表动作
         /// </summary>
