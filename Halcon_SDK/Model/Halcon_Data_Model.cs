@@ -1257,7 +1257,10 @@ namespace Halcon_SDK_DLL.Model
 
 
 
-
+        /// <summary>
+        /// 显示UI位姿单位：mm
+        /// </summary>
+        /// <param name="_Pos"></param>
         public void Set_Point(HTuple _Pos)
         {
 
@@ -1266,7 +1269,7 @@ namespace Halcon_SDK_DLL.Model
 
             if (_Pos != null)
             {
-                X = _Pos.TupleSelect(0) * 1000;
+                X = _Pos.TupleSelect(0)*1000 ;
                 Y = _Pos.TupleSelect(1) * 1000;
                 Z = _Pos.TupleSelect(2) * 1000;
                 A = _Pos.TupleSelect(3);
@@ -1276,6 +1279,12 @@ namespace Halcon_SDK_DLL.Model
             }
         }
 
+
+        /// <summary>
+        /// 获得对应机器人的位姿
+        /// </summary>
+        /// <param name="_Robot"></param>
+        /// <returns></returns>
         public HPose Get_HPos(Socket_Robot_Protocols_Enum _Robot)
         {
 
@@ -1288,7 +1297,7 @@ namespace Halcon_SDK_DLL.Model
                 case Socket_Robot_Protocols_Enum.KUKA:
 
 
-                    _Pos.CreatePose(X / 1000, Y / 1000, Z / 1000, A, B, C, "Rp+T", "gba", "point");
+                    _Pos.CreatePose(X * 1000, Y * 1000, Z * 1000, A, B, C, "Rp+T", "gba", "point");
 
                     break;
                 case Socket_Robot_Protocols_Enum.ABB:
@@ -1309,7 +1318,12 @@ namespace Halcon_SDK_DLL.Model
 
         }
 
-
+        /// <summary>
+        /// 保存位姿以单位：m
+        /// </summary>
+        /// <param name="_File"></param>
+        /// <param name="_name"></param>
+        /// <exception cref="Exception"></exception>
         public void Pos_Save( string _File, string _name)
         {
             try
@@ -1322,7 +1336,7 @@ namespace Halcon_SDK_DLL.Model
                     Directory.CreateDirectory(_File);
                 }
 
-                HPose _Pos = new HPose(X, Y, Z, A, B, C, "Rp+T", "gba", "point");
+                HPose _Pos = new HPose(X/1000, Y/1000, Z / 1000, A, B, C, "Rp+T", "gba", "point");
                 _Pos.WritePose(_File + _name);
 
 

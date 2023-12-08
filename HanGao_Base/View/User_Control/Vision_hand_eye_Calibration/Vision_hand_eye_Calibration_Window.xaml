@@ -270,7 +270,7 @@
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                             <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
-                                                    Margin="0,0,10,0"
+                                                    Margin="0,0,5,0"
                                                     Background="{DynamicResource 全局_按钮_蓝颜色}"
                                                     FontSize=" 26"
                                                     Tag="Camera_0">
@@ -299,7 +299,7 @@
 
 
                                             <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
-                                                    Margin="10,0,0,0"
+                                                    Margin="5,0,0,0"
                                                     Background="{DynamicResource 全局_按钮_蓝颜色}"
                                                     Tag="Camera_0">
 
@@ -1231,7 +1231,7 @@
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                             <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
-                                                    Margin="0,0,10,0"
+                                                    Margin="0,0,5,0"
                                                     Background="{DynamicResource 全局_按钮_蓝颜色}"
                                                     FontSize=" 26"
                                                     Tag="Camera_1">
@@ -1260,7 +1260,7 @@
 
 
                                             <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
-                                                    Margin="10,0,0,0"
+                                                    Margin="5,0,0,0"
                                                     Background="{DynamicResource 全局_按钮_蓝颜色}"
                                                     Tag="Camera_1">
 
@@ -2409,7 +2409,7 @@
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                             <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
-                                                    Margin="0,0,10,0"
+                                                    Margin="0,0,5,0"
                                                     Background="{DynamicResource 全局_按钮_蓝颜色}"
                                                     FontSize=" 26">
                                                 <TextBlock Text="加载数据"
@@ -2437,7 +2437,7 @@
 
 
                                             <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
-                                                    Margin="10,0,0,0"
+                                                    Margin="5,0,0,0"
                                                     Background="{DynamicResource 全局_按钮_蓝颜色}">
 
 

@@ -1,0 +1,1796 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="23.11.0.0">
+<procedure name="main">
+<interface/>
+<body>
+<c>* In this example program, a robot with a camera attached to it</c>
+<c>* is used to find objects in 2D with shape-based matching.</c>
+<c>* Then, the found object is grasped with the robot.</c>
+<c>* 在这个示例程序中，一个安装了摄像头的机器人</c>
+<c>* 用基于形状匹配的方法找到二维物体。</c>
+<c>* 然后，用机器人抓取找到的物体。</c>
+<l>initialize_program (WindowHandle, ImageDir, DataDir)</l>
+<l>dev_disp_introduction (WindowHandle, WindowHandleGraphics)</l>
+<l>stop ()</l>
+<c>* </c>
+<c>* ** OFFLINE ***</c>
+<c>* </c>
+<c>* ** 1) Read the results of hand-eye calibration.</c>
+<c>* 阅读手眼校准的结果。</c>
+<l>dev_disp_read_hand_eye_calib_data_instructions (WindowHandle, WindowHandleGraphics)</l>
+<l>read_hand_eye_calib_data (DataDir, HandEyeCalibData)</l>
+<l>dev_set_window (WindowHandleGraphics)</l>
+<l>dev_close_window ()</l>
+<c>* </c>
+<c>* ** 2) Create a matching object with 2D shape-based matching.</c>
+<c>* </c>
+<c>* Read an image of the object you want to grasp.</c>
+<c>* 使用基于二维形状的匹配功能创建匹配对象。</c>
+<c>* </c>
+<c>* 读取要抓取对象的图像。</c>
+<l>read_image (Image2DMatching, ImageDir + 'corner_bracket_model_moving_cam')</l>
+<c>* Additionally, read the pose of the robot</c>
+<c>* when the image was acquired.</c>
+<c>* 此外，读取机器人的姿势</c>
+<c>* 获取图像时的姿势。</c>
+<l>read_pose (DataDir + 'tool_in_base_pose_2d_matching_moving_cam.dat', ToolInBasePose2DMatching)</l>
+<c>* Specify the height of the object, in meters.</c>
+<c>* 指定对象的高度（以米为单位）。</c>
+<l>ObjectHeight := 0.032</l>
+<l>dev_disp_2d_matching_instructions (Image2DMatching, ToolInBasePose2DMatching, ObjectHeight)</l>
+<l>stop ()</l>
+<c>* </c>
+<c>* Prepare the needed poses to match and grasp</c>
+<c>* and compute the rectification map..</c>
+<c>* 准备所需的姿势以匹配和把握</c>
+<c>* 并计算矫正图。</c>
+<l>prepare_poses_and_rectification_data_moving_cam (ToolInBasePose2DMatching, ObjectHeight, 'only_rectify', HandEyeCalibData, Poses, RectificationData)</l>
+<l>rectify_image_and_compute_matching_plane_moving_cam (Image2DMatching, ImageRectified, ToolInBasePose2DMatching, HandEyeCalibData, Poses, RectificationData)</l>
+<c>* </c>
+<c>* Draw the region that defines the model you want to match.</c>
+<c>* Depending on the shape of your object, you may want to</c>
+<c>* draw a different shape or use the ROI dialog in the Graphics Window.</c>
+<c>* 绘制定义要匹配模型的区域。</c>
+<c>* 根据对象的形状，您可能需要</c>
+<c>* 绘制不同的形状或使用图形窗口中的 ROI 对话框。</c>
+<l>dev_disp_draw_region_of_interest_instructions (ImageRectified, WindowHandle)</l>
+<l>draw_rectangle1 (WindowHandle, Row1, Column1, Row2, Column2)</l>
+<l>gen_rectangle1 (Rectangle, Row1, Column1, Row2, Column2)</l>
+<l>reduce_domain (ImageRectified, Rectangle, ImageReduced)</l>
+<l>median_image (ImageReduced, ImageReduced, 'circle', 3, 'mirrored')</l>
+<l>create_shape_model (ImageReduced, 'auto', rad(0), rad(360), 'auto', 'auto', 'use_polarity', 'auto', 'auto', ModelID)</l>
+<l>dev_disp_check_matching_contours_instructions (ImageRectified, Rectangle, ModelID, WindowHandle)</l>
+<l>stop ()</l>
+<c>* Visualize the setup with camera, robot base, and the object in 3D.</c>
+<c>* 在三维环境中可视化摄像机、机器人底座和物体的设置。</c>
+<l>visualize_setup_in_3d (ImageRectified, ModelID, ObjectHeight, WindowHandle, HandEyeCalibData, Poses, RectificationData, ToolInBasePose2DMatching, ObjectModels3DData)</l>
+<c>* </c>
+<c>* ** 3) Optionally: Teach the robot how to approach, grasp,</c>
+<c>*                  and move the object.</c>
+<l>NumRobotPathSteps := 2</l>
+<l>dev_disp_robot_path_steps_instructions (WindowHandle, WindowHandleGraphics)</l>
+<l>stop ()</l>
+<l>if (NumRobotPathSteps &gt; 0)</l>
+<l>    train_robot_paths_steps (NumRobotPathSteps, ModelID, ImageDir, DataDir, RectificationData, HandEyeCalibData, Poses, ObjectModels3DData, WindowHandle, ToolInModelRobotPathPoses)</l>
+<l>endif</l>
+<l>dev_set_window (WindowHandleGraphics)</l>
+<l>dev_close_window ()</l>
+<c>* </c>
+<c>* ** ONLINE ***</c>
+<l>NumImages := 6</l>
+<l>create_pose (0.18, 0.12, 9.57, 126.7, 4.6, 74.3, 'Rp+T', 'gba', 'point', PoseIn)</l>
+<l>dev_open_window_for_3d_visualization (WindowHandle, WindowHandle3D)</l>
+<l>for Index := 1 to NumImages by 1</l>
+<c>    * </c>
+<c>    * ** 1) Acquire an image and read the pose of the robot</c>
+<c>    *      when the image was acquired.</c>
+<l>    read_image (Image, ImageDir + 'corner_bracket_moving_cam_' + Index$'02')</l>
+<l>    read_pose (DataDir + 'corner_bracket_moving_cam_pose_' + Index$'02' + '.dat', ToolInBasePose)</l>
+<l>    dev_clear_window ()</l>
+<l>    dev_disp_read_image_and_pose_instructions (Image, WindowHandle, ToolInBasePose, Index)</l>
+<l>    stop ()</l>
+<c>    * </c>
+<c>    * Find the object with 2D shape-based matching.</c>
+<l>    rectify_image_and_compute_matching_plane_moving_cam (Image, ImageRectified, ToolInBasePose, HandEyeCalibData, Poses, RectificationData)</l>
+<l>    find_shape_model (ImageRectified, ModelID, rad(0), rad(360), 0.1, 1, 0.5, ['least_squares', 'max_deformation 5'], 0, 0.9, RowMatch, ColumnMatch, AngleMatch, ScoreMatch)</l>
+<c>    * Get the pose of the robot relative to the robot (ModelInBasePose).</c>
+<l>    obtain_3d_pose_of_match_moving_cam (RowMatch, ColumnMatch, AngleMatch, ToolInBasePose, HandEyeCalibData, Poses, RectificationData, ModelInBasePose)</l>
+<c>    * </c>
+<l>    dev_disp_match_model_in_base_pose (ImageRectified, ModelID, RowMatch, ColumnMatch, AngleMatch, ModelInBasePose, WindowHandle)</l>
+<l>    if (NumRobotPathSteps &gt; 0)</l>
+<c>        * Get poses of the robot to approach, grasp, ...</c>
+<c>        * the found match (ToolInBaseGraspPoses).</c>
+<l>        calculate_tool_in_base_robot_path_poses (ToolInModelRobotPathPoses, ModelInBasePose, Poses, ToolInBaseRobotPathPoses)</l>
+<c>        * </c>
+<l>        dev_inspect_ctrl (ToolInBaseRobotPathPoses)</l>
+<l>        visualize_match_and_robot_path_poses_in_3d (ToolInBasePose, ModelInBasePose, ToolInBaseRobotPathPoses, HandEyeCalibData, ObjectModels3DData, PoseIn, WindowHandle3D, PoseIn)</l>
+<l>        dev_close_inspect_ctrl (ToolInBaseRobotPathPoses)</l>
+<l>    else</l>
+<l>        visualize_match_in_3d (ToolInBasePose, ModelInBasePose, HandEyeCalibData, ObjectModels3DData, PoseIn, WindowHandle3D, PoseIn)</l>
+<l>    endif</l>
+<l>endfor</l>
+<c></c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="dev_disp_read_image_and_pose_instructions">
+<interface>
+<io>
+<par name="Image" base_type="iconic" dimension="0"/>
+</io>
+<ic>
+<par name="WindowHandle" base_type="ctrl" dimension="0"/>
+<par name="ToolInBasePose" base_type="ctrl" dimension="0"/>
+<par name="Index" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<c>* </c>
+<l>dev_set_window (WindowHandle)</l>
+<l>dev_clear_window ()</l>
+<l>dev_display (Image)</l>
+<l>Text := 'ONLINE'</l>
+<l>Text[1] := 'Acquire an image of the object you want to grasp,'</l>
+<l>Text[2] := 'and read the pose of the robot while the image was acquired.'</l>
+<l>dev_disp_text (Text, 'window', 'top', 'left', 'white', 'box', 'false')</l>
+<l>dev_disp_text ('Press Run (F5) to continue', 'window', 'bottom', 'right', 'black', [], [])</l>
+<c>* </c>
+<l>return ()</l>
+</body>
+<docu id="dev_disp_read_image_and_pose_instructions">
+<chapters lang="en_US">
+<item>Graphics</item>
+<item>Text</item>
+</chapters>
+<library lang="en_US">MVTec Standard Procedures</library>
+<parameters>
+<parameter id="Image">
+<multivalue>false</multivalue>
+<sem_type>image</sem_type>
+</parameter>
+<parameter id="Index">
+<default_type>integer</default_type>
+<multivalue>false</multivalue>
+<sem_type>integer</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="ToolInBasePose">
+<default_type>real</default_type>
+<multivalue>true</multivalue>
+<sem_type>pose</sem_type>
+<type_list>
+<item>real</item>
+</type_list>
+</parameter>
+<parameter id="WindowHandle">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>window</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+</parameters>
+</docu>
+</procedure>
+<procedure name="dev_disp_2d_matching_instructions">
+<interface>
+<io>
+<par name="Image" base_type="iconic" dimension="0"/>
+</io>
+<ic>
+<par name="ToolInBasePose" base_type="ctrl" dimension="0"/>
+<par name="ObjectHeight" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<l>dev_display (Image)</l>
+<l>Text := '2) Please '</l>
+<l>Text[1] := '   - read an image suitable for creating a 2D matching model,'</l>
+<l>Text[2] := '   - read the pose of the robot while acquiring the image, and'</l>
+<l>Text[3] := '   - specify the object height in meters.'</l>
+<l>Text[4] := ' '</l>
+<l>Text[5] := 'Read ToolInBasePose: '</l>
+<l>Text[6] := '(position of matched object)'</l>
+<l>Text[7] := 'TransX:   ' + ToolInBasePose[0]$'.3f' + ' m'</l>
+<l>Text[8] := 'TransY:   ' + ToolInBasePose[1]$'.3f' + ' m'</l>
+<l>Text[9] := 'TransZ:   ' + ToolInBasePose[2]$'.3f' + ' m'</l>
+<l>Text[10] := 'RotX      ' + ToolInBasePose[3]$'.1f' + '°'</l>
+<l>Text[11] := 'RotY      ' + ToolInBasePose[4]$'.1f' + '°'</l>
+<l>Text[12] := 'RotZ      ' + ToolInBasePose[5]$'.1f' + '°'</l>
+<l>Text[13] := ' '</l>
+<l>Text[14] := 'Specified ObjectHeight: ' + ObjectHeight + ' m'</l>
+<l>dev_disp_text (Text, 'window', 'top', 'left', 'white', 'box', 'false')</l>
+<l>dev_disp_text ('Press Run (F5) to continue', 'window', 'bottom', 'right', 'black', [], [])</l>
+<l>return ()</l>
+</body>
+<docu id="dev_disp_2d_matching_instructions">
+<chapters lang="en_US">
+<item>Graphics</item>
+<item>Text</item>
+</chapters>
+<library lang="en_US">MVTec Standard Procedures</library>
+<parameters>
+<parameter id="Image">
+<multivalue>false</multivalue>
+<sem_type>image</sem_type>
+</parameter>
+<parameter id="ObjectHeight">
+<default_type>real</default_type>
+<multivalue>false</multivalue>
+<sem_type>real</sem_type>
+<type_list>
+<item>real</item>
+</type_list>
+</parameter>
+<parameter id="ToolInBasePose">
+<default_type>real</default_type>
+<multivalue>true</multivalue>
+<sem_type>pose</sem_type>
+<type_list>
+<item>real</item>
+</type_list>
+</parameter>
+</parameters>
+</docu>
+</procedure>
+<procedure name="dev_disp_introduction">
+<interface>
+<ic>
+<par name="WindowHandle" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="WindowHandleGraphics" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c>* </c>
+<l>read_image (Image, '3d_machine_vision/hand_eye/instruction_images/setup_with_object_moving_cam')</l>
+<l>get_window_extents (WindowHandle, Row, Column, Width, Height)</l>
+<l>dev_open_window_fit_image (Image, 0, Width + 8, 600, -1, WindowHandleGraphics)</l>
+<l>set_part_style (WindowHandleGraphics, 2)</l>
+<l>dev_display (Image)</l>
+<c>* </c>
+<l>dev_set_window (WindowHandle)</l>
+<l>Text := 'In this example program, a robot with a camera attached to it'</l>
+<l>Text[1] := 'is used to find objects in 2D with shape-based matching, and'</l>
+<l>Text[2] := 'then grasp these objects with the robot.'</l>
+<l>Text[3] := ''</l>
+<l>Text[4] := 'OFFLINE steps'</l>
+<l>Text[5] := '-------------'</l>
+<l>Text[6] := '1) Perform a hand-eye calibration for your camera/robot setup.'</l>
+<l>Text[7] := '   (this step is performed in a different example, because the'</l>
+<l>Text[8] := '    calibration data is independent of the grasped object.)'</l>
+<l>Text[9] := '2) Create the 2D shape model of your object.'</l>
+<l>Text[10] := '3) Optionally:'</l>
+<l>Text[11] := '   Teach the robot how to approach, grasp, and move the object.'</l>
+<l>Text[12] := ''</l>
+<l>Text[13] := 'ONLINE steps'</l>
+<l>Text[14] := '------------'</l>
+<l>Text[15] := '1) Acquire an image of your object.'</l>
+<l>Text[16] := ''</l>
+<l>Text[17] := 'You get the following results: '</l>
+<l>Text[18] := '    I)  the pose of the object relative to the robot, and'</l>
+<l>Text[19] := '    II) if step 3) was performed, the poses to approach,'</l>
+<l>Text[20] := '        grasp, and move the object.'</l>
+<l>dev_disp_text (Text, 'window', 'top', 'left', 'white', 'box', 'false')</l>
+<l>dev_disp_text ('Press Run (F5) to continue', 'window', 'bottom', 'right', 'black', [], [])</l>
+<l>return ()</l>
+</body>
+<docu id="dev_disp_introduction">
+<chapters lang="en_US">
+<item>Graphics</item>
+<item>Text</item>
+</chapters>
+<library lang="en_US">MVTec Standard Procedures</library>
+<parameters>
+<parameter id="WindowHandle">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>window</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="WindowHandleGraphics">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>window</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+</parameters>
+</docu>
+</procedure>
+<procedure name="dev_disp_read_hand_eye_calib_data_instructions">
+<interface>
+<ic>
+<par name="WindowHandle" base_type="ctrl" dimension="0"/>
+<par name="WindowHandleGraphics" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<c>* </c>
+<l>dev_set_window (WindowHandle)</l>
+<l>dev_clear_window ()</l>
+<l>Text := '1) Please specify the results of the hand-eye calibration'</l>
+<l>Text[1] := '   in the code.'</l>
+<l>Text[2] := '   You can use the HDevelop example program'</l>
+<l>Text[3] := '   hand_eye_movingcam_calibration.hdev'</l>
+<l>Text[4] := '   to obtain this calibration data.'</l>
+<l>dev_disp_text (Text, 'window', 'top', 'left', 'white', 'box', 'false')</l>
+<l>dev_disp_text ('Press Run (F5) to continue', 'window', 'bottom', 'right', 'black', [], [])</l>
+<c>* </c>
+<l>dev_set_window (WindowHandleGraphics)</l>
+<l>read_image (Image, '3d_machine_vision/hand_eye/instruction_images/hand_eye_moving_cam')</l>
+<l>dev_display (Image)</l>
+<l>return ()</l>
+</body>
+<docu id="dev_disp_read_hand_eye_calib_data_instructions">
+<chapters lang="en_US">
+<item>Graphics</item>
+<item>Text</item>
+</chapters>
+<library lang="en_US">MVTec Standard Procedures</library>
+<parameters>
+<parameter id="WindowHandle">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>window</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="WindowHandleGraphics">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>window</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+</parameters>
+</docu>
+</procedure>
+<procedure name="read_hand_eye_calib_data">
+<interface>
+<ic>
+<par name="DataDir" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="HandEyeCalibData" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c>* </c>
+<c>* For an example on how to perform this calibration,</c>
+<c>* please refer to hand_eye_movingcam_calibration.hdev.</c>
+<c>* </c>
+<l>read_cam_par (DataDir + 'campar_hand_eye_moving_cam.dat', CamParam)</l>
+<l>read_pose (DataDir + 'plane_in_base_pose_hand_eye_moving_cam.dat', PlaneInBasePose0)</l>
+<l>read_pose (DataDir + 'tool_in_cam_pose_hand_eye_moving_cam.dat', ToolInCamPose)</l>
+<l>stop ()</l>
+<c>* </c>
+<c>* Create output dict.</c>
+<l>HandEyeCalibData := dict{}</l>
+<l>HandEyeCalibData.CamParam := CamParam</l>
+<l>HandEyeCalibData.PlaneInBasePose0 := PlaneInBasePose0</l>
+<l>HandEyeCalibData.ToolInCamPose := ToolInCamPose</l>
+<c></c>
+<l>return ()</l>
+</body>
+<docu id="read_hand_eye_calib_data">
+<chapters lang="de_DE">
+<item>Kalibrierung</item>
+<item>Hand-Auge</item>
+</chapters>
+<chapters lang="en_US">
+<item>Calibration</item>
+<item>Hand-Eye</item>
+</chapters>
+<library lang="en_US">MVTec Standard Procedures</library>
+<parameters>
+<parameter id="DataDir">
+<default_type>string</default_type>
+<description lang="en_US">Directory where the camera parameters and poses are read.</description>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>string</sem_type>
+<type_list>
+<item>string</item>
+</type_list>
+</parameter>
+<parameter id="HandEyeCalibData">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>dict</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+</parameters>
+</docu>
+</procedure>
+<procedure name="dev_disp_draw_region_of_interest_instructions">
+<interface>
+<io>
+<par name="Image" base_type="iconic" dimension="0"/>
+</io>
+<ic>
+<par name="WindowHandle" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<l>dev_set_window (WindowHandle)</l>
+<l>dev_clear_window ()</l>
+<l>dev_display (Image)</l>
+<l>Text := '2) Please specify the region of the matching model.'</l>
+<l>Text[1] := '   (draw with left mouse button,'</l>
+<l>Text[2] := '    confirm with right mouse button)'</l>
+<l>dev_disp_text (Text, 'window', 'top', 'left', 'white', 'box', 'false')</l>
+<l>return ()</l>
+</body>
+<docu id="dev_disp_draw_region_of_interest_instructions">
+<chapters lang="en_US">
+<item>Graphics</item>
+<item>Text</item>
+</chapters>
+<library lang="en_US">MVTec Standard Procedures</library>
+<parameters>
+<parameter id="Image">
+<multivalue>false</multivalue>
+<sem_type>image</sem_type>
+</parameter>
+<parameter id="WindowHandle">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>window</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+</parameters>
+</docu>
+</procedure>
+<procedure name="dev_disp_check_matching_contours_instructions">
+<interface>
+<io>
+<par name="Image" base_type="iconic" dimension="0"/>
+<par name="Rectangle" base_type="iconic" dimension="0"/>
+</io>
+<ic>
+<par name="ModelID" base_type="ctrl" dimension="0"/>
+<par name="WindowHandle" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<c>* </c>
+<l>dev_set_window (WindowHandle)</l>
+<l>dev_clear_window ()</l>
+<l>dev_display (Image)</l>
+<l>dev_set_line_width (1)</l>
+<l>dev_set_draw ('margin')</l>
+<l>dev_set_color ('red')</l>
+<l>dev_display (Rectangle)</l>
+<l>Text := '2) Object to be matched and grasped.'</l>
+<l>Text[1] := '   Please check the resulting contours whether they seem'</l>
+<l>Text[2] := '   suitable for matching.'</l>
+<l>dev_disp_text (Text, 'window', 'top', 'left', 'white', 'box', 'false')</l>
+<l>dev_disp_text ('Press Run (F5) to continue', 'window', 'bottom', 'right', 'black', [], [])</l>
+<c>* </c>
+<l>dev_set_line_width (2)</l>
+<l>area_center (Rectangle, ModelRectangleArea, ModelRectangleRow, ModelRectangleColumn)</l>
+<l>dev_display_shape_matching_results (ModelID, 'green', ModelRectangleRow, ModelRectangleColumn, 0, 1, 1, 0)</l>
+<l>dev_disp_text ('Created matching object.', 'image', ModelRectangleRow + 20, ModelRectangleColumn + 20, 'black', [], [])</l>
+<l>dev_disp_text ('Press Run (F5) to continue', 'window', 'bottom', 'right', 'black', [], [])</l>
+<c>* </c>
+<l>return ()</l>
+</body>
+<docu id="dev_disp_check_matching_contours_instructions">
+<chapters lang="en_US">
+<item>Graphics</item>
+<item>Output</item>
+</chapters>
+<library lang="en_US">MVTec Standard Procedures</library>
+<parameters>
+<parameter id="Image">
+<multivalue>false</multivalue>
+<sem_type>image</sem_type>
+</parameter>
+<parameter id="ModelID">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>shape_model</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="Rectangle">
+<multivalue>false</multivalue>
+<sem_type>region</sem_type>
+</parameter>
+<parameter id="WindowHandle">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>window</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+</parameters>
+</docu>
+</procedure>
+<procedure name="visualize_setup_in_3d">
+<interface>
+<io>
+<par name="Image" base_type="iconic" dimension="0"/>
+</io>
+<ic>
+<par name="ModelID" base_type="ctrl" dimension="0"/>
+<par name="ObjectHeight" base_type="ctrl" dimension="0"/>
+<par name="WindowHandle" base_type="ctrl" dimension="0"/>
+<par name="HandEyeCalibData" base_type="ctrl" dimension="0"/>
+<par name="Poses" base_type="ctrl" dimension="0"/>
+<par name="RectificationData" base_type="ctrl" dimension="0"/>
+<par name="ToolInBasePose2DMatching" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="ObjectModels3DData" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c>* </c>
+<l>gen_matching_object_model_3d (ModelID, ObjectHeight, Poses, HandEyeCalibData, RectificationData, OM3DModel)</l>
+<c>* </c>
+<c>* Visualize the robot and matched object.</c>
+<l>gen_robot_tool_and_base_object_model_3d (0.005, 0.05, OM3DToolOrigin, OM3DBase)</l>
+<l>gen_current_setup_moving_cam_object_model_3d (0.05, ToolInBasePose2DMatching, HandEyeCalibData, OM3DToolOrigin, OM3DBase, OM3DCamera, OM3DTool, OM3DPlane)</l>
+<c>* </c>
+<l>find_shape_model (Image, ModelID, 0, rad(360), 0.5, 1, 0.5, 'least_squares', 0, 0.9, Row, Column, Angle, Score)</l>
+<l>obtain_3d_pose_of_match_moving_cam (Row, Column, Angle, ToolInBasePose2DMatching, HandEyeCalibData, Poses, RectificationData, ModelInBasePose)</l>
+<l>gen_matching_object_model_3d (ModelID, ObjectHeight, Poses, HandEyeCalibData, RectificationData, OM3DModel)</l>
+<l>rigid_trans_object_model_3d (OM3DModel, ModelInBasePose, OM3DMatch)</l>
+<l>create_pose (0.256, 0.156, 12.03, 111.93, 356.67, 86.43, 'Rp+T', 'gba', 'point', VisualizationPose)</l>
+<c>* </c>
+<l>Title := 'Initial position of the robot and matched object. Please check'</l>
+<l>Title[1] := 'whether this visualization corresponds well with your setup.'</l>
+<c>* </c>
+<c>* [OM3DMatch, OM3DTool, OM3DBase, OM3DPlane, OM3DCamera]</c>
+<l>GenParamName := ['color_0', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5', 'color_6', 'color_7', 'color_8', 'alpha_8', 'color_9', 'color_10', 'color_11', 'alpha_11', 'point_size']</l>
+<l>GenParamValue := ['red', 'red', 'green', 'blue', 'red', 'green', 'blue', 'gray', 'gray', 0.7, 'magenta', 'plum', 'white', 0.3, 1]</l>
+<c>* Labels for the visualized 3D object models.</c>
+<l>tuple_gen_const (12, '', Label)</l>
+<l>Label[0] := 'Matched Object'</l>
+<l>Label[1] := 'Robot\'s Tool'</l>
+<l>Label[4] := 'Robot\'s Base'</l>
+<c>* </c>
+<l>gen_3d_instructions (Instructions)</l>
+<c>* </c>
+<l>visualize_object_model_3d (WindowHandle, [OM3DMatch,OM3DTool,OM3DBase,OM3DPlane,OM3DCamera], [], VisualizationPose, GenParamName, GenParamValue, Title, Label, Instructions, PoseOut)</l>
+<c>* </c>
+<c>* Create dict for output 3D object models.</c>
+<l>ObjectModels3DData := dict{}</l>
+<l>ObjectModels3DData.OM3DModel := OM3DModel</l>
+<l>ObjectModels3DData.OM3DCamera := OM3DCamera</l>
+<l>ObjectModels3DData.OM3DPlane := OM3DPlane</l>
+<l>ObjectModels3DData.OM3DBase := OM3DBase</l>
+<l>ObjectModels3DData.OM3DToolOrigin := OM3DToolOrigin</l>
+<l>ObjectModels3DData.OM3DMatch := OM3DMatch</l>
+<l>return ()</l>
+</body>
+<docu id="visualize_setup_in_3d">
+<chapters lang="en_US">
+<item>Graphics</item>
+<item>Output</item>
+</chapters>
+<parameters>
+<parameter id="HandEyeCalibData">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>dict</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="Image">
+<multivalue>false</multivalue>
+<sem_type>image</sem_type>
+</parameter>
+<parameter id="ModelID">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>shape_model</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="ObjectHeight">
+<default_type>real</default_type>
+<multivalue>false</multivalue>
+<sem_type>real</sem_type>
+<type_list>
+<item>real</item>
+</type_list>
+</parameter>
+<parameter id="ObjectModels3DData">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>dict</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="Poses">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>dict</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="RectificationData">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>dict</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="ToolInBasePose2DMatching">
+<default_type>real</default_type>
+<multivalue>true</multivalue>
+<sem_type>pose</sem_type>
+<type_list>
+<item>real</item>
+</type_list>
+</parameter>
+<parameter id="WindowHandle">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>window</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+</parameters>
+</docu>
+</procedure>
+<procedure name="assemble_generic_parameters1">
+<interface>
+<ic>
+<par name="OM3DBase" base_type="ctrl" dimension="0"/>
+<par name="OM3DsRobotPath" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="GenParamNameRobotPath" base_type="ctrl" dimension="0"/>
+<par name="GenParamValueRobotPath" base_type="ctrl" dimension="0"/>
+<par name="LabelsRobotPath" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c>* This procedure builds the parameters needed to visualize the robot</c>
+<c>* setup along with the matched object in 3D.</c>
+<c>* </c>
+<c>* [OM3DMatch, OM3DBase, OM3DPlane, OM3DToolGrasp, OM3DCamera]</c>
+<l>Index := 0</l>
+<c>* OM3DMatch</c>
+<l>GenParamNameRobotPath := 'color_' + Index</l>
+<l>GenParamValueRobotPath := 'red'</l>
+<l>Index := Index + 1</l>
+<c>* OM3DBase: Visualized as a coordinate system and a base plane.</c>
+<l>GenParamNameRobotPath := [GenParamNameRobotPath,'color_' + Index,'color_' + (Index + 1),'color_' + (Index + 2),'color_' + (Index + 3)]</l>
+<l>Index := Index + 4</l>
+<l>GenParamValueRobotPath := [GenParamValueRobotPath,'red', 'green', 'blue', 'gray']</l>
+<c>* OM3DPlane0</c>
+<l>GenParamNameRobotPath := [GenParamNameRobotPath,'color_' + Index,'alpha_' + Index]</l>
+<l>GenParamValueRobotPath := [GenParamValueRobotPath,'gray', 0.7]</l>
+<l>Index := Index + 1</l>
+<c>* OM3DsRobotPath</c>
+<l>PathLabelPositions := []</l>
+<l>for Index1 := 0 to |OM3DsRobotPath| - 2 by 3</l>
+<l>    GenParamNameRobotPath := [GenParamNameRobotPath,'color_' + Index,'color_' + (Index + 1),'color_' + (Index + 2)]</l>
+<l>    Index := Index + 3</l>
+<l>    PathLabelPositions := [PathLabelPositions,Index]</l>
+<l>    GenParamValueRobotPath := [GenParamValueRobotPath,'red', 'green', 'blue']</l>
+<l>endfor</l>
+<c>* OM3DCamera</c>
+<l>GenParamNameRobotPath := [GenParamNameRobotPath,'color_' + Index,'color_' + (Index + 1),'color_' + (Index + 2),'alpha_' + (Index + 2)]</l>
+<l>GenParamValueRobotPath := [GenParamValueRobotPath,'magenta', 'plum', 'white', 0.3]</l>
+<l>Index := Index + 3</l>
+<c>* point_size</c>
+<l>GenParamNameRobotPath := [GenParamNameRobotPath,'point_size']</l>
+<l>GenParamValueRobotPath := [GenParamValueRobotPath,1]</l>
+<c>* </c>
+<c>* Labels</c>
+<l>tuple_gen_const (|GenParamNameRobotPath| - 3, '', LabelsRobotPath)</l>
+<l>LabelsRobotPath[0] := 'Matched Object'</l>
+<l>LabelsRobotPath[1] := 'Robot\'s Base'</l>
+<l>for Index1 := 1 to |PathLabelPositions| by 1</l>
+<l>    LabelsRobotPath[PathLabelPositions[Index1 - 1] - 1] := 'Robot Path Pose ' + Index1</l>
+<l>endfor</l>
+<l>return ()</l>
+</body>
+<docu id="assemble_generic_parameters1">
+<chapters lang="en_US">
+<item>Tuple</item>
+<item>Creation</item>
+</chapters>
+<library lang="en_US">MVTec Standard Procedures</library>
+<parameters>
+<parameter id="GenParamNameRobotPath">
+<default_type>string</default_type>
+<multivalue>true</multivalue>
+<sem_type>string</sem_type>
+<type_list>
+<item>string</item>
+</type_list>
+</parameter>
+<parameter id="GenParamValueRobotPath">
+<default_type>string</default_type>
+<multivalue>true</multivalue>
+<sem_type>string</sem_type>
+<type_list>
+<item>string</item>
+</type_list>
+</parameter>
+<parameter id="LabelsRobotPath">
+<default_type>string</default_type>
+<multivalue>true</multivalue>
+<sem_type>string</sem_type>
+<type_list>
+<item>string</item>
+</type_list>
+</parameter>
+<parameter id="OM3DBase">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>true</multivalue>
+<sem_type>object_model_3d</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="OM3DsRobotPath">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>true</multivalue>
+<sem_type>object_model_3d</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+</parameters>
+</docu>
+</procedure>
+<procedure name="train_robot_paths_steps">
+<interface>
+<ic>
+<par name="NumRobotPathSteps" base_type="ctrl" dimension="0"/>
+<par name="ModelID" base_type="ctrl" dimension="0"/>
+<par name="ImageDir" base_type="ctrl" dimension="0"/>
+<par name="DataDir" base_type="ctrl" dimension="0"/>
+<par name="RectificationData" base_type="ctrl" dimension="0"/>
+<par name="HandEyeCalibData" base_type="ctrl" dimension="0"/>
+<par name="Poses" base_type="ctrl" dimension="0"/>
+<par name="ObjectModels3DData" base_type="ctrl" dimension="0"/>
+<par name="WindowHandle" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="ToolInModelRobotPathPoses" base_type="ctrl" dimension="1"/>
+</oc>
+</interface>
+<body>
+<c>* </c>
+<c>* Read an image for training the grasping path steps.</c>
+<l>read_image (Image, ImageDir + 'corner_bracket_model_moving_cam')</l>
+<c>* Additionally, read the pose of the robot when the image was acquired.</c>
+<l>read_pose (DataDir + 'tool_in_base_pose_2d_matching_moving_cam.dat', ToolInBasePose)</l>
+<l>dev_disp_acquire_image_and_pose_for_teaching_path_steps_instructions (Image)</l>
+<l>stop ()</l>
+<l>rectify_image_and_compute_matching_plane_moving_cam (Image, ImageRectified, ToolInBasePose, HandEyeCalibData, Poses, RectificationData)</l>
+<c>* </c>
+<c>* Read the poses that determine the steps of the robot</c>
+<c>* when approaching, grasping, ... the object.</c>
+<l>for Index := 1 to NumRobotPathSteps by 1</l>
+<l>    read_pose (DataDir + 'tool_in_base_pose_moving_cam_robot_path_0' + Index + '.dat', ToolInBaseRobotPathPose)</l>
+<l>    dev_disp_read_robot_path_poses (ImageRectified, Index, NumRobotPathSteps, ModelID)</l>
+<l>    stop ()</l>
+<l>    ToolInBaseRobotPathPoses.at(Index-1) := ToolInBaseRobotPathPose</l>
+<l>endfor</l>
+<c>* Calculate the ToolInModelRobotPathPoses.</c>
+<l>find_shape_model (Image, ModelID, 0, rad(360), 0.5, 1, 0.5, 'least_squares', 0, 0.9, Row, Column, Angle, Score)</l>
+<l>obtain_3d_pose_of_match_moving_cam (Row, Column, Angle, ToolInBasePose, HandEyeCalibData, Poses, RectificationData, ModelInBaseRobotPathPose)</l>
+<l>calculate_tool_in_model_robot_path_poses (ModelInBaseRobotPathPose, ToolInBaseRobotPathPoses, NumRobotPathSteps, ToolInModelRobotPathPoses)</l>
+<c>* </c>
+<c>* Visualize the robot poses that were trained for approaching, grasping, ... the object.</c>
+<l>visualize_robot_path_poses (ToolInBaseRobotPathPoses, ModelInBaseRobotPathPose, WindowHandle, HandEyeCalibData, ObjectModels3DData)</l>
+<c>* </c>
+<c>* Keep track of the  pose type used by the robot</c>
+<c>* for the online computation of the robot path poses.</c>
+<l>get_pose_type (ToolInBaseRobotPathPose, Poses.OrderOfTransform, Poses.OrderOfRotation, Poses.ViewOfTransform)</l>
+<l>return ()</l>
+</body>
+<docu id="train_robot_paths_steps">
+<chapters lang="de_DE">
+<item>Transformationen</item>
+<item>Posen</item>
+</chapters>
+<chapters lang="en_US">
+<item>Transformations</item>
+<item>Poses</item>
+</chapters>
+<library lang="en_US">MVTec Standard Procedures</library>
+<parameters>
+<parameter id="DataDir">
+<default_type>string</default_type>
+<description lang="en_US">Directory where the camera parameters and poses are read.</description>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>string</sem_type>
+<type_list>
+<item>string</item>
+</type_list>
+</parameter>
+<parameter id="HandEyeCalibData">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>dict</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="ImageDir">
+<default_type>string</default_type>
+<description lang="en_US">Directory where the application images are read.</description>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>string</sem_type>
+<type_list>
+<item>string</item>
+</type_list>
+</parameter>
+<parameter id="ModelID">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>shape_model</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="NumRobotPathSteps">
+<default_type>integer</default_type>
+<multivalue>false</multivalue>
+<sem_type>integer</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="ObjectModels3DData">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>dict</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="Poses">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>dict</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="RectificationData">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>dict</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="ToolInModelRobotPathPoses">
+<default_type>real</default_type>
+<multivalue>true</multivalue>
+<sem_type>pose</sem_type>
+<type_list>
+<item>real</item>
+</type_list>
+</parameter>
+<parameter id="WindowHandle">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>window</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+</parameters>
+</docu>
+</procedure>
+<procedure name="visualize_robot_path_poses">
+<interface>
+<ic>
+<par name="ToolInBaseRobotPathPoses" base_type="ctrl" dimension="1"/>
+<par name="ModelInBaseRobotPathPose" base_type="ctrl" dimension="0"/>
+<par name="WindowHandle" base_type="ctrl" dimension="0"/>
+<par name="HandEyeCalibData" base_type="ctrl" dimension="0"/>
+<par name="ObjectModels3DData" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<c>* </c>
+<l>OM3DPlane := ObjectModels3DData.OM3DPlane</l>
+<l>OM3DModel := ObjectModels3DData.OM3DModel</l>
+<l>OM3DToolOrigin := ObjectModels3DData.OM3DToolOrigin</l>
+<l>OM3DBase := ObjectModels3DData.OM3DBase</l>
+<l>OM3DCamera := ObjectModels3DData.OM3DCamera</l>
+<c>* </c>
+<l>OM3DsRobotPath := []</l>
+<l>for Index := 0 to ToolInBaseRobotPathPoses.length() - 1 by 1</l>
+<l>    rigid_trans_object_model_3d (OM3DToolOrigin, ToolInBaseRobotPathPoses.at(Index), OM3DToolOriginRigidTrans)</l>
+<l>    OM3DsRobotPath := [OM3DsRobotPath,OM3DToolOriginRigidTrans]</l>
+<l>endfor</l>
+<c>* </c>
+<l>rigid_trans_object_model_3d (OM3DModel, ModelInBaseRobotPathPose, OM3DMatch)</l>
+<c>* </c>
+<l>gen_3d_instructions (Instructions)</l>
+<l>assemble_generic_parameters1 (OM3DBase, OM3DsRobotPath, GenParamNameRobotPath, GenParamValueRobotPath, LabelsRobotPath)</l>
+<l>create_pose (0.21, 0.16, 8.86, 114.4, 359.5, 70.6, 'Rp+T', 'gba', 'point', VisualizationPose)</l>
+<l>visualize_object_model_3d (WindowHandle, [OM3DMatch,OM3DBase,OM3DPlane,OM3DsRobotPath,OM3DCamera], [], VisualizationPose, GenParamNameRobotPath, GenParamValueRobotPath, 'Position of the tool with respect to the model for grasping.', LabelsRobotPath, Instructions, PoseOut)</l>
+<l>return ()</l>
+</body>
+<docu id="visualize_robot_path_poses">
+<chapters lang="en_US">
+<item>Graphics</item>
+<item>Output</item>
+</chapters>
+<library lang="en_US">MVTec Standard Procedures</library>
+<parameters>
+<parameter id="HandEyeCalibData">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>dict</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="ModelInBaseRobotPathPose">
+<default_type>real</default_type>
+<multivalue>true</multivalue>
+<sem_type>pose</sem_type>
+<type_list>
+<item>real</item>
+</type_list>
+</parameter>
+<parameter id="ObjectModels3DData">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>dict</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="ToolInBaseRobotPathPoses">
+<default_type>real</default_type>
+<multivalue>true</multivalue>
+<sem_type>pose</sem_type>
+<type_list>
+<item>real</item>
+</type_list>
+</parameter>
+<parameter id="WindowHandle">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>window</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+</parameters>
+</docu>
+</procedure>
+<procedure name="dev_disp_acquire_image_and_pose_for_teaching_path_steps_instructions">
+<interface>
+<io>
+<par name="Image" base_type="iconic" dimension="0"/>
+</io>
+</interface>
+<body>
+<l>dev_display (Image)</l>
+<l>Text := '3.1) Read an image of your object which can be used to train'</l>
+<l>Text[1] := '     the robot path when grasping this object, and read the'</l>
+<l>Text[2] := '     pose of the robot when the image was acquired.'</l>
+<l>dev_disp_text (Text, 'window', 'top', 'left', 'white', 'box', 'false')</l>
+<l>dev_disp_text ('Press Run (F5) to continue', 'window', 'bottom', 'right', 'black', [], [])</l>
+<l>return ()</l>
+</body>
+<docu id="dev_disp_acquire_image_and_pose_for_teaching_path_steps_instructions">
+<chapters lang="en_US">
+<item>Graphics</item>
+<item>Text</item>
+</chapters>
+<library lang="en_US">MVTec Standard Procedures</library>
+<parameters>
+<parameter id="Image">
+<multivalue>false</multivalue>
+<sem_type>image</sem_type>
+</parameter>
+</parameters>
+</docu>
+</procedure>
+<procedure name="calculate_tool_in_model_robot_path_poses">
+<interface>
+<ic>
+<par name="ModelInBaseRobotPathPose" base_type="ctrl" dimension="0"/>
+<par name="ToolInBaseRobotPathPoses" base_type="ctrl" dimension="1"/>
+<par name="NumRobotPathSteps" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="ToolInModelRobotPathPoses" base_type="ctrl" dimension="1"/>
+</oc>
+</interface>
+<body>
+<l>ToolInModelRobotPathPoses := {[]}</l>
+<l>pose_invert (ModelInBaseRobotPathPose, BaseInModelPose)</l>
+<l>for Index := 0 to NumRobotPathSteps - 1 by 1</l>
+<l>    pose_compose (BaseInModelPose, ToolInBaseRobotPathPoses.at(Index), ToolInModelRobotPathPoses.at(Index))</l>
+<l>endfor</l>
+<l>return ()</l>
+</body>
+<docu id="calculate_tool_in_model_robot_path_poses">
+<chapters lang="de_DE">
+<item>Transformationen</item>
+<item>Posen</item>
+</chapters>
+<chapters lang="en_US">
+<item>Transformations</item>
+<item>Poses</item>
+</chapters>
+<library lang="en_US">MVTec Standard Procedures</library>
+<parameters>
+<parameter id="ModelInBaseRobotPathPose">
+<default_type>real</default_type>
+<multivalue>true</multivalue>
+<sem_type>pose</sem_type>
+<type_list>
+<item>real</item>
+</type_list>
+</parameter>
+<parameter id="NumRobotPathSteps">
+<default_type>integer</default_type>
+<multivalue>true</multivalue>
+<sem_type>integer</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="ToolInBaseRobotPathPoses">
+<default_type>real</default_type>
+<multivalue>true</multivalue>
+<sem_type>pose</sem_type>
+<type_list>
+<item>real</item>
+</type_list>
+</parameter>
+<parameter id="ToolInModelRobotPathPoses">
+<default_type>real</default_type>
+<multivalue>true</multivalue>
+<sem_type>pose</sem_type>
+<type_list>
+<item>real</item>
+</type_list>
+</parameter>
+</parameters>
+</docu>
+</procedure>
+<procedure name="dev_disp_read_robot_path_poses">
+<interface>
+<io>
+<par name="Image" base_type="iconic" dimension="0"/>
+</io>
+<ic>
+<par name="Index" base_type="ctrl" dimension="0"/>
+<par name="NumRobotPathSteps" base_type="ctrl" dimension="0"/>
+<par name="ModelID" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<l>dev_display (Image)</l>
+<l>find_shape_model (Image, ModelID, 0, rad(360), 0.5, 1, 0.5, 'least_squares', 0, 0.9, Row, Column, Angle, Score)</l>
+<l>dev_display_shape_matching_results (ModelID, 'green', Row, Column, Angle, 1, 1, 0)</l>
+<l>Text := '3.2) Move your robot to position ' + Index + '/' + NumRobotPathSteps + ' of the grasping process'</l>
+<l>Text[1] := '     and save the robot pose in ToolInBaseRobotPathPose.'</l>
+<l>dev_disp_text (Text, 'window', 'top', 'left', 'white', 'box', 'false')</l>
+<l>dev_disp_text ('Press Run (F5) to continue', 'window', 'bottom', 'right', 'black', [], [])</l>
+<l>return ()</l>
+</body>
+<docu id="dev_disp_read_robot_path_poses">
+<chapters lang="en_US">
+<item>Graphics</item>
+<item>Output</item>
+</chapters>
+<library lang="en_US">MVTec Standard Procedures</library>
+<parameters>
+<parameter id="Image">
+<multivalue>false</multivalue>
+<sem_type>image</sem_type>
+</parameter>
+<parameter id="Index">
+<default_type>integer</default_type>
+<multivalue>false</multivalue>
+<sem_type>integer</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="ModelID">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>shape_model</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="NumRobotPathSteps">
+<default_type>integer</default_type>
+<multivalue>false</multivalue>
+<sem_type>integer</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+</parameters>
+</docu>
+</procedure>
+<procedure name="dev_open_window_for_3d_visualization">
+<interface>
+<ic>
+<par name="WindowHandle" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="WindowHandle3D" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>get_window_extents (WindowHandle, Row, Column, Width, Height)</l>
+<l>dev_open_window_fit_size (0, Width + 8, Width, Height, 600, -1, WindowHandle3D)</l>
+<l>set_display_font (WindowHandle3D, 16, 'mono', 'true', 'false')</l>
+<l>return ()</l>
+</body>
+<docu id="dev_open_window_for_3d_visualization">
+<chapters lang="en_US">
+<item>Graphics</item>
+<item>Window</item>
+</chapters>
+<library lang="en_US">MVTec Standard Procedures</library>
+<parameters>
+<parameter id="WindowHandle">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>window</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="WindowHandle3D">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>window</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+</parameters>
+</docu>
+</procedure>
+<procedure name="dev_disp_match_model_in_base_pose">
+<interface>
+<io>
+<par name="Image" base_type="iconic" dimension="0"/>
+</io>
+<ic>
+<par name="ModelID" base_type="ctrl" dimension="0"/>
+<par name="RowMatch" base_type="ctrl" dimension="0"/>
+<par name="ColumnMatch" base_type="ctrl" dimension="0"/>
+<par name="AngleMatch" base_type="ctrl" dimension="0"/>
+<par name="ModelInBasePose" base_type="ctrl" dimension="0"/>
+<par name="WindowHandle" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<l>dev_set_window (WindowHandle)</l>
+<l>dev_clear_window ()</l>
+<l>dev_display (Image)</l>
+<l>dev_display_shape_matching_results (ModelID, 'green', RowMatch, ColumnMatch, AngleMatch, 1, 1, 0)</l>
+<l>Text := 'Match found.'</l>
+<l>Text[1] := ' '</l>
+<l>Text[2] := 'ModelInBasePose:'</l>
+<l>Text[3] := '(position of matched object)'</l>
+<l>Text[4] := 'TransX:   ' + ModelInBasePose[0]$'.3f' + ' m'</l>
+<l>Text[5] := 'TransY:   ' + ModelInBasePose[1]$'.3f' + ' m'</l>
+<l>Text[6] := 'TransZ:   ' + ModelInBasePose[2]$'.3f' + ' m'</l>
+<l>Text[7] := 'RotX      ' + ModelInBasePose[3]$'.1f' + '°'</l>
+<l>Text[8] := 'RotY      ' + ModelInBasePose[4]$'.1f' + '°'</l>
+<l>Text[9] := 'RotZ      ' + ModelInBasePose[5]$'.1f' + '°'</l>
+<l>dev_disp_text (Text, 'window', 'top', 'left', 'green', 'box', 'false')</l>
+<l>return ()</l>
+</body>
+<docu id="dev_disp_match_model_in_base_pose">
+<chapters lang="en_US">
+<item>Graphics</item>
+<item>Output</item>
+</chapters>
+<library lang="en_US">MVTec Standard Procedures</library>
+<parameters>
+<parameter id="AngleMatch">
+<default_type>real</default_type>
+<multivalue>false</multivalue>
+<sem_type>angle.rad</sem_type>
+<type_list>
+<item>real</item>
+</type_list>
+</parameter>
+<parameter id="ColumnMatch">
+<default_type>real</default_type>
+<multivalue>false</multivalue>
+<sem_type>point</sem_type>
+<type_list>
+<item>real</item>
+</type_list>
+</parameter>
+<parameter id="Image">
+<multivalue>false</multivalue>
+<sem_type>image</sem_type>
+</parameter>
+<parameter id="ModelID">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>shape_model</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="ModelInBasePose">
+<default_type>real</default_type>
+<multivalue>true</multivalue>
+<sem_type>pose</sem_type>
+<type_list>
+<item>real</item>
+</type_list>
+</parameter>
+<parameter id="RowMatch">
+<default_type>real</default_type>
+<multivalue>false</multivalue>
+<sem_type>point.y</sem_type>
+<type_list>
+<item>real</item>
+</type_list>
+</parameter>
+<parameter id="WindowHandle">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>window</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+</parameters>
+</docu>
+</procedure>
+<procedure name="visualize_match_and_robot_path_poses_in_3d">
+<interface>
+<ic>
+<par name="ToolInBasePose" base_type="ctrl" dimension="0"/>
+<par name="ModelInBasePose" base_type="ctrl" dimension="0"/>
+<par name="ToolInBaseRobotPathPoses" base_type="ctrl" dimension="1"/>
+<par name="HandEyeCalibData" base_type="ctrl" dimension="0"/>
+<par name="ObjectModels3DData" base_type="ctrl" dimension="0"/>
+<par name="PoseIn" base_type="ctrl" dimension="0"/>
+<par name="WindowHandle3D" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="PoseOut" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c>* </c>
+<l>OM3DModel := ObjectModels3DData.OM3DModel</l>
+<l>OM3DBase := ObjectModels3DData.OM3DBase</l>
+<l>OM3DToolOrigin := ObjectModels3DData.OM3DToolOrigin</l>
+<c></c>
+<c>* </c>
+<l>rigid_trans_object_model_3d (OM3DModel, ModelInBasePose, OM3DMatch)</l>
+<l>gen_current_setup_moving_cam_object_model_3d (0.05, ToolInBasePose, HandEyeCalibData, OM3DToolOrigin, OM3DBase, OM3DCamera, OM3DTool, OM3DPlane)</l>
+<c>* ** Result 2: Get poses of the robot to grasp the found match (ToolInBaseGraspPoses).</c>
+<c>* </c>
+<c>* Visualize the found object and the grasping positions.</c>
+<c>* </c>
+<l>OM3DToolGrasp := []</l>
+<l>for Index := 0 to ToolInBaseRobotPathPoses.length() - 1 by 1</l>
+<l>    rigid_trans_object_model_3d (OM3DToolOrigin, ToolInBaseRobotPathPoses.at(Index), OM3DToolOriginRigidTrans)</l>
+<l>    OM3DToolGrasp := [OM3DToolGrasp,OM3DToolOriginRigidTrans]</l>
+<l>endfor</l>
+<c>* </c>
+<l>gen_3d_instructions (Instructions)</l>
+<l>assemble_generic_parameters2 (OM3DToolGrasp, GenParamNameGrasp, GenParamValueGrasp, LabelsGrasp)</l>
+<l>visualize_object_model_3d (WindowHandle3D, [OM3DMatch,OM3DTool,OM3DBase,OM3DPlane,OM3DToolGrasp,OM3DCamera], [], PoseIn, GenParamNameGrasp, GenParamValueGrasp, 'Found object and result 2: grasping positions', LabelsGrasp, Instructions, PoseOut)</l>
+<l>return ()</l>
+</body>
+<docu id="visualize_match_and_robot_path_poses_in_3d">
+<chapters lang="en_US">
+<item>Graphics</item>
+<item>Output</item>
+</chapters>
+<library lang="en_US">MVTec Standard Procedures</library>
+<parameters>
+<parameter id="HandEyeCalibData">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>dict</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="ModelInBasePose">
+<default_type>real</default_type>
+<multivalue>true</multivalue>
+<sem_type>pose</sem_type>
+<type_list>
+<item>real</item>
+</type_list>
+</parameter>
+<parameter id="ObjectModels3DData">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>dict</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="PoseIn">
+<default_type>real</default_type>
+<multivalue>true</multivalue>
+<sem_type>pose</sem_type>
+<type_list>
+<item>real</item>
+</type_list>
+</parameter>
+<parameter id="PoseOut">
+<default_type>real</default_type>
+<multivalue>false</multivalue>
+<sem_type>pose</sem_type>
+<type_list>
+<item>real</item>
+</type_list>
+</parameter>
+<parameter id="ToolInBasePose">
+<default_type>real</default_type>
+<multivalue>true</multivalue>
+<sem_type>pose</sem_type>
+<type_list>
+<item>real</item>
+</type_list>
+</parameter>
+<parameter id="ToolInBaseRobotPathPoses">
+<default_type>real</default_type>
+<multivalue>true</multivalue>
+<sem_type>pose</sem_type>
+<type_list>
+<item>real</item>
+</type_list>
+</parameter>
+<parameter id="WindowHandle3D">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>window</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+</parameters>
+</docu>
+</procedure>
+<procedure name="visualize_match_in_3d">
+<interface>
+<ic>
+<par name="ToolInBasePose" base_type="ctrl" dimension="0"/>
+<par name="ModelInBasePose" base_type="ctrl" dimension="0"/>
+<par name="HandEyeCalibData" base_type="ctrl" dimension="0"/>
+<par name="ObjectModels3DData" base_type="ctrl" dimension="0"/>
+<par name="PoseIn" base_type="ctrl" dimension="0"/>
+<par name="WindowHandle3D" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="PoseOut" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c>* </c>
+<l>OM3DModel := ObjectModels3DData.OM3DModel</l>
+<l>OM3DToolOrigin := ObjectModels3DData.OM3DToolOrigin</l>
+<l>OM3DBase := ObjectModels3DData.OM3DBase</l>
+<c>* </c>
+<l>rigid_trans_object_model_3d (OM3DModel, ModelInBasePose, OM3DMatch)</l>
+<l>gen_current_setup_moving_cam_object_model_3d (0.05, ToolInBasePose, HandEyeCalibData, OM3DToolOrigin, OM3DBase, OM3DCamera, OM3DTool, OM3DPlane)</l>
+<c>* </c>
+<c>* [OM3DMatch, OM3DTool, OM3DBase, OM3DPlane, OM3DCamera]</c>
+<l>GenParamName := ['color_0', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5', 'color_6', 'color_7', 'color_8', 'alpha_8', 'color_9', 'color_10', 'color_11', 'alpha_11', 'point_size']</l>
+<l>GenParamValue := ['red', 'red', 'green', 'blue', 'red', 'green', 'blue', 'gray', 'gray', 0.7, 'magenta', 'plum', 'white', 0.3, 1]</l>
+<c>* </c>
+<l>gen_3d_instructions (Instructions)</l>
+<c>* Labels for the visualized 3D object models.</c>
+<l>tuple_gen_const (12, '', Label)</l>
+<l>Label[0] := 'Matched Object'</l>
+<l>Label[1] := 'Robot\'s Tool'</l>
+<l>Label[4] := 'Robot\'s Base'</l>
+<c>* </c>
+<l>visualize_object_model_3d (WindowHandle3D, [OM3DMatch,OM3DTool,OM3DBase,OM3DPlane,OM3DCamera], [], PoseIn, GenParamName, GenParamValue, 'Found object', Label, Instructions, PoseOut)</l>
+<l>return ()</l>
+</body>
+<docu id="visualize_match_in_3d">
+<chapters lang="en_US">
+<item>Graphics</item>
+<item>Output</item>
+</chapters>
+<library lang="en_US">MVTec Standard Procedures</library>
+<parameters>
+<parameter id="HandEyeCalibData">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>dict</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="ModelInBasePose">
+<default_type>real</default_type>
+<multivalue>true</multivalue>
+<sem_type>pose</sem_type>
+<type_list>
+<item>real</item>
+</type_list>
+</parameter>
+<parameter id="ObjectModels3DData">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>dict</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="PoseIn">
+<default_type>real</default_type>
+<multivalue>true</multivalue>
+<sem_type>pose</sem_type>
+<type_list>
+<item>real</item>
+</type_list>
+</parameter>
+<parameter id="PoseOut">
+<default_type>real</default_type>
+<multivalue>true</multivalue>
+<sem_type>pose</sem_type>
+<type_list>
+<item>real</item>
+</type_list>
+</parameter>
+<parameter id="ToolInBasePose">
+<default_type>real</default_type>
+<multivalue>true</multivalue>
+<sem_type>pose</sem_type>
+<type_list>
+<item>real</item>
+</type_list>
+</parameter>
+<parameter id="WindowHandle3D">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>window</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+</parameters>
+</docu>
+</procedure>
+<procedure name="assemble_generic_parameters2">
+<interface>
+<ic>
+<par name="OM3DToolGrasp" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="GenParamNameGrasp" base_type="ctrl" dimension="0"/>
+<par name="GenParamValueGrasp" base_type="ctrl" dimension="0"/>
+<par name="LabelsGrasp" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c>* This procedure builds the parameters needed to visualize the robot</c>
+<c>* setup along with the matched object in 3D.</c>
+<c>* </c>
+<c>* [OM3DMatch, OM3DTool, OM3DBase, OM3DPlane, OM3DToolGrasp, OM3DCamera]</c>
+<l>Index := 0</l>
+<c>* OM3DMatch</c>
+<l>GenParamNameGrasp := 'color_' + Index</l>
+<l>GenParamValueGrasp := 'red'</l>
+<l>Index := Index + 1</l>
+<c>* OM3DTool</c>
+<l>GenParamNameGrasp := [GenParamNameGrasp,'color_' + Index,'color_' + (Index + 1),'color_' + (Index + 2)]</l>
+<l>GenParamValueGrasp := [GenParamValueGrasp,'red', 'green', 'blue']</l>
+<l>Index := Index + 3</l>
+<c>* OM3DBase: Visualized as a coordinate system and a base plane.</c>
+<l>GenParamNameGrasp := [GenParamNameGrasp,'color_' + Index,'color_' + (Index + 1),'color_' + (Index + 2),'color_' + (Index + 3)]</l>
+<l>GenParamValueGrasp := [GenParamValueGrasp,'red', 'green', 'blue', 'gray']</l>
+<l>Index := Index + 4</l>
+<c>* OM3DPlane0</c>
+<l>GenParamNameGrasp := [GenParamNameGrasp,'color_' + Index,'alpha_' + Index]</l>
+<l>GenParamValueGrasp := [GenParamValueGrasp,'gray', 0.7]</l>
+<l>Index := Index + 1</l>
+<c>* OM3DToolGrasp</c>
+<l>PathLabelPositions := []</l>
+<l>for Index1 := 0 to |OM3DToolGrasp| - 2 by 3</l>
+<l>    GenParamNameGrasp := [GenParamNameGrasp,'color_' + Index,'color_' + (Index + 1),'color_' + (Index + 2)]</l>
+<l>    Index := Index + 3</l>
+<l>    PathLabelPositions := [PathLabelPositions,Index]</l>
+<l>    GenParamValueGrasp := [GenParamValueGrasp,'red', 'green', 'blue']</l>
+<l>endfor</l>
+<c>* OM3DCamera</c>
+<l>GenParamNameGrasp := [GenParamNameGrasp,'color_' + Index,'color_' + (Index + 1),'color_' + (Index + 2),'alpha_' + (Index + 2)]</l>
+<l>GenParamValueGrasp := [GenParamValueGrasp,'magenta', 'plum', 'white', 0.3]</l>
+<l>Index := Index + 3</l>
+<c>* point_size</c>
+<l>GenParamNameGrasp := [GenParamNameGrasp,'point_size']</l>
+<l>GenParamValueGrasp := [GenParamValueGrasp,1]</l>
+<c>* </c>
+<c>* Labels</c>
+<l>tuple_gen_const (|GenParamNameGrasp| - 3, '', LabelsGrasp)</l>
+<l>LabelsGrasp[0] := 'Matched Object'</l>
+<l>LabelsGrasp[4] := 'Robot\'s Base'</l>
+<l>for Index1 := 1 to |PathLabelPositions| by 1</l>
+<l>    LabelsGrasp[PathLabelPositions[Index1 - 1] - 1] := 'Robot Path Pose ' + Index1</l>
+<l>endfor</l>
+<l>return ()</l>
+</body>
+<docu id="assemble_generic_parameters2">
+<chapters lang="en_US">
+<item>Tuple</item>
+<item>Creation</item>
+</chapters>
+<library lang="en_US">MVTec Standard Procedures</library>
+<parameters>
+<parameter id="GenParamNameGrasp">
+<default_type>string</default_type>
+<multivalue>true</multivalue>
+<sem_type>string</sem_type>
+<type_list>
+<item>string</item>
+</type_list>
+</parameter>
+<parameter id="GenParamValueGrasp">
+<default_type>string</default_type>
+<multivalue>true</multivalue>
+<sem_type>string</sem_type>
+<type_list>
+<item>string</item>
+</type_list>
+</parameter>
+<parameter id="LabelsGrasp">
+<default_type>string</default_type>
+<multivalue>true</multivalue>
+<sem_type>string</sem_type>
+<type_list>
+<item>string</item>
+</type_list>
+</parameter>
+<parameter id="OM3DToolGrasp">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>true</multivalue>
+<sem_type>object_model_3d</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+</parameters>
+</docu>
+</procedure>
+<procedure name="dev_disp_robot_path_steps_instructions">
+<interface>
+<ic>
+<par name="WindowHandle" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="WindowHandleGraphics" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c>* </c>
+<l>read_image (Image, '3d_machine_vision/hand_eye/instruction_images/approach_and_grasp_poses_moving_cam')</l>
+<l>get_window_extents (WindowHandle, Row, Column, Width, Height)</l>
+<l>dev_open_window_fit_image (Image, 0, Width + 8, 600, -1, WindowHandleGraphics)</l>
+<l>set_part_style (WindowHandleGraphics, 2)</l>
+<l>dev_display (Image)</l>
+<c>* </c>
+<l>dev_set_window (WindowHandle)</l>
+<l>dev_clear_window ()</l>
+<l>Text := '3.0) If desired, you can implement a rudimentary path planning'</l>
+<l>Text[1] := '     for the robot. You can, for example, determine how the'</l>
+<l>Text[2] := '     robot should approach, grasp, and move found objects.'</l>
+<l>Text[3] := ''</l>
+<l>Text[4] := '     Set NumRobotPathSteps 0 to bypass this step.'</l>
+<l>Text[5] := '     Set it to 1 to teach the robot how to grasp the object.'</l>
+<l>Text[6] := '     Here, it is set to 2 to specify an approach pose as well'</l>
+<l>Text[7] := '     to avoid tipping the object over.'</l>
+<l>dev_disp_text (Text, 'window', 'top', 'left', 'white', 'box', 'false')</l>
+<l>dev_disp_text ('Press Run (F5) to continue', 'window', 'bottom', 'right', 'black', [], [])</l>
+<l>return ()</l>
+</body>
+<docu id="dev_disp_robot_path_steps_instructions">
+<chapters lang="en_US">
+<item>Graphics</item>
+<item>Text</item>
+</chapters>
+<library lang="en_US">MVTec Standard Procedures</library>
+<parameters>
+<parameter id="WindowHandle">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>window</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="WindowHandleGraphics">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>window</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+</parameters>
+</docu>
+</procedure>
+<procedure name="gen_3d_instructions">
+<interface>
+<oc>
+<par name="Instructions" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c>* Instructions for 3D visualization.</c>
+<l>Instructions[0] := 'Rotate: Left button'</l>
+<l>Instructions[1] := 'Zoom:   Shift + left button'</l>
+<l>Instructions[2] := 'Move:   Ctrl  + left button'</l>
+<l>return ()</l>
+</body>
+<docu id="gen_3d_instructions">
+<chapters lang="en_US">
+<item>Tuple</item>
+<item>Creation</item>
+</chapters>
+<library lang="en_US">MVTec Standard Procedures</library>
+<parameters>
+<parameter id="Instructions">
+<default_type>string</default_type>
+<multivalue>true</multivalue>
+<sem_type>string</sem_type>
+<type_list>
+<item>string</item>
+</type_list>
+</parameter>
+</parameters>
+</docu>
+</procedure>
+<procedure name="initialize_program">
+<interface>
+<oc>
+<par name="WindowHandle" base_type="ctrl" dimension="0"/>
+<par name="ImageDir" base_type="ctrl" dimension="0"/>
+<par name="DataDir" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c>* </c>
+<c>* Prepare the graphics window.</c>
+<l>dev_close_window ()</l>
+<l>dev_open_window_fit_size (0, 0, 1280, 1024, 640, -1, WindowHandle)</l>
+<l>get_window_extents (WindowHandle, Row, Column, Width, Height)</l>
+<l>set_display_font (WindowHandle, 16, 'mono', 'true', 'false')</l>
+<l>set_part_style (WindowHandle, 2)</l>
+<l>dev_set_line_width (2)</l>
+<l>dev_update_off ()</l>
+<c>* </c>
+<c>* Set the directory where the images are read.</c>
+<l>get_system ('example_dir', ExampleDir)</l>
+<l>ImageDir := ExampleDir + '/images/3d_machine_vision/hand_eye/'</l>
+<c>* </c>
+<c>* Set the directory where the poses are read.</c>
+<l>get_current_dir (CurrentDir)</l>
+<l>DataDir := CurrentDir + '/'</l>
+<c>* </c>
+<c>* Set some system parameters.</c>
+<l>set_system ('border_shape_models', 'true')</l>
+<l>set_system ('clip_region', 'false')</l>
+<l>return ()</l>
+</body>
+<docu id="initialize_program">
+<chapters lang="en_US">
+<item>Develop</item>
+</chapters>
+<library lang="en_US">MVTec Standard Procedures</library>
+<parameters>
+<parameter id="DataDir">
+<default_type>string</default_type>
+<description lang="en_US">Directory where the camera parameters and poses are read.</description>
+<multivalue>false</multivalue>
+<sem_type>string</sem_type>
+<type_list>
+<item>string</item>
+</type_list>
+</parameter>
+<parameter id="ImageDir">
+<default_type>string</default_type>
+<description lang="en_US">Directory where the application images are read.</description>
+<multivalue>false</multivalue>
+<sem_type>string</sem_type>
+<type_list>
+<item>string</item>
+</type_list>
+</parameter>
+<parameter id="WindowHandle">
+<default_type>integer</default_type>
+<mixed_type>false</mixed_type>
+<multivalue>false</multivalue>
+<sem_type>window</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>
