@@ -253,6 +253,79 @@
 
                                         <Grid Height=" 35" Margin="8">
 
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 90" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" 35" />
+                                            </Grid.ColumnDefinitions>
+
+
+                                            <TextBlock Text="本地操作"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
+                                                    Margin="0,0,10,0"
+                                                    Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                                    FontSize=" 26"
+                                                    Tag="Camera_0">
+                                                <TextBlock Text="加载图像"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="14"
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+
+
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding HandEye_Local_Image_Mode_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </Button>
+
+
+
+
+
+
+                                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                                    Margin="10,0,0,0"
+                                                    Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                                    Tag="Camera_0">
+
+
+                                                <TextBlock Text="保存图像"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="14"
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+
+                                            </Button>
+
+                                        </Grid>
+
+                                        <Grid Height=" 35" Margin="8">
+
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="90" />
                                                 <ColumnDefinition />
@@ -1134,6 +1207,81 @@
                                                    VerticalContentAlignment="Center"
                                                    FontSize=" 14" />
 
+
+                                        </Grid>
+
+
+
+                                        <Grid Height="35" Margin="8">
+
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 90" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" 35" />
+                                            </Grid.ColumnDefinitions>
+
+
+                                            <TextBlock Text="本地操作"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
+                                                    Margin="0,0,10,0"
+                                                    Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                                    FontSize=" 26"
+                                                    Tag="Camera_1">
+                                                <TextBlock Text="加载图像"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="14"
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+
+
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding HandEye_Local_Image_Mode_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </Button>
+
+
+
+
+
+
+                                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                                    Margin="10,0,0,0"
+                                                    Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                                    Tag="Camera_1">
+
+
+                                                <TextBlock Text="保存图像"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="14"
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+
+                                            </Button>
 
                                         </Grid>
 
@@ -2242,6 +2390,76 @@
 
                                         </Grid>
 
+
+                                        <Grid Height="35" Margin="8">
+
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 90" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+
+
+                                            <TextBlock Text="本地操作"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
+                                                    Margin="0,0,10,0"
+                                                    Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                                    FontSize=" 26">
+                                                <TextBlock Text="加载数据"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="14"
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+
+
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding HandEye_Local_Robot_Data_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </Button>
+
+
+
+
+
+
+                                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                                    Margin="10,0,0,0"
+                                                    Background="{DynamicResource 全局_按钮_蓝颜色}">
+
+
+                                                <TextBlock Text="保存数据"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="14"
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding HandEye_Robot_Data_Save_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+
+                                            </Button>
+
+                                        </Grid>
 
 
 
@@ -4336,7 +4554,7 @@
                                                VerticalAlignment="Center"
                                                FontSize=" 16"
                                                Foreground="{DynamicResource 全局_背景_白颜色}" />
-                                    <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                    <!--<Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
                                             Width="25"
                                             Height=" 25"
                                             Margin="0,5,10,0"
@@ -4358,7 +4576,7 @@
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
 
-                                    </Button>
+                                    </Button>-->
 
 
 
@@ -4538,7 +4756,7 @@
                                                FontSize=" 16"
                                                Foreground="{DynamicResource 全局_背景_白颜色}" />
 
-                                    <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                    <!--<Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
                                             Width="25"
                                             Height=" 25"
                                             Margin="0,5,10,0"
@@ -4560,7 +4778,7 @@
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
 
-                                    </Button>
+                                    </Button>-->
 
 
                                 </Grid>
@@ -5044,7 +5262,7 @@
                                                     </DataGridTemplateColumn.Header>
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
-                                                            <TextBox Text="{Binding HandEye_Robot_Pos.X, StringFormat={}{0:F4}}"
+                                                            <TextBox Text="{Binding HandEye_Robot_Pos.X, StringFormat={}{0:F4}, UpdateSourceTrigger=LostFocus}"
                                                                      HorizontalAlignment="Stretch"
                                                                      VerticalAlignment="Stretch"
                                                                      HorizontalContentAlignment="Center"
@@ -5070,7 +5288,7 @@
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
 
-                                                            <TextBox Text="{Binding HandEye_Robot_Pos.Y, StringFormat={}{0:F4}}"
+                                                            <TextBox Text="{Binding HandEye_Robot_Pos.Y, StringFormat={}{0:F4}, UpdateSourceTrigger=LostFocus}"
                                                                      HorizontalAlignment="Stretch"
                                                                      VerticalAlignment="Stretch"
                                                                      HorizontalContentAlignment="Center"
@@ -5097,7 +5315,7 @@
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
 
-                                                            <TextBox Text="{Binding HandEye_Robot_Pos.Z, StringFormat={}{0:F4}}"
+                                                            <TextBox Text="{Binding HandEye_Robot_Pos.Z, StringFormat={}{0:F4}, UpdateSourceTrigger=LostFocus}"
                                                                      HorizontalAlignment="Stretch"
                                                                      VerticalAlignment="Stretch"
                                                                      HorizontalContentAlignment="Center"
@@ -5123,7 +5341,7 @@
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
 
-                                                            <TextBox Text="{Binding HandEye_Robot_Pos.A, StringFormat={}{0:F4}}"
+                                                            <TextBox Text="{Binding HandEye_Robot_Pos.A, StringFormat={}{0:F4}, UpdateSourceTrigger=LostFocus}"
                                                                      HorizontalAlignment="Stretch"
                                                                      VerticalAlignment="Stretch"
                                                                      HorizontalContentAlignment="Center"
@@ -5149,7 +5367,7 @@
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
 
-                                                            <TextBox Text="{Binding HandEye_Robot_Pos.B, StringFormat={}{0:F4}}"
+                                                            <TextBox Text="{Binding HandEye_Robot_Pos.B, StringFormat={}{0:F4}, UpdateSourceTrigger=LostFocus}"
                                                                      HorizontalAlignment="Stretch"
                                                                      VerticalAlignment="Stretch"
                                                                      HorizontalContentAlignment="Center"
@@ -5175,7 +5393,7 @@
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
 
-                                                            <TextBox Text="{Binding HandEye_Robot_Pos.C, StringFormat={}{0:F4}}"
+                                                            <TextBox Text="{Binding HandEye_Robot_Pos.C, StringFormat={}{0:F4}, UpdateSourceTrigger=LostFocus}"
                                                                      HorizontalAlignment="Stretch"
                                                                      VerticalAlignment="Stretch"
                                                                      HorizontalContentAlignment="Center"
@@ -5312,27 +5530,6 @@
                             </Button>
 
 
-                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
-                                    Width="110"
-                                    Height="38"
-                                    Margin="5"
-                                    Background="{DynamicResource 全局_按钮_黑颜色}">
-                                <TextBlock Text="保存机器数据"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                           FontSize="16"
-                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
-
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="Click">
-                                        <i:InvokeCommandAction Command="{Binding}"
-                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                               PassEventArgsToCommand="True" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-
-                            </Button>
 
 
                         </StackPanel>

@@ -256,6 +256,7 @@ namespace KUKA_Socket.Models
     /// </summary>
     public enum Socket_Robot_Protocols_Enum
     {
+        
         KUKA,
         ABB,
         川崎

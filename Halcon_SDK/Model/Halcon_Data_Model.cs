@@ -9,7 +9,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Windows;
-using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
@@ -571,7 +570,7 @@ namespace Halcon_SDK_DLL.Model
                 Image_Height = _Parameters_Model.Image_Height;
                 Image_Width = _Parameters_Model.Image_Width;
             }
-     
+
 
 
 
@@ -1256,7 +1255,7 @@ namespace Halcon_SDK_DLL.Model
         public double C { set; get; } = 0;
 
 
-        
+
 
 
         public void Set_Point(HTuple _Pos)
@@ -1280,7 +1279,7 @@ namespace Halcon_SDK_DLL.Model
         public HPose Get_HPos(Socket_Robot_Protocols_Enum _Robot)
         {
 
-            HPose _Pos=new HPose ();
+            HPose _Pos = new HPose();
 
 
 
@@ -1289,8 +1288,8 @@ namespace Halcon_SDK_DLL.Model
                 case Socket_Robot_Protocols_Enum.KUKA:
 
 
-            _Pos.CreatePose(X / 1000, Y / 1000,Z/ 1000, A, B, C, "Rp+T", "gba", "point");
-                 
+                    _Pos.CreatePose(X / 1000, Y / 1000, Z / 1000, A, B, C, "Rp+T", "gba", "point");
+
                     break;
                 case Socket_Robot_Protocols_Enum.ABB:
 
@@ -1298,7 +1297,7 @@ namespace Halcon_SDK_DLL.Model
                     break;
                 case Socket_Robot_Protocols_Enum.川崎:
                     break;
-   
+
             }
 
 
@@ -1307,6 +1306,33 @@ namespace Halcon_SDK_DLL.Model
 
 
             return _Pos;
+
+        }
+
+
+        public void Pos_Save( string _File, string _name)
+        {
+            try
+            {
+
+
+
+                if (!Directory.Exists(_File))
+                {
+                    Directory.CreateDirectory(_File);
+                }
+
+                HPose _Pos = new HPose(X, Y, Z, A, B, C, "Rp+T", "gba", "point");
+                _Pos.WritePose(_File + _name);
+
+
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(_name+"：位姿文件保存失败！");
+            }
+
 
         }
 
@@ -2025,7 +2051,7 @@ namespace Halcon_SDK_DLL.Model
     /// <summary>
     /// 图像标定检测状态
     /// </summary>
-   public enum Camera_Calibration_Image_State_Enum
+    public enum Camera_Calibration_Image_State_Enum
     {
         [Description("...")]
         None,

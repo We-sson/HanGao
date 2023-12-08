@@ -545,38 +545,29 @@ namespace HanGao.ViewModel
             {
                 Button E = Sm.Source as Button;
 
+                string File_Log = Directory.GetCurrentDirectory() + "\\Calibration_File\\Robot_Data";
+
+        
+
 
                 try
                 {
 
+                    if (HandEye_Calibration_List.Count<1)
+                    {
+                        throw new Exception("标定列表数据集少于1项！");
+                    }
 
-                    //删除选中图像
-                    Application.Current.Dispatcher.Invoke(() =>
+
+                    for (int i = 0; i < HandEye_Calibration_List.Count; i++)
                     {
 
-                        //清空三维可视化
-                        HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model());
-
-                        ///清理数据
-                        foreach (var _Model in HandEye_Calibration_List)
-                        {
-
-                            _Model.Dispose();
-
-                        }
+                        HandEye_Calibration_List[i].HandEye_Robot_Pos.Pos_Save( File_Log , "\\Robot_"+i+".dat");
 
 
-                        HandEye_Calibration_List.Clear();
+                    }
 
-
-                    });
-
-                    User_Log_Add("标定列表图像全部移除！", Log_Show_Window_Enum.HandEye, MessageBoxImage.Information);
-
-
-
-
-
+                    User_Log_Add("机器人坐标数据已保存 "+ HandEye_Calibration_List.Count + " 项在："+ File_Log, Log_Show_Window_Enum.HandEye, MessageBoxImage.Question);
 
                 }
                 catch (Exception _e)
@@ -657,41 +648,73 @@ namespace HanGao.ViewModel
 
 
         /// <summary>
-        /// 手眼标定保存集合方法
+        ///手眼标定机器数据加载列表动作
         /// </summary>
-        /// <param name="_HImage"></param>
-        /// <param name="_Image"></param>
-        /// <param name="_CameraType"></param>
-        //public Calibration_Image_List_Model HandEye_Save_Data_List(FindCalibObject_Results _Results, Calibration_Image_List_Model _Image, Camera_Connect_Control_Type_Enum _CameraType)
-        //{
-
-        //    switch (_CameraType)
-        //    {
-        //        case Camera_Connect_Control_Type_Enum.双目相机:
-        //            break;
-        //        case Camera_Connect_Control_Type_Enum.Camera_0:
-        //            _Image.Camera_No = Camera_Connect_Control_Type_Enum.Camera_0;
-        //            _Image.Camera_0.Calibration_Image = _Results._Image;
-        //            _Image.Camera_0.Calibration_Region = _Results._CalibRegion;
-        //            _Image.Camera_0.Calibration_XLD = _Results._CalibXLD;
+        public ICommand HandEye_Local_Robot_Data_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                Button E = Sm.Source as Button;
 
 
-        //            break;
-        //        case Camera_Connect_Control_Type_Enum.Camera_1:
-        //            _Image.Camera_No = Camera_Connect_Control_Type_Enum.Camera_1;
-        //            _Image.Camera_1.Calibration_Image = _Results._Image;
-        //            _Image.Camera_1.Calibration_Region = _Results._CalibRegion;
-        //            _Image.Camera_1.Calibration_XLD = _Results._CalibXLD;
 
 
-        //            break;
 
-        //    }
+                try
+                {
 
-        //    return _Image;
 
-        //}
+                    VistaOpenFileDialog _OpenFile = new VistaOpenFileDialog()
+                    {
+                        Title = "选择机器人位姿文件",
+                        Filter = "位姿文件|*.dat;",
+                        Multiselect = true,
+                        InitialDirectory = Directory.GetCurrentDirectory(),
+                    };
+                    if ((bool)_OpenFile.ShowDialog())
+                    {
 
+                        _OpenFile.FileNames.Length.Throw("手眼图像图像数量："+ HandEye_Calibration_List.Count+ " 与加载机器姿态数量：" + _OpenFile.FileNames.Length + " 不一致")
+                        .IfNotEquals(HandEye_Calibration_List.Count);
+
+
+
+                        //异步写入图像
+                        Task.Run(() =>
+                        {
+
+
+                            for (int i = 0; i < _OpenFile.FileNames.Length; i++)
+                            {
+
+                                HPose _Pos = new HPose();
+                                _Pos.ReadPose(_OpenFile.FileNames[i]);
+
+                                //加载
+                                HandEye_Calibration_List[i].HandEye_Robot_Pos.Set_Point(_Pos);
+
+
+                            }
+
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+
+                                User_Log_Add(_OpenFile.FileNames.Length+"：项机器人位姿数据加载完成！", Log_Show_Window_Enum.HandEye, MessageBoxImage.Information);
+
+                            });
+
+                        });
+                    }
+                }
+                catch (Exception _e)
+                {
+
+                    User_Log_Add(_e.Message, Log_Show_Window_Enum.HandEye, MessageBoxImage.Error);
+
+                }
+
+            });
+        }
 
 
         /// <summary>
