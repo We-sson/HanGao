@@ -252,7 +252,16 @@
 
 
                                         <Grid Height=" 35" Margin="8">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_0_Diver}" Value="false">
+                                                            <Setter Property="IsEnabled" Value="True" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
@@ -314,7 +323,7 @@
                                                 <i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding}"
+                                                        <i:InvokeCommandAction Command="{Binding HandEye_Save_Image_Mode_Comm}"
                                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
@@ -1213,7 +1222,16 @@
 
 
                                         <Grid Height="35" Margin="8">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_1_Diver}" Value="false">
+                                                            <Setter Property="IsEnabled" Value="True" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
@@ -1275,7 +1293,7 @@
                                                 <i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding}"
+                                                        <i:InvokeCommandAction Command="{Binding HandEye_Save_Image_Mode_Comm}"
                                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>

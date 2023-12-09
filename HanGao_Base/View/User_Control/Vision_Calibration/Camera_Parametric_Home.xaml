@@ -1062,7 +1062,7 @@
                                            FontSize="20"
                                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
 
-                                <Button Style="{DynamicResource Halcon_Window_Button}"
+                                <!--<Button Style="{DynamicResource Halcon_Window_Button}"
                                         Width="30"
                                         Height=" 30"
                                         Margin="0,0,20,0"
@@ -1085,7 +1085,7 @@
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
 
-                                </Button>
+                                </Button>-->
 
 
 
@@ -1106,7 +1106,7 @@
 
 
 
-                                <Button Style="{DynamicResource Halcon_Window_Button}"
+                                <!--<Button Style="{DynamicResource Halcon_Window_Button}"
                                         Width="30"
                                         Height=" 30"
                                         Margin="0,0,20,0"
@@ -1129,7 +1129,7 @@
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
 
-                                </Button>
+                                </Button>-->
 
 
 
@@ -1460,7 +1460,7 @@
                                 Margin="5"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Center"
-                                Background="{DynamicResource 全局_按钮_深蓝颜色}">
+                                Background="{DynamicResource 全局_按钮_黑颜色}">
                             <TextBlock Text="移除图像"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
@@ -1483,7 +1483,7 @@
                                 Height="38"
                                 Margin="5"
                                 HorizontalAlignment="Right"
-                                Background="{DynamicResource 全局_按钮_青红颜色}">
+                                Background="{DynamicResource 全局_按钮_黑颜色}">
                             <TextBlock Text="移除所有"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
@@ -1494,29 +1494,6 @@
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
                                     <i:InvokeCommandAction Command="{Binding Calibration_Image_AllRemoving_Comm}"
-                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                           PassEventArgsToCommand="True" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-
-                        </Button>
-
-                        <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
-                                Width="110"
-                                Height=" 38"
-                                Margin="5"
-                                HorizontalAlignment="Right"
-                                Background="{DynamicResource 全局_按钮_青红颜色}">
-                            <TextBlock Text="本地保存"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                       FontSize="16"
-                                       Foreground="{DynamicResource 全局_按钮_白颜色}" />
-
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding}"
                                                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                            PassEventArgsToCommand="True" />
                                 </i:EventTrigger>
@@ -2464,6 +2441,87 @@
                                                    FontSize=" 14" />
                                         </Grid>
 
+                                        <Grid Height=" 35" Margin="8">
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_0_Diver}" Value="false">
+                                                            <Setter Property="IsEnabled" Value="True" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 90" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" 35" />
+                                            </Grid.ColumnDefinitions>
+
+
+                                            <TextBlock Text="本地操作"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
+                                                    Margin="0,0,5,0"
+                                                    Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                                    FontSize=" 26"
+                                                    Tag="Camera_0">
+                                                <TextBlock Text="加载图像"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="14"
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+
+
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding Calibration_Image_FileLoad_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </Button>
+
+
+
+
+
+
+                                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                                    Margin="5,0,0,0"
+                                                    Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                                    Tag="Camera_0">
+
+
+                                                <TextBlock Text="保存图像"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="14"
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding Camera_Save_Image_Mode_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+
+                                            </Button>
+
+                                        </Grid>
 
 
 
@@ -3463,6 +3521,88 @@
                                         </Grid>
 
 
+
+                                        <Grid Height=" 35" Margin="8">
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_1_Diver}" Value="false">
+                                                            <Setter Property="IsEnabled" Value="True" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 90" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" 35" />
+                                            </Grid.ColumnDefinitions>
+
+
+                                            <TextBlock Text="本地操作"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
+                                                    Margin="0,0,5,0"
+                                                    Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                                    FontSize=" 26"
+                                                    Tag="Camera_1">
+                                                <TextBlock Text="加载图像"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="14"
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+
+
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding Calibration_Image_FileLoad_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </Button>
+
+
+
+
+
+
+                                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                                    Margin="5,0,0,0"
+                                                    Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                                    Tag="Camera_1">
+
+
+                                                <TextBlock Text="保存图像"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="14"
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding Camera_Save_Image_Mode_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+
+                                            </Button>
+
+                                        </Grid>
 
 
                                         <Border Height=" 3"

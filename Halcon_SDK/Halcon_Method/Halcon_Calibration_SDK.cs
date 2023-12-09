@@ -525,6 +525,14 @@ namespace Halcon_SDK_DLL
                 //标定成功设置状态
                 _Results.Camera_Calinration_Process_Type = Camera_Calinration_Process_Enum.Calibration_Successful;
 
+
+
+                _HandEye_3DModel. gen_camera_and_tool_moving_cam_object_model_3d(hv_ToolInCamPose, hv_ToolInBasePose,
+hv_CameraSize, hv_CameraConeLength, hv_OM3DToolOrigin, hv_CamParam, out hv_OM3DCamera,
+out hv_OM3DTool);
+
+
+
                 Clear_HandEye_Calibration();
 
                 return _Results;

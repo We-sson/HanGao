@@ -3986,6 +3986,91 @@ public class Reconstruction_3d
 
 
 
+    // Chapter: 3D Object Model / Creation
+    // Short Description: Generate 3D object models for the camera and the robot's tool. 
+    public void gen_camera_and_tool_moving_cam_object_model_3d(HTuple hv_ToolInCamPose,
+        HTuple hv_ToolInBasePose, HTuple hv_CameraSize, HTuple hv_ConeLength, HTuple hv_OM3DToolOrig,
+        HTuple hv_CamParam, out HTuple hv_OM3DCamera, out HTuple hv_OM3DTool)
+    {
+
+
+
+        // Local iconic variables 
+
+        // Local control variables 
+
+        HTuple hv_IdentityPose = new HTuple(), hv_CameraSetupModelID = new HTuple();
+        HTuple hv_OM3DCameraOrigin = new HTuple(), hv_OM3DConeOrig = new HTuple();
+        HTuple hv_CamInToolPose = new HTuple(), hv_CamInBasePose = new HTuple();
+        // Initialize local and output iconic variables 
+        hv_OM3DCamera = new HTuple();
+        hv_OM3DTool = new HTuple();
+        try
+        {
+            //This procedure helps visualize the camera and its cone, as well
+            //as the robot's tool in their current positions.
+            //
+            //Visualize Tool.
+            hv_OM3DTool.Dispose();
+            HOperatorSet.RigidTransObjectModel3d(hv_OM3DToolOrig, hv_ToolInBasePose, out hv_OM3DTool);
+            //
+            //Visualize Camera.
+            hv_IdentityPose.Dispose();
+            HOperatorSet.CreatePose(0, 0, 0, 0, 0, 0, "Rp+T", "gba", "point", out hv_IdentityPose);
+            hv_CameraSetupModelID.Dispose();
+            HOperatorSet.CreateCameraSetupModel(1, out hv_CameraSetupModelID);
+            HOperatorSet.SetCameraSetupCamParam(hv_CameraSetupModelID, 0, new HTuple(),
+                hv_CamParam, hv_IdentityPose);
+            hv_OM3DCameraOrigin.Dispose(); hv_OM3DConeOrig.Dispose();
+            gen_camera_setup_object_model_3d(hv_CameraSetupModelID, hv_CameraSize, hv_ConeLength,
+                out hv_OM3DCameraOrigin, out hv_OM3DConeOrig);
+            HOperatorSet.ClearCameraSetupModel(hv_CameraSetupModelID);
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                {
+                    HTuple
+                      ExpTmpLocalVar_OM3DCameraOrigin = hv_OM3DCameraOrigin.TupleConcat(
+                        hv_OM3DConeOrig);
+                    hv_OM3DCameraOrigin.Dispose();
+                    hv_OM3DCameraOrigin = ExpTmpLocalVar_OM3DCameraOrigin;
+                }
+            }
+            //
+            hv_CamInToolPose.Dispose();
+            HOperatorSet.PoseInvert(hv_ToolInCamPose, out hv_CamInToolPose);
+            hv_CamInBasePose.Dispose();
+            HOperatorSet.PoseCompose(hv_ToolInBasePose, hv_CamInToolPose, out hv_CamInBasePose);
+            hv_OM3DCamera.Dispose();
+            HOperatorSet.RigidTransObjectModel3d(hv_OM3DCameraOrigin, hv_CamInBasePose,
+                out hv_OM3DCamera);
+            HOperatorSet.ClearObjectModel3d(hv_OM3DCameraOrigin);
+
+            hv_IdentityPose.Dispose();
+            hv_CameraSetupModelID.Dispose();
+            hv_OM3DCameraOrigin.Dispose();
+            hv_OM3DConeOrig.Dispose();
+            hv_CamInToolPose.Dispose();
+            hv_CamInBasePose.Dispose();
+
+            return;
+        }
+        catch (HalconException HDevExpDefaultException)
+        {
+
+            hv_IdentityPose.Dispose();
+            hv_CameraSetupModelID.Dispose();
+            hv_OM3DCameraOrigin.Dispose();
+            hv_OM3DConeOrig.Dispose();
+            hv_CamInToolPose.Dispose();
+            hv_CamInBasePose.Dispose();
+
+            throw HDevExpDefaultException;
+        }
+    }
+
+
+
+
     /// <summary>
     /// 获得机器人
     /// </summary>

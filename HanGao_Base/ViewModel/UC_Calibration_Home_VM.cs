@@ -646,6 +646,114 @@ namespace HanGao.ViewModel
 
 
         /// <summary>
+        ///标定图像加载列表动作
+        /// </summary>
+        public ICommand Camera_Save_Image_Mode_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                Button E = Sm.Source as Button;
+
+                string File_Log = string.Empty;
+
+                Camera_Connect_Control_Type_Enum _camerEnum = Enum.Parse<Camera_Connect_Control_Type_Enum>(E.Tag.ToString());
+
+
+
+
+                //选择需要保存的位置
+                VistaFolderBrowserDialog FolderDialog = new VistaFolderBrowserDialog
+                {
+                    Description = "选择" + _camerEnum + "图像文件存放位置",
+                    UseDescriptionForTitle = true, // This applies to the Vista style dialog only, not the old dialog.
+                    SelectedPath = Directory.GetCurrentDirectory(),
+                    ShowNewFolderButton = true,
+                };
+                if ((bool)FolderDialog.ShowDialog())
+                {
+                    File_Log = FolderDialog.SelectedPath;
+                }
+
+                if (File_Log != string.Empty)
+                {
+
+                    //异步写入图像
+                    Task.Run(() =>
+                    {
+
+
+                        try
+                        {
+
+
+
+                            for (int i = 0; i < Camera_Calibration_Image_List.Count; i++)
+                            {
+
+
+
+                                Calibration_Image_Camera_Model _Sectle = new Calibration_Image_Camera_Model();
+                                //获得需要保存的设备
+                                switch (_camerEnum)
+                                {
+                                    case Camera_Connect_Control_Type_Enum.双目相机:
+                                        throw new Exception("双目相机标定未开发！");
+
+
+                                    case Camera_Connect_Control_Type_Enum.Camera_0:
+                                        _Sectle = Camera_Calibration_Image_List[i].Camera_0;
+                                        break;
+                                    case Camera_Connect_Control_Type_Enum.Camera_1:
+                                        _Sectle = Camera_Calibration_Image_List[i].Camera_1;
+
+                                        break;
+
+                                }
+
+                                //检查列表是否有图像
+                                if (_Sectle.Calibration_Image != null)
+                                {
+                                    HImage _Imgea = new HImage(_Sectle.Calibration_Image);
+                                    //保存图像
+                                    _Imgea.WriteImage("tiff", 0, File_Log + "\\" + _camerEnum + "_" + i);
+                                }
+                                else
+                                {
+
+                                    throw new Exception(_camerEnum + "：第 " + i + " 张列表无图像，保存失败！");
+
+                                }
+
+
+                            }
+
+
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+
+                                User_Log_Add(_camerEnum + "相机标定列表，" + Camera_Calibration_Image_List.Count + " 张标定图像加载完成！", Log_Show_Window_Enum.HandEye, MessageBoxImage.Information);
+
+                            });
+
+
+                        }
+                        catch (Exception _e)
+                        {
+
+                            User_Log_Add("相机标定列表图像保存失败！原因：" + _e.Message, Log_Show_Window_Enum.HandEye, MessageBoxImage.Error);
+
+                        }
+
+                    });
+                }
+
+
+
+            });
+        }
+
+
+        /// <summary>
         /// 标定图像加载列表动作
         /// </summary>
         public ICommand Calibration_Image_FileLoad_Comm
