@@ -2779,7 +2779,7 @@
 
 
                                             <Openfile:UC_Open_File Grid.Column=" 1"
-                                                                   File_Filter="标定板文件 (*.cpd*)|*.cpd*"
+                                                                   File_Filter="标定板文件|*.cpd;*.descr;|所有文件|*.*"
                                                                    File_Log="{Binding HandEye_Camera_Parameters.Halcon_CaltabDescr_Address, Mode=TwoWay}"
                                                                    File_Model="File" />
 
@@ -5456,7 +5456,7 @@
 
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Click">
-                                        <i:InvokeCommandAction Command="{Binding}"
+                                        <i:InvokeCommandAction Command="{Binding HandEye_Calibration_ImageList_Comm}"
                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                PassEventArgsToCommand="True" />
                                     </i:EventTrigger>
@@ -7935,13 +7935,13 @@
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 2" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.X}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.X, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
 
                                                 <TextBlock Grid.Row=" 2" Grid.Column=" 2"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.X}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.X, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -7956,13 +7956,13 @@
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 4" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.Y}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.Y, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
 
                                                 <TextBlock Grid.Row=" 4" Grid.Column=" 2"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.Y}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.Y, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -7976,13 +7976,13 @@
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 6" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.Z}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.Z, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
 
                                                 <TextBlock Grid.Row=" 6" Grid.Column=" 2"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.Z}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.Z, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -7996,13 +7996,13 @@
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 8" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.A}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.A, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
 
                                                 <TextBlock Grid.Row=" 8" Grid.Column=" 2"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.A}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.A, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -8016,13 +8016,13 @@
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 10" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.B}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.B, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
 
                                                 <TextBlock Grid.Row=" 10" Grid.Column=" 2"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.B}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.B, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -8036,13 +8036,13 @@
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 12" Grid.Column="1"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.C}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.C, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
 
                                                 <TextBlock Grid.Row=" 12" Grid.Column=" 2"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.C}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.C, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -8102,13 +8102,13 @@
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 2" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.X}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.X, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
 
                                                 <TextBlock Grid.Row=" 2" Grid.Column=" 2"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.X}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.X, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -8123,13 +8123,13 @@
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 4" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.Y}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.Y, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
 
                                                 <TextBlock Grid.Row=" 4" Grid.Column=" 2"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.Y}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.Y, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -8143,13 +8143,13 @@
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 6" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.Z}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.Z, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
 
                                                 <TextBlock Grid.Row=" 6" Grid.Column=" 2"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.Z}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.Z, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -8163,13 +8163,13 @@
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 8" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.A}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.A, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
 
                                                 <TextBlock Grid.Row=" 8" Grid.Column=" 2"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.A}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.A, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -8183,13 +8183,13 @@
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 10" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.B}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.B, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
 
                                                 <TextBlock Grid.Row=" 10" Grid.Column=" 2"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.B}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.B, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -8203,13 +8203,13 @@
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 12" Grid.Column="1"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.C}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.C, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
 
                                                 <TextBlock Grid.Row=" 12" Grid.Column=" 2"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.C}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.C, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />

@@ -323,7 +323,7 @@ namespace HanGao.ViewModel
                         //进行标定业务
 
 
-                        Calibration_Camera_Data_Results_Model _RE= Halcon_HandEye_Calibra.HandEye_Calibration_Results(HandEye_Calibration_List, HandEye_Camera_Parameters, Halcon_HandEye_Calibra.Camera_Connect_Model);
+                        Calibration_Camera_Data_Results_Model _RE= Halcon_HandEye_Calibra.HandEye_Calibration_Results(HandEye_Calibration_List, HandEye_Camera_Parameters);
 
                     _HandEye_Send.IsStatus = 0;
                     _HandEye_Send.Message_Error = "Hand-eye Calibration to Results Error！,Please check the PC situation. ";
@@ -422,6 +422,43 @@ namespace HanGao.ViewModel
 
             });
         }
+
+        /// <summary>
+        /// 手眼标定手动方法
+        /// </summary>
+        public ICommand HandEye_Calibration_ImageList_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                Button E = Sm.Source as Button;
+
+
+                //切换模式
+                HandEye_Camera_Parameters.Halcon_Find_Calib_Model = false;
+ 
+                Task.Run(() =>
+                {
+
+                    try
+                    {
+
+
+
+                        ///等待相机完全断开
+                        Thread.Sleep(100);
+
+                        HandEye_Calibration_ImageList_Data();
+                    }
+                    catch (Exception _e)
+                    {
+                        User_Log_Add(_e.Message, Log_Show_Window_Enum.Calibration, MessageBoxImage.Error);
+
+                    }
+
+                });
+            });
+        }
+
 
 
         /// <summary>
@@ -691,7 +728,7 @@ namespace HanGao.ViewModel
                                 _Pos.ReadPose(_OpenFile.FileNames[i]);
 
                                 //加载
-                                HandEye_Calibration_List[i].HandEye_Robot_Pos.Set_Point(_Pos);
+                                HandEye_Calibration_List[i].HandEye_Robot_Pos.Set_Pose_Data(_Pos);
 
 
                             }
@@ -1675,6 +1712,138 @@ namespace HanGao.ViewModel
 
 
         }
+
+
+
+
+        /// <summary>
+        /// 手眼标定图像列表数据标定
+        /// </summary>
+        /// <param name="_Camera_Enum"></param>
+        /// <exception cref="Exception"></exception>
+        public void HandEye_Calibration_ImageList_Data()
+        {
+
+            Calibration_Camera_Data_Results_Model _Selected_Results = new Calibration_Camera_Data_Results_Model();
+
+            //对应标定钱检测可标定状态
+            switch (Halcon_HandEye_Calibra.Camera_Connect_Model)
+            {
+                case Camera_Connect_Control_Type_Enum.双目相机:
+
+
+                    //双目标定待开发
+                    throw new Exception("双目相机功能未开发！");
+
+                //break;
+                case Camera_Connect_Control_Type_Enum.Camera_0:
+
+
+                    if (HandEye_Calibration_List.Where((_w) => _w.Camera_0.Calibration_Image != null).ToList().Count > 10)
+                    {
+                        HandEye_Camera_0_Results.Camera_Calinration_Process_Type = Camera_Calinration_Process_Enum.Calibration;
+                        ///进行标定得到结果
+
+                        try
+                        {
+
+                            ///拷贝设备相机标定的内参初始值
+                            Halcon_HandEye_Calibra.Camera_Calibration_Paramteters = new Halcon_Camera_Calibration_Parameters_Model(Camera_Calibration_0.Camera_Calibration_Paramteters.Get_HCamPar());
+
+                            _Selected_Results= HandEye_Results_Pos = HandEye_Camera_0_Results = Halcon_HandEye_Calibra.HandEye_Calibration_Results(HandEye_Calibration_List, HandEye_Camera_Parameters);
+                       
+                        
+                        }
+                        catch (Exception _e)
+                        {
+
+                            HandEye_Camera_0_Results.Camera_Calinration_Process_Type = Camera_Calinration_Process_Enum.Uncalibrated;
+
+                            throw new Exception(_e.Message);
+
+                        }
+
+
+                    }
+                    else
+                    {
+
+                        throw new Exception(Halcon_HandEye_Calibra.Camera_Connect_Model + "：手眼标定图像少于25张！");
+
+                    }
+
+
+                    break;
+                case Camera_Connect_Control_Type_Enum.Camera_1:
+
+
+                    if (HandEye_Calibration_List.Where((_w) => _w.Camera_1.Calibration_Image != null).ToList().Count > 10)
+                    {
+                        HandEye_Camera_1_Results.Camera_Calinration_Process_Type = Camera_Calinration_Process_Enum.Calibration;
+
+                        try
+                        {
+                            ///拷贝设备相机标定的内参初始值
+
+                            Halcon_HandEye_Calibra.Camera_Calibration_Paramteters = new Halcon_Camera_Calibration_Parameters_Model(Camera_Calibration_1.Camera_Calibration_Paramteters.Get_HCamPar());
+
+                            _Selected_Results= HandEye_Results_Pos = HandEye_Camera_1_Results = Halcon_HandEye_Calibra.HandEye_Calibration_Results(HandEye_Calibration_List, HandEye_Camera_Parameters);
+                        }
+                        catch (Exception _e)
+                        {
+
+                            HandEye_Camera_1_Results.Camera_Calinration_Process_Type = Camera_Calinration_Process_Enum.Uncalibrated;
+                            throw new Exception(_e.Message);
+
+                        }
+
+
+
+                    }
+                    else
+                    {
+                        throw new Exception(Halcon_HandEye_Calibra.Camera_Connect_Model + "：手眼标定图像少于25张！");
+
+                    }
+
+                    break;
+
+            }
+
+            ///处理标定状态显示
+            switch (_Selected_Results.Camera_Calinration_Process_Type)
+            {
+                case Camera_Calinration_Process_Enum.Uncalibrated:
+
+
+
+
+                    throw new Exception(Halcon_HandEye_Calibra.Camera_Connect_Model + "：相机内参标定失败，请在图像列表删除图像检测异常....！");
+
+
+                case Camera_Calinration_Process_Enum.Calibration:
+
+                    break;
+                case Camera_Calinration_Process_Enum.Calibration_Successful:
+
+
+
+
+
+                    User_Log_Add(Halcon_HandEye_Calibra.Camera_Connect_Model + "：设备手眼标定成功！" , Log_Show_Window_Enum.Calibration, MessageBoxImage.Information);
+
+
+                    break;
+
+            }
+
+
+
+
+        }
+
+
+
 
 
         public FindCalibObject_Results HandEye_Results_Calibration()

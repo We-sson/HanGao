@@ -112,7 +112,7 @@ namespace Halcon_SDK_DLL
                             ///设置标定文件
                             HCalibData.SetCalibDataCalibObject(0, _HandEye_Param.Halcon_CaltabDescr_Address);
 
-                            HCalibData.SetCalibDataCamParam(0, new HTuple(), Camera_Calibration_Paramteters.HCamPar);
+                            HCalibData.SetCalibDataCamParam(0, new HTuple(), Camera_Calibration_Paramteters.Get_HCamPar());
 
 
 
@@ -210,7 +210,7 @@ namespace Halcon_SDK_DLL
                             throw new Exception("双目手眼标定未开发！");
 
 
-                    
+
                         case Camera_Connect_Control_Type_Enum.Camera_0:
                             _Selected_camera = _ImageList[i].Camera_0;
 
@@ -239,7 +239,7 @@ namespace Halcon_SDK_DLL
 
                         _Selected_camera.Calibration_State = Camera_Calibration_Image_State_Enum.Image_Successful;
                         //设备对应设备标定板坐标参数
-                        _ImageList[i].Calibration_Plate_Pos.Set_Point(_Res.hv_Pose);
+                        _ImageList[i].Calibration_Plate_Pos.Set_Pose_Data(new HPose(_Res.hv_Pose));
 
 
                         _Checked_imageNum++;
@@ -248,7 +248,7 @@ namespace Halcon_SDK_DLL
                     {
 
                         _Selected_camera.Calibration_State = Camera_Calibration_Image_State_Enum.Image_UnSuccessful;
-                        _ImageList[i].Calibration_Plate_Pos.Set_Point(null);
+                        _ImageList[i].Calibration_Plate_Pos.Set_Pose_Data(null);
 
                     }
 
@@ -321,7 +321,7 @@ namespace Halcon_SDK_DLL
 
 
 
-        public Calibration_Camera_Data_Results_Model HandEye_Calibration_Results(ObservableCollection<Calibration_Image_List_Model> _ImageList, Halcon_Camera_Calibration_Model _CalibParam, Camera_Connect_Control_Type_Enum _Selected_Camera)
+        public Calibration_Camera_Data_Results_Model HandEye_Calibration_Results(ObservableCollection<Calibration_Image_List_Model> _ImageList, Halcon_Camera_Calibration_Model _CalibParam)
         {
             Calibration_Camera_Data_Results_Model _Results = new Calibration_Camera_Data_Results_Model();
 
@@ -339,6 +339,9 @@ namespace Halcon_SDK_DLL
 
                 //}
 
+
+
+
                 //创建手眼标定
                 Creation_HandEye_Calibration(_CalibParam);
 
@@ -351,25 +354,32 @@ namespace Halcon_SDK_DLL
 
 
 
-                    Calibration_Image_Camera_Model _Selected_camera = new Calibration_Image_Camera_Model(); ;
+                    Calibration_Image_Camera_Model _Selected_camera = new Calibration_Image_Camera_Model();
 
 
                     //根据选择相机对象获取标定数据
-                    switch (_Selected_Camera)
+                    switch (Camera_Connect_Model)
                     {
                         case Camera_Connect_Control_Type_Enum.双目相机:
 
                             throw new Exception("双目手眼标定未开发！");
 
 
-                  
+
                         case Camera_Connect_Control_Type_Enum.Camera_0:
                             _Selected_camera = _ImageList[i].Camera_0;
+
+
+
 
                             break;
                         case Camera_Connect_Control_Type_Enum.Camera_1:
 
                             _Selected_camera = _ImageList[i].Camera_1;
+
+
+
+
                             break;
                     }
 
@@ -402,7 +412,7 @@ namespace Halcon_SDK_DLL
                         _Selected_camera.Calibration_XLD = _Res._CalibXLD;
                         _Selected_camera.Calibration_State = Camera_Calibration_Image_State_Enum.Image_Successful;
 
-                        _ImageList[i].Calibration_Plate_Pos.Set_Point(_Res.hv_Pose);
+                        _ImageList[i].Calibration_Plate_Pos.Set_Pose_Data(new HPose(_Res.hv_Pose));
 
                         //检测图像与坐标是否一致
                         _Checked_imageNum++;
@@ -416,7 +426,7 @@ namespace Halcon_SDK_DLL
                     {
                         //识别错误作法
                         _Selected_camera.Calibration_State = Camera_Calibration_Image_State_Enum.Image_UnSuccessful;
-                        _ImageList[i].Calibration_Plate_Pos.Set_Point(null);
+                        _ImageList[i].Calibration_Plate_Pos.Set_Pose_Data(null);
 
                     }
 
@@ -424,10 +434,10 @@ namespace Halcon_SDK_DLL
 
 
                 //检查全部数据输入准确性，做出修改
-                _HandEye_3DModel.check_hand_eye_calibration_input_poses(HCalibData,  new HTuple (_CalibParam.HandEye_Calibration_Check_Rotation).TupleRad()  , _CalibParam.HandEye_Calibration_Check_Translation/1000, out HTuple _Warnings);
+                _HandEye_3DModel.check_hand_eye_calibration_input_poses(HCalibData, new HTuple(_CalibParam.HandEye_Calibration_Check_Rotation).TupleRad(), _CalibParam.HandEye_Calibration_Check_Translation / 100, out HTuple _Warnings);
 
 
-                if (_Warnings.Length>0)
+                if (_Warnings.Length > 0)
                 {
 
                     throw new Exception("手眼标定失败！");
@@ -446,14 +456,18 @@ namespace Halcon_SDK_DLL
                 HTuple hand_eye_calib_error_corrected_tool = new HTuple();
                 HTuple tool_translation_deviation = new HTuple();
                 HTuple tool_rotation_deviation = new HTuple();
-                
 
-                //标定手眼
+
+                //标定手眼误差
                 _HandEyeVal = HCalibData.CalibrateHandEye();
+                _Results.HandEye_Calib_Error.Set_Data(_HandEyeVal);
+
+                //获得内参数据
+                _CamParam = HCalibData.GetCalibData("camera", 0, "params");
+                _Results.Camera_Result_Pama = new Halcon_Camera_Calibration_Parameters_Model(_CamParam);
 
 
-
-
+                //根据标定类型读取结果参数
                 switch (_CalibParam.HandEye_Optimization_Method)
                 {
                     case HandEye_Optimization_Method_Enum.linear:
@@ -467,48 +481,49 @@ namespace Halcon_SDK_DLL
                         break;
                     case HandEye_Optimization_Method_Enum.stochastic:
 
+                        //获得误差数据
+                        tool_translation_deviation = HCalibData.GetCalibData("tool", "general", "tool_translation_deviation");
+                        tool_rotation_deviation = HCalibData.GetCalibData("tool", "general", "tool_rotation_deviation");
 
+                        _Results.HandEye_Tool_Rotational_Deviation = tool_translation_deviation;
+                        _Results.HandEye_Tool_Rotational_Deviation = tool_rotation_deviation;
 
+                        //获得误差数据
+                        camera_calib_error_corrected_tool = HCalibData.GetCalibData("model", "general", "camera_calib_error_corrected_tool");
+                        hand_eye_calib_error_corrected_tool = HCalibData.GetCalibData("model", "general", "hand_eye_calib_error_corrected_tool");
+
+                        _Results.Camera_Calib_Error_Corrected_Tool=camera_calib_error_corrected_tool;
+                        _Results.HandEye_Calib_Error_Corrected_Tool.Set_Data(hand_eye_calib_error_corrected_tool);
                         break;
-         
+
                 }
 
 
                 //获得相机标定内参
-                _CamCalibError= HCalibData.GetCalibData( "model", "general", "camera_calib_error");
-
-                camera_calib_error_corrected_tool = HCalibData.GetCalibData("model", "general", "camera_calib_error_corrected_tool");
-
-
-                hand_eye_calib_error_corrected_tool= HCalibData.GetCalibData("model", "general", "hand_eye_calib_error_corrected_tool");
+                _CamCalibError = HCalibData.GetCalibData("model", "general", "camera_calib_error"); 
+                _Results.Camera_Calib_Error = _CamCalibError;
 
 
-                //获得内参数据
-                _CamParam = HCalibData.GetCalibData( "camera", 0, "params");
+                _ToolInCamPose = HCalibData.GetCalibData("camera", 0, "tool_in_cam_pose");
+                _Results.HandEye_Tool_in_Cam_Pos.Set_Pose_Data(new HPose( _ToolInCamPose));
 
-                _ToolInCamPose= HCalibData.GetCalibData( "camera", 0, "tool_in_cam_pose");
 
                 tool_in_cam_pose_deviations = HCalibData.GetCalibData("camera", 0, "tool_in_cam_pose_deviations");
+                _Results.HandEye_Tool_in_Cam_Pose_Deviations.Set_Point_Data(new HPose( tool_in_cam_pose_deviations));
 
 
-                _CalObjInBasePose= HCalibData.GetCalibData( "calib_obj", 0, "obj_in_base_pose");
+                _CalObjInBasePose = HCalibData.GetCalibData("calib_obj", 0, "obj_in_base_pose");
+                _Results.HandEye_Obj_In_Base_Pose.Set_Pose_Data(new HPose(_CalObjInBasePose));
+
 
                 obj_in_base_pose_deviations = HCalibData.GetCalibData("calib_obj", 0, "obj_in_base_pose_deviations");
-
-                tool_translation_deviation= HCalibData.GetCalibData("tool", "general", "tool_translation_deviation");
-
-                tool_rotation_deviation = HCalibData.GetCalibData("tool", "general", "tool_rotation_deviation");
-
-
-
+                _Results.HandEye_Obj_In_Base_Pose_Deviations.Set_Point_Data(new HPose(obj_in_base_pose_deviations));
 
                 //可以进行保存
                 //Write_Pos
 
-
-
-
-
+                //标定成功设置状态
+                _Results.Camera_Calinration_Process_Type = Camera_Calinration_Process_Enum.Calibration_Successful;
 
                 Clear_HandEye_Calibration();
 

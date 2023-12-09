@@ -549,9 +549,15 @@ namespace Halcon_SDK_DLL.Model
             {
 
             }
+
             public Halcon_Camera_Calibration_Parameters_Model(HCamPar hCamPar)
             {
-                HCamPar = hCamPar;
+                HCamPar = new HCamPar (hCamPar);
+            }
+
+            public Halcon_Camera_Calibration_Parameters_Model(HTuple hCamPar)
+            {
+                HCamPar = new HCamPar(hCamPar);
             }
 
             public Halcon_Camera_Calibration_Parameters_Model(Halcon_Camera_Calibration_Parameters_Model _Parameters_Model)
@@ -683,8 +689,8 @@ namespace Halcon_SDK_DLL.Model
                 set
                 {
 
+                    _HCamPar = value;
                     Set_HCamPar(value);
-                    //_HCamPar = value; 
 
                 }
             }
@@ -1236,10 +1242,7 @@ namespace Halcon_SDK_DLL.Model
     [AddINotifyPropertyChangedInterface]
     public class Point_Model
     {
-        public Point_Model(HTuple _Pos)
-        {
-            Set_Point(_Pos);
-        }
+
         public Point_Model()
         {
 
@@ -1254,14 +1257,17 @@ namespace Halcon_SDK_DLL.Model
         public double B { set; get; } = 0;
         public double C { set; get; } = 0;
 
-
+        /// <summary>
+        /// 读取位置点类型
+        /// </summary>
+        public int HType { set; get; } = 0;
 
 
         /// <summary>
-        /// 显示UI位姿单位：mm
+        ///  设置位置点信息 显示UI位姿单位：mm
         /// </summary>
         /// <param name="_Pos"></param>
-        public void Set_Point(HTuple _Pos)
+        public void Set_Pose_Data(HPose _Pos)
         {
 
             //需要Halcon坐标转换统一方向
@@ -1269,13 +1275,41 @@ namespace Halcon_SDK_DLL.Model
 
             if (_Pos != null)
             {
-                X = _Pos.TupleSelect(0)*1000 ;
-                Y = _Pos.TupleSelect(1) * 1000;
-                Z = _Pos.TupleSelect(2) * 1000;
-                A = _Pos.TupleSelect(3);
-                B = _Pos.TupleSelect(4);
-                C = _Pos.TupleSelect(5);
+                
+                HType = _Pos[6];
 
+                //读取点位置统一类型为 "Rp+T"	"gba"	"point"
+                if (HType!=0)
+                {
+                    _Pos= _Pos.ConvertPoseType("Rp+T", "gba"   ,"point");
+                }
+
+                    X = _Pos[0] * 1000;
+                    Y = _Pos[1] * 1000;
+                    Z = _Pos[2] * 1000;
+                    A = _Pos[3];
+                    B = _Pos[4];
+                    C = _Pos[5];
+
+                    HType = _Pos[6];
+
+
+            }
+        }
+
+
+        //非机器人坐标姿态类型
+        public void Set_Point_Data(HPose _Pos)
+        {
+
+            if (_Pos != null)
+            {
+                X = _Pos[0] * 1000;
+                Y = _Pos[1] * 1000;
+                Z = _Pos[2] * 1000;
+                A = _Pos[3];
+                B = _Pos[4];
+                C = _Pos[5];
             }
         }
 
@@ -1297,16 +1331,27 @@ namespace Halcon_SDK_DLL.Model
                 case Socket_Robot_Protocols_Enum.KUKA:
 
 
-                    _Pos.CreatePose(X * 1000, Y * 1000, Z * 1000, A, B, C, "Rp+T", "gba", "point");
+                    _Pos.CreatePose(X/ 1000, Y / 1000, Z / 1000, A, B, C, "Rp+T", "gba", "point");
+
+
 
                     break;
                 case Socket_Robot_Protocols_Enum.ABB:
 
+
                     //需要四元数转换
                     break;
                 case Socket_Robot_Protocols_Enum.川崎:
+
                     break;
 
+                case Socket_Robot_Protocols_Enum.通用:
+
+
+                    _Pos.CreatePose(X , Y , Z , A, B, C, "Rp+T", "gba", "point");
+
+
+                    break;
             }
 
 
@@ -1372,6 +1417,15 @@ namespace Halcon_SDK_DLL.Model
         public double Maximum_Translational { set; get; } = 0;
 
         public double Maximum_Rotational { set; get; } = 0;
+
+
+        public void Set_Data(HTuple _Data)
+        {
+            RMS_Translational = _Data.TupleSelect(0);
+            RMS_Rotational = _Data.TupleSelect(1);
+            Maximum_Translational= _Data.TupleSelect(2);
+            Maximum_Rotational = _Data.TupleSelect(3);
+        }
 
     }
 
@@ -1462,7 +1516,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 校准标记中心反投影到摄像机图像的均方根误差（RMSE），通过使用校正工具姿势的姿势链
         /// </summary>
-        public HandEye_RMS_Max_Error_Model Camera_Calib_Error_Corrected_Tool { set; get; } = new HandEye_RMS_Max_Error_Model();
+        public double Camera_Calib_Error_Corrected_Tool { set; get; } = 0;
 
 
         /// <summary>

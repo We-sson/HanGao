@@ -259,8 +259,8 @@ namespace KUKA_Socket.Models
         
         KUKA,
         ABB,
-        川崎
-
+        川崎,
+        通用
     }
 
 
