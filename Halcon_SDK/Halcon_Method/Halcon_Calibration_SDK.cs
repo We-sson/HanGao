@@ -527,7 +527,7 @@ namespace Halcon_SDK_DLL
 
 
 
-                _HandEye_3DModel. gen_camera_and_tool_moving_cam_object_model_3d(hv_ToolInCamPose, hv_ToolInBasePose,
+                _HandEye_3DModel. gen_camera_and_tool_moving_cam_object_model_3d(_CalObjInBasePose, hv_ToolInCamPose, hv_ToolInBasePose,
 hv_CameraSize, hv_CameraConeLength, hv_OM3DToolOrigin, hv_CamParam, out hv_OM3DCamera,
 out hv_OM3DTool);
 

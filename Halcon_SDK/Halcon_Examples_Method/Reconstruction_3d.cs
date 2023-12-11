@@ -135,10 +135,16 @@ public class Reconstruction_3d
             //_hv_OME3D = new HObjectModel3D(_hv3D.H);
             //
             //Clean up.
-            HOperatorSet.ClearObjectModel3d(hv_ObjectModel3DInit);
-            HOperatorSet.ClearObjectModel3d(hv_ObjectModel3DInitTilted);
-            HOperatorSet.ClearObjectModel3d(hv_ObjectModel3DInitTiltedBack);
-            HOperatorSet.ClearObjectModel3d(hv_ObjectModel3DLense);
+
+            hv_ObjectModel3DInit.ClearObjectModel3d();
+            hv_ObjectModel3DInitTilted.ClearObjectModel3d();
+            hv_ObjectModel3DInitTiltedBack.ClearObjectModel3d();
+            hv_ObjectModel3DLense.ClearObjectModel3d();
+
+            //HOperatorSet.ClearObjectModel3d(hv_ObjectModel3DInit);
+            //HOperatorSet.ClearObjectModel3d(hv_ObjectModel3DInitTilted);
+            //HOperatorSet.ClearObjectModel3d(hv_ObjectModel3DInitTiltedBack);
+            //HOperatorSet.ClearObjectModel3d(hv_ObjectModel3DLense);
 
             return new List<HObjectModel3D> { hv_OM3DSensor, hv_OM3DLense };
 
@@ -179,18 +185,22 @@ public class Reconstruction_3d
 
     // Chapter: 3D Object Model / Creation
     // Short Description: Generate 3D object models which visualize the cameras of a stereo model. 
-    private void gen_camera_setup_object_model_3d(HTuple hv_CameraSetupModelID, HTuple hv_CameraSize,
-        HTuple hv_ConeLength, out HTuple hv_ObjectModel3DCamera, out HTuple hv_ObjectModel3DCone)
+    private List<HObjectModel3D> gen_camera_setup_object_model_3d(HCameraSetupModel hv_CameraSetupModelID, HTuple hv_CameraSize,
+        HTuple hv_ConeLength)
     {
 
 
 
         // Local iconic variables 
 
+        List<HObjectModel3D> hv_ObjectModel3D_Results = new List<HObjectModel3D>();
+        HObjectModel3D hv_ObjectModel3DCamera = new HObjectModel3D();
+        HObjectModel3D hv_ObjectModel3DCone = new HObjectModel3D();
+        
         // Local control variables 
 
         HTuple hv_NumCameras = new HTuple(), hv_AutoConeLength = new HTuple();
-        HTuple hv_AllCameras = new HTuple(), hv_CurrentCamera = new HTuple();
+        HTuple hv_AllCameras = new HTuple();
         HTuple hv_ConcatZ = new HTuple(), hv_OtherCameras = new HTuple();
         HTuple hv_Index = new HTuple(), hv_CamParam0 = new HTuple();
         HTuple hv_Pose0 = new HTuple(), hv_CamParam1 = new HTuple();
@@ -199,67 +209,72 @@ public class Reconstruction_3d
         HTuple hv_CY0 = new HTuple(), hv_CX1 = new HTuple(), hv_CY1 = new HTuple();
         HTuple hv_X = new HTuple(), hv_Y = new HTuple(), hv_Z = new HTuple();
         HTuple hv_Dist = new HTuple(), hv_Exception = new HTuple();
-        HTuple hv_CameraType = new HTuple(), hv_ObjectModel3DConeTmp = new HTuple();
-        HTuple hv_ObjectModel3DCameraTmp = new HTuple();
-        HTuple hv_CameraSize_COPY_INP_TMP = new HTuple(hv_CameraSize);
-        HTuple hv_ConeLength_COPY_INP_TMP = new HTuple(hv_ConeLength);
+        HTuple hv_CameraType = new HTuple();
+        //HTuple hv_ObjectModel3DConeTmp = new HTuple();
+        //HTuple hv_ObjectModel3DCameraTmp = new HTuple();
+        //HTuple hv_CameraSize_COPY_INP_TMP = new HTuple(hv_CameraSize);
+        //HTuple hv_ConeLength_COPY_INP_TMP = new HTuple(hv_ConeLength);
 
         // Initialize local and output iconic variables 
-        hv_ObjectModel3DCamera = new HTuple();
-        hv_ObjectModel3DCone = new HTuple();
-        hv_NumCameras.Dispose();
-        HOperatorSet.GetCameraSetupParam(hv_CameraSetupModelID, "general", "num_cameras",
-            out hv_NumCameras);
+        //hv_NumCameras.Dispose();
+        //HOperatorSet.GetCameraSetupParam(hv_CameraSetupModelID, "general", "num_cameras",
+        //    out hv_NumCameras);
+
+        hv_NumCameras= hv_CameraSetupModelID.GetCameraSetupParam("general", "num_cameras");
+
         //
         //Consistency check:
-        if ((int)(new HTuple(hv_NumCameras.TupleLess(1))) != 0)
+        if ((int)hv_NumCameras.TupleLess(1) != 0)
         {
             throw new HalconException("No camera set.");
         }
-        if ((int)(hv_CameraSize_COPY_INP_TMP.TupleIsNumber()) != 0)
+        if ((int)(hv_CameraSize.TupleIsNumber()) != 0)
         {
-            if ((int)(new HTuple(hv_CameraSize_COPY_INP_TMP.TupleLessEqual(0.0))) != 0)
+            if ((int)(new HTuple(hv_CameraSize.TupleLessEqual(0.0))) != 0)
             {
                 throw new HalconException("Invalid value for CameraSize. CameraSize must be positive or 'auto'.");
             }
         }
-        else if ((int)(new HTuple(hv_CameraSize_COPY_INP_TMP.TupleNotEqual("auto"))) != 0)
+        else if ((int)(new HTuple(hv_CameraSize.TupleNotEqual("auto"))) != 0)
         {
             throw new HalconException("Invalid value for CameraSize. CameraSize must be positive or 'auto'.");
         }
-        if ((int)(hv_ConeLength_COPY_INP_TMP.TupleIsNumber()) != 0)
+        if ((int)(hv_ConeLength.TupleIsNumber()) != 0)
         {
-            if ((int)(new HTuple(hv_ConeLength_COPY_INP_TMP.TupleLessEqual(0.0))) != 0)
+            if ((int)(new HTuple(hv_ConeLength.TupleLessEqual(0.0))) != 0)
             {
                 throw new HalconException("Invalid value for ConeLength. ConeLength must be positive or 'auto'.");
             }
         }
-        else if ((int)(new HTuple(hv_ConeLength_COPY_INP_TMP.TupleNotEqual("auto"))) != 0)
+        else if ((int)(new HTuple(hv_ConeLength.TupleNotEqual("auto"))) != 0)
         {
             throw new HalconException("Invalid value for ConeLength. ConeLength must be positive or 'auto'.");
         }
         //
-        hv_AutoConeLength.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
-        {
-            hv_AutoConeLength = new HTuple(hv_ConeLength_COPY_INP_TMP.TupleEqual(
-                "auto"));
-        }
+  
+        //设置自动就计算得出
+        hv_AutoConeLength = new HTuple(hv_ConeLength.TupleEqual("auto"));
+  
         //
         hv_ObjectModel3DCamera.Dispose();
-        hv_ObjectModel3DCamera = new HTuple();
+        //hv_ObjectModel3DCamera = new HTuple();
         hv_ObjectModel3DCone.Dispose();
-        hv_ObjectModel3DCone = new HTuple();
+        //hv_ObjectModel3DCone = new HTuple();
         hv_AllCameras.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
-        {
-            hv_AllCameras = HTuple.TupleGenSequence(
-                0, hv_NumCameras - 1, 1);
-        }
-        HTuple end_val26 = hv_NumCameras - 1;
-        HTuple step_val26 = 1;
-        for (hv_CurrentCamera = 0; hv_CurrentCamera.Continue(end_val26, step_val26); hv_CurrentCamera = hv_CurrentCamera.TupleAdd(step_val26))
-        {
+    
+            hv_AllCameras = HTuple.TupleGenSequence(0, hv_NumCameras - 1, 1);
+
+        //HTuple end_val26 = hv_NumCameras - 1;
+        //HTuple step_val26 = 1;
+        //for (hv_CurrentCamera = 0; hv_CurrentCamera.Continue(end_val26, step_val26); hv_CurrentCamera = hv_CurrentCamera.TupleAdd(step_val26))
+        //{
+
+            for (int hv_CurrentCamera = 0; hv_CurrentCamera < (int)hv_NumCameras; hv_CurrentCamera++)
+            {
+
+            
+        
+
             hv_ConcatZ.Dispose();
             hv_ConcatZ = new HTuple();
             if ((int)(hv_AutoConeLength) != 0)
@@ -343,45 +358,61 @@ public class Reconstruction_3d
             //
             //Create cone of sight 3D object models.
             //Distinguish cases with/without projection center.
-            hv_CameraType.Dispose();
-            HOperatorSet.GetCameraSetupParam(hv_CameraSetupModelID, hv_CurrentCamera, "type",
-                out hv_CameraType);
+            //hv_CameraType.Dispose();
+            //HOperatorSet.GetCameraSetupParam(hv_CameraSetupModelID, hv_CurrentCamera, "type",
+            //    out hv_CameraType);
+
+            hv_CameraType= hv_CameraSetupModelID.GetCameraSetupParam(hv_CurrentCamera, "type");
+
             if ((int)(hv_CameraType.TupleRegexpTest("telecentric")) != 0)
             {
-                hv_ObjectModel3DConeTmp.Dispose();
-                gen_cone_telecentric_object_model_3d(hv_CameraSetupModelID, hv_CurrentCamera,
-                    hv_ConeLength_COPY_INP_TMP, out hv_ObjectModel3DConeTmp);
+                //hv_ObjectModel3DConeTmp.Dispose();
+                //gen_cone_telecentric_object_model_3d(hv_CameraSetupModelID, hv_CurrentCamera,
+                //    hv_ConeLength, out hv_ObjectModel3DConeTmp);
+
+                hv_ObjectModel3DCone = gen_cone_telecentric_object_model_3d(hv_CameraSetupModelID, hv_CurrentCamera, hv_ConeLength);
             }
             else
             {
-                hv_ObjectModel3DConeTmp.Dispose();
-                gen_cone_perspective_object_model_3d(hv_CameraSetupModelID, hv_CurrentCamera,
-                    hv_ConeLength_COPY_INP_TMP, out hv_ObjectModel3DConeTmp);
+
+                //hv_ObjectModel3DConeTmp.Dispose();
+                //gen_cone_perspective_object_model_3d(hv_CameraSetupModelID, hv_CurrentCamera,
+                //    hv_ConeLength, out hv_ObjectModel3DConeTmp);
+
+                hv_ObjectModel3DCone = gen_cone_perspective_object_model_3d(hv_CameraSetupModelID, hv_CurrentCamera, hv_ConeLength);
+
             }
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
-            {
-                {
-                    HTuple
-                      ExpTmpLocalVar_ObjectModel3DCone = hv_ObjectModel3DCone.TupleConcat(
-                        hv_ObjectModel3DConeTmp);
-                    hv_ObjectModel3DCone.Dispose();
-                    hv_ObjectModel3DCone = ExpTmpLocalVar_ObjectModel3DCone;
-                }
-            }
+
+
+            hv_ObjectModel3D_Results.Add(hv_ObjectModel3DCone);
+
+                //{
+                //    HTuple
+                //      ExpTmpLocalVar_ObjectModel3DCone = hv_ObjectModel3DCone.TupleConcat(
+                //        hv_ObjectModel3DConeTmp);
+                //    hv_ObjectModel3DCone.Dispose();
+                //    hv_ObjectModel3DCone = ExpTmpLocalVar_ObjectModel3DCone;
+                //}
+            
             //
             //Create camera 3D object models.
-            if ((int)(new HTuple(hv_CameraSize_COPY_INP_TMP.TupleEqual("auto"))) != 0)
+            if ((int)(new HTuple(hv_CameraSize.TupleEqual("auto"))) != 0)
             {
                 //In auto mode, the camera size for all cameras
                 //is defined by the first camera's cone length.
-                hv_CameraSize_COPY_INP_TMP.Dispose();
+                hv_CameraSize.Dispose();
                 using (HDevDisposeHelper dh = new HDevDisposeHelper())
                 {
-                    hv_CameraSize_COPY_INP_TMP = hv_ConeLength_COPY_INP_TMP * 0.1;
+                    hv_CameraSize = hv_ConeLength * 0.1;
                 }
             }
-            hv_ObjectModel3DCameraTmp.Dispose();
-            //hv_ObjectModel3DCameraTmp= gen_camera_object_model_3d(hv_CameraSetupModelID, hv_CurrentCamera, hv_CameraSize_COPY_INP_TMP);
+            //hv_ObjectModel3DCameraTmp.Dispose();
+
+
+            hv_ObjectModel3DCamera = gen_camera_object_model_3d(hv_CameraSetupModelID, hv_CurrentCamera, hv_CameraSize);
+          
+            
+            
             using (HDevDisposeHelper dh = new HDevDisposeHelper())
             {
                 {
@@ -394,12 +425,12 @@ public class Reconstruction_3d
             }
         }
 
-        hv_CameraSize_COPY_INP_TMP.Dispose();
-        hv_ConeLength_COPY_INP_TMP.Dispose();
+        //hv_CameraSize_COPY_INP_TMP.Dispose();
+        //hv_ConeLength_COPY_INP_TMP.Dispose();
         hv_NumCameras.Dispose();
         hv_AutoConeLength.Dispose();
         hv_AllCameras.Dispose();
-        hv_CurrentCamera.Dispose();
+        //hv_CurrentCamera.Dispose();
         hv_ConcatZ.Dispose();
         hv_OtherCameras.Dispose();
         hv_Index.Dispose();
@@ -419,25 +450,24 @@ public class Reconstruction_3d
         hv_Dist.Dispose();
         hv_Exception.Dispose();
         hv_CameraType.Dispose();
-        hv_ObjectModel3DConeTmp.Dispose();
-        hv_ObjectModel3DCameraTmp.Dispose();
+        //hv_ObjectModel3DConeTmp.Dispose();
+        //hv_ObjectModel3DCameraTmp.Dispose();
 
         return;
     }
 
     // Chapter: 3D Object Model / Creation
     // Short Description: Generate a 3D object model representing the view cone of a perspective camera. 
-    private void gen_cone_perspective_object_model_3d(HTuple hv_CameraSetupModelID,
-        HTuple hv_CameraIndex, HTuple hv_ConeLength, out HTuple hv_ObjectModel3D)
+    private HObjectModel3D gen_cone_perspective_object_model_3d(HCameraSetupModel hv_CameraSetupModelID,
+        HTuple hv_CameraIndex, HTuple hv_ConeLength)
     {
-
-
 
         // Local iconic variables 
 
         // Local control variables 
 
-        HTuple hv_CamPose = new HTuple(), hv_HomMat3D = new HTuple();
+        HPose hv_CamPose = new HPose();
+        HHomMat3D hv_HomMat3D = new HHomMat3D();
         HTuple hv_CamParam = new HTuple(), hv_Width = new HTuple();
         HTuple hv_Height = new HTuple(), hv_PX = new HTuple();
         HTuple hv_PY = new HTuple(), hv_PZ = new HTuple(), hv_QX = new HTuple();
@@ -449,15 +479,20 @@ public class Reconstruction_3d
 
         HTupleVector hvec_Points = new HTupleVector(1);
         // Initialize local and output iconic variables 
-        hv_ObjectModel3D = new HTuple();
-        hv_CamPose.Dispose();
-        HOperatorSet.GetCameraSetupParam(hv_CameraSetupModelID, hv_CameraIndex, "pose",
-            out hv_CamPose);
-        hv_HomMat3D.Dispose();
-        HOperatorSet.PoseToHomMat3d(hv_CamPose, out hv_HomMat3D);
+        HObjectModel3D hv_ObjectModel3D = new HObjectModel3D();
+        //hv_CamPose.Dispose();
+
+        hv_CamPose =new HPose ( hv_CameraSetupModelID.GetCameraSetupParam( hv_CameraIndex, "pose"));
+        
+        
+        //hv_HomMat3D.Dispose();
+
+        hv_HomMat3D = hv_CamPose.PoseToHomMat3d();
+
+        //HOperatorSet.PoseToHomMat3d(hv_CamPose, out hv_HomMat3D);
         hv_CamParam.Dispose();
-        HOperatorSet.GetCameraSetupParam(hv_CameraSetupModelID, hv_CameraIndex, "params",
-            out hv_CamParam);
+
+        hv_CamParam= hv_CameraSetupModelID.GetCameraSetupParam( hv_CameraIndex, "params");
         //
         hv_Width.Dispose();
         get_cam_par_data(hv_CamParam, "image_width", out hv_Width);
@@ -662,8 +697,9 @@ public class Reconstruction_3d
                 }
             }
         }
-        hv_ObjectModel3D.Dispose();
-        HOperatorSet.GenObjectModel3dFromPoints(hv_PX, hv_PY, hv_PZ, out hv_ObjectModel3D);
+        //hv_ObjectModel3D.Dispose();
+        hv_ObjectModel3D.GenObjectModel3dFromPoints(hv_PX, hv_PY, hv_PZ);
+        //HOperatorSet.GenObjectModel3dFromPoints(hv_PX, hv_PY, hv_PZ, out hv_ObjectModel3D);
         //
         //Set the sides of the cone.
         hv_Faces.Dispose();
@@ -715,8 +751,8 @@ public class Reconstruction_3d
         HOperatorSet.SetObjectModel3dAttribMod(hv_ObjectModel3D, "polygons", new HTuple(),
             hv_Faces);
 
-        hv_CamPose.Dispose();
-        hv_HomMat3D.Dispose();
+        //hv_CamPose.Dispose();
+        //hv_HomMat3D.Dispose();
         hv_CamParam.Dispose();
         hv_Width.Dispose();
         hv_Height.Dispose();
@@ -739,22 +775,22 @@ public class Reconstruction_3d
         hv_Faces.Dispose();
         hvec_Points.Dispose();
 
-        return;
+        return hv_ObjectModel3D;
     }
 
     // Chapter: 3D Object Model / Creation
     // Short Description: Generate a 3D object model representing the view cone of a telecentric camera. 
-    private void gen_cone_telecentric_object_model_3d(HTuple hv_CameraSetupModelID,
-        HTuple hv_CameraIndex, HTuple hv_ConeLength, out HTuple hv_ObjectModel3D)
+    private HObjectModel3D  gen_cone_telecentric_object_model_3d(HCameraSetupModel hv_CameraSetupModelID,
+        HTuple hv_CameraIndex, HTuple hv_ConeLength)
     {
 
 
 
         // Local iconic variables 
-
+        HObjectModel3D hv_ObjectModel3D = new HObjectModel3D();
         // Local control variables 
-
-        HTuple hv_CamPose = new HTuple(), hv_HomMat3D = new HTuple();
+        HPose hv_CamPose = new HPose();
+        HHomMat3D hv_HomMat3D = new HHomMat3D();
         HTuple hv_CamParam = new HTuple(), hv_Width = new HTuple();
         HTuple hv_Height = new HTuple(), hv_PX = new HTuple();
         HTuple hv_PY = new HTuple(), hv_PZ = new HTuple(), hv_QX = new HTuple();
@@ -765,15 +801,23 @@ public class Reconstruction_3d
 
         HTupleVector hvec_Points = new HTupleVector(1);
         // Initialize local and output iconic variables 
-        hv_ObjectModel3D = new HTuple();
-        hv_CamPose.Dispose();
-        HOperatorSet.GetCameraSetupParam(hv_CameraSetupModelID, hv_CameraIndex, "pose",
-            out hv_CamPose);
-        hv_HomMat3D.Dispose();
-        HOperatorSet.PoseToHomMat3d(hv_CamPose, out hv_HomMat3D);
+        //hv_ObjectModel3D = new HTuple();
+        //hv_CamPose.Dispose();
+        //HOperatorSet.GetCameraSetupParam(hv_CameraSetupModelID, hv_CameraIndex, "pose",out hv_CamPose);
+
+
+        hv_CamPose =new HPose ( hv_CameraSetupModelID.GetCameraSetupParam(hv_CameraIndex, "pose"));
+
+
+        hv_HomMat3D= hv_CamPose.PoseToHomMat3d();
+
+        //hv_HomMat3D.Dispose();
+        //HOperatorSet.PoseToHomMat3d(hv_CamPose, out hv_HomMat3D);
         hv_CamParam.Dispose();
-        HOperatorSet.GetCameraSetupParam(hv_CameraSetupModelID, hv_CameraIndex, "params",
-            out hv_CamParam);
+
+        hv_CamParam = new HPose(hv_CameraSetupModelID.GetCameraSetupParam(hv_CameraIndex, "params"));
+
+        //HOperatorSet.GetCameraSetupParam(hv_CameraSetupModelID, hv_CameraIndex, "params",out hv_CamParam);
         //
         hv_Width.Dispose();
         get_cam_par_data(hv_CamParam, "image_width", out hv_Width);
@@ -926,8 +970,11 @@ public class Reconstruction_3d
                 }
             }
         }
-        hv_ObjectModel3D.Dispose();
-        HOperatorSet.GenObjectModel3dFromPoints(hv_PX, hv_PY, hv_PZ, out hv_ObjectModel3D);
+        //hv_ObjectModel3D.Dispose();
+
+
+        hv_ObjectModel3D.GenObjectModel3dFromPoints(hv_PX, hv_PY, hv_PZ);
+        //HOperatorSet.GenObjectModel3dFromPoints(hv_PX, hv_PY, hv_PZ, out hv_ObjectModel3D);
         //
         //Set the sides of the cone.
         hv_Faces.Dispose();
@@ -979,8 +1026,8 @@ public class Reconstruction_3d
         HOperatorSet.SetObjectModel3dAttribMod(hv_ObjectModel3D, "polygons", new HTuple(),
             hv_Faces);
 
-        hv_CamPose.Dispose();
-        hv_HomMat3D.Dispose();
+        //hv_CamPose.Dispose();
+        //hv_HomMat3D.Dispose();
         hv_CamParam.Dispose();
         hv_Width.Dispose();
         hv_Height.Dispose();
@@ -1001,7 +1048,7 @@ public class Reconstruction_3d
         hv_Faces.Dispose();
         hvec_Points.Dispose();
 
-        return;
+        return hv_ObjectModel3D;
     }
 
 
@@ -3988,9 +4035,9 @@ public class Reconstruction_3d
 
     // Chapter: 3D Object Model / Creation
     // Short Description: Generate 3D object models for the camera and the robot's tool. 
-    public void gen_camera_and_tool_moving_cam_object_model_3d(HTuple hv_ToolInCamPose,
+    public void gen_camera_and_tool_moving_cam_object_model_3d(HCalibData HCalibData_Model ,
         HTuple hv_ToolInBasePose, HTuple hv_CameraSize, HTuple hv_ConeLength, HTuple hv_OM3DToolOrig,
-        HTuple hv_CamParam, out HTuple hv_OM3DCamera, out HTuple hv_OM3DTool)
+        HTuple hv_CamParam, out HTuple hv_OM3DCamera)
     {
 
 
@@ -4004,9 +4051,57 @@ public class Reconstruction_3d
         HTuple hv_CamInToolPose = new HTuple(), hv_CamInBasePose = new HTuple();
         // Initialize local and output iconic variables 
         hv_OM3DCamera = new HTuple();
-        hv_OM3DTool = new HTuple();
+        List<HObjectModel3D> hv_OM3DTool = new List<HObjectModel3D>();
+        HTuple hv_PX, hv_PY, hv_PZ = new HTuple();
+        HObjectModel3D hv_OM3DObjectOrig = new HObjectModel3D();
+        HObjectModel3D hv_OM3DObject = new HObjectModel3D();
+        HTuple _CalObjInBasePose = new HTuple();
+        HCameraSetupModel hv_CameraSetupModel = new HCameraSetupModel();
         try
         {
+
+
+
+
+            //生产标定板位置
+            hv_PX= HCalibData_Model.GetCalibData( "calib_obj", 0, "x");
+
+            hv_PY= HCalibData_Model.GetCalibData( "calib_obj", 0, "y");
+
+            hv_PZ= HCalibData_Model.GetCalibData( "calib_obj", 0, "z" );
+            //生产标定板模型
+           hv_OM3DObjectOrig.GenObjectModel3dFromPoints(hv_PX, hv_PY, hv_PZ);
+
+            //获得标定板位置
+            _CalObjInBasePose = HCalibData_Model.GetCalibData("calib_obj", 0, "obj_in_base_pose");
+
+            //得到移动到标定位置
+            hv_OM3DObject = hv_OM3DObjectOrig.RigidTransObjectModel3d(new HPose (_CalObjInBasePose));
+
+
+            //生产工具坐标模型
+            List<HObjectModel3D> hv_OM3DToolOrigin = gen_robot_tool_and_base_object_model_3d(0.005, 0.1, Get_Robot_tool_base_Type_Enum.Robot_Tool);
+            List<HObjectModel3D> hv_OM3DBase = gen_robot_tool_and_base_object_model_3d(0.005, 0.1, Get_Robot_tool_base_Type_Enum.Robot_Base);
+
+            //偏移TOOL坐标
+            for (int i = 0; i < hv_OM3DToolOrigin.Count; i++)
+            {
+                hv_OM3DToolOrigin[i] = hv_OM3DToolOrigin[i].RigidTransObjectModel3d(new HPose(hv_ToolInBasePose));
+            }
+
+            //获得标定相机的参数
+            hv_CameraSetupModel=new HCameraSetupModel( HCalibData_Model.GetCalibData("model", "general", "camera_setup_model").H);
+
+            List<HObjectModel3D> hv_Camera_Object= gen_camera_setup_object_model_3d(hv_CameraSetupModel, 0.05, 0.3);
+
+
+
+
+
+
+
+
+
             //This procedure helps visualize the camera and its cone, as well
             //as the robot's tool in their current positions.
             //
