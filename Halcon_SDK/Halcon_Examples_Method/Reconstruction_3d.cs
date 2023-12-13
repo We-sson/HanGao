@@ -194,9 +194,9 @@ public class Reconstruction_3d
         // Local iconic variables 
 
         List<HObjectModel3D> hv_ObjectModel3D_Results = new List<HObjectModel3D>();
-        HObjectModel3D hv_ObjectModel3DCamera = new HObjectModel3D();
+        List<HObjectModel3D> hv_ObjectModel3DCamera = new List<HObjectModel3D>();
         HObjectModel3D hv_ObjectModel3DCone = new HObjectModel3D();
-        
+
         // Local control variables 
 
         HTuple hv_NumCameras = new HTuple(), hv_AutoConeLength = new HTuple();
@@ -220,7 +220,7 @@ public class Reconstruction_3d
         //HOperatorSet.GetCameraSetupParam(hv_CameraSetupModelID, "general", "num_cameras",
         //    out hv_NumCameras);
 
-        hv_NumCameras= hv_CameraSetupModelID.GetCameraSetupParam("general", "num_cameras");
+        hv_NumCameras = hv_CameraSetupModelID.GetCameraSetupParam("general", "num_cameras");
 
         //
         //Consistency check:
@@ -251,29 +251,29 @@ public class Reconstruction_3d
             throw new HalconException("Invalid value for ConeLength. ConeLength must be positive or 'auto'.");
         }
         //
-  
+
         //设置自动就计算得出
         hv_AutoConeLength = new HTuple(hv_ConeLength.TupleEqual("auto"));
-  
+
         //
-        hv_ObjectModel3DCamera.Dispose();
+        //hv_ObjectModel3DCamera.Dispose();
         //hv_ObjectModel3DCamera = new HTuple();
-        hv_ObjectModel3DCone.Dispose();
+        //hv_ObjectModel3DCone.Dispose();
         //hv_ObjectModel3DCone = new HTuple();
         hv_AllCameras.Dispose();
-    
-            hv_AllCameras = HTuple.TupleGenSequence(0, hv_NumCameras - 1, 1);
+
+        hv_AllCameras = HTuple.TupleGenSequence(0, hv_NumCameras - 1, 1);
 
         //HTuple end_val26 = hv_NumCameras - 1;
         //HTuple step_val26 = 1;
         //for (hv_CurrentCamera = 0; hv_CurrentCamera.Continue(end_val26, step_val26); hv_CurrentCamera = hv_CurrentCamera.TupleAdd(step_val26))
         //{
 
-            for (int hv_CurrentCamera = 0; hv_CurrentCamera < (int)hv_NumCameras; hv_CurrentCamera++)
-            {
+        for (int hv_CurrentCamera = 0; hv_CurrentCamera < (int)hv_NumCameras; hv_CurrentCamera++)
+        {
 
-            
-        
+
+
 
             hv_ConcatZ.Dispose();
             hv_ConcatZ = new HTuple();
@@ -348,10 +348,10 @@ public class Reconstruction_3d
                     }
                 }
                 //Use the Z value of the determined coordinates as basis for the ConeLength.
-                hv_ConeLength_COPY_INP_TMP.Dispose();
+                //hv_ConeLength_COPY_INP_TMP.Dispose();
                 using (HDevDisposeHelper dh = new HDevDisposeHelper())
                 {
-                    hv_ConeLength_COPY_INP_TMP = (hv_ConcatZ.TupleMax()
+                    hv_ConeLength = (hv_ConcatZ.TupleMax()
                         ) * 1.05;
                 }
             }
@@ -362,7 +362,7 @@ public class Reconstruction_3d
             //HOperatorSet.GetCameraSetupParam(hv_CameraSetupModelID, hv_CurrentCamera, "type",
             //    out hv_CameraType);
 
-            hv_CameraType= hv_CameraSetupModelID.GetCameraSetupParam(hv_CurrentCamera, "type");
+            hv_CameraType = hv_CameraSetupModelID.GetCameraSetupParam(hv_CurrentCamera, "type");
 
             if ((int)(hv_CameraType.TupleRegexpTest("telecentric")) != 0)
             {
@@ -386,14 +386,14 @@ public class Reconstruction_3d
 
             hv_ObjectModel3D_Results.Add(hv_ObjectModel3DCone);
 
-                //{
-                //    HTuple
-                //      ExpTmpLocalVar_ObjectModel3DCone = hv_ObjectModel3DCone.TupleConcat(
-                //        hv_ObjectModel3DConeTmp);
-                //    hv_ObjectModel3DCone.Dispose();
-                //    hv_ObjectModel3DCone = ExpTmpLocalVar_ObjectModel3DCone;
-                //}
-            
+            //{
+            //    HTuple
+            //      ExpTmpLocalVar_ObjectModel3DCone = hv_ObjectModel3DCone.TupleConcat(
+            //        hv_ObjectModel3DConeTmp);
+            //    hv_ObjectModel3DCone.Dispose();
+            //    hv_ObjectModel3DCone = ExpTmpLocalVar_ObjectModel3DCone;
+            //}
+
             //
             //Create camera 3D object models.
             if ((int)(new HTuple(hv_CameraSize.TupleEqual("auto"))) != 0)
@@ -410,19 +410,20 @@ public class Reconstruction_3d
 
 
             hv_ObjectModel3DCamera = gen_camera_object_model_3d(hv_CameraSetupModelID, hv_CurrentCamera, hv_CameraSize);
-          
-            
-            
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
-            {
-                {
-                    HTuple
-                      ExpTmpLocalVar_ObjectModel3DCamera = hv_ObjectModel3DCamera.TupleConcat(
-                        hv_ObjectModel3DCameraTmp);
-                    hv_ObjectModel3DCamera.Dispose();
-                    hv_ObjectModel3DCamera = ExpTmpLocalVar_ObjectModel3DCamera;
-                }
-            }
+
+
+            hv_ObjectModel3D_Results.AddRange(hv_ObjectModel3DCamera);
+
+            //using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            //{
+            //    {
+            //        HTuple
+            //          ExpTmpLocalVar_ObjectModel3DCamera = hv_ObjectModel3DCamera.TupleConcat(
+            //            hv_ObjectModel3DCameraTmp);
+            //        hv_ObjectModel3DCamera.Dispose();
+            //        hv_ObjectModel3DCamera = ExpTmpLocalVar_ObjectModel3DCamera;
+            //    }
+            //}
         }
 
         //hv_CameraSize_COPY_INP_TMP.Dispose();
@@ -453,7 +454,7 @@ public class Reconstruction_3d
         //hv_ObjectModel3DConeTmp.Dispose();
         //hv_ObjectModel3DCameraTmp.Dispose();
 
-        return;
+        return hv_ObjectModel3D_Results;
     }
 
     // Chapter: 3D Object Model / Creation
@@ -482,9 +483,9 @@ public class Reconstruction_3d
         HObjectModel3D hv_ObjectModel3D = new HObjectModel3D();
         //hv_CamPose.Dispose();
 
-        hv_CamPose =new HPose ( hv_CameraSetupModelID.GetCameraSetupParam( hv_CameraIndex, "pose"));
-        
-        
+        hv_CamPose = new HPose(hv_CameraSetupModelID.GetCameraSetupParam(hv_CameraIndex, "pose"));
+
+
         //hv_HomMat3D.Dispose();
 
         hv_HomMat3D = hv_CamPose.PoseToHomMat3d();
@@ -492,7 +493,7 @@ public class Reconstruction_3d
         //HOperatorSet.PoseToHomMat3d(hv_CamPose, out hv_HomMat3D);
         hv_CamParam.Dispose();
 
-        hv_CamParam= hv_CameraSetupModelID.GetCameraSetupParam( hv_CameraIndex, "params");
+        hv_CamParam = hv_CameraSetupModelID.GetCameraSetupParam(hv_CameraIndex, "params");
         //
         hv_Width.Dispose();
         get_cam_par_data(hv_CamParam, "image_width", out hv_Width);
@@ -780,7 +781,7 @@ public class Reconstruction_3d
 
     // Chapter: 3D Object Model / Creation
     // Short Description: Generate a 3D object model representing the view cone of a telecentric camera. 
-    private HObjectModel3D  gen_cone_telecentric_object_model_3d(HCameraSetupModel hv_CameraSetupModelID,
+    private HObjectModel3D gen_cone_telecentric_object_model_3d(HCameraSetupModel hv_CameraSetupModelID,
         HTuple hv_CameraIndex, HTuple hv_ConeLength)
     {
 
@@ -806,10 +807,10 @@ public class Reconstruction_3d
         //HOperatorSet.GetCameraSetupParam(hv_CameraSetupModelID, hv_CameraIndex, "pose",out hv_CamPose);
 
 
-        hv_CamPose =new HPose ( hv_CameraSetupModelID.GetCameraSetupParam(hv_CameraIndex, "pose"));
+        hv_CamPose = new HPose(hv_CameraSetupModelID.GetCameraSetupParam(hv_CameraIndex, "pose"));
 
 
-        hv_HomMat3D= hv_CamPose.PoseToHomMat3d();
+        hv_HomMat3D = hv_CamPose.PoseToHomMat3d();
 
         //hv_HomMat3D.Dispose();
         //HOperatorSet.PoseToHomMat3d(hv_CamPose, out hv_HomMat3D);
@@ -2206,7 +2207,7 @@ public class Reconstruction_3d
 
     // Chapter: 3D Object Model / Creation
     // Short Description: Generate base and tool 3D models of the robot. 
-    private  List<HObjectModel3D> gen_robot_tool_and_base_object_model_3d(HTuple hv_ArrowThickness,
+    private List<HObjectModel3D> gen_robot_tool_and_base_object_model_3d(HTuple hv_ArrowThickness,
         HTuple hv_ArrowLength, Get_Robot_tool_base_Type_Enum _Get_Type)
     {
 
@@ -2335,7 +2336,7 @@ public class Reconstruction_3d
     }
 
     // Chapter: 3D Object Model / Creation
-    private  HObjectModel3D gen_arrow_object_model_3d(HTuple hv_ArrowThickness, HTuple hv_ArrowStart,
+    private HObjectModel3D gen_arrow_object_model_3d(HTuple hv_ArrowThickness, HTuple hv_ArrowStart,
         HTuple hv_ArrowEnd)
     {
 
@@ -2636,7 +2637,7 @@ public class Reconstruction_3d
     public List<HObjectModel3D> GenRobotTcp_Point_Model(HPose _RobotTcpPos)
     {
 
-     
+
 
 
         List<HObjectModel3D> _RobotTcp3D = gen_robot_tool_and_base_object_model_3d(0.005, 0.1, Reconstruction_3d.Get_Robot_tool_base_Type_Enum.Robot_Tool);
@@ -2651,8 +2652,8 @@ public class Reconstruction_3d
 
         ////生产机器人坐标模型
         List<HObjectModel3D> _RobotBase3D = gen_robot_tool_and_base_object_model_3d(0.005, 0.1, Reconstruction_3d.Get_Robot_tool_base_Type_Enum.Robot_Base);
-       
-        
+
+
         _RobotBase3D.AddRange(_RobotTcp3D);
 
 
@@ -4035,9 +4036,7 @@ public class Reconstruction_3d
 
     // Chapter: 3D Object Model / Creation
     // Short Description: Generate 3D object models for the camera and the robot's tool. 
-    public void gen_camera_and_tool_moving_cam_object_model_3d(HCalibData HCalibData_Model ,
-        HTuple hv_ToolInBasePose, HTuple hv_CameraSize, HTuple hv_ConeLength, HTuple hv_OM3DToolOrig,
-        HTuple hv_CamParam, out HTuple hv_OM3DCamera)
+    public List<HObjectModel3D> gen_camera_and_tool_moving_cam_object_model_3d(HCalibData HCalibData_Model, int tool_in_base_num, double hv_CameraSize, double hv_ConeLength)
     {
 
 
@@ -4045,18 +4044,25 @@ public class Reconstruction_3d
         // Local iconic variables 
 
         // Local control variables 
+        HPose hv_IdentityPose = new HPose();
 
-        HTuple hv_IdentityPose = new HTuple(), hv_CameraSetupModelID = new HTuple();
         HTuple hv_OM3DCameraOrigin = new HTuple(), hv_OM3DConeOrig = new HTuple();
-        HTuple hv_CamInToolPose = new HTuple(), hv_CamInBasePose = new HTuple();
+        HPose hv_CamInToolPose = new HPose();
+        HPose hv_CamInBasePose = new HPose();
         // Initialize local and output iconic variables 
-        hv_OM3DCamera = new HTuple();
+        HTuple hv_OM3DCamera = new HTuple();
+        HPose hv_ToolInBasePose = new HPose();
+        HTuple hv_CamParam = new HTuple();
+        HPose hv_ToolInCamPose = new HPose();
+
         List<HObjectModel3D> hv_OM3DTool = new List<HObjectModel3D>();
+        List<HObjectModel3D> hv_Tool_Moving_Cam_Object_Model = new List<HObjectModel3D>();
         HTuple hv_PX, hv_PY, hv_PZ = new HTuple();
         HObjectModel3D hv_OM3DObjectOrig = new HObjectModel3D();
         HObjectModel3D hv_OM3DObject = new HObjectModel3D();
         HTuple _CalObjInBasePose = new HTuple();
         HCameraSetupModel hv_CameraSetupModel = new HCameraSetupModel();
+        HCameraSetupModel hv_CameraSetupModelID = new HCameraSetupModel();
         try
         {
 
@@ -4064,35 +4070,45 @@ public class Reconstruction_3d
 
 
             //生产标定板位置
-            hv_PX= HCalibData_Model.GetCalibData( "calib_obj", 0, "x");
+            hv_PX = HCalibData_Model.GetCalibData("calib_obj", 0, "x");
 
-            hv_PY= HCalibData_Model.GetCalibData( "calib_obj", 0, "y");
+            hv_PY = HCalibData_Model.GetCalibData("calib_obj", 0, "y");
 
-            hv_PZ= HCalibData_Model.GetCalibData( "calib_obj", 0, "z" );
+            hv_PZ = HCalibData_Model.GetCalibData("calib_obj", 0, "z");
             //生产标定板模型
-           hv_OM3DObjectOrig.GenObjectModel3dFromPoints(hv_PX, hv_PY, hv_PZ);
+            hv_OM3DObjectOrig.GenObjectModel3dFromPoints(hv_PX, hv_PY, hv_PZ);
 
             //获得标定板位置
             _CalObjInBasePose = HCalibData_Model.GetCalibData("calib_obj", 0, "obj_in_base_pose");
 
             //得到移动到标定位置
-            hv_OM3DObject = hv_OM3DObjectOrig.RigidTransObjectModel3d(new HPose (_CalObjInBasePose));
+            hv_OM3DObject = hv_OM3DObjectOrig.RigidTransObjectModel3d(new HPose(_CalObjInBasePose));
+
+            hv_Tool_Moving_Cam_Object_Model.Add(hv_OM3DObject);
+
+            ///获得相机内参
+            hv_CamParam = HCalibData_Model.GetCalibData("camera", 0, "params");
 
 
+
+            //获得工具到基坐标坐标
+            hv_ToolInBasePose = new HPose(HCalibData_Model.GetCalibData("tool", tool_in_base_num, "tool_in_base_pose"));
+            
+            
             //生产工具坐标模型
-            List<HObjectModel3D> hv_OM3DToolOrigin = gen_robot_tool_and_base_object_model_3d(0.005, 0.1, Get_Robot_tool_base_Type_Enum.Robot_Tool);
-            List<HObjectModel3D> hv_OM3DBase = gen_robot_tool_and_base_object_model_3d(0.005, 0.1, Get_Robot_tool_base_Type_Enum.Robot_Base);
+            List<HObjectModel3D> hv_OM3DToolOrigin_Base = GenRobotTcp_Point_Model(new HPose(hv_ToolInBasePose));
 
-            //偏移TOOL坐标
-            for (int i = 0; i < hv_OM3DToolOrigin.Count; i++)
-            {
-                hv_OM3DToolOrigin[i] = hv_OM3DToolOrigin[i].RigidTransObjectModel3d(new HPose(hv_ToolInBasePose));
-            }
+            //添加到结果集合中
+            hv_Tool_Moving_Cam_Object_Model.AddRange(hv_OM3DToolOrigin_Base);
+
+            ///获得工具到相机位置
+            hv_ToolInCamPose = new HPose(HCalibData_Model.GetCalibData("camera", 0, "tool_in_cam_pose"));
+
 
             //获得标定相机的参数
-            hv_CameraSetupModel=new HCameraSetupModel( HCalibData_Model.GetCalibData("model", "general", "camera_setup_model").H);
+            hv_CameraSetupModel = new HCameraSetupModel(HCalibData_Model.GetCalibData("model", "general", "camera_setup_model").H);
 
-            List<HObjectModel3D> hv_Camera_Object= gen_camera_setup_object_model_3d(hv_CameraSetupModel, 0.05, 0.3);
+
 
 
 
@@ -4106,60 +4122,89 @@ public class Reconstruction_3d
             //as the robot's tool in their current positions.
             //
             //Visualize Tool.
-            hv_OM3DTool.Dispose();
-            HOperatorSet.RigidTransObjectModel3d(hv_OM3DToolOrig, hv_ToolInBasePose, out hv_OM3DTool);
+
+            //for (int i = 0; i < hv_OM3DToolOrigin.Count; i++)
+            //{
+            //    hv_OM3DToolOrigin[i] = hv_OM3DToolOrigin[i].RigidTransObjectModel3d(new HPose(hv_ToolInBasePose));
+            //}
+
+            //HOperatorSet.RigidTransObjectModel3d(hv_OM3DToolOrig, hv_ToolInBasePose, out hv_OM3DTool);
             //
             //Visualize Camera.
-            hv_IdentityPose.Dispose();
-            HOperatorSet.CreatePose(0, 0, 0, 0, 0, 0, "Rp+T", "gba", "point", out hv_IdentityPose);
-            hv_CameraSetupModelID.Dispose();
-            HOperatorSet.CreateCameraSetupModel(1, out hv_CameraSetupModelID);
-            HOperatorSet.SetCameraSetupCamParam(hv_CameraSetupModelID, 0, new HTuple(),
-                hv_CamParam, hv_IdentityPose);
-            hv_OM3DCameraOrigin.Dispose(); hv_OM3DConeOrig.Dispose();
-            gen_camera_setup_object_model_3d(hv_CameraSetupModelID, hv_CameraSize, hv_ConeLength,
-                out hv_OM3DCameraOrigin, out hv_OM3DConeOrig);
-            HOperatorSet.ClearCameraSetupModel(hv_CameraSetupModelID);
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
-            {
-                {
-                    HTuple
-                      ExpTmpLocalVar_OM3DCameraOrigin = hv_OM3DCameraOrigin.TupleConcat(
-                        hv_OM3DConeOrig);
-                    hv_OM3DCameraOrigin.Dispose();
-                    hv_OM3DCameraOrigin = ExpTmpLocalVar_OM3DCameraOrigin;
-                }
-            }
+            //hv_IdentityPose.Dispose();
+            //HOperatorSet.CreatePose(0, 0, 0, 0, 0, 0, "Rp+T", "gba", "point", out hv_IdentityPose);
+            hv_IdentityPose.CreatePose(0, 0, 0, 0, 0, 0, "Rp+T", "gba", "point");
+            //hv_CameraSetupModelID.Dispose();
+
+            hv_CameraSetupModelID.CreateCameraSetupModel(1);
+            //HOperatorSet.CreateCameraSetupModel(1, out hv_CameraSetupModelID);
+            hv_CameraSetupModelID.SetCameraSetupCamParam(0, new HTuple(), new HCamPar(hv_CamParam), hv_IdentityPose);
+            //HOperatorSet.SetCameraSetupCamParam(hv_CameraSetupModelID, 0, new HTuple(),
+            //    hv_CamParam, hv_IdentityPose);
+            //hv_OM3DCameraOrigin.Dispose(); hv_OM3DConeOrig.Dispose();
+
+            List<HObjectModel3D> hv_OM3DCamera_Cone_Orig = gen_camera_setup_object_model_3d(hv_CameraSetupModelID, hv_CameraSize, hv_ConeLength);
+
+            hv_CameraSetupModelID.ClearCameraSetupModel();
+            //HOperatorSet.ClearCameraSetupModel(hv_CameraSetupModelID);
+            //using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            //{
+            //    {
+            //        HTuple
+            //          ExpTmpLocalVar_OM3DCameraOrigin = hv_OM3DCameraOrigin.TupleConcat(
+            //            hv_OM3DConeOrig);
+            //        hv_OM3DCameraOrigin.Dispose();
+            //        hv_OM3DCameraOrigin = ExpTmpLocalVar_OM3DCameraOrigin;
+            //    }
+            //}
             //
-            hv_CamInToolPose.Dispose();
-            HOperatorSet.PoseInvert(hv_ToolInCamPose, out hv_CamInToolPose);
-            hv_CamInBasePose.Dispose();
-            HOperatorSet.PoseCompose(hv_ToolInBasePose, hv_CamInToolPose, out hv_CamInBasePose);
-            hv_OM3DCamera.Dispose();
-            HOperatorSet.RigidTransObjectModel3d(hv_OM3DCameraOrigin, hv_CamInBasePose,
-                out hv_OM3DCamera);
-            HOperatorSet.ClearObjectModel3d(hv_OM3DCameraOrigin);
+            //hv_CamInToolPose.Dispose();
 
-            hv_IdentityPose.Dispose();
-            hv_CameraSetupModelID.Dispose();
-            hv_OM3DCameraOrigin.Dispose();
-            hv_OM3DConeOrig.Dispose();
-            hv_CamInToolPose.Dispose();
-            hv_CamInBasePose.Dispose();
+            //翻转坐标
+            hv_CamInToolPose = hv_ToolInCamPose.PoseInvert();
+            //HOperatorSet.PoseInvert(hv_ToolInCamPose, out hv_CamInToolPose);
+            //hv_CamInBasePose.Dispose();
 
-            return;
+            //坐标相加
+            hv_CamInBasePose = hv_ToolInBasePose.PoseCompose(hv_CamInToolPose);
+            //HOperatorSet.PoseCompose(hv_ToolInBasePose, hv_CamInToolPose, out hv_CamInBasePose);
+            //hv_OM3DCamera.Dispose();
+
+
+            //偏移相机模型
+            for (int i = 0; i < hv_OM3DCamera_Cone_Orig.Count; i++)
+            {
+                hv_OM3DCamera_Cone_Orig[i] = hv_OM3DCamera_Cone_Orig[i].RigidTransObjectModel3d(hv_CamInBasePose);
+            }
+
+            hv_Tool_Moving_Cam_Object_Model.AddRange(hv_OM3DCamera_Cone_Orig);
+
+
+
+            //HOperatorSet.RigidTransObjectModel3d(hv_OM3DCameraOrigin, hv_CamInBasePose,
+            //    out hv_OM3DCamera);
+            //HOperatorSet.ClearObjectModel3d(hv_OM3DCameraOrigin);
+
+            //hv_IdentityPose.Dispose();
+            //hv_CameraSetupModelID.Dispose();
+            //hv_OM3DCameraOrigin.Dispose();
+            //hv_OM3DConeOrig.Dispose();
+            //hv_CamInToolPose.Dispose();
+            //hv_CamInBasePose.Dispose();
+
+            return hv_Tool_Moving_Cam_Object_Model;
         }
-        catch (HalconException HDevExpDefaultException)
+        catch (Exception _e)
         {
 
-            hv_IdentityPose.Dispose();
-            hv_CameraSetupModelID.Dispose();
-            hv_OM3DCameraOrigin.Dispose();
-            hv_OM3DConeOrig.Dispose();
-            hv_CamInToolPose.Dispose();
-            hv_CamInBasePose.Dispose();
+            //hv_IdentityPose.Dispose();
+            //hv_CameraSetupModelID.Dispose();
+            //hv_OM3DCameraOrigin.Dispose();
+            //hv_OM3DConeOrig.Dispose();
+            //hv_CamInToolPose.Dispose();
+            //hv_CamInBasePose.Dispose();
 
-            throw HDevExpDefaultException;
+            throw new Exception(_e.Message);
         }
     }
 

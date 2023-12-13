@@ -1,6 +1,7 @@
 ﻿using Halcon_SDK_DLL.Halcon_Examples_Method;
 using HanGao.View.User_Control.Vision_hand_eye_Calibration;
 using Ookii.Dialogs.Wpf;
+using System.Drawing;
 using System.Windows.Controls.Primitives;
 using Throw;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
@@ -881,27 +882,106 @@ namespace HanGao.ViewModel
 
 
 
-                    Task.Run(() =>
-                    {
-                        Calibration_Image_List_Model _Selected = null;
+               
 
-
-
-                        Application.Current.Dispatcher.Invoke(() =>
+                        Task.Run(() =>
                         {
-                            _Selected = E.SelectedItem as Calibration_Image_List_Model;
+                            Calibration_Image_List_Model _Selected = null;
 
 
 
+                            Application.Current.Dispatcher.Invoke(() => { _Selected = E.SelectedItem as Calibration_Image_List_Model; });
+
+
+
+                            if (_Selected != null)
+                            {
+                                HObject _HImage = new HObject();
+                                //判断属性书否未空对应相机列表属性
+
+                                if (_Selected.Camera_0?.Calibration_Image != null)
+                                {
+
+
+                                    try
+                                    {
+
+                                        //清楚旧图像，显示选中图像
+                                        _HImage = _Selected.Camera_0.Calibration_Image;
+                                        Window_Show_Name_Enum _ShowDisply = Window_Show_Name_Enum.HandEye_Results_Window_1;
+                                        //检查是否使用相机采集显示
+                                        MVS_Camera_Info_Model _camer_0 = MVS_Camera_Info_List.Where((_W) => _W.Camera_Info.SerialNumber == _Selected.Camera_0.Carme_Name).FirstOrDefault();
+                                        if (_camer_0 != null)
+                                        {
+                                            _ShowDisply = _camer_0.Show_Window;
+                                        }
+                                        ///显示选中图像
+                                        Halcon_Window_Display.Display_HObject(_Selected.Camera_0.Calibration_Image, null, null, null, _ShowDisply);
+                                        Halcon_Window_Display.Display_HObject(_Selected.Camera_0.Calibration_Image, _Selected.Camera_0.Calibration_Region, null, KnownColor.Green.ToString(), _ShowDisply);
+                                        Halcon_Window_Display.Display_HObject(null, null, _Selected.Camera_0.Calibration_XLD, null, _ShowDisply);
+
+
+
+                                    }
+                                    catch (Exception e)
+                                    {
+
+                                        User_Log_Add(e.Message, Log_Show_Window_Enum.Calibration);
+
+                                    }
+
+                                }
+
+
+
+                                if (_Selected.Camera_1?.Calibration_Image != null)
+                                {
+
+                                    try
+                                    {
+                                        //情况旧图像，显示选中图像
+                                        _HImage = _Selected.Camera_1.Calibration_Image;
+                                        Window_Show_Name_Enum _ShowDisply = Window_Show_Name_Enum.HandEye_Results_Window_2;
+
+                                        MVS_Camera_Info_Model _camer_1 = MVS_Camera_Info_List.Where((_W) => _W.Camera_Info.SerialNumber == _Selected.Camera_1.Carme_Name).FirstOrDefault();
+                                        if (_camer_1 != null)
+                                        {
+                                            _ShowDisply = _camer_1.Show_Window;
+                                        }
+
+
+                                        Halcon_Window_Display.Display_HObject((HImage)_Selected.Camera_1.Calibration_Image, null, null, null, _ShowDisply);
+                                        Halcon_Window_Display.Display_HObject((HImage)_Selected.Camera_1.Calibration_Image, _Selected.Camera_1.Calibration_Region, null, KnownColor.Green.ToString(), _ShowDisply);
+                                        Halcon_Window_Display.Display_HObject(null, null, _Selected.Camera_1.Calibration_XLD, null, _ShowDisply);
+
+                                    }
+                                    catch (Exception e)
+                                    {
+
+                                        User_Log_Add(e.Message, Log_Show_Window_Enum.Calibration);
+
+                                    }
+
+                                }
+
+
+                                if (_Selected.Camera_1.Calibration_3D_Model.Count != 0 || _Selected.Camera_0.Calibration_3D_Model.Count != 0)
+                                {
+                                    _Camera_Model.AddRange(_Selected.Camera_0.Calibration_3D_Model);
+                                    _Camera_Model.AddRange(_Selected.Camera_1.Calibration_3D_Model);
+
+
+                                    HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(_Camera_Model));
+                                }
+                            }
+                        });
+
+         
                             ///移动目标到选择行聚焦
                             if (E != null && E.SelectedItem != null && E.SelectedIndex >= 0)
                             {
                                 E.ScrollIntoView(E.SelectedItem);
                             }
-
-                        });
-
-                    });
 
                 }
                 catch (Exception _e)

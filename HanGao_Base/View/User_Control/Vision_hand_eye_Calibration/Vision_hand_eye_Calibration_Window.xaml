@@ -2410,7 +2410,16 @@
 
 
                                         <Grid Height="35" Margin="8">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Robot_Diver}" Value="false">
+                                                            <Setter Property="IsEnabled" Value="True" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
