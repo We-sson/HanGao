@@ -1386,10 +1386,10 @@ namespace Halcon_SDK_DLL.Model
 
 
             }
-            catch (Exception e)
+            catch (Exception _e)
             {
 
-                throw new Exception(_name+"：位姿文件保存失败！");
+                throw new Exception(_name+"：位姿文件保存失败！原因："+_e.Message);
             }
 
 

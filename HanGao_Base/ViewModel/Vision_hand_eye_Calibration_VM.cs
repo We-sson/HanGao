@@ -264,17 +264,29 @@ namespace HanGao.ViewModel
                         HandEye_Find_Calibration(HandEye_Calibration_Model_Enum.Robot_Model);
 
 
+                        //创建对应机器人角度旋转方式
+                        switch (Halcon_HandEye_Calibra.HandEye_Robot)
+                        {
+                            case Socket_Robot_Protocols_Enum.KUKA:
+
+                        _RobotBase.CreatePose(double.Parse(_S.Actual_Point.X) / 1000, double.Parse(_S.Actual_Point.Y) / 1000, double.Parse(_S.Actual_Point.Z) / 1000, double.Parse(_S.Actual_Point.A), double.Parse(_S.Actual_Point.B), double.Parse(_S.Actual_Point.C), "Rp+T", "abg", "point");
+
+                                break;
+                            case Socket_Robot_Protocols_Enum.ABB:
+                                break;
+                            case Socket_Robot_Protocols_Enum.川崎:
+                                break;
+                            case Socket_Robot_Protocols_Enum.通用:
+                                break;
+                       
+                        }
 
                         ///创建机器人位置
-                        _RobotBase.CreatePose(double.Parse(_S.Actual_Point.X) / 1000, double.Parse(_S.Actual_Point.Y) / 1000, double.Parse(_S.Actual_Point.Z) / 1000, double.Parse(_S.Actual_Point.A), double.Parse(_S.Actual_Point.B), double.Parse(_S.Actual_Point.C), "Rp+T", "gba", "point");
+                        
+                    
 
 
-                        //创建机器人坐标模型
-                        _Calib_Rotob_Model = _HandEye_3DModel.GenRobotTcp_Point_Model(_RobotBase);
 
-
-                        //显示到三维窗口
-                        HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model() { _ObjectModel3D = _Calib_Rotob_Model });
 
 
 
@@ -285,16 +297,14 @@ namespace HanGao.ViewModel
 
 
                             //设置机器人当前位置
-                            Point_Model _Robot_Pos = new Point_Model()
-                            {
-                                X = Math.Round(double.Parse(_S.Actual_Point.X), 3),
-                                Y = Math.Round(double.Parse(_S.Actual_Point.Y), 3),
-                                Z = Math.Round(double.Parse(_S.Actual_Point.Z), 3),
-                                A = Math.Round(double.Parse(_S.Actual_Point.A), 3),
-                                B = Math.Round(double.Parse(_S.Actual_Point.B), 3),
-                                C = Math.Round(double.Parse(_S.Actual_Point.C), 3)
-                            };
+                            Point_Model _Robot_Pos = new Point_Model();
+                            _Robot_Pos.Set_Pose_Data(_RobotBase);
 
+                            ///生成对应机器人的模型
+                            _Calib_Rotob_Model = _HandEye_3DModel.GenRobotTcp_Point_Model(_Robot_Pos.Get_HPos(Halcon_HandEye_Calibra.HandEye_Robot));
+
+                            //显示机器人坐标模型
+                            HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model() { _ObjectModel3D = _Calib_Rotob_Model });
 
                             //添加机器人坐标图像到集合
                             Cailbration_Load_Image(Halcon_HandEye_Calibra.Camera_Connect_Model, HandEye_Check_LiveImage._Image, HandEye_Check_LiveImage._CalibXLD, HandEye_Check_LiveImage._CalibRegion, _Robot_Pos);
@@ -1718,7 +1728,7 @@ namespace HanGao.ViewModel
             {
                 Camera_No = _Camera_Enum,
                 Image_No = HandEye_Calibration_List.Count,
-                HandEye_Robot_Pos = _Robot_pos
+                HandEye_Robot_Pos =_Robot_pos
 
             };
 
