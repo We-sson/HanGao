@@ -440,7 +440,7 @@ namespace Halcon_SDK_DLL
                 if (_Warnings.Length > 0)
                 {
 
-                    throw new Exception("手眼标定失败！");
+                    throw new Exception("手眼标定图像坐标失败！原因："+ _Warnings);
 
 
                 }
