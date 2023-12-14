@@ -7449,6 +7449,7 @@
                                                     VerticalAlignment="Center"
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
+                                                    IsEnabled="False"
                                                     IsSnapToTickEnabled="True"
                                                     Maximum="50000"
                                                     Minimum="0"
@@ -7463,7 +7464,8 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="18"
+                                                     IsReadOnly="True" />
                                             <Label Grid.Column=" 3"
                                                    Content="mm"
                                                    Margin="0"
@@ -7495,6 +7497,7 @@
                                                     VerticalAlignment="Center"
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
+                                                    IsEnabled="False"
                                                     IsSnapToTickEnabled="True"
                                                     Maximum="50000"
                                                     Minimum="0"
@@ -7509,7 +7512,8 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="18"
+                                                     IsReadOnly="True" />
                                             <Label Grid.Column=" 3"
                                                    Content="mm"
                                                    Margin="0"
@@ -7558,6 +7562,7 @@
                                                     VerticalAlignment="Center"
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
+                                                    IsEnabled="False"
                                                     IsSnapToTickEnabled="True"
                                                     Maximum="50000"
                                                     Minimum="0"
@@ -7572,7 +7577,8 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="18"
+                                                     IsReadOnly="True" />
                                             <Label Grid.Column=" 3"
                                                    Content="mm"
                                                    Margin="0"
@@ -7601,6 +7607,7 @@
                                                     VerticalAlignment="Center"
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
+                                                    IsEnabled="False"
                                                     IsSnapToTickEnabled="True"
                                                     Maximum="50000"
                                                     Minimum="0"
@@ -7615,7 +7622,8 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="18"
+                                                     IsReadOnly="True" />
                                             <Label Grid.Column=" 3"
                                                    Content="mm"
                                                    Margin="0"
@@ -7644,6 +7652,7 @@
                                                     VerticalAlignment="Center"
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
+                                                    IsEnabled="False"
                                                     IsSnapToTickEnabled="True"
                                                     Maximum="50000"
                                                     Minimum="0"
@@ -7658,7 +7667,8 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="18"
+                                                     IsReadOnly="True" />
                                             <Label Grid.Column=" 3"
                                                    Content="mm"
                                                    Margin="0"
@@ -7687,6 +7697,7 @@
                                                     VerticalAlignment="Center"
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
+                                                    IsEnabled="False"
                                                     IsSnapToTickEnabled="True"
                                                     Maximum="50000"
                                                     Minimum="0"
@@ -7701,7 +7712,8 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="18"
+                                                     IsReadOnly="True" />
                                             <Label Grid.Column=" 3"
                                                    Content="mm"
                                                    Margin="0"
@@ -7751,6 +7763,7 @@
                                                     VerticalAlignment="Center"
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
+                                                    IsEnabled="False"
                                                     IsSnapToTickEnabled="True"
                                                     Maximum="50000"
                                                     Minimum="0"
@@ -7765,7 +7778,8 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="18"
+                                                     IsReadOnly="True" />
                                             <Label Grid.Column=" 3"
                                                    Content="mm"
                                                    Margin="0"
@@ -7794,6 +7808,7 @@
                                                     VerticalAlignment="Center"
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
+                                                    IsEnabled="False"
                                                     IsSnapToTickEnabled="True"
                                                     Maximum="50000"
                                                     Minimum="0"
@@ -7808,7 +7823,8 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="18"
+                                                     IsReadOnly="True" />
                                             <Label Grid.Column=" 3"
                                                    Content="mm"
                                                    Margin="0"
@@ -7837,6 +7853,7 @@
                                                     VerticalAlignment="Center"
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
+                                                    IsEnabled="False"
                                                     IsSnapToTickEnabled="True"
                                                     Maximum="50000"
                                                     Minimum="0"
@@ -7851,7 +7868,8 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="18"
+                                                     IsReadOnly="True" />
                                             <Label Grid.Column=" 3"
                                                    Content="mm"
                                                    Margin="0"
@@ -7880,6 +7898,7 @@
                                                     VerticalAlignment="Center"
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
+                                                    IsEnabled="False"
                                                     IsSnapToTickEnabled="True"
                                                     Maximum="50000"
                                                     Minimum="0"
@@ -7894,7 +7913,8 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="18"
+                                                     IsReadOnly="True" />
                                             <Label Grid.Column=" 3"
                                                    Content="mm"
                                                    Margin="0"
