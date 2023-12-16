@@ -1247,7 +1247,11 @@ namespace Halcon_SDK_DLL.Model
         {
 
         }
-
+        public Point_Model(Point_Model _Point)
+        {
+            HPose = new HPose(_Point.HPose);
+            HType = _Point.HType;
+        }
 
 
         public double X { set; get; } = 0;
@@ -1260,58 +1264,102 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 读取位置点类型
         /// </summary>
-        public int HType { set; get; } = 0;
+        public Halcon_Pose_Type_Enum HType { set; get; } =  Halcon_Pose_Type_Enum.gba;
+
+
+        private HPose _HPose=new HPose ();
+
+        public HPose HPose
+        {
+            get 
+            {
+                return _HPose;
+            }
+            set 
+            {
+                Set_Vale(value);
+                _HPose = value;
+            }
+        }
+
+
 
 
         /// <summary>
         ///  设置位置点信息 显示UI位姿单位：mm
         /// </summary>
         /// <param name="_Pos"></param>
-        public void Set_Pose_Data(HPose _Pos)
-        {
+        //public void Set_Pose_Data(HPose _Pos)
+        //{
 
-            //需要Halcon坐标转换统一方向
+        //    //需要Halcon坐标转换统一方向
 
 
-            if (_Pos != null)
-            {
+        //    if (_Pos != null)
+        //    {
                 
-                HType = _Pos[6];
+        //        HType = (Halcon_Pose_Type_Enum)(int)_Pos[6];
 
-                //读取点位置统一类型为 "Rp+T"	"gba"	"point"
-                if (HType!=0)
-                {
-                    _Pos= _Pos.ConvertPoseType("Rp+T", "gba"   ,"point");
-                }
+        //        //读取点位置统一类型为 "Rp+T"	"gba"	"point"
+        //        //if (HType!=0)
+        //        //{
+        //        //    _Pos= _Pos.ConvertPoseType("Rp+T", "gba"   ,"point");
+        //        //}
 
-                    X = _Pos[0] * 1000;
-                    Y = _Pos[1] * 1000;
-                    Z = _Pos[2] * 1000;
-                    A = _Pos[3];
-                    B = _Pos[4];
-                    C = _Pos[5];
+        //            X = _Pos[0] * 1000;
+        //            Y = _Pos[1] * 1000;
+        //            Z = _Pos[2] * 1000;
+        //            A = _Pos[3];
+        //            B = _Pos[4];
+        //            C = _Pos[5];
 
-                    HType = _Pos[6];
+                   
 
+
+        //    }
+        //}
+
+        /// <summary>
+        /// 设置位置显示方法
+        /// </summary>
+        /// <param name="_Pose"></param>
+        private  void Set_Vale(HPose _Pose)
+        {
+            if (_Pose.RawData.Length!=0)
+            {
+
+                
+
+            if (_Pose.RawData.Length ==7)
+            {
+                HType = (Halcon_Pose_Type_Enum)(int)_Pose[6];
 
             }
-        }
+            X = _Pose[0] * 1000;
+            Y = _Pose[1] * 1000;
+            Z = _Pose[2] * 1000;
+            A = _Pose[3];
+            B = _Pose[4];
+            C = _Pose[5];
+            }
 
+
+        }
 
         //非机器人坐标姿态类型
-        public void Set_Point_Data(HPose _Pos)
-        {
+        //private  void Set_Point_Data(HPose _Pos)
+        //{
 
-            if (_Pos != null)
-            {
-                X = _Pos[0] * 1000;
-                Y = _Pos[1] * 1000;
-                Z = _Pos[2] * 1000;
-                A = _Pos[3];
-                B = _Pos[4];
-                C = _Pos[5];
-            }
-        }
+        //    if (_Pos != null)
+        //    {
+        //        X = _Pos[0] * 1000;
+        //        Y = _Pos[1] * 1000;
+        //        Z = _Pos[2] * 1000;
+        //        A = _Pos[3];
+        //        B = _Pos[4];
+        //        C = _Pos[5];
+        //    }
+        //}
 
 
         /// <summary>
@@ -1342,6 +1390,10 @@ namespace Halcon_SDK_DLL.Model
                     //需要四元数转换
                     break;
                 case Socket_Robot_Protocols_Enum.川崎:
+
+                    _Pos.CreatePose(X / 1000, Y / 1000, Z / 1000, A, B, C, "Rp+T", "gba", "point");
+
+
 
                     break;
 
@@ -2134,6 +2186,23 @@ namespace Halcon_SDK_DLL.Model
         Image_UnSuccessful,
 
 
+    }
+
+    /// <summary>
+    /// 位置点旋转角度类型
+    /// </summary>
+    public enum Halcon_Pose_Type_Enum
+    {
+        /// <summary>
+        /// "Rp+T"	"gba"	"point"
+        /// </summary>
+        [Description("X-Y-Z")]
+        gba = 0,
+        /// <summary>
+        /// "Rp+T"	"abg"	"point"
+        /// </summary>
+        [Description("Z-Y-X")]
+        abg =2,
     }
 
 

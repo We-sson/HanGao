@@ -239,7 +239,7 @@ namespace Halcon_SDK_DLL
 
                         _Selected_camera.Calibration_State = Camera_Calibration_Image_State_Enum.Image_Successful;
                         //设备对应设备标定板坐标参数
-                        _ImageList[i].Calibration_Plate_Pos.Set_Pose_Data(new HPose(_Res.hv_Pose));
+                        _ImageList[i].Calibration_Plate_Pos.HPose=(new HPose(_Res.hv_Pose));
 
 
                         _Checked_imageNum++;
@@ -248,7 +248,7 @@ namespace Halcon_SDK_DLL
                     {
 
                         _Selected_camera.Calibration_State = Camera_Calibration_Image_State_Enum.Image_UnSuccessful;
-                        _ImageList[i].Calibration_Plate_Pos.Set_Pose_Data(null);
+                        _ImageList[i].Calibration_Plate_Pos.HPose = new HPose(); ;
 
                     }
 
@@ -399,7 +399,7 @@ namespace Halcon_SDK_DLL
 
 
                         ///标定设置TCP拍照位置
-                        HCalibData.SetCalibData("tool", (HTuple)i, "tool_in_base_pose", _ImageList[i].HandEye_Robot_Pos.Get_HPos(HandEye_Robot));
+                        HCalibData.SetCalibData("tool", (HTuple)i, "tool_in_base_pose", _ImageList[i].HandEye_Robot_Pos.HPose);
 
                         //生产机器人坐标模型
                         List<HObjectModel3D> _RobotTcp3D = _HandEye_3DModel.GenRobotTcp_Point_Model(_ImageList[i].HandEye_Robot_Pos.Get_HPos(HandEye_Robot));
@@ -412,7 +412,7 @@ namespace Halcon_SDK_DLL
                         _Selected_camera.Calibration_XLD = _Res._CalibXLD;
                         _Selected_camera.Calibration_State = Camera_Calibration_Image_State_Enum.Image_Successful;
 
-                        _ImageList[i].Calibration_Plate_Pos.Set_Pose_Data(new HPose(_Res.hv_Pose));
+                        _ImageList[i].Calibration_Plate_Pos.HPose = (new HPose(_Res.hv_Pose).ConvertPoseType("Rp+T", "gba" ,  "point"));
 
                         //检测图像与坐标是否一致
                         _Checked_imageNum++;
@@ -426,7 +426,7 @@ namespace Halcon_SDK_DLL
                     {
                         //识别错误作法
                         _Selected_camera.Calibration_State = Camera_Calibration_Image_State_Enum.Image_UnSuccessful;
-                        _ImageList[i].Calibration_Plate_Pos.Set_Pose_Data(null);
+                        _ImageList[i].Calibration_Plate_Pos.HPose = new HPose() ;
 
                     }
 
@@ -440,7 +440,7 @@ namespace Halcon_SDK_DLL
                 if (_Warnings.Length > 0)
                 {
 
-                    throw new Exception("手眼标定图像坐标失败！原因："+ _Warnings);
+                    throw new Exception("手眼标定图像坐标失败！原因："+ _Warnings.LArr);
 
 
                 }
@@ -506,19 +506,19 @@ namespace Halcon_SDK_DLL
 
                 //获得相机在工具的位置
                 _ToolInCamPose = HCalibData.GetCalibData("camera", 0, "tool_in_cam_pose");
-                _Results.HandEye_Tool_in_Cam_Pos.Set_Pose_Data(new HPose(_ToolInCamPose));
+                _Results.HandEye_Tool_in_Cam_Pos.HPose = (new HPose(_ToolInCamPose));
 
                 //获得相机在工具的位置误差
                 tool_in_cam_pose_deviations = HCalibData.GetCalibData("camera", 0, "tool_in_cam_pose_deviations");
-                _Results.HandEye_Tool_in_Cam_Pose_Deviations.Set_Point_Data(new HPose(tool_in_cam_pose_deviations));
+                _Results.HandEye_Tool_in_Cam_Pose_Deviations.HPose=(new HPose(tool_in_cam_pose_deviations));
 
                 //获得标定板在基坐标的位置
                 _CalObjInBasePose = HCalibData.GetCalibData("calib_obj", 0, "obj_in_base_pose");
-                _Results.HandEye_Obj_In_Base_Pose.Set_Pose_Data(new HPose(_CalObjInBasePose));
+                _Results.HandEye_Obj_In_Base_Pose.HPose = (new HPose(_CalObjInBasePose));
 
                 //获得标定板在基坐标的位置误差
                 obj_in_base_pose_deviations = HCalibData.GetCalibData("calib_obj", 0, "obj_in_base_pose_deviations");
-                _Results.HandEye_Obj_In_Base_Pose_Deviations.Set_Point_Data(new HPose(obj_in_base_pose_deviations));
+                _Results.HandEye_Obj_In_Base_Pose_Deviations.HPose=(new HPose(obj_in_base_pose_deviations));
 
 
          
@@ -563,7 +563,7 @@ namespace Halcon_SDK_DLL
                     HTuple _calibObj_Pos = HCalibData.GetCalibData("calib_obj_pose", (new HTuple(0)).TupleConcat(i), new HTuple("pose"));
 
                     //设置到标定列表中
-                    _ImageList[i].Calibration_Plate_Pos.Set_Pose_Data(new HPose(_calibObj_Pos));
+                    _ImageList[i].Calibration_Plate_Pos.HPose =     (new HPose(_calibObj_Pos));
                 }
 
 

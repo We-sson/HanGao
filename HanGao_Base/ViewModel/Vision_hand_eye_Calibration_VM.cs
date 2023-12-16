@@ -54,10 +54,7 @@ namespace HanGao.ViewModel
         /// </summary>
         public ObservableCollection<Calibration_Image_List_Model> HandEye_Calibration_List { set; get; } = new ObservableCollection<Calibration_Image_List_Model>();
 
-        /// <summary>
-        /// 标定图像选定
-        /// </summary>
-        public Calibration_Image_List_Model HandEye_Calibretion_Image_Selected { set; get; }
+
 
 
         /// <summary>
@@ -297,11 +294,11 @@ namespace HanGao.ViewModel
 
 
                             //设置机器人当前位置
-                            Point_Model _Robot_Pos = new Point_Model();
-                            _Robot_Pos.Set_Pose_Data(_RobotBase);
+                            Point_Model _Robot_Pos = new Point_Model() {HPose= _RobotBase };
+                            //_Robot_Pos.Set_Pose_Data(_RobotBase);
 
                             ///生成对应机器人的模型
-                            _Calib_Rotob_Model = _HandEye_3DModel.GenRobotTcp_Point_Model(_Robot_Pos.Get_HPos(Halcon_HandEye_Calibra.HandEye_Robot));
+                            _Calib_Rotob_Model = _HandEye_3DModel.GenRobotTcp_Point_Model(_RobotBase);
 
                             //显示机器人坐标模型
                             HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model() { _ObjectModel3D = _Calib_Rotob_Model });
@@ -670,7 +667,7 @@ namespace HanGao.ViewModel
                                 _HImage.ReadImage(_OpenFile.FileNames[i]);
 
                                 //加载图像到标定列表
-                                Cailbration_Load_Image(_camerEnum, _HImage, null, null, new Point_Model());
+                                Cailbration_Load_Image(_camerEnum, _HImage, null, null, new Point_Model()); ;
 
                             }
 
@@ -849,7 +846,7 @@ namespace HanGao.ViewModel
                                 _Pos.ReadPose(_OpenFile.FileNames[i]);
 
                                 //加载
-                                HandEye_Calibration_List[i].HandEye_Robot_Pos.Set_Pose_Data(_Pos);
+                                HandEye_Calibration_List[i].HandEye_Robot_Pos.HPose= new HPose ( _Pos);
 
 
                             }
@@ -1728,7 +1725,7 @@ namespace HanGao.ViewModel
             {
                 Camera_No = _Camera_Enum,
                 Image_No = HandEye_Calibration_List.Count,
-                HandEye_Robot_Pos =_Robot_pos
+                HandEye_Robot_Pos =new Point_Model ( _Robot_pos)
 
             };
 

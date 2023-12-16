@@ -34,6 +34,15 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
 
+
+        <ObjectDataProvider x:Key="Pose_Enum"
+                            MethodName="GetValues"
+                            ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="Halcon_Enum:Halcon_Pose_Type_Enum" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+
         <ObjectDataProvider x:Key="Halocn_Camera_Calibration"
                             MethodName="GetValues"
                             ObjectType="{x:Type sys:Enum}">
@@ -4634,7 +4643,7 @@
                                       RowHeight="30"
                                       RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
                                       SelectedIndex="{Binding HandEye_Calibretion_Selected_No}"
-                                      SelectedValue="{Binding HandEye_Calibretion_Image_Selected}"
+                                      SelectedValue="{Binding HandEye_Image_Selected}"
                                       SelectionMode="Single"
                                       SelectionUnit="FullRow">
                                 <DataGrid.Resources>
@@ -4835,7 +4844,7 @@
                                       RowHeight="30"
                                       RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
                                       SelectedIndex="{Binding HandEye_Calibretion_Selected_No}"
-                                      SelectedValue="{Binding HandEye_Calibretion_Image_Selected}"
+                                      SelectedValue="{Binding HandEye_Image_Selected}"
                                       SelectionMode="Single"
                                       SelectionUnit="FullRow">
                                 <DataGrid.Resources>
@@ -4995,7 +5004,7 @@
                                                   RowHeight="30"
                                                   RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
                                                   SelectedIndex="{Binding HandEye_Calibretion_Selected_No}"
-                                                  SelectedValue="{Binding HandEye_Calibretion_Image_Selected}"
+                                                  SelectedValue="{Binding HandEye_Image_Selected}"
                                                   SelectionMode="Single"
                                                   SelectionUnit="FullRow">
                                             <DataGrid.Resources>
@@ -5240,7 +5249,7 @@
                                                   RowHeight="30"
                                                   RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
                                                   SelectedIndex="{Binding HandEye_Calibretion_Selected_No}"
-                                                  SelectedValue="{Binding HandEye_Calibretion_Image_Selected}"
+                                                  SelectedValue="{Binding HandEye_Image_Selected}"
                                                   SelectionMode="Single"
                                                   SelectionUnit="FullRow">
                                             <DataGrid.Resources>
@@ -5428,6 +5437,46 @@
                                                                      Background="Transparent"
                                                                      BorderThickness="0"
                                                                      FontSize="14" />
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+
+                                                </DataGridTemplateColumn>
+
+
+                                                <DataGridTemplateColumn Width="*">
+                                                    <DataGridTemplateColumn.Header>
+                                                        <TextBlock Text="类型"
+                                                                   Margin="4"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="16"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                    </DataGridTemplateColumn.Header>
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+
+
+
+                                                            <!--<TextBlock Text="{Binding HandEye_Robot_Pos.HType, Converter={StaticResource Enum_DescriptionConverter}}"
+                                                                       TextWrapping="Wrap"
+                                                                       Padding="0,4,0,4"
+                                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                       FontSize="14"
+                                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                       TextTrimming="CharacterEllipsis" />-->
+
+
+
+
+
+
+
+                                                            <TextBlock Text="{Binding HandEye_Robot_Pos.HType, Converter={StaticResource Enum_DescriptionConverter}}"
+                                                                       HorizontalAlignment="Center"
+                                                                       VerticalAlignment="Center"
+                                                                       Background="Transparent"
+                                                                       FontSize="14" />
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellTemplate>
 

@@ -128,7 +128,7 @@ namespace Halcon_SDK_DLL.WPF_Converter
 
             object[] attribArray = fieldInfo?.GetCustomAttributes(false);
 
-            if (attribArray.Length == 0)
+            if (attribArray.Length == 0 || attribArray==null)
             {
                 return enumObj.ToString();
             }
