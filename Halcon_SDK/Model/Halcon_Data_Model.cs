@@ -1385,8 +1385,8 @@ namespace Halcon_SDK_DLL.Model
                     Directory.CreateDirectory(_File);
                 }
 
-                HPose _Pos = new HPose(X/1000, Y/1000, Z / 1000, A, B, C, "Rp+T", "gba", "point");
-                _Pos.WritePose(_File + _name);
+                //HPose _Pos = new HPose(X/1000, Y/1000, Z / 1000, A, B, C, "Rp+T", "gba", "point");
+                HPose.WritePose(_File + _name);
 
 
             }

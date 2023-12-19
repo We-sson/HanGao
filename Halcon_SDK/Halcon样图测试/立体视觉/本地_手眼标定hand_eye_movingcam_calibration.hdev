@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="23.11.0.0">
+<procedure name="main">
+<interface/>
+<body>
+<c>* </c>
+<c>* This example explains how to use the hand eye calibration for the case where</c>
+<c>* the camera is attached to the robot tool and the calibration object</c>
+<c>* is stationary with respect to the robot. The robot positions the</c>
+<c>* camera with respect to the calibration plate.</c>
+<c>* In this case, the goal of the hand eye calibration is to determine two unknown poses:</c>
+<c>* - the pose of the robot base in the coordinate system</c>
+<c>*   of the calibration object (CalObjInBasePose).</c>
+<c>* - the pose of the camera in the coordinate system of the</c>
+<c>*   tool center point (ToolInCamPose).</c>
+<c>* Theoretically, as input the method needs at least 3 poses of the</c>
+<c>* calibration object in the camera coordinate system.</c>
+<c>* However, it is recommended to use at least 10 Poses.</c>
+<c>* The corresponding poses of the robot tool in the robot base coordinate system</c>
+<c>* (ToolInBasePose) changes for each calibration image,</c>
+<c>* because it describes the pose of the robot moving the camera.</c>
+<c>* The poses of the calibration object are obtained from images of the</c>
+<c>* calibration object recorded with the camera attached to the robot.</c>
+<c>* To obtain good calibration results, it its essential to position</c>
+<c>* the camera with respect to the calibration object so that the object appears</c>
+<c>* tilted in the image.</c>
+<c>* After the hand eye calibration, the computed transformations are</c>
+<c>* extracted and used to compute the pose of the calibration object in the</c>
+<c>* camera coordinate system.</c>
+<c></c>
+<c>* 本示例说明如何在以下情况下使用手眼校准功能</c>
+<c>* 摄像机安装在机器人工具上，校准对象</c>
+<c>* 相对于机器人是静止的。机器人将</c>
+<c>* 机器人将照相机定位在校准板上。</c>
+<c>* 在这种情况下，手眼校准的目标是确定两个未知位置：</c>
+<c>* 机器人底座在坐标系中的位置</c>
+<c>* 校准对象（CalObjInBasePose）坐标系中的机器人底座姿态。</c>
+<c>* 摄像机在校准对象坐标系中的位置（CalObjInBasePose）。</c>
+<c>* 工具中心点（ToolInCamPose）。</c>
+<c>* 理论上，作为输入，该方法需要至少 3 个标定对象在摄像机坐标系中的姿态。</c>
+<c>* 校准对象在摄像机坐标系中的姿态。</c>
+<c>* 不过，建议至少使用 10 个姿势。</c>
+<c>* 机器人工具在机器人基本坐标系中的相应姿势</c>
+<c>* (ToolInBasePose) 在每个校准图像中都会改变、</c>
+<c>* 因为它描述的是机器人移动摄像机的姿势。</c>
+<c>* 校准对象的姿态是通过以下图像获得的</c>
+<c>* 校准对象的姿态是通过使用安装在机器人上的摄像头记录的校准对象图像获得的。</c>
+<c>* 要获得良好的校准结果，必须将</c>
+<c>* 要获得良好的校准结果，必须将照相机相对于校准对象进行定位，使对象在图像中呈现倾斜状态。</c>
+<c>* 倾斜。</c>
+<c>* 手眼校准后，提取计算出的变换</c>
+<c>* 提取并用于计算校准对象在摄像机坐标系中的姿态。</c>
+<c>* 摄像机坐标系中的姿态。</c>
+<c>* 获得本机安装Halocn目录</c>
+<l>*get_system ('halcon_dir', HalconPath)</l>
+<l>dev_update_off ()</l>
+<c>* Directories with calibration images and data files</c>
+<c>* 包含校准图像和数据文件的目录</c>
+<l>ImageNameStart :='C:/Users/H/source/repos/HanGao/HanGao_Base/bin/Debug/Camera_0_'</l>
+<l>DataNameStart :='C:/Users/H/source/repos/HanGao/HanGao_Base/bin/Debug/'</l>
+<l>NumImages := 32</l>
+<l>read_image (Image, ImageNameStart + '0')</l>
+<l>dev_close_window ()</l>
+<l>get_image_size (Image, Width, Height)</l>
+<l>dev_open_window (0, 0, Width*0.2, Height*0.2, 'black', WindowHandle)</l>
+<l>dev_set_line_width (2)</l>
+<l>dev_set_draw ('margin')</l>
+<l>dev_display (Image)</l>
+<l>set_display_font (WindowHandle, 14, 'mono', 'true', 'false')</l>
+<l>ParamName := ['color_0', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5', 'color_6', 'alpha_6']</l>
+<l>ParamValue := ['red', 'green', 'blue', 'red', 'green', 'blue', 'white', 0.7]</l>
+<c>* Labels for the visualized 3D object models.</c>
+<c>* 可视化 3D 物体模型的标签。</c>
+<l>tuple_gen_const (7, '', Labels)</l>
+<l>Labels[0] := 'Robot\'s Tool'</l>
+<l>Labels[3] := 'Robot\'s Base'</l>
+<l>Instructions[0] := 'Rotate: Left button'</l>
+<l>Instructions[1] := 'Zoom:   Shift + left button'</l>
+<l>Instructions[2] := 'Move:   Ctrl  + left button'</l>
+<c>* Set size for 3D visualization in [m]</c>
+<c>* 设置 3D 可视化尺寸（单位：米］</c>
+<l>ArrowThickness := 0.005</l>
+<l>ArrowLength := 0.05</l>
+<l>gen_robot_tool_and_base_object_model_3d (ArrowThickness, ArrowLength, OM3DToolOrigin, OM3DBase)</l>
+<c>* Load the calibration plate description file.</c>
+<c>* Make sure that the file is in the current directory or</c>
+<c>* in HALCONROOT/calib, or use an absolute path.</c>
+<c>* 加载校准板描述文件。</c>
+<c>* 确保文件位于当前目录或</c>
+<c>* HALCONROOT/calib 中，或使用绝对路径。</c>
+<l>CalTabFile := 'C:/Users/H/source/repos/HanGao/HanGao_Base/bin/Debug/net6.0-windows/Calibration_File/CalTabFile/27_31_0.0015_calplate.cpd'</l>
+<c>* Read the initial values for the internal camera parameters</c>
+<c>* 读取摄像机内部参数的初始值</c>
+<l>read_cam_par (DataNameStart + 'L29657599.dat', StartCamParam)</l>
+<c>* Create the calibration model for the hand eye calibration</c>
+<c>* where the calibration object is observed with a camera</c>
+<c>* 为手眼校准创建校准模型</c>
+<c>* 用照相机观察校准对象</c>
+<l>create_calib_data ('hand_eye_moving_cam', 1, 1, CalibDataID)</l>
+<c>* Set the camera type used</c>
+<c>* 设置使用的摄像机类型</c>
+<l>set_calib_data_cam_param (CalibDataID, 0, [], StartCamParam)</l>
+<c>* Set the calibration object</c>
+<c>* 设置校准对象</c>
+<l>set_calib_data_calib_object (CalibDataID, 0, CalTabFile)</l>
+<c></c>
+<c></c>
+<c>* Start the loop over the calibration images</c>
+<c>* Set the optimization method to be used</c>
+<c>* 开始循环校准图像</c>
+<c>* 设置要使用的优化方法</c>
+<l>set_calib_data (CalibDataID, 'model', 'general', 'optimization_method', 'nonlinear')</l>
+<l>*set_calib_data (CalibDataID, 'model', 'general', 'optimization_method', 'stochastic')</l>
+<l>disp_message (WindowHandle, 'The calibration data model was created', 'window', 12, 12, 'black', 'true')</l>
+<l>disp_continue_message (WindowHandle, 'black', 'true')</l>
+<l>*stop ()</l>
+<c></c>
+<l>dev_open_window (0, Width + 10, Width*0.2, Height*0.2, 'black', WindowHandleR)</l>
+<l>set_display_font (WindowHandleR, 14, 'mono', 'true', 'false')</l>
+<l>for I := 0 to NumImages - 1 by 1</l>
+<l>    dev_set_window (WindowHandle)</l>
+<l>    dev_clear_window ()</l>
+<l>    read_image (Image, ImageNameStart + I$'01d')</l>
+<l>    dev_display (Image)</l>
+<c>    * Search for the calibration plate, extract the marks and the</c>
+<c>    * pose of it, and store the results in the calibration data</c>
+<c>    * The poses are stored in the calibration data model for use by</c>
+<c>    * the hand eye calibration and do not have to be set explicitly</c>
+<c>    * 搜索校准板，提取其标记和姿态，并将结果存储在校准数据中。</c>
+<c>    * 将结果存储在校准数据中</c>
+<c>    * 姿势存储在校准数据模型中，供手眼校准使用。</c>
+<c>    * 姿势存储在校准数据模型中，供手眼校准使用，无需明确设置</c>
+<c>   </c>
+<l>    find_calib_object (Image, CalibDataID, 0, 0, I, [], [])</l>
+<l>    get_calib_data_observ_contours (Caltab, CalibDataID, 'caltab', 0, 0, I)</l>
+<l>    get_calib_data_observ_points (CalibDataID, 0, 0, I, RCoord, CCoord, Index, PoseForCalibrationPlate)</l>
+<c>    * Visualize the extracted calibration marks and the estimated pose (coordinate system)</c>
+<c>    * 可视化提取的校准标记和估计姿势（坐标系）</c>
+<c>   </c>
+<l>    dev_set_color ('green')</l>
+<l>    dev_display (Image)</l>
+<l>    dev_display (Caltab)</l>
+<l>    dev_set_color ('yellow')</l>
+<l>    disp_cross (WindowHandle, RCoord, CCoord, 6, 0)</l>
+<l>    dev_set_colored (3)</l>
+<l>    disp_3d_coord_system (WindowHandle, StartCamParam, PoseForCalibrationPlate, 0.01)</l>
+<l>    disp_message (WindowHandle, 'Extracting data from calibration image ' + (I + 1) + ' of ' + NumImages, 'window', 12, 12, 'black', 'true')</l>
+<c>    * Read pose of tool in robot base coordinates (ToolInBasePose)</c>
+<c>    * 以机器人基本坐标读取工具姿态（ToolInBasePose）</c>
+<c>   </c>
+<l>    read_pose (DataNameStart + 'Robot_' + I + '.dat', ToolInBasePose)</l>
+<l>    if (I == 0)</l>
+<l>        PoseIn := [-0.006, -0.296, 12, 178, 2, 270, 0]</l>
+<l>    else</l>
+<l>        PoseIn := PoseOut</l>
+<l>    endif</l>
+<l>    rigid_trans_object_model_3d (OM3DToolOrigin, ToolInBasePose, OM3DTool)</l>
+<l>    visualize_object_model_3d (WindowHandleR, [OM3DTool,OM3DBase], [], PoseIn, ParamName, ParamValue, 'Position of robot tool coordinate system in robot base coordinate system', Labels, Instructions, PoseOut)</l>
+<c>    * Set the pose tool in robot base coordinates in the calibration data model</c>
+<c>    * 在校准数据模型中以机器人基本坐标设置姿势工具</c>
+<l>    convert_pose_type (ToolInBasePose, 'Rp+T', 'abg', 'point', ToolInBasePose1)</l>
+<l>    set_calib_data (CalibDataID, 'tool', I, 'tool_in_base_pose', ToolInBasePose)</l>
+<l>endfor</l>
+<l>dev_set_window (WindowHandleR)</l>
+<l>dev_close_window ()</l>
+<l>disp_message (WindowHandle, 'All relevant data has been set in the calibration data model', 'window', 12, 12, 'black', 'true')</l>
+<l>disp_continue_message (WindowHandle, 'black', 'true')</l>
+<l>stop ()</l>
+<c>* Check the input poses for consistency</c>
+<c>* 检查输入姿势是否一致</c>
+<l>check_hand_eye_calibration_input_poses (CalibDataID, 0.05, 0.05, Warnings)</l>
+<l>if (|Warnings| != 0)</l>
+<c>    * There were problem detected in the input poses. Inspect Warnings and</c>
+<c>    * remove erroneous poses with remove_calib_data and remove_calib_data_observ.</c>
+<c>    * 检测到输入姿势有问题。检查警告和</c>
+<c>    * 使用 remove_calib_data 和 remove_calib_data_observ 删除错误的姿势。</c>
+<c>    </c>
+<l>    dev_inspect_ctrl (Warnings)</l>
+<l>    stop ()</l>
+<l>endif</l>
+<c>* </c>
+<c>* Perform the hand eye calibration and store the results to file</c>
+<c>* The calibration of the cameras is done internally prior</c>
+<c>* to the hand eye calibration</c>
+<c>* 执行手眼校准并将结果存储到文件中</c>
+<c>* 相机的校准在内部完成，然后再进行手眼校准</c>
+<c>* 手眼校准</c>
+<l>dev_display (Image)</l>
+<l>disp_message (WindowHandle, 'Performing the hand-eye calibration', 'window', 12, 12, 'black', 'true')</l>
+<l>calibrate_hand_eye (CalibDataID, Errors)</l>
+<c>* Query the error of the camera calibration</c>
+<c>* 查询摄像机校准误差</c>
+<l>get_calib_data (CalibDataID, 'model', 'general', 'camera_calib_error', CamCalibError)</l>
+<c>* Query the camera parameters and the poses</c>
+<c>* 查询摄像机参数和姿势</c>
+<l>get_calib_data (CalibDataID, 'camera', 0, 'params', CamParam)</l>
+<c>* Get poses computed by the hand eye calibration</c>
+<c>* 获取手眼校准计算出的姿势</c>
+<l>get_calib_data (CalibDataID, 'camera', 0, 'tool_in_cam_pose', ToolInCamPose)</l>
+<l>get_calib_data (CalibDataID, 'calib_obj', 0, 'obj_in_base_pose', CalObjInBasePose)</l>
+<c>* Get the plane in base coordinate system pose by translating the</c>
+<c>* CalObjInBasePose by the calibration object's thickness in the</c>
+<c>* z-direction.</c>
+<c>* 通过将 CalObjInBasePose 在基坐标系中的厚度平移，获取平面在基坐标系中的姿态。</c>
+<c>* 将校准对象的厚度沿</c>
+<c>* z 方向。</c>
+<l>set_origin_pose (CalObjInBasePose, 0, 0, 0.000, PlaneInBasePose)</l>
+<l>try</l>
+<c>    * Handle situation where user does not have the permission</c>
+<c>    * to write in the current directory.</c>
+<c>    * </c>
+<c>    * Store the camera parameters to file.</c>
+<c>    * 将摄像机参数存储到文件中</c>
+<l>    write_cam_par (CamParam, DataNameStart + 'final_campar.dat')</l>
+<c>    * Save the hand eye calibration results to file</c>
+<c>    * 将手眼校准结果保存到文件中</c>
+<l>    write_pose (ToolInCamPose, DataNameStart + 'final_pose_cam_tool.dat')</l>
+<l>    write_pose (CalObjInBasePose, DataNameStart + 'final_pose_base_calplate.dat')</l>
+<l>    write_pose (PlaneInBasePose, DataNameStart + 'final_pose_base_plane.dat')</l>
+<l>catch (Exception)</l>
+<c>    * do nothing</c>
+<l>endtry</l>
+<l>dev_display (Image)</l>
+<c>* Display calibration errors</c>
+<c>* 显示屏校准错误</c>
+<l>disp_results (WindowHandle, CamCalibError, Errors)</l>
+<l>disp_continue_message (WindowHandle, 'black', 'true')</l>
+<l>stop ()</l>
+<c>* For the given camera, get the corresponding pose indices and calibration object indices</c>
+<c>* 对于给定的摄像机，获取相应的姿态指数和校准对象指数</c>
+<c></c>
+<l>query_calib_data_observ_indices (CalibDataID, 'camera', 0, CalibObjIdx, PoseIds)</l>
+<c>* Compute the pose of the calibration object in the camera coordinate</c>
+<c>* system via calibrated poses and the ToolInBasePose and visualize it.</c>
+<c>* Set sizes for 3D visualization in [m]</c>
+<c>* 通过校准姿势和 ToolInBasePose，在摄像机坐标系中计算校准对象的姿势，并将其可视化。</c>
+<c>* 通过校准姿势和 ToolInBasePose 在摄像机坐标系中计算校准对象的姿势，并将其可视化。</c>
+<c>* 以 [m] 为单位设置三维可视化的尺寸</c>
+<l>CameraSize := 0.05</l>
+<l>CameraConeLength := 0.3</l>
+<l>get_calib_data (CalibDataID, 'calib_obj', 0, 'x', PX)</l>
+<l>get_calib_data (CalibDataID, 'calib_obj', 0, 'y', PY)</l>
+<l>get_calib_data (CalibDataID, 'calib_obj', 0, 'z', PZ)</l>
+<l>gen_object_model_3d_from_points (PX, PY, PZ, OM3DObjectOrig)</l>
+<l>rigid_trans_object_model_3d (OM3DObjectOrig, CalObjInBasePose, OM3DObject)</l>
+<l>dev_open_window (0, Width + 10, Width*0.2, Height*0.2, 'black', WindowHandleR)</l>
+<l>set_display_font (WindowHandleR, 14, 'mono', 'true', 'false')</l>
+<l>ParamName := ['color_0', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5', 'color_6', 'color_7', 'alpha_7', 'color_8', 'color_9', 'color_10', 'alpha_8', 'alpha_9', 'alpha_10', 'point_size']</l>
+<l>ParamValue := ['red', 'red', 'green', 'blue', 'red', 'green', 'blue', 'white', 0.7, 'magenta', 'yellow', 'white', 0.5, 0.5, 0.5, 5]</l>
+<c>* Labels for the visualized 3D object models.</c>
+<c>* 可视化 3D 物体模型的标签。</c>
+<l>tuple_gen_const (11, '', Labels)</l>
+<l>Labels[0] := 'Calibration Object'</l>
+<l>Labels[1] := 'Robot\'s Tool'</l>
+<l>Labels[4] := 'Robot\'s Base'</l>
+<l>Labels[8] := 'Camera'</l>
+<l>for I := 0 to NumImages - 1 by 1</l>
+<l>    dev_set_window (WindowHandle)</l>
+<l>    dev_clear_window ()</l>
+<l>    read_image (Image, ImageNameStart + I)</l>
+<l>    dev_display (Image)</l>
+<c>    * Obtain the pose of the tool in robot base coordinates used in the calibration.</c>
+<c>    * The index corresponds to the index of the pose of the observation object.</c>
+<c>    * 以校准中使用的机器人基准坐标获取工具的姿态。</c>
+<c>    * 索引与观测对象的姿态索引相对应。</c>
+<c>   </c>
+<l>    get_calib_data (CalibDataID, 'tool', PoseIds[I], 'tool_in_base_pose', ToolInBasePose)</l>
+<c>    * Compute the pose of the calibration object relative to the camera</c>
+<c>    * 计算校准对象相对于摄像机的姿态</c>
+<c>    </c>
+<l>    calc_calplate_pose_movingcam (CalObjInBasePose, ToolInCamPose, ToolInBasePose, CalObjInCamPose)</l>
+<c>    * Display the coordinate system</c>
+<c>    * 显示坐标系</c>
+<l>    dev_set_colored (3)</l>
+<l>    disp_3d_coord_system (WindowHandle, CamParam, CalObjInCamPose, 0.01)</l>
+<l>    Message := 'Using the calibration results to display '</l>
+<l>    Message[1] := 'the coordinate system in image ' + (I + 1) + ' of ' + NumImages</l>
+<l>    disp_message (WindowHandle, Message, 'window', 12, 12, 'black', 'true')</l>
+<l>    gen_camera_and_tool_moving_cam_object_model_3d (ToolInCamPose, ToolInBasePose, CameraSize, CameraConeLength, OM3DToolOrigin, CamParam, OM3DCamera, OM3DTool)</l>
+<l>    if (I == 0)</l>
+<l>        PoseIn := [-0.006, -0.296, 12, 178, 2, 270, 0]</l>
+<l>    else</l>
+<l>        PoseIn := PoseOut</l>
+<l>    endif</l>
+<l>    visualize_object_model_3d (WindowHandleR, [OM3DObject,OM3DTool,OM3DBase,OM3DCamera], [], PoseIn, ParamName, ParamValue, [], Labels, Instructions, PoseOut)</l>
+<l>endfor</l>
+<c>* Clear the data model</c>
+<l>clear_calib_data (CalibDataID)</l>
+<l>dev_set_window (WindowHandleR)</l>
+<l>dev_close_window ()</l>
+<c>* </c>
+<c>* After the hand-eye calibration the computed pose</c>
+<c>* ToolInCamPose can be used in robotic grasping applications.</c>
+<c>* To grasp an object with the robot, typically, its pose</c>
+<c>* with respect to the camera is determined (which</c>
+<c>* is simulated here by setting the object's pose to the</c>
+<c>* pose of the calibration object)</c>
+<c>* 手眼校准后的计算姿势</c>
+<c>* ToolInCamPose 可用于机器人抓取应用。</c>
+<c>* 使用机器人抓取物体时，通常需要确定物体相对于摄像头的姿态。</c>
+<c>* 确定其相对于摄像头的姿态（这里通过设置姿态来模拟）。</c>
+<c>* 这里通过将物体的姿态设置为校准物体的姿态来模拟</c>
+<c>* 在此通过将物体的姿态设置为校准物体的姿态来模拟）</c>
+<l>ObjInCamPose := CalObjInCamPose</l>
+<c>* If the tool coordinate system is placed at the gripper</c>
+<c>* and a detected object ObjInCamPose shall be grasped</c>
+<c>* (here the calibration object),</c>
+<c>* the pose of the detected object relative</c>
+<c>* to the robot base coordinate system has to be computed.</c>
+<c>* 如果工具坐标系位于夹具上</c>
+<c>* 且应抓取一个检测到的对象 ObjInCamPose</c>
+<c>* 这里是校准对象）、</c>
+<c>* 检测到的物体相对于</c>
+<c>* 必须计算检测到的物体相对于机器人基本坐标系的姿态。</c>
+<l>pose_invert (ToolInCamPose, CamInToolPose)</l>
+<l>pose_compose (ToolInBasePose, CamInToolPose, CamInBasePose)</l>
+<l>pose_compose (CamInBasePose, ObjInCamPose, ObjInBasePose)</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="calc_calplate_pose_movingcam">
+<interface>
+<ic>
+<par name="CalibObjInBasePose" base_type="ctrl" dimension="0"/>
+<par name="ToolInCamPose" base_type="ctrl" dimension="0"/>
+<par name="ToolInBasePose" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="CalibObjInCamPose" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c>* CalibObjInCamPose = cam_H_calplate</c>
+<c>*                   = cam_H_tool * tool_H_base * base_H_calplate</c>
+<c>*                   = ToolInCamPose * BaseInToolPose * CalibrationPose</c>
+<l>pose_invert (ToolInBasePose, BaseInToolPose)</l>
+<l>pose_compose (ToolInCamPose, BaseInToolPose, BaseInCamPose)</l>
+<l>pose_compose (BaseInCamPose, CalibObjInBasePose, CalibObjInCamPose)</l>
+<l>return ()</l>
+</body>
+<docu id="calc_calplate_pose_movingcam">
+<short lang="en_US">compute cam_H_calplate from hand-eye calibration results</short>
+<parameters>
+<parameter id="CalibObjInBasePose"/>
+<parameter id="CalibObjInCamPose"/>
+<parameter id="ToolInBasePose"/>
+<parameter id="ToolInCamPose"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="disp_results">
+<interface>
+<ic>
+<par name="WindowHandle" base_type="ctrl" dimension="0"/>
+<par name="CamCalibError" base_type="ctrl" dimension="0"/>
+<par name="Errors" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<l>dev_clear_window ()</l>
+<l>Message := 'Quality of the results:'</l>
+<l>disp_message (WindowHandle, Message, 'window', 12, 12, 'black', 'true')</l>
+<l>Message := 'Error of the camera calibration:      ' + CamCalibError$'6.4f' + ' pixel'</l>
+<l>disp_message (WindowHandle, Message, 'window', 52, 12, 'black', 'true')</l>
+<l>Message := 'Errors of the hand eye calibration:'</l>
+<l>disp_message (WindowHandle, Message, 'window', 92, 12, 'black', 'true')</l>
+<l>DispErrors := []</l>
+<l>DispErrors := [DispErrors,'                     |   RMS    |  Maximum |']</l>
+<l>DispErrors := [DispErrors,'|--------------------+----------+----------|']</l>
+<l>DispErrors := [DispErrors,'| Translational part | ' + (Errors[0] * 1e3)$'5.3f' + ' mm | ' + (Errors[2] * 1e3)$'5.3f' + ' mm |']</l>
+<l>DispErrors := [DispErrors,'| Rotational part    | ' + Errors[1]$'5.3f' + ' °  | ' + Errors[3]$'5.3f' + ' °  |']</l>
+<l>disp_message (WindowHandle, DispErrors, 'window', 132, 40, 'black', 'true')</l>
+<l>return ()</l>
+</body>
+<docu id="disp_results">
+<parameters>
+<parameter id="CamCalibError"/>
+<parameter id="Errors"/>
+<parameter id="WindowHandle"/>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>

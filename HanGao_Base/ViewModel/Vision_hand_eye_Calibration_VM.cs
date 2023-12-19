@@ -505,7 +505,7 @@ namespace HanGao.ViewModel
                         }
 
 
-                        User_Log_Add("选定标定图像移除！", Log_Show_Window_Enum.HandEye, MessageBoxImage.Information);
+                        User_Log_Add("选定标定图像移除成功！", Log_Show_Window_Enum.HandEye, MessageBoxImage.Information);
 
 
 

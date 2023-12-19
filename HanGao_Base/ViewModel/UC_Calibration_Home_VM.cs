@@ -991,6 +991,9 @@ namespace HanGao.ViewModel
 
                     Camera_Calibration_Results_Save(Enum.Parse<Camera_Connect_Control_Type_Enum>(E.Tag.ToString()));
 
+
+                    User_Log_Add("相机内参保存成功!", Log_Show_Window_Enum.Calibration, MessageBoxImage.Information);
+
                 }
                 catch (Exception _e)
                 {
@@ -1312,6 +1315,8 @@ namespace HanGao.ViewModel
                     break;
 
             }
+
+
 
         }
 

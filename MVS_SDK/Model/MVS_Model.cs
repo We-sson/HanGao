@@ -292,7 +292,7 @@ namespace MVS_SDK_Base.Model
             /// </summary>
             [StringValue("设置自动增益控制（AGC）模式失败")]
             [Camera_ReadWrite(Camera_Parameter_RW_Type.Write)]
-            public MV_CAM_GAIN_MODE GainAuto { set; get; } = MV_CAM_GAIN_MODE.MV_GAIN_MODE_ONCE;
+            public MV_CAM_GAIN_MODE GainAuto { set; get; } = MV_CAM_GAIN_MODE.MV_GAIN_MODE_OFF;
             /// <summary>
             /// 应用于图像的增益，单位为dB，Float类型，默认0.00
             /// </summary>
