@@ -1285,39 +1285,6 @@ namespace Halcon_SDK_DLL.Model
 
 
 
-        /// <summary>
-        ///  设置位置点信息 显示UI位姿单位：mm
-        /// </summary>
-        /// <param name="_Pos"></param>
-        //public void Set_Pose_Data(HPose _Pos)
-        //{
-
-        //    //需要Halcon坐标转换统一方向
-
-
-        //    if (_Pos != null)
-        //    {
-                
-        //        HType = (Halcon_Pose_Type_Enum)(int)_Pos[6];
-
-        //        //读取点位置统一类型为 "Rp+T"	"gba"	"point"
-        //        //if (HType!=0)
-        //        //{
-        //        //    _Pos= _Pos.ConvertPoseType("Rp+T", "gba"   ,"point");
-        //        //}
-
-        //            X = _Pos[0] * 1000;
-        //            Y = _Pos[1] * 1000;
-        //            Z = _Pos[2] * 1000;
-        //            A = _Pos[3];
-        //            B = _Pos[4];
-        //            C = _Pos[5];
-
-                   
-
-
-        //    }
-        //}
 
         /// <summary>
         /// 设置位置显示方法
@@ -1345,21 +1312,6 @@ namespace Halcon_SDK_DLL.Model
 
 
         }
-
-        //非机器人坐标姿态类型
-        //private  void Set_Point_Data(HPose _Pos)
-        //{
-
-        //    if (_Pos != null)
-        //    {
-        //        X = _Pos[0] * 1000;
-        //        Y = _Pos[1] * 1000;
-        //        Z = _Pos[2] * 1000;
-        //        A = _Pos[3];
-        //        B = _Pos[4];
-        //        C = _Pos[5];
-        //    }
-        //}
 
 
         /// <summary>

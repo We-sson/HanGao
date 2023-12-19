@@ -412,7 +412,7 @@ namespace Halcon_SDK_DLL
                         _Selected_camera.Calibration_XLD = _Res._CalibXLD;
                         _Selected_camera.Calibration_State = Camera_Calibration_Image_State_Enum.Image_Successful;
 
-                        _ImageList[i].Calibration_Plate_Pos.HPose = (new HPose(_Res.hv_Pose).ConvertPoseType("Rp+T", "gba" ,  "point"));
+                        _ImageList[i].Calibration_Plate_Pos.HPose = (new HPose(_Res.hv_Pose));
 
                         //检测图像与坐标是否一致
                         _Checked_imageNum++;

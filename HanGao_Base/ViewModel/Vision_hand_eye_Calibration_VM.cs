@@ -1966,7 +1966,7 @@ namespace HanGao.ViewModel
                     else
                     {
 
-                        throw new Exception(Halcon_HandEye_Calibra.Camera_Connect_Model + "：手眼标定图像少于25张！");
+                        throw new Exception(Halcon_HandEye_Calibra.Camera_Connect_Model + "：手眼标定图像少于10张！");
 
                     }
 
