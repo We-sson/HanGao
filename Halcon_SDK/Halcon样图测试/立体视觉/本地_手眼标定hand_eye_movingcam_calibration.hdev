@@ -56,9 +56,9 @@
 <l>dev_update_off ()</l>
 <c>* Directories with calibration images and data files</c>
 <c>* 包含校准图像和数据文件的目录</c>
-<l>ImageNameStart :='C:/Users/H/source/repos/HanGao/HanGao_Base/bin/Debug/Camera_0_'</l>
-<l>DataNameStart :='C:/Users/H/source/repos/HanGao/HanGao_Base/bin/Debug/'</l>
-<l>NumImages := 32</l>
+<l>ImageNameStart :='C:/Users/H/source/repos/HanGao/HanGao_Base/bin/Debug/三厂/Camera_0_'</l>
+<l>DataNameStart :='C:/Users/H/source/repos/HanGao/HanGao_Base/bin/Debug/三厂/'</l>
+<l>NumImages := 20</l>
 <l>read_image (Image, ImageNameStart + '0')</l>
 <l>dev_close_window ()</l>
 <l>get_image_size (Image, Width, Height)</l>
@@ -154,11 +154,14 @@
 <l>    else</l>
 <l>        PoseIn := PoseOut</l>
 <l>    endif</l>
-<l>    rigid_trans_object_model_3d (OM3DToolOrigin, ToolInBasePose, OM3DTool)</l>
+<c>    </c>
+<l>    convert_pose_type (ToolInBasePose, 'Rp+T', 'gba', 'point', ToolInBasePose1)</l>
+<c>    </c>
+<l>    rigid_trans_object_model_3d (OM3DToolOrigin, ToolInBasePose1, OM3DTool)</l>
 <l>    visualize_object_model_3d (WindowHandleR, [OM3DTool,OM3DBase], [], PoseIn, ParamName, ParamValue, 'Position of robot tool coordinate system in robot base coordinate system', Labels, Instructions, PoseOut)</l>
 <c>    * Set the pose tool in robot base coordinates in the calibration data model</c>
 <c>    * 在校准数据模型中以机器人基本坐标设置姿势工具</c>
-<l>    convert_pose_type (ToolInBasePose, 'Rp+T', 'abg', 'point', ToolInBasePose1)</l>
+<c> </c>
 <l>    set_calib_data (CalibDataID, 'tool', I, 'tool_in_base_pose', ToolInBasePose)</l>
 <l>endfor</l>
 <l>dev_set_window (WindowHandleR)</l>
