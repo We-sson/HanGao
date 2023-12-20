@@ -2595,7 +2595,7 @@
                                                         Height=" 3"
                                                         Background="{DynamicResource 全局_按钮_深灰颜色}" />
                                                 <TextBlock Grid.Row=" 8" Grid.Column=" 0"
-                                                           Text="A："
+                                                           Text="Rx："
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -2609,7 +2609,7 @@
                                                         Height=" 3"
                                                         Background="{DynamicResource 全局_按钮_深灰颜色}" />
                                                 <TextBlock Grid.Row=" 10" Grid.Column=" 0"
-                                                           Text="B："
+                                                           Text="Ry："
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -2623,7 +2623,7 @@
                                                         Height=" 3"
                                                         Background="{DynamicResource 全局_按钮_深灰颜色}" />
                                                 <TextBlock Grid.Row=" 12" Grid.Column=" 0"
-                                                           Text="C："
+                                                           Text="Rz："
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -4545,7 +4545,7 @@
                                                        VerticalAlignment="Center"
                                                        FontSize="14">
                                                 <TextBlock.Text>
-                                                    <MultiBinding StringFormat="坐标 : X: {0:N3}, Y: {1:N3} , Z: {2:N3} , A: {3:N3} , B: {4:N3} , C: {5:N3}">
+                                                    <MultiBinding StringFormat="坐标 : X: {0:N3}, Y: {1:N3} , Z: {2:N3} , Rx: {3:N3} , Ry: {4:N3} , Rz: {5:N3}">
                                                         <Binding Path="HDisplay_3D.UI_PoseIn_Tr.X" TargetNullValue="0" />
                                                         <Binding Path="HDisplay_3D.UI_PoseIn_Tr.Y" TargetNullValue="0" />
                                                         <Binding Path="HDisplay_3D.UI_PoseIn_Tr.Z" TargetNullValue="0" />
@@ -4745,7 +4745,7 @@
 
                                     </DataGridTemplateColumn>
 
-                                    <DataGridTemplateColumn Width="100">
+                                    <DataGridTemplateColumn Width="50">
                                         <DataGridTemplateColumn.Header>
                                             <TextBlock Text="误差"
                                                        Margin="4"
@@ -4926,7 +4926,7 @@
 
                                     </DataGridTemplateColumn>
 
-                                    <DataGridTemplateColumn Width="100">
+                                    <DataGridTemplateColumn Width="50">
                                         <DataGridTemplateColumn.Header>
                                             <TextBlock Text="误差"
                                                        Margin="4"
@@ -5124,7 +5124,7 @@
 
                                                 <DataGridTemplateColumn Width="*">
                                                     <DataGridTemplateColumn.Header>
-                                                        <TextBlock Text="A"
+                                                        <TextBlock Text="Rx"
                                                                    Margin="4"
                                                                    HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center"
@@ -5135,7 +5135,7 @@
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
 
-                                                            <TextBox Text="{Binding Calibration_Plate_Pos.A, StringFormat={}{0:F4}}"
+                                                            <TextBox Text="{Binding Calibration_Plate_Pos.Rx, StringFormat={}{0:F4}}"
                                                                      HorizontalAlignment="Stretch"
                                                                      VerticalAlignment="Stretch"
                                                                      HorizontalContentAlignment="Center"
@@ -5151,7 +5151,7 @@
 
                                                 <DataGridTemplateColumn Width="*">
                                                     <DataGridTemplateColumn.Header>
-                                                        <TextBlock Text="B"
+                                                        <TextBlock Text="Ry"
                                                                    Margin="4"
                                                                    HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center"
@@ -5162,7 +5162,7 @@
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
 
-                                                            <TextBox Text="{Binding Calibration_Plate_Pos.B, StringFormat={}{0:F4}}"
+                                                            <TextBox Text="{Binding Calibration_Plate_Pos.Ry, StringFormat={}{0:F4}}"
                                                                      HorizontalAlignment="Stretch"
                                                                      VerticalAlignment="Stretch"
                                                                      HorizontalContentAlignment="Center"
@@ -5178,7 +5178,7 @@
 
                                                 <DataGridTemplateColumn Width="*">
                                                     <DataGridTemplateColumn.Header>
-                                                        <TextBlock Text="C"
+                                                        <TextBlock Text="Rz"
                                                                    Margin="4"
                                                                    HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center"
@@ -5189,7 +5189,7 @@
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
 
-                                                            <TextBox Text="{Binding Calibration_Plate_Pos.C, StringFormat={}{0:F4}}"
+                                                            <TextBox Text="{Binding Calibration_Plate_Pos.Rz, StringFormat={}{0:F4}}"
                                                                      HorizontalAlignment="Stretch"
                                                                      VerticalAlignment="Stretch"
                                                                      HorizontalContentAlignment="Center"
@@ -5366,7 +5366,7 @@
 
                                                 <DataGridTemplateColumn Width="*">
                                                     <DataGridTemplateColumn.Header>
-                                                        <TextBlock Text="A"
+                                                        <TextBlock Text="Rx"
                                                                    Margin="4"
                                                                    HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center"
@@ -5377,7 +5377,7 @@
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
 
-                                                            <TextBox Text="{Binding HandEye_Robot_Pos.A, StringFormat={}{0:F4}, UpdateSourceTrigger=LostFocus}"
+                                                            <TextBox Text="{Binding HandEye_Robot_Pos.Rx, StringFormat={}{0:F4}, UpdateSourceTrigger=LostFocus}"
                                                                      HorizontalAlignment="Stretch"
                                                                      VerticalAlignment="Stretch"
                                                                      HorizontalContentAlignment="Center"
@@ -5392,7 +5392,7 @@
 
                                                 <DataGridTemplateColumn Width="*">
                                                     <DataGridTemplateColumn.Header>
-                                                        <TextBlock Text="B"
+                                                        <TextBlock Text="Ry"
                                                                    Margin="4"
                                                                    HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center"
@@ -5403,7 +5403,7 @@
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
 
-                                                            <TextBox Text="{Binding HandEye_Robot_Pos.B, StringFormat={}{0:F4}, UpdateSourceTrigger=LostFocus}"
+                                                            <TextBox Text="{Binding HandEye_Robot_Pos.Ry, StringFormat={}{0:F4}, UpdateSourceTrigger=LostFocus}"
                                                                      HorizontalAlignment="Stretch"
                                                                      VerticalAlignment="Stretch"
                                                                      HorizontalContentAlignment="Center"
@@ -5418,7 +5418,7 @@
 
                                                 <DataGridTemplateColumn Width="*">
                                                     <DataGridTemplateColumn.Header>
-                                                        <TextBlock Text="C"
+                                                        <TextBlock Text="Rz"
                                                                    Margin="4"
                                                                    HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center"
@@ -5429,7 +5429,7 @@
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
 
-                                                            <TextBox Text="{Binding HandEye_Robot_Pos.C, StringFormat={}{0:F4}, UpdateSourceTrigger=LostFocus}"
+                                                            <TextBox Text="{Binding HandEye_Robot_Pos.Rz, StringFormat={}{0:F4}, UpdateSourceTrigger=LostFocus}"
                                                                      HorizontalAlignment="Stretch"
                                                                      VerticalAlignment="Stretch"
                                                                      HorizontalContentAlignment="Center"
@@ -5458,25 +5458,12 @@
 
 
 
-                                                            <!--<TextBlock Text="{Binding HandEye_Robot_Pos.HType, Converter={StaticResource Enum_DescriptionConverter}}"
-                                                                       TextWrapping="Wrap"
-                                                                       Padding="0,4,0,4"
-                                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                                       FontSize="14"
-                                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                                       TextTrimming="CharacterEllipsis" />-->
-
-
-
-
-
-
-
                                                             <TextBlock Text="{Binding HandEye_Robot_Pos.HType, Converter={StaticResource Enum_DescriptionConverter}}"
                                                                        HorizontalAlignment="Center"
                                                                        VerticalAlignment="Center"
                                                                        Background="Transparent"
-                                                                       FontSize="14" />
+                                                                       FontSize="14"
+                                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellTemplate>
 
@@ -8087,18 +8074,18 @@
                                                         Height=" 3"
                                                         Background="{DynamicResource 全局_按钮_深灰颜色}" />
                                                 <TextBlock Grid.Row=" 8" Grid.Column=" 0"
-                                                           Text="A："
+                                                           Text="Rx："
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 8" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.A, StringFormat={}{0:F4}}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.Rx, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
 
                                                 <TextBlock Grid.Row=" 8" Grid.Column=" 2"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.A, StringFormat={}{0:F4}}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.Rx, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -8107,18 +8094,18 @@
                                                         Height=" 3"
                                                         Background="{DynamicResource 全局_按钮_深灰颜色}" />
                                                 <TextBlock Grid.Row=" 10" Grid.Column=" 0"
-                                                           Text="B："
+                                                           Text="Ry："
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 10" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.B, StringFormat={}{0:F4}}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.Ry, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
 
                                                 <TextBlock Grid.Row=" 10" Grid.Column=" 2"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.B, StringFormat={}{0:F4}}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.Ry, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -8127,18 +8114,18 @@
                                                         Height=" 3"
                                                         Background="{DynamicResource 全局_按钮_深灰颜色}" />
                                                 <TextBlock Grid.Row=" 12" Grid.Column=" 0"
-                                                           Text="C："
+                                                           Text="Rz："
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 12" Grid.Column="1"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.C, StringFormat={}{0:F4}}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.Rz, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
 
                                                 <TextBlock Grid.Row=" 12" Grid.Column=" 2"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.C, StringFormat={}{0:F4}}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.Rz, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -8254,18 +8241,18 @@
                                                         Height=" 3"
                                                         Background="{DynamicResource 全局_按钮_深灰颜色}" />
                                                 <TextBlock Grid.Row=" 8" Grid.Column=" 0"
-                                                           Text="A："
+                                                           Text="Rx："
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 8" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.A, StringFormat={}{0:F4}}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.Rx, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
 
                                                 <TextBlock Grid.Row=" 8" Grid.Column=" 2"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.A, StringFormat={}{0:F4}}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.Rx, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -8274,18 +8261,18 @@
                                                         Height=" 3"
                                                         Background="{DynamicResource 全局_按钮_深灰颜色}" />
                                                 <TextBlock Grid.Row=" 10" Grid.Column=" 0"
-                                                           Text="B："
+                                                           Text="Ry："
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 10" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.B, StringFormat={}{0:F4}}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.Ry, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
 
                                                 <TextBlock Grid.Row=" 10" Grid.Column=" 2"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.B, StringFormat={}{0:F4}}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.Ry, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -8294,18 +8281,18 @@
                                                         Height=" 3"
                                                         Background="{DynamicResource 全局_按钮_深灰颜色}" />
                                                 <TextBlock Grid.Row=" 12" Grid.Column=" 0"
-                                                           Text="C："
+                                                           Text="Rz："
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 12" Grid.Column="1"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.C, StringFormat={}{0:F4}}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.Rz, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
 
                                                 <TextBlock Grid.Row=" 12" Grid.Column=" 2"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.C, StringFormat={}{0:F4}}"
+                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.Rz, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />

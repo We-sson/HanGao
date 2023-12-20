@@ -552,7 +552,7 @@ namespace Halcon_SDK_DLL.Model
 
             public Halcon_Camera_Calibration_Parameters_Model(HCamPar hCamPar)
             {
-                HCamPar = new HCamPar (hCamPar);
+                HCamPar = new HCamPar(hCamPar);
             }
 
             public Halcon_Camera_Calibration_Parameters_Model(HTuple hCamPar)
@@ -1257,25 +1257,25 @@ namespace Halcon_SDK_DLL.Model
         public double X { set; get; } = 0;
         public double Y { set; get; } = 0;
         public double Z { set; get; } = 0;
-        public double A { set; get; } = 0;
-        public double B { set; get; } = 0;
-        public double C { set; get; } = 0;
+        public double Rx { set; get; } = 0;
+        public double Ry { set; get; } = 0;
+        public double Rz { set; get; } = 0;
 
         /// <summary>
         /// 读取位置点类型
         /// </summary>
-        public Halcon_Pose_Type_Enum HType { set; get; } =  Halcon_Pose_Type_Enum.gba;
+        public Halcon_Pose_Type_Enum HType { set; get; } = Halcon_Pose_Type_Enum.gba;
 
 
-        private HPose _HPose=new HPose ();
+        private HPose _HPose = new HPose();
 
         public HPose HPose
         {
-            get 
+            get
             {
                 return _HPose;
             }
-            set 
+            set
             {
                 Set_Vale(value);
                 _HPose = value;
@@ -1290,24 +1290,24 @@ namespace Halcon_SDK_DLL.Model
         /// 设置位置显示方法
         /// </summary>
         /// <param name="_Pose"></param>
-        private  void Set_Vale(HPose _Pose)
+        private void Set_Vale(HPose _Pose)
         {
-            if (_Pose.RawData.Length!=0)
+            if (_Pose.RawData.Length != 0)
             {
 
-                
 
-            if (_Pose.RawData.Length ==7)
-            {
-                HType = (Halcon_Pose_Type_Enum)(int)_Pose[6];
 
-            }
-            X = _Pose[0] * 1000;
-            Y = _Pose[1] * 1000;
-            Z = _Pose[2] * 1000;
-            A = _Pose[3];
-            B = _Pose[4];
-            C = _Pose[5];
+                if (_Pose.RawData.Length == 7)
+                {
+                    HType = (Halcon_Pose_Type_Enum)(int)_Pose[6];
+
+                }
+                X = _Pose[0] * 1000;
+                Y = _Pose[1] * 1000;
+                Z = _Pose[2] * 1000;
+                Rx = _Pose[3];
+                Ry = _Pose[4];
+                Rz = _Pose[5];
             }
 
 
@@ -1331,7 +1331,7 @@ namespace Halcon_SDK_DLL.Model
                 case Socket_Robot_Protocols_Enum.KUKA:
 
 
-                    _Pos.CreatePose(X/ 1000, Y / 1000, Z / 1000, A, B, C, "Rp+T", "gba", "point");
+                    _Pos.CreatePose(X / 1000, Y / 1000, Z / 1000, Rx, Ry, Rz, "Rp+T", "gba", "point");
 
 
 
@@ -1343,7 +1343,7 @@ namespace Halcon_SDK_DLL.Model
                     break;
                 case Socket_Robot_Protocols_Enum.川崎:
 
-                    _Pos.CreatePose(X / 1000, Y / 1000, Z / 1000, A, B, C, "Rp+T", "gba", "point");
+                    _Pos.CreatePose(X / 1000, Y / 1000, Z / 1000, Rx, Ry, Rz, "Rp+T", "gba", "point");
 
 
 
@@ -1352,7 +1352,7 @@ namespace Halcon_SDK_DLL.Model
                 case Socket_Robot_Protocols_Enum.通用:
 
 
-                    _Pos.CreatePose(X , Y , Z , A, B, C, "Rp+T", "gba", "point");
+                    _Pos.CreatePose(X, Y, Z, Rx, Ry, Rz, "Rp+T", "gba", "point");
 
 
                     break;
@@ -1373,7 +1373,7 @@ namespace Halcon_SDK_DLL.Model
         /// <param name="_File"></param>
         /// <param name="_name"></param>
         /// <exception cref="Exception"></exception>
-        public void Pos_Save( string _File, string _name)
+        public void Pos_Save(string _File, string _name)
         {
             try
             {
@@ -1393,7 +1393,7 @@ namespace Halcon_SDK_DLL.Model
             catch (Exception _e)
             {
 
-                throw new Exception(_name+"：位姿文件保存失败！原因："+_e.Message);
+                throw new Exception(_name + "：位姿文件保存失败！原因：" + _e.Message);
             }
 
 
@@ -1427,7 +1427,7 @@ namespace Halcon_SDK_DLL.Model
         {
             RMS_Translational = _Data.TupleSelect(0);
             RMS_Rotational = _Data.TupleSelect(1);
-            Maximum_Translational= _Data.TupleSelect(2);
+            Maximum_Translational = _Data.TupleSelect(2);
             Maximum_Rotational = _Data.TupleSelect(3);
         }
 
@@ -2154,7 +2154,7 @@ namespace Halcon_SDK_DLL.Model
         /// "Rp+T"	"abg"	"point"
         /// </summary>
         [Description("Z-Y-X")]
-        abg =2,
+        abg = 2,
     }
 
 

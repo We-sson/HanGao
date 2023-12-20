@@ -1617,6 +1617,10 @@ namespace HanGao.ViewModel
                         ///查找标定板结果
                         HandEye_Find_Calibration(HandEye_Calibration_Model_Enum.Checked_Model);
 
+
+                        ///加载图像到标定列表
+                        Cailbration_Load_Image(Halcon_HandEye_Calibra.Camera_Connect_Model, HandEye_Check_LiveImage._Image, HandEye_Check_LiveImage._CalibXLD, HandEye_Check_LiveImage._CalibRegion, new Point_Model());
+
                     }
 
 
@@ -1884,6 +1888,10 @@ namespace HanGao.ViewModel
                             HandEye_Check_LiveImage._Image = _Image;
                             Halcon_Window_Display.Display_HObject(HandEye_Check_LiveImage._Image, HandEye_Check_LiveImage._CalibRegion, null, HandEye_Check_LiveImage._DrawColor, _Select_Camera.Show_Window);
                             Halcon_Window_Display.Display_HObject(null, null, HandEye_Check_LiveImage._CalibXLD, null, _Select_Camera.Show_Window);
+
+
+
+
 
                         }
 

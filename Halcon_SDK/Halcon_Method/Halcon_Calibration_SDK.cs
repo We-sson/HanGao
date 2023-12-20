@@ -424,6 +424,10 @@ namespace Halcon_SDK_DLL
                     }
                     else
                     {
+                        _Selected_camera.Calibration_3D_Model = new List<HObjectModel3D> ();
+                        _Selected_camera.Calibration_Image = _Res._Image;
+                        _Selected_camera.Calibration_Region = _Res._CalibRegion;
+                        _Selected_camera.Calibration_XLD = _Res._CalibXLD;
                         //识别错误作法
                         _Selected_camera.Calibration_State = Camera_Calibration_Image_State_Enum.Image_UnSuccessful;
                         _ImageList[i].Calibration_Plate_Pos.HPose = new HPose() ;
