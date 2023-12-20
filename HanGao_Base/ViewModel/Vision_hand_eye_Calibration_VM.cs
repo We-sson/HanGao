@@ -266,7 +266,7 @@ namespace HanGao.ViewModel
                         {
                             case Socket_Robot_Protocols_Enum.KUKA:
 
-                        _RobotBase.CreatePose(double.Parse(_S.Actual_Point.X) / 1000, double.Parse(_S.Actual_Point.Y) / 1000, double.Parse(_S.Actual_Point.Z) / 1000, double.Parse(_S.Actual_Point.A), double.Parse(_S.Actual_Point.B), double.Parse(_S.Actual_Point.C), "Rp+T", "abg", "point");
+                        _RobotBase.CreatePose(double.Parse(_S.Actual_Point.X) / 1000, double.Parse(_S.Actual_Point.Y) / 1000, double.Parse(_S.Actual_Point.Z) / 1000, double.Parse(_S.Actual_Point.C ), double.Parse(_S.Actual_Point.B), double.Parse(_S.Actual_Point.A), "Rp+T", "abg", "point");
 
                                 break;
                             case Socket_Robot_Protocols_Enum.ABB:
@@ -315,6 +315,11 @@ namespace HanGao.ViewModel
 
 
                         }
+                        else
+                        {
+                            throw new Exception("标定板查找失败，，请检查标定参数和相机参数！");
+
+                        }
 
 
 
@@ -358,7 +363,7 @@ namespace HanGao.ViewModel
             catch (Exception _e)
             {
 
-
+                 
                 User_Log_Add(_e.Message, Log_Show_Window_Enum.HandEye, MessageBoxImage.Error);
 
 

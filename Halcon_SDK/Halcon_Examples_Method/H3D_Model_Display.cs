@@ -1243,7 +1243,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         ho_ImageDump = hv_WindowHandleBuffer.DumpWindowImage();
                         hv_WindowHandle.DispColor(ho_ImageDump);
                         //限制刷新帧率缓解处理时间 每秒24帧
-                        HOperatorSet.WaitSeconds(0.04);
+                        HOperatorSet.WaitSeconds(0.02);
 
 
 
