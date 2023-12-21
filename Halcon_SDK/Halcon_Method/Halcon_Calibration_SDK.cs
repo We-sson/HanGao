@@ -8,6 +8,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.Net;
+using System.Windows.Controls;
 using Throw;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
@@ -34,8 +36,13 @@ namespace Halcon_SDK_DLL
         }
 
 
-
+        /// <summary>
+        /// 标定主属性
+        /// </summary>
         public HCalibData HCalibData { set; get; } = new HCalibData();
+
+
+
 
 
 
@@ -85,7 +92,7 @@ namespace Halcon_SDK_DLL
         /// </summary>
         /// <param name="_HandEye_Param"></param>
         /// <exception cref="Exception"></exception>
-        private void Creation_HandEye_Calibration(Halcon_Camera_Calibration_Model _HandEye_Param)
+        private void Creation_Calibration(Halcon_Camera_Calibration_Model _HandEye_Param)
         {
 
 
@@ -96,7 +103,7 @@ namespace Halcon_SDK_DLL
                 try
                 {
                     //检查变量
-                    _HandEye_Param.Halcon_CaltabDescr_Address.ThrowIfNull("请选择标定板文件位置！");
+                    _HandEye_Param.Selected_Calibration_Pate_Address.ThrowIfNull("请选择标定板文件位置！");
 
                     switch (Camera_Connect_Model)
                     {
@@ -110,7 +117,7 @@ namespace Halcon_SDK_DLL
                             HCalibData = new HCalibData(_HandEye_Param.Calibration_Setup_Model.ToString(), 1, 1);
 
                             ///设置标定文件
-                            HCalibData.SetCalibDataCalibObject(0, _HandEye_Param.Halcon_CaltabDescr_Address);
+                            HCalibData.SetCalibDataCalibObject(0, _HandEye_Param.Selected_Calibration_Pate_Address.FullName);
 
                             HCalibData.SetCalibDataCamParam(0, new HTuple(), Camera_Calibration_Paramteters.Get_HCamPar());
 
@@ -194,7 +201,7 @@ namespace Halcon_SDK_DLL
 
 
                 ///创建标定
-                Creation_HandEye_Calibration(_CalibParam);
+                Creation_Calibration(_CalibParam);
 
                 //遍历图片
                 for (int i = 0; i < _ImageList.Count; i++)
@@ -320,7 +327,13 @@ namespace Halcon_SDK_DLL
         }
 
 
-
+        /// <summary>
+        /// 手眼标定计算方法
+        /// </summary>
+        /// <param name="_ImageList"></param>
+        /// <param name="_CalibParam"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public Calibration_Camera_Data_Results_Model HandEye_Calibration_Results(ObservableCollection<Calibration_Image_List_Model> _ImageList, Halcon_Camera_Calibration_Model _CalibParam)
         {
             Calibration_Camera_Data_Results_Model _Results = new Calibration_Camera_Data_Results_Model();
@@ -343,7 +356,7 @@ namespace Halcon_SDK_DLL
 
 
                 //创建手眼标定
-                Creation_HandEye_Calibration(_CalibParam);
+                Creation_Calibration(_CalibParam);
 
 
 
@@ -518,7 +531,11 @@ namespace Halcon_SDK_DLL
 
                 //获得标定板在基坐标的位置
                 _CalObjInBasePose = HCalibData.GetCalibData("calib_obj", 0, "obj_in_base_pose");
-                _Results.HandEye_Obj_In_Base_Pose.HPose = (new HPose(_CalObjInBasePose));
+                HPose hv_PlaneInBasePose = new HPose (_CalObjInBasePose);
+
+                //设置标定板实际厚度
+                hv_PlaneInBasePose= hv_PlaneInBasePose.SetOriginPose(0, 0,- _CalibParam.Halcon_CaltabThickness*0.001);
+                _Results.HandEye_Obj_In_Base_Pose.HPose = hv_PlaneInBasePose;
 
                 //获得标定板在基坐标的位置误差
                 obj_in_base_pose_deviations = HCalibData.GetCalibData("calib_obj", 0, "obj_in_base_pose_deviations");
@@ -684,7 +701,7 @@ namespace Halcon_SDK_DLL
             FindCalibObject_Results _Results = new FindCalibObject_Results();
 
 
-            Creation_HandEye_Calibration(_Calibration_Param);
+            Creation_Calibration(_Calibration_Param);
 
 
             Find_Calibration_Workflows(ref _Results, _Image, _Calibration_Param);
@@ -967,7 +984,7 @@ namespace Halcon_SDK_DLL
         /// <param name="name"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public static bool Calibration_Results_Checked_File(string _address, string name)
+        public  bool Calibration_Results_Checked_File(string _address, string name)
         {
 
             try
@@ -1004,7 +1021,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_address"></param>
         /// <param name="_HCamera"></param>
         /// <exception cref="Exception"></exception>
-        public static void Save_Calibration_Results_File(string _address, HCamPar _HCamera)
+        public  void Save_Calibration_Results_File(string _address, HCamPar _HCamera)
         {
 
 
@@ -1038,6 +1055,7 @@ namespace Halcon_SDK_DLL
 
 
         }
+
 
 
 

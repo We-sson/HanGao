@@ -2661,7 +2661,7 @@
 
 
                                                 <TextBox Grid.Column=" 2"
-                                                         Text="...."
+                                                         Text="{Binding HanddEye_Socked_Send_information}"
                                                          MinHeight=" 300"
                                                          TextWrapping="Wrap"
                                                          Background="Transparent"
@@ -2694,7 +2694,7 @@
 
 
                                                 <TextBox Grid.Column=" 2"
-                                                         Text="....."
+                                                         Text="{Binding HanddEye_Socked_Receive_information}"
                                                          MinHeight=" 300"
                                                          TextWrapping="Wrap"
                                                          Background="Transparent"
@@ -2798,7 +2798,7 @@
                                     <StackPanel Orientation="Vertical">
 
 
-                                        <Grid Height=" 100" Margin="8">
+                                        <!--<Grid Height=" 100" Margin="8">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="90" />
@@ -2828,8 +2828,59 @@
                                                    VerticalContentAlignment="Center"
                                                    FontSize=" 14" />
 
-                                        </Grid>
+                                        </Grid>-->
 
+                                        <Grid Height=" 35" Margin="8">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="90" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" auto" />
+                                                <ColumnDefinition Width=" 35" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column=" 0"
+                                                       Text="标定板"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
+                                                      HorizontalContentAlignment="Left"
+                                                      VerticalContentAlignment="Center"
+                                                      FontSize="16"
+                                                      IsDropDownOpen="False"
+                                                      IsSynchronizedWithCurrentItem="True"
+                                                      ItemsSource="{Binding HandEye_Camera_Parameters.Calibration_Plate_List}"
+                                                      SelectedValue="{Binding HandEye_Camera_Parameters.Selected_Calibration_Pate_Address}">
+                                                <!--<ComboBox.Style>
+                                                    <Style BasedOn="{StaticResource Data_ComboBoxStyle}" TargetType="ComboBox">
+                                                        <Setter Property="IsEnabled" Value="True" />
+                                                        <Style.Triggers>
+
+                                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Robot_Diver}" Value="false">
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ComboBox.Style>-->
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Name}"
+                                                                   TextWrapping="Wrap"
+                                                                   Padding="0,4,0,4"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="14"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                   TextTrimming="CharacterEllipsis" />
+
+
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+
+                                            </ComboBox>
+
+
+                                        </Grid>
 
                                         <Grid Height=" 35" Margin="8">
                                             <Grid.ColumnDefinitions>
@@ -6376,7 +6427,7 @@
                                         </Grid>
 
 
-                                        <Grid Height=" 100" Margin="8">
+                                        <!--<Grid Height=" 100" Margin="8">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="90" />
@@ -6404,7 +6455,15 @@
                                                    VerticalContentAlignment="Center"
                                                    FontSize=" 14" />
 
-                                        </Grid>
+                                        </Grid>-->
+
+
+
+
+                                        <Border Height=" 3"
+                                                Margin="8,4,8,4"
+                                                Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                                CornerRadius="1" />
 
                                         <Grid Height="35" Margin="8">
 
@@ -6412,7 +6471,7 @@
                                                 <ColumnDefinition Width="90" />
                                                 <ColumnDefinition Width=" *" />
 
-                                                <ColumnDefinition Width=" *" />
+                                                <ColumnDefinition Width=" 35" />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Text="功能操作"
                                                        HorizontalAlignment="Left"
@@ -6422,53 +6481,11 @@
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
 
-                                            <Button Grid.Column=" 1"
-                                                    Margin="4,0,4,0"
-                                                    HorizontalContentAlignment="Stretch"
-                                                    VerticalContentAlignment="Stretch"
-                                                    Background="{DynamicResource 全局_按钮_蓝颜色}"
-                                                    Tag="Camera_0">
-                                                <Button.Resources>
-                                                    <ProgressBar x:Key="Calibration_PBar"
-                                                                 Margin="4"
-                                                                 BorderThickness="0"
-                                                                 IsIndeterminate="True"
-                                                                 Maximum=" 100"
-                                                                 Minimum=" 0" />
-
-                                                    <TextBlock x:Key="Calibration_Results_Txt"
-                                                               Text="标定数据"
-                                                               HorizontalAlignment="Center"
-                                                               VerticalAlignment="Center"
-                                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                               FontSize="16"
-                                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
-                                                </Button.Resources>
-
-                                                <Button.Style>
-                                                    <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
-                                                        <Setter Property="Content" Value="{StaticResource Calibration_Results_Txt}" />
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding HandEye_Camera_0_Results.Camera_Calinration_Process_Type}" Value="{x:Static Halcon_Enum:Camera_Calinration_Process_Enum.Calibration}">
-                                                                <Setter Property="Content" Value="{StaticResource Calibration_PBar}" />
-                                                                <Setter Property="IsEnabled" Value="False" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Button.Style>
-
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding}"
-                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                               PassEventArgsToCommand="True" />
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
-                                            </Button>
 
 
 
-                                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+
+                                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
                                                     Margin="4,0,4,0"
                                                     Background="{DynamicResource 全局_按钮_蓝颜色}"
                                                     Tag="Camera_0">
@@ -6480,7 +6497,7 @@
                                                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding}"
+                                                        <i:InvokeCommandAction Command="{Binding Camera_Calibration_Results_Save_Comm}"
                                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
@@ -7254,7 +7271,7 @@
                                         </Grid>
 
 
-                                        <Grid Height=" 100" Margin="8">
+                                        <!--<Grid Height=" 100" Margin="8">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="90" />
@@ -7283,7 +7300,13 @@
                                                    VerticalContentAlignment="Center"
                                                    FontSize=" 14" />
 
-                                        </Grid>
+                                        </Grid>-->
+                                        <Border Height=" 3"
+                                                Margin="8,4,8,4"
+                                                Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                                CornerRadius="1" />
+
+
 
                                         <Grid Height="35" Margin="8">
 
@@ -7291,7 +7314,7 @@
                                                 <ColumnDefinition Width="90" />
                                                 <ColumnDefinition Width=" *" />
 
-                                                <ColumnDefinition Width=" *" />
+                                                <ColumnDefinition Width=" 35" />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Text="功能操作"
                                                        HorizontalAlignment="Left"
@@ -7301,53 +7324,11 @@
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
 
-                                            <Button Grid.Column=" 1"
-                                                    Margin="4,0,4,0"
-                                                    HorizontalContentAlignment="Stretch"
-                                                    VerticalContentAlignment="Stretch"
-                                                    Background="{DynamicResource 全局_按钮_蓝颜色}"
-                                                    Tag="Camera_1">
-                                                <Button.Resources>
-                                                    <ProgressBar x:Key="Calibration_PBar"
-                                                                 Margin="4"
-                                                                 BorderThickness="0"
-                                                                 IsIndeterminate="True"
-                                                                 Maximum=" 100"
-                                                                 Minimum=" 0" />
-
-                                                    <TextBlock x:Key="Calibration_Results_Txt"
-                                                               Text="标定数据"
-                                                               HorizontalAlignment="Center"
-                                                               VerticalAlignment="Center"
-                                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                               FontSize="16"
-                                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
-                                                </Button.Resources>
-
-                                                <Button.Style>
-                                                    <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
-                                                        <Setter Property="Content" Value="{StaticResource Calibration_Results_Txt}" />
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding HandEye_Camera_1_Results.Camera_Calinration_Process_Type}" Value="{x:Static Halcon_Enum:Camera_Calinration_Process_Enum.Calibration}">
-                                                                <Setter Property="Content" Value="{StaticResource Calibration_PBar}" />
-                                                                <Setter Property="IsEnabled" Value="False" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Button.Style>
-
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding}"
-                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                               PassEventArgsToCommand="True" />
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
-                                            </Button>
 
 
 
-                                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+
+                                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
                                                     Margin="4,0,4,0"
                                                     Background="{DynamicResource 全局_按钮_蓝颜色}"
                                                     Tag="Camera_1">
@@ -7359,7 +7340,7 @@
                                                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding}"
+                                                        <i:InvokeCommandAction Command="{Binding Camera_Calibration_Results_Save_Comm}"
                                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>

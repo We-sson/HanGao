@@ -74,6 +74,18 @@ namespace Soceket_KUKA
         private static int ConnectNumber = 0;
 
         /// <summary>
+        /// 接收文件编码信息
+        /// </summary>
+        public string Receive_Information { set; get; }=string.Empty;
+
+
+        /// <summary>
+        /// 发生文本编码信息
+        /// </summary>
+        public string Send_Information { set; get; }=string.Empty;  
+
+
+        /// <summary>
         /// 启动服务器
         /// </summary>
         /// <param name="_IP"></param>
@@ -225,14 +237,17 @@ namespace Soceket_KUKA
                     string message = Encoding.UTF8.GetString(buffer, 0, length);
                     //WriteLine(clientipe + " ：" + message, ConsoleColor.White);
                     //每当服务器收到消息就会给客户端返回一个Server received data
+                   
 
-               
+
 
                     if (message == "")
                     {
                         Socket_ErrorInfo_delegate("设备IP: " + clientipe.Address.ToString() + " 断开连接! ");
                         return;
                     }
+
+                    Receive_Information = message;
 
                     switch (Socket_Robot)
                     {
@@ -245,6 +260,8 @@ namespace Soceket_KUKA
                         case Socket_Robot_Protocols_Enum.川崎:
                             break;
                     }
+
+                    Send_Information = _S;
 
                     if (_S!=string.Empty)
                     {

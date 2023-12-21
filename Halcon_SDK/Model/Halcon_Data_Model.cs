@@ -10,6 +10,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows;
 using System.Windows.Media.Media3D;
+using static Halcon_SDK_DLL.Halcon_Calibration_SDK;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
 namespace Halcon_SDK_DLL.Model
@@ -840,7 +841,10 @@ namespace Halcon_SDK_DLL.Model
     public class Halcon_Camera_Calibration_Model
     {
 
-
+        public Halcon_Camera_Calibration_Model()
+        {
+            Read_Calibration_Plate_File();
+        }
 
 
         /// <summary>
@@ -868,14 +872,11 @@ namespace Halcon_SDK_DLL.Model
         public string HandEye_Result_Fold_Address { set; get; } = Directory.GetCurrentDirectory() + "\\Calibration_File";
 
 
+
         /// <summary>
-        /// 标定板位置
+        /// 标定板厚度mm
         /// </summary>
-        public string Halcon_CaltabDescr_Address { set; get; }
-        /// <summary>
-        /// 标定板厚度
-        /// </summary>
-        public double Halcon_CaltabThickness { set; get; } = 0;
+        public double Halcon_CaltabThickness { set; get; } = 2;
 
         /// <summary>
         ///  标定相机数量 
@@ -912,6 +913,51 @@ namespace Halcon_SDK_DLL.Model
         /// 手眼标定的平移容差：单位mm
         /// </summary>
         public double HandEye_Calibration_Check_Translation { set; get; } = 10;
+
+        /// <summary>
+        /// 标定板列表
+        /// </summary>
+        public List<FileInfo> Calibration_Plate_List { set; get; } = new List<FileInfo>();
+
+
+        /// <summary>
+        /// 选择标定板类型
+        /// </summary>
+        public FileInfo Selected_Calibration_Pate_Address { set; get; }
+
+
+
+        /// <summary>
+        /// 读取标定板类型文件方法
+        /// </summary>
+        public void Read_Calibration_Plate_File()
+        {
+
+            //固定标定板存放位置
+            string _address = Directory.GetCurrentDirectory() + "\\Calibration_File\\CalTabFile";
+
+            //判断位置是否存在
+            if (!Directory.Exists(_address)) Directory.CreateDirectory(_address);
+
+            //获得的文件夹内文件
+            FileInfo[] Files = new DirectoryInfo(_address).GetFiles();
+
+
+            //读取标定板文件
+            foreach (var file in Files)
+            {
+                if (file.Extension.Equals(".cpd") || file.Extension.Equals(".descr"))
+                {
+                    //添加到列表中
+                    Calibration_Plate_List.Add(file);
+
+
+
+                }
+            }
+
+
+        }
 
 
     }
@@ -1462,14 +1508,16 @@ namespace Halcon_SDK_DLL.Model
         public Calibration_Camera_Data_Results_Model(Calibration_Camera_Data_Results_Model _Results_Model)
         {
             Camera_Calib_Error = _Results_Model.Camera_Calib_Error;
-            Result_Fold_Address = _Results_Model.Result_Fold_Address;
             Camera_Result_Pama = _Results_Model.Camera_Result_Pama;
             Calibration_Name = _Results_Model.Calibration_Name;
-            Save_File_Address = _Results_Model.Save_File_Address;
+          
         }
 
         public Calibration_Camera_Data_Results_Model()
         {
+
+
+
 
         }
 
@@ -1480,13 +1528,12 @@ namespace Halcon_SDK_DLL.Model
 
 
 
-
-
-
         /// <summary>
-        /// 标定结果保存文件夹
+        /// 相机结果保存文件夹
         /// </summary>
         public string Result_Fold_Address { set; get; } = Directory.GetCurrentDirectory() + "\\Calibration_File";
+
+
 
         /// <summary>
         /// 相机标定参数
@@ -1500,9 +1547,9 @@ namespace Halcon_SDK_DLL.Model
 
 
         /// <summary>
-        /// 保存文件地址
+        /// 保存相机内参文件地址
         /// </summary>
-        public string Save_File_Address { set; get; }
+        private string Save_File_Address { set; get; }
 
 
 
@@ -1588,11 +1635,13 @@ namespace Halcon_SDK_DLL.Model
         {
 
 
+   
+
             ////检查文件夹，创建
             if (!Directory.Exists(Result_Fold_Address)) Directory.CreateDirectory(Result_Fold_Address);
 
             //添加名称
-            Save_File_Address = Result_Fold_Address + "\\" + Calibration_Name;
+            string Save_File_Address = Result_Fold_Address + "\\" + Calibration_Name;
 
             if (File.Exists(Save_File_Address += ".dat"))
             {

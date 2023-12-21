@@ -71,6 +71,9 @@
     <None Update="Calibration_File\CalTabFile\27_31_0.002_calplate.ps">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
+    <None Update="Calibration_File\CalTabFile\caltab_30mm.descr">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="halcon.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

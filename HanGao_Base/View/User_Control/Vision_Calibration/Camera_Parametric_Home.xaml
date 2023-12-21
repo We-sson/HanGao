@@ -1927,7 +1927,7 @@
                                     <StackPanel Orientation="Vertical">
 
 
-                                        <Grid Margin="8">
+                                        <!--<Grid Margin="8">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="90" />
@@ -1955,9 +1955,59 @@
                                                    VerticalContentAlignment="Center"
                                                    FontSize=" 14" />
 
+                                        </Grid>-->
+
+                                        <Grid Height=" 35" Margin="8">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="90" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" auto" />
+                                                <ColumnDefinition Width=" 35" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column=" 0"
+                                                       Text="标定板"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
+                                                      HorizontalContentAlignment="Left"
+                                                      VerticalContentAlignment="Center"
+                                                      FontSize="16"
+                                                      IsDropDownOpen="False"
+                                                      IsSynchronizedWithCurrentItem="True"
+                                                      ItemsSource="{Binding Camera_Interna_Parameters.Calibration_Plate_List}"
+                                                      SelectedValue="{Binding Camera_Interna_Parameters.Selected_Calibration_Pate_Address}">
+                                                <!--<ComboBox.Style>
+                                                    <Style BasedOn="{StaticResource Data_ComboBoxStyle}" TargetType="ComboBox">
+                                                        <Setter Property="IsEnabled" Value="True" />
+                                                        <Style.Triggers>
+
+                                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Robot_Diver}" Value="false">
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ComboBox.Style>-->
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Name}"
+                                                                   TextWrapping="Wrap"
+                                                                   Padding="0,4,0,4"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="14"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                   TextTrimming="CharacterEllipsis" />
+
+
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+
+                                            </ComboBox>
+
+
                                         </Grid>
-
-
 
                                         <Grid Height="35" Margin="8">
 
@@ -4505,11 +4555,10 @@
 
 
 
-                                        <Border Height=" 2"
-                                                Margin="0,5,0,5"
-                                                Background="{DynamicResource 全局_按钮_黑颜色}"
-                                                CornerRadius="1"
-                                                Opacity=" 0.5" />
+                                        <Border Height=" 3"
+                                                Margin="8,4,8,4"
+                                                Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                                CornerRadius="1" />
 
 
                                         <Grid Height="35" Margin="0,5,0,5">
@@ -4864,11 +4913,10 @@
 
                                         </Grid>
 
-                                        <Border Height=" 2"
-                                                Margin="0,4,0,4"
-                                                Background="{DynamicResource 全局_按钮_黑颜色}"
-                                                CornerRadius="1"
-                                                Opacity=" 0.5" />
+                                        <Border Height=" 3"
+                                                Margin="8,4,8,4"
+                                                Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                                CornerRadius="1" />
 
                                         <Grid Height=" 35" Margin="0,5,0,5">
                                             <Grid.ColumnDefinitions>
@@ -5053,7 +5101,7 @@
                                       Margin="0,0,0,10"
                                       HorizontalContentAlignment="Stretch"
                                       VerticalContentAlignment="Stretch"
-                                      IsExpanded="True">
+                                      IsExpanded="False">
                                 <Expander.Header>
                                     <Border Margin="0" Background="{DynamicResource 全局_按钮_蓝颜色}">
                                         <Border.Style>
@@ -5787,7 +5835,7 @@
                                         </Grid>
 
 
-                                        <Grid Margin="8">
+                                        <!--<Grid Margin="8">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="90" />
@@ -5815,7 +5863,13 @@
                                                    VerticalContentAlignment="Center"
                                                    FontSize=" 14" />
 
-                                        </Grid>
+                                        </Grid>-->
+
+                                        <Border Height=" 3"
+                                                Margin="8,4,8,4"
+                                                Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                                CornerRadius="1" />
+
 
                                         <Grid Height="35" Margin="8">
 
@@ -6677,7 +6731,7 @@
                                         </Grid>
 
 
-                                        <Grid Margin="8">
+                                        <!--<Grid Margin="8">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="90" />
@@ -6706,7 +6760,14 @@
                                                    VerticalContentAlignment="Center"
                                                    FontSize=" 14" />
 
-                                        </Grid>
+                                        </Grid>-->
+
+
+                                        <Border Height=" 3"
+                                                Margin="8,4,8,4"
+                                                Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                                CornerRadius="1" />
+
 
                                         <Grid Height="35" Margin="8">
 
