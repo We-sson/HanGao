@@ -1679,7 +1679,7 @@
 
                             <DataGridTemplateColumn Width="*">
                                 <DataGridTemplateColumn.Header>
-                                    <TextBlock Text="A"
+                                    <TextBlock Text="Rx"
                                                Margin="4"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
@@ -1690,7 +1690,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
 
-                                        <TextBox Text="{Binding Calibration_Plate_Pos.A, StringFormat={}{0:F4}}"
+                                        <TextBox Text="{Binding Calibration_Plate_Pos.Rx, StringFormat={}{0:F4}}"
                                                  HorizontalAlignment="Stretch"
                                                  VerticalAlignment="Stretch"
                                                  HorizontalContentAlignment="Center"
@@ -1706,7 +1706,7 @@
 
                             <DataGridTemplateColumn Width="*">
                                 <DataGridTemplateColumn.Header>
-                                    <TextBlock Text="B"
+                                    <TextBlock Text="Ry"
                                                Margin="4"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
@@ -1717,7 +1717,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
 
-                                        <TextBox Text="{Binding Calibration_Plate_Pos.B, StringFormat={}{0:F4}}"
+                                        <TextBox Text="{Binding Calibration_Plate_Pos.Ry, StringFormat={}{0:F4}}"
                                                  HorizontalAlignment="Stretch"
                                                  VerticalAlignment="Stretch"
                                                  HorizontalContentAlignment="Center"
@@ -1733,7 +1733,7 @@
 
                             <DataGridTemplateColumn Width="*">
                                 <DataGridTemplateColumn.Header>
-                                    <TextBlock Text="C"
+                                    <TextBlock Text="Rz"
                                                Margin="4"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
@@ -1744,7 +1744,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
 
-                                        <TextBox Text="{Binding Calibration_Plate_Pos.C, StringFormat={}{0:F4}}"
+                                        <TextBox Text="{Binding Calibration_Plate_Pos.Rz, StringFormat={}{0:F4}}"
                                                  HorizontalAlignment="Stretch"
                                                  VerticalAlignment="Stretch"
                                                  HorizontalContentAlignment="Center"

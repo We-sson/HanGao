@@ -1,5 +1,6 @@
 ﻿using Halcon_SDK_DLL.Halcon_Examples_Method;
 using HanGao.View.User_Control.Vision_hand_eye_Calibration;
+using MVS_SDK_Base.Model;
 using Ookii.Dialogs.Wpf;
 using System.Drawing;
 using System.Windows.Controls.Primitives;
@@ -1853,7 +1854,7 @@ namespace HanGao.ViewModel
                 {
 
 
-                    if (_Select_Camera.Camer_Status != MVS_SDK_Base.Model.MV_CAM_Device_Status_Enum.Connecting)
+                    if (_Select_Camera.Camer_Status != MV_CAM_Device_Status_Enum.Connecting)
                     {
                         MVS.Connect_Camera(_Select_Camera);
 
@@ -1908,7 +1909,7 @@ namespace HanGao.ViewModel
                 finally
                 {
 
-                    //HandEye_Check.Clear_HandEye_Calibration();
+              
                     MVS.StopGrabbing(_Select_Camera);
                 }
 

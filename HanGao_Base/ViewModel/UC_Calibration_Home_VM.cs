@@ -1573,6 +1573,13 @@ namespace HanGao.ViewModel
                 try
                 {
 
+                    if (_Select_Camera.Camer_Status != MV_CAM_Device_Status_Enum.Connecting)
+                    {
+                        MVS.Connect_Camera(_Select_Camera);
+
+                    }
+
+
                     //根据选择得相机开始取流图像
                     MVS.StopGrabbing(_Select_Camera);
                     MVS.Set_Camrea_Parameters_List(_Select_Camera.Camera, Camera_Parameter_Val);
@@ -1611,11 +1618,10 @@ namespace HanGao.ViewModel
                 {
                     throw new Exception(_e.Message);
 
-                    //User_Log_Add(_e.Message, Log_Show_Window_Enum.Calibration, MessageBoxImage.Error);
                 }
                 finally
                 {
-                    //Halcon_Camera_Calibra.Clear_HandEye_Calibration();
+                  
                     MVS.StopGrabbing(_Select_Camera);
                 }
             }
@@ -1624,7 +1630,6 @@ namespace HanGao.ViewModel
 
                 throw new Exception(_e.Message);
 
-                //User_Log_Add(_e.Message, Log_Show_Window_Enum.Calibration, MessageBoxImage.Error);
             }
 
         }
