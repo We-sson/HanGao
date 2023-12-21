@@ -68,7 +68,15 @@ namespace KUKA_Socket.Models
         [XmlAttribute]
         public int IsStatus { set; get; }
 
+        /// <summary>
+        /// 结果位置
+        /// </summary>
+        public Point_Models Calib_Point { set; get; }
     }
+
+
+
+
 
     /// <summary>
     /// 手眼相机标定接收协议格式
@@ -86,7 +94,7 @@ namespace KUKA_Socket.Models
         [XmlAttribute]
         public HandEye_Calibration_Type_Enum Calibration_Model { set; get; }
 
-        public Point_Models Actual_Point { set; get; }
+        public Point_Models ACT_Point { set; get; }
 
 
 

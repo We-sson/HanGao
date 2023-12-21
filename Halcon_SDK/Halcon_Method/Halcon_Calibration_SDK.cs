@@ -399,10 +399,13 @@ namespace Halcon_SDK_DLL
 
                     FindCalibObject_Results _Res = new FindCalibObject_Results();
 
+                    //开始检测状态
+                    _Selected_camera.Calibration_State = Camera_Calibration_Image_State_Enum.Image_Detectioning;
 
 
                     //查找标定板流程
                     Find_Calibration_Workflows(ref _Res, _Selected_camera.Calibration_Image, _CalibParam, i);
+
 
 
                     //检测图像标定板识别情况
@@ -415,7 +418,7 @@ namespace Halcon_SDK_DLL
                         HCalibData.SetCalibData("tool", (HTuple)i, "tool_in_base_pose", _ImageList[i].HandEye_Robot_Pos.HPose);
 
                         //生产机器人坐标模型
-                        List<HObjectModel3D> _RobotTcp3D = _HandEye_3DModel.GenRobotTcp_Point_Model(_ImageList[i].HandEye_Robot_Pos.Get_HPos(HandEye_Robot));
+                        List<HObjectModel3D> _RobotTcp3D = _HandEye_3DModel.GenRobotTcp_Point_Model(_ImageList[i].HandEye_Robot_Pos.HPose);
 
 
                         //结果赋值
@@ -586,6 +589,7 @@ namespace Halcon_SDK_DLL
                     //设置到标定列表中
                     _ImageList[i].Calibration_Plate_Pos.HPose =     (new HPose(_calibObj_Pos));
                 }
+
 
 
 

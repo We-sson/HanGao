@@ -1412,7 +1412,7 @@ namespace HanGao.ViewModel
 
                     if (Camera_Calibration_Image_List.Where((_w) => _w.Camera_0.Calibration_Image != null).ToList().Count > 10)
                     {
-                        Camera_0_Results.Camera_Calinration_Process_Type = Camera_Calinration_Process_Enum.Calibration;
+                        Camera_0_Results.Camera_Calinration_Process_Type = Camera_Calinration_Process_Enum.Calibrationing;
                         ///进行标定得到结果
 
                         try
@@ -1447,7 +1447,7 @@ namespace HanGao.ViewModel
 
                     if (Camera_Calibration_Image_List.Where((_w) => _w.Camera_1.Calibration_Image != null).ToList().Count > 10)
                     {
-                        Camera_1_Results.Camera_Calinration_Process_Type = Camera_Calinration_Process_Enum.Calibration;
+                        Camera_1_Results.Camera_Calinration_Process_Type = Camera_Calinration_Process_Enum.Calibrationing;
 
                         try
                         {
@@ -1489,9 +1489,7 @@ namespace HanGao.ViewModel
                     throw new Exception(_Selected_Type + "：相机内参标定失败，请在图像列表删除图像检测异常....！");
 
 
-                case Camera_Calinration_Process_Enum.Calibration:
-
-                    break;
+        
                 case Camera_Calinration_Process_Enum.Calibration_Successful:
 
 

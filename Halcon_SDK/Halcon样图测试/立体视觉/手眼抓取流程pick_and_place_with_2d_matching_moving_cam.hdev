@@ -10,6 +10,9 @@
 <c>* 用基于形状匹配的方法找到二维物体。</c>
 <c>* 然后，用机器人抓取找到的物体。</c>
 <l>initialize_program (WindowHandle, ImageDir, DataDir)</l>
+<c></c>
+<l>get_system ('halcon_dir', HalconPath)</l>
+<l>DataDir:=HalconPath+'\\examples\\hdevelop\\Applications\\Robot-Vision/'</l>
 <l>dev_disp_introduction (WindowHandle, WindowHandleGraphics)</l>
 <l>stop ()</l>
 <c>* </c>

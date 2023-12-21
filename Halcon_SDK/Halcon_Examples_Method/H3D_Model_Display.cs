@@ -593,13 +593,13 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         hv_MCol1.Dispose();
                         hv_MRow2.Dispose();
                         hv_MCol2.Dispose();
-
                         hv_MX1.Dispose();
                         hv_MY1.Dispose();
                         hv_MX2.Dispose();
                         hv_MY2.Dispose();
 
                         //Debug.WriteLine(e.GetPosition(e.Source as FrameworkElement).X + "," + e.GetPosition(e.Source as FrameworkElement).Y + ",退出");
+                        While_ResetEvent.Reset();
 
                     }
 
@@ -741,6 +741,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         hv_Len.Dispose();
                         hv_Dist.Dispose();
                         hv_Translate.Dispose();
+                        While_ResetEvent.Reset();
 
                         //Debug.WriteLine(e.GetPosition(e.Source as FrameworkElement).X + "," + e.GetPosition(e.Source as FrameworkElement).Y + ",退出");
 
@@ -1243,7 +1244,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         ho_ImageDump = hv_WindowHandleBuffer.DumpWindowImage();
                         hv_WindowHandle.DispColor(ho_ImageDump);
                         //限制刷新帧率缓解处理时间 每秒24帧
-                        HOperatorSet.WaitSeconds(0.05);
+                        HOperatorSet.WaitSeconds(0.04);
 
 
 

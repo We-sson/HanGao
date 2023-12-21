@@ -10,6 +10,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows;
 using System.Windows.Media.Media3D;
+using Throw;
 using static Halcon_SDK_DLL.Halcon_Calibration_SDK;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
@@ -869,7 +870,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 标定结果保存文件夹
         /// </summary>
-        public string HandEye_Result_Fold_Address { set; get; } = Directory.GetCurrentDirectory() + "\\Calibration_File";
+        public string HandEye_Result_Fold_Address { set; get; } = Directory.GetCurrentDirectory() + "\\Calibration_File\\";
 
 
 
@@ -1365,10 +1366,10 @@ namespace Halcon_SDK_DLL.Model
         /// </summary>
         /// <param name="_Robot"></param>
         /// <returns></returns>
-        public HPose Get_HPos(Socket_Robot_Protocols_Enum _Robot)
+        public Point_Model Get_HPos(Socket_Robot_Protocols_Enum _Robot)
         {
 
-            HPose _Pos = new HPose();
+            Point_Model _Pos = new Point_Model();
 
 
 
@@ -1377,7 +1378,7 @@ namespace Halcon_SDK_DLL.Model
                 case Socket_Robot_Protocols_Enum.KUKA:
 
 
-                    _Pos.CreatePose(X / 1000, Y / 1000, Z / 1000, Rx, Ry, Rz, "Rp+T", "gba", "point");
+                    _Pos = new Point_Model() { X=X,Y=Y,Z=Z, Rx=Rz,Ry=Ry,Rz=Rx};
 
 
 
@@ -1389,7 +1390,7 @@ namespace Halcon_SDK_DLL.Model
                     break;
                 case Socket_Robot_Protocols_Enum.川崎:
 
-                    _Pos.CreatePose(X / 1000, Y / 1000, Z / 1000, Rx, Ry, Rz, "Rp+T", "gba", "point");
+                    //_Pos.CreatePose(X / 1000, Y / 1000, Z / 1000, Rx, Ry, Rz, "Rp+T", "gba", "point");
 
 
 
@@ -1398,7 +1399,7 @@ namespace Halcon_SDK_DLL.Model
                 case Socket_Robot_Protocols_Enum.通用:
 
 
-                    _Pos.CreatePose(X, Y, Z, Rx, Ry, Rz, "Rp+T", "gba", "point");
+                    //_Pos.CreatePose(X, Y, Z, Rx, Ry, Rz, "Rp+T", "gba", "point");
 
 
                     break;
@@ -1425,15 +1426,11 @@ namespace Halcon_SDK_DLL.Model
             {
 
 
-
-                if (!Directory.Exists(_File))
+                if (!Checked_SaveFile( _File,  _name))
                 {
-                    Directory.CreateDirectory(_File);
+                    //HPose _Pos = new HPose(X/1000, Y/1000, Z / 1000, A, B, C, "Rp+T", "gba", "point");
+                    HPose.WritePose(_File + _name+".dat");
                 }
-
-                //HPose _Pos = new HPose(X/1000, Y/1000, Z / 1000, A, B, C, "Rp+T", "gba", "point");
-                HPose.WritePose(_File + _name);
-
 
             }
             catch (Exception _e)
@@ -1442,6 +1439,35 @@ namespace Halcon_SDK_DLL.Model
                 throw new Exception(_name + "：位姿文件保存失败！原因：" + _e.Message);
             }
 
+
+        }
+
+
+        /// <summary>
+        /// 检查保存文件是否存在？
+        /// </summary>
+        /// <returns></returns>
+        private  bool Checked_SaveFile(string _File, string _name)
+        {
+
+
+
+
+            ////检查文件夹，创建
+            if (!Directory.Exists(_File)) Directory.CreateDirectory(_File);
+
+            //添加名称
+         string    _File_Address = _File + _name;
+
+            if (File.Exists(_File_Address += ".dat"))
+            {
+                if (MessageBox.Show("位资文件：" + _name + " 已存在，是否覆盖？", "标定提示", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.OK) return false; return true;
+
+            }
+            else
+            {
+                return false;
+            }
 
         }
 
@@ -1641,11 +1667,11 @@ namespace Halcon_SDK_DLL.Model
             if (!Directory.Exists(Result_Fold_Address)) Directory.CreateDirectory(Result_Fold_Address);
 
             //添加名称
-            string Save_File_Address = Result_Fold_Address + "\\" + Calibration_Name;
+             Save_File_Address = Result_Fold_Address +"\\"+ Calibration_Name;
 
             if (File.Exists(Save_File_Address += ".dat"))
             {
-                if (MessageBox.Show("相机标定文件：" + Calibration_Name + " 已存在，是否覆盖？", "标定提示", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.OK) return false; return true;
+                if (MessageBox.Show("相机内参文件：" + Calibration_Name + " 已存在，是否覆盖？", "标定提示", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.OK) return false; return true;
 
             }
             else
@@ -1662,6 +1688,11 @@ namespace Halcon_SDK_DLL.Model
         public void Save_Camera_Parameters()
         {
 
+
+
+            Camera_Calinration_Process_Type.Throw(Calibration_Name+ "：未进行手眼标定！").IfEquals(Camera_Calinration_Process_Enum.Uncalibrated);
+
+        
             if (Camera_Result_Pama.HCamPar != null)
             {
 
@@ -1687,6 +1718,23 @@ namespace Halcon_SDK_DLL.Model
 
         }
 
+
+        /// <summary>
+        /// 手眼标定结果保存
+        /// </summary>
+        /// <param name="_Camera_Enum"></param>
+        /// <param name="_Results"></param>
+        public void HandEye_Results_Save()
+        {
+ 
+            //保存相机内参
+           Save_Camera_Parameters();
+            //保存相机在工具坐标
+            HandEye_Tool_in_Cam_Pos.Pos_Save(Result_Fold_Address, "HandEyeToolinCam_" + Calibration_Name);
+
+
+
+        }
 
 
 
@@ -2161,7 +2209,10 @@ namespace Halcon_SDK_DLL.Model
         /// 未标定
         /// </summary>
         Uncalibrated,
-        Calibration,
+        /// <summary>
+        /// 标定中状态
+        /// </summary>
+        Calibrationing,
         /// <summary>
         /// 标定成功
         /// </summary>
@@ -2179,7 +2230,7 @@ namespace Halcon_SDK_DLL.Model
         [Description("图像加载...")]
         Image_Loading,
         [Description("图像检测中...")]
-        Image_Detection,
+        Image_Detectioning,
 
         [Description("图像检测成功...")]
         Image_Successful,

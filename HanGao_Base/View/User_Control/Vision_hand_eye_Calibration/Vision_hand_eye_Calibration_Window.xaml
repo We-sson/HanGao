@@ -4777,6 +4777,9 @@
                                                                 <DataTrigger Binding="{Binding Camera_0.Calibration_State}" Value="{x:Static Halcon_Enum:Camera_Calibration_Image_State_Enum.Image_UnSuccessful}">
                                                                     <Setter Property="Background" Value="{DynamicResource 全局_按钮_青红颜色}" />
                                                                 </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Camera_0.Calibration_State}" Value="{x:Static Halcon_Enum:Camera_Calibration_Image_State_Enum.Image_Detectioning}">
+                                                                    <Setter Property="Background" Value="{DynamicResource 全局_按钮_黄颜色}" />
+                                                                </DataTrigger>
                                                                 <DataTrigger Binding="{Binding Camera_0.Calibration_State}" Value="{x:Static Halcon_Enum:Camera_Calibration_Image_State_Enum.Image_Successful}">
                                                                     <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
                                                                 </DataTrigger>
@@ -8449,7 +8452,7 @@
                                                     <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
                                                         <Setter Property="Content" Value="{StaticResource Calibration_Results_Txt}" />
                                                         <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding HandEye_Camera_0_Results.Camera_Calinration_Process_Type}" Value="{x:Static Halcon_Enum:Camera_Calinration_Process_Enum.Calibration}">
+                                                            <DataTrigger Binding="{Binding HandEye_Camera_0_Results.Camera_Calinration_Process_Type}" Value="{x:Static Halcon_Enum:Camera_Calinration_Process_Enum.Calibrationing}">
                                                                 <Setter Property="Content" Value="{StaticResource Calibration_PBar}" />
                                                                 <Setter Property="IsEnabled" Value="False" />
                                                             </DataTrigger>
