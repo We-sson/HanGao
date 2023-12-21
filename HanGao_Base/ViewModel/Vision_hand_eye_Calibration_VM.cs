@@ -365,7 +365,7 @@ namespace HanGao.ViewModel
                         }
 
                         //进行标定业务
-                        Calibration_Camera_Data_Results_Model _Results_Pos = HandEye_Calibration_ImageList_Data();
+                        //Calibration_Camera_Data_Results_Model _Results_Pos = HandEye_Calibration_ImageList_Data();
 
 
                        //需要把机器人和手动标定合并
