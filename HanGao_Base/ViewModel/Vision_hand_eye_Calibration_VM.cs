@@ -248,7 +248,8 @@ namespace HanGao.ViewModel
 
                         ///设置单帧模式
                         HandEye_Camera_Parameters.Halcon_Find_Calib_Model = false;
-
+                        //清空默认结果
+                        HandEye_Camera_0_Results= HandEye_Camera_1_Results= HandEye_Results_Pos = new Calibration_Camera_Data_Results_Model();
 
                         Application.Current.Dispatcher.Invoke(() =>
                         {
@@ -376,16 +377,13 @@ namespace HanGao.ViewModel
                                 HandEye_Results_Save(Halcon_HandEye_Calibra.Camera_Connect_Model, _Results_Pos);
 
 
+                                Point_Model _CalibPos = _Results_Pos.HandEye_Obj_In_Base_Pose.Get_HPos(Halcon_HandEye_Calibra.HandEye_Robot);
+                                User_Log_Add(_Results_Pos.Calibration_Name + " : 相机手眼标定成功！确认后，请机器人低速移动到标定板坐标：{" + " X : " + _Results_Pos.HandEye_Obj_In_Base_Pose.X + " Y : " + _Results_Pos.HandEye_Obj_In_Base_Pose.Y + " Z : " + _Results_Pos.HandEye_Obj_In_Base_Pose.Z + " Rx : " + _Results_Pos.HandEye_Obj_In_Base_Pose.Rx + " Ry : " + _Results_Pos.HandEye_Obj_In_Base_Pose.Ry + " Rz : " + _Results_Pos.HandEye_Obj_In_Base_Pose.Rz + "}", Log_Show_Window_Enum.HandEye, MessageBoxImage.Information);
 
                                 _HandEye_Send.IsStatus = 1;
                                 _HandEye_Send.Message_Error = "Hand-eye Calibration ResultsOK！";
-
-                                Point_Model _CalibPos = _Results_Pos.HandEye_Obj_In_Base_Pose.Get_HPos(Halcon_HandEye_Calibra.HandEye_Robot);
                                 _HandEye_Send.Calib_Point = new Point_Models() { X = _CalibPos.X.ToString(), Y = _CalibPos.Y.ToString(), Z = _CalibPos.Z.ToString(), A = _CalibPos.Rx.ToString(), B = _CalibPos.Ry.ToString(), C = _CalibPos.Rz.ToString() };
 
-
-
-                                User_Log_Add(_Results_Pos.Calibration_Name + " : 相机手眼标定成功！请机器人低速移动到标定板坐标：{" + " X : " + _Results_Pos.HandEye_Obj_In_Base_Pose.X + " Y : " + _Results_Pos.HandEye_Obj_In_Base_Pose.Y + " Z : " + _Results_Pos.HandEye_Obj_In_Base_Pose.Z + " Rx : " + _Results_Pos.HandEye_Obj_In_Base_Pose.Rx + " Ry : " + _Results_Pos.HandEye_Obj_In_Base_Pose.Ry + " Rz : " + _Results_Pos.HandEye_Obj_In_Base_Pose.Rz + "}", Log_Show_Window_Enum.HandEye, MessageBoxImage.Information);
 
                                 break;
 

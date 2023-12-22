@@ -1426,12 +1426,18 @@ namespace Halcon_SDK_DLL.Model
             {
 
 
+                //窗口同步模型下运行保存
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+
+
                 if (!Checked_SaveFile( _File,  _name))
                 {
                     //HPose _Pos = new HPose(X/1000, Y/1000, Z / 1000, A, B, C, "Rp+T", "gba", "point");
                     HPose.WritePose(_File + _name+".dat");
                 }
 
+                });
             }
             catch (Exception _e)
             {
@@ -1660,9 +1666,9 @@ namespace Halcon_SDK_DLL.Model
         public bool Checked_SaveFile()
         {
 
+  
 
-   
-
+ 
             ////检查文件夹，创建
             if (!Directory.Exists(Result_Fold_Address)) Directory.CreateDirectory(Result_Fold_Address);
 
@@ -1671,13 +1677,16 @@ namespace Halcon_SDK_DLL.Model
 
             if (File.Exists(Save_File_Address += ".dat"))
             {
-                if (MessageBox.Show("相机内参文件：" + Calibration_Name + " 已存在，是否覆盖？", "标定提示", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.OK) return false; return true;
 
+      
+                    if (MessageBox.Show("相机内参文件：" + Calibration_Name + " 已存在，是否覆盖？", "标定提示", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.OK) return false; return true;
+       
             }
             else
             {
                 return false;
             }
+       
 
         }
 
@@ -1696,6 +1705,10 @@ namespace Halcon_SDK_DLL.Model
             if (Camera_Result_Pama.HCamPar != null)
             {
 
+                //窗口同步模式运行
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+
                 if (!Checked_SaveFile())
                 {
 
@@ -1703,6 +1716,7 @@ namespace Halcon_SDK_DLL.Model
 
                 }
 
+                });
 
 
             }

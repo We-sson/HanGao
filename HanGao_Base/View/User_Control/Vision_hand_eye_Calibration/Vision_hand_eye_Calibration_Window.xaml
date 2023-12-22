@@ -2568,6 +2568,7 @@
                                                           Padding="0"
                                                           HorizontalContentAlignment="Stretch"
                                                           VerticalContentAlignment="Center"
+                                                          BorderBrush="{DynamicResource 全局_按钮_红颜色}"
                                                           BorderThickness="2">
 
                                                 <ToggleButton.Style>

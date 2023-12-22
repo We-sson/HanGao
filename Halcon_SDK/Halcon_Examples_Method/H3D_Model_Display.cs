@@ -1218,8 +1218,12 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         {
 
 
-            Task.Run(() =>
-            {
+      
+
+                Thread thread = new Thread(() =>
+                {
+                   
+
 
                 try
                 {
@@ -1274,7 +1278,11 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     hv_Scene3D.Dispose();
                 }
 
-            });
+                });
+                thread.Name = "3DModel_Window";
+                thread.IsBackground = true;
+                thread.Start();
+     
         }
 
 
