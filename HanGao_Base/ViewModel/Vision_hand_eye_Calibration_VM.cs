@@ -347,32 +347,17 @@ namespace HanGao.ViewModel
 
 
 
-                        //获得手眼标定相机名称
-                        switch (Halcon_HandEye_Calibra.Camera_Connect_Model)
-                        {
-                            case Camera_Connect_Control_Type_Enum.双目相机:
 
-                                //等待开发
-                                break;
-                            case Camera_Connect_Control_Type_Enum.Camera_0:
-                                HandEye_Results_Pos.Calibration_Name = Camera_0_Select_Val?.Camera_Info.SerialNumber;
-                                break;
-                            case Camera_Connect_Control_Type_Enum.Camera_1:
-                                HandEye_Results_Pos.Calibration_Name = Camera_1_Select_Val.Camera_Info.SerialNumber;
-
-                                break;
-
-                        }
 
                         //进行标定业务
-                        //Calibration_Camera_Data_Results_Model _Results_Pos = HandEye_Calibration_ImageList_Data();
+                        Calibration_Camera_Data_Results_Model _Results_Pos = HandEye_Calibration_ImageList_Data();
 
 
-                       //需要把机器人和手动标定合并
+                        //需要把机器人和手动标定合并
 
-                        HandEye_Results_Pos = Halcon_HandEye_Calibra.HandEye_Calibration_Results(HandEye_Calibration_List, HandEye_Camera_Parameters);
+                        //HandEye_Results_Pos = Halcon_HandEye_Calibra.HandEye_Calibration_Results(HandEye_Calibration_List, HandEye_Camera_Parameters);
 
-                        switch (HandEye_Results_Pos.Camera_Calinration_Process_Type)
+                        switch (_Results_Pos.Camera_Calinration_Process_Type)
                         {
                             case Camera_Calinration_Process_Enum.Uncalibrated:
 
@@ -380,7 +365,7 @@ namespace HanGao.ViewModel
                                 _HandEye_Send.Message_Error = "Hand-eye Calibration to Results Error！,Please check the PC situation. ";
 
 
-                                User_Log_Add(HandEye_Results_Pos.Calibration_Name + " : 相机未手眼标定，请进行标定！", Log_Show_Window_Enum.HandEye, MessageBoxImage.Error);
+                                User_Log_Add(_Results_Pos.Calibration_Name + " : 相机未手眼标定，请进行标定！", Log_Show_Window_Enum.HandEye, MessageBoxImage.Error);
 
                                 break;
 
@@ -388,19 +373,19 @@ namespace HanGao.ViewModel
 
 
                                 //保存手眼标定参数
-                                HandEye_Results_Save(Halcon_HandEye_Calibra.Camera_Connect_Model, HandEye_Results_Pos);
+                                HandEye_Results_Save(Halcon_HandEye_Calibra.Camera_Connect_Model, _Results_Pos);
 
 
 
                                 _HandEye_Send.IsStatus = 1;
                                 _HandEye_Send.Message_Error = "Hand-eye Calibration ResultsOK！";
 
-                                Point_Model _CalibPos = HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.Get_HPos(Halcon_HandEye_Calibra.HandEye_Robot);
+                                Point_Model _CalibPos = _Results_Pos.HandEye_Obj_In_Base_Pose.Get_HPos(Halcon_HandEye_Calibra.HandEye_Robot);
                                 _HandEye_Send.Calib_Point = new Point_Models() { X = _CalibPos.X.ToString(), Y = _CalibPos.Y.ToString(), Z = _CalibPos.Z.ToString(), A = _CalibPos.Rx.ToString(), B = _CalibPos.Ry.ToString(), C = _CalibPos.Rz.ToString() };
 
 
 
-                                User_Log_Add(HandEye_Results_Pos.Calibration_Name + " : 相机手眼标定成功！请机器人低速移动到标定板坐标：{" + " X : " + HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.X + " Y : " + HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.Y + " Z : " + HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.Z + " Rx : " + HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.Rx + " Ry : " + HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.Ry + " Rz : " + HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.Rz + "}", Log_Show_Window_Enum.HandEye, MessageBoxImage.Information);
+                                User_Log_Add(_Results_Pos.Calibration_Name + " : 相机手眼标定成功！请机器人低速移动到标定板坐标：{" + " X : " + _Results_Pos.HandEye_Obj_In_Base_Pose.X + " Y : " + _Results_Pos.HandEye_Obj_In_Base_Pose.Y + " Z : " + _Results_Pos.HandEye_Obj_In_Base_Pose.Z + " Rx : " + _Results_Pos.HandEye_Obj_In_Base_Pose.Rx + " Ry : " + _Results_Pos.HandEye_Obj_In_Base_Pose.Ry + " Rz : " + _Results_Pos.HandEye_Obj_In_Base_Pose.Rz + "}", Log_Show_Window_Enum.HandEye, MessageBoxImage.Information);
 
                                 break;
 
@@ -805,20 +790,49 @@ namespace HanGao.ViewModel
                     break;
                 case Camera_Connect_Control_Type_Enum.Camera_0:
 
-                    Camera_0_Select_Val.ThrowIfNull(_Camera_Enum.ToString() + "：相机设备未选择！");
+                    switch (Camera_Calibration_0.HaneEye_Calibration_Diver_Model)
+                    {
+                        case HaneEye_Calibration_Diver_Model_Enum.Online:
+
+                            Camera_0_Select_Val.ThrowIfNull(_Camera_Enum.ToString() + "：相机设备未选择！");
+                            HandEye_Camera_0_Results.Calibration_Name = Camera_0_Select_Val.Camera_Info.SerialNumber.ToString();
+
+                            break;
+                        case HaneEye_Calibration_Diver_Model_Enum.Local:
+                            HandEye_Camera_0_Results.Calibration_Name = _Camera_Enum.ToString();
+
+                            break;
+
+                    }
+
+
+
                     //获得相机名称
 
-                    HandEye_Camera_0_Results.Calibration_Name = Camera_0_Select_Val.Camera_Info.SerialNumber.ToString();
                     HandEye_Camera_0_Results.Save_Camera_Parameters();
 
                     break;
                 case Camera_Connect_Control_Type_Enum.Camera_1:
 
-                    Camera_1_Select_Val.ThrowIfNull(_Camera_Enum.ToString() + "：相机设备未选择！");
+                    switch (Camera_Calibration_0.HaneEye_Calibration_Diver_Model)
+                    {
+                        case HaneEye_Calibration_Diver_Model_Enum.Online:
+                            Camera_1_Select_Val.ThrowIfNull(_Camera_Enum.ToString() + "：相机设备未选择！");
+                            //获得相机名称
+                            HandEye_Camera_1_Results.Calibration_Name = Camera_1_Select_Val.Camera_Info.SerialNumber.ToString();
+
+                            break;
+                        case HaneEye_Calibration_Diver_Model_Enum.Local:
+                            HandEye_Camera_1_Results.Calibration_Name = _Camera_Enum.ToString();
 
 
-                    //获得相机名称
-                    HandEye_Camera_1_Results.Calibration_Name = Camera_1_Select_Val.Camera_Info.SerialNumber.ToString();
+                            break; ;
+
+                    }
+
+
+
+
                     HandEye_Camera_1_Results.Save_Camera_Parameters();
 
 
@@ -1151,17 +1165,23 @@ namespace HanGao.ViewModel
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
-                ToggleButton E = Sm.Source as ToggleButton;
-
+                RadioButton E = Sm.Source as RadioButton;
 
 
                 try
                 {
 
+                    if ((bool)E.IsChecked)
+                    {
 
-                    HandEye_Calib_Sever_Stop();
 
-                    User_Log_Add("机器人通讯切换本地模式！", Log_Show_Window_Enum.HandEye, MessageBoxImage.Exclamation);
+                        HandEye_Calib_Sever_Stop();
+
+                        User_Log_Add("机器人通讯切换本地模式！", Log_Show_Window_Enum.HandEye, MessageBoxImage.Exclamation);
+
+                    }
+
+
                 }
                 catch (Exception _e)
                 {
@@ -1181,77 +1201,79 @@ namespace HanGao.ViewModel
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
-                ToggleButton E = Sm.Source as ToggleButton;
+                RadioButton E = Sm.Source as RadioButton;
 
                 string _DatFile = string.Empty;
 
                 Camera_Calibration_Info_Model _Select_Model = new Camera_Calibration_Info_Model();
 
 
-
-                try
+                if ((bool)E.IsChecked)
                 {
 
-
-                    switch (Enum.Parse<Camera_Connect_Control_Type_Enum>((string)E.Tag))
+                    try
                     {
-                        case Camera_Connect_Control_Type_Enum.Camera_0:
 
-                            _Select_Model = Camera_Calibration_0;
-                            Camera_0_Select_Val = null;
-                            break;
-                        case Camera_Connect_Control_Type_Enum.Camera_1:
+                        switch (Enum.Parse<Camera_Connect_Control_Type_Enum>((string)E.Tag))
+                        {
+                            case Camera_Connect_Control_Type_Enum.Camera_0:
 
-                            _Select_Model = Camera_Calibration_1;
-                            Camera_1_Select_Val = null;
+                                _Select_Model = Camera_Calibration_0;
+                                Camera_0_Select_Val = null;
+                                break;
+                            case Camera_Connect_Control_Type_Enum.Camera_1:
+
+                                _Select_Model = Camera_Calibration_1;
+                                Camera_1_Select_Val = null;
 
 
-                            break;
+                                break;
+                        }
+
+
+
+
+                        VistaOpenFileDialog _OpenFile = new VistaOpenFileDialog()
+                        {
+                            Filter = "相机内参文件 (*.dat*)|*.dat*",
+
+
+                            InitialDirectory = Directory.GetCurrentDirectory(),
+                        };
+                        if ((bool)_OpenFile.ShowDialog())
+                        {
+
+                            _DatFile = _OpenFile.FileName;
+
+                        }
+
+
+                        if (_DatFile != string.Empty)
+                        {
+
+
+                            HCamPar _CamPar = new HCamPar();
+                            _CamPar.ReadCamPar(_DatFile);
+                            _Select_Model.Camera_Calibration_Paramteters = new Halcon_Camera_Calibration_Parameters_Model(_CamPar);
+
+                        }
+                        else
+                        {
+                            _Select_Model.Camera_Calibration_Paramteters = new Halcon_Camera_Calibration_Parameters_Model();
+
+                            User_Log_Add((string)E.Tag + "：没有相机内参文件，请手动输入！", Log_Show_Window_Enum.HandEye, MessageBoxImage.Exclamation);
+
+                        }
+
                     }
-
-
-
-
-                    VistaOpenFileDialog _OpenFile = new VistaOpenFileDialog()
-                    {
-                        Filter = "相机内参文件 (*.dat*)|*.dat*",
-
-
-                        InitialDirectory = Directory.GetCurrentDirectory(),
-                    };
-                    if ((bool)_OpenFile.ShowDialog())
+                    catch (Exception _e)
                     {
 
-                        _DatFile = _OpenFile.FileName;
-
-                    }
-
-
-                    if (_DatFile != string.Empty)
-                    {
-
-
-                        HCamPar _CamPar = new HCamPar();
-                        _CamPar.ReadCamPar(_DatFile);
-                        _Select_Model.Camera_Calibration_Paramteters = new Halcon_Camera_Calibration_Parameters_Model(_CamPar);
-
-                    }
-                    else
-                    {
-                        _Select_Model.Camera_Calibration_Paramteters = new Halcon_Camera_Calibration_Parameters_Model();
-
-                        User_Log_Add((string)E.Tag + "：没有相机内参文件，请手动输入！", Log_Show_Window_Enum.HandEye, MessageBoxImage.Exclamation);
+                        User_Log_Add(_e.Message, Log_Show_Window_Enum.HandEye, MessageBoxImage.Error);
 
                     }
 
                 }
-                catch (Exception _e)
-                {
-
-                    User_Log_Add(_e.Message, Log_Show_Window_Enum.HandEye, MessageBoxImage.Error);
-
-                }
-
 
             });
         }
@@ -2129,11 +2151,17 @@ namespace HanGao.ViewModel
                     if (HandEye_Calibration_List.Where((_w) => _w.Camera_0.Calibration_Image != null).ToList().Count > 10)
                     {
                         //正在标定状态
-                        HandEye_Camera_0_Results.Camera_Calinration_Process_Type = Camera_Calinration_Process_Enum.Calibrationing;
+                        HandEye_Results_Pos.Camera_Calinration_Process_Type = Camera_Calinration_Process_Enum.Calibrationing;
                         ///进行标定得到结果
 
                         try
                         {
+                            ////获得手眼标定设备名称
+
+                            if ((_Selected_Results.Calibration_Name = Camera_0_Select_Val?.Camera_Info.SerialNumber) == null)
+                            {
+                                _Selected_Results.Calibration_Name = Halcon_HandEye_Calibra.Camera_Connect_Model.ToString();
+                            }
 
                             ///拷贝设备相机标定的内参初始值
                             Halcon_HandEye_Calibra.Camera_Calibration_Paramteters = new Halcon_Camera_Calibration_Parameters_Model(Camera_Calibration_0.Camera_Calibration_Paramteters.Get_HCamPar());
@@ -2169,11 +2197,18 @@ namespace HanGao.ViewModel
 
                     if (HandEye_Calibration_List.Where((_w) => _w.Camera_1.Calibration_Image != null).ToList().Count > 10)
                     {
-                        HandEye_Camera_1_Results.Camera_Calinration_Process_Type = Camera_Calinration_Process_Enum.Calibrationing;
+                        HandEye_Results_Pos.Camera_Calinration_Process_Type = Camera_Calinration_Process_Enum.Calibrationing;
 
                         try
                         {
+
+                            if ((_Selected_Results.Calibration_Name = Camera_1_Select_Val?.Camera_Info.SerialNumber) == null)
+                            {
+                                _Selected_Results.Calibration_Name = Halcon_HandEye_Calibra.Camera_Connect_Model.ToString();
+                            }
+
                             ///拷贝设备相机标定的内参初始值
+
 
                             Halcon_HandEye_Calibra.Camera_Calibration_Paramteters = new Halcon_Camera_Calibration_Parameters_Model(Camera_Calibration_1.Camera_Calibration_Paramteters.Get_HCamPar());
 

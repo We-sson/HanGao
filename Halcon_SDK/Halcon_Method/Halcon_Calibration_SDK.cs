@@ -422,6 +422,7 @@ namespace Halcon_SDK_DLL
 
 
                         //结果赋值
+
                         _Selected_camera.Calibration_3D_Model = _RobotTcp3D;
                         _Selected_camera.Calibration_Image = _Res._Image;
                         _Selected_camera.Calibration_Region = _Res._CalibRegion;
@@ -505,7 +506,7 @@ namespace Halcon_SDK_DLL
                         tool_translation_deviation = HCalibData.GetCalibData("tool", "general", "tool_translation_deviation");
                         tool_rotation_deviation = HCalibData.GetCalibData("tool", "general", "tool_rotation_deviation");
 
-                        _Results.HandEye_Tool_Rotational_Deviation = tool_translation_deviation;
+                        _Results.HandEye_Tool_Translation_Deviation = tool_translation_deviation*1000;
                         _Results.HandEye_Tool_Rotational_Deviation = tool_rotation_deviation;
 
                         //获得误差数据
@@ -545,7 +546,10 @@ namespace Halcon_SDK_DLL
                 _Results.HandEye_Obj_In_Base_Pose_Deviations.HPose=(new HPose(obj_in_base_pose_deviations));
 
 
-         
+
+               
+
+
 
 
 

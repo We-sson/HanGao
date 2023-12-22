@@ -1298,7 +1298,7 @@ namespace HanGao.ViewModel
 
                     Camera_0_Results.Camera_Calinration_Process_Type.Throw(_Camera_Enum.ToString() + "：相机未进行标定！\"").IfEquals(Camera_Calinration_Process_Enum.Uncalibrated);
 
-                    Camera_0_Results.Calibration_Name = Camera_0_Select_Val.Camera_Info.SerialNumber.ToString();
+                    Camera_0_Results.Calibration_Name = Camera_0_Select_Val?.Camera_Info.SerialNumber.ToString();
                     Camera_0_Results.Save_Camera_Parameters();
 
 
@@ -1309,7 +1309,7 @@ namespace HanGao.ViewModel
                     Camera_1_Select_Val.ThrowIfNull(_Camera_Enum.ToString() + "：相机设备未选择！");
                     Camera_1_Results.Camera_Calinration_Process_Type.Throw(_Camera_Enum.ToString() + "：相机未进行标定！\"").IfEquals(Camera_Calinration_Process_Enum.Uncalibrated);
 
-                    Camera_1_Results.Calibration_Name = Camera_1_Select_Val.Camera_Info.SerialNumber.ToString();
+                    Camera_1_Results.Calibration_Name = Camera_1_Select_Val?.Camera_Info.SerialNumber.ToString();
 
                     Camera_1_Results.Save_Camera_Parameters();
 

@@ -1497,9 +1497,9 @@ namespace Halcon_SDK_DLL.Model
 
         public void Set_Data(HTuple _Data)
         {
-            RMS_Translational = _Data.TupleSelect(0);
+            RMS_Translational = _Data.TupleSelect(0)*1000;
             RMS_Rotational = _Data.TupleSelect(1);
-            Maximum_Translational = _Data.TupleSelect(2);
+            Maximum_Translational = _Data.TupleSelect(2)*1000;
             Maximum_Rotational = _Data.TupleSelect(3);
         }
 
