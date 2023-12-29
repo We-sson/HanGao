@@ -7,7 +7,7 @@
 <c></c>
 <l>Are:=315</l>
 <l>*read_image (Image, 'C:/Users/H/MVS/Data/Image_6789.tif')</l>
-<l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[1,2]" as_ord="1">list_files ('C:/Users/H/MVS/Data', ['files','follow_links'], ImageFiles)</l>
+<l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[1,2]" as_ord="1">list_files ('C:/Users/H/MVS/Data/ZR', ['files','follow_links'], ImageFiles)</l>
 <l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[1,3]" as_ord="1">tuple_regexp_select (ImageFiles, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImageFiles)</l>
 <l>Index:=10</l>
 <l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[2,2]" as_ord="1">for Index := 0 to |ImageFiles| - 1 by 1</l>
@@ -22,9 +22,9 @@
 <c> </c>
 <l>      emphasize (ImageMedian1, ImageEmphasize1, 24, 24, 3)</l>
 <c>      </c>
-<l>      gray_opening_rect (ImageEmphasize1, ImageOpening1, 16, 16)</l>
+<l>      gray_opening_rect (ImageEmphasize1, ImageOpening1, 10, 10)</l>
 <c>    </c>
-<l>      gray_closing_rect (ImageOpening1, ImageClosing, 30, 30)</l>
+<l>      gray_closing_rect (ImageOpening1, ImageClosing, 3, 3)</l>
 <c>    </c>
 <c>    </c>
 <l>      write_image (ImageClosing, 'tiff', 0, 'C:/Users/H/MVS/Data/FB/'+Index+'.tif')</l>
