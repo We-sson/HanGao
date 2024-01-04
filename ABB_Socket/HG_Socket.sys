@@ -1,0 +1,31 @@
+MODULE HG_Socket(SYSMODULE)
+    
+    CONST num HG_Client_PORT := 5000; 
+    CONST num HG_Sever_PORT := 5001; 
+    CONST num HG_Client_Time := 2000; 
+    CONST string HG_Sever_IP := "192.168.0.51";
+    CONST string HG_Client_IP := "192.168.0.50";
+    
+    
+    
+    VAR socketdev Server_Socket;
+    VAR socketdev Client_Socket;
+    
+    PROC HG_Socket_Ini()
+        
+        TPErase;
+        
+        SocketClose Client_Socket;
+        
+        WaitTime 0.2;
+        
+        SocketCreate Client_Socket;
+        
+        SocketConnect Client_Socket, HG_Client_IP, HG_Client_PORT,\Time:=HG_Client_Time;
+        
+        TPWrite "Connect:"+HG_Client_IP+" OK!";
+        
+        SocketSend Client_Socket ;
+    ENDPROC
+    
+ENDMODULE
