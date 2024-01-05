@@ -2,7 +2,108 @@ MODULE Glode_HanGao(SYSMODULE)
     
     
     
+      
+    RECORD HPoint
+        num x;
+        num y;
+        num z;
+        num Rx;
+        num Ry;
+        num Rz;
+    ENDRECORD
+    RECORD HandEye_Calib_Send_Model
+        string Calibration_Model;
+        HPoint ACT_Point;
+    ENDRECORD
+    
+    RECORD HandEye_Calib_Receive_Model
+        string Message_Error;
+        bool IsStatus;
+        HPoint Calib_Point;
+    ENDRECORD
     
     
     
+    
+    !HandEye_Calib_Model
+  CONST string HandEye_Calib_Start_Model := "Calibration_Start";
+  CONST string HandEye_Calib_Progress_Model := "Calibration_Progress";  
+  CONST string HandEye_Calib_End_Model := "Calibration_End";  
+   
+   
+  PROC HTWrite(string Message)
+      
+      IF DegLog THEN
+           TPWrite Message;
+      ENDIF
+   
+  ENDPROC
+  
+  FUNC string HandEye_Calib_Send_TOStr(HandEye_Calib_Send_Model Model )
+    VAR String  Model_Str;
+     
+      Model_Str:=Model.Calibration_Model+"|"+ValToStr( Model.ACT_Point);
+
+      RETURN Model_Str;
+
+  ENDFUNC
+  
+  
+  
+  
+  
+  PROC HG_HandEye_Calib(string Model)
+      
+      VAR HandEye_Calib_Send_Model HandEye_Send;
+      VAR pose ACTPos;
+      VAR robtarget ACT_Point;
+      VAR num Rx;
+      VAR num Ry;
+      VAR num Rz;
+      
+      VAR string Rece_Str;
+      VAR HandEye_Calib_Receive_Model Receive_Results ;
+     HG_Socket_Ini;
+    !Model set
+    TEST Model
+    CASE HandEye_Calib_Start_Model:
+         HandEye_Send.Calibration_Model:=HandEye_Calib_Start_Model;
+    
+    CASE HandEye_Calib_Progress_Model:
+    HandEye_Send.Calibration_Model:=HandEye_Calib_Progress_Model;
+    ACT_Point:=cRobT();
+
+     HandEye_Send.ACT_Point.X:=ACT_Point.trans.x;
+     HandEye_Send.ACT_Point.Y:=ACT_Point.trans.y;
+     HandEye_Send.ACT_Point.Z:=ACT_Point.trans.z;
+     HandEye_Send.ACT_Point.Rx:=EulerZYX(\X,ACT_Point.rot);
+     HandEye_Send.ACT_Point.Ry:=EulerZYX(\Y,ACT_Point.rot);
+     HandEye_Send.ACT_Point.Rz:=EulerZYX(\Z,ACT_Point.rot);
+   CASE HandEye_Calib_End_Model:
+   HandEye_Send.Calibration_Model:=HandEye_Calib_End_Model;
+   
+    ENDTEST
+    !Get NowPose
+
+
+     !show pos
+    HTWrite(ValToStr(HandEye_Send.ACT_Point));
+    
+    HG_Socket_Send( HandEye_Calib_Send_TOStr(HandEye_Send));
+    
+    
+  Receive_Results:=HG_Receive_ToModel( HG_Socket_Receive());
+    
+  ENDPROC
+  
+  FUNC HandEye_Calib_Receive_Model HG_Receive_ToModel(byte Receive_Byte )
+      VAR HandEye_Calib_Receive_Model Receive_Model;
+      VAR string Receice_str;
+      
+      Receice_str:=ByteToStr(Receive_Byte);
+      HTWrite Receice_str;
+      
+    RETURN Receive_Model;
+  ENDFUNC
+  
 ENDMODULE

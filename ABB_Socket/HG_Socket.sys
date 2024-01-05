@@ -4,28 +4,80 @@ MODULE HG_Socket(SYSMODULE)
     CONST num HG_Sever_PORT := 5001; 
     CONST num HG_Client_Time := 2000; 
     CONST string HG_Sever_IP := "192.168.0.51";
-    CONST string HG_Client_IP := "192.168.0.50";
+    CONST string HG_Client_IP := "127.0.0.1";
     
+    CONST bool DegLog := TRUE; 
+
+     VAR rawbytes raw_msg;
     
-    
+
     VAR socketdev Server_Socket;
     VAR socketdev Client_Socket;
-    
+     VAR num N11O;
+     
+     
+
+     
+ 
+     
     PROC HG_Socket_Ini()
         
-        TPErase;
+        
+        N11O := 132;
+       ! TPErase;
         
         SocketClose Client_Socket;
         
-        WaitTime 0.2;
+        WaitTime 0.02;
         
         SocketCreate Client_Socket;
         
         SocketConnect Client_Socket, HG_Client_IP, HG_Client_PORT,\Time:=HG_Client_Time;
         
-        TPWrite "Connect:"+HG_Client_IP+" OK!";
+        HTWrite "Connect:"+HG_Client_IP+"Prot:"+ValToStr(HG_Client_PORT)+"->OK!";
         
-        SocketSend Client_Socket ;
+        !PackRawBytes N11O,raw_msg,0 \IntX:=DINT;
+        
+        
+       ! SocketSend Client_Socket \Str:="[Model=Calib|RobotPos=123,156,135,1365,132]" ;
+
+        
+    ENDPROC
+    
+    PROC HG_Socket_Send(string Meg)
+        VAR string Send_Meg;
+        
+        Send_Meg:="{"+Meg+"}";
+       HTWrite Send_Meg;
+        SocketSend Client_Socket \Str:=Send_Meg ;
+    ENDPROC
+    
+    FUNC byte HG_Socket_Receive(\num Wait_Time)
+       VAR HandEye_Calib_Receive_Model Rece_Model;
+        VAR num time_val := WAIT_MAX; 
+        VAR byte Rece_String{1024};
+       
+        
+        
+        IF Present(wait_time) time_val := wait_time;
+       
+       SocketReceive client_socket, \Data:=Rece_String, \Time:=time_val;
+       
+       
+        RETURN Rece_String{1024};
+    ENDFunc
+    
+    
+    
+    PROC HG_Socket_Error()
+              IF ERRNO = ERR_SOCK_TIMEOUT THEN
+            HTWrite "pack msg to sensor socket timeout";
+           
+        ELSEIF ERRNO = ERR_SOCK_CLOSED THEN
+            HTWrite "pack msg to sensor socket closed";
+        ELSE
+            HTWrite "pack msg to sensor socket unknow";     
+        ENDIF  
     ENDPROC
     
 ENDMODULE
