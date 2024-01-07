@@ -1,6 +1,6 @@
 ﻿namespace ABB_Socket
 {
-    public class Class1
+    public class ABB_Soclet_Model
     {
 
     }

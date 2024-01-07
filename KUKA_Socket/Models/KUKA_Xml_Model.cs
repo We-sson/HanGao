@@ -89,8 +89,8 @@ namespace KUKA_Socket.Models
         /// <summary>
         /// 接收模式
         /// </summary>
-        [XmlAttribute]
-        public Vision_Model_Enum Model { set; get; }
+        //[XmlAttribute]
+        //public Vision_Model_Enum Model { set; get; }
         [XmlAttribute]
         public HandEye_Calibration_Type_Enum Calibration_Model { set; get; }
 

@@ -172,7 +172,7 @@ namespace HanGao.ViewModel
                     HandEye_Socket_Robot_Parameters.HandEye_Receive_List.Add(new Socket_Receive(_Sever, HandEye_Socket_Robot_Parameters.HandEye_Socket_Port.ToString())
                     {
                         Socket_Robot = HandEye_Socket_Robot_Parameters.HandEye_Socket_Robot,
-                        KUKA_HandEye_Calibration_String = HandEye_Calib_Socket_Receive,
+                        HandEye_Calibration_String = HandEye_Calib_Socket_Receive,
                         Socket_ErrorInfo_delegate = Socket_Log_Show,
 
 
@@ -220,8 +220,6 @@ namespace HanGao.ViewModel
         /// <param name="_RStr"></param>
         /// <returns></returns>
         public string HandEye_Calib_Socket_Receive(KUKA_HandEye_Calibration_Receive _S, string _RStr)
-
-
         {
             string _Str = string.Empty;
             MVS_Camera_Info_Model _Select_Camera = new MVS_Camera_Info_Model();

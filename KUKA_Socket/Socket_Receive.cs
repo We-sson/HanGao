@@ -51,7 +51,9 @@ namespace Soceket_KUKA
         public ReceiveMessage_delegate<Calibration_Data_Receive, string> KUKA_Receive_Find_String { set; get; }
         public ReceiveMessage_delegate<Vision_Ini_Data_Receive, string> KUKA_Receive_Vision_Ini_String { set; get; }
 
-        public ReceiveMessage_delegate<KUKA_HandEye_Calibration_Receive, string> KUKA_HandEye_Calibration_String { set; get; }
+
+
+        public ReceiveMessage_delegate<KUKA_HandEye_Calibration_Receive, string> HandEye_Calibration_String { set; get; }
 
         
 
@@ -252,10 +254,13 @@ namespace Soceket_KUKA
                     switch (Socket_Robot)
                     {
                         case Socket_Robot_Protocols_Enum.KUKA:
-                             _S = Vision_Model(message);
+                             _S = KUKA_EKL_Socket(message);
 
                             break;
                         case Socket_Robot_Protocols_Enum.ABB:
+
+
+
                             break;
                         case Socket_Robot_Protocols_Enum.川崎:
                             break;
@@ -295,7 +300,7 @@ namespace Soceket_KUKA
         /// </summary>
         /// <param name="_St"></param>
         /// <returns></returns>
-        public string Vision_Model(string _St)
+        public string KUKA_EKL_Socket(string _St)
         {
             if (_St != "")
             {
@@ -342,7 +347,7 @@ namespace Soceket_KUKA
 
                         KUKA_HandEye_Calibration_Receive _HandEye_Receive = KUKA_Send_Receive_Xml.String_Xml<KUKA_HandEye_Calibration_Receive>(_St);
                        
-                        _Str= KUKA_HandEye_Calibration_String(_HandEye_Receive, _St);
+                        _Str= HandEye_Calibration_String(_HandEye_Receive, _St);
 
                         break;
 
@@ -357,6 +362,17 @@ namespace Soceket_KUKA
             }
 
         }
+
+
+        public string ABB_PC_Socket(string _Str)
+        {
+
+
+
+            return "";
+        }
+
+
 
         public void Dispose()
         {
