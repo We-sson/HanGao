@@ -21,7 +21,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XML_ReadWrite", "..\XML_Rea
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VTK_3DLibrary", "..\VTK_3DLibrary\VTK_3DLibrary.csproj", "{E27EFAA2-C5CA-42C2-A0EF-C28842621316}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TCP_Modbus", "..\TCP_Modbus\TCP_Modbus.csproj", "{4FA877D9-DDF0-4672-9651-AD787C28ECDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TCP_Modbus", "..\TCP_Modbus\TCP_Modbus.csproj", "{4FA877D9-DDF0-4672-9651-AD787C28ECDF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ABB_Socket", "..\ABB_Socket\ABB_Socket.csproj", "{EF9300A9-AF5E-458C-A60C-2FE2B3485B69}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -141,6 +143,18 @@ Global
 		{4FA877D9-DDF0-4672-9651-AD787C28ECDF}.Release|x64.Build.0 = Release|Any CPU
 		{4FA877D9-DDF0-4672-9651-AD787C28ECDF}.Release|x86.ActiveCfg = Release|Any CPU
 		{4FA877D9-DDF0-4672-9651-AD787C28ECDF}.Release|x86.Build.0 = Release|Any CPU
+		{EF9300A9-AF5E-458C-A60C-2FE2B3485B69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF9300A9-AF5E-458C-A60C-2FE2B3485B69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF9300A9-AF5E-458C-A60C-2FE2B3485B69}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EF9300A9-AF5E-458C-A60C-2FE2B3485B69}.Debug|x64.Build.0 = Debug|Any CPU
+		{EF9300A9-AF5E-458C-A60C-2FE2B3485B69}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EF9300A9-AF5E-458C-A60C-2FE2B3485B69}.Debug|x86.Build.0 = Debug|Any CPU
+		{EF9300A9-AF5E-458C-A60C-2FE2B3485B69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF9300A9-AF5E-458C-A60C-2FE2B3485B69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF9300A9-AF5E-458C-A60C-2FE2B3485B69}.Release|x64.ActiveCfg = Release|Any CPU
+		{EF9300A9-AF5E-458C-A60C-2FE2B3485B69}.Release|x64.Build.0 = Release|Any CPU
+		{EF9300A9-AF5E-458C-A60C-2FE2B3485B69}.Release|x86.ActiveCfg = Release|Any CPU
+		{EF9300A9-AF5E-458C-A60C-2FE2B3485B69}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
