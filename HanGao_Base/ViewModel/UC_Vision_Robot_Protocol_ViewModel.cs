@@ -2,6 +2,8 @@
 using HanGao.View.User_Control;
 using HanGao.View.User_Control.Vision_Control;
 using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
+using Roboto_Socket_Library;
+using Roboto_Socket_Library.Models;
 using System.Windows;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static HanGao.ViewModel.User_Control_Log_ViewModel;
@@ -18,7 +20,7 @@ namespace HanGao.ViewModel
                 UI_Connect_Client = _IsConnect;
             };
             // 接收到变量值后更新UI值
-            Read.Socket_Receive_Delegate = One_Read.Socket_Receive_Delegate += (Socket_Models_Receive _Receive) =>
+            Read.Socket_Receive_Delegate = One_Read.Socket_Receive_Delegate += (KUKA_SDK_Models _Receive) =>
             {
                 Socket_Models_List _List;
                 Socket_Models_List _Rece_Info = _Receive.Reveice_Inf as Socket_Models_List;

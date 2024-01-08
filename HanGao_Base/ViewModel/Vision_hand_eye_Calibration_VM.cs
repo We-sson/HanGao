@@ -1,13 +1,17 @@
 ﻿using Halcon_SDK_DLL.Halcon_Examples_Method;
 using HanGao.View.User_Control.Vision_hand_eye_Calibration;
+using KUKA_Socket;
 using MVS_SDK_Base.Model;
 using Ookii.Dialogs.Wpf;
+using Roboto_Socket_Library;
+using Roboto_Socket_Library.Model;
 using System.Drawing;
 using System.Windows.Controls.Primitives;
 using Throw;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.UC_Vision_CameraSet_ViewModel;
 using static MVS_SDK_Base.Model.MVS_Model;
+using static Roboto_Socket_Library.Model.Roboto_Socket_Model;
 
 namespace HanGao.ViewModel
 {
@@ -172,7 +176,7 @@ namespace HanGao.ViewModel
                     HandEye_Socket_Robot_Parameters.HandEye_Receive_List.Add(new Socket_Receive(_Sever, HandEye_Socket_Robot_Parameters.HandEye_Socket_Port.ToString())
                     {
                         Socket_Robot = HandEye_Socket_Robot_Parameters.HandEye_Socket_Robot,
-                        HandEye_Calibration_String = HandEye_Calib_Socket_Receive,
+                        HandEye_Calibration_Data_Delegate = HandEye_Calib_Socket_Receive,
                         Socket_ErrorInfo_delegate = Socket_Log_Show,
 
 
@@ -219,19 +223,19 @@ namespace HanGao.ViewModel
         /// <param name="_S"></param>
         /// <param name="_RStr"></param>
         /// <returns></returns>
-        public string HandEye_Calib_Socket_Receive(KUKA_HandEye_Calibration_Receive _S, string _RStr)
+        public HandEye_Calibration_Send HandEye_Calib_Socket_Receive(HandEye_Calibration_Receive _S, byte[] _RStr)
         {
             string _Str = string.Empty;
             MVS_Camera_Info_Model _Select_Camera = new MVS_Camera_Info_Model();
 
             //FindCalibObject_Results _Results = new FindCalibObject_Results();
 
-            KUKA_HandEye_Calibration_Send _HandEye_Send = new KUKA_HandEye_Calibration_Send();
+            HandEye_Calibration_Send _HandEye_Send = new HandEye_Calibration_Send();
             Reconstruction_3d _HandEye_3DModel = new Reconstruction_3d();
             HPose _RobotBase = new HPose();
             List<HObjectModel3D> _Calib_Rotob_Model = new List<HObjectModel3D>();
 
-            HanddEye_Socked_Receive_information = _RStr;
+            HanddEye_Socked_Receive_information = _RStr.ToString();
 
             try
             {
@@ -264,7 +268,7 @@ namespace HanGao.ViewModel
                         _HandEye_Send.IsStatus = 1;
                         _HandEye_Send.Message_Error = "Hand-eye Calibration Ini OK！";
 
-                        _Str = KUKA_Send_Receive_Xml.Property_Xml<KUKA_HandEye_Calibration_Send>(_HandEye_Send);
+                        _Str = KUKA_Send_Receive_Xml.Property_Xml<HandEye_Calibration_Send>(_HandEye_Send);
 
 
                         break;
@@ -279,16 +283,16 @@ namespace HanGao.ViewModel
                         //创建对应机器人角度旋转方式
                         switch (Halcon_HandEye_Calibra.HandEye_Robot)
                         {
-                            case Socket_Robot_Protocols_Enum.KUKA:
+                            case Robot_Type_Enum.KUKA:
 
                                 _RobotBase.CreatePose(double.Parse(_S.ACT_Point.X) / 1000, double.Parse(_S.ACT_Point.Y) / 1000, double.Parse(_S.ACT_Point.Z) / 1000, double.Parse(_S.ACT_Point.C), double.Parse(_S.ACT_Point.B), double.Parse(_S.ACT_Point.A), "Rp+T", "abg", "point");
 
                                 break;
-                            case Socket_Robot_Protocols_Enum.ABB:
+                            case Robot_Type_Enum.ABB:
                                 break;
-                            case Socket_Robot_Protocols_Enum.川崎:
+                            case Robot_Type_Enum.川崎:
                                 break;
-                            case Socket_Robot_Protocols_Enum.通用:
+                            case Robot_Type_Enum.通用:
                                 break;
 
                         }
@@ -325,7 +329,7 @@ namespace HanGao.ViewModel
                             _HandEye_Send.IsStatus = 1;
                             _HandEye_Send.Message_Error = "Hand-eye Calibration to Find OK！";
 
-                            _Str = KUKA_Send_Receive_Xml.Property_Xml<KUKA_HandEye_Calibration_Send>(_HandEye_Send);
+                            _Str = KUKA_Send_Receive_Xml.Property_Xml<HandEye_Calibration_Send>(_HandEye_Send);
 
 
 
@@ -389,7 +393,7 @@ namespace HanGao.ViewModel
 
 
 
-                        _Str = KUKA_Send_Receive_Xml.Property_Xml<KUKA_HandEye_Calibration_Send>(_HandEye_Send);
+                        _Str = KUKA_Send_Receive_Xml.Property_Xml<HandEye_Calibration_Send>(_HandEye_Send);
 
 
 
@@ -413,15 +417,15 @@ namespace HanGao.ViewModel
 
                 _HandEye_Send.IsStatus = 0;
                 _HandEye_Send.Message_Error = "Hand-eye Calibration to Results Error！,Please check the PC situation. ";
-                _Str = KUKA_Send_Receive_Xml.Property_Xml<KUKA_HandEye_Calibration_Send>(_HandEye_Send);
-                return _Str;
+                _Str = KUKA_Send_Receive_Xml.Property_Xml<HandEye_Calibration_Send>(_HandEye_Send);
+                return _HandEye_Send;
 
             }
 
 
 
 
-            return HanddEye_Socked_Send_information = _Str;
+            return _HandEye_Send;
         }
 
 
@@ -2269,6 +2273,9 @@ namespace HanGao.ViewModel
 
 
     }
+
+
+
 
 
 }

@@ -552,7 +552,7 @@ public partial class HDevelopExport
 
     // Local iconic variables 
 
-    HObject ho_Image, ho_Caltab=null, ho_Marks=null;
+    HObject ho_Image, ho_Caltab=new HObject(), ho_Marks=new HObject ();
 
     // Local control variables 
 

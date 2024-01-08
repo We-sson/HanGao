@@ -284,11 +284,12 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Enum_Extension\KUKA_Val_Extension.csproj" />
+    <ProjectReference Include="..\ABB_Socket\ABB_Socket.csproj" />
     <ProjectReference Include="..\Generic_Extension\Generic_Extension.csproj" />
     <ProjectReference Include="..\Halcon_SDK\Halcon_SDK.csproj" />
     <ProjectReference Include="..\KUKA_Socket\KUKA_Socket.csproj" />
     <ProjectReference Include="..\MVS_SDK\MVS_SDK.csproj" />
+    <ProjectReference Include="..\Roboto_Socket_Library\Roboto_Socket_Library.csproj" />
     <ProjectReference Include="..\TCP_Modbus\TCP_Modbus.csproj" />
     <ProjectReference Include="..\VTK_3DLibrary\VTK_3DLibrary.csproj" />
   </ItemGroup>

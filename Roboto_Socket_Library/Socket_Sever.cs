@@ -1,24 +1,12 @@
-﻿
-
-using Soceket_Connect;
-using Soceket_KUKA.Models;
+﻿using Roboto_Socket_Library.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-
-using static Soceket_Connect.Socket_Connect;
-
-using static Soceket_KUKA.Models.Socket_Models_Receive;
-using static Soceket_KUKA.Socket_Receive;
 
 
-namespace HanGao.Socket_KUKA
+
+namespace Roboto_Socket_Library
 {
 
     public class Socket_Sever 
@@ -52,18 +40,18 @@ namespace HanGao.Socket_KUKA
         public  int ClientCount { set; get; }
   
 
-        public static  IPEndPoint Address { set; get; }
+        public   IPEndPoint Address { set; get; }
 
         /// <summary>
         /// 服务器唯一连接标识
         /// </summary>
-        public static Socket Socket_Server { set; get; }
+        public  Socket? Socket_Server { set; get; }
 
 
         /// <summary>
-        /// KUKA客户端列表
+        /// 客户端列表
         /// </summary>
-        public static List<Socket_Models_Server> KUKA_Client_List { set; get; } = new List<Socket_Models_Server>();
+        public  List<Socket_Models_Server> KUKA_Client_List { set; get; } = new List<Socket_Models_Server>();
 
 
 
@@ -82,19 +70,19 @@ namespace HanGao.Socket_KUKA
         /// </summary>
         /// <param name="_Ip"></param>
         /// <param name="_Port"></param>
-        public void Socket_Server_KUKA()
+        public void Robot_Socket_Server()
         {
             if (!IsRuning)
             {
                 IsRuning = true;
                 //Address = new IPEndPoint(IPAddress.Parse(_Ip), _Port);
                 Socket_Server = new Socket(Address.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-                Socket_Server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
-                Socket_Server.Bind(Address);
+                Socket_Server?.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+                Socket_Server?.Bind(Address);
 
-                Socket_Server.Listen(10);
+                Socket_Server?.Listen(10);
 
-                Socket_Server.BeginAccept(new AsyncCallback(KUKA_Client_Connect), Socket_Server);
+                Socket_Server?.BeginAccept(new AsyncCallback(KUKA_Client_Connect), Socket_Server);
 
 
 
@@ -110,11 +98,11 @@ namespace HanGao.Socket_KUKA
         {
             if (IsRuning)
             {
-                Socket _Server = (Socket)ar.AsyncState;
+                Socket _Server = (Socket)ar.AsyncState!;
                 Socket _KUKA_Client = _Server.EndAccept(ar);
 
 
-                Socket_Models_Server State = new Socket_Models_Server() { Server_Kuka_Client = _KUKA_Client };
+                Socket_Models_Server State = new Socket_Models_Server() { Server_Client = _KUKA_Client };
                 lock (_KUKA_Client)
                 {
 
@@ -131,7 +119,7 @@ namespace HanGao.Socket_KUKA
                 _KUKA_Client.BeginReceive(State.Server_Recv_Byte, 0, State.Server_Recv_Byte.Length, SocketFlags.None, new AsyncCallback(KUKA_Client_Received), State);
 
                 //接收其他客户端连接
-                Socket_Server.BeginAccept(new AsyncCallback(KUKA_Client_Connect), Socket_Server);
+                Socket_Server?.BeginAccept(new AsyncCallback(KUKA_Client_Connect), Socket_Server);
 
 
             }
@@ -146,8 +134,8 @@ namespace HanGao.Socket_KUKA
         {
             if (IsRuning)
             {
-                Socket_Models_Server State = (Socket_Models_Server)ar.AsyncState;
-                Socket _KUKA_Client = State.Server_Kuka_Client;
+                Socket_Models_Server State = (Socket_Models_Server)ar.AsyncState!;
+                Socket _KUKA_Client = State.Server_Client!;
 
         
 
@@ -188,7 +176,7 @@ namespace HanGao.Socket_KUKA
         public void KUKA_Received_Val(Socket_Models_Server SM_Server)
         {
 
-            var a = SM_Server.Server_Kuka_Client.RemoteEndPoint.ToString();
+            var a = SM_Server.Server_Client!.RemoteEndPoint!.ToString();
 
             //MessageBox.Show(a + Encoding.ASCII.GetString(SM_Server.Server_Recv_Byte));
 
@@ -214,7 +202,7 @@ namespace HanGao.Socket_KUKA
         /// <param name="ar"></param>
         public void Server_SendEnd(IAsyncResult ar)
         {
-            ((Socket)ar.AsyncState).EndSend(ar);
+            ((Socket)ar.AsyncState!).EndSend(ar!);
 
         }
 
@@ -231,8 +219,8 @@ namespace HanGao.Socket_KUKA
         {
             if (_Server != null)
             {
-                _Server.Server_Send_Data = null;
-                _Server.Server_Recv_Byte = null;
+                _Server.Server_Send_Data = string.Empty;
+                _Server.Server_Recv_Byte = Array.Empty<byte>();
 
                 KUKA_Client_List.Remove(_Server);
 
@@ -271,7 +259,7 @@ namespace HanGao.Socket_KUKA
                    
                     //Socket_Server.Shutdown(SocketShutdown.Both);
                  
-                Socket_Server.Close();
+                Socket_Server?.Close();
                 
             }
 

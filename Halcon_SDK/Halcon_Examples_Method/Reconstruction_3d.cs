@@ -153,7 +153,7 @@ public class Reconstruction_3d
         catch (HalconException)
         {
 
-            return null;
+            return new List<HObjectModel3D>() ;
 
         }
         finally

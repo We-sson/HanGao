@@ -1,7 +1,8 @@
 ﻿using Halcon_SDK_DLL.Model;
 using HalconDotNet;
-using KUKA_Socket.Models;
+
 using PropertyChanged;
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -66,7 +67,7 @@ namespace Halcon_SDK_DLL
         /// <summary>
         /// 手眼标定机器人类型
         /// </summary>
-        public Socket_Robot_Protocols_Enum HandEye_Robot { set; get; } = Socket_Robot_Protocols_Enum.KUKA;
+        public Robot_Type_Enum HandEye_Robot { set; get; } = Robot_Type_Enum.KUKA;
 
 
         /// <summary>
@@ -231,7 +232,7 @@ namespace Halcon_SDK_DLL
                     FindCalibObject_Results _Res = new FindCalibObject_Results();
 
                     //查找标定板流程
-                    Find_Calibration_Workflows(ref _Res, _Selected_camera.Calibration_Image, _CalibParam, i);
+                    Find_Calibration_Workflows(ref _Res, _Selected_camera.Calibration_Image!, _CalibParam, i);
 
 
                     var ppp = _Res._CalibXLD.IsInitialized();
@@ -404,7 +405,7 @@ namespace Halcon_SDK_DLL
 
 
                     //查找标定板流程
-                    Find_Calibration_Workflows(ref _Res, _Selected_camera.Calibration_Image, _CalibParam, i);
+                    Find_Calibration_Workflows(ref _Res, _Selected_camera.Calibration_Image!, _CalibParam, i);
 
 
 

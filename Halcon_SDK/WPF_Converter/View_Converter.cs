@@ -41,7 +41,7 @@ namespace Halcon_SDK_DLL.WPF_Converter
             }
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
 
             return value.ToString();
@@ -57,22 +57,22 @@ namespace Halcon_SDK_DLL.WPF_Converter
     /// </summary>
     public class Halcon_EnumConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             int enumValue = 0;
             if (parameter is Type)
             {
-                enumValue = (int)Enum.Parse((Type)parameter, value.ToString());
+                enumValue = (int)Enum.Parse((Type)parameter, value.ToString()!);
             }
             return enumValue;
         }
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
 
-            Enum returnValue = default;
+            Enum? returnValue = default;
             if (parameter is Type @type)
             {
-                returnValue = (Enum)Enum.Parse(@type, value.ToString());
+                returnValue = (Enum)Enum.Parse(@type, value.ToString()!);
             }
             return returnValue;
 
@@ -96,12 +96,12 @@ namespace Halcon_SDK_DLL.WPF_Converter
                 return false;
             }
         }
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (Boolean.Parse(value.ToString()))
+            if (Boolean.Parse(value.ToString()!))
             {
  
-                return (Enum)Enum.Parse(targetType, parameter.ToString());
+                return (Enum)Enum.Parse(targetType, parameter.ToString()!);
             }
             else
             {
@@ -118,43 +118,43 @@ namespace Halcon_SDK_DLL.WPF_Converter
     public class EnumDescriptionConverter : IValueConverter
     {
 
-        public  string GetEnumDescription(object  enumObj)
+        public  string? GetEnumDescription(object  enumObj)
         {
             try
             {
 
         
-            FieldInfo fieldInfo = enumObj.GetType().GetField(enumObj.ToString());
+            FieldInfo? fieldInfo = enumObj.GetType().GetField(enumObj.ToString()!);
 
-            object[] attribArray = fieldInfo?.GetCustomAttributes(false);
+            object[] attribArray = fieldInfo!.GetCustomAttributes(false);
 
-            if (attribArray.Length == 0 || attribArray==null)
+            if (attribArray!.Length == 0 || attribArray==null)
             {
-                return enumObj.ToString();
+                return enumObj.ToString()!;
             }
             else
             {
-                DescriptionAttribute attrib = attribArray[0] as DescriptionAttribute;
-                return attrib.Description;
+                DescriptionAttribute? attrib = attribArray[0] as DescriptionAttribute;
+                return attrib!.Description;
             }
             }
             catch (Exception)
             {
-                return enumObj?.ToString();
+                return enumObj?.ToString()!;
 
 
             }
         }
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             //Enum _Enum = value as Enum;
             //Enum myEnum = (Enum)value;
-            string description = GetEnumDescription(value);
+            string? description = GetEnumDescription(value);
             return description;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return string.Empty;
         }

@@ -8,7 +8,7 @@
         xmlns:MVS="clr-namespace:MvCamCtrl.NET.CameraParams;assembly=MvCamCtrl.Net"
         xmlns:MVS_Enum="clr-namespace:MVS_SDK_Base.Model;assembly=MVS_SDK"
         xmlns:Openfile="clr-namespace:HanGao.View.User_Control.OpenFile"
-        xmlns:Robot="clr-namespace:KUKA_Socket.Models;assembly=KUKA_Socket"
+        xmlns:Robot="clr-namespace:Roboto_Socket_Library.Model;assembly=Roboto_Socket_Library"
         xmlns:UC_Working="clr-namespace:HanGao.View.User_Control"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"

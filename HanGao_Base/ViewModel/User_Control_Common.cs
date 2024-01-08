@@ -1,4 +1,5 @@
-﻿using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
+﻿using Roboto_Socket_Library.Models;
+using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 
 
 namespace HanGao.ViewModel

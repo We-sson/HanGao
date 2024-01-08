@@ -41,7 +41,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             Scene3D_Param.PropertyChanged += (e, o) =>
             {
                 //属性修改设置显示
-                Set_Scene3D_Param(hv_Scene3D, (Halcon_Scene3D_Param_Model)e);
+                Set_Scene3D_Param(hv_Scene3D, (Halcon_Scene3D_Param_Model)e!);
                 //通知显示更新画面
                 While_ResetEvent.Set();
                 While_ResetEvent.Reset();
@@ -52,7 +52,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                if (hv_ObjectModel3D.Count > 0)
                {
 
-                   Set_Scene3D_Instance_Param(hv_Scene3D, (Halcon_Scene3D_Instance_Model)e);
+                   Set_Scene3D_Instance_Param(hv_Scene3D, (Halcon_Scene3D_Instance_Model)e!);
                }
                //通知显示更新画面
                While_ResetEvent.Set();
@@ -65,11 +65,11 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             hv_ObjectModel3D.CollectionChanged += (e, o) =>
             {
-                lock (e)
+                lock (e!)
                 {
 
                     //类型转换
-                    ObservableCollection<HObjectModel3D> _List_Model = e as ObservableCollection<HObjectModel3D>;
+                    ObservableCollection<HObjectModel3D> _List_Model = (e as ObservableCollection<HObjectModel3D>)!;
 
                     switch (o.Action)
                     {
@@ -155,13 +155,13 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <summary>
         /// 三维可视化设置错误委托属性
         /// </summary>
-        public H3D_Display_T_delegate<string> H3D_Display_Message_delegate { set; get; }
+        public H3D_Display_T_delegate<string>? H3D_Display_Message_delegate { set; get; }
 
 
 
 
 
-        private HPose _hv_PoseIn;
+        private HPose _hv_PoseIn=new HPose ();
         /// <summary>
         /// 当前可视化显示位置
         /// </summary>
@@ -198,7 +198,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <summary>
         /// 可视化场景相机属性
         /// </summary>
-        public HCamPar hv_CamParam { set; get; }
+        public HCamPar hv_CamParam { set; get; } = new HCamPar();
 
 
         /// <summary>
@@ -411,7 +411,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 //释放渲染线程
 
 
-                HSmartWindowControlWPF _HWindow = e.Source as HSmartWindowControlWPF;
+                HSmartWindowControlWPF _HWindow = (e.Source as HSmartWindowControlWPF)!;
 
 
                 //HOperatorSet.DispImage(_Image, hv_WindowHandle);
@@ -769,7 +769,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             if (e.ButtonState == MouseButtonState.Pressed)
             {
 
-                HSmartWindowControlWPF _HWindow = e.Source as HSmartWindowControlWPF;
+                HSmartWindowControlWPF _HWindow = (e.Source as HSmartWindowControlWPF)!;
 
                 //旋转前记录旋转中心位置
                 hv_HMouseDowm = e.GetPosition(_Window.Halcon_UserContol);
@@ -838,7 +838,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             {
 
 
-                HSmartWindowControlWPF _HWindow = e.Source as HSmartWindowControlWPF;
+                HSmartWindowControlWPF _HWindow = (e.Source as HSmartWindowControlWPF)!;
 
 
                 //缩放前获得图像中心位置
@@ -1334,27 +1334,27 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         public void Set_Scene3D_Instance_Param(HScene3D _Scene3D, Halcon_Scene3D_Instance_Model _Param)
         {
 
-            object _Par_Val = null;
+            object? _Par_Val = new object() ;
 
             //遍历三维模型属性设置
-            foreach (PropertyInfo _Val in _Param.GetType().GetProperties())
+            foreach (PropertyInfo? _Val in _Param.GetType().GetProperties())
             {
 
-                _Par_Val = null;
+                _Par_Val = new object ();
                 switch (_Val.PropertyType)
                 {
                     case Type _T when _T == typeof(double):
-                        _Par_Val = (double)_Val.GetValue(_Param);
+                        _Par_Val = (double)_Val.GetValue(_Param)!;
 
                         break;
 
                     case Type _T when _T == typeof(int):
-                        _Par_Val = (int)_Val.GetValue(_Param);
+                        _Par_Val = (int)_Val?.GetValue(_Param)!;
 
                         break;
 
                     default:
-                        _Par_Val = _Val.GetValue(_Param)?.ToString().ToLower();
+                        _Par_Val = _Val.GetValue(_Param)?.ToString()?.ToLower() ?? string.Empty;
                         break;
                 }
 
@@ -1397,32 +1397,32 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <param name="_Param"></param>
         public void Set_Scene3D_Param(HScene3D _Scene3D, Halcon_Scene3D_Param_Model _Param)
         {
-            object _Par_Val = null;
+            object _Par_Val = new object() ;
 
             ///遍历属性参数设置
-            foreach (PropertyInfo _Val in _Param.GetType().GetProperties())
+            foreach (PropertyInfo? _Val in _Param.GetType().GetProperties())
             {
-                _Par_Val = null;
+                _Par_Val = new object ();
                 switch (_Val.PropertyType)
                 {
                     case Type _T when _T == typeof(double):
 
 
-                        _Par_Val = (double)_Val.GetValue(_Param);
+                        _Par_Val = (double)_Val.GetValue(_Param)!;
 
                         break;
 
                     case Type _T when _T == typeof(int):
 
 
-                        _Par_Val = (int)_Val.GetValue(_Param);
+                        _Par_Val = (int)_Val.GetValue(_Param)!;
 
                         break;
 
                     default:
 
 
-                        _Par_Val = _Val.GetValue(_Param)?.ToString().ToLower();
+                        _Par_Val = _Val.GetValue(_Param)?.ToString()?.ToLower()?? string.Empty;
 
 
 

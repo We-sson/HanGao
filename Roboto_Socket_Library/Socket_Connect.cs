@@ -1,19 +1,15 @@
-﻿
-
-
-using Soceket_KUKA.Models;
+﻿using Roboto_Socket_Library.Model;
+using Roboto_Socket_Library.Models;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using static Soceket_Connect.Socket_Connect;
+using Throw;
 
-namespace Soceket_Connect
+namespace Roboto_Socket_Library
 {
 
     public class Socket_Connect : IDisposable
@@ -41,11 +37,6 @@ namespace Soceket_Connect
         private ManualResetEvent Rece_Write { set; get; } = new ManualResetEvent(false);
         private ManualResetEvent Send_Waite { set; get; } = new ManualResetEvent(false);
 
-        /// <summary>
-        /// 泛型类型委托声明
-        /// </summary>
-        /// <param name="_Connect_State"></param>
-        public delegate void Socket_T_delegate<T>(T _T);
 
 
 
@@ -53,13 +44,13 @@ namespace Soceket_Connect
         /// <summary>
         /// 通讯接收信息委托属性
         /// </summary>
-        public Socket_T_delegate<Socket_Models_Receive> Socket_Receive_Delegate { set; get; }
+        public Socket_T_delegate<KUKA_SDK_Models>? Socket_Receive_Delegate { set; get; } 
 
 
         /// <summary>
         /// 通讯连接成功委托属性
         /// </summary>
-        public Socket_T_delegate<bool> Socket_Connect_State_delegate { set; get; }
+        public Socket_T_delegate<bool>? Socket_Connect_State_delegate { set; get; }
 
         /// <summary>
         /// 开启多线程连接委托
@@ -70,7 +61,7 @@ namespace Soceket_Connect
         /// <summary>
         /// 通讯连接错误委托
         /// </summary>
-        public Socket_T_delegate<string> Socket_ErrorInfo_delegate { set; get; }
+        public Socket_T_delegate<string>? Socket_ErrorInfo_delegate { set; get; }
 
 
 
@@ -110,14 +101,14 @@ namespace Soceket_Connect
         /// <summary>
         /// 设置IP
         /// </summary>
-        public string Connect_IP { set; get; }
+        public string Connect_IP { set; get; } = string.Empty;
 
 
 
         /// <summary>
         /// 设置端口
         /// </summary>
-        public string Connect_Port { set; get; }
+        public string Connect_Port { set; get; } = string.Empty;
 
 
 
@@ -193,7 +184,7 @@ namespace Soceket_Connect
         /// <summary>
         /// 异步接受属性
         /// </summary>
-        private Socket_Models_Receive Socket_KUKA_Receive = new Socket_Models_Receive();
+        private KUKA_SDK_Models Socket_KUKA_Receive = new KUKA_SDK_Models();
         /// <summary>
         /// Socket唯一写入连接标识
         /// </summary>
@@ -206,7 +197,7 @@ namespace Soceket_Connect
         /// <summary>
         /// IP设置属性
         /// </summary>
-        private IPEndPoint IP { set; get; }
+        //private IPEndPoint IP { set; get; } = new IPEndPoint(IPAddress.Parse(Connect_IP), int.Parse(Connect_Port));
 
         /// <summary>
         /// Socket连接
@@ -262,7 +253,7 @@ namespace Soceket_Connect
 
 
             //设置读写IP
-            IP = new IPEndPoint(IPAddress.Parse(Connect_IP), int.Parse(Connect_Port));
+            IPEndPoint IP = new IPEndPoint(IPAddress.Parse(Connect_IP), int.Parse(Connect_Port));
 
 
 
@@ -332,7 +323,8 @@ namespace Soceket_Connect
         /// <param name="ar"></param>
         private void Client_Inf(IAsyncResult ar)
         {
-            Read_Write_Enum _Enum = (Read_Write_Enum)ar.AsyncState;
+
+              Read_Write_Enum _Enum = Enum.Parse<Read_Write_Enum>(ar?.AsyncState?.ToString() ?? string.Empty) ;
 
             if (_Enum == Read_Write_Enum.Write)
             {
@@ -343,7 +335,7 @@ namespace Soceket_Connect
                 {
                     //Task.Delay(10);
                     //挂起读取异步连接
-                    Global_Socket_Write.EndConnect(ar);
+                    Global_Socket_Write.EndConnect(ar!);
                     Is_Connect_Client = true;
 
 
@@ -354,7 +346,7 @@ namespace Soceket_Connect
                 {
 
 
-                    Socket_ErrorInfo_delegate($"Error: -51 原因:" + e.Message);
+                    Socket_ErrorInfo_delegate?.Invoke($"Error: -51 原因:" + e.Message);
 
 
                     return;
@@ -371,7 +363,7 @@ namespace Soceket_Connect
                 {
 
                     //挂起读取异步连接
-                    Global_Socket_Read.EndConnect(ar);
+                    Global_Socket_Read.EndConnect(ar!);
                     Is_Connect_Client = true;
 
                 }
@@ -379,7 +371,7 @@ namespace Soceket_Connect
                 {
 
 
-                    Socket_ErrorInfo_delegate($"Error: -50 原因:" + e.Message);
+                    Socket_ErrorInfo_delegate?.Invoke($"Error: -50 原因:" + e.Message);
                     return;
                 }
                 //连接成功释放阻塞
@@ -387,6 +379,7 @@ namespace Soceket_Connect
 
 
             }
+            
         }
 
 
@@ -410,10 +403,9 @@ namespace Soceket_Connect
                 lock (ar)
                 {
 
-
-
+                    // ar?.AsyncState?.ToString() ?? string.Empty;
                     //传入参数转换
-                    Socket_Models_Receive _Receive = ar.AsyncState as Socket_Models_Receive;
+                    KUKA_SDK_Models _Receive = (ar?.AsyncState as KUKA_SDK_Models) ?? new KUKA_SDK_Models(); ;
 
                     if (Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.Read || Socket_KUKA_Receive.Read_Write_Type == Read_Write_Enum.One_Read)
                     {
@@ -421,7 +413,7 @@ namespace Soceket_Connect
                         Send_Read.WaitOne(10000);
 
                         //获取接收字节数量
-                        Socket_KUKA_Receive.Byte_Leng = Global_Socket_Read.EndReceive(ar);
+                        Socket_KUKA_Receive.Byte_Leng = Global_Socket_Read.EndReceive(ar!);
 
                         if (Socket_KUKA_Receive.Byte_Leng == 0)
                         {
@@ -438,7 +430,7 @@ namespace Soceket_Connect
                     {
 
 
-                        Socket_KUKA_Receive.Byte_Leng = Global_Socket_Write.EndReceive(ar);
+                        Socket_KUKA_Receive.Byte_Leng = Global_Socket_Write.EndReceive(ar!);
                         if (Socket_KUKA_Receive.Byte_Leng == 0)
                         {
                             //接收异常退出
@@ -489,7 +481,7 @@ namespace Soceket_Connect
 
                             _Receive.Receive_Var = Socket_KUKA_Receive.Receive_Byte.Message_Show;
                             //传送委托到声明位置
-                            Socket_Receive_Delegate(_Receive);
+                            Socket_Receive_Delegate?.Invoke(_Receive);
 
                         }
                     }
@@ -521,7 +513,7 @@ namespace Soceket_Connect
             catch (Exception e)
             {
 
-                Socket_ErrorInfo_delegate(e.Message);
+                Socket_ErrorInfo_delegate?.Invoke(e.Message);
 
             }
         }
@@ -532,7 +524,7 @@ namespace Soceket_Connect
         /// <summary>
         /// 消息发送
         /// </summary>
-        private void Socket_Send_Message_Method(Socket_Models_Receive _S)
+        private void Socket_Send_Message_Method(KUKA_SDK_Models _S)
         {
 
             try
@@ -603,7 +595,7 @@ namespace Soceket_Connect
             catch (Exception e)
             {
 
-                Socket_ErrorInfo_delegate(e.Message);
+                Socket_ErrorInfo_delegate?.Invoke(e.Message);
 
             }
 
@@ -618,7 +610,7 @@ namespace Soceket_Connect
         {
 
 
-            if (Global_Socket_Write == (Socket)ar.AsyncState)
+            if (Global_Socket_Write == (Socket?)ar.AsyncState)
             {
 
                 Global_Socket_Write.EndSend(ar);
@@ -628,7 +620,7 @@ namespace Soceket_Connect
 
             }
 
-            if (Global_Socket_Read == (Socket)ar.AsyncState)
+            if (Global_Socket_Read == (Socket?)ar.AsyncState)
             {
 
                 Global_Socket_Read.EndSend(ar);
@@ -672,7 +664,7 @@ namespace Soceket_Connect
                         foreach (var item in Sml)
                         {
 
-                            Socket_KUKA_Receive = new Socket_Models_Receive() { Send_Byte = Write_Var_To_Byte(item.Write_Var, item.Var_Name, item.Var_ID), Read_Write_Type = Read_Write_Enum.Write, Reveice_Inf = item.Reveice_Inf };
+                            Socket_KUKA_Receive = new KUKA_SDK_Models() { Send_Byte = Write_Var_To_Byte(item.Write_Var, item.Var_Name, item.Var_ID), Read_Write_Type = Read_Write_Enum.Write, Reveice_Inf = item.Reveice_Inf };
 
                             //发送消息
                             Socket_Send_Message_Method(Socket_KUKA_Receive);
@@ -699,7 +691,7 @@ namespace Soceket_Connect
             catch (Exception e)
             {
 
-                Socket_ErrorInfo_delegate(e.Message);
+                Socket_ErrorInfo_delegate?.Invoke(e.Message);
 
             }
         }
@@ -739,7 +731,7 @@ namespace Soceket_Connect
 
 
 
-                            Socket_KUKA_Receive = new Socket_Models_Receive() { Send_Byte = Read_Var_To_Byte(item.Var_Name, item.Var_ID), Read_Write_Type = Read_Write_Enum.One_Read, Reveice_Inf = item.Reveice_Inf };
+                            Socket_KUKA_Receive = new KUKA_SDK_Models() { Send_Byte = Read_Var_To_Byte(item.Var_Name, item.Var_ID), Read_Write_Type = Read_Write_Enum.One_Read, Reveice_Inf = item.Reveice_Inf };
 
                             Socket_Send_Message_Method(Socket_KUKA_Receive);
 
@@ -757,7 +749,7 @@ namespace Soceket_Connect
             catch (Exception e)
             {
 
-                Socket_ErrorInfo_delegate(e.Message);
+                Socket_ErrorInfo_delegate?.Invoke(e.Message);
 
             }
         }
@@ -777,7 +769,7 @@ namespace Soceket_Connect
                 lock (Socket_KUKA_Receive)
                 {
 
-                    Socket_KUKA_Receive = new Socket_Models_Receive();
+                    Socket_KUKA_Receive = new KUKA_SDK_Models();
 
 
                     Socket_Client_KUKA(Read_Write_Enum.Read);
@@ -799,7 +791,7 @@ namespace Soceket_Connect
                             //获得当前时间
                             //Socket_Read_List[i].Val_Update_Time = DateTime.UtcNow.TimeOfDay.TotalMilliseconds;
                             //装箱
-                            Socket_KUKA_Receive = new Socket_Models_Receive() { Send_Byte = Read_Var_To_Byte(item.Var_Name, item.Var_ID), Read_Write_Type = Read_Write_Enum.Read, Reveice_Inf = item.Reveice_Inf };
+                            Socket_KUKA_Receive = new KUKA_SDK_Models() { Send_Byte = Read_Var_To_Byte(item.Var_Name, item.Var_ID), Read_Write_Type = Read_Write_Enum.Read, Reveice_Inf = item.Reveice_Inf };
                             if (Is_Connect_Client)
                             {
 
@@ -830,7 +822,7 @@ namespace Soceket_Connect
             catch (Exception e)
             {
 
-                Socket_ErrorInfo_delegate(e.Message);
+                Socket_ErrorInfo_delegate?.Invoke(e.Message);
 
             }
 
@@ -841,7 +833,7 @@ namespace Soceket_Connect
         /// 读取格式专值
         /// </summary>
         /// <param name="Smr"></param>
-        private void Real_Byte_To_Var(ref Socket_Models_Receive Smr)
+        private void Real_Byte_To_Var(ref KUKA_SDK_Models Smr)
         {
 
             if (Smr.Read_Write_Type == Read_Write_Enum.Read || Smr.Read_Write_Type == Read_Write_Enum.One_Read)
@@ -889,8 +881,8 @@ namespace Soceket_Connect
             }
             else if (Smr.Receive_Byte.Byte_Return_Tpye == 1 && Smr.Receive_Byte.Byte_Write_Type == 0)
             {
-                Socket_ErrorInfo_delegate(Smr.Receive_Byte.Message_Show);
-                Socket_ErrorInfo_delegate(" 变量值写入失败！");
+                Socket_ErrorInfo_delegate?.Invoke(Smr.Receive_Byte.Message_Show);
+                Socket_ErrorInfo_delegate?.Invoke(" 变量值写入失败！");
 
 
             }
@@ -1012,7 +1004,7 @@ namespace Soceket_Connect
                 //读取标识重置
                 Is_Connect_Client = false;
 
-                Socket_ErrorInfo_delegate("断开读取连接");
+                Socket_ErrorInfo_delegate?.Invoke("断开读取连接");
 
             }
 
@@ -1068,8 +1060,8 @@ namespace Soceket_Connect
             //连接失败后关闭连接
 
             Socket_Close(_Enum);
-            Socket_ErrorInfo_delegate(_Error);
-
+            Socket_ErrorInfo_delegate?.Invoke(_Error);
+                
         }
 
         public void Dispose()

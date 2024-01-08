@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0-windows</TargetFramework>
@@ -19,7 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ABB_Socket\ABB_Socket.csproj" />
     <ProjectReference Include="..\Halcon_SDK\Halcon_SDK.csproj" />
+    <ProjectReference Include="..\KUKA_Socket\KUKA_Socket.csproj" />
   </ItemGroup>
 
 </Project>

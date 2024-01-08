@@ -1,17 +1,12 @@
 ﻿using HalconDotNet;
-using KUKA_Socket.Models;
+
 using PropertyChanged;
-using Soceket_KUKA;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Windows;
 using System.Windows.Media.Media3D;
 using Throw;
-using static Halcon_SDK_DLL.Halcon_Calibration_SDK;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
 namespace Halcon_SDK_DLL.Model
@@ -66,7 +61,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 模型位置单位：M
             /// </summary>
-            public HPose _PoseIn { set; get; }
+            public HPose _PoseIn { set; get; } = new HPose();
             //public HTuple _PoseOut { set; get; } = new HTuple();
             //public HTuple _GenParamName { set; get; } = new HTuple();
             //public HTuple _GenParamValue { set; get; } = new HTuple();
@@ -108,7 +103,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 图像显示位置Halcon控件
             /// </summary>
-            public HWindow Image_Show_Halcon = null;
+            public HWindow? Image_Show_Halcon ;
         }
 
         /// <summary>
@@ -924,7 +919,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 选择标定板类型
         /// </summary>
-        public FileInfo Selected_Calibration_Pate_Address { set; get; }
+        public FileInfo? Selected_Calibration_Pate_Address { set; get; }
 
 
 
@@ -965,44 +960,7 @@ namespace Halcon_SDK_DLL.Model
 
 
 
-    /// <summary>
-    /// 手眼标定机器人通讯参数模型
-    /// </summary>
-    [AddINotifyPropertyChangedInterface]
-    public class HandEye_Socket_Robot_Parameters_Model
-    {
 
-
-
-        /// <summary>
-        /// 电脑网口设备IP网址
-        /// </summary>
-        public ObservableCollection<string> Local_IP_UI { set; get; } = new ObservableCollection<string>();
-
-        /// <summary>
-        /// 通讯服务器属性
-        /// </summary>
-        public List<Socket_Receive> HandEye_Receive_List { set; get; } = new List<Socket_Receive>();
-
-        /// <summary>
-        /// 手眼标定通讯协议机器人
-        /// </summary>
-        public Socket_Robot_Protocols_Enum HandEye_Socket_Robot { set; get; } = Socket_Robot_Protocols_Enum.KUKA;
-        /// <summary>
-        /// 手眼标定通讯端口
-        /// </summary>
-        public int HandEye_Socket_Port { set; get; } = 5400;
-
-        /// <summary>
-        /// 通讯设备图像来源设置
-        /// </summary>
-        public HaneEye_Calibration_Diver_Model_Enum HaneEye_Socket_Diver_Model { get; set; } = HaneEye_Calibration_Diver_Model_Enum.Online;
-
-
-
-
-
-    }
 
 
 
@@ -1017,7 +975,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 模型文件
         /// </summary>
-        public FileInfo Match_File { set; get; }
+        public FileInfo? Match_File { set; get; } 
         /// <summary>
         /// 模型区域
         /// </summary>
@@ -1066,7 +1024,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 算法设置错误委托属性
         /// </summary>
-        public static HVS_T_delegate<string> HVS_ErrorInfo_delegate { set; get; }
+        public static HVS_T_delegate<string>? HVS_ErrorInfo_delegate { set; get; }
 
 
 
@@ -1091,7 +1049,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 运行错误详细信息
         /// </summary>
-        private string _Result_Error_Info;
+        private string _Result_Error_Info=string.Empty;
 
 
         public string Result_Error_Info
@@ -1112,7 +1070,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 结果值
         /// </summary>
-        public T1 ResultVal { set; get; }
+        public T1? ResultVal { set; get; } 
 
         /// <summary>
         /// 获得算法运行状态
@@ -1366,7 +1324,7 @@ namespace Halcon_SDK_DLL.Model
         /// </summary>
         /// <param name="_Robot"></param>
         /// <returns></returns>
-        public Point_Model Get_HPos(Socket_Robot_Protocols_Enum _Robot)
+        public Point_Model Get_HPos(Robot_Type_Enum _Robot)
         {
 
             Point_Model _Pos = new Point_Model();
@@ -1375,20 +1333,20 @@ namespace Halcon_SDK_DLL.Model
 
             switch (_Robot)
             {
-                case Socket_Robot_Protocols_Enum.KUKA:
+                case Robot_Type_Enum.KUKA:
 
 
-                    _Pos = new Point_Model() { X=X,Y=Y,Z=Z, Rx=Rz,Ry=Ry,Rz=Rx};
+                    _Pos = new Point_Model() { X = X, Y = Y, Z = Z, Rx = Rz, Ry = Ry, Rz = Rx };
 
 
 
                     break;
-                case Socket_Robot_Protocols_Enum.ABB:
+                case Robot_Type_Enum.ABB:
 
 
                     //需要四元数转换
                     break;
-                case Socket_Robot_Protocols_Enum.川崎:
+                case Robot_Type_Enum.川崎:
 
                     //_Pos.CreatePose(X / 1000, Y / 1000, Z / 1000, Rx, Ry, Rz, "Rp+T", "gba", "point");
 
@@ -1396,7 +1354,7 @@ namespace Halcon_SDK_DLL.Model
 
                     break;
 
-                case Socket_Robot_Protocols_Enum.通用:
+                case Robot_Type_Enum.通用:
 
 
                     //_Pos.CreatePose(X, Y, Z, Rx, Ry, Rz, "Rp+T", "gba", "point");
@@ -1431,11 +1389,11 @@ namespace Halcon_SDK_DLL.Model
                 {
 
 
-                if (!Checked_SaveFile( _File,  _name))
-                {
-                    //HPose _Pos = new HPose(X/1000, Y/1000, Z / 1000, A, B, C, "Rp+T", "gba", "point");
-                    HPose.WritePose(_File + _name+".dat");
-                }
+                    if (!Checked_SaveFile(_File, _name))
+                    {
+                        //HPose _Pos = new HPose(X/1000, Y/1000, Z / 1000, A, B, C, "Rp+T", "gba", "point");
+                        HPose.WritePose(_File + _name + ".dat");
+                    }
 
                 });
             }
@@ -1453,7 +1411,7 @@ namespace Halcon_SDK_DLL.Model
         /// 检查保存文件是否存在？
         /// </summary>
         /// <returns></returns>
-        private  bool Checked_SaveFile(string _File, string _name)
+        private bool Checked_SaveFile(string _File, string _name)
         {
 
 
@@ -1463,7 +1421,7 @@ namespace Halcon_SDK_DLL.Model
             if (!Directory.Exists(_File)) Directory.CreateDirectory(_File);
 
             //添加名称
-         string    _File_Address = _File + _name;
+            string _File_Address = _File + _name;
 
             if (File.Exists(_File_Address += ".dat"))
             {
@@ -1503,9 +1461,9 @@ namespace Halcon_SDK_DLL.Model
 
         public void Set_Data(HTuple _Data)
         {
-            RMS_Translational = _Data.TupleSelect(0)*1000;
+            RMS_Translational = _Data.TupleSelect(0) * 1000;
             RMS_Rotational = _Data.TupleSelect(1);
-            Maximum_Translational = _Data.TupleSelect(2)*1000;
+            Maximum_Translational = _Data.TupleSelect(2) * 1000;
             Maximum_Rotational = _Data.TupleSelect(3);
         }
 
@@ -1542,7 +1500,7 @@ namespace Halcon_SDK_DLL.Model
             Camera_Calib_Error = _Results_Model.Camera_Calib_Error;
             Camera_Result_Pama = _Results_Model.Camera_Result_Pama;
             Calibration_Name = _Results_Model.Calibration_Name;
-          
+
         }
 
         public Calibration_Camera_Data_Results_Model()
@@ -1575,13 +1533,13 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 标定文件者名称
         /// </summary>
-        public string Calibration_Name { set; get; }
+        public string Calibration_Name { set; get; } = string.Empty;
 
 
         /// <summary>
         /// 保存相机内参文件地址
         /// </summary>
-        private string Save_File_Address { set; get; }
+        private string Save_File_Address { set; get; } = string.Empty;
 
 
 
@@ -1666,27 +1624,27 @@ namespace Halcon_SDK_DLL.Model
         public bool Checked_SaveFile()
         {
 
-  
 
- 
+
+
             ////检查文件夹，创建
             if (!Directory.Exists(Result_Fold_Address)) Directory.CreateDirectory(Result_Fold_Address);
 
             //添加名称
-             Save_File_Address = Result_Fold_Address +"\\"+ Calibration_Name;
+            Save_File_Address = Result_Fold_Address + "\\" + Calibration_Name;
 
             if (File.Exists(Save_File_Address += ".dat"))
             {
 
-      
-                    if (MessageBox.Show("相机内参文件：" + Calibration_Name + " 已存在，是否覆盖？", "标定提示", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.OK) return false; return true;
-       
+
+                if (MessageBox.Show("相机内参文件：" + Calibration_Name + " 已存在，是否覆盖？", "标定提示", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.OK) return false; return true;
+
             }
             else
             {
                 return false;
             }
-       
+
 
         }
 
@@ -1699,9 +1657,9 @@ namespace Halcon_SDK_DLL.Model
 
 
 
-            Camera_Calinration_Process_Type.Throw(Calibration_Name+ "：未进行手眼标定！").IfEquals(Camera_Calinration_Process_Enum.Uncalibrated);
+            Camera_Calinration_Process_Type.Throw(Calibration_Name + "：未进行手眼标定！").IfEquals(Camera_Calinration_Process_Enum.Uncalibrated);
 
-        
+
             if (Camera_Result_Pama.HCamPar != null)
             {
 
@@ -1709,12 +1667,12 @@ namespace Halcon_SDK_DLL.Model
                 Application.Current.Dispatcher.Invoke(() =>
                 {
 
-                if (!Checked_SaveFile())
-                {
+                    if (!Checked_SaveFile())
+                    {
 
-                    Camera_Result_Pama.HCamPar.WriteCamPar(Save_File_Address);
+                        Camera_Result_Pama.HCamPar.WriteCamPar(Save_File_Address);
 
-                }
+                    }
 
                 });
 
@@ -1740,9 +1698,9 @@ namespace Halcon_SDK_DLL.Model
         /// <param name="_Results"></param>
         public void HandEye_Results_Save()
         {
- 
+
             //保存相机内参
-           Save_Camera_Parameters();
+            Save_Camera_Parameters();
             //保存相机在工具坐标
             HandEye_Tool_in_Cam_Pos.Pos_Save(Result_Fold_Address, "HandEyeToolinCam_" + Calibration_Name);
 
@@ -1777,7 +1735,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 标定图像
         /// </summary>
-        public HObject Calibration_Image { set; get; } = null;
+        public HObject? Calibration_Image { set; get; } 
 
 
         /// <summary>
@@ -1800,7 +1758,7 @@ namespace Halcon_SDK_DLL.Model
 
 
         //相机名称图像的
-        public string Carme_Name { set; get; }
+        public string Carme_Name { set; get; } = string.Empty;
 
         /// <summary>
         /// 标定状态
@@ -2270,6 +2228,45 @@ namespace Halcon_SDK_DLL.Model
         [Description("Z-Y-X")]
         abg = 2,
     }
+
+    /// <summary>
+    /// 手眼标定过程状态枚举
+    /// </summary>
+    public enum HandEye_Calibration_Type_Enum
+    {
+        Calibration_Start,
+        Calibration_Progress,
+        Calibration_End
+
+
+    }
+
+    /// <summary>
+    /// 视觉识别功能
+    /// </summary>
+    public enum Vision_Model_Enum
+    {
+
+        Calibration_New,
+        Calibration_Text,
+        Calibration_Add,
+        Find_Model,
+        Vision_Ini_Data,
+        HandEye_Calib_Date,
+    }
+
+
+    public enum Robot_Type_Enum
+    {
+
+        KUKA,
+        ABB,
+        川崎,
+        通用
+
+
+    }
+
 
 
 }

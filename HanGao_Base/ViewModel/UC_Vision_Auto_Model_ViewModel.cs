@@ -1,9 +1,10 @@
-﻿using HanGao.View.User_Control.Vision_Control;
+﻿
 using HanGao.View.User_Control.Vision_hand_eye_Calibration;
 using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
-using HanGao.Xml_Date.Xml_Write_Read;
 
-
+using KUKA_Socket;
+using Roboto_Socket_Library;
+using static Roboto_Socket_Library.Model.Roboto_Socket_Model;
 
 namespace HanGao.ViewModel
 {
@@ -33,6 +34,7 @@ namespace HanGao.ViewModel
                 _Send.Message_Error = HVE_Result_Enum.Vision_Ini_Data_OK.ToString ();
                 //属性转换xml流
                 string _SendSteam = KUKA_Send_Receive_Xml.Property_Xml(_Send);
+             
                 UC_Vision_Robot_Protocol_ViewModel.Send_Socket_String = _SendSteam;
                 return _SendSteam;
             };
@@ -45,7 +47,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 库卡通讯服务器属性
         /// </summary>
-        public List<Socket_Receive> KUKA_Receive { set; get; } = new List<Socket_Receive>();
+        public List<Socket_Receive> Robot_Receive { set; get; } = new List<Socket_Receive>();
 
   
         /// <summary>
@@ -61,23 +63,23 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 静态委托接收处理相机标定事件
         /// </summary>
-        public static Socket_Receive.ReceiveMessage_delegate<Calibration_Data_Receive, string> Static_KUKA_Receive_Calibration_New_String { set; get; }
+        public static Socket_Receive.ReceiveMessage_delegate<Calibration_Data_Receive, string,object> Static_KUKA_Receive_Calibration_New_String { set; get; }
         /// <summary>
         /// 静态委托接收处理相机标定点添加事件
         /// </summary>
-        public static Socket_Receive.ReceiveMessage_delegate<Calibration_Data_Receive, string> Static_KUKA_Receive_Calibration_Add_String { set; get; }
+        public static Socket_Receive.ReceiveMessage_delegate<Calibration_Data_Receive, string,object> Static_KUKA_Receive_Calibration_Add_String { set; get; }
         /// <summary>
         /// 静态委托接收处理相机标定精度测试事件
         /// </summary>
-        public static Socket_Receive.ReceiveMessage_delegate<Calibration_Data_Receive, string> Static_KUKA_Receive_Calibration_Text_String { set; get; }
+        public static Socket_Receive.ReceiveMessage_delegate<Calibration_Data_Receive, string, object> Static_KUKA_Receive_Calibration_Text_String { set; get; }
         /// <summary>
         /// 静态委托处理查找模型特征
         /// </summary>
-        public static Socket_Receive.ReceiveMessage_delegate<Calibration_Data_Receive, string> Static_KUKA_Receive_Find_String { set; get; }
+        public static Socket_Receive.ReceiveMessage_delegate<Calibration_Data_Receive, string, object> Static_KUKA_Receive_Find_String { set; get; }
         /// <summary>
         /// 静态委托处理查找模型特征
         /// </summary>
-        public static Socket_Receive.ReceiveMessage_delegate<Vision_Ini_Data_Receive, string> Static_KUKA_Receive_Vision_Ini_String { set; get; }
+        public static Socket_Receive.ReceiveMessage_delegate<Vision_Ini_Data_Receive, string, object> Static_KUKA_Receive_Vision_Ini_String { set; get; }
 
         /// <summary>
         /// 静态属性更新通知事件
@@ -171,12 +173,12 @@ namespace HanGao.ViewModel
                 foreach (var _Sever in Local_IP_UI)
                 {
 
-                    KUKA_Receive.Add(new Socket_Receive(_Sever, Vision_Auto_Cofig.Stat_Network_Port.ToString()) {
-                        KUKA_Receive_Calibration_New_String = Static_KUKA_Receive_Calibration_New_String,
-                        KUKA_Receive_Calibration_Add_String=Static_KUKA_Receive_Calibration_Add_String,
-                        KUKA_Receive_Calibration_Text_String=Static_KUKA_Receive_Calibration_Text_String,
-                        KUKA_Receive_Find_String = Static_KUKA_Receive_Find_String, 
-                        KUKA_Receive_Vision_Ini_String=Static_KUKA_Receive_Vision_Ini_String,
+                    Robot_Receive.Add(new Socket_Receive(_Sever, Vision_Auto_Cofig.Stat_Network_Port.ToString()) {
+                        //Receive_Calibration_New_String = Static_KUKA_Receive_Calibration_New_String,
+                        //Receive_Calibration_Add_String=Static_KUKA_Receive_Calibration_Add_String,
+                        //KUKA_Receive_Calibration_Text_String=Static_KUKA_Receive_Calibration_Text_String,
+                        //KUKA_Receive_Find_String = Static_KUKA_Receive_Find_String, 
+                        //Receive_Vision_Ini_String=Static_KUKA_Receive_Vision_Ini_String,
                         Socket_ErrorInfo_delegate = Socket_Log_Show
                     });
 
@@ -208,7 +210,7 @@ namespace HanGao.ViewModel
         public void Initialization_Sever_STOP()
         {
 
-            foreach (var _Sock in KUKA_Receive)
+            foreach (var _Sock in Robot_Receive)
             {
 
               

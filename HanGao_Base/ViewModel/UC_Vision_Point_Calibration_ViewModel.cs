@@ -1,11 +1,14 @@
 ﻿using HanGao.View.User_Control.Vision_Calibration;
 using HanGao.View.User_Control.Vision_Control;
 using HanGao.View.User_Control.Vision_hand_eye_Calibration;
+using KUKA_Socket;
 using Microsoft.Win32;
 using System.Xml.Serialization;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.UC_Visal_Function_VM;
 using static HanGao.ViewModel.UC_Vision_Auto_Model_ViewModel;
+using static Roboto_Socket_Library.Model.Roboto_Socket_Model;
+
 namespace HanGao.ViewModel
 {
     [AddINotifyPropertyChangedInterface]

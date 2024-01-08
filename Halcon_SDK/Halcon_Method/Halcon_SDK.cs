@@ -31,7 +31,7 @@ namespace Halcon_SDK_DLL
         /// <summary>
         /// Halcon控件属性
         /// </summary>
-        public HSmartWindowControlWPF Halcon_UserContol { set; get; }
+        public HSmartWindowControlWPF Halcon_UserContol { set; get; } = new HSmartWindowControlWPF();
 
 
 
@@ -55,13 +55,13 @@ namespace Halcon_SDK_DLL
         /// <summary>
         /// 绑定图像
         /// </summary>
-        public HObject DisplayImage { set; get; }
+        public HObject? DisplayImage { set; get; }
         /// <summary>
         /// 绑定区域显示
         /// </summary>
-        public HObject DisplayRegion { set; get; }
+        public HObject? DisplayRegion { set; get; }
 
-        public HObject DisplayXLD { set; get; }
+        public HObject? DisplayXLD { set; get; }
 
 
 
@@ -109,7 +109,7 @@ namespace Halcon_SDK_DLL
                 {
                     _Name = DateTime.Today.ToLongDateString() + "_" + (Sample_Save_Image_Number += 1).ToString();
 
-                    Re = root.GetFiles().Where(F => F.Name.Contains(_Name)).FirstOrDefault();
+                    Re = root.GetFiles().Where(F => F.Name.Contains(_Name)).FirstOrDefault()!;
 
 
                 } while (Re != null);
@@ -3282,7 +3282,7 @@ namespace Halcon_SDK_DLL
 
             // Local iconic variables 
 
-            HObject ho_TempArrow = null;
+            HObject ho_TempArrow = new HObject ();
 
             // Local control variables 
 

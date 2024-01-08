@@ -7,7 +7,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
-namespace KUKA_Socket.Models
+namespace KUKA_Socket
 {
     public class KUKA_Send_Receive_Xml
     {
@@ -27,7 +27,7 @@ namespace KUKA_Socket.Models
         /// <typeparam name="T1"></typeparam>
         /// <param name="_Type"></param>
         /// <returns></returns>
-        public static  string Property_Xml<T1>(T1 _Type)
+        public static   string Property_Xml<T1>(T1 _Type)
         {
             XmlWriterSettings settings = new XmlWriterSettings();
             //去除xml声明
@@ -63,10 +63,10 @@ namespace KUKA_Socket.Models
         /// <typeparam name="T1"></typeparam>
         /// <param name="_Path"></param>
         /// <returns></returns>
-        public static    T1 String_Xml<T1>(string _Path) where T1 : class
+        public static T1 String_Xml<T1>(string _Path) where T1 : class
         {
 
-            T1 obj;
+     
 
             using (XmlReader xmlReader = XmlReader.Create(new StringReader(_Path)))
             {
@@ -76,11 +76,12 @@ namespace KUKA_Socket.Models
                
 
 
-                obj = (T1)xmlSerializer.Deserialize(xmlReader);
+              T1 obj = (T1)xmlSerializer!.Deserialize(xmlReader)!;
 
+
+                return obj;
             }
 
-            return obj;
 
         }
 

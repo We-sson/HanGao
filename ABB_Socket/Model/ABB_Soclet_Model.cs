@@ -1,4 +1,4 @@
-﻿namespace ABB_Socket
+﻿namespace ABB_Socket.Model
 {
     public class ABB_Soclet_Model
     {

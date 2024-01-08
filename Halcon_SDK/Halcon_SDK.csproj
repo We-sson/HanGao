@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
+	  <TargetFramework>net6.0-windows</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>Halcon_SDK_DLL</RootNamespace>
     <AssemblyName>Halcon_SDK_DLL</AssemblyName>
@@ -9,7 +9,8 @@
     <UseWPF>true</UseWPF>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
     <PlatformTarget>x64</PlatformTarget>
-    <Nullable>disable</Nullable>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugType>embedded</DebugType>
@@ -48,7 +49,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Generic_Extension\Generic_Extension.csproj" />
-    <ProjectReference Include="..\KUKA_Socket\KUKA_Socket.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="halcondotnet">
