@@ -1,20 +1,26 @@
 MODULE HG_Socket(SYSMODULE)
     
-    CONST num HG_Client_PORT := 5000; 
+    
+         
+
+    
+
+    
+    
+    CONST num HG_Client_PORT :=4000; 
     CONST num HG_Sever_PORT := 5001; 
-    CONST num HG_Client_Time := 2000; 
+    CONST num HG_Client_Time := 2; 
     CONST string HG_Sever_IP := "192.168.0.51";
     CONST string HG_Client_IP := "127.0.0.1";
     
     CONST bool DegLog := TRUE; 
 
-     VAR rawbytes raw_msg;
+    
     
 
     VAR socketdev Server_Socket;
     VAR socketdev Client_Socket;
      VAR num N11O;
-     
      
 
      
@@ -44,12 +50,32 @@ MODULE HG_Socket(SYSMODULE)
         
     ENDPROC
     
-    PROC HG_Socket_Send(string Meg)
-        VAR string Send_Meg;
-        
-        Send_Meg:="{"+Meg+"}";
-       HTWrite Send_Meg;
-        SocketSend Client_Socket \Str:=Send_Meg ;
+    PROC HG_HE_Calib_Socket_Send(HandEye_Calib_Send_Model Send_Model)
+      
+        VAR rawbytes  Send_raw;
+       
+ 
+    ClearRawBytes Send_raw;
+    !model
+    PackRawBytes "[" ,Send_raw,(RawBytesLen(Send_raw)+1)\ASCII;
+    PackRawBytes Send_Model.Vision_Model ,Send_raw,(RawBytesLen(Send_raw)+1)\IntX:=DINT;
+    PackRawBytes Send_Model.Calibration_Model ,Send_raw,(RawBytesLen(Send_raw)+1)\IntX:=DINT;
+    PackRawBytes Send_Model.ACT_Point.x ,Send_raw,(RawBytesLen(Send_raw)+1)\Float4;
+    PackRawBytes Send_Model.ACT_Point.Y ,Send_raw,(RawBytesLen(Send_raw)+1)\Float4;
+    PackRawBytes Send_Model.ACT_Point.z ,Send_raw,(RawBytesLen(Send_raw)+1)\Float4;
+    PackRawBytes Send_Model.ACT_Point.Rx ,Send_raw,(RawBytesLen(Send_raw)+1)\Float4;
+    PackRawBytes Send_Model.ACT_Point.Ry ,Send_raw,(RawBytesLen(Send_raw)+1)\Float4;
+    PackRawBytes Send_Model.ACT_Point.Rz ,Send_raw,(RawBytesLen(Send_raw)+1)\Float4;
+    PackRawBytes "]" ,Send_raw,(RawBytesLen(Send_raw)+1)\ASCII;
+    
+       
+
+      ! HTWrite ValToStr(Send_raw );
+       
+    
+        SocketSend Client_Socket \RawData:=Send_raw ;
+   
+
     ENDPROC
     
     FUNC byte HG_Socket_Receive(\num Wait_Time)

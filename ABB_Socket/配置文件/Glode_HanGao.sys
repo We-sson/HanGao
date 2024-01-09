@@ -12,7 +12,8 @@ MODULE Glode_HanGao(SYSMODULE)
         num Rz;
     ENDRECORD
     RECORD HandEye_Calib_Send_Model
-        string Calibration_Model;
+        num Vision_Model;
+        num Calibration_Model;
         HPoint ACT_Point;
     ENDRECORD
     
@@ -39,14 +40,7 @@ MODULE Glode_HanGao(SYSMODULE)
    
   ENDPROC
   
-  FUNC string HandEye_Calib_Send_TOStr(HandEye_Calib_Send_Model Model )
-    VAR String  Model_Str;
-     
-      Model_Str:=Model.Calibration_Model+"|"+ValToStr( Model.ACT_Point);
 
-      RETURN Model_Str;
-
-  ENDFUNC
   
   
   
@@ -61,16 +55,22 @@ MODULE Glode_HanGao(SYSMODULE)
       VAR num Ry;
       VAR num Rz;
       
+      
+      
       VAR string Rece_Str;
       VAR HandEye_Calib_Receive_Model Receive_Results ;
      HG_Socket_Ini;
+     
+     !HandEye_Calib_Model
+     HandEye_Send.Vision_Model:=5;
+     
     !Model set
     TEST Model
     CASE HandEye_Calib_Start_Model:
-         HandEye_Send.Calibration_Model:=HandEye_Calib_Start_Model;
+         HandEye_Send.Calibration_Model:=0;
     
     CASE HandEye_Calib_Progress_Model:
-    HandEye_Send.Calibration_Model:=HandEye_Calib_Progress_Model;
+    HandEye_Send.Calibration_Model:=1;
     ACT_Point:=cRobT();
 
      HandEye_Send.ACT_Point.X:=ACT_Point.trans.x;
@@ -80,7 +80,7 @@ MODULE Glode_HanGao(SYSMODULE)
      HandEye_Send.ACT_Point.Ry:=EulerZYX(\Y,ACT_Point.rot);
      HandEye_Send.ACT_Point.Rz:=EulerZYX(\Z,ACT_Point.rot);
    CASE HandEye_Calib_End_Model:
-   HandEye_Send.Calibration_Model:=HandEye_Calib_End_Model;
+   HandEye_Send.Calibration_Model:=2;
    
     ENDTEST
     !Get NowPose
@@ -89,10 +89,11 @@ MODULE Glode_HanGao(SYSMODULE)
      !show pos
     HTWrite(ValToStr(HandEye_Send.ACT_Point));
     
-    HG_Socket_Send( HandEye_Calib_Send_TOStr(HandEye_Send));
+
+    HG_HE_Calib_Socket_Send(HandEye_Send );
     
     
-  Receive_Results:=HG_Receive_ToModel( HG_Socket_Receive());
+ !Receive_Results:=HG_Receive_ToModel( HG_Socket_Receive());
     
   ENDPROC
   
