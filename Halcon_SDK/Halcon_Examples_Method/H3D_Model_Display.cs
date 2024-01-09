@@ -161,7 +161,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
 
-        private HPose _hv_PoseIn=new HPose ();
+        private HPose _hv_PoseIn=new HPose (0, 0, 0, 0, 0, 0, "Rp+T", "gba", "point");
         /// <summary>
         /// 当前可视化显示位置
         /// </summary>

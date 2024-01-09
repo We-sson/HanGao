@@ -1095,6 +1095,8 @@ namespace Halcon_SDK_DLL
 
             if (_HImage != null)
             {
+           
+
                 SetWindowDisoplay(_HImage, Display_HObject_Type_Enum.Image, _Show);
 
             }

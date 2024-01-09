@@ -142,10 +142,11 @@ namespace HanGao.ViewModel
 
 
 
-        public string HanddEye_Socked_Receive_information { set; get; } = string.Empty;
+        public Socket_Data_Converts HanddEye_Socked_Receive_information { set; get; } = new Socket_Data_Converts();
 
 
-        public string HanddEye_Socked_Send_information { set; get; } = string.Empty;
+
+        public Socket_Data_Converts HanddEye_Socked_Send_information { set; get; } = new Socket_Data_Converts();
 
 
 
@@ -177,6 +178,8 @@ namespace HanGao.ViewModel
                     {
                         Socket_Robot = HandEye_Socket_Robot_Parameters.HandEye_Socket_Robot,
                         HandEye_Calibration_Data_Delegate = HandEye_Calib_Socket_Receive,
+                        Socket_Receive_Meg= HanddEye_Socked_Receive_information.Data_Converts_Str_Method,
+                        Socket_Send_Meg= HanddEye_Socked_Send_information.Data_Converts_Str_Method,
                         Socket_ErrorInfo_delegate = Socket_Log_Show,
 
 
@@ -223,7 +226,7 @@ namespace HanGao.ViewModel
         /// <param name="_S"></param>
         /// <param name="_RStr"></param>
         /// <returns></returns>
-        public HandEye_Calibration_Send HandEye_Calib_Socket_Receive(HandEye_Calibration_Receive _S, byte[] _RStr)
+        public HandEye_Calibration_Send HandEye_Calib_Socket_Receive(HandEye_Calibration_Receive _S)
         {
             string _Str = string.Empty;
             MVS_Camera_Info_Model _Select_Camera = new MVS_Camera_Info_Model();
@@ -235,7 +238,7 @@ namespace HanGao.ViewModel
             HPose _RobotBase = new HPose();
             List<HObjectModel3D> _Calib_Rotob_Model = new List<HObjectModel3D>();
 
-            HanddEye_Socked_Receive_information = _RStr.ToString();
+          
 
             try
             {
@@ -285,10 +288,12 @@ namespace HanGao.ViewModel
                         {
                             case Robot_Type_Enum.KUKA:
 
-                                _RobotBase.CreatePose(double.Parse(_S.ACT_Point.X) / 1000, double.Parse(_S.ACT_Point.Y) / 1000, double.Parse(_S.ACT_Point.Z) / 1000, double.Parse(_S.ACT_Point.C), double.Parse(_S.ACT_Point.B), double.Parse(_S.ACT_Point.A), "Rp+T", "abg", "point");
+                                _RobotBase.CreatePose(double.Parse(_S.ACT_Point.X) / 1000, double.Parse(_S.ACT_Point.Y) / 1000, double.Parse(_S.ACT_Point.Z) / 1000, double.Parse(_S.ACT_Point.Rz), double.Parse(_S.ACT_Point.Ry), double.Parse(_S.ACT_Point.Rx), "Rp+T", "abg", "point");
 
                                 break;
                             case Robot_Type_Enum.ABB:
+
+
                                 break;
                             case Robot_Type_Enum.川崎:
                                 break;
@@ -384,7 +389,7 @@ namespace HanGao.ViewModel
 
                                 _HandEye_Send.IsStatus = 1;
                                 _HandEye_Send.Message_Error = "Hand-eye Calibration ResultsOK！";
-                                _HandEye_Send.Calib_Point = new Point_Models() { X = _CalibPos.X.ToString(), Y = _CalibPos.Y.ToString(), Z = _CalibPos.Z.ToString(), A = _CalibPos.Rx.ToString(), B = _CalibPos.Ry.ToString(), C = _CalibPos.Rz.ToString() };
+                                _HandEye_Send.Calib_Point = new Point_Models() { X = _CalibPos.X.ToString(), Y = _CalibPos.Y.ToString(), Z = _CalibPos.Z.ToString(), Rx  = _CalibPos.Rx.ToString(), Ry = _CalibPos.Ry.ToString(), Rz = _CalibPos.Rz.ToString() };
 
 
                                 break;
@@ -1075,9 +1080,13 @@ namespace HanGao.ViewModel
                                     //    _ShowDisply = _camer_0.Show_Window;
                                     //}
                                     ///显示选中图像
+                                    ///
+                                    Application.Current.Dispatcher.Invoke(() =>
+                                    {
                                     Halcon_Window_Display.Display_HObject(_Selected.Camera_0.Calibration_Image, null, null, null, _ShowDisply);
                                     Halcon_Window_Display.Display_HObject(_Selected.Camera_0.Calibration_Image, _Selected.Camera_0.Calibration_Region, null, KnownColor.Green.ToString(), _ShowDisply);
                                     Halcon_Window_Display.Display_HObject(null, null, _Selected.Camera_0.Calibration_XLD, null, _ShowDisply);
+                                    });
 
 
 

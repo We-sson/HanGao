@@ -1,6 +1,7 @@
 ﻿<Window x:Class="HanGao.View.User_Control.Vision_hand_eye_Calibration.Vision_hand_eye_Calibration_Window"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Converts_Enum="clr-namespace:Roboto_Socket_Library;assembly=Roboto_Socket_Library"
         xmlns:EnumModel="clr-namespace:Halcon_SDK_DLL;assembly=Halcon_SDK_DLL"
         xmlns:Enum_Converter="clr-namespace:Halcon_SDK_DLL.WPF_Converter;assembly=Halcon_SDK_DLL"
         xmlns:Halcon="http://schemas.mvtec.com/halcondotnet"
@@ -33,7 +34,13 @@
                 <x:Type TypeName="Robot:Socket_Robot_Protocols_Enum" />
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
-
+        <ObjectDataProvider x:Key="Calib_Robot_Enum"
+                            MethodName="GetValues"
+                            ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="Halcon_Enum:Robot_Type_Enum" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
 
         <ObjectDataProvider x:Key="Pose_Enum"
                             MethodName="GetValues"
@@ -616,7 +623,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="14" />
                                             <Label Grid.Column=" 3"
                                                    Content="mm"
                                                    Margin="0"
@@ -659,7 +666,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="14" />
                                             <Label Grid.Column=" 3"
                                                    Content="1/㎡"
                                                    Margin="0"
@@ -702,7 +709,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="14" />
                                             <Label Grid.Column=" 3"
                                                    Content="1/㎡"
                                                    Margin="0"
@@ -745,7 +752,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="14" />
                                             <Label Grid.Column=" 3"
                                                    Content="1/㎡"
                                                    Margin="0"
@@ -788,7 +795,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="14" />
                                             <Label Grid.Column=" 3"
                                                    Content="1/㎡"
                                                    Margin="0"
@@ -831,7 +838,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="14" />
                                             <Label Grid.Column=" 3"
                                                    Content="1/㎡"
                                                    Margin="0"
@@ -874,7 +881,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="14" />
                                             <Label Grid.Column=" 3"
                                                    Content="1/㎡"
                                                    Margin="0"
@@ -917,7 +924,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="14" />
                                             <Label Grid.Column=" 3"
                                                    Content="μm"
                                                    Margin="0"
@@ -960,7 +967,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="14" />
                                             <Label Grid.Column=" 3"
                                                    Content="μm"
                                                    Margin="0"
@@ -1003,7 +1010,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="14" />
                                             <Label Grid.Column=" 3"
                                                    Content="Pixel"
                                                    Margin="0"
@@ -1046,7 +1053,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="14" />
                                             <Label Grid.Column=" 3"
                                                    Content="Pixel"
                                                    Margin="0"
@@ -1089,7 +1096,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="14" />
                                             <Label Grid.Column=" 3"
                                                    Content="Pixel"
                                                    Margin="0"
@@ -1132,7 +1139,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="14" />
                                             <Label Grid.Column=" 3"
                                                    Content="Pixel"
                                                    Margin="0"
@@ -1341,13 +1348,13 @@
                                                                  IsChecked="{Binding Camera_Calibration_1.HaneEye_Calibration_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:HaneEye_Calibration_Diver_Model_Enum.Online}}"
                                                                  FontSize=" 14"
                                                                  GroupName="Camera_1_Diver"
-                                                                 Tag="Camera_0" />
+                                                                 Tag="Camera_1" />
                                                     <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 1"
                                                                  Content="本地模式"
                                                                  IsChecked="{Binding Camera_Calibration_1.HaneEye_Calibration_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:HaneEye_Calibration_Diver_Model_Enum.Local}}"
                                                                  FontSize="14"
                                                                  GroupName="Camera_1_Diver"
-                                                                 Tag="Camera_0">
+                                                                 Tag="Camera_1">
                                                         <i:Interaction.Triggers>
                                                             <i:EventTrigger EventName="Checked">
                                                                 <i:InvokeCommandAction Command="{Binding HandEye_Diver_Model_Select_Comm}"
@@ -1653,7 +1660,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="14" />
                                             <Label Grid.Column=" 3"
                                                    Content="mm"
                                                    Margin="0"
@@ -1696,7 +1703,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="14" />
                                             <Label Grid.Column=" 3"
                                                    Content="1/㎡"
                                                    Margin="0"
@@ -1739,7 +1746,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="14" />
                                             <Label Grid.Column=" 3"
                                                    Content="1/㎡"
                                                    Margin="0"
@@ -1782,7 +1789,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="14" />
                                             <Label Grid.Column=" 3"
                                                    Content="1/㎡"
                                                    Margin="0"
@@ -1825,7 +1832,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="14" />
                                             <Label Grid.Column=" 3"
                                                    Content="1/㎡"
                                                    Margin="0"
@@ -1868,7 +1875,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="14" />
                                             <Label Grid.Column=" 3"
                                                    Content="1/㎡"
                                                    Margin="0"
@@ -1911,7 +1918,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="14" />
                                             <Label Grid.Column=" 3"
                                                    Content="1/㎡"
                                                    Margin="0"
@@ -1954,7 +1961,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="14" />
                                             <Label Grid.Column=" 3"
                                                    Content="μm"
                                                    Margin="0"
@@ -1997,7 +2004,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="14" />
                                             <Label Grid.Column=" 3"
                                                    Content="μm"
                                                    Margin="0"
@@ -2040,7 +2047,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="14" />
                                             <Label Grid.Column=" 3"
                                                    Content="Pixel"
                                                    Margin="0"
@@ -2083,7 +2090,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="14" />
                                             <Label Grid.Column=" 3"
                                                    Content="Pixel"
                                                    Margin="0"
@@ -2126,7 +2133,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="14" />
                                             <Label Grid.Column=" 3"
                                                    Content="Pixel"
                                                    Margin="0"
@@ -2169,7 +2176,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="14" />
                                             <Label Grid.Column=" 3"
                                                    Content="Pixel"
                                                    Margin="0"
@@ -2390,13 +2397,6 @@
 
                                             </Border>
 
-                                            <Label Grid.Column=" 3"
-                                                   Content=""
-                                                   Margin="0"
-                                                   Padding="0"
-                                                   HorizontalContentAlignment="Center"
-                                                   VerticalContentAlignment="Center"
-                                                   FontSize=" 14" />
 
 
                                         </Grid>
@@ -2568,7 +2568,7 @@
                                                           Padding="0"
                                                           HorizontalContentAlignment="Stretch"
                                                           VerticalContentAlignment="Center"
-                                                          BorderBrush="{DynamicResource 全局_按钮_红颜色}"
+                                                          BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
                                                           BorderThickness="2">
 
                                                 <ToggleButton.Style>
@@ -2713,11 +2713,11 @@
 
 
 
-                                        <Border Height=" 2"
+                                        <Border Height=" 3"
                                                 Margin="8,4,8,4"
-                                                Background="{DynamicResource 全局_按钮_黑颜色}"
-                                                CornerRadius="1"
-                                                Opacity=" 0.5" />
+                                                Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                                CornerRadius="1" />
+
 
 
                                         <Border Grid.Column=" 0"
@@ -2846,21 +2846,59 @@
                                         </Border>
 
 
+                                        <Border Height=" 3"
+                                                Margin="8,4,8,4"
+                                                Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                                CornerRadius="1" />
+
+
+
 
                                         <Grid Margin="8">
 
                                             <StackPanel Orientation="Vertical">
 
+                                                <Grid Margin="0,0,0,8">
 
-                                                <TextBlock Grid.Column=" 0"
-                                                           Text="发送机器人通讯协议"
-                                                           Margin="0,0,0,8"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Top"
-                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                           FontSize="18"
-                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                    <TextBlock Grid.Column=" 0"
+                                                               Text="发送通讯协议"
+                                                               HorizontalAlignment="Left"
+                                                               VerticalAlignment="Center"
+                                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                               FontSize="18"
+                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
+                                                    <Border Grid.Column=" 1"
+                                                            Margin="0,0,0,0"
+                                                            HorizontalAlignment="Right"
+                                                            BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                            BorderThickness="2.5"
+                                                            CornerRadius=" 6">
+                                                        <Grid Height=" 30">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition />
+                                                                <ColumnDefinition />
+
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 0"
+                                                                         Content="ASCII"
+                                                                         IsChecked="{Binding HanddEye_Socked_Receive_information.Socket_Data_Type, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Converts_Enum:Socket_Data_Type_Enum.ASCII}}"
+                                                                         Width="50"
+                                                                         FontSize=" 12"
+                                                                         GroupName="Socket_Rece_Cover" />
+                                                            <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 1"
+                                                                         Content="HEX"
+                                                                         IsChecked="{Binding HanddEye_Socked_Receive_information.Socket_Data_Type, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Converts_Enum:Socket_Data_Type_Enum.HEX}}"
+                                                                         Width="50"
+                                                                         FontSize="12"
+                                                                         GroupName="Socket_Rece_Cover" />
+
+                                                        </Grid>
+
+                                                    </Border>
+
+                                                </Grid>
 
 
 
@@ -2869,13 +2907,15 @@
 
 
                                                 <TextBox Grid.Column=" 2"
-                                                         Text="{Binding HanddEye_Socked_Send_information}"
+                                                         Text="{Binding HanddEye_Socked_Send_information.Data_Converts_Str, UpdateSourceTrigger=PropertyChanged}"
                                                          MinHeight=" 300"
                                                          TextWrapping="Wrap"
                                                          Background="Transparent"
                                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                          BorderThickness="3"
-                                                         FontSize="16" />
+                                                         FontSize="16"
+                                                         IsReadOnly="True" />
+
 
                                                 <!--</ScrollViewer>-->
 
@@ -2888,27 +2928,64 @@
 
                                             <StackPanel Orientation="Vertical">
 
+                                                <Grid Margin="0,0,0,8">
 
-                                                <TextBlock Grid.Column=" 0"
-                                                           Text="接收机器人通讯协议"
-                                                           Margin="0,0,0,8"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                           FontSize="18"
-                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                    <TextBlock Grid.Column=" 0"
+                                                               Text="接收通讯协议"
+                                                               HorizontalAlignment="Left"
+                                                               VerticalAlignment="Center"
+                                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                               FontSize="18"
+                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                                    <Border Grid.Column=" 1"
+                                                            Margin="0,0,0,0"
+                                                            HorizontalAlignment="Right"
+                                                            BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                            BorderThickness="2.5"
+                                                            CornerRadius=" 6">
+                                                        <Grid Height=" 30">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition />
+                                                                <ColumnDefinition />
+
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 0"
+                                                                         Content="ASCII"
+                                                                         IsChecked="{Binding HanddEye_Socked_Send_information.Socket_Data_Type, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Converts_Enum:Socket_Data_Type_Enum.ASCII}}"
+                                                                         Width="50"
+                                                                         FontSize=" 12"
+                                                                         GroupName="Socket_Send_Cover" />
+                                                            <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 1"
+                                                                         Content="HEX"
+                                                                         IsChecked="{Binding HanddEye_Socked_Send_information.Socket_Data_Type, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Converts_Enum:Socket_Data_Type_Enum.HEX}}"
+                                                                         Width="50"
+                                                                         FontSize="12"
+                                                                         GroupName="Socket_Send_Cover" />
+
+                                                        </Grid>
+
+                                                    </Border>
+
+                                                </Grid>
+
+
+
 
 
 
 
                                                 <TextBox Grid.Column=" 2"
-                                                         Text="{Binding HanddEye_Socked_Receive_information}"
+                                                         Text="{Binding HanddEye_Socked_Send_information.Data_Converts_Str, UpdateSourceTrigger=PropertyChanged}"
                                                          MinHeight=" 300"
                                                          TextWrapping="Wrap"
                                                          Background="Transparent"
                                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                          BorderThickness="3"
-                                                         FontSize="16" />
+                                                         FontSize="16"
+                                                         IsReadOnly="True" />
+
 
                                                 <!--</ScrollViewer>-->
 
@@ -3110,7 +3187,7 @@
                                                       FontSize="16"
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
-                                                      ItemsSource="{Binding Source={StaticResource Robot_Enum}}"
+                                                      ItemsSource="{Binding Source={StaticResource Calib_Robot_Enum}}"
                                                       SelectedValue="{Binding Halcon_HandEye_Calibra.HandEye_Robot}">
                                                 <!--<ComboBox.Style>
                                                     <Style BasedOn="{StaticResource Data_ComboBoxStyle}" TargetType="ComboBox">
@@ -7725,7 +7802,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18"
+                                                     FontSize="14"
                                                      IsReadOnly="True" />
                                             <Label Grid.Column=" 3"
                                                    Content="mm"
@@ -7773,7 +7850,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18"
+                                                     FontSize="14"
                                                      IsReadOnly="True" />
                                             <Label Grid.Column=" 3"
                                                    Content="度"
@@ -7838,7 +7915,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18"
+                                                     FontSize="14"
                                                      IsReadOnly="True" />
                                             <Label Grid.Column=" 3"
                                                    Content="mm"
@@ -7883,7 +7960,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18"
+                                                     FontSize="14"
                                                      IsReadOnly="True" />
                                             <Label Grid.Column=" 3"
                                                    Content="度"
@@ -7928,7 +8005,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18"
+                                                     FontSize="14"
                                                      IsReadOnly="True" />
                                             <Label Grid.Column=" 3"
                                                    Content="mm"
@@ -7973,7 +8050,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18"
+                                                     FontSize="14"
                                                      IsReadOnly="True" />
                                             <Label Grid.Column=" 3"
                                                    Content="度"
@@ -8039,7 +8116,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18"
+                                                     FontSize="14"
                                                      IsReadOnly="True" />
                                             <Label Grid.Column=" 3"
                                                    Content="mm"
@@ -8084,7 +8161,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18"
+                                                     FontSize="14"
                                                      IsReadOnly="True" />
                                             <Label Grid.Column=" 3"
                                                    Content="度"
@@ -8129,7 +8206,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18"
+                                                     FontSize="14"
                                                      IsReadOnly="True" />
                                             <Label Grid.Column=" 3"
                                                    Content="mm"
@@ -8174,7 +8251,7 @@
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18"
+                                                     FontSize="14"
                                                      IsReadOnly="True" />
                                             <Label Grid.Column=" 3"
                                                    Content="度"

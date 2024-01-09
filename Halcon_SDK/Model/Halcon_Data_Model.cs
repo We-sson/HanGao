@@ -61,7 +61,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 模型位置单位：M
             /// </summary>
-            public HPose _PoseIn { set; get; } = new HPose();
+            public HPose? _PoseIn { set; get; } 
             //public HTuple _PoseOut { set; get; } = new HTuple();
             //public HTuple _GenParamName { set; get; } = new HTuple();
             //public HTuple _GenParamValue { set; get; } = new HTuple();

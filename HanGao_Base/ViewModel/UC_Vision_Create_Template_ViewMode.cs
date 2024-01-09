@@ -45,7 +45,7 @@ namespace HanGao.ViewModel
             ///通讯错误信息回调显示
             //KUKA_Receive.Socket_ErrorInfo_delegate += User_Log_Add;
             ///通讯接收查找指令
-            Static_KUKA_Receive_Find_String += (Calibration_Data_Receive _S, string _RStr) =>
+            Static_KUKA_Receive_Find_String += (Vision_Find_Data_Receive _S) =>
             {
                 DateTime _Run = DateTime.Now;
                 Console.WriteLine("开始:");
@@ -56,10 +56,10 @@ namespace HanGao.ViewModel
                 HImage _Image = new HImage();
                 Pos_List_Model _Point_List = new Pos_List_Model();
                 HWindow _Window = new HWindow();
-                Calibration_Data_Send _Send = new Calibration_Data_Send();
+                Vision_Find_Data_Send _Send = new Vision_Find_Data_Send();
                 Find_Shape_Results_Model Halcon_Find_Shape_Out = new Find_Shape_Results_Model();
                 //UI显示接收信息内容
-                UC_Vision_Robot_Protocol_ViewModel.Receive_Socket_String = _RStr;
+                //UC_Vision_Robot_Protocol_ViewModel.Receive_Socket_String = _RStr;
                 Point3D _Result_Pos = new Point3D(0, 0, 0);
                 List<List<double>> _Error_List_X = new List<List<double>>();
                 List<List<double>> _Error_List_Y = new List<List<double>>();
@@ -205,7 +205,8 @@ namespace HanGao.ViewModel
                 _Mat2D.Dispose();
                 //_ModelXld.Dispose();
                 _Image.Dispose();
-                return _SendSteam;
+                //return _SendSteam;
+                return _Send;
             };
         }
         /// <summary>

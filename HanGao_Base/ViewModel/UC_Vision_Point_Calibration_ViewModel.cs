@@ -16,15 +16,15 @@ namespace HanGao.ViewModel
     {
         public UC_Vision_Point_Calibration_ViewModel()
         {
-            Static_KUKA_Receive_Calibration_Text_String += (Calibration_Data_Receive _S, string _RStr) =>
+            Static_KUKA_Receive_Calibration_Text_String += (Vision_Find_Data_Receive _S) =>
             {
                 List<Point3D> Calibration_P = new List<Point3D>();
                 List<Point3D> Robot_P = new List<Point3D>();
                 HTuple _Mat2D = new HTuple();
-                Calibration_Data_Send _Send = new();
+                Vision_Find_Data_Send _Send = new();
                 HImage _Image = new HImage();
                 //UI显示接收信息内容
-                UC_Vision_Robot_Protocol_ViewModel.Receive_Socket_String = _RStr;
+                //UC_Vision_Robot_Protocol_ViewModel.Receive_Socket_String = _RStr;
                 //标定位置和工装位置结果显示UI 
                 Calibration_Area_UI = _S.Calibration_Model.Vision_Area.ToString();
                 Calibration_Work_Area = _S.Calibration_Model.Work_Area;
@@ -84,21 +84,22 @@ namespace HanGao.ViewModel
                     _Send.Message_Error = HVE_Result_Enum.Error_No_Read_Math2D_File.ToString();
                 }
                 //属性内容转换长文本
-                string _Str = KUKA_Send_Receive_Xml.Property_Xml<Calibration_Data_Send>(_Send);
+                string _Str = KUKA_Send_Receive_Xml.Property_Xml<Vision_Find_Data_Send>(_Send);
                 //显示UI层
                 UC_Vision_Robot_Protocol_ViewModel.Send_Socket_String = _Str;
-                return _Str;
+                //return _Str;
+                return _Send;
             };
-            Static_KUKA_Receive_Calibration_New_String += (Calibration_Data_Receive _S, string _RStr) =>
+            Static_KUKA_Receive_Calibration_New_String += (Vision_Find_Data_Receive _S) =>
         {
             List<Point3D> Calibration_P = new List<Point3D>();
             List<Point3D> Robot_P = new List<Point3D>();
             HTuple _Mat2D = new HTuple();
-            Calibration_Data_Send _Send = new();
+            Vision_Find_Data_Send _Send = new();
             HImage _Image = new HImage();
             Point3D _Calibration_Results_Point = new Point3D();
             //UI显示接收信息内容
-            UC_Vision_Robot_Protocol_ViewModel.Receive_Socket_String = _RStr;
+            //UC_Vision_Robot_Protocol_ViewModel.Receive_Socket_String = _RStr;
             //从相机获取照片
             if (Display_Status(UC_Vision_CameraSet_ViewModel.Get_Image(ref _Image, Find_Calibration.Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI)).GetResult())
             {
@@ -146,41 +147,48 @@ namespace HanGao.ViewModel
                             _Send.IsStatus = 1;
                             _Send.Message_Error = HVE_Result_Enum.Run_OK.ToString() + ",Result Variance X : " + Calibration_Error_UI.X + ", Y : " + Calibration_Error_UI.Y;
                             //属性内容转换长文本
-                            string _Str = KUKA_Send_Receive_Xml.Property_Xml<Calibration_Data_Send>(_Send);
+                            string _Str = KUKA_Send_Receive_Xml.Property_Xml<Vision_Find_Data_Send>(_Send);
                             //显示UI层
                             UC_Vision_Robot_Protocol_ViewModel.Send_Socket_String = _Str;
-                            return _Str;
+                            //return _Str;
+                            //return _Str;
+                            return _Send;
+
                         }
                         else
                         {
                             _Send.IsStatus = 0;
                             _Send.Message_Error = HVE_Result_Enum.Error_Match_Math2D_Error.ToString();
-                            string _Str = KUKA_Send_Receive_Xml.Property_Xml<Calibration_Data_Send>(_Send);
-                            return _Str;
+                            string _Str = KUKA_Send_Receive_Xml.Property_Xml<Vision_Find_Data_Send>(_Send);
+                            //return _Str;
+                            return _Send;
                         }
                     }
                     else
                     {
                         _Send.IsStatus = 0;
                         _Send.Message_Error = HVE_Result_Enum.Error_Save_Math2D_File_Error.ToString();
-                        string _Str = KUKA_Send_Receive_Xml.Property_Xml<Calibration_Data_Send>(_Send);
-                        return _Str;
+                        string _Str = KUKA_Send_Receive_Xml.Property_Xml<Vision_Find_Data_Send>(_Send);
+                        //return _Str;
+                        return _Send;
                     }
                 }
                 else
                 {
                     _Send.IsStatus = 0;
                     _Send.Message_Error = HVE_Result_Enum.Find_time_timeout.ToString();
-                    string _Str = KUKA_Send_Receive_Xml.Property_Xml<Calibration_Data_Send>(_Send);
-                    return _Str;
+                    string _Str = KUKA_Send_Receive_Xml.Property_Xml<Vision_Find_Data_Send>(_Send);
+                    //return _Str;
+                    return _Send;
                 }
             }
             else
             {
                 _Send.IsStatus = 0;
                 _Send.Message_Error = HVE_Result_Enum.Find_time_timeout.ToString();
-                string _Str = KUKA_Send_Receive_Xml.Property_Xml<Calibration_Data_Send>(_Send);
-                return _Str;
+                string _Str = KUKA_Send_Receive_Xml.Property_Xml<Vision_Find_Data_Send>(_Send);
+                //return _Str;
+                return _Send;
             }
         };
             ///初始化读取文件

@@ -38,7 +38,9 @@ namespace Roboto_Socket_Library
         /// <param name="_T"></param>
         /// <param name="_S"></param>
         /// <returns></returns>
-        public delegate T3 ReceiveMessage_delegate<T1, T2,T3>(T1 _T, T2 _S);
+        public delegate T2 ReceiveMessage_delegate<T1, T2>(T1 _T);
+
+        public delegate void Message_Byte_delegate<T1>(T1 _Meg);
 
         /// <summary>
         /// 机器人通讯
@@ -52,15 +54,15 @@ namespace Roboto_Socket_Library
         //public ReceiveMessage_delegate<Calibration_Data_Receive, string> Receive_Calibration_Add_String { set; get; }
         //public ReceiveMessage_delegate<Calibration_Data_Receive, string> Receive_Calibration_Text_String { set; get; }
 
-        //public ReceiveMessage_delegate<Calibration_Data_Receive, string> Receive_Find_String { set; get; }
-        public ReceiveMessage_delegate<Vision_Ini_Data_Receive, byte[], Vision_Ini_Data_Send>? Vision_Ini_Data_Delegate { set; get; }
+        public ReceiveMessage_delegate<Vision_Find_Data_Receive,  Vision_Find_Data_Send>? Vision_Find_Model_Delegate { set; get; }
+        public ReceiveMessage_delegate<Vision_Ini_Data_Receive,  Vision_Ini_Data_Send>? Vision_Ini_Data_Delegate { set; get; }
 
 
-
-        public ReceiveMessage_delegate<HandEye_Calibration_Receive, byte[], HandEye_Calibration_Send>? HandEye_Calibration_Data_Delegate { set; get; }
+        public ReceiveMessage_delegate<HandEye_Calibration_Receive, HandEye_Calibration_Send>? HandEye_Calibration_Data_Delegate { set; get; }
 
         
-
+        public Message_Byte_delegate <byte[]>? Socket_Receive_Meg { set; get; }
+        public Message_Byte_delegate <byte[]>? Socket_Send_Meg { set; get; }
 
         /// <summary>
         /// 通讯连接错误委托
@@ -254,48 +256,55 @@ namespace Roboto_Socket_Library
                     }
 
 
-
+                    //接触数据长度
                     byte[] _Reveice_Meg = buffer.Skip(0).Take(length).ToArray();
+                    //委托显示接受数据
+                    Socket_Receive_Meg?.Invoke(_Reveice_Meg);
+
+
+                    //创建协议处理类型
                     Robot_Socket_Protocol _Socket_Protocol = new Robot_Socket_Protocol(Socket_Robot, _Reveice_Meg);
 
 
                    
 
 
-                    switch (Socket_Robot)
-                    {
-                        case Socket_Robot_Protocols_Enum.KUKA:
+                    //switch (Socket_Robot)
+                    //{
+                    //    case Socket_Robot_Protocols_Enum.KUKA:
 
-                            string message = Encoding.UTF8.GetString(_Reveice_Meg);
+                    //        string message = Encoding.UTF8.GetString(_Reveice_Meg);
 
-                            //HandEye_Calibration_Receive _HandEye_Receive = KUKA_Send_Receive_Xml.String_Xml<HandEye_Calibration_Receive>(_St);
+                    //        //HandEye_Calibration_Receive _HandEye_Receive = KUKA_Send_Receive_Xml.String_Xml<HandEye_Calibration_Receive>(_St);
 
-                            //  _S = KUKA_Socket.KUKA_EKL_Socket(message);
-                            Send_byte = Encoding.UTF8.GetBytes(_S);
+                    //        //  _S = KUKA_Socket.KUKA_EKL_Socket(message);
+                    //        Send_byte = Encoding.UTF8.GetBytes(_S);
 
 
 
-                            Receive_Information = message;
+                    //        Receive_Information = message;
 
-                            break;
-                        case Socket_Robot_Protocols_Enum.ABB:
+                    //        break;
+                    //    case Socket_Robot_Protocols_Enum.ABB:
 
                            
 
-                            //HandEye_Calibration_Data_Delegate();
+                    //        //HandEye_Calibration_Data_Delegate();
 
-                            //Send_byte = ABB_Socket.ABB_PC_Socket(_Reveice_Meg);
-
-
-
-                            break;
-                        case Socket_Robot_Protocols_Enum.川崎:
-                            break;
-                    }
+                    //        //Send_byte = ABB_Socket.ABB_PC_Socket(_Reveice_Meg);
 
 
-                    Vision_Model_Enum _Model= Vision_Model_Enum.HandEye_Calib_Date;
-                    switch (_Model)
+
+                    //        break;
+                    //    case Socket_Robot_Protocols_Enum.川崎:
+                    //        break;
+                    //}
+
+
+   
+                    //}
+
+                    switch (_Socket_Protocol.Vision_Model_Type)
                     {
                         case Vision_Model_Enum.Calibration_New:
                             break;
@@ -304,34 +313,46 @@ namespace Roboto_Socket_Library
                         case Vision_Model_Enum.Calibration_Add:
                             break;
                         case Vision_Model_Enum.Find_Model:
+
+
+                            Vision_Find_Data_Receive? _Vision_Find_Rece = _Socket_Protocol.Socket_Receive_Get_Date<Vision_Find_Data_Receive>();
+
+                            Vision_Find_Data_Send? _Vision_Find_Send = Vision_Find_Model_Delegate?.Invoke(_Vision_Find_Rece!);
+
+                            Send_byte = _Socket_Protocol.Socket_Send_Set_Data(_Vision_Find_Send ?? new Vision_Find_Data_Send()) ?? Array.Empty<byte>();
+
                             break;
                         case Vision_Model_Enum.Vision_Ini_Data:
+
+                            Vision_Ini_Data_Receive? _Vision_Ini_Rece = _Socket_Protocol.Socket_Receive_Get_Date<Vision_Ini_Data_Receive>();
+
+                            Vision_Ini_Data_Send? _Vision_Ini_Send = Vision_Ini_Data_Delegate?.Invoke(_Vision_Ini_Rece!);
+
+                            Send_byte = _Socket_Protocol.Socket_Send_Set_Data(_Vision_Ini_Send ?? new Vision_Ini_Data_Send()) ?? Array.Empty<byte>();
+
                             break;
                         case Vision_Model_Enum.HandEye_Calib_Date:
 
 
+                            HandEye_Calibration_Receive? _HandEye_Rece = _Socket_Protocol.Socket_Receive_Get_Date<HandEye_Calibration_Receive>();
+
+                            HandEye_Calibration_Send? _Hand_Send = HandEye_Calibration_Data_Delegate?.Invoke(_HandEye_Rece!);
+
+                            Send_byte = _Socket_Protocol.Socket_Send_Set_Data(_Hand_Send ?? new HandEye_Calibration_Send()) ?? Array.Empty<byte>();
+
+
                             break;
-              
+                     
                     }
 
 
-                       //Type? _Data_Type  =_Socket_Protocol.Get_Data_Type();
-
-
-
-                    HandEye_Calibration_Receive _HandEye_Rece = _Socket_Protocol.Socket_Receive_Get_Date<HandEye_Calibration_Receive>();
-
-                      HandEye_Calibration_Send? _Hand_Send = HandEye_Calibration_Data_Delegate?.Invoke(_HandEye_Rece, _Reveice_Meg);
-
-                       Send_byte = _Socket_Protocol.Socket_Send_Set_Data(_Hand_Send?? new HandEye_Calibration_Send ())?? Array.Empty<byte>();
-
-
-
-                    Send_Information = _S;
+                    //Send_Information = _S;
 
                     if (Send_byte != Array.Empty<byte>())
                     {
 
+                        //委托显示发送数据
+                        Socket_Send_Meg?.Invoke(Send_byte);
                     client.Send(Send_byte);
                     //通过递归不停的接收该客户端的消息
                     client.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), client);

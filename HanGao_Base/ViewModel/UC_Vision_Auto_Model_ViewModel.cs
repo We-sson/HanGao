@@ -5,6 +5,7 @@ using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
 using KUKA_Socket;
 using Roboto_Socket_Library;
 using static Roboto_Socket_Library.Model.Roboto_Socket_Model;
+using static Roboto_Socket_Library.Socket_Receive;
 
 namespace HanGao.ViewModel
 {
@@ -22,9 +23,9 @@ namespace HanGao.ViewModel
             Vision_Auto_Cofig = _Date;
 
             //视觉接收设置参数
-            Static_KUKA_Receive_Vision_Ini_String += (Vision_Ini_Data_Receive _S, string _RStr) =>
+            Static_KUKA_Receive_Vision_Ini_String += (Vision_Ini_Data_Receive _S) =>
             { 
-                UC_Vision_Robot_Protocol_ViewModel.Receive_Socket_String = _RStr;
+                //UC_Vision_Robot_Protocol_ViewModel.Receive_Socket_String = _RStr;
 
                 Vision_Ini_Data_Send _Send = new Vision_Ini_Data_Send();
 
@@ -36,7 +37,8 @@ namespace HanGao.ViewModel
                 string _SendSteam = KUKA_Send_Receive_Xml.Property_Xml(_Send);
              
                 UC_Vision_Robot_Protocol_ViewModel.Send_Socket_String = _SendSteam;
-                return _SendSteam;
+                //return _SendSteam;
+                return _Send;
             };
 
             Initialization_Sever_Start();
@@ -63,23 +65,23 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 静态委托接收处理相机标定事件
         /// </summary>
-        public static Socket_Receive.ReceiveMessage_delegate<Calibration_Data_Receive, string,object> Static_KUKA_Receive_Calibration_New_String { set; get; }
+        public static ReceiveMessage_delegate<Vision_Find_Data_Receive, Vision_Find_Data_Send> Static_KUKA_Receive_Calibration_New_String { set; get; }
         /// <summary>
         /// 静态委托接收处理相机标定点添加事件
         /// </summary>
-        public static Socket_Receive.ReceiveMessage_delegate<Calibration_Data_Receive, string,object> Static_KUKA_Receive_Calibration_Add_String { set; get; }
+        public static ReceiveMessage_delegate<Vision_Find_Data_Receive, Vision_Find_Data_Send> Static_KUKA_Receive_Calibration_Add_String { set; get; }
         /// <summary>
         /// 静态委托接收处理相机标定精度测试事件
         /// </summary>
-        public static Socket_Receive.ReceiveMessage_delegate<Calibration_Data_Receive, string, object> Static_KUKA_Receive_Calibration_Text_String { set; get; }
+        public static ReceiveMessage_delegate<Vision_Find_Data_Receive, Vision_Find_Data_Send> Static_KUKA_Receive_Calibration_Text_String { set; get; }
         /// <summary>
         /// 静态委托处理查找模型特征
         /// </summary>
-        public static Socket_Receive.ReceiveMessage_delegate<Calibration_Data_Receive, string, object> Static_KUKA_Receive_Find_String { set; get; }
+        public static ReceiveMessage_delegate<Vision_Find_Data_Receive, Vision_Find_Data_Send> Static_KUKA_Receive_Find_String { set; get; }
         /// <summary>
         /// 静态委托处理查找模型特征
         /// </summary>
-        public static Socket_Receive.ReceiveMessage_delegate<Vision_Ini_Data_Receive, string, object> Static_KUKA_Receive_Vision_Ini_String { set; get; }
+        public static ReceiveMessage_delegate<Vision_Ini_Data_Receive, Vision_Ini_Data_Send> Static_KUKA_Receive_Vision_Ini_String { set; get; }
 
         /// <summary>
         /// 静态属性更新通知事件

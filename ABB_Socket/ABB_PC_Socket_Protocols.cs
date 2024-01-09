@@ -10,7 +10,7 @@ namespace ABB_Socket
 
         }
 
-        public byte[] ABB_PC_Socket<T1>(byte[] _Str)
+        public byte[] ABB_PC_Socket<T1>(byte[] Receice_byte)
         {
 
             Vision_Model_Enum _Model =  Vision_Model_Enum.HandEye_Calib_Date;
@@ -19,30 +19,21 @@ namespace ABB_Socket
             switch (_Model)
             {
                 case Vision_Model_Enum.Calibration_New:
-                    //Calibration_Data_Receive _Calibration_New_Receive = KUKA_Send_Receive_Xml.String_Xml<Calibration_Data_Receive>(_St);
-
-                    //_Str = Receive_Calibration_New_String(_Calibration_New_Receive, _St);
+        
 
                     break;
                 case Vision_Model_Enum.Calibration_Text:
-                    //Calibration_Data_Receive _Calibration_Text_Receive = KUKA_Send_Receive_Xml.String_Xml<Calibration_Data_Receive>(_St);
-
-                    //_Str = Receive_Calibration_Text_String(_Calibration_Text_Receive, _St);
-
+    
                     break;
 
                 case Vision_Model_Enum.Find_Model:
 
-                    //Calibration_Data_Receive _Find_Receive = KUKA_Send_Receive_Xml.String_Xml<Calibration_Data_Receive>(_St);
-
-                    //_Str = KUKA_Receive_Find_String(_Find_Receive, _St);
+    
                     break;
 
                 case Vision_Model_Enum.Vision_Ini_Data:
 
-                    //Vision_Ini_Data_Receive _Vision_Receive = KUKA_Send_Receive_Xml.String_Xml<Vision_Ini_Data_Receive>(_St);
-
-                    //_Str = KUKA_Receive_Vision_Ini_String(_Vision_Receive, _St);
+           
 
 
 
@@ -50,9 +41,28 @@ namespace ABB_Socket
 
                 case Vision_Model_Enum.HandEye_Calib_Date:
 
-                    //HandEye_Calibration_Receive _HandEye_Receive = KUKA_Send_Receive_Xml.String_Xml<HandEye_Calibration_Receive>(_St);
 
-                    //_Str = HandEye_Calibration_String(_HandEye_Receive, _St);
+                    //HandEye_Calibration_Receive _HandEye_Calib_Rece = new HandEye_Calibration_Receive();
+
+
+                    int _Calib_Model = BitConverter.ToInt32(Receice_byte.Skip(5).Take(4).ToArray());
+
+                    var xx = Receice_byte.Skip(9).Take(4).ToArray();
+                    var yy = Receice_byte.Skip(13).Take(4).ToArray();
+                    var zz = Receice_byte.Skip(17).Take(4).ToArray();
+                    var Rxx = Receice_byte.Skip(21).Take(4).ToArray();
+                    var Ryy = Receice_byte.Skip(25).Take(4).ToArray();
+                    var Rzz = Receice_byte.Skip(29).Take(4).ToArray();
+                    double x = BitConverter.ToSingle(xx);
+                    double y = BitConverter.ToSingle(yy);
+                    double z = BitConverter.ToSingle(zz);
+                    double Rx = BitConverter.ToSingle(Rxx);
+                    double Ry = BitConverter.ToSingle(Ryy);
+                    double Rz = BitConverter.ToSingle(Rzz);
+
+
+
+
 
                     break;
 

@@ -28,6 +28,8 @@ namespace Roboto_Socket_Library.Model
             public Point_Models ACT_Point { set; get; } = new Point_Models();
 
 
+            public Vision_Model_Enum Vision_Model { set; get; } 
+
 
         }
 
@@ -41,7 +43,7 @@ namespace Roboto_Socket_Library.Model
 
             public string Message_Error { set; get; } = string.Empty;
             [XmlAttribute]
-            public int IsStatus { set; get; }
+            public int IsStatus { set; get; } = 0;
 
 
             public Initialization_Data Initialization_Data { set; get; } = new Initialization_Data();
@@ -57,7 +59,7 @@ namespace Roboto_Socket_Library.Model
         {
 
             [XmlAttribute()]
-            public Vision_Model_Enum Model { set; get; }
+            public Vision_Model_Enum Vision_Model { set; get; }
 
         }
 
@@ -92,7 +94,7 @@ namespace Roboto_Socket_Library.Model
         /// </summary>
         [Serializable]
         [XmlType("Receive")]
-        public class Calibration_Data_Receive
+        public class Vision_Find_Data_Receive
         {
 
             public Calibration_Model_Receive Calibration_Model { set; get; } = new Calibration_Model_Receive();
@@ -113,7 +115,7 @@ namespace Roboto_Socket_Library.Model
         /// </summary>
         [Serializable]
         [XmlType("Send")]
-        public class Calibration_Data_Send
+        public class Vision_Find_Data_Send
         {
 
             public string Message_Error { set; get; } = string.Empty;
@@ -209,17 +211,17 @@ namespace Roboto_Socket_Library.Model
         public class Point_Models
         {
             [XmlAttribute]
-            public string X { set; get; } = "0";
+            public string? X { set; get; } = "0";
             [XmlAttribute]
-            public string Y { set; get; } = "0";
+            public string? Y { set; get; } = "0";
             [XmlAttribute]
-            public string Z { set; get; } = "0";
+            public string? Z { set; get; } = "0";
             [XmlAttribute]
-            public string A { set; get; } = "0";
+            public string? Rx { set; get; } = "0";
             [XmlAttribute]
-            public string B { set; get; } = "0";
+            public string? Ry { set; get; } = "0";
             [XmlAttribute]
-            public string C { set; get; } = "0";
+            public string? Rz { set; get; } = "0";
 
 
         }
