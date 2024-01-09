@@ -1052,11 +1052,16 @@ namespace HanGao.ViewModel
                                     {
                                         _ShowDisply = _camer_0.Show_Window;
                                     }
+                                    Application.Current.Dispatcher.Invoke(() =>
+                                    {
+
+
                                     ///显示选中图像
                                     Halcon_Window_Display.Display_HObject(_Selected.Camera_0.Calibration_Image, null, null, null, _ShowDisply);
                                     Halcon_Window_Display.Display_HObject(_Selected.Camera_0.Calibration_Image, _Selected.Camera_0.Calibration_Region, null, KnownColor.Green.ToString(), _ShowDisply);
                                     Halcon_Window_Display.Display_HObject(null, null, _Selected.Camera_0.Calibration_XLD, null, _ShowDisply);
 
+                                    });
 
 
                                 }
@@ -1086,11 +1091,15 @@ namespace HanGao.ViewModel
                                         _ShowDisply = _camer_1.Show_Window;
                                     }
 
+                                    Application.Current.Dispatcher.Invoke(() =>
+                                    {
+
 
                                     Halcon_Window_Display.Display_HObject((HImage)_Selected.Camera_1.Calibration_Image, null, null, null, _ShowDisply);
                                     Halcon_Window_Display.Display_HObject((HImage)_Selected.Camera_1.Calibration_Image, _Selected.Camera_1.Calibration_Region, null, KnownColor.Green.ToString(), _ShowDisply);
                                     Halcon_Window_Display.Display_HObject(null, null, _Selected.Camera_1.Calibration_XLD, null, _ShowDisply);
 
+                                    });
                                 }
                                 catch (Exception e)
                                 {
@@ -1603,11 +1612,15 @@ namespace HanGao.ViewModel
 
                                 Camer_Check_LiveImage = Halcon_Camera_Calibra.Check_CalibObject_Features(_Image, Camera_Interna_Parameters);
                                 Camer_Check_LiveImage._Image = _Image;
+                                Application.Current.Dispatcher.Invoke(() =>
+                                {
+
 
                                 //显示画面结果
                                 Halcon_Window_Display.Display_HObject(Camer_Check_LiveImage._Image, Camer_Check_LiveImage._CalibRegion, null, Camer_Check_LiveImage._DrawColor, _Select_Camera.Show_Window);
                                 Halcon_Window_Display.Display_HObject(null, null, Camer_Check_LiveImage._CalibXLD, null, _Select_Camera.Show_Window);
 
+                                });
                             }
                         }
 

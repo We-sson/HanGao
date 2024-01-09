@@ -263,9 +263,9 @@ namespace HanGao.ViewModel
 
                             ///清除列表旧的数据
                             HandEye_Calibration_List.Clear();
-
-
                         });
+
+
 
 
                         _HandEye_Send.IsStatus = 1;
@@ -293,6 +293,7 @@ namespace HanGao.ViewModel
                                 break;
                             case Robot_Type_Enum.ABB:
 
+                                _RobotBase.CreatePose(double.Parse(_S.ACT_Point.X) / 1000, double.Parse(_S.ACT_Point.Y) / 1000, double.Parse(_S.ACT_Point.Z) / 1000, double.Parse(_S.ACT_Point.Rx), double.Parse(_S.ACT_Point.Ry), double.Parse(_S.ACT_Point.Rz), "Rp+T", "abg", "point");
 
                                 break;
                             case Robot_Type_Enum.川崎:
@@ -398,7 +399,7 @@ namespace HanGao.ViewModel
 
 
 
-                        _Str = KUKA_Send_Receive_Xml.Property_Xml<HandEye_Calibration_Send>(_HandEye_Send);
+                        //_Str = KUKA_Send_Receive_Xml.Property_Xml<HandEye_Calibration_Send>(_HandEye_Send);
 
 
 
@@ -480,7 +481,7 @@ namespace HanGao.ViewModel
                 }
                 catch (Exception _e)
                 {
-
+                    E.IsChecked=false;
                     User_Log_Add(_e.Message, Log_Show_Window_Enum.HandEye, MessageBoxImage.Error);
 
                 }
@@ -1117,11 +1118,15 @@ namespace HanGao.ViewModel
                                     //    _ShowDisply = _camer_1.Show_Window;
                                     //}
 
+                                    Application.Current.Dispatcher.Invoke(() =>
+                                    {
+
 
                                     ///显示选中图像
                                     Halcon_Window_Display.Display_HObject((HImage)_Selected.Camera_1.Calibration_Image, null, null, null, _ShowDisply);
                                     Halcon_Window_Display.Display_HObject((HImage)_Selected.Camera_1.Calibration_Image, _Selected.Camera_1.Calibration_Region, null, KnownColor.Green.ToString(), _ShowDisply);
                                     Halcon_Window_Display.Display_HObject(null, null, _Selected.Camera_1.Calibration_XLD, null, _ShowDisply);
+                                    });
 
                                 }
                                 catch (Exception e)
@@ -2093,10 +2098,15 @@ namespace HanGao.ViewModel
 
                             //显示画面结果
                             HandEye_Check_LiveImage._Image = _Image;
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+
+
                             Halcon_Window_Display.Display_HObject(HandEye_Check_LiveImage._Image, HandEye_Check_LiveImage._CalibRegion, null, HandEye_Check_LiveImage._DrawColor, _Select_Camera.Show_Window);
                             Halcon_Window_Display.Display_HObject(null, null, HandEye_Check_LiveImage._CalibXLD, null, _Select_Camera.Show_Window);
 
 
+                            });
 
 
 
