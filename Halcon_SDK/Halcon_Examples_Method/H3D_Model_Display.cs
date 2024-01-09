@@ -59,8 +59,6 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                While_ResetEvent.Reset();
            };
 
-            //初始化显示
-            Display_Ini();
 
 
             hv_ObjectModel3D.CollectionChanged += (e, o) =>
@@ -141,6 +139,14 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             };
 
+            //初始化显示
+            Display_Ini();
+
+            //默认显示坐标
+            List<HObjectModel3D> _RobotBase3D = new Reconstruction_3d().gen_robot_tool_and_base_object_model_3d(0.005, 0.1, Reconstruction_3d.Get_Robot_tool_base_Type_Enum.Robot_Base);
+            SetDisplay3DModel(new Display3DModel_Model() { _ObjectModel3D = _RobotBase3D });
+
+
         }
 
         #region  公开属性
@@ -198,7 +204,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <summary>
         /// 可视化场景相机属性
         /// </summary>
-        public HCamPar hv_CamParam { set; get; } = new HCamPar();
+        public HCamPar? hv_CamParam { set; get; }
 
 
         /// <summary>
@@ -673,8 +679,8 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         //HOperatorSet.GetLineOfSight(hv_MRow1, hv_MCol1, hv_CamParam, out hv_PX, out hv_PY, out hv_PZ, out hv_QX1, out hv_QY1, out hv_QZ1);
                         //HOperatorSet.GetLineOfSight(hv_MRow2, hv_MCol2, hv_CamParam, out hv_PX, out hv_PY, out hv_PZ, out hv_QX2, out hv_QY2, out hv_QZ2);
 
-                        hv_CamParam.GetLineOfSight(hv_MRow1, hv_MCol1, out hv_PX, out hv_PY, out hv_PZ, out hv_QX1, out hv_QY1, out hv_QZ1);
-                        hv_CamParam.GetLineOfSight(hv_MRow2, hv_MCol2, out hv_PX, out hv_PY, out hv_PZ, out hv_QX2, out hv_QY2, out hv_QZ2);
+                        hv_CamParam!.GetLineOfSight(hv_MRow1, hv_MCol1, out hv_PX, out hv_PY, out hv_PZ, out hv_QX1, out hv_QY1, out hv_QZ1);
+                        hv_CamParam!.GetLineOfSight(hv_MRow2, hv_MCol2, out hv_PX, out hv_PY, out hv_PZ, out hv_QX2, out hv_QY2, out hv_QZ2);
                         //计算实际距离
                         hv_Len = ((((hv_QX1 * hv_QX1) + (hv_QY1 * hv_QY1)) + (hv_QZ1 * hv_QZ1))).TupleSqrt()
                ;

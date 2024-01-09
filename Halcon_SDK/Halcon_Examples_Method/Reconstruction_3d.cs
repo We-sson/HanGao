@@ -2207,7 +2207,7 @@ public class Reconstruction_3d
 
     // Chapter: 3D Object Model / Creation
     // Short Description: Generate base and tool 3D models of the robot. 
-    private List<HObjectModel3D> gen_robot_tool_and_base_object_model_3d(HTuple hv_ArrowThickness,
+    public  List<HObjectModel3D> gen_robot_tool_and_base_object_model_3d(HTuple hv_ArrowThickness,
         HTuple hv_ArrowLength, Get_Robot_tool_base_Type_Enum _Get_Type)
     {
 
