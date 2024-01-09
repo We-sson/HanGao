@@ -211,17 +211,17 @@ namespace Roboto_Socket_Library.Model
         public class Point_Models
         {
             [XmlAttribute]
-            public string? X { set; get; } = "0";
+            public string X { set; get; } = "0";
             [XmlAttribute]
-            public string? Y { set; get; } = "0";
+            public string Y { set; get; } = "0";
             [XmlAttribute]
-            public string? Z { set; get; } = "0";
+            public string Z { set; get; } = "0";
             [XmlAttribute]
-            public string? Rx { set; get; } = "0";
+            public string Rx { set; get; } = "0";
             [XmlAttribute]
-            public string? Ry { set; get; } = "0";
+            public string Ry { set; get; } = "0";
             [XmlAttribute]
-            public string? Rz { set; get; } = "0";
+            public string Rz { set; get; } = "0";
 
 
         }

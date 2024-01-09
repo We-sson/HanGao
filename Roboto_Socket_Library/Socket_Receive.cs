@@ -319,7 +319,7 @@ namespace Roboto_Socket_Library
 
                             Vision_Find_Data_Send? _Vision_Find_Send = Vision_Find_Model_Delegate?.Invoke(_Vision_Find_Rece!);
 
-                            Send_byte = _Socket_Protocol.Socket_Send_Set_Data(_Vision_Find_Send ?? new Vision_Find_Data_Send()) ?? Array.Empty<byte>();
+                            Send_byte = _Socket_Protocol.Socket_Send_Set_Data<Vision_Find_Data_Send>(_Vision_Find_Send ?? new Vision_Find_Data_Send()) ?? Array.Empty<byte>();
 
                             break;
                         case Vision_Model_Enum.Vision_Ini_Data:

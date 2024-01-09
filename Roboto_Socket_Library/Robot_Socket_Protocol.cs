@@ -2,6 +2,7 @@
 using Halcon_SDK_DLL.Model;
 using KUKA_Socket;
 using Roboto_Socket_Library.Model;
+using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using static Roboto_Socket_Library.Model.Roboto_Socket_Model;
@@ -13,9 +14,9 @@ namespace Roboto_Socket_Library
 
         public Robot_Socket_Protocol(Socket_Robot_Protocols_Enum _robo, byte[] _receive)
         {
+            ///通讯解析必备参数
             Socket_Robot = _robo;
             Receice_byte = new List<byte>(_receive);
-
             Vision_Model_Type = Socket_Get_Vision_Model();
         }
 
@@ -24,67 +25,30 @@ namespace Roboto_Socket_Library
         private ABB_PC_Socket_Protocols ABB_Socket_Protocols { set; get; } = new ABB_PC_Socket_Protocols();
 
 
+
+       /// <summary>
+       /// 通讯对接机器人类型
+       /// </summary>
         public Socket_Robot_Protocols_Enum Socket_Robot { set; get; } = Socket_Robot_Protocols_Enum.通用;
 
+
+        /// <summary>
+        /// 视觉接收协议模式
+        /// </summary>
         public Vision_Model_Enum Vision_Model_Type { set; get; } = Vision_Model_Enum.Vision_Ini_Data;
 
 
+
+        /// <summary>
+        /// 接收数据原始byte
+        /// </summary>
         public List<byte> Receice_byte = new List<byte>();
 
-        public byte[] Socket_Protocols<T1>(byte[] _Str, Socket_Robot_Protocols_Enum Socket_Robot)
-        {
-
-            Vision_Model_Enum _Model = Vision_Model_Enum.HandEye_Calib_Date;
-
-
-
-
-
-
-
-            switch (_Model)
-            {
-                case Vision_Model_Enum.Calibration_New:
-
-
-                    break;
-                case Vision_Model_Enum.Calibration_Text:
-
-
-                    break;
-
-                case Vision_Model_Enum.Find_Model:
-
-                    break;
-
-                case Vision_Model_Enum.Vision_Ini_Data:
-
-
-
-
-                    break;
-
-                case Vision_Model_Enum.HandEye_Calib_Date:
-
-
-
-
-
-
-
-                    break;
-
-
-            }
-
-
-
-            return Array.Empty<byte>();
-        }
-
-
-
-
+       /// <summary>
+       /// 解析头部数据是属于那个方法
+       /// </summary>
+       /// <returns></returns>
+       /// <exception cref="Exception"></exception>
         private Vision_Model_Enum Socket_Get_Vision_Model()
         {
 
@@ -136,46 +100,53 @@ namespace Roboto_Socket_Library
         }
 
 
-        private Type? Get_Data_Type()
-        {
-            //T1? _Get_data = default;
+        //private Type? Get_Data_Type()
+        //{
+        //    //T1? _Get_data = default;
 
 
-            switch (Vision_Model_Type)
-            {
-                case Vision_Model_Enum.Calibration_New:
-                    break;
-                case Vision_Model_Enum.Calibration_Text:
-                    break;
-                case Vision_Model_Enum.Calibration_Add:
-                    break;
-                case Vision_Model_Enum.Find_Model:
-
-
-
-                    return typeof(Vision_Find_Data_Receive);
+        //    switch (Vision_Model_Type)
+        //    {
+        //        case Vision_Model_Enum.Calibration_New:
+        //            break;
+        //        case Vision_Model_Enum.Calibration_Text:
+        //            break;
+        //        case Vision_Model_Enum.Calibration_Add:
+        //            break;
+        //        case Vision_Model_Enum.Find_Model:
 
 
 
-                case Vision_Model_Enum.Vision_Ini_Data:
-
-                    return typeof(Vision_Ini_Data_Receive);
+        //            return typeof(Vision_Find_Data_Receive);
 
 
 
-                case Vision_Model_Enum.HandEye_Calib_Date:
+        //        case Vision_Model_Enum.Vision_Ini_Data:
+
+        //            return typeof(Vision_Ini_Data_Receive);
 
 
-                    return typeof(HandEye_Calibration_Receive);
+
+        //        case Vision_Model_Enum.HandEye_Calib_Date:
 
 
-            }
+        //            return typeof(HandEye_Calibration_Receive);
 
 
-            return default;
-        }
+        //    }
 
 
+        //    return default;
+        //}
+
+
+
+        /// <summary>
+        /// 通讯数据汇总方法解析
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public T1? Socket_Receive_Get_Date<T1>()
         {
 
@@ -211,6 +182,51 @@ namespace Roboto_Socket_Library
 
         }
 
+
+        /// <summary>
+        /// 通讯数据汇总发生解析
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public byte[]? Socket_Send_Set_Data<T1>(T1 _Propertie)
+        {
+
+            switch (Vision_Model_Type)
+            {
+                case Vision_Model_Enum.Calibration_New:
+                    break;
+                case Vision_Model_Enum.Calibration_Text:
+                    break;
+                case Vision_Model_Enum.Calibration_Add:
+                    break;
+                case Vision_Model_Enum.Find_Model:
+
+                    return Vision_Find_Send_Protocol((_Propertie as Vision_Find_Data_Send)!);
+
+                case Vision_Model_Enum.Vision_Ini_Data:
+
+                    return Vision_Ini_Send_Procotol((_Propertie as Vision_Ini_Data_Send)!);
+
+                case Vision_Model_Enum.HandEye_Calib_Date:
+
+                    return HandEye_Calibration_Send_Protocol( (_Propertie as HandEye_Calibration_Send)!);
+
+                default:
+                    throw new Exception("现有通讯协议无法解析，请联系开发者！");
+
+            }
+
+
+            return default;
+        }
+
+
+
+        /// <summary>
+        /// 手眼标定通讯解压协议解析
+        /// </summary>
+        /// <returns></returns>
         private HandEye_Calibration_Receive HandEye_Calibration_Receive_Protocol()
         {
 
@@ -280,7 +296,75 @@ namespace Roboto_Socket_Library
 
         }
 
+        private byte[] HandEye_Calibration_Send_Protocol(HandEye_Calibration_Send _Propertie)
+        {
 
+            switch (Socket_Robot)
+            {
+                case Socket_Robot_Protocols_Enum.KUKA:
+
+                  var bt=  Encoding.UTF8.GetBytes(KUKA_Send_Receive_Xml.Property_Xml<HandEye_Calibration_Send>(_Propertie));
+
+                    return bt;
+                case Socket_Robot_Protocols_Enum.ABB:
+
+                    List<byte> _Send_ABB_Byte = new List<byte>();
+
+                    var ss = Encoding.UTF8.GetBytes("[");
+                    var st=  BitConverter.GetBytes(_Propertie.IsStatus);
+                    var mes= Encoding.UTF8.GetBytes(_Propertie.Message_Error);
+                    var mes_num = BitConverter.GetBytes(mes.Length);
+                    var xx = BitConverter.GetBytes((float.Parse(_Propertie.Calib_Point.X)));
+                    var yy = BitConverter.GetBytes((float.Parse(_Propertie.Calib_Point.Y)));
+                    var zz = BitConverter.GetBytes((float.Parse(_Propertie.Calib_Point.Z)));
+                    var Rxx = BitConverter.GetBytes((float.Parse(_Propertie.Calib_Point.Rx)));
+                    var Ryy = BitConverter.GetBytes((float.Parse(_Propertie.Calib_Point.Ry)));
+                    var Rzz = BitConverter.GetBytes((float.Parse(_Propertie.Calib_Point.Rz)));
+                    var ee = Encoding.UTF8.GetBytes("]");
+
+
+                    //拼接
+                    _Send_ABB_Byte.AddRange(ss);
+                    _Send_ABB_Byte.AddRange(st);
+                    _Send_ABB_Byte.AddRange(mes_num);
+                    _Send_ABB_Byte.AddRange(mes);
+                    _Send_ABB_Byte.AddRange(xx);
+                    _Send_ABB_Byte.AddRange(yy);
+                    _Send_ABB_Byte.AddRange(zz);
+                    _Send_ABB_Byte.AddRange(Rxx);
+                    _Send_ABB_Byte.AddRange(Ryy);
+                    _Send_ABB_Byte.AddRange(Rzz);
+                    _Send_ABB_Byte.AddRange(ee);
+
+
+                    return _Send_ABB_Byte.ToArray();
+                case Socket_Robot_Protocols_Enum.川崎:
+
+
+
+                    break;
+                case Socket_Robot_Protocols_Enum.通用:
+
+
+
+                    break;
+
+            }
+
+
+
+
+
+
+
+
+            return Array.Empty<byte>();
+        }
+
+        /// <summary>
+        /// 视觉初始化数据接收协议解析
+        /// </summary>
+        /// <returns></returns>
         private Vision_Ini_Data_Receive Vision_Ini_Receive_Protocol()
         {
 
@@ -314,7 +398,73 @@ namespace Roboto_Socket_Library
 
         }
 
+        private byte[]? Vision_Ini_Send_Procotol(Vision_Ini_Data_Send _Propertie)
+        {
 
+            switch (Socket_Robot)
+            {
+                case Socket_Robot_Protocols_Enum.KUKA:
+
+
+
+                    break;
+                case Socket_Robot_Protocols_Enum.ABB:
+
+
+
+                    break;
+                case Socket_Robot_Protocols_Enum.川崎:
+
+
+
+                    break;
+                case Socket_Robot_Protocols_Enum.通用:
+
+
+
+                    break;
+
+            }
+
+            return Array.Empty<byte>();
+        }
+
+
+
+        private byte [] Vision_Find_Send_Protocol(Vision_Find_Data_Send _Propertie )
+        {
+            switch (Socket_Robot)
+            {
+                case Socket_Robot_Protocols_Enum.KUKA:
+
+
+
+                    break;
+                case Socket_Robot_Protocols_Enum.ABB:
+
+
+
+                    break;
+                case Socket_Robot_Protocols_Enum.川崎:
+
+
+
+                    break;
+                case Socket_Robot_Protocols_Enum.通用:
+
+
+
+                    break;
+
+            }
+
+            return Array.Empty<byte>();
+        }
+
+        /// <summary>
+        /// 视觉查找数据接收解析
+        /// </summary>
+        /// <returns></returns>
         private Vision_Find_Data_Receive Vision_Find_Receive_Protocol()
         {
 
@@ -348,15 +498,10 @@ namespace Roboto_Socket_Library
 
         }
 
-
-        public byte[]? Socket_Send_Set_Data<T1>(T1 _Send_Data)
-        {
+        
 
 
 
-
-            return Array.Empty<byte>();
-        }
 
 
     }
