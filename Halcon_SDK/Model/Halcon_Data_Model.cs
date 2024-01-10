@@ -1343,6 +1343,7 @@ namespace Halcon_SDK_DLL.Model
                     break;
                 case Robot_Type_Enum.ABB:
 
+                    _Pos = new Point_Model() { X = X, Y = Y, Z = Z, Rx = Rx, Ry = Ry, Rz = Rz };
 
                     //需要四元数转换
                     break;

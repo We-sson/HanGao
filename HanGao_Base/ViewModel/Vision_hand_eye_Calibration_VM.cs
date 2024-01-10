@@ -266,7 +266,7 @@ namespace HanGao.ViewModel
 
 
                         _HandEye_Send.IsStatus = 1;
-                        _HandEye_Send.Message_Error = "Hand-eye Calibration Ini OK！";
+                        _HandEye_Send.Message_Error = "Hand-eye Calibration Ini OK!";
 
                         //_Str = KUKA_Send_Receive_Xml.Property_Xml<HandEye_Calibration_Send>(_HandEye_Send);
 
@@ -330,7 +330,7 @@ namespace HanGao.ViewModel
 
 
                             _HandEye_Send.IsStatus = 1;
-                            _HandEye_Send.Message_Error = "Hand-eye Calibration to Find OK！";
+                            _HandEye_Send.Message_Error = "Hand-eye Calibration to Find OK!";
 
                             _Str = KUKA_Send_Receive_Xml.Property_Xml<HandEye_Calibration_Send>(_HandEye_Send);
 
@@ -368,7 +368,7 @@ namespace HanGao.ViewModel
                             case Camera_Calinration_Process_Enum.Uncalibrated:
 
                                 _HandEye_Send.IsStatus = 0;
-                                _HandEye_Send.Message_Error = "Hand-eye Calibration to Results Error！,Please check the PC situation. ";
+                                _HandEye_Send.Message_Error = "Hand-eye Calibration to Results Error！,Please check the PC situation..";
 
 
                                 User_Log_Add(_Results_Pos.Calibration_Name + " : 相机未手眼标定，请进行标定！", Log_Show_Window_Enum.HandEye, MessageBoxImage.Error);
@@ -386,7 +386,7 @@ namespace HanGao.ViewModel
                                 User_Log_Add(_Results_Pos.Calibration_Name + " : 相机手眼标定成功！确认后，请机器人低速移动到标定板坐标：{" + " X : " + _Results_Pos.HandEye_Obj_In_Base_Pose.X + " Y : " + _Results_Pos.HandEye_Obj_In_Base_Pose.Y + " Z : " + _Results_Pos.HandEye_Obj_In_Base_Pose.Z + " Rx : " + _Results_Pos.HandEye_Obj_In_Base_Pose.Rx + " Ry : " + _Results_Pos.HandEye_Obj_In_Base_Pose.Ry + " Rz : " + _Results_Pos.HandEye_Obj_In_Base_Pose.Rz + "}", Log_Show_Window_Enum.HandEye, MessageBoxImage.Information);
 
                                 _HandEye_Send.IsStatus = 1;
-                                _HandEye_Send.Message_Error = "Hand-eye Calibration ResultsOK！";
+                                _HandEye_Send.Message_Error = "Hand-eye Calibration ResultsOK!";
                                 _HandEye_Send.Calib_Point = new Point_Models() { X = _CalibPos.X.ToString(), Y = _CalibPos.Y.ToString(), Z = _CalibPos.Z.ToString(), Rx  = _CalibPos.Rx.ToString(), Ry = _CalibPos.Ry.ToString(), Rz = _CalibPos.Rz.ToString() };
 
 
@@ -419,7 +419,7 @@ namespace HanGao.ViewModel
 
 
                 _HandEye_Send.IsStatus = 0;
-                _HandEye_Send.Message_Error = "Hand-eye Calibration to Results Error！,Please check the PC situation. ";
+                _HandEye_Send.Message_Error = "Hand-eye Calibration to Results Error！,Please check the PC situation.";
                 //_Str = KUKA_Send_Receive_Xml.Property_Xml<HandEye_Calibration_Send>(_HandEye_Send);
                 return _HandEye_Send;
 

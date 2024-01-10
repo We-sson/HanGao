@@ -310,7 +310,7 @@ namespace Roboto_Socket_Library
 
                     List<byte> _Send_ABB_Byte = new List<byte>();
 
-                    var ss = Encoding.UTF8.GetBytes("[");
+                    //var ss = Encoding.UTF8.GetBytes("[");
                     var st=  BitConverter.GetBytes(_Propertie.IsStatus);
                     var mes= Encoding.UTF8.GetBytes(_Propertie.Message_Error);
                     var mes_num = BitConverter.GetBytes(mes.Length);
@@ -320,11 +320,11 @@ namespace Roboto_Socket_Library
                     var Rxx = BitConverter.GetBytes((float.Parse(_Propertie.Calib_Point.Rx)));
                     var Ryy = BitConverter.GetBytes((float.Parse(_Propertie.Calib_Point.Ry)));
                     var Rzz = BitConverter.GetBytes((float.Parse(_Propertie.Calib_Point.Rz)));
-                    var ee = Encoding.UTF8.GetBytes("]");
+                    //var ee = Encoding.UTF8.GetBytes("]");
 
 
                     //拼接
-                    _Send_ABB_Byte.AddRange(ss);
+                    //_Send_ABB_Byte.AddRange(ss);
                     _Send_ABB_Byte.AddRange(st);
                     _Send_ABB_Byte.AddRange(mes_num);
                     _Send_ABB_Byte.AddRange(mes);
@@ -334,9 +334,11 @@ namespace Roboto_Socket_Library
                     _Send_ABB_Byte.AddRange(Rxx);
                     _Send_ABB_Byte.AddRange(Ryy);
                     _Send_ABB_Byte.AddRange(Rzz);
-                    _Send_ABB_Byte.AddRange(ee);
+                    //_Send_ABB_Byte.AddRange(ee);
 
+                    var _num = BitConverter.GetBytes(_Send_ABB_Byte.Count);
 
+                    _Send_ABB_Byte.InsertRange(0, _num);
                     return _Send_ABB_Byte.ToArray();
                 case Socket_Robot_Protocols_Enum.川崎:
 
