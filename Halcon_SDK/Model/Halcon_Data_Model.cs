@@ -2259,8 +2259,9 @@ namespace Halcon_SDK_DLL.Model
 
     public enum Robot_Type_Enum
     {
-
+        [Description("KUKA -->(Z-Y-X)")]
         KUKA,
+        [Description("ABB -->(Z-Y-X)")]
         ABB,
         川崎,
         通用

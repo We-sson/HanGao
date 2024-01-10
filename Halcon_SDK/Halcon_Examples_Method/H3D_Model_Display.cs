@@ -482,7 +482,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 While_ResetEvent.Set();
 
                 //e.Handled = true;
-                lock (hv_PoseIn)
+                lock (While_ResetEvent)
                 {
 
 
@@ -781,16 +781,18 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 hv_HMouseDowm = e.GetPosition(_Window.Halcon_UserContol);
                 Event_Int((int)_HWindow.ActualWidth, (int)_HWindow.ActualHeight);
 
+                _Window.Halcon_UserContol.MouseMove -= Calibration_3D_Translate_MouseMove;
+                _Window.Halcon_UserContol.MouseMove -= Calibration_3D_Rotate_MouseMove;
                 if (e.LeftButton == MouseButtonState.Pressed)
                 {
-                    _Window.Halcon_UserContol.MouseMove -= Calibration_3D_Translate_MouseMove;
+
                     _Window.Halcon_UserContol.MouseMove += Calibration_3D_Rotate_MouseMove;
 
 
                 }
                 else if (e.RightButton == MouseButtonState.Pressed)
                 {
-                    _Window.Halcon_UserContol.MouseMove -= Calibration_3D_Rotate_MouseMove;
+
                     _Window.Halcon_UserContol.MouseMove += Calibration_3D_Translate_MouseMove;
                 }
 
@@ -1254,7 +1256,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         ho_ImageDump = hv_WindowHandleBuffer.DumpWindowImage();
                         hv_WindowHandle.DispColor(ho_ImageDump);
                         //限制刷新帧率缓解处理时间 每秒24帧
-                        HOperatorSet.WaitSeconds(0.02);
+                        HOperatorSet.WaitSeconds(0.04);
 
 
 
