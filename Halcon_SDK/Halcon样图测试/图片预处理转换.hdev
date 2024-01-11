@@ -7,7 +7,7 @@
 <c></c>
 <l>Are:=315</l>
 <l>*read_image (Image, 'C:/Users/H/MVS/Data/Image_6789.tif')</l>
-<l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[1,2]" as_ord="1">list_files ('C:/Users/H/MVS/Data/ZR', ['files','follow_links'], ImageFiles)</l>
+<l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[1,2]" as_ord="1">list_files ('C:/Users/H/MVS/Data', ['files','follow_links'], ImageFiles)</l>
 <l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[1,3]" as_ord="1">tuple_regexp_select (ImageFiles, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImageFiles)</l>
 <l>Index:=10</l>
 <l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[2,2]" as_ord="1">for Index := 0 to |ImageFiles| - 1 by 1</l>
@@ -18,16 +18,29 @@
 <l>     scale_image_max (Image, ImageScaleMax)</l>
 <c>    </c>
 <l>      *mean_image (ImageScaleMax, ImageMedian1, 6, 6)</l>
-<l>      median_image (ImageScaleMax, ImageMedian1, 'square', 2.8, 'continued')</l>
+<l>      median_image (ImageScaleMax, ImageMedian1, 'square', 1.8, 'continued')</l>
 <c> </c>
-<l>      emphasize (ImageMedian1, ImageEmphasize1, 24, 24, 3)</l>
+<c>    </c>
+<l>      *mean_image (Image, ThresholdImage, 31, 31)</l>
+<l>      *dyn_threshold (Image, ImageMedian1, RegionDynThresh, 20, 'dark')</l>
+<c>     </c>
 <c>      </c>
-<l>      gray_opening_rect (ImageEmphasize1, ImageOpening1, 10, 10)</l>
+<l>      gray_opening_rect (ImageMedian1, ImageOpening, 10, 10)</l>
+<l>      gray_closing_rect (ImageOpening, ImageClosing1, 2, 2)</l>
+<c>     </c>
+<c>      </c>
+<l>      emphasize (ImageClosing1, ImageEmphasize1, 20, 20, 5)</l>
+<c>      </c>
+<l>      median_image (ImageEmphasize1, ImageMedian, 'square', 2, 'mirrored')</l>
+<c>      </c>
+<c>      </c>
+<l>      *gray_opening_rect (ImageEmphasize1, ImageOpening1, 5, 5)</l>
 <c>    </c>
-<l>      gray_closing_rect (ImageOpening1, ImageClosing, 3, 3)</l>
+<l>      *gray_closing_rect (ImageOpening1, ImageClosing, 3, 3)</l>
 <c>    </c>
+<l>     * median_image (ImageMedian, ImageMedian2, 'square', 2, 'mirrored')</l>
 <c>    </c>
-<l>      write_image (ImageClosing, 'tiff', 0, 'C:/Users/H/MVS/Data/FB/'+Index+'.tif')</l>
+<l>      write_image (ImageMedian, 'tiff', 0, 'C:/Users/H/MVS/Data/FB/'+Index+'.tif')</l>
 <c>    </c>
 <l>     *write_image (ImageClosing, 'tiff', 0, 'C:/Users/H/source/repos/HanGao/HanGao_Base/bin/x64/Debug/Sample_Image/'+Are+'_Pre/'+Index+'.tiff')</l>
 <c>    </c>
