@@ -21,7 +21,7 @@ namespace HanGao.ViewModel
                 //显示图像到对应窗口
                 HOperatorSet.DispObj(_Mvs_Image.Image, _Mvs_Image.Image_Show_Halcon);
                 //保存功能窗口图像
-                if (_Mvs_Image.Image_Show_Halcon == Features_Window.HWindow)
+                if (_Mvs_Image.Image_Show_Halcon == Halcon_Window_Display.Features_Window.HWindow)
                 {
                     Load_Image = _Mvs_Image.Image;
                 }
@@ -37,19 +37,19 @@ namespace HanGao.ViewModel
                 //_Fout.DispWiindow.SetPart(0, 0, -2, -2);
                 switch (_Fout.DispWiindow)
                 {
-                    case HWindow _T when _T == Features_Window.HWindow:
+                    case HWindow _T when _T == Halcon_Window_Display. Features_Window.HWindow:
                         Find_Features_Window_Result = _Fout;
                         break;
-                    case HWindow _T when _T == Results_Window_1.HWindow:
+                    case HWindow _T when _T == Halcon_Window_Display.Results_Window_1.HWindow:
                         Find_Results1_Window_Result = _Fout;
                         break;
-                    case HWindow _T when _T == Results_Window_2.HWindow:
+                    case HWindow _T when _T == Halcon_Window_Display.Results_Window_2.HWindow:
                         Find_Results2_Window_Result = _Fout;
                         break;
-                    case HWindow _T when _T == Results_Window_3.HWindow:
+                    case HWindow _T when _T == Halcon_Window_Display.Results_Window_3.HWindow:
                         Find_Results3_Window_Result = _Fout;
                         break;
-                    case HWindow _T when _T == Results_Window_4.HWindow:
+                    case HWindow _T when _T == Halcon_Window_Display.Results_Window_4.HWindow:
                         Find_Results4_Window_Result = _Fout;
                         break;
                 }
@@ -97,30 +97,14 @@ namespace HanGao.ViewModel
                 StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Find_Data_List)));
             }
         }
+
+
         /// <summary>
-        /// 实施相机视角控件
+        /// Halcon 控件显示属性
         /// </summary>
-        public static Halcon_SDK Live_Window { set; get; }
-        /// <summary>
-        /// 实施相机视角控件
-        /// </summary>
-        public static Halcon_SDK Features_Window { set; get; }
-        /// <summary>
-        /// 实施相机视角控件
-        /// </summary>
-        public static Halcon_SDK Results_Window_1 { set; get; }
-        /// <summary>
-        /// 实施相机视角控件
-        /// </summary>
-        public static Halcon_SDK Results_Window_2 { set; get; }
-        /// <summary>
-        /// 实施相机视角控件
-        /// </summary>
-        public static Halcon_SDK Results_Window_3 { set; get; }
-        /// <summary>
-        /// 实施相机视角控件
-        /// </summary>
-        public static Halcon_SDK Results_Window_4 { set; get; }
+        public Halcon_Window_Display_Model Halcon_Window_Display { set; get; } = new Halcon_Window_Display_Model();
+
+
         /// <summary>
         /// 保存读取图像属性
         /// </summary>
@@ -134,7 +118,12 @@ namespace HanGao.ViewModel
                 _Load_Image = value;
             }
         }
+
         public  int UI_Find_Data_Number { set; get; } = 0;
+
+
+
+
         /// <summary>
         /// 视觉查找参数序号
         /// </summary>
@@ -189,6 +178,10 @@ namespace HanGao.ViewModel
         /// 相机分辨率显示IP
         /// </summary>
         public double Camera_FrameRate { set; get; } = 0;
+
+
+
+
         public Find_Shape_Results_Model Find_Features_Window_Result { set; get; } = new Find_Shape_Results_Model();
         public Find_Shape_Results_Model Find_Results1_Window_Result { set; get; } = new Find_Shape_Results_Model();
         public Find_Shape_Results_Model Find_Results2_Window_Result { set; get; } = new Find_Shape_Results_Model();
@@ -214,7 +207,7 @@ namespace HanGao.ViewModel
         /// Halcon窗口初始化
         /// </summary>
         /// <param name="Window_UserContol"></param>
-        public  static void HWindows_Initialization(HSmartWindowControlWPF Window_UserContol)
+        public   void HWindows_Initialization(HSmartWindowControlWPF Window_UserContol)
         {
 
 
@@ -222,27 +215,27 @@ namespace HanGao.ViewModel
             {
                 case string _N when Window_UserContol.Name == nameof(Window_Show_Name_Enum.Live_Window):
                     //初始化halcon图像属性
-                    Live_Window = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+                    Halcon_Window_Display.Live_Window = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     break;
                 case string _N when Window_UserContol.Name == nameof(Window_Show_Name_Enum.Features_Window):
                     //加载halcon图像属性
-                    Features_Window = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+                    Halcon_Window_Display.Features_Window = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     break;
                 case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_1)):
                     //加载halcon图像属性
-                    Results_Window_1 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+                    Halcon_Window_Display. Results_Window_1 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     break;
                 case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_2)):
                     //加载halcon图像属性
-                    Results_Window_2 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+                    Halcon_Window_Display.Results_Window_2 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     break;
                 case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_3)):
                     //加载halcon图像属性
-                    Results_Window_3 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+                    Halcon_Window_Display. Results_Window_3 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     break;
                 case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_4)):
                     //加载halcon图像属性
-                    Results_Window_4 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+                    Halcon_Window_Display. Results_Window_4 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     break;
             }
             //设置halcon窗体大小
@@ -309,7 +302,7 @@ namespace HanGao.ViewModel
                 MenuItem _E = Sm.Source as MenuItem;
                 HObject _Cross = new HObject();
                 //生产十字架
-                if (Display_Status(Halcon_SDK.Draw_Cross(ref _Cross, Features_Window.HWindow, Halcon_Position.X, Halcon_Position.Y)).GetResult())
+                if (Display_Status(Halcon_SDK.Draw_Cross(ref _Cross, Halcon_Window_Display.Features_Window.HWindow, Halcon_Position.X, Halcon_Position.Y)).GetResult())
                 {
                     //情况之前的数据
                     //User_Drawing_Data.Drawing_Data.Clear();
@@ -328,7 +321,7 @@ namespace HanGao.ViewModel
             {
                 MenuItem _E = Sm.Source as MenuItem;
                 HObject _Cir = new HObject();
-                if (Display_Status(Halcon_SDK.Draw_Group_Cir(ref _Cir, User_Drawing_Data.Drawing_Data.ToList(), Features_Window.HWindow)).GetResult())
+                if (Display_Status(Halcon_SDK.Draw_Group_Cir(ref _Cir, User_Drawing_Data.Drawing_Data.ToList(), Halcon_Window_Display.Features_Window.HWindow)).GetResult())
                 {
                     //拟合直线
                     //显示UI
@@ -351,7 +344,7 @@ namespace HanGao.ViewModel
                 MenuItem _E = Sm.Source as MenuItem;
                 HObject _Lin = new HObject();
                 //拟合直线
-                if (Display_Status(Halcon_SDK.Draw_Group_Lin(ref _Lin, User_Drawing_Data.Drawing_Data.ToList(), Features_Window.HWindow)).GetResult())
+                if (Display_Status(Halcon_SDK.Draw_Group_Lin(ref _Lin, User_Drawing_Data.Drawing_Data.ToList(), Halcon_Window_Display.Features_Window.HWindow)).GetResult())
                 {
                     //显示UI
                     User_Drawing_Data.User_XLD = _Lin;
@@ -372,12 +365,12 @@ namespace HanGao.ViewModel
             {
                 Button E = Sm.Source as Button;
                 //全部控件显示居中
-                Live_Window.HWindow.SetPart(0, 0, -2, -2);
-                Features_Window.HWindow.SetPart(0, 0, -2, -2);
-                Results_Window_1.HWindow.SetPart(0, 0, -2, -2);
-                Results_Window_2.HWindow.SetPart(0, 0, -2, -2);
-                Results_Window_3.HWindow.SetPart(0, 0, -2, -2);
-                Results_Window_4.HWindow.SetPart(0, 0, -2, -2);
+                Halcon_Window_Display.Live_Window.HWindow.SetPart(0, 0, -2, -2);
+                Halcon_Window_Display.Features_Window.HWindow.SetPart(0, 0, -2, -2);
+                Halcon_Window_Display.Results_Window_1.HWindow.SetPart(0, 0, -2, -2);
+                Halcon_Window_Display.Results_Window_2.HWindow.SetPart(0, 0, -2, -2);
+                Halcon_Window_Display.Results_Window_3.HWindow.SetPart(0, 0, -2, -2);
+                Halcon_Window_Display.Results_Window_4.HWindow.SetPart(0, 0, -2, -2);
             });
         }
         /// <summary>

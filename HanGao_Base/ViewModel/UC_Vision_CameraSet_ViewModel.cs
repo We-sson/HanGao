@@ -497,20 +497,7 @@ namespace HanGao.ViewModel
                     return UC_Visal_Function_VM.Results_Window_3;
                 case Window_Show_Name_Enum.Results_Window_4:
                     return UC_Visal_Function_VM.Results_Window_4;
-                    //case Window_Show_Name_Enum.Calibration_Window_1:
-
-
-
-                    //    return Vision_Calibration_Home_VM.Calibration_Window_1;
-
-                    //case Window_Show_Name_Enum.Calibration_Window_2:
-                    //    return Vision_Calibration_Home_VM.Calibration_Window_2;
-
-
-                    //case Window_Show_Name_Enum.Calibration_3D_Results:
-                    //    return Vision_Calibration_Home_VM.Calibration_3D_Results;
-
-
+      
 
             }
 

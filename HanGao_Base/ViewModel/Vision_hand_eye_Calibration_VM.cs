@@ -1360,7 +1360,7 @@ namespace HanGao.ViewModel
 
 
                         //HWindows_Initialization((HSmartWindowControlWPF)Window_UserContol.Items[index]);
-                        Task.Delay(500);
+                        //Task.Delay(500);
                     }
                     // Reset to first tab
                     E.Tab_Window.SelectedIndex = 0;

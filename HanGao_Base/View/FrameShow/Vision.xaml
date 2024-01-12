@@ -6,6 +6,8 @@
              xmlns:Enum="clr-namespace:Halcon_SDK_DLL.WPF_Converter;assembly=Halcon_SDK_DLL"
              xmlns:Halcon="http://schemas.mvtec.com/halcondotnet"
              xmlns:Halcon_Enum="clr-namespace:Halcon_SDK_DLL.Model;assembly=Halcon_SDK_DLL"
+             xmlns:MVS="clr-namespace:MvCamCtrl.NET.CameraParams;assembly=MvCamCtrl.Net"
+             xmlns:MVS_Enum="clr-namespace:MVS_SDK_Base.Model;assembly=MVS_SDK"
              xmlns:UC_Working="clr-namespace:HanGao.View.User_Control"
              xmlns:Vision_Control="clr-namespace:HanGao.View.User_Control.Vision_Control"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -17,8 +19,12 @@
              DataContext="{Binding UC_Visal_Function_VM, Source={StaticResource Locator}}"
              mc:Ignorable="d">
     <UserControl.Resources>
+
+        <Enum:Halcon_StringConverter x:Key="Halcon_StringConverter" />
+        <Enum:Halcon_EnumConverter x:Key="Halcon_EnumConverter" />
+
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        <Enum:Halcon_EnumConverter x:Key="EnumConverter" />
+
         <DataTemplate x:Key="Result_ListViewItemTemplate">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="{Binding}"
@@ -199,7 +205,7 @@
                             </Menu>
                             <Grid Grid.Column="1">
                                 <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="Window_Switch"
-                                              IsChecked="False"
+                                              IsChecked="True"
                                               Height=" 35"
                                               Margin="4,0,4,0"
                                               Padding="0"
@@ -365,9 +371,11 @@
                                                            HorizontalContentAlignment="Center"
                                                            VerticalContentAlignment="Center"
                                                            SnapsToDevicePixels="True">
-                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Results_Window_1.DisplayImage}" />
-                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Results_Window_1.DisplayRegion}" />
-                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Results_Window_1.DisplayXLD}" />
+                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.Results_Window_1}" />
+                                <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.Results_Window_1.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
+                                                                HDraw="{Binding Halcon_Window_Display.Results_Window_1.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
+                                                                IconicObject="{Binding Halcon_Window_Display.Results_Window_1.DisplayRegion}" />
+                                <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.Results_Window_1.DisplayXLD}" />
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Loaded">
                                         <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
@@ -1126,7 +1134,7 @@
                     <ColumnDefinition />
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
-                <UC_Working:User_Control_Log Grid.Column="0" />
+                <UC_Working:User_Control_Log Grid.Column="0" DataContext="{Binding Source={StaticResource Locator}, Path=User_Log.UI_Home_Log}" />
                 <Border Grid.Column=" 1"
                         Width=" 65"
                         Margin="6,0,0,0"
@@ -1142,7 +1150,7 @@
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Camera_Settings" Grid.Row=" 0"
-                                     IsChecked="False"
+                                     IsChecked="True"
                                      Margin="4"
                                      HorizontalContentAlignment="Stretch"
                                      VerticalContentAlignment="Stretch"
@@ -1165,6 +1173,7 @@
                             </CheckBox>
                         </RadioButton>
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Point_Calibration" Grid.Row=" 1"
+                                     IsChecked="True"
                                      Margin="4"
                                      HorizontalContentAlignment="Stretch"
                                      VerticalContentAlignment="Stretch"
@@ -1328,7 +1337,7 @@
                                       BorderThickness="2"
                                       IsDropDownOpen="False"
                                       IsSynchronizedWithCurrentItem="True"
-                                      SelectedIndex="{Binding Chart_Select_Work, ConverterParameter={x:Type Halcon_Enum:Work_Name_Enum}, Converter={StaticResource EnumConverter}}">
+                                      SelectedIndex="{Binding Chart_Select_Work, ConverterParameter={x:Type Halcon_Enum:Work_Name_Enum}, Converter={StaticResource Halcon_EnumConverter}}">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="SelectionChanged">
                                         <i:InvokeCommandAction Command="{Binding Charts_Switch_Comm}"
@@ -1523,13 +1532,1000 @@
         </Grid>
         <Grid x:Name="Vision_Menu" Grid.Column=" 1"
               Margin="3,6,6,12">
-            <Vision_Control:UC_Vision_CameraSet Width="330"
-                                                DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_CameraSet_ViewModel}"
-                                                Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Camera_Settings}" />
-            <Vision_Control:UC_Vision_Point_Calibration Width="330" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Point_Calibration}" />
-            <Vision_Control:UC_Vision_Create_Template Width="330" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Create_Model}" />
-            <Vision_Control:UC_Vision_Auto_Model Width="330" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Auto_Model}" />
-            <Vision_Control:UC_Vision_Robot_Protocol Width="330" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Robot_Model}" />
+
+            <Grid Width="330" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Camera_Settings}">
+
+                <!--<Vision_Control:UC_Vision_CameraSet Width="330" DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_CameraSet_ViewModel}" />-->
+
+                <Grid Effect="{DynamicResource 全局背景阴影}">
+
+                    <ScrollViewer Style="{DynamicResource Vision_Data_List_ScrollViewerStyle}" x:Name="scrollViewer"
+                                  VerticalContentAlignment="Stretch"
+                                  Background="Transparent"
+                                  CanContentScroll="False"
+                                  PanningMode="Both"
+                                  VerticalScrollBarVisibility="Auto"
+                                  VirtualizingPanel.IsVirtualizing="True"
+                                  VirtualizingPanel.ScrollUnit="Pixel"
+                                  VirtualizingPanel.VirtualizationMode="Recycling">
+
+
+
+                        <StackPanel Grid.Row=" 0" Orientation="Vertical">
+
+
+                            <Expander Style="{DynamicResource Vision_Fence_Expander_Style}" x:Name="E1"
+                                      Margin="0,0,0,10"
+                                      HorizontalContentAlignment="Stretch"
+                                      VerticalContentAlignment="Stretch"
+                                      IsExpanded="True">
+                                <Expander.Header>
+                                    <Border x:Name="Radio_1"
+                                            Margin="0"
+                                            Background="{DynamicResource 全局_按钮_黑颜色}">
+                                        <Border.Style>
+                                            <Style TargetType="{x:Type Border}">
+                                                <Setter Property="CornerRadius" Value="5" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsExpanded, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Expander}}}" Value="True">
+
+                                                        <Setter Property="CornerRadius" Value="5 5 0 0" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+
+                                        <Grid>
+
+
+                                            <StackPanel Margin="10"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Center"
+                                                        Orientation="Horizontal">
+                                                <Border Margin="0,0,10,0"
+                                                        Background="{DynamicResource 全局_按钮_灰颜色}"
+                                                        CornerRadius=" 15">
+                                                    <Image Height=" 24"
+                                                           Margin="5"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           Source="/Resources/Control_相机设置_ioc.png" />
+                                                </Border>
+                                                <TextBlock Text="相机列表"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                           FontSize="16"
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                            </StackPanel>
+
+
+                                        </Grid>
+
+                                    </Border>
+                                </Expander.Header>
+                                <Grid>
+                                    <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 5 5" />
+                                    <StackPanel Margin="5" Orientation="Vertical">
+
+
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Grid.Column=" 0"
+                                                        Margin="0,5,0,5"
+                                                        Orientation="Horizontal">
+
+                                                <Border Width=" 23"
+                                                        Height=" 23"
+                                                        Margin="4"
+                                                        Background="{DynamicResource 全局_按钮_绿颜色}"
+                                                        BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                        BorderThickness="2"
+                                                        CornerRadius=" 5" />
+                                                <Label Content="相机连接"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       FontSize=" 16" />
+                                            </StackPanel>
+
+                                            <StackPanel Grid.Column=" 1" Orientation="Horizontal">
+
+                                                <Border Width=" 23"
+                                                        Height=" 23"
+                                                        Margin="4"
+                                                        Background="{DynamicResource 全局_按钮_红颜色}"
+                                                        BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                        BorderThickness="2"
+                                                        CornerRadius=" 5" />
+                                                <Label Content="相机占用"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       FontSize=" 16" />
+                                            </StackPanel>
+
+                                            <StackPanel Grid.Column=" 2" Orientation="Horizontal">
+
+                                                <Border Width=" 23"
+                                                        Height=" 23"
+                                                        Margin="4"
+                                                        Background="{DynamicResource 全局_按钮_黄颜色}"
+                                                        BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                        BorderThickness="2"
+                                                        CornerRadius=" 5" />
+                                                <Label Content="相机空闲"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       FontSize=" 16" />
+                                            </StackPanel>
+                                        </Grid>
+
+
+                                        <Grid>
+
+
+
+
+
+                                            <DataGrid Grid.Column=" 0"
+                                                      HorizontalContentAlignment="Stretch"
+                                                      VerticalContentAlignment="Stretch"
+                                                      AutoGenerateColumns="False"
+                                                      Background="Transparent"
+                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                      BorderThickness="2"
+                                                      CanUserAddRows="False"
+                                                      CanUserDeleteRows="False"
+                                                      CanUserReorderColumns="False"
+                                                      CanUserResizeColumns="False"
+                                                      CanUserResizeRows="False"
+                                                      CanUserSortColumns="False"
+                                                      CellStyle="{DynamicResource Point_UI_DataGridCellStyle}"
+                                                      ColumnHeaderHeight="40"
+                                                      ColumnHeaderStyle="{DynamicResource Point_UI_DataGridColumnHeaderStyle}"
+                                                      FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                      Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                      GridLinesVisibility="Horizontal"
+                                                      HeadersVisibility="Column"
+                                                      ItemsSource="{Binding MVS_Camera_Info_List}"
+                                                      RowHeaderWidth="0"
+                                                      RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
+                                                      SelectedIndex="3"
+                                                      SelectedValue="{Binding Select_Camera}"
+                                                      SelectionMode="Single"
+                                                      SelectionUnit="FullRow">
+
+                                                <DataGrid.Columns>
+
+
+
+                                                    <DataGridTemplateColumn Width="50">
+                                                        <DataGridTemplateColumn.Header>
+                                                            <TextBlock Text="状态"
+                                                                       Margin="4"
+                                                                       HorizontalAlignment="Center"
+                                                                       VerticalAlignment="Center"
+                                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                       FontSize="16"
+                                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                        </DataGridTemplateColumn.Header>
+                                                        <DataGridTemplateColumn.CellTemplate>
+                                                            <DataTemplate>
+
+                                                                <Border Width=" 23"
+                                                                        Height=" 23"
+                                                                        Margin="4"
+                                                                        BorderThickness="2"
+                                                                        CornerRadius=" 5">
+                                                                    <Border.Style>
+                                                                        <Style TargetType="Border">
+                                                                            <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
+                                                                            <Setter Property="Background" Value="{DynamicResource 全局_按钮_黄颜色}" />
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding Camer_Status, Mode=TwoWay}" Value="{x:Static MVS_Enum:MV_CAM_Device_Status_Enum.Possess}">
+                                                                                    <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
+                                                                                </DataTrigger>
+                                                                                <DataTrigger Binding="{Binding Camer_Status, Mode=TwoWay}" Value="{x:Static MVS_Enum:MV_CAM_Device_Status_Enum.Connecting}">
+                                                                                    <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                                                                </DataTrigger>
+                                                                                <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}}" Value="true">
+                                                                                    <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_灰颜色}" />
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </Border.Style>
+                                                                </Border>
+
+
+                                                            </DataTemplate>
+                                                        </DataGridTemplateColumn.CellTemplate>
+
+                                                    </DataGridTemplateColumn>
+
+                                                    <DataGridTemplateColumn Width="*">
+                                                        <DataGridTemplateColumn.Header>
+                                                            <TextBlock Text="型号"
+                                                                       Margin="4"
+                                                                       HorizontalAlignment="Center"
+                                                                       VerticalAlignment="Center"
+                                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                       FontSize="16"
+                                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                        </DataGridTemplateColumn.Header>
+                                                        <DataGridTemplateColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <TextBlock Text="{Binding Camera_Info.SerialNumber}"
+                                                                           HorizontalAlignment="Center"
+                                                                           VerticalAlignment="Center"
+                                                                           FontSize="16" />
+                                                            </DataTemplate>
+                                                        </DataGridTemplateColumn.CellTemplate>
+
+                                                    </DataGridTemplateColumn>
+
+
+
+                                                    <DataGridTemplateColumn Width="*">
+                                                        <DataGridTemplateColumn.Header>
+                                                            <TextBlock Text="序列号"
+                                                                       Margin="5"
+                                                                       HorizontalAlignment="Center"
+                                                                       VerticalAlignment="Center"
+                                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                       FontSize="16"
+                                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                        </DataGridTemplateColumn.Header>
+                                                        <DataGridTemplateColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <TextBlock Text="{Binding Camera_Info.ModelName}"
+                                                                           Margin="4"
+                                                                           HorizontalAlignment="Center"
+                                                                           VerticalAlignment="Center"
+                                                                           FontSize="16" />
+                                                            </DataTemplate>
+                                                        </DataGridTemplateColumn.CellTemplate>
+
+                                                    </DataGridTemplateColumn>
+
+
+
+
+
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+
+
+
+                                        </Grid>
+
+
+
+
+
+
+
+
+
+
+
+
+                                        <Border Height=" 2"
+                                                Margin="8,4,8,4"
+                                                Background="{DynamicResource 全局_按钮_黑颜色}"
+                                                CornerRadius="1"
+                                                Opacity=" 0.5" />
+
+
+
+
+
+                                    </StackPanel>
+
+                                </Grid>
+                            </Expander>
+
+
+                            <Expander Style="{DynamicResource Vision_Fence_Expander_Style}" x:Name="E2"
+                                      Margin="0,0,0,10"
+                                      HorizontalContentAlignment="Stretch"
+                                      VerticalContentAlignment="Stretch"
+                                      IsExpanded="True">
+                                <Expander.Header>
+                                    <Border x:Name="Radio_2"
+                                            Margin="0"
+                                            Background="{DynamicResource 全局_按钮_黑颜色}">
+                                        <Border.Style>
+                                            <Style TargetType="{x:Type Border}">
+                                                <Setter Property="CornerRadius" Value="5" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsExpanded, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Expander}}}" Value="True">
+
+                                                        <Setter Property="CornerRadius" Value="5 5 0 0" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+
+                                        <Grid>
+
+
+                                            <StackPanel Margin="10"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Center"
+                                                        Orientation="Horizontal">
+                                                <Border Margin="0,0,10,0"
+                                                        Background="{DynamicResource 全局_按钮_灰颜色}"
+                                                        CornerRadius=" 15">
+                                                    <Image Height=" 24"
+                                                           Margin="5"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           Source="/Resources/Control_相机设置_ioc.png" />
+                                                </Border>
+                                                <TextBlock Text="MV-CU120-10GM参数设置"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                           FontSize="16"
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                            </StackPanel>
+                                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" />
+
+                                        </Grid>
+
+                                    </Border>
+                                </Expander.Header>
+                                <Grid>
+                                    <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 5 5" />
+
+
+
+                                    <StackPanel Margin="5" Orientation="Vertical">
+
+
+
+
+
+
+                                        <Grid Margin="0,5,0,5">
+
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+
+                                            </Grid.ColumnDefinitions>
+
+
+                                            <Button x:Name="Connection_Camera" Grid.Column=" 0"
+                                                    Height=" 38"
+                                                    Margin="0,0,10,0"
+                                                    HorizontalContentAlignment="Center"
+                                                    VerticalContentAlignment="Center"
+                                                    Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                                    FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                    FontSize=" 26">
+                                                <Button.Style>
+                                                    <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Camera_Connect_OK}" Value="True">
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+                                                <TextBlock HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="16"
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="Text" Value="连接相机" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Camera_Connect_OK}" Value="True">
+                                                                    <Setter Property="Text" Value="已连接相机" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+
+
+
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding Connection_Camera_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </Button>
+
+
+
+
+
+
+                                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
+                                                    Height=" 38"
+                                                    Margin="10,0,0,0"
+                                                    Background="{DynamicResource 全局_按钮_蓝颜色}">
+                                                <TextBlock Text="断开相机"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="16"
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding Disconnection_Camera_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+
+                                            </Button>
+
+                                        </Grid>
+
+
+
+
+                                        <Border Height=" 2"
+                                                Margin="8,4,8,4"
+                                                Background="{DynamicResource 全局_按钮_黑颜色}"
+                                                CornerRadius="1"
+                                                Opacity=" 0.5" />
+
+
+                                        <Grid Height="35" Margin="0,5,0,5">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 80" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="图像曝光"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Camera_ExposureTime_UI" Grid.Column=" 1"
+                                                    Margin="5"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    VerticalContentAlignment="Stretch"
+                                                    IsSnapToTickEnabled="True"
+                                                    Maximum="50000"
+                                                    Minimum="0"
+                                                    SmallChange="10"
+                                                    Value="{Binding Camera_Parameter_Val.ExposureTime, Mode=TwoWay}">
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="PreviewMouseUp">
+                                                        <i:InvokeCommandAction Command="{Binding Set_Camera_ExposureTime_Val_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </Slider>
+
+                                            <TextBox Grid.Column=" 2"
+                                                     Width="100"
+                                                     HorizontalContentAlignment="Center"
+                                                     VerticalContentAlignment="Center"
+                                                     Background="Transparent"
+                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                     BorderThickness="2"
+                                                     FontSize="18">
+                                                <TextBox.Style>
+                                                    <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="TextBox">
+                                                        <Setter Property="Text" Value="{Binding ElementName=Camera_ExposureTime_UI, Path=Value}" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding ElementName=Camera_ExposureTime_UI, Path=Value}" Value="0">
+                                                                <Setter Property="Text" Value="Auto" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBox.Style>
+                                            </TextBox>
+                                        </Grid>
+
+                                        <Grid Height="35" Margin="0,5,0,5">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="增益"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Camera_Gain_UI" Grid.Column=" 1"
+                                                    Margin="5"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    VerticalContentAlignment="Stretch"
+                                                    IsSnapToTickEnabled="True"
+                                                    Maximum="19"
+                                                    Minimum="0"
+                                                    SmallChange="0.1"
+                                                    TickFrequency="0.01"
+                                                    Value="{Binding Camera_Parameter_Val.Gain, Mode=TwoWay}">
+
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="PreviewMouseUp">
+                                                        <i:InvokeCommandAction Command="{Binding Set_Camera_Gain_Val_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </Slider>
+
+                                            <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                                     Text="{Binding ElementName=Camera_Gain_UI, Path=Value}"
+                                                     Width=" 100"
+                                                     HorizontalContentAlignment="Center"
+                                                     VerticalContentAlignment="Center"
+                                                     Background="Transparent"
+                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                     BorderThickness="2"
+                                                     FontSize="18" />
+                                        </Grid>
+
+                                        <Grid Height="35" Margin="0,5,0,5">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="数字增益"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="DigitalShift" Grid.Column=" 1"
+                                                    Margin="5"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    VerticalContentAlignment="Stretch"
+                                                    IsSnapToTickEnabled="True"
+                                                    Maximum="6"
+                                                    Minimum="-6"
+                                                    SmallChange="0.1"
+                                                    TickFrequency="0.1"
+                                                    Value="{Binding Camera_Parameter_Val.DigitalShift, Mode=TwoWay}">
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="PreviewMouseUp">
+                                                        <i:InvokeCommandAction Command="{Binding Set_Camera_Float_Val_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </Slider>
+
+                                            <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                                     Text="{Binding ElementName=DigitalShift, Path=Value, Mode=TwoWay}"
+                                                     Width=" 100"
+                                                     HorizontalContentAlignment="Center"
+                                                     VerticalContentAlignment="Center"
+                                                     Background="Transparent"
+                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                     BorderThickness="2"
+                                                     FontSize="18" />
+                                        </Grid>
+
+                                        <Grid Height="35" Margin="0,5,0,5">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="伽马"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Gamma" Grid.Column=" 1"
+                                                    Margin="5"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    VerticalContentAlignment="Stretch"
+                                                    IsSnapToTickEnabled="True"
+                                                    Maximum="4"
+                                                    Minimum="0"
+                                                    SmallChange="0.1"
+                                                    TickFrequency="0.1"
+                                                    Value="{Binding Camera_Parameter_Val.Gamma, Mode=TwoWay}">
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="PreviewMouseUp">
+                                                        <i:InvokeCommandAction Command="{Binding Set_Camera_Float_Val_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </Slider>
+
+                                            <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                                     Text="{Binding ElementName=Gamma, Path=Value, Mode=TwoWay}"
+                                                     Width=" 100"
+                                                     HorizontalContentAlignment="Center"
+                                                     VerticalContentAlignment="Center"
+                                                     Background="Transparent"
+                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                     BorderThickness="2"
+                                                     FontSize="18" />
+                                        </Grid>
+
+                                        <!--<Grid Height="35" Margin="8">
+
+                             <Grid.ColumnDefinitions>
+                                 <ColumnDefinition Width="80" />
+                                 <ColumnDefinition />
+                                 <ColumnDefinition Width=" auto" />
+                             </Grid.ColumnDefinitions>
+                             <TextBlock Text="锐度"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                        FontSize="16"
+                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                             <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Sharpness" Grid.Column=" 1"
+                                     Margin="5"
+                                     VerticalAlignment="Center"
+                                     HorizontalContentAlignment="Stretch"
+                                     VerticalContentAlignment="Stretch"
+                                     IsSnapToTickEnabled="True"
+                                     Maximum="100"
+                                     Minimum="0"
+                                     SmallChange="1"
+                                     TickFrequency="0.1"
+                                     Value="{Binding Camera_Parameter_Val.Sharpness, Mode=TwoWay}">
+                                 <i:Interaction.Triggers>
+
+                                     <i:EventTrigger EventName="PreviewMouseUp">
+                                         <i:InvokeCommandAction Command="{Binding Set_Camera_Int_Val_Comm}"
+                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                PassEventArgsToCommand="True" />
+                                     </i:EventTrigger>
+                                 </i:Interaction.Triggers>
+                             </Slider>
+
+                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                      Text="{Binding Value, ElementName=Sharpness, Mode=TwoWay}"
+                                      Width=" 100"
+                                      HorizontalContentAlignment="Center"
+                                      VerticalContentAlignment="Center"
+                                      Background="Transparent"
+                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                      BorderThickness="2"
+                                      FontSize="18" />
+                         </Grid>-->
+                                        <Grid Height="35" Margin="0,5,0,5">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="黑电平"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="BlackLevel" Grid.Column=" 1"
+                                                    Margin="5"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    VerticalContentAlignment="Stretch"
+                                                    IsSnapToTickEnabled="True"
+                                                    Maximum="4095"
+                                                    Minimum="0"
+                                                    SmallChange="1"
+                                                    Value="{Binding Camera_Parameter_Val.BlackLevel, Mode=TwoWay}">
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="PreviewMouseUp">
+                                                        <i:InvokeCommandAction Command="{Binding Set_Camera_Int_Val_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </Slider>
+
+                                            <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                                     Text="{Binding Value, ElementName=BlackLevel, Mode=TwoWay}"
+                                                     Width=" 100"
+                                                     HorizontalContentAlignment="Center"
+                                                     VerticalContentAlignment="Center"
+                                                     Background="Transparent"
+                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                     BorderThickness="2"
+                                                     FontSize="18" />
+                                        </Grid>
+                                        <Border Height=" 2"
+                                                Margin="8,4,8,4"
+                                                Background="{DynamicResource 全局_按钮_黑颜色}"
+                                                CornerRadius="1"
+                                                Opacity=" 0.5" />
+
+
+                                        <Grid Height=" 35" Margin="0,5,0,5">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="90" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column=" 0"
+                                                       Text="采集方式"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="AcquisitionMode" Grid.Column=" 1"
+                                                      HorizontalContentAlignment="Left"
+                                                      VerticalContentAlignment="Center"
+                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                      BorderThickness="2"
+                                                      FontSize="20"
+                                                      IsDropDownOpen="False"
+                                                      IsSynchronizedWithCurrentItem="True"
+                                                      SelectedIndex="{Binding Camera_Parameter_Val.AcquisitionMode, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type MVS:MV_CAM_ACQUISITION_MODE}}">
+
+                                                <ComboBoxItem>
+
+                                                    <TextBlock Text="单帧模式"
+                                                               TextWrapping="Wrap"
+                                                               Padding="0,4,0,4"
+                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                               FontSize="14"
+                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                               TextTrimming="CharacterEllipsis" />
+                                                </ComboBoxItem>
+                                                <ComboBoxItem>
+
+                                                    <TextBlock Text="多帧模式"
+                                                               TextWrapping="Wrap"
+                                                               Padding="0,4,0,4"
+                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                               FontSize="14"
+                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                               TextTrimming="CharacterEllipsis" />
+                                                </ComboBoxItem>
+                                                <ComboBoxItem>
+
+                                                    <TextBlock Text="持续采集模式"
+                                                               TextWrapping="Wrap"
+                                                               Padding="0,4,0,4"
+                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                               FontSize="14"
+                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                               TextTrimming="CharacterEllipsis" />
+                                                </ComboBoxItem>
+
+
+
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="SelectionChanged">
+                                                        <i:InvokeCommandAction Command="{Binding Set_Camera_Enum_Val_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+
+
+                                            </ComboBox>
+
+
+                                        </Grid>
+
+
+
+                                        <Grid Height=" 35" Margin="0,5,0,5">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+
+
+                                            <TextBlock Text="参数操作"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+
+
+                                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
+                                                    Margin="10,0,0,0"
+                                                    Background="{DynamicResource 全局_按钮_蓝颜色}">
+
+
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+
+                                                <TextBlock Text="曝光参数写入"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="16"
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+
+                                            </Button>
+                                        </Grid>
+
+
+                                        <Border Height=" 2"
+                                                Margin="8,4,8,4"
+                                                Background="{DynamicResource 全局_按钮_黑颜色}"
+                                                CornerRadius="1"
+                                                Opacity=" 0.5" />
+
+                                        <Grid Margin="0,5,0,5">
+
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+
+
+                                            <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row="0" Grid.Column=" 0"
+                                                      Content="闪光灯"
+                                                      Margin="0"
+                                                      HorizontalAlignment="Left"
+                                                      VerticalAlignment="Center"
+                                                      FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                      FontSize="16"
+                                                      Foreground="{DynamicResource 全局_按钮_黑颜色}">
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding Camera_Flash_Open_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </CheckBox>
+
+                                            <CheckBox Style="{DynamicResource CheckBoxStyle1}" x:Name="Live_Camera" Grid.Column=" 1"
+                                                      Width="90"
+                                                      Height=" 38"
+                                                      Margin="0,0,0,0"
+                                                      HorizontalContentAlignment="Center"
+                                                      VerticalContentAlignment="Center"
+                                                      Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                                      FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                      FontSize=" 26">
+                                                <TextBlock Text="实时采集"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="16"
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+
+
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding Live_Camera_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </CheckBox>
+
+
+
+
+
+
+                                            <Button x:Name="Camera_OneImage" Grid.Column=" 2"
+                                                    Width="90"
+                                                    Height=" 38"
+                                                    Margin="0,0,0,0"
+                                                    HorizontalAlignment="Right"
+                                                    Background="{DynamicResource 全局_按钮_蓝颜色}">
+                                                <Button.Style>
+                                                    <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding ElementName=Live_Camera, Path=IsChecked}" Value="true">
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+                                                <TextBlock Text="采集一帧"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="16"
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding Single_Camera_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+
+                                            </Button>
+
+                                        </Grid>
+
+
+                                    </StackPanel>
+
+                                </Grid>
+                            </Expander>
+
+
+
+
+
+                        </StackPanel>
+
+
+                    </ScrollViewer>
+
+
+                </Grid>
+
+
+            </Grid>
+
+            <Grid Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Point_Calibration}">
+
+                <Vision_Control:UC_Vision_Point_Calibration Width="330" />
+            </Grid>
+            <Grid Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Create_Model}">
+
+                <Vision_Control:UC_Vision_Create_Template Width="330" />
+            </Grid>
+
+            <Grid Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Auto_Model}">
+
+                <Vision_Control:UC_Vision_Auto_Model Width="330" />
+            </Grid>
+
+            <Grid Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Robot_Model}">
+
+                <Vision_Control:UC_Vision_Robot_Protocol Width="330" />
+
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>
