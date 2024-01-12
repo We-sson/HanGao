@@ -1,5 +1,7 @@
 ﻿using Halcon_SDK_DLL.Model;
+using HanGao.View.User_Control.Vision_Control;
 using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
+using MvCamCtrl.NET;
 using MVS_SDK_Base.Model;
 using System.Drawing;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
@@ -77,8 +79,14 @@ namespace HanGao.ViewModel
 
 
 
+            //初始化相机查找线程
+            Camera_Device_List.Initialization_Camera_Thread();
 
         }
+
+
+
+
         /// <summary>
         /// 静态属性更新通知事件
         /// </summary>
@@ -124,19 +132,34 @@ namespace HanGao.ViewModel
 
 
 
+
+
+        private static  MVS _Camera_Device_List=new MVS ();
         /// <summary>
-        /// 视觉查找参数序号
+        /// 相机设备列表
         /// </summary>
-        //public int UI_Find_Data_Number
-        //{
-        //    get => _UI_Find_Data_Number;
-        //    set
-        //    {
-        //        //_UI_Find_Data_Number = value;
-        //        SetProperty(ref _UI_Find_Data_Number, value);
-        //        Messenger.Send<object, string>(value, nameof(Meg_Value_Eunm.Vision_Data_Xml_List));
-        //    }
-        //}
+        public static MVS Camera_Device_List
+        {
+            get { return _Camera_Device_List; }
+            set {
+                _Camera_Device_List = value;
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Camera_Device_List)));
+            }
+        }
+
+
+
+
+        /// <summary>
+        /// 相机参数值
+        /// </summary>
+        public  MVS_Camera_Parameter_Model Camera_Parameter_Val { get; set; } = new MVS_Camera_Parameter_Model();
+
+        /// <summary>
+        /// 选择相机信息
+        /// </summary>
+        public  MVS_Camera_Info_Model Select_Camera { set; get; } = new MVS_Camera_Info_Model();
+
 
         private Vision_Xml_Models _Select_Vision_Value;
         //用户选中的参数值
@@ -196,7 +219,52 @@ namespace HanGao.ViewModel
             {
                 HSmartWindowControlWPF Window_UserContol = Sm.Source as HSmartWindowControlWPF;
 
-                HWindows_Initialization(Window_UserContol);
+                Halcon_Window_Display. HWindows_Initialization(Window_UserContol);
+
+
+            });
+        }
+
+
+
+        /// <summary>
+        /// 设置相机参数确认方法
+        /// </summary>
+        public ICommand Camera_Paramer_Set_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                Button E = Sm.Source as Button;
+
+                try
+                {
+
+
+
+                            if (Select_Camera?.Camer_Status ==MV_CAM_Device_Status_Enum.Connecting && Select_Camera != null)
+                            {
+
+                        Select_Camera.Set_Camrea_Parameters_List(Camera_Parameter_Val);
+                            }
+                            else
+                            {
+                                //User_Log_Add(HandEye_Check.Camera_Connect_Model + "：相机未连接！", Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                                //return;
+                                throw new Exception("相机设备未选择！");
+
+                            }
+
+
+
+                    User_Log_Add(Select_Camera.Camera_Info.SerialNumber + "：相机参数写入成功！", Log_Show_Window_Enum.HandEye, MessageBoxImage.Question);
+
+                }
+                catch (Exception _e)
+                {
+                    User_Log_Add(_e.Message, Log_Show_Window_Enum.HandEye, MessageBoxImage.Error);
+
+
+                }
 
 
             });
@@ -204,50 +272,161 @@ namespace HanGao.ViewModel
 
 
         /// <summary>
-        /// Halcon窗口初始化
+        /// 单帧获取图像功能
         /// </summary>
-        /// <param name="Window_UserContol"></param>
-        public   void HWindows_Initialization(HSmartWindowControlWPF Window_UserContol)
+        public ICommand Single_Camera_Comm
         {
-
-
-            switch (Window_UserContol.Name)
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
-                case string _N when Window_UserContol.Name == nameof(Window_Show_Name_Enum.Live_Window):
-                    //初始化halcon图像属性
-                    Halcon_Window_Display.Live_Window = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
-                    break;
-                case string _N when Window_UserContol.Name == nameof(Window_Show_Name_Enum.Features_Window):
-                    //加载halcon图像属性
-                    Halcon_Window_Display.Features_Window = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
-                    break;
-                case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_1)):
-                    //加载halcon图像属性
-                    Halcon_Window_Display. Results_Window_1 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
-                    break;
-                case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_2)):
-                    //加载halcon图像属性
-                    Halcon_Window_Display.Results_Window_2 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
-                    break;
-                case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_3)):
-                    //加载halcon图像属性
-                    Halcon_Window_Display. Results_Window_3 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
-                    break;
-                case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_4)):
-                    //加载halcon图像属性
-                    Halcon_Window_Display. Results_Window_4 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
-                    break;
-            }
-            //设置halcon窗体大小
-            Window_UserContol.HalconWindow.SetWindowExtents(0, 0, (int)Window_UserContol.WindowSize.Width, (int)Window_UserContol.WindowSize.Height);
-            Window_UserContol.HalconWindow.SetColored(12);
-            Window_UserContol.HalconWindow.SetColor(nameof(KnownColor.Red).ToLower());
-            HTuple _Font = Window_UserContol.HalconWindow.QueryFont();
-            Window_UserContol.HalconWindow.SetFont(_Font.TupleSelect(0) + "-18");
+                Button E = Sm.Source as Button;
+
+                Task.Run(() =>
+                {
+
+                    try
+                    {
 
 
+                        HImage _Image = new HImage();
+
+                        Get_Image(ref _Image, Get_Image_Model_Enum.相机采集, Select_Camera.Show_Window);
+
+                        User_Log_Add(Select_Camera.Camera_Info.SerialNumber.ToString() + "相机采集图像成功到窗口：" + Select_Camera.Show_Window, Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+
+                    }
+                    catch (Exception _e)
+                    {
+
+                        User_Log_Add(Select_Camera.Camera.ToString() + "相机采集图像失败！原因：" + _e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+
+                    }
+
+                });
+
+
+
+
+            });
         }
 
+        /// <summary>
+        /// 根据采集方式获取图像
+        /// </summary>
+        /// <param name="_Image"></param>
+        /// <param name="_Get_Model"></param>
+        /// <param name="_Window"></param>
+        /// <param name="_path"></param>
+        /// <returns></returns>
+        public  void Get_Image(ref HImage _Image, Get_Image_Model_Enum _Get_Model, Window_Show_Name_Enum _HW, string _path = "")
+        {
+            //HObject _image = new HObject();
+            //HOperatorSet.GenEmptyObj(out _Image);
+            _Image.Dispose();
+
+            //Halcon_SDK _Window = GetWindowHandle(_HW);
+            //_Window.HWindow.ClearWindow();
+
+            switch (_Get_Model)
+            {
+                case Get_Image_Model_Enum.相机采集:
+
+
+                    Select_Camera.GetOneFrameTimeout(ref _Image);
+
+               
+                        //return new HPR_Status_Model<bool>(HVE_Result_Enum.图像文件读取失败);
+                 
+                    break;
+                case Get_Image_Model_Enum.图像采集:
+                    Halcon_SDK.HRead_Image(ref _Image, _path);
+                 
+                        //return new HPR_Status_Model<bool>(HVE_Result_Enum.图像文件读取失败);
+              
+                    break;
+            }
+            //获得图像保存到内存，随时调用
+            //_image = _Image;
+            //UC_Visal_Function_VM.Load_Image = _Image.CopyObj(1, -1);
+            Load_Image = _Image;
+
+
+            //显示图像
+            Halcon_Window_Display.Display_HObject(_Image,null,null,null, _HW);
+            //_Window.DisplayImage = _Image;
+            //保存图像当当前目录下
+            if (Global_Seting.IsVisual_image_saving)
+            {
+
+            
+
+                Halcon_SDK.Save_Image(_Image);
+                //{
+          
+                //}
+            }
+            //使用完清楚内存
+            //_Image.Dispose();
+            //return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "采集图像方法成功！" };
+        }
+
+
+        /// <summary>
+        /// 连接相机命令
+        /// </summary>
+        public ICommand Connection_Camera_Comm
+        {
+            get => new RelayCommand<UC_Vision_CameraSet>((E) =>
+            {
+
+                try
+                {
+
+
+                    //MVS.Connect_Camera(Select_Camera);
+                    Select_Camera.Connect_Camera();
+
+                }
+                catch (Exception _e)
+                {
+
+                    User_Log_Add("相机连接失败！原因：" + _e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+
+                }
+
+                //连接成功后关闭UI操作
+
+
+            });
+        }
+
+
+        /// <summary>
+        /// 断开相机命令
+        /// </summary>
+        public ICommand Disconnection_Camera_Comm
+        {
+            get => new RelayCommand<UC_Vision_CameraSet>((E) =>
+            {
+
+
+                try
+                {
+
+
+                    //MVS.Connect_Camera(Select_Camera);
+                    Select_Camera.Close_Camera();
+
+                }
+                catch (Exception _e)
+                {
+
+                    User_Log_Add("相机断开失败！原因：" + _e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+
+                }
+            
+
+            });
+        }
         /// <summary>
         /// 读取Halcon控件鼠标图像位置
         /// </summary>

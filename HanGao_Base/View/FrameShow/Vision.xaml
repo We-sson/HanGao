@@ -1173,7 +1173,7 @@
                             </CheckBox>
                         </RadioButton>
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Point_Calibration" Grid.Row=" 1"
-                                     IsChecked="True"
+                                     IsChecked="False"
                                      Margin="4"
                                      HorizontalContentAlignment="Stretch"
                                      VerticalContentAlignment="Stretch"
@@ -1690,7 +1690,7 @@
                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                       GridLinesVisibility="Horizontal"
                                                       HeadersVisibility="Column"
-                                                      ItemsSource="{Binding MVS_Camera_Info_List}"
+                                                      ItemsSource="{Binding Camera_Device_List.MVS_Camera_Info_List}"
                                                       RowHeaderWidth="0"
                                                       RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
                                                       SelectedIndex="3"
@@ -2008,14 +2008,14 @@
                                                     Minimum="0"
                                                     SmallChange="10"
                                                     Value="{Binding Camera_Parameter_Val.ExposureTime, Mode=TwoWay}">
-                                                <i:Interaction.Triggers>
+                                                <!--<i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="PreviewMouseUp">
                                                         <i:InvokeCommandAction Command="{Binding Set_Camera_ExposureTime_Val_Comm}"
                                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
-                                                </i:Interaction.Triggers>
+                                                </i:Interaction.Triggers>-->
                                             </Slider>
 
                                             <TextBox Grid.Column=" 2"
@@ -2064,14 +2064,14 @@
                                                     TickFrequency="0.01"
                                                     Value="{Binding Camera_Parameter_Val.Gain, Mode=TwoWay}">
 
-                                                <i:Interaction.Triggers>
+                                                <!--<i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="PreviewMouseUp">
                                                         <i:InvokeCommandAction Command="{Binding Set_Camera_Gain_Val_Comm}"
                                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
-                                                </i:Interaction.Triggers>
+                                                </i:Interaction.Triggers>-->
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
@@ -2109,14 +2109,14 @@
                                                     SmallChange="0.1"
                                                     TickFrequency="0.1"
                                                     Value="{Binding Camera_Parameter_Val.DigitalShift, Mode=TwoWay}">
-                                                <i:Interaction.Triggers>
+                                                <!--<i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="PreviewMouseUp">
                                                         <i:InvokeCommandAction Command="{Binding Set_Camera_Float_Val_Comm}"
                                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
-                                                </i:Interaction.Triggers>
+                                                </i:Interaction.Triggers>-->
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
@@ -2154,14 +2154,14 @@
                                                     SmallChange="0.1"
                                                     TickFrequency="0.1"
                                                     Value="{Binding Camera_Parameter_Val.Gamma, Mode=TwoWay}">
-                                                <i:Interaction.Triggers>
+                                                <!--<i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="PreviewMouseUp">
                                                         <i:InvokeCommandAction Command="{Binding Set_Camera_Float_Val_Comm}"
                                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
-                                                </i:Interaction.Triggers>
+                                                </i:Interaction.Triggers>-->
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
@@ -2242,14 +2242,14 @@
                                                     Minimum="0"
                                                     SmallChange="1"
                                                     Value="{Binding Camera_Parameter_Val.BlackLevel, Mode=TwoWay}">
-                                                <i:Interaction.Triggers>
+                                                <!--<i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="PreviewMouseUp">
                                                         <i:InvokeCommandAction Command="{Binding Set_Camera_Int_Val_Comm}"
                                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
-                                                </i:Interaction.Triggers>
+                                                </i:Interaction.Triggers>-->
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
@@ -2366,7 +2366,7 @@
 
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding}"
+                                                        <i:InvokeCommandAction Command="{Binding Camera_Paramer_Set_Comm}"
                                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
@@ -2402,20 +2402,21 @@
 
                                             <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row="0" Grid.Column=" 0"
                                                       Content="闪光灯"
+                                                      IsChecked="{Binding Camera_Parameter_Val.LineInverter}"
                                                       Margin="0"
                                                       HorizontalAlignment="Left"
                                                       VerticalAlignment="Center"
                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                       FontSize="16"
                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}">
-                                                <i:Interaction.Triggers>
+                                                <!--<i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="Click">
                                                         <i:InvokeCommandAction Command="{Binding Camera_Flash_Open_Comm}"
                                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
-                                                </i:Interaction.Triggers>
+                                                </i:Interaction.Triggers>-->
                                             </CheckBox>
 
                                             <CheckBox Style="{DynamicResource CheckBoxStyle1}" x:Name="Live_Camera" Grid.Column=" 1"

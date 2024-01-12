@@ -79,7 +79,7 @@ namespace Halcon_SDK_DLL
         /// </summary>
         /// <param name="_Image"></param>
         /// <returns></returns>
-        public static HPR_Status_Model<bool> Save_Image(HObject _Image)
+        public static void Save_Image(HObject _Image)
         {
             try
             {
@@ -119,13 +119,13 @@ namespace Halcon_SDK_DLL
                 HOperatorSet.WriteImage(_Image, "tiff", 0, _Path + "\\" + _Name);
 
 
-                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "图像保存成功！" };
+                //return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "图像保存成功！" };
 
             }
-            catch (Exception e)
+            catch (Exception _e)
             {
-
-                return new HPR_Status_Model<bool>(HVE_Result_Enum.图像保存失败) { Result_Error_Info = e.Message };
+                throw new Exception("图像保存失败！原因：" + _e.Message);
+                //return new HPR_Status_Model<bool>(HVE_Result_Enum.图像保存失败) { Result_Error_Info = e.Message };
 
             }
         }
@@ -462,33 +462,34 @@ namespace Halcon_SDK_DLL
         /// <param name="_Image"></param>
         /// <param name="_Path"></param>
         /// <returns></returns>
-        public static HPR_Status_Model<bool> HRead_Image(ref HImage _Image, string _Path)
+        public static void HRead_Image(ref HImage _Image, string _Path)
         {
 
             try
             {
 
-                if (_Path != "")
-                {
+                //if (_Path != "")
+                //{
 
                     _Image.ReadImage(_Path);
                     //HOperatorSet.ReadImage(out _Image, _Path);
 
 
 
-                    return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "文件图像读取成功！" };
-                }
-                else
-                {
-                    return new HPR_Status_Model<bool>(HVE_Result_Enum.读取图像文件格式错误);
-                }
+                    //return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "文件图像读取成功！" };
+                //}
+                //else
+                //{
+                //    return new HPR_Status_Model<bool>(HVE_Result_Enum.读取图像文件格式错误);
+                //}
 
 
             }
             catch (Exception e)
             {
 
-                return new HPR_Status_Model<bool>(HVE_Result_Enum.读取图像文件格式错误) { Result_Error_Info = e.Message };
+               throw new Exception ("图像文件读取失败！原因：" + e.Message);
+                //return new HPR_Status_Model<bool>(HVE_Result_Enum.读取图像文件格式错误) { Result_Error_Info = e.Message };
 
             }
 
@@ -1074,6 +1075,54 @@ namespace Halcon_SDK_DLL
         /// 实施相机视角控件
         /// </summary>
         public Halcon_SDK Calibration_Window_2 { set; get; } = new Halcon_SDK();
+
+
+
+
+        /// <summary>
+        /// Halcon窗口初始化
+        /// </summary>
+        /// <param name="Window_UserContol"></param>
+        public void HWindows_Initialization(HSmartWindowControlWPF Window_UserContol)
+        {
+
+
+            switch (Window_UserContol.Name)
+            {
+                case string _N when Window_UserContol.Name == nameof(Window_Show_Name_Enum.Live_Window):
+                    //初始化halcon图像属性
+                    Live_Window = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+                    break;
+                case string _N when Window_UserContol.Name == nameof(Window_Show_Name_Enum.Features_Window):
+                    //加载halcon图像属性
+                    Features_Window = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+                    break;
+                case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_1)):
+                    //加载halcon图像属性
+                    Results_Window_1 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+                    break;
+                case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_2)):
+                    //加载halcon图像属性
+                    Results_Window_2 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+                    break;
+                case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_3)):
+                    //加载halcon图像属性
+                    Results_Window_3 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+                    break;
+                case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_4)):
+                    //加载halcon图像属性
+                    Results_Window_4 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+                    break;
+            }
+            //设置halcon窗体大小
+            Window_UserContol.HalconWindow.SetWindowExtents(0, 0, (int)Window_UserContol.WindowSize.Width, (int)Window_UserContol.WindowSize.Height);
+            Window_UserContol.HalconWindow.SetColored(12);
+            Window_UserContol.HalconWindow.SetColor(nameof(KnownColor.Red).ToLower());
+            HTuple _Font = Window_UserContol.HalconWindow.QueryFont();
+            Window_UserContol.HalconWindow.SetFont(_Font.TupleSelect(0) + "-18");
+
+
+        }
 
 
 

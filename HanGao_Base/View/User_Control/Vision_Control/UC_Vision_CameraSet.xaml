@@ -847,7 +847,7 @@
 
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding}"
+                                            <i:InvokeCommandAction Command="{Binding }"
                                                                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UC_Vision_CameraSet}}}"
                                                                    PassEventArgsToCommand="True" />
                                         </i:EventTrigger>

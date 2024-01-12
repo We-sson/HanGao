@@ -1,11 +1,14 @@
 ﻿using Generic_Extension;
+using Halcon_SDK_DLL;
 using Halcon_SDK_DLL.Model;
 using HalconDotNet;
 using MvCamCtrl.NET;
 using MvCamCtrl.NET.CameraParams;
+using MVS_SDK;
 using PropertyChanged;
 using System;
 using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
@@ -205,13 +208,13 @@ namespace MVS_SDK_Base.Model
             {
                 AcquisitionMode = _Param.AcquisitionMode;
                 AcquisitionFrameRateEnable = _Param.AcquisitionFrameRateEnable;
-                ExposureTime = _Param. ExposureTime;
+                ExposureTime = _Param.ExposureTime;
                 ExposureAuto = _Param.ExposureAuto;
                 //ExposureMode = _Param.ExposureMode;
                 TriggerMode = _Param.TriggerMode;
                 TriggerActivation = _Param.TriggerActivation;
                 TriggerDelay = _Param.TriggerDelay;
-                GainAuto = _Param. GainAuto;
+                GainAuto = _Param.GainAuto;
                 Gain = _Param.Gain;
                 DigitalShiftEnable = _Param.DigitalShiftEnable;
                 DigitalShift = _Param.DigitalShift;
@@ -266,9 +269,9 @@ namespace MVS_SDK_Base.Model
             //[StringValue("设置曝光（或快门）的工作模式失败")]
             //[Camera_ReadWrite(Camera_Parameter_RW_Type.Write)]
             //public MV_CAM_EXPOSURE_MODE ExposureMode { set; get; } = MV_CAM_EXPOSURE_MODE.MV_EXPOSURE_MODE_TIMED;
-            
-            
-            
+
+
+
             /// <summary>
             /// 控制所选触发器是否处于活动状态、枚举类型——默认Off，"MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_OFF"
             /// </summary>
@@ -585,9 +588,11 @@ namespace MVS_SDK_Base.Model
             /// </summary>
             public Camera_Calibration_Info_Model Camera_Calibration { set; get; } = new Camera_Calibration_Info_Model();
 
+            /// <summary>
+            /// 相机属性
+            /// </summary>
+            public MVS_Camera_Parameter_Model Camera_parameter { set; get; } = new MVS_Camera_Parameter_Model();
 
-
-          
 
 
             /// <summary>
@@ -647,6 +652,693 @@ namespace MVS_SDK_Base.Model
                 }
             }
 
+
+            /// <summary>
+            /// 获得相机信息方法
+            /// </summary>
+            /// <param name="_Info"></param>
+            /// <returns></returns>
+            public void Get_Camrea_Parameters()
+            {
+
+
+                foreach (PropertyInfo _Type in Camera_parameter.GetType().GetProperties())
+                {
+
+                    try
+                    {
+
+
+
+                        object _Val = new();
+
+                        //读取标记读取属性
+                        Camera_ReadWriteAttribute _CameraRW_Type = (Camera_ReadWriteAttribute)_Type.GetCustomAttribute(typeof(Camera_ReadWriteAttribute));
+
+                        if (_CameraRW_Type.GetCamera_ReadWrite_Type() == Camera_Parameter_RW_Type.Read)
+                        {
+
+                            if (Get_Camera_Info_Val(Camera, _Type, _Type.Name, ref _Val).GetResult())
+                            {
+                                _Type.SetValue(Camera_parameter, _Val);
+                            }
+
+                        }
+                    }
+
+
+                    catch (Exception _e)
+                    {
+                        throw new Exception("相机参数名 : " + _Type.Name + " 失败！" + "详细：" + _e.Message);
+                        //new MPR_Status_Model(MVE_Result_Enum.Run_OK) { Result_Error_Info = "获取相机全部参数名成功！" };
+
+                    }
+
+                }
+
+
+            }
+
+
+
+
+
+            /// <summary>
+            /// 设置总相机相机俩表
+            /// </summary>
+            /// <param name="_Camera_List"></param>
+            public bool Set_Camrea_Parameters_List(MVS_Camera_Parameter_Model _Parameter)
+            {
+
+                try
+                {
+                    //遍历设置参数
+                    foreach (PropertyInfo _Type in _Parameter.GetType().GetProperties())
+                    {
+                        Camera_ReadWriteAttribute _CameraRW_Type = (Camera_ReadWriteAttribute)_Type.GetCustomAttribute(typeof(Camera_ReadWriteAttribute));
+
+                        if (_CameraRW_Type.GetCamera_ReadWrite_Type() == Camera_Parameter_RW_Type.Write)
+                        {
+
+                            if (!Set_Camera_Parameters_Val(Camera, _Type, _Type.Name, _Type.GetValue(_Parameter)))
+                            {
+
+                                //return new MPR_Status_Model(MVE_Result_Enum.相机参数设置错误) { Result_Error_Info = "_参数名：" + _Type.Name };
+                                throw new Exception(MVE_Result_Enum.相机参数设置错误 + "_参数名：" + _Type.Name);
+                            }
+                        }
+                    }
+
+
+                    //return new MPR_Status_Model(MVE_Result_Enum.Run_OK) { Result_Error_Info = "相机参数全部设置成功！" };
+                    return true;
+                }
+
+
+                catch (Exception e)
+                {
+                    throw new Exception(MVE_Result_Enum.相机参数设置错误 + " 原因：" + e.Message);
+                    //return new MPR_Status_Model(MVE_Result_Enum.相机参数设置错误) { Result_Error_Info = e.Message };
+                }
+
+
+            }
+
+            /// <summary>
+            /// 获得一图像显示到指定窗口
+            /// </summary>
+            /// <param name="_HWindow"></param>
+            public void  GetOneFrameTimeout(ref HImage _HImage)
+            {
+
+
+                try
+                {
+                    //设置为单帧模式
+                    Camera_parameter.AcquisitionMode = MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_SINGLE;
+
+                    Set_Camrea_Parameters_List(Camera_parameter);
+
+                    //设置相机总参数
+                    Set_Camrea_Parameters_List(Camera_parameter);
+
+                    StartGrabbing();
+
+                    //获得一帧图片信息
+                    MVS_Image_Mode _MVS_Image = GetOneFrameTimeout();
+
+                    StopGrabbing();
+                    //转换Halcon图像变量
+                    Halcon_SDK.Mvs_To_Halcon_Image(ref _HImage, _MVS_Image.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image.PData);
+
+
+                    //发送显示图像位置
+                    //_Window.DispObj(_HImage);
+
+
+                    //User_Log_Add(Select_Camera.Camera.ToString() + "相机图像采集成功！", Log_Show_Window_Enum.Home);
+
+
+                    //return true;
+
+                }
+                catch (Exception _e)
+                {
+
+                    throw new Exception(Camera_Info.SerialNumber + "相机获得图像失败！原因：" + _e.Message);
+
+                }
+
+
+
+
+
+
+            }
+
+
+
+
+            /// <summary>
+            /// 获得一帧图像方法
+            /// </summary>
+            /// <param name="_Timeout"></param>
+            /// <returns></returns>
+            public MVS_Image_Mode GetOneFrameTimeout(int _Timeout = 1000)
+            {
+
+
+
+                try
+                {
+
+
+
+
+                    CIntValue stParam = new CIntValue();
+
+                    Camera.ClearImageBuffer();
+
+                    ////开始取流
+
+                    //获取图像缓存大小
+                    Set_Camera_Val(Camera_Parameters_Name_Enum.PayloadSize, Camera.GetIntValue("PayloadSize", ref stParam));
+
+                    //创建帧图像信息
+                    MVS_Image_Mode Frame_Image = new MVS_Image_Mode
+                    {
+
+                        pData_Buffer = new byte[stParam.CurValue]
+                    };
+
+
+
+                    //抓取一张图片
+                    if (Set_Camera_Val(Camera_Parameters_Name_Enum.GetOneFrameTimeout, Camera.GetOneFrameTimeout(Frame_Image.pData_Buffer, (uint)stParam.CurValue, ref Frame_Image.FrameEx_Info, _Timeout)))
+                    {
+                        //StopGrabbing(_CameraInfo);
+                        Camera.ClearImageBuffer();
+                        return Frame_Image;
+                    }
+
+
+
+                }
+                catch (Exception _e)
+                {
+
+                    throw new Exception("相机设备获取图像数据失败！" + " 原因：" + _e.Message);
+                }
+
+                return new MVS_Image_Mode();
+
+
+            }
+
+
+
+
+            /// <summary>
+            /// 相机开始取流方法
+            /// </summary>
+            /// <returns></returns>
+            public void StartGrabbing()
+            {
+
+
+                try
+                {
+
+                    Set_Camera_Val(Camera_Parameters_Name_Enum.StartGrabbing, Camera.StartGrabbing());
+
+                }
+                catch (Exception _e)
+                {
+
+                    throw new Exception("相机取流失败！原因 ：" + _e.Message);
+                }
+
+            }
+
+
+
+            /// <summary>
+            /// 相机停止取流
+            /// </summary>
+            /// <returns></returns>
+            public void StopGrabbing()
+            {
+
+
+                try
+                {
+
+
+                    Set_Camera_Val(Camera_Parameters_Name_Enum.StopGrabbing, Camera.StopGrabbing());
+
+                    //清空回调
+                    Set_Camera_Val(Camera_Parameters_Name_Enum.RegisterImageCallBackEx, Camera.RegisterImageCallBackEx(null, IntPtr.Zero));
+
+                }
+                catch (Exception _e)
+                {
+
+                    throw new Exception("相机停止取流失败！原因 ：" + _e.Message);
+                }
+
+
+                //停止取流
+
+            }
+
+            /// <summary>
+            /// 利用反射设置相机属性参数
+            /// </summary>
+            /// <param name="_Val_Type"></param>
+            /// <param name="_name"></param>
+            /// <param name="_val"></param>
+            private bool Set_Camera_Parameters_Val(CCamera _Camera, PropertyInfo _Val_Type, string _name, object _val)
+            {
+                //初始化设置相机状态
+                bool _Parameters_Type = false;
+
+                //对遍历参数类型分类
+                switch (_Val_Type.PropertyType)
+                {
+                    case Type _T when _T.BaseType == typeof(Enum):
+
+                        //设置相机参数
+                        _Parameters_Type = Set_Camera_Val(_Val_Type, _Camera.SetEnumValue(_name, Convert.ToUInt32(_val)));
+
+
+
+
+                        break;
+                    case Type _T when _T == typeof(Int32):
+
+                        //设置相机参数
+                        _Parameters_Type = Set_Camera_Val(_Val_Type, _Camera.SetIntValue(_name, (int)_val));
+
+
+                        break;
+                    case Type _T when _T == typeof(double):
+                        //设置相机参数
+                        _Parameters_Type = Set_Camera_Val(_Val_Type, _Camera.SetFloatValue(_name, Convert.ToSingle(_val)));
+
+
+                        break;
+
+                    case Type _T when _T == typeof(string):
+                        //设置相机参数
+                        _Parameters_Type = Set_Camera_Val(_Val_Type, _Camera.SetStringValue(_name, _val.ToString()));
+
+
+                        break;
+                    case Type _T when _T == typeof(bool):
+                        //设置相机参数
+                        _Parameters_Type = Set_Camera_Val(_Val_Type, _Camera.SetBoolValue(_name, (bool)_val));
+
+
+                        break;
+                }
+
+                return _Parameters_Type;
+
+            }
+
+
+
+
+            /// <summary>
+            /// 利用反射设置相机属性参数
+            /// </summary>
+            /// <param name="_Val_Type"></param>
+            /// <param name="_name"></param>
+            /// <param name="_val"></param>
+            public MPR_Status_Model Get_Camera_Info_Val(CCamera _Camera, PropertyInfo _Val_Type, string _name, ref object _Value)
+            {
+                //初始化设置相机状态
+                bool _Parameters_Type = false;
+
+
+                //对遍历参数类型分类
+                switch (_Val_Type.PropertyType)
+                {
+                    case Type _T when _T.BaseType == typeof(Enum):
+
+                        CEnumValue _EnumValue = new CEnumValue();
+
+                        //设置相机参数
+                        _Parameters_Type = Get_Camera_Val(_Val_Type, _Camera.GetEnumValue(_name, ref _EnumValue));
+
+
+
+
+                        _Value = _EnumValue.CurValue;
+                        _Value = Enum.Parse(_T, _EnumValue.CurValue.ToString());
+                        break;
+                    case Type _T when _T == typeof(Int32):
+
+                        CIntValue _IntValue = new CIntValue();
+
+
+                        //设置相机参数
+                        _Parameters_Type = Get_Camera_Val(_Val_Type, _Camera.GetIntValue(_name, ref _IntValue));
+                        _Value = (int)_IntValue.CurValue;
+
+
+                        //IP地址提取方法
+                        //var b = (_IntValue.CurValue) >> 24;
+                        //var bb = (_IntValue.CurValue) >> 16;
+                        //var bbb = (_IntValue.CurValue & 0x0000FF00) >> 8;
+                        //var bbbb = _IntValue.CurValue & 0x000000FF;
+
+                        break;
+                    case Type _T when _T == typeof(double):
+                        //设置相机参数
+                        CFloatValue _DoubleValue = new CFloatValue();
+
+
+
+                        _Parameters_Type = Get_Camera_Val(_Val_Type, _Camera.GetFloatValue(_name, ref _DoubleValue));
+                        _Value = _DoubleValue.CurValue;
+
+
+                        break;
+
+                    case Type _T when _T == typeof(string):
+                        //设置相机参数
+
+                        CStringValue _StringValue = new CStringValue();
+
+                        _Parameters_Type = Get_Camera_Val(_Val_Type, _Camera.GetStringValue(_name, ref _StringValue));
+
+                        _Value = _StringValue.CurValue;
+
+
+                        break;
+                    case Type _T when _T == typeof(bool):
+                        //设置相机参数
+
+                        bool _BoolValue = false;
+
+                        _Parameters_Type = Get_Camera_Val(_Val_Type, _Camera.GetBoolValue(_name, ref _BoolValue));
+
+                        _Value = _BoolValue;
+
+                        break;
+                }
+
+                if (_Parameters_Type)
+                {
+                    return new MPR_Status_Model(MVE_Result_Enum.Run_OK) { Result_Error_Info = "获取相机参数名：" + _name + " 数值：" + _Value + " 成功！" };
+                }
+                else
+                {
+                    return new MPR_Status_Model(MVE_Result_Enum.获得相机参数设置错误) { Result_Error_Info = "_参数名：" + _name + "数值：" + _Value };
+                }
+
+
+
+            }
+
+            /// <summary>
+            ///  设置参数相机状态码委托返回显示
+            /// </summary>
+            /// <param name="_name">相机参数名称枚举</param>
+            /// <param name="_key">相机状态码</param>
+            public static bool Set_Camera_Val<T1, T2>(T1 _name, T2 _key)
+            {
+                var aa = _name.GetType();
+
+
+                //不同名称类型分别处理
+                switch (_name)
+                {
+                    case T1 _ when _name is Camera_Parameters_Name_Enum:
+
+
+
+                        Enum _Ename = _name as Enum;
+
+
+                        switch (_key)
+                        {
+                            case T2 _ when _key is int Tint:
+                                //创建失败方法
+                                if (CErrorDefine.MV_OK != Tint)
+                                {
+                                    MPR_Status_Model.MVS_ErrorInfo_delegate("参数 : " + _name + " | 数值 : " + _Ename.GetStringValue());
+                                    return false;
+                                }
+
+                                break;
+                            case T2 _ when _key is bool Tbool:
+                                //创建失败方法
+                                if (false == Tbool)
+                                {
+                                    MPR_Status_Model.MVS_ErrorInfo_delegate("参数 : " + _name + " | 数值 : " + _Ename.GetStringValue());
+                                    return false;
+                                }
+
+                                break;
+
+                        }
+
+
+
+                        break;
+
+
+                    case T1 _ when _name is PropertyInfo:
+
+
+
+                        PropertyInfo _Tname = _name as PropertyInfo;
+
+                        StringValueAttribute _ErrorInfo = (StringValueAttribute)_Tname.GetCustomAttribute(typeof(StringValueAttribute));
+
+                        switch (_key)
+                        {
+                            case T2 _ when _key is int Tint:
+                                //创建失败方法
+                                if (CErrorDefine.MV_OK != Tint)
+                                {
+                                    var a = (StringValueAttribute)_Tname.GetCustomAttribute(typeof(StringValueAttribute));
+
+                                    MPR_Status_Model.MVS_ErrorInfo_delegate("参数 : " + _Tname.Name + " | 数值 : " + _ErrorInfo.StringValue);
+                                    return false;
+                                }
+
+                                break;
+                            case T2 _ when _key is bool Tbool:
+                                //创建失败方法
+                                if (false == Tbool)
+                                {
+                                    var a = (StringValueAttribute)_Tname.GetCustomAttribute(typeof(StringValueAttribute));
+
+                                    MPR_Status_Model.MVS_ErrorInfo_delegate("参数 : " + _Tname.Name + " | 数值 : " + _ErrorInfo.StringValue);
+                                    return false;
+                                }
+
+                                break;
+
+                        }
+
+
+
+
+
+                        break;
+                }
+
+
+                return true;
+
+
+            }
+
+
+
+            /// <summary>
+            /// 读取相机参数方法
+            /// </summary>
+            /// <typeparam name="T1"></typeparam>
+            /// <typeparam name="T2"></typeparam>
+            /// <param name="_name"></param>
+            /// <param name="_key"></param>
+            /// <returns></returns>
+            public static bool Get_Camera_Val<T1, T2>(T1 _name, T2 _key)
+            {
+
+                if (_name is PropertyInfo _Tname)
+                {
+
+
+
+                    StringValueAttribute _ErrorInfo = (StringValueAttribute)_Tname.GetCustomAttribute(typeof(StringValueAttribute));
+
+                    switch (_key)
+                    {
+                        case T2 _ when _key is int Tint:
+                            //创建失败方法
+                            if (CErrorDefine.MV_OK != Tint)
+                            {
+                                var a = (StringValueAttribute)_Tname.GetCustomAttribute(typeof(StringValueAttribute));
+
+                                MPR_Status_Model.MVS_ErrorInfo_delegate("参数 : " + _Tname.Name + " | 数值 : " + _ErrorInfo.StringValue);
+                                return false;
+                            }
+
+                            break;
+                        case T2 _ when _key is bool Tbool:
+                            //创建失败方法
+                            if (false == Tbool)
+                            {
+                                var a = (StringValueAttribute)_Tname.GetCustomAttribute(typeof(StringValueAttribute));
+
+                                MPR_Status_Model.MVS_ErrorInfo_delegate("参数 : " + _Tname.Name + " | 数值 : " + _ErrorInfo.StringValue);
+                                return false;
+                            }
+
+                            break;
+
+                    }
+
+                    return true;
+                }
+
+
+
+
+                return false;
+            }
+
+
+
+
+            /// <summary>
+            /// 连接相机
+            /// </summary>
+            /// <returns></returns>
+            public void Connect_Camera()
+            {
+
+
+                try
+                {
+
+
+
+                    //打开相机
+                    Open_Camera();
+
+
+                    MVS_Camera_Parameter_Model _Parameter = new MVS_Camera_Parameter_Model();
+
+
+                    //获得相机属性
+                    Get_Camrea_Parameters();
+
+                    //获得图像最大像素
+                    Camera_Info.HeightMax = _Parameter.HeightMax;
+                    Camera_Info.WidthMax = _Parameter.WidthMax;
+
+                    if (Camera_Calibration.Camera_Calibration_State == Camera_Calibration_File_Type_Enum.无标定)
+                    {
+                        Camera_Calibration.Camera_Calibration_Paramteters.Image_Width = _Parameter.WidthMax;
+                        Camera_Calibration.Camera_Calibration_Paramteters.Image_Height = _Parameter.HeightMax;
+                        Camera_Calibration.Camera_Calibration_Paramteters.Cx = _Parameter.WidthMax * 0.5;
+                        Camera_Calibration.Camera_Calibration_Paramteters.Cy = _Parameter.HeightMax * 0.5;
+                    }
+
+                    //标记相机连接成功
+                    Camer_Status = MV_CAM_Device_Status_Enum.Connecting;
+
+
+
+
+
+                }
+                catch (Exception _e)
+                {
+                    Close_Camera();
+
+                    throw new Exception("相机连接失败原因 ：" + _e);
+
+                }
+
+
+
+
+            }
+
+
+            /// <summary>
+            /// 打开相机列表中的对应数好
+            /// </summary>
+            /// <param name="_Camera_Number"></param>
+            public void Open_Camera()
+            {
+
+
+
+
+
+                //创建相机
+                if (Set_Camera_Val(Camera_Parameters_Name_Enum.CreateHandle, Camera.CreateHandle(ref MVS_CameraInfo)) != true)
+                {
+                    throw new Exception("创建相机句柄失败！");
+
+                    //return new MPR_Status_Model(MVE_Result_Enum.创建相机句柄失败);
+                }
+
+
+                //打开相机
+                if (Set_Camera_Val(Camera_Parameters_Name_Enum.OpenDevice, Camera.OpenDevice()) != true)
+                {
+                    throw new Exception("打开相机失败！");
+
+                    //return new MPR_Status_Model(MVE_Result_Enum.打开相机失败);
+                }
+
+
+                //打开相机失败返回值
+                //return new MPR_Status_Model(MVE_Result_Enum.Run_OK) { Result_Error_Info = _CameraInfo.Camera_Info.SerialNumber + "相机打开成功！" };
+
+
+            }
+
+
+
+
+            /// <summary>
+            /// 关闭相机
+            /// </summary>
+            /// <returns></returns>
+            public void Close_Camera()
+            {
+                //if (_Select_Camera != null)
+                //{
+
+                //关闭相机
+                Camera.CloseDevice();
+                Camera.DestroyHandle();
+                Camer_Status = MV_CAM_Device_Status_Enum.Null;
+
+                //return new MPR_Status_Model(MVE_Result_Enum.关闭相机成功) { Result_Error_Info = _Select_Camera.Camera_Info.ModelName };
+                //}
+
+
+                //断开连接后可以再次连接相机
+
+            }
+
+
+
+
+
+
             /// <summary>
             /// 整数IP地址转换字符串
             /// </summary>
@@ -668,8 +1360,12 @@ namespace MVS_SDK_Base.Model
             ///// </summary>
             //public HCamPar HCamera_Param { set; get; } = new HCamPar();
 
-
-            public  bool Get_HCamPar_File()
+            /// <summary>
+            /// 读取相机内参文件
+            /// </summary>
+            /// <returns></returns>
+            /// <exception cref="Exception"></exception>
+            public bool Get_HCamPar_File()
             {
                 try
                 {
@@ -679,10 +1375,10 @@ namespace MVS_SDK_Base.Model
                     if (File.Exists(_File))
                     {
 
-                       
-                        HCamPar _CamP=  new HCamPar();
+
+                        HCamPar _CamP = new HCamPar();
                         _CamP.ReadCamPar(_File);
-                       
+
                         Camera_Calibration.Camera_Calibration_Paramteters = new Halcon_Camera_Calibration_Parameters_Model(_CamP);
                         Camera_Calibration.Camera_Calibration_State = Camera_Calibration_File_Type_Enum.内参标定;
 

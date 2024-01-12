@@ -2064,8 +2064,8 @@ namespace HanGao.ViewModel
 
                     if (_Select_Camera.Camer_Status != MV_CAM_Device_Status_Enum.Connecting)
                     {
-                        MVS.Connect_Camera(_Select_Camera);
-
+                        //MVS.Connect_Camera(_Select_Camera);
+                        _Select_Camera.Connect_Camera();
                     }
 
 
