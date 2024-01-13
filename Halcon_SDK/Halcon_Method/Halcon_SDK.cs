@@ -1413,6 +1413,8 @@ namespace Halcon_SDK_DLL
     }
 
 
+
+
     [AddINotifyPropertyChangedInterface]
     public class Halcon_Method_Model : IDisposable
     {
@@ -1525,13 +1527,13 @@ namespace Halcon_SDK_DLL
         /// <param name="_HWindow"></param>
         /// <param name="_Find_Property"></param>
         /// <returns></returns>
-        public void Halcon_Image_Pre_Processing(HWindow _HWindow, Find_Shape_Based_ModelXld _Find_Property)
+        public HObject Halcon_Image_Pre_Processing( Find_Shape_Based_ModelXld _Find_Property)
         {
-
             HObject _Image = new HObject(_HImage);
+
             try
             {
-                _HWindow.DispObj(_HImage);
+                //_HWindow.DispObj(_HImage);
 
 
                 if (_Find_Property.ScaleImageMax_Enable)
@@ -1543,7 +1545,7 @@ namespace Halcon_SDK_DLL
 
                     if (_Find_Property.ScaleImageMax_Disp)
                     {
-                        _HWindow.DispObj(_HImage);
+                        //_HWindow.DispObj(_HImage);
                     }
                 }
 
@@ -1555,7 +1557,7 @@ namespace Halcon_SDK_DLL
                     HOperatorSet.MedianImage(_HImage, out _HImage, _Find_Property.MaskType_Model.ToString(), _Find_Property.Median_image_Radius, _Find_Property.Margin_Model.ToString());
                     if (_Find_Property.Median_image_Disp)
                     {
-                        _HWindow.DispObj(_HImage);
+                        //_HWindow.DispObj(_HImage);
 
 
                     }
@@ -1572,7 +1574,7 @@ namespace Halcon_SDK_DLL
                     HOperatorSet.MedianRect(_HImage, out _HImage, _Find_Property.MedianRect_MaskWidth, _Find_Property.MedianRect_MaskHeight);
                     if (_Find_Property.MedianRect_Disp)
                     {
-                        _HWindow.DispObj(_HImage);
+                        //_HWindow.DispObj(_HImage);
 
                     }
                 }
@@ -1587,7 +1589,7 @@ namespace Halcon_SDK_DLL
                     HOperatorSet.Illuminate(_HImage, out _HImage, _Find_Property.Illuminate_MaskWidth, _Find_Property.Illuminate_MaskHeight, _Find_Property.Illuminate_Factor);
                     if (_Find_Property.Illuminate_Disp)
                     {
-                        _HWindow.DispObj(_HImage);
+                        //_HWindow.DispObj(_HImage);
                     }
 
                 }
@@ -1602,7 +1604,7 @@ namespace Halcon_SDK_DLL
                     HOperatorSet.Emphasize(_HImage, out _HImage, _Find_Property.Emphasize_MaskWidth, _Find_Property.Emphasize_MaskHeight, _Find_Property.Emphasize_Factor);
                     if (_Find_Property.Emphasize_Disp)
                     {
-                        _HWindow.DispObj(_HImage);
+                        //_HWindow.DispObj(_HImage);
 
 
 
@@ -1617,7 +1619,7 @@ namespace Halcon_SDK_DLL
                     HOperatorSet.GrayOpeningRect(_HImage, out _HImage, _Find_Property.GrayOpeningRect_MaskHeight, _Find_Property.GrayOpeningRect_MaskWidth);
                     if (_Find_Property.GrayOpeningRect_Disp)
                     {
-                        _HWindow.DispObj(_HImage);
+                        //_HWindow.DispObj(_HImage);
 
                     }
                 }
@@ -1630,16 +1632,16 @@ namespace Halcon_SDK_DLL
                     HOperatorSet.GrayClosingRect(_HImage, out _HImage, _Find_Property.GrayClosingRect_MaskHeight, _Find_Property.GrayClosingRect_MaskWidth);
                     if (_Find_Property.GrayClosingRect_Disp)
                     {
-                        _HWindow.DispObj(_HImage);
+                        //_HWindow.DispObj(_HImage);
 
                     }
                 }
 
 
-
+                return _Image;
                 //_Image = _HImage.CopyObj(1, -1);
                 //_HImage.Dispose();
-                GC.Collect();
+                //GC.Collect();
 
                 //return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "图像预处理完成！" };
 
@@ -1660,69 +1662,13 @@ namespace Halcon_SDK_DLL
 
 
 
+            return _Image;
 
 
         }
 
 
 
-        /// <summary>
-        /// 所有xld类型集合一起
-        /// </summary>
-        /// <param name="_All_XLD"></param>
-        /// <param name="_Window"></param>
-        /// <param name="_XLD_List"></param>
-        /// <returns></returns>
-        public HPR_Status_Model<bool> Group_All_XLD(HWindow _Window, List<HObject> _XLD_List)
-        {
-
-
-
-            HOperatorSet.GenEmptyObj(out _ModelsXld);
-            try
-            {
-
-
-                if (_XLD_List.Count > 1)
-                {
-
-
-                    foreach (HObject _Xld in _XLD_List)
-                    {
-
-                        HOperatorSet.ConcatObj(_ModelsXld, _Xld, out _ModelsXld);
-
-
-                    }
-
-
-                    //设置显示图像颜色
-                    HOperatorSet.SetColor(_Window, nameof(KnownColor.Green).ToLower());
-                    HOperatorSet.SetLineWidth(_Window, 3);
-
-                    //把线段显示到控件窗口
-                    HOperatorSet.DispXld(_ModelsXld, _Window);
-
-                    return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "XLD类型全部集合成功！" };
-                }
-                else
-                {
-                    return new HPR_Status_Model<bool>(HVE_Result_Enum.XLD数据集合不足1组以上);
-
-                }
-
-            }
-            catch (Exception e)
-            {
-
-                return new HPR_Status_Model<bool>(HVE_Result_Enum.XLD数据集合创建失败) { Result_Error_Info = e.Message };
-            }
-            finally
-            {
-                //_ModelsXld.Dispose();
-            }
-
-        }
 
         /// <summary>
         /// 根据模型类型获得模型文件地址

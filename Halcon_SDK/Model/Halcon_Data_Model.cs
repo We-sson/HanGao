@@ -1,6 +1,7 @@
 ﻿using HalconDotNet;
 
 using PropertyChanged;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
@@ -61,7 +62,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 模型位置单位：M
             /// </summary>
-            public HPose? _PoseIn { set; get; } 
+            public HPose? _PoseIn { set; get; }
             //public HTuple _PoseOut { set; get; } = new HTuple();
             //public HTuple _GenParamName { set; get; } = new HTuple();
             //public HTuple _GenParamValue { set; get; } = new HTuple();
@@ -103,7 +104,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 图像显示位置Halcon控件
             /// </summary>
-            public HWindow? Image_Show_Halcon ;
+            public HWindow? Image_Show_Halcon;
         }
 
         /// <summary>
@@ -975,7 +976,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 模型文件
         /// </summary>
-        public FileInfo? Match_File { set; get; } 
+        public FileInfo? Match_File { set; get; }
         /// <summary>
         /// 模型区域
         /// </summary>
@@ -1049,7 +1050,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 运行错误详细信息
         /// </summary>
-        private string _Result_Error_Info=string.Empty;
+        private string _Result_Error_Info = string.Empty;
 
 
         public string Result_Error_Info
@@ -1070,7 +1071,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 结果值
         /// </summary>
-        public T1? ResultVal { set; get; } 
+        public T1? ResultVal { set; get; }
 
         /// <summary>
         /// 获得算法运行状态
@@ -1713,8 +1714,94 @@ namespace Halcon_SDK_DLL.Model
 
     }
 
+    /// <summary>
+    /// 创建模型类型显示属性
+    /// </summary>
+    [AddINotifyPropertyChangedInterface]
+    public class Shape_Model_Group_Model
+    {
+        /// <summary>
+        /// 模型是否可读取
+        /// </summary>
+        public bool IsRead { set; get; } = false;
+        /// <summary>
+        /// 模型是否创建
+        /// </summary>
+        public bool IsEnable { set; get; } = true;
+        /// <summary>
+        /// 模型类型
+        /// </summary>
+        public Shape_Based_Model_Enum Shape_Based_Model { set; get; }
+    }
+    /// <summary>
+    /// 模型文件参数属性
+    /// </summary>
+    [AddINotifyPropertyChangedInterface]
+    public class Shape_File_UI_Model
+    {
+        /// <summary>
+        /// 模型文件id号
+        /// </summary>
+        public int File_ID { set; get; } = -1;
+        /// <summary>
+        /// 45区域是否可读属性
+        /// </summary>
+        public bool IsRead_F45 { set; get; } = false;
+        /// <summary>
+        /// 135区域是否可读属性
+        /// </summary>
+        public bool IsRead_F135 { set; get; } = false;
+        /// <summary>
+        /// 225区域是否可读属性
+        /// </summary>
+        public bool IsRead_F225 { set; get; } = false;
+        /// <summary>
+        /// 315区域是否可读属性
+        /// </summary>
+        public bool IsRead_F315 { set; get; } = false;
+    }
+    /// <summary>
+    /// 选择模型序号显示详细信息
+    /// </summary>
+    [AddINotifyPropertyChangedInterface]
+    public class Shape_FileFull_UI_Model
+    {
+        public string File_Name { set; get; } = string.Empty;
+        public string File_Directory { set; get; } = Environment.CurrentDirectory + "\\ShapeModel";
+    }
+    /// <summary>
+    /// 画画类型枚举
+    /// </summary>
+    public enum Drawing_Type_Enme
+    {
+        [Description("直线")]
+        Draw_Lin,
+        [Description("圆弧")]
+        Draw_Cir,
+        [Description("完成")]
 
+        Draw_Ok
+    }
 
+    /// <summary>
+    /// 创建模板画画模型
+    /// </summary>
+    [AddINotifyPropertyChangedInterface]
+    public class Vision_Create_Model_Drawing_Model
+    {
+        /// <summary>
+        ///绘图_类型
+        /// </summary>
+        public Drawing_Type_Enme Drawing_Type { set; get; } = new Drawing_Type_Enme();
+        /// <summary>
+        /// 绘画数据
+        /// </summary>
+        public ObservableCollection<Point3D> Drawing_Data { set; get; } = new ObservableCollection<Point3D>();
+        /// <summary>
+        /// 数据计算xld类型存放
+        /// </summary>
+        public HObject User_XLD { set; get; } = new HObject();
+    }
 
     [AddINotifyPropertyChangedInterface]
     public class Calibration_Image_Camera_Model : IDisposable
@@ -1736,7 +1823,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 标定图像
         /// </summary>
-        public HObject? Calibration_Image { set; get; } 
+        public HObject? Calibration_Image { set; get; }
 
 
         /// <summary>
@@ -1912,26 +1999,33 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 一般形状匹配模板
         /// </summary>
+        /// 
+        [Description("一般形状模板")]
         shape_model,
         /// <summary>
         /// 线性变形匹配模板
         /// </summary>
+        [Description("线性变形匹配模板")]
         planar_deformable_model,
         /// <summary>
         /// 局部可变形模板
         /// </summary>
+        [Description("局部可变形模板")]
         local_deformable_model,
         /// <summary>
         /// 和比例缩放模板
         /// </summary>
+        [Description("比例缩放模板")]
         Scale_model,
         /// <summary>
         /// 相关性匹配模板
         /// </summary>
+        [Description("相关性匹配模板")]
         Ncc_Model,
         /// <summary>
         /// Halcon通用保存格式
         /// </summary>
+        [Description("通用保存格式")]
         Halcon_DXF
     }
     public enum FilePath_Type_Model_Enum
@@ -1950,9 +2044,13 @@ namespace Halcon_SDK_DLL.Model
     /// </summary>
     public enum ShapeModel_Name_Enum
     {
+        [Description("区域 1")]
         F_45,
+        [Description("区域 2")]
         F_135,
+        [Description("区域 3")]
         F_225,
+        [Description("区域 4")]
         F_315
     }
     /// <summary>
@@ -1971,12 +2069,19 @@ namespace Halcon_SDK_DLL.Model
     /// </summary>
     public enum Optimization_Enum
     {
+        [Description("自动")]
         auto,
+        [Description("不预生成")]
         no_pregeneration,
+        [Description("无")]
         none,
+        [Description("生成点数减少高")]
         point_reduction_high,
+        [Description("生成点数减少底")]
         point_reduction_low,
+        [Description("生成点数减少中")]
         point_reduction_medium,
+        [Description("预生成")]
         pregeneration
     }
     /// <summary>
@@ -1984,9 +2089,13 @@ namespace Halcon_SDK_DLL.Model
     /// </summary>
     public enum Metric_Enum
     {
+        [Description("忽略颜色极性")]
         ignore_color_polarity,
+        [Description("忽略全局极性")]
         ignore_global_polarity,
+        [Description("忽略本地极性")]
         ignore_local_polarity,
+        [Description("使用极性")]
         use_polarity
     }
     /// <summary>
@@ -1994,10 +2103,15 @@ namespace Halcon_SDK_DLL.Model
     /// </summary>
     public enum Subpixel_Values_Enum
     {
+        [Description("无")]
         none,
+        [Description("插值")]
         interpolation,
+        [Description("最小二乘法")]
         least_squares,
+        [Description("最小二乘法高")]
         least_squares_high,
+        [Description("最小二乘法非常高")]
         least_squares_very_high,
     }
     /// <summary>
@@ -2009,6 +2123,11 @@ namespace Halcon_SDK_DLL.Model
         图像采集,
         触发采集
     }
+
+
+
+
+
     public enum HFIle_Type_Enum
     {
         /// <summary>

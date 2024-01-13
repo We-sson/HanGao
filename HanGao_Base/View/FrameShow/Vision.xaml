@@ -3,7 +3,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Charts="clr-namespace:HanGao.View.User_Control.Live_Chart"
-             xmlns:Enum="clr-namespace:Halcon_SDK_DLL.WPF_Converter;assembly=Halcon_SDK_DLL"
+             xmlns:Enum_Converter="clr-namespace:Halcon_SDK_DLL.WPF_Converter;assembly=Halcon_SDK_DLL"
              xmlns:Halcon="http://schemas.mvtec.com/halcondotnet"
              xmlns:Halcon_Enum="clr-namespace:Halcon_SDK_DLL.Model;assembly=Halcon_SDK_DLL"
              xmlns:MVS="clr-namespace:MvCamCtrl.NET.CameraParams;assembly=MvCamCtrl.Net"
@@ -15,17 +15,41 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:HanGao.View.FrameShow"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              d:DesignHeight="832"
              d:DesignWidth="1440"
              DataContext="{Binding UC_Visal_Function_VM, Source={StaticResource Locator}}"
              mc:Ignorable="d">
     <UserControl.Resources>
 
-        <Enum:Halcon_StringConverter x:Key="Halcon_StringConverter" />
-        <Enum:Halcon_EnumConverter x:Key="Halcon_EnumConverter" />
-
+        <Enum_Converter:Halcon_StringConverter x:Key="Halcon_StringConverter" />
+        <Enum_Converter:Halcon_EnumConverter x:Key="Halcon_EnumConverter" />
+        <Enum_Converter:EnumDescriptionConverter x:Key="Enum_DescriptionConverter" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
+
+
+        <ObjectDataProvider x:Key="ShapeModel_Name_Enum_Model"
+                            MethodName="GetValues"
+                            ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="Halcon_Enum:ShapeModel_Name_Enum" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="Metric_Enum_Model"
+                            MethodName="GetValues"
+                            ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="Halcon_Enum:Metric_Enum" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="Shape_Based_Model_Enum"
+                            MethodName="GetValues"
+                            ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="Halcon_Enum:Shape_Based_Model_Enum" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
         <DataTemplate x:Key="Result_ListViewItemTemplate">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="{Binding}"
@@ -1197,6 +1221,7 @@
                             </CheckBox>
                         </RadioButton>
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Create_Model" Grid.Row=" 2"
+                                     IsChecked="True"
                                      Margin="4"
                                      HorizontalContentAlignment="Stretch"
                                      VerticalContentAlignment="Stretch"
@@ -2509,11 +2534,11 @@
 
             </Grid>
 
-            <Grid Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Point_Calibration}">
+            <Grid Width="330" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Point_Calibration}">
 
                 <!--<Vision_Control:UC_Vision_Point_Calibration Width="330" />-->
             </Grid>
-            <Grid Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Create_Model}">
+            <Grid Width="330" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Create_Model}">
 
                 <!--<Vision_Control:UC_Vision_Create_Template Width="330" />-->
 
@@ -2673,7 +2698,6 @@
 
 
                                             <Openfile:UC_Open_File Grid.Column=" 1"
-                                                                   DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_Create_Template_ViewMode}"
                                                                    File_Filter="图片文件|*.jpg;*.gif;*.bmp;*.png;*.tif;*.tiff;*.gif;*.bmp;*.jpg;*.jpeg;*.jp2;*.png;*.pcx;*.pgm;*.ppm;*.pbm;*.xwd;*.ima;*.hobj;"
                                                                    File_Log="{Binding Image_Location_UI, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                    File_Model="File" />
@@ -3119,57 +3143,21 @@
                                                       BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                       BorderThickness="2"
                                                       IsSynchronizedWithCurrentItem="True"
-                                                      SelectedIndex="{Binding Halcon_Create_Shape_ModelXld_UI.Shape_Based_Model, ConverterParameter={x:Type Halcon_Enum:Shape_Based_Model_Enum}, Converter={StaticResource Halcon_EnumConverter}}">
-                                                <ComboBoxItem>
-                                                    <TextBlock Text="一般形状匹配参数"
-                                                               TextWrapping="Wrap"
-                                                               Padding="0,4,0,4"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="14"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
-                                                <ComboBoxItem>
+                                                      ItemsSource="{Binding Source={StaticResource Shape_Based_Model_Enum}}"
+                                                      SelectedValue="{Binding Halcon_Create_Shape_ModelXld_UI.Shape_Based_Model}">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
+                                                                   TextWrapping="Wrap"
+                                                                   Padding="0,4,0,4"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="14"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                   TextTrimming="CharacterEllipsis" />
 
-                                                    <TextBlock Text="线性变形匹配参数"
-                                                               TextWrapping="Wrap"
-                                                               Padding="0,4,0,4"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="14"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
-                                                <ComboBoxItem>
 
-                                                    <TextBlock Text="局部变形匹配参数"
-                                                               TextWrapping="Wrap"
-                                                               Padding="0,4,0,4"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="14"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
-                                                <ComboBoxItem>
-
-                                                    <TextBlock Text="比例缩放匹配参数"
-                                                               TextWrapping="Wrap"
-                                                               Padding="0,4,0,4"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="14"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
-                                                <ComboBoxItem>
-
-                                                    <TextBlock Style="{DynamicResource ComboBox_TextBlok_Style}"
-                                                               Text="相关性匹配参数"
-                                                               TextWrapping="Wrap"
-                                                               Padding="0,4,0,4"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="14"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
                                             </ComboBox>
 
                                         </Grid>
@@ -3981,47 +3969,21 @@
                                                       BorderThickness="2"
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
-                                                      SelectedIndex="{Binding Halcon_Create_Shape_ModelXld_UI.Metric, ConverterParameter={x:Type Halcon_Enum:Metric_Enum}, Converter={StaticResource Halcon_EnumConverter}}">
-                                                <ComboBoxItem>
+                                                      ItemsSource="{Binding Source={StaticResource Metric_Enum_Model}}"
+                                                      SelectedValue="{Binding Halcon_Create_Shape_ModelXld_UI.Metric}">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
+                                                                   TextWrapping="Wrap"
+                                                                   Padding="0,4,0,4"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="14"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                   TextTrimming="CharacterEllipsis" />
 
-                                                    <TextBlock Text="ignore_color_polarity"
-                                                               TextWrapping="Wrap"
-                                                               Padding="0,4,0,4"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="16"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
-                                                <ComboBoxItem>
 
-                                                    <TextBlock Text="ignore_global_polarity"
-                                                               TextWrapping="Wrap"
-                                                               Padding="0,4,0,4"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="16"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
-                                                <ComboBoxItem>
-
-                                                    <TextBlock Text="ignore_local_polarity"
-                                                               TextWrapping="Wrap"
-                                                               Padding="0,4,0,4"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="16"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
-                                                <ComboBoxItem>
-
-                                                    <TextBlock Text="use_polarity"
-                                                               TextWrapping="Wrap"
-                                                               Padding="0,4,0,4"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="16"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
 
                                             </ComboBox>
 
@@ -4190,64 +4152,6 @@
                                                                    File_Log="{Binding ShapeModel_Location, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                    File_Model="Folder" />
 
-                                            <!--<Border Grid.Column=" 1" BorderThickness="1.5">
-                                    <Border.Style>
-                                        <Style TargetType="{x:Type Border}">
-                                            <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Text, ElementName=ST1}" Value="">
-                                                    <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_红颜色}" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Border.Style>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition />
-                                            <ColumnDefinition Width="auto" />
-                                        </Grid.ColumnDefinitions>
-
-
-
-
-                                        <TextBox x:Name="ST1" Grid.Column=" 0"
-                                                 Text="{Binding ShapeModel_Location}"
-                                                 TextWrapping="Wrap"
-                                                 Margin="6,6,0,6"
-                                                 HorizontalAlignment="Left"
-                                                 VerticalAlignment="Center"
-                                                 Background="Transparent"
-                                                 BorderThickness="0"
-                                                 FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                 FontSize="16"
-                                                 Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
-
-                                        <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
-                                                Margin="8,4,8,4"
-                                                HorizontalAlignment="Right"
-                                                Background="Transparent"
-                                                BorderThickness="0">
-                                            <i:Interaction.Triggers>
-
-                                                <i:EventTrigger EventName="Click">
-                                                    <i:InvokeCommandAction Command="{Binding ShapeModel_Location_Comm}"
-                                                                           CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}"
-                                                                           PassEventArgsToCommand="True" />
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
-                                            <Image Height="24"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Effect="{DynamicResource 全局背景阴影}"
-                                                   Source="/Resources/Vision_文件夹_ioc.png" />
-                                        </Button>
-
-
-                                    </Grid>
-                                </Border>-->
-
-
 
                                         </Grid>
 
@@ -4301,49 +4205,21 @@
                                                       BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                       BorderThickness="2"
                                                       IsSynchronizedWithCurrentItem="True"
-                                                      SelectedIndex="{Binding Halcon_Create_Shape_ModelXld_UI.ShapeModel_Name, ConverterParameter={x:Type Halcon_Enum:ShapeModel_Name_Enum}, Converter={StaticResource Halcon_EnumConverter}}">
-                                                <ComboBoxItem>
+                                                      ItemsSource="{Binding Source={StaticResource ShapeModel_Name_Enum_Model}}"
+                                                      SelectedValue="{Binding Halcon_Create_Shape_ModelXld_UI.ShapeModel_Name}">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
+                                                                   TextWrapping="Wrap"
+                                                                   Padding="0,4,0,4"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="14"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                   TextTrimming="CharacterEllipsis" />
 
-                                                    <TextBlock Text="F_45"
-                                                               TextWrapping="Wrap"
-                                                               Padding="0,4,0,4"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="14"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
 
-
-                                                <ComboBoxItem>
-
-                                                    <TextBlock Text="F_135"
-                                                               TextWrapping="Wrap"
-                                                               Padding="0,4,0,4"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="14"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
-                                                <ComboBoxItem>
-
-                                                    <TextBlock Text="F_225"
-                                                               TextWrapping="Wrap"
-                                                               Padding="0,4,0,4"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="14"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
-                                                <ComboBoxItem>
-
-                                                    <TextBlock Text="F_315"
-                                                               TextWrapping="Wrap"
-                                                               Padding="0,4,0,4"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="14"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
                                             </ComboBox>
 
 
@@ -6968,7 +6844,7 @@
 
             </Grid>
 
-            <Grid Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Auto_Model}">
+            <Grid Width="330" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Auto_Model}">
 
                 <!--<Vision_Control:UC_Vision_Auto_Model Width="330" />-->
 
@@ -7543,7 +7419,7 @@
 
             </Grid>
 
-            <Grid Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Robot_Model}">
+            <Grid Width="330" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Robot_Model}">
 
                 <!--<Vision_Control:UC_Vision_Robot_Protocol Width="330" />-->
 

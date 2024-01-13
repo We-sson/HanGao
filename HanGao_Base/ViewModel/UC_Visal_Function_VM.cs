@@ -1,4 +1,5 @@
-﻿using HanGao.View.User_Control.Vision_Control;
+﻿using Halcon_SDK_DLL.Halcon_Method;
+using HanGao.View.User_Control.Vision_Control;
 using HanGao.View.User_Control.Vision_hand_eye_Calibration;
 using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
 using Microsoft.Win32;
@@ -438,19 +439,32 @@ namespace HanGao.ViewModel
         /// 模型文件UI显示集合
         /// </summary>
         public ObservableCollection<FileInfo> Shape_FileFull_UI { set; get; } = new ObservableCollection<FileInfo>() { };
-        private static ObservableCollection<Vision_Create_Model_Drawing_Model> Drawing_Data_List_M { get; set; } = new ObservableCollection<Vision_Create_Model_Drawing_Model>();
+
+
+        public Halcon_Shape_Mode_SDK Halcon_Shape_Mode_List { set; get; } = new Halcon_Shape_Mode_SDK();
+
+
+
+
+        //public   ObservableCollection<Vision_Create_Model_Drawing_Model> Drawing_Data_List { get; set; } = new ObservableCollection<Vision_Create_Model_Drawing_Model>();
         /// <summary>
         /// 画画数据列表
         /// </summary>
-        public static ObservableCollection<Vision_Create_Model_Drawing_Model> Drawing_Data_List
-        {
-            get { return Drawing_Data_List_M; }
-            set
-            {
-                Drawing_Data_List_M = value;
-                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Drawing_Data_List)));
-            }
-        }
+        //public static ObservableCollection<Vision_Create_Model_Drawing_Model> Drawing_Data_List
+        //{
+        //    get { return Drawing_Data_List_M; }
+        //    set
+        //    {
+        //        Drawing_Data_List_M = value;
+        //        StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Drawing_Data_List)));
+        //    }
+        //}
+
+
+
+
+
+
         /// <summary>
         /// 静态属性更新通知事件
         /// </summary>
@@ -483,6 +497,11 @@ namespace HanGao.ViewModel
         /// 一般形状模型匹配创建属性
         /// </summary>
         public Create_Shape_Based_ModelXld Halcon_Create_Shape_ModelXld_UI { set; get; } = new Create_Shape_Based_ModelXld();
+
+
+
+
+
         public Find_Shape_Based_ModelXld Halcon_Find_Shape_ModelXld_UI { get; set; } = new Find_Shape_Based_ModelXld();
         /// <summary>
         /// 一般形状模型匹配查找属性
@@ -771,28 +790,37 @@ namespace HanGao.ViewModel
                 //Button Window_UserContol = Sm.Source as Button;
                 HImage _Image = new HImage();
                 Halcon_Method_Model _Halcon = new Halcon_Method_Model();
+
                 Task.Run(() =>
                 {
-                    //判断集合是否有数据
-                    if (Drawing_Data_List.Count > 0)
-                    {
-                        //合并全部xld数据
-                        foreach (var _User_Xld in Drawing_Data_List)
-                        {
-                            //复制xld数据
-                            _Halcon.All_XLd.Add(_User_Xld.User_XLD.CopyObj(1, -1));
-                        }
-                        if (Display_Status(_Halcon.Group_All_XLD(Halcon_Window_Display.Features_Window.HWindow, _Halcon.All_XLd)).GetResult())
-                        {
+                 
+               
+                        ////合并全部xld数据
+                        //foreach (var _User_Xld in Halcon_Shape_Mode_List.Drawing_Data_List)
+                        //{
+                        //    //复制xld数据
+                        //    _Halcon.All_XLd.Add(_User_Xld.User_XLD.CopyObj(1, -1));
+                        //}
+
+
+                             Halcon_Shape_Mode_List.Group_All_XLD();
+
+
                             //限制操作
                             Create_Shape_ModelXld_UI_IsEnable = true;
+
                             //读取图片
                             Get_Image(ref _Image, Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
                             
                                 _Halcon._HImage = new HObject(_Image);
+
+
+
                             //图像预处理
                             _Halcon.Halcon_Image_Pre_Processing(Halcon_Window_Display.Features_Window.HWindow, Halcon_Find_Shape_ModelXld_UI);
                                 
+
+
                                     ///保存创建模型
                                     if (Display_Status(_Halcon.ShapeModel_SaveFile(ShapeModel_Location, Halcon_Create_Shape_ModelXld_UI)).GetResult())
                                     {
@@ -804,8 +832,8 @@ namespace HanGao.ViewModel
                             Create_Shape_ModelXld_UI_IsEnable = false;
                             //清楚使用内存
                             _Halcon.Dispose();
-                        }
-                    }
+                        
+                    
                 });
             });
         }
@@ -1225,7 +1253,7 @@ namespace HanGao.ViewModel
                 ComboBox E = Sm.Source as ComboBox;
                 HImage _Image = new HImage();
                 Get_Image(ref _Image, Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
-                _Image.Dispose();
+                //_Image.Dispose();
                 //await Task.Delay(100);
             });
         }
