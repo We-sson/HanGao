@@ -454,18 +454,5 @@ namespace HanGao.ViewModel
         public Point3D Calibration_Points { get; set; }
         public Point3D Robot_Points { get; set; }
     }
-    /// <summary>
-    /// 视觉坐标标定文件集合
-    /// </summary>
-    [Serializable]
-    [XmlType("Calibration_Data")]
-    public class Calibration_Data_Model
-    {
-        [XmlAttribute]
-        public int Calibration_Model { get; set; }
-        public double Calibration_Long { get; set; }
-        public double Calibration_Width { get; set; }
-        public double Calibration_Down_Distance { get; set; }
-        public double Calibration_Left_Distance { get; set; }
-    }
+
 }

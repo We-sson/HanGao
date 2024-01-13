@@ -1124,7 +1124,77 @@ namespace Halcon_SDK_DLL
 
         }
 
+        public void HWindow_Clear(Window_Show_Name_Enum _Window)
+        {
+            switch (_Window)
+            {
+                case Window_Show_Name_Enum.Live_Window:
 
+                    Live_Window.HWindow.ClearWindow();
+
+                    break;
+                case Window_Show_Name_Enum.Features_Window:
+                    Features_Window.HWindow.ClearWindow();
+
+                    break;
+                case Window_Show_Name_Enum.Results_Window_1:
+                    Results_Window_1.HWindow.ClearWindow();
+
+                    break;
+                case Window_Show_Name_Enum.Results_Window_2:
+                    Results_Window_2.HWindow.ClearWindow();
+
+                    break;
+                case Window_Show_Name_Enum.Results_Window_3:
+                    Results_Window_3.HWindow.ClearWindow();
+
+                    break;
+                case Window_Show_Name_Enum.Results_Window_4:
+
+                    Results_Window_4.HWindow.ClearWindow();
+
+                    break;
+                case Window_Show_Name_Enum.Calibration_Window_1:
+                    Calibration_Window_1.HWindow.ClearWindow();
+
+                    break;
+                case Window_Show_Name_Enum.Calibration_Window_2:
+
+                    Calibration_Window_2.HWindow.ClearWindow();
+
+                    break;
+                case Window_Show_Name_Enum.Calibration_3D_Results:
+
+                    Calibration_3D_Results.HWindow.ClearWindow();
+
+                    break;
+                case Window_Show_Name_Enum.HandEye_Window_1:
+                    HandEye_Window_1.HWindow.ClearWindow();
+
+
+                    break;
+                case Window_Show_Name_Enum.HandEye_Window_2:
+                    HandEye_Window_2.HWindow.ClearWindow();
+
+                    break;
+                case Window_Show_Name_Enum.HandEye_Results_Window_1:
+                    HandEye_Results_Window_1.HWindow.ClearWindow();
+
+
+                    break;
+                case Window_Show_Name_Enum.HandEye_Results_Window_2:
+                    HandEye_Results_Window_2.HWindow.ClearWindow();
+
+                    break;
+                case Window_Show_Name_Enum.HandEye_3DResults:
+                    HandEye_3DResults.HWindow.ClearWindow();
+
+                    break;
+                default:
+                    break;
+            }
+
+        }
 
         /// <summary>
         /// 设置窗口控件显示对象
@@ -1455,7 +1525,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_HWindow"></param>
         /// <param name="_Find_Property"></param>
         /// <returns></returns>
-        public HPR_Status_Model<bool> Halcon_Image_Pre_Processing(HWindow _HWindow, Find_Shape_Based_ModelXld _Find_Property)
+        public void Halcon_Image_Pre_Processing(HWindow _HWindow, Find_Shape_Based_ModelXld _Find_Property)
         {
 
             HObject _Image = new HObject(_HImage);
@@ -1571,14 +1641,15 @@ namespace Halcon_SDK_DLL
                 //_HImage.Dispose();
                 GC.Collect();
 
-                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "图像预处理完成！" };
+                //return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "图像预处理完成！" };
 
 
             }
             catch (Exception e)
             {
 
-                return new HPR_Status_Model<bool>(HVE_Result_Enum.图像预处理错误) { Result_Error_Info = e.Message };
+                new Exception("图像预处理错误！原因：" + e.Message);
+                //return new HPR_Status_Model<bool>(HVE_Result_Enum.图像预处理错误) { Result_Error_Info = e.Message };
 
 
             }
@@ -2251,8 +2322,8 @@ namespace Halcon_SDK_DLL
 
 
                 //图像预处理
-                if (Halcon_Image_Pre_Processing(_HWindow, _Find_Property).GetResult())
-                {
+                Halcon_Image_Pre_Processing(_HWindow, _Find_Property);
+                
 
                     //根据匹配类型进行匹配
                     switch (_Find_Property.Shape_Based_Model)
@@ -2476,7 +2547,7 @@ namespace Halcon_SDK_DLL
                     }
 
 
-                }
+                
 
 
 
@@ -2484,7 +2555,7 @@ namespace Halcon_SDK_DLL
 
                 //if (_Find_Out.FInd_Results)
                 //{
-                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = _Find_Property.Shape_Based_Model + "匹配模型查找成功！" };
+                //return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = _Find_Property.Shape_Based_Model + "匹配模型查找成功！" };
 
                 //}
                 //else

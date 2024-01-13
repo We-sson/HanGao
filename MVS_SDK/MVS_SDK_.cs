@@ -25,7 +25,7 @@ namespace MVS_SDK
 
 
 
-           
+
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace MVS_SDK
 
                         Thread.Sleep(1000);
                     }
-                    catch (Exception _e)
+                    catch (Exception)
                     {
                         //User_Log_Add("查找相机失败！" + _e.Message, Log_Show_Window_Enum.Home);
 
@@ -78,7 +78,7 @@ namespace MVS_SDK
         /// <summary>
         /// 查找相机列表
         /// </summary>
-        public  ObservableCollection<MVS_Camera_Info_Model> MVS_Camera_Info_List { set; get; } = new ObservableCollection<MVS_Camera_Info_Model>();
+        public ObservableCollection<MVS_Camera_Info_Model> MVS_Camera_Info_List { set; get; } = new ObservableCollection<MVS_Camera_Info_Model>();
 
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace MVS_SDK
                 {
 
                     //Application.Current.Dispatcher.Invoke(() => { MVS_Camera_Info_List.Add(new MVS_Camera_Info_Model(_List)); });
-                     MVS_Camera_Info_List.Add(new MVS_Camera_Info_Model(_List));
+                    MVS_Camera_Info_List.Add(new MVS_Camera_Info_Model(_List));
 
                 }
             }
@@ -120,7 +120,7 @@ namespace MVS_SDK
                 {
                     //Application.Current.Dispatcher.Invoke(() => { MVS_Camera_Info_List.Remove(MVS_Camera_Info_List[i]); });
 
-                   MVS_Camera_Info_List.Remove(MVS_Camera_Info_List[i]);
+                    MVS_Camera_Info_List.Remove(MVS_Camera_Info_List[i]);
                     //相机对象删除
                     i--;
                 }
@@ -134,7 +134,7 @@ namespace MVS_SDK
                 if (_Camera.Camer_Status != MV_CAM_Device_Status_Enum.Connecting)
                 {
 
-                    if (MVS.Check_IsDeviceAccessible(_Camera.MVS_CameraInfo))
+                    if (_Camera.Check_IsDeviceAccessible())
                     {
                         _Camera.Camer_Status = MV_CAM_Device_Status_Enum.Null;
                     }
@@ -203,50 +203,6 @@ namespace MVS_SDK
 
 
 
-        /// <summary>
-        /// 设置探测网络最佳包大小(只对GigE相机有效)
-        /// </summary>
-        /// <returns></returns>
-        public static bool Set_Camera_GEGI_GevSCPSPacketSize(MVS_Camera_Info_Model _CameraInfo)
-        {
-
-
-
-
-            if (_CameraInfo.MVS_CameraInfo.nTLayerType == CSystem.MV_GIGE_DEVICE)
-            {
-
-                int nPacketSize = _CameraInfo.Camera.GIGE_GetOptimalPacketSize();
-
-
-
-
-                if (nPacketSize > 0)
-                {
-                    Set_Camera_Val(Camera_Parameters_Name_Enum.GIGE_GetOptimalPacketSize, CErrorDefine.MV_OK);
-                    Set_Camera_Val(Camera_Parameters_Name_Enum.GevSCPSPacketSize, _CameraInfo.Camera.SetIntValue(nameof(Camera_Parameters_Name_Enum.GevSCPSPacketSize), (uint)nPacketSize));
-                }
-                else
-                {
-                    Set_Camera_Val(Camera_Parameters_Name_Enum.GIGE_GetOptimalPacketSize, CErrorDefine.MV_E_RESOURCE);
-
-                }
-
-
-
-
-            }
-
-
-
-
-
-
-
-
-            return true;
-        }
-
 
 
 
@@ -293,25 +249,7 @@ namespace MVS_SDK
 
         //}
 
-        /// <summary>
-        /// 检查相机列表中选择相机是否可用
-        /// </summary>
-        /// <param name="_Camera_Number"></param>
-        public static bool Check_IsDeviceAccessible(CCameraInfo _CameraInfo)
-        {
 
-            //读取选择相机信息
-            //CameraInfo = Camera_List[_Camera_Number];
-
-
-            //检查相机设备可用情况
-            return CSystem.IsDeviceAccessible(ref _CameraInfo, MV_ACCESS_MODE.MV_ACCESS_EXCLUSIVE);
-
-
-
-
-
-        }
 
 
 
@@ -319,75 +257,56 @@ namespace MVS_SDK
         /// 打开相机列表中的对应数好
         /// </summary>
         /// <param name="_Camera_Number"></param>
-        public static void Open_Camera(MVS_Camera_Info_Model _CameraInfo)
-        {
+        //public static void Open_Camera(MVS_Camera_Info_Model _CameraInfo)
+        //{
 
 
 
 
 
-            //创建相机
-            if (Set_Camera_Val(Camera_Parameters_Name_Enum.CreateHandle, _CameraInfo.Camera.CreateHandle(ref _CameraInfo.MVS_CameraInfo)) != true)
-            {
-                throw new Exception("创建相机句柄失败！");
+        //    //创建相机
+        //    if (Set_Camera_Val(Camera_Parameters_Name_Enum.CreateHandle, _CameraInfo.Camera.CreateHandle(ref _CameraInfo.MVS_CameraInfo)) != true)
+        //    {
+        //        throw new Exception("创建相机句柄失败！");
 
-                //return new MPR_Status_Model(MVE_Result_Enum.创建相机句柄失败);
-            }
-
-
-            //打开相机
-            if (Set_Camera_Val(Camera_Parameters_Name_Enum.OpenDevice, _CameraInfo.Camera.OpenDevice()) != true)
-            {
-                throw new Exception("打开相机失败！");
-
-                //return new MPR_Status_Model(MVE_Result_Enum.打开相机失败);
-            }
+        //        //return new MPR_Status_Model(MVE_Result_Enum.创建相机句柄失败);
+        //    }
 
 
-            //打开相机失败返回值
-            //return new MPR_Status_Model(MVE_Result_Enum.Run_OK) { Result_Error_Info = _CameraInfo.Camera_Info.SerialNumber + "相机打开成功！" };
+        //    //打开相机
+        //    if (Set_Camera_Val(Camera_Parameters_Name_Enum.OpenDevice, _CameraInfo.Camera.OpenDevice()) != true)
+        //    {
+        //        throw new Exception("打开相机失败！");
+
+        //        //return new MPR_Status_Model(MVE_Result_Enum.打开相机失败);
+        //    }
 
 
-        }
+        //    //打开相机失败返回值
+        //    //return new MPR_Status_Model(MVE_Result_Enum.Run_OK) { Result_Error_Info = _CameraInfo.Camera_Info.SerialNumber + "相机打开成功！" };
+
+
+        //}
 
 
         /// <summary>
         /// 关闭相机设备连接
         /// </summary>
         /// <returns></returns>
-        public static bool CloseDevice(MVS_Camera_Info_Model _Camera_Info)
-        {
+        //public static bool CloseDevice(MVS_Camera_Info_Model _Camera_Info)
+        //{
 
 
-            Set_Camera_Val(Camera_Parameters_Name_Enum.CloseDevice, _Camera_Info.Camera.CloseDevice());
+        //    Set_Camera_Val(Camera_Parameters_Name_Enum.CloseDevice, _Camera_Info.Camera.CloseDevice());
 
 
-            return Set_Camera_Val(Camera_Parameters_Name_Enum.DestroyHandle, _Camera_Info.Camera.DestroyHandle());
+        //    return Set_Camera_Val(Camera_Parameters_Name_Enum.DestroyHandle, _Camera_Info.Camera.DestroyHandle());
 
-        }
+        //}
 
 
 
-        /// <summary>
-        /// 设置图像获取委托方法
-        /// </summary>
-        /// <param name="_delegate"></param>
-        /// <returns></returns>
-        public static bool RegisterImageCallBackEx(MVS_Camera_Info_Model _CameraInfo, cbOutputExdelegate _delegate)
-        {
 
-            return Set_Camera_Val(Camera_Parameters_Name_Enum.RegisterImageCallBackEx, _CameraInfo.Camera.RegisterImageCallBackEx(_delegate, IntPtr.Zero));
-
-        }
-
-        public static bool FreeImageBuffer(MVS_Camera_Info_Model _CameraInfo)
-        {
-            CFrameout _Frame = new CFrameout();
-            _CameraInfo.Camera.FreeImageBuffer(ref _Frame);
-
-            return true;
-
-        }
 
 
 
@@ -398,94 +317,73 @@ namespace MVS_SDK
         /// </summary>
         /// <param name="_Result_Status"></param>
         /// <returns></returns>
-        interface Status_log
-        {
+        //interface Status_log
+        //{
 
-            //User_Log_Add(_Result_Status.GetResult_Info());
+        //    //User_Log_Add(_Result_Status.GetResult_Info());
 
 
 
-        }
+        //}
 
         /// <summary>
         /// 获得海康算法状态显示UI
         /// </summary>
         /// <param name="_Result_Status"></param>
         /// <returns></returns>
-        public  MPR_Status_Model Display_Status(MPR_Status_Model _Result_Status)
-        {
+        //public  MPR_Status_Model Display_Status(MPR_Status_Model _Result_Status)
+        //{
 
-            //User_Log_Add(_Result_Status.GetResult_Info());
-
-
-            return _Result_Status;
-        }
+        //    //User_Log_Add(_Result_Status.GetResult_Info());
 
 
-        /// <summary>
-        /// 连接相机
-        /// </summary>
-        /// <returns></returns>
-        public  void Connect_Camera(MVS_Camera_Info_Model _Select_Camera)
-        {
-
-            //打开相机
-            Open_Camera(_Select_Camera);
+        //    return _Result_Status;
+        //}
 
 
-            MVS_Camera_Parameter_Model _Parameter = new MVS_Camera_Parameter_Model();
+        ///// <summary>
+        ///// 连接相机
+        ///// </summary>
+        ///// <returns></returns>
+        //public  void Connect_Camera(MVS_Camera_Info_Model _Select_Camera)
+        //{
 
-            if (Get_Camrea_Parameters(_Select_Camera.Camera, _Parameter).GetResult())
-            {
-                //获得图像最大像素
-                _Select_Camera.Camera_Info.HeightMax = _Parameter.HeightMax;
-                _Select_Camera.Camera_Info.WidthMax = _Parameter.WidthMax;
-
-                if (_Select_Camera.Camera_Calibration.Camera_Calibration_State == Camera_Calibration_File_Type_Enum.无标定)
-                {
-                    _Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.Image_Width = _Parameter.WidthMax;
-                    _Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.Image_Height = _Parameter.HeightMax;
-                    _Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.Cx = _Parameter.WidthMax * 0.5;
-                    _Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.Cy = _Parameter.HeightMax * 0.5;
-                }
-
-                //标记相机连接成功
-                _Select_Camera.Camer_Status = MV_CAM_Device_Status_Enum.Connecting;
-
-            }
-            else
-            {
-                Close_Camera(_Select_Camera);
-
-                throw new Exception("相机连接失败！");
+        //    //打开相机
+        //    Open_Camera(_Select_Camera);
 
 
-            }
+        //    MVS_Camera_Parameter_Model _Parameter = new MVS_Camera_Parameter_Model();
+
+        //    if (Get_Camrea_Parameters(_Select_Camera.Camera, _Parameter).GetResult())
+        //    {
+        //        //获得图像最大像素
+        //        _Select_Camera.Camera_Info.HeightMax = _Parameter.HeightMax;
+        //        _Select_Camera.Camera_Info.WidthMax = _Parameter.WidthMax;
+
+        //        if (_Select_Camera.Camera_Calibration.Camera_Calibration_State == Camera_Calibration_File_Type_Enum.无标定)
+        //        {
+        //            _Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.Image_Width = _Parameter.WidthMax;
+        //            _Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.Image_Height = _Parameter.HeightMax;
+        //            _Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.Cx = _Parameter.WidthMax * 0.5;
+        //            _Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.Cy = _Parameter.HeightMax * 0.5;
+        //        }
+
+        //        //标记相机连接成功
+        //        _Select_Camera.Camer_Status = MV_CAM_Device_Status_Enum.Connecting;
+
+        //    }
+        //    else
+        //    {
+        //        Close_Camera(_Select_Camera);
+
+        //        throw new Exception("相机连接失败！");
+
+
+        //    }
 
 
 
-        }
-        /// <summary>
-        /// 关闭相机
-        /// </summary>
-        /// <returns></returns>
-        public static void Close_Camera(MVS_Camera_Info_Model _Select_Camera)
-        {
-            if (_Select_Camera != null)
-            {
-
-                //关闭相机
-                _Select_Camera.Camera.CloseDevice();
-                _Select_Camera.Camera.DestroyHandle();
-                _Select_Camera.Camer_Status = MV_CAM_Device_Status_Enum.Null;
-
-                //return new MPR_Status_Model(MVE_Result_Enum.关闭相机成功) { Result_Error_Info = _Select_Camera.Camera_Info.ModelName };
-            }
-
-
-            //断开连接后可以再次连接相机
-
-        }
+        //}
 
 
 

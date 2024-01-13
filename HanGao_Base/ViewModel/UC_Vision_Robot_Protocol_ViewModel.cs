@@ -84,6 +84,11 @@ namespace HanGao.ViewModel
             ADD_KUKA_Value_List(typeof(Value_Name_enum));
             Initialization_Read_Valer();
         }
+
+
+
+
+
         public bool UI_Connect_Client { set; get; } = false;
         private static string _Send_Socket_String = "....";
         /// <summary>
@@ -163,8 +168,8 @@ namespace HanGao.ViewModel
         public void Initialization_Read_Valer()
         {
             //读取存储文件参数
-            UI_IP = UC_Vision_Auto_Model_ViewModel.Vision_Auto_Cofig.Connect_KUKA_IP;
-            UI_Port = UC_Vision_Auto_Model_ViewModel.Vision_Auto_Cofig.Connect_KUKA_Port;
+            //UI_IP = UC_Vision_Auto_Model_ViewModel.Vision_Auto_Cofig.Connect_KUKA_IP;
+            //UI_Port = UC_Vision_Auto_Model_ViewModel.Vision_Auto_Cofig.Connect_KUKA_Port;
             Task.Run(() => { 
             for (int i = 0; i < 30; i++)
             {

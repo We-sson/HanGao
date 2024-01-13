@@ -658,10 +658,12 @@ namespace MVS_SDK_Base.Model
             /// </summary>
             /// <param name="_Info"></param>
             /// <returns></returns>
-            public void Get_Camrea_Parameters()
+            public MVS_Camera_Parameter_Model Get_Camrea_Parameters()
             {
 
 
+
+               
                 foreach (PropertyInfo _Type in Camera_parameter.GetType().GetProperties())
                 {
 
@@ -696,6 +698,8 @@ namespace MVS_SDK_Base.Model
 
                 }
 
+
+                return Camera_parameter;
 
             }
 
@@ -966,6 +970,27 @@ namespace MVS_SDK_Base.Model
 
             }
 
+            /// <summary>
+            /// 关闭相机
+            /// </summary>
+            /// <returns></returns>
+            public  void Close_Camera()
+            {
+                if (Camera != null)
+                {
+
+                    //关闭相机
+                    Camera.CloseDevice();
+                    Camera.DestroyHandle();
+                    Camer_Status = MV_CAM_Device_Status_Enum.Null;
+
+                    //return new MPR_Status_Model(MVE_Result_Enum.关闭相机成功) { Result_Error_Info = _Select_Camera.Camera_Info.ModelName };
+                }
+
+
+                //断开连接后可以再次连接相机
+
+            }
 
 
 
@@ -1312,31 +1337,80 @@ namespace MVS_SDK_Base.Model
 
 
 
+
             /// <summary>
-            /// 关闭相机
+            /// 设置探测网络最佳包大小(只对GigE相机有效)
             /// </summary>
             /// <returns></returns>
-            public void Close_Camera()
+            public  bool Set_Camera_GEGI_GevSCPSPacketSize()
             {
-                //if (_Select_Camera != null)
-                //{
 
-                //关闭相机
-                Camera.CloseDevice();
-                Camera.DestroyHandle();
-                Camer_Status = MV_CAM_Device_Status_Enum.Null;
+                if (MVS_CameraInfo.nTLayerType == CSystem.MV_GIGE_DEVICE)
+                {
 
-                //return new MPR_Status_Model(MVE_Result_Enum.关闭相机成功) { Result_Error_Info = _Select_Camera.Camera_Info.ModelName };
-                //}
+                    int nPacketSize = Camera.GIGE_GetOptimalPacketSize();
+
+                    if (nPacketSize > 0)
+                    {
+                        Set_Camera_Val(Camera_Parameters_Name_Enum.GIGE_GetOptimalPacketSize, CErrorDefine.MV_OK);
+                        Set_Camera_Val(Camera_Parameters_Name_Enum.GevSCPSPacketSize, Camera.SetIntValue(nameof(Camera_Parameters_Name_Enum.GevSCPSPacketSize), (uint)nPacketSize));
+                    }
+                    else
+                    {
+                        Set_Camera_Val(Camera_Parameters_Name_Enum.GIGE_GetOptimalPacketSize, CErrorDefine.MV_E_RESOURCE);
+
+                    }
+
+                }
 
 
-                //断开连接后可以再次连接相机
+                return true;
+            }
+
+
+            /// <summary>
+            /// 检查相机列表中选择相机是否可用
+            /// </summary>
+            /// <param name="_Camera_Number"></param>
+            public  bool Check_IsDeviceAccessible()
+            {
+
+                //读取选择相机信息
+                //CameraInfo = Camera_List[_Camera_Number];
+
+
+                //检查相机设备可用情况
+                return CSystem.IsDeviceAccessible(ref MVS_CameraInfo, MV_ACCESS_MODE.MV_ACCESS_EXCLUSIVE);
+
+
+
+
+
+            }
+
+
+            /// <summary>
+            /// 设置图像获取委托方法
+            /// </summary>
+            /// <param name="_delegate"></param>
+            /// <returns></returns>
+            public  bool RegisterImageCallBackEx( cbOutputExdelegate _delegate)
+            {
+
+                return Set_Camera_Val(Camera_Parameters_Name_Enum.RegisterImageCallBackEx, Camera.RegisterImageCallBackEx(_delegate, IntPtr.Zero));
 
             }
 
 
 
+            public  bool FreeImageBuffer()
+            {
+                CFrameout _Frame = new CFrameout();
+                Camera.FreeImageBuffer(ref _Frame);
 
+                return true;
+
+            }
 
 
             /// <summary>

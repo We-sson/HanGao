@@ -297,6 +297,7 @@
     <Compile Remove="ViewModel\UC_Vision_Calibration_Image_VM.cs" />
     <Compile Remove="ViewModel\UC_Vision_Calibration_Results_VM.cs" />
     <Compile Remove="ViewModel\UC_Vision_Camera_Calibration_VM.cs" />
+    <Compile Remove="ViewModel\UC_Vision_Point_Calibration_ViewModel.cs" />
     <Compile Remove="View\User_Control\KUKA_Status.xaml.cs" />
     <Compile Remove="View\User_Control\UserControl_Grid.xaml.cs" />
     <Compile Remove="View\User_Control\Vision_Control\UC_Vision_Calibration_Results.xaml.cs" />

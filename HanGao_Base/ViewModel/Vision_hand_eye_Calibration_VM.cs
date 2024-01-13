@@ -1542,9 +1542,9 @@ namespace HanGao.ViewModel
                             if (Camera_0_Select_Val != null)
                             {
 
-                                MVS.Connect_Camera(Camera_0_Select_Val);
-                                MVS.Get_Camrea_Parameters(Camera_0_Select_Val.Camera, Camera_Parameter_Val);
-                                Camera_0_Select_Val.Camer_Status = MVS_SDK_Base.Model.MV_CAM_Device_Status_Enum.Connecting;
+                                Camera_0_Select_Val.Connect_Camera();
+                                Camera_Parameter_Val= Camera_0_Select_Val.Get_Camrea_Parameters();
+                                Camera_0_Select_Val.Camer_Status = MV_CAM_Device_Status_Enum.Connecting;
                             }
                             else
                             {
@@ -1556,8 +1556,8 @@ namespace HanGao.ViewModel
                         case Camera_Connect_Control_Type_Enum.Camera_1:
                             if (Camera_1_Select_Val != null)
                             {
-                                MVS.Connect_Camera(Camera_1_Select_Val);
-                                MVS.Get_Camrea_Parameters(Camera_1_Select_Val.Camera, Camera_Parameter_Val);
+                                Camera_1_Select_Val.Connect_Camera();
+                                Camera_Parameter_Val = Camera_1_Select_Val.Get_Camrea_Parameters();
                                 Camera_1_Select_Val.Camer_Status = MVS_SDK_Base.Model.MV_CAM_Device_Status_Enum.Connecting;
 
                             }
@@ -1624,7 +1624,8 @@ namespace HanGao.ViewModel
                             if (Camera_0_Select_Val != null)
                             {
 
-                                MVS.Close_Camera(Camera_0_Select_Val);
+                                //MVS.Close_Camera(Camera_0_Select_Val);
+                                Camera_0_Select_Val.Close_Camera();
                                 Camera_0_Select_Val.Camer_Status = MVS_SDK_Base.Model.MV_CAM_Device_Status_Enum.Null;
                             }
                             else
@@ -1640,7 +1641,7 @@ namespace HanGao.ViewModel
                             if (Camera_1_Select_Val != null)
                             {
 
-                                MVS.Close_Camera(Camera_1_Select_Val);
+                                Camera_1_Select_Val.Close_Camera();
                                 Camera_1_Select_Val.Camer_Status = MVS_SDK_Base.Model.MV_CAM_Device_Status_Enum.Null;
                             }
                             else
@@ -1696,7 +1697,7 @@ namespace HanGao.ViewModel
                             if (Camera_0_Select_Val?.Camer_Status == MVS_SDK_Base.Model.MV_CAM_Device_Status_Enum.Connecting && Camera_0_Select_Val != null)
                             {
 
-                                MVS.Set_Camrea_Parameters_List(Camera_0_Select_Val.Camera, new MVS_Camera_Parameter_Model(Camera_Parameter_Val));
+                                Camera_0_Select_Val.Set_Camrea_Parameters_List(new MVS_Camera_Parameter_Model(Camera_Parameter_Val));
                             }
                             else
                             {
@@ -1712,7 +1713,7 @@ namespace HanGao.ViewModel
 
                             if (Camera_1_Select_Val?.Camer_Status == MVS_SDK_Base.Model.MV_CAM_Device_Status_Enum.Connecting && Camera_1_Select_Val != null)
                             {
-                                MVS.Set_Camrea_Parameters_List(Camera_1_Select_Val.Camera, new MVS_Camera_Parameter_Model(Camera_Parameter_Val));
+                                Camera_1_Select_Val.Set_Camrea_Parameters_List(new MVS_Camera_Parameter_Model(Camera_Parameter_Val));
                             }
                             else
                             {
@@ -2071,9 +2072,9 @@ namespace HanGao.ViewModel
 
 
                     //根据选择得相机开始取流图像
-                    MVS.StopGrabbing(_Select_Camera);
-                    MVS.Set_Camrea_Parameters_List(_Select_Camera.Camera, Camera_Parameter_Val);
-                    MVS.StartGrabbing(_Select_Camera);
+                    _Select_Camera.StopGrabbing();
+                    _Select_Camera.Set_Camrea_Parameters_List( Camera_Parameter_Val);
+                    _Select_Camera.StartGrabbing();
 
                     //HandEye_Check.Creation_HandEye_Calibration(HandEye_Camera_Parameters, Camera_Connect_Control_Type, _CamPar);
 
@@ -2085,7 +2086,7 @@ namespace HanGao.ViewModel
 
                         HImage _Image = new HImage();
 
-                        MVS_Image_Mode _MVS_Image = MVS.GetOneFrameTimeout(_Select_Camera);
+                        MVS_Image_Mode _MVS_Image = _Select_Camera.GetOneFrameTimeout();
 
                         //发送到图像显示
                         if (Halcon_SDK.Mvs_To_Halcon_Image(ref _Image, _MVS_Image.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image.PData))
@@ -2123,7 +2124,7 @@ namespace HanGao.ViewModel
                 {
 
 
-                    MVS.StopGrabbing(_Select_Camera);
+                    _Select_Camera.StopGrabbing();
                 }
 
             }
