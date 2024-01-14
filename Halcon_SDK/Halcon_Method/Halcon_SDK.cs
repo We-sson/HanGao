@@ -2268,7 +2268,7 @@ namespace Halcon_SDK_DLL
 
 
                 //图像预处理
-                Halcon_Image_Pre_Processing(_HWindow, _Find_Property);
+                Halcon_Image_Pre_Processing( _Find_Property);
                 
 
                     //根据匹配类型进行匹配

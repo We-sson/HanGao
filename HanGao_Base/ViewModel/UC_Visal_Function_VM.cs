@@ -817,12 +817,13 @@ namespace HanGao.ViewModel
 
 
                             //图像预处理
-                            _Halcon.Halcon_Image_Pre_Processing(Halcon_Window_Display.Features_Window.HWindow, Halcon_Find_Shape_ModelXld_UI);
-                                
+                            //_Halcon.Halcon_Image_Pre_Processing(Halcon_Window_Display.Features_Window.HWindow, Halcon_Find_Shape_ModelXld_UI);
+                            _Halcon.Halcon_Image_Pre_Processing(Halcon_Find_Shape_ModelXld_UI);
 
 
-                                    ///保存创建模型
-                                    if (Display_Status(_Halcon.ShapeModel_SaveFile(ShapeModel_Location, Halcon_Create_Shape_ModelXld_UI)).GetResult())
+
+                    ///保存创建模型
+                    if (Display_Status(_Halcon.ShapeModel_SaveFile(ShapeModel_Location, Halcon_Create_Shape_ModelXld_UI)).GetResult())
                                     {
                                         User_Log_Add("创建区域：" + Halcon_Create_Shape_ModelXld_UI.ShapeModel_Name.ToString() + "，创建ID号：" + Halcon_Create_Shape_ModelXld_UI.Create_ID.ToString() + "，创建模型特征成功！", Log_Show_Window_Enum.Home);
                                     }
@@ -1028,7 +1029,7 @@ namespace HanGao.ViewModel
                 
                     _Halcon._HImage = new HObject(_Image);
                     //图像预处理
-                    _Halcon.Halcon_Image_Pre_Processing(Halcon_Window_Display.Features_Window.HWindow, Halcon_Find_Shape_ModelXld_UI);
+                    _Halcon.Halcon_Image_Pre_Processing( Halcon_Find_Shape_ModelXld_UI);
                 
                 //_Image.Dispose();
                 //_Halcon.Dispose();
@@ -1270,7 +1271,7 @@ namespace HanGao.ViewModel
                 //HOperatorSet.ClearWindow(Features_Window.HWindow);
                 Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window);
                 //移除集合中的对象
-                Drawing_Data_List = new ObservableCollection<Vision_Create_Model_Drawing_Model>();
+                Halcon_Shape_Mode_List. Drawing_Data_List = new ObservableCollection<Vision_Create_Model_Drawing_Model>();
                 User_Drawing_Data = new Vision_Create_Model_Drawing_Model();
                 User_Log_Add("清除全部XLD特征成功! ", Log_Show_Window_Enum.Home);
             });
@@ -1641,7 +1642,7 @@ namespace HanGao.ViewModel
                     User_Drawing_Data.User_XLD = _Cir;
                     User_Drawing_Data.Drawing_Type = Drawing_Type_Enme.Draw_Cir;
                     //添加显示集合
-                    Drawing_Data_List.Add(User_Drawing_Data);
+                    Halcon_Shape_Mode_List. Drawing_Data_List.Add(User_Drawing_Data);
                     //情况之前的数据
                     User_Drawing_Data = new Vision_Create_Model_Drawing_Model();
                 }
@@ -1663,7 +1664,7 @@ namespace HanGao.ViewModel
                     User_Drawing_Data.User_XLD = _Lin;
                     User_Drawing_Data.Drawing_Type = Drawing_Type_Enme.Draw_Lin;
                     //添加显示集合
-                    Drawing_Data_List.Add(User_Drawing_Data);
+                    Halcon_Shape_Mode_List. Drawing_Data_List.Add(User_Drawing_Data);
                     //情况之前的数据
                     User_Drawing_Data = new Vision_Create_Model_Drawing_Model();
                 }
