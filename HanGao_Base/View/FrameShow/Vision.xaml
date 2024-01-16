@@ -9,6 +9,7 @@
              xmlns:MVS="clr-namespace:MvCamCtrl.NET.CameraParams;assembly=MvCamCtrl.Net"
              xmlns:MVS_Enum="clr-namespace:MVS_SDK_Base.Model;assembly=MVS_SDK"
              xmlns:Openfile="clr-namespace:HanGao.View.User_Control.OpenFile"
+             xmlns:Process_Enum="clr-namespace:Halcon_SDK_DLL.Halcon_Method;assembly=Halcon_SDK_DLL"
              xmlns:UC_Working="clr-namespace:HanGao.View.User_Control"
              xmlns:Vision_Control="clr-namespace:HanGao.View.User_Control.Vision_Control"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -26,8 +27,15 @@
         <Enum_Converter:Halcon_EnumConverter x:Key="Halcon_EnumConverter" />
         <Enum_Converter:EnumDescriptionConverter x:Key="Enum_DescriptionConverter" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <Enum_Converter:ValueToObject_Converter x:Key="ValueToObject_Converter" />
 
-
+        <!--<ObjectDataProvider x:Key="Image_Preprocessing_Process_Enum_Model"
+                            MethodName="GetNames"
+                            ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="Process_Enum:Image_Preprocessing_Process_Enum" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>-->
 
         <ObjectDataProvider x:Key="ShapeModel_Name_Enum_Model"
                             MethodName="GetValues"
@@ -1175,7 +1183,7 @@
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Camera_Settings" Grid.Row=" 0"
-                                     IsChecked="True"
+                                     IsChecked="False"
                                      Margin="4"
                                      HorizontalContentAlignment="Stretch"
                                      VerticalContentAlignment="Stretch"
@@ -1559,7 +1567,7 @@
         <Grid x:Name="Vision_Menu" Grid.Column=" 1"
               Margin="3,6,6,12">
 
-            <Grid Width="330" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Camera_Settings}">
+            <Grid Width="350" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Camera_Settings}">
 
                 <!--<Vision_Control:UC_Vision_CameraSet Width="330" DataContext="{Binding Source={StaticResource Locator}, Path=UC_Vision_CameraSet_ViewModel}" />-->
 
@@ -2534,17 +2542,22 @@
 
             </Grid>
 
-            <Grid Width="330" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Point_Calibration}">
+            <Grid Width="350" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Point_Calibration}">
 
                 <!--<Vision_Control:UC_Vision_Point_Calibration Width="330" />-->
             </Grid>
-            <Grid Width="330" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Create_Model}">
+            <Grid Width="350" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Create_Model}">
 
                 <!--<Vision_Control:UC_Vision_Create_Template Width="330" />-->
 
                 <Grid Effect="{DynamicResource 全局背景阴影}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="729*" />
+                        <RowDefinition Height="85*" />
+                    </Grid.RowDefinitions>
 
                     <ScrollViewer Style="{DynamicResource Vision_Data_List_ScrollViewerStyle}"
+                                  Grid.RowSpan="2"
                                   Background="Transparent"
                                   CanContentScroll="False"
                                   PanningMode="Both"
@@ -3018,7 +3031,7 @@
                                       Margin="0,0,0,10"
                                       HorizontalContentAlignment="Stretch"
                                       VerticalContentAlignment="Stretch"
-                                      IsExpanded="True">
+                                      IsExpanded="False">
                                 <Expander.Header>
                                     <Border Margin="0" Background="{DynamicResource 全局_按钮_黑颜色}">
                                         <Border.Style>
@@ -4124,11 +4137,11 @@
 
                                         </Grid>
 
-                                        <Border Height=" 2"
+                                        <!--<Border Height=" 2"
                                                 Margin="8,4,8,4"
                                                 Background="{DynamicResource 全局_按钮_红颜色}"
                                                 CornerRadius="1"
-                                                Opacity=" 0.5" />
+                                                Opacity=" 0.5" />-->
 
 
 
@@ -4799,6 +4812,1272 @@
 
                                     <StackPanel Orientation="Vertical">
 
+
+
+                                        <!--<Border Height=" 2"
+                                                Margin="8,4,8,4"
+                                                Background="{DynamicResource 全局_按钮_红颜色}"
+                                                CornerRadius="1"
+                                                Opacity=" 0.5" />-->
+
+                                        <Grid Margin="8" Visibility="Collapsed">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80" />
+                                                <ColumnDefinition Width=" *" />
+                                                <ColumnDefinition Width=" *" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column=" 0"
+                                                       Text="动调分布"
+                                                       TextWrapping="Wrap"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+
+
+
+
+
+
+
+                                            <CheckBox Style="{DynamicResource Button_List_Style}" x:Name="ScaleImageMax_UI" Grid.Column=" 1"
+                                                      Content="使用"
+                                                      IsChecked="{Binding Halcon_Find_Shape_ModelXld_UI.ScaleImageMax_Enable}"
+                                                      HorizontalAlignment="Center"
+                                                      FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                      FontSize="16"
+                                                      Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Column=" 2"
+                                                      Content="显示"
+                                                      IsChecked="{Binding Halcon_Find_Shape_ModelXld_UI.ScaleImageMax_Disp}"
+                                                      HorizontalAlignment="Center"
+                                                      FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                      FontSize="16"
+                                                      Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                      Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=ScaleImageMax_UI}" />
+
+
+
+
+
+
+
+                                        </Grid>
+
+
+
+                                        <Grid Margin="8">
+
+
+                                            <DataGrid HorizontalContentAlignment="Stretch"
+                                                      VerticalContentAlignment="Stretch"
+                                                      AutoGenerateColumns="False"
+                                                      Background="{DynamicResource 全局_背景_白颜色}"
+                                                      BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                                                      BorderThickness="3"
+                                                      CanUserAddRows="False"
+                                                      CanUserDeleteRows="False"
+                                                      CanUserReorderColumns="False"
+                                                      CanUserResizeColumns="False"
+                                                      CanUserResizeRows="False"
+                                                      CanUserSortColumns="False"
+                                                      CellStyle="{DynamicResource Point_UI_DataGridCellStyle}"
+                                                      ColumnHeaderHeight="30"
+                                                      ColumnHeaderStyle="{DynamicResource Point_UI_DataGridColumnHeaderStyle}"
+                                                      FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                      Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                      GridLinesVisibility="Horizontal"
+                                                      HeadersVisibility="Column"
+                                                      ItemsSource="{Binding Image_Preprocessing_Process.Preprocessing_Process_List}"
+                                                      RowHeaderWidth="0"
+                                                      RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
+                                                      SelectedItem="{Binding Image_Preprocessing_Process.Preprocessing_Process_List_Selete}"
+                                                      SelectionMode="Single"
+                                                      SelectionUnit="FullRow">
+                                                <DataGrid.Resources>
+                                                    <Style BasedOn="{StaticResource Right_ScrollBarStyle}" TargetType="{x:Type ScrollBar}" />
+                                                </DataGrid.Resources>
+
+
+                                                <DataGrid.Columns>
+                                                    <!--<DataGridTemplateColumn Width="50" IsReadOnly="False">
+                                                    <DataGridTemplateColumn.Header>
+                                                        <TextBlock Text="序号"
+                                                                   Margin="4"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="16"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                    </DataGridTemplateColumn.Header>
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Label Content="{Binding Method_Num}"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontSize="14" />
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+
+                                                </DataGridTemplateColumn>-->
+
+
+                                                    <DataGridTemplateColumn Width="*">
+                                                        <DataGridTemplateColumn.Header>
+                                                            <TextBlock Text="图像处理流程"
+                                                                       HorizontalAlignment="Center"
+                                                                       VerticalAlignment="Center"
+                                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                       FontSize="16"
+                                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                        </DataGridTemplateColumn.Header>
+                                                        <DataGridTemplateColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <Grid>
+                                                                    <Expander Style="{DynamicResource Vision_Fence_Expander_Style}"
+                                                                              Margin="4"
+                                                                              HorizontalAlignment="Stretch"
+                                                                              VerticalAlignment="Stretch">
+
+                                                                        <Expander.Header>
+                                                                            <Grid>
+                                                                                <Grid.ColumnDefinitions>
+                                                                                    <ColumnDefinition Width="auto" />
+                                                                                    <ColumnDefinition />
+                                                                                    <ColumnDefinition Width="auto" />
+                                                                                </Grid.ColumnDefinitions>
+                                                                                <Border Grid.Column=" 0"
+                                                                                        Grid.ColumnSpan=" 3"
+                                                                                        Height=" 35"
+                                                                                        Margin="0"
+                                                                                        VerticalAlignment="Center"
+                                                                                        Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                                                                        CornerRadius=" 4" />
+
+
+                                                                                <TextBox Grid.Column=" 0"
+                                                                                         Text="{Binding Method_Num, StringFormat=\{0\} ：}"
+                                                                                         Margin="10,0,0,0"
+                                                                                         HorizontalAlignment="Stretch"
+                                                                                         VerticalAlignment="Stretch"
+                                                                                         HorizontalContentAlignment="Center"
+                                                                                         VerticalContentAlignment="Center"
+                                                                                         Background="Transparent"
+                                                                                         BorderThickness="0"
+                                                                                         FontSize="14"
+                                                                                         Foreground="{DynamicResource 全局_背景_白颜色}"
+                                                                                         IsReadOnly="True" />
+
+                                                                                <TextBox Grid.Column=" 1"
+                                                                                         Text="{Binding Image_Preprocessing_Process_Method, Converter={StaticResource Enum_DescriptionConverter}, StringFormat='\{0\}'}"
+                                                                                         HorizontalAlignment="Center"
+                                                                                         VerticalAlignment="Center"
+                                                                                         HorizontalContentAlignment="Stretch"
+                                                                                         VerticalContentAlignment="Stretch"
+                                                                                         Background="Transparent"
+                                                                                         BorderThickness="0"
+                                                                                         FontSize="12"
+                                                                                         Foreground="{DynamicResource 全局_背景_白颜色}"
+                                                                                         IsReadOnly="True" />
+
+                                                                                <TextBox Grid.Column=" 2"
+                                                                                         Text="{Binding Method_Run_Time, StringFormat=\{0\} ms, UpdateSourceTrigger=LostFocus}"
+                                                                                         Margin="0,0,10,0"
+                                                                                         HorizontalAlignment="Stretch"
+                                                                                         VerticalAlignment="Stretch"
+                                                                                         HorizontalContentAlignment="Center"
+                                                                                         VerticalContentAlignment="Center"
+                                                                                         Background="Transparent"
+                                                                                         BorderThickness="0"
+                                                                                         FontSize="14"
+                                                                                         Foreground="{DynamicResource 全局_背景_白颜色}"
+                                                                                         IsReadOnly="True" />
+
+                                                                            </Grid>
+                                                                        </Expander.Header>
+
+
+                                                                        <Grid Margin="0,-5,0,0" Effect="{DynamicResource 全局背景阴影}">
+
+                                                                            <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 5 5">
+
+                                                                                <StackPanel Orientation="Vertical">
+
+
+                                                                                    <Grid Margin="8">
+                                                                                        <Grid.ColumnDefinitions>
+                                                                                            <ColumnDefinition Width="60" />
+                                                                                            <ColumnDefinition />
+
+                                                                                        </Grid.ColumnDefinitions>
+                                                                                        <TextBlock Grid.Column=" 0"
+                                                                                                   Text="功能模式"
+                                                                                                   HorizontalAlignment="Left"
+                                                                                                   VerticalAlignment="Center"
+                                                                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                                                                   FontSize="12"
+                                                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                                                        <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
+                                                                                                  HorizontalContentAlignment="Center"
+                                                                                                  VerticalContentAlignment="Center"
+                                                                                                  BorderThickness="2"
+                                                                                                  FontSize="12"
+                                                                                                  IsDropDownOpen="False"
+                                                                                                  IsSynchronizedWithCurrentItem="True"
+                                                                                                  ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Image_Preprocessing_Process_Enum}"
+                                                                                                  SelectedItem="{Binding Image_Preprocessing_Process_Method, UpdateSourceTrigger=PropertyChanged}">
+
+                                                                                            <ComboBox.ItemTemplate>
+                                                                                                <DataTemplate>
+                                                                                                    <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
+                                                                                                               TextWrapping="Wrap"
+                                                                                                               Padding="0,4,0,4"
+                                                                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                                                               FontSize="12"
+                                                                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                               TextTrimming="CharacterEllipsis" />
+
+
+                                                                                                </DataTemplate>
+                                                                                            </ComboBox.ItemTemplate>
+
+                                                                                        </ComboBox>
+
+                                                                                    </Grid>
+
+
+                                                                                    <Border Height=" 2"
+                                                                                            Margin="8,4,8,4"
+                                                                                            Background="{DynamicResource 全局_按钮_青红颜色}"
+                                                                                            CornerRadius="1"
+                                                                                            Opacity=" 0.5" />
+
+                                                                                    <Grid Margin="8">
+                                                                                        <Grid.Style>
+                                                                                            <Style TargetType="Grid">
+                                                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                                                                <Style.Triggers>
+                                                                                                    <DataTrigger Binding="{Binding Image_Preprocessing_Process_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.MedianRect}">
+                                                                                                        <Setter Property="Visibility" Value="Visible" />
+                                                                                                    </DataTrigger>
+                                                                                                </Style.Triggers>
+                                                                                            </Style>
+                                                                                        </Grid.Style>
+                                                                                        <Grid.ColumnDefinitions>
+                                                                                            <ColumnDefinition Width="55" />
+                                                                                            <ColumnDefinition Width=" *" />
+                                                                                            <ColumnDefinition Width=" *" />
+                                                                                        </Grid.ColumnDefinitions>
+
+
+
+                                                                                        <TextBlock Grid.Column=" 0"
+                                                                                                   Text="掩码宽度"
+                                                                                                   TextWrapping="Wrap"
+                                                                                                   HorizontalAlignment="Left"
+                                                                                                   VerticalAlignment="Center"
+                                                                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                                                                   FontSize="12"
+                                                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                   Opacity=" 0.8" />
+
+
+                                                                                        <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Median_Rect_MaskWidth" Grid.Column=" 1"
+                                                                                                Margin="4"
+                                                                                                VerticalAlignment="Center"
+                                                                                                HorizontalContentAlignment="Stretch"
+                                                                                                VerticalContentAlignment="Stretch"
+                                                                                                IsSnapToTickEnabled="True"
+                                                                                                Maximum="101"
+                                                                                                Minimum="3"
+                                                                                                SmallChange="2"
+                                                                                                TickFrequency=" 2" />
+
+                                                                                        <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                                                                                 Text="{Binding ElementName=Median_Rect_MaskWidth, Path=Value}"
+                                                                                                 HorizontalContentAlignment="Center"
+                                                                                                 VerticalContentAlignment="Center"
+                                                                                                 Background="Transparent"
+                                                                                                 BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                 BorderThickness="2"
+                                                                                                 FontSize="16" />
+
+                                                                                    </Grid>
+                                                                                    <Grid Margin="8">
+                                                                                        <Grid.Style>
+                                                                                            <Style TargetType="Grid">
+                                                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                                                                <Style.Triggers>
+                                                                                                    <DataTrigger Binding="{Binding Image_Preprocessing_Process_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.MedianRect}">
+                                                                                                        <Setter Property="Visibility" Value="Visible" />
+                                                                                                    </DataTrigger>
+                                                                                                </Style.Triggers>
+                                                                                            </Style>
+                                                                                        </Grid.Style>
+                                                                                        <Grid.ColumnDefinitions>
+                                                                                            <ColumnDefinition Width="55" />
+                                                                                            <ColumnDefinition Width=" *" />
+                                                                                            <ColumnDefinition Width=" *" />
+                                                                                        </Grid.ColumnDefinitions>
+
+
+
+                                                                                        <TextBlock Grid.Column=" 0"
+                                                                                                   Text="掩码宽度"
+                                                                                                   TextWrapping="Wrap"
+                                                                                                   HorizontalAlignment="Left"
+                                                                                                   VerticalAlignment="Center"
+                                                                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                                                                   FontSize="12"
+                                                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                   Opacity=" 0.8" />
+
+
+                                                                                        <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Median_Rect_MaskHeight" Grid.Column=" 1"
+                                                                                                Margin="4"
+                                                                                                VerticalAlignment="Center"
+                                                                                                HorizontalContentAlignment="Stretch"
+                                                                                                VerticalContentAlignment="Stretch"
+                                                                                                IsSnapToTickEnabled="True"
+                                                                                                Maximum="101"
+                                                                                                Minimum="3"
+                                                                                                SmallChange="2"
+                                                                                                TickFrequency=" 2"
+                                                                                                Value="{Binding V_1, Converter={StaticResource ValueToObject_Converter}}" />
+
+                                                                                        <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                                                                                 Text="{Binding ElementName=Median_Rect_MaskHeight, Path=Value}"
+                                                                                                 HorizontalContentAlignment="Center"
+                                                                                                 VerticalContentAlignment="Center"
+                                                                                                 Background="Transparent"
+                                                                                                 BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                 BorderThickness="2"
+                                                                                                 FontSize="16" />
+
+                                                                                    </Grid>
+
+
+                                                                                    <Grid Margin="8">
+                                                                                        <Grid.Style>
+                                                                                            <Style TargetType="Grid">
+                                                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                                                                <Style.Triggers>
+                                                                                                    <DataTrigger Binding="{Binding Image_Preprocessing_Process_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.GrayOpeningRect}">
+                                                                                                        <Setter Property="Visibility" Value="Visible" />
+                                                                                                    </DataTrigger>
+                                                                                                </Style.Triggers>
+                                                                                            </Style>
+                                                                                        </Grid.Style>
+                                                                                        <Grid.ColumnDefinitions>
+                                                                                            <ColumnDefinition Width="55" />
+                                                                                            <ColumnDefinition Width=" *" />
+                                                                                            <ColumnDefinition Width=" *" />
+                                                                                        </Grid.ColumnDefinitions>
+
+
+
+                                                                                        <TextBlock Grid.Column=" 0"
+                                                                                                   Text="掩码宽度"
+                                                                                                   TextWrapping="Wrap"
+                                                                                                   HorizontalAlignment="Left"
+                                                                                                   VerticalAlignment="Center"
+                                                                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                                                                   FontSize="12"
+                                                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                   Opacity=" 0.8" />
+
+
+                                                                                        <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Gray_Opening_Rect_MaskWidth" Grid.Column=" 1"
+                                                                                                Margin="4"
+                                                                                                VerticalAlignment="Center"
+                                                                                                HorizontalContentAlignment="Stretch"
+                                                                                                VerticalContentAlignment="Stretch"
+                                                                                                IsSnapToTickEnabled="True"
+                                                                                                Maximum="501"
+                                                                                                Minimum="3"
+                                                                                                SmallChange="2"
+                                                                                                TickFrequency=" 2" />
+
+                                                                                        <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                                                                                 Text="{Binding ElementName=Gray_Opening_Rect_MaskWidth, Path=Value}"
+                                                                                                 HorizontalContentAlignment="Center"
+                                                                                                 VerticalContentAlignment="Center"
+                                                                                                 Background="Transparent"
+                                                                                                 BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                 BorderThickness="2"
+                                                                                                 FontSize="16" />
+
+                                                                                    </Grid>
+                                                                                    <Grid Margin="8">
+                                                                                        <Grid.Style>
+                                                                                            <Style TargetType="Grid">
+                                                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                                                                <Style.Triggers>
+                                                                                                    <DataTrigger Binding="{Binding Image_Preprocessing_Process_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.GrayOpeningRect}">
+                                                                                                        <Setter Property="Visibility" Value="Visible" />
+                                                                                                    </DataTrigger>
+                                                                                                </Style.Triggers>
+                                                                                            </Style>
+                                                                                        </Grid.Style>
+                                                                                        <Grid.ColumnDefinitions>
+                                                                                            <ColumnDefinition Width="55" />
+                                                                                            <ColumnDefinition Width=" *" />
+                                                                                            <ColumnDefinition Width=" *" />
+                                                                                        </Grid.ColumnDefinitions>
+
+
+
+                                                                                        <TextBlock Grid.Column=" 0"
+                                                                                                   Text="掩码宽度"
+                                                                                                   TextWrapping="Wrap"
+                                                                                                   HorizontalAlignment="Left"
+                                                                                                   VerticalAlignment="Center"
+                                                                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                                                                   FontSize="12"
+                                                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                   Opacity=" 0.8" />
+
+
+                                                                                        <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Gray_Opening_Rect_MaskHeight" Grid.Column=" 1"
+                                                                                                Margin="4"
+                                                                                                VerticalAlignment="Center"
+                                                                                                HorizontalContentAlignment="Stretch"
+                                                                                                VerticalContentAlignment="Stretch"
+                                                                                                IsSnapToTickEnabled="True"
+                                                                                                Maximum="501"
+                                                                                                Minimum="3"
+                                                                                                SmallChange="2"
+                                                                                                TickFrequency=" 2"
+                                                                                                Value="{Binding V_1, Converter={StaticResource ValueToObject_Converter}}" />
+
+                                                                                        <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                                                                                 Text="{Binding ElementName=Gray_Opening_Rect_MaskHeight, Path=Value}"
+                                                                                                 HorizontalContentAlignment="Center"
+                                                                                                 VerticalContentAlignment="Center"
+                                                                                                 Background="Transparent"
+                                                                                                 BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                 BorderThickness="2"
+                                                                                                 FontSize="16" />
+
+                                                                                    </Grid>
+
+                                                                                    <Grid Margin="8">
+                                                                                        <Grid.Style>
+                                                                                            <Style TargetType="Grid">
+                                                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                                                                <Style.Triggers>
+                                                                                                    <DataTrigger Binding="{Binding Image_Preprocessing_Process_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.MedianImage}">
+                                                                                                        <Setter Property="Visibility" Value="Visible" />
+                                                                                                    </DataTrigger>
+                                                                                                </Style.Triggers>
+                                                                                            </Style>
+                                                                                        </Grid.Style>
+                                                                                        <Grid.ColumnDefinitions>
+                                                                                            <ColumnDefinition Width="60" />
+                                                                                            <ColumnDefinition />
+
+                                                                                        </Grid.ColumnDefinitions>
+                                                                                        <TextBlock Grid.Column=" 0"
+                                                                                                   Text="掩码模式"
+                                                                                                   HorizontalAlignment="Left"
+                                                                                                   VerticalAlignment="Center"
+                                                                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                                                                   FontSize="12"
+                                                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                                                        <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="Median_Image_MaskType" Grid.Column=" 1"
+                                                                                                  HorizontalContentAlignment="Center"
+                                                                                                  VerticalContentAlignment="Center"
+                                                                                                  BorderThickness="2"
+                                                                                                  FontSize="12"
+                                                                                                  IsDropDownOpen="False"
+                                                                                                  IsSynchronizedWithCurrentItem="True"
+                                                                                                  ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:MedianImage_MaskType_Enum}"
+                                                                                                  SelectedItem="{Binding E_1, UpdateSourceTrigger=PropertyChanged}">
+
+                                                                                            <ComboBox.ItemTemplate>
+                                                                                                <DataTemplate>
+                                                                                                    <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
+                                                                                                               TextWrapping="Wrap"
+                                                                                                               Padding="0,4,0,4"
+                                                                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                                                               FontSize="12"
+                                                                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                               TextTrimming="CharacterEllipsis" />
+
+
+                                                                                                </DataTemplate>
+                                                                                            </ComboBox.ItemTemplate>
+
+                                                                                        </ComboBox>
+
+                                                                                    </Grid>
+                                                                                    <Grid Margin="8">
+                                                                                        <Grid.Style>
+                                                                                            <Style TargetType="Grid">
+                                                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                                                                <Style.Triggers>
+                                                                                                    <DataTrigger Binding="{Binding Image_Preprocessing_Process_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.MedianImage}">
+                                                                                                        <Setter Property="Visibility" Value="Visible" />
+                                                                                                    </DataTrigger>
+                                                                                                </Style.Triggers>
+                                                                                            </Style>
+                                                                                        </Grid.Style>
+
+                                                                                        <Grid.ColumnDefinitions>
+                                                                                            <ColumnDefinition Width="55" />
+                                                                                            <ColumnDefinition Width=" *" />
+                                                                                            <ColumnDefinition Width=" *" />
+                                                                                        </Grid.ColumnDefinitions>
+
+
+
+                                                                                        <TextBlock Grid.Column=" 0"
+                                                                                                   Text="掩码半径"
+                                                                                                   TextWrapping="Wrap"
+                                                                                                   HorizontalAlignment="Left"
+                                                                                                   VerticalAlignment="Center"
+                                                                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                                                                   FontSize="12"
+                                                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                   Opacity=" 0.8" />
+
+
+                                                                                        <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Median_Image_Radius" Grid.Column=" 1"
+                                                                                                Margin="4"
+                                                                                                VerticalAlignment="Center"
+                                                                                                HorizontalContentAlignment="Stretch"
+                                                                                                VerticalContentAlignment="Stretch"
+                                                                                                IsSnapToTickEnabled="True"
+                                                                                                Maximum="4095"
+                                                                                                Minimum="1"
+                                                                                                SmallChange="1"
+                                                                                                TickFrequency=" 1"
+                                                                                                Value="{Binding V_2, Converter={StaticResource ValueToObject_Converter}}" />
+
+                                                                                        <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                                                                                 Text="{Binding ElementName=Median_Image_Radius, Path=Value}"
+                                                                                                 HorizontalContentAlignment="Center"
+                                                                                                 VerticalContentAlignment="Center"
+                                                                                                 Background="Transparent"
+                                                                                                 BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                 BorderThickness="2"
+                                                                                                 FontSize="16" />
+
+                                                                                    </Grid>
+                                                                                    <Grid Margin="8">
+                                                                                        <Grid.Style>
+                                                                                            <Style TargetType="Grid">
+                                                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                                                                <Style.Triggers>
+                                                                                                    <DataTrigger Binding="{Binding Image_Preprocessing_Process_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.MedianImage}">
+                                                                                                        <Setter Property="Visibility" Value="Visible" />
+                                                                                                    </DataTrigger>
+                                                                                                </Style.Triggers>
+                                                                                            </Style>
+                                                                                        </Grid.Style>
+                                                                                        <Grid.ColumnDefinitions>
+                                                                                            <ColumnDefinition Width="60" />
+                                                                                            <ColumnDefinition />
+
+                                                                                        </Grid.ColumnDefinitions>
+                                                                                        <TextBlock Grid.Column=" 0"
+                                                                                                   Text="掩码边缘"
+                                                                                                   HorizontalAlignment="Left"
+                                                                                                   VerticalAlignment="Center"
+                                                                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                                                                   FontSize="12"
+                                                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                                                        <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="Median_Image_Margin" Grid.Column=" 1"
+                                                                                                  HorizontalContentAlignment="Center"
+                                                                                                  VerticalContentAlignment="Center"
+                                                                                                  BorderThickness="2"
+                                                                                                  FontSize="12"
+                                                                                                  IsDropDownOpen="False"
+                                                                                                  IsSynchronizedWithCurrentItem="True"
+                                                                                                  ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:MedianImage_Margin_Enum}"
+                                                                                                  SelectedItem="{Binding E_2, UpdateSourceTrigger=PropertyChanged}">
+
+                                                                                            <ComboBox.ItemTemplate>
+                                                                                                <DataTemplate>
+                                                                                                    <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
+                                                                                                               TextWrapping="Wrap"
+                                                                                                               Padding="0,4,0,4"
+                                                                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                                                               FontSize="12"
+                                                                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                               TextTrimming="CharacterEllipsis" />
+
+
+                                                                                                </DataTemplate>
+                                                                                            </ComboBox.ItemTemplate>
+
+                                                                                        </ComboBox>
+
+                                                                                    </Grid>
+
+                                                                                    <Grid Margin="8">
+                                                                                        <Grid.Style>
+                                                                                            <Style TargetType="Grid">
+                                                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                                                                <Style.Triggers>
+                                                                                                    <DataTrigger Binding="{Binding Image_Preprocessing_Process_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.Illuminate}">
+                                                                                                        <Setter Property="Visibility" Value="Visible" />
+                                                                                                    </DataTrigger>
+                                                                                                </Style.Triggers>
+                                                                                            </Style>
+                                                                                        </Grid.Style>
+                                                                                        <Grid.ColumnDefinitions>
+                                                                                            <ColumnDefinition Width="55" />
+                                                                                            <ColumnDefinition Width=" *" />
+                                                                                            <ColumnDefinition Width=" *" />
+                                                                                        </Grid.ColumnDefinitions>
+
+
+
+                                                                                        <TextBlock Grid.Column=" 0"
+                                                                                                   Text="掩码宽度"
+                                                                                                   TextWrapping="Wrap"
+                                                                                                   HorizontalAlignment="Left"
+                                                                                                   VerticalAlignment="Center"
+                                                                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                                                                   FontSize="12"
+                                                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                   Opacity=" 0.8" />
+
+
+                                                                                        <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Illuminate_MaskWidth" Grid.Column=" 1"
+                                                                                                Margin="4"
+                                                                                                VerticalAlignment="Center"
+                                                                                                HorizontalContentAlignment="Stretch"
+                                                                                                VerticalContentAlignment="Stretch"
+                                                                                                IsSnapToTickEnabled="True"
+                                                                                                Maximum="201"
+                                                                                                Minimum="2"
+                                                                                                SmallChange="2"
+                                                                                                TickFrequency=" 10"
+                                                                                                Value="{Binding V_1, Converter={StaticResource ValueToObject_Converter}}" />
+
+                                                                                        <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                                                                                 Text="{Binding ElementName=Illuminate_MaskWidth, Path=Value}"
+                                                                                                 HorizontalContentAlignment="Center"
+                                                                                                 VerticalContentAlignment="Center"
+                                                                                                 Background="Transparent"
+                                                                                                 BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                 BorderThickness="2"
+                                                                                                 FontSize="16" />
+
+                                                                                    </Grid>
+                                                                                    <Grid Margin="8">
+                                                                                        <Grid.Style>
+                                                                                            <Style TargetType="Grid">
+                                                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                                                                <Style.Triggers>
+                                                                                                    <DataTrigger Binding="{Binding Image_Preprocessing_Process_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.Illuminate}">
+                                                                                                        <Setter Property="Visibility" Value="Visible" />
+                                                                                                    </DataTrigger>
+                                                                                                </Style.Triggers>
+                                                                                            </Style>
+                                                                                        </Grid.Style>
+                                                                                        <Grid.ColumnDefinitions>
+                                                                                            <ColumnDefinition Width="55" />
+                                                                                            <ColumnDefinition Width=" *" />
+                                                                                            <ColumnDefinition Width=" *" />
+                                                                                        </Grid.ColumnDefinitions>
+
+
+
+                                                                                        <TextBlock Grid.Column=" 0"
+                                                                                                   Text="掩码宽度"
+                                                                                                   TextWrapping="Wrap"
+                                                                                                   HorizontalAlignment="Left"
+                                                                                                   VerticalAlignment="Center"
+                                                                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                                                                   FontSize="12"
+                                                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                   Opacity=" 0.8" />
+
+
+                                                                                        <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Illuminate_MaskHeight" Grid.Column=" 1"
+                                                                                                Margin="4"
+                                                                                                VerticalAlignment="Center"
+                                                                                                HorizontalContentAlignment="Stretch"
+                                                                                                VerticalContentAlignment="Stretch"
+                                                                                                IsSnapToTickEnabled="True"
+                                                                                                Maximum="201"
+                                                                                                Minimum="2"
+                                                                                                SmallChange="2"
+                                                                                                TickFrequency="10"
+                                                                                                Value="{Binding V_2, Converter={StaticResource ValueToObject_Converter}}" />
+
+                                                                                        <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                                                                                 Text="{Binding ElementName=Illuminate_MaskHeight, Path=Value}"
+                                                                                                 HorizontalContentAlignment="Center"
+                                                                                                 VerticalContentAlignment="Center"
+                                                                                                 Background="Transparent"
+                                                                                                 BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                 BorderThickness="2"
+                                                                                                 FontSize="16" />
+
+                                                                                    </Grid>
+                                                                                    <Grid Margin="8">
+                                                                                        <Grid.Style>
+                                                                                            <Style TargetType="Grid">
+                                                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                                                                <Style.Triggers>
+                                                                                                    <DataTrigger Binding="{Binding Image_Preprocessing_Process_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.Illuminate}">
+                                                                                                        <Setter Property="Visibility" Value="Visible" />
+                                                                                                    </DataTrigger>
+                                                                                                </Style.Triggers>
+                                                                                            </Style>
+                                                                                        </Grid.Style>
+                                                                                        <Grid.ColumnDefinitions>
+                                                                                            <ColumnDefinition Width="55" />
+                                                                                            <ColumnDefinition Width=" *" />
+                                                                                            <ColumnDefinition Width=" *" />
+                                                                                        </Grid.ColumnDefinitions>
+
+
+
+                                                                                        <TextBlock Grid.Column=" 0"
+                                                                                                   Text="系数"
+                                                                                                   TextWrapping="Wrap"
+                                                                                                   HorizontalAlignment="Left"
+                                                                                                   VerticalAlignment="Center"
+                                                                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                                                                   FontSize="12"
+                                                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                   Opacity=" 0.8" />
+
+
+                                                                                        <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Illuminate_Factor" Grid.Column=" 1"
+                                                                                                Margin="4"
+                                                                                                VerticalAlignment="Center"
+                                                                                                HorizontalContentAlignment="Stretch"
+                                                                                                VerticalContentAlignment="Stretch"
+                                                                                                IsSnapToTickEnabled="True"
+                                                                                                Maximum="5"
+                                                                                                Minimum="0"
+                                                                                                SmallChange="0.1"
+                                                                                                TickFrequency="0.1"
+                                                                                                Value="{Binding V_3, Converter={StaticResource ValueToObject_Converter}}" />
+
+                                                                                        <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                                                                                 Text="{Binding ElementName=Illuminate_Factor, Path=Value, StringFormat={}{0:F1}}"
+                                                                                                 HorizontalContentAlignment="Center"
+                                                                                                 VerticalContentAlignment="Center"
+                                                                                                 Background="Transparent"
+                                                                                                 BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                 BorderThickness="2"
+                                                                                                 FontSize="16" />
+
+                                                                                    </Grid>
+
+
+                                                                                    <Grid Margin="8">
+                                                                                        <Grid.Style>
+                                                                                            <Style TargetType="Grid">
+                                                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                                                                <Style.Triggers>
+                                                                                                    <DataTrigger Binding="{Binding Image_Preprocessing_Process_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.Emphasize}">
+                                                                                                        <Setter Property="Visibility" Value="Visible" />
+                                                                                                    </DataTrigger>
+                                                                                                </Style.Triggers>
+                                                                                            </Style>
+                                                                                        </Grid.Style>
+                                                                                        <Grid.ColumnDefinitions>
+                                                                                            <ColumnDefinition Width="55" />
+                                                                                            <ColumnDefinition Width=" *" />
+                                                                                            <ColumnDefinition Width=" *" />
+                                                                                        </Grid.ColumnDefinitions>
+
+
+
+                                                                                        <TextBlock Grid.Column=" 0"
+                                                                                                   Text="掩码宽度"
+                                                                                                   TextWrapping="Wrap"
+                                                                                                   HorizontalAlignment="Left"
+                                                                                                   VerticalAlignment="Center"
+                                                                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                                                                   FontSize="12"
+                                                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                   Opacity=" 0.8" />
+
+
+                                                                                        <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Emphasize_MaskWidth" Grid.Column=" 1"
+                                                                                                Margin="4"
+                                                                                                VerticalAlignment="Center"
+                                                                                                HorizontalContentAlignment="Stretch"
+                                                                                                VerticalContentAlignment="Stretch"
+                                                                                                IsSnapToTickEnabled="True"
+                                                                                                Maximum="201"
+                                                                                                Minimum="3"
+                                                                                                SmallChange="2"
+                                                                                                TickFrequency=" 2"
+                                                                                                Value="{Binding V_1, Converter={StaticResource ValueToObject_Converter}}" />
+
+                                                                                        <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                                                                                 Text="{Binding ElementName=Emphasize_MaskWidth, Path=Value}"
+                                                                                                 HorizontalContentAlignment="Center"
+                                                                                                 VerticalContentAlignment="Center"
+                                                                                                 Background="Transparent"
+                                                                                                 BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                 BorderThickness="2"
+                                                                                                 FontSize="16" />
+
+                                                                                    </Grid>
+                                                                                    <Grid Margin="8">
+                                                                                        <Grid.Style>
+                                                                                            <Style TargetType="Grid">
+                                                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                                                                <Style.Triggers>
+                                                                                                    <DataTrigger Binding="{Binding Image_Preprocessing_Process_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.Emphasize}">
+                                                                                                        <Setter Property="Visibility" Value="Visible" />
+                                                                                                    </DataTrigger>
+                                                                                                </Style.Triggers>
+                                                                                            </Style>
+                                                                                        </Grid.Style>
+                                                                                        <Grid.ColumnDefinitions>
+                                                                                            <ColumnDefinition Width="55" />
+                                                                                            <ColumnDefinition Width=" *" />
+                                                                                            <ColumnDefinition Width=" *" />
+                                                                                        </Grid.ColumnDefinitions>
+
+
+
+                                                                                        <TextBlock Grid.Column=" 0"
+                                                                                                   Text="掩码宽度"
+                                                                                                   TextWrapping="Wrap"
+                                                                                                   HorizontalAlignment="Left"
+                                                                                                   VerticalAlignment="Center"
+                                                                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                                                                   FontSize="12"
+                                                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                   Opacity=" 0.8" />
+
+
+                                                                                        <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Emphasize_MaskHeight" Grid.Column=" 1"
+                                                                                                Margin="4"
+                                                                                                VerticalAlignment="Center"
+                                                                                                HorizontalContentAlignment="Stretch"
+                                                                                                VerticalContentAlignment="Stretch"
+                                                                                                IsSnapToTickEnabled="True"
+                                                                                                Maximum="201"
+                                                                                                Minimum="3"
+                                                                                                SmallChange="2"
+                                                                                                TickFrequency="2"
+                                                                                                Value="{Binding V_2, Converter={StaticResource ValueToObject_Converter}}" />
+
+                                                                                        <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                                                                                 Text="{Binding ElementName=Emphasize_MaskHeight, Path=Value}"
+                                                                                                 HorizontalContentAlignment="Center"
+                                                                                                 VerticalContentAlignment="Center"
+                                                                                                 Background="Transparent"
+                                                                                                 BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                 BorderThickness="2"
+                                                                                                 FontSize="16" />
+
+                                                                                    </Grid>
+                                                                                    <Grid Margin="8">
+                                                                                        <Grid.Style>
+                                                                                            <Style TargetType="Grid">
+                                                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                                                                <Style.Triggers>
+                                                                                                    <DataTrigger Binding="{Binding Image_Preprocessing_Process_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.Emphasize}">
+                                                                                                        <Setter Property="Visibility" Value="Visible" />
+                                                                                                    </DataTrigger>
+                                                                                                </Style.Triggers>
+                                                                                            </Style>
+                                                                                        </Grid.Style>
+                                                                                        <Grid.ColumnDefinitions>
+                                                                                            <ColumnDefinition Width="55" />
+                                                                                            <ColumnDefinition Width=" *" />
+                                                                                            <ColumnDefinition Width=" *" />
+                                                                                        </Grid.ColumnDefinitions>
+
+
+
+                                                                                        <TextBlock Grid.Column=" 0"
+                                                                                                   Text="系数"
+                                                                                                   TextWrapping="Wrap"
+                                                                                                   HorizontalAlignment="Left"
+                                                                                                   VerticalAlignment="Center"
+                                                                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                                                                   FontSize="12"
+                                                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                   Opacity=" 0.8" />
+
+
+                                                                                        <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Emphasize_Factor" Grid.Column=" 1"
+                                                                                                Margin="4"
+                                                                                                VerticalAlignment="Center"
+                                                                                                HorizontalContentAlignment="Stretch"
+                                                                                                VerticalContentAlignment="Stretch"
+                                                                                                IsSnapToTickEnabled="True"
+                                                                                                Maximum="5"
+                                                                                                Minimum="0"
+                                                                                                SmallChange="0.1"
+                                                                                                TickFrequency="0.2"
+                                                                                                Value="{Binding V_3, Converter={StaticResource ValueToObject_Converter}}" />
+
+                                                                                        <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                                                                                 Text="{Binding ElementName=Emphasize_Factor, Path=Value, StringFormat={}{0:F1}}"
+                                                                                                 HorizontalContentAlignment="Center"
+                                                                                                 VerticalContentAlignment="Center"
+                                                                                                 Background="Transparent"
+                                                                                                 BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                 BorderThickness="2"
+                                                                                                 FontSize="16" />
+
+                                                                                    </Grid>
+
+
+                                                                                    <Grid Margin="8">
+                                                                                        <Grid.Style>
+                                                                                            <Style TargetType="Grid">
+                                                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                                                                <Style.Triggers>
+                                                                                                    <DataTrigger Binding="{Binding Image_Preprocessing_Process_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.GrayClosingRect}">
+                                                                                                        <Setter Property="Visibility" Value="Visible" />
+                                                                                                    </DataTrigger>
+                                                                                                </Style.Triggers>
+                                                                                            </Style>
+                                                                                        </Grid.Style>
+                                                                                        <Grid.ColumnDefinitions>
+                                                                                            <ColumnDefinition Width="55" />
+                                                                                            <ColumnDefinition Width=" *" />
+                                                                                            <ColumnDefinition Width=" *" />
+                                                                                        </Grid.ColumnDefinitions>
+
+
+
+                                                                                        <TextBlock Grid.Column=" 0"
+                                                                                                   Text="掩码宽度"
+                                                                                                   TextWrapping="Wrap"
+                                                                                                   HorizontalAlignment="Left"
+                                                                                                   VerticalAlignment="Center"
+                                                                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                                                                   FontSize="12"
+                                                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                   Opacity=" 0.8" />
+
+
+                                                                                        <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="GrayClosingRect_MaskWidth" Grid.Column=" 1"
+                                                                                                Margin="4"
+                                                                                                VerticalAlignment="Center"
+                                                                                                HorizontalContentAlignment="Stretch"
+                                                                                                VerticalContentAlignment="Stretch"
+                                                                                                IsSnapToTickEnabled="True"
+                                                                                                Maximum="201"
+                                                                                                Minimum="3"
+                                                                                                SmallChange="2"
+                                                                                                TickFrequency=" 2"
+                                                                                                Value="{Binding V_1, Converter={StaticResource ValueToObject_Converter}}" />
+
+                                                                                        <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                                                                                 Text="{Binding ElementName=GrayClosingRect_MaskWidth, Path=Value}"
+                                                                                                 HorizontalContentAlignment="Center"
+                                                                                                 VerticalContentAlignment="Center"
+                                                                                                 Background="Transparent"
+                                                                                                 BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                 BorderThickness="2"
+                                                                                                 FontSize="16" />
+
+                                                                                    </Grid>
+                                                                                    <Grid Margin="8">
+                                                                                        <Grid.Style>
+                                                                                            <Style TargetType="Grid">
+                                                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                                                                <Style.Triggers>
+                                                                                                    <DataTrigger Binding="{Binding Image_Preprocessing_Process_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.GrayClosingRect}">
+                                                                                                        <Setter Property="Visibility" Value="Visible" />
+                                                                                                    </DataTrigger>
+                                                                                                </Style.Triggers>
+                                                                                            </Style>
+                                                                                        </Grid.Style>
+                                                                                        <Grid.ColumnDefinitions>
+                                                                                            <ColumnDefinition Width="55" />
+                                                                                            <ColumnDefinition Width=" *" />
+                                                                                            <ColumnDefinition Width=" *" />
+                                                                                        </Grid.ColumnDefinitions>
+
+
+
+                                                                                        <TextBlock Grid.Column=" 0"
+                                                                                                   Text="掩码宽度"
+                                                                                                   TextWrapping="Wrap"
+                                                                                                   HorizontalAlignment="Left"
+                                                                                                   VerticalAlignment="Center"
+                                                                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                                                                   FontSize="12"
+                                                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                   Opacity=" 0.8" />
+
+
+                                                                                        <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="GrayClosingRect_MaskHeight" Grid.Column=" 1"
+                                                                                                Margin="4"
+                                                                                                VerticalAlignment="Center"
+                                                                                                HorizontalContentAlignment="Stretch"
+                                                                                                VerticalContentAlignment="Stretch"
+                                                                                                IsSnapToTickEnabled="True"
+                                                                                                Maximum="201"
+                                                                                                Minimum="3"
+                                                                                                SmallChange="2"
+                                                                                                TickFrequency="2"
+                                                                                                Value="{Binding V_2, Converter={StaticResource ValueToObject_Converter}}" />
+
+                                                                                        <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                                                                                 Text="{Binding ElementName=GrayClosingRect_MaskHeight, Path=Value}"
+                                                                                                 HorizontalContentAlignment="Center"
+                                                                                                 VerticalContentAlignment="Center"
+                                                                                                 Background="Transparent"
+                                                                                                 BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                 BorderThickness="2"
+                                                                                                 FontSize="16" />
+
+                                                                                    </Grid>
+                                                                                </StackPanel>
+                                                                            </Border>
+
+
+                                                                        </Grid>
+
+
+                                                                    </Expander>
+
+
+
+                                                                </Grid>
+                                                            </DataTemplate>
+                                                        </DataGridTemplateColumn.CellTemplate>
+
+                                                    </DataGridTemplateColumn>
+
+
+                                                    <!--<DataGridTemplateColumn Width="50">
+                                                    <DataGridTemplateColumn.Header>
+                                                        <TextBlock Text="耗时"
+                                                                   Margin="4"
+                                                                   HorizontalAlignment="Stretch"
+                                                                   VerticalAlignment="Stretch"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="16"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                    </DataGridTemplateColumn.Header>
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+
+                                                            <TextBox Text="{Binding Method_Run_Time, StringFormat=\{0\}ms, UpdateSourceTrigger=LostFocus}"
+                                                                     HorizontalAlignment="Stretch"
+                                                                     VerticalAlignment="Stretch"
+                                                                     HorizontalContentAlignment="Center"
+                                                                     VerticalContentAlignment="Center"
+                                                                     Background="Transparent"
+                                                                     BorderThickness="0"
+                                                                     FontSize="14"
+                                                                     IsReadOnly="True" />
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+
+                                                </DataGridTemplateColumn>-->
+
+
+                                                </DataGrid.Columns>
+
+                                            </DataGrid>
+
+                                        </Grid>
+
+                                        <Grid Height="35" Margin="8">
+
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 80" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+
+                                            </Grid.ColumnDefinitions>
+
+
+                                            <TextBlock Grid.Column=" 0"
+                                                       Text="总耗时："
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                            <TextBlock Grid.Column=" 1"
+                                                       Text="1532 ms"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+                                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                                    Margin="0,0,5,0"
+                                                    Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                                    FontSize=" 26">
+                                                <TextBlock Text="预处理"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="14"
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+
+
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding Image_Preprocessing_Process_Start_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </Button>
+
+
+
+                                        </Grid>
+
+
+                                        <Grid Height="35" Margin="8">
+
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 80" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+
+
+                                            <TextBlock Text="流程功能"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+                                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
+                                                    Margin="0,0,5,0"
+                                                    Background="{DynamicResource 全局_按钮_绿颜色}"
+                                                    FontSize=" 26">
+                                                <TextBlock Text="保存"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="14"
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+
+
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding Image_Preprocessing_Process_Save_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </Button>
+
+
+                                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                                    Margin="0,0,5,0"
+                                                    Background="{DynamicResource 全局_按钮_黑颜色}"
+                                                    FontSize=" 26"
+                                                    Tag="{x:Static Process_Enum:Image_Preprocessing_Process_Work_Enum.Up_Insertion}">
+                                                <TextBlock Text="上增"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="14"
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+
+
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding Image_Preprocessing_Process_New_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </Button>
+
+                                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 3"
+                                                    Margin="0,0,5,0"
+                                                    Background="{DynamicResource 全局_按钮_黑颜色}"
+                                                    FontSize=" 26"
+                                                    Tag="{x:Static Process_Enum:Image_Preprocessing_Process_Work_Enum.Down_Insertion}">
+                                                <TextBlock Text="下增"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="14"
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+
+
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding Image_Preprocessing_Process_New_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </Button>
+
+
+
+
+
+                                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 4"
+                                                    Margin="0,0,0,0"
+                                                    Background="{DynamicResource 全局_按钮_红颜色}"
+                                                    Tag="{x:Static Process_Enum:Image_Preprocessing_Process_Work_Enum.Delete_List}">
+
+
+                                                <TextBlock Text="删除"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="14"
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding Image_Preprocessing_Process_Delete_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+
+                                            </Button>
+
+                                        </Grid>
+
+
+
+
+                                        <Border Height=" 2"
+                                                Margin="8,4,8,4"
+                                                Background="{DynamicResource 全局_按钮_红颜色}"
+                                                CornerRadius="1"
+                                                Opacity=" 0.5" />
+
                                         <Grid Height=" 35" Margin="8">
 
                                             <Grid.ColumnDefinitions>
@@ -4880,73 +6159,7 @@
                                         </Grid>
 
 
-                                        <Border Height=" 2"
-                                                Margin="8,4,8,4"
-                                                Background="{DynamicResource 全局_按钮_红颜色}"
-                                                CornerRadius="1"
-                                                Opacity=" 0.5" />
-
-                                        <Grid Margin="8">
-
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="80" />
-                                                <ColumnDefinition Width=" *" />
-                                                <ColumnDefinition Width=" *" />
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock Grid.Column=" 0"
-                                                       Text="动调分布"
-                                                       TextWrapping="Wrap"
-                                                       HorizontalAlignment="Left"
-                                                       VerticalAlignment="Center"
-                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                       FontSize="16"
-                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
-
-
-
-
-
-
-
-
-                                            <CheckBox Style="{DynamicResource Button_List_Style}" x:Name="ScaleImageMax_UI" Grid.Column=" 1"
-                                                      Content="使用"
-                                                      IsChecked="{Binding Halcon_Find_Shape_ModelXld_UI.ScaleImageMax_Enable}"
-                                                      HorizontalAlignment="Center"
-                                                      FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                      FontSize="16"
-                                                      Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                            <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Column=" 2"
-                                                      Content="显示"
-                                                      IsChecked="{Binding Halcon_Find_Shape_ModelXld_UI.ScaleImageMax_Disp}"
-                                                      HorizontalAlignment="Center"
-                                                      FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                      FontSize="16"
-                                                      Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                      Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=ScaleImageMax_UI}" />
-
-
-
-
-
-
-
-                                        </Grid>
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                        <Grid Margin="8">
+                                        <!--<Grid Margin="8" Visibility="Collapsed">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="80" />
@@ -4981,10 +6194,10 @@
                                                       Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=MedianRect_Enable}" />
 
 
-                                        </Grid>
+                                        </Grid>-->
 
 
-                                        <Grid Margin="8" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=MedianRect_Enable}">
+                                        <!--<Grid  Margin="8" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=MedianRect_Enable}">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="80" />
@@ -5029,11 +6242,11 @@
                                                      BorderThickness="2"
                                                      FontSize="18" />
 
-                                        </Grid>
+                                        </Grid>-->
 
 
 
-                                        <Grid Margin="8" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=MedianRect_Enable}">
+                                        <!--<Grid Margin="8" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=MedianRect_Enable}">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="80" />
@@ -5077,13 +6290,13 @@
                                                      BorderThickness="2"
                                                      FontSize="18" />
 
-                                        </Grid>
+                                        </Grid>-->
 
 
 
 
 
-                                        <Grid Margin="8">
+                                        <!--<Grid Margin="8">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="80" />
@@ -5131,12 +6344,12 @@
 
 
 
-                                        </Grid>
+                                        </Grid>-->
 
 
 
 
-                                        <Grid Margin="8">
+                                        <!--<Grid Margin="8">
                                             <Grid.Style>
                                                 <Style TargetType="Grid">
                                                     <Setter Property="Visibility" Value="Collapsed" />
@@ -5324,12 +6537,12 @@
                                             </ComboBox>
 
 
-                                        </Grid>
+                                        </Grid>-->
 
 
 
 
-                                        <Grid>
+                                        <!--<Grid>
 
                                             <StackPanel Orientation="Vertical">
                                                 <Grid Margin="8">
@@ -5376,7 +6589,8 @@
                                                 </Grid>
 
 
-                                                <Grid Margin="8" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Illuminate_Enable}">
+                                        -->
+                                        <!--<Grid Margin="8" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Illuminate_Enable}">
 
 
                                                     <Grid.ColumnDefinitions>
@@ -5514,11 +6728,12 @@
                                                              FontSize="18" />
 
 
-                                                </Grid>
+                                                </Grid>-->
+                                        <!--
 
                                             </StackPanel>
 
-                                        </Grid>
+                                        </Grid>-->
 
 
 
@@ -5545,7 +6760,7 @@
 
 
 
-                                        <Grid Margin="8">
+                                        <!--<Grid Margin="8">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="80" />
@@ -5773,9 +6988,9 @@
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
                                                      FontSize="18" />
-                                        </Grid>
+                                        </Grid>-->
 
-                                        <Grid Height="35"
+                                        <!--<Grid Height="35"
                                               Margin="8"
                                               Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=GrayOpeningRect_Enable}">
 
@@ -5811,9 +7026,9 @@
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
                                                      FontSize="18" />
-                                        </Grid>
+                                        </Grid>-->
 
-                                        <Grid Margin="8">
+                                        <!--<Grid Margin="8">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="80" />
@@ -5926,13 +7141,9 @@
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
                                                      FontSize="18" />
-                                        </Grid>
+                                        </Grid>-->
 
-                                        <Border Height=" 2"
-                                                Margin="8,4,8,4"
-                                                Background="{DynamicResource 全局_按钮_红颜色}"
-                                                CornerRadius="1"
-                                                Opacity=" 0.5" />
+
 
                                         <Grid Height="35" Margin="8">
 
@@ -6844,7 +8055,7 @@
 
             </Grid>
 
-            <Grid Width="330" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Auto_Model}">
+            <Grid Width="350" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Auto_Model}">
 
                 <!--<Vision_Control:UC_Vision_Auto_Model Width="330" />-->
 
@@ -7419,7 +8630,7 @@
 
             </Grid>
 
-            <Grid Width="330" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Robot_Model}">
+            <Grid Width="350" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Robot_Model}">
 
                 <!--<Vision_Control:UC_Vision_Robot_Protocol Width="330" />-->
 

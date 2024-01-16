@@ -296,8 +296,10 @@ namespace HanGao.ViewModel
 
 
 
-
-
+        /// <summary>
+        /// 图像处理流程
+        /// </summary>
+        public Halcon_Image_Preprocessing_Process_SDK Image_Preprocessing_Process { set; get; } = new Halcon_Image_Preprocessing_Process_SDK();
 
 
 
@@ -346,7 +348,89 @@ namespace HanGao.ViewModel
         }
 
 
+        public ICommand Image_Preprocessing_Process_Save_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
 
+
+
+                Button _Contol = Sm.Source as Button;
+
+              
+                //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
+
+
+            });
+        }
+
+        public ICommand Image_Preprocessing_Process_New_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                Button _Contol = Sm.Source as Button;
+                try
+                {
+
+                    Image_Preprocessing_Process.Preprocessing_Process_Work((Image_Preprocessing_Process_Work_Enum)_Contol.Tag);
+
+
+                    User_Log_Add("成功新增流程！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+
+                }
+                catch (Exception e)
+                {
+
+                    User_Log_Add("新增流程失败！原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+
+                }
+                //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
+
+
+            });
+        }
+
+        public ICommand Image_Preprocessing_Process_Delete_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+
+                try
+                {
+
+                Image_Preprocessing_Process.Preprocessing_Process_Lsit_Delete();
+
+                    User_Log_Add("选择选项删除成功！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+
+                }
+                catch (Exception e)
+                {
+
+                    User_Log_Add("选择选项删除失败！原因："+e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+
+                }
+
+                //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
+
+
+            });
+        }
+
+        public ICommand Image_Preprocessing_Process_Start_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+
+                Task.Run(() =>
+                {
+
+                Image_Preprocessing_Process.Preprocessing_Process_Start();
+                //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
+
+                });
+
+            });
+        }
 
 
         public  void Socket_Log_Show(string _log)

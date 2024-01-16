@@ -1,7 +1,9 @@
 ﻿using Halcon_SDK_DLL.Model;
 using HalconDotNet;
 using PropertyChanged;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using Throw;
 
 namespace Halcon_SDK_DLL.Halcon_Method
 {
@@ -13,17 +15,23 @@ namespace Halcon_SDK_DLL.Halcon_Method
         {
 
 
+            //Test
+            Preprocessing_Process_List.Add(new Preprocessing_Process_Lsit_Model() { Image_Preprocessing_Process_Method = Image_Preprocessing_Process_Enum.MedianImage, Method_Run_Time = 156, V_1 = 156, V_2 = 123, V_3 = 6556 });
 
+            Preprocessing_Process_List.Add(new Preprocessing_Process_Lsit_Model() { Image_Preprocessing_Process_Method = Image_Preprocessing_Process_Enum.MedianImage, Method_Run_Time = 356, V_1 = 156, V_2 = 123, V_3 = 6556 });
 
-
-
+            Preprocessing_Process_List.Add(new Preprocessing_Process_Lsit_Model() { Image_Preprocessing_Process_Method = Image_Preprocessing_Process_Enum.Illuminate, Method_Run_Time = 356, V_1 = 156, V_2 = 123, V_3 = 6556 });
+            Preprocessing_Process_List.Add(new Preprocessing_Process_Lsit_Model() { Image_Preprocessing_Process_Method = Image_Preprocessing_Process_Enum.GrayClosingRect, Method_Run_Time = 356, V_1 = 156, V_2 = 123, V_3 = 6556 });
 
 
         }
 
 
-        public List<Preprocessing_Process_Lsit_Model> Preprocessing_Process_Lsit { set; get; } = new List<Preprocessing_Process_Lsit_Model>();
+        public ObservableCollection<Preprocessing_Process_Lsit_Model> Preprocessing_Process_List { set; get; } = new ObservableCollection<Preprocessing_Process_Lsit_Model>();
 
+
+
+        public Preprocessing_Process_Lsit_Model? Preprocessing_Process_List_Selete { set; get; }
 
 
         //public delegate T ADD_delegate<T>(int _IN);
@@ -31,25 +39,85 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
         //public ADD_delegate<object> ADD_Delegate_Model { set; get; }
 
-        public List<Action> Preprocessing_Process_Method { set; get; } = new List<Action>();
+        private List<Action> Preprocessing_Process_Method { set; get; } = new List<Action>();
 
+
+
+        public void Preprocessing_Process_Work(Image_Preprocessing_Process_Work_Enum _Work_Enum)
+        {
+            switch (_Work_Enum)
+            {
+                case Image_Preprocessing_Process_Work_Enum.Up_Insertion:
+                    if (Preprocessing_Process_List_Selete != null)
+                    {
+
+                      var _Index = Preprocessing_Process_List.IndexOf(Preprocessing_Process_List_Selete) - 1;
+                        if (_Index < 0)
+                        { Preprocessing_Process_New(0); }
+                        else
+                        {
+                            Preprocessing_Process_New(_Index);
+                        }
+                    }
+                    else
+                    {
+                        Preprocessing_Process_New(0);
+                    }
+                    break;
+                case Image_Preprocessing_Process_Work_Enum.Down_Insertion:
+                    if (Preprocessing_Process_List_Selete != null)
+                    {
+                        var a = Preprocessing_Process_List.IndexOf(Preprocessing_Process_List_Selete)+1;
+                        Preprocessing_Process_New(a);
+                    }
+                    else
+                    {
+                        Preprocessing_Process_New(Preprocessing_Process_List.Count);
+                    }
+
+
+                    break;
+                case Image_Preprocessing_Process_Work_Enum.Delete_List:
+
+                    Preprocessing_Process_Lsit_Delete();
+                    break;
+
+            }
+        }
+
+
+        public void Preprocessing_Process_Lsit_Delete()
+        {
+            Preprocessing_Process_List_Selete.ThrowIfNull("请选择需要删除的选项！");
+            if (Preprocessing_Process_List_Selete != null)
+            {
+                Preprocessing_Process_List.Remove(Preprocessing_Process_List_Selete);
+            }
+        }
 
 
         public void Preprocessing_Process_Start()
         {
 
-            foreach (var item in Preprocessing_Process_Lsit)
+            //清空内容
+            Preprocessing_Process_Method.Clear();
+
+            foreach (var item in Preprocessing_Process_List)
             {
 
-                Preprocessing_Process_Method.Add(Get_Preprocessing_Method(item.Image_Preprocessing_Process_Method, item.V_1, item.V_2, item.V_3, item.V_4, item.V_5, item.V_6, item.V_7, item.V_8, item.V_9, item.V_10));
-          
-            
+                Preprocessing_Process_Method.Add(Get_Preprocessing_Method(item.Image_Preprocessing_Process_Method, item.V_1, item.V_2, item.V_3, item.V_4, item.V_5, item.E_1, item.E_2, item.E_3, item.E_4, item.E_5));
+
+
             }
 
             //执行
             foreach (var item in Preprocessing_Process_Method)
             {
+
+
                 item.Invoke();
+
+
             }
 
 
@@ -57,20 +125,26 @@ namespace Halcon_SDK_DLL.Halcon_Method
         }
 
 
-
-
-        public Action Get_Preprocessing_Method(Image_Preprocessing_Process_Enum _Process ,dynamic?  V_1=null, dynamic? V_2=null, dynamic? V_3=null, dynamic? V_4=null, dynamic? V_5=null, dynamic? V_6=null, dynamic? V_7=null, dynamic? V_8=null, dynamic? V_9 = null, dynamic? V_10 = null)
+        public void Preprocessing_Process_New(int _List_No)
         {
+            Preprocessing_Process_List.Insert(_List_No, new Preprocessing_Process_Lsit_Model());
+        }
+
+        public Action Get_Preprocessing_Method(Image_Preprocessing_Process_Enum _Process, object? V_1 = null, object? V_2 = null, object? V_3 = null, object? V_4 = null, object? V_5 = null, Enum? E_1 = null, Enum? E_2 = null, Enum? E_3 = null, Enum? E_4 = null, Enum? E_5 = null)
+        {
+
+
+
 
             return _Process switch
             {
                 Image_Preprocessing_Process_Enum.ScaleImageMax => () => ScaleImageMax(),
-                Image_Preprocessing_Process_Enum.MedianRect => () => MedianRect(V_1, V_2),
-                Image_Preprocessing_Process_Enum.GrayOpeningRect => () => GrayOpeningRect(V_1, V_2),
-                Image_Preprocessing_Process_Enum.MedianImage => () => MedianImage(V_1, V_2, V_3),
-                Image_Preprocessing_Process_Enum.Illuminate => () => Illuminate(V_1, V_2, V_3),
-                Image_Preprocessing_Process_Enum.Emphasize => () => Emphasize(V_1, V_2, V_3),
-                Image_Preprocessing_Process_Enum.GrayClosingRect => () => GrayClosingRect(V_1, V_2),
+                Image_Preprocessing_Process_Enum.MedianRect => () => MedianRect((int)V_1!, (int)V_2!),
+                Image_Preprocessing_Process_Enum.GrayOpeningRect => () => GrayOpeningRect((int)V_1!, (int)V_2!),
+                Image_Preprocessing_Process_Enum.MedianImage => () => MedianImage((MedianImage_MaskType_Enum)E_1!, (int)V_2!, (MedianImage_Margin_Enum)E_2!),
+                Image_Preprocessing_Process_Enum.Illuminate => () => Illuminate((int)V_1!, (int)V_2!, (double)V_3!),
+                Image_Preprocessing_Process_Enum.Emphasize => () => Emphasize((int)V_1!, (int)V_2!, (double)V_3!),
+                Image_Preprocessing_Process_Enum.GrayClosingRect => () => GrayClosingRect((int)V_1!, (int)V_2!),
                 _ => throw new ArgumentException("无效的预处理过程枚举值。", nameof(_Process)),// 处理默认情况，或者根据需要抛出异常
             };
         }
@@ -91,6 +165,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public void MedianRect(int MedianRect_MaskWidth, int MedianRect_MaskHeight)
         {
 
+            MedianRect_MaskWidth.ThrowIfNull("参数不能：Null ");
+            MedianRect_MaskHeight.ThrowIfNull("参数不能：Null ");
             //HOperatorSet.MedianRect(_HImage, out _HImage, _Find_Property.MedianRect_MaskWidth, _Find_Property.MedianRect_MaskHeight);
 
             Image.MedianRect(MedianRect_MaskWidth, MedianRect_MaskHeight);
@@ -101,6 +177,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
         public void GrayOpeningRect(int maskHeight, int maskWidth)
         {
+            maskHeight.ThrowIfNull("参数不能：Null ");
+            maskWidth.ThrowIfNull("参数不能：Null ");
 
             Image.GrayOpeningRect(maskHeight, maskWidth);
 
@@ -109,12 +187,22 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
         public void MedianImage(MedianImage_MaskType_Enum MaskType_Model, int Median_image_Radius, MedianImage_Margin_Enum Margin_Model)
         {
+            MaskType_Model.ThrowIfNull("参数不能：Null ");
+            Median_image_Radius.ThrowIfNull("参数不能：Null ");
+            Margin_Model.ThrowIfNull("参数不能：Null ");
+
+
             Image.MedianImage(MaskType_Model.ToString(), Median_image_Radius, Margin_Model.ToString());
         }
 
 
         public void Illuminate(int maskWidth, int maskHeight, double factor)
         {
+            maskWidth.ThrowIfNull("参数不能：Null ");
+            maskHeight.ThrowIfNull("参数不能：Null ");
+            factor.ThrowIfNull("参数不能：Null ");
+
+
             Image.Illuminate(maskWidth, maskHeight, factor);
         }
 
@@ -122,19 +210,26 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
         public void Emphasize(int maskWidth, int maskHeight, double factor)
         {
+            maskWidth.ThrowIfNull("参数不能：Null ");
+            maskHeight.ThrowIfNull("参数不能：Null ");
+            factor.ThrowIfNull("参数不能：Null ");
+
             Image.Emphasize(maskWidth, maskHeight, factor);
         }
 
 
         public void GrayClosingRect(int maskHeight, int maskWidth)
         {
+            maskHeight.ThrowIfNull("参数不能：Null ");
+            maskWidth.ThrowIfNull("参数不能：Null ");
+
             Image.GrayClosingRect(maskHeight, maskWidth);
         }
 
 
     }
 
-
+    [AddINotifyPropertyChangedInterface]
     public class Preprocessing_Process_Lsit_Model
     {
         public Preprocessing_Process_Lsit_Model()
@@ -144,53 +239,70 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
         }
 
-        public Image_Preprocessing_Process_Enum Image_Preprocessing_Process_Method { set; get; } =  Image_Preprocessing_Process_Enum.ScaleImageMax;
+        public Image_Preprocessing_Process_Enum Image_Preprocessing_Process_Method { set; get; } = Image_Preprocessing_Process_Enum.ScaleImageMax;
 
 
 
 
-        public Action? Action_Method { set; get; }
+        //public Action? Action_Method { set; get; }
 
-
-
+        /// <summary>
+        /// 预处理方法运行序号
+        /// </summary>
+        public int Method_Num { set; get; } = 0;
         /// <summary>
         /// 耗时用毫秒单位
         /// </summary>
-        public int   Method_Run_Time { set; get; } = 0;
+        public int Method_Run_Time { set; get; } = 0;
 
 
-        public dynamic? V_1 { set; get; } 
-        public dynamic? V_2 { set; get; } 
-        public dynamic? V_3 { set; get; } 
-        public dynamic? V_4 { set; get; } 
-        public dynamic? V_5 { set; get; } 
-        public dynamic? V_6 { set; get; } 
-        public dynamic? V_7 { set; get; } 
-        public dynamic? V_8 { set; get; }
-        public dynamic? V_9 { set; get; }
-        public dynamic? V_10 { set; get; }
+        public object? V_1 { set; get; }
+        public object? V_2 { set; get; }
+        public object? V_3 { set; get; }
+        public object? V_4 { set; get; }
+        public object? V_5 { set; get; }
+        public Enum? E_1 { set; get; }
+        public Enum? E_2 { set; get; }
+        public Enum? E_3 { set; get; }
+        public Enum? E_4 { set; get; }
+        public Enum? E_5 { set; get; }
 
     }
 
 
 
-        public enum Image_Preprocessing_Process_Enum
-        {
-            [Description("图像最大最小分布")]
-            ScaleImageMax,
-            [Description("中值滤波器")]
-            MedianRect,
-            [Description("矩形开运算")]
-            GrayOpeningRect,
-            [Description("中值滤波器")]
-            MedianImage,
-            [Description("增强对比度")]
-            Illuminate,
-            [Description("增强边缘")]
-            Emphasize,
-            [Description("矩形闭运算")]
-            GrayClosingRect
+    public enum Image_Preprocessing_Process_Enum
+    {
+        [Description("灰度动调分布")]
+        ScaleImageMax,
+        [Description("中值滤波器")]
+        MedianRect,
+        [Description("矩形开运算")]
+        GrayOpeningRect,
+        [Description("中值滤波器")]
+        MedianImage,
+        [Description("高频增强对比")]
+        Illuminate,
+        [Description("增强边缘")]
+        Emphasize,
+        [Description("矩形闭运算")]
+        GrayClosingRect
 
-        }
+    }
+
+
+    public enum Image_Preprocessing_Process_Work_Enum
+    {
+        [Description("上方插入")]
+        Up_Insertion,
+        [Description("上方插入")]
+        Down_Insertion,
+        [Description("删除选择")]
+        Delete_List,
+
+    }
+
+
+
 
 }

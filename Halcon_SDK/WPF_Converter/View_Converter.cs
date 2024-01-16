@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Windows.Markup;
 
 namespace Halcon_SDK_DLL.WPF_Converter
 {
-    public  class View_Converter
+    public class View_Converter
     {
     }
 
@@ -79,6 +75,96 @@ namespace Halcon_SDK_DLL.WPF_Converter
         }
     }
 
+
+
+    /// <summary>
+    /// View 枚举转换器
+    /// </summary>
+    //public class EnumToItems_EnumConverter : IValueConverter
+    //{
+
+
+    //    public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    //    {
+
+    //        IEnumerable<Enum>? EnumList = default;
+    //        if (value != null)
+    //        {
+
+    //            EnumList = Enum.GetValues(value.GetType()).Cast<Enum>();
+
+    //        }
+    //        return EnumList;
+    //        //int enumValue = 0;
+    //        //if (parameter is Type)
+    //        //{
+    //        //    enumValue = (int)Enum.Parse((Type)parameter, value.ToString()!);
+    //        //}
+    //        //return enumValue;
+    //    }
+    //    public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    //    {
+
+    //        //Enum? returnValue = default;
+    //        //if (parameter is Type @type)
+    //        //{
+    //        //    returnValue = (Enum)Enum.Parse(@type, value.ToString()!);
+    //        //}
+    //        //return returnValue;
+
+    //        return value;
+
+    //    }
+    //}
+
+
+    /// <summary>
+    /// View 枚举转换器
+    /// </summary>
+    public class ValueToObject_Converter : IValueConverter
+    {
+
+
+
+        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return ConvertToType(value, targetType);
+        }
+
+        public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return ConvertToType(value, targetType);
+        }
+
+        private  object? ConvertToType(object value, Type targetType)
+        {
+            try
+            {
+                if (value!=null)
+                {
+
+                if (targetType == typeof(object)) return value;
+                var converter = TypeDescriptor.GetConverter(targetType);
+                return converter.ConvertFrom(value.ToString()!)!;
+                }
+                return default;
+
+            }
+            catch
+            {
+                var errorValue = value;
+                throw new Exception(
+                    $"在 TrueFalseValues 类中使用 TypeConverter 尝试将 { errorValue } 转换为 { targetType.Name}  类型时失败");
+        }
+}
+
+
+    }
+
+
+
+
+
     /// <summary>
     /// 控件状态枚举转换器
     /// </summary>
@@ -86,9 +172,9 @@ namespace Halcon_SDK_DLL.WPF_Converter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value.ToString()== parameter.ToString())
+            if (value.ToString() == parameter.ToString())
             {
-            return true;
+                return true;
 
             }
             else
@@ -100,7 +186,7 @@ namespace Halcon_SDK_DLL.WPF_Converter
         {
             if (Boolean.Parse(value.ToString()!))
             {
- 
+                var converter = TypeDescriptor.GetConverter(targetType);
                 return (Enum)Enum.Parse(targetType, parameter.ToString()!);
             }
             else
@@ -118,25 +204,25 @@ namespace Halcon_SDK_DLL.WPF_Converter
     public class EnumDescriptionConverter : IValueConverter
     {
 
-        public  string? GetEnumDescription(object  enumObj)
+        public string? GetEnumDescription(object enumObj)
         {
             try
             {
+     
 
-        
-            FieldInfo? fieldInfo = enumObj.GetType().GetField(enumObj.ToString()!);
+                FieldInfo? fieldInfo = enumObj.GetType().GetField(enumObj.ToString()!);
 
-            object[] attribArray = fieldInfo!.GetCustomAttributes(false);
+                object[] attribArray = fieldInfo!.GetCustomAttributes(false);
 
-            if (attribArray!.Length == 0 || attribArray==null)
-            {
-                return enumObj.ToString()!;
-            }
-            else
-            {
-                DescriptionAttribute? attrib = attribArray[0] as DescriptionAttribute;
-                return attrib!.Description;
-            }
+                if (attribArray!.Length == 0 || attribArray == null)
+                {
+                    return enumObj.ToString()!;
+                }
+                else
+                {
+                    DescriptionAttribute? attrib = attribArray[0] as DescriptionAttribute;
+                    return attrib!.Description;
+                }
             }
             catch (Exception)
             {
@@ -150,16 +236,45 @@ namespace Halcon_SDK_DLL.WPF_Converter
         {
             //Enum _Enum = value as Enum;
             //Enum myEnum = (Enum)value;
-            string? description = GetEnumDescription(value);
+            string? description = new string(GetEnumDescription(value));
             return description;
         }
 
         public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return string.Empty;
+            return value;
         }
     }
 
+
+
+
+    /// <summary>
+    /// 拓展标记枚举转换方法
+    /// </summary>
+    public class EnumBindingSourceExtension : MarkupExtension
+    {
+
+
+        public Type? Enum_List { set; get; } 
+
+        public EnumBindingSourceExtension(Type enumType)
+        {
+            if (enumType is null || !enumType.IsEnum)
+                throw new Exception("类型必须是枚举类型");
+            Enum_List = enumType;
+        }
+
+        public override object ProvideValue(IServiceProvider serviceProvider)
+        {
+
+            //返回枚举集合
+            return Enum.GetValues(Enum_List!).Cast<Enum>();
+
+        }
+
+
+    }
 
 
 

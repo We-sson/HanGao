@@ -1969,7 +1969,9 @@ namespace Halcon_SDK_DLL.Model
     /// </summary>
     public enum MedianImage_MaskType_Enum
     {
+        [Description("圆形")]
         circle,
+        [Description("正方形")]
         square
     }
     /// <summary>
@@ -1977,9 +1979,12 @@ namespace Halcon_SDK_DLL.Model
     /// </summary>
     public enum MedianImage_Margin_Enum
     {
+        [Description("边缘反射")]
         mirrored,
+        [Description("边缘循环延续")]
         cyclic,
-        continued,
+        [Description("边缘延续")]
+                continued,
     }
     /// <summary>
     /// 匹配模型后缀类型
