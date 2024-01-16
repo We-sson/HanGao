@@ -5721,7 +5721,7 @@
                                                                                                 Minimum="0"
                                                                                                 SmallChange="0.1"
                                                                                                 TickFrequency="0.2"
-                                                                                                Value="{Binding V_3, Converter={StaticResource ValueToObject_Converter}}" />
+                                                                                                Value="{Binding V_3, TargetNullValue=0, Converter={StaticResource ValueToObject_Converter}}" />
 
                                                                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                                                                  Text="{Binding ElementName=Emphasize_Factor, Path=Value, StringFormat={}{0:F1}}"
@@ -5775,7 +5775,7 @@
                                                                                                 Minimum="3"
                                                                                                 SmallChange="2"
                                                                                                 TickFrequency=" 2"
-                                                                                                Value="{Binding V_1, Converter={StaticResource ValueToObject_Converter}}" />
+                                                                                                Value="{Binding V_1, TargetNullValue=0, Converter={StaticResource ValueToObject_Converter}}" />
 
                                                                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                                                                  Text="{Binding ElementName=GrayClosingRect_MaskWidth, Path=Value}"

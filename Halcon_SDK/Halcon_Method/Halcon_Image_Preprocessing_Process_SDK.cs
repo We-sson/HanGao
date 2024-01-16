@@ -51,7 +51,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                     if (Preprocessing_Process_List_Selete != null)
                     {
 
-                      var _Index = Preprocessing_Process_List.IndexOf(Preprocessing_Process_List_Selete) - 1;
+                      var _Index = Preprocessing_Process_List.IndexOf(Preprocessing_Process_List_Selete) ;
                         if (_Index < 0)
                         { Preprocessing_Process_New(0); }
                         else
@@ -85,7 +85,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
             }
         }
 
-
+        /// <summary>
+        /// 图像流程集合删除
+        /// </summary>
         public void Preprocessing_Process_Lsit_Delete()
         {
             Preprocessing_Process_List_Selete.ThrowIfNull("请选择需要删除的选项！");
@@ -127,7 +129,14 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
         public void Preprocessing_Process_New(int _List_No)
         {
-            Preprocessing_Process_List.Insert(_List_No, new Preprocessing_Process_Lsit_Model());
+            //插入新流程
+            Preprocessing_Process_List.Insert(_List_No, new Preprocessing_Process_Lsit_Model() { });
+
+            //新建排序
+            for (int i = 0; i < Preprocessing_Process_List.Count; i++)
+            {
+                Preprocessing_Process_List[i].Method_Num = i;
+            }
         }
 
         public Action Get_Preprocessing_Method(Image_Preprocessing_Process_Enum _Process, object? V_1 = null, object? V_2 = null, object? V_3 = null, object? V_4 = null, object? V_5 = null, Enum? E_1 = null, Enum? E_2 = null, Enum? E_3 = null, Enum? E_4 = null, Enum? E_5 = null)

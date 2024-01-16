@@ -132,7 +132,7 @@ namespace Halcon_SDK_DLL.WPF_Converter
         }
 
         public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
+        { 
             return ConvertToType(value, targetType);
         }
 
@@ -147,7 +147,7 @@ namespace Halcon_SDK_DLL.WPF_Converter
                 var converter = TypeDescriptor.GetConverter(targetType);
                 return converter.ConvertFrom(value.ToString()!)!;
                 }
-                return default;
+                return 0;
 
             }
             catch
