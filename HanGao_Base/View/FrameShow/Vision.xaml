@@ -156,7 +156,7 @@
                                 </StackPanel>
                             </RadioButton>
                             <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Features_Window_Button" Grid.Column=" 2"
-                                         IsChecked="False"
+                                         IsChecked="True"
                                          Margin="5"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -238,7 +238,7 @@
                             </Menu>
                             <Grid Grid.Column="1">
                                 <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="Window_Switch"
-                                              IsChecked="True"
+                                              IsChecked="False"
                                               Height=" 35"
                                               Margin="4,0,4,0"
                                               Padding="0"
@@ -347,6 +347,11 @@
                                                        VerticalContentAlignment="Center"
                                                        HDisableAutoResize="True"
                                                        SnapsToDevicePixels="True">
+                            <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.Live_Window}" />
+                            <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.Live_Window.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
+                                                            HDraw="{Binding Halcon_Window_Display.Live_Window.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
+                                                            IconicObject="{Binding Halcon_Window_Display.Live_Window.DisplayRegion}" />
+                            <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.Live_Window.DisplayXLD}" />
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Loaded">
                                     <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
@@ -525,9 +530,11 @@
                                                            HorizontalContentAlignment="Center"
                                                            VerticalContentAlignment="Center"
                                                            SnapsToDevicePixels="True">
-                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Results_Window_2.DisplayImage}" />
-                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Results_Window_2.DisplayRegion}" />
-                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Results_Window_2.DisplayXLD}" />
+                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.Results_Window_2.DisplayImage}" />
+                                <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.Results_Window_2.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
+                                                                HDraw="{Binding Halcon_Window_Display.Results_Window_2.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
+                                                                IconicObject="{Binding Halcon_Window_Display.Results_Window_2.DisplayRegion}" />
+                                <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.Results_Window_2.DisplayXLD}" />
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Loaded">
                                         <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
@@ -644,9 +651,11 @@
                                                            HorizontalContentAlignment="Center"
                                                            VerticalContentAlignment="Center"
                                                            SnapsToDevicePixels="True">
-                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Results_Window_4.DisplayImage}" />
-                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Results_Window_4.DisplayRegion}" />
-                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Results_Window_4.DisplayXLD}" />
+                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.Results_Window_4.DisplayImage}" />
+                                <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.Results_Window_4.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
+                                                                HDraw="{Binding Halcon_Window_Display.Results_Window_4.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
+                                                                IconicObject="{Binding Halcon_Window_Display.Results_Window_4.DisplayRegion}" />
+                                <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.Results_Window_4.DisplayXLD}" />
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Loaded">
                                         <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
@@ -763,9 +772,11 @@
                                                            HorizontalContentAlignment="Center"
                                                            VerticalContentAlignment="Center"
                                                            SnapsToDevicePixels="True">
-                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Results_Window_3.DisplayImage}" />
-                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Results_Window_3.DisplayRegion}" />
-                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Results_Window_3.DisplayXLD}" />
+                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.Results_Window_3.DisplayImage}" />
+                                <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.Results_Window_3.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
+                                                                HDraw="{Binding Halcon_Window_Display.Results_Window_3.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
+                                                                IconicObject="{Binding Halcon_Window_Display.Results_Window_3.DisplayRegion}" />
+                                <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.Results_Window_3.DisplayXLD}" />
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Loaded">
                                         <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
@@ -910,6 +921,11 @@
                                                        HorizontalContentAlignment="Center"
                                                        VerticalContentAlignment="Center"
                                                        SnapsToDevicePixels="True">
+                            <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.Features_Window.DisplayImage}" />
+                            <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.Features_Window.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
+                                                            HDraw="{Binding Halcon_Window_Display.Features_Window.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
+                                                            IconicObject="{Binding Halcon_Window_Display.Features_Window.DisplayRegion}" />
+                            <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.Features_Window.DisplayXLD}" />
                             <Halcon:HSmartWindowControlWPF.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem x:Name="Draw_Pos" Header="添加特征点">
@@ -1183,7 +1199,7 @@
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Camera_Settings" Grid.Row=" 0"
-                                     IsChecked="False"
+                                     IsChecked="True"
                                      Margin="4"
                                      HorizontalContentAlignment="Stretch"
                                      VerticalContentAlignment="Stretch"
@@ -1206,7 +1222,6 @@
                             </CheckBox>
                         </RadioButton>
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Point_Calibration" Grid.Row=" 1"
-                                     IsChecked="False"
                                      Margin="4"
                                      HorizontalContentAlignment="Stretch"
                                      VerticalContentAlignment="Stretch"
@@ -1229,7 +1244,6 @@
                             </CheckBox>
                         </RadioButton>
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Create_Model" Grid.Row=" 2"
-                                     IsChecked="True"
                                      Margin="4"
                                      HorizontalContentAlignment="Stretch"
                                      VerticalContentAlignment="Stretch"
@@ -1752,12 +1766,12 @@
                                                                 <Border Width=" 23"
                                                                         Height=" 23"
                                                                         Margin="4"
-                                                                        BorderThickness="2"
                                                                         CornerRadius=" 5">
                                                                     <Border.Style>
                                                                         <Style TargetType="Border">
                                                                             <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
                                                                             <Setter Property="Background" Value="{DynamicResource 全局_按钮_黄颜色}" />
+                                                                            <Setter Property="BorderThickness" Value="2" />
                                                                             <Style.Triggers>
                                                                                 <DataTrigger Binding="{Binding Camer_Status, Mode=TwoWay}" Value="{x:Static MVS_Enum:MV_CAM_Device_Status_Enum.Possess}">
                                                                                     <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
@@ -1794,7 +1808,8 @@
                                                                 <TextBlock Text="{Binding Camera_Info.SerialNumber}"
                                                                            HorizontalAlignment="Center"
                                                                            VerticalAlignment="Center"
-                                                                           FontSize="16" />
+                                                                           FontSize="16"
+                                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                                             </DataTemplate>
                                                         </DataGridTemplateColumn.CellTemplate>
 
@@ -1818,7 +1833,8 @@
                                                                            Margin="4"
                                                                            HorizontalAlignment="Center"
                                                                            VerticalAlignment="Center"
-                                                                           FontSize="16" />
+                                                                           FontSize="16"
+                                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                                             </DataTemplate>
                                                         </DataGridTemplateColumn.CellTemplate>
 
@@ -1939,14 +1955,14 @@
                                                     Margin="0,0,10,0"
                                                     HorizontalContentAlignment="Center"
                                                     VerticalContentAlignment="Center"
-                                                    Background="{DynamicResource 全局_按钮_蓝颜色}"
                                                     FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                     FontSize=" 26">
                                                 <Button.Style>
                                                     <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
+                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_蓝颜色}" />
                                                         <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Camera_Connect_OK}" Value="True">
-                                                                <Setter Property="IsEnabled" Value="False" />
+                                                            <DataTrigger Binding="{Binding Select_Camera.Camer_Status}" Value="{x:Static MVS_Enum:MV_CAM_Device_Status_Enum.Connecting}">
+                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
                                                             </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
@@ -2041,7 +2057,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Parameter_Val.ExposureTime, Mode=TwoWay}">
+                                                    Value="{Binding Select_Camera.Camera_parameter.ExposureTime, Mode=TwoWay}">
                                                 <!--<i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="PreviewMouseUp">
@@ -2096,7 +2112,7 @@
                                                     Minimum="0"
                                                     SmallChange="0.1"
                                                     TickFrequency="0.01"
-                                                    Value="{Binding Camera_Parameter_Val.Gain, Mode=TwoWay}">
+                                                    Value="{Binding Select_Camera.Camera_parameter.Gain, Mode=TwoWay}">
 
                                                 <!--<i:Interaction.Triggers>
 
@@ -2109,7 +2125,7 @@
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding ElementName=Camera_Gain_UI, Path=Value}"
+                                                     Text="{Binding ElementName=Camera_Gain_UI, Path=Value, StringFormat={}{0:F2}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -2142,7 +2158,7 @@
                                                     Minimum="-6"
                                                     SmallChange="0.1"
                                                     TickFrequency="0.1"
-                                                    Value="{Binding Camera_Parameter_Val.DigitalShift, Mode=TwoWay}">
+                                                    Value="{Binding Select_Camera.Camera_parameter.DigitalShift, Mode=TwoWay}">
                                                 <!--<i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="PreviewMouseUp">
@@ -2154,7 +2170,7 @@
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding ElementName=DigitalShift, Path=Value, Mode=TwoWay}"
+                                                     Text="{Binding ElementName=DigitalShift, Path=Value, Mode=TwoWay, StringFormat={}{0:F2}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -2187,7 +2203,7 @@
                                                     Minimum="0"
                                                     SmallChange="0.1"
                                                     TickFrequency="0.1"
-                                                    Value="{Binding Camera_Parameter_Val.Gamma, Mode=TwoWay}">
+                                                    Value="{Binding Select_Camera.Camera_parameter.Gamma, Mode=TwoWay}">
                                                 <!--<i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="PreviewMouseUp">
@@ -2199,7 +2215,7 @@
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding ElementName=Gamma, Path=Value, Mode=TwoWay}"
+                                                     Text="{Binding ElementName=Gamma, Path=Value, Mode=TwoWay, StringFormat={}{0:F2}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -2275,7 +2291,7 @@
                                                     Maximum="4095"
                                                     Minimum="0"
                                                     SmallChange="1"
-                                                    Value="{Binding Camera_Parameter_Val.BlackLevel, Mode=TwoWay}">
+                                                    Value="{Binding Select_Camera.Camera_parameter.BlackLevel, Mode=TwoWay}">
                                                 <!--<i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="PreviewMouseUp">
@@ -2324,7 +2340,7 @@
                                                       FontSize="20"
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
-                                                      SelectedIndex="{Binding Camera_Parameter_Val.AcquisitionMode, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type MVS:MV_CAM_ACQUISITION_MODE}}">
+                                                      SelectedIndex="{Binding Select_Camera.Camera_parameter.AcquisitionMode, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type MVS:MV_CAM_ACQUISITION_MODE}}">
 
                                                 <ComboBoxItem>
 
@@ -2436,7 +2452,7 @@
 
                                             <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row="0" Grid.Column=" 0"
                                                       Content="闪光灯"
-                                                      IsChecked="{Binding Camera_Parameter_Val.LineInverter}"
+                                                      IsChecked="{Binding Select_Camera.Camera_parameter.LineInverter}"
                                                       Margin="0"
                                                       HorizontalAlignment="Left"
                                                       VerticalAlignment="Center"

@@ -187,11 +187,11 @@ namespace HanGao.ViewModel
 
 
 
-        private static MVS _Camera_Device_List = new MVS();
+        private static MVS_Camera_SDK _Camera_Device_List = new MVS_Camera_SDK();
         /// <summary>
         /// 相机设备列表
         /// </summary>
-        public static MVS Camera_Device_List
+        public static MVS_Camera_SDK Camera_Device_List
         {
             get { return _Camera_Device_List; }
             set
@@ -204,10 +204,10 @@ namespace HanGao.ViewModel
 
 
 
-        /// <summary>
-        /// 相机参数值
-        /// </summary>
-        public MVS_Camera_Parameter_Model Camera_Parameter_Val { get; set; } = new MVS_Camera_Parameter_Model();
+        ///// <summary>
+        ///// 相机参数值
+        ///// </summary>
+        //public MVS_Camera_Parameter_Model Camera_Parameter_Val { get; set; } = new MVS_Camera_Parameter_Model();
 
         /// <summary>
         /// 选择相机信息
@@ -809,11 +809,16 @@ namespace HanGao.ViewModel
                     if (Display_Status(
                         _Haclon.ShapeModel_ReadFile(Halcon_SDK.Match_Models_List.Where(_M => _M.Match_File.Name == _Shape.Name).FirstOrDefault().Match_File)).GetResult())
                     {
+                        Application.Current.Dispatcher.Invoke(() => {
+
                         Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window);
                         Halcon_Window_Display.Display_HObject(null, null, _Haclon.Shape_ModelContours,null, Window_Show_Name_Enum.Features_Window);
+                        });
                         //Features_Window.HWindow.ClearWindow();
                         //Features_Window.HWindow.DispObj(_Haclon.Shape_ModelContours);
                     }
+
+                    
                     //清楚内存
                     _Haclon.Dispose();
                 }
@@ -1363,6 +1368,14 @@ namespace HanGao.ViewModel
         //public int Vision_Data_ID_UI { set; get; }
 
 
+
+
+        /// <summary>
+        /// 相机图像回调方法
+        /// </summary>
+        /// <param name="pData"></param>
+        /// <param name="pFrameInfo"></param>
+        /// <param name="pUser"></param>
         private void ImageCallbackFunc(IntPtr pData, ref MV_FRAME_OUT_INFO_EX pFrameInfo, IntPtr pUser)
         {
             //HImage_Display_Model MVS_TOHalcon = new HImage_Display_Model();
@@ -1370,8 +1383,10 @@ namespace HanGao.ViewModel
             ///转换海康图像类型
             if (Halcon_SDK.Mvs_To_Halcon_Image(ref _Image, pFrameInfo.nWidth, pFrameInfo.nHeight, pData))
             {
+                Application.Current.Dispatcher.Invoke(() => {
 
                 Halcon_Window_Display.Display_HObject(_Image, null, null, null, Window_Show_Name_Enum.Live_Window);
+                });
                 //传送控件显示
                 //Messenger.Send<HImage_Display_Model, string>(new HImage_Display_Model()
                 //{
@@ -1460,7 +1475,7 @@ namespace HanGao.ViewModel
                     if (Select_Camera?.Camer_Status == MV_CAM_Device_Status_Enum.Connecting && Select_Camera != null)
                     {
 
-                        Select_Camera.Set_Camrea_Parameters_List(Camera_Parameter_Val);
+                        Select_Camera.Set_Camrea_Parameters_List(Select_Camera.Camera_parameter);
                     }
                     else
                     {
@@ -1507,7 +1522,7 @@ namespace HanGao.ViewModel
 
                         Get_Image(ref _Image, Get_Image_Model_Enum.相机采集, Select_Camera.Show_Window);
 
-                        User_Log_Add(Select_Camera.Camera_Info.SerialNumber.ToString() + "相机采集图像成功到窗口：" + Select_Camera.Show_Window, Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+                        User_Log_Add(Select_Camera.Camera_Info.SerialNumber.ToString() + "：相机采集图像成功到窗口：" + Select_Camera.Show_Window, Log_Show_Window_Enum.Home, MessageBoxImage.Question);
 
                     }
                     catch (Exception _e)
@@ -1566,9 +1581,12 @@ namespace HanGao.ViewModel
             //UC_Visal_Function_VM.Load_Image = _Image.CopyObj(1, -1);
             Load_Image = _Image;
 
+            Application.Current.Dispatcher.Invoke(() => {
+
+                Halcon_Window_Display.Display_HObject(Load_Image, null, null, null, _HW);
+            });
 
             //显示图像
-            Halcon_Window_Display.Display_HObject(_Image, null, null, null, _HW);
             //_Window.DisplayImage = _Image;
             //保存图像当当前目录下
             if (Global_Seting.IsVisual_image_saving)
@@ -1592,7 +1610,7 @@ namespace HanGao.ViewModel
         /// </summary>
         public ICommand Connection_Camera_Comm
         {
-            get => new RelayCommand<UC_Vision_CameraSet>((E) =>
+            get => new RelayCommand<RoutedEventArgs>((E) =>
             {
 
                 try
@@ -1622,7 +1640,7 @@ namespace HanGao.ViewModel
         /// </summary>
         public ICommand Disconnection_Camera_Comm
         {
-            get => new RelayCommand<UC_Vision_CameraSet>((E) =>
+            get => new RelayCommand<RoutedEventArgs>((E) =>
             {
 
 

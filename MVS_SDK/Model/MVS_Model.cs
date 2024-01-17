@@ -212,7 +212,7 @@ namespace MVS_SDK_Base.Model
                 ExposureAuto = _Param.ExposureAuto;
                 //ExposureMode = _Param.ExposureMode;
                 TriggerMode = _Param.TriggerMode;
-                TriggerActivation = _Param.TriggerActivation;
+                //TriggerActivation = _Param.TriggerActivation;
                 TriggerDelay = _Param.TriggerDelay;
                 GainAuto = _Param.GainAuto;
                 Gain = _Param.Gain;
@@ -281,9 +281,9 @@ namespace MVS_SDK_Base.Model
             /// <summary>
             /// 控制所选触发器是否处于活动状态，枚举类型——默认，"MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_LINE0"
             /// </summary>
-            [StringValue("设置控制所选触发器是否处于活动状态")]
-            [Camera_ReadWrite(Camera_Parameter_RW_Type.Write)]
-            public MV_CAM_TRIGGER_SOURCE TriggerActivation { set; get; } = MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_LINE1;
+            //[StringValue("设置控制所选触发器是否处于活动状态")]
+            //[Camera_ReadWrite(Camera_Parameter_RW_Type.Write)]
+            //public MV_CAM_TRIGGER_SOURCE TriggerActivation { set; get; } = MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_LINE1;
             /// <summary>
             /// 指定在激活触发接收之前要应用的延迟（以us为单位）
             /// </summary>
@@ -614,7 +614,19 @@ namespace MVS_SDK_Base.Model
 
 
 
+            /// <summary>
+            /// 泛型类型委托声明
+            /// </summary>
+            /// <param name="_Connect_State"></param>
+            public delegate void MVS_T_delegate<T>(T _Tl);
 
+
+
+
+            /// <summary>
+            /// 相机设置错误委托属性
+            /// </summary>
+            public MVS_T_delegate<string> ErrorInfo_delegate { set; get; }
 
 
             /// <summary>
@@ -758,10 +770,17 @@ namespace MVS_SDK_Base.Model
 
                 try
                 {
+
+
+                    if (Camer_Status != MV_CAM_Device_Status_Enum.Connecting)
+                    {
+                        Connect_Camera();
+                    }
+
                     //设置为单帧模式
                     Camera_parameter.AcquisitionMode = MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_SINGLE;
 
-                    Set_Camrea_Parameters_List(Camera_parameter);
+                    //Set_Camrea_Parameters_List(Camera_parameter);
 
                     //设置相机总参数
                     Set_Camrea_Parameters_List(Camera_parameter);
@@ -808,8 +827,8 @@ namespace MVS_SDK_Base.Model
             /// </summary>
             /// <param name="_Timeout"></param>
             /// <returns></returns>
-            public MVS_Image_Mode GetOneFrameTimeout(int _Timeout = 1000)
-            {
+            public MVS_Image_Mode GetOneFrameTimeout(int _Timeout = 5000)
+             {
 
 
 
@@ -828,6 +847,9 @@ namespace MVS_SDK_Base.Model
                     //获取图像缓存大小
                     Set_Camera_Val(Camera_Parameters_Name_Enum.PayloadSize, Camera.GetIntValue("PayloadSize", ref stParam));
 
+
+             
+
                     //创建帧图像信息
                     MVS_Image_Mode Frame_Image = new MVS_Image_Mode
                     {
@@ -835,7 +857,7 @@ namespace MVS_SDK_Base.Model
                         pData_Buffer = new byte[stParam.CurValue]
                     };
 
-
+           
 
                     //抓取一张图片
                     if (Set_Camera_Val(Camera_Parameters_Name_Enum.GetOneFrameTimeout, Camera.GetOneFrameTimeout(Frame_Image.pData_Buffer, (uint)stParam.CurValue, ref Frame_Image.FrameEx_Info, _Timeout)))
@@ -873,7 +895,13 @@ namespace MVS_SDK_Base.Model
                 try
                 {
 
-                    Set_Camera_Val(Camera_Parameters_Name_Enum.StartGrabbing, Camera.StartGrabbing());
+
+                    if (!Set_Camera_Val(Camera_Parameters_Name_Enum.StartGrabbing, Camera.StartGrabbing()))
+                    {
+                        throw new Exception("开始取流失败！" );
+
+                    }
+
 
                 }
                 catch (Exception _e)
@@ -1092,7 +1120,7 @@ namespace MVS_SDK_Base.Model
             /// </summary>
             /// <param name="_name">相机参数名称枚举</param>
             /// <param name="_key">相机状态码</param>
-            public static bool Set_Camera_Val<T1, T2>(T1 _name, T2 _key)
+            public  bool Set_Camera_Val<T1, T2>(T1 _name, T2 _key)
             {
                 var aa = _name.GetType();
 
@@ -1113,7 +1141,7 @@ namespace MVS_SDK_Base.Model
                                 //创建失败方法
                                 if (CErrorDefine.MV_OK != Tint)
                                 {
-                                    MPR_Status_Model.MVS_ErrorInfo_delegate("参数 : " + _name + " | 数值 : " + _Ename.GetStringValue());
+                                    ErrorInfo_delegate?.Invoke("参数 : " + _name + " | 数值 : " + _Ename.GetStringValue());
                                     return false;
                                 }
 
@@ -1122,7 +1150,7 @@ namespace MVS_SDK_Base.Model
                                 //创建失败方法
                                 if (false == Tbool)
                                 {
-                                    MPR_Status_Model.MVS_ErrorInfo_delegate("参数 : " + _name + " | 数值 : " + _Ename.GetStringValue());
+                                    ErrorInfo_delegate?.Invoke("参数 : " + _name + " | 数值 : " + _Ename.GetStringValue());
                                     return false;
                                 }
 
@@ -1151,7 +1179,7 @@ namespace MVS_SDK_Base.Model
                                 {
                                     var a = (StringValueAttribute)_Tname.GetCustomAttribute(typeof(StringValueAttribute));
 
-                                    MPR_Status_Model.MVS_ErrorInfo_delegate("参数 : " + _Tname.Name + " | 数值 : " + _ErrorInfo.StringValue);
+                                    ErrorInfo_delegate?.Invoke("参数 : " + _Tname.Name + " | 数值 : " + _ErrorInfo.StringValue);
                                     return false;
                                 }
 
@@ -1162,7 +1190,7 @@ namespace MVS_SDK_Base.Model
                                 {
                                     var a = (StringValueAttribute)_Tname.GetCustomAttribute(typeof(StringValueAttribute));
 
-                                    MPR_Status_Model.MVS_ErrorInfo_delegate("参数 : " + _Tname.Name + " | 数值 : " + _ErrorInfo.StringValue);
+                                    ErrorInfo_delegate?.Invoke("参数 : " + _Tname.Name + " | 数值 : " + _ErrorInfo.StringValue);
                                     return false;
                                 }
 
@@ -1193,7 +1221,7 @@ namespace MVS_SDK_Base.Model
             /// <param name="_name"></param>
             /// <param name="_key"></param>
             /// <returns></returns>
-            public static bool Get_Camera_Val<T1, T2>(T1 _name, T2 _key)
+            public  bool Get_Camera_Val<T1, T2>(T1 _name, T2 _key)
             {
 
                 if (_name is PropertyInfo _Tname)
@@ -1211,7 +1239,7 @@ namespace MVS_SDK_Base.Model
                             {
                                 var a = (StringValueAttribute)_Tname.GetCustomAttribute(typeof(StringValueAttribute));
 
-                                MPR_Status_Model.MVS_ErrorInfo_delegate("参数 : " + _Tname.Name + " | 数值 : " + _ErrorInfo.StringValue);
+                                ErrorInfo_delegate?.Invoke("参数 : " + _Tname.Name + " | 数值 : " + _ErrorInfo.StringValue);
                                 return false;
                             }
 
@@ -1222,7 +1250,7 @@ namespace MVS_SDK_Base.Model
                             {
                                 var a = (StringValueAttribute)_Tname.GetCustomAttribute(typeof(StringValueAttribute));
 
-                                MPR_Status_Model.MVS_ErrorInfo_delegate("参数 : " + _Tname.Name + " | 数值 : " + _ErrorInfo.StringValue);
+                                ErrorInfo_delegate?.Invoke("参数 : " + _Tname.Name + " | 数值 : " + _ErrorInfo.StringValue);
                                 return false;
                             }
 
@@ -1289,7 +1317,7 @@ namespace MVS_SDK_Base.Model
                 {
                     Close_Camera();
 
-                    throw new Exception("相机连接失败原因 ：" + _e);
+                    throw new Exception("相机连接失败原因 ：" + _e.Message);
 
                 }
 
@@ -1382,7 +1410,7 @@ namespace MVS_SDK_Base.Model
                 //检查相机设备可用情况
                 return CSystem.IsDeviceAccessible(ref MVS_CameraInfo, MV_ACCESS_MODE.MV_ACCESS_EXCLUSIVE);
 
-
+               
 
 
 

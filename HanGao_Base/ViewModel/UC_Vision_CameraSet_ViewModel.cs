@@ -19,10 +19,10 @@ namespace HanGao.ViewModel
 
             //Dictionary<int, string> _E = new();
             //相机设置错误信息委托显示
-            MPR_Status_Model.MVS_ErrorInfo_delegate += (string _Error) =>
-            {
-                User_Log_Add(_Error, Log_Show_Window_Enum.Home);
-            };
+            //MPR_Status_Model.MVS_ErrorInfo_delegate += (string _Error) =>
+            //{
+            //    User_Log_Add(_Error, Log_Show_Window_Enum.Home);
+            //};
 
 
             //UI关闭,强制断开相机连接
@@ -72,21 +72,25 @@ namespace HanGao.ViewModel
 
 
 
-
         /// <summary>
         /// 相机信息
         /// </summary>
-        public static MVS_Camera_Info_Model _Select_Camera { set; get; } = new MVS_Camera_Info_Model();
+        public static MVS_Camera_SDK _Camera_Drivers { set; get; } = new MVS_Camera_SDK();
 
-        public static MVS_Camera_Info_Model Select_Camera
+        public static MVS_Camera_SDK Camera_Drivers
         {
-            get { return _Select_Camera; }
+            get { return _Camera_Drivers; }
             set
             {
-                _Select_Camera = value;
-                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Select_Camera)));
+                _Camera_Drivers = value;
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(_Camera_Drivers)));
             }
         }
+
+
+
+
+
         /// <summary>
         /// 相机信息
         /// </summary>
@@ -104,19 +108,7 @@ namespace HanGao.ViewModel
 
 
 
-        /// <summary>
-        /// 查找相机列表
-        /// </summary>
-        private static ObservableCollection<MVS_Camera_Info_Model> _MVS_Camera_Info_List { set; get; } = new ObservableCollection<MVS_Camera_Info_Model>();
-        public static ObservableCollection<MVS_Camera_Info_Model> MVS_Camera_Info_List
-        {
-            get { return _MVS_Camera_Info_List; }
-            set
-            {
-                _MVS_Camera_Info_List = value;
-                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(MVS_Camera_Info_List)));
-            }
-        }
+
 
 
 

@@ -1,4 +1,5 @@
-﻿using HalconDotNet;
+﻿using Generic_Extension;
+using HalconDotNet;
 
 using PropertyChanged;
 using System.Collections.ObjectModel;
@@ -2254,7 +2255,9 @@ namespace Halcon_SDK_DLL.Model
     /// </summary>
     public enum Window_Show_Name_Enum
     {
+        [Description("相机视角页面")]
         Live_Window,
+        [Description("图像特征页面")]
         Features_Window,
         Results_Window_1,
         Results_Window_2,
