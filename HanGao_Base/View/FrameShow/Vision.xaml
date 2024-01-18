@@ -347,7 +347,7 @@
                                                        VerticalContentAlignment="Center"
                                                        HDisableAutoResize="True"
                                                        SnapsToDevicePixels="True">
-                            <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.Live_Window}" />
+                            <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.Live_Window.DisplayImage}" />
                             <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.Live_Window.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
                                                             HDraw="{Binding Halcon_Window_Display.Live_Window.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
                                                             IconicObject="{Binding Halcon_Window_Display.Live_Window.DisplayRegion}" />
@@ -409,7 +409,7 @@
                                                            HorizontalContentAlignment="Center"
                                                            VerticalContentAlignment="Center"
                                                            SnapsToDevicePixels="True">
-                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.Results_Window_1}" />
+                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.Results_Window_1.DisplayImage}" />
                                 <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.Results_Window_1.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
                                                                 HDraw="{Binding Halcon_Window_Display.Results_Window_1.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
                                                                 IconicObject="{Binding Halcon_Window_Display.Results_Window_1.DisplayRegion}" />
@@ -1738,11 +1738,11 @@
                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                       GridLinesVisibility="Horizontal"
                                                       HeadersVisibility="Column"
-                                                      ItemsSource="{Binding Camera_Device_List.MVS_Camera_Info_List}"
+                                                      ItemsSource="{Binding MVS_Camera_Info_List}"
                                                       RowHeaderWidth="0"
                                                       RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
                                                       SelectedIndex="3"
-                                                      SelectedValue="{Binding Select_Camera}"
+                                                      SelectedValue="{Binding Camera_Device_List.Select_Camera}"
                                                       SelectionMode="Single"
                                                       SelectionUnit="FullRow">
 
@@ -1961,7 +1961,7 @@
                                                     <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
                                                         <Setter Property="Background" Value="{DynamicResource 全局_按钮_蓝颜色}" />
                                                         <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Select_Camera.Camer_Status}" Value="{x:Static MVS_Enum:MV_CAM_Device_Status_Enum.Connecting}">
+                                                            <DataTrigger Binding="{Binding Camera_Device_List.Select_Camera.Camer_Status}" Value="{x:Static MVS_Enum:MV_CAM_Device_Status_Enum.Connecting}">
                                                                 <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
                                                             </DataTrigger>
                                                         </Style.Triggers>
@@ -1976,7 +1976,7 @@
                                                         <Style TargetType="TextBlock">
                                                             <Setter Property="Text" Value="连接相机" />
                                                             <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding Camera_Connect_OK}" Value="True">
+                                                                <DataTrigger Binding="{Binding Camera_Device_List.Select_Camera.Camer_Status}" Value="{x:Static MVS_Enum:MV_CAM_Device_Status_Enum.Connecting}">
                                                                     <Setter Property="Text" Value="已连接相机" />
                                                                 </DataTrigger>
                                                             </Style.Triggers>
@@ -2057,7 +2057,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Select_Camera.Camera_parameter.ExposureTime, Mode=TwoWay}">
+                                                    Value="{Binding Camera_Device_List.Select_Camera.Camera_parameter.ExposureTime, Mode=TwoWay}">
                                                 <!--<i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="PreviewMouseUp">
@@ -2112,7 +2112,7 @@
                                                     Minimum="0"
                                                     SmallChange="0.1"
                                                     TickFrequency="0.01"
-                                                    Value="{Binding Select_Camera.Camera_parameter.Gain, Mode=TwoWay}">
+                                                    Value="{Binding Camera_Device_List.Select_Camera.Camera_parameter.Gain, Mode=TwoWay}">
 
                                                 <!--<i:Interaction.Triggers>
 
@@ -2158,7 +2158,7 @@
                                                     Minimum="-6"
                                                     SmallChange="0.1"
                                                     TickFrequency="0.1"
-                                                    Value="{Binding Select_Camera.Camera_parameter.DigitalShift, Mode=TwoWay}">
+                                                    Value="{Binding Camera_Device_List.Select_Camera.Camera_parameter.DigitalShift, Mode=TwoWay}">
                                                 <!--<i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="PreviewMouseUp">
@@ -2203,7 +2203,7 @@
                                                     Minimum="0"
                                                     SmallChange="0.1"
                                                     TickFrequency="0.1"
-                                                    Value="{Binding Select_Camera.Camera_parameter.Gamma, Mode=TwoWay}">
+                                                    Value="{Binding Camera_Device_List.Select_Camera.Camera_parameter.Gamma, Mode=TwoWay}">
                                                 <!--<i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="PreviewMouseUp">
@@ -2291,7 +2291,7 @@
                                                     Maximum="4095"
                                                     Minimum="0"
                                                     SmallChange="1"
-                                                    Value="{Binding Select_Camera.Camera_parameter.BlackLevel, Mode=TwoWay}">
+                                                    Value="{Binding Camera_Device_List.Select_Camera.Camera_parameter.BlackLevel, Mode=TwoWay}">
                                                 <!--<i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="PreviewMouseUp">
@@ -2340,7 +2340,7 @@
                                                       FontSize="20"
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
-                                                      SelectedIndex="{Binding Select_Camera.Camera_parameter.AcquisitionMode, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type MVS:MV_CAM_ACQUISITION_MODE}}">
+                                                      SelectedIndex="{Binding Camera_Device_List.Select_Camera.Camera_parameter.AcquisitionMode, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type MVS:MV_CAM_ACQUISITION_MODE}}">
 
                                                 <ComboBoxItem>
 
@@ -2375,14 +2375,14 @@
 
 
 
-                                                <i:Interaction.Triggers>
+                                                <!--<i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="SelectionChanged">
                                                         <i:InvokeCommandAction Command="{Binding Set_Camera_Enum_Val_Comm}"
                                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
-                                                </i:Interaction.Triggers>
+                                                </i:Interaction.Triggers>-->
 
 
                                             </ComboBox>
@@ -2422,7 +2422,7 @@
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
 
-                                                <TextBlock Text="曝光参数写入"
+                                                <TextBlock Text="参数写入"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -2452,7 +2452,7 @@
 
                                             <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row="0" Grid.Column=" 0"
                                                       Content="闪光灯"
-                                                      IsChecked="{Binding Select_Camera.Camera_parameter.LineInverter}"
+                                                      IsChecked="{Binding Camera_Device_List.Select_Camera.Camera_parameter.LineInverter}"
                                                       Margin="0"
                                                       HorizontalAlignment="Left"
                                                       VerticalAlignment="Center"

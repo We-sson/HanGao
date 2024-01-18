@@ -1,5 +1,4 @@
 ﻿using Halcon_SDK_DLL.Halcon_Method;
-using HanGao.View.User_Control.Vision_Control;
 using HanGao.View.User_Control.Vision_hand_eye_Calibration;
 using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
 using Microsoft.Win32;
@@ -8,7 +7,6 @@ using Ookii.Dialogs.Wpf;
 using Roboto_Socket_Library;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
-using static HanGao.ViewModel.UC_Vision_Create_Template_ViewMode;
 using static MVS_SDK_Base.Model.MVS_Model;
 using static Roboto_Socket_Library.Model.Roboto_Socket_Model;
 using static Roboto_Socket_Library.Socket_Receive;
@@ -83,33 +81,38 @@ namespace HanGao.ViewModel
 
 
 
-            //初始化相机查找线程
-            Camera_Device_List.Initialization_Camera_Thread();
+            ///初始化相机查找线程
+
+            Initialization_Camera_Thread();
 
         }
+
+
+
+
 
 
 
         /// <summary>
         /// 静态委托接收处理相机标定事件
         /// </summary>
-        public  ReceiveMessage_delegate<Vision_Find_Data_Receive, Vision_Find_Data_Send> Receive_Calibration_New_String { set; get; }
+        public ReceiveMessage_delegate<Vision_Find_Data_Receive, Vision_Find_Data_Send> Receive_Calibration_New_String { set; get; }
         /// <summary>
         /// 静态委托接收处理相机标定点添加事件
         /// </summary>
-        public  ReceiveMessage_delegate<Vision_Find_Data_Receive, Vision_Find_Data_Send> Receive_Calibration_Add_String { set; get; }
+        public ReceiveMessage_delegate<Vision_Find_Data_Receive, Vision_Find_Data_Send> Receive_Calibration_Add_String { set; get; }
         /// <summary>
         /// 静态委托接收处理相机标定精度测试事件
         /// </summary>
-        public  ReceiveMessage_delegate<Vision_Find_Data_Receive, Vision_Find_Data_Send> Receive_Calibration_Text_String { set; get; }
+        public ReceiveMessage_delegate<Vision_Find_Data_Receive, Vision_Find_Data_Send> Receive_Calibration_Text_String { set; get; }
         /// <summary>
         /// 静态委托处理查找模型特征
         /// </summary>
-        public  ReceiveMessage_delegate<Vision_Find_Data_Receive, Vision_Find_Data_Send> Receive_Find_String { set; get; }
+        public ReceiveMessage_delegate<Vision_Find_Data_Receive, Vision_Find_Data_Send> Receive_Find_String { set; get; }
         /// <summary>
         /// 静态委托处理查找模型特征
         /// </summary>
-        public  ReceiveMessage_delegate<Vision_Ini_Data_Receive, Vision_Ini_Data_Send> Receive_Vision_Ini_String { set; get; }
+        public ReceiveMessage_delegate<Vision_Ini_Data_Receive, Vision_Ini_Data_Send> Receive_Vision_Ini_String { set; get; }
 
         /// <summary>
         /// 静态属性更新通知事件
@@ -122,7 +125,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 视觉自动参数属性
         /// </summary>
-        public  Vision_Auto_Cofig_Model Vision_Auto_Cofig { set; get; } = new Vision_Auto_Cofig_Model();
+        public Vision_Auto_Cofig_Model Vision_Auto_Cofig { set; get; } = new Vision_Auto_Cofig_Model();
         //{
 
         //    get
@@ -148,7 +151,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 视觉参数内容列表
         /// </summary>
-        public   Vision_Data Find_Data_List { get; set; } = new Vision_Data();
+        public Vision_Data Find_Data_List { get; set; } = new Vision_Data();
         //public static Vision_Data Find_Data_List
         //{
         //    get { return _Find_Data_List; }
@@ -184,23 +187,127 @@ namespace HanGao.ViewModel
 
 
 
+        public static  ObservableCollection<MVS_Camera_Info_Model> _MVS_Camera_Info_List= new ObservableCollection<MVS_Camera_Info_Model>();
 
-
-
-        private static MVS_Camera_SDK _Camera_Device_List = new MVS_Camera_SDK();
-        /// <summary>
-        /// 相机设备列表
-        /// </summary>
-        public static MVS_Camera_SDK Camera_Device_List
+        public static ObservableCollection<MVS_Camera_Info_Model> MVS_Camera_Info_List
         {
-            get { return _Camera_Device_List; }
+            get { return _MVS_Camera_Info_List; }
             set
             {
-                _Camera_Device_List = value;
-                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Camera_Device_List)));
+                _MVS_Camera_Info_List = value;
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(MVS_Camera_Info_List)));
             }
         }
 
+
+
+        public MVS_Camera_SDK Camera_Device_List { set; get; } = new MVS_Camera_SDK();
+        /// <summary>
+        /// 相机设备列表
+        /// </summary>
+        //public static MVS_Camera_SDK Camera_Device_List
+        //{
+        //    get { return _Camera_Device_List; }
+        //    set
+        //    {
+        //        _Camera_Device_List = value;
+        //        StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Camera_Device_List)));
+        //    }
+        //}
+
+        /// <summary>
+        /// 初始化连接
+        /// </summary>
+        public static  void Initialization_Camera_Thread()
+        {
+            Task.Run(() =>
+            {
+                while (true)
+                {
+
+                    try
+                    {
+
+
+
+                        ///创建临时集合
+                        ObservableCollection<CGigECameraInfo> _ECameraInfo_List = new ObservableCollection<CGigECameraInfo>(MVS_Camera_SDK.Find_Camera_Devices());
+
+                        //ObservableCollection<MVS_Camera_Info_Model> _Camer_Info = new ObservableCollection<MVS_Camera_Info_Model>(MVS_Camera_Info_List);
+
+
+                        //查找网络中相机对象
+                        foreach (var _List in _ECameraInfo_List)
+                        {
+
+                            MVS_Camera_Info_Model _Info = MVS_Camera_Info_List.Where(_W => _W.Camera_Info.SerialNumber == _List.chSerialNumber).FirstOrDefault();
+
+                            if (_Info == null)
+                            {
+
+
+
+                                Application.Current.Dispatcher.Invoke(() => { MVS_Camera_Info_List.Add(new MVS_Camera_Info_Model(_List)); });
+                                //MVS_Camera_Info_List.Add(new MVS_Camera_Info_Model(_List));
+
+
+
+
+                            }
+                        }
+
+                        //查找没在线的相机对象删除
+                        for (int i = 0; i < MVS_Camera_Info_List.Count; i++)
+                        {
+
+
+                            CGigECameraInfo _info = _ECameraInfo_List.Where(_W => _W.chSerialNumber == MVS_Camera_Info_List[i].Camera_Info.SerialNumber).FirstOrDefault();
+
+                            if (_info == null)
+                            {
+                                Application.Current.Dispatcher.Invoke(() => { MVS_Camera_Info_List.Remove(MVS_Camera_Info_List[i]); });
+
+                                //MVS_Camera_Info_List.Remove(MVS_Camera_Info_List[i]);
+                                //相机对象删除
+                                i--;
+                            }
+
+
+                        }
+
+                        //查询列表中相机设备可用情况
+                        foreach (var _Camera in MVS_Camera_Info_List)
+                        {
+                            if (_Camera.Camer_Status != MV_CAM_Device_Status_Enum.Connecting)
+                            {
+
+                                if (_Camera.Check_IsDeviceAccessible())
+                                {
+                                    _Camera.Camer_Status = MV_CAM_Device_Status_Enum.Null;
+                                }
+                                else
+                                {
+                                    _Camera.Camer_Status = MV_CAM_Device_Status_Enum.Possess;
+                                }
+                            }
+
+                        }
+
+
+
+
+                        Thread.Sleep(1000);
+                    }
+                    catch (Exception)
+                    {
+                        //User_Log_Add("查找相机失败！" + _e.Message, Log_Show_Window_Enum.Home);
+
+                        continue;
+                    }
+                }
+
+            });
+        }
 
 
 
@@ -212,7 +319,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 选择相机信息
         /// </summary>
-        public MVS_Camera_Info_Model Select_Camera { set; get; } = new MVS_Camera_Info_Model();
+        //public MVS_Camera_Info_Model Select_Camera { set; get; } = new MVS_Camera_Info_Model();
 
 
         private Vision_Xml_Models _Select_Vision_Value;
@@ -357,7 +464,7 @@ namespace HanGao.ViewModel
 
                 Button _Contol = Sm.Source as Button;
 
-              
+
                 //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
 
 
@@ -398,7 +505,7 @@ namespace HanGao.ViewModel
                 try
                 {
 
-                Image_Preprocessing_Process.Preprocessing_Process_Lsit_Delete();
+                    Image_Preprocessing_Process.Preprocessing_Process_Lsit_Delete();
 
                     User_Log_Add("选择选项删除成功！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
 
@@ -406,7 +513,7 @@ namespace HanGao.ViewModel
                 catch (Exception e)
                 {
 
-                    User_Log_Add("选择选项删除失败！原因："+e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                    User_Log_Add("选择选项删除失败！原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
 
                 }
 
@@ -424,8 +531,8 @@ namespace HanGao.ViewModel
                 Task.Run(() =>
                 {
 
-                Image_Preprocessing_Process.Preprocessing_Process_Start();
-                //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
+                    Image_Preprocessing_Process.Preprocessing_Process_Start();
+                    //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
 
                 });
 
@@ -433,7 +540,7 @@ namespace HanGao.ViewModel
         }
 
 
-        public  void Socket_Log_Show(string _log)
+        public void Socket_Log_Show(string _log)
         {
             User_Log_Add(_log, Log_Show_Window_Enum.Home);
         }
@@ -530,7 +637,7 @@ namespace HanGao.ViewModel
 
 
 
-        //public   ObservableCollection<Vision_Create_Model_Drawing_Model> Drawing_Data_List { get; set; } = new ObservableCollection<Vision_Create_Model_Drawing_Model>();
+        public ObservableCollection<Vision_Create_Model_Drawing_Model> Drawing_Data_List { get; set; } = new ObservableCollection<Vision_Create_Model_Drawing_Model>();
         /// <summary>
         /// 画画数据列表
         /// </summary>
@@ -809,16 +916,17 @@ namespace HanGao.ViewModel
                     if (Display_Status(
                         _Haclon.ShapeModel_ReadFile(Halcon_SDK.Match_Models_List.Where(_M => _M.Match_File.Name == _Shape.Name).FirstOrDefault().Match_File)).GetResult())
                     {
-                        Application.Current.Dispatcher.Invoke(() => {
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
 
-                        Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window);
-                        Halcon_Window_Display.Display_HObject(null, null, _Haclon.Shape_ModelContours,null, Window_Show_Name_Enum.Features_Window);
+                            Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window);
+                            Halcon_Window_Display.Display_HObject(null, null, _Haclon.Shape_ModelContours, null, Window_Show_Name_Enum.Features_Window);
                         });
                         //Features_Window.HWindow.ClearWindow();
                         //Features_Window.HWindow.DispObj(_Haclon.Shape_ModelContours);
                     }
 
-                    
+
                     //清楚内存
                     _Haclon.Dispose();
                 }
@@ -882,48 +990,48 @@ namespace HanGao.ViewModel
 
                 Task.Run(() =>
                 {
-                 
-               
-                        ////合并全部xld数据
-                        //foreach (var _User_Xld in Halcon_Shape_Mode_List.Drawing_Data_List)
-                        //{
-                        //    //复制xld数据
-                        //    _Halcon.All_XLd.Add(_User_Xld.User_XLD.CopyObj(1, -1));
-                        //}
 
 
-                             Halcon_Shape_Mode_List.Group_All_XLD();
+                    ////合并全部xld数据
+                    //foreach (var _User_Xld in Halcon_Shape_Mode_List.Drawing_Data_List)
+                    //{
+                    //    //复制xld数据
+                    //    _Halcon.All_XLd.Add(_User_Xld.User_XLD.CopyObj(1, -1));
+                    //}
 
 
-                            //限制操作
-                            Create_Shape_ModelXld_UI_IsEnable = true;
-
-                            //读取图片
-                            Get_Image(ref _Image, Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
-                            
-                                _Halcon._HImage = new HObject(_Image);
+                    Halcon_Shape_Mode_List.Group_All_XLD();
 
 
+                    //限制操作
+                    Create_Shape_ModelXld_UI_IsEnable = true;
 
-                            //图像预处理
-                            //_Halcon.Halcon_Image_Pre_Processing(Halcon_Window_Display.Features_Window.HWindow, Halcon_Find_Shape_ModelXld_UI);
-                            _Halcon.Halcon_Image_Pre_Processing(Halcon_Find_Shape_ModelXld_UI);
+                    //读取图片
+                    Get_Image(ref _Image, Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
+
+                    _Halcon._HImage = new HObject(_Image);
+
+
+
+                    //图像预处理
+                    //_Halcon.Halcon_Image_Pre_Processing(Halcon_Window_Display.Features_Window.HWindow, Halcon_Find_Shape_ModelXld_UI);
+                    _Halcon.Halcon_Image_Pre_Processing(Halcon_Find_Shape_ModelXld_UI);
 
 
 
                     ///保存创建模型
                     if (Display_Status(_Halcon.ShapeModel_SaveFile(ShapeModel_Location, Halcon_Create_Shape_ModelXld_UI)).GetResult())
-                                    {
-                                        User_Log_Add("创建区域：" + Halcon_Create_Shape_ModelXld_UI.ShapeModel_Name.ToString() + "，创建ID号：" + Halcon_Create_Shape_ModelXld_UI.Create_ID.ToString() + "，创建模型特征成功！", Log_Show_Window_Enum.Home);
-                                    }
-                                
-                            
-                            //解除操作
-                            Create_Shape_ModelXld_UI_IsEnable = false;
-                            //清楚使用内存
-                            _Halcon.Dispose();
-                        
-                    
+                    {
+                        User_Log_Add("创建区域：" + Halcon_Create_Shape_ModelXld_UI.ShapeModel_Name.ToString() + "，创建ID号：" + Halcon_Create_Shape_ModelXld_UI.Create_ID.ToString() + "，创建模型特征成功！", Log_Show_Window_Enum.Home);
+                    }
+
+
+                    //解除操作
+                    Create_Shape_ModelXld_UI_IsEnable = false;
+                    //清楚使用内存
+                    _Halcon.Dispose();
+
+
                 });
             });
         }
@@ -1090,12 +1198,12 @@ namespace HanGao.ViewModel
                     //{
                     //读取图片
                     Get_Image(ref _Image, Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
-                    
-                        //查找模型    Vision_Auto_Cofig.Find_TimeOut_Millisecond
-                        _Find_Result = Find_Model_Method(Halcon_Find_Shape_ModelXld_UI, Halcon_Window_Display.Features_Window.HWindow, _Image, Vision_Auto_Cofig.Find_TimeOut_Millisecond, null, Halcon_Find_Shape_ModelXld_UI.FInd_ID);
-                        //设置结果显示页面
-                        Messenger.Send<Find_Shape_Results_Model, string>(_Find_Result, nameof(Meg_Value_Eunm.Find_Shape_Out));
-                    
+
+                    //查找模型    Vision_Auto_Cofig.Find_TimeOut_Millisecond
+                    _Find_Result = Find_Model_Method(Halcon_Find_Shape_ModelXld_UI, Halcon_Window_Display.Features_Window.HWindow, _Image, Vision_Auto_Cofig.Find_TimeOut_Millisecond, null, Halcon_Find_Shape_ModelXld_UI.FInd_ID);
+                    //设置结果显示页面
+                    Messenger.Send<Find_Shape_Results_Model, string>(_Find_Result, nameof(Meg_Value_Eunm.Find_Shape_Out));
+
                     //}
                     _Image.Dispose();
                 });
@@ -1106,7 +1214,7 @@ namespace HanGao.ViewModel
         /// </summary>
         public ICommand Image_Pre_Processing_Comm
         {
-            get => new RelayCommand<RoutedEventArgs>( (Sm) =>
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
                 //Button Window_UserContol = Sm.Source as Button;
                 //Task.Run(() =>
@@ -1115,11 +1223,11 @@ namespace HanGao.ViewModel
                 Halcon_Method_Model _Halcon = new Halcon_Method_Model();
                 //读取图片
                 Get_Image(ref _Image, Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
-                
-                    _Halcon._HImage = new HObject(_Image);
-                    //图像预处理
-                    _Halcon.Halcon_Image_Pre_Processing( Halcon_Find_Shape_ModelXld_UI);
-                
+
+                _Halcon._HImage = new HObject(_Image);
+                //图像预处理
+                _Halcon.Halcon_Image_Pre_Processing(Halcon_Find_Shape_ModelXld_UI);
+
                 //_Image.Dispose();
                 //_Halcon.Dispose();
                 //GC.Collect();
@@ -1329,7 +1437,7 @@ namespace HanGao.ViewModel
         //}
 
 
-        
+
 
 
 
@@ -1338,7 +1446,7 @@ namespace HanGao.ViewModel
         /// </summary>
         public ICommand Image_CollectionMethod_Comm
         {
-            get => new RelayCommand<RoutedEventArgs>( (Sm) =>
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
                 ComboBox E = Sm.Source as ComboBox;
                 HImage _Image = new HImage();
@@ -1360,7 +1468,7 @@ namespace HanGao.ViewModel
                 //HOperatorSet.ClearWindow(Features_Window.HWindow);
                 Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window);
                 //移除集合中的对象
-                Halcon_Shape_Mode_List. Drawing_Data_List = new ObservableCollection<Vision_Create_Model_Drawing_Model>();
+                Halcon_Shape_Mode_List.Drawing_Data_List = new ObservableCollection<Vision_Create_Model_Drawing_Model>();
                 User_Drawing_Data = new Vision_Create_Model_Drawing_Model();
                 User_Log_Add("清除全部XLD特征成功! ", Log_Show_Window_Enum.Home);
             });
@@ -1383,9 +1491,10 @@ namespace HanGao.ViewModel
             ///转换海康图像类型
             if (Halcon_SDK.Mvs_To_Halcon_Image(ref _Image, pFrameInfo.nWidth, pFrameInfo.nHeight, pData))
             {
-                Application.Current.Dispatcher.Invoke(() => {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
 
-                Halcon_Window_Display.Display_HObject(_Image, null, null, null, Window_Show_Name_Enum.Live_Window);
+                    Halcon_Window_Display.Display_HObject(_Image, null, null, null, Window_Show_Name_Enum.Live_Window);
                 });
                 //传送控件显示
                 //Messenger.Send<HImage_Display_Model, string>(new HImage_Display_Model()
@@ -1406,7 +1515,7 @@ namespace HanGao.ViewModel
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
                 CheckBox E = Sm.Source as CheckBox;
-                bool _State = false;
+                //bool _State = false;
 
                 try
                 {
@@ -1415,30 +1524,36 @@ namespace HanGao.ViewModel
                     if ((bool)E.IsChecked)
                     {
 
-
-                        //设置GEGI网络包大小
-                        Select_Camera.Set_Camera_GEGI_GevSCPSPacketSize();
-                        //创建抓图回调函数
-                        Select_Camera.RegisterImageCallBackEx(ImageCallback = new cbOutputExdelegate(ImageCallbackFunc));
-                        //开始取流
-                        Select_Camera.StartGrabbing();
-
-
-                        if (_State != true)
+                        Task.Run(() =>
                         {
-                            E.IsChecked = false;
-                        }
+                            ///连续采集
+                            Camera_Device_List.Select_Camera.Camera_parameter.AcquisitionMode = MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS;
+                        //设置GEGI网络包大小
+                        Camera_Device_List.Select_Camera.Set_Camera_GEGI_GevSCPSPacketSize();
+                        //创建抓图回调函数
+                        Camera_Device_List.Select_Camera.RegisterImageCallBackEx(ImageCallback = new cbOutputExdelegate(ImageCallbackFunc));
+                        //开始取流
+                        Camera_Device_List.Select_Camera.StartGrabbing();
+
+
+                        //if (_State != true)
+                        //{
+                        //    E.IsChecked = false;
+                        //}
 
 
                         User_Log_Add("开启实时相机图像成功！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
 
+                        });
 
                     }
                     else if ((bool)E.IsChecked == false)
                     {
 
-
-                        Select_Camera.StopGrabbing();
+                        Task.Run(() => 
+                        {
+                        Camera_Device_List.Select_Camera.StopGrabbing();
+                        });
 
                         User_Log_Add("关闭实时相机图像！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
 
@@ -1448,7 +1563,7 @@ namespace HanGao.ViewModel
                 }
                 catch (Exception _e)
                 {
-
+                    Camera_Device_List.Select_Camera.StopGrabbing();
                     E.IsChecked = false;
                     User_Log_Add("开启实时相机失败！原因：" + _e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
 
@@ -1472,10 +1587,10 @@ namespace HanGao.ViewModel
 
 
 
-                    if (Select_Camera?.Camer_Status == MV_CAM_Device_Status_Enum.Connecting && Select_Camera != null)
+                    if (Camera_Device_List.Select_Camera?.Camer_Status == MV_CAM_Device_Status_Enum.Connecting && Camera_Device_List.Select_Camera != null)
                     {
 
-                        Select_Camera.Set_Camrea_Parameters_List(Select_Camera.Camera_parameter);
+                        Camera_Device_List.Select_Camera.Set_Camrea_Parameters_List(Camera_Device_List.Select_Camera.Camera_parameter);
                     }
                     else
                     {
@@ -1487,7 +1602,7 @@ namespace HanGao.ViewModel
 
 
 
-                    User_Log_Add(Select_Camera.Camera_Info.SerialNumber + "：相机参数写入成功！", Log_Show_Window_Enum.HandEye, MessageBoxImage.Question);
+                    User_Log_Add(Camera_Device_List.Select_Camera.Camera_Info.SerialNumber + "：相机参数写入成功！", Log_Show_Window_Enum.HandEye, MessageBoxImage.Question);
 
                 }
                 catch (Exception _e)
@@ -1520,15 +1635,15 @@ namespace HanGao.ViewModel
 
                         HImage _Image = new HImage();
 
-                        Get_Image(ref _Image, Get_Image_Model_Enum.相机采集, Select_Camera.Show_Window);
+                        Get_Image(ref _Image, Get_Image_Model_Enum.相机采集, Camera_Device_List.Select_Camera.Show_Window);
 
-                        User_Log_Add(Select_Camera.Camera_Info.SerialNumber.ToString() + "：相机采集图像成功到窗口：" + Select_Camera.Show_Window, Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+                        User_Log_Add(Camera_Device_List.Select_Camera.Camera_Info.SerialNumber.ToString() + "：相机采集图像成功到窗口：" + Camera_Device_List.Select_Camera.Show_Window, Log_Show_Window_Enum.Home, MessageBoxImage.Question);
 
                     }
                     catch (Exception _e)
                     {
 
-                        User_Log_Add(Select_Camera.Camera.ToString() + "相机采集图像失败！原因：" + _e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                        User_Log_Add(Camera_Device_List.Select_Camera.Camera.ToString() + "相机采集图像失败！原因：" + _e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
 
                     }
 
@@ -1562,7 +1677,7 @@ namespace HanGao.ViewModel
                 case Get_Image_Model_Enum.相机采集:
 
 
-                    Select_Camera.GetOneFrameTimeout(ref _Image);
+                    Camera_Device_List.Select_Camera.GetOneFrameTimeout(ref _Image);
 
 
                     //return new HPR_Status_Model<bool>(HVE_Result_Enum.图像文件读取失败);
@@ -1581,7 +1696,8 @@ namespace HanGao.ViewModel
             //UC_Visal_Function_VM.Load_Image = _Image.CopyObj(1, -1);
             Load_Image = _Image;
 
-            Application.Current.Dispatcher.Invoke(() => {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
 
                 Halcon_Window_Display.Display_HObject(Load_Image, null, null, null, _HW);
             });
@@ -1618,7 +1734,7 @@ namespace HanGao.ViewModel
 
 
                     //MVS.Connect_Camera(Select_Camera);
-                    Select_Camera.Connect_Camera();
+                    Camera_Device_List.Select_Camera.Connect_Camera();
 
                 }
                 catch (Exception _e)
@@ -1649,7 +1765,7 @@ namespace HanGao.ViewModel
 
 
                     //MVS.Connect_Camera(Select_Camera);
-                    Select_Camera.Close_Camera();
+                    Camera_Device_List.Select_Camera.Close_Camera();
 
                 }
                 catch (Exception _e)
@@ -1744,7 +1860,7 @@ namespace HanGao.ViewModel
                     User_Drawing_Data.User_XLD = _Cir;
                     User_Drawing_Data.Drawing_Type = Drawing_Type_Enme.Draw_Cir;
                     //添加显示集合
-                    Halcon_Shape_Mode_List. Drawing_Data_List.Add(User_Drawing_Data);
+                    Halcon_Shape_Mode_List.Drawing_Data_List.Add(User_Drawing_Data);
                     //情况之前的数据
                     User_Drawing_Data = new Vision_Create_Model_Drawing_Model();
                 }
@@ -1766,7 +1882,7 @@ namespace HanGao.ViewModel
                     User_Drawing_Data.User_XLD = _Lin;
                     User_Drawing_Data.Drawing_Type = Drawing_Type_Enme.Draw_Lin;
                     //添加显示集合
-                    Halcon_Shape_Mode_List. Drawing_Data_List.Add(User_Drawing_Data);
+                    Halcon_Shape_Mode_List.Drawing_Data_List.Add(User_Drawing_Data);
                     //情况之前的数据
                     User_Drawing_Data = new Vision_Create_Model_Drawing_Model();
                 }

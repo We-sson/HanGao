@@ -70,7 +70,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 可用相机列表
         /// </summary>
-        public ObservableCollection<MVS_Camera_Info_Model> Camera_Calibration_Info_List { set; get; } = Camera_Drivers. MVS_Camera_Info_List;
+        public static  ObservableCollection<MVS_Camera_Info_Model> Camera_Calibration_Info_List { set; get; } = UC_Visal_Function_VM.MVS_Camera_Info_List;
 
 
         /// <summary>
@@ -1047,7 +1047,7 @@ namespace HanGao.ViewModel
                                     _HImage = _Selected.Camera_0.Calibration_Image;
                                     Window_Show_Name_Enum _ShowDisply = Window_Show_Name_Enum.Calibration_Window_1;
                                     //检查是否使用相机采集显示
-                                    MVS_Camera_Info_Model _camer_0 = Camera_Drivers.MVS_Camera_Info_List.Where((_W) => _W.Camera_Info.SerialNumber == _Selected.Camera_0.Carme_Name).FirstOrDefault();
+                                    MVS_Camera_Info_Model _camer_0 = UC_Visal_Function_VM.MVS_Camera_Info_List.Where((_W) => _W.Camera_Info.SerialNumber == _Selected.Camera_0.Carme_Name).FirstOrDefault();
                                     if (_camer_0 != null)
                                     {
                                         _ShowDisply = _camer_0.Show_Window;
@@ -1085,7 +1085,7 @@ namespace HanGao.ViewModel
                                     _HImage = _Selected.Camera_1.Calibration_Image;
                                     Window_Show_Name_Enum _ShowDisply = Window_Show_Name_Enum.Calibration_Window_2;
 
-                                    MVS_Camera_Info_Model _camer_1 = Camera_Drivers.MVS_Camera_Info_List.Where((_W) => _W.Camera_Info.SerialNumber == _Selected.Camera_1.Carme_Name).FirstOrDefault();
+                                    MVS_Camera_Info_Model _camer_1 = UC_Visal_Function_VM.MVS_Camera_Info_List.Where((_W) => _W.Camera_Info.SerialNumber == _Selected.Camera_1.Carme_Name).FirstOrDefault();
                                     if (_camer_1 != null)
                                     {
                                         _ShowDisply = _camer_1.Show_Window;

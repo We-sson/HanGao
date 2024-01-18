@@ -10,6 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 using static MVS_SDK_Base.Model.MVS_Model;
 
 namespace MVS_SDK
@@ -28,127 +29,21 @@ namespace MVS_SDK
 
         }
 
-
-
-
-
-
-        /// <summary>
-        /// 初始化连接
-        /// </summary>
-        public void Initialization_Camera_Thread()
-        {
-            Task.Run(() =>
-            {
-                while (true)
-                {
-
-                    try
-                    {
-
-
-
-                        Initialization_Camera();
-
-                        Thread.Sleep(1000);
-                    }
-                    catch (Exception)
-                    {
-                        //User_Log_Add("查找相机失败！" + _e.Message, Log_Show_Window_Enum.Home);
-
-                        continue;
-                    }
-                }
-
-            });
-        }
-
-        /// <summary>
-        /// 查找相机列表
-        /// </summary>
-        public ObservableCollection<MVS_Camera_Info_Model> MVS_Camera_Info_List { set; get; } = new ObservableCollection<MVS_Camera_Info_Model>();
-
-
         /// <summary>
         /// 相机选择信息
         /// </summary>
         public  MVS_Camera_Info_Model Select_Camera { set; get; } = new MVS_Camera_Info_Model();
 
-
-
-
         /// <summary>
         /// 查找相机状态
         /// </summary>
-        public void Initialization_Camera()
+        public static  void Initialization_Camera()
         {
 
 
-            ///创建临时集合
-            ObservableCollection<CGigECameraInfo> _ECameraInfo_List = new ObservableCollection<CGigECameraInfo>(Find_Camera_Devices());
-
-            ObservableCollection<MVS_Camera_Info_Model> _Camer_Info = new ObservableCollection<MVS_Camera_Info_Model>(MVS_Camera_Info_List);
-
-
-            //查找网络中相机对象
-            foreach (var _List in _ECameraInfo_List)
-            {
-
-                MVS_Camera_Info_Model _Info = MVS_Camera_Info_List.Where(_W => _W.Camera_Info.SerialNumber == _List.chSerialNumber).FirstOrDefault();
-
-                if (_Info == null)
-                {
-
-                    //Application.Current.Dispatcher.Invoke(() => { MVS_Camera_Info_List.Add(new MVS_Camera_Info_Model(_List)); });
-                    MVS_Camera_Info_List.Add(new MVS_Camera_Info_Model(_List));
-
-                }
-            }
-
-            //查找没在线的相机对象删除
-            for (int i = 0; i < MVS_Camera_Info_List.Count; i++)
-            {
-
-
-                CGigECameraInfo _info = _ECameraInfo_List.Where(_W => _W.chSerialNumber == MVS_Camera_Info_List[i].Camera_Info.SerialNumber).FirstOrDefault();
-
-                if (_info == null)
-                {
-                    //Application.Current.Dispatcher.Invoke(() => { MVS_Camera_Info_List.Remove(MVS_Camera_Info_List[i]); });
-
-                    MVS_Camera_Info_List.Remove(MVS_Camera_Info_List[i]);
-                    //相机对象删除
-                    i--;
-                }
-
-
-            }
-
-            //查询列表中相机设备可用情况
-            foreach (var _Camera in MVS_Camera_Info_List)
-            {
-                if (_Camera.Camer_Status != MV_CAM_Device_Status_Enum.Connecting)
-                {
-
-                    if (_Camera.Check_IsDeviceAccessible())
-                    {
-                        _Camera.Camer_Status = MV_CAM_Device_Status_Enum.Null;
-                    }
-                    else
-                    {
-                        _Camera.Camer_Status = MV_CAM_Device_Status_Enum.Possess;
-                    }
-                }
-
-            }
+       
 
         }
-
-
-
-
-
-
 
         /// <summary>
         /// 查找相机对象驱动

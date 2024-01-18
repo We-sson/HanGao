@@ -126,7 +126,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 可用相机列表
         /// </summary>
-        public ObservableCollection<MVS_Camera_Info_Model> Camera_Calibration_Info_List { set; get; } = Camera_Drivers.MVS_Camera_Info_List;
+        public ObservableCollection<MVS_Camera_Info_Model> Camera_Calibration_Info_List { set; get; } = UC_Visal_Function_VM.MVS_Camera_Info_List;
 
 
         /// <summary>
